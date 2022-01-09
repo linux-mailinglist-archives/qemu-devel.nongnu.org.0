@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0387B488C5F
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 21:59:28 +0100 (CET)
-Received: from localhost ([::1]:54494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61342488C5E
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 21:59:26 +0100 (CET)
+Received: from localhost ([::1]:54456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6fHi-0006Bm-RZ
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 15:59:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43462)
+	id 1n6fHg-0006AJ-OG
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 15:59:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1n6fFD-0003xe-Id
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 15:56:51 -0500
-Received: from [2a00:1450:4864:20::135] (port=44949
- helo=mail-lf1-x135.google.com)
+ id 1n6fFE-0003xw-TT
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 15:56:52 -0500
+Received: from [2a00:1450:4864:20::12f] (port=45899
+ helo=mail-lf1-x12f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1n6fFB-0004Ha-8V
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 15:56:51 -0500
-Received: by mail-lf1-x135.google.com with SMTP id g26so37414054lfv.11
- for <qemu-devel@nongnu.org>; Sun, 09 Jan 2022 12:56:45 -0800 (PST)
+ id 1n6fFB-0004Ho-8V
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 15:56:52 -0500
+Received: by mail-lf1-x12f.google.com with SMTP id u13so37323503lff.12
+ for <qemu-devel@nongnu.org>; Sun, 09 Jan 2022 12:56:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SIVsgPr2pVucCiXYaVxhwdkF7wWo1qSsxlMZtQUmVGI=;
- b=DSFc6onMIJCLd3GLBiGAlv9pMO80EhCD7aKgwWuk0nohQ1VSttAjqtW4wf2G56rX/T
- kJ2k143wZZ3EehLD7SEDYo65Y3ZC40PNyjD1Xav5iyyAGpb6d1MRHm3Olh58+ftSt1ss
- lvYRNzjLCXsXWAZMLFGcMMmkEeYLv363XwsIZEflcJKyQo2HxhyvKppoaFqDHKwl3m1k
- v0sXcwcAanhZnuvALLp3aeJ6hITtmNMU2Y9L1aIU/5RGPZKeDdPXcyEvht24p9QaDb0U
- /VV/F5l0fcD0G2fl8WNEle/UMu8NlOKAG6kbPkySiYD4LmPdhZP+8UXK16Nl3Mvsq0+T
- 8LeQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=RKYOV+WL6MFnoooJZU7w0Veu39yli1EJRH1e0wNaMYs=;
+ b=FXVZ8lXaVWi3MEcftOkANeeqdLU+HaU48LlCgxuQDzib8FNaOpn9Y6IXSqG/tWjess
+ KDWbG+aZm037UCN9acZU+jzt1KkPWNcgdGSY48d+knXEJHJiuPOlFcXhFYzKMuPNxOIi
+ sx2y1gYl7F1m+kRCpCpU3M3t8xgEe6v22y1hzOCmBlbhHvxuGC78SJPA2jM/zJV6rLTa
+ FDq03FnofeaAY1bNzKZgv2PKjzQdGSnV7phwbFX0MBJNKZVu8hMeF7derisxZlFQBjSg
+ J3eMsQbklKrTXqcRdSNjufqlhZMx65SWIADaPMjV97OtaSDuMxxmIl8LU3G11AKCdShM
+ rqww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SIVsgPr2pVucCiXYaVxhwdkF7wWo1qSsxlMZtQUmVGI=;
- b=7gNBGo70u2IIVD3BbbM4l2rvcVwfCwWh446tixnz77ymNusZb4VWXNfAC7yJ2mFIQo
- ZbncZgetIXcTxw+Rjh7sonbWbmTjJSUQe9bsMJik4cR3B9pcFS4Iz0hdDqyzG3LeHR8+
- MfdSwdRe9GHPx5c3MXIInBYGSI0SWMIqxG6j4cvrrzx2LvK4XRP6DJvToQZ4WDqoLYlv
- WiOZHSUrkFR2XbCxIPlFvTV9LZLd11X/cysNpMgau2XSfemlWuVmVnQMXAx7lgfc/XQc
- flxPmkRQ0WeFhJYnJdi5foTivzDUoV+MJ0AOlUBA2hBwy3CO31MxjZa7AMdUiVrySCAr
- rrpQ==
-X-Gm-Message-State: AOAM533GrWF+yCtr/YSLDSqCMezOsD/rmEktv7AjAnEdk19xLh6yJAO1
- FvybfkK5ewHSMD3sY4ApmXbSYF4c89FBQanw
-X-Google-Smtp-Source: ABdhPJyN9pfNpHHDQOLAfTCATYj+hfq6Aduhq76GU2zSf49688iXXXDvyr3cS5bM/V/n4KqO4YJ2Ww==
-X-Received: by 2002:a05:6512:3f7:: with SMTP id
- n23mr3310682lfq.596.1641761803463; 
- Sun, 09 Jan 2022 12:56:43 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=RKYOV+WL6MFnoooJZU7w0Veu39yli1EJRH1e0wNaMYs=;
+ b=YcBjSGdslr0pp3xVYulzOlEHiOT52f5J0J4oKpbBxSH5ZrNZ6QCsibrb5N62NsgXlm
+ 8XfnmRpcayCkrgC+6fv77ds8H6cEhBD6gPnTrkO3l+lRy2PspAobTxYUWAN8Tz5iqTvh
+ GJYdam44IIaL2H1MnPFODpihjDrhqhG1ssgUPFn+cAB832QliJSXVQ0QTFZiME49dUnN
+ sMBEn8ZUsZYg5QZhZaeWQ5O8qB8w94ClawUz09561vgZY/BJSTps3u+oshTozXVngQmB
+ Hc0ElXDg7lkmRR1n5qREyubroKN9KF55jAB2HyNrcbprljHNY2NWn0tFsUG/a05iiX1L
+ 1F6Q==
+X-Gm-Message-State: AOAM533sK/mB3zXih2WqXWWwK5oOq8YF2zXHud0G97qVgx8SyVR5PFor
+ m1Det99y5l/7ZBUSiTXmXdumcdvV6LUbnZRr
+X-Google-Smtp-Source: ABdhPJyHhaLauwcOY0MQxmB8fZOo3J0nh1GL8atbvN3Hxst6yT9iBxLCBuwMTWlTUwH5H72fdT21AQ==
+X-Received: by 2002:a05:6512:3b07:: with SMTP id
+ f7mr61528014lfv.567.1641761806066; 
+ Sun, 09 Jan 2022 12:56:46 -0800 (PST)
 Received: from ubuntu-focal.. ([2a01:4f9:3a:1e26::2])
- by smtp.gmail.com with ESMTPSA id n20sm408526lfu.306.2022.01.09.12.56.42
+ by smtp.gmail.com with ESMTPSA id n20sm408526lfu.306.2022.01.09.12.56.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 Jan 2022 12:56:43 -0800 (PST)
+ Sun, 09 Jan 2022 12:56:45 -0800 (PST)
 From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 1/2] decodetree: Add an optional predicate-function for
- decoding
-Date: Sun,  9 Jan 2022 21:56:39 +0100
-Message-Id: <20220109205640.4126817-1-philipp.tomsich@vrull.eu>
+Subject: [PATCH v1 2/2] target/riscv: Add XVentanaCondOps custom extension
+Date: Sun,  9 Jan 2022 21:56:40 +0100
+Message-Id: <20220109205640.4126817-2-philipp.tomsich@vrull.eu>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20220109205640.4126817-1-philipp.tomsich@vrull.eu>
+References: <20220109205640.4126817-1-philipp.tomsich@vrull.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::135
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::135;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x135.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x12f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -85,150 +86,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
+Cc: qemu-riscv@nongnu.org, Bin Meng <bin.meng@windriver.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Luis Pires <luis.pires@eldorado.org.br>,
  Philipp Tomsich <philipp.tomsich@vrull.eu>,
  Greg Favor <gfavor@ventanamicro.com>,
- Alistair Francis <alistair.francis@wdc.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Kito Cheng <kito.cheng@sifive.com>
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Kito Cheng <kito.cheng@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds the possibility to specify a predicate-function that is
-called as part of decoding in multi-patterns; it is intended for
-use-cases (such as vendor-defined instructions in RISC-V) where the
-same bitpattern may decode into different functions depending on the
-overall configuration of the emulation target.
+This adds support for the XVentanaCondOps custom extension
+(vendor-defined by Ventana Micro Systems), which is documented at
+https://github.com/ventanamicro/ventana-custom-extensions/releases/download/v1.0.0/ventana-custom-extensions-v1.0.0.pdf
 
-At this time, we only support predicates for multi-patterns.
+Given that the CUSTOM-3 opcode space is shared between vendors, these
+are implemented as overlapping patterns and use the newly introduced
+predicate-function infrastructure to further qualify the decode.
 
 Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 
 ---
 
- docs/devel/decodetree.rst |  7 ++++++-
- scripts/decodetree.py     | 24 +++++++++++++++++++++---
- 2 files changed, 27 insertions(+), 4 deletions(-)
+ target/riscv/cpu.c                            |  3 ++
+ target/riscv/cpu.h                            |  3 ++
+ target/riscv/insn32.decode                    |  6 +++
+ .../insn_trans/trans_xventanacondops.inc      | 39 +++++++++++++++++++
+ target/riscv/translate.c                      |  9 +++++
+ 5 files changed, 60 insertions(+)
+ create mode 100644 target/riscv/insn_trans/trans_xventanacondops.inc
 
-diff --git a/docs/devel/decodetree.rst b/docs/devel/decodetree.rst
-index 49ea50c2a7..241aaec8bb 100644
---- a/docs/devel/decodetree.rst
-+++ b/docs/devel/decodetree.rst
-@@ -144,9 +144,10 @@ Patterns
- Syntax::
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index e322e729d2..0355ca35e6 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -645,6 +645,9 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
+     DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
  
-   pat_def      := identifier ( pat_elt )+
--  pat_elt      := fixedbit_elt | field_elt | field_ref | args_ref | fmt_ref | const_elt
-+  pat_elt      := fixedbit_elt | field_elt | field_ref | args_ref | fmt_ref | const_elt | predicate
-   fmt_ref      := '@' identifier
-   const_elt    := identifier '=' number
-+  predicate    := '|' identifier
- 
- The *fixedbit_elt* and *field_elt* specifiers are unchanged from formats.
- A pattern that does not specify a named format will have one inferred
-@@ -156,6 +157,10 @@ A *const_elt* allows a argument to be set to a constant value.  This may
- come in handy when fields overlap between patterns and one has to
- include the values in the *fixedbit_elt* instead.
- 
-+A *predicate* allows to specify a predicate function (returing true or
-+false) to determine the applicability of the pattern.  Currently, this
-+will change the decode-behaviour  for overlapping multi-patterns only.
++    /* Vendor-specific custom extensions */
++    DEFINE_PROP_BOOL("xventanacondops", RISCVCPU, cfg.ext_xventanacondops, false),
 +
- The decoder will call a translator function for each pattern matched.
+     /* These are experimental so mark with 'x-' */
+     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
+     DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index dc10f27093..283e45755a 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -318,6 +318,9 @@ struct RISCVCPU {
+         bool ext_zfh;
+         bool ext_zfhmin;
  
- Pattern examples::
-diff --git a/scripts/decodetree.py b/scripts/decodetree.py
-index a03dc6b5e3..7da2282411 100644
---- a/scripts/decodetree.py
-+++ b/scripts/decodetree.py
-@@ -52,6 +52,7 @@
- re_fld_ident = '%[a-zA-Z0-9_]*'
- re_fmt_ident = '@[a-zA-Z0-9_]*'
- re_pat_ident = '[a-zA-Z0-9_]*'
-+re_predicate_ident = '\|[a-zA-Z_][a-zA-Z0-9_]*'
- 
- def error_with_file(file, lineno, *args):
-     """Print an error message from file:line and args and exit."""
-@@ -119,6 +120,14 @@ def whexC(val):
-         suffix = 'u'
-     return whex(val) + suffix
- 
-+def predicate(val):
-+    """Return a string for calling a predicate function
-+       (if specified, accepting 'None' as an indication
-+       that no predicate is to be emitted) with the ctx
-+       as a parameter."""
-+    if (val == None):
-+        return ''
-+    return ' && ' + val + '(ctx)'
- 
- def str_match_bits(bits, mask):
-     """Return a string pretty-printing BITS/MASK"""
-@@ -340,7 +349,7 @@ def output_def(self):
- 
- class General:
-     """Common code between instruction formats and instruction patterns"""
--    def __init__(self, name, lineno, base, fixb, fixm, udfm, fldm, flds, w):
-+    def __init__(self, name, lineno, base, fixb, fixm, udfm, fldm, flds, w, p = None):
-         self.name = name
-         self.file = input_file
-         self.lineno = lineno
-@@ -351,6 +360,7 @@ def __init__(self, name, lineno, base, fixb, fixm, udfm, fldm, flds, w):
-         self.fieldmask = fldm
-         self.fields = flds
-         self.width = w
-+        self.predicate = p
- 
-     def __str__(self):
-         return self.name + ' ' + str_match_bits(self.fixedbits, self.fixedmask)
-@@ -499,7 +509,7 @@ def output_code(self, i, extracted, outerbits, outermask):
-             if outermask != p.fixedmask:
-                 innermask = p.fixedmask & ~outermask
-                 innerbits = p.fixedbits & ~outermask
--                output(ind, f'if ((insn & {whexC(innermask)}) == {whexC(innerbits)}) {{\n')
-+                output(ind, f'if ((insn & {whexC(innermask)}) == {whexC(innerbits)}{predicate(p.predicate)}) {{\n')
-                 output(ind, f'    /* {str_match_bits(p.fixedbits, p.fixedmask)} */\n')
-                 p.output_code(i + 4, extracted, p.fixedbits, p.fixedmask)
-                 output(ind, '}\n')
-@@ -826,6 +836,7 @@ def parse_generic(lineno, parent_pat, name, toks):
-     global re_fld_ident
-     global re_fmt_ident
-     global re_C_ident
-+    global re_predicate_ident
-     global insnwidth
-     global insnmask
-     global variablewidth
-@@ -839,6 +850,7 @@ def parse_generic(lineno, parent_pat, name, toks):
-     flds = {}
-     arg = None
-     fmt = None
-+    predicate = None
-     for t in toks:
-         # '&Foo' gives a format an explicit argument set.
-         if re.fullmatch(re_arg_ident, t):
-@@ -881,6 +893,12 @@ def parse_generic(lineno, parent_pat, name, toks):
-             flds = add_field(lineno, flds, fname, ConstField(value))
-             continue
- 
-+        # '|predicate' sets a predicate function to be called.
-+        if re.fullmatch(re_predicate_ident, t):
-+            tt = t[1:]
-+            predicate = tt;
-+            continue
++        /* Vendor-specific custom extensions */
++        bool ext_xventanacondops;
 +
-         # Pattern of 0s, 1s, dots and dashes indicate required zeros,
-         # required ones, or dont-cares.
-         if re.fullmatch('[01.-]+', t):
-@@ -979,7 +997,7 @@ def parse_generic(lineno, parent_pat, name, toks):
-             if f not in flds.keys() and f not in fmt.fields.keys():
-                 error(lineno, f'field {f} not initialized')
-         pat = Pattern(name, lineno, fmt, fixedbits, fixedmask,
--                      undefmask, fieldmask, flds, width)
-+                      undefmask, fieldmask, flds, width, predicate)
-         parent_pat.pats.append(pat)
-         allpatterns.append(pat)
+         char *priv_spec;
+         char *user_spec;
+         char *bext_spec;
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index 8617307b29..ef7372a59d 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -784,3 +784,9 @@ fcvt_l_h   1100010  00010 ..... ... ..... 1010011 @r2_rm
+ fcvt_lu_h  1100010  00011 ..... ... ..... 1010011 @r2_rm
+ fcvt_h_l   1101010  00010 ..... ... ..... 1010011 @r2_rm
+ fcvt_h_lu  1101010  00011 ..... ... ..... 1010011 @r2_rm
++
++# *** RV64 Custom-3 Extension ***
++{
++  vt_maskc   0000000  ..... ..... 110 ..... 1111011 @r |has_xventanacondops_p
++  vt_maskcn  0000000  ..... ..... 111 ..... 1111011 @r |has_xventanacondops_p
++}
+\ No newline at end of file
+diff --git a/target/riscv/insn_trans/trans_xventanacondops.inc b/target/riscv/insn_trans/trans_xventanacondops.inc
+new file mode 100644
+index 0000000000..b8a5d031b5
+--- /dev/null
++++ b/target/riscv/insn_trans/trans_xventanacondops.inc
+@@ -0,0 +1,39 @@
++/*
++ * RISC-V translation routines for the XVentanaCondOps extension.
++ *
++ * Copyright (c) 2021-2022 VRULL GmbH.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++static bool gen_condmask(DisasContext *ctx, arg_r *a, TCGCond cond)
++{
++    TCGv dest = dest_gpr(ctx, a->rd);
++    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
++    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
++
++    tcg_gen_movcond_tl(cond, dest, src2, ctx->zero, src1, ctx->zero);
++
++    gen_set_gpr(ctx, a->rd, dest);
++    return true;
++}
++
++static bool trans_vt_maskc(DisasContext *ctx, arg_r *a)
++{
++    return gen_condmask(ctx, a, TCG_COND_NE);
++}
++
++static bool trans_vt_maskcn(DisasContext *ctx, arg_r *a)
++{
++    return gen_condmask(ctx, a, TCG_COND_EQ);
++}
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 5df6c0d800..121c5605ea 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -115,6 +115,14 @@ static inline bool has_ext(DisasContext *ctx, uint32_t ext)
+     return ctx->misa_ext & ext;
+ }
  
++#define MATERIALISE_EXT_PREDICATE(ext)  \
++    static inline bool has_ ## ext ## _p(DisasContext *ctx) \
++    { \
++        return RISCV_CPU(ctx->cs)->cfg.ext_ ## ext ; \
++    }
++
++MATERIALISE_EXT_PREDICATE(xventanacondops);
++
+ #ifdef TARGET_RISCV32
+ #define get_xl(ctx)    MXL_RV32
+ #elif defined(CONFIG_USER_ONLY)
+@@ -651,6 +659,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
+ #include "insn_trans/trans_rvb.c.inc"
+ #include "insn_trans/trans_rvzfh.c.inc"
+ #include "insn_trans/trans_privileged.c.inc"
++#include "insn_trans/trans_xventanacondops.inc"
+ 
+ /* Include the auto-generated decoder for 16 bit insn */
+ #include "decode-insn16.c.inc"
 -- 
 2.33.1
 
