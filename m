@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E55D148A3B7
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 00:36:25 +0100 (CET)
-Received: from localhost ([::1]:49186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A580B48A3D8
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 00:42:54 +0100 (CET)
+Received: from localhost ([::1]:38370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n74DB-0007Bh-24
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 18:36:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42886)
+	id 1n74JR-0002ZR-Fk
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 18:42:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n748Z-0003xE-2Y
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:31:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51112)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n748j-0004QE-Gx
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:31:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n748W-00009a-FN
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:31:38 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n748g-0000Gt-FT
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:31:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641857495;
+ s=mimecast20190719; t=1641857505;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cRvk1EssMqIMNRz+Y1tAF0BP14oCpFSMW17YP9V7Ho8=;
- b=hiHcxTw/DNb7NylJ98CThUTJ6BE/uPJgi/1aOU0QJZ1cJf3SdXsscZtGDAxK6mpoNP5DJ7
- 7ednO8E8w57obcNqVvGG/1tcKKFJ7Lix0PUS5DDjGHQtqGJ8UwEWDOE76aWv1Vez8W58Nd
- GfA2J5Zkx5hxnhJpZkiCZRRXxQxeuJw=
+ bh=sdOJhruuN6fxTvu1NBxHScn9EgEMDzEHDJPjcPkDgIc=;
+ b=hbLmA4kI10/ZUUkHtHygqGP2p2m/j5Nra1cf5YLDCv49p9OggoH8cNOjE9DF6xdZLjXs/F
+ cZi/dXI1un38UGUm+JT25QclzD2bDfVLmCtzWTUptkQ07CKbhV5zJAxt+1cHAdY6pwYHwO
+ LPIcyOLl9Rd3zch3VCzCxl4eEwljLlY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-523-qAJmimP5Mbul2ts9Dy7_Gg-1; Mon, 10 Jan 2022 18:31:34 -0500
-X-MC-Unique: qAJmimP5Mbul2ts9Dy7_Gg-1
+ us-mta-99-aAYzhPbxPluJPvTEcxDnXA-1; Mon, 10 Jan 2022 18:31:42 -0500
+X-MC-Unique: aAYzhPbxPluJPvTEcxDnXA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E62484BA43;
- Mon, 10 Jan 2022 23:31:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6561384BA58;
+ Mon, 10 Jan 2022 23:31:41 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.219])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7247C7B028;
- Mon, 10 Jan 2022 23:31:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BF1867B028;
+ Mon, 10 Jan 2022 23:31:33 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/31] python/aqmp: add SocketAddrT to package root
-Date: Mon, 10 Jan 2022 18:28:48 -0500
-Message-Id: <20220110232910.1923864-10-jsnow@redhat.com>
+Subject: [PATCH v3 10/31] python/aqmp: rename AQMPError to QMPError
+Date: Mon, 10 Jan 2022 18:28:49 -0500
+Message-Id: <20220110232910.1923864-11-jsnow@redhat.com>
 In-Reply-To: <20220110232910.1923864-1-jsnow@redhat.com>
 References: <20220110232910.1923864-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -87,41 +87,220 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's a commonly needed definition, it can be re-exported by the root.
+This is in preparation for renaming qemu.aqmp to qemu.qmp. I should have
+done this from this from the very beginning, but it's a convenient time
+to make sure this churn is taken care of.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Beraldo Leal <bleal@redhat.com>
 ---
- python/qemu/aqmp/__init__.py | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ python/qemu/aqmp/__init__.py   |  6 +++---
+ python/qemu/aqmp/error.py      | 12 ++++++------
+ python/qemu/aqmp/events.py     |  4 ++--
+ python/qemu/aqmp/legacy.py     |  4 ++--
+ python/qemu/aqmp/protocol.py   |  8 ++++----
+ python/qemu/aqmp/qmp_client.py |  8 ++++----
+ 6 files changed, 21 insertions(+), 21 deletions(-)
 
 diff --git a/python/qemu/aqmp/__init__.py b/python/qemu/aqmp/__init__.py
-index 173556404d..05f467c141 100644
+index 05f467c141..4c22c38079 100644
 --- a/python/qemu/aqmp/__init__.py
 +++ b/python/qemu/aqmp/__init__.py
-@@ -26,7 +26,12 @@
- from .error import AQMPError
+@@ -6,7 +6,7 @@
+ QEMU Guest Agent, and the QEMU Storage Daemon.
+ 
+ `QMPClient` provides the main functionality of this package. All errors
+-raised by this library derive from `AQMPError`, see `aqmp.error` for
++raised by this library derive from `QMPError`, see `aqmp.error` for
+ additional detail. See `aqmp.events` for an in-depth tutorial on
+ managing QMP events.
+ """
+@@ -23,7 +23,7 @@
+ 
+ import logging
+ 
+-from .error import AQMPError
++from .error import QMPError
  from .events import EventListener
  from .message import Message
--from .protocol import ConnectError, Runstate, StateError
-+from .protocol import (
-+    ConnectError,
-+    Runstate,
-+    SocketAddrT,
-+    StateError,
-+)
- from .qmp_client import ExecInterruptedError, ExecuteError, QMPClient
+ from .protocol import (
+@@ -48,7 +48,7 @@
+     'Runstate',
  
- 
-@@ -48,4 +53,7 @@
+     # Exceptions, most generic to most explicit
+-    'AQMPError',
++    'QMPError',
+     'StateError',
      'ConnectError',
      'ExecuteError',
-     'ExecInterruptedError',
-+
-+    # Type aliases
-+    'SocketAddrT',
+diff --git a/python/qemu/aqmp/error.py b/python/qemu/aqmp/error.py
+index 781f49b008..24ba4d5054 100644
+--- a/python/qemu/aqmp/error.py
++++ b/python/qemu/aqmp/error.py
+@@ -1,21 +1,21 @@
+ """
+-AQMP Error Classes
++QMP Error Classes
+ 
+ This package seeks to provide semantic error classes that are intended
+ to be used directly by clients when they would like to handle particular
+ semantic failures (e.g. "failed to connect") without needing to know the
+ enumeration of possible reasons for that failure.
+ 
+-AQMPError serves as the ancestor for all exceptions raised by this
++QMPError serves as the ancestor for all exceptions raised by this
+ package, and is suitable for use in handling semantic errors from this
+ library. In most cases, individual public methods will attempt to catch
+ and re-encapsulate various exceptions to provide a semantic
+ error-handling interface.
+ 
+-.. admonition:: AQMP Exception Hierarchy Reference
++.. admonition:: QMP Exception Hierarchy Reference
+ 
+  |   `Exception`
+- |    +-- `AQMPError`
++ |    +-- `QMPError`
+  |         +-- `ConnectError`
+  |         +-- `StateError`
+  |         +-- `ExecInterruptedError`
+@@ -31,11 +31,11 @@
+ """
+ 
+ 
+-class AQMPError(Exception):
++class QMPError(Exception):
+     """Abstract error class for all errors originating from this package."""
+ 
+ 
+-class ProtocolError(AQMPError):
++class ProtocolError(QMPError):
+     """
+     Abstract error class for protocol failures.
+ 
+diff --git a/python/qemu/aqmp/events.py b/python/qemu/aqmp/events.py
+index 5f7150c78d..f3d4e2b5e8 100644
+--- a/python/qemu/aqmp/events.py
++++ b/python/qemu/aqmp/events.py
+@@ -443,7 +443,7 @@ def accept(self, event) -> bool:
+     Union,
  )
+ 
+-from .error import AQMPError
++from .error import QMPError
+ from .message import Message
+ 
+ 
+@@ -451,7 +451,7 @@ def accept(self, event) -> bool:
+ EventFilter = Callable[[Message], bool]
+ 
+ 
+-class ListenerError(AQMPError):
++class ListenerError(QMPError):
+     """
+     Generic error class for `EventListener`-related problems.
+     """
+diff --git a/python/qemu/aqmp/legacy.py b/python/qemu/aqmp/legacy.py
+index 9431fe9330..27df22818a 100644
+--- a/python/qemu/aqmp/legacy.py
++++ b/python/qemu/aqmp/legacy.py
+@@ -17,7 +17,7 @@
+ 
+ import qemu.qmp
+ 
+-from .error import AQMPError
++from .error import QMPError
+ from .protocol import Runstate, SocketAddrT
+ from .qmp_client import QMPClient
+ 
+@@ -168,7 +168,7 @@ def __del__(self) -> None:
+             # Nothing we can do about it now, but if we don't raise our
+             # own error, the user will be treated to a lot of traceback
+             # they might not understand.
+-            raise AQMPError(
++            raise QMPError(
+                 "QEMUMonitorProtocol.close()"
+                 " was not called before object was garbage collected"
+             )
+diff --git a/python/qemu/aqmp/protocol.py b/python/qemu/aqmp/protocol.py
+index 5b4f2f0d0a..50e973c2f2 100644
+--- a/python/qemu/aqmp/protocol.py
++++ b/python/qemu/aqmp/protocol.py
+@@ -29,7 +29,7 @@
+     cast,
+ )
+ 
+-from .error import AQMPError
++from .error import QMPError
+ from .util import (
+     bottom_half,
+     create_task,
+@@ -65,7 +65,7 @@ class Runstate(Enum):
+     DISCONNECTING = 3
+ 
+ 
+-class ConnectError(AQMPError):
++class ConnectError(QMPError):
+     """
+     Raised when the initial connection process has failed.
+ 
+@@ -90,7 +90,7 @@ def __str__(self) -> str:
+         return f"{self.error_message}: {cause}"
+ 
+ 
+-class StateError(AQMPError):
++class StateError(QMPError):
+     """
+     An API command (connect, execute, etc) was issued at an inappropriate time.
+ 
+@@ -363,7 +363,7 @@ async def _new_session(self,
+             This exception will wrap a more concrete one. In most cases,
+             the wrapped exception will be `OSError` or `EOFError`. If a
+             protocol-level failure occurs while establishing a new
+-            session, the wrapped error may also be an `AQMPError`.
++            session, the wrapped error may also be an `QMPError`.
+         """
+         assert self.runstate == Runstate.IDLE
+ 
+diff --git a/python/qemu/aqmp/qmp_client.py b/python/qemu/aqmp/qmp_client.py
+index 6a985ffe30..f1a845cc82 100644
+--- a/python/qemu/aqmp/qmp_client.py
++++ b/python/qemu/aqmp/qmp_client.py
+@@ -20,7 +20,7 @@
+     cast,
+ )
+ 
+-from .error import AQMPError, ProtocolError
++from .error import ProtocolError, QMPError
+ from .events import Events
+ from .message import Message
+ from .models import ErrorResponse, Greeting
+@@ -66,7 +66,7 @@ class NegotiationError(_WrappedProtocolError):
+     """
+ 
+ 
+-class ExecuteError(AQMPError):
++class ExecuteError(QMPError):
+     """
+     Exception raised by `QMPClient.execute()` on RPC failure.
+ 
+@@ -87,7 +87,7 @@ def __init__(self, error_response: ErrorResponse,
+         self.error_class: str = error_response.error.class_
+ 
+ 
+-class ExecInterruptedError(AQMPError):
++class ExecInterruptedError(QMPError):
+     """
+     Exception raised by `execute()` (et al) when an RPC is interrupted.
+ 
+@@ -641,7 +641,7 @@ def send_fd_scm(self, fd: int) -> None:
+         sock = self._writer.transport.get_extra_info('socket')
+ 
+         if sock.family != socket.AF_UNIX:
+-            raise AQMPError("Sending file descriptors requires a UNIX socket.")
++            raise QMPError("Sending file descriptors requires a UNIX socket.")
+ 
+         if not hasattr(sock, 'sendmsg'):
+             # We need to void the warranty sticker.
 -- 
 2.31.1
 
