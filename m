@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02DB1489BD2
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 16:07:59 +0100 (CET)
-Received: from localhost ([::1]:50782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 235FC489BE7
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 16:11:17 +0100 (CET)
+Received: from localhost ([::1]:56114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6wH8-0003eh-4d
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 10:07:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55336)
+	id 1n6wKK-00082W-87
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 10:11:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n6vqt-0001w0-Lw
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:40:51 -0500
-Received: from [2a00:1450:4864:20::52e] (port=40734
- helo=mail-ed1-x52e.google.com)
+ id 1n6vqw-000278-H0
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:40:54 -0500
+Received: from [2a00:1450:4864:20::52f] (port=33570
+ helo=mail-ed1-x52f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n6vqo-0000Se-Sa
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:40:49 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id a18so53406522edj.7
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 06:40:45 -0800 (PST)
+ id 1n6vqt-0000Uv-TP
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:40:54 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id b13so1094886edn.0
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 06:40:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JePqecmS0meombKTS33f5FvbmSwi5wC8hckPf3PFsDw=;
- b=T+4QuvGseB28cC6tFL3aJUljbj8vSI8TanuVHQ0gBAnK8VL8+z7Ge+A3wvDqjYOjql
- LdM8jVpsPbpmBhU2smRIzvn0PWuj0t1VE+2kwQI55NLxbReWkFiTBv5FSS+a1A8nyohj
- 2HXR3SsAe/HvzhBu9ZUxq+VQP2TZlgphf8wqpFOF11dHTo5jPoReWv4aU6SxNd3chOsM
- f3J8lU0J8I8IrkiQqj2QTBhGFoqn9/q6+Of0BKrS7cPs2iYHe2+//STwmPPg1ZdtyK1k
- evlfSSQy9OPhdSgLNO1GZFjYcWEGJp8bzV8+xT1H4eVt9cVqzUUSrVtnIOVMDLDBoss8
- LAag==
+ bh=aXyUMyG7vbgaYYighFikjZCBWMIv2oSr8qV4nvQV9c0=;
+ b=Yg7Lxsig+MbizAYxL43/K2tAjqeiAqxXkm7LVZUiNkvz+OcGFDfH9hwNLchs14d2Td
+ 6L4QLs17vWYXgZRAKWirQMGzqeqwVLTpPhZhZ7orpzVKc1WdBI9rHC5C0fFBTtmCp9Rh
+ 0445Q7B0Y3lug81OEI3RnTcXdz/PYK51fIn3a/BAQnpvD1fHLAstTuIxEKvL5j5dQkav
+ xQ+myY/kKcsQMYGHqtk4hMbW1CkFchIe5vpyGyaNYX8yI/csSzJnWsGAwcP50eSLA+cG
+ lPUavKvRHPHC39RJHlzmlr/L4rMlKd/RJLP55VfstS+NoSFhLI4sfdvmzyG8a3stkFZM
+ rI7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JePqecmS0meombKTS33f5FvbmSwi5wC8hckPf3PFsDw=;
- b=nApjBz5gK+/w08RCVa2z+ABrC1X0OIM51qLzund0EFY93IY1s25uhm3SJE2bfmvrgE
- smJcy/zJX9noFIjsKg0d2rGp1OKqrzuDvOEx18MaQjLRHBsZpNy3eoIiK7medzEDHEZh
- cJ8kcJiQxRr7HAhuqD9zrr+uhEETQ1dUWLe2p4IEC8xFJWUFf4+xWcb/iIyuFm0G5nuo
- PAd+0tmxgnMe3BDzppZ6KJlrSRcHsNuvv2t6CVj4QzQQ13ri+y55dke512KNDdR5LYh4
- 5unMyLJFSWsACZ8VLoIAR3EWwmbyUVqFrfg3f4Sy1S1rfGTwzazZhMm9F3S8Xj4DaQMN
- 8HHw==
-X-Gm-Message-State: AOAM533sVVJMFsRDb2R7RhHGX/X6wmuD5/Tdt1WEhCYDWzwN/w83iI7z
- NGoASofcUxntulwOgIKS9k7M5nRgcX4=
-X-Google-Smtp-Source: ABdhPJzk/4DavMCnwGFsIYOfZqpXMngbOX490eJfiL9tcmvo7Qmlg98di7X8Q0O9PotIcyHbgmazJw==
-X-Received: by 2002:a05:6402:5202:: with SMTP id
- s2mr67936473edd.206.1641825645092; 
- Mon, 10 Jan 2022 06:40:45 -0800 (PST)
+ bh=aXyUMyG7vbgaYYighFikjZCBWMIv2oSr8qV4nvQV9c0=;
+ b=gEi2va1V50vzKeZzTyRT4p9dEz94BeKS/wkA32qzcmP+4peygq8ZC1CV1t8b1xJFGX
+ mHuQDZrynSVQYjvvVYfhIloPGGMC9fpWTVo9Z4w3Owx7SWIfq3rszaDbiS8yKcVDLTOx
+ iwaM3L5xDi+lqAQovaf6EgRPzGnp/kmrfqIMHf25GWwqHYy/0OPPkC0J+XkF240ZriL/
+ HGsN3BNtdoVfUSQh0V1R2usXgwOhtwN6x6LytZFQ+fZWnSbpgB1qog8WXq7xmOi22bFW
+ gL6l/g0xHOpLDruiMXKbqAWZFdhnhh+MgzS+pp2PKAWBLueVuPIUoe8lw2AZnK5S0JG7
+ 2s2Q==
+X-Gm-Message-State: AOAM530B7Stbwk+MQisAOvyx5KGBNdju5gfSwMfuq/mZlt1OK674I9NN
+ fqkB+tN8UoBveT6U29WoXdZYzimRgOs=
+X-Google-Smtp-Source: ABdhPJw719bIeDKK4WrbQCw8zUFgOhSOghzqEXXWPv7l61K0ILc7n3S6j2JRxjr3N594NrAlgsJgIA==
+X-Received: by 2002:a17:906:58cc:: with SMTP id
+ e12mr19421ejs.755.1641825650505; 
+ Mon, 10 Jan 2022 06:40:50 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id k25sm2549498ejk.179.2022.01.10.06.40.44
+ by smtp.gmail.com with ESMTPSA id k25sm2549498ejk.179.2022.01.10.06.40.48
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jan 2022 06:40:44 -0800 (PST)
+ Mon, 10 Jan 2022 06:40:49 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/18] block/file-posix: Simplify the XFS_IOC_DIOINFO handling
-Date: Mon, 10 Jan 2022 15:40:20 +0100
-Message-Id: <20220110144034.67410-5-pbonzini@redhat.com>
+Subject: [PULL 08/18] configure: parse --enable/--disable-strip automatically,
+ flip default
+Date: Mon, 10 Jan 2022 15:40:24 +0100
+Message-Id: <20220110144034.67410-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220110144034.67410-1-pbonzini@redhat.com>
 References: <20220110144034.67410-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -87,185 +89,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+Always include the STRIP variable in config-host.mak (it's only used
+by the s390-ccw firmware build, and it adds a default if configure
+omitted it), and use meson-buildoptions.sh to turn
+--enable/--disable-strip into -Dstrip.
 
-The handling for the XFS_IOC_DIOINFO ioctl is currently quite excessive:
-This is not a "real" feature like the other features that we provide with
-the "--enable-xxx" and "--disable-xxx" switches for the configure script,
-since this does not influence lots of code (it's only about one call to
-xfsctl() in file-posix.c), so people don't gain much with the ability to
-disable this with "--disable-xfsctl".
-It's also unfortunate that the ioctl will be disabled on Linux in case
-the user did not install the right xfsprogs-devel package before running
-configure. Thus let's simplify this by providing the ioctl definition
-on our own, so we can completely get rid of the header dependency and
-thus the related code in the configure script.
+The default is now not to strip the binaries like for almost every other
+package that has a configure script.
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20211215125824.250091-1-thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/file-posix.c | 37 ++++++++++++++++---------------------
- configure          | 31 -------------------------------
- meson.build        |  1 -
- 3 files changed, 16 insertions(+), 53 deletions(-)
+ configure                     | 10 +---------
+ pc-bios/s390-ccw/Makefile     |  2 --
+ scripts/meson-buildoptions.py | 21 ++++++++++++++-------
+ scripts/meson-buildoptions.sh |  3 +++
+ 4 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index b283093e5b..1f1756e192 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -106,10 +106,6 @@
- #include <sys/diskslice.h>
- #endif
- 
--#ifdef CONFIG_XFS
--#include <xfs/xfs.h>
--#endif
--
- /* OS X does not have O_DSYNC */
- #ifndef O_DSYNC
- #ifdef O_SYNC
-@@ -156,9 +152,6 @@ typedef struct BDRVRawState {
-     int perm_change_flags;
-     BDRVReopenState *reopen_state;
- 
--#ifdef CONFIG_XFS
--    bool is_xfs:1;
--#endif
-     bool has_discard:1;
-     bool has_write_zeroes:1;
-     bool discard_zeroes:1;
-@@ -409,14 +402,22 @@ static void raw_probe_alignment(BlockDriverState *bs, int fd, Error **errp)
-     if (probe_logical_blocksize(fd, &bs->bl.request_alignment) < 0) {
-         bs->bl.request_alignment = 0;
-     }
--#ifdef CONFIG_XFS
--    if (s->is_xfs) {
--        struct dioattr da;
--        if (xfsctl(NULL, fd, XFS_IOC_DIOINFO, &da) >= 0) {
--            bs->bl.request_alignment = da.d_miniosz;
--            /* The kernel returns wrong information for d_mem */
--            /* s->buf_align = da.d_mem; */
--        }
-+
-+#ifdef __linux__
-+    /*
-+     * The XFS ioctl definitions are shipped in extra packages that might
-+     * not always be available. Since we just need the XFS_IOC_DIOINFO ioctl
-+     * here, we simply use our own definition instead:
-+     */
-+    struct xfs_dioattr {
-+        uint32_t d_mem;
-+        uint32_t d_miniosz;
-+        uint32_t d_maxiosz;
-+    } da;
-+    if (ioctl(fd, _IOR('X', 30, struct xfs_dioattr), &da) >= 0) {
-+        bs->bl.request_alignment = da.d_miniosz;
-+        /* The kernel returns wrong information for d_mem */
-+        /* s->buf_align = da.d_mem; */
-     }
- #endif
- 
-@@ -798,12 +799,6 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
- #endif
-     s->needs_alignment = raw_needs_alignment(bs);
- 
--#ifdef CONFIG_XFS
--    if (platform_test_xfs_fd(s->fd)) {
--        s->is_xfs = true;
--    }
--#endif
--
-     bs->supported_zero_flags = BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK;
-     if (S_ISREG(st.st_mode)) {
-         /* When extending regular files, we get zeros from the OS */
 diff --git a/configure b/configure
-index 030728d11e..3a523a3d14 100755
+index a02febe09c..be05bcf856 100755
 --- a/configure
 +++ b/configure
-@@ -291,7 +291,6 @@ EXTRA_CXXFLAGS=""
- EXTRA_LDFLAGS=""
- 
- xen_ctrl_version="$default_feature"
--xfs="$default_feature"
- membarrier="$default_feature"
- vhost_kernel="$default_feature"
- vhost_net="$default_feature"
-@@ -1021,10 +1020,6 @@ for opt do
+@@ -307,7 +307,6 @@ debug="no"
+ sanitizers="no"
+ tsan="no"
+ fortify_source="$default_feature"
+-strip_opt="yes"
+ mingw32="no"
+ gcov="no"
+ EXESUF=""
+@@ -892,7 +891,6 @@ for opt do
+       debug_tcg="yes"
+       debug_mutex="yes"
+       debug="yes"
+-      strip_opt="no"
+       fortify_source="no"
    ;;
-   --enable-opengl) opengl="yes"
+   --enable-sanitizers) sanitizers="yes"
+@@ -903,8 +901,6 @@ for opt do
    ;;
--  --disable-xfsctl) xfs="no"
+   --disable-tsan) tsan="no"
+   ;;
+-  --disable-strip) strip_opt="no"
 -  ;;
--  --enable-xfsctl) xfs="yes"
--  ;;
-   --disable-zlib-test)
+   --disable-slirp) slirp="disabled"
    ;;
-   --enable-guest-agent) guest_agent="yes"
-@@ -1431,7 +1426,6 @@ cat << EOF
-   avx512f         AVX512F optimization support
-   replication     replication support
-   opengl          opengl support
--  xfsctl          xfsctl support
-   qom-cast-debug  cast debugging support
-   tools           build qemu-io, qemu-nbd and qemu-img tools
-   bochs           bochs image format support
-@@ -2323,28 +2317,6 @@ EOF
-     fi
+   --enable-slirp) slirp="enabled"
+@@ -1367,7 +1363,6 @@ Advanced options (experts only):
+   --enable-debug           enable common debug build options
+   --enable-sanitizers      enable default sanitizers
+   --enable-tsan            enable thread sanitizer
+-  --disable-strip          disable stripping binaries
+   --disable-werror         disable compilation abort on warning
+   --disable-stack-protector disable compiler-provided stack protection
+   --audio-drv-list=LIST    set audio drivers to try if -audiodev is not used
+@@ -3315,9 +3310,6 @@ echo "GIT_SUBMODULES_ACTION=$git_submodules_action" >> $config_host_mak
+ if test "$debug_tcg" = "yes" ; then
+   echo "CONFIG_DEBUG_TCG=y" >> $config_host_mak
  fi
- 
--##########################################
--# xfsctl() probe, used for file-posix.c
--if test "$xfs" != "no" ; then
--  cat > $TMPC << EOF
--#include <stddef.h>  /* NULL */
--#include <xfs/xfs.h>
--int main(void)
--{
--    xfsctl(NULL, 0, 0, NULL);
--    return 0;
--}
--EOF
--  if compile_prog "" "" ; then
--    xfs="yes"
--  else
--    if test "$xfs" = "yes" ; then
--      feature_not_found "xfs" "Install xfsprogs/xfslibs devel"
--    fi
--    xfs=no
--  fi
+-if test "$strip_opt" = "yes" ; then
+-  echo "STRIP=${strip}" >> $config_host_mak
 -fi
+ if test "$mingw32" = "yes" ; then
+   echo "CONFIG_WIN32=y" >> $config_host_mak
+   if test "$guest_agent_with_vss" = "yes" ; then
+@@ -3595,6 +3587,7 @@ echo "GLIB_LIBS=$glib_libs" >> $config_host_mak
+ echo "GLIB_VERSION=$(pkg-config --modversion glib-2.0)" >> $config_host_mak
+ echo "QEMU_LDFLAGS=$QEMU_LDFLAGS" >> $config_host_mak
+ echo "LD_I386_EMULATION=$ld_i386_emulation" >> $config_host_mak
++echo "STRIP=$strip" >> $config_host_mak
+ echo "EXESUF=$EXESUF" >> $config_host_mak
+ echo "LIBS_QGA=$libs_qga" >> $config_host_mak
+ 
+@@ -3812,7 +3805,6 @@ if test "$skip_meson" = no; then
+         -Doptimization=$(if test "$debug" = yes; then echo 0; else echo 2; fi) \
+         -Ddebug=$(if test "$debug_info" = yes; then echo true; else echo false; fi) \
+         -Dwerror=$(if test "$werror" = yes; then echo true; else echo false; fi) \
+-        -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
+         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
+         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
+         -Db_lto=$lto -Dcfi=$cfi -Dtcg=$tcg -Dxen=$xen \
+diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
+index cee9d2c63b..0eb68efc7b 100644
+--- a/pc-bios/s390-ccw/Makefile
++++ b/pc-bios/s390-ccw/Makefile
+@@ -44,8 +44,6 @@ build-all: s390-ccw.img s390-netboot.img
+ s390-ccw.elf: $(OBJECTS)
+ 	$(call quiet-command,$(CC) $(LDFLAGS) -o $@ $(OBJECTS),"BUILD","$(TARGET_DIR)$@")
+ 
+-STRIP ?= strip
 -
- ##########################################
- # plugin linker support probe
+ s390-ccw.img: s390-ccw.elf
+ 	$(call quiet-command,$(STRIP) --strip-unneeded $< -o $@,"STRIP","$(TARGET_DIR)$@")
  
-@@ -3456,9 +3428,6 @@ echo "CONFIG_BDRV_RO_WHITELIST=$block_drv_ro_whitelist" >> $config_host_mak
- if test "$block_drv_whitelist_tools" = "yes" ; then
-   echo "CONFIG_BDRV_WHITELIST_TOOLS=y" >> $config_host_mak
- fi
--if test "$xfs" = "yes" ; then
--  echo "CONFIG_XFS=y" >> $config_host_mak
--fi
- qemu_version=$(head $source_path/VERSION)
- echo "PKGVERSION=$pkgversion" >>$config_host_mak
- echo "SRC_PATH=$source_path" >> $config_host_mak
-diff --git a/meson.build b/meson.build
-index 5f0b6300b4..5a57906e98 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3445,7 +3445,6 @@ if spice_protocol.found()
-   summary_info += {'  spice server support': spice}
- endif
- summary_info += {'rbd support':       rbd}
--summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
- summary_info += {'smartcard support': cacard}
- summary_info += {'U2F support':       u2f}
- summary_info += {'libusb':            libusb}
+diff --git a/scripts/meson-buildoptions.py b/scripts/meson-buildoptions.py
+index 96969d89ee..98ae944148 100755
+--- a/scripts/meson-buildoptions.py
++++ b/scripts/meson-buildoptions.py
+@@ -36,6 +36,10 @@
+     "trace_file",
+ }
+ 
++BUILTIN_OPTIONS = {
++    "strip",
++}
++
+ LINE_WIDTH = 76
+ 
+ 
+@@ -90,14 +94,17 @@ def allow_arg(opt):
+     return not (set(opt["choices"]) <= {"auto", "disabled", "enabled"})
+ 
+ 
++def filter_options(json):
++    if ":" in json["name"]:
++        return False
++    if json["section"] == "user":
++        return json["name"] not in SKIP_OPTIONS
++    else:
++        return json["name"] in BUILTIN_OPTIONS
++
++
+ def load_options(json):
+-    json = [
+-        x
+-        for x in json
+-        if x["section"] == "user"
+-        and ":" not in x["name"]
+-        and x["name"] not in SKIP_OPTIONS
+-    ]
++    json = [x for x in json if filter_options(x)]
+     return sorted(json, key=lambda x: x["name"])
+ 
+ 
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 50bd7bed4d..a4af02c527 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -13,6 +13,7 @@ meson_options_help() {
+   printf "%s\n" '                           jemalloc/system/tcmalloc)'
+   printf "%s\n" '  --enable-slirp[=CHOICE]  Whether and how to find the slirp library'
+   printf "%s\n" '                           (choices: auto/disabled/enabled/internal/system)'
++  printf "%s\n" '  --enable-strip           Strip targets on install'
+   printf "%s\n" '  --enable-tcg-interpreter TCG with bytecode interpreter (slow)'
+   printf "%s\n" '  --enable-trace-backends=CHOICE'
+   printf "%s\n" '                           Set available tracing backends [log] (choices:'
+@@ -237,6 +238,8 @@ _meson_option_parse() {
+     --disable-spice) printf "%s" -Dspice=disabled ;;
+     --enable-spice-protocol) printf "%s" -Dspice_protocol=enabled ;;
+     --disable-spice-protocol) printf "%s" -Dspice_protocol=disabled ;;
++    --enable-strip) printf "%s" -Dstrip=true ;;
++    --disable-strip) printf "%s" -Dstrip=false ;;
+     --enable-tcg) printf "%s" -Dtcg=enabled ;;
+     --disable-tcg) printf "%s" -Dtcg=disabled ;;
+     --enable-tcg-interpreter) printf "%s" -Dtcg_interpreter=true ;;
 -- 
 2.33.1
 
