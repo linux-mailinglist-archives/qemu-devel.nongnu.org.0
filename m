@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87D20489BD5
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 16:08:37 +0100 (CET)
-Received: from localhost ([::1]:51660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D972B489BE8
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 16:11:26 +0100 (CET)
+Received: from localhost ([::1]:56720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6wHk-0004Sv-CY
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 10:08:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55384)
+	id 1n6wKU-0008VL-0H
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 10:11:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n6vqw-000279-HB
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:40:54 -0500
-Received: from [2a00:1450:4864:20::534] (port=40742
- helo=mail-ed1-x534.google.com)
+ id 1n6vr0-0002MI-Qv
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:40:58 -0500
+Received: from [2a00:1450:4864:20::536] (port=40746
+ helo=mail-ed1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n6vqv-0000VJ-0c
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:40:54 -0500
-Received: by mail-ed1-x534.google.com with SMTP id a18so53407589edj.7
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 06:40:52 -0800 (PST)
+ id 1n6vqz-0000Vy-5J
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:40:58 -0500
+Received: by mail-ed1-x536.google.com with SMTP id a18so53408339edj.7
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 06:40:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=088450L/bqlgI6yAPA9NTzKrp+4+h6Tn3SpFF2ftbfc=;
- b=Wra/+0TOMgvBMf3nwp6wlZt4r/fvuLO9ObnztBTPK61GZOpRtwDLlY2/CYa9IfH9kz
- Y4DMBPx9L/WRyTi8h0RnyU5UnM+qlKMhPYY9untyjs2UgJYnVjr59yqaUg1Cc2Lx85Xo
- pGyQq75j15vmwm9ngJ/6ABaXh07ZWkEiKuvX3njTR9jja0gWDWxgo+S8sCudyTfOhg9O
- tyRoo5jAiRSZc8mCl91GnGxTD5sISOq/eOtJbtfI702TnXpgIivG+Lf890Yr1Jw3f8XN
- jXGesfca+XJTMreMuNjqw62FxdL1erA8VYKlWC6x+99qEd/PnvACqArfYBrbqozXuEHi
- Ab1Q==
+ bh=YFWh1/aUGnhtQvWNSPmrQpsKEyfAJp2BXqiV0h3xjk8=;
+ b=KArp8jIRDSfXy9nNgjNZRT86rSHQhAT6Q5xAfnGklvxNyxEdhBu9Jh3M634267Fh0x
+ MG2BHB0HJQ2DOYl7rjHUn8OH6ZN6HYDaQYcNGu0gm96nuTgJIrcJORKI/QqcuB485wo/
+ qVlpg3pZMun4N7AfYEnLMD//bWczHOqtds0bpyReolmPEgxYC9gCuxdhPd/2G9lsnQSc
+ YmPuJyaJUn7RBoZoYgMx03lKwAtsoxfWvdIr5Lg7Kt9fcmZcvnFIsseyuZYmmTBfyPg8
+ 0ThknhMy56feaSbZaLxQUfzpseLoI05E6AaRJ8YO1597WPJl5TIGz5kpxmd1bMeNuv2S
+ 0BDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=088450L/bqlgI6yAPA9NTzKrp+4+h6Tn3SpFF2ftbfc=;
- b=uALkDH6NCRI9xPxAL13YKDoJHc60ulrRI1nboLLJpcJfiHw7xxD25oEC3lnOHwkllk
- QD2xz3agoOayo2d/9z0mhtUzm1NLhAjds0rwYhP9xAc9kfZMKswMHqBc+A764CSJQJBr
- hUaoRwqQUPP6xDmajPtQ+T31aMbqA645ZPZqCWad5H1TPZfG2iX893CY6YrzBqiqQcRp
- a03EkWfghYrc0ezgDWRni2kWMmWHKcpNYzleSLTLWSN6btEWoJ/9GgMzzXl+kHxEaQmh
- YX1q+id4f5riRYwVol1lyUy2EhjgPho2uVhoL7tSk8uEEoBNIEHqAvncLGOV3g6STCoD
- pPuw==
-X-Gm-Message-State: AOAM533Pt+ONgxGqj+VdAiyS9sfb10TlJ8A2JB7sWCNNTFBVqq+Tqrg8
- CT/MlP+ytZrkj4v4BJk/vK2wFfjXkuY=
-X-Google-Smtp-Source: ABdhPJyVV8cqUfg8XuBPOwTKkwFdlG/Tfxwt+x3Yl48azE9y0CPeCv4s/ibK7GsfO0n8ZaClfd1KHw==
-X-Received: by 2002:a17:906:14d4:: with SMTP id
- y20mr60769ejc.454.1641825651743; 
- Mon, 10 Jan 2022 06:40:51 -0800 (PST)
+ bh=YFWh1/aUGnhtQvWNSPmrQpsKEyfAJp2BXqiV0h3xjk8=;
+ b=iBM6KE3kospLEZdXBL/fh76mEb6xtUXIhjir3/Ecre1er6b8JGfhO7MzbUj5YLG6gI
+ lUOJpfG7UK/g9BOUCwKpdP39hUEdGH7SL9K/0uJ4DKRTfUZzlUd24u9z9dc5X2W5kwHW
+ 7CGH62yQeFE451FOaLbdLraqWey+6KVm0FGKwnt34FVDYzWCdtPJzNCSbs0TKHGXa+qq
+ RlDpqkGq4ownT5W0u3F+gg6JQYEf2skJc9/s/QyaPSp2Z7Fk8+OLwUCZ2A2Idm7BfabX
+ db++WSickPYkTywdTqfkxfxIsSgpnAXxHz3Tj/AzNO/eVDQw6DP51ROgmJw8kJC4hafT
+ pknA==
+X-Gm-Message-State: AOAM533MrP5WxHW0NC/1cPtdGPmHawVlsVKUA7TTrLr7qo/dvrhaZlxP
+ BBZFH5YZCXTzpSpgbzKrTGejS/c0rRs=
+X-Google-Smtp-Source: ABdhPJwYL6J+/dGBjvEMhmURz7iTOzWLMfjYChNqr1ywkBCX6AUu5mA73pj+Sr8IAGQOeXXCki/1PA==
+X-Received: by 2002:a17:906:7305:: with SMTP id
+ di5mr39535ejc.255.1641825655873; 
+ Mon, 10 Jan 2022 06:40:55 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id k25sm2549498ejk.179.2022.01.10.06.40.51
+ by smtp.gmail.com with ESMTPSA id k25sm2549498ejk.179.2022.01.10.06.40.54
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jan 2022 06:40:51 -0800 (PST)
+ Mon, 10 Jan 2022 06:40:55 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/18] configure: move non-command-line variables away from
- command-line parsing section
-Date: Mon, 10 Jan 2022 15:40:25 +0100
-Message-Id: <20220110144034.67410-10-pbonzini@redhat.com>
+Subject: [PULL 11/18] configure, meson: move config-poison.h to meson
+Date: Mon, 10 Jan 2022 15:40:27 +0100
+Message-Id: <20220110144034.67410-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220110144034.67410-1-pbonzini@redhat.com>
 References: <20220110144034.67410-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::534
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -89,83 +88,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This makes it easier to identify candidates for moving to Meson.
+This ensures that the file is regenerated properly whenever config-target.h
+or config-devices.h files change.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ Makefile                      |  2 +-
+ configure                     | 11 -----------
+ meson.build                   | 12 ++++++++++++
+ scripts/make-config-poison.sh | 16 ++++++++++++++++
+ 4 files changed, 29 insertions(+), 12 deletions(-)
+ create mode 100755 scripts/make-config-poison.sh
 
+diff --git a/Makefile b/Makefile
+index 8037f73b35..9e2e3bf004 100644
+--- a/Makefile
++++ b/Makefile
+@@ -221,7 +221,7 @@ qemu-%.tar.bz2:
+ 
+ distclean: clean
+ 	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean -g || :
+-	rm -f config-host.mak config-poison.h
++	rm -f config-host.mak
+ 	rm -f tests/tcg/config-*.mak
+ 	rm -f config.status
+ 	rm -f roms/seabios/config.mak
 diff --git a/configure b/configure
-index be05bcf856..56c113bd83 100755
+index 56c113bd83..0026388343 100755
 --- a/configure
 +++ b/configure
-@@ -307,16 +307,12 @@ debug="no"
- sanitizers="no"
- tsan="no"
- fortify_source="$default_feature"
--mingw32="no"
- gcov="no"
- EXESUF=""
- modules="no"
- module_upgrades="no"
- prefix="/usr/local"
- qemu_suffix="qemu"
--bsd="no"
--linux="no"
--solaris="no"
- profiler="no"
- softmmu="yes"
- linux_user=""
-@@ -330,8 +326,6 @@ opengl="$default_feature"
- cpuid_h="no"
- avx2_opt="$default_feature"
- guest_agent="$default_feature"
--guest_agent_with_vss="no"
--guest_agent_ntddscsi="no"
- vss_win32_sdk="$default_feature"
- win_sdk="no"
- want_tools="$default_feature"
-@@ -526,6 +520,10 @@ fi
- 
- # OS specific
- 
-+mingw32="no"
-+bsd="no"
-+linux="no"
-+solaris="no"
- case $targetos in
- windows)
-   mingw32="yes"
-@@ -2549,6 +2547,7 @@ fi
- ##########################################
- # check if we have VSS SDK headers for win
- 
-+guest_agent_with_vss="no"
- if test "$mingw32" = "yes" && test "$guest_agent" != "no" && \
-         test "$vss_win32_sdk" != "no" ; then
-   case "$vss_win32_sdk" in
-@@ -2579,7 +2578,6 @@ EOF
-       echo "ERROR: The headers are extracted in the directory \`inc'."
-       feature_not_found "VSS support"
-     fi
--    guest_agent_with_vss="no"
-   fi
+@@ -3834,17 +3834,6 @@ if test -n "${deprecated_features}"; then
+     echo "  features: ${deprecated_features}"
  fi
  
-@@ -2606,6 +2604,7 @@ fi
+-# Create list of config switches that should be poisoned in common code...
+-# but filter out CONFIG_TCG and CONFIG_USER_ONLY which are special.
+-target_configs_h=$(ls *-config-devices.h *-config-target.h 2>/dev/null)
+-if test -n "$target_configs_h" ; then
+-    sed -n -e '/CONFIG_TCG/d' -e '/CONFIG_USER_ONLY/d' \
+-        -e '/^#define / { s///; s/ .*//; s/^/#pragma GCC poison /p; }' \
+-        $target_configs_h | sort -u > config-poison.h
+-else
+-    :> config-poison.h
+-fi
+-
+ # Save the configure command line for later reuse.
+ cat <<EOD >config.status
+ #!/bin/sh
+diff --git a/meson.build b/meson.build
+index 5a57906e98..36fc720ba3 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2028,6 +2028,18 @@ config_all += {
+   'CONFIG_ALL': true,
+ }
  
- ##########################################
- # check if mingw environment provides a recent ntddscsi.h
-+guest_agent_ntddscsi="no"
- if test "$mingw32" = "yes" && test "$guest_agent" != "no"; then
-   cat > $TMPC << EOF
- #include <windows.h>
++target_configs_h = []
++foreach target: target_dirs
++  target_configs_h += config_target_h[target]
++  target_configs_h += config_devices_h.get(target, [])
++endforeach
++genh += custom_target('config-poison.h',
++                      input: [target_configs_h],
++                      output: 'config-poison.h',
++                      capture: true,
++                      command: [find_program('scripts/make-config-poison.sh'),
++                                target_configs_h])
++
+ ##############
+ # Submodules #
+ ##############
+diff --git a/scripts/make-config-poison.sh b/scripts/make-config-poison.sh
+new file mode 100755
+index 0000000000..d222a04304
+--- /dev/null
++++ b/scripts/make-config-poison.sh
+@@ -0,0 +1,16 @@
++#! /bin/sh
++
++if test $# = 0; then
++  exit 0
++fi
++
++# Create list of config switches that should be poisoned in common code...
++# but filter out CONFIG_TCG and CONFIG_USER_ONLY which are special.
++exec sed -n \
++  -e' /CONFIG_TCG/d' \
++  -e '/CONFIG_USER_ONLY/d' \
++  -e '/^#define / {' \
++  -e    's///' \
++  -e    's/ .*//' \
++  -e    's/^/#pragma GCC poison /p' \
++  -e '}' "$@"
 -- 
 2.33.1
 
