@@ -2,82 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15BD8489E18
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 18:12:36 +0100 (CET)
-Received: from localhost ([::1]:44862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0554489E26
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 18:14:36 +0100 (CET)
+Received: from localhost ([::1]:49148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6yDi-0006yL-Oa
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 12:12:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39074)
+	id 1n6yFf-0001dQ-EP
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 12:14:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n6yA7-0004jX-S1
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 12:08:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30211)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1n6yEA-0000Di-8e
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 12:13:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28163)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n6yA4-0007yK-Po
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 12:08:50 -0500
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1n6yE7-0000Fn-D7
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 12:13:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641834527;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1641834774;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U+3SGfTNYkO6F8uq7Hq/XANHMcqQyET6yEo1VtIfGUg=;
- b=QStj+ShjraVahF6xk+STUNwLFNaATxY1C6OeDUR1KxYwYr6upT56Vd2bxc8ompODeMkQRq
- rfCwG1+cC+g3afWOSPr7KEbvaMHlrrDcJt+rMegEWAUum054FIbjA4ah0XaAWmpI38db//
- Nzup3QcUNKTsS67/AJJ3udlnHRB+B7I=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=03p6qi4vSMUKe6Ewm0O52FmVWNcm73cafj58jFWwUb4=;
+ b=O+P3yJczwHVf9wQbwXn13tZgUTLPVY3X50rNFTUYdgPtw8ETODth9UUx++pYUfd0yZ8u1/
+ ptGzgSgFQJQ6pO6Aohc01bMXsTwkVNgMUjtwkoNmOpWL8/1nn8XI2OzmM4Yh7kO6M9leJl
+ eH3V6xq/mGa/xMRn17bFp6milcjW2Wg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-637-6iyhMbHDPDiODGftq4vsaA-1; Mon, 10 Jan 2022 12:08:46 -0500
-X-MC-Unique: 6iyhMbHDPDiODGftq4vsaA-1
-Received: by mail-ua1-f69.google.com with SMTP id
- z20-20020ab05654000000b00306092e79faso3049486uaa.0
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 09:08:45 -0800 (PST)
+ us-mta-531-rb_HgQWNMZGYkLfBYh3zCw-1; Mon, 10 Jan 2022 12:12:53 -0500
+X-MC-Unique: rb_HgQWNMZGYkLfBYh3zCw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 20-20020a05600c22d400b00349067fe7b7so305225wmg.5
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 09:12:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=U+3SGfTNYkO6F8uq7Hq/XANHMcqQyET6yEo1VtIfGUg=;
- b=7kRQW0mPFqw1Wny3sPvk+7X2oBOhiJ26KkiIZOsMca0nrikKo9prAedhusMHMxkHH1
- gyOJU52X9S6KruW1LRvk3nolpynWq0I9Er0xkXs7R7Zp525aTavpIrVNg/Jy6bvEPtIy
- TjVrVTTaEpJvJwpb0nKboxia5AV1riDV3KgD/5e2jco9GD0BIFGiJTxkUoHbsD9SxmuD
- eKZT47YJ46eLrCbeiKyctZNUVURYcWefI9CpPWkbI/QaGqfdwHtobL9JFhG/bfc75HTq
- Buhd3sHnrD6BcljPG3UwYfm+czrLEh7FB8t3JCZ1uh2peXWn4JXi2YUCd4Y6jfbe/fwF
- eXjA==
-X-Gm-Message-State: AOAM532w5gKmlvd3bammZWVooxeakzQ0GITcgld6aJCNcHGBclfxetBp
- suCmvRvZ3qO6jb/fzT5gvt2bPOdhh5mBTExI+ESMlTT/xpZ4YSYYlVKxcCssSqJ3+D/3TnzyQPc
- tsbtWUUSVfPXG19udhR/J+9FJv+gc8lM=
-X-Received: by 2002:a05:6102:390b:: with SMTP id
- e11mr309978vsu.35.1641834525307; 
- Mon, 10 Jan 2022 09:08:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyOkOaesUbm5csGJSv1vMu87CHJOC3rZwYQB+5NWVv6jr8hR/LtkV7BrdMjAcuwXuDpaRBkg8gBCPuNpQiNB/k=
-X-Received: by 2002:a05:6102:390b:: with SMTP id
- e11mr309968vsu.35.1641834525129; 
- Mon, 10 Jan 2022 09:08:45 -0800 (PST)
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=03p6qi4vSMUKe6Ewm0O52FmVWNcm73cafj58jFWwUb4=;
+ b=pagibK5j9NzQgg9El0NZ0rL59ExcdnkSxH1lJl/JLnLKzcLh64rsTDwbDuz/1MmJcw
+ vcVYebvHng1usO+y64qrWu1MutAEOtLLDX9fo61l8snm9KDNnbZ38746iv0QkAQP8Kp2
+ ce9tp2gkSZIdYK43N4/+mwmejaWM+4T3s27PocrcsDZ/H/45BiVtaBKfLtYkyXryhiH0
+ sF17Abe2TtP7f6JahZoQXyXvuu+0EezB7sB/pKJAcXHZV2zNBCt8kld9azN8p2GcOeq0
+ XeunyTceE2ydTy3Qo0u/PQkqHAvSVNghh2tsFpiq8l+ld1fEFXFZ1tJq04BzOWPv55MX
+ 1E7A==
+X-Gm-Message-State: AOAM533IECZjvHiyU/7pXsjLkmRv3WGe7Um46vs4MJVRKrtIOzqD+r7J
+ iJjz67cxSS4XZNamHhM5u3Zvivs+zmPAAFPoJTOlNcO29w9IDzlcdoxfnxzaEUzu3FF6ecQ3m41
+ JTt1n1bZIs+k1Yis=
+X-Received: by 2002:adf:fac3:: with SMTP id a3mr479974wrs.369.1641834772669;
+ Mon, 10 Jan 2022 09:12:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxCFLFbIA8AorqfaYxU8UpegcJfTTKDPwhDdvVaVfqi2b0Bh1NWQH0spzhztlk2tCbDCNxvvg==
+X-Received: by 2002:adf:fac3:: with SMTP id a3mr479949wrs.369.1641834772216;
+ Mon, 10 Jan 2022 09:12:52 -0800 (PST)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id l6sm1383751wmq.22.2022.01.10.09.12.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Jan 2022 09:12:51 -0800 (PST)
+Subject: Re: [PATCH v4 5/6] hw/arm/virt: Disable highmem devices that don't
+ fit in the PA range
+To: Marc Zyngier <maz@kernel.org>, qemu-devel@nongnu.org
+References: <20220107163324.2491209-1-maz@kernel.org>
+ <20220107163324.2491209-6-maz@kernel.org>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <dad34b51-51e2-37cd-44cd-7ca7c4fe6129@redhat.com>
+Date: Mon, 10 Jan 2022 18:12:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <20220107153019.504124-1-sw@weilnetz.de>
-In-Reply-To: <20220107153019.504124-1-sw@weilnetz.de>
-From: John Snow <jsnow@redhat.com>
-Date: Mon, 10 Jan 2022 12:08:34 -0500
-Message-ID: <CAFn=p-ZYr+D54GzYKt5cxuJQQTARGQTvkkgVfhLGEeLczFt-Tw@mail.gmail.com>
-Subject: Re: [PATCH] simplebench: Fix Python syntax error (reported by LGTM)
-To: Stefan Weil <sw@weilnetz.de>
+In-Reply-To: <20220107163324.2491209-6-maz@kernel.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000a68fad05d53d631b"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,86 +104,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Reply-To: eric.auger@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ kernel-team@android.com, kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a68fad05d53d631b
-Content-Type: text/plain; charset="UTF-8"
+Hi Marc,
 
-On Fri, Jan 7, 2022 at 10:32 AM Stefan Weil <sw@weilnetz.de> wrote:
-
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+On 1/7/22 5:33 PM, Marc Zyngier wrote:
+> In order to only keep the highmem devices that actually fit in
+> the PA range, check their location against the range and update
+> highest_gpa if they fit. If they don't, mark them them as disabled.
+s/them them/them
+>
+> Signed-off-by: Marc Zyngier <maz@kernel.org>
 > ---
->  scripts/simplebench/bench-example.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/arm/virt.c | 34 ++++++++++++++++++++++++++++------
+>  1 file changed, 28 insertions(+), 6 deletions(-)
 >
-> diff --git a/scripts/simplebench/bench-example.py
-> b/scripts/simplebench/bench-example.py
-> index 4864435f39..fc370691e0 100644
-> --- a/scripts/simplebench/bench-example.py
-> +++ b/scripts/simplebench/bench-example.py
-> @@ -25,7 +25,7 @@
->
->  def bench_func(env, case):
->      """ Handle one "cell" of benchmarking table. """
-> -    return bench_block_copy(env['qemu_binary'], env['cmd'], {}
-> +    return bench_block_copy(env['qemu_binary'], env['cmd'], {},
->                              case['source'], case['target'])
->
->
-> --
-> 2.30.2
->
-
-Good spot. If it's not too late and not a hassle, can you add a fixes:
-commit-id in the commit message? No big deal if not.
-
-Reviewed-by: John Snow <jsnow@redhat.com>
-
---000000000000a68fad05d53d631b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jan 7, 2022 at 10:32 AM Stefa=
-n Weil &lt;<a href=3D"mailto:sw@weilnetz.de">sw@weilnetz.de</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">Signed-off-by: S=
-tefan Weil &lt;<a href=3D"mailto:sw@weilnetz.de" target=3D"_blank">sw@weiln=
-etz.de</a>&gt;<br>
----<br>
-=C2=A0scripts/simplebench/bench-example.py | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/scripts/simplebench/bench-example.py b/scripts/simplebench/ben=
-ch-example.py<br>
-index 4864435f39..fc370691e0 100644<br>
---- a/scripts/simplebench/bench-example.py<br>
-+++ b/scripts/simplebench/bench-example.py<br>
-@@ -25,7 +25,7 @@<br>
-<br>
-=C2=A0def bench_func(env, case):<br>
-=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot; Handle one &quot;cell&quot; of bench=
-marking table. &quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 return bench_block_copy(env[&#39;qemu_binary&#39;], env[&#39=
-;cmd&#39;], {}<br>
-+=C2=A0 =C2=A0 return bench_block_copy(env[&#39;qemu_binary&#39;], env[&#39=
-;cmd&#39;], {},<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case[&#39;source&#39;], case[&#39;target&#39=
-;])<br>
-<br>
-<br>
--- <br>
-2.30.2<br></blockquote><div><br></div><div>Good spot. If it&#39;s not too l=
-ate and not a hassle, can you add a fixes: commit-id in the commit message?=
- No big deal if not.</div><div><br></div><div>Reviewed-by: John Snow &lt;<a=
- href=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt;<br></div></div><=
-/div>
-
---000000000000a68fad05d53d631b--
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index db4b0636e1..70b4773b3e 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -1711,21 +1711,43 @@ static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
+>          base = vms->memmap[VIRT_MEM].base + LEGACY_RAMLIMIT_BYTES;
+>      }
+>  
+> +    /* We know for sure that at least the memory fits in the PA space */
+> +    vms->highest_gpa = memtop - 1;
+> +
+>      for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
+>          hwaddr size = extended_memmap[i].size;
+> +        bool fits;
+>  
+>          base = ROUND_UP(base, size);
+>          vms->memmap[i].base = base;
+>          vms->memmap[i].size = size;
+> +
+> +        /*
+> +         * Check each device to see if they fit in the PA space,
+> +         * moving highest_gpa as we go.
+> +         *
+> +         * For each device that doesn't fit, disable it.
+> +         */
+> +        fits = (base + size) <= BIT_ULL(pa_bits);
+> +        if (fits) {
+> +            vms->highest_gpa = MAX(vms->highest_gpa, base + size - 1);
+why do you need the MAX()?
+> +        }
+> +        switch (i) {
+> +        case VIRT_HIGH_GIC_REDIST2:
+> +            vms->highmem_redists &= fits;
+> +            break;
+> +        case VIRT_HIGH_PCIE_ECAM:
+> +            vms->highmem_ecam &= fits;
+> +            break;
+> +        case VIRT_HIGH_PCIE_MMIO:
+> +            vms->highmem_mmio &= fits;
+> +            break;
+> +        }
+> +
+>          base += size;
+>      }
+>  
+> -    /*
+> -     * If base fits within pa_bits, all good. If it doesn't, limit it
+> -     * to the end of RAM, which is guaranteed to fit within pa_bits.
+> -     */
+> -    vms->highest_gpa = (base <= BIT_ULL(pa_bits) ? base : memtop) - 1;
+> -
+>      if (device_memory_size > 0) {
+>          ms->device_memory = g_malloc0(sizeof(*ms->device_memory));
+>          ms->device_memory->base = device_memory_base;
+Eric
 
 
