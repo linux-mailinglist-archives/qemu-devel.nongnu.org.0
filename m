@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CE6E4899FF
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 14:33:45 +0100 (CET)
-Received: from localhost ([::1]:51950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D36464899F9
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 14:31:26 +0100 (CET)
+Received: from localhost ([::1]:47446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6unw-0008VK-Bm
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 08:33:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58612)
+	id 1n6ulh-000599-UR
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 08:31:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n6ucp-00015G-Sb
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:22:17 -0500
-Received: from [2a00:1450:4864:20::432] (port=41574
- helo=mail-wr1-x432.google.com)
+ id 1n6udE-0001H7-Pl
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:22:42 -0500
+Received: from [2a00:1450:4864:20::42f] (port=42580
+ helo=mail-wr1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n6uco-0001yg-Gw
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:22:15 -0500
-Received: by mail-wr1-x432.google.com with SMTP id v6so26663968wra.8
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 05:22:12 -0800 (PST)
+ id 1n6udC-0001zy-Cm
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:22:39 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id k30so9162343wrd.9
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 05:22:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2reBUfViVCBEm4O3CR/ZHC9ZtfhrfTVMiNhU02FfGUk=;
- b=Fj5WENYomEBQb1LLjDxIRr9kLVqHAJXwiq3Z427NeSgPb9xynzUNsvew/1wcX85mhO
- S4OuaHDr0jgILoweWulD87eNpGdQtnRE1aPvVvocz4XrOULH/O1WfKHQj1PapbAitnKs
- VOcW1Dp2gO1SZNzXLYN15+ntudDM10moNMx+apYvuHYztcGFojLUN66zjczEozJoxXoy
- G3b/m5SsBGdbl1heC9x1SAANBJP1noPJxrRFm6Unmlv7Z0EYPns7O5puQHMTEp1BsHr4
- ircviTn6nxzoW3YS+bqCY+q5BNF3mJb0FQSc1VLCxAwGKaLslz8EEbED1Fudr5xLWsxN
- Ptqg==
+ :cc; bh=01pfD9vRovZmXoIMeO0XdXXCy+Vz7Fot+bFTPDJAxs4=;
+ b=tCUnYYwP7jUjI4btGTzU9RYNCGpIw6oNrmd/wg9lvBDD1mkL/fPgZyer+LYVSOukDX
+ Ot44lLgbZ0tnR/1VM3WzGLBMa2kNt6q7tLRrIUEhXRSBofgUWPAKeL0QvYL1vImxF+Uw
+ 834BeVbyxTQ35KUqkc/GuWwhG2o5Z3upsTxQ9xEcMhDWz3Tm728d4ybwC3wt45DxxFj+
+ u7F88KwfHNZTXxVTJCMPiTWb+XqsUfyAJpN1+lU4GZIZGTjyVokeO0/Tza5GX+aMkJOp
+ jRc3soYMcjCml+Pa8oXydDL5X3ZRB6Fvm4lof952aC7BzzXZNvDif2G1BpBZBlgcRaQc
+ 76dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=2reBUfViVCBEm4O3CR/ZHC9ZtfhrfTVMiNhU02FfGUk=;
- b=zqwt85bjcJISPJmagGKWESQIHoFInTdPJNH2/MgRUeKsffYuooTeIlCaLhr31TNSA7
- 2QcYCl8BuvFcPVybNLJhZD5HX1Zdp/MMvMD1qSU1ajS4XyKfJI2bkTDIYkukLOlSueoe
- S4uJBD0RgFJRLkSGySK5GTqpQ5z7f7SvpHESrPKMcBqRke8GhOA0Q6i7iuHCX/pgcFpi
- Naf9GDtxTr+gmV1rqB3UH1G+o8RzeXLY44YjdpoVrHziKxHwaMUnxlWgYx5CsrDzYluW
- 5Cxyn92l3C79688Xi3czpKxOiW0mJv1VpoTW5O2fIY56wC2A1hGVW3d4whKSew52ObMx
- brkg==
-X-Gm-Message-State: AOAM532V56Pr9dnS7J0tiicYvY/mTQgaLqwH428JJWRDvWLNpegnXrub
- bW8HObJu+TJmxMEX1nc5E26oyIHu5WH1VwHxZJB3gg==
-X-Google-Smtp-Source: ABdhPJxX+EeoqA5xTFMfVaZXDuUqxso7oEVHR+BlGffQuANBsJHCLt0oYzjm/Zzzgm11GgEpqIUlLZYcAW4AB4zZTTg=
-X-Received: by 2002:a5d:64c3:: with SMTP id f3mr63479864wri.295.1641820931407; 
- Mon, 10 Jan 2022 05:22:11 -0800 (PST)
+ bh=01pfD9vRovZmXoIMeO0XdXXCy+Vz7Fot+bFTPDJAxs4=;
+ b=fViD02uBGf2yLLA80TU3+0209LGmplY69x90h2H94dLtE3PomvY/v4ZnPppfs4Tk54
+ r+Ca6ihQzgZd4FFdXTEk/knFFlW+hLkX6oZ4f9GjtB2hHbyAcUs2tL2Y3ABu/liCnoJH
+ UcIn6zaQAu3+IpGkS1LWws5vy9+8jyvr2GVjqJw8sOUOWhvXU35TlxZ+egn10TcV2kif
+ oe40foJgWzy41Usd+tPvpQzgRPKxsEnwQ7WQOgfNtppvrxJkjIKZ9AuxExZsPANPBTpk
+ GlFHcnWjzeo8k2yLDEnkrFr+FFdlPV16tzyCvKah++LVpUQXX27ya9nF0kWzoIxw88uD
+ DGgQ==
+X-Gm-Message-State: AOAM532f9TXhPRHAWf5BQNN/6j39qV893Teeeg9eCyr5nNDa2f0Koh7Y
+ 72Rk4nd7nWvF/EbOR7g2GHjL5sRNeNAVSM52Bap9mONWRPIycQ==
+X-Google-Smtp-Source: ABdhPJxGrR3mh3Cw5z4GJ+iFRnDJGims+AIL72K0j+mot6jub+QADxJnJHAnvPoxJNS4oQIOJhx6bHKwYSGjpwpxTkY=
+X-Received: by 2002:a5d:6986:: with SMTP id g6mr13956125wru.172.1641820956995; 
+ Mon, 10 Jan 2022 05:22:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20220109170612.574104-1-f4bug@amsat.org>
- <742a1bca-1150-c277-c498-3815ef956f58@amsat.org>
- <4993ab11-570b-2bd7-a9b9-c6ddc9af5802@amsat.org> <2147921.xlN1UyrzLN@silver>
-In-Reply-To: <2147921.xlN1UyrzLN@silver>
+References: <20220106104137.732883-1-laurent@vivier.eu>
+ <20220106104137.732883-21-laurent@vivier.eu>
+In-Reply-To: <20220106104137.732883-21-laurent@vivier.eu>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 10 Jan 2022 13:22:00 +0000
-Message-ID: <CAFEAcA94iQ_-dkNaQD62qSb_5emY5mq=OvR8jAbDkcW0YwUoeA@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/6] audio/coreaudio: Remove a deprecation warning
- on macOS 12
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Mon, 10 Jan 2022 13:22:25 +0000
+Message-ID: <CAFEAcA-7=UgpBHP=PXzqRsKLJMV0+HYrd+Kr3mU-aX=qjwBkXw@mail.gmail.com>
+Subject: Re: [PULL 20/27] linux-user/nios2: Map a real kuser page
+To: Laurent Vivier <Laurent@vivier.eu>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -82,26 +80,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
- Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 10 Jan 2022 at 13:14, Christian Schoenebeck
-<qemu_oss@crudebyte.com> wrote:
-> I'd suggest to use:
+On Thu, 6 Jan 2022 at 11:01, Laurent Vivier <laurent@vivier.eu> wrote:
 >
-> #if !defined(MAC_OS_VERSION_12_0) ||
->     (MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_VERSION_12_0)
-> #define kAudioObjectPropertyElementMain kAudioObjectPropertyElementMaster
-> #endif
+> From: Richard Henderson <richard.henderson@linaro.org>
+>
+> The first word of page1 is data, so the whole thing
+> can't be implemented with emulation of addresses.
+> Use init_guest_commpage for the allocation.
+>
+> Hijack trap number 16 to implement cmpxchg.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> Message-Id: <20211221025012.1057923-5-richard.henderson@linaro.org>
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> ---
+>  linux-user/elfload.c        | 50 ++++++++++++++++++++++++++++++++++++-
+>  linux-user/nios2/cpu_loop.c | 50 ++++++++++++++++++++-----------------
+>  target/nios2/translate.c    |  9 -------
+>  3 files changed, 76 insertions(+), 33 deletions(-)
 
-This is also how we do this for existing checks of this sort,
-like the one in osdep.h for qemu_thread_jit_execute().
+Hi; on my local Linux box clang complains about this code:
+
+> @@ -2374,6 +2420,8 @@ static void pgb_static(const char *image_name, abi_ulong orig_loaddr,
+>          } else {
+>              offset = -(HI_COMMPAGE & -align);
+>          }
+> +    } else if (LO_COMMPAGE) {
+> +        loaddr = MIN(loaddr, LO_COMMPAGE & -align);
+>      }
+>
+>      addr = pgb_find_hole(loaddr, hiaddr - loaddr, align, offset);
+
+../../linux-user/elfload.c:2423:16: error: converting the result of
+'<<' to a boolean always evaluates to true
+[-Werror,-Wtautological-constant-compare]
+    } else if (LO_COMMPAGE) {
+               ^
+../../linux-user/elfload.c:1102:22: note: expanded from macro 'LO_COMMPAGE'
+#define LO_COMMPAGE  TARGET_PAGE_SIZE
+                     ^
+/mnt/nvmedisk/linaro/qemu-for-merges/include/exec/cpu-all.h:231:31:
+note: expanded from macro 'TARGET_PAGE_SIZE'
+#define TARGET_PAGE_SIZE   (1 << TARGET_PAGE_BITS)
+                              ^
+1 error generated.
+
+Using "if (LO_COMMPAGE != 0)" shuts the compiler up.
+
+This is with clang version 10.0.0-4ubuntu1.
 
 -- PMM
 
