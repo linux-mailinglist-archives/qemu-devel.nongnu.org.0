@@ -2,62 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 476FC489D02
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 17:02:22 +0100 (CET)
-Received: from localhost ([::1]:37828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB8B489D0D
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 17:04:37 +0100 (CET)
+Received: from localhost ([::1]:40730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6x7l-00079H-4b
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 11:02:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49976)
+	id 1n6x9w-0000s1-Gb
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 11:04:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n6x4C-0005hG-Uj
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 10:58:40 -0500
-Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231]:58451)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n6x4D-0005hi-6y
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 10:58:41 -0500
+Received: from [2604:1380:4641:c500::1] (port=43366 helo=dfw.source.kernel.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n6x4A-0004jQ-GP
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n6x4A-0004jS-5m
  for qemu-devel@nongnu.org; Mon, 10 Jan 2022 10:58:40 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.123])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 34F9220CF8;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 74C9460EF4;
  Mon, 10 Jan 2022 15:58:36 +0000 (UTC)
-Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 10 Jan
- 2022 16:58:35 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R0012654b0da-0de3-460f-a4dc-27cb7bcffd18,
- A9D23E93096AF6ACD837C7DE23AD2D939339D7DC) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <604d205b-fe92-a716-79d4-0a81d0bed572@kaod.org>
-Date: Mon, 10 Jan 2022 16:58:32 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v3 05/10] pnv_phb4_pec.c: move phb4 properties setup to
- pec_realize()
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-References: <20220110143346.455901-1-danielhb413@gmail.com>
- <20220110143346.455901-6-danielhb413@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220110143346.455901-6-danielhb413@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: fdf9bd9e-8296-4533-9042-c8788736cecf
-X-Ovh-Tracer-Id: 6317424380609006560
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudehuddgheekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
-Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
- helo=8.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEA0DC36AE5;
+ Mon, 10 Jan 2022 15:58:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1641830315;
+ bh=yy2g18ZmN6V9ofHPGdck09RwOJDBvsPANaHpXOcQECQ=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=W/cQTf1/z21ABUgAszAEP2BgFPvE9YEgWKljQMwmJ6gJbLqQOSnwQXOV/Q4zNr6yB
+ xHYeV9IlJfEdy4gL8XJtjTYBa2xhAV0k0CWshEwx/bHQkbMu7A3k8UPvBl7hyDUJXz
+ Na6pPAr9QtAHptoMmPRtycpNq8vOnMonKvc8uqUDufPv7uuEz7Lbc9tbXEq1jKswje
+ cjYa9mXir1C+W9JlBKmg2Ee8uSSbQgs+FPFjnjlpSXCEUEgwRegKZTnXT4bF/1tLJ9
+ sJNGM2S0p0im5T2v/C+RQ95xwa+RooWkSM6EXDRmlmw3hQCtvpooYgY0FdB4aQt5BF
+ MGG8saYejYsKw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1n6x45-00HAi9-T9; Mon, 10 Jan 2022 15:58:34 +0000
+Date: Mon, 10 Jan 2022 15:58:33 +0000
+Message-ID: <87ilurtweu.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: eric.auger@redhat.com
+Subject: Re: [PATCH v4 4/6] hw/arm/virt: Use the PA range to compute the
+ memory map
+In-Reply-To: <d7f793ab-bf78-32fb-e793-54a034ffd5d8@redhat.com>
+References: <20220107163324.2491209-1-maz@kernel.org>
+ <20220107163324.2491209-5-maz@kernel.org>
+ <d7f793ab-bf78-32fb-e793-54a034ffd5d8@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: eric.auger@redhat.com, qemu-devel@nongnu.org,
+ kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, kernel-team@android.com,
+ drjones@redhat.com, peter.maydell@linaro.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2604:1380:4641:c500::1
+ (failed)
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=maz@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,53 +85,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, kernel-team@android.com,
+ kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/10/22 15:33, Daniel Henrique Barboza wrote:
-> Previous patch added stack->phb->index handling in pec_realize() for
-> specific reasons (phb->index is reliant on the stack index in
-> pec->stacks[]).
-> 
-> Move pnv_phb4_set_stack_phb_props() from stk_realize() to pec_realize()
-> to have a single spot in which we set PHB4 properties for the default
-> created stack->phb. This will give us one less spot to worry about when
-> introducing user creatable pnv-phb4s and having to deal with stack->phb
-> being NULL depending on -nodefaults being set.
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->   hw/pci-host/pnv_phb4_pec.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-> index 417fac4cef..d2851e8040 100644
-> --- a/hw/pci-host/pnv_phb4_pec.c
-> +++ b/hw/pci-host/pnv_phb4_pec.c
-> @@ -405,6 +405,7 @@ static void pnv_pec_realize(DeviceState *dev, Error **errp)
->            */
->           object_property_set_int(OBJECT(&stack->phb), "index", phb_id,
->                                   &error_abort);
-> +        pnv_phb4_set_stack_phb_props(stack, &stack->phb);
+On Mon, 10 Jan 2022 15:38:56 +0000,
+Eric Auger <eric.auger@redhat.com> wrote:
+>=20
+> Hi Marc,
+>=20
+> On 1/7/22 5:33 PM, Marc Zyngier wrote:
+> > The highmem attribute is nothing but another way to express the
+> > PA range of a VM. To support HW that has a smaller PA range then
+> > what QEMU assumes, pass this PA range to the virt_set_memmap()
+> > function, allowing it to correctly exclude highmem devices
+> > if they are outside of the PA range.
+> >
+> > Signed-off-by: Marc Zyngier <maz@kernel.org>
+> > ---
+> >  hw/arm/virt.c | 53 ++++++++++++++++++++++++++++++++++++++++++++-------
+> >  1 file changed, 46 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> > index 57c55e8a37..db4b0636e1 100644
+> > --- a/hw/arm/virt.c
+> > +++ b/hw/arm/virt.c
+> > @@ -1660,7 +1660,7 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineS=
+tate *vms, int idx)
+> >      return arm_cpu_mp_affinity(idx, clustersz);
+> >  }
+> > =20
+> > -static void virt_set_memmap(VirtMachineState *vms)
+> > +static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
+> >  {
+> >      MachineState *ms =3D MACHINE(vms);
+> >      hwaddr base, device_memory_base, device_memory_size, memtop;
+> > @@ -1678,6 +1678,13 @@ static void virt_set_memmap(VirtMachineState *vm=
+s)
+> >          exit(EXIT_FAILURE);
+> >      }
+> > =20
+> > +    /*
+> > +     * !highmem is exactly the same as limiting the PA space to 32bit,
+> > +     * irrespective of the underlying capabilities of the HW.
+> > +     */
+> > +    if (!vms->highmem)
+> > +	    pa_bits =3D 32;
+> you need {} according to the QEMU coding style. Welcome to a new shiny
+> world :-)
 
-hmm, this is exposing the PHB under the PEC. I am not sure this is useful
-anymore. I will think about it.
+Yeah. Between the reduced indentation and the avalanche of braces, my
+brain fails to pattern-match blocks of code. Amusing how inflexible
+you become after a couple of decades...
 
-C.
+> > +
+> >      /*
+> >       * We compute the base of the high IO region depending on the
+> >       * amount of initial and device memory. The device memory start/si=
+ze
+> > @@ -1691,8 +1698,9 @@ static void virt_set_memmap(VirtMachineState *vms)
+> > =20
+> >      /* Base address of the high IO region */
+> >      memtop =3D base =3D device_memory_base + ROUND_UP(device_memory_si=
+ze, GiB);
+> > -    if (!vms->highmem && memtop > 4 * GiB) {
+> > -        error_report("highmem=3Doff, but memory crosses the 4GiB limit=
+\n");
+> > +    if (memtop > BIT_ULL(pa_bits)) {
+> > +	    error_report("Addressing limited to %d bits, but memory exceeds i=
+t by %llu bytes\n",
+> > +			 pa_bits, memtop - BIT_ULL(pa_bits));
+> >          exit(EXIT_FAILURE);
+> >      }
+> >      if (base < device_memory_base) {
+> > @@ -1711,7 +1719,13 @@ static void virt_set_memmap(VirtMachineState *vm=
+s)
+> >          vms->memmap[i].size =3D size;
+> >          base +=3D size;
+> >      }
+> > -    vms->highest_gpa =3D (vms->highmem ? base : memtop) - 1;
+> > +
+> > +    /*
+> > +     * If base fits within pa_bits, all good. If it doesn't, limit it
+> > +     * to the end of RAM, which is guaranteed to fit within pa_bits.
+> > +     */
+> > +    vms->highest_gpa =3D (base <=3D BIT_ULL(pa_bits) ? base : memtop) =
+- 1;
+> > +
+> >      if (device_memory_size > 0) {
+> >          ms->device_memory =3D g_malloc0(sizeof(*ms->device_memory));
+> >          ms->device_memory->base =3D device_memory_base;
+> > @@ -1902,12 +1916,38 @@ static void machvirt_init(MachineState *machine)
+> >      unsigned int smp_cpus =3D machine->smp.cpus;
+> >      unsigned int max_cpus =3D machine->smp.max_cpus;
+> Move the cpu_type check before?
+>=20
+> =C2=A0=C2=A0=C2=A0 if (!cpu_type_valid(machine->cpu_type)) {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_report("mach-virt: CPU t=
+ype %s not supported",
+> machine->cpu_type);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 exit(1);
+> =C2=A0=C2=A0=C2=A0 }
+> >
 
+Yes, very good point. I wonder why this was tucked away past
+computing the memory map and the GIC configuration... Anyway, I'll
+move it up.
 
->   
->           if (!qdev_realize(DEVICE(stk_obj), NULL, errp)) {
->               return;
-> @@ -576,7 +577,6 @@ static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
->       pnv_xscom_region_init(&stack->phb_regs_mr, OBJECT(&stack->phb),
->                             &pnv_phb4_xscom_ops, &stack->phb, name, 0x40);
->   
-> -    pnv_phb4_set_stack_phb_props(stack, &stack->phb);
->       if (!sysbus_realize(SYS_BUS_DEVICE(&stack->phb), errp)) {
->           return;
->       }
-> 
+Thanks,
 
+	M.
+
+--=20
+Without deviation from the norm, progress is not possible.
 
