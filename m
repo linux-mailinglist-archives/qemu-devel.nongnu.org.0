@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB68348993C
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 14:07:39 +0100 (CET)
-Received: from localhost ([::1]:52880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA7B5489943
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 14:09:46 +0100 (CET)
+Received: from localhost ([::1]:54226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6uOg-0003cS-BW
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 08:07:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53302)
+	id 1n6uQh-000629-9v
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 08:09:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1n6uHc-0001se-Vo
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:00:23 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:56656 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1n6uHZ-00068j-3m
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:00:20 -0500
-Received: from [10.20.42.193] (unknown [10.20.42.193])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxCMrWLdxh1zgBAA--.3036S3;
- Mon, 10 Jan 2022 21:00:06 +0800 (CST)
-Subject: Re: [PATCH v14 02/26] target/loongarch: Add core definition
-To: WANG Xuerui <i.qemu@xen0n.name>
-References: <20220106094200.1801206-1-gaosong@loongson.cn>
- <20220106094200.1801206-3-gaosong@loongson.cn>
- <b8f31617-f217-778c-2a34-6d780de9b83a@xen0n.name>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <ed3902cd-261e-2ee3-6fe4-8171bbbc03f4@loongson.cn>
-Date: Mon, 10 Jan 2022 21:00:06 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <b8f31617-f217-778c-2a34-6d780de9b83a@xen0n.name>
-Content-Type: multipart/alternative;
- boundary="------------B9AB218631E8E646D26ECD67"
-Content-Language: en-US
-X-CM-TRANSID: AQAAf9DxCMrWLdxh1zgBAA--.3036S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7ArWxWFykWFWftrW8Jry7ZFb_yoW8Gry8p3
- Z5CwsIya18Xws3ZFWUtr1jyry3JrnYyr1UJryktwnxZ3Z8K3sFyFn8trZ0vayfKr18Ca12
- vwsrWr48uw4kCrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvK1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2
- jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52
- x082IY62kv0487McIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm
- 72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mx
- 8GjcxK6IxK0xIIj40E5I8CrwCYjI0SjxkI62AI1cAE67vIY487MxkIecxEwVCm-wCF04k2
- 0xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26ryrJr1UJwCFx2IqxVCFs4IE7xkEbVWUJV
- W8JwC20s026c02F40E14v26r106r1rMI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
- 1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
- IIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF
- 0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxh
- VjvjDU0xZFpf9x0JUtkuxUUUUU=
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1n6uJV-00033t-Hv
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:02:17 -0500
+Received: from [2a00:1450:4864:20::536] (port=38887
+ helo=mail-ed1-x536.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1n6uJT-0006bt-Lr
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:02:17 -0500
+Received: by mail-ed1-x536.google.com with SMTP id u21so30682403edd.5
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 05:02:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=livius-net.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=FIwQFTFSbvmnwSED8PL3LOR41bS/k+/Jm1Z+ei49ec8=;
+ b=OKu6I/c6VoBFm6zXKksWPzn9T0m3dQ49ZWKRssE7LL4lVtEm6jEstdKxVEtXRU7Eou
+ +Xn7+ya40OVl/x3QIF+C6P/bKNRsUlymH0Zp8qsc5hSXvBgFqeRtrxFdPjZ9Czkkn77F
+ kF1Q08TyVCt0yEjD+jYcX3HOjzfhNAH21UrIR4kfvGSdt05PM4LgYvNz99zt209N1lad
+ ES0YkUOjw7Sc4PwAVqFVRove7I0TOjQCUBf9U3dpNKgeT6YDPSUnCAJzK/5H9i7sbiwg
+ aY+qnQQh1OJ0y645fe8FViSd888kp0oBRk6gwL7DdXS0WUYOYH5rDjctXd9vg4SHQfb7
+ pPnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=FIwQFTFSbvmnwSED8PL3LOR41bS/k+/Jm1Z+ei49ec8=;
+ b=hSeOjzH5YTO62bahOWzzUIGz342BCN/4z6dWU2RlG3UpMytL+5m94AwS/RXMrkL/WW
+ MSZ9xkLGFifuaNY9lZvxLZB8TjvB6UXgN9kpVuiZy1Ucg8K5Ovkuz36HadmAlH4rQSdK
+ gn/8AHu+ZvPp5/E5yv2aT9t5K28wdg5wTKFK6ghSJv1Q4xg2oUDYA5mwh8pE2AKAZ1xP
+ dsYVGfGySZ+YXyuu2u/RuinMT2/BiZmzOXzQTUU3khD6Q+SEhkUDxdFCRuqJ+APBfV27
+ r/MPqWdix7CSND+fw4T8QdNj+bQ69BmfEX5DGzigW35tUTCSg6NwG/6E6LU1PZSoMhcm
+ MjjQ==
+X-Gm-Message-State: AOAM5319nIsiJy3Wu1tr/wy2dhTouzfKa++Xkzaj47XQvIIEnSZSezxe
+ bGtUxd5RRgeIkNqi48Dilz3wcw==
+X-Google-Smtp-Source: ABdhPJwmku/Fo3vOPETN9rdNCu4PEqdjrr/ADLf9iVPE0dnKhibkuWcQC9L8k7+F4el0eECU8uERyw==
+X-Received: by 2002:a05:6402:4382:: with SMTP id
+ o2mr4917792edc.38.1641819729791; 
+ Mon, 10 Jan 2022 05:02:09 -0800 (PST)
+Received: from smtpclient.apple ([79.115.178.1])
+ by smtp.gmail.com with ESMTPSA id b4sm2413471ejl.129.2022.01.10.05.02.08
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 10 Jan 2022 05:02:09 -0800 (PST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: /usr/shared/qemu binaries
+From: Liviu Ionescu <ilg@livius.net>
+In-Reply-To: <CAKmqyKPBDfxKwqcgzjBDEqoWyjjc3g7PiUOEqptL1vfDfh6H8g@mail.gmail.com>
+Date: Mon, 10 Jan 2022 15:02:08 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <D3A93704-3353-4407-9D47-56FF06BDFB87@livius.net>
+References: <B9A4B86C-4540-486D-A261-876191FA7424@livius.net>
+ <CAKmqyKPBDfxKwqcgzjBDEqoWyjjc3g7PiUOEqptL1vfDfh6H8g@mail.gmail.com>
+To: Alistair Francis <alistair23@gmail.com>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::536;
+ envelope-from=ilg@livius.net; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,116 +87,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------B9AB218631E8E646D26ECD67
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-Hi,
-
-On 2022/1/9 下午5:25, WANG Xuerui wrote:
->> +
->> +const char * const fregnames[32] = {
->> +    "f0", "f1", "f2", "f3", "f4", "f5", "f6", "f7",
->> +    "f8", "f9", "f10", "f11", "f12", "f13", "f14", "f15",
->> +    "f16", "f17", "f18", "f19", "f20", "f21", "f22", "f23",
->> +    "f24", "f25", "f26", "f27", "f28", "f29", "f30", "f31",
->> +};
->> +
->> +static const char * const excp_names[EXCP_LAST + 1] = {
->> +    [EXCP_SYSCALL] = "Syscall",
->> +    [EXCP_BREAK] = "Break",
->> +    [EXCP_INE] = "Instruction Non-existent",
-> Nit: "Instruction Non-Existent" (or is there any authoritative source 
-> for this spelling? the English translation of the manual?) 
-
-I must admit that your English is really good, But 'Instruction Non-existent' is what you pointed out in v7.  I have a history [1],
-
-[1] https://patchew.org/QEMU/1634561247-25499-1-git-send-email-gaosong@loongson.cn/1634561247-25499-3-git-send-email-gaosong@loongson.cn/
-
-> +static const char * const excp_names[EXCP_LAST + 1] = {
-> +    [EXCP_ADE] = "Address error",
-> +    [EXCP_SYSCALL] = "Syscall",
-> +    [EXCP_BREAK] = "Break",
-> +    [EXCP_INE] = "Inst. Not Exist",
-Nit: "Instruction Non-existent", no need to shorten "instruction" like
-this IMO; no other similar usages exist so this would not be consistent.
-
-In any case thank you for your other suggestions.
-
-Thanks
-Song
 
 
---------------B9AB218631E8E646D26ECD67
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+> On 10 Jan 2022, at 14:10, Alistair Francis <alistair23@gmail.com> =
+wrote:
+>=20
+> My guess would be keep *arm*/*aarch64*, keymaps, npcm7xx_bootrom.bin,
+> efi-* and linuxboot*/multiboot*. That should ensure that everything
+> works for you, but I'm just guessing here.
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Hi,<br>
-    </p>
-    <div class="moz-cite-prefix">On 2022/1/9 下午5:25, WANG Xuerui wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:b8f31617-f217-778c-2a34-6d780de9b83a@xen0n.name">
-      <blockquote type="cite" style="color: #000000;">+
-        <br>
-        +const char * const fregnames[32] = {
-        <br>
-        +    "f0", "f1", "f2", "f3", "f4", "f5", "f6", "f7",
-        <br>
-        +    "f8", "f9", "f10", "f11", "f12", "f13", "f14", "f15",
-        <br>
-        +    "f16", "f17", "f18", "f19", "f20", "f21", "f22", "f23",
-        <br>
-        +    "f24", "f25", "f26", "f27", "f28", "f29", "f30", "f31",
-        <br>
-        +};
-        <br>
-        +
-        <br>
-        +static const char * const excp_names[EXCP_LAST + 1] = {
-        <br>
-        +    [EXCP_SYSCALL] = "Syscall",
-        <br>
-        +    [EXCP_BREAK] = "Break",
-        <br>
-        +    [EXCP_INE] = "Instruction Non-existent",
-        <br>
-      </blockquote>
-      Nit: "Instruction Non-Existent" (or is there any authoritative
-      source for this spelling? the English translation of the manual?)
-    </blockquote>
-    <pre>I must admit that your English is really good, But 'Instruction Non-existent' is what you pointed out in v7.  I have a history [1], 
-</pre>
-    <pre>[1] <a class="moz-txt-link-freetext" href="https://patchew.org/QEMU/1634561247-25499-1-git-send-email-gaosong@loongson.cn/1634561247-25499-3-git-send-email-gaosong@loongson.cn/">https://patchew.org/QEMU/1634561247-25499-1-git-send-email-gaosong@loongson.cn/1634561247-25499-3-git-send-email-gaosong@loongson.cn/</a></pre>
-    <pre class="body-full" style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; display: block; padding: 5px; margin: 0px 0px 10px; line-height: 1.42857; color: rgb(51, 51, 51); word-break: break-all; overflow-wrap: break-word; background-color: rgb(255, 255, 255); border: none; border-radius: 4px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;">&gt; +static const char * const excp_names[EXCP_LAST + 1] = {
-&gt; +    [EXCP_ADE] = "Address error",
-&gt; +    [EXCP_SYSCALL] = "Syscall",
-&gt; +    [EXCP_BREAK] = "Break",
-&gt; +    [EXCP_INE] = "Inst. Not Exist",
-Nit: "Instruction Non-existent", no need to shorten "instruction" like 
-this IMO; no other similar usages exist so this would not be consistent.</pre>
-    <pre>In any case thank you for your other suggestions.
+Do you know if those files are referred internally by QEMU, or the user =
+should provide them in various command options explicitly?
 
-Thanks
-Song
-</pre>
-    <pre class="body-full" style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; display: block; padding: 5px; margin: 0px 0px 10px; line-height: 1.42857; color: rgb(51, 51, 51); word-break: break-all; overflow-wrap: break-word; background-color: rgb(255, 255, 255); border: none; border-radius: 4px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;">
-</pre>
-  </body>
-</html>
+About the efi-*.rom files, are they usable on Arm machines too? I =
+thought that they are x86 specific.
 
---------------B9AB218631E8E646D26ECD67--
+> If you want to boot Linux on RISC-V QEMU you will need OpenSBI. You
+> can either use these or build and supply your own binaries.
+
+I don't know what to say, my first thought was that if those files can =
+be supplied by the user, I'd rather not include them in the binary =
+distribution.
+
+But if they are referred internally, and in certain configurations QEMU =
+does not start without them, I have to reconsider.
+
+
+Regards,
+
+Liviu
 
 
