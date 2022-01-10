@@ -2,71 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63658489EDD
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 19:12:08 +0100 (CET)
-Received: from localhost ([::1]:54768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EC51489EF0
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 19:16:30 +0100 (CET)
+Received: from localhost ([::1]:39400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6z9L-0007Lq-Ez
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 13:12:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51486)
+	id 1n6zDY-0007dq-Ok
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 13:16:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1n6z44-0008Fb-Kq
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 13:06:40 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:33812 helo=mta-01.yadro.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n6z7V-0007Ax-0N
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 13:10:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39676)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1n6z3c-0008KL-FP
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 13:06:27 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 1827647901;
- Mon, 10 Jan 2022 18:06:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-transfer-encoding:content-disposition
- :content-type:content-type:mime-version:references:message-id
- :subject:subject:from:from:date:date:received:received:received;
- s=mta-01; t=1641837963; x=1643652364; bh=gNA53FEVM5d/J6+/1gq92R
- XqiR71lgfivwQ6UwHwQVM=; b=dQGWTB4cmnnbOGbQzJ9Eg6JEeArjVjG5QpNQUr
- 6VXOA5HUIIdsXbJxuUCIjcO7PKGzkrrR5FpbjGCAwsY40D8bDcu/oDw999MwUbMr
- tLZfiATrvCjdoaqwUEREOii+jyV6FoOeOzDwE867VM2HpXe+jtpPpJuWe/9iVa1f
- 3pfsk=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RPbF8zzobIye; Mon, 10 Jan 2022 21:06:03 +0300 (MSK)
-Received: from T-EXCH-04.corp.yadro.com (t-exch-04.corp.yadro.com
- [172.17.100.104])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 089EC46FCA;
- Mon, 10 Jan 2022 21:06:01 +0300 (MSK)
-Received: from localhost (172.22.0.12) by T-EXCH-04.corp.yadro.com
- (172.17.100.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Mon, 10
- Jan 2022 21:06:01 +0300
-Date: Mon, 10 Jan 2022 21:06:00 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH v3 0/7] host: Support macOS 12
-Message-ID: <Ydx1iJqG38wef4jq@SPB-NB-133.local>
-References: <20220110131001.614319-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n6z7R-0000ob-Au
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 13:10:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641838208;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=w/QK7eXVlTY6YqofVDReUKCT0BobRz4TTDioq1E7w2g=;
+ b=PJg3+XMgC+yMggl3jS7v0isn8fe7C5oll0c+emlNfLOZC5H1dVK7Uu9jKxhb1lBmVdf2Gn
+ Jrq97Ps2RXfdRIRdnbG+WPz4RH2O7KF6w5wrVQZaLovqu7CjD4yXc1bRVXazplOoSQZWky
+ yVBBexgnALeHxCCapZLOWx1jWsKOI5U=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-59-cjPRv_LfNG-HkJAsvt-JzQ-1; Mon, 10 Jan 2022 13:10:06 -0500
+X-MC-Unique: cjPRv_LfNG-HkJAsvt-JzQ-1
+Received: by mail-ua1-f69.google.com with SMTP id
+ x9-20020ab05789000000b002fa60bdf012so8140504uaa.1
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 10:10:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=w/QK7eXVlTY6YqofVDReUKCT0BobRz4TTDioq1E7w2g=;
+ b=4vNY9IzowRl6zQvCrWwnQAlDofT38bd5z/sOqR2YRPzwnUOyocmtaHdMeZtVH9TWbo
+ /3+DgO4lIkb71qtee8NSasoCnH5VreEaFl0U8RobcigeR2wu0yKEgxkkYfZ0aidMcbbN
+ 8zviKnpkX2472+c2LkSR1TvTsbl+pNo9Ande4NIIXljq3mhE7PkaNosAlX1SVDyczpHI
+ NCPW4lrp6bsxUjJHsdjoIMFIVkIJ/IkoQTrW9MOrWs7A/dhUXOlm2+pqhTcbGv6w6GTf
+ HJODAcopKRcm5UHk5ACNyRLHUk3unByKFIRDJRrBMPUUL6UleK75wvSyEQ8uNoxZtDht
+ hmBg==
+X-Gm-Message-State: AOAM5324mh6wN6//3cyyAJ4KKp8dQ1LFHG9TGW195bSd7TejvFGIPSYb
+ nUdRHNOouQ8/VNPehIBIqyhRPSrludxGfdrrIoTZBAGDDyP2hzmQMW6isSfS29RKafXxvXcRme6
+ NbFQONI/UGCQshSWgo6WOJCkr+WQq6RI=
+X-Received: by 2002:a05:6102:3714:: with SMTP id
+ s20mr191673vst.61.1641838205868; 
+ Mon, 10 Jan 2022 10:10:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxM4FxRNlaY4Ow69pjmvB1uxwI/dxN0FD4zpztT/p608+3aGMSxisvLbhApUxXaLSdMM89pgyWnVMb50f6C50o=
+X-Received: by 2002:a05:6102:3714:: with SMTP id
+ s20mr191668vst.61.1641838205699; 
+ Mon, 10 Jan 2022 10:10:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220110131001.614319-1-f4bug@amsat.org>
-X-Originating-IP: [172.22.0.12]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-04.corp.yadro.com (172.17.100.104)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220107153019.504124-1-sw@weilnetz.de>
+ <CAFn=p-ZYr+D54GzYKt5cxuJQQTARGQTvkkgVfhLGEeLczFt-Tw@mail.gmail.com>
+ <42ac8990-8733-fa68-c4b4-c54a82ce43f9@weilnetz.de>
+In-Reply-To: <42ac8990-8733-fa68-c4b4-c54a82ce43f9@weilnetz.de>
+From: John Snow <jsnow@redhat.com>
+Date: Mon, 10 Jan 2022 13:09:55 -0500
+Message-ID: <CAFn=p-bgXrmUj9NXM3uKfi9V_YSDQA1_b8e-yGXrN5=G8eyYyw@mail.gmail.com>
+Subject: Re: [PATCH] simplebench: Fix Python syntax error (reported by LGTM)
+To: Stefan Weil <sw@weilnetz.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000079b0505d53e3f6f"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,71 +92,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Alexander Graf <agraf@csgraf.de>,
- Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: qemu-trivial@nongnu.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 10, 2022 at 02:09:54PM +0100, Philippe Mathieu-Daudé wrote:
-> Few patches to be able to build QEMU on macOS 12 (Monterey).
-> 
-> This basically consists of adapting deprecated APIs. I am not
-> sure about these APIs, so tagging as RFC.
-> 
-> I couldn't succeed to adapt the Cocoa code.
-> 
-> CI job added to avoid bitrotting.
-> 
-> Since v2:
-> - Addressed Akihiko Odaki comments:
->   . use __is_identifier(),
->   . remove cocoa setAllowedFileTypes()
-> - Addressed Daniel Berrangé comment:
->   . rebased on testing/next, update libvirt-ci/lcitool
-> 
-> Based on Alex's testing/next
+--000000000000079b0505d53e3f6f
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Philippe,
+On Mon, Jan 10, 2022 at 12:57 PM Stefan Weil <sw@weilnetz.de> wrote:
 
-Could you please share URI to the remote?
-I want to apply the series on it.
+> Am 10.01.22 um 18:08 schrieb John Snow:
+>
+> On Fri, Jan 7, 2022 at 10:32 AM Stefan Weil <sw@weilnetz.de> wrote:
+>
+>> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+>> ---
+>>  scripts/simplebench/bench-example.py | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/scripts/simplebench/bench-example.py
+>> b/scripts/simplebench/bench-example.py
+>> index 4864435f39..fc370691e0 100644
+>> --- a/scripts/simplebench/bench-example.py
+>> +++ b/scripts/simplebench/bench-example.py
+>> @@ -25,7 +25,7 @@
+>>
+>>  def bench_func(env, case):
+>>      """ Handle one "cell" of benchmarking table. """
+>> -    return bench_block_copy(env['qemu_binary'], env['cmd'], {}
+>> +    return bench_block_copy(env['qemu_binary'], env['cmd'], {},
+>>                              case['source'], case['target'])
+>>
+>>
+>> --
+>> 2.30.2
+>>
+>
+> Good spot. If it's not too late and not a hassle, can you add a fixes:
+> commit-id in the commit message? No big deal if not.
+>
+> Reviewed-by: John Snow <jsnow@redhat.com>
+>
+>
+> Maybe that can be added locally to avoid a V2 patch. Here it is:
+>
+> Fixes: b2fcb0c5754c2554b8406376e99a75e9e0a6b7bd
+>
+> Thanks,
+>
+> Stefan
+>
+>
+> Got it. I just got back from holiday today, so there's still lots of mail
+to catch up on. If nobody else has staged this, I will do so as part of my
+python fixes this week. Thanks!
 
-Thanks,
-Roman
+--js
 
-> Based-on: <20220110124638.610145-1-f4bug@amsat.org>
-> 
-> Philippe Mathieu-Daudé (7):
->   configure: Allow passing extra Objective C compiler flags
->   ui/cocoa: Remove allowedFileTypes restriction in SavePanel
->   hvf: Make hvf_get_segments() / hvf_put_segments() local
->   hvf: Remove deprecated hv_vcpu_flush() calls
->   audio/coreaudio: Remove a deprecation warning on macOS 12
->   block/file-posix: Remove a deprecation warning on macOS 12
->   gitlab-ci: Support macOS 12 via cirrus-run
-> 
->  configure                         |  8 ++++++++
->  meson.build                       |  5 +++++
->  target/i386/hvf/vmx.h             |  2 --
->  target/i386/hvf/x86hvf.h          |  2 --
->  audio/coreaudio.c                 | 16 ++++++++++------
->  block/file-posix.c                | 13 +++++++++----
->  target/i386/hvf/x86_task.c        |  1 -
->  target/i386/hvf/x86hvf.c          |  6 ++----
->  .gitlab-ci.d/cirrus.yml           | 15 +++++++++++++++
->  .gitlab-ci.d/cirrus/macos-12.vars | 16 ++++++++++++++++
->  tests/lcitool/libvirt-ci          |  2 +-
->  tests/lcitool/refresh             |  1 +
->  ui/cocoa.m                        |  6 ------
->  13 files changed, 67 insertions(+), 26 deletions(-)
->  create mode 100644 .gitlab-ci.d/cirrus/macos-12.vars
-> 
-> -- 
-> 2.33.1
-> 
+--000000000000079b0505d53e3f6f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 10, 2022 at 12:57 PM Stef=
+an Weil &lt;<a href=3D"mailto:sw@weilnetz.de">sw@weilnetz.de</a>&gt; wrote:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+ =20
+   =20
+ =20
+  <div>
+    <p>Am 10.01.22 um 18:08 schrieb John Snow:<br>
+    </p>
+    <blockquote type=3D"cite">
+      <div dir=3D"ltr">On Fri, Jan 7, 2022 at 10:32 AM Stefan Weil &lt;<a h=
+ref=3D"mailto:sw@weilnetz.de" target=3D"_blank">sw@weilnetz.de</a>&gt; wrot=
+e:<br>
+        <div class=3D"gmail_quote">
+          <blockquote class=3D"gmail_quote">Signed-off-by: Stefan Weil
+            &lt;<a href=3D"mailto:sw@weilnetz.de" target=3D"_blank">sw@weil=
+netz.de</a>&gt;<br>
+            ---<br>
+            =C2=A0scripts/simplebench/bench-example.py | 2 +-<br>
+            =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+            <br>
+            diff --git a/scripts/simplebench/bench-example.py
+            b/scripts/simplebench/bench-example.py<br>
+            index 4864435f39..fc370691e0 100644<br>
+            --- a/scripts/simplebench/bench-example.py<br>
+            +++ b/scripts/simplebench/bench-example.py<br>
+            @@ -25,7 +25,7 @@<br>
+            <br>
+            =C2=A0def bench_func(env, case):<br>
+            =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot; Handle one &quot;cell&qu=
+ot; of benchmarking table. &quot;&quot;&quot;<br>
+            -=C2=A0 =C2=A0 return bench_block_copy(env[&#39;qemu_binary&#39=
+;], env[&#39;cmd&#39;],
+            {}<br>
+            +=C2=A0 =C2=A0 return bench_block_copy(env[&#39;qemu_binary&#39=
+;], env[&#39;cmd&#39;],
+            {},<br>
+            =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case[&#39;source&#39;], case[&#39;=
+target&#39;])<br>
+            <br>
+            <br>
+            -- <br>
+            2.30.2<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>Good spot. If it&#39;s not too late and not a hassle, can yo=
+u
+            add a fixes: commit-id in the commit message? No big deal if
+            not.</div>
+          <div><br>
+          </div>
+          <div>Reviewed-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.co=
+m" target=3D"_blank">jsnow@redhat.com</a>&gt;<br>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>Maybe that can be added locally to avoid a V2 patch. Here it is:<br>
+    </p>
+    <p>Fixes: b2fcb0c5754c2554b8406376e99a75e9e0a6b7bd</p>
+    <p>Thanks,</p>
+    <p>Stefan</p>
+    <p><br></p></div></blockquote><div>Got it. I just got back from holiday=
+ today, so there&#39;s still lots of mail to catch up on. If nobody else ha=
+s staged this, I will do so as part of my python fixes this week. Thanks!</=
+div><div><br></div><div>--js<br></div></div></div>
+
+--000000000000079b0505d53e3f6f--
+
 
