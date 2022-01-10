@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF26489FA3
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 19:53:34 +0100 (CET)
-Received: from localhost ([::1]:36820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEE4B489FAD
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 19:56:09 +0100 (CET)
+Received: from localhost ([::1]:41172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6znR-0003nV-9k
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 13:53:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35984)
+	id 1n6zpx-0007Bk-1d
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 13:56:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1n6zgy-0001yQ-3Y; Mon, 10 Jan 2022 13:46:52 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:43165)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n6zlZ-0004ni-A3
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 13:51:39 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:53070)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1n6zgp-0007z0-Mj; Mon, 10 Jan 2022 13:46:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=bOXaFaqLJed3IDUSSvzWi+9GfMNrLLJI/xVcZrleYjs=; b=NGENjzntVWtSrxIx7VXubXoSe5
- lc4MWOXwRNuixvhF+F69BQd3MV231oHu6Clnv7uzdyObTM3yqij3tzld1tY/Bo03y07dog2izwU1a
- ynmEjVWAwWXsvH6DW0slZLC9crK4QXBM6U73Iw6Z00ELx6PGvCfk4NZ3cAGbnoETibJ5/oUNILAkj
- ud+mHy++4X3J4kqiaPSlEiAXF4BrguoI8h/bPyRHe4vwhizdOp3CzXiZhYKf6T3ETwUjXTK4XwCjf
- htRQSw04xCuAdhqzRA2syyIYUoFvgdMw6xLTWm8OeG49a+cBg6tow0BL0NgarZC8y8zXqZbT2BmQV
- kXrJ7XV4bv3a4c7pLqAYAJTQBnAwe7GqfXzthIdwNLaK7yxtwvV4LL4KsTleXjiiaTSQ7xaprwVtQ
- YJqmjylB4V5ExUxW753lfskwQfqBaQus5pKP3sTlsFKsj4tu3WmSKpC/SP0ysEzrPGQO+OejSWbu+
- rZ1BbW3ACN0JjvWjzAd4MxtoNYhbP9J/dazaMpv1xtkrIiL52NRJyGQAbbNZzkmtVJtbYRNrtDw5e
- aKqdNdlmV9XltdKuvWz78fLwUdd2jF7zX5z+57EAEkBM6UpZmsqTJqk3bmqGI4vfkutvjSPIdXrAi
- Ula3KIhJAmYlgaYIY6A5mmLuj/z5ZFODlXOAcrSLk=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- Cameron Esfahani <dirty@apple.com>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [RFC PATCH v2 2/6] audio/coreaudio: Remove a deprecation warning
- on macOS 12
-Date: Mon, 10 Jan 2022 19:46:35 +0100
-Message-ID: <2798332.tR5H1UBy9i@silver>
-In-Reply-To: <9c016476-6679-5d23-296a-6546930087cd@gmail.com>
-References: <20220109170612.574104-1-f4bug@amsat.org>
- <CAFEAcA94iQ_-dkNaQD62qSb_5emY5mq=OvR8jAbDkcW0YwUoeA@mail.gmail.com>
- <9c016476-6679-5d23-296a-6546930087cd@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n6zlV-0000DU-Fp
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 13:51:35 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 1CD756136D;
+ Mon, 10 Jan 2022 18:51:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75E9FC36AE3;
+ Mon, 10 Jan 2022 18:51:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1641840691;
+ bh=QQatavSkleIaeKr1SpRISb450FZAIpJSTALwjGZwGjQ=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=BIksrciHAnMJA1PX5D8xRDsOGpJaF5P4uCRrzzPScgZZ59l1Am/jBOSDO5labt4m9
+ V1GSaHOQ94OqtMpWZm42Em2eXTWHPdBchRLtDH3D8XGVWYyIe1xTyMsB38GZ2OqfVv
+ jlOCOIE50rk2YRLSijG7gJOMGXNyfyBfAK3cQTZTTiPG0C89leynYwSf+lkw13OAsy
+ c97XvEnO7Sj4MKZyvW1BwskMLvgcE0MDYlBdBOaAw7603g5hSH0yOpj5Ef6W7Nk8+a
+ tnRorID7CrX1h4hgMzhyGZZB3g7/9P6aJkMwfbz/MKya6+YpF0mm43zNO/+yA8ngmj
+ ypgJzMJ4rRb/Q==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1n6zlR-00HCcj-CH; Mon, 10 Jan 2022 18:51:29 +0000
+Date: Mon, 10 Jan 2022 18:51:29 +0000
+Message-ID: <87ee5ftoem.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: eric.auger@redhat.com
+Subject: Re: [PATCH v4 5/6] hw/arm/virt: Disable highmem devices that don't
+ fit in the PA range
+In-Reply-To: <dad34b51-51e2-37cd-44cd-7ca7c4fe6129@redhat.com>
+References: <20220107163324.2491209-1-maz@kernel.org>
+ <20220107163324.2491209-6-maz@kernel.org>
+ <dad34b51-51e2-37cd-44cd-7ca7c4fe6129@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: eric.auger@redhat.com, qemu-devel@nongnu.org,
+ kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, kernel-team@android.com,
+ drjones@redhat.com, peter.maydell@linaro.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=maz@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -76
+X-Spam_score: -7.7
+X-Spam_bar: -------
+X-Spam_report: (-7.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,62 +82,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, kernel-team@android.com,
+ kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Montag, 10. Januar 2022 19:20:15 CET Akihiko Odaki wrote:
-> On 2022/01/10 22:22, Peter Maydell wrote:
-> > On Mon, 10 Jan 2022 at 13:14, Christian Schoenebeck
-> > 
-> > <qemu_oss@crudebyte.com> wrote:
-> >> I'd suggest to use:
-> >> 
-> >> #if !defined(MAC_OS_VERSION_12_0) ||
-> >> 
-> >>      (MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_VERSION_12_0)
-> >> 
-> >> #define kAudioObjectPropertyElementMain kAudioObjectPropertyElementMaster
-> >> #endif
-> > 
-> > This is also how we do this for existing checks of this sort,
-> > like the one in osdep.h for qemu_thread_jit_execute().
-> > 
-> > -- PMM
+On Mon, 10 Jan 2022 17:12:50 +0000,
+Eric Auger <eric.auger@redhat.com> wrote:
 > 
-> If I understand correctly, Many macOS-specific codes already no longer
-> complies with GCC because they depend on modern features GCC doesn't
-> provide. The most problematic construction is block; it is extensively
-> used by Apple's ABI and API and you cannot avoid using it even if you try.
+> Hi Marc,
+> 
+> On 1/7/22 5:33 PM, Marc Zyngier wrote:
+> > In order to only keep the highmem devices that actually fit in
+> > the PA range, check their location against the range and update
+> > highest_gpa if they fit. If they don't, mark them them as disabled.
+> s/them them/them
+> >
+> > Signed-off-by: Marc Zyngier <maz@kernel.org>
+> > ---
+> >  hw/arm/virt.c | 34 ++++++++++++++++++++++++++++------
+> >  1 file changed, 28 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> > index db4b0636e1..70b4773b3e 100644
+> > --- a/hw/arm/virt.c
+> > +++ b/hw/arm/virt.c
+> > @@ -1711,21 +1711,43 @@ static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
+> >          base = vms->memmap[VIRT_MEM].base + LEGACY_RAMLIMIT_BYTES;
+> >      }
+> >  
+> > +    /* We know for sure that at least the memory fits in the PA space */
+> > +    vms->highest_gpa = memtop - 1;
+> > +
+> >      for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
+> >          hwaddr size = extended_memmap[i].size;
+> > +        bool fits;
+> >  
+> >          base = ROUND_UP(base, size);
+> >          vms->memmap[i].base = base;
+> >          vms->memmap[i].size = size;
+> > +
+> > +        /*
+> > +         * Check each device to see if they fit in the PA space,
+> > +         * moving highest_gpa as we go.
+> > +         *
+> > +         * For each device that doesn't fit, disable it.
+> > +         */
+> > +        fits = (base + size) <= BIT_ULL(pa_bits);
+> > +        if (fits) {
+> > +            vms->highest_gpa = MAX(vms->highest_gpa, base + size - 1);
+> why do you need the MAX()?
 
-You mean Obj-C blocks? That's working with GCC for decades. I am not aware 
-about any recent changes to Obj-C block mechanisms by Apple.
+Well spotted, I don't. Since we build the memmap by moving base
+upward, I can directly use 'base + size - 1' as the new highest_gpa
+value.
 
-> Also, note that MAC_OS_X_VERSION_MAX_ALLOWED defines the upper bound of
-> the supported version. The lower bound should be preferred here because
-> the usage of the new identifier is applied regardless of the version of
-> the host system. It is in contrary to the usage of
-> MAC_OS_X_VERSION_MAX_ALLOWED in osdep.h where the new interfaces are
-> used only for the newer versions. The lower bound is defined as
-> MAC_OS_X_VERSION_MIN_REQUIRED. Practically there is no difference of the
-> two macros because they have the same value in QEMU and
-> kAudioObjectPropertyElementMain is a constant resolved compile-time, but
-> it is still nice to have the code semantically correct.
+Thanks,
 
-For this particular enum: no, MAC_OS_X_VERSION_MAX_ALLOWED is the correct one. 
-This is about whether enum kAudioObjectPropertyElementMain is defined in the 
-SDK header files. That's all. And the new enum kAudioObjectPropertyElementMain 
-is pure refactoring of the enum's old name due to social reasons ("Master"). 
-The actual reflected numeric value and semantic of the enum is unchanged and 
-the resulting binary and behaviour are identical.
+	M.
 
-There are other cases where MAC_OS_X_VERSION_MIN_REQUIRED (a.k.a. "minimum 
-deployment target") would be used instead: macOS APIs that might be available 
-to only some, but not to the entire macOS version range officially supported 
-by the rolled out binary. Did you see any particular case where this is 
-incorrectly used in QEMU?
-
-Best regards,
-Christian Schoenebeck
-
-
+-- 
+Without deviation from the norm, progress is not possible.
 
