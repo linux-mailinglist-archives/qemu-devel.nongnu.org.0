@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2830848A1F8
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 22:32:34 +0100 (CET)
-Received: from localhost ([::1]:34364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B76148A1EE
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 22:28:38 +0100 (CET)
+Received: from localhost ([::1]:55020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n72HJ-0003ki-3U
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 16:32:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44786)
+	id 1n72DV-0006fr-8s
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 16:28:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1n725n-0005Qd-V9
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 16:20:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42041)
+ id 1n725p-0005Uz-OV
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 16:20:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60451)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1n725m-0006nc-5B
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 16:20:39 -0500
+ id 1n725o-0006nj-3R
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 16:20:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641849637;
+ s=mimecast20190719; t=1641849639;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fjCPIX7sYGsduvwpSy5PHgafOy9bnm7tWzG6BwNeIdk=;
- b=Dsz4C6kbmJVygh8RA/oR7UqZfo7dCQFo+Hh597Bi4Bh0b2aEpHkQlBStNlii4LAapqn0dD
- LmRctu6V2wpFaKDaszMYavv+lxf6ePDfbSlv6hIHIBj7xazElQUa0ZUBrp5cgM48BULBeH
- 7Oa+fbNJT1aUNuDOSWhUCXo2bx7KkeA=
+ bh=GKo6kzqtR7aaqfRFQC4AAGP2Trfsx9n7RW7LK5BxaG8=;
+ b=bZ6EqH7V4XOyglzXwt6xXn6bM3lRmUs8u+93kpFKklpMlzM0//jO4+Vv108laJPzLpap3V
+ dvHUHeWuZE6Cv/DXaeyYIId+CQmgofXSMOYQwgU+b1I2eOvJ12378kB3H+qajiRo0p+/21
+ rRvWgG215lYZmTtrMzXx2RzmKqbKEo8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-533-ve6blxYtMEiBBme_qUapIw-1; Mon, 10 Jan 2022 16:20:31 -0500
-X-MC-Unique: ve6blxYtMEiBBme_qUapIw-1
+ us-mta-629-APiVmWJRPx6PSz25z1sZLA-1; Mon, 10 Jan 2022 16:20:38 -0500
+X-MC-Unique: APiVmWJRPx6PSz25z1sZLA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A13D11935780;
- Mon, 10 Jan 2022 21:20:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3228835E20;
+ Mon, 10 Jan 2022 21:20:36 +0000 (UTC)
 Received: from laptop.redhat.com (unknown [10.39.194.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E351E67846;
- Mon, 10 Jan 2022 21:20:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0607545D62;
+ Mon, 10 Jan 2022 21:20:29 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, thuth@redhat.com,
  pbonzini@redhat.com, lvivier@redhat.com, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
  david@gibson.dropbear.id.au, clg@kaod.org
-Subject: [PATCH 3/6] tests/qtest/libqos: Skip hotplug tests if pci root bus is
- not hotpluggable
-Date: Mon, 10 Jan 2022 22:19:12 +0100
-Message-Id: <20220110211915.2749082-4-eric.auger@redhat.com>
+Subject: [PATCH 4/6] tests/qtest/vhost-user-blk-test: Setup MSIx to avoid
+ error on aarch64
+Date: Mon, 10 Jan 2022 22:19:13 +0100
+Message-Id: <20220110211915.2749082-5-eric.auger@redhat.com>
 In-Reply-To: <20220110211915.2749082-1-eric.auger@redhat.com>
 References: <20220110211915.2749082-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -87,126 +87,83 @@ Cc: jean-philippe@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ARM does not not support hotplug on pcie.0. Add a flag on the bus
-which tells if devices can be hotplugged and skip hotplug tests
-if the bus cannot be hotplugged. This is a temporary solution to
-enable the other pci tests on aarch64.
+When run on ARM, basic and indirect tests currently fail with the
+following error:
+
+ERROR:../tests/qtest/libqos/virtio.c:224:qvirtio_wait_used_elem:
+assertion failed (got_desc_idx == desc_idx): (50331648 == 0)
+Bail out! ERROR:../tests/qtest/libqos/virtio.c:224: qvirtio_wait_used_elem:
+assertion failed (got_desc_idx == desc_idx): (50331648 == 0)
+
+Setting up and enabling MSIX fixes the issue.
+
+Also remove the useless libqos/libqos-pc.h header inclusion.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 ---
- tests/qtest/e1000e-test.c         |  6 ++++++
- tests/qtest/libqos/pci.h          |  1 +
- tests/qtest/vhost-user-blk-test.c | 10 ++++++++++
- tests/qtest/virtio-blk-test.c     |  5 +++++
- tests/qtest/virtio-net-test.c     |  5 +++++
- tests/qtest/virtio-rng-test.c     |  5 +++++
- 6 files changed, 32 insertions(+)
+ tests/qtest/vhost-user-blk-test.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/e1000e-test.c b/tests/qtest/e1000e-test.c
-index 0273fe4c156..0d656d3af63 100644
---- a/tests/qtest/e1000e-test.c
-+++ b/tests/qtest/e1000e-test.c
-@@ -235,6 +235,12 @@ static void test_e1000e_multiple_transfers(void *obj, void *data,
- static void test_e1000e_hotplug(void *obj, void *data, QGuestAllocator * alloc)
- {
-     QTestState *qts = global_qtest;  /* TODO: get rid of global_qtest here */
-+    QE1000E_PCI *dev = obj;
-+
-+    if (dev->pci_dev.bus->not_hotpluggable) {
-+        g_test_skip("bus pci.0 does not support hotplug");
-+        return;
-+    }
- 
-     qtest_qmp_device_add(qts, "e1000e", "e1000e_net", "{'addr': '0x06'}");
-     qpci_unplug_acpi_device_test(qts, "e1000e_net", 0x06);
-diff --git a/tests/qtest/libqos/pci.h b/tests/qtest/libqos/pci.h
-index 44f6806fe44..6a28b405221 100644
---- a/tests/qtest/libqos/pci.h
-+++ b/tests/qtest/libqos/pci.h
-@@ -52,6 +52,7 @@ struct QPCIBus {
-     uint64_t pio_alloc_ptr, pio_limit;
-     uint64_t mmio_alloc_ptr, mmio_limit;
-     bool has_buggy_msi; /* TRUE for spapr, FALSE for pci */
-+    bool not_hotpluggable; /* TRUE if devices cannot be hotplugged */
- 
- };
- 
 diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk-test.c
-index 62e670f39be..cea2570884b 100644
+index cea2570884b..2024aa5923e 100644
 --- a/tests/qtest/vhost-user-blk-test.c
 +++ b/tests/qtest/vhost-user-blk-test.c
-@@ -676,6 +676,11 @@ static void pci_hotplug(void *obj, void *data, QGuestAllocator *t_alloc)
-     QVirtioPCIDevice *dev;
-     QTestState *qts = dev1->pdev->bus->qts;
+@@ -19,7 +19,6 @@
+ #include "standard-headers/linux/virtio_pci.h"
+ #include "libqos/qgraph.h"
+ #include "libqos/vhost-user-blk.h"
+-#include "libqos/libqos-pc.h"
  
-+    if (dev1->pdev->bus->not_hotpluggable) {
-+        g_test_skip("bus pci.0 does not support hotplug");
-+        return;
-+    }
+ #define TEST_IMAGE_SIZE         (64 * 1024 * 1024)
+ #define QVIRTIO_BLK_TIMEOUT_US  (30 * 1000 * 1000)
+@@ -224,6 +223,10 @@ static QVirtQueue *test_basic(QVirtioDevice *dev, QGuestAllocator *alloc)
+     char *data;
+     QTestState *qts = global_qtest;
+     QVirtQueue *vq;
++    QVirtioPCIDevice *vpcidev = container_of(dev, QVirtioPCIDevice, vdev);
 +
-     /* plug secondary disk */
-     qtest_qmp_device_add(qts, "vhost-user-blk-pci", "drv1",
-                          "{'addr': %s, 'chardev': 'char2'}",
-@@ -703,6 +708,11 @@ static void multiqueue(void *obj, void *data, QGuestAllocator *t_alloc)
-     uint64_t features;
-     uint16_t num_queues;
++    qpci_msix_enable(vpcidev->pdev);
++    qvirtio_pci_set_msix_configuration_vector(vpcidev, alloc, 0);
  
-+    if (pdev1->pdev->bus->not_hotpluggable) {
-+        g_test_skip("bus pci.0 does not support hotplug");
-+        return;
-+    }
+     features = qvirtio_get_features(dev);
+     features = features & ~(QVIRTIO_F_BAD_FEATURE |
+@@ -236,9 +239,12 @@ static QVirtQueue *test_basic(QVirtioDevice *dev, QGuestAllocator *alloc)
+     g_assert_cmpint(capacity, ==, TEST_IMAGE_SIZE / 512);
+ 
+     vq = qvirtqueue_setup(dev, alloc, 0);
++    qvirtqueue_pci_msix_setup(vpcidev, (QVirtQueuePCI *)vq, alloc, 1);
+ 
+     qvirtio_set_driver_ok(dev);
+ 
++    qvirtio_wait_queue_isr(qts, dev, vq, QVIRTIO_BLK_TIMEOUT_US);
 +
-     /*
-      * The primary device has 1 queue and VIRTIO_BLK_F_MQ is not enabled. The
-      * VIRTIO specification allows VIRTIO_BLK_F_MQ to be enabled when there is
-diff --git a/tests/qtest/virtio-blk-test.c b/tests/qtest/virtio-blk-test.c
-index 2a236982118..0d5fa5b3247 100644
---- a/tests/qtest/virtio-blk-test.c
-+++ b/tests/qtest/virtio-blk-test.c
-@@ -701,6 +701,11 @@ static void pci_hotplug(void *obj, void *data, QGuestAllocator *t_alloc)
-     QVirtioPCIDevice *dev;
-     QTestState *qts = dev1->pdev->bus->qts;
- 
-+    if (dev1->pdev->bus->not_hotpluggable) {
-+        g_test_skip("bus pci.0 does not support hotplug");
-+        return;
-+    }
+     /* Write and read with 3 descriptor layout */
+     /* Write request */
+     req.type = VIRTIO_BLK_T_OUT;
+@@ -468,6 +474,10 @@ static void indirect(void *obj, void *u_data, QGuestAllocator *t_alloc)
+     uint8_t status;
+     char *data;
+     QTestState *qts = global_qtest;
++    QVirtioPCIDevice *vpcidev = container_of(dev, QVirtioPCIDevice, vdev);
 +
-     /* plug secondary disk */
-     qtest_qmp_device_add(qts, "virtio-blk-pci", "drv1",
-                          "{'addr': %s, 'drive': 'drive1'}",
-diff --git a/tests/qtest/virtio-net-test.c b/tests/qtest/virtio-net-test.c
-index 8bf74e516cc..fdf7dd750b9 100644
---- a/tests/qtest/virtio-net-test.c
-+++ b/tests/qtest/virtio-net-test.c
-@@ -174,6 +174,11 @@ static void hotplug(void *obj, void *data, QGuestAllocator *t_alloc)
-     QTestState *qts = dev->pdev->bus->qts;
-     const char *arch = qtest_get_arch();
++    qpci_msix_enable(vpcidev->pdev);
++    qvirtio_pci_set_msix_configuration_vector(vpcidev, t_alloc, 0);
  
-+    if (dev->pdev->bus->not_hotpluggable) {
-+        g_test_skip("bus pci.0 does not support hotplug");
-+        return;
-+    }
+     features = qvirtio_get_features(dev);
+     g_assert_cmphex(features & (1u << VIRTIO_RING_F_INDIRECT_DESC), !=, 0);
+@@ -480,8 +490,12 @@ static void indirect(void *obj, void *u_data, QGuestAllocator *t_alloc)
+     g_assert_cmpint(capacity, ==, TEST_IMAGE_SIZE / 512);
+ 
+     vq = qvirtqueue_setup(dev, t_alloc, 0);
++    qvirtqueue_pci_msix_setup(vpcidev, (QVirtQueuePCI *)vq, t_alloc, 1);
 +
-     qtest_qmp_device_add(qts, "virtio-net-pci", "net1",
-                          "{'addr': %s}", stringify(PCI_SLOT_HP));
+     qvirtio_set_driver_ok(dev);
  
-diff --git a/tests/qtest/virtio-rng-test.c b/tests/qtest/virtio-rng-test.c
-index e6b8cd8e0cf..6b7d2b9eea4 100644
---- a/tests/qtest/virtio-rng-test.c
-+++ b/tests/qtest/virtio-rng-test.c
-@@ -20,6 +20,11 @@ static void rng_hotplug(void *obj, void *data, QGuestAllocator *alloc)
-     QVirtioPCIDevice *dev = obj;
-     QTestState *qts = dev->pdev->bus->qts;
- 
-+   if (dev->pdev->bus->not_hotpluggable) {
-+        g_test_skip("bus pci.0 does not support hotplug");
-+        return;
-+    }
++    qvirtio_wait_queue_isr(qts, dev, vq, QVIRTIO_BLK_TIMEOUT_US);
 +
-     const char *arch = qtest_get_arch();
- 
-     qtest_qmp_device_add(qts, "virtio-rng-pci", "rng1",
+     /* Write request */
+     req.type = VIRTIO_BLK_T_OUT;
+     req.ioprio = 1;
 -- 
 2.26.3
 
