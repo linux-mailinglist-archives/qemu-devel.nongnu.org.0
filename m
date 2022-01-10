@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22FEB488EFC
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 04:45:20 +0100 (CET)
-Received: from localhost ([::1]:58570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6C9488F0B
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 04:51:46 +0100 (CET)
+Received: from localhost ([::1]:47064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6lcV-0006Tm-0a
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 22:45:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36398)
+	id 1n6lij-0001ML-S8
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 22:51:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1n6lY8-0006QD-47
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 22:40:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56317)
+ id 1n6lYO-00072I-GQ
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 22:41:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50003)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1n6lY6-0006GR-IL
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 22:40:47 -0500
+ id 1n6lYM-0006He-Ss
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 22:41:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641786046;
+ s=mimecast20190719; t=1641786060;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NxPDNBsk/Nye9vYPQqYbWzCVn7CHHfXEwXvyBJmzou4=;
- b=PEW1O8WVY2Wg7q4LVtKVo01Kaqwa+CJpujnr5dew8J0NQlhMNERRNgKU8PKNj2c51nyK2t
- +fKH7aG9O/rXp4JHtFlywPSHmK2H+pIgfrWGiBZyaY4ZTqyk7T2ycMptYLnVOceJ8g7ObL
- 3KlH5q1oyx+OM4RgCtyArv2MpER35AM=
+ bh=qJSZ4MO77st32NCmeKRdiFhhEHxxpYN2cF0u8lg0jMc=;
+ b=Af+qy8/z/Xk+423Hh04S8NyanLjrRMdwnPF6k4aDFGHuTYUV9q1k691Bfob+NjIHCGBzYk
+ c4o7uiCOXya/sAIJd1Z0GAKvpQqj0nPcRATemZ/hvo1kMT8rtIfGwii7bqH8Hjz9v8LeRA
+ PyVSW/RoWX7+/puECpLmLax41PBE3so=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-l9HQjvPuMkCb9MpOO-WjZA-1; Sun, 09 Jan 2022 22:40:45 -0500
-X-MC-Unique: l9HQjvPuMkCb9MpOO-WjZA-1
+ us-mta-173-LTKRyvCyPJWhkhL20AWhaA-1; Sun, 09 Jan 2022 22:40:52 -0500
+X-MC-Unique: LTKRyvCyPJWhkhL20AWhaA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3DB381CCB4;
- Mon, 10 Jan 2022 03:40:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DAB581CCB4;
+ Mon, 10 Jan 2022 03:40:51 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-14-6.pek2.redhat.com [10.72.14.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 38452E72B;
- Mon, 10 Jan 2022 03:40:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 76104E72B;
+ Mon, 10 Jan 2022 03:40:44 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 12/13] net/vmnet: update qemu-options.hx
-Date: Mon, 10 Jan 2022 11:39:59 +0800
-Message-Id: <20220110034000.20221-13-jasowang@redhat.com>
+Subject: [PULL 13/13] net/vmnet: update MAINTAINERS list
+Date: Mon, 10 Jan 2022 11:40:00 +0800
+Message-Id: <20220110034000.20221-14-jasowang@redhat.com>
 In-Reply-To: <20220110034000.20221-1-jasowang@redhat.com>
 References: <20220110034000.20221-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -89,59 +89,25 @@ From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- qemu-options.hx | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ MAINTAINERS | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index ec90505..81dd34f 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -2733,6 +2733,25 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
-     "-netdev vhost-vdpa,id=str,vhostdev=/path/to/dev\n"
-     "                configure a vhost-vdpa network,Establish a vhost-vdpa netdev\n"
- #endif
-+#ifdef CONFIG_VMNET
-+    "-netdev vmnet-host,id=str[,isolated=on|off][,net-uuid=uuid]\n"
-+    "         [,start-address=addr,end-address=addr,subnet-mask=mask]\n"
-+    "                configure a vmnet network backend in host mode with ID 'str',\n"
-+    "                isolate this interface from others with 'isolated',\n"
-+    "                configure the address range and choose a subnet mask,\n"
-+    "                specify network UUID 'uuid' to disable DHCP and interact with\n"
-+    "                vmnet-host interfaces within this isolated network\n"
-+    "-netdev vmnet-shared,id=str[,isolated=on|off][,nat66-prefix=addr]\n"
-+    "         [,start-address=addr,end-address=addr,subnet-mask=mask]\n"
-+    "                configure a vmnet network backend in shared mode with ID 'str',\n"
-+    "                configure the address range and choose a subnet mask,\n"
-+    "                set IPv6 ULA prefix (of length 64) to use for internal network,\n"
-+    "                isolate this interface from others with 'isolated'\n"
-+    "-netdev vmnet-bridged,id=str,ifname=name[,isolated=on|off]\n"
-+    "                configure a vmnet network backend in bridged mode with ID 'str',\n"
-+    "                use 'ifname=name' to select a physical network interface to be bridged,\n"
-+    "                isolate this interface from others with 'isolated'\n"
-+#endif
-     "-netdev hubport,id=str,hubid=n[,netdev=nd]\n"
-     "                configure a hub port on the hub with ID 'n'\n", QEMU_ARCH_ALL)
- DEF("nic", HAS_ARG, QEMU_OPTION_nic,
-@@ -2752,6 +2771,9 @@ DEF("nic", HAS_ARG, QEMU_OPTION_nic,
- #ifdef CONFIG_POSIX
-     "vhost-user|"
- #endif
-+#ifdef CONFIG_VMNET
-+    "vmnet-host|vmnet-shared|vmnet-bridged|"
-+#endif
-     "socket][,option][,...][mac=macaddr]\n"
-     "                initialize an on-board / default host NIC (using MAC address\n"
-     "                macaddr) and connect it to the given host network backend\n"
-@@ -2774,6 +2796,9 @@ DEF("net", HAS_ARG, QEMU_OPTION_net,
- #ifdef CONFIG_NETMAP
-     "netmap|"
- #endif
-+#ifdef CONFIG_VMNET
-+    "vmnet-host|vmnet-shared|vmnet-bridged|"
-+#endif
-     "socket][,option][,option][,...]\n"
-     "                old way to initialize a host network interface\n"
-     "                (use the -netdev option if possible instead)\n", QEMU_ARCH_ALL)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c98a61c..638d129 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2641,6 +2641,11 @@ W: http://info.iet.unipi.it/~luigi/netmap/
+ S: Maintained
+ F: net/netmap.c
+ 
++Apple vmnet network backends
++M: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
++S: Maintained
++F: net/vmnet*
++
+ Host Memory Backends
+ M: David Hildenbrand <david@redhat.com>
+ M: Igor Mammedov <imammedo@redhat.com>
 -- 
 2.7.4
 
