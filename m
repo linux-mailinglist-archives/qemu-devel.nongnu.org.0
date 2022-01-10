@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFBE04895A3
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 10:49:38 +0100 (CET)
-Received: from localhost ([::1]:53814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94C7B4895B9
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 10:54:28 +0100 (CET)
+Received: from localhost ([::1]:57160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6rJ3-00085f-Rd
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 04:49:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33000)
+	id 1n6rNj-0002Ck-Mq
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 04:54:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <guang.zeng@intel.com>)
- id 1n6rHH-0006IU-Ut
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 04:47:48 -0500
-Received: from mga05.intel.com ([192.55.52.43]:52742)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <guang.zeng@intel.com>)
- id 1n6rH9-0007f6-JN
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 04:47:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641808059; x=1673344059;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=OB2fGUky+S94RDguZQrzCZuWbNUbrEYV/qO4kx5liis=;
- b=D32ILNaZTKvZ0nwrCXWMkZLjqZq65B5O18CLQC6QetNmJ7fahu3Q3j1R
- H58Uu8W+OgKYQhEjhn2gwM70FapUlk6i7SNv8lEjNTOrM0TcTjh83PIQ9
- cYS0uS0qM6fDOT3FozfGs6DMBUsQovxUzAWQhmdBTLZlca6d7Ek0bDy9k
- y368rk5RN05fccBqhtyXEpCm18mdXaAmTxDq7k+M8xqIIx8bvadq/gZWL
- tX+Jylum8gUDQ9AhiOK2d20pihs+P05lj9litUr0xge3qS7sWwB+zgY8N
- fDK/D2TU930yjoJ4usaN15xkvzC2xYATuUwbAv9+piN5sz1D8RJBN7+K9 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10222"; a="329534377"
-X-IronPort-AV: E=Sophos;i="5.88,276,1635231600"; d="scan'208";a="329534377"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2022 01:47:17 -0800
-X-IronPort-AV: E=Sophos;i="5.88,276,1635231600"; d="scan'208";a="514618033"
-Received: from zengguan-mobl.ccr.corp.intel.com (HELO [10.238.0.214])
- ([10.238.0.214])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2022 01:47:15 -0800
-Message-ID: <6976bcbe-ba64-3c33-a445-fe29ace41ff3@intel.com>
-Date: Mon, 10 Jan 2022 17:47:04 +0800
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1n6rLe-0001U5-GG
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 04:52:18 -0500
+Received: from [2a00:1450:4864:20::334] (port=56199
+ helo=mail-wm1-x334.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1n6rLb-0008Ot-Ni
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 04:52:17 -0500
+Received: by mail-wm1-x334.google.com with SMTP id c66so8293858wma.5
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 01:52:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=zlh2gSNIZwpRFFys7dBv9ANz5MB8OwX4QBNVnu8VjOw=;
+ b=NLev3f9F0IBBeKW/kVheCd9CY41ZT6DmCldSNiGOnbg+aXPIEFOf9phZK+Tya1j4DD
+ dwgFsZw/kU1lAk/wfI+a2ud49hJ8QFviD9pAkqh85LlXyf9pdjp1r8pU5qRO3ZPqQ3ux
+ qOdrZl9zsBy7m8PZRL6gw2XA1Vb1fshX4yAV7hikt5PQAbulrKEe1BH4tssghKrJkyp9
+ rmqIbsq5MezBhmHqeIzBhnHVOgiJU4vkRr6xHCWG08SHN2CdAmcWblKCNtkEXu6hE79R
+ exkP9hPwxOr3FiDA1A21a8SLvaYzWcvZzTunYvrHWoPNiTVdIbvvFCxIrkqZXhkZ+v81
+ osRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=zlh2gSNIZwpRFFys7dBv9ANz5MB8OwX4QBNVnu8VjOw=;
+ b=k9d7CUHRXPgUaGlXWpRcGm9zKoU7MP8Pj7TPNqUD6wwt//vRh+Cs+yhqOzLrHXv0r0
+ KGxiiWPepwtwNngzEKAybYHzH5MTh8FmlQfBFLzoF586AH13wXQTNA9Z/q0Om+IlMwLE
+ QcxseAWPSlsyrDqmzuFGpVX+04iVc7py/bAVf7NJ4ZBlB1rHgrnegS9XE0X00KWOGCUH
+ 1fBUlho7nrpZVNFw/HMEgguP9TO7E/zbREj3K4XTfklPJ/ZffI/QNRrHGsy6qcDc1rXX
+ tcciQ76ofbLyUdnSddx8EyLVJymVNEmyt7LC/KGHtb24HzqllpRMu+9KY9ibIih4A7re
+ jeHw==
+X-Gm-Message-State: AOAM531CtrcKW5lrOptx6SBkLfvOI4SPbpw1JUBfk6NXKATxZ+tgaFPg
+ xvQOE2sGGwRHkheC2hHyjnxotR3/8WqQf3eI38VyHA==
+X-Google-Smtp-Source: ABdhPJwqx6uBJrEtLr9NKQpNWrsiK4qNdKnCUMAkdB8nVSuqjHGqUrLq1As+pXfPH7sTBWD/V46rR2Q/J2Wd4jyWVcQ=
+X-Received: by 2002:a7b:c8d0:: with SMTP id f16mr1080881wml.142.1641808331801; 
+ Mon, 10 Jan 2022 01:52:11 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.4.1
-Subject: Re: [RFC PATCH 6/7] x86: Use new XSAVE ioctls handling
-Content-Language: en-US
-To: "Tian, Kevin" <kevin.tian@intel.com>, "Zhong, Yang"
- <yang.zhong@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20220107093134.136441-1-yang.zhong@intel.com>
- <20220107093134.136441-7-yang.zhong@intel.com>
- <BN9PR11MB527600E4DD1EA7BE7638A0518C509@BN9PR11MB5276.namprd11.prod.outlook.com>
-From: Zeng Guang <guang.zeng@intel.com>
-In-Reply-To: <BN9PR11MB527600E4DD1EA7BE7638A0518C509@BN9PR11MB5276.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=guang.zeng@intel.com;
- helo=mga05.intel.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220109205640.4126817-1-philipp.tomsich@vrull.eu>
+ <05100e8f-ce11-9da1-8afe-6010d9bbebb5@amsat.org>
+In-Reply-To: <05100e8f-ce11-9da1-8afe-6010d9bbebb5@amsat.org>
+From: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Date: Mon, 10 Jan 2022 10:52:00 +0100
+Message-ID: <CAAeLtUAZ41bkq_UEKd8=-kO52wtTxv3rxYrzSHfp_sTd3K4+aw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] decodetree: Add an optional predicate-function for
+ decoding
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,213 +83,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "Wang,
- Wei W" <wei.w.wang@intel.com>,
- "jing2.liu@linux.intel.com" <jing2.liu@linux.intel.com>, "Christopherson, ,
- Sean" <seanjc@google.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Luis Pires <luis.pires@eldorado.org.br>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Kito Cheng <kito.cheng@sifive.com>,
+ Greg Favor <gfavor@ventanamicro.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/10/2022 4:40 PM, Tian, Kevin wrote:
->> From: Zhong, Yang <yang.zhong@intel.com>
->> Sent: Friday, January 7, 2022 5:32 PM
->>
->> From: Jing Liu <jing2.liu@intel.com>
->>
->> Extended feature has large state while current
->> kvm_xsave only allows 4KB. Use new XSAVE ioctls
->> if the xstate size is large than kvm_xsave.
-> shouldn't we always use the new xsave ioctls as long as
-> CAP_XSAVE2 is available?
+For RISC-V the opcode decode will change between different vendor
+implementations of RISC-V (emulated by the same qemu binary).
+Any two vendors may reuse the same opcode space, e.g., we may end up with:
+
+# *** RV64 Custom-3 Extension ***
+{
+  vt_maskc   0000000  ..... ..... 110 ..... 1111011 @r |has_xventanacondops=
+_p
+  vt_maskcn  0000000  ..... ..... 111 ..... 1111011 @r |has_xventanacondops=
+_p
+  someone_something  ............ ..... 000 ..... 1100111 @i
+|has_xsomeonesomething_p
+}
+
+With extensions being enabled either from the commandline
+    -cpu any,xventanacondops=3Dtrue
+or possibly even having a AMP in one emulation setup (e.g. application
+cores having one extension and power-mangement cores having a
+different one =E2=80=94 or even a conflicting one).
+
+Cheers,
+Philipp.
 
 
-CAP_XSAVE2 may return legacy xsave size or 0 working with old kvm 
-version in which it's not available.
-QEMU just use the new xsave ioctls only when the return value of 
-CAP_XSAVE2 is larger than legacy xsave size.
-
->> Signed-off-by: Jing Liu <jing2.liu@intel.com>
->> Signed-off-by: Zeng Guang <guang.zeng@intel.com>
->> Signed-off-by: Wei Wang <wei.w.wang@intel.com>
->> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
->> ---
->>   linux-headers/asm-x86/kvm.h | 14 ++++++++++++++
->>   linux-headers/linux/kvm.h   |  2 ++
->>   target/i386/cpu.h           |  5 +++++
->>   target/i386/kvm/kvm.c       | 16 ++++++++++++++--
->>   target/i386/xsave_helper.c  | 35 +++++++++++++++++++++++++++++++++++
->>   5 files changed, 70 insertions(+), 2 deletions(-)
->>
->> diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
->> index 5a776a08f7..32f2a921e8 100644
->> --- a/linux-headers/asm-x86/kvm.h
->> +++ b/linux-headers/asm-x86/kvm.h
->> @@ -376,6 +376,20 @@ struct kvm_debugregs {
->>   /* for KVM_CAP_XSAVE */
->>   struct kvm_xsave {
->>   	__u32 region[1024];
->> +	/*
->> +	 * KVM_GET_XSAVE2 and KVM_SET_XSAVE write and read as many
->> bytes
->> +	 * as are returned by KVM_CHECK_EXTENSION(KVM_CAP_XSAVE2)
->> +	 * respectively, when invoked on the vm file descriptor.
->> +	 *
->> +	 * The size value returned by
->> KVM_CHECK_EXTENSION(KVM_CAP_XSAVE2)
->> +	 * will always be at least 4096. Currently, it is only greater
->> +	 * than 4096 if a dynamic feature has been enabled with
->> +	 * ``arch_prctl()``, but this may change in the future.
->> +	 *
->> +	 * The offsets of the state save areas in struct kvm_xsave follow
->> +	 * the contents of CPUID leaf 0xD on the host.
->> +	 */
->> +	__u32 extra[0];
->>   };
->>
->>   #define KVM_MAX_XCRS	16
->> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
->> index 02c5e7b7bb..97d5b6d81d 100644
->> --- a/linux-headers/linux/kvm.h
->> +++ b/linux-headers/linux/kvm.h
->> @@ -1130,6 +1130,7 @@ struct kvm_ppc_resize_hpt {
->>   #define KVM_CAP_BINARY_STATS_FD 203
->>   #define KVM_CAP_EXIT_ON_EMULATION_FAILURE 204
->>   #define KVM_CAP_ARM_MTE 205
->> +#define KVM_CAP_XSAVE2  207
->>
->>   #ifdef KVM_CAP_IRQ_ROUTING
->>
->> @@ -1550,6 +1551,7 @@ struct kvm_s390_ucas_mapping {
->>   /* Available with KVM_CAP_XSAVE */
->>   #define KVM_GET_XSAVE		  _IOR(KVMIO,  0xa4, struct
->> kvm_xsave)
->>   #define KVM_SET_XSAVE		  _IOW(KVMIO,  0xa5, struct
->> kvm_xsave)
->> +#define KVM_GET_XSAVE2		  _IOR(KVMIO,  0xcf, struct
->> kvm_xsave)
->>   /* Available with KVM_CAP_XCRS */
->>   #define KVM_GET_XCRS		  _IOR(KVMIO,  0xa6, struct kvm_xcrs)
->>   #define KVM_SET_XCRS		  _IOW(KVMIO,  0xa7, struct kvm_xcrs)
->> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
->> index 245e8b5a1a..6153c4ab1a 100644
->> --- a/target/i386/cpu.h
->> +++ b/target/i386/cpu.h
->> @@ -1519,6 +1519,11 @@ typedef struct CPUX86State {
->>       YMMReg zmmh_regs[CPU_NB_REGS];
->>       ZMMReg hi16_zmm_regs[CPU_NB_REGS];
->>
->> +#ifdef TARGET_X86_64
->> +    uint8_t xtilecfg[64];
->> +    uint8_t xtiledata[8192];
->> +#endif
->> +
->>       /* sysenter registers */
->>       uint32_t sysenter_cs;
->>       target_ulong sysenter_esp;
->> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
->> index 3fb3ddbe2b..97520e9dff 100644
->> --- a/target/i386/kvm/kvm.c
->> +++ b/target/i386/kvm/kvm.c
->> @@ -1983,7 +1983,12 @@ int kvm_arch_init_vcpu(CPUState *cs)
->>       }
->>
->>       if (has_xsave) {
->> -        env->xsave_buf_len = sizeof(struct kvm_xsave);
->> +        uint32_t size = kvm_vm_check_extension(cs->kvm_state,
->> KVM_CAP_XSAVE2);
->> +        if (!size) {
->> +            size = sizeof(struct kvm_xsave);
->> +        }
->> +
->> +        env->xsave_buf_len = QEMU_ALIGN_UP(size, 4096);
->>           env->xsave_buf = qemu_memalign(4096, env->xsave_buf_len);
->>           memset(env->xsave_buf, 0, env->xsave_buf_len);
->>
->> @@ -2580,6 +2585,7 @@ static int kvm_put_xsave(X86CPU *cpu)
->>       if (!has_xsave) {
->>           return kvm_put_fpu(cpu);
->>       }
->> +
->>       x86_cpu_xsave_all_areas(cpu, xsave, env->xsave_buf_len);
->>
->>       return kvm_vcpu_ioctl(CPU(cpu), KVM_SET_XSAVE, xsave);
->> @@ -3247,10 +3253,16 @@ static int kvm_get_xsave(X86CPU *cpu)
->>           return kvm_get_fpu(cpu);
->>       }
->>
->> -    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_XSAVE, xsave);
->> +    if (env->xsave_buf_len <= sizeof(struct kvm_xsave)) {
->> +        ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_XSAVE, xsave);
->> +    } else {
->> +        ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_XSAVE2, xsave);
->> +    }
->> +
->>       if (ret < 0) {
->>           return ret;
->>       }
->> +
->>       x86_cpu_xrstor_all_areas(cpu, xsave, env->xsave_buf_len);
->>
->>       return 0;
->> diff --git a/target/i386/xsave_helper.c b/target/i386/xsave_helper.c
->> index ac61a96344..090424e820 100644
->> --- a/target/i386/xsave_helper.c
->> +++ b/target/i386/xsave_helper.c
->> @@ -5,6 +5,7 @@
->>   #include "qemu/osdep.h"
->>
->>   #include "cpu.h"
->> +#include <asm/kvm.h>
->>
->>   void x86_cpu_xsave_all_areas(X86CPU *cpu, void *buf, uint32_t buflen)
->>   {
->> @@ -126,6 +127,23 @@ void x86_cpu_xsave_all_areas(X86CPU *cpu, void
->> *buf, uint32_t buflen)
->>
->>           memcpy(pkru, &env->pkru, sizeof(env->pkru));
->>       }
->> +
->> +    e = &x86_ext_save_areas[XSTATE_XTILE_CFG_BIT];
->> +    if (e->size && e->offset) {
->> +        XSaveXTILE_CFG *tilecfg = buf + e->offset;
->> +
->> +        memcpy(tilecfg, &env->xtilecfg, sizeof(env->xtilecfg));
->> +    }
->> +
->> +    if (buflen > sizeof(struct kvm_xsave)) {
->> +        e = &x86_ext_save_areas[XSTATE_XTILE_DATA_BIT];
->> +
->> +        if (e->size && e->offset) {
->> +            XSaveXTILE_DATA *tiledata = buf + e->offset;
->> +
->> +            memcpy(tiledata, &env->xtiledata, sizeof(env->xtiledata));
->> +        }
->> +    }
->>   #endif
->>   }
->>
->> @@ -247,5 +265,22 @@ void x86_cpu_xrstor_all_areas(X86CPU *cpu, const
->> void *buf, uint32_t buflen)
->>           pkru = buf + e->offset;
->>           memcpy(&env->pkru, pkru, sizeof(env->pkru));
->>       }
->> +
->> +    e = &x86_ext_save_areas[XSTATE_XTILE_CFG_BIT];
->> +    if (e->size && e->offset) {
->> +        const XSaveXTILE_CFG *tilecfg = buf + e->offset;
->> +
->> +        memcpy(&env->xtilecfg, tilecfg, sizeof(env->xtilecfg));
->> +    }
->> +
->> +    if (buflen > sizeof(struct kvm_xsave)) {
->> +        e = &x86_ext_save_areas[XSTATE_XTILE_DATA_BIT];
->> +
->> +        if (e->size && e->offset) {
->> +            const XSaveXTILE_DATA *tiledata = buf + e->offset;
->> +
->> +            memcpy(&env->xtiledata, tiledata, sizeof(env->xtiledata));
->> +        }
->> +    }
->>   #endif
->>   }
+On Mon, 10 Jan 2022 at 10:43, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> Hi Philipp,
+>
+> On 1/9/22 21:56, Philipp Tomsich wrote:
+> > This adds the possibility to specify a predicate-function that is
+> > called as part of decoding in multi-patterns; it is intended for
+> > use-cases (such as vendor-defined instructions in RISC-V) where the
+> > same bitpattern may decode into different functions depending on the
+> > overall configuration of the emulation target.
+>
+> But for a particular CPU, its "vendor ISAs" won't change at runtime.
+>
+> Since we know this at build time, I don't understand why you need
+> predicate support at all.
+>
+> >
+> > At this time, we only support predicates for multi-patterns.
+> >
+> > Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+> >
+> > ---
+> >
+> >  docs/devel/decodetree.rst |  7 ++++++-
+> >  scripts/decodetree.py     | 24 +++++++++++++++++++++---
+> >  2 files changed, 27 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/docs/devel/decodetree.rst b/docs/devel/decodetree.rst
+> > index 49ea50c2a7..241aaec8bb 100644
+> > --- a/docs/devel/decodetree.rst
+> > +++ b/docs/devel/decodetree.rst
+> > @@ -144,9 +144,10 @@ Patterns
+> >  Syntax::
+> >
+> >    pat_def      :=3D identifier ( pat_elt )+
+> > -  pat_elt      :=3D fixedbit_elt | field_elt | field_ref | args_ref | =
+fmt_ref | const_elt
+> > +  pat_elt      :=3D fixedbit_elt | field_elt | field_ref | args_ref | =
+fmt_ref | const_elt | predicate
+> >    fmt_ref      :=3D '@' identifier
+> >    const_elt    :=3D identifier '=3D' number
+> > +  predicate    :=3D '|' identifier
+> >
+> >  The *fixedbit_elt* and *field_elt* specifiers are unchanged from forma=
+ts.
+> >  A pattern that does not specify a named format will have one inferred
+> > @@ -156,6 +157,10 @@ A *const_elt* allows a argument to be set to a con=
+stant value.  This may
+> >  come in handy when fields overlap between patterns and one has to
+> >  include the values in the *fixedbit_elt* instead.
+> >
+> > +A *predicate* allows to specify a predicate function (returing true or
+> > +false) to determine the applicability of the pattern.  Currently, this
+> > +will change the decode-behaviour  for overlapping multi-patterns only.
+> > +
+> >  The decoder will call a translator function for each pattern matched.
+> >
+> >  Pattern examples::
+> > diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+> > index a03dc6b5e3..7da2282411 100644
+> > --- a/scripts/decodetree.py
+> > +++ b/scripts/decodetree.py
+> > @@ -52,6 +52,7 @@
+> >  re_fld_ident =3D '%[a-zA-Z0-9_]*'
+> >  re_fmt_ident =3D '@[a-zA-Z0-9_]*'
+> >  re_pat_ident =3D '[a-zA-Z0-9_]*'
+> > +re_predicate_ident =3D '\|[a-zA-Z_][a-zA-Z0-9_]*'
+> >
+> >  def error_with_file(file, lineno, *args):
+> >      """Print an error message from file:line and args and exit."""
+> > @@ -119,6 +120,14 @@ def whexC(val):
+> >          suffix =3D 'u'
+> >      return whex(val) + suffix
+> >
+> > +def predicate(val):
+> > +    """Return a string for calling a predicate function
+> > +       (if specified, accepting 'None' as an indication
+> > +       that no predicate is to be emitted) with the ctx
+> > +       as a parameter."""
+> > +    if (val =3D=3D None):
+> > +        return ''
+> > +    return ' && ' + val + '(ctx)'
+> >
+> >  def str_match_bits(bits, mask):
+> >      """Return a string pretty-printing BITS/MASK"""
+> > @@ -340,7 +349,7 @@ def output_def(self):
+> >
+> >  class General:
+> >      """Common code between instruction formats and instruction pattern=
+s"""
+> > -    def __init__(self, name, lineno, base, fixb, fixm, udfm, fldm, fld=
+s, w):
+> > +    def __init__(self, name, lineno, base, fixb, fixm, udfm, fldm, fld=
+s, w, p =3D None):
+> >          self.name =3D name
+> >          self.file =3D input_file
+> >          self.lineno =3D lineno
+> > @@ -351,6 +360,7 @@ def __init__(self, name, lineno, base, fixb, fixm, =
+udfm, fldm, flds, w):
+> >          self.fieldmask =3D fldm
+> >          self.fields =3D flds
+> >          self.width =3D w
+> > +        self.predicate =3D p
+> >
+> >      def __str__(self):
+> >          return self.name + ' ' + str_match_bits(self.fixedbits, self.f=
+ixedmask)
+> > @@ -499,7 +509,7 @@ def output_code(self, i, extracted, outerbits, oute=
+rmask):
+> >              if outermask !=3D p.fixedmask:
+> >                  innermask =3D p.fixedmask & ~outermask
+> >                  innerbits =3D p.fixedbits & ~outermask
+> > -                output(ind, f'if ((insn & {whexC(innermask)}) =3D=3D {=
+whexC(innerbits)}) {{\n')
+> > +                output(ind, f'if ((insn & {whexC(innermask)}) =3D=3D {=
+whexC(innerbits)}{predicate(p.predicate)}) {{\n')
+> >                  output(ind, f'    /* {str_match_bits(p.fixedbits, p.fi=
+xedmask)} */\n')
+> >                  p.output_code(i + 4, extracted, p.fixedbits, p.fixedma=
+sk)
+> >                  output(ind, '}\n')
+> > @@ -826,6 +836,7 @@ def parse_generic(lineno, parent_pat, name, toks):
+> >      global re_fld_ident
+> >      global re_fmt_ident
+> >      global re_C_ident
+> > +    global re_predicate_ident
+> >      global insnwidth
+> >      global insnmask
+> >      global variablewidth
+> > @@ -839,6 +850,7 @@ def parse_generic(lineno, parent_pat, name, toks):
+> >      flds =3D {}
+> >      arg =3D None
+> >      fmt =3D None
+> > +    predicate =3D None
+> >      for t in toks:
+> >          # '&Foo' gives a format an explicit argument set.
+> >          if re.fullmatch(re_arg_ident, t):
+> > @@ -881,6 +893,12 @@ def parse_generic(lineno, parent_pat, name, toks):
+> >              flds =3D add_field(lineno, flds, fname, ConstField(value))
+> >              continue
+> >
+> > +        # '|predicate' sets a predicate function to be called.
+> > +        if re.fullmatch(re_predicate_ident, t):
+> > +            tt =3D t[1:]
+> > +            predicate =3D tt;
+> > +            continue
+> > +
+> >          # Pattern of 0s, 1s, dots and dashes indicate required zeros,
+> >          # required ones, or dont-cares.
+> >          if re.fullmatch('[01.-]+', t):
+> > @@ -979,7 +997,7 @@ def parse_generic(lineno, parent_pat, name, toks):
+> >              if f not in flds.keys() and f not in fmt.fields.keys():
+> >                  error(lineno, f'field {f} not initialized')
+> >          pat =3D Pattern(name, lineno, fmt, fixedbits, fixedmask,
+> > -                      undefmask, fieldmask, flds, width)
+> > +                      undefmask, fieldmask, flds, width, predicate)
+> >          parent_pat.pats.append(pat)
+> >          allpatterns.append(pat)
+> >
 
