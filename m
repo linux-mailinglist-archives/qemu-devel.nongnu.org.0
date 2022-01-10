@@ -2,68 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C809488EA6
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 03:27:52 +0100 (CET)
-Received: from localhost ([::1]:53066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EBB4488EAE
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 03:39:28 +0100 (CET)
+Received: from localhost ([::1]:56728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6kPX-0004dV-1j
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 21:27:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55124)
+	id 1n6kal-0007b0-Gt
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 21:39:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1n6kON-0003gc-3a
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 21:26:39 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:55628 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1n6kOA-0004vw-Vy
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 21:26:36 -0500
-Received: from localhost.localdomain (unknown [10.20.42.11])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxKMo7mdthawwBAA--.2593S3;
- Mon, 10 Jan 2022 10:26:03 +0800 (CST)
-Subject: Re: [RFC PATCH v3 22/27] hw/loongarch: Add some devices support for
- 3A5000.
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-level <qemu-devel@nongnu.org>
-References: <1638619645-11283-1-git-send-email-yangxiaojuan@loongson.cn>
- <1638619645-11283-23-git-send-email-yangxiaojuan@loongson.cn>
- <1984f2fa-1ccd-af3a-7fb8-6770e0b27596@ilande.co.uk>
- <51bc3c8e-370b-7c42-1003-5b7535491adb@loongson.cn>
- <6226db5a-3082-63d3-56a7-5a9b154bb056@ilande.co.uk>
-From: yangxiaojuan <yangxiaojuan@loongson.cn>
-Message-ID: <5d087f15-d1c7-4573-5678-e4ef191aed15@loongson.cn>
-Date: Mon, 10 Jan 2022 10:26:03 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1n6kZG-0006u3-TC
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 21:37:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29192)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1n6kZA-0006Vt-7U
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 21:37:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641782266;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1+qbLWnst4Opl2q92xeKM5fQHMoCoX1e54Omt6B61F8=;
+ b=HkqlF0R9JKRRKZTXKrgq0HzNmvrh3BTYSUA/CBUCClmp111AIa2A8sSX6On2uSBvf5AQx0
+ W8Ryg1s5AsdbFsJxSI3SonPSCKJRLTbkp/R7j4ZNcZgG/wDSKNI6om3+kEFIMdBRPjVv53
+ nO85Me1914m2zGoUkHTX7W9/uTfudTI=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-97-TEj75bysP-CGHoeGeEO9rg-1; Sun, 09 Jan 2022 21:37:43 -0500
+X-MC-Unique: TEj75bysP-CGHoeGeEO9rg-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ d25-20020a194f19000000b0042b469bd916so2593886lfb.21
+ for <qemu-devel@nongnu.org>; Sun, 09 Jan 2022 18:37:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1+qbLWnst4Opl2q92xeKM5fQHMoCoX1e54Omt6B61F8=;
+ b=wahkvR4sqFxB+FI6tVHzjnVSSv+1mt+8qn08ZSAZiZ2/QBivCt2ElO/jRqGR6taxVe
+ XEAMFjR4hORsFjyBZhOmcJ5cVWl4ckQ4W4hWvYcfpCEeg/ilBMWn3irRfuLqkW55TDg8
+ rp2JDmXBYjVsvEDGtUFKc9m4s6oF1XOyhdNVSKcuXjNSs8uXQrR/xcrYQ8AZ1uFbivgy
+ yWgASUu8DKSim72EvOuRRGU5xSKZnjZJpCYH/dOxHS/n3gQMdWPAoRa46qXNkNeBZeW4
+ 8+hgf8kOY+o9CaazUbOHYtjHxktFTb1FRgSKTTqqM8skfPNtt0haeMJkZYSRKfc/QEUV
+ +2AA==
+X-Gm-Message-State: AOAM533VwtfNxkWaFnKhoDWN7Q9GjJRvekggVZFPoeT9cy73jeLqghNr
+ eFu+TOG1vTe/BfFwqncoDWSMqAk6rCtvwb4HIQGixVTVTqgYMzaw3oTTtrOVYgQ3JDKyTBRuGkd
+ PwbWM+izCHw/WpL/hlRwzyRrBAIqH9CI=
+X-Received: by 2002:a2e:b4af:: with SMTP id q15mr8934256ljm.420.1641782262221; 
+ Sun, 09 Jan 2022 18:37:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxqL8wISn9dFQa9i+uMzzzO6Mv4cgtt9xPl0PFK+2HNpmPZ8YBS72aFY/H7hW7FsgoW6r1Hwxr2rguAm/uG0uk=
+X-Received: by 2002:a2e:b4af:: with SMTP id q15mr8934241ljm.420.1641782261947; 
+ Sun, 09 Jan 2022 18:37:41 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <6226db5a-3082-63d3-56a7-5a9b154bb056@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf9DxKMo7mdthawwBAA--.2593S3
-X-Coremail-Antispam: 1UD129KBjvAXoW3ZFyrJrW3Kry5AFW8Cr43GFg_yoW8Jr4DZo
- W3tF1IgF4xGr17Ar1Yk3s0vry29w18Kw43ArW8urs8Ga1Utayayw1UGF1DJFW3GF18Kr17
- JFy3Kws5urZ7XF1fn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UjIYCTnIWjp_UUUYP7k0a2IF6w4kM7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0
- x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj4
- 1l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0
- I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4
- vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
- F2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r1j6r4UMcIj6xIIjxv20xvE14v26r
- 1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vI
- r41lc7I2V7IY0VAS07AlzVAYIcxG8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l4I8I3I
- 0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWU
- GVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI
- 0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0
- rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr
- 0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU5Wmh7UUUUU==
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211104164827.21911-1-lulu@redhat.com>
+ <20220109125240-mutt-send-email-mst@kernel.org>
+ <CACLfguUTTpt7Fct3S7O92OXO=RvuDDRRpga8NMweR2cX-n6ctg@mail.gmail.com>
+In-Reply-To: <CACLfguUTTpt7Fct3S7O92OXO=RvuDDRRpga8NMweR2cX-n6ctg@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Mon, 10 Jan 2022 10:37:31 +0800
+Message-ID: <CACGkMEtt5WQoMJkt_oOtTsMhKfxKyKrDUjvH0v=uqVpS9+E7AQ@mail.gmail.com>
+Subject: Re: [PATCH v10 00/10]vhost-vdpa: add support for configure interrupt
+To: Cindy Lu <lulu@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,314 +91,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, David Gilbert <dgilbert@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Mark
+On Mon, Jan 10, 2022 at 9:37 AM Cindy Lu <lulu@redhat.com> wrote:
+>
+>
+>
+>
+> On Mon, Jan 10, 2022 at 1:56 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+>>
+>> On Fri, Nov 05, 2021 at 12:48:17AM +0800, Cindy Lu wrote:
+>> > these patches add the support for configure interrupt
+>> >
+>> > These codes are all tested in vp-vdpa (support configure interrupt)
+>> > vdpa_sim (not support configure interrupt), virtio tap device
+>> >
+>> > test in virtio-pci bus and virtio-mmio bus
+>> >
+>> > Change in v2:
+>> > Add support for virtio-mmio bus
+>> > active the notifier while the backend support configure interrupt
+>> > misc fixes from v1
+>> >
+>> > Change in v3
+>> > fix the coding style problems
+>> >
+>> > Change in v4
+>> > misc fixes from v3
+>> > merge the set_config_notifier to set_guest_notifier
+>> > when vdpa start, check the feature by VIRTIO_NET_F_STATUS
+>> >
+>> > Change in v5
+>> > misc fixes from v4
+>> > split the code to introduce configure interrupt type and the callback function
+>> > will init the configure interrupt in all virtio-pci and virtio-mmio bus, but will
+>> > only active while using vhost-vdpa driver
+>> >
+>> > Change in v6
+>> > misc fixes from v5
+>> > decouple vq from interrupt setting and misc process
+>> > fix the bug in virtio_net_handle_rx
+>> > use -1 as the queue number to identify if the interrupt is configure interrupt
+>> >
+>> > Change in v7
+>> > misc fixes from v6
+>> > decouple vq from interrupt setting and misc process
+>> > decouple vq from vector use/release process
+>> > decouple vq from set notifier fd handler process
+>> > move config_notifier and masked_config_notifier to VirtIODevice
+>> > fix the bug in virtio_net_handle_rx, add more information
+>> > add VIRTIO_CONFIG_IRQ_IDX as the queue number to identify if the interrupt is configure interrupt
+>> >
+>> > Change in v8
+>> > misc fixes from v7
+>> > decouple vq from interrupt setting and misc process
+>> > decouple vq from vector use/release process
+>> > decouple vq from set notifier fd handler process
+>> > move the vhost configure interrupt to vhost_net
+>> >
+>> > Change in v9
+>> > misc fixes from v8
+>> > address the comments from v8
+>> >
+>> > Change in v10
+>> > fix the hang issue in qtest
+>> > address the comments from v9
+>> >
+>> > Cindy Lu (10):
+>> >   virtio: introduce macro IRTIO_CONFIG_IRQ_IDX
+>> >   virtio-pci: decouple notifier from interrupt process
+>> >   virtio-pci: decouple the single vector from the interrupt process
+>> >   vhost: introduce new VhostOps vhost_set_config_call
+>> >   vhost-vdpa: add support for config interrupt
+>> >   virtio: add support for configure interrupt
+>> >   vhost: add support for configure interrupt
+>> >   virtio-net: add support for configure interrupt
+>> >   virtio-mmio: add support for configure interrupt
+>> >   virtio-pci: add support for configure interrupt
+>> >
+>> >  hw/display/vhost-user-gpu.c       |   6 +
+>> >  hw/net/vhost_net.c                |   9 +
+>> >  hw/net/virtio-net.c               |  10 +-
+>> >  hw/virtio/trace-events            |   1 +
+>> >  hw/virtio/vhost-user-fs.c         |   6 +
+>> >  hw/virtio/vhost-vdpa.c            |   7 +
+>> >  hw/virtio/vhost-vsock-common.c    |   6 +
+>> >  hw/virtio/vhost.c                 |  76 +++++++++
+>> >  hw/virtio/virtio-crypto.c         |   6 +
+>> >  hw/virtio/virtio-mmio.c           |  27 +++
+>> >  hw/virtio/virtio-pci.c            | 269 +++++++++++++++++++++---------
+>> >  hw/virtio/virtio-pci.h            |   4 +-
+>> >  hw/virtio/virtio.c                |  29 ++++
+>> >  include/hw/virtio/vhost-backend.h |   3 +
+>> >  include/hw/virtio/vhost.h         |   4 +
+>> >  include/hw/virtio/virtio.h        |   7 +
+>> >  include/net/vhost_net.h           |   2 +
+>> >  17 files changed, 389 insertions(+), 83 deletions(-)
+>>
+>> So I just realized something. The spec says:
+>>
+>> The device MUST set the Device Configuration Interrupt bit
+>> in \field{ISR status} before sending a device configuration
+>> change notification to the driver.
+>>
+>> and I don't see how these patches achieve this: it requires
+>> that config interrupts go through userspace.
+>>
+>> Revert, and think more about it? Or did I miss something?
+>>
+>  Thanks, Micheal, I'm ok to revert these patchs and there are also several bugs  I need to fix.
+> I will post a new version soon
 
-On 12/23/2021 06:52 PM, Mark Cave-Ayland wrote:
-> On 22/12/2021 08:26, yangxiaojuan wrote:
-> 
->> Hi, Mark
->>
->> On 12/18/2021 06:02 PM, Mark Cave-Ayland wrote:
->>> On 04/12/2021 12:07, Xiaojuan Yang wrote:
->>>
->>>> 1.Add uart,virtio-net,vga and usb for 3A5000.
->>>> 2.Add irq set and map for the pci host. Non pci device
->>>> use irq 0-16, pci device use 16-64.
->>>> 3.Add some unimplented device to emulate guest unused
->>>> memory space.
->>>>
->>>> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
->>>> Signed-off-by: Song Gao <gaosong@loongson.cn>
->>>> ---
->>>>    hw/loongarch/Kconfig            |  8 +++++
->>>>    hw/loongarch/loongson3.c        | 63 +++++++++++++++++++++++++++++++--
->>>>    hw/pci-host/ls7a.c              | 42 +++++++++++++++++++++-
->>>>    include/hw/intc/loongarch_ipi.h |  2 ++
->>>>    include/hw/pci-host/ls7a.h      |  4 +++
->>>>    softmmu/qdev-monitor.c          |  3 +-
->>>>    6 files changed, 117 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
->>>> index 468e3acc74..9ea3b92708 100644
->>>> --- a/hw/loongarch/Kconfig
->>>> +++ b/hw/loongarch/Kconfig
->>>> @@ -1,5 +1,13 @@
->>>>    config LOONGSON3_LS7A
->>>>        bool
->>>> +    imply VGA_PCI
->>>> +    imply VIRTIO_VGA
->>>> +    imply PARALLEL
->>>> +    imply PCI_DEVICES
->>>> +    select ISA_BUS
->>>> +    select SERIAL
->>>> +    select SERIAL_ISA
->>>> +    select VIRTIO_PCI
->>>>        select PCI_EXPRESS_7A
->>>>        select LOONGARCH_IPI
->>>>        select LOONGARCH_PCH_PIC
->>>> diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
->>>> index c42f830208..e4a02e7c18 100644
->>>> --- a/hw/loongarch/loongson3.c
->>>> +++ b/hw/loongarch/loongson3.c
->>>> @@ -10,8 +10,11 @@
->>>>    #include "qemu/datadir.h"
->>>>    #include "qapi/error.h"
->>>>    #include "hw/boards.h"
->>>> +#include "hw/char/serial.h"
->>>>    #include "sysemu/sysemu.h"
->>>>    #include "sysemu/qtest.h"
->>>> +#include "hw/irq.h"
->>>> +#include "net/net.h"
->>>>    #include "sysemu/runstate.h"
->>>>    #include "sysemu/reset.h"
->>>>    #include "hw/loongarch/loongarch.h"
->>>> @@ -20,6 +23,7 @@
->>>>    #include "hw/intc/loongarch_pch_pic.h"
->>>>    #include "hw/intc/loongarch_pch_msi.h"
->>>>    #include "hw/pci-host/ls7a.h"
->>>> +#include "hw/misc/unimp.h"
->>>>        static void loongarch_cpu_reset(void *opaque)
->>>> @@ -91,11 +95,12 @@ static void sysbus_mmio_map_loongarch(SysBusDevice *dev, int n,
->>>>        memory_region_add_subregion(iocsr, addr, dev->mmio[n].memory);
->>>>    }
->>>>    -static void loongson3_irq_init(MachineState *machine)
->>>> +static PCIBus *loongson3_irq_init(MachineState *machine)
->>>>    {
->>>>        LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
->>>> -    DeviceState *ipi, *extioi, *pch_pic, *pch_msi, *cpudev;
->>>> +    DeviceState *ipi, *extioi, *pch_pic, *pch_msi, *cpudev, *pciehost;
->>>>        SysBusDevice *d;
->>>> +    PCIBus *pci_bus;
->>>>        int cpu, pin, i;
->>>>        unsigned long ipi_addr;
->>>>    @@ -135,6 +140,10 @@ static void loongson3_irq_init(MachineState *machine)
->>>>        sysbus_realize_and_unref(d, &error_fatal);
->>>>        sysbus_mmio_map(d, 0, LS7A_IOAPIC_REG_BASE);
->>>>    +    serial_mm_init(get_system_memory(), LS7A_UART_BASE, 0,
->>>> +                   qdev_get_gpio_in(pch_pic, LS7A_UART_IRQ - PCH_PIC_IRQ_OFFSET),
->>>> +                   115200, serial_hd(0), DEVICE_LITTLE_ENDIAN);
->>>> +
->>>>        /* Connect 64 pch_pic irqs to extioi */
->>>>        for (int i = 0; i < PCH_PIC_IRQ_NUM; i++) {
->>>>            sysbus_connect_irq(d, i, qdev_get_gpio_in(extioi, i));
->>>> @@ -149,6 +158,35 @@ static void loongson3_irq_init(MachineState *machine)
->>>>            sysbus_connect_irq(d, i,
->>>>                               qdev_get_gpio_in(extioi, i + PCH_MSI_IRQ_START));
->>>>        }
->>>> +
->>>> +    pciehost = qdev_new(TYPE_LS7A_HOST_DEVICE);
->>>> +    d = SYS_BUS_DEVICE(pciehost);
->>>> +    sysbus_realize_and_unref(d, &error_fatal);
->>>> +    pci_bus = PCI_HOST_BRIDGE(pciehost)->bus;
->>>> +
->>>> +    /* Connect 48 pci irq to pch_pic */
->>>> +    for (i = 0; i < LS7A_PCI_IRQS; i++) {
->>>> +        qdev_connect_gpio_out(pciehost, i,
->>>> +                              qdev_get_gpio_in(pch_pic, i + LS7A_DEVICE_IRQS));
->>>> +    }
->>>> +
->>>> +    return pci_bus;
->>>> +}
->>>> +
->>>> +/* Network support */
->>>> +static void network_init(PCIBus *pci_bus)
->>>> +{
->>>> +    int i;
->>>> +
->>>> +    for (i = 0; i < nb_nics; i++) {
->>>> +        NICInfo *nd = &nd_table[i];
->>>> +
->>>> +        if (!nd->model) {
->>>> +            nd->model = g_strdup("virtio");
->>>> +        }
->>>> +
->>>> +        pci_nic_init_nofail(nd, pci_bus, nd->model, NULL);
->>>> +    }
->>>>    }
->>>>      static void loongson3_init(MachineState *machine)
->>>> @@ -161,6 +199,7 @@ static void loongson3_init(MachineState *machine)
->>>>        MemoryRegion *address_space_mem = get_system_memory();
->>>>        LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
->>>>        int i;
->>>> +    PCIBus *pci_bus = NULL;
->>>>          if (!cpu_model) {
->>>>            cpu_model = LOONGARCH_CPU_TYPE_NAME("Loongson-3A5000");
->>>> @@ -207,8 +246,26 @@ static void loongson3_init(MachineState *machine)
->>>>        memory_region_add_subregion(address_space_mem, 0x90000000, &lams->highmem);
->>>>        offset += highram_size;
->>>>    +    /*
->>>> +     * There are some invalid guest memory access.
->>>> +     * Create some unimplemented devices to emulate this.
->>>> +     */
->>>> +    create_unimplemented_device("ls7a-lpc", 0x10002000, 0x14);
->>>> +    create_unimplemented_device("pci-dma-cfg", 0x1001041c, 0x4);
->>>> +    create_unimplemented_device("node-bridge", 0xEFDFB000274, 0x4);
->>>> +    create_unimplemented_device("ls7a-lionlpc", 0x1fe01400, 0x38);
->>>> +    create_unimplemented_device("ls7a-node0", 0x0EFDFB000274, 0x4);
->>>> +
->>>>        /* Initialize the IO interrupt subsystem */
->>>> -    loongson3_irq_init(machine);
->>>> +    pci_bus = loongson3_irq_init(machine);
->>>> +
->>>> +    /* Network card */
->>>> +    network_init(pci_bus);
->>>> +
->>>> +    /* VGA setup. Don't bother loading the bios. */
->>>> +    pci_vga_init(pci_bus);
->>>> +
->>>> +    pci_create_simple(pci_bus, -1, "pci-ohci");
->>>
->>> By passing in -1 then you're allowing the PCI code to choose a suitable device/function which feels odd for an in-built device. Is this not fixed in real hardware?
->>>
->>> Same with pci_nic_init_nofail() and pci_vga_init() which are intended for machines that don't have these devices in-built.
->>
->> The machine has these devices but we don't want to emulate all the devices, only emulated part devices.
->> I don't know if it is ok to do like this.
-> 
-> I'm not sure I understand what you mean by part devices here - could you give an example?
+Please test with vectors=0 for the new version to make it work as expected.
 
+Thanks
 
-For example the ls7a1000 support multiple devices, such as sata, gmac, uart, rtc and so on. But we just realize the rtc.
-
-> 
->>>>        LOONGARCH_SIMPLE_MMIO_OPS(FEATURE_REG, "loongarch_feature", 0x8);
->>>>        LOONGARCH_SIMPLE_MMIO_OPS(VENDOR_REG, "loongarch_vendor", 0x8);
->>>> diff --git a/hw/pci-host/ls7a.c b/hw/pci-host/ls7a.c
->>>> index a783fb2eda..06cd641573 100644
->>>> --- a/hw/pci-host/ls7a.c
->>>> +++ b/hw/pci-host/ls7a.c
->>>> @@ -28,6 +28,41 @@ static const VMStateDescription vmstate_ls7a_pcie = {
->>>>        }
->>>>    };
->>>>    +static PCIINTxRoute ls7a_route_intx_pin_to_irq(void *opaque, int pin)
->>>> +{
->>>> +    PCIINTxRoute route;
->>>> +
->>>> +    route.irq = pin;
->>>> +    route.mode = PCI_INTX_ENABLED;
->>>> +    return route;
->>>> +}
->>>> +
->>>> +static int pci_ls7a_map_irq(PCIDevice *d, int irq_num)
->>>> +{
->>>> +    PCIBus *bus;
->>>> +    int offset, irq;
->>>> +
->>>> +    bus = pci_get_bus(d);
->>>> +    if (bus->parent_dev) {
->>>> +        irq = pci_swizzle_map_irq_fn(d, irq_num);
->>>> +        return irq;
->>>> +    }
->>>
->>> Isn't this part already handled by the code in hw/pci/pci.c when the IRQ is asserted, for example pci_change_irq_level()?
 >>
->> We design a different rule for the pcie devices connect to the root bridge, assign more irqs to these devices.
->> For the pci device connect to a pcie-to-pci bridge use the common pci_swizzle_map_irq_fn to map irq.
-> 
-> I'm less familiar with PCIe but shouldn't the interrupt mapping for devices connected via a pcie-to-pci bridge be handled by the bridge in this case? Have a look at pci_bridge_map_irq() to see how this is used. I'd expect the pcie-to-pci bridge to map the PCI irq to your host controller irq first before calling pci_ls7a_map_irq(), which I think then becomes just a simple call to pci_swizzle_map_irq_fn()?
-> 
-
-For this part, I'm a bit confused. I think some pcie devices can directly connect to the host bridges while the pci devices will connected via a pcie-to-pci bridge. So the map irq is like this. 
-I will learn more about PCIe to verify whether this idea is correct. Thank you!
- 
->>>> +    /* pci device start from irq 80 */
->>>> +    offset = PCH_PIC_IRQ_OFFSET + LS7A_DEVICE_IRQS;
->>>> +    irq = offset + ((PCI_SLOT(d->devfn) * 4 + irq_num)) % LS7A_PCI_IRQS;
->>>> +
->>>> +    return irq;
->>>> +}
->>>> +
->>>> +static void pci_ls7a_set_irq(void *opaque, int irq_num, int level)
->>>> +{
->>>> +    LS7APCIEHost *pciehost = opaque;
->>>> +    int offset = PCH_PIC_IRQ_OFFSET + LS7A_DEVICE_IRQS;
->>>> +
->>>> +    qemu_set_irq(pciehost->irqs[irq_num - offset], level);
->>>> +}
->>>> +
->>>>    static void pci_ls7a_config_write(void *opaque, hwaddr addr,
->>>>                                      uint64_t val, unsigned size)
->>>>    {
->>>> @@ -64,10 +99,13 @@ static void ls7a_pciehost_realize(DeviceState *dev, Error **errp)
->>>>        LS7APCIEHost *s = LS7A_HOST_DEVICE(dev);
->>>>        PCIExpressHost *pex = PCIE_HOST_BRIDGE(dev);
->>>>    -    pci->bus = pci_register_root_bus(dev, "pcie.0", NULL, NULL, s,
->>>> +    pci->bus = pci_register_root_bus(dev, "pcie.0", pci_ls7a_set_irq,
->>>> +                                     pci_ls7a_map_irq, s,
->>>>                                         get_system_memory(), get_system_io(),
->>>>                                         PCI_DEVFN(1, 0), 128, TYPE_PCIE_BUS);
->>>>    +    pci_bus_set_route_irq_fn(pci->bus, ls7a_route_intx_pin_to_irq);
->>>> +
->>>>        memory_region_init_io(&s->pci_conf, OBJECT(dev),
->>>>                              &pci_ls7a_config_ops, pci->bus,
->>>>                              "ls7a_pci_conf", HT1LO_PCICFG_SIZE);
->>>> @@ -137,6 +175,8 @@ static void ls7a_pciehost_initfn(Object *obj)
->>>>        object_initialize_child(obj, "ls7a_pci", ls7a_pci, TYPE_LS7A_PCIE);
->>>>        qdev_prop_set_int32(DEVICE(ls7a_pci), "addr", PCI_DEVFN(0, 0));
->>>>        qdev_prop_set_bit(DEVICE(ls7a_pci), "multifunction", false);
->>>> +
->>>> +    qdev_init_gpio_out(DEVICE(obj), s->irqs, LS7A_PCI_IRQS);
->>>>    }
->>>>      static const char *ls7a_pciehost_root_bus_path(PCIHostState *host_bridge,
->>>> diff --git a/include/hw/intc/loongarch_ipi.h b/include/hw/intc/loongarch_ipi.h
->>>> index d2397e53e7..1113c3b1a8 100644
->>>> --- a/include/hw/intc/loongarch_ipi.h
->>>> +++ b/include/hw/intc/loongarch_ipi.h
->>>> @@ -8,6 +8,8 @@
->>>>    #ifndef HW_LOONGARCH_IPI_H
->>>>    #define HW_LOONGARCH_IPI_H
->>>>    +#include "hw/sysbus.h"
->>>> +
->>>>    /* Mainy used by iocsr read and write */
->>>>    #define SMP_IPI_MAILBOX      0x1000ULL
->>>>    #define CORE_STATUS_OFF       0x0
->>>> diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
->>>> index ac938d6d5f..3b9ad1e175 100644
->>>> --- a/include/hw/pci-host/ls7a.h
->>>> +++ b/include/hw/pci-host/ls7a.h
->>>> @@ -37,6 +37,9 @@
->>>>    #define LS7A_DEVICE_IRQS        16
->>>>    #define LS7A_PCI_IRQS           48
->>>>    +#define LS7A_UART_IRQ           (PCH_PIC_IRQ_OFFSET + 2)
->>>> +#define LS7A_UART_BASE          0x1fe001e0
->>>> +
->>>>    struct LS7APCIState {
->>>>        /*< private >*/
->>>>        PCIDevice parent_obj;
->>>> @@ -51,6 +54,7 @@ typedef struct LS7APCIEHost {
->>>>          LS7APCIState pci_dev;
->>>>    +    qemu_irq irqs[LS7A_PCI_IRQS];
->>>>        MemoryRegion pci_conf;
->>>>        MemoryRegion pci_io;
->>>>    } LS7APCIEHost;
->>>> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
->>>> index 01f3834db5..49491d74a1 100644
->>>> --- a/softmmu/qdev-monitor.c
->>>> +++ b/softmmu/qdev-monitor.c
->>>> @@ -60,7 +60,8 @@ typedef struct QDevAlias
->>>>                                  QEMU_ARCH_HPPA | QEMU_ARCH_I386 | \
->>>>                                  QEMU_ARCH_MIPS | QEMU_ARCH_PPC |  \
->>>>                                  QEMU_ARCH_RISCV | QEMU_ARCH_SH4 | \
->>>> -                              QEMU_ARCH_SPARC | QEMU_ARCH_XTENSA)
->>>> +                              QEMU_ARCH_SPARC | QEMU_ARCH_XTENSA | \
->>>> +                              QEMU_ARCH_LOONGARCH)
->>>
->>> This part looks like it belongs to another patch?
 >>
->> OK, I will put this part to a separate patch.
+>> > --
+>> > 2.21.3
 >>
->> Thanks,
->> Xiaojuan
->>
->>>
->>>>    #define QEMU_ARCH_VIRTIO_CCW (QEMU_ARCH_S390X)
->>>>    #define QEMU_ARCH_VIRTIO_MMIO (QEMU_ARCH_M68K)
-> 
-> ATB,
-> 
-> Mark.
 
 
