@@ -2,86 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171F04894C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 10:11:11 +0100 (CET)
-Received: from localhost ([::1]:46464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 231F748950A
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 10:18:29 +0100 (CET)
+Received: from localhost ([::1]:53158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6qhp-0006GA-OE
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 04:11:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52998)
+	id 1n6qot-0002js-Nl
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 04:18:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n6qeG-00027F-O4; Mon, 10 Jan 2022 04:07:28 -0500
-Received: from [2a00:1450:4864:20::433] (port=34494
- helo=mail-wr1-x433.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n6qeF-0001MJ-1y; Mon, 10 Jan 2022 04:07:28 -0500
-Received: by mail-wr1-x433.google.com with SMTP id h10so15228240wrb.1;
- Mon, 10 Jan 2022 01:07:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=OZwdoF8j15NjnUUfOsg2RZJTi/xxWgJ0e3oy+vZDoHs=;
- b=m5EOuOe2W+CjKxFK0B0hinOdRp1CYg3Dgs24BoRHspoeS7/PK93Uqlgf6Oce4bZx4G
- Fql9lwHP6j90Mwu8kMr//fEyDsfdp09YcjFlqzTdO1X1PvbIIDXxwRO1flbP0HRPdX0Z
- MKqInoXcBrXry0CiLBHwDUqsX2j9q50IZH+2holzHTxKhAbIDS1iL0KSAnpMDu4G/R1A
- 1g4qJoQYUsB2BdeUnXdCg3QcwVvmEHQHwOBuTP4pj2ngRbstyiwdMak99mh8qOO62ndT
- Jf9HINdhAUKpg236jUIfl/K+8RUeVIZSbKCajzmrV6ahY7LAnp6EN6mUJlNnv4vulUkZ
- xEdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=OZwdoF8j15NjnUUfOsg2RZJTi/xxWgJ0e3oy+vZDoHs=;
- b=Ml+MBoicuKlB1VgpMcAwT7oade4YN6SlcYBlEahCxpDgZJatkQ2nnpRaIGpzuPIBZa
- 1ql1Rql30hJu9AMxZj3uBartCnI1a91PWmsfnX8xmoAweVj9WpRg1pjoYaLsf3BhTE6P
- PETRkXLYCmiEMgSlk8wXmzU8Qy9+5X9Zg/o//6amajoE+/p711Xx9F7gJJVvn2C4Vo9x
- vPXQzm2crg/Caw3rladYNkl6crjHUv+War5t0tujgQ1P6+QDaILrhLlqzt1Rwcr6wHAd
- VjnQdrhyQoa4raR3ncTxPflsdQLVdM1ptI/7nSHuCEaGwYCQ+dLFjmdXIxbHJ06Z6oO1
- TvAw==
-X-Gm-Message-State: AOAM532IuZ9j9zYIJXKE9plDSOnRzvlnxef8M3d1Y36/bAZcad1Zo5bM
- vwlch1SRr09D0aRVRYvIv5I=
-X-Google-Smtp-Source: ABdhPJxH5yOIc/wswOwnryiZa1jJuFVq0p3AoP4sOsO977S2Dl9faW68jba3SLgxb+H7o4OW4VsuSw==
-X-Received: by 2002:a05:6000:1c1c:: with SMTP id
- ba28mr24695519wrb.37.1641805645498; 
- Mon, 10 Jan 2022 01:07:25 -0800 (PST)
-Received: from [192.168.1.40] (83.red-83-50-87.dynamicip.rima-tde.net.
- [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id k33sm6192535wms.21.2022.01.10.01.07.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Jan 2022 01:07:25 -0800 (PST)
-Message-ID: <637a0a5e-888f-6ac8-1307-aedef1c91b5a@amsat.org>
-Date: Mon, 10 Jan 2022 10:07:23 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1n6qlm-0000wn-W4
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 04:15:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38274)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1n6qlj-0002O8-Sw
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 04:15:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641806110;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Hai8dcuW3ErIgCASO0uCunjIqbWRWGdL9Lpo4suXv9U=;
+ b=Fd3CuXqLFcez8hU28WuneioHq0Q9b+3zsPI4QB7HKDOx2EqZIed8WLhRj3xmNqCxxKu6qc
+ PU6mrGTbxFXOtmC/xyl4JA2356Y5rKkOu/pBivwyDMSgjGgvLtYNzZJuUdrIKZ/R9Sbaoh
+ 7bPzOV3wqpB+NNYBIZthhWCZ03U47SI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-605-yAQ0B7UGMkqxLe9rMif9dw-1; Mon, 10 Jan 2022 04:15:04 -0500
+X-MC-Unique: yAQ0B7UGMkqxLe9rMif9dw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B479A83DD21;
+ Mon, 10 Jan 2022 09:15:02 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 30ABA1F42D;
+ Mon, 10 Jan 2022 09:14:57 +0000 (UTC)
+Date: Mon, 10 Jan 2022 09:14:54 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 6/6] gitlab-ci: Support macOS 12 via cirrus-run
+Message-ID: <Ydv5DpznbamD0yi1@redhat.com>
+References: <20220109170612.574104-1-f4bug@amsat.org>
+ <20220109170612.574104-7-f4bug@amsat.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v2 9/9] hw/dma: Let dma_buf_read() / dma_buf_write()
- propagate MemTxResult
-Content-Language: en-US
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20220104085431.2122999-1-f4bug@amsat.org>
- <20220104085431.2122999-10-f4bug@amsat.org>
- <a3d4079d-90fd-5ec9-05b9-6b0a79ba4640@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <a3d4079d-90fd-5ec9-05b9-6b0a79ba4640@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20220109170612.574104-7-f4bug@amsat.org>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,34 +83,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, Peter Xu <peterx@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Klaus Jensen <k.jensen@samsung.com>,
- Keith Busch <kbusch@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-block@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/10/22 09:51, David Hildenbrand wrote:
-> On 04.01.22 09:54, Philippe Mathieu-Daudé wrote:
->> From: Philippe Mathieu-Daudé <philmd@redhat.com>
->>
->> Since the previous commit, dma_buf_rw() returns a MemTxResult
->> type. Do not discard it, return it to the caller.
->>
->> Since both dma_buf_read/dma_buf_write functions were previously
->> returning the QEMUSGList size not consumed, add an extra argument
->> where the unconsummed size can be stored.
->>
->> Update the few callers.
+On Sun, Jan 09, 2022 at 06:06:12PM +0100, Philippe Mathieu-Daudé wrote:
+> Add support for macOS 12 build on Cirrus-CI, similarly to commit
+> 0e103a65ba1 ("gitlab: support for ... macOS 11 via cirrus-run").
 > 
-> I feel like this patch doesn't fit into the context of this series.
-> Especially as the cover letter mentiones "Finally we replace misuses
-> with dma_addr_t typedef."
+> Disable deprecation warnings on Objective C to avoid:
 > 
-> Am I missing something?
+>   [2789/6622] Compiling Objective-C object libcommon.fa.p/ui_cocoa.m.o
+>   ui/cocoa.m:1411:16: error: 'setAllowedFileTypes:' is deprecated: first deprecated in macOS 12.0 - Use -allowedContentTypes instead [-Werror,-Wdeprecated-declarations]
+>       [openPanel setAllowedFileTypes: supportedImageFileTypes];
+>                  ^
+>   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSSavePanel.h:215:49: note: property 'allowedFileTypes' is declared deprecated here
+>   @property (nullable, copy) NSArray<NSString *> *allowedFileTypes API_DEPRECATED("Use -allowedContentTypes instead", macos(10.3,12.0));
+>                                                   ^
+>   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSSavePanel.h:215:49: note: 'setAllowedFileTypes:' has been explicitly marked deprecated here
+>   FAILED: libcommon.fa.p/ui_cocoa.m.o
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> Generated using lcitool from:
+> https://gitlab.com/libvirt/libvirt-ci/-/merge_requests/210
+> ---
+>  .gitlab-ci.d/cirrus.yml           | 16 ++++++++++++++++
+>  .gitlab-ci.d/cirrus/macos-12.vars | 16 ++++++++++++++++
+>  2 files changed, 32 insertions(+)
+>  create mode 100644 .gitlab-ci.d/cirrus/macos-12.vars
 
-OK, I will simply repost it once this series gets merged.
+There's going to be a minor interaction with my patches that integrate
+lcitool more formally in QEMU. Alex has them queued here:
+
+  https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg00558.html
+
+could you rebase on top of that series - all it will really mean
+in this case is including the git submodule update on top, and
+updating the refresh script to include macos-12 too
+
+ https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg00571.html
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
