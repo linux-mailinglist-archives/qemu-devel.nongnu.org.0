@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FEDB48A3AE
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 00:32:04 +0100 (CET)
-Received: from localhost ([::1]:43002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C7EB48A3B8
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 00:36:45 +0100 (CET)
+Received: from localhost ([::1]:50056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n748x-0002fi-CK
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 18:32:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42154)
+	id 1n74DQ-0007no-0D
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 18:36:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n746c-0000AJ-8f
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:29:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42372)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n746m-0000ju-9q
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:29:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58207)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n746V-00088d-VA
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:29:33 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n746k-00089Z-PL
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:29:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641857371;
+ s=mimecast20190719; t=1641857386;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BAyjc9fmhmTlfmWbuScgD6tJRKwOreXbnEvlDl+wRK0=;
- b=N42EThwxTv/N6/fVy7mP9bdfXmkOdljOYNqOaOHHfFg0aotXonLqNDSp9YpuDvAsjsimCz
- ybaXj6eHZxxmi+cDHqzeBkS3QCucEcF2XyxRIu+CiULZPiOQrvjSfd/9vcEqML0Wsq5d5D
- hwHr4cSwNofjr9kbmjgLemAb+A97PNQ=
+ bh=VUcGHCn7G9JUHxI079emoPM39xxMoNT5ubpHX3950Rg=;
+ b=Ag0E7+S8w47j53+3LMu9brDMCe7XMyxH6QNI0XzowoDJYk+OhSlTPTubHiEACo5iHS60wq
+ M43h8Bl+Js86S7rz4d4Wb3i2SIegl/tYAx/V7hnUDYYBW4j7mqEB/UtZ+5CNUgGq76uCTN
+ hUxgsc2LDNh+GpNuLaMJhWRwmgEZvHI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-278-mDNgm2cUPWSJiz0BvxB2-w-1; Mon, 10 Jan 2022 18:29:30 -0500
-X-MC-Unique: mDNgm2cUPWSJiz0BvxB2-w-1
+ us-mta-240-FQVQfnEdNoiWyrPb0Lf9oQ-1; Mon, 10 Jan 2022 18:29:43 -0500
+X-MC-Unique: FQVQfnEdNoiWyrPb0Lf9oQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E0DB1083F6E;
- Mon, 10 Jan 2022 23:29:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 957431019631;
+ Mon, 10 Jan 2022 23:29:41 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.219])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B2B8C7B028;
- Mon, 10 Jan 2022 23:29:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 716697B022;
+ Mon, 10 Jan 2022 23:29:29 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 02/31] Python/aqmp: fix type definitions for mypy 0.920
-Date: Mon, 10 Jan 2022 18:28:41 -0500
-Message-Id: <20220110232910.1923864-3-jsnow@redhat.com>
+Subject: [PATCH v3 03/31] python: update type hints for mypy 0.930
+Date: Mon, 10 Jan 2022 18:28:42 -0500
+Message-Id: <20220110232910.1923864-4-jsnow@redhat.com>
 In-Reply-To: <20220110232910.1923864-1-jsnow@redhat.com>
 References: <20220110232910.1923864-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -87,47 +87,45 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-0.920 (Released 2021-12-15) is not entirely happy with the
-way that I was defining _FutureT:
+Mypy 0.930, released Dec 22, changes the way argparse objects are
+considered. Crafting a definition that works under Python 3.6 and an
+older mypy alongside newer versions simultaneously is ... difficult,
+so... eh. Stub it out with an 'Any' definition to get the CI moving
+again.
 
-qemu/aqmp/protocol.py:601: error: Item "object" of the upper bound
-"Optional[Future[Any]]" of type variable "_FutureT" has no attribute
-"done"
-
-Update it with something a little mechanically simpler that works better
-across a wider array of mypy versions.
+Oh well.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20220110191349.1841027-3-jsnow@redhat.com
+Message-id: 20220110191349.1841027-4-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/aqmp/protocol.py | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ python/qemu/qmp/qom_common.py | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/python/qemu/aqmp/protocol.py b/python/qemu/aqmp/protocol.py
-index 5190b33b13..c4fbe35a0e 100644
---- a/python/qemu/aqmp/protocol.py
-+++ b/python/qemu/aqmp/protocol.py
-@@ -43,8 +43,8 @@
+diff --git a/python/qemu/qmp/qom_common.py b/python/qemu/qmp/qom_common.py
+index a59ae1a2a1..2e4c741f77 100644
+--- a/python/qemu/qmp/qom_common.py
++++ b/python/qemu/qmp/qom_common.py
+@@ -30,10 +30,6 @@
+ from . import QEMUMonitorProtocol, QMPError
  
  
- T = TypeVar('T')
-+_U = TypeVar('_U')
- _TaskFN = Callable[[], Awaitable[None]]  # aka ``async def func() -> None``
--_FutureT = TypeVar('_FutureT', bound=Optional['asyncio.Future[Any]'])
+-# The following is needed only for a type alias.
+-Subparsers = argparse._SubParsersAction  # pylint: disable=protected-access
+-
+-
+ class ObjectPropertyInfo:
+     """
+     Represents the return type from e.g. qom-list.
+@@ -89,7 +85,7 @@ def __init__(self, args: argparse.Namespace):
+         self.qmp.connect()
  
- 
- class Runstate(Enum):
-@@ -591,7 +591,8 @@ def _cleanup(self) -> None:
+     @classmethod
+-    def register(cls, subparsers: Subparsers) -> None:
++    def register(cls, subparsers: Any) -> None:
          """
-         Fully reset this object to a clean state and return to `IDLE`.
-         """
--        def _paranoid_task_erase(task: _FutureT) -> Optional[_FutureT]:
-+        def _paranoid_task_erase(task: Optional['asyncio.Future[_U]']
-+                                 ) -> Optional['asyncio.Future[_U]']:
-             # Help to erase a task, ENSURING it is fully quiesced first.
-             assert (task is None) or task.done()
-             return None if (task and task.done()) else task
+         Register this command with the argument parser.
+ 
 -- 
 2.31.1
 
