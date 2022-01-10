@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 235FC489BE7
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 16:11:17 +0100 (CET)
-Received: from localhost ([::1]:56114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87D20489BD5
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 16:08:37 +0100 (CET)
+Received: from localhost ([::1]:51660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6wKK-00082W-87
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 10:11:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55382)
+	id 1n6wHk-0004Sv-CY
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 10:08:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n6vqw-000278-H0
+ id 1n6vqw-000279-HB
  for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:40:54 -0500
-Received: from [2a00:1450:4864:20::52f] (port=33570
- helo=mail-ed1-x52f.google.com)
+Received: from [2a00:1450:4864:20::534] (port=40742
+ helo=mail-ed1-x534.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n6vqt-0000Uv-TP
+ id 1n6vqv-0000VJ-0c
  for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:40:54 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id b13so1094886edn.0
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 06:40:51 -0800 (PST)
+Received: by mail-ed1-x534.google.com with SMTP id a18so53407589edj.7
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 06:40:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aXyUMyG7vbgaYYighFikjZCBWMIv2oSr8qV4nvQV9c0=;
- b=Yg7Lxsig+MbizAYxL43/K2tAjqeiAqxXkm7LVZUiNkvz+OcGFDfH9hwNLchs14d2Td
- 6L4QLs17vWYXgZRAKWirQMGzqeqwVLTpPhZhZ7orpzVKc1WdBI9rHC5C0fFBTtmCp9Rh
- 0445Q7B0Y3lug81OEI3RnTcXdz/PYK51fIn3a/BAQnpvD1fHLAstTuIxEKvL5j5dQkav
- xQ+myY/kKcsQMYGHqtk4hMbW1CkFchIe5vpyGyaNYX8yI/csSzJnWsGAwcP50eSLA+cG
- lPUavKvRHPHC39RJHlzmlr/L4rMlKd/RJLP55VfstS+NoSFhLI4sfdvmzyG8a3stkFZM
- rI7g==
+ bh=088450L/bqlgI6yAPA9NTzKrp+4+h6Tn3SpFF2ftbfc=;
+ b=Wra/+0TOMgvBMf3nwp6wlZt4r/fvuLO9ObnztBTPK61GZOpRtwDLlY2/CYa9IfH9kz
+ Y4DMBPx9L/WRyTi8h0RnyU5UnM+qlKMhPYY9untyjs2UgJYnVjr59yqaUg1Cc2Lx85Xo
+ pGyQq75j15vmwm9ngJ/6ABaXh07ZWkEiKuvX3njTR9jja0gWDWxgo+S8sCudyTfOhg9O
+ tyRoo5jAiRSZc8mCl91GnGxTD5sISOq/eOtJbtfI702TnXpgIivG+Lf890Yr1Jw3f8XN
+ jXGesfca+XJTMreMuNjqw62FxdL1erA8VYKlWC6x+99qEd/PnvACqArfYBrbqozXuEHi
+ Ab1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=aXyUMyG7vbgaYYighFikjZCBWMIv2oSr8qV4nvQV9c0=;
- b=gEi2va1V50vzKeZzTyRT4p9dEz94BeKS/wkA32qzcmP+4peygq8ZC1CV1t8b1xJFGX
- mHuQDZrynSVQYjvvVYfhIloPGGMC9fpWTVo9Z4w3Owx7SWIfq3rszaDbiS8yKcVDLTOx
- iwaM3L5xDi+lqAQovaf6EgRPzGnp/kmrfqIMHf25GWwqHYy/0OPPkC0J+XkF240ZriL/
- HGsN3BNtdoVfUSQh0V1R2usXgwOhtwN6x6LytZFQ+fZWnSbpgB1qog8WXq7xmOi22bFW
- gL6l/g0xHOpLDruiMXKbqAWZFdhnhh+MgzS+pp2PKAWBLueVuPIUoe8lw2AZnK5S0JG7
- 2s2Q==
-X-Gm-Message-State: AOAM530B7Stbwk+MQisAOvyx5KGBNdju5gfSwMfuq/mZlt1OK674I9NN
- fqkB+tN8UoBveT6U29WoXdZYzimRgOs=
-X-Google-Smtp-Source: ABdhPJw719bIeDKK4WrbQCw8zUFgOhSOghzqEXXWPv7l61K0ILc7n3S6j2JRxjr3N594NrAlgsJgIA==
-X-Received: by 2002:a17:906:58cc:: with SMTP id
- e12mr19421ejs.755.1641825650505; 
- Mon, 10 Jan 2022 06:40:50 -0800 (PST)
+ bh=088450L/bqlgI6yAPA9NTzKrp+4+h6Tn3SpFF2ftbfc=;
+ b=uALkDH6NCRI9xPxAL13YKDoJHc60ulrRI1nboLLJpcJfiHw7xxD25oEC3lnOHwkllk
+ QD2xz3agoOayo2d/9z0mhtUzm1NLhAjds0rwYhP9xAc9kfZMKswMHqBc+A764CSJQJBr
+ hUaoRwqQUPP6xDmajPtQ+T31aMbqA645ZPZqCWad5H1TPZfG2iX893CY6YrzBqiqQcRp
+ a03EkWfghYrc0ezgDWRni2kWMmWHKcpNYzleSLTLWSN6btEWoJ/9GgMzzXl+kHxEaQmh
+ YX1q+id4f5riRYwVol1lyUy2EhjgPho2uVhoL7tSk8uEEoBNIEHqAvncLGOV3g6STCoD
+ pPuw==
+X-Gm-Message-State: AOAM533Pt+ONgxGqj+VdAiyS9sfb10TlJ8A2JB7sWCNNTFBVqq+Tqrg8
+ CT/MlP+ytZrkj4v4BJk/vK2wFfjXkuY=
+X-Google-Smtp-Source: ABdhPJyVV8cqUfg8XuBPOwTKkwFdlG/Tfxwt+x3Yl48azE9y0CPeCv4s/ibK7GsfO0n8ZaClfd1KHw==
+X-Received: by 2002:a17:906:14d4:: with SMTP id
+ y20mr60769ejc.454.1641825651743; 
+ Mon, 10 Jan 2022 06:40:51 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id k25sm2549498ejk.179.2022.01.10.06.40.48
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id k25sm2549498ejk.179.2022.01.10.06.40.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jan 2022 06:40:49 -0800 (PST)
+ Mon, 10 Jan 2022 06:40:51 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/18] configure: parse --enable/--disable-strip automatically,
- flip default
-Date: Mon, 10 Jan 2022 15:40:24 +0100
-Message-Id: <20220110144034.67410-9-pbonzini@redhat.com>
+Subject: [PULL 09/18] configure: move non-command-line variables away from
+ command-line parsing section
+Date: Mon, 10 Jan 2022 15:40:25 +0100
+Message-Id: <20220110144034.67410-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220110144034.67410-1-pbonzini@redhat.com>
 References: <20220110144034.67410-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::534
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -89,162 +89,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Always include the STRIP variable in config-host.mak (it's only used
-by the s390-ccw firmware build, and it adds a default if configure
-omitted it), and use meson-buildoptions.sh to turn
---enable/--disable-strip into -Dstrip.
+This makes it easier to identify candidates for moving to Meson.
 
-The default is now not to strip the binaries like for almost every other
-package that has a configure script.
-
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                     | 10 +---------
- pc-bios/s390-ccw/Makefile     |  2 --
- scripts/meson-buildoptions.py | 21 ++++++++++++++-------
- scripts/meson-buildoptions.sh |  3 +++
- 4 files changed, 18 insertions(+), 18 deletions(-)
+ configure | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/configure b/configure
-index a02febe09c..be05bcf856 100755
+index be05bcf856..56c113bd83 100755
 --- a/configure
 +++ b/configure
-@@ -307,7 +307,6 @@ debug="no"
+@@ -307,16 +307,12 @@ debug="no"
  sanitizers="no"
  tsan="no"
  fortify_source="$default_feature"
--strip_opt="yes"
- mingw32="no"
+-mingw32="no"
  gcov="no"
  EXESUF=""
-@@ -892,7 +891,6 @@ for opt do
-       debug_tcg="yes"
-       debug_mutex="yes"
-       debug="yes"
--      strip_opt="no"
-       fortify_source="no"
-   ;;
-   --enable-sanitizers) sanitizers="yes"
-@@ -903,8 +901,6 @@ for opt do
-   ;;
-   --disable-tsan) tsan="no"
-   ;;
--  --disable-strip) strip_opt="no"
--  ;;
-   --disable-slirp) slirp="disabled"
-   ;;
-   --enable-slirp) slirp="enabled"
-@@ -1367,7 +1363,6 @@ Advanced options (experts only):
-   --enable-debug           enable common debug build options
-   --enable-sanitizers      enable default sanitizers
-   --enable-tsan            enable thread sanitizer
--  --disable-strip          disable stripping binaries
-   --disable-werror         disable compilation abort on warning
-   --disable-stack-protector disable compiler-provided stack protection
-   --audio-drv-list=LIST    set audio drivers to try if -audiodev is not used
-@@ -3315,9 +3310,6 @@ echo "GIT_SUBMODULES_ACTION=$git_submodules_action" >> $config_host_mak
- if test "$debug_tcg" = "yes" ; then
-   echo "CONFIG_DEBUG_TCG=y" >> $config_host_mak
+ modules="no"
+ module_upgrades="no"
+ prefix="/usr/local"
+ qemu_suffix="qemu"
+-bsd="no"
+-linux="no"
+-solaris="no"
+ profiler="no"
+ softmmu="yes"
+ linux_user=""
+@@ -330,8 +326,6 @@ opengl="$default_feature"
+ cpuid_h="no"
+ avx2_opt="$default_feature"
+ guest_agent="$default_feature"
+-guest_agent_with_vss="no"
+-guest_agent_ntddscsi="no"
+ vss_win32_sdk="$default_feature"
+ win_sdk="no"
+ want_tools="$default_feature"
+@@ -526,6 +520,10 @@ fi
+ 
+ # OS specific
+ 
++mingw32="no"
++bsd="no"
++linux="no"
++solaris="no"
+ case $targetos in
+ windows)
+   mingw32="yes"
+@@ -2549,6 +2547,7 @@ fi
+ ##########################################
+ # check if we have VSS SDK headers for win
+ 
++guest_agent_with_vss="no"
+ if test "$mingw32" = "yes" && test "$guest_agent" != "no" && \
+         test "$vss_win32_sdk" != "no" ; then
+   case "$vss_win32_sdk" in
+@@ -2579,7 +2578,6 @@ EOF
+       echo "ERROR: The headers are extracted in the directory \`inc'."
+       feature_not_found "VSS support"
+     fi
+-    guest_agent_with_vss="no"
+   fi
  fi
--if test "$strip_opt" = "yes" ; then
--  echo "STRIP=${strip}" >> $config_host_mak
--fi
- if test "$mingw32" = "yes" ; then
-   echo "CONFIG_WIN32=y" >> $config_host_mak
-   if test "$guest_agent_with_vss" = "yes" ; then
-@@ -3595,6 +3587,7 @@ echo "GLIB_LIBS=$glib_libs" >> $config_host_mak
- echo "GLIB_VERSION=$(pkg-config --modversion glib-2.0)" >> $config_host_mak
- echo "QEMU_LDFLAGS=$QEMU_LDFLAGS" >> $config_host_mak
- echo "LD_I386_EMULATION=$ld_i386_emulation" >> $config_host_mak
-+echo "STRIP=$strip" >> $config_host_mak
- echo "EXESUF=$EXESUF" >> $config_host_mak
- echo "LIBS_QGA=$libs_qga" >> $config_host_mak
  
-@@ -3812,7 +3805,6 @@ if test "$skip_meson" = no; then
-         -Doptimization=$(if test "$debug" = yes; then echo 0; else echo 2; fi) \
-         -Ddebug=$(if test "$debug_info" = yes; then echo true; else echo false; fi) \
-         -Dwerror=$(if test "$werror" = yes; then echo true; else echo false; fi) \
--        -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
-         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
-         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
-         -Db_lto=$lto -Dcfi=$cfi -Dtcg=$tcg -Dxen=$xen \
-diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
-index cee9d2c63b..0eb68efc7b 100644
---- a/pc-bios/s390-ccw/Makefile
-+++ b/pc-bios/s390-ccw/Makefile
-@@ -44,8 +44,6 @@ build-all: s390-ccw.img s390-netboot.img
- s390-ccw.elf: $(OBJECTS)
- 	$(call quiet-command,$(CC) $(LDFLAGS) -o $@ $(OBJECTS),"BUILD","$(TARGET_DIR)$@")
+@@ -2606,6 +2604,7 @@ fi
  
--STRIP ?= strip
--
- s390-ccw.img: s390-ccw.elf
- 	$(call quiet-command,$(STRIP) --strip-unneeded $< -o $@,"STRIP","$(TARGET_DIR)$@")
- 
-diff --git a/scripts/meson-buildoptions.py b/scripts/meson-buildoptions.py
-index 96969d89ee..98ae944148 100755
---- a/scripts/meson-buildoptions.py
-+++ b/scripts/meson-buildoptions.py
-@@ -36,6 +36,10 @@
-     "trace_file",
- }
- 
-+BUILTIN_OPTIONS = {
-+    "strip",
-+}
-+
- LINE_WIDTH = 76
- 
- 
-@@ -90,14 +94,17 @@ def allow_arg(opt):
-     return not (set(opt["choices"]) <= {"auto", "disabled", "enabled"})
- 
- 
-+def filter_options(json):
-+    if ":" in json["name"]:
-+        return False
-+    if json["section"] == "user":
-+        return json["name"] not in SKIP_OPTIONS
-+    else:
-+        return json["name"] in BUILTIN_OPTIONS
-+
-+
- def load_options(json):
--    json = [
--        x
--        for x in json
--        if x["section"] == "user"
--        and ":" not in x["name"]
--        and x["name"] not in SKIP_OPTIONS
--    ]
-+    json = [x for x in json if filter_options(x)]
-     return sorted(json, key=lambda x: x["name"])
- 
- 
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index 50bd7bed4d..a4af02c527 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -13,6 +13,7 @@ meson_options_help() {
-   printf "%s\n" '                           jemalloc/system/tcmalloc)'
-   printf "%s\n" '  --enable-slirp[=CHOICE]  Whether and how to find the slirp library'
-   printf "%s\n" '                           (choices: auto/disabled/enabled/internal/system)'
-+  printf "%s\n" '  --enable-strip           Strip targets on install'
-   printf "%s\n" '  --enable-tcg-interpreter TCG with bytecode interpreter (slow)'
-   printf "%s\n" '  --enable-trace-backends=CHOICE'
-   printf "%s\n" '                           Set available tracing backends [log] (choices:'
-@@ -237,6 +238,8 @@ _meson_option_parse() {
-     --disable-spice) printf "%s" -Dspice=disabled ;;
-     --enable-spice-protocol) printf "%s" -Dspice_protocol=enabled ;;
-     --disable-spice-protocol) printf "%s" -Dspice_protocol=disabled ;;
-+    --enable-strip) printf "%s" -Dstrip=true ;;
-+    --disable-strip) printf "%s" -Dstrip=false ;;
-     --enable-tcg) printf "%s" -Dtcg=enabled ;;
-     --disable-tcg) printf "%s" -Dtcg=disabled ;;
-     --enable-tcg-interpreter) printf "%s" -Dtcg_interpreter=true ;;
+ ##########################################
+ # check if mingw environment provides a recent ntddscsi.h
++guest_agent_ntddscsi="no"
+ if test "$mingw32" = "yes" && test "$guest_agent" != "no"; then
+   cat > $TMPC << EOF
+ #include <windows.h>
 -- 
 2.33.1
 
