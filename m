@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86DE489AD1
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 14:52:59 +0100 (CET)
-Received: from localhost ([::1]:56238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B4FB489AF2
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 14:59:16 +0100 (CET)
+Received: from localhost ([::1]:37686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6v6Y-0000q9-Pi
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 08:52:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39066)
+	id 1n6vCd-0007tX-Ee
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 08:59:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1n6v0m-0002Ao-D1
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:47:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46292)
+ id 1n6v0n-0002HF-FJ
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:47:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44149)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1n6v0k-00071a-0c
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:47:00 -0500
+ id 1n6v0l-00072O-Ju
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:47:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641822417;
+ s=mimecast20190719; t=1641822418;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=INkPE+Nwn2YIyU4WMhuqG3ay4pwb6QMnPEdGJng4ARs=;
- b=NIEc3FUmMT8pIthTxlfTDc0+3/XKMwLOdSD/SXWs8hmmhoq+SWgNR6sBTw+lJX3z+IhAwB
- BjLOTSl7gp+nRO0GoMcTGImyua/o1dTZ6knUO5Dc1Xp185PMyJ4i5mRtEVNNeCi8pwJj9N
- 8F36MYhH4Do8r7tJOQTG4O67i7iOKzg=
+ bh=gxyTMSHPbovkP19pWuJszzL337mGlIXOIGMkFvAaUvM=;
+ b=SynTiL66s8Y547LQ8q4qeWevIH7PDh5z66/sXc1iInD/JuZxzdE2dl826K2gnHqU3JXp6a
+ A0ey9oyHdHbMjMUz9zpSew7VI3vHnqpoIOCNUwiTPqx8UZ/QyhTez3xflqy+F066/QM+sa
+ FiSkOXcyIn6XqZ3bhOiqzqF3DDlrvmg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-586-G48DzG6-Ncu6l0mFUu-DUw-1; Mon, 10 Jan 2022 08:46:56 -0500
-X-MC-Unique: G48DzG6-Ncu6l0mFUu-DUw-1
+ us-mta-614-h5MxguDGMPCcBUX592PuCw-1; Mon, 10 Jan 2022 08:46:57 -0500
+X-MC-Unique: h5MxguDGMPCcBUX592PuCw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FE6C81CCBD;
- Mon, 10 Jan 2022 13:46:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D98F18B613F;
+ Mon, 10 Jan 2022 13:46:57 +0000 (UTC)
 Received: from kostyanf14nb.Dlink (unknown [10.40.193.252])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B9D427BB5B;
- Mon, 10 Jan 2022 13:46:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1366D7BB41;
+ Mon, 10 Jan 2022 13:46:55 +0000 (UTC)
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 6/9] gqa-win: get_pci_info: Add g_autofree for few variables
-Date: Mon, 10 Jan 2022 15:46:41 +0200
-Message-Id: <20220110134644.107375-7-kkostiuk@redhat.com>
+Subject: [PULL 7/9] gqa-win: get_pci_info: Replace 'while' with 2 calls of the
+ function
+Date: Mon, 10 Jan 2022 15:46:42 +0200
+Message-Id: <20220110134644.107375-8-kkostiuk@redhat.com>
 In-Reply-To: <20220110134644.107375-1-kkostiuk@redhat.com>
 References: <20220110134644.107375-1-kkostiuk@redhat.com>
 MIME-Version: 1.0
@@ -85,45 +86,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Kostiantyn Kostiuk <konstantin@daynix.com>
 
+Microsoft suggests this solution in the documentation:
+https://docs.microsoft.com/en-us/windows/win32/api/setupapi/nf-setupapi-setupdigetdeviceinterfacedetaila
+
 Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Kostiantyn Kostiuk <kkostiuk@redhat.com>
 ---
- qga/commands-win32.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ qga/commands-win32.c | 30 ++++++++++++++++++++++++------
+ 1 file changed, 24 insertions(+), 6 deletions(-)
 
 diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index 8588fa8633..3092566313 100644
+index 3092566313..892082504f 100644
 --- a/qga/commands-win32.c
 +++ b/qga/commands-win32.c
-@@ -626,9 +626,9 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
-     dev_info_data.cbSize = sizeof(SP_DEVINFO_DATA);
-     dev_iface_data.cbSize = sizeof(SP_DEVICE_INTERFACE_DATA);
-     for (i = 0; SetupDiEnumDeviceInfo(dev_info, i, &dev_info_data); i++) {
--        PSP_DEVICE_INTERFACE_DETAIL_DATA pdev_iface_detail_data = NULL;
-+        g_autofree PSP_DEVICE_INTERFACE_DETAIL_DATA pdev_iface_detail_data = NULL;
-         STORAGE_DEVICE_NUMBER sdn;
--        char *parent_dev_id = NULL;
-+        g_autofree char *parent_dev_id = NULL;
-         SP_DEVINFO_DATA parent_dev_info_data;
-         DWORD size = 0;
+@@ -636,10 +636,10 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
+         if (SetupDiEnumDeviceInterfaces(dev_info, &dev_info_data,
+                                         &GUID_DEVINTERFACE_DISK, 0,
+                                         &dev_iface_data)) {
+-            while (!SetupDiGetDeviceInterfaceDetail(dev_info, &dev_iface_data,
+-                                                    pdev_iface_detail_data,
+-                                                    size, &size,
+-                                                    &dev_info_data)) {
++            if (!SetupDiGetDeviceInterfaceDetail(dev_info, &dev_iface_data,
++                                                 pdev_iface_detail_data,
++                                                 size, &size,
++                                                 &dev_info_data)) {
+                 if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
+                     pdev_iface_detail_data = g_malloc(size);
+                     pdev_iface_detail_data->cbSize =
+@@ -651,6 +651,16 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
+                 }
+             }
  
-@@ -654,7 +654,6 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
++            if (!SetupDiGetDeviceInterfaceDetail(dev_info, &dev_iface_data,
++                                                 pdev_iface_detail_data,
++                                                 size, &size,
++                                                 &dev_info_data)) {
++                // pdev_iface_detail_data already is allocated
++                error_setg_win32(errp, GetLastError(),
++                                    "failed to get device interfaces");
++                goto end;
++            }
++
              dev_file = CreateFile(pdev_iface_detail_data->DevicePath, 0,
                                    FILE_SHARE_READ, NULL, OPEN_EXISTING, 0,
                                    NULL);
--            g_free(pdev_iface_detail_data);
+@@ -680,8 +690,8 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
+             ULONG dev_id_size = 0;
  
-             if (!DeviceIoControl(dev_file, IOCTL_STORAGE_GET_DEVICE_NUMBER,
-                                  NULL, 0, &sdn, sizeof(sdn), &size, NULL)) {
-@@ -741,7 +740,6 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
-         parent_dev_info =
-             SetupDiGetClassDevs(&GUID_DEVINTERFACE_STORAGEPORT, parent_dev_id,
-                                 NULL, DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
--        g_free(parent_dev_id);
+             size = 0;
+-            while (!SetupDiGetDeviceInstanceId(dev_info, &dev_info_data,
+-                                               parent_dev_id, size, &size)) {
++            if (!SetupDiGetDeviceInstanceId(dev_info, &dev_info_data,
++                                            parent_dev_id, size, &size)) {
+                 if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
+                     parent_dev_id = g_malloc(size);
+                 } else {
+@@ -691,6 +701,14 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
+                 }
+             }
  
-         if (parent_dev_info == INVALID_HANDLE_VALUE) {
-             error_setg_win32(errp, GetLastError(),
++            if (!SetupDiGetDeviceInstanceId(dev_info, &dev_info_data,
++                                            parent_dev_id, size, &size)) {
++                // parent_dev_id already is allocated
++                error_setg_win32(errp, GetLastError(),
++                                    "failed to get device instance ID");
++                goto end;
++            }
++
+             /*
+              * CM API used here as opposed to
+              * SetupDiGetDeviceProperty(..., DEVPKEY_Device_Parent, ...)
 -- 
 2.25.1
 
