@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6867D48A1C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 22:20:54 +0100 (CET)
-Received: from localhost ([::1]:39844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7FAB48A1DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 22:24:45 +0100 (CET)
+Received: from localhost ([::1]:47532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7261-0003wt-Ht
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 16:20:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42672)
+	id 1n729k-00012p-JA
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 16:24:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1n71wy-000582-05
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 16:11:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31271)
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1n722X-0000Rz-PZ
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 16:17:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40233)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1n71ww-0005Vi-B8
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 16:11:31 -0500
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1n722Q-0006KK-0g
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 16:17:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641849089;
+ s=mimecast20190719; t=1641849419;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cLzPyl+0YkKdQeJcryzeq/QQ4o8XR+eNCPg6Ie1gvXk=;
- b=BfM6iO2xN/bsQ9A0oij1aagdYqwLK6UY7ZQL66GlUJyD4JZMcpQwyGiz8AnnW+cLSW5GSX
- damqYnXjYrEgPuLKp2HfmLCK/L4OGS7yl2HwNlqyKT/WjvEr/GOhqsqbkkWcReqUS2vsGb
- Ic7dMY1cGOV+Vk/z8wn3onHHDQaPpwI=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nW9PDhTBLX1TibjX8l75eFfWy6E2TrHL1pCZEtlUtEk=;
+ b=KQQqIE0TIEwF3NQL152MmZ8c4Tqf36jctlx1XFFTE3DFh/OjYkSx6uzkby+ny29LNYG9rZ
+ 3lv8saGWG2A5SEarJ01XAfeEcS7iUBF1PQQ7S7K7KhNTdwh4QAk9D0QLZhuvnBSUgkdaQW
+ eMtTecfVyV+Zavc5ePCenXCbG3ScJvo=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-549-Xt3rOwHJPbeO2tmTpAscRg-1; Mon, 10 Jan 2022 16:11:28 -0500
-X-MC-Unique: Xt3rOwHJPbeO2tmTpAscRg-1
-Received: by mail-ua1-f69.google.com with SMTP id
- w14-20020ab055ce000000b002fedc60272fso8356588uaa.21
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 13:11:28 -0800 (PST)
+ us-mta-164-1Nrd4vj6MT2ciYaj_RC38g-1; Mon, 10 Jan 2022 16:16:58 -0500
+X-MC-Unique: 1Nrd4vj6MT2ciYaj_RC38g-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ f7-20020a056214076700b0041161d5b77bso14279707qvz.22
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 13:16:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=cLzPyl+0YkKdQeJcryzeq/QQ4o8XR+eNCPg6Ie1gvXk=;
- b=Lh9/mznDjKsrSwr6zecRM7/1mCKNHKlB8WHCPFhFbYPQoyO9kXtifBvHpyLN02hqAs
- Um1TBjYbZUQYIOVdGvmK8ChLEVLtnWkCB0PbqT+HxhvKTT8FaQ3uWEKPQXcHQAOSonZd
- 2Ss0F4G68UUGm2GZEKv0mUAAAwXk0YD/I4nz5eKQAA1Zm7xMg7fGs5Z3r8WvW89UnQO7
- /VjVW9gV4GgUcXvVbUrO4NUM0gwhOa2EEIljZdyDzBFZUpc0wmEpjciItuKnFNz4BgOW
- nXBcTlJ4Fd++v0ntNRZvkp1v2ef7diJvW6j2U9kcHYqmzVw0wnXBjxOuZgyLI/+UTz8u
- ILvQ==
-X-Gm-Message-State: AOAM533rImMa4YSi1SwK5aMzV3ZSOL0dSeIRHX3R0CMRm+Xm/ItpBWHJ
- fYEon2+QusE6B8ELKmYBXCfWL23A1WCVV2p0rZr122iTN9OB3w/Z0dhknp+Iw1eoXBAkE25Xp2K
- yQ0WoZxTeEcDkbag=
-X-Received: by 2002:a05:6102:50a1:: with SMTP id
- bl33mr906340vsb.29.1641849087744; 
- Mon, 10 Jan 2022 13:11:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx39L8yvkq0zumgVPbs66tx32p+FM0mZlfCNIgMPQBItK1wv9by8q8tgEvqHuykQ51jR4fAqQ==
-X-Received: by 2002:a05:6102:50a1:: with SMTP id
- bl33mr906331vsb.29.1641849087466; 
- Mon, 10 Jan 2022 13:11:27 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=nW9PDhTBLX1TibjX8l75eFfWy6E2TrHL1pCZEtlUtEk=;
+ b=YOsrTav+HmP0nHVSzsCO9M1s3bGJTUci4jndPzu3wWTDcWzE8wJkzZS4eYL5d4+ba/
+ XPY2J+tZsEI06KcbUIEkbGi6azAag0RbN1E1jijmDJK38Vsmbu+CYGXr9rV37kyKVIR/
+ hDQQLsb2PHC2zxYtz99KqyN5wk2BEYv7hP+ln5RX847MqqtsV1XSZDIBh/vqcZY2dGDE
+ /+PELJ/YILYc8M2FYX8WquxFUYdz4ftSASr/Kq1BY2XNuljp90G3QB2ZiH3SarLtEZnx
+ lZpASPyLpnrucc7Q0oNzc0Mg3PQ2rWV9w/TJxciqYz0LOyJ3r6GoFSxxd1ofuYzL+Xbh
+ IENQ==
+X-Gm-Message-State: AOAM530xSZ2zwK6KB+Si7ij9u7o7HGbfGDYbmP/Lp5sBGp+h9D1b3uTV
+ NQ3xVq/Xd2MWRWatchzbZ+7cVZjR/o2rJnsOexMNvA18kotbFhoumaFoAVnWrVzUjIH2vsaxNdB
+ 9+8zFHebPYEYCg/8=
+X-Received: by 2002:ac8:59c9:: with SMTP id f9mr1405130qtf.204.1641849418105; 
+ Mon, 10 Jan 2022 13:16:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwFFTD9v0rsUHdndM8JE1DYbDYsBaQeIasluGRKQ4KanNG1QGn9AABxK35esmYZC4UBpcQVGQ==
+X-Received: by 2002:ac8:59c9:: with SMTP id f9mr1405117qtf.204.1641849417901; 
+ Mon, 10 Jan 2022 13:16:57 -0800 (PST)
 Received: from localhost ([181.191.236.130])
- by smtp.gmail.com with ESMTPSA id t123sm4346941vkf.48.2022.01.10.13.11.26
+ by smtp.gmail.com with ESMTPSA id t3sm5697872qtx.58.2022.01.10.13.16.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jan 2022 13:11:27 -0800 (PST)
-Date: Mon, 10 Jan 2022 18:11:19 -0300
+ Mon, 10 Jan 2022 13:16:57 -0800 (PST)
+Date: Mon, 10 Jan 2022 18:16:50 -0300
 From: Beraldo Leal <bleal@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH  v1 27/34] tests/avocado: add :avocado: tags for some tests
-Message-ID: <20220110211119.old6o6rwqqadqjck@laptop.redhat>
-References: <20220105135009.1584676-1-alex.bennee@linaro.org>
- <20220105135009.1584676-28-alex.bennee@linaro.org>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 1/3] python/aqmp: use absolute import statement
+Message-ID: <20220110211650.2vvq66n55niymkls@laptop.redhat>
+References: <20220110191349.1841027-1-jsnow@redhat.com>
+ <20220110191349.1841027-2-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220105135009.1584676-28-alex.bennee@linaro.org>
+In-Reply-To: <20220110191349.1841027-2-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bleal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=bleal@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=bleal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -98,97 +93,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, f4bug@amsat.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+Cc: Eduardo Habkost <eduardo@habkost.net>, Cleber Rosa <crosa@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 05, 2022 at 01:50:02PM +0000, Alex Bennée wrote:
-> This stops a bunch of tests failing because of a lack of
-> "./qemu-system-x86-64" in a build directory where you have configured
-> only one non-default target. I suspect what we really need is:
+On Mon, Jan 10, 2022 at 02:13:47PM -0500, John Snow wrote:
+> pylint's dependency astroid appears to have bugs in 2.9.1 and 2.9.2 (Dec
+> 31 and Jan 3) that appear to erroneously expect the qemu namespace to
+> have an __init__.py file. astroid 2.9.3 (Jan 9) avoids that problem, but
+> appears to not understand a relative import within a namespace package.
 > 
->     :avocado: tags=arch:host
+> Update the relative import - it was worth changing anyway, because these
+> packages will eventually be packaged and distributed separately.
 > 
-> to be properly multi-arch safe.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  tests/avocado/empty_cpu_model.py | 3 +++
->  tests/avocado/info_usernet.py    | 3 +++
->  tests/avocado/migration.py       | 1 +
->  tests/avocado/version.py         | 1 +
->  tests/avocado/vnc.py             | 1 +
->  5 files changed, 9 insertions(+)
+>  python/qemu/aqmp/aqmp_tui.py | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/tests/avocado/empty_cpu_model.py b/tests/avocado/empty_cpu_model.py
-> index 22f504418d..ffe27780a3 100644
-> --- a/tests/avocado/empty_cpu_model.py
-> +++ b/tests/avocado/empty_cpu_model.py
-> @@ -11,6 +11,9 @@
+> diff --git a/python/qemu/aqmp/aqmp_tui.py b/python/qemu/aqmp/aqmp_tui.py
+> index a2929f771c..f1e926dd75 100644
+> --- a/python/qemu/aqmp/aqmp_tui.py
+> +++ b/python/qemu/aqmp/aqmp_tui.py
+> @@ -35,7 +35,8 @@
+>  import urwid
+>  import urwid_readline
 >  
->  class EmptyCPUModel(QemuSystemTest):
->      def test(self):
-> +        """
-> +        :avocado: tags=arch:x86_64
-> +        """
->          self.vm.add_args('-S', '-display', 'none', '-machine', 'none', '-cpu', '')
->          self.vm.set_qmp_monitor(enabled=False)
->          self.vm.launch()
-> diff --git a/tests/avocado/info_usernet.py b/tests/avocado/info_usernet.py
-> index dc01f74150..bafbc0e23e 100644
-> --- a/tests/avocado/info_usernet.py
-> +++ b/tests/avocado/info_usernet.py
-> @@ -16,6 +16,9 @@
->  class InfoUsernet(QemuSystemTest):
->  
->      def test_hostfwd(self):
-> +        """
-> +        :avocado: tags=arch:x86_64
-> +        """
->          self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22')
->          self.vm.launch()
->          res = self.vm.command('human-monitor-command',
-> diff --git a/tests/avocado/migration.py b/tests/avocado/migration.py
-> index 584d6ef53f..4e5516f425 100644
-> --- a/tests/avocado/migration.py
-> +++ b/tests/avocado/migration.py
-> @@ -22,6 +22,7 @@
->  class Migration(QemuSystemTest):
->      """
->      :avocado: tags=migration
-> +    :avocado: tags=arch:x86_64
->      """
->  
->      timeout = 10
-> diff --git a/tests/avocado/version.py b/tests/avocado/version.py
-> index ded7f039c1..be794b9354 100644
-> --- a/tests/avocado/version.py
-> +++ b/tests/avocado/version.py
-> @@ -15,6 +15,7 @@
->  class Version(QemuSystemTest):
->      """
->      :avocado: tags=quick
-> +    :avocado: tags=arch:x86_64
->      """
->      def test_qmp_human_info_version(self):
->          self.vm.add_args('-nodefaults')
-> diff --git a/tests/avocado/vnc.py b/tests/avocado/vnc.py
-> index 096432988f..1f80647414 100644
-> --- a/tests/avocado/vnc.py
-> +++ b/tests/avocado/vnc.py
-> @@ -14,6 +14,7 @@
->  class Vnc(QemuSystemTest):
->      """
->      :avocado: tags=vnc,quick
-> +    :avocado: tags=arch:x86_64
->      """
->      def test_no_vnc(self):
->          self.vm.add_args('-nodefaults', '-S')
+> -from ..qmp import QEMUMonitorProtocol, QMPBadPortError
+> +from qemu.qmp import QEMUMonitorProtocol, QMPBadPortError
+> +
+>  from .error import ProtocolError
+>  from .message import DeserializationError, Message, UnexpectedTypeError
+>  from .protocol import ConnectError, Runstate
 > -- 
-> 2.30.2
+> 2.31.1
+> 
 >
 
 Reviewed-by: Beraldo Leal <bleal@redhat.com>
