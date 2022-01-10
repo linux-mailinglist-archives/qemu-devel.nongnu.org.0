@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1580F489A2C
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 14:41:37 +0100 (CET)
-Received: from localhost ([::1]:35390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 593CF4899B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 14:22:05 +0100 (CET)
+Received: from localhost ([::1]:39082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6uvY-0000C6-4n
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 08:41:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56176)
+	id 1n6uce-0007F2-E5
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 08:22:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n6uRO-0008Ow-Py
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:10:27 -0500
-Received: from [2a00:1450:4864:20::32e] (port=37625
- helo=mail-wm1-x32e.google.com)
+ id 1n6uRu-00007k-Br
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:10:58 -0500
+Received: from [2a00:1450:4864:20::42b] (port=36492
+ helo=mail-wr1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n6uRN-0008Og-3E
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:10:26 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- l12-20020a7bc34c000000b003467c58cbdfso9239248wmj.2
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 05:10:24 -0800 (PST)
+ id 1n6uRZ-0008Tg-8H
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:10:58 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id r10so19019417wrc.3
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 05:10:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iN7rmJCyt/9XOylIukKsQBez3yTqjDEoUhXX6uhz6nk=;
- b=lff4p114YEVct2vn7c/af0gN+4CpPp4U/Yph4r2HMbiUnSsnx/JatYA8sqJZ6WtIJE
- tNRhINXYCFMBPKDia2c4VvEgfggRASktfqbG5fxYTLlVaLZJOnbqayzny+zZFNunPpv7
- uP5OR3u/YvUh5L3v6TF2DNUMIludloS2aa09nTITdHrn86oi+dNw5+IBC3HbdT9ZwQNW
- cS6rD4iJKvK7cEPauMSR+x4LkOZqbQ0RJe9Wd014TszGPvrmb5ZEigi4KqlUSYEaU8ST
- c1wYtewZm6FU8QYx5Sak5PuBGdfv9JcIOEDLwnp9ntuI+PcirIDHAUmw2eWZjyJ5hPzr
- hNEA==
+ bh=ytK9KYzbdIauT6uBw9oxJi+tTQp7kAtiRaxptTl3zRc=;
+ b=fXUdvQvOlCSS0lFG+V1hPvdhRjB3er6VvruMzqCWzWxX+Ba+meW81nj7JmXOpPAFzf
+ 5jl5UfDCaEi6lhBRyZJzNF8CrDV6v3ZmZtjtoZ8OT8PhpqmOiTT/50hPN6amC5GMjUau
+ TBDrpI4B7uE+c6WEzScqJd8eANyfLkgzYbf6jQVSvCMxrXlF69m99Lg4LdjOne7x+sGV
+ Dhu8gbIbCwotdBicjJqfwwzCziis/YmrEjv/gWbj4AvcHMPH+VOJpOrQJNawMqe2tt8+
+ 2PxHX+9B2pXFmk/HH/YbIdcotEfQSlqYoWIfr6brYHaEZiA1ioSAAJikVAe09p3dg2Ka
+ p7zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=iN7rmJCyt/9XOylIukKsQBez3yTqjDEoUhXX6uhz6nk=;
- b=T9QWAE2JE7D7KUpBx+EGKvchulbqJVbDlnPRttTQZ7rstagm1v7Cbx0G2KIe1z/CpP
- TK8zD0C4/i3YxPz+8Y8G3Jxk4gTOeaj3pl5uYBsew2iFza+A4X1HFCjP4u4J5RDGr3GW
- dRWhieo9nJLtTLmixjZrleb76j0o4G6NEJGc7YqMRysEOpVuOIITaK87OTVrS7BB40iQ
- Rjzyii/j5lThn89abhsMbqZ6YwHct1QUU36/M+JoPEiscT21CmjUiRZBFtIQ8Fv13q6A
- cvdckZvryXOwtDwv1YFmq9cG+P3M/1bBsnyPLbaOmtYyMDDMFPPhWZcnTJ6OivPBT2/L
- LygA==
-X-Gm-Message-State: AOAM533++MBF/Ix0B39DVpCAb3Ug8Uju1r7f9z/h/Tlok1ERXEEEGSmw
- ncdELz7e4UUpXEU84rILlVwpN/G7myWyiw==
-X-Google-Smtp-Source: ABdhPJwWVS3okc2AzQo3F2ukXhTa0R+QCTHvcFj/kq4eYgjBstvycGMOzovO8m0vFo9iX2aPb/N3dg==
-X-Received: by 2002:a05:600c:6009:: with SMTP id
- az9mr21993042wmb.32.1641820223655; 
- Mon, 10 Jan 2022 05:10:23 -0800 (PST)
+ bh=ytK9KYzbdIauT6uBw9oxJi+tTQp7kAtiRaxptTl3zRc=;
+ b=aS2o69y/NMKYje2kwMmouq5U5MO2qUPZqhs+SgOu9XYT1O03vqOAAtp48H2rguQO0W
+ 3w4fIcgPGIdq2MnAPu7LYGMxDxYuZi4Pwl/XzDJoFeaSIGuIsCjEy7xM/s/m0H+xotV0
+ dV+bt3ItolOLinPQpwOU1aM9AxMHT4asx5lbke6b22zLW/CF62ftLrb5U58DMN+vz44m
+ M082U+eueZHv20jf3h2K7jsOauNVAs+8G6p1QJ97rdJAOMd+mvedwycGwGNWrY8VI9RN
+ rgt9MoiSKhGc1Efke0nFBIxJyirtF0okRvkI/v7lliTMxt49z+sF3VMwEXbTIy1zQ+ET
+ dcxg==
+X-Gm-Message-State: AOAM530pbf+Ow2UIgO97h3iXXOfQAVdPNKUo/MTNmqVeNJna+JAPthMB
+ 4+9rERCxWQ2xWOQzEGpRsA/00nSBNQC0AA==
+X-Google-Smtp-Source: ABdhPJw2uW5XGtzfsdrBthGNN4PwgF3o+F0s+1GxM2p+u+7V3YlBRynnlOznPYdlYcjxvOSErNXH3Q==
+X-Received: by 2002:a5d:560e:: with SMTP id l14mr3587578wrv.619.1641820228577; 
+ Mon, 10 Jan 2022 05:10:28 -0800 (PST)
 Received: from nuc.. (83.red-83-50-87.dynamicip.rima-tde.net. [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id o15sm6930798wro.70.2022.01.10.05.10.22
+ by smtp.gmail.com with ESMTPSA id az1sm6762949wrb.104.2022.01.10.05.10.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jan 2022 05:10:23 -0800 (PST)
+ Mon, 10 Jan 2022 05:10:28 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v3 4/7] hvf: Remove deprecated hv_vcpu_flush() calls
-Date: Mon, 10 Jan 2022 14:09:58 +0100
-Message-Id: <20220110131001.614319-5-f4bug@amsat.org>
+Subject: [RFC PATCH v3 5/7] audio/coreaudio: Remove a deprecation warning on
+ macOS 12
+Date: Mon, 10 Jan 2022 14:09:59 +0100
+Message-Id: <20220110131001.614319-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220110131001.614319-1-f4bug@amsat.org>
 References: <20220110131001.614319-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -101,71 +100,99 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When building on macOS 12, we get:
+When building on macOS 12 we get:
 
-  In file included from ../target/i386/hvf/hvf.c:59:
-  ../target/i386/hvf/vmx.h:174:5: error: 'hv_vcpu_flush' is deprecated: first deprecated in macOS 11.0 - This API has no effect and always returns HV_UNSUPPORTED [-Werror,-Wdeprecated-declarations]
-      hv_vcpu_flush(vcpu);
+  audio/coreaudio.c:50:5: error: 'kAudioObjectPropertyElementMaster' is deprecated: first deprecated in macOS 12.0 [-Werror,-Wdeprecated-declarations]
+      kAudioObjectPropertyElementMaster
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      kAudioObjectPropertyElementMain
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreAudio.framework/Headers/AudioHardwareBase.h:208:5: note: 'kAudioObjectPropertyElementMaster' has been explicitly marked deprecated here
+      kAudioObjectPropertyElementMaster API_DEPRECATED_WITH_REPLACEMENT("kAudioObjectPropertyElementMain", macos(10.0, 12.0), ios(2.0, 15.0), watchos(1.0, 8.0), tvos(9.0, 15.0)) = kAudioObjectPropertyElementMain
       ^
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Hypervisor.framework/Headers/hv.h:364:20: note: 'hv_vcpu_flush' has been explicitly marked deprecated here
-  extern hv_return_t hv_vcpu_flush(hv_vcpuid_t vcpu)
-                     ^
 
-Since this call "has no effect", simply remove it ¯\_(ツ)_/¯
-
-Not very useful deprecation doc:
-https://developer.apple.com/documentation/hypervisor/1441386-hv_vcpu_flush
+Replace by kAudioObjectPropertyElementMain, redefining it to
+kAudioObjectPropertyElementMaster if not available, using
+Clang __is_identifier() feature (coreaudio is restricted to
+macOS).
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/i386/hvf/vmx.h      | 2 --
- target/i386/hvf/x86_task.c | 1 -
- target/i386/hvf/x86hvf.c   | 2 --
- 3 files changed, 5 deletions(-)
+Checkpatch:
 
-diff --git a/target/i386/hvf/vmx.h b/target/i386/hvf/vmx.h
-index 6df87116f62..094fb9b9dc9 100644
---- a/target/i386/hvf/vmx.h
-+++ b/target/i386/hvf/vmx.h
-@@ -159,7 +159,6 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
-     wvmcs(vcpu, VMCS_GUEST_CR0, cr0 | CR0_NE | CR0_ET);
+ WARNING: architecture specific defines should be avoided
+ #10: FILE: audio/coreaudio.c:47:
+ +#if !__is_identifier(kAudioObjectPropertyElementMain) /* macOS >= 12.0 */
+
+Should we define __is_identifier() to 0 for GCC on macOS?
+---
+ audio/coreaudio.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
+
+diff --git a/audio/coreaudio.c b/audio/coreaudio.c
+index d8a21d3e507..73cbfd479ac 100644
+--- a/audio/coreaudio.c
++++ b/audio/coreaudio.c
+@@ -44,10 +44,14 @@ typedef struct coreaudioVoiceOut {
+     bool enabled;
+ } coreaudioVoiceOut;
  
-     hv_vcpu_invalidate_tlb(vcpu);
--    hv_vcpu_flush(vcpu);
- }
++#if !__is_identifier(kAudioObjectPropertyElementMain) /* macOS >= 12.0 */
++#define kAudioObjectPropertyElementMain kAudioObjectPropertyElementMaster
++#endif
++
+ static const AudioObjectPropertyAddress voice_addr = {
+     kAudioHardwarePropertyDefaultOutputDevice,
+     kAudioObjectPropertyScopeGlobal,
+-    kAudioObjectPropertyElementMaster
++    kAudioObjectPropertyElementMain
+ };
  
- static inline void macvm_set_cr4(hv_vcpuid_t vcpu, uint64_t cr4)
-@@ -171,7 +170,6 @@ static inline void macvm_set_cr4(hv_vcpuid_t vcpu, uint64_t cr4)
-     wvmcs(vcpu, VMCS_CR4_MASK, CR4_VMXE);
+ static OSStatus coreaudio_get_voice(AudioDeviceID *id)
+@@ -69,7 +73,7 @@ static OSStatus coreaudio_get_framesizerange(AudioDeviceID id,
+     AudioObjectPropertyAddress addr = {
+         kAudioDevicePropertyBufferFrameSizeRange,
+         kAudioDevicePropertyScopeOutput,
+-        kAudioObjectPropertyElementMaster
++        kAudioObjectPropertyElementMain
+     };
  
-     hv_vcpu_invalidate_tlb(vcpu);
--    hv_vcpu_flush(vcpu);
- }
+     return AudioObjectGetPropertyData(id,
+@@ -86,7 +90,7 @@ static OSStatus coreaudio_get_framesize(AudioDeviceID id, UInt32 *framesize)
+     AudioObjectPropertyAddress addr = {
+         kAudioDevicePropertyBufferFrameSize,
+         kAudioDevicePropertyScopeOutput,
+-        kAudioObjectPropertyElementMaster
++        kAudioObjectPropertyElementMain
+     };
  
- static inline void macvm_set_rip(CPUState *cpu, uint64_t rip)
-diff --git a/target/i386/hvf/x86_task.c b/target/i386/hvf/x86_task.c
-index 422156128b7..c8dc3d48fa8 100644
---- a/target/i386/hvf/x86_task.c
-+++ b/target/i386/hvf/x86_task.c
-@@ -181,5 +181,4 @@ void vmx_handle_task_switch(CPUState *cpu, x68_segment_selector tss_sel, int rea
-     store_regs(cpu);
+     return AudioObjectGetPropertyData(id,
+@@ -103,7 +107,7 @@ static OSStatus coreaudio_set_framesize(AudioDeviceID id, UInt32 *framesize)
+     AudioObjectPropertyAddress addr = {
+         kAudioDevicePropertyBufferFrameSize,
+         kAudioDevicePropertyScopeOutput,
+-        kAudioObjectPropertyElementMaster
++        kAudioObjectPropertyElementMain
+     };
  
-     hv_vcpu_invalidate_tlb(cpu->hvf->fd);
--    hv_vcpu_flush(cpu->hvf->fd);
- }
-diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
-index 907f09f1b43..bec9fc58146 100644
---- a/target/i386/hvf/x86hvf.c
-+++ b/target/i386/hvf/x86hvf.c
-@@ -125,8 +125,6 @@ static void hvf_put_segments(CPUState *cpu_state)
+     return AudioObjectSetPropertyData(id,
+@@ -121,7 +125,7 @@ static OSStatus coreaudio_set_streamformat(AudioDeviceID id,
+     AudioObjectPropertyAddress addr = {
+         kAudioDevicePropertyStreamFormat,
+         kAudioDevicePropertyScopeOutput,
+-        kAudioObjectPropertyElementMaster
++        kAudioObjectPropertyElementMain
+     };
  
-     hvf_set_segment(cpu_state, &seg, &env->ldt, false);
-     vmx_write_segment_descriptor(cpu_state, &seg, R_LDTR);
--    
--    hv_vcpu_flush(cpu_state->hvf->fd);
- }
-     
- void hvf_put_msrs(CPUState *cpu_state)
+     return AudioObjectSetPropertyData(id,
+@@ -138,7 +142,7 @@ static OSStatus coreaudio_get_isrunning(AudioDeviceID id, UInt32 *result)
+     AudioObjectPropertyAddress addr = {
+         kAudioDevicePropertyDeviceIsRunning,
+         kAudioDevicePropertyScopeOutput,
+-        kAudioObjectPropertyElementMaster
++        kAudioObjectPropertyElementMain
+     };
+ 
+     return AudioObjectGetPropertyData(id,
 -- 
 2.33.1
 
