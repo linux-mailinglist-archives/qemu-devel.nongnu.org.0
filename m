@@ -2,99 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBC2D489FD8
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 20:06:45 +0100 (CET)
-Received: from localhost ([::1]:56822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 930D2489FE0
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 20:08:55 +0100 (CET)
+Received: from localhost ([::1]:32804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n700C-0001v5-JF
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 14:06:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39898)
+	id 1n702I-0004sJ-GW
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 14:08:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n6zux-00045y-DE; Mon, 10 Jan 2022 14:01:20 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:14006)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n6zuu-0001nh-NP; Mon, 10 Jan 2022 14:01:18 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20AHbFZS011723; 
- Mon, 10 Jan 2022 19:00:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=D+QodqPXO6CJbzGJegPiAPJw3dmoPngam0MsIssq3Lw=;
- b=VMql7yd06taSLKPVBi9L2Yb1DBigu0um1zAIBA/+JvY7+ATLwTV988KEbb6T0JWk3O7Q
- gEU2LGKUYvFBbpPh2MqrRsIl1X1sOLVTJch3/dgu4MlY9u+nE49P+ulfqJrEdwTFTTa6
- Cj9JkT5yYB4n26DK/7Rz8ps2tiwk0KnzXB0X1MmjEKARpxLKxdipmg/SiqQyOyUkv7fg
- ngXR77hE0LHIHOQs4BIRlgQSKLHA/JhHlOiMTMOcygEch8v1BciaH406LLJ8gVGxZULM
- TFtULmKYpsHLzI92SWHGlwWcgxjVgF4h9Tf/JgqjMEosP8gtuffDEbJFcOkLKpiy+cd6 bQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dfm2xst13-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Jan 2022 19:00:58 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20AIx5sY034270;
- Mon, 10 Jan 2022 19:00:58 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dfm2xst0r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Jan 2022 19:00:58 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20AIrhCG006222;
- Mon, 10 Jan 2022 19:00:57 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma02dal.us.ibm.com with ESMTP id 3df289v04m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Jan 2022 19:00:57 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20AJ0t2X12714272
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 10 Jan 2022 19:00:55 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 68F0FAC06E;
- Mon, 10 Jan 2022 19:00:55 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 54953AC07B;
- Mon, 10 Jan 2022 19:00:54 +0000 (GMT)
-Received: from localhost (unknown [9.211.79.41])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
- Mon, 10 Jan 2022 19:00:53 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH 4/8] squash target/ppc: Introduce powerpc_excp_40x
-In-Reply-To: <17495cce-79f1-1483-aab3-86ffcde7492e@eik.bme.hu>
-References: <20220110181546.4131853-1-farosas@linux.ibm.com>
- <20220110181546.4131853-5-farosas@linux.ibm.com>
- <17495cce-79f1-1483-aab3-86ffcde7492e@eik.bme.hu>
-Date: Mon, 10 Jan 2022 16:00:50 -0300
-Message-ID: <875yqra00t.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1n6zvP-00057l-8A; Mon, 10 Jan 2022 14:01:47 -0500
+Received: from [2607:f8b0:4864:20::631] (port=40475
+ helo=mail-pl1-x631.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1n6zvN-00021k-Dv; Mon, 10 Jan 2022 14:01:46 -0500
+Received: by mail-pl1-x631.google.com with SMTP id l15so13356501pls.7;
+ Mon, 10 Jan 2022 11:01:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=UI+hx90zBN7RMzqr8Vym6vUxjQCrHSfTFoxWeDpFEX0=;
+ b=gbSRcvZgPKPwrMMJONF8ZyshaUeZm4nEPz7QJOElAgTn2nYx2A0BPTavr55BtghPLn
+ rb14OC5lgDk1Ly0YxQRs0/2zpJIhhyNpo7ubGUKgb6eHaQHefVZ0MXU5e6X6ieQpS7d2
+ Nv1SiRa5KaAR4Da1eov9bfk6qhu2dZ4FDcbybKye/fHuokjVwoTpeBrd3aRFSt/OeDvZ
+ kuP7/TsS1iw7Am11m3Sw7JW/oqqdRjJCNGShQgMkwdjs5b8QJOXZnHzP2kdAv9gh6cgr
+ S0tWT6N5U+i6HOCKCTCTzWWulSxzrgdTRnlStjr30M6JNLa2D6mreAH2U8nREITtCGZA
+ eqnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=UI+hx90zBN7RMzqr8Vym6vUxjQCrHSfTFoxWeDpFEX0=;
+ b=FJoRBLKvd+Z1/EfHYI4ORgu9Wk/Koe4ZfKvdhLm9GWH2nrtA+N7Q01CQjVFTCufjCL
+ OKoKjR3zRa5/56Sxt03gSy9u9r4aVlMQ/CX08CGYhpMZq1WuxxMrMh+kuyecYvnxnyu8
+ eDkHzVrXRtRWJosohgtjkmSSwz/d0oVmiJLnd9VAo9O79n8rFK4sppF5rtVPc3Cp2gK1
+ eja7X/uhiqiult9ANOkUh1wAgb4K33QhtgwNnzkJneMfSWL4QN3w+bviwJKCnESETcg8
+ i++Q0DscIjFy/vihWzTe7R8JJAQtbHAdn+wwFuvbXnVR4EsMQfgm/eKUb1L9t6h4OGh2
+ poVg==
+X-Gm-Message-State: AOAM530kEFd/3BHHEuYV96pKHXruMAAeOLVet7yJWb51O+9BO1ZAbtdS
+ MBcrEtXJDcO1OD8CgZIajdM=
+X-Google-Smtp-Source: ABdhPJw8ltep8PA6By3Bv5Z4Ed8TB7xSNlPqOzvEtXmp2nQhCKQSoklaILedWASG/Vy+Iz0m5A6czA==
+X-Received: by 2002:a17:902:e98b:b0:14a:3d97:e678 with SMTP id
+ f11-20020a170902e98b00b0014a3d97e678mr849830plb.40.1641841303683; 
+ Mon, 10 Jan 2022 11:01:43 -0800 (PST)
+Received: from [192.168.64.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ by smtp.gmail.com with ESMTPSA id
+ bo15sm3204332pjb.16.2022.01.10.11.01.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Jan 2022 11:01:43 -0800 (PST)
+Message-ID: <524515d6-2fb5-15c1-0aaf-bcda3684cd00@gmail.com>
+Date: Tue, 11 Jan 2022 04:01:40 +0900
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: fLnMSIq_-RMoxiaqshta-pSPJ2Rfu29D
-X-Proofpoint-ORIG-GUID: AdmhHOGHF0of2t317RoI4UmaK3f6-4Ih
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-10_08,2022-01-10_02,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0
- priorityscore=1501 bulkscore=0 phishscore=0 impostorscore=0
- lowpriorityscore=0 mlxlogscore=739 mlxscore=0 spamscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201100130
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [RFC PATCH v2 2/6] audio/coreaudio: Remove a deprecation warning
+ on macOS 12
+Content-Language: en-US
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+References: <20220109170612.574104-1-f4bug@amsat.org>
+ <CAFEAcA94iQ_-dkNaQD62qSb_5emY5mq=OvR8jAbDkcW0YwUoeA@mail.gmail.com>
+ <9c016476-6679-5d23-296a-6546930087cd@gmail.com> <2798332.tR5H1UBy9i@silver>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <2798332.tR5H1UBy9i@silver>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::631
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,149 +92,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Alexander Graf <agraf@csgraf.de>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-BALATON Zoltan <balaton@eik.bme.hu> writes:
+On 2022/01/11 3:46, Christian Schoenebeck wrote:
+> On Montag, 10. Januar 2022 19:20:15 CET Akihiko Odaki wrote:
+>> On 2022/01/10 22:22, Peter Maydell wrote:
+>>> On Mon, 10 Jan 2022 at 13:14, Christian Schoenebeck
+>>>
+>>> <qemu_oss@crudebyte.com> wrote:
+>>>> I'd suggest to use:
+>>>>
+>>>> #if !defined(MAC_OS_VERSION_12_0) ||
+>>>>
+>>>>       (MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_VERSION_12_0)
+>>>>
+>>>> #define kAudioObjectPropertyElementMain kAudioObjectPropertyElementMaster
+>>>> #endif
+>>>
+>>> This is also how we do this for existing checks of this sort,
+>>> like the one in osdep.h for qemu_thread_jit_execute().
+>>>
+>>> -- PMM
+>>
+>> If I understand correctly, Many macOS-specific codes already no longer
+>> complies with GCC because they depend on modern features GCC doesn't
+>> provide. The most problematic construction is block; it is extensively
+>> used by Apple's ABI and API and you cannot avoid using it even if you try.
+> 
+> You mean Obj-C blocks? That's working with GCC for decades. I am not aware
+> about any recent changes to Obj-C block mechanisms by Apple.
+> 
+>> Also, note that MAC_OS_X_VERSION_MAX_ALLOWED defines the upper bound of
+>> the supported version. The lower bound should be preferred here because
+>> the usage of the new identifier is applied regardless of the version of
+>> the host system. It is in contrary to the usage of
+>> MAC_OS_X_VERSION_MAX_ALLOWED in osdep.h where the new interfaces are
+>> used only for the newer versions. The lower bound is defined as
+>> MAC_OS_X_VERSION_MIN_REQUIRED. Practically there is no difference of the
+>> two macros because they have the same value in QEMU and
+>> kAudioObjectPropertyElementMain is a constant resolved compile-time, but
+>> it is still nice to have the code semantically correct.
+> 
+> For this particular enum: no, MAC_OS_X_VERSION_MAX_ALLOWED is the correct one.
+> This is about whether enum kAudioObjectPropertyElementMain is defined in the
+> SDK header files. That's all. And the new enum kAudioObjectPropertyElementMain
+> is pure refactoring of the enum's old name due to social reasons ("Master").
+> The actual reflected numeric value and semantic of the enum is unchanged and
+> the resulting binary and behaviour are identical.
 
-> On Mon, 10 Jan 2022, Fabiano Rosas wrote:
->> Introduce a new exception dispatcher for 40x CPUs.
->>
->> Differences from the generic powerpc_excp code:
->>
->> - Not BookE, so some MSR bits are cleared at interrupt dispatch;
->> - No MSR_HV or MSR_LE;
->> - No power saving states;
->> - No Hypervisor Emulation Assistance;
->> - Not 64 bits;
->> - No System call vectored;
->> - No Interrupts Little Endian;
->> - No Alternate Interrupt Location.
->>
->> Exceptions used:
->>
->> POWERPC_EXCP_ALIGN
->> POWERPC_EXCP_APU
->> POWERPC_EXCP_CRITICAL
->> POWERPC_EXCP_DEBUG
->> POWERPC_EXCP_DSI
->> POWERPC_EXCP_DTLB
->> POWERPC_EXCP_EXTERNAL
->> POWERPC_EXCP_FIT
->> POWERPC_EXCP_FPU
->> POWERPC_EXCP_ISI
->> POWERPC_EXCP_ITLB
->> POWERPC_EXCP_MCHECK
->> POWERPC_EXCP_PIT
->> POWERPC_EXCP_PROGRAM
->> POWERPC_EXCP_SYSCALL
->> POWERPC_EXCP_WDT
->>
->> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
->> ---
->> target/ppc/excp_helper.c | 165 +++------------------------------------
->> 1 file changed, 13 insertions(+), 152 deletions(-)
->>
->> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
->> index 12ab5e1b34..1d997c4d6b 100644
->> --- a/target/ppc/excp_helper.c
->> +++ b/target/ppc/excp_helper.c
->> @@ -409,54 +409,18 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
->>                   excp, env->error_code);
->>
->>     /* new srr1 value excluding must-be-zero bits */
->> -    if (excp_model == POWERPC_EXCP_BOOKE) {
->> -        msr = env->msr;
->> -    } else {
->> -        msr = env->msr & ~0x783f0000ULL;
->> -    }
->> +    msr = env->msr & ~0x783f0000ULL;
->>
->>     /*
->> -     * new interrupt handler msr preserves existing HV and ME unless
->> -     * explicitly overriden
->> +     * new interrupt handler msr preserves existing ME unless
->> +     * explicitly overriden.
->>      */
->> -    new_msr = env->msr & (((target_ulong)1 << MSR_ME) | MSR_HVB);
->> +    new_msr = env->msr & (((target_ulong)1 << MSR_ME));
->>
->>     /* target registers */
->>     srr0 = SPR_SRR0;
->>     srr1 = SPR_SRR1;
->>
->> -    /*
->> -     * check for special resume at 0x100 from doze/nap/sleep/winkle on
->> -     * P7/P8/P9
->> -     */
->> -    if (env->resume_as_sreset) {
->> -        excp = powerpc_reset_wakeup(cs, env, excp, &msr);
->> -    }
->> -
->> -    /*
->> -     * Hypervisor emulation assistance interrupt only exists on server
->> -     * arch 2.05 server or later. We also don't want to generate it if
->> -     * we don't have HVB in msr_mask (PAPR mode).
->> -     */
->> -    if (excp == POWERPC_EXCP_HV_EMU
->> -#if defined(TARGET_PPC64)
->> -        && !(mmu_is_64bit(env->mmu_model) && (env->msr_mask & MSR_HVB))
->> -#endif /* defined(TARGET_PPC64) */
->> -
->> -    ) {
->> -        excp = POWERPC_EXCP_PROGRAM;
->> -    }
->> -
->> -#ifdef TARGET_PPC64
->> -    /*
->> -     * SPEU and VPU share the same IVOR but they exist in different
->> -     * processors. SPEU is e500v1/2 only and VPU is e6500 only.
->> -     */
->> -    if (excp_model == POWERPC_EXCP_BOOKE && excp == POWERPC_EXCP_VPU) {
->> -        excp = POWERPC_EXCP_SPEU;
->> -    }
->> -#endif
->> -
->>     vector = env->excp_vectors[excp];
->>     if (vector == (target_ulong)-1ULL) {
->>         cpu_abort(cs, "Raised an exception without defined vector %d\n",
->> @@ -581,6 +545,11 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
->>          */
->>         env->spr[SPR_DSISR] |= (env->error_code & 0x03FF0000) >> 16;
->>         break;
->> +    case POWERPC_EXCP_HV_EMU:
->> +        /*
->> +         * Hypervisor emulation assistance interrupt only exists on server
->> +         * arch 2.05 server or later.
->> +         */
->>     case POWERPC_EXCP_PROGRAM:   /* Program exception                        */
->>         switch (env->error_code & ~0xF) {
->>         case POWERPC_EXCP_FP:
->> @@ -645,22 +614,8 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
->>             new_msr |= (target_ulong)MSR_HVB;
->>         }
->>         break;
->> -    case POWERPC_EXCP_SYSCALL_VECTORED: /* scv exception                     */
->> -        lev = env->error_code;
->> -        dump_syscall(env);
->> -        env->nip += 4;
->> -        new_msr |= env->msr & ((target_ulong)1 << MSR_EE);
->> -        new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
->> -
->> -        vector += lev * 0x20;
->> -
->> -        env->lr = env->nip;
->> -        env->ctr = msr;
->> -        break;
->>     case POWERPC_EXCP_FPU:       /* Floating-point unavailable exception     */
->>     case POWERPC_EXCP_APU:       /* Auxiliary processor unavailable          */
->> -    case POWERPC_EXCP_DECR:      /* Decrementer exception                    */
->> -        break;
->
-> Removing the break here makes FPU and APU fall through to FIT. Is that 
-> intentional?
 
-No, that is a mistake indeed. Thanks.
+There are a few problems with the usage of MAC_OS_X_VERSION_MAX_ALLOWED:
+- The deprecation warning is designed to work with 
+MAC_OS_X_VERSION_MIN_REQUIRED. You may verify that with:
+cc -mmacosx-version-min=12.0 -x c - <<EOF
+#include <CoreAudio/CoreAudio.h>
+
+int main()
+{
+    int k = kAudioObjectPropertyElementMaster;
+}
+EOF
+- The programmer must be aware whether it is constant or not.
+- The macro tells about the runtime and not the SDK. There is no way to 
+tell the SDK version and that is why I suggested __is_identifier at the 
+first place. However, now I'm convinced that 
+MAC_OS_X_VERSION_MIN_REQUIRED is the better option because of the above 
+reasons.
+
+> 
+> There are other cases where MAC_OS_X_VERSION_MIN_REQUIRED (a.k.a. "minimum
+> deployment target") would be used instead: macOS APIs that might be available
+> to only some, but not to the entire macOS version range officially supported
+> by the rolled out binary. Did you see any particular case where this is
+> incorrectly used in QEMU?
+> 
+> Best regards,
+> Christian Schoenebeck
+> 
+> 
+Assuming the correctness of the use MAC_OS_X_VERSION_MAX_ALLOWED is 
+irrelevant with the nature of the identifier (constant or not), the same 
+problem is in ui/cocoa.m:
+#ifndef MAC_OS_X_VERSION_10_13
+#define MAC_OS_X_VERSION_10_13 101300
+#endif
+
+/* 10.14 deprecates NSOnState and NSOffState in favor of
+  * NSControlStateValueOn/Off, which were introduced in 10.13.
+  * Define for older versions
+  */
+#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_13
+#define NSControlStateValueOn NSOnState
+#define NSControlStateValueOff NSOffState
+#endif
+
+Regards,
+Akihiko Odaki
 
