@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E931A489642
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 11:23:44 +0100 (CET)
-Received: from localhost ([::1]:52140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BDE248964C
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 11:25:36 +0100 (CET)
+Received: from localhost ([::1]:54336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6rq3-0002qm-QK
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 05:23:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40174)
+	id 1n6rrr-0004OY-PM
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 05:25:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n6rnc-0001jL-5w
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 05:21:12 -0500
-Received: from [2a00:1450:4864:20::529] (port=44907
- helo=mail-ed1-x529.google.com)
+ id 1n6roz-0002IZ-JT
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 05:22:38 -0500
+Received: from [2a00:1450:4864:20::533] (port=43882
+ helo=mail-ed1-x533.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n6rna-0004WW-Ev
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 05:21:11 -0500
-Received: by mail-ed1-x529.google.com with SMTP id w16so51462046edc.11
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 02:21:09 -0800 (PST)
+ id 1n6roy-0004hV-0k
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 05:22:37 -0500
+Received: by mail-ed1-x533.google.com with SMTP id m4so10024098edb.10
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 02:22:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=GNQpIfCsHVphaqNMZVyiGSijlwscDz7gqTYsCwyEhoc=;
- b=xWvVajNL2IjVRtjUhqSf07dndIP/f9HG6L2t2Y+GP/Q8OgltfiIHBZ0VTsnc3G0ncT
- f6yUb50FYm149qlLONjZBbFMhqBGwUqcKekjuPVOr7RSgQZ5rwCEFy6WJMN7bI5r4TZ+
- VJkoURkQrg7WV37Q9XM9ka1dBcCnSHvBch7ZNWiKqOgbFjGcgN8HklIaS5IimrPjsJlH
- fDJ9tpExyjO/rlAHT0XkE3CHDFxXI//G7AWmtDWFrxquzzGwRQqTcSU7I5QlKGiSdHZN
- m6MKVVDJoHOvIc0Gf+we3iTkvEfok119LpjSR+Lq7jrQ9B2sfAX9QTCGrYx4H9KMQbQL
- FPrg==
+ bh=4ScVEqezi9OQfiJtwFLg75fkJ/eLZnnujQRUb8eZr6Q=;
+ b=wB2tyybz/qPUaA/wKxZhNpBHobgHN4GXSY6ARJE1z42/h+Mges/uLVWgXxGtMO2Yxb
+ knJAyr755UXwZlN6fNsgNaYH5P5OPTUe0EMzctn0L503oEwsyXKNVkeqklzqs/zlQTvK
+ GNM/x2vTuzn7M+cNjoNHDIpWUf98hnV50IF0LXacdQ8tI6Ed/c4vrbNSp57Gxp8R4QSC
+ LKZ6Vw/c5MRWWFrcNXdckZvbcKpdYRihw3zlYbRm5qgG0MpgmnOwdIdEG8BE8ZqH/2NK
+ 7Feq0TYUp1NDALYhHFtAKp+gWrhJwdzhh1RuK1FvRX857zodWuIp6WxPEQ0XrHkrZnw5
+ nFXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=GNQpIfCsHVphaqNMZVyiGSijlwscDz7gqTYsCwyEhoc=;
- b=we7kvbldiuxSuKTXfzxaUJ5v1N419DTuKfkaYvb17MfCV58LKpBzHXk3rQIDTw8R5D
- qWHkCjVJZY57mJ2tYHlZxIPy22GP9MBC0zImqWMrJGrwLdc9GOqC2wXmTOk/kRYFgrJA
- AyR5W8/WoRXDonUaPTVMIS/e43lwu7VLU2NsMAFYJn3XcxBTuPm12+rLunBXUqcmONar
- qvciZB/LSV7BPVNBH255ju/IP5Ogle1zPe6WVcJ9wysVpwCuJQPw3skWWxM2veQTL92d
- WjcmbgY7g2L40wLkhJZx59nHx9+luSJu2x5356x/YEqKHfUFk6HJSpiYYXzSCUfXUOxt
- u9gg==
-X-Gm-Message-State: AOAM531QMdHeJW2iQMh8+jnC20cu7eCSIRKZ/BDJ+OpCYUyx5yIcGZzJ
- 4/sZFF2mvIfu5oLC1huqUNhjcA==
-X-Google-Smtp-Source: ABdhPJyosLFM5QIzVhcYFsAR39AlhGfHUCqcvkGMGlj62zpLm1+iAZAs6stGSUOMbzPe0zemkA0yJQ==
-X-Received: by 2002:a17:906:2a41:: with SMTP id
- k1mr56270764eje.512.1641810068398; 
- Mon, 10 Jan 2022 02:21:08 -0800 (PST)
+ bh=4ScVEqezi9OQfiJtwFLg75fkJ/eLZnnujQRUb8eZr6Q=;
+ b=Y3xrEA05ECSBkoP7+48uF3yXtxx2ZqFGM+Rowek0CUVB1NpD+eMX7bXeJCA5rGEaXJ
+ ZcNgNX5YEVRyt5j0qGzqbRbYkBUHYKa67GwDKdGt7jT2cLE0nTOVDvUsqBvdfCw1HcFN
+ Omx5jYmR/635DP9lOif68Q5zpNDJaAzV4tnhodvcbSl7l7xRPfU90DUARsjDi2h4MlKc
+ 3i0Q9aja9UiYcpTBiy7lkbN3l8T9Ot6rHHVCLapJ+TV1ZxxJJFxn4J9cKqBMqVFgcSun
+ NBQDN+KRdklHARCPX1J9+U+23oAOcxb3GB2EeNGOtqtQqxeCdyCVnDvvywRhR92TJ4N7
+ mjAg==
+X-Gm-Message-State: AOAM531R9HONnJXnQm2utWjPl4PLZg8R2wkou+5R9w2EZ0SNhtluccZZ
+ 00t8SjapfhHbWc1Am4H/fguPnA==
+X-Google-Smtp-Source: ABdhPJy6+VJyvo3RtsbeMfXMhuhhC24/pQpO9VBx8GaecyWFBTaCPnugQaAl/yLVOL2oBYwQ3g1wew==
+X-Received: by 2002:a17:906:9b8e:: with SMTP id
+ dd14mr59747812ejc.337.1641810154615; 
+ Mon, 10 Jan 2022 02:22:34 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v8sm3317558edt.10.2022.01.10.02.21.07
+ by smtp.gmail.com with ESMTPSA id eb14sm3351439edb.16.2022.01.10.02.22.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jan 2022 02:21:07 -0800 (PST)
+ Mon, 10 Jan 2022 02:22:34 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E128C1FFB7;
- Mon, 10 Jan 2022 10:21:06 +0000 (GMT)
-References: <20220105135009.1584676-1-alex.bennee@linaro.org>
- <20220105135009.1584676-28-alex.bennee@linaro.org>
- <54a910ca-586d-9bb1-de7d-aa4578b019ae@amsat.org>
+ by zen.linaroharston (Postfix) with ESMTP id 4D5131FFB7;
+ Mon, 10 Jan 2022 10:22:33 +0000 (GMT)
+References: <20220108150952.1483911-1-ardb@kernel.org>
 User-agent: mu4e 1.7.5; emacs 28.0.91
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v1 27/34] tests/avocado: add :avocado: tags for some tests
-Date: Mon, 10 Jan 2022 10:20:22 +0000
-In-reply-to: <54a910ca-586d-9bb1-de7d-aa4578b019ae@amsat.org>
-Message-ID: <87pmozdh7x.fsf@linaro.org>
+To: Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: [PATCH v2] target/arm/cpu64: Use 32-bit GDBstub when running in
+ 32-bit KVM mode
+Date: Mon, 10 Jan 2022 10:22:28 +0000
+In-reply-to: <20220108150952.1483911-1-ardb@kernel.org>
+Message-ID: <87lezndh5i.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::529
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::533
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,27 +91,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, fam@euphon.net, berrange@redhat.com,
- Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com, aurelien@aurel32.net
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+Ard Biesheuvel <ardb@kernel.org> writes:
 
-> On 1/5/22 14:50, Alex Benn=C3=A9e wrote:
->> This stops a bunch of tests failing because of a lack of
->> "./qemu-system-x86-64" in a build directory where you have configured
->> only one non-default target. I suspect what we really need is:
->>=20
->>     :avocado: tags=3Darch:host
+> When running under KVM, we may decide to run the CPU in 32-bit mode, by
+> setting the 'aarch64=3Doff' CPU option. In this case, we need to switch to
+> the 32-bit version of the GDB stub too, so that GDB has the correct view
+> of the CPU state. Without this, GDB debugging does not work at all, and
+> errors out upon connecting to the target with a mysterious 'g' packet
+> length error.
 >
-> This doesn't seem right, these tests are generic...
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Alex Bennee <alex.bennee@linaro.org>
+> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
 
-This failure went away after I nuked the build dir and re-ran configure
-so maybe the failure was due to stale data. I'll drop it for now.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 --=20
 Alex Benn=C3=A9e
