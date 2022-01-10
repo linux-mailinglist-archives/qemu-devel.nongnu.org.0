@@ -2,85 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4D7C488EB0
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 03:42:54 +0100 (CET)
-Received: from localhost ([::1]:59098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5445B488EB8
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 03:44:28 +0100 (CET)
+Received: from localhost ([::1]:33044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6ke5-0000vp-Nf
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 21:42:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56820)
+	id 1n6kfb-0002Rw-6F
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 21:44:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1n6kcS-0000EV-76
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 21:41:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48432)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1n6kcN-0006xu-RJ
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 21:41:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641782467;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oe8Fzbs8z6I2+WvZmPInklAezRh7kB80jsBmJhx/3sY=;
- b=USJWkDoSmQr0mjcXhYkOMbrIO5cJAhcNrg9D0QSzbWOTUGINjg6FAS6D/htZjwAakrZgar
- hXHuWFbIlocBcvFLULYIgLIyWNUE4kxy29I67X6wWSlvmFn0kHkx6UlkhV9Ae1GrFBnvbt
- g6vglt15Ay2swvs7V16pIEeUHBLBtHo=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-550-iJgpQ9wbPf6-GHXEWVWEAA-1; Sun, 09 Jan 2022 21:41:05 -0500
-X-MC-Unique: iJgpQ9wbPf6-GHXEWVWEAA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- w6-20020a05640234c600b003f916e1b615so8958746edc.17
- for <qemu-devel@nongnu.org>; Sun, 09 Jan 2022 18:41:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oe8Fzbs8z6I2+WvZmPInklAezRh7kB80jsBmJhx/3sY=;
- b=xfk5jqTBh7ygSpULg4FnQ7SzSP+mZkQT8KPooxcxDiGRSg4tSEKrK7iAEKMfUqIcZB
- 59/QOJRleHeFONN5PIpR8ARa2mRCho/3uPuN3INycGaK2f8O3as0xhMxz2+Ct4PJJn5z
- 2jJAJOoNu9UnKxYfO/hTGunHtyl8nZDCY+ewlq0n/Gv+JfaeBWTkGffwuoUSbD39fTnY
- VxFFdDYMUHrq3hNlhoglj+1SfUsHz9LSETh1bLpyYKdaa9WTZANrUwtibG7731R6RlC8
- l9RMfdaO2r7XM8jFP8tNqrWI1qsNyepmQdSiT5ocj1l7Ht7UaolkHOOfh4b45PeSeRNv
- +MSw==
-X-Gm-Message-State: AOAM5326Zjos9TcaKXUE6h0lVa2oH44R9KNXR7AAfikd8zfD+oL99Eo4
- pYSeNnFA09cKxdfPeqaa1f3qdrktqX5cFfGuReuf9IVA7+2e8oQjS31PadYXPVSmHUP+5mU0Cyr
- WUmvF0ul3a6+c0ZhLCvO0y7Gm2sutmNU=
-X-Received: by 2002:a17:907:3da3:: with SMTP id
- he35mr58311579ejc.195.1641782464484; 
- Sun, 09 Jan 2022 18:41:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzfi9ZMkH9Y8m+C12x7KKb6efNMmw8HBu9vztS7Xc8wDsGGJ84qjYlb2Zu6UZiP+ZTnNWR5T3KwY8Wh9w4e1bg=
-X-Received: by 2002:a17:907:3da3:: with SMTP id
- he35mr58311563ejc.195.1641782464270; 
- Sun, 09 Jan 2022 18:41:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1n6ke6-0001Wb-Gi
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 21:42:54 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:59858 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1n6ke3-00078X-60
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 21:42:54 -0500
+Received: from localhost.localdomain (unknown [10.20.42.11])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Cx6+gindth0w0BAA--.4261S3;
+ Mon, 10 Jan 2022 10:42:43 +0800 (CST)
+Subject: Re: [RFC PATCH v4 00/30] Add LoongArch softmmu support.
+To: WANG Xuerui <i.qemu@xen0n.name>, qemu-devel@nongnu.org
+References: <20220108091419.2027710-1-yangxiaojuan@loongson.cn>
+ <1ee6013f-957f-caaa-3269-7779e8cfc57a@xen0n.name>
+From: yangxiaojuan <yangxiaojuan@loongson.cn>
+Message-ID: <3b5d66ce-8a75-af33-39f7-c43b45624c6a@loongson.cn>
+Date: Mon, 10 Jan 2022 10:42:42 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
 MIME-Version: 1.0
-References: <20211104164827.21911-1-lulu@redhat.com>
- <20220109125240-mutt-send-email-mst@kernel.org>
- <CACLfguUTTpt7Fct3S7O92OXO=RvuDDRRpga8NMweR2cX-n6ctg@mail.gmail.com>
- <CACGkMEtt5WQoMJkt_oOtTsMhKfxKyKrDUjvH0v=uqVpS9+E7AQ@mail.gmail.com>
-In-Reply-To: <CACGkMEtt5WQoMJkt_oOtTsMhKfxKyKrDUjvH0v=uqVpS9+E7AQ@mail.gmail.com>
-From: Cindy Lu <lulu@redhat.com>
-Date: Mon, 10 Jan 2022 10:40:26 +0800
-Message-ID: <CACLfguVsjtSV_RPFhn4ueoKprkJvEGNTBenuXQw6uHx5G3-q4w@mail.gmail.com>
-Subject: Re: [PATCH v10 00/10]vhost-vdpa: add support for configure interrupt
-To: Jason Wang <jasowang@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000094eafc05d53144c0"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1ee6013f-957f-caaa-3269-7779e8cfc57a@xen0n.name>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf9Cx6+gindth0w0BAA--.4261S3
+X-Coremail-Antispam: 1UD129KBjvJXoW3Zw1kCFykJw1rWFW8tr18Zrb_yoWDtw4Up3
+ y7ur1rKr48GrZrJrn2qasxWr98JFn7GrW2v3WSqry8CrWavry3Zr1vyasIgFy7J3ykGry0
+ qrnYkw1UWa1UJaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9vb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwV
+ C2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+ 0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Jr0_Gr1lYx0E2Ix0cI8IcVAFwI0_Jr
+ I_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxG
+ rwCYjI0SjxkI62AI1cAE67vIY487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxV
+ CFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r10
+ 6r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxV
+ WUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG
+ 6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr
+ 0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU5mNt3UUUUU==
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,317 +71,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, David Gilbert <dgilbert@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000094eafc05d53144c0
-Content-Type: text/plain; charset="UTF-8"
+Hi, Xuerui
 
-On Mon, Jan 10, 2022 at 10:37 AM Jason Wang <jasowang@redhat.com> wrote:
+    Thank you for all you advice, I will modify the target part carefully.
 
-> On Mon, Jan 10, 2022 at 9:37 AM Cindy Lu <lulu@redhat.com> wrote:
-> >
-> >
-> >
-> >
-> > On Mon, Jan 10, 2022 at 1:56 AM Michael S. Tsirkin <mst@redhat.com>
-> wrote:
-> >>
-> >> On Fri, Nov 05, 2021 at 12:48:17AM +0800, Cindy Lu wrote:
-> >> > these patches add the support for configure interrupt
-> >> >
-> >> > These codes are all tested in vp-vdpa (support configure interrupt)
-> >> > vdpa_sim (not support configure interrupt), virtio tap device
-> >> >
-> >> > test in virtio-pci bus and virtio-mmio bus
-> >> >
-> >> > Change in v2:
-> >> > Add support for virtio-mmio bus
-> >> > active the notifier while the backend support configure interrupt
-> >> > misc fixes from v1
-> >> >
-> >> > Change in v3
-> >> > fix the coding style problems
-> >> >
-> >> > Change in v4
-> >> > misc fixes from v3
-> >> > merge the set_config_notifier to set_guest_notifier
-> >> > when vdpa start, check the feature by VIRTIO_NET_F_STATUS
-> >> >
-> >> > Change in v5
-> >> > misc fixes from v4
-> >> > split the code to introduce configure interrupt type and the callback
-> function
-> >> > will init the configure interrupt in all virtio-pci and virtio-mmio
-> bus, but will
-> >> > only active while using vhost-vdpa driver
-> >> >
-> >> > Change in v6
-> >> > misc fixes from v5
-> >> > decouple vq from interrupt setting and misc process
-> >> > fix the bug in virtio_net_handle_rx
-> >> > use -1 as the queue number to identify if the interrupt is configure
-> interrupt
-> >> >
-> >> > Change in v7
-> >> > misc fixes from v6
-> >> > decouple vq from interrupt setting and misc process
-> >> > decouple vq from vector use/release process
-> >> > decouple vq from set notifier fd handler process
-> >> > move config_notifier and masked_config_notifier to VirtIODevice
-> >> > fix the bug in virtio_net_handle_rx, add more information
-> >> > add VIRTIO_CONFIG_IRQ_IDX as the queue number to identify if the
-> interrupt is configure interrupt
-> >> >
-> >> > Change in v8
-> >> > misc fixes from v7
-> >> > decouple vq from interrupt setting and misc process
-> >> > decouple vq from vector use/release process
-> >> > decouple vq from set notifier fd handler process
-> >> > move the vhost configure interrupt to vhost_net
-> >> >
-> >> > Change in v9
-> >> > misc fixes from v8
-> >> > address the comments from v8
-> >> >
-> >> > Change in v10
-> >> > fix the hang issue in qtest
-> >> > address the comments from v9
-> >> >
-> >> > Cindy Lu (10):
-> >> >   virtio: introduce macro IRTIO_CONFIG_IRQ_IDX
-> >> >   virtio-pci: decouple notifier from interrupt process
-> >> >   virtio-pci: decouple the single vector from the interrupt process
-> >> >   vhost: introduce new VhostOps vhost_set_config_call
-> >> >   vhost-vdpa: add support for config interrupt
-> >> >   virtio: add support for configure interrupt
-> >> >   vhost: add support for configure interrupt
-> >> >   virtio-net: add support for configure interrupt
-> >> >   virtio-mmio: add support for configure interrupt
-> >> >   virtio-pci: add support for configure interrupt
-> >> >
-> >> >  hw/display/vhost-user-gpu.c       |   6 +
-> >> >  hw/net/vhost_net.c                |   9 +
-> >> >  hw/net/virtio-net.c               |  10 +-
-> >> >  hw/virtio/trace-events            |   1 +
-> >> >  hw/virtio/vhost-user-fs.c         |   6 +
-> >> >  hw/virtio/vhost-vdpa.c            |   7 +
-> >> >  hw/virtio/vhost-vsock-common.c    |   6 +
-> >> >  hw/virtio/vhost.c                 |  76 +++++++++
-> >> >  hw/virtio/virtio-crypto.c         |   6 +
-> >> >  hw/virtio/virtio-mmio.c           |  27 +++
-> >> >  hw/virtio/virtio-pci.c            | 269
-> +++++++++++++++++++++---------
-> >> >  hw/virtio/virtio-pci.h            |   4 +-
-> >> >  hw/virtio/virtio.c                |  29 ++++
-> >> >  include/hw/virtio/vhost-backend.h |   3 +
-> >> >  include/hw/virtio/vhost.h         |   4 +
-> >> >  include/hw/virtio/virtio.h        |   7 +
-> >> >  include/net/vhost_net.h           |   2 +
-> >> >  17 files changed, 389 insertions(+), 83 deletions(-)
-> >>
-> >> So I just realized something. The spec says:
-> >>
-> >> The device MUST set the Device Configuration Interrupt bit
-> >> in \field{ISR status} before sending a device configuration
-> >> change notification to the driver.
-> >>
-> >> and I don't see how these patches achieve this: it requires
-> >> that config interrupts go through userspace.
-> >>
-> >> Revert, and think more about it? Or did I miss something?
-> >>
-> >  Thanks, Micheal, I'm ok to revert these patchs and there are also
-> several bugs  I need to fix.
-> > I will post a new version soon
->
-> Please test with vectors=0 for the new version to make it work as expected.
->
-> Thanks
->
-> Sure, I will, Thanka Jason
+Xiaojuan
 
-> >>
-> >>
-> >> > --
-> >> > 2.21.3
-> >>
->
->
 
---00000000000094eafc05d53144c0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 10, 2022 at 10:37 AM Jaso=
-n Wang &lt;<a href=3D"mailto:jasowang@redhat.com">jasowang@redhat.com</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon=
-, Jan 10, 2022 at 9:37 AM Cindy Lu &lt;<a href=3D"mailto:lulu@redhat.com" t=
-arget=3D"_blank">lulu@redhat.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; On Mon, Jan 10, 2022 at 1:56 AM Michael S. Tsirkin &lt;<a href=3D"mail=
-to:mst@redhat.com" target=3D"_blank">mst@redhat.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; On Fri, Nov 05, 2021 at 12:48:17AM +0800, Cindy Lu wrote:<br>
-&gt;&gt; &gt; these patches add the support for configure interrupt<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; These codes are all tested in vp-vdpa (support configure inte=
-rrupt)<br>
-&gt;&gt; &gt; vdpa_sim (not support configure interrupt), virtio tap device=
-<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; test in virtio-pci bus and virtio-mmio bus<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Change in v2:<br>
-&gt;&gt; &gt; Add support for virtio-mmio bus<br>
-&gt;&gt; &gt; active the notifier while the backend support configure inter=
-rupt<br>
-&gt;&gt; &gt; misc fixes from v1<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Change in v3<br>
-&gt;&gt; &gt; fix the coding style problems<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Change in v4<br>
-&gt;&gt; &gt; misc fixes from v3<br>
-&gt;&gt; &gt; merge the set_config_notifier to set_guest_notifier<br>
-&gt;&gt; &gt; when vdpa start, check the feature by VIRTIO_NET_F_STATUS<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Change in v5<br>
-&gt;&gt; &gt; misc fixes from v4<br>
-&gt;&gt; &gt; split the code to introduce configure interrupt type and the =
-callback function<br>
-&gt;&gt; &gt; will init the configure interrupt in all virtio-pci and virti=
-o-mmio bus, but will<br>
-&gt;&gt; &gt; only active while using vhost-vdpa driver<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Change in v6<br>
-&gt;&gt; &gt; misc fixes from v5<br>
-&gt;&gt; &gt; decouple vq from interrupt setting and misc process<br>
-&gt;&gt; &gt; fix the bug in virtio_net_handle_rx<br>
-&gt;&gt; &gt; use -1 as the queue number to identify if the interrupt is co=
-nfigure interrupt<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Change in v7<br>
-&gt;&gt; &gt; misc fixes from v6<br>
-&gt;&gt; &gt; decouple vq from interrupt setting and misc process<br>
-&gt;&gt; &gt; decouple vq from vector use/release process<br>
-&gt;&gt; &gt; decouple vq from set notifier fd handler process<br>
-&gt;&gt; &gt; move config_notifier and masked_config_notifier to VirtIODevi=
-ce<br>
-&gt;&gt; &gt; fix the bug in virtio_net_handle_rx, add more information<br>
-&gt;&gt; &gt; add VIRTIO_CONFIG_IRQ_IDX as the queue number to identify if =
-the interrupt is configure interrupt<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Change in v8<br>
-&gt;&gt; &gt; misc fixes from v7<br>
-&gt;&gt; &gt; decouple vq from interrupt setting and misc process<br>
-&gt;&gt; &gt; decouple vq from vector use/release process<br>
-&gt;&gt; &gt; decouple vq from set notifier fd handler process<br>
-&gt;&gt; &gt; move the vhost configure interrupt to vhost_net<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Change in v9<br>
-&gt;&gt; &gt; misc fixes from v8<br>
-&gt;&gt; &gt; address the comments from v8<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Change in v10<br>
-&gt;&gt; &gt; fix the hang issue in qtest<br>
-&gt;&gt; &gt; address the comments from v9<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Cindy Lu (10):<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0virtio: introduce macro IRTIO_CONFIG_IRQ_IDX<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0virtio-pci: decouple notifier from interrupt proc=
-ess<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0virtio-pci: decouple the single vector from the i=
-nterrupt process<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0vhost: introduce new VhostOps vhost_set_config_ca=
-ll<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0vhost-vdpa: add support for config interrupt<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0virtio: add support for configure interrupt<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0vhost: add support for configure interrupt<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0virtio-net: add support for configure interrupt<b=
-r>
-&gt;&gt; &gt;=C2=A0 =C2=A0virtio-mmio: add support for configure interrupt<=
-br>
-&gt;&gt; &gt;=C2=A0 =C2=A0virtio-pci: add support for configure interrupt<b=
-r>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt;=C2=A0 hw/display/vhost-user-gpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 =C2=A06 +<br>
-&gt;&gt; &gt;=C2=A0 hw/net/vhost_net.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A09 +<br>
-&gt;&gt; &gt;=C2=A0 hw/net/virtio-net.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 10 +-<br>
-&gt;&gt; &gt;=C2=A0 hw/virtio/trace-events=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
-&gt;&gt; &gt;=C2=A0 hw/virtio/vhost-user-fs.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0|=C2=A0 =C2=A06 +<br>
-&gt;&gt; &gt;=C2=A0 hw/virtio/vhost-vdpa.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 =C2=A07 +<br>
-&gt;&gt; &gt;=C2=A0 hw/virtio/vhost-vsock-common.c=C2=A0 =C2=A0 |=C2=A0 =C2=
-=A06 +<br>
-&gt;&gt; &gt;=C2=A0 hw/virtio/vhost.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 76 +++++++++<br>
-&gt;&gt; &gt;=C2=A0 hw/virtio/virtio-crypto.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0|=C2=A0 =C2=A06 +<br>
-&gt;&gt; &gt;=C2=A0 hw/virtio/virtio-mmio.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 27 +++<br>
-&gt;&gt; &gt;=C2=A0 hw/virtio/virtio-pci.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 | 269 +++++++++++++++++++++---------<br>
-&gt;&gt; &gt;=C2=A0 hw/virtio/virtio-pci.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 =C2=A04 +-<br>
-&gt;&gt; &gt;=C2=A0 hw/virtio/virtio.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 |=C2=A0 29 ++++<br>
-&gt;&gt; &gt;=C2=A0 include/hw/virtio/vhost-backend.h |=C2=A0 =C2=A03 +<br>
-&gt;&gt; &gt;=C2=A0 include/hw/virtio/vhost.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0|=C2=A0 =C2=A04 +<br>
-&gt;&gt; &gt;=C2=A0 include/hw/virtio/virtio.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 =C2=A07 +<br>
-&gt;&gt; &gt;=C2=A0 include/net/vhost_net.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 =C2=A02 +<br>
-&gt;&gt; &gt;=C2=A0 17 files changed, 389 insertions(+), 83 deletions(-)<br=
->
-&gt;&gt;<br>
-&gt;&gt; So I just realized something. The spec says:<br>
-&gt;&gt;<br>
-&gt;&gt; The device MUST set the Device Configuration Interrupt bit<br>
-&gt;&gt; in \field{ISR status} before sending a device configuration<br>
-&gt;&gt; change notification to the driver.<br>
-&gt;&gt;<br>
-&gt;&gt; and I don&#39;t see how these patches achieve this: it requires<br=
->
-&gt;&gt; that config interrupts go through userspace.<br>
-&gt;&gt;<br>
-&gt;&gt; Revert, and think more about it? Or did I miss something?<br>
-&gt;&gt;<br>
-&gt;=C2=A0 Thanks, Micheal, I&#39;m ok to revert these patchs and there are=
- also several bugs=C2=A0 I need to fix.<br>
-&gt; I will post a new version soon<br>
-<br>
-Please test with vectors=3D0 for the new version to make it work as expecte=
-d.<br>
-<br>
-Thanks<br>
-<br></blockquote><div>Sure, I will, Thanka=C2=A0Jason=C2=A0=C2=A0</div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex">
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; &gt; --<br>
-&gt;&gt; &gt; 2.21.3<br>
-&gt;&gt;<br>
-<br>
-</blockquote></div></div>
-
---00000000000094eafc05d53144c0--
+On 01/09/2022 05:26 PM, WANG Xuerui wrote:
+> Hi Xiaojuan,
+> 
+> I've just finished reviewing the first part (target modifications) as I'm not familiar with QEMU device emulation. You may have to revise the target part carefully, and re-organize at the series level to accelerate upstreaming though, as Richard pointed out in the other patch series (Song Gao's LoongArch linux-user support series) that the series as a whole is blocked.
+> 
+> 
+> On 1/8/22 17:13, Xiaojuan Yang wrote:
+>> This series patch add softmmu support for LoongArch.
+>> Base on the linux-user emulation support V14 patch.
+>>    *https://patchew.org/QEMU/20220106094200.1801206-1-gaosong@loongson.cn/
+> 
+> There's a recognized syntax for marking patch series dependency [1], so that your series could be auto-applied by Patchew for ease of consumption. You can look at Song Gao's v14 LoongArch linux-user series for example usage.
+> 
+> [1]: https://www.qemu.org/docs/master/devel/submitting-a-patch.html#base-patches-against-current-git-master
+> 
+>> The latest kernel:
+>>    *https://github.com/loongson/linux/tree/loongarch-next
+>> The latest uefi:
+>>    *https://github.com/loongson/edk2
+>>    *https://github.com/loongson/edk2-platforms
+>> The manual:
+>>    *https://github.com/loongson/LoongArch-Documentation/releases/tag/2021.10.11
+>>
+>>
+>> Changes for v4:
+>> 1. Uefi code is open and add some fdt interface to pass info between qemu and uefi.
+>> 2. Use a per cpu address space for iocsr.
+>> 3. Modify the tlb emulation.
+>> 4. Machine and board code mainly follow Mark's advice.
+>> 5. Adjust pci host space map.
+>> 6. Use more memregion to simplify the interrupt controller's emulate.
+>>
+>>
+>> Changes for v3:
+>> 1.Target code mainly follow Richard's code review comments.
+>> 2.Put the csr and iocsr read/write instruction emulate into 2 different patch.
+>> 3.Simply the tlb emulation.
+>> 4.Delete some unused csr registers defintion.
+>> 5.Machine and board code mainly follow Mark's advice, discard the obsolete interface.
+>> 6.NUMA function is removed for it is not completed.
+>> 7.Adjust some format problem and the Naming problem
+>>
+>>
+>> Changes for v2:
+>> 1.Combine patch 2 and 3 into one.
+>> 2.Adjust the order of the patch.
+>> 3.Put all the binaries on the github.
+>> 4.Modify some emulate errors when use the kernel from the github.
+>> 5.Adjust some format problem and the Naming problem
+>> 6.Others mainly follow Richard's code review comments.
+>>
+>> Please help review!
+>>
+>> Thanks
+>>
+>> Xiaojuan Yang (30):
+>>    target/loongarch: Update README
+>>    target/loongarch: Add CSR registers definition
+>>    target/loongarch: Add basic vmstate description of CPU.
+> 
+> There are serious issues with your commit message...
+> 
+> First of all, some of your commit message titles end with a period, while some don't; the QEMU convention is to NOT use one. So please fix all commits like this to remove the trailing period.
+> 
+>>    target/loongarch: Implement qmp_query_cpu_definitions()
+>>    target/loongarch: Add constant timer support
+> "Implement the constant timer" would be more concise and idiomatic English.
+>>    target/loongarch: Add MMU support for LoongArch CPU.
+>>    target/loongarch: Add LoongArch CSR instruction
+>>    target/loongarch: Add LoongArch IOCSR instruction
+> You don't need to emphasize "LoongArch" because the component prefix "target/loongarch" says it all. Also all of these commits add support for multiple instructions at once, so you would say "instructions". You may need to check all places for simple plural form mistakes like these.
+>>    target/loongarch: Add TLB instruction support
+>>    target/loongarch: Add other core instructions support
+>>    target/loongarch: Add LoongArch interrupt and exception handle
+> "handlers"?
+>>    target/loongarch: Add timer related instructions support.
+>>    target/loongarch: Add gdb support.
+>>    hw/pci-host: Add ls7a1000 PCIe Host bridge support for Loongson3
+>>      Platform
+> "Add the LS7A1000 PCIe host bridge" would be enough; although currently the LS7A chip is only paired with Loongson 3 CPUs, there's no intrinsic reasons to only support this combination ever.
+>>    hw/loongarch: Add support loongson3-ls7a machine type.
+> "Support the loongson3-ls7a machine type"
+>>    hw/loongarch: Add LoongArch cpu interrupt support(CPUINTC)
+> You may just say "Implement the LoongArch CPUINTC"; people naturally look in the diff to get what CPUINTC means. Same for other following commits with similar commit messages.
+>>    hw/loongarch: Add LoongArch ipi interrupt support(IPI)
+>>    hw/intc: Add LoongArch ls7a interrupt controller support(PCH-PIC)
+>>    hw/intc: Add LoongArch ls7a msi interrupt controller support(PCH-MSI)
+>>    hw/intc: Add LoongArch extioi interrupt controller(EIOINTC)
+>>    hw/loongarch: Add irq hierarchy for the system
+>>    Enable common virtio pci support for LoongArch
+> This patch is missing component prefix in its title.
+>>    hw/loongarch: Add some devices support for 3A5000.
+> What's "some"? You may want to clarify a bit, or to split patches if you cannot make your title short and concise.
+>>    hw/loongarch: Add LoongArch ls7a rtc device support
+> The LS7A RTC is usable for MIPS-based Loongson systems too, like the 3A4000/LS7A1000 combination, so is this really LoongArch-specific?
+>>    hw/loongarch: Add default bios startup support.
+>>    hw/loongarch: Add -kernel and -initrd options support
+>>    hw/loongarch: Add LoongArch smbios support
+>>    hw/loongarch: Add LoongArch acpi support
+>>    hw/loongarch: Add fdt support.
+>>    tests/tcg/loongarch64: Add hello/memory test in loongarch64 system
+> "for" loongarch64 systems
+>>   .../devices/loongarch64-softmmu/default.mak   |   3 +
+>>   configs/targets/loongarch64-softmmu.mak       |   4 +
+>>   gdb-xml/loongarch-base64.xml                  |  43 +
+>>   gdb-xml/loongarch-fpu64.xml                   |  57 ++
+>>   hw/Kconfig                                    |   1 +
+>>   hw/acpi/Kconfig                               |   4 +
+>>   hw/acpi/ls7a.c                                | 374 +++++++++
+>>   hw/acpi/meson.build                           |   1 +
+>>   hw/intc/Kconfig                               |  15 +
+>>   hw/intc/loongarch_extioi.c                    | 376 +++++++++
+>>   hw/intc/loongarch_ipi.c                       | 164 ++++
+>>   hw/intc/loongarch_pch_msi.c                   |  75 ++
+>>   hw/intc/loongarch_pch_pic.c                   | 428 ++++++++++
+>>   hw/intc/meson.build                           |   4 +
+>>   hw/intc/trace-events                          |  25 +
+>>   hw/loongarch/Kconfig                          |  22 +
+>>   hw/loongarch/acpi-build.c                     | 636 ++++++++++++++
+>>   hw/loongarch/fw_cfg.c                         |  33 +
+>>   hw/loongarch/fw_cfg.h                         |  15 +
+>>   hw/loongarch/loongson3.c                      | 685 +++++++++++++++
+>>   hw/loongarch/meson.build                      |   6 +
+>>   hw/meson.build                                |   1 +
+>>   hw/pci-host/Kconfig                           |   4 +
+>>   hw/pci-host/ls7a.c                            | 218 +++++
+>>   hw/pci-host/meson.build                       |   1 +
+>>   hw/rtc/Kconfig                                |   3 +
+>>   hw/rtc/ls7a_rtc.c                             | 322 ++++++++
+>>   hw/rtc/meson.build                            |   1 +
+>>   include/exec/poison.h                         |   2 +
+>>   include/hw/acpi/ls7a.h                        |  53 ++
+>>   include/hw/intc/loongarch_extioi.h            |  69 ++
+>>   include/hw/intc/loongarch_ipi.h               |  48 ++
+>>   include/hw/intc/loongarch_pch_msi.h           |  21 +
+>>   include/hw/intc/loongarch_pch_pic.h           |  74 ++
+>>   include/hw/loongarch/loongarch.h              |  75 ++
+>>   include/hw/pci-host/ls7a.h                    |  79 ++
+>>   include/hw/pci/pci_ids.h                      |   3 +
+>>   include/sysemu/arch_init.h                    |   1 +
+>>   linux-user/loongarch64/cpu_loop.c             |   8 +-
+>>   qapi/machine-target.json                      |   6 +-
+>>   qapi/machine.json                             |   2 +-
+>>   softmmu/qdev-monitor.c                        |   3 +-
+>>   target/Kconfig                                |   1 +
+>>   target/loongarch/Kconfig                      |   2 +
+>>   target/loongarch/README                       |  25 +
+>>   target/loongarch/constant_timer.c             |  63 ++
+>>   target/loongarch/cpu-csr.h                    | 236 ++++++
+>>   target/loongarch/cpu-param.h                  |   2 +-
+>>   target/loongarch/cpu.c                        | 377 ++++++++-
+>>   target/loongarch/cpu.h                        | 220 ++++-
+>>   target/loongarch/csr_helper.c                 | 112 +++
+>>   target/loongarch/disas.c                      |  57 ++
+>>   target/loongarch/fpu_helper.c                 |   2 +-
+>>   target/loongarch/gdbstub.c                    |  97 +++
+>>   target/loongarch/helper.h                     |  26 +
+>>   target/loongarch/insn_trans/trans_core.c.inc  | 412 ++++++++++
+>>   target/loongarch/insn_trans/trans_extra.c.inc |  36 +-
+>>   target/loongarch/insns.decode                 |  44 +
+>>   target/loongarch/internals.h                  |  29 +
+>>   target/loongarch/iocsr_helper.c               | 120 +++
+>>   target/loongarch/machine.c                    | 101 +++
+>>   target/loongarch/meson.build                  |  11 +
+>>   target/loongarch/op_helper.c                  |  57 ++
+>>   target/loongarch/tlb_helper.c                 | 777 ++++++++++++++++++
+>>   target/loongarch/translate.c                  |   9 +-
+>>   tests/tcg/loongarch64/Makefile.softmmu-target |  33 +
+>>   tests/tcg/loongarch64/system/boot.S           |  58 ++
+>>   tests/tcg/loongarch64/system/kernel.ld        |  30 +
+>>   tests/tcg/loongarch64/system/regdef.h         |  86 ++
+>>   69 files changed, 6958 insertions(+), 30 deletions(-)
+>>   create mode 100644 configs/devices/loongarch64-softmmu/default.mak
+>>   create mode 100644 configs/targets/loongarch64-softmmu.mak
+>>   create mode 100644 gdb-xml/loongarch-base64.xml
+>>   create mode 100644 gdb-xml/loongarch-fpu64.xml
+>>   create mode 100644 hw/acpi/ls7a.c
+>>   create mode 100644 hw/intc/loongarch_extioi.c
+>>   create mode 100644 hw/intc/loongarch_ipi.c
+>>   create mode 100644 hw/intc/loongarch_pch_msi.c
+>>   create mode 100644 hw/intc/loongarch_pch_pic.c
+>>   create mode 100644 hw/loongarch/Kconfig
+>>   create mode 100644 hw/loongarch/acpi-build.c
+>>   create mode 100644 hw/loongarch/fw_cfg.c
+>>   create mode 100644 hw/loongarch/fw_cfg.h
+>>   create mode 100644 hw/loongarch/loongson3.c
+>>   create mode 100644 hw/loongarch/meson.build
+>>   create mode 100644 hw/pci-host/ls7a.c
+>>   create mode 100644 hw/rtc/ls7a_rtc.c
+>>   create mode 100644 include/hw/acpi/ls7a.h
+>>   create mode 100644 include/hw/intc/loongarch_extioi.h
+>>   create mode 100644 include/hw/intc/loongarch_ipi.h
+>>   create mode 100644 include/hw/intc/loongarch_pch_msi.h
+>>   create mode 100644 include/hw/intc/loongarch_pch_pic.h
+>>   create mode 100644 include/hw/loongarch/loongarch.h
+>>   create mode 100644 include/hw/pci-host/ls7a.h
+>>   create mode 100644 target/loongarch/Kconfig
+>>   create mode 100644 target/loongarch/constant_timer.c
+>>   create mode 100644 target/loongarch/cpu-csr.h
+>>   create mode 100644 target/loongarch/csr_helper.c
+>>   create mode 100644 target/loongarch/gdbstub.c
+>>   create mode 100644 target/loongarch/insn_trans/trans_core.c.inc
+>>   create mode 100644 target/loongarch/iocsr_helper.c
+>>   create mode 100644 target/loongarch/machine.c
+>>   create mode 100644 target/loongarch/tlb_helper.c
+>>   create mode 100644 tests/tcg/loongarch64/Makefile.softmmu-target
+>>   create mode 100644 tests/tcg/loongarch64/system/boot.S
+>>   create mode 100644 tests/tcg/loongarch64/system/kernel.ld
+>>   create mode 100644 tests/tcg/loongarch64/system/regdef.h
+>>
 
 
