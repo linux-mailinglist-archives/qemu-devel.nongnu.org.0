@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5176E489BC4
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 16:05:05 +0100 (CET)
-Received: from localhost ([::1]:47100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02DB1489BD2
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 16:07:59 +0100 (CET)
+Received: from localhost ([::1]:50782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6wEK-00012u-0Y
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 10:05:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55332)
+	id 1n6wH8-0003eh-4d
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 10:07:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n6vqt-0001vs-Jy
+ id 1n6vqt-0001w0-Lw
  for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:40:51 -0500
-Received: from [2a00:1450:4864:20::535] (port=37733
- helo=mail-ed1-x535.google.com)
+Received: from [2a00:1450:4864:20::52e] (port=40734
+ helo=mail-ed1-x52e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n6vqo-0000Sa-Rz
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:40:48 -0500
-Received: by mail-ed1-x535.google.com with SMTP id o6so54496494edc.4
+ id 1n6vqo-0000Se-Sa
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:40:49 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id a18so53406522edj.7
  for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 06:40:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qU88x7OCGbAXGQHVucos0yBbnx+ISBbawYTCCn29Sk8=;
- b=ASufLHP7AdVfYvm4LxgmBtx1BdhYYVtnnz9r15dRExE39ihcs7HRkH4mD5XxhJdCRW
- RU+sobn2ea9iQqiLqCIWDIlQlYqwOECWkTVQzfbyD/tU3avf0A3le75qfIYMlV9tf0r1
- RgtMkF4FgkUz6n1RnWi92HmCK17MmC30fay3KD78fvKDNkov1Jfr3KeFnFrLzR4dazjL
- wuiw45tq20vHsZzYkOSd2ZPFymMR0nyNyhRJClCQmMUw4UIGcaIACdrm2Fw2tH/RK9SX
- DbEMisFjAbGjdJRvj0I2y6Rj1TgM6COoZpVSohkZ7Mp/hoPFCWahyxlYn+f+Ybv99kMn
- MzbA==
+ bh=JePqecmS0meombKTS33f5FvbmSwi5wC8hckPf3PFsDw=;
+ b=T+4QuvGseB28cC6tFL3aJUljbj8vSI8TanuVHQ0gBAnK8VL8+z7Ge+A3wvDqjYOjql
+ LdM8jVpsPbpmBhU2smRIzvn0PWuj0t1VE+2kwQI55NLxbReWkFiTBv5FSS+a1A8nyohj
+ 2HXR3SsAe/HvzhBu9ZUxq+VQP2TZlgphf8wqpFOF11dHTo5jPoReWv4aU6SxNd3chOsM
+ f3J8lU0J8I8IrkiQqj2QTBhGFoqn9/q6+Of0BKrS7cPs2iYHe2+//STwmPPg1ZdtyK1k
+ evlfSSQy9OPhdSgLNO1GZFjYcWEGJp8bzV8+xT1H4eVt9cVqzUUSrVtnIOVMDLDBoss8
+ LAag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=qU88x7OCGbAXGQHVucos0yBbnx+ISBbawYTCCn29Sk8=;
- b=ST3zDarwGWD7GTiwlRD3a/yzThPc+EzQIFeeMiHGYDjkaVdHwk9WttL6OLWqeX0Ef8
- /LP5+sNGZjNvKSNH2aRQCizhFkeOw+CXsK6MiKyqGewiWwHMo4+E3o0C7HWdAJ/fEKNT
- N9roGbyHPWfuSMRFo4BxX8s7x80jYjB0hEQybXnxOIW1Gwbpm1rOK3ZvPq7WxvDfBFRA
- 8wMc/tUwwVk99RA3Qy+izfaJSuuby7A6V1Fxx+LfMm97OECSsZInJw+RIcY6NWORuzmu
- stKKCrbSR2u/uT0kUvByBhLSwFC3wBCmWg8sr7/HaD5wcfLhAxSeGerzsGN24J4IT3Qy
- XxGg==
-X-Gm-Message-State: AOAM532tgRJj48a3ilhXGlWMkWvufjl/8x9YMLx58gFGFHNKir+El0bC
- D/04S7IPIGx278YUhmgD+dfWHD4twXY=
-X-Google-Smtp-Source: ABdhPJwKhexQJTeEYNAg5x/oZFSzvXhGzHTOomrPEgrdybrvRNSva7aYc4GeLs/JP/OwOyKIml7q3g==
-X-Received: by 2002:a05:6402:3584:: with SMTP id
- y4mr4341772edc.232.1641825644374; 
- Mon, 10 Jan 2022 06:40:44 -0800 (PST)
+ bh=JePqecmS0meombKTS33f5FvbmSwi5wC8hckPf3PFsDw=;
+ b=nApjBz5gK+/w08RCVa2z+ABrC1X0OIM51qLzund0EFY93IY1s25uhm3SJE2bfmvrgE
+ smJcy/zJX9noFIjsKg0d2rGp1OKqrzuDvOEx18MaQjLRHBsZpNy3eoIiK7medzEDHEZh
+ cJ8kcJiQxRr7HAhuqD9zrr+uhEETQ1dUWLe2p4IEC8xFJWUFf4+xWcb/iIyuFm0G5nuo
+ PAd+0tmxgnMe3BDzppZ6KJlrSRcHsNuvv2t6CVj4QzQQ13ri+y55dke512KNDdR5LYh4
+ 5unMyLJFSWsACZ8VLoIAR3EWwmbyUVqFrfg3f4Sy1S1rfGTwzazZhMm9F3S8Xj4DaQMN
+ 8HHw==
+X-Gm-Message-State: AOAM533sVVJMFsRDb2R7RhHGX/X6wmuD5/Tdt1WEhCYDWzwN/w83iI7z
+ NGoASofcUxntulwOgIKS9k7M5nRgcX4=
+X-Google-Smtp-Source: ABdhPJzk/4DavMCnwGFsIYOfZqpXMngbOX490eJfiL9tcmvo7Qmlg98di7X8Q0O9PotIcyHbgmazJw==
+X-Received: by 2002:a05:6402:5202:: with SMTP id
+ s2mr67936473edd.206.1641825645092; 
+ Mon, 10 Jan 2022 06:40:45 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id k25sm2549498ejk.179.2022.01.10.06.40.43
+ by smtp.gmail.com with ESMTPSA id k25sm2549498ejk.179.2022.01.10.06.40.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 10 Jan 2022 06:40:44 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/18] meson: cleanup common-user/ build
-Date: Mon, 10 Jan 2022 15:40:19 +0100
-Message-Id: <20220110144034.67410-4-pbonzini@redhat.com>
+Subject: [PULL 04/18] block/file-posix: Simplify the XFS_IOC_DIOINFO handling
+Date: Mon, 10 Jan 2022 15:40:20 +0100
+Message-Id: <20220110144034.67410-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220110144034.67410-1-pbonzini@redhat.com>
 References: <20220110144034.67410-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -87,79 +87,185 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is not necessary to have a separate static_library just for common_user
-files; using the one that already covers the rest of common_ss is enough
-unless you need to reuse some source files between emulators and tests.
-Just place common files for all user-mode emulators in common_ss,
-similar to what is already done for softmmu_ss in full system emulators.
+From: Thomas Huth <thuth@redhat.com>
 
-The only disadvantage is that the include_directories under bsd-user/include/
-and linux-user/include/ are now enabled for all targets rather than only
-user mode emulators.  This however is not different from how include/sysemu/
-is available when building user mode emulators.
+The handling for the XFS_IOC_DIOINFO ioctl is currently quite excessive:
+This is not a "real" feature like the other features that we provide with
+the "--enable-xxx" and "--disable-xxx" switches for the configure script,
+since this does not influence lots of code (it's only about one call to
+xfsctl() in file-posix.c), so people don't gain much with the ability to
+disable this with "--disable-xfsctl".
+It's also unfortunate that the ioctl will be disabled on Linux in case
+the user did not install the right xfsprogs-devel package before running
+configure. Thus let's simplify this by providing the ioctl definition
+on our own, so we can completely get rid of the header dependency and
+thus the related code in the configure script.
 
-Tested-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20211215125824.250091-1-thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- common-user/meson.build |  2 +-
- meson.build             | 13 +------------
- 2 files changed, 2 insertions(+), 13 deletions(-)
+ block/file-posix.c | 37 ++++++++++++++++---------------------
+ configure          | 31 -------------------------------
+ meson.build        |  1 -
+ 3 files changed, 16 insertions(+), 53 deletions(-)
 
-diff --git a/common-user/meson.build b/common-user/meson.build
-index 5cb42bc664..26212dda5c 100644
---- a/common-user/meson.build
-+++ b/common-user/meson.build
-@@ -1,6 +1,6 @@
- common_user_inc += include_directories('host/' / host_arch)
+diff --git a/block/file-posix.c b/block/file-posix.c
+index b283093e5b..1f1756e192 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -106,10 +106,6 @@
+ #include <sys/diskslice.h>
+ #endif
  
--common_user_ss.add(files(
-+user_ss.add(files(
-   'safe-syscall.S',
-   'safe-syscall-error.c',
- ))
+-#ifdef CONFIG_XFS
+-#include <xfs/xfs.h>
+-#endif
+-
+ /* OS X does not have O_DSYNC */
+ #ifndef O_DSYNC
+ #ifdef O_SYNC
+@@ -156,9 +152,6 @@ typedef struct BDRVRawState {
+     int perm_change_flags;
+     BDRVReopenState *reopen_state;
+ 
+-#ifdef CONFIG_XFS
+-    bool is_xfs:1;
+-#endif
+     bool has_discard:1;
+     bool has_write_zeroes:1;
+     bool discard_zeroes:1;
+@@ -409,14 +402,22 @@ static void raw_probe_alignment(BlockDriverState *bs, int fd, Error **errp)
+     if (probe_logical_blocksize(fd, &bs->bl.request_alignment) < 0) {
+         bs->bl.request_alignment = 0;
+     }
+-#ifdef CONFIG_XFS
+-    if (s->is_xfs) {
+-        struct dioattr da;
+-        if (xfsctl(NULL, fd, XFS_IOC_DIOINFO, &da) >= 0) {
+-            bs->bl.request_alignment = da.d_miniosz;
+-            /* The kernel returns wrong information for d_mem */
+-            /* s->buf_align = da.d_mem; */
+-        }
++
++#ifdef __linux__
++    /*
++     * The XFS ioctl definitions are shipped in extra packages that might
++     * not always be available. Since we just need the XFS_IOC_DIOINFO ioctl
++     * here, we simply use our own definition instead:
++     */
++    struct xfs_dioattr {
++        uint32_t d_mem;
++        uint32_t d_miniosz;
++        uint32_t d_maxiosz;
++    } da;
++    if (ioctl(fd, _IOR('X', 30, struct xfs_dioattr), &da) >= 0) {
++        bs->bl.request_alignment = da.d_miniosz;
++        /* The kernel returns wrong information for d_mem */
++        /* s->buf_align = da.d_mem; */
+     }
+ #endif
+ 
+@@ -798,12 +799,6 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+ #endif
+     s->needs_alignment = raw_needs_alignment(bs);
+ 
+-#ifdef CONFIG_XFS
+-    if (platform_test_xfs_fd(s->fd)) {
+-        s->is_xfs = true;
+-    }
+-#endif
+-
+     bs->supported_zero_flags = BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK;
+     if (S_ISREG(st.st_mode)) {
+         /* When extending regular files, we get zeros from the OS */
+diff --git a/configure b/configure
+index 030728d11e..3a523a3d14 100755
+--- a/configure
++++ b/configure
+@@ -291,7 +291,6 @@ EXTRA_CXXFLAGS=""
+ EXTRA_LDFLAGS=""
+ 
+ xen_ctrl_version="$default_feature"
+-xfs="$default_feature"
+ membarrier="$default_feature"
+ vhost_kernel="$default_feature"
+ vhost_net="$default_feature"
+@@ -1021,10 +1020,6 @@ for opt do
+   ;;
+   --enable-opengl) opengl="yes"
+   ;;
+-  --disable-xfsctl) xfs="no"
+-  ;;
+-  --enable-xfsctl) xfs="yes"
+-  ;;
+   --disable-zlib-test)
+   ;;
+   --enable-guest-agent) guest_agent="yes"
+@@ -1431,7 +1426,6 @@ cat << EOF
+   avx512f         AVX512F optimization support
+   replication     replication support
+   opengl          opengl support
+-  xfsctl          xfsctl support
+   qom-cast-debug  cast debugging support
+   tools           build qemu-io, qemu-nbd and qemu-img tools
+   bochs           bochs image format support
+@@ -2323,28 +2317,6 @@ EOF
+     fi
+ fi
+ 
+-##########################################
+-# xfsctl() probe, used for file-posix.c
+-if test "$xfs" != "no" ; then
+-  cat > $TMPC << EOF
+-#include <stddef.h>  /* NULL */
+-#include <xfs/xfs.h>
+-int main(void)
+-{
+-    xfsctl(NULL, 0, 0, NULL);
+-    return 0;
+-}
+-EOF
+-  if compile_prog "" "" ; then
+-    xfs="yes"
+-  else
+-    if test "$xfs" = "yes" ; then
+-      feature_not_found "xfs" "Install xfsprogs/xfslibs devel"
+-    fi
+-    xfs=no
+-  fi
+-fi
+-
+ ##########################################
+ # plugin linker support probe
+ 
+@@ -3456,9 +3428,6 @@ echo "CONFIG_BDRV_RO_WHITELIST=$block_drv_ro_whitelist" >> $config_host_mak
+ if test "$block_drv_whitelist_tools" = "yes" ; then
+   echo "CONFIG_BDRV_WHITELIST_TOOLS=y" >> $config_host_mak
+ fi
+-if test "$xfs" = "yes" ; then
+-  echo "CONFIG_XFS=y" >> $config_host_mak
+-fi
+ qemu_version=$(head $source_path/VERSION)
+ echo "PKGVERSION=$pkgversion" >>$config_host_mak
+ echo "SRC_PATH=$source_path" >> $config_host_mak
 diff --git a/meson.build b/meson.build
-index de111d6fa1..5f0b6300b4 100644
+index 5f0b6300b4..5a57906e98 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -2399,7 +2399,6 @@ blockdev_ss = ss.source_set()
- block_ss = ss.source_set()
- chardev_ss = ss.source_set()
- common_ss = ss.source_set()
--common_user_ss = ss.source_set()
- crypto_ss = ss.source_set()
- hwcore_ss = ss.source_set()
- io_ss = ss.source_set()
-@@ -2651,17 +2650,6 @@ subdir('common-user')
- subdir('bsd-user')
- subdir('linux-user')
- 
--common_user_ss = common_user_ss.apply(config_all, strict: false)
--common_user = static_library('common-user',
--                             sources: common_user_ss.sources(),
--                             dependencies: common_user_ss.dependencies(),
--                             include_directories: common_user_inc,
--                             name_suffix: 'fa',
--                             build_by_default: false)
--common_user = declare_dependency(link_with: common_user)
--
--user_ss.add(common_user)
--
- # needed for fuzzing binaries
- subdir('tests/qtest/libqos')
- subdir('tests/qtest/fuzz')
-@@ -2879,6 +2867,7 @@ common_all = common_ss.apply(config_all, strict: false)
- common_all = static_library('common',
-                             build_by_default: false,
-                             sources: common_all.sources() + genh,
-+                            include_directories: common_user_inc,
-                             implicit_include_directories: false,
-                             dependencies: common_all.dependencies(),
-                             name_suffix: 'fa')
+@@ -3445,7 +3445,6 @@ if spice_protocol.found()
+   summary_info += {'  spice server support': spice}
+ endif
+ summary_info += {'rbd support':       rbd}
+-summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
+ summary_info += {'smartcard support': cacard}
+ summary_info += {'U2F support':       u2f}
+ summary_info += {'libusb':            libusb}
 -- 
 2.33.1
 
