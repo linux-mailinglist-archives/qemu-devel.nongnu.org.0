@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 059E3488E92
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 03:05:58 +0100 (CET)
-Received: from localhost ([::1]:44094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33281488E98
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 03:13:03 +0100 (CET)
+Received: from localhost ([::1]:46782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6k4L-0004bD-4u
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 21:05:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52732)
+	id 1n6kBB-0008GX-VG
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 21:13:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n6k2i-0003iI-Kk; Sun, 09 Jan 2022 21:04:16 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:3075)
+ id 1n6k9J-0007NN-DZ; Sun, 09 Jan 2022 21:11:05 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:4175)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n6k2a-000284-N2; Sun, 09 Jan 2022 21:04:11 -0500
+ id 1n6k9G-0003C4-5V; Sun, 09 Jan 2022 21:11:04 -0500
 Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JXHD52T5czbjBQ;
- Mon, 10 Jan 2022 10:03:17 +0800 (CST)
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4JXHKs4zsZz8wCk;
+ Mon, 10 Jan 2022 10:08:17 +0800 (CST)
 Received: from [10.174.187.128] (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.20; Mon, 10 Jan 2022 10:03:54 +0800
+ 15.1.2308.20; Mon, 10 Jan 2022 10:10:57 +0800
 Subject: Re: [PATCH] softmmu/device_tree: Silence compiler warning with
  --enable-sanitizers
-To: Thomas Huth <thuth@redhat.com>, <qemu-devel@nongnu.org>, Alistair Francis
+To: Richard Henderson <richard.henderson@linaro.org>, Thomas Huth
+ <thuth@redhat.com>
+CC: <qemu-trivial@nongnu.org>, Andrew Jones <drjones@redhat.com>, David Gibson
+ <david@gibson.dropbear.id.au>, <qemu-devel@nongnu.org>, Alistair Francis
  <alistair.francis@wdc.com>
-CC: Andrew Jones <drjones@redhat.com>, David Gibson
- <david@gibson.dropbear.id.au>, <qemu-trivial@nongnu.org>
 References: <20220107133844.145039-1-thuth@redhat.com>
-Message-ID: <f0fe5c41-dd9e-ffed-bac4-fa634f633af1@huawei.com>
-Date: Mon, 10 Jan 2022 10:03:54 +0800
+ <4aa47d06-ba24-fb92-c2e0-cd207f7d17b5@linaro.org>
+Message-ID: <33284c03-153c-0c27-8017-cce1166bbb06@huawei.com>
+Date: Mon, 10 Jan 2022 10:10:57 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20220107133844.145039-1-thuth@redhat.com>
+In-Reply-To: <4aa47d06-ba24-fb92-c2e0-cd207f7d17b5@linaro.org>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme708-chm.china.huawei.com (10.1.199.104) To
+X-ClientProxiedBy: dggeme707-chm.china.huawei.com (10.1.199.103) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -70,47 +72,40 @@ Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
 From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
 
-On 2022/1/7 21:38, Thomas Huth wrote:
-> If I configure my build with --enable-sanitizers, my GCC (v8.5.0)
-> complains:
+On 2022/1/8 4:18, Richard Henderson wrote:
+> On 1/7/22 5:38 AM, Thomas Huth wrote:
+>> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+>> index 3965c834ca..9e96f5ecd5 100644
+>> --- a/softmmu/device_tree.c
+>> +++ b/softmmu/device_tree.c
+>> @@ -564,7 +564,7 @@ int qemu_fdt_add_path(void *fdt, const char *path)
+>>           return -1;
+>>       }
+>>   -    while (p) {
+>> +    do {
+>>           name = p + 1;
+>>           p = strchr(name, '/');
+>>           namelen = p != NULL ? p - name : strlen(name);
+>> @@ -584,7 +584,7 @@ int qemu_fdt_add_path(void *fdt, const char *path)
+>>           }
+>>             parent = retval;
+>> -    }
+>> +    } while (p);
 >
-> .../softmmu/device_tree.c: In function ‘qemu_fdt_add_path’:
-> .../softmmu/device_tree.c:560:18: error: ‘retval’ may be used uninitialized
->   in this function [-Werror=maybe-uninitialized]
->       int namelen, retval;
->                    ^~~~~~
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 >
-> It's a false warning since the while loop is always executed at least
-> once (p has to be non-NULL, otherwise the derefence in the if-statement
-> earlier will crash). Thus let's switch to a do-while loop here instead
-> to make the compiler happy in all cases.
+> In addition, the copy between 'path' and 'p' is unnecessary -- one of 
+> the variables should be removed.  Either rename the parameter to 'p', 
+> or rename all uses to 'path'.
 >
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   softmmu/device_tree.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
-> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-> index 3965c834ca..9e96f5ecd5 100644
-> --- a/softmmu/device_tree.c
-> +++ b/softmmu/device_tree.c
-> @@ -564,7 +564,7 @@ int qemu_fdt_add_path(void *fdt, const char *path)
->           return -1;
->       }
->   
-> -    while (p) {
-> +    do {
->           name = p + 1;
->           p = strchr(name, '/');
->           namelen = p != NULL ? p - name : strlen(name);
-> @@ -584,7 +584,7 @@ int qemu_fdt_add_path(void *fdt, const char *path)
->           }
->   
->           parent = retval;
-> -    }
-> +    } while (p);
->   
->       return retval;
->   }
+Yes. We can simply remove "const char *p = path;" and directly
+using the parameter "path" passed in would be fine enough.
+Thanks for catching this.
+
+Thanks,
+Yanan
+>
+> r~
+> .
 
 
