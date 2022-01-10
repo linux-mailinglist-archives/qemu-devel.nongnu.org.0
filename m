@@ -2,62 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A94489B4B
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 15:33:41 +0100 (CET)
-Received: from localhost ([::1]:43794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACBC9489B6A
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 15:38:59 +0100 (CET)
+Received: from localhost ([::1]:52392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6vjw-0008Ig-9d
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 09:33:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52870)
+	id 1n6vp4-0005wG-NC
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 09:38:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n6vhl-0006tH-TZ
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:31:28 -0500
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:37719)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n6vhi-00073J-4O
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:31:25 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.10])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 9AF42D6C2BF4;
- Mon, 10 Jan 2022 15:31:16 +0100 (CET)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 10 Jan
- 2022 15:31:15 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002bcff91f6-6bf7-46bd-869d-c5a566962616,
- A9D23E93096AF6ACD837C7DE23AD2D939339D7DC) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <35743221-eee1-ad17-3484-bc02cef82e0a@kaod.org>
-Date: Mon, 10 Jan 2022 15:31:15 +0100
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n6vkI-0001No-46; Mon, 10 Jan 2022 09:34:02 -0500
+Received: from [2607:f8b0:4864:20::a2a] (port=39593
+ helo=mail-vk1-xa2a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n6vkG-0007NP-E4; Mon, 10 Jan 2022 09:34:01 -0500
+Received: by mail-vk1-xa2a.google.com with SMTP id n124so3608159vke.6;
+ Mon, 10 Jan 2022 06:33:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3XAzD/a0c97CZaqS8CLOsQDc+iSe9gvFodznrtnsh/w=;
+ b=O7wdeGbfE8qdQoZpa8MqND+MheL30jbCU6v6znPGi4ItsBhkdVq9leeA2ZQHy5IPjV
+ GWYZ+/CKUpQy9l0rzXMM/zyMoTlT4uc3TJRiG0hiZh3UyHehHj87Ecgohb6rXoeQgFR3
+ LNYHySeqyp61BnzMJpN0BBFECGtLfiuf+TICkGb9dCS/YLTamV5n4CineH526ch/D+tU
+ n/Iz/FIqtYyhfbaBYdWEzFoxjriQ5rynhAhYFow/nK14cn/e8JDiaHywyaLE61XB3+eS
+ CC6sIPWuLgMfHnJODDISb2F52dvKCGlbv2Gl54tVFjwGcPIDq2r484MBQG8EwLILsahT
+ A7Lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3XAzD/a0c97CZaqS8CLOsQDc+iSe9gvFodznrtnsh/w=;
+ b=mf02ti3SPC+Nl2M2SxxYtAEwIiTRIPeB5YFkODA18mFGnLNZDqK284A1YyBC6z6oLt
+ AKdVVhJoMdlHhzMOu/3lYCy4Hja4YiwmCd2m32/b7A9LaadAWrFGK1gTt+aFKkiwWTNV
+ nuzGGjG0oddAmWX5vmYhAxoFFoNOAomlqGP7abcL2QgrnjfUUQ0CEaGuTg8OtM4IhPZC
+ daHvoBF2OJcltmy93cPch8c4CSaFzlJ1Arteb1GBRzWDf9rWjWW1IZfyFFafS9mfH2WW
+ HXJQDkhCZkyHuyFKVePjuyhAkdikR82RobROPG3w/SQ4Jed4WUlNL7wF9PlB9IRicWdk
+ u3PA==
+X-Gm-Message-State: AOAM530cJrTFEUE/X3HDw5IHwqzHgae4mw1Zaz5bX+6LytwnxRWPyrw5
+ ZreNRzzbFG/mH8NatkQ7iKWY+rx8i4Ta55Jk
+X-Google-Smtp-Source: ABdhPJyAFl+3JDTCqtKP8At8+oL965qLb8h+gxCsABeR4/4zyOlYPKWZZRjQr21MW9oMBvKa6IJTXg==
+X-Received: by 2002:a05:6122:200d:: with SMTP id
+ l13mr28850vkd.16.1641825235382; 
+ Mon, 10 Jan 2022 06:33:55 -0800 (PST)
+Received: from rekt.COMFAST ([152.249.109.193])
+ by smtp.gmail.com with ESMTPSA id o11sm3709677vkf.41.2022.01.10.06.33.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Jan 2022 06:33:55 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/10] user creatable pnv-phb4 devices
+Date: Mon, 10 Jan 2022 11:33:36 -0300
+Message-Id: <20220110143346.455901-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v2 2/2] hw/arm/aspeed_ast2600: create i3c instance
-Content-Language: en-US
-To: Troy Lee <troy_lee@aspeedtech.com>, <qemu-devel@nongnu.org>
-References: <20220110072125.1886683-1-troy_lee@aspeedtech.com>
- <20220110072125.1886683-3-troy_lee@aspeedtech.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220110072125.1886683-3-troy_lee@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 8f26b3bf-2ad0-4a98-a569-49bdbdfbf86a
-X-Ovh-Tracer-Id: 4842495500019403628
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudehuddggedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a2a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2a;
+ envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa2a.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,122 +84,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- hailin.wu@aspeedtech.com, leetroy@gmail.com,
- "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/10/22 08:21, Troy Lee wrote:
-> This patch includes i3c instance in ast2600 soc.
-> 
-> v2: Rebase to mainline QEMU
-> 
-> Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
-> ---
->   hw/arm/aspeed_ast2600.c     | 19 ++++++++++++++++++-
->   include/hw/arm/aspeed_soc.h |  3 +++
->   2 files changed, 21 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-> index e33483fb5d..36aa31601a 100644
-> --- a/hw/arm/aspeed_ast2600.c
-> +++ b/hw/arm/aspeed_ast2600.c
-> @@ -29,7 +29,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
->       [ASPEED_DEV_PWM]       = 0x1E610000,
->       [ASPEED_DEV_FMC]       = 0x1E620000,
->       [ASPEED_DEV_SPI1]      = 0x1E630000,
-> -    [ASPEED_DEV_SPI2]      = 0x1E641000,
-> +    [ASPEED_DEV_SPI2]      = 0x1E631000,
+Hi,
 
-Indeed ! But this belongs to another patch fixing the value.
+This v3 contains new versions of pnv-phb4 exclusive patches from
+version 2. Patches 1-10 are already accepted.
 
+I changed how patch 9 (v2 patch 17) works by doing everything possible
+in extra patches/cleanups beforehand, and then using patch 9 to flip the
+switch in a single step. This means that handling the default initialization
+of pnv-phb4s is done at the same time we enable user creatable pnv-phb4s.
 
->       [ASPEED_DEV_EHCI1]     = 0x1E6A1000,
->       [ASPEED_DEV_EHCI2]     = 0x1E6A3000,
->       [ASPEED_DEV_MII1]      = 0x1E650000,
-> @@ -61,6 +61,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
->       [ASPEED_DEV_UART1]     = 0x1E783000,
->       [ASPEED_DEV_UART5]     = 0x1E784000,
->       [ASPEED_DEV_VUART]     = 0x1E787000,
-> +    [ASPEED_DEV_I3C]       = 0x1E7A0000,
->       [ASPEED_DEV_SDRAM]     = 0x80000000,
->   };
->   
-> @@ -108,6 +109,7 @@ static const int aspeed_soc_ast2600_irqmap[] = {
->       [ASPEED_DEV_ETH4]      = 33,
->       [ASPEED_DEV_KCS]       = 138,   /* 138 -> 142 */
->       [ASPEED_DEV_DP]        = 62,
-> +    [ASPEED_DEV_I3C]       = 102,   /* 102 -> 107 */
->   };
->   
->   static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
-> @@ -223,6 +225,8 @@ static void aspeed_soc_ast2600_init(Object *obj)
->   
->       snprintf(typename, sizeof(typename), "aspeed.hace-%s", socname);
->       object_initialize_child(obj, "hace", &s->hace, typename);
-> +
-> +    object_initialize_child(obj, "i3c", &s->i3c, TYPE_ASPEED_I3C);
->   }
->   
->   /*
-> @@ -523,6 +527,19 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
->       sysbus_mmio_map(SYS_BUS_DEVICE(&s->hace), 0, sc->memmap[ASPEED_DEV_HACE]);
->       sysbus_connect_irq(SYS_BUS_DEVICE(&s->hace), 0,
->                          aspeed_soc_get_irq(s, ASPEED_DEV_HACE));
-> +    /* I3C */
-> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->i3c), errp)) {
-> +        return;
-> +    }
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i3c), 0, sc->memmap[ASPEED_DEV_I3C]);
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->i3c), 0,
-> +                       aspeed_soc_get_irq(s, ASPEED_DEV_I3C));
+There's also a change in how XSCOM initializion is being handled. We're not
+using a flag to do a partial XSCOM initialization during phb4_realize() anymore.
+Intead, we moved XSCOM initialization code, as less intrusive as we could, to
+phb4_realize(). 
 
-The controller device does not have an IRQ line.
+This time I also took the precaution of testing the default case
+(i.e. running without -nodefaults) in every patch. v2 was breaking
+this default run between some patches.
 
-Thanks,
+changes from v2:
+- former patch 16: removed
+- patch 10 (v2 18): unchanged
+- patches 4,5,7,8: new
+- patch 9 (former 17):
+  * added g_assert() if stack == NULL
+  * added a comment explaining why we shouldn't assert on user error
+with wrong chip-id/index values
+- minor changes across the patches due to the design changes 
+- v2 link: https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg00671.html 
 
-C.
+Daniel Henrique Barboza (10):
+  pnv_phb4.c: introduce pnv_phb4_set_stack_phb_props()
+  pnv_phb4_pec.c: move pnv_pec_phb_offset() to pnv_phb4.c
+  pnv_phb4_pec: use pnv_phb4_pec_get_phb_id() in pnv_pec_dt_xscom()
+  pnv_phb4_pec.c: remove stack 'phb-id' alias
+  pnv_phb4_pec.c: move phb4 properties setup to pec_realize()
+  ppc/pnv: turn 'phb' into a pointer in struct PnvPhb4PecStack
+  ppc/pnv: move PHB4 related XSCOM init to phb4_realize()
+  pnv_phb4.c: check stack->phb not NULL in phb4_update_regions()
+  ppc/pnv: Introduce user creatable pnv-phb4 devices
+  pnv_phb4.c: change TYPE_PNV_PHB4_ROOT_BUS name
 
+ hw/pci-host/pnv_phb4.c         | 162 ++++++++++++++++++++++++++++++++-
+ hw/pci-host/pnv_phb4_pec.c     |  58 +++++-------
+ hw/ppc/pnv.c                   |   2 +
+ include/hw/pci-host/pnv_phb4.h |  12 ++-
+ 4 files changed, 191 insertions(+), 43 deletions(-)
 
-
-> +    for (i = 0; i < ASPEED_I3C_NR_DEVICES; i++) {
-> +        qemu_irq irq = qdev_get_gpio_in(DEVICE(&s->a7mpcore),
-> +                                        sc->irqmap[ASPEED_DEV_I3C] + i);
-> +        /* The AST2600 I3C controller has one IRQ per bus. */
-> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->i3c.devices[i]), 0, irq);
-> +    }
->   }
->   
->   static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
-> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-> index 18fb7eed46..cae9906684 100644
-> --- a/include/hw/arm/aspeed_soc.h
-> +++ b/include/hw/arm/aspeed_soc.h
-> @@ -21,6 +21,7 @@
->   #include "hw/timer/aspeed_timer.h"
->   #include "hw/rtc/aspeed_rtc.h"
->   #include "hw/i2c/aspeed_i2c.h"
-> +#include "hw/misc/aspeed_i3c.h"
->   #include "hw/ssi/aspeed_smc.h"
->   #include "hw/misc/aspeed_hace.h"
->   #include "hw/watchdog/wdt_aspeed.h"
-> @@ -51,6 +52,7 @@ struct AspeedSoCState {
->       AspeedRtcState rtc;
->       AspeedTimerCtrlState timerctrl;
->       AspeedI2CState i2c;
-> +    AspeedI3CState i3c;
->       AspeedSCUState scu;
->       AspeedHACEState hace;
->       AspeedXDMAState xdma;
-> @@ -141,6 +143,7 @@ enum {
->       ASPEED_DEV_HACE,
->       ASPEED_DEV_DPMCU,
->       ASPEED_DEV_DP,
-> +    ASPEED_DEV_I3C,
->   };
->   
->   #endif /* ASPEED_SOC_H */
-> 
+-- 
+2.33.1
 
 
