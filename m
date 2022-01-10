@@ -2,79 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFAC7489BEF
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 16:13:45 +0100 (CET)
-Received: from localhost ([::1]:60956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DDBE489C09
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 16:20:04 +0100 (CET)
+Received: from localhost ([::1]:40062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6wMi-00038P-W0
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 10:13:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55578)
+	id 1n6wSp-0000t0-Du
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 10:20:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n6vrR-0002lC-Fl
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:41:25 -0500
-Received: from [2a00:1450:4864:20::529] (port=38636
- helo=mail-ed1-x529.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n6vrL-0000XP-NG
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:41:22 -0500
-Received: by mail-ed1-x529.google.com with SMTP id u21so31873846edd.5
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 06:41:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=niEASEzg6Pyx+usIoUf1FTEHstXld9dwD71XIbZUubA=;
- b=NOMaxqzoLqmVGOD2v8Fenjj25dKf19CT5rKjORYLjJbxqlghF8nzkDBhx4tvoyKek1
- X98HQwGGszTC95F1H/1DjrEbryXUCEK8YbWuO3QZSqiak7WIcmh+stoYQ9RsjSKY21Xr
- xFXRlFEyN1Iw0+wbhQsmZewjAX/z+y6TgoT+yg983ka26apiNAdXViO5FR19+mcR7+BN
- Tj+3EmZ1oCov5hI69jgsZrPK990/apNf+etjbankwgnVxD6z2OpOfRguIENSnfDSlnll
- xs83tZHGXu+jvDzUrgsbsfNvuJl4uos8vkEWe9olqwmSMkkY3J3IpstJ8ppAMyAIWSTu
- +QpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=niEASEzg6Pyx+usIoUf1FTEHstXld9dwD71XIbZUubA=;
- b=cz62vVV2DFB8BQcKehoYpgueKpkyL2JXyqeVtaW4JSu+CP3vjJxSJo/ytluKsiy+CH
- cjaMVu6RF+OCo4j/MHPdfUknMVhq5VSVRMjo2YYV7oFaqporeIdb8UrCpoIMbeTHR/Yl
- gVC4+QsgPRcEUgMAIQWbXqkyvNFE6M561pTZQiHzPVdLbGR1+tW7q+uRsWxfOglgMfR2
- nmFT6/Wa1udNxfrK3/2skHpsm4J46zUBTguC/YuOT1FiWAeDhrxlheXHkjrNCzzmySsQ
- AvG/IG3GRFLn+e3gOPONlCdIHo8uOKEyZVl5jkkZ4SvZddZB/x0z24GbJiwlsVWXFx+6
- vVGA==
-X-Gm-Message-State: AOAM530VXfL7mJ85HaCFySvGyGhTgnWe5jrk9e9BKl2/MAl+CyAHZjxY
- vAOk7+w8xRuvaVVyon2C8ckrG8YePiU=
-X-Google-Smtp-Source: ABdhPJyXmCiJaEXK92dr7osAFo+doNhKyrsr27R2mUv+/xwkLjuTFUYgAh/lmiPQaCwuJ+Q9yrdBbg==
-X-Received: by 2002:aa7:d9c6:: with SMTP id v6mr9564210eds.7.1641825668229;
- Mon, 10 Jan 2022 06:41:08 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id k25sm2549498ejk.179.2022.01.10.06.41.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jan 2022 06:41:07 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 18/18] meson: reenable filemonitor-inotify compilation
-Date: Mon, 10 Jan 2022 15:40:34 +0100
-Message-Id: <20220110144034.67410-19-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220110144034.67410-1-pbonzini@redhat.com>
-References: <20220110144034.67410-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n6wBw-0008Gk-3z
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 10:02:36 -0500
+Received: from 5.mo552.mail-out.ovh.net ([188.165.45.220]:41919)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n6wBr-000466-FY
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 10:02:35 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.136])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 48BBF2205F;
+ Mon, 10 Jan 2022 15:02:28 +0000 (UTC)
+Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 10 Jan
+ 2022 16:02:27 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G004c0dd913e-b554-4f46-82d5-c39861868503,
+ BF6F17FB45C67FCD004F592EBF28FE1306A73352) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <379e6b1f-31c6-843d-fba4-05398885161a@kaod.org>
+Date: Mon, 10 Jan 2022 16:02:16 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [RFC PATCH] target/ppc: Remove xscmpnedp instruction
+Content-Language: en-US
+To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
+ <qemu-devel@nongnu.org>, <qemu-ppc@nongnu.org>
+References: <20220106112318.13864-1-victor.colombo@eldorado.org.br>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220106112318.13864-1-victor.colombo@eldorado.org.br>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::529
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 16b4f8d6-64f0-475a-91b9-4c312f5b1aa0
+X-Ovh-Tracer-Id: 5369416656641952617
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudehuddggeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=188.165.45.220; envelope-from=clg@kaod.org;
+ helo=5.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,60 +71,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
+Cc: danielhb413@gmail.com, matheus.ferst@eldorado.org.br, groug@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Volker Rümelin <vr_qemu@t-online.de>
+On 1/6/22 12:23, Víctor Colombo wrote:
+> xscmpnedp was added in ISA v3.0 but removed in v3.0B. This patch
+> removes this instruction as it was not in the final version of v3.0.
 
-Reenable util/filemonitor-inotify compilation. Compilation was
-disabled when commit a620fbe9ac ("configure: convert compiler tests
-to meson, part 5") moved CONFIG_INOTIFY1 from config-host.mak to
-config-host.h.
+Could please resend on top of the VSX combo patchset ?
 
-This fixes the usb-mtp device and reenables test-util-filemonitor.
+Thanks,
 
-Fixes: a620fbe9ac ("configure: convert compiler tests to meson, part 5")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/800
-Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-Message-Id: <20220107133514.7785-1-vr_qemu@t-online.de>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- tests/unit/meson.build | 2 +-
- util/meson.build       | 7 +++++--
- 2 files changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/tests/unit/meson.build b/tests/unit/meson.build
-index 90acf5b0da..64a5e7bfde 100644
---- a/tests/unit/meson.build
-+++ b/tests/unit/meson.build
-@@ -129,7 +129,7 @@ if have_system
-     'test-vmstate': [migration, io],
-     'test-yank': ['socket-helpers.c', qom, io, chardev]
-   }
--  if 'CONFIG_INOTIFY1' in config_host
-+  if config_host_data.get('CONFIG_INOTIFY1')
-     tests += {'test-util-filemonitor': []}
-   endif
- 
-diff --git a/util/meson.build b/util/meson.build
-index e676b2f6c6..c9a9cc1cf5 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -84,7 +84,10 @@ if have_block
-   util_ss.add(files('readline.c'))
-   util_ss.add(files('throttle.c'))
-   util_ss.add(files('timed-average.c'))
--  util_ss.add(when: 'CONFIG_INOTIFY1', if_true: files('filemonitor-inotify.c'),
--                                        if_false: files('filemonitor-stub.c'))
-+  if config_host_data.get('CONFIG_INOTIFY1')
-+    util_ss.add(files('filemonitor-inotify.c'))
-+  else
-+    util_ss.add(files('filemonitor-stub.c'))
-+  endif
-   util_ss.add(when: 'CONFIG_LINUX', if_true: files('vfio-helpers.c'))
- endif
--- 
-2.33.1
-
+C.
 
