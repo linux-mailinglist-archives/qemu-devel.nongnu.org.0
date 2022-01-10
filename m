@@ -2,100 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB29C489F2F
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 19:26:53 +0100 (CET)
-Received: from localhost ([::1]:40038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A76489F2A
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 19:24:42 +0100 (CET)
+Received: from localhost ([::1]:34018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6zNc-0002dy-Lk
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 13:26:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55844)
+	id 1n6zLV-00074s-FB
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 13:24:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n6zDW-0000bb-7k; Mon, 10 Jan 2022 13:16:27 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34420)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n6zDU-0002YE-8Q; Mon, 10 Jan 2022 13:16:25 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20AGhon9003472; 
- Mon, 10 Jan 2022 18:16:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=av0CrAbwBJKw9lSPhX1IUjQu4K10Zc6nRNGJR4Q3R3Y=;
- b=ruvQJUPRX2J9XnBJI+9KbzE+WdVtLPzpBtVEEtEXMtFt1XYt4zQFUVBK1h8oms4Zu30Q
- +Fug0HpU/GGzh80iTNnR7GDr7q6oI7vSJhuY55qqAzSiPnpoubZR/kOv78xk8uDjU50b
- SeXdxsxhDWeWoVGaHQdl5k4gS/9JseP0IWD+/8btEIJzjCfaOw4g0AkS7c70cpg+XgVE
- 6BgXuDq7KkyzUuHMXXZIiLZDyfQjMVT46auE5Cic9uK0/xYSnG9tJiIxvzMqpK+pQZo+
- OVnLQxxJyEeitR8HnSiwER48Icfv6CRHcPVX7KHL26ABQ2+gw0HBtX3qAyr3U07jgB3i VQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dfm6q1kuk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Jan 2022 18:16:14 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20AHmWae031303;
- Mon, 10 Jan 2022 18:16:14 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dfm6q1ktw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Jan 2022 18:16:14 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20AI7iIw018279;
- Mon, 10 Jan 2022 18:16:13 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma02dal.us.ibm.com with ESMTP id 3df289ty37-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Jan 2022 18:16:12 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20AIGBg335062110
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 10 Jan 2022 18:16:11 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AEA087806D;
- Mon, 10 Jan 2022 18:16:11 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DC58E7806A;
- Mon, 10 Jan 2022 18:16:09 +0000 (GMT)
-Received: from farosas.linux.ibm.com.com (unknown [9.211.79.41])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 10 Jan 2022 18:16:09 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 8/8] target/ppc: 405: System call exception cleanup
-Date: Mon, 10 Jan 2022 15:15:46 -0300
-Message-Id: <20220110181546.4131853-9-farosas@linux.ibm.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220110181546.4131853-1-farosas@linux.ibm.com>
-References: <20220110181546.4131853-1-farosas@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1n6zHc-0000Wm-Vx; Mon, 10 Jan 2022 13:20:41 -0500
+Received: from [2607:f8b0:4864:20::1032] (port=44980
+ helo=mail-pj1-x1032.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1n6zHa-0003Ti-Ch; Mon, 10 Jan 2022 13:20:40 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ n30-20020a17090a5aa100b001b2b6509685so1120545pji.3; 
+ Mon, 10 Jan 2022 10:20:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=OhtoHWiAhEeMLzqClvr2ISwqqU8JKvzsI+5xIdZzVPs=;
+ b=Db8vh/dFy18ojejSttYm0P8t7XjH2842KnRGTZQWNPu9Da4hJjbHAmKs26GyvyVNQp
+ uQsqXP+sXpyRiJeEgGTvF4zF4u7YxYyEfoMM4tRv0kjje9Tf58NIFbD3BsCm+3G9Y54V
+ mqYSf2hW3bWMufU6C27gtDjz7VvgTIfT+60F8Ump+2gi7yLpBHupca2xKD5hV0t1+i6B
+ 9f6tcc5QOOZHSn6oLMZfOCZ6fdkr+hJGo/bpZi1AIJQAH8rTgKy6y07sQFjMk6SXKB6n
+ 26jqzfKQj9B+UYpGkf40Dt+Kpi4bzg69efhYT1EVGJzaI4JspZ+5xongOq3EquLcchXS
+ 1G7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=OhtoHWiAhEeMLzqClvr2ISwqqU8JKvzsI+5xIdZzVPs=;
+ b=f79Oph9CzOAbVEnEGLDAYAByZcmd1L3fYXsPKTlIgTE3J3bd3AiOfr+Yfl5BTrabcd
+ X08U+YrmEDmIkiSzXIcDK0tH2JJEdLvGEEd2F+VLSbyjs0MoHv7R4oQ4/PbNkYrgzAyN
+ EbvJieecyZCzvLeG4Lfot7cwR0gyca9ywyApnDIyMu8b92407XZyIoGhpCL1Xwe9SziD
+ YrCLV5G1AhOAtCxIA/B/zVqr6jJ8zVEZIW5ikzBUWzyBy5DZq8KBZA5V0lptuv7uNkby
+ jVM4RdrfJnXWAhPuFh0L8M4KelbZLgjzu1BSuzDzhqxxsKlunT/XM8AZcWDXU+HVr4Jt
+ vrvg==
+X-Gm-Message-State: AOAM532Fg04Ll3e4a8Q2ptEFgDZxGupjkI0VDpT/kgeE+PQyp6G/rBrr
+ uwZA6IhMENkoi7tcCu72jOw=
+X-Google-Smtp-Source: ABdhPJyDxkzSTYAwdVmWGtmgyIfNTZujwsVtLw8siftmxJ8SpkOzXAjxookWpjWqXgUJIxRjE4yE7A==
+X-Received: by 2002:a17:902:9894:b0:149:8a72:98ae with SMTP id
+ s20-20020a170902989400b001498a7298aemr698866plp.132.1641838819921; 
+ Mon, 10 Jan 2022 10:20:19 -0800 (PST)
+Received: from [192.168.64.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ by smtp.gmail.com with ESMTPSA id
+ f20sm1178186pfc.108.2022.01.10.10.20.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Jan 2022 10:20:19 -0800 (PST)
+Message-ID: <9c016476-6679-5d23-296a-6546930087cd@gmail.com>
+Date: Tue, 11 Jan 2022 03:20:15 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: q34thsBpxoJRPBxUcYwdl-o3osXj4GIB
-X-Proofpoint-GUID: sR-f8_ZFPgUBJM_CQAuD9SgUgyfR8UMg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-10_07,2022-01-10_02,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- priorityscore=1501 impostorscore=0 lowpriorityscore=0 mlxscore=0
- mlxlogscore=999 suspectscore=0 spamscore=0 malwarescore=0 adultscore=0
- phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201100124
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [RFC PATCH v2 2/6] audio/coreaudio: Remove a deprecation warning
+ on macOS 12
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>
+References: <20220109170612.574104-1-f4bug@amsat.org>
+ <742a1bca-1150-c277-c498-3815ef956f58@amsat.org>
+ <4993ab11-570b-2bd7-a9b9-c6ddc9af5802@amsat.org> <2147921.xlN1UyrzLN@silver>
+ <CAFEAcA94iQ_-dkNaQD62qSb_5emY5mq=OvR8jAbDkcW0YwUoeA@mail.gmail.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <CAFEAcA94iQ_-dkNaQD62qSb_5emY5mq=OvR8jAbDkcW0YwUoeA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,68 +95,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Cameron Esfahani <dirty@apple.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There's no sc 1.
+On 2022/01/10 22:22, Peter Maydell wrote:
+> On Mon, 10 Jan 2022 at 13:14, Christian Schoenebeck
+> <qemu_oss@crudebyte.com> wrote:
+>> I'd suggest to use:
+>>
+>> #if !defined(MAC_OS_VERSION_12_0) ||
+>>      (MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_VERSION_12_0)
+>> #define kAudioObjectPropertyElementMain kAudioObjectPropertyElementMaster
+>> #endif
+> 
+> This is also how we do this for existing checks of this sort,
+> like the one in osdep.h for qemu_thread_jit_execute().
+> 
+> -- PMM
 
-We also only used env->nip because of the vhyp code, so change to
-'vector' now.
+If I understand correctly, Many macOS-specific codes already no longer 
+complies with GCC because they depend on modern features GCC doesn't 
+provide. The most problematic construction is block; it is extensively 
+used by Apple's ABI and API and you cannot avoid using it even if you try.
 
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
----
- target/ppc/excp_helper.c | 23 +++--------------------
- 1 file changed, 3 insertions(+), 20 deletions(-)
+Also, note that MAC_OS_X_VERSION_MAX_ALLOWED defines the upper bound of 
+the supported version. The lower bound should be preferred here because 
+the usage of the new identifier is applied regardless of the version of 
+the host system. It is in contrary to the usage of 
+MAC_OS_X_VERSION_MAX_ALLOWED in osdep.h where the new interfaces are 
+used only for the newer versions. The lower bound is defined as 
+MAC_OS_X_VERSION_MIN_REQUIRED. Practically there is no difference of the 
+two macros because they have the same value in QEMU and 
+kAudioObjectPropertyElementMain is a constant resolved compile-time, but 
+it is still nice to have the code semantically correct.
 
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index f7b9af5065..ab298d0d8f 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -398,7 +398,7 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
-     CPUPPCState *env = &cpu->env;
-     int excp_model = env->excp_model;
-     target_ulong msr, new_msr, vector;
--    int srr0, srr1, lev = -1;
-+    int srr0, srr1;
- 
-     if (excp <= POWERPC_EXCP_NONE || excp >= POWERPC_EXCP_NB) {
-         cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
-@@ -518,30 +518,13 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
-         }
-         break;
-     case POWERPC_EXCP_SYSCALL:   /* System call exception                    */
--        lev = env->error_code;
--
--        if ((lev == 1) && cpu->vhyp) {
--            dump_hcall(env);
--        } else {
--            dump_syscall(env);
--        }
-+        dump_syscall(env);
- 
-         /*
-          * We need to correct the NIP which in this case is supposed
-          * to point to the next instruction
-          */
--        env->nip += 4;
--
--        /* "PAPR mode" built-in hypercall emulation */
--        if ((lev == 1) && cpu->vhyp) {
--            PPCVirtualHypervisorClass *vhc =
--                PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
--            vhc->hypercall(cpu->vhyp, cpu);
--            return;
--        }
--        if (lev == 1) {
--            new_msr |= (target_ulong)MSR_HVB;
--        }
-+        vector += 4;
-         break;
-     case POWERPC_EXCP_FPU:       /* Floating-point unavailable exception     */
-     case POWERPC_EXCP_APU:       /* Auxiliary processor unavailable          */
--- 
-2.33.1
-
+Regards,
+Akihiko Odaki
 
