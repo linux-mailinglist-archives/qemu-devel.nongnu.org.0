@@ -2,91 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22A44489FCC
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 20:03:52 +0100 (CET)
-Received: from localhost ([::1]:52156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBC2D489FD8
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 20:06:45 +0100 (CET)
+Received: from localhost ([::1]:56822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6zxO-0007At-VR
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 14:03:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39114)
+	id 1n700C-0001v5-JF
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 14:06:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1n6ztH-0002Sq-Nd; Mon, 10 Jan 2022 13:59:35 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:2208)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1n6zux-00045y-DE; Mon, 10 Jan 2022 14:01:20 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:14006)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1n6ztF-0001LM-KE; Mon, 10 Jan 2022 13:59:35 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20AIJLnP001282; 
- Mon, 10 Jan 2022 18:59:27 GMT
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1n6zuu-0001nh-NP; Mon, 10 Jan 2022 14:01:18 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20AHbFZS011723; 
+ Mon, 10 Jan 2022 19:00:59 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=3nKCmzHncenrsgbKcYeuOY5+9bjLsmEARZ/X6EXpccw=;
- b=YNZXvKWNsAbHMcantgz4+bO41jtnYayFvM7XeykB+m2HBhrA5mgpFr3uAlRqxMuRaD9a
- WWwmpmrMdRVNImAsnlQXgLGiASMtobwfRXTvi3LH9u52u6tDMeBvLVsf0Hp1jYF86088
- tNLI8g0zLfVBQR4C3EzktXrqt6LAbc6GNyJyr45ppH20jiVsaKwh2VI9DRkyLqn5MmTW
- zllIHMzR9EkF+WMmalYmu4B4cBzedju7p38wgTFyHB7UWtHzRSjuH9N3YoTUPiksWtfS
- ekzwb6qRAElFk3EkhfKwbd9JviGJIHDsGHTJgI8KFDcE/UxsEciMWiGmDxUkp54VtHQn 8w== 
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=D+QodqPXO6CJbzGJegPiAPJw3dmoPngam0MsIssq3Lw=;
+ b=VMql7yd06taSLKPVBi9L2Yb1DBigu0um1zAIBA/+JvY7+ATLwTV988KEbb6T0JWk3O7Q
+ gEU2LGKUYvFBbpPh2MqrRsIl1X1sOLVTJch3/dgu4MlY9u+nE49P+ulfqJrEdwTFTTa6
+ Cj9JkT5yYB4n26DK/7Rz8ps2tiwk0KnzXB0X1MmjEKARpxLKxdipmg/SiqQyOyUkv7fg
+ ngXR77hE0LHIHOQs4BIRlgQSKLHA/JhHlOiMTMOcygEch8v1BciaH406LLJ8gVGxZULM
+ TFtULmKYpsHLzI92SWHGlwWcgxjVgF4h9Tf/JgqjMEosP8gtuffDEbJFcOkLKpiy+cd6 bQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dfm3vsx58-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dfm2xst13-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Jan 2022 18:59:27 +0000
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20AIeXZg025506;
- Mon, 10 Jan 2022 18:59:26 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dfm3vsx48-1
+ Mon, 10 Jan 2022 19:00:58 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20AIx5sY034270;
+ Mon, 10 Jan 2022 19:00:58 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dfm2xst0r-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Jan 2022 18:59:26 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20AIqFep008816;
- Mon, 10 Jan 2022 18:59:24 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma05fra.de.ibm.com with ESMTP id 3df288xyd8-1
+ Mon, 10 Jan 2022 19:00:58 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20AIrhCG006222;
+ Mon, 10 Jan 2022 19:00:57 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma02dal.us.ibm.com with ESMTP id 3df289v04m-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Jan 2022 18:59:23 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20AIxKsE27656474
+ Mon, 10 Jan 2022 19:00:57 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20AJ0t2X12714272
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 10 Jan 2022 18:59:20 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 83295A4054;
- Mon, 10 Jan 2022 18:59:20 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1712AA4064;
- Mon, 10 Jan 2022 18:59:20 +0000 (GMT)
-Received: from vm.lan (unknown [9.171.78.41])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 10 Jan 2022 18:59:19 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH] target/s390x: Fix 32-bit shifts
-Date: Mon, 10 Jan 2022 19:59:18 +0100
-Message-Id: <20220110185918.219154-1-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.31.1
+ Mon, 10 Jan 2022 19:00:55 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 68F0FAC06E;
+ Mon, 10 Jan 2022 19:00:55 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 54953AC07B;
+ Mon, 10 Jan 2022 19:00:54 +0000 (GMT)
+Received: from localhost (unknown [9.211.79.41])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Mon, 10 Jan 2022 19:00:53 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH 4/8] squash target/ppc: Introduce powerpc_excp_40x
+In-Reply-To: <17495cce-79f1-1483-aab3-86ffcde7492e@eik.bme.hu>
+References: <20220110181546.4131853-1-farosas@linux.ibm.com>
+ <20220110181546.4131853-5-farosas@linux.ibm.com>
+ <17495cce-79f1-1483-aab3-86ffcde7492e@eik.bme.hu>
+Date: Mon, 10 Jan 2022 16:00:50 -0300
+Message-ID: <875yqra00t.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: YlnW_EPa8ViY68-TdQey78If9lln2lnh
-X-Proofpoint-GUID: lOyymvTDBLsGmFFvzdzfGNf_N1pQAW0t
+X-Proofpoint-GUID: fLnMSIq_-RMoxiaqshta-pSPJ2Rfu29D
+X-Proofpoint-ORIG-GUID: AdmhHOGHF0of2t317RoI4UmaK3f6-4Ih
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-10_07,2022-01-10_02,2021-12-02_01
+ definitions=2022-01-10_08,2022-01-10_02,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- mlxlogscore=999 bulkscore=0 lowpriorityscore=0 mlxscore=0 suspectscore=0
- clxscore=1011 impostorscore=0 priorityscore=1501 phishscore=0 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201100126
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ clxscore=1015 suspectscore=0
+ priorityscore=1501 bulkscore=0 phishscore=0 impostorscore=0
+ lowpriorityscore=0 mlxlogscore=739 mlxscore=0 spamscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201100130
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -107,155 +107,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both 32- and 64-bit shifts use lowest 6 address bits. The current code
-special-cases 32-bit shifts to use only 5 bits, which is not correct.
+BALATON Zoltan <balaton@eik.bme.hu> writes:
 
-Fix by merging sh32 and sh64.
+> On Mon, 10 Jan 2022, Fabiano Rosas wrote:
+>> Introduce a new exception dispatcher for 40x CPUs.
+>>
+>> Differences from the generic powerpc_excp code:
+>>
+>> - Not BookE, so some MSR bits are cleared at interrupt dispatch;
+>> - No MSR_HV or MSR_LE;
+>> - No power saving states;
+>> - No Hypervisor Emulation Assistance;
+>> - Not 64 bits;
+>> - No System call vectored;
+>> - No Interrupts Little Endian;
+>> - No Alternate Interrupt Location.
+>>
+>> Exceptions used:
+>>
+>> POWERPC_EXCP_ALIGN
+>> POWERPC_EXCP_APU
+>> POWERPC_EXCP_CRITICAL
+>> POWERPC_EXCP_DEBUG
+>> POWERPC_EXCP_DSI
+>> POWERPC_EXCP_DTLB
+>> POWERPC_EXCP_EXTERNAL
+>> POWERPC_EXCP_FIT
+>> POWERPC_EXCP_FPU
+>> POWERPC_EXCP_ISI
+>> POWERPC_EXCP_ITLB
+>> POWERPC_EXCP_MCHECK
+>> POWERPC_EXCP_PIT
+>> POWERPC_EXCP_PROGRAM
+>> POWERPC_EXCP_SYSCALL
+>> POWERPC_EXCP_WDT
+>>
+>> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+>> ---
+>> target/ppc/excp_helper.c | 165 +++------------------------------------
+>> 1 file changed, 13 insertions(+), 152 deletions(-)
+>>
+>> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+>> index 12ab5e1b34..1d997c4d6b 100644
+>> --- a/target/ppc/excp_helper.c
+>> +++ b/target/ppc/excp_helper.c
+>> @@ -409,54 +409,18 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
+>>                   excp, env->error_code);
+>>
+>>     /* new srr1 value excluding must-be-zero bits */
+>> -    if (excp_model == POWERPC_EXCP_BOOKE) {
+>> -        msr = env->msr;
+>> -    } else {
+>> -        msr = env->msr & ~0x783f0000ULL;
+>> -    }
+>> +    msr = env->msr & ~0x783f0000ULL;
+>>
+>>     /*
+>> -     * new interrupt handler msr preserves existing HV and ME unless
+>> -     * explicitly overriden
+>> +     * new interrupt handler msr preserves existing ME unless
+>> +     * explicitly overriden.
+>>      */
+>> -    new_msr = env->msr & (((target_ulong)1 << MSR_ME) | MSR_HVB);
+>> +    new_msr = env->msr & (((target_ulong)1 << MSR_ME));
+>>
+>>     /* target registers */
+>>     srr0 = SPR_SRR0;
+>>     srr1 = SPR_SRR1;
+>>
+>> -    /*
+>> -     * check for special resume at 0x100 from doze/nap/sleep/winkle on
+>> -     * P7/P8/P9
+>> -     */
+>> -    if (env->resume_as_sreset) {
+>> -        excp = powerpc_reset_wakeup(cs, env, excp, &msr);
+>> -    }
+>> -
+>> -    /*
+>> -     * Hypervisor emulation assistance interrupt only exists on server
+>> -     * arch 2.05 server or later. We also don't want to generate it if
+>> -     * we don't have HVB in msr_mask (PAPR mode).
+>> -     */
+>> -    if (excp == POWERPC_EXCP_HV_EMU
+>> -#if defined(TARGET_PPC64)
+>> -        && !(mmu_is_64bit(env->mmu_model) && (env->msr_mask & MSR_HVB))
+>> -#endif /* defined(TARGET_PPC64) */
+>> -
+>> -    ) {
+>> -        excp = POWERPC_EXCP_PROGRAM;
+>> -    }
+>> -
+>> -#ifdef TARGET_PPC64
+>> -    /*
+>> -     * SPEU and VPU share the same IVOR but they exist in different
+>> -     * processors. SPEU is e500v1/2 only and VPU is e6500 only.
+>> -     */
+>> -    if (excp_model == POWERPC_EXCP_BOOKE && excp == POWERPC_EXCP_VPU) {
+>> -        excp = POWERPC_EXCP_SPEU;
+>> -    }
+>> -#endif
+>> -
+>>     vector = env->excp_vectors[excp];
+>>     if (vector == (target_ulong)-1ULL) {
+>>         cpu_abort(cs, "Raised an exception without defined vector %d\n",
+>> @@ -581,6 +545,11 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
+>>          */
+>>         env->spr[SPR_DSISR] |= (env->error_code & 0x03FF0000) >> 16;
+>>         break;
+>> +    case POWERPC_EXCP_HV_EMU:
+>> +        /*
+>> +         * Hypervisor emulation assistance interrupt only exists on server
+>> +         * arch 2.05 server or later.
+>> +         */
+>>     case POWERPC_EXCP_PROGRAM:   /* Program exception                        */
+>>         switch (env->error_code & ~0xF) {
+>>         case POWERPC_EXCP_FP:
+>> @@ -645,22 +614,8 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
+>>             new_msr |= (target_ulong)MSR_HVB;
+>>         }
+>>         break;
+>> -    case POWERPC_EXCP_SYSCALL_VECTORED: /* scv exception                     */
+>> -        lev = env->error_code;
+>> -        dump_syscall(env);
+>> -        env->nip += 4;
+>> -        new_msr |= env->msr & ((target_ulong)1 << MSR_EE);
+>> -        new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
+>> -
+>> -        vector += lev * 0x20;
+>> -
+>> -        env->lr = env->nip;
+>> -        env->ctr = msr;
+>> -        break;
+>>     case POWERPC_EXCP_FPU:       /* Floating-point unavailable exception     */
+>>     case POWERPC_EXCP_APU:       /* Auxiliary processor unavailable          */
+>> -    case POWERPC_EXCP_DECR:      /* Decrementer exception                    */
+>> -        break;
+>
+> Removing the break here makes FPU and APU fall through to FIT. Is that 
+> intentional?
 
-Fixes: cbe24bfa91d2 ("target-s390: Convert SHIFT, ROTATE SINGLE")
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- target/s390x/tcg/insn-data.def  | 36 ++++++++++++++++-----------------
- target/s390x/tcg/translate.c    | 10 ++-------
- tests/tcg/s390x/Makefile.target |  1 +
- tests/tcg/s390x/sll.c           | 25 +++++++++++++++++++++++
- 4 files changed, 46 insertions(+), 26 deletions(-)
- create mode 100644 tests/tcg/s390x/sll.c
-
-diff --git a/target/s390x/tcg/insn-data.def b/target/s390x/tcg/insn-data.def
-index f0af458aee..348a15be72 100644
---- a/target/s390x/tcg/insn-data.def
-+++ b/target/s390x/tcg/insn-data.def
-@@ -747,8 +747,8 @@
-     C(0xb9e1, POPCNT,  RRE,   PC,  0, r2_o, r1, 0, popcnt, nz64)
- 
- /* ROTATE LEFT SINGLE LOGICAL */
--    C(0xeb1d, RLL,     RSY_a, Z,   r3_o, sh32, new, r1_32, rll32, 0)
--    C(0xeb1c, RLLG,    RSY_a, Z,   r3_o, sh64, r1, 0, rll64, 0)
-+    C(0xeb1d, RLL,     RSY_a, Z,   r3_o, sh, new, r1_32, rll32, 0)
-+    C(0xeb1c, RLLG,    RSY_a, Z,   r3_o, sh, r1, 0, rll64, 0)
- 
- /* ROTATE THEN INSERT SELECTED BITS */
-     C(0xec55, RISBG,   RIE_f, GIE, 0, r2, r1, 0, risbg, s64)
-@@ -784,29 +784,29 @@
-     C(0x0400, SPM,     RR_a,  Z,   r1, 0, 0, 0, spm, 0)
- 
- /* SHIFT LEFT SINGLE */
--    D(0x8b00, SLA,     RS_a,  Z,   r1, sh32, new, r1_32, sla, 0, 31)
--    D(0xebdd, SLAK,    RSY_a, DO,  r3, sh32, new, r1_32, sla, 0, 31)
--    D(0xeb0b, SLAG,    RSY_a, Z,   r3, sh64, r1, 0, sla, 0, 63)
-+    D(0x8b00, SLA,     RS_a,  Z,   r1, sh, new, r1_32, sla, 0, 31)
-+    D(0xebdd, SLAK,    RSY_a, DO,  r3, sh, new, r1_32, sla, 0, 31)
-+    D(0xeb0b, SLAG,    RSY_a, Z,   r3, sh, r1, 0, sla, 0, 63)
- /* SHIFT LEFT SINGLE LOGICAL */
--    C(0x8900, SLL,     RS_a,  Z,   r1_o, sh32, new, r1_32, sll, 0)
--    C(0xebdf, SLLK,    RSY_a, DO,  r3_o, sh32, new, r1_32, sll, 0)
--    C(0xeb0d, SLLG,    RSY_a, Z,   r3_o, sh64, r1, 0, sll, 0)
-+    C(0x8900, SLL,     RS_a,  Z,   r1_o, sh, new, r1_32, sll, 0)
-+    C(0xebdf, SLLK,    RSY_a, DO,  r3_o, sh, new, r1_32, sll, 0)
-+    C(0xeb0d, SLLG,    RSY_a, Z,   r3_o, sh, r1, 0, sll, 0)
- /* SHIFT RIGHT SINGLE */
--    C(0x8a00, SRA,     RS_a,  Z,   r1_32s, sh32, new, r1_32, sra, s32)
--    C(0xebdc, SRAK,    RSY_a, DO,  r3_32s, sh32, new, r1_32, sra, s32)
--    C(0xeb0a, SRAG,    RSY_a, Z,   r3_o, sh64, r1, 0, sra, s64)
-+    C(0x8a00, SRA,     RS_a,  Z,   r1_32s, sh, new, r1_32, sra, s32)
-+    C(0xebdc, SRAK,    RSY_a, DO,  r3_32s, sh, new, r1_32, sra, s32)
-+    C(0xeb0a, SRAG,    RSY_a, Z,   r3_o, sh, r1, 0, sra, s64)
- /* SHIFT RIGHT SINGLE LOGICAL */
--    C(0x8800, SRL,     RS_a,  Z,   r1_32u, sh32, new, r1_32, srl, 0)
--    C(0xebde, SRLK,    RSY_a, DO,  r3_32u, sh32, new, r1_32, srl, 0)
--    C(0xeb0c, SRLG,    RSY_a, Z,   r3_o, sh64, r1, 0, srl, 0)
-+    C(0x8800, SRL,     RS_a,  Z,   r1_32u, sh, new, r1_32, srl, 0)
-+    C(0xebde, SRLK,    RSY_a, DO,  r3_32u, sh, new, r1_32, srl, 0)
-+    C(0xeb0c, SRLG,    RSY_a, Z,   r3_o, sh, r1, 0, srl, 0)
- /* SHIFT LEFT DOUBLE */
--    D(0x8f00, SLDA,    RS_a,  Z,   r1_D32, sh64, new, r1_D32, sla, 0, 31)
-+    D(0x8f00, SLDA,    RS_a,  Z,   r1_D32, sh, new, r1_D32, sla, 0, 31)
- /* SHIFT LEFT DOUBLE LOGICAL */
--    C(0x8d00, SLDL,    RS_a,  Z,   r1_D32, sh64, new, r1_D32, sll, 0)
-+    C(0x8d00, SLDL,    RS_a,  Z,   r1_D32, sh, new, r1_D32, sll, 0)
- /* SHIFT RIGHT DOUBLE */
--    C(0x8e00, SRDA,    RS_a,  Z,   r1_D32, sh64, new, r1_D32, sra, s64)
-+    C(0x8e00, SRDA,    RS_a,  Z,   r1_D32, sh, new, r1_D32, sra, s64)
- /* SHIFT RIGHT DOUBLE LOGICAL */
--    C(0x8c00, SRDL,    RS_a,  Z,   r1_D32, sh64, new, r1_D32, srl, 0)
-+    C(0x8c00, SRDL,    RS_a,  Z,   r1_D32, sh, new, r1_D32, srl, 0)
- 
- /* SQUARE ROOT */
-     F(0xb314, SQEBR,   RRE,   Z,   0, e2, new, e1, sqeb, 0, IF_BFP)
-diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index f180853e7a..89e14b8f29 100644
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -5922,17 +5922,11 @@ static void in2_ri2(DisasContext *s, DisasOps *o)
- }
- #define SPEC_in2_ri2 0
- 
--static void in2_sh32(DisasContext *s, DisasOps *o)
--{
--    help_l2_shift(s, o, 31);
--}
--#define SPEC_in2_sh32 0
--
--static void in2_sh64(DisasContext *s, DisasOps *o)
-+static void in2_sh(DisasContext *s, DisasOps *o)
- {
-     help_l2_shift(s, o, 63);
- }
--#define SPEC_in2_sh64 0
-+#define SPEC_in2_sh 0
- 
- static void in2_m2_8u(DisasContext *s, DisasOps *o)
- {
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index cc64dd32d2..4212bab014 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -9,6 +9,7 @@ TESTS+=exrl-trtr
- TESTS+=pack
- TESTS+=mvo
- TESTS+=mvc
-+TESTS+=sll
- TESTS+=trap
- TESTS+=signals-s390x
- 
-diff --git a/tests/tcg/s390x/sll.c b/tests/tcg/s390x/sll.c
-new file mode 100644
-index 0000000000..aba2a94676
---- /dev/null
-+++ b/tests/tcg/s390x/sll.c
-@@ -0,0 +1,25 @@
-+#include <stdint.h>
-+#include <unistd.h>
-+
-+int main(void)
-+{
-+    uint64_t op1 = 0xb90281a3105939dfull;
-+    uint64_t op2 = 0xb5e4df7e082e4c5eull;
-+    uint64_t cc = 0xffffffffffffffffull;
-+
-+    asm("sll\t%[op1],0xd04(%[op2])"
-+        "\n\tipm\t%[cc]"
-+        : [op1] "+r" (op1),
-+          [cc] "+r" (cc)
-+        : [op2] "r" (op2)
-+        : "cc");
-+    if (op1 != 0xb90281a300000000ull) {
-+        write(1, "bad result\n", 11);
-+        return 1;
-+    }
-+    if (cc != 0xffffffff10ffffffull) {
-+        write(1, "bad cc\n", 7);
-+        return 1;
-+    }
-+    return 0;
-+}
--- 
-2.31.1
-
+No, that is a mistake indeed. Thanks.
 
