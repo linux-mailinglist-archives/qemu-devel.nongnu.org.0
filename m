@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64A764894A2
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 10:02:23 +0100 (CET)
-Received: from localhost ([::1]:59398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DF9C4894B1
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 10:04:35 +0100 (CET)
+Received: from localhost ([::1]:36622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6qZJ-0002ki-L9
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 04:02:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51338)
+	id 1n6qbS-0006hF-6B
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 04:04:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n6qVE-0008Pz-Fn
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 03:58:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35975)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n6qYj-0004Z2-N2
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 04:01:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27915)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n6qVC-0008EZ-0J
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 03:58:07 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n6qYe-0000Nw-8i
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 04:01:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641805085;
+ s=mimecast20190719; t=1641805299;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JRr+ajg9+pOoui+ej18C05jjsCeJYZIFD8ZLHD5JJqs=;
- b=a5sHW/CeUGp5hiCq0CoXsOYAL70evIsnxRaTeUx9wEgUPMUxshafBm3HWzUInFlbLoalMK
- bNx425547HNjPQ+wUbhJcAoEFdUMXm9CfU8xcVg+/JrE/Hv8jcFNkaT2zqpYUGg1lBjHMh
- NrQXowGHBRUFrvqaYII0uT0O6JKS47A=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4sdztrKVFC/ImQF7JDEXnu+M8QMgoGnd9rr9E866cas=;
+ b=IYRbHehcpu9Lm3K5MfPsZvUHi2x3EOQ65P1acZF89G7i++3elPiMNwx68AIfGbXWNyFBld
+ 7ik5VIkJyF9npJ0KXqTNW2oaQ6Gp2/spbj+RsTK7TOta5YUDBCi8W2x6JNQCvGThSnuaqr
+ va9I3nOO4YzHRfTuxeRHR9KdScmgiyA=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-364-Pk_4nnnVMyKf3Srtj-aSlQ-1; Mon, 10 Jan 2022 03:58:04 -0500
-X-MC-Unique: Pk_4nnnVMyKf3Srtj-aSlQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- ec25-20020a0564020d5900b003fc074c5d21so5193741edb.19
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 00:58:03 -0800 (PST)
+ us-mta-645-lutqtMTROVSZVMqZXpxUmw-1; Mon, 10 Jan 2022 04:01:38 -0500
+X-MC-Unique: lutqtMTROVSZVMqZXpxUmw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ y10-20020a056402358a00b003f88b132849so9602334edc.0
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 01:01:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:organization:in-reply-to
  :content-transfer-encoding;
- bh=JRr+ajg9+pOoui+ej18C05jjsCeJYZIFD8ZLHD5JJqs=;
- b=yPytLVlSjLkAqzl+ixLrwdrrHULIB1CHeDCNmh8azCdBW4fZS1ba6tXnZxXHgLlcU5
- k5uc3EoBV5Mo1kKkaWdKjgJTy9TjZ4yo3KLOqmOYtGOMRguRx+rJ3I/N6CqgK7mmTzqO
- l8Bwvmwezv3RXbuB+Xo8agbmtAXZvQbmHgGEYzmKYcQf2EHqCJtXiVC/PXYhKc+hlq2X
- 82ay+gcolmjuhLK+e85iSUshF9iJPj9kWcuMOMVnR++fzdPbEnaNiI2/RNzlKF60SlJ/
- M0iLlKTrqne/LTW9jPBEnHeB9PSvJ9Q6u7RW+K9m6XeN2rSTsww+HW0CFZhC9F6Epozo
- gpdA==
-X-Gm-Message-State: AOAM5321SYbgcTr8YoMtRhcDOazI1pRklACZenoFc6vu4AHT7UQt7cox
- /uevWWUL/32l8QGBuuW1pXXPMcTYagfBs6eEHU3aJiz9BM5+UTJg8HShy4PK99YTBf+lWT2+8EF
- /ZHtEyiAOyM7jo54=
-X-Received: by 2002:a50:c3c8:: with SMTP id i8mr75069324edf.350.1641805082869; 
- Mon, 10 Jan 2022 00:58:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy10ksaRrjqHR7ACJcb8MkkIekn4z/V2DRiOIwyXWPosSUIB7Cs7zw5zUF8i690dFaKplgZHg==
-X-Received: by 2002:a50:c3c8:: with SMTP id i8mr75069312edf.350.1641805082694; 
- Mon, 10 Jan 2022 00:58:02 -0800 (PST)
+ bh=4sdztrKVFC/ImQF7JDEXnu+M8QMgoGnd9rr9E866cas=;
+ b=5wSyuCYFwQJFtwx+CAmjWlTjU5jZgS6i8fD9Y8ijEOnF83L0McyZiLlYoacXXEr6uf
+ JMU3NXBHpmtMIYKqAddhU7Op6gfzlL3cgtjGuW3MLbyUI3vVrUyVNzyD9K7KzG8jl58w
+ r36XeB1So6ijw+SznOcyPNhRDLZph2SGLVeXppSoDxtn1hT48kFTRMS1Xt/Y/YMfotz/
+ drdORJA/BK1PtD87LYpAPpSryZx6x6RZaAuQojiqZbGmthcFNoJ2d9f7ncYDRspO1gDU
+ Z/mefYJOXBLFQPkM3RolYHlAg8WwcHdCNg6PAanb0eEpqP6A3nWVE21abRsMoY+dZx3p
+ Lg4w==
+X-Gm-Message-State: AOAM531MkAYlMeA6/MNSolrsrTYHuClJRJEOEdecL/y6G0LJD4lj6jyN
+ e9cScf7Vis6slD9/zy+GDiGDNyJCF1CzJUMKuUwtuNb7eO6h8oiexM+3c+Lq7CSaUX7saCLIfri
+ V6L9CEfpf6E4nNNs=
+X-Received: by 2002:a50:d55b:: with SMTP id f27mr7325851edj.168.1641805297240; 
+ Mon, 10 Jan 2022 01:01:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz/D2cyr6DvC18+Y3Fn9H6XhvjK3h0iKM251PSI7icKywdxsOaVKOwjfPmkh6p60QOrCCWhJg==
+X-Received: by 2002:a50:d55b:: with SMTP id f27mr7325832edj.168.1641805297073; 
+ Mon, 10 Jan 2022 01:01:37 -0800 (PST)
 Received: from ?IPV6:2003:cb:c701:cf00:ac25:f2e3:db05:65c3?
  (p200300cbc701cf00ac25f2e3db0565c3.dip0.t-ipconnect.de.
  [2003:cb:c701:cf00:ac25:f2e3:db05:65c3])
- by smtp.gmail.com with ESMTPSA id ht15sm2158896ejc.122.2022.01.10.00.58.02
+ by smtp.gmail.com with ESMTPSA id r8sm3255203edd.39.2022.01.10.01.01.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Jan 2022 00:58:02 -0800 (PST)
-Message-ID: <7e5aa393-cc05-d209-6e0e-f314cd5a0c2d@redhat.com>
-Date: Mon, 10 Jan 2022 09:58:01 +0100
+ Mon, 10 Jan 2022 01:01:36 -0800 (PST)
+Message-ID: <552d2d59-9be5-83a1-9871-c140db768d80@redhat.com>
+Date: Mon, 10 Jan 2022 10:01:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH v2 5/5] libvhost-user: handle removal of identical regions
+Subject: Re: [PATCH v2 0/5] Clean up error handling in libvhost-user memory
+ mapping
 To: Raphael Norwitz <raphael.norwitz@nutanix.com>,
  "stefanha@redhat.com" <stefanha@redhat.com>,
  "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
  "mst@redhat.com" <mst@redhat.com>
 References: <20220106064717.7477-1-raphael.norwitz@nutanix.com>
- <20220106064717.7477-6-raphael.norwitz@nutanix.com>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <20220106064717.7477-6-raphael.norwitz@nutanix.com>
+In-Reply-To: <20220106064717.7477-1-raphael.norwitz@nutanix.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,7 +83,7 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -111,53 +111,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 06.01.22 07:47, Raphael Norwitz wrote:
-> Today if QEMU (or any other VMM) has sent multiple copies of the same
-> region to a libvhost-user based backend and then attempts to remove the
-> region, only one instance of the region will be removed, leaving stale
-> copies of the region in dev->regions[].
+> Hey Stefan, Marc-Andre, MST, David -
 > 
-> This change resolves this by having vu_rem_mem_reg() iterate through all
-> regions in dev->regions[] and delete all matching regions.
+> As promised here is a series cleaning up error handling in the
+> libvhost-user memory mapping path. Most of these cleanups are
+> straightforward and have been discussed on the mailing list in threads
+> [1] and [2].
 > 
-> Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-> ---
->  subprojects/libvhost-user/libvhost-user.c | 26 ++++++++++++-----------
->  1 file changed, 14 insertions(+), 12 deletions(-)
-> 
-> diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
-> index 0fe3aa155b..14482484d3 100644
-> --- a/subprojects/libvhost-user/libvhost-user.c
-> +++ b/subprojects/libvhost-user/libvhost-user.c
-> @@ -809,6 +809,7 @@ static bool
->  vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
->      VhostUserMemoryRegion m = vmsg->payload.memreg.region, *msg_region = &m;
->      int i;
-> +    bool found = false;
->  
->      if (vmsg->fd_num != 1 ||
->          vmsg->size != sizeof(vmsg->payload.memreg)) {
-> @@ -835,21 +836,22 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
->                  munmap(m, r->size + r->mmap_offset);
->              }
->  
-> -            break;
-> +            /*
-> +             * Shift all affected entries by 1 to close the hole at index i and
-> +             * zero out the last entry.
-> +             */
-> +            memmove(dev->regions + i, dev->regions + i + 1,
-> +                    sizeof(VuDevRegion) * (dev->nregions - i - 1));
-> +            memset(dev->regions + dev->nregions - 1, 0, sizeof(VuDevRegion));
-> +            DPRINT("Successfully removed a region\n");
-> +            dev->nregions--;
-> +            i--;
-> +
-> +            found = true;
 
-Maybe add a comment like
+A note that we still want the fix in [3] upstream:
 
-/* Continue the search for eventual duplicates. */
+[3] https://lkml.kernel.org/r/20211012183832.62603-1-david@redhat.com
 
 
 -- 
