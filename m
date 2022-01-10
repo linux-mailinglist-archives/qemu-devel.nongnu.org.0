@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54D1848A3C4
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 00:39:07 +0100 (CET)
-Received: from localhost ([::1]:58776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B55CB48A3D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 00:40:59 +0100 (CET)
+Received: from localhost ([::1]:33212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n74Fm-0005Pq-DR
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 18:39:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42254)
+	id 1n74Ha-0007DC-Qd
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 18:40:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n746o-0000u7-J2
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:29:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60888)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n747q-0002X3-SH
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:30:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30124)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n746n-0008A2-0X
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:29:50 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n747p-00006g-DO
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:30:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641857388;
+ s=mimecast20190719; t=1641857452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9GAkPbAP3QTtD8i7jq4aPj7bx9HsKuinWnJaYnfoWiE=;
- b=YAul7OavyIsqQYfOio3X0btSCalG4HlYOOnP2+wnk6NUfGkJ+s19bdT2O43D99FiVVNaNl
- K/6HFkgUVjyZ63N+2mNY7lPXtx8XAy1uZKoOVB+iBZmABLIRSBFIoMMxFX1AY5VgdFWu+a
- G2GymCxOYDhArncqywphn4J6ogJ0YHg=
+ bh=Nz15PmpTYR+rhyUU5mECW7V1jU7yOKRzUIgObkhacpU=;
+ b=QEpaxEWfm7YX6czb/nXfS0gEJ82lTY12qUVBPAa9cGIGkP8TiI25ttWm4M+YLqqUKZ2eHh
+ Ccq0r4s5VAN48bVXnNh36E8rXaJsKGzq+6OQdoHLGxUtUHs1/9QzoY1KcImwxD3ZGsCGr6
+ A1vun00PeKUcUh3mVqyviaEUKksoDQY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-245-n0gg6xe4MD2pgnynJSo4Kw-1; Mon, 10 Jan 2022 18:29:45 -0500
-X-MC-Unique: n0gg6xe4MD2pgnynJSo4Kw-1
+ us-mta-424-LZsu2k_KNEyzjRNuS5t3nw-1; Mon, 10 Jan 2022 18:30:51 -0500
+X-MC-Unique: LZsu2k_KNEyzjRNuS5t3nw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EA56192781C;
- Mon, 10 Jan 2022 23:29:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C054684B9C3;
+ Mon, 10 Jan 2022 23:30:49 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.219])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B504C7B038;
- Mon, 10 Jan 2022 23:29:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 523427B038;
+ Mon, 10 Jan 2022 23:29:44 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/31] simplebench: Fix Python syntax error (reported by
- LGTM)
-Date: Mon, 10 Jan 2022 18:28:43 -0500
-Message-Id: <20220110232910.1923864-5-jsnow@redhat.com>
+Subject: [PATCH v3 05/31] python/aqmp: fix docstring typo
+Date: Mon, 10 Jan 2022 18:28:44 -0500
+Message-Id: <20220110232910.1923864-6-jsnow@redhat.com>
 In-Reply-To: <20220110232910.1923864-1-jsnow@redhat.com>
 References: <20220110232910.1923864-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +54,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -81,39 +80,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Markus Armbruster <armbru@redhat.com>, Wainer Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Wainer Moschetta <wainersm@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Weil <sw@weilnetz.de>
-
-Fixes: b2fcb0c5754c2554b8406376e99a75e9e0a6b7bd
-Signed-off-by: Stefan Weil <sw@weilnetz.de>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Message-id: 20220107153019.504124-1-sw@weilnetz.de
+Reported-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/simplebench/bench-example.py | 2 +-
+ python/qemu/aqmp/__init__.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/simplebench/bench-example.py b/scripts/simplebench/bench-example.py
-index 4864435f39..fc370691e0 100644
---- a/scripts/simplebench/bench-example.py
-+++ b/scripts/simplebench/bench-example.py
-@@ -25,7 +25,7 @@
+diff --git a/python/qemu/aqmp/__init__.py b/python/qemu/aqmp/__init__.py
+index 880d5b6fa7..173556404d 100644
+--- a/python/qemu/aqmp/__init__.py
++++ b/python/qemu/aqmp/__init__.py
+@@ -6,7 +6,7 @@
+ QEMU Guest Agent, and the QEMU Storage Daemon.
  
- def bench_func(env, case):
-     """ Handle one "cell" of benchmarking table. """
--    return bench_block_copy(env['qemu_binary'], env['cmd'], {}
-+    return bench_block_copy(env['qemu_binary'], env['cmd'], {},
-                             case['source'], case['target'])
- 
- 
+ `QMPClient` provides the main functionality of this package. All errors
+-raised by this library dervive from `AQMPError`, see `aqmp.error` for
++raised by this library derive from `AQMPError`, see `aqmp.error` for
+ additional detail. See `aqmp.events` for an in-depth tutorial on
+ managing QMP events.
+ """
 -- 
 2.31.1
 
