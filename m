@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40AEE489C86
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 16:47:57 +0100 (CET)
-Received: from localhost ([::1]:45988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA99489CC1
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 16:51:19 +0100 (CET)
+Received: from localhost ([::1]:51750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6wtn-0001Qd-W2
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 10:47:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46096)
+	id 1n6wx4-0005L7-73
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 10:51:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n6wrM-0007Eo-GP
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 10:45:29 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:51600)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n6wrJ-0002fV-2e
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 10:45:22 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 14D59B81670;
- Mon, 10 Jan 2022 15:45:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB8F0C36AE3;
- Mon, 10 Jan 2022 15:45:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1641829510;
- bh=/cJ14iZsrwrHt6rKN+QfSmHGBYGz0Ywl+1X61/fcY3c=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=NMmLAQX/uAQNZKjyR63+dLPDi/nwcYUF1woCj26HUIj4MbR+Th3VMsoRVWt7QDXfi
- xK+Op9jucoBBso7t1QNpBM0dAaG4/eUfs5VK6R3hqQ8Wh7+7tpBCQwMz0v4xvUlW4S
- 1ffCO2KtSyuVa7c1DUv+i4pSm7uokZyBvTKCPeXTWmu+o9gZNdUuLKUP8Bx0zMOfF+
- VUOprNKUu44az6KwM0tjQth++HW3ACq1ztrACmprHb7zJG7rFqXGqNTX3MXTb9KK9K
- 9ooGBUyhwKMX6bcVuHvAZ9sMaZwsU0DYyur58x8ZL6NFW76/6m4rGFYlEtoc6YUocS
- uO2cpkmfqs/kA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
- by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <maz@kernel.org>)
- id 1n6wr6-00HASj-Pu; Mon, 10 Jan 2022 15:45:08 +0000
-Date: Mon, 10 Jan 2022 15:45:08 +0000
-Message-ID: <87k0f7tx17.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: eric.auger@redhat.com
-Subject: Re: [PATCH v4 2/6] hw/arm/virt: Add a control for the the highmem
- redistributors
-In-Reply-To: <448274ac-2650-7c09-742d-584109fb5c56@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n6wu6-0003Sg-9Q
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 10:48:14 -0500
+Received: from [2a00:1450:4864:20::435] (port=36634
+ helo=mail-wr1-x435.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n6wtr-000387-Vj
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 10:48:01 -0500
+Received: by mail-wr1-x435.google.com with SMTP id r10so19929508wrc.3
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 07:47:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=peGK9jkA1ECjFCE1GKLjh+6ydkjA9f/37HFPcNjIPDU=;
+ b=Fh/b5I5anwBkTrgBAtBNtIQHIvXWf0V/SmPFlgo1Ve2rCHEb+dOLc48FjRg6MyDu8W
+ 3JIjkFNcPvMJwb2d5XweNmVLbAzYZwc+R9yieoV/nO5cUlW7gdt/gjRxm7Vfv+yGhC7C
+ UAh3QVRrkzr9VOreaFCPBJ8kfnHPm/lixEr/I8CQqyLR4tP6tUPdbihWPy+afpSTt+zC
+ V+4MajeqxYj48c6D7WcxyLT/o8EgbFOASSbmqUAL1danKNNFEAzVqfpB6Ixc/xq75eSx
+ 69Zu8RVKme11rtIYESDsR1qD0pyXNUWrTeT4ncZtgB5S/IBqFbUZF+NHFw67ovlnh/PD
+ 6nbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=peGK9jkA1ECjFCE1GKLjh+6ydkjA9f/37HFPcNjIPDU=;
+ b=viny3creA7xRovBZc+kzkEIyxYLDnEcHvdWBo09NuYHXadzx0ScWlWyjp7XNA9SJd/
+ uVjd3cVGzGJp7NjxHHnPIocWfWQ3TZBFZApT/xSzHaQxRVASIdjrOdnZFqtBSd+ZjnfI
+ EKFQIRRt8vFQU8vhwTuVYM1HBYDTa89SrhRdWgE+9gYB0nEcbEjTDDZJAREefDLyuvDe
+ r/bfautMX0fv8W/kagPgKUlD8gm3d2a3KAJCjBVoW95L8nmOu7yZe9IUgXHcuSr43uSu
+ NN3oDeyE03QgIN9b2JCxKWKGUKqUYAeeDMCdf1qQQS5/FB9fCMbvHR9Sk3bkJw/qt9Km
+ G+Yg==
+X-Gm-Message-State: AOAM530HRK+cBFhWX2Zqt9XdKXKQG1oA+kt55Sc1/MhHYFMVxWFBPSju
+ KcRamY5uEjG37LUvCylUnGb/hgGDCCnhYFtDFOmV/g==
+X-Google-Smtp-Source: ABdhPJxG4gV0GKraTJ6tgmVj/WLmoPT/UKnsUKRM4S2k9+WOReU1GZyRcyeYg2VWZg8Hu9Q+7DLNpKQQR9PpEA7yc1U=
+X-Received: by 2002:a5d:52c4:: with SMTP id r4mr183666wrv.521.1641829678212;
+ Mon, 10 Jan 2022 07:47:58 -0800 (PST)
+MIME-Version: 1.0
 References: <20220107163324.2491209-1-maz@kernel.org>
  <20220107163324.2491209-3-maz@kernel.org>
  <448274ac-2650-7c09-742d-584109fb5c56@redhat.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: eric.auger@redhat.com, qemu-devel@nongnu.org,
- kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, kernel-team@android.com,
- drjones@redhat.com, peter.maydell@linaro.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
- SAEximRunCond expanded to false
-Received-SPF: pass client-ip=145.40.68.75; envelope-from=maz@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -76
-X-Spam_score: -7.7
-X-Spam_bar: -------
-X-Spam_report: (-7.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <87k0f7tx17.wl-maz@kernel.org>
+In-Reply-To: <87k0f7tx17.wl-maz@kernel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 10 Jan 2022 15:47:47 +0000
+Message-ID: <CAFEAcA-OF29ptHr0X9ojyLEcDw9v7Smc5PC3O+v5Uv3bjiSmRA@mail.gmail.com>
+Subject: Re: [PATCH v4 2/6] hw/arm/virt: Add a control for the the highmem
+ redistributors
+To: Marc Zyngier <maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,45 +83,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, kernel-team@android.com,
+Cc: Andrew Jones <drjones@redhat.com>, kvm@vger.kernel.org,
+ qemu-devel@nongnu.org, eric.auger@redhat.com, kernel-team@android.com,
  kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
+On Mon, 10 Jan 2022 at 15:45, Marc Zyngier <maz@kernel.org> wrote:
+> $ /home/maz/vminstall/qemu-hack -m 1G -smp 256 -cpu host -machine virt,accel=kvm,gic-version=3,highmem=on -nographic -drive if=pflash,format=raw,readonly=on,file=/usr/share/AAVMF/AAVMF_CODE.fd
+> qemu-hack: warning: Number of SMP cpus requested (256) exceeds the recommended cpus supported by KVM (8)
+> qemu-hack: warning: Number of hotpluggable cpus requested (256) exceeds the recommended cpus supported by KVM (8)
+> qemu-hack: Capacity of the redist regions(123) is less than number of vcpus(256)
 
-On Mon, 10 Jan 2022 15:35:44 +0000,
-Eric Auger <eric.auger@redhat.com> wrote:
-> 
-> Hi Marc,
-> 
-> On 1/7/22 5:33 PM, Marc Zyngier wrote:
+Side question: why is KVM_CAP_NR_VCPUS returning 8 for
+"recommended cpus supported by KVM" ? Is something still
+assuming GICv2 CPU limits?
 
-[...]
-
-> > @@ -190,7 +191,8 @@ static inline int virt_gicv3_redist_region_count(VirtMachineState *vms)
-> >  
-> >      assert(vms->gic_version == VIRT_GIC_VERSION_3);
-> >  
-> > -    return MACHINE(vms)->smp.cpus > redist0_capacity ? 2 : 1;
-> > +    return (MACHINE(vms)->smp.cpus > redist0_capacity &&
-> > +            vms->highmem_redists) ? 2 : 1;
-> If we fail to use the high redist region, is there any check that the
-> number of vcpus does not exceed the first redist region capacity.
-> Did you check that config, does it nicely fail?
-
-I did, and it does (example on M1 with KVM):
-
-$ /home/maz/vminstall/qemu-hack -m 1G -smp 256 -cpu host -machine virt,accel=kvm,gic-version=3,highmem=on -nographic -drive if=pflash,format=raw,readonly=on,file=/usr/share/AAVMF/AAVMF_CODE.fd
-qemu-hack: warning: Number of SMP cpus requested (256) exceeds the recommended cpus supported by KVM (8)
-qemu-hack: warning: Number of hotpluggable cpus requested (256) exceeds the recommended cpus supported by KVM (8)
-qemu-hack: Capacity of the redist regions(123) is less than number of vcpus(256)
-
-Thanks,
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+-- PMM
 
