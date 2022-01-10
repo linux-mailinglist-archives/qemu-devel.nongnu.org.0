@@ -2,63 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FAB448930F
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 09:09:42 +0100 (CET)
-Received: from localhost ([::1]:53476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DDD5489329
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 09:19:15 +0100 (CET)
+Received: from localhost ([::1]:58828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6pkL-0006xL-8P
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 03:09:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41958)
+	id 1n6ptZ-0003Zz-NC
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 03:19:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n6pfe-0004Yw-Sp
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 03:04:54 -0500
-Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156]:49169)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n6pfc-0008Il-Nb
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 03:04:50 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.68])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 7C8B920BC9;
- Mon, 10 Jan 2022 08:04:45 +0000 (UTC)
-Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 10 Jan
- 2022 09:04:44 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G004a09a0ba3-db91-45be-9d58-7c574669f209,
- BF6F17FB45C67FCD004F592EBF28FE1306A73352) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <10391a07-e5e1-99e6-ed68-c93520534f29@kaod.org>
-Date: Mon, 10 Jan 2022 09:04:39 +0100
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1n6psW-0002gX-Fr; Mon, 10 Jan 2022 03:18:08 -0500
+Received: from [2607:f8b0:4864:20::634] (port=34679
+ helo=mail-pl1-x634.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1n6psR-00028Y-3L; Mon, 10 Jan 2022 03:18:08 -0500
+Received: by mail-pl1-x634.google.com with SMTP id x15so11205655plg.1;
+ Mon, 10 Jan 2022 00:18:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=HYWq0AOwNLb6/W+M9Som0ZxCeuR7iEPlCYABFEEJxi8=;
+ b=J6HRHpH8OfkI6FC9/2BwjOU6ap1JHFydEGri6XnikWX6+onZ9z9jsTWNwQaNfUA9tf
+ DNCDGGKVcLwvoKTrZwScUj/eQvIUzuHoRnse+j2oG6iy0tr4mHNMVC0OHeoaLzSiudM2
+ j0C9oGEZq4RDQmaMWQU8m/5ZBZFWmRL5Q0jBRP2tryRZGQ468FWys3mdlPAV58PZ5JIg
+ PV8LDKDsLq7v5AyQp1Sycu341tkeT0iM/+J9Dx71o682UAAuh38gVtiJ2v7VGbKUmjhR
+ uQ2GBLNZw8Km9mEmlUxoQz7hKKpFdrxqFGGlTUsvwhi9GRNwYahShp1AQ85oGhXfmcDN
+ Q1kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=HYWq0AOwNLb6/W+M9Som0ZxCeuR7iEPlCYABFEEJxi8=;
+ b=xVlz1NpDYGXnx5TSvMDmiuwNE+/lgzHv/7WVUNf3v18ud5wH0QI45afut0xnCbLfZv
+ /96yTad1Xys4d/J0RziwuJYZezDTMF9h4AIFCCS1go2dPoRnYgM2W9gV3/XcCW3nksdH
+ plZinnPVAHk5zWM1CN/11omttkPkm77PD+DzEFyBK3w39ejPAVjK4HSfc3/tCAlSmLBO
+ 4K1qD34kEfdwYFexMwTA5QKWroOC9wets8840gYifSu4ZR0r7l/lmVAq6JSub+4h+9/b
+ 1CfT2ITHrknSVTdMnZt0tv+NLuyFiQ+TB15DVRdSV69d6Pc1FRCeKVsOfZeg5xGQybxh
+ bSxQ==
+X-Gm-Message-State: AOAM531cCFjHJH1IbQH0Nvl77TELlmk7VqvDfvJA5rOR4E+NjG0UJosP
+ 2IlVN/c1zi3logdgYzdqvqQ=
+X-Google-Smtp-Source: ABdhPJxyPkRJ0pIzSYv8mD8nJRhbBd01aTHm86qZQp4It4f2MTK1nIVGGL+Z9C+1U9IDtcWEeIMd6g==
+X-Received: by 2002:a17:902:c64b:b0:14a:2206:9a87 with SMTP id
+ s11-20020a170902c64b00b0014a22069a87mr7657338pls.165.1641802680974; 
+ Mon, 10 Jan 2022 00:18:00 -0800 (PST)
+Received: from [192.168.64.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ by smtp.gmail.com with ESMTPSA id
+ p37sm6313720pfh.97.2022.01.10.00.17.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Jan 2022 00:18:00 -0800 (PST)
+Message-ID: <b5b9df3d-0213-0a62-12ab-4e48ec88c0d9@gmail.com>
+Date: Mon, 10 Jan 2022 17:17:56 +0900
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] target/ppc: Fix e6500 boot
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [RFC PATCH v2 2/6] audio/coreaudio: Remove a deprecation warning
+ on macOS 12
 Content-Language: en-US
-To: "mario@locati.it" <mario@locati.it>, <balaton@eik.bme.hu>
-References: <20211213133542.2608540-1-farosas@linux.ibm.com>
- <724f7563-f36c-2c37-3b94-951c3d922861@eik.bme.hu>
- <R4OPHT$7F12C66D1107397991E0E4C978FE6AF1@locati.it>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <R4OPHT$7F12C66D1107397991E0E4C978FE6AF1@locati.it>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 2b12793e-a55b-48d9-a1d0-0a0c360be771
-X-Ovh-Tracer-Id: 16761553391470873382
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudegledguddulecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieejieevleeutdfhffefleehteduieehueetueduvddutdekudeffffffeeftdfhnecuffhomhgrihhnpeefvddrshhonecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrnhhivghlhhgsgedufeesghhmrghilhdrtghomh
-Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
- helo=3.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20220109170612.574104-1-f4bug@amsat.org>
+ <20220109170612.574104-3-f4bug@amsat.org>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <20220109170612.574104-3-f4bug@amsat.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::634
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,36 +92,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- farosas@linux.ibm.com
+Cc: qemu-block@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Alexander Graf <agraf@csgraf.de>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Mario,
 
+
+On 2022/01/10 2:06, Philippe Mathieu-Daudé wrote:
+> When building on macOS 12 we get:
 > 
-> I have tried to launch a freshly compiled qemu from git master on a NXP T2080RDB devkit that has a e6500 CPU in combination with a freshly compiled kernel 5.16-rc6
-> I have Debian SID ppc64 up and running using such a kernel, and when I launch qemu to run a VM with the same debian sid for ppc64 and the same kernel using --enable-kvm I end up with a kernel panic
+>    audio/coreaudio.c:50:5: error: 'kAudioObjectPropertyElementMaster' is deprecated: first deprecated in macOS 12.0 [-Werror,-Wdeprecated-declarations]
+>        kAudioObjectPropertyElementMaster
+>        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>        kAudioObjectPropertyElementMain
+>    /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreAudio.framework/Headers/AudioHardwareBase.h:208:5: note: 'kAudioObjectPropertyElementMaster' has been explicitly marked deprecated here
+>        kAudioObjectPropertyElementMaster API_DEPRECATED_WITH_REPLACEMENT("kAudioObjectPropertyElementMain", macos(10.0, 12.0), ios(2.0, 15.0), watchos(1.0, 8.0), tvos(9.0, 15.0)) = kAudioObjectPropertyElementMain
+>        ^
 > 
-> [....]
-> Run /sbin/init as init process
-> random: fast init done
-> systemd[1]: illegal instruction (4) at 3fff96562ac8 nip 3fff96562ac8 lr 3fff96562aa8 code 1 in libc-2.32.so[3fff96516000+1f7000]
-> systemd[1]: code: 60000000 38600006 9122b7e8 4801bead 60000000 60000000 8122b7e8 2c090004
-> systemd[1]: code: 40820014 39200005 60000000 9122b7e8 <00000000> 60000000 8122b7e8 2c090005
-> Kernel panic - not syncing: Attempted to kill init! exitcode=0x00000004
-> Rebooting in 180 seconds..
+> Use kAudioObjectPropertyElementMain (define it to
+> kAudioObjectPropertyElementMaster on macOS < 12).
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   audio/coreaudio.c | 16 ++++++++++------
+>   1 file changed, 10 insertions(+), 6 deletions(-)
+> 
+> diff --git a/audio/coreaudio.c b/audio/coreaudio.c
+> index d8a21d3e507..c836bc9dd37 100644
+> --- a/audio/coreaudio.c
+> +++ b/audio/coreaudio.c
+> @@ -44,10 +44,14 @@ typedef struct coreaudioVoiceOut {
+>       bool enabled;
+>   } coreaudioVoiceOut;
+>   
+> +#if !defined(MAC_OS_VERSION_12_0)
+> +#define kAudioObjectPropertyElementMain kAudioObjectPropertyElementMaster
+> +#endif
+> +
 
-I spend sometime looking at the kernel and QEMU and I noticed that
-TCG e6500 machines have an issue when the kernel has KVM support.
-I have limited knowledge on that topic but e6500 has extra MMU
-features that an hypervisor could use for the guest and the e6500
-emulation clearly doesn't have support for it.
+Semantically MAC_OS_VERSION_12_0 defines the numeric value of version 
+12.0 and its existence does not mean that 
+kAudioObjectPropertyElementMain is defined. I suggest the following:
+#if !__is_identifier(kAudioObjectPropertyElementMain)
+#define kAudioObjectPropertyElementMain kAudioObjectPropertyElementMaster
+#endif
 
-In the guest, could you try with to run the KVM guest with a kernel
-without KVM support and let us know ?
+Regards,
+Akihiko Odaki
 
-Thanks,
-
-C.
+>   static const AudioObjectPropertyAddress voice_addr = {
+>       kAudioHardwarePropertyDefaultOutputDevice,
+>       kAudioObjectPropertyScopeGlobal,
+> -    kAudioObjectPropertyElementMaster
+> +    kAudioObjectPropertyElementMain
+>   };
+>   
+>   static OSStatus coreaudio_get_voice(AudioDeviceID *id)
+> @@ -69,7 +73,7 @@ static OSStatus coreaudio_get_framesizerange(AudioDeviceID id,
+>       AudioObjectPropertyAddress addr = {
+>           kAudioDevicePropertyBufferFrameSizeRange,
+>           kAudioDevicePropertyScopeOutput,
+> -        kAudioObjectPropertyElementMaster
+> +        kAudioObjectPropertyElementMain
+>       };
+>   
+>       return AudioObjectGetPropertyData(id,
+> @@ -86,7 +90,7 @@ static OSStatus coreaudio_get_framesize(AudioDeviceID id, UInt32 *framesize)
+>       AudioObjectPropertyAddress addr = {
+>           kAudioDevicePropertyBufferFrameSize,
+>           kAudioDevicePropertyScopeOutput,
+> -        kAudioObjectPropertyElementMaster
+> +        kAudioObjectPropertyElementMain
+>       };
+>   
+>       return AudioObjectGetPropertyData(id,
+> @@ -103,7 +107,7 @@ static OSStatus coreaudio_set_framesize(AudioDeviceID id, UInt32 *framesize)
+>       AudioObjectPropertyAddress addr = {
+>           kAudioDevicePropertyBufferFrameSize,
+>           kAudioDevicePropertyScopeOutput,
+> -        kAudioObjectPropertyElementMaster
+> +        kAudioObjectPropertyElementMain
+>       };
+>   
+>       return AudioObjectSetPropertyData(id,
+> @@ -121,7 +125,7 @@ static OSStatus coreaudio_set_streamformat(AudioDeviceID id,
+>       AudioObjectPropertyAddress addr = {
+>           kAudioDevicePropertyStreamFormat,
+>           kAudioDevicePropertyScopeOutput,
+> -        kAudioObjectPropertyElementMaster
+> +        kAudioObjectPropertyElementMain
+>       };
+>   
+>       return AudioObjectSetPropertyData(id,
+> @@ -138,7 +142,7 @@ static OSStatus coreaudio_get_isrunning(AudioDeviceID id, UInt32 *result)
+>       AudioObjectPropertyAddress addr = {
+>           kAudioDevicePropertyDeviceIsRunning,
+>           kAudioDevicePropertyScopeOutput,
+> -        kAudioObjectPropertyElementMaster
+> +        kAudioObjectPropertyElementMain
+>       };
+>   
+>       return AudioObjectGetPropertyData(id,
 
