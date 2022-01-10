@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F124899AB
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 14:16:03 +0100 (CET)
-Received: from localhost ([::1]:60554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F4E489A0A
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 14:35:58 +0100 (CET)
+Received: from localhost ([::1]:55034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6uWo-0002Hs-GQ
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 08:16:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56062)
+	id 1n6uq5-0002AA-Dz
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 08:35:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n6uRF-0008CN-8L
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:10:18 -0500
-Received: from [2a00:1450:4864:20::336] (port=36540
- helo=mail-wm1-x336.google.com)
+ id 1n6uRK-0008M3-MM
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:10:23 -0500
+Received: from [2a00:1450:4864:20::332] (port=54219
+ helo=mail-wm1-x332.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n6uRD-0008ME-1y
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:10:16 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- n19-20020a7bc5d3000000b003466ef16375so9709502wmk.1
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 05:10:14 -0800 (PST)
+ id 1n6uRI-0008N8-3c
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:10:22 -0500
+Received: by mail-wm1-x332.google.com with SMTP id l4so8700606wmq.3
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 05:10:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7J38PA7fo5uOi1FDkTH3MlYdSdNJH0Ez5wJ7c5zRjGA=;
- b=SaZoKm9S3wqSqADbVJ+0ZoWzk4nljHmuLkxbidOglgscrdbGbzC6GvxX1Mu7moH3e7
- yYPFx38FpJjrkeFzS5RP0wpa/31ePpf/PPOSQbcqWL6KRivZ0qdGodc7KW0v9RHSJBrQ
- G/dGDhFVlAh7vJ1hz3p8PuxlaaUGzK3D50TM3YUbgtgp/mfiQunAIYj+C3bBW3oTj6ce
- egbWERUALBhCWQQe3ApDx0eWaha/F7sl7VDdBvmESnOYRrPRVrgOR4Ik2Qi0zRpyLp6k
- DQLKOWku5LWqlFWSNPAJa4Y9FBX3bJQsJlP2WZ0Wcm1tnK+yZFfLQpk8iwIDj1VAx+YD
- GXBg==
+ bh=F9FAq6nwbgCvDM7C2Sg9iiaLq9FrL+HtewEtG7ypUf8=;
+ b=NTT7NtWWNk6WEO4Z/1SLkxfP3QwsnhbkxSqrOJEY0Zm8Qep1/RbIG0Et2SRYmIQLJO
+ PodF702S+K3soNxt3xEjqjRimb6o3k88huBYE3Wh1LMKiWfVEcAZWuqf5Qj9OdWqZ3Km
+ Y/MvfmxbTFIeocC+XMiaPSEj4SuzGyfVBqTHiT+iKUOQSqH06kKMrQ1XLc3TzHX3cRuV
+ UrP5CQ8Xupv4UCIDEolakrzIYVf5AX5HjwJ37FHv+yIcERT0ZsYF1nelHhv7/rVLt/Qd
+ pWNskPL+h0hppOcU4W3blhFjNdy9AKlDqniaUYmpnKc0AQPYJ05vmB4xcIksx2am6lY8
+ rI5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=7J38PA7fo5uOi1FDkTH3MlYdSdNJH0Ez5wJ7c5zRjGA=;
- b=jGSts3PyEn/tc+MQPO0Esb9m4/ctwvB5gp9mVG59lgPXNZiZg7d9JeWVnupUFY9wDm
- utkBz52wAXjgFj2BxHCvW06zMJB5/F+tVwagFO9Uq/hNgIwGiYQBsyL3VZ7QwwklUHr+
- Xe0UfqPUKdjH20f5yX/wp9ADNt9nxJRjNU/kVt5n1OBVoGNySpspU0LOpZTlbXr3aPKI
- TjO0NWQHMExVq8ZYoCxjVyS4XDHr5JE3G++PzH4VVywXNNKzHqdAyAm7ADLdfK2nPpkt
- CXQMgf5c3gIZmvX1/NVwxBx2JRBumajp26RXpF827fe6cEjJxiQwm1CkzAE02ne4DvYg
- fGyA==
-X-Gm-Message-State: AOAM530LGbYXjZ7B940RWIRe6a7Sf3nDqTT8qZqF/ffK5ZsWmYvPmzap
- uwlSddtAYXTYAc308xB0mmmb/fhmO76xYQ==
-X-Google-Smtp-Source: ABdhPJxr8MoHgU5OZVvs/hmm5M11/b9B2wOkr5WtXqVonyuNzlu7v3cEPr0dZadAmgnyuOyfxhAx1A==
-X-Received: by 2002:a1c:545b:: with SMTP id p27mr12228387wmi.178.1641820213499; 
- Mon, 10 Jan 2022 05:10:13 -0800 (PST)
+ bh=F9FAq6nwbgCvDM7C2Sg9iiaLq9FrL+HtewEtG7ypUf8=;
+ b=pOrXZll1w18QMRYjoRpHArYRdpHtumpTBp+cSFFGv8f92nQN9laNf+DkIrHGqlK1o/
+ uL7IvffHRBnfrHP70yxsQIr5h3QiQ3CB7uDr/aYGCahPpq2awhYwEZXadpQTQ/0e3jpc
+ 5x3FazT1sOtkJQhuyfnrZXT+58fw8OUwmPDuX/9Z59RTWH0iy+y9tQBLg2I3aPECeQWB
+ umCbJgNOSOj5WntpoBL+WpGk74XjkCiwA/+OfuMV3Y4NFJBQIpb1p2HEWmsyPPBJxwBi
+ 9IqPwoAy3x7pFYXbdRPcGK/vunXXJ6qJRJaWEG6o3XztroZ6AbcE8EIUUQQnLEJUx+s9
+ S7PQ==
+X-Gm-Message-State: AOAM531s1WJVseGppVhvdJS+5um05vG/Ay/y0uqdtcxO/92Hh6HhZfyv
+ 7u7BYy5t4FU79NhlA0tOBs/dcMs8xaUPmg==
+X-Google-Smtp-Source: ABdhPJwHuyLQVs9qiq6enIw0W0jOkkg9tJ7+g1zrzFjcIOV7/d/RzIrKP7wd8eTqQJesBV+ruk6U4Q==
+X-Received: by 2002:a1c:a94e:: with SMTP id s75mr11294806wme.34.1641820218633; 
+ Mon, 10 Jan 2022 05:10:18 -0800 (PST)
 Received: from nuc.. (83.red-83-50-87.dynamicip.rima-tde.net. [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id l4sm6632689wrm.62.2022.01.10.05.10.12
+ by smtp.gmail.com with ESMTPSA id n9sm7196491wmq.37.2022.01.10.05.10.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jan 2022 05:10:13 -0800 (PST)
+ Mon, 10 Jan 2022 05:10:18 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v3 2/7] ui/cocoa: Remove allowedFileTypes restriction in
- SavePanel
-Date: Mon, 10 Jan 2022 14:09:56 +0100
-Message-Id: <20220110131001.614319-3-f4bug@amsat.org>
+Subject: [RFC PATCH v3 3/7] hvf: Make hvf_get_segments() / hvf_put_segments()
+ local
+Date: Mon, 10 Jan 2022 14:09:57 +0100
+Message-Id: <20220110131001.614319-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220110131001.614319-1-f4bug@amsat.org>
 References: <20220110131001.614319-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
-X-Spam_score_int: 3
-X-Spam_score: 0.3
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- TVD_SUBJ_WIPE_DEBT=1.004 autolearn=no autolearn_force=no
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,71 +100,53 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-setAllowedFileTypes is deprecated in macOS 12.
+Both hvf_get_segments/hvf_put_segments() functions are only
+used within x86hvf.c: do not declare them as public API.
 
-Per Akihiko Odaki [*]:
-
-  An image file, which is being chosen by the panel, can be a
-  raw file and have a variety of file extensions and many are not
-  covered by the provided list (e.g. "udf"). Other platforms like
-  GTK can provide an option to open a file with an extension not
-  listed, but Cocoa can't. It forces the user to rename the file
-  to give an extension in the list. Moreover, Cocoa does not tell
-  which extensions are in the list so the user needs to read the
-  source code, which is pretty bad.
-
-Since this code is harming the usability rather than improving it,
-simply remove the [NSSavePanel allowedFileTypes:] call, fixing:
-
-  [2789/6622] Compiling Objective-C object libcommon.fa.p/ui_cocoa.m.o
-  ui/cocoa.m:1411:16: error: 'setAllowedFileTypes:' is deprecated: first deprecated in macOS 12.0 - Use -allowedContentTypes instead [-Werror,-Wdeprecated-declarations]
-      [openPanel setAllowedFileTypes: supportedImageFileTypes];
-                 ^
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSSavePanel.h:215:49: note: property 'allowedFileTypes' is declared deprecated here
-  @property (nullable, copy) NSArray<NSString *> *allowedFileTypes API_DEPRECATED("Use -allowedContentTypes instead", macos(10.3,12.0));
-                                                  ^
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSSavePanel.h:215:49: note: 'setAllowedFileTypes:' has been explicitly marked deprecated here
-  FAILED: libcommon.fa.p/ui_cocoa.m.o
-
-[*] https://lore.kernel.org/qemu-devel/4dde2e66-63cb-4390-9538-c032310db3e3@gmail.com/
-
-Suggested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- ui/cocoa.m | 6 ------
- 1 file changed, 6 deletions(-)
+ target/i386/hvf/x86hvf.h | 2 --
+ target/i386/hvf/x86hvf.c | 4 ++--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 69745c483b4..dec22968815 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -100,7 +100,6 @@ static void cocoa_switch(DisplayChangeListener *dcl,
- static char **gArgv;
- static bool stretch_video;
- static NSTextField *pauseLabel;
--static NSArray * supportedImageFileTypes;
- 
- static QemuSemaphore display_init_sem;
- static QemuSemaphore app_started_sem;
-@@ -1162,10 +1161,6 @@ - (id) init
-         [pauseLabel setTextColor: [NSColor blackColor]];
-         [pauseLabel sizeToFit];
- 
--        // set the supported image file types that can be opened
--        supportedImageFileTypes = [NSArray arrayWithObjects: @"img", @"iso", @"dmg",
--                                 @"qcow", @"qcow2", @"cloop", @"vmdk", @"cdr",
--                                  @"toast", nil];
-         [self make_about_window];
+diff --git a/target/i386/hvf/x86hvf.h b/target/i386/hvf/x86hvf.h
+index 99ed8d608dd..db6003d6bda 100644
+--- a/target/i386/hvf/x86hvf.h
++++ b/target/i386/hvf/x86hvf.h
+@@ -26,11 +26,9 @@ void hvf_set_segment(struct CPUState *cpu, struct vmx_segment *vmx_seg,
+                      SegmentCache *qseg, bool is_tr);
+ void hvf_get_segment(SegmentCache *qseg, struct vmx_segment *vmx_seg);
+ void hvf_put_xsave(CPUState *cpu_state);
+-void hvf_put_segments(CPUState *cpu_state);
+ void hvf_put_msrs(CPUState *cpu_state);
+ void hvf_get_xsave(CPUState *cpu_state);
+ void hvf_get_msrs(CPUState *cpu_state);
+ void vmx_clear_int_window_exiting(CPUState *cpu);
+-void hvf_get_segments(CPUState *cpu_state);
+ void vmx_update_tpr(CPUState *cpu);
+ #endif
+diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
+index 05ec1bddc4e..907f09f1b43 100644
+--- a/target/i386/hvf/x86hvf.c
++++ b/target/i386/hvf/x86hvf.c
+@@ -83,7 +83,7 @@ void hvf_put_xsave(CPUState *cpu_state)
      }
-     return self;
-@@ -1408,7 +1403,6 @@ - (void)changeDeviceMedia:(id)sender
-     openPanel = [NSOpenPanel openPanel];
-     [openPanel setCanChooseFiles: YES];
-     [openPanel setAllowsMultipleSelection: NO];
--    [openPanel setAllowedFileTypes: supportedImageFileTypes];
-     if([openPanel runModal] == NSModalResponseOK) {
-         NSString * file = [[[openPanel URLs] objectAtIndex: 0] path];
-         if(file == nil) {
+ }
+ 
+-void hvf_put_segments(CPUState *cpu_state)
++static void hvf_put_segments(CPUState *cpu_state)
+ {
+     CPUX86State *env = &X86_CPU(cpu_state)->env;
+     struct vmx_segment seg;
+@@ -166,7 +166,7 @@ void hvf_get_xsave(CPUState *cpu_state)
+     x86_cpu_xrstor_all_areas(X86_CPU(cpu_state), xsave, xsave_len);
+ }
+ 
+-void hvf_get_segments(CPUState *cpu_state)
++static void hvf_get_segments(CPUState *cpu_state)
+ {
+     CPUX86State *env = &X86_CPU(cpu_state)->env;
+ 
 -- 
 2.33.1
 
