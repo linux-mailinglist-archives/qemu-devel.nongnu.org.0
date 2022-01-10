@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94E3648A3D9
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 00:43:05 +0100 (CET)
-Received: from localhost ([::1]:39318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8487A48A3C3
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 00:38:58 +0100 (CET)
+Received: from localhost ([::1]:57832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n74Jc-0003FE-LW
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 18:43:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42836)
+	id 1n74Fd-0004n0-KD
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 18:38:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n748W-0003ru-HL
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:31:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34060)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n748X-0003ud-Bh
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:31:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n748U-00008z-PN
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n748V-00009K-O9
  for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:31:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641857494;
+ s=mimecast20190719; t=1641857495;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NuSwDqKg/bbUG6s3ZY2E9hTlUXu4rBc7DyGKnKTOigE=;
- b=cSY9SggQotQ36l23FC6Slk/+yWslLHDkix3TAF+v700XXzdXndaiGq6OcJOY6wSyWyNqVt
- xm8K2sy78fb3QSUTCnDIVGwL5F09nAHSfrRAEufmwqAzXCuhSeOiu4w6J6W/9pXz9AA6ES
- /i6Qfgc/O7eqtcyr/mL/XkfWsWwb9sw=
+ bh=5lSe5ckY9kwe3DbxpzcO3XBuqGw1v8fh2OicCiw7MTU=;
+ b=K66eGgRNNImHBTY0RQg6S7bvrf8SOAafY9m136Lp6aESQr3XetWuanq3bwV7RldUrc2+Lg
+ LAoKltS2DkbZrlNX8hJD5md9s2h6tPW2LK+40vp14fS7P+uhTfq7OppV453ED/hjjeQz65
+ 8GQNeCfTT5Wkb0D0e2w91pbeO+c/UF0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-Cb228NwsPgK8Mxod8y9q6w-1; Mon, 10 Jan 2022 18:31:31 -0500
-X-MC-Unique: Cb228NwsPgK8Mxod8y9q6w-1
+ us-mta-608-PsJ3EeZ6MZaA1pxE-8CysQ-1; Mon, 10 Jan 2022 18:31:32 -0500
+X-MC-Unique: PsJ3EeZ6MZaA1pxE-8CysQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7C1C81CCB4;
- Mon, 10 Jan 2022 23:31:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01F1F760C0;
+ Mon, 10 Jan 2022 23:31:31 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.219])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E2E057B9C5;
- Mon, 10 Jan 2022 23:30:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C98007B035;
+ Mon, 10 Jan 2022 23:31:29 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/31] python/aqmp: add __del__ method to legacy interface
-Date: Mon, 10 Jan 2022 18:28:45 -0500
-Message-Id: <20220110232910.1923864-7-jsnow@redhat.com>
+Subject: [PATCH v3 07/31] python/aqmp: handle asyncio.TimeoutError on execute()
+Date: Mon, 10 Jan 2022 18:28:46 -0500
+Message-Id: <20220110232910.1923864-8-jsnow@redhat.com>
 In-Reply-To: <20220110232910.1923864-1-jsnow@redhat.com>
 References: <20220110232910.1923864-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -64,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,63 +87,45 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-asyncio can complain *very* loudly if you forget to back out of things
-gracefully before the garbage collector starts destroying objects that
-contain live references to asyncio Tasks.
-
-The usual fix is just to remember to call aqmp.disconnect(), but for the
-sake of the legacy wrapper and quick, one-off scripts where a graceful
-shutdown is not necessarily of paramount imporance, add a courtesy
-cleanup that will trigger prior to seeing screenfuls of confusing
-asyncio tracebacks.
-
-Note that we can't *always* save you from yourself; depending on when
-the GC runs, you might just seriously be out of luck. The best we can do
-in this case is to gently remind you to clean up after yourself.
-
-(Still much better than multiple pages of incomprehensible python
-warnings for the crime of forgetting to put your toys away.)
+This exception can be injected into any await statement. If we are
+canceled via timeout, we want to clear the pending execution record on
+our way out.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Beraldo Leal <bleal@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- python/qemu/aqmp/legacy.py | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ python/qemu/aqmp/qmp_client.py | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/python/qemu/aqmp/legacy.py b/python/qemu/aqmp/legacy.py
-index 9e7b9fb80b..2ccb136b02 100644
---- a/python/qemu/aqmp/legacy.py
-+++ b/python/qemu/aqmp/legacy.py
-@@ -16,6 +16,8 @@
- import qemu.qmp
- from qemu.qmp import QMPMessage, QMPReturnValue, SocketAddrT
+diff --git a/python/qemu/aqmp/qmp_client.py b/python/qemu/aqmp/qmp_client.py
+index 8105e29fa8..6a985ffe30 100644
+--- a/python/qemu/aqmp/qmp_client.py
++++ b/python/qemu/aqmp/qmp_client.py
+@@ -435,7 +435,11 @@ async def _issue(self, msg: Message) -> Union[None, str]:
+             msg_id = msg['id']
  
-+from .error import AQMPError
-+from .protocol import Runstate
- from .qmp_client import QMPClient
+         self._pending[msg_id] = asyncio.Queue(maxsize=1)
+-        await self._outgoing.put(msg)
++        try:
++            await self._outgoing.put(msg)
++        except:
++            del self._pending[msg_id]
++            raise
  
+         return msg_id
  
-@@ -136,3 +138,19 @@ def settimeout(self, timeout: Optional[float]) -> None:
+@@ -452,9 +456,9 @@ async def _reply(self, msg_id: Union[str, None]) -> Message:
+             was lost, or some other problem.
+         """
+         queue = self._pending[msg_id]
+-        result = await queue.get()
  
-     def send_fd_scm(self, fd: int) -> None:
-         self._aqmp.send_fd_scm(fd)
-+
-+    def __del__(self) -> None:
-+        if self._aqmp.runstate == Runstate.IDLE:
-+            return
-+
-+        if not self._aloop.is_running():
-+            self.close()
-+        else:
-+            # Garbage collection ran while the event loop was running.
-+            # Nothing we can do about it now, but if we don't raise our
-+            # own error, the user will be treated to a lot of traceback
-+            # they might not understand.
-+            raise AQMPError(
-+                "QEMUMonitorProtocol.close()"
-+                " was not called before object was garbage collected"
-+            )
+         try:
++            result = await queue.get()
+             if isinstance(result, ExecInterruptedError):
+                 raise result
+             return result
 -- 
 2.31.1
 
