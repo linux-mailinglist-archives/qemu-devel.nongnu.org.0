@@ -2,99 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 227974896E2
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 12:01:10 +0100 (CET)
-Received: from localhost ([::1]:49350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D7794896EC
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 12:04:13 +0100 (CET)
+Received: from localhost ([::1]:53148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6sQG-0006qO-Oc
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 06:01:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48178)
+	id 1n6sTD-00016Y-L0
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 06:04:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n6sOZ-0005vh-GH
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 05:59:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57512)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1n6sQh-0007kN-JI
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 06:01:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n6sOV-0001WW-Pz
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 05:59:22 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1n6sQf-000240-Va
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 06:01:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641812358;
+ s=mimecast20190719; t=1641812488;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vuTYfzt/zrExOGomK9Ykgb/hatF6ywDrGXJi4o2RI8s=;
- b=Vl/ZzErduJU5Jq/AlnOd1HB7ijgct4vxOwGwTGyvxQ3X9QkffbZms0DULAEDeKlJwUNypl
- rQN84DyD91zhBuKtsjjob489w/z43WqjPkrUoThhFcS+V6hEq4zAMUbFrrK9yWgcDkU67d
- 7VglCXPCdDuc4dap5FZgQFlDiC33jf0=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=+PA8Vg//oTzHEGQwEE7hFyLmXJdElvmOjQHkElYPEaI=;
+ b=QeRbGIDMhn+rUGFpDOdHOPidtTxCn/3ZdHvl/+GQS/46Z5xf23mQu7q1hseZ3kB9t6M707
+ 8sUZvmREV+VUY3MonjX61pFMlO0q1tQiRN2yS3Y5uueAg5rNvnpJiiXk9KLdzONHYYFJ2Y
+ W/lTpQ20A/zMebdBxMWSeqv5ePyJfm0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-478-vwb-blIXOeyGYKbWYUGR1Q-1; Mon, 10 Jan 2022 05:59:16 -0500
-X-MC-Unique: vwb-blIXOeyGYKbWYUGR1Q-1
-Received: by mail-ed1-f69.google.com with SMTP id
- o20-20020a056402439400b003f83cf1e472so9809431edc.18
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 02:59:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:organization:subject
- :in-reply-to:content-transfer-encoding;
- bh=vuTYfzt/zrExOGomK9Ykgb/hatF6ywDrGXJi4o2RI8s=;
- b=M1/Dc+uLl12XsTvISTekZzfUQ2uYrcj2VjRIP+a3OGb7BFaFEtj34kJ0gmCajbgPtz
- gi40AfifEX77NWxqDy75XIr83wzUNwuN6uG820Zhpche3alXMUEfQktSFwsofLwmfZJy
- iNT7ajiRD/2XQKoSOEQ12iMI7oGITSwnNTWCysIqV3HYXg/EVxhaFyyHOt1GloEFs+3J
- 5nDsuO63pwXHLa7W+gY3itORwc7XmOOgDyAQn70m/IhnUz6VonM0uOdrQqsYm7TopjIZ
- fHbLkgzEt9VhGLrkOxhud3AoGkob/qoeBNcp/pHFzn1aLOEwOHn3qVa67oss0WXbeTVS
- UBzg==
-X-Gm-Message-State: AOAM533AgwJXLTSBly3LZksg8eD03ZH4UX3cpGyNyGq9mL74J6cBkGnH
- HPUVNlkpvUFhUUAeg4+rE8zpQ0+o5msX9KaMilAZmvEjSaGNf4aO9vp6jzcJpoJVKYwuqRknIJo
- 2rp4DTbZlJYZId0w=
-X-Received: by 2002:a17:906:dc8e:: with SMTP id
- cs14mr3924938ejc.590.1641812355560; 
- Mon, 10 Jan 2022 02:59:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzwXVrysiNepn36nT0okpbJCS8rLWYTuSifIIR5cwaWhQa6p+3Q6CqkAYXeRBzdHds99EcuCg==
-X-Received: by 2002:a17:906:dc8e:: with SMTP id
- cs14mr3924913ejc.590.1641812355218; 
- Mon, 10 Jan 2022 02:59:15 -0800 (PST)
-Received: from ?IPV6:2003:cb:c701:cf00:ac25:f2e3:db05:65c3?
- (p200300cbc701cf00ac25f2e3db0565c3.dip0.t-ipconnect.de.
- [2003:cb:c701:cf00:ac25:f2e3:db05:65c3])
- by smtp.gmail.com with ESMTPSA id o12sm3422383edz.71.2022.01.10.02.59.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Jan 2022 02:59:14 -0800 (PST)
-Message-ID: <cc6bae57-c2d0-327f-7cba-55029727b1ca@redhat.com>
-Date: Mon, 10 Jan 2022 11:59:13 +0100
+ us-mta-613-sjwusAxaPwCaUnHnsW-kDA-1; Mon, 10 Jan 2022 06:01:24 -0500
+X-MC-Unique: sjwusAxaPwCaUnHnsW-kDA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF98E69737;
+ Mon, 10 Jan 2022 11:01:22 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.193.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FEE0752AA;
+ Mon, 10 Jan 2022 11:01:22 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id A76E818003A0; Mon, 10 Jan 2022 12:01:20 +0100 (CET)
+Date: Mon, 10 Jan 2022 12:01:20 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Subject: Re: [RFC PATCH v2 20/44] i386/tdx: Parse tdx metadata and store the
+ result into TdxGuestState
+Message-ID: <20220110110120.ldjekirdzgmgex4z@sirius.home.kraxel.org>
+References: <cover.1625704980.git.isaku.yamahata@intel.com>
+ <acaf651389c3f407a9d6d0a2e943daf0a85bb5fc.1625704981.git.isaku.yamahata@intel.com>
+ <20210826111838.fgbp6v6gd5wzbnho@sirius.home.kraxel.org>
+ <a97a75ad-9d1c-a09f-281b-d6b0a7652e78@intel.com>
+ <4eb6a628-0af6-409b-7e42-52787ee3e69d@redhat.com>
+ <e74fcb88-3add-4bb7-4508-742db44fa3c8@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-To: Peter Maydell <peter.maydell@linaro.org>, Gavin Shan <gshan@redhat.com>
-References: <20211203233404.37313-1-gshan@redhat.com>
- <20211203233404.37313-3-gshan@redhat.com>
- <CAFEAcA8hd000vwp8A602uw4yueea4uU0xttELcC8sn34X+N5-A@mail.gmail.com>
- <3528fa8b-bfa6-2127-dfe6-4135b3b0989f@redhat.com>
- <CAFEAcA_qW9d9ACZFEi+K+yKJMPAESMQyU+O5JLOL934gdXk-Vg@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v3 2/2] hw/arm/virt: Support for virtio-mem-pci
-In-Reply-To: <CAFEAcA_qW9d9ACZFEi+K+yKJMPAESMQyU+O5JLOL934gdXk-Vg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e74fcb88-3add-4bb7-4508-742db44fa3c8@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,78 +80,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: drjones@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- eric.auger@redhat.com, qemu-arm@nongnu.org, shan.gavin@gmail.com,
- jonathan.cameron@huawei.com, imammedo@redhat.com
+Cc: isaku.yamahata@intel.com, cohuck@redhat.com, ehabkost@redhat.com,
+ kvm@vger.kernel.org, mst@redhat.com, seanjc@google.com, alistair@alistair23.me,
+ qemu-devel@nongnu.org, mtosatti@redhat.com, "Min M . Xu" <min.m.xu@intel.com>,
+ erdemaktas@google.com, pbonzini@redhat.com, Laszlo Ersek <lersek@redhat.com>,
+ isaku.yamahata@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10.01.22 11:50, Peter Maydell wrote:
-> On Sat, 8 Jan 2022 at 07:22, Gavin Shan <gshan@redhat.com> wrote:
->>
->> Hi Peter,
->>
->> On 1/8/22 12:40 AM, Peter Maydell wrote:
->>> On Fri, 3 Dec 2021 at 23:34, Gavin Shan <gshan@redhat.com> wrote:
->>>> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
->>>> index b20595a496..21e4d572ab 100644
->>>> --- a/hw/virtio/virtio-mem.c
->>>> +++ b/hw/virtio/virtio-mem.c
->>>> @@ -125,7 +125,7 @@ static uint64_t virtio_mem_default_block_size(RAMBlock *rb)
->>>>    * The memory block size corresponds mostly to the section size.
->>>>    *
->>>>    * This allows e.g., to add 20MB with a section size of 128MB on x86_64, and
->>>> - * a section size of 1GB on arm64 (as long as the start address is properly
->>>> + * a section size of 512MB on arm64 (as long as the start address is properly
->>>>    * aligned, similar to ordinary DIMMs).
->>>>    *
->>>>    * We can change this at any time and maybe even make it configurable if
->>>> @@ -134,6 +134,8 @@ static uint64_t virtio_mem_default_block_size(RAMBlock *rb)
->>>>    */
->>>>   #if defined(TARGET_X86_64) || defined(TARGET_I386)
->>>>   #define VIRTIO_MEM_USABLE_EXTENT (2 * (128 * MiB))
->>>> +#elif defined(TARGET_ARM)
->>>> +#define VIRTIO_MEM_USABLE_EXTENT (2 * (512 * MiB))
->>>>   #else
->>>>   #error VIRTIO_MEM_USABLE_EXTENT not defined
->>>>   #endif
->>>
->>> Could this comment explain where the 128MB and 512MB come from
->>> and why the value is different for different architectures ?
->>>
->>
->> Yes, the comment already explained it by "section size", which is the
->> minimal hotpluggable unit. It's defined by the linux guest kernel as
->> below. On ARM64, we pick the larger section size without considering
->> the base page size. Besides, the virtio-mem is/will-be enabled on
->> x86_64 and ARM64 guest kernel only.
+> > If you go without pflash, then you likely will not have a
+> > standards-conformant UEFI variable store. (Unless you reimplement the
+> > variable arch protocols in edk2 on top of something else than the Fault
+> > Tolerant Write and Firmware Volume Block protocols.) Whether a
+> > conformant UEFI varstore matters to you (or to TDX in general) is
+> > something I can't comment on.
 > 
-> Oh, so "section" is a Linux kernel concept? It wasn't clear to me
-> that that was a fixed value rather than something we were arbitrarily
-> defining in QEMU.
+> Thanks for your reply! Laszlo
+> 
+> regarding "standards-conformant UEFI variable store", I guess you mean the
+> change to UEFI non-volatile variables needs to be synced back to the
+> OVMF_VARS.fd file. right?
 
-It's somewhat an arbitrary value, as the section size can change in the
-future, and there are other memory hotplug granularity restrictions on
-some architectures (e.g., x86 with boot memory size of >64GiB can
-usually only hotplug in 2 GiB granularity, not 128 MiB granularity). So
-what we're doing here is really best-effort for Linux guests we expect.
-As the comment states, we can always change that magic value in the
-future if there is need to (e.g., increase it to granularity we expect).
+Yes.  UEFI variables are expected to be persistent, and syncing to
+OVMF_VARS.fd handles that.
 
-If our guesstimate is wrong, the guest won't be able to hotplug all
-requested device memory, until we actually increase the requested size
-such that it gets again possible for the VM.
+Not fully sure whenever that expectation holds up in the CC world.  At
+least the AmdSev variant has just OVMF.fd, i.e. no CODE/VARS split.
 
-We'd be running into similar issues when trying hotplug of a 128MiB DIMM
-to an arm64 64k guest: Linux guests can currently only hotplug 512 MiB
-granularity in such a setup and smaller DIMMs can simply not be exposed
-to the page alloator and remain essentially unusable. But in contrast to
-DIMMs, with virtio-mem we can actually detect that the guest cannot make
-use of that memory, figure out why, and optimize.
+> > Regarding pflash itself, the read-only KVM memslot is required for it.
+> > Otherwise pflash cannot work as a "ROMD device" (= you can't flip it
+> > back and forth between ROM mode and programming (MMIO) mode).
+> 
+> We don't need Read-only mode for TDVF so far. If for this purpose, is it
+> acceptable that allowing a pflash without KVM readonly memslot support if
+> read-only is not required for the specific pflash device?
 
--- 
-Thanks,
+In case you don't want/need persistent VARS (which strictly speaking is
+a UEFI spec violation) you should be able to go for a simple "-bios
+OVMF.fd".
 
-David / dhildenb
+take care,
+  Gerd
 
 
