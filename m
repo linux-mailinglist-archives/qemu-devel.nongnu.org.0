@@ -2,156 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 986E848A338
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 23:54:40 +0100 (CET)
-Received: from localhost ([::1]:51026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A57D48A35C
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 00:01:47 +0100 (CET)
+Received: from localhost ([::1]:36484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n73Yl-0000mp-Fo
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 17:54:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33330)
+	id 1n73fe-0002Zh-2o
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 18:01:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1n73NC-0004nW-C0
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 17:42:42 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:52216)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1n73NA-0001rH-Jm
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 17:42:42 -0500
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20AJlXq1026175; 
- Mon, 10 Jan 2022 22:42:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : content-type :
- mime-version; s=corp-2021-07-09;
- bh=E+rS39w79vEBgcAmwymFGAgyYWbmDO9DbC0xVdIH+cc=;
- b=gyIXYvJup6uc8p/QwFiN2S0/Ah5NWyoXPJqASiPquGwdda4hEry6zXiIugm9l/ogB4aq
- oyfOzgfDfuGNgwMfGYulKPtAe5ICshfXwDlYqL5Zn65KdKAPSsmLe1wAgYO1thpG0QWx
- vNsURVn8rpBigDy8uBurRI6wM8G5wVno2N/1Y7AlRjziXFtCzn+JDHiKRrhxa3r+e99X
- KYDdvKPGLLxJQVjU8iJi8ctH2thHcm49ixboDISKX11R9MIvXk2hPT4Va4Sveipiz6Qz
- xIqXVBpOrXbQbvR2sN+6eaCfvqOaGf04uupbsGUIA8NO5s+PeN7Kx56PjFjKel7JgzNG UA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3dgjtg9uy2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 10 Jan 2022 22:42:37 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20AMZuRL086420;
- Mon, 10 Jan 2022 22:42:37 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2043.outbound.protection.outlook.com [104.47.66.43])
- by aserp3020.oracle.com with ESMTP id 3df2e3x2sf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 10 Jan 2022 22:42:36 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QNHSVDSdMnNwlpg8XdrrlpYpXfB/Ru9LxrtcYkhiJA+H1AWGKRcvFpEzh10Ppa4/lUXzyqpkm2100U55ygUWObTExWLQGHF40UgBNRkRrfbcwPiYEKFM1vF3rwZcoWSk9KuNj6Nx4wQDl6G7B9nqAIz/6ws9Cu/9i7YMPBNXifE0Om0LNVpQI/XA0l0GaDof13THrdlaJKctm4T/8P6XGK4G8E9Bc/1p/T5mzW+0v/SSdoL4YXOCEh3pakN2+/a3rdFBdbZNJtk1pTcEMNYrarA2Ae/rKc83VQYSnqSYJHavE8E1YpAe/6dtfd0z2vmMCBGbaPmxsUeYQQiAyhI7Kg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E+rS39w79vEBgcAmwymFGAgyYWbmDO9DbC0xVdIH+cc=;
- b=AUly0xhubdWA4OQiklOVK/oJgfTM5X76sRTt3S9iDCT4s53aOrKsk9n8A8/fDWYTEkfc5OXDde5msSOsF52781vGoo46xqgXOfj3RgOo54yDDWDxQdefKvCSQuo08nJnd42a9iapnyEw1jfVKOVZq4O5wNkIHUm0z9km/niikuRIdC07EncnS4OKhI7GZoGYiFZoX3nlSMUJ2UjnKIycLTlTdPydZ6ONvfBTCYkd5EwTmCEr7XwFDbTG6aUsxAJcI8PDUirSQlthilNZvjnsTHfd+hH+mgQsJldGUP18AtXkQNRNPLfK4edr9jYKNs0I03xHV4gIpZRNX4BMgEVcEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1n73Nb-00061k-04
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 17:43:07 -0500
+Received: from [2a00:1450:4864:20::52e] (port=34799
+ helo=mail-ed1-x52e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1n73NY-0001u6-Tn
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 17:43:06 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id u25so59764470edf.1
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 14:43:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E+rS39w79vEBgcAmwymFGAgyYWbmDO9DbC0xVdIH+cc=;
- b=uM9vloNCwFkBJCStG3ZRD6IUo6C+vbuXUssxHmzbbp+EogWWHhi+axt0p8yj+BockQunb1CIaaGmO5G/XDty2M5yuP7ykFGFfbhGpCq1bhC3KEAVrgVLrOiyObiq5TIrTrVTxEL0P4EuZ4I1sOM9T5fb2vZKfC6n+JhxEr1W3xs=
-Received: from CO1PR10MB4531.namprd10.prod.outlook.com (2603:10b6:303:6c::22)
- by MWHPR10MB1600.namprd10.prod.outlook.com (2603:10b6:300:27::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4867.7; Mon, 10 Jan
- 2022 22:42:35 +0000
-Received: from CO1PR10MB4531.namprd10.prod.outlook.com
- ([fe80::d573:6cc0:c616:6f2c]) by CO1PR10MB4531.namprd10.prod.outlook.com
- ([fe80::d573:6cc0:c616:6f2c%6]) with mapi id 15.20.4867.012; Mon, 10 Jan 2022
- 22:42:34 +0000
-From: Eric DeVolder <eric.devolder@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v12 9/9] ACPI ERST: bios-tables-test testcase
-Date: Mon, 10 Jan 2022 17:42:04 -0500
-Message-Id: <1641854524-11009-10-git-send-email-eric.devolder@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1641854524-11009-1-git-send-email-eric.devolder@oracle.com>
-References: <1641854524-11009-1-git-send-email-eric.devolder@oracle.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0P220CA0029.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:41b::13) To CO1PR10MB4531.namprd10.prod.outlook.com
- (2603:10b6:303:6c::22)
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2uHLDQk8SpMqdqb9PogmmvmND1D39rIz23sn/JH0KVw=;
+ b=VzRdv1h8qlZbKLvjgbrmR1mdjIUR7kaUbaVFioNRNnQWsUhB61LKgTNQUskGe1oOda
+ lM9Nh1o2L5A9ZfEcNHUYED0lE6MNVkqlHLVTzBQdTX1cS8wFEhZpGsfTSNBAOtZ5ICqB
+ rGNrpfMtwXSXeKJOWMQRNkWNsOYS2qW5/Y/A7YZ78oOoT2ElsYr6nsigXJGxSXjlEfLB
+ lT3kluhZ5xuwvuwPJKo/exSAxI9ZopOn/fr0y4udtmLMvhT62a6FBZw9GMqqhJojUwOq
+ UD142AUz9D/a1pn6jCWsWm4WSgvZ06QSvPZGNnLTbYyTDTgDjT2vrAKSRXSsRQjQSqhT
+ Gsmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2uHLDQk8SpMqdqb9PogmmvmND1D39rIz23sn/JH0KVw=;
+ b=ueezquXyu5Zy+UL87/bePUjbbFA2pSh31wZC2hy+0h6eZRro/STTkMMZbekeXfNBRv
+ EPFDkb3Mf6chaGi30juuZkeOtwh/SV7J5RVzzOR3gL9it4fHC12wvq//ccPYjVcUuDBq
+ RUR2MPvK/zNIokvPK4mU0RWb/QRJxSdpSQd5UHQcJVz95kPpOT2ZdP1kaDCvefmPdqWk
+ qPmgN7BDjOmYbfeeeg0dElT/4C36m36/EazyCavW8iKGdeTqBZdRAMbbbPF48LD+b2EO
+ Da0eJnfGotTfdzqYOzGZEMb/0f8J/AMKke9ia408ZVoE3jRogzzLs70ts88ohIlAU1S6
+ qqDw==
+X-Gm-Message-State: AOAM5310/BQmmvXR8bXRA/VBhEN6/nPzwAnE5Py2GTOERm8lY/OgCFkS
+ j+vP09XG1a8gfVCJ0cG0bmahOj0E4FdW2u3VYYyv1w==
+X-Google-Smtp-Source: ABdhPJzFRtIEhnfwwtkJmBiwuiQJ6MQ/QPD/HCL5xv5rlJXqCVAXmsuLn8cjOpI/2IsOy7DmCPnR5ng00CVmSNTgOJ0=
+X-Received: by 2002:a17:906:d93:: with SMTP id
+ m19mr1401197eji.34.1641854583477; 
+ Mon, 10 Jan 2022 14:43:03 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9c381340-0f4c-46cd-8349-08d9d48a7e8f
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1600:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR10MB1600AFB7DC8A801FA7DDEAB297509@MWHPR10MB1600.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:415;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EGPoeQc4s9i+vwOpkaRrlMZ0j4CSCWjkWfE/wzSTJh+L653YLDmqBJMd2rtwbEV7uu1NwoN7FJDxN8yFdUlwCZK1RVewAiBO60BZGRTkX3FRgAgyERrevYYFzeVz3VUJW58pKgcNi93vkpauJJkytNcAB/rD7G+9dHgTRdSxSMNnNoHMvlf6DlegBVkmCcVPv833mvvgQDi+jIpiJg1zgv7RRg8iGk2t/1b+TZR/lWNcnauNZ7qrcHTgAOgT1JhPyR607YzSXxbZiYdlEyQkzgwcSXA32uuxR7eaxgoWTj8F+sEtFcyC3c0p4HF0LUjyRvsAIBJRhUqxVHjdrVNh4zqxxuD4Unr8LIphZJ3wuFbYapY3WxpeOJ0hwmhI6pvTrS5SSZ2XJZhQycNKQiZuUw/4E9iETDq7YRmdUr4mbvm42FM3UrI8zWCmO4/Z955ixz/ZHNVvif7m8WX9fHo4+UHGJeib7f47t5yS/zeYw8ZbyXv22VDhTLxXKGcF1yfkqHh6C3ulIxNNgGQh47c5ZZA9oJ4oLkoFcC7GQg8J8WV+jCjJ1dXBjr90ByWIiuxO1/eByJW/C2zF24Iyzp1aTG9gsL0pW+SyT6hDt/tDeA9+swPRcrqY3VzRZ6GAovDTOioFET75YwHwYpN0Bk9LVBanKnHmWTYyhs4Rypp4Aec+STkkSI3XxZJryPHPcNKslB+m1w/4VdIYGmWE5zj2eA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO1PR10MB4531.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(86362001)(8676002)(6486002)(66556008)(38100700002)(38350700002)(36756003)(8936002)(66946007)(316002)(2906002)(6916009)(5660300002)(66476007)(52116002)(6506007)(107886003)(186003)(508600001)(26005)(4326008)(6666004)(2616005)(6512007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PXu9mzpFGUjgmFWwruVyAtn2ClkhbrJF5XsEgMn0GdkaVLhiM3IlVQ9daDvJ?=
- =?us-ascii?Q?Y0/NCVTG97HOSGfhRHlumfFg1CRBM1WM0hAYLat79jT9YfbtZzv7GlmdGtlZ?=
- =?us-ascii?Q?4UYKngZh6OGtrdDnbAqDVDXWFsE8HwyhNTOXzg0EI9QmK0OALT5VHpY+SaN/?=
- =?us-ascii?Q?I+2l5ip+lubAMTDeLxTy9X/vdDGHwXMAvRVhTbHb56QAMXNt5gIakRcK0qmS?=
- =?us-ascii?Q?LaQFmaxGtY9zsLD/RrqYH1K6Fs0T90GyNg8STkZd9SROAOGaHLMlNLE3J52V?=
- =?us-ascii?Q?+slkgHVdipriWlkoRvUaoyCDjhoAs6NpabO9gFiNeQOY25wQW5c//Rd57HX8?=
- =?us-ascii?Q?0GB48E1gnfAbiZXEeRbgSgIPXRGd+ZKIzX3aaoy1yDGBCjfQs90QbtCW6fCm?=
- =?us-ascii?Q?Z+WRf45RB4CENlSSI/0llpsAOUokTEEwGPGqOiKfIZqpTNf5YxpZ3cXQua2O?=
- =?us-ascii?Q?TIfIKco3gqNEib4iVKTnWIUGZriCr7kCrPkph6JjHw7Rs2RjesLLb5qlL5Q9?=
- =?us-ascii?Q?AapvPtwPCXgw7UhbTlS6EyauewEtkeh3UNrkGv+MqBJ2nqQWCxuTvgRW2E3E?=
- =?us-ascii?Q?aABuZMuT9ECNRSWcjxyZXKuAliKv+9g5DswnusStj97zxIGpdGwyGtVDA9m6?=
- =?us-ascii?Q?fDJwyikK4LRMisoURLSyHi0O6+L/6OQKv1Hi5ddewNhOJXkLTprRTIcCEGzZ?=
- =?us-ascii?Q?+MYGglL7RyEQiSLDEU6QyhN4rF13LU+X1Orjo6+Tv5XjNtQh7JeF35bSZZWl?=
- =?us-ascii?Q?WLiqWtJHu3DDw5H+nxAE5AG4w7wxkiAd1L6t3VBIvgx4yJUCH5mF6L//JUok?=
- =?us-ascii?Q?TEZ/RKQb4FeTpnKYrkOT77FrNVG9Z9dNix0w54to5p4v3tOJmMPsIu2i2uKW?=
- =?us-ascii?Q?gZq+M3COfPsqDMLpVJTH+D6om/weBRns1lFgV4qAu+qyjL6egv+YNq4xskBB?=
- =?us-ascii?Q?XRFMydGIG5cQ3D9mENO6w2vNALLikggX+kpS0x2iSeTAId6li65Jue0ILgio?=
- =?us-ascii?Q?TewiviCSV4yRq0yw7Yfy2ysu9lp9PQy72sVwCsvyLzpeBCuB0N3TFY5i7yX/?=
- =?us-ascii?Q?R/Co3HJWN071XEvkYr9A371EM+g2HrPgkje/51/Ss0eiewfc8SsPCa9Nt4Gt?=
- =?us-ascii?Q?MUuhd72WW6yNyqZpu2ZV96WPuQevA8sGGoowELjSzrrrlZKE05r+RGq8DMjn?=
- =?us-ascii?Q?AtyqYZwYx/EvtdGnuG6W2l7v8Ok4bUW/nevbEbQADU06XF51+70BB3eGI1LY?=
- =?us-ascii?Q?e/ooX+mh0cofNOwDuaVvxDniCf+MVkD/3FqtZwweTESGIcGSpq5MbAsT/nwe?=
- =?us-ascii?Q?gHj2WI90A3jsnaW3aq/6+2lIED9Tz4hdzv6JhjvWiRMlz1yxenvECLe35+IP?=
- =?us-ascii?Q?y7nAUjRHJqzrqmC73VmZC1aQCedmQmeTm7R4bz8LWuzxU/pAnRqJdAD0XQ30?=
- =?us-ascii?Q?YLbZLlCYfnJEUN3C0pS9DloBl6v0GC8zJbUdnrKjS7HC97eNFxW0PmqYLi8x?=
- =?us-ascii?Q?OuLMm8DbX1L+9nvCUQQnPkuofhwz8bhZJFVWuDs5XnuXUAZ5QkBmGyLNoNvM?=
- =?us-ascii?Q?Mt4hQ8mW4pORWD3PpWSRARRXEhdPFS4HqJhXXWvZX1Mjbb4TNBAjjIOatfpc?=
- =?us-ascii?Q?+TavD+a9Ilipv67JrK28z42HFd3uNPsqYmMtIrriwONuv0Uqy5qpDQcgIex+?=
- =?us-ascii?Q?NA15hQ=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9c381340-0f4c-46cd-8349-08d9d48a7e8f
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4531.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2022 22:42:34.9338 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tQz99agc1IcIxHfSrhYln1E7K+36XETqu2qwY/dnIdjMhbNy2xdqi1DqBwwImzSO/sytFoMtUCWkbslQFC46qmI52rjuOHEUroRfjwmITLU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1600
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10223
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxscore=0 adultscore=0
- suspectscore=0 mlxlogscore=962 bulkscore=0 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2201100146
-X-Proofpoint-GUID: 1P7mjAVd5rmN8qg5HA0Y2SoHAxtCC0fF
-X-Proofpoint-ORIG-GUID: 1P7mjAVd5rmN8qg5HA0Y2SoHAxtCC0fF
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=eric.devolder@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220107004846.378859-1-atishp@rivosinc.com>
+ <20220107004846.378859-12-atishp@rivosinc.com>
+ <CAEUhbmUK5=M2HL2Zya_Or+yMCVgTZdOUm1LicYE=RRQXsJV=mQ@mail.gmail.com>
+In-Reply-To: <CAEUhbmUK5=M2HL2Zya_Or+yMCVgTZdOUm1LicYE=RRQXsJV=mQ@mail.gmail.com>
+From: Atish Kumar Patra <atishp@rivosinc.com>
+Date: Mon, 10 Jan 2022 14:42:52 -0800
+Message-ID: <CAHBxVyEi=isSuH-u0tGRRG9V5AcxG+V2tCiHUnrw72V16Wfpkw@mail.gmail.com>
+Subject: Re: [PATCH v4 11/11] hw/riscv: virt: Add PMU DT node to the device
+ tree
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=atishp@rivosinc.com; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -164,100 +83,210 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
- konrad.wilk@oracle.com, pbonzini@redhat.com, ani@anisinha.ca,
- imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This change implements the test suite checks for the ERST table.
+On Sun, Jan 9, 2022 at 11:55 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Fri, Jan 7, 2022 at 10:27 AM Atish Patra <atishp@rivosinc.com> wrote:
+> >
+> > Qemu virt machine can support few cache events and cycle/instret counters.
+> > It also supports counter overflow for these events.
+> >
+> > Add a DT node so that OpenSBI/Linux kernel is aware of the virt machine
+> > capabilities. There are some dummy nodes added for testing as well.
+> >
+> > Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> > ---
+> >  hw/riscv/virt.c    | 38 ++++++++++++++++++++++++++++++++++++++
+> >  target/riscv/pmu.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
+> >  target/riscv/pmu.h |  1 +
+> >  3 files changed, 84 insertions(+)
+> >
+> > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> > index 3af074148ef4..99154199091c 100644
+> > --- a/hw/riscv/virt.c
+> > +++ b/hw/riscv/virt.c
+> > @@ -28,6 +28,7 @@
+> >  #include "hw/qdev-properties.h"
+> >  #include "hw/char/serial.h"
+> >  #include "target/riscv/cpu.h"
+> > +#include "target/riscv/pmu.h"
+> >  #include "hw/riscv/riscv_hart.h"
+> >  #include "hw/riscv/virt.h"
+> >  #include "hw/riscv/boot.h"
+> > @@ -406,6 +407,33 @@ static void create_fdt_socket_plic(RISCVVirtState *s,
+> >      g_free(plic_cells);
+> >  }
+> >
+> > +static void create_fdt_socket_pmu(RISCVVirtState *s,
+> > +                                  int socket, uint32_t *phandle,
+> > +                                  uint32_t *intc_phandles)
+> > +{
+> > +    int cpu;
+> > +    char *pmu_name;
+> > +    uint32_t *pmu_cells;
+> > +    MachineState *mc = MACHINE(s);
+> > +    RISCVCPU hart = s->soc[socket].harts[0];
+> > +
+> > +    pmu_cells = g_new0(uint32_t, s->soc[socket].num_harts * 2);
+> > +
+> > +    for (cpu = 0; cpu < s->soc[socket].num_harts; cpu++) {
+> > +        pmu_cells[cpu * 2 + 0] = cpu_to_be32(intc_phandles[cpu]);
+> > +        pmu_cells[cpu * 2 + 1] = cpu_to_be32(IRQ_PMU_OVF);
+> > +    }
+> > +
+> > +    pmu_name = g_strdup_printf("/soc/pmu");
+> > +    qemu_fdt_add_subnode(mc->fdt, pmu_name);
+> > +    qemu_fdt_setprop_string(mc->fdt, pmu_name, "compatible", "riscv,pmu");
+> > +    riscv_pmu_generate_fdt_node(mc->fdt, hart.cfg.pmu_num, pmu_name);
+> > +
+> > +    g_free(pmu_name);
+> > +    g_free(pmu_cells);
+> > +}
+> > +
+> > +
+> >  static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
+> >                                 bool is_32_bit, uint32_t *phandle,
+> >                                 uint32_t *irq_mmio_phandle,
+> > @@ -417,12 +445,20 @@ static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
+> >      uint32_t *intc_phandles;
+> >      MachineState *mc = MACHINE(s);
+> >      uint32_t xplic_phandles[MAX_NODES];
+> > +    RISCVCPU hart;
+> >
+> >      qemu_fdt_add_subnode(mc->fdt, "/cpus");
+> >      qemu_fdt_setprop_cell(mc->fdt, "/cpus", "timebase-frequency",
+> >                            RISCV_ACLINT_DEFAULT_TIMEBASE_FREQ);
+> >      qemu_fdt_setprop_cell(mc->fdt, "/cpus", "#size-cells", 0x0);
+> >      qemu_fdt_setprop_cell(mc->fdt, "/cpus", "#address-cells", 0x1);
+> > +
+> > +    /* Add the node for isa extensions discovery */
+> > +    qemu_fdt_add_subnode(mc->fdt, "/cpus/riscv,isa-ext");
+>
+> Looks like the ongoing discussion does not support this idea
+> https://lore.kernel.org/linux-riscv/20211224211632.1698523-1-atishp@rivosinc.com/
+>
 
-Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
----
- tests/qtest/bios-tables-test.c | 54 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
+Yes. Palmer's comment arrived after I sent out the Qemu series. I will
+fix that in the next
+version once we have string parsing (riscv,isa) ready.
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index e6b72d9..266b215 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1446,6 +1446,57 @@ static void test_acpi_piix4_tcg_acpi_hmat(void)
-     test_acpi_tcg_acpi_hmat(MACHINE_PC);
- }
- 
-+static void test_acpi_erst(const char *machine)
-+{
-+    gchar *tmp_path = g_dir_make_tmp("qemu-test-erst.XXXXXX", NULL);
-+    gchar *params;
-+    test_data data;
-+
-+    memset(&data, 0, sizeof(data));
-+    data.machine = machine;
-+    data.variant = ".acpierst";
-+    params = g_strdup_printf(
-+        " -object memory-backend-file,id=erstnvram,"
-+            "mem-path=%s,size=0x10000,share=on"
-+        " -device acpi-erst,memdev=erstnvram", tmp_path);
-+    test_acpi_one(params, &data);
-+    free_test_data(&data);
-+    g_free(params);
-+    g_assert(g_rmdir(tmp_path) == 0);
-+    g_free(tmp_path);
-+}
-+
-+static void test_acpi_piix4_acpi_erst(void)
-+{
-+    test_acpi_erst(MACHINE_PC);
-+}
-+
-+static void test_acpi_q35_acpi_erst(void)
-+{
-+    test_acpi_erst(MACHINE_Q35);
-+}
-+
-+static void test_acpi_microvm_acpi_erst(void)
-+{
-+    gchar *tmp_path = g_dir_make_tmp("qemu-test-erst.XXXXXX", NULL);
-+    gchar *params;
-+    test_data data;
-+
-+    test_acpi_microvm_prepare(&data);
-+    data.variant = ".pcie";
-+    data.tcg_only = true; /* need constant host-phys-bits */
-+    params = g_strdup_printf(" -machine microvm,"
-+        "acpi=on,ioapic2=off,rtc=off,pcie=on"
-+        " -object memory-backend-file,id=erstnvram,"
-+           "mem-path=%s,size=0x10000,share=on"
-+        " -device acpi-erst,memdev=erstnvram", tmp_path);
-+    test_acpi_one(params, &data);
-+    g_free(params);
-+    g_assert(g_rmdir(tmp_path) == 0);
-+    g_free(tmp_path);
-+    free_test_data(&data);
-+}
-+
- static void test_acpi_virt_tcg(void)
- {
-     test_data data = {
-@@ -1675,6 +1726,8 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
-         qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
-         qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
-+        qtest_add_func("acpi/piix4/acpierst", test_acpi_piix4_acpi_erst);
-+        qtest_add_func("acpi/q35/acpierst", test_acpi_q35_acpi_erst);
-         qtest_add_func("acpi/microvm", test_acpi_microvm_tcg);
-         qtest_add_func("acpi/microvm/usb", test_acpi_microvm_usb_tcg);
-         qtest_add_func("acpi/microvm/rtc", test_acpi_microvm_rtc_tcg);
-@@ -1684,6 +1737,7 @@ int main(int argc, char *argv[])
-             qtest_add_func("acpi/q35/ivrs", test_acpi_q35_tcg_ivrs);
-             if (strcmp(arch, "x86_64") == 0) {
-                 qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
-+                qtest_add_func("acpi/microvm/acpierst", test_acpi_microvm_acpi_erst);
-             }
-         }
-         if (has_kvm) {
--- 
-1.8.3.1
+> > +    hart = s->soc[0].harts[0];
+> > +    if (hart.cfg.ext_sscof) {
+> > +        qemu_fdt_setprop(mc->fdt, "/cpus/riscv,isa-ext", "sscofpmf", NULL, 0);
+> > +    }
+> >      qemu_fdt_add_subnode(mc->fdt, "/cpus/cpu-map");
+> >
+> >      for (socket = (riscv_socket_count(mc) - 1); socket >= 0; socket--) {
+> > @@ -445,6 +481,8 @@ static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
+> >          create_fdt_socket_plic(s, memmap, socket, phandle,
+> >              intc_phandles, xplic_phandles);
+> >
+> > +        create_fdt_socket_pmu(s, socket, phandle, intc_phandles);
+> > +
+> >          g_free(intc_phandles);
+> >          g_free(clust_name);
+> >      }
+> > diff --git a/target/riscv/pmu.c b/target/riscv/pmu.c
+> > index 15f161059fb7..b58a09c85616 100644
+> > --- a/target/riscv/pmu.c
+> > +++ b/target/riscv/pmu.c
+> > @@ -19,11 +19,56 @@
+> >  #include "qemu/osdep.h"
+> >  #include "cpu.h"
+> >  #include "pmu.h"
+> > +#include "sysemu/device_tree.h"
+> >
+> >  #define RISCV_TIMEBASE_FREQ 1000000000 /* 1Ghz */
+> >  #define MAKE_32BIT_MASK(shift, length) \
+> >          (((uint32_t)(~0UL) >> (32 - (length))) << (shift))
+> >
+> > +/**
+> > + * To keep it simple, any event can be mapped to any programmable counters in
+> > + * QEMU. The generic cycle & instruction count events can also be monitored
+> > + * using programmable counters. In that case, mcycle & minstret must continue
+> > + * to provide the correct value as well. Hetergenous PMU per hart is not
+>
+> typo of Heterogeneous
+>
+> > + * supported yet. Thus, number of counters are same across all harts.
+> > + */
+> > +void riscv_pmu_generate_fdt_node(void *fdt, int num_ctrs, char *pmu_name)
+> > +{
+> > +    uint32_t fdt_event_ctr_map[20] = {};
+> > +    uint32_t cmask;
+> > +
+> > +    /* All the programmable counters can map to any event */
+> > +    cmask = MAKE_32BIT_MASK(3, num_ctrs);
+> > +
+> > +   /* SBI_PMU_HW_CPU_CYCLES */
+> > +   fdt_event_ctr_map[0] = cpu_to_be32(0x00000001);
+> > +   fdt_event_ctr_map[1] = cpu_to_be32(0x00000001);
+> > +   fdt_event_ctr_map[2] = cpu_to_be32(cmask | 1 << 0);
+> > +
+> > +   /* SBI_PMU_HW_INSTRUCTIONS */
+> > +   fdt_event_ctr_map[3] = cpu_to_be32(0x00000002);
+> > +   fdt_event_ctr_map[4] = cpu_to_be32(0x00000002);
+> > +   fdt_event_ctr_map[5] = cpu_to_be32(cmask | 1 << 2);
+> > +
+> > +   /* SBI_PMU_HW_CACHE_DTLB : READ : MISS */
+> > +   fdt_event_ctr_map[6] = cpu_to_be32(0x00010019);
+> > +   fdt_event_ctr_map[7] = cpu_to_be32(0x00010019);
+> > +   fdt_event_ctr_map[8] = cpu_to_be32(cmask);
+> > +
+> > +   /* SBI_PMU_HW_CACHE_DTLB : WRITE : MISS */
+> > +   fdt_event_ctr_map[9] = cpu_to_be32(0x0001001B);
+> > +   fdt_event_ctr_map[10] = cpu_to_be32(0x0001001B);
+> > +   fdt_event_ctr_map[11] = cpu_to_be32(cmask);
+> > +
+> > +   /* SBI_PMU_HW_CACHE_ITLB : READ : MISS */
+> > +   fdt_event_ctr_map[12] = cpu_to_be32(0x00010021);
+> > +   fdt_event_ctr_map[13] = cpu_to_be32(0x00010021);
+> > +   fdt_event_ctr_map[14] = cpu_to_be32(cmask);
+> > +
+> > +   qemu_fdt_setprop(fdt, pmu_name, "riscv,event-to-mhpmcounters",
+> > +                    fdt_event_ctr_map, sizeof(fdt_event_ctr_map));
+>
+> Where is this documented? I can't find related discussion in the linux-riscv ML.
+>
 
+These are OpenSBI specific DT bindings. OpenSBI will delete it during
+the dt fixup.
+https://github.com/riscv-software-src/opensbi/blob/master/docs/pmu_support.md
+
+Apologies for this confusion. I should have put a comment about this here.
+
+> Please add some comment blocks to explain where these magic numbers
+> (like 0x00010021) come from.
+>
+
+Sure. I will refer to the event encoding scheme and describe the details.
+
+> > +}
+> > +
+> >  static bool riscv_pmu_counter_valid(RISCVCPU *cpu, uint32_t ctr_idx)
+> >  {
+> >      if (ctr_idx < 3 || ctr_idx >= RV_MAX_MHPMCOUNTERS ||
+> > diff --git a/target/riscv/pmu.h b/target/riscv/pmu.h
+> > index 9b400c3522f2..63c4b533b223 100644
+> > --- a/target/riscv/pmu.h
+> > +++ b/target/riscv/pmu.h
+> > @@ -31,6 +31,7 @@ int riscv_pmu_init(RISCVCPU *cpu, int num_counters);
+> >  int riscv_pmu_update_event_map(CPURISCVState *env, uint64_t value,
+> >                                 uint32_t ctr_idx);
+> >  int riscv_pmu_incr_ctr(RISCVCPU *cpu, enum riscv_pmu_event_idx event_idx);
+> > +void riscv_pmu_generate_fdt_node(void *fdt, int num_counters, char *pmu_name);
+> >  target_ulong get_icount_ticks(bool brv32);
+> >  int riscv_pmu_setup_timer(CPURISCVState *env, uint64_t value,
+> >                            uint32_t ctr_idx);
+> > --
+>
+> Regards,
+> Bin
 
