@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB872488F06
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 04:48:24 +0100 (CET)
-Received: from localhost ([::1]:38572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C58CA488F15
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 04:53:06 +0100 (CET)
+Received: from localhost ([::1]:50420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6lfU-0003ru-05
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 22:48:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36288)
+	id 1n6lk1-0003i9-UN
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 22:53:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1n6lY1-0006HH-BH
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 22:40:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43400)
+ id 1n6lY5-0006OA-Eh
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 22:40:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1n6lXz-0006FX-Ql
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 22:40:41 -0500
+ id 1n6lY2-0006Fq-7V
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 22:40:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641786039;
+ s=mimecast20190719; t=1641786041;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k1NJAYuxbBU0g4T+irextBwXVyFw4TEr/n6y5h1xTD4=;
- b=awSBsMgZxiSiui1O/RxyIaoC6m2SWSbnboFlFPDIS6kccc7uyunOlLvKNkzaJGTG3j0Deu
- tDfpkT0Zlo9oTNGp16p2xAeKAvphLZOF5Y4RDHg/pjCoKzv529WLprkdw5JqIso75d9RQY
- 0ENDfLpHTnPCB7CmFO13+SSTt5+fifk=
+ bh=VxfBej6hUjQsnvGLN/w+hYoZqd8eyt2URVXpC/YSLs8=;
+ b=VRRBLgnLpJQ8Az3OazKlhrEc2/YVqEI11RRVtaTyL0AcxrSeOYwFGSA/KM6iYd6D3Q+UT8
+ fdBZqwD0gH0SG4XZuWowN5s1T/GsVFxIrThEM2KRQ/rxtWuIcwb1qIIcqSoSGloJdRlU3G
+ mXD47p4pMfLgqFiZq1W9OcesVLYgu1Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-284-zeyLlJnyPfingBF9XjysYg-1; Sun, 09 Jan 2022 22:40:31 -0500
-X-MC-Unique: zeyLlJnyPfingBF9XjysYg-1
+ us-mta-593-nuB-2s8IMderCMc6jYuNCw-1; Sun, 09 Jan 2022 22:40:33 -0500
+X-MC-Unique: nuB-2s8IMderCMc6jYuNCw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D61C835B4E;
- Mon, 10 Jan 2022 03:40:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D972185302A;
+ Mon, 10 Jan 2022 03:40:32 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-14-6.pek2.redhat.com [10.72.14.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE963104E0;
- Mon, 10 Jan 2022 03:40:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB060E73A;
+ Mon, 10 Jan 2022 03:40:30 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 06/13] net/filter: Optimize filter_send to coroutine
-Date: Mon, 10 Jan 2022 11:39:53 +0800
-Message-Id: <20220110034000.20221-7-jasowang@redhat.com>
+Subject: [PULL 07/13] net/vmnet: add vmnet dependency and customizable option
+Date: Mon, 10 Jan 2022 11:39:54 +0800
+Message-Id: <20220110034000.20221-8-jasowang@redhat.com>
 In-Reply-To: <20220110034000.20221-1-jasowang@redhat.com>
 References: <20220110034000.20221-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -79,135 +79,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Zhang Chen <chen.zhang@intel.com>,
- Rao Lei <lei.rao@intel.com>, qemu-devel@nongnu.org,
- Li Zhijian <lizhijian@fujitsu.com>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Rao Lei <lei.rao@intel.com>
+From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 
-This patch is to improve the logic of QEMU main thread sleep code in
-qemu_chr_write_buffer() where it can be blocked and can't run other
-coroutines during COLO IO stress test.
-
-Our approach is to put filter_send() in a coroutine. In this way,
-filter_send() will call qemu_coroutine_yield() in qemu_co_sleep_ns(),
-so that it can be scheduled out and QEMU main thread has opportunity to
-run other tasks.
-
-Signed-off-by: Lei Rao <lei.rao@intel.com>
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: Li Zhijian <lizhijian@fujitsu.com>
-Reviewed-by: Zhang Chen <chen.zhang@intel.com>
+Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/filter-mirror.c | 66 ++++++++++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 53 insertions(+), 13 deletions(-)
+ meson.build                   | 4 ++++
+ meson_options.txt             | 2 ++
+ scripts/meson-buildoptions.sh | 3 +++
+ 3 files changed, 9 insertions(+)
 
-diff --git a/net/filter-mirror.c b/net/filter-mirror.c
-index f20240c..34a63b5 100644
---- a/net/filter-mirror.c
-+++ b/net/filter-mirror.c
-@@ -20,6 +20,7 @@
- #include "chardev/char-fe.h"
- #include "qemu/iov.h"
- #include "qemu/sockets.h"
-+#include "block/aio-wait.h"
+diff --git a/meson.build b/meson.build
+index c1b1db1..1a381ee 100644
+--- a/meson.build
++++ b/meson.build
+@@ -496,6 +496,8 @@ if cocoa.found() and get_option('gtk').enabled()
+   error('Cocoa and GTK+ cannot be enabled at the same time')
+ endif
  
- #define TYPE_FILTER_MIRROR "filter-mirror"
- typedef struct MirrorState MirrorState;
-@@ -42,20 +43,21 @@ struct MirrorState {
-     bool vnet_hdr;
- };
- 
--static int filter_send(MirrorState *s,
--                       const struct iovec *iov,
--                       int iovcnt)
-+typedef struct FilterSendCo {
-+    MirrorState *s;
-+    char *buf;
-+    ssize_t size;
-+    bool done;
-+    int ret;
-+} FilterSendCo;
++vmnet = dependency('appleframeworks', modules: 'vmnet', required: get_option('vmnet'))
 +
-+static int _filter_send(MirrorState *s,
-+                       char *buf,
-+                       ssize_t size)
- {
-     NetFilterState *nf = NETFILTER(s);
-     int ret = 0;
--    ssize_t size = 0;
-     uint32_t len = 0;
--    char *buf;
--
--    size = iov_size(iov, iovcnt);
--    if (!size) {
--        return 0;
--    }
- 
-     len = htonl(size);
-     ret = qemu_chr_fe_write_all(&s->chr_out, (uint8_t *)&len, sizeof(len));
-@@ -80,10 +82,7 @@ static int filter_send(MirrorState *s,
-         }
-     }
- 
--    buf = g_malloc(size);
--    iov_to_buf(iov, iovcnt, 0, buf, size);
-     ret = qemu_chr_fe_write_all(&s->chr_out, (uint8_t *)buf, size);
--    g_free(buf);
-     if (ret != size) {
-         goto err;
-     }
-@@ -94,6 +93,47 @@ err:
-     return ret < 0 ? ret : -EIO;
- }
- 
-+static void coroutine_fn filter_send_co(void *opaque)
-+{
-+    FilterSendCo *data = opaque;
-+
-+    data->ret = _filter_send(data->s, data->buf, data->size);
-+    data->done = true;
-+    g_free(data->buf);
-+    aio_wait_kick();
-+}
-+
-+static int filter_send(MirrorState *s,
-+                       const struct iovec *iov,
-+                       int iovcnt)
-+{
-+    ssize_t size = iov_size(iov, iovcnt);
-+    char *buf = NULL;
-+
-+    if (!size) {
-+        return 0;
-+    }
-+
-+    buf = g_malloc(size);
-+    iov_to_buf(iov, iovcnt, 0, buf, size);
-+
-+    FilterSendCo data = {
-+        .s = s,
-+        .size = size,
-+        .buf = buf,
-+        .ret = 0,
-+    };
-+
-+    Coroutine *co = qemu_coroutine_create(filter_send_co, &data);
-+    qemu_coroutine_enter(co);
-+
-+    while (!data.done) {
-+        aio_poll(qemu_get_aio_context(), true);
-+    }
-+
-+    return data.ret;
-+}
-+
- static void redirector_to_filter(NetFilterState *nf,
-                                  const uint8_t *buf,
-                                  int len)
+ seccomp = not_found
+ if not get_option('seccomp').auto() or have_system or have_tools
+   seccomp = dependency('libseccomp', version: '>=2.3.0',
+@@ -1492,6 +1494,7 @@ config_host_data.set('CONFIG_SECCOMP', seccomp.found())
+ config_host_data.set('CONFIG_SNAPPY', snappy.found())
+ config_host_data.set('CONFIG_USB_LIBUSB', libusb.found())
+ config_host_data.set('CONFIG_VDE', vde.found())
++config_host_data.set('CONFIG_VMNET', vmnet.found())
+ config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
+ config_host_data.set('CONFIG_VNC', vnc.found())
+ config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
+@@ -3441,6 +3444,7 @@ endif
+ summary_info += {'JACK support':      jack}
+ summary_info += {'brlapi support':    brlapi}
+ summary_info += {'vde support':       vde}
++summary_info += {'vmnet.framework support': vmnet}
+ summary_info += {'netmap support':    have_netmap}
+ summary_info += {'l2tpv3 support':    have_l2tpv3}
+ summary_info += {'Linux AIO support': libaio}
+diff --git a/meson_options.txt b/meson_options.txt
+index 921967e..701e138 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -151,6 +151,8 @@ option('netmap', type : 'feature', value : 'auto',
+        description: 'netmap network backend support')
+ option('vde', type : 'feature', value : 'auto',
+        description: 'vde network backend support')
++option('vmnet', type : 'feature', value : 'auto',
++       description: 'vmnet.framework network backend support')
+ option('virglrenderer', type : 'feature', value : 'auto',
+        description: 'virgl rendering support')
+ option('vnc', type : 'feature', value : 'auto',
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 50bd7be..cdcece4 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -84,6 +84,7 @@ meson_options_help() {
+   printf "%s\n" '  u2f             U2F emulation support'
+   printf "%s\n" '  usb-redir       libusbredir support'
+   printf "%s\n" '  vde             vde network backend support'
++  printf "%s\n" '  vmnet           vmnet.framework network backend support'
+   printf "%s\n" '  vhost-user-blk-server'
+   printf "%s\n" '                  build vhost-user-blk server'
+   printf "%s\n" '  virglrenderer   virgl rendering support'
+@@ -248,6 +249,8 @@ _meson_option_parse() {
+     --disable-usb-redir) printf "%s" -Dusb_redir=disabled ;;
+     --enable-vde) printf "%s" -Dvde=enabled ;;
+     --disable-vde) printf "%s" -Dvde=disabled ;;
++    --enable-vmnet) printf "%s" -Dvmnet=enabled ;;
++    --disable-vmnet) printf "%s" -Dvmnet=disabled ;;
+     --enable-vhost-user-blk-server) printf "%s" -Dvhost_user_blk_server=enabled ;;
+     --disable-vhost-user-blk-server) printf "%s" -Dvhost_user_blk_server=disabled ;;
+     --enable-virglrenderer) printf "%s" -Dvirglrenderer=enabled ;;
 -- 
 2.7.4
 
