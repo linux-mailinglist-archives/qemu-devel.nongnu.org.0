@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AD04489B8B
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 15:47:25 +0100 (CET)
-Received: from localhost ([::1]:42366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE5B9489B8A
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 15:46:59 +0100 (CET)
+Received: from localhost ([::1]:40138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6vxE-0002md-Ee
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 09:47:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53654)
+	id 1n6vwo-00014M-W4
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 09:46:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n6vkR-0001w8-Ll; Mon, 10 Jan 2022 09:34:11 -0500
-Received: from [2607:f8b0:4864:20::931] (port=39717
- helo=mail-ua1-x931.google.com)
+ id 1n6vkT-000252-PJ; Mon, 10 Jan 2022 09:34:13 -0500
+Received: from [2607:f8b0:4864:20::936] (port=41480
+ helo=mail-ua1-x936.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n6vkQ-0007Pk-3g; Mon, 10 Jan 2022 09:34:11 -0500
-Received: by mail-ua1-x931.google.com with SMTP id m15so9396882uap.6;
- Mon, 10 Jan 2022 06:34:09 -0800 (PST)
+ id 1n6vkS-0007QC-6P; Mon, 10 Jan 2022 09:34:13 -0500
+Received: by mail-ua1-x936.google.com with SMTP id p37so23736161uae.8;
+ Mon, 10 Jan 2022 06:34:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+8CXNDceoKrlarffzDH3tP+HhdA25UZN0ukZtLV4OLI=;
- b=baPm4lEKFQ0XBo3wp+LZ5gp9849TqGUnvmcDsdTktJKiUniWw92tICvfGlgpU4DyDm
- D6LIIWIdmyKcDxmLSAYWG1Z5tqrEy60+hjhqR6WksXlZjvFZGy8/GQ0XWmH0sOQxc0MB
- EfnbGgFL0mQcsaVnWf+F3qfNDRIc9PTDIMWXxCJa3AFSyLz7rjmY9q/KiKaYXHG4trwp
- A53p5tN1HJXYmLoFvzJPsgdCEJmRew765G9DBIDRSQN4rCHBeZK/3O0awj+Aa/39nzmO
- C/QD76sYDlNBKXFcrwjmryjbkL2s7ZPZ9BH/3UGRrsYysx5/L5Lqv/mTI1/Jg9XukPD8
- N7VQ==
+ bh=t3C1zrddImej8jguoemBCC5arck5ZAaTyqBGfpj5lCI=;
+ b=bmx3g7aeNu/jEWe3IgAHZXig5hu79LsnoIyzkhzqSxnV+n43/cMk2BDreoaV1dkEio
+ bplj9p7qGnuTHxuS88rjJfa2RRjp+Ou08D2uGffHaylbbY7DwdgBgZvp8PxTUEF5qmBJ
+ 7q01GwF+PLQUrnPJ2WnazyEfzzaOAJXPJ7XiKqCNwn6f6i89fo/o/4YhHZ8eweXtdq1H
+ hVkxTb/NugGm1UOumGsAGW2HcEF4UwstgXwgOi0y7RApoqYW+1P0g6bg57R/2k0S/psI
+ BRbxPymwOhj1JI/gC0dLJ44rwEDcYATOYWzCFi+2phbZEJWgaqVWr3QlEDhR1b+i3HJQ
+ Yw5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+8CXNDceoKrlarffzDH3tP+HhdA25UZN0ukZtLV4OLI=;
- b=2bzQVfPDzuRsxDzH0lCBRChwp0+rSEvUTMwpLNDo5OnvYMp3HEpXJLmg1PRlt8c1YB
- 2QZ6p5894KC8DREm0YEfYFI0Vjam6Lwbl1gb2LgmQwjiJxEIKSEeWmu11SkU0ZMEsMm1
- dKlDudIlBqMie80P3Ej0opopEf6toPKo1IGZBJAwHXgng9+QNyedOAphFp91Hejmqg0Q
- qAm3rVyenDKvkJuouyUIrceM9x6ijrpIgeJHFXmFx98tOjvoXZQ00JaH+aNbiH2Q/WNo
- gjCMwV16SumpSGgfOIwEnB4TlDQc4QWLDMRRBWYUqQRcp1Yq0bjmmDflhe/SHONjs1hY
- Ur5A==
-X-Gm-Message-State: AOAM533Bt9ehuFwAmR4DOHIWfIRKNaWMoKVKPmjuWXUYOtUNJIAaz7BX
- I9YpUkNFna4QkgVkV59bS12psWB1w1bhsBBw
-X-Google-Smtp-Source: ABdhPJwigJAA6TP+MC7Dk7I6dW2dvAg9ICUWT1lNibqAEU2VOyrZq2WXvYCD6zI7k9eu8mXILX3FWQ==
-X-Received: by 2002:a9f:3e01:: with SMTP id o1mr27232486uai.89.1641825248896; 
- Mon, 10 Jan 2022 06:34:08 -0800 (PST)
+ bh=t3C1zrddImej8jguoemBCC5arck5ZAaTyqBGfpj5lCI=;
+ b=Eowly1r6mbqW3yCdT1mCR4hw6kotpnKf557DT+CFr3tHcZQuXnoAikPVPkS6xALhUb
+ /Xa8M8EKJPwK0EuThePZHozfPNIQs7/VgZTFs/RiDdxB6qKPjtP0F6BBGDWL6hkEg7sv
+ Lk1WYMVSKRSCCh54D0zJk/iP8V6Oem4odDum8i1p5DHV1LVqiJ9yCXUtdQB2Kx7kZhiS
+ PLwhuLfH+IvG6nKZfphiFSRN9K+eHvmdhQjOX2QplxyF5sazkppD5VUMp/euvr+hlwHR
+ 9zh4J6y/JKJztW9fTvZJRzlhsHiTGMQpUvKhNhLp2OTXiGvcqpwzidFazEthWvkAQiI7
+ RSaw==
+X-Gm-Message-State: AOAM5305jx3+2+2N5Bpf1mkjNYEC+c+fvY9n51mlwbjCNagAswruhE5E
+ 00saQEdbcgQIM7wt53TG8B3BBwn8WMlXHMHq
+X-Google-Smtp-Source: ABdhPJxrdJyuKPauBOLimJd44v34122RMYaNAon95nRCicF4ew5e67itYQMSs6HJlHrBXCL43SM+Iw==
+X-Received: by 2002:ab0:6c4c:: with SMTP id q12mr6504413uas.112.1641825250890; 
+ Mon, 10 Jan 2022 06:34:10 -0800 (PST)
 Received: from rekt.COMFAST ([152.249.109.193])
- by smtp.gmail.com with ESMTPSA id o11sm3709677vkf.41.2022.01.10.06.34.07
+ by smtp.gmail.com with ESMTPSA id o11sm3709677vkf.41.2022.01.10.06.34.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jan 2022 06:34:08 -0800 (PST)
+ Mon, 10 Jan 2022 06:34:10 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 07/10] ppc/pnv: move PHB4 related XSCOM init to
- phb4_realize()
-Date: Mon, 10 Jan 2022 11:33:43 -0300
-Message-Id: <20220110143346.455901-8-danielhb413@gmail.com>
+Subject: [PATCH v3 08/10] pnv_phb4.c: check stack->phb not NULL in
+ phb4_update_regions()
+Date: Mon, 10 Jan 2022 11:33:44 -0300
+Message-Id: <20220110143346.455901-9-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220110143346.455901-1-danielhb413@gmail.com>
 References: <20220110143346.455901-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::931
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::936
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::931;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x931.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::936;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x936.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -90,94 +90,68 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Before enabling pnv-phb4 user creatable devices we need to handle PHB4
-specific code in pnv_pec_stk_realize().
+The last step before enabling user creatable pnv-phb4 devices still has
+to do with specific XSCOM initialization code in pnv_phb4_stk_realize().
 
-The 'stack->phb_regs_mr' PHB4 passthrough XSCOM initialization relies on
-'stack->phb' being not NULL. Moving 'stack->phb_regs_mr' region_init()
-and add_subregion() to phb4_realize() time is a natural thing to do and
-it'll spare us from checking 'phb->stack != NULL' in stk_realize() when
-user creatable pnv-phb4s are implemented.
+'stack->nest_regs_mr' is being init regardless of the existence of
+'stack->phb', which is verified only when trying to realize the phb.
+Its MemoryRegionOps,'pnv_pec_stk_nest_xscom_ops', uses
+pnv_pec_stk_nest_xscom_write() as a write callback. When trying to write
+the PEC_NEST_STK_BAR_EN reg, pnv_pec_stk_update_map() is called. Inside
+this function, pnv_phb4_update_regions() is called twice. This function
+uses stack->phb to manipulate memory regions of the phb.
+
+When enabling user creatable phb4s, a stack that doesn't have an
+associated phb (i.e. will have stack->phb = NULL) will cause a SIGINT
+during boot in pnv_phb4_update_regions(). To deal with this we have
+some options, including:
+
+- check for stack->phb being not NULL in pnv_phb4_update_regions();
+
+- change the order of the XSCOM initialization to avoid initializing
+'stack->nest_regs_mr' if 'stack->phb' is NULL. This can have unintended
+side-effects: there are several other regs that are being read/written
+in these memory regions, and we would forbid all read/write operations
+in these regs because of writes in PEC_NEST_STK_BAR_EN being problematic;
+
+- move the XSCOM init code to phb4_realize() like the previous patch
+did with 'stack->phb_regs_mr'. Besides having the same potential side
+effects than the previous alternative, a lot of code would need to be
+moved from pnv_phb4_pec.c to pnv_phb4.c because all the memory region
+code is static.
+
+Being the option that is less intrusive and innocus of the alternatives,
+this patch keeps the XSCOM initialization as is in
+pnv_phb4_stk_realize() and check for 'stack->phb' being NULL in
+pnv_phb4_update_regions().
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb4.c     | 27 +++++++++++++++++++++++++++
- hw/pci-host/pnv_phb4_pec.c | 10 ----------
- 2 files changed, 27 insertions(+), 10 deletions(-)
+ hw/pci-host/pnv_phb4.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index 1a7395772f..152911a285 100644
+index 152911a285..fc23a96b7f 100644
 --- a/hw/pci-host/pnv_phb4.c
 +++ b/hw/pci-host/pnv_phb4.c
-@@ -1194,6 +1194,31 @@ void pnv_phb4_set_stack_phb_props(PnvPhb4PecStack *stack,
-                              &error_abort);
- }
- 
-+static void pnv_phb4_init_xscom_passthrough(PnvPHB4 *phb)
-+{
-+    PnvPhb4PecState *pec;
-+    PnvPhb4PecClass *pecc;
-+    uint32_t pec_pci_base;
-+    char name[64];
-+
-+    assert(phb->stack);
-+
-+    pec = phb->stack->pec;
-+    pecc = PNV_PHB4_PEC_GET_CLASS(pec);
-+    pec_pci_base = pecc->xscom_pci_base(pec);
-+
-+    /* PHB pass-through */
-+    snprintf(name, sizeof(name), "xscom-pec-%d.%d-pci-stack-%d-phb",
-+             pec->chip_id, pec->index, phb->stack->stack_no);
-+    pnv_xscom_region_init(&phb->stack->phb_regs_mr, OBJECT(phb),
-+                          &pnv_phb4_xscom_ops, phb, name, 0x40);
-+
-+    pnv_xscom_add_subregion(pec->chip,
-+                            pec_pci_base + PNV9_XSCOM_PEC_PCI_STK0 +
-+                            0x40 * phb->stack->stack_no,
-+                            &phb->stack->phb_regs_mr);
-+}
-+
- static void pnv_phb4_instance_init(Object *obj)
+@@ -1472,6 +1472,17 @@ void pnv_phb4_update_regions(PnvPhb4PecStack *stack)
  {
-     PnvPHB4 *phb = PNV_PHB4(obj);
-@@ -1223,6 +1248,8 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
-     memory_region_init_io(&phb->mr_regs, OBJECT(phb), &pnv_phb4_reg_ops, phb,
-                           name, 0x2000);
+     PnvPHB4 *phb = stack->phb;
  
-+    pnv_phb4_init_xscom_passthrough(phb);
++    /*
++     * This will happen when there's no phb associated with the stack.
++     * pnv_pec_stk_realize() will init the nested xscom address space
++     * (stack->nest_regs_mr) that uses pnv_phb4_update_regions(), via
++     * pnv_pec_stk_update_map(), which in turn is the write callback of
++     * the PEC_NEST_STK_BAR_EN reg in pnv_pec_stk_nest_xscom_write().
++     */
++    if (!stack->phb) {
++        return;
++    }
 +
-     /*
-      * PHB4 doesn't support IO space. However, qemu gets very upset if
-      * we don't have an IO region to anchor IO BARs onto so we just
-diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index 042dc0b775..5e02a51f04 100644
---- a/hw/pci-host/pnv_phb4_pec.c
-+++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -571,12 +571,6 @@ static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
-                           &pnv_pec_stk_pci_xscom_ops, stack, name,
-                           PHB4_PEC_PCI_STK_REGS_COUNT);
- 
--    /* PHB pass-through */
--    snprintf(name, sizeof(name), "xscom-pec-%d.%d-pci-stack-%d-phb",
--             pec->chip_id, pec->index, stack->stack_no);
--    pnv_xscom_region_init(&stack->phb_regs_mr, OBJECT(stack->phb),
--                          &pnv_phb4_xscom_ops, stack->phb, name, 0x40);
--
-     if (stack->phb && !sysbus_realize(SYS_BUS_DEVICE(stack->phb), errp)) {
-         return;
-     }
-@@ -591,10 +585,6 @@ static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
-     pnv_xscom_add_subregion(chip,
-                             pec_pci_base + 0x40 * (stack->stack_no + 1),
-                             &stack->pci_regs_mr);
--    pnv_xscom_add_subregion(chip,
--                            pec_pci_base + PNV9_XSCOM_PEC_PCI_STK0 +
--                            0x40 * stack->stack_no,
--                            &stack->phb_regs_mr);
- }
- 
- static Property pnv_pec_stk_properties[] = {
+     /* Unmap first always */
+     if (memory_region_is_mapped(&phb->mr_regs)) {
+         memory_region_del_subregion(&stack->phbbar, &phb->mr_regs);
 -- 
 2.33.1
 
