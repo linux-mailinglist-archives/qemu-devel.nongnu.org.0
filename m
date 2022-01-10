@@ -2,83 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0996948901B
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 07:20:13 +0100 (CET)
-Received: from localhost ([::1]:46160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F99489015
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 07:17:02 +0100 (CET)
+Received: from localhost ([::1]:40454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6o2O-0004L4-0q
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 01:20:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55418)
+	id 1n6nzJ-0000Ms-EW
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 01:17:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1n6nwx-00080h-Ds
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 01:14:35 -0500
-Received: from [2607:f8b0:4864:20::1033] (port=53820
- helo=mail-pj1-x1033.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1n6nws-0001dq-JL
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 01:14:32 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id m13so12361598pji.3
- for <qemu-devel@nongnu.org>; Sun, 09 Jan 2022 22:14:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YrPZBfVhy+bnJkPG7D2dpoA///qCjFHrqF8mWEvGc5U=;
- b=8LmnJb4Pmur/Qvulq9LYTgbJ729K+NcGDIgxJAEOj0XrN9211Dr576O8cFhzOKY/7Z
- UoamciYeqjfTx4fXHnVS8Q0SXhE8tOlEZ5iZ3xFc/QEb81rYuP0d2CQHCv27p8o5giD5
- 2ewDjWzLT+zHYsA2ZfbBAfFRG/glzAgSI1tvgWzdn/KAt+Tsd0t/RIqOdpU5OyEDnjUL
- GLVucZZ9cXFsLuAbQ62aS/FsA5vrbuEquYJIIvdkCqk4rFz4WeB8nwSLwCI0IwJGHY+H
- UeOs9AaVgVlkus841jzA6jY5pEvFmJX/+mwQZ6K71Ad1U+yJ4wS+8vxLfLvklGTpimVm
- b/1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=YrPZBfVhy+bnJkPG7D2dpoA///qCjFHrqF8mWEvGc5U=;
- b=WOGg7KtP3+gtRmGJLjoHYyZlgZgkSheTknoMWTml/mhNBD5D8L3M5asZ33ymc3GO0b
- IKubioOIXaaCzjoRZV80G3SYVggrpJMZRV0CxrseTFpC/YrirDyGBZIZKLefgC1+EtB3
- 5DfOnVbV5g4uHb+9qf0ni6W7W3YZLTWLFtgJSdRhe8oHntDe785bFEUsJPEpGSmi5uhE
- cZWfzFywV6JjMpgKPKRoQd3NwPNBNwPhcsVOsBPFt1jb3aqrHLodb2bhUMcNjzSLYCU9
- yw0j8MaMN57TwP7zSWC02FQ6L+YKQeLAkqdcP/JQXAPmwRa00p3w/Zee3oUMiTNHVnxw
- fkKA==
-X-Gm-Message-State: AOAM530BgXZU2BXMvSOCxEccSitjp9JtQNytkdOmO2R0PvPgxOfDevi4
- OtKK9IhCTCHfEmPaPpCUQrCcdQ==
-X-Google-Smtp-Source: ABdhPJzwo9bbOBOSErUMobISv9p3+GnBbz0fZwgFHIpWtNwAqHNxzmjW6JKt9vm5BXcU9Q/ZT61Oyw==
-X-Received: by 2002:a17:90b:4b0e:: with SMTP id
- lx14mr28575707pjb.132.1641795267762; 
- Sun, 09 Jan 2022 22:14:27 -0800 (PST)
-Received: from [10.76.15.169] ([61.120.150.76])
- by smtp.gmail.com with ESMTPSA id p11sm2160744pgh.23.2022.01.09.22.14.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 09 Jan 2022 22:14:27 -0800 (PST)
-Subject: Re: [PATCH v2 0/2] Introduce camera subsystem
-To: peter.maydell@linaro.org, berrange@redhat.com
-References: <20220106085304.795010-1-pizhenwei@bytedance.com>
-From: zhenwei pi <pizhenwei@bytedance.com>
-Message-ID: <f390b6bc-6fbe-4820-926b-237e4d4b7acc@bytedance.com>
-Date: Mon, 10 Jan 2022 14:11:46 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1)
+ (envelope-from <prvs=002fe4623=alistair.francis@opensource.wdc.com>)
+ id 1n6nwF-00078z-GQ
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 01:13:51 -0500
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:58594)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=002fe4623=alistair.francis@opensource.wdc.com>)
+ id 1n6nw7-0001aZ-4o
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 01:13:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1641795220; x=1673331220;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=gE8Qlt3HSTD4xJo1vxOYA7bkRrLG1Gmw/VIXHoJ7Uw4=;
+ b=gRkW8mFMAZdNBWSLSbSJX10hTx3KAiYll5JaedHLBWMtGVIPeKr6j3nh
+ 1oUhXoyCTH1d7qe6Da8g3c+weuNo7iKWWGX8zAK3sBk0W/iFE8MSpG1O7
+ GuxQe52KDsBIyH2jeqBsVUBSI3kqjke2cS8Pg9KaregiuocwKo8+0xrqd
+ yIsZcndq2qhC/r7nKT/UE7a6v1zKWdpohtGHYS+CinrCJsoWNfFeK1rrJ
+ C7t4gzXPEBnemVi+DE7daosPOb6Ofz7nCNfbUg7E7TYH3d/IYO6t4TrH+
+ T3I5QfjTp5HGh+wmyvxeSF+DnRIay0U/Vqv6JPxy1H1ecZWoVj6aWYmpc Q==;
+X-IronPort-AV: E=Sophos;i="5.88,276,1635177600"; d="scan'208";a="194868373"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 10 Jan 2022 14:13:37 +0800
+IronPort-SDR: GS5dEZgSFVRZSemHYA+46E542wEoN2HNWFn+YSLovYabNcX9oEHBmRu9P1rRuFK/T5QJmET8f7
+ vGK5rEDou86ROxado45iVIBS+av1jx1NosSJEiyO0I76qp+OMljgO9FWT9m6hwFyFKVQDT6IRL
+ NQjBQlvY6ejrrIehGDeNFwHYKubnyCPDQRF+1WOSXYItEBcj4HOIJcXonJn+Vppzu4zQEFZ22H
+ 7PkUeJhctmDT9Uau8ymenttCgHtfILGe/3cvyC/M3T1rrYLt4JptYervdUzI0zeGM7ceAi4LvW
+ nPLG7hsrFz+QpMQo6NTcAgwl
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2022 21:46:04 -0800
+IronPort-SDR: tn2yLbECz+REilRbwT7dKJkiZfc6VcUU1sIfw+al5uiQQr4WtToGAKHmr4GXotifoQci0zJ6qs
+ qii4wKlTS+c94nT39RPYLwhxQ9T65DJ4DRcjxxMVwtI1aSOW3CdQp4Lq1Wd1O6X9JvwtUFautL
+ i+vnWfGi300q5zb+XaTPSD0CIz4/jRJNpcmuZDa50/qjqIC+4xBy8r89Wdsm0p2msIJS96Le9K
+ P9RHgNUuTsMJ79eGOuYNm79i9/yXk9TlXMAabiyQ6ohTmvRcOC5ra97fBOOIDOo3oYo5uAcl8Y
+ cns=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2022 22:13:39 -0800
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JXNmz2tRmz1VSkX
+ for <qemu-devel@nongnu.org>; Sun,  9 Jan 2022 22:13:39 -0800 (PST)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:subject:to:from; s=dkim; t=1641795219;
+ x=1644387220; bh=gE8Qlt3HSTD4xJo1vxOYA7bkRrLG1Gmw/VIXHoJ7Uw4=; b=
+ BPiZOrm4bFOv5VXevx0JdXV3vIT0WvFCH4KkMgxFHd6ayxaknlqN8zdgCGxFXz25
+ hE0YoSdDm5Rcz7qdxxRG1+bGT+ePsHaHK7Rxfwfpxn7hrXPrw981QGFAVCytJ767
+ 8uVtb2VcS26SfQSaRRcJpm9a6nUcbykOnny7qa27lsa7TdgUnRyIk+vGbf7BAm8c
+ FOUezdTOQv+rvbiHl8Uks+XxtZnEueKUv2QE1L1Xuke9frLE0oQnK0i5nRowdm73
+ Rmz6vdVh/fCXRT6iEp9daLdX2PpbfK7X+meHGlrgskCBviXazOe/dtVbPP+DIEIg
+ fp4wKIiQ7B8O/uQoOXGngA==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id OIk0_XLCZYSo for <qemu-devel@nongnu.org>;
+ Sun,  9 Jan 2022 22:13:39 -0800 (PST)
+Received: from toolbox.wdc.com (unknown [10.225.165.75])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JXNmt5Qy5z1VSkW;
+ Sun,  9 Jan 2022 22:13:34 -0800 (PST)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Cc: bmeng.cn@gmail.com, palmer@dabbelt.com, alistair.francis@wdc.com,
+ alistair23@gmail.com, wilfred.mallawa@wdc.com
+Subject: [PATCH 1/2] riscv: opentitan: fixup plic stride len
+Date: Mon, 10 Jan 2022 16:13:20 +1000
+Message-Id: <20220110061321.4040589-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20220106085304.795010-1-pizhenwei@bytedance.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.71.153.141;
+ envelope-from=prvs=002fe4623=alistair.francis@opensource.wdc.com;
+ helo=esa3.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,80 +111,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org, eblake@redhat.com,
- qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Peter & Daniel
+From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-Sorry about that I'm not clear enough to add a new subsystem into QEMU, 
-could you give me more hint?
+The following change was made to rectify incorrectly set stride length
+on the PLIC. Where it should be 32bit and not 24bit (0x18). This was
+discovered whilst attempting to fix a bug where a timer_interrupt was
+not serviced on TockOS-OpenTitan.
 
-On 1/6/22 4:53 PM, zhenwei pi wrote:
-> v1 -> v2:
->    [missing CC qemu-devel@nongnu.org, resend]
->    Separate v1 patch set into 2 parts:
->      Introduce camera subsystem (this one).
->      USB desc fix and UVC.
->    Add maintainer infomation.
-> 
-> v1:
-> 1, The full picture of this patch set:
->     +---------+       +------------+     +---------------+
->     |UVC(done)|       |virtio(TODO)|     |other HW device|
->     +---------+       +------------+     +---------------+
->           |                 |                     |
->           |            +------------+             |
-> 	 +------------+camera(done)+-------------+
->                        +----+-------+
->                             |
->           +-----------------+---------------------+
->           |                 |                     |
->    +------+------+     +----+-----+        +------+------+
->    |builtin(done)|     |v4l2(done)|        |other drivers|
->    +-------------+     +----------+        +-------------+
-> 
-> With this patch set, We can run a desktop VM (Ex Ubuntu-2004), several camera
-> APPs(cheese, kamoso, guvcview and qcam) work fine.
-> 
-> Some works still in working:
->    1, hot-plug
->    2, compat with live migration
->    3, several actions defined in UVC SPEC
-> 
-> Zhenwei Pi (2):
->    camera: Introduce camera subsystem and builtin driver
->    camera: v4l2: Introduce v4l2 camera driver
-> 
->   MAINTAINERS             |   7 +
->   camera/builtin.c        | 717 ++++++++++++++++++++++++++++++++++++++++
->   camera/camera-int.h     |  19 ++
->   camera/camera.c         | 522 +++++++++++++++++++++++++++++
->   camera/meson.build      |  20 ++
->   camera/trace-events     |  28 ++
->   camera/trace.h          |   1 +
->   camera/v4l2.c           | 637 +++++++++++++++++++++++++++++++++++
->   include/camera/camera.h | 238 +++++++++++++
->   meson.build             |  20 +-
->   meson_options.txt       |   3 +
->   qapi/camera.json        | 101 ++++++
->   qapi/meson.build        |   1 +
->   qapi/qapi-schema.json   |   1 +
->   qemu-options.hx         |  13 +
->   softmmu/vl.c            |   4 +
->   16 files changed, 2331 insertions(+), 1 deletion(-)
->   create mode 100644 camera/builtin.c
->   create mode 100644 camera/camera-int.h
->   create mode 100644 camera/camera.c
->   create mode 100644 camera/meson.build
->   create mode 100644 camera/trace-events
->   create mode 100644 camera/trace.h
->   create mode 100644 camera/v4l2.c
->   create mode 100644 include/camera/camera.h
->   create mode 100644 qapi/camera.json
-> 
+Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+---
+ hw/riscv/opentitan.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--- 
-zhenwei pi
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index c531450b9f..5144845567 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -160,7 +160,7 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev=
+_soc, Error **errp)
+     qdev_prop_set_uint32(DEVICE(&s->plic), "priority-base", 0x00);
+     qdev_prop_set_uint32(DEVICE(&s->plic), "pending-base", 0x1000);
+     qdev_prop_set_uint32(DEVICE(&s->plic), "enable-base", 0x2000);
+-    qdev_prop_set_uint32(DEVICE(&s->plic), "enable-stride", 0x18);
++    qdev_prop_set_uint32(DEVICE(&s->plic), "enable-stride", 32);
+     qdev_prop_set_uint32(DEVICE(&s->plic), "context-base", 0x200000);
+     qdev_prop_set_uint32(DEVICE(&s->plic), "context-stride", 8);
+     qdev_prop_set_uint32(DEVICE(&s->plic), "aperture-size", memmap[IBEX_=
+DEV_PLIC].size);
+--=20
+2.34.1
+
 
