@@ -2,86 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3975448A1A5
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 22:16:33 +0100 (CET)
-Received: from localhost ([::1]:58694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4DA48A1A6
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 22:16:34 +0100 (CET)
+Received: from localhost ([::1]:58896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n721o-0005t5-94
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 16:16:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41342)
+	id 1n721p-00060f-LJ
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 16:16:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n71rS-0007xZ-1P
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 16:05:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31781)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1n71rg-00085u-Q7; Mon, 10 Jan 2022 16:06:05 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:55909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n71rO-0004cc-Fe
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 16:05:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641848718;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nxzv/mHumtXHvST3xJXNiXoF+nDokN8B7YoVRznXcsM=;
- b=MLlp+ifwLSrTwYW/CAZQoXsQgCB8ExZp05/KRWDn/1Iq6PimXhhLcKbCsLebiLGm4bLe4p
- TSxX6pMIyXr2GJjAbZtM371JLPWDnwv9JQFT5w3HOCDat4Qi7GGqCkqPErV34ZBziTgLXw
- WmBRc7A66Cg6Ux89cpQX3Dbftr75tiI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-614-Y-yIvxEHPGWlkKKcRAif0w-1; Mon, 10 Jan 2022 16:05:17 -0500
-X-MC-Unique: Y-yIvxEHPGWlkKKcRAif0w-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m9-20020a05600c4f4900b0034644da3525so627459wmq.3
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 13:05:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=nxzv/mHumtXHvST3xJXNiXoF+nDokN8B7YoVRznXcsM=;
- b=gVlHNcAFUmsoGG9bE+1ZoaA9cdIakY6qdP6pHD2DYd1BrEGJWcPkMhpQeOMn1/R3mp
- wewgPVnWSZRvm9RJELUMvkIBdqH+Y5SUeA4I2ryNcmu8bj3be/ZIAr9wgehQgDQ+aJGw
- 5W6p48K5QKJh/MBRg9A6s7kZtwAkeS0hKpoe8LKEqgNZ9k+QCLE+eVZKz4PJJ6oeEW/T
- 4QsQjS1Y51TP+m6c8/IVm4D9tcY9gz7CemMHL/Iqc7GtSE0/XGDwUfERw+vs+qI8D7wS
- 5FbhKPKmdpXK3pt5zGYE3aF0RsEKiP4DnwP3lZsYo47FvHV7t4ipk5IkWCKqU9IPC8wy
- 0olw==
-X-Gm-Message-State: AOAM530+k5OZ5gqvayKgYPafucGpVm4yJkB+ojiruGqCV9b7uI3AGPb8
- Jpbi8mycUm4jdv0mRe2bavu53eogFTl9BStOiclYIiXsP6WZQ+jLV9uTEA72F1VB/PD8erjZDM3
- 2GM6H9v8KOP7TO8Yspx6tdA8yn91u5VtqKt9Sm54pzSwUzO7eJ4MDIieFvagX
-X-Received: by 2002:a7b:cb8a:: with SMTP id m10mr10125511wmi.165.1641848715800; 
- Mon, 10 Jan 2022 13:05:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwpx2xtjAtgUTgt4mK4qj0qfNf3QBWahwxfB5p/ovzf5MwvhMmfVBVN7bdA7y3r8WD5puL5iw==
-X-Received: by 2002:a7b:cb8a:: with SMTP id m10mr10125494wmi.165.1641848715608; 
- Mon, 10 Jan 2022 13:05:15 -0800 (PST)
-Received: from redhat.com ([2.55.19.241])
- by smtp.gmail.com with ESMTPSA id i8sm9479297wry.108.2022.01.10.13.05.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jan 2022 13:05:15 -0800 (PST)
-Date: Mon, 10 Jan 2022 16:05:12 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 10/10] Revert "virtio: introduce macro IRTIO_CONFIG_IRQ_IDX"
-Message-ID: <20220110210416.18779-11-mst@redhat.com>
-References: <20220110210416.18779-1-mst@redhat.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1n71rR-0004gZ-7u; Mon, 10 Jan 2022 16:06:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=g2PUeeGWAEo6vvN3L2+XbRFh0G5twa07WR/k8KwaDwY=; b=a0s1NVBLgeUpXjpNBr5ICaQaNA
+ KNjXKxy7E6g4mLoEagJEAAE/xj14+f7raLChhT4+UWt9b5ZcIQh1cz2NmgocuWRwi9e8/8+2t6m1x
+ jH1TDUCbZ3JAoeH1r8RKMVFaMc5t8MULroZtIPMteIDDvDlQZRR1gilAyjDlv2PVaeqvnT7Tj7sFU
+ 9Lknmt/KrWkLykO0IPdq4MgeukRcvwxSMXW8IfT8BCroticXjxbxhn7Dk7rbGsa3AqNsJZo74Bpxu
+ OmxTQrDjdgeIfVAYhMBau4HXYCJt2698hAO+YM9JoZiAx4pkuST98/3BxTEtemxx+FNBf3AZe7cWW
+ 6TefQrRB7h3rCLikL8jTQCsl/BOQrKJeMo98Mpqpp46zpC3VVITtz0FUMiLHXj1rQgRIv7H/Fq7cw
+ EU+aIOWgVXQKpOTOdxWd91e/QL7gEuMXNkWUTP694FLmnE9/FL+cOMAHXG4L2udbtWt2k5E2TfO8p
+ j3T1J7ULxWm5Hn7WAgo7vnLK0UFPGgz6/xkU03ulSeYP4CpvetLwzfDSoVCwhHihIHjL71YzhsDIf
+ HTm5IBvqIqeWvSiPP6f+MXyl6xZk21P6R4lzILoOJRmRlSUIxDU5MDiWX8xRF9A0O9TXsd+W/NeFK
+ AwqIyF88msF/HHQ65E8O02SmjRYcaYVEq9Rf8bBCM=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Cameron Esfahani <dirty@apple.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [RFC PATCH v2 2/6] audio/coreaudio: Remove a deprecation warning
+ on macOS 12
+Date: Mon, 10 Jan 2022 22:05:43 +0100
+Message-ID: <2141936.zTEnKHbCo3@silver>
+In-Reply-To: <246f1f6f-3674-e3dc-3a8e-f53795fa58cc@gmail.com>
+References: <20220109170612.574104-1-f4bug@amsat.org>
+ <5230139.pYjDmQ3FvW@silver> <246f1f6f-3674-e3dc-3a8e-f53795fa58cc@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20220110210416.18779-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,168 +69,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cindy Lu <lulu@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit bf1d85c166c19af95dbd27b1faba1d2909732323.
+On Montag, 10. Januar 2022 21:39:28 CET Akihiko Odaki wrote:
+> On 2022/01/11 5:22, Christian Schoenebeck wrote:
+> > On Montag, 10. Januar 2022 20:01:40 CET Akihiko Odaki wrote:
+> >> On 2022/01/11 3:46, Christian Schoenebeck wrote:
+> >>> On Montag, 10. Januar 2022 19:20:15 CET Akihiko Odaki wrote:
+> >>>> On 2022/01/10 22:22, Peter Maydell wrote:
+> >>>>> On Mon, 10 Jan 2022 at 13:14, Christian Schoenebeck
+> >>>>> 
+> >>>>> <qemu_oss@crudebyte.com> wrote:
+> >>>>>> I'd suggest to use:
+> >>>>>> 
+> >>>>>> #if !defined(MAC_OS_VERSION_12_0) ||
+> >>>>>> 
+> >>>>>>        (MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_VERSION_12_0)
+> >>>>>> 
+> >>>>>> #define kAudioObjectPropertyElementMain
+> >>>>>> kAudioObjectPropertyElementMaster
+> >>>>>> #endif
+> >>>>> 
+> >>>>> This is also how we do this for existing checks of this sort,
+> >>>>> like the one in osdep.h for qemu_thread_jit_execute().
+> >>>>> 
+> >>>>> -- PMM
+> >>>> 
+> >>>> If I understand correctly, Many macOS-specific codes already no longer
+> >>>> complies with GCC because they depend on modern features GCC doesn't
+> >>>> provide. The most problematic construction is block; it is extensively
+> >>>> used by Apple's ABI and API and you cannot avoid using it even if you
+> >>>> try.
+> >>> 
+> >>> You mean Obj-C blocks? That's working with GCC for decades. I am not
+> >>> aware
+> >>> about any recent changes to Obj-C block mechanisms by Apple.
+> >>> 
+> >>>> Also, note that MAC_OS_X_VERSION_MAX_ALLOWED defines the upper bound of
+> >>>> the supported version. The lower bound should be preferred here because
+> >>>> the usage of the new identifier is applied regardless of the version of
+> >>>> the host system. It is in contrary to the usage of
+> >>>> MAC_OS_X_VERSION_MAX_ALLOWED in osdep.h where the new interfaces are
+> >>>> used only for the newer versions. The lower bound is defined as
+> >>>> MAC_OS_X_VERSION_MIN_REQUIRED. Practically there is no difference of
+> >>>> the
+> >>>> two macros because they have the same value in QEMU and
+> >>>> kAudioObjectPropertyElementMain is a constant resolved compile-time,
+> >>>> but
+> >>>> it is still nice to have the code semantically correct.
+> >>> 
+> >>> For this particular enum: no, MAC_OS_X_VERSION_MAX_ALLOWED is the
+> >>> correct
+> >>> one. This is about whether enum kAudioObjectPropertyElementMain is
+> >>> defined in the SDK header files. That's all. And the new enum
+> >>> kAudioObjectPropertyElementMain is pure refactoring of the enum's old
+> >>> name due to social reasons ("Master"). The actual reflected numeric
+> >>> value
+> >>> and semantic of the enum is unchanged and the resulting binary and
+> >>> behaviour are identical.
+> >> 
+> >> There are a few problems with the usage of MAC_OS_X_VERSION_MAX_ALLOWED:
+> >> - The deprecation warning is designed to work with
+> >> MAC_OS_X_VERSION_MIN_REQUIRED. You may verify that with:
+> >> cc -mmacosx-version-min=12.0 -x c - <<EOF
+> >> #include <CoreAudio/CoreAudio.h>
+> >> 
+> >> int main()
+> >> {
+> >> 
+> >>      int k = kAudioObjectPropertyElementMaster;
+> >> 
+> >> }
+> >> EOF
+> > 
+> > That's actually interesting. On other projects I definitely saw deprecated
+> > warnings before on API declarations that were deprecated at a version
+> > higher than the project's minimum deployment target.
+> > 
+> > Did they change that?
+> 
+> I don't think so. The behavior is documented at:
+> https://clang.llvm.org/docs/AttributeReference.html#availability
+> and the example refers to OS X 10.4, 10.6, 10.7. Probably they haven't
+> changed the behavior for decades.
 
-Fixes: bf1d85c166 ("virtio: introduce macro IRTIO_CONFIG_IRQ_IDX")
-Cc: "Cindy Lu" <lulu@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- include/hw/virtio/virtio.h     |  3 ---
- hw/display/vhost-user-gpu.c    |  6 ------
- hw/net/virtio-net.c            | 10 ++--------
- hw/virtio/vhost-user-fs.c      |  6 ------
- hw/virtio/vhost-vsock-common.c |  6 ------
- hw/virtio/virtio-crypto.c      |  6 ------
- 6 files changed, 2 insertions(+), 35 deletions(-)
+The descriptions is very vague. It sais e.g. "If Clang is instructed to 
+compile code for macOS 10.6 ...". So it is describing it only via singular 
+version per example. We are talking about version ranges however.
 
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index 605ea79c90..8bab9cfb75 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -67,9 +67,6 @@ typedef struct VirtQueueElement
- 
- #define VIRTIO_NO_VECTOR 0xffff
- 
--/* special index value used internally for config irqs */
--#define VIRTIO_CONFIG_IRQ_IDX -1
--
- #define TYPE_VIRTIO_DEVICE "virtio-device"
- OBJECT_DECLARE_TYPE(VirtIODevice, VirtioDeviceClass, VIRTIO_DEVICE)
- 
-diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
-index d4a440e815..09818231bd 100644
---- a/hw/display/vhost-user-gpu.c
-+++ b/hw/display/vhost-user-gpu.c
-@@ -485,9 +485,6 @@ vhost_user_gpu_guest_notifier_pending(VirtIODevice *vdev, int idx)
- {
-     VhostUserGPU *g = VHOST_USER_GPU(vdev);
- 
--    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
--        return false;
--    }
-     return vhost_virtqueue_pending(&g->vhost->dev, idx);
- }
- 
-@@ -496,9 +493,6 @@ vhost_user_gpu_guest_notifier_mask(VirtIODevice *vdev, int idx, bool mask)
- {
-     VhostUserGPU *g = VHOST_USER_GPU(vdev);
- 
--    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
--        return;
--    }
-     vhost_virtqueue_mask(&g->vhost->dev, vdev, idx, mask);
- }
- 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 5e03c0dd14..cf8ab0f8af 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -3168,9 +3168,6 @@ static bool virtio_net_guest_notifier_pending(VirtIODevice *vdev, int idx)
-     VirtIONet *n = VIRTIO_NET(vdev);
-     NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
-     assert(n->vhost_started);
--    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
--        return false;
--    }
-     return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx);
- }
- 
-@@ -3180,11 +3177,8 @@ static void virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
-     VirtIONet *n = VIRTIO_NET(vdev);
-     NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
-     assert(n->vhost_started);
--    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
--        return;
--    }
--
--    vhost_net_virtqueue_mask(get_vhost_net(nc->peer), vdev, idx, mask);
-+    vhost_net_virtqueue_mask(get_vhost_net(nc->peer),
-+                             vdev, idx, mask);
- }
- 
- static void virtio_net_set_config_size(VirtIONet *n, uint64_t host_features)
-diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-index 9b0349922e..c595957983 100644
---- a/hw/virtio/vhost-user-fs.c
-+++ b/hw/virtio/vhost-user-fs.c
-@@ -161,9 +161,6 @@ static void vuf_guest_notifier_mask(VirtIODevice *vdev, int idx,
- {
-     VHostUserFS *fs = VHOST_USER_FS(vdev);
- 
--    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
--        return;
--    }
-     vhost_virtqueue_mask(&fs->vhost_dev, vdev, idx, mask);
- }
- 
-@@ -171,9 +168,6 @@ static bool vuf_guest_notifier_pending(VirtIODevice *vdev, int idx)
- {
-     VHostUserFS *fs = VHOST_USER_FS(vdev);
- 
--    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
--        return false;
--    }
-     return vhost_virtqueue_pending(&fs->vhost_dev, idx);
- }
- 
-diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
-index d1b9c027b6..3f3771274e 100644
---- a/hw/virtio/vhost-vsock-common.c
-+++ b/hw/virtio/vhost-vsock-common.c
-@@ -125,9 +125,6 @@ static void vhost_vsock_common_guest_notifier_mask(VirtIODevice *vdev, int idx,
- {
-     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
- 
--    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
--        return;
--    }
-     vhost_virtqueue_mask(&vvc->vhost_dev, vdev, idx, mask);
- }
- 
-@@ -136,9 +133,6 @@ static bool vhost_vsock_common_guest_notifier_pending(VirtIODevice *vdev,
- {
-     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
- 
--    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
--        return false;
--    }
-     return vhost_virtqueue_pending(&vvc->vhost_dev, idx);
- }
- 
-diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-index 1d5192f8b4..54f9bbb789 100644
---- a/hw/virtio/virtio-crypto.c
-+++ b/hw/virtio/virtio-crypto.c
-@@ -948,9 +948,6 @@ static void virtio_crypto_guest_notifier_mask(VirtIODevice *vdev, int idx,
- 
-     assert(vcrypto->vhost_started);
- 
--    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
--        return;
--    }
-     cryptodev_vhost_virtqueue_mask(vdev, queue, idx, mask);
- }
- 
-@@ -961,9 +958,6 @@ static bool virtio_crypto_guest_notifier_pending(VirtIODevice *vdev, int idx)
- 
-     assert(vcrypto->vhost_started);
- 
--    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
--        return false;
--    }
-     return cryptodev_vhost_virtqueue_pending(vdev, queue, idx);
- }
- 
--- 
-MST
+> MacOSX.sdk/System/Library/Frameworks/Kernel.framework/Headers/os/availabilit
+> y.h says manually defining API_TO_BE_DEPRECATED can alter the behavior so
+> that may be the case.
+> 
+> >> - The programmer must be aware whether it is constant or not.
+> >> - The macro tells about the runtime and not the SDK. There is no way to
+> >> tell the SDK version and that is why I suggested __is_identifier at the
+> >> first place. However, now I'm convinced that
+> >> MAC_OS_X_VERSION_MIN_REQUIRED is the better option because of the above
+> >> reasons.
+> > 
+> > If you make it dependent on MAC_OS_X_VERSION_MIN_REQUIRED, people with
+> > older SDKs (e.g. Xcode <=13.0) would get a compiler error.
+> 
+> __is_identifier is the only option if you need a compatibility with the
+> older SDKs while specifying a greater version for
+> MAC_OS_X_VERSION_MIN_REQUIRED. It also applies to
+> MAC_OS_X_VERSION_MAX_ALLOWED; they give the possible runtime versions
+> and not the SDK version.
+
+I have never used __is_identifier() for such things. I always used 
+MAC_OS_X_VERSION_MIN_REQUIRED and MAC_OS_X_VERSION_MAX_ALLOWED and it was 
+always doing the job.
+
+And for symbols: those are automatically weak linked by the compiler if the 
+project's minimum deployment target is lower than the introductory version of 
+the symbol.
+
+> > You are right about the deprecated warning not being emitted in the
+> > example
+> > above, currently not sure why, but I still think
+> > MAC_OS_X_VERSION_MAX_ALLOWED is the way to go in this case.
+> 
+> The page and the header file I referred the above would help
+> understanding the behavior.
+
+Yeah, I already checked that. It basically translates to:
+
+__attribute__((availability(macosx,introduced=10.0,deprecated=12.0)))
+
+So next I would need to read clang sources how this attribute is implemented 
+exactly. Not today. ;-)
+
+Best regards,
+Christian Schoenebeck
+
 
 
