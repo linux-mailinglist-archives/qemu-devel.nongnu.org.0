@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38D70489AFD
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 15:02:08 +0100 (CET)
-Received: from localhost ([::1]:43240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE40B489B07
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 15:06:04 +0100 (CET)
+Received: from localhost ([::1]:47836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6vFP-0003Kr-0d
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 09:02:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39106)
+	id 1n6vJD-0006gC-9F
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 09:06:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1n6v0o-0002MV-Fl
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:47:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22406)
+ id 1n6v0q-0002VO-33
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:47:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31990)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1n6v0m-00073E-Mx
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:47:02 -0500
+ id 1n6v0o-000751-9I
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:47:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641822420;
+ s=mimecast20190719; t=1641822421;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B/PuiaiPTEsCHacu0SBkdgDPgiVpur/KjjkCy3lBTeA=;
- b=e8K+ZWTT8VuRYUxg8FuTXx/r3FWC5oATBd7/e/d6xPiwTFndWm8N9rqbJnFIQmyI/f5RNH
- N5JCKGa4XDZZurteUobBFkzxGERIgWyE/Q8XeLrURBA7SCZiO+u8thglQPO0RXTmBUm+9u
- aq3u8Ctq5tm5dN3p9Goohvf7/IUOUFs=
+ bh=IcTXArrUysVq5WZf7Ot3TfG9SgPurVupPsFDLKdzNZ8=;
+ b=SgPJ3QdonmDfKgYua/Lp8Xkps70bvVkI1PEc+Wxt/4JFhpylHkEeCPCIqHSURjw1PPEjKo
+ RUB4uKrL5CzNy89udvzryQSn7rR74fnKl6W1XbcnDS2SbJPzKlbJdupqqUKED01OTE5qKu
+ cXs4ft83KuJ+N2LCkKdgo5yqOIA8zN8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-628-ZdBV6euUObihQaRL8Wl7RQ-1; Mon, 10 Jan 2022 08:46:59 -0500
-X-MC-Unique: ZdBV6euUObihQaRL8Wl7RQ-1
+ us-mta-512-OGRqbuqsMi2HEtfiEmMBWA-1; Mon, 10 Jan 2022 08:47:00 -0500
+X-MC-Unique: OGRqbuqsMi2HEtfiEmMBWA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4660681CCB7;
- Mon, 10 Jan 2022 13:46:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9417583DD21;
+ Mon, 10 Jan 2022 13:46:59 +0000 (UTC)
 Received: from kostyanf14nb.Dlink (unknown [10.40.193.252])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 609487BB41;
- Mon, 10 Jan 2022 13:46:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AE3D57BB41;
+ Mon, 10 Jan 2022 13:46:58 +0000 (UTC)
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 8/9] qga-win: Detect OS based on Windows 10 by first build
- number
-Date: Mon, 10 Jan 2022 15:46:43 +0200
-Message-Id: <20220110134644.107375-9-kkostiuk@redhat.com>
+Subject: [PULL 9/9] qga-win: Detect Windows 11 by build number
+Date: Mon, 10 Jan 2022 15:46:44 +0200
+Message-Id: <20220110134644.107375-10-kkostiuk@redhat.com>
 In-Reply-To: <20220110134644.107375-1-kkostiuk@redhat.com>
 References: <20220110134644.107375-1-kkostiuk@redhat.com>
 MIME-Version: 1.0
@@ -86,70 +85,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Kostiantyn Kostiuk <konstantin@daynix.com>
 
-Windows Server 2016, 2019, 2022 are based on Windows 10 and
-have the same major and minor versions. So, the only way to
-detect the proper version is to use the build number.
+Windows 10 and 11 have the same major and minor versions.
+So, the only way to determine the correct version is to
+use the build number.
 
-Before this commit, the guest agent use the last build number
-for each OS, but it causes problems when new OS releases.
-There are few preview versions before release, and we
-can't update this list.
-
-After this commit, the guest agent will use the first build
-number. For each new preview version or release version,
-Microsoft increases the build number, so we can add the number
-of the first preview build and this will work until the new
-OS release.
+After this commit, the guest agent will return the proper
+"version" and "version-id" for Windows 11. The "pretty-name"
+is read from the registry and will be incorrect until the
+MS updates the registry. We only can create some workaround
+and replace 10 to 11.
 
 Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Kostiantyn Kostiuk <kkostiuk@redhat.com>
 ---
- qga/commands-win32.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ qga/commands-win32.c | 23 ++++++++++++++---------
+ 1 file changed, 14 insertions(+), 9 deletions(-)
 
 diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index 892082504f..3f60419419 100644
+index 3f60419419..484cb1c6bd 100644
 --- a/qga/commands-win32.c
 +++ b/qga/commands-win32.c
-@@ -2195,7 +2195,7 @@ static ga_matrix_lookup_t const WIN_VERSION_MATRIX[2][8] = {
+@@ -2170,7 +2170,7 @@ typedef struct _ga_matrix_lookup_t {
+     char const *version_id;
+ } ga_matrix_lookup_t;
+ 
+-static ga_matrix_lookup_t const WIN_VERSION_MATRIX[2][8] = {
++static ga_matrix_lookup_t const WIN_VERSION_MATRIX[2][7] = {
+     {
+         /* Desktop editions */
+         { 5, 0, "Microsoft Windows 2000",   "2000"},
+@@ -2179,7 +2179,6 @@ static ga_matrix_lookup_t const WIN_VERSION_MATRIX[2][8] = {
+         { 6, 1, "Microsoft Windows 7"       "7"},
+         { 6, 2, "Microsoft Windows 8",      "8"},
+         { 6, 3, "Microsoft Windows 8.1",    "8.1"},
+-        {10, 0, "Microsoft Windows 10",     "10"},
+         { 0, 0, 0}
+     },{
+         /* Server editions */
+@@ -2189,24 +2188,29 @@ static ga_matrix_lookup_t const WIN_VERSION_MATRIX[2][8] = {
+         { 6, 2, "Microsoft Windows Server 2012",        "2012"},
+         { 6, 3, "Microsoft Windows Server 2012 R2",     "2012r2"},
+         { 0, 0, 0},
+-        { 0, 0, 0},
+         { 0, 0, 0}
+     }
  };
  
- typedef struct _ga_win_10_0_server_t {
--    int final_build;
-+    int first_build;
+-typedef struct _ga_win_10_0_server_t {
++typedef struct _ga_win_10_0_t {
+     int first_build;
      char const *version;
      char const *version_id;
- } ga_win_10_0_server_t;
-@@ -2235,18 +2235,22 @@ static char *ga_get_win_name(OSVERSIONINFOEXW const *os_version, bool id)
+-} ga_win_10_0_server_t;
++} ga_win_10_0_t;
+ 
+-static ga_win_10_0_server_t const WIN_10_0_SERVER_VERSION_MATRIX[4] = {
++static ga_win_10_0_t const WIN_10_0_SERVER_VERSION_MATRIX[4] = {
+     {14393, "Microsoft Windows Server 2016",    "2016"},
+     {17763, "Microsoft Windows Server 2019",    "2019"},
+     {20344, "Microsoft Windows Server 2022",    "2022"},
+     {0, 0}
+ };
+ 
++static ga_win_10_0_t const WIN_10_0_CLIENT_VERSION_MATRIX[3] = {
++    {10240, "Microsoft Windows 10",    "10"},
++    {22000, "Microsoft Windows 11",    "11"},
++    {0, 0}
++};
++
+ static void ga_get_win_version(RTL_OSVERSIONINFOEXW *info, Error **errp)
+ {
+     typedef NTSTATUS(WINAPI *rtl_get_version_t)(
+@@ -2234,10 +2238,11 @@ static char *ga_get_win_name(OSVERSIONINFOEXW const *os_version, bool id)
+     DWORD build = os_version->dwBuildNumber;
      int tbl_idx = (os_version->wProductType != VER_NT_WORKSTATION);
      ga_matrix_lookup_t const *table = WIN_VERSION_MATRIX[tbl_idx];
-     ga_win_10_0_server_t const *win_10_0_table = WIN_10_0_SERVER_VERSION_MATRIX;
-+    ga_win_10_0_server_t const *win_10_0_version = NULL;
+-    ga_win_10_0_server_t const *win_10_0_table = WIN_10_0_SERVER_VERSION_MATRIX;
+-    ga_win_10_0_server_t const *win_10_0_version = NULL;
++    ga_win_10_0_t const *win_10_0_table = tbl_idx ?
++        WIN_10_0_SERVER_VERSION_MATRIX : WIN_10_0_CLIENT_VERSION_MATRIX;
++    ga_win_10_0_t const *win_10_0_version = NULL;
      while (table->version != NULL) {
-         if (major == 10 && minor == 0 && tbl_idx) {
+-        if (major == 10 && minor == 0 && tbl_idx) {
++        if (major == 10 && minor == 0) {
              while (win_10_0_table->version != NULL) {
--                if (build <= win_10_0_table->final_build) {
--                    if (id) {
--                        return g_strdup(win_10_0_table->version_id);
--                    } else {
--                        return g_strdup(win_10_0_table->version);
--                    }
-+                if (build >= win_10_0_table->first_build) {
-+                    win_10_0_version = win_10_0_table;
-                 }
-                 win_10_0_table++;
-             }
-+            if (win_10_0_table) {
-+                if (id) {
-+                    return g_strdup(win_10_0_version->version_id);
-+                } else {
-+                    return g_strdup(win_10_0_version->version);
-+                }
-+            }
-         } else if (major == table->major && minor == table->minor) {
-             if (id) {
-                 return g_strdup(table->version_id);
+                 if (build >= win_10_0_table->first_build) {
+                     win_10_0_version = win_10_0_table;
 -- 
 2.25.1
 
