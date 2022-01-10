@@ -2,47 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB1AB489FC3
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 20:02:07 +0100 (CET)
-Received: from localhost ([::1]:47162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DD99489FDB
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 20:08:07 +0100 (CET)
+Received: from localhost ([::1]:60138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6zvi-0003Vd-Jw
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 14:02:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37240)
+	id 1n701W-0004F5-9a
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 14:08:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1n6zlw-0004wH-3T; Mon, 10 Jan 2022 13:52:01 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:49730)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n6zr6-0000WG-PK
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 13:57:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1n6zls-0000K6-U5; Mon, 10 Jan 2022 13:51:59 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id B73E874570D;
- Mon, 10 Jan 2022 19:51:53 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 81A7F745709; Mon, 10 Jan 2022 19:51:53 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 7FDF27456B4;
- Mon, 10 Jan 2022 19:51:53 +0100 (CET)
-Date: Mon, 10 Jan 2022 19:51:53 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH 4/8] squash target/ppc: Introduce powerpc_excp_40x
-In-Reply-To: <20220110181546.4131853-5-farosas@linux.ibm.com>
-Message-ID: <17495cce-79f1-1483-aab3-86ffcde7492e@eik.bme.hu>
-References: <20220110181546.4131853-1-farosas@linux.ibm.com>
- <20220110181546.4131853-5-farosas@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n6zr1-00019D-VI
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 13:57:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641841034;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z4PZvZTFMYL3hRz7be/v8yQaGUM2t5FSQWtltc6RY9U=;
+ b=KAi7X6klzeszGmG1aPJMZXiyfobQ89YxDmLr6O5HBmq/95bNh2HPqGZJQszdSDmLtf/xvR
+ sheLWwpBgP76tTSaKR9JKSnWiSsPqAXmavGhRtVkBZIOnU9Z4MgkFmWlzXct8cwnqSQaE/
+ BFbhFHaDcWQwi2OIxqe1SxZsu+xMROM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-383-o3AJokrdMbmXS3K0RQ9LTQ-1; Mon, 10 Jan 2022 13:57:08 -0500
+X-MC-Unique: o3AJokrdMbmXS3K0RQ9LTQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ r2-20020a05600c35c200b00345c3b82b22so49375wmq.0
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 10:57:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Z4PZvZTFMYL3hRz7be/v8yQaGUM2t5FSQWtltc6RY9U=;
+ b=z116gvcTffOi+kiq56FWAAzdC/cm3YQ0ZmuIY+OZZ9fDvsh0JuF5ZXvPOjX+F3Fl0/
+ ytzmFN2pzAbHeoDeuTO9g7cDbk6u60pxVHnRBKEEdF5RzP2EUWsm5/K4qWLESUfTbjFM
+ fUZHyhPK7zqnkmlpEeV5lVukVKeK2jDbS+HtNRtRQuJNfGmlu9GwI8ZLaqxQMsQ/u0LE
+ OOpYbXLXlSRtH5q5aYeCvovtRyu1zanuK13CWxi+uWx7CYGXOXUu6E9t8wDuyhNS3rdn
+ PrMhzlWlcOUyG5z3u7JH5aoH3mXqdadAinXZ12d0zB16r3i7foOVC0KoPgv4nQRyt36g
+ 28Ug==
+X-Gm-Message-State: AOAM533Bw11xnS2IZb9ZXZZKe2i19b7CI6Xg8seOmb8HLBpWirKjgsJm
+ qiW4RWiMoAMiSH7ZOMkV3RX0rC7Nb1yeo0I0/NNrI8e029Qeb8eAmkPWfnaW6sNwvK2va1l1SBf
+ mnOcctXJBSjEqTUk=
+X-Received: by 2002:a7b:c055:: with SMTP id u21mr23363695wmc.0.1641841027167; 
+ Mon, 10 Jan 2022 10:57:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwsy0aVqMviLvmaDSfGyDvyTVzrrIdl5Vym++TC4Al6u4wEjp6970HyJc2XAm9rzCfuXYlJzQ==
+X-Received: by 2002:a7b:c055:: with SMTP id u21mr23363684wmc.0.1641841026928; 
+ Mon, 10 Jan 2022 10:57:06 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id o10sm7944081wmq.31.2022.01.10.10.57.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Jan 2022 10:57:06 -0800 (PST)
+Message-ID: <bfa45a4d-4d6e-f2c0-ed62-8bc184196c66@redhat.com>
+Date: Mon, 10 Jan 2022 19:57:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v2] block-backend: prevent dangling BDS pointers across
+ aio_poll()
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20211214143542.14758-1-stefanha@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20211214143542.14758-1-stefanha@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -55,270 +100,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-stable@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 10 Jan 2022, Fabiano Rosas wrote:
-> Introduce a new exception dispatcher for 40x CPUs.
+On 14.12.21 15:35, Stefan Hajnoczi wrote:
+> The BlockBackend root child can change when aio_poll() is invoked. This
+> happens when a temporary filter node is removed upon blockjob
+> completion, for example.
 >
-> Differences from the generic powerpc_excp code:
+> Functions in block/block-backend.c must be aware of this when using a
+> blk_bs() pointer across aio_poll() because the BlockDriverState refcnt
+> may reach 0, resulting in a stale pointer.
 >
-> - Not BookE, so some MSR bits are cleared at interrupt dispatch;
-> - No MSR_HV or MSR_LE;
-> - No power saving states;
-> - No Hypervisor Emulation Assistance;
-> - Not 64 bits;
-> - No System call vectored;
-> - No Interrupts Little Endian;
-> - No Alternate Interrupt Location.
+> One example is scsi_device_purge_requests(), which calls blk_drain() to
+> wait for in-flight requests to cancel. If the backup blockjob is active,
+> then the BlockBackend root child is a temporary filter BDS owned by the
+> blockjob. The blockjob can complete during bdrv_drained_begin() and the
+> last reference to the BDS is released when the temporary filter node is
+> removed. This results in a use-after-free when blk_drain() calls
+> bdrv_drained_end(bs) on the dangling pointer.
+
+By the way, I have a BZ for this, though it’s about block-stream instead 
+of backup (https://bugzilla.redhat.com/show_bug.cgi?id=2036178).  But 
+I’m happy to report your patch seems* to fix that problem, too!  (Thanks 
+for fixing my BZs! :))
+
+*I’ve written a reproducer in iotest form 
+(https://gitlab.com/hreitz/qemu/-/blob/stefans-fix-and-a-test/tests/qemu-iotests/tests/stream-error-on-reset), 
+and so far I can only assume it indeed reproduces the report, but I 
+found that iotest to indeed be fixed by this patch.  (Which made me very 
+happy.)
+
+Hanna
+
+> Explicitly hold a reference to bs across block APIs that invoke
+> aio_poll().
 >
-> Exceptions used:
->
-> POWERPC_EXCP_ALIGN
-> POWERPC_EXCP_APU
-> POWERPC_EXCP_CRITICAL
-> POWERPC_EXCP_DEBUG
-> POWERPC_EXCP_DSI
-> POWERPC_EXCP_DTLB
-> POWERPC_EXCP_EXTERNAL
-> POWERPC_EXCP_FIT
-> POWERPC_EXCP_FPU
-> POWERPC_EXCP_ISI
-> POWERPC_EXCP_ITLB
-> POWERPC_EXCP_MCHECK
-> POWERPC_EXCP_PIT
-> POWERPC_EXCP_PROGRAM
-> POWERPC_EXCP_SYSCALL
-> POWERPC_EXCP_WDT
->
-> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
-> target/ppc/excp_helper.c | 165 +++------------------------------------
-> 1 file changed, 13 insertions(+), 152 deletions(-)
+> v2:
+> - Audit block/block-backend.c and fix additional cases
+> ---
+>   block/block-backend.c | 11 +++++++++++
+>   1 file changed, 11 insertions(+)
 >
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 12ab5e1b34..1d997c4d6b 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -409,54 +409,18 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
->                   excp, env->error_code);
->
->     /* new srr1 value excluding must-be-zero bits */
-> -    if (excp_model == POWERPC_EXCP_BOOKE) {
-> -        msr = env->msr;
-> -    } else {
-> -        msr = env->msr & ~0x783f0000ULL;
-> -    }
-> +    msr = env->msr & ~0x783f0000ULL;
->
->     /*
-> -     * new interrupt handler msr preserves existing HV and ME unless
-> -     * explicitly overriden
-> +     * new interrupt handler msr preserves existing ME unless
-> +     * explicitly overriden.
->      */
-> -    new_msr = env->msr & (((target_ulong)1 << MSR_ME) | MSR_HVB);
-> +    new_msr = env->msr & (((target_ulong)1 << MSR_ME));
->
->     /* target registers */
->     srr0 = SPR_SRR0;
->     srr1 = SPR_SRR1;
->
-> -    /*
-> -     * check for special resume at 0x100 from doze/nap/sleep/winkle on
-> -     * P7/P8/P9
-> -     */
-> -    if (env->resume_as_sreset) {
-> -        excp = powerpc_reset_wakeup(cs, env, excp, &msr);
-> -    }
-> -
-> -    /*
-> -     * Hypervisor emulation assistance interrupt only exists on server
-> -     * arch 2.05 server or later. We also don't want to generate it if
-> -     * we don't have HVB in msr_mask (PAPR mode).
-> -     */
-> -    if (excp == POWERPC_EXCP_HV_EMU
-> -#if defined(TARGET_PPC64)
-> -        && !(mmu_is_64bit(env->mmu_model) && (env->msr_mask & MSR_HVB))
-> -#endif /* defined(TARGET_PPC64) */
-> -
-> -    ) {
-> -        excp = POWERPC_EXCP_PROGRAM;
-> -    }
-> -
-> -#ifdef TARGET_PPC64
-> -    /*
-> -     * SPEU and VPU share the same IVOR but they exist in different
-> -     * processors. SPEU is e500v1/2 only and VPU is e6500 only.
-> -     */
-> -    if (excp_model == POWERPC_EXCP_BOOKE && excp == POWERPC_EXCP_VPU) {
-> -        excp = POWERPC_EXCP_SPEU;
-> -    }
-> -#endif
-> -
->     vector = env->excp_vectors[excp];
->     if (vector == (target_ulong)-1ULL) {
->         cpu_abort(cs, "Raised an exception without defined vector %d\n",
-> @@ -581,6 +545,11 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
->          */
->         env->spr[SPR_DSISR] |= (env->error_code & 0x03FF0000) >> 16;
->         break;
-> +    case POWERPC_EXCP_HV_EMU:
-> +        /*
-> +         * Hypervisor emulation assistance interrupt only exists on server
-> +         * arch 2.05 server or later.
-> +         */
->     case POWERPC_EXCP_PROGRAM:   /* Program exception                        */
->         switch (env->error_code & ~0xF) {
->         case POWERPC_EXCP_FP:
-> @@ -645,22 +614,8 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
->             new_msr |= (target_ulong)MSR_HVB;
->         }
->         break;
-> -    case POWERPC_EXCP_SYSCALL_VECTORED: /* scv exception                     */
-> -        lev = env->error_code;
-> -        dump_syscall(env);
-> -        env->nip += 4;
-> -        new_msr |= env->msr & ((target_ulong)1 << MSR_EE);
-> -        new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
-> -
-> -        vector += lev * 0x20;
-> -
-> -        env->lr = env->nip;
-> -        env->ctr = msr;
-> -        break;
->     case POWERPC_EXCP_FPU:       /* Floating-point unavailable exception     */
->     case POWERPC_EXCP_APU:       /* Auxiliary processor unavailable          */
-> -    case POWERPC_EXCP_DECR:      /* Decrementer exception                    */
-> -        break;
+> diff --git a/block/block-backend.c b/block/block-backend.c
+> index 12ef80ea17..a40ad7fa92 100644
+> --- a/block/block-backend.c
+> +++ b/block/block-backend.c
+> @@ -828,10 +828,12 @@ void blk_remove_bs(BlockBackend *blk)
+>       notifier_list_notify(&blk->remove_bs_notifiers, blk);
+>       if (tgm->throttle_state) {
+>           bs = blk_bs(blk);
+> +        bdrv_ref(bs);
+>           bdrv_drained_begin(bs);
+>           throttle_group_detach_aio_context(tgm);
+>           throttle_group_attach_aio_context(tgm, qemu_get_aio_context());
+>           bdrv_drained_end(bs);
+> +        bdrv_unref(bs);
+>       }
+>   
+>       blk_update_root_state(blk);
+> @@ -1705,6 +1707,7 @@ void blk_drain(BlockBackend *blk)
+>       BlockDriverState *bs = blk_bs(blk);
+>   
+>       if (bs) {
+> +        bdrv_ref(bs);
+>           bdrv_drained_begin(bs);
+>       }
+>   
+> @@ -1714,6 +1717,7 @@ void blk_drain(BlockBackend *blk)
+>   
+>       if (bs) {
+>           bdrv_drained_end(bs);
+> +        bdrv_unref(bs);
+>       }
+>   }
+>   
+> @@ -2044,10 +2048,13 @@ static int blk_do_set_aio_context(BlockBackend *blk, AioContext *new_context,
+>       int ret;
+>   
+>       if (bs) {
+> +        bdrv_ref(bs);
+> +
+>           if (update_root_node) {
+>               ret = bdrv_child_try_set_aio_context(bs, new_context, blk->root,
+>                                                    errp);
+>               if (ret < 0) {
+> +                bdrv_unref(bs);
+>                   return ret;
+>               }
+>           }
+> @@ -2057,6 +2064,8 @@ static int blk_do_set_aio_context(BlockBackend *blk, AioContext *new_context,
+>               throttle_group_attach_aio_context(tgm, new_context);
+>               bdrv_drained_end(bs);
+>           }
+> +
+> +        bdrv_unref(bs);
+>       }
+>   
+>       blk->ctx = new_context;
+> @@ -2326,11 +2335,13 @@ void blk_io_limits_disable(BlockBackend *blk)
+>       ThrottleGroupMember *tgm = &blk->public.throttle_group_member;
+>       assert(tgm->throttle_state);
+>       if (bs) {
+> +        bdrv_ref(bs);
+>           bdrv_drained_begin(bs);
+>       }
+>       throttle_group_unregister_tgm(tgm);
+>       if (bs) {
+>           bdrv_drained_end(bs);
+> +        bdrv_unref(bs);
+>       }
+>   }
+>   
 
-Removing the break here makes FPU and APU fall through to FIT. Is that 
-intentional?
-
-Regards,
-BALATON Zoltan
-
->     case POWERPC_EXCP_FIT:       /* Fixed-interval timer interrupt           */
->         /* FIT on 4xx */
->         trace_ppc_excp_print("FIT");
-> @@ -693,70 +648,6 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
->             cpu_abort(cs, "Debug exception triggered on unsupported model\n");
->         }
->         break;
-> -    case POWERPC_EXCP_SPEU:   /* SPE/embedded floating-point unavailable/VPU  */
-> -        env->spr[SPR_BOOKE_ESR] = ESR_SPV;
-> -        break;
-> -    case POWERPC_EXCP_DOORI:     /* Embedded doorbell interrupt              */
-> -        break;
-> -    case POWERPC_EXCP_DOORCI:    /* Embedded doorbell critical interrupt     */
-> -        srr0 = SPR_BOOKE_CSRR0;
-> -        srr1 = SPR_BOOKE_CSRR1;
-> -        break;
-> -    case POWERPC_EXCP_RESET:     /* System reset exception                   */
-> -        /* A power-saving exception sets ME, otherwise it is unchanged */
-> -        if (msr_pow) {
-> -            /* indicate that we resumed from power save mode */
-> -            msr |= 0x10000;
-> -            new_msr |= ((target_ulong)1 << MSR_ME);
-> -        }
-> -        if (env->msr_mask & MSR_HVB) {
-> -            /*
-> -             * ISA specifies HV, but can be delivered to guest with HV
-> -             * clear (e.g., see FWNMI in PAPR, NMI injection in QEMU).
-> -             */
-> -            new_msr |= (target_ulong)MSR_HVB;
-> -        } else {
-> -            if (msr_pow) {
-> -                cpu_abort(cs, "Trying to deliver power-saving system reset "
-> -                          "exception %d with no HV support\n", excp);
-> -            }
-> -        }
-> -        break;
-> -    case POWERPC_EXCP_DSEG:      /* Data segment exception                   */
-> -    case POWERPC_EXCP_ISEG:      /* Instruction segment exception            */
-> -    case POWERPC_EXCP_TRACE:     /* Trace exception                          */
-> -        break;
-> -    case POWERPC_EXCP_HISI:      /* Hypervisor instruction storage exception */
-> -        msr |= env->error_code;
-> -        /* fall through */
-> -    case POWERPC_EXCP_HDECR:     /* Hypervisor decrementer exception         */
-> -    case POWERPC_EXCP_HDSI:      /* Hypervisor data storage exception        */
-> -    case POWERPC_EXCP_HDSEG:     /* Hypervisor data segment exception        */
-> -    case POWERPC_EXCP_HISEG:     /* Hypervisor instruction segment exception */
-> -    case POWERPC_EXCP_SDOOR_HV:  /* Hypervisor Doorbell interrupt            */
-> -    case POWERPC_EXCP_HV_EMU:
-> -    case POWERPC_EXCP_HVIRT:     /* Hypervisor virtualization                */
-> -        srr0 = SPR_HSRR0;
-> -        srr1 = SPR_HSRR1;
-> -        new_msr |= (target_ulong)MSR_HVB;
-> -        new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
-> -        break;
-> -    case POWERPC_EXCP_VPU:       /* Vector unavailable exception             */
-> -    case POWERPC_EXCP_VSXU:       /* VSX unavailable exception               */
-> -    case POWERPC_EXCP_FU:         /* Facility unavailable exception          */
-> -#ifdef TARGET_PPC64
-> -        env->spr[SPR_FSCR] |= ((target_ulong)env->error_code << 56);
-> -#endif
-> -        break;
-> -    case POWERPC_EXCP_HV_FU:     /* Hypervisor Facility Unavailable Exception */
-> -#ifdef TARGET_PPC64
-> -        env->spr[SPR_HFSCR] |= ((target_ulong)env->error_code << FSCR_IC_POS);
-> -        srr0 = SPR_HSRR0;
-> -        srr1 = SPR_HSRR1;
-> -        new_msr |= (target_ulong)MSR_HVB;
-> -        new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
-> -#endif
-> -        break;
->     case POWERPC_EXCP_PIT:       /* Programmable interval timer interrupt    */
->         trace_ppc_excp_print("PIT");
->         break;
-> @@ -824,41 +715,11 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
->         }
->     }
->
-> -    /*
-> -     * Sort out endianness of interrupt, this differs depending on the
-> -     * CPU, the HV mode, etc...
-> -     */
-> -    if (ppc_interrupts_little_endian(cpu, !!(new_msr & MSR_HVB))) {
-> -        new_msr |= (target_ulong)1 << MSR_LE;
-> -    }
-> +    /* Save PC */
-> +    env->spr[srr0] = env->nip;
->
-> -#if defined(TARGET_PPC64)
-> -    if (excp_model == POWERPC_EXCP_BOOKE) {
-> -        if (env->spr[SPR_BOOKE_EPCR] & EPCR_ICM) {
-> -            /* Cat.64-bit: EPCR.ICM is copied to MSR.CM */
-> -            new_msr |= (target_ulong)1 << MSR_CM;
-> -        } else {
-> -            vector = (uint32_t)vector;
-> -        }
-> -    } else {
-> -        if (!msr_isf && !mmu_is_64bit(env->mmu_model)) {
-> -            vector = (uint32_t)vector;
-> -        } else {
-> -            new_msr |= (target_ulong)1 << MSR_SF;
-> -        }
-> -    }
-> -#endif
-> -
-> -    if (excp != POWERPC_EXCP_SYSCALL_VECTORED) {
-> -        /* Save PC */
-> -        env->spr[srr0] = env->nip;
-> -
-> -        /* Save MSR */
-> -        env->spr[srr1] = msr;
-> -    }
-> -
-> -    /* This can update new_msr and vector if AIL applies */
-> -    ppc_excp_apply_ail(cpu, excp_model, excp, msr, &new_msr, &vector);
-> +    /* Save MSR */
-> +    env->spr[srr1] = msr;
->
->     powerpc_set_excp_state(cpu, vector, new_msr);
-> }
->
 
