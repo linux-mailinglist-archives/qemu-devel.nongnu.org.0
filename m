@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7654895A2
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 10:49:17 +0100 (CET)
-Received: from localhost ([::1]:52356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFBE04895A3
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 10:49:38 +0100 (CET)
+Received: from localhost ([::1]:53814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6rIj-00075g-2z
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 04:49:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59778)
+	id 1n6rJ3-00085f-Rd
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 04:49:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1n6rDe-0003ec-LL
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 04:44:02 -0500
-Received: from [2a00:1450:4864:20::433] (port=35796
- helo=mail-wr1-x433.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1n6rDc-0006xf-88
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 04:44:02 -0500
-Received: by mail-wr1-x433.google.com with SMTP id e9so24072330wra.2
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 01:43:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1QxqGQjVvP6k5qQrPA+iq9RamMrIW+/v0VACkxI5fWQ=;
- b=NN3rE5OoDqxn76PpgOgfqDNRtYS5JTP8vryeOq0ik6pMl5eFBHYCFvVKQiKeEDq6hl
- Sth/jFBtKZJzZjAeDA06ZnxYBWNIVgK/bFJz4Mr9/lijbRJsfqixgH8K4mNpjHs+5LPo
- jRnO7rBq7yhWAurUGG36cADabCCzBdWRDkdTSeLZpuEI2vEJZhTnrOu+Rp8lyafDsdtt
- xr/lQTwtCdThNaYJ3ZZtvhnNAvnZqys4g6YmyzrbwnR9F82tCkA8wyPUJxlweB/egtep
- DkBdI97zqo4B3FzpCtjLy030ZkTLNqSNWS09gELhnMLIOaFEdSQsW46oNWJvJzQ+E93Y
- AXVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1QxqGQjVvP6k5qQrPA+iq9RamMrIW+/v0VACkxI5fWQ=;
- b=YHDzmurD+ZGCh0oqrBm7XxSlYGZew+SxxcgDVb2ecwEWD4Ra4di3YiI3Jtr1MfG64Y
- CumQ9ZREqrIUS4zY1pRurv6XcvUMuJZn3iTu4MWXnljZvG5UyDw/GROlz6ti7bopvqpW
- xOPkjYvk4ajxXE2IWd+V5HsOOJi1WVSmEDeW7wsD1CxxAOXRIwSPyPcK5FqNxaAat3/Z
- 6cAXsliv13kYj2faFQwjlvqscem46vmiOzL/Jn3GGLFkb540JiO7y8AcA6h+/2KtCmd6
- jNSfUOE4K+XWEyn1xXiPRGn8FVqRzMiqhJEP4QgDkni8UZ0Gv+WjzXnBmZte000LZc+x
- U8gA==
-X-Gm-Message-State: AOAM533jZ+5eRKBTIMYfrqKVSY7uGnbXj6Kb0BagoAIkLw1GFvF8OOwH
- Cog0vQeOhzyuhZuuUMQetx4RE3ZeW9RPibN08IUqI/G1z3vVhQ==
-X-Google-Smtp-Source: ABdhPJy1Uw0KnAf3Noi9G8Kq1yEdhE3NKeNewnQ9RK9WEuHAtN4zdkaOMWpCm/5BTOV9H6uGCuuCrFXk2xR60l9PrFU=
-X-Received: by 2002:a5d:4c4d:: with SMTP id n13mr3720710wrt.641.1641807838288; 
- Mon, 10 Jan 2022 01:43:58 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <guang.zeng@intel.com>)
+ id 1n6rHH-0006IU-Ut
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 04:47:48 -0500
+Received: from mga05.intel.com ([192.55.52.43]:52742)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <guang.zeng@intel.com>)
+ id 1n6rH9-0007f6-JN
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 04:47:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1641808059; x=1673344059;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=OB2fGUky+S94RDguZQrzCZuWbNUbrEYV/qO4kx5liis=;
+ b=D32ILNaZTKvZ0nwrCXWMkZLjqZq65B5O18CLQC6QetNmJ7fahu3Q3j1R
+ H58Uu8W+OgKYQhEjhn2gwM70FapUlk6i7SNv8lEjNTOrM0TcTjh83PIQ9
+ cYS0uS0qM6fDOT3FozfGs6DMBUsQovxUzAWQhmdBTLZlca6d7Ek0bDy9k
+ y368rk5RN05fccBqhtyXEpCm18mdXaAmTxDq7k+M8xqIIx8bvadq/gZWL
+ tX+Jylum8gUDQ9AhiOK2d20pihs+P05lj9litUr0xge3qS7sWwB+zgY8N
+ fDK/D2TU930yjoJ4usaN15xkvzC2xYATuUwbAv9+piN5sz1D8RJBN7+K9 Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10222"; a="329534377"
+X-IronPort-AV: E=Sophos;i="5.88,276,1635231600"; d="scan'208";a="329534377"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2022 01:47:17 -0800
+X-IronPort-AV: E=Sophos;i="5.88,276,1635231600"; d="scan'208";a="514618033"
+Received: from zengguan-mobl.ccr.corp.intel.com (HELO [10.238.0.214])
+ ([10.238.0.214])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2022 01:47:15 -0800
+Message-ID: <6976bcbe-ba64-3c33-a445-fe29ace41ff3@intel.com>
+Date: Mon, 10 Jan 2022 17:47:04 +0800
 MIME-Version: 1.0
-References: <20220109205748.4127032-1-philipp.tomsich@vrull.eu>
- <0424f2d4-c9d0-3409-78e1-c0cabbff90a1@amsat.org>
-In-Reply-To: <0424f2d4-c9d0-3409-78e1-c0cabbff90a1@amsat.org>
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Date: Mon, 10 Jan 2022 10:43:47 +0100
-Message-ID: <CAAeLtUC87ZWT1r4npKKQsXp4vkRx6wdNJ9mvbGjLNoKs9N_L1Q@mail.gmail.com>
-Subject: Re: [PATCH] net/dump.c: Suppress spurious compiler warning
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="000000000000fdafcd05d5372ccf"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.4.1
+Subject: Re: [RFC PATCH 6/7] x86: Use new XSAVE ioctls handling
+Content-Language: en-US
+To: "Tian, Kevin" <kevin.tian@intel.com>, "Zhong, Yang"
+ <yang.zhong@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20220107093134.136441-1-yang.zhong@intel.com>
+ <20220107093134.136441-7-yang.zhong@intel.com>
+ <BN9PR11MB527600E4DD1EA7BE7638A0518C509@BN9PR11MB5276.namprd11.prod.outlook.com>
+From: Zeng Guang <guang.zeng@intel.com>
+In-Reply-To: <BN9PR11MB527600E4DD1EA7BE7638A0518C509@BN9PR11MB5276.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.55.52.43; envelope-from=guang.zeng@intel.com;
+ helo=mga05.intel.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,154 +78,213 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Blake <eblake@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "Wang,
+ Wei W" <wei.w.wang@intel.com>,
+ "jing2.liu@linux.intel.com" <jing2.liu@linux.intel.com>, "Christopherson, ,
+ Sean" <seanjc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000fdafcd05d5372ccf
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 1/10/2022 4:40 PM, Tian, Kevin wrote:
+>> From: Zhong, Yang <yang.zhong@intel.com>
+>> Sent: Friday, January 7, 2022 5:32 PM
+>>
+>> From: Jing Liu <jing2.liu@intel.com>
+>>
+>> Extended feature has large state while current
+>> kvm_xsave only allows 4KB. Use new XSAVE ioctls
+>> if the xstate size is large than kvm_xsave.
+> shouldn't we always use the new xsave ioctls as long as
+> CAP_XSAVE2 is available?
 
-Note that I don't expect this to get applied. I just put it onto the list
-for visibility and to make the workaround available for downstream users
-that might run into the issue while Ubuntu 22.04 is maturing.  I won't have
-any time to dig into this on the GCC side until GCC12 is out.
 
-Philipp.
+CAP_XSAVE2 may return legacy xsave size or 0 working with old kvm 
+version in which it's not available.
+QEMU just use the new xsave ioctls only when the return value of 
+CAP_XSAVE2 is larger than legacy xsave size.
 
-On Mon, 10 Jan 2022 at 10:39, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-wrote:
-
-> Cc'ing Richard & Eric for dubious compiler warning.
->
-> On 1/9/22 21:57, Philipp Tomsich wrote:
-> > Compiling with gcc version 11.2.0 (Ubuntu 11.2.0-13ubuntu1) results in
-> > a (spurious) warning:
-> >
-> >   In function =E2=80=98dump_receive_iov=E2=80=99,
-> >       inlined from =E2=80=98filter_dump_receive_iov=E2=80=99 at ../net/=
-dump.c:157:5:
-> >   ../net/dump.c:89:9: error: =E2=80=98writev=E2=80=99 specified size
-> 18446744073709551600 exceeds maximum object size 9223372036854775807
-> [-Werror=3Dstringop-overflow=3D]
-> >      89 |     if (writev(s->fd, dumpiov, cnt + 1) !=3D sizeof(hdr) +
-> caplen) {
-> >         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >   In file included from /home/ptomsich/qemu/include/qemu/osdep.h:108,
-> >                    from ../net/dump.c:25:
-> >   ../net/dump.c: In function =E2=80=98filter_dump_receive_iov=E2=80=99:
-> >   /usr/include/x86_64-linux-gnu/sys/uio.h:52:16: note: in a call to
-> function =E2=80=98writev=E2=80=99 declared with attribute =E2=80=98read_o=
-nly (2, 3)=E2=80=99
-> >      52 | extern ssize_t writev (int __fd, const struct iovec *__iovec,
-> int __count)
-> >         |                ^~~~~~
-> >   cc1: all warnings being treated as errors
-> >
-> > This change helps that version of GCC to understand what is going on
-> > and suppresses this warning.
-> >
-> > Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-> >
-> > ---
-> >
-> >  net/dump.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/net/dump.c b/net/dump.c
-> > index a07ba62401..c32d3bf4e6 100644
-> > --- a/net/dump.c
-> > +++ b/net/dump.c
-> > @@ -86,7 +86,7 @@ static ssize_t dump_receive_iov(DumpState *s, const
-> struct iovec *iov, int cnt)
-> >      dumpiov[0].iov_len =3D sizeof(hdr);
-> >      cnt =3D iov_copy(&dumpiov[1], cnt, iov, cnt, 0, caplen);
-> >
-> > -    if (writev(s->fd, dumpiov, cnt + 1) !=3D sizeof(hdr) + caplen) {
-> > +    if (writev(s->fd, &dumpiov[0], cnt + 1) !=3D sizeof(hdr) + caplen)=
- {
-> >          error_report("network dump write error - stopping dump");
-> >          close(s->fd);
-> >          s->fd =3D -1;
->
-
---000000000000fdafcd05d5372ccf
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Note that I don&#39;t expect this to get applied. I just p=
-ut it onto the list for visibility and to make the workaround available for=
- downstream users that might run into the issue while Ubuntu 22.04 is matur=
-ing.=C2=A0 I won&#39;t have any time to dig into this on the GCC side until=
- GCC12 is out.<div><br></div><div>Philipp.</div></div><br><div class=3D"gma=
-il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 10 Jan 2022 at 10:3=
-9, Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug=
-@amsat.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">Cc&#39;ing Richard &amp; Eric for dubious compiler warning.<br>
-<br>
-On 1/9/22 21:57, Philipp Tomsich wrote:<br>
-&gt; Compiling with gcc version 11.2.0 (Ubuntu 11.2.0-13ubuntu1) results in=
-<br>
-&gt; a (spurious) warning:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0In function =E2=80=98dump_receive_iov=E2=80=99,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0inlined from =E2=80=98filter_dump_receive_io=
-v=E2=80=99 at ../net/dump.c:157:5:<br>
-&gt;=C2=A0 =C2=A0../net/dump.c:89:9: error: =E2=80=98writev=E2=80=99 specif=
-ied size 18446744073709551600 exceeds maximum object size 92233720368547758=
-07 [-Werror=3Dstringop-overflow=3D]<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 89 |=C2=A0 =C2=A0 =C2=A0if (writev(s-&gt;fd, dumpi=
-ov, cnt + 1) !=3D sizeof(hdr) + caplen) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br>
-&gt;=C2=A0 =C2=A0In file included from /home/ptomsich/qemu/include/qemu/osd=
-ep.h:108,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f=
-rom ../net/dump.c:25:<br>
-&gt;=C2=A0 =C2=A0../net/dump.c: In function =E2=80=98filter_dump_receive_io=
-v=E2=80=99:<br>
-&gt;=C2=A0 =C2=A0/usr/include/x86_64-linux-gnu/sys/uio.h:52:16: note: in a =
-call to function =E2=80=98writev=E2=80=99 declared with attribute =E2=80=98=
-read_only (2, 3)=E2=80=99<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 52 | extern ssize_t writev (int __fd, const struct=
- iovec *__iovec, int __count)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 ^~~~~~<br>
-&gt;=C2=A0 =C2=A0cc1: all warnings being treated as errors<br>
-&gt; <br>
-&gt; This change helps that version of GCC to understand what is going on<b=
-r>
-&gt; and suppresses this warning.<br>
-&gt; <br>
-&gt; Signed-off-by: Philipp Tomsich &lt;<a href=3D"mailto:philipp.tomsich@v=
-rull.eu" target=3D"_blank">philipp.tomsich@vrull.eu</a>&gt;<br>
-&gt; <br>
-&gt; ---<br>
-&gt; <br>
-&gt;=C2=A0 net/dump.c | 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/net/dump.c b/net/dump.c<br>
-&gt; index a07ba62401..c32d3bf4e6 100644<br>
-&gt; --- a/net/dump.c<br>
-&gt; +++ b/net/dump.c<br>
-&gt; @@ -86,7 +86,7 @@ static ssize_t dump_receive_iov(DumpState *s, const =
-struct iovec *iov, int cnt)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 dumpiov[0].iov_len =3D sizeof(hdr);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 cnt =3D iov_copy(&amp;dumpiov[1], cnt, iov, cnt, 0=
-, caplen);<br>
-&gt;=C2=A0 <br>
-&gt; -=C2=A0 =C2=A0 if (writev(s-&gt;fd, dumpiov, cnt + 1) !=3D sizeof(hdr)=
- + caplen) {<br>
-&gt; +=C2=A0 =C2=A0 if (writev(s-&gt;fd, &amp;dumpiov[0], cnt + 1) !=3D siz=
-eof(hdr) + caplen) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(&quot;network dump writ=
-e error - stopping dump&quot;);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 close(s-&gt;fd);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;fd =3D -1;<br>
-</blockquote></div>
-
---000000000000fdafcd05d5372ccf--
+>> Signed-off-by: Jing Liu <jing2.liu@intel.com>
+>> Signed-off-by: Zeng Guang <guang.zeng@intel.com>
+>> Signed-off-by: Wei Wang <wei.w.wang@intel.com>
+>> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+>> ---
+>>   linux-headers/asm-x86/kvm.h | 14 ++++++++++++++
+>>   linux-headers/linux/kvm.h   |  2 ++
+>>   target/i386/cpu.h           |  5 +++++
+>>   target/i386/kvm/kvm.c       | 16 ++++++++++++++--
+>>   target/i386/xsave_helper.c  | 35 +++++++++++++++++++++++++++++++++++
+>>   5 files changed, 70 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+>> index 5a776a08f7..32f2a921e8 100644
+>> --- a/linux-headers/asm-x86/kvm.h
+>> +++ b/linux-headers/asm-x86/kvm.h
+>> @@ -376,6 +376,20 @@ struct kvm_debugregs {
+>>   /* for KVM_CAP_XSAVE */
+>>   struct kvm_xsave {
+>>   	__u32 region[1024];
+>> +	/*
+>> +	 * KVM_GET_XSAVE2 and KVM_SET_XSAVE write and read as many
+>> bytes
+>> +	 * as are returned by KVM_CHECK_EXTENSION(KVM_CAP_XSAVE2)
+>> +	 * respectively, when invoked on the vm file descriptor.
+>> +	 *
+>> +	 * The size value returned by
+>> KVM_CHECK_EXTENSION(KVM_CAP_XSAVE2)
+>> +	 * will always be at least 4096. Currently, it is only greater
+>> +	 * than 4096 if a dynamic feature has been enabled with
+>> +	 * ``arch_prctl()``, but this may change in the future.
+>> +	 *
+>> +	 * The offsets of the state save areas in struct kvm_xsave follow
+>> +	 * the contents of CPUID leaf 0xD on the host.
+>> +	 */
+>> +	__u32 extra[0];
+>>   };
+>>
+>>   #define KVM_MAX_XCRS	16
+>> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+>> index 02c5e7b7bb..97d5b6d81d 100644
+>> --- a/linux-headers/linux/kvm.h
+>> +++ b/linux-headers/linux/kvm.h
+>> @@ -1130,6 +1130,7 @@ struct kvm_ppc_resize_hpt {
+>>   #define KVM_CAP_BINARY_STATS_FD 203
+>>   #define KVM_CAP_EXIT_ON_EMULATION_FAILURE 204
+>>   #define KVM_CAP_ARM_MTE 205
+>> +#define KVM_CAP_XSAVE2  207
+>>
+>>   #ifdef KVM_CAP_IRQ_ROUTING
+>>
+>> @@ -1550,6 +1551,7 @@ struct kvm_s390_ucas_mapping {
+>>   /* Available with KVM_CAP_XSAVE */
+>>   #define KVM_GET_XSAVE		  _IOR(KVMIO,  0xa4, struct
+>> kvm_xsave)
+>>   #define KVM_SET_XSAVE		  _IOW(KVMIO,  0xa5, struct
+>> kvm_xsave)
+>> +#define KVM_GET_XSAVE2		  _IOR(KVMIO,  0xcf, struct
+>> kvm_xsave)
+>>   /* Available with KVM_CAP_XCRS */
+>>   #define KVM_GET_XCRS		  _IOR(KVMIO,  0xa6, struct kvm_xcrs)
+>>   #define KVM_SET_XCRS		  _IOW(KVMIO,  0xa7, struct kvm_xcrs)
+>> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+>> index 245e8b5a1a..6153c4ab1a 100644
+>> --- a/target/i386/cpu.h
+>> +++ b/target/i386/cpu.h
+>> @@ -1519,6 +1519,11 @@ typedef struct CPUX86State {
+>>       YMMReg zmmh_regs[CPU_NB_REGS];
+>>       ZMMReg hi16_zmm_regs[CPU_NB_REGS];
+>>
+>> +#ifdef TARGET_X86_64
+>> +    uint8_t xtilecfg[64];
+>> +    uint8_t xtiledata[8192];
+>> +#endif
+>> +
+>>       /* sysenter registers */
+>>       uint32_t sysenter_cs;
+>>       target_ulong sysenter_esp;
+>> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+>> index 3fb3ddbe2b..97520e9dff 100644
+>> --- a/target/i386/kvm/kvm.c
+>> +++ b/target/i386/kvm/kvm.c
+>> @@ -1983,7 +1983,12 @@ int kvm_arch_init_vcpu(CPUState *cs)
+>>       }
+>>
+>>       if (has_xsave) {
+>> -        env->xsave_buf_len = sizeof(struct kvm_xsave);
+>> +        uint32_t size = kvm_vm_check_extension(cs->kvm_state,
+>> KVM_CAP_XSAVE2);
+>> +        if (!size) {
+>> +            size = sizeof(struct kvm_xsave);
+>> +        }
+>> +
+>> +        env->xsave_buf_len = QEMU_ALIGN_UP(size, 4096);
+>>           env->xsave_buf = qemu_memalign(4096, env->xsave_buf_len);
+>>           memset(env->xsave_buf, 0, env->xsave_buf_len);
+>>
+>> @@ -2580,6 +2585,7 @@ static int kvm_put_xsave(X86CPU *cpu)
+>>       if (!has_xsave) {
+>>           return kvm_put_fpu(cpu);
+>>       }
+>> +
+>>       x86_cpu_xsave_all_areas(cpu, xsave, env->xsave_buf_len);
+>>
+>>       return kvm_vcpu_ioctl(CPU(cpu), KVM_SET_XSAVE, xsave);
+>> @@ -3247,10 +3253,16 @@ static int kvm_get_xsave(X86CPU *cpu)
+>>           return kvm_get_fpu(cpu);
+>>       }
+>>
+>> -    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_XSAVE, xsave);
+>> +    if (env->xsave_buf_len <= sizeof(struct kvm_xsave)) {
+>> +        ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_XSAVE, xsave);
+>> +    } else {
+>> +        ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_XSAVE2, xsave);
+>> +    }
+>> +
+>>       if (ret < 0) {
+>>           return ret;
+>>       }
+>> +
+>>       x86_cpu_xrstor_all_areas(cpu, xsave, env->xsave_buf_len);
+>>
+>>       return 0;
+>> diff --git a/target/i386/xsave_helper.c b/target/i386/xsave_helper.c
+>> index ac61a96344..090424e820 100644
+>> --- a/target/i386/xsave_helper.c
+>> +++ b/target/i386/xsave_helper.c
+>> @@ -5,6 +5,7 @@
+>>   #include "qemu/osdep.h"
+>>
+>>   #include "cpu.h"
+>> +#include <asm/kvm.h>
+>>
+>>   void x86_cpu_xsave_all_areas(X86CPU *cpu, void *buf, uint32_t buflen)
+>>   {
+>> @@ -126,6 +127,23 @@ void x86_cpu_xsave_all_areas(X86CPU *cpu, void
+>> *buf, uint32_t buflen)
+>>
+>>           memcpy(pkru, &env->pkru, sizeof(env->pkru));
+>>       }
+>> +
+>> +    e = &x86_ext_save_areas[XSTATE_XTILE_CFG_BIT];
+>> +    if (e->size && e->offset) {
+>> +        XSaveXTILE_CFG *tilecfg = buf + e->offset;
+>> +
+>> +        memcpy(tilecfg, &env->xtilecfg, sizeof(env->xtilecfg));
+>> +    }
+>> +
+>> +    if (buflen > sizeof(struct kvm_xsave)) {
+>> +        e = &x86_ext_save_areas[XSTATE_XTILE_DATA_BIT];
+>> +
+>> +        if (e->size && e->offset) {
+>> +            XSaveXTILE_DATA *tiledata = buf + e->offset;
+>> +
+>> +            memcpy(tiledata, &env->xtiledata, sizeof(env->xtiledata));
+>> +        }
+>> +    }
+>>   #endif
+>>   }
+>>
+>> @@ -247,5 +265,22 @@ void x86_cpu_xrstor_all_areas(X86CPU *cpu, const
+>> void *buf, uint32_t buflen)
+>>           pkru = buf + e->offset;
+>>           memcpy(&env->pkru, pkru, sizeof(env->pkru));
+>>       }
+>> +
+>> +    e = &x86_ext_save_areas[XSTATE_XTILE_CFG_BIT];
+>> +    if (e->size && e->offset) {
+>> +        const XSaveXTILE_CFG *tilecfg = buf + e->offset;
+>> +
+>> +        memcpy(&env->xtilecfg, tilecfg, sizeof(env->xtilecfg));
+>> +    }
+>> +
+>> +    if (buflen > sizeof(struct kvm_xsave)) {
+>> +        e = &x86_ext_save_areas[XSTATE_XTILE_DATA_BIT];
+>> +
+>> +        if (e->size && e->offset) {
+>> +            const XSaveXTILE_DATA *tiledata = buf + e->offset;
+>> +
+>> +            memcpy(&env->xtiledata, tiledata, sizeof(env->xtiledata));
+>> +        }
+>> +    }
+>>   #endif
+>>   }
 
