@@ -2,63 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F269B489D2A
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 17:09:14 +0100 (CET)
-Received: from localhost ([::1]:45462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 037FD489D4A
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 17:15:42 +0100 (CET)
+Received: from localhost ([::1]:54020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6xEQ-0004uT-41
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 11:09:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50226)
+	id 1n6xKe-0002hg-K4
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 11:15:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n6x59-0007SP-Jl
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 10:59:39 -0500
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:42193)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n6x57-0004of-JX
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 10:59:39 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.12])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id A8753D6C9A61;
- Mon, 10 Jan 2022 16:59:34 +0100 (CET)
-Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 10 Jan
- 2022 16:59:34 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G004ac1a57f0-e06a-4316-80f0-82987db22190,
- BF6F17FB45C67FCD004F592EBF28FE1306A73352) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <b32d605b-b97e-b3c0-6281-e6143a4003c8@kaod.org>
-Date: Mon, 10 Jan 2022 16:59:33 +0100
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n6x6x-0007zI-SO
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 11:01:32 -0500
+Received: from [2a00:1450:4864:20::42f] (port=41716
+ helo=mail-wr1-x42f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n6x6u-00053H-IJ
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 11:01:31 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id v6so27580499wra.8
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 08:00:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=n3YnuFyhPFkkdGgbfwuGiPNauvQt8hzGFlTv0Zezckg=;
+ b=d5SiLA1rq76xtMDbKECakz8Rj/dKaOlD8r03OGbCUe2JwXj2I+TlH9Va0BN7YxtL7P
+ yRZ7Ocki3HHURJ4bvqPmDn1PV+NrMUTZsfJuwVlF9eY/B4nfV/vQ6jJP5NyZFoy7OS9X
+ cyLNTJw4eP7xY0juqTHG3wCgd0NpuauxKGHDCpOSr8pB4uTulnX0ZMWa8dx4H5ERjzP/
+ 440ySFrUKU2m0lgWM/b/PYvD7B3z3FWX9tSi/xGrADi2jAVAUN0xiIDtR9ToJdcBE/kB
+ 8za7zRObs+OGspI4jDjKObQi7bgeibBbwmtqJ3iU8kYmXkqkpQW+7QKlaC1qLHmAvG6W
+ 0lbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=n3YnuFyhPFkkdGgbfwuGiPNauvQt8hzGFlTv0Zezckg=;
+ b=N3QUGp/1Z0AJtox6m4ClSJVb3/HGMnPArrF0w7uiAgzj2JxDKpYFHu9z5q3Dci4xe3
+ RQUsca72AlvlCZDF9o/L5LNkNNrCTA0wbY/BPbu9Alw5VphrcuS0CDfa3/UIzsJGAlWm
+ s2ffn2X1xcycGxHivYaTqtz/wfHt+6NLcJTIIFmH4uK6m0eNXeR9g6dDxqHgG1Fq7I/N
+ u3EfgrxXfxtYb8dAiconc1eaUV1IBGMyX4Ea+wdNBYK3lI3qM/DoYYtNXnqWwIUp/JmD
+ SSZAbT+ljSejga4leDdaEHlopg80+p3ZDg8iSYcNh1FQ1tXlRLQ899P+gkUuUnHz9MEE
+ Tyeg==
+X-Gm-Message-State: AOAM5313di7jQFK9xKG541Nl7Z9OusfUFAb0ssfy5yDAnTcq8Nyf7Zxi
+ AuuKbDjbDyWPPUBYwzBtwFCrJrgctxnAhNjRCpf//Q==
+X-Google-Smtp-Source: ABdhPJzM2GU1F0ElR0ZXNO3S0ZdcCMaKLwnuLnsMXswB3oLvAZ1bIGn8kG7hvy6ojEiMNxK2xvBMmXIzFvr6OOK/vpY=
+X-Received: by 2002:a5d:64c3:: with SMTP id f3mr223276wri.295.1641830421763;
+ Mon, 10 Jan 2022 08:00:21 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v3 08/10] pnv_phb4.c: check stack->phb not NULL in
- phb4_update_regions()
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-References: <20220110143346.455901-1-danielhb413@gmail.com>
- <20220110143346.455901-9-danielhb413@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220110143346.455901-9-danielhb413@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: fd7b1e1e-e747-401c-afb8-bf8ea416ede1
-X-Ovh-Tracer-Id: 6333749927673039840
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudehuddgheekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20220109114149.1275322-1-laurent@vivier.eu>
+In-Reply-To: <20220109114149.1275322-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 10 Jan 2022 16:00:10 +0000
+Message-ID: <CAFEAcA_EDpqs2PDZwWyjSGs22xFx0X_K=jOxh5w=toHeV7piUg@mail.gmail.com>
+Subject: Re: [PULL 0/4] M68k for 7.0 patches
+To: Laurent Vivier <Laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,82 +79,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/10/22 15:33, Daniel Henrique Barboza wrote:
-> The last step before enabling user creatable pnv-phb4 devices still has
-> to do with specific XSCOM initialization code in pnv_phb4_stk_realize().
-> 
-> 'stack->nest_regs_mr' is being init regardless of the existence of
-> 'stack->phb', which is verified only when trying to realize the phb.
-> Its MemoryRegionOps,'pnv_pec_stk_nest_xscom_ops', uses
-> pnv_pec_stk_nest_xscom_write() as a write callback. When trying to write
-> the PEC_NEST_STK_BAR_EN reg, pnv_pec_stk_update_map() is called. Inside
-> this function, pnv_phb4_update_regions() is called twice. This function
-> uses stack->phb to manipulate memory regions of the phb.
-> 
-> When enabling user creatable phb4s, a stack that doesn't have an
-> associated phb (i.e. will have stack->phb = NULL) will cause a SIGINT
-> during boot in pnv_phb4_update_regions(). To deal with this we have
-> some options, including:
-> 
-> - check for stack->phb being not NULL in pnv_phb4_update_regions();
-> 
-> - change the order of the XSCOM initialization to avoid initializing
-> 'stack->nest_regs_mr' if 'stack->phb' is NULL. This can have unintended
-> side-effects: there are several other regs that are being read/written
-> in these memory regions, and we would forbid all read/write operations
-> in these regs because of writes in PEC_NEST_STK_BAR_EN being problematic;
-> 
-> - move the XSCOM init code to phb4_realize() like the previous patch
-> did with 'stack->phb_regs_mr'. Besides having the same potential side
-> effects than the previous alternative, a lot of code would need to be
-> moved from pnv_phb4_pec.c to pnv_phb4.c because all the memory region
-> code is static.
-> 
-> Being the option that is less intrusive and innocus of the alternatives,
-> this patch keeps the XSCOM initialization as is in
-> pnv_phb4_stk_realize() and check for 'stack->phb' being NULL in
-> pnv_phb4_update_regions().
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->   hw/pci-host/pnv_phb4.c | 11 +++++++++++
->   1 file changed, 11 insertions(+)
-> 
-> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-> index 152911a285..fc23a96b7f 100644
-> --- a/hw/pci-host/pnv_phb4.c
-> +++ b/hw/pci-host/pnv_phb4.c
-> @@ -1472,6 +1472,17 @@ void pnv_phb4_update_regions(PnvPhb4PecStack *stack)
->   {
->       PnvPHB4 *phb = stack->phb;
->   
-> +    /*
-> +     * This will happen when there's no phb associated with the stack.
-> +     * pnv_pec_stk_realize() will init the nested xscom address space
-> +     * (stack->nest_regs_mr) that uses pnv_phb4_update_regions(), via
-> +     * pnv_pec_stk_update_map(), which in turn is the write callback of
-> +     * the PEC_NEST_STK_BAR_EN reg in pnv_pec_stk_nest_xscom_write().
-> +     */
-> +    if (!stack->phb) {
-> +        return;
-> +    }
-> +
+On Sun, 9 Jan 2022 at 11:44, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> The following changes since commit df722e33d5da26ea8604500ca8f509245a0ea524:
+>
+>   Merge tag 'bsd-user-arm-pull-request' of gitlab.com:bsdimp/qemu into staging (2022-01-08 09:37:59 -0800)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu-m68k.git tags/m68k-for-7.0-pull-request
+>
+> for you to fetch changes up to 31144eb6393b66b06a13e8a6ad0e730f9e82d4c6:
+>
+>   target/m68k: don't word align SP in stack frame if M68K_FEATURE_UNALIGNED_DATA feature enabled (2022-01-09 12:05:02 +0100)
+>
+> ----------------------------------------------------------------
+> M68k pull request 20220109
+>
+> Add virt compat machine type for 7.0
+> fix q800 -bios parameter
+> fix VRAM refresh
+> fix M68K_FEATURE_UNALIGNED_DATA feature
+>
+> ----------------------------------------------------------------
+>
 
 
-I would assert()
+Applied, thanks.
 
-Thanks,
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
+for any user-visible changes.
 
-C.
-
-
->       /* Unmap first always */
->       if (memory_region_is_mapped(&phb->mr_regs)) {
->           memory_region_del_subregion(&stack->phbbar, &phb->mr_regs);
-> 
-
+-- PMM
 
