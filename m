@@ -2,84 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8601C489BA3
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 15:54:36 +0100 (CET)
-Received: from localhost ([::1]:58542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91BD0489BB2
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 15:59:53 +0100 (CET)
+Received: from localhost ([::1]:40656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6w4A-0005b4-Kk
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 09:54:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54674)
+	id 1n6w9I-0004u8-NE
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 09:59:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1n6vo6-0007na-CG
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:38:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39794)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1n6vo3-0008Ks-A4
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:37:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641825473;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DkGTX/EBSGPYJNt8nBf8MoDo/yhSwm4KadBbuuMJDQc=;
- b=hXNWgagVrkd1NKhJFzjJxtzJouU3AVQz1JbMp66suAFX0PRQTpwJRhBtB/rqismitfXM4P
- +pDhiPYO8MdQa+inIzX0XxOHxU2VsTfagtiruTIs+Y4a3+WTJie0IbxSVBXj+GGxZIHKiG
- HzSAQdpedWfBA8fQqj1V6N8rhQXC7EQ=
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-111-3s-pFzWBNT2mCwlqKAIQbA-1; Mon, 10 Jan 2022 09:37:51 -0500
-X-MC-Unique: 3s-pFzWBNT2mCwlqKAIQbA-1
-Received: by mail-yb1-f197.google.com with SMTP id
- s127-20020a252c85000000b0060be2b7b8e9so27644461ybs.8
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 06:37:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1n6vqj-0001fX-Jp
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:40:41 -0500
+Received: from [2a00:1450:4864:20::534] (port=45883
+ helo=mail-ed1-x534.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1n6vqh-0000Rq-Q4
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:40:41 -0500
+Received: by mail-ed1-x534.google.com with SMTP id z22so9367190edd.12
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 06:40:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uXoVVnvK1OcVHaSGBBAu2Z6USEzqLPkW4UxgOiAK0Qw=;
+ b=ZnntetWXyBFm0oetKD1VrST6VWjgwzPmQxUSYGZopIB410HIxe1VqjO0HIiWgR3gf4
+ kocaXbEM6H//4visdIHe6BikutIvKLOKxrUEICHUSj3ekwaxTe4jcOH8gG32ln5A9mrL
+ VX0We3BTyerKYSCqUV5XAFndXxKN9tis8g1BKynammh94xh6H8fmKdRZQRRgBfbSJIU8
+ dXDJMMjDOL1NbJMV4bD2nuj88lGsEbft2mQAgc3Cbhha5i2wWq1zNI088hxjrEssaU3b
+ YXQ20n8StVZy8lhD6COpvNdaGTerGuPiglWt52wb5oPA4YlUMc+t1QT/uX4zSU6PYpsU
+ wQBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DkGTX/EBSGPYJNt8nBf8MoDo/yhSwm4KadBbuuMJDQc=;
- b=wLaKwujzcVRDKu899g8tjxD7+1qypxbqqoORIbixqCugqcILGrKPstJe4skayoSZ2Q
- 01tQcXpoC1jowSFML3f6JKcrjpba3xKRBPL+h3CElLER+jbhZ6LQUlO5WLMxmOel1HYc
- zp3bDWtzhQ+7aQIiYdge3yF0rxoJg5MPbvzbUyotuJoWYhfgvDV4rNm9uFnEQ0mkPeIi
- xPRNC80jO3+DN37lYtGUY2sTnwYj7Onv4dhm30CiDjBVx5Yu572ng53FxUTrtTv1Bmwx
- RFhUweb/LRprwvn0+zu0AcP90bsnLBDjJu83YZFbO5ypCcgB0Lf1NJvSImqbJVVYD1kz
- X+gg==
-X-Gm-Message-State: AOAM531QbYgyUnci9Nf7AqMPlo4rCOOJ3eP0hVRb+JwKXGFgFRAPiR0H
- Lewf6lgFIfh5sxPvH1v0D4T9HqqqaadLTViYVEqw6SAN1gy8PbCLNbuxTVFb7oRGhpEhzrhTfKA
- cyrj/smieVpuDKwdZGtK+DjicFSHMteo=
-X-Received: by 2002:a25:a102:: with SMTP id z2mr18476321ybh.100.1641825470338; 
- Mon, 10 Jan 2022 06:37:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxbTUGlKzu+fCYFSQROs1eRj5ds77KmKoXeSVEaLhp9BvbyZrAPksURMpt2s9uHiHox6ui2/qdBjXSdhggCmN8=
-X-Received: by 2002:a25:a102:: with SMTP id z2mr18476301ybh.100.1641825470180; 
- Mon, 10 Jan 2022 06:37:50 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=uXoVVnvK1OcVHaSGBBAu2Z6USEzqLPkW4UxgOiAK0Qw=;
+ b=gUg4r9OvC8OZ1SEHKAu1bzuXfJED682T2UsLpik2KQZYOs/x57dw/hVkx/PG5bVyiQ
+ ID209KWl2W2bsx0JSHLNTXhKpTWmC6lWHpYURDvJWGX79SRTUMxlBfzqPHMA8TCSmIT9
+ 7fI1qugIh4Wj0pWJ9TJJ9NiljeKPy99vqzo3VAw7NOrzUuZDFaQfqoxBbjObvOD9ihin
+ s2LTVrBNWL5cFlQO3OxK37IkFCDdbVqssiRR2CrnF+QqF4lWMdpYWHrPClskd9GgviSp
+ fJzx1pmK6Y1NDrK6jBI4ja74LeyMUM+Mp17s17RcqOZx4lw+ftjTJKVrplzvWZSK3hvs
+ 1Y1Q==
+X-Gm-Message-State: AOAM533zkNmBOkYJ7TsHolEsgQbr723FsasI0nJV6j5euIQbS6Z/jL7c
+ SkC6uaSsrJ8czNMusfO+GAW1uEkkQDE=
+X-Google-Smtp-Source: ABdhPJzvyWZE7DgQMQpXOIKMQkt7R0dv9iw7pFb8oxw/DrxOTc+QLuyr+sjwcEfkzYqtQ6wOVUsQhA==
+X-Received: by 2002:a05:6402:40d5:: with SMTP id
+ z21mr76985578edb.166.1641825637107; 
+ Mon, 10 Jan 2022 06:40:37 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id k25sm2549498ejk.179.2022.01.10.06.40.36
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Jan 2022 06:40:36 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v4 00/18] Build system and KVM changes for 2021-12-23
+Date: Mon, 10 Jan 2022 15:40:16 +0100
+Message-Id: <20220110144034.67410-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-References: <20220110134644.107375-1-kkostiuk@redhat.com>
- <14abede7-090b-8a8e-41d7-3b782455d6d4@amsat.org>
- <CAFEAcA-FSy7kYFp1fijhueLitBPZiiZz1U=ORF5Ygm3rHsRoQg@mail.gmail.com>
-In-Reply-To: <CAFEAcA-FSy7kYFp1fijhueLitBPZiiZz1U=ORF5Ygm3rHsRoQg@mail.gmail.com>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Mon, 10 Jan 2022 16:37:39 +0200
-Message-ID: <CAPMcbCouktDyjDrd5ftbKzzUYVJ8NW6F0Ce4pXBKK4o--OH-Ow@mail.gmail.com>
-Subject: Re: [PULL 0/9] qemu-ga-win patches
-To: Peter Maydell <peter.maydell@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kkostiuk@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000ef033f05d53b47b6"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::534
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,136 +87,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ef033f05d53b47b6
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit afe33262585565b64df706c62b4b0f6e0ad30c71:
 
-Thanks for the information. I will read about the 'b4' tool.
+  Merge tag 'pull-riscv-to-apply-20220108' of github.com:alistair23/qemu into staging (2022-01-07 22:09:24 -0800)
 
-Best Regards,
-Konstantin Kostiuk.
+are available in the Git repository at:
 
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-On Mon, Jan 10, 2022 at 4:16 PM Peter Maydell <peter.maydell@linaro.org>
-wrote:
+for you to fetch changes up to fb714a07243a88c41002c23a24e174c5d9d40d57:
 
-> On Mon, 10 Jan 2022 at 14:14, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g>
-> wrote:
-> >
-> > On 1/10/22 14:46, Konstantin Kostiuk wrote:
-> > > The following changes since commit
-> df722e33d5da26ea8604500ca8f509245a0ea524:
-> > >
-> > >   Merge tag 'bsd-user-arm-pull-request' of gitlab.com:bsdimp/qemu
-> into staging (2022-01-08 09:37:59 -0800)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >   https://github.com/kostyanf14/qemu.git
-> tags/qga-win32-pull-2022-01-10
-> > >
-> > > for you to fetch changes up to
-> 206ce9699fae1f631ac74b7e1115db2affc759fd:
-> > >
-> > >   qga-win: Detect Windows 11 by build number (2022-01-10 13:05:25
-> +0000)
-> > >
-> > > ----------------------------------------------------------------
-> > > qemu-ga-win patches
-> > >
-> > > * Fix memory leak in get_pci_info function
-> > > * Add support for Windows 11 in guest-get-osinfo command
-> > >
-> > >
-> > > Signed-off-by: Kostiantyn Kostiuk <kkostiuk@redhat.com>
-> > >
-> > > ----------------------------------------------------------------
-> >
-> > I see the patch 'Message-ID' tag is not required on the guide:
-> > https://www.qemu.org/docs/master/devel/submitting-a-pull-request.html
-> > but it is sometime useful.
->
-> I don't think we should be adding extra requirements if we don't
-> need them. The pullrequest handling infrastructure doesn't need
-> message-id tags.
->
-> thanks
-> -- PMM
->
->
+  meson: reenable filemonitor-inotify compilation (2022-01-09 17:45:02 +0100)
 
---000000000000ef033f05d53b47b6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+----------------------------------------------------------------
+* configure and meson cleanups
+* KVM_GET/SET_SREGS2 support for x86
 
-<div dir=3D"ltr">Thanks for the information. I will read about the &#39;b4&=
-#39; tool. <div><br></div><div><div dir=3D"ltr" class=3D"gmail_signature" d=
-ata-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div>Best Regards,</div>=
-<div>Konstantin Kostiuk.</div></div></div></div><br></div><br><div class=3D=
-"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 10, 2022 at=
- 4:16 PM Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">pete=
-r.maydell@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">On Mon, 10 Jan 2022 at 14:14, Philippe Mathieu-Daud=C3=
-=A9 &lt;<a href=3D"mailto:f4bug@amsat.org" target=3D"_blank">f4bug@amsat.or=
-g</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On 1/10/22 14:46, Konstantin Kostiuk wrote:<br>
-&gt; &gt; The following changes since commit df722e33d5da26ea8604500ca8f509=
-245a0ea524:<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 =C2=A0Merge tag &#39;bsd-user-arm-pull-request&#39; of gitl=
-ab.com:bsdimp/qemu into staging (2022-01-08 09:37:59 -0800)<br>
-&gt; &gt;<br>
-&gt; &gt; are available in the Git repository at:<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 =C2=A0<a href=3D"https://github.com/kostyanf14/qemu.git" re=
-l=3D"noreferrer" target=3D"_blank">https://github.com/kostyanf14/qemu.git</=
-a> tags/qga-win32-pull-2022-01-10<br>
-&gt; &gt;<br>
-&gt; &gt; for you to fetch changes up to 206ce9699fae1f631ac74b7e1115db2aff=
-c759fd:<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 =C2=A0qga-win: Detect Windows 11 by build number (2022-01-1=
-0 13:05:25 +0000)<br>
-&gt; &gt;<br>
-&gt; &gt; ----------------------------------------------------------------<=
-br>
-&gt; &gt; qemu-ga-win patches<br>
-&gt; &gt;<br>
-&gt; &gt; * Fix memory leak in get_pci_info function<br>
-&gt; &gt; * Add support for Windows 11 in guest-get-osinfo command<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Kostiantyn Kostiuk &lt;<a href=3D"mailto:kkostiuk@=
-redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;<br>
-&gt; &gt;<br>
-&gt; &gt; ----------------------------------------------------------------<=
-br>
-&gt;<br>
-&gt; I see the patch &#39;Message-ID&#39; tag is not required on the guide:=
-<br>
-&gt; <a href=3D"https://www.qemu.org/docs/master/devel/submitting-a-pull-re=
-quest.html" rel=3D"noreferrer" target=3D"_blank">https://www.qemu.org/docs/=
-master/devel/submitting-a-pull-request.html</a><br>
-&gt; but it is sometime useful.<br>
-<br>
-I don&#39;t think we should be adding extra requirements if we don&#39;t<br=
->
-need them. The pullrequest handling infrastructure doesn&#39;t need<br>
-message-id tags.<br>
-<br>
-thanks<br>
--- PMM<br>
-<br>
-</blockquote></div>
+----------------------------------------------------------------
+Maxim Levitsky (1):
+      KVM: use KVM_{GET|SET}_SREGS2 when supported.
 
---000000000000ef033f05d53b47b6--
+Paolo Bonzini (14):
+      meson: reuse common_user_inc when building files specific to user-mode emulators
+      user: move common-user includes to a subdirectory of {bsd,linux}-user/
+      meson: cleanup common-user/ build
+      configure: simplify creation of plugin symbol list
+      configure: do not set bsd_user/linux_user early
+      configure, makefile: remove traces of really old files
+      configure: parse --enable/--disable-strip automatically, flip default
+      configure: move non-command-line variables away from command-line parsing section
+      meson: build contrib/ executables after generated headers
+      configure, meson: move config-poison.h to meson
+      meson: add comments in the target-specific flags section
+      KVM: x86: ignore interrupt_bitmap field of KVM_GET/SET_SREGS
+      configure: do not create roms/seabios/config.mak if SeaBIOS not present
+      meson: build all modules by default
+
+Philippe Mathieu-Daudé (1):
+      tests/tcg: Fix target-specific Makefile variables path for user-mode
+
+Thomas Huth (1):
+      block/file-posix: Simplify the XFS_IOC_DIOINFO handling
+
+Volker Rümelin (1):
+      meson: reenable filemonitor-inotify compilation
+
+ Makefile                                           |  11 +-
+ block/file-posix.c                                 |  37 ++--
+ bsd-user/{ => include}/special-errno.h             |   0
+ bsd-user/meson.build                               |   2 +-
+ common-user/meson.build                            |   2 +-
+ configure                                          | 189 ++++-----------------
+ contrib/elf2dmp/meson.build                        |   2 +-
+ contrib/ivshmem-client/meson.build                 |   2 +-
+ contrib/ivshmem-server/meson.build                 |   2 +-
+ contrib/rdmacm-mux/meson.build                     |   2 +-
+ .../{ => include}/host/aarch64/host-signal.h       |   0
+ linux-user/{ => include}/host/alpha/host-signal.h  |   0
+ linux-user/{ => include}/host/arm/host-signal.h    |   0
+ linux-user/{ => include}/host/i386/host-signal.h   |   0
+ .../{ => include}/host/loongarch64/host-signal.h   |   0
+ linux-user/{ => include}/host/mips/host-signal.h   |   0
+ linux-user/{ => include}/host/ppc/host-signal.h    |   0
+ linux-user/{ => include}/host/ppc64/host-signal.h  |   0
+ linux-user/{ => include}/host/riscv/host-signal.h  |   0
+ linux-user/{ => include}/host/s390/host-signal.h   |   0
+ linux-user/{ => include}/host/s390x/host-signal.h  |   0
+ linux-user/{ => include}/host/sparc/host-signal.h  |   0
+ .../{ => include}/host/sparc64/host-signal.h       |   0
+ linux-user/{ => include}/host/x32/host-signal.h    |   0
+ linux-user/{ => include}/host/x86_64/host-signal.h |   0
+ linux-user/{ => include}/special-errno.h           |   0
+ linux-user/meson.build                             |   4 +-
+ meson.build                                        |  37 ++--
+ pc-bios/s390-ccw/Makefile                          |   2 -
+ plugins/meson.build                                |  13 +-
+ scripts/make-config-poison.sh                      |  16 ++
+ scripts/meson-buildoptions.py                      |  21 ++-
+ scripts/meson-buildoptions.sh                      |   3 +
+ target/i386/cpu.h                                  |   3 +
+ target/i386/kvm/kvm.c                              | 130 ++++++++++++--
+ target/i386/machine.c                              |  29 ++++
+ tests/qtest/meson.build                            |   3 +-
+ tests/tcg/Makefile.target                          |   2 +-
+ tests/unit/meson.build                             |   2 +-
+ util/meson.build                                   |   7 +-
+ 40 files changed, 275 insertions(+), 246 deletions(-)
+ rename bsd-user/{ => include}/special-errno.h (100%)
+ rename linux-user/{ => include}/host/aarch64/host-signal.h (100%)
+ rename linux-user/{ => include}/host/alpha/host-signal.h (100%)
+ rename linux-user/{ => include}/host/arm/host-signal.h (100%)
+ rename linux-user/{ => include}/host/i386/host-signal.h (100%)
+ rename linux-user/{ => include}/host/loongarch64/host-signal.h (100%)
+ rename linux-user/{ => include}/host/mips/host-signal.h (100%)
+ rename linux-user/{ => include}/host/ppc/host-signal.h (100%)
+ rename linux-user/{ => include}/host/ppc64/host-signal.h (100%)
+ rename linux-user/{ => include}/host/riscv/host-signal.h (100%)
+ rename linux-user/{ => include}/host/s390/host-signal.h (100%)
+ rename linux-user/{ => include}/host/s390x/host-signal.h (100%)
+ rename linux-user/{ => include}/host/sparc/host-signal.h (100%)
+ rename linux-user/{ => include}/host/sparc64/host-signal.h (100%)
+ rename linux-user/{ => include}/host/x32/host-signal.h (100%)
+ rename linux-user/{ => include}/host/x86_64/host-signal.h (100%)
+ rename linux-user/{ => include}/special-errno.h (100%)
+ create mode 100755 scripts/make-config-poison.sh
+-- 
+2.33.1
 
 
