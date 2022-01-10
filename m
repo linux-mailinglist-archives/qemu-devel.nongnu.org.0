@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B81C489C85
+	by mail.lfdr.de (Postfix) with ESMTPS id 40AEE489C86
 	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 16:47:57 +0100 (CET)
-Received: from localhost ([::1]:45838 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:45988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6wtn-0001Kd-UG
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 10:47:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46004)
+	id 1n6wtn-0001Qd-W2
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 10:47:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1n6wrB-00077e-D9
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 10:45:15 -0500
-Received: from [2a00:1450:4864:20::432] (port=33288
- helo=mail-wr1-x432.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1n6wr9-0002fO-Cz
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 10:45:13 -0500
-Received: by mail-wr1-x432.google.com with SMTP id r9so25802575wrg.0
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 07:45:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=OB0RT1wqDqTi/8KrKQ19w/d9gd63fkzl+d88FjAyxOM=;
- b=T1mHLD9NCcbrcoKTJlJyfvIDacHZ6Kol6G0QQIb5EJixYHF9otI4xrRi9VPJyoJwcg
- HVjrVeVYBbH9ZKLctJ62eQXFqGkwU80GSNCkjQsl/+yaA6k0t2AHo4gQYRoKbqaKV7UF
- sTknVuuHcv9WW6uICfNz6fIgbHHWr47JUiNJq/PYtuPSXZC8mFKNead0oUYfnbS/zk4P
- ucO/2z8LDgT1G4nPUoqAU0exqVq6rfjx5f+6aLdrBaKN8EYGtZNu2UrSnXlCylQ5f8XO
- K6fiZM+mmBBcCPRCt/JTTw1LSBwaXG2Yl5JCJjrtK8VU1ibdWG07NQHgON9RkbzI+U4a
- aViw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=OB0RT1wqDqTi/8KrKQ19w/d9gd63fkzl+d88FjAyxOM=;
- b=tVzkelQyx0jgOko+vFWJ2lFEyakrdUGL2ZIwP1ofc07txlKTfeolo3CPvtbAg9ef4K
- 9ud/yyKoIkbgdjtw99Z/DtNpEEzlp3+v52GVE2JxqvwGrkF0M1U5kEugOSQACBTwDaGJ
- +XI1lz9I3HFknjNdlVbzNCYH0cBwTNgwI/elSMmz+TnItaivsxk5zQTZDgbanwi6T/sd
- IQFr1a2ODoUoz1UY1tIRVoGhNeusp6XwtAz8M1qy7+TyVXT+D4eUuuL9BzHNCfNM2Qx6
- Tw3ReC8MgHwXIYTBM+74tQB5zhd2UVGm2Oth+7hB51tESV8/gKgCnvMXHnbRzMfaompZ
- ZFqw==
-X-Gm-Message-State: AOAM530EweLYia/+xTfeDpJJXHUz1JJr+ZMTHr+RHpfopGOXlZ5bc7Nn
- YqL5u7RkNyUzrh3D96xbZ6A=
-X-Google-Smtp-Source: ABdhPJzqmsKJXPs4e2PFyeh8psGxJd2yqUc2wqjA6FxwJZhLl3NQEiMG/PK9ZEhSSbje0p1xcxU7bA==
-X-Received: by 2002:adf:eed1:: with SMTP id a17mr203029wrp.306.1641829508584; 
- Mon, 10 Jan 2022 07:45:08 -0800 (PST)
-Received: from localhost (109.9.90.146.dyn.plus.net. [146.90.9.109])
- by smtp.gmail.com with ESMTPSA id b14sm7395765wri.112.2022.01.10.07.45.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jan 2022 07:45:07 -0800 (PST)
-Date: Mon, 10 Jan 2022 15:45:06 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Hiroki Narukawa <hnarukaw@yahoo-corp.jp>
-Subject: Re: [PATCH 1/1] util: adjust coroutine pool size to virtio block queue
-Message-ID: <YdxUgnmY0bt8nV6A@stefanha-x1.localdomain>
-References: <20220106082057.968-1-hnarukaw@yahoo-corp.jp>
- <20220106082057.968-2-hnarukaw@yahoo-corp.jp>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="rdBJTP8pJxCHutOM"
-Content-Disposition: inline
-In-Reply-To: <20220106082057.968-2-hnarukaw@yahoo-corp.jp>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=stefanha@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n6wrM-0007Eo-GP
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 10:45:29 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:51600)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n6wrJ-0002fV-2e
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 10:45:22 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 14D59B81670;
+ Mon, 10 Jan 2022 15:45:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB8F0C36AE3;
+ Mon, 10 Jan 2022 15:45:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1641829510;
+ bh=/cJ14iZsrwrHt6rKN+QfSmHGBYGz0Ywl+1X61/fcY3c=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=NMmLAQX/uAQNZKjyR63+dLPDi/nwcYUF1woCj26HUIj4MbR+Th3VMsoRVWt7QDXfi
+ xK+Op9jucoBBso7t1QNpBM0dAaG4/eUfs5VK6R3hqQ8Wh7+7tpBCQwMz0v4xvUlW4S
+ 1ffCO2KtSyuVa7c1DUv+i4pSm7uokZyBvTKCPeXTWmu+o9gZNdUuLKUP8Bx0zMOfF+
+ VUOprNKUu44az6KwM0tjQth++HW3ACq1ztrACmprHb7zJG7rFqXGqNTX3MXTb9KK9K
+ 9ooGBUyhwKMX6bcVuHvAZ9sMaZwsU0DYyur58x8ZL6NFW76/6m4rGFYlEtoc6YUocS
+ uO2cpkmfqs/kA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1n6wr6-00HASj-Pu; Mon, 10 Jan 2022 15:45:08 +0000
+Date: Mon, 10 Jan 2022 15:45:08 +0000
+Message-ID: <87k0f7tx17.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: eric.auger@redhat.com
+Subject: Re: [PATCH v4 2/6] hw/arm/virt: Add a control for the the highmem
+ redistributors
+In-Reply-To: <448274ac-2650-7c09-742d-584109fb5c56@redhat.com>
+References: <20220107163324.2491209-1-maz@kernel.org>
+ <20220107163324.2491209-3-maz@kernel.org>
+ <448274ac-2650-7c09-742d-584109fb5c56@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: eric.auger@redhat.com, qemu-devel@nongnu.org,
+ kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, kernel-team@android.com,
+ drjones@redhat.com, peter.maydell@linaro.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=maz@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -76
+X-Spam_score: -7.7
+X-Spam_bar: -------
+X-Spam_report: (-7.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,190 +82,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aoiwa@yahoo-corp.jp, qemu-devel@nongnu.org, f4bug@amsat.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, kernel-team@android.com,
+ kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Eric,
 
---rdBJTP8pJxCHutOM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 10 Jan 2022 15:35:44 +0000,
+Eric Auger <eric.auger@redhat.com> wrote:
+> 
+> Hi Marc,
+> 
+> On 1/7/22 5:33 PM, Marc Zyngier wrote:
 
-On Thu, Jan 06, 2022 at 05:20:57PM +0900, Hiroki Narukawa wrote:
+[...]
 
-Phil, thanks for notifying me.
+> > @@ -190,7 +191,8 @@ static inline int virt_gicv3_redist_region_count(VirtMachineState *vms)
+> >  
+> >      assert(vms->gic_version == VIRT_GIC_VERSION_3);
+> >  
+> > -    return MACHINE(vms)->smp.cpus > redist0_capacity ? 2 : 1;
+> > +    return (MACHINE(vms)->smp.cpus > redist0_capacity &&
+> > +            vms->highmem_redists) ? 2 : 1;
+> If we fail to use the high redist region, is there any check that the
+> number of vcpus does not exceed the first redist region capacity.
+> Did you check that config, does it nicely fail?
 
-> Coroutine pool size was 64 from long ago, and the basis was organized in =
-the commit message in c740ad92.
->=20
-> At that time, virtio-blk queue-size and num-queue were not configuable, a=
-nd equivalent values were 128 and 1.
->=20
-> Coroutine pool size 64 was fine then.
->=20
-> Later queue-size and num-queue got configuable, and default values were i=
-ncreased.
->=20
-> Coroutine pool with size 64 exhausts frequently with random disk IO in ne=
-w size, and slows down.
->=20
-> This commit adjusts coroutine pool size adaptively with new values.
->=20
-> This commit adds 64 by default, but now coroutine is not only for block d=
-evices,
->=20
-> and is not too much burdon comparing with new default.
->=20
-> pool size of 128 * vCPUs.
->=20
-> Signed-off-by: Hiroki Narukawa <hnarukaw@yahoo-corp.jp>
-> ---
->  hw/block/virtio-blk.c    |  3 +++
->  include/qemu/coroutine.h |  5 +++++
->  util/qemu-coroutine.c    | 15 +++++++++++----
->  3 files changed, 19 insertions(+), 4 deletions(-)
+I did, and it does (example on M1 with KVM):
 
-Have you measured with QEMU 6.1 or later? Commit
-d7ddd0a1618a75b31dc308bb37365ce1da972154 ("linux-aio: limit the batch
-size using `aio-max-batch` parameter") can hide this issue so it may not
-be apparent in recent QEMU releases.
+$ /home/maz/vminstall/qemu-hack -m 1G -smp 256 -cpu host -machine virt,accel=kvm,gic-version=3,highmem=on -nographic -drive if=pflash,format=raw,readonly=on,file=/usr/share/AAVMF/AAVMF_CODE.fd
+qemu-hack: warning: Number of SMP cpus requested (256) exceeds the recommended cpus supported by KVM (8)
+qemu-hack: warning: Number of hotpluggable cpus requested (256) exceeds the recommended cpus supported by KVM (8)
+qemu-hack: Capacity of the redist regions(123) is less than number of vcpus(256)
 
-I like your approach better than what I tried recently (I ended up
-dropping the patch from my queue because it doesn't handle coroutines
-created in one thread and terminated in another thread correctly):
-https://patchew.org/QEMU/20210913153524.1190696-1-stefanha@redhat.com/
+Thanks,
 
->=20
-> diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-> index f139cd7cc9..726dbe14de 100644
-> --- a/hw/block/virtio-blk.c
-> +++ b/hw/block/virtio-blk.c
-> @@ -32,6 +32,7 @@
->  #include "hw/virtio/virtio-bus.h"
->  #include "migration/qemu-file-types.h"
->  #include "hw/virtio/virtio-access.h"
-> +#include "qemu/coroutine.h"
-> =20
->  /* Config size before the discard support (hide associated config fields=
-) */
->  #define VIRTIO_BLK_CFG_SIZE offsetof(struct virtio_blk_config, \
-> @@ -1222,6 +1223,8 @@ static void virtio_blk_device_realize(DeviceState *=
-dev, Error **errp)
->      for (i =3D 0; i < conf->num_queues; i++) {
->          virtio_add_queue(vdev, conf->queue_size, virtio_blk_handle_outpu=
-t);
->      }
-> +    qemu_coroutine_increase_pool_batch_size(conf->num_queues * conf->que=
-ue_size
-> +                                            / 2);
+	M.
 
-This over-provisions coroutine pools when IOThreads are configured,
-because --device virtio-blk-pci,iothread=3Diothread2 will only submit I/O
-requests in iothread2, for example. Other threads don't need to increase
-their limit.
-
-However, I think it's okay to use this inexact approach. It's still
-better than the current hardcoded 64 coroutine pool size.
-
->      virtio_blk_data_plane_create(vdev, conf, &s->dataplane, &err);
->      if (err !=3D NULL) {
->          error_propagate(errp, err);
-> diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-> index 4829ff373d..e52ed76ab2 100644
-> --- a/include/qemu/coroutine.h
-> +++ b/include/qemu/coroutine.h
-> @@ -331,6 +331,11 @@ void qemu_co_sleep_wake(QemuCoSleep *w);
->   */
->  void coroutine_fn yield_until_fd_readable(int fd);
-> =20
-> +/**
-> + * Increase coroutine pool size
-> + */
-> +void qemu_coroutine_increase_pool_batch_size(unsigned int additional_poo=
-l_size);
-> +
->  #include "qemu/lockable.h"
-> =20
->  #endif /* QEMU_COROUTINE_H */
-> diff --git a/util/qemu-coroutine.c b/util/qemu-coroutine.c
-> index 38fb6d3084..080a1e0126 100644
-> --- a/util/qemu-coroutine.c
-> +++ b/util/qemu-coroutine.c
-> @@ -20,12 +20,14 @@
->  #include "qemu/coroutine_int.h"
->  #include "block/aio.h"
-> =20
-> +/** Initial batch size is 64, and is increased on demand */
->  enum {
-> -    POOL_BATCH_SIZE =3D 64,
-> +    POOL_INITIAL_BATCH_SIZE =3D 64,
->  };
-> =20
->  /** Free list to speed up creation */
->  static QSLIST_HEAD(, Coroutine) release_pool =3D QSLIST_HEAD_INITIALIZER=
-(pool);
-> +static unsigned int pool_batch_size =3D POOL_INITIAL_BATCH_SIZE;
->  static unsigned int release_pool_size;
->  static __thread QSLIST_HEAD(, Coroutine) alloc_pool =3D QSLIST_HEAD_INIT=
-IALIZER(pool);
->  static __thread unsigned int alloc_pool_size;
-> @@ -49,7 +51,7 @@ Coroutine *qemu_coroutine_create(CoroutineEntry *entry,=
- void *opaque)
->      if (CONFIG_COROUTINE_POOL) {
->          co =3D QSLIST_FIRST(&alloc_pool);
->          if (!co) {
-> -            if (release_pool_size > POOL_BATCH_SIZE) {
-> +            if (release_pool_size > pool_batch_size) {
->                  /* Slow path; a good place to register the destructor, t=
-oo.  */
->                  if (!coroutine_pool_cleanup_notifier.notify) {
->                      coroutine_pool_cleanup_notifier.notify =3D coroutine=
-_pool_cleanup;
-> @@ -86,12 +88,12 @@ static void coroutine_delete(Coroutine *co)
->      co->caller =3D NULL;
-> =20
->      if (CONFIG_COROUTINE_POOL) {
-> -        if (release_pool_size < POOL_BATCH_SIZE * 2) {
-> +        if (release_pool_size < pool_batch_size * 2) {
->              QSLIST_INSERT_HEAD_ATOMIC(&release_pool, co, pool_next);
->              qatomic_inc(&release_pool_size);
->              return;
->          }
-> -        if (alloc_pool_size < POOL_BATCH_SIZE) {
-> +        if (alloc_pool_size < pool_batch_size) {
->              QSLIST_INSERT_HEAD(&alloc_pool, co, pool_next);
->              alloc_pool_size++;
->              return;
-> @@ -202,3 +204,8 @@ AioContext *coroutine_fn qemu_coroutine_get_aio_conte=
-xt(Coroutine *co)
->  {
->      return co->ctx;
->  }
-> +
-> +void qemu_coroutine_increase_pool_batch_size(unsigned int additional_poo=
-l_size)
-> +{
-> +    qatomic_add(&pool_batch_size, additional_pool_size);
-
-If atomic_add() is used to modify pool_batch_size then qatomic_read()
-should be used for loads. At a minimum it serves as documentation that
-this is an atomic variable.
-
---rdBJTP8pJxCHutOM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHcVIIACgkQnKSrs4Gr
-c8jN9ggAhsfd9KFgJy4jhiVUPiGIkHRfmpvBb2/V+o3DAhZpgMvzvwNwt/5z4KnG
-JYafevSB6IjdijHYLrP3EkdkW/f7KFYxcsbJ/T2Ff2IYUHQIw+CIFldbsG0Z7r7x
-XbpNzx4u+g4UhiFlbnXBHDbVbcteBcYxSvkBFtrMJLHIY+BLBzZYChyrE25otnqI
-WT+fbDaa9cED444ih+4R9HC+tjxGOyn/JE+ezZxnh6TgyuEBt501xtBBWqdHMph7
-bWy86vRr6c5Qqb6wxL7cl0rb9GC09w0pnGjhqZOm5avZ6XGb6FvNU5Rn5PQT/+Kv
-pnhvI2Zco/C3zYykDF/vzUiuJU4ADA==
-=SGQo
------END PGP SIGNATURE-----
-
---rdBJTP8pJxCHutOM--
+-- 
+Without deviation from the norm, progress is not possible.
 
