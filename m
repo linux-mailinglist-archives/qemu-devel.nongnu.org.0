@@ -2,57 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D88C448981A
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 12:54:44 +0100 (CET)
-Received: from localhost ([::1]:37754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1538848983F
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 13:05:09 +0100 (CET)
+Received: from localhost ([::1]:47994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6tG8-0008Lw-1R
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 06:54:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36508)
+	id 1n6tQB-0007eP-Km
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 07:05:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1n6tDQ-0007Is-Iq; Mon, 10 Jan 2022 06:51:56 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3450)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1n6tN2-0006WF-6D
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 07:01:52 -0500
+Received: from mga06.intel.com ([134.134.136.31]:44341)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1n6tDN-0001XO-GP; Mon, 10 Jan 2022 06:51:56 -0500
-Received: from kwepemi100002.china.huawei.com (unknown [172.30.72.53])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JXXGK71wCzccTD;
- Mon, 10 Jan 2022 19:51:05 +0800 (CST)
-Received: from kwepemm600002.china.huawei.com (7.193.23.29) by
- kwepemi100002.china.huawei.com (7.221.188.188) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Mon, 10 Jan 2022 19:51:43 +0800
-Received: from [10.174.185.187] (10.174.185.187) by
- kwepemm600002.china.huawei.com (7.193.23.29) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.20; Mon, 10 Jan 2022 19:51:43 +0800
-Message-ID: <0ac47838-f936-e9a9-5c8c-0a6911e07955@huawei.com>
-Date: Mon, 10 Jan 2022 19:51:42 +0800
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1n6tMx-00037b-KE
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 07:01:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1641816107; x=1673352107;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=qQBsIifTIuMVPMFSn0tGFMJxP2ex7OJBeEEbaxFhClc=;
+ b=FSobaLwLpRU6drOmFY7A9IIuSDAGE3tBHcgV0RqNhQO/Tf/p6eWLAjQT
+ hhKHdvG/9PasNspwAAH9VK2nansohZw1ZPTHM+0DfpbtUP6HnIJVsykwn
+ 9czrUUh91tNn5AQubwsftgV1Bv5BmPOH4sdKbiQgB0dgbjO66+4OD2Khs
+ PMGVEXhyrXiZfz8hArqJrIJqSc9z2SzBgQ5TBA8AR1/mpX7xKwBSbQHaA
+ GNx7nXbEZZLaa5cXzXknciBH0OrM5NI4PbQSjsEXLsjebt/KS7WuhF/x+
+ YPAuoUfJbRzws70UNPnxaQtWbjekLxGiApV6MG6r5dOh2EmRvCwB3/7ry w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10222"; a="303950372"
+X-IronPort-AV: E=Sophos;i="5.88,277,1635231600"; d="scan'208";a="303950372"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2022 04:01:41 -0800
+X-IronPort-AV: E=Sophos;i="5.88,277,1635231600"; d="scan'208";a="528244187"
+Received: from xiaoyaol-mobl.ccr.corp.intel.com (HELO [10.249.174.157])
+ ([10.249.174.157])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2022 04:01:36 -0800
+Message-ID: <2515c902-ebaf-5917-a006-9d9d283a912f@intel.com>
+Date: Mon, 10 Jan 2022 20:01:33 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH 0/2] block-backend: Retain permissions after migration
+ Firefox/91.0 Thunderbird/91.4.1
+Subject: Re: [RFC PATCH v2 06/44] hw/i386: Introduce kvm-type for TDX guest
 Content-Language: en-US
-To: Hanna Reitz <hreitz@redhat.com>, <qemu-block@nongnu.org>
-CC: <qemu-devel@nongnu.org>, Kevin Wolf <kwolf@redhat.com>
-References: <20211125135317.186576-1-hreitz@redhat.com>
-In-Reply-To: <20211125135317.186576-1-hreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <cover.1625704980.git.isaku.yamahata@intel.com>
+ <04c08d0770736cfa2e3148489602bc42492c78f3.1625704980.git.isaku.yamahata@intel.com>
+ <20210826102212.gykq2z4fb2iszb2k@sirius.home.kraxel.org>
+ <03aaab8b-0a50-6b56-2891-ccd58235ad83@intel.com>
+ <YdwV8jUm+RuirhxK@redhat.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <YdwV8jUm+RuirhxK@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.185.187]
-X-ClientProxiedBy: dggeme706-chm.china.huawei.com (10.1.199.102) To
- kwepemm600002.china.huawei.com (7.193.23.29)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=liangpeng10@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=xiaoyao.li@intel.com;
+ helo=mga06.intel.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,49 +80,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: isaku.yamahata@intel.com, alistair@alistair23.me, ehabkost@redhat.com,
+ kvm@vger.kernel.org, mst@redhat.com, seanjc@google.com, cohuck@redhat.com,
+ qemu-devel@nongnu.org, mtosatti@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
+ erdemaktas@google.com, pbonzini@redhat.com, isaku.yamahata@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Peng Liang <liangpeng10@huawei.com>
-From:  Peng Liang via <qemu-devel@nongnu.org>
 
-On 11/25/2021 9:53 PM, Hanna Reitz wrote:
-> Hi,
+On 1/10/2022 7:18 PM, Daniel P. Berrangé wrote:
+> On Wed, Nov 24, 2021 at 03:31:13PM +0800, Xiaoyao Li wrote:
+>> On 8/26/2021 6:22 PM, Gerd Hoffmann wrote:
+>>> On Wed, Jul 07, 2021 at 05:54:36PM -0700, isaku.yamahata@gmail.com wrote:
+>>>> From: Xiaoyao Li <xiaoyao.li@intel.com>
+>>>>
+>>>> Introduce a machine property, kvm-type, to allow the user to create a
+>>>> Trusted Domain eXtensions (TDX) VM, a.k.a. a Trusted Domain (TD), e.g.:
+>>>>
+>>>>    # $QEMU \
+>>>> 	-machine ...,kvm-type=tdx \
+>>>> 	...
+>>
+>> Sorry for the very late reply.
+>>
+>>> Can we align sev and tdx better than that?
+>>>
+>>> SEV is enabled this way:
+>>>
+>>> qemu -machine ...,confidential-guest-support=sev0 \
+>>>        -object sev-guest,id=sev0,...
+>>>
+>>> (see docs/amd-memory-encryption.txt for details).
+>>>
+>>> tdx could likewise use a tdx-guest object (and both sev-guest and
+>>> tdx-guest should probably have a common parent object type) to enable
+>>> and configure tdx support.
+>>
+>> yes, sev only introduced a new object and passed it to
+>> confidential-guest-support. This is because SEV doesn't require the new type
+>> of VM.
+>> However, TDX does require a new type of VM.
+>>
+>> If we read KVM code, there is a parameter of CREATE_VM to pass the vm_type,
+>> though x86 doesn't use this field so far. On QEMU side, it also has the
+>> codes to pass/configure vm-type in command line. Of cousre, x86 arch doesn't
+>> implement it. With upcoming TDX, it will implement and use vm type for TDX.
+>> That's the reason we wrote this patch to implement kvm-type for x86, similar
+>> to other arches.
+>>
+>> yes, of course we can infer the vm_type from "-object tdx-guest". But I
+>> prefer to just use vm_type. Let's see others opinion.
 > 
-> Peng Liang has reported an issue regarding migration of raw images here:
-> https://lists.nongnu.org/archive/html/qemu-block/2021-11/msg00673.html
-> 
-> It turns out that after migrating, all permissions are shared when they
-> weren’t before.  The cause of the problem is that we deliberately delay
-> restricting the shared permissions until migration is really done (until
-> the runstate is no longer INMIGRATE) and first share all permissions;
-> but this causes us to lose the original shared permission mask and
-> overwrites it with BLK_PERM_ALL, so once we do try to restrict the
-> shared permissions, we only again share them all.
-> 
-> Fix this by saving the set of shared permissions through the first
-> blk_perm_set() call that shares all; and add a regression test.
-> 
-> 
-> I don’t believe we have to fix this in 6.2, because I think this bug has
-> existed for four years now.  (I.e. it isn’t critical, and it’s no
-> regression.)
-> 
-> 
-> Hanna Reitz (2):
->   block-backend: Retain permissions after migration
->   iotests/migration-permissions: New test
-> 
->  block/block-backend.c                         |  11 ++
->  .../qemu-iotests/tests/migration-permissions  | 101 ++++++++++++++++++
->  .../tests/migration-permissions.out           |   5 +
->  3 files changed, 117 insertions(+)
->  create mode 100755 tests/qemu-iotests/tests/migration-permissions
->  create mode 100644 tests/qemu-iotests/tests/migration-permissions.out
+> It isn't just SEV that is using the confidential-guest-support approach.
+> This was done for PPC64 and S390x too.  This gives QEMU a standard
+> internal interface to declare that a confidential guest is being used /
+> configured. IMHO, TDX needs to use this too, unless there's a compelling
+> technical reason why it is a bad approach & needs to diverge from every
+> other confidential guest impl in QEMU.
 > 
 
-Hi Hanna,
-QEMU 6.3 development tree has been opened.  Will this fix be merged in 6.3?
+Forgot to tell the update that we went the direction to identify the TDX 
+vm_type based on confidential-guest_support like below:
 
-Thanks,
-Peng
+
+if (ms->cgs && object_dynamic_cast(OBJECT(ms->cgs), TYPE_TDX_GUEST)) {
+         kvm_type = KVM_X86_TDX_VM;
+} else {
+         kvm_type = KVM_X86_DEFAULT_VM;
+}
+
+
+I think it's what you want, right?
+
+BTW, the whole next version of TDX QEMU series should be released with 
+next version of TDX KVM series. But I cannot tell the exact date yet.
+
 
