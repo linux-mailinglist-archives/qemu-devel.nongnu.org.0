@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BF7B48A1EA
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 22:27:35 +0100 (CET)
-Received: from localhost ([::1]:53480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C927248A20B
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 22:41:41 +0100 (CET)
+Received: from localhost ([::1]:44610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n72CU-0005c0-Ez
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 16:27:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44772)
+	id 1n72Q8-0002jr-1D
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 16:41:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1n725i-0005Cb-Ow
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 16:20:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30517)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1n725g-0006n5-5S
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 16:20:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641849631;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YgTOUzBnPU5SClntb12M/WJx+w+RmRjeC8NorpFV83E=;
- b=AgVsf60FTFzOScKJrCudFKIbb5L5Q5bY/OnDi5OKHWhiIyK3vHE16IKCtcmYBQv+0C8aRt
- PJ7v/DcO8eGZMXOBHmaxp+7D2PjV7nIs7k2Z44yOEzvW2TKA9eFL7KAK/Cx7cEYzHjJQNV
- KdzqhM8iOemMu5ZvZoN/oUleXWoBSUo=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-632-I99rVt6XOnqwF9PQcsLgsg-1; Mon, 10 Jan 2022 16:20:30 -0500
-X-MC-Unique: I99rVt6XOnqwF9PQcsLgsg-1
-Received: by mail-qt1-f200.google.com with SMTP id
- j26-20020ac8405a000000b002c472361f33so11804419qtl.16
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 13:20:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1n72NS-000161-1K; Mon, 10 Jan 2022 16:38:54 -0500
+Received: from [2607:f8b0:4864:20::1031] (port=47046
+ helo=mail-pj1-x1031.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1n72NP-00015t-U1; Mon, 10 Jan 2022 16:38:53 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ rj2-20020a17090b3e8200b001b1944bad25so2059512pjb.5; 
+ Mon, 10 Jan 2022 13:38:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=fMKzpry8fEh598eKjLi3GWpaLx+MN+g3A6JNsLHE3MU=;
+ b=TLde5EH7JT56WL7XM4nm4NDwSQb+RkwUPfJh/FpGShXlRs0ceqh23KRbn+Ep7XFe0i
+ BoXyX69WH4qVU3PpgjS9BRqSEKlrbHn++bYlNPMoIZ4FH+takUIxAq7OBJCvj6sGUn/a
+ Ip/FcrbkwQa3/NuWDG2QrGR1Lx8X3pg/3kaEJmMo71NQTTWZaNCMdaRd3YIxOJcBe4ts
+ c0QMmRWk0PxhbU5YAOKOBDKcDh1iKz31c/I4QfPDwUEXSC8dWeZGjo7G2BbreEzZpQrf
+ dpdKk1JKlkg/WZUcZM5vufFJZ/Tfj++ULf3BduI0b5n96SI8ZCSOjdCT8WrNGM2R2nsQ
+ im0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=YgTOUzBnPU5SClntb12M/WJx+w+RmRjeC8NorpFV83E=;
- b=ma10qnT61J/vaNmSBLEPWUA3YbZfV0FE9BIK6tS/+X33TjOCa/jVfonUVdwRD3flDB
- T8ysQq47T8eRUknxQf+xX4biPHaUk/cBlmSsC5zmkluXUrQdGfr2xHXK3T8rMiRJMyt2
- l+T5QIzdvcE5pZ4EteEx2df8o9cUkZu+DsnsyGNeHclJaHcuXeU1vGWeDS5MLjmQRcaQ
- bUHAKuCyIgd6jti1ze0e5BJTam2rkERBH3i5Atag9PCJwnNgPOM1EHFHCUS93KjpSqly
- QrIStLiNq137uiOX2IrJ0/FJs4+Rs84wqycrp598lzN5uipmK/FzhFT3xXJcqH293SCI
- 9EWA==
-X-Gm-Message-State: AOAM530ohbSqEDjgrfg4uhV5QBpy3+tPjs0ImaWi87Yx09Slwe+DaPDo
- hLQm04G2sF+BRth/9oEbHGbGAXGVbblLlvOArRzV9Lq+bsW0nBsUs/ElA7WLO3KfxYk+Z+L0Tox
- 0HkiwmbZxhBpw7HI=
-X-Received: by 2002:ac8:7f4b:: with SMTP id g11mr1394524qtk.608.1641849630079; 
- Mon, 10 Jan 2022 13:20:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwr0fKuQxjyh7OYhAcZJUF54utIaRysMt2MdQDS+9yU2m6fZrfOETbt3yIdKANmPveQkvJnYw==
-X-Received: by 2002:ac8:7f4b:: with SMTP id g11mr1394512qtk.608.1641849629895; 
- Mon, 10 Jan 2022 13:20:29 -0800 (PST)
-Received: from localhost ([181.191.236.130])
- by smtp.gmail.com with ESMTPSA id d15sm5077679qka.3.2022.01.10.13.20.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jan 2022 13:20:29 -0800 (PST)
-Date: Mon, 10 Jan 2022 18:20:26 -0300
-From: Beraldo Leal <bleal@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 3/3] python: update type hints for mypy 0.930
-Message-ID: <20220110212026.473rhawitprg5zf3@laptop.redhat>
-References: <20220110191349.1841027-1-jsnow@redhat.com>
- <20220110191349.1841027-4-jsnow@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fMKzpry8fEh598eKjLi3GWpaLx+MN+g3A6JNsLHE3MU=;
+ b=XnSaHnIj3F9L0OIh5OnseC+F4f+wIlHtuycNSZONugJ7naMauVZaBjW3TDMksHZ3Xb
+ 76X5p/6IK8hS9syWaIS8gJeCLVI51T/g6zuEjE04ezGCgoRP0WbKFnfIUm1MBpRcgXFc
+ wegzNORs+TLu7HDow5IiHoaJytKHlv6dF7fDte5m50e35Le3XkvYbj9adkLaq5elXBDg
+ 6WIak5u4pilXjlxv3pBNqntk1pwmKSa4r56FTAYS7/HZcTzido6ep01jTQcWggSfXaVU
+ wTCXHVn0r9Dl81OnSu4J3fQArrjSGOktrd0clr1q8AeV/isECu1h8i01l9KxEQMtAkKL
+ JPqw==
+X-Gm-Message-State: AOAM532dAFoYEvaMM7Q/5NiLn/SmtUbYZcLPIK4d02k+S6RfyDhaAsiC
+ rTXlZ78YcVJKcuyiXBRDXLw=
+X-Google-Smtp-Source: ABdhPJyCDwrqJ3hJ8yD8INS6mF3JdBOtTNA2yq2yJELhZUWaHiTtOFfshW3IRDCmJKEwbLDtMeDT8A==
+X-Received: by 2002:a63:8c5:: with SMTP id 188mr1413148pgi.13.1641850728492;
+ Mon, 10 Jan 2022 13:38:48 -0800 (PST)
+Received: from [192.168.64.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ by smtp.gmail.com with ESMTPSA id
+ s40sm2930139pfg.144.2022.01.10.13.38.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Jan 2022 13:38:47 -0800 (PST)
+Message-ID: <cc32de78-d157-62d4-43f9-2299f71f34fa@gmail.com>
+Date: Tue, 11 Jan 2022 06:38:43 +0900
 MIME-Version: 1.0
-In-Reply-To: <20220110191349.1841027-4-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bleal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=bleal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [RFC PATCH v2 2/6] audio/coreaudio: Remove a deprecation warning
+ on macOS 12
+Content-Language: en-US
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+References: <20220109170612.574104-1-f4bug@amsat.org>
+ <5230139.pYjDmQ3FvW@silver> <246f1f6f-3674-e3dc-3a8e-f53795fa58cc@gmail.com>
+ <2141936.zTEnKHbCo3@silver>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <2141936.zTEnKHbCo3@silver>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,58 +92,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Cleber Rosa <crosa@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 10, 2022 at 02:13:49PM -0500, John Snow wrote:
-> Mypy 0.930, released Dec 22, changes the way argparse objects are
-> considered. Crafting a definition that works under Python 3.6 and an
-> older mypy alongside newer versions simultaneously is ... difficult,
-> so... eh. Stub it out with an 'Any' definition to get the CI moving
-> again.
-> 
-> Oh well.
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  python/qemu/qmp/qom_common.py | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
-> 
-> diff --git a/python/qemu/qmp/qom_common.py b/python/qemu/qmp/qom_common.py
-> index a59ae1a2a1..2e4c741f77 100644
-> --- a/python/qemu/qmp/qom_common.py
-> +++ b/python/qemu/qmp/qom_common.py
-> @@ -30,10 +30,6 @@
->  from . import QEMUMonitorProtocol, QMPError
->  
->  
-> -# The following is needed only for a type alias.
-> -Subparsers = argparse._SubParsersAction  # pylint: disable=protected-access
-> -
-> -
->  class ObjectPropertyInfo:
->      """
->      Represents the return type from e.g. qom-list.
-> @@ -89,7 +85,7 @@ def __init__(self, args: argparse.Namespace):
->          self.qmp.connect()
->  
->      @classmethod
-> -    def register(cls, subparsers: Subparsers) -> None:
-> +    def register(cls, subparsers: Any) -> None:
->          """
->          Register this command with the argument parser.
->  
-> -- 
-> 2.31.1
-> 
->
 
-Reviewed-by: Beraldo Leal <bleal@redhat.com>
 
---
-Beraldo
+On 2022/01/11 6:05, Christian Schoenebeck wrote:
+> On Montag, 10. Januar 2022 21:39:28 CET Akihiko Odaki wrote:
+>> On 2022/01/11 5:22, Christian Schoenebeck wrote:
+>>> On Montag, 10. Januar 2022 20:01:40 CET Akihiko Odaki wrote:
+>>>> On 2022/01/11 3:46, Christian Schoenebeck wrote:
+>>>>> On Montag, 10. Januar 2022 19:20:15 CET Akihiko Odaki wrote:
+>>>>>> On 2022/01/10 22:22, Peter Maydell wrote:
+>>>>>>> On Mon, 10 Jan 2022 at 13:14, Christian Schoenebeck
+>>>>>>>
+>>>>>>> <qemu_oss@crudebyte.com> wrote:
+>>>>>>>> I'd suggest to use:
+>>>>>>>>
+>>>>>>>> #if !defined(MAC_OS_VERSION_12_0) ||
+>>>>>>>>
+>>>>>>>>         (MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_VERSION_12_0)
+>>>>>>>>
+>>>>>>>> #define kAudioObjectPropertyElementMain
+>>>>>>>> kAudioObjectPropertyElementMaster
+>>>>>>>> #endif
+>>>>>>>
+>>>>>>> This is also how we do this for existing checks of this sort,
+>>>>>>> like the one in osdep.h for qemu_thread_jit_execute().
+>>>>>>>
+>>>>>>> -- PMM
+>>>>>>
+>>>>>> If I understand correctly, Many macOS-specific codes already no longer
+>>>>>> complies with GCC because they depend on modern features GCC doesn't
+>>>>>> provide. The most problematic construction is block; it is extensively
+>>>>>> used by Apple's ABI and API and you cannot avoid using it even if you
+>>>>>> try.
+>>>>>
+>>>>> You mean Obj-C blocks? That's working with GCC for decades. I am not
+>>>>> aware
+>>>>> about any recent changes to Obj-C block mechanisms by Apple.
+>>>>>
+>>>>>> Also, note that MAC_OS_X_VERSION_MAX_ALLOWED defines the upper bound of
+>>>>>> the supported version. The lower bound should be preferred here because
+>>>>>> the usage of the new identifier is applied regardless of the version of
+>>>>>> the host system. It is in contrary to the usage of
+>>>>>> MAC_OS_X_VERSION_MAX_ALLOWED in osdep.h where the new interfaces are
+>>>>>> used only for the newer versions. The lower bound is defined as
+>>>>>> MAC_OS_X_VERSION_MIN_REQUIRED. Practically there is no difference of
+>>>>>> the
+>>>>>> two macros because they have the same value in QEMU and
+>>>>>> kAudioObjectPropertyElementMain is a constant resolved compile-time,
+>>>>>> but
+>>>>>> it is still nice to have the code semantically correct.
+>>>>>
+>>>>> For this particular enum: no, MAC_OS_X_VERSION_MAX_ALLOWED is the
+>>>>> correct
+>>>>> one. This is about whether enum kAudioObjectPropertyElementMain is
+>>>>> defined in the SDK header files. That's all. And the new enum
+>>>>> kAudioObjectPropertyElementMain is pure refactoring of the enum's old
+>>>>> name due to social reasons ("Master"). The actual reflected numeric
+>>>>> value
+>>>>> and semantic of the enum is unchanged and the resulting binary and
+>>>>> behaviour are identical.
+>>>>
+>>>> There are a few problems with the usage of MAC_OS_X_VERSION_MAX_ALLOWED:
+>>>> - The deprecation warning is designed to work with
+>>>> MAC_OS_X_VERSION_MIN_REQUIRED. You may verify that with:
+>>>> cc -mmacosx-version-min=12.0 -x c - <<EOF
+>>>> #include <CoreAudio/CoreAudio.h>
+>>>>
+>>>> int main()
+>>>> {
+>>>>
+>>>>       int k = kAudioObjectPropertyElementMaster;
+>>>>
+>>>> }
+>>>> EOF
+>>>
+>>> That's actually interesting. On other projects I definitely saw deprecated
+>>> warnings before on API declarations that were deprecated at a version
+>>> higher than the project's minimum deployment target.
+>>>
+>>> Did they change that?
+>>
+>> I don't think so. The behavior is documented at:
+>> https://clang.llvm.org/docs/AttributeReference.html#availability
+>> and the example refers to OS X 10.4, 10.6, 10.7. Probably they haven't
+>> changed the behavior for decades.
+> 
+> The descriptions is very vague. It sais e.g. "If Clang is instructed to
+> compile code for macOS 10.6 ...". So it is describing it only via singular
+> version per example. We are talking about version ranges however.
+> 
+>> MacOSX.sdk/System/Library/Frameworks/Kernel.framework/Headers/os/availabilit
+>> y.h says manually defining API_TO_BE_DEPRECATED can alter the behavior so
+>> that may be the case.
+>>
+>>>> - The programmer must be aware whether it is constant or not.
+>>>> - The macro tells about the runtime and not the SDK. There is no way to
+>>>> tell the SDK version and that is why I suggested __is_identifier at the
+>>>> first place. However, now I'm convinced that
+>>>> MAC_OS_X_VERSION_MIN_REQUIRED is the better option because of the above
+>>>> reasons.
+>>>
+>>> If you make it dependent on MAC_OS_X_VERSION_MIN_REQUIRED, people with
+>>> older SDKs (e.g. Xcode <=13.0) would get a compiler error.
+>>
+>> __is_identifier is the only option if you need a compatibility with the
+>> older SDKs while specifying a greater version for
+>> MAC_OS_X_VERSION_MIN_REQUIRED. It also applies to
+>> MAC_OS_X_VERSION_MAX_ALLOWED; they give the possible runtime versions
+>> and not the SDK version.
+> 
+> I have never used __is_identifier() for such things. I always used
+> MAC_OS_X_VERSION_MIN_REQUIRED and MAC_OS_X_VERSION_MAX_ALLOWED and it was
+> always doing the job.
+> 
+> And for symbols: those are automatically weak linked by the compiler if the
+> project's minimum deployment target is lower than the introductory version of
+> the symbol.
 
+That would not happen with older SDKs because they don't know even 
+whether the identifier is a symbol. That is usually not a problem though 
+because such a problem happens only when the version range specified 
+MAC_OS_X_VERSION_MIN_REQUIRED and MAC_OS_X_VERSION_MAX_ALLOWED are not 
+supported by the SDK.
+
+> 
+>>> You are right about the deprecated warning not being emitted in the
+>>> example
+>>> above, currently not sure why, but I still think
+>>> MAC_OS_X_VERSION_MAX_ALLOWED is the way to go in this case.
+>>
+>> The page and the header file I referred the above would help
+>> understanding the behavior.
+> 
+> Yeah, I already checked that. It basically translates to:
+> 
+> __attribute__((availability(macosx,introduced=10.0,deprecated=12.0)))
+> 
+> So next I would need to read clang sources how this attribute is implemented
+> exactly. Not today. ;-)
+> 
+> Best regards,
+> Christian Schoenebeck
+> 
+> 
+
+It is because the compiler only checks the minimum. The upper bound is a 
+purely library-defined construct.
+
+MacOSX.sdk/usr/include/Availability.h says:
+ > The min OS version is specified as an option to the compiler:
+ > -mmacosx-version-min=10.x when building for Mac OS X, and 
+-miphoneos-version-min=y.z
+ > when building for the iPhone.  The upper bound for the OS version is 
+rarely needed,
+ > but it can be set on the command line via: 
+-D__MAC_OS_X_VERSION_MAX_ALLOWED=10x0 for
+ > Mac OS X and __IPHONE_OS_VERSION_MAX_ALLOWED = y0z00 for iOS.
+
+As you can see here, the maximum is just a macro, unlike the minimum.
+
+Regards,
+Akihiko Odaki
 
