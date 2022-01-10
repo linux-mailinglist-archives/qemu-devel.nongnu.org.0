@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A57D48A35C
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 00:01:47 +0100 (CET)
-Received: from localhost ([::1]:36484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 641EE48A34F
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 23:58:17 +0100 (CET)
+Received: from localhost ([::1]:59090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n73fe-0002Zh-2o
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 18:01:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33436)
+	id 1n73cG-0007Em-G6
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 17:58:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1n73Nb-00061k-04
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 17:43:07 -0500
-Received: from [2a00:1450:4864:20::52e] (port=34799
- helo=mail-ed1-x52e.google.com)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n73aM-0005IX-51
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 17:56:18 -0500
+Received: from [2607:f8b0:4864:20::d29] (port=45928
+ helo=mail-io1-xd29.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1n73NY-0001u6-Tn
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 17:43:06 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id u25so59764470edf.1
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 14:43:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n73aI-0003hD-V9
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 17:56:16 -0500
+Received: by mail-io1-xd29.google.com with SMTP id i14so19844526ioj.12
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 14:56:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2uHLDQk8SpMqdqb9PogmmvmND1D39rIz23sn/JH0KVw=;
- b=VzRdv1h8qlZbKLvjgbrmR1mdjIUR7kaUbaVFioNRNnQWsUhB61LKgTNQUskGe1oOda
- lM9Nh1o2L5A9ZfEcNHUYED0lE6MNVkqlHLVTzBQdTX1cS8wFEhZpGsfTSNBAOtZ5ICqB
- rGNrpfMtwXSXeKJOWMQRNkWNsOYS2qW5/Y/A7YZ78oOoT2ElsYr6nsigXJGxSXjlEfLB
- lT3kluhZ5xuwvuwPJKo/exSAxI9ZopOn/fr0y4udtmLMvhT62a6FBZw9GMqqhJojUwOq
- UD142AUz9D/a1pn6jCWsWm4WSgvZ06QSvPZGNnLTbYyTDTgDjT2vrAKSRXSsRQjQSqhT
- Gsmw==
+ :cc; bh=OzYbRux4WcZCBselPH1muwYLkEAnsp5zjoBitR/PwXM=;
+ b=MZxVNoyeAbzws2kBAqg2+o37g9Pm0fhjl3V1Ki7VVC9CzEFrjTph9azXj1nOUdNrbo
+ Mk8jyTUXK24n0jVhUL8zMM7d98frA60W/TF82/6SVXFpQnDdvOXgtXaci41pz2W13jRw
+ aqeeqhxX2lKgC0VG8eG2sLSHoIpMYiDzlW4z+rbAT2L0iXwQlD5H+oZlSP6InlRuKss8
+ 2r1TgYp43Xfx9Oa+MHulX9Ptx7ha3LzQHsjYDF6B2ZZ9YUgZBJ+1z+Tdx+vxA5n1wZxk
+ F35sSfnVF4O9kBwX3oF0RL4FMuuwoW9ydC1qnpzgcxV+5WmIxBqAoIAIjN4dPO+DTFk+
+ 9iGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=2uHLDQk8SpMqdqb9PogmmvmND1D39rIz23sn/JH0KVw=;
- b=ueezquXyu5Zy+UL87/bePUjbbFA2pSh31wZC2hy+0h6eZRro/STTkMMZbekeXfNBRv
- EPFDkb3Mf6chaGi30juuZkeOtwh/SV7J5RVzzOR3gL9it4fHC12wvq//ccPYjVcUuDBq
- RUR2MPvK/zNIokvPK4mU0RWb/QRJxSdpSQd5UHQcJVz95kPpOT2ZdP1kaDCvefmPdqWk
- qPmgN7BDjOmYbfeeeg0dElT/4C36m36/EazyCavW8iKGdeTqBZdRAMbbbPF48LD+b2EO
- Da0eJnfGotTfdzqYOzGZEMb/0f8J/AMKke9ia408ZVoE3jRogzzLs70ts88ohIlAU1S6
- qqDw==
-X-Gm-Message-State: AOAM5310/BQmmvXR8bXRA/VBhEN6/nPzwAnE5Py2GTOERm8lY/OgCFkS
- j+vP09XG1a8gfVCJ0cG0bmahOj0E4FdW2u3VYYyv1w==
-X-Google-Smtp-Source: ABdhPJzFRtIEhnfwwtkJmBiwuiQJ6MQ/QPD/HCL5xv5rlJXqCVAXmsuLn8cjOpI/2IsOy7DmCPnR5ng00CVmSNTgOJ0=
-X-Received: by 2002:a17:906:d93:: with SMTP id
- m19mr1401197eji.34.1641854583477; 
- Mon, 10 Jan 2022 14:43:03 -0800 (PST)
+ bh=OzYbRux4WcZCBselPH1muwYLkEAnsp5zjoBitR/PwXM=;
+ b=zGVG/yFZD26u7Qfk13S1K5+VBNnjvWJjZwO/IQLkYZXYTo8CypEb5m9E6LLhTgGwPs
+ +8iViWmnBhGftTmnQUqkkp1a4TZCQsHeFaq5lhHeTRFs3t+ypXesD2W7gchuDeSfbSrj
+ X1rWk6ON8xlYR24RK3FOJx4xWBkI0ajqhXR35qsu5dVUwx2h1btEnDwOcl53BXCMJrWe
+ x913u1XbLbB3UUu8Xmc4mcQEkrFXigyZXwp0zAI01SF8LkIlte0VHo2IXIo6vgW7xkhd
+ 0VzwEnjaj9uEw6ZqksPLdUHMtST7Pov30EvjAMcXdcKULNns9KQFEkCMtLZkJCcMZoeJ
+ wMDw==
+X-Gm-Message-State: AOAM531xY1N+gVJrLa6Png1JrWfwdPQl3xorX6W1KoKedUukjkDzsBCL
+ WERu83TaQCtohd1ZxwovbbVxVS7+PCK/yYTTauA=
+X-Google-Smtp-Source: ABdhPJwnjcZcuxTlWd2PCQ92aon+7eh/D+hHNCXrxF6REE3c/HC9QHcAAC5yjsVfrvWmbCRheR/ElGlVaYgLGDVio00=
+X-Received: by 2002:a5e:9905:: with SMTP id t5mr917397ioj.16.1641855373431;
+ Mon, 10 Jan 2022 14:56:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20220107004846.378859-1-atishp@rivosinc.com>
- <20220107004846.378859-12-atishp@rivosinc.com>
- <CAEUhbmUK5=M2HL2Zya_Or+yMCVgTZdOUm1LicYE=RRQXsJV=mQ@mail.gmail.com>
-In-Reply-To: <CAEUhbmUK5=M2HL2Zya_Or+yMCVgTZdOUm1LicYE=RRQXsJV=mQ@mail.gmail.com>
-From: Atish Kumar Patra <atishp@rivosinc.com>
-Date: Mon, 10 Jan 2022 14:42:52 -0800
-Message-ID: <CAHBxVyEi=isSuH-u0tGRRG9V5AcxG+V2tCiHUnrw72V16Wfpkw@mail.gmail.com>
-Subject: Re: [PATCH v4 11/11] hw/riscv: virt: Add PMU DT node to the device
- tree
-To: Bin Meng <bmeng.cn@gmail.com>
+References: <B9A4B86C-4540-486D-A261-876191FA7424@livius.net>
+ <CAKmqyKPBDfxKwqcgzjBDEqoWyjjc3g7PiUOEqptL1vfDfh6H8g@mail.gmail.com>
+ <D3A93704-3353-4407-9D47-56FF06BDFB87@livius.net>
+In-Reply-To: <D3A93704-3353-4407-9D47-56FF06BDFB87@livius.net>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 11 Jan 2022 08:55:47 +1000
+Message-ID: <CAKmqyKO-K-GtrHijVW9jVHTtxgeGdOHm7-Y_290HqtNG4k71eg@mail.gmail.com>
+Subject: Re: /usr/shared/qemu binaries
+To: Liviu Ionescu <ilg@livius.net>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d29
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=atishp@rivosinc.com; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd29.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
 X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,210 +82,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jan 9, 2022 at 11:55 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Mon, Jan 10, 2022 at 11:02 PM Liviu Ionescu <ilg@livius.net> wrote:
 >
-> On Fri, Jan 7, 2022 at 10:27 AM Atish Patra <atishp@rivosinc.com> wrote:
-> >
-> > Qemu virt machine can support few cache events and cycle/instret counters.
-> > It also supports counter overflow for these events.
-> >
-> > Add a DT node so that OpenSBI/Linux kernel is aware of the virt machine
-> > capabilities. There are some dummy nodes added for testing as well.
-> >
-> > Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> > ---
-> >  hw/riscv/virt.c    | 38 ++++++++++++++++++++++++++++++++++++++
-> >  target/riscv/pmu.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
-> >  target/riscv/pmu.h |  1 +
-> >  3 files changed, 84 insertions(+)
-> >
-> > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> > index 3af074148ef4..99154199091c 100644
-> > --- a/hw/riscv/virt.c
-> > +++ b/hw/riscv/virt.c
-> > @@ -28,6 +28,7 @@
-> >  #include "hw/qdev-properties.h"
-> >  #include "hw/char/serial.h"
-> >  #include "target/riscv/cpu.h"
-> > +#include "target/riscv/pmu.h"
-> >  #include "hw/riscv/riscv_hart.h"
-> >  #include "hw/riscv/virt.h"
-> >  #include "hw/riscv/boot.h"
-> > @@ -406,6 +407,33 @@ static void create_fdt_socket_plic(RISCVVirtState *s,
-> >      g_free(plic_cells);
-> >  }
-> >
-> > +static void create_fdt_socket_pmu(RISCVVirtState *s,
-> > +                                  int socket, uint32_t *phandle,
-> > +                                  uint32_t *intc_phandles)
-> > +{
-> > +    int cpu;
-> > +    char *pmu_name;
-> > +    uint32_t *pmu_cells;
-> > +    MachineState *mc = MACHINE(s);
-> > +    RISCVCPU hart = s->soc[socket].harts[0];
-> > +
-> > +    pmu_cells = g_new0(uint32_t, s->soc[socket].num_harts * 2);
-> > +
-> > +    for (cpu = 0; cpu < s->soc[socket].num_harts; cpu++) {
-> > +        pmu_cells[cpu * 2 + 0] = cpu_to_be32(intc_phandles[cpu]);
-> > +        pmu_cells[cpu * 2 + 1] = cpu_to_be32(IRQ_PMU_OVF);
-> > +    }
-> > +
-> > +    pmu_name = g_strdup_printf("/soc/pmu");
-> > +    qemu_fdt_add_subnode(mc->fdt, pmu_name);
-> > +    qemu_fdt_setprop_string(mc->fdt, pmu_name, "compatible", "riscv,pmu");
-> > +    riscv_pmu_generate_fdt_node(mc->fdt, hart.cfg.pmu_num, pmu_name);
-> > +
-> > +    g_free(pmu_name);
-> > +    g_free(pmu_cells);
-> > +}
-> > +
-> > +
-> >  static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
-> >                                 bool is_32_bit, uint32_t *phandle,
-> >                                 uint32_t *irq_mmio_phandle,
-> > @@ -417,12 +445,20 @@ static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
-> >      uint32_t *intc_phandles;
-> >      MachineState *mc = MACHINE(s);
-> >      uint32_t xplic_phandles[MAX_NODES];
-> > +    RISCVCPU hart;
-> >
-> >      qemu_fdt_add_subnode(mc->fdt, "/cpus");
-> >      qemu_fdt_setprop_cell(mc->fdt, "/cpus", "timebase-frequency",
-> >                            RISCV_ACLINT_DEFAULT_TIMEBASE_FREQ);
-> >      qemu_fdt_setprop_cell(mc->fdt, "/cpus", "#size-cells", 0x0);
-> >      qemu_fdt_setprop_cell(mc->fdt, "/cpus", "#address-cells", 0x1);
-> > +
-> > +    /* Add the node for isa extensions discovery */
-> > +    qemu_fdt_add_subnode(mc->fdt, "/cpus/riscv,isa-ext");
 >
-> Looks like the ongoing discussion does not support this idea
-> https://lore.kernel.org/linux-riscv/20211224211632.1698523-1-atishp@rivosinc.com/
 >
+> > On 10 Jan 2022, at 14:10, Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > My guess would be keep *arm*/*aarch64*, keymaps, npcm7xx_bootrom.bin,
+> > efi-* and linuxboot*/multiboot*. That should ensure that everything
+> > works for you, but I'm just guessing here.
+>
+> Do you know if those files are referred internally by QEMU, or the user should provide them in various command options explicitly?
 
-Yes. Palmer's comment arrived after I sent out the Qemu series. I will
-fix that in the next
-version once we have string parsing (riscv,isa) ready.
+I would expect them to just be referred to by QEMU internally.
 
-> > +    hart = s->soc[0].harts[0];
-> > +    if (hart.cfg.ext_sscof) {
-> > +        qemu_fdt_setprop(mc->fdt, "/cpus/riscv,isa-ext", "sscofpmf", NULL, 0);
-> > +    }
-> >      qemu_fdt_add_subnode(mc->fdt, "/cpus/cpu-map");
-> >
-> >      for (socket = (riscv_socket_count(mc) - 1); socket >= 0; socket--) {
-> > @@ -445,6 +481,8 @@ static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
-> >          create_fdt_socket_plic(s, memmap, socket, phandle,
-> >              intc_phandles, xplic_phandles);
-> >
-> > +        create_fdt_socket_pmu(s, socket, phandle, intc_phandles);
-> > +
-> >          g_free(intc_phandles);
-> >          g_free(clust_name);
-> >      }
-> > diff --git a/target/riscv/pmu.c b/target/riscv/pmu.c
-> > index 15f161059fb7..b58a09c85616 100644
-> > --- a/target/riscv/pmu.c
-> > +++ b/target/riscv/pmu.c
-> > @@ -19,11 +19,56 @@
-> >  #include "qemu/osdep.h"
-> >  #include "cpu.h"
-> >  #include "pmu.h"
-> > +#include "sysemu/device_tree.h"
-> >
-> >  #define RISCV_TIMEBASE_FREQ 1000000000 /* 1Ghz */
-> >  #define MAKE_32BIT_MASK(shift, length) \
-> >          (((uint32_t)(~0UL) >> (32 - (length))) << (shift))
-> >
-> > +/**
-> > + * To keep it simple, any event can be mapped to any programmable counters in
-> > + * QEMU. The generic cycle & instruction count events can also be monitored
-> > + * using programmable counters. In that case, mcycle & minstret must continue
-> > + * to provide the correct value as well. Hetergenous PMU per hart is not
 >
-> typo of Heterogeneous
+> About the efi-*.rom files, are they usable on Arm machines too? I thought that they are x86 specific.
+
+They probably are x86 specific, but ARM can use EFI so
+I'm not sure how that works.
+
 >
-> > + * supported yet. Thus, number of counters are same across all harts.
-> > + */
-> > +void riscv_pmu_generate_fdt_node(void *fdt, int num_ctrs, char *pmu_name)
-> > +{
-> > +    uint32_t fdt_event_ctr_map[20] = {};
-> > +    uint32_t cmask;
-> > +
-> > +    /* All the programmable counters can map to any event */
-> > +    cmask = MAKE_32BIT_MASK(3, num_ctrs);
-> > +
-> > +   /* SBI_PMU_HW_CPU_CYCLES */
-> > +   fdt_event_ctr_map[0] = cpu_to_be32(0x00000001);
-> > +   fdt_event_ctr_map[1] = cpu_to_be32(0x00000001);
-> > +   fdt_event_ctr_map[2] = cpu_to_be32(cmask | 1 << 0);
-> > +
-> > +   /* SBI_PMU_HW_INSTRUCTIONS */
-> > +   fdt_event_ctr_map[3] = cpu_to_be32(0x00000002);
-> > +   fdt_event_ctr_map[4] = cpu_to_be32(0x00000002);
-> > +   fdt_event_ctr_map[5] = cpu_to_be32(cmask | 1 << 2);
-> > +
-> > +   /* SBI_PMU_HW_CACHE_DTLB : READ : MISS */
-> > +   fdt_event_ctr_map[6] = cpu_to_be32(0x00010019);
-> > +   fdt_event_ctr_map[7] = cpu_to_be32(0x00010019);
-> > +   fdt_event_ctr_map[8] = cpu_to_be32(cmask);
-> > +
-> > +   /* SBI_PMU_HW_CACHE_DTLB : WRITE : MISS */
-> > +   fdt_event_ctr_map[9] = cpu_to_be32(0x0001001B);
-> > +   fdt_event_ctr_map[10] = cpu_to_be32(0x0001001B);
-> > +   fdt_event_ctr_map[11] = cpu_to_be32(cmask);
-> > +
-> > +   /* SBI_PMU_HW_CACHE_ITLB : READ : MISS */
-> > +   fdt_event_ctr_map[12] = cpu_to_be32(0x00010021);
-> > +   fdt_event_ctr_map[13] = cpu_to_be32(0x00010021);
-> > +   fdt_event_ctr_map[14] = cpu_to_be32(cmask);
-> > +
-> > +   qemu_fdt_setprop(fdt, pmu_name, "riscv,event-to-mhpmcounters",
-> > +                    fdt_event_ctr_map, sizeof(fdt_event_ctr_map));
+> > If you want to boot Linux on RISC-V QEMU you will need OpenSBI. You
+> > can either use these or build and supply your own binaries.
 >
-> Where is this documented? I can't find related discussion in the linux-riscv ML.
+> I don't know what to say, my first thought was that if those files can be supplied by the user, I'd rather not include them in the binary distribution.
 >
+> But if they are referred internally, and in certain configurations QEMU does not start without them, I have to reconsider.
 
-These are OpenSBI specific DT bindings. OpenSBI will delete it during
-the dt fixup.
-https://github.com/riscv-software-src/opensbi/blob/master/docs/pmu_support.md
+By default they are referred to internally, but if a user specifies
+`-bios` when starting QEMU then they will not be used.
 
-Apologies for this confusion. I should have put a comment about this here.
+Alistair
 
-> Please add some comment blocks to explain where these magic numbers
-> (like 0x00010021) come from.
 >
-
-Sure. I will refer to the event encoding scheme and describe the details.
-
-> > +}
-> > +
-> >  static bool riscv_pmu_counter_valid(RISCVCPU *cpu, uint32_t ctr_idx)
-> >  {
-> >      if (ctr_idx < 3 || ctr_idx >= RV_MAX_MHPMCOUNTERS ||
-> > diff --git a/target/riscv/pmu.h b/target/riscv/pmu.h
-> > index 9b400c3522f2..63c4b533b223 100644
-> > --- a/target/riscv/pmu.h
-> > +++ b/target/riscv/pmu.h
-> > @@ -31,6 +31,7 @@ int riscv_pmu_init(RISCVCPU *cpu, int num_counters);
-> >  int riscv_pmu_update_event_map(CPURISCVState *env, uint64_t value,
-> >                                 uint32_t ctr_idx);
-> >  int riscv_pmu_incr_ctr(RISCVCPU *cpu, enum riscv_pmu_event_idx event_idx);
-> > +void riscv_pmu_generate_fdt_node(void *fdt, int num_counters, char *pmu_name);
-> >  target_ulong get_icount_ticks(bool brv32);
-> >  int riscv_pmu_setup_timer(CPURISCVState *env, uint64_t value,
-> >                            uint32_t ctr_idx);
-> > --
 >
 > Regards,
-> Bin
+>
+> Liviu
+>
 
