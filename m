@@ -2,79 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA7B5489943
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 14:09:46 +0100 (CET)
-Received: from localhost ([::1]:54226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4272A48999F
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 14:13:25 +0100 (CET)
+Received: from localhost ([::1]:57862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6uQh-000629-9v
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 08:09:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53928)
+	id 1n6uUG-0000MQ-Ba
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 08:13:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1n6uJV-00033t-Hv
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:02:17 -0500
-Received: from [2a00:1450:4864:20::536] (port=38887
- helo=mail-ed1-x536.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1n6uJT-0006bt-Lr
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:02:17 -0500
-Received: by mail-ed1-x536.google.com with SMTP id u21so30682403edd.5
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 05:02:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=livius-net.20210112.gappssmtp.com; s=20210112;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=FIwQFTFSbvmnwSED8PL3LOR41bS/k+/Jm1Z+ei49ec8=;
- b=OKu6I/c6VoBFm6zXKksWPzn9T0m3dQ49ZWKRssE7LL4lVtEm6jEstdKxVEtXRU7Eou
- +Xn7+ya40OVl/x3QIF+C6P/bKNRsUlymH0Zp8qsc5hSXvBgFqeRtrxFdPjZ9Czkkn77F
- kF1Q08TyVCt0yEjD+jYcX3HOjzfhNAH21UrIR4kfvGSdt05PM4LgYvNz99zt209N1lad
- ES0YkUOjw7Sc4PwAVqFVRove7I0TOjQCUBf9U3dpNKgeT6YDPSUnCAJzK/5H9i7sbiwg
- aY+qnQQh1OJ0y645fe8FViSd888kp0oBRk6gwL7DdXS0WUYOYH5rDjctXd9vg4SHQfb7
- pPnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=FIwQFTFSbvmnwSED8PL3LOR41bS/k+/Jm1Z+ei49ec8=;
- b=hSeOjzH5YTO62bahOWzzUIGz342BCN/4z6dWU2RlG3UpMytL+5m94AwS/RXMrkL/WW
- MSZ9xkLGFifuaNY9lZvxLZB8TjvB6UXgN9kpVuiZy1Ucg8K5Ovkuz36HadmAlH4rQSdK
- gn/8AHu+ZvPp5/E5yv2aT9t5K28wdg5wTKFK6ghSJv1Q4xg2oUDYA5mwh8pE2AKAZ1xP
- dsYVGfGySZ+YXyuu2u/RuinMT2/BiZmzOXzQTUU3khD6Q+SEhkUDxdFCRuqJ+APBfV27
- r/MPqWdix7CSND+fw4T8QdNj+bQ69BmfEX5DGzigW35tUTCSg6NwG/6E6LU1PZSoMhcm
- MjjQ==
-X-Gm-Message-State: AOAM5319nIsiJy3Wu1tr/wy2dhTouzfKa++Xkzaj47XQvIIEnSZSezxe
- bGtUxd5RRgeIkNqi48Dilz3wcw==
-X-Google-Smtp-Source: ABdhPJwmku/Fo3vOPETN9rdNCu4PEqdjrr/ADLf9iVPE0dnKhibkuWcQC9L8k7+F4el0eECU8uERyw==
-X-Received: by 2002:a05:6402:4382:: with SMTP id
- o2mr4917792edc.38.1641819729791; 
- Mon, 10 Jan 2022 05:02:09 -0800 (PST)
-Received: from smtpclient.apple ([79.115.178.1])
- by smtp.gmail.com with ESMTPSA id b4sm2413471ejl.129.2022.01.10.05.02.08
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 10 Jan 2022 05:02:09 -0800 (PST)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: /usr/shared/qemu binaries
-From: Liviu Ionescu <ilg@livius.net>
-In-Reply-To: <CAKmqyKPBDfxKwqcgzjBDEqoWyjjc3g7PiUOEqptL1vfDfh6H8g@mail.gmail.com>
-Date: Mon, 10 Jan 2022 15:02:08 +0200
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1n6uOc-0006Ee-BI; Mon, 10 Jan 2022 08:07:34 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:48801)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1n6uOY-0007pR-Vu; Mon, 10 Jan 2022 08:07:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=W2FFhitDEVn/Rg/ISb5kacaGcHR6O+t1LwSjjHXH5qI=; b=cLvmY2evJ5WCtGoAS7bUoiB3HS
+ 1ZPJUWqeEZ0a9Qzc+dBJgEH3+Sa8HrA5GiMk9Be6aeSDswyqY5Q0WoronEIEAQJO8M4LVtm4nOqXw
+ 3pFeoWwyk4VowNoCPCbFgmRDXbSUoGz+fhLVOvAHy54E+BS+EoXRMP7Q9iimMtmx/9vhNxHzOp6hl
+ 0MU5lSHA5PGXG9CWjmDFQA/eS6pMuJ0ORcXJpwIM6YgN0IdcZBgb6gF27MMhjHCQsCwG1n0UXw7nd
+ GPgeCDIfWUqI/9zjEjARZ0otTgZu1k6idz9e1vVPHgDJyd1RUvsbL7lSVGTRrIxR9TqziGOJ8aqzk
+ 8DW99wDkgWOfB2nZi6CCsuMICihN8PQuT42XeGaiabjS+BiqWoWc2+Fw0Sir5gO8oJI8uqrVLd4hC
+ AGm/ZdOfckqNMIVADJ5In2nR0PvjBUOWrIG8VAtnzqYjvmB46iY7XA4AOq5ziDCZ6zbbfxA36xzJR
+ 7Msce93JbWrXwFRUZ743s0R+Wn8FsxJe/mHkbucASFlGVSPeWy6VFt4ZANuFVhb5ZOtw6df9ap69J
+ T+asA7Dx2Dqg21SW4Q9m1qrKxu/dxNkTPI7UE3MJHfHJWFzo6+/9pkmhscrNcMCXI2TpFyC6JZ3m6
+ WUDhE0WogOoSOoG8OgoCfA/l7LU87QFsX9+I+cjvk=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, qemu-block@nongnu.org,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Alexander Graf <agraf@csgraf.de>, Gerd Hoffmann <kraxel@redhat.com>,
+ Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [RFC PATCH v2 2/6] audio/coreaudio: Remove a deprecation warning
+ on macOS 12
+Date: Mon, 10 Jan 2022 14:07:24 +0100
+Message-ID: <2147921.xlN1UyrzLN@silver>
+In-Reply-To: <4993ab11-570b-2bd7-a9b9-c6ddc9af5802@amsat.org>
+References: <20220109170612.574104-1-f4bug@amsat.org>
+ <742a1bca-1150-c277-c498-3815ef956f58@amsat.org>
+ <4993ab11-570b-2bd7-a9b9-c6ddc9af5802@amsat.org>
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <D3A93704-3353-4407-9D47-56FF06BDFB87@livius.net>
-References: <B9A4B86C-4540-486D-A261-876191FA7424@livius.net>
- <CAKmqyKPBDfxKwqcgzjBDEqoWyjjc3g7PiUOEqptL1vfDfh6H8g@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
- (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::536;
- envelope-from=ilg@livius.net; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,38 +69,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-> On 10 Jan 2022, at 14:10, Alistair Francis <alistair23@gmail.com> =
-wrote:
+On Montag, 10. Januar 2022 13:24:06 CET Philippe Mathieu-Daud=E9 wrote:
+> On 1/10/22 09:44, Philippe Mathieu-Daud=E9 wrote:
+> > On 1/10/22 09:17, Akihiko Odaki wrote:
+> >> On 2022/01/10 2:06, Philippe Mathieu-Daud=E9 wrote:
+> >>> When building on macOS 12 we get:
+> >>>=20
+> >>>    audio/coreaudio.c:50:5: error: 'kAudioObjectPropertyElementMaster'
+> >>> is deprecated: first deprecated in macOS 12.0
+> >>> [-Werror,-Wdeprecated-declarations]
+> >>>        kAudioObjectPropertyElementMaster
+> >>>        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >>>        kAudioObjectPropertyElementMain
+> >>>  =20
+> >>> /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Fr=
+ame
+> >>> works/CoreAudio.framework/Headers/AudioHardwareBase.h:208:5: note:
+> >>> 'kAudioObjectPropertyElementMaster' has been explicitly marked
+> >>> deprecated here
+> >>>        kAudioObjectPropertyElementMaster
+> >>> API_DEPRECATED_WITH_REPLACEMENT("kAudioObjectPropertyElementMain",
+> >>> macos(10.0, 12.0), ios(2.0, 15.0), watchos(1.0, 8.0), tvos(9.0, 15.0))
+> >>> =3D kAudioObjectPropertyElementMain
+> >>>        ^
+> >>>=20
+> >>> Use kAudioObjectPropertyElementMain (define it to
+> >>> kAudioObjectPropertyElementMaster on macOS < 12).
+> >>>=20
+> >>> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
+> >>> ---
+> >>>   audio/coreaudio.c | 16 ++++++++++------
+> >>>   1 file changed, 10 insertions(+), 6 deletions(-)
+> >>>=20
+> >>> diff --git a/audio/coreaudio.c b/audio/coreaudio.c
+> >>> index d8a21d3e507..c836bc9dd37 100644
+> >>> --- a/audio/coreaudio.c
+> >>> +++ b/audio/coreaudio.c
+> >>> @@ -44,10 +44,14 @@ typedef struct coreaudioVoiceOut {
+> >>>       bool enabled;
+> >>>   } coreaudioVoiceOut;
+> >>>   +#if !defined(MAC_OS_VERSION_12_0)
+> >>> +#define kAudioObjectPropertyElementMain
+> >>> kAudioObjectPropertyElementMaster
+> >>> +#endif
+> >>> +
+> >>=20
+> >> Semantically MAC_OS_VERSION_12_0 defines the numeric value of version
+> >> 12.0 and its existence does not mean that
+> >> kAudioObjectPropertyElementMain is defined. I suggest the following:
+> >> #if !__is_identifier(kAudioObjectPropertyElementMain)
+> >> #define kAudioObjectPropertyElementMain kAudioObjectPropertyElementMas=
+ter
+> >> #endif
 >=20
-> My guess would be keep *arm*/*aarch64*, keymaps, npcm7xx_bootrom.bin,
-> efi-* and linuxboot*/multiboot*. That should ensure that everything
-> works for you, but I'm just guessing here.
+> Apparently __is_identifier() is Clang specific. It might be acceptable
+> since this file is restricted to macOS. Similarly for the other
+> block/file-posix.c patch, the section is conditional to  __APPLE__
+> being defined.
 
-Do you know if those files are referred internally by QEMU, or the user =
-should provide them in various command options explicitly?
+Correct, __is_identifier() is a clang extension and does not work with GCC
+(tested). I would not use it. People on Mac usually use clang, but there are
+also cross compilers for macOS binaries.
 
-About the efi-*.rom files, are they usable on Arm machines too? I =
-thought that they are x86 specific.
+I'd suggest to use:
 
-> If you want to boot Linux on RISC-V QEMU you will need OpenSBI. You
-> can either use these or build and supply your own binaries.
+#if !defined(MAC_OS_VERSION_12_0) ||
+    (MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_VERSION_12_0)
+#define kAudioObjectPropertyElementMain kAudioObjectPropertyElementMaster
+#endif
 
-I don't know what to say, my first thought was that if those files can =
-be supplied by the user, I'd rather not include them in the binary =
-distribution.
+Best regards,
+Christian Schoenebeck
 
-But if they are referred internally, and in certain configurations QEMU =
-does not start without them, I have to reconsider.
-
-
-Regards,
-
-Liviu
 
 
