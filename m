@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45A82489CCA
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 16:52:21 +0100 (CET)
-Received: from localhost ([::1]:54978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E98A489CD3
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 16:54:07 +0100 (CET)
+Received: from localhost ([::1]:58892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6wy4-0007eq-73
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 10:52:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47400)
+	id 1n6wzk-0001wS-GH
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 10:54:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n6wvR-0005UO-OA
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 10:49:37 -0500
-Received: from 8.mo552.mail-out.ovh.net ([46.105.37.156]:37129)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n6wya-00014D-OC
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 10:52:52 -0500
+Received: from 10.mo548.mail-out.ovh.net ([46.105.77.235]:42505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n6wvO-0003F2-IW
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 10:49:37 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.76])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id D8D3421BCE;
- Mon, 10 Jan 2022 15:49:31 +0000 (UTC)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n6wyY-0003yn-AY
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 10:52:52 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.26])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id CCCB61FEA8;
+ Mon, 10 Jan 2022 15:52:47 +0000 (UTC)
+Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 10 Jan
- 2022 16:49:31 +0100
+ 2022 16:52:47 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-99G0030fa79e51-5832-4834-9886-712539b63f9e,
+ (GARM-103G005d773dbbd-5e00-4703-a89b-5ecba4a6b059,
  BF6F17FB45C67FCD004F592EBF28FE1306A73352) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <c47df0e6-818e-db2c-6538-af22f4b459ab@kaod.org>
-Date: Mon, 10 Jan 2022 16:49:30 +0100
+Message-ID: <7fca32ac-c582-8227-7344-32ef62ee0805@kaod.org>
+Date: Mon, 10 Jan 2022 16:52:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH v3 04/10] pnv_phb4_pec.c: remove stack 'phb-id' alias
+Subject: Re: [PATCH v3 06/10] ppc/pnv: turn 'phb' into a pointer in struct
+ PnvPhb4PecStack
 Content-Language: en-US
 To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
 References: <20220110143346.455901-1-danielhb413@gmail.com>
- <20220110143346.455901-5-danielhb413@gmail.com>
+ <20220110143346.455901-7-danielhb413@gmail.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220110143346.455901-5-danielhb413@gmail.com>
+In-Reply-To: <20220110143346.455901-7-danielhb413@gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: b500b6f9-725b-4bb6-9b5d-f2e222e35dfa
-X-Ovh-Tracer-Id: 6164020517053893600
+X-Ovh-Tracer-GUID: ea1291f9-1a2c-47a5-847c-afd8ea690647
+X-Ovh-Tracer-Id: 6219189614033734624
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudehuddgheehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
-Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
- helo=8.mo552.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudehuddgheeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
+Received-SPF: pass client-ip=46.105.77.235; envelope-from=clg@kaod.org;
+ helo=10.mo548.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -75,64 +76,115 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/10/22 15:33, Daniel Henrique Barboza wrote:
-> This alias is a indirect way of setting stack->phb->index. Since we have
-> access to a valid stack->phb (for default_enabled() at least - next
-> patch will deal with it accordingly) we can directly set the phb 'index'
-> attribute.
+> At this moment, stack->phb is the plain PnvPHB4 device itself instead
+> of a pointer to the device. This will present a problem when adding user
+> creatable devices because we can't deal with this struct and the
+> realize() callback from the user creatable device.
 > 
-> Let's also take the opportunity to explain why we're having to deal with
-> stack->phb attributes during pec_realize().
+> We can't get rid of this attribute, similar to what we did when enabling
+> pnv-phb3 user creatable devices, because pnv_phb4_update_regions() needs
+> to access stack->phb to do its job. This function is called twice in
+> pnv_pec_stk_update_map(), which is one of the nested xscom write
+> callbacks (via pnv_pec_stk_nest_xscom_write()). In fact,
+> pnv_pec_stk_update_map() code comment is explicit about how the order of
+> the unmap/map operations relates with the PHB subregions.
+> 
+> All of this indicates that this code is tied together in a way that we
+> either go on a crusade, featuring lots of refactories and redesign and
+> considerable pain, to decouple stack and phb mapping, or we allow stack
+> update_map operations to access the associated PHB as it is today even
+> after introducing pnv-phb4 user devices.
+> 
+> This patch chooses the latter. Instead of getting rid of stack->phb,
+> turn it into a PHB pointer. This will allow us to assign an user created
+> PHB to an existing stack later.
 > 
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
->   hw/pci-host/pnv_phb4_pec.c | 12 ++++++++++--
->   1 file changed, 10 insertions(+), 2 deletions(-)
+>   hw/pci-host/pnv_phb4.c         |  2 +-
+>   hw/pci-host/pnv_phb4_pec.c     | 12 ++++++------
+>   include/hw/pci-host/pnv_phb4.h |  7 +++++--
+>   3 files changed, 12 insertions(+), 9 deletions(-)
 > 
+> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+> index fb6c4f993a..1a7395772f 100644
+> --- a/hw/pci-host/pnv_phb4.c
+> +++ b/hw/pci-host/pnv_phb4.c
+> @@ -1443,7 +1443,7 @@ type_init(pnv_phb4_register_types);
+>   
+>   void pnv_phb4_update_regions(PnvPhb4PecStack *stack)
+>   {
+> -    PnvPHB4 *phb = &stack->phb;
+> +    PnvPHB4 *phb = stack->phb;
+>   
+>       /* Unmap first always */
+>       if (memory_region_is_mapped(&phb->mr_regs)) {
 > diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-> index 1f264d0a9c..417fac4cef 100644
+> index d2851e8040..042dc0b775 100644
 > --- a/hw/pci-host/pnv_phb4_pec.c
 > +++ b/hw/pci-host/pnv_phb4_pec.c
-> @@ -395,8 +395,17 @@ static void pnv_pec_realize(DeviceState *dev, Error **errp)
->           int phb_id = pnv_phb4_pec_get_phb_id(pec, i);
+> @@ -403,9 +403,9 @@ static void pnv_pec_realize(DeviceState *dev, Error **errp)
+>            * available here via the 'i' iterator so it's convenient to
+>            * do it now.
+>            */
+> -        object_property_set_int(OBJECT(&stack->phb), "index", phb_id,
+> +        object_property_set_int(OBJECT(stack->phb), "index", phb_id,
+>                                   &error_abort);
+> -        pnv_phb4_set_stack_phb_props(stack, &stack->phb);
+> +        pnv_phb4_set_stack_phb_props(stack, stack->phb);
 >   
->           object_property_set_int(stk_obj, "stack-no", i, &error_abort);
-> -        object_property_set_int(stk_obj, "phb-id", phb_id, &error_abort);
->           object_property_set_link(stk_obj, "pec", OBJECT(pec), &error_abort);
-> +
-> +        /*
-> +         * stack->phb->index is dependent on the position the
-> +         * stack occupies in pec->stacks[]. We have this information
-> +         * available here via the 'i' iterator so it's convenient to
-> +         * do it now.
-> +         */
-> +        object_property_set_int(OBJECT(&stack->phb), "index", phb_id,
-> +                                &error_abort);
+>           if (!qdev_realize(DEVICE(stk_obj), NULL, errp)) {
+>               return;
+> @@ -543,7 +543,7 @@ static void pnv_pec_stk_instance_init(Object *obj)
+>   {
+>       PnvPhb4PecStack *stack = PNV_PHB4_PEC_STACK(obj);
+>   
+> -    object_initialize_child(obj, "phb", &stack->phb, TYPE_PNV_PHB4);
+> +    stack->phb = PNV_PHB4(qdev_new(TYPE_PNV_PHB4));
 
-I don't like the fact that we are exposing ->phb under the PEC model.
-It looks like this is going to be a problem afterwards when defaults
-are disabled.
-
-We should move the setting of the PHB ID under pnv_pec_stk_realize()
-before the PHB is realized and compute the id with :
-
-        int phb_id = pnv_phb4_pec_get_phb_id(pec, stack->stack_no);
+Move qdev_new under pnv_pec_stk_realize() please.
 
 Thanks,
 
 C.
 
-> +
->           if (!qdev_realize(DEVICE(stk_obj), NULL, errp)) {
->               return;
->           }
-> @@ -534,7 +543,6 @@ static void pnv_pec_stk_instance_init(Object *obj)
->       PnvPhb4PecStack *stack = PNV_PHB4_PEC_STACK(obj);
->   
->       object_initialize_child(obj, "phb", &stack->phb, TYPE_PNV_PHB4);
-> -    object_property_add_alias(obj, "phb-id", OBJECT(&stack->phb), "index");
+
+
 >   }
 >   
 >   static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
+> @@ -574,10 +574,10 @@ static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
+>       /* PHB pass-through */
+>       snprintf(name, sizeof(name), "xscom-pec-%d.%d-pci-stack-%d-phb",
+>                pec->chip_id, pec->index, stack->stack_no);
+> -    pnv_xscom_region_init(&stack->phb_regs_mr, OBJECT(&stack->phb),
+> -                          &pnv_phb4_xscom_ops, &stack->phb, name, 0x40);
+> +    pnv_xscom_region_init(&stack->phb_regs_mr, OBJECT(stack->phb),
+> +                          &pnv_phb4_xscom_ops, stack->phb, name, 0x40);
+>   
+> -    if (!sysbus_realize(SYS_BUS_DEVICE(&stack->phb), errp)) {
+> +    if (stack->phb && !sysbus_realize(SYS_BUS_DEVICE(stack->phb), errp)) {
+>           return;
+>       }
+>   
+> diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
+> index b2c4a6b263..2fb5e119c4 100644
+> --- a/include/hw/pci-host/pnv_phb4.h
+> +++ b/include/hw/pci-host/pnv_phb4.h
+> @@ -178,8 +178,11 @@ struct PnvPhb4PecStack {
+>       /* The owner PEC */
+>       PnvPhb4PecState *pec;
+>   
+> -    /* The actual PHB */
+> -    PnvPHB4 phb;
+> +    /*
+> +     * PHB4 pointer. pnv_phb4_update_regions() needs to access
+> +     * the PHB4 via a PnvPhb4PecStack pointer.
+> +     */
+> +    PnvPHB4 *phb;
+>   };
+>   
+>   struct PnvPhb4PecState {
 > 
 
 
