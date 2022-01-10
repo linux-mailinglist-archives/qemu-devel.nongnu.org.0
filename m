@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9063489D73
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 17:25:11 +0100 (CET)
-Received: from localhost ([::1]:45154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 337D5489D72
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 17:24:55 +0100 (CET)
+Received: from localhost ([::1]:44458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6xTq-0008OT-CD
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 11:25:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55256)
+	id 1n6xTa-0007u5-As
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 11:24:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1n6xRL-0005BY-26
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 11:22:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51354)
+ id 1n6xRf-0005qt-4n
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 11:22:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42146)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1n6xRI-0008Gz-H4
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 11:22:34 -0500
+ id 1n6xRd-0008JZ-Mj
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 11:22:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641831751;
+ s=mimecast20190719; t=1641831773;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=OI2xyR9DL8qMKlVu1PJSrkySo3/jcvrlmGKDm0tvNKo=;
- b=hFtONgcw0oR5p13aaMLSW+x6T9t8F90ueuxHL/Je9Vhwc56tu56okHrBBQArO7i1QUBz+e
- Tk5C8tEbaaAWmAmqLRnVthQD4xK/RcqtmcBxK+U3Zecc4xLKIlxIpqEJrGRH35ZVNu3fuv
- QyNUS5yIpcaSgAHr+jZOBequP6cxKEU=
+ bh=jdeqZS2bLT2QEn/4w651/SLfCo0wZp9rsLRsaFlbl5s=;
+ b=WMYWPQdogzVzjagF1Xak8vOlcJZb9yGW0qgElXxDv5PkqRwveBJ2pitbeon9EqvCjcHmgZ
+ jXqd+leQKwCNUqslmFQ1fYkNm2+uaAMMzvokGMXHKGp0/EovLASsK28+HSY2KMVXZbdcrq
+ c3vgrCB2kTeD5GNuavKgTv1bZEwf07M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-212-pmWMAotSN_ifIquxB3cQFg-1; Mon, 10 Jan 2022 11:22:29 -0500
-X-MC-Unique: pmWMAotSN_ifIquxB3cQFg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-183-tXVgL5P9MEepVpN6glqlDA-1; Mon, 10 Jan 2022 11:22:49 -0500
+X-MC-Unique: tXVgL5P9MEepVpN6glqlDA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2ACC2F27;
- Mon, 10 Jan 2022 16:22:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C3161B2C980;
+ Mon, 10 Jan 2022 16:22:48 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B849A10640E1;
- Mon, 10 Jan 2022 16:22:08 +0000 (UTC)
-Date: Mon, 10 Jan 2022 16:22:04 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2C409A1884;
+ Mon, 10 Jan 2022 16:22:47 +0000 (UTC)
+Date: Mon, 10 Jan 2022 16:22:46 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2 2/4] scripts/qapi/commands: gen_commands(): add
- add_trace_points argument
-Message-ID: <YdxdLLNc/Av889nH@stefanha-x1.localdomain>
+Subject: Re: [PATCH v2 3/4] scripts/qapi-gen.py: add --add-trace-points option
+Message-ID: <YdxdVsQ7eRqOf2It@stefanha-x1.localdomain>
 References: <20211223110756.699148-1-vsementsov@virtuozzo.com>
- <20211223110756.699148-3-vsementsov@virtuozzo.com>
+ <20211223110756.699148-4-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20211223110756.699148-3-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20211223110756.699148-4-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="dANXllgNTRyx5zDS"
+ protocol="application/pgp-signature"; boundary="t+jvDCalqfFZIxPK"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -87,82 +86,39 @@ Cc: kwolf@redhat.com, qemu-block@nongnu.org, michael.roth@amd.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---dANXllgNTRyx5zDS
+--t+jvDCalqfFZIxPK
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 23, 2021 at 12:07:54PM +0100, Vladimir Sementsov-Ogievskiy wrot=
-e:
-> Add possibility to generate trace points for each qmp command.
->=20
-> We should generate both trace points and trace-events file, for further
-> trace point code generation.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  scripts/qapi/commands.py | 84 ++++++++++++++++++++++++++++++++++------
->  1 file changed, 73 insertions(+), 11 deletions(-)
->=20
-> diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-> index 21001bbd6b..9691c11f96 100644
-> --- a/scripts/qapi/commands.py
-> +++ b/scripts/qapi/commands.py
-> @@ -53,7 +53,8 @@ def gen_command_decl(name: str,
->  def gen_call(name: str,
->               arg_type: Optional[QAPISchemaObjectType],
->               boxed: bool,
-> -             ret_type: Optional[QAPISchemaType]) -> str:
-> +             ret_type: Optional[QAPISchemaType],
-> +             add_trace_points: bool) -> str:
+On Thu, Dec 23, 2021 at 12:07:55PM +0100, Vladimir Sementsov-Ogievskiy wrote:
+> @@ -74,6 +75,8 @@ def main() -> int:
+>      parser.add_argument('-u', '--unmask-non-abi-names', action='store_true',
+>                          dest='unmask',
+>                          help="expose non-ABI names in introspection")
+> +    parser.add_argument('--add-trace-points', action='store_true',
+> +                        help="add trace points to qmp marshals")
 
-Please use the term "trace events" instead of "trace points". That's the
-term that docs/devel/tracing.rst uses.
-
-> @@ -122,10 +167,14 @@ def gen_marshal_decl(name: str) -> str:
->                   proto=3Dbuild_marshal_proto(name))
-> =20
-> =20
-> +def gen_trace(name: str) -> str:
-> +    return f'qmp_{c_name(name)}(const char *tag, const char *json) "%s%s=
-"\n'
-
-This trace event is emitted in 3 different ways:
-1. For arguments before calling a QMP command.
-2. For the error message when the QMP command fails.
-3. For the return value when a QMP command succeeds.
-
-This makes parsing the trace akward because you get two events in
-succession for a single call and they both have the same name.
-
-Please generate 2 trace events:
-1. qmp_enter_<name> <args>
-2. qmp_exit_<name> <ret> <succeeded>
-
-(That's similar to how the syscalls Linux kernel trace events work.)
-
-Scripts processing the trace can easily differentiate between enter
-(args) and exit (return value) events without parsing or keeping state
-to count the second event.
+Please call it --add-trace-events for consistency with QEMU tracing
+terminology.
 
 Thanks,
 Stefan
 
---dANXllgNTRyx5zDS
+--t+jvDCalqfFZIxPK
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHcXSwACgkQnKSrs4Gr
-c8ifnQf8CRTLT2FftzRqstFQA2X/+H4c3W5mw29BRy4dOb0QvEr3a7sJDlA/0B6P
-yeRHIKuDyBkbxO8eXms2UithSK/Zom4cq4Vipvv0aK6Fkx0ccwCg8W3Sr6hZsVNz
-QyA/kp9HAjmTPxcNXrsrw6LIby1RoaQIluuVQAYjwzhGqK0IZYvTQmQYG5OW6rtR
-Ujos77SaZvUmWWA+ToVinAjA5pn1YHCc6FIN9PD4gqynHiYT7GmB/fyhUmuRPQZa
-nyjbvtUCQGFPmAsrfDlZgmgsRpVsNsgsYCzITZDIaGeTL37SIGkcsY5eD4IAGoVk
-6gp/N6xvINAZ1co5bkRH4gUyh9MQSw==
-=YsrD
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHcXVYACgkQnKSrs4Gr
+c8gvUgf5AWp+ZneTREQE0/2oveKMRJp4LY4zMdSv79Yw23IxV4UC/EcOEeXRXWLF
+UAbJF2S4Ab6GVFg3XDjAlOmd9baRMVQV+1vsium8AQSRtyVKK/WGWJ0TDS25JIR0
+s3hvoya1LHMY3rZkRRnwTcSu0PFAF2N61XnO8a2ZwwKbjnZp/m9Z76afMdUJlwHd
+MKxNotJkFaJIyviyGEmw5/X0rFBvi7Ca40S9txOVm4RIKekbLGRr5e5i8HqBpK3N
+d/NuifbrmNHBVtjSvN50IPGHi8YFGQuSBi1Wips4wnyEeacg0GA4S1roD4jzq6Lu
+s7b4IiQjM9/NRBWTVMnYnC2onxOI/Q==
+=SV3z
 -----END PGP SIGNATURE-----
 
---dANXllgNTRyx5zDS--
+--t+jvDCalqfFZIxPK--
 
 
