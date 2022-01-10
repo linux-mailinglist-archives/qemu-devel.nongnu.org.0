@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EDA8489A9F
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 14:48:58 +0100 (CET)
-Received: from localhost ([::1]:50154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2328D489ACF
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 14:52:35 +0100 (CET)
+Received: from localhost ([::1]:54980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6v2f-0004Yv-7W
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 08:48:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39006)
+	id 1n6v6A-0008AG-71
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 08:52:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1n6v0j-0001us-SN
+ id 1n6v0i-0001os-7s
  for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:46:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58580)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21276)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1n6v0h-0006zs-5F
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:46:57 -0500
+ id 1n6v0f-0006zI-4U
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 08:46:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641822414;
+ s=mimecast20190719; t=1641822412;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eMZAiN+6XqFNsTzoorsBAPybo4OMP1BOM7hvyCtTKcY=;
- b=KaCWjuFTUC8Kx1m2LCGbDX1iOopDPKJgk/yvKQ0bDVwfhiLDB2UZFB8L9d3lJ7lBRLtRWq
- oouUnd62MIWB9HKTzW91azyLbSw3o89vbKKd+9VcyG5GzGW4FXrSEXSorhpKp82a0B7Jom
- inHyGQejAxG0xeYgMRdvDb6TwTVMJ9E=
+ bh=81iP8Bmqh4r4uCT5+wWiTidyJFfp5wCSuLR5w8j5nss=;
+ b=FIdAKMsvVcHVq1eyD0eLgVvU1OJTh4fdwl4X71E8IOs2U1bvysr+HekZwyU3XwTvjaoj4L
+ xC3FMgR79EN4nwDCdq6WY8K67WiN5ubGXd7vH6VIltTD5cEAUMEowz+IuiHIof1nPvVwqO
+ bd+3zpHHRZxp+UsNlGv5wB7kvr3I7EM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-98-13qm_InhMpayQPlKfoCdww-1; Mon, 10 Jan 2022 08:46:49 -0500
-X-MC-Unique: 13qm_InhMpayQPlKfoCdww-1
+ us-mta-593-Fbmg1grcMo6MAZyWQeXilA-1; Mon, 10 Jan 2022 08:46:51 -0500
+X-MC-Unique: Fbmg1grcMo6MAZyWQeXilA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EED0F760C8;
- Mon, 10 Jan 2022 13:46:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 582ED83DD20;
+ Mon, 10 Jan 2022 13:46:50 +0000 (UTC)
 Received: from kostyanf14nb.Dlink (unknown [10.40.193.252])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 144DE7BB41;
- Mon, 10 Jan 2022 13:46:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 727AA7BB4C;
+ Mon, 10 Jan 2022 13:46:49 +0000 (UTC)
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 1/9] MAINTAINERS: Add entry for QEMU Guest Agent Windows
- components
-Date: Mon, 10 Jan 2022 15:46:36 +0200
-Message-Id: <20220110134644.107375-2-kkostiuk@redhat.com>
+Subject: [PULL 2/9] gqa-win: get_pci_info: Clean dev_info if handle is valid
+Date: Mon, 10 Jan 2022 15:46:37 +0200
+Message-Id: <20220110134644.107375-3-kkostiuk@redhat.com>
 In-Reply-To: <20220110134644.107375-1-kkostiuk@redhat.com>
 References: <20220110134644.107375-1-kkostiuk@redhat.com>
 MIME-Version: 1.0
@@ -60,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -84,33 +83,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Kostiantyn Kostiuk <kkostiuk@redhat.com>
+From: Kostiantyn Kostiuk <konstantin@daynix.com>
+
+Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Michael Roth <michael.roth@amd.com>
+Signed-off-by: Kostiantyn Kostiuk <kkostiuk@redhat.com>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ qga/commands-win32.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c98a61caee..391904bc60 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2737,6 +2737,14 @@ F: scripts/qemu-guest-agent/
- F: tests/unit/test-qga.c
- T: git https://github.com/mdroth/qemu.git qga
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index 4e84afd83b..3dd74fe225 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -514,7 +514,7 @@ DEFINE_GUID(GUID_DEVINTERFACE_STORAGEPORT,
 
-+QEMU Guest Agent Win32
-+M: Kostiantyn Kostiuk <kkostiuk@redhat.com>
-+S: Maintained
-+F: qga/*win32*
-+F: qga/vss-win32/
-+F: qga/installer/
-+T: git https://github.com/kostyanf14/qemu.git qga-win32
-+
- QOM
- M: Paolo Bonzini <pbonzini@redhat.com>
- R: Daniel P. Berrange <berrange@redhat.com>
+ static GuestPCIAddress *get_pci_info(int number, Error **errp)
+ {
+-    HDEVINFO dev_info;
++    HDEVINFO dev_info = INVALID_HANDLE_VALUE;
+     SP_DEVINFO_DATA dev_info_data;
+     SP_DEVICE_INTERFACE_DATA dev_iface_data;
+     HANDLE dev_file;
+@@ -749,7 +749,9 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
+     }
+
+ free_dev_info:
+-    SetupDiDestroyDeviceInfoList(dev_info);
++    if (dev_info != INVALID_HANDLE_VALUE) {
++        SetupDiDestroyDeviceInfoList(dev_info);
++    }
+ out:
+     return pci;
+ }
 --
 2.25.1
 
