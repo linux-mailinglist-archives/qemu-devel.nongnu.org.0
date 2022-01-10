@@ -2,71 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAB8F4892E2
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 08:59:06 +0100 (CET)
-Received: from localhost ([::1]:38572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FAB448930F
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 09:09:42 +0100 (CET)
+Received: from localhost ([::1]:53476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6pa5-0004oy-WA
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 02:59:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40002)
+	id 1n6pkL-0006xL-8P
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 03:09:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1n6pWT-0001va-2m; Mon, 10 Jan 2022 02:55:21 -0500
-Received: from [2607:f8b0:4864:20::b2d] (port=35639
- helo=mail-yb1-xb2d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1n6pWR-0006rt-8X; Mon, 10 Jan 2022 02:55:20 -0500
-Received: by mail-yb1-xb2d.google.com with SMTP id j83so35797654ybg.2;
- Sun, 09 Jan 2022 23:55:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sWLDMRYGW0/G4KP2ovMtARYF3Ga7z3XvW/89i8v6RQo=;
- b=emzqHqQ1GtFZpA+mAeZYiNpB5Y7LxZN8MFtSZ9d0qBvDdkMIPzIic3ZfE68ppptWBD
- kJORVW7lRl7Rid170SNFMjXjCj135X28RI62P/skV2AFNHWhWK5DIJ/U4amIXe2NaI/i
- btPmd9RALO9d3Ylh9Y6sKNmFNvCtmXc/kVwPoXpc5DIntqgkONpbPBAEvghjYalTB0GM
- chyDWtER+vZ+sJMp99RpRUk26aOov53otYK2M9K4XmXeWgqmUn895mZ3ANv4U4ZsU1RY
- BARYG7YJbEMgOve6Vu71DXt6D3YrZqYO6FeCOQWPH6mPdZDIyE9firEODKnKj8PDlhbi
- LP7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sWLDMRYGW0/G4KP2ovMtARYF3Ga7z3XvW/89i8v6RQo=;
- b=ZCMiDUYNMQR0QP3Fc8KDsOrj3cQN5h1DjupTauaXLWQCUx19ZG14QVQbP1lrslGlaD
- TfhGQ7dlNmEFc/d+KmQX4J3Ku15ExHTu2u2dqK4o/fA6oyoY3hWh+XUcyfprapYiml0P
- PKGsWShdHA0CId9wdzCV1B2vLktJfv/pZV0MmRIrBI6MYZybE3c/Z2G5hvRo/84isWkc
- BU/BYiTBTkmM+hhfasQ2kvLT1/jCoIbL4uKb2yxdRrayqxYT3P4XVa4pOewYbV0IqOhd
- Qgwr42+A3msRxNtXJxIcLDeImLcci4ZvTpjyR6b+T0zSpVvC7YDUIIiG41ioRCSnufgx
- xTsw==
-X-Gm-Message-State: AOAM533HB173kEjHaYud5IEPutjjC2NMyIiWY09d8yCkc8dvDc4BEFNW
- EzFuVlimcbnjhPDuWh0dTKFweEdPieKzOCPkkj0=
-X-Google-Smtp-Source: ABdhPJz+IryZ2gEv/v8H2YnOqRXfLv1II87iw1Pb/fVMRdEwTyhtI1NVQRAhRPy8M2giYid+UmRDAd7bP8xOcdc4khA=
-X-Received: by 2002:a25:e906:: with SMTP id n6mr12561596ybd.91.1641801315785; 
- Sun, 09 Jan 2022 23:55:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n6pfe-0004Yw-Sp
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 03:04:54 -0500
+Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156]:49169)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n6pfc-0008Il-Nb
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 03:04:50 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.68])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 7C8B920BC9;
+ Mon, 10 Jan 2022 08:04:45 +0000 (UTC)
+Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 10 Jan
+ 2022 09:04:44 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G004a09a0ba3-db91-45be-9d58-7c574669f209,
+ BF6F17FB45C67FCD004F592EBF28FE1306A73352) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <10391a07-e5e1-99e6-ed68-c93520534f29@kaod.org>
+Date: Mon, 10 Jan 2022 09:04:39 +0100
 MIME-Version: 1.0
-References: <20220107004846.378859-1-atishp@rivosinc.com>
- <20220107004846.378859-12-atishp@rivosinc.com>
-In-Reply-To: <20220107004846.378859-12-atishp@rivosinc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 10 Jan 2022 15:55:04 +0800
-Message-ID: <CAEUhbmUK5=M2HL2Zya_Or+yMCVgTZdOUm1LicYE=RRQXsJV=mQ@mail.gmail.com>
-Subject: Re: [PATCH v4 11/11] hw/riscv: virt: Add PMU DT node to the device
- tree
-To: Atish Patra <atishp@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2d.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] target/ppc: Fix e6500 boot
+Content-Language: en-US
+To: "mario@locati.it" <mario@locati.it>, <balaton@eik.bme.hu>
+References: <20211213133542.2608540-1-farosas@linux.ibm.com>
+ <724f7563-f36c-2c37-3b94-951c3d922861@eik.bme.hu>
+ <R4OPHT$7F12C66D1107397991E0E4C978FE6AF1@locati.it>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <R4OPHT$7F12C66D1107397991E0E4C978FE6AF1@locati.it>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 2b12793e-a55b-48d9-a1d0-0a0c360be771
+X-Ovh-Tracer-Id: 16761553391470873382
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudegledguddulecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieejieevleeutdfhffefleehteduieehueetueduvddutdekudeffffffeeftdfhnecuffhomhgrihhnpeefvddrshhonecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrnhhivghlhhgsgedufeesghhmrghilhdrtghomh
+Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
+ helo=3.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,193 +71,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ farosas@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 7, 2022 at 10:27 AM Atish Patra <atishp@rivosinc.com> wrote:
->
-> Qemu virt machine can support few cache events and cycle/instret counters.
-> It also supports counter overflow for these events.
->
-> Add a DT node so that OpenSBI/Linux kernel is aware of the virt machine
-> capabilities. There are some dummy nodes added for testing as well.
->
-> Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> ---
->  hw/riscv/virt.c    | 38 ++++++++++++++++++++++++++++++++++++++
->  target/riscv/pmu.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
->  target/riscv/pmu.h |  1 +
->  3 files changed, 84 insertions(+)
->
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index 3af074148ef4..99154199091c 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -28,6 +28,7 @@
->  #include "hw/qdev-properties.h"
->  #include "hw/char/serial.h"
->  #include "target/riscv/cpu.h"
-> +#include "target/riscv/pmu.h"
->  #include "hw/riscv/riscv_hart.h"
->  #include "hw/riscv/virt.h"
->  #include "hw/riscv/boot.h"
-> @@ -406,6 +407,33 @@ static void create_fdt_socket_plic(RISCVVirtState *s,
->      g_free(plic_cells);
->  }
->
-> +static void create_fdt_socket_pmu(RISCVVirtState *s,
-> +                                  int socket, uint32_t *phandle,
-> +                                  uint32_t *intc_phandles)
-> +{
-> +    int cpu;
-> +    char *pmu_name;
-> +    uint32_t *pmu_cells;
-> +    MachineState *mc = MACHINE(s);
-> +    RISCVCPU hart = s->soc[socket].harts[0];
-> +
-> +    pmu_cells = g_new0(uint32_t, s->soc[socket].num_harts * 2);
-> +
-> +    for (cpu = 0; cpu < s->soc[socket].num_harts; cpu++) {
-> +        pmu_cells[cpu * 2 + 0] = cpu_to_be32(intc_phandles[cpu]);
-> +        pmu_cells[cpu * 2 + 1] = cpu_to_be32(IRQ_PMU_OVF);
-> +    }
-> +
-> +    pmu_name = g_strdup_printf("/soc/pmu");
-> +    qemu_fdt_add_subnode(mc->fdt, pmu_name);
-> +    qemu_fdt_setprop_string(mc->fdt, pmu_name, "compatible", "riscv,pmu");
-> +    riscv_pmu_generate_fdt_node(mc->fdt, hart.cfg.pmu_num, pmu_name);
-> +
-> +    g_free(pmu_name);
-> +    g_free(pmu_cells);
-> +}
-> +
-> +
->  static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
->                                 bool is_32_bit, uint32_t *phandle,
->                                 uint32_t *irq_mmio_phandle,
-> @@ -417,12 +445,20 @@ static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
->      uint32_t *intc_phandles;
->      MachineState *mc = MACHINE(s);
->      uint32_t xplic_phandles[MAX_NODES];
-> +    RISCVCPU hart;
->
->      qemu_fdt_add_subnode(mc->fdt, "/cpus");
->      qemu_fdt_setprop_cell(mc->fdt, "/cpus", "timebase-frequency",
->                            RISCV_ACLINT_DEFAULT_TIMEBASE_FREQ);
->      qemu_fdt_setprop_cell(mc->fdt, "/cpus", "#size-cells", 0x0);
->      qemu_fdt_setprop_cell(mc->fdt, "/cpus", "#address-cells", 0x1);
-> +
-> +    /* Add the node for isa extensions discovery */
-> +    qemu_fdt_add_subnode(mc->fdt, "/cpus/riscv,isa-ext");
+Hello Mario,
 
-Looks like the ongoing discussion does not support this idea
-https://lore.kernel.org/linux-riscv/20211224211632.1698523-1-atishp@rivosinc.com/
+> 
+> I have tried to launch a freshly compiled qemu from git master on a NXP T2080RDB devkit that has a e6500 CPU in combination with a freshly compiled kernel 5.16-rc6
+> I have Debian SID ppc64 up and running using such a kernel, and when I launch qemu to run a VM with the same debian sid for ppc64 and the same kernel using --enable-kvm I end up with a kernel panic
+> 
+> [....]
+> Run /sbin/init as init process
+> random: fast init done
+> systemd[1]: illegal instruction (4) at 3fff96562ac8 nip 3fff96562ac8 lr 3fff96562aa8 code 1 in libc-2.32.so[3fff96516000+1f7000]
+> systemd[1]: code: 60000000 38600006 9122b7e8 4801bead 60000000 60000000 8122b7e8 2c090004
+> systemd[1]: code: 40820014 39200005 60000000 9122b7e8 <00000000> 60000000 8122b7e8 2c090005
+> Kernel panic - not syncing: Attempted to kill init! exitcode=0x00000004
+> Rebooting in 180 seconds..
 
-> +    hart = s->soc[0].harts[0];
-> +    if (hart.cfg.ext_sscof) {
-> +        qemu_fdt_setprop(mc->fdt, "/cpus/riscv,isa-ext", "sscofpmf", NULL, 0);
-> +    }
->      qemu_fdt_add_subnode(mc->fdt, "/cpus/cpu-map");
->
->      for (socket = (riscv_socket_count(mc) - 1); socket >= 0; socket--) {
-> @@ -445,6 +481,8 @@ static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
->          create_fdt_socket_plic(s, memmap, socket, phandle,
->              intc_phandles, xplic_phandles);
->
-> +        create_fdt_socket_pmu(s, socket, phandle, intc_phandles);
-> +
->          g_free(intc_phandles);
->          g_free(clust_name);
->      }
-> diff --git a/target/riscv/pmu.c b/target/riscv/pmu.c
-> index 15f161059fb7..b58a09c85616 100644
-> --- a/target/riscv/pmu.c
-> +++ b/target/riscv/pmu.c
-> @@ -19,11 +19,56 @@
->  #include "qemu/osdep.h"
->  #include "cpu.h"
->  #include "pmu.h"
-> +#include "sysemu/device_tree.h"
->
->  #define RISCV_TIMEBASE_FREQ 1000000000 /* 1Ghz */
->  #define MAKE_32BIT_MASK(shift, length) \
->          (((uint32_t)(~0UL) >> (32 - (length))) << (shift))
->
-> +/**
-> + * To keep it simple, any event can be mapped to any programmable counters in
-> + * QEMU. The generic cycle & instruction count events can also be monitored
-> + * using programmable counters. In that case, mcycle & minstret must continue
-> + * to provide the correct value as well. Hetergenous PMU per hart is not
+I spend sometime looking at the kernel and QEMU and I noticed that
+TCG e6500 machines have an issue when the kernel has KVM support.
+I have limited knowledge on that topic but e6500 has extra MMU
+features that an hypervisor could use for the guest and the e6500
+emulation clearly doesn't have support for it.
 
-typo of Heterogeneous
+In the guest, could you try with to run the KVM guest with a kernel
+without KVM support and let us know ?
 
-> + * supported yet. Thus, number of counters are same across all harts.
-> + */
-> +void riscv_pmu_generate_fdt_node(void *fdt, int num_ctrs, char *pmu_name)
-> +{
-> +    uint32_t fdt_event_ctr_map[20] = {};
-> +    uint32_t cmask;
-> +
-> +    /* All the programmable counters can map to any event */
-> +    cmask = MAKE_32BIT_MASK(3, num_ctrs);
-> +
-> +   /* SBI_PMU_HW_CPU_CYCLES */
-> +   fdt_event_ctr_map[0] = cpu_to_be32(0x00000001);
-> +   fdt_event_ctr_map[1] = cpu_to_be32(0x00000001);
-> +   fdt_event_ctr_map[2] = cpu_to_be32(cmask | 1 << 0);
-> +
-> +   /* SBI_PMU_HW_INSTRUCTIONS */
-> +   fdt_event_ctr_map[3] = cpu_to_be32(0x00000002);
-> +   fdt_event_ctr_map[4] = cpu_to_be32(0x00000002);
-> +   fdt_event_ctr_map[5] = cpu_to_be32(cmask | 1 << 2);
-> +
-> +   /* SBI_PMU_HW_CACHE_DTLB : READ : MISS */
-> +   fdt_event_ctr_map[6] = cpu_to_be32(0x00010019);
-> +   fdt_event_ctr_map[7] = cpu_to_be32(0x00010019);
-> +   fdt_event_ctr_map[8] = cpu_to_be32(cmask);
-> +
-> +   /* SBI_PMU_HW_CACHE_DTLB : WRITE : MISS */
-> +   fdt_event_ctr_map[9] = cpu_to_be32(0x0001001B);
-> +   fdt_event_ctr_map[10] = cpu_to_be32(0x0001001B);
-> +   fdt_event_ctr_map[11] = cpu_to_be32(cmask);
-> +
-> +   /* SBI_PMU_HW_CACHE_ITLB : READ : MISS */
-> +   fdt_event_ctr_map[12] = cpu_to_be32(0x00010021);
-> +   fdt_event_ctr_map[13] = cpu_to_be32(0x00010021);
-> +   fdt_event_ctr_map[14] = cpu_to_be32(cmask);
-> +
-> +   qemu_fdt_setprop(fdt, pmu_name, "riscv,event-to-mhpmcounters",
-> +                    fdt_event_ctr_map, sizeof(fdt_event_ctr_map));
+Thanks,
 
-Where is this documented? I can't find related discussion in the linux-riscv ML.
-
-Please add some comment blocks to explain where these magic numbers
-(like 0x00010021) come from.
-
-> +}
-> +
->  static bool riscv_pmu_counter_valid(RISCVCPU *cpu, uint32_t ctr_idx)
->  {
->      if (ctr_idx < 3 || ctr_idx >= RV_MAX_MHPMCOUNTERS ||
-> diff --git a/target/riscv/pmu.h b/target/riscv/pmu.h
-> index 9b400c3522f2..63c4b533b223 100644
-> --- a/target/riscv/pmu.h
-> +++ b/target/riscv/pmu.h
-> @@ -31,6 +31,7 @@ int riscv_pmu_init(RISCVCPU *cpu, int num_counters);
->  int riscv_pmu_update_event_map(CPURISCVState *env, uint64_t value,
->                                 uint32_t ctr_idx);
->  int riscv_pmu_incr_ctr(RISCVCPU *cpu, enum riscv_pmu_event_idx event_idx);
-> +void riscv_pmu_generate_fdt_node(void *fdt, int num_counters, char *pmu_name);
->  target_ulong get_icount_ticks(bool brv32);
->  int riscv_pmu_setup_timer(CPURISCVState *env, uint64_t value,
->                            uint32_t ctr_idx);
-> --
-
-Regards,
-Bin
+C.
 
