@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10FA148A408
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 00:57:04 +0100 (CET)
-Received: from localhost ([::1]:53260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 579F748A423
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 01:03:46 +0100 (CET)
+Received: from localhost ([::1]:35814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n74X9-0007M2-6Z
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 18:57:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43532)
+	id 1n74dd-00074T-5q
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 19:03:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n749b-0005u6-5D
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:32:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43201)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n749h-0005xd-Ed
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:32:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55323)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n749Q-0000Nm-9x
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:32:33 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n749W-0000OF-4i
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:32:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641857551;
+ s=mimecast20190719; t=1641857557;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BvJnSkuKelxwwkz6mxHaYFKgr6xeEh3QGZiP2CFIE0Y=;
- b=QH6vZ4nV7STPAG01jSqiBD6OEmW/AG+GSzQNpk++AlG7YBJXrlZbA1aofup/FWmOjX4Acf
- 85ayJfcTnNkySLOMBJWeG/wU/+blDPJqL01GZB+U5RSn4OA7QfkFa2ziUElissEud8qcjx
- tK0jFsq3CObBpEO1rwF8DCnf3oh5GYw=
+ bh=+YB3G6buKVEpGJESOta2fRjbI+7cwF7GLpghmhp5bXk=;
+ b=AKJabIwZQX6mhCGSCaOZ5lFJhU8qe6JDQ78EtIKmkKLl9dAWxRfitS+5wtyfjXaZCGzJPT
+ RRbb7z6w4kSqnNL00950tawRunTmC36bmkMQq/r/FV8EtDx++8mDH0vusthkhzGPY5IoSv
+ sjrxf7dQjBdJzhpvcSSTTt0zDZPD6KA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-261-i8gNzxekPiqNWVJp-aEnDw-1; Mon, 10 Jan 2022 18:32:28 -0500
-X-MC-Unique: i8gNzxekPiqNWVJp-aEnDw-1
+ us-mta-617-NWJgZSQlMweDd8CgbXqRsA-1; Mon, 10 Jan 2022 18:32:35 -0500
+X-MC-Unique: NWJgZSQlMweDd8CgbXqRsA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49C04192CC41;
- Mon, 10 Jan 2022 23:32:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B617110247A6;
+ Mon, 10 Jan 2022 23:32:34 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.219])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1C65D7B035;
- Mon, 10 Jan 2022 23:32:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6EA1E7B028;
+ Mon, 10 Jan 2022 23:32:27 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 26/31] python/aqmp: fully separate from
- qmp.QEMUMonitorProtocol
-Date: Mon, 10 Jan 2022 18:29:05 -0500
-Message-Id: <20220110232910.1923864-27-jsnow@redhat.com>
+Subject: [PATCH v3 27/31] python/aqmp: copy qmp docstrings to qemu.aqmp.legacy
+Date: Mon, 10 Jan 2022 18:29:06 -0500
+Message-Id: <20220110232910.1923864-28-jsnow@redhat.com>
 In-Reply-To: <20220110232910.1923864-1-jsnow@redhat.com>
 References: <20220110232910.1923864-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -88,98 +87,219 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After this patch, qemu.aqmp.legacy.QEMUMonitorProtocol no longer
-inherits from qemu.qmp.QEMUMonitorProtocol. To do this, several
-inherited methods need to be explicitly re-defined.
+Copy the docstrings out of qemu.qmp, adjusting them as necessary to
+more accurately reflect the current state of this class.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Beraldo Leal <bleal@redhat.com>
 ---
- python/qemu/aqmp/legacy.py | 38 ++++++++++++++++++++++++++++++++------
- 1 file changed, 32 insertions(+), 6 deletions(-)
+ python/qemu/aqmp/legacy.py | 110 ++++++++++++++++++++++++++++++++++---
+ 1 file changed, 102 insertions(+), 8 deletions(-)
 
 diff --git a/python/qemu/aqmp/legacy.py b/python/qemu/aqmp/legacy.py
-index 76b09671cc..8f38e7d912 100644
+index 8f38e7d912..6c250cd46a 100644
 --- a/python/qemu/aqmp/legacy.py
 +++ b/python/qemu/aqmp/legacy.py
-@@ -5,18 +5,18 @@
+@@ -1,9 +1,23 @@
+ """
+-Sync QMP Wrapper
++(Legacy) Sync QMP Wrapper
+ 
+-This class pretends to be qemu.qmp.QEMUMonitorProtocol.
++This module provides the `QEMUMonitorProtocol` class, which is a
++synchronous wrapper around `QMPClient`.
++
++Its design closely resembles that of the original QEMUMonitorProtocol
++class, originally written by Luiz Capitulino.
  """
  
++# Copyright (C) 2009, 2010, 2021 Red Hat Inc.
++#
++# Authors:
++#  Luiz Capitulino <lcapitulino@redhat.com>
++#  John Snow <jsnow@redhat.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2.
++# See the COPYING file in the top-level directory.
++
++
  import asyncio
-+from types import TracebackType
+ from types import TracebackType
  from typing import (
-     Any,
-     Awaitable,
-     Dict,
-     List,
-     Optional,
-+    Type,
-     TypeVar,
-     Union,
- )
+@@ -39,9 +53,6 @@
+ # {} is the QMPReturnValue.
  
--import qemu.qmp
+ 
+-# pylint: disable=missing-docstring
 -
- from .error import QMPError
- from .protocol import Runstate, SocketAddrT
- from .qmp_client import QMPClient
-@@ -48,9 +48,9 @@ class QMPBadPortError(QMPError):
+-
+ class QMPBadPortError(QMPError):
      """
+     Unable to parse socket address: Port was non-numerical.
+@@ -49,6 +60,21 @@ class QMPBadPortError(QMPError):
  
  
--class QEMUMonitorProtocol(qemu.qmp.QEMUMonitorProtocol):
-+class QEMUMonitorProtocol:
+ class QEMUMonitorProtocol:
++    """
++    Provide an API to connect to QEMU via QEMU Monitor Protocol (QMP)
++    and then allow to handle commands and events.
++
++    :param address:  QEMU address, can be either a unix socket path (string)
++                     or a tuple in the form ( address, port ) for a TCP
++                     connection
++    :param server:   Deprecated, ignored. (See 'accept')
++    :param nickname: Optional nickname used for logging.
++
++    ..note::
++        No connection is established during `__init__`, this is done by
++        the `connect()` or `accept()` methods.
++    """
++
      def __init__(self, address: SocketAddrT,
--                 server: bool = False,
-+                 server: bool = False,  # pylint: disable=unused-argument
+                  server: bool = False,  # pylint: disable=unused-argument
                   nickname: Optional[str] = None):
+@@ -108,6 +134,12 @@ def parse_address(cls, address: str) -> SocketAddrT:
+         return address
  
-         # pylint: disable=super-init-not-called
-@@ -74,7 +74,18 @@ def _get_greeting(self) -> Optional[QMPMessage]:
-             return self._aqmp.greeting._asdict()
-         return None
- 
--    # __enter__ and __exit__ need no changes
-+    def __enter__(self: _T) -> _T:
-+        # Implement context manager enter function.
-+        return self
-+
-+    def __exit__(self,
-+                 # pylint: disable=duplicate-code
-+                 # see https://github.com/PyCQA/pylint/issues/3619
-+                 exc_type: Optional[Type[BaseException]],
-+                 exc_val: Optional[BaseException],
-+                 exc_tb: Optional[TracebackType]) -> None:
-+        # Implement context manager exit function.
-+        self.close()
- 
-     @classmethod
-     def parse_address(cls, address: str) -> SocketAddrT:
-@@ -131,7 +142,22 @@ def cmd_obj(self, qmp_cmd: QMPMessage) -> QMPMessage:
-             )
-         )
- 
--    # Default impl of cmd() delegates to cmd_obj
-+    def cmd(self, name: str,
-+            args: Optional[Dict[str, object]] = None,
-+            cmd_id: Optional[object] = None) -> QMPMessage:
+     def connect(self, negotiate: bool = True) -> Optional[QMPMessage]:
 +        """
-+        Build a QMP command and send it to the QMP Monitor.
++        Connect to the QMP Monitor and perform capabilities negotiation.
 +
-+        @param name: command name (string)
-+        @param args: command arguments (dict)
-+        @param cmd_id: command id (dict, list, string or int)
++        :return: QMP greeting dict, or None if negotiate is false
++        :raise ConnectError: on connection errors
 +        """
-+        qmp_cmd: QMPMessage = {'execute': name}
-+        if args:
-+            qmp_cmd['arguments'] = args
-+        if cmd_id:
-+            qmp_cmd['id'] = cmd_id
-+        return self.cmd_obj(qmp_cmd)
+         self._aqmp.await_greeting = negotiate
+         self._aqmp.negotiate = negotiate
+ 
+@@ -117,6 +149,16 @@ def connect(self, negotiate: bool = True) -> Optional[QMPMessage]:
+         return self._get_greeting()
+ 
+     def accept(self, timeout: Optional[float] = 15.0) -> QMPMessage:
++        """
++        Await connection from QMP Monitor and perform capabilities negotiation.
++
++        :param timeout:
++            timeout in seconds (nonnegative float number, or None).
++            If None, there is no timeout, and this may block forever.
++
++        :return: QMP greeting dict
++        :raise ConnectError: on connection errors
++        """
+         self._aqmp.await_greeting = True
+         self._aqmp.negotiate = True
+ 
+@@ -130,6 +172,12 @@ def accept(self, timeout: Optional[float] = 15.0) -> QMPMessage:
+         return ret
+ 
+     def cmd_obj(self, qmp_cmd: QMPMessage) -> QMPMessage:
++        """
++        Send a QMP command to the QMP Monitor.
++
++        :param qmp_cmd: QMP command to be sent as a Python dict
++        :return: QMP response as a Python dict
++        """
+         return dict(
+             self._sync(
+                 # pylint: disable=protected-access
+@@ -148,9 +196,9 @@ def cmd(self, name: str,
+         """
+         Build a QMP command and send it to the QMP Monitor.
+ 
+-        @param name: command name (string)
+-        @param args: command arguments (dict)
+-        @param cmd_id: command id (dict, list, string or int)
++        :param name: command name (string)
++        :param args: command arguments (dict)
++        :param cmd_id: command id (dict, list, string or int)
+         """
+         qmp_cmd: QMPMessage = {'execute': name}
+         if args:
+@@ -160,6 +208,9 @@ def cmd(self, name: str,
+         return self.cmd_obj(qmp_cmd)
  
      def command(self, cmd: str, **kwds: object) -> QMPReturnValue:
++        """
++        Build and send a QMP command to the monitor, report errors if any
++        """
          return self._sync(
+             self._aqmp.execute(cmd, kwds),
+             self._timeout
+@@ -167,6 +218,19 @@ def command(self, cmd: str, **kwds: object) -> QMPReturnValue:
+ 
+     def pull_event(self,
+                    wait: Union[bool, float] = False) -> Optional[QMPMessage]:
++        """
++        Pulls a single event.
++
++        :param wait:
++            If False or 0, do not wait. Return None if no events ready.
++            If True, wait forever until the next event.
++            Otherwise, wait for the specified number of seconds.
++
++        :raise asyncio.TimeoutError:
++            When a timeout is requested and the timeout period elapses.
++
++        :return: The first available QMP event, or None.
++        """
+         if not wait:
+             # wait is False/0: "do not wait, do not except."
+             if self._aqmp.events.empty():
+@@ -187,6 +251,20 @@ def pull_event(self,
+         )
+ 
+     def get_events(self, wait: Union[bool, float] = False) -> List[QMPMessage]:
++        """
++        Get a list of QMP events and clear all pending events.
++
++        :param wait:
++            If False or 0, do not wait. Return None if no events ready.
++            If True, wait until we have at least one event.
++            Otherwise, wait for up to the specified number of seconds for at
++            least one event.
++
++        :raise asyncio.TimeoutError:
++            When a timeout is requested and the timeout period elapses.
++
++        :return: A list of QMP events.
++        """
+         events = [dict(x) for x in self._aqmp.events.clear()]
+         if events:
+             return events
+@@ -195,17 +273,33 @@ def get_events(self, wait: Union[bool, float] = False) -> List[QMPMessage]:
+         return [event] if event is not None else []
+ 
+     def clear_events(self) -> None:
++        """Clear current list of pending events."""
+         self._aqmp.events.clear()
+ 
+     def close(self) -> None:
++        """Close the connection."""
+         self._sync(
+             self._aqmp.disconnect()
+         )
+ 
+     def settimeout(self, timeout: Optional[float]) -> None:
++        """
++        Set the timeout for QMP RPC execution.
++
++        This timeout affects the `cmd`, `cmd_obj`, and `command` methods.
++        The `accept`, `pull_event` and `get_event` methods have their
++        own configurable timeouts.
++
++        :param timeout:
++            timeout in seconds, or None.
++            None will wait indefinitely.
++        """
+         self._timeout = timeout
+ 
+     def send_fd_scm(self, fd: int) -> None:
++        """
++        Send a file descriptor to the remote via SCM_RIGHTS.
++        """
+         self._aqmp.send_fd_scm(fd)
+ 
+     def __del__(self) -> None:
 -- 
 2.31.1
 
