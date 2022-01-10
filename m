@@ -2,69 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4125F4892F8
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 09:03:20 +0100 (CET)
-Received: from localhost ([::1]:47940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA30448930A
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 09:08:21 +0100 (CET)
+Received: from localhost ([::1]:50692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6peB-0002mX-CS
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 03:03:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36704)
+	id 1n6pj2-0004qN-QZ
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 03:08:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1n6pC4-0003M3-CK; Mon, 10 Jan 2022 02:34:17 -0500
-Received: from [2607:f8b0:4864:20::b2f] (port=35838
- helo=mail-yb1-xb2f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1n6pC2-0003r5-MK; Mon, 10 Jan 2022 02:34:15 -0500
-Received: by mail-yb1-xb2f.google.com with SMTP id j83so35690167ybg.2;
- Sun, 09 Jan 2022 23:34:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+j7IfziZ6uWB2bo7sc4T3tNKt38P1h3b4hmZ6iMB8fI=;
- b=lKMLKE1OVnmnvu6ruiPilJwgG5FUOIS0icDJRgyk2qdLJUVh0CHs9GHuGBTWzxE3lk
- 8UmlgfswhJMbqYGZ1LEOqkKD7zx2tC2qKDUGSXQaQ8DF/dI3ZiRD8M58JJxUJwkB4pAq
- 2QVMJIr/yOIjHKfMWwhJulU9ZabZ9p7e32LIqpIMQXK+9Vccwxzx2GpuJx0zsm1gFj8U
- 8yvxjNLEQYNF4kd6VjGxzXMBlbhbirb2rBm2dL7ny/7vIAmwOv3Y1mPkjBFPFEmVuHVq
- hocGQPE8yOEAFM8p5rqQJwPrUHmDFYX+kxL5+enJjACuLjFSgcTmP+fSZgUjSnOWXif3
- Y2WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+j7IfziZ6uWB2bo7sc4T3tNKt38P1h3b4hmZ6iMB8fI=;
- b=Qr2jcPDre0Gx7jYmmChY4pum2Low7IuE3Y6eQYYMHlFetAzN0zxnW+cSqtWG4W57iI
- t2rmkR0YXPc8SSfqOconU3XHEwcE92LIBbMFI41Y9fObEdNxJLajwGatCn3hhwXCcVJb
- INhGqdsKGXXfiQOITbKlQOiUrXu5cwuQAFpgRbH8TJiM/6+cYZ3QkQi9MkI3m0t/5ygY
- us/o6QYP/xT7PzVdnItKc+O+Nqas+9BiFHhqS5lgrSYR3iFU7P/ur+M8tEj5NzqiiN3w
- nu12Wz7QtFt0H9vVt6Cm4WmfHUaiy2nATzv+JnG+Srl0q/bLFTeTe03ngdvrPGOBrBho
- 6uUA==
-X-Gm-Message-State: AOAM531mic8na7Cq6bqtdQEMDCUFA0Da9hstIprttOB/TKXgA+PEGFOE
- qeOfBf2wihlJxR/kw540hoz+W0ygA1xEC++Wsjc=
-X-Google-Smtp-Source: ABdhPJx+W1/Bts3bss/GMr7+/dxKmCxfXb+LlXURf3x38m7X5V1EEsHsglW/pWA1Yr4VVYzryO/8TcdnRS6OjRUgjEw=
-X-Received: by 2002:a5b:3c2:: with SMTP id t2mr86043716ybp.747.1641800053310; 
- Sun, 09 Jan 2022 23:34:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n6pGU-00072K-Se
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 02:38:50 -0500
+Received: from 5.mo552.mail-out.ovh.net ([188.165.45.220]:41999)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n6pGS-0004Ud-Mi
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 02:38:50 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.59])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id E7CFC21AE3;
+ Mon, 10 Jan 2022 07:38:44 +0000 (UTC)
+Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 10 Jan
+ 2022 08:38:44 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R006d4d9ab3c-ef25-4650-9093-4e05a51bb175,
+ BF6F17FB45C67FCD004F592EBF28FE1306A73352) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <4421c307-2298-3754-2ab3-46b71d80e02c@kaod.org>
+Date: Mon, 10 Jan 2022 08:38:43 +0100
 MIME-Version: 1.0
-References: <20220110061321.4040589-1-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20220110061321.4040589-1-alistair.francis@opensource.wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 10 Jan 2022 15:34:01 +0800
-Message-ID: <CAEUhbmVjdMfF5G-xbjBCFWE13PGtVG9WveXfDSyAAO3Q0Fpukw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] riscv: opentitan: fixup plic stride len
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v3 0/8] target/ppc: powerpc_excp improvements (2/n)
+Content-Language: en-US
+To: Fabiano Rosas <farosas@linux.ibm.com>, <qemu-devel@nongnu.org>
+References: <20220107222601.4101511-1-farosas@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220107222601.4101511-1-farosas@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 7a480f2a-74bc-4a49-954e-64bbf643124d
+X-Ovh-Tracer-Id: 16322170950553537318
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudegledguddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhm
+Received-SPF: pass client-ip=188.165.45.220; envelope-from=clg@kaod.org;
+ helo=5.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,34 +69,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, wilfred.mallawa@wdc.com,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Alistair Francis <alistair23@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 10, 2022 at 2:13 PM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
->
-> The following change was made to rectify incorrectly set stride length
-> on the PLIC. Where it should be 32bit and not 24bit (0x18). This was
+Hello Fabiano,
 
-PLIC [1]
+On 1/7/22 23:25, Fabiano Rosas wrote:
+> Version 3:
+> 
+> - patches 1,3,4,5,6,7: unchanged, reviewed;
+> 
+> - patch 2: started using qemu_loglevel_mask(CPU_LOG_MMU) instead of
+>             qemu_log_enabled;
+> 
+> 	   I decided to not rename the function at this point because
+> 	   it is used for both 60x and 7x5 and these two will be split
+> 	   in the near future, so allow me to postpone that;
+> 
+> - patch 8: new patch using env->has_hv_mode to fix the endianness of
+>             powernv dumps as suggested by David.
 
-> discovered whilst attempting to fix a bug where a timer_interrupt was
-> not serviced on TockOS-OpenTitan.
->
 
-[1] https://docs.opentitan.org/hw/top_earlgrey/ip_autogen/rv_plic/doc/
+I have queued this version for ppc-7.0. You can send followups on top
+of it.
 
-> Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-> ---
->  hw/riscv/opentitan.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
+Thanks,
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+C.
 
