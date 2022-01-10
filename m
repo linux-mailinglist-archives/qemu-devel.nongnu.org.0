@@ -2,61 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C4DA48A1A6
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 22:16:34 +0100 (CET)
-Received: from localhost ([::1]:58896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5977E48A1C6
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 22:20:03 +0100 (CET)
+Received: from localhost ([::1]:39038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n721p-00060f-LJ
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 16:16:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41520)
+	id 1n725C-0003Q2-6V
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 16:20:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1n71rg-00085u-Q7; Mon, 10 Jan 2022 16:06:05 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:55909)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n71uk-0003ZD-N9
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 16:09:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58228)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1n71rR-0004gZ-7u; Mon, 10 Jan 2022 16:06:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=g2PUeeGWAEo6vvN3L2+XbRFh0G5twa07WR/k8KwaDwY=; b=a0s1NVBLgeUpXjpNBr5ICaQaNA
- KNjXKxy7E6g4mLoEagJEAAE/xj14+f7raLChhT4+UWt9b5ZcIQh1cz2NmgocuWRwi9e8/8+2t6m1x
- jH1TDUCbZ3JAoeH1r8RKMVFaMc5t8MULroZtIPMteIDDvDlQZRR1gilAyjDlv2PVaeqvnT7Tj7sFU
- 9Lknmt/KrWkLykO0IPdq4MgeukRcvwxSMXW8IfT8BCroticXjxbxhn7Dk7rbGsa3AqNsJZo74Bpxu
- OmxTQrDjdgeIfVAYhMBau4HXYCJt2698hAO+YM9JoZiAx4pkuST98/3BxTEtemxx+FNBf3AZe7cWW
- 6TefQrRB7h3rCLikL8jTQCsl/BOQrKJeMo98Mpqpp46zpC3VVITtz0FUMiLHXj1rQgRIv7H/Fq7cw
- EU+aIOWgVXQKpOTOdxWd91e/QL7gEuMXNkWUTP694FLmnE9/FL+cOMAHXG4L2udbtWt2k5E2TfO8p
- j3T1J7ULxWm5Hn7WAgo7vnLK0UFPGgz6/xkU03ulSeYP4CpvetLwzfDSoVCwhHihIHjL71YzhsDIf
- HTm5IBvqIqeWvSiPP6f+MXyl6xZk21P6R4lzILoOJRmRlSUIxDU5MDiWX8xRF9A0O9TXsd+W/NeFK
- AwqIyF88msF/HHQ65E8O02SmjRYcaYVEq9Rf8bBCM=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Cameron Esfahani <dirty@apple.com>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [RFC PATCH v2 2/6] audio/coreaudio: Remove a deprecation warning
- on macOS 12
-Date: Mon, 10 Jan 2022 22:05:43 +0100
-Message-ID: <2141936.zTEnKHbCo3@silver>
-In-Reply-To: <246f1f6f-3674-e3dc-3a8e-f53795fa58cc@gmail.com>
-References: <20220109170612.574104-1-f4bug@amsat.org>
- <5230139.pYjDmQ3FvW@silver> <246f1f6f-3674-e3dc-3a8e-f53795fa58cc@gmail.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n71ui-00052z-Ve
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 16:09:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641848952;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nsFusxBNak8ylYnp/RAB1KuHip9lMCbLTpLIRHiwyeY=;
+ b=IACqjdW20e4K7WqNGOsqJVkYp4bVRekkY5jb5LTm6Ymw+imyziY5gd4YAU5//z2Qq/8tBA
+ Y2pfARHmVU6iiQYU3Snqgje5UtOWPHa0vm1Thf4se9/NQsGQ2xVcWAJIMnWHO4n7+OENk6
+ sSMErjo2RvTe4aYym9g8TMzClmjaTgo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-632-cV9s3dTAPqyhEK3mw_G7iA-1; Mon, 10 Jan 2022 16:09:11 -0500
+X-MC-Unique: cV9s3dTAPqyhEK3mw_G7iA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ z13-20020a05600c0a0d00b003457d6619f8so636800wmp.1
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 13:09:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=nsFusxBNak8ylYnp/RAB1KuHip9lMCbLTpLIRHiwyeY=;
+ b=QIDzve0ApO9+jx6BInEcvWleXWMQUGyulgAg2fBumhn+ZyqZY91s1PznAqUKtRCv/+
+ 1Zx0IcOM/qBunQJwK7D7CHv3yjvEzOcL2RXe/qCga/NoS6pXAbKTwXtgLi1r+s4VIuGC
+ XYOoWpVcBkDvp2N2RBsJ+oLMSM+3DBOOS3nTupJx5oOU2+PWQqQFnnruhb52qM6YGB9l
+ +wxx8PrevnhuUPcjj4Pn3fFpfBSrkFXyTl1An6w9DordDf4Co/d9Eu6NvVTfrOz1vJBY
+ je0APH6SM4MU75KUd+HHCgB92G4fujDZiWyw9uEuMMl3K3F27/MZaUbllNuTtkpptGx9
+ dQ2g==
+X-Gm-Message-State: AOAM5325Zn7eQVtJJLVM3WZFFFk3aogOdBFzFReV44P86w0uaoHvP4gW
+ vGxDDD2YIcqcm0Md2WNvv6QbWhqnXRa3XUiM9uSBPmk0JQyvtOWkWs8KglYS1AFczmQ/BEb17fU
+ WG2NmU1USBLxL0Wg=
+X-Received: by 2002:a05:6000:92:: with SMTP id
+ m18mr1172811wrx.676.1641848949969; 
+ Mon, 10 Jan 2022 13:09:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxrhiYib5jrCa8s60S/1i6HkDOSTbneE6g/UczeHj+j0c+bBi962GW8OnDHNpK3n/7fvAOSPA==
+X-Received: by 2002:a05:6000:92:: with SMTP id
+ m18mr1172792wrx.676.1641848949714; 
+ Mon, 10 Jan 2022 13:09:09 -0800 (PST)
+Received: from redhat.com ([2.55.19.241])
+ by smtp.gmail.com with ESMTPSA id w7sm2072466wrv.96.2022.01.10.13.09.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Jan 2022 13:09:09 -0800 (PST)
+Date: Mon, 10 Jan 2022 16:09:06 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Marc Zyngier <maz@kernel.org>
+Subject: Re: [PATCH] virtio-pci: fix up config interrupt handling
+Message-ID: <20220110160811-mutt-send-email-mst@kernel.org>
+References: <20220109173136.35848-1-mst@redhat.com>
+ <87zgo3xr6w.wl-maz@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <87zgo3xr6w.wl-maz@kernel.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,140 +95,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Volker =?iso-8859-1?Q?R=FCmelin?= <vr_qemu@t-online.de>,
+ qemu-devel@nongnu.org, Cindy Lu <lulu@redhat.com>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Montag, 10. Januar 2022 21:39:28 CET Akihiko Odaki wrote:
-> On 2022/01/11 5:22, Christian Schoenebeck wrote:
-> > On Montag, 10. Januar 2022 20:01:40 CET Akihiko Odaki wrote:
-> >> On 2022/01/11 3:46, Christian Schoenebeck wrote:
-> >>> On Montag, 10. Januar 2022 19:20:15 CET Akihiko Odaki wrote:
-> >>>> On 2022/01/10 22:22, Peter Maydell wrote:
-> >>>>> On Mon, 10 Jan 2022 at 13:14, Christian Schoenebeck
-> >>>>> 
-> >>>>> <qemu_oss@crudebyte.com> wrote:
-> >>>>>> I'd suggest to use:
-> >>>>>> 
-> >>>>>> #if !defined(MAC_OS_VERSION_12_0) ||
-> >>>>>> 
-> >>>>>>        (MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_VERSION_12_0)
-> >>>>>> 
-> >>>>>> #define kAudioObjectPropertyElementMain
-> >>>>>> kAudioObjectPropertyElementMaster
-> >>>>>> #endif
-> >>>>> 
-> >>>>> This is also how we do this for existing checks of this sort,
-> >>>>> like the one in osdep.h for qemu_thread_jit_execute().
-> >>>>> 
-> >>>>> -- PMM
-> >>>> 
-> >>>> If I understand correctly, Many macOS-specific codes already no longer
-> >>>> complies with GCC because they depend on modern features GCC doesn't
-> >>>> provide. The most problematic construction is block; it is extensively
-> >>>> used by Apple's ABI and API and you cannot avoid using it even if you
-> >>>> try.
-> >>> 
-> >>> You mean Obj-C blocks? That's working with GCC for decades. I am not
-> >>> aware
-> >>> about any recent changes to Obj-C block mechanisms by Apple.
-> >>> 
-> >>>> Also, note that MAC_OS_X_VERSION_MAX_ALLOWED defines the upper bound of
-> >>>> the supported version. The lower bound should be preferred here because
-> >>>> the usage of the new identifier is applied regardless of the version of
-> >>>> the host system. It is in contrary to the usage of
-> >>>> MAC_OS_X_VERSION_MAX_ALLOWED in osdep.h where the new interfaces are
-> >>>> used only for the newer versions. The lower bound is defined as
-> >>>> MAC_OS_X_VERSION_MIN_REQUIRED. Practically there is no difference of
-> >>>> the
-> >>>> two macros because they have the same value in QEMU and
-> >>>> kAudioObjectPropertyElementMain is a constant resolved compile-time,
-> >>>> but
-> >>>> it is still nice to have the code semantically correct.
-> >>> 
-> >>> For this particular enum: no, MAC_OS_X_VERSION_MAX_ALLOWED is the
-> >>> correct
-> >>> one. This is about whether enum kAudioObjectPropertyElementMain is
-> >>> defined in the SDK header files. That's all. And the new enum
-> >>> kAudioObjectPropertyElementMain is pure refactoring of the enum's old
-> >>> name due to social reasons ("Master"). The actual reflected numeric
-> >>> value
-> >>> and semantic of the enum is unchanged and the resulting binary and
-> >>> behaviour are identical.
-> >> 
-> >> There are a few problems with the usage of MAC_OS_X_VERSION_MAX_ALLOWED:
-> >> - The deprecation warning is designed to work with
-> >> MAC_OS_X_VERSION_MIN_REQUIRED. You may verify that with:
-> >> cc -mmacosx-version-min=12.0 -x c - <<EOF
-> >> #include <CoreAudio/CoreAudio.h>
-> >> 
-> >> int main()
-> >> {
-> >> 
-> >>      int k = kAudioObjectPropertyElementMaster;
-> >> 
-> >> }
-> >> EOF
+On Mon, Jan 10, 2022 at 08:37:43PM +0000, Marc Zyngier wrote:
+> Hi Michael,
+> 
+> On Sun, 09 Jan 2022 17:49:19 +0000,
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
 > > 
-> > That's actually interesting. On other projects I definitely saw deprecated
-> > warnings before on API declarations that were deprecated at a version
-> > higher than the project's minimum deployment target.
+> > Fixes a couple of issues with irqfd use by config interrupt:
+> > - Rearrange initialization so cleanup happens in the reverse order
+> > - Don't use irqfd for config when not in use for data path
+> > I am not sure this is a complete fix though: I think we
+> > are better off limiting the effect to vdpa devices
+> > with config interrupt support. Or even bypass irqfd
+> > for config completely and inject into KVM using ioctl?
+> > The advantage would be less FDs used.
+> > This would mean mostly reverting the patchset though.
 > > 
-> > Did they change that?
+> > Fixes: d5d24d859c ("virtio-pci: add support for configure interrupt")
+> > Cc: "Cindy Lu" <lulu@redhat.com>
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 > 
-> I don't think so. The behavior is documented at:
-> https://clang.llvm.org/docs/AttributeReference.html#availability
-> and the example refers to OS X 10.4, 10.6, 10.7. Probably they haven't
-> changed the behavior for decades.
-
-The descriptions is very vague. It sais e.g. "If Clang is instructed to 
-compile code for macOS 10.6 ...". So it is describing it only via singular 
-version per example. We are talking about version ranges however.
-
-> MacOSX.sdk/System/Library/Frameworks/Kernel.framework/Headers/os/availabilit
-> y.h says manually defining API_TO_BE_DEPRECATED can alter the behavior so
-> that may be the case.
+> This doesn't seem to fix the problems I'm seeing here with a KVM/arm64
+> guest (the issue exists with and without this patch)
 > 
-> >> - The programmer must be aware whether it is constant or not.
-> >> - The macro tells about the runtime and not the SDK. There is no way to
-> >> tell the SDK version and that is why I suggested __is_identifier at the
-> >> first place. However, now I'm convinced that
-> >> MAC_OS_X_VERSION_MIN_REQUIRED is the better option because of the above
-> >> reasons.
-> > 
-> > If you make it dependent on MAC_OS_X_VERSION_MIN_REQUIRED, people with
-> > older SDKs (e.g. Xcode <=13.0) would get a compiler error.
+> On initial boot:
 > 
-> __is_identifier is the only option if you need a compatibility with the
-> older SDKs while specifying a greater version for
-> MAC_OS_X_VERSION_MIN_REQUIRED. It also applies to
-> MAC_OS_X_VERSION_MAX_ALLOWED; they give the possible runtime versions
-> and not the SDK version.
-
-I have never used __is_identifier() for such things. I always used 
-MAC_OS_X_VERSION_MIN_REQUIRED and MAC_OS_X_VERSION_MAX_ALLOWED and it was 
-always doing the job.
-
-And for symbols: those are automatically weak linked by the compiler if the 
-project's minimum deployment target is lower than the introductory version of 
-the symbol.
-
-> > You are right about the deprecated warning not being emitted in the
-> > example
-> > above, currently not sure why, but I still think
-> > MAC_OS_X_VERSION_MAX_ALLOWED is the way to go in this case.
+> <quote>
+> Loading Linux 5.7.0-1-arm64 ...
+> Loading initial ramdisk ...
+> qemu-system-aarch64: virtio-blk failed to set guest notifier (-16), ensure -accel kvm is set.
+> qemu-system-aarch64: virtio_bus_start_ioeventfd: failed. Fallback to userspace (slower).
+> qemu-system-aarch64: virtio-scsi: Failed to set guest notifiers (-16), ensure -accel kvm is set.
+> qemu-system-aarch64: virtio_bus_start_ioeventfd: failed. Fallback to userspace (slower).
+> </quote>
 > 
-> The page and the header file I referred the above would help
-> understanding the behavior.
+> The guest is functional though. However, on reboot:
+> 
+> <quote>
+> Loading Linux 5.7.0-1-arm64 ...
+> Loading initial ramdisk ...
+> qemu-system-aarch64: ../hw/pci/msix.c:622: msix_unset_vector_notifiers: Assertion `dev->msix_vector_use_notifier && dev->msix_vector_release_notifier' failed.
+> </quote>
+> 
+> Reverting d5d24d859c fixes the issue. For the record, my qemu command
+> line:
+> 
+> /home/maz/qemu/build/qemu-system-aarch64 -m 1G -smp 8 -cpu host,aarch64=on -machine virt,accel=kvm,gic-version=host -nographic -drive if=pflash,format=raw,readonly=on,file=/usr/share/AAVMF/AAVMF_CODE.fd -drive if=pflash,format=raw,file=bullseye/bBwcgtDY2UwXklV6.fd -netdev user,id=hostnet0 -device virtio-net-pci,netdev=hostnet0 -drive if=none,format=raw,cache=none,aio=native,file=bullseye/bBwcgtDY2UwXklV6.img,id=disk0 -device virtio-blk-pci,drive=disk0 -drive file=debian-testing-arm64-netinst-preseed.iso,id=cdrom,if=none,media=cdrom -device virtio-scsi-pci -device scsi-cd,drive=cdrom
+> 
+> Thanks,
+> 
+> 	M.
 
-Yeah, I already checked that. It basically translates to:
 
-__attribute__((availability(macosx,introduced=10.0,deprecated=12.0)))
+Thanks, I'm reverting these changes for now.
+Cindy, once you have your patches ready pinging people who encountered
+problems with the previous versions is a very good idea.
 
-So next I would need to read clang sources how this attribute is implemented 
-exactly. Not today. ;-)
-
-Best regards,
-Christian Schoenebeck
-
+> -- 
+> Without deviation from the norm, progress is not possible.
 
 
