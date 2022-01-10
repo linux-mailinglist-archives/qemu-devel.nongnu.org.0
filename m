@@ -2,61 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 269FD488E5F
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 02:54:20 +0100 (CET)
-Received: from localhost ([::1]:48700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 059E3488E92
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 03:05:58 +0100 (CET)
+Received: from localhost ([::1]:44094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6jt5-0003NK-8J
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 20:54:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48886)
+	id 1n6k4L-0004bD-4u
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 21:05:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1n6jef-0004gr-Vk; Sun, 09 Jan 2022 20:39:26 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3447)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1n6k2i-0003iI-Kk; Sun, 09 Jan 2022 21:04:16 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:3075)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1n6jec-0006y1-Ty; Sun, 09 Jan 2022 20:39:25 -0500
-Received: from kwepemi100003.china.huawei.com (unknown [172.30.72.54])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JXGgg6lL1zcbpl;
- Mon, 10 Jan 2022 09:38:39 +0800 (CST)
-Received: from kwepemm600017.china.huawei.com (7.193.23.234) by
- kwepemi100003.china.huawei.com (7.221.188.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Mon, 10 Jan 2022 09:39:17 +0800
-Received: from huawei.com (10.174.186.236) by kwepemm600017.china.huawei.com
- (7.193.23.234) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Mon, 10 Jan
- 2022 09:39:15 +0800
-To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
-CC: <kvm-riscv@lists.infradead.org>, <kvm@vger.kernel.org>,
- <libvir-list@redhat.com>, <anup@brainfault.org>, <palmer@dabbelt.com>,
- <Alistair.Francis@wdc.com>, <bin.meng@windriver.com>, <fanliang@huawei.com>,
- <wu.wubin@huawei.com>, <wanghaibin.wang@huawei.com>, <wanbo13@huawei.com>,
- Yifei Jiang <jiangyifei@huawei.com>, Mingwang Li <limingwang@huawei.com>,
- Anup Patel <anup.patel@wdc.com>, Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH v4 12/12] target/riscv: Support virtual time context
- synchronization
-Date: Mon, 10 Jan 2022 09:38:31 +0800
-Message-ID: <20220110013831.1594-13-jiangyifei@huawei.com>
-X-Mailer: git-send-email 2.26.2.windows.1
-In-Reply-To: <20220110013831.1594-1-jiangyifei@huawei.com>
-References: <20220110013831.1594-1-jiangyifei@huawei.com>
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1n6k2a-000284-N2; Sun, 09 Jan 2022 21:04:11 -0500
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JXHD52T5czbjBQ;
+ Mon, 10 Jan 2022 10:03:17 +0800 (CST)
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.20; Mon, 10 Jan 2022 10:03:54 +0800
+Subject: Re: [PATCH] softmmu/device_tree: Silence compiler warning with
+ --enable-sanitizers
+To: Thomas Huth <thuth@redhat.com>, <qemu-devel@nongnu.org>, Alistair Francis
+ <alistair.francis@wdc.com>
+CC: Andrew Jones <drjones@redhat.com>, David Gibson
+ <david@gibson.dropbear.id.au>, <qemu-trivial@nongnu.org>
+References: <20220107133844.145039-1-thuth@redhat.com>
+Message-ID: <f0fe5c41-dd9e-ffed-bac4-fa634f633af1@huawei.com>
+Date: Mon, 10 Jan 2022 10:03:54 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.186.236]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemm600017.china.huawei.com (7.193.23.234)
+In-Reply-To: <20220107133844.145039-1-thuth@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme708-chm.china.huawei.com (10.1.199.104) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=jiangyifei@huawei.com; helo=szxga01-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,69 +66,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Yifei Jiang <jiangyifei@huawei.com>
-From:  Yifei Jiang via <qemu-devel@nongnu.org>
+Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
+From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
-Add virtual time context description to vmstate_kvmtimer. After cpu being
-loaded, virtual time context is updated to KVM.
 
-Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
-Signed-off-by: Mingwang Li <limingwang@huawei.com>
-Reviewed-by: Anup Patel <anup.patel@wdc.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/machine.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
-
-diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-index ad8248ebfd..95eb82792a 100644
---- a/target/riscv/machine.c
-+++ b/target/riscv/machine.c
-@@ -164,6 +164,35 @@ static const VMStateDescription vmstate_pointermasking = {
-     }
- };
- 
-+static bool kvmtimer_needed(void *opaque)
-+{
-+    return kvm_enabled();
-+}
-+
-+static int cpu_post_load(void *opaque, int version_id)
-+{
-+    RISCVCPU *cpu = opaque;
-+    CPURISCVState *env = &cpu->env;
-+
-+    env->kvm_timer_dirty = true;
-+    return 0;
-+}
-+
-+static const VMStateDescription vmstate_kvmtimer = {
-+    .name = "cpu/kvmtimer",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = kvmtimer_needed,
-+    .post_load = cpu_post_load,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(env.kvm_timer_time, RISCVCPU),
-+        VMSTATE_UINT64(env.kvm_timer_compare, RISCVCPU),
-+        VMSTATE_UINT64(env.kvm_timer_state, RISCVCPU),
-+
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- const VMStateDescription vmstate_riscv_cpu = {
-     .name = "cpu",
-     .version_id = 3,
-@@ -218,6 +247,7 @@ const VMStateDescription vmstate_riscv_cpu = {
-         &vmstate_hyper,
-         &vmstate_vector,
-         &vmstate_pointermasking,
-+        &vmstate_kvmtimer,
-         NULL
-     }
- };
--- 
-2.19.1
+On 2022/1/7 21:38, Thomas Huth wrote:
+> If I configure my build with --enable-sanitizers, my GCC (v8.5.0)
+> complains:
+>
+> .../softmmu/device_tree.c: In function ‘qemu_fdt_add_path’:
+> .../softmmu/device_tree.c:560:18: error: ‘retval’ may be used uninitialized
+>   in this function [-Werror=maybe-uninitialized]
+>       int namelen, retval;
+>                    ^~~~~~
+>
+> It's a false warning since the while loop is always executed at least
+> once (p has to be non-NULL, otherwise the derefence in the if-statement
+> earlier will crash). Thus let's switch to a do-while loop here instead
+> to make the compiler happy in all cases.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   softmmu/device_tree.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
+> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+> index 3965c834ca..9e96f5ecd5 100644
+> --- a/softmmu/device_tree.c
+> +++ b/softmmu/device_tree.c
+> @@ -564,7 +564,7 @@ int qemu_fdt_add_path(void *fdt, const char *path)
+>           return -1;
+>       }
+>   
+> -    while (p) {
+> +    do {
+>           name = p + 1;
+>           p = strchr(name, '/');
+>           namelen = p != NULL ? p - name : strlen(name);
+> @@ -584,7 +584,7 @@ int qemu_fdt_add_path(void *fdt, const char *path)
+>           }
+>   
+>           parent = retval;
+> -    }
+> +    } while (p);
+>   
+>       return retval;
+>   }
 
 
