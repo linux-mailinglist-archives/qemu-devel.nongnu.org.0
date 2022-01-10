@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADFAF489588
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 10:46:28 +0100 (CET)
-Received: from localhost ([::1]:49064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA7654895A2
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 10:49:17 +0100 (CET)
+Received: from localhost ([::1]:52356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6rFz-0004Go-Qn
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 04:46:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59756)
+	id 1n6rIj-00075g-2z
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 04:49:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n6rDS-0003Wz-FM
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 04:43:50 -0500
-Received: from [2a00:1450:4864:20::435] (port=35791
- helo=mail-wr1-x435.google.com)
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1n6rDe-0003ec-LL
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 04:44:02 -0500
+Received: from [2a00:1450:4864:20::433] (port=35796
+ helo=mail-wr1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n6rDM-0006vd-2s
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 04:43:50 -0500
-Received: by mail-wr1-x435.google.com with SMTP id e9so24070293wra.2
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 01:43:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=gO+0gNgeAn6r73Gcv7V/BeZs69g/MfaOduXu5mmNCYc=;
- b=FKY1kyowQ+Ins+LMD1ln5hvuFTOGIQo01QiACE6NEacoTvOGduamrB+UYbE1xVEVDd
- hkDVw5BFRJaT6YicHBXInr4rP9wdEZKOcG5E8wdPm+e8yxB3BqWpQ7wKzEZecvYPHi5j
- g95QbqbPHlVlQGzJgVZiqZ5qfdszZnEkujPRezFM6avt3RVg60Ct732JIRUL5wV7+RKt
- FdkuyIDxJOA4kz2xvvTJsRHDRX2DEhTQjskyRgKb23iwpSLmPyPKXjg12IVMib5PgILv
- dgBRzB3V/Ud33fcYspPeVgn6+TxGy+5tH7IxXJIBBbCps5IagekTUmqSbdr1rdUfX3Tb
- BV+g==
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1n6rDc-0006xf-88
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 04:44:02 -0500
+Received: by mail-wr1-x433.google.com with SMTP id e9so24072330wra.2
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 01:43:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1QxqGQjVvP6k5qQrPA+iq9RamMrIW+/v0VACkxI5fWQ=;
+ b=NN3rE5OoDqxn76PpgOgfqDNRtYS5JTP8vryeOq0ik6pMl5eFBHYCFvVKQiKeEDq6hl
+ Sth/jFBtKZJzZjAeDA06ZnxYBWNIVgK/bFJz4Mr9/lijbRJsfqixgH8K4mNpjHs+5LPo
+ jRnO7rBq7yhWAurUGG36cADabCCzBdWRDkdTSeLZpuEI2vEJZhTnrOu+Rp8lyafDsdtt
+ xr/lQTwtCdThNaYJ3ZZtvhnNAvnZqys4g6YmyzrbwnR9F82tCkA8wyPUJxlweB/egtep
+ DkBdI97zqo4B3FzpCtjLy030ZkTLNqSNWS09gELhnMLIOaFEdSQsW46oNWJvJzQ+E93Y
+ AXVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=gO+0gNgeAn6r73Gcv7V/BeZs69g/MfaOduXu5mmNCYc=;
- b=dWCiJkM0V8K0HvAHM3yWGpT46S9zGAlYLQFa1i6oMgyxEKuHVN74uV2Y3DJVqWmbHL
- ItwFOuaenic3qgGLNXXwYi1oZKiOOQ35ZkYtQM0LfqaqX/xvIu/w72ScJf+DoHqIXJVO
- BskRum75jcdc8ZIlmBvz4h2utn60h8FLR9bUfAyit3d2FWTVt9vDpxfHseq8CtjhkbJT
- +vOUDxPi60Yju7gve504jGMY+tN/b3NiyXK08l5Zy/MajeDIGQbBxhg2xsN1NCRGfyb/
- B6s09lqHbTLcOXxw+NgQuJ8bj1NzcNutUymia6SNdZo7B93XPvtyqxobahIf2A3ealiV
- GAgw==
-X-Gm-Message-State: AOAM532T4SzxrFSZF8iKQNnaiSJtuGYKy4TFKaecn3r2cbui6FxaXF50
- AaRAGbQik3va2/YwEJy7h5I=
-X-Google-Smtp-Source: ABdhPJw2o9KxbuyMl79KqJd1Xj/fvcr+qJs/8Uc5aeFEvuxmmnqrKb5ojt70kRnbQaGfMgCHUz6kjg==
-X-Received: by 2002:adf:f811:: with SMTP id s17mr11973725wrp.91.1641807817039; 
- Mon, 10 Jan 2022 01:43:37 -0800 (PST)
-Received: from [192.168.1.40] (83.red-83-50-87.dynamicip.rima-tde.net.
- [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id u14sm6073676wrf.39.2022.01.10.01.43.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Jan 2022 01:43:36 -0800 (PST)
-Message-ID: <05100e8f-ce11-9da1-8afe-6010d9bbebb5@amsat.org>
-Date: Mon, 10 Jan 2022 10:43:35 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1QxqGQjVvP6k5qQrPA+iq9RamMrIW+/v0VACkxI5fWQ=;
+ b=YHDzmurD+ZGCh0oqrBm7XxSlYGZew+SxxcgDVb2ecwEWD4Ra4di3YiI3Jtr1MfG64Y
+ CumQ9ZREqrIUS4zY1pRurv6XcvUMuJZn3iTu4MWXnljZvG5UyDw/GROlz6ti7bopvqpW
+ xOPkjYvk4ajxXE2IWd+V5HsOOJi1WVSmEDeW7wsD1CxxAOXRIwSPyPcK5FqNxaAat3/Z
+ 6cAXsliv13kYj2faFQwjlvqscem46vmiOzL/Jn3GGLFkb540JiO7y8AcA6h+/2KtCmd6
+ jNSfUOE4K+XWEyn1xXiPRGn8FVqRzMiqhJEP4QgDkni8UZ0Gv+WjzXnBmZte000LZc+x
+ U8gA==
+X-Gm-Message-State: AOAM533jZ+5eRKBTIMYfrqKVSY7uGnbXj6Kb0BagoAIkLw1GFvF8OOwH
+ Cog0vQeOhzyuhZuuUMQetx4RE3ZeW9RPibN08IUqI/G1z3vVhQ==
+X-Google-Smtp-Source: ABdhPJy1Uw0KnAf3Noi9G8Kq1yEdhE3NKeNewnQ9RK9WEuHAtN4zdkaOMWpCm/5BTOV9H6uGCuuCrFXk2xR60l9PrFU=
+X-Received: by 2002:a5d:4c4d:: with SMTP id n13mr3720710wrt.641.1641807838288; 
+ Mon, 10 Jan 2022 01:43:58 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v1 1/2] decodetree: Add an optional predicate-function for
- decoding
-Content-Language: en-US
-To: Philipp Tomsich <philipp.tomsich@vrull.eu>, qemu-devel@nongnu.org
-References: <20220109205640.4126817-1-philipp.tomsich@vrull.eu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20220109205640.4126817-1-philipp.tomsich@vrull.eu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+References: <20220109205748.4127032-1-philipp.tomsich@vrull.eu>
+ <0424f2d4-c9d0-3409-78e1-c0cabbff90a1@amsat.org>
+In-Reply-To: <0424f2d4-c9d0-3409-78e1-c0cabbff90a1@amsat.org>
+From: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Date: Mon, 10 Jan 2022 10:43:47 +0100
+Message-ID: <CAAeLtUC87ZWT1r4npKKQsXp4vkRx6wdNJ9mvbGjLNoKs9N_L1Q@mail.gmail.com>
+Subject: Re: [PATCH] net/dump.c: Suppress spurious compiler warning
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: multipart/alternative; boundary="000000000000fdafcd05d5372ccf"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -93,155 +80,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Greg Favor <gfavor@ventanamicro.com>, Luis Pires <luis.pires@eldorado.org.br>,
- Alistair Francis <alistair.francis@wdc.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Kito Cheng <kito.cheng@sifive.com>
+Cc: Eric Blake <eblake@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philipp,
+--000000000000fdafcd05d5372ccf
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 1/9/22 21:56, Philipp Tomsich wrote:
-> This adds the possibility to specify a predicate-function that is
-> called as part of decoding in multi-patterns; it is intended for
-> use-cases (such as vendor-defined instructions in RISC-V) where the
-> same bitpattern may decode into different functions depending on the
-> overall configuration of the emulation target.
+Note that I don't expect this to get applied. I just put it onto the list
+for visibility and to make the workaround available for downstream users
+that might run into the issue while Ubuntu 22.04 is maturing.  I won't have
+any time to dig into this on the GCC side until GCC12 is out.
 
-But for a particular CPU, its "vendor ISAs" won't change at runtime.
+Philipp.
 
-Since we know this at build time, I don't understand why you need
-predicate support at all.
+On Mon, 10 Jan 2022 at 10:39, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+wrote:
 
-> 
-> At this time, we only support predicates for multi-patterns.
-> 
-> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-> 
-> ---
-> 
->  docs/devel/decodetree.rst |  7 ++++++-
->  scripts/decodetree.py     | 24 +++++++++++++++++++++---
->  2 files changed, 27 insertions(+), 4 deletions(-)
-> 
-> diff --git a/docs/devel/decodetree.rst b/docs/devel/decodetree.rst
-> index 49ea50c2a7..241aaec8bb 100644
-> --- a/docs/devel/decodetree.rst
-> +++ b/docs/devel/decodetree.rst
-> @@ -144,9 +144,10 @@ Patterns
->  Syntax::
->  
->    pat_def      := identifier ( pat_elt )+
-> -  pat_elt      := fixedbit_elt | field_elt | field_ref | args_ref | fmt_ref | const_elt
-> +  pat_elt      := fixedbit_elt | field_elt | field_ref | args_ref | fmt_ref | const_elt | predicate
->    fmt_ref      := '@' identifier
->    const_elt    := identifier '=' number
-> +  predicate    := '|' identifier
->  
->  The *fixedbit_elt* and *field_elt* specifiers are unchanged from formats.
->  A pattern that does not specify a named format will have one inferred
-> @@ -156,6 +157,10 @@ A *const_elt* allows a argument to be set to a constant value.  This may
->  come in handy when fields overlap between patterns and one has to
->  include the values in the *fixedbit_elt* instead.
->  
-> +A *predicate* allows to specify a predicate function (returing true or
-> +false) to determine the applicability of the pattern.  Currently, this
-> +will change the decode-behaviour  for overlapping multi-patterns only.
-> +
->  The decoder will call a translator function for each pattern matched.
->  
->  Pattern examples::
-> diff --git a/scripts/decodetree.py b/scripts/decodetree.py
-> index a03dc6b5e3..7da2282411 100644
-> --- a/scripts/decodetree.py
-> +++ b/scripts/decodetree.py
-> @@ -52,6 +52,7 @@
->  re_fld_ident = '%[a-zA-Z0-9_]*'
->  re_fmt_ident = '@[a-zA-Z0-9_]*'
->  re_pat_ident = '[a-zA-Z0-9_]*'
-> +re_predicate_ident = '\|[a-zA-Z_][a-zA-Z0-9_]*'
->  
->  def error_with_file(file, lineno, *args):
->      """Print an error message from file:line and args and exit."""
-> @@ -119,6 +120,14 @@ def whexC(val):
->          suffix = 'u'
->      return whex(val) + suffix
->  
-> +def predicate(val):
-> +    """Return a string for calling a predicate function
-> +       (if specified, accepting 'None' as an indication
-> +       that no predicate is to be emitted) with the ctx
-> +       as a parameter."""
-> +    if (val == None):
-> +        return ''
-> +    return ' && ' + val + '(ctx)'
->  
->  def str_match_bits(bits, mask):
->      """Return a string pretty-printing BITS/MASK"""
-> @@ -340,7 +349,7 @@ def output_def(self):
->  
->  class General:
->      """Common code between instruction formats and instruction patterns"""
-> -    def __init__(self, name, lineno, base, fixb, fixm, udfm, fldm, flds, w):
-> +    def __init__(self, name, lineno, base, fixb, fixm, udfm, fldm, flds, w, p = None):
->          self.name = name
->          self.file = input_file
->          self.lineno = lineno
-> @@ -351,6 +360,7 @@ def __init__(self, name, lineno, base, fixb, fixm, udfm, fldm, flds, w):
->          self.fieldmask = fldm
->          self.fields = flds
->          self.width = w
-> +        self.predicate = p
->  
->      def __str__(self):
->          return self.name + ' ' + str_match_bits(self.fixedbits, self.fixedmask)
-> @@ -499,7 +509,7 @@ def output_code(self, i, extracted, outerbits, outermask):
->              if outermask != p.fixedmask:
->                  innermask = p.fixedmask & ~outermask
->                  innerbits = p.fixedbits & ~outermask
-> -                output(ind, f'if ((insn & {whexC(innermask)}) == {whexC(innerbits)}) {{\n')
-> +                output(ind, f'if ((insn & {whexC(innermask)}) == {whexC(innerbits)}{predicate(p.predicate)}) {{\n')
->                  output(ind, f'    /* {str_match_bits(p.fixedbits, p.fixedmask)} */\n')
->                  p.output_code(i + 4, extracted, p.fixedbits, p.fixedmask)
->                  output(ind, '}\n')
-> @@ -826,6 +836,7 @@ def parse_generic(lineno, parent_pat, name, toks):
->      global re_fld_ident
->      global re_fmt_ident
->      global re_C_ident
-> +    global re_predicate_ident
->      global insnwidth
->      global insnmask
->      global variablewidth
-> @@ -839,6 +850,7 @@ def parse_generic(lineno, parent_pat, name, toks):
->      flds = {}
->      arg = None
->      fmt = None
-> +    predicate = None
->      for t in toks:
->          # '&Foo' gives a format an explicit argument set.
->          if re.fullmatch(re_arg_ident, t):
-> @@ -881,6 +893,12 @@ def parse_generic(lineno, parent_pat, name, toks):
->              flds = add_field(lineno, flds, fname, ConstField(value))
->              continue
->  
-> +        # '|predicate' sets a predicate function to be called.
-> +        if re.fullmatch(re_predicate_ident, t):
-> +            tt = t[1:]
-> +            predicate = tt;
-> +            continue
-> +
->          # Pattern of 0s, 1s, dots and dashes indicate required zeros,
->          # required ones, or dont-cares.
->          if re.fullmatch('[01.-]+', t):
-> @@ -979,7 +997,7 @@ def parse_generic(lineno, parent_pat, name, toks):
->              if f not in flds.keys() and f not in fmt.fields.keys():
->                  error(lineno, f'field {f} not initialized')
->          pat = Pattern(name, lineno, fmt, fixedbits, fixedmask,
-> -                      undefmask, fieldmask, flds, width)
-> +                      undefmask, fieldmask, flds, width, predicate)
->          parent_pat.pats.append(pat)
->          allpatterns.append(pat)
->  
+> Cc'ing Richard & Eric for dubious compiler warning.
+>
+> On 1/9/22 21:57, Philipp Tomsich wrote:
+> > Compiling with gcc version 11.2.0 (Ubuntu 11.2.0-13ubuntu1) results in
+> > a (spurious) warning:
+> >
+> >   In function =E2=80=98dump_receive_iov=E2=80=99,
+> >       inlined from =E2=80=98filter_dump_receive_iov=E2=80=99 at ../net/=
+dump.c:157:5:
+> >   ../net/dump.c:89:9: error: =E2=80=98writev=E2=80=99 specified size
+> 18446744073709551600 exceeds maximum object size 9223372036854775807
+> [-Werror=3Dstringop-overflow=3D]
+> >      89 |     if (writev(s->fd, dumpiov, cnt + 1) !=3D sizeof(hdr) +
+> caplen) {
+> >         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >   In file included from /home/ptomsich/qemu/include/qemu/osdep.h:108,
+> >                    from ../net/dump.c:25:
+> >   ../net/dump.c: In function =E2=80=98filter_dump_receive_iov=E2=80=99:
+> >   /usr/include/x86_64-linux-gnu/sys/uio.h:52:16: note: in a call to
+> function =E2=80=98writev=E2=80=99 declared with attribute =E2=80=98read_o=
+nly (2, 3)=E2=80=99
+> >      52 | extern ssize_t writev (int __fd, const struct iovec *__iovec,
+> int __count)
+> >         |                ^~~~~~
+> >   cc1: all warnings being treated as errors
+> >
+> > This change helps that version of GCC to understand what is going on
+> > and suppresses this warning.
+> >
+> > Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+> >
+> > ---
+> >
+> >  net/dump.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/net/dump.c b/net/dump.c
+> > index a07ba62401..c32d3bf4e6 100644
+> > --- a/net/dump.c
+> > +++ b/net/dump.c
+> > @@ -86,7 +86,7 @@ static ssize_t dump_receive_iov(DumpState *s, const
+> struct iovec *iov, int cnt)
+> >      dumpiov[0].iov_len =3D sizeof(hdr);
+> >      cnt =3D iov_copy(&dumpiov[1], cnt, iov, cnt, 0, caplen);
+> >
+> > -    if (writev(s->fd, dumpiov, cnt + 1) !=3D sizeof(hdr) + caplen) {
+> > +    if (writev(s->fd, &dumpiov[0], cnt + 1) !=3D sizeof(hdr) + caplen)=
+ {
+> >          error_report("network dump write error - stopping dump");
+> >          close(s->fd);
+> >          s->fd =3D -1;
+>
+
+--000000000000fdafcd05d5372ccf
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Note that I don&#39;t expect this to get applied. I just p=
+ut it onto the list for visibility and to make the workaround available for=
+ downstream users that might run into the issue while Ubuntu 22.04 is matur=
+ing.=C2=A0 I won&#39;t have any time to dig into this on the GCC side until=
+ GCC12 is out.<div><br></div><div>Philipp.</div></div><br><div class=3D"gma=
+il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 10 Jan 2022 at 10:3=
+9, Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug=
+@amsat.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">Cc&#39;ing Richard &amp; Eric for dubious compiler warning.<br>
+<br>
+On 1/9/22 21:57, Philipp Tomsich wrote:<br>
+&gt; Compiling with gcc version 11.2.0 (Ubuntu 11.2.0-13ubuntu1) results in=
+<br>
+&gt; a (spurious) warning:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0In function =E2=80=98dump_receive_iov=E2=80=99,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0inlined from =E2=80=98filter_dump_receive_io=
+v=E2=80=99 at ../net/dump.c:157:5:<br>
+&gt;=C2=A0 =C2=A0../net/dump.c:89:9: error: =E2=80=98writev=E2=80=99 specif=
+ied size 18446744073709551600 exceeds maximum object size 92233720368547758=
+07 [-Werror=3Dstringop-overflow=3D]<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 89 |=C2=A0 =C2=A0 =C2=A0if (writev(s-&gt;fd, dumpi=
+ov, cnt + 1) !=3D sizeof(hdr) + caplen) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br>
+&gt;=C2=A0 =C2=A0In file included from /home/ptomsich/qemu/include/qemu/osd=
+ep.h:108,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f=
+rom ../net/dump.c:25:<br>
+&gt;=C2=A0 =C2=A0../net/dump.c: In function =E2=80=98filter_dump_receive_io=
+v=E2=80=99:<br>
+&gt;=C2=A0 =C2=A0/usr/include/x86_64-linux-gnu/sys/uio.h:52:16: note: in a =
+call to function =E2=80=98writev=E2=80=99 declared with attribute =E2=80=98=
+read_only (2, 3)=E2=80=99<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 52 | extern ssize_t writev (int __fd, const struct=
+ iovec *__iovec, int __count)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 ^~~~~~<br>
+&gt;=C2=A0 =C2=A0cc1: all warnings being treated as errors<br>
+&gt; <br>
+&gt; This change helps that version of GCC to understand what is going on<b=
+r>
+&gt; and suppresses this warning.<br>
+&gt; <br>
+&gt; Signed-off-by: Philipp Tomsich &lt;<a href=3D"mailto:philipp.tomsich@v=
+rull.eu" target=3D"_blank">philipp.tomsich@vrull.eu</a>&gt;<br>
+&gt; <br>
+&gt; ---<br>
+&gt; <br>
+&gt;=C2=A0 net/dump.c | 2 +-<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/net/dump.c b/net/dump.c<br>
+&gt; index a07ba62401..c32d3bf4e6 100644<br>
+&gt; --- a/net/dump.c<br>
+&gt; +++ b/net/dump.c<br>
+&gt; @@ -86,7 +86,7 @@ static ssize_t dump_receive_iov(DumpState *s, const =
+struct iovec *iov, int cnt)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 dumpiov[0].iov_len =3D sizeof(hdr);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 cnt =3D iov_copy(&amp;dumpiov[1], cnt, iov, cnt, 0=
+, caplen);<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 if (writev(s-&gt;fd, dumpiov, cnt + 1) !=3D sizeof(hdr)=
+ + caplen) {<br>
+&gt; +=C2=A0 =C2=A0 if (writev(s-&gt;fd, &amp;dumpiov[0], cnt + 1) !=3D siz=
+eof(hdr) + caplen) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(&quot;network dump writ=
+e error - stopping dump&quot;);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 close(s-&gt;fd);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;fd =3D -1;<br>
+</blockquote></div>
+
+--000000000000fdafcd05d5372ccf--
 
