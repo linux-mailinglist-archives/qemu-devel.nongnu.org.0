@@ -2,80 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48584488E53
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 02:51:32 +0100 (CET)
-Received: from localhost ([::1]:42264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69FC8488E2F
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 02:46:44 +0100 (CET)
+Received: from localhost ([::1]:59792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6jqN-00075B-B4
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 20:51:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48744)
+	id 1n6jlj-0007xc-9p
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 20:46:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1n6jeM-0004Xa-Uz
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 20:39:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47032)
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1n6je5-0004Up-17; Sun, 09 Jan 2022 20:38:49 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:3072)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1n6jeI-0006vy-7o
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 20:39:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641778741;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TameMC+s+bJwRjQRZ1l/EWn2GRmYH57KoPt2wBgz5jg=;
- b=LClA7HxwwG0rJt7s83LFGQWQLuIyxZjo3fwHtq9LI51fefTkzJrRorOIO2hJHGu+ta2Mc9
- VJAfys/CpTBwX6k7K464Xi3ZDvbuqJ5iWpwK9cBsYSwmelcjJkSjRIb8Ws7WQavuV380Bg
- E9wKTFqo1mRDRnnooKePb927/bvtjZA=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-502-YPYDZctVO6O5ijruGGaRyA-1; Sun, 09 Jan 2022 20:37:50 -0500
-X-MC-Unique: YPYDZctVO6O5ijruGGaRyA-1
-Received: by mail-ed1-f70.google.com with SMTP id
- x19-20020a05640226d300b003f8b80f5729so8822164edd.13
- for <qemu-devel@nongnu.org>; Sun, 09 Jan 2022 17:37:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TameMC+s+bJwRjQRZ1l/EWn2GRmYH57KoPt2wBgz5jg=;
- b=OHfoCNg45PAAXUdZqt+Q63MCpb+U1tlhPMmqfURem12tAYbiAcUF4dokMGXPuvMkP2
- SXoeBadrS9b3hsGyw8A/oTisy5eVdVyMAzU5jTc0AKPdCYUayua1oD8sQ8G2xFBSdCd6
- JnVzfGtWtk5ZOeEClZEFuIBln2qASxRU6T+wq5ZBBxp6iVX0ZiW+RNT25CAEZ+cZOmKK
- rcPQOKJ0DZjjNe83IjM+QjSWysS4xXuhsJKrhOinLlAd2ViEOQutE0/YewwufR1G/hpe
- Qnl+Q+bmhw7bTkfrPH1xDzRoXVWgy9VApenM+Ct4tPStReo2cO+zuWPeHYXUh1nu6wsP
- YsMw==
-X-Gm-Message-State: AOAM532N+OW5++z2D+crFTxb2QDiU5TcZw2hMy7XNC4PJnZKw64ToevG
- AoXVOxbQlvmFBOfA+fgUrf+1unOgqISbdLl/x7+i6HpfDTXx0sWls7ZWlhBC1LzPBMYVZzsNkfX
- reVMbJaBNpUAAJN2zATnvJAui6xQm6ME=
-X-Received: by 2002:aa7:cb08:: with SMTP id s8mr32653232edt.57.1641778669154; 
- Sun, 09 Jan 2022 17:37:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxcPGUTggQ7qsEZNMcU+RwOkeZVxO7lNxx7zCb/WxRIVFSYWlgtejOluB9PnQW2u2ahloLebhbK/dtCjjCsmq4=
-X-Received: by 2002:aa7:cb08:: with SMTP id s8mr32653207edt.57.1641778668906; 
- Sun, 09 Jan 2022 17:37:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1n6jdy-0006ui-NP; Sun, 09 Jan 2022 20:38:48 -0500
+Received: from kwepemi500009.china.huawei.com (unknown [172.30.72.57])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JXGfw2YhyzbjdJ;
+ Mon, 10 Jan 2022 09:38:00 +0800 (CST)
+Received: from kwepemm600017.china.huawei.com (7.193.23.234) by
+ kwepemi500009.china.huawei.com (7.221.188.199) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Mon, 10 Jan 2022 09:38:38 +0800
+Received: from huawei.com (10.174.186.236) by kwepemm600017.china.huawei.com
+ (7.193.23.234) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Mon, 10 Jan
+ 2022 09:38:36 +0800
+To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
+CC: <kvm-riscv@lists.infradead.org>, <kvm@vger.kernel.org>,
+ <libvir-list@redhat.com>, <anup@brainfault.org>, <palmer@dabbelt.com>,
+ <Alistair.Francis@wdc.com>, <bin.meng@windriver.com>, <fanliang@huawei.com>,
+ <wu.wubin@huawei.com>, <wanghaibin.wang@huawei.com>, <wanbo13@huawei.com>,
+ Yifei Jiang <jiangyifei@huawei.com>
+Subject: [PATCH v4 00/12] Add riscv kvm accel support
+Date: Mon, 10 Jan 2022 09:38:19 +0800
+Message-ID: <20220110013831.1594-1-jiangyifei@huawei.com>
+X-Mailer: git-send-email 2.26.2.windows.1
 MIME-Version: 1.0
-References: <20211104164827.21911-1-lulu@redhat.com>
- <20220109125240-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220109125240-mutt-send-email-mst@kernel.org>
-From: Cindy Lu <lulu@redhat.com>
-Date: Mon, 10 Jan 2022 09:37:11 +0800
-Message-ID: <CACLfguUTTpt7Fct3S7O92OXO=RvuDDRRpga8NMweR2cX-n6ctg@mail.gmail.com>
-Subject: Re: [PATCH v10 00/10]vhost-vdpa: add support for configure interrupt
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000005c397905d5306200"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.186.236]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemm600017.china.huawei.com (7.193.23.234)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=jiangyifei@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,273 +65,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, David Gilbert <dgilbert@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, arei.gonglei@huawei.com,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Yifei Jiang <jiangyifei@huawei.com>
+From:  Yifei Jiang via <qemu-devel@nongnu.org>
 
---0000000000005c397905d5306200
-Content-Type: text/plain; charset="UTF-8"
+This series adds both riscv32 and riscv64 kvm support, and implements
+migration based on riscv.
 
-On Mon, Jan 10, 2022 at 1:56 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+Because of RISC-V KVM has been merged into the Linux master, so this
+series are changed from RFC to patch.
 
-> On Fri, Nov 05, 2021 at 12:48:17AM +0800, Cindy Lu wrote:
-> > these patches add the support for configure interrupt
-> >
-> > These codes are all tested in vp-vdpa (support configure interrupt)
-> > vdpa_sim (not support configure interrupt), virtio tap device
-> >
-> > test in virtio-pci bus and virtio-mmio bus
-> >
-> > Change in v2:
-> > Add support for virtio-mmio bus
-> > active the notifier while the backend support configure interrupt
-> > misc fixes from v1
-> >
-> > Change in v3
-> > fix the coding style problems
-> >
-> > Change in v4
-> > misc fixes from v3
-> > merge the set_config_notifier to set_guest_notifier
-> > when vdpa start, check the feature by VIRTIO_NET_F_STATUS
-> >
-> > Change in v5
-> > misc fixes from v4
-> > split the code to introduce configure interrupt type and the callback
-> function
-> > will init the configure interrupt in all virtio-pci and virtio-mmio bus,
-> but will
-> > only active while using vhost-vdpa driver
-> >
-> > Change in v6
-> > misc fixes from v5
-> > decouple vq from interrupt setting and misc process
-> > fix the bug in virtio_net_handle_rx
-> > use -1 as the queue number to identify if the interrupt is configure
-> interrupt
-> >
-> > Change in v7
-> > misc fixes from v6
-> > decouple vq from interrupt setting and misc process
-> > decouple vq from vector use/release process
-> > decouple vq from set notifier fd handler process
-> > move config_notifier and masked_config_notifier to VirtIODevice
-> > fix the bug in virtio_net_handle_rx, add more information
-> > add VIRTIO_CONFIG_IRQ_IDX as the queue number to identify if the
-> interrupt is configure interrupt
-> >
-> > Change in v8
-> > misc fixes from v7
-> > decouple vq from interrupt setting and misc process
-> > decouple vq from vector use/release process
-> > decouple vq from set notifier fd handler process
-> > move the vhost configure interrupt to vhost_net
-> >
-> > Change in v9
-> > misc fixes from v8
-> > address the comments from v8
-> >
-> > Change in v10
-> > fix the hang issue in qtest
-> > address the comments from v9
-> >
-> > Cindy Lu (10):
-> >   virtio: introduce macro IRTIO_CONFIG_IRQ_IDX
-> >   virtio-pci: decouple notifier from interrupt process
-> >   virtio-pci: decouple the single vector from the interrupt process
-> >   vhost: introduce new VhostOps vhost_set_config_call
-> >   vhost-vdpa: add support for config interrupt
-> >   virtio: add support for configure interrupt
-> >   vhost: add support for configure interrupt
-> >   virtio-net: add support for configure interrupt
-> >   virtio-mmio: add support for configure interrupt
-> >   virtio-pci: add support for configure interrupt
-> >
-> >  hw/display/vhost-user-gpu.c       |   6 +
-> >  hw/net/vhost_net.c                |   9 +
-> >  hw/net/virtio-net.c               |  10 +-
-> >  hw/virtio/trace-events            |   1 +
-> >  hw/virtio/vhost-user-fs.c         |   6 +
-> >  hw/virtio/vhost-vdpa.c            |   7 +
-> >  hw/virtio/vhost-vsock-common.c    |   6 +
-> >  hw/virtio/vhost.c                 |  76 +++++++++
-> >  hw/virtio/virtio-crypto.c         |   6 +
-> >  hw/virtio/virtio-mmio.c           |  27 +++
-> >  hw/virtio/virtio-pci.c            | 269 +++++++++++++++++++++---------
-> >  hw/virtio/virtio-pci.h            |   4 +-
-> >  hw/virtio/virtio.c                |  29 ++++
-> >  include/hw/virtio/vhost-backend.h |   3 +
-> >  include/hw/virtio/vhost.h         |   4 +
-> >  include/hw/virtio/virtio.h        |   7 +
-> >  include/net/vhost_net.h           |   2 +
-> >  17 files changed, 389 insertions(+), 83 deletions(-)
->
-> So I just realized something. The spec says:
->
-> The device MUST set the Device Configuration Interrupt bit
-> in \field{ISR status} before sending a device configuration
-> change notification to the driver.
->
-> and I don't see how these patches achieve this: it requires
-> that config interrupts go through userspace.
->
-> Revert, and think more about it? Or did I miss something?
->
->  Thanks, Micheal, I'm ok to revert these patchs and there are also several
-bugs  I need to fix.
-I will post a new version soon
+Several steps to use this:
+1. Build emulation
+$ ./configure --target-list=riscv64-softmmu
+$ make -j$(nproc)
 
->
-> > --
-> > 2.21.3
->
->
+2. Build kernel
 
---0000000000005c397905d5306200
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+3. Build QEMU VM
+Cross built in riscv toolchain.
+$ PKG_CONFIG_LIBDIR=<toolchain pkgconfig path>
+$ export PKG_CONFIG_SYSROOT_DIR=<toolchain sysroot path>
+$ ./configure --target-list=riscv64-softmmu --enable-kvm \
+--cross-prefix=riscv64-linux-gnu- --disable-libiscsi --disable-glusterfs \
+--disable-libusb --disable-usb-redir --audio-drv-list= --disable-opengl \
+--disable-libxml2
+$ make -j$(nproc)
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><div dir=3D"ltr"><div dir=3D"lt=
-r"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Mon, Jan 10, 2022 at 1:56 AM Michael S. Tsirkin &lt;<a href=3D"ma=
-ilto:mst@redhat.com" target=3D"_blank">mst@redhat.com</a>&gt; wrote:<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, Nov 05, 2021 a=
-t 12:48:17AM +0800, Cindy Lu wrote:<br>
-&gt; these patches add the support for configure interrupt<br>
-&gt; <br>
-&gt; These codes are all tested in vp-vdpa (support configure interrupt)<br=
->
-&gt; vdpa_sim (not support configure interrupt), virtio tap device<br>
-&gt; <br>
-&gt; test in virtio-pci bus and virtio-mmio bus<br>
-&gt; <br>
-&gt; Change in v2:<br>
-&gt; Add support for virtio-mmio bus<br>
-&gt; active the notifier while the backend support configure interrupt<br>
-&gt; misc fixes from v1<br>
-&gt; <br>
-&gt; Change in v3<br>
-&gt; fix the coding style problems<br>
-&gt; <br>
-&gt; Change in v4<br>
-&gt; misc fixes from v3<br>
-&gt; merge the set_config_notifier to set_guest_notifier<br>
-&gt; when vdpa start, check the feature by VIRTIO_NET_F_STATUS<br>
-&gt; <br>
-&gt; Change in v5<br>
-&gt; misc fixes from v4<br>
-&gt; split the code to introduce configure interrupt type and the callback =
-function<br>
-&gt; will init the configure interrupt in all virtio-pci and virtio-mmio bu=
-s, but will<br>
-&gt; only active while using vhost-vdpa driver<br>
-&gt; <br>
-&gt; Change in v6<br>
-&gt; misc fixes from v5<br>
-&gt; decouple vq from interrupt setting and misc process<br>
-&gt; fix the bug in virtio_net_handle_rx<br>
-&gt; use -1 as the queue number to identify if the interrupt is configure i=
-nterrupt<br>
-&gt; <br>
-&gt; Change in v7<br>
-&gt; misc fixes from v6<br>
-&gt; decouple vq from interrupt setting and misc process<br>
-&gt; decouple vq from vector use/release process<br>
-&gt; decouple vq from set notifier fd handler process<br>
-&gt; move config_notifier and masked_config_notifier to VirtIODevice<br>
-&gt; fix the bug in virtio_net_handle_rx, add more information<br>
-&gt; add VIRTIO_CONFIG_IRQ_IDX as the queue number to identify if the inter=
-rupt is configure interrupt<br>
-&gt; <br>
-&gt; Change in v8<br>
-&gt; misc fixes from v7<br>
-&gt; decouple vq from interrupt setting and misc process<br>
-&gt; decouple vq from vector use/release process<br>
-&gt; decouple vq from set notifier fd handler process<br>
-&gt; move the vhost configure interrupt to vhost_net<br>
-&gt; <br>
-&gt; Change in v9<br>
-&gt; misc fixes from v8<br>
-&gt; address the comments from v8<br>
-&gt; <br>
-&gt; Change in v10<br>
-&gt; fix the hang issue in qtest<br>
-&gt; address the comments from v9<br>
-&gt; <br>
-&gt; Cindy Lu (10):<br>
-&gt;=C2=A0 =C2=A0virtio: introduce macro IRTIO_CONFIG_IRQ_IDX<br>
-&gt;=C2=A0 =C2=A0virtio-pci: decouple notifier from interrupt process<br>
-&gt;=C2=A0 =C2=A0virtio-pci: decouple the single vector from the interrupt =
-process<br>
-&gt;=C2=A0 =C2=A0vhost: introduce new VhostOps vhost_set_config_call<br>
-&gt;=C2=A0 =C2=A0vhost-vdpa: add support for config interrupt<br>
-&gt;=C2=A0 =C2=A0virtio: add support for configure interrupt<br>
-&gt;=C2=A0 =C2=A0vhost: add support for configure interrupt<br>
-&gt;=C2=A0 =C2=A0virtio-net: add support for configure interrupt<br>
-&gt;=C2=A0 =C2=A0virtio-mmio: add support for configure interrupt<br>
-&gt;=C2=A0 =C2=A0virtio-pci: add support for configure interrupt<br>
-&gt; <br>
-&gt;=C2=A0 hw/display/vhost-user-gpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =
-=C2=A06 +<br>
-&gt;=C2=A0 hw/net/vhost_net.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 =C2=A09 +<br>
-&gt;=C2=A0 hw/net/virtio-net.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 10 +-<br>
-&gt;=C2=A0 hw/virtio/trace-events=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-|=C2=A0 =C2=A01 +<br>
-&gt;=C2=A0 hw/virtio/vhost-user-fs.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 =C2=A06 +<br>
-&gt;=C2=A0 hw/virtio/vhost-vdpa.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-|=C2=A0 =C2=A07 +<br>
-&gt;=C2=A0 hw/virtio/vhost-vsock-common.c=C2=A0 =C2=A0 |=C2=A0 =C2=A06 +<br=
->
-&gt;=C2=A0 hw/virtio/vhost.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0|=C2=A0 76 +++++++++<br>
-&gt;=C2=A0 hw/virtio/virtio-crypto.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 =C2=A06 +<br>
-&gt;=C2=A0 hw/virtio/virtio-mmio.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-|=C2=A0 27 +++<br>
-&gt;=C2=A0 hw/virtio/virtio-pci.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-| 269 +++++++++++++++++++++---------<br>
-&gt;=C2=A0 hw/virtio/virtio-pci.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-|=C2=A0 =C2=A04 +-<br>
-&gt;=C2=A0 hw/virtio/virtio.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 29 ++++<br>
-&gt;=C2=A0 include/hw/virtio/vhost-backend.h |=C2=A0 =C2=A03 +<br>
-&gt;=C2=A0 include/hw/virtio/vhost.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 =C2=A04 +<br>
-&gt;=C2=A0 include/hw/virtio/virtio.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-=C2=A07 +<br>
-&gt;=C2=A0 include/net/vhost_net.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-|=C2=A0 =C2=A02 +<br>
-&gt;=C2=A0 17 files changed, 389 insertions(+), 83 deletions(-)<br>
-<br>
-So I just realized something. The spec says:<br>
-<br>
-The device MUST set the Device Configuration Interrupt bit<br>
-in \field{ISR status} before sending a device configuration<br>
-change notification to the driver.<br>
-<br>
-and I don&#39;t see how these patches achieve this: it requires<br>
-that config interrupts go through userspace.<br>
-<br>
-Revert, and think more about it? Or did I miss something?<br>
-<br></blockquote><div>=C2=A0Thanks, Micheal, I&#39;m ok to revert these pat=
-chs and there are also several bugs=C2=A0 I need to fix.</div><div>I will p=
-ost a new version soon=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-<br>
-&gt; -- <br>
-&gt; 2.21.3<br>
-<br>
-</blockquote></div></div>
-</div>
+4. Start emulation
+$ ./qemu-system-riscv64 -M virt -m 4096M -cpu rv64,x-h=true -nographic \
+        -name guest=riscv-hyp,debug-threads=on \
+        -smp 4 \
+        -bios ./fw_jump.bin \
+        -kernel ./Image \
+        -drive file=./hyp.img,format=raw,id=hd0 \
+        -device virtio-blk-device,drive=hd0 \
+        -append "root=/dev/vda rw console=ttyS0 earlycon=sbi"
 
---0000000000005c397905d5306200--
+5. Start kvm-acceled QEMU VM in emulation
+$ ./qemu-system-riscv64 -M virt,accel=kvm -m 1024M -cpu host -nographic \
+        -name guest=riscv-guset \
+        -smp 2 \
+        -bios none \
+        -kernel ./Image \
+        -drive file=./guest.img,format=raw,id=hd0 \
+        -device virtio-blk-device,drive=hd0 \
+        -append "root=/dev/vda rw console=ttyS0 earlycon=sbi"
+
+Changes since patch v3
+- Re-write the for-loop in sifive_plic_create().
+- Drop unnecessary change in hw/riscv/virt.c.
+- Use serial to handle console sbi call.
+
+Changes since patch v2
+- Create a macro for get and put timer csr.
+- Remove M-mode PLIC contexts when kvm is enabled.
+- Add get timer frequency.
+- Move cpu_host_load to vmstate_kvmtimer.
+
+Changes since patch v1
+- Rebase on recent commit a216e7cf119c91ffdf5931834a1a030ebea40d70
+- Sync-up headers with Linux-5.16-rc4.
+- Fixbug in kvm_arch_init_vcpu.
+- Create a macro for get and put regs csr.
+- Start kernel directly when kvm_enabled.
+- Use riscv_cpu_set_irq to inject KVM interrupts.
+- Use the Semihosting Console API for RISC-V kvm handle sbi.
+- Update vmstate_riscv_cpu version id.
+  Placing kvm_timer into a subsection.
+
+Changes since RFC v6
+- Rebase on recent commit 8627edfb3f1fca24a96a0954148885c3241c10f8
+- Sync-up headers with Linux-5.16-rc1
+
+Changes since RFC v5
+- Rebase on QEMU v6.1.0-rc1 and kvm-riscv linux v19.
+- Move kvm interrupt setting to riscv_cpu_update_mip().
+- Replace __u64 with uint64_t.
+
+Changes since RFC v4
+- Rebase on QEMU v6.0.0-rc2 and kvm-riscv linux v17.
+- Remove time scaling support as software solution is incomplete.
+  Because it will cause unacceptable performance degradation. and
+  We will post a better solution.
+- Revise according to Alistair's review comments.
+  - Remove compile time XLEN checks in kvm_riscv_reg_id
+  - Surround TYPE_RISCV_CPU_HOST definition by CONFIG_KVM and share
+    it between RV32 and RV64.
+  - Add kvm-stub.c for reduce unnecessary compilation checks.
+  - Add riscv_setup_direct_kernel() to direct boot kernel for KVM.
+
+Changes since RFC v3
+- Rebase on QEMU v5.2.0-rc2 and kvm-riscv linux v15.
+- Add time scaling support(New patches 13, 14 and 15).
+- Fix the bug that guest vm can't reboot.
+
+Changes since RFC v2
+- Fix checkpatch error at target/riscv/sbi_ecall_interface.h.
+- Add riscv migration support.
+
+Changes since RFC v1
+- Add separate SBI ecall interface header.
+- Add riscv32 kvm accel support.
+
+Yifei Jiang (12):
+  update-linux-headers: Add asm-riscv/kvm.h
+  target/riscv: Add target/riscv/kvm.c to place the public kvm interface
+  target/riscv: Implement function kvm_arch_init_vcpu
+  target/riscv: Implement kvm_arch_get_registers
+  target/riscv: Implement kvm_arch_put_registers
+  target/riscv: Support start kernel directly by KVM
+  target/riscv: Support setting external interrupt by KVM
+  target/riscv: Handle KVM_EXIT_RISCV_SBI exit
+  target/riscv: Add host cpu type
+  target/riscv: Add kvm_riscv_get/put_regs_timer
+  target/riscv: Implement virtual time adjusting with vm state changing
+  target/riscv: Support virtual time context synchronization
+
+ hw/intc/sifive_plic.c              |  21 +-
+ hw/riscv/boot.c                    |  16 +-
+ hw/riscv/virt.c                    |  83 +++--
+ include/hw/riscv/boot.h            |   1 +
+ linux-headers/asm-riscv/kvm.h      | 128 +++++++
+ meson.build                        |   2 +
+ target/riscv/cpu.c                 |  29 +-
+ target/riscv/cpu.h                 |  11 +
+ target/riscv/kvm-stub.c            |  30 ++
+ target/riscv/kvm.c                 | 532 +++++++++++++++++++++++++++++
+ target/riscv/kvm_riscv.h           |  25 ++
+ target/riscv/machine.c             |  30 ++
+ target/riscv/meson.build           |   1 +
+ target/riscv/sbi_ecall_interface.h |  72 ++++
+ 14 files changed, 948 insertions(+), 33 deletions(-)
+ create mode 100644 linux-headers/asm-riscv/kvm.h
+ create mode 100644 target/riscv/kvm-stub.c
+ create mode 100644 target/riscv/kvm.c
+ create mode 100644 target/riscv/kvm_riscv.h
+ create mode 100644 target/riscv/sbi_ecall_interface.h
+
+-- 
+2.19.1
 
 
