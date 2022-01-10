@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA3BE4890A8
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 08:20:42 +0100 (CET)
-Received: from localhost ([::1]:54550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DDFC4890A9
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 08:21:15 +0100 (CET)
+Received: from localhost ([::1]:56570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6oyv-0000AB-ND
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 02:20:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34376)
+	id 1n6ozS-0001Vg-4X
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 02:21:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n6otA-0006iW-AO
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 02:14:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31570)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n6oub-00076v-7o
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 02:16:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n6ot6-0001Rz-LK
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 02:14:43 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n6ouY-0001hd-6V
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 02:16:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641798879;
+ s=mimecast20190719; t=1641798969;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dl3H5tOiY46oS4iViAeJhjvSVfcauyPznXPiVEyJuQM=;
- b=S4nLZ32q9npwd8jWj6M+Kcu+54tg/xv+9zrCKRvYNRrEz2OVihs6otg/X7++f01/yyrZf+
- d6vHo7MfdmWSzTX4Fh0Ua2g0LdxxE54+1yYORTDwR7ywg/q0cFxK8yenk75jWWYir6wQb9
- ezfPeaQonnq4HbUvQUW7DLlVwjrT4PQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=U75jUbHa712p5JqOXdgcRCo7K6mANqLs1R7gzfODmss=;
+ b=VAcfalOAS368sWW40zndV8ffD5rtL2stV2yRvl0yxwu6vyo9iKdoEf+co7pzi3HD2uOtfJ
+ 8gZrYUWwzTuVcbhtZwIBFFIsbEHEB3VvWqVeDAEChb8Lk4Sv9xsdX3SvOjKGmMxcsxLDle
+ mWqIz6EHEUzugomwT7l4Ln38P0S6SOk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-128-f0wjy8YjNAqxO_4MV1avXA-1; Mon, 10 Jan 2022 02:14:37 -0500
-X-MC-Unique: f0wjy8YjNAqxO_4MV1avXA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- r2-20020a05600c35c200b00345c3b82b22so8450887wmq.0
- for <qemu-devel@nongnu.org>; Sun, 09 Jan 2022 23:14:37 -0800 (PST)
+ us-mta-638-cjiUscDTNj-aNVE9Owuaag-1; Mon, 10 Jan 2022 02:16:06 -0500
+X-MC-Unique: cjiUscDTNj-aNVE9Owuaag-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ n14-20020a7bcbce000000b003488820f0d9so1013971wmi.8
+ for <qemu-devel@nongnu.org>; Sun, 09 Jan 2022 23:16:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=dl3H5tOiY46oS4iViAeJhjvSVfcauyPznXPiVEyJuQM=;
- b=eKiplGYbtW90R/vaotA9Yzpl5puMqJ9WiyJ0bZvkIfJFzT0pgApFY7bJ+FqHU1dKZF
- yG7YY77GFA12PHkpsgSLeNgyqMsIOC0TUJksp88PaIVIJw9qgMqMIkdr50Z3U8Y04tsM
- Qk0/BiA4M5tqNYiZWvYyKYbgIaSZ4XQYZs5IpTpCk5og5jNPh59+yfis9urtyrvtGzZA
- haCsFrkbN+31+OrbmtKNVhvRwa+dxMTLSbbXLYDXIfDhm5kxOrm+HM7NfGx87hgcGeyL
- lq0843/a/QK5VYvYtODdHUz05kQf8GYwzs/p8xOZrViIO8W2aUB3HHyAYDNJWsK1bZ+X
- 77eQ==
-X-Gm-Message-State: AOAM530s2JQCWf+2oTCNhGR4EEu5l4CwLJlrpKr6eAO9qbFbtB62GXm3
- z64nxEBVULSBe+7JUfaW1Alw7JXtxEHU1gIJLN11WYQhTjr7x+YmQ8mQnX91Hsg7zMgwKpyls8F
- iSK0QS6aO/RWamYE=
-X-Received: by 2002:adf:f4c8:: with SMTP id h8mr12997097wrp.196.1641798876606; 
- Sun, 09 Jan 2022 23:14:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzLp2lHGtCp/0ifsvxhRCEfvwT49S15u2bfWZtyJJeNyXQZn1TEdGRjlM8GXgUlnOKDPYxyHg==
-X-Received: by 2002:adf:f4c8:: with SMTP id h8mr12997085wrp.196.1641798876432; 
- Sun, 09 Jan 2022 23:14:36 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=U75jUbHa712p5JqOXdgcRCo7K6mANqLs1R7gzfODmss=;
+ b=VTA2MqGs67x7pJpdtNp+mMEUN5jvGsVLvns8lG3QDQlJ3G4sNi0FEtpAViT3KGmjoS
+ qa6rsz9p8szkgoH10Xebmt1OwavseKD7NqRdASIUZ31vQvnmrCm1UBbmMNL5KwUAcX6+
+ uWSl23Gk/hK0jK6FTC+eWQ9L67DUB7W9dyyZyHRoVftt89uKZE67rFum4YtOtTu7TMyR
+ dSdLvqkaWclyzJdAmciErvyykqM2YC3DNmFY6F3H/ATWKa6fWAq7eI8J3YlpMeVwjKL5
+ XQETsjqidtLQL+jnOnDPfSRzwUqJ9unb3UXZ699MRGVhl4/AKZuUyr501BMLogydGWh+
+ mPqw==
+X-Gm-Message-State: AOAM531CtyojlXyCI4LF7r8fAfFeDsWr4tBDPcYKuN36PmH7Xx61+CPW
+ MO/O+bJlLt9BKu7SydmJmNrmJd2LMU9D0spbFh9SMXMnjBcqs8xi4HI/gvpjGXd+3WevYA1HjaU
+ A4jZ/9YllR/mB2XBUIW/nBS0aIbiY5V9EEKshYfoxHLxpLmMcdxm80OMh+8iO
+X-Received: by 2002:a05:6000:389:: with SMTP id
+ u9mr61748357wrf.22.1641798964932; 
+ Sun, 09 Jan 2022 23:16:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyTyQ2YLoZA2V/gRpbvyscori3KwcXm+DPNIMShkUjde6kctpFQ04blO3lnR8gpHyLKS2KyQA==
+X-Received: by 2002:a05:6000:389:: with SMTP id
+ u9mr61748339wrf.22.1641798964632; 
+ Sun, 09 Jan 2022 23:16:04 -0800 (PST)
 Received: from redhat.com ([2a03:c5c0:107d:b60c:c297:16fe:7528:e989])
- by smtp.gmail.com with ESMTPSA id f5sm2904893wmf.47.2022.01.09.23.14.33
+ by smtp.gmail.com with ESMTPSA id p21sm6096708wmq.20.2022.01.09.23.16.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 Jan 2022 23:14:35 -0800 (PST)
-Date: Mon, 10 Jan 2022 02:14:31 -0500
+ Sun, 09 Jan 2022 23:16:04 -0800 (PST)
+Date: Mon, 10 Jan 2022 02:16:01 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Longpeng (Mike,
- Cloud Infrastructure Service Product Dept.)" <longpeng2@huawei.com>
-Subject: Re: [RFC 01/10] virtio: get class_id and pci device id by the virtio
- id
-Message-ID: <20220110021349-mutt-send-email-mst@kernel.org>
-References: <20220105005900.860-1-longpeng2@huawei.com>
- <20220105005900.860-2-longpeng2@huawei.com>
- <20220110003243-mutt-send-email-mst@kernel.org>
- <df00e559133e45319fc9779916578975@huawei.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/10] virtio: revert config interrupt changes
+Message-ID: <20220110071547.195669-1-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <df00e559133e45319fc9779916578975@huawei.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -97,237 +93,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "jasowang@redhat.com" <jasowang@redhat.com>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Yechuan <yechuan@huawei.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Huangzhichao <huangzhichao@huawei.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "sgarzare@redhat.com" <sgarzare@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 10, 2022 at 06:27:05AM +0000, Longpeng (Mike, Cloud Infrastructure Service Product Dept.) wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Michael S. Tsirkin [mailto:mst@redhat.com]
-> > Sent: Monday, January 10, 2022 1:43 PM
-> > To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
-> > <longpeng2@huawei.com>
-> > Cc: stefanha@redhat.com; jasowang@redhat.com; sgarzare@redhat.com;
-> > cohuck@redhat.com; pbonzini@redhat.com; Gonglei (Arei)
-> > <arei.gonglei@huawei.com>; Yechuan <yechuan@huawei.com>; Huangzhichao
-> > <huangzhichao@huawei.com>; qemu-devel@nongnu.org
-> > Subject: Re: [RFC 01/10] virtio: get class_id and pci device id by the virtio
-> > id
-> > 
-> > On Wed, Jan 05, 2022 at 08:58:51AM +0800, Longpeng(Mike) wrote:
-> > > From: Longpeng <longpeng2@huawei.com>
-> > >
-> > > Add helpers to get the "Transitional PCI Device ID" and "class_id" of the
-> > > deivce which is specificed by the "Virtio Device ID".
-> > 
-> > ton of typos here.
-> > 
-> 
-> Will fix all in the V2.
-> 
-> > > These helpers will be used to build the generic vDPA device later.
-> > >
-> > > Signed-off-by: Longpeng <longpeng2@huawei.com>
-> > > ---
-> > >  hw/virtio/virtio-pci.c | 93 ++++++++++++++++++++++++++++++++++++++++++
-> > >  hw/virtio/virtio-pci.h |  4 ++
-> > >  2 files changed, 97 insertions(+)
-> > >
-> > > diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> > > index 750aa47ec1..843085c4ea 100644
-> > > --- a/hw/virtio/virtio-pci.c
-> > > +++ b/hw/virtio/virtio-pci.c
-> > > @@ -19,6 +19,7 @@
-> > >
-> > >  #include "exec/memop.h"
-> > >  #include "standard-headers/linux/virtio_pci.h"
-> > > +#include "standard-headers/linux/virtio_ids.h"
-> > >  #include "hw/boards.h"
-> > >  #include "hw/virtio/virtio.h"
-> > >  #include "migration/qemu-file-types.h"
-> > > @@ -213,6 +214,95 @@ static int virtio_pci_load_queue(DeviceState *d, int n,
-> > QEMUFile *f)
-> > >      return 0;
-> > >  }
-> > >
-> > > +typedef struct VirtIOPCIIDInfo {
-> > > +    uint16_t vdev_id; /* virtio id */
-> > > +    uint16_t pdev_id; /* pci device id */
-> > > +    uint16_t class_id;
-> > > +} VirtIOPCIIDInfo;
-> > 
-> > 
-> > if this is transitional as comment says make it explicit
-> > in the names and comments.
-> > 
-> 
-> OK.
-> 
-> > > +
-> > > +static const VirtIOPCIIDInfo virtio_pci_id_info[] = {
-> > > +    {
-> > > +        .vdev_id = VIRTIO_ID_NET,
-> > > +        .pdev_id = PCI_DEVICE_ID_VIRTIO_NET,
-> > > +        .class_id = PCI_CLASS_NETWORK_ETHERNET,
-> > > +    },
-> > > +    {
-> > > +        .vdev_id = VIRTIO_ID_BLOCK,
-> > > +        .pdev_id = PCI_DEVICE_ID_VIRTIO_BLOCK,
-> > > +        .class_id = PCI_CLASS_STORAGE_SCSI,
-> > > +    },
-> > > +    {
-> > > +        .vdev_id = VIRTIO_ID_CONSOLE,
-> > > +        .pdev_id = PCI_DEVICE_ID_VIRTIO_CONSOLE,
-> > > +        .class_id = PCI_CLASS_COMMUNICATION_OTHER,
-> > > +    },
-> > > +    {
-> > > +        .vdev_id = VIRTIO_ID_SCSI,
-> > > +        .pdev_id = PCI_DEVICE_ID_VIRTIO_SCSI,
-> > > +        .class_id = PCI_CLASS_STORAGE_SCSI,
-> > > +    },
-> > > +    {
-> > > +        .vdev_id = VIRTIO_ID_9P,
-> > > +        .pdev_id = PCI_DEVICE_ID_VIRTIO_9P,
-> > > +        .class_id = PCI_BASE_CLASS_NETWORK,
-> > > +    },
-> > > +    {
-> > > +        .vdev_id = VIRTIO_ID_VSOCK,
-> > > +        .pdev_id = PCI_DEVICE_ID_VIRTIO_VSOCK,
-> > > +        .class_id = PCI_CLASS_COMMUNICATION_OTHER,
-> > > +    },
-> > > +    {
-> > > +        .vdev_id = VIRTIO_ID_IOMMU,
-> > > +        .pdev_id = PCI_DEVICE_ID_VIRTIO_IOMMU,
-> > > +        .class_id = PCI_CLASS_OTHERS,
-> > > +    },
-> > > +    {
-> > > +        .vdev_id = VIRTIO_ID_MEM,
-> > > +        .pdev_id = PCI_DEVICE_ID_VIRTIO_MEM,
-> > > +        .class_id = PCI_CLASS_OTHERS,
-> > > +    },
-> > > +    {
-> > > +        .vdev_id = VIRTIO_ID_PMEM,
-> > > +        .pdev_id = PCI_DEVICE_ID_VIRTIO_PMEM,
-> > > +        .class_id = PCI_CLASS_OTHERS,
-> > > +    },
-> > > +    {
-> > > +        .vdev_id = VIRTIO_ID_RNG,
-> > > +        .pdev_id = PCI_DEVICE_ID_VIRTIO_RNG,
-> > > +        .class_id = PCI_CLASS_OTHERS,
-> > > +    },
-> > > +    {
-> > > +        .vdev_id = VIRTIO_ID_BALLOON,
-> > > +        .pdev_id = PCI_DEVICE_ID_VIRTIO_BALLOON,
-> > > +        .class_id = PCI_CLASS_OTHERS,
-> > > +    },
-> > > +};
-> > > +
-> > 
-> > 
-> > this is the list from the spec:
-> > 
-> > 
-> > So this is the list from the spec:
-> > 
-> > 0x1000 network card
-> > 0x1001 block device
-> > 0x1002 memory ballooning (traditional)
-> > 0x1003 console
-> > 0x1004 SCSI host
-> > 0x1005 entropy source
-> > 0x1009 9P transport
-> > 
-> 
-> Why the following device IDs are introduced? They are non
-> transitional devices.
-> 
-> #define PCI_DEVICE_ID_VIRTIO_VSOCK       0x1012
-> #define PCI_DEVICE_ID_VIRTIO_PMEM        0x1013
-> #define PCI_DEVICE_ID_VIRTIO_IOMMU       0x1014
-> #define PCI_DEVICE_ID_VIRTIO_MEM         0x1015
+The following changes since commit ca745d2277496464b54fd832c15c45d0227325bb:
 
-Just a single place to put these things.
-E.g. vsock id is used in more than 1 place.
+  tests: acpi: Add updated TPM related tables (2022-01-07 19:30:13 -0500)
 
-> > 
-> > I'd drop all the rest, use the algorithm for non transitional.
-> > And when class is other I'd just not include it in the array,
-> > make this the default.
-> > 
-> > 
-> > 
-> > > +static VirtIOPCIIDInfo virtio_pci_get_id_info(uint16_t vdev_id)
-> > > +{
-> > > +    VirtIOPCIIDInfo info = {};
-> > > +    int i;
-> > > +
-> > > +    for (i = 0; i < ARRAY_SIZE(virtio_pci_id_info); i++) {
-> > > +        if (virtio_pci_id_info[i].vdev_id == vdev_id) {
-> > > +            info = virtio_pci_id_info[i];
-> > > +            break;
-> > > +        }
-> > > +    }
-> > > +
-> > > +    return info;
-> > > +}
-> > > +
-> > > +uint16_t virtio_pci_get_pci_devid(uint16_t device_id)
-> > > +{
-> > > +    return virtio_pci_get_id_info(device_id).pdev_id;
-> > > +}
-> > > +
-> > > +uint16_t virtio_pci_get_class_id(uint16_t device_id)
-> > > +{
-> > > +    return virtio_pci_get_id_info(device_id).class_id;
-> > > +}
-> > > +
-> > >  static bool virtio_pci_ioeventfd_enabled(DeviceState *d)
-> > >  {
-> > >      VirtIOPCIProxy *proxy = to_virtio_pci_proxy(d);
-> > > @@ -1674,6 +1764,9 @@ static void virtio_pci_device_plugged(DeviceState *d,
-> > Error **errp)
-> > >           * is set to PCI_SUBVENDOR_ID_REDHAT_QUMRANET by default.
-> > >           */
-> > >          pci_set_word(config + PCI_SUBSYSTEM_ID,
-> > virtio_bus_get_vdev_id(bus));
-> > > +        if (proxy->pdev_id) {
-> > > +            pci_config_set_device_id(config, proxy->pdev_id);
-> > > +        }
-> > >      } else {
-> > >          /* pure virtio-1.0 */
-> > >          pci_set_word(config + PCI_VENDOR_ID,
-> > > diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
-> > > index 2446dcd9ae..06aa59436e 100644
-> > > --- a/hw/virtio/virtio-pci.h
-> > > +++ b/hw/virtio/virtio-pci.h
-> > > @@ -146,6 +146,7 @@ struct VirtIOPCIProxy {
-> > >      bool disable_modern;
-> > >      bool ignore_backend_features;
-> > >      OnOffAuto disable_legacy;
-> > > +    uint16_t pdev_id;
-> > >      uint32_t class_code;
-> > >      uint32_t nvectors;
-> > >      uint32_t dfselect;
-> > > @@ -158,6 +159,9 @@ struct VirtIOPCIProxy {
-> > >      VirtioBusState bus;
-> > >  };
-> > >
-> > > +uint16_t virtio_pci_get_pci_devid(uint16_t device_id);
-> > > +uint16_t virtio_pci_get_class_id(uint16_t device_id);
-> > > +
-> > >  static inline bool virtio_pci_modern(VirtIOPCIProxy *proxy)
-> > >  {
-> > >      return !proxy->disable_modern;
-> > > --
-> > > 2.23.0
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+
+for you to fetch changes up to ab9f51a29ca84cfcecc2d18574794b650ce4bb28:
+
+  Revert "virtio: introduce macro IRTIO_CONFIG_IRQ_IDX" (2022-01-10 00:47:56 -0500)
+
+----------------------------------------------------------------
+virtio: revert config interrupt changes
+
+Lots of fallout from config interrupt changes. Author wants to rework
+the patches. Let's revert quickly so others don't suffer meanwhile.
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Michael S. Tsirkin (10):
+      Revert "virtio-pci: add support for configure interrupt"
+      Revert "virtio-mmio: add support for configure interrupt"
+      Revert "virtio-net: add support for configure interrupt"
+      Revert "vhost: add support for configure interrupt"
+      Revert "virtio: add support for configure interrupt"
+      Revert "vhost-vdpa: add support for config interrupt"
+      Revert "vhost: introduce new VhostOps vhost_set_config_call"
+      Revert "virtio-pci: decouple the single vector from the interrupt process"
+      Revert "virtio-pci: decouple notifier from interrupt process"
+      Revert "virtio: introduce macro IRTIO_CONFIG_IRQ_IDX"
+
+ hw/virtio/virtio-pci.h            |   4 +-
+ include/hw/virtio/vhost-backend.h |   3 -
+ include/hw/virtio/vhost.h         |   4 -
+ include/hw/virtio/virtio.h        |   7 -
+ include/net/vhost_net.h           |   2 -
+ hw/display/vhost-user-gpu.c       |   6 -
+ hw/net/vhost_net-stub.c           |   9 --
+ hw/net/vhost_net.c                |   9 --
+ hw/net/virtio-net.c               |  10 +-
+ hw/virtio/vhost-user-fs.c         |   6 -
+ hw/virtio/vhost-vdpa.c            |   7 -
+ hw/virtio/vhost-vsock-common.c    |   6 -
+ hw/virtio/vhost.c                 |  76 ----------
+ hw/virtio/virtio-crypto.c         |   6 -
+ hw/virtio/virtio-mmio.c           |  27 ----
+ hw/virtio/virtio-pci.c            | 303 ++++++++++++--------------------------
+ hw/virtio/virtio.c                |  29 ----
+ hw/virtio/trace-events            |   1 -
+ 18 files changed, 100 insertions(+), 415 deletions(-)
 
 
