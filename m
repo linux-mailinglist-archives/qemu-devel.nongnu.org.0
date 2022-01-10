@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79564898DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 13:52:09 +0100 (CET)
-Received: from localhost ([::1]:41922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DB624898E7
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 13:56:13 +0100 (CET)
+Received: from localhost ([::1]:44158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6u9f-0003Ux-5S
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 07:52:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50942)
+	id 1n6uDc-0005Yh-Ok
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 07:56:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n6u4S-0002cs-1d
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 07:46:44 -0500
-Received: from [2a00:1450:4864:20::435] (port=38434
- helo=mail-wr1-x435.google.com)
+ id 1n6u4X-0002eX-67
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 07:46:49 -0500
+Received: from [2a00:1450:4864:20::333] (port=53196
+ helo=mail-wm1-x333.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n6u4P-0003r6-Rt
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 07:46:43 -0500
-Received: by mail-wr1-x435.google.com with SMTP id a5so22595379wrh.5
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 04:46:41 -0800 (PST)
+ id 1n6u4U-0003rg-DS
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 07:46:47 -0500
+Received: by mail-wm1-x333.google.com with SMTP id v123so8662820wme.2
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 04:46:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6MOIUhQN2Q/I6XDHpzrKE5W+6dOUfWBTT0LQhMx+hWY=;
- b=HvjeQbpa4Z4dgfOy9E5cRMHQYhMUbQBeLUVAYcff93CVuuyQNChO6ZqvFGCokdfmLc
- rCaM/XtUarmdwJL15PkKzc7hOfJuKJeu1C6FXlqFL6olqc+a29RX1nkTfB+VG0zi6Ipu
- WhPYfiakujoEKCo25l5BjnAZ+ogQDyGMmnTWhti/3ykuf2GBbXwg1UFZhAP18q4riTWz
- htZUWQ6B5BOPn73QdmcDswq4DwDP4iN+Aj3l6LAe4ylS63LXsR3Q+vM8uz7YEfoFP1YU
- L3Echk9ZK4ZwF6AFjE7n37fPFxC1ygNSE8LgH7d4TOgSEx55D/Xzj6cYUpHJPGhbE/Dr
- qbJQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=h7v7BWOEfKoZiYr8Hh6a43++Ncv/zq2SQHbPDqAbuuo=;
+ b=KGWIdpnVClUarX3/r3wOU4UxkgFeJ2PowybESEW96qg/LqTzEK4B2j5rj/gKE8HGCc
+ hwKXW7jNzs7N+exU1KY/hsVWjFY264do5D0YduL6fy95vXTkPyVYv6f7JpQdyXimgpXu
+ oMnk8rQk/HHrmuoAhR0Rn12b2RL2eiWn6f2Y17QD19DXMwOMBXdH6l8rkSEQ8IJ+tPnx
+ t+f1YczvPB/DdfbkcBVMJaP/yuX6qfqmTHoz/dqG+E90go2jeTIgBOVujAo8tZ5mDUHM
+ M9XnKwEc++Jql/08Ud9xYzGORF/zN2tXgu2JTjycBTyWC+5SES5JumvU8v7VX+u1ZYD3
+ QUbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=6MOIUhQN2Q/I6XDHpzrKE5W+6dOUfWBTT0LQhMx+hWY=;
- b=lHWuoLEZVhIyn82BeeUygfyeJJmSR4VZhdcNSGZDusT6Dxwo1G0uZ+b36nUVSS5Lpk
- HSkiFjlveYackFg9hyd9O15xMC1QvOSe/OJytxCpBevjDi+NggT8AxDr28tiTZAJRfkP
- OBAFGK3YUDSny5sKeDwe5N2x2zOKLazmS6hGvWyRZ1PDkGFS7NdhVUOE7lypiQ4P2HQA
- CmtHtop89L04XzPSDQUYzkTA4bCGI93qIRmZa0aO1z3/5fozLwIJ47bwl/z0YVo5GfiU
- amfT8/ymg+ojo+JX+SeAUj7Lwl2hUMRTWCP73OK33uPaX5sabRx3XOYFxeeNftqY86/g
- Sarw==
-X-Gm-Message-State: AOAM532hOAov/Cn9ogvFdFxpyxQDrlnlvLwp4ipivnJjhS0+am8hE11y
- 1Nw7pA0xVOYeW5+yBkj07N8NUADApaTSgA==
-X-Google-Smtp-Source: ABdhPJyLHhUj3/gj41xDW/NYHtxO/vXVIvzr2oJJCUJIU3t9OiDUKRZs47o4pBoNZZd3+/7UsbT8jQ==
-X-Received: by 2002:a05:6000:156c:: with SMTP id
- 12mr63455231wrz.104.1641818800310; 
- Mon, 10 Jan 2022 04:46:40 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=h7v7BWOEfKoZiYr8Hh6a43++Ncv/zq2SQHbPDqAbuuo=;
+ b=1Y1wgHawQcj7XgQIWYWiYgVy27xSkfMqAiW0dwmHqcA7TaHIaAqOfA5urTMRjRyCxo
+ L6WCtr3oxs2rXstLVV0wC6jbnqAbVrGhNmsFC706V7wzBVXdsXzXZxY6qpzK3Sl+J+gT
+ CW++r0XeELCyvu/64R1FJUd6HOwDvJN5hirek86H8VCIrOuZZjBAqc9WQcJMd/dKfbB3
+ 6tIDzUh/JKWsdhQ4oEypseTKF41CEl/2JWPEmu7lETke5rmwOfMp5vjaVcnq1DSssufE
+ IaT2X2lIS5w6NvkepHNSjWwTBQp+LHo9qSSKP20vglzR767kdZF/HyEwjTl9q9AktCLs
+ v1DA==
+X-Gm-Message-State: AOAM532abwOQcTY8rSpLcWnLfV49ynNeIdse6xQa+/EYQHCUKsdYJIu1
+ o/mD6e9xoMbunwL/KIonG1zvt1mVTJlcGw==
+X-Google-Smtp-Source: ABdhPJyhlwIQED34bejA9Akz/3c2W1BfKecrrygoSH91jwRDS5GMyiGnpHkg9yJd4H3d1RVaSVDDRA==
+X-Received: by 2002:a05:600c:4fca:: with SMTP id
+ o10mr21718887wmq.58.1641818804951; 
+ Mon, 10 Jan 2022 04:46:44 -0800 (PST)
 Received: from nuc.. (83.red-83-50-87.dynamicip.rima-tde.net. [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id bh10sm6528052wmb.12.2022.01.10.04.46.39
+ by smtp.gmail.com with ESMTPSA id s8sm8013667wra.9.2022.01.10.04.46.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jan 2022 04:46:39 -0800 (PST)
+ Mon, 10 Jan 2022 04:46:44 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] tests: Refresh lcitool submodule
-Date: Mon, 10 Jan 2022 13:46:36 +0100
-Message-Id: <20220110124638.610145-1-f4bug@amsat.org>
+Subject: [PATCH 1/2] MAINTAINERS: Cover lcitool submodule with build test /
+ automation
+Date: Mon, 10 Jan 2022 13:46:37 +0100
+Message-Id: <20220110124638.610145-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20220110124638.610145-1-f4bug@amsat.org>
+References: <20220110124638.610145-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,26 +98,27 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Refresh lcitool to latest.=0D
-=0D
-Based on Alex's testing/next=0D
-Based-on: <20220105135009.1584676-1-alex.bennee@linaro.org>=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (2):=0D
-  MAINTAINERS: Cover lcitool submodule with build test / automation=0D
-  tests: Refresh lcitool submodule=0D
-=0D
- MAINTAINERS                                   | 1 +=0D
- tests/docker/dockerfiles/alpine.docker        | 3 ++-=0D
- tests/docker/dockerfiles/centos8.docker       | 3 +--=0D
- tests/docker/dockerfiles/fedora.docker        | 3 +--=0D
- tests/docker/dockerfiles/opensuse-leap.docker | 2 +-=0D
- tests/docker/dockerfiles/ubuntu1804.docker    | 2 +-=0D
- tests/docker/dockerfiles/ubuntu2004.docker    | 2 +-=0D
- tests/lcitool/libvirt-ci                      | 2 +-=0D
- 8 files changed, 9 insertions(+), 9 deletions(-)=0D
-=0D
--- =0D
-2.33.1=0D
-=0D
+lcitool is used by build test / automation, we want maintainers
+to get notified if the submodule is updated.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f871d759fdf..aff87d272ae 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3491,6 +3491,7 @@ F: .travis.yml
+ F: scripts/ci/
+ F: tests/docker/
+ F: tests/vm/
++F: tests/lcitool/
+ F: scripts/archive-source.sh
+ W: https://gitlab.com/qemu-project/qemu/pipelines
+ W: https://travis-ci.org/qemu/qemu
+-- 
+2.33.1
+
 
