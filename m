@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5945C489BB3
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 15:59:56 +0100 (CET)
-Received: from localhost ([::1]:40722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8D2E489BC1
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 16:04:16 +0100 (CET)
+Received: from localhost ([::1]:45930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6w9L-0004wj-3G
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 09:59:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57716)
+	id 1n6wDW-0000DO-QY
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 10:04:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n6w0w-0002y7-E4; Mon, 10 Jan 2022 09:51:14 -0500
-Received: from [2607:f8b0:4864:20::929] (port=44997
- helo=mail-ua1-x929.google.com)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1n6vqp-0001t3-4q
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:40:47 -0500
+Received: from [2a00:1450:4864:20::52a] (port=45876
+ helo=mail-ed1-x52a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n6w0u-0002Iy-F2; Mon, 10 Jan 2022 09:51:14 -0500
-Received: by mail-ua1-x929.google.com with SMTP id l15so12399227uai.11;
- Mon, 10 Jan 2022 06:51:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1n6vqm-0000SM-23
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 09:40:46 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id z22so9368262edd.12
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 06:40:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=EN3rw218GGZbR1u7tbP11xVUxrENziiogdUvEjWnTEg=;
- b=niSofha3UcDvJU9xTH91/buBBT9jnPitA/LaZcxxhAD4vGDfSn70jBn/G+MOCPUA1/
- y/o/ywKmAL2/vmOS9kPgmFhllG+qd0bZyhP3hJR9GXH2Fsvc5AUhqjnmSTt2vb1htgRR
- SCJU+Q8s8BVFpglbg9ZzwlZR9sE9aao5lhqgu75rl9iG3oUGbfZzU4q88o3UtAwjSn98
- 4Kp7V8rZOtLnjfZHAQkFfPaYckCzjPcw06ZmrGvfNOdnWkRDYJByMdrgHGDABUKOPdAD
- w76DOSoRcSCFH0Y/IztNnJDdssqtc8vWr+G/uGyoX89LQVNjvaljmVaVtk3vAwTD61pI
- +jMg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=sn12UEUc7Qk8/uEupR3XTclgJmwgV1UmJePL9srNWJA=;
+ b=Nm8cbOfTkdpXDRvcQ2MNOdWE6nG8SHZcIMIVSEPWJVRA3qWMxbo4kA1gKglJBtA8Vj
+ 0OsuqEwpHCoFMPm5mXnn3/n1vJT40ieSJvY2qB2qEsujvvOnf27VzLJ97MvI/nlOsS8G
+ JtnSEl9Hf7AeN5VZtXqi+VCVnsA504M/Pi+GunW3mSs3sJhhzH1o4KuJGQ82Jg+YpAxz
+ UfQEwuu0lbvNwPgzMyzWg38xc4b74eqaGS/2XL7R0ebmxx7NiOM92nvdEJDluiZgzYRB
+ ql39WdkyyE3OGuXEIFmQZUVqCLc5JhOmTqh71uyL1FSG8tlz2mXrmXFms/8QSMgNfbuP
+ sVsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=EN3rw218GGZbR1u7tbP11xVUxrENziiogdUvEjWnTEg=;
- b=Cv6DJZcQvMd7dDl4PuWbFPteJrPVxVZGeUXE0yUFLGSYckovjcQfBlf+AUh8kntaKn
- aE+5XKlB3Np+ldNn5YwFEJb8eX0Z60GeJ0sJsA+cN4XhRB3lgh8Qi5//g4rEwf6Nd7L4
- 0K+UUYIJbQmfCn3dO75vG5PZ80rc1Nl122RKsMjahBAOKtqMj1FYRm8UVQL77Bx7qj7N
- jq/vmWL9WUqVW2ho1ly9c/iOPds3QbQIg3gayyOD/QxXm4jouFSuWcmqGpwJiOS55S9r
- ohm1/lmEoMN8v6MvAWWzHX3qaoeluh/PU4b+qXHemgydnJA0wur1FEGJsX0dT6LVI/qc
- /78g==
-X-Gm-Message-State: AOAM530lJLdBF9jXxMPTWyyBZC8dhUcMJODOJ3eDhTlgIcPH572VitIQ
- jMAMAG9vwSEcRwGWtpKLUDA=
-X-Google-Smtp-Source: ABdhPJxuFTwXFaQYz1rCRQE5x0mPQFap2UgEHC1X5dk0vS0wRMPrbad7FzBsIaFVeF2NLDEVqtW0fg==
-X-Received: by 2002:a67:b143:: with SMTP id z3mr25833158vsl.66.1641826270316; 
- Mon, 10 Jan 2022 06:51:10 -0800 (PST)
-Received: from [192.168.10.222] ([152.249.109.193])
- by smtp.gmail.com with ESMTPSA id x19sm4240745vsh.6.2022.01.10.06.51.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Jan 2022 06:51:10 -0800 (PST)
-Message-ID: <10d814d5-9679-fcd0-c29c-193a59df24d9@gmail.com>
-Date: Mon, 10 Jan 2022 11:51:07 -0300
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=sn12UEUc7Qk8/uEupR3XTclgJmwgV1UmJePL9srNWJA=;
+ b=dpH1ngOKet7yNnWGGDorHRVni+AJfMCGRKBmjr0qb+5khdU3x2PBQvPUKYR4HhtPmI
+ gAo11YqJI66+on6KhcI5zsFy9iXrqS8AmyKNjplTMhU822I/QEzVVqkmj+UboedBlWT9
+ urqJvYhi5T2L5GwpeD5V+m93GGOiluhD6QvhtZoipWr/cCIIg/5oH9Bdm7gKjJ+cZcro
+ tTpBh7Fkq3HJltKW0YtB4xFMulERvYQD/5SMM1E1Ypy/aoMio2ZwEhYQPwUpFMkpTug7
+ E6WsK85SaGQVqqlYVRElCVVJKLqtlQFTg7C7/HplXztLqyMUCAlhgOaXPLDyYNbbec6K
+ ek0A==
+X-Gm-Message-State: AOAM533UqMUJ9eoU/7CTnRRGYYz41KrmSbz3cXTITeb0O3am7ubnhP6w
+ Z28h8HRnHr8/Vpmo0UsmJYTFnRR5954=
+X-Google-Smtp-Source: ABdhPJxXTG+SCohTSNPKQQv5+fJ9etc10idBS2gP7rEdkUanalwA5CrGE42wRowhwuO6v9KufdJLGA==
+X-Received: by 2002:a50:f105:: with SMTP id w5mr23155186edl.222.1641825642790; 
+ Mon, 10 Jan 2022 06:40:42 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id k25sm2549498ejk.179.2022.01.10.06.40.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Jan 2022 06:40:42 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 02/18] user: move common-user includes to a subdirectory of
+ {bsd, linux}-user/
+Date: Mon, 10 Jan 2022 15:40:18 +0100
+Message-Id: <20220110144034.67410-3-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20220110144034.67410-1-pbonzini@redhat.com>
+References: <20220110144034.67410-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 00/37] target/ppc: PowerISA Vector/VSX instruction batch
-Content-Language: en-US
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220107185653.1609775-1-matheus.ferst@eldorado.org.br>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220107185653.1609775-1-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::929
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x929.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -88,100 +87,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: groug@kaod.org, richard.henderson@linaro.org, clg@kaod.org,
- david@gibson.dropbear.id.au
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Avoid polluting the compilation of common-user/ with local include files;
+making an include file available to common-user/ should be a deliberate
+decision in order to keep a clear interface that can be used by both
+bsd-user/ and linux-user/.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ bsd-user/{ => include}/special-errno.h                  | 0
+ bsd-user/meson.build                                    | 2 +-
+ linux-user/{ => include}/host/aarch64/host-signal.h     | 0
+ linux-user/{ => include}/host/alpha/host-signal.h       | 0
+ linux-user/{ => include}/host/arm/host-signal.h         | 0
+ linux-user/{ => include}/host/i386/host-signal.h        | 0
+ linux-user/{ => include}/host/loongarch64/host-signal.h | 0
+ linux-user/{ => include}/host/mips/host-signal.h        | 0
+ linux-user/{ => include}/host/ppc/host-signal.h         | 0
+ linux-user/{ => include}/host/ppc64/host-signal.h       | 0
+ linux-user/{ => include}/host/riscv/host-signal.h       | 0
+ linux-user/{ => include}/host/s390/host-signal.h        | 0
+ linux-user/{ => include}/host/s390x/host-signal.h       | 0
+ linux-user/{ => include}/host/sparc/host-signal.h       | 0
+ linux-user/{ => include}/host/sparc64/host-signal.h     | 0
+ linux-user/{ => include}/host/x32/host-signal.h         | 0
+ linux-user/{ => include}/host/x86_64/host-signal.h      | 0
+ linux-user/{ => include}/special-errno.h                | 0
+ linux-user/meson.build                                  | 4 ++--
+ 19 files changed, 3 insertions(+), 3 deletions(-)
+ rename bsd-user/{ => include}/special-errno.h (100%)
+ rename linux-user/{ => include}/host/aarch64/host-signal.h (100%)
+ rename linux-user/{ => include}/host/alpha/host-signal.h (100%)
+ rename linux-user/{ => include}/host/arm/host-signal.h (100%)
+ rename linux-user/{ => include}/host/i386/host-signal.h (100%)
+ rename linux-user/{ => include}/host/loongarch64/host-signal.h (100%)
+ rename linux-user/{ => include}/host/mips/host-signal.h (100%)
+ rename linux-user/{ => include}/host/ppc/host-signal.h (100%)
+ rename linux-user/{ => include}/host/ppc64/host-signal.h (100%)
+ rename linux-user/{ => include}/host/riscv/host-signal.h (100%)
+ rename linux-user/{ => include}/host/s390/host-signal.h (100%)
+ rename linux-user/{ => include}/host/s390x/host-signal.h (100%)
+ rename linux-user/{ => include}/host/sparc/host-signal.h (100%)
+ rename linux-user/{ => include}/host/sparc64/host-signal.h (100%)
+ rename linux-user/{ => include}/host/x32/host-signal.h (100%)
+ rename linux-user/{ => include}/host/x86_64/host-signal.h (100%)
+ rename linux-user/{ => include}/special-errno.h (100%)
+
+diff --git a/bsd-user/special-errno.h b/bsd-user/include/special-errno.h
+similarity index 100%
+rename from bsd-user/special-errno.h
+rename to bsd-user/include/special-errno.h
+diff --git a/bsd-user/meson.build b/bsd-user/meson.build
+index 9fcb80c3fa..8380fa44c2 100644
+--- a/bsd-user/meson.build
++++ b/bsd-user/meson.build
+@@ -4,7 +4,7 @@ endif
+ 
+ bsd_user_ss = ss.source_set()
+ 
+-common_user_inc += include_directories('.')
++common_user_inc += include_directories('include')
+ 
+ bsd_user_ss.add(files(
+   'bsdload.c',
+diff --git a/linux-user/host/aarch64/host-signal.h b/linux-user/include/host/aarch64/host-signal.h
+similarity index 100%
+rename from linux-user/host/aarch64/host-signal.h
+rename to linux-user/include/host/aarch64/host-signal.h
+diff --git a/linux-user/host/alpha/host-signal.h b/linux-user/include/host/alpha/host-signal.h
+similarity index 100%
+rename from linux-user/host/alpha/host-signal.h
+rename to linux-user/include/host/alpha/host-signal.h
+diff --git a/linux-user/host/arm/host-signal.h b/linux-user/include/host/arm/host-signal.h
+similarity index 100%
+rename from linux-user/host/arm/host-signal.h
+rename to linux-user/include/host/arm/host-signal.h
+diff --git a/linux-user/host/i386/host-signal.h b/linux-user/include/host/i386/host-signal.h
+similarity index 100%
+rename from linux-user/host/i386/host-signal.h
+rename to linux-user/include/host/i386/host-signal.h
+diff --git a/linux-user/host/loongarch64/host-signal.h b/linux-user/include/host/loongarch64/host-signal.h
+similarity index 100%
+rename from linux-user/host/loongarch64/host-signal.h
+rename to linux-user/include/host/loongarch64/host-signal.h
+diff --git a/linux-user/host/mips/host-signal.h b/linux-user/include/host/mips/host-signal.h
+similarity index 100%
+rename from linux-user/host/mips/host-signal.h
+rename to linux-user/include/host/mips/host-signal.h
+diff --git a/linux-user/host/ppc/host-signal.h b/linux-user/include/host/ppc/host-signal.h
+similarity index 100%
+rename from linux-user/host/ppc/host-signal.h
+rename to linux-user/include/host/ppc/host-signal.h
+diff --git a/linux-user/host/ppc64/host-signal.h b/linux-user/include/host/ppc64/host-signal.h
+similarity index 100%
+rename from linux-user/host/ppc64/host-signal.h
+rename to linux-user/include/host/ppc64/host-signal.h
+diff --git a/linux-user/host/riscv/host-signal.h b/linux-user/include/host/riscv/host-signal.h
+similarity index 100%
+rename from linux-user/host/riscv/host-signal.h
+rename to linux-user/include/host/riscv/host-signal.h
+diff --git a/linux-user/host/s390/host-signal.h b/linux-user/include/host/s390/host-signal.h
+similarity index 100%
+rename from linux-user/host/s390/host-signal.h
+rename to linux-user/include/host/s390/host-signal.h
+diff --git a/linux-user/host/s390x/host-signal.h b/linux-user/include/host/s390x/host-signal.h
+similarity index 100%
+rename from linux-user/host/s390x/host-signal.h
+rename to linux-user/include/host/s390x/host-signal.h
+diff --git a/linux-user/host/sparc/host-signal.h b/linux-user/include/host/sparc/host-signal.h
+similarity index 100%
+rename from linux-user/host/sparc/host-signal.h
+rename to linux-user/include/host/sparc/host-signal.h
+diff --git a/linux-user/host/sparc64/host-signal.h b/linux-user/include/host/sparc64/host-signal.h
+similarity index 100%
+rename from linux-user/host/sparc64/host-signal.h
+rename to linux-user/include/host/sparc64/host-signal.h
+diff --git a/linux-user/host/x32/host-signal.h b/linux-user/include/host/x32/host-signal.h
+similarity index 100%
+rename from linux-user/host/x32/host-signal.h
+rename to linux-user/include/host/x32/host-signal.h
+diff --git a/linux-user/host/x86_64/host-signal.h b/linux-user/include/host/x86_64/host-signal.h
+similarity index 100%
+rename from linux-user/host/x86_64/host-signal.h
+rename to linux-user/include/host/x86_64/host-signal.h
+diff --git a/linux-user/special-errno.h b/linux-user/include/special-errno.h
+similarity index 100%
+rename from linux-user/special-errno.h
+rename to linux-user/include/special-errno.h
+diff --git a/linux-user/meson.build b/linux-user/meson.build
+index b2f4afd5e7..de4320af05 100644
+--- a/linux-user/meson.build
++++ b/linux-user/meson.build
+@@ -4,8 +4,8 @@ endif
+ 
+ linux_user_ss = ss.source_set()
+ 
+-common_user_inc += include_directories('host/' / host_arch)
+-common_user_inc += include_directories('.')
++common_user_inc += include_directories('include/host/' / host_arch)
++common_user_inc += include_directories('include')
+ 
+ linux_user_ss.add(files(
+   'elfload.c',
+-- 
+2.33.1
 
 
-On 1/7/22 15:56, matheus.ferst@eldorado.org.br wrote:
-> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> 
-> This patch series implements 5 missing instructions from PowerISA v3.0
-> and 40 new instructions from PowerISA v3.1, moving 62 other instructions
-> to decodetree along the way.
-> 
-> Lucas Coutinho (2):
->    target/ppc: Move vexts[bhw]2[wd] to decodetree
->    target/ppc: Implement vextsd2q
-> 
-> Lucas Mateus Castro (alqotel) (3):
->    target/ppc: moved vector even and odd multiplication to decodetree
->    target/ppc: Moved vector multiply high and low to decodetree
->    target/ppc: vmulh* instructions use gvec
-> 
-> Luis Pires (1):
->    target/ppc: Introduce TRANS*FLAGS macros
-> 
-> Matheus Ferst (20):
->    target/ppc: Move Vector Compare Equal/Not Equal/Greater Than to
->      decodetree
->    target/ppc: Move Vector Compare Not Equal or Zero to decodetree
->    target/ppc: Implement Vector Compare Equal Quadword
->    target/ppc: Implement Vector Compare Greater Than Quadword
->    target/ppc: Implement Vector Compare Quadword
->    target/ppc: implement vstri[bh][lr]
->    target/ppc: implement vclrlb
->    target/ppc: implement vclrrb
->    target/ppc: implement vcntmb[bhwd]
->    target/ppc: implement vgnb
->    target/ppc: Move vsel and vperm/vpermr to decodetree
->    target/ppc: Move xxsel to decodetree
->    target/ppc: move xxperm/xxpermr to decodetree
->    target/ppc: Move xxpermdi to decodetree
->    target/ppc: Implement xxpermx instruction
->    tcg/tcg-op-gvec.c: Introduce tcg_gen_gvec_4i
->    target/ppc: Implement xxeval
->    target/ppc: Implement xxgenpcv[bhwd]m instruction
->    target/ppc: move xs[n]madd[am][ds]p/xs[n]msub[am][ds]p to decodetree
->    target/ppc: implement xs[n]maddqp[o]/xs[n]msubqp[o]
-> 
-> Victor Colombo (6):
->    target/ppc: Implement xvtlsbb instruction
->    target/ppc: Refactor VSX_SCALAR_CMP_DP
->    target/ppc: Implement xscmp{eq,ge,gt}qp
->    target/ppc: Move xscmp{eq,ge,gt,ne}dp to decodetree
->    target/ppc: Refactor VSX_MAX_MINC helper
->    target/ppc: Implement xs{max,min}cqp
-> 
-> Víctor Colombo (5):
->    target/ppc: Implement vmsumcud instruction
->    target/ppc: Implement vmsumudm instruction
->    target/ppc: Implement do_helper_XX3 and move xxperm* to use it
->    target/ppc: Move xs{max,min}[cj]dp to use do_helper_XX3
->    target/ppc: Implement xvcvbf16spn and xvcvspbf16 instructions
-
-I believe Victor would want to standardize whether he would like his name
-using acute or not (Víctor vs Victor). Both are fine, but sticking with
-a single one will make git happier because, as we can see here, git thinks
-that Víctor and Victor are 2 different people.
-
-For reference, Victor has 2 patches upstream without using acute.
-
-
-
-Thanks,
-
-
-Daniel
-
-
-
-> 
->   include/tcg/tcg-op-gvec.h           |  22 +
->   target/ppc/fpu_helper.c             | 172 ++++--
->   target/ppc/helper.h                 | 144 ++---
->   target/ppc/insn32.decode            | 189 +++++-
->   target/ppc/insn64.decode            |  40 +-
->   target/ppc/int_helper.c             | 354 ++++++-----
->   target/ppc/translate.c              |  19 +
->   target/ppc/translate/vmx-impl.c.inc | 894 +++++++++++++++++++++++++---
->   target/ppc/translate/vmx-ops.c.inc  |  41 +-
->   target/ppc/translate/vsx-impl.c.inc | 516 ++++++++++++----
->   target/ppc/translate/vsx-ops.c.inc  |  67 ---
->   tcg/ppc/tcg-target.c.inc            |   6 +
->   tcg/tcg-op-gvec.c                   | 146 +++++
->   13 files changed, 2037 insertions(+), 573 deletions(-)
-> 
 
