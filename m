@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0AA48A1D1
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 22:22:51 +0100 (CET)
-Received: from localhost ([::1]:43544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2796748A1E8
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Jan 2022 22:26:44 +0100 (CET)
+Received: from localhost ([::1]:50786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n727s-0006lY-NP
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 16:22:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44596)
+	id 1n72Bf-0003jy-8s
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 16:26:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1n7250-000457-UZ
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 16:19:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22718)
+ id 1n725P-0004u1-N4
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 16:20:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55059)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1n724z-0006YV-Aw
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 16:19:50 -0500
+ id 1n725L-0006m6-HE
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 16:20:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641849588;
+ s=mimecast20190719; t=1641849610;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=3QMWKfnkWCQcrKUmrnLFZ5FlumGhxjFXzkw8X8GRwsY=;
- b=KjONmJ3pE09WEUhoYns9MYg1yu74IKsbeUPYkbXQZt0skYVFgcBZFZboKkTcG+Yn6kWRwy
- mLj8kmZz2/9e14/Jyjjqc4t8l59bK/oE7PGGKjL/9kaabieWISxFrQJOzWn5pH3gWUBD8y
- GTokWedpfPRTCwvza7uNpxfnEnriXh8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5jJdidEP/fFEVpqtDW9VatAuswRI3QIAPouxWvzaMrY=;
+ b=Yq3rO5oTkqX/fQG/jEUmiyOHPyafbwuPRi+vuxk+2469aH+8vp3Lg4domxIy8YkBQLf55Z
+ ZmJL5r8dZHER+3tqT2WGpI2umkgOYZj5sVfNze2HH3XewHrDt/Br/GhwX7v5GcwswCMt5S
+ LnWwGlQKVYO+CfcM76AYTqjgHQXxpjU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-216-jGav_OYTNSusSsuyVRhQMg-1; Mon, 10 Jan 2022 16:19:45 -0500
-X-MC-Unique: jGav_OYTNSusSsuyVRhQMg-1
+ us-mta-653-Ahaty1NLP227otoPpcdmhw-1; Mon, 10 Jan 2022 16:20:07 -0500
+X-MC-Unique: Ahaty1NLP227otoPpcdmhw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A24D2F25;
- Mon, 10 Jan 2022 21:19:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C76B41023F53;
+ Mon, 10 Jan 2022 21:20:03 +0000 (UTC)
 Received: from laptop.redhat.com (unknown [10.39.194.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 84D8145D62;
- Mon, 10 Jan 2022 21:19:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 62F482B178;
+ Mon, 10 Jan 2022 21:19:44 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, thuth@redhat.com,
  pbonzini@redhat.com, lvivier@redhat.com, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
  david@gibson.dropbear.id.au, clg@kaod.org
-Subject: [PATCH 0/6] qtests/libqos: Introduce pci-arm
-Date: Mon, 10 Jan 2022 22:19:09 +0100
-Message-Id: <20220110211915.2749082-1-eric.auger@redhat.com>
+Subject: [PATCH 1/6] tests/qtest/vhost-user-test.c: Use vhostforce=on
+Date: Mon, 10 Jan 2022 22:19:10 +0100
+Message-Id: <20220110211915.2749082-2-eric.auger@redhat.com>
+In-Reply-To: <20220110211915.2749082-1-eric.auger@redhat.com>
+References: <20220110211915.2749082-1-eric.auger@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
@@ -58,7 +61,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124;
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -83,65 +86,27 @@ Cc: jean-philippe@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Up to now the virt-machine node only contains a virtio-mmio
-driver node but no driver that eventually produces any pci-bus
-interface.
+-netdev vhost-user,vhostforce is deprecated and vhostforce=on
+should be used instead.
 
-Hence, PCI libqos tests cannot be run with aarch64 binary.
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+---
+ tests/qtest/vhost-user-test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This series brings the pieces needed to be able to run PCI tests
-with the aarch64 binary: a generic-pcihost driver node gets
-instantiated by the machine. This later contains a pci-bus-arm
-driver which produces a pci-bus interface. Then all tests
-consuming the pci-bus interface can be run with the libqos arm
-virt machine.
-
-One of the first goal was to be able to run the virtio-iommu-pci
-tests as the virtio-iommu was initially targetting ARM and it
-was awkard to be run the test with the pc machine. This is now
-possible.
-
-Only the tests doing hotplug cannot be run yet as hotplug is
-not possible on the root bus. This will be dealt with separately
-by adding a root port to the object tree.
-
-Best Regards
-
-Eric
-
-This series can be found at:
-https://github.com/eauger/qemu/tree/libqos-pci-arm-v1
-
-Eric Auger (6):
-  tests/qtest/vhost-user-test.c: Use vhostforce=on
-  tests/qtest/libqos/pci: Introduce pio_limit
-  tests/qtest/libqos: Skip hotplug tests if pci root bus is not
-    hotpluggable
-  tests/qtest/vhost-user-blk-test: Setup MSIx to avoid error on aarch64
-  tests/qtest/vhost-user-blk-test: Factorize vq setup code
-  tests/qtest/libqos: Add pci-arm and add a pci-arm producer in arm-virt
-    machine
-
- tests/qtest/e1000e-test.c             |   6 +
- tests/qtest/libqos/arm-virt-machine.c |  47 +++++-
- tests/qtest/libqos/meson.build        |   3 +
- tests/qtest/libqos/pci-arm.c          | 219 ++++++++++++++++++++++++++
- tests/qtest/libqos/pci-arm.h          |  56 +++++++
- tests/qtest/libqos/pci-pc.c           |   1 +
- tests/qtest/libqos/pci-spapr.c        |   1 +
- tests/qtest/libqos/pci.c              |  78 +++++----
- tests/qtest/libqos/pci.h              |   7 +-
- tests/qtest/libqos/qgraph.c           |   7 +
- tests/qtest/libqos/qgraph.h           |  15 ++
- tests/qtest/vhost-user-blk-test.c     |  39 ++++-
- tests/qtest/vhost-user-test.c         |   2 +-
- tests/qtest/virtio-blk-test.c         |   5 +
- tests/qtest/virtio-net-test.c         |   5 +
- tests/qtest/virtio-rng-test.c         |   5 +
- 16 files changed, 452 insertions(+), 44 deletions(-)
- create mode 100644 tests/qtest/libqos/pci-arm.c
- create mode 100644 tests/qtest/libqos/pci-arm.h
-
+diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
+index 3d6337fb5c5..6e79935c47e 100644
+--- a/tests/qtest/vhost-user-test.c
++++ b/tests/qtest/vhost-user-test.c
+@@ -42,7 +42,7 @@
+ #define QEMU_CMD_MEMFD  " -m %d -object memory-backend-memfd,id=mem,size=%dM," \
+                         " -numa node,memdev=mem"
+ #define QEMU_CMD_CHR    " -chardev socket,id=%s,path=%s%s"
+-#define QEMU_CMD_NETDEV " -netdev vhost-user,id=hs0,chardev=%s,vhostforce"
++#define QEMU_CMD_NETDEV " -netdev vhost-user,id=hs0,chardev=%s,vhostforce=on"
+ 
+ #define HUGETLBFS_MAGIC       0x958458f6
+ 
 -- 
 2.26.3
 
