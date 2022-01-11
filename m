@@ -2,60 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370DD48AA15
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 10:04:16 +0100 (CET)
-Received: from localhost ([::1]:55812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D71AD48AA16
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 10:05:14 +0100 (CET)
+Received: from localhost ([::1]:57520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7D4c-0002VU-7d
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 04:04:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49720)
+	id 1n7D5d-0003hC-MB
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 04:05:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n7D1G-0001GP-DU
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 04:00:45 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:52735)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1n7D2r-0002CI-G6
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 04:02:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60529)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n7D1E-0007B9-N3
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 04:00:42 -0500
-Received: from [192.168.100.1] ([82.142.23.158]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MeTwa-1mX2qv0EYG-00aTNv; Tue, 11 Jan 2022 10:00:37 +0100
-Message-ID: <788123b9-1d4a-3f70-52d9-416e7f5c0e9b@vivier.eu>
-Date: Tue, 11 Jan 2022 10:00:35 +0100
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1n7D2o-0007Sq-UN
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 04:02:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641891737;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wmKt3iI4mRTGz+lD/+sEilr22APwXw4mH+0KJGI7k9I=;
+ b=Y4rUlT/sWSOeVkQALbkHGoV04kmkEo9JLJZFzyMebHQOyTIVU7wsF/esRHpEFZEn3O7Z2A
+ +JFkkAh6wY2ePL/vzHHqMpS6nZ4Wzo1s0ZEWrDVntUAXkRgOl52woRVOQabYZT1qaVodF4
+ 7D1/02NYgyZHfvDQ5AluUXw29IjHivk=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-479-AlSe6CgzN5yd6K-1WDHT7Q-1; Tue, 11 Jan 2022 04:02:15 -0500
+X-MC-Unique: AlSe6CgzN5yd6K-1WDHT7Q-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ i8-20020adfa508000000b001ad5418833cso93729wrb.5
+ for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 01:02:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=wmKt3iI4mRTGz+lD/+sEilr22APwXw4mH+0KJGI7k9I=;
+ b=by/aKYWqldvB/4ZxxcOYpX5vP3iNzikMurvjcKpkaN3XIQiO1rbpRiLnFTNQQUtc9d
+ oic0KOAM+AYcWHUWhO8CASSrNPcUiRGfgbD5amWhpn801kgSpBlnmfgV/RRLU51ICwaO
+ eMwFH1mIMXTzp+mkKZW/k1BOV0mlycTWgsA+puKoXwW4/fA+jdgLyj1iBnxxuOIVAHZ9
+ hTmYAOExB/pCesyZNm1M2Kuz2Ym4cVPZLu/8zX2HDaF66l/OEKmjlHqyOuSFyD8g6jux
+ 95HRWDui4wfj2oxPc4NwE30BzIYbPFvQ8uJ2upn0jhwd1u8BK4hsIqRI4QKrDxzSENm8
+ osjA==
+X-Gm-Message-State: AOAM533NiN+Y66GXDl4nOUoJKJ0kXq6vcJNdZ8kz8slseVdHLGgML3ry
+ tPPTnRn35HjJJkszCv4ij1nk/az47OPERivSNZCaaJFg7KV1kkq4ABe+x8KBPPBV7ZTr9TpkP+N
+ 5fmix91/zGcv7x/w=
+X-Received: by 2002:a7b:c00d:: with SMTP id c13mr1541052wmb.128.1641891734141; 
+ Tue, 11 Jan 2022 01:02:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJznjHUgYLGwpPD0cHDu/59i2gWLANsSJl7XqzmpDbX6F9zJfX7bnlK1uNQ/INC52OjjowTbsA==
+X-Received: by 2002:a7b:c00d:: with SMTP id c13mr1541026wmb.128.1641891733889; 
+ Tue, 11 Jan 2022 01:02:13 -0800 (PST)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id o10sm1216184wmq.31.2022.01.11.01.02.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Jan 2022 01:02:13 -0800 (PST)
+Subject: Re: [PATCH 0/3] virtio-iommu: Support VIRTIO_IOMMU_F_BYPASS_CONFIG
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+References: <20210930185050.262759-1-jean-philippe@linaro.org>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <a98b63f9-000b-7647-0ac5-3e6e5ec7f6a7@redhat.com>
+Date: Tue, 11 Jan 2022 10:02:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v2] linux-user: Fix clang warning for nios2-linux-user code
-Content-Language: fr
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20220111082900.3341274-1-peter.maydell@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220111082900.3341274-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:qA2ffYh59l/siB5AwYSEEQmHqBPQ8jdj4hC0TCOww91SYWwtnH/
- YBdN9pW7Hs+bpPZNH/XiCNZ85Wa62uiwmgYtV52ulhFyLa+j74AqkTgnMY8TxFsawqXBM1V
- ldNOVVA7BuuiFoY+hpqstJrzqZAWwRRQGpBGpsaYH36RXverDWLCD+6ooTzxhdfbzNufEPs
- x6qys27lbwYvpwllpDBcQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:tBkiVOYTNRg=:u0yovrDe+7cAPJe2rnSl7X
- UfON27IYEwgNuY1dEPZWdOKj28ZZJDADpOMzHoWOHziFCxdOv5ME4qO/tPW4hcnscwsYA4Hxf
- 8pu8vwe5YQfze3L5lg8P3+3RfhEvF3QPHalClNC2fTRKzqNVYc9QXdHfyD71b+cE0OhcQPpiD
- EIPJeS765adxv0DiPdEDTBoFapERkc6ZVPR5yfjKnoi/WK1iz1jA+ah1KkD2KcR8g2HqgHz9s
- E9vzbdGO5/66dGn2Z1H1mM/2UDHiunW88QFA8D+0htL0tDY01fp9t8oP5ene10yQt/dvP7y1y
- hF9BVRFLGlfWRvhAD+5XmcRlpNNc1XJ+B9b/QjVX2TRvjk0btbK4P2+B0ZSQEMH9jQE0hyABq
- svFwxjZ4+8W5Ty4T00QtN5hilPII44CJl5Rah9+n7xumfEVbFHjkSfmx/qkLLmthnOg21HDLn
- dYTvmH/TEL+ynX5WsOfPduKkNpOdYfAoYIySCRCJLmz1dZUKHE3Gjmnas8QaZMIJKCznirfYg
- K/Yhmbry37smbNvun5Gy+9P321zhfhzVusCFovfKZQMW4RoViG7z6w9xZ13plAWFem4PeyhTb
- pSiSmqbhN+XmTfxj4CdMWf17PCQHNW6uW1xB/4kw/YO/9254mCSMh2JIWKQjDBW8Cy7pUTwRM
- 7xVD5n5SxFZJW/O8VOMZeDtMNtbaZwedmv9mBQ7zeCCfLgTJ+dqoyEBXhVSzHHJ+aqkQ=
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210930185050.262759-1-jean-philippe@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,52 +102,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Warner Losh <imp@bsdimp.com>
+Reply-To: eric.auger@redhat.com
+Cc: qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 11/01/2022 à 09:29, Peter Maydell a écrit :
-> The clang in Ubuntu 18.04 (10.0.0-4ubuntu1) produces a warning
-> on the code added in commit f5ef0e518d03 where we use a
-> shifted expression in a boolean context:
-> 
-> ../../linux-user/elfload.c:2423:16: error: converting the result of '<<' to a boolean always evaluates to true [-Werror,-Wtautological-constant-compare]
->      } else if (LO_COMMPAGE) {
->                 ^
-> ../../linux-user/elfload.c:1102:22: note: expanded from macro 'LO_COMMPAGE'
-> #define LO_COMMPAGE  TARGET_PAGE_SIZE
->                       ^
-> /mnt/nvmedisk/linaro/qemu-from-laptop/qemu/include/exec/cpu-all.h:231:31: note: expanded from macro 'TARGET_PAGE_SIZE'
-> #define TARGET_PAGE_SIZE   (1 << TARGET_PAGE_BITS)
->                                ^
-> 1 error generated.
-> 
-> The warning is bogus because whether LO_COMMPAGE is zero or not
-> depends on compile-time ifdefs; shut the compiler up by adding
-> an explicit comparison to zero.
-> 
-> Fixes: f5ef0e518d0331 ("linux-user/nios2: Map a real kuser page")
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> v1->v2: fix sense of comparison (oops!)
-> 
->   linux-user/elfload.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> index 329b2375ef1..d3274edfdb7 100644
-> --- a/linux-user/elfload.c
-> +++ b/linux-user/elfload.c
-> @@ -2420,7 +2420,7 @@ static void pgb_static(const char *image_name, abi_ulong orig_loaddr,
->           } else {
->               offset = -(HI_COMMPAGE & -align);
->           }
-> -    } else if (LO_COMMPAGE) {
-> +    } else if (LO_COMMPAGE != 0) {
->           loaddr = MIN(loaddr, LO_COMMPAGE & -align);
->       }
->   
+Hi Jean, Michael,
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+On 9/30/21 8:50 PM, Jean-Philippe Brucker wrote:
+> Replace the VIRTIO_IOMMU_F_BYPASS feature with
+> VIRTIO_IOMMU_F_BYPASS_CONFIG, which enables a config space bit to switch
+> global bypass on and off.
+>
+> Add a boot-bypass option, which defaults to 'on' to be in line with
+> other vIOMMUs and to allow running firmware/bootloader that are unaware
+> of the IOMMU.
+>
+> See the spec change for more rationale
+> https://lists.oasis-open.org/archives/virtio-dev/202109/msg00137.html
+
+I guess the kernel bits should be merged in 5.17?
+
+Thanks
+
+Eric
+>
+> Jean-Philippe Brucker (3):
+>   NOMERGE: virtio-iommu: Add definitions for
+>     VIRTIO_IOMMU_F_BYPASS_CONFIG
+>   virtio-iommu: Default to bypass during boot
+>   virtio-iommu: Support bypass domain
+>
+>  include/hw/virtio/virtio-iommu.h              |  1 +
+>  include/standard-headers/linux/virtio_iommu.h | 10 +++-
+>  hw/virtio/virtio-iommu.c                      | 60 ++++++++++++++++---
+>  hw/virtio/trace-events                        |  4 +-
+>  4 files changed, 64 insertions(+), 11 deletions(-)
+>
+
 
