@@ -2,86 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69DCD48AA44
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 10:14:41 +0100 (CET)
-Received: from localhost ([::1]:41200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A9B48AA4B
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 10:17:45 +0100 (CET)
+Received: from localhost ([::1]:45352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7DEm-0003eV-8z
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 04:14:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51796)
+	id 1n7DHl-0006U4-4U
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 04:17:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1n7DCY-00027X-Qt
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 04:12:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31463)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n7DCf-0002Az-Bg
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 04:12:30 -0500
+Received: from 10.mo548.mail-out.ovh.net ([46.105.77.235]:48943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1n7DCW-0000Vs-2a
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 04:12:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641892334;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iCkocHUD83AR5f25dhsh3y6fszmX4YGSGfqIppXzh54=;
- b=MTf+F48v6zql916+qLfNvHHCy2C1eJj8eBF3Xdu0ZNbtc4ySpxw1M2c+4KTqixj2JCMuZ3
- 9qg9sy+v/kqZoTRKnDTsqlZgGd3MLnrtAab/LST2HPJoND0n8SN2YWOnVvBiTiq2y80uwW
- dma/Cz0M5135Dr4Mo0joCSIwGwJpWp4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-133-wUI6LnZCOkmTENdBSqCdHA-1; Tue, 11 Jan 2022 04:12:11 -0500
-X-MC-Unique: wUI6LnZCOkmTENdBSqCdHA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- c188-20020a1c35c5000000b00346a2160ea8so2890001wma.9
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 01:12:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=iCkocHUD83AR5f25dhsh3y6fszmX4YGSGfqIppXzh54=;
- b=TM6rSjZnAAVrrGSSpui6nJh0SA6qSzDzbKJxt8P+7nOF81kDWJkLs6PE0hdcWaiMez
- Rplj73CRRpqooZgB5vef63SixWXqfPxuUfdzm2Asy9l9ciotc5SJf5ucoe0j5CkhwrfQ
- U8j2WphO5E0IafXoYOgv9VDipZD8YvJZ0G+A35LgyDt1kI/FtUNFCHjJyoG7tdG+JH8X
- 4/1bBY/Gx0eYpU9myCF+aE/UBPwUaYT09HS6rivJRtGGkbdIMUcfiMVh6DxWzuSdkIEK
- iTeZxf8jWNWO09dgHpKeSWIHmhzAE7c7yID1h/gj/7kbK+PtqQZWKBmPobaG7mRvnvq4
- SIqA==
-X-Gm-Message-State: AOAM531UwwqJqTlwkTOf7rD9l0eaZgGCGS3sTS3KUQTXaBMfxomZOsyJ
- wWQpXRBxukmcQSPQQV/zybNu8PIhS87Jjpap5EjMGgD+yfbPDx/DAdWSrIFCxm4ft02owQeBoNe
- 64qmYqvdrXmr7bOg=
-X-Received: by 2002:adf:f74e:: with SMTP id z14mr2884449wrp.713.1641892330328; 
- Tue, 11 Jan 2022 01:12:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJysBaekcSRVTtT0yHSCcpBowt7l752M3ryUDuikOoMP57abCfeN80x811RTqbbCFzToz7RO5g==
-X-Received: by 2002:adf:f74e:: with SMTP id z14mr2884425wrp.713.1641892330106; 
- Tue, 11 Jan 2022 01:12:10 -0800 (PST)
-Received: from gator (nat-pool-brq-u.redhat.com. [213.175.37.12])
- by smtp.gmail.com with ESMTPSA id j11sm8759485wrt.5.2022.01.11.01.12.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jan 2022 01:12:09 -0800 (PST)
-Date: Tue, 11 Jan 2022 10:12:08 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [PATCH] softmmu/device_tree: Remove redundant pointer assignment
-Message-ID: <20220111091208.tyawoc3yrhxvm7lm@gator>
-References: <20220111032758.27804-1-wangyanan55@huawei.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n7DCc-0000WP-P4
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 04:12:28 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.114])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 32B4420F85;
+ Tue, 11 Jan 2022 09:12:24 +0000 (UTC)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 11 Jan
+ 2022 10:12:23 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G00134334b47-21cc-4d90-b9e8-b2bd7905c550,
+ 5383433EA887FCAE918FFCB03530F9AACAE8953B) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <0d2f0472-3707-e708-5a73-84954143bfde@kaod.org>
+Date: Tue, 11 Jan 2022 10:12:21 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220111032758.27804-1-wangyanan55@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v3 2/2] This patch includes i3c instance in ast2600 soc.
+Content-Language: en-US
+To: Troy Lee <troy_lee@aspeedtech.com>, <qemu-devel@nongnu.org>
+References: <20220111084546.4145785-1-troy_lee@aspeedtech.com>
+ <20220111084546.4145785-3-troy_lee@aspeedtech.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220111084546.4145785-3-troy_lee@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: d7598acd-9d43-4021-bd8b-13d3c2778be4
+X-Ovh-Tracer-Id: 5330010160848472940
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudehfedgtdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephfeggfdtjeefvdeuteefheejkeejuedtvdfgueduffeigeffhfejudeuiedthfevnecuffhomhgrihhnpehrvggrughthhgvughotghsrdhiohenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=46.105.77.235; envelope-from=clg@kaod.org;
+ helo=10.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,67 +70,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- wanghaibin.wang@huawei.com, David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ hailin.wu@aspeedtech.com, leetroy@gmail.com,
+ "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 11, 2022 at 11:27:58AM +0800, Yanan Wang wrote:
-> The pointer assignment "const char *p = path;" in function
-> qemu_fdt_add_path is unnecessary. Let's remove it and just
-> use the "path" passed in. No functional change.
+On 1/11/22 09:45, Troy Lee wrote:
+> v3:
+> - Remove unrelated changes to SPI2 address
+> - Remove controller irq line
 > 
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> ---
-> Based on: softmmu/device_tree: Silence compiler warning with --enable-sanitizers
-> https://patchew.org/QEMU/20220107133844.145039-1-thuth@redhat.com/
-> ---
->  softmmu/device_tree.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+> v2: Rebase to mainline QEMU
 > 
-> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-> index 9e96f5ecd5..8897c79ea4 100644
-> --- a/softmmu/device_tree.c
-> +++ b/softmmu/device_tree.c
-> @@ -556,7 +556,6 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
->  int qemu_fdt_add_path(void *fdt, const char *path)
->  {
->      const char *name;
-> -    const char *p = path;
->      int namelen, retval;
->      int parent = 0;
->  
-> @@ -565,9 +564,9 @@ int qemu_fdt_add_path(void *fdt, const char *path)
->      }
->  
->      do {
-> -        name = p + 1;
-> -        p = strchr(name, '/');
-> -        namelen = p != NULL ? p - name : strlen(name);
-> +        name = path + 1;
-> +        path = strchr(name, '/');
-> +        namelen = path != NULL ? path - name : strlen(name);
->  
->          retval = fdt_subnode_offset_namelen(fdt, parent, name, namelen);
->          if (retval < 0 && retval != -FDT_ERR_NOTFOUND) {
-> @@ -584,7 +583,7 @@ int qemu_fdt_add_path(void *fdt, const char *path)
->          }
->  
->          parent = retval;
-> -    } while (p);
-> +    } while (path);
->  
->      return retval;
->  }
-> -- 
-> 2.27.0
->
+> Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
 
- 
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
+You should consider updating the documentation :
+
+   https://qemu.readthedocs.io/en/latest/system/arm/aspeed.html
+
+Thanks,
+
+C.
+
+> ---
+>   hw/arm/aspeed_ast2600.c     | 16 ++++++++++++++++
+>   include/hw/arm/aspeed_soc.h |  3 +++
+>   2 files changed, 19 insertions(+)
+> 
+> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+> index e33483fb5d..8f37bdb1d8 100644
+> --- a/hw/arm/aspeed_ast2600.c
+> +++ b/hw/arm/aspeed_ast2600.c
+> @@ -61,6 +61,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
+>       [ASPEED_DEV_UART1]     = 0x1E783000,
+>       [ASPEED_DEV_UART5]     = 0x1E784000,
+>       [ASPEED_DEV_VUART]     = 0x1E787000,
+> +    [ASPEED_DEV_I3C]       = 0x1E7A0000,
+>       [ASPEED_DEV_SDRAM]     = 0x80000000,
+>   };
+>   
+> @@ -108,6 +109,7 @@ static const int aspeed_soc_ast2600_irqmap[] = {
+>       [ASPEED_DEV_ETH4]      = 33,
+>       [ASPEED_DEV_KCS]       = 138,   /* 138 -> 142 */
+>       [ASPEED_DEV_DP]        = 62,
+> +    [ASPEED_DEV_I3C]       = 102,   /* 102 -> 107 */
+>   };
+>   
+>   static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
+> @@ -223,6 +225,8 @@ static void aspeed_soc_ast2600_init(Object *obj)
+>   
+>       snprintf(typename, sizeof(typename), "aspeed.hace-%s", socname);
+>       object_initialize_child(obj, "hace", &s->hace, typename);
+> +
+> +    object_initialize_child(obj, "i3c", &s->i3c, TYPE_ASPEED_I3C);
+>   }
+>   
+>   /*
+> @@ -523,6 +527,18 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+>       sysbus_mmio_map(SYS_BUS_DEVICE(&s->hace), 0, sc->memmap[ASPEED_DEV_HACE]);
+>       sysbus_connect_irq(SYS_BUS_DEVICE(&s->hace), 0,
+>                          aspeed_soc_get_irq(s, ASPEED_DEV_HACE));
+> +
+> +    /* I3C */
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->i3c), errp)) {
+> +        return;
+> +    }
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i3c), 0, sc->memmap[ASPEED_DEV_I3C]);
+> +    for (i = 0; i < ASPEED_I3C_NR_DEVICES; i++) {
+> +        qemu_irq irq = qdev_get_gpio_in(DEVICE(&s->a7mpcore),
+> +                                        sc->irqmap[ASPEED_DEV_I3C] + i);
+> +        /* The AST2600 I3C controller has one IRQ per bus. */
+> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->i3c.devices[i]), 0, irq);
+> +    }
+>   }
+>   
+>   static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
+> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+> index 18fb7eed46..cae9906684 100644
+> --- a/include/hw/arm/aspeed_soc.h
+> +++ b/include/hw/arm/aspeed_soc.h
+> @@ -21,6 +21,7 @@
+>   #include "hw/timer/aspeed_timer.h"
+>   #include "hw/rtc/aspeed_rtc.h"
+>   #include "hw/i2c/aspeed_i2c.h"
+> +#include "hw/misc/aspeed_i3c.h"
+>   #include "hw/ssi/aspeed_smc.h"
+>   #include "hw/misc/aspeed_hace.h"
+>   #include "hw/watchdog/wdt_aspeed.h"
+> @@ -51,6 +52,7 @@ struct AspeedSoCState {
+>       AspeedRtcState rtc;
+>       AspeedTimerCtrlState timerctrl;
+>       AspeedI2CState i2c;
+> +    AspeedI3CState i3c;
+>       AspeedSCUState scu;
+>       AspeedHACEState hace;
+>       AspeedXDMAState xdma;
+> @@ -141,6 +143,7 @@ enum {
+>       ASPEED_DEV_HACE,
+>       ASPEED_DEV_DPMCU,
+>       ASPEED_DEV_DP,
+> +    ASPEED_DEV_I3C,
+>   };
+>   
+>   #endif /* ASPEED_SOC_H */
+> 
 
 
