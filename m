@@ -2,87 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5176348B122
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 16:42:33 +0100 (CET)
-Received: from localhost ([::1]:36982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D256748B147
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 16:49:34 +0100 (CET)
+Received: from localhost ([::1]:43372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7JI8-0000fv-FA
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 10:42:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38386)
+	id 1n7JOw-0005Hp-07
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 10:49:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n7JGQ-0007Fk-9q
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 10:40:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22485)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n7JNW-0003zN-QR
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 10:48:08 -0500
+Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222]:57777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n7JGI-0001Oq-TY
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 10:40:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641915636;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VDW84FgZu5Va0KkKFnJ4JdUVPZDDRxkfydTsbmL/7zE=;
- b=eoHbOX2fmnNrNWTyu4Gf9B0IH+uh+6OMUsUKCDpw6Tm4i9+8OJJOswxwrrCSX5zbjYUDwv
- UGIK2klVvltti2m3nSPPT7Efu3T5KMDin1eTNKENUrQkEWjFibrSVLuXANqGFMbkkE97bV
- GOyhn9khS0k9Z54tezNdlGeVwtPj4/Y=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-355-4xNl0YA-PBanOqRY26-5kA-1; Tue, 11 Jan 2022 10:40:33 -0500
-X-MC-Unique: 4xNl0YA-PBanOqRY26-5kA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- r8-20020a05640251c800b003f9a52daa3fso13634189edd.22
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 07:40:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=VDW84FgZu5Va0KkKFnJ4JdUVPZDDRxkfydTsbmL/7zE=;
- b=BSz+GyTFT1JsswrkbM6QD+VtmQimJ76Z0Qwoq+ZjBKtagQqoStQRjZzF9eXgRN2Xlw
- qGknh7JnzIpYDIKMyS7L1FBLAO/iRVPdF+cej9kQTGUsxUFV+Yq2qNlGYAj6IZ78jOLJ
- 76Y4wFBfkU9X6GAC3kmMX4qJOzbNGhDYtYuo47DRFVeCGWB4XYX/53Neup1X6vGRFYiY
- 1fFMRRqO2swJLgP1Lqmv7wUf1hOy55bbtdkELiXcERMdYPddu9UcrbCSNATXjhS11nzs
- csYk6hoOdDYRqojsqeCIET/CdZ8buYNxMX3952NXnjiFa2Vd4DGnu7HHj9tu6YVSjMlY
- OjrA==
-X-Gm-Message-State: AOAM5327EUHCDK9SKY+1lVXa9+x1UXY4UEfeg4ow2EwJONgju+ONc9vq
- vrkTC3VQspQos6voBdMmwPQkrYjFfplIbv5ZJESJO5gi6V5siUF3DybV9vf+v57Cva9X/MUNzG+
- rTHWCVrmH8J3cqig=
-X-Received: by 2002:a17:906:2bc3:: with SMTP id
- n3mr4249465ejg.332.1641915632618; 
- Tue, 11 Jan 2022 07:40:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwCBfHXYpBEthrk1FacKGz77RrYcCyld3gnD+oUr/tjqd5+YMzTq8WLk2mFhaNs5H9qsHW4FA==
-X-Received: by 2002:a17:906:2bc3:: with SMTP id
- n3mr4249455ejg.332.1641915632442; 
- Tue, 11 Jan 2022 07:40:32 -0800 (PST)
-Received: from redhat.com ([2.55.5.100])
- by smtp.gmail.com with ESMTPSA id p16sm3769817ejn.76.2022.01.11.07.40.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jan 2022 07:40:31 -0800 (PST)
-Date: Tue, 11 Jan 2022 10:40:28 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH 0/3] virtio-iommu: Support VIRTIO_IOMMU_F_BYPASS_CONFIG
-Message-ID: <20220111103917-mutt-send-email-mst@kernel.org>
-References: <20210930185050.262759-1-jean-philippe@linaro.org>
- <a98b63f9-000b-7647-0ac5-3e6e5ec7f6a7@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n7JNK-0002Fp-3g
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 10:48:00 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.10])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 1C06422DDB;
+ Tue, 11 Jan 2022 15:47:48 +0000 (UTC)
+Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 11 Jan
+ 2022 16:47:47 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G003309d6223-8894-4873-943b-32961459e864,
+ 5383433EA887FCAE918FFCB03530F9AACAE8953B) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <8cf0a790-7dca-0d3b-7a2f-b5da5865999d@kaod.org>
+Date: Tue, 11 Jan 2022 16:47:46 +0100
 MIME-Version: 1.0
-In-Reply-To: <a98b63f9-000b-7647-0ac5-3e6e5ec7f6a7@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v5 4/5] ppc/pnv: Introduce user creatable pnv-phb4 devices
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
+References: <20220111131027.599784-1-danielhb413@gmail.com>
+ <20220111131027.599784-5-danielhb413@gmail.com>
+ <69ab634e-bdb6-d5ad-e6be-771ac3d9a780@kaod.org>
+ <a7b6515f-70da-24ce-006b-4e97a9a8577f@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <a7b6515f-70da-24ce-006b-4e97a9a8577f@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 9fd067b4-b566-466b-840a-d49d2e705bf0
+X-Ovh-Tracer-Id: 12007441034192128992
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudehfedgkedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepueevledvjeetgeetfeeiveeftefffedvvdeikeetveelfeeglefgueetvdefvdefnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
+Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
+ helo=9.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,48 +72,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 11, 2022 at 10:02:12AM +0100, Eric Auger wrote:
-> Hi Jean, Michael,
+On 1/11/22 15:57, Daniel Henrique Barboza wrote:
 > 
-> On 9/30/21 8:50 PM, Jean-Philippe Brucker wrote:
-> > Replace the VIRTIO_IOMMU_F_BYPASS feature with
-> > VIRTIO_IOMMU_F_BYPASS_CONFIG, which enables a config space bit to switch
-> > global bypass on and off.
-> >
-> > Add a boot-bypass option, which defaults to 'on' to be in line with
-> > other vIOMMUs and to allow running firmware/bootloader that are unaware
-> > of the IOMMU.
-> >
-> > See the spec change for more rationale
-> > https://lists.oasis-open.org/archives/virtio-dev/202109/msg00137.html
 > 
-> I guess the kernel bits should be merged in 5.17?
+> On 1/11/22 11:42, Cédric Le Goater wrote:
+>> On 1/11/22 14:10, Daniel Henrique Barboza wrote:
+>>> This patch introduces pnv-phb4 user creatable devices that are created
+>>> in a similar manner as pnv-phb3 devices, allowing the user to interact
+>>> with the PHBs directly instead of creating PCI Express Controllers that
+>>> will create a certain amount of PHBs per controller index.
+>>>
+>>> We accomplish this by doing the following:
+>>>
+>>> - add a pnv_phb4_get_stack() helper to retrieve which stack an user
+>>> created phb4 would occupy;
+>>>
+>>> - when dealing with an user created pnv-phb4 (detected by checking if
+>>> phb->stack is NULL at the start of phb4_realize()), retrieve its stack
+>>> and initialize its properties as done in stk_realize();
+>>>
+>>> - use 'defaults_enabled()' in stk_realize() to avoid creating and
+>>> initializing a 'stack->phb' qdev that might be overwritten by an user
+>>> created pnv-phb4 device. This process is wrapped into a new helper
+>>> called pnv_pec_stk_default_phb_realize().
+>>>
+>>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>>
+>> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+>>
+>> Nothing is left in the stack model. I think the next cleanup is to
+>> get rid of it.
 > 
-> Thanks
 > 
-> Eric
+> The first step would be to move some MemoryOps from the stack to the phb, then
+> little by little we can get into a point where the stack will just be a pointer
+> to its phb.
+> 
+> This is something that we can keep working on in smaller bits here and there.
+> I mean, assuming that we're not going to use this code base for PHB5. If that's
+> the case then I can prioritize this cleanup.
 
-They are in fact in my tree and set to go into 5.16.
-They've been in linux-next for a whole cycle now.
-But if you feel I'm rushing things, pls let me know.
-Also, pls let me know whether my tree actually works well for you!
+PHB5 uses the same models. Only the PHB version and the root port
+model need some adaptation.
 
-> >
-> > Jean-Philippe Brucker (3):
-> >   NOMERGE: virtio-iommu: Add definitions for
-> >     VIRTIO_IOMMU_F_BYPASS_CONFIG
-> >   virtio-iommu: Default to bypass during boot
-> >   virtio-iommu: Support bypass domain
-> >
-> >  include/hw/virtio/virtio-iommu.h              |  1 +
-> >  include/standard-headers/linux/virtio_iommu.h | 10 +++-
-> >  hw/virtio/virtio-iommu.c                      | 60 ++++++++++++++++---
-> >  hw/virtio/trace-events                        |  4 +-
-> >  4 files changed, 64 insertions(+), 11 deletions(-)
-> >
+
+On branch https://github.com/legoater/qemu/commits/powernv-7.0,
+I have merged :
+
+   ppc/pnv: Move root port allocation under pnv_pec_stk_default_phb_realize()
+   ppc/pnv: Add a 'rp_model' class attribute for the PHB4 PEC
+   ppc/pnv: Remove PHB4 version property
+
+preparing ground for :
+
+   ppc/pnv: Add model for POWER10 PHB5 PCIe Host bridge
+
+Should we rework slightly your patchset to include them ? Or we don't
+care may be. Please advise :)
+
+Thanks,
+
+C.
 
 
