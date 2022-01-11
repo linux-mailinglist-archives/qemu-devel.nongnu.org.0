@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D71048B827
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 21:17:58 +0100 (CET)
-Received: from localhost ([::1]:46376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB03D48B89A
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 21:25:21 +0100 (CET)
+Received: from localhost ([::1]:34496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7Naf-0005lO-Gh
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 15:17:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44752)
+	id 1n7Nho-0000AE-Sr
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 15:25:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n7NCe-0008A5-GX
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n7NCe-00088M-1g
  for qemu-devel@nongnu.org; Tue, 11 Jan 2022 14:53:08 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:52787)
+Received: from mout.kundenserver.de ([217.72.192.75]:49479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n7NCb-0008I9-QG
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 14:53:08 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n7NCb-0008IL-Rb
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 14:53:07 -0500
 Received: from quad ([82.142.23.158]) by mrelayeu.kundenserver.de (mreue109
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mt6x5-1mDuEQ1u3t-00tVw7; Tue, 11
- Jan 2022 20:53:03 +0100
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MirfG-1mSYnb3b4W-00etze; Tue, 11
+ Jan 2022 20:53:04 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/30] linux-user: Implement PR_SET_PDEATHSIG
-Date: Tue, 11 Jan 2022 20:52:46 +0100
-Message-Id: <20220111195247.1737641-30-laurent@vivier.eu>
+Subject: [PULL 30/30] linux-user: Implement capability prctls
+Date: Tue, 11 Jan 2022 20:52:47 +0100
+Message-Id: <20220111195247.1737641-31-laurent@vivier.eu>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220111195247.1737641-1-laurent@vivier.eu>
 References: <20220111195247.1737641-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:g6DNtmrPiZ3wq/lx4Yv706OwXC+B7mgsMpHtj0fAsxDQ9gxEksZ
- 49HdrcsYBjINef/UEjiiFi4XvhkHr3kGecjTcsWfKccxtsFxBpyIgjvmnjWCQMJ8C/X+bYS
- cMBejhz8YTj9F6XS2Cv4Gsp5m0eGNJU9yLxSa+pJuDR1NyOmQABT1sZdG6NNBs7WYVSP19I
- M/SSp4FiN5vwBK3EGw2Pw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VvQyIopO+X8=:hIr0zplx5Zuu+53+mCIh+M
- 5rZ466HD8pTIrVwORHd6glDGrPjHOw/XUi2Sw25LhcrWEov2vRrMuIJ8eHB3rP6YfPXHsw7QO
- HbWr5oDPfiUDDNIbOXRH6VG1P2HvspvBS1aldvs4mr/znpa+sRSvD1aRo572T+npiCelZFIa/
- 1PORfNdKGyD3Hz9aMkkCAIrjUOpfK5dvr9thB2DzGQaK/diec0gNTVCwS+ELcp0byvZP4pOyc
- I9aTsAG8cBkLm5/NFBRNAM2I6HPWHfSRZ2UWUhO99dM1aYbTYKgojGmLn8MNoE2b/HHfBfDi7
- IT7Xf2vAIGT30a/QOVUU2Kirg6XoHxMdnaqYxb4Zr42bFwR6jwtn3nITMBtlfOuQGzCgXg9QE
- 8gOXmG4H2Mna5dxNiODNiAyHzbd31NuZ3piGazYm01jeKi11AaPasi9xAslNv16WAqbF32VFG
- 585nPMezRf6CirWSCYdkKUp8UeiEZwIV5b5HKN2u2VRO+mntokIKF3LARIkS2sUeMh6Pnpa5f
- WpLXEoXw99Qw55gZKWVy1wcZFrFX+bsYT0WmqjzU4nzWTs/7TMAFK/Sx7jHreeAURz4fEAfrj
- 7x6iRawabPRDmLCCYWk92oXXc0VqSyxaVeVXzsFHvRx9mJIhOJPn8vH9BG+4Dt6pz0XNfQxSy
- llkuNXO7hKWUioN5bMBlYpIWTBbfp0GsEfmqa8mwQxcXHQ2T1VO4I78CCLZ6GuPA3tfc=
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:X65KyYpmgvTzNs05peiuXT3UJPO51Dun7bUw3kYCzuStBpYY57I
+ 7KrA2FLRg10RMPrSPVZA/cYSDcxZPg75YenFXBr//MUNBKsZa8QI+kPPjLNoH51fb8QqO9+
+ 6adNyJCtfpGZpDWHri0ALQpXxhNwx+MbBhEKFPkRtGcPSxK2Lr27aI+Ggjvo1UxOoH0bdbZ
+ JOR9RBAWI6+vQDhbx13/A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ixT0RA+x9a4=:25YiJ8Dra7/1ufTsPwiaDh
+ 3Pvu0WuenYw8vfpIHGwVmmG/STdFrJQHfbAv6nyVPBzl3pQH+zJTFs2KX5kprNHk0sqfzrPMZ
+ SgguvZM4EhI54BvaYpROP1GkaUC/RTFrvJGF50jHaeHhrDqqXGzGcT5/nUGsf2NNKU9n1bovP
+ /4vFnkMIwnD9iWVrv3yV5ciIKBWUUStQZVDp1LUiVCRtHcIUNo64aGPAoh2qRSKRm8lUYW0Fa
+ TFsCBDEzw6FjOyBZHE9qJwYsDRqcPR1T1IhWR10cso//m8xrSuGDeW3Px6Q2zjLUTn6pn09LO
+ eADKYq6DH21axlQ30eZe3b0+hB+XXWnTf2brPjrKU9vfnf3pd5ixDfEiPK8VshbB2DAZe690V
+ uZwYpRy9HzgA4y72LLRE0X769qK2ZYlerYVJp6JlDP3q7zcnHnLOasIt9WfWGkUSxdTZBoHsN
+ mnyphN8W19N3fBtVtP9sIsFro54gi30rBoeAR70bbBeZvOQ61sG7gbw/ZC333fxOz4q1nzzy+
+ a89llI1EMDXMh5uX/0cCeUvwuJMYr7nltssGV444qP2BD8EnDnE2icRU0LlApmXlfAMOb0Tgm
+ r1usbD68TV4G5hIt9ZUlBXdX2M/eHr0l/vf7KQLAgpWafL3N8rkbJxL/zpXmgp+jQLMtv5LaZ
+ CJVMZSM9e3uFAtzMMmVhh6qlmK74PZF6V4T3pEtbT+FZ9OIBd631CncDx0x/mstGylss=
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,28 +72,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
+This is PR_CAPBSET_READ, PR_CAPBSET_DROP and the "legacy"
+PR_CAP_AMBIENT PR_GET_SECUREBITS, PR_SET_SECUREBITS.
+
+All of these arguments are integer values only, and do not
+require mapping of values between host and guest.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220106225738.103012-4-richard.henderson@linaro.org>
+Message-Id: <20220106225738.103012-5-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 3 +++
- 1 file changed, 3 insertions(+)
+ linux-user/syscall.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index b17cfe31c8b4..f9ae6328b53b 100644
+index f9ae6328b53b..5950222a77e0 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -6450,6 +6450,9 @@ static abi_long do_prctl(CPUArchState *env, abi_long option, abi_long arg2,
-             }
-             return ret;
-         }
-+    case PR_SET_PDEATHSIG:
-+        return get_errno(prctl(PR_SET_PDEATHSIG, target_to_host_signal(arg2),
-+                               arg3, arg4, arg5));
-     case PR_GET_NAME:
-         {
-             void *name = lock_user(VERIFY_WRITE, arg2, 16, 1);
+@@ -6504,10 +6504,15 @@ static abi_long do_prctl(CPUArchState *env, abi_long option, abi_long arg2,
+     case PR_SET_UNALIGN:
+         return do_prctl_set_unalign(env, arg2);
+ 
++    case PR_CAP_AMBIENT:
++    case PR_CAPBSET_READ:
++    case PR_CAPBSET_DROP:
+     case PR_GET_DUMPABLE:
+     case PR_SET_DUMPABLE:
+     case PR_GET_KEEPCAPS:
+     case PR_SET_KEEPCAPS:
++    case PR_GET_SECUREBITS:
++    case PR_SET_SECUREBITS:
+     case PR_GET_TIMING:
+     case PR_SET_TIMING:
+     case PR_GET_TIMERSLACK:
 -- 
 2.33.1
 
