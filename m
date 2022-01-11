@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 293F248B93A
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 22:17:18 +0100 (CET)
-Received: from localhost ([::1]:39042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82ADF48B93B
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 22:17:23 +0100 (CET)
+Received: from localhost ([::1]:39186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7OW4-0000I3-OG
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 16:17:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33430)
+	id 1n7OWA-0000Nw-JS
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 16:17:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
- id 1n7OTf-0005yU-7B
+ id 1n7OTf-0005yc-I3
  for qemu-devel@nongnu.org; Tue, 11 Jan 2022 16:14:47 -0500
-Received: from [2a00:1450:4864:20::12d] (port=41544
- helo=mail-lf1-x12d.google.com)
+Received: from [2a00:1450:4864:20::136] (port=38419
+ helo=mail-lf1-x136.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
- id 1n7OTd-000315-81
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 16:14:46 -0500
-Received: by mail-lf1-x12d.google.com with SMTP id x7so1090408lfu.8
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 13:14:44 -0800 (PST)
+ id 1n7OTd-000318-TF
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 16:14:47 -0500
+Received: by mail-lf1-x136.google.com with SMTP id x6so1146430lfa.5
+ for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 13:14:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Vw1PSKwGa3mvEOOChDFgC4lzo8KZEwZZFyc5N+ZiSFg=;
- b=j7mPbE53IqEUtp1oXIvjcp0jJwFyEzPwZCkmyqDiHgOsl4XFyi8sW7ITDgfvuFl38S
- TpL8zN9UPG7i8hHUIe+059ZbTkqT4zXsFEYMaqRzdNlBwdSVxTzz56mH09EQStyjaI+l
- KEZlTfqOxYK/2UNmux/O5vGXa5D0NXrVcDLMTjrqw1abIcIIFiT+K9o31EYxrkF0aB0E
- 65m8VJZK6wdLpvkKSum/hkRvSYgVwqvu3wJqZqHeU4UyIgXvNMrYTPbuUDvCbY9FDpHW
- GZW67TCjCkg3BCP/rszvQt++x4oqpt2eCw+Hx4aiuHrYmuB3gf3mMrM+yzSrP09DjIH6
- zvzQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=/b+YJtOqXN4cQx3onq7fYH5j1qiIM+TTZPlN+ePk8FU=;
+ b=Gs9ndj5RJ1Z5sxfnhv+vib6MswmWL2AXaqRc/W96wPnn6WfZ2e7zoxO3IBPWuUI9gJ
+ a7SeInzD5HOVfuasHLcZ8gA6GT/3xSsk8+m2LiNiofaa0DjKh5ItOrp6YixDHQKnJHTT
+ QAavigx/u/b+4d8nArX5o2da1RnhFH7xq22hUPgBZxC0hCpyCemxOE1BLvh2mktoAJki
+ bvfXLeRxDb+sF3SOR+EUFNgcw48AXfcjE2b4e3Vp0ZvD8Xt5DSE1nJAE+Df9P5dSCLZX
+ TYgTqM6cLVpz035lgrrGNoo5whHKGLlPBuDQ2yLFJhnaooN/trhzn907uLBTCCnlEnNe
+ M7Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Vw1PSKwGa3mvEOOChDFgC4lzo8KZEwZZFyc5N+ZiSFg=;
- b=fgH9DdOmhPCDEKTa3IE8tPCIuyxA1SV5eti0uR7sSWn5WjU6mFpqrizrdKv8Fv2qHx
- RFLJ3vJ9LM+6Yd2DP9tyCj+G4wxx/TulSxQWcwj6J1o8OX0kdr97XK7yFHuuqlgfkDov
- S8JSUA/FKs2lDn5zt5hqkjaCbFG94butykdkc5t/lClaK6981ldS0RTGuAMS6a0OVdtk
- CW80+mSAOVQHo50a3X0wknlbptoWIqryR/HgGNHSKf/OAOKWFy/Rq+8gYuxVPriTbUnE
- 8Z5uU1foFe8bMDrbGdj1QAGUsll7M3K6LI8Hp5niecajK4RgCQt1WI1k+kx3PuJx7Nhb
- cRsg==
-X-Gm-Message-State: AOAM533y2+oMKFGDMufp2RGpfI3ibmJlIWumgtsPQiZ19NO6zKHHft/x
- U0gluZlbTP5kHteaPrFPfIDEu7hHWQ1ICQ==
-X-Google-Smtp-Source: ABdhPJye+tF1z9Us4IeW5a7tOuHmaBY6yuoEdwaMi4W/V8VawKLQkbYW19xhVlPvtEdrTWoKwe756A==
-X-Received: by 2002:a2e:8715:: with SMTP id m21mr4078062lji.364.1641935682604; 
- Tue, 11 Jan 2022 13:14:42 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=/b+YJtOqXN4cQx3onq7fYH5j1qiIM+TTZPlN+ePk8FU=;
+ b=rKJ889sZ+iP46MsVAzvN9mb1q03RAh85XzwANL602M5PamI0QxfgeDimMJEBeY6Oa2
+ gaiJEKDAQewi/NTyqY83+3l997YKb/qNp2z4YBh6DDe+RwbFUYlVk6UbC4F54EpE2IFZ
+ PejBX4zs3MhW53eWaOm2nEP3XLPISD65deldnosF5eiO5Y5t2lwehjdENWgFNAiKQguy
+ ABrwY4Ng2wBJgA3j0b/zh35WfBp4xsRCFgJZdJFIgjAqhEqD1sNzQ5xF4i8Ggi2YKpMS
+ DviJHT5qVeipHkO8ITJgkSn4B2UbJYyqleSBEMZq00GLSp6w0FZJ1QNSS+3bjRWhTTpq
+ hWZQ==
+X-Gm-Message-State: AOAM530Kro2TUyWGYWVDym4NOR6DbsP6VhbAkxZyl5gT6mr/KGxzr0qc
+ nOJm7cLyAscNujqp0A3nMNOj3wxnxTL3TA==
+X-Google-Smtp-Source: ABdhPJxoN1mw3zlJw0cWF4m9dghDclQuZb8TuJAiGk8k/ELvR7B67fVxhmq5N4LGH9DWuSurMX8sgQ==
+X-Received: by 2002:ac2:53b0:: with SMTP id j16mr4810747lfh.512.1641935683839; 
+ Tue, 11 Jan 2022 13:14:43 -0800 (PST)
 Received: from UNIT-808.lan ([2a02:2698:6c2a:6a8d:c51:3b28:285b:bcad])
- by smtp.gmail.com with ESMTPSA id u5sm1422045lja.36.2022.01.11.13.14.41
+ by smtp.gmail.com with ESMTPSA id u5sm1422045lja.36.2022.01.11.13.14.42
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 11 Jan 2022 13:14:41 -0800 (PST)
+ Tue, 11 Jan 2022 13:14:43 -0800 (PST)
 From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 0/7] Add vmnet.framework based network backend
-Date: Wed, 12 Jan 2022 00:14:15 +0300
-Message-Id: <20220111211422.21789-1-yaroshchuk2000@gmail.com>
+Subject: [PATCH v10 1/7] net/vmnet: add vmnet dependency and customizable
+ option
+Date: Wed, 12 Jan 2022 00:14:16 +0300
+Message-Id: <20220111211422.21789-2-yaroshchuk2000@gmail.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20220111211422.21789-1-yaroshchuk2000@gmail.com>
+References: <20220111211422.21789-1-yaroshchuk2000@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::136
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
- envelope-from=yaroshchuk2000@gmail.com; helo=mail-lf1-x12d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::136;
+ envelope-from=yaroshchuk2000@gmail.com; helo=mail-lf1-x136.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -91,130 +94,94 @@ Cc: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>, jasowang@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-macOS provides networking API for VMs called 'vmnet.framework':
-https://developer.apple.com/documentation/vmnet
+vmnet.framework dependency is added with 'vmnet' option
+to enable or disable it. Default value is 'auto'.
 
-We can provide its support as the new QEMU network backends which
-represent three different vmnet.framework interface usage modes:
+vmnet features to be used are available since macOS 11.0,
+corresponding probe is created into meson.build.
 
-  * `vmnet-shared`:
-    allows the guest to communicate with other guests in shared mode and
-    also with external network (Internet) via NAT. Has (macOS-provided)
-    DHCP server; subnet mask and IP range can be configured;
+Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+---
+ meson.build                   | 16 +++++++++++++++-
+ meson_options.txt             |  2 ++
+ scripts/meson-buildoptions.sh |  3 +++
+ 3 files changed, 20 insertions(+), 1 deletion(-)
 
-  * `vmnet-host`:
-    allows the guest to communicate with other guests in host mode.
-    By default has enabled DHCP as `vmnet-shared`, but providing
-    network unique id (uuid) can make `vmnet-host` interfaces isolated
-    from each other and also disables DHCP.
-
-  * `vmnet-bridged`:
-    bridges the guest with a physical network interface.
-
-This backends cannot work on macOS Catalina 10.15 cause we use
-vmnet.framework API provided only with macOS 11 and newer. Seems
-that it is not a problem, because QEMU guarantees to work on two most
-recent versions of macOS which now are Big Sur (11) and Monterey (12).
-
-Also, we have one inconvenient restriction: vmnet.framework interfaces
-can create only privileged user:
-`$ sudo qemu-system-x86_64 -nic vmnet-shared`
-
-Attempt of `vmnet-*` netdev creation being unprivileged user fails with
-vmnet's 'general failure'.
-
-This happens because vmnet.framework requires `com.apple.vm.networking`
-entitlement which is: "restricted to developers of virtualization software.
-To request this entitlement, contact your Apple representative." as Apple
-documentation says:
-https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_vm_networking
-
-One more note: we still have quite useful but not supported
-'vmnet.framework' features as creating port forwarding rules, IPv6
-NAT prefix specifying and so on.
-
-Nevertheless, new backends work fine and tested within `qemu-system-x86-64`
-on macOS Bir Sur 11.5.2 host with such nic models:
-  * e1000-82545em
-  * virtio-net-pci
-  * vmxnet3
-
-The guests were:
-  * macOS 10.15.7
-  * Ubuntu Bionic (server cloudimg)
-
-
-This series partially reuses patches by Phillip Tennen:
-https://patchew.org/QEMU/20210218134947.1860-1-phillip.ennen@gmail.com/
-So I included them signed-off line into one of the commit messages and
-also here.
-
-v1 -> v2:
- Since v1 minor typos were fixed, patches rebased onto latest master,
- redundant changes removed (small commits squashed)
-v2 -> v3:
- - QAPI style fixes
- - Typos fixes in comments
- - `#include`'s updated to be in sync with recent master
-v3 -> v4:
- - Support vmnet interfaces isolation feature
- - Support vmnet-host network uuid setting feature
- - Refactored sources a bit
-v4 -> v5:
- - Missed 6.2 boat, now 7.0 candidate
- - Fix qapi netdev descriptions and styles
-   (@subnetmask -> @subnet-mask)
- - Support vmnet-shared IPv6 prefix setting feature
-v5 -> v6
- - provide detailed commit messages for commits of
-   many changes
- - rename properties @dhcpstart and @dhcpend to
-   @start-address and @end-address
- - improve qapi documentation about isolation
-   features (@isolated, @net-uuid)
-v6 -> v7:
- - update MAINTAINERS list
-v7 -> v8
- - QAPI code style fixes
-v8 -> v9
- - Fix building on Linux: add missing qapi
-   `'if': 'CONFIG_VMNET'` statement to Netdev union
-v9 -> v10
- - Disable vmnet feature for macOS < 11.0: add
-   vmnet.framework API probe into meson.build.
-   This fixes QEMU building on macOS < 11.0:
-   https://patchew.org/QEMU/20220110034000.20221-1-jasowang@redhat.com/
-
-Vladislav Yaroshchuk (7):
-  net/vmnet: add vmnet dependency and customizable option
-  net/vmnet: add vmnet backends to qapi/net
-  net/vmnet: implement shared mode (vmnet-shared)
-  net/vmnet: implement host mode (vmnet-host)
-  net/vmnet: implement bridged mode (vmnet-bridged)
-  net/vmnet: update qemu-options.hx
-  net/vmnet: update MAINTAINERS list
-
- MAINTAINERS                   |   5 +
- meson.build                   |  16 +-
- meson_options.txt             |   2 +
- net/clients.h                 |  11 ++
- net/meson.build               |   7 +
- net/net.c                     |  10 ++
- net/vmnet-bridged.m           | 111 ++++++++++++
- net/vmnet-common.m            | 330 ++++++++++++++++++++++++++++++++++
- net/vmnet-host.c              | 105 +++++++++++
- net/vmnet-shared.c            |  92 ++++++++++
- net/vmnet_int.h               |  48 +++++
- qapi/net.json                 | 132 +++++++++++++-
- qemu-options.hx               |  25 +++
- scripts/meson-buildoptions.sh |   3 +
- 14 files changed, 894 insertions(+), 3 deletions(-)
- create mode 100644 net/vmnet-bridged.m
- create mode 100644 net/vmnet-common.m
- create mode 100644 net/vmnet-host.c
- create mode 100644 net/vmnet-shared.c
- create mode 100644 net/vmnet_int.h
-
+diff --git a/meson.build b/meson.build
+index c1b1db1e28..a6751ec946 100644
+--- a/meson.build
++++ b/meson.build
+@@ -496,6 +496,18 @@ if cocoa.found() and get_option('gtk').enabled()
+   error('Cocoa and GTK+ cannot be enabled at the same time')
+ endif
+ 
++vmnet = dependency('appleframeworks', modules: 'vmnet', required: get_option('vmnet'))
++if vmnet.found() and not cc.has_header_symbol('vmnet/vmnet.h',
++                                              'VMNET_SHARING_SERVICE_BUSY',
++                                              dependencies: vmnet)
++  vmnet = not_found
++  if get_option('vmnet').enabled()
++    error('vmnet.framework API is outdated')
++  else
++    warning('vmnet.framework API is outdated, disabling')
++  endif
++endif
++
+ seccomp = not_found
+ if not get_option('seccomp').auto() or have_system or have_tools
+   seccomp = dependency('libseccomp', version: '>=2.3.0',
+@@ -1492,6 +1504,7 @@ config_host_data.set('CONFIG_SECCOMP', seccomp.found())
+ config_host_data.set('CONFIG_SNAPPY', snappy.found())
+ config_host_data.set('CONFIG_USB_LIBUSB', libusb.found())
+ config_host_data.set('CONFIG_VDE', vde.found())
++config_host_data.set('CONFIG_VMNET', vmnet.found())
+ config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
+ config_host_data.set('CONFIG_VNC', vnc.found())
+ config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
+@@ -3406,7 +3419,8 @@ summary(summary_info, bool_yn: true, section: 'Crypto')
+ # Libraries
+ summary_info = {}
+ if targetos == 'darwin'
+-  summary_info += {'Cocoa support':   cocoa}
++  summary_info += {'Cocoa support':           cocoa}
++  summary_info += {'vmnet.framework support': vmnet}
+ endif
+ summary_info += {'SDL support':       sdl}
+ summary_info += {'SDL image support': sdl_image}
+diff --git a/meson_options.txt b/meson_options.txt
+index 921967eddb..701e1381f9 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -151,6 +151,8 @@ option('netmap', type : 'feature', value : 'auto',
+        description: 'netmap network backend support')
+ option('vde', type : 'feature', value : 'auto',
+        description: 'vde network backend support')
++option('vmnet', type : 'feature', value : 'auto',
++       description: 'vmnet.framework network backend support')
+ option('virglrenderer', type : 'feature', value : 'auto',
+        description: 'virgl rendering support')
+ option('vnc', type : 'feature', value : 'auto',
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 50bd7bed4d..cdcece4b05 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -84,6 +84,7 @@ meson_options_help() {
+   printf "%s\n" '  u2f             U2F emulation support'
+   printf "%s\n" '  usb-redir       libusbredir support'
+   printf "%s\n" '  vde             vde network backend support'
++  printf "%s\n" '  vmnet           vmnet.framework network backend support'
+   printf "%s\n" '  vhost-user-blk-server'
+   printf "%s\n" '                  build vhost-user-blk server'
+   printf "%s\n" '  virglrenderer   virgl rendering support'
+@@ -248,6 +249,8 @@ _meson_option_parse() {
+     --disable-usb-redir) printf "%s" -Dusb_redir=disabled ;;
+     --enable-vde) printf "%s" -Dvde=enabled ;;
+     --disable-vde) printf "%s" -Dvde=disabled ;;
++    --enable-vmnet) printf "%s" -Dvmnet=enabled ;;
++    --disable-vmnet) printf "%s" -Dvmnet=disabled ;;
+     --enable-vhost-user-blk-server) printf "%s" -Dvhost_user_blk_server=enabled ;;
+     --disable-vhost-user-blk-server) printf "%s" -Dvhost_user_blk_server=disabled ;;
+     --enable-virglrenderer) printf "%s" -Dvirglrenderer=enabled ;;
 -- 
 2.23.0
 
