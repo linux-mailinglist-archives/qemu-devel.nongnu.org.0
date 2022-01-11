@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D20A48AA5F
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 10:22:59 +0100 (CET)
-Received: from localhost ([::1]:51890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40EE848AA5E
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 10:22:58 +0100 (CET)
+Received: from localhost ([::1]:51778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7DMo-0002vf-Il
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 04:22:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53708)
+	id 1n7DMm-0002rB-Ql
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 04:22:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <hnarukaw@yahoo-corp.jp>)
- id 1n7DKl-0000as-Fn; Tue, 11 Jan 2022 04:20:51 -0500
-Received: from corp-ob08.yahoo-corp.jp ([183.79.94.93]:34198)
+ id 1n7DKl-0000at-Fp; Tue, 11 Jan 2022 04:20:51 -0500
+Received: from corp-ob08.yahoo-corp.jp ([183.79.94.93]:34200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <hnarukaw@yahoo-corp.jp>)
- id 1n7DKa-0001hF-4X; Tue, 11 Jan 2022 04:20:44 -0500
+ id 1n7DKa-0001hI-5J; Tue, 11 Jan 2022 04:20:43 -0500
 Received: from JPN01-TYC-obe.outbound.protection.outlook.com
  (mail-tycjpn01lp2173.outbound.protection.outlook.com [104.47.23.173])
- by corp-ob08.yahoo-corp.jp (Postfix) with ESMTPS id 0D8C719D0AD9;
+ by corp-ob08.yahoo-corp.jp (Postfix) with ESMTPS id 27ADA19D0ADA;
  Tue, 11 Jan 2022 18:20:33 +0900 (JST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo-corp.jp;
  s=default; t=1641892833;
- bh=txOe9D/jgkd5BI+CyBikRNlD+MYu8HmnhOY75QST76E=;
- h=From:To:Cc:Subject:Date;
- b=DmiK44JGripeq83E6mEXRqP5pE/PJaQwh5+W+NMh2FP8KkMjN8QA9Uo8UyMuBm7Uw
- kwN+/9IJskrxzyHBpn/DDARjKqn+rPwXQm+au7SWkFqduutueuHqFgZDG+pgcuMp0t
- KoasjiFthPrIrX1HD18l1LosPIPvhWNtjSkSxsZ4=
+ bh=D+hi/Z5XzlLhjEPE98rY/jSSYVDpsmZMq0JjXFbL23Q=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=YtIEM8vTcBuVva0i6sDBKs9E7tyL1R+9v7zBTKl3xfjNRpM35cPPZuLhiJWdDHOsn
+ 1N86ljdQu+bMv0iuJii+pTLbZI1QrM5WHfVTk6xrIFjGQV7lFop7c0J3LDC9HIuRuA
+ csZe+D/Fq/hUKJtzM4iBCNd8EpHTtC5KtF9u0jNk=
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k/FBIcpLBrpf9D8w6tcbcJshnim9cQmNzBTvOGecwnSzCNO4WBoAlCKiu0Nsqlp1eCvlFl0ytc4PM5/MGtkpvq7YSmed5Aqih/dr0zCqWnewyo2iwMBqwsDcXlp4IfLPVXIlNhy9SvAk/r6Rs1GSOVbGe1LvBCSSCxzFF20FCqRGWuXhUMzQEvB/1fcrVH2zqY+CcXEEe7N7/gE0at9NqFjkoqPvbbA+kubeG7AblTOjeikbWPBfDc8xSoLSWnZRcYjZWS7IfakUy6fTmjd2l7E1k1ycbgWdQkYDzBstrkHU8b5W4BUOinSiyGDauofn/INpvTGnor4T3ddE0EjERw==
+ b=nUu0VvHJuJpFs9/KXU7BdyUblNSD90G5zxz7yhDtZDpiJsj2/X2F2uIwG9sTTQtju/PX2gN84aL0t1vW/8bD+Jw5MV8yapltca/SFPlApG0lvTgFlyGwsR7gutOEMmxLGGrCSGFeyHA3vtbsOfj7hZ5vyoVLIVhkauBumIR2Ya/y0Hj6jKqSZupVJ1+Fow+nDhdqU8/2ioVh/0LQeS7+wGVcsRLg8SIIouO0guKPfh+gRKnIRjQ6g8MALEjOXSwMzEhegdXgrehaBfcWUtCsPF2mWuBFfJVvtTVS0D7B6uZaQGknFnXkOWc7ti16+L6z5+0YDMHKn4GPkS+Hnd45pQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=txOe9D/jgkd5BI+CyBikRNlD+MYu8HmnhOY75QST76E=;
- b=oBXmxJFXqWGBRXtJc8cTGC/mn9Coc+gR3Uh6kpdXk7vT74gAthDNwtga3jBkruIhcNrElCNI1y878A9GplwGDpTWMiSQbt8cPRbFGeLvH5JWxfnmhp1BfdnaC5ySpyUs3dbQqkXdaFk4Vsiz2YfVO1Ql+yWpp0O1El5s9M7jxKFiATiNABORokt9taMU/njPYJxxI7+eNS3PcGTTCX9ngEnzBw8GOOeL6gIREFWq9R7soPs3lQEOWP726gbH9eWbmWaa333KCgh7rolE7KUzK5cstdUPYTmM3Er7gQG2gmQi8KA0z1w8XO6k0RmCohq4p5UBM5ZuSgxDxDqNI/9rsA==
+ bh=D+hi/Z5XzlLhjEPE98rY/jSSYVDpsmZMq0JjXFbL23Q=;
+ b=aVnIkV4Jac9TvIOMNW2fql9ZD+1xWiNUsjENdGGSmd4vo6sLbgdzbrZaroYVQBJnwS8v4ImCa6A+dfvfXlbT3EFoOqjR5u7vSlVbqEAZqNqjyjhtdV/GfyBtmX6DKS3Bnu8tZmVjlMd1U+LztHcv3MmiSYF1oAeGq490DwTTsYSYPZb9fuWUH1FqE7sEaoqKhHapUyuNNKu7vOeuW0OMI4pwrrbjmum9oieONeh5fQRdf1RwQAgHqLLP2LK6C9BNNugMxN2TL9ZhAuawaP01hxG0w8bynBexg1d5H8BU090PfIpz0J60rqFYId0Pd0FIZyaGA/ht82geENldj9gKdQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=yahoo-corp.jp; dmarc=pass action=none
  header.from=yahoo-corp.jp; dkim=pass header.d=yahoo-corp.jp; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=yjcorp.onmicrosoft.com; s=selector1-yjcorp-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=txOe9D/jgkd5BI+CyBikRNlD+MYu8HmnhOY75QST76E=;
- b=Ybe3YTLay/gEppJo1tyZruMwCYCvuzF0Q1td00OG4w4IP9lmRkTYPT1+wHfwKKPqMUG+iOw4u0pqK10aMdWnRY2wC499MwTOInoUaIdSkEEIYQ2dvQK8ruHbhf78no2+JqkZ4qb0vNRkMPk8VodiGgQ6t5FyTHPGMwXoXAE0KFI=
+ bh=D+hi/Z5XzlLhjEPE98rY/jSSYVDpsmZMq0JjXFbL23Q=;
+ b=ZRf+Hn4M5OB46Val7aW9U8kIDqqXEpY9jwd+TVpQDmYg3lbNyu+JGEdrW2GIMVFiigNqxMxHHnAyue95AwC9wbdAxzZZXFKmFteTkONnP9ftRpWbuqqAWocgdiRylNn1jaHkcdnSdmpmNcQpLsxzoysttbXEq31TgwoI5/dcxb8=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=yahoo-corp.jp;
 Received: from TYCPR01MB8357.jpnprd01.prod.outlook.com (2603:1096:400:15f::12)
@@ -56,66 +56,68 @@ Received: from TYCPR01MB8357.jpnprd01.prod.outlook.com
  09:20:32 +0000
 From: Hiroki Narukawa <hnarukaw@yahoo-corp.jp>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/1 v2] Patch to adjust coroutine pool size adaptively
-Date: Tue, 11 Jan 2022 18:19:49 +0900
-Message-Id: <20220111091950.840-1-hnarukaw@yahoo-corp.jp>
+Subject: [PATCH 1/1] util: adjust coroutine pool size to virtio block queue
+Date: Tue, 11 Jan 2022 18:19:50 +0900
+Message-Id: <20220111091950.840-2-hnarukaw@yahoo-corp.jp>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220111091950.840-1-hnarukaw@yahoo-corp.jp>
+References: <20220111091950.840-1-hnarukaw@yahoo-corp.jp>
 Content-Type: text/plain
 X-ClientProxiedBy: TYXPR01CA0066.jpnprd01.prod.outlook.com
  (2603:1096:403:a::36) To TYCPR01MB8357.jpnprd01.prod.outlook.com
  (2603:1096:400:15f::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5423d877-4f5b-4df6-ff2e-08d9d4e39dc0
+X-MS-Office365-Filtering-Correlation-Id: 91d80fcb-9cae-4cfe-ac21-08d9d4e39df0
 X-MS-TrafficTypeDiagnostic: TYWPR01MB8639:EE_
-X-Microsoft-Antispam-PRVS: <TYWPR01MB86399E3021D4B9052CBEB7F780519@TYWPR01MB8639.jpnprd01.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2399;
+X-Microsoft-Antispam-PRVS: <TYWPR01MB86394C773012553262C9167F80519@TYWPR01MB8639.jpnprd01.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1468;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qnO/5V343cOgzeVpwFXmjeMR3CLdopf6xdYjQbp2Z1OA6Ux6dU4C3DOB173Lp5ROHa6fsnJpdFG4x7uyZT90RXdBnl3xh9LzkRSwAxRq0RoOeD3M3nlC0f4GbjgpiVG97DapeFkc7IBYwqGk8OECxZGFG787oBDFiEpSLZH32ZU37w9nGVfe8qep2janUFzZ9zeC0ZBG3UQsFmTo+Z6wv6czZz11ybY6aYlHez/NtzIr7OjNY9OJl6mVPQZXPcH4ISXePnxDmSf/aWGIbq0TQr13qOYZTbuWf/GZq/ovlIObfpvAuwYriEUn4vUIDpD1+9TEzlbXjNZ8wsxGcQAigXmZ/TO6/mpJAHYl3ap0yBFD+r5FwtjVFhb4/JoJZMUDZmZ1XFFazAKD/nNgAsMQzORKp6bshxE5Bt2gh3eDlrC/OghK2w+0B+WDHe/f5fqZb7OjdO080GqB7L2tG6zgkpG3DL30KgfUaUyYC9QfgidtO3lmh9SK4KExarkjlLpebhN2bCbfnqo7W8m/AyO+DbMfobXF2/Sw7QOSc82nnI19uKG9u6oq7DuPLcmLjyA53YInPU5R876xqBaEiu5FzhxRviaxb2tFUQuY/TqvYn8Egs0U0SZHt30RRBKj5BycaViW2bPh7Xq9YKMnfkZ3ky9UEPbcS2ABWULDwMmArHE5zxWyG9YnfHN7uvMejDr+
+X-Microsoft-Antispam-Message-Info: jA5ZEWtKEwD5MX3x0nTm8D7HqBizelxTIGSYVXGUj/oKDhyzlRYvFImturhDl3S5tiK8ssNqe+srgjZqF/kNK8REughCSGvZPADv5q5/OLLTeiu5VPADcDycCXNOubxgJjOdmD0i8Y1CD3yhM5YjmVetwM4h4lt7RMZqHus+9PkF3wJ3YpWlSOYKCajWLA2ZFQnLWkwoWQCxzP0exsqcQYsHhkiCs1fBIgvNlc3WAx0MQlQ1ACjc9Jkzv1gxWagp+8HWGo2br4SFFG0PJGv+xCdp+UC5UR6O/XBWiNcsKWTyNGiV929s9pVy/nKIufUuHGNozqH1LU+Rf9PEq04NJu7uDzBHM489Awg3XoS4irN6fVcBVOFK4M8WgGFtFJr7eSZhWOFe9QHIH4vPHJONs2x8yzvR2q3qdsUJjQwMjKQhXTazrvoLaMnQusUT7rpBHJXgCqnZGVhKvK3SbZ5KdVI+tiG3Nj9YH555pHH16frFU5z1KAV4MX4E67nbSmmMhECipAPlaxeVq5DVCs3Wn3YBUz1bLoleRnRaEgJJAPXmVo2US07GP6l7j3dEncQi9S7L4YT0I8H0D+T4+0ezej+JJN+IhbhYCgv8LTB2C8iMOeBvoafitbDLhnFcr4atZ3r1aXHztMny1o4sdcEQU7+k9F+mFiLa73lKJ+C87tCQvQQOETs09rrNL3axBqGtBLrW7Nfqzx/T6wb+7R90kw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:TYCPR01MB8357.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(6512007)(508600001)(26005)(186003)(6916009)(6486002)(4744005)(5660300002)(66556008)(66476007)(2616005)(4326008)(66946007)(107886003)(6506007)(316002)(52116002)(82960400001)(38350700002)(83380400001)(86362001)(8676002)(36756003)(2906002)(6666004)(38100700002)(1076003)(8936002);
+ SFS:(4636009)(366004)(6512007)(508600001)(26005)(186003)(6916009)(6486002)(5660300002)(66556008)(66476007)(2616005)(4326008)(66946007)(107886003)(6506007)(316002)(52116002)(82960400001)(38350700002)(83380400001)(86362001)(8676002)(36756003)(2906002)(6666004)(38100700002)(1076003)(8936002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?46zlTkz46o+8+Zo6Vfjy/KJ4o01a8juX5hkBHZ5PhlTESp0mS0dIcnbqxc1t?=
- =?us-ascii?Q?K0pFD77lXRu+1jwNgflVxpd9EQIXr2UxEiD+FRfrbD3P3NNE22BuJ2FYF1Jo?=
- =?us-ascii?Q?YY3OTruIKfHW41Zypy9veVA9k05W0LVJJffHD7GhvkWvJoS86lA3tXYfW/SJ?=
- =?us-ascii?Q?Jn3tkLZqZK1LaBGKvQCtyQ+1hjfSqI9USANuDyFzyw1Ix0ychJMCQfOGvm2y?=
- =?us-ascii?Q?mYlTBAJDOEe4eFzSOCzL2Ac0WvEoVqolURHZZxIeYJqRBdEnUhSzf2a4pyrG?=
- =?us-ascii?Q?dRwD3Dk3LWFrI0JclsRUcAi83Fda8+p0P99q399JF5Lq6DSj11X8rJJb1MtT?=
- =?us-ascii?Q?vOkArPLCEF0xk6I4XHjtDJoX4UYTY/vs87a+KaqWUA0kF8dIH9rQPnzcoaue?=
- =?us-ascii?Q?z3aTsERq+STceFy6QMANhLTO54w5CR6WADf/9aiavgR4E2NMxDi/Kxki9RzK?=
- =?us-ascii?Q?0m/MMNkKIBrJJb9NdmLKBWSenD5gZcex3REr6IUy8pnjkuiAfmZta9pgGf28?=
- =?us-ascii?Q?uqcYIDM73iZ/CIkeZAYvC/TEOuRe2YHjq2JG3qWiUd3bbpCE++WphwiDwrlh?=
- =?us-ascii?Q?52OZC3YlPK7Ix1lAZJ7ei1wjTp0iHbpk7ZWAaVBDolOHH1wkRWrTflUuISQO?=
- =?us-ascii?Q?FMi8kRsCDTMQJ/VmBxGuEu8U1/pLf01gnoJMujL9M2Z/T3FmZ+1rAN//369f?=
- =?us-ascii?Q?qU8hFMFUvcLytB9i2wQdOKD0OeAds6a6Uo7PZITp5RWstxICDmGsUaBmSVkB?=
- =?us-ascii?Q?mIFf1eC6z/whkm/Hjfw/gdiALuNLOGSQwonbH/M5wnedUOIMldoprK98snmc?=
- =?us-ascii?Q?F5KOE4KsAv3DX4Fm9su+9xqBiVazKX3YyEfE8qMMIjeL1h1k59Py0xQBDgJ6?=
- =?us-ascii?Q?NGcA8jlt9BG+UhqvGEy9cu9eeXUWKubc64LJWpcZPEwTuYhtr7yIpWd96JJE?=
- =?us-ascii?Q?Jv/1ztX958dXx01lmQtD8af4SqKfqAbjI7Lto9gT6+qDMVn3apEbTwdZoESD?=
- =?us-ascii?Q?A+0/CkTkUIj3ITBGOLyeByjJWvu8WkM+ww4INIUETk7mN+bvlPjHKTkaURB6?=
- =?us-ascii?Q?9yJNpwkU4ZslWusG4SkNIc1otI5YUYBuOe0/eQTpLyTfdmsbdt7p47FSocc8?=
- =?us-ascii?Q?QVEJd+QjhH6pIkBsVjVDl77l2VtQmujMdkxTBc8P08mljzyBbEh+WFYnLHY2?=
- =?us-ascii?Q?PT4Eur0Lw88NfNfmb20LHdllIlTZ9RCDidTfoCXquyZykF3Df9XmLAmouXhP?=
- =?us-ascii?Q?dB5dHpmW+sy8Rg5sOn7dN4uZ1nGmYYC4bZMxv7zYMOVtEGBo3lXc9WMAcc5Q?=
- =?us-ascii?Q?/ONyR8fdRdInq0nuyd0WXPS6vqLvNZK2u5XKhDP1bsgmeZe93TZOHj74iaG9?=
- =?us-ascii?Q?u7MigtVL8zADFMl2p7VPv7cSt3pSx5W1oia7oIUXjfPs1afADWMSNHsAskGn?=
- =?us-ascii?Q?Q/AT7QtGv7c2n+epixA3r1jKPkIh5CIzHVi5CAuHsC7csK6o0UUFAEb4STO0?=
- =?us-ascii?Q?/mC3tGPbXyZOhQ5sm0pfSaQ2m2zfXhhbS8b+QR1cAGPq1frvgPUZ86DMARHB?=
- =?us-ascii?Q?m9V1RO9mJIELajiijksKMJVeKLl2/MazFJ3mKcSmRx1mHPkNiA70fMusoUij?=
- =?us-ascii?Q?eRAu3bS7sG7Xf3W9ucKac3E=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?LIdMo05HoOFtiBKjAOZAUP4G6PB2jIHnfj2W54VGF3PG2zc5Q2GLOfLYOrLm?=
+ =?us-ascii?Q?yW7QuUNqgAek9QkESHAg1T5UEoS+4jGGElVukc8jbnlDOcAujimkuTbdUi03?=
+ =?us-ascii?Q?z6h6RiUMRdeAJaTviTvWdS91ISkY6ufl0JMWInYkhHoKI9awkNAE5Cgn+ME5?=
+ =?us-ascii?Q?5v+jdxW4VO5BZKj/dhKUvJ32FxjtcRFLW7agdPmAuuJsrQ1bwPzVnPyNkKV1?=
+ =?us-ascii?Q?0Wbrq+Ae6R+aoDJbCvjJ7MFmYbBm+SENy0HndA09yVJpOVxZTOlKXtMhcz9v?=
+ =?us-ascii?Q?2yfeo8bLclXI5cJeStygl1rUK33mflcNlir45deXkAfYy/GQe7xix/GbXpiq?=
+ =?us-ascii?Q?q2sEISmKGGg1GaMZjQ6URrtpAdCBzXGt6XurBFCHmzWrPzpM4mZXWP2y/SvD?=
+ =?us-ascii?Q?Og1C4nlA1frgalqOsHwMdhDvq2vci8h+7TeLuLamAaP6JDzayW6e4uOMdtuh?=
+ =?us-ascii?Q?0sTx9oz9cnm87lVBN190s/EBHNVa+4eD3INQvU46nCOVZ6cuL4EBcvxRMR4l?=
+ =?us-ascii?Q?IFFdwavp4EtDbNPf+rYy0LuFqjH+Nd7hDqZhC0Xucf63BIPXubWS6VG6zPnU?=
+ =?us-ascii?Q?GxjyQJApNU3eWdj5J80nrSpHjdki3bhzGl0dqWB1iVGsayQIlwHb5VNSU+bs?=
+ =?us-ascii?Q?Ol2vZ29+LXSgaPjSssiNaDmIhN0nJXofo2XjREJmFk4ApD00AmOnLQR2aoGw?=
+ =?us-ascii?Q?U/32WksLqLRgdjYPE8o4VImHa23KZKvPtNLFLcKLhYlBBmqk/OFxp7eVRDIe?=
+ =?us-ascii?Q?68I71iWsm+dIkfz24VwoMhgvvgX868zXebe1TRXr67UQvXZTbo9fR4eyOPmv?=
+ =?us-ascii?Q?rZBmonngi0YAUuNnPbwiIhrffh32XWpsN3Aa8paCdN7CrAYcYJ0pBaL97Z1d?=
+ =?us-ascii?Q?TysjHMMA30j6brOsEpnnDFfpBC6L1ue7wc5sngzvf0TjuP8o/ZMs5kTBXfGG?=
+ =?us-ascii?Q?EiNodt6fR83xDrTpNhvMEE1VcSnVzpb9XsFeHHrgvtBRT1lh3j1zaNdcHoyz?=
+ =?us-ascii?Q?VBMX+i2jv3YBnqXE+1kA9QMxi1aXNMAVryTcuCPakw9zu/xx7BiUjsl+3gsT?=
+ =?us-ascii?Q?6HrI+UGDG9P2OW1Y6S8aDk+fRGHISZHqUvpNhIJ6xSo+WulX1fBYggDEQTni?=
+ =?us-ascii?Q?rDO19YK3/vTDTAjK1Sk6xKkLe9Po0Mhj/gZk3XWl37jN7YzDcg15KAN0KlDU?=
+ =?us-ascii?Q?8uMKYEAFJxkiPpHfkLSp49QsPMADhaw6sHJQbs/83xh31P9/iHpBVYblJAcT?=
+ =?us-ascii?Q?+KHK9Edct2hhALlc/EOYE99ab6pDHbL31EVd/ZAXo7BlJn1y4X7O4IYHVkPw?=
+ =?us-ascii?Q?Dhz6sIkyfiH7+QQsny43RUZyOzBpUXD4C+8i/eO4xqlc4WccuoACS0WvxWu/?=
+ =?us-ascii?Q?gJPhVTXO/NKhaxU7JPHiQJ8f8xImIUu9f7PbiN5p9IopdfmjEDT57TQWS8e2?=
+ =?us-ascii?Q?YmLpiu46ASl0QoaY3zrRaHXP9uywRVlI+t7k6wPBLXav3HnZjuJbj1hlvpXn?=
+ =?us-ascii?Q?LNWk7qyQPs6Ss+z7cN49rdqWooUbGGfKTZXAcH9ArG83l/eSfe3TGKMmFcgn?=
+ =?us-ascii?Q?Qrvp00iycN7YSzdtbdPw1QJ28zcHK1xvbuRQBapQ38J+EK2x0lXO3jt2FQ7Z?=
+ =?us-ascii?Q?k7dHs7GsLH97GMk0tDAxx+c=3D?=
 X-OriginatorOrg: yahoo-corp.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5423d877-4f5b-4df6-ff2e-08d9d4e39dc0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91d80fcb-9cae-4cfe-ac21-08d9d4e39df0
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB8357.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2022 09:20:31.9909 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2022 09:20:32.3033 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: a208d369-cd4e-4f87-b119-98eaf31df2c3
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wfK4xFKLi6DeQ1NVVi7NVScwEVyFeIMdPgPr0hDfXxkCw7P1qCktJ+4zAsptWGrkNE72vt6jksyQWJ3DwpH0eA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: KHBv5uLtZjxvEf0jbEQppg2kzIJAUAiEpmhBSDGy5oKH0DAJ7ZpV2GHS0GV85uYOyGSFmasOr8i4HD2lMYVe4A==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB8639
 Received-SPF: pass client-ip=183.79.94.93; envelope-from=hnarukaw@yahoo-corp.jp;
  helo=corp-ob08.yahoo-corp.jp
@@ -144,23 +146,121 @@ Cc: kwolf@redhat.com, Hiroki Narukawa <hnarukaw@yahoo-corp.jp>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Resending patch with fixing atomic access method to use qatomic_read().
+Coroutine pool size was 64 from long ago, and the basis was organized in the commit message in c740ad92.
 
-We encountered random disk IO performance drop since qemu-5.0.0, and this patch fixes it.
+At that time, virtio-blk queue-size and num-queue were not configuable, and equivalent values were 128 and 1.
 
-Commit message in c740ad92 implied to adjust coroutine pool size adaptively, so I tried to implement this.
+Coroutine pool size 64 was fine then.
 
-Could you review this patch?
+Later queue-size and num-queue got configuable, and default values were increased.
 
+Coroutine pool with size 64 exhausts frequently with random disk IO in new size, and slows down.
 
-Hiroki Narukawa (1):
-  util: adjust coroutine pool size to virtio block queue
+This commit adjusts coroutine pool size adaptively with new values.
 
+This commit adds 64 by default, but now coroutine is not only for block devices,
+
+and is not too much burdon comparing with new default.
+
+pool size of 128 * vCPUs.
+
+Signed-off-by: Hiroki Narukawa <hnarukaw@yahoo-corp.jp>
+---
  hw/block/virtio-blk.c    |  3 +++
  include/qemu/coroutine.h |  5 +++++
  util/qemu-coroutine.c    | 15 +++++++++++----
  3 files changed, 19 insertions(+), 4 deletions(-)
 
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index f139cd7cc9..726dbe14de 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -32,6 +32,7 @@
+ #include "hw/virtio/virtio-bus.h"
+ #include "migration/qemu-file-types.h"
+ #include "hw/virtio/virtio-access.h"
++#include "qemu/coroutine.h"
+ 
+ /* Config size before the discard support (hide associated config fields) */
+ #define VIRTIO_BLK_CFG_SIZE offsetof(struct virtio_blk_config, \
+@@ -1222,6 +1223,8 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
+     for (i = 0; i < conf->num_queues; i++) {
+         virtio_add_queue(vdev, conf->queue_size, virtio_blk_handle_output);
+     }
++    qemu_coroutine_increase_pool_batch_size(conf->num_queues * conf->queue_size
++                                            / 2);
+     virtio_blk_data_plane_create(vdev, conf, &s->dataplane, &err);
+     if (err != NULL) {
+         error_propagate(errp, err);
+diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+index 4829ff373d..e52ed76ab2 100644
+--- a/include/qemu/coroutine.h
++++ b/include/qemu/coroutine.h
+@@ -331,6 +331,11 @@ void qemu_co_sleep_wake(QemuCoSleep *w);
+  */
+ void coroutine_fn yield_until_fd_readable(int fd);
+ 
++/**
++ * Increase coroutine pool size
++ */
++void qemu_coroutine_increase_pool_batch_size(unsigned int additional_pool_size);
++
+ #include "qemu/lockable.h"
+ 
+ #endif /* QEMU_COROUTINE_H */
+diff --git a/util/qemu-coroutine.c b/util/qemu-coroutine.c
+index 38fb6d3084..d5bd9d468f 100644
+--- a/util/qemu-coroutine.c
++++ b/util/qemu-coroutine.c
+@@ -20,12 +20,14 @@
+ #include "qemu/coroutine_int.h"
+ #include "block/aio.h"
+ 
++/** Initial batch size is 64, and is increased on demand */
+ enum {
+-    POOL_BATCH_SIZE = 64,
++    POOL_INITIAL_BATCH_SIZE = 64,
+ };
+ 
+ /** Free list to speed up creation */
+ static QSLIST_HEAD(, Coroutine) release_pool = QSLIST_HEAD_INITIALIZER(pool);
++static unsigned int pool_batch_size = POOL_INITIAL_BATCH_SIZE;
+ static unsigned int release_pool_size;
+ static __thread QSLIST_HEAD(, Coroutine) alloc_pool = QSLIST_HEAD_INITIALIZER(pool);
+ static __thread unsigned int alloc_pool_size;
+@@ -49,7 +51,7 @@ Coroutine *qemu_coroutine_create(CoroutineEntry *entry, void *opaque)
+     if (CONFIG_COROUTINE_POOL) {
+         co = QSLIST_FIRST(&alloc_pool);
+         if (!co) {
+-            if (release_pool_size > POOL_BATCH_SIZE) {
++            if (release_pool_size > qatomic_read(&pool_batch_size)) {
+                 /* Slow path; a good place to register the destructor, too.  */
+                 if (!coroutine_pool_cleanup_notifier.notify) {
+                     coroutine_pool_cleanup_notifier.notify = coroutine_pool_cleanup;
+@@ -86,12 +88,12 @@ static void coroutine_delete(Coroutine *co)
+     co->caller = NULL;
+ 
+     if (CONFIG_COROUTINE_POOL) {
+-        if (release_pool_size < POOL_BATCH_SIZE * 2) {
++        if (release_pool_size < qatomic_read(&pool_batch_size) * 2) {
+             QSLIST_INSERT_HEAD_ATOMIC(&release_pool, co, pool_next);
+             qatomic_inc(&release_pool_size);
+             return;
+         }
+-        if (alloc_pool_size < POOL_BATCH_SIZE) {
++        if (alloc_pool_size < qatomic_read(&pool_batch_size)) {
+             QSLIST_INSERT_HEAD(&alloc_pool, co, pool_next);
+             alloc_pool_size++;
+             return;
+@@ -202,3 +204,8 @@ AioContext *coroutine_fn qemu_coroutine_get_aio_context(Coroutine *co)
+ {
+     return co->ctx;
+ }
++
++void qemu_coroutine_increase_pool_batch_size(unsigned int additional_pool_size)
++{
++    qatomic_add(&pool_batch_size, additional_pool_size);
++}
 -- 
 2.17.1
 
