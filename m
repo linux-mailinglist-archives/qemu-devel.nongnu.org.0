@@ -2,67 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4437748A773
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 06:52:22 +0100 (CET)
-Received: from localhost ([::1]:42092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE58048A793
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 07:06:40 +0100 (CET)
+Received: from localhost ([::1]:47018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7A4y-0007mI-S5
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 00:52:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43126)
+	id 1n7AIp-00070w-5o
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 01:06:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1n7A0k-00063n-41
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 00:48:03 -0500
-Received: from mga17.intel.com ([192.55.52.151]:15980)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1n7A0g-00051G-Oi
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 00:47:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641880074; x=1673416074;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=OKgNxYqqwYco7w5LGywNlLK7DIHzmDKppe3YFKxVauk=;
- b=dqjzc1PXNlN1/qItzNUw3tTcr65v6I3+lncOSQc53D8nPVlHSPI65kyt
- t1vqRPKb+dZu1JazEUluH7CVRZQi2KIAWw0wucOoMRLVV2lWxi4lIqDdb
- /7TWAy0ah9TJclK9gtNqjUfMV+1fcscbvwaYR/1WKfvwry0zRHluIhpqj
- ZcDzPvdtjZ6U/suXX4mgkehMCjHA4FdQDcW29vXFRiKA5ksYH713c442R
- qGcVceuhKOfOIm8vMG8xJ1MSFHaVysRsETtNOTz6yOxV+wc50ZF+RG7wt
- +hT1pQ3AKul7dEi0D6UOkx8TTLfydUl1R/HSQXbipokr5nJ23eXH3NCdN A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10223"; a="224102633"
-X-IronPort-AV: E=Sophos;i="5.88,279,1635231600"; d="scan'208";a="224102633"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2022 21:47:46 -0800
-X-IronPort-AV: E=Sophos;i="5.88,279,1635231600"; d="scan'208";a="619708109"
-Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
- ([10.238.145.56])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 10 Jan 2022 21:47:44 -0800
-Date: Tue, 11 Jan 2022 13:32:32 +0800
-From: Yang Zhong <yang.zhong@intel.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Subject: Re: [RFC PATCH 4/7] x86: Add XFD faulting bit for state components
-Message-ID: <20220111053232.GA10991@yangzhon-Virtual>
-References: <20220107093134.136441-1-yang.zhong@intel.com>
- <20220107093134.136441-5-yang.zhong@intel.com>
- <BN9PR11MB527604A587F7F84B9DF5F1238C509@BN9PR11MB5276.namprd11.prod.outlook.com>
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1n7ADW-0004Oa-NT
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 01:01:10 -0500
+Received: from [2607:f8b0:4864:20::102a] (port=54232
+ helo=mail-pj1-x102a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1n7ADU-0006uZ-4R
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 01:01:10 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id m13so16652391pji.3
+ for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 22:01:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8ICGM5OTQORsOpWKheVOg6W9eeXvNQT6frYKF01MM8c=;
+ b=LDNgohqfnBb7kciv31CUlnrZ2T9iLMd10eSdaSki2CqEZwp+GZv3tCLA07h6NQCiRl
+ J4qoteOBwqZh2xLxBGeiIuxPnIJtNjppcsNcexTVOayTRz5DeE4+gHSlOqq/bSnjFuJ4
+ iCCOf8FEflwuV9mAQp4Wu/OBmsnXhPyF5TsAgd5jsSCwDGWM0W1zgWIVGnFFMVLj4x81
+ pf8hp5xhQibYq671ldeXEAM+30b7Mf/YW6vI8AlUIxVADwYxj1JWmczemjly6Z7CAdqG
+ dr4Y725nyU3gLVOHNo+q3RsD3pTRFK2syxVYoFAPaX4dwTwXUIp9c/R/xiHtnARC3n6o
+ LUlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8ICGM5OTQORsOpWKheVOg6W9eeXvNQT6frYKF01MM8c=;
+ b=dH/CWaulyF9y/bLFXaby4wQRnk6ooFD7eoQigK7Maj8gZ88M2iMmtKFRnteRTi6sTp
+ +j1tOP5lL/0WFHNz6JvGtpPjRQyZ7ms0fjFtLHLW+TXbtnAowxn053OjY5CRaPNUL9Lb
+ 50p9jMe/8hcShS4lDyeX5QnHQCwNBNjx5sHSyeBuHnCtwdx/EyvHpYOZd7fX0NY88+Ih
+ HlYNK5kaRq9+KbK/2vIRMxWgB16i6nHF6B3LXvh6Ie3+4ZDSKGcDYOjOVw42QnLrGPeb
+ Plr5yUM4FK6wQgYzXicqxCpytOVvGkxZMNvXqdl84VoLIfO2FmgnWh4qoYDXWMJm6dXY
+ vBog==
+X-Gm-Message-State: AOAM530U3fRRiQi3kbv9ks4Z7mFTFbm2SlHvjMAbCwJW04f9rv+vEkqE
+ IwfPIg2gZgXjwmZ5JhnUqe/HLA==
+X-Google-Smtp-Source: ABdhPJxk6fTscQJEUNEuF3i7Rlxz/ughqex5igjyMt1e1aCcYHi5MFlNEyUVABvB8LiuL8w5sSf2ZQ==
+X-Received: by 2002:a17:90b:4b8d:: with SMTP id
+ lr13mr1517019pjb.192.1641880866342; 
+ Mon, 10 Jan 2022 22:01:06 -0800 (PST)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com.
+ [209.85.214.177])
+ by smtp.gmail.com with ESMTPSA id g5sm9329869pfj.143.2022.01.10.22.01.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Jan 2022 22:01:05 -0800 (PST)
+Received: by mail-pl1-f177.google.com with SMTP id l8so13333974plt.6;
+ Mon, 10 Jan 2022 22:01:05 -0800 (PST)
+X-Received: by 2002:a17:90a:4b0d:: with SMTP id
+ g13mr1483311pjh.83.1641880864685; 
+ Mon, 10 Jan 2022 22:01:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BN9PR11MB527604A587F7F84B9DF5F1238C509@BN9PR11MB5276.namprd11.prod.outlook.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=192.55.52.151; envelope-from=yang.zhong@intel.com;
- helo=mga17.intel.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211230123539.52786-1-anup@brainfault.org>
+ <20211230123539.52786-13-anup@brainfault.org>
+In-Reply-To: <20211230123539.52786-13-anup@brainfault.org>
+From: Frank Chang <frank.chang@sifive.com>
+Date: Tue, 11 Jan 2022 14:00:53 +0800
+X-Gmail-Original-Message-ID: <CANzO1D0d=QsVvKNW95=_FPSbaKpHx4v-Ze+=KE2m9n5PBFETCA@mail.gmail.com>
+Message-ID: <CANzO1D0d=QsVvKNW95=_FPSbaKpHx4v-Ze+=KE2m9n5PBFETCA@mail.gmail.com>
+Subject: Re: [PATCH v6 12/23] target/riscv: Implement AIA interrupt filtering
+ CSRs
+To: Anup Patel <anup@brainfault.org>
+Content-Type: multipart/alternative; boundary="000000000000b400d305d5482d5f"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,89 +93,266 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, "Christopherson, , Sean" <seanjc@google.com>,
- "jing2.liu@linux.intel.com" <jing2.liu@linux.intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Wang,
- Wei W" <wei.w.wang@intel.com>, "Zeng, Guang" <guang.zeng@intel.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 10, 2022 at 04:38:18PM +0800, Tian, Kevin wrote:
-> > From: Zhong, Yang <yang.zhong@intel.com>
-> > Sent: Friday, January 7, 2022 5:32 PM
-> >
-> > From: Jing Liu <jing2.liu@intel.com>
-> >
-> > Intel introduces XFD faulting mechanism for extended
-> > XSAVE features to dynamically enable the features in
-> > runtime. If CPUID (EAX=0Dh, ECX=n, n>1).ECX[2] is set
-> > as 1, it indicates support for XFD faulting of this
-> > state component.
-> >
-> > Signed-off-by: Jing Liu <jing2.liu@intel.com>
-> > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> > ---
-> >  target/i386/cpu.h         | 2 +-
-> >  target/i386/cpu.c         | 2 +-
-> >  target/i386/kvm/kvm-cpu.c | 1 +
-> >  3 files changed, 3 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> > index 79023fe723..22f7ff40a6 100644
-> > --- a/target/i386/cpu.h
-> > +++ b/target/i386/cpu.h
-> > @@ -1375,7 +1375,7 @@
-> > QEMU_BUILD_BUG_ON(sizeof(XSaveXTILE_DATA) != 0x2000);
-> >  typedef struct ExtSaveArea {
-> >      uint32_t feature, bits;
-> >      uint32_t offset, size;
-> > -    uint32_t need_align;
-> > +    uint32_t need_align, support_xfd;
-> 
-> why each flag be a 32-bit field?
+--000000000000b400d305d5482d5f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Anup Patel <anup@brainfault.org> =E6=96=BC 2021=E5=B9=B412=E6=9C=8830=E6=97=
+=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=888:41=E5=AF=AB=E9=81=93=EF=BC=9A
+
+> From: Anup Patel <anup.patel@wdc.com>
 >
-  
-  Using the uint32_t to define those flags for below ecx value 
-  *ecx = (esa->need_align << 1) | (esa->support_xfd << 2);
+> The AIA specificaiton adds interrupt filtering support for M-mode
+> and HS-mode. Using AIA interrupt filtering M-mode and H-mode can
+> take local interrupt 13 or above and selectively inject same local
+> interrupt to lower privilege modes.
+>
+> At the moment, we don't have any local interrupts above 12 so we
+> add dummy implementation (i.e. read zero and ignore write) of AIA
+> interrupt filtering CSRs.
+>
+> Signed-off-by: Anup Patel <anup.patel@wdc.com>
+> Signed-off-by: Anup Patel <anup@brainfault.org>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  target/riscv/csr.c | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index decb0376fc..55e747fbf7 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -154,6 +154,15 @@ static RISCVException any32(CPURISCVState *env, int
+> csrno)
+>
+>  }
+>
+> +static int aia_any(CPURISCVState *env, int csrno)
+> +{
+> +    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+> +    return any(env, csrno);
+> +}
+> +
+>  static int aia_any32(CPURISCVState *env, int csrno)
+>  {
+>      if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
+> @@ -553,6 +562,12 @@ static RISCVException read_zero(CPURISCVState *env,
+> int csrno,
+>      return RISCV_EXCP_NONE;
+>  }
+>
+> +static RISCVException write_ignore(CPURISCVState *env, int csrno,
+> +                                   target_ulong val)
+> +{
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+>  static RISCVException read_mhartid(CPURISCVState *env, int csrno,
+>                                     target_ulong *val)
+>  {
+> @@ -2374,9 +2389,15 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {
+>      [CSR_MTVAL]    =3D { "mtval",    any,  read_mtval,    write_mtval   =
+ },
+>      [CSR_MIP]      =3D { "mip",      any,  NULL,    NULL, rmw_mip       =
+ },
+>
+> +    /* Virtual Interrupts for Supervisor Level (AIA) */
+> +    [CSR_MVIEN]      =3D { "mvien", aia_any, read_zero, write_ignore },
+> +    [CSR_MVIP]       =3D { "mvip",  aia_any, read_zero, write_ignore },
+> +
+>      /* Machine-Level High-Half CSRs (AIA) */
+>      [CSR_MIDELEGH] =3D { "midelegh", aia_any32, NULL, NULL, rmw_midelegh=
+ },
+>      [CSR_MIEH]     =3D { "mieh",     aia_any32, NULL, NULL, rmw_mieh    =
+ },
+> +    [CSR_MVIENH]   =3D { "mvienh",   aia_any32, read_zero,  write_ignore=
+ },
+> +    [CSR_MVIPH]    =3D { "mviph",    aia_any32, read_zero,  write_ignore=
+ },
+>      [CSR_MIPH]     =3D { "miph",     aia_any32, NULL, NULL, rmw_miph    =
+ },
+>
+>      /* Supervisor Trap Setup */
+> @@ -2428,12 +2449,14 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D =
+{
+>      [CSR_MTINST]      =3D { "mtinst",      hmode,   read_mtinst,
+> write_mtinst      },
+>
+>      /* Virtual Interrupts and Interrupt Priorities (H-extension with AIA=
+)
+> */
+> +    [CSR_HVIEN]       =3D { "hvien",       aia_hmode, read_zero,
+> write_ignore },
+>      [CSR_HVICTL]      =3D { "hvictl",      aia_hmode, read_hvictl,
+> write_hvictl },
+>      [CSR_HVIPRIO1]    =3D { "hviprio1",    aia_hmode, read_hviprio1,
+>  write_hviprio1 },
+>      [CSR_HVIPRIO2]    =3D { "hviprio2",    aia_hmode, read_hviprio2,
+>  write_hviprio2 },
+>
+>      /* Hypervisor and VS-Level High-Half CSRs (H-extension with AIA) */
+>      [CSR_HIDELEGH]    =3D { "hidelegh",    aia_hmode32, NULL, NULL,
+> rmw_hidelegh },
+> +    [CSR_HVIENH]      =3D { "hvienh",      aia_hmode32, read_zero,
+> write_ignore },
+>      [CSR_HVIPH]       =3D { "hviph",       aia_hmode32, NULL, NULL,
+> rmw_hviph },
+>      [CSR_HVIPRIO1H]   =3D { "hviprio1h",   aia_hmode32, read_hviprio1h,
+> write_hviprio1h },
+>      [CSR_HVIPRIO2H]   =3D { "hviprio2h",   aia_hmode32, read_hviprio2h,
+> write_hviprio2h },
+> --
+> 2.25.1
+>
+>
+>
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
 
- 
-> also it's more natural to have them in separate lines, though I'm not
-> sure why existing fields are put this way (possibly due to short names?).
-> 
+--000000000000b400d305d5482d5f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  Yes, support_xfd flag will be in another line to define, thanks!
+<div dir=3D"ltr"><div dir=3D"ltr">Anup Patel &lt;<a href=3D"mailto:anup@bra=
+infault.org" target=3D"_blank">anup@brainfault.org</a>&gt; =E6=96=BC 2021=
+=E5=B9=B412=E6=9C=8830=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=888:41=
+=E5=AF=AB=E9=81=93=EF=BC=9A<br></div><div class=3D"gmail_quote"><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex">From: Anup Patel &lt;<a href=3D"mail=
+to:anup.patel@wdc.com" target=3D"_blank">anup.patel@wdc.com</a>&gt;<br>
+<br>
+The AIA specificaiton adds interrupt filtering support for M-mode<br>
+and HS-mode. Using AIA interrupt filtering M-mode and H-mode can<br>
+take local interrupt 13 or above and selectively inject same local<br>
+interrupt to lower privilege modes.<br>
+<br>
+At the moment, we don&#39;t have any local interrupts above 12 so we<br>
+add dummy implementation (i.e. read zero and ignore write) of AIA<br>
+interrupt filtering CSRs.<br>
+<br>
+Signed-off-by: Anup Patel &lt;<a href=3D"mailto:anup.patel@wdc.com" target=
+=3D"_blank">anup.patel@wdc.com</a>&gt;<br>
+Signed-off-by: Anup Patel &lt;<a href=3D"mailto:anup@brainfault.org" target=
+=3D"_blank">anup@brainfault.org</a>&gt;<br>
+Reviewed-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.co=
+m" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
+---<br>
+=C2=A0target/riscv/csr.c | 23 +++++++++++++++++++++++<br>
+=C2=A01 file changed, 23 insertions(+)<br>
+<br>
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c<br>
+index decb0376fc..55e747fbf7 100644<br>
+--- a/target/riscv/csr.c<br>
++++ b/target/riscv/csr.c<br>
+@@ -154,6 +154,15 @@ static RISCVException any32(CPURISCVState *env, int cs=
+rno)<br>
+<br>
+=C2=A0}<br>
+<br>
++static int aia_any(CPURISCVState *env, int csrno)<br>
++{<br>
++=C2=A0 =C2=A0 if (!riscv_feature(env, RISCV_FEATURE_AIA)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_EXCP_ILLEGAL_INST;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 return any(env, csrno);<br>
++}<br>
++<br>
+=C2=A0static int aia_any32(CPURISCVState *env, int csrno)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0if (!riscv_feature(env, RISCV_FEATURE_AIA)) {<br>
+@@ -553,6 +562,12 @@ static RISCVException read_zero(CPURISCVState *env, in=
+t csrno,<br>
+=C2=A0 =C2=A0 =C2=A0return RISCV_EXCP_NONE;<br>
+=C2=A0}<br>
+<br>
++static RISCVException write_ignore(CPURISCVState *env, int csrno,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0target_ulong val)<br>
++{<br>
++=C2=A0 =C2=A0 return RISCV_EXCP_NONE;<br>
++}<br>
++<br>
+=C2=A0static RISCVException read_mhartid(CPURISCVState *env, int csrno,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_ulong *val)<br>
+=C2=A0{<br>
+@@ -2374,9 +2389,15 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {<b=
+r>
+=C2=A0 =C2=A0 =C2=A0[CSR_MTVAL]=C2=A0 =C2=A0 =3D { &quot;mtval&quot;,=C2=A0=
+ =C2=A0 any,=C2=A0 read_mtval,=C2=A0 =C2=A0 write_mtval=C2=A0 =C2=A0 },<br>
+=C2=A0 =C2=A0 =C2=A0[CSR_MIP]=C2=A0 =C2=A0 =C2=A0 =3D { &quot;mip&quot;,=C2=
+=A0 =C2=A0 =C2=A0 any,=C2=A0 NULL,=C2=A0 =C2=A0 NULL, rmw_mip=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 },<br>
+<br>
++=C2=A0 =C2=A0 /* Virtual Interrupts for Supervisor Level (AIA) */<br>
++=C2=A0 =C2=A0 [CSR_MVIEN]=C2=A0 =C2=A0 =C2=A0 =3D { &quot;mvien&quot;, aia=
+_any, read_zero, write_ignore },<br>
++=C2=A0 =C2=A0 [CSR_MVIP]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D { &quot;mvip&quot;,=
+=C2=A0 aia_any, read_zero, write_ignore },<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0/* Machine-Level High-Half CSRs (AIA) */<br>
+=C2=A0 =C2=A0 =C2=A0[CSR_MIDELEGH] =3D { &quot;midelegh&quot;, aia_any32, N=
+ULL, NULL, rmw_midelegh },<br>
+=C2=A0 =C2=A0 =C2=A0[CSR_MIEH]=C2=A0 =C2=A0 =C2=A0=3D { &quot;mieh&quot;,=
+=C2=A0 =C2=A0 =C2=A0aia_any32, NULL, NULL, rmw_mieh=C2=A0 =C2=A0 =C2=A0},<b=
+r>
++=C2=A0 =C2=A0 [CSR_MVIENH]=C2=A0 =C2=A0=3D { &quot;mvienh&quot;,=C2=A0 =C2=
+=A0aia_any32, read_zero,=C2=A0 write_ignore },<br>
++=C2=A0 =C2=A0 [CSR_MVIPH]=C2=A0 =C2=A0 =3D { &quot;mviph&quot;,=C2=A0 =C2=
+=A0 aia_any32, read_zero,=C2=A0 write_ignore },<br>
+=C2=A0 =C2=A0 =C2=A0[CSR_MIPH]=C2=A0 =C2=A0 =C2=A0=3D { &quot;miph&quot;,=
+=C2=A0 =C2=A0 =C2=A0aia_any32, NULL, NULL, rmw_miph=C2=A0 =C2=A0 =C2=A0},<b=
+r>
+<br>
+=C2=A0 =C2=A0 =C2=A0/* Supervisor Trap Setup */<br>
+@@ -2428,12 +2449,14 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {<=
+br>
+=C2=A0 =C2=A0 =C2=A0[CSR_MTINST]=C2=A0 =C2=A0 =C2=A0 =3D { &quot;mtinst&quo=
+t;,=C2=A0 =C2=A0 =C2=A0 hmode,=C2=A0 =C2=A0read_mtinst,=C2=A0 =C2=A0 =C2=A0=
+ write_mtinst=C2=A0 =C2=A0 =C2=A0 },<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0/* Virtual Interrupts and Interrupt Priorities (H-exten=
+sion with AIA) */<br>
++=C2=A0 =C2=A0 [CSR_HVIEN]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D { &quot;hvien&quot=
+;,=C2=A0 =C2=A0 =C2=A0 =C2=A0aia_hmode, read_zero, write_ignore },<br>
+=C2=A0 =C2=A0 =C2=A0[CSR_HVICTL]=C2=A0 =C2=A0 =C2=A0 =3D { &quot;hvictl&quo=
+t;,=C2=A0 =C2=A0 =C2=A0 aia_hmode, read_hvictl, write_hvictl },<br>
+=C2=A0 =C2=A0 =C2=A0[CSR_HVIPRIO1]=C2=A0 =C2=A0 =3D { &quot;hviprio1&quot;,=
+=C2=A0 =C2=A0 aia_hmode, read_hviprio1,=C2=A0 =C2=A0write_hviprio1 },<br>
+=C2=A0 =C2=A0 =C2=A0[CSR_HVIPRIO2]=C2=A0 =C2=A0 =3D { &quot;hviprio2&quot;,=
+=C2=A0 =C2=A0 aia_hmode, read_hviprio2,=C2=A0 =C2=A0write_hviprio2 },<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0/* Hypervisor and VS-Level High-Half CSRs (H-extension =
+with AIA) */<br>
+=C2=A0 =C2=A0 =C2=A0[CSR_HIDELEGH]=C2=A0 =C2=A0 =3D { &quot;hidelegh&quot;,=
+=C2=A0 =C2=A0 aia_hmode32, NULL, NULL, rmw_hidelegh },<br>
++=C2=A0 =C2=A0 [CSR_HVIENH]=C2=A0 =C2=A0 =C2=A0 =3D { &quot;hvienh&quot;,=
+=C2=A0 =C2=A0 =C2=A0 aia_hmode32, read_zero, write_ignore },<br>
+=C2=A0 =C2=A0 =C2=A0[CSR_HVIPH]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D { &quot;hviph=
+&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0aia_hmode32, NULL, NULL, rmw_hviph },<br>
+=C2=A0 =C2=A0 =C2=A0[CSR_HVIPRIO1H]=C2=A0 =C2=A0=3D { &quot;hviprio1h&quot;=
+,=C2=A0 =C2=A0aia_hmode32, read_hviprio1h, write_hviprio1h },<br>
+=C2=A0 =C2=A0 =C2=A0[CSR_HVIPRIO2H]=C2=A0 =C2=A0=3D { &quot;hviprio2h&quot;=
+,=C2=A0 =C2=A0aia_hmode32, read_hviprio2h, write_hviprio2h },<br>
+-- <br>
+2.25.1<br>
+<br>
+<br></blockquote><div><br></div><div>Reviewed-by: Frank Chang &lt;<a href=
+=3D"mailto:frank.chang@sifive.com" target=3D"_blank">frank.chang@sifive.com=
+</a>&gt;<br></div></div></div>
 
-  Yang
-
-
-> >  } ExtSaveArea;
-> >
-> >  #define XSAVE_STATE_AREA_COUNT (XSTATE_XTILE_DATA_BIT + 1)
-> > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> > index dd2c919c33..1adc3f0f99 100644
-> > --- a/target/i386/cpu.c
-> > +++ b/target/i386/cpu.c
-> > @@ -5495,7 +5495,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t
-> > index, uint32_t count,
-> >                  const ExtSaveArea *esa = &x86_ext_save_areas[count];
-> >                  *eax = esa->size;
-> >                  *ebx = esa->offset;
-> > -                *ecx = esa->need_align << 1;
-> > +                *ecx = (esa->need_align << 1) | (esa->support_xfd << 2);
-> >              }
-> >          }
-> >          break;
-> > diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
-> > index 6c4c1c6f9d..3b3c203f11 100644
-> > --- a/target/i386/kvm/kvm-cpu.c
-> > +++ b/target/i386/kvm/kvm-cpu.c
-> > @@ -108,6 +108,7 @@ static void kvm_cpu_xsave_init(void)
-> >
-> >              uint32_t ecx = kvm_arch_get_supported_cpuid(s, 0xd, i, R_ECX);
-> >              esa->need_align = ecx & (1u << 1) ? 1 : 0;
-> > +            esa->support_xfd = ecx & (1u << 2) ? 1 : 0;
-> >          }
-> >      }
-> >  }
+--000000000000b400d305d5482d5f--
 
