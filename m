@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6383248AE3F
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 14:15:39 +0100 (CET)
-Received: from localhost ([::1]:57444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B5E48AE1A
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 14:03:38 +0100 (CET)
+Received: from localhost ([::1]:46092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7Gzy-0003KQ-7Y
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 08:15:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47252)
+	id 1n7GoL-000384-89
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 08:03:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1n7GXl-0005n6-Gi
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:46:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39163)
+ id 1n7GYm-0006Dq-Tx
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:47:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1n7GXj-00038V-L4
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:46:29 -0500
+ id 1n7GYk-0003Dk-Bj
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:47:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641905186;
+ s=mimecast20190719; t=1641905248;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=79M3LSnRPxITLiYV1clTJ3Tn4sHSSQXSmwjEyGiCEUs=;
- b=dJiQPaZQ1myibSUzWdPdZgfrz4Kn1ZhJ6pyz3yYCAhIbimfKCg2IQ9dX1gGUiBW5wMkuIG
- nGn9HpPPqk07ZX+3w8WRihLXVlSN7oojtK5HNCSlHBKPakmEgLaFVd0C4l8fBRdgrbQkpC
- IWcFTPtknPbmO8VbTu+3n+OxoS08+/8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CQbBtcOQQqTGlmVLcvaCYCTmSqbpaVikGchlkLKdfGo=;
+ b=QiAITfb+OGlmSNBePMi0sNQyUg3VfAmP4ZS3EX1cHsrQoqZe1YheVE7GIkPSoa6cyfvxxM
+ xUdQmkbsUs7yhZOHPwQjd4Zg7gAG/AQllwC0Kb0zrfYkOVwgzypA5TOX4zrzakABHu4fuk
+ emRQGdssrvVZbR6ZSiU6Pf0hfgy1Qvc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-387-giq1Sig0NVKc7YXQ4LcwFA-1; Tue, 11 Jan 2022 07:46:20 -0500
-X-MC-Unique: giq1Sig0NVKc7YXQ4LcwFA-1
+ us-mta-580-R2Loxg5cOnek9EebsE8eRg-1; Tue, 11 Jan 2022 07:47:26 -0500
+X-MC-Unique: R2Loxg5cOnek9EebsE8eRg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75A3A1083F69
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 12:46:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B39E1006AA8
+ for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 12:47:25 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 419932B45E;
- Tue, 11 Jan 2022 12:45:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1A79E2AAA2;
+ Tue, 11 Jan 2022 12:47:00 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/6] migration: misc cleanups
-Date: Tue, 11 Jan 2022 13:45:50 +0100
-Message-Id: <20220111124556.4892-1-quintela@redhat.com>
+Subject: [PATCH v3 2/6] migration: We only need last_stage in two places
+Date: Tue, 11 Jan 2022 13:45:52 +0100
+Message-Id: <20220111124556.4892-3-quintela@redhat.com>
+In-Reply-To: <20220111124556.4892-1-quintela@redhat.com>
+References: <20220111124556.4892-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -82,58 +85,180 @@ Cc: Leonardo Bras <leobras@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi=0D
-=0D
-Changes since v2:=0D
-- rebase=0D
-- address comments=0D
-- use TARGET_PAGE_SIZE and remove casts=0D
-- remove TARGET_PAGE_MASK from compression code.=0D
-  Nothing else use them.  And if offsets are not aligned,=0D
-  we are in big trouble.=0D
-=0D
-Please, review.=0D
-=0D
-Changes since v1:=0D
-- Add reviewed tags for reviewed patches=0D
-- Change comment about last_stage (philmd)=0D
-- Change cast to 1ULL for ram_release_page()=0D
-- remove TARGET_PAGE_MASK mask.  It was used only for compression,=0D
-  and offset should be page aligned already=0D
-=0D
-Please, review.=0D
-=0D
-Thanks, Juan.=0D
-=0D
-[v1]=0D
-This series do several cleanups:=0D
-- Dave found that I was using "%d" for unsigned, fix all uses.=0D
-- We pass last_stage left and right, but we only use it in two places=0D
-  Just move it to RAMState.=0D
-- do_compress_page() used a goto when not needed.=0D
-- ram_release_pages() was always used with one page=0D
-- And put it when we detect zero pages, instead of everywhere we have find =
-a zero page.=0D
-=0D
-Please, review.=0D
-=0D
-Juan Quintela (6):=0D
-  migration: All this fields are unsigned=0D
-  migration: We only need last_stage in two places=0D
-  migration: ram_release_pages() always receive 1 page as argument=0D
-  migration: Remove masking for compression=0D
-  migration: simplify do_compress_ram_page=0D
-  migration: Move ram_release_pages() call to save_zero_page_to_file()=0D
-=0D
- migration/multifd-zlib.c | 20 +++++------=0D
- migration/multifd-zstd.c | 24 ++++++-------=0D
- migration/multifd.c      | 16 ++++-----=0D
- migration/ram.c          | 73 +++++++++++++++++-----------------------=0D
- migration/trace-events   | 26 +++++++-------=0D
- 5 files changed, 74 insertions(+), 85 deletions(-)=0D
-=0D
---=20=0D
-2.34.1=0D
-=0D
+We only need last_stage in two places and we are passing it all
+around.  Just add a field to RAMState that passes it.
+
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+
+---
+
+Repeat subject (philmd suggestion)
+---
+ migration/ram.c | 41 ++++++++++++++++++-----------------------
+ 1 file changed, 18 insertions(+), 23 deletions(-)
+
+diff --git a/migration/ram.c b/migration/ram.c
+index 57efa67f20..7223b0d8ca 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -325,7 +325,8 @@ struct RAMState {
+     uint64_t xbzrle_bytes_prev;
+     /* Start using XBZRLE (e.g., after the first round). */
+     bool xbzrle_enabled;
+-
++    /* Are we on the last stage of migration */
++    bool last_stage;
+     /* compression statistics since the beginning of the period */
+     /* amount of count that no free thread to compress data */
+     uint64_t compress_thread_busy_prev;
+@@ -683,11 +684,10 @@ static void xbzrle_cache_zero_page(RAMState *rs, ram_addr_t current_addr)
+  * @current_addr: addr of the page
+  * @block: block that contains the page we want to send
+  * @offset: offset inside the block for the page
+- * @last_stage: if we are at the completion stage
+  */
+ static int save_xbzrle_page(RAMState *rs, uint8_t **current_data,
+                             ram_addr_t current_addr, RAMBlock *block,
+-                            ram_addr_t offset, bool last_stage)
++                            ram_addr_t offset)
+ {
+     int encoded_len = 0, bytes_xbzrle;
+     uint8_t *prev_cached_page;
+@@ -695,7 +695,7 @@ static int save_xbzrle_page(RAMState *rs, uint8_t **current_data,
+     if (!cache_is_cached(XBZRLE.cache, current_addr,
+                          ram_counters.dirty_sync_count)) {
+         xbzrle_counters.cache_miss++;
+-        if (!last_stage) {
++        if (!rs->last_stage) {
+             if (cache_insert(XBZRLE.cache, current_addr, *current_data,
+                              ram_counters.dirty_sync_count) == -1) {
+                 return -1;
+@@ -734,7 +734,7 @@ static int save_xbzrle_page(RAMState *rs, uint8_t **current_data,
+      * Update the cache contents, so that it corresponds to the data
+      * sent, in all cases except where we skip the page.
+      */
+-    if (!last_stage && encoded_len != 0) {
++    if (!rs->last_stage && encoded_len != 0) {
+         memcpy(prev_cached_page, XBZRLE.current_buf, TARGET_PAGE_SIZE);
+         /*
+          * In the case where we couldn't compress, ensure that the caller
+@@ -1290,9 +1290,8 @@ static int save_normal_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
+  * @rs: current RAM state
+  * @block: block that contains the page we want to send
+  * @offset: offset inside the block for the page
+- * @last_stage: if we are at the completion stage
+  */
+-static int ram_save_page(RAMState *rs, PageSearchStatus *pss, bool last_stage)
++static int ram_save_page(RAMState *rs, PageSearchStatus *pss)
+ {
+     int pages = -1;
+     uint8_t *p;
+@@ -1307,8 +1306,8 @@ static int ram_save_page(RAMState *rs, PageSearchStatus *pss, bool last_stage)
+     XBZRLE_cache_lock();
+     if (rs->xbzrle_enabled && !migration_in_postcopy()) {
+         pages = save_xbzrle_page(rs, &p, current_addr, block,
+-                                 offset, last_stage);
+-        if (!last_stage) {
++                                 offset);
++        if (!rs->last_stage) {
+             /* Can't send this cached data async, since the cache page
+              * might get updated before it gets to the wire
+              */
+@@ -2129,10 +2128,8 @@ static bool save_compress_page(RAMState *rs, RAMBlock *block, ram_addr_t offset)
+  *
+  * @rs: current RAM state
+  * @pss: data about the page we want to send
+- * @last_stage: if we are at the completion stage
+  */
+-static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss,
+-                                bool last_stage)
++static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
+ {
+     RAMBlock *block = pss->block;
+     ram_addr_t offset = ((ram_addr_t)pss->page) << TARGET_PAGE_BITS;
+@@ -2171,7 +2168,7 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss,
+         return ram_save_multifd_page(rs, block, offset);
+     }
+ 
+-    return ram_save_page(rs, pss, last_stage);
++    return ram_save_page(rs, pss);
+ }
+ 
+ /**
+@@ -2190,10 +2187,8 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss,
+  * @rs: current RAM state
+  * @ms: current migration state
+  * @pss: data about the page we want to send
+- * @last_stage: if we are at the completion stage
+  */
+-static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+-                              bool last_stage)
++static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
+ {
+     int tmppages, pages = 0;
+     size_t pagesize_bits =
+@@ -2211,7 +2206,7 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+     do {
+         /* Check the pages is dirty and if it is send it */
+         if (migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
+-            tmppages = ram_save_target_page(rs, pss, last_stage);
++            tmppages = ram_save_target_page(rs, pss);
+             if (tmppages < 0) {
+                 return tmppages;
+             }
+@@ -2245,13 +2240,11 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+  * or negative on error
+  *
+  * @rs: current RAM state
+- * @last_stage: if we are at the completion stage
+  *
+  * On systems where host-page-size > target-page-size it will send all the
+  * pages in a host page that are dirty.
+  */
+-
+-static int ram_find_and_save_block(RAMState *rs, bool last_stage)
++static int ram_find_and_save_block(RAMState *rs)
+ {
+     PageSearchStatus pss;
+     int pages = 0;
+@@ -2280,7 +2273,7 @@ static int ram_find_and_save_block(RAMState *rs, bool last_stage)
+         }
+ 
+         if (found) {
+-            pages = ram_save_host_page(rs, &pss, last_stage);
++            pages = ram_save_host_page(rs, &pss);
+         }
+     } while (!pages && again);
+ 
+@@ -3080,7 +3073,7 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
+                 break;
+             }
+ 
+-            pages = ram_find_and_save_block(rs, false);
++            pages = ram_find_and_save_block(rs);
+             /* no more pages to sent */
+             if (pages == 0) {
+                 done = 1;
+@@ -3160,6 +3153,8 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
+     RAMState *rs = *temp;
+     int ret = 0;
+ 
++    rs->last_stage = !migration_in_colo_state();
++
+     WITH_RCU_READ_LOCK_GUARD() {
+         if (!migration_in_postcopy()) {
+             migration_bitmap_sync_precopy(rs);
+@@ -3173,7 +3168,7 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
+         while (true) {
+             int pages;
+ 
+-            pages = ram_find_and_save_block(rs, !migration_in_colo_state());
++            pages = ram_find_and_save_block(rs);
+             /* no more blocks to sent */
+             if (pages == 0) {
+                 break;
+-- 
+2.34.1
 
 
