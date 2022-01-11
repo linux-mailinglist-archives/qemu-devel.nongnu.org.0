@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E959048AEEE
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 14:54:40 +0100 (CET)
-Received: from localhost ([::1]:36840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9D5E48AE63
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 14:26:10 +0100 (CET)
+Received: from localhost ([::1]:45052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7Hbj-0001e3-OD
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 08:54:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51426)
+	id 1n7HA9-0007In-TY
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 08:26:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1n7Glx-0004xB-HS
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:01:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54599)
+ id 1n7Gm0-0004yS-70
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:01:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56990)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1n7Glv-0005ix-KZ
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:01:09 -0500
+ id 1n7Gly-0005jY-7T
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:01:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641906067;
+ s=mimecast20190719; t=1641906069;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bsKREreB4LgJFdMcSyHUcfhSCbtvvI69hXnQz2Aotak=;
- b=fDFzOKZdUbxBUZZKcpShnqaIbPKLjd8GOGXBEPIGHVNMCJXyCOZbCTwH8PNRR4faRmlsj8
- vTYBssIH23Yf5unlOgrLj0LcUQzaSnFpBf0sRWz+OzkMdO1/bKewnXIRmW3iJEecadjOBm
- MR1tEbNZawG36x3vh6oxmrhoFlpyHuY=
+ bh=ne+AnRV+/8FiQY8PQ0j8bn06mRqfAQEOP3LFhuiF/pQ=;
+ b=SH0s6ZDNaUIUuhiFibsNYM/xjWxqGm3oijOHt2yQXLvqZOsrfvfaWyzDJzWhnThmC/8KuA
+ l3AcEokorz36+uiuATQdJ0DV1ICdrjtUupdKc7QUzB2G+FE+D7Ra+vX5D60Zm1ZSUsCsyj
+ U9G+xs8VUYZRRlz1KUahzOHEdZYAIBw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-172-PUInYb72OBOAQtam066iYQ-1; Tue, 11 Jan 2022 08:01:04 -0500
-X-MC-Unique: PUInYb72OBOAQtam066iYQ-1
+ us-mta-16-X0NV7h1bM0mwabaGgMZq7Q-1; Tue, 11 Jan 2022 08:01:06 -0500
+X-MC-Unique: X0NV7h1bM0mwabaGgMZq7Q-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23F191030C2B;
- Tue, 11 Jan 2022 13:01:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F92793922;
+ Tue, 11 Jan 2022 13:01:05 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 27848105B1F2;
- Tue, 11 Jan 2022 13:01:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7C35A1059179;
+ Tue, 11 Jan 2022 13:01:03 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 09/23] multifd: Make zlib use iov's
-Date: Tue, 11 Jan 2022 14:00:10 +0100
-Message-Id: <20220111130024.5392-10-quintela@redhat.com>
+Subject: [PATCH v4 10/23] multifd: Make zstd use iov's
+Date: Tue, 11 Jan 2022 14:00:11 +0100
+Message-Id: <20220111130024.5392-11-quintela@redhat.com>
 In-Reply-To: <20220111130024.5392-1-quintela@redhat.com>
 References: <20220111130024.5392-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -89,28 +89,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/multifd-zlib.c | 8 ++++----
+ migration/multifd-zstd.c | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
-index a2fec4d01d..71480c82bb 100644
---- a/migration/multifd-zlib.c
-+++ b/migration/multifd-zlib.c
-@@ -143,6 +143,9 @@ static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
+diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
+index 97c08367d0..bd393aee0d 100644
+--- a/migration/multifd-zstd.c
++++ b/migration/multifd-zstd.c
+@@ -154,6 +154,9 @@ static int zstd_send_prepare(MultiFDSendParams *p, Error **errp)
+             return -1;
          }
-         out_size += available - zs->avail_out;
      }
 +    p->iov[p->iovs_num].iov_base = z->zbuff;
-+    p->iov[p->iovs_num].iov_len = out_size;
++    p->iov[p->iovs_num].iov_len = z->out.pos;
 +    p->iovs_num++;
-     p->next_packet_size = out_size;
-     p->flags |= MULTIFD_FLAG_ZLIB;
+     p->next_packet_size = z->out.pos;
+     p->flags |= MULTIFD_FLAG_ZSTD;
  
-@@ -162,10 +165,7 @@ static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
+@@ -173,10 +176,7 @@ static int zstd_send_prepare(MultiFDSendParams *p, Error **errp)
   */
- static int zlib_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
+ static int zstd_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
  {
--    struct zlib_data *z = p->data;
+-    struct zstd_data *z = p->data;
 -
 -    return qio_channel_write_all(p->c, (void *)z->zbuff, p->next_packet_size,
 -                                 errp);
