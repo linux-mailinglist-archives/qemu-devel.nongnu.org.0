@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E2048B44A
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 18:45:19 +0100 (CET)
-Received: from localhost ([::1]:43798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BBF548B4C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 19:02:04 +0100 (CET)
+Received: from localhost ([::1]:47244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7LCw-0008PH-9n
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 12:45:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40396)
+	id 1n7LT9-0006Ft-Ao
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 13:02:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3Hr3dYQcKCiUWFOUVSFHPPHMF.DPNRFNV-EFWFMOPOHOV.PSH@flex--venture.bounces.google.com>)
- id 1n7Kxw-0004l0-Ok
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 12:29:49 -0500
-Received: from [2607:f8b0:4864:20::b4a] (port=33675
- helo=mail-yb1-xb4a.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n7KvF-00017L-2D
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 12:27:01 -0500
+Received: from [2a00:1450:4864:20::435] (port=42975
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3Hr3dYQcKCiUWFOUVSFHPPHMF.DPNRFNV-EFWFMOPOHOV.PSH@flex--venture.bounces.google.com>)
- id 1n7Kxv-0001eD-EU
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 12:29:48 -0500
-Received: by mail-yb1-xb4a.google.com with SMTP id
- u185-20020a2560c2000000b0060fd98540f7so35491142ybb.0
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 09:29:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=vmwZoqt3VOA1A7dG7w3w8KRUrA973J4DcOKjuhMXOP8=;
- b=phQdtBs9xo9va6TKFQoBbirtPWvONoNfjxDtxTBqLEnBcQlmpS6JSA0Iddx99RbXDp
- sbzR9QUy5MH4HObc8vjs00mG6hVBj71AgqNLTZSV1sNzefP5zwxx7ygoMCKJQhvCJOCK
- aionZ4V62D5pYKijUHtIOzELI68t9Io7UBWB+dWFU0H5MXcrN+pZCFBWNIsX4BKAzrDa
- 8GjQNGadHcfdqK+tFDyQqUPBKlWhkIEQpQ9z3fbn5B1qoYtk+gUhjfDlR4Xje5vNNt5T
- g4ck21vMVl7L0pCc4LxifzSVvX1eZSp+8MyriKIU3UApRG8VfrbmgGCedfl7fL21/QKq
- OKtg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n7KvD-0001Nb-CH
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 12:27:00 -0500
+Received: by mail-wr1-x435.google.com with SMTP id k30so16750593wrd.9
+ for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 09:26:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=x9uFZuLSxnrrbaKMKz0QEdMW6rR5CgNOqST5WaB5t8E=;
+ b=GrbV1mOh3GxY/tGa2PwoNOD3Y1XctAmgKi70ZGxjjM3SMRW16Ftk/8on3zfc6iwRW1
+ 9kPQaKaj1j7ZxgAMV/CkdI2vOoyJ3gbPuepcka2nm9yUVGPuLBKVbrZsJ/lshhHDaT6m
+ u6oFelc4/stufeSz7e+QADI2+c/xrb/fQYPrFqV7TKehL+5g/EUWZRYf8tNd4ukkE5Q/
+ lYTOx6nm+V/s5Z+QBdXutwm+qjnScirCYNKMEgMJU/tzDx5fhyEW3cAbR7BKKcOlxQcx
+ us6uFrXyQJhKXNjqFUVpqWmjvIK7+YvJ6hh4hebL/2tNDxzbrjxFQDpjUl70PHwvJsT7
+ If7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=vmwZoqt3VOA1A7dG7w3w8KRUrA973J4DcOKjuhMXOP8=;
- b=xs530/iT1bgIfy/wn7Y3xSRIRMKGKZhpNhuB4jembn3jkAQXa/0kAtDYDgZG0MK5rP
- staTjiVBdl8ue5gv1PDQBzv9kCQYN1kDGTudU+LcHQr9V4ooZxXXtI6rcGhheQJ47GgF
- Ki7XIiGH6M1O4p7u5VD/TpPjxBF7qzq04LqsygMz4hRxRXes9oTHof+RS/oaTuj2VqB4
- UyU6nKoGV5gOIClFNsfPixIJWv8JlsyYfE70YfULnxwiTK4DR3SC2IqAMQLGZJL04+T7
- S9U31TYe8MAj7YPb6hzxKCj2pxT96Nyw8GLsxUue5gPaUTMJOKtp6uFjvAP3zZc/M77+
- XOhg==
-X-Gm-Message-State: AOAM530dAYAcs8NWSojFPeKQ4u3eeF68PGpzvAWTlvWagqKzXZIf/49z
- y2YIg/WR9matBOw1HMuHsbvJc0XI4ueo
-X-Google-Smtp-Source: ABdhPJx0BWc2n1ZmJuo9EalaDamtHmtCHGp95FGdB8qTNx6Jd6e6FUF0B33M6iSpeYdNaVYdG1uE7/yqjlYo
-X-Received: from venture.svl.corp.google.com
- ([2620:15c:2a3:200:574:98c:4a15:a258])
- (user=venture job=sendgmr) by 2002:a25:70d5:: with SMTP id
- l204mr7718307ybc.193.1641921822061; Tue, 11 Jan 2022 09:23:42 -0800 (PST)
-Date: Tue, 11 Jan 2022 09:23:38 -0800
-Message-Id: <20220111172338.1525587-1-venture@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.34.1.575.g55b058a8bb-goog
-Subject: [PATCH] hw/arm: kudo add lm75s behind bus 1 switch at 75
-From: Patrick Venture <venture@google.com>
-To: hskinnemoen@google.com, kfting@nuvoton.com, peter.maydell@linaro.org
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Patrick Venture <venture@google.com>, Hao Wu <wuhaotsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b4a
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=x9uFZuLSxnrrbaKMKz0QEdMW6rR5CgNOqST5WaB5t8E=;
+ b=mxMB8anewntoYGntkbf4OyaYicg3OXN3pI3sNbxNuMqqQz8V1vyZyj6DFAxFq7RS+s
+ vvvaN9T9ETI8ZXg2wYn6TKv1hJ+3TthSuUSerhMp34Mp4ZEeEmIra/YdAyOuOCNO3Nk4
+ RtN07UkRAm0JBtPkLXi1/UjlPWg+VXRyIgXvQdyaC6WSGm9zQ/qE5WAMJSn0Aq9Ap35C
+ RFm42TSffjkolrjzRZSMxpR3cwY3/QUx2VE9J29f4kIXXVq8VZisO3H6DuBIJMApN1Dd
+ uxLwGHHpSvdMywMkgwKaxQ+mZIbYvaacdru3+DvXKb1Cl/lKR9nl6aLU2pKniGbGXQtD
+ xOgw==
+X-Gm-Message-State: AOAM531gNjbljwiX7MXu0m5K35Ir0rqOH7idHa354QAuWr/eYTF24xCW
+ H4fk3XKSEGDCJ8YtMpQmCUAKBeWKAeaEPQ==
+X-Google-Smtp-Source: ABdhPJwSR8+Pfbefq9Yckq1dT/3+CSPO3Q2qe3z3rTje3rOhkF7K+nWG/OOl9xxxtuKjsnZC04k6AQ==
+X-Received: by 2002:a05:6000:1b0e:: with SMTP id
+ f14mr4788807wrz.100.1641922016674; 
+ Tue, 11 Jan 2022 09:26:56 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id k33sm2172962wms.21.2022.01.11.09.26.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Jan 2022 09:26:56 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org,
+	qemu-trivial@nongnu.org
+Subject: [PATCH] qdev-core.h: Fix wrongly named reference to TYPE_SPLIT_IRQ
+Date: Tue, 11 Jan 2022 17:26:55 +0000
+Message-Id: <20220111172655.3546766-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=3Hr3dYQcKCiUWFOUVSFHPPHMF.DPNRFNV-EFWFMOPOHOV.PSH@flex--venture.bounces.google.com;
- helo=mail-yb1-xb4a.google.com
-X-Spam_score_int: -62
-X-Spam_score: -6.3
-X-Spam_bar: ------
-X-Spam_report: (-6.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SORTED_RECIPS=2.499,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,34 +88,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
-Signed-off-by: Patrick Venture <venture@google.com>
----
- hw/arm/npcm7xx_boards.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+Fix a comment in qdev-core.h where we incorrectly referred
+to TYPE_IRQ_SPLIT when we meant TYPE_SPLIT_IRQ.
 
-diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-index 7d0f3148be..d701e5cc55 100644
---- a/hw/arm/npcm7xx_boards.c
-+++ b/hw/arm/npcm7xx_boards.c
-@@ -332,7 +332,15 @@ static void kudo_bmc_i2c_init(NPCM7xxState *soc)
- {
-     I2CSlave *i2c_mux;
- 
--    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 1), TYPE_PCA9548, 0x75);
-+    i2c_mux = i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 1),
-+                                      TYPE_PCA9548, 0x75);
-+
-+    /* tmp105 is compatible with the lm75 */
-+    i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 4), "tmp105", 0x5c);
-+    i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 5), "tmp105", 0x5c);
-+    i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 6), "tmp105", 0x5c);
-+    i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 7), "tmp105", 0x5c);
-+
-     i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 1), TYPE_PCA9548, 0x77);
- 
-     i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 4), TYPE_PCA9548, 0x77);
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ include/hw/qdev-core.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index d19c9417520..92c3d652086 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -493,7 +493,7 @@ qemu_irq qdev_get_gpio_in_named(DeviceState *dev, const char *name, int n);
+  * qemu_irqs at once, or to connect multiple outbound GPIOs to the
+  * same qemu_irq. (Warning: there is no assertion or other guard to
+  * catch this error: the model will just not do the right thing.)
+- * Instead, for fan-out you can use the TYPE_IRQ_SPLIT device: connect
++ * Instead, for fan-out you can use the TYPE_SPLIT_IRQ device: connect
+  * a device's outbound GPIO to the splitter's input, and connect each
+  * of the splitter's outputs to a different device.  For fan-in you
+  * can use the TYPE_OR_IRQ device, which is a model of a logical OR
 -- 
-2.34.1.575.g55b058a8bb-goog
+2.25.1
 
 
