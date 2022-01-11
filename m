@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 129EF48B3CD
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 18:27:35 +0100 (CET)
-Received: from localhost ([::1]:36494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AE4448B49A
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 18:53:01 +0100 (CET)
+Received: from localhost ([::1]:60020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7Kvl-00075J-74
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 12:27:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35892)
+	id 1n7LKO-0002c4-M0
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 12:53:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n7Kfo-0005D7-VA
+ id 1n7Kfq-0005D8-4a
  for qemu-devel@nongnu.org; Tue, 11 Jan 2022 12:11:11 -0500
-Received: from [2a00:1450:4864:20::42d] (port=36473
- helo=mail-wr1-x42d.google.com)
+Received: from [2a00:1450:4864:20::431] (port=46927
+ helo=mail-wr1-x431.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n7Kfl-0007Km-FC
+ id 1n7Kfl-0007L0-FQ
  for qemu-devel@nongnu.org; Tue, 11 Jan 2022 12:11:04 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id r28so5850592wrc.3
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 09:10:59 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id l25so23366634wrb.13
+ for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 09:11:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TcSrMUtkOV3RqL4wrKJvnNxFBlAibhPM/vlIAuMO/t8=;
- b=eMxTpkGafOaw4kNWdf91zhPvqeDcGg1njaCz5KvGL/1V5iT9kaTCRI5B+5SwRNjHVn
- kraY2s4m+UXxmHHqqvpuOSuMji5VIGYsP2SIwOHSk22JXZ06YEFB/pNrb7x7kyPfb+8K
- xTkN0npX9l72q8y/xlOFUMDyRllegkm4jpctWhWJe1jtp2ddxWRW21QqULDICFz27t/n
- UJnpLKKkuzvGY3yC0VQFbLmH77mVC0v3IJWRD30p3k+TwLDRzds0LYrZB3Gqv64RppXV
- tLOfI2H+U3//5mAnjEC4osscEEb/8ZrMY6IBFTvnZK9uLkFzswnreIMLEW9qFvY71YeX
- jHOA==
+ bh=WpU33ZVGPAyCC9DTXzdZDHcDLe8eur6K3oHNtIfAuUs=;
+ b=szDT6OJxANgIElJmFK6SuaPQKe0pFaJNPg6rQJcpyRqt4rkVYc8gi/9uevnCpm6/Jv
+ pFMVFbnE4JMdXffnwMk7kF2OPsQPM+ChH+wEhiz4f296p9kOpA1n3sDIv7p65aK4Mn4E
+ AyqXkD1Ugij3w4/DBOiBo8jocTT578lM/9PqB6sjMfLbNhDhV4VyNUN68psUoEl/TOl2
+ BoKl3408EHGcd4xdnrGViO0R8h8/7/nHzi2l0ifYAV3rCP1kaOltRKEwOPLzc6KNNc1M
+ ZdNiOOqAqQT97Z/SIYsFnZ5ugpTNDgx/az//LOzhOvyT5aKjqQLZR9CKqWZD+tWdhfrH
+ QdSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TcSrMUtkOV3RqL4wrKJvnNxFBlAibhPM/vlIAuMO/t8=;
- b=VQSmxO3g8ghuyqbypVZUfXiPeMLSBs6tZyY/+qBdHGZooUfQKHlY2V8m1USbKwlyeP
- T6/czJaG/fiwE5SBA9Lu5nGwtFmWf/Zuz4+VONOpfQJp+ZzdmbAcMRIAK1CnKaXaGr5E
- iO1fgTmWyboQ+ILkBx9rZPGr0G1XzBs9E1FBDJ6HqvuYy5gp+A+L+xl6+CeRTzBaGJF1
- UCIIOl54rlfjtVECPgDEdBowH2esK0b+qpvhJBoidoTRWKyRG6nhJLikmbPEVC67G7vN
- 0QufN/wjBu6xW+3HaT2VFVXYKRww3m7xtlTYkYw1swgQ/AYtYTOlw+EMjy67vB4zXYqt
- UcZg==
-X-Gm-Message-State: AOAM530Ixy2KU9qpkg6fNgQ0DHWxMAIvqBKyNJNIffJjIqnwnda4kq6D
- Cq9hxBz91SGA2NTKfmyNDAy5GA==
-X-Google-Smtp-Source: ABdhPJyw/7nC+Raev98J0T5dd0gsb7RAfBPHSDDDoWkqTqQ/IBD50FsZ0hzrVVYmtxRdyw7L0jAdww==
-X-Received: by 2002:a5d:63d1:: with SMTP id c17mr4680181wrw.522.1641921058519; 
- Tue, 11 Jan 2022 09:10:58 -0800 (PST)
+ bh=WpU33ZVGPAyCC9DTXzdZDHcDLe8eur6K3oHNtIfAuUs=;
+ b=0wQVjsYCwzwqdw7FAi9pELS/VXAI3opsm6H9Yuqtz4/S0s2KCLSw4BnFf32G86X07f
+ e5SJrehs5CBxiFGf9ZElihVlSa6JpLkaa3i6LumjNUyMihHWkmOLWwE8IhyZqxkCqu65
+ nSFrWFYy+qqgwv5K7MPwthhtsrrMn976DyaUKo+8YHvXxCgkmQdVaeSkkUTHHGEAM9qw
+ aBbHhUM/9XT1SjNfFaMyJ9g8FTM1jh+5fka2vpshEmM9pC8lLmFz1YExiWW26W8FURso
+ 28Dx85PoTDVIWK24EmH1vHjLHg9YGy1AndZPNtO4pyy3UDVlqOa4E0nwhc2v1DwDUQ73
+ PwIw==
+X-Gm-Message-State: AOAM530d5ARXt1XIXZna6Jpd9xbmIc82sg4WstQxuug339tJG1aNQZSr
+ CulnlVGQoyECaTZyJCQkAnwZTn/dSkx8pg==
+X-Google-Smtp-Source: ABdhPJztl3iR9W5DfAB4WXN8g0TqV8VKRn2H0FGsK8nBXHXm3jg+Lt0RNUNtM+1tF9xQdAQxGiObKw==
+X-Received: by 2002:adf:f390:: with SMTP id m16mr4659738wro.651.1641921059252; 
+ Tue, 11 Jan 2022 09:10:59 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id c7sm11157941wri.21.2022.01.11.09.10.57
+ by smtp.gmail.com with ESMTPSA id c7sm11157941wri.21.2022.01.11.09.10.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 11 Jan 2022 09:10:58 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 11/13] hw/intc/arm_gicv3_its: Factor out "find address of
- table entry" code
-Date: Tue, 11 Jan 2022 17:10:46 +0000
-Message-Id: <20220111171048.3545974-12-peter.maydell@linaro.org>
+Subject: [PATCH v2 12/13] hw/intc/arm_gicv3_its: Check indexes before use,
+ not after
+Date: Tue, 11 Jan 2022 17:10:47 +0000
+Message-Id: <20220111171048.3545974-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220111171048.3545974-1-peter.maydell@linaro.org>
 References: <20220111171048.3545974-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,309 +92,104 @@ Cc: Shashi Mallela <shashi.mallela@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ITS has several tables which all share a similar format,
-described by the TableDesc struct: the guest may configure them
-to be a single-level table or a two-level table. Currently we
-open-code the process of finding the table entry in all the
-functions which read or write the device table or the collection
-table. Factor out the "get the address of the table entry"
-logic into a new function, so that the code which needs to
-read or write a table entry only needs to call table_entry_addr()
-and then perform a suitable load or store to that address.
+In a few places in the ITS command handling functions, we were
+doing the range-check of an event ID or device ID only after using
+it as a table index; move the checks to before the uses.
 
-Note that the error handling is slightly complicated because
-we want to handle two cases differently:
- * failure to read the L1 table entry should end up causing
-   a command stall, like other kinds of DMA error
- * an L1 table entry that says there is no L2 table for this
-   index (ie whose valid bit is 0) must result in us treating
-   the table entry as not-valid on read, and discarding
-   writes (this is mandated by the spec)
+This misordering wouldn't have very bad effects because the
+tables are in guest memory anyway.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-This is a worthwhile refactoring on its own, but still more
-so given that GICv4 adds another table in this format.
----
- hw/intc/arm_gicv3_its.c | 212 +++++++++++++---------------------------
- 1 file changed, 70 insertions(+), 142 deletions(-)
+ hw/intc/arm_gicv3_its.c | 42 ++++++++++++++++++++++++-----------------
+ 1 file changed, 25 insertions(+), 17 deletions(-)
 
 diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 917201c148f..985e316eda9 100644
+index 985e316eda9..ef6c0f55ff9 100644
 --- a/hw/intc/arm_gicv3_its.c
 +++ b/hw/intc/arm_gicv3_its.c
-@@ -83,44 +83,62 @@ static uint64_t baser_base_addr(uint64_t value, uint32_t page_sz)
-     return result;
- }
+@@ -255,6 +255,13 @@ static ItsCmdResult process_its_cmd(GICv3ITSState *s, uint64_t value,
  
-+static uint64_t table_entry_addr(GICv3ITSState *s, TableDesc *td,
-+                                 uint32_t idx, MemTxResult *res)
-+{
-+    /*
-+     * Given a TableDesc describing one of the ITS in-guest-memory
-+     * tables and an index into it, return the guest address
-+     * corresponding to that table entry.
-+     * If there was a memory error reading the L1 table of an
-+     * indirect table, *res is set accordingly, and we return -1.
-+     * If the L1 table entry is marked not valid, we return -1 with
-+     * *res set to MEMTX_OK.
-+     *
-+     * The specification defines the format of level 1 entries of a
-+     * 2-level table, but the format of level 2 entries and the format
-+     * of flat-mapped tables is IMPDEF.
-+     */
-+    AddressSpace *as = &s->gicv3->dma_as;
-+    uint32_t l2idx;
-+    uint64_t l2;
-+    uint32_t num_l2_entries;
-+
-+    *res = MEMTX_OK;
-+
-+    if (!td->indirect) {
-+        /* Single level table */
-+        return td->base_addr + idx * td->entry_sz;
+     eventid = (value & EVENTID_MASK);
+ 
++    if (devid >= s->dt.num_ids) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: invalid command attributes: devid %d>=%d",
++                      __func__, devid, s->dt.num_ids);
++        return CMD_CONTINUE;
 +    }
 +
-+    /* Two level table */
-+    l2idx = idx / (td->page_sz / L1TABLE_ENTRY_SIZE);
-+
-+    l2 = address_space_ldq_le(as,
-+                              td->base_addr + (l2idx * L1TABLE_ENTRY_SIZE),
-+                              MEMTXATTRS_UNSPECIFIED, res);
-+    if (*res != MEMTX_OK) {
-+        return -1;
-+    }
-+    if (!(l2 & L2_TABLE_VALID_MASK)) {
-+        return -1;
-+    }
-+
-+    num_l2_entries = td->page_sz / td->entry_sz;
-+    return (l2 & ((1ULL << 51) - 1)) + (idx % num_l2_entries) * td->entry_sz;
-+}
-+
- static bool get_cte(GICv3ITSState *s, uint16_t icid, uint64_t *cte,
-                     MemTxResult *res)
- {
-     AddressSpace *as = &s->gicv3->dma_as;
--    uint64_t l2t_addr;
--    uint64_t value;
--    bool valid_l2t;
--    uint32_t l2t_id;
--    uint32_t num_l2_entries;
-+    uint64_t entry_addr = table_entry_addr(s, &s->ct, icid, res);
+     dte = get_dte(s, devid, &res);
  
--    if (s->ct.indirect) {
--        l2t_id = icid / (s->ct.page_sz / L1TABLE_ENTRY_SIZE);
--
--        value = address_space_ldq_le(as,
--                                     s->ct.base_addr +
--                                     (l2t_id * L1TABLE_ENTRY_SIZE),
--                                     MEMTXATTRS_UNSPECIFIED, res);
--
--        if (*res == MEMTX_OK) {
--            valid_l2t = (value & L2_TABLE_VALID_MASK) != 0;
--
--            if (valid_l2t) {
--                num_l2_entries = s->ct.page_sz / s->ct.entry_sz;
--
--                l2t_addr = value & ((1ULL << 51) - 1);
--
--                *cte =  address_space_ldq_le(as, l2t_addr +
--                                    ((icid % num_l2_entries) * GITS_CTE_SIZE),
--                                    MEMTXATTRS_UNSPECIFIED, res);
--           }
--       }
--    } else {
--        /* Flat level table */
--        *cte =  address_space_ldq_le(as, s->ct.base_addr +
--                                     (icid * GITS_CTE_SIZE),
--                                      MEMTXATTRS_UNSPECIFIED, res);
-+    if (entry_addr == -1) {
-+        return false; /* not valid */
-     }
- 
-+    *cte = address_space_ldq_le(as, entry_addr, MEMTXATTRS_UNSPECIFIED, res);
-     return FIELD_EX64(*cte, CTE, VALID);
- }
- 
-@@ -189,41 +207,12 @@ static bool get_ite(GICv3ITSState *s, uint32_t eventid, uint64_t dte,
- static uint64_t get_dte(GICv3ITSState *s, uint32_t devid, MemTxResult *res)
- {
-     AddressSpace *as = &s->gicv3->dma_as;
--    uint64_t l2t_addr;
--    uint64_t value;
--    bool valid_l2t;
--    uint32_t l2t_id;
--    uint32_t num_l2_entries;
-+    uint64_t entry_addr = table_entry_addr(s, &s->dt, devid, res);
- 
--    if (s->dt.indirect) {
--        l2t_id = devid / (s->dt.page_sz / L1TABLE_ENTRY_SIZE);
--
--        value = address_space_ldq_le(as,
--                                     s->dt.base_addr +
--                                     (l2t_id * L1TABLE_ENTRY_SIZE),
--                                     MEMTXATTRS_UNSPECIFIED, res);
--
--        if (*res == MEMTX_OK) {
--            valid_l2t = (value & L2_TABLE_VALID_MASK) != 0;
--
--            if (valid_l2t) {
--                num_l2_entries = s->dt.page_sz / s->dt.entry_sz;
--
--                l2t_addr = value & ((1ULL << 51) - 1);
--
--                value =  address_space_ldq_le(as, l2t_addr +
--                                   ((devid % num_l2_entries) * GITS_DTE_SIZE),
--                                   MEMTXATTRS_UNSPECIFIED, res);
--            }
--        }
--    } else {
--        /* Flat level table */
--        value = address_space_ldq_le(as, s->dt.base_addr +
--                                     (devid * GITS_DTE_SIZE),
--                                     MEMTXATTRS_UNSPECIFIED, res);
-+    if (entry_addr == -1) {
-+        return 0; /* a DTE entry with the Valid bit clear */
-     }
--
--    return value;
-+    return address_space_ldq_le(as, entry_addr, MEMTXATTRS_UNSPECIFIED, res);
- }
- 
- /*
-@@ -426,11 +415,7 @@ static bool update_cte(GICv3ITSState *s, uint16_t icid, bool valid,
-                        uint64_t rdbase)
- {
-     AddressSpace *as = &s->gicv3->dma_as;
--    uint64_t value;
--    uint64_t l2t_addr;
--    bool valid_l2t;
--    uint32_t l2t_id;
--    uint32_t num_l2_entries;
-+    uint64_t entry_addr;
-     uint64_t cte = 0;
-     MemTxResult res = MEMTX_OK;
- 
-@@ -444,44 +429,18 @@ static bool update_cte(GICv3ITSState *s, uint16_t icid, bool valid,
-         cte = FIELD_DP64(cte, CTE, RDBASE, rdbase);
-     }
- 
--    /*
--     * The specification defines the format of level 1 entries of a
--     * 2-level table, but the format of level 2 entries and the format
--     * of flat-mapped tables is IMPDEF.
--     */
--    if (s->ct.indirect) {
--        l2t_id = icid / (s->ct.page_sz / L1TABLE_ENTRY_SIZE);
--
--        value = address_space_ldq_le(as,
--                                     s->ct.base_addr +
--                                     (l2t_id * L1TABLE_ENTRY_SIZE),
--                                     MEMTXATTRS_UNSPECIFIED, &res);
--
--        if (res != MEMTX_OK) {
--            return false;
--        }
--
--        valid_l2t = (value & L2_TABLE_VALID_MASK) != 0;
--
--        if (valid_l2t) {
--            num_l2_entries = s->ct.page_sz / s->ct.entry_sz;
--
--            l2t_addr = value & ((1ULL << 51) - 1);
--
--            address_space_stq_le(as, l2t_addr +
--                                 ((icid % num_l2_entries) * GITS_CTE_SIZE),
--                                 cte, MEMTXATTRS_UNSPECIFIED, &res);
--        }
--    } else {
--        /* Flat level table */
--        address_space_stq_le(as, s->ct.base_addr + (icid * GITS_CTE_SIZE),
--                             cte, MEMTXATTRS_UNSPECIFIED, &res);
--    }
-+    entry_addr = table_entry_addr(s, &s->ct, icid, &res);
      if (res != MEMTX_OK) {
-+        /* memory access error: stall */
-         return false;
--    } else {
+@@ -272,6 +279,14 @@ static ItsCmdResult process_its_cmd(GICv3ITSState *s, uint64_t value,
+ 
+     num_eventids = 1ULL << (FIELD_EX64(dte, DTE, SIZE) + 1);
+ 
++    if (eventid >= num_eventids) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: invalid command attributes: eventid %d >= %"
++                      PRId64 "\n",
++                      __func__, eventid, num_eventids);
++        return CMD_CONTINUE;
 +    }
-+    if (entry_addr == -1) {
-+        /* No L2 table for this index: discard write and continue */
-         return true;
-     }
 +
-+    address_space_stq_le(as, entry_addr, cte, MEMTXATTRS_UNSPECIFIED, &res);
-+    return res == MEMTX_OK;
- }
- 
- static ItsCmdResult process_mapc(GICv3ITSState *s, uint32_t offset)
-@@ -529,11 +488,7 @@ static bool update_dte(GICv3ITSState *s, uint32_t devid, bool valid,
-                        uint8_t size, uint64_t itt_addr)
- {
-     AddressSpace *as = &s->gicv3->dma_as;
--    uint64_t value;
--    uint64_t l2t_addr;
--    bool valid_l2t;
--    uint32_t l2t_id;
--    uint32_t num_l2_entries;
-+    uint64_t entry_addr;
-     uint64_t dte = 0;
-     MemTxResult res = MEMTX_OK;
- 
-@@ -548,44 +503,17 @@ static bool update_dte(GICv3ITSState *s, uint32_t devid, bool valid,
-         return true;
-     }
- 
--    /*
--     * The specification defines the format of level 1 entries of a
--     * 2-level table, but the format of level 2 entries and the format
--     * of flat-mapped tables is IMPDEF.
--     */
--    if (s->dt.indirect) {
--        l2t_id = devid / (s->dt.page_sz / L1TABLE_ENTRY_SIZE);
--
--        value = address_space_ldq_le(as,
--                                     s->dt.base_addr +
--                                     (l2t_id * L1TABLE_ENTRY_SIZE),
--                                     MEMTXATTRS_UNSPECIFIED, &res);
--
--        if (res != MEMTX_OK) {
--            return false;
--        }
--
--        valid_l2t = (value & L2_TABLE_VALID_MASK) != 0;
--
--        if (valid_l2t) {
--            num_l2_entries = s->dt.page_sz / s->dt.entry_sz;
--
--            l2t_addr = value & ((1ULL << 51) - 1);
--
--            address_space_stq_le(as, l2t_addr +
--                                 ((devid % num_l2_entries) * GITS_DTE_SIZE),
--                                 dte, MEMTXATTRS_UNSPECIFIED, &res);
--        }
--    } else {
--        /* Flat level table */
--        address_space_stq_le(as, s->dt.base_addr + (devid * GITS_DTE_SIZE),
--                             dte, MEMTXATTRS_UNSPECIFIED, &res);
--    }
-+    entry_addr = table_entry_addr(s, &s->dt, devid, &res);
+     ite_valid = get_ite(s, eventid, dte, &icid, &pIntid, &res);
      if (res != MEMTX_OK) {
-+        /* memory access error: stall */
-         return false;
--    } else {
-+    }
-+    if (entry_addr == -1) {
-+        /* No L2 table for this index: discard write and continue */
-         return true;
+         return CMD_STALL;
+@@ -296,20 +311,6 @@ static ItsCmdResult process_its_cmd(GICv3ITSState *s, uint64_t value,
+         return CMD_CONTINUE;
      }
-+    address_space_stq_le(as, entry_addr, dte, MEMTXATTRS_UNSPECIFIED, &res);
-+    return res == MEMTX_OK;
- }
  
- static ItsCmdResult process_mapd(GICv3ITSState *s, uint64_t value,
+-    if (devid >= s->dt.num_ids) {
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: invalid command attributes: devid %d>=%d",
+-                      __func__, devid, s->dt.num_ids);
+-        return CMD_CONTINUE;
+-    }
+-    if (eventid >= num_eventids) {
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: invalid command attributes: eventid %d >= %"
+-                      PRId64 "\n",
+-                      __func__, eventid, num_eventids);
+-        return CMD_CONTINUE;
+-    }
+-
+     /*
+      * Current implementation only supports rdbase == procnum
+      * Hence rdbase physical address is ignored
+@@ -375,6 +376,13 @@ static ItsCmdResult process_mapti(GICv3ITSState *s, uint64_t value,
+ 
+     icid = value & ICID_MASK;
+ 
++    if (devid >= s->dt.num_ids) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: invalid command attributes: devid %d>=%d",
++                      __func__, devid, s->dt.num_ids);
++        return CMD_CONTINUE;
++    }
++
+     dte = get_dte(s, devid, &res);
+ 
+     if (res != MEMTX_OK) {
+@@ -384,14 +392,14 @@ static ItsCmdResult process_mapti(GICv3ITSState *s, uint64_t value,
+     num_eventids = 1ULL << (FIELD_EX64(dte, DTE, SIZE) + 1);
+     num_intids = 1ULL << (GICD_TYPER_IDBITS + 1);
+ 
+-    if ((devid >= s->dt.num_ids) || (icid >= s->ct.num_ids)
++    if ((icid >= s->ct.num_ids)
+             || !dte_valid || (eventid >= num_eventids) ||
+             (((pIntid < GICV3_LPI_INTID_START) || (pIntid >= num_intids)) &&
+              (pIntid != INTID_SPURIOUS))) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: invalid command attributes "
+-                      "devid %d or icid %d or eventid %d or pIntid %d or"
+-                      "unmapped dte %d\n", __func__, devid, icid, eventid,
++                      "icid %d or eventid %d or pIntid %d or"
++                      "unmapped dte %d\n", __func__, icid, eventid,
+                       pIntid, dte_valid);
+         /*
+          * in this implementation, in case of error
 -- 
 2.25.1
 
