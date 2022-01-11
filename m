@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E528948AF15
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 15:03:08 +0100 (CET)
-Received: from localhost ([::1]:52564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFB2448AF22
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 15:07:29 +0100 (CET)
+Received: from localhost ([::1]:33018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7Hjv-0005pW-TU
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 09:03:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51806)
+	id 1n7Ho8-0003Ho-PI
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 09:07:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1n7Gmp-0005Bk-CS
+ id 1n7Gmp-0005Bo-LV
  for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:02:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30574)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1n7Gmm-0005sD-0Y
+ id 1n7Gmm-0005qr-0w
  for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:02:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641906114;
+ s=mimecast20190719; t=1641906089;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ESOmsPTxjZbmAe2g1N7ay6d2NzqChH7CCCrDtgiDR1Q=;
- b=g1BWpNpBQMVdN5xGZrTR19S1xwRBdqAi5zIVsZrF5Ll6xUqYu4Q8fZxLfFW+U5VbH6ot+A
- dtXWw3oCxo0kjW9VsDkAxIlinvrWvY6GHvENt8ZA8tVdC2Cgr3A6FCuSj87G9pRkPkFry2
- hClzJ0YJhToLR5V/1QBn+Twf1dZHRG8=
+ bh=Rwk6ID2rBlH3ZRqQ0F7DWrovnndqwFTyaieTJosDyIw=;
+ b=SRw+1sW7Dz8Xzgf52zzM0fnIBOfKQ4TAGUGZ3CTtOzkrGGjRiQ5tgHsJOJsdKtKivwspLw
+ 9jciA0Pwuo6sLf42VPR1N0m92VwSKprpy1RkJ1FnSrd1vF7dtOjkFNbHPqWvOZ3vsHB1xN
+ bNuPlYUZ66vJ/GYGX8pGXdDBmEQombg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-599-AMrZ7NO3PQCnqUTlIsSFcw-1; Tue, 11 Jan 2022 08:01:24 -0500
-X-MC-Unique: AMrZ7NO3PQCnqUTlIsSFcw-1
+ us-mta-108-cKPud18sM3yaZ0SZI-QO0w-1; Tue, 11 Jan 2022 08:01:26 -0500
+X-MC-Unique: cKPud18sM3yaZ0SZI-QO0w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 919C91023F65;
- Tue, 11 Jan 2022 13:01:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC10E1023F54;
+ Tue, 11 Jan 2022 13:01:24 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 82A6C1059179;
- Tue, 11 Jan 2022 13:01:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB9961059179;
+ Tue, 11 Jan 2022 13:01:22 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 17/23] multifd: Rename pages_used to normal_pages
-Date: Tue, 11 Jan 2022 14:00:18 +0100
-Message-Id: <20220111130024.5392-18-quintela@redhat.com>
+Subject: [PATCH v4 18/23] migration: Make ram_save_target_page() a pointer
+Date: Tue, 11 Jan 2022 14:00:19 +0100
+Message-Id: <20220111130024.5392-19-quintela@redhat.com>
 In-Reply-To: <20220111130024.5392-1-quintela@redhat.com>
 References: <20220111130024.5392-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -86,49 +86,71 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- migration/multifd.h | 3 ++-
- migration/multifd.c | 4 ++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
+We are going to create a new function for multifd latest in the series.
 
-diff --git a/migration/multifd.h b/migration/multifd.h
-index be460f821b..4dda900a0b 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -44,7 +44,8 @@ typedef struct {
-     uint32_t flags;
-     /* maximum number of allocated pages */
-     uint32_t pages_alloc;
--    uint32_t pages_used;
-+    /* non zero pages */
-+    uint32_t normal_pages;
-     /* size of the next packet that contains pages */
-     uint32_t next_packet_size;
-     uint64_t packet_num;
-diff --git a/migration/multifd.c b/migration/multifd.c
-index b39fef5dfe..76b57a7177 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -262,7 +262,7 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
+ migration/ram.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/migration/ram.c b/migration/ram.c
+index e9dcd3ca4e..3536778e19 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -294,6 +294,9 @@ struct RAMSrcPageRequest {
+     QSIMPLEQ_ENTRY(RAMSrcPageRequest) next_req;
+ };
  
-     packet->flags = cpu_to_be32(p->flags);
-     packet->pages_alloc = cpu_to_be32(p->pages->allocated);
--    packet->pages_used = cpu_to_be32(p->normal_num);
-+    packet->normal_pages = cpu_to_be32(p->normal_num);
-     packet->next_packet_size = cpu_to_be32(p->next_packet_size);
-     packet->packet_num = cpu_to_be64(p->packet_num);
++typedef struct RAMState RAMState;
++typedef struct PageSearchStatus PageSearchStatus;
++
+ /* State of RAM for migration */
+ struct RAMState {
+     /* QEMUFile used for this migration */
+@@ -348,8 +351,8 @@ struct RAMState {
+     /* Queue of outstanding page requests from the destination */
+     QemuMutex src_page_req_mutex;
+     QSIMPLEQ_HEAD(, RAMSrcPageRequest) src_page_requests;
++    int (*ram_save_target_page)(RAMState *rs, PageSearchStatus *pss);
+ };
+-typedef struct RAMState RAMState;
  
-@@ -316,7 +316,7 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
-         return -1;
-     }
+ static RAMState *ram_state;
  
--    p->normal_num = be32_to_cpu(packet->pages_used);
-+    p->normal_num = be32_to_cpu(packet->normal_pages);
-     if (p->normal_num > packet->pages_alloc) {
-         error_setg(errp, "multifd: received packet "
-                    "with %u pages and expected maximum pages are %u",
+@@ -2117,14 +2120,14 @@ static bool save_compress_page(RAMState *rs, RAMBlock *block, ram_addr_t offset)
+ }
+ 
+ /**
+- * ram_save_target_page: save one target page
++ * ram_save_target_page_legacy: save one target page
+  *
+  * Returns the number of pages written
+  *
+  * @rs: current RAM state
+  * @pss: data about the page we want to send
+  */
+-static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
++static int ram_save_target_page_legacy(RAMState *rs, PageSearchStatus *pss)
+ {
+     RAMBlock *block = pss->block;
+     ram_addr_t offset = ((ram_addr_t)pss->page) << TARGET_PAGE_BITS;
+@@ -2200,7 +2203,7 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
+     do {
+         /* Check the pages is dirty and if it is send it */
+         if (migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
+-            tmppages = ram_save_target_page(rs, pss);
++            tmppages = rs->ram_save_target_page(rs, pss);
+             if (tmppages < 0) {
+                 return tmppages;
+             }
+@@ -3008,6 +3011,7 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
+     ram_control_before_iterate(f, RAM_CONTROL_SETUP);
+     ram_control_after_iterate(f, RAM_CONTROL_SETUP);
+ 
++    (*rsp)->ram_save_target_page = ram_save_target_page_legacy;
+     multifd_send_sync_main(f);
+     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+     qemu_fflush(f);
 -- 
 2.34.1
 
