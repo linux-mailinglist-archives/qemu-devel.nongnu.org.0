@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603BE48AE75
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 14:31:04 +0100 (CET)
-Received: from localhost ([::1]:53582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D2CD48AE8B
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 14:37:55 +0100 (CET)
+Received: from localhost ([::1]:34066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7HEt-0004wD-C3
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 08:31:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51496)
+	id 1n7HLU-0002hZ-5u
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 08:37:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1n7Gm7-00052U-60
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:01:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56731)
+ id 1n7Gm8-00054A-GA
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:01:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53740)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1n7Gm1-0005k2-H3
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:01:18 -0500
+ id 1n7Gm6-0005kF-Se
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:01:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641906073;
+ s=mimecast20190719; t=1641906078;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0CZMF9+tpdeRtWvtbyvdKiZL5iLIO8LIWlWaxsgFtQI=;
- b=XFGTczYEpFJpRtXRYM6buQQJytSou6DmVx+MzF5THkNP3cIjQsfMb79E6ei/Juk2o/1K/v
- hnnfxa9vVDWlz6un4IS0SNWCdgZlX7zdR+5eFz7vAr7BokhjRKP/ovqw5xTt8nV98Z1wB7
- yl3pDUmrcBVdlU/ISFmGngw+XRoU5qo=
+ bh=0hmgBIgw2vpYhvjWSpFcJn/+tADW2pBvjmWQdqRJQYc=;
+ b=DN8YnSY4y39NY0wXQ8ZoNwDBJO+blpowO90n3ItYWLjLssI+AYtzcxQOtw26FDD6mCWzpJ
+ ww3Iz35rwKN+j8W+tWM9HmxN8e/Eqj7W8LQkTna9Qe1V7FrFr2TLmeswaDb30PklIS9/T8
+ gcds63j12gSQzuyKYBCz8kYyKXj+aOM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-468-clSlUaF_NNaLHst73itzNQ-1; Tue, 11 Jan 2022 08:01:11 -0500
-X-MC-Unique: clSlUaF_NNaLHst73itzNQ-1
+ us-mta-45-qY6IbsUnPtS6YinxPBr2zA-1; Tue, 11 Jan 2022 08:01:14 -0500
+X-MC-Unique: qY6IbsUnPtS6YinxPBr2zA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CBB01923B80;
- Tue, 11 Jan 2022 13:01:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B106181CCB9;
+ Tue, 11 Jan 2022 13:01:12 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 836951059179;
- Tue, 11 Jan 2022 13:01:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C3B0C1059179;
+ Tue, 11 Jan 2022 13:01:10 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 12/23] multifd: Use a single writev on the send side
-Date: Tue, 11 Jan 2022 14:00:13 +0100
-Message-Id: <20220111130024.5392-13-quintela@redhat.com>
+Subject: [PATCH v4 13/23] multifd: Unfold "used" variable by its value
+Date: Tue, 11 Jan 2022 14:00:14 +0100
+Message-Id: <20220111130024.5392-14-quintela@redhat.com>
 In-Reply-To: <20220111130024.5392-1-quintela@redhat.com>
 References: <20220111130024.5392-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -86,65 +86,45 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Until now, we wrote the packet header with write(), and the rest of the
-pages with writev().  Just increase the size of the iovec and do a
-single writev().
-
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/multifd.c | 20 ++++++++------------
- 1 file changed, 8 insertions(+), 12 deletions(-)
+ migration/multifd.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/migration/multifd.c b/migration/multifd.c
-index 96b9cc0d8b..1d4885e1a0 100644
+index 1d4885e1a0..e5b1fa5015 100644
 --- a/migration/multifd.c
 +++ b/migration/multifd.c
-@@ -646,7 +646,7 @@ static void *multifd_send_thread(void *opaque)
-             uint32_t used = p->pages->num;
-             uint64_t packet_num = p->packet_num;
-             uint32_t flags = p->flags;
--            p->iovs_num = 0;
-+            p->iovs_num = 1;
+@@ -1062,7 +1062,6 @@ static void *multifd_recv_thread(void *opaque)
+     rcu_register_thread();
  
-             if (used) {
-                 ret = multifd_send_state->ops->send_prepare(p, &local_err);
-@@ -666,20 +666,15 @@ static void *multifd_send_thread(void *opaque)
-             trace_multifd_send(p->id, packet_num, used, flags,
-                                p->next_packet_size);
+     while (true) {
+-        uint32_t used;
+         uint32_t flags;
  
--            ret = qio_channel_write_all(p->c, (void *)p->packet,
--                                        p->packet_len, &local_err);
-+            p->iov[0].iov_len = p->packet_len;
-+            p->iov[0].iov_base = p->packet;
-+
-+            ret = qio_channel_writev_all(p->c, p->iov, p->iovs_num,
-+                                         &local_err);
+         if (p->quit) {
+@@ -1085,17 +1084,16 @@ static void *multifd_recv_thread(void *opaque)
+             break;
+         }
+ 
+-        used = p->pages->num;
+         flags = p->flags;
+         /* recv methods don't know how to handle the SYNC flag */
+         p->flags &= ~MULTIFD_FLAG_SYNC;
+-        trace_multifd_recv(p->id, p->packet_num, used, flags,
++        trace_multifd_recv(p->id, p->packet_num, p->pages->num, flags,
+                            p->next_packet_size);
+         p->num_packets++;
+-        p->num_pages += used;
++        p->num_pages += p->pages->num;
+         qemu_mutex_unlock(&p->mutex);
+ 
+-        if (used) {
++        if (p->pages->num) {
+             ret = multifd_recv_state->ops->recv_pages(p, &local_err);
              if (ret != 0) {
                  break;
-             }
- 
--            if (used) {
--                ret = qio_channel_writev_all(p->c, p->iov, p->iovs_num,
--                                             &local_err);
--                if (ret != 0) {
--                    break;
--                }
--            }
--
-             qemu_mutex_lock(&p->mutex);
-             p->pending_job--;
-             qemu_mutex_unlock(&p->mutex);
-@@ -916,7 +911,8 @@ int multifd_save_setup(Error **errp)
-         p->packet->version = cpu_to_be32(MULTIFD_VERSION);
-         p->name = g_strdup_printf("multifdsend_%d", i);
-         p->tls_hostname = g_strdup(s->hostname);
--        p->iov = g_new0(struct iovec, page_count);
-+        /* We need one extra place for the packet header */
-+        p->iov = g_new0(struct iovec, page_count + 1);
-         socket_send_channel_create(multifd_new_send_channel_async, p);
-     }
- 
 -- 
 2.34.1
 
