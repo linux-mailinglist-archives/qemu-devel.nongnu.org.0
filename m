@@ -2,95 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41AB448AB81
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 11:35:39 +0100 (CET)
-Received: from localhost ([::1]:44456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1A4148ABA3
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 11:45:00 +0100 (CET)
+Received: from localhost ([::1]:50568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7EV8-00036X-Di
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 05:35:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43252)
+	id 1n7EeB-0000xh-9X
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 05:44:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1n7ESx-0001QR-Jj
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 05:33:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44660)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1n7ESu-0005He-BP
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 05:33:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641897199;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yrdHHtTiQ5PfkuGg0+hsXAt0il0H+CDJFTah02FJTNU=;
- b=AdcO4V+r9yAP97N0WwZePbXUcZOc+t/YYxQ89LzlfmssTyr4XkEXnLkbFQK9j9aORxmgtU
- CfvkJtWpRXDSfFfhqdXJOz2UVqR6sISYMtwcGrwOMUj1dIS4/FKOKOjsV0XDYzTS6uu9uV
- rjhD5QOm9AyhlNLxE6lcHz1B504NNb0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-475-NwFRdKsMMOSlSSVCKP_Sqw-1; Tue, 11 Jan 2022 05:33:16 -0500
-X-MC-Unique: NwFRdKsMMOSlSSVCKP_Sqw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- i8-20020adfa508000000b001ad5418833cso156692wrb.5
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 02:33:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n7Eco-0000Bx-OU; Tue, 11 Jan 2022 05:43:35 -0500
+Received: from [2a00:1450:4864:20::336] (port=46625
+ helo=mail-wm1-x336.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n7Ecm-0006u3-El; Tue, 11 Jan 2022 05:43:33 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ d187-20020a1c1dc4000000b003474b4b7ebcso1532502wmd.5; 
+ Tue, 11 Jan 2022 02:43:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fCjueDFv/EzgsxoKreZXkLCzsKEeDprdTK5nQeXAmQg=;
+ b=hzEva35+NKXal+8dWVpQEsjW5dEg83iixRpWkHvWd4AdX9BrETQB8t0MH1LuLQpvfC
+ babxLd599HPzt0y0LuhvELp6NKVK41hcwtXHryR2Adm9RkLxPmTYZVeHSUpvaDuKhXnp
+ 393fmmAfabbRwCa3F58Zj0WiY32Yz574Kne0D/hbrWlrxdjA/LMebdLaIhKAYMLma440
+ JbnyVDVrGGbZ6sgzCl59sCK5fTw8CQM4JqIzcmTOsR9U3J/eoiZFQEw15CzDvKpFI4go
+ nQC+LB2xevkXYoOi1IuSLWQ/aJHckSWXotJxalpEk4ViPf2mx3QDfSuzAmOIG9L/X1BI
+ I1Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=yrdHHtTiQ5PfkuGg0+hsXAt0il0H+CDJFTah02FJTNU=;
- b=Hcdj0op1AXxELHeUP67BDKnjkXDOk6cI7e/nWiE3ZKtGizUyjK0AMzeLFU2UX//bIe
- +C6SAI+i6SXw6YCYGU8pu02mvEPXIeeIPZ2pE1iiWNUCORIM9/0d8e87UPv8SNGyiGIV
- CkY6RNztSxPva3RS0KZ2jv+U8wLtkYZ7DeDL0UAcK3zXgg+D2ooM8+sPNBUEjwHuTG98
- x8EQbN9waN6LRuNWRqhyv7mXzhoJ9c8I6Gcxwi1/Fzi0vMyFLzLvbWu5EZhNDrt752Ny
- 8rZrmxKtB+Bm7JWWcS7fHGvXvjp03rzJxvznFnmZCj25fK7Ca/UUOTWQENVxHFnFQcAl
- H/bw==
-X-Gm-Message-State: AOAM533Uqx1dxEqmzkJVvXVRvlrZOhUdtWasmKmuNdTCot74sgEGRnka
- EdSkunyr3JHx3MvX7oRAlN2cKWZ1ieeMnYzufFiOGqUovzdluzB7CowNfMddao/QkR/Z8eIiA2Q
- DqpJRgK9zW7BC8tY=
-X-Received: by 2002:a5d:4a02:: with SMTP id m2mr3268395wrq.154.1641897195087; 
- Tue, 11 Jan 2022 02:33:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwWBpwuDMKnWTbGILpp/kLWMS3K269pe87WN//wUj8jQqp32XZTjZf02u8M3QVWOHfN5XD6Sg==
-X-Received: by 2002:a5d:4a02:: with SMTP id m2mr3268382wrq.154.1641897194888; 
- Tue, 11 Jan 2022 02:33:14 -0800 (PST)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id j3sm8691132wrt.14.2022.01.11.02.33.14
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fCjueDFv/EzgsxoKreZXkLCzsKEeDprdTK5nQeXAmQg=;
+ b=hBHXibfVgA456l6oXFxnYr2Yg25ys9sAdC3CmMlbkah5yo9hR0szgmYPgYmdi+bd2q
+ CgS3sEj2jv13fUZiMamfPwr9g1xppecMuV7vGxBsc9vQq4j/tdZyF4O/ZrwyBcxQi1nJ
+ b+/8l7T1/QS9Ux06+6XOeY/0EOtlfNVckCplvs75O08Qj3SL2u8uhuE7YbwwQ81MAQmb
+ qVAO1GV8ATdNdfnx8wEv+vyeO6MqpsdadGu+64a5cOvgSn0d7c4p1uDClNgh3wx44KJt
+ DUjsDKYMNLEtsahcD5V1lGOvIH9WVtMvP3XY2hLR5wNha2SlDtXntNl4iTTKsWeRLNw6
+ mK6w==
+X-Gm-Message-State: AOAM531TuH3S3NihMyo9oYWyEaIHRJuXEtSXsf6xri+oXRG7sgZMfk7d
+ vPrVSEDKc8R0TNipFcfAqiI=
+X-Google-Smtp-Source: ABdhPJwdJhb0sgjyGV4tLsMKGa9HNebzjaRNdA90rVMAFGWh7r/MGgxlZWoa8AcwZh7utUU8YjKtJQ==
+X-Received: by 2002:a7b:c7cd:: with SMTP id z13mr1928828wmk.110.1641897810615; 
+ Tue, 11 Jan 2022 02:43:30 -0800 (PST)
+Received: from [192.168.1.40] (83.red-83-50-87.dynamicip.rima-tde.net.
+ [83.50.87.83])
+ by smtp.gmail.com with ESMTPSA id i8sm11294032wry.108.2022.01.11.02.43.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Jan 2022 02:33:14 -0800 (PST)
-Subject: Re: [PATCH 0/3] virtio-iommu: Support VIRTIO_IOMMU_F_BYPASS_CONFIG
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-References: <20210930185050.262759-1-jean-philippe@linaro.org>
- <a98b63f9-000b-7647-0ac5-3e6e5ec7f6a7@redhat.com> <Yd1YRkJDv35bQ/PR@myrica>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <3106b980-ffc5-d732-3f7b-51c126aee0bf@redhat.com>
-Date: Tue, 11 Jan 2022 11:33:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Tue, 11 Jan 2022 02:43:30 -0800 (PST)
+Message-ID: <7966f396-7ec6-f528-0ebf-248c24f19482@amsat.org>
+Date: Tue, 11 Jan 2022 11:43:28 +0100
 MIME-Version: 1.0
-In-Reply-To: <Yd1YRkJDv35bQ/PR@myrica>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2 1/9] hw/nvram: Restrict stub to sysemu and tools
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220104085431.2122999-1-f4bug@amsat.org>
+ <20220104085431.2122999-2-f4bug@amsat.org>
+ <62eee9e9-62bf-039d-8bc5-c12c0d8468b6@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <62eee9e9-62bf-039d-8bc5-c12c0d8468b6@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,46 +93,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: qemu-devel@nongnu.org, mst@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.com>,
+ qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
+ John Snow <jsnow@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, Peter Xu <peterx@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Jean,
+On 1/7/22 01:17, Richard Henderson wrote:
+> On 1/4/22 12:54 AM, Philippe Mathieu-Daudé wrote:
+>> +if have_system or have_tools
+> ...
+>>   if have_system
+>> +  stub_ss.add(files('fw_cfg.c'))
+> 
+> Disconnect in tests?
 
-On 1/11/22 11:13 AM, Jean-Philippe Brucker wrote:
-> Hi Eric,
->
-> On Tue, Jan 11, 2022 at 10:02:12AM +0100, Eric Auger wrote:
->> Hi Jean, Michael,
->>
->> On 9/30/21 8:50 PM, Jean-Philippe Brucker wrote:
->>> Replace the VIRTIO_IOMMU_F_BYPASS feature with
->>> VIRTIO_IOMMU_F_BYPASS_CONFIG, which enables a config space bit to switch
->>> global bypass on and off.
->>>
->>> Add a boot-bypass option, which defaults to 'on' to be in line with
->>> other vIOMMUs and to allow running firmware/bootloader that are unaware
->>> of the IOMMU.
->>>
->>> See the spec change for more rationale
->>> https://lists.oasis-open.org/archives/virtio-dev/202109/msg00137.html
->> I guess the kernel bits should be merged in 5.17?
-> Yes, they should. I can resend at 5.17-rc1 along with a commit updating
-> the linux headers. Or is there a specific process for synchronizing the
-> headers?  Looking at git log it looks like scripts/update-linux-headers.sh
-> is run by whomever needs new UAPI features.
-yes you need to generate the header update patch using
+(I assume s/tests/stubs/).
 
-scripts/update-linux-headers.sh once the kernel pieces have landed
+fw_cfg-interface.c exposes the fw_cfg QOM interface, which is not
+used by tools, but since interfaces are checked when QOM object is
+created, we must include it to be able to use qemu-storage-daemon.
 
-Thanks
+fw_cfg.c add a fw_cfg_arch_key_name() stub which is only required
+for sysemu.
 
-Eric
+So no, there is no disconnect. I will however split this patch in
+2 and better describe each change.
 
->
-> Thanks,
-> Jean
->
+Thanks,
 
+Phil.
 
