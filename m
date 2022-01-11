@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B5D648AD7C
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 13:19:10 +0100 (CET)
-Received: from localhost ([::1]:33498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90EB448AD8A
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 13:23:52 +0100 (CET)
+Received: from localhost ([::1]:38044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7G7J-0004sO-H2
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 07:19:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38074)
+	id 1n7GBr-0000DX-NW
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 07:23:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n7G0H-0005KD-2V
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:11:56 -0500
-Received: from [2a00:1450:4864:20::42d] (port=36690
- helo=mail-wr1-x42d.google.com)
+ id 1n7GA2-0007th-0e
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:21:58 -0500
+Received: from [2a00:1450:4864:20::430] (port=40553
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n7G06-0004T4-5X
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:11:52 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id r28so4186201wrc.3
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 04:11:35 -0800 (PST)
+ id 1n7GA0-0006iy-7K
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:21:57 -0500
+Received: by mail-wr1-x430.google.com with SMTP id x4so7443505wru.7
+ for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 04:21:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=baYtVBFyl2TA4XP5+yotCpNy9aYDLGXCqmkMXsPz02I=;
- b=qorhMpQ/ab0WeDdkOn+RHSRiwmwKLlv/OAKXVuy4GoQM1hr7qJCG6gQ/NkYfwyRltS
- bzoLwfJzDjCGiqsrLfxqa6kCu9NCeuxd1redmuMu4veQglQysspg13/Ls+Y3oT5H1YWJ
- o35rY01wgYSDGh1uzc/ghcIO4GrTu1U157ae9ADrIDOMJrsU3saXXTC44ZmFmsnh5Esu
- GEru808n9zyzl+Ux7wvqGe+frRhTf/314CAWsU61acpXN+34bxAk3tXFnZEbeAnxonPa
- rIwYM1Gwy6z15keTsOsLE+ku2GUIm9fE+wyrTqGqP9/CbO7iNQk3DGcbf8oo+SB2clKi
- j0pA==
+ :cc:content-transfer-encoding;
+ bh=6EicbKasqe7K/i3ebUaaoH6W3pH00NfPe2NYj3T9jQA=;
+ b=H+mRWBejdcU4AnHfIJGZTLfJOyCduoT19vbZmcaG2P+Lk31BnFquwdGdMcX6+K/eZI
+ 5/etBZrS5o9Z6fM/ETSQ/1VC6CrtIJzK8Xg5Yg0hfBTYIWAoieMG6gBRHYXHC1U8iR8d
+ yFLH0cuNVAEIIe5zcx6/oGN4OUqofAz6KFO7Z9b0iZhVJpPN2O0zkCX9AQxPsJh7jr36
+ ArilmwKTUhIIFQifM+f1KaOyn+izPMPeFoA7b11yER0fe55SZSz0MkxpWVlEHxuYTQJ5
+ z20yzyZjqHKqq4RWDTUxoDtbs5r5sTPf4tCLI1bwt9nLdTVQq+FSEmqesh0q5s4XpGRv
+ yllg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=baYtVBFyl2TA4XP5+yotCpNy9aYDLGXCqmkMXsPz02I=;
- b=YXMvwxwtonIsyaCkaGSgpHk5LFIF1BL26pY4o9Lhzh9ojICOPeRTQjjCWkij/tt1SW
- cpFfzdXxq5aFBY3Al2fH5V2xzyGbhWh0BGzqIll7bD06J+IYvUAoAcTaRs6qWKKB9S1x
- B72o5mdO6yygjebBiGMuFdlLWbNsch2yVZtx2cnWpAjA28aj17Md211sdsYqDMYskoX/
- Wmt0KK6Ww+cheow4Mu6rfT8q8Qo7ChTWxUjp7qp29gjjHtnGKMzJsN8mTo9LpYCgUQdr
- IOSwdR+hdcgp9CSgm5jH524NjrgXgZwv/Uot80ISZ8p+BaIl+nAe86WIRgMJTB1t0uN/
- ztwQ==
-X-Gm-Message-State: AOAM5322M6lTtRJ53dvdIEnhaCbFTYWRaL0v+OW6CdfwazLqUJoIIWGK
- 6cicGE9yvkEuVQ8XIP7LgIIJV01YgGT7FkIXo2B2EA==
-X-Google-Smtp-Source: ABdhPJw9s+v3rGedsKNkUyrvJVdnaY3nEo/XplozIlfcH+NoOevXUk35hs50svtXvJAKawDU4BNDN1tG1ci6ITZRsmg=
-X-Received: by 2002:adf:e907:: with SMTP id f7mr2863572wrm.319.1641903094123; 
- Tue, 11 Jan 2022 04:11:34 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6EicbKasqe7K/i3ebUaaoH6W3pH00NfPe2NYj3T9jQA=;
+ b=bKcDyFSnatbFsbMzme6dlOefco7Brabh93P9WFo7wStWNcVKNPEq1Uq/egk1eenDYu
+ ZQahdGYQw5h8Q9nJIcwklbF+j6vIX+4Tb0hkIOE1QYl6vRLn3l4aM1dV2G2kVVP7JZju
+ fq2ZDgjlfcml6pPwJ5CHCQ1Q6z/+/RRJGgNqo+9XuJqSUbmTK686rrhqHvH9Bcwv0fkC
+ 0mK0o2WgBSjO4Cm0hXSjxS6mkg/l3gunFX+rlRZKio/25YRkg6peEqnU0j8iLYRO7lHf
+ MconITWpI7kmY7w6KZ+WEKjgN5s77rXz/9WBd4mad9l5jxN8gt3yw1egQ6UVhK3refH0
+ qMmw==
+X-Gm-Message-State: AOAM5317xdRcRRjwKdq1SLur9uub7OYNC+ya9AWFbiv79IQ5S+8sTRb9
+ 4J/ZGEyWNym3+g8wjCGXwJVP5ZUsztKlKWs++Zw3og==
+X-Google-Smtp-Source: ABdhPJzQN+BiGoOvA8Gr5Cv79dJRtqddtof31R2NYoU8/odcDZAALpLX30gs86ZPmmfc5DWt04GhEE1G2DjUNFRrVjg=
+X-Received: by 2002:a5d:64c3:: with SMTP id f3mr3512121wri.295.1641903713940; 
+ Tue, 11 Jan 2022 04:21:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20220111101934.115028-1-dgilbert@redhat.com>
-In-Reply-To: <20220111101934.115028-1-dgilbert@redhat.com>
+References: <20220111104918.896841-1-pizhenwei@bytedance.com>
+In-Reply-To: <20220111104918.896841-1-pizhenwei@bytedance.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 11 Jan 2022 12:11:23 +0000
-Message-ID: <CAFEAcA-RkY+UDgd=C14WoQrPOk2QD1wTF8bvM02SsMg28LjH6Q@mail.gmail.com>
-Subject: Re: [PATCH] clock-vmstate: Add missing END_OF_LIST
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Date: Tue, 11 Jan 2022 12:21:42 +0000
+Message-ID: <CAFEAcA9d4X+pobnz2vA_hTwDBuGRBTjjnD_CgKmsKuCAjH-ZNQ@mail.gmail.com>
+Subject: Re: [PATCH] usb: allow max 8192 bytes for desc
+To: zhenwei pi <pizhenwei@bytedance.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -79,38 +81,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, alex.bennee@linaro.org, luc@lmichel.fr,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 Jan 2022 at 10:19, Dr. David Alan Gilbert (git)
-<dgilbert@redhat.com> wrote:
+On Tue, 11 Jan 2022 at 10:54, zhenwei pi <pizhenwei@bytedance.com> wrote:
 >
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> A device of USB video class usually uses larger desc structure, so
+> use larger buffer to avoid failure. (dev-video.c is ready)
 >
-> Add the missing VMSTATE_END_OF_LIST to vmstate_muldiv
+> Allocating memory dynamically by g_malloc of the orignal version of
+> this change, Philippe suggested just using the stack. Test the two
+> versions of qemu binary, the size of stack gets no change.
 >
-> Fixes: 99abcbc7600 ("clock: Provide builtin multiplier/divider")
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> CC: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
 > ---
->  hw/core/clock-vmstate.c | 1 +
->  1 file changed, 1 insertion(+)
+>  hw/usb/desc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/hw/core/clock-vmstate.c b/hw/core/clock-vmstate.c
-> index 9d9174ffbd..7eccb6d4ea 100644
-> --- a/hw/core/clock-vmstate.c
-> +++ b/hw/core/clock-vmstate.c
-> @@ -44,6 +44,7 @@ const VMStateDescription vmstate_muldiv = {
->      .fields = (VMStateField[]) {
->          VMSTATE_UINT32(multiplier, Clock),
->          VMSTATE_UINT32(divider, Clock),
-> +        VMSTATE_END_OF_LIST()
->      },
->  };
+> diff --git a/hw/usb/desc.c b/hw/usb/desc.c
+> index 8b6eaea407..57d2aedba1 100644
+> --- a/hw/usb/desc.c
+> +++ b/hw/usb/desc.c
+> @@ -632,7 +632,7 @@ int usb_desc_get_descriptor(USBDevice *dev, USBPacket=
+ *p,
+>      bool msos =3D (dev->flags & (1 << USB_DEV_FLAG_MSOS_DESC_IN_USE));
+>      const USBDesc *desc =3D usb_device_get_usb_desc(dev);
+>      const USBDescDevice *other_dev;
+> -    uint8_t buf[256];
+> +    uint8_t buf[8192];
+>      uint8_t type =3D value >> 8;
+>      uint8_t index =3D value & 0xff;
+>      int flags, ret =3D -1;
 
-Cc: qemu-stable@nongnu.org
-seems appropriate here ?
+I think 8K is too large to be allocating as an array on
+the stack, so if we need this buffer to be larger we should
+switch to some other allocation strategy for it.
 
 thanks
 -- PMM
