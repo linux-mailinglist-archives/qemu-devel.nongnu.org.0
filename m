@@ -2,68 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A119B48A5DD
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 03:51:26 +0100 (CET)
-Received: from localhost ([::1]:59802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBC5348A5B8
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 03:35:54 +0100 (CET)
+Received: from localhost ([::1]:36336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n77Ft-0001ss-IF
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 21:51:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50964)
+	id 1n770r-0001Fh-Uh
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 21:35:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1n772Z-0005LW-Q8
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 21:37:40 -0500
-Received: from mga17.intel.com ([192.55.52.151]:19369)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1n76wq-0006FI-9n; Mon, 10 Jan 2022 21:31:44 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:48221)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1n772W-0001qo-KV
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 21:37:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641868656; x=1673404656;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=eBGROLJx8EcFEYWz4FTwmtiAfHMr3cYmKWQfmj+uxYw=;
- b=DWNT74/bNy9LjeJ+I12DtxBWHV0UB02qKRY70/iV1qR6S1QQ3gKE+tku
- Sia4BO40QgLT5jB1U3RPAt/w+PGDF14nYwFAVsCsnrabtTEM+BCR+VVwq
- 0NA6co9BFEI9pmHyvAsyp3EYGN1rdqMPAx5xEePKOTR/2oarGr6J2DCp/
- CSgF4n25NPBeyudnluQztek13D3X+3UDMb0OJCS/jCkgu2rli7rCso72X
- eJVYNq7Kx40xZi9JBSCF2gcy+bZ4OCcgDHmJX02XHx116s+KwJLA4dytF
- cECheV9mI9vg43TOZy30X6ZsRYjl/BaO5YnnxBQk/kWcKVrNNoYe7SDTd Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10223"; a="224080863"
-X-IronPort-AV: E=Sophos;i="5.88,278,1635231600"; d="scan'208";a="224080863"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2022 18:37:33 -0800
-X-IronPort-AV: E=Sophos;i="5.88,278,1635231600"; d="scan'208";a="474354301"
-Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
- ([10.238.145.56])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 10 Jan 2022 18:37:31 -0800
-Date: Tue, 11 Jan 2022 10:22:18 +0800
-From: Yang Zhong <yang.zhong@intel.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Subject: Re: [RFC PATCH 1/7] x86: Fix the 64-byte boundary enumeration for
- extended state
-Message-ID: <20220111022218.GA10706@yangzhon-Virtual>
-References: <20220107093134.136441-1-yang.zhong@intel.com>
- <20220107093134.136441-2-yang.zhong@intel.com>
- <BN9PR11MB5276BFF130081C9ED21F89238C509@BN9PR11MB5276.namprd11.prod.outlook.com>
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1n76wk-0000yo-7i; Mon, 10 Jan 2022 21:31:40 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4JXvpB1sxcz4y4f; Tue, 11 Jan 2022 13:31:30 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1641868290;
+ bh=TqM3ukatbtQElS4QSK8MFTCaq13xINDtSYuj0ngANjY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=JAXSRF3/uaaEgWYlhNz93bPHCqzILGRFpTIy6AhUKduodTc37SjyhCwo9XpO5aoPi
+ qF/e8DtRPp6q1zXNhHoE8FMTtmxK5IixbDBEhOmwttEyd7Ij7107qwT/rm6A0McQgn
+ gEgDUbUovO3o7d/DQm+ZY/noYJ9h1TDB1m4zlmLU=
+Date: Tue, 11 Jan 2022 13:26:07 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Fabiano Rosas <farosas@linux.ibm.com>
+Subject: Re: [PATCH 5/8] target/ppc: 405: Critical exceptions cleanup
+Message-ID: <Ydzqv5Tij9BNu6QT@yekko>
+References: <20220110181546.4131853-1-farosas@linux.ibm.com>
+ <20220110181546.4131853-6-farosas@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="uHeB9qKC7VXWqzu1"
 Content-Disposition: inline
-In-Reply-To: <BN9PR11MB5276BFF130081C9ED21F89238C509@BN9PR11MB5276.namprd11.prod.outlook.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=192.55.52.151; envelope-from=yang.zhong@intel.com;
- helo=mga17.intel.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20220110181546.4131853-6-farosas@linux.ibm.com>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,39 +58,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, "Christopherson, , Sean" <seanjc@google.com>,
- "jing2.liu@linux.intel.com" <jing2.liu@linux.intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Wang,
- Wei W" <wei.w.wang@intel.com>, "Zeng, Guang" <guang.zeng@intel.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>
+Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 10, 2022 at 04:20:41PM +0800, Tian, Kevin wrote:
-> > From: Zhong, Yang <yang.zhong@intel.com>
-> > Sent: Friday, January 7, 2022 5:31 PM
-> >
-> > From: Jing Liu <jing2.liu@intel.com>
-> >
-> > The extended state subleaves (EAX=0Dh, ECX=n, n>1).ECX[1]
-> > are all zero, while spec actually introduces that bit 01
-> > should indicate if the extended state component locates
-> > on the next 64-byte boundary following the preceding state
-> > component when the compacted format of an XSAVE area is
-> > used.
-> 
-> Above would read clearer if you revise to:
-> 
-> "The extended state subleaves (EAX=0Dh, ECX=n, n>1).ECX[1]
-> indicate whether the extended state component locates
-> on the next 64-byte boundary following the preceding state
-> component when the compacted format of an XSAVE area is
-> used.
-> 
-> But ECX[1] is always cleared in current implementation."
 
-  Thanks Kevin, I will update this in next version.
+--uHeB9qKC7VXWqzu1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  Yang
+On Mon, Jan 10, 2022 at 03:15:43PM -0300, Fabiano Rosas wrote:
+> In powerpc_excp_40x the Critical exception is now for 405 only, so we
+> can remove the BookE and G2 blocks.
+>=20
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
+> ---
+>  target/ppc/excp_helper.c | 17 ++---------------
+>  1 file changed, 2 insertions(+), 15 deletions(-)
+>=20
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 1d997c4d6b..fecf4d5a4e 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -431,20 +431,8 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int ex=
+cp)
+> =20
+>      switch (excp) {
+>      case POWERPC_EXCP_CRITICAL:    /* Critical input                    =
+     */
+> -        switch (excp_model) {
+> -        case POWERPC_EXCP_40x:
+> -            srr0 =3D SPR_40x_SRR2;
+> -            srr1 =3D SPR_40x_SRR3;
+> -            break;
+> -        case POWERPC_EXCP_BOOKE:
+> -            srr0 =3D SPR_BOOKE_CSRR0;
+> -            srr1 =3D SPR_BOOKE_CSRR1;
+> -            break;
+> -        case POWERPC_EXCP_G2:
+> -            break;
+> -        default:
+> -            goto excp_invalid;
+> -        }
+> +        srr0 =3D SPR_40x_SRR2;
+> +        srr1 =3D SPR_40x_SRR3;
+>          break;
+>      case POWERPC_EXCP_MCHECK:    /* Machine check exception             =
+     */
+>          if (msr_me =3D=3D 0) {
+> @@ -698,7 +686,6 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int exc=
+p)
+>                    powerpc_excp_name(excp));
+>          break;
+>      default:
+> -    excp_invalid:
+>          cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
+>          break;
+>      }
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--uHeB9qKC7VXWqzu1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmHc6r8ACgkQbDjKyiDZ
+s5JgTxAAt3u2fUPuV5p1DFPYXheDMwPluEvkPOJwb0/4YNmIWTACPYI+JfD24HFR
+uUubZ6yyS0wkAeb4IKKd9WiWOrLOSszil/t4Otcpax8Xx6mOI5mprZFTldE3mlkK
+f06Cffd2Bg5zDOXVGIk/44l2vR/caMd1nHOaTyeOyzXCim7txfTvnaPjcvOQXxEC
+OBQr5wKgld91JYqiO0EwH/Uk45O5FDuME65Ha5PnnIzCs24Fuc3MEz1vrHlQrC1T
+kCzTA/pzpM7JQtVpSIIzgEKM5OK3XBHCxapfcE33voMPoLQje7xs91FE0Gvn2dKH
+uQdkxL7Yh8my9+2jkdhdPtgpYIGm/WN2g0Ko3tue7/EuoexB9JtoW79r2/fnaQ2l
+SRJa1+9FwnXFIaumUsXwj4QOCyeOLjP3pSDswsol1n4Vodtq10HdgTDf4MF4jauy
+cLaTMeXkruFKiKHstaA178bff/L4OFGh9QUH0gDHI8cvZwNAMc+V5CrK4rkcD632
+IFZoaWfBN+pZt2EhcskJmMZjuwLo6G7xbanlOuEwJ8mk+k/C2yWfXH1wg43mpIQo
+wMLaYFPENE0cf0tpzj4WsNke3jtIhOHHj2yuCrYJ8gM6z6uk38Grml2Xue6Dm0A5
+xLM9EWLVPnOE3wKE4yAfufaJ9kRsCKTG0m6V+Z7zSAGzFh6kGdE=
+=UK4b
+-----END PGP SIGNATURE-----
+
+--uHeB9qKC7VXWqzu1--
 
