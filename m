@@ -2,85 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE58048A793
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 07:06:40 +0100 (CET)
-Received: from localhost ([::1]:47018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FEBD48A809
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 07:59:46 +0100 (CET)
+Received: from localhost ([::1]:54788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7AIp-00070w-5o
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 01:06:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46754)
+	id 1n7B8C-0007Yy-UG
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 01:59:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1n7ADW-0004Oa-NT
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 01:01:10 -0500
-Received: from [2607:f8b0:4864:20::102a] (port=54232
- helo=mail-pj1-x102a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1n7ADU-0006uZ-4R
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 01:01:10 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id m13so16652391pji.3
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 22:01:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8ICGM5OTQORsOpWKheVOg6W9eeXvNQT6frYKF01MM8c=;
- b=LDNgohqfnBb7kciv31CUlnrZ2T9iLMd10eSdaSki2CqEZwp+GZv3tCLA07h6NQCiRl
- J4qoteOBwqZh2xLxBGeiIuxPnIJtNjppcsNcexTVOayTRz5DeE4+gHSlOqq/bSnjFuJ4
- iCCOf8FEflwuV9mAQp4Wu/OBmsnXhPyF5TsAgd5jsSCwDGWM0W1zgWIVGnFFMVLj4x81
- pf8hp5xhQibYq671ldeXEAM+30b7Mf/YW6vI8AlUIxVADwYxj1JWmczemjly6Z7CAdqG
- dr4Y725nyU3gLVOHNo+q3RsD3pTRFK2syxVYoFAPaX4dwTwXUIp9c/R/xiHtnARC3n6o
- LUlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8ICGM5OTQORsOpWKheVOg6W9eeXvNQT6frYKF01MM8c=;
- b=dH/CWaulyF9y/bLFXaby4wQRnk6ooFD7eoQigK7Maj8gZ88M2iMmtKFRnteRTi6sTp
- +j1tOP5lL/0WFHNz6JvGtpPjRQyZ7ms0fjFtLHLW+TXbtnAowxn053OjY5CRaPNUL9Lb
- 50p9jMe/8hcShS4lDyeX5QnHQCwNBNjx5sHSyeBuHnCtwdx/EyvHpYOZd7fX0NY88+Ih
- HlYNK5kaRq9+KbK/2vIRMxWgB16i6nHF6B3LXvh6Ie3+4ZDSKGcDYOjOVw42QnLrGPeb
- Plr5yUM4FK6wQgYzXicqxCpytOVvGkxZMNvXqdl84VoLIfO2FmgnWh4qoYDXWMJm6dXY
- vBog==
-X-Gm-Message-State: AOAM530U3fRRiQi3kbv9ks4Z7mFTFbm2SlHvjMAbCwJW04f9rv+vEkqE
- IwfPIg2gZgXjwmZ5JhnUqe/HLA==
-X-Google-Smtp-Source: ABdhPJxk6fTscQJEUNEuF3i7Rlxz/ughqex5igjyMt1e1aCcYHi5MFlNEyUVABvB8LiuL8w5sSf2ZQ==
-X-Received: by 2002:a17:90b:4b8d:: with SMTP id
- lr13mr1517019pjb.192.1641880866342; 
- Mon, 10 Jan 2022 22:01:06 -0800 (PST)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com.
- [209.85.214.177])
- by smtp.gmail.com with ESMTPSA id g5sm9329869pfj.143.2022.01.10.22.01.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Jan 2022 22:01:05 -0800 (PST)
-Received: by mail-pl1-f177.google.com with SMTP id l8so13333974plt.6;
- Mon, 10 Jan 2022 22:01:05 -0800 (PST)
-X-Received: by 2002:a17:90a:4b0d:: with SMTP id
- g13mr1483311pjh.83.1641880864685; 
- Mon, 10 Jan 2022 22:01:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1n7Aka-000431-4n
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 01:35:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36859)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1n7AkW-0002tT-SX
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 01:35:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641882915;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Iuk0eX2NrIgx+S4v6VTPN3i1rtPABTyhfcBu7xZsFnY=;
+ b=FVSYFIGqHLfOvODEvdXzAerJUE8QYt59e+Rbhjjp4l5GbjecoA/1SnoJKrXFAU6Gk/KROY
+ Nupn4Rikd0zY7PNHkNNiaWZW7/C7+sAoEyygBgeG6UjUj130Gl1dOsthWLhBTCeSiTFNe4
+ ZTMyOR0eYDG9YpquvP53KpKESRWn/9Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-247-ltQGLUUYO5m7HFz59UNv5g-1; Tue, 11 Jan 2022 01:34:06 -0500
+X-MC-Unique: ltQGLUUYO5m7HFz59UNv5g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BC4D10066FE;
+ Tue, 11 Jan 2022 06:34:05 +0000 (UTC)
+Received: from gshan.redhat.com (vpn2-54-60.bne.redhat.com [10.64.54.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 022A97B034;
+ Tue, 11 Jan 2022 06:33:35 +0000 (UTC)
+From: Gavin Shan <gshan@redhat.com>
+To: qemu-arm@nongnu.org
+Subject: [PATCH v4 0/2] hw/arm/virt: Support for virtio-mem-pci
+Date: Tue, 11 Jan 2022 14:33:27 +0800
+Message-Id: <20220111063329.74447-1-gshan@redhat.com>
 MIME-Version: 1.0
-References: <20211230123539.52786-1-anup@brainfault.org>
- <20211230123539.52786-13-anup@brainfault.org>
-In-Reply-To: <20211230123539.52786-13-anup@brainfault.org>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Tue, 11 Jan 2022 14:00:53 +0800
-X-Gmail-Original-Message-ID: <CANzO1D0d=QsVvKNW95=_FPSbaKpHx4v-Ze+=KE2m9n5PBFETCA@mail.gmail.com>
-Message-ID: <CANzO1D0d=QsVvKNW95=_FPSbaKpHx4v-Ze+=KE2m9n5PBFETCA@mail.gmail.com>
-Subject: Re: [PATCH v6 12/23] target/riscv: Implement AIA interrupt filtering
- CSRs
-To: Anup Patel <anup@brainfault.org>
-Content-Type: multipart/alternative; boundary="000000000000b400d305d5482d5f"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,266 +74,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, david@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, eric.auger@redhat.com,
+ shan.gavin@gmail.com, Jonathan.Cameron@huawei.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b400d305d5482d5f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This series supports virtio-mem-pci device, by simply following the
+implementation on x86. The exception is the block size is 512MB on
+ARM64 instead of 128MB on x86, compatible with the memory section
+size in linux guest.
 
-Anup Patel <anup@brainfault.org> =E6=96=BC 2021=E5=B9=B412=E6=9C=8830=E6=97=
-=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=888:41=E5=AF=AB=E9=81=93=EF=BC=9A
+The work was done by David Hildenbrand and then Jonathan Cameron. I'm
+taking the patch and putting more efforts, which is all about testing
+to me at current stage.
 
-> From: Anup Patel <anup.patel@wdc.com>
->
-> The AIA specificaiton adds interrupt filtering support for M-mode
-> and HS-mode. Using AIA interrupt filtering M-mode and H-mode can
-> take local interrupt 13 or above and selectively inject same local
-> interrupt to lower privilege modes.
->
-> At the moment, we don't have any local interrupts above 12 so we
-> add dummy implementation (i.e. read zero and ignore write) of AIA
-> interrupt filtering CSRs.
->
-> Signed-off-by: Anup Patel <anup.patel@wdc.com>
-> Signed-off-by: Anup Patel <anup@brainfault.org>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/csr.c | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index decb0376fc..55e747fbf7 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -154,6 +154,15 @@ static RISCVException any32(CPURISCVState *env, int
-> csrno)
->
->  }
->
-> +static int aia_any(CPURISCVState *env, int csrno)
-> +{
-> +    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +
-> +    return any(env, csrno);
-> +}
-> +
->  static int aia_any32(CPURISCVState *env, int csrno)
->  {
->      if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-> @@ -553,6 +562,12 @@ static RISCVException read_zero(CPURISCVState *env,
-> int csrno,
->      return RISCV_EXCP_NONE;
->  }
->
-> +static RISCVException write_ignore(CPURISCVState *env, int csrno,
-> +                                   target_ulong val)
-> +{
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
->  static RISCVException read_mhartid(CPURISCVState *env, int csrno,
->                                     target_ulong *val)
->  {
-> @@ -2374,9 +2389,15 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {
->      [CSR_MTVAL]    =3D { "mtval",    any,  read_mtval,    write_mtval   =
- },
->      [CSR_MIP]      =3D { "mip",      any,  NULL,    NULL, rmw_mip       =
- },
->
-> +    /* Virtual Interrupts for Supervisor Level (AIA) */
-> +    [CSR_MVIEN]      =3D { "mvien", aia_any, read_zero, write_ignore },
-> +    [CSR_MVIP]       =3D { "mvip",  aia_any, read_zero, write_ignore },
-> +
->      /* Machine-Level High-Half CSRs (AIA) */
->      [CSR_MIDELEGH] =3D { "midelegh", aia_any32, NULL, NULL, rmw_midelegh=
- },
->      [CSR_MIEH]     =3D { "mieh",     aia_any32, NULL, NULL, rmw_mieh    =
- },
-> +    [CSR_MVIENH]   =3D { "mvienh",   aia_any32, read_zero,  write_ignore=
- },
-> +    [CSR_MVIPH]    =3D { "mviph",    aia_any32, read_zero,  write_ignore=
- },
->      [CSR_MIPH]     =3D { "miph",     aia_any32, NULL, NULL, rmw_miph    =
- },
->
->      /* Supervisor Trap Setup */
-> @@ -2428,12 +2449,14 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D =
-{
->      [CSR_MTINST]      =3D { "mtinst",      hmode,   read_mtinst,
-> write_mtinst      },
->
->      /* Virtual Interrupts and Interrupt Priorities (H-extension with AIA=
-)
-> */
-> +    [CSR_HVIEN]       =3D { "hvien",       aia_hmode, read_zero,
-> write_ignore },
->      [CSR_HVICTL]      =3D { "hvictl",      aia_hmode, read_hvictl,
-> write_hvictl },
->      [CSR_HVIPRIO1]    =3D { "hviprio1",    aia_hmode, read_hviprio1,
->  write_hviprio1 },
->      [CSR_HVIPRIO2]    =3D { "hviprio2",    aia_hmode, read_hviprio2,
->  write_hviprio2 },
->
->      /* Hypervisor and VS-Level High-Half CSRs (H-extension with AIA) */
->      [CSR_HIDELEGH]    =3D { "hidelegh",    aia_hmode32, NULL, NULL,
-> rmw_hidelegh },
-> +    [CSR_HVIENH]      =3D { "hvienh",      aia_hmode32, read_zero,
-> write_ignore },
->      [CSR_HVIPH]       =3D { "hviph",       aia_hmode32, NULL, NULL,
-> rmw_hviph },
->      [CSR_HVIPRIO1H]   =3D { "hviprio1h",   aia_hmode32, read_hviprio1h,
-> write_hviprio1h },
->      [CSR_HVIPRIO2H]   =3D { "hviprio2h",   aia_hmode32, read_hviprio2h,
-> write_hviprio2h },
-> --
-> 2.25.1
->
->
->
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
+Testing
+=======
+The upstream linux kernel (v5.16.rc3) is used on host/guest during
+the testing. The guest kernel includes changes to enable virtio-mem
+driver, which is simply to enable CONFIG_VIRTIO_MEM on ARM64.
 
---000000000000b400d305d5482d5f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mutiple combinations like page sizes on host/guest, memory backend
+device etc are covered in the testing. Besides, migration is also
+tested. The following command lines are used for VM or virtio-mem-pci
+device hot-add. It's notable that virtio-mem-pci device hot-remove
+isn't supported, similar to what we have on x86.
 
-<div dir=3D"ltr"><div dir=3D"ltr">Anup Patel &lt;<a href=3D"mailto:anup@bra=
-infault.org" target=3D"_blank">anup@brainfault.org</a>&gt; =E6=96=BC 2021=
-=E5=B9=B412=E6=9C=8830=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=888:41=
-=E5=AF=AB=E9=81=93=EF=BC=9A<br></div><div class=3D"gmail_quote"><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">From: Anup Patel &lt;<a href=3D"mail=
-to:anup.patel@wdc.com" target=3D"_blank">anup.patel@wdc.com</a>&gt;<br>
-<br>
-The AIA specificaiton adds interrupt filtering support for M-mode<br>
-and HS-mode. Using AIA interrupt filtering M-mode and H-mode can<br>
-take local interrupt 13 or above and selectively inject same local<br>
-interrupt to lower privilege modes.<br>
-<br>
-At the moment, we don&#39;t have any local interrupts above 12 so we<br>
-add dummy implementation (i.e. read zero and ignore write) of AIA<br>
-interrupt filtering CSRs.<br>
-<br>
-Signed-off-by: Anup Patel &lt;<a href=3D"mailto:anup.patel@wdc.com" target=
-=3D"_blank">anup.patel@wdc.com</a>&gt;<br>
-Signed-off-by: Anup Patel &lt;<a href=3D"mailto:anup@brainfault.org" target=
-=3D"_blank">anup@brainfault.org</a>&gt;<br>
-Reviewed-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.co=
-m" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
----<br>
-=C2=A0target/riscv/csr.c | 23 +++++++++++++++++++++++<br>
-=C2=A01 file changed, 23 insertions(+)<br>
-<br>
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c<br>
-index decb0376fc..55e747fbf7 100644<br>
---- a/target/riscv/csr.c<br>
-+++ b/target/riscv/csr.c<br>
-@@ -154,6 +154,15 @@ static RISCVException any32(CPURISCVState *env, int cs=
-rno)<br>
-<br>
-=C2=A0}<br>
-<br>
-+static int aia_any(CPURISCVState *env, int csrno)<br>
-+{<br>
-+=C2=A0 =C2=A0 if (!riscv_feature(env, RISCV_FEATURE_AIA)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_EXCP_ILLEGAL_INST;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 return any(env, csrno);<br>
-+}<br>
-+<br>
-=C2=A0static int aia_any32(CPURISCVState *env, int csrno)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0if (!riscv_feature(env, RISCV_FEATURE_AIA)) {<br>
-@@ -553,6 +562,12 @@ static RISCVException read_zero(CPURISCVState *env, in=
-t csrno,<br>
-=C2=A0 =C2=A0 =C2=A0return RISCV_EXCP_NONE;<br>
-=C2=A0}<br>
-<br>
-+static RISCVException write_ignore(CPURISCVState *env, int csrno,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0target_ulong val)<br>
-+{<br>
-+=C2=A0 =C2=A0 return RISCV_EXCP_NONE;<br>
-+}<br>
-+<br>
-=C2=A0static RISCVException read_mhartid(CPURISCVState *env, int csrno,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_ulong *val)<br>
-=C2=A0{<br>
-@@ -2374,9 +2389,15 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {<b=
-r>
-=C2=A0 =C2=A0 =C2=A0[CSR_MTVAL]=C2=A0 =C2=A0 =3D { &quot;mtval&quot;,=C2=A0=
- =C2=A0 any,=C2=A0 read_mtval,=C2=A0 =C2=A0 write_mtval=C2=A0 =C2=A0 },<br>
-=C2=A0 =C2=A0 =C2=A0[CSR_MIP]=C2=A0 =C2=A0 =C2=A0 =3D { &quot;mip&quot;,=C2=
-=A0 =C2=A0 =C2=A0 any,=C2=A0 NULL,=C2=A0 =C2=A0 NULL, rmw_mip=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 },<br>
-<br>
-+=C2=A0 =C2=A0 /* Virtual Interrupts for Supervisor Level (AIA) */<br>
-+=C2=A0 =C2=A0 [CSR_MVIEN]=C2=A0 =C2=A0 =C2=A0 =3D { &quot;mvien&quot;, aia=
-_any, read_zero, write_ignore },<br>
-+=C2=A0 =C2=A0 [CSR_MVIP]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D { &quot;mvip&quot;,=
-=C2=A0 aia_any, read_zero, write_ignore },<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0/* Machine-Level High-Half CSRs (AIA) */<br>
-=C2=A0 =C2=A0 =C2=A0[CSR_MIDELEGH] =3D { &quot;midelegh&quot;, aia_any32, N=
-ULL, NULL, rmw_midelegh },<br>
-=C2=A0 =C2=A0 =C2=A0[CSR_MIEH]=C2=A0 =C2=A0 =C2=A0=3D { &quot;mieh&quot;,=
-=C2=A0 =C2=A0 =C2=A0aia_any32, NULL, NULL, rmw_mieh=C2=A0 =C2=A0 =C2=A0},<b=
-r>
-+=C2=A0 =C2=A0 [CSR_MVIENH]=C2=A0 =C2=A0=3D { &quot;mvienh&quot;,=C2=A0 =C2=
-=A0aia_any32, read_zero,=C2=A0 write_ignore },<br>
-+=C2=A0 =C2=A0 [CSR_MVIPH]=C2=A0 =C2=A0 =3D { &quot;mviph&quot;,=C2=A0 =C2=
-=A0 aia_any32, read_zero,=C2=A0 write_ignore },<br>
-=C2=A0 =C2=A0 =C2=A0[CSR_MIPH]=C2=A0 =C2=A0 =C2=A0=3D { &quot;miph&quot;,=
-=C2=A0 =C2=A0 =C2=A0aia_any32, NULL, NULL, rmw_miph=C2=A0 =C2=A0 =C2=A0},<b=
-r>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* Supervisor Trap Setup */<br>
-@@ -2428,12 +2449,14 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {<=
-br>
-=C2=A0 =C2=A0 =C2=A0[CSR_MTINST]=C2=A0 =C2=A0 =C2=A0 =3D { &quot;mtinst&quo=
-t;,=C2=A0 =C2=A0 =C2=A0 hmode,=C2=A0 =C2=A0read_mtinst,=C2=A0 =C2=A0 =C2=A0=
- write_mtinst=C2=A0 =C2=A0 =C2=A0 },<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* Virtual Interrupts and Interrupt Priorities (H-exten=
-sion with AIA) */<br>
-+=C2=A0 =C2=A0 [CSR_HVIEN]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D { &quot;hvien&quot=
-;,=C2=A0 =C2=A0 =C2=A0 =C2=A0aia_hmode, read_zero, write_ignore },<br>
-=C2=A0 =C2=A0 =C2=A0[CSR_HVICTL]=C2=A0 =C2=A0 =C2=A0 =3D { &quot;hvictl&quo=
-t;,=C2=A0 =C2=A0 =C2=A0 aia_hmode, read_hvictl, write_hvictl },<br>
-=C2=A0 =C2=A0 =C2=A0[CSR_HVIPRIO1]=C2=A0 =C2=A0 =3D { &quot;hviprio1&quot;,=
-=C2=A0 =C2=A0 aia_hmode, read_hviprio1,=C2=A0 =C2=A0write_hviprio1 },<br>
-=C2=A0 =C2=A0 =C2=A0[CSR_HVIPRIO2]=C2=A0 =C2=A0 =3D { &quot;hviprio2&quot;,=
-=C2=A0 =C2=A0 aia_hmode, read_hviprio2,=C2=A0 =C2=A0write_hviprio2 },<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* Hypervisor and VS-Level High-Half CSRs (H-extension =
-with AIA) */<br>
-=C2=A0 =C2=A0 =C2=A0[CSR_HIDELEGH]=C2=A0 =C2=A0 =3D { &quot;hidelegh&quot;,=
-=C2=A0 =C2=A0 aia_hmode32, NULL, NULL, rmw_hidelegh },<br>
-+=C2=A0 =C2=A0 [CSR_HVIENH]=C2=A0 =C2=A0 =C2=A0 =3D { &quot;hvienh&quot;,=
-=C2=A0 =C2=A0 =C2=A0 aia_hmode32, read_zero, write_ignore },<br>
-=C2=A0 =C2=A0 =C2=A0[CSR_HVIPH]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D { &quot;hviph=
-&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0aia_hmode32, NULL, NULL, rmw_hviph },<br>
-=C2=A0 =C2=A0 =C2=A0[CSR_HVIPRIO1H]=C2=A0 =C2=A0=3D { &quot;hviprio1h&quot;=
-,=C2=A0 =C2=A0aia_hmode32, read_hviprio1h, write_hviprio1h },<br>
-=C2=A0 =C2=A0 =C2=A0[CSR_HVIPRIO2H]=C2=A0 =C2=A0=3D { &quot;hviprio2h&quot;=
-,=C2=A0 =C2=A0aia_hmode32, read_hviprio2h, write_hviprio2h },<br>
--- <br>
-2.25.1<br>
-<br>
-<br></blockquote><div><br></div><div>Reviewed-by: Frank Chang &lt;<a href=
-=3D"mailto:frank.chang@sifive.com" target=3D"_blank">frank.chang@sifive.com=
-</a>&gt;<br></div></div></div>
+  host.pgsize  guest.pgsize  backend    hot-add  hot-remove  migration
+  ---------------------------------------------------------------------
+   4KB         4KB           normal     ok       ok          ok
+                             THP        ok       ok          ok
+                             hugeTLB    ok       ok          ok
+   4KB         64KB          normal     ok       ok          ok
+                             THP        ok       ok          ok
+                             hugeTLB    ok       ok          ok
+  64KB         4KB           normal     ok       ok          ok
+                             THP        ok       ok          ok
+                             hugeTLB    ok       ok          ok
+  64KB         64KB          normal     ok       ok          ok
+                             THP        ok       ok          ok
+                             hugeTLB    ok       ok          ok
 
---000000000000b400d305d5482d5f--
+The command lines are used for VM. When hugeTLBfs is used, all memory
+backend objects are popuated on /dev/hugepages-2048kB or
+/dev/hugepages-524288kB, depending on the host page sizes.
+
+  /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64                       \
+  -accel kvm -machine virt,gic-version=host                                     \
+  -cpu host -smp 4,sockets=2,cores=2,threads=1                                  \
+  -m 1024M,slots=16,maxmem=64G                                                  \
+  -object memory-backend-ram,id=mem0,size=512M                                  \
+  -object memory-backend-ram,id=mem1,size=512M                                  \
+  -numa node,nodeid=0,cpus=0-1,memdev=mem0                                      \
+  -numa node,nodeid=1,cpus=2-3,memdev=mem1                                      \
+     :
+  -kernel /home/gavin/sandbox/linux.guest/arch/arm64/boot/Image                 \
+  -initrd /home/gavin/sandbox/images/rootfs.cpio.xz                             \
+  -append earlycon=pl011,mmio,0x9000000                                         \
+  -device pcie-root-port,bus=pcie.0,chassis=1,id=pcie.1                         \
+  -device pcie-root-port,bus=pcie.0,chassis=2,id=pcie.2                         \
+  -device pcie-root-port,bus=pcie.0,chassis=3,id=pcie.3                         \
+  -object memory-backend-ram,id=vmem0,size=512M                                 \
+  -device virtio-mem-pci,id=vm0,bus=pcie.1,memdev=vmem0,node=0,requested-size=0 \
+  -object memory-backend-ram,id=vmem1,size=512M                                 \
+  -device virtio-mem-pci,id=vm1,bus=pcie.2,memdev=vmem1,node=1,requested-size=0
+
+Command lines used for memory hot-add and hot-remove:
+
+  (qemu) qom-set vm1 requested-size 512M
+  (qemu) qom-set vm1 requested-size 0
+  (qemu) qom-set vm1 requested-size 512M
+
+Command lines used for virtio-mem-pci device hot-add:
+
+  (qemu) object_add memory-backend-ram,id=hp-mem1,size=512M
+  (qemu) device_add virtio-mem-pci,id=hp-vm1,bus=pcie.3,memdev=hp-mem1,node=1
+  (qemu) qom-set hp-vm1 requested-size 512M
+  (qemu) qom-set hp-vm1 requested-size 0
+  (qemu) qom-set hp-vm1 requested-size 512M
+
+Changelog
+=========
+v4:
+  * Improved comments in virt_virtio_md_pci_pre_plug()                  (Peter)
+v3:
+  * Reshuffle patches                                                   (David)
+  * Suggested code refactoring for virtio_mem_default_thp_size()        (David)
+  * Pick r-b from Jonathan and David                                    (Gavin)
+v2:
+  * Include David/Jonathan as co-developers in the commit log           (David)
+  * Decrease VIRTIO_MEM_USABLE_EXTENT to 512MB on ARM64 in PATCH[1/2]   (David)
+  * PATCH[2/2] is added to correct the THP sizes on ARM64               (David)
+
+Gavin Shan (2):
+  virtio-mem: Correct default THP size for ARM64
+  hw/arm/virt: Support for virtio-mem-pci
+
+ hw/arm/Kconfig         |  1 +
+ hw/arm/virt.c          | 70 ++++++++++++++++++++++++++++++++++++++++++
+ hw/virtio/virtio-mem.c | 36 ++++++++++++++--------
+ 3 files changed, 94 insertions(+), 13 deletions(-)
+
+-- 
+2.23.0
+
 
