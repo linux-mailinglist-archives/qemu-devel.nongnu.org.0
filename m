@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A627F48B1DD
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 17:17:40 +0100 (CET)
-Received: from localhost ([::1]:40320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A5948B233
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 17:30:00 +0100 (CET)
+Received: from localhost ([::1]:55120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7Jq7-0008IB-Hs
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 11:17:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48008)
+	id 1n7K22-0000TO-PX
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 11:29:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n7Jkc-0003M2-Ii
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 11:12:00 -0500
-Received: from [2a00:1450:4864:20::334] (port=44949
- helo=mail-wm1-x334.google.com)
+ id 1n7JyS-0005yV-84
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 11:26:16 -0500
+Received: from [2607:f8b0:4864:20::933] (port=43735
+ helo=mail-ua1-x933.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n7JkY-00068y-Pp
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 11:11:57 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- f141-20020a1c1f93000000b003497aec3f86so2115357wmf.3
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 08:11:21 -0800 (PST)
+ id 1n7JyQ-0000Hf-QO
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 11:26:15 -0500
+Received: by mail-ua1-x933.google.com with SMTP id i5so30717170uaq.10
+ for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 08:26:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=xMmA6f0qIEkPOXQgtF4ZIuVic9gcAFhPLAddXnn01jo=;
- b=L5zolGo/Cpw1WRoZKUtLKAf8ev93/6Lek+eMBd8Ek12LgYwB1BuZASHTkYPAVWHKSI
- +IkK9W+t+T2Nb1j575PvtRdDlh4lSGrCx5LfOss2gQlEvQcl6jLO8u8BykhCXZbxJmmr
- VIJ1WbJAbgSJevtP3Hcja/30kYRSDeFzgSxuW2Q+pGaS78vCLs/KY0KTBGhhRsCSeTC5
- O67EfkuVjbiw2SyCgwZdL1O1Kc7O4YT8XeEA0ZMmWS1JX7tlN7tp83Hm7VztC8rr/3d9
- z+92dvyxbpz9/dl3s4Qtwe2GNc0rWrUXLgcuq/XdGwIwccR8R9o40r7hUvsIRN3sULT6
- RRAQ==
+ bh=5whdWrzlfYUfk6Ua7wZnlNThQc4jegq4szu3Ndq9bLM=;
+ b=ozpt1m2QNQfJWmTts8oaSEZqEvpvbnmRbmfViFBoiCWycUKwgdNAt/xBM1XmFn/fDv
+ XWpKtbV0PRu8csMjnn8bdd0qyhL8HNwuU1JMHoANNMQRu0eI5j+AiHuaB184nHvedXeo
+ cd0vhG3o3eYHR11IPcM/YWvUEw9uYVi4ZPhSFpkO3LGYredY6KPzmn+P2qhSiqIUvkNi
+ TX+bBP77PPqLBfyHUGXJoN1WvzvwvuMTUxYNKHRjIyIiEI3S/9vPyEE+yEequxSK9NhQ
+ mROKa0XePiW2rlQ6tLBl6uWofrui192ROB+sGUNlUVQYhMnlgNv3IbwoAfFXUJ4g9GQu
+ FNsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=xMmA6f0qIEkPOXQgtF4ZIuVic9gcAFhPLAddXnn01jo=;
- b=wkoGPyx2kcbTjOpdfjJNqEpiUyK1z0pbHkj+kD2eRa0OX7ELsc+GdSNyZ6TTp6fMxD
- Oo6qBUozrNZZG5TXS8Tpxfz0Kdfwfs4kHyTuYJgNssPottscBDV/QykcxSo8GD1cFNqm
- Z/NLYBv4mEkZ4R+VRLUgbtL9TeUkq58hd2RKmxz+ZgImP3+9BzFHQH1WWZLjgizB/dEt
- NXFdGreVI/wruSX5bUSpE07CEDyRtgzDqBP0m49Zmzc5XXqO4VejmEvYYTZTog5JBlr8
- Ft6KxxPpJ5Vfqdc8iWJKaZV0dMAMMEQYT3mlxF0IUTOyuyKHRekR3nc297GXqwlfiuIF
- UYDA==
-X-Gm-Message-State: AOAM533FXVnmd7Esv8UL0gGmenUG001sTMHl4nepNNV8MTFwYLWPztv2
- e+Qldd0NPHuTensmKyov4ua/cQ==
-X-Google-Smtp-Source: ABdhPJxmRwFKCwQTUe90p0H69r5tEEG10lAuYBX4ewFbSnMD+8koPVJcmEm0RhikLbanAs+ISmZ2BQ==
-X-Received: by 2002:a1c:a5c2:: with SMTP id o185mr3087731wme.177.1641917480387; 
- Tue, 11 Jan 2022 08:11:20 -0800 (PST)
+ bh=5whdWrzlfYUfk6Ua7wZnlNThQc4jegq4szu3Ndq9bLM=;
+ b=bOGnPA8Xg4/TJr/fjNi7tZXAe+Q9G2LV+b2jcBhovQiJy9wxtZSP4IUQ7nS8dk+l5k
+ IwALlRbgFXMgzA5YBg4R+XCYlFNUaKEEFsRJRyimQdsV8J7jy6f8ieTiUpajvt344XVZ
+ Zrbrurj5OC1iPXPIm6hSxFKAdG/KL8s5NyBBGlJ3YTXP2Hm5C4bPwmpakte4uphAkuUO
+ yfIb1UXBu++G2STtD3qEIjb6qdyDtwFoJNoK6ogT5IGWioMtE8WcRK1YEcnUsnE0hUxL
+ sUInQWyT+WN1B/1d3aEHwTmoLRP3EI4bWKoTjyFB2sweO5CqUbyR/omrGflxXB9a2Ga7
+ gm4A==
+X-Gm-Message-State: AOAM530UD9je9r1lBnLC4WTFPryX4INMzX3o9gbbPX16UTRun/rGmOpT
+ 93A/sqQ8OevwQighCgCFUKBzRQ==
+X-Google-Smtp-Source: ABdhPJyMZ8ElKFxYima5ehaVJbuLxnwBiqLTcFYaj9s0lkBuXpJLmltVTL/FNMBnjS1vBAuhx+60TA==
+X-Received: by 2002:a05:6102:7a3:: with SMTP id
+ x3mr2647490vsg.36.1641918373833; 
+ Tue, 11 Jan 2022 08:26:13 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f6sm2507869wmq.6.2022.01.11.08.11.19
+ by smtp.gmail.com with ESMTPSA id h25sm376694vsl.30.2022.01.11.08.26.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jan 2022 08:11:19 -0800 (PST)
+ Tue, 11 Jan 2022 08:26:12 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id ADF151FFB7;
- Tue, 11 Jan 2022 16:11:18 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id F2E1C1FFB7;
+ Tue, 11 Jan 2022 16:26:10 +0000 (GMT)
 References: <20211209145601.331477-1-peter.griffin@linaro.org>
- <20211209145601.331477-8-peter.griffin@linaro.org>
 User-agent: mu4e 1.7.5; emacs 28.0.91
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Peter Griffin <peter.griffin@linaro.org>
-Subject: Re: [PATCH 7/8] hw/display: add vhost-user-video-pci
-Date: Tue, 11 Jan 2022 16:11:13 +0000
-In-reply-to: <20211209145601.331477-8-peter.griffin@linaro.org>
-Message-ID: <87o84ib6c9.fsf@linaro.org>
+Subject: Re: [PATCH 0/8] virtio: Add vhost-user based Video decode
+Date: Tue, 11 Jan 2022 16:24:21 +0000
+In-reply-to: <20211209145601.331477-1-peter.griffin@linaro.org>
+Message-ID: <87k0f6b5nh.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::933
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::933;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ua1-x933.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -99,15 +98,18 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Peter Griffin <peter.griffin@linaro.org> writes:
 
-> Add boiler plate code for vhost-user-video-pci.
->
-> Example
-> -device vhost-user-video-pci,chardev=3Dvideo,id=3Dvideo
-> -chardev socket,path=3Dvideo.sock,id=3Dvideo
->
-> Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
+> This series adds support for virtio-video decoder devices in Qemu
+> and also provides a vhost-user-video vmm implementation.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+This brings up a bunch of failures in CI:
+
+  https://gitlab.com/stsquad/qemu/-/pipelines/445691849/failures
+
+A bunch are probably solved with masking the build when VHOST_USER is
+not available but there seem to be some compiler warnings as well which
+are probably worth looking into.
+
+Sorry I took so long to get to the review!
 
 --=20
 Alex Benn=C3=A9e
