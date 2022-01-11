@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFCD948A907
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 09:00:06 +0100 (CET)
-Received: from localhost ([::1]:38188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C79E348A942
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 09:22:42 +0100 (CET)
+Received: from localhost ([::1]:49482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7C4b-0007Tp-Qz
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 03:00:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36178)
+	id 1n7CQT-0000fg-8w
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 03:22:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leetroy@gmail.com>)
- id 1n7C0c-0005Hb-Pl; Tue, 11 Jan 2022 02:56:00 -0500
-Received: from [2607:f8b0:4864:20::236] (port=42891
- helo=mail-oi1-x236.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <leetroy@gmail.com>)
- id 1n7C0a-0006Ad-VI; Tue, 11 Jan 2022 02:55:58 -0500
-Received: by mail-oi1-x236.google.com with SMTP id w80so21727021oie.9;
- Mon, 10 Jan 2022 23:55:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=dFVNeYGyXmFLMMdLimt08O1vqK2n7tmXJo/jWUCpoLY=;
- b=S5KeU6mVoaDt78KFRmPOfM/5tAaQc0HpvM9VSvywFnFX14TV3mok+GzMpBp9iM1o7J
- /jDjVOJM67Etwp7IndWmxUMdsCHfDcT5RZYbikweyuaP9uBj8eOpAN79cmcbejQOqPu5
- Ry7yYEmbqqz9Py9aTqtzUPHwyB51rQHUA9ObRmhz/IzGbMYjmqV3ZVyhT8+iIWOozLin
- zYQTDRwho8gToLQME7ucXn/03xDYaCefKvlETB8vkyr83KV8J3XLKy+ZxqZbbP2J6org
- hht1i2moBMcKe0y2wCaKqjtfoFrnwQiT203KkeJuwpGN0GUZCFKcNaqwQq3qLShhP345
- QUfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=dFVNeYGyXmFLMMdLimt08O1vqK2n7tmXJo/jWUCpoLY=;
- b=vVSnPfiRcZaCCYRukF5wCUQM/ZZIrKnklgYaXpRuF8Bk/tyWWpPIeA21TEWkFcR7Wc
- 9IMaCElE1Blx8khl+KHYNuCLlv3v2YvK93drmj5nyy8RIRmCx4b/dzML1KY6tDVZIuYg
- Q9+vRNa51ewjrLxXwLKOG2FKe4via/AcRYMUdsLZkhcqYR67YIvaS1//VmMhAm4pndiy
- Qi9b/NaPTNCSJOaLt1CU++unqzzLzMtOysrC2dGSOuhIooknCQKz/lBq0fAqEgD0a4ZR
- /44sab7wYDNp42LItcQ0FlGTknZ9GYsxqnGNgisexrwqRnh89720r1kMAAC9kRP2kerD
- FYsw==
-X-Gm-Message-State: AOAM531Ev4WvhMoYr2jJ+dANx/hu+4qiEpwm/Vc9QimRILys2/2QCQYw
- /1FfOz2F9D09mp1pTXaKVsciit0THiL1ra1OmyI=
-X-Google-Smtp-Source: ABdhPJxFhcYsDskrXT9X0c7XMykI1s4W+8al+2b1UG6oJAMT2sM6ppB/r1/X7ajgzPke73VkiaeYnbm6tF2omZRvxBM=
-X-Received: by 2002:aca:37c4:: with SMTP id e187mr1046960oia.126.1641887755310; 
- Mon, 10 Jan 2022 23:55:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1n7COZ-0007qo-I3
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 03:20:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25826)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1n7COV-0001YQ-I7
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 03:20:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641889238;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pCO6vPBy6jZvJ/apBaDhWh4U75qH/6OkzhJvoEEWmXM=;
+ b=NlpuWhrz5aUiEdzCv7al64lSa76DC4pHmYgaTUBCyOjVyTtTk/qyIkUqAo3A+CZTvMWUU6
+ aLgd5YcvlyVL9anS7lVQWx7TBU+8wc6bn7E+v26pnlQ5pnxds1pln/7zOps1ZSwqwB2rib
+ oSmdmeFY+VFfyln+PgwkKi68+TtHPl4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-54-DxwaTWFePZydVvaek4eJhg-1; Tue, 11 Jan 2022 03:20:34 -0500
+X-MC-Unique: DxwaTWFePZydVvaek4eJhg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 031D7343CA;
+ Tue, 11 Jan 2022 08:20:33 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (unknown [10.39.192.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C8DF7AB40;
+ Tue, 11 Jan 2022 08:19:54 +0000 (UTC)
+Subject: Re: [RFC PATCH v2 20/44] i386/tdx: Parse tdx metadata and store the
+ result into TdxGuestState
+To: Xiaoyao Li <xiaoyao.li@intel.com>, Gerd Hoffmann <kraxel@redhat.com>
+References: <cover.1625704980.git.isaku.yamahata@intel.com>
+ <acaf651389c3f407a9d6d0a2e943daf0a85bb5fc.1625704981.git.isaku.yamahata@intel.com>
+ <20210826111838.fgbp6v6gd5wzbnho@sirius.home.kraxel.org>
+ <a97a75ad-9d1c-a09f-281b-d6b0a7652e78@intel.com>
+ <4eb6a628-0af6-409b-7e42-52787ee3e69d@redhat.com>
+ <e74fcb88-3add-4bb7-4508-742db44fa3c8@intel.com>
+ <20220110110120.ldjekirdzgmgex4z@sirius.home.kraxel.org>
+ <0771d5e3-c1b8-c3ad-3f3c-f117dfcc4d13@intel.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <92b8e17f-802f-bcfc-e937-3c4712cc9cfb@redhat.com>
+Date: Tue, 11 Jan 2022 09:19:53 +0100
 MIME-Version: 1.0
-References: <20220110072125.1886683-1-troy_lee@aspeedtech.com>
- <20220110072125.1886683-3-troy_lee@aspeedtech.com>
- <35743221-eee1-ad17-3484-bc02cef82e0a@kaod.org>
-In-Reply-To: <35743221-eee1-ad17-3484-bc02cef82e0a@kaod.org>
-From: Troy Lee <leetroy@gmail.com>
-Date: Tue, 11 Jan 2022 15:55:48 +0800
-Message-ID: <CAN9Jwz1UHmF9oc+dia-YT_KNRsWsjWK+BppXyjw+B0foSHBY+Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] hw/arm/aspeed_ast2600: create i3c instance
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::236
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
- envelope-from=leetroy@gmail.com; helo=mail-oi1-x236.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <0771d5e3-c1b8-c3ad-3f3c-f117dfcc4d13@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,141 +82,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Troy Lee <troy_lee@aspeedtech.com>, qemu-devel@nongnu.org,
- hailin.wu@aspeedtech.com, "open list:ASPEED BMCs" <qemu-arm@nongnu.org>,
- Joel Stanley <joel@jms.id.au>
+Cc: isaku.yamahata@intel.com, cohuck@redhat.com, ehabkost@redhat.com,
+ kvm@vger.kernel.org, mst@redhat.com, seanjc@google.com, alistair@alistair23.me,
+ qemu-devel@nongnu.org, mtosatti@redhat.com, "Min M . Xu" <min.m.xu@intel.com>,
+ erdemaktas@google.com, pbonzini@redhat.com, isaku.yamahata@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 10, 2022 at 10:31 PM C=C3=A9dric Le Goater <clg@kaod.org> wrote=
-:
+On 01/10/22 13:09, Xiaoyao Li wrote:
+> On 1/10/2022 7:01 PM, Gerd Hoffmann wrote:
+>>>> If you go without pflash, then you likely will not have a
+>>>> standards-conformant UEFI variable store. (Unless you reimplement
+>>>> the variable arch protocols in edk2 on top of something else than
+>>>> the Fault Tolerant Write and Firmware Volume Block protocols.)
+>>>> Whether a conformant UEFI varstore matters to you (or to TDX in
+>>>> general) is something I can't comment on.
+>>>
+>>> Thanks for your reply! Laszlo
+>>>
+>>> regarding "standards-conformant UEFI variable store", I guess you
+>>> mean the
+>>> change to UEFI non-volatile variables needs to be synced back to the
+>>> OVMF_VARS.fd file. right?
+>>
+>> Yes.  UEFI variables are expected to be persistent, and syncing to
+>> OVMF_VARS.fd handles that.
 >
-> On 1/10/22 08:21, Troy Lee wrote:
-> > This patch includes i3c instance in ast2600 soc.
-> >
-> > v2: Rebase to mainline QEMU
-> >
-> > Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
-> > ---
-> >   hw/arm/aspeed_ast2600.c     | 19 ++++++++++++++++++-
-> >   include/hw/arm/aspeed_soc.h |  3 +++
-> >   2 files changed, 21 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-> > index e33483fb5d..36aa31601a 100644
-> > --- a/hw/arm/aspeed_ast2600.c
-> > +++ b/hw/arm/aspeed_ast2600.c
-> > @@ -29,7 +29,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] =3D {
-> >       [ASPEED_DEV_PWM]       =3D 0x1E610000,
-> >       [ASPEED_DEV_FMC]       =3D 0x1E620000,
-> >       [ASPEED_DEV_SPI1]      =3D 0x1E630000,
-> > -    [ASPEED_DEV_SPI2]      =3D 0x1E641000,
-> > +    [ASPEED_DEV_SPI2]      =3D 0x1E631000,
+> Further question.
 >
-> Indeed ! But this belongs to another patch fixing the value.
->
+> Is it achieved via read-only memslot that when UEFI variable gets
+> changed, it exits to QEMU with KVM_EXIT_MMIO due to read-only memslot
+> so QEMU can sync the change to OVMF_VAR.fd?
 
-Oops, that should be in a different branch, I might accidentally pick
-that into my working branch. dkodihal will send it separately.
+Yes.
 
+When the flash device is in "romd_mode", that's when a readonly KVM
+memslot is used. In this case, the guest can read and execute from the
+memory region in question, only writes trap to QEMU. Such a write
+(WRITE_BYTE_CMD) is what the guest's flash driver uses to flip the flash
+device out of "romd_mode".
 
-> >       [ASPEED_DEV_EHCI1]     =3D 0x1E6A1000,
-> >       [ASPEED_DEV_EHCI2]     =3D 0x1E6A3000,
-> >       [ASPEED_DEV_MII1]      =3D 0x1E650000,
-> > @@ -61,6 +61,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] =3D {
-> >       [ASPEED_DEV_UART1]     =3D 0x1E783000,
-> >       [ASPEED_DEV_UART5]     =3D 0x1E784000,
-> >       [ASPEED_DEV_VUART]     =3D 0x1E787000,
-> > +    [ASPEED_DEV_I3C]       =3D 0x1E7A0000,
-> >       [ASPEED_DEV_SDRAM]     =3D 0x80000000,
-> >   };
-> >
-> > @@ -108,6 +109,7 @@ static const int aspeed_soc_ast2600_irqmap[] =3D {
-> >       [ASPEED_DEV_ETH4]      =3D 33,
-> >       [ASPEED_DEV_KCS]       =3D 138,   /* 138 -> 142 */
-> >       [ASPEED_DEV_DP]        =3D 62,
-> > +    [ASPEED_DEV_I3C]       =3D 102,   /* 102 -> 107 */
-> >   };
-> >
-> >   static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
-> > @@ -223,6 +225,8 @@ static void aspeed_soc_ast2600_init(Object *obj)
-> >
-> >       snprintf(typename, sizeof(typename), "aspeed.hace-%s", socname);
-> >       object_initialize_child(obj, "hace", &s->hace, typename);
-> > +
-> > +    object_initialize_child(obj, "i3c", &s->i3c, TYPE_ASPEED_I3C);
-> >   }
-> >
-> >   /*
-> > @@ -523,6 +527,19 @@ static void aspeed_soc_ast2600_realize(DeviceState=
- *dev, Error **errp)
-> >       sysbus_mmio_map(SYS_BUS_DEVICE(&s->hace), 0, sc->memmap[ASPEED_DE=
-V_HACE]);
-> >       sysbus_connect_irq(SYS_BUS_DEVICE(&s->hace), 0,
-> >                          aspeed_soc_get_irq(s, ASPEED_DEV_HACE));
-> > +    /* I3C */
-> > +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->i3c), errp)) {
-> > +        return;
-> > +    }
-> > +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i3c), 0, sc->memmap[ASPEED_DEV_=
-I3C]);
-> > +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->i3c), 0,
-> > +                       aspeed_soc_get_irq(s, ASPEED_DEV_I3C));
->
-> The controller device does not have an IRQ line.
->
+When the flash device is not in "romd_mode", then no KVM memslot is used
+at all, and both reads and writes trap to QEMU. Once the flash
+programming is done, the guest's flash driver issues a particular write
+command (READ_ARRAY_CMD) that flips the device back to "romd_mode" (and
+then the readonly KVM memslot is re-established).
 
-Removed in v3.
-Thanks for the review,
-Troy Lee
+Here's a rough call tree (for the non-SMM case, updating a
+non-authenticated non-volatile variable):
 
-> Thanks,
->
-> C.
->
->
->
-> > +    for (i =3D 0; i < ASPEED_I3C_NR_DEVICES; i++) {
-> > +        qemu_irq irq =3D qdev_get_gpio_in(DEVICE(&s->a7mpcore),
-> > +                                        sc->irqmap[ASPEED_DEV_I3C] + i=
-);
-> > +        /* The AST2600 I3C controller has one IRQ per bus. */
-> > +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->i3c.devices[i]), 0, irq)=
-;
-> > +    }
-> >   }
-> >
-> >   static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data=
-)
-> > diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-> > index 18fb7eed46..cae9906684 100644
-> > --- a/include/hw/arm/aspeed_soc.h
-> > +++ b/include/hw/arm/aspeed_soc.h
-> > @@ -21,6 +21,7 @@
-> >   #include "hw/timer/aspeed_timer.h"
-> >   #include "hw/rtc/aspeed_rtc.h"
-> >   #include "hw/i2c/aspeed_i2c.h"
-> > +#include "hw/misc/aspeed_i3c.h"
-> >   #include "hw/ssi/aspeed_smc.h"
-> >   #include "hw/misc/aspeed_hace.h"
-> >   #include "hw/watchdog/wdt_aspeed.h"
-> > @@ -51,6 +52,7 @@ struct AspeedSoCState {
-> >       AspeedRtcState rtc;
-> >       AspeedTimerCtrlState timerctrl;
-> >       AspeedI2CState i2c;
-> > +    AspeedI3CState i3c;
-> >       AspeedSCUState scu;
-> >       AspeedHACEState hace;
-> >       AspeedXDMAState xdma;
-> > @@ -141,6 +143,7 @@ enum {
-> >       ASPEED_DEV_HACE,
-> >       ASPEED_DEV_DPMCU,
-> >       ASPEED_DEV_DP,
-> > +    ASPEED_DEV_I3C,
-> >   };
-> >
-> >   #endif /* ASPEED_SOC_H */
-> >
->
+  VariableServiceSetVariable()                             [MdeModulePkg/Universal/Variable/RuntimeDxe/Variable.c]
+    UpdateVariable()                                       [MdeModulePkg/Universal/Variable/RuntimeDxe/Variable.c]
+      UpdateVariableStore()                                [MdeModulePkg/Universal/Variable/RuntimeDxe/Variable.c]
+        FvbProtocolWrite()                                 [OvmfPkg/QemuFlashFvbServicesRuntimeDxe/FwBlockService.c]
+          QemuFlashWrite()                                 [OvmfPkg/QemuFlashFvbServicesRuntimeDxe/QemuFlash.c]
+
+            QemuFlashPtrWrite (WRITE_BYTE_CMD /* 0x10 */)
+               QEMU:
+                pflash_write()                             [hw/block/pflash_cfi01.c]
+                  (wcycle == 0)
+                  memory_region_rom_device_set_romd(false) [softmmu/memory.c]
+                    ...
+                      kvm_region_del()                     [accel/kvm/kvm-all.c]
+                        kvm_set_phys_mem(false)            [accel/kvm/kvm-all.c]
+                          /* unregister the slot */
+
+                  /* Single Byte Program */
+                  wcycle++
+
+            QemuFlashPtrWrite (Buffer[Loop])
+              QEMU:
+                pflash_write()                             [hw/block/pflash_cfi01.c]
+                  (wcycle == 1)
+                  /* Single Byte Program */
+                  pflash_data_write()                      [hw/block/pflash_cfi01.c]
+                  pflash_update()                          [hw/block/pflash_cfi01.c]
+                    blk_pwrite()                           [block/block-backend.c]
+                  wcycle = 0
+
+            QemuFlashPtrWrite (READ_ARRAY_CMD /* 0xff */)
+              QEMU:
+                pflash_write()                             [hw/block/pflash_cfi01.c]
+                  (wcycle == 0)
+                  memory_region_rom_device_set_romd(false) [softmmu/memory.c]
+                    /* no actual change */
+                  /* Read Array */
+                  memory_region_rom_device_set_romd(true)  [softmmu/memory.c]
+                    kvm_region_add()                       [accel/kvm/kvm-all.c]
+                      kvm_set_phys_mem(true)               [accel/kvm/kvm-all.c]
+                        /* register the new slot */
+                        kvm_mem_flags()                    [accel/kvm/kvm-all.c]
+                          ... memory_region_is_romd() ...  [include/exec/memory.h]
+                          flags |= KVM_MEM_READONLY
+
+Thanks
+Laszlo
+
 
