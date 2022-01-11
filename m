@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB44148AD5D
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 13:12:56 +0100 (CET)
-Received: from localhost ([::1]:51454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADD4948AD64
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 13:14:56 +0100 (CET)
+Received: from localhost ([::1]:55056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7G1H-0004hg-CQ
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 07:12:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37226)
+	id 1n7G3D-0007k2-Fx
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 07:14:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7FxG-0002XP-JZ
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:08:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31412)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7FxD-0003gr-IC
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:08:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641902921;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=n11iNm7Cs15eVJURMSjsAZglvTdnx+SD9bJZKyVyv6U=;
- b=dxubBB1Gv7fHODErzsZodWJy8A1QOnGpYn/+7K1clyfhI0p01nEV+HPMfLXBi9Fx9gOXkv
- oZrlIvjzOsZQ7P/yBVMS+Fh/x5xLuh5yjGeQUgIFkEFWpnQMVnzQe/84JYTa/zF9DqTNOK
- P7r9DY+oL7BSOfQKjBnjD8d9QyRInrc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-338-iieDCpzcMDKpbexc8s68Rw-1; Tue, 11 Jan 2022 07:08:39 -0500
-X-MC-Unique: iieDCpzcMDKpbexc8s68Rw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 056013459B;
- Tue, 11 Jan 2022 12:08:39 +0000 (UTC)
-Received: from t480s.redhat.com (unknown [10.39.193.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 13C647B6E3;
- Tue, 11 Jan 2022 12:08:30 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1] util/oslib-posix: Fix missing unlock in the error path of
- os_mem_prealloc()
-Date: Tue, 11 Jan 2022 13:08:30 +0100
-Message-Id: <20220111120830.119912-1-david@redhat.com>
+ (Exim 4.90_1) (envelope-from <daniellalee111@gmail.com>)
+ id 1n7Fzg-00055A-SB; Tue, 11 Jan 2022 07:11:16 -0500
+Received: from [2607:f8b0:4864:20::1036] (port=44987
+ helo=mail-pj1-x1036.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <daniellalee111@gmail.com>)
+ id 1n7FzZ-0004NI-6V; Tue, 11 Jan 2022 07:11:11 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ n30-20020a17090a5aa100b001b2b6509685so5472205pji.3; 
+ Tue, 11 Jan 2022 04:11:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jGbdQDYvE4v48Trz/6YmPH5c3vAOaZc9KqkCE+2SVRE=;
+ b=oD+Z3B3RSuUyP/U8Z5rhFQmMrZ6Ti+pmvc2uN6W+4mhjCoVO7Fx3PqXXJj41QhDWdd
+ 1X3l0aGyAeE31sRA4gWdC0B0stlVLZWC+qQGcp+sxZ6XvbwpZEEwWtwApr4sSZ3IkasS
+ Y6+s6NWUeZFqofzo9o2GKhcIh0tSvOmmAZs2BmeE2XU+RZ2Vg3yV8PZnWXOH3K3LYnr4
+ bQbVJ0M7e+mel/uqXWeFQPZZSzKgbGYa+VPp2mPgZ+x5EMa5kZrTRsF4+XE6E6BCK7n4
+ 5VZH/x6YzDM43//WXxVwxxVvW7hJx5r0l56Wo7vkq9/g5/3q4HGYXPr3aVm+ybptjVFb
+ dpXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jGbdQDYvE4v48Trz/6YmPH5c3vAOaZc9KqkCE+2SVRE=;
+ b=L+EquEPeOeeEKZkW0/tBvSEBQe1xbCUfLPQ0LWmw7rhC9EWw6RZqW3wziYXLTdZOWE
+ 718F0qgtaDTo+E/5h08GoXD/aZG+yqI2+wJEd9GHREYw3CpCKJq02hfy/iOYuLS3zsCc
+ RlINU+2JCIJ1coIPGnjAYI4mju1MtezFjeeOFKhMlJSEyDLeEXH/AYY11O2JVDvZiZue
+ l3u8tZy8rx2XwV4xlsDTu+F2VOQB91yWQoSxsewR/LtOtAcmTcArKACfob+tMF9nIsq7
+ AJc0cB1QIDtpvukPRKrbToU8y3JPKAiBDYOpsFEKtIAFzubsT2DrOkzLnxsfq6yuobyI
+ ayRg==
+X-Gm-Message-State: AOAM531gos1OluF6ZsTMEwsKAfPevl08IOBlaMYg4spke2bLR44uvQ0e
+ OzFSUEpG+n50Spc5MdGXTNA=
+X-Google-Smtp-Source: ABdhPJy8176sV+AR6mJskaJYvLg5sdQfrxD3KP/pBlIMSieQsAK7fpCQ46uWXS+y3rFMgfX7X+Q6zg==
+X-Received: by 2002:a17:90b:3ecc:: with SMTP id
+ rm12mr2748895pjb.225.1641903065943; 
+ Tue, 11 Jan 2022 04:11:05 -0800 (PST)
+Received: from localhost.localdomain ([106.52.23.176])
+ by smtp.googlemail.com with ESMTPSA id oo14sm2553230pjb.34.2022.01.11.04.11.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Jan 2022 04:11:05 -0800 (PST)
+From: Daniella Lee <daniellalee111@gmail.com>
+To: stefanha@redhat.com, fam@euphon.net, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: [PATCH] Fix null pointer dereference in util/fdmon-epoll.c
+Date: Tue, 11 Jan 2022 20:10:59 +0800
+Message-Id: <20220111121059.3345034-1-daniellalee111@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=daniellalee111@gmail.com; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,41 +85,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Michal Privoznik <mprivozn@redhat.com>,
- David Hildenbrand <david@redhat.com>, Pankaj Gupta <pankaj.gupta@ionos.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: daniellalee111@gmail.com, pai.po.sec@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're missing an unlock in case installing the signal handler failed.
-Fortunately, we barely see this error in real life.
+Orginal qemu commit hash: de3f5223fa4cf8bfc5e3fe1fd495ddf468edcdf7
+In util/fdmon-epoll.c, function fdmon_epoll_update, variable "old_node" 
+maybe NULL with the condition, while it is directly used in the statement and 
+may lead to null pointer dereferencen problem.
+Variable "r" in the condition is the return value of epoll_ctl function,
+and will return -1 when failed.
+Therefore, the patch added a check and initialized the variable "r".
 
-Fixes: a960d6642d39 ("util/oslib-posix: Support concurrent os_mem_prealloc() invocation")
-Fixes: CID 1468941
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Pankaj Gupta <pankaj.gupta@ionos.com>
-Cc: Daniel P. Berrangé <berrange@redhat.com>
-Cc: Michal Privoznik <mprivozn@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
+
+Signed-off-by: Daniella Lee <daniellalee111@gmail.com>
 ---
- util/oslib-posix.c | 1 +
- 1 file changed, 1 insertion(+)
+ util/fdmon-epoll.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index 9efdc74bba..ac0dbc2adc 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -683,6 +683,7 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+diff --git a/util/fdmon-epoll.c b/util/fdmon-epoll.c
+index e11a8a022e..3c8b0de694 100644
+--- a/util/fdmon-epoll.c
++++ b/util/fdmon-epoll.c
+@@ -38,10 +38,12 @@ static void fdmon_epoll_update(AioContext *ctx,
+         .data.ptr = new_node,
+         .events = new_node ? epoll_events_from_pfd(new_node->pfd.events) : 0,
+     };
+-    int r;
++    int r = -1;
  
-         ret = sigaction(SIGBUS, &act, &sigbus_oldact);
-         if (ret) {
-+            qemu_mutex_unlock(&sigbus_mutex);
-             error_setg_errno(errp, errno,
-                 "os_mem_prealloc: failed to install signal handler");
-             return;
+     if (!new_node) {
+-        r = epoll_ctl(ctx->epollfd, EPOLL_CTL_DEL, old_node->pfd.fd, &event);
++        if (old_node) {
++            r = epoll_ctl(ctx->epollfd, EPOLL_CTL_DEL, old_node->pfd.fd, &event);
++        }
+     } else if (!old_node) {
+         r = epoll_ctl(ctx->epollfd, EPOLL_CTL_ADD, new_node->pfd.fd, &event);
+     } else {
 -- 
-2.33.1
+2.17.1
 
 
