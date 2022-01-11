@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFB2448AF22
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 15:07:29 +0100 (CET)
-Received: from localhost ([::1]:33018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97F7E48AEC6
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 14:46:34 +0100 (CET)
+Received: from localhost ([::1]:51294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7Ho8-0003Ho-PI
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 09:07:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51824)
+	id 1n7HTt-0007Kq-MS
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 08:46:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1n7Gmp-0005Bo-LV
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:02:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60017)
+ id 1n7Gmq-0005CQ-Ad
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:02:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1n7Gmm-0005qr-0w
+ id 1n7Gmm-0005r5-32
  for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:02:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641906089;
+ s=mimecast20190719; t=1641906091;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rwk6ID2rBlH3ZRqQ0F7DWrovnndqwFTyaieTJosDyIw=;
- b=SRw+1sW7Dz8Xzgf52zzM0fnIBOfKQ4TAGUGZ3CTtOzkrGGjRiQ5tgHsJOJsdKtKivwspLw
- 9jciA0Pwuo6sLf42VPR1N0m92VwSKprpy1RkJ1FnSrd1vF7dtOjkFNbHPqWvOZ3vsHB1xN
- bNuPlYUZ66vJ/GYGX8pGXdDBmEQombg=
+ bh=MeO/JAeVgByTv/LBgZT2Of+Su/RDJuxNK9hqAFe+UyE=;
+ b=C6XhslXJPqG/Tdf6bWaff6htih5Rja+GPyEa/ZsH8hAqtTyZlOlbkqZQr+7c2j1Tk3KiAY
+ mjbYYZjreCkiBbXjTFaBkeMGFbRcKUvIFXSoNcnKhvAVfitMZ8YaURlL8a3Xupk6Ya3Ctj
+ FSHC2RDhTfpTFAGLrqnGvi0dcUrmwGc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-108-cKPud18sM3yaZ0SZI-QO0w-1; Tue, 11 Jan 2022 08:01:26 -0500
-X-MC-Unique: cKPud18sM3yaZ0SZI-QO0w-1
+ us-mta-510-VPUlUMvXMh2nrqYVO0h4oA-1; Tue, 11 Jan 2022 08:01:28 -0500
+X-MC-Unique: VPUlUMvXMh2nrqYVO0h4oA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC10E1023F54;
- Tue, 11 Jan 2022 13:01:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BD4C1023F50;
+ Tue, 11 Jan 2022 13:01:27 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EB9961059179;
- Tue, 11 Jan 2022 13:01:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4D12A1059179;
+ Tue, 11 Jan 2022 13:01:25 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 18/23] migration: Make ram_save_target_page() a pointer
-Date: Tue, 11 Jan 2022 14:00:19 +0100
-Message-Id: <20220111130024.5392-19-quintela@redhat.com>
+Subject: [PATCH v4 19/23] multifd: Add property to enable/disable zero_page
+Date: Tue, 11 Jan 2022 14:00:20 +0100
+Message-Id: <20220111130024.5392-20-quintela@redhat.com>
 In-Reply-To: <20220111130024.5392-1-quintela@redhat.com>
 References: <20220111130024.5392-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -86,71 +86,78 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to create a new function for multifd latest in the series.
-
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ migration/migration.h |  3 +++
+ hw/core/machine.c     |  4 +++-
+ migration/migration.c | 11 +++++++++++
+ 3 files changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index e9dcd3ca4e..3536778e19 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -294,6 +294,9 @@ struct RAMSrcPageRequest {
-     QSIMPLEQ_ENTRY(RAMSrcPageRequest) next_req;
+diff --git a/migration/migration.h b/migration/migration.h
+index 8130b703eb..638cd89b6c 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -296,6 +296,8 @@ struct MigrationState {
+      * This save hostname when out-going migration starts
+      */
+     char *hostname;
++    /* Use multifd channel to send zero pages */
++    bool multifd_zero_pages;
  };
  
-+typedef struct RAMState RAMState;
-+typedef struct PageSearchStatus PageSearchStatus;
-+
- /* State of RAM for migration */
- struct RAMState {
-     /* QEMUFile used for this migration */
-@@ -348,8 +351,8 @@ struct RAMState {
-     /* Queue of outstanding page requests from the destination */
-     QemuMutex src_page_req_mutex;
-     QSIMPLEQ_HEAD(, RAMSrcPageRequest) src_page_requests;
-+    int (*ram_save_target_page)(RAMState *rs, PageSearchStatus *pss);
- };
--typedef struct RAMState RAMState;
+ void migrate_set_state(int *state, int old_state, int new_state);
+@@ -338,6 +340,7 @@ int migrate_multifd_channels(void);
+ MultiFDCompression migrate_multifd_compression(void);
+ int migrate_multifd_zlib_level(void);
+ int migrate_multifd_zstd_level(void);
++bool migrate_use_multifd_zero_page(void);
  
- static RAMState *ram_state;
+ int migrate_use_xbzrle(void);
+ uint64_t migrate_xbzrle_cache_size(void);
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index debcdc0e70..fc303cb707 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -37,7 +37,9 @@
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/virtio-pci.h"
  
-@@ -2117,14 +2120,14 @@ static bool save_compress_page(RAMState *rs, RAMBlock *block, ram_addr_t offset)
+-GlobalProperty hw_compat_6_2[] = {};
++GlobalProperty hw_compat_6_2[] = {
++    { "migration", "multifd-zero-page", "false" },
++};
+ const size_t hw_compat_6_2_len = G_N_ELEMENTS(hw_compat_6_2);
+ 
+ GlobalProperty hw_compat_6_1[] = {
+diff --git a/migration/migration.c b/migration/migration.c
+index 0652165610..ff39f07fc5 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -2502,6 +2502,15 @@ bool migrate_use_multifd(void)
+     return s->enabled_capabilities[MIGRATION_CAPABILITY_MULTIFD];
  }
  
- /**
-- * ram_save_target_page: save one target page
-+ * ram_save_target_page_legacy: save one target page
-  *
-  * Returns the number of pages written
-  *
-  * @rs: current RAM state
-  * @pss: data about the page we want to send
-  */
--static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
-+static int ram_save_target_page_legacy(RAMState *rs, PageSearchStatus *pss)
++bool migrate_use_multifd_zero_page(void)
++{
++    MigrationState *s;
++
++    s = migrate_get_current();
++
++    return s->multifd_zero_pages;
++}
++
+ bool migrate_pause_before_switchover(void)
  {
-     RAMBlock *block = pss->block;
-     ram_addr_t offset = ((ram_addr_t)pss->page) << TARGET_PAGE_BITS;
-@@ -2200,7 +2203,7 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
-     do {
-         /* Check the pages is dirty and if it is send it */
-         if (migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
--            tmppages = ram_save_target_page(rs, pss);
-+            tmppages = rs->ram_save_target_page(rs, pss);
-             if (tmppages < 0) {
-                 return tmppages;
-             }
-@@ -3008,6 +3011,7 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
-     ram_control_before_iterate(f, RAM_CONTROL_SETUP);
-     ram_control_after_iterate(f, RAM_CONTROL_SETUP);
+     MigrationState *s;
+@@ -4158,6 +4167,8 @@ static Property migration_properties[] = {
+                       clear_bitmap_shift, CLEAR_BITMAP_SHIFT_DEFAULT),
  
-+    (*rsp)->ram_save_target_page = ram_save_target_page_legacy;
-     multifd_send_sync_main(f);
-     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-     qemu_fflush(f);
+     /* Migration parameters */
++    DEFINE_PROP_BOOL("multifd-zero-pages", MigrationState,
++                      multifd_zero_pages, true),
+     DEFINE_PROP_UINT8("x-compress-level", MigrationState,
+                       parameters.compress_level,
+                       DEFAULT_MIGRATE_COMPRESS_LEVEL),
 -- 
 2.34.1
 
