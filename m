@@ -2,88 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E5E748ADEE
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 13:53:05 +0100 (CET)
-Received: from localhost ([::1]:57378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEEE948AE01
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 13:56:58 +0100 (CET)
+Received: from localhost ([::1]:36628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7Ge8-0007w7-2s
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 07:53:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46036)
+	id 1n7Ght-0004yz-RF
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 07:56:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1n7GTj-0003ZZ-G8
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:42:23 -0500
-Received: from [2607:f8b0:4864:20::1031] (port=36637
- helo=mail-pj1-x1031.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1n7GTf-0002LV-9S
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:42:16 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id
- i8-20020a17090a138800b001b3936fb375so5082364pja.1
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 04:42:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ksDE7N6aKbjqVpQYmB3/w5xG/VVT2Dqci28iMt89m44=;
- b=EqfrTwONrmZro6TIzv5eFQJLRi1pRIhrlab3YAyLSF8FBFbxRY/UxFZqIEOU3S4Q43
- uElnDoTICgpY0Vu/QU9fgi41Oln7Pepi0Ec/pnAJZx7XmJ3KXaJPsKnAjESp5OhZwuhV
- hiH7qwl7JaP8+Jh3FKpSFWPeWaJ1qtg63T0wG2+7CHmglwj8vtw2EQbbTZq6JJPAP/Ti
- YcwKsd1rRPJPE7hGJ0UqioezUUlp7Vp7qUoq9cINoxF7JTidTxqCKmCfP21E8RRa5ZkM
- exN+1Xmr3qiaStJYUrlM9mTt6mR+4F5KFP2oT1q32dBCeyv1oIDra2pKQqh0vFvLin3K
- sDOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ksDE7N6aKbjqVpQYmB3/w5xG/VVT2Dqci28iMt89m44=;
- b=rN6xMhr3udcnlj2iQFut4FyrJGjXFE80ZS3aO0eoS8784NiEfJ4vrUQMySpzjR1SOI
- 9QPitbJxVqAoh5oA9P3I2tqo2gDJB7QGQK2nZdYWQ0dZFPeVWVcm8OBhXjC79cTx/KhS
- cAQ2xDrw0E/Fkc4pX0N11o2dd31qyJQ1stx8VPQZ7bNRYm6LXef68SzwCroP5pGjPG+V
- YlBnuXwd2v58K9/MwseluC1Oj1FcnYW0sfTJi7i4/Z73GLxvUb5wluxX0e2TD4sMNhax
- NgAZ95qcLhE3JERTPNjEgscDiUirbEUJQ6THpcapyVHZqlIdU7N5gWF3Ki6eMXdJwKY2
- S48Q==
-X-Gm-Message-State: AOAM533DDNi2dsRQjGXLENj0TzrR6BBp3fJ77fsbkFaqH/IAGDHACV42
- JF9YLFbsMS8WLBba/xn5OOiNqA==
-X-Google-Smtp-Source: ABdhPJyU8fSYsDhe81Vz/Xh82sxwnnhTHpo++9bGsNyJfmlG5iNZPMTBSu8TwO2xFnoTkdOm9Mtd+A==
-X-Received: by 2002:a05:6a00:1ac7:b0:4bd:183:6b21 with SMTP id
- f7-20020a056a001ac700b004bd01836b21mr4277375pfv.57.1641904933256; 
- Tue, 11 Jan 2022 04:42:13 -0800 (PST)
-Received: from [10.76.15.169] ([153.254.110.109])
- by smtp.gmail.com with ESMTPSA id f8sm3492045pfc.184.2022.01.11.04.42.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Jan 2022 04:42:12 -0800 (PST)
-Subject: Re: Re: Re: [PATCH] usb: allow max 8192 bytes for desc
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20220111104918.896841-1-pizhenwei@bytedance.com>
- <CAFEAcA9d4X+pobnz2vA_hTwDBuGRBTjjnD_CgKmsKuCAjH-ZNQ@mail.gmail.com>
- <Yd13NAsHpuRCMJRy@redhat.com>
- <b093dca4-f961-9f5b-32ba-0d4a55e71dba@bytedance.com>
- <Yd16OkZB5C+rVnad@redhat.com>
-From: zhenwei pi <pizhenwei@bytedance.com>
-Message-ID: <4b59aa97-a0ae-85ef-c3ad-85d9c1d0b7e5@bytedance.com>
-Date: Tue, 11 Jan 2022 20:39:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7GS6-0003AZ-Mn
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:40:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53206)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7GS4-0001qT-Gz
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:40:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641904836;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=uLHtFC7j6d/HZS0sko9/4nQ9h5rCSDmvPJWEIM/koYc=;
+ b=g2yNLbmT5HEiPyWoby/s68NDvzfVWGnSjLrBK6jaonn68ZUfdzSx3pkKaWvNTXCPQwWzhe
+ geLTlUN/YgLdkWmP4h2TKNHbe3wW71ubE8wdhkvLscZjthRj5hphJ7LmsK4GwEs92nXvkS
+ rzycQt/MCA1is8X+VAqewtnrmz2dgfE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-341-uxjAhufyOEaAdIAtPkYZrw-1; Tue, 11 Jan 2022 07:40:32 -0500
+X-MC-Unique: uxjAhufyOEaAdIAtPkYZrw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA99F824F83;
+ Tue, 11 Jan 2022 12:40:31 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.193.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C17F7B6EC;
+ Tue, 11 Jan 2022 12:39:40 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1] libvhost-user: Map shared RAM with MAP_NORESERVE to
+ support virtio-mem with hugetlb
+Date: Tue, 11 Jan 2022 13:39:39 +0100
+Message-Id: <20220111123939.132659-1-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <Yd16OkZB5C+rVnad@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,71 +75,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, f4bug@amsat.org,
- qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/11/22 8:38 PM, Daniel P. Berrangé wrote:
-> On Tue, Jan 11, 2022 at 08:27:35PM +0800, zhenwei pi wrote:
->>
->>
->> On 1/11/22 8:25 PM, Daniel P. Berrangé wrote:
->>> On Tue, Jan 11, 2022 at 12:21:42PM +0000, Peter Maydell wrote:
->>>> On Tue, 11 Jan 2022 at 10:54, zhenwei pi <pizhenwei@bytedance.com> wrote:
->>>>>
->>>>> A device of USB video class usually uses larger desc structure, so
->>>>> use larger buffer to avoid failure. (dev-video.c is ready)
->>>>>
->>>>> Allocating memory dynamically by g_malloc of the orignal version of
->>>>> this change, Philippe suggested just using the stack. Test the two
->>>>> versions of qemu binary, the size of stack gets no change.
->>>>>
->>>>> CC: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>>> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
->>>>> ---
->>>>>    hw/usb/desc.c | 2 +-
->>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/hw/usb/desc.c b/hw/usb/desc.c
->>>>> index 8b6eaea407..57d2aedba1 100644
->>>>> --- a/hw/usb/desc.c
->>>>> +++ b/hw/usb/desc.c
->>>>> @@ -632,7 +632,7 @@ int usb_desc_get_descriptor(USBDevice *dev, USBPacket *p,
->>>>>        bool msos = (dev->flags & (1 << USB_DEV_FLAG_MSOS_DESC_IN_USE));
->>>>>        const USBDesc *desc = usb_device_get_usb_desc(dev);
->>>>>        const USBDescDevice *other_dev;
->>>>> -    uint8_t buf[256];
->>>>> +    uint8_t buf[8192];
->>>>>        uint8_t type = value >> 8;
->>>>>        uint8_t index = value & 0xff;
->>>>>        int flags, ret = -1;
->>>>
->>>> I think 8K is too large to be allocating as an array on
->>>> the stack, so if we need this buffer to be larger we should
->>>> switch to some other allocation strategy for it.
->>>
->>> IIUC, querying USB device descriptors is not a hot path, so using
->>> heap allocation feels sufficient.
->>>
->> Yes, I tested this a lot, and found that it's an unlikely code path:
->> 1, during guest startup, guest tries to probe device.
->> 2, run 'lsusb' command in guest(or other similar commands).
->>
->> The original patch and context link:
->> https://patchwork.kernel.org/project/qemu-devel/patch/20211227142734.691900-5-pizhenwei@bytedance.com/
-> 
-> Yes, the orignal patch is better I think.
-> 
-> 
-> 
-> Regards,
-> Daniel
-> 
-By the way, could you please review the v2 version of "camera subsystem"?
+For fd-based shared memory, MAP_NORESERVE is only effective for hugetlb,
+otherwise it's ignored. Older Linux versions that didn't support
+reservation of huge pages ignored MAP_NORESERVE completely.
 
-https://patchwork.kernel.org/project/qemu-devel/cover/20220106085304.795010-1-pizhenwei@bytedance.com/
+The first client to mmap a hugetlb fd without MAP_NORESERVE will
+trigger reservation of huge pages for the whole mmapped range. There are
+two cases to consider:
 
+1) QEMU mapped RAM without MAP_NORESERVE
+
+We're not dealing with a sparse mapping, huge pages for the whole range
+have already been reserved by QEMU. An additional mmap() without
+MAP_NORESERVE won't have any effect on the reservation.
+
+2) QEMU mapped RAM with MAP_NORESERVE
+
+We're delaing with a sparse mapping, no huge pages should be reserved.
+Further mappings without MAP_NORESERVE should be avoided.
+
+For 1), it doesn't matter if we set MAP_NORESERVE or not, so we can
+simply set it. For 2), we'd be overriding QEMUs decision and trigger
+reservation of huge pages, which might just fail if there are not
+sufficient huge pages around. We must map with MAP_NORESERVE.
+
+This change is required to support virtio-mem with hugetlb: a
+virtio-mem device mapped into the guest physical memory corresponds to
+a sparse memory mapping and QEMU maps this memory with MAP_NORESERVE.
+Whenever memory in that sparse region will be accessed by the VM, QEMU
+populates huge pages for the affected range by preallocating memory
+and handling any preallocation errors gracefully.
+
+So let's map shared RAM with MAP_NORESERVE. As libvhost-user only
+supports Linux, there shouldn't be anything to take care of in regard of
+other OS support.
+
+Without this change, libvhost-user will fail mapping the region if there
+are currently not enough huge pages to perform the reservation:
+ fv_panic: libvhost-user: region mmap error: Cannot allocate memory
+
+Cc: "Marc-André Lureau" <marcandre.lureau@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ subprojects/libvhost-user/libvhost-user.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
+index 787f4d2d4f..3b538930be 100644
+--- a/subprojects/libvhost-user/libvhost-user.c
++++ b/subprojects/libvhost-user/libvhost-user.c
+@@ -728,12 +728,12 @@ vu_add_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
+          * accessing it before we userfault.
+          */
+         mmap_addr = mmap(0, dev_region->size + dev_region->mmap_offset,
+-                         PROT_NONE, MAP_SHARED,
++                         PROT_NONE, MAP_SHARED | MAP_NORESERVE,
+                          vmsg->fds[0], 0);
+     } else {
+         mmap_addr = mmap(0, dev_region->size + dev_region->mmap_offset,
+-                         PROT_READ | PROT_WRITE, MAP_SHARED, vmsg->fds[0],
+-                         0);
++                         PROT_READ | PROT_WRITE, MAP_SHARED | MAP_NORESERVE,
++                         vmsg->fds[0], 0);
+     }
+ 
+     if (mmap_addr == MAP_FAILED) {
+@@ -878,7 +878,7 @@ vu_set_mem_table_exec_postcopy(VuDev *dev, VhostUserMsg *vmsg)
+          * accessing it before we userfault
+          */
+         mmap_addr = mmap(0, dev_region->size + dev_region->mmap_offset,
+-                         PROT_NONE, MAP_SHARED,
++                         PROT_NONE, MAP_SHARED | MAP_NORESERVE,
+                          vmsg->fds[i], 0);
+ 
+         if (mmap_addr == MAP_FAILED) {
+@@ -965,7 +965,7 @@ vu_set_mem_table_exec(VuDev *dev, VhostUserMsg *vmsg)
+          * mapped address has to be page aligned, and we use huge
+          * pages.  */
+         mmap_addr = mmap(0, dev_region->size + dev_region->mmap_offset,
+-                         PROT_READ | PROT_WRITE, MAP_SHARED,
++                         PROT_READ | PROT_WRITE, MAP_SHARED | MAP_NORESERVE,
+                          vmsg->fds[i], 0);
+ 
+         if (mmap_addr == MAP_FAILED) {
 -- 
-zhenwei pi
+2.33.1
+
 
