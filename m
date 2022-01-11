@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B622048B4C1
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 18:58:23 +0100 (CET)
-Received: from localhost ([::1]:41200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 614F448B582
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 19:14:09 +0100 (CET)
+Received: from localhost ([::1]:41668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7LPa-0000gQ-3T
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 12:58:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45764)
+	id 1n7Lep-000679-Ve
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 13:14:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n7LN1-0006us-5v; Tue, 11 Jan 2022 12:55:44 -0500
-Received: from [2a00:1450:4864:20::435] (port=44756
- helo=mail-wr1-x435.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n7LMx-00060a-8q; Tue, 11 Jan 2022 12:55:42 -0500
-Received: by mail-wr1-x435.google.com with SMTP id k18so34407544wrg.11;
- Tue, 11 Jan 2022 09:55:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WgoFps54uxGzLDCch+sbSepa/SxC8O6afKaLMDxDhm4=;
- b=YCWlY+v+ALu0/nBcvqlXdHwDEeuOwCiHssAWW6uc+yLw6u9GXUzysmxNH88+zyxYWR
- WJJZL1TsHRopYWgLiLjHqFi/4i/EnZsFeO1ZYkz1o7faOV3p5RgWu3qbvdF6KM8FM13g
- pZ/7/Z11kfWkLqhZK5Chxj85oXyNYgrpcwLP43zI63xwrCJmFNVuGsib/pcfoitjr1nf
- 4OYlaQzSFohmVf93fBBSnoucXkhgdFBC7GjpA1bTpH+D6RURQqKL+C/RPnC0TLw2/tpy
- lgw5TotYjX1wUh7lRmxaEJzW6Gf8Y96Ok4qAEZY4s9WMLF6nGlWT9SSJVyTYTb8KsyoL
- khYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=WgoFps54uxGzLDCch+sbSepa/SxC8O6afKaLMDxDhm4=;
- b=dRNmazhs3JPSOXT6cS1h2O3cjh/ET07OtoguITKOfrn/NePLlhI/u6L7u8w5hQYJBS
- JCeHWy3o0kw8jd0WgLwqR7L/7cPIVqEGqcINSjEM+8vefqrB8ieLRjme9F+QmXWgdd2U
- XHllY3K1gI/APYTWNNqDiB8jrGR72VHYO+E3qG+UGI251o9/YL5LWh0/Yj1l5szgKKMG
- 7Yxv2hcic1Rdjq8jP2Ief48NywDlcHTbHIO+LpQXqHOZ7N/0swp3F5vtXMNizHZ07+uG
- bAjvDlcgEylsY+ZKh5na6kn/yXFb392JmEuYbDc9R/awAeUZLvL2jiBu944xY9JCa/Ed
- +TSA==
-X-Gm-Message-State: AOAM531OcF2Wn45wDiVOPTT+wgSXefDiytk3AZQPvQJ7m60bFMUEsHHz
- xTzequkO5lly9y2tZsf7OR14JTD/FVcb7g==
-X-Google-Smtp-Source: ABdhPJyCb4onsMSoXRvARx3brP0W0JtpUsf0xuoFxxGfvGuU8oybcmVoGP/j3zOlRYZ3aHHTlve1ew==
-X-Received: by 2002:adf:f644:: with SMTP id x4mr4855515wrp.174.1641923730589; 
- Tue, 11 Jan 2022 09:55:30 -0800 (PST)
-Received: from nuc.. (83.red-83-50-87.dynamicip.rima-tde.net. [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id v13sm2230444wmh.45.2022.01.11.09.55.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jan 2022 09:55:30 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tests: Fix typo in check-help output
-Date: Tue, 11 Jan 2022 18:55:28 +0100
-Message-Id: <20220111175528.22294-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n7LcM-0004L2-QH
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 13:11:35 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:60293)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n7LcB-0000ri-KO
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 13:11:34 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.216])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 34034D711C7F;
+ Tue, 11 Jan 2022 19:11:18 +0100 (CET)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 11 Jan
+ 2022 19:11:17 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G001a6f06775-d538-4e0e-ac13-659a4b299489,
+ 5383433EA887FCAE918FFCB03530F9AACAE8953B) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <e353b922-feb1-8439-6e80-a10e68aaf0e4@kaod.org>
+Date: Tue, 11 Jan 2022 19:10:36 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v5 4/5] ppc/pnv: Introduce user creatable pnv-phb4 devices
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
+References: <20220111131027.599784-1-danielhb413@gmail.com>
+ <20220111131027.599784-5-danielhb413@gmail.com>
+ <69ab634e-bdb6-d5ad-e6be-771ac3d9a780@kaod.org>
+ <a7b6515f-70da-24ce-006b-4e97a9a8577f@gmail.com>
+ <8cf0a790-7dca-0d3b-7a2f-b5da5865999d@kaod.org>
+ <e3dd9804-53e7-56b3-a13b-96f14252d4b4@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <e3dd9804-53e7-56b3-a13b-96f14252d4b4@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 9e8f1492-c733-4733-9a25-cab655470ea6
+X-Ovh-Tracer-Id: 14431222059506699232
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudehfedguddutdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuveelvdejteegteefieevfeetffefvddvieekteevleefgeelgfeutedvfedvfeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,32 +74,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix typo in 'make check-help' output.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- tests/Makefile.include | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>> On branch https://github.com/legoater/qemu/commits/powernv-7.0,
+>> I have merged :
+>>
+>>    ppc/pnv: Move root port allocation under pnv_pec_stk_default_phb_realize()
+>>    ppc/pnv: Add a 'rp_model' class attribute for the PHB4 PEC
+>>    ppc/pnv: Remove PHB4 version property
+>>
+>> preparing ground for :
+>>
+>>    ppc/pnv: Add model for POWER10 PHB5 PCIe Host bridge
+>>
+>> Should we rework slightly your patchset to include them ? Or we don't
+>> care may be. Please advise :)
+> 
+> I guess it's fine to add those 3 patches. Do you want me to re-send this series with
+> them included?
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 4c564cf7899..3aba6224009 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -23,7 +23,7 @@ endif
- 	@echo " $(MAKE) check-clean          Clean the tests and related data"
- 	@echo
- 	@echo "The following are useful for CI builds"
--	@echo " $(MAKE) check-build          Build most test binaris"
-+	@echo " $(MAKE) check-build          Build most test binaries"
- 	@echo " $(MAKE) get-vm-images        Downloads all images used by avocado tests, according to configured targets (~350 MB each, 1.5 GB max)"
- 	@echo
- 	@echo
--- 
-2.34.1
+That would be interesting if you could merge the changes in your
+others patches. If not, then we will just send them before PHB5
+as prereq cleanups.
 
+Thanks,
+
+C.
 
