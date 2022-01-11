@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E3F48A42C
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 01:07:41 +0100 (CET)
-Received: from localhost ([::1]:40880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4DD48A46E
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 01:30:00 +0100 (CET)
+Received: from localhost ([::1]:51032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n74hQ-0002Et-8q
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 19:07:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43968)
+	id 1n7531-0001vw-Fc
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 19:29:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n74At-0007I9-1n
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:34:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55522)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n74Aq-0000Xo-IM
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 18:34:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641857640;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+PAO/Fr3sXUvLVvUTtB1Q0r+15/oTHs4s8bJO/rE+9w=;
- b=Ub+UayRr9CWhCA9Hi0CMAdPQ563wkqIz5FjomjIQZld7BchAAP11VtCVzwkWABFESwTjuq
- iBKlQYDPBXRVWZSIvh9eo3LuFnEuViAza4gItNMCFhenAxx4Q7Obh85XC5biNM3uQqMCkM
- 4QNOT/etgGF6ICGbOvJGKNz5ccsFbWg=
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-422-GJjKPqDAN6yvjVrlj9mNbg-1; Mon, 10 Jan 2022 18:33:58 -0500
-X-MC-Unique: GJjKPqDAN6yvjVrlj9mNbg-1
-Received: by mail-vk1-f200.google.com with SMTP id
- h6-20020a1f2106000000b0031862a566cbso713469vkh.18
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 15:33:58 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n751O-0000xi-7t; Mon, 10 Jan 2022 19:28:18 -0500
+Received: from [2607:f8b0:4864:20::d33] (port=37645
+ helo=mail-io1-xd33.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n751M-00086m-MX; Mon, 10 Jan 2022 19:28:17 -0500
+Received: by mail-io1-xd33.google.com with SMTP id 19so20101508ioz.4;
+ Mon, 10 Jan 2022 16:28:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=E9QwF6qfbbBsLwk0HIc1LhZmmT0WD4pHRqAeINZ/i8Q=;
+ b=fjCh7TrZx16ZiypyHHodVJVPsJ2jgD8/mvaV5e8oBpD6/Wa7JjEOE0SLaWm9/zpcfZ
+ R8EoyBVkmSHVlgG+BqN/4ie0bLFzTrkCMnypPHLnNSXJjPCn6q3LwGO0YU0+77La+m3B
+ pYk3L3N7ULgCl4jlVfe6bgSxljoel7Nu1Ivbbqv0YCRZrR6AGuvtzLeHK/lupstjnp7S
+ r4mkB3I/iytZI728xXO2qoG5qI/Uag1BY4FK5QXRhVq86nNvMYyFg0Ir8/2iss0j6Sph
+ eMVgh+gzBKUG193fzHPuVi1b0zkGSa4PmxAbF8no3hh6fuhUdHDSmOGys7tsE/2D8f8c
+ 5/2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=+PAO/Fr3sXUvLVvUTtB1Q0r+15/oTHs4s8bJO/rE+9w=;
- b=vKBl1SMtpxxYBK/ujmt5At9E2PtIaQlQhlS0ELvjctBn2RVFcLBw60ruM43FUOJ9gj
- CJIHf6ILNUiBim1ma2HJGjP/5OSphB2L/JhnU6vBrP5d5demD0rhjkz9ZSrEYRWCmwT+
- Doz3gVIDNoudJAoST688PUDVzzYbiXZSGrO/V++AN3pbCpHboQqq0frqeg51+zgxYJr/
- 4qNP01Z3veV3gXLBgnvPeqhXRNQAycf/RZzkvorY4p7ESNcnNzkEZbo/VQVeaofNQ6Kk
- DbLav5esdipd2Zpo2q4+CR4BrP9Hx4r3t9NA0tJQ4KvzklVr+Lsqvqt48vMLMc5UYsiS
- 37Wg==
-X-Gm-Message-State: AOAM530rK6kh7r5CmYiGJ5WpEalfnrigWEst0HiGYJRZ88mFMqNfGgNr
- xQG6qKs/pQSO8qevuaaULuRYxGHoisE0yOw1FH0xiRPcgcDSiZhKtQiMMCs8wv81QV7sTY1roUS
- ivoaVD9Iz7FjT7TTGnDy6kCM7ScqlnN8=
-X-Received: by 2002:a67:ce0b:: with SMTP id s11mr1114143vsl.38.1641857637996; 
- Mon, 10 Jan 2022 15:33:57 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz1cx1/KbH2gLatuOKeWbdWtWetF8RIGEUxMLsHn+OytiYQ38oFlxSby0VlYTZ+CwNbIrXSWkUFRIPZhwVi7p0=
-X-Received: by 2002:a67:ce0b:: with SMTP id s11mr1114133vsl.38.1641857637725; 
- Mon, 10 Jan 2022 15:33:57 -0800 (PST)
+ bh=E9QwF6qfbbBsLwk0HIc1LhZmmT0WD4pHRqAeINZ/i8Q=;
+ b=3zzkp9ju0Byrd68pMNLkAtt9vXCej32GXq5eKHJi4kSu/gDLCMK4eml1krVdCeHSkO
+ Z7ToDSje07+eJpPTMTVy1I2fLz78oDAfBlJMfo03P3ynEPPI1NHu7HGD4MVZ+p1mZFGw
+ R7ouo16WOS6NWW7I8Q/9ogzR51PH0JMc8vcP45DjftQhW+eLog8732ioRtNnmILxHh4e
+ M0mf5mjjARkiOrwnK84mO4fy/qr7cAvOBuUNYf3zw+m9sLSb2jsOtAFJ7+z4c+NuReCc
+ Vo1F2zvopy3JlR0lNlRb7dMD2Sp52bkVhhQTA42u5+I1OukisKnx2zoY7vt3nbAJ52dV
+ k0uQ==
+X-Gm-Message-State: AOAM532atkDuyy+qPBtNYE1M+/M/vmeL7ObpsFLa05CbMZYRuedgGARK
+ +I7NFJNwLcq/rPdenChjssGdA75uSob95wIO0MU=
+X-Google-Smtp-Source: ABdhPJx8xGI8yzoRmTjSqW1KfvFV4tyMFckEePCJm0jc9I5pVLgcl0vg9ZTbhMlYk7Q0E/q65AB4BTyV7XQhx2e9I8Q=
+X-Received: by 2002:a5d:8f88:: with SMTP id l8mr1026913iol.91.1641860895091;
+ Mon, 10 Jan 2022 16:28:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20220110232910.1923864-1-jsnow@redhat.com>
-In-Reply-To: <20220110232910.1923864-1-jsnow@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Mon, 10 Jan 2022 18:33:47 -0500
-Message-ID: <CAFn=p-ZmD6qda5n2H37pg0ZOR1udLpCK1jpmUYWjGmXGwkt=5w@mail.gmail.com>
-Subject: Re: [PATCH v3 00/31] Python: delete synchronous qemu.qmp package
-To: qemu-devel <qemu-devel@nongnu.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000044cdd005d542c51f"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220110013831.1594-1-jiangyifei@huawei.com>
+ <20220110013831.1594-7-jiangyifei@huawei.com>
+In-Reply-To: <20220110013831.1594-7-jiangyifei@huawei.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 11 Jan 2022 10:27:48 +1000
+Message-ID: <CAKmqyKPNLSiLP_FGgod=1fa=kUnnkagYBOQD0Bx5O=96AAkhmQ@mail.gmail.com>
+Subject: Re: [PATCH v4 06/12] target/riscv: Support start kernel directly by
+ KVM
+To: Yifei Jiang <jiangyifei@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d33
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,359 +80,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Wainer Moschetta <wainersm@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Mingwang Li <limingwang@huawei.com>, "open list:Overall" <kvm@vger.kernel.org>,
+ libvir-list@redhat.com, Anup Patel <anup@brainfault.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, wanbo13@huawei.com,
+ Palmer Dabbelt <palmer@dabbelt.com>, kvm-riscv@lists.infradead.org,
+ wanghaibin.wang@huawei.com, Alistair Francis <Alistair.Francis@wdc.com>,
+ fanliang@huawei.com, "Wubin \(H\)" <wu.wubin@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000044cdd005d542c51f
-Content-Type: text/plain; charset="UTF-8"
+On Mon, Jan 10, 2022 at 11:52 AM Yifei Jiang via <qemu-devel@nongnu.org> wrote:
+>
+> Get kernel and fdt start address in virt.c, and pass them to KVM
+> when cpu reset. Add kvm_riscv.h to place riscv specific interface.
+>
+> In addition, PLIC is created without M-mode PLIC contexts when KVM
+> is enabled.
+>
+> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
+> Signed-off-by: Mingwang Li <limingwang@huawei.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  hw/intc/sifive_plic.c    | 21 +++++++---
+>  hw/riscv/boot.c          | 16 +++++++-
+>  hw/riscv/virt.c          | 83 ++++++++++++++++++++++++++++------------
+>  include/hw/riscv/boot.h  |  1 +
+>  target/riscv/cpu.c       |  8 ++++
+>  target/riscv/cpu.h       |  3 ++
+>  target/riscv/kvm-stub.c  | 25 ++++++++++++
+>  target/riscv/kvm.c       | 14 +++++++
+>  target/riscv/kvm_riscv.h | 24 ++++++++++++
+>  target/riscv/meson.build |  2 +-
+>  10 files changed, 164 insertions(+), 33 deletions(-)
+>  create mode 100644 target/riscv/kvm-stub.c
+>  create mode 100644 target/riscv/kvm_riscv.h
+>
+> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+> index 877e76877c..58c16881cb 100644
+> --- a/hw/intc/sifive_plic.c
+> +++ b/hw/intc/sifive_plic.c
+> @@ -30,6 +30,7 @@
+>  #include "target/riscv/cpu.h"
+>  #include "migration/vmstate.h"
+>  #include "hw/irq.h"
+> +#include "sysemu/kvm.h"
+>
+>  #define RISCV_DEBUG_PLIC 0
+>
+> @@ -533,6 +534,8 @@ DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
+>  {
+>      DeviceState *dev = qdev_new(TYPE_SIFIVE_PLIC);
+>      int i;
+> +    SiFivePLICState *plic;
+> +    int s_count = 0, m_count = 0;
+>
+>      assert(enable_stride == (enable_stride & -enable_stride));
+>      assert(context_stride == (context_stride & -context_stride));
+> @@ -550,13 +553,19 @@ DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
+>      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>      sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
+>
+> -    for (i = 0; i < num_harts; i++) {
+> -        CPUState *cpu = qemu_get_cpu(hartid_base + i);
+> +    plic = SIFIVE_PLIC(dev);
+> +    for (i = 0; i < plic->num_addrs; i++) {
+> +        CPUState *cpu = qemu_get_cpu(plic->addr_config[i].hartid);
+>
+> -        qdev_connect_gpio_out(dev, i,
+> -                              qdev_get_gpio_in(DEVICE(cpu), IRQ_S_EXT));
+> -        qdev_connect_gpio_out(dev, num_harts + i,
+> -                              qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EXT));
+> +        if (plic->addr_config[i].mode == PLICMode_S) {
+> +            qdev_connect_gpio_out(dev, s_count++,
+> +                                  qdev_get_gpio_in(DEVICE(cpu), IRQ_S_EXT));
+> +        }
+> +
+> +        if (plic->addr_config[i].mode == PLICMode_M) {
+> +            qdev_connect_gpio_out(dev, num_harts + m_count++,
+> +                                  qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EXT));
+> +        }
+>      }
 
-On Mon, Jan 10, 2022 at 6:29 PM John Snow <jsnow@redhat.com> wrote:
+This PLIC change breaks my 5.11.0 buildroot test case on the SiFive U board
 
-> Based-on: <20220110232521.1922962-1-jsnow@redhat.com>
->           (jsnow/python staging branch)
->
+The boot process just hangs at:
 
-Sorry, I goofed. This series accidentally re-includes these patches. You
-can ignore the first four patches, or apply directly on top of
-origin/master. Sorry for the inconvenience.
+[    0.542798] usbcore: registered new interface driver usbhid
+[    0.543021] usbhid: USB HID core driver
+[    0.544584] NET: Registered protocol family 10
+[    4.054768] Segment Routing with IPv6
+[    4.055325] sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver
+[    4.057956] NET: Registered protocol family 17
+[    4.059327] 9pnet: Installing 9P2000 support
+[    4.059787] Key type dns_resolver registered
+[    4.060515] debug_vm_pgtable: [debug_vm_pgtable         ]:
+Validating architecture page table helpers
+[    4.078710] macb 10090000.ethernet eth0: PHY
+[10090000.ethernet-ffffffff:00] driver [Generic PHY] (irq=POLL)
+[    4.079454] macb 10090000.ethernet eth0: configuring for phy/gmii link mode
+[    4.087031] macb 10090000.ethernet eth0: Link is Up - 1Gbps/Full -
+flow control tx
+[    4.094634] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
 
---js
-
-
-> GitLab: https://gitlab.com/jsnow/qemu/-/commits/python-qmp-legacy-switch
-> CI: https://gitlab.com/jsnow/qemu/-/pipelines/445163212
->
-> Hi, this series is part of an effort to publish the qemu.qmp package on
-> PyPI. It is the first of three series to complete this work:
->
-> --> (1) Switch the new Async QMP library in to python/qemu/qmp
->     (2) Fork python/qemu/qmp out into its own repository,
->         with updated GitLab CI/CD targets to build packages.
->     (3) Update qemu.git to install qemu.qmp from PyPI,
->         and then delete python/qemu/qmp.
->
-> This series swaps out qemu.qmp for qemu.aqmp permanently, instead of
-> hiding it behind an environment variable toggle. This leaves us with
-> just one QMP library to worry about. It also implements the rename of
-> "qemu.aqmp" to "qemu.qmp".
->
-> I suspect the most potential disruption to iotest and avocado
-> maintainers, as those two subsystems rely on the QMP features the
-> most. Would appreciate at least an ACK from each of those camps if
-> you're willing to give benefit-of-the-doubt on the actual Python code.
->
-> V3:
->  - Rebased on top of jsnow/python (For GitLab CI fixes)
->  - Added a new patch 001 to fix a typo Vladimir found.
->  - Tiny change in 006 due to the new patch 001
->  - Reworded subject of patch 007
->  - Changed import statement in patch 013 (Vladimir)
->  - Rebase-related changes in patch 021
->  - Removed 'aqmp' from internal variable names in 026
->  - Added new patch to rename aqmp-tui to qmp-tui in 027
->
-> V2:
->  - Integrate the renaming of qemu.aqmp to qemu.qmp in this series
->  - Minor bits and pieces.
->
-> John Snow (30):
->   python/aqmp: use absolute import statement
->   Python/aqmp: fix type definitions for mypy 0.920
->   python: update type hints for mypy 0.930
->   python/aqmp: fix docstring typo
->   python/aqmp: add __del__ method to legacy interface
->   python/aqmp: handle asyncio.TimeoutError on execute()
->   python/aqmp: copy type definitions from qmp
->   python/aqmp: add SocketAddrT to package root
->   python/aqmp: rename AQMPError to QMPError
->   python/qemu-ga-client: don't use deprecated CLI syntax in usage
->     comment
->   python/qmp: switch qemu-ga-client to AQMP
->   python/qmp: switch qom tools to AQMP
->   python/qmp: switch qmp-shell to AQMP
->   python: move qmp utilities to python/qemu/utils
->   python: move qmp-shell under the AQMP package
->   python/machine: permanently switch to AQMP
->   scripts/cpu-x86-uarch-abi: fix CLI parsing
->   scripts/cpu-x86-uarch-abi: switch to AQMP
->   scripts/render-block-graph: switch to AQMP
->   scripts/bench-block-job: switch to AQMP
->   iotests/mirror-top-perms: switch to AQMP
->   iotests: switch to AQMP
->   python: temporarily silence pylint duplicate-code warnings
->   python/aqmp: take QMPBadPortError and parse_address from qemu.qmp
->   python/aqmp: fully separate from qmp.QEMUMonitorProtocol
->   python/aqmp: copy qmp docstrings to qemu.aqmp.legacy
->   python: remove the old QMP package
->   python: re-enable pylint duplicate-code warnings
->   python: rename qemu.aqmp to qemu.qmp
->   python: rename 'aqmp-tui' to 'qmp-tui'
->
-> Stefan Weil (1):
->   simplebench: Fix Python syntax error (reported by LGTM)
->
->  python/qemu/qmp/README.rst                    |   9 -
->  python/qemu/aqmp/__init__.py                  |  51 --
->  python/qemu/aqmp/legacy.py                    | 138 ------
->  python/qemu/aqmp/py.typed                     |   0
->  python/qemu/machine/machine.py                |  18 +-
->  python/qemu/machine/qtest.py                  |   2 +-
->  python/qemu/qmp/__init__.py                   | 441 ++----------------
->  python/qemu/{aqmp => qmp}/error.py            |  12 +-
->  python/qemu/{aqmp => qmp}/events.py           |   6 +-
->  python/qemu/qmp/legacy.py                     | 319 +++++++++++++
->  python/qemu/{aqmp => qmp}/message.py          |   0
->  python/qemu/{aqmp => qmp}/models.py           |   0
->  python/qemu/{aqmp => qmp}/protocol.py         |  33 +-
->  python/qemu/{aqmp => qmp}/qmp_client.py       |  32 +-
->  python/qemu/qmp/qmp_shell.py                  |  31 +-
->  .../qemu/{aqmp/aqmp_tui.py => qmp/qmp_tui.py} |  14 +-
->  python/qemu/{aqmp => qmp}/util.py             |   0
->  python/qemu/{qmp => utils}/qemu_ga_client.py  |  24 +-
->  python/qemu/{qmp => utils}/qom.py             |   5 +-
->  python/qemu/{qmp => utils}/qom_common.py      |   9 +-
->  python/qemu/{qmp => utils}/qom_fuse.py        |  11 +-
->  python/setup.cfg                              |  23 +-
->  python/tests/protocol.py                      |  14 +-
->  scripts/cpu-x86-uarch-abi.py                  |   7 +-
->  scripts/device-crash-test                     |   4 +-
->  scripts/qmp/qemu-ga-client                    |   2 +-
->  scripts/qmp/qom-fuse                          |   2 +-
->  scripts/qmp/qom-get                           |   2 +-
->  scripts/qmp/qom-list                          |   2 +-
->  scripts/qmp/qom-set                           |   2 +-
->  scripts/qmp/qom-tree                          |   2 +-
->  scripts/render_block_graph.py                 |   8 +-
->  scripts/simplebench/bench-example.py          |   2 +-
->  scripts/simplebench/bench_block_job.py        |   5 +-
->  tests/qemu-iotests/iotests.py                 |   2 +-
->  tests/qemu-iotests/tests/mirror-top-perms     |  13 +-
->  36 files changed, 502 insertions(+), 743 deletions(-)
->  delete mode 100644 python/qemu/qmp/README.rst
->  delete mode 100644 python/qemu/aqmp/__init__.py
->  delete mode 100644 python/qemu/aqmp/legacy.py
->  delete mode 100644 python/qemu/aqmp/py.typed
->  rename python/qemu/{aqmp => qmp}/error.py (87%)
->  rename python/qemu/{aqmp => qmp}/events.py (99%)
->  create mode 100644 python/qemu/qmp/legacy.py
->  rename python/qemu/{aqmp => qmp}/message.py (100%)
->  rename python/qemu/{aqmp => qmp}/models.py (100%)
->  rename python/qemu/{aqmp => qmp}/protocol.py (97%)
->  rename python/qemu/{aqmp => qmp}/qmp_client.py (96%)
->  rename python/qemu/{aqmp/aqmp_tui.py => qmp/qmp_tui.py} (98%)
->  rename python/qemu/{aqmp => qmp}/util.py (100%)
->  rename python/qemu/{qmp => utils}/qemu_ga_client.py (94%)
->  rename python/qemu/{qmp => utils}/qom.py (99%)
->  rename python/qemu/{qmp => utils}/qom_common.py (95%)
->  rename python/qemu/{qmp => utils}/qom_fuse.py (97%)
->
-> --
-> 2.31.1
->
->
->
-
---00000000000044cdd005d542c51f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 10, 2022 at 6:29 PM John =
-Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Based-on: &lt;=
-<a href=3D"mailto:20220110232521.1922962-1-jsnow@redhat.com" target=3D"_bla=
-nk">20220110232521.1922962-1-jsnow@redhat.com</a>&gt;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (jsnow/python staging branch)<br></block=
-quote><div><br></div><div>Sorry, I goofed. This series accidentally re-incl=
-udes these patches. You can ignore the first four patches, or apply directl=
-y on top of origin/master. Sorry for the inconvenience.</div><div><br></div=
-><div>--js<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">
-GitLab: <a href=3D"https://gitlab.com/jsnow/qemu/-/commits/python-qmp-legac=
-y-switch" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/jsnow/qem=
-u/-/commits/python-qmp-legacy-switch</a><br>
-CI: <a href=3D"https://gitlab.com/jsnow/qemu/-/pipelines/445163212" rel=3D"=
-noreferrer" target=3D"_blank">https://gitlab.com/jsnow/qemu/-/pipelines/445=
-163212</a><br>
-<br>
-Hi, this series is part of an effort to publish the qemu.qmp package on<br>
-PyPI. It is the first of three series to complete this work:<br>
-<br>
---&gt; (1) Switch the new Async QMP library in to python/qemu/qmp<br>
-=C2=A0 =C2=A0 (2) Fork python/qemu/qmp out into its own repository,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 with updated GitLab CI/CD targets to build pack=
-ages.<br>
-=C2=A0 =C2=A0 (3) Update qemu.git to install qemu.qmp from PyPI,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 and then delete python/qemu/qmp.<br>
-<br>
-This series swaps out qemu.qmp for qemu.aqmp permanently, instead of<br>
-hiding it behind an environment variable toggle. This leaves us with<br>
-just one QMP library to worry about. It also implements the rename of<br>
-&quot;qemu.aqmp&quot; to &quot;qemu.qmp&quot;.<br>
-<br>
-I suspect the most potential disruption to iotest and avocado<br>
-maintainers, as those two subsystems rely on the QMP features the<br>
-most. Would appreciate at least an ACK from each of those camps if<br>
-you&#39;re willing to give benefit-of-the-doubt on the actual Python code.<=
-br>
-<br>
-V3:<br>
-=C2=A0- Rebased on top of jsnow/python (For GitLab CI fixes)<br>
-=C2=A0- Added a new patch 001 to fix a typo Vladimir found.<br>
-=C2=A0- Tiny change in 006 due to the new patch 001<br>
-=C2=A0- Reworded subject of patch 007<br>
-=C2=A0- Changed import statement in patch 013 (Vladimir)<br>
-=C2=A0- Rebase-related changes in patch 021<br>
-=C2=A0- Removed &#39;aqmp&#39; from internal variable names in 026<br>
-=C2=A0- Added new patch to rename aqmp-tui to qmp-tui in 027<br>
-<br>
-V2:<br>
-=C2=A0- Integrate the renaming of qemu.aqmp to qemu.qmp in this series<br>
-=C2=A0- Minor bits and pieces.<br>
-<br>
-John Snow (30):<br>
-=C2=A0 python/aqmp: use absolute import statement<br>
-=C2=A0 Python/aqmp: fix type definitions for mypy 0.920<br>
-=C2=A0 python: update type hints for mypy 0.930<br>
-=C2=A0 python/aqmp: fix docstring typo<br>
-=C2=A0 python/aqmp: add __del__ method to legacy interface<br>
-=C2=A0 python/aqmp: handle asyncio.TimeoutError on execute()<br>
-=C2=A0 python/aqmp: copy type definitions from qmp<br>
-=C2=A0 python/aqmp: add SocketAddrT to package root<br>
-=C2=A0 python/aqmp: rename AQMPError to QMPError<br>
-=C2=A0 python/qemu-ga-client: don&#39;t use deprecated CLI syntax in usage<=
-br>
-=C2=A0 =C2=A0 comment<br>
-=C2=A0 python/qmp: switch qemu-ga-client to AQMP<br>
-=C2=A0 python/qmp: switch qom tools to AQMP<br>
-=C2=A0 python/qmp: switch qmp-shell to AQMP<br>
-=C2=A0 python: move qmp utilities to python/qemu/utils<br>
-=C2=A0 python: move qmp-shell under the AQMP package<br>
-=C2=A0 python/machine: permanently switch to AQMP<br>
-=C2=A0 scripts/cpu-x86-uarch-abi: fix CLI parsing<br>
-=C2=A0 scripts/cpu-x86-uarch-abi: switch to AQMP<br>
-=C2=A0 scripts/render-block-graph: switch to AQMP<br>
-=C2=A0 scripts/bench-block-job: switch to AQMP<br>
-=C2=A0 iotests/mirror-top-perms: switch to AQMP<br>
-=C2=A0 iotests: switch to AQMP<br>
-=C2=A0 python: temporarily silence pylint duplicate-code warnings<br>
-=C2=A0 python/aqmp: take QMPBadPortError and parse_address from qemu.qmp<br=
->
-=C2=A0 python/aqmp: fully separate from qmp.QEMUMonitorProtocol<br>
-=C2=A0 python/aqmp: copy qmp docstrings to qemu.aqmp.legacy<br>
-=C2=A0 python: remove the old QMP package<br>
-=C2=A0 python: re-enable pylint duplicate-code warnings<br>
-=C2=A0 python: rename qemu.aqmp to qemu.qmp<br>
-=C2=A0 python: rename &#39;aqmp-tui&#39; to &#39;qmp-tui&#39;<br>
-<br>
-Stefan Weil (1):<br>
-=C2=A0 simplebench: Fix Python syntax error (reported by LGTM)<br>
-<br>
-=C2=A0python/qemu/qmp/README.rst=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A09 -<br>
-=C2=A0python/qemu/aqmp/__init__.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 |=C2=A0 51 --<br>
-=C2=A0python/qemu/aqmp/legacy.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 138 ------<br>
-=C2=A0python/qemu/aqmp/py.typed=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A00<br>
-=C2=A0python/qemu/machine/machine.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 18 +-<br>
-=C2=A0python/qemu/machine/qtest.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
-=C2=A0python/qemu/qmp/__init__.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0| 441 ++----------------<br>
-=C2=A0python/qemu/{aqmp =3D&gt; qmp}/error.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 12 +-<br>
-=C2=A0python/qemu/{aqmp =3D&gt; qmp}/events.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 =C2=A06 +-<br>
-=C2=A0python/qemu/qmp/legacy.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 319 +++++++++++++<br>
-=C2=A0python/qemu/{aqmp =3D&gt; qmp}/message.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 =C2=A00<br>
-=C2=A0python/qemu/{aqmp =3D&gt; qmp}/models.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 =C2=A00<br>
-=C2=A0python/qemu/{aqmp =3D&gt; qmp}/protocol.py=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0|=C2=A0 33 +-<br>
-=C2=A0python/qemu/{aqmp =3D&gt; qmp}/qmp_client.py=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 32 +-<br>
-=C2=A0python/qemu/qmp/qmp_shell.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 |=C2=A0 31 +-<br>
-=C2=A0.../qemu/{aqmp/aqmp_tui.py =3D&gt; qmp/qmp_tui.py} |=C2=A0 14 +-<br>
-=C2=A0python/qemu/{aqmp =3D&gt; qmp}/util.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A00<br>
-=C2=A0python/qemu/{qmp =3D&gt; utils}/qemu_ga_client.py=C2=A0 |=C2=A0 24 +-=
-<br>
-=C2=A0python/qemu/{qmp =3D&gt; utils}/qom.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A05 +-<br>
-=C2=A0python/qemu/{qmp =3D&gt; utils}/qom_common.py=C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 =C2=A09 +-<br>
-=C2=A0python/qemu/{qmp =3D&gt; utils}/qom_fuse.py=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 11 +-<br>
-=C2=A0python/setup.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 23 +-<br>
-=C2=A0python/tests/protocol.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 14 +-<br>
-=C2=A0scripts/cpu-x86-uarch-abi.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A07 +-<br>
-=C2=A0scripts/device-crash-test=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A04 +-<br>
-=C2=A0scripts/qmp/qemu-ga-client=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
-=C2=A0scripts/qmp/qom-fuse=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
-=C2=A0scripts/qmp/qom-get=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
-=C2=A0scripts/qmp/qom-list=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
-=C2=A0scripts/qmp/qom-set=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
-=C2=A0scripts/qmp/qom-tree=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
-=C2=A0scripts/render_block_graph.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A08 +-<br>
-=C2=A0scripts/simplebench/bench-example.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 =C2=A02 +-<br>
-=C2=A0scripts/simplebench/bench_block_job.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 =C2=A05 +-<br>
-=C2=A0tests/qemu-iotests/iotests.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
-=C2=A0tests/qemu-iotests/tests/mirror-top-perms=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
-13 +-<br>
-=C2=A036 files changed, 502 insertions(+), 743 deletions(-)<br>
-=C2=A0delete mode 100644 python/qemu/qmp/README.rst<br>
-=C2=A0delete mode 100644 python/qemu/aqmp/__init__.py<br>
-=C2=A0delete mode 100644 python/qemu/aqmp/legacy.py<br>
-=C2=A0delete mode 100644 python/qemu/aqmp/py.typed<br>
-=C2=A0rename python/qemu/{aqmp =3D&gt; qmp}/error.py (87%)<br>
-=C2=A0rename python/qemu/{aqmp =3D&gt; qmp}/events.py (99%)<br>
-=C2=A0create mode 100644 python/qemu/qmp/legacy.py<br>
-=C2=A0rename python/qemu/{aqmp =3D&gt; qmp}/message.py (100%)<br>
-=C2=A0rename python/qemu/{aqmp =3D&gt; qmp}/models.py (100%)<br>
-=C2=A0rename python/qemu/{aqmp =3D&gt; qmp}/protocol.py (97%)<br>
-=C2=A0rename python/qemu/{aqmp =3D&gt; qmp}/qmp_client.py (96%)<br>
-=C2=A0rename python/qemu/{aqmp/aqmp_tui.py =3D&gt; qmp/qmp_tui.py} (98%)<br=
->
-=C2=A0rename python/qemu/{aqmp =3D&gt; qmp}/util.py (100%)<br>
-=C2=A0rename python/qemu/{qmp =3D&gt; utils}/qemu_ga_client.py (94%)<br>
-=C2=A0rename python/qemu/{qmp =3D&gt; utils}/qom.py (99%)<br>
-=C2=A0rename python/qemu/{qmp =3D&gt; utils}/qom_common.py (95%)<br>
-=C2=A0rename python/qemu/{qmp =3D&gt; utils}/qom_fuse.py (97%)<br>
-<br>
--- <br>
-2.31.1<br>
-<br>
-<br>
-</blockquote></div></div>
-
---00000000000044cdd005d542c51f--
-
+Alistair
 
