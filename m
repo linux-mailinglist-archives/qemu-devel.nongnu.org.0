@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A45848B7EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 21:14:06 +0100 (CET)
-Received: from localhost ([::1]:37780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA0B548B7DC
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 21:10:13 +0100 (CET)
+Received: from localhost ([::1]:56528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7NWv-0008FH-Gy
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 15:14:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44660)
+	id 1n7NTA-0001fd-I3
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 15:10:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n7NCb-00082I-88
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n7NCa-000821-SW
  for qemu-devel@nongnu.org; Tue, 11 Jan 2022 14:53:05 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:38127)
+Received: from mout.kundenserver.de ([212.227.17.10]:49619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n7NCZ-0008HD-Fb
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n7NCZ-0008HL-57
  for qemu-devel@nongnu.org; Tue, 11 Jan 2022 14:53:04 -0500
 Received: from quad ([82.142.23.158]) by mrelayeu.kundenserver.de (mreue109
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MxmBc-1m9FnG1WtK-00zJDs; Tue, 11
- Jan 2022 20:53:00 +0100
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MIMXC-1nAezY3XS0-00EKcM; Tue, 11
+ Jan 2022 20:53:01 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/30] linux-user/sparc: Use force_sig_fault
-Date: Tue, 11 Jan 2022 20:52:40 +0100
-Message-Id: <20220111195247.1737641-24-laurent@vivier.eu>
+Subject: [PULL 24/30] linux-user/xtensa: Use force_sig_fault
+Date: Tue, 11 Jan 2022 20:52:41 +0100
+Message-Id: <20220111195247.1737641-25-laurent@vivier.eu>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220111195247.1737641-1-laurent@vivier.eu>
 References: <20220111195247.1737641-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ygX5BjSRQiIlCvBEMpI8fe/3afRBof4vum2DYpje31DUOmHiwlK
- EnPSyl7skrAg38WiVq2BzK0naoMffllYRgOefjMJygpiJZ26wKOzSe8sLHjv4nUUDcVz+qe
- Dszj6neIBbiwEeVQoeOtrNWU+exi0iVCnvdyUKB64nvFDmnBfSxloOCSMrR+8m5hiDCJXIu
- 0JIcoROe+ljMO262nzaSg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:oDZ88V+z/Dc=:Jbgr/6xVwAklUeG9tGlvCY
- nG/ukMYVSvJx9Ze2/hXMFamjJfFeaWaSFYDnPn0HzoxqUWjSTcXh+HWlOnAO/5GJXL4m4lul5
- /oLxTs8L0424ocA4hAvBCntafgRV2FDau4lWyg2nJkqY7FgG3/Qbu7C+Wi41gE1J1kDchwUyU
- HE8qnVrDsGz6eh3YveQ68T+/zC1UveiV+eZPYwnZ4fo06//i1wLp4bQgUEOEjWshATPuEWL61
- BO5Ggooq5B3j8bBi7AzCq+C5PCjtL5In/n51Z0t01STU52mlaxCgSrhZ/hrw5BlBEdXWnoQZ3
- tTz0F/0KnShUn0vuighjG0T9tIZLr5F8IcJ1Y83v9CS9+zc4yPaxbmFrWy6FDvyCm5cZui92x
- 4X8YBpzv//jqTWbej+0ixbhbbv//arGze8pU0hyK8N+bLZqWTEoCi48bu+j3Z9wn2x6CrQFKv
- O7kg/y2RDJ4FINADSpXbx+cmY3j42Nj+oPiFShsZBPRSlRATxL/iUGpRkxtt+NxOFMNDXCJCR
- C+RRpUIpU0tJGKq5TxrApvT9I35A56LawMI73eODuL2Mz4k8p6qYNwe8SvXrWs8lj74ymkq/T
- qz0UkBdMJHHC4biGClp4hzs6+Oao+8GWxDPEtZ2WcCXKQ/6Mz3EtYSZsO+emFI8Q3DgAhMhqy
- JzY/wmkmL9c9TMzesrjRuqHawyK272Fndi5ykrxmCyDdCgG7zovBftkB5lzscEbCZHxo=
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:eYEeRwehWZjj3fsdJIxfyy9hMcsfYP9gy/rl2O+b8nLVIY3KZ8K
+ jSNfbwIkbV2tiou3iincqt7ZIZO1al17udYJeUsJ5ma5dgh/o1wTAHIZCDoD/aDcOX4pA1v
+ 1Zi8kQz+sHrnagWbf5Kpx0hl5W/QlbN+nh8cT6q/fZ3fm+TNtim67PIUTI8YbV6hL15hsZ4
+ 2yM5Db40tcJRCSl/Oq+Bg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Ezd9my7NH+w=:sgqTWBo2c4hxbEhfTY/24Z
+ cYGeUYAgfIWyeqdqwGqjmvDzxEoD6r14JyByU6vfc5rkZblYSZj+IvucMhiyLE/GGhF0IVwQj
+ 4vURmasz0KYguG1ZLi+/2iUxnkrKfU3fyLfTOrn+ZybeBG4826DP4e5BMlcn8zsZ8dAVUHyta
+ 1LWgIv364DAh8gmi5Vjxx9U/XEWbug965eViPguBZhW0f/ZnfGQJn/3LNV5PZYk3lEb/HCnok
+ uYH7621wm3xTUysQnsu/hTph3KqhzsOVg1H6yW3wx16WeiCfdZdlsU2Cf/BgTaEzqgi2QmqDw
+ wJlHAQGdetRfC/FHzG0L8BueV3AaOrOjLeO3OkguNUeLm0BB/3UDZZ8RmtfpXxDuzFRD8cBJt
+ ah1mnk9wcBdfi9RwWCyc53gPmA4hUVpna4Xc4Md8GGHPCVgFRnEkexHsb+pwTAz5CV9fGbdRK
+ 2hfLsdlcnpkuqMlIN/FxgIDIIdJYuhyTrWOaJ3k5aBubsoN09bswJ9aqUMurUn0AETYondxUF
+ J1Dai5YtNboosgTrVOFq4jwvUq11m3HR0xggh2pcme9jtOpncOFRF/QpiygAx3kPu246ucq/X
+ /FyxmkN/PSY+qm3/3XLQCxtHiNNW/Gv6AeeGoFrqyhzwL5ygGMPLyPM54nBYj3Rz42TxLOJls
+ hj9mdhq+KKMfcuJknszjg8cd10XFn0BfUhOz7iIlrChsSw1e1BwOJlwng7Pkjkn3c16g=
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,46 +77,71 @@ and calling queue_signal. Fill in the missing PC for SIGTRAP.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220107213243.212806-24-richard.henderson@linaro.org>
+Message-Id: <20220107213243.212806-25-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/sparc/cpu_loop.c | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+ linux-user/xtensa/cpu_loop.c | 26 +++++++++-----------------
+ 1 file changed, 9 insertions(+), 17 deletions(-)
 
-diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
-index 8765ab60205c..baf3d9ae011f 100644
---- a/linux-user/sparc/cpu_loop.c
-+++ b/linux-user/sparc/cpu_loop.c
-@@ -155,7 +155,6 @@ void cpu_loop (CPUSPARCState *env)
+diff --git a/linux-user/xtensa/cpu_loop.c b/linux-user/xtensa/cpu_loop.c
+index 6bc6d6dee6c4..d51ce053926d 100644
+--- a/linux-user/xtensa/cpu_loop.c
++++ b/linux-user/xtensa/cpu_loop.c
+@@ -126,7 +126,6 @@ static void xtensa_underflow12(CPUXtensaState *env)
+ void cpu_loop(CPUXtensaState *env)
+ {
      CPUState *cs = env_cpu(env);
-     int trapnr;
-     abi_long ret;
 -    target_siginfo_t info;
+     abi_ulong ret;
+     int trapnr;
  
-     while (1) {
-         cpu_exec_start(cs);
-@@ -241,19 +240,10 @@ void cpu_loop (CPUSPARCState *env)
-             /* just indicate that signals should be handled asap */
-             break;
-         case TT_ILL_INSN:
--            {
+@@ -163,14 +162,12 @@ void cpu_loop(CPUXtensaState *env)
+         case EXC_USER:
+             switch (env->sregs[EXCCAUSE]) {
+             case ILLEGAL_INSTRUCTION_CAUSE:
++                force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPC,
++                                env->sregs[EPC1]);
++                break;
+             case PRIVILEGED_CAUSE:
 -                info.si_signo = TARGET_SIGILL;
 -                info.si_errno = 0;
--                info.si_code = TARGET_ILL_ILLOPC;
--                info._sifields._sigfault._addr = env->pc;
+-                info.si_code =
+-                    env->sregs[EXCCAUSE] == ILLEGAL_INSTRUCTION_CAUSE ?
+-                    TARGET_ILL_ILLOPC : TARGET_ILL_PRVOPC;
+-                info._sifields._sigfault._addr = env->sregs[EPC1];
 -                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
--            }
-+            force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPC, env->pc);
++                force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVOPC,
++                                env->sregs[EPC1]);
+                 break;
+ 
+             case SYSCALL_CAUSE:
+@@ -219,11 +216,8 @@ void cpu_loop(CPUXtensaState *env)
+                 break;
+ 
+             case INTEGER_DIVIDE_BY_ZERO_CAUSE:
+-                info.si_signo = TARGET_SIGFPE;
+-                info.si_errno = 0;
+-                info.si_code = TARGET_FPE_INTDIV;
+-                info._sifields._sigfault._addr = env->sregs[EPC1];
+-                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++                force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTDIV,
++                                env->sregs[EPC1]);
+                 break;
+ 
+             default:
+@@ -232,10 +226,8 @@ void cpu_loop(CPUXtensaState *env)
+             }
              break;
          case EXCP_DEBUG:
 -            info.si_signo = TARGET_SIGTRAP;
 -            info.si_errno = 0;
 -            info.si_code = TARGET_TRAP_BRKPT;
 -            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->pc);
++            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT,
++                            env->sregs[EPC1]);
              break;
-         case EXCP_ATOMIC:
-             cpu_exec_step_atomic(cs);
+         case EXC_DEBUG:
+         default:
 -- 
 2.33.1
 
