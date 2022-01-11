@@ -2,96 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AADB848AE5C
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 14:23:32 +0100 (CET)
-Received: from localhost ([::1]:40284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5893048AE6C
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 14:28:17 +0100 (CET)
+Received: from localhost ([::1]:49114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7H7b-0003bI-QU
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 08:23:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49368)
+	id 1n7HCC-0001q7-4x
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 08:28:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7Gg2-0004V0-Lc
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:55:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26388)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7Gfx-0004HQ-MB
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:55:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641905694;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=k2q6h+8nCBB+6jnQJEWEin8nSobDQdlUVBQAG/QcwlI=;
- b=Ae8JCXE/OVivgy6uLunUsMpIcGDWJM35holp5w1ztjkSD4L6NwtVP+lREdAW/sRECTK+rV
- jUlmDhKv4j4zbi50tPj+h365kOL7iW2DLUb05bm+xt30wCqn/kx0YqrtgMW1duGd/Ervms
- MFTx7ZCe0HS/q02tRQ+tdf1J/mTDJwg=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-459-9ysswLDzPZKQfBH3zcuLaw-1; Tue, 11 Jan 2022 07:54:52 -0500
-X-MC-Unique: 9ysswLDzPZKQfBH3zcuLaw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- z9-20020a05640240c900b003fea688a17eso2277470edb.10
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 04:54:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta@ionos.com>)
+ id 1n7Ghg-0006pW-GE
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:56:44 -0500
+Received: from [2a00:1450:4864:20::134] (port=44971
+ helo=mail-lf1-x134.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta@ionos.com>)
+ id 1n7Ghd-0004jb-Bx
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:56:44 -0500
+Received: by mail-lf1-x134.google.com with SMTP id o15so2891989lfo.11
+ for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 04:56:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=IwbPFgfm+iJu8MSZKZHgQ/Z3nc8LfbAYbsUaIby8k5I=;
+ b=OkjgSGCf6ypDihJh4UGY1V0SY8w3QbVQ16vBr+GjR0EQ4C+AaH4sr8PrUqonwGo2Lq
+ 8NJme8GITiDNhx9VDVl+Rt3THVhp9s++stsQ4aoN3d1nVf2GsVWWyOPz7dFXECVxjrVe
+ YKixCtoDHq8JnMqyCgcFnxAVSW05qEMguXuJt4++4bukiJKg146X1ldyeSSmiDS6Fe3R
+ tueem5cqs4nhIJAW2xk0MQGZz594vU3y4bRu6U/dtX4I53KukIX1LKR3pSJfc5lslSNP
+ Lws73Wg/a1Gbvp6MpVGx7cPqKYefo8v8VAeB0JvsdGHhveuEOsEjqP4a0bq/EbvEa/c0
+ LFpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=k2q6h+8nCBB+6jnQJEWEin8nSobDQdlUVBQAG/QcwlI=;
- b=5yBOE61YaeEI8H9wsNd3U7SfQYz2DKmazFxqiCjIJmc9E0O/AYarza+X0avxOqsBlQ
- Hb+cuGuLPdt+744Dp2yTN7geKZNxBYnqFFC4G5UQg7DMZGsZ8GNLc6QTE8EqPfVhYWFY
- e7xcsZjqUvc23ZsnE16mkkwszj0iPqHpj+uWxbxsI+/9zOEGk+iEZ/icFKRPc4w2z2Km
- YAKn01IavaYue+EYugoMBstVKK3OE65KzMddLuzsHK7jh2kuIcDn++i+akwVV+c5i7uN
- xvSTfYgbD1/l/ITkWp1V/qKGMJNKbhx+9Clq23PlKLeGLkxmYHp3tZFxMmUtJud0CwMx
- 9SSA==
-X-Gm-Message-State: AOAM531xOvI3toWhWhihgpQg64CLWGECy/K4sU6PTvaLYBzDJDu2wdon
- MaOvJnuI/TX9JpAqTmpHftRP1JDrWr6lM5ZDqP3NycsHCl7Pk0k4UkhVulSyMUKw4xQeKN5XL/X
- vh9NCawgyZjMYqlCCvGUpvbLK+KJ3tql2spWNA5Z72hcyG+ynUqV9rbAXgJX185E=
-X-Received: by 2002:a17:907:2d9e:: with SMTP id
- gt30mr1164862ejc.704.1641905690666; 
- Tue, 11 Jan 2022 04:54:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJylqgzKshEVh7UbNKmzUcbXLTL0+YK0VKiKl/dr6DdJx12DOdMFM7hx6uOrq6JpSTGcCNhT3A==
-X-Received: by 2002:a17:907:2d9e:: with SMTP id
- gt30mr1164826ejc.704.1641905690276; 
- Tue, 11 Jan 2022 04:54:50 -0800 (PST)
-Received: from ?IPV6:2003:cb:c702:6800:150a:bea9:f03e:c4da?
- (p200300cbc7026800150abea9f03ec4da.dip0.t-ipconnect.de.
- [2003:cb:c702:6800:150a:bea9:f03e:c4da])
- by smtp.gmail.com with ESMTPSA id l18sm3572847ejf.7.2022.01.11.04.54.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Jan 2022 04:54:49 -0800 (PST)
-Message-ID: <bcc2a972-d086-5177-8366-a745f1e07a98@redhat.com>
-Date: Tue, 11 Jan 2022 13:54:49 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=IwbPFgfm+iJu8MSZKZHgQ/Z3nc8LfbAYbsUaIby8k5I=;
+ b=z3k9ovY4vK+QrRxeowQVKcZ8rtnKitS6i8qejwEut5YleCuzqi+cIMDPezfZxfq5Zr
+ uLWisLa3W3ssN1QmkpCphbGBLAXHZ9qImM93vJqcsebRLkJKUOFTsXZxLVoPwLTjk4JF
+ fgeXFMNHjJd9MzxAF//tpVUqgjklaPxP2UNv3gnMgqAGUDh0xGunYRUYrAUSMW3Mj04i
+ cb7kE8ZnU5EgAgJ9Y6G0xv4Grtdcrc5do7BahePtdUlG/6BGHBcDb8/H4BNGM44XsGIv
+ wSzm1YjiEMwHd4NY85Eyvuq7WF7ehQsFQiNsi9gn7/J+4qQ1SqiGLUbdPpkPpag++QcH
+ UJTA==
+X-Gm-Message-State: AOAM533TKR6GFxlIazkVDCi0u9P8qzKi7D1hUmsjPq5Uv2o2RgGnniGc
+ d/Q6a9U1DqQQkpU4wdz1W1UkJDFborSxZSluUKzDDg==
+X-Google-Smtp-Source: ABdhPJwHLNNcaquHl3y1tNfEIiwAXB33x9Qax48iw7la50ylYuu/dK3bfbNxyvmMmxAmbTv+98bL06bbupwra4u8BGQ=
+X-Received: by 2002:a05:6512:6d3:: with SMTP id
+ u19mr3607789lff.310.1641905795626; 
+ Tue, 11 Jan 2022 04:56:35 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v1] libvhost-user: Map shared RAM with MAP_NORESERVE to
- support virtio-mem with hugetlb
-To: qemu-devel@nongnu.org
-References: <20220111123939.132659-1-david@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220111123939.132659-1-david@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220111120830.119912-1-david@redhat.com>
+In-Reply-To: <20220111120830.119912-1-david@redhat.com>
+From: Pankaj Gupta <pankaj.gupta@ionos.com>
+Date: Tue, 11 Jan 2022 13:56:24 +0100
+Message-ID: <CALzYo313D++5d3QBee56qspcgDHLqGuu4a+RA99KLtrw7hhGKg@mail.gmail.com>
+Subject: Re: [PATCH v1] util/oslib-posix: Fix missing unlock in the error path
+ of os_mem_prealloc()
+To: David Hildenbrand <david@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::134
+ (failed)
+Received-SPF: permerror client-ip=2a00:1450:4864:20::134;
+ envelope-from=pankaj.gupta@ionos.com; helo=mail-lf1-x134.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,72 +83,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: Michal Privoznik <mprivozn@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11.01.22 13:39, David Hildenbrand wrote:
-> For fd-based shared memory, MAP_NORESERVE is only effective for hugetlb,
-> otherwise it's ignored. Older Linux versions that didn't support
-> reservation of huge pages ignored MAP_NORESERVE completely.
-> 
-> The first client to mmap a hugetlb fd without MAP_NORESERVE will
-> trigger reservation of huge pages for the whole mmapped range. There are
-> two cases to consider:
-> 
-> 1) QEMU mapped RAM without MAP_NORESERVE
-> 
-> We're not dealing with a sparse mapping, huge pages for the whole range
-> have already been reserved by QEMU. An additional mmap() without
-> MAP_NORESERVE won't have any effect on the reservation.
-> 
-> 2) QEMU mapped RAM with MAP_NORESERVE
-> 
-> We're delaing with a sparse mapping, no huge pages should be reserved.
-> Further mappings without MAP_NORESERVE should be avoided.
-> 
-> For 1), it doesn't matter if we set MAP_NORESERVE or not, so we can
-> simply set it. For 2), we'd be overriding QEMUs decision and trigger
-> reservation of huge pages, which might just fail if there are not
-> sufficient huge pages around. We must map with MAP_NORESERVE.
-> 
-> This change is required to support virtio-mem with hugetlb: a
-> virtio-mem device mapped into the guest physical memory corresponds to
-> a sparse memory mapping and QEMU maps this memory with MAP_NORESERVE.
-> Whenever memory in that sparse region will be accessed by the VM, QEMU
-> populates huge pages for the affected range by preallocating memory
-> and handling any preallocation errors gracefully.
-> 
-> So let's map shared RAM with MAP_NORESERVE. As libvhost-user only
-> supports Linux, there shouldn't be anything to take care of in regard of
-> other OS support.
-> 
-> Without this change, libvhost-user will fail mapping the region if there
-> are currently not enough huge pages to perform the reservation:
->  fv_panic: libvhost-user: region mmap error: Cannot allocate memory
-> 
-> Cc: "Marc-André Lureau" <marcandre.lureau@redhat.com>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> We're missing an unlock in case installing the signal handler failed.
+> Fortunately, we barely see this error in real life.
+>
+> Fixes: a960d6642d39 ("util/oslib-posix: Support concurrent os_mem_preallo=
+c() invocation")
+> Fixes: CID 1468941
 > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>
-> Cc: Stefan Hajnoczi <stefanha@redhat.com>
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Pankaj Gupta <pankaj.gupta@ionos.com>
+> Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> Cc: Michal Privoznik <mprivozn@redhat.com>
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
+>  util/oslib-posix.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+> index 9efdc74bba..ac0dbc2adc 100644
+> --- a/util/oslib-posix.c
+> +++ b/util/oslib-posix.c
+> @@ -683,6 +683,7 @@ void os_mem_prealloc(int fd, char *area, size_t memor=
+y, int smp_cpus,
+>
+>          ret =3D sigaction(SIGBUS, &act, &sigbus_oldact);
+>          if (ret) {
+> +            qemu_mutex_unlock(&sigbus_mutex);
+>              error_setg_errno(errp, errno,
+>                  "os_mem_prealloc: failed to install signal handler");
+>              return;
+> --
 
-Note: I was assuming rust vhost-user-backend would need similar care,
-but vm-memory already does the right thing by supplying MAP_NORESERVE:
+Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
 
-https://github.com/rust-vmm/vm-memory/blob/7a5e0696dc4170f590ac9b837e65cc4136b30e38/src/mmap_unix.rs#L264
-
-
--- 
-Thanks,
-
-David / dhildenb
-
+> 2.33.1
+>
 
