@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586B348B7EA
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 21:13:59 +0100 (CET)
-Received: from localhost ([::1]:37068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCD1848B7D6
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 21:06:17 +0100 (CET)
+Received: from localhost ([::1]:48890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7NWo-0007jo-FP
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 15:13:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44656)
+	id 1n7NPM-0004ql-Rm
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 15:06:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n7NCb-000824-1U
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 14:53:05 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:41653)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n7NCS-0007kI-Eo
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 14:52:56 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:46551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n7NCZ-0008HG-5s
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 14:53:04 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n7NCQ-0008Ec-Pk
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 14:52:56 -0500
 Received: from quad ([82.142.23.158]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MEFCF-1nEljF0TFF-00AEXI; Tue, 11
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MFL8J-1n9I572SBl-00Fii4; Tue, 11
  Jan 2022 20:52:52 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/30] linux-user/hppa: Set FPE_CONDTRAP for COND
-Date: Tue, 11 Jan 2022 20:52:25 +0100
-Message-Id: <20220111195247.1737641-9-laurent@vivier.eu>
+Subject: [PULL 09/30] linux-user/i386: Split out maybe_handle_vm86_trap
+Date: Tue, 11 Jan 2022 20:52:26 +0100
+Message-Id: <20220111195247.1737641-10-laurent@vivier.eu>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220111195247.1737641-1-laurent@vivier.eu>
 References: <20220111195247.1737641-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:BmZJDvAlMbr1PxeBCkXpjNQfj2+g4+YW7RS8fi1AdMRnvBIqDew
- NGXh9G2fZso1wocOz/tsWLQjrCX2hChENc6mzitj/qGXGtWQUKrBuVq8jNj4gHj8b/WFKLr
- JNr2jhZSlfjFkJHjBF5cWNZ84R9h2I4YOFrrjhEhpW7Csd9JPPmNINZOYZh6S9oaQy0U80Q
- /el2keqbnncc8AeYfRMzA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HpgoP+USiGs=:fkePWf6KtaqvcFRrkotJNM
- g5cY1tm/sUPU1MHwIagtS4I6/+F92nT3oo4bHdlLc3eCVHuTXSWSSczq2FI+H1g+SDsnOkwbt
- EnGLPLJfy5YFp/DUImbC+t+oqJ1SNxQ4dNawyatCJTERaWy2xZneWOx8ERz89SDWOK/6ERKfG
- QyHZbKIFmM5Y541CJu9jZHNYBQFHsDaPr7kIAhMJiGRe+GGpnhke4yiQEMzqyrOyIbxOGPAJl
- VVbIM6YRFU2609w/naVnX5dP1kMuOjv736Kjl7GA4/utUQNPf6NkW/0naeDtgW5QwmcyMf93Q
- jlUPCgLOR7r+soCXVy2nU3P5RSu8w+iamD7sSukCuSkkHkOwJ6nklzF89rUIpPv62p6yBmxL+
- WVMssS35Eq5vHbHfpU2unFn+qmp8McV1sPY2ZNg2XCa4CzTCiEhOF6J8hGksuchzLChh/eRsG
- EegYcmgVLe0co45dXtyVJbxVZhFFFCR9EzJLttRcMsKKG7BCxSoSyc3fuCjiZnEKY/QClt1Gv
- vzmLC25fZM/KqDB8dI5rrxV4UvSF2G3QL/XHsAmWfylmHEk1pTVmgiY3Vt8UyAkmdYojiWC2A
- DCFiCmSwU+v45yQ0uLbyJtRmDSOFIEj/ZzRYJDl/hGdTfuUSJXHxCPWwd4NA6eKhRoh9zmeSa
- jNNzU06dy5hh2djoWKsgFeNw4vlYkphsr44GnSYD0S8qJjxuR6CUJvPjj6YAUkNVV1HM=
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:R9iHoMnEGfQmuUnWl2KXPZh35KbD0kuSWfvYTHA7h3qakAa/Xt7
+ Hc11LFW87+OiLjqL5ymjxvhTA+YX9Ku/AAMWy5fQxJh3XF84zb54FGtiN1KYekadiYJUNrQ
+ f34jMP9goIrf5cbx51HrVwHh+LgLM+2bX7SyuZjCCojPPES6tBzf5l9Y1vZK8xdt7zKi5oW
+ P2pCwJfBLISENBQ51H1Rg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OLryeiNVols=:aC5Gfh2Jq7AvcU2WWVRFv0
+ Yk+OTUDpGnbzj1aeu8coi7UD4oysA47nV5Uz47hCf6+3mGm3p7/cDCvrjAM0rJzwDnQk0HXwI
+ KLCqDkF5ZTWvlDbtU8T7z2GLGz+bbEzN4Ze5ybDx34KeNr2mOuXrC+v3QAc3IZHnf2DWQyBEz
+ C3EdBm9Ho59my3R3th1kLSvgo4XwfA8DW08CN3ah4QbjXYwi9KuttdwFxs3xhpDNAs2fWf+gU
+ 0BLFlQX1lJ6+dg7UujVtg507nPHjYseSlzH54ywVXd8fBT2oudzZ8NRYpnL1U7x5F5dsRPi3B
+ 2SmqD7rZmbXVwZdvBFBUaJlDUcUh5zKMM2r1MVWd6XMsbKakifrw3hMP16pwO95r9AJGIAjk3
+ OLzEEp7iD1gLXGlB6Aozn9tybIYNsKKToxJ9loNWwP9sZgKUu5kjZxuZ1yEj1XaJIgcWkYbOs
+ cC1edysjLMEnnJ8fB3DCAwylmiKt9tB8a10U6hJxsybPgDBnG05Z/IjHLzckDKwcSzrcSu4Xf
+ DEf4C/dMSbVGx7G82gaRk9HddK4HYPgXmqoh2qRZsyF+cs17Ozk4QyEAfuad9q8bKmUvFfU48
+ NnVlZm7XaSg1G1v+sTuYqylEuUaCwZD4TVbBOzt5Wj3BlfieLFI1N1h+yq5qkQ0bYrWTYOTb9
+ OnWj7pmWtcsQWAncheuB5YimIvg/4T83MZ7u4b3Z+IuS5FYeNSW/S8YBWeM4aSuQXuVc=
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,50 +65,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This si_code was changed in 75abf64287cab, for linux 4.17.
+Reduce the number of ifdefs within cpu_loop().
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220107213243.212806-9-richard.henderson@linaro.org>
+Message-Id: <20220107213243.212806-10-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/hppa/cpu_loop.c | 2 ++
- linux-user/syscall_defs.h  | 1 +
- 2 files changed, 3 insertions(+)
+ linux-user/i386/cpu_loop.c | 31 +++++++++++++++----------------
+ 1 file changed, 15 insertions(+), 16 deletions(-)
 
-diff --git a/linux-user/hppa/cpu_loop.c b/linux-user/hppa/cpu_loop.c
-index a65e1571a0cf..a576d1a249fd 100644
---- a/linux-user/hppa/cpu_loop.c
-+++ b/linux-user/hppa/cpu_loop.c
-@@ -156,6 +156,8 @@ void cpu_loop(CPUHPPAState *env)
-             force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTOVF, env->iaoq_f);
-             break;
-         case EXCP_COND:
-+            force_sig_fault(TARGET_SIGFPE, TARGET_FPE_CONDTRAP, env->iaoq_f);
-+            break;
-         case EXCP_ASSIST:
-             force_sig_fault(TARGET_SIGFPE, 0, env->iaoq_f);
-             break;
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 510a8c1ab585..f23f0a2178f8 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -688,6 +688,7 @@ typedef struct target_siginfo {
- #define TARGET_FPE_FLTINV      (7)  /* floating point invalid operation */
- #define TARGET_FPE_FLTSUB      (8)  /* subscript out of range */
- #define TARGET_FPE_FLTUNK      (14) /* undiagnosed fp exception */
-+#define TARGET_FPE_CONDTRAP    (15) /* trap on condition */
+diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
+index 9aaae93e2f5c..ac0f4e321111 100644
+--- a/linux-user/i386/cpu_loop.c
++++ b/linux-user/i386/cpu_loop.c
+@@ -198,6 +198,17 @@ static void emulate_vsyscall(CPUX86State *env)
+ }
+ #endif
  
- /*
-  * SIGSEGV si_codes
++static bool maybe_handle_vm86_trap(CPUX86State *env, int trapnr)
++{
++#ifndef TARGET_X86_64
++    if (env->eflags & VM_MASK) {
++        handle_vm86_trap(env, trapnr);
++        return true;
++    }
++#endif
++    return false;
++}
++
+ void cpu_loop(CPUX86State *env)
+ {
+     CPUState *cs = env_cpu(env);
+@@ -259,12 +270,9 @@ void cpu_loop(CPUX86State *env)
+             break;
+         case EXCP0D_GPF:
+             /* XXX: potential problem if ABI32 */
+-#ifndef TARGET_X86_64
+-            if (env->eflags & VM_MASK) {
+-                handle_vm86_fault(env);
++            if (maybe_handle_vm86_trap(env, trapnr)) {
+                 break;
+             }
+-#endif
+             gen_signal(env, TARGET_SIGSEGV, TARGET_SI_KERNEL, 0);
+             break;
+         case EXCP0E_PAGE:
+@@ -274,22 +282,16 @@ void cpu_loop(CPUX86State *env)
+                        env->cr[2]);
+             break;
+         case EXCP00_DIVZ:
+-#ifndef TARGET_X86_64
+-            if (env->eflags & VM_MASK) {
+-                handle_vm86_trap(env, trapnr);
++            if (maybe_handle_vm86_trap(env, trapnr)) {
+                 break;
+             }
+-#endif
+             gen_signal(env, TARGET_SIGFPE, TARGET_FPE_INTDIV, env->eip);
+             break;
+         case EXCP01_DB:
+         case EXCP03_INT3:
+-#ifndef TARGET_X86_64
+-            if (env->eflags & VM_MASK) {
+-                handle_vm86_trap(env, trapnr);
++            if (maybe_handle_vm86_trap(env, trapnr)) {
+                 break;
+             }
+-#endif
+             if (trapnr == EXCP01_DB) {
+                 gen_signal(env, TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->eip);
+             } else {
+@@ -298,12 +300,9 @@ void cpu_loop(CPUX86State *env)
+             break;
+         case EXCP04_INTO:
+         case EXCP05_BOUND:
+-#ifndef TARGET_X86_64
+-            if (env->eflags & VM_MASK) {
+-                handle_vm86_trap(env, trapnr);
++            if (maybe_handle_vm86_trap(env, trapnr)) {
+                 break;
+             }
+-#endif
+             gen_signal(env, TARGET_SIGSEGV, TARGET_SI_KERNEL, 0);
+             break;
+         case EXCP06_ILLOP:
 -- 
 2.33.1
 
