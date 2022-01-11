@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1F0048A49C
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 02:00:00 +0100 (CET)
-Received: from localhost ([::1]:45186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7A7448A49B
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 01:59:58 +0100 (CET)
+Received: from localhost ([::1]:45122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n75W3-0002Iw-Lm
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 19:59:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58252)
+	id 1n75W0-0002Gc-UW
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 19:59:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n75SS-0007rt-C1; Mon, 10 Jan 2022 19:56:16 -0500
-Received: from [2607:f8b0:4864:20::936] (port=37456
- helo=mail-ua1-x936.google.com)
+ id 1n75SS-0007t7-Ut; Mon, 10 Jan 2022 19:56:16 -0500
+Received: from [2607:f8b0:4864:20::932] (port=42631
+ helo=mail-ua1-x932.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n75SP-0003q0-Gl; Mon, 10 Jan 2022 19:56:16 -0500
-Received: by mail-ua1-x936.google.com with SMTP id o1so26889615uap.4;
- Mon, 10 Jan 2022 16:56:12 -0800 (PST)
+ id 1n75SR-0003qY-4A; Mon, 10 Jan 2022 19:56:16 -0500
+Received: by mail-ua1-x932.google.com with SMTP id p1so26867856uap.9;
+ Mon, 10 Jan 2022 16:56:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DAbgaHS+X0Kj3siGgaZBTrFM8KGYV+qhIhpAyQ1lR88=;
- b=purF9xYgGPFmn+mBVsCmUvNC204YQz1e75A46Nu3EdT6IdkT9enu+grl9JbZaYGHt8
- TOTAlwH1sHdXG9yjX6JtJ4pxK51mhBUpRJXAchLRp5h6ICK2iwTc9gM77QxdeuhiybNo
- ZYuqgTscvUc+SR7JEFNu9K+pcw1uZTt7U7KtSh/Yt+1d6Ugfl9NyVEorYfxnHp8BKMYw
- mK5bNVD1RGdUrDTlmTzagz924krEdm3zM7Qt+m7wX10e59vp026yW4JgrZxdwUXUgx0u
- IRjyrr5XMtzcBFeMRDi/XxZ01Zqw/nvRhRb0Kp8Kq03MhuBXkI52WEsnc+TX0ZAAX97A
- XDvg==
+ bh=ulWnj7DnciFK5BbmO2nNr3F06z2CczGJN0dmkz0OFbs=;
+ b=e2vAFK/SOxs53ZlCXbpKG0MyQHt58ezCo9PY3iQqzx3JCxWpY4TxTk+Byx+/34OAMj
+ DW8pFr5VXEpgP+YKa9TEY/1XlYBRB6f19RdZPHeM+9NjbJQmqz3mIOoDI8L543yRCgzM
+ QzAE4dDglZcodJKbgT67Tv5qKSE2+8ouovkl3aRtxY1DlWB3eBJvyCbPh2shOdvnTanJ
+ iQrE9c4VGKzOLSPSVL/kVqC5PKedqlWAuAE/PS6sGpElyar/kEQJzvYFFhqKRRb/Wif/
+ HWBqZKxmp2aEJQ1CD7YfUCOXpRE0oqakWWsKyUI2TW1p5IOkV6DhzYXNSqLoK8am2eKZ
+ HXaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DAbgaHS+X0Kj3siGgaZBTrFM8KGYV+qhIhpAyQ1lR88=;
- b=qTWfKCKrQ7eanZsfaCnImXTgvfe0yed21Ed3zaxLahVgBm8ZrBgUxKPQrcYx/AjEhk
- xNXuESdnOl+W3vTUltno/dyL5z5LomnHAg7a5VrWmyMxiC8atfyDTNXXdCYLv6pD0hQB
- /Wzdi+c4PUaIw5wwEy9sowih79rDrDlwTuaq8aaygLycjxUHLM2Ak8cqZP8hMAGwie7a
- vSD6PeBQp26gxbJgt1qgvHOXaeH6hg/g3zLGnEaj1Tsif3wa5d00rkW5C4LV8YRdevLk
- fD0BRjGx8Us6vocbhZyexf0ZGgLkVvi1yCOmgDN3BPwyIGRgFWbFRyxQmWmxoAd8D9yh
- NEBQ==
-X-Gm-Message-State: AOAM530jf1DHO3awnz4gY1ZCIEWar1Ed1/MT+7d0bXO53XYdY8TGqpck
- IgB1FX+hJd47aC/dm6o3KMMk19XnxJNwnxBi
-X-Google-Smtp-Source: ABdhPJyC4jKxT9Z1g5gBOrNDGXjYY1F8NxYqyF31Wn2QvNnzWuCp7f1LE4UVFZmSpX/nfB29QnBrWA==
-X-Received: by 2002:a05:6102:e06:: with SMTP id
- o6mr1243904vst.37.1641862571810; 
- Mon, 10 Jan 2022 16:56:11 -0800 (PST)
+ bh=ulWnj7DnciFK5BbmO2nNr3F06z2CczGJN0dmkz0OFbs=;
+ b=sCEubETxqMhEe6J5HKzpxg0jzfZ5EAafj6GbAt7jEckLzducKdQ/EPN2DfEesV7i/e
+ g5z5uEj0i3r8AMBkT2ADY9HLN9f8omDXJnVSdTDG5A8OKNo0eFXgrpWqekSOIcQyjD4D
+ JWNSxRUYbPb4FMvpr6GEPBY4cK2yYZ0GtpI0Fi1+3+i1qVjGEmoj66w0xcKcksc+l5YV
+ xjpiKHzAdjp6lnTWBeE8Tu2hmxDw+o/HF+q/f/8XPjvjIpdRGqxYoZomKkfJ0hBRfsWv
+ f9cSTvbTUDwwnUiYgilYiMncgYUi+moZhPYVVG7pzIZn45bqpfouStggjU7sx6S1h3px
+ y+/Q==
+X-Gm-Message-State: AOAM530lC6SGDG9Z8JEMoHyADKRV/8QNr/iFLjpflubIjkbfPur8e/TD
+ Sd/u30CTBfk1FC9+EPA4d8iBbibffV4FzyC1
+X-Google-Smtp-Source: ABdhPJzvv19X+lFVN+GnPO65VRgqP7jaTwJJELWVK+jSkwq7spm/3J6BHANJjm+7hItuzJJ4Rlw0zg==
+X-Received: by 2002:a05:6102:3913:: with SMTP id
+ e19mr975655vsu.3.1641862573782; 
+ Mon, 10 Jan 2022 16:56:13 -0800 (PST)
 Received: from rekt.COMFAST ([152.249.109.193])
- by smtp.gmail.com with ESMTPSA id x190sm4645562vkf.56.2022.01.10.16.56.09
+ by smtp.gmail.com with ESMTPSA id x190sm4645562vkf.56.2022.01.10.16.56.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jan 2022 16:56:11 -0800 (PST)
+ Mon, 10 Jan 2022 16:56:13 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/5] ppc/pnv: move PHB4 XSCOM init to phb4_realize()
-Date: Mon, 10 Jan 2022 21:55:55 -0300
-Message-Id: <20220111005558.549685-3-danielhb413@gmail.com>
+Subject: [PATCH v4 3/5] ppc/pnv: turn 'phb' into a pointer in struct
+ PnvPhb4PecStack
+Date: Mon, 10 Jan 2022 21:55:56 -0300
+Message-Id: <20220111005558.549685-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220111005558.549685-1-danielhb413@gmail.com>
 References: <20220111005558.549685-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::936
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::932
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::936;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x936.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::932;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x932.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -90,688 +91,118 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'stack->phb_regs_mr' PHB4 passthrough XSCOM initialization relies on
-'stack->phb' being not NULL. Moving 'stack->phb_regs_mr' region_init()
-and add_subregion() to phb4_realize() time is a natural thing to do
-since it's strictly PHB related.
+At this moment, stack->phb is the plain PnvPHB4 device itself instead of
+a pointer to the device. This will present a problem when adding user
+creatable devices because we can't deal with this struct and the
+realize() callback from the user creatable device.
 
-The remaining XSCOM initialization is also related to 'stack->phb' but
-in a different manner. For instance, 'stack->nest_regs_mr'
-MemoryRegionOps, 'pnv_pec_stk_nest_xscom_ops', uses
-pnv_pec_stk_nest_xscom_write() as a write callback. When trying to write
-the PEC_NEST_STK_BAR_EN reg, pnv_pec_stk_update_map() is called. Inside
-this function, pnv_phb4_update_regions() is called twice. This function
-uses 'stack->phb' to manipulate memory regions of the phb.
+We can't get rid of this attribute, similar to what we did when enabling
+pnv-phb3 user creatable devices, because pnv_phb4_update_regions() needs
+to access stack->phb to do its job. This function is called twice in
+pnv_pec_stk_update_map(), which is one of the nested xscom write
+callbacks (via pnv_pec_stk_nest_xscom_write()). In fact,
+pnv_pec_stk_update_map() code comment is explicit about how the order of
+the unmap/map operations relates with the PHB subregions.
 
-This is not a problem now but, when enabling user creatable phb4s, a
-stack that doesn't have an associated phb (i.e. stack->phb = NULL) it
-will cause a SIGINT during boot in pnv_phb4_update_regions().
+All of this indicates that this code is tied together in a way that we
+either go on a crusade, featuring lots of refactories and redesign and
+considerable pain, to decouple stack and phb mapping, or we allow stack
+update_map operations to access the associated PHB as it is today even
+after introducing pnv-phb4 user devices.
 
-All this can be avoided if all XSCOM init is moved to phb4_realize(),
-when we have certainty about the existence of 'stack->phb'. A lot of
-code was moved from pnv_phb4_pec.c to pnv_phb4.c due to static constant
-and variables being used but the cleaner logic is worth the trouble.
+This patch chooses the latter. Instead of getting rid of stack->phb,
+turn it into a PHB pointer. This will allow us to assign an user created
+PHB to an existing stack later. In this process,
+pnv_pec_stk_instance_init() is removed because stack->phb is being
+initialized in stk_realize() instead.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb4.c     | 304 +++++++++++++++++++++++++++++++++++++
- hw/pci-host/pnv_phb4_pec.c | 292 -----------------------------------
- 2 files changed, 304 insertions(+), 292 deletions(-)
+ hw/pci-host/pnv_phb4.c         |  2 +-
+ hw/pci-host/pnv_phb4_pec.c     | 20 +++++++-------------
+ include/hw/pci-host/pnv_phb4.h |  7 +++++--
+ 3 files changed, 13 insertions(+), 16 deletions(-)
 
 diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index b7b0091f93..1bd74fd932 100644
+index 1bd74fd932..3ffa8f51e9 100644
 --- a/hw/pci-host/pnv_phb4.c
 +++ b/hw/pci-host/pnv_phb4.c
-@@ -29,6 +29,10 @@
-     qemu_log_mask(LOG_GUEST_ERROR, "phb4[%d:%d]: " fmt "\n",            \
-                   (phb)->chip_id, (phb)->phb_id, ## __VA_ARGS__)
+@@ -1728,7 +1728,7 @@ type_init(pnv_phb4_register_types);
  
-+#define phb_pec_error(pec, fmt, ...)                                    \
-+    qemu_log_mask(LOG_GUEST_ERROR, "phb4_pec[%d:%d]: " fmt "\n",        \
-+                  (pec)->chip_id, (pec)->index, ## __VA_ARGS__)
-+
- /*
-  * QEMU version of the GETFIELD/SETFIELD macros
-  *
-@@ -854,6 +858,258 @@ const MemoryRegionOps pnv_phb4_xscom_ops = {
-     .endianness = DEVICE_BIG_ENDIAN,
- };
- 
-+static uint64_t pnv_pec_stk_nest_xscom_read(void *opaque, hwaddr addr,
-+                                            unsigned size)
-+{
-+    PnvPhb4PecStack *stack = PNV_PHB4_PEC_STACK(opaque);
-+    uint32_t reg = addr >> 3;
-+
-+    /* TODO: add list of allowed registers and error out if not */
-+    return stack->nest_regs[reg];
-+}
-+
-+static void pnv_pec_stk_update_map(PnvPhb4PecStack *stack)
-+{
-+    PnvPhb4PecState *pec = stack->pec;
-+    MemoryRegion *sysmem = get_system_memory();
-+    uint64_t bar_en = stack->nest_regs[PEC_NEST_STK_BAR_EN];
-+    uint64_t bar, mask, size;
-+    char name[64];
-+
-+    /*
-+     * NOTE: This will really not work well if those are remapped
-+     * after the PHB has created its sub regions. We could do better
-+     * if we had a way to resize regions but we don't really care
-+     * that much in practice as the stuff below really only happens
-+     * once early during boot
-+     */
-+
-+    /* Handle unmaps */
-+    if (memory_region_is_mapped(&stack->mmbar0) &&
-+        !(bar_en & PEC_NEST_STK_BAR_EN_MMIO0)) {
-+        memory_region_del_subregion(sysmem, &stack->mmbar0);
-+    }
-+    if (memory_region_is_mapped(&stack->mmbar1) &&
-+        !(bar_en & PEC_NEST_STK_BAR_EN_MMIO1)) {
-+        memory_region_del_subregion(sysmem, &stack->mmbar1);
-+    }
-+    if (memory_region_is_mapped(&stack->phbbar) &&
-+        !(bar_en & PEC_NEST_STK_BAR_EN_PHB)) {
-+        memory_region_del_subregion(sysmem, &stack->phbbar);
-+    }
-+    if (memory_region_is_mapped(&stack->intbar) &&
-+        !(bar_en & PEC_NEST_STK_BAR_EN_INT)) {
-+        memory_region_del_subregion(sysmem, &stack->intbar);
-+    }
-+
-+    /* Update PHB */
-+    pnv_phb4_update_regions(stack);
-+
-+    /* Handle maps */
-+    if (!memory_region_is_mapped(&stack->mmbar0) &&
-+        (bar_en & PEC_NEST_STK_BAR_EN_MMIO0)) {
-+        bar = stack->nest_regs[PEC_NEST_STK_MMIO_BAR0] >> 8;
-+        mask = stack->nest_regs[PEC_NEST_STK_MMIO_BAR0_MASK];
-+        size = ((~mask) >> 8) + 1;
-+        snprintf(name, sizeof(name), "pec-%d.%d-stack-%d-mmio0",
-+                 pec->chip_id, pec->index, stack->stack_no);
-+        memory_region_init(&stack->mmbar0, OBJECT(stack), name, size);
-+        memory_region_add_subregion(sysmem, bar, &stack->mmbar0);
-+        stack->mmio0_base = bar;
-+        stack->mmio0_size = size;
-+    }
-+    if (!memory_region_is_mapped(&stack->mmbar1) &&
-+        (bar_en & PEC_NEST_STK_BAR_EN_MMIO1)) {
-+        bar = stack->nest_regs[PEC_NEST_STK_MMIO_BAR1] >> 8;
-+        mask = stack->nest_regs[PEC_NEST_STK_MMIO_BAR1_MASK];
-+        size = ((~mask) >> 8) + 1;
-+        snprintf(name, sizeof(name), "pec-%d.%d-stack-%d-mmio1",
-+                 pec->chip_id, pec->index, stack->stack_no);
-+        memory_region_init(&stack->mmbar1, OBJECT(stack), name, size);
-+        memory_region_add_subregion(sysmem, bar, &stack->mmbar1);
-+        stack->mmio1_base = bar;
-+        stack->mmio1_size = size;
-+    }
-+    if (!memory_region_is_mapped(&stack->phbbar) &&
-+        (bar_en & PEC_NEST_STK_BAR_EN_PHB)) {
-+        bar = stack->nest_regs[PEC_NEST_STK_PHB_REGS_BAR] >> 8;
-+        size = PNV_PHB4_NUM_REGS << 3;
-+        snprintf(name, sizeof(name), "pec-%d.%d-stack-%d-phb",
-+                 pec->chip_id, pec->index, stack->stack_no);
-+        memory_region_init(&stack->phbbar, OBJECT(stack), name, size);
-+        memory_region_add_subregion(sysmem, bar, &stack->phbbar);
-+    }
-+    if (!memory_region_is_mapped(&stack->intbar) &&
-+        (bar_en & PEC_NEST_STK_BAR_EN_INT)) {
-+        bar = stack->nest_regs[PEC_NEST_STK_INT_BAR] >> 8;
-+        size = PNV_PHB4_MAX_INTs << 16;
-+        snprintf(name, sizeof(name), "pec-%d.%d-stack-%d-int",
-+                 stack->pec->chip_id, stack->pec->index, stack->stack_no);
-+        memory_region_init(&stack->intbar, OBJECT(stack), name, size);
-+        memory_region_add_subregion(sysmem, bar, &stack->intbar);
-+    }
-+
-+    /* Update PHB */
-+    pnv_phb4_update_regions(stack);
-+}
-+
-+static void pnv_pec_stk_nest_xscom_write(void *opaque, hwaddr addr,
-+                                         uint64_t val, unsigned size)
-+{
-+    PnvPhb4PecStack *stack = PNV_PHB4_PEC_STACK(opaque);
-+    PnvPhb4PecState *pec = stack->pec;
-+    uint32_t reg = addr >> 3;
-+
-+    switch (reg) {
-+    case PEC_NEST_STK_PCI_NEST_FIR:
-+        stack->nest_regs[PEC_NEST_STK_PCI_NEST_FIR] = val;
-+        break;
-+    case PEC_NEST_STK_PCI_NEST_FIR_CLR:
-+        stack->nest_regs[PEC_NEST_STK_PCI_NEST_FIR] &= val;
-+        break;
-+    case PEC_NEST_STK_PCI_NEST_FIR_SET:
-+        stack->nest_regs[PEC_NEST_STK_PCI_NEST_FIR] |= val;
-+        break;
-+    case PEC_NEST_STK_PCI_NEST_FIR_MSK:
-+        stack->nest_regs[PEC_NEST_STK_PCI_NEST_FIR_MSK] = val;
-+        break;
-+    case PEC_NEST_STK_PCI_NEST_FIR_MSKC:
-+        stack->nest_regs[PEC_NEST_STK_PCI_NEST_FIR_MSK] &= val;
-+        break;
-+    case PEC_NEST_STK_PCI_NEST_FIR_MSKS:
-+        stack->nest_regs[PEC_NEST_STK_PCI_NEST_FIR_MSK] |= val;
-+        break;
-+    case PEC_NEST_STK_PCI_NEST_FIR_ACT0:
-+    case PEC_NEST_STK_PCI_NEST_FIR_ACT1:
-+        stack->nest_regs[reg] = val;
-+        break;
-+    case PEC_NEST_STK_PCI_NEST_FIR_WOF:
-+        stack->nest_regs[reg] = 0;
-+        break;
-+    case PEC_NEST_STK_ERR_REPORT_0:
-+    case PEC_NEST_STK_ERR_REPORT_1:
-+    case PEC_NEST_STK_PBCQ_GNRL_STATUS:
-+        /* Flag error ? */
-+        break;
-+    case PEC_NEST_STK_PBCQ_MODE:
-+        stack->nest_regs[reg] = val & 0xff00000000000000ull;
-+        break;
-+    case PEC_NEST_STK_MMIO_BAR0:
-+    case PEC_NEST_STK_MMIO_BAR0_MASK:
-+    case PEC_NEST_STK_MMIO_BAR1:
-+    case PEC_NEST_STK_MMIO_BAR1_MASK:
-+        if (stack->nest_regs[PEC_NEST_STK_BAR_EN] &
-+            (PEC_NEST_STK_BAR_EN_MMIO0 |
-+             PEC_NEST_STK_BAR_EN_MMIO1)) {
-+            phb_pec_error(pec, "Changing enabled BAR unsupported\n");
-+        }
-+        stack->nest_regs[reg] = val & 0xffffffffff000000ull;
-+        break;
-+    case PEC_NEST_STK_PHB_REGS_BAR:
-+        if (stack->nest_regs[PEC_NEST_STK_BAR_EN] & PEC_NEST_STK_BAR_EN_PHB) {
-+            phb_pec_error(pec, "Changing enabled BAR unsupported\n");
-+        }
-+        stack->nest_regs[reg] = val & 0xffffffffffc00000ull;
-+        break;
-+    case PEC_NEST_STK_INT_BAR:
-+        if (stack->nest_regs[PEC_NEST_STK_BAR_EN] & PEC_NEST_STK_BAR_EN_INT) {
-+            phb_pec_error(pec, "Changing enabled BAR unsupported\n");
-+        }
-+        stack->nest_regs[reg] = val & 0xfffffff000000000ull;
-+        break;
-+    case PEC_NEST_STK_BAR_EN:
-+        stack->nest_regs[reg] = val & 0xf000000000000000ull;
-+        pnv_pec_stk_update_map(stack);
-+        break;
-+    case PEC_NEST_STK_DATA_FRZ_TYPE:
-+    case PEC_NEST_STK_PBCQ_TUN_BAR:
-+        /* Not used for now */
-+        stack->nest_regs[reg] = val;
-+        break;
-+    default:
-+        qemu_log_mask(LOG_UNIMP, "phb4_pec: nest_xscom_write 0x%"HWADDR_PRIx
-+                      "=%"PRIx64"\n", addr, val);
-+    }
-+}
-+
-+static const MemoryRegionOps pnv_pec_stk_nest_xscom_ops = {
-+    .read = pnv_pec_stk_nest_xscom_read,
-+    .write = pnv_pec_stk_nest_xscom_write,
-+    .valid.min_access_size = 8,
-+    .valid.max_access_size = 8,
-+    .impl.min_access_size = 8,
-+    .impl.max_access_size = 8,
-+    .endianness = DEVICE_BIG_ENDIAN,
-+};
-+
-+static uint64_t pnv_pec_stk_pci_xscom_read(void *opaque, hwaddr addr,
-+                                           unsigned size)
-+{
-+    PnvPhb4PecStack *stack = PNV_PHB4_PEC_STACK(opaque);
-+    uint32_t reg = addr >> 3;
-+
-+    /* TODO: add list of allowed registers and error out if not */
-+    return stack->pci_regs[reg];
-+}
-+
-+static void pnv_pec_stk_pci_xscom_write(void *opaque, hwaddr addr,
-+                                        uint64_t val, unsigned size)
-+{
-+    PnvPhb4PecStack *stack = PNV_PHB4_PEC_STACK(opaque);
-+    uint32_t reg = addr >> 3;
-+
-+    switch (reg) {
-+    case PEC_PCI_STK_PCI_FIR:
-+        stack->nest_regs[reg] = val;
-+        break;
-+    case PEC_PCI_STK_PCI_FIR_CLR:
-+        stack->nest_regs[PEC_PCI_STK_PCI_FIR] &= val;
-+        break;
-+    case PEC_PCI_STK_PCI_FIR_SET:
-+        stack->nest_regs[PEC_PCI_STK_PCI_FIR] |= val;
-+        break;
-+    case PEC_PCI_STK_PCI_FIR_MSK:
-+        stack->nest_regs[reg] = val;
-+        break;
-+    case PEC_PCI_STK_PCI_FIR_MSKC:
-+        stack->nest_regs[PEC_PCI_STK_PCI_FIR_MSK] &= val;
-+        break;
-+    case PEC_PCI_STK_PCI_FIR_MSKS:
-+        stack->nest_regs[PEC_PCI_STK_PCI_FIR_MSK] |= val;
-+        break;
-+    case PEC_PCI_STK_PCI_FIR_ACT0:
-+    case PEC_PCI_STK_PCI_FIR_ACT1:
-+        stack->nest_regs[reg] = val;
-+        break;
-+    case PEC_PCI_STK_PCI_FIR_WOF:
-+        stack->nest_regs[reg] = 0;
-+        break;
-+    case PEC_PCI_STK_ETU_RESET:
-+        stack->nest_regs[reg] = val & 0x8000000000000000ull;
-+        /* TODO: Implement reset */
-+        break;
-+    case PEC_PCI_STK_PBAIB_ERR_REPORT:
-+        break;
-+    case PEC_PCI_STK_PBAIB_TX_CMD_CRED:
-+    case PEC_PCI_STK_PBAIB_TX_DAT_CRED:
-+        stack->nest_regs[reg] = val;
-+        break;
-+    default:
-+        qemu_log_mask(LOG_UNIMP, "phb4_pec_stk: pci_xscom_write 0x%"HWADDR_PRIx
-+                      "=%"PRIx64"\n", addr, val);
-+    }
-+}
-+
-+static const MemoryRegionOps pnv_pec_stk_pci_xscom_ops = {
-+    .read = pnv_pec_stk_pci_xscom_read,
-+    .write = pnv_pec_stk_pci_xscom_write,
-+    .valid.min_access_size = 8,
-+    .valid.max_access_size = 8,
-+    .impl.min_access_size = 8,
-+    .impl.max_access_size = 8,
-+    .endianness = DEVICE_BIG_ENDIAN,
-+};
-+
- static int pnv_phb4_map_irq(PCIDevice *pci_dev, int irq_num)
+ void pnv_phb4_update_regions(PnvPhb4PecStack *stack)
  {
-     /* Check that out properly ... */
-@@ -1175,6 +1431,52 @@ int pnv_phb4_pec_get_phb_id(PnvPhb4PecState *pec, int stack_index)
-     return offset + stack_index;
- }
+-    PnvPHB4 *phb = &stack->phb;
++    PnvPHB4 *phb = stack->phb;
  
-+static void pnv_phb4_XSCOM_init(PnvPHB4 *phb)
-+{
-+    PnvPhb4PecStack *stack = phb->stack;
-+    PnvPhb4PecState *pec = stack->pec;
-+    PnvPhb4PecClass *pecc = PNV_PHB4_PEC_GET_CLASS(pec);
-+    uint32_t pec_nest_base;
-+    uint32_t pec_pci_base;
-+    char name[64];
-+
-+    assert(pec);
-+
-+    /* Initialize the XSCOM regions for the stack registers */
-+    snprintf(name, sizeof(name), "xscom-pec-%d.%d-nest-stack-%d",
-+             pec->chip_id, pec->index, stack->stack_no);
-+    pnv_xscom_region_init(&stack->nest_regs_mr, OBJECT(stack),
-+                          &pnv_pec_stk_nest_xscom_ops, stack, name,
-+                          PHB4_PEC_NEST_STK_REGS_COUNT);
-+
-+    snprintf(name, sizeof(name), "xscom-pec-%d.%d-pci-stack-%d",
-+             pec->chip_id, pec->index, stack->stack_no);
-+    pnv_xscom_region_init(&stack->pci_regs_mr, OBJECT(stack),
-+                          &pnv_pec_stk_pci_xscom_ops, stack, name,
-+                          PHB4_PEC_PCI_STK_REGS_COUNT);
-+
-+    /* PHB pass-through */
-+    snprintf(name, sizeof(name), "xscom-pec-%d.%d-pci-stack-%d-phb",
-+             pec->chip_id, pec->index, stack->stack_no);
-+    pnv_xscom_region_init(&stack->phb_regs_mr, OBJECT(phb),
-+                          &pnv_phb4_xscom_ops, phb, name, 0x40);
-+
-+    pec_nest_base = pecc->xscom_nest_base(pec);
-+    pec_pci_base = pecc->xscom_pci_base(pec);
-+
-+    /* Populate the XSCOM address space. */
-+    pnv_xscom_add_subregion(pec->chip,
-+                            pec_nest_base + 0x40 * (stack->stack_no + 1),
-+                            &stack->nest_regs_mr);
-+    pnv_xscom_add_subregion(pec->chip,
-+                            pec_pci_base + 0x40 * (stack->stack_no + 1),
-+                            &stack->pci_regs_mr);
-+    pnv_xscom_add_subregion(pec->chip,
-+                            pec_pci_base + PNV9_XSCOM_PEC_PCI_STK0 +
-+                            0x40 * stack->stack_no,
-+                            &stack->phb_regs_mr);
-+}
-+
- static void pnv_phb4_instance_init(Object *obj)
- {
-     PnvPHB4 *phb = PNV_PHB4(obj);
-@@ -1195,6 +1497,8 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
- 
-     assert(phb->stack);
- 
-+    pnv_phb4_XSCOM_init(phb);
-+
-     /* Set the "big_phb" flag */
-     phb->big_phb = phb->phb_id == 0 || phb->phb_id == 3;
- 
+     /* Unmap first always */
+     if (memory_region_is_mapped(&phb->mr_regs)) {
 diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index f8038dff17..bf0fdf33fd 100644
+index bf0fdf33fd..d4c52a5d28 100644
 --- a/hw/pci-host/pnv_phb4_pec.c
 +++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -111,258 +111,6 @@ static const MemoryRegionOps pnv_pec_pci_xscom_ops = {
-     .endianness = DEVICE_BIG_ENDIAN,
+@@ -275,13 +275,6 @@ static const TypeInfo pnv_pec_type_info = {
+     }
  };
  
--static uint64_t pnv_pec_stk_nest_xscom_read(void *opaque, hwaddr addr,
--                                            unsigned size)
+-static void pnv_pec_stk_instance_init(Object *obj)
 -{
--    PnvPhb4PecStack *stack = PNV_PHB4_PEC_STACK(opaque);
--    uint32_t reg = addr >> 3;
+-    PnvPhb4PecStack *stack = PNV_PHB4_PEC_STACK(obj);
 -
--    /* TODO: add list of allowed registers and error out if not */
--    return stack->nest_regs[reg];
+-    object_initialize_child(obj, "phb", &stack->phb, TYPE_PNV_PHB4);
 -}
 -
--static void pnv_pec_stk_update_map(PnvPhb4PecStack *stack)
--{
--    PnvPhb4PecState *pec = stack->pec;
--    MemoryRegion *sysmem = get_system_memory();
--    uint64_t bar_en = stack->nest_regs[PEC_NEST_STK_BAR_EN];
--    uint64_t bar, mask, size;
--    char name[64];
--
--    /*
--     * NOTE: This will really not work well if those are remapped
--     * after the PHB has created its sub regions. We could do better
--     * if we had a way to resize regions but we don't really care
--     * that much in practice as the stuff below really only happens
--     * once early during boot
--     */
--
--    /* Handle unmaps */
--    if (memory_region_is_mapped(&stack->mmbar0) &&
--        !(bar_en & PEC_NEST_STK_BAR_EN_MMIO0)) {
--        memory_region_del_subregion(sysmem, &stack->mmbar0);
--    }
--    if (memory_region_is_mapped(&stack->mmbar1) &&
--        !(bar_en & PEC_NEST_STK_BAR_EN_MMIO1)) {
--        memory_region_del_subregion(sysmem, &stack->mmbar1);
--    }
--    if (memory_region_is_mapped(&stack->phbbar) &&
--        !(bar_en & PEC_NEST_STK_BAR_EN_PHB)) {
--        memory_region_del_subregion(sysmem, &stack->phbbar);
--    }
--    if (memory_region_is_mapped(&stack->intbar) &&
--        !(bar_en & PEC_NEST_STK_BAR_EN_INT)) {
--        memory_region_del_subregion(sysmem, &stack->intbar);
--    }
--
--    /* Update PHB */
--    pnv_phb4_update_regions(stack);
--
--    /* Handle maps */
--    if (!memory_region_is_mapped(&stack->mmbar0) &&
--        (bar_en & PEC_NEST_STK_BAR_EN_MMIO0)) {
--        bar = stack->nest_regs[PEC_NEST_STK_MMIO_BAR0] >> 8;
--        mask = stack->nest_regs[PEC_NEST_STK_MMIO_BAR0_MASK];
--        size = ((~mask) >> 8) + 1;
--        snprintf(name, sizeof(name), "pec-%d.%d-stack-%d-mmio0",
--                 pec->chip_id, pec->index, stack->stack_no);
--        memory_region_init(&stack->mmbar0, OBJECT(stack), name, size);
--        memory_region_add_subregion(sysmem, bar, &stack->mmbar0);
--        stack->mmio0_base = bar;
--        stack->mmio0_size = size;
--    }
--    if (!memory_region_is_mapped(&stack->mmbar1) &&
--        (bar_en & PEC_NEST_STK_BAR_EN_MMIO1)) {
--        bar = stack->nest_regs[PEC_NEST_STK_MMIO_BAR1] >> 8;
--        mask = stack->nest_regs[PEC_NEST_STK_MMIO_BAR1_MASK];
--        size = ((~mask) >> 8) + 1;
--        snprintf(name, sizeof(name), "pec-%d.%d-stack-%d-mmio1",
--                 pec->chip_id, pec->index, stack->stack_no);
--        memory_region_init(&stack->mmbar1, OBJECT(stack), name, size);
--        memory_region_add_subregion(sysmem, bar, &stack->mmbar1);
--        stack->mmio1_base = bar;
--        stack->mmio1_size = size;
--    }
--    if (!memory_region_is_mapped(&stack->phbbar) &&
--        (bar_en & PEC_NEST_STK_BAR_EN_PHB)) {
--        bar = stack->nest_regs[PEC_NEST_STK_PHB_REGS_BAR] >> 8;
--        size = PNV_PHB4_NUM_REGS << 3;
--        snprintf(name, sizeof(name), "pec-%d.%d-stack-%d-phb",
--                 pec->chip_id, pec->index, stack->stack_no);
--        memory_region_init(&stack->phbbar, OBJECT(stack), name, size);
--        memory_region_add_subregion(sysmem, bar, &stack->phbbar);
--    }
--    if (!memory_region_is_mapped(&stack->intbar) &&
--        (bar_en & PEC_NEST_STK_BAR_EN_INT)) {
--        bar = stack->nest_regs[PEC_NEST_STK_INT_BAR] >> 8;
--        size = PNV_PHB4_MAX_INTs << 16;
--        snprintf(name, sizeof(name), "pec-%d.%d-stack-%d-int",
--                 stack->pec->chip_id, stack->pec->index, stack->stack_no);
--        memory_region_init(&stack->intbar, OBJECT(stack), name, size);
--        memory_region_add_subregion(sysmem, bar, &stack->intbar);
--    }
--
--    /* Update PHB */
--    pnv_phb4_update_regions(stack);
--}
--
--static void pnv_pec_stk_nest_xscom_write(void *opaque, hwaddr addr,
--                                         uint64_t val, unsigned size)
--{
--    PnvPhb4PecStack *stack = PNV_PHB4_PEC_STACK(opaque);
--    PnvPhb4PecState *pec = stack->pec;
--    uint32_t reg = addr >> 3;
--
--    switch (reg) {
--    case PEC_NEST_STK_PCI_NEST_FIR:
--        stack->nest_regs[PEC_NEST_STK_PCI_NEST_FIR] = val;
--        break;
--    case PEC_NEST_STK_PCI_NEST_FIR_CLR:
--        stack->nest_regs[PEC_NEST_STK_PCI_NEST_FIR] &= val;
--        break;
--    case PEC_NEST_STK_PCI_NEST_FIR_SET:
--        stack->nest_regs[PEC_NEST_STK_PCI_NEST_FIR] |= val;
--        break;
--    case PEC_NEST_STK_PCI_NEST_FIR_MSK:
--        stack->nest_regs[PEC_NEST_STK_PCI_NEST_FIR_MSK] = val;
--        break;
--    case PEC_NEST_STK_PCI_NEST_FIR_MSKC:
--        stack->nest_regs[PEC_NEST_STK_PCI_NEST_FIR_MSK] &= val;
--        break;
--    case PEC_NEST_STK_PCI_NEST_FIR_MSKS:
--        stack->nest_regs[PEC_NEST_STK_PCI_NEST_FIR_MSK] |= val;
--        break;
--    case PEC_NEST_STK_PCI_NEST_FIR_ACT0:
--    case PEC_NEST_STK_PCI_NEST_FIR_ACT1:
--        stack->nest_regs[reg] = val;
--        break;
--    case PEC_NEST_STK_PCI_NEST_FIR_WOF:
--        stack->nest_regs[reg] = 0;
--        break;
--    case PEC_NEST_STK_ERR_REPORT_0:
--    case PEC_NEST_STK_ERR_REPORT_1:
--    case PEC_NEST_STK_PBCQ_GNRL_STATUS:
--        /* Flag error ? */
--        break;
--    case PEC_NEST_STK_PBCQ_MODE:
--        stack->nest_regs[reg] = val & 0xff00000000000000ull;
--        break;
--    case PEC_NEST_STK_MMIO_BAR0:
--    case PEC_NEST_STK_MMIO_BAR0_MASK:
--    case PEC_NEST_STK_MMIO_BAR1:
--    case PEC_NEST_STK_MMIO_BAR1_MASK:
--        if (stack->nest_regs[PEC_NEST_STK_BAR_EN] &
--            (PEC_NEST_STK_BAR_EN_MMIO0 |
--             PEC_NEST_STK_BAR_EN_MMIO1)) {
--            phb_pec_error(pec, "Changing enabled BAR unsupported\n");
--        }
--        stack->nest_regs[reg] = val & 0xffffffffff000000ull;
--        break;
--    case PEC_NEST_STK_PHB_REGS_BAR:
--        if (stack->nest_regs[PEC_NEST_STK_BAR_EN] & PEC_NEST_STK_BAR_EN_PHB) {
--            phb_pec_error(pec, "Changing enabled BAR unsupported\n");
--        }
--        stack->nest_regs[reg] = val & 0xffffffffffc00000ull;
--        break;
--    case PEC_NEST_STK_INT_BAR:
--        if (stack->nest_regs[PEC_NEST_STK_BAR_EN] & PEC_NEST_STK_BAR_EN_INT) {
--            phb_pec_error(pec, "Changing enabled BAR unsupported\n");
--        }
--        stack->nest_regs[reg] = val & 0xfffffff000000000ull;
--        break;
--    case PEC_NEST_STK_BAR_EN:
--        stack->nest_regs[reg] = val & 0xf000000000000000ull;
--        pnv_pec_stk_update_map(stack);
--        break;
--    case PEC_NEST_STK_DATA_FRZ_TYPE:
--    case PEC_NEST_STK_PBCQ_TUN_BAR:
--        /* Not used for now */
--        stack->nest_regs[reg] = val;
--        break;
--    default:
--        qemu_log_mask(LOG_UNIMP, "phb4_pec: nest_xscom_write 0x%"HWADDR_PRIx
--                      "=%"PRIx64"\n", addr, val);
--    }
--}
--
--static const MemoryRegionOps pnv_pec_stk_nest_xscom_ops = {
--    .read = pnv_pec_stk_nest_xscom_read,
--    .write = pnv_pec_stk_nest_xscom_write,
--    .valid.min_access_size = 8,
--    .valid.max_access_size = 8,
--    .impl.min_access_size = 8,
--    .impl.max_access_size = 8,
--    .endianness = DEVICE_BIG_ENDIAN,
--};
--
--static uint64_t pnv_pec_stk_pci_xscom_read(void *opaque, hwaddr addr,
--                                           unsigned size)
--{
--    PnvPhb4PecStack *stack = PNV_PHB4_PEC_STACK(opaque);
--    uint32_t reg = addr >> 3;
--
--    /* TODO: add list of allowed registers and error out if not */
--    return stack->pci_regs[reg];
--}
--
--static void pnv_pec_stk_pci_xscom_write(void *opaque, hwaddr addr,
--                                        uint64_t val, unsigned size)
--{
--    PnvPhb4PecStack *stack = PNV_PHB4_PEC_STACK(opaque);
--    uint32_t reg = addr >> 3;
--
--    switch (reg) {
--    case PEC_PCI_STK_PCI_FIR:
--        stack->nest_regs[reg] = val;
--        break;
--    case PEC_PCI_STK_PCI_FIR_CLR:
--        stack->nest_regs[PEC_PCI_STK_PCI_FIR] &= val;
--        break;
--    case PEC_PCI_STK_PCI_FIR_SET:
--        stack->nest_regs[PEC_PCI_STK_PCI_FIR] |= val;
--        break;
--    case PEC_PCI_STK_PCI_FIR_MSK:
--        stack->nest_regs[reg] = val;
--        break;
--    case PEC_PCI_STK_PCI_FIR_MSKC:
--        stack->nest_regs[PEC_PCI_STK_PCI_FIR_MSK] &= val;
--        break;
--    case PEC_PCI_STK_PCI_FIR_MSKS:
--        stack->nest_regs[PEC_PCI_STK_PCI_FIR_MSK] |= val;
--        break;
--    case PEC_PCI_STK_PCI_FIR_ACT0:
--    case PEC_PCI_STK_PCI_FIR_ACT1:
--        stack->nest_regs[reg] = val;
--        break;
--    case PEC_PCI_STK_PCI_FIR_WOF:
--        stack->nest_regs[reg] = 0;
--        break;
--    case PEC_PCI_STK_ETU_RESET:
--        stack->nest_regs[reg] = val & 0x8000000000000000ull;
--        /* TODO: Implement reset */
--        break;
--    case PEC_PCI_STK_PBAIB_ERR_REPORT:
--        break;
--    case PEC_PCI_STK_PBAIB_TX_CMD_CRED:
--    case PEC_PCI_STK_PBAIB_TX_DAT_CRED:
--        stack->nest_regs[reg] = val;
--        break;
--    default:
--        qemu_log_mask(LOG_UNIMP, "phb4_pec_stk: pci_xscom_write 0x%"HWADDR_PRIx
--                      "=%"PRIx64"\n", addr, val);
--    }
--}
--
--static const MemoryRegionOps pnv_pec_stk_pci_xscom_ops = {
--    .read = pnv_pec_stk_pci_xscom_read,
--    .write = pnv_pec_stk_pci_xscom_write,
--    .valid.min_access_size = 8,
--    .valid.max_access_size = 8,
--    .impl.min_access_size = 8,
--    .impl.max_access_size = 8,
--    .endianness = DEVICE_BIG_ENDIAN,
--};
--
- static void pnv_pec_instance_init(Object *obj)
+ static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
  {
-     PnvPhb4PecState *pec = PNV_PHB4_PEC(obj);
-@@ -539,32 +287,7 @@ static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
      PnvPhb4PecStack *stack = PNV_PHB4_PEC_STACK(dev);
-     PnvPhb4PecState *pec = stack->pec;
+@@ -289,15 +282,17 @@ static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
      PnvPhb4PecClass *pecc = PNV_PHB4_PEC_GET_CLASS(pec);
--    PnvChip *chip = pec->chip;
      int phb_id = pnv_phb4_pec_get_phb_id(pec, stack->stack_no);
--    uint32_t pec_nest_base;
--    uint32_t pec_pci_base;
--    char name[64];
--
--    assert(pec);
--
--    /* Initialize the XSCOM regions for the stack registers */
--    snprintf(name, sizeof(name), "xscom-pec-%d.%d-nest-stack-%d",
--             pec->chip_id, pec->index, stack->stack_no);
--    pnv_xscom_region_init(&stack->nest_regs_mr, OBJECT(stack),
--                          &pnv_pec_stk_nest_xscom_ops, stack, name,
--                          PHB4_PEC_NEST_STK_REGS_COUNT);
--
--    snprintf(name, sizeof(name), "xscom-pec-%d.%d-pci-stack-%d",
--             pec->chip_id, pec->index, stack->stack_no);
--    pnv_xscom_region_init(&stack->pci_regs_mr, OBJECT(stack),
--                          &pnv_pec_stk_pci_xscom_ops, stack, name,
--                          PHB4_PEC_PCI_STK_REGS_COUNT);
--
--    /* PHB pass-through */
--    snprintf(name, sizeof(name), "xscom-pec-%d.%d-pci-stack-%d-phb",
--             pec->chip_id, pec->index, stack->stack_no);
--    pnv_xscom_region_init(&stack->phb_regs_mr, OBJECT(&stack->phb),
--                          &pnv_phb4_xscom_ops, &stack->phb, name, 0x40);
  
-     object_property_set_int(OBJECT(&stack->phb), "chip-id", pec->chip_id,
+-    object_property_set_int(OBJECT(&stack->phb), "chip-id", pec->chip_id,
++    stack->phb = PNV_PHB4(qdev_new(TYPE_PNV_PHB4));
++
++    object_property_set_int(OBJECT(stack->phb), "chip-id", pec->chip_id,
                              &error_fatal);
-@@ -577,21 +300,6 @@ static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
-     if (!sysbus_realize(SYS_BUS_DEVICE(&stack->phb), errp)) {
+-    object_property_set_int(OBJECT(&stack->phb), "index", phb_id,
++    object_property_set_int(OBJECT(stack->phb), "index", phb_id,
+                             &error_fatal);
+-    object_property_set_int(OBJECT(&stack->phb), "version", pecc->version,
++    object_property_set_int(OBJECT(stack->phb), "version", pecc->version,
+                             &error_fatal);
+-    object_property_set_link(OBJECT(&stack->phb), "stack", OBJECT(stack),
++    object_property_set_link(OBJECT(stack->phb), "stack", OBJECT(stack),
+                              &error_abort);
+-    if (!sysbus_realize(SYS_BUS_DEVICE(&stack->phb), errp)) {
++    if (!sysbus_realize(SYS_BUS_DEVICE(stack->phb), errp)) {
          return;
      }
--
--    pec_nest_base = pecc->xscom_nest_base(pec);
--    pec_pci_base = pecc->xscom_pci_base(pec);
--
--    /* Populate the XSCOM address space. */
--    pnv_xscom_add_subregion(chip,
--                            pec_nest_base + 0x40 * (stack->stack_no + 1),
--                            &stack->nest_regs_mr);
--    pnv_xscom_add_subregion(chip,
--                            pec_pci_base + 0x40 * (stack->stack_no + 1),
--                            &stack->pci_regs_mr);
--    pnv_xscom_add_subregion(chip,
--                            pec_pci_base + PNV9_XSCOM_PEC_PCI_STK0 +
--                            0x40 * stack->stack_no,
--                            &stack->phb_regs_mr);
  }
+@@ -324,7 +319,6 @@ static const TypeInfo pnv_pec_stk_type_info = {
+     .name          = TYPE_PNV_PHB4_PEC_STACK,
+     .parent        = TYPE_DEVICE,
+     .instance_size = sizeof(PnvPhb4PecStack),
+-    .instance_init = pnv_pec_stk_instance_init,
+     .class_init    = pnv_pec_stk_class_init,
+     .interfaces    = (InterfaceInfo[]) {
+         { TYPE_PNV_XSCOM_INTERFACE },
+diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
+index 5ee996ebc6..82f054cf21 100644
+--- a/include/hw/pci-host/pnv_phb4.h
++++ b/include/hw/pci-host/pnv_phb4.h
+@@ -177,8 +177,11 @@ struct PnvPhb4PecStack {
+     /* The owner PEC */
+     PnvPhb4PecState *pec;
  
- static Property pnv_pec_stk_properties[] = {
+-    /* The actual PHB */
+-    PnvPHB4 phb;
++    /*
++     * PHB4 pointer. pnv_phb4_update_regions() needs to access
++     * the PHB4 via a PnvPhb4PecStack pointer.
++     */
++    PnvPHB4 *phb;
+ };
+ 
+ struct PnvPhb4PecState {
 -- 
 2.33.1
 
