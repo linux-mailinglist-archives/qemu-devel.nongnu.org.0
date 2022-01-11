@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28A5948B233
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 17:30:00 +0100 (CET)
-Received: from localhost ([::1]:55120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9772D48B214
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 17:27:04 +0100 (CET)
+Received: from localhost ([::1]:51176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7K22-0000TO-PX
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 11:29:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52966)
+	id 1n7JzB-0006Lx-Tt
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 11:27:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n7JyS-0005yV-84
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 11:26:16 -0500
-Received: from [2607:f8b0:4864:20::933] (port=43735
- helo=mail-ua1-x933.google.com)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1n7Jx5-0004gK-VB
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 11:24:51 -0500
+Received: from [2a00:1450:4864:20::42c] (port=43806
+ helo=mail-wr1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n7JyQ-0000Hf-QO
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 11:26:15 -0500
-Received: by mail-ua1-x933.google.com with SMTP id i5so30717170uaq.10
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 08:26:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1n7Jx4-0008H3-5A
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 11:24:51 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id o3so33958702wrh.10
+ for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 08:24:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=5whdWrzlfYUfk6Ua7wZnlNThQc4jegq4szu3Ndq9bLM=;
- b=ozpt1m2QNQfJWmTts8oaSEZqEvpvbnmRbmfViFBoiCWycUKwgdNAt/xBM1XmFn/fDv
- XWpKtbV0PRu8csMjnn8bdd0qyhL8HNwuU1JMHoANNMQRu0eI5j+AiHuaB184nHvedXeo
- cd0vhG3o3eYHR11IPcM/YWvUEw9uYVi4ZPhSFpkO3LGYredY6KPzmn+P2qhSiqIUvkNi
- TX+bBP77PPqLBfyHUGXJoN1WvzvwvuMTUxYNKHRjIyIiEI3S/9vPyEE+yEequxSK9NhQ
- mROKa0XePiW2rlQ6tLBl6uWofrui192ROB+sGUNlUVQYhMnlgNv3IbwoAfFXUJ4g9GQu
- FNsg==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=NMx5Wbw7tnMVVLy5MhSyzmefi7KZmSocCWv4HupI3Oc=;
+ b=g6msjgQS6UXHtFM1oyHLIrjiF2bkOn07/JNxOZ2LZkrZYaBTeOKpMdabEbCWM2rDsP
+ exhhG071kiA9ad+AoisBLKruLhznmJlLG7A76kX2UEqHLlt7H3zjyN9hSTDFClpnLIYK
+ JFIPa2t8HSVm4nJ2jB36XNlB5aDG6l/TYaCZN/2kzEYw3EpyDcVpZrO6Zuj+4WOhq+5u
+ PqaRVcYnX1k6CbzKx3YmLJzAyzOU96Qy6xPxFnqYG6Ih9MwkiwM6x12PMvteq9kD00HV
+ 6QT0w03y8JGsBmjwUx7/lfAny5cUuujPcSuFSski9lc/Zg8G8r8yO+42HszgE5AbEkLm
+ EKkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=5whdWrzlfYUfk6Ua7wZnlNThQc4jegq4szu3Ndq9bLM=;
- b=bOGnPA8Xg4/TJr/fjNi7tZXAe+Q9G2LV+b2jcBhovQiJy9wxtZSP4IUQ7nS8dk+l5k
- IwALlRbgFXMgzA5YBg4R+XCYlFNUaKEEFsRJRyimQdsV8J7jy6f8ieTiUpajvt344XVZ
- Zrbrurj5OC1iPXPIm6hSxFKAdG/KL8s5NyBBGlJ3YTXP2Hm5C4bPwmpakte4uphAkuUO
- yfIb1UXBu++G2STtD3qEIjb6qdyDtwFoJNoK6ogT5IGWioMtE8WcRK1YEcnUsnE0hUxL
- sUInQWyT+WN1B/1d3aEHwTmoLRP3EI4bWKoTjyFB2sweO5CqUbyR/omrGflxXB9a2Ga7
- gm4A==
-X-Gm-Message-State: AOAM530UD9je9r1lBnLC4WTFPryX4INMzX3o9gbbPX16UTRun/rGmOpT
- 93A/sqQ8OevwQighCgCFUKBzRQ==
-X-Google-Smtp-Source: ABdhPJyMZ8ElKFxYima5ehaVJbuLxnwBiqLTcFYaj9s0lkBuXpJLmltVTL/FNMBnjS1vBAuhx+60TA==
-X-Received: by 2002:a05:6102:7a3:: with SMTP id
- x3mr2647490vsg.36.1641918373833; 
- Tue, 11 Jan 2022 08:26:13 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h25sm376694vsl.30.2022.01.11.08.26.12
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=NMx5Wbw7tnMVVLy5MhSyzmefi7KZmSocCWv4HupI3Oc=;
+ b=mz9vO/UYVJ59SrAsOMdZWk/Ro4ucPJMaxSXP4rV68YsZ+/Gr87tK2eJgm1dabell0H
+ h5ixsS8psp1y4WORp3rKtAx0M7R377iXwF/N0HoSEXGquau+Jk7yZm+KnzP23nRFJ7/1
+ 2lJCoRod7+Y1xHGa82BQ83Ose0Yg/bgpuTaHGSTQ/UXhhBMMg25Y5Gyhcty4vG5hvo/d
+ wmnLU9oaLqklrFizzvTOO3CYwFiisme7se0MhJ3ubHhKM05AnCZFbPlcczzdG6KkBuUm
+ jdZ0grZZpm2Q0t2zFOfJKBZ98R2oN+/Il1PHeq2oMvxsWUI+UrMeHm06dn0ba1abCapD
+ NtPQ==
+X-Gm-Message-State: AOAM530gcUMfbTWJc6GnccNzmGrlZXF2v6VrUdEbLo0KrvtZ+JYD7Gt4
+ kD788JnKXN3ys1gPPXkEjzWLRA==
+X-Google-Smtp-Source: ABdhPJwUSsJuorDiLbGStyaJKp5km1r+Cton3XZ246qSoLzzH8TkAPtKg6QRpUFl3qI8b6z5vWvuqA==
+X-Received: by 2002:a5d:64c2:: with SMTP id f2mr4534674wri.483.1641918288520; 
+ Tue, 11 Jan 2022 08:24:48 -0800 (PST)
+Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
+ [82.27.106.168])
+ by smtp.gmail.com with ESMTPSA id q3sm9738211wrr.55.2022.01.11.08.24.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jan 2022 08:26:12 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F2E1C1FFB7;
- Tue, 11 Jan 2022 16:26:10 +0000 (GMT)
-References: <20211209145601.331477-1-peter.griffin@linaro.org>
-User-agent: mu4e 1.7.5; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Griffin <peter.griffin@linaro.org>
-Subject: Re: [PATCH 0/8] virtio: Add vhost-user based Video decode
-Date: Tue, 11 Jan 2022 16:24:21 +0000
-In-reply-to: <20211209145601.331477-1-peter.griffin@linaro.org>
-Message-ID: <87k0f6b5nh.fsf@linaro.org>
+ Tue, 11 Jan 2022 08:24:48 -0800 (PST)
+Date: Tue, 11 Jan 2022 16:24:25 +0000
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 0/3] virtio-iommu: Support VIRTIO_IOMMU_F_BYPASS_CONFIG
+Message-ID: <Yd2vOZjmBdJ5O8wI@myrica>
+References: <20210930185050.262759-1-jean-philippe@linaro.org>
+ <a98b63f9-000b-7647-0ac5-3e6e5ec7f6a7@redhat.com>
+ <20220111103917-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::933
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220111103917-mutt-send-email-mst@kernel.org>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::933;
- envelope-from=alex.bennee@linaro.org; helo=mail-ua1-x933.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,27 +88,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, stratos-dev@op-lists.linaro.org,
- qemu-devel@nongnu.org, mst@redhat.com
+Cc: Eric Auger <eric.auger@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Michael,
 
-Peter Griffin <peter.griffin@linaro.org> writes:
+On Tue, Jan 11, 2022 at 10:40:28AM -0500, Michael S. Tsirkin wrote:
+> On Tue, Jan 11, 2022 at 10:02:12AM +0100, Eric Auger wrote:
+> > Hi Jean, Michael,
+> > 
+> > On 9/30/21 8:50 PM, Jean-Philippe Brucker wrote:
+> > > Replace the VIRTIO_IOMMU_F_BYPASS feature with
+> > > VIRTIO_IOMMU_F_BYPASS_CONFIG, which enables a config space bit to switch
+> > > global bypass on and off.
+> > >
+> > > Add a boot-bypass option, which defaults to 'on' to be in line with
+> > > other vIOMMUs and to allow running firmware/bootloader that are unaware
+> > > of the IOMMU.
+> > >
+> > > See the spec change for more rationale
+> > > https://lists.oasis-open.org/archives/virtio-dev/202109/msg00137.html
+> > 
+> > I guess the kernel bits should be merged in 5.17?
+> > 
+> > Thanks
+> > 
+> > Eric
+> 
+> They are in fact in my tree and set to go into 5.16.
+> They've been in linux-next for a whole cycle now.
+> But if you feel I'm rushing things, pls let me know.
+> Also, pls let me know whether my tree actually works well for you!
 
-> This series adds support for virtio-video decoder devices in Qemu
-> and also provides a vhost-user-video vmm implementation.
+Thanks, unfortunately I just noticed that those patches are from an older
+version of the series, the latest being v3
+https://lore.kernel.org/linux-iommu/20211201173323.1045819-1-jean-philippe@linaro.org/
 
-This brings up a bunch of failures in CI:
+Since Joerg picked the latest one in his tree [1], I was wondering if you
+could drop those patches?
 
-  https://gitlab.com/stsquad/qemu/-/pipelines/445691849/failures
+51a4c54f35ae iommu/virtio: Support identity-mapped domains
+523e55a406aa iommu/virtio: Pass end address to viommu_add_mapping()
+97301219dfb2 iommu/virtio: Sort reserved regions
+720552613526 iommu/virtio: Support bypass domains
+01444b9c772f iommu/virtio: Add definitions for VIRTIO_IOMMU_F_BYPASS_CONFIG
 
-A bunch are probably solved with masking the build when VHOST_USER is
-not available but there seem to be some compiler warnings as well which
-are probably worth looking into.
+Thanks,
+Jean
 
-Sorry I took so long to get to the review!
-
---=20
-Alex Benn=C3=A9e
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git/
 
