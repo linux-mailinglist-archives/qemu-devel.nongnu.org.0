@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3AC048AE3A
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 14:14:23 +0100 (CET)
-Received: from localhost ([::1]:55604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 603BE48AE75
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 14:31:04 +0100 (CET)
+Received: from localhost ([::1]:53582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7Gyk-0001s5-UN
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 08:14:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51454)
+	id 1n7HEt-0004wD-C3
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 08:31:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1n7Gm1-0004yU-0q
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:01:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58567)
+ id 1n7Gm7-00052U-60
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:01:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1n7Gly-0005je-Vq
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:01:12 -0500
+ id 1n7Gm1-0005k2-H3
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:01:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641906070;
+ s=mimecast20190719; t=1641906073;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h9YJv31dxGjV2CbwV49aRtAQEd8scjaS0F5lPdGsk+k=;
- b=UMKPpdgAIVS+oA6lbZP5s5PnvlXJj5VYNI9hkYTmkiGKZISIsV1fSkWaiYKKUEGe8eMthX
- cI11yKZcb+czQwfd4TiNBMFRqNktpWtiFeS2HLXGS0+tLLfxpt0plFuU8RjpVebrsQZYI8
- UF+yIMR3B3v3niByS3fUPn8hioA7ycc=
+ bh=0CZMF9+tpdeRtWvtbyvdKiZL5iLIO8LIWlWaxsgFtQI=;
+ b=XFGTczYEpFJpRtXRYM6buQQJytSou6DmVx+MzF5THkNP3cIjQsfMb79E6ei/Juk2o/1K/v
+ hnnfxa9vVDWlz6un4IS0SNWCdgZlX7zdR+5eFz7vAr7BokhjRKP/ovqw5xTt8nV98Z1wB7
+ yl3pDUmrcBVdlU/ISFmGngw+XRoU5qo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-484-hkV8sdaXMn6mMrEGuXFcNg-1; Tue, 11 Jan 2022 08:01:09 -0500
-X-MC-Unique: hkV8sdaXMn6mMrEGuXFcNg-1
+ us-mta-468-clSlUaF_NNaLHst73itzNQ-1; Tue, 11 Jan 2022 08:01:11 -0500
+X-MC-Unique: clSlUaF_NNaLHst73itzNQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 299E38042EA;
- Tue, 11 Jan 2022 13:01:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CBB01923B80;
+ Tue, 11 Jan 2022 13:01:10 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DEC1B1059179;
- Tue, 11 Jan 2022 13:01:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 836951059179;
+ Tue, 11 Jan 2022 13:01:08 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 11/23] multifd: Remove send_write() method
-Date: Tue, 11 Jan 2022 14:00:12 +0100
-Message-Id: <20220111130024.5392-12-quintela@redhat.com>
+Subject: [PATCH v4 12/23] multifd: Use a single writev on the send side
+Date: Tue, 11 Jan 2022 14:00:13 +0100
+Message-Id: <20220111130024.5392-13-quintela@redhat.com>
 In-Reply-To: <20220111130024.5392-1-quintela@redhat.com>
 References: <20220111130024.5392-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -86,144 +86,65 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Everything use now iov's.
+Until now, we wrote the packet header with write(), and the rest of the
+pages with writev().  Just increase the size of the iovec and do a
+single writev().
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/multifd.h      |  2 --
- migration/multifd-zlib.c | 17 -----------------
- migration/multifd-zstd.c | 17 -----------------
- migration/multifd.c      | 20 ++------------------
- 4 files changed, 2 insertions(+), 54 deletions(-)
+ migration/multifd.c | 20 ++++++++------------
+ 1 file changed, 8 insertions(+), 12 deletions(-)
 
-diff --git a/migration/multifd.h b/migration/multifd.h
-index c3f18af364..7496f951a7 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -164,8 +164,6 @@ typedef struct {
-     void (*send_cleanup)(MultiFDSendParams *p, Error **errp);
-     /* Prepare the send packet */
-     int (*send_prepare)(MultiFDSendParams *p, Error **errp);
--    /* Write the send packet */
--    int (*send_write)(MultiFDSendParams *p, uint32_t used, Error **errp);
-     /* Setup for receiving side */
-     int (*recv_setup)(MultiFDRecvParams *p, Error **errp);
-     /* Cleanup for receiving side */
-diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
-index 71480c82bb..ba90f1aaf4 100644
---- a/migration/multifd-zlib.c
-+++ b/migration/multifd-zlib.c
-@@ -152,22 +152,6 @@ static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
-     return 0;
- }
- 
--/**
-- * zlib_send_write: do the actual write of the data
-- *
-- * Do the actual write of the comprresed buffer.
-- *
-- * Returns 0 for success or -1 for error
-- *
-- * @p: Params for the channel that we are using
-- * @used: number of pages used
-- * @errp: pointer to an error
-- */
--static int zlib_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
--{
--    return qio_channel_writev_all(p->c, p->iov, p->iovs_num, errp);
--}
--
- /**
-  * zlib_recv_setup: setup receive side
-  *
-@@ -307,7 +291,6 @@ static MultiFDMethods multifd_zlib_ops = {
-     .send_setup = zlib_send_setup,
-     .send_cleanup = zlib_send_cleanup,
-     .send_prepare = zlib_send_prepare,
--    .send_write = zlib_send_write,
-     .recv_setup = zlib_recv_setup,
-     .recv_cleanup = zlib_recv_cleanup,
-     .recv_pages = zlib_recv_pages
-diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
-index bd393aee0d..757434d1ee 100644
---- a/migration/multifd-zstd.c
-+++ b/migration/multifd-zstd.c
-@@ -163,22 +163,6 @@ static int zstd_send_prepare(MultiFDSendParams *p, Error **errp)
-     return 0;
- }
- 
--/**
-- * zstd_send_write: do the actual write of the data
-- *
-- * Do the actual write of the comprresed buffer.
-- *
-- * Returns 0 for success or -1 for error
-- *
-- * @p: Params for the channel that we are using
-- * @used: number of pages used
-- * @errp: pointer to an error
-- */
--static int zstd_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
--{
--    return qio_channel_writev_all(p->c, p->iov, p->iovs_num, errp);
--}
--
- /**
-  * zstd_recv_setup: setup receive side
-  *
-@@ -320,7 +304,6 @@ static MultiFDMethods multifd_zstd_ops = {
-     .send_setup = zstd_send_setup,
-     .send_cleanup = zstd_send_cleanup,
-     .send_prepare = zstd_send_prepare,
--    .send_write = zstd_send_write,
-     .recv_setup = zstd_recv_setup,
-     .recv_cleanup = zstd_recv_cleanup,
-     .recv_pages = zstd_recv_pages
 diff --git a/migration/multifd.c b/migration/multifd.c
-index f75bd3c188..96b9cc0d8b 100644
+index 96b9cc0d8b..1d4885e1a0 100644
 --- a/migration/multifd.c
 +++ b/migration/multifd.c
-@@ -100,22 +100,6 @@ static int nocomp_send_prepare(MultiFDSendParams *p, Error **errp)
-     return 0;
- }
- 
--/**
-- * nocomp_send_write: do the actual write of the data
-- *
-- * For no compression we just have to write the data.
-- *
-- * Returns 0 for success or -1 for error
-- *
-- * @p: Params for the channel that we are using
-- * @used: number of pages used
-- * @errp: pointer to an error
-- */
--static int nocomp_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
--{
--    return qio_channel_writev_all(p->c, p->iov, p->iovs_num, errp);
--}
--
- /**
-  * nocomp_recv_setup: setup receive side
-  *
-@@ -173,7 +157,6 @@ static MultiFDMethods multifd_nocomp_ops = {
-     .send_setup = nocomp_send_setup,
-     .send_cleanup = nocomp_send_cleanup,
-     .send_prepare = nocomp_send_prepare,
--    .send_write = nocomp_send_write,
-     .recv_setup = nocomp_recv_setup,
-     .recv_cleanup = nocomp_recv_cleanup,
-     .recv_pages = nocomp_recv_pages
-@@ -690,7 +673,8 @@ static void *multifd_send_thread(void *opaque)
-             }
+@@ -646,7 +646,7 @@ static void *multifd_send_thread(void *opaque)
+             uint32_t used = p->pages->num;
+             uint64_t packet_num = p->packet_num;
+             uint32_t flags = p->flags;
+-            p->iovs_num = 0;
++            p->iovs_num = 1;
  
              if (used) {
--                ret = multifd_send_state->ops->send_write(p, used, &local_err);
-+                ret = qio_channel_writev_all(p->c, p->iov, p->iovs_num,
-+                                             &local_err);
-                 if (ret != 0) {
-                     break;
-                 }
+                 ret = multifd_send_state->ops->send_prepare(p, &local_err);
+@@ -666,20 +666,15 @@ static void *multifd_send_thread(void *opaque)
+             trace_multifd_send(p->id, packet_num, used, flags,
+                                p->next_packet_size);
+ 
+-            ret = qio_channel_write_all(p->c, (void *)p->packet,
+-                                        p->packet_len, &local_err);
++            p->iov[0].iov_len = p->packet_len;
++            p->iov[0].iov_base = p->packet;
++
++            ret = qio_channel_writev_all(p->c, p->iov, p->iovs_num,
++                                         &local_err);
+             if (ret != 0) {
+                 break;
+             }
+ 
+-            if (used) {
+-                ret = qio_channel_writev_all(p->c, p->iov, p->iovs_num,
+-                                             &local_err);
+-                if (ret != 0) {
+-                    break;
+-                }
+-            }
+-
+             qemu_mutex_lock(&p->mutex);
+             p->pending_job--;
+             qemu_mutex_unlock(&p->mutex);
+@@ -916,7 +911,8 @@ int multifd_save_setup(Error **errp)
+         p->packet->version = cpu_to_be32(MULTIFD_VERSION);
+         p->name = g_strdup_printf("multifdsend_%d", i);
+         p->tls_hostname = g_strdup(s->hostname);
+-        p->iov = g_new0(struct iovec, page_count);
++        /* We need one extra place for the packet header */
++        p->iov = g_new0(struct iovec, page_count + 1);
+         socket_send_channel_create(multifd_new_send_channel_async, p);
+     }
+ 
 -- 
 2.34.1
 
