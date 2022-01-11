@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5B6E48AB6E
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 11:32:26 +0100 (CET)
-Received: from localhost ([::1]:38068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D86C548AB71
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 11:33:43 +0100 (CET)
+Received: from localhost ([::1]:41108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7ES1-00078H-V6
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 05:32:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42574)
+	id 1n7ETH-0000qM-0K
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 05:33:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n7EP4-0005Lt-Ob
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 05:29:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21385)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n7EP1-0004Zn-UO
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 05:29:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641896958;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ieDShOXrXjGUCHdnxK9CGb/LF08UJVVO8Om4LsTbSZI=;
- b=VYn8B9FzUrAB34jUIdzc7DOYN03czS+CNxnsdHC0leWSgZt+I4kp6xjduIUfAnHD4boCcx
- v7q0zMUEp7WC0n/GgSLDpE9FFi8gBFWSqAtp3BbXwwY/donc1MCOxuskGQBy/4D1CnUv/D
- LvUJkWwaOu8ZZ9PCn8U2leWpt13He4o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-171-RUNwYwcMPKeQjKDHkk77xA-1; Tue, 11 Jan 2022 05:29:13 -0500
-X-MC-Unique: RUNwYwcMPKeQjKDHkk77xA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 085BD192AB6F;
- Tue, 11 Jan 2022 10:29:12 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 87E7B752CF;
- Tue, 11 Jan 2022 10:28:43 +0000 (UTC)
-Date: Tue, 11 Jan 2022 10:28:38 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: "Startup" meeting (was Re: Meeting today?)
-Message-ID: <Yd1b1o3BUMNrLKOi@redhat.com>
-References: <e33c3d09-b507-798c-b18e-df684ec797e2@redhat.com>
- <YbeWxAn6Zw7rH+5K@redhat.com>
- <CC132B60-3F08-4F03-B328-4C33407BB944@greensocs.com>
- <87lf0nto1k.fsf@dusky.pond.sub.org> <YbiS8Zc7fcoeoSyC@redhat.com>
- <87bl1jqm1a.fsf@dusky.pond.sub.org>
- <CAJy5ezofpy09ZOtVHFofGTzt3U8MEA_ddpBHifuF50sVDFXULA@mail.gmail.com>
- <73955990-9FD1-42CD-B476-F2AD95C219E9@greensocs.com>
- <YdbRShE01esANc5h@redhat.com>
- <fb519eb4-c0c6-a0b6-585d-e708b04ed207@amsat.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n7EQG-0006x3-U4
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 05:30:44 -0500
+Received: from [2a00:1450:4864:20::330] (port=53801
+ helo=mail-wm1-x330.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n7EQE-0004vs-Lu
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 05:30:35 -0500
+Received: by mail-wm1-x330.google.com with SMTP id l4so10639104wmq.3
+ for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 02:30:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dVOJDwjM+qcM/oFPks0SC2G2hIciGSGPET+XwXRX3Lc=;
+ b=WxLJXTgzs8DdAMs0LAsITzB/H38azh2/BJkIVqcw0TLTk//vhlM84hIIp7CMZLiWV9
+ ctk/Dz5TMgUiG8nLMidtOdRnfDURLqVg/fw8IsgPAs90UpBPYthfKTW9C9AIUEpHyQXB
+ WD9UGCGOS3J6A6021qC8KlsJhVDkGkIYe9Iu4HRUuW+BH+mThP434FEA+rqTbYkYoQ3H
+ uaRnzipvJxnIeROoqoccPljDBDl0xtLiNWlk5OV5/gGBvTW9Hwbl/8rwhHaDzJhV7kPM
+ NuUPeGtZqfRNbsSrEf/CIoBcoBn/xRrZBTVD20QJ2tWKFQ5ryrmL8c3d6znOffsw4Tsb
+ 5DxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dVOJDwjM+qcM/oFPks0SC2G2hIciGSGPET+XwXRX3Lc=;
+ b=31SUx5vMJAmcz8NbsTGUYs9ha8wq1/BU8XZSvd4vxc9rhiYIPJimKN7saZNumSjabe
+ YM8R2kC61hjXG3UHa+AIGs6bvi/bCsscOzGucopm3tPJQCDk997+AlQ1qV/QrIE8+gTt
+ VhaH2tvlq0zBbD4GcR+COWYrdBCpTY4uCIvsBMhlRTfj4zml9Nz3t0oO4q8l7h67wYtl
+ MxtVHZ2Ydd69mn64JzSDJpM4AVEH/S+11Bq/4WyG7t7Daomi+kXhfw5rRLlsx3Fa0Nuy
+ 4q5ULc4g4hKQ8yo/XZJagsVEZ0tuNG5d714zHzvFkwBuMWeORLcczTWwsU6mq/YAzCas
+ 4Xbw==
+X-Gm-Message-State: AOAM533iENiY7PmtjQDGu7RLnJrUg0M0p57oxeBFV67kiIstIUuj6GAV
+ nZFT32MInEkf1pXPDZqthcgkMre+7AsA43bY3Mc4Fw==
+X-Google-Smtp-Source: ABdhPJxPtxxQe07kjvGB8uY8Mhch4tpk4yBp3znvBTwCgT5hbxI42eTvi/CTeCYAMu0Z27JEyOoRrCImvvm4KIbpAc4=
+X-Received: by 2002:a05:600c:3ac5:: with SMTP id
+ d5mr1882205wms.32.1641897032754; 
+ Tue, 11 Jan 2022 02:30:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <fb519eb4-c0c6-a0b6-585d-e708b04ed207@amsat.org>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220111101934.115028-1-dgilbert@redhat.com>
+In-Reply-To: <20220111101934.115028-1-dgilbert@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 11 Jan 2022 10:30:21 +0000
+Message-ID: <CAFEAcA-e61v6nTzH=Ep-KMVCJsVA=17O8CtDCLyk5DOtjVNgGw@mail.gmail.com>
+Subject: Re: [PATCH] clock-vmstate: Add missing END_OF_LIST
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,37 +80,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Mark Burton <mark.burton@greensocs.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- Mirela Grujic <mirela.grujic@greensocs.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Cc: damien.hedde@greensocs.com, alex.bennee@linaro.org, luc@lmichel.fr,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 11, 2022 at 11:20:54AM +0100, Philippe Mathieu-Daudé wrote:
-> Hi,
-> 
-> Just checking in, this call is scheduled for today, 3pm CEST, right?
-> 
-> Here is the KVM call calendar:
-> https://www.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
+On Tue, 11 Jan 2022 at 10:19, Dr. David Alan Gilbert (git)
+<dgilbert@redhat.com> wrote:
+>
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>
+> Add the missing VMSTATE_END_OF_LIST to vmstate_muldiv
+>
+> Fixes: 99abcbc7600 ("clock: Provide builtin multiplier/divider")
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  hw/core/clock-vmstate.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/core/clock-vmstate.c b/hw/core/clock-vmstate.c
+> index 9d9174ffbd..7eccb6d4ea 100644
+> --- a/hw/core/clock-vmstate.c
+> +++ b/hw/core/clock-vmstate.c
+> @@ -44,6 +44,7 @@ const VMStateDescription vmstate_muldiv = {
+>      .fields = (VMStateField[]) {
+>          VMSTATE_UINT32(multiplier, Clock),
+>          VMSTATE_UINT32(divider, Clock),
+> +        VMSTATE_END_OF_LIST()
+>      },
+>  };
 
-Hmm, no dial-in details in that calender, so where are we
-holding the call.
+Oops :-(
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
+We could maybe make this kind of bug more likely to be detected by
+instead of having the terminator be an "all zeros" VMStateField,
+having it check both for name == NULL and for a magic number in the
+VMStateFlags field. That way (assuming something in "make check"
+causes us to do a scan through every registered vmstate struct)
+forgetting the terminator will be likely to cause us to crash or hang
+rather than finding some 0 data and thinking that's the
+terminator.
+
+thanks
+-- PMM
 
