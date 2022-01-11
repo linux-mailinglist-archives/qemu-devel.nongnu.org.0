@@ -2,71 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B516348AF48
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 15:15:49 +0100 (CET)
-Received: from localhost ([::1]:52512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E10E048AE7A
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 14:32:56 +0100 (CET)
+Received: from localhost ([::1]:56478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7HwC-0008EX-KL
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 09:15:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51864)
+	id 1n7HGh-00070T-VU
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 08:32:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1n7Gmr-0005DB-7M
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:02:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46169)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1n7Gmm-0005rT-30
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:02:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641906100;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tqdm1TWMNDuNxgBb6uNqq8LN97ZE57id58Hw8VBp/Fw=;
- b=aPGqTzLw11iLAsi818+GbUZYyo0uBXRzasv6jRY0auDQHSieYDytS3VPmNwODO2RuNkTgY
- otLz2Yo+dnMJjfr7p/0nFPqKJRFozMOugse3W7QcNvB0oHI/0lREtEsQhnhPYF+xe9kpvw
- U7dITne5uKdenrMhgBXclLJIg+SP8Zc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-317-lyRivk2wPU26feURXQPuTw-1; Tue, 11 Jan 2022 08:01:37 -0500
-X-MC-Unique: lyRivk2wPU26feURXQPuTw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E85283DBE2;
- Tue, 11 Jan 2022 13:01:36 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.194.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 707B31059179;
- Tue, 11 Jan 2022 13:01:34 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 23/23] migration: Export ram_release_page()
-Date: Tue, 11 Jan 2022 14:00:24 +0100
-Message-Id: <20220111130024.5392-24-quintela@redhat.com>
-In-Reply-To: <20220111130024.5392-1-quintela@redhat.com>
-References: <20220111130024.5392-1-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n7GlV-0004aL-9V
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:00:41 -0500
+Received: from [2a00:1450:4864:20::429] (port=33691
+ helo=mail-wr1-x429.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n7GlO-0005dG-Ix
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:00:40 -0500
+Received: by mail-wr1-x429.google.com with SMTP id d19so2301861wrb.0
+ for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 05:00:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=e14aOEUWK9rOmmD7zDQjwksR+hTnQQcfSi4n7dMAxO8=;
+ b=LlmHWJJaLT1sW43Ro8YxEfcDNXXFIj1JBJOT8v0p8Eo33DLRVl9BqHUXTjK04+23J2
+ nNazsNJ5psLZgRwyzPFn5gzXKsSzkOv4hVKmYf89fdqbCcFX7g7g3BfzwXubap6KcSWh
+ 8UE5ZYFL3p14hVVLfPe+Wu3X8yCpUGTvBJpZP3brdNbpOYgasAhYvzRW7oJzGtZwxHgs
+ CTe7puabSxatPwsnS474oGCZ74jOQz7M2oeZyGJ6giHjtm0ufLcOcaI2vTxeii4m1e0q
+ xHtyS2HeSGVT33tPjXHx643DLxa5xYk3+IBOh3QyVWOg9SWUI2u0Fxf8n2PF/Uu53aaL
+ NuBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=e14aOEUWK9rOmmD7zDQjwksR+hTnQQcfSi4n7dMAxO8=;
+ b=CrKIbt8mUR89OZXwyIwjMKFqCg/FpZGAEZ76LvdAh/RgcxkweWQhq+kkOEs5FS5PLj
+ /Tsx+QjJMJA7OC0pPCLXjS1XIc0coiyqfbJ3GZ35WkARuJVoAx1krGG4nUxKEPUBKNqr
+ G40xWLVhb2n/arHwJRlWYzecTNiv6Q+JU1Q5SL1z3xYe/7u3boYnFbPKJ4fx/fmJeZEr
+ bu3ycLK2VrfyE9qcHvKt1xBmm0IJIz5/OONeGsVeXQsfkuDO6mwEeWPgCdkQJqdm/TXH
+ ocTO+ZyeMGjYS4DEP+21CYBgRNPZUHtC5IzYmEStBUddNx5K21gf+1qM2MN2V1eV5wxA
+ eGXA==
+X-Gm-Message-State: AOAM531LMMyQuI+aI3+u7VjtjA8rtlqAjdIhR31ccGhOD61wbbmr9P2C
+ R/JxafczZQ8XoNAddOvu3sY=
+X-Google-Smtp-Source: ABdhPJyuhlJau2yrCSWbzMGvI1NL6us1HDuzx5iqtw1/3uIQBDFk6vflwEWl6RtGIzwzAIBnZoeBTQ==
+X-Received: by 2002:a05:6000:144f:: with SMTP id
+ v15mr3693873wrx.400.1641906032354; 
+ Tue, 11 Jan 2022 05:00:32 -0800 (PST)
+Received: from [192.168.1.40] (83.red-83-50-87.dynamicip.rima-tde.net.
+ [83.50.87.83])
+ by smtp.gmail.com with ESMTPSA id r1sm10630193wrz.30.2022.01.11.05.00.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Jan 2022 05:00:31 -0800 (PST)
+Message-ID: <0f5fac84-26f1-7304-6575-c3944f47cb7c@amsat.org>
+Date: Tue, 11 Jan 2022 14:00:30 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 4/5] usb: allow max 8192 bytes for desc
+Content-Language: en-US
+To: zhenwei pi <pizhenwei@bytedance.com>, peter.maydell@linaro.org,
+ richard.henderson@linaro.org, kraxel@redhat.com, eblake@redhat.com,
+ pbonzini@redhat.com
+References: <20211227142734.691900-1-pizhenwei@bytedance.com>
+ <20211227142734.691900-5-pizhenwei@bytedance.com>
+ <222c5015-399d-0ff0-e061-7dd3a947d4d4@amsat.org>
+ <708c4228-d123-b403-09ff-b7d75bf1bba4@bytedance.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <708c4228-d123-b403-09ff-b7d75bf1bba4@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,46 +98,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Leonardo Bras <leobras@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- migration/ram.h | 2 ++
- migration/ram.c | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+On 1/5/22 08:25, zhenwei pi wrote:
+> 
+> On 1/4/22 11:22 PM, Philippe Mathieu-Daudé wrote:
+>> On 27/12/21 15:27, zhenwei pi wrote:
+>>> A device of USB video class usually uses larger desc structure, so
+>>> use larger buffer to avoid failure.
+>>>
+>>> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+>>> ---
+>>>   hw/usb/desc.c | 15 ++++++++-------
+>>>   hw/usb/desc.h |  1 +
+>>>   2 files changed, 9 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/hw/usb/desc.c b/hw/usb/desc.c
+>>> index 8b6eaea407..7f6cc2f99b 100644
+>>> --- a/hw/usb/desc.c
+>>> +++ b/hw/usb/desc.c
+>>> @@ -632,7 +632,8 @@ int usb_desc_get_descriptor(USBDevice *dev,
+>>> USBPacket *p,
+>>>       bool msos = (dev->flags & (1 << USB_DEV_FLAG_MSOS_DESC_IN_USE));
+>>>       const USBDesc *desc = usb_device_get_usb_desc(dev);
+>>>       const USBDescDevice *other_dev;
+>>> -    uint8_t buf[256];
+>>> +    size_t buflen = USB_DESC_MAX_LEN;
+>>> +    g_autofree uint8_t *buf = g_malloc(buflen);
+>>
+>> Do we want to have a per-device desc_size (in USBDevice, default to
+>> 256, video devices set it to 8K)?
+>>
+>> How "hot" is this path? Could we keep 8K on the stack?
+>>
+> It's an unlikely code path:
+> 1, During guest startup, guest tries to probe device.
+> 2, run 'lsusb' command in guest
 
-diff --git a/migration/ram.h b/migration/ram.h
-index c515396a9a..6dca396a6b 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -66,6 +66,8 @@ int ram_postcopy_incoming_init(MigrationIncomingState *mis);
- 
- void ram_handle_compressed(void *host, uint8_t ch, uint64_t size);
- 
-+void ram_release_page(const char *rbname, uint64_t offset);
-+
- int ramblock_recv_bitmap_test(RAMBlock *rb, void *host_addr);
- bool ramblock_recv_bitmap_test_byte_offset(RAMBlock *rb, uint64_t byte_offset);
- void ramblock_recv_bitmap_set(RAMBlock *rb, void *host_addr);
-diff --git a/migration/ram.c b/migration/ram.c
-index bdc7cec4cd..5404431c71 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1161,7 +1161,7 @@ static void migration_bitmap_sync_precopy(RAMState *rs)
-     }
- }
- 
--static void ram_release_page(const char *rbname, uint64_t offset)
-+void ram_release_page(const char *rbname, uint64_t offset)
- {
-     if (!migrate_release_ram() || !migration_in_postcopy()) {
-         return;
--- 
-2.34.1
+If you have to respin, do you mind adding this 3 lines
+in the description? Anyhow:
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
