@@ -2,74 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 433E448BA75
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 23:05:42 +0100 (CET)
-Received: from localhost ([::1]:40168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A3A748BAA0
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 23:19:30 +0100 (CET)
+Received: from localhost ([::1]:44434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7PGu-0000H1-Rd
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 17:05:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43012)
+	id 1n7PUG-0003xM-MR
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 17:19:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
- id 1n7PEP-0007wM-PB
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 17:03:06 -0500
-Received: from [2607:f8b0:4864:20::102b] (port=37692
- helo=mail-pj1-x102b.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n7PT6-0003Gy-V0
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 17:18:16 -0500
+Received: from [2607:f8b0:4864:20::62e] (port=36856
+ helo=mail-pl1-x62e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
- id 1n7PEK-0001sQ-3N
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 17:03:03 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- y16-20020a17090a6c9000b001b13ffaa625so7924807pjj.2
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 14:02:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n7PT5-0003wG-CH
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 17:18:16 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id p14so1013942plf.3
+ for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 14:18:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4xwKh6iP4t0veOHU5bNziIUtQpkNv9SXQrmNqCWv240=;
- b=CR8Zr6CKBRan79zqy7gEdp6aD1IGRP1NILetexyePQucxC1pzU/LiQBmrnftrYOtPz
- nbInmhLp/ey487IXdcx6vHcFtHkLY/S2guJI5PKRhn/JHjpzqzTFz1EO9l8N7oVQs0oI
- Kd92dNI4fdCuE1YWmaL56dqm+bIg+EVDv7wjHVVkNQWJs7SpbgDKwr72KjCLnGpFNb9l
- +pkJRHjhDPdpdW+Vl1gOj58hQlFDFjZRs+531EgNR0OBIuzxfvWiYZ9WLjND/+G459Vo
- ywrpDA9+kLSe5xvRssNHvcE61g1jXdswywE5BWI82kCX2+qGzmu/5x2bf6RqBTBvDuLr
- lxNg==
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=j929x0x7hZ5nNpVqd72tD/sYtT0ykZ2LaNBcs7TkGCg=;
+ b=BwKNczo9ZC9i+47uQ+LDEXvPRQNNDrOPc+WMqzTzs5W3V6DUgwoVrLQhq6kVMSpytw
+ aMOX6p+Yoz3fHPUxwmvwybB8Oqx5xHWON9vsJMGCppiPOVHEijvoyrmYa0HMxf8fTRK1
+ JYzlex0+XrPb+yEejH2Zt5SyoS1a6dsfvOUcTxgLLAq3w0+ynzTaL7ShvaiPSDpSSCqS
+ X5E91LyShbP5oXY37zokVkRF+cilTKAweRoAIXk3pAmw7Z9ERM/BJy8c815WDq6g6oe2
+ tWeeFYmrP10iZ1ihBlum9Atijz2shCg57IZ617epMxybjDx+nJ584wXMY72yefTnQXL0
+ SVvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4xwKh6iP4t0veOHU5bNziIUtQpkNv9SXQrmNqCWv240=;
- b=AwdI8gDwJTUQk7Jr2ME5azU83WNumnjFJH+tyeXR6WGmUK3+vMLDVKoQz2fRxodTGw
- Q77uq8rdv3eI3CNgy3hnShMdKp4sEx47PR5kbaInzmbrBXw9PWh/xBOBkwQHbnovmU5K
- +dnANu4b7hVIRLwhsDpSWQ7wZkIZ5Hovd+oOrQVINTz9FMZmB4eO/druizGB7Lo6rlEo
- Szt6EFTVBuW7RAgbWvozZu5uWcgrM+VivJyD+BCpTsnZnqE5TD40fnn0gG3qTQ90ekLb
- CRIJEn883Em0k7ciN4XsoeFbSDoDX/Od4R3TeoCS2IhXE4W6KLTkbJPwioWG14gKbLd7
- fj6Q==
-X-Gm-Message-State: AOAM5329tHG4p1sQjfknCzwTf3mMekVviPZN8tZOIDTMPcp37E+ru5tb
- FHOqOBij3H1R5FHWIlgu7w96ApS0OBeexDNeKx8=
-X-Google-Smtp-Source: ABdhPJzMcU8aXd3mH4MTL6VuLxY+JPuyPbeyD9SLLPHwT3Gd7EQWv+QEqfYk7yw6MQeuqkFoqomWOxtxvPTZTYUGfvg=
-X-Received: by 2002:a05:6a00:b90:b0:4ba:b715:8fe7 with SMTP id
- g16-20020a056a000b9000b004bab7158fe7mr6383440pfj.77.1641938578820; Tue, 11
- Jan 2022 14:02:58 -0800 (PST)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=j929x0x7hZ5nNpVqd72tD/sYtT0ykZ2LaNBcs7TkGCg=;
+ b=wdqa+CyJC8ZtVA229Elt1i9rdxBvKzRHnBofSnfQT4tYwAwSkk4i4LPmZJV2Zxhq1y
+ omcCzLaoCvHVul1cb1QukvkhQncEe4AlhtYBBa4F47AG6TFzRfajbc92jrInS2Ddn3YB
+ X6tGHsgV5wN4/HsimHtQ5+gs9Hxx1AFyqQ7XJXq5jaKRwqhHEPDS6QaJ77lpMSBfcf7b
+ fTaOrxskA+eQfcGkEFArtsX3/mCaihRsJKUWd4qz08yGZNm3UJ7Dgb2t3m5lcSPxudNd
+ khZJS9cj6olOr231FCso3oqY6yoMsio72AvMQZrhIJj8eG8V/yeXonvQHsfSdk4LzNhH
+ xxyg==
+X-Gm-Message-State: AOAM530Y17M/TkhBmN4742d1ZFwk+UHuxnjVUw1919LooIqGGcJ8E3PX
+ L5PKs79hJGTyOSAknleuq2Q=
+X-Google-Smtp-Source: ABdhPJzl7p+0afpQxEekiDfNbv4+6/kLEchXHOwGE/L80JBGApbfuYhBBlqgEYrGDWdl0FMWksrD+Q==
+X-Received: by 2002:aa7:93ba:0:b0:4bd:bbca:1936 with SMTP id
+ x26-20020aa793ba000000b004bdbbca1936mr6447588pff.43.1641939494156; 
+ Tue, 11 Jan 2022 14:18:14 -0800 (PST)
+Received: from [192.168.1.33] (83.red-83-50-87.dynamicip.rima-tde.net.
+ [83.50.87.83])
+ by smtp.gmail.com with ESMTPSA id p6sm305539pgl.16.2022.01.11.14.18.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Jan 2022 14:18:13 -0800 (PST)
+Message-ID: <9f910809-420e-4705-45bd-143004597864@amsat.org>
+Date: Tue, 11 Jan 2022 23:18:09 +0100
 MIME-Version: 1.0
-References: <20220110034000.20221-1-jasowang@redhat.com>
- <CAFEAcA8qJM1ekUTBQ3eyBCBi6Avk1H=MqP0vMmFdJo-MgoEUAQ@mail.gmail.com>
- <CACGkMEvdFJCY7GBu+0cMBVVfdDN+9+H14QvF9R0LZyo74ZDSag@mail.gmail.com>
-In-Reply-To: <CACGkMEvdFJCY7GBu+0cMBVVfdDN+9+H14QvF9R0LZyo74ZDSag@mail.gmail.com>
-From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
-Date: Wed, 12 Jan 2022 01:02:47 +0300
-Message-ID: <CADO9X9Q745CTFWA+spCfzvaC03+xYR63mbSnARUEP6xYaAefJA@mail.gmail.com>
-Subject: Re: [PULL 00/13] Net patches
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000bbd30605d5559dd1"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.4.1
+Subject: Re: [PATCH 1/4] tests/qtest: Add a function that checks whether a
+ device is available
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Laurent Vivier <lvivier@redhat.com>
+References: <20211220081054.151515-1-thuth@redhat.com>
+ <20211220081054.151515-2-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20211220081054.151515-2-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=yaroshchuk2000@gmail.com; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62e.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -84,205 +96,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Miroslav Rezanina <mrezanin@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000bbd30605d5559dd1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 20/12/21 09:10, Thomas Huth wrote:
+> Devices might not always be compiled into the QEMU target binaries.
+> We already have the libqos framework that is good for handling such
+> situations, but some of the qtests are not a real good fit for the
+> libqos framework. Let's add a qtest_has_device() function for such
+> tests instead.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   tests/qtest/libqos/libqtest.h |  8 +++++++
+>   tests/qtest/libqtest.c        | 44 +++++++++++++++++++++++++++++++++++
+>   2 files changed, 52 insertions(+)
 
-=D0=B2=D1=82, 11 =D1=8F=D0=BD=D0=B2. 2022 =D0=B3., 5:10 AM Jason Wang <jaso=
-wang@redhat.com>:
-
-> On Tue, Jan 11, 2022 at 12:49 AM Peter Maydell <peter.maydell@linaro.org>
-> wrote:
-> >
-> > On Mon, 10 Jan 2022 at 03:40, Jason Wang <jasowang@redhat.com> wrote:
-> > >
-> > > The following changes since commit
-> df722e33d5da26ea8604500ca8f509245a0ea524:
-> > >
-> > >   Merge tag 'bsd-user-arm-pull-request' of gitlab.com:bsdimp/qemu
-> into staging (2022-01-08 09:37:59 -0800)
-> > >
-> > > are available in the git repository at:
-> > >
-> > >   https://github.com/jasowang/qemu.git tags/net-pull-request
-> > >
-> > > for you to fetch changes up to
-> 5136cc6d3b8b74f4fa572f0874656947a401330e:
-> > >
-> > >   net/vmnet: update MAINTAINERS list (2022-01-10 11:30:55 +0800)
-> > >
-> > > ----------------------------------------------------------------
-> > >
-> > > ----------------------------------------------------------------
-> >
-> > Fails to build on OSX Catalina:
-> >
-> > ../../net/vmnet-common.m:165:10: error: use of undeclared identifier
-> > 'VMNET_SHARING_SERVICE_BUSY'
-> >     case VMNET_SHARING_SERVICE_BUSY:
-> >          ^
-> >
-> > This constant only got added in macOS 11.0. I guess that technically
-> > our supported-platforms policy only requires us to support 11 (Big Sur)
-> > and 12 (Monterey) at this point, but it would be nice to still be able
-> > to build on Catalina (10.15).
->
-Yes, it was only supported by the vmnet framework starting from
-> Catalyst according to
-> https://developer.apple.com/documentation/vmnet?language=3Dobjc.
->
->
-Yes, there are some symbols from macOS >=3D 11.0 new backend
-uses, not only this one, ex. vmnet_enable_isolation_key:
-https://developer.apple.com/documentation/vmnet/vmnet_enable_isolation_key
-
->
-> > (Personally I would like Catalina still to work at least for a little
-> > while, because my x86 Mac is old enough that it is not supported by
-> > Big Sur. I'll have to dump it once Apple stops doing security support
-> > for Catalina, but they haven't done that quite yet.)
->
->
-Sure, broken builds on old macOSes are bad. For this case I think
-it's enough to disable vmnet for macOS < 11.0 with a probe while
-configure build step. Especially given that Apple supports ~three
-latest macOS versions, support for Catalina is expected to end
-in 2022, when QEMU releases 7.0.
-
-If this workaround is not suitable and it's required to support vmnet
-in Catalina 10.15 with a subset of available features, it can be done.
-But I'll be ready to handle this in approximately two-three weeks only.
-
-
-> Sure, Vladislav please fix this and send a new version.
->
->
-Quick fix as described above is available in v10:
-https://patchew.org/QEMU/20220111211422.21789-1-yaroshchuk2000@gmail.com/
-
-> Thanks
->
-> >
-> > -- PMM
-> >
->
->
->
-
---=20
-Best Regards,
-
-Vladislav Yaroshchuk
-
---000000000000bbd30605d5559dd1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"auto"><br><br><div class=3D"gmail_quote"><div =
-dir=3D"ltr" class=3D"gmail_attr">=D0=B2=D1=82, 11 =D1=8F=D0=BD=D0=B2. 2022 =
-=D0=B3., 5:10 AM Jason Wang &lt;<a href=3D"mailto:jasowang@redhat.com" targ=
-et=3D"_blank">jasowang@redhat.com</a>&gt;:<br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex">On Tue, Jan 11, 2022 at 12:49 AM Peter Maydell &lt;<a href=3D"mailt=
-o:peter.maydell@linaro.org" rel=3D"noreferrer" target=3D"_blank">peter.mayd=
-ell@linaro.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Mon, 10 Jan 2022 at 03:40, Jason Wang &lt;<a href=3D"mailto:jasowan=
-g@redhat.com" rel=3D"noreferrer" target=3D"_blank">jasowang@redhat.com</a>&=
-gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; The following changes since commit df722e33d5da26ea8604500ca8f509=
-245a0ea524:<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 =C2=A0Merge tag &#39;bsd-user-arm-pull-request&#39; of gitl=
-ab.com:bsdimp/qemu into staging (2022-01-08 09:37:59 -0800)<br>
-&gt; &gt;<br>
-&gt; &gt; are available in the git repository at:<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 =C2=A0<a href=3D"https://github.com/jasowang/qemu.git" rel=
-=3D"noreferrer noreferrer" target=3D"_blank">https://github.com/jasowang/qe=
-mu.git</a> tags/net-pull-request<br>
-&gt; &gt;<br>
-&gt; &gt; for you to fetch changes up to 5136cc6d3b8b74f4fa572f0874656947a4=
-01330e:<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 =C2=A0net/vmnet: update MAINTAINERS list (2022-01-10 11:30:=
-55 +0800)<br>
-&gt; &gt;<br>
-&gt; &gt; ----------------------------------------------------------------<=
-br>
-&gt; &gt;<br>
-&gt; &gt; ----------------------------------------------------------------<=
-br>
-&gt;<br>
-&gt; Fails to build on OSX Catalina:<br>
-&gt;<br>
-&gt; ../../net/vmnet-common.m:165:10: error: use of undeclared identifier<b=
-r>
-&gt; &#39;VMNET_SHARING_SERVICE_BUSY&#39;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0case VMNET_SHARING_SERVICE_BUSY:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^<br>
-&gt;<br>
-&gt; This constant only got added in macOS 11.0. I guess that technically<b=
-r>
-&gt; our supported-platforms policy only requires us to support 11 (Big Sur=
-)<br>
-&gt; and 12 (Monterey) at this point, but it would be nice to still be able=
-<br>
-&gt; to build on Catalina (10.15).=C2=A0<br></blockquote><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">
-Yes, it was only supported by the vmnet framework starting from<br>
-Catalyst according to<br>
-<a href=3D"https://developer.apple.com/documentation/vmnet?language=3Dobjc"=
- rel=3D"noreferrer noreferrer" target=3D"_blank">https://developer.apple.co=
-m/documentation/vmnet?language=3Dobjc</a>.<br>
-<br></blockquote><div><br></div><div>Yes, there are some symbols from macOS=
- &gt;=3D 11.0 new backend</div><div>uses, not only this one, ex. vmnet_enab=
-le_isolation_key:<br><a href=3D"https://developer.apple.com/documentation/v=
-mnet/vmnet_enable_isolation_key">https://developer.apple.com/documentation/=
-vmnet/vmnet_enable_isolation_key</a><br></div><div><br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex">
-&gt;<br>
-&gt; (Personally I would like Catalina still to work at least for a little<=
-br>
-&gt; while, because my x86 Mac is old enough that it is not supported by<br=
->
-&gt; Big Sur. I&#39;ll have to dump it once Apple stops doing security supp=
-ort<br>
-&gt; for Catalina, but they haven&#39;t done that quite yet.)<br>
-<br></blockquote><div><br></div><div>Sure, broken builds on old macOSes are=
- bad. For this case I think=C2=A0</div><div>it&#39;s enough to disable vmne=
-t for macOS &lt; 11.0 with a probe while=C2=A0</div><div>configure build st=
-ep. Especially given that Apple supports ~three=C2=A0</div><div>latest macO=
-S versions, support for Catalina is expected to end=C2=A0</div><div>in 2022=
-, when QEMU releases 7.0.</div><div><br></div><div>If this workaround is no=
-t suitable and it&#39;s required to support vmnet</div><div>in Catalina 10.=
-15 with a subset of available features, it can be done.</div><div>But I&#39=
-;ll be ready to handle this in approximately two-three weeks only.</div><di=
-v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex">
-Sure, Vladislav please fix this and send a new version.<br>
-<br></blockquote><div><br></div><div>Quick fix as described above is availa=
-ble in v10:<br><a href=3D"https://patchew.org/QEMU/20220111211422.21789-1-y=
-aroshchuk2000@gmail.com/">https://patchew.org/QEMU/20220111211422.21789-1-y=
-aroshchuk2000@gmail.com/</a></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-Thanks<br>
-<br>
-&gt;<br>
-&gt; -- PMM<br>
-&gt;<br>
-<br><br></blockquote><div><br></div></div></div><div><br></div>-- <br><div =
-dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><d=
-iv dir=3D"ltr">Best Regards,<div><br><div>Vladislav Yaroshchuk</div></div><=
-/div></div></div>
-
---000000000000bbd30605d5559dd1--
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
