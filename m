@@ -2,82 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F6BA48A576
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 03:12:35 +0100 (CET)
-Received: from localhost ([::1]:49640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA10748A5BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 03:40:45 +0100 (CET)
+Received: from localhost ([::1]:44418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n76eH-0006qP-Sb
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 21:12:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44000)
+	id 1n775Y-00070U-2Y
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 21:40:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1n76bw-0005vq-W8
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 21:10:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47320)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1n76wq-0006FG-9L; Mon, 10 Jan 2022 21:31:44 -0500
+Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=55179
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1n76br-0005lj-Ny
- for qemu-devel@nongnu.org; Mon, 10 Jan 2022 21:10:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641867003;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+8Orbrn7ZGlkAlnDzXwzVur3iljhIQ2kzfzVv28ihSY=;
- b=Z8gg1Z3LSwiJHypaRhKfbKZGBExuuEwTojb45KqQn0b5umXKVeBNwiGr1lS73lgTsbte2D
- vFrEpfVodFxXSiaFwi0zyNXJxcBvYFqWJRjuMTDBNs6jmqrZrOKQ9MvbfRrofiYeXlalsT
- DGoTfdfNNazSHCndLSCVXljSA0nR5/w=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-465-MjxOa9RpNH6Yd24hD4IXPw-1; Mon, 10 Jan 2022 21:10:00 -0500
-X-MC-Unique: MjxOa9RpNH6Yd24hD4IXPw-1
-Received: by mail-lf1-f70.google.com with SMTP id
- d12-20020a196b0c000000b0042afa90ae9bso5434827lfa.12
- for <qemu-devel@nongnu.org>; Mon, 10 Jan 2022 18:09:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+8Orbrn7ZGlkAlnDzXwzVur3iljhIQ2kzfzVv28ihSY=;
- b=inDC1p3Jpoj/sfE9f88ymPCMe0YuBaBLQvNp9xAjRoP7zWYMPn/hCndGxHDBBEPc9y
- EXFgX2/bKEKF+oWMGmAnQJq8L7lQs2vaj+yJ8OoRYXEx/y86uI6howJluDDjalOAeo2W
- w/A1d7UDxoOaetUZI11s4UCWn2cdqG74xI24zx6g8swpfcFKmOrT8sDrzBUkiyuD5VVu
- s+9vHRrHo+Ck8cMQQ2YcKpK4XJBvlH2pBIvK2dyTLVRTJF2ENCb9rbe4w0WU+zOsb3wD
- 5t0yanirU0w+HDZZeh/4tVHNfOL1mGjWICLapbq+b2vqmde92mhDqh7w0Es3e8FH8ejX
- eo2A==
-X-Gm-Message-State: AOAM532KG/VqydZIHxqyZ6CQfVgmnyfZYkhGnqw/voxEknBbFw7XHNSo
- vhXN/2XjKYXb7shcnvZe+pJNA6RXc2To9jbDuN213M8Sw+aQT8oM1L6iN3bkfwJFGDzfF7G6Oob
- TYHoNdLPRq49LkG9slPWZjxtjCXKNpQk=
-X-Received: by 2002:a19:760f:: with SMTP id c15mr1763538lff.498.1641866998243; 
- Mon, 10 Jan 2022 18:09:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwC5fjVaPfmP26Mj1TuGUjXI6otRnI8i9LU+6kaV61BRdZXACTUfz2V8yvQlQLLIfZ6tCbXToNy9Mv/RTmM2kE=
-X-Received: by 2002:a19:760f:: with SMTP id c15mr1763525lff.498.1641866997975; 
- Mon, 10 Jan 2022 18:09:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1n76wk-0000ys-D0; Mon, 10 Jan 2022 21:31:41 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4JXvpB1Rgxz4y4d; Tue, 11 Jan 2022 13:31:30 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1641868290;
+ bh=XzTgqL2Z8UhB1DiLj0Sa8LLyNgFGELUqGDC6HHJhAno=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lMsfuVAkeoo6MYsHf/gubkG5lnZhf8Sd1RaV+4k3qHKPRrgYX1rFUFLbVWFNTpHUN
+ tw01tNl2h9p4EWck64NSBv9TZodPQ2BY0YS279pSljdJi3xSTSgvMIBl2pKDJT+VO4
+ Gcem+BEXSFA+Vqan/XGp9Ji4NLCSYIdfD/DHiUco=
+Date: Tue, 11 Jan 2022 13:10:40 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Fabiano Rosas <farosas@linux.ibm.com>
+Subject: Re: [PATCH 2/8] target/ppc: 405: Add missing exception handlers
+Message-ID: <YdznIKAOxcLRSPDl@yekko>
+References: <20220110181546.4131853-1-farosas@linux.ibm.com>
+ <20220110181546.4131853-3-farosas@linux.ibm.com>
 MIME-Version: 1.0
-References: <20220110034000.20221-1-jasowang@redhat.com>
- <CAFEAcA8qJM1ekUTBQ3eyBCBi6Avk1H=MqP0vMmFdJo-MgoEUAQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA8qJM1ekUTBQ3eyBCBi6Avk1H=MqP0vMmFdJo-MgoEUAQ@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 11 Jan 2022 10:09:46 +0800
-Message-ID: <CACGkMEvdFJCY7GBu+0cMBVVfdDN+9+H14QvF9R0LZyo74ZDSag@mail.gmail.com>
-Subject: Re: [PULL 00/13] Net patches
-To: Peter Maydell <peter.maydell@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="cMbVlGZtnXciRPTT"
+Content-Disposition: inline
+In-Reply-To: <20220110181546.4131853-3-farosas@linux.ibm.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for
+ 2404:9400:2:0:216:3eff:fee2:21ea (failed)
+Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,59 +62,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 11, 2022 at 12:49 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Mon, 10 Jan 2022 at 03:40, Jason Wang <jasowang@redhat.com> wrote:
-> >
-> > The following changes since commit df722e33d5da26ea8604500ca8f509245a0ea524:
-> >
-> >   Merge tag 'bsd-user-arm-pull-request' of gitlab.com:bsdimp/qemu into staging (2022-01-08 09:37:59 -0800)
-> >
-> > are available in the git repository at:
-> >
-> >   https://github.com/jasowang/qemu.git tags/net-pull-request
-> >
-> > for you to fetch changes up to 5136cc6d3b8b74f4fa572f0874656947a401330e:
-> >
-> >   net/vmnet: update MAINTAINERS list (2022-01-10 11:30:55 +0800)
-> >
-> > ----------------------------------------------------------------
-> >
-> > ----------------------------------------------------------------
->
-> Fails to build on OSX Catalina:
->
-> ../../net/vmnet-common.m:165:10: error: use of undeclared identifier
-> 'VMNET_SHARING_SERVICE_BUSY'
->     case VMNET_SHARING_SERVICE_BUSY:
->          ^
->
-> This constant only got added in macOS 11.0. I guess that technically
-> our supported-platforms policy only requires us to support 11 (Big Sur)
-> and 12 (Monterey) at this point, but it would be nice to still be able
-> to build on Catalina (10.15).
 
-Yes, it was only supported by the vmnet framework starting from
-Catalyst according to
-https://developer.apple.com/documentation/vmnet?language=objc.
+--cMbVlGZtnXciRPTT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->
-> (Personally I would like Catalina still to work at least for a little
-> while, because my x86 Mac is old enough that it is not supported by
-> Big Sur. I'll have to dump it once Apple stops doing security support
-> for Catalina, but they haven't done that quite yet.)
+On Mon, Jan 10, 2022 at 03:15:40PM -0300, Fabiano Rosas wrote:
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+> ---
+>  target/ppc/cpu_init.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+> index a50ddaeaae..9097948e67 100644
+> --- a/target/ppc/cpu_init.c
+> +++ b/target/ppc/cpu_init.c
+> @@ -1951,7 +1951,9 @@ static void init_excp_4xx_softmmu(CPUPPCState *env)
+>      env->excp_vectors[POWERPC_EXCP_EXTERNAL] =3D 0x00000500;
+>      env->excp_vectors[POWERPC_EXCP_ALIGN]    =3D 0x00000600;
+>      env->excp_vectors[POWERPC_EXCP_PROGRAM]  =3D 0x00000700;
+> +    env->excp_vectors[POWERPC_EXCP_FPU]      =3D 0x00000800;
 
-Sure, Vladislav please fix this and send a new version.
+I have a vague recollection from my days of working on 405 that there
+may have been something funky with FP emulation on there: e.g. FP
+instructions causing 0x700 program interrupts instead of FP unavailble
+interrupts or something.
 
-Thanks
+I might be remembering incorrectly - the manual does seem to imply
+that 0x800 FP unavailable is there as normal, but it might be worth
+double checking this (against real hardware, if possible).
 
->
-> -- PMM
->
+>      env->excp_vectors[POWERPC_EXCP_SYSCALL]  =3D 0x00000C00;
+> +    env->excp_vectors[POWERPC_EXCP_APU]      =3D 0x00000F20;
+>      env->excp_vectors[POWERPC_EXCP_PIT]      =3D 0x00001000;
+>      env->excp_vectors[POWERPC_EXCP_FIT]      =3D 0x00001010;
+>      env->excp_vectors[POWERPC_EXCP_WDT]      =3D 0x00001020;
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--cMbVlGZtnXciRPTT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmHc5yAACgkQbDjKyiDZ
+s5LGuQ/9FdoRWsQ3HoLt8r8y5umiSFszGwguFm6kFdfeCoHdbSGfyAfyBCgjUZy+
+mOznUqNDJbnUBUxuVbuvQeVI1qBmwZ8CRwF5jcpMpxf9fUN/4XHbAPUr2rsVSGYB
+NvhYxUoKrha70+dE/l0zvwLZnF5jYYSmSbCj0auVwdjPHhGlOekHL0Al4L5dPurs
+L3NOGjWFFVSgYf0z5ngzABDLbdAzCaYFrQI5R+fCLmqaAbXMM02qfwunoeDtgejo
+TbPaMFX4Hkv7om2oCFNUpf0E+6rcBhCuZ3Rxay9l2fjEkcKidXmmkxxckuf98bAp
+KcP2zdvJRWguT/ykX5TUZspwgXxV14lXhYDfbebIrg8MSTv1ROoCpEcTGpgXc65W
+TAtLZhs0Gmc/tYE7twtbgK6BduYtjmDMpKsz0+m4uZZqGwBWmVxQVmyxFq9oXUZ0
++23PK094ELnpIu6dyHdLDz2vIuk/cY71gnfiCQUQLa8sJ14/l+TC1TUUR7k0C1Mw
+GadrzBlZsxKWaxsnqO/S+qFymlpg8Nem/jHElWwl1yMpcvpVQhBjTx1Ok1e+d423
+yf2xL90XT15OhPldeev4ASBggismZ1FhImBFHyHpl5i66zzh7EB2zMW/VYapp2Mf
+d0uoXhRpFSL0jkj6SGlL1YrKGQmQHlAUf/A5wrVyUYxkCkQqMy4=
+=nBCt
+-----END PGP SIGNATURE-----
+
+--cMbVlGZtnXciRPTT--
 
