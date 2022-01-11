@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC5348A5B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 03:35:54 +0100 (CET)
-Received: from localhost ([::1]:36336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 193D348A5D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 03:46:26 +0100 (CET)
+Received: from localhost ([::1]:51768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n770r-0001Fh-Uh
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 21:35:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49720)
+	id 1n77B3-0004NO-19
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 21:46:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1n76wq-0006FI-9n; Mon, 10 Jan 2022 21:31:44 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76]:48221)
+ id 1n76wv-0006Lo-NC; Mon, 10 Jan 2022 21:31:50 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:52795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1n76wk-0000yo-7i; Mon, 10 Jan 2022 21:31:40 -0500
+ id 1n76ws-000157-FI; Mon, 10 Jan 2022 21:31:49 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4JXvpB1sxcz4y4f; Tue, 11 Jan 2022 13:31:30 +1100 (AEDT)
+ id 4JXvpB2019z4y4k; Tue, 11 Jan 2022 13:31:30 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1641868290;
- bh=TqM3ukatbtQElS4QSK8MFTCaq13xINDtSYuj0ngANjY=;
+ bh=jwmoFAqhyRkfvalGZGG7zBHYeS9S7iIN/cijfGFZI5g=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JAXSRF3/uaaEgWYlhNz93bPHCqzILGRFpTIy6AhUKduodTc37SjyhCwo9XpO5aoPi
- qF/e8DtRPp6q1zXNhHoE8FMTtmxK5IixbDBEhOmwttEyd7Ij7107qwT/rm6A0McQgn
- gEgDUbUovO3o7d/DQm+ZY/noYJ9h1TDB1m4zlmLU=
-Date: Tue, 11 Jan 2022 13:26:07 +1100
+ b=O3a7+opdFN3yZX8a/qDbGqKtmZAfRbrnl0hxyO/97pstBkH5Zo6T2u0imUTluQAQJ
+ sWudkwzPgjjKWrJimJyFVBPNai2dAuwB827rkVQmXckfvGiuMZiFFvbEjBix4LNS1y
+ 6I/vvVSvYszdQ2RTCSsILycP8nq6vuRZejtWx8uI=
+Date: Tue, 11 Jan 2022 13:26:46 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH 5/8] target/ppc: 405: Critical exceptions cleanup
-Message-ID: <Ydzqv5Tij9BNu6QT@yekko>
+Subject: Re: [PATCH 6/8] target/ppc: 405: Machine check exception cleanup
+Message-ID: <Ydzq5rfy8H95kWFn@yekko>
 References: <20220110181546.4131853-1-farosas@linux.ibm.com>
- <20220110181546.4131853-6-farosas@linux.ibm.com>
+ <20220110181546.4131853-7-farosas@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="uHeB9qKC7VXWqzu1"
+ protocol="application/pgp-signature"; boundary="+mq38bfEvp0WeEL8"
 Content-Disposition: inline
-In-Reply-To: <20220110181546.4131853-6-farosas@linux.ibm.com>
+In-Reply-To: <20220110181546.4131853-7-farosas@linux.ibm.com>
 Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
@@ -64,62 +64,66 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---uHeB9qKC7VXWqzu1
+--+mq38bfEvp0WeEL8
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 10, 2022 at 03:15:43PM -0300, Fabiano Rosas wrote:
-> In powerpc_excp_40x the Critical exception is now for 405 only, so we
-> can remove the BookE and G2 blocks.
+On Mon, Jan 10, 2022 at 03:15:44PM -0300, Fabiano Rosas wrote:
+> powerpc_excp_40x applies only to the 405, so remove HV code and
+> references to BookE.
 >=20
 > Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  target/ppc/excp_helper.c | 17 ++---------------
->  1 file changed, 2 insertions(+), 15 deletions(-)
+>  target/ppc/excp_helper.c | 26 ++------------------------
+>  1 file changed, 2 insertions(+), 24 deletions(-)
 >=20
 > diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 1d997c4d6b..fecf4d5a4e 100644
+> index fecf4d5a4e..82ade5d7bd 100644
 > --- a/target/ppc/excp_helper.c
 > +++ b/target/ppc/excp_helper.c
-> @@ -431,20 +431,8 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int ex=
-cp)
+> @@ -449,34 +449,12 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int e=
+xcp)
+>              cs->halted =3D 1;
+>              cpu_interrupt_exittb(cs);
+>          }
+> -        if (env->msr_mask & MSR_HVB) {
+> -            /*
+> -             * ISA specifies HV, but can be delivered to guest with HV
+> -             * clear (e.g., see FWNMI in PAPR).
+> -             */
+> -            new_msr |=3D (target_ulong)MSR_HVB;
+> -        }
 > =20
->      switch (excp) {
->      case POWERPC_EXCP_CRITICAL:    /* Critical input                    =
-     */
+>          /* machine check exceptions don't have ME set */
+>          new_msr &=3D ~((target_ulong)1 << MSR_ME);
+> =20
+> -        /* XXX: should also have something loaded in DAR / DSISR */
 > -        switch (excp_model) {
 > -        case POWERPC_EXCP_40x:
 > -            srr0 =3D SPR_40x_SRR2;
 > -            srr1 =3D SPR_40x_SRR3;
 > -            break;
 > -        case POWERPC_EXCP_BOOKE:
-> -            srr0 =3D SPR_BOOKE_CSRR0;
-> -            srr1 =3D SPR_BOOKE_CSRR1;
-> -            break;
-> -        case POWERPC_EXCP_G2:
+> -            /* FIXME: choose one or the other based on CPU type */
+> -            srr0 =3D SPR_BOOKE_MCSRR0;
+> -            srr1 =3D SPR_BOOKE_MCSRR1;
+> -
+> -            env->spr[SPR_BOOKE_CSRR0] =3D env->nip;
+> -            env->spr[SPR_BOOKE_CSRR1] =3D msr;
 > -            break;
 > -        default:
-> -            goto excp_invalid;
+> -            break;
 > -        }
 > +        srr0 =3D SPR_40x_SRR2;
 > +        srr1 =3D SPR_40x_SRR3;
 >          break;
->      case POWERPC_EXCP_MCHECK:    /* Machine check exception             =
+>      case POWERPC_EXCP_DSI:       /* Data storage exception              =
      */
->          if (msr_me =3D=3D 0) {
-> @@ -698,7 +686,6 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int exc=
-p)
->                    powerpc_excp_name(excp));
->          break;
->      default:
-> -    excp_invalid:
->          cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
->          break;
->      }
+>          trace_ppc_excp_dsi(env->spr[SPR_DSISR], env->spr[SPR_DAR]);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -127,25 +131,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---uHeB9qKC7VXWqzu1
+--+mq38bfEvp0WeEL8
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmHc6r8ACgkQbDjKyiDZ
-s5JgTxAAt3u2fUPuV5p1DFPYXheDMwPluEvkPOJwb0/4YNmIWTACPYI+JfD24HFR
-uUubZ6yyS0wkAeb4IKKd9WiWOrLOSszil/t4Otcpax8Xx6mOI5mprZFTldE3mlkK
-f06Cffd2Bg5zDOXVGIk/44l2vR/caMd1nHOaTyeOyzXCim7txfTvnaPjcvOQXxEC
-OBQr5wKgld91JYqiO0EwH/Uk45O5FDuME65Ha5PnnIzCs24Fuc3MEz1vrHlQrC1T
-kCzTA/pzpM7JQtVpSIIzgEKM5OK3XBHCxapfcE33voMPoLQje7xs91FE0Gvn2dKH
-uQdkxL7Yh8my9+2jkdhdPtgpYIGm/WN2g0Ko3tue7/EuoexB9JtoW79r2/fnaQ2l
-SRJa1+9FwnXFIaumUsXwj4QOCyeOLjP3pSDswsol1n4Vodtq10HdgTDf4MF4jauy
-cLaTMeXkruFKiKHstaA178bff/L4OFGh9QUH0gDHI8cvZwNAMc+V5CrK4rkcD632
-IFZoaWfBN+pZt2EhcskJmMZjuwLo6G7xbanlOuEwJ8mk+k/C2yWfXH1wg43mpIQo
-wMLaYFPENE0cf0tpzj4WsNke3jtIhOHHj2yuCrYJ8gM6z6uk38Grml2Xue6Dm0A5
-xLM9EWLVPnOE3wKE4yAfufaJ9kRsCKTG0m6V+Z7zSAGzFh6kGdE=
-=UK4b
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmHc6uYACgkQbDjKyiDZ
+s5K2tQ/+PKSf8GQXfYLRyEZl8GjNtGLxplLUVGXgN4BE+4mgNeXKpGa+/LSpwA45
+HRFk5yzKALs+u0IJwdof2kACuo6igYU6gA14E9KTV2K94IjrrdR4tndEZX4gVFDx
+ccmOT9td0/nZit5BRbHIbnTbbudFCzrBpoEQlJgbCqM/zu7mEFWCQ1rOD/OKlI7l
+Goo5vrxfLWdj3dWWtlY2I0yl5V8TQeeCS3wwHotKD32R2h1VAF0zMqgYUU4X70+T
+iyI09B/1Dnm8kUigh0NNx+k1xaIy5+rSJW19dvBxix5fUS/NPzvtqeACqG+t9K3u
+HZ+b4mIq5H/CI5OstUeMqresbJX08Qc8vhJczKxxpd+TxlUBHYek+SW1G5TEqQkO
+jLwKqJAmic5A270gkC6nJcD5Dv9xtOl+4AAaAQ+XalTM5KU8Ts7OcKq3BeejFVN6
+cnZnX9DVnVpmnbZ/mQUN3dQIf5qL/AKMtc0dWDoQqepd2wFfJvQXCBqPl5RQA4Ho
+/EezQ1TbdjIh4jCrBGvTJS7BHkauyBkbllgJSxfpTALGMlZLFArrR2Nx61kj3kO1
+o+KL3/PQaE3Mdfh4Y1qDaoil1bm4X7EGfqqFw5kAWNUPBy3OF4gpA+wrlYxSakBO
+ds82c4oQuXl6dwpvzwQ5VDNaRA/m0DSiHY0Cp6qAqnuxTse1jew=
+=VPfo
 -----END PGP SIGNATURE-----
 
---uHeB9qKC7VXWqzu1--
+--+mq38bfEvp0WeEL8--
 
