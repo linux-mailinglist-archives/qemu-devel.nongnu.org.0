@@ -2,65 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A7648AB31
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 11:14:24 +0100 (CET)
-Received: from localhost ([::1]:44998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D07548AB3B
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 11:18:13 +0100 (CET)
+Received: from localhost ([::1]:48902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7EAY-0007ZN-9u
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 05:14:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38760)
+	id 1n7EEF-0002aL-Jb
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 05:18:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n7E8e-0006Tv-7m
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 05:12:24 -0500
-Received: from [2a00:1450:4864:20::32e] (port=35482
- helo=mail-wm1-x32e.google.com)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1n7EAX-0008Qj-QW
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 05:14:21 -0500
+Received: from [2a00:1450:4864:20::42b] (port=34702
+ helo=mail-wr1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n7E8c-00020n-FS
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 05:12:23 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- q9-20020a7bce89000000b00349e697f2fbso484112wmj.0
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 02:12:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1n7EAV-00027a-7U
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 05:14:21 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id h10so21808306wrb.1
+ for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 02:13:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xeIa1CDwsqPG1wJRcbXcWnh3Th9lmTjvMmUCpWXl834=;
- b=C7eW0HzJmB7PihyhoARppyHyA+q9oOG+PWLyQt8QCfpmkoZ2GgDKp53x6ZBObsvTBX
- zzTh0utPHPHAldX1Nub8KA1jRtyKDa/1o6wiIN2dgcnQdHH2Elz+uPMgnnxhB+FxzpRm
- SZZG5jxF2TqV2W1H8FXz6Z2k/+sWnwxS8VLVSEKkSVrmSlS1pEOk4hh3TjL5UudOQk/F
- D9YdoujBoAKoEjRj3HAz8Q+yJx/PxWrdOOpszCjByVbM/TR5Ps0Jn0jhTfrru0PT06wy
- otKZ1JKq82M878HmX6A+jpncJfcz4lq+vZj/WaBr6SMoGA814fljdNtgshcFe90T2fsX
- cxOQ==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=UfiOqNQXiUNpKC4+H6q/1Ps2JD9gx9xtbgbCJ4m3nv4=;
+ b=wwaO0fyVk/d0q1RrHE/Sagsu5KFvZvhV/l5eR9O//kJZLQzHGp6Iv02cVhUtgWzhmA
+ 97Gaqq/8e5MLY+VxD3awBdTp6qTji3pIlEG2+FwoFAC6+zHYOIGoDz1KRwZCcqjhZXA0
+ Wkpn1D2esXd09+VZtuqV3gAeC4KokU1LGEahVS2SlsiE6Uokiu/48OCEWw1gNoQ25cCQ
+ A89OTGzWcqzASM1QeQBUP0W1DsbSlfKU1+65Gn9eXdKTrkjwGMZVRDtIdf9jYzMQbk8L
+ Uxinwo/cw6XOIBXo8rMHaSzIBw/K4gGM8DdlkeJpEPq06P7KLdq9hrhYcKp1Snc11IlQ
+ YBxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xeIa1CDwsqPG1wJRcbXcWnh3Th9lmTjvMmUCpWXl834=;
- b=QehIYtP0bk6XkLzNCql4CDWYM83lrKV4I71NGnR2cHz0HguaqcIV8pnqD88Loox1kq
- YOh0Hyr+Dv/k95tyS0HOgiQtUYkuJ1G43Pq8d7lKRh/Fx5RJETjAAFJt6wgvAjgyLS2X
- hMUU0S+Got4K8FfrXgFD8ZDqVNZWlqRDm8EB4rKohAM+2GLquqLdP/UOp3zjhadNz9dd
- vg6YUjTQQVfbUq/I4i3LOq1gwzznw1lXwX8KaLVENR+nTLRVpwZWidx9JLQDBDJatUCa
- RuRquLLT63mOWS7QFYNYq/9ZMzVreQjYslUJPgQoXgDRmnROe4nZeENTSVFtcV9ChYKN
- P3iQ==
-X-Gm-Message-State: AOAM5316Z0Xx6nAigAIpR6T3bnxxD8q2qIDm3dT6jftLHtOfMueZwzFr
- EQ+ylqTBT1dwyhGcUZZ5/lYJa3A8lLLrZbwYCxIMAg==
-X-Google-Smtp-Source: ABdhPJyYCXsl0J2K0GUVEIZ5sueBxzHNhSvQYLwIbIjw3frp5uksYzuT+3VZxqnFvhM+mr/owmaJj1sjrzVwNpDtHfE=
-X-Received: by 2002:a1c:f70d:: with SMTP id v13mr1774576wmh.133.1641895941142; 
- Tue, 11 Jan 2022 02:12:21 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=UfiOqNQXiUNpKC4+H6q/1Ps2JD9gx9xtbgbCJ4m3nv4=;
+ b=zZbRtZdFVwmydAwt0wbfn1Y6eteRU3cTrJkRYrSIeEd4DphrzgCTfvA9TjYTTNJ6dw
+ mvd4Xwvi5PhjM7tBeRRwPP3Db/DM9fQlH6R5U4adgvlVjoJXR6Kqduvq/voybX6nJixa
+ FE6AZIqe/cJ9Gbe+juBsXr7nQwk+S3DKO92M8tG57YhWBmxVPDsx1ZjbDfsi+s0+pglO
+ cjdmYVkp425RRIyh0TqFXPLtuEQeoddFVXr9FNaTjszcdEXYFXnZDD3ssL96uh/IIfjy
+ XGMAKhk4wznIUBzXs7rkc7yu9UxNXS/yZA79c+gTp6ppr2lkQhV68SEfeMIAaaQ83WiJ
+ VRiA==
+X-Gm-Message-State: AOAM531CsfR9KgR7F/QrZKMNwoLgzyhbo821u8HFGD+plKJ3QiuAh3FB
+ iHrNX0CQ3s/gbB8s4iMbJ7MJJA==
+X-Google-Smtp-Source: ABdhPJyov6Jp1Csb8JixYLuVoQf41G+2K8BEZmiMXd4ukaQgNFTzdsoat1sd5hfHmiBSz1yT+uHrmw==
+X-Received: by 2002:a5d:690c:: with SMTP id t12mr3249911wru.536.1641896029142; 
+ Tue, 11 Jan 2022 02:13:49 -0800 (PST)
+Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
+ [82.27.106.168])
+ by smtp.gmail.com with ESMTPSA id q206sm1288592wme.8.2022.01.11.02.13.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Jan 2022 02:13:48 -0800 (PST)
+Date: Tue, 11 Jan 2022 10:13:26 +0000
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH 0/3] virtio-iommu: Support VIRTIO_IOMMU_F_BYPASS_CONFIG
+Message-ID: <Yd1YRkJDv35bQ/PR@myrica>
+References: <20210930185050.262759-1-jean-philippe@linaro.org>
+ <a98b63f9-000b-7647-0ac5-3e6e5ec7f6a7@redhat.com>
 MIME-Version: 1.0
-References: <20220110144034.67410-1-pbonzini@redhat.com>
-In-Reply-To: <20220110144034.67410-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 11 Jan 2022 10:12:10 +0000
-Message-ID: <CAFEAcA9Bpn7U+0h7XnW_NZfKr1cdftAkd7HTNHo9zMP0OF3oAg@mail.gmail.com>
-Subject: Re: [PULL v4 00/18] Build system and KVM changes for 2021-12-23
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a98b63f9-000b-7647-0ac5-3e6e5ec7f6a7@redhat.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -80,36 +87,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 10 Jan 2022 at 15:01, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The following changes since commit afe33262585565b64df706c62b4b0f6e0ad30c71:
->
->   Merge tag 'pull-riscv-to-apply-20220108' of github.com:alistair23/qemu into staging (2022-01-07 22:09:24 -0800)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to fb714a07243a88c41002c23a24e174c5d9d40d57:
->
->   meson: reenable filemonitor-inotify compilation (2022-01-09 17:45:02 +0100)
+Hi Eric,
 
-This breaks the centos-stream-8-x86_64 job:
-https://gitlab.com/qemu-project/qemu/-/jobs/1959569820
+On Tue, Jan 11, 2022 at 10:02:12AM +0100, Eric Auger wrote:
+> Hi Jean, Michael,
+> 
+> On 9/30/21 8:50 PM, Jean-Philippe Brucker wrote:
+> > Replace the VIRTIO_IOMMU_F_BYPASS feature with
+> > VIRTIO_IOMMU_F_BYPASS_CONFIG, which enables a config space bit to switch
+> > global bypass on and off.
+> >
+> > Add a boot-bypass option, which defaults to 'on' to be in line with
+> > other vIOMMUs and to allow running firmware/bootloader that are unaware
+> > of the IOMMU.
+> >
+> > See the spec change for more rationale
+> > https://lists.oasis-open.org/archives/virtio-dev/202109/msg00137.html
+> 
+> I guess the kernel bits should be merged in 5.17?
 
-because the commit "block/file-posix: Simplify the XFS_IOC_DIOINFO handling"
-removes the configure --disable-xfsctl option, but that job's config
-is still using it (looks like we set this up in the file
-scripts/ci/org.centos/stream/8/x86_64/configure)
+Yes, they should. I can resend at 5.17-rc1 along with a commit updating
+the linux headers. Or is there a specific process for synchronizing the
+headers?  Looking at git log it looks like scripts/update-linux-headers.sh
+is run by whomever needs new UAPI features.
 
-'git grep xfsctl' shows that scripts/coverity-scan/run-coverity-scan
-is also still using --enable-xfsctl, which has similarly
-been removed by that commit.
+Thanks,
+Jean
 
-thanks
--- PMM
 
