@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A02B48B68A
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 20:13:27 +0100 (CET)
-Received: from localhost ([::1]:39028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D4D248B67E
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 20:08:10 +0100 (CET)
+Received: from localhost ([::1]:60936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7MaD-00051Q-NP
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 14:13:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58140)
+	id 1n7MV7-0000ZS-F5
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 14:08:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n7M7K-0003vB-Kw; Tue, 11 Jan 2022 13:43:35 -0500
-Received: from [2a00:1450:4864:20::42c] (port=42931
- helo=mail-wr1-x42c.google.com)
+ id 1n7M7W-00044j-VL; Tue, 11 Jan 2022 13:43:47 -0500
+Received: from [2a00:1450:4864:20::335] (port=39896
+ helo=mail-wm1-x335.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n7M7J-0005x2-4T; Tue, 11 Jan 2022 13:43:34 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id k30so17130596wrd.9;
- Tue, 11 Jan 2022 10:43:32 -0800 (PST)
+ id 1n7M7T-0005z8-H7; Tue, 11 Jan 2022 13:43:45 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ d18-20020a05600c251200b0034974323cfaso2012085wma.4; 
+ Tue, 11 Jan 2022 10:43:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vXKALJ9Nu0jmF9J3PAVqCeW9IO5VC/1PKk5EvcGi5w4=;
- b=S1NDalDoSqmALxJhCjDz19+gNkjEysmPv3ly2IAYh4RDFnwwqZyxownJDxs3Wytp4/
- /9e2ShOSr1lG0vq6tXcvKBDUnWtYxILycyptExmYYzhyfa9ET97YP9Iuh0FCxZAiWwH0
- nsoBlfG/B2QjfDmirg1+4m9BqmyNr52sljNn/2juGCT3hD/u0yyQDW/AJWCdk17KOk8V
- eKpgReIwTE3KXNAcvYOHVlvMX1HC32SO5hokN3X1cYMXRFLOIbcq+T8VbkZoXHkeID71
- YX62Lcmv29q+Rbvz8ZXeQeiLfW3sNvWMPkQIu+ej6kCLcXVsX0QFfCzKZk0VlO7xGd3l
- G0fQ==
+ bh=h+lDAXEOTcm4u7MlOE1caLxtILFoWnaSvPcbQGLiji8=;
+ b=JC0/+LYchDEJIrqYSOW/9UfetmvgTgvO5ZhnBDTvUX/0ZZzC1ZIsVierhl7+dBROx7
+ If17DzWgT6jJeAB7K//dBBlg3uAkGld0iIqvFNfBrh5A8nw1rwY/GKfgfHhYnFB+SiFq
+ C0cPXZSUcXh1bmmEzGMJjoIGp4AbfVN1JkP9LyiaFoZueslE/QDzRW1l45Zcs0DEO7uu
+ 5rBbtvdyjDye5iDHPtPPc0ZJrT2Mm7IBQod51EvxKjkpUqm2R8gaNAP9hE2lTgX96rH3
+ GJhzIoErOWPrUzM7RPPfXiWbRiz+BjCsvRv06bZIoXFGgaBXH29Le7kYh0MgLJU/zLUw
+ Zpog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=vXKALJ9Nu0jmF9J3PAVqCeW9IO5VC/1PKk5EvcGi5w4=;
- b=jFYzsidag8w89oqL7hM9VCbeObBUp6Cg9lWYWDshe2cK+0JeIAZD/SnoTBOrNx+lCX
- sKhNS/Omghvbcn131UQyyNz0FoaAhAH4dfmik3MNFU9/gMeqWvsdMeUR+Kt3gSYs4m8e
- nrujRQIkmCfZ6wfyLQgNkcs8Q34G1By/fshDaCQaETBqU0J3ErArQzWD2Cr25LJloBbf
- 982e5xwmBf/swZo68rAApZtVnQvI4yi3G04FAqhGXnNwFTa5bfTNB+dosmKj9GrFnF0U
- Ggc8gY8VaZyOPaWQgSV+NWt9VWNancGU2nBGCum+s0aO4SOdqbsnEQcQWeaDGPjT0cgD
- l4Jw==
-X-Gm-Message-State: AOAM532ilPjhi4PLyL7Y8NDMFr5SsxUJo9Skz0Mc/t+AKU/oTlfq6xmb
- nOy7/TJjpfUga5HObnXw56AA52gue8Aqfw==
-X-Google-Smtp-Source: ABdhPJxAYbvc6pNab+X/7N2NFyoS5b5GylEV2i2et+R6FDB6Y0C/NLPzpde46csFF93+oVC9r4cw1A==
-X-Received: by 2002:a05:6000:1ac6:: with SMTP id
- i6mr4991329wry.373.1641926611183; 
- Tue, 11 Jan 2022 10:43:31 -0800 (PST)
+ bh=h+lDAXEOTcm4u7MlOE1caLxtILFoWnaSvPcbQGLiji8=;
+ b=7XivVedkAWff8zCwQprJWb+OhwojNKFHmLz/9QI8GTtn0XtzKduZh3vDjQp8xVzh8H
+ TeIleR70yzlkjY+jO+5UD8RhXcoL4qtRhym4OY1LkdV5k1IUOwqRJFW1Mb/mt64EyAT/
+ fdTnir4iKmibCscLGXU6yY3a0zKUXS7QkytCiwu2oMaPsRJjqhrKKmJqaNalFUpjUCsS
+ Ld1iylQgeBKOeTAZbwbI6gIDrsHoG2LD1PAOsZZ254agg+JFI9JS/baqWr88XvYOlC+U
+ 2RYt3gbYzjkANb67asx6mhTZoYGpjta8k0UtrsSe1BsyQqKt6eNyCteYC7Z85lzYNdaY
+ oh7g==
+X-Gm-Message-State: AOAM533ZJv/QyqOgNUR0CC0iBOJpp1B/LXi2vlIrYooMTLlrX1ySq/f2
+ fk4pmKOb4Y4nRVwubPk8oXECY7VQ2K8clQ==
+X-Google-Smtp-Source: ABdhPJyJWow6mrIf71LqkIIiyDhO1LLcZzexX3QTCwpP5nefautqjiIS9Rkj1xRnzyYLBvxrr81HAA==
+X-Received: by 2002:a7b:c4da:: with SMTP id g26mr3724346wmk.191.1641926621389; 
+ Tue, 11 Jan 2022 10:43:41 -0800 (PST)
 Received: from nuc.. (83.red-83-50-87.dynamicip.rima-tde.net. [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id d11sm10648594wri.101.2022.01.11.10.43.30
+ by smtp.gmail.com with ESMTPSA id 1sm10888427wrb.13.2022.01.11.10.43.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jan 2022 10:43:30 -0800 (PST)
+ Tue, 11 Jan 2022 10:43:41 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/10] hw/pci: Document pci_dma_map()
-Date: Tue, 11 Jan 2022 19:43:03 +0100
-Message-Id: <20220111184309.28637-5-f4bug@amsat.org>
+Subject: [PATCH v3 06/10] hw/rdma/rdma_utils: Rename rdma_pci_dma_map 'len'
+ argument
+Date: Tue, 11 Jan 2022 19:43:05 +0100
+Message-Id: <20220111184309.28637-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220111184309.28637-1-f4bug@amsat.org>
 References: <20220111184309.28637-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -97,37 +98,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
+Various APIs use 'pval' naming for 'pointer to val'.
+rdma_pci_dma_map() uses 'plen' for 'PCI length', but since
+'PCI' is already explicit in the function name, simplify
+and rename the argument 'len'. No logical change.
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/pci/pci.h | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ hw/rdma/rdma_utils.h |  2 +-
+ hw/rdma/rdma_utils.c | 14 +++++++-------
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 483d5c7c727..023abc0f791 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -881,6 +881,18 @@ PCI_DMA_DEFINE_LDST(q_be, q_be, 64);
+diff --git a/hw/rdma/rdma_utils.h b/hw/rdma/rdma_utils.h
+index 9fd0efd940b..0c6414e7e0a 100644
+--- a/hw/rdma/rdma_utils.h
++++ b/hw/rdma/rdma_utils.h
+@@ -38,7 +38,7 @@ typedef struct RdmaProtectedGSList {
+     GSList *list;
+ } RdmaProtectedGSList;
  
- #undef PCI_DMA_DEFINE_LDST
+-void *rdma_pci_dma_map(PCIDevice *dev, dma_addr_t addr, dma_addr_t plen);
++void *rdma_pci_dma_map(PCIDevice *dev, dma_addr_t addr, dma_addr_t len);
+ void rdma_pci_dma_unmap(PCIDevice *dev, void *buffer, dma_addr_t len);
+ void rdma_protected_gqueue_init(RdmaProtectedGQueue *list);
+ void rdma_protected_gqueue_destroy(RdmaProtectedGQueue *list);
+diff --git a/hw/rdma/rdma_utils.c b/hw/rdma/rdma_utils.c
+index 98df58f6897..61cb8ede0fd 100644
+--- a/hw/rdma/rdma_utils.c
++++ b/hw/rdma/rdma_utils.c
+@@ -17,29 +17,29 @@
+ #include "trace.h"
+ #include "rdma_utils.h"
  
-+/**
-+ * pci_dma_map: Map device PCI address space range into host virtual address
-+ * @dev: #PCIDevice to be accessed
-+ * @addr: address within that device's address space
-+ * @plen: pointer to length of buffer; updated on return to indicate
-+ *        if only a subset of the requested range has been mapped
-+ * @dir: indicates the transfer direction
-+ *
-+ * Return: A host pointer, or %NULL if the resources needed to
-+ *         perform the mapping are exhausted (in that case *@plen
-+ *         is set to zero).
-+ */
- static inline void *pci_dma_map(PCIDevice *dev, dma_addr_t addr,
-                                 dma_addr_t *plen, DMADirection dir)
+-void *rdma_pci_dma_map(PCIDevice *dev, dma_addr_t addr, dma_addr_t plen)
++void *rdma_pci_dma_map(PCIDevice *dev, dma_addr_t addr, dma_addr_t len)
  {
+     void *p;
+-    hwaddr len = plen;
++    hwaddr pci_len = len;
+ 
+     if (!addr) {
+         rdma_error_report("addr is NULL");
+         return NULL;
+     }
+ 
+-    p = pci_dma_map(dev, addr, &len, DMA_DIRECTION_TO_DEVICE);
++    p = pci_dma_map(dev, addr, &pci_len, DMA_DIRECTION_TO_DEVICE);
+     if (!p) {
+         rdma_error_report("pci_dma_map fail, addr=0x%"PRIx64", len=%"PRId64,
+-                          addr, len);
++                          addr, pci_len);
+         return NULL;
+     }
+ 
+-    if (len != plen) {
+-        rdma_pci_dma_unmap(dev, p, len);
++    if (pci_len != len) {
++        rdma_pci_dma_unmap(dev, p, pci_len);
+         return NULL;
+     }
+ 
+-    trace_rdma_pci_dma_map(addr, p, len);
++    trace_rdma_pci_dma_map(addr, p, pci_len);
+ 
+     return p;
+ }
 -- 
 2.34.1
 
