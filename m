@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC1A048ABBC
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 11:54:43 +0100 (CET)
-Received: from localhost ([::1]:54556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0363348AC35
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 12:12:07 +0100 (CET)
+Received: from localhost ([::1]:35554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7Ena-00049E-0l
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 05:54:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46302)
+	id 1n7F4P-0002pc-IJ
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 06:12:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1n7EjX-0002ed-Ji
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 05:50:31 -0500
-Received: from [2607:f8b0:4864:20::1030] (port=42813
- helo=mail-pj1-x1030.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1n7EjR-0007gd-4b
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 05:50:27 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- lr15-20020a17090b4b8f00b001b19671cbebso5101359pjb.1
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 02:50:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zkMX91OT7kAIdB4d+25CCm5DaWyeKgf+llu62iHOKIc=;
- b=IAEEH3YKLeOTgidQ+fnzMhCgtog2ZQV/snlq8C6e63nOpokW5wGjKlM+j+KYx7Rijq
- y3thkcC9mxvDBnhiHC/Phd1v/NjVnPVSMDghaz48NlCCMPWug7Xq5QWsEhAppBTfZoA1
- pD4fBz81dcQaz7qevrdLrF3jrpSyzDOQNtSpZ2mmpkHKhNNI4fmPPaXui8IliAQxIgut
- yZnf7hSJPk8xvmYoF7+WV2hQmHAq+a4V+w/lULIy9FobhO783B4zBWRrxu9wuN+DZGW+
- QmWlYcpGydbX24Q2uRugdydYX1IjJBJtBahvzcodxchkRTjwCoK3lYQQumO1PgEmjd2T
- LIIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zkMX91OT7kAIdB4d+25CCm5DaWyeKgf+llu62iHOKIc=;
- b=E+ZLSZHeUtQZNVdBxc4t5NjeqPa3fmSid7GtrLHESQE/2JGat/NibnEKU7D6T4kZQS
- ZzI+RGksCYlUcONbRG4tILUHSjeqTFziy2i8y3cjNDAs2mSMPjDkSzWjOQtbhyplwGzD
- F17rxizmHW9cpjYPlRLRVPRCPe/jE7t3cLzeMuYoyrAuVWNxqfvVJ5jh7hbu+Y2KTlNt
- kjvluQCuaVVa1w1N+Cbd5pej4xAl9KS8a/DrIC4l7ombDQfLaWnPqgP5Xm/dPWAFR/ii
- 9jDBGqCQF+JJ38Poc57jP8yCCuq+DMo5TSzq1IARkOdER16AWFNLQS2t7tqclTLypUzo
- fLFA==
-X-Gm-Message-State: AOAM531J5uZARTiOpWLNx+XZdYbNk9QkszZDvVdCAd2FonMOoBunY2FC
- bWjIfO5ns0G/lCD2U0XlQW73qA==
-X-Google-Smtp-Source: ABdhPJzTZ7ZqDg87Iu4+IheJX7lfHRm4p+c1RxjsH7qIh6gLHtZ95PWL+x0hQJnDUuI72DCuoxT4Bg==
-X-Received: by 2002:a17:902:d508:b0:149:49e8:ee63 with SMTP id
- b8-20020a170902d50800b0014949e8ee63mr3752576plg.23.1641898221646; 
- Tue, 11 Jan 2022 02:50:21 -0800 (PST)
-Received: from libai.bytedance.net ([153.254.110.96])
- by smtp.gmail.com with ESMTPSA id bo15sm1833880pjb.16.2022.01.11.02.50.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jan 2022 02:50:21 -0800 (PST)
-From: zhenwei pi <pizhenwei@bytedance.com>
-To: kraxel@redhat.com
-Subject: [PATCH] usb: allow max 8192 bytes for desc
-Date: Tue, 11 Jan 2022 18:49:18 +0800
-Message-Id: <20220111104918.896841-1-pizhenwei@bytedance.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1n7F1q-0000y3-2u
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 06:09:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21049)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1n7F1m-0002MW-Hz
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 06:09:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641899361;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dEE1Wdkxv8rEK5buquCjy9C1sH3DV1lG9CoM6y3mCkc=;
+ b=BtF7Iajc1nwAgTLJsYcXIHHu1+ppCVTWiWUJ8gKw13OWR0rtjo9S0vyWTzzSOVxjCNcGw+
+ biKw4ExbLzxpy+GtCpacS+0Dc8PWBwbnuNC2bUzZ5piDyOjki2swQXXXnhJuWpDV7rg2/u
+ +br0cwq7DXSB2lvjLNccgjl8xMoPM+U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-313-MNjDCUYtPGKsVyDypiHAIA-1; Tue, 11 Jan 2022 06:08:12 -0500
+X-MC-Unique: MNjDCUYtPGKsVyDypiHAIA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2227593A8;
+ Tue, 11 Jan 2022 11:08:10 +0000 (UTC)
+Received: from localhost (unknown [10.33.37.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5DD3F105915D;
+ Tue, 11 Jan 2022 11:07:45 +0000 (UTC)
+Date: Tue, 11 Jan 2022 12:07:57 +0100
+From: Sergio Lopez <slp@redhat.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Subject: Re: [PATCH v1 1/2] hw/i386: Make pit a property of common x86 base
+ machine type
+Message-ID: <20220111110757.43dhosivan6htkt2@mhamilton>
+References: <20220111073528.1771552-1-xiaoyao.li@intel.com>
+ <20220111073528.1771552-2-xiaoyao.li@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20220111073528.1771552-2-xiaoyao.li@intel.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ivzcv2u5pmd5nqzr"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,38 +79,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: f4bug@amsat.org, zhenwei pi <pizhenwei@bytedance.com>,
- qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A device of USB video class usually uses larger desc structure, so
-use larger buffer to avoid failure. (dev-video.c is ready)
+--ivzcv2u5pmd5nqzr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Allocating memory dynamically by g_malloc of the orignal version of
-this change, Philippe suggested just using the stack. Test the two
-versions of qemu binary, the size of stack gets no change.
+On Tue, Jan 11, 2022 at 03:35:27PM +0800, Xiaoyao Li wrote:
+> Both pc and microvm have pit property individually. Let's just make it
+> the property of common x86 base machine type.
+>=20
+> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+> ---
+>  hw/i386/microvm.c         | 27 +--------------------------
+>  hw/i386/pc.c              | 24 +++---------------------
+>  hw/i386/x86.c             | 25 +++++++++++++++++++++++++
+>  include/hw/i386/microvm.h |  2 --
+>  include/hw/i386/pc.h      |  2 --
+>  include/hw/i386/x86.h     |  2 ++
+>  6 files changed, 31 insertions(+), 51 deletions(-)
 
-CC: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
----
- hw/usb/desc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Sergio Lopez <slp@redhat.com>
 
-diff --git a/hw/usb/desc.c b/hw/usb/desc.c
-index 8b6eaea407..57d2aedba1 100644
---- a/hw/usb/desc.c
-+++ b/hw/usb/desc.c
-@@ -632,7 +632,7 @@ int usb_desc_get_descriptor(USBDevice *dev, USBPacket *p,
-     bool msos = (dev->flags & (1 << USB_DEV_FLAG_MSOS_DESC_IN_USE));
-     const USBDesc *desc = usb_device_get_usb_desc(dev);
-     const USBDescDevice *other_dev;
--    uint8_t buf[256];
-+    uint8_t buf[8192];
-     uint8_t type = value >> 8;
-     uint8_t index = value & 0xff;
-     int flags, ret = -1;
--- 
-2.25.1
+--ivzcv2u5pmd5nqzr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmHdZQwACgkQ9GknjS8M
+AjW76Q/5AUvFT/EuWtWglJFKw1DNDu90vG/Kx93RhokxJf4IhN7Q+fQoQcOVLvZ1
+WpRWArw/CDAGyEux9DFiyJMse1kRWC5Nkp5CL24+5GuGj4FGS7jUeYomPzL50l8I
+vNzop7EudSny1VFSr8uZn7IyeYdzW6w5S57nsexk+0WsG/mc14PB9xilN/qOdFXe
+gYhC3y4svljtqramMj/L+qMzCjic/6+bCYySHt6Se0posCBUU33CwKejrs0NE6Gp
+rzoS54f03R6CBii8MageGucNaWKbUsP9aTIWrnpcZXMDgwOfvVQlwvNuOFrQWmKy
+wlt3LXyG4doTFJv73Jd/nXpONOl17Z2iquTDU7Zwlu3A9bTwlc0WEgPtciEj1fA9
+ogR9d/rhQYNeTQAtaHxN7N4K3F33D5yzG9R2nazLceM0RKLeC2Jjn0o9XO5B50CV
+UyLo6y/OFxIsfuaAAjbCiry8oHHEDUYop8ohCI8jOkkBWL6phR2cXvjoZIopv5NY
+nmEAZhiVbM2HFshwbGkuw66NPzMPZWwwX80DPjCNT4N8GHhdks/q1WUOhfhi1TZo
+5vvu6MwTVQka/Lk2EhUEJeimd90MXI8lsdEKDrUJ3qiX26ZsIMW3MhMu44FO1yKn
+jjDgvGZUkEhhz5DMIUuzTAAV3kE/xykz6JoSnOExjMlh42fNRHo=
+=chVj
+-----END PGP SIGNATURE-----
+
+--ivzcv2u5pmd5nqzr--
 
 
