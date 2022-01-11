@@ -2,62 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60BE348AFDA
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 15:46:31 +0100 (CET)
-Received: from localhost ([::1]:43890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3FD48B00C
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 15:59:51 +0100 (CET)
+Received: from localhost ([::1]:39454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7IPu-00012h-0C
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 09:46:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52180)
+	id 1n7Icm-0000qp-Tx
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 09:59:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n7IMh-0007KP-MR; Tue, 11 Jan 2022 09:43:12 -0500
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:47441)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n7IMb-000879-MM; Tue, 11 Jan 2022 09:43:11 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.33])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id EF697D7044EF;
- Tue, 11 Jan 2022 15:42:53 +0100 (CET)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 11 Jan
- 2022 15:42:53 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R00581501ee9-9e80-44b1-96d2-ee09b712cabd,
- 5383433EA887FCAE918FFCB03530F9AACAE8953B) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <69ab634e-bdb6-d5ad-e6be-771ac3d9a780@kaod.org>
-Date: Tue, 11 Jan 2022 15:42:53 +0100
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n7Ia3-0006Nv-6b
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 09:57:04 -0500
+Received: from [2a00:1450:4864:20::330] (port=44621
+ helo=mail-wm1-x330.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n7Ia0-0002Vp-Ui
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 09:56:58 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ f141-20020a1c1f93000000b003497aec3f86so1981328wmf.3
+ for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 06:56:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Do1Saxo9rz5R5Jurnuvq1EJJ9pNQyMrd1RvHrUGBPKQ=;
+ b=t0ZbcT0kVRKhx99fw0Ue07Ouaqk2bfvsouC3F70fMuxO++f+A2EbMlLzbuHeL55U0t
+ BMl6anorMLZmwb7zPKQVlTNfA6hs5WREBHTLfZPD7BrIHnT6UgbPQakzx0lIHkZbUcNS
+ ifMy6EA5ig+yxaH52KrT4nUaXzLf9E8P1BZUUIqzH+qv1uAlfZ1vKZ2peB28BAz18EIK
+ AqjEwvmjrfA68IbAKhJkjJw9OHhmiF9EheZHCvrEP5RVoTUoxlo/1R1BCy9OJZCfLDpr
+ Y2KA9LOUSHNE0tXkzN2OPNHnkpoNch7373QlIngeHAmXzhmdMxG0U6cHAndhaP/TJadZ
+ hQLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Do1Saxo9rz5R5Jurnuvq1EJJ9pNQyMrd1RvHrUGBPKQ=;
+ b=hRPOeXEny+yebm44eL5r3qu45essV9VQW7ymtEmdYgUMZ9wHZ30bw9uxLspYnh2v0L
+ rgFCQz4GZ1DkJ+F0kreY65DgFuJ1c6i0D9Nm1w48LglFDMZWDRKxDL7m+a1/B3YnWpIA
+ cbEa0pHDRONwdOgRyx6OCN14gqOfciEWEVll8Xx2v/Ciavdw003p5W0a3rLZLJ0fiSX4
+ JvNeovThOFeFzU6XZ/FYxR8DEeHfmOwlYh2jjmKN5I7GzEDkRacgIEs4E9b0vZMiTkIN
+ SwU/HnUNT+YdJQLeO2LhBoHVsS2AGwNHGmuWQQQiH/uqJFM6y8bm0t2vZT6QdZQsaxv+
+ yumA==
+X-Gm-Message-State: AOAM531F+/ybOYAHSJyluJUA1vc7Iu8e72JQCoistAR9kAaatgE7HPgX
+ LxgKjAtvosDxcGb3SqaP2a67bQ==
+X-Google-Smtp-Source: ABdhPJzaFUzeHyOY4Q0TccP/gusH+jaqze4bN5WNLZLMz3L0/+9c+Qkdrm6yR9ptsgQxVErekp/ElA==
+X-Received: by 2002:a1c:f209:: with SMTP id s9mr2887989wmc.94.1641913014750;
+ Tue, 11 Jan 2022 06:56:54 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u3sm11945208wrs.0.2022.01.11.06.56.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Jan 2022 06:56:53 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 350211FFB7;
+ Tue, 11 Jan 2022 14:56:53 +0000 (GMT)
+References: <20211209145601.331477-1-peter.griffin@linaro.org>
+ <20211209145601.331477-2-peter.griffin@linaro.org>
+User-agent: mu4e 1.7.5; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Griffin <peter.griffin@linaro.org>
+Subject: Re: [PATCH 1/8] vhost-user-video: Add a README.md with cheat sheet
+ of commands
+Date: Tue, 11 Jan 2022 14:48:27 +0000
+In-reply-to: <20211209145601.331477-2-peter.griffin@linaro.org>
+Message-ID: <875yqqcocq.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v5 4/5] ppc/pnv: Introduce user creatable pnv-phb4 devices
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-References: <20220111131027.599784-1-danielhb413@gmail.com>
- <20220111131027.599784-5-danielhb413@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220111131027.599784-5-danielhb413@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 6478aa94-235d-47ba-8bdb-3e85a64613c6
-X-Ovh-Tracer-Id: 10911377476265348064
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudehfedgieejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,209 +92,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: marcandre.lureau@redhat.com, stratos-dev@op-lists.linaro.org,
+ qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/11/22 14:10, Daniel Henrique Barboza wrote:
-> This patch introduces pnv-phb4 user creatable devices that are created
-> in a similar manner as pnv-phb3 devices, allowing the user to interact
-> with the PHBs directly instead of creating PCI Express Controllers that
-> will create a certain amount of PHBs per controller index.
-> 
-> We accomplish this by doing the following:
-> 
-> - add a pnv_phb4_get_stack() helper to retrieve which stack an user
-> created phb4 would occupy;
-> 
-> - when dealing with an user created pnv-phb4 (detected by checking if
-> phb->stack is NULL at the start of phb4_realize()), retrieve its stack
-> and initialize its properties as done in stk_realize();
-> 
-> - use 'defaults_enabled()' in stk_realize() to avoid creating and
-> initializing a 'stack->phb' qdev that might be overwritten by an user
-> created pnv-phb4 device. This process is wrapped into a new helper
-> called pnv_pec_stk_default_phb_realize().
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Peter Griffin <peter.griffin@linaro.org> writes:
 
-Nothing is left in the stack model. I think the next cleanup is to
-get rid of it.
-
-Thanks,
-
-C.
-
-
+> Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
 > ---
->   hw/pci-host/pnv_phb4.c     | 74 ++++++++++++++++++++++++++++++++++++--
->   hw/pci-host/pnv_phb4_pec.c | 17 +++++++--
->   hw/ppc/pnv.c               |  2 ++
->   3 files changed, 89 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-> index ee046725ac..ca2f4078e5 100644
-> --- a/hw/pci-host/pnv_phb4.c
-> +++ b/hw/pci-host/pnv_phb4.c
-> @@ -1487,15 +1487,85 @@ static void pnv_phb4_instance_init(Object *obj)
->       object_initialize_child(obj, "source", &phb->xsrc, TYPE_XIVE_SOURCE);
->   }
->   
-> +static PnvPhb4PecStack *pnv_phb4_get_stack(PnvChip *chip, PnvPHB4 *phb,
-> +                                           Error **errp)
-> +{
-> +    Pnv9Chip *chip9 = PNV9_CHIP(chip);
-> +    int chip_id = phb->chip_id;
-> +    int index = phb->phb_id;
-> +    int i, j;
-> +
-> +    for (i = 0; i < chip->num_pecs; i++) {
-> +        /*
-> +         * For each PEC, check the amount of stacks it supports
-> +         * and see if the given phb4 index matches a stack.
-> +         */
-> +        PnvPhb4PecState *pec = &chip9->pecs[i];
-> +
-> +        for (j = 0; j < pec->num_stacks; j++) {
-> +            if (index == pnv_phb4_pec_get_phb_id(pec, j)) {
-> +                return &pec->stacks[j];
-> +            }
-> +        }
-> +    }
-> +
-> +    error_setg(errp,
-> +               "pnv-phb4 chip-id %d index %d didn't match any existing PEC",
-> +               chip_id, index);
-> +
-> +    return NULL;
-> +}
-> +
->   static void pnv_phb4_realize(DeviceState *dev, Error **errp)
->   {
->       PnvPHB4 *phb = PNV_PHB4(dev);
->       PCIHostState *pci = PCI_HOST_BRIDGE(dev);
->       XiveSource *xsrc = &phb->xsrc;
-> +    Error *local_err = NULL;
->       int nr_irqs;
->       char name[32];
->   
-> -    assert(phb->stack);
-> +    /* User created PHB */
-> +    if (!phb->stack) {
-> +        PnvMachineState *pnv = PNV_MACHINE(qdev_get_machine());
-> +        PnvChip *chip = pnv_get_chip(pnv, phb->chip_id);
-> +        PnvPhb4PecClass *pecc;
-> +        BusState *s;
-> +
-> +        if (!chip) {
-> +            error_setg(errp, "invalid chip id: %d", phb->chip_id);
-> +            return;
-> +        }
-> +
-> +        phb->stack = pnv_phb4_get_stack(chip, phb, &local_err);
-> +        if (local_err) {
-> +            error_propagate(errp, local_err);
-> +            return;
-> +        }
-> +
-> +        /* All other phb properties but 'version' are already set */
-> +        pecc = PNV_PHB4_PEC_GET_CLASS(phb->stack->pec);
-> +        object_property_set_int(OBJECT(phb), "version", pecc->version,
-> +                                &error_fatal);
-> +
-> +        /*
-> +         * Assign stack->phb since pnv_phb4_update_regions() uses it
-> +         * to access the phb.
-> +         */
-> +        phb->stack->phb = phb;
-> +
-> +        /*
-> +         * Reparent user created devices to the chip to build
-> +         * correctly the device tree.
-> +         */
-> +        pnv_chip_parent_fixup(chip, OBJECT(phb), phb->phb_id);
-> +
-> +        s = qdev_get_parent_bus(DEVICE(chip));
-> +        if (!qdev_set_parent_bus(DEVICE(phb), s, &local_err)) {
-> +            error_propagate(errp, local_err);
-> +            return;
-> +        }
-> +    }
->   
->       /* Set the "big_phb" flag */
->       phb->big_phb = phb->phb_id == 0 || phb->phb_id == 3;
-> @@ -1600,7 +1670,7 @@ static void pnv_phb4_class_init(ObjectClass *klass, void *data)
->       dc->realize         = pnv_phb4_realize;
->       device_class_set_props(dc, pnv_phb4_properties);
->       set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-> -    dc->user_creatable  = false;
-> +    dc->user_creatable  = true;
->   
->       xfc->notify         = pnv_phb4_xive_notify;
->   }
-> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-> index d4c52a5d28..7fe7f1f007 100644
-> --- a/hw/pci-host/pnv_phb4_pec.c
-> +++ b/hw/pci-host/pnv_phb4_pec.c
-> @@ -19,6 +19,7 @@
->   #include "hw/pci/pci_bus.h"
->   #include "hw/ppc/pnv.h"
->   #include "hw/qdev-properties.h"
-> +#include "sysemu/sysemu.h"
->   
->   #include <libfdt.h>
->   
-> @@ -275,9 +276,9 @@ static const TypeInfo pnv_pec_type_info = {
->       }
->   };
->   
-> -static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
-> +static void pnv_pec_stk_default_phb_realize(PnvPhb4PecStack *stack,
-> +                                            Error **errp)
->   {
-> -    PnvPhb4PecStack *stack = PNV_PHB4_PEC_STACK(dev);
->       PnvPhb4PecState *pec = stack->pec;
->       PnvPhb4PecClass *pecc = PNV_PHB4_PEC_GET_CLASS(pec);
->       int phb_id = pnv_phb4_pec_get_phb_id(pec, stack->stack_no);
-> @@ -292,11 +293,23 @@ static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
->                               &error_fatal);
->       object_property_set_link(OBJECT(stack->phb), "stack", OBJECT(stack),
->                                &error_abort);
-> +
->       if (!sysbus_realize(SYS_BUS_DEVICE(stack->phb), errp)) {
->           return;
->       }
->   }
->   
-> +static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
-> +{
-> +    PnvPhb4PecStack *stack = PNV_PHB4_PEC_STACK(dev);
-> +
-> +    if (!defaults_enabled()) {
-> +        return;
-> +    }
-> +
-> +    pnv_pec_stk_default_phb_realize(stack, errp);
-> +}
-> +
->   static Property pnv_pec_stk_properties[] = {
->           DEFINE_PROP_UINT32("stack-no", PnvPhb4PecStack, stack_no, 0),
->           DEFINE_PROP_LINK("pec", PnvPhb4PecStack, pec, TYPE_PNV_PHB4_PEC,
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index fe7e67e73a..837146a2fb 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -1960,6 +1960,8 @@ static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
->       pmc->compat = compat;
->       pmc->compat_size = sizeof(compat);
->       pmc->dt_power_mgt = pnv_dt_power_mgt;
-> +
-> +    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_PNV_PHB4);
->   }
->   
->   static void pnv_machine_power10_class_init(ObjectClass *oc, void *data)
-> 
+>  tools/vhost-user-video/README.md | 98 ++++++++++++++++++++++++++++++++
+>  1 file changed, 98 insertions(+)
+>  create mode 100644 tools/vhost-user-video/README.md
+>
+> diff --git a/tools/vhost-user-video/README.md b/tools/vhost-user-video/RE=
+ADME.md
+> new file mode 100644
+> index 0000000000..c55e0a7b68
+> --- /dev/null
+> +++ b/tools/vhost-user-video/README.md
 
+I think as we want this to be visible to the user we should put it in:
+
+  docs/system/devices/vhost-user-video.rst
+
+with the appropriate update to device-emulation.rst to include it.
+
+> @@ -0,0 +1,98 @@
+> +# Overview vhost-user-video
+> +
+> +This vmm translates from virtio-video v3 protocol and writes
+> +to a v4l2 mem2mem stateful decoder/encoder device [1]. v3 was
+> +chosen as that is what the virtio-video Linux frontend driver
+> +currently implements.
+> +
+> +The primary goal so far is to enable development of virtio-video
+> +frontend driver using purely open source software. Using vicodec
+> +v4l2 stateful decoder on the host for testing then allows a pure
+> +virtual environment for development and testing.
+> +
+> +Currently the vmm only supports v4l2 stateful devices, and the
+> +intention is it will be used with Arm SoCs that implement stateful
+> +decode/encode devices such as Qcom Venus, RPi, MediaTek etc.
+> +
+> +A Qemu + vicodec setup for virtio-video should also allow for
+> +CI systems like kernelci, lkft to test the virtio-video interface
+> +easily.
+> +
+> +Currently support for VAAPI or decoding via libavcodec or similar
+> +libraries is not implemented, but this could be added in the future.
+> +
+> +Some example commands are provided below on how to run the daemon
+> +and achieve a video decode using vicodec and a link to some test
+> +content.
+> +
+> +[1] https://www.kernel.org/doc/html/latest/userspace-api/media/
+> +    v4l/dev-decoder.html
+> +
+> +[2] https://lwn.net/Articles/760650/
+> +
+> +# Guest Linux kernel modules
+> +CONFIG_MEDIA_SUPPORT=3Dy
+> +CONFIG_MEDIA_TEST_SUPPORT=3Dy
+> +CONFIG_V4L_TEST_DRIVERS=3Dy
+> +CONFIG_VIRTIO_VIDEO=3Dy
+> +CONFIG_GDB_SCRIPTS=3Dy
+
+Is GDB_SCRIPTS really needed here?
+
+> +CONFIG_DRM_VIRTIO_GPU=3Dy
+> +
+> +# Host kernel modules
+> +CONFIG_MEDIA_SUPPORT=3Dy
+> +CONFIG_MEDIA_TEST_SUPPORT=3Dy
+> +CONFIG_V4L_TEST_DRIVERS=3Dy
+> +CONFIG_VIDEO_VICODEC=3Dy
+
+this last one isn't set on the default Debian kernel so it might be
+worth mentioning that.
+
+> +
+> +# Run vhost-user-video daemon with vicodec
+> +# (video3 typically is the stateful video)
+> +vhost-user-video --socket-path=3D/tmp/video.sock --v4l2-device=3D/dev/vi=
+deo3
+> +
+> +# Qemu command for virtio-video device
+> +
+> +-device vhost-user-video-pci,chardev=3Dvideo,id=3Dvideo
+> +-chardev socket,path=3D/tmp//video.sock,id=3Dvideo
+> +
+> +# Example v4l2-ctl decode command
+> +wget https://people.linaro.org/~peter.griffin/jelly_640_480-420P.fwht
+> +
+> +v4l2-ctl -d0 -x width=3D640,height=3D480 -v width=3D640,height=3D480,pix=
+elformat=3DYU12
+> +--stream-mmap --stream-out-mmap --stream-from jelly_640_480-420P.fwht
+> +--stream-to out-jelly-640-480.YU12
+> +
+> +# Play the raw decoded video with ffplay or mplayer
+> +ffplay -loglevel warning -v info -f rawvideo -pixel_format  yuv420p
+> +  -video_size "640x480" ./out-jelly-640-480.YU12
+> +
+> +mplayer -demuxer rawvideo -rawvideo
+> +  format=3Di420:w=3D640:h=3D480:fps=3D25 out-jelly-640-480.YU12
+> +
+> +# Enable v4l2 debug in virtio-video frontend driver
+> +echo 0x1f > /sys/class/video4linux/video0/dev_debug
+> +
+> +# Enable v4l2 debug in vicodec backend driver
+> +echo 0x1f > /sys/class/video4linux/video3/dev_debug
+> +
+
+and cut here...
+
+The rest can probably be dropped from user facing documentation as long
+as we record it somewhere ourselves (is it in the cards?).
+
+> +# optee-build system qemu virtio-video command
+> +make QEMU_VIRTFS_ENABLE=3Dy QEMU_USERNET_ENABLE=3Dy CFG_TA_ASLR=3Dn
+> +    QEMU_VHOSTUSER_MEM=3Dy QEMU_VIRTVIDEO_ENABLE=3Dy SSH_PORT_FW=3Dy run=
+-only
+> +
+> +Current status
+> +* Tested with v4l2-ctl from v4l2-utils and vicodec stateful decoder driv=
+er
+> +* v4l2-compliance - reports
+> +Total: 43, Succeeded: 37, Failed: 6, Warnings: 0
+> +
+> +Known Issues
+> +* 6 v4l2-compliance failures remaining
+> +* v4l2-ctl 0fps misleading output
+> +* v4l2-ctl sometimes reports - 0 !=3D <somenumber>
+> +* Encoder not tested yet
+> +
+> +TODOs
+> +* Test with a "real" stateful decoder & codec
+> +  (e.g. Qcom Venus or RPi).
+> +* Test more v4l2 userspaces in the guest
+> +
+> +Future potential features
+> +* Emulation using libavcodec or similar library
+> +* Support for VAAPI, OpenMax or v4l2 stateless devices
+
+
+--=20
+Alex Benn=C3=A9e
 
