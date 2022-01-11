@@ -2,54 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC0848A5B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 03:36:37 +0100 (CET)
-Received: from localhost ([::1]:37658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CF8548A5DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 03:49:55 +0100 (CET)
+Received: from localhost ([::1]:57408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n771Y-0002A5-4R
-	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 21:36:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49800)
+	id 1n77EQ-00009n-9h
+	for lists+qemu-devel@lfdr.de; Mon, 10 Jan 2022 21:49:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1n76wx-0006Nv-QY; Mon, 10 Jan 2022 21:31:51 -0500
-Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=39211
- helo=gandalf.ozlabs.org)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1n77CE-0006UO-Hu
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 21:47:39 -0500
+Received: from mga06.intel.com ([134.134.136.31]:32186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1n76ws-000156-G7; Mon, 10 Jan 2022 21:31:50 -0500
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4JXvpB2Fsgz4y4m; Tue, 11 Jan 2022 13:31:30 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1641868290;
- bh=bYcNb7NYVkf0nqbbkrVb1gEFSHQCFfId3VDeA4d50r4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=I4Sp9o8jphUYifAEyB1WDrhbXUkmZwdJi2hTKCwz0j97OstE0eKvhr2O483fiSyLa
- Qn/dAxlHTJXTu36zg6V87+Q+akbfWjcvD8gdTKWJ3Tgn0grKjnc3LYC6IfwC3togaM
- jsmG+8d1xr1ytAKMQvIicfUPJsHyY21D6VbTSJ+E=
-Date: Tue, 11 Jan 2022 13:31:21 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH 8/8] target/ppc: 405: System call exception cleanup
-Message-ID: <Ydzr+ecnNSik9N/C@yekko>
-References: <20220110181546.4131853-1-farosas@linux.ibm.com>
- <20220110181546.4131853-9-farosas@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1n77C6-0003WB-Rd
+ for qemu-devel@nongnu.org; Mon, 10 Jan 2022 21:47:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1641869250; x=1673405250;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=SEoeUZ4pmX3niOq77N4qawvGaQz6PTVTOr+bcINN9Oo=;
+ b=PsIFZgQnvWE3I9aGb2Ebhbd3k0pY79mMxWpFYBgt9V5riTSIDFLa64vH
+ VoBbRNSVKn9dUlPZ2RCXJPlIeiFF+pn5y36yq8NFUn67eGMPeYbfugUez
+ 3UWsS94XQJFCCxBOV3O/jfYwOzB63DOrCqPCfy6bWbqD6THTNr3weB1hB
+ klphAKqyo/8RFLPHQ9JAKrirXh/XLJEBHgUS06wThw7OoDp/N5dY0QVgh
+ F9PHiFxKTLBrZ29iRBwOfaT5IsQMcg77njLcw+HN0Y7fWkho7OaCOB1yQ
+ FMU5s2Sk4SNNhlYVjVBJaQDrQOG0Zb8bJItFJjS/i4AqXm0B08fH/0nPL w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10223"; a="304124701"
+X-IronPort-AV: E=Sophos;i="5.88,278,1635231600"; d="scan'208";a="304124701"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2022 18:47:28 -0800
+X-IronPort-AV: E=Sophos;i="5.88,278,1635231600"; d="scan'208";a="514917192"
+Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
+ ([10.238.145.56])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 10 Jan 2022 18:47:19 -0800
+Date: Tue, 11 Jan 2022 10:32:06 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Subject: Re: [RFC PATCH 2/7] x86: Add AMX XTILECFG and XTILEDATA components
+Message-ID: <20220111023206.GB10706@yangzhon-Virtual>
+References: <20220107093134.136441-1-yang.zhong@intel.com>
+ <20220107093134.136441-3-yang.zhong@intel.com>
+ <BN9PR11MB5276EA0D1E39DDA511B0A9B38C509@BN9PR11MB5276.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Af6bf6SZ/3I1J3Ak"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220110181546.4131853-9-farosas@linux.ibm.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for
- 2404:9400:2:0:216:3eff:fee2:21ea (failed)
-Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <BN9PR11MB5276EA0D1E39DDA511B0A9B38C509@BN9PR11MB5276.namprd11.prod.outlook.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=yang.zhong@intel.com;
+ helo=mga06.intel.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.597,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,112 +75,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, clg@kaod.org
+Cc: yang.zhong@intel.com, "Christopherson, , Sean" <seanjc@google.com>,
+ "jing2.liu@linux.intel.com" <jing2.liu@linux.intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Wang,
+ Wei W" <wei.w.wang@intel.com>, "Zeng, Guang" <guang.zeng@intel.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Jan 10, 2022 at 04:23:47PM +0800, Tian, Kevin wrote:
+> > From: Zhong, Yang <yang.zhong@intel.com>
+> > Sent: Friday, January 7, 2022 5:31 PM
+> >
+> > From: Jing Liu <jing2.liu@intel.com>
+> >
+> > AMX XTILECFG and XTILEDATA are managed by XSAVE feature
+> > set. State component 17 is used for 64-byte TILECFG register
+> > (XTILECFG state) and component 18 is used for 8192 bytes
+> > of tile data (XTILEDATA state).
+> 
+> to be consistent, "tile data" -> "TILEDATA"
+> 
+> >
+> > Add AMX feature bits to x86_ext_save_areas array to set
+> > up AMX components. Add structs that define the layout of
+> > AMX XSAVE areas and use QEMU_BUILD_BUG_ON to validate the
+> > structs sizes.
+> >
+> > Signed-off-by: Jing Liu <jing2.liu@intel.com>
+> > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> > ---
+> >  target/i386/cpu.h | 16 +++++++++++++++-
+> >  target/i386/cpu.c |  8 ++++++++
+> >  2 files changed, 23 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> > index 7f9700544f..768a8218be 100644
+> > --- a/target/i386/cpu.h
+> > +++ b/target/i386/cpu.h
+> > @@ -537,6 +537,8 @@ typedef enum X86Seg {
+> >  #define XSTATE_ZMM_Hi256_BIT            6
+> >  #define XSTATE_Hi16_ZMM_BIT             7
+> >  #define XSTATE_PKRU_BIT                 9
+> > +#define XSTATE_XTILE_CFG_BIT            17
+> > +#define XSTATE_XTILE_DATA_BIT           18
+> >
+> >  #define XSTATE_FP_MASK                  (1ULL << XSTATE_FP_BIT)
+> >  #define XSTATE_SSE_MASK                 (1ULL << XSTATE_SSE_BIT)
+> > @@ -1343,6 +1345,16 @@ typedef struct XSavePKRU {
+> >      uint32_t padding;
+> >  } XSavePKRU;
+> >
+> > +/* Ext. save area 17: AMX XTILECFG state */
+> > +typedef struct XSaveXTILE_CFG {
+> 
+> remove "_"?
+> 
+> > +    uint8_t xtilecfg[64];
+> > +} XSaveXTILE_CFG;
+> > +
+> > +/* Ext. save area 18: AMX XTILEDATA state */
+> > +typedef struct XSaveXTILE_DATA {
+> 
+> ditto
+>
 
---Af6bf6SZ/3I1J3Ak
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  Thanks Kevin, I will update this in new version.
 
-On Mon, Jan 10, 2022 at 03:15:46PM -0300, Fabiano Rosas wrote:
-> There's no sc 1.
->=20
-> We also only used env->nip because of the vhyp code, so change to
-> 'vector' now.
-
-I don't think this is right.  The point with the env->nip change is
-changing the PC as it appeared *before* saving it to SRR0, so that
-we'll eventually return to the right place.  'vector' is the address
-for the interrupt vector itself.
-
-
->=20
-> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-> ---
->  target/ppc/excp_helper.c | 23 +++--------------------
->  1 file changed, 3 insertions(+), 20 deletions(-)
->=20
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index f7b9af5065..ab298d0d8f 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -398,7 +398,7 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int exc=
-p)
->      CPUPPCState *env =3D &cpu->env;
->      int excp_model =3D env->excp_model;
->      target_ulong msr, new_msr, vector;
-> -    int srr0, srr1, lev =3D -1;
-> +    int srr0, srr1;
-> =20
->      if (excp <=3D POWERPC_EXCP_NONE || excp >=3D POWERPC_EXCP_NB) {
->          cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
-> @@ -518,30 +518,13 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int e=
-xcp)
->          }
->          break;
->      case POWERPC_EXCP_SYSCALL:   /* System call exception               =
-     */
-> -        lev =3D env->error_code;
-> -
-> -        if ((lev =3D=3D 1) && cpu->vhyp) {
-> -            dump_hcall(env);
-> -        } else {
-> -            dump_syscall(env);
-> -        }
-> +        dump_syscall(env);
-> =20
->          /*
->           * We need to correct the NIP which in this case is supposed
->           * to point to the next instruction
->           */
-> -        env->nip +=3D 4;
-> -
-> -        /* "PAPR mode" built-in hypercall emulation */
-> -        if ((lev =3D=3D 1) && cpu->vhyp) {
-> -            PPCVirtualHypervisorClass *vhc =3D
-> -                PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
-> -            vhc->hypercall(cpu->vhyp, cpu);
-> -            return;
-> -        }
-> -        if (lev =3D=3D 1) {
-> -            new_msr |=3D (target_ulong)MSR_HVB;
-> -        }
-> +        vector +=3D 4;
->          break;
->      case POWERPC_EXCP_FPU:       /* Floating-point unavailable exception=
-     */
->      case POWERPC_EXCP_APU:       /* Auxiliary processor unavailable     =
-     */
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---Af6bf6SZ/3I1J3Ak
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmHc6/kACgkQbDjKyiDZ
-s5LTqhAA2YRqVkqMQtKGTsG41OauAvLjRUEPb4cuJzvpVUizB73WRNu4ydyeh/JH
-AbGPsGoRykrWXPvKbfGeQHckAhSD3iBdwsRCgBKY1rBKqnmQ0hRhxWqoc0SQrw0k
-6TB5vIf3S9brRvfYVwWALL9cukycf28K2+iDMxMbvjtP/5WQLf3YOUiDhXsGLGl9
-9Tmtnyaza6hjjjsb/XaDFSLD+GdVhhg9EUFU23Ao43EOqh2fLERzQIJ3k3Qr+MDr
-CRCDny3DnHxHjHTcr4Tz2b6pK3RGmkDTZKK1SbUR2kwrteonVlJEnixR5KPeUGTE
-4HZQ9clL06qiQzzjVnMk/R8+ngyfa3V9x6gMKdCCXjQS7yUH+0dcZHmObCrRAxfz
-TcHWYp2m1nC33EQwzse30G/CD6pjdfH0eEbcyG3v5c+XwxrjjTnhc+5mYGyjoZrz
-N3g489PsuFOjIsIT2rp9J9e/tevzA1FEc5slP4e/PNfZKnThZxnX4MYOEvQ5d/Bg
-Zsz1Y8hOIPrmeZVf2Dj9zji2+LC3XEBcqKxizB8DlGCjNCdMKVahnCBfLFFBtl5Y
-/03BhYlOLgza0PT1PH3kIbUgLSG07NJaVyNq4WZodJheQLzBwkuIMdqwnzqQ/pgL
-zNMSJx2a4t3/zhKBAR1UJ2YwldQCz6CXJ/W4YC9o5iIWQ5A82pA=
-=T7zg
------END PGP SIGNATURE-----
-
---Af6bf6SZ/3I1J3Ak--
+  Yang 
 
