@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA0B548B7DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 21:10:13 +0100 (CET)
-Received: from localhost ([::1]:56528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F08B48B896
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 21:22:25 +0100 (CET)
+Received: from localhost ([::1]:54936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7NTA-0001fd-I3
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 15:10:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44652)
+	id 1n7Nev-000393-3D
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 15:22:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n7NCa-000821-SW
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 14:53:05 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:49619)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n7NCd-00086U-Im
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 14:53:07 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:40921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n7NCZ-0008HL-57
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 14:53:04 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n7NCb-0008I0-6o
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 14:53:07 -0500
 Received: from quad ([82.142.23.158]) by mrelayeu.kundenserver.de (mreue109
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MIMXC-1nAezY3XS0-00EKcM; Tue, 11
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MAwPf-1nDfng1Nmr-00BH9T; Tue, 11
  Jan 2022 20:53:01 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/30] linux-user/xtensa: Use force_sig_fault
-Date: Tue, 11 Jan 2022 20:52:41 +0100
-Message-Id: <20220111195247.1737641-25-laurent@vivier.eu>
+Subject: [PULL 25/30] linux-user/arm: Move target_oabi_flock64 out of
+ target_structs.h
+Date: Tue, 11 Jan 2022 20:52:42 +0100
+Message-Id: <20220111195247.1737641-26-laurent@vivier.eu>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220111195247.1737641-1-laurent@vivier.eu>
 References: <20220111195247.1737641-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:eYEeRwehWZjj3fsdJIxfyy9hMcsfYP9gy/rl2O+b8nLVIY3KZ8K
- jSNfbwIkbV2tiou3iincqt7ZIZO1al17udYJeUsJ5ma5dgh/o1wTAHIZCDoD/aDcOX4pA1v
- 1Zi8kQz+sHrnagWbf5Kpx0hl5W/QlbN+nh8cT6q/fZ3fm+TNtim67PIUTI8YbV6hL15hsZ4
- 2yM5Db40tcJRCSl/Oq+Bg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Ezd9my7NH+w=:sgqTWBo2c4hxbEhfTY/24Z
- cYGeUYAgfIWyeqdqwGqjmvDzxEoD6r14JyByU6vfc5rkZblYSZj+IvucMhiyLE/GGhF0IVwQj
- 4vURmasz0KYguG1ZLi+/2iUxnkrKfU3fyLfTOrn+ZybeBG4826DP4e5BMlcn8zsZ8dAVUHyta
- 1LWgIv364DAh8gmi5Vjxx9U/XEWbug965eViPguBZhW0f/ZnfGQJn/3LNV5PZYk3lEb/HCnok
- uYH7621wm3xTUysQnsu/hTph3KqhzsOVg1H6yW3wx16WeiCfdZdlsU2Cf/BgTaEzqgi2QmqDw
- wJlHAQGdetRfC/FHzG0L8BueV3AaOrOjLeO3OkguNUeLm0BB/3UDZZ8RmtfpXxDuzFRD8cBJt
- ah1mnk9wcBdfi9RwWCyc53gPmA4hUVpna4Xc4Md8GGHPCVgFRnEkexHsb+pwTAz5CV9fGbdRK
- 2hfLsdlcnpkuqMlIN/FxgIDIIdJYuhyTrWOaJ3k5aBubsoN09bswJ9aqUMurUn0AETYondxUF
- J1Dai5YtNboosgTrVOFq4jwvUq11m3HR0xggh2pcme9jtOpncOFRF/QpiygAx3kPu246ucq/X
- /FyxmkN/PSY+qm3/3XLQCxtHiNNW/Gv6AeeGoFrqyhzwL5ygGMPLyPM54nBYj3Rz42TxLOJls
- hj9mdhq+KKMfcuJknszjg8cd10XFn0BfUhOz7iIlrChsSw1e1BwOJlwng7Pkjkn3c16g=
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:8ADUk6klj619kaP88H9mi5v3mUrFA5nPGnOoX+DGoCqHBWYln9G
+ hOwMCzjWZAyTteX0ysiY/djJCCOOXTpukwbQpjUHCzRBGZjqM9pjCT+H5hjmjlVk1jPZh46
+ vkUQTNz9Y+tAvHVOPG/pSIInnhT7jb8N0UuoeHR0TmUSUlscCkInDp40uU/cJaILCqEtHkO
+ vjOTYqp8hRLORioD+xcCQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:LFJMGnzhBMY=:qtJ7ZcqTEYFtkOVuU/O3Mz
+ OmhrQDEDsUwwuiiR/FcCP8L4daCE0r5QwYYmEE003TMoWfnkkq4ttJbHEHHkEWTifNLQ48crx
+ qyH8KuFabN36NVjwn0SRo2jfiVci2hkcfKRHoDdFQD6sUs5MutdIeEcX911bNMHGAUhZ6FHRd
+ vJJ0QOIhox+8ZqJeIiZd51GgHu/VvTyB2XonrvaY3s2oTDL2RvwzLBOEmapw+15JeE2rIO5+a
+ zghkCxUB0wLh0TcU+FJw4ZqUxg5ybehMxhZmbS7Fq3BFyA7uDhvujEmLyvaVRI9jMqXDV4alb
+ RCtrDcMdQabG7cLR01cmtVQcUWIEf+bLxcyEXu+n5P9XdgWp5GAa9Jaib3Bo574YAQk24rEYb
+ 6E77579DHWPbZw5sxWVg3gaatXVng324uIkBHPUeQ2oNzJAdPRqwhMqjPtEGmNoJAGSXTIrRl
+ TaI73VZdqed+wFZt67+ism7QOlFCjoiY4VrLbQzQAC82d+aerGtdBLJSinIi7c8hMOXtMy++a
+ Fg8fLYdPBGMnzhqCzkOFvXxh/86qkLe7E96SzVjhZzALXvMDesxlHlnpxmg9w8Xe5l/XKtHoi
+ EQ3Sg47Iyyp62MCb/LIRZEM4C3Czk69St0K5eAQRQqro9g3UmCmz5gseQVJiBVEKHcL2VMA9+
+ Q/GsqwVi2GwUaAAtlJVVTA3p02QjOSrbvLDiUmHQYbu1/SkpDwBc7OhAIF1ZpRKAIhOM=
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,84 +66,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Use the new function instead of setting up a target_siginfo_t
-and calling queue_signal. Fill in the missing PC for SIGTRAP.
+Place it next to copy_from/to_user_oabi_flock64, the only users,
+inside the existing target-specific ifdef.  This leaves only
+generic ipc structs in target_structs.h.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220107213243.212806-25-richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20220107042600.149852-2-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/xtensa/cpu_loop.c | 26 +++++++++-----------------
- 1 file changed, 9 insertions(+), 17 deletions(-)
+ linux-user/arm/target_structs.h | 8 --------
+ linux-user/syscall.c            | 8 ++++++++
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/linux-user/xtensa/cpu_loop.c b/linux-user/xtensa/cpu_loop.c
-index 6bc6d6dee6c4..d51ce053926d 100644
---- a/linux-user/xtensa/cpu_loop.c
-+++ b/linux-user/xtensa/cpu_loop.c
-@@ -126,7 +126,6 @@ static void xtensa_underflow12(CPUXtensaState *env)
- void cpu_loop(CPUXtensaState *env)
+diff --git a/linux-user/arm/target_structs.h b/linux-user/arm/target_structs.h
+index 339b070bf1a5..25bf8dd3a5c9 100644
+--- a/linux-user/arm/target_structs.h
++++ b/linux-user/arm/target_structs.h
+@@ -48,12 +48,4 @@ struct target_shmid_ds {
+     abi_ulong __unused4;
+     abi_ulong __unused5;
+ };
+-
+-struct target_oabi_flock64 {
+-    abi_short l_type;
+-    abi_short l_whence;
+-    abi_llong l_start;
+-    abi_llong l_len;
+-    abi_int   l_pid;
+-} QEMU_PACKED;
+ #endif
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index ce9d64896cb8..ca6e0b8fb0a1 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -6927,6 +6927,14 @@ typedef abi_long from_flock64_fn(struct flock64 *fl, abi_ulong target_addr);
+ typedef abi_long to_flock64_fn(abi_ulong target_addr, const struct flock64 *fl);
+ 
+ #if defined(TARGET_ARM) && TARGET_ABI_BITS == 32
++struct target_oabi_flock64 {
++    abi_short l_type;
++    abi_short l_whence;
++    abi_llong l_start;
++    abi_llong l_len;
++    abi_int   l_pid;
++} QEMU_PACKED;
++
+ static inline abi_long copy_from_user_oabi_flock64(struct flock64 *fl,
+                                                    abi_ulong target_flock_addr)
  {
-     CPUState *cs = env_cpu(env);
--    target_siginfo_t info;
-     abi_ulong ret;
-     int trapnr;
- 
-@@ -163,14 +162,12 @@ void cpu_loop(CPUXtensaState *env)
-         case EXC_USER:
-             switch (env->sregs[EXCCAUSE]) {
-             case ILLEGAL_INSTRUCTION_CAUSE:
-+                force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPC,
-+                                env->sregs[EPC1]);
-+                break;
-             case PRIVILEGED_CAUSE:
--                info.si_signo = TARGET_SIGILL;
--                info.si_errno = 0;
--                info.si_code =
--                    env->sregs[EXCCAUSE] == ILLEGAL_INSTRUCTION_CAUSE ?
--                    TARGET_ILL_ILLOPC : TARGET_ILL_PRVOPC;
--                info._sifields._sigfault._addr = env->sregs[EPC1];
--                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+                force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVOPC,
-+                                env->sregs[EPC1]);
-                 break;
- 
-             case SYSCALL_CAUSE:
-@@ -219,11 +216,8 @@ void cpu_loop(CPUXtensaState *env)
-                 break;
- 
-             case INTEGER_DIVIDE_BY_ZERO_CAUSE:
--                info.si_signo = TARGET_SIGFPE;
--                info.si_errno = 0;
--                info.si_code = TARGET_FPE_INTDIV;
--                info._sifields._sigfault._addr = env->sregs[EPC1];
--                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+                force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTDIV,
-+                                env->sregs[EPC1]);
-                 break;
- 
-             default:
-@@ -232,10 +226,8 @@ void cpu_loop(CPUXtensaState *env)
-             }
-             break;
-         case EXCP_DEBUG:
--            info.si_signo = TARGET_SIGTRAP;
--            info.si_errno = 0;
--            info.si_code = TARGET_TRAP_BRKPT;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT,
-+                            env->sregs[EPC1]);
-             break;
-         case EXC_DEBUG:
-         default:
 -- 
 2.33.1
 
