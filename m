@@ -2,61 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E49A048AE44
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 14:16:24 +0100 (CET)
-Received: from localhost ([::1]:58882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AADB848AE5C
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 14:23:32 +0100 (CET)
+Received: from localhost ([::1]:40284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7H0i-0004mt-1O
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 08:16:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48446)
+	id 1n7H7b-0003bI-QU
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 08:23:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1n7Gcb-0000wT-PC; Tue, 11 Jan 2022 07:51:30 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:36031)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7Gg2-0004V0-Lc
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:55:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26388)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1n7GcW-0003pz-Rq; Tue, 11 Jan 2022 07:51:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=yEw9eHT27SnjGR8S8BOmyUMfpxMpGFc+nuUp2lzdPvg=; b=wRzj0qFWMvuFbLR6HqpbfrQat8
- VeLYZxY9FoPvDEI945fp/F3zf0rf9vyIZJfmPKbzY61AHqehFvquuWwTKIDlicWUgyDpufwPEq0ZQ
- IRo0OhgiJHh3ASYOpo21OPH6fVFQVUPNoxOvtaCFBYAjy59i9gfLZ+ls0hl5Bp5aj1FnwVG7LY0vk
- FJY0TVA+Kj9IBFEvlewD2CTmX3hhrfjWunzDREj42NLnAvSsYnWrAi066XnMnc/QymwCelrtNFmK1
- bacD0QQ5dkLmfk5jq8CqRI6m7hCgLxR+W4hmRzNITbBJPGXH+GNBh7Ub0o5XzT80YAR4nNJg3XZBh
- XuzzetD3erCdLTlgMiHqfvcMcQLejunPy/EhXeYTy3Y8Q6c/QrziI4qi00Q3zUBS2BzS0o56QfkOS
- Xhx55ic43dtCuaIqPGllF8n6vX5QYobHOGce7JTFIgmhTP6U18xM//GFJQSHiCM84KKAQPZW5K5fI
- S2M1xlyJC6QMu8Ut68ccjTwvAY6RICAZLOgp8BSAmyF9u1A7pPrhMqvqYNgGfVfJOdHYtfb7FS3mB
- OUIXFGL9JnOw1voxNR4fJExtfdwXc+CMVbIOhnbMSojeqt7YQl6Cm0khzByBeMzLKU7rNWdYoGyZk
- T/dm8AwReMfcmkz0Bbd+Pfxh049+3h//BBv47eHU8=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- Cameron Esfahani <dirty@apple.com>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [RFC PATCH v2 2/6] audio/coreaudio: Remove a deprecation warning
- on macOS 12
-Date: Tue, 11 Jan 2022 13:51:20 +0100
-Message-ID: <1722520.7uOPACjRs4@silver>
-In-Reply-To: <5803228.I1kPANlMEi@silver>
-References: <20220109170612.574104-1-f4bug@amsat.org>
- <2141936.zTEnKHbCo3@silver> <5803228.I1kPANlMEi@silver>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7Gfx-0004HQ-MB
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:55:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641905694;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=k2q6h+8nCBB+6jnQJEWEin8nSobDQdlUVBQAG/QcwlI=;
+ b=Ae8JCXE/OVivgy6uLunUsMpIcGDWJM35holp5w1ztjkSD4L6NwtVP+lREdAW/sRECTK+rV
+ jUlmDhKv4j4zbi50tPj+h365kOL7iW2DLUb05bm+xt30wCqn/kx0YqrtgMW1duGd/Ervms
+ MFTx7ZCe0HS/q02tRQ+tdf1J/mTDJwg=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-459-9ysswLDzPZKQfBH3zcuLaw-1; Tue, 11 Jan 2022 07:54:52 -0500
+X-MC-Unique: 9ysswLDzPZKQfBH3zcuLaw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ z9-20020a05640240c900b003fea688a17eso2277470edb.10
+ for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 04:54:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=k2q6h+8nCBB+6jnQJEWEin8nSobDQdlUVBQAG/QcwlI=;
+ b=5yBOE61YaeEI8H9wsNd3U7SfQYz2DKmazFxqiCjIJmc9E0O/AYarza+X0avxOqsBlQ
+ Hb+cuGuLPdt+744Dp2yTN7geKZNxBYnqFFC4G5UQg7DMZGsZ8GNLc6QTE8EqPfVhYWFY
+ e7xcsZjqUvc23ZsnE16mkkwszj0iPqHpj+uWxbxsI+/9zOEGk+iEZ/icFKRPc4w2z2Km
+ YAKn01IavaYue+EYugoMBstVKK3OE65KzMddLuzsHK7jh2kuIcDn++i+akwVV+c5i7uN
+ xvSTfYgbD1/l/ITkWp1V/qKGMJNKbhx+9Clq23PlKLeGLkxmYHp3tZFxMmUtJud0CwMx
+ 9SSA==
+X-Gm-Message-State: AOAM531xOvI3toWhWhihgpQg64CLWGECy/K4sU6PTvaLYBzDJDu2wdon
+ MaOvJnuI/TX9JpAqTmpHftRP1JDrWr6lM5ZDqP3NycsHCl7Pk0k4UkhVulSyMUKw4xQeKN5XL/X
+ vh9NCawgyZjMYqlCCvGUpvbLK+KJ3tql2spWNA5Z72hcyG+ynUqV9rbAXgJX185E=
+X-Received: by 2002:a17:907:2d9e:: with SMTP id
+ gt30mr1164862ejc.704.1641905690666; 
+ Tue, 11 Jan 2022 04:54:50 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJylqgzKshEVh7UbNKmzUcbXLTL0+YK0VKiKl/dr6DdJx12DOdMFM7hx6uOrq6JpSTGcCNhT3A==
+X-Received: by 2002:a17:907:2d9e:: with SMTP id
+ gt30mr1164826ejc.704.1641905690276; 
+ Tue, 11 Jan 2022 04:54:50 -0800 (PST)
+Received: from ?IPV6:2003:cb:c702:6800:150a:bea9:f03e:c4da?
+ (p200300cbc7026800150abea9f03ec4da.dip0.t-ipconnect.de.
+ [2003:cb:c702:6800:150a:bea9:f03e:c4da])
+ by smtp.gmail.com with ESMTPSA id l18sm3572847ejf.7.2022.01.11.04.54.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Jan 2022 04:54:49 -0800 (PST)
+Message-ID: <bcc2a972-d086-5177-8366-a745f1e07a98@redhat.com>
+Date: Tue, 11 Jan 2022 13:54:49 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v1] libvhost-user: Map shared RAM with MAP_NORESERVE to
+ support virtio-mem with hugetlb
+To: qemu-devel@nongnu.org
+References: <20220111123939.132659-1-david@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20220111123939.132659-1-david@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,62 +104,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 11. Januar 2022 13:35:05 CET Christian Schoenebeck wrote:
-> Curiousity was stronger: the original clang behaviour was as I explained:
-> https://github.com/llvm-mirror/clang/commit/0a0d2b179085a52c10402feebeb6db8b
-> 4d96a140#diff-97c4322e86bf436b7f79f4fcafc4b7beb092da08c5c23f294f98b5bb0a7f9a
-> 31
+On 11.01.22 13:39, David Hildenbrand wrote:
+> For fd-based shared memory, MAP_NORESERVE is only effective for hugetlb,
+> otherwise it's ignored. Older Linux versions that didn't support
+> reservation of huge pages ignored MAP_NORESERVE completely.
 > 
-> Quote:
+> The first client to mmap a hugetlb fd without MAP_NORESERVE will
+> trigger reservation of huge pages for the whole mmapped range. There are
+> two cases to consider:
 > 
-> "
-> For example,
+> 1) QEMU mapped RAM without MAP_NORESERVE
 > 
->   void foo()
->  
-> __attribute__((availability(macosx,introduced=10.2,deprecated=10.4,obsolete
-> d=10.6)));
+> We're not dealing with a sparse mapping, huge pages for the whole range
+> have already been reserved by QEMU. An additional mmap() without
+> MAP_NORESERVE won't have any effect on the reservation.
 > 
-> ...
+> 2) QEMU mapped RAM with MAP_NORESERVE
 > 
->    - If we choose a deployment target >= Mac OS X 10.4, uses of "foo"
->     will result in a deprecation warning, as if we had placed
->     attribute((deprecated)) on it ...
-> "
+> We're delaing with a sparse mapping, no huge pages should be reserved.
+> Further mappings without MAP_NORESERVE should be avoided.
 > 
-> Relevant code section (in that original commit):
+> For 1), it doesn't matter if we set MAP_NORESERVE or not, so we can
+> simply set it. For 2), we'd be overriding QEMUs decision and trigger
+> reservation of huge pages, which might just fail if there are not
+> sufficient huge pages around. We must map with MAP_NORESERVE.
 > 
-> static AvailabilityResult CheckAvailability(ASTContext &Context,
->                                             const AvailabilityAttr *A,
->                                             std::string *Message) {
->   ...
->   VersionTuple TargetMinVersion = Context.Target.getPlatformMinVersion();
->   ...
->   // Make sure that this declaration hasn't been deprecated.
->   if (!A->getDeprecated().empty() && TargetMinVersion >= A->getDeprecated())
+> This change is required to support virtio-mem with hugetlb: a
+> virtio-mem device mapped into the guest physical memory corresponds to
+> a sparse memory mapping and QEMU maps this memory with MAP_NORESERVE.
+> Whenever memory in that sparse region will be accessed by the VM, QEMU
+> populates huge pages for the affected range by preallocating memory
+> and handling any preallocation errors gracefully.
+> 
+> So let's map shared RAM with MAP_NORESERVE. As libvhost-user only
+> supports Linux, there shouldn't be anything to take care of in regard of
+> other OS support.
+> 
+> Without this change, libvhost-user will fail mapping the region if there
+> are currently not enough huge pages to perform the reservation:
+>  fv_panic: libvhost-user: region mmap error: Cannot allocate memory
+> 
+> Cc: "Marc-André Lureau" <marcandre.lureau@redhat.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
 
-Stupid me, you are right. No deprecated warning unless minimum deployment 
-target is >= the attribute's deprecated version.
+Note: I was assuming rust vhost-user-backend would need similar care,
+but vm-memory already does the right thing by supplying MAP_NORESERVE:
 
-So it was always like this. My bad. :)
+https://github.com/rust-vmm/vm-memory/blob/7a5e0696dc4170f590ac9b837e65cc4136b30e38/src/mmap_unix.rs#L264
 
-> { if (Message) {
->       Message->clear();
->       llvm::raw_string_ostream Out(*Message);
->       Out << "first deprecated in " << PrettyPlatformName << ' '
->           << A->getDeprecated();
->     }
-> 
->     return AR_Deprecated;
->   }
->   ...
-> }
 
-Best regards,
-Christian Schoenebeck
+-- 
+Thanks,
 
+David / dhildenb
 
 
