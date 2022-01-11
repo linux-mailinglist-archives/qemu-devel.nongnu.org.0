@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E977148AEEC
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 14:53:57 +0100 (CET)
-Received: from localhost ([::1]:35028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E696E48AF00
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 14:59:02 +0100 (CET)
+Received: from localhost ([::1]:43852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7Hb3-0000Ru-0O
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 08:53:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51342)
+	id 1n7Hfy-0007Mh-1R
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 08:59:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1n7Glr-0004vK-44
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:01:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42288)
+ id 1n7Glw-0004x8-H9
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:01:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1n7Glo-0005i0-Rc
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:01:02 -0500
+ id 1n7Glu-0005io-Ba
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:01:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641906060;
+ s=mimecast20190719; t=1641906065;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ic08oG18HKE0ftYJKg9uTKlFpA5Jom9uIQYoRo57C4E=;
- b=Vemp0lc7pfPF2Ha3WzThWlagCAD0YTQ6ZRTf09kECEVW4/tvvT2JIw1o9pGzgIQhrkdnVD
- i/BYcBfElRRtGkCqnzBlDh2zusugArnEgMSoOI6Dxe0F3Ibq+gClVwSgRhov1Mvg2MX3a9
- /nEAlE9xTEbv8AN8dZbl8zbTYXzw/1U=
+ bh=lODpZE2L1GHaonSf+2+fnU/rvw75u+yfcDBd8zVkNNs=;
+ b=fzRBDhvV9Mwerb/pftRS2I2NUeDPVogLO8ZlSDDdzbnVycKmuW5zLgGdHIj2jhgkn6WJ8r
+ K3mnr2R3y55TDJlu1OwQs3cyLAgCWVUWnriauHdxrh2wgVSDO0UgXnH7WzBprk7TlG6Jnu
+ ZxJcAMhB3Bdyv9DN5F7wg4lY94BHQuI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-461-yKjFaP9FMXONfPFm76rPtw-1; Tue, 11 Jan 2022 08:00:59 -0500
-X-MC-Unique: yKjFaP9FMXONfPFm76rPtw-1
+ us-mta-662-9GBHxhMSNVeSZxanGJZzug-1; Tue, 11 Jan 2022 08:01:02 -0500
+X-MC-Unique: 9GBHxhMSNVeSZxanGJZzug-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8CC78042F6;
- Tue, 11 Jan 2022 13:00:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4B1F93927;
+ Tue, 11 Jan 2022 13:01:00 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CEE371059179;
- Tue, 11 Jan 2022 13:00:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 52D851059179;
+ Tue, 11 Jan 2022 13:00:58 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 07/23] multifd: Use proper maximum compression values
-Date: Tue, 11 Jan 2022 14:00:08 +0100
-Message-Id: <20220111130024.5392-8-quintela@redhat.com>
+Subject: [PATCH v4 08/23] multifd: Move iov from pages to params
+Date: Tue, 11 Jan 2022 14:00:09 +0100
+Message-Id: <20220111130024.5392-9-quintela@redhat.com>
 In-Reply-To: <20220111130024.5392-1-quintela@redhat.com>
 References: <20220111130024.5392-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -86,46 +86,175 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It happens that there are functions to calculate the worst possible
-compression size for a packet.  Use them.
+This will allow us to reduce the number of system calls on the next patch.
 
-Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/multifd-zlib.c | 4 ++--
- migration/multifd-zstd.c | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ migration/multifd.h |  8 ++++++--
+ migration/multifd.c | 34 ++++++++++++++++++++++++----------
+ 2 files changed, 30 insertions(+), 12 deletions(-)
 
-diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
-index 9f6ebf1076..a2fec4d01d 100644
---- a/migration/multifd-zlib.c
-+++ b/migration/multifd-zlib.c
-@@ -54,8 +54,8 @@ static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
-         error_setg(errp, "multifd %u: deflate init failed", p->id);
+diff --git a/migration/multifd.h b/migration/multifd.h
+index e57adc783b..c3f18af364 100644
+--- a/migration/multifd.h
++++ b/migration/multifd.h
+@@ -62,8 +62,6 @@ typedef struct {
+     uint64_t packet_num;
+     /* offset of each page */
+     ram_addr_t *offset;
+-    /* pointer to each page */
+-    struct iovec *iov;
+     RAMBlock *block;
+ } MultiFDPages_t;
+ 
+@@ -110,6 +108,10 @@ typedef struct {
+     uint64_t num_pages;
+     /* syncs main thread and channels */
+     QemuSemaphore sem_sync;
++    /* buffers to send */
++    struct iovec *iov;
++    /* number of iovs used */
++    uint32_t iovs_num;
+     /* used for compression methods */
+     void *data;
+ }  MultiFDSendParams;
+@@ -149,6 +151,8 @@ typedef struct {
+     uint64_t num_pages;
+     /* syncs main thread and channels */
+     QemuSemaphore sem_sync;
++    /* buffers to recv */
++    struct iovec *iov;
+     /* used for de-compression methods */
+     void *data;
+ } MultiFDRecvParams;
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 4d62850258..f75bd3c188 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -86,7 +86,16 @@ static void nocomp_send_cleanup(MultiFDSendParams *p, Error **errp)
+  */
+ static int nocomp_send_prepare(MultiFDSendParams *p, Error **errp)
+ {
+-    p->next_packet_size = p->pages->num * qemu_target_page_size();
++    MultiFDPages_t *pages = p->pages;
++    size_t page_size = qemu_target_page_size();
++
++    for (int i = 0; i < p->pages->num; i++) {
++        p->iov[p->iovs_num].iov_base = pages->block->host + pages->offset[i];
++        p->iov[p->iovs_num].iov_len = page_size;
++        p->iovs_num++;
++    }
++
++    p->next_packet_size = p->pages->num * page_size;
+     p->flags |= MULTIFD_FLAG_NOCOMP;
+     return 0;
+ }
+@@ -104,7 +113,7 @@ static int nocomp_send_prepare(MultiFDSendParams *p, Error **errp)
+  */
+ static int nocomp_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
+ {
+-    return qio_channel_writev_all(p->c, p->pages->iov, used, errp);
++    return qio_channel_writev_all(p->c, p->iov, p->iovs_num, errp);
+ }
+ 
+ /**
+@@ -146,13 +155,18 @@ static void nocomp_recv_cleanup(MultiFDRecvParams *p)
+ static int nocomp_recv_pages(MultiFDRecvParams *p, Error **errp)
+ {
+     uint32_t flags = p->flags & MULTIFD_FLAG_COMPRESSION_MASK;
++    size_t page_size = qemu_target_page_size();
+ 
+     if (flags != MULTIFD_FLAG_NOCOMP) {
+         error_setg(errp, "multifd %u: flags received %x flags expected %x",
+                    p->id, flags, MULTIFD_FLAG_NOCOMP);
          return -1;
      }
--    /* To be safe, we reserve twice the size of the packet */
--    z->zbuff_len = MULTIFD_PACKET_SIZE * 2;
-+    /* This is the maxium size of the compressed buffer */
-+    z->zbuff_len = compressBound(MULTIFD_PACKET_SIZE);
-     z->zbuff = g_try_malloc(z->zbuff_len);
-     if (!z->zbuff) {
-         deflateEnd(&z->zs);
-diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
-index cc4e991724..97c08367d0 100644
---- a/migration/multifd-zstd.c
-+++ b/migration/multifd-zstd.c
-@@ -67,8 +67,8 @@ static int zstd_send_setup(MultiFDSendParams *p, Error **errp)
-                    p->id, ZSTD_getErrorName(res));
-         return -1;
+-    return qio_channel_readv_all(p->c, p->pages->iov, p->pages->num, errp);
++    for (int i = 0; i < p->pages->num; i++) {
++        p->iov[i].iov_base = p->pages->block->host + p->pages->offset[i];
++        p->iov[i].iov_len = page_size;
++    }
++    return qio_channel_readv_all(p->c, p->iov, p->pages->num, errp);
+ }
+ 
+ static MultiFDMethods multifd_nocomp_ops = {
+@@ -242,7 +256,6 @@ static MultiFDPages_t *multifd_pages_init(size_t size)
+     MultiFDPages_t *pages = g_new0(MultiFDPages_t, 1);
+ 
+     pages->allocated = size;
+-    pages->iov = g_new0(struct iovec, size);
+     pages->offset = g_new0(ram_addr_t, size);
+ 
+     return pages;
+@@ -254,8 +267,6 @@ static void multifd_pages_clear(MultiFDPages_t *pages)
+     pages->allocated = 0;
+     pages->packet_num = 0;
+     pages->block = NULL;
+-    g_free(pages->iov);
+-    pages->iov = NULL;
+     g_free(pages->offset);
+     pages->offset = NULL;
+     g_free(pages);
+@@ -365,8 +376,6 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
+             return -1;
+         }
+         p->pages->offset[i] = offset;
+-        p->pages->iov[i].iov_base = block->host + offset;
+-        p->pages->iov[i].iov_len = page_size;
      }
--    /* To be safe, we reserve twice the size of the packet */
--    z->zbuff_len = MULTIFD_PACKET_SIZE * 2;
-+    /* This is the maxium size of the compressed buffer */
-+    z->zbuff_len = ZSTD_compressBound(MULTIFD_PACKET_SIZE);
-     z->zbuff = g_try_malloc(z->zbuff_len);
-     if (!z->zbuff) {
-         ZSTD_freeCStream(z->zcs);
+ 
+     return 0;
+@@ -470,8 +479,6 @@ int multifd_queue_page(QEMUFile *f, RAMBlock *block, ram_addr_t offset)
+ 
+     if (pages->block == block) {
+         pages->offset[pages->num] = offset;
+-        pages->iov[pages->num].iov_base = block->host + offset;
+-        pages->iov[pages->num].iov_len = qemu_target_page_size();
+         pages->num++;
+ 
+         if (pages->num < pages->allocated) {
+@@ -567,6 +574,8 @@ void multifd_save_cleanup(void)
+         p->packet_len = 0;
+         g_free(p->packet);
+         p->packet = NULL;
++        g_free(p->iov);
++        p->iov = NULL;
+         multifd_send_state->ops->send_cleanup(p, &local_err);
+         if (local_err) {
+             migrate_set_error(migrate_get_current(), local_err);
+@@ -654,6 +663,7 @@ static void *multifd_send_thread(void *opaque)
+             uint32_t used = p->pages->num;
+             uint64_t packet_num = p->packet_num;
+             uint32_t flags = p->flags;
++            p->iovs_num = 0;
+ 
+             if (used) {
+                 ret = multifd_send_state->ops->send_prepare(p, &local_err);
+@@ -922,6 +932,7 @@ int multifd_save_setup(Error **errp)
+         p->packet->version = cpu_to_be32(MULTIFD_VERSION);
+         p->name = g_strdup_printf("multifdsend_%d", i);
+         p->tls_hostname = g_strdup(s->hostname);
++        p->iov = g_new0(struct iovec, page_count);
+         socket_send_channel_create(multifd_new_send_channel_async, p);
+     }
+ 
+@@ -1021,6 +1032,8 @@ int multifd_load_cleanup(Error **errp)
+         p->packet_len = 0;
+         g_free(p->packet);
+         p->packet = NULL;
++        g_free(p->iov);
++        p->iov = NULL;
+         multifd_recv_state->ops->recv_cleanup(p);
+     }
+     qemu_sem_destroy(&multifd_recv_state->sem_sync);
+@@ -1161,6 +1174,7 @@ int multifd_load_setup(Error **errp)
+                       + sizeof(uint64_t) * page_count;
+         p->packet = g_malloc0(p->packet_len);
+         p->name = g_strdup_printf("multifdrecv_%d", i);
++        p->iov = g_new0(struct iovec, page_count);
+     }
+ 
+     for (i = 0; i < thread_count; i++) {
 -- 
 2.34.1
 
