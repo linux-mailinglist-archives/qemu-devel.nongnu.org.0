@@ -2,64 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D256748B147
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 16:49:34 +0100 (CET)
-Received: from localhost ([::1]:43372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E65848B16B
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 16:56:40 +0100 (CET)
+Received: from localhost ([::1]:46054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7JOw-0005Hp-07
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 10:49:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40028)
+	id 1n7JVn-0007nH-5M
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 10:56:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n7JNW-0003zN-QR
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 10:48:08 -0500
-Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222]:57777)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n7JTW-0006dF-9H
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 10:54:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41837)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n7JNK-0002Fp-3g
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 10:48:00 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.10])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 1C06422DDB;
- Tue, 11 Jan 2022 15:47:48 +0000 (UTC)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 11 Jan
- 2022 16:47:47 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003309d6223-8894-4873-943b-32961459e864,
- 5383433EA887FCAE918FFCB03530F9AACAE8953B) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <8cf0a790-7dca-0d3b-7a2f-b5da5865999d@kaod.org>
-Date: Tue, 11 Jan 2022 16:47:46 +0100
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n7JTT-00035q-Nr
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 10:54:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641916454;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xh9aqkSf8PxMBLOsYh+2fO/rjzB4m1rstepdDOIYFYc=;
+ b=RXi1VK132/HjpuZhRjgDFMAuJ5hoLcfTKXfuUrGYsuCg3doNh7ubMq6K3YgBMZ9KKDHAWf
+ qPf5iE4QLfS8rGwM80dIHh+EFG0RX7ms8S5DXliU+oxP20vmXgifB/2ceFYTGDx6mLl/SH
+ gpsb4EgpFgZSdvktVtfEs/uZW2oS9vE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-201-_bkW1l2IMB2W_3qKOxwcyA-1; Tue, 11 Jan 2022 10:54:11 -0500
+X-MC-Unique: _bkW1l2IMB2W_3qKOxwcyA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59708523D;
+ Tue, 11 Jan 2022 15:54:10 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F74D838C1;
+ Tue, 11 Jan 2022 15:54:08 +0000 (UTC)
+Date: Tue, 11 Jan 2022 16:54:07 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v3 0/3] block: Minor vhost-user-blk fixes
+Message-ID: <Yd2oH+I1cz1HFeJC@redhat.com>
+References: <20220107105420.395011-1-f4bug@amsat.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v5 4/5] ppc/pnv: Introduce user creatable pnv-phb4 devices
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-References: <20220111131027.599784-1-danielhb413@gmail.com>
- <20220111131027.599784-5-danielhb413@gmail.com>
- <69ab634e-bdb6-d5ad-e6be-771ac3d9a780@kaod.org>
- <a7b6515f-70da-24ce-006b-4e97a9a8577f@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <a7b6515f-70da-24ce-006b-4e97a9a8577f@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+In-Reply-To: <20220107105420.395011-1-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 9fd067b4-b566-466b-840a-d49d2e705bf0
-X-Ovh-Tracer-Id: 12007441034192128992
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudehfedgkedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepueevledvjeetgeetfeeiveeftefffedvvdeikeetveelfeeglefgueetvdefvdefnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
-Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
- helo=9.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,70 +78,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/11/22 15:57, Daniel Henrique Barboza wrote:
-> 
-> 
-> On 1/11/22 11:42, Cédric Le Goater wrote:
->> On 1/11/22 14:10, Daniel Henrique Barboza wrote:
->>> This patch introduces pnv-phb4 user creatable devices that are created
->>> in a similar manner as pnv-phb3 devices, allowing the user to interact
->>> with the PHBs directly instead of creating PCI Express Controllers that
->>> will create a certain amount of PHBs per controller index.
->>>
->>> We accomplish this by doing the following:
->>>
->>> - add a pnv_phb4_get_stack() helper to retrieve which stack an user
->>> created phb4 would occupy;
->>>
->>> - when dealing with an user created pnv-phb4 (detected by checking if
->>> phb->stack is NULL at the start of phb4_realize()), retrieve its stack
->>> and initialize its properties as done in stk_realize();
->>>
->>> - use 'defaults_enabled()' in stk_realize() to avoid creating and
->>> initializing a 'stack->phb' qdev that might be overwritten by an user
->>> created pnv-phb4 device. This process is wrapped into a new helper
->>> called pnv_pec_stk_default_phb_realize().
->>>
->>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->>
->> Reviewed-by: Cédric Le Goater <clg@kaod.org>
->>
->> Nothing is left in the stack model. I think the next cleanup is to
->> get rid of it.
-> 
-> 
-> The first step would be to move some MemoryOps from the stack to the phb, then
-> little by little we can get into a point where the stack will just be a pointer
-> to its phb.
-> 
-> This is something that we can keep working on in smaller bits here and there.
-> I mean, assuming that we're not going to use this code base for PHB5. If that's
-> the case then I can prioritize this cleanup.
+Am 07.01.2022 um 11:54 hat Philippe Mathieu-Daud� geschrieben:
+> - Add vhost-user-blk help to qemu-storage-daemon,
+> - Do not list vhost-user-blk in BlockExportType when
+>   CONFIG_VHOST_USER_BLK_SERVER is disabled.
 
-PHB5 uses the same models. Only the PHB version and the root port
-model need some adaptation.
+Thanks, applied to the block branch.
 
-
-On branch https://github.com/legoater/qemu/commits/powernv-7.0,
-I have merged :
-
-   ppc/pnv: Move root port allocation under pnv_pec_stk_default_phb_realize()
-   ppc/pnv: Add a 'rp_model' class attribute for the PHB4 PEC
-   ppc/pnv: Remove PHB4 version property
-
-preparing ground for :
-
-   ppc/pnv: Add model for POWER10 PHB5 PCIe Host bridge
-
-Should we rework slightly your patchset to include them ? Or we don't
-care may be. Please advise :)
-
-Thanks,
-
-C.
+Kevin
 
 
