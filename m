@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F416148AF31
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 15:11:34 +0100 (CET)
-Received: from localhost ([::1]:42276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 047B948AFA0
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 15:35:04 +0100 (CET)
+Received: from localhost ([::1]:54204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7Hs5-0001DG-Pw
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 09:11:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54334)
+	id 1n7IEo-0004Fc-IC
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 09:35:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n7GvS-0003nl-RN; Tue, 11 Jan 2022 08:11:03 -0500
-Received: from [2607:f8b0:4864:20::92d] (port=44681
- helo=mail-ua1-x92d.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n7Gvo-00040i-ET
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:11:20 -0500
+Received: from [2a00:1450:4864:20::32f] (port=33641
+ helo=mail-wm1-x32f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n7GvH-0007Rd-IA; Tue, 11 Jan 2022 08:10:58 -0500
-Received: by mail-ua1-x92d.google.com with SMTP id l15so18120913uai.11;
- Tue, 11 Jan 2022 05:10:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n7Gvm-0007Yn-Pu
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:11:20 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ o7-20020a05600c510700b00347e10f66d1so809909wms.0
+ for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 05:11:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=GE644NnPbZ5AAUavcaFOZCXuQEqZhv8V4PEbFward/U=;
- b=AoeGMxGKpmT1zxaArAvHUhD4qDU+qAbQ1K1xU0z6zpH24tdM+oCh8zZ0s6I1Bu2oeK
- OLuzucyFpfQR4sI6hkM/zupqK/LwUu0LAFI4SfePTU3rqinxMg/aUEqrRpaB9JffA+0L
- sEfq187OwPtXVw6jsTzqfw4KEY5+Isu8bQ/DEMYb6SgjbczYSdIlcZXugddm4D5N/nzJ
- joaesVLSd4CM9uc/usJAfyMgexBvY4/DD4eoiM+OrZMNnGlceDRmWaztgeKRiFfBSBNY
- BERa+OKYYFj1dRIDPr9zVHzAy9JbCdyi3zI49TQFSV60QPctwTTkjphyqiYUAaU4AQuc
- 1qXQ==
+ h=sender:message-id:date:mime-version:user-agent:content-language:to
+ :cc:from:subject:content-transfer-encoding;
+ bh=FBNTR5A9MUkj3NaxGX9Lc0fqgH2d01iXMLPl3gvHgRE=;
+ b=JudhGFkSxNIG6asJ21l7FOveJv7a4LQloHBZpq3k3+pwla5//EleVjKZpFz+xHkqAP
+ yDC8k8YoPsDM413h62yMCPNvODfCkcHkeYYCuPD8xbKAcGlO3cTFVcl5SvFgxKlW/2Lg
+ VfkZx7/Kx1luxb8f1tPVqmzTLGGQnDJIfAH02ymdSBeAVJaMN9pOCwRlCpumQm0R5niI
+ aqcKxjp1ZuMV5I3FQ4MhaXbz3KiB/yvj8v5WoACRZco/3UBohTIT9cY7dGo59R9DPH3B
+ iqnuFgJOXVrxnxnuBR/oRR5QTwtvRBL4JyaD2dXO3oauN9yQsJQLRiHsQg+QdMA7p9fn
+ jQyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=GE644NnPbZ5AAUavcaFOZCXuQEqZhv8V4PEbFward/U=;
- b=J4gJPQbdC6e4XY8Ilb0FbN116rg91LaqUvTYCIgdgv59VT0zvwvTE7TJH6dLG6mq67
- 5iWTg+YjWvi3qBW1dFOkT/Kkv8h0WjajDmHRZQdO+4I1c4OkMxThuCpatURUjhgRrAFe
- Mpp07si1jSA3pyUlFl2KI7ROfupW0VA07bVyzFXMGficIHAewcEubGMOqpvsH1FX0iTM
- u8R6SR6ff5bvRpkbukDSS3fDjhEtNiz6QJ4UnMlrpMFn7Lo4xvVXt6ucfqGjXqEW/lMT
- ROD46pxfg+2a6HgAoRmv/XZptUKt5zi4NkZsceh/IiwGSGM9V3NRjyEoi+vSO8fPO/Fy
- rDCg==
-X-Gm-Message-State: AOAM533PqEZxk+yI1RH4+ZkRR7VSgbhADeGOGj1k918F7nu6t4ohApIg
- cPPZbw/tNuWD/Oaro326In/VwT7BUOBf3oX4
-X-Google-Smtp-Source: ABdhPJxBUmPaW890jbCmL6NKnL6iJ9QfuAFxe8Q9TnSrhkSyIf3+bInNA+9AV0ERbWgAglX+G4Yxrg==
-X-Received: by 2002:a05:6102:304b:: with SMTP id
- w11mr1830706vsa.44.1641906644479; 
- Tue, 11 Jan 2022 05:10:44 -0800 (PST)
-Received: from rekt.COMFAST ([152.249.109.193])
- by smtp.gmail.com with ESMTPSA id f1sm5386381uae.5.2022.01.11.05.10.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jan 2022 05:10:44 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 5/5] ppc/pnv: turn pnv_phb4_update_regions() into static
-Date: Tue, 11 Jan 2022 10:10:27 -0300
-Message-Id: <20220111131027.599784-6-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220111131027.599784-1-danielhb413@gmail.com>
-References: <20220111131027.599784-1-danielhb413@gmail.com>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :content-language:to:cc:from:subject:content-transfer-encoding;
+ bh=FBNTR5A9MUkj3NaxGX9Lc0fqgH2d01iXMLPl3gvHgRE=;
+ b=0XoZAhrBzQ3JVj13usOPNLTIqDMNkyibjGyoF2UunhhrUbtRRVVCwIQA51/gk9HEKL
+ 8hjOpp+/FVC+g5fXEjYHlpjYJKD/07GQgLrJ+4RO+O5pLQDNx9bPSUTH76+PkGJh6jkk
+ xUJnOeIern/07l8/Myr0oRP+0OQZMMHA4WINGmkfA3Do9/t4w3cWmsSGk0ikWND6WyOm
+ jpK7ORZejezK63MJ+WC5RURu9Tl3DvffW8MN2/vx0fH0FW0nUpIQmAZtyesXRjGmMRET
+ C+5ImbSdfirlR85r12hHbKJ4wsh5fMxW/OD85Osrm1PHIIxoSfiqgQ7pD8YCDeD3mA4d
+ gUkg==
+X-Gm-Message-State: AOAM53161ZMCTD/V1MHA3cl6wYNTHWKc6GgqMGUrytu7jhPrCeNPW8/L
+ R4WLEnnQ0E9rr+gFAxDR4tI=
+X-Google-Smtp-Source: ABdhPJxGJRyzoz3RYMw+6MGXv9CObeu/lh0aQKZe+g6QduCBAS8uLpyoeompN3EOOecNwPB2uE8s8w==
+X-Received: by 2002:a05:600c:5025:: with SMTP id
+ n37mr2447638wmr.18.1641906676592; 
+ Tue, 11 Jan 2022 05:11:16 -0800 (PST)
+Received: from [192.168.1.40] (83.red-83-50-87.dynamicip.rima-tde.net.
+ [83.50.87.83])
+ by smtp.gmail.com with ESMTPSA id k31sm1889828wms.21.2022.01.11.05.11.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Jan 2022 05:11:16 -0800 (PST)
+Message-ID: <c4b8b407-e270-b5eb-8f41-2b28d94059e3@amsat.org>
+Date: Tue, 11 Jan 2022 14:11:14 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Subject: cirrus-ci: FreeBSD failure (lttng-ust package not found)
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92d
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92d;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x92d.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -86,103 +90,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Ed Maste <emaste@freebsd.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Its only callers are inside pnv_phb4.c.
+Hi Alex,
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/pci-host/pnv_phb4.c         | 52 +++++++++++++++++-----------------
- include/hw/pci-host/pnv_phb4.h |  1 -
- 2 files changed, 26 insertions(+), 27 deletions(-)
+I am getting this failure for the x64-freebsd-*-build jobs [1, 2]:
 
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index ca2f4078e5..30e609d78e 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -868,6 +868,32 @@ static uint64_t pnv_pec_stk_nest_xscom_read(void *opaque, hwaddr addr,
-     return stack->nest_regs[reg];
- }
- 
-+static void pnv_phb4_update_regions(PnvPhb4PecStack *stack)
-+{
-+    PnvPHB4 *phb = stack->phb;
-+
-+    /* Unmap first always */
-+    if (memory_region_is_mapped(&phb->mr_regs)) {
-+        memory_region_del_subregion(&stack->phbbar, &phb->mr_regs);
-+    }
-+    if (memory_region_is_mapped(&phb->xsrc.esb_mmio)) {
-+        memory_region_del_subregion(&stack->intbar, &phb->xsrc.esb_mmio);
-+    }
-+
-+    /* Map registers if enabled */
-+    if (memory_region_is_mapped(&stack->phbbar)) {
-+        memory_region_add_subregion(&stack->phbbar, 0, &phb->mr_regs);
-+    }
-+
-+    /* Map ESB if enabled */
-+    if (memory_region_is_mapped(&stack->intbar)) {
-+        memory_region_add_subregion(&stack->intbar, 0, &phb->xsrc.esb_mmio);
-+    }
-+
-+    /* Check/update m32 */
-+    pnv_phb4_check_all_mbt(phb);
-+}
-+
- static void pnv_pec_stk_update_map(PnvPhb4PecStack *stack)
- {
-     PnvPhb4PecState *pec = stack->pec;
-@@ -1796,32 +1822,6 @@ static void pnv_phb4_register_types(void)
- 
- type_init(pnv_phb4_register_types);
- 
--void pnv_phb4_update_regions(PnvPhb4PecStack *stack)
--{
--    PnvPHB4 *phb = stack->phb;
--
--    /* Unmap first always */
--    if (memory_region_is_mapped(&phb->mr_regs)) {
--        memory_region_del_subregion(&stack->phbbar, &phb->mr_regs);
--    }
--    if (memory_region_is_mapped(&phb->xsrc.esb_mmio)) {
--        memory_region_del_subregion(&stack->intbar, &phb->xsrc.esb_mmio);
--    }
--
--    /* Map registers if enabled */
--    if (memory_region_is_mapped(&stack->phbbar)) {
--        memory_region_add_subregion(&stack->phbbar, 0, &phb->mr_regs);
--    }
--
--    /* Map ESB if enabled */
--    if (memory_region_is_mapped(&stack->intbar)) {
--        memory_region_add_subregion(&stack->intbar, 0, &phb->xsrc.esb_mmio);
--    }
--
--    /* Check/update m32 */
--    pnv_phb4_check_all_mbt(phb);
--}
--
- void pnv_phb4_pic_print_info(PnvPHB4 *phb, Monitor *mon)
- {
-     uint32_t offset = phb->regs[PHB_INT_NOTIFY_INDEX >> 3];
-diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
-index 82f054cf21..4b7ce8a723 100644
---- a/include/hw/pci-host/pnv_phb4.h
-+++ b/include/hw/pci-host/pnv_phb4.h
-@@ -131,7 +131,6 @@ struct PnvPHB4 {
- };
- 
- void pnv_phb4_pic_print_info(PnvPHB4 *phb, Monitor *mon);
--void pnv_phb4_update_regions(PnvPhb4PecStack *stack);
- int pnv_phb4_pec_get_phb_id(PnvPhb4PecState *pec, int stack_index);
- extern const MemoryRegionOps pnv_phb4_xscom_ops;
- 
--- 
-2.33.1
+pkg: No packages available to install matching 'lttng-ust' have been
+found in the repositories
 
+Do you know it this is fixed in your testing/next branch?
+
+Thanks,
+
+Phil.
+
+[1] https://gitlab.com/qemu-project/qemu/-/jobs/1962062060
+[2] https://gitlab.com/qemu-project/qemu/-/jobs/1962062061
 
