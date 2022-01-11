@@ -2,51 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C832648A9D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 09:49:25 +0100 (CET)
-Received: from localhost ([::1]:47276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 063F748A9EF
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 09:53:29 +0100 (CET)
+Received: from localhost ([::1]:51854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7CqK-00049h-P3
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 03:49:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46530)
+	id 1n7CuF-0007lS-U0
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 03:53:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <troy_lee@aspeedtech.com>)
- id 1n7Cnr-0001l6-CX; Tue, 11 Jan 2022 03:46:51 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:25756)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1n7CrY-00065P-03
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 03:50:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <troy_lee@aspeedtech.com>)
- id 1n7Cnp-0005FW-Ey; Tue, 11 Jan 2022 03:46:51 -0500
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 20B8dHGf066977;
- Tue, 11 Jan 2022 16:39:17 +0800 (GMT-8)
- (envelope-from troy_lee@aspeedtech.com)
-Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 11 Jan
- 2022 16:45:50 +0800
-From: Troy Lee <troy_lee@aspeedtech.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v3 2/2] This patch includes i3c instance in ast2600 soc.
-Date: Tue, 11 Jan 2022 16:45:46 +0800
-Message-ID: <20220111084546.4145785-3-troy_lee@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220111084546.4145785-1-troy_lee@aspeedtech.com>
-References: <20220111084546.4145785-1-troy_lee@aspeedtech.com>
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1n7CrO-0005he-8o
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 03:50:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641891021;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ANmFOjqeQsbRwttGs7LdoMoshCJJ1AACY14WAJPGGbc=;
+ b=Tx98YmmJ+bx6W+0dfLtdZWGOUV2sawb7v+r/MOAXwJnUkUKg0AAVTRlSIFD97r+bGIb9wi
+ NOuyOnEr8TGjSG6wF1N/dJP/ksi6LwYFLvAC+dERkCQ4irBSs0Qs4BaUd8OMqzp7QUzRSb
+ 2NR6e443NsdlciTTqnt2A3dGH2sngGk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-132-4MxEZdweO2egi6YPzpBeAA-1; Tue, 11 Jan 2022 03:50:15 -0500
+X-MC-Unique: 4MxEZdweO2egi6YPzpBeAA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A006C760D4;
+ Tue, 11 Jan 2022 08:50:13 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (unknown [10.39.192.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E2F6E5450E;
+ Tue, 11 Jan 2022 08:48:54 +0000 (UTC)
+Subject: Re: [RFC PATCH v2 20/44] i386/tdx: Parse tdx metadata and store the
+ result into TdxGuestState
+From: Laszlo Ersek <lersek@redhat.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>, Gerd Hoffmann <kraxel@redhat.com>
+References: <cover.1625704980.git.isaku.yamahata@intel.com>
+ <acaf651389c3f407a9d6d0a2e943daf0a85bb5fc.1625704981.git.isaku.yamahata@intel.com>
+ <20210826111838.fgbp6v6gd5wzbnho@sirius.home.kraxel.org>
+ <a97a75ad-9d1c-a09f-281b-d6b0a7652e78@intel.com>
+ <4eb6a628-0af6-409b-7e42-52787ee3e69d@redhat.com>
+ <e74fcb88-3add-4bb7-4508-742db44fa3c8@intel.com>
+ <20220110110120.ldjekirdzgmgex4z@sirius.home.kraxel.org>
+ <0771d5e3-c1b8-c3ad-3f3c-f117dfcc4d13@intel.com>
+ <92b8e17f-802f-bcfc-e937-3c4712cc9cfb@redhat.com>
+Message-ID: <3994f1f8-8c18-c8b9-f003-5a583540ee5c@redhat.com>
+Date: Tue, 11 Jan 2022 09:48:53 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.10.10]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 20B8dHGf066977
-Received-SPF: pass client-ip=211.20.114.71;
- envelope-from=troy_lee@aspeedtech.com; helo=twspam01.aspeedtech.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <92b8e17f-802f-bcfc-e937-3c4712cc9cfb@redhat.com>
+Content-Type: multipart/mixed; boundary="------------6D83D1EE2447B08F1D062EDA"
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,103 +81,2533 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- hailin.wu@aspeedtech.com, leetroy@gmail.com,
- "open list:ASPEED BMCs" <qemu-arm@nongnu.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+Cc: isaku.yamahata@intel.com, cohuck@redhat.com, ehabkost@redhat.com,
+ kvm@vger.kernel.org, mst@redhat.com, seanjc@google.com, alistair@alistair23.me,
+ qemu-devel@nongnu.org, mtosatti@redhat.com, "Min M . Xu" <min.m.xu@intel.com>,
+ erdemaktas@google.com, pbonzini@redhat.com, isaku.yamahata@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v3:
-- Remove unrelated changes to SPI2 address
-- Remove controller irq line
+This is a multi-part message in MIME format.
+--------------6D83D1EE2447B08F1D062EDA
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-v2: Rebase to mainline QEMU
+On 01/11/22 09:19, Laszlo Ersek wrote:
 
-Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
----
- hw/arm/aspeed_ast2600.c     | 16 ++++++++++++++++
- include/hw/arm/aspeed_soc.h |  3 +++
- 2 files changed, 19 insertions(+)
+> Here's a rough call tree (for the non-SMM case, updating a
+> non-authenticated non-volatile variable):
+>
+>   VariableServiceSetVariable()                             [MdeModulePkg/Universal/Variable/RuntimeDxe/Variable.c]
+>     UpdateVariable()                                       [MdeModulePkg/Universal/Variable/RuntimeDxe/Variable.c]
+>       UpdateVariableStore()                                [MdeModulePkg/Universal/Variable/RuntimeDxe/Variable.c]
+>         FvbProtocolWrite()                                 [OvmfPkg/QemuFlashFvbServicesRuntimeDxe/FwBlockService.c]
+>           QemuFlashWrite()                                 [OvmfPkg/QemuFlashFvbServicesRuntimeDxe/QemuFlash.c]
+>
+>             QemuFlashPtrWrite (WRITE_BYTE_CMD /* 0x10 */)
+>                QEMU:
+>                 pflash_write()                             [hw/block/pflash_cfi01.c]
+>                   (wcycle == 0)
+>                   memory_region_rom_device_set_romd(false) [softmmu/memory.c]
+>                     ...
+>                       kvm_region_del()                     [accel/kvm/kvm-all.c]
+>                         kvm_set_phys_mem(false)            [accel/kvm/kvm-all.c]
+>                           /* unregister the slot */
+>
+>                   /* Single Byte Program */
+>                   wcycle++
+>
+>             QemuFlashPtrWrite (Buffer[Loop])
+>               QEMU:
+>                 pflash_write()                             [hw/block/pflash_cfi01.c]
+>                   (wcycle == 1)
+>                   /* Single Byte Program */
+>                   pflash_data_write()                      [hw/block/pflash_cfi01.c]
+>                   pflash_update()                          [hw/block/pflash_cfi01.c]
+>                     blk_pwrite()                           [block/block-backend.c]
+>                   wcycle = 0
+>
+>             QemuFlashPtrWrite (READ_ARRAY_CMD /* 0xff */)
+>               QEMU:
+>                 pflash_write()                             [hw/block/pflash_cfi01.c]
+>                   (wcycle == 0)
+>                   memory_region_rom_device_set_romd(false) [softmmu/memory.c]
+>                     /* no actual change */
+>                   /* Read Array */
+>                   memory_region_rom_device_set_romd(true)  [softmmu/memory.c]
+>                     kvm_region_add()                       [accel/kvm/kvm-all.c]
+>                       kvm_set_phys_mem(true)               [accel/kvm/kvm-all.c]
+>                         /* register the new slot */
+>                         kvm_mem_flags()                    [accel/kvm/kvm-all.c]
+>                           ... memory_region_is_romd() ...  [include/exec/memory.h]
+>                           flags |= KVM_MEM_READONLY
 
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index e33483fb5d..8f37bdb1d8 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -61,6 +61,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
-     [ASPEED_DEV_UART1]     = 0x1E783000,
-     [ASPEED_DEV_UART5]     = 0x1E784000,
-     [ASPEED_DEV_VUART]     = 0x1E787000,
-+    [ASPEED_DEV_I3C]       = 0x1E7A0000,
-     [ASPEED_DEV_SDRAM]     = 0x80000000,
- };
- 
-@@ -108,6 +109,7 @@ static const int aspeed_soc_ast2600_irqmap[] = {
-     [ASPEED_DEV_ETH4]      = 33,
-     [ASPEED_DEV_KCS]       = 138,   /* 138 -> 142 */
-     [ASPEED_DEV_DP]        = 62,
-+    [ASPEED_DEV_I3C]       = 102,   /* 102 -> 107 */
- };
- 
- static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
-@@ -223,6 +225,8 @@ static void aspeed_soc_ast2600_init(Object *obj)
- 
-     snprintf(typename, sizeof(typename), "aspeed.hace-%s", socname);
-     object_initialize_child(obj, "hace", &s->hace, typename);
-+
-+    object_initialize_child(obj, "i3c", &s->i3c, TYPE_ASPEED_I3C);
- }
- 
- /*
-@@ -523,6 +527,18 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->hace), 0, sc->memmap[ASPEED_DEV_HACE]);
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->hace), 0,
-                        aspeed_soc_get_irq(s, ASPEED_DEV_HACE));
-+
-+    /* I3C */
-+    if (!sysbus_realize(SYS_BUS_DEVICE(&s->i3c), errp)) {
-+        return;
-+    }
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i3c), 0, sc->memmap[ASPEED_DEV_I3C]);
-+    for (i = 0; i < ASPEED_I3C_NR_DEVICES; i++) {
-+        qemu_irq irq = qdev_get_gpio_in(DEVICE(&s->a7mpcore),
-+                                        sc->irqmap[ASPEED_DEV_I3C] + i);
-+        /* The AST2600 I3C controller has one IRQ per bus. */
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->i3c.devices[i]), 0, irq);
-+    }
- }
- 
- static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index 18fb7eed46..cae9906684 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -21,6 +21,7 @@
- #include "hw/timer/aspeed_timer.h"
- #include "hw/rtc/aspeed_rtc.h"
- #include "hw/i2c/aspeed_i2c.h"
-+#include "hw/misc/aspeed_i3c.h"
- #include "hw/ssi/aspeed_smc.h"
- #include "hw/misc/aspeed_hace.h"
- #include "hw/watchdog/wdt_aspeed.h"
-@@ -51,6 +52,7 @@ struct AspeedSoCState {
-     AspeedRtcState rtc;
-     AspeedTimerCtrlState timerctrl;
-     AspeedI2CState i2c;
-+    AspeedI3CState i3c;
-     AspeedSCUState scu;
-     AspeedHACEState hace;
-     AspeedXDMAState xdma;
-@@ -141,6 +143,7 @@ enum {
-     ASPEED_DEV_HACE,
-     ASPEED_DEV_DPMCU,
-     ASPEED_DEV_DP,
-+    ASPEED_DEV_I3C,
- };
- 
- #endif /* ASPEED_SOC_H */
--- 
-2.25.1
+In that call tree, I ignored Reclaim()
+[MdeModulePkg/Universal/Variable/RuntimeDxe/Variable.c]; Reclaim() is
+called from more places than just from UpdateVariable().
+
+In Reclaim(), we (roughly) have
+
+  Reclaim()              [MdeModulePkg/Universal/Variable/RuntimeDxe/Variable.c]
+    FtwVariableSpace()   [MdeModulePkg/Universal/Variable/RuntimeDxe/Reclaim.c]
+      FtwWrite()         [MdeModulePkg/Universal/FaultTolerantWriteDxe/FaultTolerantWrite.c]
+        QemuFlashWrite() [OvmfPkg/QemuFlashFvbServicesRuntimeDxe/QemuFlash.c]
+
+For a bit more info on the internals of FtwWrite(), see the attached
+message (I'd provide a URL, but Intel had killed the edk2-devel archives
+on lists.01.org, and the other archives don't go back to 2014...)
+
+Thanks
+Laszlo
+
+--------------6D83D1EE2447B08F1D062EDA
+Content-Type: message/rfc822;
+ name="Attached Message"
+Content-Transfer-Encoding: 8bit
+Content-Disposition: attachment;
+ filename="Attached Message"
+
+Message-ID: <5355073E.90406@redhat.com>
+Date: Mon, 21 Apr 2014 13:55:42 +0200
+From: Laszlo Ersek <lersek@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+MIME-Version: 1.0
+To: Garrett.Kirkendall@amd.com
+CC: edk2-devel@lists.sourceforge.net
+Subject: Re: [edk2] Firmware Volume Block and Fault Tolerant Write question.
+References: <B0A0C783C6BCD94E8B3B71A429AB73C033378FD6@SATLEXDAG01.amd.com>
+In-Reply-To: <B0A0C783C6BCD94E8B3B71A429AB73C033378FD6@SATLEXDAG01.amd.com>
+Content-Type: multipart/mixed;
+ boundary="------------060409090906030104080306"
+
+This is a multi-part message in MIME format.
+--------------060409090906030104080306
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 8bit
+
+On 04/18/14 21:32, Kirkendall, Garrett wrote:
+> Is there any good documentation for how the Fault Tolerant Write is
+> supposed to work?
+> 
+> I understand that NV storage, FTW working space and FTW spare space are
+> supposed to be in the same Firmware Volume.
+> 
+> I’m having trouble deciphering how big the FTW working and spare areas
+> should be in relation to the NV storage space.
+> 
+> Also, in a bunch of places, it looks like the code was written such that
+> the working space must fit within one block size.  What happens if need
+> space spanning multiple blocks?  Below are parts from two functions that
+> end in an ASSERT because only one block gets read and returns an error
+> when the requested FVB->Read input size is larger than one block of data.
+
+If it's any help, here's a diagram I derived last December, while I was
+hunting down <https://github.com/tianocore/edk2/commit/06f1982a>:
+
+On 12/17/13 07:16, Laszlo Ersek wrote:
+> During reclaim, the following data movements take place (I'm skipping
+> the erasures and the in-memory buffer manipulations):
+>
+>       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+   L: event log
+> LIVE  |    varstore               |L|W|   W: working block
+>       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+>
+>       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+> SPARE |                               |
+>       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+>
+> (1) copy LIVE to MyBuffer
+> (2) copy SPARE to SpareBuffer
+> (3) copy MyBuffer to SPARE
+> (4) copy SPARE to Buffer
+> (5) copy Buffer to LIVE
+> (6) copy SpareBuffer to SPARE
+
+(MyBuffer, SpareBuffer, and Buffer are temporary memory buffers.)
+
+In OVMF, the block size is 4K. The varstore is 14 blocks (56K), plus we
+got one block (4K) for the event log and one block (4K) for the working
+block. In total, 64K in the live half. The spare half is the same size,
+giving 128K total for the firmware volume.
+
+I'm also attaching the debug patch I wrote at that time for the FTW and
+auth variable services, plus its output (which I annotated during
+analysis) that helped me understand what was happening. Maybe you can
+reuse something from them.
+
+Laszlo
+
+--------------060409090906030104080306
+Content-Type: text/x-patch;
+ name="debug.diff"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="debug.diff"
+
+ZGlmZiAtLWdpdCBhL01kZU1vZHVsZVBrZy9Vbml2ZXJzYWwvRmF1bHRUb2xlcmFudFdyaXRl
+RHhlL0ZhdWx0VG9sZXJhbnRXcml0ZS5jIGIvTWRlTW9kdWxlUGtnL1VuaXZlcnNhbC9GYXVs
+dFRvbGVyYW50V3JpdGVEeGUvRmF1bHRUb2xlcmFudFdyaXRlLmMKaW5kZXggNzE0YjVkOC4u
+MjkxOGQ1OCAxMDA2NDQKLS0tIGEvTWRlTW9kdWxlUGtnL1VuaXZlcnNhbC9GYXVsdFRvbGVy
+YW50V3JpdGVEeGUvRmF1bHRUb2xlcmFudFdyaXRlLmMKKysrIGIvTWRlTW9kdWxlUGtnL1Vu
+aXZlcnNhbC9GYXVsdFRvbGVyYW50V3JpdGVEeGUvRmF1bHRUb2xlcmFudFdyaXRlLmMKQEAg
+LTM5LDcgKzM5LDEwIEBAIEZ0d0dldE1heEJsb2NrU2l6ZSAoCiB7DQogICBFRklfRlRXX0RF
+VklDRSAgKkZ0d0RldmljZTsNCiANCisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBl
+bnRlclxuIiwgX19GVU5DVElPTl9fKSk7DQorDQogICBpZiAoIUZlYXR1cmVQY2RHZXQoUGNk
+RnVsbEZ0d1NlcnZpY2VFbmFibGUpKSB7DQorICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwg
+IiVhOiBleGl0IDFcbiIsIF9fRlVOQ1RJT05fXykpOw0KICAgICByZXR1cm4gRUZJX1VOU1VQ
+UE9SVEVEOw0KICAgfQ0KIA0KQEAgLTQ3LDYgKzUwLDggQEAgRnR3R2V0TWF4QmxvY2tTaXpl
+ICgKIA0KICAgKkJsb2NrU2l6ZSAgPSBGdHdEZXZpY2UtPlNwYXJlQXJlYUxlbmd0aDsNCiAN
+CisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IDIsIEJsb2NrU2l6ZT0weCVM
+eFxuIiwgX19GVU5DVElPTl9fLA0KKyAgICAoVUlOVDY0KSAqQmxvY2tTaXplKSk7DQogICBy
+ZXR1cm4gRUZJX1NVQ0NFU1M7DQogfQ0KIA0KQEAgLTg2LDEwICs5MSwxNSBAQCBGdHdBbGxv
+Y2F0ZSAoCiAgIEVGSV9GVFdfREVWSUNFICAgICAgICAgICAgICAgICAgKkZ0d0RldmljZTsN
+CiAgIEVGSV9GQVVMVF9UT0xFUkFOVF9XUklURV9IRUFERVIgKkZ0d0hlYWRlcjsNCiANCisg
+IERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBlbnRlciwgQ2FsbGVySWQ9JWcsIFByaXZh
+dGVEYXRhU2l6ZT0weCVMeCwgIg0KKyAgICAiTnVtYmVyT2ZXcml0ZXM9MHglTHhcbiIsIF9f
+RlVOQ1RJT05fXywgQ2FsbGVySWQsIChVSU5UNjQpUHJpdmF0ZURhdGFTaXplLA0KKyAgICAo
+VUlOVDY0KU51bWJlck9mV3JpdGVzKSk7DQorDQogICBGdHdEZXZpY2UgPSBGVFdfQ09OVEVY
+VF9GUk9NX1RISVMgKFRoaXMpOw0KIA0KICAgU3RhdHVzICAgID0gV29ya1NwYWNlUmVmcmVz
+aCAoRnR3RGV2aWNlKTsNCiAgIGlmIChFRklfRVJST1IgKFN0YXR1cykpIHsNCisgICAgREVC
+VUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgMTogJXJcbiIsIF9fRlVOQ1RJT05fXywg
+U3RhdHVzKSk7DQogICAgIHJldHVybiBFRklfQUJPUlRFRDsNCiAgIH0NCiAgIC8vDQpAQCAt
+OTcsNiArMTA3LDcgQEAgRnR3QWxsb2NhdGUgKAogICAvLw0KICAgaWYgKEZUV19XUklURV9U
+T1RBTF9TSVpFIChOdW1iZXJPZldyaXRlcywgUHJpdmF0ZURhdGFTaXplKSA+IEZ0d0Rldmlj
+ZS0+RnR3V29ya1NwYWNlSGVhZGVyLT5Xcml0ZVF1ZXVlU2l6ZSkgew0KICAgICBERUJVRyAo
+KEVGSV9EX0VSUk9SLCAiRnR3OiBBbGxvY2F0ZSgpIHJlcXVlc3QgZXhjZWVkIFdvcmtzcGFj
+ZSwgQ2FsbGVyOiAlZ1xuIiwgQ2FsbGVySWQpKTsNCisgICAgREVCVUcgKChERUJVR19WRVJC
+T1NFLCAiJWE6IGV4aXQgMlxuIiwgX19GVU5DVElPTl9fKSk7DQogICAgIHJldHVybiBFRklf
+QlVGRkVSX1RPT19TTUFMTDsNCiAgIH0NCiAgIC8vDQpAQCAtMTA5LDYgKzEyMCw3IEBAIEZ0
+d0FsbG9jYXRlICgKICAgLy8gUHJldmlvdXMgd3JpdGUgaGFzIG5vdCBjb21wbGV0ZWQsIGFj
+Y2VzcyBkZW5pZWQuDQogICAvLw0KICAgaWYgKChGdHdIZWFkZXItPkhlYWRlckFsbG9jYXRl
+ZCA9PSBGVFdfVkFMSURfU1RBVEUpIHx8IChGdHdIZWFkZXItPldyaXRlc0FsbG9jYXRlZCA9
+PSBGVFdfVkFMSURfU1RBVEUpKSB7DQorICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVh
+OiBleGl0IDNcbiIsIF9fRlVOQ1RJT05fXykpOw0KICAgICByZXR1cm4gRUZJX0FDQ0VTU19E
+RU5JRUQ7DQogICB9DQogICAvLw0KQEAgLTExOCw2ICsxMzAsNyBAQCBGdHdBbGxvY2F0ZSAo
+CiAgIGlmIChPZmZzZXQgKyBGVFdfV1JJVEVfVE9UQUxfU0laRSAoTnVtYmVyT2ZXcml0ZXMs
+IFByaXZhdGVEYXRhU2l6ZSkgPiBGdHdEZXZpY2UtPkZ0d1dvcmtTcGFjZVNpemUpIHsNCiAg
+ICAgU3RhdHVzID0gRnR3UmVjbGFpbVdvcmtTcGFjZSAoRnR3RGV2aWNlLCBUUlVFKTsNCiAg
+ICAgaWYgKEVGSV9FUlJPUiAoU3RhdHVzKSkgew0KKyAgICAgIERFQlVHICgoREVCVUdfVkVS
+Qk9TRSwgIiVhOiBleGl0IDQ6ICVyXG4iLCBfX0ZVTkNUSU9OX18sIFN0YXR1cykpOw0KICAg
+ICAgIHJldHVybiBFRklfQUJPUlRFRDsNCiAgICAgfQ0KIA0KQEAgLTE0Myw2ICsxNTYsNyBA
+QCBGdHdBbGxvY2F0ZSAoCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAo
+VUlOVDggKikgRnR3SGVhZGVyDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgKTsNCiAgIGlmIChFRklfRVJST1IgKFN0YXR1cykpIHsNCisgICAgREVCVUcgKChERUJV
+R19WRVJCT1NFLCAiJWE6IGV4aXQgNTogJXJcbiIsIF9fRlVOQ1RJT05fXywgU3RhdHVzKSk7
+DQogICAgIHJldHVybiBFRklfQUJPUlRFRDsNCiAgIH0NCiAgIC8vDQpAQCAtMTU1LDYgKzE2
+OSw3IEBAIEZ0d0FsbG9jYXRlICgKICAgICAgICAgICAgIFdSSVRFU19BTExPQ0FURUQNCiAg
+ICAgICAgICAgICApOw0KICAgaWYgKEVGSV9FUlJPUiAoU3RhdHVzKSkgew0KKyAgICBERUJV
+RyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCA2OiAlclxuIiwgX19GVU5DVElPTl9fLCBT
+dGF0dXMpKTsNCiAgICAgcmV0dXJuIEVGSV9BQk9SVEVEOw0KICAgfQ0KIA0KQEAgLTE2NSw2
+ICsxODAsNyBAQCBGdHdBbGxvY2F0ZSAoCiAgICAgTnVtYmVyT2ZXcml0ZXMpDQogICAgICk7
+DQogDQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCA3XG4iLCBfX0ZVTkNU
+SU9OX18pKTsNCiAgIHJldHVybiBFRklfU1VDQ0VTUzsNCiB9DQogDQpAQCAtMTk1LDYgKzIx
+MSw4IEBAIEZ0d1dyaXRlUmVjb3JkICgKICAgVUlOVE4gICAgICAgICAgICAgICAgICAgICAg
+ICAgICBPZmZzZXQ7DQogICBFRklfTEJBICAgICAgICAgICAgICAgICAgICAgICAgIFdvcmtT
+cGFjZUxiYU9mZnNldDsNCiANCisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBlbnRl
+clxuIiwgX19GVU5DVElPTl9fKSk7DQorIA0KICAgRnR3RGV2aWNlID0gRlRXX0NPTlRFWFRf
+RlJPTV9USElTIChUaGlzKTsNCiANCiAgIFdvcmtTcGFjZUxiYU9mZnNldCA9IEZ0d0Rldmlj
+ZS0+RnR3V29ya1NwYWNlTGJhIC0gRnR3RGV2aWNlLT5GdHdXb3JrQmxvY2tMYmE7DQpAQCAt
+MjIzLDYgKzI0MSw3IEBAIEZ0d1dyaXRlUmVjb3JkICgKICAgICAgICAgICAgICAgU1BBUkVf
+Q09NUExFVEVEDQogICAgICAgICAgICAgICApOw0KICAgICBpZiAoRUZJX0VSUk9SIChTdGF0
+dXMpKSB7DQorICAgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgMTogJXJc
+biIsIF9fRlVOQ1RJT05fXywgU3RhdHVzKSk7DQogICAgICAgcmV0dXJuIEVGSV9BQk9SVEVE
+Ow0KICAgICB9DQogDQpAQCAtMjQwLDYgKzI1OSw3IEBAIEZ0d1dyaXRlUmVjb3JkICgKICAg
+fQ0KIA0KICAgaWYgKEVGSV9FUlJPUiAoU3RhdHVzKSkgew0KKyAgICBERUJVRyAoKERFQlVH
+X1ZFUkJPU0UsICIlYTogZXhpdCAyOiAlclxuIiwgX19GVU5DVElPTl9fLCBTdGF0dXMpKTsN
+CiAgICAgcmV0dXJuIEVGSV9BQk9SVEVEOw0KICAgfQ0KICAgLy8NCkBAIC0yNTMsNiArMjcz
+LDcgQEAgRnR3V3JpdGVSZWNvcmQgKAogICAgICAgICAgICAgREVTVF9DT01QTEVURUQNCiAg
+ICAgICAgICAgICApOw0KICAgaWYgKEVGSV9FUlJPUiAoU3RhdHVzKSkgew0KKyAgICBERUJV
+RyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCAzOiAlclxuIiwgX19GVU5DVElPTl9fLCBT
+dGF0dXMpKTsNCiAgICAgcmV0dXJuIEVGSV9BQk9SVEVEOw0KICAgfQ0KIA0KQEAgLTI3Miwx
+MCArMjkzLDEyIEBAIEZ0d1dyaXRlUmVjb3JkICgKICAgICAgICAgICAgICAgKTsNCiAgICAg
+SGVhZGVyLT5Db21wbGV0ZSA9IEZUV19WQUxJRF9TVEFURTsNCiAgICAgaWYgKEVGSV9FUlJP
+UiAoU3RhdHVzKSkgew0KKyAgICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0
+IDQ6ICVyXG4iLCBfX0ZVTkNUSU9OX18sIFN0YXR1cykpOw0KICAgICAgIHJldHVybiBFRklf
+QUJPUlRFRDsNCiAgICAgfQ0KICAgfQ0KIA0KKyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAi
+JWE6IGV4aXQgNVxuIiwgX19GVU5DVElPTl9fKSk7DQogICByZXR1cm4gRUZJX1NVQ0NFU1M7
+DQogfQ0KIA0KQEAgLTMzMSwxMCArMzU0LDE1IEBAIEZ0d1dyaXRlICgKICAgVUlOVDggICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgKlB0cjsNCiAgIEVGSV9QSFlTSUNBTF9BRERS
+RVNTICAgICAgICAgICAgICAgIEZ2YlBoeXNpY2FsQWRkcmVzczsNCiANCisgIERFQlVHICgo
+REVCVUdfVkVSQk9TRSwgIiVhOiBlbnRlciwgTGJhPTB4JUx4IE9mZnNldD0weCVMeCBMZW5n
+dGg9MHglTHggIg0KKyAgICAiUHJpdmF0ZURhdGE9JXAgRnZCbG9ja0hhbmRsZT0lcCBCdWZm
+ZXI9JXBcbiIsIF9fRlVOQ1RJT05fXywgKFVJTlQ2NClMYmEsDQorICAgIChVSU5UNjQpT2Zm
+c2V0LCAoVUlOVDY0KUxlbmd0aCwgUHJpdmF0ZURhdGEsIEZ2QmxvY2tIYW5kbGUsIEJ1ZmZl
+cikpOw0KKw0KICAgRnR3RGV2aWNlID0gRlRXX0NPTlRFWFRfRlJPTV9USElTIChUaGlzKTsN
+CiANCiAgIFN0YXR1cyAgICA9IFdvcmtTcGFjZVJlZnJlc2ggKEZ0d0RldmljZSk7DQogICBp
+ZiAoRUZJX0VSUk9SIChTdGF0dXMpKSB7DQorICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwg
+IiVhOiBleGl0IDE6ICVyXG4iLCBfX0ZVTkNUSU9OX18sIFN0YXR1cykpOw0KICAgICByZXR1
+cm4gRUZJX0FCT1JURUQ7DQogICB9DQogDQpAQCAtMzQ5LDYgKzM3Nyw3IEBAIEZ0d1dyaXRl
+ICgKICAgICAgIC8vDQogICAgICAgU3RhdHVzID0gRnR3QWxsb2NhdGUgKFRoaXMsICZnRWZp
+Q2FsbGVySWRHdWlkLCAwLCAxKTsNCiAgICAgICBpZiAoRUZJX0VSUk9SIChTdGF0dXMpKSB7
+DQorICAgICAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCAyOiAlclxuIiwg
+X19GVU5DVElPTl9fLCBTdGF0dXMpKTsNCiAgICAgICAgIHJldHVybiBTdGF0dXM7DQogICAg
+ICAgfQ0KICAgICB9IGVsc2Ugew0KQEAgLTM1OCw2ICszODcsNyBAQCBGdHdXcml0ZSAoCiAg
+ICAgICAvLw0KICAgICAgIERFQlVHICgoRUZJX0RfRVJST1IsICJGdHc6IG5vIGFsbG9jYXRl
+cyBzcGFjZSBmb3Igd3JpdGUgcmVjb3JkIVxuIikpOw0KICAgICAgIERFQlVHICgoRUZJX0Rf
+RVJST1IsICJGdHc6IEFsbG9jYXRlIHNlcnZpY2Ugc2hvdWxkIGJlIGNhbGxlZCBiZWZvcmUg
+V3JpdGUgc2VydmljZSFcbiIpKTsNCisgICAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIl
+YTogZXhpdCAzXG4iLCBfX0ZVTkNUSU9OX18pKTsNCiAgICAgICByZXR1cm4gRUZJX05PVF9S
+RUFEWTsNCiAgICAgfQ0KICAgfQ0KQEAgLTM2Niw2ICszOTYsNyBAQCBGdHdXcml0ZSAoCiAg
+IC8vIElmIFJlY29yZCBpcyBvdXQgb2YgdGhlIHJhbmdlIG9mIEhlYWRlciwgcmV0dXJuIGFj
+Y2VzcyBkZW5pZWQuDQogICAvLw0KICAgaWYgKCgoVUlOVE4pKChVSU5UOCAqKSBSZWNvcmQg
+LSAoVUlOVDggKikgSGVhZGVyKSkgPiBGVFdfV1JJVEVfVE9UQUxfU0laRSAoSGVhZGVyLT5O
+dW1iZXJPZldyaXRlcyAtIDEsIEhlYWRlci0+UHJpdmF0ZURhdGFTaXplKSkgew0KKyAgICBE
+RUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCA0XG4iLCBfX0ZVTkNUSU9OX18pKTsN
+CiAgICAgcmV0dXJuIEVGSV9BQ0NFU1NfREVOSUVEOw0KICAgfQ0KIA0KQEAgLTM3MywyMCAr
+NDA0LDI0IEBAIEZ0d1dyaXRlICgKICAgLy8gQ2hlY2sgdGhlIENPTVBMRVRFIGZsYWcgb2Yg
+bGFzdCB3cml0ZSBoZWFkZXINCiAgIC8vDQogICBpZiAoSGVhZGVyLT5Db21wbGV0ZSA9PSBG
+VFdfVkFMSURfU1RBVEUpIHsNCisgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4
+aXQgNVxuIiwgX19GVU5DVElPTl9fKSk7DQogICAgIHJldHVybiBFRklfQUNDRVNTX0RFTklF
+RDsNCiAgIH0NCiANCiAgIGlmIChSZWNvcmQtPkRlc3RpbmF0aW9uQ29tcGxldGUgPT0gRlRX
+X1ZBTElEX1NUQVRFKSB7DQorICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0
+IDZcbiIsIF9fRlVOQ1RJT05fXykpOw0KICAgICByZXR1cm4gRUZJX0FDQ0VTU19ERU5JRUQ7
+DQogICB9DQogDQogICBpZiAoKFJlY29yZC0+U3BhcmVDb21wbGV0ZSA9PSBGVFdfVkFMSURf
+U1RBVEUpICYmIChSZWNvcmQtPkRlc3RpbmF0aW9uQ29tcGxldGUgIT0gRlRXX1ZBTElEX1NU
+QVRFKSkgew0KKyAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCA3XG4iLCBf
+X0ZVTkNUSU9OX18pKTsNCiAgICAgcmV0dXJuIEVGSV9OT1RfUkVBRFk7DQogICB9DQogICAv
+Lw0KICAgLy8gQ2hlY2sgaWYgdGhlIGlucHV0IGRhdGEgY2FuIGZpdCB3aXRoaW4gdGhlIHRh
+cmdldCBibG9jaw0KICAgLy8NCiAgIGlmICgoT2Zmc2V0ICsgTGVuZ3RoKSA+IEZ0d0Rldmlj
+ZS0+U3BhcmVBcmVhTGVuZ3RoKSB7DQorICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVh
+OiBleGl0IDhcbiIsIF9fRlVOQ1RJT05fXykpOw0KICAgICByZXR1cm4gRUZJX0JBRF9CVUZG
+RVJfU0laRTsNCiAgIH0NCiAgIC8vDQpAQCAtMzk0LDEyICs0MjksMTQgQEAgRnR3V3JpdGUg
+KAogICAvLw0KICAgU3RhdHVzID0gRnR3R2V0RnZiQnlIYW5kbGUgKEZ2QmxvY2tIYW5kbGUs
+ICZGdmIpOw0KICAgaWYgKEVGSV9FUlJPUiAoU3RhdHVzKSkgew0KKyAgICBERUJVRyAoKERF
+QlVHX1ZFUkJPU0UsICIlYTogZXhpdCA5OiAlclxuIiwgX19GVU5DVElPTl9fLCBTdGF0dXMp
+KTsNCiAgICAgcmV0dXJuIEVGSV9OT1RfRk9VTkQ7DQogICB9DQogDQogICBTdGF0dXMgPSBG
+dmItPkdldFBoeXNpY2FsQWRkcmVzcyAoRnZiLCAmRnZiUGh5c2ljYWxBZGRyZXNzKTsNCiAg
+IGlmIChFRklfRVJST1IgKFN0YXR1cykpIHsNCiAgICAgREVCVUcgKChFRklfRF9FUlJPUiwg
+IkZ0d0xpdGU6IEdldCBGVkIgcGh5c2ljYWwgYWRkcmVzcyAtICVyXG4iLCBTdGF0dXMpKTsN
+CisgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgMTA6ICVyXG4iLCBfX0ZV
+TkNUSU9OX18sIFN0YXR1cykpOw0KICAgICByZXR1cm4gRUZJX0FCT1JURUQ7DQogICB9DQog
+DQpAQCAtNDMxLDYgKzQ2OCw3IEBAIEZ0d1dyaXRlICgKICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIChVSU5UOCAqKSBSZWNvcmQNCiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICApOw0KICAgaWYgKEVGSV9FUlJPUiAoU3RhdHVzKSkgew0KKyAg
+ICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCAxMTogJXJcbiIsIF9fRlVOQ1RJ
+T05fXywgU3RhdHVzKSk7DQogICAgIHJldHVybiBFRklfQUJPUlRFRDsNCiAgIH0NCiAgIC8v
+DQpAQCAtNDQyLDYgKzQ4MCw3IEBAIEZ0d1dyaXRlICgKICAgTXlCdWZmZXJTaXplICA9IEZ0
+d0RldmljZS0+U3BhcmVBcmVhTGVuZ3RoOw0KICAgTXlCdWZmZXIgICAgICA9IEFsbG9jYXRl
+UG9vbCAoTXlCdWZmZXJTaXplKTsNCiAgIGlmIChNeUJ1ZmZlciA9PSBOVUxMKSB7DQorICAg
+IERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IDEyXG4iLCBfX0ZVTkNUSU9OX18p
+KTsNCiAgICAgcmV0dXJuIEVGSV9PVVRfT0ZfUkVTT1VSQ0VTOw0KICAgfQ0KICAgLy8NCkBA
+IC00NTMsNiArNDkyLDcgQEAgRnR3V3JpdGUgKAogICAgIFN0YXR1cyAgICA9IEZ2Yi0+UmVh
+ZCAoRnZiLCBMYmEgKyBJbmRleCwgMCwgJk15TGVuZ3RoLCBQdHIpOw0KICAgICBpZiAoRUZJ
+X0VSUk9SIChTdGF0dXMpKSB7DQogICAgICAgRnJlZVBvb2wgKE15QnVmZmVyKTsNCisgICAg
+ICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCAxMzogJXJcbiIsIF9fRlVOQ1RJ
+T05fXywgU3RhdHVzKSk7DQogICAgICAgcmV0dXJuIEVGSV9BQk9SVEVEOw0KICAgICB9DQog
+DQpAQCAtNDcyLDYgKzUxMiw3IEBAIEZ0d1dyaXRlICgKICAgU3BhcmVCdWZmZXIgICAgID0g
+QWxsb2NhdGVQb29sIChTcGFyZUJ1ZmZlclNpemUpOw0KICAgaWYgKFNwYXJlQnVmZmVyID09
+IE5VTEwpIHsNCiAgICAgRnJlZVBvb2wgKE15QnVmZmVyKTsNCisgICAgREVCVUcgKChERUJV
+R19WRVJCT1NFLCAiJWE6IGV4aXQgMTRcbiIsIF9fRlVOQ1RJT05fXykpOw0KICAgICByZXR1
+cm4gRUZJX09VVF9PRl9SRVNPVVJDRVM7DQogICB9DQogDQpAQCAtNDg4LDYgKzUyOSw3IEBA
+IEZ0d1dyaXRlICgKICAgICBpZiAoRUZJX0VSUk9SIChTdGF0dXMpKSB7DQogICAgICAgRnJl
+ZVBvb2wgKE15QnVmZmVyKTsNCiAgICAgICBGcmVlUG9vbCAoU3BhcmVCdWZmZXIpOw0KKyAg
+ICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IDE1OiAlclxuIiwgX19GVU5D
+VElPTl9fLCBTdGF0dXMpKTsNCiAgICAgICByZXR1cm4gRUZJX0FCT1JURUQ7DQogICAgIH0N
+CiANCkBAIC01MTAsNiArNTUyLDcgQEAgRnR3V3JpdGUgKAogICAgIGlmIChFRklfRVJST1Ig
+KFN0YXR1cykpIHsNCiAgICAgICBGcmVlUG9vbCAoTXlCdWZmZXIpOw0KICAgICAgIEZyZWVQ
+b29sIChTcGFyZUJ1ZmZlcik7DQorICAgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6
+IGV4aXQgMTY6ICVyXG4iLCBfX0ZVTkNUSU9OX18sIFN0YXR1cykpOw0KICAgICAgIHJldHVy
+biBFRklfQUJPUlRFRDsNCiAgICAgfQ0KIA0KQEAgLTUzMiw2ICs1NzUsNyBAQCBGdHdXcml0
+ZSAoCiAgICAgICAgICAgICApOw0KICAgaWYgKEVGSV9FUlJPUiAoU3RhdHVzKSkgew0KICAg
+ICBGcmVlUG9vbCAoU3BhcmVCdWZmZXIpOw0KKyAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0Us
+ICIlYTogZXhpdCAxNzogJXJcbiIsIF9fRlVOQ1RJT05fXywgU3RhdHVzKSk7DQogICAgIHJl
+dHVybiBFRklfQUJPUlRFRDsNCiAgIH0NCiANCkBAIC01NDQsNiArNTg4LDcgQEAgRnR3V3Jp
+dGUgKAogICBTdGF0dXMgPSBGdHdXcml0ZVJlY29yZCAoVGhpcywgRnZiKTsNCiAgIGlmIChF
+RklfRVJST1IgKFN0YXR1cykpIHsNCiAgICAgRnJlZVBvb2wgKFNwYXJlQnVmZmVyKTsNCisg
+ICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgMTg6ICVyXG4iLCBfX0ZVTkNU
+SU9OX18sIFN0YXR1cykpOw0KICAgICByZXR1cm4gRUZJX0FCT1JURUQ7DQogICB9DQogICAv
+Lw0KQEAgLTU2Miw2ICs2MDcsNyBAQCBGdHdXcml0ZSAoCiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgKTsNCiAgICAgaWYgKEVGSV9FUlJPUiAoU3RhdHVzKSkg
+ew0KICAgICAgIEZyZWVQb29sIChTcGFyZUJ1ZmZlcik7DQorICAgICAgREVCVUcgKChERUJV
+R19WRVJCT1NFLCAiJWE6IGV4aXQgMTk6ICVyXG4iLCBfX0ZVTkNUSU9OX18sIFN0YXR1cykp
+Ow0KICAgICAgIHJldHVybiBFRklfQUJPUlRFRDsNCiAgICAgfQ0KIA0KQEAgLTU4MCw2ICs2
+MjYsNyBAQCBGdHdXcml0ZSAoCiAgICAgTGVuZ3RoKQ0KICAgICApOw0KIA0KKyAgREVCVUcg
+KChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgMjBcbiIsIF9fRlVOQ1RJT05fXykpOw0KICAg
+cmV0dXJuIEVGSV9TVUNDRVNTOw0KIH0NCiANCkBAIC02MTAsMTAgKzY1NywxNCBAQCBGdHdS
+ZXN0YXJ0ICgKICAgRUZJX0ZBVUxUX1RPTEVSQU5UX1dSSVRFX1JFQ09SRCAgICAgKlJlY29y
+ZDsNCiAgIEVGSV9GSVJNV0FSRV9WT0xVTUVfQkxPQ0tfUFJPVE9DT0wgICpGdmI7DQogDQor
+ICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZW50ZXIsIEZ2QmxvY2tIYW5kbGU9JXBc
+biIsIF9fRlVOQ1RJT05fXywNCisgICAgRnZCbG9ja0hhbmRsZSkpOw0KKw0KICAgRnR3RGV2
+aWNlID0gRlRXX0NPTlRFWFRfRlJPTV9USElTIChUaGlzKTsNCiANCiAgIFN0YXR1cyAgICA9
+IFdvcmtTcGFjZVJlZnJlc2ggKEZ0d0RldmljZSk7DQogICBpZiAoRUZJX0VSUk9SIChTdGF0
+dXMpKSB7DQorICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IDE6ICVyXG4i
+LCBfX0ZVTkNUSU9OX18sIFN0YXR1cykpOw0KICAgICByZXR1cm4gRUZJX0FCT1JURUQ7DQog
+ICB9DQogDQpAQCAtNjI2LDYgKzY3Nyw3IEBAIEZ0d1Jlc3RhcnQgKAogICAvLw0KICAgU3Rh
+dHVzID0gRnR3R2V0RnZiQnlIYW5kbGUgKEZ2QmxvY2tIYW5kbGUsICZGdmIpOw0KICAgaWYg
+KEVGSV9FUlJPUiAoU3RhdHVzKSkgew0KKyAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIl
+YTogZXhpdCAyOiAlclxuIiwgX19GVU5DVElPTl9fLCBTdGF0dXMpKTsNCiAgICAgcmV0dXJu
+IEVGSV9OT1RfRk9VTkQ7DQogICB9DQogDQpAQCAtNjMzLDYgKzY4NSw3IEBAIEZ0d1Jlc3Rh
+cnQgKAogICAvLyBDaGVjayB0aGUgQ09NUExFVEUgZmxhZyBvZiBsYXN0IHdyaXRlIGhlYWRl
+cg0KICAgLy8NCiAgIGlmIChIZWFkZXItPkNvbXBsZXRlID09IEZUV19WQUxJRF9TVEFURSkg
+ew0KKyAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCAzXG4iLCBfX0ZVTkNU
+SU9OX18pKTsNCiAgICAgcmV0dXJuIEVGSV9BQ0NFU1NfREVOSUVEOw0KICAgfQ0KIA0KQEAg
+LTY0MCwxMCArNjkzLDEyIEBAIEZ0d1Jlc3RhcnQgKAogICAvLyBDaGVjayB0aGUgZmxhZ3Mg
+b2YgbGFzdCB3cml0ZSByZWNvcmQNCiAgIC8vDQogICBpZiAoUmVjb3JkLT5EZXN0aW5hdGlv
+bkNvbXBsZXRlID09IEZUV19WQUxJRF9TVEFURSkgew0KKyAgICBERUJVRyAoKERFQlVHX1ZF
+UkJPU0UsICIlYTogZXhpdCA0XG4iLCBfX0ZVTkNUSU9OX18pKTsNCiAgICAgcmV0dXJuIEVG
+SV9BQ0NFU1NfREVOSUVEOw0KICAgfQ0KIA0KICAgaWYgKChSZWNvcmQtPlNwYXJlQ29tcGxl
+dGUgIT0gRlRXX1ZBTElEX1NUQVRFKSkgew0KKyAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0Us
+ICIlYTogZXhpdCA1XG4iLCBfX0ZVTkNUSU9OX18pKTsNCiAgICAgcmV0dXJuIEVGSV9BQk9S
+VEVEOw0KICAgfQ0KIA0KQEAgLTY1Myw2ICs3MDgsNyBAQCBGdHdSZXN0YXJ0ICgKICAgLy8N
+CiAgIFN0YXR1cyA9IEZ0d1dyaXRlUmVjb3JkIChUaGlzLCBGdmIpOw0KICAgaWYgKEVGSV9F
+UlJPUiAoU3RhdHVzKSkgew0KKyAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhp
+dCA2OiAlclxuIiwgX19GVU5DVElPTl9fLCBTdGF0dXMpKTsNCiAgICAgcmV0dXJuIEVGSV9B
+Qk9SVEVEOw0KICAgfQ0KIA0KQEAgLTY2Myw2ICs3MTksNyBAQCBGdHdSZXN0YXJ0ICgKICAg
+RnR3RXJhc2VTcGFyZUJsb2NrIChGdHdEZXZpY2UpOw0KIA0KICAgREVCVUcgKChFRklfRF9F
+UlJPUiwgIkZ0dzogUmVzdGFydCgpIHN1Y2Nlc3MgXG4iKSk7DQorICBERUJVRyAoKERFQlVH
+X1ZFUkJPU0UsICIlYTogZXhpdCA3XG4iLCBfX0ZVTkNUSU9OX18pKTsNCiAgIHJldHVybiBF
+RklfU1VDQ0VTUzsNCiB9DQogDQpAQCAtNjg2LDE4ICs3NDMsMjMgQEAgRnR3QWJvcnQgKAog
+ICBVSU5UTiAgICAgICAgICAgT2Zmc2V0Ow0KICAgRUZJX0ZUV19ERVZJQ0UgICpGdHdEZXZp
+Y2U7DQogDQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZW50ZXJcbiIsIF9fRlVO
+Q1RJT05fXykpOw0KKw0KICAgRnR3RGV2aWNlID0gRlRXX0NPTlRFWFRfRlJPTV9USElTIChU
+aGlzKTsNCiANCiAgIFN0YXR1cyAgICA9IFdvcmtTcGFjZVJlZnJlc2ggKEZ0d0RldmljZSk7
+DQogICBpZiAoRUZJX0VSUk9SIChTdGF0dXMpKSB7DQorICAgIERFQlVHICgoREVCVUdfVkVS
+Qk9TRSwgIiVhOiBleGl0IDE6ICVyXG4iLCBfX0ZVTkNUSU9OX18sIFN0YXR1cykpOw0KICAg
+ICByZXR1cm4gRUZJX0FCT1JURUQ7DQogICB9DQogDQogICBpZiAoRnR3RGV2aWNlLT5GdHdM
+YXN0V3JpdGVIZWFkZXItPkhlYWRlckFsbG9jYXRlZCAhPSBGVFdfVkFMSURfU1RBVEUpIHsN
+CisgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgMlxuIiwgX19GVU5DVElP
+Tl9fKSk7DQogICAgIHJldHVybiBFRklfTk9UX0ZPVU5EOw0KICAgfQ0KIA0KICAgaWYgKEZ0
+d0RldmljZS0+RnR3TGFzdFdyaXRlSGVhZGVyLT5Db21wbGV0ZSA9PSBGVFdfVkFMSURfU1RB
+VEUpIHsNCisgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgM1xuIiwgX19G
+VU5DVElPTl9fKSk7DQogICAgIHJldHVybiBFRklfTk9UX0ZPVU5EOw0KICAgfQ0KICAgLy8N
+CkBAIC03MTEsMTIgKzc3MywxNCBAQCBGdHdBYm9ydCAoCiAgICAgICAgICAgICBXUklURVNf
+Q09NUExFVEVEDQogICAgICAgICAgICAgKTsNCiAgIGlmIChFRklfRVJST1IgKFN0YXR1cykp
+IHsNCisgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgNDogJXJcbiIsIF9f
+RlVOQ1RJT05fXywgU3RhdHVzKSk7DQogICAgIHJldHVybiBFRklfQUJPUlRFRDsNCiAgIH0N
+CiANCiAgIEZ0d0RldmljZS0+RnR3TGFzdFdyaXRlSGVhZGVyLT5Db21wbGV0ZSA9IEZUV19W
+QUxJRF9TVEFURTsNCiANCiAgIERFQlVHICgoRUZJX0RfRVJST1IsICJGdHc6IEFib3J0KCkg
+c3VjY2VzcyBcbiIpKTsNCisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IDVc
+biIsIF9fRlVOQ1RJT05fXykpOw0KICAgcmV0dXJuIEVGSV9TVUNDRVNTOw0KIH0NCiANCkBA
+IC03NjEsNyArODI1LDExIEBAIEZ0d0dldExhc3RXcml0ZSAoCiAgIEVGSV9GQVVMVF9UT0xF
+UkFOVF9XUklURV9IRUFERVIgKkhlYWRlcjsNCiAgIEVGSV9GQVVMVF9UT0xFUkFOVF9XUklU
+RV9SRUNPUkQgKlJlY29yZDsNCiANCisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBl
+bnRlciwgUHJpdmF0ZURhdGFTaXplPTB4JUx4XG4iLCBfX0ZVTkNUSU9OX18sDQorICAgIChV
+SU5UNjQpKlByaXZhdGVEYXRhU2l6ZSkpOw0KKw0KICAgaWYgKCFGZWF0dXJlUGNkR2V0KFBj
+ZEZ1bGxGdHdTZXJ2aWNlRW5hYmxlKSkgew0KKyAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0Us
+ICIlYTogZXhpdCAxXG4iLCBfX0ZVTkNUSU9OX18pKTsNCiAgICAgcmV0dXJuIEVGSV9VTlNV
+UFBPUlRFRDsNCiAgIH0NCiANCkBAIC03NjksNiArODM3LDcgQEAgRnR3R2V0TGFzdFdyaXRl
+ICgKIA0KICAgU3RhdHVzICAgID0gV29ya1NwYWNlUmVmcmVzaCAoRnR3RGV2aWNlKTsNCiAg
+IGlmIChFRklfRVJST1IgKFN0YXR1cykpIHsNCisgICAgREVCVUcgKChERUJVR19WRVJCT1NF
+LCAiJWE6IGV4aXQgMjogJXJcbiIsIF9fRlVOQ1RJT05fXywgU3RhdHVzKSk7DQogICAgIHJl
+dHVybiBFRklfQUJPUlRFRDsNCiAgIH0NCiANCkBAIC03ODYsNiArODU1LDcgQEAgRnR3R2V0
+TGFzdFdyaXRlICgKIA0KICAgICBTdGF0dXMgICAgPSBGdHdBYm9ydCAoVGhpcyk7DQogICAg
+ICpDb21wbGV0ZSA9IFRSVUU7DQorICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBl
+eGl0IDNcbiIsIF9fRlVOQ1RJT05fXykpOw0KICAgICByZXR1cm4gRUZJX05PVF9GT1VORDsN
+CiAgIH0NCiAgIC8vDQpAQCAtNzkzLDYgKzg2Myw3IEBAIEZ0d0dldExhc3RXcml0ZSAoCiAg
+IC8vDQogICBpZiAoSGVhZGVyLT5IZWFkZXJBbGxvY2F0ZWQgIT0gRlRXX1ZBTElEX1NUQVRF
+KSB7DQogICAgICpDb21wbGV0ZSA9IFRSVUU7DQorICAgIERFQlVHICgoREVCVUdfVkVSQk9T
+RSwgIiVhOiBleGl0IDRcbiIsIF9fRlVOQ1RJT05fXykpOw0KICAgICByZXR1cm4gRUZJX05P
+VF9GT1VORDsNCiAgIH0NCiAgIC8vDQpAQCAtODAzLDYgKzg3NCw3IEBAIEZ0d0dldExhc3RX
+cml0ZSAoCiAgICAgaWYgKEVGSV9FUlJPUiAoU3RhdHVzKSkgew0KICAgICAgIEZ0d0Fib3J0
+IChUaGlzKTsNCiAgICAgICAqQ29tcGxldGUgPSBUUlVFOw0KKyAgICAgIERFQlVHICgoREVC
+VUdfVkVSQk9TRSwgIiVhOiBleGl0IDU6ICVyXG4iLCBfX0ZVTkNUSU9OX18sIFN0YXR1cykp
+Ow0KICAgICAgIHJldHVybiBFRklfTk9UX0ZPVU5EOw0KICAgICB9DQogICAgIEFTU0VSVCAo
+UmVjb3JkICE9IE5VTEwpOw0KQEAgLTgyOSw2ICs5MDEsMTEgQEAgRnR3R2V0TGFzdFdyaXRl
+ICgKIA0KICAgREVCVUcgKChFRklfRF9FUlJPUiwgIkZ0dzogR2V0TGFzZXRXcml0ZSgpIHN1
+Y2Nlc3NcbiIpKTsNCiANCisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IDYs
+IENhbGxlcklkPSVnIExiYT0weCVMeCBPZmZzZXQ9MHglTHggIg0KKyAgICAiTGVuZ3RoPTB4
+JUx4IFByaXZhdGVEYXRhU2l6ZT0weCVMeCBQcml2YXRlRGF0YT0lcCBDb21wbGV0ZT0lZFxu
+IiwNCisgICAgX19GVU5DVElPTl9fLCBDYWxsZXJJZCwgKFVJTlQ2NCkqTGJhLCAoVUlOVDY0
+KSpPZmZzZXQsIChVSU5UNjQpKkxlbmd0aCwNCisgICAgKFVJTlQ2NCkqUHJpdmF0ZURhdGFT
+aXplLCBQcml2YXRlRGF0YSwgKkNvbXBsZXRlKSk7DQorDQogICByZXR1cm4gU3RhdHVzOw0K
+IH0NCiANCmRpZmYgLS1naXQgYS9NZGVNb2R1bGVQa2cvVW5pdmVyc2FsL0ZhdWx0VG9sZXJh
+bnRXcml0ZUR4ZS9GYXVsdFRvbGVyYW50V3JpdGVEeGUuYyBiL01kZU1vZHVsZVBrZy9Vbml2
+ZXJzYWwvRmF1bHRUb2xlcmFudFdyaXRlRHhlL0ZhdWx0VG9sZXJhbnRXcml0ZUR4ZS5jCmlu
+ZGV4IDEyMzViZDguLmNhZWNlNTYgMTAwNjQ0Ci0tLSBhL01kZU1vZHVsZVBrZy9Vbml2ZXJz
+YWwvRmF1bHRUb2xlcmFudFdyaXRlRHhlL0ZhdWx0VG9sZXJhbnRXcml0ZUR4ZS5jCisrKyBi
+L01kZU1vZHVsZVBrZy9Vbml2ZXJzYWwvRmF1bHRUb2xlcmFudFdyaXRlRHhlL0ZhdWx0VG9s
+ZXJhbnRXcml0ZUR4ZS5jCkBAIC03MywxNCArNzMsMTkgQEAgRnR3R2V0RnZiQnlIYW5kbGUg
+KAogICBPVVQgRUZJX0ZJUk1XQVJFX1ZPTFVNRV9CTE9DS19QUk9UT0NPTCAgKipGdkJsb2Nr
+DQogICApDQogew0KKyAgRUZJX1NUQVRVUyBTdGF0dXM7DQorDQorICBERUJVRyAoKERFQlVH
+X1ZFUkJPU0UsICIlYTogZW50ZXJcbiIsIF9fRlVOQ1RJT05fXykpOw0KICAgLy8NCiAgIC8v
+IFRvIGdldCB0aGUgRlZCIHByb3RvY29sIGludGVyZmFjZSBvbiB0aGUgaGFuZGxlDQogICAv
+Lw0KLSAgcmV0dXJuIGdCUy0+SGFuZGxlUHJvdG9jb2wgKA0KKyAgU3RhdHVzID0gZ0JTLT5I
+YW5kbGVQcm90b2NvbCAoDQogICAgICAgICAgICAgICAgIEZ2QmxvY2tIYW5kbGUsDQogICAg
+ICAgICAgICAgICAgICZnRWZpRmlybXdhcmVWb2x1bWVCbG9ja1Byb3RvY29sR3VpZCwNCiAg
+ICAgICAgICAgICAgICAgKFZPSUQgKiopIEZ2QmxvY2sNCiAgICAgICAgICAgICAgICAgKTsN
+CisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0OiAlclxuIiwgX19GVU5DVElP
+Tl9fLCBTdGF0dXMpKTsNCisgIHJldHVybiBTdGF0dXM7DQogfQ0KIA0KIC8qKg0KQEAgLTEw
+MCw2ICsxMDUsNyBAQCBGdHdHZXRTYXJQcm90b2NvbCAoCiB7DQogICBFRklfU1RBVFVTICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgU3RhdHVzOw0KIA0KKyAgREVCVUcgKChERUJV
+R19WRVJCT1NFLCAiJWE6IGVudGVyXG4iLCBfX0ZVTkNUSU9OX18pKTsNCiAgIC8vDQogICAv
+LyBMb2NhdGUgU3dhcCBBZGRyZXNzIFJhbmdlIHByb3RvY29sDQogICAvLw0KQEAgLTEwOCw2
+ICsxMTQsNyBAQCBGdHdHZXRTYXJQcm90b2NvbCAoCiAgICAgICAgICAgICAgICAgICBOVUxM
+LCANCiAgICAgICAgICAgICAgICAgICBTYXJQcm90b2NvbA0KICAgICAgICAgICAgICAgICAg
+ICk7DQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdDogJXJcbiIsIF9fRlVO
+Q1RJT05fXywgU3RhdHVzKSk7DQogICByZXR1cm4gU3RhdHVzOw0KIH0NCiANCkBAIC0xMzQs
+NiArMTQxLDcgQEAgR2V0RnZiQ291bnRBbmRCdWZmZXIgKAogew0KICAgRUZJX1NUQVRVUyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIFN0YXR1czsNCiANCisgIERFQlVHICgoREVC
+VUdfVkVSQk9TRSwgIiVhOiBlbnRlclxuIiwgX19GVU5DVElPTl9fKSk7DQogICAvLw0KICAg
+Ly8gTG9jYXRlIGFsbCBoYW5kbGVzIG9mIEZ2YiBwcm90b2NvbA0KICAgLy8NCkBAIC0xNDQs
+NiArMTUyLDcgQEAgR2V0RnZiQ291bnRBbmRCdWZmZXIgKAogICAgICAgICAgICAgICAgICAg
+TnVtYmVySGFuZGxlcywNCiAgICAgICAgICAgICAgICAgICBCdWZmZXINCiAgICAgICAgICAg
+ICAgICAgICApOw0KKyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQ6ICVyXG4i
+LCBfX0ZVTkNUSU9OX18sIFN0YXR1cykpOw0KICAgcmV0dXJuIFN0YXR1czsNCiB9DQogDQpA
+QCAtMTY2LDYgKzE3NSw5IEBAIEZ2Yk5vdGlmaWNhdGlvbkV2ZW50ICgKICAgRUZJX0ZBVUxU
+X1RPTEVSQU5UX1dSSVRFX1BST1RPQ09MICAgICAgICpGdHdQcm90b2NvbDsNCiAgIEVGSV9G
+VFdfREVWSUNFICAgICAgICAgICAgICAgICAgICAgICAgICAqRnR3RGV2aWNlOw0KIA0KKyAg
+REVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGVudGVyLCBFdmVudD0lcCBDb250ZXh0PSVw
+XG4iLCBfX0ZVTkNUSU9OX18sDQorICAgIEV2ZW50LCBDb250ZXh0KSk7DQorDQogICAvLw0K
+ICAgLy8gSnVzdCByZXR1cm4gdG8gYXZvaWQgaW5zdGFsbGluZyBGYXVsdFRvbGVyYW50V3Jp
+dGVQcm90b2NvbCBhZ2Fpbg0KICAgLy8gaWYgRmF1bHQgVG9sZXJhbnQgV3JpdGUgcHJvdG9j
+b2wgaGFzIGJlZW4gaW5zdGFsbGVkLg0KQEAgLTE3Niw2ICsxODgsNyBAQCBGdmJOb3RpZmlj
+YXRpb25FdmVudCAoCiAgICAgICAgICAgICAgICAgICAoVk9JRCAqKikgJkZ0d1Byb3RvY29s
+DQogICAgICAgICAgICAgICAgICAgKTsNCiAgIGlmICghRUZJX0VSUk9SIChTdGF0dXMpKSB7
+DQorICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IDE6ICVyXG4iLCBfX0ZV
+TkNUSU9OX18sIFN0YXR1cykpOw0KICAgICByZXR1cm4gOw0KICAgfQ0KIA0KQEAgLTE4NSw2
+ICsxOTgsNyBAQCBGdmJOb3RpZmljYXRpb25FdmVudCAoCiAgIEZ0d0RldmljZSA9IChFRklf
+RlRXX0RFVklDRSAqKUNvbnRleHQ7DQogICBTdGF0dXMgPSBJbml0RnR3UHJvdG9jb2wgKEZ0
+d0RldmljZSk7DQogICBpZiAoRUZJX0VSUk9SKFN0YXR1cykpIHsNCisgICAgREVCVUcgKChE
+RUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgMjogJXJcbiIsIF9fRlVOQ1RJT05fXywgU3RhdHVz
+KSk7DQogICAgIHJldHVybiA7DQogICB9ICAgICAgICAgICAgICAgICAgICAgICAgICANCiAg
+ICAgDQpAQCAtMjAyLDYgKzIxNiw3IEBAIEZ2Yk5vdGlmaWNhdGlvbkV2ZW50ICgKICAgU3Rh
+dHVzID0gZ0JTLT5DbG9zZUV2ZW50IChFdmVudCk7DQogICBBU1NFUlRfRUZJX0VSUk9SIChT
+dGF0dXMpOw0KICAgDQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCAzOiAl
+clxuIiwgX19GVU5DVElPTl9fLCBTdGF0dXMpKTsNCiAgIHJldHVybjsNCiB9DQogDQpAQCAt
+MjI3LDExICsyNDIsMTQgQEAgRmF1bHRUb2xlcmFudFdyaXRlSW5pdGlhbGl6ZSAoCiAgIEVG
+SV9TVEFUVVMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBTdGF0dXM7DQogICBFRklf
+RlRXX0RFVklDRSAgICAgICAgICAgICAgICAgICAgICAgICAgKkZ0d0RldmljZTsNCiANCisg
+IERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBlbnRlclxuIiwgX19GVU5DVElPTl9fKSk7
+DQorDQogICAvLw0KICAgLy8gQWxsb2NhdGUgcHJpdmF0ZSBkYXRhIHN0cnVjdHVyZSBmb3Ig
+RlRXIHByb3RvY29sIGFuZCBkbyBzb21lIGluaXRpYWxpemF0aW9uDQogICAvLw0KICAgU3Rh
+dHVzID0gSW5pdEZ0d0RldmljZSAoJkZ0d0RldmljZSk7DQogICBpZiAoRUZJX0VSUk9SKFN0
+YXR1cykpIHsNCisgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgMTogJXJc
+biIsIF9fRlVOQ1RJT05fXywgU3RhdHVzKSk7DQogICAgIHJldHVybiBTdGF0dXM7DQogICB9
+DQogDQpAQCAtMjQ2LDUgKzI2NCw2IEBAIEZhdWx0VG9sZXJhbnRXcml0ZUluaXRpYWxpemUg
+KAogICAgICZtRnZiUmVnaXN0cmF0aW9uDQogICAgICk7DQogICANCisgIERFQlVHICgoREVC
+VUdfVkVSQk9TRSwgIiVhOiBleGl0IDJcbiIsIF9fRlVOQ1RJT05fXykpOw0KICAgcmV0dXJu
+IEVGSV9TVUNDRVNTOw0KIH0NCmRpZmYgLS1naXQgYS9NZGVNb2R1bGVQa2cvVW5pdmVyc2Fs
+L0ZhdWx0VG9sZXJhbnRXcml0ZUR4ZS9GdHdNaXNjLmMgYi9NZGVNb2R1bGVQa2cvVW5pdmVy
+c2FsL0ZhdWx0VG9sZXJhbnRXcml0ZUR4ZS9GdHdNaXNjLmMKaW5kZXggYjMzNTJiYi4uNDM2
+ZGU0YyAxMDA2NDQKLS0tIGEvTWRlTW9kdWxlUGtnL1VuaXZlcnNhbC9GYXVsdFRvbGVyYW50
+V3JpdGVEeGUvRnR3TWlzYy5jCisrKyBiL01kZU1vZHVsZVBrZy9Vbml2ZXJzYWwvRmF1bHRU
+b2xlcmFudFdyaXRlRHhlL0Z0d01pc2MuYwpAQCAtMzUsNiArMzUsOSBAQCBJc0VyYXNlZEZs
+YXNoQnVmZmVyICgKICAgVUlOVDggICAqUHRyOw0KICAgVUlOVE4gICBJbmRleDsNCiANCisg
+IERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBlbnRlciwgQnVmZmVyPSVwIEJ1ZmZlclNp
+emU9MHglTHhcbiIsDQorICAgIF9fRlVOQ1RJT05fXywgQnVmZmVyLCAoVUlOVDY0KUJ1ZmZl
+clNpemUpKTsNCisNCiAgIFB0ciAgICAgPSBCdWZmZXI7DQogICBJc0VtcHR5ID0gVFJVRTsN
+CiAgIGZvciAoSW5kZXggPSAwOyBJbmRleCA8IEJ1ZmZlclNpemU7IEluZGV4ICs9IDEpIHsN
+CkBAIC00NCw2ICs0Nyw3IEBAIElzRXJhc2VkRmxhc2hCdWZmZXIgKAogICAgIH0NCiAgIH0N
+CiANCisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0LCBJc0VtcHR5PSVkXG4i
+LCBfX0ZVTkNUSU9OX18sIElzRW1wdHkpKTsNCiAgIHJldHVybiBJc0VtcHR5Ow0KIH0NCiAN
+CkBAIC02NiwxMiArNzAsMTcgQEAgRnR3RXJhc2VCbG9jayAoCiAgIEVGSV9MQkEgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIExiYQ0KICAgKQ0KIHsNCi0gIHJldHVybiBGdkJsb2Nr
+LT5FcmFzZUJsb2NrcyAoDQorICBFRklfU1RBVFVTIFN0YXR1czsNCisNCisgIERFQlVHICgo
+REVCVUdfVkVSQk9TRSwgIiVhOiBlbnRlciwgTGJhPTB4JUx4XG4iLCBfX0ZVTkNUSU9OX18s
+IChVSU5UNjQpTGJhKSk7DQorICBTdGF0dXMgPSBGdkJsb2NrLT5FcmFzZUJsb2NrcyAoDQog
+ICAgICAgICAgICAgICAgICAgICBGdkJsb2NrLA0KICAgICAgICAgICAgICAgICAgICAgTGJh
+LA0KICAgICAgICAgICAgICAgICAgICAgRnR3RGV2aWNlLT5OdW1iZXJPZlNwYXJlQmxvY2ss
+DQogICAgICAgICAgICAgICAgICAgICBFRklfTEJBX0xJU1RfVEVSTUlOQVRPUg0KICAgICAg
+ICAgICAgICAgICAgICAgKTsNCisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0
+OiAlclxuIiwgX19GVU5DVElPTl9fLCBTdGF0dXMpKTsNCisgIHJldHVybiBTdGF0dXM7DQog
+fQ0KIA0KIC8qKg0KQEAgLTk2LDEyICsxMDUsMTcgQEAgRnR3RXJhc2VTcGFyZUJsb2NrICgK
+ICAgSU4gRUZJX0ZUV19ERVZJQ0UgICAqRnR3RGV2aWNlDQogICApDQogew0KLSAgcmV0dXJu
+IEZ0d0RldmljZS0+RnR3QmFja3VwRnZiLT5FcmFzZUJsb2NrcyAoDQorICBFRklfU1RBVFVT
+IFN0YXR1czsNCisNCisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBlbnRlclxuIiwg
+X19GVU5DVElPTl9fKSk7DQorICBTdGF0dXMgPSBGdHdEZXZpY2UtPkZ0d0JhY2t1cEZ2Yi0+
+RXJhc2VCbG9ja3MgKA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEZ0
+d0RldmljZS0+RnR3QmFja3VwRnZiLA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIEZ0d0RldmljZS0+RnR3U3BhcmVMYmEsDQogICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgRnR3RGV2aWNlLT5OdW1iZXJPZlNwYXJlQmxvY2ssDQogICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRUZJX0xCQV9MSVNUX1RFUk1JTkFUT1IN
+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICApOw0KKyAgREVCVUcgKChE
+RUJVR19WRVJCT1NFLCAiJWE6IGV4aXQ6ICVyXG4iLCBfX0ZVTkNUSU9OX18sIFN0YXR1cykp
+Ow0KKyAgcmV0dXJuIFN0YXR1czsNCiB9DQogDQogLyoqDQpAQCAtMTIyLDE3ICsxMzYsMjIg
+QEAgSXNXb3JraW5nQmxvY2sgKAogICBFRklfTEJBICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBMYmENCiAgICkNCiB7DQorICBCT09MRUFOIFJldDsNCisNCisgIERFQlVHICgoREVC
+VUdfVkVSQk9TRSwgIiVhOiBlbnRlciwgTGJhPTB4JUx4XG4iLCBfX0ZVTkNUSU9OX18sIChV
+SU5UNjQpTGJhKSk7DQogICAvLw0KICAgLy8gSWYgbWF0Y2hpbmcgdGhlIGZvbGxvd2luZyBj
+b25kaXRpb24sIHRoZSB0YXJnZXQgYmxvY2sgaXMgaW4gd29ya2luZyBibG9jay4NCiAgIC8v
+IDEuIFRhcmdldCBibG9jayBpcyBvbiB0aGUgRlYgb2Ygd29ya2luZyBibG9jayAoVXNpbmcg
+dGhlIHNhbWUgRlZCIHByb3RvY29sIGluc3RhbmNlKS4NCiAgIC8vIDIuIExiYSBmYWxscyBp
+bnRvIHRoZSByYW5nZSBvZiB3b3JraW5nIGJsb2NrLg0KICAgLy8NCi0gIHJldHVybiAoQk9P
+TEVBTikNCisgIFJldCA9IChCT09MRUFOKQ0KICAgICAoDQogICAgICAgKEZ2QmxvY2sgPT0g
+RnR3RGV2aWNlLT5GdHdGdkJsb2NrKSAmJg0KICAgICAgIChMYmEgPj0gRnR3RGV2aWNlLT5G
+dHdXb3JrQmxvY2tMYmEpICYmDQogICAgICAgKExiYSA8PSBGdHdEZXZpY2UtPkZ0d1dvcmtT
+cGFjZUxiYSkNCiAgICAgKTsNCisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0
+OiAlZFxuIiwgX19GVU5DVElPTl9fLCBSZXQpKTsNCisgIHJldHVybiBSZXQ7DQogfQ0KIA0K
+IC8qKg0KQEAgLTE2Miw2ICsxODEsOSBAQCBHZXRGdmJCeUFkZHJlc3MgKAogICBFRklfRklS
+TVdBUkVfVk9MVU1FX0hFQURFUiAgICAgICAgICAqRndWb2xIZWFkZXI7DQogICBFRklfSEFO
+RExFICAgICAgICAgICAgICAgICAgICAgICAgICBGdmJIYW5kbGU7DQogDQorICBERUJVRyAo
+KERFQlVHX1ZFUkJPU0UsICIlYTogZW50ZXIsIEFkZHJlc3M9MHglTHhcbiIsIF9fRlVOQ1RJ
+T05fXywNCisgICAgKFVJTlQ2NClBZGRyZXNzKSk7DQorDQogICAqRnZCbG9jayAgPSBOVUxM
+Ow0KICAgRnZiSGFuZGxlID0gTlVMTDsNCiAgIC8vDQpAQCAtMTY5LDYgKzE5MSw3IEBAIEdl
+dEZ2YkJ5QWRkcmVzcyAoCiAgIC8vDQogICBTdGF0dXMgPSBHZXRGdmJDb3VudEFuZEJ1ZmZl
+ciAoJkhhbmRsZUNvdW50LCAmSGFuZGxlQnVmZmVyKTsNCiAgIGlmIChFRklfRVJST1IgKFN0
+YXR1cykpIHsNCisgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgMTogJXJc
+biIsIF9fRlVOQ1RJT05fXywgU3RhdHVzKSk7DQogICAgIHJldHVybiBOVUxMOw0KICAgfQ0K
+ICAgLy8NCkBAIC0xOTYsNiArMjE5LDcgQEAgR2V0RnZiQnlBZGRyZXNzICgKICAgfQ0KIA0K
+ICAgRnJlZVBvb2wgKEhhbmRsZUJ1ZmZlcik7DQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0Us
+ICIlYTogZXhpdCAyXG4iLCBfX0ZVTkNUSU9OX18pKTsNCiAgIHJldHVybiBGdmJIYW5kbGU7
+DQogfQ0KIA0KQEAgLTIyNywxMiArMjUxLDE2IEBAIElzQm9vdEJsb2NrICgKICAgQk9PTEVB
+TiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgSXNTd2FwcGVkOw0KICAgRUZJX0hBTkRM
+RSAgICAgICAgICAgICAgICAgICAgICAgICAgRnZiSGFuZGxlOw0KIA0KKyAgREVCVUcgKChE
+RUJVR19WRVJCT1NFLCAiJWE6IGVudGVyLCBMYmE9MHglTHhcbiIsIF9fRlVOQ1RJT05fXywg
+KFVJTlQ2NClMYmEpKTsNCisNCiAgIGlmICghRmVhdHVyZVBjZEdldChQY2RGdWxsRnR3U2Vy
+dmljZUVuYWJsZSkpIHsNCisgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQg
+MVxuIiwgX19GVU5DVElPTl9fKSk7DQogICAgIHJldHVybiBGQUxTRTsNCiAgIH0NCiANCiAg
+IFN0YXR1cyA9IEZ0d0dldFNhclByb3RvY29sICgoVk9JRCAqKikgJlNhclByb3RvY29sKTsN
+CiAgIGlmIChFRklfRVJST1IgKFN0YXR1cykpIHsNCisgICAgREVCVUcgKChERUJVR19WRVJC
+T1NFLCAiJWE6IGV4aXQgMjogJXJcbiIsIF9fRlVOQ1RJT05fXywgU3RhdHVzKSk7DQogICAg
+IHJldHVybiBGQUxTRTsNCiAgIH0NCiAgIC8vDQpAQCAtMjQ2LDExICsyNzQsMTMgQEAgSXNC
+b290QmxvY2sgKAogICAgICAgICAgICAgICAgICAgICAgICAgICAmQmFja3VwQmxvY2tTaXpl
+DQogICAgICAgICAgICAgICAgICAgICAgICAgICApOw0KICAgaWYgKEVGSV9FUlJPUiAoU3Rh
+dHVzKSkgew0KKyAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCAzOiAlclxu
+IiwgX19GVU5DVElPTl9fLCBTdGF0dXMpKTsNCiAgICAgcmV0dXJuIEZBTFNFOw0KICAgfQ0K
+IA0KICAgU3RhdHVzID0gU2FyUHJvdG9jb2wtPkdldFN3YXBTdGF0ZSAoU2FyUHJvdG9jb2ws
+ICZJc1N3YXBwZWQpOw0KICAgaWYgKEVGSV9FUlJPUiAoU3RhdHVzKSkgew0KKyAgICBERUJV
+RyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCA0OiAlclxuIiwgX19GVU5DVElPTl9fLCBT
+dGF0dXMpKTsNCiAgICAgcmV0dXJuIEZBTFNFOw0KICAgfQ0KICAgLy8NCkBAIC0yNjMsMTEg
+KzI5MywxNCBAQCBJc0Jvb3RCbG9jayAoCiAgIH0NCiANCiAgIGlmIChGdmJIYW5kbGUgPT0g
+TlVMTCkgew0KKyAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCA1XG4iLCBf
+X0ZVTkNUSU9OX18pKTsNCiAgICAgcmV0dXJuIEZBTFNFOw0KICAgfQ0KICAgLy8NCiAgIC8v
+IENvbXBhcmUgdGhlIEZ2Yg0KICAgLy8NCisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVh
+OiBleGl0IDY6ICVkXG4iLCBfX0ZVTkNUSU9OX18sDQorICAgIEZ2QmxvY2sgPT0gQm9vdEZ2
+YikpOw0KICAgcmV0dXJuIChCT09MRUFOKSAoRnZCbG9jayA9PSBCb290RnZiKTsNCiB9DQog
+DQpAQCAtMzEzLDcgKzM0NiwxMCBAQCBGbHVzaFNwYXJlQmxvY2tUb0Jvb3RCbG9jayAoCiAg
+IEVGSV9GSVJNV0FSRV9WT0xVTUVfQkxPQ0tfUFJPVE9DT0wgICpCb290RnZiOw0KICAgRUZJ
+X0xCQSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQm9vdExiYTsNCiANCisgIERFQlVH
+ICgoREVCVUdfVkVSQk9TRSwgIiVhOiBlbnRlclxuIiwgX19GVU5DVElPTl9fKSk7DQorDQog
+ICBpZiAoIUZlYXR1cmVQY2RHZXQoUGNkRnVsbEZ0d1NlcnZpY2VFbmFibGUpKSB7DQorICAg
+IERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IDFcbiIsIF9fRlVOQ1RJT05fXykp
+Ow0KICAgICByZXR1cm4gRUZJX1VOU1VQUE9SVEVEOw0KICAgfQ0KIA0KQEAgLTMyMiw2ICsz
+NTgsNyBAQCBGbHVzaFNwYXJlQmxvY2tUb0Jvb3RCbG9jayAoCiAgIC8vDQogICBTdGF0dXMg
+PSBGdHdHZXRTYXJQcm90b2NvbCAoKFZPSUQgKiopICZTYXJQcm90b2NvbCk7DQogICBpZiAo
+RUZJX0VSUk9SIChTdGF0dXMpKSB7DQorICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVh
+OiBleGl0IDI6ICVyXG4iLCBfX0ZVTkNUSU9OX18sIFN0YXR1cykpOw0KICAgICByZXR1cm4g
+U3RhdHVzOw0KICAgfQ0KICAgLy8NCkBAIC0zMzAsNiArMzY3LDcgQEAgRmx1c2hTcGFyZUJs
+b2NrVG9Cb290QmxvY2sgKAogICBMZW5ndGggPSBGdHdEZXZpY2UtPlNwYXJlQXJlYUxlbmd0
+aDsNCiAgIEJ1ZmZlciAgPSBBbGxvY2F0ZVBvb2wgKExlbmd0aCk7DQogICBpZiAoQnVmZmVy
+ID09IE5VTEwpIHsNCisgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgM1xu
+IiwgX19GVU5DVElPTl9fKSk7DQogICAgIHJldHVybiBFRklfT1VUX09GX1JFU09VUkNFUzsN
+CiAgIH0NCiAgIC8vDQpAQCAtMzM5LDYgKzM3Nyw3IEBAIEZsdXNoU3BhcmVCbG9ja1RvQm9v
+dEJsb2NrICgKICAgaWYgKEVGSV9FUlJPUiAoU3RhdHVzKSkgew0KICAgICBERUJVRyAoKEVG
+SV9EX0VSUk9SLCAiRnR3OiBHZXQgVG9wIFN3YXBwZWQgc3RhdHVzIC0gJXJcbiIsIFN0YXR1
+cykpOw0KICAgICBGcmVlUG9vbCAoQnVmZmVyKTsNCisgICAgREVCVUcgKChERUJVR19WRVJC
+T1NFLCAiJWE6IGV4aXQgNDogJXJcbiIsIF9fRlVOQ1RJT05fXywgU3RhdHVzKSk7DQogICAg
+IHJldHVybiBFRklfQUJPUlRFRDsNCiAgIH0NCiANCkBAIC0zNDgsNiArMzg3LDcgQEAgRmx1
+c2hTcGFyZUJsb2NrVG9Cb290QmxvY2sgKAogICAgIC8vDQogICAgIGlmIChHZXRGdmJCeUFk
+ZHJlc3MgKEZ0d0RldmljZS0+U3BhcmVBcmVhQWRkcmVzcyArIEZ0d0RldmljZS0+U3BhcmVB
+cmVhTGVuZ3RoLCAmQm9vdEZ2YikgPT0gTlVMTCkgew0KICAgICAgIEZyZWVQb29sIChCdWZm
+ZXIpOw0KKyAgICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IDVcbiIsIF9f
+RlVOQ1RJT05fXykpOw0KICAgICAgIHJldHVybiBFRklfQUJPUlRFRDsNCiAgICAgfQ0KICAg
+ICAvLw0KQEAgLTM2Niw2ICs0MDYsNyBAQCBGbHVzaFNwYXJlQmxvY2tUb0Jvb3RCbG9jayAo
+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICk7DQogICAgICAgaWYgKEVGSV9FUlJPUiAo
+U3RhdHVzKSkgew0KICAgICAgICAgRnJlZVBvb2wgKEJ1ZmZlcik7DQorICAgICAgICBERUJV
+RyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCA2OiAlclxuIiwgX19GVU5DVElPTl9fLCBT
+dGF0dXMpKTsNCiAgICAgICAgIHJldHVybiBTdGF0dXM7DQogICAgICAgfQ0KIA0KQEAgLTM4
+Nyw2ICs0MjgsNyBAQCBGbHVzaFNwYXJlQmxvY2tUb0Jvb3RCbG9jayAoCiAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICApOw0KICAgICAgIGlmIChFRklfRVJS
+T1IgKFN0YXR1cykpIHsNCiAgICAgICAgIEZyZWVQb29sIChCdWZmZXIpOw0KKyAgICAgICAg
+REVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgNzogJXJcbiIsIF9fRlVOQ1RJT05f
+XywgU3RhdHVzKSk7DQogICAgICAgICByZXR1cm4gU3RhdHVzOw0KICAgICAgIH0NCiANCkBA
+IC0zOTgsNiArNDQwLDcgQEAgRmx1c2hTcGFyZUJsb2NrVG9Cb290QmxvY2sgKAogICAgIFN0
+YXR1cyA9IFNhclByb3RvY29sLT5TZXRTd2FwU3RhdGUgKFNhclByb3RvY29sLCBUUlVFKTsN
+CiAgICAgaWYgKEVGSV9FUlJPUiAoU3RhdHVzKSkgew0KICAgICAgIEZyZWVQb29sIChCdWZm
+ZXIpOw0KKyAgICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IDg6ICVyXG4i
+LCBfX0ZVTkNUSU9OX18sIFN0YXR1cykpOw0KICAgICAgIHJldHVybiBTdGF0dXM7DQogICAg
+IH0NCiAgIH0NCkBAIC00MDgsNiArNDUxLDcgQEAgRmx1c2hTcGFyZUJsb2NrVG9Cb290Qmxv
+Y2sgKAogICBTdGF0dXMgPSBGdHdFcmFzZVNwYXJlQmxvY2sgKEZ0d0RldmljZSk7DQogICBp
+ZiAoRUZJX0VSUk9SIChTdGF0dXMpKSB7DQogICAgIEZyZWVQb29sIChCdWZmZXIpOw0KKyAg
+ICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCA5OiAlclxuIiwgX19GVU5DVElP
+Tl9fLCBTdGF0dXMpKTsNCiAgICAgcmV0dXJuIEVGSV9BQk9SVEVEOw0KICAgfQ0KICAgLy8N
+CkBAIC00MjYsNiArNDcwLDcgQEAgRmx1c2hTcGFyZUJsb2NrVG9Cb290QmxvY2sgKAogICAg
+IGlmIChFRklfRVJST1IgKFN0YXR1cykpIHsNCiAgICAgICBERUJVRyAoKEVGSV9EX0VSUk9S
+LCAiRnR3OiBGVkIgV3JpdGUgYm9vdCBibG9jayAtICVyXG4iLCBTdGF0dXMpKTsNCiAgICAg
+ICBGcmVlUG9vbCAoQnVmZmVyKTsNCisgICAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIl
+YTogZXhpdCAxMDogJXJcbiIsIF9fRlVOQ1RJT05fXywgU3RhdHVzKSk7DQogICAgICAgcmV0
+dXJuIFN0YXR1czsNCiAgICAgfQ0KIA0KQEAgLTQzOSw2ICs0ODQsNyBAQCBGbHVzaFNwYXJl
+QmxvY2tUb0Jvb3RCbG9jayAoCiAgIC8vDQogICBTdGF0dXMgPSBTYXJQcm90b2NvbC0+U2V0
+U3dhcFN0YXRlIChTYXJQcm90b2NvbCwgRkFMU0UpOw0KIA0KKyAgREVCVUcgKChERUJVR19W
+RVJCT1NFLCAiJWE6IGV4aXQgMTE6ICVyXG4iLCBfX0ZVTkNUSU9OX18sIFN0YXR1cykpOw0K
+ICAgcmV0dXJuIFN0YXR1czsNCiB9DQogDQpAQCAtNDcyLDcgKzUxOCwxMCBAQCBGbHVzaFNw
+YXJlQmxvY2tUb1RhcmdldEJsb2NrICgKICAgVUlOVDggICAgICAgKlB0cjsNCiAgIFVJTlRO
+ICAgICAgIEluZGV4Ow0KIA0KKyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGVudGVy
+LCBMYmE9MHglTHhcbiIsIF9fRlVOQ1RJT05fXywgKFVJTlQ2NClMYmEpKTsNCisNCiAgIGlm
+ICgoRnR3RGV2aWNlID09IE5VTEwpIHx8IChGdkJsb2NrID09IE5VTEwpKSB7DQorICAgIERF
+QlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IDFcbiIsIF9fRlVOQ1RJT05fXykpOw0K
+ICAgICByZXR1cm4gRUZJX0lOVkFMSURfUEFSQU1FVEVSOw0KICAgfQ0KICAgLy8NCkBAIC00
+ODEsNiArNTMwLDcgQEAgRmx1c2hTcGFyZUJsb2NrVG9UYXJnZXRCbG9jayAoCiAgIExlbmd0
+aCA9IEZ0d0RldmljZS0+U3BhcmVBcmVhTGVuZ3RoOw0KICAgQnVmZmVyICA9IEFsbG9jYXRl
+UG9vbCAoTGVuZ3RoKTsNCiAgIGlmIChCdWZmZXIgPT0gTlVMTCkgew0KKyAgICBERUJVRyAo
+KERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCAyXG4iLCBfX0ZVTkNUSU9OX18pKTsNCiAgICAg
+cmV0dXJuIEVGSV9PVVRfT0ZfUkVTT1VSQ0VTOw0KICAgfQ0KICAgLy8NCkBAIC00OTgsNiAr
+NTQ4LDcgQEAgRmx1c2hTcGFyZUJsb2NrVG9UYXJnZXRCbG9jayAoCiAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgKTsNCiAgICAgaWYgKEVGSV9FUlJPUiAoU3Rh
+dHVzKSkgew0KICAgICAgIEZyZWVQb29sIChCdWZmZXIpOw0KKyAgICAgIERFQlVHICgoREVC
+VUdfVkVSQk9TRSwgIiVhOiBleGl0IDM6ICVyXG4iLCBfX0ZVTkNUSU9OX18sIFN0YXR1cykp
+Ow0KICAgICAgIHJldHVybiBTdGF0dXM7DQogICAgIH0NCiANCkBAIC01MDksNiArNTYwLDcg
+QEAgRmx1c2hTcGFyZUJsb2NrVG9UYXJnZXRCbG9jayAoCiAgIFN0YXR1cyA9IEZ0d0VyYXNl
+QmxvY2sgKEZ0d0RldmljZSwgRnZCbG9jaywgTGJhKTsNCiAgIGlmIChFRklfRVJST1IgKFN0
+YXR1cykpIHsNCiAgICAgRnJlZVBvb2wgKEJ1ZmZlcik7DQorICAgIERFQlVHICgoREVCVUdf
+VkVSQk9TRSwgIiVhOiBleGl0IDQ6ICVyXG4iLCBfX0ZVTkNUSU9OX18sIFN0YXR1cykpOw0K
+ICAgICByZXR1cm4gRUZJX0FCT1JURUQ7DQogICB9DQogICAvLw0KQEAgLTUyMSw2ICs1NzMs
+NyBAQCBGbHVzaFNwYXJlQmxvY2tUb1RhcmdldEJsb2NrICgKICAgICBpZiAoRUZJX0VSUk9S
+IChTdGF0dXMpKSB7DQogICAgICAgREVCVUcgKChFRklfRF9FUlJPUiwgIkZ0dzogRlZCIFdy
+aXRlIGJsb2NrIC0gJXJcbiIsIFN0YXR1cykpOw0KICAgICAgIEZyZWVQb29sIChCdWZmZXIp
+Ow0KKyAgICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IDU6ICVyXG4iLCBf
+X0ZVTkNUSU9OX18sIFN0YXR1cykpOw0KICAgICAgIHJldHVybiBTdGF0dXM7DQogICAgIH0N
+CiANCkBAIC01MjksNiArNTgyLDcgQEAgRmx1c2hTcGFyZUJsb2NrVG9UYXJnZXRCbG9jayAo
+CiANCiAgIEZyZWVQb29sIChCdWZmZXIpOw0KIA0KKyAgREVCVUcgKChERUJVR19WRVJCT1NF
+LCAiJWE6IGV4aXQgNjogJXJcbiIsIF9fRlVOQ1RJT05fXywgU3RhdHVzKSk7DQogICByZXR1
+cm4gU3RhdHVzOw0KIH0NCiANCkBAIC01NjQsMTIgKzYxOCwxNyBAQCBGbHVzaFNwYXJlQmxv
+Y2tUb1dvcmtpbmdCbG9jayAoCiAgIFVJTlROICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBJbmRleDsNCiAgIEVGSV9MQkEgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBXb3JrU3BhY2VMYmFPZmZzZXQ7DQogDQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0Us
+ICIlYTogZW50ZXJcbiIsIF9fRlVOQ1RJT05fXykpOw0KKyAgU3RhdHVzID0gRUZJX1NVQ0NF
+U1M7DQorDQogICAvLw0KICAgLy8gQWxsb2NhdGUgYSBtZW1vcnkgYnVmZmVyDQogICAvLw0K
+ICAgTGVuZ3RoID0gRnR3RGV2aWNlLT5TcGFyZUFyZWFMZW5ndGg7DQogICBCdWZmZXIgID0g
+QWxsb2NhdGVQb29sIChMZW5ndGgpOw0KICAgaWYgKEJ1ZmZlciA9PSBOVUxMKSB7DQorICAg
+IERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IEAgJWQsIFN0YXR1cz0lclxuIiwN
+CisgICAgICBfX0ZVTkNUSU9OX18sIF9fTElORV9fLCBTdGF0dXMpKTsNCiAgICAgcmV0dXJu
+IEVGSV9PVVRfT0ZfUkVTT1VSQ0VTOw0KICAgfQ0KIA0KQEAgLTYwMyw2ICs2NjIsOCBAQCBG
+bHVzaFNwYXJlQmxvY2tUb1dvcmtpbmdCbG9jayAoCiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgKTsNCiAgICAgaWYgKEVGSV9FUlJPUiAoU3RhdHVzKSkgew0K
+ICAgICAgIEZyZWVQb29sIChCdWZmZXIpOw0KKyAgICAgIERFQlVHICgoREVCVUdfVkVSQk9T
+RSwgIiVhOiBleGl0IEAgJWQsIFN0YXR1cz0lclxuIiwNCisgICAgICAgIF9fRlVOQ1RJT05f
+XywgX19MSU5FX18sIFN0YXR1cykpOw0KICAgICAgIHJldHVybiBTdGF0dXM7DQogICAgIH0N
+CiANCkBAIC02MzQsNiArNjk1LDggQEAgRmx1c2hTcGFyZUJsb2NrVG9Xb3JraW5nQmxvY2sg
+KAogICAgICAgICAgICAgKTsNCiAgIGlmIChFRklfRVJST1IgKFN0YXR1cykpIHsNCiAgICAg
+RnJlZVBvb2wgKEJ1ZmZlcik7DQorICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBl
+eGl0IEAgJWQsIFN0YXR1cz0lclxuIiwNCisgICAgICBfX0ZVTkNUSU9OX18sIF9fTElORV9f
+LCBTdGF0dXMpKTsNCiAgICAgcmV0dXJuIEVGSV9BQk9SVEVEOw0KICAgfQ0KIA0KQEAgLTY0
+NSw2ICs3MDgsOCBAQCBGbHVzaFNwYXJlQmxvY2tUb1dvcmtpbmdCbG9jayAoCiAgIFN0YXR1
+cyA9IEZ0d0VyYXNlQmxvY2sgKEZ0d0RldmljZSwgRnR3RGV2aWNlLT5GdHdGdkJsb2NrLCBG
+dHdEZXZpY2UtPkZ0d1dvcmtCbG9ja0xiYSk7DQogICBpZiAoRUZJX0VSUk9SIChTdGF0dXMp
+KSB7DQogICAgIEZyZWVQb29sIChCdWZmZXIpOw0KKyAgICBERUJVRyAoKERFQlVHX1ZFUkJP
+U0UsICIlYTogZXhpdCBAICVkLCBTdGF0dXM9JXJcbiIsDQorICAgICAgX19GVU5DVElPTl9f
+LCBfX0xJTkVfXywgU3RhdHVzKSk7DQogICAgIHJldHVybiBFRklfQUJPUlRFRDsNCiAgIH0N
+CiAgIC8vDQpAQCAtNjYzLDYgKzcyOCw4IEBAIEZsdXNoU3BhcmVCbG9ja1RvV29ya2luZ0Js
+b2NrICgKICAgICBpZiAoRUZJX0VSUk9SIChTdGF0dXMpKSB7DQogICAgICAgREVCVUcgKChF
+RklfRF9FUlJPUiwgIkZ0dzogRlZCIFdyaXRlIGJsb2NrIC0gJXJcbiIsIFN0YXR1cykpOw0K
+ICAgICAgIEZyZWVQb29sIChCdWZmZXIpOw0KKyAgICAgIERFQlVHICgoREVCVUdfVkVSQk9T
+RSwgIiVhOiBleGl0IEAgJWQsIFN0YXR1cz0lclxuIiwNCisgICAgICAgIF9fRlVOQ1RJT05f
+XywgX19MSU5FX18sIFN0YXR1cykpOw0KICAgICAgIHJldHVybiBTdGF0dXM7DQogICAgIH0N
+CiANCkBAIC02ODYsMTIgKzc1MywxNiBAQCBGbHVzaFNwYXJlQmxvY2tUb1dvcmtpbmdCbG9j
+ayAoCiAgICAgICAgICAgICBXT1JLSU5HX0JMT0NLX1ZBTElEDQogICAgICAgICAgICAgKTsN
+CiAgIGlmIChFRklfRVJST1IgKFN0YXR1cykpIHsNCisgICAgREVCVUcgKChERUJVR19WRVJC
+T1NFLCAiJWE6IGV4aXQgQCAlZCwgU3RhdHVzPSVyXG4iLA0KKyAgICAgIF9fRlVOQ1RJT05f
+XywgX19MSU5FX18sIFN0YXR1cykpOw0KICAgICByZXR1cm4gRUZJX0FCT1JURUQ7DQogICB9
+DQogDQogICBGdHdEZXZpY2UtPkZ0d1dvcmtTcGFjZUhlYWRlci0+V29ya2luZ0Jsb2NrSW52
+YWxpZCA9IEZUV19JTlZBTElEX1NUQVRFOw0KICAgRnR3RGV2aWNlLT5GdHdXb3JrU3BhY2VI
+ZWFkZXItPldvcmtpbmdCbG9ja1ZhbGlkID0gRlRXX1ZBTElEX1NUQVRFOw0KIA0KKyAgREVC
+VUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgQCAlZCwgU3RhdHVzPSVyXG4iLA0KKyAg
+ICBfX0ZVTkNUSU9OX18sIF9fTElORV9fLCBTdGF0dXMpKTsNCiAgIHJldHVybiBFRklfU1VD
+Q0VTUzsNCiB9DQogDQpAQCAtNzI1LDEyICs3OTYsMTcgQEAgRnR3VXBkYXRlRnZTdGF0ZSAo
+CiAgIFVJTlQ4ICAgICAgIFN0YXRlOw0KICAgVUlOVE4gICAgICAgTGVuZ3RoOw0KIA0KKyAg
+REVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGVudGVyLCBMYmE9MHglTHggT2Zmc2V0PTB4
+JUx4IE5ld0JpdD0lZFxuIiwNCisgICAgX19GVU5DVElPTl9fLCAoVUlOVDY0KUxiYSwgKFVJ
+TlQ2NClPZmZzZXQsIE5ld0JpdCkpOw0KKw0KICAgLy8NCiAgIC8vIFJlYWQgc3RhdGUgZnJv
+bSBkZXZpY2UsIGFzc3VtZSBTdGF0ZSBpcyBvbmx5IG9uZSBieXRlLg0KICAgLy8NCiAgIExl
+bmd0aCAgPSBzaXplb2YgKFVJTlQ4KTsNCiAgIFN0YXR1cyAgPSBGdkJsb2NrLT5SZWFkIChG
+dkJsb2NrLCBMYmEsIE9mZnNldCwgJkxlbmd0aCwgJlN0YXRlKTsNCiAgIGlmIChFRklfRVJS
+T1IgKFN0YXR1cykpIHsNCisgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQg
+QCAlZCwgU3RhdHVzPSVyXG4iLA0KKyAgICAgIF9fRlVOQ1RJT05fXywgX19MSU5FX18sIFN0
+YXR1cykpOw0KICAgICByZXR1cm4gRUZJX0FCT1JURUQ7DQogICB9DQogDQpAQCAtNzQ0LDYg
+KzgyMCw4IEBAIEZ0d1VwZGF0ZUZ2U3RhdGUgKAogICBMZW5ndGggID0gc2l6ZW9mIChVSU5U
+OCk7DQogICBTdGF0dXMgID0gRnZCbG9jay0+V3JpdGUgKEZ2QmxvY2ssIExiYSwgT2Zmc2V0
+LCAmTGVuZ3RoLCAmU3RhdGUpOw0KIA0KKyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6
+IGV4aXQgQCAlZCwgU3RhdHVzPSVyXG4iLA0KKyAgICBfX0ZVTkNUSU9OX18sIF9fTElORV9f
+LCBTdGF0dXMpKTsNCiAgIHJldHVybiBTdGF0dXM7DQogfQ0KIA0KQEAgLTc3MCw2ICs4NDgs
+MTEgQEAgRnR3R2V0TGFzdFdyaXRlSGVhZGVyICgKIHsNCiAgIFVJTlROICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgT2Zmc2V0Ow0KICAgRUZJX0ZBVUxUX1RPTEVSQU5UX1dSSVRFX0hF
+QURFUiAqRnR3SGVhZGVyOw0KKyAgRUZJX1NUQVRVUyAgICAgICAgICAgICAgICAgICAgICBT
+dGF0dXM7DQorDQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZW50ZXIsIEZ0d1dv
+cmtTcGFjZVNpemU9MHglTHhcbiIsIF9fRlVOQ1RJT05fXywNCisgICAgKFVJTlQ2NClGdHdX
+b3JrU3BhY2VTaXplKSk7DQorICBTdGF0dXMgPSBFRklfU1VDQ0VTUzsNCiANCiAgICpGdHdX
+cml0ZUhlYWRlciA9IE5VTEw7DQogICBGdHdIZWFkZXIgICAgICAgPSAoRUZJX0ZBVUxUX1RP
+TEVSQU5UX1dSSVRFX0hFQURFUiAqKSAoRnR3V29ya1NwYWNlSGVhZGVyICsgMSk7DQpAQCAt
+NzgyLDYgKzg2NSw4IEBAIEZ0d0dldExhc3RXcml0ZUhlYWRlciAoCiAgICAgLy8NCiAgICAg
+aWYgKE9mZnNldCA+PSBGdHdXb3JrU3BhY2VTaXplKSB7DQogICAgICAgKkZ0d1dyaXRlSGVh
+ZGVyID0gRnR3SGVhZGVyOw0KKyAgICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBl
+eGl0IEAgJWQsIFN0YXR1cz0lclxuIiwNCisgICAgICAgIF9fRlVOQ1RJT05fXywgX19MSU5F
+X18sIFN0YXR1cykpOw0KICAgICAgIHJldHVybiBFRklfQUJPUlRFRDsNCiAgICAgfQ0KIA0K
+QEAgLTc5Miw2ICs4NzcsOCBAQCBGdHdHZXRMYXN0V3JpdGVIZWFkZXIgKAogICAvLw0KICAg
+KkZ0d1dyaXRlSGVhZGVyID0gRnR3SGVhZGVyOw0KIA0KKyAgREVCVUcgKChERUJVR19WRVJC
+T1NFLCAiJWE6IGV4aXQgQCAlZCwgU3RhdHVzPSVyXG4iLA0KKyAgICBfX0ZVTkNUSU9OX18s
+IF9fTElORV9fLCBTdGF0dXMpKTsNCiAgIHJldHVybiBFRklfU1VDQ0VTUzsNCiB9DQogDQpA
+QCAtODE2LDYgKzkwMywxMCBAQCBGdHdHZXRMYXN0V3JpdGVSZWNvcmQgKAogew0KICAgVUlO
+VE4gICAgICAgICAgICAgICAgICAgICAgICAgICBJbmRleDsNCiAgIEVGSV9GQVVMVF9UT0xF
+UkFOVF9XUklURV9SRUNPUkQgKkZ0d1JlY29yZDsNCisgIEVGSV9TVEFUVVMgICAgICAgICAg
+ICAgICAgICAgICAgU3RhdHVzOw0KKw0KKyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6
+IGVudGVyXG4iLCBfX0ZVTkNUSU9OX18pKTsNCisgIFN0YXR1cyA9IEVGSV9TVUNDRVNTOw0K
+IA0KICAgKkZ0d1dyaXRlUmVjb3JkID0gTlVMTDsNCiAgIEZ0d1JlY29yZCAgICAgICA9IChF
+RklfRkFVTFRfVE9MRVJBTlRfV1JJVEVfUkVDT1JEICopIChGdHdXcml0ZUhlYWRlciArIDEp
+Ow0KQEAgLTgyOSw2ICs5MjAsOCBAQCBGdHdHZXRMYXN0V3JpdGVSZWNvcmQgKAogICAgICAg
+Ly8gVGhlIGxhc3Qgd3JpdGUgcmVjb3JkIGlzIGZvdW5kDQogICAgICAgLy8NCiAgICAgICAq
+RnR3V3JpdGVSZWNvcmQgPSBGdHdSZWNvcmQ7DQorICAgICAgREVCVUcgKChERUJVR19WRVJC
+T1NFLCAiJWE6IGV4aXQgQCAlZCwgU3RhdHVzPSVyXG4iLA0KKyAgICAgICAgX19GVU5DVElP
+Tl9fLCBfX0xJTkVfXywgU3RhdHVzKSk7DQogICAgICAgcmV0dXJuIEVGSV9TVUNDRVNTOw0K
+ICAgICB9DQogDQpAQCAtODQ2LDkgKzkzOSwxMyBAQCBGdHdHZXRMYXN0V3JpdGVSZWNvcmQg
+KAogICAvLw0KICAgaWYgKEluZGV4ID09IEZ0d1dyaXRlSGVhZGVyLT5OdW1iZXJPZldyaXRl
+cykgew0KICAgICAqRnR3V3JpdGVSZWNvcmQgPSAoRUZJX0ZBVUxUX1RPTEVSQU5UX1dSSVRF
+X1JFQ09SRCAqKSAoKFVJTlROKSBGdHdSZWNvcmQgLSBGVFdfUkVDT1JEX1NJWkUgKEZ0d1dy
+aXRlSGVhZGVyLT5Qcml2YXRlRGF0YVNpemUpKTsNCisgICAgREVCVUcgKChERUJVR19WRVJC
+T1NFLCAiJWE6IGV4aXQgQCAlZCwgU3RhdHVzPSVyXG4iLA0KKyAgICAgIF9fRlVOQ1RJT05f
+XywgX19MSU5FX18sIFN0YXR1cykpOw0KICAgICByZXR1cm4gRUZJX1NVQ0NFU1M7DQogICB9
+DQogDQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCBAICVkLCBTdGF0dXM9
+JXJcbiIsDQorICAgIF9fRlVOQ1RJT05fXywgX19MSU5FX18sIFN0YXR1cykpOw0KICAgcmV0
+dXJuIEVGSV9BQk9SVEVEOw0KIH0NCiANCkBAIC04OTksMTAgKzk5NiwxMyBAQCBJc0xhc3RS
+ZWNvcmRPZldyaXRlcyAoCiAgIFVJTlQ4ICpIZWFkOw0KICAgVUlOVDggKlB0cjsNCiANCisg
+IERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBlbnRlclxuIiwgX19GVU5DVElPTl9fKSk7
+DQorDQogICBIZWFkICA9IChVSU5UOCAqKSBGdHdIZWFkZXI7DQogICBQdHIgICA9IChVSU5U
+OCAqKSBGdHdSZWNvcmQ7DQogDQogICBIZWFkICs9IEZUV19XUklURV9UT1RBTF9TSVpFIChG
+dHdIZWFkZXItPk51bWJlck9mV3JpdGVzIC0gMSwgRnR3SGVhZGVyLT5Qcml2YXRlRGF0YVNp
+emUpOw0KKyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQ6ICVkXG4iLCBfX0ZV
+TkNUSU9OX18sIEhlYWQgPT0gUHRyKSk7DQogICByZXR1cm4gKEJPT0xFQU4pIChIZWFkID09
+IFB0cik7DQogfQ0KIA0KQEAgLTkyMywxNSArMTAyMywyMiBAQCBHZXRQcmV2aW91c1JlY29y
+ZE9mV3JpdGVzICgKICAgKQ0KIHsNCiAgIFVJTlQ4ICpQdHI7DQorICBFRklfU1RBVFVTIFN0
+YXR1cyA9IEVGSV9TVUNDRVNTOw0KKw0KKyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6
+IGVudGVyXG4iLCBfX0ZVTkNUSU9OX18pKTsNCiANCiAgIGlmIChJc0ZpcnN0UmVjb3JkT2ZX
+cml0ZXMgKEZ0d0hlYWRlciwgKkZ0d1JlY29yZCkpIHsNCiAgICAgKkZ0d1JlY29yZCA9IE5V
+TEw7DQorICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IEAgJWQsIFN0YXR1
+cz0lclxuIiwNCisgICAgICBfX0ZVTkNUSU9OX18sIF9fTElORV9fLCBTdGF0dXMpKTsNCiAg
+ICAgcmV0dXJuIEVGSV9BQ0NFU1NfREVOSUVEOw0KICAgfQ0KIA0KICAgUHRyID0gKFVJTlQ4
+ICopICgqRnR3UmVjb3JkKTsNCiAgIFB0ciAtPSBGVFdfUkVDT1JEX1NJWkUgKEZ0d0hlYWRl
+ci0+UHJpdmF0ZURhdGFTaXplKTsNCiAgICpGdHdSZWNvcmQgPSAoRUZJX0ZBVUxUX1RPTEVS
+QU5UX1dSSVRFX1JFQ09SRCAqKSBQdHI7DQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIl
+YTogZXhpdCBAICVkLCBTdGF0dXM9JXJcbiIsDQorICAgIF9fRlVOQ1RJT05fXywgX19MSU5F
+X18sIFN0YXR1cykpOw0KICAgcmV0dXJuIEVGSV9TVUNDRVNTOw0KIH0NCiANCkBAIC05NTEs
+MTMgKzEwNTgsMTggQEAgSW5pdEZ0d0RldmljZSAoCiAgICkNCiB7DQogICBFRklfRlRXX0RF
+VklDRSAgICAgICAgICAgICAgICAgICAqRnR3RGV2aWNlOw0KLSAgDQorICBFRklfU1RBVFVT
+IFN0YXR1cyA9IEVGSV9TVUNDRVNTOw0KKw0KKyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAi
+JWE6IGVudGVyXG4iLCBfX0ZVTkNUSU9OX18pKTsNCisgICAgDQogICAvLw0KICAgLy8gQWxs
+b2NhdGUgcHJpdmF0ZSBkYXRhIG9mIHRoaXMgZHJpdmVyLA0KICAgLy8gSW5jbHVkaW5nIHRo
+ZSBGdHdXb3JrU3BhY2VbRlRXX1dPUktfU1BBQ0VfU0laRV0uDQogICAvLw0KICAgRnR3RGV2
+aWNlID0gQWxsb2NhdGVaZXJvUG9vbCAoc2l6ZW9mIChFRklfRlRXX0RFVklDRSkgKyBQY2RH
+ZXQzMiAoUGNkRmxhc2hOdlN0b3JhZ2VGdHdXb3JraW5nU2l6ZSkpOw0KICAgaWYgKEZ0d0Rl
+dmljZSA9PSBOVUxMKSB7DQorICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0
+IEAgJWQsIFN0YXR1cz0lclxuIiwNCisgICAgICBfX0ZVTkNUSU9OX18sIF9fTElORV9fLCBT
+dGF0dXMpKTsNCiAgICAgcmV0dXJuIEVGSV9PVVRfT0ZfUkVTT1VSQ0VTOw0KICAgfQ0KIA0K
+QEAgLTk2OSw2ICsxMDgxLDggQEAgSW5pdEZ0d0RldmljZSAoCiAgIGlmICgoRnR3RGV2aWNl
+LT5Xb3JrU3BhY2VMZW5ndGggPT0gMCkgfHwgKEZ0d0RldmljZS0+U3BhcmVBcmVhTGVuZ3Ro
+ID09IDApKSB7DQogICAgIERFQlVHICgoRUZJX0RfRVJST1IsICJGdHc6IFdvcmtzcGFjZSBv
+ciBTcGFyZSBibG9jayBkb2VzIG5vdCBleGlzdCFcbiIpKTsNCiAgICAgRnJlZVBvb2wgKEZ0
+d0RldmljZSk7DQorICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IEAgJWQs
+IFN0YXR1cz0lclxuIiwNCisgICAgICBfX0ZVTkNUSU9OX18sIF9fTElORV9fLCBTdGF0dXMp
+KTsNCiAgICAgcmV0dXJuIEVGSV9JTlZBTElEX1BBUkFNRVRFUjsNCiAgIH0NCiANCkBAIC05
+ODksNiArMTEwMyw4IEBAIEluaXRGdHdEZXZpY2UgKAogICB9ICANCiANCiAgICpGdHdEYXRh
+ID0gRnR3RGV2aWNlOw0KKyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgQCAl
+ZCwgU3RhdHVzPSVyXG4iLA0KKyAgICBfX0ZVTkNUSU9OX18sIF9fTElORV9fLCBTdGF0dXMp
+KTsNCiAgIHJldHVybiBFRklfU1VDQ0VTUzsNCiB9DQogDQpAQCAtMTAxOSwxMSArMTEzNSwx
+NSBAQCBGaW5kRnZiRm9yRnR3ICgKICAgRUZJX0ZWX0JMT0NLX01BUF9FTlRSWSAgICAgICAg
+ICAgICAgKkZ2Yk1hcEVudHJ5Ow0KICAgVUlOVDMyICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgTGJhSW5kZXg7DQogDQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZW50
+ZXJcbiIsIF9fRlVOQ1RJT05fXykpOw0KKw0KICAgLy8NCiAgIC8vIEdldCBhbGwgRlZCIGhh
+bmRsZS4NCiAgIC8vDQogICBTdGF0dXMgPSBHZXRGdmJDb3VudEFuZEJ1ZmZlciAoJkhhbmRs
+ZUNvdW50LCAmSGFuZGxlQnVmZmVyKTsNCiAgIGlmIChFRklfRVJST1IgKFN0YXR1cykpIHsN
+CisgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgQCAlZCwgU3RhdHVzPSVy
+XG4iLA0KKyAgICAgIF9fRlVOQ1RJT05fXywgX19MSU5FX18sIFN0YXR1cykpOw0KICAgICBy
+ZXR1cm4gRUZJX05PVF9GT1VORDsNCiAgIH0NCiANCkBAIC0xMTM1LDkgKzEyNTUsMTMgQEAg
+RmluZEZ2YkZvckZ0dyAoCiANCiAgIGlmICgoRnR3RGV2aWNlLT5GdHdCYWNrdXBGdmIgPT0g
+TlVMTCkgfHwgKEZ0d0RldmljZS0+RnR3RnZCbG9jayA9PSBOVUxMKSB8fA0KICAgICAoRnR3
+RGV2aWNlLT5GdHdXb3JrU3BhY2VMYmEgPT0gKEVGSV9MQkEpICgtMSkpIHx8IChGdHdEZXZp
+Y2UtPkZ0d1NwYXJlTGJhID09IChFRklfTEJBKSAoLTEpKSkgew0KKyAgICBERUJVRyAoKERF
+QlVHX1ZFUkJPU0UsICIlYTogZXhpdCBAICVkLCBTdGF0dXM9JXJcbiIsDQorICAgICAgX19G
+VU5DVElPTl9fLCBfX0xJTkVfXywgU3RhdHVzKSk7DQogICAgIHJldHVybiBFRklfQUJPUlRF
+RDsNCiAgIH0NCiANCisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IEAgJWQs
+IFN0YXR1cz0lclxuIiwNCisgICAgX19GVU5DVElPTl9fLCBfX0xJTkVfXywgU3RhdHVzKSk7
+DQogICByZXR1cm4gRUZJX1NVQ0NFU1M7DQogfQ0KIA0KQEAgLTExNjQsMTEgKzEyODgsMTUg
+QEAgSW5pdEZ0d1Byb3RvY29sICgKICAgRUZJX0hBTkRMRSAgICAgICAgICAgICAgICAgICAg
+ICAgICAgRnZiSGFuZGxlOw0KICAgRUZJX0xCQSAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgV29ya1NwYWNlTGJhT2Zmc2V0Ow0KIA0KKyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAi
+JWE6IGVudGVyXG4iLCBfX0ZVTkNUSU9OX18pKTsNCisNCiAgIC8vDQogICAvLyBGaW5kIHRo
+ZSByaWdodCBTTU0gRnZiIHByb3RvY29sIGluc3RhbmNlIGZvciBGVFcuDQogICAvLw0KICAg
+U3RhdHVzID0gRmluZEZ2YkZvckZ0dyAoRnR3RGV2aWNlKTsNCiAgIGlmIChFRklfRVJST1Ig
+KFN0YXR1cykpIHsNCisgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgQCAl
+ZCwgU3RhdHVzPSVyXG4iLA0KKyAgICAgIF9fRlVOQ1RJT05fXywgX19MSU5FX18sIFN0YXR1
+cykpOw0KICAgICByZXR1cm4gRUZJX05PVF9GT1VORDsNCiAgIH0gIA0KICAgDQpAQCAtMTMx
+Nyw2ICsxNDQ1LDggQEAgSW5pdEZ0d1Byb3RvY29sICgKICAgRnR3RGV2aWNlLT5GdHdJbnN0
+YW5jZS5BYm9ydCAgICAgICAgICAgPSBGdHdBYm9ydDsNCiAgIEZ0d0RldmljZS0+RnR3SW5z
+dGFuY2UuR2V0TGFzdFdyaXRlICAgID0gRnR3R2V0TGFzdFdyaXRlOw0KICAgICANCisgIERF
+QlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IEAgJWQsIFN0YXR1cz0lclxuIiwNCisg
+ICAgX19GVU5DVElPTl9fLCBfX0xJTkVfXywgU3RhdHVzKSk7DQogICByZXR1cm4gRUZJX1NV
+Q0NFU1M7DQogfQ0KIA0KZGlmZiAtLWdpdCBhL01kZU1vZHVsZVBrZy9Vbml2ZXJzYWwvRmF1
+bHRUb2xlcmFudFdyaXRlRHhlL1VwZGF0ZVdvcmtpbmdCbG9jay5jIGIvTWRlTW9kdWxlUGtn
+L1VuaXZlcnNhbC9GYXVsdFRvbGVyYW50V3JpdGVEeGUvVXBkYXRlV29ya2luZ0Jsb2NrLmMK
+aW5kZXggYTVmYTEyYi4uODVhM2EyZCAxMDA2NDQKLS0tIGEvTWRlTW9kdWxlUGtnL1VuaXZl
+cnNhbC9GYXVsdFRvbGVyYW50V3JpdGVEeGUvVXBkYXRlV29ya2luZ0Jsb2NrLmMKKysrIGIv
+TWRlTW9kdWxlUGtnL1VuaXZlcnNhbC9GYXVsdFRvbGVyYW50V3JpdGVEeGUvVXBkYXRlV29y
+a2luZ0Jsb2NrLmMKQEAgLTMxLDYgKzMxLDcgQEAgSW5pdGlhbGl6ZUxvY2FsV29ya1NwYWNl
+SGVhZGVyICgKIHsNCiAgIEVGSV9TVEFUVVMgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBTdGF0dXM7DQogDQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZW50ZXJcbiIs
+IF9fRlVOQ1RJT05fXykpOw0KICAgLy8NCiAgIC8vIENoZWNrIHNpZ25hdHVyZSB3aXRoIGdF
+ZGtpaVdvcmtpbmdCbG9ja1NpZ25hdHVyZUd1aWQuDQogICAvLw0KQEAgLTM4LDYgKzM5LDcg
+QEAgSW5pdGlhbGl6ZUxvY2FsV29ya1NwYWNlSGVhZGVyICgKICAgICAvLw0KICAgICAvLyBU
+aGUgbG9jYWwgd29yayBzcGFjZSBoZWFkZXIgaGFzIGJlZW4gaW5pdGlhbGl6ZWQuDQogICAg
+IC8vDQorICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IDFcbiIsIF9fRlVO
+Q1RJT05fXykpOw0KICAgICByZXR1cm47DQogICB9DQogDQpAQCAtNzMsNiArNzUsOCBAQCBJ
+bml0aWFsaXplTG9jYWxXb3JrU3BhY2VIZWFkZXIgKAogDQogICBtV29ya2luZ0Jsb2NrSGVh
+ZGVyLldvcmtpbmdCbG9ja1ZhbGlkICAgID0gRlRXX1ZBTElEX1NUQVRFOw0KICAgbVdvcmtp
+bmdCbG9ja0hlYWRlci5Xb3JraW5nQmxvY2tJbnZhbGlkICA9IEZUV19JTlZBTElEX1NUQVRF
+Ow0KKw0KKyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgMlxuIiwgX19GVU5D
+VElPTl9fKSk7DQogfQ0KIA0KIC8qKg0KQEAgLTkwLDE1ICs5NCwyMCBAQCBJc1ZhbGlkV29y
+a1NwYWNlICgKICAgSU4gRUZJX0ZBVUxUX1RPTEVSQU5UX1dPUktJTkdfQkxPQ0tfSEVBREVS
+ICpXb3JraW5nSGVhZGVyDQogICApDQogew0KKyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAi
+JWE6IGVudGVyXG4iLCBfX0ZVTkNUSU9OX18pKTsNCisNCiAgIGlmIChXb3JraW5nSGVhZGVy
+ID09IE5VTEwpIHsNCisgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgMVxu
+IiwgX19GVU5DVElPTl9fKSk7DQogICAgIHJldHVybiBGQUxTRTsNCiAgIH0NCiANCiAgIGlm
+IChDb21wYXJlTWVtIChXb3JraW5nSGVhZGVyLCAmbVdvcmtpbmdCbG9ja0hlYWRlciwgc2l6
+ZW9mIChFRklfRkFVTFRfVE9MRVJBTlRfV09SS0lOR19CTE9DS19IRUFERVIpKSA9PSAwKSB7
+DQorICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IDJcbiIsIF9fRlVOQ1RJ
+T05fXykpOw0KICAgICByZXR1cm4gVFJVRTsNCiAgIH0NCiANCiAgIERFQlVHICgoRUZJX0Rf
+RVJST1IsICJGdHc6IFdvcmsgYmxvY2sgaGVhZGVyIGNoZWNrIGVycm9yXG4iKSk7DQorICBE
+RUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCAzXG4iLCBfX0ZVTkNUSU9OX18pKTsN
+CiAgIHJldHVybiBGQUxTRTsNCiB9DQogDQpAQCAtMTE2LDEyICsxMjUsMTUgQEAgSW5pdFdv
+cmtTcGFjZUhlYWRlciAoCiAgIElOIEVGSV9GQVVMVF9UT0xFUkFOVF9XT1JLSU5HX0JMT0NL
+X0hFQURFUiAqV29ya2luZ0hlYWRlcg0KICAgKQ0KIHsNCisgIERFQlVHICgoREVCVUdfVkVS
+Qk9TRSwgIiVhOiBlbnRlclxuIiwgX19GVU5DVElPTl9fKSk7DQogICBpZiAoV29ya2luZ0hl
+YWRlciA9PSBOVUxMKSB7DQorICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0
+IDFcbiIsIF9fRlVOQ1RJT05fXykpOw0KICAgICByZXR1cm4gRUZJX0lOVkFMSURfUEFSQU1F
+VEVSOw0KICAgfQ0KIA0KICAgQ29weU1lbSAoV29ya2luZ0hlYWRlciwgJm1Xb3JraW5nQmxv
+Y2tIZWFkZXIsIHNpemVvZiAoRUZJX0ZBVUxUX1RPTEVSQU5UX1dPUktJTkdfQkxPQ0tfSEVB
+REVSKSk7DQogDQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCAyXG4iLCBf
+X0ZVTkNUSU9OX18pKTsNCiAgIHJldHVybiBFRklfU1VDQ0VTUzsNCiB9DQogDQpAQCAtMTQz
+LDYgKzE1NSw3IEBAIFdvcmtTcGFjZVJlZnJlc2ggKAogICBVSU5UTiAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIExlbmd0aDsNCiAgIFVJTlROICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgUmVtYWluaW5nU3BhY2VTaXplOw0KIA0KKyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAi
+JWE6IGVudGVyXG4iLCBfX0ZVTkNUSU9OX18pKTsNCiAgIC8vDQogICAvLyBJbml0aWFsaXpl
+IFdvcmtTcGFjZSBhcyBGVFdfRVJBU0VEX0JZVEUNCiAgIC8vDQpAQCAtMTY0LDYgKzE3Nyw3
+IEBAIFdvcmtTcGFjZVJlZnJlc2ggKAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgRnR3RGV2aWNlLT5GdHdXb3JrU3BhY2UNCiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICApOw0KICAgaWYgKEVGSV9FUlJPUiAoU3RhdHVzKSkgew0KKyAgICBE
+RUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCAxOiAlclxuIiwgX19GVU5DVElPTl9f
+LCBTdGF0dXMpKTsNCiAgICAgcmV0dXJuIEVGSV9BQk9SVEVEOw0KICAgfQ0KICAgLy8NCkBA
+IC0xODksNiArMjAzLDcgQEAgV29ya1NwYWNlUmVmcmVzaCAoCiAgICAgU3RhdHVzID0gRnR3
+UmVjbGFpbVdvcmtTcGFjZSAoRnR3RGV2aWNlLCBUUlVFKTsNCiAgICAgaWYgKEVGSV9FUlJP
+UiAoU3RhdHVzKSkgew0KICAgICAgIERFQlVHICgoRUZJX0RfRVJST1IsICJGdHc6IFJlY2xh
+aW0gd29ya3NwYWNlIC0gJXJcbiIsIFN0YXR1cykpOw0KKyAgICAgIERFQlVHICgoREVCVUdf
+VkVSQk9TRSwgIiVhOiBleGl0IDI6ICVyXG4iLCBfX0ZVTkNUSU9OX18sIFN0YXR1cykpOw0K
+ICAgICAgIHJldHVybiBFRklfQUJPUlRFRDsNCiAgICAgfQ0KICAgICAvLw0KQEAgLTIwMyw2
+ICsyMTgsNyBAQCBXb3JrU3BhY2VSZWZyZXNoICgKICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgRnR3RGV2aWNlLT5GdHdXb3JrU3BhY2UNCiAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICk7DQogICAgIGlmIChFRklfRVJST1IgKFN0YXR1
+cykpIHsNCisgICAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCAzOiAlclxu
+IiwgX19GVU5DVElPTl9fLCBTdGF0dXMpKTsNCiAgICAgICByZXR1cm4gRUZJX0FCT1JURUQ7
+DQogICAgIH0NCiANCkBAIC0yMTIsNiArMjI4LDcgQEAgV29ya1NwYWNlUmVmcmVzaCAoCiAg
+ICAgICAgICAgICAgICZGdHdEZXZpY2UtPkZ0d0xhc3RXcml0ZUhlYWRlcg0KICAgICAgICAg
+ICAgICAgKTsNCiAgICAgaWYgKEVGSV9FUlJPUiAoU3RhdHVzKSkgew0KKyAgICAgIERFQlVH
+ICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IDQ6ICVyXG4iLCBfX0ZVTkNUSU9OX18sIFN0
+YXR1cykpOw0KICAgICAgIHJldHVybiBFRklfQUJPUlRFRDsNCiAgICAgfQ0KICAgfQ0KQEAg
+LTIyMyw5ICsyNDAsMTEgQEAgV29ya1NwYWNlUmVmcmVzaCAoCiAgICAgICAgICAgICAmRnR3
+RGV2aWNlLT5GdHdMYXN0V3JpdGVSZWNvcmQNCiAgICAgICAgICAgICApOw0KICAgaWYgKEVG
+SV9FUlJPUiAoU3RhdHVzKSkgew0KKyAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTog
+ZXhpdCA1OiAlclxuIiwgX19GVU5DVElPTl9fLCBTdGF0dXMpKTsNCiAgICAgcmV0dXJuIEVG
+SV9BQk9SVEVEOw0KICAgfQ0KIA0KKyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4
+aXQgNlxuIiwgX19GVU5DVElPTl9fKSk7DQogICByZXR1cm4gRUZJX1NVQ0NFU1M7DQogfQ0K
+IA0KQEAgLTI1OCw2ICsyNzcsOCBAQCBGdHdSZWNsYWltV29ya1NwYWNlICgKICAgVUlOVDgg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICpQdHI7DQogICBFRklfTEJBICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgV29ya1NwYWNlTGJhT2Zmc2V0Ow0KIA0K
+KyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGVudGVyLCBQcmVzZXJ2ZVJlY29yZD0l
+ZFxuIiwgX19GVU5DVElPTl9fLA0KKyAgICBQcmVzZXJ2ZVJlY29yZCkpOw0KICAgREVCVUcg
+KChFRklfRF9JTkZPLCAiRnR3OiBzdGFydCB0byByZWNsYWltIHdvcmsgc3BhY2VcbiIpKTsN
+CiANCiAgIFdvcmtTcGFjZUxiYU9mZnNldCA9IEZ0d0RldmljZS0+RnR3V29ya1NwYWNlTGJh
+IC0gRnR3RGV2aWNlLT5GdHdXb3JrQmxvY2tMYmE7DQpAQCAtMjY4LDYgKzI4OSw3IEBAIEZ0
+d1JlY2xhaW1Xb3JrU3BhY2UgKAogICBUZW1wQnVmZmVyU2l6ZSA9IEZ0d0RldmljZS0+U3Bh
+cmVBcmVhTGVuZ3RoOw0KICAgVGVtcEJ1ZmZlciAgICAgPSBBbGxvY2F0ZVplcm9Qb29sIChU
+ZW1wQnVmZmVyU2l6ZSk7DQogICBpZiAoVGVtcEJ1ZmZlciA9PSBOVUxMKSB7DQorICAgIERF
+QlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IDFcbiIsIF9fRlVOQ1RJT05fXykpOw0K
+ICAgICByZXR1cm4gRUZJX09VVF9PRl9SRVNPVVJDRVM7DQogICB9DQogDQpAQCAtMjgzLDYg
+KzMwNSw3IEBAIEZ0d1JlY2xhaW1Xb3JrU3BhY2UgKAogICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgKTsNCiAgICAgaWYgKEVGSV9FUlJPUiAoU3RhdHVzKSkg
+ew0KICAgICAgIEZyZWVQb29sIChUZW1wQnVmZmVyKTsNCisgICAgICBERUJVRyAoKERFQlVH
+X1ZFUkJPU0UsICIlYTogZXhpdCAyOiAlclxuIiwgX19GVU5DVElPTl9fLCBTdGF0dXMpKTsN
+CiAgICAgICByZXR1cm4gRUZJX0FCT1JURUQ7DQogICAgIH0NCiANCkBAIC0zNjEsNiArMzg0
+LDcgQEAgRnR3UmVjbGFpbVdvcmtTcGFjZSAoCiAgIFNwYXJlQnVmZmVyICAgICA9IEFsbG9j
+YXRlUG9vbCAoU3BhcmVCdWZmZXJTaXplKTsNCiAgIGlmIChTcGFyZUJ1ZmZlciA9PSBOVUxM
+KSB7DQogICAgIEZyZWVQb29sIChUZW1wQnVmZmVyKTsNCisgICAgREVCVUcgKChERUJVR19W
+RVJCT1NFLCAiJWE6IGV4aXQgM1xuIiwgX19GVU5DVElPTl9fKSk7DQogICAgIHJldHVybiBF
+RklfT1VUX09GX1JFU09VUkNFUzsNCiAgIH0NCiANCkBAIC0zNzcsNiArNDAxLDcgQEAgRnR3
+UmVjbGFpbVdvcmtTcGFjZSAoCiAgICAgaWYgKEVGSV9FUlJPUiAoU3RhdHVzKSkgew0KICAg
+ICAgIEZyZWVQb29sIChUZW1wQnVmZmVyKTsNCiAgICAgICBGcmVlUG9vbCAoU3BhcmVCdWZm
+ZXIpOw0KKyAgICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IDQ6ICVyXG4i
+LCBfX0ZVTkNUSU9OX18sIFN0YXR1cykpOw0KICAgICAgIHJldHVybiBFRklfQUJPUlRFRDsN
+CiAgICAgfQ0KIA0KQEAgLTM5OSw2ICs0MjQsNyBAQCBGdHdSZWNsYWltV29ya1NwYWNlICgK
+ICAgICBpZiAoRUZJX0VSUk9SIChTdGF0dXMpKSB7DQogICAgICAgRnJlZVBvb2wgKFRlbXBC
+dWZmZXIpOw0KICAgICAgIEZyZWVQb29sIChTcGFyZUJ1ZmZlcik7DQorICAgICAgREVCVUcg
+KChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgNTogJXJcbiIsIF9fRlVOQ1RJT05fXywgU3Rh
+dHVzKSk7DQogICAgICAgcmV0dXJuIEVGSV9BQk9SVEVEOw0KICAgICB9DQogDQpAQCAtNDIw
+LDYgKzQ0Niw3IEBAIEZ0d1JlY2xhaW1Xb3JrU3BhY2UgKAogICAgICAgICAgICAgKTsNCiAg
+IGlmIChFRklfRVJST1IgKFN0YXR1cykpIHsNCiAgICAgRnJlZVBvb2wgKFNwYXJlQnVmZmVy
+KTsNCisgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgNjogJXJcbiIsIF9f
+RlVOQ1RJT05fXywgU3RhdHVzKSk7DQogICAgIHJldHVybiBFRklfQUJPUlRFRDsNCiAgIH0N
+CiAgIC8vDQpAQCAtNDM2LDYgKzQ2Myw3IEBAIEZ0d1JlY2xhaW1Xb3JrU3BhY2UgKAogICAg
+ICAgICAgICAgKTsNCiAgIGlmIChFRklfRVJST1IgKFN0YXR1cykpIHsNCiAgICAgRnJlZVBv
+b2wgKFNwYXJlQnVmZmVyKTsNCisgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4
+aXQgNzogJXJcbiIsIF9fRlVOQ1RJT05fXywgU3RhdHVzKSk7DQogICAgIHJldHVybiBFRklf
+QUJPUlRFRDsNCiAgIH0NCiANCkBAIC00NDcsNiArNDc1LDcgQEAgRnR3UmVjbGFpbVdvcmtT
+cGFjZSAoCiAgIFN0YXR1cyA9IEZsdXNoU3BhcmVCbG9ja1RvV29ya2luZ0Jsb2NrIChGdHdE
+ZXZpY2UpOw0KICAgaWYgKEVGSV9FUlJPUiAoU3RhdHVzKSkgew0KICAgICBGcmVlUG9vbCAo
+U3BhcmVCdWZmZXIpOw0KKyAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCA4
+OiAlclxuIiwgX19GVU5DVElPTl9fLCBTdGF0dXMpKTsNCiAgICAgcmV0dXJuIFN0YXR1czsN
+CiAgIH0NCiAgIC8vDQpAQCAtNDY1LDYgKzQ5NCw3IEBAIEZ0d1JlY2xhaW1Xb3JrU3BhY2Ug
+KAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICk7DQogICAgIGlm
+IChFRklfRVJST1IgKFN0YXR1cykpIHsNCiAgICAgICBGcmVlUG9vbCAoU3BhcmVCdWZmZXIp
+Ow0KKyAgICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IDk6ICVyXG4iLCBf
+X0ZVTkNUSU9OX18sIFN0YXR1cykpOw0KICAgICAgIHJldHVybiBFRklfQUJPUlRFRDsNCiAg
+ICAgfQ0KIA0KQEAgLTQ3NSw1ICs1MDUsNiBAQCBGdHdSZWNsYWltV29ya1NwYWNlICgKIA0K
+ICAgREVCVUcgKChFRklfRF9JTkZPLCAiRnR3OiByZWNsYWltIHdvcmsgc3BhY2Ugc3VjY2Vz
+c2Z1bGx5XG4iKSk7DQogDQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCAx
+MFxuIiwgX19GVU5DVElPTl9fKSk7DQogICByZXR1cm4gRUZJX1NVQ0NFU1M7DQogfQ0KZGlm
+ZiAtLWdpdCBhL092bWZQa2cvUWVtdUZsYXNoRnZiU2VydmljZXNSdW50aW1lRHhlL0Z2Yklu
+Zm8uYyBiL092bWZQa2cvUWVtdUZsYXNoRnZiU2VydmljZXNSdW50aW1lRHhlL0Z2YkluZm8u
+YwppbmRleCA3Mjg0NWY5Li5lOWY0MjU0IDEwMDY0NAotLS0gYS9Pdm1mUGtnL1FlbXVGbGFz
+aEZ2YlNlcnZpY2VzUnVudGltZUR4ZS9GdmJJbmZvLmMKKysrIGIvT3ZtZlBrZy9RZW11Rmxh
+c2hGdmJTZXJ2aWNlc1J1bnRpbWVEeGUvRnZiSW5mby5jCkBAIC0xMTIsNiArMTEyLDEwIEBA
+IEdldEZ2YkluZm8gKAogew0KICAgU1RBVElDIEJPT0xFQU4gQ2hlY2tzdW1tZWQgPSBGQUxT
+RTsNCiAgIFVJTlROIEluZGV4Ow0KKyAgRUZJX1NUQVRVUyBTdGF0dXMgPSBFRklfU1VDQ0VT
+UzsNCisNCisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBlbnRlciwgRnZMZW5ndGg9
+MHglTHhcbiIsIF9fRlVOQ1RJT05fXywNCisgICAgRnZMZW5ndGgpKTsNCiANCiAgIGlmICgh
+Q2hlY2tzdW1tZWQpIHsNCiAgICAgZm9yIChJbmRleCA9IDA7IEluZGV4IDwgc2l6ZW9mICht
+UGxhdGZvcm1GdmJNZWRpYUluZm8pIC8gc2l6ZW9mIChFRklfRlZCX01FRElBX0lORk8pOyBJ
+bmRleCArPSAxKSB7DQpAQCAtMTI5LDkgKzEzMywxMyBAQCBHZXRGdmJJbmZvICgKICAgZm9y
+IChJbmRleCA9IDA7IEluZGV4IDwgc2l6ZW9mIChtUGxhdGZvcm1GdmJNZWRpYUluZm8pIC8g
+c2l6ZW9mIChFRklfRlZCX01FRElBX0lORk8pOyBJbmRleCArPSAxKSB7DQogICAgIGlmICht
+UGxhdGZvcm1GdmJNZWRpYUluZm9bSW5kZXhdLkZ2TGVuZ3RoID09IEZ2TGVuZ3RoKSB7DQog
+ICAgICAgKkZ2YkluZm8gPSAmbVBsYXRmb3JtRnZiTWVkaWFJbmZvW0luZGV4XS5GdmJJbmZv
+Ow0KKyAgICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IEAgJWQsIFN0YXR1
+cz0lclxuIiwNCisgICAgICAgIF9fRlVOQ1RJT05fXywgX19MSU5FX18sIFN0YXR1cykpOw0K
+ICAgICAgIHJldHVybiBFRklfU1VDQ0VTUzsNCiAgICAgfQ0KICAgfQ0KIA0KKyAgREVCVUcg
+KChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgQCAlZCwgU3RhdHVzPSVyXG4iLA0KKyAgICBf
+X0ZVTkNUSU9OX18sIF9fTElORV9fLCBTdGF0dXMpKTsNCiAgIHJldHVybiBFRklfTk9UX0ZP
+VU5EOw0KIH0NCmRpZmYgLS1naXQgYS9Pdm1mUGtnL1FlbXVGbGFzaEZ2YlNlcnZpY2VzUnVu
+dGltZUR4ZS9Gd0Jsb2NrU2VydmljZS5jIGIvT3ZtZlBrZy9RZW11Rmxhc2hGdmJTZXJ2aWNl
+c1J1bnRpbWVEeGUvRndCbG9ja1NlcnZpY2UuYwppbmRleCA3ZDI2YzQxLi41NmQxYjczIDEw
+MDY0NAotLS0gYS9Pdm1mUGtnL1FlbXVGbGFzaEZ2YlNlcnZpY2VzUnVudGltZUR4ZS9Gd0Js
+b2NrU2VydmljZS5jCisrKyBiL092bWZQa2cvUWVtdUZsYXNoRnZiU2VydmljZXNSdW50aW1l
+RHhlL0Z3QmxvY2tTZXJ2aWNlLmMKQEAgLTE0Nyw2ICsxNDcsOCBAQCBSZXR1cm5zOgogICBF
+RklfRldfVk9MX0lOU1RBTkNFICpGd2hJbnN0YW5jZTsNCiAgIFVJTlROICAgICAgICAgICAg
+ICAgSW5kZXg7DQogDQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZW50ZXJcbiIs
+IF9fRlVOQ1RJT05fXykpOw0KKw0KICAgRWZpQ29udmVydFBvaW50ZXIgKDB4MCwgKFZPSUQg
+KiopICZtRnZiTW9kdWxlR2xvYmFsLT5Gdkluc3RhbmNlW0ZWQl9WSVJUVUFMXSk7DQogDQog
+ICAvLw0KQEAgLTE2Nyw2ICsxNjksOCBAQCBSZXR1cm5zOgogICBFZmlDb252ZXJ0UG9pbnRl
+ciAoMHgwLCAoVk9JRCAqKikgJm1GdmJNb2R1bGVHbG9iYWwtPkZ2YlNjcmF0Y2hTcGFjZVtG
+VkJfVklSVFVBTF0pOw0KICAgRWZpQ29udmVydFBvaW50ZXIgKDB4MCwgKFZPSUQgKiopICZt
+RnZiTW9kdWxlR2xvYmFsKTsNCiAgIFFlbXVGbGFzaENvbnZlcnRQb2ludGVycyAoKTsNCisN
+CisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0XG4iLCBfX0ZVTkNUSU9OX18p
+KTsNCiB9DQogDQogRUZJX1NUQVRVUw0KQEAgLTE5Niw4ICsyMDAsMTQgQEAgUmV0dXJuczoK
+IC0tKi8NCiB7DQogICBFRklfRldfVk9MX0lOU1RBTkNFICpGd2hSZWNvcmQ7DQorICBFRklf
+U1RBVFVTIFN0YXR1cyA9IEVGSV9TVUNDRVNTOw0KKw0KKyAgREVCVUcgKChERUJVR19WRVJC
+T1NFLCAiJWE6IGVudGVyLCBJbnN0YW5jZT0weCVMeCwgR2xvYmFsPSVwLCBWaXJ0dWFsPSVk
+XG4iLA0KKyAgICBfX0ZVTkNUSU9OX18sIChVSU5UNjQpSW5zdGFuY2UsIEdsb2JhbCwgVmly
+dHVhbCkpOw0KIA0KICAgaWYgKEluc3RhbmNlID49IEdsb2JhbC0+TnVtRnYpIHsNCisgICAg
+REVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgQCAlZCwgU3RhdHVzPSVyXG4iLA0K
+KyAgICAgIF9fRlVOQ1RJT05fXywgX19MSU5FX18sIFN0YXR1cykpOw0KICAgICByZXR1cm4g
+RUZJX0lOVkFMSURfUEFSQU1FVEVSOw0KICAgfQ0KICAgLy8NCkBAIC0yMTUsNiArMjI1LDgg
+QEAgUmV0dXJuczoKIA0KICAgKkZ3aEluc3RhbmNlID0gRndoUmVjb3JkOw0KIA0KKyAgREVC
+VUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgQCAlZCwgU3RhdHVzPSVyXG4iLA0KKyAg
+ICBfX0ZVTkNUSU9OX18sIF9fTElORV9fLCBTdGF0dXMpKTsNCiAgIHJldHVybiBFRklfU1VD
+Q0VTUzsNCiB9DQogDQpAQCAtMjQ5LDYgKzI2MSw5IEBAIFJldHVybnM6CiAgIEVGSV9GV19W
+T0xfSU5TVEFOQ0UgKkZ3aEluc3RhbmNlOw0KICAgRUZJX1NUQVRVUyAgICAgICAgICBTdGF0
+dXM7DQogDQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZW50ZXIsIEluc3RhbmNl
+PTB4JUx4LCBHbG9iYWw9JXAsIFZpcnR1YWw9JWRcbiIsDQorICAgIF9fRlVOQ1RJT05fXywg
+KFVJTlQ2NClJbnN0YW5jZSwgR2xvYmFsLCBWaXJ0dWFsKSk7DQorDQogICAvLw0KICAgLy8g
+RmluZCB0aGUgcmlnaHQgaW5zdGFuY2Ugb2YgdGhlIEZWQiBwcml2YXRlIGRhdGENCiAgIC8v
+DQpAQCAtMjU2LDYgKzI3MSw4IEBAIFJldHVybnM6CiAgIEFTU0VSVF9FRklfRVJST1IgKFN0
+YXR1cyk7DQogICAqQWRkcmVzcyA9IEZ3aEluc3RhbmNlLT5GdkJhc2VbVmlydHVhbF07DQog
+DQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCBAICVkLCBTdGF0dXM9JXIs
+IEFkZHJlc3M9MHglTHhcbiIsDQorICAgIF9fRlVOQ1RJT05fXywgX19MSU5FX18sIFN0YXR1
+cywgKFVJTlQ2NCkqQWRkcmVzcykpOw0KICAgcmV0dXJuIEVGSV9TVUNDRVNTOw0KIH0NCiAN
+CkBAIC0yODksNiArMzA2LDkgQEAgUmV0dXJuczoKICAgRUZJX0ZXX1ZPTF9JTlNUQU5DRSAq
+RndoSW5zdGFuY2U7DQogICBFRklfU1RBVFVTICAgICAgICAgIFN0YXR1czsNCiANCisgIERF
+QlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBlbnRlciwgSW5zdGFuY2U9MHglTHgsIEdsb2Jh
+bD0lcCwgVmlydHVhbD0lZFxuIiwNCisgICAgX19GVU5DVElPTl9fLCAoVUlOVDY0KUluc3Rh
+bmNlLCBHbG9iYWwsIFZpcnR1YWwpKTsNCisNCiAgIC8vDQogICAvLyBGaW5kIHRoZSByaWdo
+dCBpbnN0YW5jZSBvZiB0aGUgRlZCIHByaXZhdGUgZGF0YQ0KICAgLy8NCkBAIC0yOTYsNiAr
+MzE2LDggQEAgUmV0dXJuczoKICAgQVNTRVJUX0VGSV9FUlJPUiAoU3RhdHVzKTsNCiAgICpB
+dHRyaWJ1dGVzID0gRndoSW5zdGFuY2UtPlZvbHVtZUhlYWRlci5BdHRyaWJ1dGVzOw0KIA0K
+KyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgQCAlZCwgU3RhdHVzPSVyLCBB
+dHRyaWJ1dGVzPTB4JUx4XG4iLA0KKyAgICBfX0ZVTkNUSU9OX18sIF9fTElORV9fLCBTdGF0
+dXMsIChVSU5UNjQpKkF0dHJpYnV0ZXMpKTsNCiAgIHJldHVybiBFRklfU1VDQ0VTUzsNCiB9
+DQogDQpAQCAtMzQzLDYgKzM2NSwxMCBAQCBSZXR1cm5zOgogICBFRklfRlZfQkxPQ0tfTUFQ
+X0VOVFJZICAqQmxvY2tNYXA7DQogICBFRklfU1RBVFVTICAgICAgICAgICAgICBTdGF0dXM7
+DQogDQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZW50ZXIsIEluc3RhbmNlPTB4
+JUx4LCBHbG9iYWw9JXAsIFZpcnR1YWw9JWQsICINCisgICAgIkxiYT0weCVMeFxuIiwgX19G
+VU5DVElPTl9fLCAoVUlOVDY0KUluc3RhbmNlLCBHbG9iYWwsIFZpcnR1YWwsDQorICAgIChV
+SU5UNjQpTGJhKSk7DQorDQogICAvLw0KICAgLy8gRmluZCB0aGUgcmlnaHQgaW5zdGFuY2Ug
+b2YgdGhlIEZWQiBwcml2YXRlIGRhdGENCiAgIC8vDQpAQCAtMzYxLDYgKzM4Nyw4IEBAIFJl
+dHVybnM6CiAgICAgQmxvY2tMZW5ndGggPSBCbG9ja01hcC0+TGVuZ3RoOw0KIA0KICAgICBp
+ZiAoTnVtQmxvY2tzID09IDAgfHwgQmxvY2tMZW5ndGggPT0gMCkgew0KKyAgICAgIERFQlVH
+ICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IEAgJWQsIFN0YXR1cz0lclxuIiwNCisgICAg
+ICAgIF9fRlVOQ1RJT05fXywgX19MSU5FX18sIFN0YXR1cykpOw0KICAgICAgIHJldHVybiBF
+RklfSU5WQUxJRF9QQVJBTUVURVI7DQogICAgIH0NCiANCkBAIC0zNzMsMTYgKzQwMSwyNCBA
+QCBSZXR1cm5zOgogICAgICAgT2Zmc2V0ID0gT2Zmc2V0ICsgKFVJTlROKSBNdWx0VTY0eDMy
+ICgoTGJhIC0gU3RhcnRMYmEpLCBCbG9ja0xlbmd0aCk7DQogICAgICAgaWYgKExiYUFkZHJl
+c3MgIT0gTlVMTCkgew0KICAgICAgICAgKkxiYUFkZHJlc3MgPSBGd2hJbnN0YW5jZS0+RnZC
+YXNlW1ZpcnR1YWxdICsgT2Zmc2V0Ow0KKyAgICAgICAgREVCVUcgKChERUJVR19WRVJCT1NF
+LCAiJWE6IExiYUFkZHJlc3M9MHglTHhcbiIsIF9fRlVOQ1RJT05fXywNCisgICAgICAgICAg
+KFVJTlQ2NCkqTGJhQWRkcmVzcykpOw0KICAgICAgIH0NCiANCiAgICAgICBpZiAoTGJhTGVu
+Z3RoICE9IE5VTEwpIHsNCiAgICAgICAgICpMYmFMZW5ndGggPSBCbG9ja0xlbmd0aDsNCisg
+ICAgICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBMYmFMZW5ndGg9MHglTHhcbiIs
+IF9fRlVOQ1RJT05fXywNCisgICAgICAgICAgKFVJTlQ2NCkqTGJhTGVuZ3RoKSk7DQogICAg
+ICAgfQ0KIA0KICAgICAgIGlmIChOdW1PZkJsb2NrcyAhPSBOVUxMKSB7DQogICAgICAgICAq
+TnVtT2ZCbG9ja3MgPSAoVUlOVE4pIChOZXh0TGJhIC0gTGJhKTsNCisgICAgICAgIERFQlVH
+ICgoREVCVUdfVkVSQk9TRSwgIiVhOiBOdW1PZkJsb2Nrcz0weCVMeFxuIiwgX19GVU5DVElP
+Tl9fLA0KKyAgICAgICAgICAoVUlOVDY0KSpOdW1PZkJsb2NrcykpOw0KICAgICAgIH0NCiAN
+CisgICAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCBAICVkLCBTdGF0dXM9
+JXJcbiIsDQorICAgICAgICBfX0ZVTkNUSU9OX18sIF9fTElORV9fLCBTdGF0dXMpKTsNCiAg
+ICAgICByZXR1cm4gRUZJX1NVQ0NFU1M7DQogICAgIH0NCiANCkBAIC00MzQsNiArNDcwLDEw
+IEBAIFJldHVybnM6CiAgIEVGSV9TVEFUVVMgICAgICAgICAgICBTdGF0dXM7DQogICBFRklf
+RlZCX0FUVFJJQlVURVNfMiAgVW5jaGFuZ2VkQXR0cmlidXRlczsNCiANCisgIERFQlVHICgo
+REVCVUdfVkVSQk9TRSwgIiVhOiBlbnRlciwgSW5zdGFuY2U9MHglTHgsIEdsb2JhbD0lcCwg
+VmlydHVhbD0lZCwgIg0KKyAgICAiQXR0cmlidXRlcz0weCVMeFxuIiwgX19GVU5DVElPTl9f
+LCAoVUlOVDY0KUluc3RhbmNlLCBHbG9iYWwsIFZpcnR1YWwsDQorICAgIChVSU5UTikqQXR0
+cmlidXRlcykpOw0KKw0KICAgLy8NCiAgIC8vIEZpbmQgdGhlIHJpZ2h0IGluc3RhbmNlIG9m
+IHRoZSBGVkIgcHJpdmF0ZSBkYXRhDQogICAvLw0KQEAgLTQ2Nyw2ICs1MDcsOCBAQCBSZXR1
+cm5zOgogICAvLyBTb21lIGF0dHJpYnV0ZXMgb2YgRlYgaXMgcmVhZCBvbmx5IGNhbiAqbm90
+KiBiZSBzZXQNCiAgIC8vDQogICBpZiAoKE9sZEF0dHJpYnV0ZXMgJiBVbmNoYW5nZWRBdHRy
+aWJ1dGVzKSBeICgqQXR0cmlidXRlcyAmIFVuY2hhbmdlZEF0dHJpYnV0ZXMpKSB7DQorICAg
+IERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IEAgJWQsIFN0YXR1cz0lclxuIiwN
+CisgICAgICBfX0ZVTkNUSU9OX18sIF9fTElORV9fLCBTdGF0dXMpKTsNCiAgICAgcmV0dXJu
+IEVGSV9JTlZBTElEX1BBUkFNRVRFUjsNCiAgIH0NCiAgIC8vDQpAQCAtNDc0LDYgKzUxNiw4
+IEBAIFJldHVybnM6CiAgIC8vDQogICBpZiAoT2xkQXR0cmlidXRlcyAmIEVGSV9GVkIyX0xP
+Q0tfU1RBVFVTKSB7DQogICAgIGlmIChPbGRTdGF0dXMgXiBOZXdTdGF0dXMpIHsNCisgICAg
+ICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCBAICVkLCBTdGF0dXM9JXJcbiIs
+DQorICAgICAgICBfX0ZVTkNUSU9OX18sIF9fTElORV9fLCBTdGF0dXMpKTsNCiAgICAgICBy
+ZXR1cm4gRUZJX0FDQ0VTU19ERU5JRUQ7DQogICAgIH0NCiAgIH0NCkBAIC00ODIsNiArNTI2
+LDggQEAgUmV0dXJuczoKICAgLy8NCiAgIGlmICgoQ2FwYWJpbGl0aWVzICYgRUZJX0ZWQjJf
+UkVBRF9ESVNBQkxFRF9DQVApID09IDApIHsNCiAgICAgaWYgKChOZXdTdGF0dXMgJiBFRklf
+RlZCMl9SRUFEX1NUQVRVUykgPT0gMCkgew0KKyAgICAgIERFQlVHICgoREVCVUdfVkVSQk9T
+RSwgIiVhOiBleGl0IEAgJWQsIFN0YXR1cz0lclxuIiwNCisgICAgICAgIF9fRlVOQ1RJT05f
+XywgX19MSU5FX18sIFN0YXR1cykpOw0KICAgICAgIHJldHVybiBFRklfSU5WQUxJRF9QQVJB
+TUVURVI7DQogICAgIH0NCiAgIH0NCkBAIC00OTAsNiArNTM2LDggQEAgUmV0dXJuczoKICAg
+Ly8NCiAgIGlmICgoQ2FwYWJpbGl0aWVzICYgRUZJX0ZWQjJfUkVBRF9FTkFCTEVEX0NBUCkg
+PT0gMCkgew0KICAgICBpZiAoTmV3U3RhdHVzICYgRUZJX0ZWQjJfUkVBRF9TVEFUVVMpIHsN
+CisgICAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCBAICVkLCBTdGF0dXM9
+JXJcbiIsDQorICAgICAgICBfX0ZVTkNUSU9OX18sIF9fTElORV9fLCBTdGF0dXMpKTsNCiAg
+ICAgICByZXR1cm4gRUZJX0lOVkFMSURfUEFSQU1FVEVSOw0KICAgICB9DQogICB9DQpAQCAt
+NDk4LDYgKzU0Niw4IEBAIFJldHVybnM6CiAgIC8vDQogICBpZiAoKENhcGFiaWxpdGllcyAm
+IEVGSV9GVkIyX1dSSVRFX0RJU0FCTEVEX0NBUCkgPT0gMCkgew0KICAgICBpZiAoKE5ld1N0
+YXR1cyAmIEVGSV9GVkIyX1dSSVRFX1NUQVRVUykgPT0gMCkgew0KKyAgICAgIERFQlVHICgo
+REVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IEAgJWQsIFN0YXR1cz0lclxuIiwNCisgICAgICAg
+IF9fRlVOQ1RJT05fXywgX19MSU5FX18sIFN0YXR1cykpOw0KICAgICAgIHJldHVybiBFRklf
+SU5WQUxJRF9QQVJBTUVURVI7DQogICAgIH0NCiAgIH0NCkBAIC01MDYsNiArNTU2LDggQEAg
+UmV0dXJuczoKICAgLy8NCiAgIGlmICgoQ2FwYWJpbGl0aWVzICYgRUZJX0ZWQjJfV1JJVEVf
+RU5BQkxFRF9DQVApID09IDApIHsNCiAgICAgaWYgKE5ld1N0YXR1cyAmIEVGSV9GVkIyX1dS
+SVRFX1NUQVRVUykgew0KKyAgICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0
+IEAgJWQsIFN0YXR1cz0lclxuIiwNCisgICAgICAgIF9fRlVOQ1RJT05fXywgX19MSU5FX18s
+IFN0YXR1cykpOw0KICAgICAgIHJldHVybiBFRklfSU5WQUxJRF9QQVJBTUVURVI7DQogICAg
+IH0NCiAgIH0NCkBAIC01MTQsNiArNTY2LDggQEAgUmV0dXJuczoKICAgLy8NCiAgIGlmICgo
+Q2FwYWJpbGl0aWVzICYgRUZJX0ZWQjJfTE9DS19DQVApID09IDApIHsNCiAgICAgaWYgKE5l
+d1N0YXR1cyAmIEVGSV9GVkIyX0xPQ0tfU1RBVFVTKSB7DQorICAgICAgREVCVUcgKChERUJV
+R19WRVJCT1NFLCAiJWE6IGV4aXQgQCAlZCwgU3RhdHVzPSVyXG4iLA0KKyAgICAgICAgX19G
+VU5DVElPTl9fLCBfX0xJTkVfXywgU3RhdHVzKSk7DQogICAgICAgcmV0dXJuIEVGSV9JTlZB
+TElEX1BBUkFNRVRFUjsNCiAgICAgfQ0KICAgfQ0KQEAgLTUyMiw2ICs1NzYsOCBAQCBSZXR1
+cm5zOgogICAqQXR0cmliUHRyICA9ICgqQXR0cmliUHRyKSB8IE5ld1N0YXR1czsNCiAgICpB
+dHRyaWJ1dGVzID0gKkF0dHJpYlB0cjsNCiANCisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwg
+IiVhOiBleGl0IEAgJWQsIFN0YXR1cz0lciwgQXR0cmlidXRlcz0weCVMeFxuIiwNCisgICAg
+X19GVU5DVElPTl9fLCBfX0xJTkVfXywgU3RhdHVzLCAoVUlOVE4pKkF0dHJpYnV0ZXMpKTsN
+CiAgIHJldHVybiBFRklfU1VDQ0VTUzsNCiB9DQogDQpAQCAtNTUzLDEwICs2MDksMTYgQEAg
+UmV0dXJuczoKIC0tKi8NCiB7DQogICBFRklfRldfVk9MX0JMT0NLX0RFVklDRSAqRnZiRGV2
+aWNlOw0KKyAgRUZJX1NUQVRVUyBTdGF0dXM7DQorDQorICBERUJVRyAoKERFQlVHX1ZFUkJP
+U0UsICIlYTogZW50ZXJcbiIsIF9fRlVOQ1RJT05fXykpOw0KIA0KICAgRnZiRGV2aWNlID0g
+RlZCX0RFVklDRV9GUk9NX1RISVMgKFRoaXMpOw0KIA0KLSAgcmV0dXJuIEZ2YkdldFBoeXNp
+Y2FsQWRkcmVzcyAoRnZiRGV2aWNlLT5JbnN0YW5jZSwgQWRkcmVzcywgbUZ2Yk1vZHVsZUds
+b2JhbCwgRWZpR29uZVZpcnR1YWwgKCkpOw0KKyAgU3RhdHVzID0gRnZiR2V0UGh5c2ljYWxB
+ZGRyZXNzIChGdmJEZXZpY2UtPkluc3RhbmNlLCBBZGRyZXNzLCBtRnZiTW9kdWxlR2xvYmFs
+LCBFZmlHb25lVmlydHVhbCAoKSk7DQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTog
+ZXhpdCBAICVkLCBTdGF0dXM9JXJcbiIsDQorICAgIF9fRlVOQ1RJT05fXywgX19MSU5FX18s
+IFN0YXR1cykpOw0KKyAgcmV0dXJuIFN0YXR1czsNCiB9DQogDQogRUZJX1NUQVRVUw0KQEAg
+LTU4OSwxMCArNjUxLDEzIEBAIFJldHVybnM6CiAtLSovDQogew0KICAgRUZJX0ZXX1ZPTF9C
+TE9DS19ERVZJQ0UgKkZ2YkRldmljZTsNCisgIEVGSV9TVEFUVVMgU3RhdHVzOw0KKw0KKyAg
+REVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGVudGVyLCBMYmE9MHglTHhcbiIsIF9fRlVO
+Q1RJT05fXywgKFVJTlQ2NClMYmEpKTsNCiANCiAgIEZ2YkRldmljZSA9IEZWQl9ERVZJQ0Vf
+RlJPTV9USElTIChUaGlzKTsNCiANCi0gIHJldHVybiBGdmJHZXRMYmFBZGRyZXNzICgNCisg
+IFN0YXR1cyA9IEZ2YkdldExiYUFkZHJlc3MgKA0KICAgICAgICAgICBGdmJEZXZpY2UtPklu
+c3RhbmNlLA0KICAgICAgICAgICBMYmEsDQogICAgICAgICAgIE5VTEwsDQpAQCAtNjAxLDYg
+KzY2NiwxMCBAQCBSZXR1cm5zOgogICAgICAgICAgIG1GdmJNb2R1bGVHbG9iYWwsDQogICAg
+ICAgICAgIEVmaUdvbmVWaXJ0dWFsICgpDQogICAgICAgICAgICk7DQorICBERUJVRyAoKERF
+QlVHX1ZFUkJPU0UsICIlYTogZXhpdCBAICVkLCBTdGF0dXM9JXIgQmxvY2tTaXplPTB4JUx4
+ICINCisgICAgIk51bU9mQmxvY2tzPTB4JUx4XG4iLCBfX0ZVTkNUSU9OX18sIF9fTElORV9f
+LCBTdGF0dXMsIChVSU5UNjQpKkJsb2NrU2l6ZSwNCisgICAgKFVJTlQ2NCkqTnVtT2ZCbG9j
+a3MpKTsNCisgIHJldHVybiBTdGF0dXM7DQogfQ0KIA0KIEVGSV9TVEFUVVMNCkBAIC02MjQs
+MTAgKzY5MywxNiBAQCBSZXR1cm5zOgogLS0qLw0KIHsNCiAgIEVGSV9GV19WT0xfQkxPQ0tf
+REVWSUNFICpGdmJEZXZpY2U7DQorICBFRklfU1RBVFVTIFN0YXR1czsNCisNCisgIERFQlVH
+ICgoREVCVUdfVkVSQk9TRSwgIiVhOiBlbnRlclxuIiwgX19GVU5DVElPTl9fKSk7DQogDQog
+ICBGdmJEZXZpY2UgPSBGVkJfREVWSUNFX0ZST01fVEhJUyAoVGhpcyk7DQogDQotICByZXR1
+cm4gRnZiR2V0Vm9sdW1lQXR0cmlidXRlcyAoRnZiRGV2aWNlLT5JbnN0YW5jZSwgQXR0cmli
+dXRlcywgbUZ2Yk1vZHVsZUdsb2JhbCwgRWZpR29uZVZpcnR1YWwgKCkpOw0KKyAgU3RhdHVz
+ID0gRnZiR2V0Vm9sdW1lQXR0cmlidXRlcyAoRnZiRGV2aWNlLT5JbnN0YW5jZSwgQXR0cmli
+dXRlcywgbUZ2Yk1vZHVsZUdsb2JhbCwgRWZpR29uZVZpcnR1YWwgKCkpOw0KKyAgREVCVUcg
+KChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgQCAlZCwgU3RhdHVzPSVyXG4iLA0KKyAgICBf
+X0ZVTkNUSU9OX18sIF9fTElORV9fLCBTdGF0dXMpKTsNCisgIHJldHVybiBTdGF0dXM7DQog
+fQ0KIA0KIEVGSV9TVEFUVVMNCkBAIC02NTEsMTAgKzcyNiwxNiBAQCBSZXR1cm5zOgogLS0q
+Lw0KIHsNCiAgIEVGSV9GV19WT0xfQkxPQ0tfREVWSUNFICpGdmJEZXZpY2U7DQorICBFRklf
+U1RBVFVTIFN0YXR1czsNCisNCisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBlbnRl
+clxuIiwgX19GVU5DVElPTl9fKSk7DQogDQogICBGdmJEZXZpY2UgPSBGVkJfREVWSUNFX0ZS
+T01fVEhJUyAoVGhpcyk7DQogDQotICByZXR1cm4gRnZiU2V0Vm9sdW1lQXR0cmlidXRlcyAo
+RnZiRGV2aWNlLT5JbnN0YW5jZSwgQXR0cmlidXRlcywgbUZ2Yk1vZHVsZUdsb2JhbCwgRWZp
+R29uZVZpcnR1YWwgKCkpOw0KKyAgU3RhdHVzID0gRnZiU2V0Vm9sdW1lQXR0cmlidXRlcyAo
+RnZiRGV2aWNlLT5JbnN0YW5jZSwgQXR0cmlidXRlcywgbUZ2Yk1vZHVsZUdsb2JhbCwgRWZp
+R29uZVZpcnR1YWwgKCkpOw0KKyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQg
+QCAlZCwgU3RhdHVzPSVyLCBBdHRyaWJ1dGVzPTB4JUx4XG4iLA0KKyAgICBfX0ZVTkNUSU9O
+X18sIF9fTElORV9fLCBTdGF0dXMsIChVSU5UNjQpKkF0dHJpYnV0ZXMpKTsNCisgIHJldHVy
+biBTdGF0dXM7DQogfQ0KIA0KIEVGSV9TVEFUVVMNCkBAIC02OTYsNiArNzc3LDggQEAgUmV0
+dXJuczoKICAgVUlOVE4gICAgICAgICAgICAgICAgICAgTnVtT2ZMYmE7DQogICBFRklfU1RB
+VFVTICAgICAgICAgICAgICBTdGF0dXM7DQogDQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0Us
+ICIlYTogZW50ZXJcbiIsIF9fRlVOQ1RJT05fXykpOw0KKw0KICAgRnZiRGV2aWNlID0gRlZC
+X0RFVklDRV9GUk9NX1RISVMgKFRoaXMpOw0KIA0KICAgU3RhdHVzICAgID0gR2V0RnZiSW5z
+dGFuY2UgKEZ2YkRldmljZS0+SW5zdGFuY2UsIG1GdmJNb2R1bGVHbG9iYWwsICZGd2hJbnN0
+YW5jZSwgRWZpR29uZVZpcnR1YWwgKCkpOw0KQEAgLTcxOCw2ICs4MDEsOCBAQCBSZXR1cm5z
+OgogICAgIC8vDQogICAgIGlmICgoTnVtT2ZMYmEgPT0gMCkgfHwgKChTdGFydGluZ0xiYSAr
+IE51bU9mTGJhKSA+IE51bU9mQmxvY2tzKSkgew0KICAgICAgIFZBX0VORCAoYXJncyk7DQor
+ICAgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgQCAlZCwgU3RhdHVzPSVy
+XG4iLA0KKyAgICAgICAgX19GVU5DVElPTl9fLCBfX0xJTkVfXywgU3RhdHVzKSk7DQogICAg
+ICAgcmV0dXJuIEVGSV9JTlZBTElEX1BBUkFNRVRFUjsNCiAgICAgfQ0KICAgfSB3aGlsZSAo
+MSk7DQpAQCAtNzM3LDYgKzgyMiw4IEBAIFJldHVybnM6CiAgICAgICBTdGF0dXMgPSBRZW11
+Rmxhc2hFcmFzZUJsb2NrIChTdGFydGluZ0xiYSk7DQogICAgICAgaWYgKEVGSV9FUlJPUiAo
+U3RhdHVzKSkgew0KICAgICAgICAgVkFfRU5EIChhcmdzKTsNCisgICAgICAgIERFQlVHICgo
+REVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IEAgJWQsIFN0YXR1cz0lclxuIiwNCisgICAgICAg
+ICAgX19GVU5DVElPTl9fLCBfX0xJTkVfXywgU3RhdHVzKSk7DQogICAgICAgICByZXR1cm4g
+U3RhdHVzOw0KICAgICAgIH0NCiANCkBAIC03NDgsNiArODM1LDggQEAgUmV0dXJuczoKIA0K
+ICAgVkFfRU5EIChhcmdzKTsNCiANCisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBl
+eGl0IEAgJWQsIFN0YXR1cz0lclxuIiwNCisgICAgX19GVU5DVElPTl9fLCBfX0xJTkVfXywg
+U3RhdHVzKSk7DQogICByZXR1cm4gRUZJX1NVQ0NFU1M7DQogfQ0KIA0KQEAgLTc5MSw3ICs4
+ODAsMTYgQEAgUmV0dXJuczoKIA0KIC0tKi8NCiB7DQotICByZXR1cm4gUWVtdUZsYXNoV3Jp
+dGUgKChFRklfTEJBKUxiYSwgKFVJTlROKU9mZnNldCwgTnVtQnl0ZXMsIChVSU5UOCAqKUJ1
+ZmZlcik7DQorICBFRklfU1RBVFVTIFN0YXR1czsNCisNCisgIERFQlVHICgoREVCVUdfVkVS
+Qk9TRSwgIiVhOiBlbnRlciwgTGJhPTB4JUx4IE9mZnNldD0weCVMeCBOdW1CeXRlcz0weCVM
+eCAiDQorICAgICJCdWZmZXI9JXBcbiIsIF9fRlVOQ1RJT05fXywgKFVJTlQ2NClMYmEsIChV
+SU5UNjQpT2Zmc2V0LA0KKyAgICAoVUlOVDY0KSpOdW1CeXRlcywgQnVmZmVyKSk7DQorDQor
+ICBTdGF0dXMgPSBRZW11Rmxhc2hXcml0ZSAoKEVGSV9MQkEpTGJhLCAoVUlOVE4pT2Zmc2V0
+LCBOdW1CeXRlcywgKFVJTlQ4ICopQnVmZmVyKTsNCisgIERFQlVHICgoREVCVUdfVkVSQk9T
+RSwgIiVhOiBleGl0IEAgJWQsIFN0YXR1cz0lciwgTnVtQnl0ZXM9MHglTHhcbiIsDQorICAg
+IF9fRlVOQ1RJT05fXywgX19MSU5FX18sIFN0YXR1cywgKFVJTlQ2NCkqTnVtQnl0ZXMpKTsN
+CisgIHJldHVybiBTdGF0dXM7DQogfQ0KIA0KIEVGSV9TVEFUVVMNCkBAIC04MzUsNyArOTMz
+LDE2IEBAIFJldHVybnM6CiANCiAtLSovDQogew0KLSAgcmV0dXJuIFFlbXVGbGFzaFJlYWQg
+KChFRklfTEJBKUxiYSwgKFVJTlROKU9mZnNldCwgTnVtQnl0ZXMsIChVSU5UOCAqKUJ1ZmZl
+cik7DQorICBFRklfU1RBVFVTIFN0YXR1czsNCisNCisgIERFQlVHICgoREVCVUdfVkVSQk9T
+RSwgIiVhOiBlbnRlciwgTGJhPTB4JUx4IE9mZnNldD0weCVMeCBOdW1CeXRlcz0weCVMeCAi
+DQorICAgICJCdWZmZXI9JXBcbiIsIF9fRlVOQ1RJT05fXywgKFVJTlQ2NClMYmEsIChVSU5U
+NjQpT2Zmc2V0LA0KKyAgICAoVUlOVDY0KSpOdW1CeXRlcywgQnVmZmVyKSk7DQorDQorICBT
+dGF0dXMgPSBRZW11Rmxhc2hSZWFkICgoRUZJX0xCQSlMYmEsIChVSU5UTilPZmZzZXQsIE51
+bUJ5dGVzLCAoVUlOVDggKilCdWZmZXIpOw0KKyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAi
+JWE6IGV4aXQgQCAlZCwgU3RhdHVzPSVyLCBOdW1CeXRlcz0weCVMeFxuIiwNCisgICAgX19G
+VU5DVElPTl9fLCBfX0xJTkVfXywgU3RhdHVzLCAoVUlOVDY0KSpOdW1CeXRlcykpOw0KKyAg
+cmV0dXJuIFN0YXR1czsNCiB9DQogDQogRUZJX1NUQVRVUw0KQEAgLTg1Nyw2ICs5NjQsOSBA
+QCBSZXR1cm5zOgogLS0qLw0KIHsNCiAgIFVJTlQxNiBDaGVja3N1bTsNCisgIEVGSV9TVEFU
+VVMgU3RhdHVzID0gRUZJX1NVQ0NFU1M7DQorDQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0Us
+ICIlYTogZW50ZXJcbiIsIF9fRlVOQ1RJT05fXykpOw0KIA0KICAgLy8NCiAgIC8vIFZlcmlm
+eSB0aGUgaGVhZGVyIHJldmlzaW9uLCBoZWFkZXIgc2lnbmF0dXJlLCBsZW5ndGgNCkBAIC04
+NjgsNiArOTc4LDggQEAgUmV0dXJuczoKICAgICAgIChGd1ZvbEhlYWRlci0+RnZMZW5ndGgg
+PT0gKChVSU5UTikgLTEpKSB8fA0KICAgICAgICgoRndWb2xIZWFkZXItPkhlYWRlckxlbmd0
+aCAmIDB4MDEpICE9IDApDQogICAgICAgKSB7DQorICAgIERFQlVHICgoREVCVUdfVkVSQk9T
+RSwgIiVhOiBleGl0IEAgJWQsIFN0YXR1cz0lclxuIiwNCisgICAgICBfX0ZVTkNUSU9OX18s
+IF9fTElORV9fLCBTdGF0dXMpKTsNCiAgICAgcmV0dXJuIEVGSV9OT1RfRk9VTkQ7DQogICB9
+DQogICANCkBAIC04ODMsOSArOTk1LDEzIEBAIFJldHVybnM6CiANCiAgICAgREVCVUcgKChF
+RklfRF9JTkZPLCAiRlZAJXAgQ2hlY2tzdW0gaXMgMHgleCwgZXhwZWN0ZWQgMHgleFxuIiwN
+CiAgICAgICAgICAgICBGd1ZvbEhlYWRlciwgRndWb2xIZWFkZXItPkNoZWNrc3VtLCBFeHBl
+Y3RlZCkpOw0KKyAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCBAICVkLCBT
+dGF0dXM9JXJcbiIsDQorICAgICAgX19GVU5DVElPTl9fLCBfX0xJTkVfXywgU3RhdHVzKSk7
+DQogICAgIHJldHVybiBFRklfTk9UX0ZPVU5EOw0KICAgfQ0KIA0KKyAgREVCVUcgKChERUJV
+R19WRVJCT1NFLCAiJWE6IGV4aXQgQCAlZCwgU3RhdHVzPSVyXG4iLA0KKyAgICBfX0ZVTkNU
+SU9OX18sIF9fTElORV9fLCBTdGF0dXMpKTsNCiAgIHJldHVybiBFRklfU1VDQ0VTUzsNCiB9
+DQogDQpAQCAtODk4LDYgKzEwMTQsOSBAQCBNYXJrTWVtb3J5UmFuZ2VGb3JSdW50aW1lQWNj
+ZXNzICgKIHsNCiAgIEVGSV9TVEFUVVMgICAgICAgICAgICAgICAgICAgICAgICAgIFN0YXR1
+czsNCiANCisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBlbnRlciwgQmFzZUFkZHJl
+c3M9MHglTHggTGVuZ3RoPTB4JUx4XG4iLA0KKyAgICBfX0ZVTkNUSU9OX18sIChVSU5UNjQp
+QmFzZUFkZHJlc3MsIExlbmd0aCkpOw0KKw0KICAgLy8NCiAgIC8vIE1hcmsgZmxhc2ggcmVn
+aW9uIGFzIHJ1bnRpbWUgbWVtb3J5DQogICAvLw0KQEAgLTkyMiw2ICsxMDQxLDggQEAgTWFy
+a01lbW9yeVJhbmdlRm9yUnVudGltZUFjY2VzcyAoCiAgICAgICAgICAgICAgICAgICApOw0K
+ICAgQVNTRVJUX0VGSV9FUlJPUiAoU3RhdHVzKTsNCiANCisgIERFQlVHICgoREVCVUdfVkVS
+Qk9TRSwgIiVhOiBleGl0IEAgJWQsIFN0YXR1cz0lclxuIiwNCisgICAgX19GVU5DVElPTl9f
+LCBfX0xJTkVfXywgU3RhdHVzKSk7DQogICByZXR1cm4gU3RhdHVzOw0KIH0NCiANCkBAIC05
+MzgsNiArMTA1OSw4IEBAIEluaXRpYWxpemVWYXJpYWJsZUZ2SGVhZGVyICgKICAgVUlOVE4g
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgV3JpdGVMZW5ndGg7DQogICBVSU5UTiAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBCbG9ja1NpemU7DQogDQorICBERUJVRyAo
+KERFQlVHX1ZFUkJPU0UsICIlYTogZW50ZXJcbiIsIF9fRlVOQ1RJT05fXykpOw0KKw0KICAg
+RndWb2xIZWFkZXIgPQ0KICAgICAoRUZJX0ZJUk1XQVJFX1ZPTFVNRV9IRUFERVIgKikgKFVJ
+TlROKQ0KICAgICAgIFBjZEdldDMyIChQY2RPdm1mRmxhc2hOdlN0b3JhZ2VWYXJpYWJsZUJh
+c2UpOw0KQEAgLTk5NCw2ICsxMTE3LDggQEAgSW5pdGlhbGl6ZVZhcmlhYmxlRnZIZWFkZXIg
+KAogICAgIEFTU0VSVCAoV3JpdGVMZW5ndGggPT0gR29vZEZ3Vm9sSGVhZGVyLT5IZWFkZXJM
+ZW5ndGgpOw0KICAgfQ0KIA0KKyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQg
+QCAlZCwgU3RhdHVzPSVyXG4iLA0KKyAgICBfX0ZVTkNUSU9OX18sIF9fTElORV9fLCBTdGF0
+dXMpKTsNCiAgIHJldHVybiBTdGF0dXM7DQogfQ0KIA0KQEAgLTEwMjgsMTEgKzExNTMsMTUg
+QEAgUmV0dXJuczoKICAgVUlOVE4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTnVt
+T2ZCbG9ja3M7DQogICBFRklfRVZFTlQgICAgICAgICAgICAgICAgICAgICAgICAgICBWaXJ0
+dWFsQWRkcmVzc0NoYW5nZUV2ZW50Ow0KIA0KLSAgaWYgKEVGSV9FUlJPUiAoUWVtdUZsYXNo
+SW5pdGlhbGl6ZSAoKSkpIHsNCisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBlbnRl
+clxuIiwgX19GVU5DVElPTl9fKSk7DQorDQorICBpZiAoRUZJX0VSUk9SICgoU3RhdHVzID0g
+UWVtdUZsYXNoSW5pdGlhbGl6ZSAoKSkpKSB7DQogICAgIC8vDQogICAgIC8vIFJldHVybiBh
+biBlcnJvciBzbyBpbWFnZSB3aWxsIGJlIHVubG9hZGVkDQogICAgIC8vDQogICAgIERFQlVH
+ICgoRUZJX0RfSU5GTywgIlFFTVUgZmxhc2ggd2FzIG5vdCBkZXRlY3RlZC4gV3JpdGFibGUg
+RlZCIGlzIG5vdCBiZWluZyBpbnN0YWxsZWQuXG4iKSk7DQorICAgIERFQlVHICgoREVCVUdf
+VkVSQk9TRSwgIiVhOiBleGl0IEAgJWQsIFN0YXR1cz0lclxuIiwNCisgICAgICBfX0ZVTkNU
+SU9OX18sIF9fTElORV9fLCBTdGF0dXMpKTsNCiAgICAgcmV0dXJuIEVGSV9XUklURV9QUk9U
+RUNURUQ7DQogICB9DQogDQpAQCAtMTA0OSw2ICsxMTc4LDggQEAgUmV0dXJuczoKICAgU3Rh
+dHVzID0gSW5pdGlhbGl6ZVZhcmlhYmxlRnZIZWFkZXIgKCk7DQogICBpZiAoRUZJX0VSUk9S
+IChTdGF0dXMpKSB7DQogICAgIERFQlVHICgoRUZJX0RfSU5GTywgIlFFTVUgRmxhc2g6IFVu
+YWJsZSB0byBpbml0aWFsaXplIHZhcmlhYmxlIEZWIGhlYWRlclxuIikpOw0KKyAgICBERUJV
+RyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCBAICVkLCBTdGF0dXM9JXJcbiIsDQorICAg
+ICAgX19GVU5DVElPTl9fLCBfX0xJTkVfXywgU3RhdHVzKSk7DQogICAgIHJldHVybiBFRklf
+V1JJVEVfUFJPVEVDVEVEOw0KICAgfQ0KIA0KQEAgLTEwNjEsNiArMTE5Miw4IEBAIFJldHVy
+bnM6CiAgICAgU3RhdHVzID0gR2V0RnZiSW5mbyAoTGVuZ3RoLCAmRndWb2xIZWFkZXIpOw0K
+ICAgICBpZiAoRUZJX0VSUk9SIChTdGF0dXMpKSB7DQogICAgICAgREVCVUcgKChFRklfRF9J
+TkZPLCAiRUZJX0VSUk9SIChHZXRGdmJJbmZvIChMZW5ndGgsICZGd1ZvbEhlYWRlcikpXG4i
+KSk7DQorICAgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgQCAlZCwgU3Rh
+dHVzPSVyXG4iLA0KKyAgICAgICAgX19GVU5DVElPTl9fLCBfX0xJTkVfXywgU3RhdHVzKSk7
+DQogICAgICAgcmV0dXJuIEVGSV9XUklURV9QUk9URUNURUQ7DQogICAgIH0NCiAgIH0NCkBA
+IC0xMjIzLDUgKzEzNTYsNyBAQCBSZXR1cm5zOgogICBBU1NFUlRfRUZJX0VSUk9SIChTdGF0
+dXMpOw0KIA0KICAgUGNkU2V0Qm9vbCAoUGNkT3ZtZkZsYXNoVmFyaWFibGVzRW5hYmxlLCBU
+UlVFKTsNCisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IEAgJWQsIFN0YXR1
+cz0lclxuIiwNCisgICAgX19GVU5DVElPTl9fLCBfX0xJTkVfXywgU3RhdHVzKSk7DQogICBy
+ZXR1cm4gRUZJX1NVQ0NFU1M7DQogfQ0KZGlmZiAtLWdpdCBhL092bWZQa2cvUWVtdUZsYXNo
+RnZiU2VydmljZXNSdW50aW1lRHhlL1FlbXVGbGFzaC5jIGIvT3ZtZlBrZy9RZW11Rmxhc2hG
+dmJTZXJ2aWNlc1J1bnRpbWVEeGUvUWVtdUZsYXNoLmMKaW5kZXggYTNmZTdkOC4uMzJlMDdl
+MyAxMDA2NDQKLS0tIGEvT3ZtZlBrZy9RZW11Rmxhc2hGdmJTZXJ2aWNlc1J1bnRpbWVEeGUv
+UWVtdUZsYXNoLmMKKysrIGIvT3ZtZlBrZy9RZW11Rmxhc2hGdmJTZXJ2aWNlc1J1bnRpbWVE
+eGUvUWVtdUZsYXNoLmMKQEAgLTQzLDcgKzQzLDkgQEAgUWVtdUZsYXNoQ29udmVydFBvaW50
+ZXJzICgKICAgVk9JRA0KICAgKQ0KIHsNCisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVh
+OiBlbnRlclxuIiwgX19GVU5DVElPTl9fKSk7DQogICBFZmlDb252ZXJ0UG9pbnRlciAoMHgw
+LCAoVk9JRCAqKikgJm1GbGFzaEJhc2UpOw0KKyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAi
+JWE6IGV4aXRcbiIsIF9fRlVOQ1RJT05fXykpOw0KIH0NCiANCiANCkBAIC01NCw3ICs1Niwx
+MyBAQCBRZW11Rmxhc2hQdHIgKAogICBJTiAgICAgICAgVUlOVE4gICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgT2Zmc2V0DQogICApDQogew0KLSAgcmV0dXJuIG1GbGFzaEJhc2Ug
+KyAoTGJhICogbUZkQmxvY2tTaXplKSArIE9mZnNldDsNCisgIFVJTlQ4ICpSZXQ7DQorDQor
+ICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZW50ZXIsIExiYT0weCVMeCBPZmZzZXQ9
+MHglTHhcbiIsIF9fRlVOQ1RJT05fXywNCisgICAgKFVJTlQ2NClMYmEsIChVSU5UNjQpT2Zm
+c2V0KSk7DQorICBSZXQgPSBtRmxhc2hCYXNlICsgKExiYSAqIG1GZEJsb2NrU2l6ZSkgKyBP
+ZmZzZXQ7DQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCwgUmV0PSVwXG4i
+LCBfX0ZVTkNUSU9OX18sIFJldCkpOw0KKyAgcmV0dXJuIFJldDsNCiB9DQogDQogDQpAQCAt
+NzgsNiArODYsOCBAQCBRZW11Rmxhc2hEZXRlY3RlZCAoCiAgIFVJTlQ4IE9yaWdpbmFsVWlu
+dDg7DQogICBVSU5UOCBQcm9iZVVpbnQ4Ow0KIA0KKyAgREVCVUcgKChERUJVR19WRVJCT1NF
+LCAiJWE6IGVudGVyXG4iLCBfX0ZVTkNUSU9OX18pKTsNCisNCiAgIEZsYXNoRGV0ZWN0ZWQg
+PSBGQUxTRTsNCiAgIFB0ciA9IFFlbXVGbGFzaFB0ciAoMCwgMCk7DQogDQpAQCAtOTMsNiAr
+MTAzLDcgQEAgUWVtdUZsYXNoRGV0ZWN0ZWQgKAogDQogICBpZiAoT2Zmc2V0ID49IG1GZEJs
+b2NrU2l6ZSkgew0KICAgICBERUJVRyAoKEVGSV9EX0lORk8sICJRRU1VIEZsYXNoOiBGYWls
+ZWQgdG8gZmluZCBwcm9iZSBsb2NhdGlvblxuIikpOw0KKyAgICBERUJVRyAoKERFQlVHX1ZF
+UkJPU0UsICIlYTogZXhpdCAxXG4iLCBfX0ZVTkNUSU9OX18pKTsNCiAgICAgcmV0dXJuIEZB
+TFNFOw0KICAgfQ0KIA0KQEAgLTEyMiw2ICsxMzMsNyBAQCBRZW11Rmxhc2hEZXRlY3RlZCAo
+CiANCiAgIERFQlVHICgoRUZJX0RfSU5GTywgIlFlbXVGbGFzaERldGVjdGVkID0+ICVhXG4i
+LA0KICAgICAgICAgICAgICAgICAgICAgICBGbGFzaERldGVjdGVkID8gIlllcyIgOiAiTm8i
+KSk7DQorICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCAyXG4iLCBfX0ZVTkNU
+SU9OX18pKTsNCiAgIHJldHVybiBGbGFzaERldGVjdGVkOw0KIH0NCiANCkBAIC0xNDYsMTEg
+KzE1OCwxNiBAQCBRZW11Rmxhc2hSZWFkICgKIHsNCiAgIFVJTlQ4ICAqUHRyOw0KIA0KKyAg
+REVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGVudGVyLCBMYmE9MHglTHggT2Zmc2V0PTB4
+JUx4IE51bUJ5dGVzPTB4JUx4ICINCisgICAgIkJ1ZmZlcj0lcFxuIiwgX19GVU5DVElPTl9f
+LCAoVUlOVDY0KUxiYSwgKFVJTlQ2NClPZmZzZXQsDQorICAgIChVSU5UNjQpKk51bUJ5dGVz
+LCBCdWZmZXIpKTsNCisNCiAgIC8vDQogICAvLyBPbmx5IHdyaXRlIHRvIHRoZSBmaXJzdCA2
+NGsuIFdlIGRvbid0IGJvdGhlciBzYXZpbmcgdGhlIEZUVyBTcGFyZQ0KICAgLy8gYmxvY2sg
+aW50byB0aGUgZmxhc2ggbWVtb3J5Lg0KICAgLy8NCiAgIGlmIChMYmEgPj0gbUZkQmxvY2tD
+b3VudCkgew0KKyAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCAxXG4iLCBf
+X0ZVTkNUSU9OX18pKTsNCiAgICAgcmV0dXJuIEVGSV9JTlZBTElEX1BBUkFNRVRFUjsNCiAg
+IH0NCiANCkBAIC0xNjEsNiArMTc4LDcgQEAgUWVtdUZsYXNoUmVhZCAoCiANCiAgIENvcHlN
+ZW0gKEJ1ZmZlciwgUHRyLCAqTnVtQnl0ZXMpOw0KIA0KKyAgREVCVUcgKChERUJVR19WRVJC
+T1NFLCAiJWE6IGV4aXQgMlxuIiwgX19GVU5DVElPTl9fKSk7DQogICByZXR1cm4gRUZJX1NV
+Q0NFU1M7DQogfQ0KIA0KQEAgLTE4NiwxMSArMjA0LDE2IEBAIFFlbXVGbGFzaFdyaXRlICgK
+ICAgdm9sYXRpbGUgVUlOVDggICpQdHI7DQogICBVSU5UTiAgICAgICAgICAgTG9vcDsNCiAN
+CisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBlbnRlciwgTGJhPTB4JUx4IE9mZnNl
+dD0weCVMeCBOdW1CeXRlcz0weCVMeCAiDQorICAgICJCdWZmZXI9JXBcbiIsIF9fRlVOQ1RJ
+T05fXywgKFVJTlQ2NClMYmEsIChVSU5UNjQpT2Zmc2V0LA0KKyAgICAoVUlOVDY0KSpOdW1C
+eXRlcywgQnVmZmVyKSk7DQorDQogICAvLw0KICAgLy8gT25seSB3cml0ZSB0byB0aGUgZmly
+c3QgNjRrLiBXZSBkb24ndCBib3RoZXIgc2F2aW5nIHRoZSBGVFcgU3BhcmUNCiAgIC8vIGJs
+b2NrIGludG8gdGhlIGZsYXNoIG1lbW9yeS4NCiAgIC8vDQogICBpZiAoTGJhID49IG1GZEJs
+b2NrQ291bnQpIHsNCisgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgMVxu
+IiwgX19GVU5DVElPTl9fKSk7DQogICAgIHJldHVybiBFRklfSU5WQUxJRF9QQVJBTUVURVI7
+DQogICB9DQogDQpAQCAtMjExLDYgKzIzNCw3IEBAIFFlbXVGbGFzaFdyaXRlICgKICAgICAq
+UHRyID0gUkVBRF9BUlJBWV9DTUQ7DQogICB9DQogDQorICBERUJVRyAoKERFQlVHX1ZFUkJP
+U0UsICIlYTogZXhpdCAyXG4iLCBfX0ZVTkNUSU9OX18pKTsNCiAgIHJldHVybiBFRklfU1VD
+Q0VTUzsNCiB9DQogDQpAQCAtMjI4LDEzICsyNTIsMTcgQEAgUWVtdUZsYXNoRXJhc2VCbG9j
+ayAoCiB7DQogICB2b2xhdGlsZSBVSU5UOCAgKlB0cjsNCiANCisgIERFQlVHICgoREVCVUdf
+VkVSQk9TRSwgIiVhOiBlbnRlciwgTGJhPTB4JUx4XG4iLCBfX0ZVTkNUSU9OX18sIChVSU5U
+NjQpTGJhKSk7DQorDQogICBpZiAoTGJhID49IG1GZEJsb2NrQ291bnQpIHsNCisgICAgREVC
+VUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgMVxuIiwgX19GVU5DVElPTl9fKSk7DQog
+ICAgIHJldHVybiBFRklfSU5WQUxJRF9QQVJBTUVURVI7DQogICB9DQogDQogICBQdHIgPSBR
+ZW11Rmxhc2hQdHIgKExiYSwgMCk7DQogICAqUHRyID0gQkxPQ0tfRVJBU0VfQ01EOw0KICAg
+KlB0ciA9IEJMT0NLX0VSQVNFX0NPTkZJUk1fQ01EOw0KKyAgREVCVUcgKChERUJVR19WRVJC
+T1NFLCAiJWE6IGV4aXQgMlxuIiwgX19GVU5DVElPTl9fKSk7DQogICByZXR1cm4gRUZJX1NV
+Q0NFU1M7DQogfQ0KIA0KQEAgLTI1MSwxNSArMjc5LDE5IEBAIFFlbXVGbGFzaEluaXRpYWxp
+emUgKAogICBWT0lEDQogICApDQogew0KKyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6
+IGVudGVyXG4iLCBfX0ZVTkNUSU9OX18pKTsNCisNCiAgIG1GbGFzaEJhc2UgPSAoVUlOVDgq
+KShVSU5UTikgUGNkR2V0MzIgKFBjZE92bWZGZEJhc2VBZGRyZXNzKTsNCiAgIG1GZEJsb2Nr
+U2l6ZSA9IFBjZEdldDMyIChQY2RPdm1mRmlybXdhcmVCbG9ja1NpemUpOw0KICAgQVNTRVJU
+KFBjZEdldDMyIChQY2RPdm1mRmlybXdhcmVGZFNpemUpICUgbUZkQmxvY2tTaXplID09IDAp
+Ow0KICAgbUZkQmxvY2tDb3VudCA9IFBjZEdldDMyIChQY2RPdm1mRmlybXdhcmVGZFNpemUp
+IC8gbUZkQmxvY2tTaXplOw0KIA0KICAgaWYgKCFRZW11Rmxhc2hEZXRlY3RlZCAoKSkgew0K
+KyAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCAxXG4iLCBfX0ZVTkNUSU9O
+X18pKTsNCiAgICAgcmV0dXJuIEVGSV9XUklURV9QUk9URUNURUQ7DQogICB9DQogDQorICBE
+RUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCAyXG4iLCBfX0ZVTkNUSU9OX18pKTsN
+CiAgIHJldHVybiBFRklfU1VDQ0VTUzsNCiB9DQogDQpkaWZmIC0tZ2l0IGEvU2VjdXJpdHlQ
+a2cvVmFyaWFibGVBdXRoZW50aWNhdGVkL1J1bnRpbWVEeGUvUmVjbGFpbS5jIGIvU2VjdXJp
+dHlQa2cvVmFyaWFibGVBdXRoZW50aWNhdGVkL1J1bnRpbWVEeGUvUmVjbGFpbS5jCmluZGV4
+IGIyMGZhY2QuLmZjODViMTggMTAwNjQ0Ci0tLSBhL1NlY3VyaXR5UGtnL1ZhcmlhYmxlQXV0
+aGVudGljYXRlZC9SdW50aW1lRHhlL1JlY2xhaW0uYworKysgYi9TZWN1cml0eVBrZy9WYXJp
+YWJsZUF1dGhlbnRpY2F0ZWQvUnVudGltZUR4ZS9SZWNsYWltLmMKQEAgLTExOCwxMSArMTE4
+LDE0IEBAIEZ0d1ZhcmlhYmxlU3BhY2UgKAogICBVSU5UTiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIEZ0d0J1ZmZlclNpemU7DQogICBFRklfRkFVTFRfVE9MRVJBTlRfV1JJVEVf
+UFJPVE9DT0wgICpGdHdQcm90b2NvbDsNCiANCisgIERFQlVHICgoREVCVUdfVkVSQk9TRSwg
+IiVhOiVhOiBlbnRlclxuIiwgX19GVU5DVElPTl9fLCBfX0ZJTEVfXykpOw0KICAgLy8NCiAg
+IC8vIExvY2F0ZSBmYXVsdCB0b2xlcmFudCB3cml0ZSBwcm90b2NvbC4NCiAgIC8vDQogICBT
+dGF0dXMgPSBHZXRGdHdQcm90b2NvbCgoVk9JRCAqKikgJkZ0d1Byb3RvY29sKTsNCiAgIGlm
+IChFRklfRVJST1IgKFN0YXR1cykpIHsNCisgICAgREVCVUcgKChERUJVR19WRVJCT1NFLCAi
+JWE6IGV4aXQgQCAlZCwgU3RhdHVzPSVyXG4iLA0KKyAgICAgIF9fRlVOQ1RJT05fXywgX19M
+SU5FX18sIFN0YXR1cykpOw0KICAgICByZXR1cm4gRUZJX05PVF9GT1VORDsNCiAgIH0NCiAg
+IC8vDQpAQCAtMTMwLDYgKzEzMyw4IEBAIEZ0d1ZhcmlhYmxlU3BhY2UgKAogICAvLw0KICAg
+U3RhdHVzID0gR2V0RnZiSW5mb0J5QWRkcmVzcyAoVmFyaWFibGVCYXNlLCAmRnZiSGFuZGxl
+LCBOVUxMKTsNCiAgIGlmIChFRklfRVJST1IgKFN0YXR1cykpIHsNCisgICAgREVCVUcgKChE
+RUJVR19WRVJCT1NFLCAiJWE6IGV4aXQgQCAlZCwgU3RhdHVzPSVyXG4iLA0KKyAgICAgIF9f
+RlVOQ1RJT05fXywgX19MSU5FX18sIFN0YXR1cykpOw0KICAgICByZXR1cm4gU3RhdHVzOw0K
+ICAgfQ0KICAgLy8NCkBAIC0xMzcsNiArMTQyLDggQEAgRnR3VmFyaWFibGVTcGFjZSAoCiAg
+IC8vDQogICBTdGF0dXMgPSBHZXRMYmFBbmRPZmZzZXRCeUFkZHJlc3MgKFZhcmlhYmxlQmFz
+ZSwgJlZhckxiYSwgJlZhck9mZnNldCk7DQogICBpZiAoRUZJX0VSUk9SIChTdGF0dXMpKSB7
+DQorICAgIERFQlVHICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IEAgJWQsIFN0YXR1cz0l
+clxuIiwNCisgICAgICBfX0ZVTkNUSU9OX18sIF9fTElORV9fLCBTdGF0dXMpKTsNCiAgICAg
+cmV0dXJuIEVGSV9BQk9SVEVEOw0KICAgfQ0KIA0KQEAgLTE1Niw1ICsxNjMsNyBAQCBGdHdW
+YXJpYWJsZVNwYWNlICgKICAgICAgICAgICAgICAgICAgICAgICAgICAgKFZPSUQgKikgVmFy
+aWFibGVCdWZmZXIgLy8gd3JpdGUgYnVmZmVyDQogICAgICAgICAgICAgICAgICAgICAgICAg
+ICApOw0KIA0KKyAgICBERUJVRyAoKERFQlVHX1ZFUkJPU0UsICIlYTogZXhpdCBAICVkLCBT
+dGF0dXM9JXJcbiIsDQorICAgICAgX19GVU5DVElPTl9fLCBfX0xJTkVfXywgU3RhdHVzKSk7
+DQogICByZXR1cm4gU3RhdHVzOw0KIH0NCmRpZmYgLS1naXQgYS9TZWN1cml0eVBrZy9WYXJp
+YWJsZUF1dGhlbnRpY2F0ZWQvUnVudGltZUR4ZS9WYXJpYWJsZS5jIGIvU2VjdXJpdHlQa2cv
+VmFyaWFibGVBdXRoZW50aWNhdGVkL1J1bnRpbWVEeGUvVmFyaWFibGUuYwppbmRleCAyOGQw
+MjZhLi4zNjllN2JiIDEwMDY0NAotLS0gYS9TZWN1cml0eVBrZy9WYXJpYWJsZUF1dGhlbnRp
+Y2F0ZWQvUnVudGltZUR4ZS9WYXJpYWJsZS5jCisrKyBiL1NlY3VyaXR5UGtnL1ZhcmlhYmxl
+QXV0aGVudGljYXRlZC9SdW50aW1lRHhlL1ZhcmlhYmxlLmMKQEAgLTc3Niw2ICs3NzYsMTIg
+QEAgUmVjbGFpbSAoCiAgIFZBUklBQkxFX0hFQURFUiAgICAgICAqVXBkYXRpbmdWYXJpYWJs
+ZTsNCiAgIFZBUklBQkxFX0hFQURFUiAgICAgICAqVXBkYXRpbmdJbkRlbGV0ZWRUcmFuc2l0
+aW9uOw0KIA0KKyAgREVCVUcgKChERUJVR19WRVJCT1NFLCAiJWE6IGVudGVyLCBWYXJpYWJs
+ZUJhc2U9MHglTHgsIElzVm9sYXRpbGU9JWQsICINCisgICAgIk5ld1ZhcmlhYmxlU2l6ZT0w
+eCVMeCwgUmVjbGFpbVB1YktleVN0b3JlPSVkXG4iLCBfX0ZVTkNUSU9OX18sDQorICAgIChV
+SU5UNjQpVmFyaWFibGVCYXNlLCBJc1ZvbGF0aWxlLCAoVUlOVE4pTmV3VmFyaWFibGVTaXpl
+LA0KKyAgICBSZWNsYWltUHViS2V5U3RvcmUpKTsNCisgIFN0YXR1cyA9IEVGSV9TVUNDRVNT
+Ow0KKw0KICAgVXBkYXRpbmdWYXJpYWJsZSA9IE5VTEw7DQogICBVcGRhdGluZ0luRGVsZXRl
+ZFRyYW5zaXRpb24gPSBOVUxMOw0KICAgaWYgKFVwZGF0aW5nUHRyVHJhY2sgIT0gTlVMTCkg
+ew0KQEAgLTgyNiw2ICs4MzIsOCBAQCBSZWNsYWltICgKICAgICBNYXhpbXVtQnVmZmVyU2l6
+ZSArPSAxOw0KICAgICBWYWxpZEJ1ZmZlciA9IEFsbG9jYXRlUG9vbCAoTWF4aW11bUJ1ZmZl
+clNpemUpOw0KICAgICBpZiAoVmFsaWRCdWZmZXIgPT0gTlVMTCkgew0KKyAgICAgIERFQlVH
+ICgoREVCVUdfVkVSQk9TRSwgIiVhOiBleGl0IEAgJWQsIFN0YXR1cz0lclxuIiwNCisgICAg
+ICAgIF9fRlVOQ1RJT05fXywgX19MSU5FX18sIFN0YXR1cykpOw0KICAgICAgIHJldHVybiBF
+RklfT1VUX09GX1JFU09VUkNFUzsNCiAgICAgfQ0KICAgfSBlbHNlIHsNCkBAIC0xMDY3LDYg
+KzEwNzUsOCBAQCBEb25lOgogICAgIH0NCiAgIH0NCiANCisgIERFQlVHICgoREVCVUdfVkVS
+Qk9TRSwgIiVhOiBleGl0IEAgJWQsIFN0YXR1cz0lclxuIiwNCisgICAgX19GVU5DVElPTl9f
+LCBfX0xJTkVfXywgU3RhdHVzKSk7DQogICByZXR1cm4gU3RhdHVzOw0KIH0NCiANCg==
+--------------060409090906030104080306
+Content-Type: text/plain; charset=ISO-8859-2;
+ name="direct.txt"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="direct.txt"
+
+Reclaim: enter, VariableBase=0xFFE00048, IsVolatile=0, NewVariableSize=0x0, ReclaimPubKeyStore=0
+  FtwVariableSpace:/home/lacos/src/upstream/edk2-git-svn/SecurityPkg/VariableAuthenticated/RuntimeDxe/Reclaim.c: enter
+    FvbProtocolGetAttributes: enter
+      FvbGetVolumeAttributes: enter, Instance=0x0, Global=9F7DAF18, Virtual=0
+        GetFvbInstance: enter, Instance=0x0, Global=9F7DAF18, Virtual=0
+        GetFvbInstance: exit @ 229, Status=Success
+      FvbGetVolumeAttributes: exit @ 320, Status=Success, Attributes=0x4FEFF
+    FvbProtocolGetAttributes: exit @ 704, Status=Success
+
+    FvbProtocolGetPhysicalAddress: enter
+      FvbGetPhysicalAddress: enter, Instance=0x0, Global=9F7DAF18, Virtual=0
+        GetFvbInstance: enter, Instance=0x0, Global=9F7DAF18, Virtual=0
+        GetFvbInstance: exit @ 229, Status=Success
+      FvbGetPhysicalAddress: exit @ 275, Status=Success, Address=0xFFE00000
+    FvbProtocolGetPhysicalAddress: exit @ 620, Status=Success
+
+    FvbProtocolGetAttributes: enter
+      FvbGetVolumeAttributes: enter, Instance=0x0, Global=9F7DAF18, Virtual=0
+        GetFvbInstance: enter, Instance=0x0, Global=9F7DAF18, Virtual=0
+        GetFvbInstance: exit @ 229, Status=Success
+      FvbGetVolumeAttributes: exit @ 320, Status=Success, Attributes=0x4FEFF
+    FvbProtocolGetAttributes: exit @ 704, Status=Success
+
+    FvbProtocolGetPhysicalAddress: enter
+      FvbGetPhysicalAddress: enter, Instance=0x0, Global=9F7DAF18, Virtual=0
+        GetFvbInstance: enter, Instance=0x0, Global=9F7DAF18, Virtual=0
+        GetFvbInstance: exit @ 229, Status=Success
+      FvbGetPhysicalAddress: exit @ 275, Status=Success, Address=0xFFE00000
+    FvbProtocolGetPhysicalAddress: exit @ 620, Status=Success
+
+    FvbProtocolGetPhysicalAddress: enter
+      FvbGetPhysicalAddress: enter, Instance=0x0, Global=9F7DAF18, Virtual=0
+        GetFvbInstance: enter, Instance=0x0, Global=9F7DAF18, Virtual=0
+        GetFvbInstance: exit @ 229, Status=Success
+      FvbGetPhysicalAddress: exit @ 275, Status=Success, Address=0xFFE00000
+    FvbProtocolGetPhysicalAddress: exit @ 620, Status=Success
+
+    FtwWrite: enter, Lba=0x0 Offset=0x48 Length=0xDFB8 PrivateData=0 FvBlockHandle=9F58E798 Buffer=9F7BE060
+      WorkSpaceRefresh: enter
+        FvbProtocolRead: enter, Lba=0xF Offset=0x0 NumBytes=0x1000 Buffer=9EBEF0E0
+          QemuFlashRead: enter, Lba=0xF Offset=0x0 NumBytes=0x1000 Buffer=9EBEF0E0
+            QemuFlashPtr: enter, Lba=0xF Offset=0x0
+            QemuFlashPtr: exit, Ret=FFE0F000
+          QemuFlashRead: exit 2
+        FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+        FtwGetLastWriteHeader: enter, FtwWorkSpaceSize=0x1000
+        FtwGetLastWriteHeader: exit @ 881, Status=Success
+        Ftw: Remaining work space size - 590
+        FtwGetLastWriteRecord: enter
+        FtwGetLastWriteRecord: exit @ 924, Status=Success
+      WorkSpaceRefresh: exit 6
+
+      IsErasedFlashBuffer: enter, Buffer=9EBEFB50 BufferSize=0x28
+      IsErasedFlashBuffer: exit, IsEmpty=1
+
+      FtwAllocate: enter, CallerId=FE5CEA76-4F72-49E8-986F-2CD899DFFE5D, PrivateDataSize=0x0, NumberOfWrites=0x1
+        WorkSpaceRefresh: enter
+          FvbProtocolRead: enter, Lba=0xF Offset=0x0 NumBytes=0x1000 Buffer=9EBEF0E0
+            QemuFlashRead: enter, Lba=0xF Offset=0x0 NumBytes=0x1000 Buffer=9EBEF0E0
+              QemuFlashPtr: enter, Lba=0xF Offset=0x0
+              QemuFlashPtr: exit, Ret=FFE0F000
+            QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+          FtwGetLastWriteHeader: enter, FtwWorkSpaceSize=0x1000
+          FtwGetLastWriteHeader: exit @ 881, Status=Success
+          Ftw: Remaining work space size - 590
+          FtwGetLastWriteRecord: enter
+          FtwGetLastWriteRecord: exit @ 924, Status=Success
+        WorkSpaceRefresh: exit 6
+        FvbProtocolWrite: enter, Lba=0xF Offset=0xA70 NumBytes=0x28 Buffer=9EBEFB50
+          QemuFlashWrite: enter, Lba=0xF Offset=0xA70 NumBytes=0x28 Buffer=9EBEFB50
+            QemuFlashPtr: enter, Lba=0xF Offset=0xA70
+            QemuFlashPtr: exit, Ret=FFE0FA70
+          QemuFlashWrite: exit 2
+        FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x28
+        FtwUpdateFvState: enter, Lba=0xF Offset=0xA70 NewBit=2
+          FvbProtocolRead: enter, Lba=0xF Offset=0xA70 NumBytes=0x1 Buffer=9F852647
+            QemuFlashRead: enter, Lba=0xF Offset=0xA70 NumBytes=0x1 Buffer=9F852647
+              QemuFlashPtr: enter, Lba=0xF Offset=0xA70
+              QemuFlashPtr: exit, Ret=FFE0FA70
+            QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1
+          FvbProtocolWrite: enter, Lba=0xF Offset=0xA70 NumBytes=0x1 Buffer=9F852647
+            QemuFlashWrite: enter, Lba=0xF Offset=0xA70 NumBytes=0x1 Buffer=9F852647
+              QemuFlashPtr: enter, Lba=0xF Offset=0xA70
+              QemuFlashPtr: exit, Ret=FFE0FA70
+            QemuFlashWrite: exit 2
+          FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1
+        FtwUpdateFvState: exit @ 824, Status=Success
+        Ftw: Allocate() success, Caller:FE5CEA76-4F72-49E8-986F-2CD899DFFE5D, # 1
+      FtwAllocate: exit 7
+
+      FtwGetFvbByHandle: enter
+      FtwGetFvbByHandle: exit: Success
+
+      FvbProtocolGetPhysicalAddress: enter
+        FvbGetPhysicalAddress: enter, Instance=0x0, Global=9F7DAF18, Virtual=0
+          GetFvbInstance: enter, Instance=0x0, Global=9F7DAF18, Virtual=0
+          GetFvbInstance: exit @ 229, Status=Success
+        FvbGetPhysicalAddress: exit @ 275, Status=Success, Address=0xFFE00000
+      FvbProtocolGetPhysicalAddress: exit @ 620, Status=Success
+
+      IsBootBlock: enter, Lba=0x0
+        FtwGetSarProtocol: enter
+        FtwGetSarProtocol: exit: Not Found
+      IsBootBlock: exit 2: Not Found
+
+      FvbProtocolWrite: enter, Lba=0xF Offset=0xA98 NumBytes=0x28 Buffer=9EBEFB78
+        QemuFlashWrite: enter, Lba=0xF Offset=0xA98 NumBytes=0x28 Buffer=9EBEFB78
+          QemuFlashPtr: enter, Lba=0xF Offset=0xA98
+          QemuFlashPtr: exit, Ret=FFE0FA98
+        QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x28
+
+      //
+      // Read all original data from target block to memory buffer
+      //
+      FvbProtocolRead: enter, Lba=0x0 Offset=0x0 NumBytes=0x1000 Buffer=9C806018
+        QemuFlashRead: enter, Lba=0x0 Offset=0x0 NumBytes=0x1000 Buffer=9C806018
+          QemuFlashPtr: enter, Lba=0x0 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE00000
+        QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x1 Offset=0x0 NumBytes=0x1000 Buffer=9C807018
+      QemuFlashRead: enter, Lba=0x1 Offset=0x0 NumBytes=0x1000 Buffer=9C807018
+      QemuFlashPtr: enter, Lba=0x1 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE01000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x2 Offset=0x0 NumBytes=0x1000 Buffer=9C808018
+      QemuFlashRead: enter, Lba=0x2 Offset=0x0 NumBytes=0x1000 Buffer=9C808018
+      QemuFlashPtr: enter, Lba=0x2 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE02000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x3 Offset=0x0 NumBytes=0x1000 Buffer=9C809018
+      QemuFlashRead: enter, Lba=0x3 Offset=0x0 NumBytes=0x1000 Buffer=9C809018
+      QemuFlashPtr: enter, Lba=0x3 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE03000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x4 Offset=0x0 NumBytes=0x1000 Buffer=9C80A018
+      QemuFlashRead: enter, Lba=0x4 Offset=0x0 NumBytes=0x1000 Buffer=9C80A018
+      QemuFlashPtr: enter, Lba=0x4 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE04000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x5 Offset=0x0 NumBytes=0x1000 Buffer=9C80B018
+      QemuFlashRead: enter, Lba=0x5 Offset=0x0 NumBytes=0x1000 Buffer=9C80B018
+      QemuFlashPtr: enter, Lba=0x5 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE05000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x6 Offset=0x0 NumBytes=0x1000 Buffer=9C80C018
+      QemuFlashRead: enter, Lba=0x6 Offset=0x0 NumBytes=0x1000 Buffer=9C80C018
+      QemuFlashPtr: enter, Lba=0x6 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE06000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x7 Offset=0x0 NumBytes=0x1000 Buffer=9C80D018
+      QemuFlashRead: enter, Lba=0x7 Offset=0x0 NumBytes=0x1000 Buffer=9C80D018
+      QemuFlashPtr: enter, Lba=0x7 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE07000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x8 Offset=0x0 NumBytes=0x1000 Buffer=9C80E018
+      QemuFlashRead: enter, Lba=0x8 Offset=0x0 NumBytes=0x1000 Buffer=9C80E018
+      QemuFlashPtr: enter, Lba=0x8 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE08000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x9 Offset=0x0 NumBytes=0x1000 Buffer=9C80F018
+      QemuFlashRead: enter, Lba=0x9 Offset=0x0 NumBytes=0x1000 Buffer=9C80F018
+      QemuFlashPtr: enter, Lba=0x9 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE09000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0xA Offset=0x0 NumBytes=0x1000 Buffer=9C810018
+      QemuFlashRead: enter, Lba=0xA Offset=0x0 NumBytes=0x1000 Buffer=9C810018
+      QemuFlashPtr: enter, Lba=0xA Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE0A000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0xB Offset=0x0 NumBytes=0x1000 Buffer=9C811018
+      QemuFlashRead: enter, Lba=0xB Offset=0x0 NumBytes=0x1000 Buffer=9C811018
+      QemuFlashPtr: enter, Lba=0xB Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE0B000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0xC Offset=0x0 NumBytes=0x1000 Buffer=9C812018
+      QemuFlashRead: enter, Lba=0xC Offset=0x0 NumBytes=0x1000 Buffer=9C812018
+      QemuFlashPtr: enter, Lba=0xC Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE0C000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0xD Offset=0x0 NumBytes=0x1000 Buffer=9C813018
+      QemuFlashRead: enter, Lba=0xD Offset=0x0 NumBytes=0x1000 Buffer=9C813018
+      QemuFlashPtr: enter, Lba=0xD Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE0D000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0xE Offset=0x0 NumBytes=0x1000 Buffer=9C814018
+      QemuFlashRead: enter, Lba=0xE Offset=0x0 NumBytes=0x1000 Buffer=9C814018
+      QemuFlashPtr: enter, Lba=0xE Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE0E000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0xF Offset=0x0 NumBytes=0x1000 Buffer=9C815018
+      QemuFlashRead: enter, Lba=0xF Offset=0x0 NumBytes=0x1000 Buffer=9C815018
+      QemuFlashPtr: enter, Lba=0xF Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE0F000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+
+      //
+      // Try to keep the content of spare block
+      // Save spare block into a spare backup memory buffer (Sparebuffer)
+      //
+      FvbProtocolRead: enter, Lba=0x10 Offset=0x0 NumBytes=0x1000 Buffer=9C7F5018
+      QemuFlashRead: enter, Lba=0x10 Offset=0x0 NumBytes=0x1000 Buffer=9C7F5018
+      QemuFlashPtr: enter, Lba=0x10 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE10000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x11 Offset=0x0 NumBytes=0x1000 Buffer=9C7F6018
+      QemuFlashRead: enter, Lba=0x11 Offset=0x0 NumBytes=0x1000 Buffer=9C7F6018
+      QemuFlashPtr: enter, Lba=0x11 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE11000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x12 Offset=0x0 NumBytes=0x1000 Buffer=9C7F7018
+      QemuFlashRead: enter, Lba=0x12 Offset=0x0 NumBytes=0x1000 Buffer=9C7F7018
+      QemuFlashPtr: enter, Lba=0x12 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE12000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x13 Offset=0x0 NumBytes=0x1000 Buffer=9C7F8018
+      QemuFlashRead: enter, Lba=0x13 Offset=0x0 NumBytes=0x1000 Buffer=9C7F8018
+      QemuFlashPtr: enter, Lba=0x13 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE13000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x14 Offset=0x0 NumBytes=0x1000 Buffer=9C7F9018
+      QemuFlashRead: enter, Lba=0x14 Offset=0x0 NumBytes=0x1000 Buffer=9C7F9018
+      QemuFlashPtr: enter, Lba=0x14 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE14000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x15 Offset=0x0 NumBytes=0x1000 Buffer=9C7FA018
+      QemuFlashRead: enter, Lba=0x15 Offset=0x0 NumBytes=0x1000 Buffer=9C7FA018
+      QemuFlashPtr: enter, Lba=0x15 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE15000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x16 Offset=0x0 NumBytes=0x1000 Buffer=9C7FB018
+      QemuFlashRead: enter, Lba=0x16 Offset=0x0 NumBytes=0x1000 Buffer=9C7FB018
+      QemuFlashPtr: enter, Lba=0x16 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE16000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x17 Offset=0x0 NumBytes=0x1000 Buffer=9C7FC018
+      QemuFlashRead: enter, Lba=0x17 Offset=0x0 NumBytes=0x1000 Buffer=9C7FC018
+      QemuFlashPtr: enter, Lba=0x17 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE17000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x18 Offset=0x0 NumBytes=0x1000 Buffer=9C7FD018
+      QemuFlashRead: enter, Lba=0x18 Offset=0x0 NumBytes=0x1000 Buffer=9C7FD018
+      QemuFlashPtr: enter, Lba=0x18 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE18000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x19 Offset=0x0 NumBytes=0x1000 Buffer=9C7FE018
+      QemuFlashRead: enter, Lba=0x19 Offset=0x0 NumBytes=0x1000 Buffer=9C7FE018
+      QemuFlashPtr: enter, Lba=0x19 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE19000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x1A Offset=0x0 NumBytes=0x1000 Buffer=9C7FF018
+      QemuFlashRead: enter, Lba=0x1A Offset=0x0 NumBytes=0x1000 Buffer=9C7FF018
+      QemuFlashPtr: enter, Lba=0x1A Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE1A000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x1B Offset=0x0 NumBytes=0x1000 Buffer=9C800018
+      QemuFlashRead: enter, Lba=0x1B Offset=0x0 NumBytes=0x1000 Buffer=9C800018
+      QemuFlashPtr: enter, Lba=0x1B Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE1B000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x1C Offset=0x0 NumBytes=0x1000 Buffer=9C801018
+      QemuFlashRead: enter, Lba=0x1C Offset=0x0 NumBytes=0x1000 Buffer=9C801018
+      QemuFlashPtr: enter, Lba=0x1C Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE1C000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x1D Offset=0x0 NumBytes=0x1000 Buffer=9C802018
+      QemuFlashRead: enter, Lba=0x1D Offset=0x0 NumBytes=0x1000 Buffer=9C802018
+      QemuFlashPtr: enter, Lba=0x1D Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE1D000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x1E Offset=0x0 NumBytes=0x1000 Buffer=9C803018
+      QemuFlashRead: enter, Lba=0x1E Offset=0x0 NumBytes=0x1000 Buffer=9C803018
+      QemuFlashPtr: enter, Lba=0x1E Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE1E000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      FvbProtocolRead: enter, Lba=0x1F Offset=0x0 NumBytes=0x1000 Buffer=9C804018
+      QemuFlashRead: enter, Lba=0x1F Offset=0x0 NumBytes=0x1000 Buffer=9C804018
+      QemuFlashPtr: enter, Lba=0x1F Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE1F000
+      QemuFlashRead: exit 2
+      FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+      //
+      // Write the memory buffer to spare block
+      //
+      FtwEraseSpareBlock: enter
+        FvbProtocolEraseBlocks: enter
+          GetFvbInstance: enter, Instance=0x0, Global=9F7DAF18, Virtual=0
+          GetFvbInstance: exit @ 229, Status=Success
+          QemuFlashEraseBlock: enter, Lba=0x10
+          QemuFlashPtr: enter, Lba=0x10 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE10000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x11
+          QemuFlashPtr: enter, Lba=0x11 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE11000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x12
+          QemuFlashPtr: enter, Lba=0x12 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE12000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x13
+          QemuFlashPtr: enter, Lba=0x13 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE13000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x14
+          QemuFlashPtr: enter, Lba=0x14 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE14000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x15
+          QemuFlashPtr: enter, Lba=0x15 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE15000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x16
+          QemuFlashPtr: enter, Lba=0x16 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE16000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x17
+          QemuFlashPtr: enter, Lba=0x17 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE17000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x18
+          QemuFlashPtr: enter, Lba=0x18 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE18000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x19
+          QemuFlashPtr: enter, Lba=0x19 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE19000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x1A
+          QemuFlashPtr: enter, Lba=0x1A Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE1A000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x1B
+          QemuFlashPtr: enter, Lba=0x1B Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE1B000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x1C
+          QemuFlashPtr: enter, Lba=0x1C Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE1C000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x1D
+          QemuFlashPtr: enter, Lba=0x1D Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE1D000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x1E
+          QemuFlashPtr: enter, Lba=0x1E Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE1E000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x1F
+          QemuFlashPtr: enter, Lba=0x1F Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE1F000
+          QemuFlashEraseBlock: exit 2
+        FvbProtocolEraseBlocks: exit @ 839, Status=Success
+      FtwEraseSpareBlock: exit: Success
+
+      FvbProtocolWrite: enter, Lba=0x10 Offset=0x0 NumBytes=0x1000 Buffer=9C806018
+      QemuFlashWrite: enter, Lba=0x10 Offset=0x0 NumBytes=0x1000 Buffer=9C806018
+      QemuFlashPtr: enter, Lba=0x10 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE10000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x11 Offset=0x0 NumBytes=0x1000 Buffer=9C807018
+      QemuFlashWrite: enter, Lba=0x11 Offset=0x0 NumBytes=0x1000 Buffer=9C807018
+      QemuFlashPtr: enter, Lba=0x11 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE11000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x12 Offset=0x0 NumBytes=0x1000 Buffer=9C808018
+      QemuFlashWrite: enter, Lba=0x12 Offset=0x0 NumBytes=0x1000 Buffer=9C808018
+      QemuFlashPtr: enter, Lba=0x12 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE12000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x13 Offset=0x0 NumBytes=0x1000 Buffer=9C809018
+      QemuFlashWrite: enter, Lba=0x13 Offset=0x0 NumBytes=0x1000 Buffer=9C809018
+      QemuFlashPtr: enter, Lba=0x13 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE13000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x14 Offset=0x0 NumBytes=0x1000 Buffer=9C80A018
+      QemuFlashWrite: enter, Lba=0x14 Offset=0x0 NumBytes=0x1000 Buffer=9C80A018
+      QemuFlashPtr: enter, Lba=0x14 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE14000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x15 Offset=0x0 NumBytes=0x1000 Buffer=9C80B018
+      QemuFlashWrite: enter, Lba=0x15 Offset=0x0 NumBytes=0x1000 Buffer=9C80B018
+      QemuFlashPtr: enter, Lba=0x15 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE15000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x16 Offset=0x0 NumBytes=0x1000 Buffer=9C80C018
+      QemuFlashWrite: enter, Lba=0x16 Offset=0x0 NumBytes=0x1000 Buffer=9C80C018
+      QemuFlashPtr: enter, Lba=0x16 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE16000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x17 Offset=0x0 NumBytes=0x1000 Buffer=9C80D018
+      QemuFlashWrite: enter, Lba=0x17 Offset=0x0 NumBytes=0x1000 Buffer=9C80D018
+      QemuFlashPtr: enter, Lba=0x17 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE17000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x18 Offset=0x0 NumBytes=0x1000 Buffer=9C80E018
+      QemuFlashWrite: enter, Lba=0x18 Offset=0x0 NumBytes=0x1000 Buffer=9C80E018
+      QemuFlashPtr: enter, Lba=0x18 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE18000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x19 Offset=0x0 NumBytes=0x1000 Buffer=9C80F018
+      QemuFlashWrite: enter, Lba=0x19 Offset=0x0 NumBytes=0x1000 Buffer=9C80F018
+      QemuFlashPtr: enter, Lba=0x19 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE19000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x1A Offset=0x0 NumBytes=0x1000 Buffer=9C810018
+      QemuFlashWrite: enter, Lba=0x1A Offset=0x0 NumBytes=0x1000 Buffer=9C810018
+      QemuFlashPtr: enter, Lba=0x1A Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE1A000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x1B Offset=0x0 NumBytes=0x1000 Buffer=9C811018
+      QemuFlashWrite: enter, Lba=0x1B Offset=0x0 NumBytes=0x1000 Buffer=9C811018
+      QemuFlashPtr: enter, Lba=0x1B Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE1B000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x1C Offset=0x0 NumBytes=0x1000 Buffer=9C812018
+      QemuFlashWrite: enter, Lba=0x1C Offset=0x0 NumBytes=0x1000 Buffer=9C812018
+      QemuFlashPtr: enter, Lba=0x1C Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE1C000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x1D Offset=0x0 NumBytes=0x1000 Buffer=9C813018
+      QemuFlashWrite: enter, Lba=0x1D Offset=0x0 NumBytes=0x1000 Buffer=9C813018
+      QemuFlashPtr: enter, Lba=0x1D Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE1D000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x1E Offset=0x0 NumBytes=0x1000 Buffer=9C814018
+      QemuFlashWrite: enter, Lba=0x1E Offset=0x0 NumBytes=0x1000 Buffer=9C814018
+      QemuFlashPtr: enter, Lba=0x1E Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE1E000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+
+      !!! out-of-varstore write !!!
+      FvbProtocolWrite: enter, Lba=0x1F Offset=0x0 NumBytes=0x1000 Buffer=9C815018
+      QemuFlashWrite: enter, Lba=0x1F Offset=0x0 NumBytes=0x1000 Buffer=9C815018
+      QemuFlashPtr: enter, Lba=0x1F Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE1F000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+
+      //
+      // Set the SpareComplete in the FTW record,
+      //
+      FtwUpdateFvState: enter, Lba=0xF Offset=0xA98 NewBit=2
+        FvbProtocolRead: enter, Lba=0xF Offset=0xA98 NumBytes=0x1 Buffer=9F8526C7
+          QemuFlashRead: enter, Lba=0xF Offset=0xA98 NumBytes=0x1 Buffer=9F8526C7
+            QemuFlashPtr: enter, Lba=0xF Offset=0xA98
+            QemuFlashPtr: exit, Ret=FFE0FA98
+          QemuFlashRead: exit 2
+        FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1
+        FvbProtocolWrite: enter, Lba=0xF Offset=0xA98 NumBytes=0x1 Buffer=9F8526C7
+          QemuFlashWrite: enter, Lba=0xF Offset=0xA98 NumBytes=0x1 Buffer=9F8526C7
+            QemuFlashPtr: enter, Lba=0xF Offset=0xA98
+            QemuFlashPtr: exit, Ret=FFE0FA98
+          QemuFlashWrite: exit 2
+        FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1
+      FtwUpdateFvState: exit @ 824, Status=Success
+
+      //
+      //  Since the content has already backuped in spare block, the write is
+      //  guaranteed to be completed with fault tolerant manner.
+      //
+      FtwWriteRecord: enter
+        //
+        // IF target block is working block, THEN Flush Spare Block To Working Block;
+        // ELSE flush spare block to target block, which may be boot block after all.
+        //
+        IsWorkingBlock: enter, Lba=0x0
+        IsWorkingBlock: exit: 1
+        FtwUpdateFvState: enter, Lba=0x1F Offset=0xA98 NewBit=2
+          FvbProtocolRead: enter, Lba=0x1F Offset=0xA98 NumBytes=0x1 Buffer=9F852657
+            QemuFlashRead: enter, Lba=0x1F Offset=0xA98 NumBytes=0x1 Buffer=9F852657
+              QemuFlashPtr: enter, Lba=0x1F Offset=0xA98
+              QemuFlashPtr: exit, Ret=FFE1FA98
+            QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1
+          FvbProtocolWrite: enter, Lba=0x1F Offset=0xA98 NumBytes=0x1 Buffer=9F852657
+            QemuFlashWrite: enter, Lba=0x1F Offset=0xA98 NumBytes=0x1 Buffer=9F852657
+              QemuFlashPtr: enter, Lba=0x1F Offset=0xA98
+              QemuFlashPtr: exit, Ret=FFE1FA98
+            QemuFlashWrite: exit 2
+          FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1
+        FtwUpdateFvState: exit @ 824, Status=Success
+
+        FlushSpareBlockToWorkingBlock: enter
+          FtwUpdateFvState: enter, Lba=0x1F Offset=0x14 NewBit=1
+            FvbProtocolRead: enter, Lba=0x1F Offset=0x14 NumBytes=0x1 Buffer=9F8525D7
+              QemuFlashRead: enter, Lba=0x1F Offset=0x14 NumBytes=0x1 Buffer=9F8525D7
+                QemuFlashPtr: enter, Lba=0x1F Offset=0x14
+                QemuFlashPtr: exit, Ret=FFE1F014
+              QemuFlashRead: exit 2
+            FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1
+            FvbProtocolWrite: enter, Lba=0x1F Offset=0x14 NumBytes=0x1 Buffer=9F8525D7
+              QemuFlashWrite: enter, Lba=0x1F Offset=0x14 NumBytes=0x1 Buffer=9F8525D7
+                QemuFlashPtr: enter, Lba=0x1F Offset=0x14
+                QemuFlashPtr: exit, Ret=FFE1F014
+              QemuFlashWrite: exit 2
+            FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1
+          FtwUpdateFvState: exit @ 824, Status=Success
+
+          //
+          // Read from spare block to memory buffer
+          //
+          FvbProtocolRead: enter, Lba=0x10 Offset=0x0 NumBytes=0x1000 Buffer=9C806018
+          QemuFlashRead: enter, Lba=0x10 Offset=0x0 NumBytes=0x1000 Buffer=9C806018
+          QemuFlashPtr: enter, Lba=0x10 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE10000
+          QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+          FvbProtocolRead: enter, Lba=0x11 Offset=0x0 NumBytes=0x1000 Buffer=9C807018
+          QemuFlashRead: enter, Lba=0x11 Offset=0x0 NumBytes=0x1000 Buffer=9C807018
+          QemuFlashPtr: enter, Lba=0x11 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE11000
+          QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+          FvbProtocolRead: enter, Lba=0x12 Offset=0x0 NumBytes=0x1000 Buffer=9C808018
+          QemuFlashRead: enter, Lba=0x12 Offset=0x0 NumBytes=0x1000 Buffer=9C808018
+          QemuFlashPtr: enter, Lba=0x12 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE12000
+          QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+          FvbProtocolRead: enter, Lba=0x13 Offset=0x0 NumBytes=0x1000 Buffer=9C809018
+          QemuFlashRead: enter, Lba=0x13 Offset=0x0 NumBytes=0x1000 Buffer=9C809018
+          QemuFlashPtr: enter, Lba=0x13 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE13000
+          QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+          FvbProtocolRead: enter, Lba=0x14 Offset=0x0 NumBytes=0x1000 Buffer=9C80A018
+          QemuFlashRead: enter, Lba=0x14 Offset=0x0 NumBytes=0x1000 Buffer=9C80A018
+          QemuFlashPtr: enter, Lba=0x14 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE14000
+          QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+          FvbProtocolRead: enter, Lba=0x15 Offset=0x0 NumBytes=0x1000 Buffer=9C80B018
+          QemuFlashRead: enter, Lba=0x15 Offset=0x0 NumBytes=0x1000 Buffer=9C80B018
+          QemuFlashPtr: enter, Lba=0x15 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE15000
+          QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+          FvbProtocolRead: enter, Lba=0x16 Offset=0x0 NumBytes=0x1000 Buffer=9C80C018
+          QemuFlashRead: enter, Lba=0x16 Offset=0x0 NumBytes=0x1000 Buffer=9C80C018
+          QemuFlashPtr: enter, Lba=0x16 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE16000
+          QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+          FvbProtocolRead: enter, Lba=0x17 Offset=0x0 NumBytes=0x1000 Buffer=9C80D018
+          QemuFlashRead: enter, Lba=0x17 Offset=0x0 NumBytes=0x1000 Buffer=9C80D018
+          QemuFlashPtr: enter, Lba=0x17 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE17000
+          QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+          FvbProtocolRead: enter, Lba=0x18 Offset=0x0 NumBytes=0x1000 Buffer=9C80E018
+          QemuFlashRead: enter, Lba=0x18 Offset=0x0 NumBytes=0x1000 Buffer=9C80E018
+          QemuFlashPtr: enter, Lba=0x18 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE18000
+          QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+          FvbProtocolRead: enter, Lba=0x19 Offset=0x0 NumBytes=0x1000 Buffer=9C80F018
+          QemuFlashRead: enter, Lba=0x19 Offset=0x0 NumBytes=0x1000 Buffer=9C80F018
+          QemuFlashPtr: enter, Lba=0x19 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE19000
+          QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+          FvbProtocolRead: enter, Lba=0x1A Offset=0x0 NumBytes=0x1000 Buffer=9C810018
+          QemuFlashRead: enter, Lba=0x1A Offset=0x0 NumBytes=0x1000 Buffer=9C810018
+          QemuFlashPtr: enter, Lba=0x1A Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE1A000
+          QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+          FvbProtocolRead: enter, Lba=0x1B Offset=0x0 NumBytes=0x1000 Buffer=9C811018
+          QemuFlashRead: enter, Lba=0x1B Offset=0x0 NumBytes=0x1000 Buffer=9C811018
+          QemuFlashPtr: enter, Lba=0x1B Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE1B000
+          QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+          FvbProtocolRead: enter, Lba=0x1C Offset=0x0 NumBytes=0x1000 Buffer=9C812018
+          QemuFlashRead: enter, Lba=0x1C Offset=0x0 NumBytes=0x1000 Buffer=9C812018
+          QemuFlashPtr: enter, Lba=0x1C Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE1C000
+          QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+          FvbProtocolRead: enter, Lba=0x1D Offset=0x0 NumBytes=0x1000 Buffer=9C813018
+          QemuFlashRead: enter, Lba=0x1D Offset=0x0 NumBytes=0x1000 Buffer=9C813018
+          QemuFlashPtr: enter, Lba=0x1D Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE1D000
+          QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+          FvbProtocolRead: enter, Lba=0x1E Offset=0x0 NumBytes=0x1000 Buffer=9C814018
+          QemuFlashRead: enter, Lba=0x1E Offset=0x0 NumBytes=0x1000 Buffer=9C814018
+          QemuFlashPtr: enter, Lba=0x1E Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE1E000
+          QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+          FvbProtocolRead: enter, Lba=0x1F Offset=0x0 NumBytes=0x1000 Buffer=9C815018
+          QemuFlashRead: enter, Lba=0x1F Offset=0x0 NumBytes=0x1000 Buffer=9C815018
+          QemuFlashPtr: enter, Lba=0x1F Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE1F000
+          QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1000
+
+          //
+          // Clear the CRC and STATE, copy data from spare to working block.
+          //
+          InitWorkSpaceHeader: enter
+          InitWorkSpaceHeader: exit 2
+
+          //
+          // target block is working block, then
+          //   Set WorkingBlockInvalid in EFI_FAULT_TOLERANT_WORKING_BLOCK_HEADER
+          //   before erase the working block.
+          //
+          FtwUpdateFvState: enter, Lba=0xF Offset=0x14 NewBit=2
+            FvbProtocolRead: enter, Lba=0xF Offset=0x14 NumBytes=0x1 Buffer=9F8525D7
+              QemuFlashRead: enter, Lba=0xF Offset=0x14 NumBytes=0x1 Buffer=9F8525D7
+                QemuFlashPtr: enter, Lba=0xF Offset=0x14
+                QemuFlashPtr: exit, Ret=FFE0F014
+              QemuFlashRead: exit 2
+            FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1
+            FvbProtocolWrite: enter, Lba=0xF Offset=0x14 NumBytes=0x1 Buffer=9F8525D7
+              QemuFlashWrite: enter, Lba=0xF Offset=0x14 NumBytes=0x1 Buffer=9F8525D7
+                QemuFlashPtr: enter, Lba=0xF Offset=0x14
+                QemuFlashPtr: exit, Ret=FFE0F014
+              QemuFlashWrite: exit 2
+            FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1
+          FtwUpdateFvState: exit @ 824, Status=Success
+
+          //
+          // Erase the working block
+          //
+          FtwEraseBlock: enter, Lba=0x0
+            FvbProtocolEraseBlocks: enter
+              GetFvbInstance: enter, Instance=0x0, Global=9F7DAF18, Virtual=0
+              GetFvbInstance: exit @ 229, Status=Success
+              QemuFlashEraseBlock: enter, Lba=0x0
+              QemuFlashPtr: enter, Lba=0x0 Offset=0x0
+              QemuFlashPtr: exit, Ret=FFE00000
+              QemuFlashEraseBlock: exit 2
+              QemuFlashEraseBlock: enter, Lba=0x1
+              QemuFlashPtr: enter, Lba=0x1 Offset=0x0
+              QemuFlashPtr: exit, Ret=FFE01000
+              QemuFlashEraseBlock: exit 2
+              QemuFlashEraseBlock: enter, Lba=0x2
+              QemuFlashPtr: enter, Lba=0x2 Offset=0x0
+              QemuFlashPtr: exit, Ret=FFE02000
+              QemuFlashEraseBlock: exit 2
+              QemuFlashEraseBlock: enter, Lba=0x3
+              QemuFlashPtr: enter, Lba=0x3 Offset=0x0
+              QemuFlashPtr: exit, Ret=FFE03000
+              QemuFlashEraseBlock: exit 2
+              QemuFlashEraseBlock: enter, Lba=0x4
+              QemuFlashPtr: enter, Lba=0x4 Offset=0x0
+              QemuFlashPtr: exit, Ret=FFE04000
+              QemuFlashEraseBlock: exit 2
+              QemuFlashEraseBlock: enter, Lba=0x5
+              QemuFlashPtr: enter, Lba=0x5 Offset=0x0
+              QemuFlashPtr: exit, Ret=FFE05000
+              QemuFlashEraseBlock: exit 2
+              QemuFlashEraseBlock: enter, Lba=0x6
+              QemuFlashPtr: enter, Lba=0x6 Offset=0x0
+              QemuFlashPtr: exit, Ret=FFE06000
+              QemuFlashEraseBlock: exit 2
+              QemuFlashEraseBlock: enter, Lba=0x7
+              QemuFlashPtr: enter, Lba=0x7 Offset=0x0
+              QemuFlashPtr: exit, Ret=FFE07000
+              QemuFlashEraseBlock: exit 2
+              QemuFlashEraseBlock: enter, Lba=0x8
+              QemuFlashPtr: enter, Lba=0x8 Offset=0x0
+              QemuFlashPtr: exit, Ret=FFE08000
+              QemuFlashEraseBlock: exit 2
+              QemuFlashEraseBlock: enter, Lba=0x9
+              QemuFlashPtr: enter, Lba=0x9 Offset=0x0
+              QemuFlashPtr: exit, Ret=FFE09000
+              QemuFlashEraseBlock: exit 2
+              QemuFlashEraseBlock: enter, Lba=0xA
+              QemuFlashPtr: enter, Lba=0xA Offset=0x0
+              QemuFlashPtr: exit, Ret=FFE0A000
+              QemuFlashEraseBlock: exit 2
+              QemuFlashEraseBlock: enter, Lba=0xB
+              QemuFlashPtr: enter, Lba=0xB Offset=0x0
+              QemuFlashPtr: exit, Ret=FFE0B000
+              QemuFlashEraseBlock: exit 2
+              QemuFlashEraseBlock: enter, Lba=0xC
+              QemuFlashPtr: enter, Lba=0xC Offset=0x0
+              QemuFlashPtr: exit, Ret=FFE0C000
+              QemuFlashEraseBlock: exit 2
+              QemuFlashEraseBlock: enter, Lba=0xD
+              QemuFlashPtr: enter, Lba=0xD Offset=0x0
+              QemuFlashPtr: exit, Ret=FFE0D000
+              QemuFlashEraseBlock: exit 2
+              QemuFlashEraseBlock: enter, Lba=0xE
+              QemuFlashPtr: enter, Lba=0xE Offset=0x0
+              QemuFlashPtr: exit, Ret=FFE0E000
+              QemuFlashEraseBlock: exit 2
+              QemuFlashEraseBlock: enter, Lba=0xF
+              QemuFlashPtr: enter, Lba=0xF Offset=0x0
+              QemuFlashPtr: exit, Ret=FFE0F000
+              QemuFlashEraseBlock: exit 2
+            FvbProtocolEraseBlocks: exit @ 839, Status=Success
+          FtwEraseBlock: exit: Success
+
+          //
+          // Write memory buffer to working block, using the FvbBlock protocol interface
+          //
+          FvbProtocolWrite: enter, Lba=0x0 Offset=0x0 NumBytes=0x1000 Buffer=9C806018
+          QemuFlashWrite: enter, Lba=0x0 Offset=0x0 NumBytes=0x1000 Buffer=9C806018
+          QemuFlashPtr: enter, Lba=0x0 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE00000
+          QemuFlashWrite: exit 2
+          FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+          FvbProtocolWrite: enter, Lba=0x1 Offset=0x0 NumBytes=0x1000 Buffer=9C807018
+          QemuFlashWrite: enter, Lba=0x1 Offset=0x0 NumBytes=0x1000 Buffer=9C807018
+          QemuFlashPtr: enter, Lba=0x1 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE01000
+          QemuFlashWrite: exit 2
+          FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+          FvbProtocolWrite: enter, Lba=0x2 Offset=0x0 NumBytes=0x1000 Buffer=9C808018
+          QemuFlashWrite: enter, Lba=0x2 Offset=0x0 NumBytes=0x1000 Buffer=9C808018
+          QemuFlashPtr: enter, Lba=0x2 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE02000
+          QemuFlashWrite: exit 2
+          FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+          FvbProtocolWrite: enter, Lba=0x3 Offset=0x0 NumBytes=0x1000 Buffer=9C809018
+          QemuFlashWrite: enter, Lba=0x3 Offset=0x0 NumBytes=0x1000 Buffer=9C809018
+          QemuFlashPtr: enter, Lba=0x3 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE03000
+          QemuFlashWrite: exit 2
+          FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+          FvbProtocolWrite: enter, Lba=0x4 Offset=0x0 NumBytes=0x1000 Buffer=9C80A018
+          QemuFlashWrite: enter, Lba=0x4 Offset=0x0 NumBytes=0x1000 Buffer=9C80A018
+          QemuFlashPtr: enter, Lba=0x4 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE04000
+          QemuFlashWrite: exit 2
+          FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+          FvbProtocolWrite: enter, Lba=0x5 Offset=0x0 NumBytes=0x1000 Buffer=9C80B018
+          QemuFlashWrite: enter, Lba=0x5 Offset=0x0 NumBytes=0x1000 Buffer=9C80B018
+          QemuFlashPtr: enter, Lba=0x5 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE05000
+          QemuFlashWrite: exit 2
+          FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+          FvbProtocolWrite: enter, Lba=0x6 Offset=0x0 NumBytes=0x1000 Buffer=9C80C018
+          QemuFlashWrite: enter, Lba=0x6 Offset=0x0 NumBytes=0x1000 Buffer=9C80C018
+          QemuFlashPtr: enter, Lba=0x6 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE06000
+          QemuFlashWrite: exit 2
+          FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+          FvbProtocolWrite: enter, Lba=0x7 Offset=0x0 NumBytes=0x1000 Buffer=9C80D018
+          QemuFlashWrite: enter, Lba=0x7 Offset=0x0 NumBytes=0x1000 Buffer=9C80D018
+          QemuFlashPtr: enter, Lba=0x7 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE07000
+          QemuFlashWrite: exit 2
+          FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+          FvbProtocolWrite: enter, Lba=0x8 Offset=0x0 NumBytes=0x1000 Buffer=9C80E018
+          QemuFlashWrite: enter, Lba=0x8 Offset=0x0 NumBytes=0x1000 Buffer=9C80E018
+          QemuFlashPtr: enter, Lba=0x8 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE08000
+          QemuFlashWrite: exit 2
+          FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+          FvbProtocolWrite: enter, Lba=0x9 Offset=0x0 NumBytes=0x1000 Buffer=9C80F018
+          QemuFlashWrite: enter, Lba=0x9 Offset=0x0 NumBytes=0x1000 Buffer=9C80F018
+          QemuFlashPtr: enter, Lba=0x9 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE09000
+          QemuFlashWrite: exit 2
+          FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+          FvbProtocolWrite: enter, Lba=0xA Offset=0x0 NumBytes=0x1000 Buffer=9C810018
+          QemuFlashWrite: enter, Lba=0xA Offset=0x0 NumBytes=0x1000 Buffer=9C810018
+          QemuFlashPtr: enter, Lba=0xA Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE0A000
+          QemuFlashWrite: exit 2
+          FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+          FvbProtocolWrite: enter, Lba=0xB Offset=0x0 NumBytes=0x1000 Buffer=9C811018
+          QemuFlashWrite: enter, Lba=0xB Offset=0x0 NumBytes=0x1000 Buffer=9C811018
+          QemuFlashPtr: enter, Lba=0xB Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE0B000
+          QemuFlashWrite: exit 2
+          FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+          FvbProtocolWrite: enter, Lba=0xC Offset=0x0 NumBytes=0x1000 Buffer=9C812018
+          QemuFlashWrite: enter, Lba=0xC Offset=0x0 NumBytes=0x1000 Buffer=9C812018
+          QemuFlashPtr: enter, Lba=0xC Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE0C000
+          QemuFlashWrite: exit 2
+          FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+          FvbProtocolWrite: enter, Lba=0xD Offset=0x0 NumBytes=0x1000 Buffer=9C813018
+          QemuFlashWrite: enter, Lba=0xD Offset=0x0 NumBytes=0x1000 Buffer=9C813018
+          QemuFlashPtr: enter, Lba=0xD Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE0D000
+          QemuFlashWrite: exit 2
+          FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+          FvbProtocolWrite: enter, Lba=0xE Offset=0x0 NumBytes=0x1000 Buffer=9C814018
+          QemuFlashWrite: enter, Lba=0xE Offset=0x0 NumBytes=0x1000 Buffer=9C814018
+          QemuFlashPtr: enter, Lba=0xE Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE0E000
+          QemuFlashWrite: exit 2
+          FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+          FvbProtocolWrite: enter, Lba=0xF Offset=0x0 NumBytes=0x1000 Buffer=9C815018
+          QemuFlashWrite: enter, Lba=0xF Offset=0x0 NumBytes=0x1000 Buffer=9C815018
+          QemuFlashPtr: enter, Lba=0xF Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE0F000
+          QemuFlashWrite: exit 2
+          FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+
+          //
+          // Update the VALID of the working block
+          //
+          FtwUpdateFvState: enter, Lba=0xF Offset=0x14 NewBit=1
+            FvbProtocolRead: enter, Lba=0xF Offset=0x14 NumBytes=0x1 Buffer=9F8525D7
+              QemuFlashRead: enter, Lba=0xF Offset=0x14 NumBytes=0x1 Buffer=9F8525D7
+                QemuFlashPtr: enter, Lba=0xF Offset=0x14
+                QemuFlashPtr: exit, Ret=FFE0F014
+              QemuFlashRead: exit 2
+            FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1
+            FvbProtocolWrite: enter, Lba=0xF Offset=0x14 NumBytes=0x1 Buffer=9F8525D7
+              QemuFlashWrite: enter, Lba=0xF Offset=0x14 NumBytes=0x1 Buffer=9F8525D7
+                QemuFlashPtr: enter, Lba=0xF Offset=0x14
+                QemuFlashPtr: exit, Ret=FFE0F014
+              QemuFlashWrite: exit 2
+            FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1
+          FtwUpdateFvState: exit @ 824, Status=Success
+        FlushSpareBlockToWorkingBlock: exit @ 765, Status=Success
+
+        //
+        // Record the DestionationComplete in record
+        //
+        FtwUpdateFvState: enter, Lba=0xF Offset=0xA98 NewBit=4
+          FvbProtocolRead: enter, Lba=0xF Offset=0xA98 NumBytes=0x1 Buffer=9F852657
+            QemuFlashRead: enter, Lba=0xF Offset=0xA98 NumBytes=0x1 Buffer=9F852657
+              QemuFlashPtr: enter, Lba=0xF Offset=0xA98
+              QemuFlashPtr: exit, Ret=FFE0FA98
+            QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1
+          FvbProtocolWrite: enter, Lba=0xF Offset=0xA98 NumBytes=0x1 Buffer=9F852657
+            QemuFlashWrite: enter, Lba=0xF Offset=0xA98 NumBytes=0x1 Buffer=9F852657
+              QemuFlashPtr: enter, Lba=0xF Offset=0xA98
+              QemuFlashPtr: exit, Ret=FFE0FA98
+            QemuFlashWrite: exit 2
+          FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1
+        FtwUpdateFvState: exit @ 824, Status=Success
+
+        //
+        // If this is the last Write in these write sequence,
+        // set the complete flag of write header.
+        //
+        IsLastRecordOfWrites: enter
+        IsLastRecordOfWrites: exit: 1
+        FtwUpdateFvState: enter, Lba=0xF Offset=0xA70 NewBit=4
+          FvbProtocolRead: enter, Lba=0xF Offset=0xA70 NumBytes=0x1 Buffer=9F852657
+            QemuFlashRead: enter, Lba=0xF Offset=0xA70 NumBytes=0x1 Buffer=9F852657
+              QemuFlashPtr: enter, Lba=0xF Offset=0xA70
+              QemuFlashPtr: exit, Ret=FFE0FA70
+            QemuFlashRead: exit 2
+          FvbProtocolRead: exit @ 944, Status=Success, NumBytes=0x1
+          FvbProtocolWrite: enter, Lba=0xF Offset=0xA70 NumBytes=0x1 Buffer=9F852657
+            QemuFlashWrite: enter, Lba=0xF Offset=0xA70 NumBytes=0x1 Buffer=9F852657
+              QemuFlashPtr: enter, Lba=0xF Offset=0xA70
+              QemuFlashPtr: exit, Ret=FFE0FA70
+            QemuFlashWrite: exit 2
+          FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1
+        FtwUpdateFvState: exit @ 824, Status=Success
+      FtwWriteRecord: exit 5
+
+      //
+      // Restore spare backup buffer into spare block , if no failure happened during FtwWrite.
+      //
+      FtwEraseSpareBlock: enter
+        FvbProtocolEraseBlocks: enter
+          GetFvbInstance: enter, Instance=0x0, Global=9F7DAF18, Virtual=0
+          GetFvbInstance: exit @ 229, Status=Success
+          QemuFlashEraseBlock: enter, Lba=0x10
+          QemuFlashPtr: enter, Lba=0x10 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE10000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x11
+          QemuFlashPtr: enter, Lba=0x11 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE11000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x12
+          QemuFlashPtr: enter, Lba=0x12 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE12000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x13
+          QemuFlashPtr: enter, Lba=0x13 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE13000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x14
+          QemuFlashPtr: enter, Lba=0x14 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE14000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x15
+          QemuFlashPtr: enter, Lba=0x15 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE15000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x16
+          QemuFlashPtr: enter, Lba=0x16 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE16000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x17
+          QemuFlashPtr: enter, Lba=0x17 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE17000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x18
+          QemuFlashPtr: enter, Lba=0x18 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE18000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x19
+          QemuFlashPtr: enter, Lba=0x19 Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE19000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x1A
+          QemuFlashPtr: enter, Lba=0x1A Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE1A000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x1B
+          QemuFlashPtr: enter, Lba=0x1B Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE1B000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x1C
+          QemuFlashPtr: enter, Lba=0x1C Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE1C000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x1D
+          QemuFlashPtr: enter, Lba=0x1D Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE1D000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x1E
+          QemuFlashPtr: enter, Lba=0x1E Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE1E000
+          QemuFlashEraseBlock: exit 2
+          QemuFlashEraseBlock: enter, Lba=0x1F
+          QemuFlashPtr: enter, Lba=0x1F Offset=0x0
+          QemuFlashPtr: exit, Ret=FFE1F000
+          QemuFlashEraseBlock: exit 2
+        FvbProtocolEraseBlocks: exit @ 839, Status=Success
+      FtwEraseSpareBlock: exit: Success
+
+      FvbProtocolWrite: enter, Lba=0x10 Offset=0x0 NumBytes=0x1000 Buffer=9C7F5018
+      QemuFlashWrite: enter, Lba=0x10 Offset=0x0 NumBytes=0x1000 Buffer=9C7F5018
+      QemuFlashPtr: enter, Lba=0x10 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE10000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x11 Offset=0x0 NumBytes=0x1000 Buffer=9C7F6018
+      QemuFlashWrite: enter, Lba=0x11 Offset=0x0 NumBytes=0x1000 Buffer=9C7F6018
+      QemuFlashPtr: enter, Lba=0x11 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE11000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x12 Offset=0x0 NumBytes=0x1000 Buffer=9C7F7018
+      QemuFlashWrite: enter, Lba=0x12 Offset=0x0 NumBytes=0x1000 Buffer=9C7F7018
+      QemuFlashPtr: enter, Lba=0x12 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE12000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x13 Offset=0x0 NumBytes=0x1000 Buffer=9C7F8018
+      QemuFlashWrite: enter, Lba=0x13 Offset=0x0 NumBytes=0x1000 Buffer=9C7F8018
+      QemuFlashPtr: enter, Lba=0x13 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE13000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x14 Offset=0x0 NumBytes=0x1000 Buffer=9C7F9018
+      QemuFlashWrite: enter, Lba=0x14 Offset=0x0 NumBytes=0x1000 Buffer=9C7F9018
+      QemuFlashPtr: enter, Lba=0x14 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE14000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x15 Offset=0x0 NumBytes=0x1000 Buffer=9C7FA018
+      QemuFlashWrite: enter, Lba=0x15 Offset=0x0 NumBytes=0x1000 Buffer=9C7FA018
+      QemuFlashPtr: enter, Lba=0x15 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE15000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x16 Offset=0x0 NumBytes=0x1000 Buffer=9C7FB018
+      QemuFlashWrite: enter, Lba=0x16 Offset=0x0 NumBytes=0x1000 Buffer=9C7FB018
+      QemuFlashPtr: enter, Lba=0x16 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE16000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x17 Offset=0x0 NumBytes=0x1000 Buffer=9C7FC018
+      QemuFlashWrite: enter, Lba=0x17 Offset=0x0 NumBytes=0x1000 Buffer=9C7FC018
+      QemuFlashPtr: enter, Lba=0x17 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE17000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x18 Offset=0x0 NumBytes=0x1000 Buffer=9C7FD018
+      QemuFlashWrite: enter, Lba=0x18 Offset=0x0 NumBytes=0x1000 Buffer=9C7FD018
+      QemuFlashPtr: enter, Lba=0x18 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE18000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x19 Offset=0x0 NumBytes=0x1000 Buffer=9C7FE018
+      QemuFlashWrite: enter, Lba=0x19 Offset=0x0 NumBytes=0x1000 Buffer=9C7FE018
+      QemuFlashPtr: enter, Lba=0x19 Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE19000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x1A Offset=0x0 NumBytes=0x1000 Buffer=9C7FF018
+      QemuFlashWrite: enter, Lba=0x1A Offset=0x0 NumBytes=0x1000 Buffer=9C7FF018
+      QemuFlashPtr: enter, Lba=0x1A Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE1A000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x1B Offset=0x0 NumBytes=0x1000 Buffer=9C800018
+      QemuFlashWrite: enter, Lba=0x1B Offset=0x0 NumBytes=0x1000 Buffer=9C800018
+      QemuFlashPtr: enter, Lba=0x1B Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE1B000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x1C Offset=0x0 NumBytes=0x1000 Buffer=9C801018
+      QemuFlashWrite: enter, Lba=0x1C Offset=0x0 NumBytes=0x1000 Buffer=9C801018
+      QemuFlashPtr: enter, Lba=0x1C Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE1C000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x1D Offset=0x0 NumBytes=0x1000 Buffer=9C802018
+      QemuFlashWrite: enter, Lba=0x1D Offset=0x0 NumBytes=0x1000 Buffer=9C802018
+      QemuFlashPtr: enter, Lba=0x1D Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE1D000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+      FvbProtocolWrite: enter, Lba=0x1E Offset=0x0 NumBytes=0x1000 Buffer=9C803018
+      QemuFlashWrite: enter, Lba=0x1E Offset=0x0 NumBytes=0x1000 Buffer=9C803018
+      QemuFlashPtr: enter, Lba=0x1E Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE1E000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+
+      !!! out-of-varstore write !!!
+      FvbProtocolWrite: enter, Lba=0x1F Offset=0x0 NumBytes=0x1000 Buffer=9C804018
+      QemuFlashWrite: enter, Lba=0x1F Offset=0x0 NumBytes=0x1000 Buffer=9C804018
+      QemuFlashPtr: enter, Lba=0x1F Offset=0x0
+      QemuFlashPtr: exit, Ret=FFE1F000
+      QemuFlashWrite: exit 2
+      FvbProtocolWrite: exit @ 891, Status=Success, NumBytes=0x1000
+
+      //
+      // All success.
+      //
+      Ftw: Write() success, (Lba:Offset)=(0:0x48), Length: 0xDFB8
+    FtwWrite: exit 20
+  FtwVariableSpace: exit @ 167, Status=Success
+
+--------------060409090906030104080306--
+
+--------------6D83D1EE2447B08F1D062EDA--
 
 
