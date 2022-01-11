@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3064D48B119
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 16:41:51 +0100 (CET)
-Received: from localhost ([::1]:33940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB63B48B124
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 16:43:26 +0100 (CET)
+Received: from localhost ([::1]:39878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7JHS-00070w-AU
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 10:41:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37648)
+	id 1n7JJ0-0002cz-3L
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 10:43:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1n7JCS-0000yP-7Q
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 10:36:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42510)
+ id 1n7JCu-0001kF-1g
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 10:37:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1n7JCP-0000kD-V0
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 10:36:39 -0500
+ id 1n7JCs-0000lf-Gb
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 10:37:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641915397;
+ s=mimecast20190719; t=1641915426;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tGDtKjiipc3yJaBVKz0stKWmMQRDLDakcoWtDbCHGFY=;
- b=iKJ6MGE40v+Wsme7EzUm2LSFINC4aNWQoBWQkWX/0wa8fzj29XR2z7OCvJW36rvE8Fe1hW
- UIyANkDJocdjhbmLfYmbpEUXlgTu2VxPzEmX3W5MVq0VQ31j16EsJUSsOkaulSbkr3Xq9y
- 0zcy2nBEe+9DbSCJPQ0X+SeIZMD6T04=
+ bh=jJTXI3ChVrEwF2oEUM6i0iPdaCpxWXqHkcXjmMM/mnU=;
+ b=QvZARCW0Ie1pcZN0nntxXKV75m3doR+6e/2HcqB6L3dZYmXQvvcJFP2f2GFRrDfO9JRYjy
+ Igg+NCmUSxNfvSx0YFE62BxXddmRgHiVhcTXE3og/34wazNh1YITlfi89bQBKyfeJ+uEFI
+ 8ChbbiK27ehnsNJUbA683ZG6fzi3xzo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-204-N8C9rcbUPD-p0VYrydHTuA-1; Tue, 11 Jan 2022 10:36:35 -0500
-X-MC-Unique: N8C9rcbUPD-p0VYrydHTuA-1
+ us-mta-260-ElnxK_aNNtOJvXfyi92Ogw-1; Tue, 11 Jan 2022 10:37:02 -0500
+X-MC-Unique: ElnxK_aNNtOJvXfyi92Ogw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8E311006AAA;
- Tue, 11 Jan 2022 15:36:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B2A01966320;
+ Tue, 11 Jan 2022 15:37:01 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 04169B59D6;
- Tue, 11 Jan 2022 15:36:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0EB82B59D4;
+ Tue, 11 Jan 2022 15:37:00 +0000 (UTC)
+Date: Tue, 11 Jan 2022 15:36:59 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/2] iotests/stream-error-on-reset: New test
-Date: Tue, 11 Jan 2022 15:36:13 +0000
-Message-Id: <20220111153613.25453-3-stefanha@redhat.com>
-In-Reply-To: <20220111153613.25453-1-stefanha@redhat.com>
-References: <20220111153613.25453-1-stefanha@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v2] block-backend: prevent dangling BDS pointers across
+ aio_poll()
+Message-ID: <Yd2kGwObnurW/oqo@stefanha-x1.localdomain>
+References: <20211214143542.14758-1-stefanha@redhat.com>
+ <bfa45a4d-4d6e-f2c0-ed62-8bc184196c66@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <bfa45a4d-4d6e-f2c0-ed62-8bc184196c66@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="+gLWM/KnewIHCFGf"
+Content-Disposition: inline
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
@@ -66,7 +68,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,191 +82,70 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-stable@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hanna Reitz <hreitz@redhat.com>
+--+gLWM/KnewIHCFGf
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Test the following scenario:
-- Simple stream block in two-layer backing chain (base and top)
-- The job is drained via blk_drain(), then an error occurs while the job
-  settles the ongoing request
-- And so the job completes while in blk_drain()
+On Mon, Jan 10, 2022 at 07:57:05PM +0100, Hanna Reitz wrote:
+> On 14.12.21 15:35, Stefan Hajnoczi wrote:
+> > The BlockBackend root child can change when aio_poll() is invoked. This
+> > happens when a temporary filter node is removed upon blockjob
+> > completion, for example.
+> >=20
+> > Functions in block/block-backend.c must be aware of this when using a
+> > blk_bs() pointer across aio_poll() because the BlockDriverState refcnt
+> > may reach 0, resulting in a stale pointer.
+> >=20
+> > One example is scsi_device_purge_requests(), which calls blk_drain() to
+> > wait for in-flight requests to cancel. If the backup blockjob is active=
+,
+> > then the BlockBackend root child is a temporary filter BDS owned by the
+> > blockjob. The blockjob can complete during bdrv_drained_begin() and the
+> > last reference to the BDS is released when the temporary filter node is
+> > removed. This results in a use-after-free when blk_drain() calls
+> > bdrv_drained_end(bs) on the dangling pointer.
+>=20
+> By the way, I have a BZ for this, though it=E2=80=99s about block-stream =
+instead of
+> backup (https://bugzilla.redhat.com/show_bug.cgi?id=3D2036178).=C2=A0 But=
+ I=E2=80=99m happy
+> to report your patch seems* to fix that problem, too!=C2=A0 (Thanks for f=
+ixing my
+> BZs! :))
+>=20
+> *I=E2=80=99ve written a reproducer in iotest form (https://gitlab.com/hre=
+itz/qemu/-/blob/stefans-fix-and-a-test/tests/qemu-iotests/tests/stream-erro=
+r-on-reset),
+> and so far I can only assume it indeed reproduces the report, but I found
+> that iotest to indeed be fixed by this patch.=C2=A0 (Which made me very h=
+appy.)
 
-This was reported as a segfault, but is fixed by "block-backend: prevent
-dangling BDS pointers across aio_poll()".
+Great, I have merged your test case and sent a v3.
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2036178
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- .../qemu-iotests/tests/stream-error-on-reset  | 140 ++++++++++++++++++
- .../tests/stream-error-on-reset.out           |   5 +
- 2 files changed, 145 insertions(+)
- create mode 100755 tests/qemu-iotests/tests/stream-error-on-reset
- create mode 100644 tests/qemu-iotests/tests/stream-error-on-reset.out
+Thanks,
+Stefan
 
-diff --git a/tests/qemu-iotests/tests/stream-error-on-reset b/tests/qemu-iotests/tests/stream-error-on-reset
-new file mode 100755
-index 0000000000..7eaedb24d7
---- /dev/null
-+++ b/tests/qemu-iotests/tests/stream-error-on-reset
-@@ -0,0 +1,140 @@
-+#!/usr/bin/env python3
-+# group: rw quick
-+#
-+# Test what happens when a stream job completes in a blk_drain().
-+#
-+# Copyright (C) 2022 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import os
-+import iotests
-+from iotests import imgfmt, qemu_img_create, qemu_io_silent, QMPTestCase
-+
-+
-+image_size = 1 * 1024 * 1024
-+data_size = 64 * 1024
-+base = os.path.join(iotests.test_dir, 'base.img')
-+top = os.path.join(iotests.test_dir, 'top.img')
-+
-+
-+# We want to test completing a stream job in a blk_drain().
-+#
-+# The blk_drain() we are going to use is a virtio-scsi device resetting,
-+# which we can trigger by resetting the system.
-+#
-+# In order to have the block job complete on drain, we (1) throttle its
-+# base image so we can start the drain after it has begun, but before it
-+# completes, and (2) make it encounter an I/O error on the ensuing write.
-+# (If it completes regularly, the completion happens after the drain for
-+# some reason.)
-+
-+class TestStreamErrorOnReset(QMPTestCase):
-+    def setUp(self) -> None:
-+        """
-+        Create two images:
-+        - base image {base} with {data_size} bytes allocated
-+        - top image {top} without any data allocated
-+
-+        And the following VM configuration:
-+        - base image throttled to {data_size}
-+        - top image with a blkdebug configuration so the first write access
-+          to it will result in an error
-+        - top image is attached to a virtio-scsi device
-+        """
-+        assert qemu_img_create('-f', imgfmt, base, str(image_size)) == 0
-+        assert qemu_io_silent('-c', f'write 0 {data_size}', base) == 0
-+        assert qemu_img_create('-f', imgfmt, top, str(image_size)) == 0
-+
-+        self.vm = iotests.VM()
-+        self.vm.add_args('-accel', 'tcg') # Make throttling work properly
-+        self.vm.add_object(self.vm.qmp_to_opts({
-+            'qom-type': 'throttle-group',
-+            'id': 'thrgr',
-+            'x-bps-total': str(data_size)
-+        }))
-+        self.vm.add_blockdev(self.vm.qmp_to_opts({
-+            'driver': imgfmt,
-+            'node-name': 'base',
-+            'file': {
-+                'driver': 'throttle',
-+                'throttle-group': 'thrgr',
-+                'file': {
-+                    'driver': 'file',
-+                    'filename': base
-+                }
-+            }
-+        }))
-+        self.vm.add_blockdev(self.vm.qmp_to_opts({
-+            'driver': imgfmt,
-+            'node-name': 'top',
-+            'file': {
-+                'driver': 'blkdebug',
-+                'node-name': 'top-blkdebug',
-+                'inject-error': [{
-+                    'event': 'pwritev',
-+                    'immediately': 'true',
-+                    'once': 'true'
-+                }],
-+                'image': {
-+                    'driver': 'file',
-+                    'filename': top
-+                }
-+            },
-+            'backing': 'base'
-+        }))
-+        self.vm.add_device(self.vm.qmp_to_opts({
-+            'driver': 'virtio-scsi',
-+            'id': 'vscsi'
-+        }))
-+        self.vm.add_device(self.vm.qmp_to_opts({
-+            'driver': 'scsi-hd',
-+            'bus': 'vscsi.0',
-+            'drive': 'top'
-+        }))
-+        self.vm.launch()
-+
-+    def tearDown(self) -> None:
-+        self.vm.shutdown()
-+        os.remove(top)
-+        os.remove(base)
-+
-+    def test_stream_error_on_reset(self) -> None:
-+        # Launch a stream job, which will take at least a second to
-+        # complete, because the base image is throttled (so we can
-+        # get in between it having started and it having completed)
-+        res = self.vm.qmp('block-stream', job_id='stream', device='top')
-+        self.assert_qmp(res, 'return', {})
-+
-+        while True:
-+            ev = self.vm.event_wait('JOB_STATUS_CHANGE')
-+            if ev['data']['status'] == 'running':
-+                # Once the stream job is running, reset the system, which
-+                # forces the virtio-scsi device to be reset, thus draining
-+                # the stream job, and making it complete.  Completing
-+                # inside of that drain should not result in a segfault.
-+                res = self.vm.qmp('system_reset')
-+                self.assert_qmp(res, 'return', {})
-+            elif ev['data']['status'] == 'null':
-+                # The test is done once the job is gone
-+                break
-+
-+
-+if __name__ == '__main__':
-+    # Passes with any format with backing file support, but qed and
-+    # qcow1 do not seem to exercise the used-to-be problematic code
-+    # path, so there is no point in having them in this list
-+    iotests.main(supported_fmts=['qcow2', 'vmdk'],
-+                 supported_protocols=['file'])
-diff --git a/tests/qemu-iotests/tests/stream-error-on-reset.out b/tests/qemu-iotests/tests/stream-error-on-reset.out
-new file mode 100644
-index 0000000000..ae1213e6f8
---- /dev/null
-+++ b/tests/qemu-iotests/tests/stream-error-on-reset.out
-@@ -0,0 +1,5 @@
-+.
-+----------------------------------------------------------------------
-+Ran 1 tests
-+
-+OK
--- 
-2.33.1
+--+gLWM/KnewIHCFGf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHdpBoACgkQnKSrs4Gr
+c8hpzAf/eTrOw6mh7lEe0McrL+zN6/K9vCUNQwlFGIO+YN37zkSg9iCHwKJxwUcU
+mm8kjt6jbwCsA+sIZVosbv+FIOU70E5nrHr0QEkMFK6hGkc8Itf3vKwPYyWm9Q4t
+IWSe5o5YP2uGSvpMljEDDnKyNO5NTSmZwe6ROYIKyNnCLDk/h4KODoE8sOX1We42
+0QmuBs9L1MCiIp9bLhRPz7IKAKdk57ybsaCeC9qUufrwEhRH3nOnJBe+tzcRnFbx
+roH1fFkz/mFUBCZbL3Dj8d440/ut9pkoSsKfcPO8nMlNgQ8vetXYhDBvZzfrgB99
+6wEwS3Oq9qfg/39RL0pUXank+fhN9Q==
+=+fsP
+-----END PGP SIGNATURE-----
+
+--+gLWM/KnewIHCFGf--
 
 
