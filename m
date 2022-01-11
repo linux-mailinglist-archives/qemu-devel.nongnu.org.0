@@ -2,98 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4822E48AE65
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 14:26:38 +0100 (CET)
-Received: from localhost ([::1]:47052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E49A048AE44
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 14:16:24 +0100 (CET)
+Received: from localhost ([::1]:58882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7HAb-0000U5-Bc
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 08:26:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47840)
+	id 1n7H0i-0004mt-1O
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 08:16:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n7GaO-0007YM-Ut; Tue, 11 Jan 2022 07:49:12 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24648)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1n7Gcb-0000wT-PC; Tue, 11 Jan 2022 07:51:30 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:36031)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n7GaM-0003NJ-PR; Tue, 11 Jan 2022 07:49:12 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20BCIhHw000996; 
- Tue, 11 Jan 2022 12:48:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=hvP1aryGDKJW7g+YI+a17zlGCImNs9GI6VnYqpzO8ks=;
- b=RNVOc6FzGEuM2JPKa5ye+FiGSHGDmFR2PBBSu99VIrw8ubCEiwUOJdqrh9SX3y42C1Uv
- AMdH64orBprvwNi3Iap2mPlGPUO/BmLHwk+aNBwmc1Rvv0u8c9NFSwYCThcAbasqkjdT
- Kz3yDWW/ntnFm7UEa9fmoR3MRUMF99DIfZq67uFxqOXTbTlyQG7CFIgqFehXwI5K7wBW
- g/uIkQjfYuWJLD2S3FB9w/QCQpwiqxgCM2ZJl2e6OR+jSHwCc1AYHImDH9HMzulI+I+w
- Wf1jTTPf7l1l4+bVPd1DyS51I0peQWfo43AFQ1wCwZVtRrW8+Gt21syrbWLUeD/7AJER jA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dh2qsjfrh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Jan 2022 12:48:56 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20BCgbq5018419;
- Tue, 11 Jan 2022 12:48:56 GMT
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dh2qsjfr7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Jan 2022 12:48:55 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20BCmFSv009747;
- Tue, 11 Jan 2022 12:48:54 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma01wdc.us.ibm.com with ESMTP id 3df28a33x9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Jan 2022 12:48:54 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20BCmraT34800074
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 11 Jan 2022 12:48:53 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 80E09BE07A;
- Tue, 11 Jan 2022 12:48:53 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DDFE5BE05A;
- Tue, 11 Jan 2022 12:48:52 +0000 (GMT)
-Received: from localhost (unknown [9.163.2.124])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Tue, 11 Jan 2022 12:48:52 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH 8/8] target/ppc: 405: System call exception cleanup
-In-Reply-To: <Ydzr+ecnNSik9N/C@yekko>
-References: <20220110181546.4131853-1-farosas@linux.ibm.com>
- <20220110181546.4131853-9-farosas@linux.ibm.com> <Ydzr+ecnNSik9N/C@yekko>
-Date: Tue, 11 Jan 2022 09:48:50 -0300
-Message-ID: <87zgo28mkt.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1n7GcW-0003pz-Rq; Tue, 11 Jan 2022 07:51:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=yEw9eHT27SnjGR8S8BOmyUMfpxMpGFc+nuUp2lzdPvg=; b=wRzj0qFWMvuFbLR6HqpbfrQat8
+ VeLYZxY9FoPvDEI945fp/F3zf0rf9vyIZJfmPKbzY61AHqehFvquuWwTKIDlicWUgyDpufwPEq0ZQ
+ IRo0OhgiJHh3ASYOpo21OPH6fVFQVUPNoxOvtaCFBYAjy59i9gfLZ+ls0hl5Bp5aj1FnwVG7LY0vk
+ FJY0TVA+Kj9IBFEvlewD2CTmX3hhrfjWunzDREj42NLnAvSsYnWrAi066XnMnc/QymwCelrtNFmK1
+ bacD0QQ5dkLmfk5jq8CqRI6m7hCgLxR+W4hmRzNITbBJPGXH+GNBh7Ub0o5XzT80YAR4nNJg3XZBh
+ XuzzetD3erCdLTlgMiHqfvcMcQLejunPy/EhXeYTy3Y8Q6c/QrziI4qi00Q3zUBS2BzS0o56QfkOS
+ Xhx55ic43dtCuaIqPGllF8n6vX5QYobHOGce7JTFIgmhTP6U18xM//GFJQSHiCM84KKAQPZW5K5fI
+ S2M1xlyJC6QMu8Ut68ccjTwvAY6RICAZLOgp8BSAmyF9u1A7pPrhMqvqYNgGfVfJOdHYtfb7FS3mB
+ OUIXFGL9JnOw1voxNR4fJExtfdwXc+CMVbIOhnbMSojeqt7YQl6Cm0khzByBeMzLKU7rNWdYoGyZk
+ T/dm8AwReMfcmkz0Bbd+Pfxh049+3h//BBv47eHU8=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ Cameron Esfahani <dirty@apple.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [RFC PATCH v2 2/6] audio/coreaudio: Remove a deprecation warning
+ on macOS 12
+Date: Tue, 11 Jan 2022 13:51:20 +0100
+Message-ID: <1722520.7uOPACjRs4@silver>
+In-Reply-To: <5803228.I1kPANlMEi@silver>
+References: <20220109170612.574104-1-f4bug@amsat.org>
+ <2141936.zTEnKHbCo3@silver> <5803228.I1kPANlMEi@silver>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: S_wgyseToWIfi7dZlcdxeDZPjiGoSJ6W
-X-Proofpoint-ORIG-GUID: yfe7U_oXssqg-yfoNWlMAp5YEBH026bH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-11_04,2022-01-11_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 lowpriorityscore=0
- spamscore=0 malwarescore=0 suspectscore=0 mlxlogscore=939 bulkscore=0
- clxscore=1015 adultscore=0 priorityscore=1501 phishscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2201110075
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,26 +70,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-David Gibson <david@gibson.dropbear.id.au> writes:
+On Dienstag, 11. Januar 2022 13:35:05 CET Christian Schoenebeck wrote:
+> Curiousity was stronger: the original clang behaviour was as I explained:
+> https://github.com/llvm-mirror/clang/commit/0a0d2b179085a52c10402feebeb6db8b
+> 4d96a140#diff-97c4322e86bf436b7f79f4fcafc4b7beb092da08c5c23f294f98b5bb0a7f9a
+> 31
+> 
+> Quote:
+> 
+> "
+> For example,
+> 
+>   void foo()
+>  
+> __attribute__((availability(macosx,introduced=10.2,deprecated=10.4,obsolete
+> d=10.6)));
+> 
+> ...
+> 
+>    - If we choose a deployment target >= Mac OS X 10.4, uses of "foo"
+>     will result in a deprecation warning, as if we had placed
+>     attribute((deprecated)) on it ...
+> "
+> 
+> Relevant code section (in that original commit):
+> 
+> static AvailabilityResult CheckAvailability(ASTContext &Context,
+>                                             const AvailabilityAttr *A,
+>                                             std::string *Message) {
+>   ...
+>   VersionTuple TargetMinVersion = Context.Target.getPlatformMinVersion();
+>   ...
+>   // Make sure that this declaration hasn't been deprecated.
+>   if (!A->getDeprecated().empty() && TargetMinVersion >= A->getDeprecated())
 
-> On Mon, Jan 10, 2022 at 03:15:46PM -0300, Fabiano Rosas wrote:
->> There's no sc 1.
->> 
->> We also only used env->nip because of the vhyp code, so change to
->> 'vector' now.
->
-> I don't think this is right.  The point with the env->nip change is
-> changing the PC as it appeared *before* saving it to SRR0, so that
-> we'll eventually return to the right place.  'vector' is the address
-> for the interrupt vector itself.
+Stupid me, you are right. No deprecated warning unless minimum deployment 
+target is >= the attribute's deprecated version.
 
-Ugh, In the RFC version I introduced a 'nip' that holds env->nip. So it
-would be correct to use 'nip' instead of 'env->nip' here. I knew
-'vector' was looking off... Thanks for catching that.
+So it was always like this. My bad. :)
+
+> { if (Message) {
+>       Message->clear();
+>       llvm::raw_string_ostream Out(*Message);
+>       Out << "first deprecated in " << PrettyPlatformName << ' '
+>           << A->getDeprecated();
+>     }
+> 
+>     return AR_Deprecated;
+>   }
+>   ...
+> }
+
+Best regards,
+Christian Schoenebeck
+
 
 
