@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D07548AB3B
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 11:18:13 +0100 (CET)
-Received: from localhost ([::1]:48902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6F248AB4C
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 11:24:52 +0100 (CET)
+Received: from localhost ([::1]:58198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7EEF-0002aL-Jb
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 05:18:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39060)
+	id 1n7EKh-0001Qa-Fy
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 05:24:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1n7EAX-0008Qj-QW
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 05:14:21 -0500
-Received: from [2a00:1450:4864:20::42b] (port=34702
- helo=mail-wr1-x42b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1n7EAV-00027a-7U
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 05:14:21 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id h10so21808306wrb.1
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 02:13:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=UfiOqNQXiUNpKC4+H6q/1Ps2JD9gx9xtbgbCJ4m3nv4=;
- b=wwaO0fyVk/d0q1RrHE/Sagsu5KFvZvhV/l5eR9O//kJZLQzHGp6Iv02cVhUtgWzhmA
- 97Gaqq/8e5MLY+VxD3awBdTp6qTji3pIlEG2+FwoFAC6+zHYOIGoDz1KRwZCcqjhZXA0
- Wkpn1D2esXd09+VZtuqV3gAeC4KokU1LGEahVS2SlsiE6Uokiu/48OCEWw1gNoQ25cCQ
- A89OTGzWcqzASM1QeQBUP0W1DsbSlfKU1+65Gn9eXdKTrkjwGMZVRDtIdf9jYzMQbk8L
- Uxinwo/cw6XOIBXo8rMHaSzIBw/K4gGM8DdlkeJpEPq06P7KLdq9hrhYcKp1Snc11IlQ
- YBxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=UfiOqNQXiUNpKC4+H6q/1Ps2JD9gx9xtbgbCJ4m3nv4=;
- b=zZbRtZdFVwmydAwt0wbfn1Y6eteRU3cTrJkRYrSIeEd4DphrzgCTfvA9TjYTTNJ6dw
- mvd4Xwvi5PhjM7tBeRRwPP3Db/DM9fQlH6R5U4adgvlVjoJXR6Kqduvq/voybX6nJixa
- FE6AZIqe/cJ9Gbe+juBsXr7nQwk+S3DKO92M8tG57YhWBmxVPDsx1ZjbDfsi+s0+pglO
- cjdmYVkp425RRIyh0TqFXPLtuEQeoddFVXr9FNaTjszcdEXYFXnZDD3ssL96uh/IIfjy
- XGMAKhk4wznIUBzXs7rkc7yu9UxNXS/yZA79c+gTp6ppr2lkQhV68SEfeMIAaaQ83WiJ
- VRiA==
-X-Gm-Message-State: AOAM531CsfR9KgR7F/QrZKMNwoLgzyhbo821u8HFGD+plKJ3QiuAh3FB
- iHrNX0CQ3s/gbB8s4iMbJ7MJJA==
-X-Google-Smtp-Source: ABdhPJyov6Jp1Csb8JixYLuVoQf41G+2K8BEZmiMXd4ukaQgNFTzdsoat1sd5hfHmiBSz1yT+uHrmw==
-X-Received: by 2002:a5d:690c:: with SMTP id t12mr3249911wru.536.1641896029142; 
- Tue, 11 Jan 2022 02:13:49 -0800 (PST)
-Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
- [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id q206sm1288592wme.8.2022.01.11.02.13.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jan 2022 02:13:48 -0800 (PST)
-Date: Tue, 11 Jan 2022 10:13:26 +0000
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH 0/3] virtio-iommu: Support VIRTIO_IOMMU_F_BYPASS_CONFIG
-Message-ID: <Yd1YRkJDv35bQ/PR@myrica>
-References: <20210930185050.262759-1-jean-philippe@linaro.org>
- <a98b63f9-000b-7647-0ac5-3e6e5ec7f6a7@redhat.com>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1n7EG0-0007TH-Cd
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 05:20:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47142)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1n7EFx-00032i-EG
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 05:19:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641896386;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=i96UbwfIP1sh8qIwv93wrtE+1LsnHtnNK9No+P8d8CM=;
+ b=O0cvGAf8mxl/sM7SLzQi/GuZMaoG6AsCy1c78epOgBvbXGucNZLjgbI+xKsyT54ynUekKM
+ yPa1zaBK2Z3hmk0ggttC1Pe44k6BTZoeWx07U7R6nCC+hffx/fCyv5e+RAtZ0KyAPUoH7E
+ G2z39w1B5KNL2ADI1BF8d0F+l94rsMg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-472-_8ZR6wLOOxqivUBlmQNOKg-1; Tue, 11 Jan 2022 05:19:42 -0500
+X-MC-Unique: _8ZR6wLOOxqivUBlmQNOKg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 167C6100C610;
+ Tue, 11 Jan 2022 10:19:41 +0000 (UTC)
+Received: from dgilbert-t580.localhost (unknown [10.39.195.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 69DE878342;
+ Tue, 11 Jan 2022 10:19:39 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, luc@lmichel.fr, damien.hedde@greensocs.com,
+ peter.maydell@linaro.org
+Subject: [PATCH] clock-vmstate: Add missing END_OF_LIST
+Date: Tue, 11 Jan 2022 10:19:34 +0000
+Message-Id: <20220111101934.115028-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a98b63f9-000b-7647-0ac5-3e6e5ec7f6a7@redhat.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,35 +77,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, mst@redhat.com
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-On Tue, Jan 11, 2022 at 10:02:12AM +0100, Eric Auger wrote:
-> Hi Jean, Michael,
-> 
-> On 9/30/21 8:50 PM, Jean-Philippe Brucker wrote:
-> > Replace the VIRTIO_IOMMU_F_BYPASS feature with
-> > VIRTIO_IOMMU_F_BYPASS_CONFIG, which enables a config space bit to switch
-> > global bypass on and off.
-> >
-> > Add a boot-bypass option, which defaults to 'on' to be in line with
-> > other vIOMMUs and to allow running firmware/bootloader that are unaware
-> > of the IOMMU.
-> >
-> > See the spec change for more rationale
-> > https://lists.oasis-open.org/archives/virtio-dev/202109/msg00137.html
-> 
-> I guess the kernel bits should be merged in 5.17?
+Add the missing VMSTATE_END_OF_LIST to vmstate_muldiv
 
-Yes, they should. I can resend at 5.17-rc1 along with a commit updating
-the linux headers. Or is there a specific process for synchronizing the
-headers?  Looking at git log it looks like scripts/update-linux-headers.sh
-is run by whomever needs new UAPI features.
+Fixes: 99abcbc7600 ("clock: Provide builtin multiplier/divider")
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ hw/core/clock-vmstate.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks,
-Jean
+diff --git a/hw/core/clock-vmstate.c b/hw/core/clock-vmstate.c
+index 9d9174ffbd..7eccb6d4ea 100644
+--- a/hw/core/clock-vmstate.c
++++ b/hw/core/clock-vmstate.c
+@@ -44,6 +44,7 @@ const VMStateDescription vmstate_muldiv = {
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT32(multiplier, Clock),
+         VMSTATE_UINT32(divider, Clock),
++        VMSTATE_END_OF_LIST()
+     },
+ };
+ 
+-- 
+2.34.1
 
 
