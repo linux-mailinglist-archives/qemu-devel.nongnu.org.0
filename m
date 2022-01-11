@@ -2,94 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D71AD48AA16
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 10:05:14 +0100 (CET)
-Received: from localhost ([::1]:57520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B45A648AA22
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 10:07:22 +0100 (CET)
+Received: from localhost ([::1]:60506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7D5d-0003hC-MB
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 04:05:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50056)
+	id 1n7D7h-0005of-8o
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 04:07:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1n7D2r-0002CI-G6
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 04:02:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60529)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1n7D2o-0007Sq-UN
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 04:02:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641891737;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wmKt3iI4mRTGz+lD/+sEilr22APwXw4mH+0KJGI7k9I=;
- b=Y4rUlT/sWSOeVkQALbkHGoV04kmkEo9JLJZFzyMebHQOyTIVU7wsF/esRHpEFZEn3O7Z2A
- +JFkkAh6wY2ePL/vzHHqMpS6nZ4Wzo1s0ZEWrDVntUAXkRgOl52woRVOQabYZT1qaVodF4
- 7D1/02NYgyZHfvDQ5AluUXw29IjHivk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-479-AlSe6CgzN5yd6K-1WDHT7Q-1; Tue, 11 Jan 2022 04:02:15 -0500
-X-MC-Unique: AlSe6CgzN5yd6K-1WDHT7Q-1
-Received: by mail-wr1-f71.google.com with SMTP id
- i8-20020adfa508000000b001ad5418833cso93729wrb.5
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 01:02:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=wmKt3iI4mRTGz+lD/+sEilr22APwXw4mH+0KJGI7k9I=;
- b=by/aKYWqldvB/4ZxxcOYpX5vP3iNzikMurvjcKpkaN3XIQiO1rbpRiLnFTNQQUtc9d
- oic0KOAM+AYcWHUWhO8CASSrNPcUiRGfgbD5amWhpn801kgSpBlnmfgV/RRLU51ICwaO
- eMwFH1mIMXTzp+mkKZW/k1BOV0mlycTWgsA+puKoXwW4/fA+jdgLyj1iBnxxuOIVAHZ9
- hTmYAOExB/pCesyZNm1M2Kuz2Ym4cVPZLu/8zX2HDaF66l/OEKmjlHqyOuSFyD8g6jux
- 95HRWDui4wfj2oxPc4NwE30BzIYbPFvQ8uJ2upn0jhwd1u8BK4hsIqRI4QKrDxzSENm8
- osjA==
-X-Gm-Message-State: AOAM533NiN+Y66GXDl4nOUoJKJ0kXq6vcJNdZ8kz8slseVdHLGgML3ry
- tPPTnRn35HjJJkszCv4ij1nk/az47OPERivSNZCaaJFg7KV1kkq4ABe+x8KBPPBV7ZTr9TpkP+N
- 5fmix91/zGcv7x/w=
-X-Received: by 2002:a7b:c00d:: with SMTP id c13mr1541052wmb.128.1641891734141; 
- Tue, 11 Jan 2022 01:02:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJznjHUgYLGwpPD0cHDu/59i2gWLANsSJl7XqzmpDbX6F9zJfX7bnlK1uNQ/INC52OjjowTbsA==
-X-Received: by 2002:a7b:c00d:: with SMTP id c13mr1541026wmb.128.1641891733889; 
- Tue, 11 Jan 2022 01:02:13 -0800 (PST)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id o10sm1216184wmq.31.2022.01.11.01.02.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Jan 2022 01:02:13 -0800 (PST)
-Subject: Re: [PATCH 0/3] virtio-iommu: Support VIRTIO_IOMMU_F_BYPASS_CONFIG
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-References: <20210930185050.262759-1-jean-philippe@linaro.org>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <a98b63f9-000b-7647-0ac5-3e6e5ec7f6a7@redhat.com>
-Date: Tue, 11 Jan 2022 10:02:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <mario@locati.it>) id 1n7D59-0004ID-3c
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 04:04:45 -0500
+Received: from smtpcmd01-d.aruba.it ([62.149.158.245]:47329)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <mario@locati.it>) id 1n7D54-0007hr-Oi
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 04:04:42 -0500
+Received: from locati.it ([10.10.9.171]) by Aruba Outgoing Smtp  with ESMTPA
+ id 7D50nXO4ProAh7D50nCIzy; Tue, 11 Jan 2022 10:04:34 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+ t=1641891874; bh=Qz8syEjcGHqOlLBXE2ZhgVeqirlFQDFPGSLb7i3x/hg=;
+ h=Date:Subject:MIME-Version:Content-Type:From:To;
+ b=fl3DVx8HB1HL4E26Twp13DfdUzpcmewXjGkkrd4sRz4HtWojdYNuCWegJiXRHzJ05
+ 3EdBvz/sAv6YPt569YzL/yGYM4HPGqw5rOVo/1f+dJJQm2XPBr8y3PveCdTM3DrBEs
+ ahY3JaRRlwPBxx7qZSJq/AbyjSCmU9fiogfQFLtr+N/FZ52tqTsTZfF4hxPVlNI0Qn
+ LYY7ZQYJzbq/hsvnSpFL8QenHdTngpHhAtvLEky16IU84CYkJ5GpbRh4LCuTsyuq9O
+ go5Ym+6NTTMaId3wAyCPru0MQez2kDe3E2jMwqEwk+lNh9Kl3O0tFIcm4kA0Fp7i8Q
+ OAK2iNc6Kf4mw==
+Date: Tue, 11 Jan 2022 10:04:34 +0100
+Message-Id: <R5JFVM$911E343FF81933B99D53FD0992D8848F@locati.it>
+In-Reply-To: <10391a07-e5e1-99e6-ed68-c93520534f29@kaod.org>
+References: =?iso-8859-1?q?=3C20211213133542=2E2608540=2D1=2Dfarosas=40linux=2Eib?=
+ =?iso-8859-1?q?m=2Ecom=3E_=3C724f7563=2Df36c=2D2c37=2D3b94=2D951c3d92?=
+ =?iso-8859-1?q?2861=40eik=2Ebme=2Ehu=3E_=3CR4OPHT=247F12C66D110739799?=
+ =?iso-8859-1?q?1E0E4C978FE6AF1=40locati=2Eit=3E_=3C10391a07=2De5e1=2D?=
+ =?iso-8859-1?q?99e6=2Ded68=2Dc93520534f29=40kaod=2Eorg=3E?=
+Subject: Re: [PATCH] target/ppc: Fix e6500 boot
 MIME-Version: 1.0
-In-Reply-To: <20210930185050.262759-1-jean-philippe@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+X-Sensitivity: 3
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+From: "mario@locati.it" <mario@locati.it>
+To: clg@kaod.org
+X-XaM3-API-Version: V4(R2)
+X-type: 0
+X-SenderIP: 2.36.99.146
+X-CMAE-Envelope: MS4wfNMB/p3JU1xJzyCoog9RF7c4DAsyV7ZCCYG2QE/zQZwV8KOluJA1AuZm93bnUEqT/GPwytF2/1qTXp7haS6vNDSioVeZpXXsYPMTkmLJDe+zPPapYOWX
+ HQ3D3Qf9feleLxY1WAlI9LMRAZcHVnkBXcLnSup+ofFnz8KKLFlsm1kOOh6SP9iHmfqHgZOgCCcIvA9n6TC/oSp2aSscDN5KN/aU21St2qRR8HhVKBA3VJ40
+ b7CHSZUv68URHcjjcX86BR3XCMeaACVW5HsrpdAxeQVjZfQ8z2QL776NcaPxuDBraWwg0sOEp1G/MvcAogqKnA==
+Received-SPF: none client-ip=62.149.158.245; envelope-from=mario@locati.it;
+ helo=smtpcmd01-d.aruba.it
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,42 +70,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: qemu-devel@nongnu.org, mst@redhat.com
+Cc: danielhb413@gmail.com, farosas@linux.ibm.com, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Jean, Michael,
-
-On 9/30/21 8:50 PM, Jean-Philippe Brucker wrote:
-> Replace the VIRTIO_IOMMU_F_BYPASS feature with
-> VIRTIO_IOMMU_F_BYPASS_CONFIG, which enables a config space bit to switch
-> global bypass on and off.
->
-> Add a boot-bypass option, which defaults to 'on' to be in line with
-> other vIOMMUs and to allow running firmware/bootloader that are unaware
-> of the IOMMU.
->
-> See the spec change for more rationale
-> https://lists.oasis-open.org/archives/virtio-dev/202109/msg00137.html
-
-I guess the kernel bits should be merged in 5.17?
-
-Thanks
-
-Eric
->
-> Jean-Philippe Brucker (3):
->   NOMERGE: virtio-iommu: Add definitions for
->     VIRTIO_IOMMU_F_BYPASS_CONFIG
->   virtio-iommu: Default to bypass during boot
->   virtio-iommu: Support bypass domain
->
->  include/hw/virtio/virtio-iommu.h              |  1 +
->  include/standard-headers/linux/virtio_iommu.h | 10 +++-
->  hw/virtio/virtio-iommu.c                      | 60 ++++++++++++++++---
->  hw/virtio/trace-events                        |  4 +-
->  4 files changed, 64 insertions(+), 11 deletions(-)
->
-
+>From: "C=C3=A9dric Le Goater" clg@kaod.org=0A>To: "mario@locati.it" mari=
+o@locati.it, balaton@eik.bme.hu=0A>Cc: farosas@linux.ibm.com, qemu-devel@=
+nongnu.org, qemu-ppc@nongnu.org, danielhb413@gmail.com=0A>Date: Mon, 10 J=
+an 2022 09:04:39 +0100=0A>Subject: Re: [PATCH] target/ppc: Fix e6500 boot=
+=0A>=0A>Hello Mario,=0A>=C2=A0=0A>> =0A>> I have tried to launch a freshl=
+y compiled qemu from git master on a NXP T2080RDB devkit that has a e6500=
+ CPU in combination with a freshly compiled kernel 5.16-rc6=0A>> I have D=
+ebian SID ppc64 up and running using such a kernel, and when I launch qem=
+u to run a VM with the same debian sid for ppc64 and the same kernel usin=
+g --enable-kvm I end up with a kernel panic=0A>> =0A>> [....]=0A>> Run /s=
+bin/init as init process=0A>> random: fast init done=0A>> systemd[1]: ill=
+egal instruction (4) at 3fff96562ac8 nip 3fff96562ac8 lr 3fff96562aa8 cod=
+e 1 in libc-2.32.so[3fff96516000+1f7000]=0A>> systemd[1]: code: 60000000 =
+38600006 9122b7e8 4801bead 60000000 60000000 8122b7e8 2c090004=0A>> syste=
+md[1]: code: 40820014 39200005 60000000 9122b7e8 <00000000> 60000000 8122=
+b7e8 2c090005=0A>> Kernel panic - not syncing: Attempted to kill init! ex=
+itcode=3D0x00000004=0A>> Rebooting in 180 seconds..=0A>=C2=A0=0A>I spend =
+sometime looking at the kernel and QEMU and I noticed that=0A>TCG e6500 m=
+achines have an issue when the kernel has KVM support.=0A>I have limited =
+knowledge on that topic but e6500 has extra MMU=0A>features that an hyper=
+visor could use for the guest and the e6500=0A>emulation clearly doesn't =
+have support for it.=0A>=C2=A0=0A>In the guest, could you try with to run=
+ the KVM guest with a kernel=0A>without KVM support and let us know ?=0A>=
+=C2=A0=0A>Thanks,=0A>=C2=A0=0A>C.=0A=0AUnfortunately using a kernel with =
+KVM disabled on the guest did not solve the problem on the NXP T2080RDB d=
+evkit, here's how qemu log ends=0A=0A[...]=0ALoading compiled-in X.509 ce=
+rtificates=0Azswap: loaded using pool lzo/zbud=0AKey type ._fscrypt regis=
+tered=0AKey type .fscrypt registered=0AKey type fscrypt-provisioning regi=
+stered=0ABtrfs loaded, crc32c=3Dcrc32c-generic, zoned=3Dno, fsverity=3Dno=
+=0AKey type encrypted registered=0AALSA device list:=0A  #0: Virtual MIDI=
+ Card 1=0AEXT4-fs (vda): recovery complete=0AEXT4-fs (vda): mounted files=
+ystem with ordered data mode. Opts: (null). Quota mode: none.=0AVFS: Moun=
+ted root (ext4 filesystem) on device 254:0.=0Adevtmpfs: mounted=0AFreeing=
+ unused kernel image (initmem) memory: 460K=0AThis architecture does not =
+have kernel memory protection.=0ARun /sbin/init as init process=0Arandom:=
+ fast init done=0Asystemd[1]: illegal instruction (4) at 3fffb412415c nip=
+ 3fffb412415c lr 3fffb412413c code 1 in libc-2.33.so[3fffb40d7000+1fe000]=
+=0Asystemd[1]: code: 60000000 38600006 9122b7d0 4801bf19 60000000 6000000=
+0 8122b7d0 2c090004 =0Asystemd[1]: code: 40820014 39200005 60000000 9122b=
+7d0 <00000000> 60000000 8122b7d0 2c090005 =0AKernel panic - not syncing: =
+Attempted to kill init! exitcode=3D0x00000004=0ARebooting in 180 seconds.=
+.=0A=0A=0AHowever, when using such a kernel without KVM on my x86_64 linu=
+x machine, qemu works just fine with an e6500 cpu using the following par=
+ameters=0Aqemu-system-ppc64 -M ppce500 -cpu e6500 -m 2G -kernel uImage_5.=
+16_no_kvm -append "root=3D/dev/vda rw" -drive format=3Dqcow2,file=3Dhdd_d=
+ebian_sid_ppc64.qcow2,index=3D0,if=3Dvirtio -net nic -net user -vga none =
+-nographic=0A=0A=0AHere the recompiled kernel 5.16 configuration used on =
+the host that has KVM enable=0Ahttps://repo.powerprogress.org/t2080rdb/qe=
+mu/2022-01-11_kernel_5.16_with_kvm.config=0AAnd here the compiled kernel=0A=
+https://repo.powerprogress.org/t2080rdb/qemu/uImage_5.16_with_kvm=0A=0AHe=
+re the recompiled kernel 5.16 configuration without KVM enabled for the g=
+uest=0Ahttps://repo.powerprogress.org/t2080rdb/qemu/2022-01-11_kernel_5.1=
+6_no_kvm.config=0AAnd here the compiled kernel=0Ahttps://repo.powerprogre=
+ss.org/t2080rdb/qemu/uImage_5.16_no_kvm=0A=0AHere the complete log of QEM=
+U I have just recompiled today from git=0Ahttps://repo.powerprogress.org/=
+t2080rdb/qemu/2022-01-11_qemu_git_log_kernel_5.16_no_kvm_guest.txt=0A=0AC=
+=C3=A9dric, I can provide you remote access (either ssh or remote desktop=
+) to the computer with the NXP T2080 cpu for doing some debugging if you =
+want, just drop me a private email and we will arrange the time for a ses=
+sion.=0A
 
