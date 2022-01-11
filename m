@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A502848B426
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 18:39:57 +0100 (CET)
-Received: from localhost ([::1]:58158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 107BA48B44B
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 18:45:47 +0100 (CET)
+Received: from localhost ([::1]:44730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7L7k-0007M4-On
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 12:39:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35754)
+	id 1n7LDO-0000cZ-5O
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 12:45:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n7Kfl-0005CF-Ka
+ id 1n7Kfn-0005CR-0n
  for qemu-devel@nongnu.org; Tue, 11 Jan 2022 12:11:03 -0500
-Received: from [2a00:1450:4864:20::429] (port=34625
- helo=mail-wr1-x429.google.com)
+Received: from [2a00:1450:4864:20::32d] (port=50723
+ helo=mail-wm1-x32d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n7Kfg-0007J8-9z
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 12:10:58 -0500
-Received: by mail-wr1-x429.google.com with SMTP id h10so24085322wrb.1
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 09:10:55 -0800 (PST)
+ id 1n7Kfi-0007JW-Bt
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 12:11:02 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id w26so5695481wmi.0
+ for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 09:10:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=77Xvvb93kRuq0kwxqLtAzTJqRqACUWX5HzdBepSqjy8=;
- b=fB1udekkew8p9fl1lMj8nTubohB41kthGpHkzhz96ijoAwJs56H5h7fvkBXnS86AGS
- dlVSZUn8jhIT1uHjjiZUR41Y0RgYtWE5xpufZbOyDnYt+j9aYtfQ677xzgKcR0BRgus8
- dexklcYGB1CHJTIfXtPkR2mMaBK83LeHfPMU5PE5Tz+CmCrmuhBHX7qIT2ymJdJtJxbe
- nVLxbXlqGkL360D6GUzWrYMOn60gbnxJpOj46fP1Y1WzoIL1CGIEElNldKRZgHeKwW15
- bfTm3W2brplHZ6ar3WA2NrxdntReNkCFkUfMNwE9YVS8wUnpxd51IcNCLKvnB70UeaAd
- YtGA==
+ bh=w59aiHtlS+UEJYF8KG6CIWjpdLxn3MFz4XhHlwys/7I=;
+ b=EQ+HaxxkduJVaWIsuKcg1SxL4RTwBCXV5plq9SlbUL8ohC0krpLXg8Pssj6yfstU4R
+ d1y5kPTVwGPB496iu9MYGoHNLGk4zryoSeQrXasNnUWX9toiE/IweRudNA3Kxp77J/Pw
+ f13f3brJUkyddCOISRQtigWmSz1LKed5T74MHVG/lDEMDhmdKhb7h2Z+kOUs4HVq4tgc
+ i7ftvRhC2o1wcC9JPRiObFVUEXKlZaoXv7gRHR53I1BCCGFFyhN0YJ0jpO5ce8LGB5h5
+ 6yD9387mHQKh0lb/MKM2XZWwnZcN4tqnkU9QUrmIskjadylTs3Jy7j0ZTKePiBHeu5n+
+ MPKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=77Xvvb93kRuq0kwxqLtAzTJqRqACUWX5HzdBepSqjy8=;
- b=Y2uSxxsXfjwE6MfrdxrDBD4t4sVYvhRt8E0g7rtjuGa8cXLIfkeBC0/og5+J+BKK/K
- XVVOIciFeRIegYJyCGlwmWkTY2v/i1lrlrbEIFbtaCssPDtDkxl+vc7ZlIpYrmPJ7Qo7
- QO4vEshcuOQ40oKBnswUH/UhQVqEsRQXPOkO2YH0Y6QaNbMqi0Q8VaU2voSIe+UiN8wr
- i/Bktk3b7Y6D+CdLhaB9opMm13FPHhzrWd4Uf+wEQWP0C4YArxT8XCYVvBtA14zHMZEW
- RC1Tido0Eax1+GhhJcPDbqQHZ9nroTV5TgOMwQWM+xNgnAWQ9TduqTDgn/Bptov0J9wB
- OyKQ==
-X-Gm-Message-State: AOAM531SFJ3g6Ms01I/cbVdrsGYldew1+vSFsMo560p3MNekHUgsvhN8
- UFH9C0X+Emso9kCUWk/wAqmziw==
-X-Google-Smtp-Source: ABdhPJznJ9+oka+YpbyoUZdjte7wkJrizD1mRILeW9z63s3EIZofOzDGmCeYJUH4ZWWHeoUnyMXnNw==
-X-Received: by 2002:adf:dd88:: with SMTP id x8mr4719929wrl.586.1641921055060; 
+ bh=w59aiHtlS+UEJYF8KG6CIWjpdLxn3MFz4XhHlwys/7I=;
+ b=r+EUdOFt8VvA4XukSIiWVXhPoFk5NfrwpAs1MYrYb90HPmBR2LsZdqm7wcj1zV0hsh
+ EuVJ4NAfma6FCSe33XfL+Mogq5rbhPKEigyc7sEsPg4aJDUsH1ywjdQegQxb8Jo94h4n
+ lICgDBPrr9bR+YJEOrbKF84IJU52KzIKSocVogMrtEzFNatZpUKVcOZkIAy4xc15ZcMS
+ Fqu6soGisHq8nl7Zjt15oWgkgb8sdmVmXETZ8Y9Zs0Lh0fHwe+23aRmnK7IIPiLdCwTI
+ 0kt/ab3oQ8v/gDsqy3rXrXqB0lxudEo6J/LTheohNTKR9Ch7etpzCBzRUYDG/Fpyy1ma
+ awEA==
+X-Gm-Message-State: AOAM533LRHCfMgTmDolTSznv5Md2+/fCV5ZyjyT9MjipWmuSsyiLMa+P
+ tNmMyRReM5yEQiNN86E6PI1QWA==
+X-Google-Smtp-Source: ABdhPJy5wwNA5pen3pENXQDKZ4eHqaBzBw5BvpAxZLTBze0RV666OtoGDfexZe/ZNC1IJcMCm3Kn4w==
+X-Received: by 2002:a1c:9803:: with SMTP id a3mr3251538wme.47.1641921055800;
  Tue, 11 Jan 2022 09:10:55 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id c7sm11157941wri.21.2022.01.11.09.10.54
+ by smtp.gmail.com with ESMTPSA id c7sm11157941wri.21.2022.01.11.09.10.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jan 2022 09:10:54 -0800 (PST)
+ Tue, 11 Jan 2022 09:10:55 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 06/13] hw/intc/arm_gicv3_its: Fix return codes in
- process_its_cmd()
-Date: Tue, 11 Jan 2022 17:10:41 +0000
-Message-Id: <20220111171048.3545974-7-peter.maydell@linaro.org>
+Subject: [PATCH v2 07/13] hw/intc/arm_gicv3_its: Refactor process_its_cmd() to
+ reduce nesting
+Date: Tue, 11 Jan 2022 17:10:42 +0000
+Message-Id: <20220111171048.3545974-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220111171048.3545974-1-peter.maydell@linaro.org>
 References: <20220111171048.3545974-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -93,116 +93,155 @@ Cc: Shashi Mallela <shashi.mallela@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix process_its_cmd() to consistently return CMD_STALL for
-memory errors and CMD_CONTINUE for parameter errors, as
-we claim in the comments that we do.
+Refactor process_its_cmd() so that it consistently uses
+the structure
+  do thing;
+  if (error condition) {
+      return early;
+  }
+  do next thing;
+
+rather than doing some of the work nested inside if (not error)
+code blocks.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/intc/arm_gicv3_its.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ hw/intc/arm_gicv3_its.c | 103 +++++++++++++++++++---------------------
+ 1 file changed, 50 insertions(+), 53 deletions(-)
 
 diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 10901a5e709..0929116c0fe 100644
+index 0929116c0fe..5dc6846fe3f 100644
 --- a/hw/intc/arm_gicv3_its.c
 +++ b/hw/intc/arm_gicv3_its.c
-@@ -248,7 +248,6 @@ static ItsCmdResult process_its_cmd(GICv3ITSState *s, uint64_t value,
-     bool ite_valid = false;
-     uint64_t cte = 0;
-     bool cte_valid = false;
--    ItsCmdResult result = CMD_STALL;
-     uint64_t rdbase;
- 
-     if (cmd == NONE) {
-@@ -262,7 +261,7 @@ static ItsCmdResult process_its_cmd(GICv3ITSState *s, uint64_t value,
-     }
- 
-     if (res != MEMTX_OK) {
--        return result;
-+        return CMD_STALL;
-     }
- 
-     eventid = (value & EVENTID_MASK);
-@@ -270,7 +269,7 @@ static ItsCmdResult process_its_cmd(GICv3ITSState *s, uint64_t value,
-     dte = get_dte(s, devid, &res);
- 
-     if (res != MEMTX_OK) {
--        return result;
-+        return CMD_STALL;
+@@ -273,79 +273,76 @@ static ItsCmdResult process_its_cmd(GICv3ITSState *s, uint64_t value,
      }
      dte_valid = FIELD_EX64(dte, DTE, VALID);
  
-@@ -280,7 +279,7 @@ static ItsCmdResult process_its_cmd(GICv3ITSState *s, uint64_t value,
-         ite_valid = get_ite(s, eventid, dte, &icid, &pIntid, &res);
- 
-         if (res != MEMTX_OK) {
--            return result;
-+            return CMD_STALL;
-         }
- 
-         if (ite_valid) {
-@@ -288,14 +287,14 @@ static ItsCmdResult process_its_cmd(GICv3ITSState *s, uint64_t value,
-         }
- 
-         if (res != MEMTX_OK) {
--            return result;
-+            return CMD_STALL;
-         }
-     } else {
+-    if (dte_valid) {
+-        num_eventids = 1ULL << (FIELD_EX64(dte, DTE, SIZE) + 1);
+-
+-        ite_valid = get_ite(s, eventid, dte, &icid, &pIntid, &res);
+-
+-        if (res != MEMTX_OK) {
+-            return CMD_STALL;
+-        }
+-
+-        if (ite_valid) {
+-            cte_valid = get_cte(s, icid, &cte, &res);
+-        }
+-
+-        if (res != MEMTX_OK) {
+-            return CMD_STALL;
+-        }
+-    } else {
++    if (!dte_valid) {
          qemu_log_mask(LOG_GUEST_ERROR,
                        "%s: invalid command attributes: "
-                       "invalid dte: %"PRIx64" for %d (MEM_TX: %d)\n",
-                       __func__, dte, devid, res);
--        return result;
-+        return CMD_CONTINUE;
+-                      "invalid dte: %"PRIx64" for %d (MEM_TX: %d)\n",
+-                      __func__, dte, devid, res);
++                      "invalid dte: %"PRIx64" for %d\n",
++                      __func__, dte, devid);
+         return CMD_CONTINUE;
      }
  
++    num_eventids = 1ULL << (FIELD_EX64(dte, DTE, SIZE) + 1);
++
++    ite_valid = get_ite(s, eventid, dte, &icid, &pIntid, &res);
++    if (res != MEMTX_OK) {
++        return CMD_STALL;
++    }
++
++    if (!ite_valid) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: invalid command attributes: invalid ITE\n",
++                      __func__);
++        return CMD_CONTINUE;
++    }
++
++    cte_valid = get_cte(s, icid, &cte, &res);
++    if (res != MEMTX_OK) {
++        return CMD_STALL;
++    }
++    if (!cte_valid) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: invalid command attributes: "
++                      "invalid cte: %"PRIx64"\n",
++                      __func__, cte);
++        return CMD_CONTINUE;
++    }
  
-@@ -307,7 +306,7 @@ static ItsCmdResult process_its_cmd(GICv3ITSState *s, uint64_t value,
+-    /*
+-     * In this implementation, in case of guest errors we ignore the
+-     * command and move onto the next command in the queue.
+-     */
+     if (devid >= s->dt.num_ids) {
          qemu_log_mask(LOG_GUEST_ERROR,
                        "%s: invalid command attributes: devid %d>=%d",
                        __func__, devid, s->dt.num_ids);
--
-+        return CMD_CONTINUE;
-     } else if (!dte_valid || !ite_valid || !cte_valid) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: invalid command attributes: "
-@@ -316,11 +315,13 @@ static ItsCmdResult process_its_cmd(GICv3ITSState *s, uint64_t value,
-                       dte_valid ? "valid" : "invalid",
-                       ite_valid ? "valid" : "invalid",
-                       cte_valid ? "valid" : "invalid");
-+        return CMD_CONTINUE;
-     } else if (eventid >= num_eventids) {
+         return CMD_CONTINUE;
+-    } else if (!dte_valid || !ite_valid || !cte_valid) {
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: invalid command attributes: "
+-                      "dte: %s, ite: %s, cte: %s\n",
+-                      __func__,
+-                      dte_valid ? "valid" : "invalid",
+-                      ite_valid ? "valid" : "invalid",
+-                      cte_valid ? "valid" : "invalid");
+-        return CMD_CONTINUE;
+-    } else if (eventid >= num_eventids) {
++    }
++    if (eventid >= num_eventids) {
          qemu_log_mask(LOG_GUEST_ERROR,
                        "%s: invalid command attributes: eventid %d >= %"
                        PRId64 "\n",
                        __func__, eventid, num_eventids);
-+        return CMD_CONTINUE;
-     } else {
-         /*
-          * Current implementation only supports rdbase == procnum
-@@ -329,7 +330,7 @@ static ItsCmdResult process_its_cmd(GICv3ITSState *s, uint64_t value,
-         rdbase = FIELD_EX64(cte, CTE, RDBASE);
+         return CMD_CONTINUE;
+-    } else {
+-        /*
+-         * Current implementation only supports rdbase == procnum
+-         * Hence rdbase physical address is ignored
+-         */
+-        rdbase = FIELD_EX64(cte, CTE, RDBASE);
++    }
  
-         if (rdbase >= s->gicv3->num_cpu) {
--            return result;
-+            return CMD_CONTINUE;
-         }
+-        if (rdbase >= s->gicv3->num_cpu) {
+-            return CMD_CONTINUE;
+-        }
++    /*
++     * Current implementation only supports rdbase == procnum
++     * Hence rdbase physical address is ignored
++     */
++    rdbase = FIELD_EX64(cte, CTE, RDBASE);
  
-         if ((cmd == CLEAR) || (cmd == DISCARD)) {
-@@ -341,11 +342,10 @@ static ItsCmdResult process_its_cmd(GICv3ITSState *s, uint64_t value,
-         if (cmd == DISCARD) {
-             IteEntry ite = {};
-             /* remove mapping from interrupt translation table */
--            result = update_ite(s, eventid, dte, ite) ? CMD_CONTINUE : CMD_STALL;
-+            return update_ite(s, eventid, dte, ite) ? CMD_CONTINUE : CMD_STALL;
-         }
-+        return CMD_CONTINUE;
-     }
+-        if ((cmd == CLEAR) || (cmd == DISCARD)) {
+-            gicv3_redist_process_lpi(&s->gicv3->cpu[rdbase], pIntid, 0);
+-        } else {
+-            gicv3_redist_process_lpi(&s->gicv3->cpu[rdbase], pIntid, 1);
+-        }
 -
--    return result;
+-        if (cmd == DISCARD) {
+-            IteEntry ite = {};
+-            /* remove mapping from interrupt translation table */
+-            return update_ite(s, eventid, dte, ite) ? CMD_CONTINUE : CMD_STALL;
+-        }
++    if (rdbase >= s->gicv3->num_cpu) {
+         return CMD_CONTINUE;
+     }
++
++    if ((cmd == CLEAR) || (cmd == DISCARD)) {
++        gicv3_redist_process_lpi(&s->gicv3->cpu[rdbase], pIntid, 0);
++    } else {
++        gicv3_redist_process_lpi(&s->gicv3->cpu[rdbase], pIntid, 1);
++    }
++
++    if (cmd == DISCARD) {
++        IteEntry ite = {};
++        /* remove mapping from interrupt translation table */
++        return update_ite(s, eventid, dte, ite) ? CMD_CONTINUE : CMD_STALL;
++    }
++    return CMD_CONTINUE;
  }
  
  static ItsCmdResult process_mapti(GICv3ITSState *s, uint64_t value,
