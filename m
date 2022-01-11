@@ -2,91 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B7E648AE53
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 14:20:48 +0100 (CET)
-Received: from localhost ([::1]:35680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B209048AE7B
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 14:33:35 +0100 (CET)
+Received: from localhost ([::1]:58204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7H4x-0008SH-5I
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 08:20:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50766)
+	id 1n7HHK-0008A1-Pi
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 08:33:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n7GkP-0003Bc-PO
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:59:33 -0500
-Received: from [2a00:1450:4864:20::332] (port=43928
- helo=mail-wm1-x332.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n7GkN-0005BN-RN
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:59:33 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- o203-20020a1ca5d4000000b003477d032384so1758558wme.2
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 04:59:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vPUMF++5G8qm04WZkOHg++V3ImrAC0n1XSBVzEz03yk=;
- b=eRxr+vgy0dkmh63CeD3pZIL8KHGzcwsP9L7RX9+DQLuSvX7vZSLV1LHkfQpooCcNgX
- +pyUnjbnsXSvwDcMhkKRFe05jy8NlucOIo7U0vphngKjmn2ZdGYhz1O7ejPRlwt9nwtX
- ccVm7gSPD5mxwN5mXxL6VcI/9ZuRJbDSNh+HRENdxKc+x7yY4p+ouA9ZbsRL9Se2y005
- pIKN/LSSwOflGPXPVqAJhsyMdlr1LBdk+VXfZUma0pogmTHIPFEhh8OOqgeyYMCN9XVF
- OPl+JTY3io7Ad1A6UQbeIn5xZN6u4G9KF5MJ2a87CHVPu/bF+/WJjGkc++WeKcSiJ49+
- bdBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vPUMF++5G8qm04WZkOHg++V3ImrAC0n1XSBVzEz03yk=;
- b=g0KqnvmvUmaK63MkMNSd4/3GTV/kBxmnuudd4MB/LUPrDMYcweJFVuw/WWq7h+9EAL
- X/iCb/Cc8IDFqthpOvbPuPIvRYAbiW+zMftze+vhylQvyP6lPvIcIbxgGbPP/W4VLEl8
- sq6t6FL7KCnM/Bt38yfdJG2PcfoL9Mz6Xfi6dDyGyISb9laxA7hO9Wso4XgcuoqB6fIS
- RjMxBuYg+15xojyIn5guhztJrIcVmRpxW7I2kK0wGA7Z1gwlwbiZgDZrDqknaQMZy5Ka
- 8L1Nyeo1l/qJqTPmfkr2fbEfl/vjyFehM40FfbWryk/pmgUX80vseeLoG6STR7WY7EwM
- WnPg==
-X-Gm-Message-State: AOAM531o89jKVu2mR4dZ2jf1AcayVkIfFyGmIkdMRh5zJkdfbceODxdz
- yYD0sVlqkKcIsvKWexs91gw=
-X-Google-Smtp-Source: ABdhPJzz1Uvd2LSm6/Pak7mXox5bM4pZdulJukqxCK0a9Uiqr0u/9GGfQssgsGIdKQmqNDwvirFv7Q==
-X-Received: by 2002:a05:600c:4991:: with SMTP id
- h17mr2412268wmp.14.1641905970544; 
- Tue, 11 Jan 2022 04:59:30 -0800 (PST)
-Received: from [192.168.1.40] (83.red-83-50-87.dynamicip.rima-tde.net.
- [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id r13sm1834341wmq.28.2022.01.11.04.59.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Jan 2022 04:59:30 -0800 (PST)
-Message-ID: <d0af40b2-992d-244c-0d87-9fb549cd01de@amsat.org>
-Date: Tue, 11 Jan 2022 13:59:28 +0100
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1n7Gli-0004gq-RR
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:00:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23985)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1n7GlY-0005fM-NI
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 08:00:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641906044;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Jq1XDq+/qjVweP4Wk1+PG6KZyzWZqagWKeC85g1Vddk=;
+ b=g+GMbCFFnaB/8eXPKy5JuL1rQQLqfCo9O9zg6aPJi3HZr8Btpfp+a3vNp4dQIm395biK0+
+ 5BHP8OjWGyRd+WdiKEUrsJrfwSMD8WdceJL298axLQAl3zysXVqGEH54h3FkCyL1v1FHW9
+ 5q0n1Her2yuv1y1xTU14JZpSGECRZCw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-401-Qy8hGOY-MIWkJBt1WTnSXw-1; Tue, 11 Jan 2022 08:00:41 -0500
+X-MC-Unique: Qy8hGOY-MIWkJBt1WTnSXw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A14B510247AB;
+ Tue, 11 Jan 2022 13:00:39 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.194.176])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1805E1059179;
+ Tue, 11 Jan 2022 13:00:25 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/23] Migration: Transmit and detect zero pages in the
+ multifd threads
+Date: Tue, 11 Jan 2022 14:00:01 +0100
+Message-Id: <20220111130024.5392-1-quintela@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] usb: allow max 8192 bytes for desc
-Content-Language: en-US
-To: zhenwei pi <pizhenwei@bytedance.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20220111104918.896841-1-pizhenwei@bytedance.com>
- <CAFEAcA9d4X+pobnz2vA_hTwDBuGRBTjjnD_CgKmsKuCAjH-ZNQ@mail.gmail.com>
- <Yd13NAsHpuRCMJRy@redhat.com>
- <b093dca4-f961-9f5b-32ba-0d4a55e71dba@bytedance.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <b093dca4-f961-9f5b-32ba-0d4a55e71dba@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,63 +77,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Leonardo Bras <leobras@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/11/22 13:27, zhenwei pi wrote:
-> On 1/11/22 8:25 PM, Daniel P. Berrangé wrote:
->> On Tue, Jan 11, 2022 at 12:21:42PM +0000, Peter Maydell wrote:
->>> On Tue, 11 Jan 2022 at 10:54, zhenwei pi <pizhenwei@bytedance.com>
->>> wrote:
->>>>
->>>> A device of USB video class usually uses larger desc structure, so
->>>> use larger buffer to avoid failure. (dev-video.c is ready)
->>>>
->>>> Allocating memory dynamically by g_malloc of the orignal version of
->>>> this change, Philippe suggested just using the stack. Test the two
->>>> versions of qemu binary, the size of stack gets no change.
->>>>
->>>> CC: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
->>>> ---
->>>>   hw/usb/desc.c | 2 +-
->>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/hw/usb/desc.c b/hw/usb/desc.c
->>>> index 8b6eaea407..57d2aedba1 100644
->>>> --- a/hw/usb/desc.c
->>>> +++ b/hw/usb/desc.c
->>>> @@ -632,7 +632,7 @@ int usb_desc_get_descriptor(USBDevice *dev,
->>>> USBPacket *p,
->>>>       bool msos = (dev->flags & (1 << USB_DEV_FLAG_MSOS_DESC_IN_USE));
->>>>       const USBDesc *desc = usb_device_get_usb_desc(dev);
->>>>       const USBDescDevice *other_dev;
->>>> -    uint8_t buf[256];
->>>> +    uint8_t buf[8192];
->>>>       uint8_t type = value >> 8;
->>>>       uint8_t index = value & 0xff;
->>>>       int flags, ret = -1;
->>>
->>> I think 8K is too large to be allocating as an array on
->>> the stack, so if we need this buffer to be larger we should
->>> switch to some other allocation strategy for it.
->>
->> IIUC, querying USB device descriptors is not a hot path, so using
->> heap allocation feels sufficient.
->>
-> Yes, I tested this a lot, and found that it's an unlikely code path:
-> 1, during guest startup, guest tries to probe device.
-> 2, run 'lsusb' command in guest(or other similar commands).
+Hi=0D
+=0D
+In this version=0D
+- Rebase to latest=0D
+- Address all comments from previous versions=0D
+- code cleanup=0D
+=0D
+Please review.=0D
+=0D
+[v2]=0D
+This is a rebase against last master.=0D
+=0D
+And the reason for resend is to configure properly git-publish and=0D
+hope this time that git-publish send all the patches.=0D
+=0D
+Please, review.=0D
+=0D
+[v1]=0D
+Since Friday version:=0D
+- More cleanups on the code=0D
+- Remove repeated calls to qemu_target_page_size()=0D
+- Establish normal pages and zero pages=0D
+- detect zero pages on the multifd threads=0D
+- send zero pages through the multifd channels.=0D
+- reviews by Richard addressed.=0D
+=0D
+It pases migration-test, so it should be perfect O:+)=0D
+=0D
+ToDo for next version:=0D
+- check the version changes=0D
+  I need that 6.2 is out to check for 7.0.=0D
+  This code don't exist at all due to that reason.=0D
+- Send measurements of the differences=0D
+=0D
+Please, review.=0D
+=0D
+[=0D
+=0D
+Friday version that just created a single writev instead of=0D
+write+writev.=0D
+=0D
+]=0D
+=0D
+Right now, multifd does a write() for the header and a writev() for=0D
+each group of pages.  Simplify it so we send the header as another=0D
+member of the IOV.=0D
+=0D
+Once there, I got several simplifications:=0D
+* is_zero_range() was used only once, just use its body.=0D
+* same with is_zero_page().=0D
+* Be consintent and use offset insed the ramblock everywhere.=0D
+* Now that we have the offsets of the ramblock, we can drop the iov.=0D
+* Now that nothing uses iov's except NOCOMP method, move the iovs=0D
+  from pages to methods.=0D
+* Now we can use iov's with a single field for zlib/zstd.=0D
+* send_write() method is the same in all the implementaitons, so use=0D
+  it directly.=0D
+* Now, we can use a single writev() to write everything.=0D
+=0D
+ToDo: Move zero page detection to the multifd thrteads.=0D
+=0D
+With RAM in the Terabytes size, the detection of the zero page takes=0D
+too much time on the main thread.=0D
+=0D
+Last patch on the series removes the detection of zero pages in the=0D
+main thread for multifd.  In the next series post, I will add how to=0D
+detect the zero pages and send them on multifd channels.=0D
+=0D
+Please review.=0D
+=0D
+Later, Juan.=0D
+=0D
+Juan Quintela (23):=0D
+  migration: All this fields are unsigned=0D
+  migration: We only need last_stage in two places=0D
+  migration: ram_release_pages() always receive 1 page as argument=0D
+  migration: Remove masking for compression=0D
+  migration: simplify do_compress_ram_page=0D
+  migration: Move ram_release_pages() call to save_zero_page_to_file()=0D
+  multifd: Use proper maximum compression values=0D
+  multifd: Move iov from pages to params=0D
+  multifd: Make zlib use iov's=0D
+  multifd: Make zstd use iov's=0D
+  multifd: Remove send_write() method=0D
+  multifd: Use a single writev on the send side=0D
+  multifd: Unfold "used" variable by its value=0D
+  multifd: Use normal pages array on the send side=0D
+  multifd: Use normal pages array on the recv side=0D
+  multifd: recv side only needs the RAMBlock host address=0D
+  multifd: Rename pages_used to normal_pages=0D
+  migration: Make ram_save_target_page() a pointer=0D
+  multifd: Add property to enable/disable zero_page=0D
+  multifd: Support for zero pages transmission=0D
+  multifd: Zero pages transmission=0D
+  migration: Use multifd before we check for the zero page=0D
+  migration: Export ram_release_page()=0D
+=0D
+ migration/migration.h    |   3 +=0D
+ migration/multifd.h      |  50 +++++++---=0D
+ migration/ram.h          |   2 +=0D
+ hw/core/machine.c        |   4 +-=0D
+ migration/migration.c    |  11 +++=0D
+ migration/multifd-zlib.c |  61 +++++-------=0D
+ migration/multifd-zstd.c |  63 +++++--------=0D
+ migration/multifd.c      | 198 +++++++++++++++++++++++----------------=0D
+ migration/ram.c          | 111 +++++++++++++---------=0D
+ migration/trace-events   |  26 ++---=0D
+ 10 files changed, 301 insertions(+), 228 deletions(-)=0D
+=0D
+--=20=0D
+2.34.1=0D
+=0D
 
-Sorry, I thought this was a hot path without looking at the code.
-
-> The original patch and context link:
-> https://patchwork.kernel.org/project/qemu-devel/patch/20211227142734.691900-5-pizhenwei@bytedance.com/
-> 
->>
->> Regards,
->> Daniel
->>
-> 
 
