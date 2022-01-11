@@ -2,86 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70F9748ADA6
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 13:34:05 +0100 (CET)
-Received: from localhost ([::1]:46882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E68B48ADB3
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 13:37:48 +0100 (CET)
+Received: from localhost ([::1]:49886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7GLk-0006yP-2J
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 07:34:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43096)
+	id 1n7GPL-0000uJ-Oo
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 07:37:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1n7GIB-0005cw-PY
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:30:24 -0500
-Received: from [2607:f8b0:4864:20::1030] (port=56244
- helo=mail-pj1-x1030.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1n7GI7-0008CS-Gl
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 07:30:21 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id hv15so10958205pjb.5
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 04:30:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nrdILassnP9aovhBmXPwczsLBUgRiQYigx43SXjsSeM=;
- b=RaJRT1iRvC5sUNCdUtMBPKruMDVc5Ua8tZN7qucL+OMkU4V1jVGtebIPK8lBhfOwNu
- WUoilGPpjaZYB4cT/CrXAOHeqBeTH3rBTLr7Lf9SkUGt36/7I8DkS6BPqo8RrxDFHvdQ
- /RZITDU3Ajw/yJ1YzXmRdgZguZCRsis0nFw/rzYXu1o565mlIsEBUk+XCIL5hPKHTMzW
- BwOXMiiKb/8KbPTHiezUURaOGEJvBZBxAZyT3VwNyM1iSeDbh9JAKvuWNNMNqKVMf2zj
- J8yinn5cW8lK5DiBSaayqnwBquau2hVW7LL6ALo+pkkrbnK1ty0FWaUcPQaf5ejFvU/u
- mU5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nrdILassnP9aovhBmXPwczsLBUgRiQYigx43SXjsSeM=;
- b=o51OLHKc28bTJIovIPqavpn7gnr0gC8OKrd4fqNkqOV2TEbzccjfUsUtBG74pr5AjD
- jsdJ2vc0X9WO8Q0dYTZUjxP8+nchCx4TNUgICknrKo3SzkFcuvu8+u9Z8rFxDqde3OcC
- UtZ4j57aJPUb1GfaM+rYA+rmVlRYcJqlC6JLtBE5Tbt0OVLsT0kndWiiN38C+bcgDWB7
- u/RC2ID+eprBCTGtF1/zy8iAE8L8jOdmFX2dWpVslI/QN3cL7B36nsBI4LR2jD3qyvBz
- miRiLVTiKHMOnlpLAGoyDK+yCUb7Yp73zPgDqa+99VEU4c/VbdXOf8tGu5iv3FCl0YV+
- 8FrQ==
-X-Gm-Message-State: AOAM531y3+evenp/Oc3wAlWDsjoaY+8cpdQBMJInewXFPofbyVAItpEs
- KAUnOvBLnjYKc2nkEY2lvzylUw==
-X-Google-Smtp-Source: ABdhPJylLh69sWzWfD25Y8JKFkC6VhLWDZwKfgsGGfgHv3uBUUlLWvQmavTQcaYVPddFPoyD6mIu3Q==
-X-Received: by 2002:a17:90b:4f4a:: with SMTP id
- pj10mr2877670pjb.112.1641904216213; 
- Tue, 11 Jan 2022 04:30:16 -0800 (PST)
-Received: from [10.76.15.169] ([153.254.110.109])
- by smtp.gmail.com with ESMTPSA id kb1sm2508589pjb.56.2022.01.11.04.30.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Jan 2022 04:30:15 -0800 (PST)
-Subject: Re: Re: [PATCH] usb: allow max 8192 bytes for desc
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20220111104918.896841-1-pizhenwei@bytedance.com>
- <CAFEAcA9d4X+pobnz2vA_hTwDBuGRBTjjnD_CgKmsKuCAjH-ZNQ@mail.gmail.com>
- <Yd13NAsHpuRCMJRy@redhat.com>
-From: zhenwei pi <pizhenwei@bytedance.com>
-Message-ID: <b093dca4-f961-9f5b-32ba-0d4a55e71dba@bytedance.com>
-Date: Tue, 11 Jan 2022 20:27:35 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1n7GMq-0008P7-GU; Tue, 11 Jan 2022 07:35:12 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:56795)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1n7GMo-0000gK-4C; Tue, 11 Jan 2022 07:35:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=VDV+vG2IEri+vCdojatf4E0nzwgWAjAb6CQ4L8XHars=; b=q/TnS0X/0p4TzmJLefYAdbSr/R
+ FEv33LrJb/Qy9lC5CsbIOAb8SE2RvxukGGpxPy+SJtKAGxRwdzu9mcl7RPLgeeLApCyRabWJwKTpl
+ tMX/4kN2hakBu3jkikdC0jpH0IjT7oJjbAmQZIsQj5IEKx2tdes1RNdBufd4hwWV5u/MJcuOQmTYY
+ FMZIcDLuvvrTP3cA/Y7/p2jf9lSaSVTestM7XjP3N3kcqblXZzfCJmQPN423MlqHdxOMjzkOKGwrp
+ EB1bhwE6A3SfJbnhyNF+8nZqYv85rxyzOcxOXaJxw6Kc38L/oOZmKAK4eglNRXIdFj2CWrZTmNRi5
+ n5pfygViiAS63AWCEJf42/A45h3IbUcyMNEtDN8mvR2HPwjXOiYQhVwWRWSjGj+eC7hAxwlxaAR3B
+ Buhbkk8j8kGmI38Pmfm9mXz2pQP11a8DW/gEIpZ2ziFKvV2cR15DYG81IEP+v65WZ46P/Szm62FhG
+ r1y81w8z3pjEzQ1h8rbK1+L64v4sfz2/WPxgVTagQAMuedq25h81YtybjO1amsXqMR2XsVh9J0Zd0
+ eVUjenYqH68MaUf5QMIcsFV3eQfl5nG6jDRufBEYwvAcbHaxwhCj4y06rhe/3Csj2lHW1wCDzKAWx
+ BJCmr9DAqci7DUGL/w4S6sqs088vIgr5bGbTJkZwM=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ Cameron Esfahani <dirty@apple.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [RFC PATCH v2 2/6] audio/coreaudio: Remove a deprecation warning
+ on macOS 12
+Date: Tue, 11 Jan 2022 13:35:05 +0100
+Message-ID: <5803228.I1kPANlMEi@silver>
+In-Reply-To: <2141936.zTEnKHbCo3@silver>
+References: <20220109170612.574104-1-f4bug@amsat.org>
+ <246f1f6f-3674-e3dc-3a8e-f53795fa58cc@gmail.com> <2141936.zTEnKHbCo3@silver>
 MIME-Version: 1.0
-In-Reply-To: <Yd13NAsHpuRCMJRy@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,61 +70,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: f4bug@amsat.org, qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Montag, 10. Januar 2022 22:05:43 CET Christian Schoenebeck wrote:
+> On Montag, 10. Januar 2022 21:39:28 CET Akihiko Odaki wrote:
+> > On 2022/01/11 5:22, Christian Schoenebeck wrote:
+> > > On Montag, 10. Januar 2022 20:01:40 CET Akihiko Odaki wrote:
+> > >> On 2022/01/11 3:46, Christian Schoenebeck wrote:
+> > >>> On Montag, 10. Januar 2022 19:20:15 CET Akihiko Odaki wrote:
+> > >>>> On 2022/01/10 22:22, Peter Maydell wrote:
+> > >>>>> On Mon, 10 Jan 2022 at 13:14, Christian Schoenebeck
+> > >>>>> 
+> > >>>>> <qemu_oss@crudebyte.com> wrote:
+> > >>>> Also, note that MAC_OS_X_VERSION_MAX_ALLOWED defines the upper bound
+> > >>>> of
+> > >>>> the supported version. The lower bound should be preferred here
+> > >>>> because
+> > >>>> the usage of the new identifier is applied regardless of the version
+> > >>>> of
+> > >>>> the host system. It is in contrary to the usage of
+> > >>>> MAC_OS_X_VERSION_MAX_ALLOWED in osdep.h where the new interfaces are
+> > >>>> used only for the newer versions. The lower bound is defined as
+> > >>>> MAC_OS_X_VERSION_MIN_REQUIRED. Practically there is no difference of
+> > >>>> the
+> > >>>> two macros because they have the same value in QEMU and
+> > >>>> kAudioObjectPropertyElementMain is a constant resolved compile-time,
+> > >>>> but
+> > >>>> it is still nice to have the code semantically correct.
+> > >>> 
+> > >>> For this particular enum: no, MAC_OS_X_VERSION_MAX_ALLOWED is the
+> > >>> correct
+> > >>> one. This is about whether enum kAudioObjectPropertyElementMain is
+> > >>> defined in the SDK header files. That's all. And the new enum
+> > >>> kAudioObjectPropertyElementMain is pure refactoring of the enum's old
+> > >>> name due to social reasons ("Master"). The actual reflected numeric
+> > >>> value
+> > >>> and semantic of the enum is unchanged and the resulting binary and
+> > >>> behaviour are identical.
+> > >> 
+> > >> There are a few problems with the usage of
+> > >> MAC_OS_X_VERSION_MAX_ALLOWED:
+> > >> - The deprecation warning is designed to work with
+> > >> MAC_OS_X_VERSION_MIN_REQUIRED. You may verify that with:
+> > >> cc -mmacosx-version-min=12.0 -x c - <<EOF
+> > >> #include <CoreAudio/CoreAudio.h>
+> > >> 
+> > >> int main()
+> > >> {
+> > >> 
+> > >>      int k = kAudioObjectPropertyElementMaster;
+> > >> 
+> > >> }
+> > >> EOF
+> > > 
+> > > That's actually interesting. On other projects I definitely saw
+> > > deprecated
+> > > warnings before on API declarations that were deprecated at a version
+> > > higher than the project's minimum deployment target.
+> > > 
+> > > Did they change that?
+> > 
+> > I don't think so. The behavior is documented at:
+> > https://clang.llvm.org/docs/AttributeReference.html#availability
+> > and the example refers to OS X 10.4, 10.6, 10.7. Probably they haven't
+> > changed the behavior for decades.
+> 
+> The descriptions is very vague. It sais e.g. "If Clang is instructed to
+> compile code for macOS 10.6 ...". So it is describing it only via singular
+> version per example. We are talking about version ranges however.
+> 
+> > MacOSX.sdk/System/Library/Frameworks/Kernel.framework/Headers/os/availabil
+> > it y.h says manually defining API_TO_BE_DEPRECATED can alter the behavior
+> > so that may be the case.
+> > 
+> > >> - The programmer must be aware whether it is constant or not.
+> > >> - The macro tells about the runtime and not the SDK. There is no way to
+> > >> tell the SDK version and that is why I suggested __is_identifier at the
+> > >> first place. However, now I'm convinced that
+> > >> MAC_OS_X_VERSION_MIN_REQUIRED is the better option because of the above
+> > >> reasons.
+> > > 
+> > > If you make it dependent on MAC_OS_X_VERSION_MIN_REQUIRED, people with
+> > > older SDKs (e.g. Xcode <=13.0) would get a compiler error.
+> > 
+> > __is_identifier is the only option if you need a compatibility with the
+> > older SDKs while specifying a greater version for
+> > MAC_OS_X_VERSION_MIN_REQUIRED. It also applies to
+> > MAC_OS_X_VERSION_MAX_ALLOWED; they give the possible runtime versions
+> > and not the SDK version.
+> 
+> I have never used __is_identifier() for such things. I always used
+> MAC_OS_X_VERSION_MIN_REQUIRED and MAC_OS_X_VERSION_MAX_ALLOWED and it was
+> always doing the job.
+> 
+> And for symbols: those are automatically weak linked by the compiler if the
+> project's minimum deployment target is lower than the introductory version
+> of the symbol.
+> 
+> > > You are right about the deprecated warning not being emitted in the
+> > > example
+> > > above, currently not sure why, but I still think
+> > > MAC_OS_X_VERSION_MAX_ALLOWED is the way to go in this case.
+> > 
+> > The page and the header file I referred the above would help
+> > understanding the behavior.
+> 
+> Yeah, I already checked that. It basically translates to:
+> 
+> __attribute__((availability(macosx,introduced=10.0,deprecated=12.0)))
+> 
+> So next I would need to read clang sources how this attribute is implemented
+> exactly. Not today. ;-)
+
+Curiousity was stronger: the original clang behaviour was as I explained:
+https://github.com/llvm-mirror/clang/commit/0a0d2b179085a52c10402feebeb6db8b4d96a140#diff-97c4322e86bf436b7f79f4fcafc4b7beb092da08c5c23f294f98b5bb0a7f9a31
+
+Quote:
+
+"
+For example,
+
+  void foo()
+  __attribute__((availability(macosx,introduced=10.2,deprecated=10.4,obsoleted=10.6)));
+
+...
+
+   - If we choose a deployment target >= Mac OS X 10.4, uses of "foo"
+    will result in a deprecation warning, as if we had placed
+    attribute((deprecated)) on it ...
+"
+
+Relevant code section (in that original commit):
+
+static AvailabilityResult CheckAvailability(ASTContext &Context,
+                                            const AvailabilityAttr *A,
+                                            std::string *Message) {
+  ...
+  VersionTuple TargetMinVersion = Context.Target.getPlatformMinVersion();
+  ...
+  // Make sure that this declaration hasn't been deprecated.
+  if (!A->getDeprecated().empty() && TargetMinVersion >= A->getDeprecated()) {
+    if (Message) {
+      Message->clear();
+      llvm::raw_string_ostream Out(*Message);
+      Out << "first deprecated in " << PrettyPlatformName << ' '
+          << A->getDeprecated();
+    }
+
+    return AR_Deprecated;
+  }
+  ...
+}
+
+Still no idea why it behaves differently now. There were some changes in LLVM
+on this, but they seem to deal with other things like partial availability
+i.e. for weak linking:
+https://github.com/llvm/llvm-project/commit/48c7cc9bc04f595b7b335aeae83df4c0221b6d13
+
+Best regards,
+Christian Schoenebeck
 
 
-On 1/11/22 8:25 PM, Daniel P. Berrangé wrote:
-> On Tue, Jan 11, 2022 at 12:21:42PM +0000, Peter Maydell wrote:
->> On Tue, 11 Jan 2022 at 10:54, zhenwei pi <pizhenwei@bytedance.com> wrote:
->>>
->>> A device of USB video class usually uses larger desc structure, so
->>> use larger buffer to avoid failure. (dev-video.c is ready)
->>>
->>> Allocating memory dynamically by g_malloc of the orignal version of
->>> this change, Philippe suggested just using the stack. Test the two
->>> versions of qemu binary, the size of stack gets no change.
->>>
->>> CC: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
->>> ---
->>>   hw/usb/desc.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/hw/usb/desc.c b/hw/usb/desc.c
->>> index 8b6eaea407..57d2aedba1 100644
->>> --- a/hw/usb/desc.c
->>> +++ b/hw/usb/desc.c
->>> @@ -632,7 +632,7 @@ int usb_desc_get_descriptor(USBDevice *dev, USBPacket *p,
->>>       bool msos = (dev->flags & (1 << USB_DEV_FLAG_MSOS_DESC_IN_USE));
->>>       const USBDesc *desc = usb_device_get_usb_desc(dev);
->>>       const USBDescDevice *other_dev;
->>> -    uint8_t buf[256];
->>> +    uint8_t buf[8192];
->>>       uint8_t type = value >> 8;
->>>       uint8_t index = value & 0xff;
->>>       int flags, ret = -1;
->>
->> I think 8K is too large to be allocating as an array on
->> the stack, so if we need this buffer to be larger we should
->> switch to some other allocation strategy for it.
-> 
-> IIUC, querying USB device descriptors is not a hot path, so using
-> heap allocation feels sufficient.
-> 
-Yes, I tested this a lot, and found that it's an unlikely code path:
-1, during guest startup, guest tries to probe device.
-2, run 'lsusb' command in guest(or other similar commands).
-
-The original patch and context link:
-https://patchwork.kernel.org/project/qemu-devel/patch/20211227142734.691900-5-pizhenwei@bytedance.com/
-> 
-> Regards,
-> Daniel
-> 
-
--- 
-zhenwei pi
 
