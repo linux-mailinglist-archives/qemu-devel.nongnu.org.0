@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9E1D48ACDE
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 12:44:00 +0100 (CET)
-Received: from localhost ([::1]:37530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1E7148AD26
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 12:58:24 +0100 (CET)
+Received: from localhost ([::1]:44406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7FZH-0000NW-Lf
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 06:43:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58800)
+	id 1n7FnD-0006M4-8o
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 06:58:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n7FVz-0004a6-Qp
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 06:40:37 -0500
-Received: from [2a00:1450:4864:20::331] (port=43566
- helo=mail-wm1-x331.google.com)
+ id 1n7FlY-0004oV-Ff
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 06:56:40 -0500
+Received: from [2a00:1450:4864:20::435] (port=42759
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n7FVy-0007ea-9Q
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 06:40:35 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- o203-20020a1ca5d4000000b003477d032384so1628485wme.2
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 03:40:26 -0800 (PST)
+ id 1n7FlW-0001kQ-SV
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 06:56:40 -0500
+Received: by mail-wr1-x435.google.com with SMTP id k30so14910028wrd.9
+ for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 03:56:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=kUoxzNDlInR/xaQkKpR351no2VttIycXOBwe7zPoGy0=;
- b=npVZLgsGfQAIxjSyBvTGpmq5FDUoOT2a+vFPJ6o/GKhHKw8UfKewmtl6l1Ml6y2oZj
- K8R4S1H6B7tBDmUeJjXpHMCrj+a5OCAV3z5qBAhglo5zCFvSG1ERcsf74sTosjPXXVWx
- 0P6/2yMiKNVWDdoBnjZA9pVFIa0v+83sgmVt5b87sdKsqG5bWBo6CJq2dpMyuZ8ITgoG
- wzy+s3LMjG1vo5sE06Jdcebh6Kn8RL2E6rcaJMrFzS7CyAeYt5DzCFbLFxntERN+yhbA
- +NcGvT/FeCipym50TSFzirLG+GD1qh6hkxI/Lr6fG9D1qhqxzXJF8NGi/dyfOr94h/+J
- 6v8w==
+ :cc; bh=2iN0rHzz+Q5BoVxm/EU6rSAz4U8cx3A0dmMo5BQv4Pg=;
+ b=CinWfGKJUU/Krm2ea0gJemPksjLuZq8MTqcsk+XdRNYiNhgQB31L8O0HhH+N3FADx/
+ nj/WzzGLTgTaQ4FLIjsipu8q2jaku/5ZtvwNZmr8QXZhM+exzWUywxQ4CimLGKx1TmtY
+ 6RvNsENrMCmqvKGNkE1F29tYv9OY9XtWfKWXld9BvaiwieDUc1nZ5wCZXXdf9GmZBxjb
+ FeFjjsJr700d7vMts0banq/o5+Uj/AbSJqACYYNIF1/Mc79qi2DBCvrW/NGD56/MiyfY
+ wskMIrjBQuwo0yg+GNk5ovyolWC2RxzASkbdgpYjJoGDJ6mIH2wOXqJig+5/T14ZLtJE
+ o3iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=kUoxzNDlInR/xaQkKpR351no2VttIycXOBwe7zPoGy0=;
- b=zvwyxC1ijKsdgs68+rCA1jSYw+N7M29woejRROktFiMTc3a37CBfVzh9/vVEsRIdAK
- 3KUMEXFG39p07kih2rJ+1uzoYsL40jaeipJ0uvaRAQWfJKU7p5dpWeaXGJp67fyW7jb+
- ksgA0xk1nelvOwqv+sUoHu2nX8cnu1+r6POx6/9vlMDFxxia8YW9IYpbgORCc49U31MJ
- em4jHOuhXzQ+stzSzl1RhscFsXB+9JVwJlC1Wm9cSbyPCAj68AlD9lTvveTggjR8J7df
- PDnP8Yyqa/zSqsxDgvn66EDvJ8axr3qvlrEr5LJcnbp+x0HQtAp1xvvjy6bsmMBe6sDQ
- YRjw==
-X-Gm-Message-State: AOAM5312YB/fBl6oAeqsD+OqAI18Lh3p8wrtZzzwUh13i8GAXW9VN7fE
- 82E6FsFi13NX4eDh4KwOf7lEZFKs5e0hXqhBQhWucGA98SU=
-X-Google-Smtp-Source: ABdhPJxOH8jIra1IpX+ptBHZO0/MUBqVWvEga/S5M787gVGnvVPrlHg2JtiMZ6gJtbrhVULNNMFvvBdma+DRslLQ7WM=
-X-Received: by 2002:a05:600c:3ac5:: with SMTP id
- d5mr2134161wms.32.1641901225249; 
- Tue, 11 Jan 2022 03:40:25 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=2iN0rHzz+Q5BoVxm/EU6rSAz4U8cx3A0dmMo5BQv4Pg=;
+ b=X4V281mPOWM30IJ58ghFYoxAHC9vrmj4eq32mJ2Mbx8WBZ8ix5MGhBrqfeqd6AFY34
+ 8zqJyzm/Y4U/U8FDcr+251zasYS0O0JLPaIHmbx042ozJD8Qc69hqj/bd7SCCaoCCuxi
+ Qpnuy0fkVbRdskvLqjNLUtNKiAcVXmWOn7UaQ9duC1TtMpVz2Guyss1vLAjsjP8VBsPg
+ NBtHi5z9mJV8E3e+2YE67DOTuG0RJzkCGaEF7QQ+ZnIbBsjoqwRZrAxpfpgHw6jEi9st
+ HnFmMRiaxNyJTX/Xqf0oy3vGIIsXwoGqhzIa9KhQ9Ab21KaQjIBTI0o7vy93OGVq5YKW
+ g54A==
+X-Gm-Message-State: AOAM533uGnq28cFPUibGDt6dj9YUs6bedNG9f2nFUyakv1mgFSQ5YeEL
+ tdu8VDIuvMhyMGMyoGmuxhRuJYlDxJV2sjk/qldXkDLRwHg=
+X-Google-Smtp-Source: ABdhPJy71qSeSRWizpHJolL8LDtumnlrKnwPsL+1YegaK6QhCHA0hw3xO3BuBm0Iu06K8XMMAQav6MH4jWQugp+834Q=
+X-Received: by 2002:a5d:6986:: with SMTP id g6mr3576215wru.172.1641902197197; 
+ Tue, 11 Jan 2022 03:56:37 -0800 (PST)
 MIME-Version: 1.0
-References: <20220108215815.551241-1-f4bug@amsat.org>
- <CAFEAcA_K4eRewn7cpCrcM6FbvLMz8O1w1BqF0XN=XDQVTZM39A@mail.gmail.com>
- <e945824e-ee1a-821a-6f00-dd03f68e917a@amsat.org>
-In-Reply-To: <e945824e-ee1a-821a-6f00-dd03f68e917a@amsat.org>
+References: <20220108063313.477784-1-richard.henderson@linaro.org>
+ <20220108063313.477784-6-richard.henderson@linaro.org>
+In-Reply-To: <20220108063313.477784-6-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 11 Jan 2022 11:40:14 +0000
-Message-ID: <CAFEAcA8W-td82PDSGZrUcpOY-L_FY6UQ_nFqQvqLMBkDdQRDSA@mail.gmail.com>
-Subject: Re: [PULL 0/2] SD/MMC patches for 2022-01-08
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Tue, 11 Jan 2022 11:56:25 +0000
+Message-ID: <CAFEAcA9VYYS7QFtS_+kiEkE8ZAAuGii-ejDUDnt-hmav8KTg2w@mail.gmail.com>
+Subject: Re: [PATCH v4 5/7] tcg/arm: Support unaligned access for softmmu
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -85,64 +80,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 10 Jan 2022 at 19:20, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
+On Sat, 8 Jan 2022 at 06:33, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> On 1/10/22 17:02, Peter Maydell wrote:
-> > On Sat, 8 Jan 2022 at 21:59, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg> wrote:
-> >>
-> >> Hi Richard,
-> >>
-> >> This is the SD/MMC PR that ought to be sent previously.
-> >>
-> >> The following changes since commit b5a3d8bc9146ba22a25116cb748c97341bf=
-99737:
-> >>
-> >>   Merge tag 'pull-misc-20220103' of https://gitlab.com/rth7680/qemu in=
-to staging (2022-01-03 09:34:41 -0800)
-> >>
-> >> are available in the Git repository at:
-> >>
-> >>   https://github.com/philmd/qemu.git tags/sdmmc-20220108
-> >>
-> >> for you to fetch changes up to b66f73a0cb312c81470433dfd5275d2824bb89d=
-e:
-> >>
-> >>   hw/sd: Add SDHC support for SD card SPI-mode (2022-01-04 08:50:28 +0=
-100)
-> >>
-> >> ----------------------------------------------------------------
-> >> SD/MMC patches queue
-> >>
-> >> - Add SDHC support for SD card SPI-mode (Frank Chang)
-> >>
-> >> ----------------------------------------------------------------
-> >
-> > Hi; gpg says (my copy of) your key has expired:
-> >
-> > gpg: Signature made Sat 08 Jan 2022 21:56:02 GMT
-> > gpg:                using RSA key FAABE75E12917221DCFD6BB2E3E32C2CDEADC=
-0DE
-> > gpg: Good signature from "Philippe Mathieu-Daud=C3=A9 (F4BUG)
-> > <f4bug@amsat.org>" [expired]
-> > gpg: Note: This key has expired!
-> > Primary key fingerprint: FAAB E75E 1291 7221 DCFD  6BB2 E3E3 2C2C DEAD =
-C0DE
-> >
-> > Can you point me at a keyserver I can get an updated version, please?
+> From armv6, the architecture supports unaligned accesses.
+> All we need to do is perform the correct alignment check
+> in tcg_out_tlb_read.
 >
-> Sorry. It is on pgp.mit.edu and keyserver.ubuntu.com; which keyserver
-> are you using? (so I can upload it there too).
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/arm/tcg-target.c.inc | 39 ++++++++++++++++++---------------------
+>  1 file changed, 18 insertions(+), 21 deletions(-)
+>
+> diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
+> index 8a20224dd1..b6ef279cae 100644
+> --- a/tcg/arm/tcg-target.c.inc
+> +++ b/tcg/arm/tcg-target.c.inc
+> @@ -34,7 +34,6 @@ bool use_idiv_instructions;
+>  bool use_neon_instructions;
+>  #endif
+>
+> -/* ??? Ought to think about changing CONFIG_SOFTMMU to always defined.  */
 
-I use those two servers; for some reason --refresh-keys wasn't pulling
-the key, but --recv-keys did. Anyway, I've got it now, and am testing
-the pullreq.
+Ah, I see the comment got removed here...
+
+>  #ifdef CONFIG_DEBUG_TCG
+>  static const char * const tcg_target_reg_names[TCG_TARGET_NB_REGS] = {
+>      "%r0",  "%r1",  "%r2",  "%r3",  "%r4",  "%r5",  "%r6",  "%r7",
+> @@ -1397,16 +1396,9 @@ static TCGReg tcg_out_tlb_read(TCGContext *s, TCGReg addrlo, TCGReg addrhi,
+>      int cmp_off = (is_load ? offsetof(CPUTLBEntry, addr_read)
+>                     : offsetof(CPUTLBEntry, addr_write));
+>      int fast_off = TLB_MASK_TABLE_OFS(mem_index);
+> -    unsigned s_bits = opc & MO_SIZE;
+> -    unsigned a_bits = get_alignment_bits(opc);
+> -
+> -    /*
+> -     * We don't support inline unaligned acceses, but we can easily
+> -     * support overalignment checks.
+> -     */
+> -    if (a_bits < s_bits) {
+> -        a_bits = s_bits;
+> -    }
+> +    unsigned s_mask = (1 << (opc & MO_SIZE)) - 1;
+> +    unsigned a_mask = (1 << get_alignment_bits(opc)) - 1;
+> +    TCGReg t_addr;
+>
+>      /* Load env_tlb(env)->f[mmu_idx].{mask,table} into {r0,r1}.  */
+>      tcg_out_ldrd_8(s, COND_AL, TCG_REG_R0, TCG_AREG0, fast_off);
+> @@ -1441,27 +1433,32 @@ static TCGReg tcg_out_tlb_read(TCGContext *s, TCGReg addrlo, TCGReg addrhi,
+>
+>      /*
+>       * Check alignment, check comparators.
+> -     * Do this in no more than 3 insns.  Use MOVW for v7, if possible,
+> +     * Do this in 2-4 insns.  Use MOVW for v7, if possible,
+>       * to reduce the number of sequential conditional instructions.
+>       * Almost all guests have at least 4k pages, which means that we need
+>       * to clear at least 9 bits even for an 8-byte memory, which means it
+>       * isn't worth checking for an immediate operand for BIC.
+>       */
+> +    /* For unaligned accesses, test the page of the last byte. */
+
+"page of the last unit-of-the-alignment-requirement", right?
+(If we're doing an 8-byte load that must be 4-aligned, we add 4 to
+the address here, not 7.)
+
+> +    t_addr = addrlo;
+> +    if (a_mask < s_mask) {
+> +        t_addr = TCG_REG_R0;
+> +        tcg_out_dat_imm(s, COND_AL, ARITH_ADD, t_addr,
+> +                        addrlo, s_mask - a_mask);
+> +    }
+>      if (use_armv7_instructions && TARGET_PAGE_BITS <= 16) {
+> -        tcg_target_ulong mask = ~(TARGET_PAGE_MASK | ((1 << a_bits) - 1));
+> -
+> -        tcg_out_movi32(s, COND_AL, TCG_REG_TMP, mask);
+> +        tcg_out_movi32(s, COND_AL, TCG_REG_TMP, ~(TARGET_PAGE_MASK | a_mask));
+>          tcg_out_dat_reg(s, COND_AL, ARITH_BIC, TCG_REG_TMP,
+> -                        addrlo, TCG_REG_TMP, 0);
+> +                        t_addr, TCG_REG_TMP, 0);
+>          tcg_out_dat_reg(s, COND_AL, ARITH_CMP, 0, TCG_REG_R2, TCG_REG_TMP, 0);
+>      } else {
+> -        if (a_bits) {
+> -            tcg_out_dat_imm(s, COND_AL, ARITH_TST, 0, addrlo,
+> -                            (1 << a_bits) - 1);
+> +        if (a_mask) {
+> +            tcg_debug_assert(a_mask <= 0xff);
+> +            tcg_out_dat_imm(s, COND_AL, ARITH_TST, 0, addrlo, a_mask);
+>          }
+> -        tcg_out_dat_reg(s, COND_AL, ARITH_MOV, TCG_REG_TMP, 0, addrlo,
+> +        tcg_out_dat_reg(s, COND_AL, ARITH_MOV, TCG_REG_TMP, 0, t_addr,
+>                          SHIFT_IMM_LSR(TARGET_PAGE_BITS));
+> -        tcg_out_dat_reg(s, (a_bits ? COND_EQ : COND_AL), ARITH_CMP,
+> +        tcg_out_dat_reg(s, (a_mask ? COND_EQ : COND_AL), ARITH_CMP,
+>                          0, TCG_REG_R2, TCG_REG_TMP,
+>                          SHIFT_IMM_LSL(TARGET_PAGE_BITS));
+>      }
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+though not very confidently as I found this code pretty confusing.
 
 thanks
 -- PMM
