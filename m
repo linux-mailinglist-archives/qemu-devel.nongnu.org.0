@@ -2,72 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D86C548AB71
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 11:33:43 +0100 (CET)
-Received: from localhost ([::1]:41108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41AB448AB81
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Jan 2022 11:35:39 +0100 (CET)
+Received: from localhost ([::1]:44456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7ETH-0000qM-0K
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 05:33:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42842)
+	id 1n7EV8-00036X-Di
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 05:35:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n7EQG-0006x3-U4
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 05:30:44 -0500
-Received: from [2a00:1450:4864:20::330] (port=53801
- helo=mail-wm1-x330.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n7EQE-0004vs-Lu
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 05:30:35 -0500
-Received: by mail-wm1-x330.google.com with SMTP id l4so10639104wmq.3
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 02:30:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dVOJDwjM+qcM/oFPks0SC2G2hIciGSGPET+XwXRX3Lc=;
- b=WxLJXTgzs8DdAMs0LAsITzB/H38azh2/BJkIVqcw0TLTk//vhlM84hIIp7CMZLiWV9
- ctk/Dz5TMgUiG8nLMidtOdRnfDURLqVg/fw8IsgPAs90UpBPYthfKTW9C9AIUEpHyQXB
- WD9UGCGOS3J6A6021qC8KlsJhVDkGkIYe9Iu4HRUuW+BH+mThP434FEA+rqTbYkYoQ3H
- uaRnzipvJxnIeROoqoccPljDBDl0xtLiNWlk5OV5/gGBvTW9Hwbl/8rwhHaDzJhV7kPM
- NuUPeGtZqfRNbsSrEf/CIoBcoBn/xRrZBTVD20QJ2tWKFQ5ryrmL8c3d6znOffsw4Tsb
- 5DxA==
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1n7ESx-0001QR-Jj
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 05:33:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44660)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1n7ESu-0005He-BP
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 05:33:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641897199;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yrdHHtTiQ5PfkuGg0+hsXAt0il0H+CDJFTah02FJTNU=;
+ b=AdcO4V+r9yAP97N0WwZePbXUcZOc+t/YYxQ89LzlfmssTyr4XkEXnLkbFQK9j9aORxmgtU
+ CfvkJtWpRXDSfFfhqdXJOz2UVqR6sISYMtwcGrwOMUj1dIS4/FKOKOjsV0XDYzTS6uu9uV
+ rjhD5QOm9AyhlNLxE6lcHz1B504NNb0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-475-NwFRdKsMMOSlSSVCKP_Sqw-1; Tue, 11 Jan 2022 05:33:16 -0500
+X-MC-Unique: NwFRdKsMMOSlSSVCKP_Sqw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ i8-20020adfa508000000b001ad5418833cso156692wrb.5
+ for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 02:33:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dVOJDwjM+qcM/oFPks0SC2G2hIciGSGPET+XwXRX3Lc=;
- b=31SUx5vMJAmcz8NbsTGUYs9ha8wq1/BU8XZSvd4vxc9rhiYIPJimKN7saZNumSjabe
- YM8R2kC61hjXG3UHa+AIGs6bvi/bCsscOzGucopm3tPJQCDk997+AlQ1qV/QrIE8+gTt
- VhaH2tvlq0zBbD4GcR+COWYrdBCpTY4uCIvsBMhlRTfj4zml9Nz3t0oO4q8l7h67wYtl
- MxtVHZ2Ydd69mn64JzSDJpM4AVEH/S+11Bq/4WyG7t7Daomi+kXhfw5rRLlsx3Fa0Nuy
- 4q5ULc4g4hKQ8yo/XZJagsVEZ0tuNG5d714zHzvFkwBuMWeORLcczTWwsU6mq/YAzCas
- 4Xbw==
-X-Gm-Message-State: AOAM533iENiY7PmtjQDGu7RLnJrUg0M0p57oxeBFV67kiIstIUuj6GAV
- nZFT32MInEkf1pXPDZqthcgkMre+7AsA43bY3Mc4Fw==
-X-Google-Smtp-Source: ABdhPJxPtxxQe07kjvGB8uY8Mhch4tpk4yBp3znvBTwCgT5hbxI42eTvi/CTeCYAMu0Z27JEyOoRrCImvvm4KIbpAc4=
-X-Received: by 2002:a05:600c:3ac5:: with SMTP id
- d5mr1882205wms.32.1641897032754; 
- Tue, 11 Jan 2022 02:30:32 -0800 (PST)
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=yrdHHtTiQ5PfkuGg0+hsXAt0il0H+CDJFTah02FJTNU=;
+ b=Hcdj0op1AXxELHeUP67BDKnjkXDOk6cI7e/nWiE3ZKtGizUyjK0AMzeLFU2UX//bIe
+ +C6SAI+i6SXw6YCYGU8pu02mvEPXIeeIPZ2pE1iiWNUCORIM9/0d8e87UPv8SNGyiGIV
+ CkY6RNztSxPva3RS0KZ2jv+U8wLtkYZ7DeDL0UAcK3zXgg+D2ooM8+sPNBUEjwHuTG98
+ x8EQbN9waN6LRuNWRqhyv7mXzhoJ9c8I6Gcxwi1/Fzi0vMyFLzLvbWu5EZhNDrt752Ny
+ 8rZrmxKtB+Bm7JWWcS7fHGvXvjp03rzJxvznFnmZCj25fK7Ca/UUOTWQENVxHFnFQcAl
+ H/bw==
+X-Gm-Message-State: AOAM533Uqx1dxEqmzkJVvXVRvlrZOhUdtWasmKmuNdTCot74sgEGRnka
+ EdSkunyr3JHx3MvX7oRAlN2cKWZ1ieeMnYzufFiOGqUovzdluzB7CowNfMddao/QkR/Z8eIiA2Q
+ DqpJRgK9zW7BC8tY=
+X-Received: by 2002:a5d:4a02:: with SMTP id m2mr3268395wrq.154.1641897195087; 
+ Tue, 11 Jan 2022 02:33:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwWBpwuDMKnWTbGILpp/kLWMS3K269pe87WN//wUj8jQqp32XZTjZf02u8M3QVWOHfN5XD6Sg==
+X-Received: by 2002:a5d:4a02:: with SMTP id m2mr3268382wrq.154.1641897194888; 
+ Tue, 11 Jan 2022 02:33:14 -0800 (PST)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id j3sm8691132wrt.14.2022.01.11.02.33.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Jan 2022 02:33:14 -0800 (PST)
+Subject: Re: [PATCH 0/3] virtio-iommu: Support VIRTIO_IOMMU_F_BYPASS_CONFIG
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+References: <20210930185050.262759-1-jean-philippe@linaro.org>
+ <a98b63f9-000b-7647-0ac5-3e6e5ec7f6a7@redhat.com> <Yd1YRkJDv35bQ/PR@myrica>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <3106b980-ffc5-d732-3f7b-51c126aee0bf@redhat.com>
+Date: Tue, 11 Jan 2022 11:33:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <20220111101934.115028-1-dgilbert@redhat.com>
-In-Reply-To: <20220111101934.115028-1-dgilbert@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 11 Jan 2022 10:30:21 +0000
-Message-ID: <CAFEAcA-e61v6nTzH=Ep-KMVCJsVA=17O8CtDCLyk5DOtjVNgGw@mail.gmail.com>
-Subject: Re: [PATCH] clock-vmstate: Add missing END_OF_LIST
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <Yd1YRkJDv35bQ/PR@myrica>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,49 +103,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, alex.bennee@linaro.org, luc@lmichel.fr,
- qemu-devel@nongnu.org
+Reply-To: eric.auger@redhat.com
+Cc: qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 Jan 2022 at 10:19, Dr. David Alan Gilbert (git)
-<dgilbert@redhat.com> wrote:
->
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->
-> Add the missing VMSTATE_END_OF_LIST to vmstate_muldiv
->
-> Fixes: 99abcbc7600 ("clock: Provide builtin multiplier/divider")
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  hw/core/clock-vmstate.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/hw/core/clock-vmstate.c b/hw/core/clock-vmstate.c
-> index 9d9174ffbd..7eccb6d4ea 100644
-> --- a/hw/core/clock-vmstate.c
-> +++ b/hw/core/clock-vmstate.c
-> @@ -44,6 +44,7 @@ const VMStateDescription vmstate_muldiv = {
->      .fields = (VMStateField[]) {
->          VMSTATE_UINT32(multiplier, Clock),
->          VMSTATE_UINT32(divider, Clock),
-> +        VMSTATE_END_OF_LIST()
->      },
->  };
+Hi Jean,
 
-Oops :-(
+On 1/11/22 11:13 AM, Jean-Philippe Brucker wrote:
+> Hi Eric,
+>
+> On Tue, Jan 11, 2022 at 10:02:12AM +0100, Eric Auger wrote:
+>> Hi Jean, Michael,
+>>
+>> On 9/30/21 8:50 PM, Jean-Philippe Brucker wrote:
+>>> Replace the VIRTIO_IOMMU_F_BYPASS feature with
+>>> VIRTIO_IOMMU_F_BYPASS_CONFIG, which enables a config space bit to switch
+>>> global bypass on and off.
+>>>
+>>> Add a boot-bypass option, which defaults to 'on' to be in line with
+>>> other vIOMMUs and to allow running firmware/bootloader that are unaware
+>>> of the IOMMU.
+>>>
+>>> See the spec change for more rationale
+>>> https://lists.oasis-open.org/archives/virtio-dev/202109/msg00137.html
+>> I guess the kernel bits should be merged in 5.17?
+> Yes, they should. I can resend at 5.17-rc1 along with a commit updating
+> the linux headers. Or is there a specific process for synchronizing the
+> headers?  Looking at git log it looks like scripts/update-linux-headers.sh
+> is run by whomever needs new UAPI features.
+yes you need to generate the header update patch using
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+scripts/update-linux-headers.sh once the kernel pieces have landed
 
-We could maybe make this kind of bug more likely to be detected by
-instead of having the terminator be an "all zeros" VMStateField,
-having it check both for name == NULL and for a magic number in the
-VMStateFlags field. That way (assuming something in "make check"
-causes us to do a scan through every registered vmstate struct)
-forgetting the terminator will be likely to cause us to crash or hang
-rather than finding some 0 data and thinking that's the
-terminator.
+Thanks
 
-thanks
--- PMM
+Eric
+
+>
+> Thanks,
+> Jean
+>
+
 
