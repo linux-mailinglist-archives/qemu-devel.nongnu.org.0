@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6378648BC28
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 02:07:55 +0100 (CET)
-Received: from localhost ([::1]:58852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC6448BC23
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 02:04:12 +0100 (CET)
+Received: from localhost ([::1]:52990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7S7G-0002EV-G7
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 20:07:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36866)
+	id 1n7S3f-0006DY-LY
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 20:04:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1n7Re2-0001Hl-Pp
+ id 1n7Re2-0001HU-LM
  for qemu-devel@nongnu.org; Tue, 11 Jan 2022 19:37:42 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:15464)
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:25524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1n7Rdl-0005hS-6z
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 19:37:37 -0500
+ id 1n7Rdt-0005ig-1s
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 19:37:35 -0500
 Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20BMlEK5019919
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:37:14 GMT
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20BMrG6k019928
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:37:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : subject :
  date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=vSVLMh5EzNGUJ40EJ2Ice/4tnhgiMlgL0VD6CJI/898=;
- b=BNTfit3escZsuvkA2n1u3wHMbs0By3/2LhwKyuwgeCJSI+szuDcJy4xYUn9/IzsI9Eg7
- Zhggxz3eEp2ourLZuTEtc5CG/aWTYY/XYwDK65RyqqPBeGGcJUkFWl1T8g8AGnwxySsi
- ESnAp/CMBzgcUFodp9WAmWKNF5EFxjLXD+NE3OcM0TmYaMhloQyTpA+upwzQgaI487sE
- nkb9MihNz4a5YzhSuBdji/tf1Z6lGYR7uLCkA3Hz7TI9xpRy92PxB3FQU/JyLdfTcZ1Q
- AGdwBMpD+OLWWjhev4OtwriNq0tzQotKtr2XxrKbADVifh7kMS8ZoWqMPL8Ela00i38h 8A== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 3dgkhx4sj4-1
+ bh=RlSrKToJ34Fs94Ln5Fpnva0xUkyZ6NjfPsrgWhRgs7g=;
+ b=Va5CASmDtC3gV1IkHPhseZvdhtlSiN4Lju42dORf35Ki+LalFGR1ip0ckRXKQIcwCRBG
+ a6uEKlNAgj+UkqFwEBoL705GYHT2XKS3lyA13RL6TPEImXIupau+phkJfE0adRM3YpOV
+ Qnj3Xhm8yF4uWT5om+Twez2GNZdnWK4W08th8NEVRkF1Ga8MgheW2fL6odKJjN2XTGeN
+ mKF22GGzm68nj/2c9tA6ehQ2ilLfTvPmQp5xAaQEr5myfytVYDSpXNEYO30IXqiXZ9JY
+ ppDfb4NB6XNQ434GlRNI7686EJ7S2EMCJhBJYXHOVffOqj6vKcA+/iqe98olJUQUwqFs Qw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3dgkhx4sju-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:37:13 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20C0KTBM196414
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:37:12 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2170.outbound.protection.outlook.com [104.47.59.170])
- by aserp3030.oracle.com with ESMTP id 3df0nervy9-12
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:37:21 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20C0KAjF069368
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:37:20 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2105.outbound.protection.outlook.com [104.47.55.105])
+ by userp3030.oracle.com with ESMTP id 3deyqy1gqq-4
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:37:12 +0000
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:37:20 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YDTCFGl8H+muZR8aCwndRSbuZg0gH+vNY6NcYLgMM7GbbNhnOd3WA/GjHhiEAx1G6gx7LVBQGiMAyrdOnbPO2qa0X/x2Bv75ZrYjWdFi8x9tHzhx6RKCg9oHuBayWBRgaxHdEr1IDMj1zDF6VG4NyvPQd6kNHUKsHl9FqMyoX27nVx14EwHZG8b33dfLkwA4lAh4Ca3rR3YM6JZ2JK1bYcVyEZrReFfqijrPArw8M5mZeQnlWckcEwWRt29FhWGy/ECVsj1wrcAC2SjhCWY+TUx39Xf3QNjB1k0SxVGp9JwsFcu23uHBloU5SkWLxmN1f01eFGggaX3JJ6dnFVNH3g==
+ b=kR2rHvOOl9h+zrI+k7WNfIdnmaO1kK7FPpefBFRE5BVC74YL5pBPgRb9zSCd7VkJMKt06eFgNwei9lKqhnSULuNHiEOcnMD81v2ae+C4sA6CfCeVLdJa22COsI+icXfcZV9yb1TTYUuUyWfXYSG15IY1Ig8yORH68a4yRtqlCIJqh0dtDmSxG5crsjxMN70aFm9Fsx6By5m6WnDBL4FlCFdjXqz9oiPkczRz06hTAxgYh4IICxuKhyt5aUMxjz8s4bDjmHw9H4iTtRC7LMFaIzjBx8mr5+WowRBku5r8MMOGxuImENa0P7fsPCmYCUNBToq5MPLfowwZHgCp+CZmFw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vSVLMh5EzNGUJ40EJ2Ice/4tnhgiMlgL0VD6CJI/898=;
- b=I2EYYFTORTo0Hxj6K2FhjRT2gVV91UdMp8rnFz0L3WHDIX/bdKXjSqqlCxN6TBSzALHNwrApKW4Nh+oU9e+QLzvnlHSNjhqcJFkZrynvcsQo5sCtH15n6ckcq2yK6/TuYmAJA6JQ9ehc1v94F/wqhQuG6Qst4tLtM+uz4Tj+O4hCuPUfbC9bf3eGvDcClYszXLaLHHaAIVFAdFZyygexMRjnLleBa1NleyQxRfAmZRBE3XxxTha1Af2xQSTpu2ole05MZn/Legsk+dolpfzvCFO8qpuSqjNCLFMn8cQeDOSuO+3lXo2FambMPUjBRadHhlWRMpDbOPgwG9kfrRpZiw==
+ bh=RlSrKToJ34Fs94Ln5Fpnva0xUkyZ6NjfPsrgWhRgs7g=;
+ b=fvvuwWpzeLz/enRE9zRJrhSZZk/F0vJxfNB5xlW86CjyL8QSDM+b5v1WhEpjGrNrePtFWbsg238YmZqlgFynMSPFbAtFAqvUQvluOQ6s2b+Lfr1SKE2dOy6V+msmViurk62vjw8eoIEH0ncfNuy92Yh3MNxNwPny0O2iMH/JI8CkLD1fzkDXbrfCrd13DpHVkJaqQfGTadh7MGXpsEfDvT9BrW7EWuzr/Cf5BUrvIVmRW2IL2IYaq5WjqoSdqU6R2qVzTcFhW5HZhb/XNH7KB4oVPKGZ+c7EjmdRhgwxgrkhONHDFLXOA0j8Z26jIeqK1GKhxcXwKzxkeR3qEK6Ttg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vSVLMh5EzNGUJ40EJ2Ice/4tnhgiMlgL0VD6CJI/898=;
- b=hZyvq5Z68Lt4F0f5pFDl7sL+oMYPr7dRO48Al9jpJUHkKFi+LVaNthYzvypKgZJSSvKU/Dm2BJ7dFEp9h1bYmyqAunuhwSdiPnXX7GqTdmP21fs9mhrSroq1FtCHGLJrG+aiSojIrrgQYNR2FDmS3bJFF62uihjK6T1hcE9yxpM=
+ bh=RlSrKToJ34Fs94Ln5Fpnva0xUkyZ6NjfPsrgWhRgs7g=;
+ b=zmNQ00+Zn1UfuqLqNlXgqjg+lbaiM/47M48GJovKojQUAtFcurbpu12a7J5JDwtZuKtvXjm+6dHhmZ6T51Ekgu+9cJVjjDGAIXNLYb1Tth+wdkcHN/ZqQgRrHv67RjvCKhzTvJrEsCbcjMamEHpvf4HmbfO/he/8Y5HS3rSdr7Q=
 Received: from PH0PR10MB4679.namprd10.prod.outlook.com (2603:10b6:510:3c::15)
  by PH0PR10MB4742.namprd10.prod.outlook.com (2603:10b6:510:3f::24)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4867.9; Wed, 12 Jan
- 2022 00:37:08 +0000
+ 2022 00:37:09 +0000
 Received: from PH0PR10MB4679.namprd10.prod.outlook.com
  ([fe80::5536:dbc6:5161:ac1b]) by PH0PR10MB4679.namprd10.prod.outlook.com
  ([fe80::5536:dbc6:5161:ac1b%3]) with mapi id 15.20.4867.012; Wed, 12 Jan 2022
- 00:37:08 +0000
+ 00:37:09 +0000
 From: John Johnson <john.g.johnson@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v4 17/21] vfio-user: secure DMA support
-Date: Tue, 11 Jan 2022 16:43:53 -0800
-Message-Id: <7c1122b4e50214e7d214e57616171a25a3aa2865.1641584317.git.john.g.johnson@oracle.com>
+Subject: [RFC v4 19/21] vfio-user: pci reset
+Date: Tue, 11 Jan 2022 16:43:55 -0800
+Message-Id: <f9d2d8b71a38a88156fa57f641c9b576aac8ce13.1641584317.git.john.g.johnson@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1641584316.git.john.g.johnson@oracle.com>
 References: <cover.1641584316.git.john.g.johnson@oracle.com>
@@ -82,67 +82,67 @@ X-ClientProxiedBy: BY5PR03CA0006.namprd03.prod.outlook.com
  (2603:10b6:510:3c::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a59be387-ce9d-4fca-35f2-08d9d563aa26
+X-MS-Office365-Filtering-Correlation-Id: 2168e1f3-6fe0-4991-2d04-08d9d563aa83
 X-MS-TrafficTypeDiagnostic: PH0PR10MB4742:EE_
-X-Microsoft-Antispam-PRVS: <PH0PR10MB4742EA9444C1C2FE639CE1FAB6529@PH0PR10MB4742.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:983;
+X-Microsoft-Antispam-PRVS: <PH0PR10MB47420ABDA402F930B7662595B6529@PH0PR10MB4742.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1850;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4lvlCrWPZzVXWab2rR0zfKi30gJthal4DtclogvYYCHf7+AIMGoUuDPe6LAIbxMMlvMCmGa5XZx6b/n2VsP9SdIwVFBVhNWoNqbMaQGvzPAwSQJqQTqoIN2PMv+/Tg8YYfbRwz51jfxpDvSppaTzZeWa91+UmQVvfFzVSum2r5QKB2HFwWmHmhTt4NOWl2IJ+qgpcC69lVIVJrHv4BYZHfV3DL3NUMsMq4gM5TXv0Js7O8CAyCMNAQq2TKR2+DHl0ZdE47knA1bhZUbbyuclQglwXCBn0AIoXAWzOrlaDgXo0QyfTwV2Jn8CjJmIPMxgEdbaIOirTlHj1YwZpkMSqEwOx9Lz/jfZ+nauUD9ouhpKpnhxqbYs1aMqE5kj89BLRtOCYgj256VeW3fxq7ZQ2ahVCOroQaNShW9WmYmtFB/GoB4C7j/s4y9FvzRHMG0P+Az80VjPiUuB4ei3gKYI0vhIFlbKeT0qWSrHrsm1/lZYLwHGUMPBHXebMmesTixHXyy4NE+U7bzdMJpP+e28qeQUpwQj9iOgJwJ5H5UGJxLA6wQoMyLeylzm/d8x+k/BXbwbq3isB8SUKnJsFqqzaZ+SQDoJ4iNe4MhFN4HXNU9zd8+vYcRV24xH6+e8mM8OXqzquA1X07zVyBnrwoX/CbLGH0pK9GVUcWNJJCy9vkDMBa325H3QrMKX5cn7Lz9wnwIMF7LokAQmDPj3LsK79Q==
+X-Microsoft-Antispam-Message-Info: LJJm/0/JL6zOHIefUW3R7cn6GcYfZrGkUAHKbeauTT7LAdTHnIQh0jJR4856XZkl7IFQsBl0QWFiSYsEQWE7Dzyqc11AjiP07ydFrOHw1R23s9EWwwKN5Yh3cOWxxOaI1xd8oqg6v0YLt6VTd//fl1EbRSDD/xIGOrOj5jVwqp8DSJCCBPUHZ95q0Y4DAWTzKC76FZz41ED04XrVPqqUra+BmWUQtncaiFGtxBHxnYTI5LEyWlJc2d1Y9CWVrhg5Bz0dd3b0H4kilZYwnnVsXhxpdQFndqwtzIihFD9NWJytPPpTR285Oq6PnbBi7CONK6N5GE74Sy2jtZsBMoAJ+Vudsp67SNYET13bn1fJ08MIw153jQopHOibA9r3fahZg1EgY6BLo5NZn/Z8XWgSx0QDuRVcfQKPnX3RZocV3ELZ7JA5NvK6OknqhQhM+tU1MNmRJtfgTKmksN5eQoiDjjdOLs9kJYSfZ5n1sMXibmcMIW+dG+gtVK1AhFUTM/5FkEBCjQ/5p7Tk/1KklSyTGiie1ONyNlgMVFMxqKmW2FOD2AG7lYUuDEYMLw9xWlY176+jg9DXLoUmD3ilLPKSwkjlixcNXTGhOQLEtROyKWrRUmZKpUnFieYS+0H8gfoOMn4pUWnQVd2Ew+9VocUN3dkEN+Nzq9Dq13gfQvDXUgvCI0n07pmQrLgeassAkPl4BRCmy2ebEtLZsCQj7JEFyw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH0PR10MB4679.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(366004)(66946007)(66556008)(36756003)(508600001)(6486002)(6916009)(66476007)(52116002)(186003)(8676002)(2616005)(316002)(8936002)(6666004)(83380400001)(6512007)(5660300002)(38350700002)(86362001)(6506007)(2906002)(38100700002)(26005);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Bcofh6sJgn3LiXCVk5GnNGDWtWyOT7t5BWqA/GMwM6Pf/3Oba1s+OxBViZDZ?=
- =?us-ascii?Q?SZ5bSeZM7xIPVvnGSgljMvNltDDd6oCErF6bRuQQzoK/OFIJAi2ePMsbBieY?=
- =?us-ascii?Q?ytSe7dJPd8AD+hyomKp9LD1YdKN7TH4POjh3egookTsuDqD4biBYS6hshfQR?=
- =?us-ascii?Q?MjmCbWIQb3MLTZEJur1ijY4SZUg5/SnrOK4Wh+Q9wozvvP4+JfYbgM4oehWr?=
- =?us-ascii?Q?8d7Hx65ghI9GcyO7OQoDrBIUBzYRipyEfSDn2DhTc9TsiDTlSGM89YFIWSrh?=
- =?us-ascii?Q?pa+c6LgUcqmpnxbwq1o9eKiDHs/GmrbpcxyxbRq9Uj75XZmJ8ux7zwFiM9gN?=
- =?us-ascii?Q?fVduiHPqoOAPQ57KTnGR6pqGZ2K2kl9pjujap6CcGf8eo81C931+eDILHqxR?=
- =?us-ascii?Q?pKfECYGyiT1s7rRHs7vz16C+96enxBIT3xXD4uZSotZgbllKGIHWs9/86MVQ?=
- =?us-ascii?Q?8FWkMAWt65WrDHBlDu9SNJbEE5SqSd+zz2f7OWpOk/o0kSFsYROOp25LwMzY?=
- =?us-ascii?Q?pFA2jo+xdWt6fo7irdQNjepx5djXwpgr6xuCIsU+G3uvJ9Nb39C7xv2sRcbg?=
- =?us-ascii?Q?dOQZZRxmNUWwWWrYOGVSsunnIOQF3CRFLGAglIKGJMf02jsKaZTiRC4YRl37?=
- =?us-ascii?Q?u1KLemtPqQXyKHbNUo81k16F5xg3TaKAVFbFg65pAzrUSJg2Y7FO5BmpITqG?=
- =?us-ascii?Q?XUOEXue6pTK76YWSCwm8MSX700HioncItY7yH3uXG1mMylEwTyqa3p12tW+u?=
- =?us-ascii?Q?ugGh5TDz0tpH/uVu2sjsu8ygYZkr9jT8ttZ4letEUU8vyh9ViO2s+oKtzo8P?=
- =?us-ascii?Q?3motRl40nF7OyF3zepFmJHw1oqgVSXFVs70e1A3RyVqiyqJ0e1qT42fsyHfv?=
- =?us-ascii?Q?jxN8Ih/bQX9iwKIIbztNfMsK7v9D1/3hFWS/FvQHe9zZnqAmEbFB1dDItIy/?=
- =?us-ascii?Q?NWKiiY80BCQjjisiRSdWp+xL839yfnjjuQgdOoRNM9IH8T7o5gMBnOCoC4w3?=
- =?us-ascii?Q?DHaeSN1dgd0FFTQUstO57Vle5RUlDt/7mmgHaBY6U3S7kj5U0gW4At8MTizR?=
- =?us-ascii?Q?F6aPhsKXFmjmixW35Vmoc2u/06X4Of2wb8s2F0mjxBK7KhHBffjcdsgEOF7B?=
- =?us-ascii?Q?ECBMlmy0leEZf73yC7mmXEFVN5VSy6FtcnKutdsOIEnmAw5QNNRJTPuhPXtl?=
- =?us-ascii?Q?TnJVH2FixqQtUm16fOVUjGwOT0UV4lEmj9KmGMRIDJFLQl4bVwUf6aV17mY5?=
- =?us-ascii?Q?ddWoU6eYUBjYCIfkQJDEUMXb0jvokIYUDST/k0r5uI9WOt14GiPumVgoG0AH?=
- =?us-ascii?Q?75PhhdJHQVBEkeF1wXtHN6Y/N06sBoz9c4FvL8FerCaO+nfpVFTg4Xowwt5x?=
- =?us-ascii?Q?HSlqmX6zrKKD2zz/lFAUq4Jstbof/UQZ3D76cLjLvE1prT60HFp/fMqNfDsN?=
- =?us-ascii?Q?zReWmm3gXnfF5zWxTT3yQwYkib+6hOiEKh7rrOvzrEc9oJfb2x2E5ZlVaLH4?=
- =?us-ascii?Q?tVbhcaGTezIvjNpleh1HEPSc+ZDDjM/pas5oeXIZSeHSkcvo55sjXGYz1X1W?=
- =?us-ascii?Q?VvuR3E4xKGytQ4i+pnaTuF45dg98ZziFP6/ptPpbaSynKjRdFUYZ7aC7cd84?=
- =?us-ascii?Q?1luJCixB3jsOdfVJcEMBISoe0+XTJRPaf2eN/N26ijU85F6SJbUhjXsGAKxh?=
- =?us-ascii?Q?vKvCEA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5gFa2eYgkJe6DBq2K9I8qPUFC+hV2lVWPb8/MHcqjOCInJvqL8tEg3LY9AMV?=
+ =?us-ascii?Q?sD1maIUGvqKCddwhiHBMriYgQfyUpYXwI7ud6bI4QyGJcwc7+lTB2SFFy6fd?=
+ =?us-ascii?Q?vLQFoV+GJsXKGqlWq89RY0TX1mjzawyn4UleFqsKybcBOdXUKGGyhREkz/LI?=
+ =?us-ascii?Q?PI4Kc8DseWK/PV3lSTSIp0/CZQ5XkRHQIdjRmlwfy+th1QASJR/ZvjrdY5+n?=
+ =?us-ascii?Q?K4aukX4GnRgcxcVXFkhN5sWSl0fMErZfQj5Sy6qGRn9QbuOGS2kIvV+RCBWH?=
+ =?us-ascii?Q?sm1sFt2lnHMOAPJOlZDhaZVv2sfJ7cw2AEDqE0zB1eHY2qCwFsw1M21R5OyF?=
+ =?us-ascii?Q?TWoxwDuViMJmEm7uPONw2kCmR757aaNPp/b65ainGtsCzyukSSLn15SNlehJ?=
+ =?us-ascii?Q?QHzVwylfDgeX9W0UaLcELa32/lyAHOCblIdjwnqJoCzJEtLJk/d6g0ijHsXl?=
+ =?us-ascii?Q?KY3I9GB/vze+aFt71X+Af7Ro98x3jHOOX+BWdCmmpurefSHwHi5HkB+LnnCH?=
+ =?us-ascii?Q?7KCVSECiE6UhZPtKenH+tAXR9dOrEq5YSpXA1U3bcI+pCPfFIHlG0c8joqqd?=
+ =?us-ascii?Q?Wfa0RAABjuQucver+6+rqOPHKMSqzmDhgEOkE0aonbzjq7wIC+mYbE1+ACXJ?=
+ =?us-ascii?Q?sJ98U0zATS22yZPg0WmjmXaJigCPO5GpGtWBAXwcIekQ6fy43oPapFb6JQzi?=
+ =?us-ascii?Q?nYgOdOyx5IY2u/0AXyvoNdlGZgHwRp63GNusv/S5VwhYj8yhKe4238pxAgQA?=
+ =?us-ascii?Q?tnbfDmbzU9oLzkajRANXFla9cM261LUUBSVu5Vbqa/N0j1DdkBlQ/mraUrTL?=
+ =?us-ascii?Q?E0AkU4O82P3ovgKmQAeWE4P1NheM0hvikcfC0qQ1rgniemq9X01RZ61OxhbE?=
+ =?us-ascii?Q?Q7Lxs0TiBcW0WrRrmPzoKfUq0me7tI9DSXZdfAFiXmE+3oeoMXj+GfzdIyHc?=
+ =?us-ascii?Q?8GdsP014XVsrxWYiNVPG2ljZ5+FarQqviyaZlirB8o/IwWueM4mprUTiqRIm?=
+ =?us-ascii?Q?rOt3KzKROsmCq4YfAxLZ3xhSBLG1gNdvpKxmitAtFvLDNoWfUUQlTTDYD136?=
+ =?us-ascii?Q?uHdsRvOkuu5Ejpd7vyioakcyYChdsu7sp1gxPj2a3+gFYu4TIXytNCgYhCRF?=
+ =?us-ascii?Q?1+JF/PQUjrgbRCjewrhgeWXlhWVubmS9055T02tiWD3kiQAz2awBS1lSENK9?=
+ =?us-ascii?Q?W8HL2xOITYJoY+09KiF3fzHgrBAo/0AWbYkaQuuHoYM2NejuTk+AnI3K08wX?=
+ =?us-ascii?Q?4gDzVcze+LYPeokX6Rra1Gwc+FTM2q5SV3EkINcmq0ckZywslOdKkhT+0rRO?=
+ =?us-ascii?Q?UA7MehZB8Hq/k/3QwNNKGcBtkhoenoIBM3wBMCrDIJioXNeMpx/JA8tmpJiF?=
+ =?us-ascii?Q?0RXo4XbvcI676DheYkApalrwes8zI7fF3wCLpR67l2rbCUdvv8vrC1SnXyMQ?=
+ =?us-ascii?Q?LVxwzNE43fpGUa9cPvNgB5nWZItdOh8ZksqOVsCBiGCdColP9TlRc5B/2ERJ?=
+ =?us-ascii?Q?08sVmPlyjDMl7H6HYHSgaYCj7iQrd7Zmc6dw/pEEKmNRWWCHi8AW5lKFyTYK?=
+ =?us-ascii?Q?a0KMQxU2UYrj3X0ig2No65NtlJVJH1+YOUcELw2RYf/Jv9PJQQM0BPv4M4Xn?=
+ =?us-ascii?Q?iP2alfkslbGXWbBYkeuwzK9zT8SHfFe1oE9BsX1JlpvwGjAwHoBMNgelop1O?=
+ =?us-ascii?Q?xvTOWA=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a59be387-ce9d-4fca-35f2-08d9d563aa26
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2168e1f3-6fe0-4991-2d04-08d9d563aa83
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4679.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2022 00:37:08.3682 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2022 00:37:08.9931 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XOKF0fk4S9pNwDrRkcd0H/RwtlcI8cUKgW3XDj8grd+YqfW3WSJDNoNIzfqdy/heO5vYd6qHpQfqxchMosj8/Q/ajcslhRRnxc6uZzw5HlA=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3wG1P4JEeQo26q7fjRZtdc0aW5ucsp30Ruwe928NMiVN8zP7zjz61pr+Sci/tkBSlGOaiux/gZk38KNixSz2sojgYOj4J4eGm7YQyp3mN7M=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4742
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10224
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- bulkscore=0 spamscore=0
- phishscore=0 adultscore=0 suspectscore=0 mlxscore=0 malwarescore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ suspectscore=0 spamscore=0
+ mlxlogscore=999 adultscore=0 phishscore=0 malwarescore=0 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
  definitions=main-2201120000
-X-Proofpoint-GUID: FeSGM3V9yrU92jV0IPP0yngUNADjx1PD
-X-Proofpoint-ORIG-GUID: FeSGM3V9yrU92jV0IPP0yngUNADjx1PD
+X-Proofpoint-GUID: 0Yzw2T10qHItDMPisvWjwujBdV2618BK
+X-Proofpoint-ORIG-GUID: 0Yzw2T10qHItDMPisvWjwujBdV2618BK
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=john.g.johnson@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -167,78 +167,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Secure DMA forces the remote process to use DMA r/w messages
-instead of directly mapping guest memeory.
+Message to tell the server to reset the device.
 
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- hw/vfio/pci.h  | 1 +
- hw/vfio/user.h | 1 +
- hw/vfio/pci.c  | 4 ++++
- hw/vfio/user.c | 2 +-
- 4 files changed, 7 insertions(+), 1 deletion(-)
+ hw/vfio/user.h |  1 +
+ hw/vfio/pci.c  | 15 +++++++++++++++
+ hw/vfio/user.c | 12 ++++++++++++
+ 3 files changed, 28 insertions(+)
 
-diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-index 643ff75..156fee2 100644
---- a/hw/vfio/pci.h
-+++ b/hw/vfio/pci.h
-@@ -193,6 +193,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(VFIOUserPCIDevice, VFIO_USER_PCI)
- struct VFIOUserPCIDevice {
-     VFIOPCIDevice device;
-     char *sock_name;
-+    bool secure_dma;    /* disable shared mem for DMA */
-     bool send_queued;   /* all sends are queued */
-     bool no_post;       /* all regions write are sync */
- };
 diff --git a/hw/vfio/user.h b/hw/vfio/user.h
-index 8d03e7c..997f748 100644
+index e6c1091..7504681 100644
 --- a/hw/vfio/user.h
 +++ b/hw/vfio/user.h
-@@ -74,6 +74,7 @@ typedef struct VFIOProxy {
+@@ -88,6 +88,7 @@ void vfio_user_send_reply(VFIOProxy *proxy, VFIOUserHdr *hdr, int size);
+ void vfio_user_send_error(VFIOProxy *proxy, VFIOUserHdr *hdr, int error);
+ void vfio_user_putfds(VFIOUserMsg *msg);
+ int vfio_user_validate_version(VFIODevice *vbasedev, Error **errp);
++void vfio_user_reset(VFIOProxy *proxy);
  
- /* VFIOProxy flags */
- #define VFIO_PROXY_CLIENT        0x1
-+#define VFIO_PROXY_SECURE        0x2
- #define VFIO_PROXY_FORCE_QUEUED  0x4
- #define VFIO_PROXY_NO_POST       0x8
- 
+ extern VFIODevIO vfio_dev_io_sock;
+ extern VFIOContIO vfio_cont_io_sock;
 diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 1fc79ef..b86acd1 100644
+index 7479dc4..d47b98e 100644
 --- a/hw/vfio/pci.c
 +++ b/hw/vfio/pci.c
-@@ -3483,6 +3483,9 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
-     vbasedev->proxy = proxy;
-     vfio_user_set_handler(vbasedev, vfio_user_pci_process_req, vdev);
- 
-+    if (udev->secure_dma) {
-+        proxy->flags |= VFIO_PROXY_SECURE;
-+    }
-     if (udev->send_queued) {
-         proxy->flags |= VFIO_PROXY_FORCE_QUEUED;
+@@ -3713,6 +3713,20 @@ static void vfio_user_instance_finalize(Object *obj)
      }
-@@ -3607,6 +3610,7 @@ static void vfio_user_instance_finalize(Object *obj)
+ }
  
++static void vfio_user_pci_reset(DeviceState *dev)
++{
++    VFIOPCIDevice *vdev = VFIO_PCI_BASE(dev);
++    VFIODevice *vbasedev = &vdev->vbasedev;
++
++    vfio_pci_pre_reset(vdev);
++
++    if (vbasedev->reset_works) {
++        vfio_user_reset(vbasedev->proxy);
++    }
++
++    vfio_pci_post_reset(vdev);
++}
++
  static Property vfio_user_pci_dev_properties[] = {
      DEFINE_PROP_STRING("socket", VFIOUserPCIDevice, sock_name),
-+    DEFINE_PROP_BOOL("secure-dma", VFIOUserPCIDevice, secure_dma, false),
-     DEFINE_PROP_BOOL("x-send-queued", VFIOUserPCIDevice, send_queued, false),
-     DEFINE_PROP_BOOL("x-no-posted-writes", VFIOUserPCIDevice, no_post, false),
-     DEFINE_PROP_END_OF_LIST(),
+     DEFINE_PROP_BOOL("secure-dma", VFIOUserPCIDevice, secure_dma, false),
+@@ -3726,6 +3740,7 @@ static void vfio_user_pci_dev_class_init(ObjectClass *klass, void *data)
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     PCIDeviceClass *pdc = PCI_DEVICE_CLASS(klass);
+ 
++    dc->reset = vfio_user_pci_reset;
+     device_class_set_props(dc, vfio_user_pci_dev_properties);
+     dc->desc = "VFIO over socket PCI device assignment";
+     pdc->realize = vfio_user_pci_realize;
 diff --git a/hw/vfio/user.c b/hw/vfio/user.c
-index 5c27a5e..fb0165d 100644
+index e377b0f..33d8f06 100644
 --- a/hw/vfio/user.c
 +++ b/hw/vfio/user.c
-@@ -1441,7 +1441,7 @@ static int vfio_user_io_dma_map(VFIOContainer *container, MemoryRegion *mr,
-      * map->vaddr enters as a QEMU process address
-      * make it either a file offset for mapped areas or 0
-      */
--    if (fd != -1) {
-+    if (fd != -1 && (container->proxy->flags & VFIO_PROXY_SECURE) == 0) {
-         void *addr = (void *)(uintptr_t)map->vaddr;
+@@ -1398,6 +1398,18 @@ static int vfio_user_region_write(VFIOProxy *proxy, uint8_t index, off_t offset,
+     return ret;
+ }
  
-         map->vaddr = qemu_ram_block_host_offset(mr->ram_block, addr);
++void vfio_user_reset(VFIOProxy *proxy)
++{
++    VFIOUserHdr msg;
++
++    vfio_user_request_msg(&msg, VFIO_USER_DEVICE_RESET, sizeof(msg), 0);
++
++    vfio_user_send_wait(proxy, &msg, NULL, 0, false);
++    if (msg.flags & VFIO_USER_ERROR) {
++        error_printf("reset reply error %d\n", msg.error_reply);
++    }
++}
++
+ 
+ /*
+  * Socket-based io_ops
 -- 
 1.8.3.1
 
