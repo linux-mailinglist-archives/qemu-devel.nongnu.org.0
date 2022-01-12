@@ -2,105 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10ADF48BFE7
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 09:29:57 +0100 (CET)
-Received: from localhost ([::1]:41900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24C1648BFE8
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 09:30:14 +0100 (CET)
+Received: from localhost ([::1]:43082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7Z12-00061K-5v
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 03:29:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43602)
+	id 1n7Z1J-0006qP-8S
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 03:30:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1n7Yly-0005bZ-8W; Wed, 12 Jan 2022 03:14:23 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1590)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1n7Ylw-0008FK-0l; Wed, 12 Jan 2022 03:14:21 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20C78Fne028193; 
- Wed, 12 Jan 2022 08:14:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=f/W9nlr2Kbq99c4vPKZAUlCcuKpooyQ7FhguTClaer0=;
- b=eR5SZHeofyLzfNs321BSqZpJvJ3tLq/moPgNzjZWs69EovAtGMX/znzpyCPXLvw2NE+F
- YlkIwXJLY5mPVYCFqzXLAlVVGtxjbc8phhDGfP0kGFqCGT8NoISo4din7Pv5AuIVkp50
- 83OfYvHhCMHGnxdWgB/ZZzGsA/6Ugtgf40LM4RgdOB3xVwPCXWH4QAhmDPfyma8pOcP6
- 7Ctr5Cyn5HvqkdxLJa7DzmL9lByosTrjZ/4xh/xuhiXlz4v2BdrJ6qCkyISid0dHAOVz
- jrKLhd1oE7/LwZst6m+eLj0sGFMfP6JDIBwXZpeoPg/4Z9Ha07E/qMQdTV8BN8jQYs8i qA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dhqj7uxcm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jan 2022 08:14:05 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20C84itn010547;
- Wed, 12 Jan 2022 08:14:05 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dhqj7uxbv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jan 2022 08:14:05 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20C8C0gC019911;
- Wed, 12 Jan 2022 08:14:03 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma06ams.nl.ibm.com with ESMTP id 3df1vj70xh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jan 2022 08:14:03 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 20C8E18E43450794
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 Jan 2022 08:14:01 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E99D7A4066;
- Wed, 12 Jan 2022 08:14:00 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2405BA405B;
- Wed, 12 Jan 2022 08:14:00 +0000 (GMT)
-Received: from [9.145.161.113] (unknown [9.145.161.113])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 12 Jan 2022 08:14:00 +0000 (GMT)
-Message-ID: <9236e29a-eb80-f7ec-75a5-ca0c9c1c3783@linux.ibm.com>
-Date: Wed, 12 Jan 2022 09:13:59 +0100
+ (Exim 4.90_1) (envelope-from <roman@roolebo.dev>) id 1n7Yu1-0002DY-AN
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 03:22:42 -0500
+Received: from [2a00:1450:4864:20::141] (port=39571
+ helo=mail-lf1-x141.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <roman@roolebo.dev>) id 1n7Ytz-00015d-4V
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 03:22:41 -0500
+Received: by mail-lf1-x141.google.com with SMTP id br17so5376349lfb.6
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:22:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=roolebo.dev; s=mail;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=pC8WAlcN6WFnbDSiH/7K1iEmUxZ0MIWzgmBnQX6TyZo=;
+ b=cQ3bLiSyudimd5b6xRTubF6xFyaBiZqgTvLnMvrItqr0y/XCHBKJMRO3MJluDZ+W+A
+ bvNF3d/YezbOKZjXhQ3+Q8tNvgyUPfHdvZ9dThmgoH14yx6XTADuBuKeuVFf1lSX02xT
+ svw4OZS7eC/DnS42XiKIQ/4Wsinkb5URXlPH8cxdoRrwMQvRpwmAS4T+AX6o3qxEOwCT
+ 99OVMO5TtC99q1Qj1s6LXiY9Z2WTHvQjBLTfdc6ntb9ckS6knJ/i7+GKBo6/ivcgtg3K
+ jfpqbBwwDUtZl401L4e2vISq/+spTcUHCCvl9rHvjB1hfsQIIhWYpOO46sdDnpnkToRg
+ pkAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=pC8WAlcN6WFnbDSiH/7K1iEmUxZ0MIWzgmBnQX6TyZo=;
+ b=CxQQwqgwTYIgYaL2qJyqXO34b2Rbp8IxEJzpcR3Q5h1lHVHOTlIKayiJuKYOpddlwy
+ iMUHBB7n2qRq0JaNv8sWphaZTtl2n4IWQPYf98p/OQrfLBmEhPeY9M1jZcu9/fJnA5sr
+ gmyvkMLgtVLuOK/aZ0g/2yKDwOSytTWXsfxVT+JjhJyEn54owaL8fGQ/Qm0OCgnaz3Io
+ eqUVDRE/FggAA1lrwEAeGDLNOyJxCHroLE/YsB2/mi+KTLbESuMsKPTD4OC8b2q9QJng
+ sk9yWQcb5ytuWOhy8ixibwGGowRigsYpnhSnLGVdFmRsIUh3jQx70TjuVA79vtbM7y6T
+ ik9Q==
+X-Gm-Message-State: AOAM5335E/eXFW2E36ARKn5jJuh1j7ZxqYlPUcqBywnYQn0i5fRukzQ1
+ oO/3k8heP2wprlH0XOubLz0KMQ==
+X-Google-Smtp-Source: ABdhPJwvmZkZ+X7f29yQVSd7vY+31da0w1+LEl7rBwEwuR8oBDy2jbFAmdm3tV8tyNsCj2uha49c9w==
+X-Received: by 2002:a2e:a4ca:: with SMTP id p10mr2681447ljm.214.1641975757402; 
+ Wed, 12 Jan 2022 00:22:37 -0800 (PST)
+Received: from localhost (ip-185-108-208-32.ip.asarta.ru. [185.108.208.32])
+ by smtp.gmail.com with ESMTPSA id c20sm1522089ljf.40.2022.01.12.00.22.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Jan 2022 00:22:37 -0800 (PST)
+Date: Wed, 12 Jan 2022 11:22:36 +0300
+From: Roman Bolshakov <roman@roolebo.dev>
+To: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+Subject: Re: [PATCH v10 0/7] Add vmnet.framework based network backend
+Message-ID: <Yd6PzI05p7y7PkGy@roolebo.dev>
+References: <20220111211422.21789-1-yaroshchuk2000@gmail.com>
+ <Yd6ILKV75g4jll46@roolebo.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 1/1] ppc/pnv: use stack->pci_regs[] in
- pnv_pec_stk_pci_xscom_write()
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-References: <20220111200132.633896-1-danielhb413@gmail.com>
- <20220111200132.633896-2-danielhb413@gmail.com>
-From: Frederic Barrat <fbarrat@linux.ibm.com>
-In-Reply-To: <20220111200132.633896-2-danielhb413@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: q6NxZxN6AgZFxxubxaHBhgd9NvOAKEMI
-X-Proofpoint-ORIG-GUID: 9Hn4gSOmDU7eg1v4OIW0d2SIl8D1oncM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-12_03,2022-01-11_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- impostorscore=0 phishscore=0 adultscore=0 priorityscore=1501 bulkscore=0
- lowpriorityscore=0 clxscore=1011 spamscore=0 mlxscore=0 malwarescore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201120050
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=fbarrat@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yd6ILKV75g4jll46@roolebo.dev>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::141
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::141;
+ envelope-from=roman@roolebo.dev; helo=mail-lf1-x141.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,91 +84,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
+Cc: jasowang@redhat.com, phillip.ennen@gmail.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, r.bolshakov@yadro.com, phillip@axleos.com,
+ akihiko.odaki@gmail.com, hsp.cat7@gmail.com, hello@adns.io, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 11/01/2022 21:01, Daniel Henrique Barboza wrote:
-> pnv_pec_stk_pci_xscom_write() is pnv_pec_stk_pci_xscom_ops write
-> callback. It writes values into regs in the stack->nest_regs[] array.
-> The pnv_pec_stk_pci_xscom_read read callback, on the other hand, returns
-> values of the stack->pci_regs[]. In fact, at this moment, the only use
-> of stack->pci_regs[] is in pnv_pec_stk_pci_xscom_read(). There's no code
-> that is written anything in stack->pci_regs[], which is suspicious.
+On Wed, Jan 12, 2022 at 10:50:04AM +0300, Roman Bolshakov wrote:
+> On Wed, Jan 12, 2022 at 12:14:15AM +0300, Vladislav Yaroshchuk wrote:
+> > macOS provides networking API for VMs called 'vmnet.framework':
+> > https://developer.apple.com/documentation/vmnet
+> > 
+> > We can provide its support as the new QEMU network backends which
+> > represent three different vmnet.framework interface usage modes:
+> > 
+> >   * `vmnet-shared`:
+> >     allows the guest to communicate with other guests in shared mode and
+> >     also with external network (Internet) via NAT. Has (macOS-provided)
+> >     DHCP server; subnet mask and IP range can be configured;
+> > 
+> >   * `vmnet-host`:
+> >     allows the guest to communicate with other guests in host mode.
+> >     By default has enabled DHCP as `vmnet-shared`, but providing
+> >     network unique id (uuid) can make `vmnet-host` interfaces isolated
+> >     from each other and also disables DHCP.
+> > 
+> >   * `vmnet-bridged`:
+> >     bridges the guest with a physical network interface.
+> > 
+> > This backends cannot work on macOS Catalina 10.15 cause we use
+> > vmnet.framework API provided only with macOS 11 and newer. Seems
+> > that it is not a problem, because QEMU guarantees to work on two most
+> > recent versions of macOS which now are Big Sur (11) and Monterey (12).
+> > 
+> > Also, we have one inconvenient restriction: vmnet.framework interfaces
+> > can create only privileged user:
+> > `$ sudo qemu-system-x86_64 -nic vmnet-shared`
+> > 
+> > Attempt of `vmnet-*` netdev creation being unprivileged user fails with
+> > vmnet's 'general failure'.
+> > 
+> > This happens because vmnet.framework requires `com.apple.vm.networking`
+> > entitlement which is: "restricted to developers of virtualization software.
+> > To request this entitlement, contact your Apple representative." as Apple
+> > documentation says:
+> > https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_vm_networking
+> > 
+> > One more note: we still have quite useful but not supported
+> > 'vmnet.framework' features as creating port forwarding rules, IPv6
+> > NAT prefix specifying and so on.
+> > 
+> > Nevertheless, new backends work fine and tested within `qemu-system-x86-64`
+> > on macOS Bir Sur 11.5.2 host with such nic models:
+> >   * e1000-82545em
+> >   * virtio-net-pci
+> >   * vmxnet3
+> > 
+> > The guests were:
+> >   * macOS 10.15.7
+> >   * Ubuntu Bionic (server cloudimg)
+> > 
+> > 
+> > This series partially reuses patches by Phillip Tennen:
+> > https://patchew.org/QEMU/20210218134947.1860-1-phillip.ennen@gmail.com/
+> > So I included them signed-off line into one of the commit messages and
+> > also here.
+> > 
+> > v1 -> v2:
+> >  Since v1 minor typos were fixed, patches rebased onto latest master,
+> >  redundant changes removed (small commits squashed)
+> > v2 -> v3:
+> >  - QAPI style fixes
+> >  - Typos fixes in comments
+> >  - `#include`'s updated to be in sync with recent master
+> > v3 -> v4:
+> >  - Support vmnet interfaces isolation feature
+> >  - Support vmnet-host network uuid setting feature
+> >  - Refactored sources a bit
+> > v4 -> v5:
+> >  - Missed 6.2 boat, now 7.0 candidate
+> >  - Fix qapi netdev descriptions and styles
+> >    (@subnetmask -> @subnet-mask)
+> >  - Support vmnet-shared IPv6 prefix setting feature
+> > v5 -> v6
+> >  - provide detailed commit messages for commits of
+> >    many changes
+> >  - rename properties @dhcpstart and @dhcpend to
+> >    @start-address and @end-address
+> >  - improve qapi documentation about isolation
+> >    features (@isolated, @net-uuid)
+> > v6 -> v7:
+> >  - update MAINTAINERS list
+> > v7 -> v8
+> >  - QAPI code style fixes
+> > v8 -> v9
+> >  - Fix building on Linux: add missing qapi
+> >    `'if': 'CONFIG_VMNET'` statement to Netdev union
+> > v9 -> v10
+> >  - Disable vmnet feature for macOS < 11.0: add
+> >    vmnet.framework API probe into meson.build.
+> >    This fixes QEMU building on macOS < 11.0:
+> >    https://patchew.org/QEMU/20220110034000.20221-1-jasowang@redhat.com/
+> > 
 > 
-> Considering that stack->nest_regs[] is widely used by the nested
-> MemoryOps pnv_pec_stk_nest_xscom_ops, in both read and write callbacks,
-> the conclusion is that we're writing the wrong array in
-> pnv_pec_stk_pci_xscom_write(). This function should write stack->pci_regs[]
-> instead.
+> Hi Vladislav,
 > 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
-
-
-I guess it shows how much those registers are used with our model :-) 
-They are mostly FIR registers...
-Looks good to me.
-Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
-
-
->   hw/pci-host/pnv_phb4.c | 20 ++++++++++----------
->   1 file changed, 10 insertions(+), 10 deletions(-)
+> What symbols are missing on Catalina except VMNET_SHARING_BUSY?
 > 
-> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-> index be29174f13..a7b638831e 100644
-> --- a/hw/pci-host/pnv_phb4.c
-> +++ b/hw/pci-host/pnv_phb4.c
-> @@ -1086,39 +1086,39 @@ static void pnv_pec_stk_pci_xscom_write(void *opaque, hwaddr addr,
->   
->       switch (reg) {
->       case PEC_PCI_STK_PCI_FIR:
-> -        stack->nest_regs[reg] = val;
-> +        stack->pci_regs[reg] = val;
->           break;
->       case PEC_PCI_STK_PCI_FIR_CLR:
-> -        stack->nest_regs[PEC_PCI_STK_PCI_FIR] &= val;
-> +        stack->pci_regs[PEC_PCI_STK_PCI_FIR] &= val;
->           break;
->       case PEC_PCI_STK_PCI_FIR_SET:
-> -        stack->nest_regs[PEC_PCI_STK_PCI_FIR] |= val;
-> +        stack->pci_regs[PEC_PCI_STK_PCI_FIR] |= val;
->           break;
->       case PEC_PCI_STK_PCI_FIR_MSK:
-> -        stack->nest_regs[reg] = val;
-> +        stack->pci_regs[reg] = val;
->           break;
->       case PEC_PCI_STK_PCI_FIR_MSKC:
-> -        stack->nest_regs[PEC_PCI_STK_PCI_FIR_MSK] &= val;
-> +        stack->pci_regs[PEC_PCI_STK_PCI_FIR_MSK] &= val;
->           break;
->       case PEC_PCI_STK_PCI_FIR_MSKS:
-> -        stack->nest_regs[PEC_PCI_STK_PCI_FIR_MSK] |= val;
-> +        stack->pci_regs[PEC_PCI_STK_PCI_FIR_MSK] |= val;
->           break;
->       case PEC_PCI_STK_PCI_FIR_ACT0:
->       case PEC_PCI_STK_PCI_FIR_ACT1:
-> -        stack->nest_regs[reg] = val;
-> +        stack->pci_regs[reg] = val;
->           break;
->       case PEC_PCI_STK_PCI_FIR_WOF:
-> -        stack->nest_regs[reg] = 0;
-> +        stack->pci_regs[reg] = 0;
->           break;
->       case PEC_PCI_STK_ETU_RESET:
-> -        stack->nest_regs[reg] = val & 0x8000000000000000ull;
-> +        stack->pci_regs[reg] = val & 0x8000000000000000ull;
->           /* TODO: Implement reset */
->           break;
->       case PEC_PCI_STK_PBAIB_ERR_REPORT:
->           break;
->       case PEC_PCI_STK_PBAIB_TX_CMD_CRED:
->       case PEC_PCI_STK_PBAIB_TX_DAT_CRED:
-> -        stack->nest_regs[reg] = val;
-> +        stack->pci_regs[reg] = val;
->           break;
->       default:
->           qemu_log_mask(LOG_UNIMP, "phb4_pec_stk: pci_xscom_write 0x%"HWADDR_PRIx
+> It'd be great to get the feature working there.
+> 
+> Thanks,
+> Roman
+> 
+
+Ok it turned out not that many symbols are needed for successfull
+compilation on Catalina:
+
+vmnet_enable_isolation_key
+vmnet_network_identifier_key
+VMNET_SHARING_SERVICE_BUSY
+
+The compilation suceeds if they're wrappeed by ifdefs. I haven't tested
+it yet though.
+
+Regards,
+Roman
+
+> > Vladislav Yaroshchuk (7):
+> >   net/vmnet: add vmnet dependency and customizable option
+> >   net/vmnet: add vmnet backends to qapi/net
+> >   net/vmnet: implement shared mode (vmnet-shared)
+> >   net/vmnet: implement host mode (vmnet-host)
+> >   net/vmnet: implement bridged mode (vmnet-bridged)
+> >   net/vmnet: update qemu-options.hx
+> >   net/vmnet: update MAINTAINERS list
+> > 
+> >  MAINTAINERS                   |   5 +
+> >  meson.build                   |  16 +-
+> >  meson_options.txt             |   2 +
+> >  net/clients.h                 |  11 ++
+> >  net/meson.build               |   7 +
+> >  net/net.c                     |  10 ++
+> >  net/vmnet-bridged.m           | 111 ++++++++++++
+> >  net/vmnet-common.m            | 330 ++++++++++++++++++++++++++++++++++
+> >  net/vmnet-host.c              | 105 +++++++++++
+> >  net/vmnet-shared.c            |  92 ++++++++++
+> >  net/vmnet_int.h               |  48 +++++
+> >  qapi/net.json                 | 132 +++++++++++++-
+> >  qemu-options.hx               |  25 +++
+> >  scripts/meson-buildoptions.sh |   3 +
+> >  14 files changed, 894 insertions(+), 3 deletions(-)
+> >  create mode 100644 net/vmnet-bridged.m
+> >  create mode 100644 net/vmnet-common.m
+> >  create mode 100644 net/vmnet-host.c
+> >  create mode 100644 net/vmnet-shared.c
+> >  create mode 100644 net/vmnet_int.h
+> > 
+> > -- 
+> > 2.23.0
+> > 
+> > 
 
