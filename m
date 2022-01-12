@@ -2,84 +2,152 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87FEA48BBEF
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 01:34:45 +0100 (CET)
-Received: from localhost ([::1]:49214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D9B48BC15
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 01:57:27 +0100 (CET)
+Received: from localhost ([::1]:38068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7RbA-0007zv-C5
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 19:34:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36110)
+	id 1n7Rx9-0003gB-17
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 19:57:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n7RZe-0006zg-Eo
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 19:33:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25830)
+ (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
+ id 1n7Rdg-0000pQ-Tk
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 19:37:21 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:4936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n7RZb-00054I-Is
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 19:33:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641947585;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CHwKGrq0/OSYog55MinIi6+B8J+ZeV8/pngx+z16KgE=;
- b=I09yiioLGL2dpJzda1331XmjAGMaosgbjT9guwqTzPSfCcyQAI2HMEaswY4gsQnN8WGWDg
- HA/Oq1d2nBOayhIzzDZIccGZuNnpqknUBd2KxBdwW0BJO09ads8dFbIJHokmiWsNB+daKO
- ic29vRHs865krJtJVfG9DsEM7hEd11Q=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-8-Bpef21l-PlO7IKsgYvf5fg-1; Tue, 11 Jan 2022 19:33:04 -0500
-X-MC-Unique: Bpef21l-PlO7IKsgYvf5fg-1
-Received: by mail-ua1-f71.google.com with SMTP id
- w14-20020ab055ce000000b002fedc60272fso554624uaa.21
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 16:33:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CHwKGrq0/OSYog55MinIi6+B8J+ZeV8/pngx+z16KgE=;
- b=FkEZGpv6Jncne8bAe3J9xQlto+exkdxgabYQ1+1wyl+vGbScGTemW4UP2So+uGU1Gl
- x6AqrcAGliehtHl4ijpnprAH+CmLYatDKIArZqXdVVii1xqH5Jdi13rD34daTL8lRHLo
- MGawNK8RaAlirU+414Mqrw9vGCnEhDEHFidPq6YD7/tqPEk9tEz2OQL8GHehlVvgbJA7
- YNU0xIEiLxFhIxBBJaeQ8Gp6wsYwQo/jjJe7aqODw9snys/CgJSlQmo7wvWIR3Aw+0S0
- 2wvB7gll0OmaFQ102uUJ6hs4yHXjn8o5cAGlxBG8bToXkdoBvGqAoC96QwXEKkFkvKQ5
- Fc/A==
-X-Gm-Message-State: AOAM5313nFMY0auP6kEoixqqT0MC5ZZb4UTod6irRd7ceYHRr8SpuiBQ
- GmNX8tkCIntXMcQaz+SYPvSOQuZcvbV8vWdKGBvgscGBqo3KRg/rG9xUcEEYgzuvgcyQaNbL0i/
- gyPWxLwpLuW8kaZkzWnxx3ck2XYg7M+o=
-X-Received: by 2002:a05:6102:390b:: with SMTP id
- e11mr3187817vsu.35.1641947583893; 
- Tue, 11 Jan 2022 16:33:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzHP8UT1fZ1dwUOZZXj8Yx7MeIPbSSgFV5BZ8s9D+AO0Zz3GyJDiAfzjJaidNheL9xGtnfcvr9Fzd8shDPxPmo=
-X-Received: by 2002:a05:6102:390b:: with SMTP id
- e11mr3187806vsu.35.1641947583573; 
- Tue, 11 Jan 2022 16:33:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
+ id 1n7RdW-0005fi-Ik
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 19:37:20 -0500
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20BMTaJU005856
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:37:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : subject :
+ date : message-id : content-type : mime-version; s=corp-2021-07-09;
+ bh=4Dl7my6j5h8upH95io0IVNSqX5mCejyX9FCYVtdG4Ko=;
+ b=yjpAJQ3mDMsnuNciTfLaWldhRuUt20qJceXvkSJTSIpYcyCcGiFIQ1iwLH3GFGbSijhm
+ Xi8vHx4f/FiCvJEf/0NBnCj0YAnz06zwsUTrWjwaC0Ny0TvPtfX6+juSnMqvLXIZazYQ
+ BMCLK8Rq7SSFwJlbkc5paUPPaajeu3fEjzf5yLiY/pBfUTFnYT+FVBP+5hvtxrF9kq1r
+ 5/PEVGRvFc7rSjVd+bNyirM5vVQaVPKd6RRJ1mmR5zi11ZFkOvIWWw7gK2alOke7pYpD
+ vMcBmV9rGtkFfvG0htynY6BKPFdjMGBWhdOB1frZTjW229PXVlwE7+nlMtIiEFxdL3sO tg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3dgjtgd1tw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:37:06 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20C0KATY069271
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:37:05 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2106.outbound.protection.outlook.com [104.47.58.106])
+ by userp3030.oracle.com with ESMTP id 3deyqy1gju-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:37:05 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FWV+St0frL7vlECIT+cGEaRYxKZDl51dLQUGEHWFF519mvwkHEVcpa1KR7/q7VVPLqGYK9YvCoY9ie6rnxckF2M2DGGvRBz/++5ytNiB5i48D0Tt7GIr4mDJjFHcALguX57QdBcBR2jbPSrFvEMJpYBqJSjkf+rqjn+dW6etQUCfDeQInC7gaVsiIhLf6oPH0MxBUvp7yZOrV0UxGUzPgsv2o41/9HmJLPY+RNMmd2vLjQ4IvcrmEVc7tnQ5rLu3+j5+jjCa18We6/Ikezs4qFukCZpBOEse3aEPZ0N/TzLZ5gWKhc+HJnPl7xDMtAQsWnO/vJfpLvoMIl0aDL03tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4Dl7my6j5h8upH95io0IVNSqX5mCejyX9FCYVtdG4Ko=;
+ b=TTrhoiujDZEHNfT1WH7Da3nAI3GwIGWYx9HVVZvQ8OO2QSGLkqcegkQGATcqVbWtzTcaGrnH/+FhQoDaBYVbOQR/8h9X4Gc7xslE7iyA0HkVVXleymACCAZO7K+Zlu6AFJ6UfddNmoEjvMTBWnIQjHAdR95HaoapuNrHLSlTR2COiVWl92/a9ND2gtu7d1WpzNrtBiGTNkuV9lp/KQmH8IJT/gwML73dFvoQ446WxQHuZgbUE2xeW7S/qHALquDH6Wh/t8dmMgjRTiXArLjGXcH5oJaCl1DCpIUKKCToCwBnZOEYXVOIZMRbubyqZVNaLkMld6Sc7fEmhvnHd4C9qQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4Dl7my6j5h8upH95io0IVNSqX5mCejyX9FCYVtdG4Ko=;
+ b=EbEqIZyDdUISGVAlQHX1sBjUYH383osEphp33JgN5R1GOPilRJZx4Bt3SPBHi+mJSa5v99SZ0MwR/XhrTOcz6XcnNUUD6bhtxmXJEfDN58m9ySL5this1mWG+GileF20+nBkEGlCj0lCGqiJtqqkgu9bOwd0IOboJXAi2o25m+s=
+Received: from PH0PR10MB4679.namprd10.prod.outlook.com (2603:10b6:510:3c::15)
+ by PH7PR10MB5813.namprd10.prod.outlook.com (2603:10b6:510:132::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.19; Wed, 12 Jan
+ 2022 00:37:03 +0000
+Received: from PH0PR10MB4679.namprd10.prod.outlook.com
+ ([fe80::5536:dbc6:5161:ac1b]) by PH0PR10MB4679.namprd10.prod.outlook.com
+ ([fe80::5536:dbc6:5161:ac1b%3]) with mapi id 15.20.4867.012; Wed, 12 Jan 2022
+ 00:37:02 +0000
+From: John Johnson <john.g.johnson@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC v4 00/21] vfio-user client
+Date: Tue, 11 Jan 2022 16:43:36 -0800
+Message-Id: <cover.1641584316.git.john.g.johnson@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+Content-Type: text/plain
+X-ClientProxiedBy: BY5PR03CA0006.namprd03.prod.outlook.com
+ (2603:10b6:a03:1e0::16) To PH0PR10MB4679.namprd10.prod.outlook.com
+ (2603:10b6:510:3c::15)
 MIME-Version: 1.0
-References: <20211223110756.699148-1-vsementsov@virtuozzo.com>
- <20211223110756.699148-3-vsementsov@virtuozzo.com>
- <CAFn=p-ZxtMggvUoGOviWQAt9XpBUSUQX9nOo=MRWyH4k-fpv=Q@mail.gmail.com>
-In-Reply-To: <CAFn=p-ZxtMggvUoGOviWQAt9XpBUSUQX9nOo=MRWyH4k-fpv=Q@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 11 Jan 2022 19:32:52 -0500
-Message-ID: <CAFn=p-bnoCP2HcXvaokrspOOFG-AqiVD18t54F1=yjzNQn1OmA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] scripts/qapi/commands: gen_commands(): add
- add_trace_points argument
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d97a88ae-c6a3-449f-6022-08d9d563a6dc
+X-MS-TrafficTypeDiagnostic: PH7PR10MB5813:EE_
+X-Microsoft-Antispam-PRVS: <PH7PR10MB581392662D053B572AFB605FB6529@PH7PR10MB5813.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:747;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: sfZqqENcUO56zXrLHwZiemv10wuo7X3wyzShVKvziEr/CCC91mYKYosCGJ8Sy/iU8cBN6+Vh2K3YGjcIxMTzf9SGZmAiYWIGf7qsYNfDQGlSo7kDD6b6hubFRGAvzlCmZeb9z9rF2B0ZuhsDeZi+wbyzAq1yTNtqR42CoM1BzyvpxqiXVPWeUrHiWRyEZkRKBL+lcrRYa1tNBUyIxfVQTVFL/iesfdhrQdzxQXzJTkO7QcjT26muIcVVsTWEJ/UhIqPKFFxghxLystdHmA73/R/Y/Enjxf2hqSVMaLXurnkB5hPEb1Qy0Tb43EHE6BFj1GWyO1fJErsDk46ZiX34R4jE0ZcRS5y74T8eU5FqgftB+MulV4TJjI8FWPUcua++tp22YN5gIS/MLzdd+OUnzv4Lw5aJ+vxqA6lZkp6E4fgyh4QsJxGdf+1DKUqeZXKRsdg+9E8bJ2W4fGbGAFUqUZa6j76Oluj7WDJzEX7YMaPBETDhl3ZUhvkhY/wKcn1QFvj9nx8nfuS/1DPDqDMPinoMnszOuhCOgEgejC4GTdroaAylGdAJW9doF8skhfdlsWs0lDIUZblPuw0zlzzCXzqpSVReFNz2vtOAHZXAF6x9NcZOqvyhwu0mZBDZCub8mF+kPqXDsLPw0UDrKRMovTGrj2DA+mv4xxOKT8G+E//60lHKCFevfDqRoy037PeExjdeBxvpfM8dbum5vqPyV6nfaXnnx8GSQkRTA6TTAV29K2dbDB0X+XXKOHa9eK0rugGj0j8L87bu/Jf/FI90lO1ZCNOX6RXfZIdxXEFF7DA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR10MB4679.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(2906002)(6506007)(8936002)(26005)(6512007)(36756003)(186003)(8676002)(52116002)(6666004)(86362001)(6916009)(6486002)(316002)(508600001)(2616005)(83380400001)(66946007)(5660300002)(38100700002)(66556008)(38350700002)(66476007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?N54Ni9+ktOL+A7iO4xXq+X9E3HjpvnUG0Yxwg1w5T33LLAxs27CS29kJlQD6?=
+ =?us-ascii?Q?QCYlsFA2sluXG//izgm9fooHSD6mgZC6L2uYN1V4rM0qlYmxKUT95w/ZPwya?=
+ =?us-ascii?Q?V9wK6P9ZBfvP2x/e/H5LhpYEkKKoLMH7R2i83j1/lZYEyE2TjX1pFbn4/z9O?=
+ =?us-ascii?Q?cfopxSOyjdPLjKEZMYNrQXig8APAGkPiV3Xjzaf59rygEfAGlU1ZAJX1/Tu9?=
+ =?us-ascii?Q?mlfTRK6F22oAi3H4oPmh8xATX427F4DxiaooXFk5VjTF/2P+N3CvPYLHDZJg?=
+ =?us-ascii?Q?s23eL+8OB5lnsGb1SoWNTgx2+z8DAfZeWm5KeFtK1bQemQZ74O56BvtiirKS?=
+ =?us-ascii?Q?uNYdANNY0liqKh7ZJngbApt1C5zUrRZjhOQl5CUyBqAzUiiyq4Ck5N3uuotU?=
+ =?us-ascii?Q?hnKOiwbIZy7Fe8TMD6jnJiq4e6uR10yvywFvKml7B2H35N3BdUSYuAvRY4jM?=
+ =?us-ascii?Q?1ZkSlEwbNGyeTKa7spwnaUnhqdwQ2SJewGh5F7BMEgbd4VS60ctv1SGxBLX7?=
+ =?us-ascii?Q?rCIBd+LKIVGTgB0GcXRqlb3iknQ/BXOsHvbLwEdeLpRqqJ8kzLhgILy7XEFu?=
+ =?us-ascii?Q?nDCN74GbzrQWPbMnGBw7ScN0Fq00wIMmLefDCMcM/GxqrOKdU8BZ1BqMr52N?=
+ =?us-ascii?Q?O//q5VpxaCGxFRHS55Vzdr5QiWiF0eybvAnlnuhyQdItgDUvqyqGwQ8JyQNm?=
+ =?us-ascii?Q?yFwlzscho4iLHoTCXHdAUb2lSCjZvT/O0Ro6QU/Ifc5UL9I44E4EcUU/lVg1?=
+ =?us-ascii?Q?/67H5ULW956EOTk6fgg7fIe4O9H2vaIRZDZ7nziDUh30REBMTJXIGgXuteIX?=
+ =?us-ascii?Q?XU8XLLp7WQt2S/dCL1A52zwJE9o4xlBXwGxAz5miIzlf3rFEL30D+kvf5wJm?=
+ =?us-ascii?Q?+21/njbKtqxHwhi9t9wnCKvqb6sxcjxGgtietntTdwtepKkRDFdBav1mOgaF?=
+ =?us-ascii?Q?aOmF5rKPXu5UaDMSr32Zgzly9H9EWD/SkmOfHS4d2RNmTp/L8kwXqC4OIS2e?=
+ =?us-ascii?Q?baIcnxK16QTbkmPXBWtAO0C+/R8RmXITEoDeYPYTjCfeKhprZYVq6FOK/fe4?=
+ =?us-ascii?Q?ua3MLP54FyUAYEV+DbMuZZnDytMOSeFM+N5Su7y8on9MA8+u76/sAPEAseqW?=
+ =?us-ascii?Q?eMmolnwbZA1P1IstwpC5DRzPvWBdjqIPZhv88bKoAa6xE7kMz1om3XHQq8UC?=
+ =?us-ascii?Q?rJUs4UHdsPH8r7nzJRoMecm6ZooKGQo+Vhmf1fmkHqeTf3nCjgPdnj36MDbP?=
+ =?us-ascii?Q?KT0sreG/CC+uf3uA56MpP53/TdGA6V9n665yFrHnQlx8hXDpMMAAEiJr7ujr?=
+ =?us-ascii?Q?q6JR9Y/NAzlQFOpmbF6MuNByXR3T1nLLXve5xRACj1I46RXnsp4Qi9qoS7si?=
+ =?us-ascii?Q?+EY3r5YVKSvrRG/yDa3/eZkIy0kjK34+tCpRq/V3Upe/WOD55XC050g7l/nF?=
+ =?us-ascii?Q?T6XVQERfv9RVEkxYmkkwisYCezvDjmlGEbnBvNlEfAFPv54PoPwzykNmOmEm?=
+ =?us-ascii?Q?47Etdj9l0e015KYUg6zdTYLtITEW6vrObXgpGROqNAWXIqAJgqEIDo7pmRVZ?=
+ =?us-ascii?Q?ar7FpskvD6Ee15NzS6imn1Dz8BkRUyLwjlLhhbnT2vNHB/du8bNTZBqj2rqI?=
+ =?us-ascii?Q?c7quRplNFhk//HUMy8V6nEV1MAZlVXWHzQLXLc9h7+8UZs3kulggvt0i+14Z?=
+ =?us-ascii?Q?Ju9vYw=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d97a88ae-c6a3-449f-6022-08d9d563a6dc
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4679.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2022 00:37:02.8355 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5fsgjFp9uKmMKikG/VI/U2H/HyMUFpAgVvRk3xMer+UslFi5LFImcZKrTPqOqXqcjjoBHw2aZv5EzaW78pxEqbrpE7nWjRjl8+WGaxlOiZE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB5813
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10224
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ suspectscore=0 spamscore=0
+ mlxlogscore=999 adultscore=0 phishscore=0 malwarescore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2201120000
+X-Proofpoint-GUID: wCVejeSgTOXLvTCONqQUcXOtq7papC5V
+X-Proofpoint-ORIG-GUID: wCVejeSgTOXLvTCONqQUcXOtq7papC5V
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=john.g.johnson@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,289 +160,232 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Michael Roth <michael.roth@amd.com>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe Mathieu Daude <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 11, 2022 at 6:53 PM John Snow <jsnow@redhat.com> wrote:
->
-> On Thu, Dec 23, 2021 at 6:08 AM Vladimir Sementsov-Ogievskiy
-> <vsementsov@virtuozzo.com> wrote:
-> >
-> > Add possibility to generate trace points for each qmp command.
-> >
-> > We should generate both trace points and trace-events file, for further
-> > trace point code generation.
-> >
-> > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> > ---
-> >  scripts/qapi/commands.py | 84 ++++++++++++++++++++++++++++++++++------
-> >  1 file changed, 73 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-> > index 21001bbd6b..9691c11f96 100644
-> > --- a/scripts/qapi/commands.py
-> > +++ b/scripts/qapi/commands.py
-> > @@ -53,7 +53,8 @@ def gen_command_decl(name: str,
-> >  def gen_call(name: str,
-> >               arg_type: Optional[QAPISchemaObjectType],
-> >               boxed: bool,
-> > -             ret_type: Optional[QAPISchemaType]) -> str:
-> > +             ret_type: Optional[QAPISchemaType],
-> > +             add_trace_points: bool) -> str:
-> >      ret = ''
-> >
-> >      argstr = ''
-> > @@ -71,21 +72,65 @@ def gen_call(name: str,
-> >      if ret_type:
-> >          lhs = 'retval = '
-> >
-> > -    ret = mcgen('''
-> > +    qmp_name = f'qmp_{c_name(name)}'
-> > +    upper = qmp_name.upper()
-> > +
-> > +    if add_trace_points:
-> > +        ret += mcgen('''
-> > +
-> > +    if (trace_event_get_state_backends(TRACE_%(upper)s)) {
-> > +        g_autoptr(GString) req_json = qobject_to_json(QOBJECT(args));
-> > +        trace_%(qmp_name)s("", req_json->str);
-> > +    }
-> > +    ''',
-> > +                     upper=upper, qmp_name=qmp_name)
-> > +
-> > +    ret += mcgen('''
-> >
-> >      %(lhs)sqmp_%(c_name)s(%(args)s&err);
-> > -    error_propagate(errp, err);
-> >  ''',
-> >                  c_name=c_name(name), args=argstr, lhs=lhs)
-> > -    if ret_type:
-> > -        ret += mcgen('''
-> > +
-> > +    ret += mcgen('''
-> >      if (err) {
-> > +''')
-> > +
-> > +    if add_trace_points:
-> > +        ret += mcgen('''
-> > +        trace_%(qmp_name)s("FAIL: ", error_get_pretty(err));
-> > +''',
-> > +                     qmp_name=qmp_name)
-> > +
-> > +    ret += mcgen('''
-> > +        error_propagate(errp, err);
-> >          goto out;
-> >      }
-> > +''')
-> > +
-> > +    if ret_type:
-> > +        ret += mcgen('''
-> >
-> >      qmp_marshal_output_%(c_name)s(retval, ret, errp);
-> >  ''',
-> >                       c_name=ret_type.c_name())
-> > +
-> > +    if add_trace_points:
-> > +        if ret_type:
-> > +            ret += mcgen('''
-> > +
-> > +    if (trace_event_get_state_backends(TRACE_%(upper)s)) {
-> > +        g_autoptr(GString) ret_json = qobject_to_json(*ret);
-> > +        trace_%(qmp_name)s("RET:", ret_json->str);
-> > +    }
-> > +    ''',
-> > +                     upper=upper, qmp_name=qmp_name)
-> > +        else:
-> > +            ret += mcgen('''
-> > +
-> > +    trace_%(qmp_name)s("SUCCESS", "");
-> > +    ''',
-> > +                         qmp_name=qmp_name)
-> > +
-> >      return ret
-> >
-> >
-> > @@ -122,10 +167,14 @@ def gen_marshal_decl(name: str) -> str:
-> >                   proto=build_marshal_proto(name))
-> >
-> >
-> > +def gen_trace(name: str) -> str:
-> > +    return f'qmp_{c_name(name)}(const char *tag, const char *json) "%s%s"\n'
-> > +
-> >  def gen_marshal(name: str,
-> >                  arg_type: Optional[QAPISchemaObjectType],
-> >                  boxed: bool,
-> > -                ret_type: Optional[QAPISchemaType]) -> str:
-> > +                ret_type: Optional[QAPISchemaType],
-> > +                add_trace_points: bool) -> str:
-> >      have_args = boxed or (arg_type and not arg_type.is_empty())
-> >      if have_args:
-> >          assert arg_type is not None
-> > @@ -180,7 +229,7 @@ def gen_marshal(name: str,
-> >      }
-> >  ''')
-> >
-> > -    ret += gen_call(name, arg_type, boxed, ret_type)
-> > +    ret += gen_call(name, arg_type, boxed, ret_type, add_trace_points)
-> >
-> >      ret += mcgen('''
-> >
-> > @@ -238,11 +287,12 @@ def gen_register_command(name: str,
-> >
-> >
-> >  class QAPISchemaGenCommandVisitor(QAPISchemaModularCVisitor):
-> > -    def __init__(self, prefix: str):
-> > +    def __init__(self, prefix: str, add_trace_points: bool):
-> >          super().__init__(
-> >              prefix, 'qapi-commands',
-> >              ' * Schema-defined QAPI/QMP commands', None, __doc__)
-> >          self._visited_ret_types: Dict[QAPIGenC, Set[QAPISchemaType]] = {}
-> > +        self.add_trace_points = add_trace_points
-> >
-> >      def _begin_user_module(self, name: str) -> None:
-> >          self._visited_ret_types[self._genc] = set()
-> > @@ -261,6 +311,15 @@ def _begin_user_module(self, name: str) -> None:
-> >
-> >  ''',
-> >                               commands=commands, visit=visit))
-> > +
-> > +        if self.add_trace_points and c_name(commands) != 'qapi_commands':
-> > +            self._genc.add(mcgen('''
-> > +#include "trace/trace-qapi.h"
-> > +#include "qapi/qmp/qjson.h"
-> > +#include "trace/trace-%(nm)s_trace_events.h"
-> > +''',
-> > +                                 nm=c_name(commands)))
-> > +
-> >          self._genh.add(mcgen('''
-> >  #include "%(types)s.h"
-> >
-> > @@ -322,7 +381,9 @@ def visit_command(self,
-> >          with ifcontext(ifcond, self._genh, self._genc):
-> >              self._genh.add(gen_command_decl(name, arg_type, boxed, ret_type))
-> >              self._genh.add(gen_marshal_decl(name))
-> > -            self._genc.add(gen_marshal(name, arg_type, boxed, ret_type))
-> > +            self._genc.add(gen_marshal(name, arg_type, boxed, ret_type,
-> > +                                       self.add_trace_points))
-> > +            self._gent.add(gen_trace(name))
-> >          with self._temp_module('./init'):
-> >              with ifcontext(ifcond, self._genh, self._genc):
-> >                  self._genc.add(gen_register_command(
-> > @@ -332,7 +393,8 @@ def visit_command(self,
-> >
-> >  def gen_commands(schema: QAPISchema,
-> >                   output_dir: str,
-> > -                 prefix: str) -> None:
-> > -    vis = QAPISchemaGenCommandVisitor(prefix)
-> > +                 prefix: str,
-> > +                 add_trace_points: bool) -> None:
-> > +    vis = QAPISchemaGenCommandVisitor(prefix, add_trace_points)
-> >      schema.visit(vis)
-> >      vis.write(output_dir)
-> > --
-> > 2.31.1
-> >
->
-> I looked at Stefan's feedback and I want to second his recommendation
-> to use _enter and _exit tracepoints, this closely resembles a lot of
-> temporary debugging code I've written for jobs/bitmaps over the years
-> and find the technique helpful.
->
-> --js
->
-> (as a tangent ...
->
-> I wish I had a much nicer way of doing C generation from Python, this
-> is so ugly. It's not your fault, of course. I'm just wondering if the
-> mailing list has any smarter ideas for future improvements to the
-> mcgen interface, because I find this type of code really hard to
-> review.)
+Hello,
 
-Come to think of it, we could use a framework that was originally
-designed for HTML templating, but for C instead. Wait! Don't close the
-email yet, I have some funny things to write still!!
+This is the 4th revision of the vfio-user client implementation.
 
-Downsides:
-- New template language
-- Complex
+First of all, thank you for your time reviewing the previous versions.
 
-Pros:
-- Easier to read
-- Easier to review
-- Avoids reinventing the wheel
-- Doesn't even technically add a dependency, since Sphinx already
-relies on Jinja ...
-- *Extremely* funny
+The vfio-user framework consists of 3 parts:
+ 1) The VFIO user protocol specification.
+ 2) A client - the VFIO device in QEMU that encapsulates VFIO messages
+    and sends them to the server.
+ 3) A server - a remote process that emulates a device.
 
-As an example, let's say we had a file
-"scripts/qapi/templates/qmp_marshal_output.c" that looked like this:
-```
-static void qmp_marshal_output_{{c_name}}(
-    {{c_type}} ret_in,
-    QObject **ret_out,
-    Error **errp
-) {
-    Visitor *v;
+This patchset implements parts 1 and 2.
 
-    v = qobject_output_visitor_new_qmp(ret_out);
-    if (visit_type_{{c_name}}(v, "unused", &ret_in, errp)) {
-        visit_complete(v, ret_out);
-    }
-    visit_free(v);
-    v = qapi_dealloc_visitor_new();
-    visit_type_{{c_name}}(v, "unused", &ret_in, NULL);
-    visit_free(v);
-}
-```
+The libvfio-user project (https://github.com/nutanix/libvfio-user)
+can be used by a remote process to handle the protocol to implement the third part.
+We also have sent a patch series that implement a server using QEMU.
 
-We could use Jinja to process it from Python like this:
 
-```
-import os
-from jinja2 import PackageLoader, Environment, FileSystemLoader
+Contributors:
 
-env = Environment(loader = FileSystemLoader('./templates/'))
-template = env.get_template("qmp_marshal_output.c")
-rendered = cgen(template.render(
-    c_name = "foo",
-    c_type = "int",
-))
+John G Johnson <john.g.johnson@oracle.com>
+John Levon <john.levon@nutanix.com>
+Thanos Makatos <thanos.makatos@nutanix.com>
+Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Jagannathan Raman <jag.raman@oracle.com>
 
-print(rendered)
-```
 
-You'd get output like this:
+Changes from v3->v4:
 
-```
-static void qmp_marshal_output_foo(
-    int ret_in,
-    QObject **ret_out,
-    Error **errp
-) {
-    Visitor *v;
+ vfio-user: introduce vfio-user protocol specification
+   No v4 specific changess
 
-    v = qobject_output_visitor_new_qmp(ret_out);
-    if (visit_type_foo(v, "unused", &ret_in, errp)) {
-        visit_complete(v, ret_out);
-    }
-    visit_free(v);
-    v = qapi_dealloc_visitor_new();
-    visit_type_foo(v, "unused", &ret_in, NULL);
-    visit_free(v);
-```
+ vfio-user: add VFIO base abstract class
+   Put all properties except those specific to the ioctl() implementation in the base class 
 
-Jinja also supports conditionals and some other logic constructs, so
-it'd *probably* apply to most templates we'd want to write, though
-admittedly I haven't thought through if it'd actually work everywhere
-we'd need it, and I am mostly having a laugh.
+ vfio-user: add container IO ops vector
+   Move will_commit support to dma map/unmap patch below
+   Use ternary return expression in IO ops vectors
 
-...OK, back to work!
+ vfio-user: add region cache
+   New patch with only region cache support
+   Make vfio_get_region_info return region reference instead of a copy
 
---js
+ vfio-user: add device IO ops vector
+   Move posted write support to region read/write patch below
+   Move FD receiving code to get region info patch below
+   Add VDEV_CONFIG_READ/WRITE macros to pci.c for convenient access to PCI config space
+   Use ternary return expression in IO ops vectors
+
+ vfio-user: Define type vfio_user_pci_dev_info
+   Move secure DMA support to separate patch below
+   Remove dummy function for vfio_hot_reset_multi ops vector
+   Add vfio_user_instance_finalize code from connect proxy patch below
+
+ vfio-user: connect vfio proxy to remote server
+   Move vfio_user_instance_finalize code to define type patch above
+
+ vfio-user: define socket receive functions
+   Handle kernel splitting message from server into multiple read()s
+   Fix incoming message queue handling in vfio_user_request()
+   Move secure DMA support to separate patch below
+   Move MAX_FDS and MAX_XFER defines to socket send patch below
+
+ vfio-user: define socket send functions
+   Free pending messages when the reply times out
+   Add MAX_FDS and MAX_XFER defines from socket recv patch above
+   Don't set error twice on a capabilities parsing error
+
+ vfio-user: get device info
+   Add vfio_get_all_regions() call
+   Validate device info return values from server
+
+ vfio-user: get region info
+   Add FD receiving code from device IO ops patch above
+   Add a generic FD to VFIORegion for mapping device regions
+   Validate region info return values from server
+
+ vfio-user: region read/write
+   Add posted write support from device IO ops patch above
+   Check region read/write count against max_xfer
+
+ vfio-user: pci_user_realize PCI setup
+    Refactor realize functions to use common setup functions
+
+ vfio-user: get and set IRQs
+   Validate irq return values from server
+
+ vfio-user: proxy container connect/disconnect
+   No v4 specific changes
+
+ vfio-user: dma map/unmap operations
+   Add wlll_commit support from container IO ops patch above
+   Rename will_commit to async_ops to describe its operation better
+   Pass memory region to dma_map op so only vfio-user needs to look up FD
+   Free pending messages when the reply times out
+   Move secure DMA support to separate patch below
+   Set argz in dma_unmap message according to spec
+
+ vfio-user: secure DMA support
+   New patch consolidating all secure DMA support
+
+ vfio-user: dma read/write operations
+ vfio-user: pci reset
+   No v4 specific changes
+
+ vfio-user: migration support
+   Move qemu file errors fix to its own patch below
+   Set argz in get_dirty_bitmap message according to spec
+
+ Only set qemu file error if saving state if the file exists
+   New patch with just this fix found during vfio-user development
+
+Removed from v4:
+
+ Add validation ops vector
+   Generic checking moved to the corresponding vfio-user function
+
+
+Changes from v2->v3:
+
+John Johnson (18):
+  vfio-user: add VFIO base abstract class
+    Moved common vfio pci cli options to base class
+
+  Add container IO ops vector
+    Added ops vectors to decide to use ioctl() or socket implementation
+
+  Add device IO ops vector
+    Added ops vectors to decide to use ioctl() or socket implementation
+
+  Add validation ops vector
+    Added validation vector to check user replies
+
+  vfio-user: Define type vfio_user_pci_dev_info
+    Added separate VFIO_USER_PCI config element to control whether vfio-user is compiled
+    Fix scalar spelling
+
+  vfio-user: connect vfio proxy to remote server
+    Made socket IO non-blocking
+    Use g_strdup_printf to save socket name
+
+  vfio-user: define socket receive functions
+    Made socket IO non-blocking
+    Process inbound commands in main loop thread to avoid BQL interactions with recv
+    Added comment describing inbound command callback usage
+    Use true/false instead of 1/0 for booleans
+
+  vfio-user: define socket send functions
+    Made socket IO non-blocking
+    Added version string NULL termination check
+
+  vfio-user: get device info
+    Added ops vectors to decide to use ioctl() or socket implementation
+    Added validation vector to check user replies
+
+  vfio-user: get region info
+    Added ops vectors to decide to use ioctl() or socket implementation
+    Added validation vector to check user replies
+    Remove merge bug that filled region cache twice
+
+  vfio-user: region read/write
+    Added ops vectors to decide to use ioctl() or socket implementation
+    Added validation vector to check user replies
+    Made posted write conditional on region not mapped
+
+  vfio-user: pci_user_realize PCI setup
+    Moved common vfio pci cli options to base class
+
+  vfio-user: get and set IRQs
+    Added ops vectors to decide to use ioctl() or socket implementation
+    Added validation vector to check user replies
+    Fixed %m usage when not using syscall
+
+  vfio-user: proxy container connect/disconnect
+    Added separate VFIO_USER_PCI config element to control whether vfio-user is compiled
+    Use true/false instead of 1/0 for booleans
+
+  vfio-user: dma map/unmap operations
+    Added ops vectors to decide to use ioctl() or socket implementation
+    Use BQL instead of iolock in comments
+    Fixed %m usage when not using syscall
+
+  vfio-user: dma read/write operations
+    Added header checking before loading DMA message content
+    Added error handling if DMA fails
+
+  vfio-user: pci reset
+    no r3-specific changes
+
+  vfio-user: migration support
+    generic fix: only set qemu file error if there is a file
+
+Thanos Makatos (1):
+  vfio-user: introduce vfio-user protocol specification
+    Spec specifies host endiannes instead of always LE
+    Fixed grammar error
+
+
+
+
+ docs/devel/index.rst          |    1 +
+ docs/devel/vfio-user.rst      | 1810 +++++++++++++++++++++++++++++++++++++++++
+ hw/vfio/pci.h                 |   27 +-
+ hw/vfio/user-protocol.h       |  221 +++++
+ hw/vfio/user.h                |   96 +++
+ include/hw/vfio/vfio-common.h |   73 ++
+ hw/vfio/ccw.c                 |    5 -
+ hw/vfio/common.c              |  477 +++++++++--
+ hw/vfio/migration.c           |   34 +-
+ hw/vfio/pci-quirks.c          |   19 +-
+ hw/vfio/pci.c                 |  856 ++++++++++++++-----
+ hw/vfio/user.c                | 1596 ++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                   |   11 +
+ hw/vfio/Kconfig               |   10 +
+ hw/vfio/meson.build           |    1 +
+ 15 files changed, 4919 insertions(+), 318 deletions(-)
+ create mode 100644 docs/devel/vfio-user.rst
+ create mode 100644 hw/vfio/user-protocol.h
+ create mode 100644 hw/vfio/user.h
+ create mode 100644 hw/vfio/user.c
+
+-- 
+1.8.3.1
 
 
