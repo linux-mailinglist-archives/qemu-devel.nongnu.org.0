@@ -2,70 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8CFC48C1E8
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 11:02:15 +0100 (CET)
-Received: from localhost ([::1]:34128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC8548C1F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 11:09:01 +0100 (CET)
+Received: from localhost ([::1]:40554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7aSM-0000mT-6P
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 05:02:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37404)
+	id 1n7aYu-0005Lp-I5
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 05:09:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1n7aPy-000819-3v; Wed, 12 Jan 2022 04:59:46 -0500
-Received: from [2607:f8b0:4864:20::931] (port=39551
- helo=mail-ua1-x931.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1n7aPw-00078A-GR; Wed, 12 Jan 2022 04:59:45 -0500
-Received: by mail-ua1-x931.google.com with SMTP id m15so3698369uap.6;
- Wed, 12 Jan 2022 01:59:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5oxI1I7MSu4KcBjlxqAUPu3pJNDiKroSATssmbr4lRM=;
- b=MAPkEzJ9gdrjVvFALNGIES2Jq7LhbWo0iCNYCgn+TclsmFz9Rnd2Q9o566iQFeIcDL
- LjTOqCz677KB4gURkYBq+rdfRW90xJUuobLqZthnTzXoCdwnQLqa+J2aVOyc1zIzoaCM
- lvzyxo2oZ8oP5fX9lFFelW6m1pFozC7008AhXZpQHCoHIDnSKKI2u/xlff3rzKj0/GfB
- FJw9SMcOpO9MNhMQ6OfwULcSmqW5rN6SV2GuPbuWuoFJK/Z38Y1itcbolQ3GwDAs1Neh
- oKxfV1I/KLawKwD0P0lkTBDh85s1RZekzX1GvotJB3u8BuFw8vgYzdzcLysWQZ4iFa+Z
- DjQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5oxI1I7MSu4KcBjlxqAUPu3pJNDiKroSATssmbr4lRM=;
- b=s5DU5zNXDJXuzdvi/kEiiH4HCBIaOFJ67eoSKeP0nbS+WjtPexOCSqINbl/Um8v//t
- lawQGCwlxD75P0q+93rK5zS2KhTtA8rQ/+O7cYHIAtodyWFjUgaZW3lx9P3/gKctyV3J
- 7HPlh5GI+n5e25oyeoBhEM4p2ETOmIA34Fa9LLZcv8rbw9dU/MAr88sAA0/g9wl+Suu0
- YhNIoHEODvubRib2WkQrV4Bk09xZM2OtTqfbo1JAKkoqCdEKg87jj/wR88QfXA97wMIt
- KhxiNdtiUNsb+ws2qYzQADjObxkazcGwQWmD5rFRWFFTaTnakKsax81JyS4JYwXRMz8s
- fI5A==
-X-Gm-Message-State: AOAM532HqfBJHjaJwHg1PQqxXFiI6KACrpCSzeCjE3819mUBug4N7xW9
- UTdLnFQcnUaqFW0B0eMDSqbho9CzGOskqg5YU9Y=
-X-Google-Smtp-Source: ABdhPJzvyxojYqpOja5QQjWndAJsmEVaQsyr8YmmwhflDsDQ0o0CVmhrBnHtot9xHLJ8fD+M+fHpl4E4qJHf8cy3kY0=
-X-Received: by 2002:a67:ef1c:: with SMTP id j28mr4066373vsr.13.1641981581181; 
- Wed, 12 Jan 2022 01:59:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1n7aXZ-00044v-9H
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 05:07:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20552)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1n7aXW-00007s-Gn
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 05:07:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641982052;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PR46gLOLwYy3YEBhFi3r0wHmIxB0PhgOGjnDxxrsi6s=;
+ b=RrvQBkVz6LKB/W2slbfS0yth9/71vZUSuLuO/o4tLPSYdRGq4qWHI/kGR61Qli2ZSTm98A
+ gO19Vjd0E8edLbZzEoCXIdNcMBPX6HvdpZkJ8waY2Hq3RjH+iEsBo0ym9JZM4pF7vTcICx
+ lYCaciR0tTzQyfgLZC0sTOOEmWiE+YE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-653-tsiHJeipPNqFIVsOjTClSA-1; Wed, 12 Jan 2022 05:07:27 -0500
+X-MC-Unique: tsiHJeipPNqFIVsOjTClSA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A13BA64148;
+ Wed, 12 Jan 2022 10:07:26 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.138])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A14F1F2EA;
+ Wed, 12 Jan 2022 10:07:09 +0000 (UTC)
+Date: Wed, 12 Jan 2022 10:07:07 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [RFC qemu.qmp PATCH 17/24] Makefile: add build and publish targets
+Message-ID: <Yd6oS3mCXs1AXVPy@redhat.com>
+References: <20211215210634.3779791-1-jsnow@redhat.com>
+ <20211215210634.3779791-18-jsnow@redhat.com>
+ <YbsZe9A/Lf2g1Xk8@redhat.com>
+ <CAFn=p-bPUsw19uW=gfzGBwT5zDm3t4QHCvzf0nJjbcwcOKkA=g@mail.gmail.com>
+ <YbyUlrmexR77cbip@redhat.com>
+ <CAFn=p-ZmBfThKMJ-vWyvJ8b7ccD+mv=TynSPDoCM-tdne5jEYw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220110114154.3774072-1-pl@kamp.de>
- <20220110114154.3774072-3-pl@kamp.de>
-In-Reply-To: <20220110114154.3774072-3-pl@kamp.de>
-From: Ilya Dryomov <idryomov@gmail.com>
-Date: Wed, 12 Jan 2022 10:59:42 +0100
-Message-ID: <CAOi1vP8tLGvy7R3NLzfYkD-V=Tzokz6LOKvx--V-jHSSUfyyDw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] block/rbd: workaround for ceph issue #53784
-To: Peter Lieven <pl@kamp.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::931
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::931;
- envelope-from=idryomov@gmail.com; helo=mail-ua1-x931.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CAFn=p-ZmBfThKMJ-vWyvJ8b7ccD+mv=TynSPDoCM-tdne5jEYw@mail.gmail.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,91 +87,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, ct@flyingcircus.io,
- qemu-stable@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Jason Dillaman <dillaman@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Beraldo Leal <bleal@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 10, 2022 at 12:43 PM Peter Lieven <pl@kamp.de> wrote:
->
-> librbd had a bug until early 2022 that affected all versions of ceph that
-> supported fast-diff. This bug results in reporting of incorrect offsets
-> if the offset parameter to rbd_diff_iterate2 is not object aligned.
-> Work around this bug by rounding down the offset to object boundaries.
->
-> Fixes: https://tracker.ceph.com/issues/53784
+On Tue, Jan 11, 2022 at 02:48:55PM -0500, John Snow wrote:
+> On Fri, Dec 17, 2021 at 8:46 AM Daniel P. Berrangé <berrange@redhat.com>
+> wrote:
+> 
+> > On Thu, Dec 16, 2021 at 06:35:23PM -0500, John Snow wrote:
+> > > On Thu, Dec 16, 2021 at 5:48 AM Daniel P. Berrangé <berrange@redhat.com>
+> > > wrote:
+> > >
+> > > > On Wed, Dec 15, 2021 at 04:06:27PM -0500, John Snow wrote:
+> > > > > Signed-off-by: John Snow <jsnow@redhat.com>
+> > > > > ---
+> > > > >  Makefile | 32 ++++++++++++++++++++++++++++++++
+> > > > >  1 file changed, 32 insertions(+)
+> > > > >
+> > > > > diff --git a/Makefile b/Makefile
+> > > > > index 97d737a..81bfca8 100644
+> > > > > --- a/Makefile
+> > > > > +++ b/Makefile
+> > > > > @@ -110,3 +110,35 @@ distclean: clean
+> > > > >       rm -f .coverage .coverage.*
+> > > > >       rm -rf htmlcov/
+> > > > >       rm -rf test-results/
+> > > > > +
+> > > > > +.PHONY: pristine
+> > > > > +pristine:
+> > > > > +     @git diff-files --quiet --ignore-submodules -- || \
+> > > > > +             (echo "You have unstaged changes."; exit 1)
+> > > > > +     @git diff-index --cached --quiet HEAD --ignore-submodules --
+> > || \
+> > > > > +             (echo "Your index contains uncommitted changes."; exit
+> > 1)
+> > > > > +     @[ -z "$(shell git ls-files -o)" ] || \
+> > > > > +             (echo "You have untracked files: $(shell git ls-files
+> > > > -o)"; exit 1)
+> > > > > +
+> > > > > +dist: setup.cfg setup.py Makefile README.rst
+> > > > > +     python3 -m build
+> > > > > +     @touch dist
+> > > > > +
+> > > > > +.PHONY: pre-publish
+> > > > > +pre-publish: pristine dist
+> > > > > +     @git describe --exact-match 2>/dev/null || \
+> > > > > +             (echo -e "\033[0;31mThere is no annotated tag for this
+> > > > commit.\033[0m"; exit 1)
+> > > > > +     python3 -m twine check --strict dist/*
+> > > > > +     git push -v --atomic --follow-tags --dry-run
+> > > > > +
+> > > > > +.PHONY: publish
+> > > > > +publish: pre-publish
+> > > > > +     # Set the username via TWINE_USERNAME.
+> > > > > +     # Set the password via TWINE_PASSWORD.
+> > > > > +     # Set the pkg repository via TWINE_REPOSITORY.
+> > > > > +     python3 -m twine upload --verbose dist/*
+> > > > > +     git push -v --atomic --follow-tags
+> > > > > +
+> > > > > +.PHONY: publish-test
+> > > > > +publish-test: pre-publish
+> > > > > +     python3 -m twine upload --verbose -r testpypi dist/*
+> > > >
+> > > > It doesn't feel very pythonic to have a makefile in the project.
+> > > >
+> > > > If we want some helpers for publishing releases, I would have
+> > > > expected to see a python script  eg scripts/publish.py
+> > > >
+> > > >
+> > > Eh, Python folks use Makefiles too. I've been using these little Makefile
+> > > targets for hobby things for a while and I had them laying around and
+> > ready
+> > > to go. I have no strong need to "upgrade" to python scripts for these
+> > right
+> > > now, unless there's some extra features you want to see.
+> >
+> > Using make means you have to worry about portability across different
+> > impls of make and different impls of shell. Using python means your
+> > python project is portable to anywhere that python runs.
+> 
+> 
+> I still like the idea of using a Makefile as a "canonical menu of things
+> you can do in this directory", but there's probably room for interactive
+> error checking and so on with the TWINE_USERNAME / TWINE_PASSWORD /
+> TWINE_REPOSITORY environment variables in a python script. I'll look into
+> it as a follow-up, if that's fine. (I'm worried it's a lot of polish and
+> effort on a maintainers-only interface that only I will likely use for at
+> least the next year or two.)
+> 
+> Ultimately, what's likely to happen here is that I will generate some oauth
+> tokens with publish permissions and a hypothetical user would set e.g.
+> TWINE_USERNAME to "__token__", and the password would be
+> "pypi-tokengoeshere". Using the "keyring" python package, we could attempt
+> to fetch stored values from a session keyring, falling back to an
+> interactive prompt if they're unset.
 
-I don't think the Fixes tag is appropriate here.  Linking librbd
-ticket is fine but this patch doesn't really fix anything.
+FWIW, don't consider this original comment of mine to be a technical
+blocker, rather it is more of a conceptual observation.  If you don't
+think it matters, I won't mind.
 
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Peter Lieven <pl@kamp.de>
-> ---
->  block/rbd.c | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
->
-> diff --git a/block/rbd.c b/block/rbd.c
-> index 5e9dc91d81..260cb9f4b4 100644
-> --- a/block/rbd.c
-> +++ b/block/rbd.c
-> @@ -1333,6 +1333,7 @@ static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
->      int status, r;
->      RBDDiffIterateReq req = { .offs = offset };
->      uint64_t features, flags;
-> +    int64_t head;
->
->      assert(offset + bytes <= s->image_size);
->
-> @@ -1360,6 +1361,19 @@ static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
->          return status;
->      }
->
-> +    /*
-> +     * librbd had a bug until early 2022 that affected all versions of ceph that
-> +     * supported fast-diff. This bug results in reporting of incorrect offsets
-> +     * if the offset parameter to rbd_diff_iterate2 is not object aligned.
-> +     * Work around this bug by rounding down the offset to object boundaries.
-> +     *
-> +     * See: https://tracker.ceph.com/issues/53784
-> +     */
-> +    head = offset & (s->object_size - 1);
-> +    offset -= head;
-> +    req.offs -= head;
-> +    bytes += head;
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-So it looks like the intention is to have more or less a permanent
-workaround since all librbd versions are affected, right?  For that,
-I think we would need to also reject custom striping patterns and
-clones.  For the above to be reliable, the image has to be standalone
-and have a default striping pattern (stripe_unit == object_size &&
-stripe_count == 1).  Otherwise, behave as if fast-diff is disabled or
-invalid.
-
-> +
-
-Nit: I'd replace { .offs = offset } initialization at the top with {}
-and assign to req.offs here, right before calling rbd_diff_iterate2().
-
->      r = rbd_diff_iterate2(s->image, NULL, offset, bytes, true, true,
->                            qemu_rbd_diff_iterate_cb, &req);
->      if (r < 0 && r != QEMU_RBD_EXIT_DIFF_ITERATE2) {
-> @@ -1379,7 +1393,8 @@ static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
->          status = BDRV_BLOCK_ZERO | BDRV_BLOCK_OFFSET_VALID;
->      }
->
-> -    *pnum = req.bytes;
-> +    assert(req.bytes > head);
-
-I'd expand the workaround comment with an explanation of why it's OK
-to round down the offset -- because rbd_diff_iterate2() is called with
-whole_object=true.  If that wasn't the case, on top of inconsistent
-results for different offsets within an object, this assert could be
-triggered.
-
-Thanks,
-
-                Ilya
 
