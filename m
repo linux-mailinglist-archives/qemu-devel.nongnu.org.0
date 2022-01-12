@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EBB348C4EF
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 14:35:55 +0100 (CET)
-Received: from localhost ([::1]:56200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28C4C48C520
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 14:53:24 +0100 (CET)
+Received: from localhost ([::1]:57160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7dn6-0001kC-Gp
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 08:35:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36460)
+	id 1n7e43-0006E1-1P
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 08:53:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1n7cdg-0006Au-9i; Wed, 12 Jan 2022 07:22:04 -0500
-Received: from [2607:f8b0:4864:20::92f] (port=41493
- helo=mail-ua1-x92f.google.com)
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1n7cfn-0001E4-GV
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 07:24:15 -0500
+Received: from [2a00:1450:4864:20::52a] (port=40789
+ helo=mail-ed1-x52a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1n7cde-0003Zt-HI; Wed, 12 Jan 2022 07:22:03 -0500
-Received: by mail-ua1-x92f.google.com with SMTP id p37so4337527uae.8;
- Wed, 12 Jan 2022 04:22:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nn7I+oK8Mac+8/P+XKqEAniKMh30HqVk4t+xnuTpGqw=;
- b=UwkvsHGcNhA+5qkJ/C3eGVbeasFJiUv7Ikae51PMrHqytHjGog98B+18CoBurFDMq7
- QVM68ZehRoRSD6Hww9iaXF13pykQMrLIKXaa+ZCVYpMULoxGF0ZehM3ANNQxW4RVtgmw
- XowWhPl24BJKiYi5P201vV/mCZgHqWgDVA4cGFjKNGOgyOSYawangCDuCI1/bhMd9vcL
- ynMOnJHYysrZrx1qt7T0VoF1mxcqdGxKPQyddaJR4NcPWPVei/HSzSaHeFnOiUlwmd27
- ieX8TJ0vI9yzdJHQNuXV1e2SXVrGneCJV93srLjOZ5VUQ8D7+o1RgzrYd+iYPHjJt50U
- RXOw==
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1n7cfl-0003s0-OW
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 07:24:15 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id a18so9244796edj.7
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 04:24:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=livius-net.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=09CUBBuzUJFSOWkHG1pWqHEf57pLN1+upuvzSL5sJ0E=;
+ b=yTKJbN4le3O3UhwGNQH0CB7Ypywj4b/6iHmYhhVom4Rpx6zhb7fvXiixQJJT584e4y
+ gsFiHTM9o/LwkutokZ0Jlb+PDhTTLJB2Yzy6ktNCmQHR5ytoMlikRTQKYe4T5bKOnuNL
+ AYZ0WUgGYIH1+WsTJrbOS4mEcTPm3b8X604St/e+bmyBbus3jD6Wk+c/R+Z/u/4QKz3h
+ csrNANtRRWfvI8xYKDNqDuGCl4rXVkKEyANXFN9LnTjZBhTdDEIyEz3UeGUktnb12HWn
+ rRPz2Wvb8xIph5UAxC3S/VeRGH54ZL5gZ5VCALg49u+BXU0cRIeT/BqZCX0cchXTWMXz
+ sHxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nn7I+oK8Mac+8/P+XKqEAniKMh30HqVk4t+xnuTpGqw=;
- b=jGukePqDQMrUl2W+0r4VZvxeMSgvIYf53PJPgHZIXe8lAHp9rFyFMJRrMJT2v/XDKR
- XrpaRFVnKHecw7HwuCU1dk38uKjh/+F7zgdG0DSaWu/dZUcqUFS1/9SGFkWwDjzNMS6U
- HMhSuMktqR48ILyWAxGioOJMK2X6q0riKwQm9Wf//qw4qnD9AprYYjoI2ssZ92DZajxl
- e8pcIflObxJK5kILqXSEShVHVl26dL6M2td5AKeGeskuI2r0X6tReA1pS5/rK/hPuCkK
- ZocqIXQSsO8T6uLF/3QMUbLUlzmHyK04b9tTnaeMnSMpto/piSHLuM0OhnIIWpYkM5c3
- HMFA==
-X-Gm-Message-State: AOAM531Y+M1f3IpL98SASdwR5uni6dZA0UZIySYVr/+snvE3Btpm8l/A
- MUy6LBVcJmhPf0wrTBxeH2Sk6gVgrIj0crQg0PQntrHBM24=
-X-Google-Smtp-Source: ABdhPJwmfptFp7gL6A1A6oL+I2A4n4zLdOKn34MDrcHO7frrhap4TUkptMMv/x4V9VRMtOPdiYLXzm5ujwauGHjZXGE=
-X-Received: by 2002:a67:ef1c:: with SMTP id j28mr4266243vsr.13.1641990120291; 
- Wed, 12 Jan 2022 04:22:00 -0800 (PST)
-MIME-Version: 1.0
-References: <20220110114154.3774072-1-pl@kamp.de>
- <20220110114154.3774072-3-pl@kamp.de>
- <CAOi1vP8tLGvy7R3NLzfYkD-V=Tzokz6LOKvx--V-jHSSUfyyDw@mail.gmail.com>
- <2a2cc253-e7fc-085b-4982-df46432216d4@kamp.de>
-In-Reply-To: <2a2cc253-e7fc-085b-4982-df46432216d4@kamp.de>
-From: Ilya Dryomov <idryomov@gmail.com>
-Date: Wed, 12 Jan 2022 13:22:01 +0100
-Message-ID: <CAOi1vP8xRRhaN=52=BCy92CSNrnpPcxNJvDAbz4xYNKsJiJ_bA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] block/rbd: workaround for ceph issue #53784
-To: Peter Lieven <pl@kamp.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92f
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=09CUBBuzUJFSOWkHG1pWqHEf57pLN1+upuvzSL5sJ0E=;
+ b=d9M1fLW7SWBuuBhpgka2kbKICEQMjfLJHOrHHqAf+cUPGxeICo3GcAsn1TVSTcqn3O
+ RGQgdJKRe+PPe7YFscPbiC5cmceCqzg7S85dJ8/jWKJ/UaHUWOJmHzFlYadJu+OgX8z7
+ lZN2ApQd6QrT3wTGxSV69ItkdVRnn5B57cJmncbw8eptuoFRuYxigjQQ0wPQrvpgKUwq
+ ks3BnhfcJVPz1md0jWH2XK6/NCfTNoFTX2N1APojdYnx5kzaa5WgYqkRSzGzpa9q0iXC
+ PGImGkKEn6KeC8u1GHvDeuzX1Qa3SiUQH7wpF+crNjlZmt1UVzV3FbjezInJR8QdppFF
+ BcVw==
+X-Gm-Message-State: AOAM532iCN3OGTRYmX+5QDJvTVemZKngPGqB4UOqhjk2uxawhvK6fb82
+ Azvm9k4vKUSXCNdjjWhYtlInLg==
+X-Google-Smtp-Source: ABdhPJwjFkBI2eIwAm9sJNTlRcYUGIcah/cUQ3BwmvitT0CKHie2sLDeVE04o9ILou7DB2yCdhr4Hg==
+X-Received: by 2002:a17:907:6d1d:: with SMTP id
+ sa29mr7394163ejc.278.1641990250559; 
+ Wed, 12 Jan 2022 04:24:10 -0800 (PST)
+Received: from smtpclient.apple ([79.115.178.1])
+ by smtp.gmail.com with ESMTPSA id c12sm6288450edx.80.2022.01.12.04.24.09
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 12 Jan 2022 04:24:10 -0800 (PST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: /usr/shared/qemu binaries
+From: Liviu Ionescu <ilg@livius.net>
+In-Reply-To: <CAKmqyKO-K-GtrHijVW9jVHTtxgeGdOHm7-Y_290HqtNG4k71eg@mail.gmail.com>
+Date: Wed, 12 Jan 2022 14:24:09 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <1E2E0E52-B384-404C-BD72-5697A611EEC5@livius.net>
+References: <B9A4B86C-4540-486D-A261-876191FA7424@livius.net>
+ <CAKmqyKPBDfxKwqcgzjBDEqoWyjjc3g7PiUOEqptL1vfDfh6H8g@mail.gmail.com>
+ <D3A93704-3353-4407-9D47-56FF06BDFB87@livius.net>
+ <CAKmqyKO-K-GtrHijVW9jVHTtxgeGdOHm7-Y_290HqtNG4k71eg@mail.gmail.com>
+To: Alistair Francis <alistair23@gmail.com>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92f;
- envelope-from=idryomov@gmail.com; helo=mail-ua1-x92f.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: none client-ip=2a00:1450:4864:20::52a;
+ envelope-from=ilg@livius.net; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,99 +89,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, ct@flyingcircus.io,
- qemu-stable@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Jason Dillaman <dillaman@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 12, 2022 at 12:55 PM Peter Lieven <pl@kamp.de> wrote:
->
-> Am 12.01.22 um 10:59 schrieb Ilya Dryomov:
-> > On Mon, Jan 10, 2022 at 12:43 PM Peter Lieven <pl@kamp.de> wrote:
-> >> librbd had a bug until early 2022 that affected all versions of ceph that
-> >> supported fast-diff. This bug results in reporting of incorrect offsets
-> >> if the offset parameter to rbd_diff_iterate2 is not object aligned.
-> >> Work around this bug by rounding down the offset to object boundaries.
-> >>
-> >> Fixes: https://tracker.ceph.com/issues/53784
-> > I don't think the Fixes tag is appropriate here.  Linking librbd
-> > ticket is fine but this patch doesn't really fix anything.
->
->
-> Okay, I will change that to See:
 
-It's already linked in the source code, up to you if you also want to
-link it in the description.
 
->
->
-> >
-> >> Cc: qemu-stable@nongnu.org
-> >> Signed-off-by: Peter Lieven <pl@kamp.de>
-> >> ---
-> >>  block/rbd.c | 17 ++++++++++++++++-
-> >>  1 file changed, 16 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/block/rbd.c b/block/rbd.c
-> >> index 5e9dc91d81..260cb9f4b4 100644
-> >> --- a/block/rbd.c
-> >> +++ b/block/rbd.c
-> >> @@ -1333,6 +1333,7 @@ static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
-> >>      int status, r;
-> >>      RBDDiffIterateReq req = { .offs = offset };
-> >>      uint64_t features, flags;
-> >> +    int64_t head;
-> >>
-> >>      assert(offset + bytes <= s->image_size);
-> >>
-> >> @@ -1360,6 +1361,19 @@ static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
-> >>          return status;
-> >>      }
-> >>
-> >> +    /*
-> >> +     * librbd had a bug until early 2022 that affected all versions of ceph that
-> >> +     * supported fast-diff. This bug results in reporting of incorrect offsets
-> >> +     * if the offset parameter to rbd_diff_iterate2 is not object aligned.
-> >> +     * Work around this bug by rounding down the offset to object boundaries.
-> >> +     *
-> >> +     * See: https://tracker.ceph.com/issues/53784
-> >> +     */
-> >> +    head = offset & (s->object_size - 1);
-> >> +    offset -= head;
-> >> +    req.offs -= head;
-> >> +    bytes += head;
-> > So it looks like the intention is to have more or less a permanent
-> > workaround since all librbd versions are affected, right?  For that,
-> > I think we would need to also reject custom striping patterns and
-> > clones.  For the above to be reliable, the image has to be standalone
-> > and have a default striping pattern (stripe_unit == object_size &&
-> > stripe_count == 1).  Otherwise, behave as if fast-diff is disabled or
-> > invalid.
->
->
-> Do you have a fealing how many users use a different striping pattern than default?
+> On 11 Jan 2022, at 00:55, Alistair Francis <alistair23@gmail.com> =
+wrote:
+>=20
+> I would expect them to just be referred to by QEMU internally.
 
-Very few.
+I checked and there are indeed several files referred internally.
 
->
-> What about EC backed pools?
+> My guess would be keep *arm*/*aarch64*, keymaps, npcm7xx_bootrom.bin,
+> efi-* and linuxboot*/multiboot*.
 
-In this context EC pools behave exactly the same as replicated pools.
 
->
-> Do you have another idea how we can detect if the librbd version is broken?
+To start an Ubuntu 18.04 only some efi-*.rom files were needed.
 
-No.  Initially I wanted to just fix these bugs in librbd, relying on
-the assumption that setups with a new QEMU should also have a fairly
-new librbd.  But after looking at various distros and realizing the
-extent of rbd_diff_iterate2() issues, I think a long-term workaround
-in QEMU makes sense.  A configure-time check for known good versions
-of librbd can be added later if someone feels like it.
+The linuxboot*/multiboot* seem to be specific to x86.
 
-Thanks,
+>> -rw-r--r--   1 ilg  staff  67108864 Jan  7 14:52 edk2-aarch64-code.fd
+>> -rw-r--r--   1 ilg  staff  67108864 Jan  7 14:52 edk2-arm-code.fd
+>> -rw-r--r--   1 ilg  staff  67108864 Jan  7 14:52 edk2-arm-vars.fd
 
-                Ilya
+These are the top 3 largest files. They are referred as =
+"@DATADIR@/edk2-aarch64-code.fd" from the JSONs in the firmware folder.
+
+Any idea when are these files used?=20
+
+
+Liviu
+
 
