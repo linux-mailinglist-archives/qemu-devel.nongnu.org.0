@@ -2,92 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9058E48C8FE
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 18:02:10 +0100 (CET)
-Received: from localhost ([::1]:60096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7163048C8E0
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 17:54:47 +0100 (CET)
+Received: from localhost ([::1]:51324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7h0i-0007Tt-4G
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 12:02:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36952)
+	id 1n7gta-00087B-ID
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 11:54:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1n7gpr-0004xp-3Y; Wed, 12 Jan 2022 11:50:55 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42528)
+ id 1n7gpp-0004rv-4A; Wed, 12 Jan 2022 11:50:53 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:8800)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1n7gpn-0001AA-Rs; Wed, 12 Jan 2022 11:50:54 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20CFMbQb006470; 
- Wed, 12 Jan 2022 16:50:26 GMT
+ id 1n7gpf-0001AQ-1r; Wed, 12 Jan 2022 11:50:52 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20CEMK3v018386; 
+ Wed, 12 Jan 2022 16:50:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=ABnypSnyXu0/mvPeXBiej3iniS6jtv4WdN0SuRNr5zw=;
- b=VJh+QMU4pzP+/aqgiizeA6Brr74hAaWbOgZIoJk2rvzlrGsL/nDg6Ci7GZbfZSiv9ii8
- VDgZPEyQQEWLTr7/lsYd7GJbbwhnenttkwaUPqPEmP4fpx4teGYaU3cUOmkSQQblcnMz
- Smy8ieVAZuOVSH0mVv4DUjxCmzxeo76dGVRJ0FfjcZ9uP2AQJa4JXixzNcNLpQW+Sd+1
- YeD+aXxXUwT3pbriY3tXqthc065YTcO168qtiA8GEkwnZuQTRKroh3TpRjuI+JjQYlgD
- zkPGjtxEBW6uFL5mQtHYv6PxxkI4xIrCu9BZ0Nh20UVkk86LMsuovxPukaa3Um1btMP8 5w== 
+ bh=CFyKUPAcSeohB+zdtMh2E4nUr7Nx3VLc3sek5BoJZVo=;
+ b=A99HgJegmhX6WnjPjFPtxU2OuH9xRXwONGxD24X8V9ZdrLGMoJrsDPwDr6KUXW+w3Z0j
+ l0AJvKaXANseM+HquiZDjivAteqHUgBedAAjTA3lGL3eY7HgS6w0j7Hwzy5C30FRKHJX
+ wJfmzDeijIqUqB3cdR8162DQwLduyl8yn8bOFRxpyA0M2LmE4A8to+/Hh/h1jjmASVMv
+ lhHWjwsdEcPhv5nIIGmL4bE6wt+UUNtR5sHu32VGZmuLXFJm06OgRG2Ws4uD50fYsNIL
+ 9b5IUYh3V8YNPsuZInyOiY/K+RKf+JaEO2aTj1krCkREYR2KRotifF3TfXHtCmIZDZSo 8w== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dj1jvstfy-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dj0pnk5k5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Jan 2022 16:50:27 +0000
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20CFnmql005980;
+ Wed, 12 Jan 2022 16:50:27 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dj0pnk5je-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 12 Jan 2022 16:50:26 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20CGe7ZU014359;
- Wed, 12 Jan 2022 16:50:25 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dj1jvstf1-1
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20CGm7le032699;
+ Wed, 12 Jan 2022 16:50:24 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 3df1vjdu97-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jan 2022 16:50:25 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20CGm3QQ003724;
- Wed, 12 Jan 2022 16:50:23 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma03ams.nl.ibm.com with ESMTP id 3df289wptp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jan 2022 16:50:23 +0000
+ Wed, 12 Jan 2022 16:50:24 +0000
 Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
  [9.149.105.62])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20CGoKjV43254144
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 20CGoLi936307340
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 Jan 2022 16:50:20 GMT
+ Wed, 12 Jan 2022 16:50:21 GMT
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 736BBAE059;
+ by IMSVA (Postfix) with ESMTP id 59C34AE04D;
+ Wed, 12 Jan 2022 16:50:21 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D21B8AE056;
  Wed, 12 Jan 2022 16:50:20 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E7B12AE04D;
- Wed, 12 Jan 2022 16:50:19 +0000 (GMT)
 Received: from vm.lan (unknown [9.171.78.41])
  by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 12 Jan 2022 16:50:19 +0000 (GMT)
+ Wed, 12 Jan 2022 16:50:20 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Richard Henderson <richard.henderson@linaro.org>,
  David Hildenbrand <david@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v4 2/5] target/s390x: Fix SRDA CC calculation
-Date: Wed, 12 Jan 2022 17:50:13 +0100
-Message-Id: <20220112165016.226996-3-iii@linux.ibm.com>
+Subject: [PATCH v4 3/5] target/s390x: Fix cc_calc_sla_64() missing overflows
+Date: Wed, 12 Jan 2022 17:50:14 +0100
+Message-Id: <20220112165016.226996-4-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220112165016.226996-1-iii@linux.ibm.com>
 References: <20220112165016.226996-1-iii@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: TDbCxWNPWNevsDyI1ECOkuawaEYF5ohF
-X-Proofpoint-ORIG-GUID: 0bpyW-19ngY4lI1eFZxof3tY_RLe8CkV
+X-Proofpoint-GUID: OsasUFPchUWJOkcjfV5yZtecMfMDuJp1
+X-Proofpoint-ORIG-GUID: mHARFDYS1qWzeLUWxNRk18SNTxCeJyOO
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-01-12_04,2022-01-11_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 spamscore=0 suspectscore=0 clxscore=1015 malwarescore=0
- impostorscore=0 mlxlogscore=999 mlxscore=0 priorityscore=1501 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ priorityscore=1501 mlxscore=0
+ bulkscore=0 impostorscore=0 lowpriorityscore=0 suspectscore=0
+ clxscore=1015 mlxlogscore=999 adultscore=0 spamscore=0 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2201120104
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
@@ -115,36 +115,31 @@ Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SRDA uses r1_D32 for binding the first operand and s64 for setting CC.
-cout_s64() relies on o->out being the shift result, however,
-wout_r1_D32() clobbers it.
+An overflow occurs for SLAG when at least one shifted bit is not equal
+to sign bit. Therefore, we need to check that `shift + 1` bits are
+neither all 0s nor all 1s. The current code checks only `shift` bits,
+missing some overflows.
 
-Fix by using a temporary.
-
-Fixes: a79ba3398a0a ("target-s390: Convert SHIFT DOUBLE")
+Fixes: cbe24bfa91d2 ("target-s390: Convert SHIFT, ROTATE SINGLE")
+Co-developed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- target/s390x/tcg/translate.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ target/s390x/tcg/cc_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index f180853e7a..766b4c87b2 100644
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -5420,9 +5420,11 @@ static void wout_r1_P32(DisasContext *s, DisasOps *o)
- static void wout_r1_D32(DisasContext *s, DisasOps *o)
- {
-     int r1 = get_field(s, r1);
-+    TCGv_i64 t = tcg_temp_new_i64();
-     store_reg32_i64(r1 + 1, o->out);
--    tcg_gen_shri_i64(o->out, o->out, 32);
--    store_reg32_i64(r1, o->out);
-+    tcg_gen_shri_i64(t, o->out, 32);
-+    store_reg32_i64(r1, t);
-+    tcg_temp_free_i64(t);
- }
- #define SPEC_wout_r1_D32 SPEC_r1_even
+diff --git a/target/s390x/tcg/cc_helper.c b/target/s390x/tcg/cc_helper.c
+index c2c96c3a3c..c9b7b0e8c6 100644
+--- a/target/s390x/tcg/cc_helper.c
++++ b/target/s390x/tcg/cc_helper.c
+@@ -297,7 +297,7 @@ static uint32_t cc_calc_sla_32(uint32_t src, int shift)
  
+ static uint32_t cc_calc_sla_64(uint64_t src, int shift)
+ {
+-    uint64_t mask = ((1ULL << shift) - 1ULL) << (64 - shift);
++    uint64_t mask = -1ULL << (63 - shift);
+     uint64_t sign = 1ULL << 63;
+     uint64_t match;
+     int64_t r;
 -- 
 2.31.1
 
