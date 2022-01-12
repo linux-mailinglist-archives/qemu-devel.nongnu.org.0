@@ -2,43 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7957A48BFCF
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 09:26:56 +0100 (CET)
-Received: from localhost ([::1]:35336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C64F48BFD2
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 09:27:11 +0100 (CET)
+Received: from localhost ([::1]:36128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7Yy7-0001Iw-In
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 03:26:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43546)
+	id 1n7YyM-0001wD-KV
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 03:27:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1n7Ylh-0005WD-4e; Wed, 12 Jan 2022 03:14:05 -0500
-Received: from szxga08-in.huawei.com ([45.249.212.255]:3269)
+ id 1n7Ylw-0005aU-AP; Wed, 12 Jan 2022 03:14:21 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1n7Ylf-0008Dz-GL; Wed, 12 Jan 2022 03:14:04 -0500
-Received: from kwepemi100001.china.huawei.com (unknown [172.30.72.57])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4JYgGk3pvvz1FCh9;
- Wed, 12 Jan 2022 16:10:22 +0800 (CST)
+ id 1n7Ylf-0008EI-V5; Wed, 12 Jan 2022 03:14:08 -0500
+Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JYgGm233bzZf5t;
+ Wed, 12 Jan 2022 16:10:24 +0800 (CST)
 Received: from kwepemm600017.china.huawei.com (7.193.23.234) by
- kwepemi100001.china.huawei.com (7.221.188.215) with Microsoft SMTP Server
+ kwepemi500008.china.huawei.com (7.221.188.139) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 12 Jan 2022 16:13:58 +0800
+ 15.1.2308.20; Wed, 12 Jan 2022 16:14:00 +0800
 Received: from huawei.com (10.174.186.236) by kwepemm600017.china.huawei.com
  (7.193.23.234) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 12 Jan
- 2022 16:13:57 +0800
+ 2022 16:13:59 +0800
 To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
 CC: <kvm-riscv@lists.infradead.org>, <kvm@vger.kernel.org>,
  <libvir-list@redhat.com>, <anup@brainfault.org>, <palmer@dabbelt.com>,
  <Alistair.Francis@wdc.com>, <bin.meng@windriver.com>, <fanliang@huawei.com>,
  <wu.wubin@huawei.com>, <wanghaibin.wang@huawei.com>, <wanbo13@huawei.com>,
- Yifei Jiang <jiangyifei@huawei.com>, Mingwang Li <limingwang@huawei.com>,
- Anup Patel <anup.patel@wdc.com>, Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH v5 12/13] target/riscv: Support virtual time context
- synchronization
-Date: Wed, 12 Jan 2022 16:13:28 +0800
-Message-ID: <20220112081329.1835-13-jiangyifei@huawei.com>
+ Yifei Jiang <jiangyifei@huawei.com>, Mingwang Li <limingwang@huawei.com>
+Subject: [PATCH v5 13/13] target/riscv: enable riscv kvm accel
+Date: Wed, 12 Jan 2022 16:13:29 +0800
+Message-ID: <20220112081329.1835-14-jiangyifei@huawei.com>
 X-Mailer: git-send-email 2.26.2.windows.1
 In-Reply-To: <20220112081329.1835-1-jiangyifei@huawei.com>
 References: <20220112081329.1835-1-jiangyifei@huawei.com>
@@ -49,8 +47,8 @@ X-Originating-IP: [10.174.186.236]
 X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
  kwepemm600017.china.huawei.com (7.193.23.234)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=jiangyifei@huawei.com; helo=szxga08-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=jiangyifei@huawei.com; helo=szxga01-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -74,65 +72,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Yifei Jiang <jiangyifei@huawei.com>
 From:  Yifei Jiang via <qemu-devel@nongnu.org>
 
-Add virtual time context description to vmstate_kvmtimer. After cpu being
-loaded, virtual time context is updated to KVM.
+Add riscv kvm support in meson.build file.
 
 Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
 Signed-off-by: Mingwang Li <limingwang@huawei.com>
-Reviewed-by: Anup Patel <anup.patel@wdc.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/machine.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ meson.build | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-index 13b9ab375b..098670e680 100644
---- a/target/riscv/machine.c
-+++ b/target/riscv/machine.c
-@@ -185,6 +185,35 @@ static const VMStateDescription vmstate_rv128 = {
-     }
- };
- 
-+static bool kvmtimer_needed(void *opaque)
-+{
-+    return kvm_enabled();
-+}
-+
-+static int cpu_post_load(void *opaque, int version_id)
-+{
-+    RISCVCPU *cpu = opaque;
-+    CPURISCVState *env = &cpu->env;
-+
-+    env->kvm_timer_dirty = true;
-+    return 0;
-+}
-+
-+static const VMStateDescription vmstate_kvmtimer = {
-+    .name = "cpu/kvmtimer",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = kvmtimer_needed,
-+    .post_load = cpu_post_load,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(env.kvm_timer_time, RISCVCPU),
-+        VMSTATE_UINT64(env.kvm_timer_compare, RISCVCPU),
-+        VMSTATE_UINT64(env.kvm_timer_state, RISCVCPU),
-+
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- const VMStateDescription vmstate_riscv_cpu = {
-     .name = "cpu",
-     .version_id = 3,
-@@ -240,6 +269,7 @@ const VMStateDescription vmstate_riscv_cpu = {
-         &vmstate_vector,
-         &vmstate_pointermasking,
-         &vmstate_rv128,
-+        &vmstate_kvmtimer,
-         NULL
-     }
- };
+diff --git a/meson.build b/meson.build
+index c1b1db1e28..06a5476254 100644
+--- a/meson.build
++++ b/meson.build
+@@ -90,6 +90,8 @@ elif cpu in ['ppc', 'ppc64']
+   kvm_targets = ['ppc-softmmu', 'ppc64-softmmu']
+ elif cpu in ['mips', 'mips64']
+   kvm_targets = ['mips-softmmu', 'mipsel-softmmu', 'mips64-softmmu', 'mips64el-softmmu']
++elif cpu in ['riscv']
++  kvm_targets = ['riscv32-softmmu', 'riscv64-softmmu']
+ else
+   kvm_targets = []
+ endif
 -- 
 2.19.1
 
