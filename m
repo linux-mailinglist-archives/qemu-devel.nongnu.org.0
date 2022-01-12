@@ -2,104 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622AE48CE42
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 23:15:03 +0100 (CET)
-Received: from localhost ([::1]:54006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 298CC48CF1B
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 00:29:25 +0100 (CET)
+Received: from localhost ([::1]:60162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7ltV-0006AU-V3
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 17:15:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33354)
+	id 1n7n3S-0004FK-NM
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 18:29:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1n7ls5-000513-8B; Wed, 12 Jan 2022 17:13:33 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:64412)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1n7ls3-0001gZ-9j; Wed, 12 Jan 2022 17:13:32 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20CKlUZf025237; 
- Wed, 12 Jan 2022 22:13:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=ULfVKZPdeghd0sRJgYQdAQC7fMu4/8KUW0+p9l21HoU=;
- b=NKVsf2IJauC/rJqNwOrZwrZYjHSykremJhaeBD+HqkJDIaU66cMwNzW27g6qZOM78Kid
- BQWJey+YdY3wqag2gcjvrF8W493q5/7lJ9aCKaNn3Gx8M4HOkWTkMQn1aP5OQFj8lRLb
- 3Ry4fcik82f/2+weua7tB1cj1IAIZWNMrFOsLfwTR3aAzOqgLfyOjpePLZbIXw7Md2zU
- v7e2Ku1mHx6C3wTKdv/rIs+v5pYqnnOjvIqU77qW5mQdudmdWtzySkWCmhmSmVOtlT/Z
- ogP/d2Mj7I/StwCJxT0lksCfaOyt6qGq6gKsAhslbQtBHEqRrP8d9vR/2ns2DWUo8YSa ZA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dj6b819jh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jan 2022 22:13:26 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20CLwY2X005539;
- Wed, 12 Jan 2022 22:13:25 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dj6b819j7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jan 2022 22:13:25 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20CMCg8t016511;
- Wed, 12 Jan 2022 22:13:23 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma05fra.de.ibm.com with ESMTP id 3df289nttv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jan 2022 22:13:23 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20CMDJIM39387450
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 Jan 2022 22:13:19 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B5139AE045;
- Wed, 12 Jan 2022 22:13:19 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 42130AE055;
- Wed, 12 Jan 2022 22:13:19 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.56.243])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Wed, 12 Jan 2022 22:13:19 +0000 (GMT)
-Date: Wed, 12 Jan 2022 23:13:17 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Eric Farman <farman@linux.ibm.com>
-Subject: Re: [RFC PATCH] MAINTAINERS: Add myself to s390 I/O areas
-Message-ID: <20220112231317.5c5d86df.pasic@linux.ibm.com>
-In-Reply-To: <20220112164044.2210508-1-farman@linux.ibm.com>
-References: <20211222105548.356852-1-cohuck@redhat.com>
- <20220112164044.2210508-1-farman@linux.ibm.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-Content-Type: text/plain; charset=US-ASCII
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Xyl8HpDmIXAVi9pyVRyeX14GlmeqHQ4n
-X-Proofpoint-GUID: fTrvgCjx_BGO4VDI1tYk94rD0jL1p8yM
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-12_05,2022-01-11_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- mlxlogscore=999 lowpriorityscore=0 malwarescore=0 phishscore=0
- adultscore=0 spamscore=0 impostorscore=0 bulkscore=0 clxscore=1015
- mlxscore=0 priorityscore=1501 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2110150000 definitions=main-2201120131
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from
+ <3rWPfYQcKCgg3mv12zmowwotm.kwuymu2-lm3mtvwvov2.wzo@flex--venture.bounces.google.com>)
+ id 1n7n0s-0002iE-6E
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 18:26:42 -0500
+Received: from [2607:f8b0:4864:20::b4a] (port=51107
+ helo=mail-yb1-xb4a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3rWPfYQcKCgg3mv12zmowwotm.kwuymu2-lm3mtvwvov2.wzo@flex--venture.bounces.google.com>)
+ id 1n7n0p-0004cl-OD
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 18:26:40 -0500
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ s89-20020a25aa62000000b00611afc92630so3460895ybi.17
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 15:26:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=jwGjAQUlNj24EtyQGxYDoIUbS/BrKaITAtFNWuv5GLs=;
+ b=ASm4oHhZww56gZiRhjuB0R6405D/rk4KK9XBe1hIAyPZfd71dHKmXEpZNxf9T+AY6p
+ 1i9gkmjFy43WHhL/epcLn1iVE0WKJc/YGINvsiOO1gF18FjvGsjr3MAg2ljvlpiFoCqF
+ /vMTtVoXb89jxDDYZKmhQNY65UA1qno5m+IVoDAd1IV81fu4Gbzznpw/qp80QO4qGeXZ
+ CotyXNRpdod5w5MutgxKFUQWCzAvKtNEgRZqqilLGRHlXGx2+9bJgE+aXmzvEgET67Qa
+ cy8dFAM6HryIECsiZwrFVFrLwdEK9dv+/+icEJGbfs0+Y2tR7LX4Q9P52PR1iYI3Xckb
+ MSuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=jwGjAQUlNj24EtyQGxYDoIUbS/BrKaITAtFNWuv5GLs=;
+ b=GD4fslqKYYyKgLn5TA7trqPpyKl2RUKBhcmzzpB+DqkhSgnuqhXPF4r9DaDF/QBoRy
+ S2MGqZ2c+Y6smfNvfqGVHuoA1o0HarjdTV4oofZCHXnKsJaqs9/VSweO/46WaawzALua
+ 5HgTvJXNPrSHWUL85DfmmB8686k+1MYu69xiA2WqhMWhP1BoXD2v1BJQAEX6OkNlxJOZ
+ PjvoDCn2AC6FllAcxCX5OIqmLdiyFD9AGJjSB5j9fopd4Cf5Atdq+4Yoon2gK2DJwaF/
+ F++Rl2W7nqGW2DoDwuHYVQj52zQW1tmfaF0qBohnDolf5DyfoCUPrIRym1IQCO1eyrcV
+ 8ORA==
+X-Gm-Message-State: AOAM533QflVaCqGNW+xCzaHAJazCIh9jZbIzpW6QPqcMYRv7p8wlvUtn
+ EzYuNbaIWP93kC2p8Se7iqIgXj5BmYV6
+X-Google-Smtp-Source: ABdhPJzaXx+ObxMo2V15c8PY1J50x3vFkP6rng6EnXxDWt2ovkP+L8gwpwVhtXq1UMY4L3RbEjMjxDtLFCTv
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:200:e211:b78e:685:a989])
+ (user=venture job=sendgmr) by 2002:a25:8745:: with SMTP id
+ e5mr1098082ybn.649.1642029997977; Wed, 12 Jan 2022 15:26:37 -0800 (PST)
+Date: Wed, 12 Jan 2022 15:26:31 -0800
+Message-Id: <20220112232633.1811256-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.34.1.575.g55b058a8bb-goog
+Subject: [PATCH v2 0/2] hw/sensor: Add SB-TSI Temperature Sensor Interface
+From: Patrick Venture <venture@google.com>
+To: thuth@redhat.com, lvivier@redhat.com, pbonzini@redhat.com, f4bug@amsat.org,
+ cminyard@mvista.com
+Cc: qemu-devel@nongnu.org, Patrick Venture <venture@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b4a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=3rWPfYQcKCgg3mv12zmowwotm.kwuymu2-lm3mtvwvov2.wzo@flex--venture.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
+X-Spam_score_int: -87
+X-Spam_score: -8.8
+X-Spam_bar: --------
+X-Spam_report: (-8.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,59 +85,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 12 Jan 2022 17:40:44 +0100
-Eric Farman <farman@linux.ibm.com> wrote:
+v2:
+ * Split the commit into a separate patch for the qtest
+ * Moved the common registers into the new header
+ * Introduced a new header
 
-> After the recent restructuring, I'd like to volunteer to help
-> in some of the s390 I/O areas.
-> 
-> Built on "[PATCH RFC v2] MAINTAINERS: split out s390x sections"
-> 
-> Signed-off-by: Eric Farman <farman@linux.ibm.com>
+Hao Wu (2):
+  hw/sensor: Add SB-TSI Temperature Sensor Interface
+  tests: add qtest for hw/sensor/sbtsi
 
-Acked-by: Halil Pasic <pasic@linux.ibm.com>
+ hw/sensor/Kconfig            |   4 +
+ hw/sensor/meson.build        |   1 +
+ hw/sensor/tmp_sbtsi.c        | 365 +++++++++++++++++++++++++++++++++++
+ hw/sensor/trace-events       |   5 +
+ hw/sensor/trace.h            |   1 +
+ include/hw/sensor/sbtsi.h    |  50 +++++
+ meson.build                  |   1 +
+ tests/qtest/meson.build      |   1 +
+ tests/qtest/tmp_sbtsi-test.c | 161 +++++++++++++++
+ 9 files changed, 589 insertions(+)
+ create mode 100644 hw/sensor/tmp_sbtsi.c
+ create mode 100644 hw/sensor/trace-events
+ create mode 100644 hw/sensor/trace.h
+ create mode 100644 include/hw/sensor/sbtsi.h
+ create mode 100644 tests/qtest/tmp_sbtsi-test.c
 
-Thanks!
-
-> ---
->  MAINTAINERS | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5d37b0eec5..343f43e83d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1521,6 +1521,7 @@ S390 Machines
->  S390 Virtio-ccw
->  M: Halil Pasic <pasic@linux.ibm.com>
->  M: Christian Borntraeger <borntraeger@linux.ibm.com>
-> +M: Eric Farman <farman@linux.ibm.com>
->  S: Supported
->  F: hw/s390x/
->  F: include/hw/s390x/
-> @@ -1551,6 +1552,7 @@ L: qemu-s390x@nongnu.org
->  S390 channel subsystem
->  M: Halil Pasic <pasic@linux.ibm.com>
->  M: Christian Borntraeger <borntraeger@linux.ibm.com>
-> +M: Eric Farman <farman@linux.ibm.com>
->  S: Supported
->  F: hw/s390x/ccw-device.[ch]
->  F: hw/s390x/css.c
-> @@ -1975,6 +1977,7 @@ T: git https://github.com/stefanha/qemu.git block
->  virtio-ccw
->  M: Cornelia Huck <cohuck@redhat.com>
->  M: Halil Pasic <pasic@linux.ibm.com>
-> +M: Eric Farman <farman@linux.ibm.com>
->  S: Supported
->  F: hw/s390x/virtio-ccw*.[hc]
->  F: hw/s390x/vhost-vsock-ccw.c
+-- 
+2.34.1.575.g55b058a8bb-goog
 
 
