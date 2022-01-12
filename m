@@ -2,57 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1C348C723
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 16:22:39 +0100 (CET)
-Received: from localhost ([::1]:40120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C87EA48C6EC
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 16:16:47 +0100 (CET)
+Received: from localhost ([::1]:53706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7fSQ-00049s-2h
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 10:22:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39402)
+	id 1n7fMk-0002NT-A6
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 10:16:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1n7edh-0000yt-HP; Wed, 12 Jan 2022 09:30:13 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:36297)
+ id 1n7eed-0001qa-NF; Wed, 12 Jan 2022 09:31:11 -0500
+Received: from mout.kundenserver.de ([212.227.126.133]:45393)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1n7edf-0008Vl-7j; Wed, 12 Jan 2022 09:30:12 -0500
+ id 1n7eeb-0000LZ-UH; Wed, 12 Jan 2022 09:31:11 -0500
 Received: from [192.168.100.1] ([82.142.23.158]) by mrelayeu.kundenserver.de
  (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MEUaQ-1n9IWk00gE-00Fz45; Wed, 12 Jan 2022 15:29:56 +0100
-Message-ID: <e101fbe8-c69c-7735-3fd0-acee907754fe@vivier.eu>
-Date: Wed, 12 Jan 2022 15:29:54 +0100
+ 1M6H7o-1n155840Xw-006bSI; Wed, 12 Jan 2022 15:30:59 +0100
+Message-ID: <dc3a2d1d-9f89-263e-5c77-6ed5936462e3@vivier.eu>
+Date: Wed, 12 Jan 2022 15:30:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH] hw/timer/etraxfs_timer: Add vmstate for ETRAX timers
+Subject: Re: [PATCH v2] hw/scsi/megasas: Simplify using the ldst API
 Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
-References: <20211106105623.510868-1-f4bug@amsat.org>
- <8f417138-a3bb-7d07-bda9-db4740550f2f@amsat.org>
- <5cad7d04-1699-35d2-8d96-b236d451101d@linaro.org>
+References: <20211218111912.1499377-1-philmd@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <5cad7d04-1699-35d2-8d96-b236d451101d@linaro.org>
+In-Reply-To: <20211218111912.1499377-1-philmd@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:HnckyyjiOMuT6mK5hqSBm9WaY9oW4j9NyzSev3thmgdxbM5eHHL
- kQpx8Po1F7x/cRmWj6usIAr48IH8PSd9y8oDidBn1dK1J0D47JVLTsvQXUb5+c8sOa1Qac7
- X/+DO7g+wLxY3QLv+SD+JbeAIkuRXEhvSbSYjZ2cO+0BLC33zmilIR0q+F27uRlSIvwGCoe
- aZxkxAi5c1sbafyqIpEQw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pV3a0Jc+3Xc=:ATSERb5ArCPpAuI3ACoFpb
- N9FvuwG+sI3NQygbiU3REgFCjhM+Be31jm3KwcBjYo8DTE/k7+8SSOEB9Je4A0vJOfrkeUazz
- VS1/baHpqdGSvW1VIEB/mq2S+Dk+8PdxI4rNgUrNj0rRjGo+Phd7J2ZNiVT4J0WuDNWuYNIEs
- DDrUnrgEp0Tb+l/ZYYhX19oQwTYU6+pFTn7GmwiJqNoV8kpdfEsvwl+SGhFBP6izXmqhaElCE
- usyjhMy27ktfinBE+SMnrEUMoKc/x+irvj/MFm3MtbbiFd6KVkIf+Qkft1dhn99R3mnbNRITF
- LwS8v9BYxryS0Zwzvs/t/Wh4IGhnLw+0WWTH7JlaGwLHNrOOml9pV1yWeZvFoAzWuDa0HMXaF
- aeCqK41g3R9zhVTGj7lIaes5bjmGoEWA51nZhSSecyuZGTH1DBVoy7dm5cRUiSfpw9/tsaCMy
- 2qhZ3kYsCOEjYDrWNL4IURsrd3JtqxPF/gRg6SnnBJRFo9D3kuUJvbfeRoO0gt3eC4/PhfEan
- ePUA1GECEJSgq5TnRkVCTgqj+nlhpdACc4mHoKu+ySmnOZNm12Pi8IYsfWYJ/RkKtyxtYsq6R
- RXIFjIIfqdXb/fheE2eh3P0oPzJBiypQCV3/UY/xT680g3DFSyG67GG1o57fghl8H/tggPe7Z
- fwUavST4YuG2Fi5UziTOTHtlPk1i9hRBi7M2XnpKB6c7iwLRvze8DGZkDj2WJbDYBR8g=
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:+9zGUtIkshAjZLhgFc5HqiK265w8i6eEPbGtuOj0yArFBK9Xd82
+ P0ewglq8dQm3gg+BCLvaygZCF0SCbZQkzSyyKQxfM/knUyxEpH9ox+/ZNShkkQ/OfXoNdOx
+ dWm64kA5ZSC8qZ1mjAwgUpURVhRtt2A7+VuFD6+WG9wKNfbWk+9Su9lsGqpIIBLbEhETHkz
+ eziuElVBBH/OEQPYhZIaw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:eSgij49ASgw=:QGbs7P1XLyOuidIVscynfm
+ xjF/RPhBs8Un/A4tAANJSjRe0nA+TZznihnLOUJSrEqwyuQqJBhhYBHbKByAma4kiWqwlAg6g
+ VDwWVtm1FGEUmlVen9D24EQHFEIrTTtBn2ZZJuhe95Ezf++S03OZWFimgorVlWT4MEC7h5MAg
+ K9If9yzUAgEJOhJ2JFeCPDq8TOAfvRl0hmTP3RXJwi8iewOelkVxUH5eYmJ3K75jOptHzTsPg
+ /ZvOx5rYb5bOPcEah1nRI5fZjYC/F930PRfHElssrHAW9fjgDyVNM7jpMqbPjd/VPvRUXksuM
+ st0FIcyuz03cigRl3n2IyPu23EQNPkfp2+PHx5F/ukLD7KchF/aIM43XLRhp6Yxl501TZElNa
+ kCpY6x77ce2JijqS7wQ6k6/agbQBQ2pGAJcMT01NjFLfGpy1vWfdcgQTKPEGkGISAlSpR2+QW
+ auVpBNfzbcjoj4NRMoKH2ALvSLaDOZ9p7+AVK/9A5H+EYe+gFDWK6PYWqWIQPnz7Wo3dNozdE
+ EY/Vnzbf8YkHrtNTW0D3UuCZl+uzpVG0xGSmyW77BMcP7kOZZnA8LdjzPGKmQ2eqmPpIain1S
+ dyTg/JkwzUlodL4jE1P5BmvHfN21wwuCQlYNmJNcwMVGJqc5l3affMzhjb4XyTC8VAoI3ZYpj
+ xiaspnFcgsU79EXpEIZ+fhxEdmxsroRJgMX5K1kZfvTZLGX6Gka5xpmLjJM21GMUQEvI=
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -72,72 +69,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.com>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 18/12/2021 à 03:28, Richard Henderson a écrit :
-> On 12/17/21 3:37 PM, Philippe Mathieu-Daudé wrote:
->> ping?
->>
->> On 11/6/21 11:56, Philippe Mathieu-Daudé wrote:
->>> Add the vmstate for the ETRAX timers.
->>> This is in theory a migration compatibility break
->>> for the 'AXIS devboard 88' CRIS machine.
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>> ---
->>>   hw/timer/etraxfs_timer.c | 34 +++++++++++++++++++++++++++++++++-
->>>   1 file changed, 33 insertions(+), 1 deletion(-)
+Le 18/12/2021 à 12:19, Philippe Mathieu-Daudé a écrit :
+> This code is easier to review using the load/store API.
 > 
-> 
-> In that it matches another similar timer device:
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+> v2: Fixed offset in megasas_setup_inquiry (rth)
+> ---
+>   hw/scsi/megasas.c | 17 +++--------------
+>   1 file changed, 3 insertions(+), 14 deletions(-)
 > 
-> 
->>> +static const VMStateDescription vmstate_etraxfs = {
->>> +    .name = "etraxfs",
->>> +    .version_id = 0,
->>> +    .minimum_version_id = 0,
->>> +    .fields = (VMStateField[]) {
->>> +        VMSTATE_PTIMER(ptimer_t0, ETRAXTimerState),
->>> +        VMSTATE_PTIMER(ptimer_t1, ETRAXTimerState),
->>> +        VMSTATE_PTIMER(ptimer_wd, ETRAXTimerState),
->>> +
->>> +        VMSTATE_UINT32(wd_hits, ETRAXTimerState),
->>> +
->>> +        VMSTATE_UINT32(rw_tmr0_div, ETRAXTimerState),
->>> +        VMSTATE_UINT32(r_tmr0_data, ETRAXTimerState),
->>> +        VMSTATE_UINT32(rw_tmr0_ctrl, ETRAXTimerState),
->>> +
->>> +        VMSTATE_UINT32(rw_tmr1_div, ETRAXTimerState),
->>> +        VMSTATE_UINT32(r_tmr1_data, ETRAXTimerState),
->>> +        VMSTATE_UINT32(rw_tmr1_ctrl, ETRAXTimerState),
->>> +
->>> +        VMSTATE_UINT32(rw_wd_ctrl, ETRAXTimerState),
->>> +
->>> +        VMSTATE_UINT32(rw_intr_mask, ETRAXTimerState),
->>> +        VMSTATE_UINT32(rw_ack_intr, ETRAXTimerState),
->>> +        VMSTATE_UINT32(r_intr, ETRAXTimerState),
->>> +        VMSTATE_UINT32(r_masked_intr, ETRAXTimerState),
->>> +
->>> +        VMSTATE_END_OF_LIST()
->>> +    }
->>> +};
-> 
-> What I don't understand is how these controls get applied to qemu_irq after vmload, here or in any 
-> other device.  It seems like we should have some post_load hook that calls timer_update_irq, etc.
-> 
-
-FWIW, in VMSTATE_PTIMER(), we use a vmstate_ptimer struct that registers a vmstate_info_timer with 
-VMSTATE_TIMER_PTR(). vmstate_info_timer uses timer_get() to update or delete the timer when it is 
-loaded.
+> diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
+> index 619b66ef0f3..9a4e9ba87e6 100644
+> --- a/hw/scsi/megasas.c
+> +++ b/hw/scsi/megasas.c
+> @@ -375,8 +375,7 @@ static int megasas_setup_inquiry(uint8_t *cdb, int pg, int len)
+>           cdb[1] = 0x1;
+>           cdb[2] = pg;
+>       }
+> -    cdb[3] = (len >> 8) & 0xff;
+> -    cdb[4] = (len & 0xff);
+> +    stw_be_p(&cdb[3], len);
+>       return len;
+>   }
+>   
+> @@ -392,18 +391,8 @@ static void megasas_encode_lba(uint8_t *cdb, uint64_t lba,
+>       } else {
+>           cdb[0] = READ_16;
+>       }
+> -    cdb[2] = (lba >> 56) & 0xff;
+> -    cdb[3] = (lba >> 48) & 0xff;
+> -    cdb[4] = (lba >> 40) & 0xff;
+> -    cdb[5] = (lba >> 32) & 0xff;
+> -    cdb[6] = (lba >> 24) & 0xff;
+> -    cdb[7] = (lba >> 16) & 0xff;
+> -    cdb[8] = (lba >> 8) & 0xff;
+> -    cdb[9] = (lba) & 0xff;
+> -    cdb[10] = (len >> 24) & 0xff;
+> -    cdb[11] = (len >> 16) & 0xff;
+> -    cdb[12] = (len >> 8) & 0xff;
+> -    cdb[13] = (len) & 0xff;
+> +    stq_be_p(&cdb[2], lba);
+> +    stl_be_p(&cdb[2 + 8], len);
+>   }
+>   
+>   /*
 
 Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
-
-
 
