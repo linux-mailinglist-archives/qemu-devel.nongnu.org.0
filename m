@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFB9B48C33C
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 12:34:54 +0100 (CET)
-Received: from localhost ([::1]:45296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5364B48C34A
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 12:38:18 +0100 (CET)
+Received: from localhost ([::1]:53572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7bu1-0002x4-Sm
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 06:34:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55078)
+	id 1n7bxJ-0008WN-E2
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 06:38:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n7bmt-0002c5-9O
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:31 -0500
-Received: from [2607:f8b0:4864:20::92b] (port=35574
- helo=mail-ua1-x92b.google.com)
+ id 1n7bmu-0002cE-GS
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:32 -0500
+Received: from [2607:f8b0:4864:20::930] (port=36515
+ helo=mail-ua1-x930.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n7bmr-0003NL-2v
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:30 -0500
-Received: by mail-ua1-x92b.google.com with SMTP id m90so4136926uam.2
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 03:27:26 -0800 (PST)
+ id 1n7bms-0003Nf-D8
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:32 -0500
+Received: by mail-ua1-x930.google.com with SMTP id r15so4128240uao.3
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 03:27:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/+VrM7ScrhB7FfhkzHZvkTZp0+6OwvH00dQIctPZb30=;
- b=HUzAqMZCFFPAqvYiFWW/H4+3Bld0YabhUv7skt0AgRIoVNJEguHmmXaaQbvs2JodKL
- giY13HffDaNtKSFMEFBNFDud/O/p5eyqr4dazucgffz/aVg+0YP/KMe7Hv932JlCtgrn
- w3dds6xKvUpkDDLdl6Kw6ig5+qROMM7tqR0C12PUiWQgf0mQeiUFbgdns0c790PQGNeu
- MIPkoqLkSV+cht4Jq9FQeNFxwqUivZ6V2LLNNJZNHbATxXizFHH51kZTXacB70wRn0oP
- GqJdl44xNIpgmHkNRAInKVtnWqh6pLcl3QBhdL1a3mp944YmMeqorcncGVxE1jlq2FVb
- QZbw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=RloSuI0Jr/ZxHwMFrsFKsR8b4g1vVCA7iOPpJ0mZCiw=;
+ b=KhBSd0N4aei+wy1/WgWm3lHY+Plhcuzuw4HVg9dP1XbcaYsHJaW76vEYudKjlze9ZQ
+ YJQ3hUdTGzuwUVGpPXH0X0xkE0l7zDOqxrnfuK9Fa3S7PIqOVT63SIXEk+JEF3xYmKq1
+ m1nKaX3FyFnlhmbbeqAsgpnJGSQyLXzhZU293y5f9r6BfLvJgqwqKozUJRJ5PG4JaXwr
+ c/2q3pai0UnF8sqZ+N9S/GzLPPrqj3vl6DZ8tNGeVWAFHFLfyaWRx+FVBRy1dCdK8x9v
+ ChZnhmhJ8IeXf9rTNyxCT5tLWnl7/4Sz6QB9kJ3cWe3fj0ZsLDagq34xxMkLrqJLec4P
+ wCQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/+VrM7ScrhB7FfhkzHZvkTZp0+6OwvH00dQIctPZb30=;
- b=3ljE8CjoceczjfVyo8tt4CgnIrjRLTEzXn0pHV49Zs90gCY+3m6y/0CXravVGO/gwU
- IzchgNZzKC4KibsuCnDk2MXslHwcobyyvkaSPCvnLtQ1RYG/8/AtsYiSiMwJ4jJ63Hwh
- L0pePm2ZlIwv3+5cpeEhEKZ9OuLehGsNNGcW36KJMGelOLnOrIUgw7cIw3ES7KlFdATY
- shJXDt2tjI7t/cozQ++GM2psY2SVj/hn1XPepzMeA2Kv0JwWIBkNAJ86kksrBOLIp6SL
- ywTl8so4iqh1zJ/Yu0iaKdd4koVxe0GFIQhJrobX4UUK2rToyjF5MdtDarV1psDAgcJU
- 8EYA==
-X-Gm-Message-State: AOAM533/JVltFy9TcniIpPVvMqpIH9lJQ2AQWpozYAl+X16QeQiWPs6s
- sEm7lCs6vGsQAYFLK0Zh1aMkcQ==
-X-Google-Smtp-Source: ABdhPJzjI1fcNT9DUIRscX/ArDJDnQzzrLe4MI0vH8OIaFStUmRtxcURJRaNDCXhWLDh3GCWnLyVUA==
-X-Received: by 2002:a67:f6d9:: with SMTP id v25mr3703796vso.36.1641986845393; 
- Wed, 12 Jan 2022 03:27:25 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=RloSuI0Jr/ZxHwMFrsFKsR8b4g1vVCA7iOPpJ0mZCiw=;
+ b=zm0/ekjea2j8GmsjzGyN/50Xm3mteFvUPufdDEiXi1PGlu1wne+9JwYm7fr6MMLo2C
+ XltYy8vWVzDmEgEu0c1n3UEFHeHQPHPv5Eyz/LhspgR2OorgxiXxYxdwGIeRCtDH+RpN
+ aAR/kTGu042votCNaKgIIrsEHIhlAGSE9vMHppgdqNv88tgQkejwK5UmU8ugLHRYmjbf
+ obxeYr/gO+EeJNgVpZAzXbTMI9zdjQJhge1dDwDtyegH4uxACxs62mjQLWtpGpuTRhdp
+ aOb+WWplhVOrKtoDNKHeBcXnDWONgUTTptPLMKEQXv9JJlUIGe8Pq5LZ5Vs79qWWCxij
+ e8DQ==
+X-Gm-Message-State: AOAM533a7WTv2THyEDwgovuwTxLyfC+y4G0Ltx89bAD6cdI3JFHpm49H
+ O4hVkEjF1Bkume07fFrV7u0DRg==
+X-Google-Smtp-Source: ABdhPJxgU0kA7wcGWwNMQW76iRZyaYWbIlDwTw6te9ui5Wou21BxX7+6YgFbR58dIfPI+qVEDUROLw==
+X-Received: by 2002:a05:6102:ac3:: with SMTP id m3mr3977069vsh.1.1641986849536; 
+ Wed, 12 Jan 2022 03:27:29 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o26sm6054259vsl.9.2022.01.12.03.27.23
+ by smtp.gmail.com with ESMTPSA id f1sm7063861uae.5.2022.01.12.03.27.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 12 Jan 2022 03:27:24 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5088A1FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id 5F5891FFB8;
  Wed, 12 Jan 2022 11:27:22 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 00/31] testing/next and other misc fixes
-Date: Wed, 12 Jan 2022 11:26:51 +0000
-Message-Id: <20220112112722.3641051-1-alex.bennee@linaro.org>
+Subject: [PULL 01/31] ui: avoid compiler warnings from unused clipboard info
+ variable
+Date: Wed, 12 Jan 2022 11:26:52 +0000
+Message-Id: <20220112112722.3641051-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220112112722.3641051-1-alex.bennee@linaro.org>
+References: <20220112112722.3641051-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::930
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92b;
- envelope-from=alex.bennee@linaro.org; helo=mail-ua1-x92b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::930;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ua1-x930.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -87,158 +90,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit bf99e0ec9a51976868d7a8334620716df15fe7fe:
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2022-01-11 10:12:29 +0000)
+With latest clang 13.0.0 we get
 
-are available in the Git repository at:
+../ui/clipboard.c:47:34: error: variable 'old' set but not used [-Werror,-Wunused-but-set-variable]
+    g_autoptr(QemuClipboardInfo) old = NULL;
+                                 ^
 
-  https://github.com/stsquad/qemu.git tags/pull-for-7.0-110122-1
+The compiler can't tell that we only declared this variable in
+order to get the side effect of free'ing it when out of scope.
 
-for you to fetch changes up to dbd30b7abee963f4fb08892a7d7f920bb76ece58:
+This pattern is a little dubious for a use of g_autoptr, so
+rewrite the code to avoid it.
 
-  linux-user: Remove the deprecated ppc64abi32 target (2022-01-11 13:00:53 +0000)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+[AJB: fix merge conflict]
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20211215141949.3512719-2-berrange@redhat.com>
+Message-Id: <20220105135009.1584676-2-alex.bennee@linaro.org>
 
-----------------------------------------------------------------
-Various testing and other misc updates:
-
-  - fix compiler warnings with ui and sdl
-  - update QXL/spice dependancy
-  - skip I/O tests on Alpine
-  - update fedora image to latest version
-  - integrate lcitool and regenerate docker images
-  - favour CONFIG_LINUX_USER over CONFIG_LINUX
-  - add libfuse3 dependencies to docker images
-  - add dtb-kaslr-seed control knob to virt machine
-  - fix build breakage from HMP update
-  - update docs for C standard and suffix usage
-  - add more logging for debugging user hole finding
-  - fix bug with linux-user hold calculation
-  - avoid affecting flags when printing results in float tests
-  - add float reference files for ppc64
-  - update FreeBSD to 12.3
-  - add bison dependancy to tricore images
-  - remove deprecated ppc64abi32 target
-
-----------------------------------------------------------------
-Alex Bennée (6):
-      hw/arm: add control knob to disable kaslr_seed via DTB
-      monitor: move x-query-profile into accel/tcg to fix build
-      docs/devel: update C standard to C11
-      docs/devel: more documentation on the use of suffixes
-      linux-user/elfload: add extra logging for hole finding
-      linux-user: don't adjust base of found hole
-
-Brad Smith (1):
-      FreeBSD: Upgrade to 12.3 release
-
-Daniel P. Berrangé (17):
-      ui: avoid compiler warnings from unused clipboard info variable
-      meson: require liburing >= 0.3
-      ui: avoid warnings about directdb on Alpine / musl libc
-      ci: explicitly skip I/O tests on alpine
-      tests/docker: switch fedora image to release 35
-      tests: integrate lcitool for generating build env manifests
-      tests/docker: auto-generate centos8.docker with lcitool
-      tests/docker: auto-generate fedora.docker with lcitool
-      tests/docker: auto-generate ubuntu1804.docker with lcitool
-      tests/docker: auto-generate ubuntu2004.docker with lcitool
-      tests/docker: auto-generate opensuse-leap.docker with lcitool
-      tests/docker: remove ubuntu.docker container
-      .gitlab-ci.d/cirrus: auto-generate variables with lcitool
-      tests/docker: updates to alpine package list
-      tests/docker: fix sorting of alpine image package lists
-      tests/docker: fully expand the alpine package list
-      tests/docker: auto-generate alpine.docker with lcitool
-
-John Snow (1):
-      spice: Update QXLInterface for spice >= 0.15.0
-
-Paolo Bonzini (2):
-      tests/tcg: use CONFIG_LINUX_USER, not CONFIG_LINUX
-      docker: include bison in debian-tricore-cross
-
-Richard Henderson (2):
-      tests/tcg/multiarch: Read fp flags before printf
-      test/tcg/ppc64le: Add float reference files
-
-Stefan Hajnoczi (1):
-      tests/docker: add libfuse3 development headers
-
-Thomas Huth (1):
-      linux-user: Remove the deprecated ppc64abi32 target
-
- docs/about/deprecated.rst                          |   7 -
- docs/about/removed-features.rst                    |   8 +
- docs/devel/style.rst                               |  14 +-
- docs/devel/testing.rst                             | 104 ++-
- docs/system/arm/virt.rst                           |   8 +
- docs/user/main.rst                                 |   1 -
- configure                                          |  29 +-
- Makefile                                           |   2 +
- configs/targets/ppc64abi32-linux-user.mak          |   8 -
- meson.build                                        |   3 +-
- qapi/machine.json                                  |   1 +
- include/glib-compat.h                              |   6 +-
- include/hw/arm/virt.h                              |   1 +
- include/ui/qemu-spice.h                            |   6 +
- include/ui/sdl2.h                                  |  11 +
- linux-user/ppc/target_syscall.h                    |   4 +-
- linux-user/syscall_defs.h                          |   6 +-
- accel/tcg/cpu-exec.c                               |  31 +
- hw/arm/virt.c                                      |  32 +-
- hw/display/qxl.c                                   |  14 +-
- linux-user/elfload.c                               |  27 +-
- linux-user/ppc/signal.c                            |  11 +-
- monitor/qmp-cmds.c                                 |  31 -
- tests/tcg/multiarch/float_convs.c                  |   2 +-
- tests/tcg/multiarch/float_madds.c                  |   2 +-
- ui/clipboard.c                                     |   4 +-
- ui/spice-display.c                                 |  11 +
- .gitlab-ci.d/buildtest.yml                         |  29 +-
- .gitlab-ci.d/cirrus.yml                            |   5 +-
- .gitlab-ci.d/cirrus/freebsd-12.vars                |  11 +-
- .gitlab-ci.d/cirrus/freebsd-13.vars                |  11 +-
- .gitlab-ci.d/cirrus/macos-11.vars                  |  11 +-
- .gitlab-ci.d/containers.yml                        |   5 -
- .gitmodules                                        |   3 +
- hmp-commands-info.hx                               |   2 +
- tests/docker/dockerfiles/alpine.docker             | 176 +++--
- tests/docker/dockerfiles/centos8.docker            | 244 ++++---
- .../docker/dockerfiles/debian-ppc64el-cross.docker |   2 +-
- .../docker/dockerfiles/debian-tricore-cross.docker |   1 +
- tests/docker/dockerfiles/fedora.docker             | 263 +++----
- tests/docker/dockerfiles/opensuse-leap.docker      | 246 ++++---
- tests/docker/dockerfiles/ubuntu.docker             |  71 --
- tests/docker/dockerfiles/ubuntu1804.docker         | 255 ++++---
- tests/docker/dockerfiles/ubuntu2004.docker         | 258 ++++---
- tests/lcitool/Makefile.include                     |  17 +
- tests/lcitool/libvirt-ci                           |   1 +
- tests/lcitool/projects/qemu.yml                    | 116 ++++
- tests/lcitool/refresh                              |  96 +++
- tests/tcg/configure.sh                             |  10 +-
- tests/tcg/hexagon/float_convs.ref                  | 152 ++--
- tests/tcg/hexagon/float_madds.ref                  |  48 +-
- tests/tcg/multiarch/Makefile.target                |   2 +-
- tests/tcg/ppc64le/float_convs.ref                  | 748 ++++++++++++++++++++
- tests/tcg/ppc64le/float_madds.ref                  | 768 +++++++++++++++++++++
- tests/tcg/x86_64/Makefile.target                   |   2 +-
- tests/vm/freebsd                                   |   8 +-
- 56 files changed, 2982 insertions(+), 963 deletions(-)
- delete mode 100644 configs/targets/ppc64abi32-linux-user.mak
- delete mode 100644 tests/docker/dockerfiles/ubuntu.docker
- create mode 100644 tests/lcitool/Makefile.include
- create mode 160000 tests/lcitool/libvirt-ci
- create mode 100644 tests/lcitool/projects/qemu.yml
- create mode 100755 tests/lcitool/refresh
- create mode 100644 tests/tcg/ppc64le/float_convs.ref
- create mode 100644 tests/tcg/ppc64le/float_madds.ref
-
+diff --git a/ui/clipboard.c b/ui/clipboard.c
+index 82572ea116..5f15cf853d 100644
+--- a/ui/clipboard.c
++++ b/ui/clipboard.c
+@@ -62,13 +62,11 @@ void qemu_clipboard_update(QemuClipboardInfo *info)
+         .type = QEMU_CLIPBOARD_UPDATE_INFO,
+         .info = info,
+     };
+-    g_autoptr(QemuClipboardInfo) old = NULL;
+-
+     assert(info->selection < QEMU_CLIPBOARD_SELECTION__COUNT);
+ 
+     notifier_list_notify(&clipboard_notifiers, &notify);
+ 
+-    old = cbinfo[info->selection];
++    qemu_clipboard_info_unref(cbinfo[info->selection]);
+     cbinfo[info->selection] = qemu_clipboard_info_ref(info);
+ }
+ 
 -- 
 2.30.2
 
