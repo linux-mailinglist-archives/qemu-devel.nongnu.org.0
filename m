@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D79248C29E
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 11:59:10 +0100 (CET)
-Received: from localhost ([::1]:51536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3DE48C2AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 11:59:46 +0100 (CET)
+Received: from localhost ([::1]:52556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7bLQ-0002OS-CZ
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 05:59:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48608)
+	id 1n7bM1-00033i-HB
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 05:59:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1n7bIz-0000Qc-K9
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 05:56:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34324)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1n7bIw-0006w3-Pn
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 05:56:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641984993;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/IbOkn7iDasMRKdvgh3wfyzCezNrSl3K52lqrc39jQQ=;
- b=HbxaqHkoWOoOoSYBJAkyxoRFJTaH4y4zd/b+yuaNqPQjY1RAt8YbSR9mq8wFlplFxDLFIW
- Inuo3/OtryOccqSUegOFScoJEj3mGoKQrCHPDbtqtAfN4ygS+lheZewkS99Z4fZS5RGJSc
- 6XphouUf4FvSjS8mFXZlmuIWslLeedk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-330-qBpDIZMnPTKa2Ap5ImNotg-1; Wed, 12 Jan 2022 05:56:29 -0500
-X-MC-Unique: qBpDIZMnPTKa2Ap5ImNotg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54F11101AFAC
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 10:56:28 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C681C7D57D;
- Wed, 12 Jan 2022 10:56:26 +0000 (UTC)
-Date: Wed, 12 Jan 2022 10:56:25 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: PyPI account
-Message-ID: <Yd6z2WS3hGwPNKkl@stefanha-x1.localdomain>
-References: <CAFn=p-b+ene2vKCCDJR9viT9P=GyhBeAO5ZLGsUmiijoxrkfCg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <quic_ggregory@quicinc.com>)
+ id 1n7bJh-0000uK-1H
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 05:57:21 -0500
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:42496)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <quic_ggregory@quicinc.com>)
+ id 1n7bJX-00074X-Lq
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 05:57:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1641985031; x=1673521031;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Rua5swUCvs78LVBLrhiwjUDF7j4qlfS4RziK1K0XC04=;
+ b=wQFhOcMyfWQ4iI7MXOhDQtd/AikoKzfLIQr95OPogrIncEN9T2jVW7Cc
+ rp83PPZn0eou0edzZ6ATietwXn1ji2NI58WwWpARsLEjwPkKKUEIa/MV4
+ MrHp4gsuvrOEdnqF1PAEq/J2lg4al2Y2RVxJrwk7E8YpKWm3eHRE2vX0T o=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 12 Jan 2022 02:57:07 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2022 02:57:07 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Wed, 12 Jan 2022 02:57:07 -0800
+Received: from quicinc.com (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Wed, 12 Jan
+ 2022 02:57:06 -0800
+Date: Wed, 12 Jan 2022 10:57:04 +0000
+From: Graeme Gregory <quic_ggregory@quicinc.com>
+To: Troy Lee <troy_lee@aspeedtech.com>
+Subject: Re: [PATCH v3 0/2] Aspeed I3C device model
+Message-ID: <20220112105704.ovkq5yxl6phzeqi3@ggregory-linuxws>
+References: <20220111084546.4145785-1-troy_lee@aspeedtech.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFn=p-b+ene2vKCCDJR9viT9P=GyhBeAO5ZLGsUmiijoxrkfCg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="fedB4FY5eSwSy6Hn"
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20220111084546.4145785-1-troy_lee@aspeedtech.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+Received-SPF: pass client-ip=199.106.114.39;
+ envelope-from=quic_ggregory@quicinc.com; helo=alexa-out-sd-02.qualcomm.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,51 +75,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: leetroy@gmail.com, qemu-devel@nongnu.org, hailin.wu@aspeedtech.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---fedB4FY5eSwSy6Hn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Jan 11, 2022 at 04:45:44PM +0800, Troy Lee wrote:
+> This series of patch introduce a dummy implemenation of aspeed i3c
+> model, and it provide just enough information for guest machine.
+> However, the driver probing is still failed, but it will not cause
+> kernel panic.
+> 
 
-[Context: John created a PyPI QEMU user in order to publish the qemu.qmp
-package. If anyone wants to publish additional Python packages from
-qemu.git, please contact him for PyPI access.]
+These patches arrived just in time for our i3c testing. This stops
+our CI halting due to kernel panic on i3c probing.
 
-On Tue, Jan 11, 2022 at 03:42:23PM -0500, John Snow wrote:
-> Account made: https://pypi.org/user/QEMU/
->=20
-> I can't update the wiki, I lack admin perms to edit
-> https://wiki.qemu.org/AdminContacts
->=20
-> I assume in the event that I fall into a black hole or get launched
-> out of a cannon into the sun, any mails sent to jsnow@redhat.com can
-> be recovered by Red Hat in general, so there's a sufficient recourse
-> for recovering the account in that circumstance.
+Reviewed-by: Graeme Gregory <quic_ggregory@quicinc.com>
+Tested-by: Graeme Gregory <quic_ggregory@quicinc.com>
 
-Thanks, I have added the PyPI QEMU user and added you as the admin
-contact:
-https://wiki.qemu.org/AdminContacts#Other_resources
-
-Stefan
-
---fedB4FY5eSwSy6Hn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHes9gACgkQnKSrs4Gr
-c8jmzgf9GmKhoLezgzqrYztLJJYFf8ORYJG2FhWdf5+gk9JKYrtcDYSaVVSKDErL
-3O8W8qeF6iL4MDh+2lf1JDj7Z4F13W2CPVYSxXmOPY0h+bonKw/jnGyN73cGLyiR
-YefY8IzMQQM59V/iaPWtkFR9KkAhaTUPIo8+z7Gd1TZYm0b+lqfIwDIFeRe2ArCP
-bz19Qukfv5umnWFvEyr3B1UDItcLA52nvZC542c173ldCXMUNuyi4+0CFAhLd3a8
-51j0yotFzlcHPrQaCOso80rvBNgM/UGMcrjmHdvOL6WUKjuJWPTvn0CqWXxK/gDk
-TrvmuJpv+NFvVoMOEj5xFPGmmadQcA==
-=rzUp
------END PGP SIGNATURE-----
-
---fedB4FY5eSwSy6Hn--
-
+> v3:
+> - Remove unused AspeedI3CClass
+> - Refine memory region
+> - Refine register reset
+> - Remove unrelated changes to SPI2 address
+> - Remove i3c controller irq line
+> 
+> v2:
+> - Split i3c model into i3c and i3c_device
+> - Create 6x i3c devices
+> - Using register fields macro
+> - Rebase to mainline QEMU
+> 
+> Troy Lee (2):
+>   Introduce a dummy AST2600 I3C model.
+>   This patch includes i3c instance in ast2600 soc.
+> 
+>  hw/arm/aspeed_ast2600.c      |  16 ++
+>  hw/misc/aspeed_i3c.c         | 381 +++++++++++++++++++++++++++++++++++
+>  hw/misc/meson.build          |   1 +
+>  hw/misc/trace-events         |   6 +
+>  include/hw/arm/aspeed_soc.h  |   3 +
+>  include/hw/misc/aspeed_i3c.h |  48 +++++
+>  6 files changed, 455 insertions(+)
+>  create mode 100644 hw/misc/aspeed_i3c.c
+>  create mode 100644 include/hw/misc/aspeed_i3c.h
+> 
+> -- 
+> 2.25.1
+> 
+> 
 
