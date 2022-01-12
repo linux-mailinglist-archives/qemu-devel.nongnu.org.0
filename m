@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B94DD48BBFF
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 01:48:18 +0100 (CET)
-Received: from localhost ([::1]:54830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCBED48BC14
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 01:56:57 +0100 (CET)
+Received: from localhost ([::1]:36660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7RoH-0003ql-Bd
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 19:48:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36578)
+	id 1n7Rwe-0002fG-Nr
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 19:56:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1n7RdZ-0000hn-LW
+ id 1n7RdZ-0000hR-7z
  for qemu-devel@nongnu.org; Tue, 11 Jan 2022 19:37:13 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:6178)
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:8524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1n7RdW-0005fq-Ap
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 19:37:13 -0500
+ id 1n7RdW-0005g8-8y
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 19:37:12 -0500
 Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20BMee0a019911
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:37:07 GMT
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20BMee0e019911
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:37:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : subject :
  date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=aGb/2Tx+G8Dq8TbOKwSjt3u2SlnUQSIWoy/cU8XQAdw=;
- b=lFUVQGDwg5RgQHOvf2zVnMJVJqCpfztJe06AKPZDfuCfh3E9BPl37OuOi8HeO2xSqN9x
- jcdZBwRmEX5Xaki+vY/F5qGEO1hbb/mzjGKlvKOoUlvXeAlAuIZL2KVyNYfKBapjg3H9
- YkwvLoJPx9+Gdorrde+UWggkUT/403kA1O44tuqGNFRuMJMZAwToyJpzBYb4+iyXosiX
- meKUquIueFLKaO/yNuWnIi8ef4HCcZVEgFv7Bw+jKfg+v5eITnDHQ5Wn0u5yUv5dwNsC
- FPtPEpVS44rJ9nBQJrZss5hK1Rnyz5FQj4kYYlCcsIAcmpk0w+esxTCsaW+/kPSQTkQo OQ== 
+ bh=O46CeKAoCwJci9BkKVpel/pOtz6Zsoy2rmFNOW/ZxLY=;
+ b=riA9Wu3WU5Dot4M4kxELPZWpcti/E+8UWZl/PEeUZJex48WZJYz+aRvLuzdZ3vmwQtH6
+ E9CmPFV/Zi3pKtd9C4TVXyAQ3uhznH4/1eY8Up90Dj71qwWNTabVJj64Ha8KGnOK3bDP
+ D5FlmjIPS7tqqCWRc97sW6NmSnyiTS+g3kj6dAuj0p+W4p0xn8YJ+DoltGPafOThFWxc
+ ASTUSDRzGsDiLsTfiXZIoy/6fS194/SVK95pA9CVekGWnHR+Rz0mweSfYFdR3CAZIcHv
+ VnvFR3tpaSI6I09kgkdcY95f5arBzNTVLSG1ZkiXetOkkHL4diXPkXD3BryWJSLkkjpM dw== 
 Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 3dgkhx4sgy-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 3dgkhx4sh5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:37:07 +0000
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:37:08 +0000
 Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20C0KATZ069271
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:37:06 GMT
+ by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20C0KATb069271
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:37:07 GMT
 Received: from nam10-dm6-obe.outbound.protection.outlook.com
  (mail-dm6nam10lp2106.outbound.protection.outlook.com [104.47.58.106])
- by userp3030.oracle.com with ESMTP id 3deyqy1gju-2
+ by userp3030.oracle.com with ESMTP id 3deyqy1gju-4
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:37:05 +0000
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:37:06 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xba+uEYRs/A/h8W1KcUHWO/X4gDMqGooXxIHXowW8tKDhezmH/hC9TeCoVTat4qAu9FEhhPJF/2UAdpbsANPiYCFZcu4EIKlvSDlPWQRONEc93gqGPrZrTZ3EtnfDycn8q2OQgVjAK1hxDvhMAomXqn/psP7yWH8x1XuU5912STHHhhi9K8cBS62701T7OoAh7zSNlm3Jcooq1LBsDfgZXDEUa7YnCMrgBbbf4zojPTzWYnIc06VguBG5UTIuFFpaeh8wvCsoEaU9algSkYmZE3ov1/9ab0SF4sxkQWyO/h/LLEEUsg69blkpHakNJCdxFj7FEBl5IUi7aeKmEZcgg==
+ b=BVG84PDqmTrpkjgSFrLNs7pDH7qJN52urAWd5cQmTPNi559gZjjdmI+LazZau4hkDT/nce1EyLC6RdHywyrRxf/SxR2fRP7nKvEurG3AAzWXNQHOUkQ4okYYNHIGft966v7Q1o1aFSeUL+M8A9gwyAWStujvkvDZLbjb7gCxFQULkpNEhghP4CsDXyWvPTXCEuQXs1IhVGeRUFxavPs2JFSoaViL3ZgvLIpI9IagKhWWUx5MSR8kX7QI7FuXvEEMSn+H4W7hqH9refVtF8cj0DlMzwjg4ToWThEkF710gWHxiG3YgZoeUJewdOuszifCWzsMEBrjsAaG3ImSxaFlrA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aGb/2Tx+G8Dq8TbOKwSjt3u2SlnUQSIWoy/cU8XQAdw=;
- b=GhnxJCh4Nd5vI7c9wROslkE06YIA2DZw0iDk0xYdPpEJKU140wxtZu+wYI+wOskVJ963UNzZAhcNwBEMM1PvNGW+050PHkBrBvZslzLXTXjRv/5I8snGCtVfeM2NlaVBlNm1zgs6ZTZldAuagHCcA49r3EcsEDaufDQVmtr3gV4NqNSdeT1/OVpHJE8KB3N5coSgnuWwINvpivXHHYDr8PqxlSYvmA2IVb8qRzVfkxohHyiVC4WM0e2hipACvkIVp3uJlACWAx2RJQ6QBUauFXoHJiqm6CCq2I+hX1etpbW9phPBL3/oYJpNXkV2PTHiBWZyuI0iFb8kOGnbfBYYvA==
+ bh=O46CeKAoCwJci9BkKVpel/pOtz6Zsoy2rmFNOW/ZxLY=;
+ b=RXb9bZkpWxQN/L1Qp0tZvqz0K0qahP0wxqrtdWzS7HduTdXCLOELm9cSHSVWQ8qzUFeVO6x5RUE9ow2zuZS13Y4FSrBDFC9JjlNtAKrqJ1YV27BtdvC7n6GSwwazkpTtT7T8y8Kkqm50owmkuoe5kC0DobEubKAsxqjEEZfVDI+xLZhlx2GRCgCl3PpOUUzUcJ0xbh9NN/tkgASSh2NUFJcCYUgKmqJDuczPv2PFUMeOcSJs0fcK/BJkgvngYQU763N58bSMnWoSH6YVveef4Gr8flFVrqawilsJZ40isM2oO9ZN9FeZITQO+RfqhNmK30FZLlzwNslqtNxh3UOmQw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aGb/2Tx+G8Dq8TbOKwSjt3u2SlnUQSIWoy/cU8XQAdw=;
- b=rZ2w3dfQ8FjjIMPX2177dsyjV0UEAqkLlHlkMKjBsuKEqlm20R+B7iibS/3PtoyXM1TjMw7+d/3sm71jnhrPcVRc+0GdAcFW7qUARDAzlYQNxN9EA3L5nDbxThM19fujD7W0w6o8S9aSNspk0cdAJVGtrddzAwxSDPNzKFZBoRo=
+ bh=O46CeKAoCwJci9BkKVpel/pOtz6Zsoy2rmFNOW/ZxLY=;
+ b=jC3DhQf8gRXQxnC9v+aa5gyA5z4DPqlDzofwULTsBtaTEArTA9Er76pLptxBw/WNm5Ih0yFHPP9aDPx+nrgHcAUoQu04BJqACYwUahw5nhJ275x33WY+54DqYNW3WHXlJ2xJrnfXvSV506/3DuEmoLA54lWUnS8zIdWhbATsJHo=
 Received: from PH0PR10MB4679.namprd10.prod.outlook.com (2603:10b6:510:3c::15)
  by PH7PR10MB5813.namprd10.prod.outlook.com (2603:10b6:510:132::7)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.19; Wed, 12 Jan
- 2022 00:37:03 +0000
+ 2022 00:37:04 +0000
 Received: from PH0PR10MB4679.namprd10.prod.outlook.com
  ([fe80::5536:dbc6:5161:ac1b]) by PH0PR10MB4679.namprd10.prod.outlook.com
  ([fe80::5536:dbc6:5161:ac1b%3]) with mapi id 15.20.4867.012; Wed, 12 Jan 2022
- 00:37:03 +0000
+ 00:37:04 +0000
 From: John Johnson <john.g.johnson@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v4 02/21] vfio-user: add VFIO base abstract class
-Date: Tue, 11 Jan 2022 16:43:38 -0800
-Message-Id: <825cf2a915fb0423d9e5930369339c5dc062c73d.1641584316.git.john.g.johnson@oracle.com>
+Subject: [RFC v4 04/21] vfio-user: add region cache
+Date: Tue, 11 Jan 2022 16:43:40 -0800
+Message-Id: <719c102ca37546208637f479054da1ebf00957d5.1641584316.git.john.g.johnson@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1641584316.git.john.g.johnson@oracle.com>
 References: <cover.1641584316.git.john.g.johnson@oracle.com>
@@ -82,57 +82,57 @@ X-ClientProxiedBy: BY5PR03CA0006.namprd03.prod.outlook.com
  (2603:10b6:510:3c::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 39303cd2-6752-41a4-8fd4-08d9d563a753
+X-MS-Office365-Filtering-Correlation-Id: cc45464d-63f6-4a3b-b5a0-08d9d563a7b0
 X-MS-TrafficTypeDiagnostic: PH7PR10MB5813:EE_
-X-Microsoft-Antispam-PRVS: <PH7PR10MB58130F01D07FFCF93DEE909DB6529@PH7PR10MB5813.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:67;
+X-Microsoft-Antispam-PRVS: <PH7PR10MB5813F2C3967027A0E4E95A10B6529@PH7PR10MB5813.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:407;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /F1ULGAbziCe9ZmQ0zvlsV8qs5TSfQf3EMTdmi4elpCLo0LvsAAw5HfkJTWhJmI1c1nZtUSuAsSJy3Tm19bdU6dcOuSc5n2YV4iY8dyfx1U9Y9YlrHzDw2+1Ze+mIP6+NtIWlKJggEYfy8KH5WMAwbWJix3YnEkkzJ0SIIWnP29O6zecKwXaE79VotBIJ+NVFDyl1Zpl6eW8W0rMKVsn/1vHmLHv86Bvyx0blIyInKHdH8YzTHRhAMI1G2dP2kZhHdFB2jzu3KuNCECqnSpFUZttf24wnkz7X1QqQ3RBpZQWwiQ1x7kGz+2kjUqV+pdI8z/3emlos8w09YwmThIPJw5nZRvj0tcACXFKK5taWFcTDvqisRjC34YbOXikcPovmb5lXA6konQGjY4ELy2mgH4KJgu2ptTzYWI8+kd6Il5O+U2wmV/4oL6Nh/mC5dh8JdqkEP8zQYcOWn6PAAyLIoYQz/ZzWOHn68WnUNI2rdMLR0mYUnL66xrBcddIzKau/2ejmdtGpX/f4ttFF5BksZzAp6/xyDwjdyg1G7pjlysLib58eUyJagjYRwlViqgAyA/y2OpXjy4yoq1oaz4bmJ7pj+Q5Iu8W9UcBEAYQC4/2vZIM8+OGDkwQBaYQDnb+sgrPxAWNxGjz2ppqdrPA00tDkwbFMKMpOrigMD4QWtOs9SW3+Yq/4CXjS+yJ4KVf7UtU8jSg+YcEYYj7b7XqLQ==
+X-Microsoft-Antispam-Message-Info: kj/qiXd1Et0bsznz/ilhYdt35AZmb+vg3W/EKIQghXnkNdq70rSlZPtCfANydlkI7/F9DoyrMqSm0PCgaraBpouSvNZLJgO5J0uBgkAIubod4rNhbMwDQDNUFCp2/okOo2R4e5et6+Gr0zuzzBIGTlXfcPRufvqPbIh4E1Js2zc6paCJEQpc+qvxXyZXPGBIVePcJXmrgXvWd+e8VDkvzDLjH7YOe4quCKxRYO1ZMJVni80lhFIcL9xW2A9PqEC3Ianrcq1Q+Ze+Ha6aupXBKR6O8hC4mMZ+8jhM3l0A4Wqw+u848libmdZ6TrrpTXfrhhba7NjdMdPhp7d2sbePkyJlHYzbpwz1+0KPK+TJmWiXTQPbf2oauE/El+VPnq2OpWTMAeF35e+gUbFCLtlQz4aBnhJAszbcOs93v1gHJjvNG0UeuVeMuj594mu2bX+tw0jnWgzgWBmBJBHcmUjq4oMj0PGOKaD5erYuWSQgCxy6Hz2CwcL3McX7jJcc8pQ2gqS/0O83dPBlfE0UpF01L2f6BjY/sX8Kq8zOgAZ86zIhUFeC03zR5joLQXlxTMzjRRa1+RpkeYhaXYOk0W8xq9snMAZxK8bqRaY3oJ6zpMgKL6N+LXUKS0j0p7zDrBpaXKGh70QzyesENmf3BEdeuO0kVsbCSJdNjPP4K66iDN86PMF/bwIOdke7c8jnlJdv
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH0PR10MB4679.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(2906002)(30864003)(6506007)(8936002)(26005)(6512007)(36756003)(186003)(8676002)(52116002)(6666004)(86362001)(6916009)(6486002)(316002)(508600001)(2616005)(83380400001)(66946007)(5660300002)(38100700002)(66556008)(38350700002)(66476007);
+ SFS:(366004)(2906002)(6506007)(8936002)(26005)(6512007)(36756003)(186003)(8676002)(52116002)(6666004)(86362001)(6916009)(6486002)(316002)(508600001)(2616005)(83380400001)(66946007)(5660300002)(38100700002)(66556008)(38350700002)(66476007);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TNiZYnp6AmroblFU6ZotuRPTdVVl+SRDJvYXRT2cVwW4pmULTk2KSiCFVxXT?=
- =?us-ascii?Q?vB/aMy4ExXQPef7rNvhYrOFNBHw3smSrypMmsk7UNh7qu//6hXfcE+DxZKTZ?=
- =?us-ascii?Q?yq3FxpiLDLxj9kTgXh1v+QazwDx2CG9KY0lk5LxjtFh3i6J99rQLRLuoYq/j?=
- =?us-ascii?Q?ghF9X8WG8o+Ct/KeCTuFIkvKIOAdVYYGho/lrZHgQe9fttibGTQFlUevSg3e?=
- =?us-ascii?Q?cj8RPa2TJIE+tXj28xaW3HPi3X3bq14URsu9C7OR7GVdt4kJIB7OVYI41xMX?=
- =?us-ascii?Q?Xy/cnIBgpzesDbyphJ5Hk/CCBPn9ns2uqOhyI8YoJC3oSdMkkozcaAnbqxNX?=
- =?us-ascii?Q?mB/XB/Hbhee8HSf1/KdwzMFTMqs3Fosist0P+6Rifnattx/iQMLAdSMDoywR?=
- =?us-ascii?Q?s1aC3uZj9Sh40c1hDYs2cNoAnTF9ru3ZlzUkPvnvBISPme81TZu6pzOt4tQ6?=
- =?us-ascii?Q?Az8GZfkOLeVgvXVoCdulGRvt++raRkSWvVmer3Awx4pQUcMxja4uyiVhJYzy?=
- =?us-ascii?Q?bp0eMMGGKFfvunpvH/nGwkyZYEstAkZrFFq40MRIIIgeKHd69AtXXlxi8Td2?=
- =?us-ascii?Q?UH+brnE+83lFJezaS+zES+YEW/Zd22kDlJUiVOKEdHs3NEEHsfVrkkvADfcO?=
- =?us-ascii?Q?pp9Ony1JenQcowWR/IeM1/9WK/6MSglMAiK4Ipo3maQNStc1gPzn2wFCdnAs?=
- =?us-ascii?Q?CXtvDCxi+RmEYrKrNZ7QrAVzZ0zRYnSOu6CMVxGbCl3Si8f5iuaMp+Reethy?=
- =?us-ascii?Q?qF7g9QTNLi6gornExIV05I9SklWATb3ONfrGoiKRExtn08LcNpjJkjVwRQ7O?=
- =?us-ascii?Q?GjuuDP7Me7ea5Aqa0clKoMegfZO9a2fmWGKvoenRg5p6NkkisNvYA0g0//4R?=
- =?us-ascii?Q?iCAaaTWw3yqv/KFis2mXYcP7iXrzvIrjLbdjOCMy2tGcesOw7z3hY0ZsLzLw?=
- =?us-ascii?Q?Oy3risqCGfqy7DQpOPcaVNPT7wS384Cy1T3ohVanhXs6zoqVpMMO0cqZ8MNH?=
- =?us-ascii?Q?qBglNlw8W1wiX/L9bJAdBqpA3M9zTtITgGaIMzBXu3YGEUjNEY7nHnIIh58c?=
- =?us-ascii?Q?nc4MPzn4Gf5ethMxMdex+CUIV4I/MPELMhOCXfUwuuMT3HzzZ3/DUHWz25p+?=
- =?us-ascii?Q?/H+h5Jd/d/JpI971SBCGwDLSRBkceYAy8gZdNno2eDpumeMFL4mj6KU/Ebqq?=
- =?us-ascii?Q?4CPxmELeOdlBkJXyKI6b/fLzVY6Tumcxf94z/+wTP6m/XmEmSWGV5TSDLjj2?=
- =?us-ascii?Q?cFRMNCazfhRISOPWvW6QzCoJNKonJO6TwG8/kIuQf10l2E4CAz36IO6rOXT1?=
- =?us-ascii?Q?yjWL6Un1GQF40lej7hJBYGKzOwIL2GWBmKsF2VbDHbjeOQGAqCPMM8xUEEHT?=
- =?us-ascii?Q?Gos+xZcgNCK/tfbe1PocdK/jHwz7D/qMSCFSutt7x07TfO5qcBVgU2nElInS?=
- =?us-ascii?Q?e7NGKMIOv1kCwXDvH7wqJwGFNxIkuKX8nBTZrr07XaOhmO8JVuPbGCApMzo6?=
- =?us-ascii?Q?9R/XqVo47+5S2q5YqEUWvCUxiFZrsYDwLnVMAnV32LcMdGOc21EhWB4KG3BH?=
- =?us-ascii?Q?ru87qmHknqp6vMv9wnCEDH7mIIoiX+xAJs+NmwOdVymYLsXrwd9PS+rB7MpE?=
- =?us-ascii?Q?WUn88XPC6jY08R3xe0iwSWgNa4CNReOaZ/KYgHkLNX1jpQ4Wr2N3lfKbJjZc?=
- =?us-ascii?Q?6P2LSQ=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?s5diFKyxW5mE9A+4lEB/RzgEGfko3x42wUtL44VWnYcnjqRy4UxFKW6b8oBT?=
+ =?us-ascii?Q?n54jz3gN08pZ0Vs13o1KeYcUKIuPOakppbpLw5nJeK5im6TxY3K/gwIeoFBr?=
+ =?us-ascii?Q?qNa+Z4Bk6lkiNC2U7c4gnbIkPWWxGLuvQh6/lQyiB/z73/khyJHPXGF7ugS4?=
+ =?us-ascii?Q?ba5cODZJtGoWiTkm/ukIIS+1rKKnWx7qOFD1t5OIRpbqs5EPbiW40YBXcuKt?=
+ =?us-ascii?Q?ROT04RUQA62kAAiIqzcerX63TcrBczaLfHTBq3+LxiLai4j/YZnkRF+wiyuv?=
+ =?us-ascii?Q?5TxLlbSvPKkJhkrW6O0eyk9aIh6ryECXr/2lRXj/St05HByhr/0CwErcWxEr?=
+ =?us-ascii?Q?V2rhD3/hYBDKsSBCBOmbpl9rUTNJi5u4SlGlHD7kKYJvNtj5SyFe253dsfwj?=
+ =?us-ascii?Q?e8gqFB5JhyBOfISM75bxNZhNRqmxUZl+DASjVkhY8s81hlUQJr8cCSKo29u0?=
+ =?us-ascii?Q?M9yISchAellGY+C/O23DD5v1iiEYef47BHV171n1TDG7iCvIuhphid8Qj9LI?=
+ =?us-ascii?Q?703SYNlawzG2G7HluTftXcqiR6+u9DKuRiCxSnOGP9Xkt8d4Pj8KFe41vfXc?=
+ =?us-ascii?Q?AO1jnOgAbqzJflIIXlGrBiTJtdRnX4EohiSdLXV2DbJrUIstHvTLkZZ7bgdp?=
+ =?us-ascii?Q?z4rgJK3RtDQYBnX+ZZIQDXQapF8EEhQMum6gnRpzuA7WhkV0x3LJdxCeQ2Pk?=
+ =?us-ascii?Q?Yi7gJtBH3m5gq/92UB7Zx+o1/uld8oySs3KSeCvplNHdiseP4niN/HiyWgaP?=
+ =?us-ascii?Q?CjHamSZdVyak+diVMIccYKVePbw1Is4ChaRmxEb+dfvvM9KaxGBaLuImWASd?=
+ =?us-ascii?Q?2EgDLUsPC+THZpdZsKKAQkxOov3u/alAxiy7klMlUr24Cp7a4GbfA5QdPLQP?=
+ =?us-ascii?Q?RkpETwVv1+C48JaRCelyoWQxj5mTdVKoMlflwB7xdg97lYmTUJCmFRUtSNN2?=
+ =?us-ascii?Q?4zm6PQkzysIZXlCj4N3GOM16eb2p98+1wcdY7LdNBDq8JABbY0oVp+pVt2YU?=
+ =?us-ascii?Q?4hyaOd2qmG3JnBwDZoywEvhKv35zGo+IvWOnqAxFZz0JTroXtcUMXGTpd9AK?=
+ =?us-ascii?Q?6Zt6qs1mc338fXIKp7u3E5Ck5g1GHLS2FARs9tolM3awVVppnJ8Ub1SgeObl?=
+ =?us-ascii?Q?CRRRB+hnO+B7IkgVR4kDkkjv57zUhndqZqIhF6I3Nh/cnGkeFZMqHy5LLdF0?=
+ =?us-ascii?Q?J+9ILkSeVbwXiVYavF9G1uIIWWf78TKmJfwLlYIjjl+pS2TXFjZh2jFFUVBd?=
+ =?us-ascii?Q?5DrcIOums5JdS8HZtmdDfAkiXGwJZpEoSOYrYNCiLuitcIddIY5auB1QwnU+?=
+ =?us-ascii?Q?fqkLfPlTNbTq7D0ierLCJcS2oQAYH9aPJ4/bgURtcUCqPuBfh1kvbPdqOTwe?=
+ =?us-ascii?Q?S1pxOk/td7lw9SZhW7STidITVqHEV/YbqHUWIS/jKvqiEogpA66Pb/0pOeao?=
+ =?us-ascii?Q?Iu3CFDgC74m2r3d90h61axSfw/DaCNhkvJXpo2mD2W8VkkAIxKGCgrhvkWyf?=
+ =?us-ascii?Q?oy32xJAYdHtsOKpHGwICuy5pnw2ChZKgt4KWr33WWQstACfXIMJb2iNpEBaP?=
+ =?us-ascii?Q?egG/rsjdQjrf4aTXMBrR7AXP8wntxXxVJe9cu7jSpkdPnb2IbKQ8Ui5nWO/l?=
+ =?us-ascii?Q?j+ShNmMfpn5Z9J1LZiBydWlCEp3P+eW3+c5z1kQX/hToXQaf6m8qO0hW1ZQK?=
+ =?us-ascii?Q?zA+J3Q=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39303cd2-6752-41a4-8fd4-08d9d563a753
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc45464d-63f6-4a3b-b5a0-08d9d563a7b0
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4679.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2022 00:37:03.6635 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2022 00:37:04.2427 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: I5/902lr47Ri7MGl2ojBFpyNl59KF4VIAae9iiM7a+HF9EGu7qPeTpf2DXRqevO9szV95ipGezBo7pfDmnWLsJxrEKrIcZa5OEN+3AINCNM=
+X-MS-Exchange-CrossTenant-UserPrincipalName: ICl74sWA1Yw4PFZkty8tIFazdrTjhusy0bVMpGLcJKZcaqHFL3R76psBSkSoAOZw05nqr0M9gHem/JWjakhVEBBzoC4nz2vdEMikfWHsJDc=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB5813
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10224
  signatures=668683
@@ -141,8 +141,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  mlxlogscore=999 adultscore=0 phishscore=0 malwarescore=0 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
  definitions=main-2201120000
-X-Proofpoint-GUID: NJ4Lfg2bwEUJshy6a7mX-OoVakch_yjo
-X-Proofpoint-ORIG-GUID: NJ4Lfg2bwEUJshy6a7mX-OoVakch_yjo
+X-Proofpoint-GUID: 5pyOGxKwyPgi-OeWA56_jf9yV3-WnDqc
+X-Proofpoint-ORIG-GUID: 5pyOGxKwyPgi-OeWA56_jf9yV3-WnDqc
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=john.g.johnson@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -167,301 +167,299 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add an abstract base class both the kernel driver
-and user socket implementations can use to share code.
+cache VFIO_DEVICE_GET_REGION_INFO results to reduce
+memory alloc/free cycles and as prep work for vfio-user
 
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- hw/vfio/pci.h |  16 +++++++--
- hw/vfio/pci.c | 106 +++++++++++++++++++++++++++++++++++-----------------------
- 2 files changed, 78 insertions(+), 44 deletions(-)
+ include/hw/vfio/vfio-common.h |  2 ++
+ hw/vfio/ccw.c                 |  5 -----
+ hw/vfio/common.c              | 41 +++++++++++++++++++++++++++++++++++------
+ hw/vfio/pci-quirks.c          | 19 ++++++-------------
+ hw/vfio/pci.c                 |  6 ------
+ 5 files changed, 43 insertions(+), 30 deletions(-)
 
-diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-index 6477751..bbc78aa 100644
---- a/hw/vfio/pci.h
-+++ b/hw/vfio/pci.h
-@@ -114,8 +114,13 @@ typedef struct VFIOMSIXInfo {
-     unsigned long *pending;
- } VFIOMSIXInfo;
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index 2761a62..1a032f4 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -145,6 +145,7 @@ typedef struct VFIODevice {
+     VFIOMigration *migration;
+     Error *migration_blocker;
+     OnOffAuto pre_copy_dirty_page_tracking;
++    struct vfio_region_info **regions;
+ } VFIODevice;
  
--#define TYPE_VFIO_PCI "vfio-pci"
--OBJECT_DECLARE_SIMPLE_TYPE(VFIOPCIDevice, VFIO_PCI)
-+/*
-+ * TYPE_VFIO_PCI_BASE is an abstract type used to share code
-+ * between VFIO implementations that use a kernel driver
-+ * with those that use user sockets.
-+ */
-+#define TYPE_VFIO_PCI_BASE "vfio-pci-base"
-+OBJECT_DECLARE_SIMPLE_TYPE(VFIOPCIDevice, VFIO_PCI_BASE)
+ struct VFIODeviceOps {
+@@ -258,6 +259,7 @@ int vfio_get_region_info(VFIODevice *vbasedev, int index,
+                          struct vfio_region_info **info);
+ int vfio_get_dev_region_info(VFIODevice *vbasedev, uint32_t type,
+                              uint32_t subtype, struct vfio_region_info **info);
++void vfio_get_all_regions(VFIODevice *vbasedev);
+ bool vfio_has_region_cap(VFIODevice *vbasedev, int region, uint16_t cap_type);
+ struct vfio_info_cap_header *
+ vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id);
+diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
+index 0354737..06b588c 100644
+--- a/hw/vfio/ccw.c
++++ b/hw/vfio/ccw.c
+@@ -517,7 +517,6 @@ static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
  
- struct VFIOPCIDevice {
-     PCIDevice pdev;
-@@ -175,6 +180,13 @@ struct VFIOPCIDevice {
-     Notifier irqchip_change_notifier;
- };
+     vcdev->io_region_offset = info->offset;
+     vcdev->io_region = g_malloc0(info->size);
+-    g_free(info);
  
-+#define TYPE_VFIO_PCI "vfio-pci"
-+OBJECT_DECLARE_SIMPLE_TYPE(VFIOKernPCIDevice, VFIO_PCI)
-+
-+struct VFIOKernPCIDevice {
-+    VFIOPCIDevice device;
-+};
-+
- /* Use uin32_t for vendor & device so PCI_ANY_ID expands and cannot match hw */
- static inline bool vfio_pci_is(VFIOPCIDevice *vdev, uint32_t vendor, uint32_t device)
- {
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 7b45353..d00a162 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -231,7 +231,7 @@ static void vfio_intx_update(VFIOPCIDevice *vdev, PCIINTxRoute *route)
+     /* check for the optional async command region */
+     ret = vfio_get_dev_region_info(vdev, VFIO_REGION_TYPE_CCW,
+@@ -530,7 +529,6 @@ static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
+         }
+         vcdev->async_cmd_region_offset = info->offset;
+         vcdev->async_cmd_region = g_malloc0(info->size);
+-        g_free(info);
+     }
  
- static void vfio_intx_routing_notifier(PCIDevice *pdev)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     PCIINTxRoute route;
+     ret = vfio_get_dev_region_info(vdev, VFIO_REGION_TYPE_CCW,
+@@ -543,7 +541,6 @@ static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
+         }
+         vcdev->schib_region_offset = info->offset;
+         vcdev->schib_region = g_malloc(info->size);
+-        g_free(info);
+     }
  
-     if (vdev->interrupt != VFIO_INT_INTx) {
-@@ -457,7 +457,7 @@ static void vfio_update_kvm_msi_virq(VFIOMSIVector *vector, MSIMessage msg,
- static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
-                                    MSIMessage *msg, IOHandler *handler)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     VFIOMSIVector *vector;
-     int ret;
+     ret = vfio_get_dev_region_info(vdev, VFIO_REGION_TYPE_CCW,
+@@ -557,7 +554,6 @@ static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
+         }
+         vcdev->crw_region_offset = info->offset;
+         vcdev->crw_region = g_malloc(info->size);
+-        g_free(info);
+     }
  
-@@ -542,7 +542,7 @@ static int vfio_msix_vector_use(PCIDevice *pdev,
- 
- static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     VFIOMSIVector *vector = &vdev->msi_vectors[nr];
- 
-     trace_vfio_msix_vector_release(vdev->vbasedev.name, nr);
-@@ -1063,7 +1063,7 @@ static const MemoryRegionOps vfio_vga_ops = {
-  */
- static void vfio_sub_page_bar_update_mapping(PCIDevice *pdev, int bar)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     VFIORegion *region = &vdev->bars[bar].region;
-     MemoryRegion *mmap_mr, *region_mr, *base_mr;
-     PCIIORegion *r;
-@@ -1109,7 +1109,7 @@ static void vfio_sub_page_bar_update_mapping(PCIDevice *pdev, int bar)
-  */
- uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     uint32_t emu_bits = 0, emu_val = 0, phys_val = 0, val;
- 
-     memcpy(&emu_bits, vdev->emulated_config_bits + addr, len);
-@@ -1142,7 +1142,7 @@ uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len)
- void vfio_pci_write_config(PCIDevice *pdev,
-                            uint32_t addr, uint32_t val, int len)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     uint32_t val_le = cpu_to_le32(val);
- 
-     trace_vfio_pci_write_config(vdev->vbasedev.name, addr, val, len);
-@@ -2799,7 +2799,7 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
- 
- static void vfio_realize(PCIDevice *pdev, Error **errp)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     VFIODevice *vbasedev_iter;
-     VFIOGroup *group;
-     char *tmp, *subsys, group_path[PATH_MAX], *group_name;
-@@ -3122,7 +3122,7 @@ error:
- 
- static void vfio_instance_finalize(Object *obj)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(obj);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(obj);
-     VFIOGroup *group = vdev->vbasedev.group;
- 
-     vfio_display_finalize(vdev);
-@@ -3142,7 +3142,7 @@ static void vfio_instance_finalize(Object *obj)
- 
- static void vfio_exitfn(PCIDevice *pdev)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
- 
-     vfio_unregister_req_notifier(vdev);
-     vfio_unregister_err_notifier(vdev);
-@@ -3161,7 +3161,7 @@ static void vfio_exitfn(PCIDevice *pdev)
- 
- static void vfio_pci_reset(DeviceState *dev)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(dev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(dev);
- 
-     trace_vfio_pci_reset(vdev->vbasedev.name);
- 
-@@ -3201,7 +3201,7 @@ post_reset:
- static void vfio_instance_init(Object *obj)
- {
-     PCIDevice *pci_dev = PCI_DEVICE(obj);
--    VFIOPCIDevice *vdev = VFIO_PCI(obj);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(obj);
- 
-     device_add_bootindex_property(obj, &vdev->bootindex,
-                                   "bootindex", NULL,
-@@ -3218,24 +3218,12 @@ static void vfio_instance_init(Object *obj)
-     pci_dev->cap_present |= QEMU_PCI_CAP_EXPRESS;
+     return;
+@@ -567,7 +563,6 @@ out_err:
+     g_free(vcdev->schib_region);
+     g_free(vcdev->async_cmd_region);
+     g_free(vcdev->io_region);
+-    g_free(info);
+     return;
  }
  
--static Property vfio_pci_dev_properties[] = {
--    DEFINE_PROP_PCI_HOST_DEVADDR("host", VFIOPCIDevice, host),
--    DEFINE_PROP_STRING("sysfsdev", VFIOPCIDevice, vbasedev.sysfsdev),
-+static Property vfio_pci_base_dev_properties[] = {
-     DEFINE_PROP_ON_OFF_AUTO("x-pre-copy-dirty-page-tracking", VFIOPCIDevice,
-                             vbasedev.pre_copy_dirty_page_tracking,
-                             ON_OFF_AUTO_ON),
--    DEFINE_PROP_ON_OFF_AUTO("display", VFIOPCIDevice,
--                            display, ON_OFF_AUTO_OFF),
--    DEFINE_PROP_UINT32("xres", VFIOPCIDevice, display_xres, 0),
--    DEFINE_PROP_UINT32("yres", VFIOPCIDevice, display_yres, 0),
-     DEFINE_PROP_UINT32("x-intx-mmap-timeout-ms", VFIOPCIDevice,
-                        intx.mmap_timeout, 1100),
--    DEFINE_PROP_BIT("x-vga", VFIOPCIDevice, features,
--                    VFIO_FEATURE_ENABLE_VGA_BIT, false),
--    DEFINE_PROP_BIT("x-req", VFIOPCIDevice, features,
--                    VFIO_FEATURE_ENABLE_REQ_BIT, true),
--    DEFINE_PROP_BIT("x-igd-opregion", VFIOPCIDevice, features,
--                    VFIO_FEATURE_ENABLE_IGD_OPREGION_BIT, false),
-     DEFINE_PROP_BOOL("x-enable-migration", VFIOPCIDevice,
-                      vbasedev.enable_migration, false),
-     DEFINE_PROP_BOOL("x-no-mmap", VFIOPCIDevice, vbasedev.no_mmap, false),
-@@ -3244,8 +3232,6 @@ static Property vfio_pci_dev_properties[] = {
-     DEFINE_PROP_BOOL("x-no-kvm-intx", VFIOPCIDevice, no_kvm_intx, false),
-     DEFINE_PROP_BOOL("x-no-kvm-msi", VFIOPCIDevice, no_kvm_msi, false),
-     DEFINE_PROP_BOOL("x-no-kvm-msix", VFIOPCIDevice, no_kvm_msix, false),
--    DEFINE_PROP_BOOL("x-no-geforce-quirks", VFIOPCIDevice,
--                     no_geforce_quirks, false),
-     DEFINE_PROP_BOOL("x-no-kvm-ioeventfd", VFIOPCIDevice, no_kvm_ioeventfd,
-                      false),
-     DEFINE_PROP_BOOL("x-no-vfio-ioeventfd", VFIOPCIDevice, no_vfio_ioeventfd,
-@@ -3256,10 +3242,6 @@ static Property vfio_pci_dev_properties[] = {
-                        sub_vendor_id, PCI_ANY_ID),
-     DEFINE_PROP_UINT32("x-pci-sub-device-id", VFIOPCIDevice,
-                        sub_device_id, PCI_ANY_ID),
--    DEFINE_PROP_UINT32("x-igd-gms", VFIOPCIDevice, igd_gms, 0),
--    DEFINE_PROP_UNSIGNED_NODEFAULT("x-nv-gpudirect-clique", VFIOPCIDevice,
--                                   nv_gpudirect_clique,
--                                   qdev_prop_nv_gpudirect_clique, uint8_t),
-     DEFINE_PROP_OFF_AUTO_PCIBAR("x-msix-relocation", VFIOPCIDevice, msix_relo,
-                                 OFF_AUTOPCIBAR_OFF),
-     /*
-@@ -3270,28 +3252,25 @@ static Property vfio_pci_dev_properties[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index dbf23c0..30d2c6e 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -1568,8 +1568,6 @@ int vfio_region_setup(Object *obj, VFIODevice *vbasedev, VFIORegion *region,
+         }
+     }
  
--static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
-+static void vfio_pci_base_dev_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *pdc = PCI_DEVICE_CLASS(klass);
- 
--    dc->reset = vfio_pci_reset;
--    device_class_set_props(dc, vfio_pci_dev_properties);
--    dc->desc = "VFIO-based PCI device assignment";
-+    device_class_set_props(dc, vfio_pci_base_dev_properties);
-+    dc->desc = "VFIO PCI base device";
-     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
--    pdc->realize = vfio_realize;
-     pdc->exit = vfio_exitfn;
-     pdc->config_read = vfio_pci_read_config;
-     pdc->config_write = vfio_pci_write_config;
+-    g_free(info);
+-
+     trace_vfio_region_setup(vbasedev->name, index, name,
+                             region->flags, region->fd_offset, region->size);
+     return 0;
+@@ -2325,6 +2323,16 @@ void vfio_put_group(VFIOGroup *group)
+     }
  }
  
--static const TypeInfo vfio_pci_dev_info = {
--    .name = TYPE_VFIO_PCI,
-+static const TypeInfo vfio_pci_base_dev_info = {
-+    .name = TYPE_VFIO_PCI_BASE,
-     .parent = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(VFIOPCIDevice),
--    .class_init = vfio_pci_dev_class_init,
--    .instance_init = vfio_instance_init,
--    .instance_finalize = vfio_instance_finalize,
-+    .instance_size = 0,
-+    .abstract = true,
-+    .class_init = vfio_pci_base_dev_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { INTERFACE_PCIE_DEVICE },
-         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-@@ -3299,6 +3278,48 @@ static const TypeInfo vfio_pci_dev_info = {
-     },
- };
- 
-+static Property vfio_pci_dev_properties[] = {
-+    DEFINE_PROP_PCI_HOST_DEVADDR("host", VFIOPCIDevice, host),
-+    DEFINE_PROP_STRING("sysfsdev", VFIOPCIDevice, vbasedev.sysfsdev),
-+    DEFINE_PROP_ON_OFF_AUTO("display", VFIOPCIDevice,
-+                            display, ON_OFF_AUTO_OFF),
-+    DEFINE_PROP_UINT32("xres", VFIOPCIDevice, display_xres, 0),
-+    DEFINE_PROP_UINT32("yres", VFIOPCIDevice, display_yres, 0),
-+    DEFINE_PROP_BIT("x-vga", VFIOPCIDevice, features,
-+                    VFIO_FEATURE_ENABLE_VGA_BIT, false),
-+    DEFINE_PROP_BIT("x-req", VFIOPCIDevice, features,
-+                    VFIO_FEATURE_ENABLE_REQ_BIT, true),
-+    DEFINE_PROP_BIT("x-igd-opregion", VFIOPCIDevice, features,
-+                    VFIO_FEATURE_ENABLE_IGD_OPREGION_BIT, false),
-+    DEFINE_PROP_BOOL("x-no-geforce-quirks", VFIOPCIDevice,
-+                     no_geforce_quirks, false),
-+    DEFINE_PROP_UINT32("x-igd-gms", VFIOPCIDevice, igd_gms, 0),
-+    DEFINE_PROP_UNSIGNED_NODEFAULT("x-nv-gpudirect-clique", VFIOPCIDevice,
-+                                   nv_gpudirect_clique,
-+                                   qdev_prop_nv_gpudirect_clique, uint8_t),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
++void vfio_get_all_regions(VFIODevice *vbasedev)
 +{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    PCIDeviceClass *pdc = PCI_DEVICE_CLASS(klass);
++    struct vfio_region_info *info;
++    int i;
 +
-+    dc->reset = vfio_pci_reset;
-+    device_class_set_props(dc, vfio_pci_dev_properties);
-+    dc->desc = "VFIO-based PCI device assignment";
-+    pdc->realize = vfio_realize;
++    for (i = 0; i < vbasedev->num_regions; i++) {
++        vfio_get_region_info(vbasedev, i, &info);
++    }
 +}
 +
-+static const TypeInfo vfio_pci_dev_info = {
-+    .name = TYPE_VFIO_PCI,
-+    .parent = TYPE_VFIO_PCI_BASE,
-+    .instance_size = sizeof(VFIOKernPCIDevice),
-+    .class_init = vfio_pci_dev_class_init,
-+    .instance_init = vfio_instance_init,
-+    .instance_finalize = vfio_instance_finalize,
-+};
-+
- static Property vfio_pci_dev_nohotplug_properties[] = {
-     DEFINE_PROP_BOOL("ramfb", VFIOPCIDevice, enable_ramfb, false),
-     DEFINE_PROP_END_OF_LIST(),
-@@ -3315,12 +3336,13 @@ static void vfio_pci_nohotplug_dev_class_init(ObjectClass *klass, void *data)
- static const TypeInfo vfio_pci_nohotplug_dev_info = {
-     .name = TYPE_VFIO_PCI_NOHOTPLUG,
-     .parent = TYPE_VFIO_PCI,
--    .instance_size = sizeof(VFIOPCIDevice),
-+    .instance_size = sizeof(VFIOKernPCIDevice),
-     .class_init = vfio_pci_nohotplug_dev_class_init,
- };
- 
- static void register_vfio_pci_dev_type(void)
+ int vfio_get_device(VFIOGroup *group, const char *name,
+                     VFIODevice *vbasedev, Error **errp)
  {
-+    type_register_static(&vfio_pci_base_dev_info);
-     type_register_static(&vfio_pci_dev_info);
-     type_register_static(&vfio_pci_nohotplug_dev_info);
+@@ -2380,12 +2388,23 @@ int vfio_get_device(VFIOGroup *group, const char *name,
+     trace_vfio_get_device(name, dev_info.flags, dev_info.num_regions,
+                           dev_info.num_irqs);
+ 
++    vfio_get_all_regions(vbasedev);
+     vbasedev->reset_works = !!(dev_info.flags & VFIO_DEVICE_FLAGS_RESET);
+     return 0;
  }
+ 
+ void vfio_put_base_device(VFIODevice *vbasedev)
+ {
++    if (vbasedev->regions != NULL) {
++        int i;
++
++        for (i = 0; i < vbasedev->num_regions; i++) {
++            g_free(vbasedev->regions[i]);
++        }
++        g_free(vbasedev->regions);
++        vbasedev->regions = NULL;
++    }
++
+     if (!vbasedev->group) {
+         return;
+     }
+@@ -2400,6 +2419,17 @@ int vfio_get_region_info(VFIODevice *vbasedev, int index,
+ {
+     size_t argsz = sizeof(struct vfio_region_info);
+ 
++    /* create region cache */
++    if (vbasedev->regions == NULL) {
++        vbasedev->regions = g_new0(struct vfio_region_info *,
++                                   vbasedev->num_regions);
++    }
++    /* check cache */
++    if (vbasedev->regions[index] != NULL) {
++        *info = vbasedev->regions[index];
++        return 0;
++    }
++
+     *info = g_malloc0(argsz);
+ 
+     (*info)->index = index;
+@@ -2419,6 +2449,9 @@ retry:
+         goto retry;
+     }
+ 
++    /* fill cache */
++    vbasedev->regions[index] = *info;
++
+     return 0;
+ }
+ 
+@@ -2437,7 +2470,6 @@ int vfio_get_dev_region_info(VFIODevice *vbasedev, uint32_t type,
+ 
+         hdr = vfio_get_region_info_cap(*info, VFIO_REGION_INFO_CAP_TYPE);
+         if (!hdr) {
+-            g_free(*info);
+             continue;
+         }
+ 
+@@ -2449,8 +2481,6 @@ int vfio_get_dev_region_info(VFIODevice *vbasedev, uint32_t type,
+         if (cap_type->type == type && cap_type->subtype == subtype) {
+             return 0;
+         }
+-
+-        g_free(*info);
+     }
+ 
+     *info = NULL;
+@@ -2466,7 +2496,6 @@ bool vfio_has_region_cap(VFIODevice *vbasedev, int region, uint16_t cap_type)
+         if (vfio_get_region_info_cap(info, cap_type)) {
+             ret = true;
+         }
+-        g_free(info);
+     }
+ 
+     return ret;
+diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
+index 0cf69a8..223bd02 100644
+--- a/hw/vfio/pci-quirks.c
++++ b/hw/vfio/pci-quirks.c
+@@ -1601,16 +1601,14 @@ int vfio_pci_nvidia_v100_ram_init(VFIOPCIDevice *vdev, Error **errp)
+ 
+     hdr = vfio_get_region_info_cap(nv2reg, VFIO_REGION_INFO_CAP_NVLINK2_SSATGT);
+     if (!hdr) {
+-        ret = -ENODEV;
+-        goto free_exit;
++        return -ENODEV;
+     }
+     cap = (void *) hdr;
+ 
+     p = mmap(NULL, nv2reg->size, PROT_READ | PROT_WRITE,
+              MAP_SHARED, vdev->vbasedev.fd, nv2reg->offset);
+     if (p == MAP_FAILED) {
+-        ret = -errno;
+-        goto free_exit;
++        return -errno;
+     }
+ 
+     quirk = vfio_quirk_alloc(1);
+@@ -1623,7 +1621,7 @@ int vfio_pci_nvidia_v100_ram_init(VFIOPCIDevice *vdev, Error **errp)
+                         (void *) (uintptr_t) cap->tgt);
+     trace_vfio_pci_nvidia_gpu_setup_quirk(vdev->vbasedev.name, cap->tgt,
+                                           nv2reg->size);
+-free_exit:
++
+     g_free(nv2reg);
+ 
+     return ret;
+@@ -1651,16 +1649,14 @@ int vfio_pci_nvlink2_init(VFIOPCIDevice *vdev, Error **errp)
+     hdr = vfio_get_region_info_cap(atsdreg,
+                                    VFIO_REGION_INFO_CAP_NVLINK2_SSATGT);
+     if (!hdr) {
+-        ret = -ENODEV;
+-        goto free_exit;
++        return -ENODEV;
+     }
+     captgt = (void *) hdr;
+ 
+     hdr = vfio_get_region_info_cap(atsdreg,
+                                    VFIO_REGION_INFO_CAP_NVLINK2_LNKSPD);
+     if (!hdr) {
+-        ret = -ENODEV;
+-        goto free_exit;
++        return -ENODEV;
+     }
+     capspeed = (void *) hdr;
+ 
+@@ -1669,8 +1665,7 @@ int vfio_pci_nvlink2_init(VFIOPCIDevice *vdev, Error **errp)
+         p = mmap(NULL, atsdreg->size, PROT_READ | PROT_WRITE,
+                  MAP_SHARED, vdev->vbasedev.fd, atsdreg->offset);
+         if (p == MAP_FAILED) {
+-            ret = -errno;
+-            goto free_exit;
++            return -errno;
+         }
+ 
+         quirk = vfio_quirk_alloc(1);
+@@ -1690,8 +1685,6 @@ int vfio_pci_nvlink2_init(VFIOPCIDevice *vdev, Error **errp)
+                         (void *) (uintptr_t) capspeed->link_speed);
+     trace_vfio_pci_nvlink2_setup_quirk_lnkspd(vdev->vbasedev.name,
+                                               capspeed->link_speed);
+-free_exit:
+-    g_free(atsdreg);
+ 
+     return ret;
+ }
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index d00a162..cff6cb7 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -790,8 +790,6 @@ static void vfio_pci_load_rom(VFIOPCIDevice *vdev)
+     vdev->rom_size = size = reg_info->size;
+     vdev->rom_offset = reg_info->offset;
+ 
+-    g_free(reg_info);
+-
+     if (!vdev->rom_size) {
+         vdev->rom_read_failed = true;
+         error_report("vfio-pci: Cannot read device rom at "
+@@ -2518,7 +2516,6 @@ int vfio_populate_vga(VFIOPCIDevice *vdev, Error **errp)
+         error_setg(errp, "unexpected VGA info, flags 0x%lx, size 0x%lx",
+                    (unsigned long)reg_info->flags,
+                    (unsigned long)reg_info->size);
+-        g_free(reg_info);
+         return -EINVAL;
+     }
+ 
+@@ -2623,8 +2620,6 @@ static void vfio_populate_device(VFIOPCIDevice *vdev, Error **errp)
+     }
+     vdev->config_offset = reg_info->offset;
+ 
+-    g_free(reg_info);
+-
+     if (vdev->features & VFIO_FEATURE_ENABLE_VGA) {
+         ret = vfio_populate_vga(vdev, errp);
+         if (ret) {
+@@ -3032,7 +3027,6 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+         }
+ 
+         ret = vfio_pci_igd_opregion_init(vdev, opregion, errp);
+-        g_free(opregion);
+         if (ret) {
+             goto out_teardown;
+         }
 -- 
 1.8.3.1
 
