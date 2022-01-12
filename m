@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20E9648BEBE
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 07:59:51 +0100 (CET)
-Received: from localhost ([::1]:52606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB5DE48BEE1
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 08:14:05 +0100 (CET)
+Received: from localhost ([::1]:55902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7Xbp-00082R-H4
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 01:59:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60404)
+	id 1n7Xpc-0002hf-Hy
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 02:14:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <roman@roolebo.dev>) id 1n7XZo-0007Lb-64
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 01:57:44 -0500
-Received: from [2a00:1450:4864:20::12c] (port=44609
- helo=mail-lf1-x12c.google.com)
+ (Exim 4.90_1) (envelope-from <roman@roolebo.dev>) id 1n7XmL-0001kC-7O
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 02:10:44 -0500
+Received: from [2a00:1450:4864:20::143] (port=33695
+ helo=mail-lf1-x143.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <roman@roolebo.dev>) id 1n7XZm-0006Sb-EO
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 01:57:43 -0500
-Received: by mail-lf1-x12c.google.com with SMTP id o15so4657675lfo.11
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 22:57:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <roman@roolebo.dev>) id 1n7XmJ-0008Ic-D8
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 02:10:40 -0500
+Received: by mail-lf1-x143.google.com with SMTP id k21so5041247lfu.0
+ for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 23:10:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=roolebo.dev; s=mail;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=g7KbRKOxITdSE8FeP9zvg8j5YeMLNfa6XHb+rwqSKSM=;
- b=EE+cVsK7esjii5UaeM2gWfWByE2ZE+5KEx/LmVTANue4RYJCKSzKnbUa3VHY/zMSVI
- 9b12SqoBewn8Y+rG/r88mUIRNNpkhqUNnUqOQymHUS75eOCSvOkYesAH6gMFWmIwjer/
- 5WtsnEmaXoyWT3lRT5AppE3qR/WrISIZim4KxwpaM0WpUDp43qSrP4caTmqc1NsuOpp/
- KKE9auQhrDQyMAc7JnvuUwNda4vaaF8IFFmddqsitEa+7f6giGnJIlV8BU17HhXp7gSv
- aoPkYUxOCNqLAuYNVi1ems7FPx1NVHexRpwWX7/0wdE2nVPvkTPLyE2uOQYRIik8yvJy
- yaDA==
+ bh=uk5JB16k0UKe956XM6P82s63ILGFnf13cTGV5sNnTvw=;
+ b=birViMxBR0xTxb5oI7PjDZUN/V0Vp5I/FONgk1RAxtjF59YdIGwFweQoi0xXCVxIHO
+ hAPPkc/t6tQMdFAJAcWKNc64dCsmSBqfMWqutx0nG2N8ZkXNPyKiDjiU+lgjPXJUj+Bl
+ qRmskEJF/ZcalqfK+i1zTtQ4smVHRHgORWJD9v/sY1QkpsrPE1V9CEFj8ABYbVro5+im
+ gDxyxjhomVu6/KfLx7f9cwSzi/BqG/gjnvfNZUZrKWPw2fjaFdY2megSLAVaesiIgV4O
+ N/QCHN2O+/rRHmWCw+dnXrPGdHUCW2b5PPpF9bPeZ51RsUSMYWIB+RjjWVWv3DMy1ssp
+ 1UQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=g7KbRKOxITdSE8FeP9zvg8j5YeMLNfa6XHb+rwqSKSM=;
- b=CLm0bE0k82oF0/OITv4TB6+SCrW9gjY6ZQfBHPioSC75SZ77SjtvP24jtrHTDRB7aa
- QQc4NTCmCpA17MiPisDSLOojZHfCLDCBhi8XkJi/psTXcw2pMQWJPNpUwn+ksT91oFPv
- k7JPBYiAm8PguTGAvNwK4Cl46AJaDU/jEcvaSGgtwRRwbR6zpLKbJZ/c0TzyPd2oPh+K
- N/3YnV92P7vFoBUYUO/2SPUgsqS+DyIDQ5BVIHYdGxxmLy0WdcfRRl3ftsWUvtU3tv6X
- cYNvW7aq1ncdALmVbrX0lpjQj2vOnVUVVKnUIOqQ/mkSSZybQy+Mg1OXZYDv9fneuoSE
- x/Og==
-X-Gm-Message-State: AOAM530Y4SmVJMgEz/8eKX+NX5ZsIaWJGGdG4/o5T0pSjSk/m6uANaaQ
- QQHHQmdiMpg17FeMxi0Ae3IGIQ==
-X-Google-Smtp-Source: ABdhPJxwYszI6sgMk8d+A5OSk8gZ0gI2xGn5bf56k9j3+1vCd1+VMXj749uGm1j6zY188olkB9pEtQ==
-X-Received: by 2002:a05:6512:2283:: with SMTP id
- f3mr5913534lfu.568.1641970659985; 
- Tue, 11 Jan 2022 22:57:39 -0800 (PST)
+ bh=uk5JB16k0UKe956XM6P82s63ILGFnf13cTGV5sNnTvw=;
+ b=N+JEOOv/Okzs0UFS1Clty3y38j2TJlPH9zqSrxjVpJ6h4q8yd0T8CUb5EeroFXDQIf
+ jJQ+O6kHqdYKNOIZUtjeFwTPF7WtUlhbDY+YKFdbPLLkGAGqxmIGYkx+y9Xw/Y0y4yZ9
+ zabO2d63byFRGcN+CJO7iFBbfdjSx85CVqmtDY3shqz+c8eOa/bRteOYZKMqvhrt5hK9
+ 0xSEhFKlqFYB0IZUgYw/Mjkv9smo9kBZwCAIIRjwURcB6sqL5gyRbFd4+3wvxHJ8Ip3H
+ 0Z1k3190TsBj+0Ywh0JxwY3eSO6iLWat25HJRg9x0dtqrgZfaY10jv0X+LoFSLvf4GRM
+ nNCQ==
+X-Gm-Message-State: AOAM533C5c+f8RWDJrjMqXiPw3+K5Lh3xHGpC15p30T8USNkn0XSscBv
+ AKj0AZukkiFNQxQ6CuDOEOTwnQ==
+X-Google-Smtp-Source: ABdhPJySRHzSg6tr9L/O9+mCTSq6vxRDXph88P6n9CyCfweVjJZ5nwtHXXA3pczDNMwGinf/YXRUfA==
+X-Received: by 2002:a05:6512:3f2:: with SMTP id
+ n18mr5796194lfq.185.1641971437424; 
+ Tue, 11 Jan 2022 23:10:37 -0800 (PST)
 Received: from localhost (ip-185-108-208-32.ip.asarta.ru. [185.108.208.32])
- by smtp.gmail.com with ESMTPSA id w5sm443155ljm.55.2022.01.11.22.57.39
+ by smtp.gmail.com with ESMTPSA id u11sm1265601lfg.143.2022.01.11.23.10.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jan 2022 22:57:39 -0800 (PST)
-Date: Wed, 12 Jan 2022 09:57:36 +0300
+ Tue, 11 Jan 2022 23:10:36 -0800 (PST)
+Date: Wed, 12 Jan 2022 10:10:36 +0300
 From: Roman Bolshakov <roman@roolebo.dev>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH v3 5/7] audio/coreaudio: Remove a deprecation warning
- on macOS 12
-Message-ID: <Yd574PyTQpqHXsdo@roolebo.dev>
-References: <20220110131001.614319-1-f4bug@amsat.org>
- <20220110131001.614319-6-f4bug@amsat.org>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PULL 00/13] Net patches
+Message-ID: <Yd5+7P0Hazp+FvSt@roolebo.dev>
+References: <20220110034000.20221-1-jasowang@redhat.com>
+ <CAFEAcA8qJM1ekUTBQ3eyBCBi6Avk1H=MqP0vMmFdJo-MgoEUAQ@mail.gmail.com>
+ <CACGkMEvdFJCY7GBu+0cMBVVfdDN+9+H14QvF9R0LZyo74ZDSag@mail.gmail.com>
+ <CADO9X9Q745CTFWA+spCfzvaC03+xYR63mbSnARUEP6xYaAefJA@mail.gmail.com>
+ <0a747f8c-6839-9265-e0a4-dfa42cb05d03@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220110131001.614319-6-f4bug@amsat.org>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12c
+In-Reply-To: <0a747f8c-6839-9265-e0a4-dfa42cb05d03@redhat.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::143
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::12c;
- envelope-from=roman@roolebo.dev; helo=mail-lf1-x12c.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::143;
+ envelope-from=roman@roolebo.dev; helo=mail-lf1-x143.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -88,187 +90,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alexander Graf <agraf@csgraf.de>, Gerd Hoffmann <kraxel@redhat.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 10, 2022 at 02:09:59PM +0100, Philippe Mathieu-Daud� wrote:
-> When building on macOS 12 we get:
+On Wed, Jan 12, 2022 at 01:39:28PM +0800, Jason Wang wrote:
 > 
->   audio/coreaudio.c:50:5: error: 'kAudioObjectPropertyElementMaster' is deprecated: first deprecated in macOS 12.0 [-Werror,-Wdeprecated-declarations]
->       kAudioObjectPropertyElementMaster
->       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->       kAudioObjectPropertyElementMain
->   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreAudio.framework/Headers/AudioHardwareBase.h:208:5: note: 'kAudioObjectPropertyElementMaster' has been explicitly marked deprecated here
->       kAudioObjectPropertyElementMaster API_DEPRECATED_WITH_REPLACEMENT("kAudioObjectPropertyElementMain", macos(10.0, 12.0), ios(2.0, 15.0), watchos(1.0, 8.0), tvos(9.0, 15.0)) = kAudioObjectPropertyElementMain
->       ^
+> 在 2022/1/12 上午6:02, Vladislav Yaroshchuk 写道:
+> > 
+> > 
+> > вт, 11 янв. 2022 г., 5:10 AM Jason Wang <jasowang@redhat.com>:
+> > 
+> >     On Tue, Jan 11, 2022 at 12:49 AM Peter Maydell
+> >     <peter.maydell@linaro.org> wrote:
+> >     >
+> >     > On Mon, 10 Jan 2022 at 03:40, Jason Wang <jasowang@redhat.com>
+> >     wrote:
+> >     > >
+> >     > > The following changes since commit
+> >     df722e33d5da26ea8604500ca8f509245a0ea524:
+> >     > >
+> >     > >   Merge tag 'bsd-user-arm-pull-request' of
+> >     gitlab.com:bsdimp/qemu into staging (2022-01-08 09:37:59 -0800)
+> >     > >
+> >     > > are available in the git repository at:
+> >     > >
+> >     > > https://github.com/jasowang/qemu.git tags/net-pull-request
+> >     > >
+> >     > > for you to fetch changes up to
+> >     5136cc6d3b8b74f4fa572f0874656947a401330e:
+> >     > >
+> >     > >   net/vmnet: update MAINTAINERS list (2022-01-10 11:30:55 +0800)
+> >     > >
+> >     > > ----------------------------------------------------------------
+> >     > >
+> >     > > ----------------------------------------------------------------
+> >     >
+> >     > Fails to build on OSX Catalina:
+> >     >
+> >     > ../../net/vmnet-common.m:165:10: error: use of undeclared identifier
+> >     > 'VMNET_SHARING_SERVICE_BUSY'
+> >     >     case VMNET_SHARING_SERVICE_BUSY:
+> >     >          ^
+> >     >
+> >     > This constant only got added in macOS 11.0. I guess that technically
+> >     > our supported-platforms policy only requires us to support 11
+> >     (Big Sur)
+> >     > and 12 (Monterey) at this point, but it would be nice to still
+> >     be able
+> >     > to build on Catalina (10.15).
+> > 
+> >     Yes, it was only supported by the vmnet framework starting from
+> >     Catalyst according to
+> >     https://developer.apple.com/documentation/vmnet?language=objc.
+> > 
+> > 
+> > Yes, there are some symbols from macOS >= 11.0 new backend
+> > uses, not only this one, ex. vmnet_enable_isolation_key:
+> > https://developer.apple.com/documentation/vmnet/vmnet_enable_isolation_key
+> > 
+> >     >
+> >     > (Personally I would like Catalina still to work at least for a
+> >     little
+> >     > while, because my x86 Mac is old enough that it is not supported by
+> >     > Big Sur. I'll have to dump it once Apple stops doing security
+> >     support
+> >     > for Catalina, but they haven't done that quite yet.)
+> > 
+> > 
+> > Sure, broken builds on old macOSes are bad. For this case I think
+> > it's enough to disable vmnet for macOS < 11.0 with a probe while
+> > configure build step. Especially given that Apple supports ~three
+> > latest macOS versions, support for Catalina is expected to end
+> > in 2022, when QEMU releases 7.0.
 > 
-> Replace by kAudioObjectPropertyElementMain, redefining it to
-> kAudioObjectPropertyElementMaster if not available, using
-> Clang __is_identifier() feature (coreaudio is restricted to
-> macOS).
 > 
-> Signed-off-by: Philippe Mathieu-Daud� <f4bug@amsat.org>
-> ---
-> Checkpatch:
+> That should be fine.
 > 
->  WARNING: architecture specific defines should be avoided
->  #10: FILE: audio/coreaudio.c:47:
->  +#if !__is_identifier(kAudioObjectPropertyElementMain) /* macOS >= 12.0 */
-> 
-> Should we define __is_identifier() to 0 for GCC on macOS?
-> ---
->  audio/coreaudio.c | 16 ++++++++++------
->  1 file changed, 10 insertions(+), 6 deletions(-)
-> 
-> diff --git a/audio/coreaudio.c b/audio/coreaudio.c
-> index d8a21d3e507..73cbfd479ac 100644
-> --- a/audio/coreaudio.c
-> +++ b/audio/coreaudio.c
-> @@ -44,10 +44,14 @@ typedef struct coreaudioVoiceOut {
->      bool enabled;
->  } coreaudioVoiceOut;
->  
-> +#if !__is_identifier(kAudioObjectPropertyElementMain) /* macOS >= 12.0 */
-> +#define kAudioObjectPropertyElementMain kAudioObjectPropertyElementMaster
-> +#endif
 
-Christian and Akihiko are right you need to replace it with macOS version
-wrappers:
+I agree with Peter on this,
 
-diff --git a/audio/coreaudio.c b/audio/coreaudio.c
-index 73cbfd479a..7367a2ffd4 100644
---- a/audio/coreaudio.c
-+++ b/audio/coreaudio.c
-@@ -44,7 +44,8 @@ typedef struct coreaudioVoiceOut {
-     bool enabled;
- } coreaudioVoiceOut;
-
--#if !__is_identifier(kAudioObjectPropertyElementMain) /* macOS >= 12.0 */
-+#if !defined(MAC_OS_VERSION_12_0) || \
-+    (MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_VERSION_12_0)
- #define kAudioObjectPropertyElementMain kAudioObjectPropertyElementMaster
- #endif
-
-
-And in the patch 6 you'd do likewise:
-
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 1d0512026c..c0038629a1 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -3325,7 +3325,8 @@ BlockDriver bdrv_file = {
- static kern_return_t GetBSDPath(io_iterator_t mediaIterator, char *bsdPath,
-                                 CFIndex maxPathSize, int flags);
-
--#if !__is_identifier(IOMainPort) /* macOS >= 12.0 */
-+#if !defined(MAC_OS_VERSION_12_0) || \
-+    (MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_VERSION_12_0)
- #define IOMainPort IOMasterPort
- #endif
-
-This way it the build would work also on older macOS.
-
-
-Two more issues are left:
-
-1. Linker has corrupted paths to clang directory (happens on all macOS versions).
-
-Monterey:
-
-[732/737] Linking target qemu-system-mips-unsigned
-ld: warning: directory not found for option '-Lns/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/13.0.0'
-[733/737] Linking target qemu-system-mips64-unsigned
-ld: warning: directory not found for option '-Lns/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/13.0.0'
-[737/737] Generating qemu-system-mips64 with a custom command
-
-Catalina:
-
-ld: warning: directory not found for option '-Lveloper/CommandLineTools/usr/lib/clang/11.0.0'
-[102/105] Linking target qemu-system-or1k-unsigned
-ld: warning: directory not found for option '-Lveloper/CommandLineTools/usr/lib/clang/11.0.0'
-[104/105] Linking target qemu-system-ppc-unsigned
-ld: warning: directory not found for option '-Lveloper/CommandLineTools/usr/lib/clang/11.0.0'
-[105/105] Generating qemu-system-ppc with a custom command
-
-2. QEMU tests show FENV_ACCESS warning on Monterey:
-
-
-[409/771] Compiling C object tests/fp/libtestfloat.a.p/berkeley-testfloat-3_source_test_az_f128_rx.c.o
-../tests/fp/berkeley-testfloat-3/source/test_az_f128_rx.c:49:14: warning: '#pragma FENV_ACCESS' is not supported on this target - ignored [-Wignored-pragmas]
-#pragma STDC FENV_ACCESS ON
-             ^
-1 warning generated.
-[410/771] Compiling C object tests/fp/libtestfloat.a.p/berkeley-testfloat-3_source_test_abcz_f128.c.o
-../tests/fp/berkeley-testfloat-3/source/test_abcz_f128.c:48:14: warning: '#pragma FENV_ACCESS' is not supported on this target - ignored [-Wignored-pragmas]
-#pragma STDC FENV_ACCESS ON
-             ^
-1 warning generated.
+There's a lot of hardware running with Catalina. I think it's useful to
+support it a little longer.
 
 Regards,
 Roman
 
-> +
->  static const AudioObjectPropertyAddress voice_addr = {
->      kAudioHardwarePropertyDefaultOutputDevice,
->      kAudioObjectPropertyScopeGlobal,
-> -    kAudioObjectPropertyElementMaster
-> +    kAudioObjectPropertyElementMain
->  };
->  
->  static OSStatus coreaudio_get_voice(AudioDeviceID *id)
-> @@ -69,7 +73,7 @@ static OSStatus coreaudio_get_framesizerange(AudioDeviceID id,
->      AudioObjectPropertyAddress addr = {
->          kAudioDevicePropertyBufferFrameSizeRange,
->          kAudioDevicePropertyScopeOutput,
-> -        kAudioObjectPropertyElementMaster
-> +        kAudioObjectPropertyElementMain
->      };
->  
->      return AudioObjectGetPropertyData(id,
-> @@ -86,7 +90,7 @@ static OSStatus coreaudio_get_framesize(AudioDeviceID id, UInt32 *framesize)
->      AudioObjectPropertyAddress addr = {
->          kAudioDevicePropertyBufferFrameSize,
->          kAudioDevicePropertyScopeOutput,
-> -        kAudioObjectPropertyElementMaster
-> +        kAudioObjectPropertyElementMain
->      };
->  
->      return AudioObjectGetPropertyData(id,
-> @@ -103,7 +107,7 @@ static OSStatus coreaudio_set_framesize(AudioDeviceID id, UInt32 *framesize)
->      AudioObjectPropertyAddress addr = {
->          kAudioDevicePropertyBufferFrameSize,
->          kAudioDevicePropertyScopeOutput,
-> -        kAudioObjectPropertyElementMaster
-> +        kAudioObjectPropertyElementMain
->      };
->  
->      return AudioObjectSetPropertyData(id,
-> @@ -121,7 +125,7 @@ static OSStatus coreaudio_set_streamformat(AudioDeviceID id,
->      AudioObjectPropertyAddress addr = {
->          kAudioDevicePropertyStreamFormat,
->          kAudioDevicePropertyScopeOutput,
-> -        kAudioObjectPropertyElementMaster
-> +        kAudioObjectPropertyElementMain
->      };
->  
->      return AudioObjectSetPropertyData(id,
-> @@ -138,7 +142,7 @@ static OSStatus coreaudio_get_isrunning(AudioDeviceID id, UInt32 *result)
->      AudioObjectPropertyAddress addr = {
->          kAudioDevicePropertyDeviceIsRunning,
->          kAudioDevicePropertyScopeOutput,
-> -        kAudioObjectPropertyElementMaster
-> +        kAudioObjectPropertyElementMain
->      };
->  
->      return AudioObjectGetPropertyData(id,
-> -- 
-> 2.33.1
+> 
+> > 
+> > If this workaround is not suitable and it's required to support vmnet
+> > in Catalina 10.15 with a subset of available features, it can be done.
+> > But I'll be ready to handle this in approximately two-three weeks only.
+> > 
+> >     Sure, Vladislav please fix this and send a new version.
+> > 
+> > 
+> > Quick fix as described above is available in v10:
+> > https://patchew.org/QEMU/20220111211422.21789-1-yaroshchuk2000@gmail.com/
+> 
+> 
+> Have you got chance to test that for macOS < 11.0?
+> 
+> Thanks
+> 
+> 
+> >     Thanks
+> > 
+> >     >
+> >     > -- PMM
+> >     >
+> > 
+> > 
+> > 
+> > 
+> > -- 
+> > Best Regards,
+> > 
+> > Vladislav Yaroshchuk
+> 
+> 
 
