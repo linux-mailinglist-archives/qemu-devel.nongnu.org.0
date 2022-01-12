@@ -2,65 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4138048C9E6
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 18:39:00 +0100 (CET)
-Received: from localhost ([::1]:36854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 137C548CA0A
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 18:44:36 +0100 (CET)
+Received: from localhost ([::1]:47644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7haM-0007o8-Jz
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 12:38:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56588)
+	id 1n7hfn-0006A2-5x
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 12:44:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n7hWI-0005iA-EK
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 12:34:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23449)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n7hXN-0005uK-9q
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 12:35:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n7hWD-0000lY-PM
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 12:34:45 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n7hXJ-0000wL-Qf
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 12:35:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642008870;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=fewx5cP9xatCfibBOhMGVt3NNaqgmnoQHO4yXjsTBLA=;
- b=C3Q8f+MARrteLsp2yDbEioM1QnISwngbTh5AHwF6KQ157Ww4mhilwukrfjK7xUO+4PN1Xw
- zoWP7/C4ouDBTZUkpj9Jnb6wSw6zk+oedWF7NUQTkr6JpFQyG3EqOegPownCtWyU1+uovq
- 7r0j2R7YBjglHpUtRj1ITrWtuROPtUo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1642008941;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=81chb/kVea3htd7Ya68s3VGqz5qE6AFIpJs7RZKpndg=;
+ b=eG6K9FVnyDRAg97T0fdC+5mXf8387gcKa87yNGCqF5Y2yNWBuA7Dnrw1+gH7QASxc6zsuD
+ pN2nypxaIWLrhC2HOOzxgbkzT40L40+r0T/lFCeFdq8lp3CFdu4QBl2XLGvTF62rN17gcv
+ pU0DP72k3qxXWl5BPOgtDSWJvtJEmvA=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-590-acYpxiI9MAi-HQoTmYDBUA-1; Wed, 12 Jan 2022 12:34:27 -0500
-X-MC-Unique: acYpxiI9MAi-HQoTmYDBUA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A7B710144EC
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 17:34:26 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 472D22B6F9;
- Wed, 12 Jan 2022 17:34:17 +0000 (UTC)
-Date: Wed, 12 Jan 2022 17:34:14 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: PyPI account
-Message-ID: <Yd8RFkaghPuEyBUF@redhat.com>
-References: <CAFn=p-b+ene2vKCCDJR9viT9P=GyhBeAO5ZLGsUmiijoxrkfCg@mail.gmail.com>
- <Yd6z2WS3hGwPNKkl@stefanha-x1.localdomain>
- <CAFn=p-Zb3fmj5sf=+dGizxiYTySM4gU2Q6wudxnf67X=6nsyvQ@mail.gmail.com>
+ us-mta-439-aJpYLeTANbKnfnJqE85WSQ-1; Wed, 12 Jan 2022 12:35:40 -0500
+X-MC-Unique: aJpYLeTANbKnfnJqE85WSQ-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ w48-20020a9f31f3000000b002cf15fe9655so2062777uad.17
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 09:35:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=81chb/kVea3htd7Ya68s3VGqz5qE6AFIpJs7RZKpndg=;
+ b=kym+uH0kv+WlpYJGyVhm2Qe50bvpF01uW/D0+ECzmyqJY8x/iPqjvGAD5GAiOsQ15W
+ JQHnPI8CXn4MD/Pl6h7Zwf+6v+wnanuDRbrUkJZNlMtnUrailwe8hXpLZ7h6pw4ueTBl
+ bx4Ajmd7zZZieSdkx3pl4yR75jubAZ3eZQznkmiK/7AvDNywGAjnM3wAbZzFI+3+vw+T
+ LVqvQ6xb4TC/DZtION0yFC52Rjs0ma7R1qKs7IjEqOTzinKlcSitwvgcJNlguIVTdAxW
+ WZQn3kKDgMC2MhQWGRFCHq1r0xWmYP5ZUPrz65BTbff3wqLe4vL4aA5HieXSaPt0vj4r
+ +jgQ==
+X-Gm-Message-State: AOAM532Vf9wh7QZXkuWAgWDT6PJenZfxXuzzFAGSgRw8kl5gAVe2yMOH
+ 3wVRl++VCwaC4YYMpDBNGy3DhgyIRwQ8Ii5kpui9bAjuR/jPail+sjjwsckdQuwI+E3r+dOSdYc
+ GBYswEPK948SPSl4kulUfHO4horzllhk=
+X-Received: by 2002:a05:6122:b64:: with SMTP id h4mr369973vkf.24.1642008939283; 
+ Wed, 12 Jan 2022 09:35:39 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwv8PQPXOHfaCobFmtf648DO+pg6Yq0JJW3dTFRrZ10iYaK7fTyaUWDNfucDjEoHVx2tzJmfj1AtxFYLiajpBw=
+X-Received: by 2002:a05:6122:b64:: with SMTP id h4mr369945vkf.24.1642008939007; 
+ Wed, 12 Jan 2022 09:35:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAFn=p-Zb3fmj5sf=+dGizxiYTySM4gU2Q6wudxnf67X=6nsyvQ@mail.gmail.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <20220110232910.1923864-1-jsnow@redhat.com>
+ <20220110232910.1923864-15-jsnow@redhat.com>
+ <20220112135212.b4w5q5rv6qdz2jk5@laptop.redhat>
+In-Reply-To: <20220112135212.b4w5q5rv6qdz2jk5@laptop.redhat>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 12 Jan 2022 12:35:28 -0500
+Message-ID: <CAFn=p-Zn40Of6_O7cQejrBzR5SvpSGu0w0uRoZppPX5L9q3ROg@mail.gmail.com>
+Subject: Re: [PATCH v3 14/31] python/qmp: switch qmp-shell to AQMP
+To: Beraldo Leal <bleal@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -81,64 +89,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel Berrange <berrange@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Wainer Moschetta <wainersm@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 12, 2022 at 12:25:16PM -0500, John Snow wrote:
-> On Wed, Jan 12, 2022 at 5:56 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+On Wed, Jan 12, 2022 at 8:52 AM Beraldo Leal <bleal@redhat.com> wrote:
+>
+> On Mon, Jan 10, 2022 at 06:28:53PM -0500, John Snow wrote:
+> > We have a replacement for async QMP, but it doesn't have feature parity
+> > yet. For now, then, port the old tool onto the new backend.
 > >
-> > [Context: John created a PyPI QEMU user in order to publish the qemu.qmp
-> > package. If anyone wants to publish additional Python packages from
-> > qemu.git, please contact him for PyPI access.]
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> > ---
+> >  python/qemu/aqmp/legacy.py   |  3 +++
+> >  python/qemu/qmp/qmp_shell.py | 31 +++++++++++++++++--------------
+> >  2 files changed, 20 insertions(+), 14 deletions(-)
 > >
-> > On Tue, Jan 11, 2022 at 03:42:23PM -0500, John Snow wrote:
-> > > Account made: https://pypi.org/user/QEMU/
-> > >
-> > > I can't update the wiki, I lack admin perms to edit
-> > > https://wiki.qemu.org/AdminContacts
-> > >
-> > > I assume in the event that I fall into a black hole or get launched
-> > > out of a cannon into the sun, any mails sent to jsnow@redhat.com can
-> > > be recovered by Red Hat in general, so there's a sufficient recourse
-> > > for recovering the account in that circumstance.
+> > diff --git a/python/qemu/aqmp/legacy.py b/python/qemu/aqmp/legacy.py
+> > index 27df22818a..0890f95b16 100644
+> > --- a/python/qemu/aqmp/legacy.py
+> > +++ b/python/qemu/aqmp/legacy.py
+> > @@ -22,6 +22,9 @@
+> >  from .qmp_client import QMPClient
 > >
-> > Thanks, I have added the PyPI QEMU user and added you as the admin
-> > contact:
-> > https://wiki.qemu.org/AdminContacts#Other_resources
 > >
-> > Stefan
-> 
-> Thanks, Stefan!
-> 
-> As additional context, there is currently a single package that
-> belongs to that user, "qemu.qmp" [1]. I published it "in advance" to
-> be able to test integration in an RFC patch set I posted to the list
-> just before the winter break [2]. The package is an "alpha prerelease"
-> and is at a very low-risk to be installed by accident. The version
-> chosen here will be considered "less than" any other valid version
-> string chosen, and can be deleted permanently from PyPI after
-> consensus on list review. Please forgive the mid-review publishing.
-> The exact metadata, wording of the README, etc is still under review
-> here [3].
-> 
-> As for the PyPI account itself, I have volunteered to administer it.
-> If anyone wants access (esp. a leadership committee member from
-> another employer), please contact me - I'm happy to share.
+> > +# (Temporarily) Re-export QMPBadPortError
+> > +QMPBadPortError = qemu.qmp.QMPBadPortError
+>
+> Probably I'm missing something, but any reason for not using, something
+> like this?
+>
+> from qemu.qmp import (QMPMessage, QMPReturnValue, SocketAddrT,
+>                       QMPBadPortError)
+>
 
-As a general rule we should ensure we always have 2 nominated people
-with access to any account held on behalf of the QEMU project, so we
-have some redundancy in case of unexpected events. So we definitely
-ought to have a 2nd person with access to PyPI even if they do nothing
-with it.
+It's a declaration of intent; if I don't shuffle it into a new
+assignment, mypy chirps a warning that I am using something "not
+explicitly exported by the module". An alternative would be to define
+an __all__ List[str], but that's even more churn for something that's
+going to be deleted by the end of the series, so I went with this
+little temporary hack instead.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Silly, yes.
+
+--js
 
 
