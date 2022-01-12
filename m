@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0477848CD64
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 22:04:38 +0100 (CET)
-Received: from localhost ([::1]:50156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33B1348CD7C
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 22:13:22 +0100 (CET)
+Received: from localhost ([::1]:59598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7knM-00008j-KK
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 16:04:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49040)
+	id 1n7kvp-0006pp-32
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 16:13:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1n7klI-0007Vx-5R; Wed, 12 Jan 2022 16:02:28 -0500
-Received: from [2607:f8b0:4864:20::92e] (port=45985
- helo=mail-ua1-x92e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1n7klG-00083d-IL; Wed, 12 Jan 2022 16:02:27 -0500
-Received: by mail-ua1-x92e.google.com with SMTP id x33so7250431uad.12;
- Wed, 12 Jan 2022 13:02:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IWzASuqvsidDi9aD7GDyRXbkn+/K0Xl7i85UIuliF4g=;
- b=kT5A9pP40xMRlTtiDmuLvOAdazxvm/MudE1tBtBcgxdKGOvr17DspQ5EmW3dW9OUfD
- QQrZTBKgMRLACt35QiarxyjFTQAw+MA1yC/J0uzryUso3agto3lAAcPax81huG7FUKrN
- amDXdqYSpIy5/0U6Xerwz3CEKRg3cwYERDgVlfN8xUZOEu/uPnhLeDV+njkdkRpQhnoF
- wg3j60S4U/BURy/o1CPB2dcO0P7J4Ksho8KswOyEiGAB1HJWQC86sonE6spDwcr2jwgy
- CuI95KKOIH1WSETeYXtxUE9BOnPu0OCj+xg10l6Tuzviqi8b6S24ykwijfwl8YhX3vPJ
- v6YA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IWzASuqvsidDi9aD7GDyRXbkn+/K0Xl7i85UIuliF4g=;
- b=yXmZEuODR1ANCGI223yDxjuRGCy/mKf7eUsdZZNlEK5v8XgQ+GCiLkRWe6eWqtNJko
- kCPjc7IoJdkOFYGS7Iu2qxKi8qX5G+i1phuGqR8QlJRdVVL2zgdU0k73FCAnDzI9kQ27
- AFk1JtvTIRUnFFs0FlP/mp0OhhvuG6sM4IWOH5kYBFxFRpCSpwrB2pQd4lhbWw2k5Itr
- c+zzS47CiZJZ9HlmGlz3mLrc+V4ycTSCJCvd7iBt/Vizz+6gHahON9G6d5wu56qvqewK
- XJoXP5+CJdYQqr/0m3xBIUWgqeISOOvzolCghiHSSyMT3f3vllGMgRhi6kxew//VsJBC
- a7Fg==
-X-Gm-Message-State: AOAM532gN71gv1JsDASnYX9phJKnVumfkj8N2/9oYqWn72HeG/tR7dkh
- ILOXjSqEs0LJhFze9/N7xb3s5Q1N1I53fqNXDc0Vte7Pfmg=
-X-Google-Smtp-Source: ABdhPJyTPLtJS+6RTTAtkRTS2t0xFZCw5CQplDlwsPDqSEzzPWqeRJ7NR6nqn1elI+kHumKZCCuBc8NTJP1O0Ql+FKo=
-X-Received: by 2002:a05:6102:c8e:: with SMTP id
- f14mr1044164vst.57.1642021344982; 
- Wed, 12 Jan 2022 13:02:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1n7kqM-0003bH-JH
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 16:07:42 -0500
+Received: from mout.gmx.net ([212.227.17.22]:35585)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1n7kqH-0000eY-GQ
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 16:07:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1642021650;
+ bh=RSbjYt1sSKudaTnR3U3AiIFZ7kOMKdRG6jWlSLvkV8o=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=i64KlwBn3iXJhcaMyiQd/eFf+Eo+WONoGg2qzEJ2P0JRwrH3fvQPVHZ9habIwTMeX
+ h5wrRlLSG66ZUCONhCSOhP3lxaCLIZVc2RhMG4XyOi4A2o8N7f7nki0ubYkvUDLqrN
+ u7Mw29VMhpRuBqb5wKD7Ek1IPiEuQYkc9nAp3kzU=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from p100.fritz.box ([92.116.184.198]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MQMuX-1mlQd12iqP-00MIEK; Wed, 12
+ Jan 2022 22:07:30 +0100
+From: Helge Deller <deller@gmx.de>
+To: qemu-devel@nongnu.org,
+	Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH 0/5] Fixes and updates for hppa target
+Date: Wed, 12 Jan 2022 22:07:25 +0100
+Message-Id: <20220112210730.292775-1-deller@gmx.de>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220110114154.3774072-1-pl@kamp.de>
- <20220110114154.3774072-2-pl@kamp.de>
- <CAOi1vP_nvvfmXXq=2kXYVoO-4UtzDmJ0X44_NnB1QCnSKTyGMA@mail.gmail.com>
- <6ae8a816-642e-d002-f0b5-31ccc0e4e31a@kamp.de>
-In-Reply-To: <6ae8a816-642e-d002-f0b5-31ccc0e4e31a@kamp.de>
-From: Ilya Dryomov <idryomov@gmail.com>
-Date: Wed, 12 Jan 2022 22:02:25 +0100
-Message-ID: <CAOi1vP93pvs8tOxj_9RL=bUTxyvYhcOha_JEa39AtWcVcey2_A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] block/rbd: fix handling of holes in
- .bdrv_co_block_status
-To: Peter Lieven <pl@kamp.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92e;
- envelope-from=idryomov@gmail.com; helo=mail-ua1-x92e.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:G7KgLQV3TMc5/2iBQLogSqA87roA1tMM4Pbu2Rz8im97yaiYlyD
+ ZXecISnxXX7u1z+wXUaT2fFAmwYhsFvCN1vRdIMqvB+dJtssQK1S56fOF9E2rldLH3kd/e6
+ h7OzVxSiKobfkQZuUju1a91S3ddn7N7FlkwbGXV0RB2PzylL299WfVEyHdkDkssHUPj7/UE
+ qKwbnMd9ix5o0tlkVv4fw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wzhzvcfNB2k=:NiB6FhPzv1Zyna/T0z4g/Y
+ 2RB8E+saaJcga7k0qqZd8PsfKo4KG77KXwXptwZocWR8msukz9qV/I0IglidzAFAxsbyvkDdm
+ sImQA2IcWF1Wq2I6NWCkdYXAM3pMKJsVWykYrU6iETw5COqrHy6fxfAP02GmVvGArFHzk53w8
+ 7eIXMyxZT95rr0iVVs9DPSEXtjBPR20/P6dqobWyS2nr/ikxnXvbZL8p5e3HW/EaZ00+ZmN1K
+ cC2HM2q0aKKr4sVqv5Xwa+PCuvHokUNCIyYXFwvfCZe49kzlHYuLgexkgfcFM+oroboZuYODX
+ /NXsQFbZZX6fxYS+P4e4zTO4KwXkZ+uXx8L5b5393tyDeHDQqCCt4avkuJOL5xqE052Red/E1
+ 20yXMnpJT7CHBhxVww9VTi3fRe5voMMoWM2RMHnBIaXUDBmiHAGLx/EBTkz4W3TWkguE8kCmL
+ nS80MfPZFQD3DLn3uLr/+hRxq8VdGt6whszL1EbmGCQMgM6gzp4cyoMS8U2T0lsHDH1e4IwcR
+ 0t1QO9aB4KhYqEqevYqioYdpnpXVFzQ2IG7T8XqJ1ON3HQ1U1wPRVtlqxXiZsgrOIEmKbyZLt
+ lJL3s2pAQjWz8PdqM1vBx27CIsrQ7k6h1Q+uilqpjrUsj6HaAjAQK9ONTDAidTDBtMxhCKMJ6
+ zfNY+EJAJRjlDTIBlP7j8momaSgazhRkjDimiYVTJaALL/bsKtlr+h8qguHYvOCuISUVWjkD8
+ tENtgLjWLTY7wS/Qy/2IkbGsV1XP8lPoqEkMC3tpsp+iNeeM3UH3I5QjOzxwUarr/WCPBBB+C
+ xH6j/Q8AdIB2ayB+mlaCrUm16BShFKWdZAF9LyQVYFUCjSyuXErzKyJZsNsZXoH/tUX/HmTDc
+ 75Cgmajcni6EhfXwt1vmbH3SoVUzsqmf2vMQLaBueaRbcz88OJgrNzy4KJk3Kgg1+IGHGMOGy
+ UQ5zU7HoZTNzQqP++5RFi0QBIGpbSk53OUSc7hBftkC3dT21n9GNmDhX96wj0zwD7O6EeMwxT
+ pg8nKbwISjDDYk+duTQ8WtyUh1Rz22kEREMZodJ10ijeypJU+DnApPm4eYVrnU58yA==
+Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,140 +79,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, qemu-stable@nongnu.org, ct@flyingcircus.io,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Jason Dillaman <dillaman@redhat.com>
+Cc: Helge Deller <deller@gmx.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 12, 2022 at 9:39 PM Peter Lieven <pl@kamp.de> wrote:
->
-> Am 12.01.22 um 10:05 schrieb Ilya Dryomov:
-> > On Mon, Jan 10, 2022 at 12:42 PM Peter Lieven <pl@kamp.de> wrote:
-> >> the assumption that we can't hit a hole if we do not diff against a snapshot was wrong.
-> >>
-> >> We can see a hole in an image if we diff against base if there exists an older snapshot
-> >> of the image and we have discarded blocks in the image where the snapshot has data.
-> >>
-> >> Fixes: 0347a8fd4c3faaedf119be04c197804be40a384b
-> >> Cc: qemu-stable@nongnu.org
-> >> Signed-off-by: Peter Lieven <pl@kamp.de>
-> >> ---
-> >>  block/rbd.c | 55 +++++++++++++++++++++++++++++++++--------------------
-> >>  1 file changed, 34 insertions(+), 21 deletions(-)
-> >>
-> >> diff --git a/block/rbd.c b/block/rbd.c
-> >> index def96292e0..5e9dc91d81 100644
-> >> --- a/block/rbd.c
-> >> +++ b/block/rbd.c
-> >> @@ -1279,13 +1279,24 @@ static int qemu_rbd_diff_iterate_cb(uint64_t offs, size_t len,
-> >>      RBDDiffIterateReq *req = opaque;
-> >>
-> >>      assert(req->offs + req->bytes <= offs);
-> >> -    /*
-> >> -     * we do not diff against a snapshot so we should never receive a callback
-> >> -     * for a hole.
-> >> -     */
-> >> -    assert(exists);
-> >>
-> >> -    if (!req->exists && offs > req->offs) {
-> >> +    if (req->exists && offs > req->offs + req->bytes) {
-> >> +        /*
-> >> +         * we started in an allocated area and jumped over an unallocated area,
-> >> +         * req->bytes contains the length of the allocated area before the
-> >> +         * unallocated area. stop further processing.
-> >> +         */
-> >> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
-> >> +    }
-> >> +    if (req->exists && !exists) {
-> >> +        /*
-> >> +         * we started in an allocated area and reached a hole. req->bytes
-> >> +         * contains the length of the allocated area before the hole.
-> >> +         * stop further processing.
-> >> +         */
-> >> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
-> >> +    }
-> >> +    if (!req->exists && exists && offs > req->offs) {
-> >>          /*
-> >>           * we started in an unallocated area and hit the first allocated
-> >>           * block. req->bytes must be set to the length of the unallocated area
-> >> @@ -1295,17 +1306,19 @@ static int qemu_rbd_diff_iterate_cb(uint64_t offs, size_t len,
-> >>          return QEMU_RBD_EXIT_DIFF_ITERATE2;
-> >>      }
-> >>
-> >> -    if (req->exists && offs > req->offs + req->bytes) {
-> >> -        /*
-> >> -         * we started in an allocated area and jumped over an unallocated area,
-> >> -         * req->bytes contains the length of the allocated area before the
-> >> -         * unallocated area. stop further processing.
-> >> -         */
-> >> -        return QEMU_RBD_EXIT_DIFF_ITERATE2;
-> >> -    }
-> >> +    /*
-> >> +     * assert that we caught all cases above and allocation state has not
-> >> +     * changed during callbacks.
-> >> +     */
-> >> +    assert(exists == req->exists || !req->bytes);
-> >> +    req->exists = exists;
-> >>
-> >> -    req->bytes += len;
-> >> -    req->exists = true;
-> >> +    /*
-> >> +     * assert that we either return an unallocated block or have got callbacks
-> >> +     * for all allocated blocks present.
-> >> +     */
-> >> +    assert(!req->exists || offs == req->offs + req->bytes);
-> >> +    req->bytes = offs + len - req->offs;
-> >>
-> >>      return 0;
-> >>  }
-> >> @@ -1354,13 +1367,13 @@ static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
-> >>      }
-> >>      assert(req.bytes <= bytes);
-> >>      if (!req.exists) {
-> >> -        if (r == 0) {
-> >> +        if (r == 0 && !req.bytes) {
-> >>              /*
-> >> -             * rbd_diff_iterate2 does not invoke callbacks for unallocated
-> >> -             * areas. This here catches the case where no callback was
-> >> -             * invoked at all (req.bytes == 0).
-> >> +             * rbd_diff_iterate2 does not invoke callbacks for unallocated areas
-> >> +             * except for the case where an overlay has a hole where the parent
-> >> +             * or an older snapshot of the image has not. This here catches the
-> >> +             * case where no callback was invoked at all.
-> >>               */
-> >> -            assert(req.bytes == 0);
-> >>              req.bytes = bytes;
-> >>          }
-> >>          status = BDRV_BLOCK_ZERO | BDRV_BLOCK_OFFSET_VALID;
-> >> --
-> >> 2.25.1
-> >>
-> >>
-> > Hi Peter,
-> >
-> > Can we just skip these "holes" by replacing the existing assert with
-> > an if statement that would simply bail from the callback on !exists?
-> >
-> > Just trying to keep the logic as simple as possible since as it turns
-> > out we get to contend with ages-old librbd bugs here...
->
->
-> I'm afraid I think this would not work. Consider qemu-img convert.
->
-> If we bail out we would immediately call get_block_status with the offset
->
-> where we stopped and hit the !exist again.
-
-I'm suggesting bailing from the callback (i.e. return 0), not from the
-entire rbd_diff_iterate2() instance.  The iteration would move on and
-either stumble upon an allocated area within the requested range or run
-off the end of the requested range.  Both of these cases are already
-handled by the existing code.
-
-Thanks,
-
-                Ilya
+This patchset fixes some important bugs in the hppa artist graphics driver:=
+=0D
+- Fix framebuffer access for Linux=0D
+- Mouse cursor fixes for HP-UX=0D
+=0D
+New qemu features for hppa:=0D
+- Allow up to 16 emulated CPUs (instead of 8)=0D
+- Add support for an emulated TOC/NMI button=0D
+=0D
+A new Seabios-hppa firmware:=0D
+- Update SeaBIOS-hppa to VERSION 3=0D
+- New opt/hostid fw_cfg option to change hostid=0D
+- Add opt/console fw_cfg option to select default console=0D
+- Added 16x32 font to STI firmware=0D
+=0D
+Signed-off-by: Helge Deller <deller@gmx.de>=0D
+=0D
+Helge Deller (5):=0D
+  seabios-hppa: Update SeaBIOS-hppa to VERSION 3=0D
+  hw/hppa: Allow up to 16 emulated CPUs=0D
+  hppa: Add support for an emulated TOC/NMI button.=0D
+  hw/display/artist: Mouse cursor fixes for HP-UX=0D
+  hw/display/artist: Fix framebuffer access for Linux=0D
+=0D
+ hw/display/artist.c       |  58 +++++++++++++++++++++++++++-----------=0D
+ hw/hppa/hppa_hardware.h   |   5 ++--=0D
+ hw/hppa/machine.c         |  35 ++++++++++++++++++++++-=0D
+ pc-bios/hppa-firmware.img | Bin 757144 -> 701964 bytes=0D
+ roms/seabios-hppa         |   2 +-=0D
+ target/hppa/cpu.c         |   2 +-=0D
+ target/hppa/cpu.h         |   5 ++++=0D
+ target/hppa/helper.h      |   1 +=0D
+ target/hppa/insns.decode  |   1 +=0D
+ target/hppa/int_helper.c  |  19 ++++++++++++-=0D
+ target/hppa/op_helper.c   |   7 ++++-=0D
+ target/hppa/translate.c   |  10 +++++++=0D
+ 12 files changed, 122 insertions(+), 23 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
