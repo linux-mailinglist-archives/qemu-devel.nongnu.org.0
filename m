@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24C1648BFE8
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 09:30:14 +0100 (CET)
-Received: from localhost ([::1]:43082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8837448C015
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 09:39:21 +0100 (CET)
+Received: from localhost ([::1]:55114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7Z1J-0006qP-8S
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 03:30:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45078)
+	id 1n7ZA8-0007VE-J7
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 03:39:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <roman@roolebo.dev>) id 1n7Yu1-0002DY-AN
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 03:22:42 -0500
-Received: from [2a00:1450:4864:20::141] (port=39571
- helo=mail-lf1-x141.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <roman@roolebo.dev>) id 1n7Ytz-00015d-4V
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 03:22:41 -0500
-Received: by mail-lf1-x141.google.com with SMTP id br17so5376349lfb.6
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:22:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=roolebo.dev; s=mail;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=pC8WAlcN6WFnbDSiH/7K1iEmUxZ0MIWzgmBnQX6TyZo=;
- b=cQ3bLiSyudimd5b6xRTubF6xFyaBiZqgTvLnMvrItqr0y/XCHBKJMRO3MJluDZ+W+A
- bvNF3d/YezbOKZjXhQ3+Q8tNvgyUPfHdvZ9dThmgoH14yx6XTADuBuKeuVFf1lSX02xT
- svw4OZS7eC/DnS42XiKIQ/4Wsinkb5URXlPH8cxdoRrwMQvRpwmAS4T+AX6o3qxEOwCT
- 99OVMO5TtC99q1Qj1s6LXiY9Z2WTHvQjBLTfdc6ntb9ckS6knJ/i7+GKBo6/ivcgtg3K
- jfpqbBwwDUtZl401L4e2vISq/+spTcUHCCvl9rHvjB1hfsQIIhWYpOO46sdDnpnkToRg
- pkAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=pC8WAlcN6WFnbDSiH/7K1iEmUxZ0MIWzgmBnQX6TyZo=;
- b=CxQQwqgwTYIgYaL2qJyqXO34b2Rbp8IxEJzpcR3Q5h1lHVHOTlIKayiJuKYOpddlwy
- iMUHBB7n2qRq0JaNv8sWphaZTtl2n4IWQPYf98p/OQrfLBmEhPeY9M1jZcu9/fJnA5sr
- gmyvkMLgtVLuOK/aZ0g/2yKDwOSytTWXsfxVT+JjhJyEn54owaL8fGQ/Qm0OCgnaz3Io
- eqUVDRE/FggAA1lrwEAeGDLNOyJxCHroLE/YsB2/mi+KTLbESuMsKPTD4OC8b2q9QJng
- sk9yWQcb5ytuWOhy8ixibwGGowRigsYpnhSnLGVdFmRsIUh3jQx70TjuVA79vtbM7y6T
- ik9Q==
-X-Gm-Message-State: AOAM5335E/eXFW2E36ARKn5jJuh1j7ZxqYlPUcqBywnYQn0i5fRukzQ1
- oO/3k8heP2wprlH0XOubLz0KMQ==
-X-Google-Smtp-Source: ABdhPJwvmZkZ+X7f29yQVSd7vY+31da0w1+LEl7rBwEwuR8oBDy2jbFAmdm3tV8tyNsCj2uha49c9w==
-X-Received: by 2002:a2e:a4ca:: with SMTP id p10mr2681447ljm.214.1641975757402; 
- Wed, 12 Jan 2022 00:22:37 -0800 (PST)
-Received: from localhost (ip-185-108-208-32.ip.asarta.ru. [185.108.208.32])
- by smtp.gmail.com with ESMTPSA id c20sm1522089ljf.40.2022.01.12.00.22.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jan 2022 00:22:37 -0800 (PST)
-Date: Wed, 12 Jan 2022 11:22:36 +0300
-From: Roman Bolshakov <roman@roolebo.dev>
-To: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
-Subject: Re: [PATCH v10 0/7] Add vmnet.framework based network backend
-Message-ID: <Yd6PzI05p7y7PkGy@roolebo.dev>
-References: <20220111211422.21789-1-yaroshchuk2000@gmail.com>
- <Yd6ILKV75g4jll46@roolebo.dev>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1n7Z3k-0003ae-49
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 03:32:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22485)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1n7Z3g-0002dI-6H
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 03:32:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641976358;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=CwAYOAkdHUxQqBo6xtw/pfjbdDWX4dFWeZf4rG48NeM=;
+ b=NG3nUmpeudDA1Yu9G2I+16Vp185lYEnsIzvvnsULe1aVm9/JYQ6TEoZScnbA2TtB5PtHPT
+ CajSepKrRgD1TLfaAg+1QXCEyRSvepsSBHVGLihuA5FPS922GJjE66Ex6YPS3QcNZd1Bbv
+ 4C9ZlcZIW4LfL6ScwTcuLkvUZgpmQIM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-403-meWHHIy4O_KcA4PlpVcqgw-1; Wed, 12 Jan 2022 03:32:34 -0500
+X-MC-Unique: meWHHIy4O_KcA4PlpVcqgw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD1CA2F27;
+ Wed, 12 Jan 2022 08:32:33 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-13-115.pek2.redhat.com
+ [10.72.13.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC6357315C;
+ Wed, 12 Jan 2022 08:32:24 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: peter.maydell@linaro.org
+Subject: [PULL V2 00/13] Net patches
+Date: Wed, 12 Jan 2022 16:32:07 +0800
+Message-Id: <20220112083220.51806-1-jasowang@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yd6ILKV75g4jll46@roolebo.dev>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::141
- (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::141;
- envelope-from=roman@roolebo.dev; helo=mail-lf1-x141.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,164 +77,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, phillip.ennen@gmail.com, qemu-devel@nongnu.org,
- armbru@redhat.com, r.bolshakov@yadro.com, phillip@axleos.com,
- akihiko.odaki@gmail.com, hsp.cat7@gmail.com, hello@adns.io, eblake@redhat.com
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 12, 2022 at 10:50:04AM +0300, Roman Bolshakov wrote:
-> On Wed, Jan 12, 2022 at 12:14:15AM +0300, Vladislav Yaroshchuk wrote:
-> > macOS provides networking API for VMs called 'vmnet.framework':
-> > https://developer.apple.com/documentation/vmnet
-> > 
-> > We can provide its support as the new QEMU network backends which
-> > represent three different vmnet.framework interface usage modes:
-> > 
-> >   * `vmnet-shared`:
-> >     allows the guest to communicate with other guests in shared mode and
-> >     also with external network (Internet) via NAT. Has (macOS-provided)
-> >     DHCP server; subnet mask and IP range can be configured;
-> > 
-> >   * `vmnet-host`:
-> >     allows the guest to communicate with other guests in host mode.
-> >     By default has enabled DHCP as `vmnet-shared`, but providing
-> >     network unique id (uuid) can make `vmnet-host` interfaces isolated
-> >     from each other and also disables DHCP.
-> > 
-> >   * `vmnet-bridged`:
-> >     bridges the guest with a physical network interface.
-> > 
-> > This backends cannot work on macOS Catalina 10.15 cause we use
-> > vmnet.framework API provided only with macOS 11 and newer. Seems
-> > that it is not a problem, because QEMU guarantees to work on two most
-> > recent versions of macOS which now are Big Sur (11) and Monterey (12).
-> > 
-> > Also, we have one inconvenient restriction: vmnet.framework interfaces
-> > can create only privileged user:
-> > `$ sudo qemu-system-x86_64 -nic vmnet-shared`
-> > 
-> > Attempt of `vmnet-*` netdev creation being unprivileged user fails with
-> > vmnet's 'general failure'.
-> > 
-> > This happens because vmnet.framework requires `com.apple.vm.networking`
-> > entitlement which is: "restricted to developers of virtualization software.
-> > To request this entitlement, contact your Apple representative." as Apple
-> > documentation says:
-> > https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_vm_networking
-> > 
-> > One more note: we still have quite useful but not supported
-> > 'vmnet.framework' features as creating port forwarding rules, IPv6
-> > NAT prefix specifying and so on.
-> > 
-> > Nevertheless, new backends work fine and tested within `qemu-system-x86-64`
-> > on macOS Bir Sur 11.5.2 host with such nic models:
-> >   * e1000-82545em
-> >   * virtio-net-pci
-> >   * vmxnet3
-> > 
-> > The guests were:
-> >   * macOS 10.15.7
-> >   * Ubuntu Bionic (server cloudimg)
-> > 
-> > 
-> > This series partially reuses patches by Phillip Tennen:
-> > https://patchew.org/QEMU/20210218134947.1860-1-phillip.ennen@gmail.com/
-> > So I included them signed-off line into one of the commit messages and
-> > also here.
-> > 
-> > v1 -> v2:
-> >  Since v1 minor typos were fixed, patches rebased onto latest master,
-> >  redundant changes removed (small commits squashed)
-> > v2 -> v3:
-> >  - QAPI style fixes
-> >  - Typos fixes in comments
-> >  - `#include`'s updated to be in sync with recent master
-> > v3 -> v4:
-> >  - Support vmnet interfaces isolation feature
-> >  - Support vmnet-host network uuid setting feature
-> >  - Refactored sources a bit
-> > v4 -> v5:
-> >  - Missed 6.2 boat, now 7.0 candidate
-> >  - Fix qapi netdev descriptions and styles
-> >    (@subnetmask -> @subnet-mask)
-> >  - Support vmnet-shared IPv6 prefix setting feature
-> > v5 -> v6
-> >  - provide detailed commit messages for commits of
-> >    many changes
-> >  - rename properties @dhcpstart and @dhcpend to
-> >    @start-address and @end-address
-> >  - improve qapi documentation about isolation
-> >    features (@isolated, @net-uuid)
-> > v6 -> v7:
-> >  - update MAINTAINERS list
-> > v7 -> v8
-> >  - QAPI code style fixes
-> > v8 -> v9
-> >  - Fix building on Linux: add missing qapi
-> >    `'if': 'CONFIG_VMNET'` statement to Netdev union
-> > v9 -> v10
-> >  - Disable vmnet feature for macOS < 11.0: add
-> >    vmnet.framework API probe into meson.build.
-> >    This fixes QEMU building on macOS < 11.0:
-> >    https://patchew.org/QEMU/20220110034000.20221-1-jasowang@redhat.com/
-> > 
-> 
-> Hi Vladislav,
-> 
-> What symbols are missing on Catalina except VMNET_SHARING_BUSY?
-> 
-> It'd be great to get the feature working there.
-> 
-> Thanks,
-> Roman
-> 
+The following changes since commit 64c01c7da449bcafc614b27ecf1325bb08031c84:
 
-Ok it turned out not that many symbols are needed for successfull
-compilation on Catalina:
+  Merge remote-tracking branch 'remotes/philmd/tags/sdmmc-20220108' into staging (2022-01-11 11:39:31 +0000)
 
-vmnet_enable_isolation_key
-vmnet_network_identifier_key
-VMNET_SHARING_SERVICE_BUSY
+are available in the git repository at:
 
-The compilation suceeds if they're wrappeed by ifdefs. I haven't tested
-it yet though.
+  https://github.com/jasowang/qemu.git tags/net-pull-request
 
-Regards,
-Roman
+for you to fetch changes up to 99420f216cf5cd2e5c09e0d491b9e44d16030aba:
 
-> > Vladislav Yaroshchuk (7):
-> >   net/vmnet: add vmnet dependency and customizable option
-> >   net/vmnet: add vmnet backends to qapi/net
-> >   net/vmnet: implement shared mode (vmnet-shared)
-> >   net/vmnet: implement host mode (vmnet-host)
-> >   net/vmnet: implement bridged mode (vmnet-bridged)
-> >   net/vmnet: update qemu-options.hx
-> >   net/vmnet: update MAINTAINERS list
-> > 
-> >  MAINTAINERS                   |   5 +
-> >  meson.build                   |  16 +-
-> >  meson_options.txt             |   2 +
-> >  net/clients.h                 |  11 ++
-> >  net/meson.build               |   7 +
-> >  net/net.c                     |  10 ++
-> >  net/vmnet-bridged.m           | 111 ++++++++++++
-> >  net/vmnet-common.m            | 330 ++++++++++++++++++++++++++++++++++
-> >  net/vmnet-host.c              | 105 +++++++++++
-> >  net/vmnet-shared.c            |  92 ++++++++++
-> >  net/vmnet_int.h               |  48 +++++
-> >  qapi/net.json                 | 132 +++++++++++++-
-> >  qemu-options.hx               |  25 +++
-> >  scripts/meson-buildoptions.sh |   3 +
-> >  14 files changed, 894 insertions(+), 3 deletions(-)
-> >  create mode 100644 net/vmnet-bridged.m
-> >  create mode 100644 net/vmnet-common.m
-> >  create mode 100644 net/vmnet-host.c
-> >  create mode 100644 net/vmnet-shared.c
-> >  create mode 100644 net/vmnet_int.h
-> > 
-> > -- 
-> > 2.23.0
-> > 
-> > 
+  net/vmnet: update MAINTAINERS list (2022-01-12 16:27:19 +0800)
+
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+Peter Foley (2):
+      net/tap: Set return code on failure
+      net: Fix uninitialized data usage
+
+Philippe Mathieu-Daudé (1):
+      hw/net/vmxnet3: Log guest-triggerable errors using LOG_GUEST_ERROR
+
+Rao Lei (1):
+      net/filter: Optimize filter_send to coroutine
+
+Vladislav Yaroshchuk (7):
+      net/vmnet: add vmnet dependency and customizable option
+      net/vmnet: add vmnet backends to qapi/net
+      net/vmnet: implement shared mode (vmnet-shared)
+      net/vmnet: implement host mode (vmnet-host)
+      net/vmnet: implement bridged mode (vmnet-bridged)
+      net/vmnet: update qemu-options.hx
+      net/vmnet: update MAINTAINERS list
+
+Zhang Chen (2):
+      net/colo-compare.c: Optimize compare order for performance
+      net/colo-compare.c: Update the default value comments
+
+ MAINTAINERS                   |   5 +
+ hw/net/vmxnet3.c              |   4 +-
+ meson.build                   |  16 +-
+ meson_options.txt             |   2 +
+ net/clients.h                 |  11 ++
+ net/colo-compare.c            |  28 ++--
+ net/filter-mirror.c           |  66 +++++++--
+ net/meson.build               |   7 +
+ net/net.c                     |  10 ++
+ net/tap-linux.c               |   1 +
+ net/tap.c                     |   1 +
+ net/vmnet-bridged.m           | 111 ++++++++++++++
+ net/vmnet-common.m            | 330 ++++++++++++++++++++++++++++++++++++++++++
+ net/vmnet-host.c              | 105 ++++++++++++++
+ net/vmnet-shared.c            |  91 ++++++++++++
+ net/vmnet_int.h               |  48 ++++++
+ qapi/net.json                 | 132 ++++++++++++++++-
+ qemu-options.hx               |  25 ++++
+ scripts/meson-buildoptions.sh |   3 +
+ 19 files changed, 965 insertions(+), 31 deletions(-)
+ create mode 100644 net/vmnet-bridged.m
+ create mode 100644 net/vmnet-common.m
+ create mode 100644 net/vmnet-host.c
+ create mode 100644 net/vmnet-shared.c
+ create mode 100644 net/vmnet_int.h
+
 
