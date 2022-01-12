@@ -2,87 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251C348BC6D
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 02:28:56 +0100 (CET)
-Received: from localhost ([::1]:51516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18CC948BCA1
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 02:46:53 +0100 (CET)
+Received: from localhost ([::1]:38046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7SRb-0001Se-8f
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 20:28:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42982)
+	id 1n7Siy-0004A4-7g
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 20:46:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n7SMh-0006wv-Mc
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 20:23:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50539)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1n7SeV-0008Nv-3L
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 20:42:15 -0500
+Received: from mga09.intel.com ([134.134.136.24]:20036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n7SMe-0003Dl-W6
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 20:23:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641950628;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lvjd6/In+7bkiKQuP0ohCbRbQ87AfI2jVKQj1OjLQ80=;
- b=Im0rNHgVunISrScEHCEGnrbvr2rke/Xd4qY7W5kJArC3SCdRqkFZz+/sB6nDCSeS81r3JW
- hWpAgQ0pZAjMgZuycUV/Q68cpHZWE1ua9xOKUZt1vPW94iHiWauTZiywYa2zQs6sNrFTv5
- hw2tqKyDrwotYD4wf8AJxssc4mfb/RM=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-237-eJ9Ijf_dO9SV76Mrublchg-1; Tue, 11 Jan 2022 20:23:47 -0500
-X-MC-Unique: eJ9Ijf_dO9SV76Mrublchg-1
-Received: by mail-pl1-f198.google.com with SMTP id
- u14-20020a170902714e00b00148ee2b06efso1027413plm.5
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 17:23:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=lvjd6/In+7bkiKQuP0ohCbRbQ87AfI2jVKQj1OjLQ80=;
- b=GFTy3ybSCNj7+4cS94Ba/E1YEyTx2LpNYT7Y1MjQh7LIEXW9FH4JUKxV4p2XoPC2w3
- +9Tt3icVHdV1ofAw5xqnaNmj6NoE+OAHcZraQavtlDcxZ9AeFqzGiI0kr33EliiNzWe2
- PtnaJtbz/x5j8scj/5yYSiH5idpHPB3GTMDQno/Tc73wxIG4PvoATkmYhit9e8hNWLYA
- gwQisNjUSoiw842gZIkNCHEs5+ppr59glslIrNBYKv0WN2+JlGjUNbA3FWWL3tXkw6sr
- ohe7FS8L/eqKL4jmMMFgxYAkbpLMvmp7DsFwORLfx/7tEY/JAEgyQ4pZM0PJQlJBk3HF
- zqpQ==
-X-Gm-Message-State: AOAM533MSaETzPUctcpqJVyoeKLst73DuiMkV0q/4NzL8siacckUiSEX
- h32cruuCBL41o2zXivF+CbIV1bvNrSnRtdMSh50gPFHkd9L0Vo2WlKCkZ67ZvbaJgi6IhXBdHMB
- 0FLScfj5f90RZPls=
-X-Received: by 2002:a63:7a41:: with SMTP id j1mr6394467pgn.20.1641950625947;
- Tue, 11 Jan 2022 17:23:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx3Wq4pbv0QqPSSDRRv9hxcNa7pnehOdq9NsSg3xcJfU1ftYLax/CnHHPTy6H+FZz8v4AXScQ==
-X-Received: by 2002:a63:7a41:: with SMTP id j1mr6394445pgn.20.1641950625555;
- Tue, 11 Jan 2022 17:23:45 -0800 (PST)
-Received: from xz-m1.local ([191.101.132.69])
- by smtp.gmail.com with ESMTPSA id t1sm5880847pfg.29.2022.01.11.17.23.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jan 2022 17:23:44 -0800 (PST)
-Date: Wed, 12 Jan 2022 09:23:39 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v3 00/10] hw/dma: Use dma_addr_t type definition when
- relevant
-Message-ID: <Yd4tm2+ViezI0mPw@xz-m1.local>
-References: <20220111184309.28637-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1n7SeP-0005z0-Eb
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 20:42:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1641951729; x=1673487729;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=H/0OZITAf9mG229bYLRmKN1p72W40dAWojUNsKYd5WI=;
+ b=HW0GTS1ngdsKrEn+r5KzuENCdB++77LdIWVMFzwhXpc89kPNBU96ApyX
+ ZOEKO3wQP3SOsQnXpk5pZQVwec1M3aNG+xO45Ng2wC3Ld8lh9y5Bn3gFI
+ KGPMTF9bcDyNfd5FIidj/VQFLXjugix574AHbq6HLSjBYFScQxV7m9Kmo
+ M7V+VeaaJB3DbBh5L6m4LCgb30yp82/DTqwo3VYmEZsgW/6EOnoaGvK2y
+ OxAKFXOLYxlV19KM2P7SPvOUv2kOWEbQ4OiyIfpVmf90iLnxjvxDIt6uD
+ N4rqMSaIl5UDn+o3vRl6Fr9bTy6PcqwO0rCqsRF4CoFLk7O5agJvx+HJN Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10224"; a="243434699"
+X-IronPort-AV: E=Sophos;i="5.88,281,1635231600"; d="scan'208";a="243434699"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2022 17:41:52 -0800
+X-IronPort-AV: E=Sophos;i="5.88,281,1635231600"; d="scan'208";a="528981411"
+Received: from xiaoyaol-mobl.ccr.corp.intel.com (HELO [10.249.169.33])
+ ([10.249.169.33])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2022 17:41:50 -0800
+Message-ID: <b9f1b014-4cd6-380c-abdf-15909b7870d6@intel.com>
+Date: Wed, 12 Jan 2022 09:41:47 +0800
 MIME-Version: 1.0
-In-Reply-To: <20220111184309.28637-1-f4bug@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.4.1
+Subject: Re: [PATCH v1 1/2] hw/i386: Make pit a property of common x86 base
+ machine type
+Content-Language: en-US
+To: Sergio Lopez <slp@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20220111073528.1771552-1-xiaoyao.li@intel.com>
+ <20220111073528.1771552-2-xiaoyao.li@intel.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20220111073528.1771552-2-xiaoyao.li@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=134.134.136.24; envelope-from=xiaoyao.li@intel.com;
+ helo=mga09.intel.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,24 +81,257 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 11, 2022 at 07:42:59PM +0100, Philippe Mathieu-Daudé wrote:
-> Since v2:
-> - Split meson patch restricting fw_cfg (Richard)
-> - Reorder pci_dma_map() docstring (Peter, Richard)
-> - Move QEMUSGList in previous patch (David)
-> - Have dma_buf_read/dma_buf_write return dma_addr_t (Peter)
-> - Drop 'propagate MemTxResult' patch (David)
-> - Added R-b tags
++ Paolo
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
-
--- 
-Peter Xu
+On 1/11/2022 3:35 PM, Xiaoyao Li wrote:
+> Both pc and microvm have pit property individually. Let's just make it
+> the property of common x86 base machine type.
+> 
+> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+> ---
+>   hw/i386/microvm.c         | 27 +--------------------------
+>   hw/i386/pc.c              | 24 +++---------------------
+>   hw/i386/x86.c             | 25 +++++++++++++++++++++++++
+>   include/hw/i386/microvm.h |  2 --
+>   include/hw/i386/pc.h      |  2 --
+>   include/hw/i386/x86.h     |  2 ++
+>   6 files changed, 31 insertions(+), 51 deletions(-)
+> 
+> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+> index 4b3b1dd262f1..89b555a2f584 100644
+> --- a/hw/i386/microvm.c
+> +++ b/hw/i386/microvm.c
+> @@ -257,7 +257,7 @@ static void microvm_devices_init(MicrovmMachineState *mms)
+>           g_free(i8259);
+>       }
+>   
+> -    if (mms->pit == ON_OFF_AUTO_ON || mms->pit == ON_OFF_AUTO_AUTO) {
+> +    if (x86ms->pit == ON_OFF_AUTO_ON || x86ms->pit == ON_OFF_AUTO_AUTO) {
+>           if (kvm_pit_in_kernel()) {
+>               kvm_pit_init(isa_bus, 0x40);
+>           } else {
+> @@ -508,23 +508,6 @@ static void microvm_machine_set_pic(Object *obj, Visitor *v, const char *name,
+>       visit_type_OnOffAuto(v, name, &mms->pic, errp);
+>   }
+>   
+> -static void microvm_machine_get_pit(Object *obj, Visitor *v, const char *name,
+> -                                    void *opaque, Error **errp)
+> -{
+> -    MicrovmMachineState *mms = MICROVM_MACHINE(obj);
+> -    OnOffAuto pit = mms->pit;
+> -
+> -    visit_type_OnOffAuto(v, name, &pit, errp);
+> -}
+> -
+> -static void microvm_machine_set_pit(Object *obj, Visitor *v, const char *name,
+> -                                    void *opaque, Error **errp)
+> -{
+> -    MicrovmMachineState *mms = MICROVM_MACHINE(obj);
+> -
+> -    visit_type_OnOffAuto(v, name, &mms->pit, errp);
+> -}
+> -
+>   static void microvm_machine_get_rtc(Object *obj, Visitor *v, const char *name,
+>                                       void *opaque, Error **errp)
+>   {
+> @@ -650,7 +633,6 @@ static void microvm_machine_initfn(Object *obj)
+>   
+>       /* Configuration */
+>       mms->pic = ON_OFF_AUTO_AUTO;
+> -    mms->pit = ON_OFF_AUTO_AUTO;
+>       mms->rtc = ON_OFF_AUTO_AUTO;
+>       mms->pcie = ON_OFF_AUTO_AUTO;
+>       mms->ioapic2 = ON_OFF_AUTO_AUTO;
+> @@ -709,13 +691,6 @@ static void microvm_class_init(ObjectClass *oc, void *data)
+>       object_class_property_set_description(oc, MICROVM_MACHINE_PIC,
+>           "Enable i8259 PIC");
+>   
+> -    object_class_property_add(oc, MICROVM_MACHINE_PIT, "OnOffAuto",
+> -                              microvm_machine_get_pit,
+> -                              microvm_machine_set_pit,
+> -                              NULL, NULL);
+> -    object_class_property_set_description(oc, MICROVM_MACHINE_PIT,
+> -        "Enable i8254 PIT");
+> -
+>       object_class_property_add(oc, MICROVM_MACHINE_RTC, "OnOffAuto",
+>                                 microvm_machine_get_rtc,
+>                                 microvm_machine_set_rtc,
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index c8696ac01e85..48ab4cf44012 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -1071,6 +1071,7 @@ void pc_basic_device_init(struct PCMachineState *pcms,
+>       ISADevice *pit = NULL;
+>       MemoryRegion *ioport80_io = g_new(MemoryRegion, 1);
+>       MemoryRegion *ioportF0_io = g_new(MemoryRegion, 1);
+> +    X86MachineState *x86ms = X86_MACHINE(pcms);
+>   
+>       memory_region_init_io(ioport80_io, NULL, &ioport80_io_ops, NULL, "ioport80", 1);
+>       memory_region_add_subregion(isa_bus->address_space_io, 0x80, ioport80_io);
+> @@ -1115,7 +1116,8 @@ void pc_basic_device_init(struct PCMachineState *pcms,
+>   
+>       qemu_register_boot_set(pc_boot_set, *rtc_state);
+>   
+> -    if (!xen_enabled() && pcms->pit_enabled) {
+> +    if (!xen_enabled() &&
+> +        (x86ms->pit == ON_OFF_AUTO_AUTO || x86ms->pit == ON_OFF_AUTO_ON)) {
+>           if (kvm_pit_in_kernel()) {
+>               pit = kvm_pit_init(isa_bus, 0x40);
+>           } else {
+> @@ -1484,20 +1486,6 @@ static void pc_machine_set_sata(Object *obj, bool value, Error **errp)
+>       pcms->sata_enabled = value;
+>   }
+>   
+> -static bool pc_machine_get_pit(Object *obj, Error **errp)
+> -{
+> -    PCMachineState *pcms = PC_MACHINE(obj);
+> -
+> -    return pcms->pit_enabled;
+> -}
+> -
+> -static void pc_machine_set_pit(Object *obj, bool value, Error **errp)
+> -{
+> -    PCMachineState *pcms = PC_MACHINE(obj);
+> -
+> -    pcms->pit_enabled = value;
+> -}
+> -
+>   static bool pc_machine_get_hpet(Object *obj, Error **errp)
+>   {
+>       PCMachineState *pcms = PC_MACHINE(obj);
+> @@ -1640,7 +1628,6 @@ static void pc_machine_initfn(Object *obj)
+>       pcms->acpi_build_enabled = PC_MACHINE_GET_CLASS(pcms)->has_acpi_build;
+>       pcms->smbus_enabled = true;
+>       pcms->sata_enabled = true;
+> -    pcms->pit_enabled = true;
+>       pcms->max_fw_size = 8 * MiB;
+>   #ifdef CONFIG_HPET
+>       pcms->hpet_enabled = true;
+> @@ -1767,11 +1754,6 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+>       object_class_property_set_description(oc, PC_MACHINE_SATA,
+>           "Enable/disable Serial ATA bus");
+>   
+> -    object_class_property_add_bool(oc, PC_MACHINE_PIT,
+> -        pc_machine_get_pit, pc_machine_set_pit);
+> -    object_class_property_set_description(oc, PC_MACHINE_PIT,
+> -        "Enable/disable Intel 8254 programmable interval timer emulation");
+> -
+>       object_class_property_add_bool(oc, "hpet",
+>           pc_machine_get_hpet, pc_machine_set_hpet);
+>       object_class_property_set_description(oc, "hpet",
+> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> index b84840a1bb99..744a50937761 100644
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -1226,6 +1226,23 @@ static void x86_machine_set_acpi(Object *obj, Visitor *v, const char *name,
+>       visit_type_OnOffAuto(v, name, &x86ms->acpi, errp);
+>   }
+>   
+> +static void x86_machine_get_pit(Object *obj, Visitor *v, const char *name,
+> +                                    void *opaque, Error **errp)
+> +{
+> +    X86MachineState *x86ms = X86_MACHINE(obj);
+> +    OnOffAuto pit = x86ms->pit;
+> +
+> +    visit_type_OnOffAuto(v, name, &pit, errp);
+> +}
+> +
+> +static void x86_machine_set_pit(Object *obj, Visitor *v, const char *name,
+> +                                    void *opaque, Error **errp)
+> +{
+> +    X86MachineState *x86ms = X86_MACHINE(obj);;
+> +
+> +    visit_type_OnOffAuto(v, name, &x86ms->pit, errp);
+> +}
+> +
+>   static char *x86_machine_get_oem_id(Object *obj, Error **errp)
+>   {
+>       X86MachineState *x86ms = X86_MACHINE(obj);
+> @@ -1315,6 +1332,7 @@ static void x86_machine_initfn(Object *obj)
+>   
+>       x86ms->smm = ON_OFF_AUTO_AUTO;
+>       x86ms->acpi = ON_OFF_AUTO_AUTO;
+> +    x86ms->pit = ON_OFF_AUTO_AUTO;
+>       x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
+>       x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
+>       x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
+> @@ -1347,6 +1365,13 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
+>       object_class_property_set_description(oc, X86_MACHINE_ACPI,
+>           "Enable ACPI");
+>   
+> +    object_class_property_add(oc, X86_MACHINE_PIT, "OnOffAuto",
+> +                              x86_machine_get_pit,
+> +                              x86_machine_set_pit,
+> +                              NULL, NULL);
+> +    object_class_property_set_description(oc, X86_MACHINE_PIT,
+> +        "Enable i8254 PIT");
+> +
+>       object_class_property_add_str(oc, X86_MACHINE_OEM_ID,
+>                                     x86_machine_get_oem_id,
+>                                     x86_machine_set_oem_id);
+> diff --git a/include/hw/i386/microvm.h b/include/hw/i386/microvm.h
+> index efcbd926fd43..83f9ac0b2ad0 100644
+> --- a/include/hw/i386/microvm.h
+> +++ b/include/hw/i386/microvm.h
+> @@ -67,7 +67,6 @@
+>   #define PCIE_ECAM_SIZE        0x10000000
+>   
+>   /* Machine type options */
+> -#define MICROVM_MACHINE_PIT                 "pit"
+>   #define MICROVM_MACHINE_PIC                 "pic"
+>   #define MICROVM_MACHINE_RTC                 "rtc"
+>   #define MICROVM_MACHINE_PCIE                "pcie"
+> @@ -87,7 +86,6 @@ struct MicrovmMachineState {
+>   
+>       /* Machine type options */
+>       OnOffAuto pic;
+> -    OnOffAuto pit;
+>       OnOffAuto rtc;
+>       OnOffAuto pcie;
+>       OnOffAuto ioapic2;
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index 9c9f4ac74810..01e84d5c4aa4 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -46,7 +46,6 @@ typedef struct PCMachineState {
+>       bool acpi_build_enabled;
+>       bool smbus_enabled;
+>       bool sata_enabled;
+> -    bool pit_enabled;
+>       bool hpet_enabled;
+>       bool default_bus_bypass_iommu;
+>       uint64_t max_fw_size;
+> @@ -63,7 +62,6 @@ typedef struct PCMachineState {
+>   #define PC_MACHINE_VMPORT           "vmport"
+>   #define PC_MACHINE_SMBUS            "smbus"
+>   #define PC_MACHINE_SATA             "sata"
+> -#define PC_MACHINE_PIT              "pit"
+>   #define PC_MACHINE_MAX_FW_SIZE      "max-fw-size"
+>   #define PC_MACHINE_SMBIOS_EP        "smbios-entry-point-type"
+>   
+> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+> index a145a303703f..f0168902356d 100644
+> --- a/include/hw/i386/x86.h
+> +++ b/include/hw/i386/x86.h
+> @@ -67,6 +67,7 @@ struct X86MachineState {
+>   
+>       OnOffAuto smm;
+>       OnOffAuto acpi;
+> +    OnOffAuto pit;
+>   
+>       char *oem_id;
+>       char *oem_table_id;
+> @@ -86,6 +87,7 @@ struct X86MachineState {
+>   
+>   #define X86_MACHINE_SMM              "smm"
+>   #define X86_MACHINE_ACPI             "acpi"
+> +#define X86_MACHINE_PIT              "pit"
+>   #define X86_MACHINE_OEM_ID           "x-oem-id"
+>   #define X86_MACHINE_OEM_TABLE_ID     "x-oem-table-id"
+>   #define X86_MACHINE_BUS_LOCK_RATELIMIT  "bus-lock-ratelimit"
 
 
