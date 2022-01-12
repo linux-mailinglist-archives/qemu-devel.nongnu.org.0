@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F1F148BCD1
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 03:02:29 +0100 (CET)
-Received: from localhost ([::1]:46528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A5848BD6F
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 03:53:26 +0100 (CET)
+Received: from localhost ([::1]:52044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7Sy3-0002pe-Tk
-	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 21:02:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48884)
+	id 1n7TlN-0002ut-5G
+	for lists+qemu-devel@lfdr.de; Tue, 11 Jan 2022 21:53:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1n7SvU-0001qa-8S
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 20:59:48 -0500
-Received: from [2607:f8b0:4864:20::102b] (port=44647
- helo=mail-pj1-x102b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1n7SvO-00083w-PE
- for qemu-devel@nongnu.org; Tue, 11 Jan 2022 20:59:44 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- n30-20020a17090a5aa100b001b2b6509685so1982833pji.3
- for <qemu-devel@nongnu.org>; Tue, 11 Jan 2022 17:59:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=AyQbjy4Z+hZld8as9PFQL8MKhE2ub0d8lVmk20L1q/A=;
- b=6dnxBZh5cm14V9qsOh8kwwyW0WYdM9WxkQTRvQgXNjD3DSjx91wxwTDxJayISBiW9w
- ZaaSkONJ8AeZKqYTeAIhvm19keXpY3PNt17LWFgEJN2xXMZGFXRznyKKzTxSXsLZTkeU
- h4RXDcFSbqTc/vAEmVnT69pDmPlEsaKQy54aqvMnkjRBEs1nytx/TyvmgC7fmnuXyYnk
- EjOeNCaKkxSje2F2rjKR95aRGqOYMm2ViXDE2dQ9Qaj0aLEz72DZftbQI3UGOXQw1uwi
- tVb1BjrPOuf/WyQ4pGwiF8Pw0GjcsPrbAbRNlRvaQpmHlYC3e/a9QbZX1gT41iiy20zP
- Zy+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=AyQbjy4Z+hZld8as9PFQL8MKhE2ub0d8lVmk20L1q/A=;
- b=TB9Iqa/UJ4peymtc9UB4TRJ/kORwgdg+Rs7QAnSF+86p4waM4Ewrf7D5aWCBarWGjI
- j2Mc2r402KF6Lsk3fypx1OqPaC93iKBFfTqJA2PknybacqGmtq2fikgwZPq9YqsSsqiJ
- Q9OFlWlrP1zTUrGhihzxOUC4d/OIFVsqsphlh54/87bMHFZxC6ocJsXYh5UmBXEsOZE5
- kk2HruJ3jKTBB6gmhjOeYey3UqPv2yIcTrw9tiTYSu2ZcbS/iV5R89pQHqCCL5CR2UPP
- evI0rHUmIuFVvqhyRHKOHD/CQosLg8XsDSOPiuha2ER5M1Q1TZbNOuPSsxYueeeXFOEW
- gyfw==
-X-Gm-Message-State: AOAM5315iJBzRyYSJ7MiRBiuOhvwZQZI6PwVPRcDYU5M9PpC3EP2gY7o
- K9hi+k+2sCQMVAmHurQUwtU2Wg==
-X-Google-Smtp-Source: ABdhPJypX/KIeivAN+llcITf6fGNfELLeZVFk34+29uwJsxTR8tql25GfBX9MwaaBgZ4FVCWfsjz4A==
-X-Received: by 2002:a17:903:18c:b0:149:3ba2:3153 with SMTP id
- z12-20020a170903018c00b001493ba23153mr7038816plg.56.1641952779891; 
- Tue, 11 Jan 2022 17:59:39 -0800 (PST)
-Received: from libai.bytedance.net ([153.254.110.96])
- by smtp.gmail.com with ESMTPSA id h8sm5826955pfv.4.2022.01.11.17.59.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jan 2022 17:59:39 -0800 (PST)
-From: zhenwei pi <pizhenwei@bytedance.com>
-To: kraxel@redhat.com
-Subject: [PATCH v2] usb: allow max 8192 bytes for desc
-Date: Wed, 12 Jan 2022 09:58:35 +0800
-Message-Id: <20220112015835.900619-1-pizhenwei@bytedance.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <guang.zeng@intel.com>)
+ id 1n7TjZ-0001zH-8y
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 21:51:33 -0500
+Received: from mga12.intel.com ([192.55.52.136]:52362)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <guang.zeng@intel.com>)
+ id 1n7TjV-0006Ob-TA
+ for qemu-devel@nongnu.org; Tue, 11 Jan 2022 21:51:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1641955889; x=1673491889;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Wg1MPTng0GCZLtzykWEhomgE0uK7Mlcjyno5ytKxAG0=;
+ b=Yi1AxODdsxjYib/ynyrfJ/yomRtl2rhHdHUiEeMRs2VoAcUaiYaycHOE
+ 865H+aR3pVJ8vALJUGSO0mlbgFNZQ0ChNPu9kVSQ1Sr0lRkHLxfHhyezv
+ HpZrbeKRD7Jlly7jTBGi8wpd75PNZd4zroke2E2oW+pxaamqIB8BAH6Gb
+ bu5lynDFo7+6wxoo3wX3cuCfE8myen38UZzOSWRH/yYjbump2tAknZW/U
+ x+kF7dW7Rlm1qhfzutGia6PDDOQj3wNmEfgyf0njL6BHCOj/9LcSA2HTY
+ rMfnpjdbHuf5cqrL3nStLATnTh/vy8RUU3l9ShsFzYHa5eV5RGkztxSK9 g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10224"; a="223628117"
+X-IronPort-AV: E=Sophos;i="5.88,281,1635231600"; d="scan'208";a="223628117"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2022 18:51:24 -0800
+X-IronPort-AV: E=Sophos;i="5.88,281,1635231600"; d="scan'208";a="515323026"
+Received: from zengguan-mobl.ccr.corp.intel.com (HELO [10.238.0.214])
+ ([10.238.0.214])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2022 18:51:22 -0800
+Message-ID: <a965c3c3-0dc4-8236-5e76-81f4b101d288@intel.com>
+Date: Wed, 12 Jan 2022 10:51:12 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.4.1
+Subject: Re: [RFC PATCH 6/7] x86: Use new XSAVE ioctls handling
+Content-Language: en-US
+To: "Tian, Kevin" <kevin.tian@intel.com>, "Zhong, Yang"
+ <yang.zhong@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20220107093134.136441-1-yang.zhong@intel.com>
+ <20220107093134.136441-7-yang.zhong@intel.com>
+ <BN9PR11MB527600E4DD1EA7BE7638A0518C509@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <6976bcbe-ba64-3c33-a445-fe29ace41ff3@intel.com>
+ <BN9PR11MB52764527D9BD25EAFD54C8888C519@BN9PR11MB5276.namprd11.prod.outlook.com>
+From: Zeng Guang <guang.zeng@intel.com>
+In-Reply-To: <BN9PR11MB52764527D9BD25EAFD54C8888C519@BN9PR11MB5276.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=guang.zeng@intel.com;
+ helo=mga12.intel.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,96 +80,267 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, f4bug@amsat.org, zhenwei pi <pizhenwei@bytedance.com>,
- qemu-devel@nongnu.org
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "Wang,
+ Wei W" <wei.w.wang@intel.com>,
+ "jing2.liu@linux.intel.com" <jing2.liu@linux.intel.com>, "Christopherson, ,
+ Sean" <seanjc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A device of USB video class usually uses larger desc structure, so
-use larger buffer to avoid failure. (dev-video.c is ready)
+On 1/11/2022 10:30 AM, Tian, Kevin wrote:
+>> From: Zeng, Guang <guang.zeng@intel.com>
+>> Sent: Monday, January 10, 2022 5:47 PM
+>>
+>> On 1/10/2022 4:40 PM, Tian, Kevin wrote:
+>>>> From: Zhong, Yang <yang.zhong@intel.com>
+>>>> Sent: Friday, January 7, 2022 5:32 PM
+>>>>
+>>>> From: Jing Liu <jing2.liu@intel.com>
+>>>>
+>>>> Extended feature has large state while current
+>>>> kvm_xsave only allows 4KB. Use new XSAVE ioctls
+>>>> if the xstate size is large than kvm_xsave.
+>>> shouldn't we always use the new xsave ioctls as long as
+>>> CAP_XSAVE2 is available?
+>>
+>> CAP_XSAVE2 may return legacy xsave size or 0 working with old kvm
+>> version in which it's not available.
+>> QEMU just use the new xsave ioctls only when the return value of
+>> CAP_XSAVE2 is larger than legacy xsave size.
+> CAP_XSAVE2  is the superset of CAP_XSAVE. If available it can support
+> both legacy 4K size or bigger.
 
-This is an unlikely code path:
-1, during guest startup, guest tries to probe device.
-2, run 'lsusb' command in guest(or other similar commands).
+Got your point now. We can use new ioctl once CAP_XSAVE2 is available.
+As your suggestion, I'd like to change commit log as follows:
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
----
- hw/usb/desc.c | 15 ++++++++-------
- hw/usb/desc.h |  1 +
- 2 files changed, 9 insertions(+), 7 deletions(-)
+"x86: Use new XSAVE ioctls handling
 
-diff --git a/hw/usb/desc.c b/hw/usb/desc.c
-index 8b6eaea407..7f6cc2f99b 100644
---- a/hw/usb/desc.c
-+++ b/hw/usb/desc.c
-@@ -632,7 +632,8 @@ int usb_desc_get_descriptor(USBDevice *dev, USBPacket *p,
-     bool msos = (dev->flags & (1 << USB_DEV_FLAG_MSOS_DESC_IN_USE));
-     const USBDesc *desc = usb_device_get_usb_desc(dev);
-     const USBDescDevice *other_dev;
--    uint8_t buf[256];
-+    size_t buflen = USB_DESC_MAX_LEN;
-+    g_autofree uint8_t *buf = g_malloc(buflen);
-     uint8_t type = value >> 8;
-     uint8_t index = value & 0xff;
-     int flags, ret = -1;
-@@ -650,36 +651,36 @@ int usb_desc_get_descriptor(USBDevice *dev, USBPacket *p,
- 
-     switch(type) {
-     case USB_DT_DEVICE:
--        ret = usb_desc_device(&desc->id, dev->device, msos, buf, sizeof(buf));
-+        ret = usb_desc_device(&desc->id, dev->device, msos, buf, buflen);
-         trace_usb_desc_device(dev->addr, len, ret);
-         break;
-     case USB_DT_CONFIG:
-         if (index < dev->device->bNumConfigurations) {
-             ret = usb_desc_config(dev->device->confs + index, flags,
--                                  buf, sizeof(buf));
-+                                  buf, buflen);
-         }
-         trace_usb_desc_config(dev->addr, index, len, ret);
-         break;
-     case USB_DT_STRING:
--        ret = usb_desc_string(dev, index, buf, sizeof(buf));
-+        ret = usb_desc_string(dev, index, buf, buflen);
-         trace_usb_desc_string(dev->addr, index, len, ret);
-         break;
-     case USB_DT_DEVICE_QUALIFIER:
-         if (other_dev != NULL) {
--            ret = usb_desc_device_qualifier(other_dev, buf, sizeof(buf));
-+            ret = usb_desc_device_qualifier(other_dev, buf, buflen);
-         }
-         trace_usb_desc_device_qualifier(dev->addr, len, ret);
-         break;
-     case USB_DT_OTHER_SPEED_CONFIG:
-         if (other_dev != NULL && index < other_dev->bNumConfigurations) {
-             ret = usb_desc_config(other_dev->confs + index, flags,
--                                  buf, sizeof(buf));
-+                                  buf, buflen);
-             buf[0x01] = USB_DT_OTHER_SPEED_CONFIG;
-         }
-         trace_usb_desc_other_speed_config(dev->addr, index, len, ret);
-         break;
-     case USB_DT_BOS:
--        ret = usb_desc_bos(desc, buf, sizeof(buf));
-+        ret = usb_desc_bos(desc, buf, buflen);
-         trace_usb_desc_bos(dev->addr, len, ret);
-         break;
- 
-diff --git a/hw/usb/desc.h b/hw/usb/desc.h
-index 3ac604ecfa..35babdeff6 100644
---- a/hw/usb/desc.h
-+++ b/hw/usb/desc.h
-@@ -199,6 +199,7 @@ struct USBDesc {
-     const USBDescMSOS         *msos;
- };
- 
-+#define USB_DESC_MAX_LEN    8192
- #define USB_DESC_FLAG_SUPER (1 << 1)
- 
- /* little helpers */
--- 
-2.25.1
+   Extended feature has large state while current
+   kvm_xsave only allows 4KB. Use new XSAVE ioctls
+   if check extension of CAP_XSAVE2 is available."
 
+And introduce has_xsave2 to indicate the valid of CAP_XSAVE2
+with following change:
+
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index 97520e9dff..c8dae88ced 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -116,6 +116,7 @@ static bool has_msr_ucode_rev;
+  static bool has_msr_vmx_procbased_ctls2;
+  static bool has_msr_perf_capabs;
+  static bool has_msr_pkrs;
++static bool has_xsave2 = false;
+
+  static uint32_t has_architectural_pmu_version;
+  static uint32_t num_architectural_pmu_gp_counters;
+@@ -1986,7 +1987,8 @@ int kvm_arch_init_vcpu(CPUState *cs)
+          uint32_t size = kvm_vm_check_extension(cs->kvm_state, 
+KVM_CAP_XSAVE2);
+          if (!size) {
+              size = sizeof(struct kvm_xsave);
+-        }
++        } else
++            has_xsave2 = true;
+
+          env->xsave_buf_len = QEMU_ALIGN_UP(size, 4096);
+          env->xsave_buf = qemu_memalign(4096, env->xsave_buf_len);
+@@ -3253,7 +3255,7 @@ static int kvm_get_xsave(X86CPU *cpu)
+          return kvm_get_fpu(cpu);
+      }
+
+-    if (env->xsave_buf_len <= sizeof(struct kvm_xsave)) {
++    if (!has_xsave2) {
+          ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_XSAVE, xsave);
+      } else {
+          ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_XSAVE2, xsave);
+
+>   
+>>>> Signed-off-by: Jing Liu <jing2.liu@intel.com>
+>>>> Signed-off-by: Zeng Guang <guang.zeng@intel.com>
+>>>> Signed-off-by: Wei Wang <wei.w.wang@intel.com>
+>>>> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+>>>> ---
+>>>>    linux-headers/asm-x86/kvm.h | 14 ++++++++++++++
+>>>>    linux-headers/linux/kvm.h   |  2 ++
+>>>>    target/i386/cpu.h           |  5 +++++
+>>>>    target/i386/kvm/kvm.c       | 16 ++++++++++++++--
+>>>>    target/i386/xsave_helper.c  | 35
+>> +++++++++++++++++++++++++++++++++++
+>>>>    5 files changed, 70 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+>>>> index 5a776a08f7..32f2a921e8 100644
+>>>> --- a/linux-headers/asm-x86/kvm.h
+>>>> +++ b/linux-headers/asm-x86/kvm.h
+>>>> @@ -376,6 +376,20 @@ struct kvm_debugregs {
+>>>>    /* for KVM_CAP_XSAVE */
+>>>>    struct kvm_xsave {
+>>>>    	__u32 region[1024];
+>>>> +	/*
+>>>> +	 * KVM_GET_XSAVE2 and KVM_SET_XSAVE write and read as many
+>>>> bytes
+>>>> +	 * as are returned by KVM_CHECK_EXTENSION(KVM_CAP_XSAVE2)
+>>>> +	 * respectively, when invoked on the vm file descriptor.
+>>>> +	 *
+>>>> +	 * The size value returned by
+>>>> KVM_CHECK_EXTENSION(KVM_CAP_XSAVE2)
+>>>> +	 * will always be at least 4096. Currently, it is only greater
+>>>> +	 * than 4096 if a dynamic feature has been enabled with
+>>>> +	 * ``arch_prctl()``, but this may change in the future.
+>>>> +	 *
+>>>> +	 * The offsets of the state save areas in struct kvm_xsave follow
+>>>> +	 * the contents of CPUID leaf 0xD on the host.
+>>>> +	 */
+>>>> +	__u32 extra[0];
+>>>>    };
+>>>>
+>>>>    #define KVM_MAX_XCRS	16
+>>>> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+>>>> index 02c5e7b7bb..97d5b6d81d 100644
+>>>> --- a/linux-headers/linux/kvm.h
+>>>> +++ b/linux-headers/linux/kvm.h
+>>>> @@ -1130,6 +1130,7 @@ struct kvm_ppc_resize_hpt {
+>>>>    #define KVM_CAP_BINARY_STATS_FD 203
+>>>>    #define KVM_CAP_EXIT_ON_EMULATION_FAILURE 204
+>>>>    #define KVM_CAP_ARM_MTE 205
+>>>> +#define KVM_CAP_XSAVE2  207
+>>>>
+>>>>    #ifdef KVM_CAP_IRQ_ROUTING
+>>>>
+>>>> @@ -1550,6 +1551,7 @@ struct kvm_s390_ucas_mapping {
+>>>>    /* Available with KVM_CAP_XSAVE */
+>>>>    #define KVM_GET_XSAVE		  _IOR(KVMIO,  0xa4, struct
+>>>> kvm_xsave)
+>>>>    #define KVM_SET_XSAVE		  _IOW(KVMIO,  0xa5, struct
+>>>> kvm_xsave)
+>>>> +#define KVM_GET_XSAVE2		  _IOR(KVMIO,  0xcf, struct
+>>>> kvm_xsave)
+>>>>    /* Available with KVM_CAP_XCRS */
+>>>>    #define KVM_GET_XCRS		  _IOR(KVMIO,  0xa6, struct kvm_xcrs)
+>>>>    #define KVM_SET_XCRS		  _IOW(KVMIO,  0xa7, struct kvm_xcrs)
+>>>> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+>>>> index 245e8b5a1a..6153c4ab1a 100644
+>>>> --- a/target/i386/cpu.h
+>>>> +++ b/target/i386/cpu.h
+>>>> @@ -1519,6 +1519,11 @@ typedef struct CPUX86State {
+>>>>        YMMReg zmmh_regs[CPU_NB_REGS];
+>>>>        ZMMReg hi16_zmm_regs[CPU_NB_REGS];
+>>>>
+>>>> +#ifdef TARGET_X86_64
+>>>> +    uint8_t xtilecfg[64];
+>>>> +    uint8_t xtiledata[8192];
+>>>> +#endif
+>>>> +
+>>>>        /* sysenter registers */
+>>>>        uint32_t sysenter_cs;
+>>>>        target_ulong sysenter_esp;
+>>>> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+>>>> index 3fb3ddbe2b..97520e9dff 100644
+>>>> --- a/target/i386/kvm/kvm.c
+>>>> +++ b/target/i386/kvm/kvm.c
+>>>> @@ -1983,7 +1983,12 @@ int kvm_arch_init_vcpu(CPUState *cs)
+>>>>        }
+>>>>
+>>>>        if (has_xsave) {
+>>>> -        env->xsave_buf_len = sizeof(struct kvm_xsave);
+>>>> +        uint32_t size = kvm_vm_check_extension(cs->kvm_state,
+>>>> KVM_CAP_XSAVE2);
+>>>> +        if (!size) {
+>>>> +            size = sizeof(struct kvm_xsave);
+>>>> +        }
+>>>> +
+>>>> +        env->xsave_buf_len = QEMU_ALIGN_UP(size, 4096);
+>>>>            env->xsave_buf = qemu_memalign(4096, env->xsave_buf_len);
+>>>>            memset(env->xsave_buf, 0, env->xsave_buf_len);
+>>>>
+>>>> @@ -2580,6 +2585,7 @@ static int kvm_put_xsave(X86CPU *cpu)
+>>>>        if (!has_xsave) {
+>>>>            return kvm_put_fpu(cpu);
+>>>>        }
+>>>> +
+>>>>        x86_cpu_xsave_all_areas(cpu, xsave, env->xsave_buf_len);
+>>>>
+>>>>        return kvm_vcpu_ioctl(CPU(cpu), KVM_SET_XSAVE, xsave);
+>>>> @@ -3247,10 +3253,16 @@ static int kvm_get_xsave(X86CPU *cpu)
+>>>>            return kvm_get_fpu(cpu);
+>>>>        }
+>>>>
+>>>> -    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_XSAVE, xsave);
+>>>> +    if (env->xsave_buf_len <= sizeof(struct kvm_xsave)) {
+>>>> +        ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_XSAVE, xsave);
+>>>> +    } else {
+>>>> +        ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_XSAVE2, xsave);
+>>>> +    }
+>>>> +
+>>>>        if (ret < 0) {
+>>>>            return ret;
+>>>>        }
+>>>> +
+>>>>        x86_cpu_xrstor_all_areas(cpu, xsave, env->xsave_buf_len);
+>>>>
+>>>>        return 0;
+>>>> diff --git a/target/i386/xsave_helper.c b/target/i386/xsave_helper.c
+>>>> index ac61a96344..090424e820 100644
+>>>> --- a/target/i386/xsave_helper.c
+>>>> +++ b/target/i386/xsave_helper.c
+>>>> @@ -5,6 +5,7 @@
+>>>>    #include "qemu/osdep.h"
+>>>>
+>>>>    #include "cpu.h"
+>>>> +#include <asm/kvm.h>
+>>>>
+>>>>    void x86_cpu_xsave_all_areas(X86CPU *cpu, void *buf, uint32_t buflen)
+>>>>    {
+>>>> @@ -126,6 +127,23 @@ void x86_cpu_xsave_all_areas(X86CPU *cpu,
+>> void
+>>>> *buf, uint32_t buflen)
+>>>>
+>>>>            memcpy(pkru, &env->pkru, sizeof(env->pkru));
+>>>>        }
+>>>> +
+>>>> +    e = &x86_ext_save_areas[XSTATE_XTILE_CFG_BIT];
+>>>> +    if (e->size && e->offset) {
+>>>> +        XSaveXTILE_CFG *tilecfg = buf + e->offset;
+>>>> +
+>>>> +        memcpy(tilecfg, &env->xtilecfg, sizeof(env->xtilecfg));
+>>>> +    }
+>>>> +
+>>>> +    if (buflen > sizeof(struct kvm_xsave)) {
+>>>> +        e = &x86_ext_save_areas[XSTATE_XTILE_DATA_BIT];
+>>>> +
+>>>> +        if (e->size && e->offset) {
+>>>> +            XSaveXTILE_DATA *tiledata = buf + e->offset;
+>>>> +
+>>>> +            memcpy(tiledata, &env->xtiledata, sizeof(env->xtiledata));
+>>>> +        }
+>>>> +    }
+>>>>    #endif
+>>>>    }
+>>>>
+>>>> @@ -247,5 +265,22 @@ void x86_cpu_xrstor_all_areas(X86CPU *cpu,
+>> const
+>>>> void *buf, uint32_t buflen)
+>>>>            pkru = buf + e->offset;
+>>>>            memcpy(&env->pkru, pkru, sizeof(env->pkru));
+>>>>        }
+>>>> +
+>>>> +    e = &x86_ext_save_areas[XSTATE_XTILE_CFG_BIT];
+>>>> +    if (e->size && e->offset) {
+>>>> +        const XSaveXTILE_CFG *tilecfg = buf + e->offset;
+>>>> +
+>>>> +        memcpy(&env->xtilecfg, tilecfg, sizeof(env->xtilecfg));
+>>>> +    }
+>>>> +
+>>>> +    if (buflen > sizeof(struct kvm_xsave)) {
+>>>> +        e = &x86_ext_save_areas[XSTATE_XTILE_DATA_BIT];
+>>>> +
+>>>> +        if (e->size && e->offset) {
+>>>> +            const XSaveXTILE_DATA *tiledata = buf + e->offset;
+>>>> +
+>>>> +            memcpy(&env->xtiledata, tiledata, sizeof(env->xtiledata));
+>>>> +        }
+>>>> +    }
+>>>>    #endif
+>>>>    }
 
