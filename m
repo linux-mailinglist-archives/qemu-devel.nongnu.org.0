@@ -2,100 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A611148C643
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 15:43:11 +0100 (CET)
-Received: from localhost ([::1]:47480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB2948C666
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 15:47:25 +0100 (CET)
+Received: from localhost ([::1]:55330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7eqE-000053-LD
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 09:43:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54820)
+	id 1n7euK-0005Y5-77
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 09:47:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
- id 1n7e3n-00089E-8z; Wed, 12 Jan 2022 08:53:07 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55746)
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1n7e6D-0004Oi-BI
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 08:55:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53483)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
- id 1n7e3l-0001c5-Hx; Wed, 12 Jan 2022 08:53:06 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20CDp8at026545; 
- Wed, 12 Jan 2022 13:52:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=04tHjVgJ4qvfsFv1RYDobJz0eAKzrc80VquLXlGOaj4=;
- b=IATSkr1VaVyfAjn7y8VU+y6rvw6XZ7gw2emc8WLA5UzLKPhSXroPzENKNWeQm6sPy9Jx
- +wt4eIF4gw7+Tga/Xl6PHWzOtCOVGLBCZyCYYQJlnxKQbgsbvJUm+1syv8LASWC+9od3
- s+Ttk5AmR4s3luG2mDygZapJqqJL3haBPTk+/3/bEWTx78yf2DddQl6LQpBUskkJ8cTt
- fcQMM6MmBqEfpDQ/eailcfHVdwbUVr9G3Wfw6x1loo71ExKScDid07ubK8rIQyR9G4au
- w8tvlTcFDhGyYPjzszCyuGL7Rdgc+JQ68LCAkTXNhQ+9UHhNRuHQn1qcV3yeVtZT5BVE EQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dhyvvgcqt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jan 2022 13:52:42 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20CDqgwU008932;
- Wed, 12 Jan 2022 13:52:42 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dhyvvgcqh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jan 2022 13:52:42 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20CDjqiG015660;
- Wed, 12 Jan 2022 13:52:41 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma02dal.us.ibm.com with ESMTP id 3df28bede1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jan 2022 13:52:41 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20CDqdaK15925820
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 Jan 2022 13:52:40 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B0624C605D;
- Wed, 12 Jan 2022 13:52:39 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 13FA7C6059;
- Wed, 12 Jan 2022 13:52:38 +0000 (GMT)
-Received: from lagarcia.br.ibm.com.com (unknown [9.65.79.38])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 12 Jan 2022 13:52:37 +0000 (GMT)
-From: lagarcia@linux.ibm.com
-To: qemu-ppc@nongnu.org
-Subject: [PATCH 3/3] Link new ppc-spapr-hotplug.rst file to pseries.rst.
-Date: Wed, 12 Jan 2022 10:52:16 -0300
-Message-Id: <e54aad58e3cfbd96647430d33cdb59fd87d199b0.1641995058.git.lagarcia@br.ibm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1641995057.git.lagarcia@br.ibm.com>
-References: <cover.1641995057.git.lagarcia@br.ibm.com>
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1n7e68-00022k-4a
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 08:55:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641995731;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dn9M3Jxd8jt72+pDKLuZvSziMClwTUtgCRwFRs6KwbY=;
+ b=e49OdIScyKgdtge9L2ukoG3/1JEFShFogXPMDeLO9dOmnKdTXWq54fgjGxuJGa7osSSHnA
+ jj8c77GSDpQZ6cDwIc0WodtpwWlUrJTh9IrSgFSGNiEeW0KWfVnpIMmLIwUU6Inx1kgu5W
+ adcoRV5sG8RCa1+sU0OFnRapSAw2L/k=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-387-mB4L-kBzMP-eRmvfJ6cY-w-1; Wed, 12 Jan 2022 08:55:28 -0500
+X-MC-Unique: mB4L-kBzMP-eRmvfJ6cY-w-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ i6-20020a05620a144600b00477708052b6so1804755qkl.10
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 05:55:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=dn9M3Jxd8jt72+pDKLuZvSziMClwTUtgCRwFRs6KwbY=;
+ b=vycyolsPadNnu6FUsG01riqkfEGxHZ7YodigEM02hQ+qjjzHoCax5y0P7i3pt1XzSW
+ krL9M/eJaixjTAXM4gmGKBYKzKVxcuA+TdLaFRlsXv7vjykXmVmsj2Oo39aUGksKxs+m
+ wiDtvopk9LMLY6MYI77ikjBflWk+oGKBoJRh9AYZ+6yTsHszbsKPGnVNCxPvrJ1LH+93
+ fMKRS1nQS8vSo9GRjG/z4A+X9GZm0Ns2kkgMp+KlZ7LWfXnlT9iR2Il9DqxKHnxNNlNK
+ QsKe1un1jyLdcIsFJ+b9hnevFYHIoVZd5ceIcBfghlZs9zTSckhOrYEn32zgO8uPSH8c
+ XuYw==
+X-Gm-Message-State: AOAM530sOgtdYPoN52L1QBWwaVYWDBmKAGCVJ5BcCTNwCqOKF5fjd2Gp
+ mfoCBOEJL1fyH+vpgTTq8VbsmhQeyltsgQGuQv3exyiT9z4EfOxEOSDgu8EPlkQ+0lOyz/+KVNi
+ q7eHynCh7scZBmxk=
+X-Received: by 2002:ac8:5985:: with SMTP id e5mr6345931qte.58.1641995727916;
+ Wed, 12 Jan 2022 05:55:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJykrCXcmivpnCna0o5Jiko+kt2SAkI2CZ5ZtCl6ksu1jI+KyrTn/B2WiuldWMDwtUKa/uGlaA==
+X-Received: by 2002:ac8:5985:: with SMTP id e5mr6345905qte.58.1641995727675;
+ Wed, 12 Jan 2022 05:55:27 -0800 (PST)
+Received: from localhost ([2804:18:8ca:405a:c209:ac99:1eeb:4fa6])
+ by smtp.gmail.com with ESMTPSA id h6sm7636698qko.130.2022.01.12.05.55.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Jan 2022 05:55:27 -0800 (PST)
+Date: Wed, 12 Jan 2022 10:55:24 -0300
+From: Beraldo Leal <bleal@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v3 15/31] python: move qmp utilities to python/qemu/utils
+Message-ID: <20220112135524.tmckqr4aaalr52jy@laptop.redhat>
+References: <20220110232910.1923864-1-jsnow@redhat.com>
+ <20220110232910.1923864-16-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: voRnyr6A4Rnq_PYmZwgSRNwDJ_5fBeKg
-X-Proofpoint-GUID: 5rfFFI-VftmwQhIZ66riHxNaN-EvuqBg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-12_04,2022-01-11_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0
- lowpriorityscore=0 mlxscore=0 phishscore=0 malwarescore=0 adultscore=0
- priorityscore=1501 clxscore=1015 mlxlogscore=796 suspectscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201120088
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=lagarcia@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20220110232910.1923864-16-jsnow@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bleal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=bleal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,38 +93,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Garcia <lagarcia@br.ibm.com>, danielhb413@gmail.com,
- qemu-devel@nongnu.org, clg@kaod.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel Berrange <berrange@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Wainer Moschetta <wainersm@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Leonardo Garcia <lagarcia@br.ibm.com>
+On Mon, Jan 10, 2022 at 06:28:54PM -0500, John Snow wrote:
+> In order to upload a QMP package to PyPI, I want to remove any scripts
+> that I am not 100% confident I want to support upstream, beyond our
+> castle walls.
+> 
+> Move most of our QMP utilities into the utils package so we can split
+> them out from the PyPI upload.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  python/qemu/{qmp => utils}/qemu_ga_client.py |  0
+>  python/qemu/{qmp => utils}/qom.py            |  0
+>  python/qemu/{qmp => utils}/qom_common.py     |  0
+>  python/qemu/{qmp => utils}/qom_fuse.py       |  0
+>  python/setup.cfg                             | 16 ++++++++--------
+>  scripts/qmp/qemu-ga-client                   |  2 +-
+>  scripts/qmp/qom-fuse                         |  2 +-
+>  scripts/qmp/qom-get                          |  2 +-
+>  scripts/qmp/qom-list                         |  2 +-
+>  scripts/qmp/qom-set                          |  2 +-
+>  scripts/qmp/qom-tree                         |  2 +-
+>  11 files changed, 14 insertions(+), 14 deletions(-)
+>  rename python/qemu/{qmp => utils}/qemu_ga_client.py (100%)
+>  rename python/qemu/{qmp => utils}/qom.py (100%)
+>  rename python/qemu/{qmp => utils}/qom_common.py (100%)
+>  rename python/qemu/{qmp => utils}/qom_fuse.py (100%)
+> 
+> diff --git a/python/qemu/qmp/qemu_ga_client.py b/python/qemu/utils/qemu_ga_client.py
+> similarity index 100%
+> rename from python/qemu/qmp/qemu_ga_client.py
+> rename to python/qemu/utils/qemu_ga_client.py
+> diff --git a/python/qemu/qmp/qom.py b/python/qemu/utils/qom.py
+> similarity index 100%
+> rename from python/qemu/qmp/qom.py
+> rename to python/qemu/utils/qom.py
+> diff --git a/python/qemu/qmp/qom_common.py b/python/qemu/utils/qom_common.py
+> similarity index 100%
+> rename from python/qemu/qmp/qom_common.py
+> rename to python/qemu/utils/qom_common.py
+> diff --git a/python/qemu/qmp/qom_fuse.py b/python/qemu/utils/qom_fuse.py
+> similarity index 100%
+> rename from python/qemu/qmp/qom_fuse.py
+> rename to python/qemu/utils/qom_fuse.py
+> diff --git a/python/setup.cfg b/python/setup.cfg
+> index 417e937839..78421411d2 100644
+> --- a/python/setup.cfg
+> +++ b/python/setup.cfg
+> @@ -60,13 +60,13 @@ tui =
+>  
+>  [options.entry_points]
+>  console_scripts =
+> -    qom = qemu.qmp.qom:main
+> -    qom-set = qemu.qmp.qom:QOMSet.entry_point
+> -    qom-get = qemu.qmp.qom:QOMGet.entry_point
+> -    qom-list = qemu.qmp.qom:QOMList.entry_point
+> -    qom-tree = qemu.qmp.qom:QOMTree.entry_point
+> -    qom-fuse = qemu.qmp.qom_fuse:QOMFuse.entry_point [fuse]
+> -    qemu-ga-client = qemu.qmp.qemu_ga_client:main
+> +    qom = qemu.utils.qom:main
+> +    qom-set = qemu.utils.qom:QOMSet.entry_point
+> +    qom-get = qemu.utils.qom:QOMGet.entry_point
+> +    qom-list = qemu.utils.qom:QOMList.entry_point
+> +    qom-tree = qemu.utils.qom:QOMTree.entry_point
+> +    qom-fuse = qemu.utils.qom_fuse:QOMFuse.entry_point [fuse]
+> +    qemu-ga-client = qemu.utils.qemu_ga_client:main
+>      qmp-shell = qemu.qmp.qmp_shell:main
+>      aqmp-tui = qemu.aqmp.aqmp_tui:main [tui]
+>  
+> @@ -80,7 +80,7 @@ python_version = 3.6
+>  warn_unused_configs = True
+>  namespace_packages = True
+>  
+> -[mypy-qemu.qmp.qom_fuse]
+> +[mypy-qemu.utils.qom_fuse]
+>  # fusepy has no type stubs:
+>  allow_subclassing_any = True
+>  
+> diff --git a/scripts/qmp/qemu-ga-client b/scripts/qmp/qemu-ga-client
+> index 102fd2cad9..56edd0234a 100755
+> --- a/scripts/qmp/qemu-ga-client
+> +++ b/scripts/qmp/qemu-ga-client
+> @@ -4,7 +4,7 @@ import os
+>  import sys
+>  
+>  sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+> -from qemu.qmp import qemu_ga_client
+> +from qemu.utils import qemu_ga_client
+>  
+>  
+>  if __name__ == '__main__':
+> diff --git a/scripts/qmp/qom-fuse b/scripts/qmp/qom-fuse
+> index a58c8ef979..d453807b27 100755
+> --- a/scripts/qmp/qom-fuse
+> +++ b/scripts/qmp/qom-fuse
+> @@ -4,7 +4,7 @@ import os
+>  import sys
+>  
+>  sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+> -from qemu.qmp.qom_fuse import QOMFuse
+> +from qemu.utils.qom_fuse import QOMFuse
+>  
+>  
+>  if __name__ == '__main__':
+> diff --git a/scripts/qmp/qom-get b/scripts/qmp/qom-get
+> index e4f3e0c013..04ebe052e8 100755
+> --- a/scripts/qmp/qom-get
+> +++ b/scripts/qmp/qom-get
+> @@ -4,7 +4,7 @@ import os
+>  import sys
+>  
+>  sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+> -from qemu.qmp.qom import QOMGet
+> +from qemu.utils.qom import QOMGet
+>  
+>  
+>  if __name__ == '__main__':
+> diff --git a/scripts/qmp/qom-list b/scripts/qmp/qom-list
+> index 7a071a54e1..853b85a8d3 100755
+> --- a/scripts/qmp/qom-list
+> +++ b/scripts/qmp/qom-list
+> @@ -4,7 +4,7 @@ import os
+>  import sys
+>  
+>  sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+> -from qemu.qmp.qom import QOMList
+> +from qemu.utils.qom import QOMList
+>  
+>  
+>  if __name__ == '__main__':
+> diff --git a/scripts/qmp/qom-set b/scripts/qmp/qom-set
+> index 9ca9e2ba10..06820feec4 100755
+> --- a/scripts/qmp/qom-set
+> +++ b/scripts/qmp/qom-set
+> @@ -4,7 +4,7 @@ import os
+>  import sys
+>  
+>  sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+> -from qemu.qmp.qom import QOMSet
+> +from qemu.utils.qom import QOMSet
+>  
+>  
+>  if __name__ == '__main__':
+> diff --git a/scripts/qmp/qom-tree b/scripts/qmp/qom-tree
+> index 7d0ccca3a4..760e172277 100755
+> --- a/scripts/qmp/qom-tree
+> +++ b/scripts/qmp/qom-tree
+> @@ -4,7 +4,7 @@ import os
+>  import sys
+>  
+>  sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+> -from qemu.qmp.qom import QOMTree
+> +from qemu.utils.qom import QOMTree
+>  
+>  
+>  if __name__ == '__main__':
+> -- 
+> 2.31.1
 
-Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
----
- docs/system/ppc/pseries.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Beraldo Leal <bleal@redhat.com>
 
-diff --git a/docs/system/ppc/pseries.rst b/docs/system/ppc/pseries.rst
-index ead33e6764..1120b21d95 100644
---- a/docs/system/ppc/pseries.rst
-+++ b/docs/system/ppc/pseries.rst
-@@ -110,13 +110,13 @@ can  also be found in QEMU documentation:
- .. toctree::
-    :maxdepth: 1
- 
-+   ../../specs/ppc-spapr-hotplug.rst
-    ../../specs/ppc-spapr-hcalls.rst
-    ../../specs/ppc-spapr-numa.rst
-    ../../specs/ppc-spapr-xive.rst
- 
- Other documentation available in QEMU docs directory:
- 
--* Hot plug (``/docs/specs/ppc-spapr-hotplug.txt``).
- * Hypervisor calls needed by the Ultravisor
-   (``/docs/specs/ppc-spapr-uv-hcalls.txt``).
- 
--- 
-2.34.1
+--
+Beraldo
 
 
