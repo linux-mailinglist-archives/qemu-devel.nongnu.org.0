@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C1E48C3B2
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 13:06:52 +0100 (CET)
-Received: from localhost ([::1]:55422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9978148C386
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 12:48:42 +0100 (CET)
+Received: from localhost ([::1]:44880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7cOx-00075z-DC
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 07:06:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56880)
+	id 1n7c7N-00057E-OL
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 06:48:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n7bvS-0007Zw-I9
+ id 1n7bvR-0007Z5-NM
  for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:36:22 -0500
-Received: from [2a00:1450:4864:20::532] (port=40899
- helo=mail-ed1-x532.google.com)
+Received: from [2a00:1450:4864:20::536] (port=38756
+ helo=mail-ed1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n7bvQ-0004kC-SL
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:36:22 -0500
-Received: by mail-ed1-x532.google.com with SMTP id a18so8720162edj.7
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 03:36:20 -0800 (PST)
+ id 1n7bvP-0004k3-Vs
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:36:21 -0500
+Received: by mail-ed1-x536.google.com with SMTP id u21so8726358edd.5
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 03:36:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fqHINLJ+tbUImk2k2vZK07UgLGr7IB8EBQi3ARp/MYk=;
- b=JSTgy9MqZSKsSFDHWpZFo2qavMQEINbURYyhvSrRykIJpVtLC0a/d+Ng02S3TOBOHF
- Vbx7oVXNwCO9NGf+D/eAJCIOFADqe+G3WTIpCZOwDGRy54A7SgAlYzlliD2GGhBeu8mz
- HIjtFsUyDuE7yVAsTJoZsXuLxdT/xgIyJGWIcUODAsZGvvOFXqrFhCnWPnPAzYB5miU8
- Zf0L37fulG2G4TJ+QjmCm60VXANoBbSf94OgIm2xh4resC8Vb8+qBCho/5LYggy5EWmG
- S+tPRs20hupLwrS0H3i1kxkIDZO24ucc1MSZS5sdcntHfQxC46AwPHG/Pct7y0SqJD9/
- XSNQ==
+ bh=1O2PejeTP4/HHM28pQRI78fBSJFwWtu/uO/a5y1HGs4=;
+ b=bWzo84C9CIjY2c44n5FMYRAq5FtbbEHy1RAPjtQDexBtifBQqpgcNFN+RRrpiMMGEz
+ y+TWjslVVqLgr6zv7r/+k3DTCpnfs27lVPA0LYkMSUdwA5EjdTf1jBSIMkQWNaj0pEKF
+ DiFF4YB02AsMBTsxAGhD00sLQbMR6UNhZ7u7XRarfQRQGmS7IN7DFpMsCSq7BJW0zmBT
+ gHuTfHeOqvL9nsinEV0RKzsgBmopbpFGD4Xd0SvOOu6lvM+b+sLUIrr2FOutvCPEyLln
+ g4K3n2E1eZ6jb55RoeDSr35JL/b1du83EQX2aEPJwX6/iL5/Yy2R9Phi4qoe86TX2YRg
+ i6Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fqHINLJ+tbUImk2k2vZK07UgLGr7IB8EBQi3ARp/MYk=;
- b=0MkY4l/gMRmTGt1ax5ozSMGk9z777Q8eK+Ta8z5aCJwjtcZHtybgyUXei6ELGqLAyv
- od8XIRlovbjxcMHc9UbHiMbw22lSsTllfhXi5oRhbG/ViETfE1Ylsc5szWI5cy2DDkae
- yvItmkSJky0bSFZlE65KkVL4XEzOlBOob04slBPohR6JXbAk12s8MBteQn7E7fMGobv4
- QhRBttoth585nRdM4QAfQFkG2BjV+bKWW40KAoN7uUK00qzDAAvhYt2fGajduGISVxvh
- 0x6ax0lYC6nHVx/gT6FXR44/mYJ3O/WNqvKnLr6vCPXcBU7ovwIizeJ0h6bZaHFqjAmE
- 6+8Q==
-X-Gm-Message-State: AOAM530FklE1mZKMsd61Q0CaHs3QVp88+VcVXZzkitSjZP+rLMT4YBSt
- qS6B0R8kgHvtURV5xw/0zYJyFQ==
-X-Google-Smtp-Source: ABdhPJytpWlVmBRjHrchsqmHb+uPSmj1Cp5cwe1SmUhayZTERUXxT878uoCUiycDEFp/n3Y9olOuIg==
-X-Received: by 2002:a17:907:3e91:: with SMTP id
- hs17mr7100670ejc.384.1641987379407; 
- Wed, 12 Jan 2022 03:36:19 -0800 (PST)
+ bh=1O2PejeTP4/HHM28pQRI78fBSJFwWtu/uO/a5y1HGs4=;
+ b=fGPXmK/EJ3qdrbbBxjvJivRjg5Ewa3wVWP/nEO6TFytStBfhZ6ZNlGhXC5cy1dq4bk
+ iFqR9nBlsMlsbwhPQfgsTCJabI21Kpffp8IvUVZS8crEjHsbXnaFn/gSTipqHyfFqpBI
+ gIOrMyDZD/nLWs8bMxjPi5qeq4FRy/pav9k2bq5DH8iGkjuhWNxJQ3APs69bne6Jzhjd
+ 44ywavvQwDTElYpxhzo78gyNCRX3KaMejfHJmNlO+cXKu18g6oZuCUxnOg13+nK+DKRH
+ IDUwWYBBUTVSHZO+XLKE70Rh9TRynKrI9fJwVfGQosUiyW9S8ASHIlHTgYAnEYZtfV7Y
+ hHQg==
+X-Gm-Message-State: AOAM530y+oNtwTyiUHv4oe9HzO9eO+IwkrnPTP/qUqbQ7Na2T84v53ny
+ MMQWXyiB2MR9xyArm6XPWfSSZw==
+X-Google-Smtp-Source: ABdhPJxVsQy+H4kKL1AjPhrDai2YfcTMplghcjZnw+sLV7R0extFdGmj3s5pHOOWNFdvNGFOex19Mg==
+X-Received: by 2002:a17:907:1b21:: with SMTP id
+ mp33mr7153738ejc.580.1641987378662; 
+ Wed, 12 Jan 2022 03:36:18 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id gt38sm1335664ejc.114.2022.01.12.03.36.11
+ by smtp.gmail.com with ESMTPSA id sc3sm4499287ejc.93.2022.01.12.03.36.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 12 Jan 2022 03:36:16 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 168A71FFD5;
+ by zen.linaroharston (Postfix) with ESMTP id 2D19F1FFD6;
  Wed, 12 Jan 2022 11:27:25 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 29/31] FreeBSD: Upgrade to 12.3 release
-Date: Wed, 12 Jan 2022 11:27:20 +0000
-Message-Id: <20220112112722.3641051-30-alex.bennee@linaro.org>
+Subject: [PULL 30/31] docker: include bison in debian-tricore-cross
+Date: Wed, 12 Jan 2022 11:27:21 +0000
+Message-Id: <20220112112722.3641051-31-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220112112722.3641051-1-alex.bennee@linaro.org>
 References: <20220112112722.3641051-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::532
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,84 +90,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org,
+Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Warner Losh <imp@bsdimp.com>, Brad Smith <brad@comstyle.com>
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Brad Smith <brad@comstyle.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-Note, since libtasn1 was fixed in 12.3 [*], this commit re-enables GnuTLS.
+Binutils sometimes fail to build if bison is not installed:
 
-[*] https://gitlab.com/gnutls/libtasn1/-/merge_requests/71
+  /bin/sh ./ylwrap `test -f arparse.y || echo ./`arparse.y y.tab.c arparse.c y.tab.h arparse.h y.output arparse.output --  -d
+  ./ylwrap: 109: ./ylwrap: -d: not found
 
-Signed-off-by: Brad Smith <brad@comstyle.com>
-Tested-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Warner Losh <imp@bsdimp.com>
+(the correct invocation of ylwrap would have "bison -d" after the double
+dash).  Work around by installing it in the container.
+
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/596
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20211221111624.352804-1-pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <YdUCQLVe5JSWZByQ@humpty.home.comstyle.com>
-Message-Id: <20220105135009.1584676-31-alex.bennee@linaro.org>
+Message-Id: <20220105135009.1584676-34-alex.bennee@linaro.org>
 
-diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
-index 19e6c21401..b96b22e269 100644
---- a/.gitlab-ci.d/cirrus.yml
-+++ b/.gitlab-ci.d/cirrus.yml
-@@ -52,14 +52,11 @@ x64-freebsd-12-build:
-     NAME: freebsd-12
-     CIRRUS_VM_INSTANCE_TYPE: freebsd_instance
-     CIRRUS_VM_IMAGE_SELECTOR: image_family
--    CIRRUS_VM_IMAGE_NAME: freebsd-12-2
-+    CIRRUS_VM_IMAGE_NAME: freebsd-12-3
-     CIRRUS_VM_CPUS: 8
-     CIRRUS_VM_RAM: 8G
-     UPDATE_COMMAND: pkg update
-     INSTALL_COMMAND: pkg install -y
--    # TODO: Enable gnutls again once FreeBSD's libtasn1 got fixed
--    # See: https://gitlab.com/gnutls/libtasn1/-/merge_requests/71
--    CONFIGURE_ARGS: --disable-gnutls
-     TEST_TARGETS: check
- 
- x64-freebsd-13-build:
-diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-index 6e20e84322..805db759d6 100755
---- a/tests/vm/freebsd
-+++ b/tests/vm/freebsd
-@@ -28,8 +28,8 @@ class FreeBSDVM(basevm.BaseVM):
-     name = "freebsd"
-     arch = "x86_64"
- 
--    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-amd64-disc1.iso.xz"
--    csum = "a4530246cafbf1dd42a9bd3ea441ca9a78a6a0cd070278cbdf63f3a6f803ecae"
-+    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.3/FreeBSD-12.3-RELEASE-amd64-disc1.iso.xz"
-+    csum = "36dd0de50f1fe5f0a88e181e94657656de26fb64254412f74e80e128e8b938b4"
-     size = "20G"
-     pkgs = [
-         # build tools
-@@ -65,8 +65,6 @@ class FreeBSDVM(basevm.BaseVM):
-         "zstd",
-     ]
- 
--    # TODO: Enable gnutls again once FreeBSD's libtasn1 got fixed
--    # See: https://gitlab.com/gnutls/libtasn1/-/merge_requests/71
-     BUILD_SCRIPT = """
-         set -e;
-         rm -rf /home/qemu/qemu-test.*
-@@ -74,7 +72,7 @@ class FreeBSDVM(basevm.BaseVM):
-         mkdir src build; cd src;
-         tar -xf /dev/vtbd1;
-         cd ../build
--        ../src/configure --python=python3.7 --disable-gnutls {configure_opts};
-+        ../src/configure --python=python3.7 {configure_opts};
-         gmake --output-sync -j{jobs} {target} {verbose};
-     """
- 
+diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
+index d8df2c6117..3f6b55562c 100644
+--- a/tests/docker/dockerfiles/debian-tricore-cross.docker
++++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
+@@ -16,6 +16,7 @@ MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+ RUN apt update && \
+     DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
+     DEBIAN_FRONTEND=noninteractive eatmydata apt install -yy \
++       bison \
+        bzip2 \
+        ca-certificates \
+        ccache \
 -- 
 2.30.2
 
