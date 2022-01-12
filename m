@@ -2,80 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48A5348C6A2
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 16:01:02 +0100 (CET)
-Received: from localhost ([::1]:53136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1627C48C6AD
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 16:06:55 +0100 (CET)
+Received: from localhost ([::1]:33768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7f7U-00070q-CI
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 10:01:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36022)
+	id 1n7fDB-000590-Vo
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 10:06:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n7eTo-0008NF-V3
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 09:20:01 -0500
-Received: from [2a00:1450:4864:20::530] (port=34654
- helo=mail-ed1-x530.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n7eTm-0006jq-Cr
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 09:20:00 -0500
-Received: by mail-ed1-x530.google.com with SMTP id u25so10664859edf.1
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 06:19:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=FAYvpuCNCez0LKM7653xbVznWv16QmdgybFo9Wqpoh4=;
- b=PyDH29q1AYio2fjkgHHFIed1RUHdP5ZlZKhHeTyvH1PMOCP6DRliSgOb5EeyDfbDec
- MtQwAQ3QLi1Y4gVv5P4hV3T+cDcH1rUbnryAPLNu/CbRjCdL3zonS5kQwwiTsvT9iOSP
- MasqL0eQyAXD5aOw8FJUuJHlkvIU4AkR9Kg91yiGthqqVQaDr6psZsLAw9d7m5zqQmnX
- a+zxziAHivMew//NTmXwl5O2xHExYE22x7IutbFRfuTzDF5fZuZd8zBZTJRDq7QTUgVU
- 1vuLje4FIGaitAV4mZGOM9lAQdAAY8xGrDFJxrCmbGKgkisA3T9JLa4HGa9bnkcVbhJL
- sW2A==
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1n7e3D-0007KQ-B0
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 08:52:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45721)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1n7e2y-0001VH-VA
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 08:52:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641995536;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1HXfQTpCebizzugLFkFlaBClRfqzIcjyiTgq/HXipHc=;
+ b=Y/7tW3weMPB0mXjNqHsDMVgFc9G/K1IatSZAryEPqtr4HiwLMW3sqMfkWjVNmJ2/NmIMTU
+ nntN3e9fJrD3i9s5JNePyEvozk1A1HJzDBuHxedOxk/D00QUNea3b0JSodzZPO6DOlUjoO
+ KZOMfCQ9yNspcO5DbecgJ4ixe8W71BY=
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
+ [209.85.221.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-640-QlGWEqpnOA-3KmxpjTkSYg-1; Wed, 12 Jan 2022 08:52:15 -0500
+X-MC-Unique: QlGWEqpnOA-3KmxpjTkSYg-1
+Received: by mail-vk1-f198.google.com with SMTP id
+ r66-20020a1fda45000000b0031524495b43so420834vkg.17
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 05:52:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=FAYvpuCNCez0LKM7653xbVznWv16QmdgybFo9Wqpoh4=;
- b=3LNK/BNBSonPR+2QKnR5NotW+6vwuN5PhKm02xDlJayRrDbBv9T6bf18aOrWCkwagi
- gb+YuPtjLytUGVKl0oaFdfSD8pdaVWYXhuD8lfyp/Xai1Q+DqYsBswAnFyAjXejXXJmi
- rOFJDwhkpjsr1riJ86luC8iTu2p5PgLEDp7PacE5tB8yVzpgtkiIDBVX+qmkyMswRQiJ
- Gh2LBa2SQKX21CmOVaZ43nazrKmLaqNgutSTbhENamgOPFLcq3lVLmiXrpWkN8Z/NLOa
- 59ve/0ADwVuuXJVZjaybcWRnrJpMMpGvoUxLmpuOaWBFq4FpGUnKbY7Ax5hU50ftLDzk
- FY8g==
-X-Gm-Message-State: AOAM532vBEResizVTrNscpR2iKR47ITf1Uze3d5nbFEAKsFvLe/3we0y
- 59UfrCn5e+E2QrXMFYSUNSOZpI4j2TU=
-X-Google-Smtp-Source: ABdhPJx58SmHynG/BMkH1LYp6Z0G7uA1mQzCXwdxcrfr+ePBoaBQWc0nRc59oaUYoJTAYaaY6edMUg==
-X-Received: by 2002:a17:907:2ce5:: with SMTP id
- hz5mr7813239ejc.153.1641997196007; 
- Wed, 12 Jan 2022 06:19:56 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id x20sm6137893edd.28.2022.01.12.06.19.55
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1HXfQTpCebizzugLFkFlaBClRfqzIcjyiTgq/HXipHc=;
+ b=zabPFI7AGEu4IydwiBq/J9Ura1Bkz2LBcx53IjjutqD+bcMrqUFlrgO3L3T8+58xNB
+ St1rbs8N54yXp/fwmlkTV6w4xoTpt8mC3p6ZKQabpZF0KE55VkGnc2fUWOB0k0jAti5p
+ ITQtQss4gkCGD0F1FfEuQ1RJ0ZTr0mn4muQ3gT+z5961W7MJE3yBWkU0mX3g/NHLQEHh
+ XXtdIpng4TvTbMcfN/YDMbOCjSUBc518LEMP2Vf1c9lN0HQGceYKh2wN4eH0BdjRZoa8
+ NHMdeRo6N4QkWoaJbDawZBobXYpXjM1LM4KipgOiaOfUKNWf/+eFxwcBB711uD3YJ7Rc
+ BA3g==
+X-Gm-Message-State: AOAM533M/FfvoSPi+KTZEjqBOcEde46z6cn83huv0r1TxUUaQ7o30zMs
+ Xo5y1+wKL1ZMgmBtr3ZezkqT7vuZV0lPOCUi/DxFc++9jngblaUrmKqKxreOfSTwB+Yb5MlcoFL
+ x/XwaU/zsc41ehNs=
+X-Received: by 2002:ab0:134:: with SMTP id 49mr3958494uak.22.1641995534633;
+ Wed, 12 Jan 2022 05:52:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzi0TMKdiVKlPPOVJIGw17xhVTkPMaHvAK30Ecmhiv3Ua+TxRJVBuEmBLuFYJHxnVdZJCXixg==
+X-Received: by 2002:ab0:134:: with SMTP id 49mr3958488uak.22.1641995534454;
+ Wed, 12 Jan 2022 05:52:14 -0800 (PST)
+Received: from localhost ([2804:18:8ca:405a:c209:ac99:1eeb:4fa6])
+ by smtp.gmail.com with ESMTPSA id 23sm193094vkw.4.2022.01.12.05.52.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jan 2022 06:19:55 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v5 04/18] block/file-posix: Simplify the XFS_IOC_DIOINFO
- handling
-Date: Wed, 12 Jan 2022 15:19:53 +0100
-Message-Id: <20220112141953.59545-2-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220112141953.59545-1-pbonzini@redhat.com>
-References: <20220112141953.59545-1-pbonzini@redhat.com>
+ Wed, 12 Jan 2022 05:52:14 -0800 (PST)
+Date: Wed, 12 Jan 2022 10:52:12 -0300
+From: Beraldo Leal <bleal@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v3 14/31] python/qmp: switch qmp-shell to AQMP
+Message-ID: <20220112135212.b4w5q5rv6qdz2jk5@laptop.redhat>
+References: <20220110232910.1923864-1-jsnow@redhat.com>
+ <20220110232910.1923864-15-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::530
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20220110232910.1923864-15-jsnow@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bleal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=bleal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,212 +93,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel Berrange <berrange@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Wainer Moschetta <wainersm@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+On Mon, Jan 10, 2022 at 06:28:53PM -0500, John Snow wrote:
+> We have a replacement for async QMP, but it doesn't have feature parity
+> yet. For now, then, port the old tool onto the new backend.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  python/qemu/aqmp/legacy.py   |  3 +++
+>  python/qemu/qmp/qmp_shell.py | 31 +++++++++++++++++--------------
+>  2 files changed, 20 insertions(+), 14 deletions(-)
+> 
+> diff --git a/python/qemu/aqmp/legacy.py b/python/qemu/aqmp/legacy.py
+> index 27df22818a..0890f95b16 100644
+> --- a/python/qemu/aqmp/legacy.py
+> +++ b/python/qemu/aqmp/legacy.py
+> @@ -22,6 +22,9 @@
+>  from .qmp_client import QMPClient
+>  
+>  
+> +# (Temporarily) Re-export QMPBadPortError
+> +QMPBadPortError = qemu.qmp.QMPBadPortError
 
-The handling for the XFS_IOC_DIOINFO ioctl is currently quite excessive:
-This is not a "real" feature like the other features that we provide with
-the "--enable-xxx" and "--disable-xxx" switches for the configure script,
-since this does not influence lots of code (it's only about one call to
-xfsctl() in file-posix.c), so people don't gain much with the ability to
-disable this with "--disable-xfsctl".
-It's also unfortunate that the ioctl will be disabled on Linux in case
-the user did not install the right xfsprogs-devel package before running
-configure. Thus let's simplify this by providing the ioctl definition
-on our own, so we can completely get rid of the header dependency and
-thus the related code in the configure script.
+Probably I'm missing something, but any reason for not using, something
+like this?
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20211215125824.250091-1-thuth@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- block/file-posix.c                            | 37 ++++++++-----------
- configure                                     | 31 ----------------
- meson.build                                   |  1 -
- .../ci/org.centos/stream/8/x86_64/configure   |  1 -
- scripts/coverity-scan/run-coverity-scan       |  2 +-
- 5 files changed, 17 insertions(+), 55 deletions(-)
+from qemu.qmp import (QMPMessage, QMPReturnValue, SocketAddrT,
+                      QMPBadPortError)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index b283093e5b..1f1756e192 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -106,10 +106,6 @@
- #include <sys/diskslice.h>
- #endif
- 
--#ifdef CONFIG_XFS
--#include <xfs/xfs.h>
--#endif
--
- /* OS X does not have O_DSYNC */
- #ifndef O_DSYNC
- #ifdef O_SYNC
-@@ -156,9 +152,6 @@ typedef struct BDRVRawState {
-     int perm_change_flags;
-     BDRVReopenState *reopen_state;
- 
--#ifdef CONFIG_XFS
--    bool is_xfs:1;
--#endif
-     bool has_discard:1;
-     bool has_write_zeroes:1;
-     bool discard_zeroes:1;
-@@ -409,14 +402,22 @@ static void raw_probe_alignment(BlockDriverState *bs, int fd, Error **errp)
-     if (probe_logical_blocksize(fd, &bs->bl.request_alignment) < 0) {
-         bs->bl.request_alignment = 0;
-     }
--#ifdef CONFIG_XFS
--    if (s->is_xfs) {
--        struct dioattr da;
--        if (xfsctl(NULL, fd, XFS_IOC_DIOINFO, &da) >= 0) {
--            bs->bl.request_alignment = da.d_miniosz;
--            /* The kernel returns wrong information for d_mem */
--            /* s->buf_align = da.d_mem; */
--        }
-+
-+#ifdef __linux__
-+    /*
-+     * The XFS ioctl definitions are shipped in extra packages that might
-+     * not always be available. Since we just need the XFS_IOC_DIOINFO ioctl
-+     * here, we simply use our own definition instead:
-+     */
-+    struct xfs_dioattr {
-+        uint32_t d_mem;
-+        uint32_t d_miniosz;
-+        uint32_t d_maxiosz;
-+    } da;
-+    if (ioctl(fd, _IOR('X', 30, struct xfs_dioattr), &da) >= 0) {
-+        bs->bl.request_alignment = da.d_miniosz;
-+        /* The kernel returns wrong information for d_mem */
-+        /* s->buf_align = da.d_mem; */
-     }
- #endif
- 
-@@ -798,12 +799,6 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
- #endif
-     s->needs_alignment = raw_needs_alignment(bs);
- 
--#ifdef CONFIG_XFS
--    if (platform_test_xfs_fd(s->fd)) {
--        s->is_xfs = true;
--    }
--#endif
--
-     bs->supported_zero_flags = BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK;
-     if (S_ISREG(st.st_mode)) {
-         /* When extending regular files, we get zeros from the OS */
-diff --git a/configure b/configure
-index 030728d11e..3a523a3d14 100755
---- a/configure
-+++ b/configure
-@@ -291,7 +291,6 @@ EXTRA_CXXFLAGS=""
- EXTRA_LDFLAGS=""
- 
- xen_ctrl_version="$default_feature"
--xfs="$default_feature"
- membarrier="$default_feature"
- vhost_kernel="$default_feature"
- vhost_net="$default_feature"
-@@ -1021,10 +1020,6 @@ for opt do
-   ;;
-   --enable-opengl) opengl="yes"
-   ;;
--  --disable-xfsctl) xfs="no"
--  ;;
--  --enable-xfsctl) xfs="yes"
--  ;;
-   --disable-zlib-test)
-   ;;
-   --enable-guest-agent) guest_agent="yes"
-@@ -1431,7 +1426,6 @@ cat << EOF
-   avx512f         AVX512F optimization support
-   replication     replication support
-   opengl          opengl support
--  xfsctl          xfsctl support
-   qom-cast-debug  cast debugging support
-   tools           build qemu-io, qemu-nbd and qemu-img tools
-   bochs           bochs image format support
-@@ -2323,28 +2317,6 @@ EOF
-     fi
- fi
- 
--##########################################
--# xfsctl() probe, used for file-posix.c
--if test "$xfs" != "no" ; then
--  cat > $TMPC << EOF
--#include <stddef.h>  /* NULL */
--#include <xfs/xfs.h>
--int main(void)
--{
--    xfsctl(NULL, 0, 0, NULL);
--    return 0;
--}
--EOF
--  if compile_prog "" "" ; then
--    xfs="yes"
--  else
--    if test "$xfs" = "yes" ; then
--      feature_not_found "xfs" "Install xfsprogs/xfslibs devel"
--    fi
--    xfs=no
--  fi
--fi
--
- ##########################################
- # plugin linker support probe
- 
-@@ -3456,9 +3428,6 @@ echo "CONFIG_BDRV_RO_WHITELIST=$block_drv_ro_whitelist" >> $config_host_mak
- if test "$block_drv_whitelist_tools" = "yes" ; then
-   echo "CONFIG_BDRV_WHITELIST_TOOLS=y" >> $config_host_mak
- fi
--if test "$xfs" = "yes" ; then
--  echo "CONFIG_XFS=y" >> $config_host_mak
--fi
- qemu_version=$(head $source_path/VERSION)
- echo "PKGVERSION=$pkgversion" >>$config_host_mak
- echo "SRC_PATH=$source_path" >> $config_host_mak
-diff --git a/meson.build b/meson.build
-index f0567daf42..be592aa942 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3445,7 +3445,6 @@ if spice_protocol.found()
-   summary_info += {'  spice server support': spice}
- endif
- summary_info += {'rbd support':       rbd}
--summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
- summary_info += {'smartcard support': cacard}
- summary_info += {'U2F support':       u2f}
- summary_info += {'libusb':            libusb}
-diff --git a/scripts/ci/org.centos/stream/8/x86_64/configure b/scripts/ci/org.centos/stream/8/x86_64/configure
-index 048e80dc49..e05f2fddcc 100755
---- a/scripts/ci/org.centos/stream/8/x86_64/configure
-+++ b/scripts/ci/org.centos/stream/8/x86_64/configure
-@@ -151,7 +151,6 @@
- --disable-whpx \
- --disable-xen \
- --disable-xen-pci-passthrough \
----disable-xfsctl \
- --disable-xkbcommon \
- --disable-zstd \
- --enable-attr \
-diff --git a/scripts/coverity-scan/run-coverity-scan b/scripts/coverity-scan/run-coverity-scan
-index 7395bbfad4..6d443250a9 100755
---- a/scripts/coverity-scan/run-coverity-scan
-+++ b/scripts/coverity-scan/run-coverity-scan
-@@ -398,7 +398,7 @@ echo "Configuring..."
-     --enable-xen --enable-brlapi \
-     --enable-linux-aio --enable-attr \
-     --enable-cap-ng --enable-trace-backends=log --enable-spice --enable-rbd \
--    --enable-xfsctl --enable-libusb --enable-usb-redir \
-+    --enable-libusb --enable-usb-redir \
-     --enable-libiscsi --enable-libnfs --enable-seccomp \
-     --enable-tpm --enable-libssh --enable-lzo --enable-snappy --enable-bzip2 \
-     --enable-numa --enable-rdma --enable-smartcard --enable-virglrenderer \
--- 
-2.33.1
+--
+Beraldo
+
 
