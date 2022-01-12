@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D904248C32B
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 12:31:48 +0100 (CET)
-Received: from localhost ([::1]:36592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E65848C364
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 12:42:35 +0100 (CET)
+Received: from localhost ([::1]:34338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7br1-0005dx-FO
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 06:31:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55164)
+	id 1n7c1S-0006Bd-DO
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 06:42:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n7bmy-0002cp-8j
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:36 -0500
-Received: from [2607:f8b0:4864:20::92f] (port=36515
- helo=mail-ua1-x92f.google.com)
+ id 1n7bmu-0002cF-IQ
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:32 -0500
+Received: from [2607:f8b0:4864:20::a2e] (port=44558
+ helo=mail-vk1-xa2e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n7bmw-0003OG-HE
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:35 -0500
-Received: by mail-ua1-x92f.google.com with SMTP id r15so4128452uao.3
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 03:27:33 -0800 (PST)
+ id 1n7bmr-0003NY-Hp
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:32 -0500
+Received: by mail-vk1-xa2e.google.com with SMTP id b77so1401197vka.11
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 03:27:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iUUsxduOQQvdvTKron49JU4EmlWie7HnJBthT1HKNP8=;
- b=p6Cb+Bo4vA9l0QI0SE/9ZBuzLJtoD/whrPTIcZks/cpn/mvtzhiqqfaFhLFOn2s5ob
- wvqXTASphU0FtZqUygQj9dHhlnvj8T7CAPXCAAO6eR5zi00hqV0Jigv5kvlRNyF2CVlz
- 1E+eGGWYvGePhdGYE0v1bVazi4kuLBDU/gvH/Sbd7MPnCjiR5xZsDeNuSb3I6LwZ/AwE
- hm1e/uz1jAFGLz7pcpInwa4XMgN53udVyDho9ookGimQc8RnHZFoesAhffQCSOAnwUek
- 0nk0JUtp8Crz9Pk5kvSQKLpL7g4cadOgQBLkZvl8VK8sWcNnlHeZQ6l62eQ1d+j9W1PF
- AxGQ==
+ bh=WTh92i1BO2OOVgeffrU3D/gzl+s5Mo3VxHnxRRugIRI=;
+ b=z53P9IVmNRCIItSshsmMek7X2nPKNDd9p/CWwAf0XXZndPe1sg5BCm8gnjjhEHE4wf
+ cIO6Q2haZ2Qpxvvly8DICFmajeR+XvVamLdDtXnRwE6MEdm5094aTNYm43To7XBwsfcF
+ GTu7/eoASlJ2ilCvitoxFUOukxJdyBZEdSpPxmxPAbNzC+bhpeysmcO+0eyjMet3ivVp
+ tPnJ789paCdQcDDG2NivErCK65lX1HETAfxB0U3SaE8umjmH8Tdbc9iFS9wRK1OeQA8H
+ 3KQyd9R6F8clJ4fKYhE5R6gbaLHKn84xWj7vFuxyLCyNmH8r+4Bh8fKb9CS+35Qk8V2o
+ UwmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iUUsxduOQQvdvTKron49JU4EmlWie7HnJBthT1HKNP8=;
- b=Mxu7ITOCVMTrKUOiw8xgMRXh0g9Ft6z0amc30uLfFStECmosFU/sLX21F12YSHt04p
- H7fxfCwi1PjA84bGClCULF8BXputaTq6du7uzjcbF0qRSzIOLD0Sd3Sppc10kwDMIrb2
- 6u7XFzUOQ6dg6UkzlnQQ9kxarg/JaTYIkAG8n7zLR8P2uZetdtx8V6iH8g5qF8QwAHwa
- 9exgJSJFXax6n6sGEmBf9VfWXP/Dt/hwT5TlL/GwK8sbc4QlwusJsHkG30xieuQrBb2H
- BUQm/fg8eddvhzPMA3ncwJ5fQ2Xu9xCUzGsccwxATFRvhbuZib7ijqt05Fdeq7hHK1P4
- xE6A==
-X-Gm-Message-State: AOAM5335bfh7VRSz6BqNpAkifiUA1hABUfx+YHXeewdLXCiCtG1jE07P
- AN7a1wMTrJ3JAquHyDVY66848A==
-X-Google-Smtp-Source: ABdhPJxtS2Q/iSrNEKgFztLYep76KZvehUg9sbOgnJBdNLALeqYaR4MZrTy0AcMEadlX7yQkvAglFw==
-X-Received: by 2002:a05:6102:52a:: with SMTP id
- m10mr3771504vsa.80.1641986852566; 
- Wed, 12 Jan 2022 03:27:32 -0800 (PST)
+ bh=WTh92i1BO2OOVgeffrU3D/gzl+s5Mo3VxHnxRRugIRI=;
+ b=3Ta6JZNsJ8Ui+Qwb4pEuzo/auhTUMZokk3JhSSe9zUI4aL1wlzCJEIxKb45xy/HDPh
+ RDQ2qJVnQHiIdwVUX9E9HRnmiVU7IIBZO2+M7FTaBMdPlxn0kW9A+u0B7pbh8MQBDmol
+ 64Qy7TI8G4b1FBAo0SYaMHoa/BCSDnu3AxxmCsUXGnKRAb60jr3AfwU9CzKvS7DoKjmi
+ 8hahfkHBoUaNHaWjOUCYDT7yakGSDYKYXa/PWdrCT8IcJjkdDrb7v7L/lsD7afVY/UJd
+ yvw1D4SJGk6JB1oEL+qVVzupuBFLQ8yzV9leNG48Ig4IqaHEpNxZSjODSYg5ro0zIhPM
+ h14w==
+X-Gm-Message-State: AOAM5331k8g1kOK+JHsoM3wbtDHcDN91v5C0rSTv73MgXPgdZpMzhDA8
+ aHGDlFgB+lLQhY7zcUx9weOwCC5vjojtKw==
+X-Google-Smtp-Source: ABdhPJyDkDhwKQOyfGdhwT9tAkq/QB3eFHok1kr+NeULNAwVX7/CwGvoRD81Q7xE0zLwIQuW5oWW/Q==
+X-Received: by 2002:a05:6122:8c6:: with SMTP id 6mr4361338vkg.5.1641986848511; 
+ Wed, 12 Jan 2022 03:27:28 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m62sm7563606uam.0.2022.01.12.03.27.23
+ by smtp.gmail.com with ESMTPSA id a29sm3557300vsl.25.2022.01.12.03.27.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 12 Jan 2022 03:27:24 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7A7A71FFBA;
+ by zen.linaroharston (Postfix) with ESMTP id 8FF7C1FFBB;
  Wed, 12 Jan 2022 11:27:22 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 02/31] spice: Update QXLInterface for spice >= 0.15.0
-Date: Wed, 12 Jan 2022 11:26:53 +0000
-Message-Id: <20220112112722.3641051-3-alex.bennee@linaro.org>
+Subject: [PULL 03/31] meson: require liburing >= 0.3
+Date: Wed, 12 Jan 2022 11:26:54 +0000
+Message-Id: <20220112112722.3641051-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220112112722.3641051-1-alex.bennee@linaro.org>
 References: <20220112112722.3641051-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a2e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92f;
- envelope-from=alex.bennee@linaro.org; helo=mail-ua1-x92f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-vk1-xa2e.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,121 +89,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-spice updated the spelling (and arguments) of "attache_worker" in
-0.15.0. Update QEMU to match, preventing -Wdeprecated-declarations
-compilations from reporting build errors.
+openSUSE Leap 15.2 ships with liburing == 0.2 against which QEMU fails
+to build.
 
-See also:
-https://gitlab.freedesktop.org/spice/spice/-/commit/974692bda1e77af92b71ed43b022439448492cb9
+../util/fdmon-io_uring.c: In function ‘fdmon_io_uring_need_wait’:
+../util/fdmon-io_uring.c:305:9: error: implicit declaration of function ‘io_uring_sq_ready’; did you mean ‘io_uring_cq_ready’? [-Werror=implicit-function-declaration]
+     if (io_uring_sq_ready(&ctx->fdmon_io_uring)) {
+         ^~~~~~~~~~~~~~~~~
+         io_uring_cq_ready
+
+This method was introduced in liburing 0.3, so set that as a minimum
+requirement.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20211215141949.3512719-3-berrange@redhat.com>
-Message-Id: <20220105135009.1584676-3-alex.bennee@linaro.org>
+Message-Id: <20211215141949.3512719-4-berrange@redhat.com>
+Message-Id: <20220105135009.1584676-4-alex.bennee@linaro.org>
 
-diff --git a/include/ui/qemu-spice.h b/include/ui/qemu-spice.h
-index 71ecd6cfd1..21fe195e18 100644
---- a/include/ui/qemu-spice.h
-+++ b/include/ui/qemu-spice.h
-@@ -40,6 +40,12 @@ int qemu_spice_migrate_info(const char *hostname, int port, int tls_port,
- #define SPICE_NEEDS_SET_MM_TIME 0
- #endif
- 
-+#if defined(SPICE_SERVER_VERSION) && (SPICE_SERVER_VERSION >= 0x000f00)
-+#define SPICE_HAS_ATTACHED_WORKER 1
-+#else
-+#define SPICE_HAS_ATTACHED_WORKER 0
-+#endif
-+
- #else  /* CONFIG_SPICE */
- 
- #include "qemu/error-report.h"
-diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-index e2d6e317da..1f9ad31943 100644
---- a/hw/display/qxl.c
-+++ b/hw/display/qxl.c
-@@ -517,13 +517,20 @@ static int qxl_track_command(PCIQXLDevice *qxl, struct QXLCommandExt *ext)
- 
- /* spice display interface callbacks */
- 
--static void interface_attach_worker(QXLInstance *sin, QXLWorker *qxl_worker)
-+static void interface_attached_worker(QXLInstance *sin)
- {
-     PCIQXLDevice *qxl = container_of(sin, PCIQXLDevice, ssd.qxl);
- 
-     trace_qxl_interface_attach_worker(qxl->id);
- }
- 
-+#if !(SPICE_HAS_ATTACHED_WORKER)
-+static void interface_attach_worker(QXLInstance *sin, QXLWorker *qxl_worker)
-+{
-+    interface_attached_worker(sin);
-+}
-+#endif
-+
- static void interface_set_compression_level(QXLInstance *sin, int level)
- {
-     PCIQXLDevice *qxl = container_of(sin, PCIQXLDevice, ssd.qxl);
-@@ -1131,7 +1138,12 @@ static const QXLInterface qxl_interface = {
-     .base.major_version      = SPICE_INTERFACE_QXL_MAJOR,
-     .base.minor_version      = SPICE_INTERFACE_QXL_MINOR,
- 
-+#if SPICE_HAS_ATTACHED_WORKER
-+    .attached_worker         = interface_attached_worker,
-+#else
-     .attache_worker          = interface_attach_worker,
-+#endif
-+
-     .set_compression_level   = interface_set_compression_level,
- #if SPICE_NEEDS_SET_MM_TIME
-     .set_mm_time             = interface_set_mm_time,
-diff --git a/ui/spice-display.c b/ui/spice-display.c
-index 1043f47f94..a3078adf91 100644
---- a/ui/spice-display.c
-+++ b/ui/spice-display.c
-@@ -500,10 +500,17 @@ void qemu_spice_display_refresh(SimpleSpiceDisplay *ssd)
- 
- /* spice display interface callbacks */
- 
-+#if SPICE_HAS_ATTACHED_WORKER
-+static void interface_attached_worker(QXLInstance *sin)
-+{
-+    /* nothing to do */
-+}
-+#else
- static void interface_attach_worker(QXLInstance *sin, QXLWorker *qxl_worker)
- {
-     /* nothing to do */
- }
-+#endif
- 
- static void interface_set_compression_level(QXLInstance *sin, int level)
- {
-@@ -702,7 +709,11 @@ static const QXLInterface dpy_interface = {
-     .base.major_version      = SPICE_INTERFACE_QXL_MAJOR,
-     .base.minor_version      = SPICE_INTERFACE_QXL_MINOR,
- 
-+#if SPICE_HAS_ATTACHED_WORKER
-+    .attached_worker         = interface_attached_worker,
-+#else
-     .attache_worker          = interface_attach_worker,
-+#endif
-     .set_compression_level   = interface_set_compression_level,
- #if SPICE_NEEDS_SET_MM_TIME
-     .set_mm_time             = interface_set_mm_time,
+diff --git a/meson.build b/meson.build
+index c1b1db1e28..076d85baba 100644
+--- a/meson.build
++++ b/meson.build
+@@ -440,7 +440,8 @@ if not get_option('linux_aio').auto() or have_block
+ endif
+ linux_io_uring = not_found
+ if not get_option('linux_io_uring').auto() or have_block
+-  linux_io_uring = dependency('liburing', required: get_option('linux_io_uring'),
++  linux_io_uring = dependency('liburing', version: '>=0.3',
++                              required: get_option('linux_io_uring'),
+                               method: 'pkg-config', kwargs: static_kwargs)
+ endif
+ libxml2 = not_found
 -- 
 2.30.2
 
