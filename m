@@ -2,87 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D110C48C8CB
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 17:49:41 +0100 (CET)
-Received: from localhost ([::1]:43900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7069648C8D6
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 17:52:33 +0100 (CET)
+Received: from localhost ([::1]:47492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7goe-0002tJ-Nd
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 11:49:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35650)
+	id 1n7grQ-0005PM-HT
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 11:52:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1n7gmj-0000l3-4w
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 11:47:43 -0500
-Received: from [2607:f8b0:4864:20::102e] (port=46631
- helo=mail-pj1-x102e.google.com)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta@ionos.com>)
+ id 1n7gnU-0002Ae-K0
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 11:48:31 -0500
+Received: from [2a00:1450:4864:20::136] (port=34637
+ helo=mail-lf1-x136.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1n7gmf-0000ej-VL
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 11:47:40 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id
- rj2-20020a17090b3e8200b001b1944bad25so5850383pjb.5
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 08:47:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ (Exim 4.90_1) (envelope-from <pankaj.gupta@ionos.com>)
+ id 1n7gnS-0000i7-7M
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 11:48:27 -0500
+Received: by mail-lf1-x136.google.com with SMTP id o12so10325436lfk.1
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 08:48:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7yyDFnQw4D/qVnf88RvaxNYzkT5fTB+CqrIZIK8yZcM=;
- b=lIqvoJunxqoG42oDUid83ASm3wXfrgJ2jisuWlloGBlTRN0iQwK/6Q3s+bDFZ/iLMk
- GrQIWDx7w0CVcE/uZ80FmwhnDUINTgoOY7bpZZj4733tD710sVaN1KkmXFIoSVPN5zvF
- bgGfmFsXlULwrRF23Qovbjlg88BhuRt0nhviqq1AR8fapQ2kDvBmmsOlKsvVoDK/Q211
- KcgVwMQ7AF091I/hG3Ubzw/6AItJDojDCKxOHJbey8kfQsCO6zm99ZPpLPMy1QNnHMVC
- LZfy1vBT9LQjhjqKdPdXdN1BDvH1DWP/GLnzSQUk/ZjGim5gn19vYY3QfoHcsg2TwZEl
- RSOA==
+ :cc; bh=rbF2fuX0LIWvt7pXdtlkHbqK2/gLyZj+z67OxzCD+XM=;
+ b=UJq38y1+VEJ4m4DBKBZcRmF3ZQQ/6Zk/csdRJkyqJWm7AghoyvR6OqIx3aRt/6UJzk
+ rKutNyLA1o5aB2KQtKPVlbdR5dFB9RTQbHxCFsyrU+zfDK0FNbOmKfLAVqxaoWyK99Xq
+ zfSmtyDC9hFQbdTgmjsSLi6YHxCUB0PU7ypeiI3qJgZOPb3VMZlyz4MvBFz+hYp1eq4l
+ l3ih5reCUCn5/EtfxvtWIrtiR+rj5iJtn2AIe9QnQ6+r/k46cwwPITKNvBaZCqbsED/U
+ zIN8UsCOm7ezI3ZfECKk68HEB36xBBihiwy7S+2niQ5v4n4o+lZkjlJTvpPEO4nhXsWq
+ qpiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7yyDFnQw4D/qVnf88RvaxNYzkT5fTB+CqrIZIK8yZcM=;
- b=atvIsWeETmwjuOtWDY7eBxLe3RC7iyu16WxjstYyR1VPmu9v1NvIRRYbH6yKJ4lMLZ
- 4RNVeC5YDr04siSv7rm1touxxzkJxp0QhnzmgtiuE249ZKJTs/Ny0YQlYPGC7BjhOy8b
- NmzdRT4e90ir+RDLf6VZUTE1tCl/dBXET/0omg4Vmie5XKd8NtCk+Hbm0STQ6QXHIBWJ
- 95E6XWgoequ53LZfZ3p7SxQgp9TY1qFBDPDzYh1LQER3/3yPViaierHQZB+p0xuutaLS
- QqYLFomcrCtxfabDF/hGp8KZXpVo9+70246wmVzpZBeZnmK8ofrwmgSfa/iOqyiFaX1b
- 1R/w==
-X-Gm-Message-State: AOAM533J7/2NX6W2ddJnLlSLgL2lniKhbZ+Jjdj/LTSe5xitaUzTMVv1
- luWvcr8E0BBRPCWCJ/QGO/IWthUtidLEAKdZ
-X-Google-Smtp-Source: ABdhPJy1yMMrjWWAC3XtIZyp61i/fWwW3Z3GyM4wwx7H8igSxGkkehAznE6mmOxlDALx0JirJJLgZg==
-X-Received: by 2002:a17:90b:1b46:: with SMTP id
- nv6mr373979pjb.161.1642006056225; 
- Wed, 12 Jan 2022 08:47:36 -0800 (PST)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com.
- [209.85.216.54])
- by smtp.gmail.com with ESMTPSA id e11sm220844pjh.14.2022.01.12.08.47.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Jan 2022 08:47:35 -0800 (PST)
-Received: by mail-pj1-f54.google.com with SMTP id
- i8-20020a17090a138800b001b3936fb375so13291738pja.1; 
- Wed, 12 Jan 2022 08:47:35 -0800 (PST)
-X-Received: by 2002:a17:902:b710:b0:14a:28ee:fe6b with SMTP id
- d16-20020a170902b71000b0014a28eefe6bmr271882pls.119.1642006054853; Wed, 12
- Jan 2022 08:47:34 -0800 (PST)
+ bh=rbF2fuX0LIWvt7pXdtlkHbqK2/gLyZj+z67OxzCD+XM=;
+ b=2Fu0vrcpWOTTymdj+wJLm2J2I4X3nNiNU3fRwFhve/oHyaB2CQLF7SAxu+fhMLC4F9
+ 4+e9Zgux8pno4zGwO155JQAgCxa5Ulf67PHLRl0CFUGVX0MElfbvqcvjZ4UTX5urHv1A
+ qwgU0sLXHyOE52OC5623eOsSt+fFW23xcHHGYeovWbRaAQTwZ2Nor1zT/7lCKUPTp17D
+ U3qdqz4I2NZugp3GainHenbWoZaJKzH3XPxbpmgCMOrstHmmGg8XLlSk4H/RCprVooPk
+ Jr/3Wc3tuYqIHLyloEVrVx0jphu2j2+3B5RaBkMHJyJ6/+YMay0ADCv4QstRCJu+yPBk
+ Om3A==
+X-Gm-Message-State: AOAM5310Sn2q0MV3e9JYjao4Pc3B0PO+s29NpFYLCuzhwjr9Yz6V8o5E
+ sWX05lbAgSU2D/xC8u2TCdW1w3bs3WvJWg6fw6fx6g==
+X-Google-Smtp-Source: ABdhPJyDuMb1rNHcT49k0tmBxxp/4nE4O/iGaqjJGVeCdRVFeawlRypKvwazPXRMI1/WqdMvK7BIUWwJfDbHE3Z0Woo=
+X-Received: by 2002:a05:6512:6d3:: with SMTP id
+ u19mr445662lff.310.1642006103776; 
+ Wed, 12 Jan 2022 08:48:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20211230123539.52786-1-anup@brainfault.org>
- <20211230123539.52786-17-anup@brainfault.org>
-In-Reply-To: <20211230123539.52786-17-anup@brainfault.org>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Thu, 13 Jan 2022 00:47:23 +0800
-X-Gmail-Original-Message-ID: <CANzO1D03XK4RWfKWGkBEB7Y+dmLFpTUQyrht+5W1qk4sOuRdfw@mail.gmail.com>
-Message-ID: <CANzO1D03XK4RWfKWGkBEB7Y+dmLFpTUQyrht+5W1qk4sOuRdfw@mail.gmail.com>
-Subject: Re: [PATCH v6 16/23] hw/riscv: virt: Use AIA INTC compatible string
- when available
-To: Anup Patel <anup@brainfault.org>
-Content-Type: multipart/alternative; boundary="0000000000009e5fdd05d5655314"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
+References: <20211231120127.22394-1-pankaj.gupta.linux@gmail.com>
+ <625c92c6-3618-fbaa-aea6-0ed86df872d3@redhat.com>
+ <CAM9Jb+hvCZoXLx4_xx8KTq4oBts7MCe-ozp5ZuX2yPW6=tyLGQ@mail.gmail.com>
+ <d0fc0d8e-fe38-1ab2-2d56-23345de783e7@redhat.com>
+ <CALzYo32zxdL6ET_5Btw=Hoat8i4KtA2iUEpd9+_sXSbw84_SAA@mail.gmail.com>
+ <f20bd3ca-8d55-4124-78c8-7a2f4ce9f7f7@redhat.com>
+ <CALzYo30gkF=8pTzyxsCOHUnHHBp-xrf8FWpLg-SVJFDScujXWw@mail.gmail.com>
+In-Reply-To: <CALzYo30gkF=8pTzyxsCOHUnHHBp-xrf8FWpLg-SVJFDScujXWw@mail.gmail.com>
+From: Pankaj Gupta <pankaj.gupta@ionos.com>
+Date: Wed, 12 Jan 2022 17:48:12 +0100
+Message-ID: <CALzYo304SsT92kNkscj5SyGAwsBOR2tk-Sk+3STBWkhxOYv+Lg@mail.gmail.com>
+Subject: Re: [RFC] virtio_pmem: enable live migration support
+To: David Hildenbrand <david@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::136
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102e.google.com
+Received-SPF: permerror client-ip=2a00:1450:4864:20::136;
+ envelope-from=pankaj.gupta@ionos.com; helo=mail-lf1-x136.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,144 +86,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Rik van Riel <riel@surriel.com>,
+ Qemu Developers <qemu-devel@nongnu.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Dan Williams <dan.j.williams@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009e5fdd05d5655314
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> > >>>> I mean, that would be fundamentally broken, because the fsync() would
+> > >>>> corrupt the file. So I assume in a sane environment, the dst could only
+> > >>>> have stale clean pagecache pages. And we'd have to get rid of these to
+> > >>>> re-read everything from file.
+> > >>>
+> > >>> In case of write back cache mode, we could still have stale dirty
+> > >>> pages at the destination
+> > >>> host and destination fsync is not the right thing to do. We need to
+> > >>> invalidate these pages
+> > >>> (Can we invalidate dirty pages resident in page cache with
+> > >>> POSIX_FADV_DONTNEED as
+> > >>> well?) man pages say, we cannot (unless i misunderstood it).
+> > >>>
+> > >>
+> > >> I think you'd have to fsync + POSIX_FADV_DONTNEED. But I am still
+> > >> confused how we could end up with dirty pagecache pages on the
+> > >> destination. In my opinion, there should only be clean pagecache pages
+> > >> -- can someone enlighten me? :)
+> > >
+> > > because of activity on the page cache pages corresponding to mmap region
+> > > in the past which is not synced yet or not reclaimed yet. Maybe this
+> > > is hypothetical
+> > > or not possible, happy to learn?
+> >
+> > Right, but assume the following *sane*
+> >
+> > #1 H0 starts and runs VM.
+> > #2 H0 migrates VM to H1.
+> > #3 H1 runs VM.
+> > #4 H1 migrates VM to H0.
+> > #5 H0 runs VM.
+> >
+> > We'd expect a proper fsync during #2, writing back any dirty pages to
+> > the memory backend. Otherwise, #3 would already be broken. Similarly,
+> > we'd expect a proper fsync during #4.
+> >
+> > I assume during #4 we could find clean pagecache pages that are actually
+> > invalid, because the underlying file was changed by H1. So we have to
+> > make sure to invalidate all pagecache pages (all clean).
+>
+> Yes, you mean fsync on source host before migration starts. My point
+> is something
+> like another process mmap same backend file on destination host and/or
+> guest/qemu
+> crashing abruptly.
 
-Anup Patel <anup@brainfault.org> =E6=96=BC 2021=E5=B9=B412=E6=9C=8830=E6=97=
-=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=888:59=E5=AF=AB=E9=81=93=EF=BC=9A
+In that case we should not start guest if we cannot invalidate all the
+corresponding
+page cache pages before starting guest i.e mmaping virtio-pmem backend file.
 
-> From: Anup Patel <anup.patel@wdc.com>
->
-> We should use the AIA INTC compatible string in the CPU INTC
-> DT nodes when the CPUs support AIA feature. This will allow
-> Linux INTC driver to use AIA local interrupt CSRs.
->
-> Signed-off-by: Anup Patel <anup.patel@wdc.com>
-> Signed-off-by: Anup Patel <anup@brainfault.org>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  hw/riscv/virt.c | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index 3af074148e..720641b1dd 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -211,8 +211,17 @@ static void create_fdt_socket_cpus(RISCVVirtState *s=
-,
-> int socket,
->          qemu_fdt_add_subnode(mc->fdt, intc_name);
->          qemu_fdt_setprop_cell(mc->fdt, intc_name, "phandle",
->              intc_phandles[cpu]);
-> -        qemu_fdt_setprop_string(mc->fdt, intc_name, "compatible",
-> -            "riscv,cpu-intc");
-> +        if (riscv_feature(&s->soc[socket].harts[cpu].env,
-> +                          RISCV_FEATURE_AIA)) {
-> +            static const char * const compat[2] =3D {
-> +                "riscv,cpu-intc-aia", "riscv,cpu-intc"
-> +            };
-> +            qemu_fdt_setprop_string_array(mc->fdt, intc_name,
-> "compatible",
-> +                                      (char **)&compat,
-> ARRAY_SIZE(compat));
-> +        } else {
-> +            qemu_fdt_setprop_string(mc->fdt, intc_name, "compatible",
-> +                "riscv,cpu-intc");
-> +        }
->          qemu_fdt_setprop(mc->fdt, intc_name, "interrupt-controller",
-> NULL, 0);
->          qemu_fdt_setprop_cell(mc->fdt, intc_name, "#interrupt-cells", 1)=
-;
->
-> --
-> 2.25.1
->
->
->
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
+Thank you for the discussion!
 
---0000000000009e5fdd05d5655314
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Anup Patel &lt;<a href=3D"mailto:anup@bra=
-infault.org">anup@brainfault.org</a>&gt; =E6=96=BC 2021=E5=B9=B412=E6=9C=88=
-30=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=888:59=E5=AF=AB=E9=81=93=EF=
-=BC=9A<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">From: Anup Patel &lt;<a href=3D"mailto:anup.patel@wdc.com=
-" target=3D"_blank">anup.patel@wdc.com</a>&gt;<br>
-<br>
-We should use the AIA INTC compatible string in the CPU INTC<br>
-DT nodes when the CPUs support AIA feature. This will allow<br>
-Linux INTC driver to use AIA local interrupt CSRs.<br>
-<br>
-Signed-off-by: Anup Patel &lt;<a href=3D"mailto:anup.patel@wdc.com" target=
-=3D"_blank">anup.patel@wdc.com</a>&gt;<br>
-Signed-off-by: Anup Patel &lt;<a href=3D"mailto:anup@brainfault.org" target=
-=3D"_blank">anup@brainfault.org</a>&gt;<br>
-Reviewed-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.co=
-m" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
----<br>
-=C2=A0hw/riscv/virt.c | 13 +++++++++++--<br>
-=C2=A01 file changed, 11 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c<br>
-index 3af074148e..720641b1dd 100644<br>
---- a/hw/riscv/virt.c<br>
-+++ b/hw/riscv/virt.c<br>
-@@ -211,8 +211,17 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, =
-int socket,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_fdt_add_subnode(mc-&gt;fdt, intc_nam=
-e);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_fdt_setprop_cell(mc-&gt;fdt, intc_na=
-me, &quot;phandle&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0intc_phandles[cpu]);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fdt_setprop_string(mc-&gt;fdt, intc_name,=
- &quot;compatible&quot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;riscv,cpu-intc&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (riscv_feature(&amp;s-&gt;soc[socket].harts=
-[cpu].env,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 RISCV_FEATURE_AIA)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 static const char * const compat=
-[2] =3D {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;riscv,cpu-in=
-tc-aia&quot;, &quot;riscv,cpu-intc&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fdt_setprop_string_array(mc=
--&gt;fdt, intc_name, &quot;compatible&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (char **)&amp;c=
-ompat, ARRAY_SIZE(compat));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fdt_setprop_string(mc-&gt;f=
-dt, intc_name, &quot;compatible&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;riscv,cpu-in=
-tc&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_fdt_setprop(mc-&gt;fdt, intc_name, &=
-quot;interrupt-controller&quot;, NULL, 0);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_fdt_setprop_cell(mc-&gt;fdt, intc_na=
-me, &quot;#interrupt-cells&quot;, 1);<br>
-<br>
--- <br>
-2.25.1<br>
-<br>
-<br></blockquote><div><br></div><div>Reviewed-by: Frank Chang &lt;<a href=
-=3D"mailto:frank.chang@sifive.com" target=3D"_blank">frank.chang@sifive.com=
-</a>&gt;=C2=A0</div></div></div>
-
---0000000000009e5fdd05d5655314--
+Best regards,
+Pankaj
 
