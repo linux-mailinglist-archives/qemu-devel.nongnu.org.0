@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51FF648C3E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 13:24:25 +0100 (CET)
-Received: from localhost ([::1]:34712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6137F48C438
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 13:52:47 +0100 (CET)
+Received: from localhost ([::1]:35462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7cfw-0007fd-Eb
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 07:24:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60546)
+	id 1n7d7O-0004gQ-Fl
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 07:52:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n7cEr-0006Td-FV; Wed, 12 Jan 2022 06:56:30 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:2926)
+ id 1n7cEr-0006Te-Ga; Wed, 12 Jan 2022 06:56:30 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42452
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n7cEn-0007Uy-Ny; Wed, 12 Jan 2022 06:56:25 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20CBPFT4013867; 
- Wed, 12 Jan 2022 11:56:10 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dhv9qvd8a-1
+ id 1n7cEn-0007Uo-Na; Wed, 12 Jan 2022 06:56:23 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20CApXYw009724; 
+ Wed, 12 Jan 2022 11:56:09 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dhwkut9gh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jan 2022 11:56:10 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20CBmRMO031223;
+ Wed, 12 Jan 2022 11:56:09 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20CBmIFW018120;
  Wed, 12 Jan 2022 11:56:07 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma05fra.de.ibm.com with ESMTP id 3df289h2mb-1
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04fra.de.ibm.com with ESMTP id 3df289s1yu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 12 Jan 2022 11:56:07 +0000
 Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
  [9.149.105.61])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 20CBl1CA33817054
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20CBu5Xv42664350
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 Jan 2022 11:47:01 GMT
+ Wed, 12 Jan 2022 11:56:05 GMT
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AF31511C076;
- Wed, 12 Jan 2022 11:56:04 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 4788E11C09B;
+ Wed, 12 Jan 2022 11:56:05 +0000 (GMT)
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 74FCA11C05B;
- Wed, 12 Jan 2022 11:56:04 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 165FD11C08B;
+ Wed, 12 Jan 2022 11:56:05 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
  by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Wed, 12 Jan 2022 11:56:04 +0000 (GMT)
+ Wed, 12 Jan 2022 11:56:05 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.70.95])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id BB5D72201C6;
- Wed, 12 Jan 2022 12:56:03 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 6484C22016C;
+ Wed, 12 Jan 2022 12:56:04 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 03/34] spapr: Fix support of POWER5+ processors
-Date: Wed, 12 Jan 2022 12:55:20 +0100
-Message-Id: <20220112115551.987666-4-clg@kaod.org>
+Subject: [PULL 04/34] target/ppc: Add extra float instructions to POWER5P
+ processors
+Date: Wed, 12 Jan 2022 12:55:21 +0100
+Message-Id: <20220112115551.987666-5-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220112115551.987666-1-clg@kaod.org>
 References: <20220112115551.987666-1-clg@kaod.org>
@@ -63,24 +65,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 15hBKi9zZaASixTUNCnkUYh0r-Yq1lJp
-X-Proofpoint-ORIG-GUID: 15hBKi9zZaASixTUNCnkUYh0r-Yq1lJp
+X-Proofpoint-ORIG-GUID: HzQm0kC7K4X5R2zbim0vCOwInvhF-2ub
+X-Proofpoint-GUID: HzQm0kC7K4X5R2zbim0vCOwInvhF-2ub
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-12_04,2022-01-11_01,2021-12-02_01
+ definitions=2022-01-12_03,2022-01-11_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0
- phishscore=0 clxscore=1034 suspectscore=0 malwarescore=0
- priorityscore=1501 mlxlogscore=825 mlxscore=0 adultscore=0
- lowpriorityscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2110150000 definitions=main-2201120075
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ malwarescore=0 clxscore=1034
+ phishscore=0 bulkscore=0 priorityscore=1501 adultscore=0 spamscore=0
+ mlxlogscore=937 lowpriorityscore=0 impostorscore=0 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201120075
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.398,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,48 +98,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Fabiano Rosas <farosas@linux.ibm.com>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-POWER5+ (ISA v2.03) processors are supported by the pseries machine
-but they do not have Altivec instructions. Do not advertise support
-for it in the DT.
+ISA v2.03 introduced Floating Round to Integer instructions : frin,
+friz, frip, and frim. Add them to POWER5+.
 
-To be noted that this test is in contradiction with the assert in
-cap_vsx_apply().
+The PPC_FLOAT_EXT flag also includes the fre (Floating Reciprocal
+Estimate) instruction which was introduced in ISA v2.0x. The
+architecture document says its optional and that might be the reason
+why it has been kept under the PPC_FLOAT_EXT flag. This means 970 CPUs
+can not use it under QEMU, which doesn't seem to be a problem.
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Tested-by: Fabiano Rosas <farosas@linux.ibm.com>
-Message-Id: <20220105095142.3990430-3-clg@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/ppc/spapr.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ target/ppc/cpu_init.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 837342932586..72f5dce751ee 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -723,10 +723,12 @@ static void spapr_dt_cpu(CPUState *cs, void *fdt, i=
-nt offset,
-      *
-      * Only CPUs for which we create core types in spapr_cpu_core.c
-      * are possible, and all of those have VMX */
--    if (spapr_get_cap(spapr, SPAPR_CAP_VSX) !=3D 0) {
--        _FDT((fdt_setprop_cell(fdt, offset, "ibm,vmx", 2)));
--    } else {
--        _FDT((fdt_setprop_cell(fdt, offset, "ibm,vmx", 1)));
-+    if (env->insns_flags & PPC_ALTIVEC) {
-+        if (spapr_get_cap(spapr, SPAPR_CAP_VSX) !=3D 0) {
-+            _FDT((fdt_setprop_cell(fdt, offset, "ibm,vmx", 2)));
-+        } else {
-+            _FDT((fdt_setprop_cell(fdt, offset, "ibm,vmx", 1)));
-+        }
-     }
-=20
-     /* Advertise DFP (Decimal Floating Point) if available
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index f15a52259c90..e30e86fe9d04 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -6953,6 +6953,7 @@ POWERPC_FAMILY(POWER5P)(ObjectClass *oc, void *data=
+)
+                        PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
+                        PPC_FLOAT_FSQRT | PPC_FLOAT_FRSQRTE |
+                        PPC_FLOAT_STFIWX |
++                       PPC_FLOAT_EXT |
+                        PPC_CACHE | PPC_CACHE_ICBI | PPC_CACHE_DCBZ |
+                        PPC_MEM_SYNC | PPC_MEM_EIEIO |
+                        PPC_MEM_TLBIE | PPC_MEM_TLBSYNC |
 --=20
 2.31.1
 
