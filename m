@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B9CE48C5D4
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 15:19:55 +0100 (CET)
-Received: from localhost ([::1]:53332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6173948C617
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 15:29:55 +0100 (CET)
+Received: from localhost ([::1]:49576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7eTh-0006Bk-OK
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 09:19:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44548)
+	id 1n7edO-0006jJ-G9
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 09:29:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1n7dI2-0008Fg-GL
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 08:03:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44051)
+ id 1n7dI3-0008Gd-7j
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 08:03:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42349)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1n7dHz-0001OA-Rs
+ id 1n7dI1-0001OU-6q
  for qemu-devel@nongnu.org; Wed, 12 Jan 2022 08:03:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641992623;
+ s=mimecast20190719; t=1641992624;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1eOTAQJ+hwl4jgj0gBddKk/FmMCkYGtorslBx5lLX8M=;
- b=ZykrKfGTCgK68jP2I0bPXM+Bzs3h8ydFUdgrTcBxmS3iGCabwODVycJlsXBKgbsv74qiD5
- mbJGXaOaMGV404NW2L7wqtMHh17jeYvUd8+WntS3sIpgy+t3rU7z6XbnnN3Nb1260lsKl/
- zYt9monUKbOoSsQJZxWa+s8qV4vLr7c=
+ bh=eb7O60CuaeZ43O7a1viSTcqQDKEuCEf4pSgt399lK3Y=;
+ b=DE6VNtpH5rAfnyt4ab8KirMAMx5p0VqfnrBJfxo1QHrFl7Y4mvdY5CQ3HEj6MTMtHS0y2e
+ +XnrPTkRFL209MKRoBNhLQEFpv2Vz40jS+GSTwNiw6a1L64PFgCTmCWxuD3XP7Ihn+J6S6
+ Na+HObo3Uez4LaXo7IrqdGLmfj+ZhBc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-313--GyBHGMFOaaxDGjHs5RJRw-1; Wed, 12 Jan 2022 08:03:40 -0500
-X-MC-Unique: -GyBHGMFOaaxDGjHs5RJRw-1
+ us-mta-249-A6X-ojG6MC61v_RtCIHRlA-1; Wed, 12 Jan 2022 08:03:41 -0500
+X-MC-Unique: A6X-ojG6MC61v_RtCIHRlA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 065B8190B2A0;
- Wed, 12 Jan 2022 13:03:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AD64190B2A2;
+ Wed, 12 Jan 2022 13:03:40 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B1FD57BB5E;
- Wed, 12 Jan 2022 13:03:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4F0A67B6F8;
+ Wed, 12 Jan 2022 13:03:39 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] acpi: fix OEM ID/OEM Table ID padding
-Date: Wed, 12 Jan 2022 08:03:31 -0500
-Message-Id: <20220112130332.1648664-4-imammedo@redhat.com>
+Subject: [PATCH 4/4] tests: acpi: update expected blobs
+Date: Wed, 12 Jan 2022 08:03:32 -0500
+Message-Id: <20220112130332.1648664-5-imammedo@redhat.com>
 In-Reply-To: <20220112130332.1648664-1-imammedo@redhat.com>
 References: <20220112130332.1648664-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -80,60 +80,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, qemu-stable@nongnu.org,
- Marian Postevca <posteuca@mutex.one>,
- "Dmitry V . Orekhov" <dima.orekhov@gmail.com>,
+Cc: Ani Sinha <ani@anisinha.ca>, Marian Postevca <posteuca@mutex.one>,
  "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit [2] broke original '\0' padding of OEM ID and OEM Table ID
-fields in headers of ACPI tables. While it doesn't have impact on
-default values since QEMU uses 6 and 8 characters long values
-respectively, it broke usecase where IDs are provided on QEMU CLI.
-It shouldn't affect guest (but may cause licensing verification
-issues in guest OS).
-One of the broken usecases is user supplied SLIC table with IDs
-shorter than max possible length, where [2] mangles IDs with extra
-spaces in RSDT and FADT tables whereas guest OS expects those to
-mirror the respective values of the used SLIC table.
+Expected changes caused by previous commit:
 
-Fix it by replacing whitespace padding with '\0' padding in
-accordance with [1] and expectations of guest OS
+nvdimm ssdt (q35/pc/virt):
+  - *     OEM Table ID     "NVDIMM  "
+  + *     OEM Table ID     "NVDIMM"
 
-1) ACPI spec, v2.0b
-       17.2 AML Grammar Definition
-       ...
-       //OEM ID of up to 6 characters. If the OEM ID is
-       //shorter than 6 characters, it can be terminated
-       //with a NULL character.
+SLIC test FADT (tests/data/acpi/q35/FACP.slic):
+  -[010h 0016   8]                 Oem Table ID : "ME      "
+  +[010h 0016   8]                 Oem Table ID : "ME"
 
-2)
-Fixes: 602b458201 ("acpi: Permit OEM ID and OEM table ID fields to be changed")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/707
-Reported-by: Dmitry V. Orekhov <dima.orekhov@gmail.com>
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-stable@nongnu.org
 ---
- hw/acpi/aml-build.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h |   4 ----
+ tests/data/acpi/pc/SSDT.dimmpxm             | Bin 734 -> 734 bytes
+ tests/data/acpi/q35/FACP.slic               | Bin 244 -> 244 bytes
+ tests/data/acpi/q35/SSDT.dimmpxm            | Bin 734 -> 734 bytes
+ tests/data/acpi/virt/SSDT.memhp             | Bin 736 -> 736 bytes
+ 5 files changed, 4 deletions(-)
 
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index b3b3310df3..65148d5b9d 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -1724,9 +1724,9 @@ void acpi_table_begin(AcpiTable *desc, GArray *array)
-     build_append_int_noprefix(array, 0, 4); /* Length */
-     build_append_int_noprefix(array, desc->rev, 1); /* Revision */
-     build_append_int_noprefix(array, 0, 1); /* Checksum */
--    build_append_padded_str(array, desc->oem_id, 6, ' '); /* OEMID */
-+    build_append_padded_str(array, desc->oem_id, 6, '\0'); /* OEMID */
-     /* OEM Table ID */
--    build_append_padded_str(array, desc->oem_table_id, 8, ' ');
-+    build_append_padded_str(array, desc->oem_table_id, 8, '\0');
-     build_append_int_noprefix(array, 1, 4); /* OEM Revision */
-     g_array_append_vals(array, ACPI_BUILD_APPNAME8, 4); /* Creator ID */
-     build_append_int_noprefix(array, 1, 4); /* Creator Revision */
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index 7faa8f53be..dfb8523c8b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,5 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/virt/SSDT.memhp",
+-"tests/data/acpi/pc/SSDT.dimmpxm",
+-"tests/data/acpi/q35/SSDT.dimmpxm",
+-"tests/data/acpi/q35/FACP.slic",
+diff --git a/tests/data/acpi/pc/SSDT.dimmpxm b/tests/data/acpi/pc/SSDT.dimmpxm
+index a50a961fa1d9b0dd8ea4096d652c83bcf04db20b..ac55387d57e48adb99eb738a102308688a262fb8 100644
+GIT binary patch
+delta 33
+ocmcb|dXH5iIM^lR9uortW0;e_vq!LkUzm%huP+0`Mu}rg0HzrUKL7v#
+
+delta 33
+ocmcb|dXH5iIM^lR9uortqnMMwvq!LkUzm%hudjl_Mu}rg0HV1GKL7v#
+
+diff --git a/tests/data/acpi/q35/FACP.slic b/tests/data/acpi/q35/FACP.slic
+index 891fd4b784b7b6b3ea303976db7ecd5b669bc84b..15986e095cf2db7ee92f7ce113c1d46d54018c62 100644
+GIT binary patch
+delta 32
+lcmeyu_=Qoz&CxmF3j+fK^CjmX$6yZyUsoUp2qsG00RW!Z2#x>%
+
+delta 32
+kcmeyu_=Qoz&CxmF3j+fKvygL;W3Y#Uud4zWOq93-0G2oijsO4v
+
+diff --git a/tests/data/acpi/q35/SSDT.dimmpxm b/tests/data/acpi/q35/SSDT.dimmpxm
+index 617a1c911c7d6753bcedc8ecc52e3027a5259ad6..98e6f0e3f3bb02dd419e36bdd1db9b94c728c406 100644
+GIT binary patch
+delta 33
+ocmcb|dXH5iIM^lR9uortqnnezvq!LkUzm%huP+0`Mu}rg0Ho;&F8}}l
+
+delta 33
+ocmcb|dXH5iIM^lR9uortBb$@Ivq!LkUzm%hudjl_Mu}rg0HKKqF8}}l
+
+diff --git a/tests/data/acpi/virt/SSDT.memhp b/tests/data/acpi/virt/SSDT.memhp
+index e8b850ae2239d8f496b12de672c2a1268e2f269d..375d7b6fc85a484f492a26ccd355c205f2c34473 100644
+GIT binary patch
+delta 33
+ocmaFB`hZm;IM^lR0TTlQqrH>Avq!LkUzm%huP+0`Mu`(l0HqiSFaQ7m
+
+delta 33
+ocmaFB`hZm;IM^lR0TTlQ<9{cAXOCb7zc3e1Uta}<jS?rA0JOLYFaQ7m
+
 -- 
 2.31.1
 
