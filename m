@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2906648C3DF
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 13:22:54 +0100 (CET)
-Received: from localhost ([::1]:58986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0A3548C415
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 13:34:57 +0100 (CET)
+Received: from localhost ([::1]:51462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7ceT-0004mr-7Q
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 07:22:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60610)
+	id 1n7cq9-0003Sc-2i
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 07:34:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n7cEv-0006Tl-Di; Wed, 12 Jan 2022 06:56:30 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:9028
+ id 1n7cEw-0006Tu-U8; Wed, 12 Jan 2022 06:56:30 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42228
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n7cEp-0007Vk-4m; Wed, 12 Jan 2022 06:56:26 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20CBWsDD018400; 
+ id 1n7cEv-0007XG-EJ; Wed, 12 Jan 2022 06:56:30 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20CBLLNd019301; 
  Wed, 12 Jan 2022 11:56:17 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3dhvrc3vhc-1
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dhx1us7vy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 12 Jan 2022 11:56:17 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20CBnFjZ025509;
- Wed, 12 Jan 2022 11:56:15 GMT
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20CBm1bu026921;
+ Wed, 12 Jan 2022 11:56:16 GMT
 Received: from b06cxnps4076.portsmouth.uk.ibm.com
  (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma06ams.nl.ibm.com with ESMTP id 3df1vjas3a-1
+ by ppma03ams.nl.ibm.com with ESMTP id 3df289tmk5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 12 Jan 2022 11:56:15 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
  by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20CBuCHX40960478
+ 20CBuDnx41353526
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 Jan 2022 11:56:12 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7AA0EA4E61;
- Wed, 12 Jan 2022 11:56:12 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 369A1A4E6C;
+ Wed, 12 Jan 2022 11:56:13 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 360C7AE053;
+ Wed, 12 Jan 2022 11:56:13 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E1CD0AE059;
  Wed, 12 Jan 2022 11:56:12 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
  Wed, 12 Jan 2022 11:56:12 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.70.95])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 6F07322016C;
- Wed, 12 Jan 2022 12:56:11 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 263DA2201C6;
+ Wed, 12 Jan 2022 12:56:12 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 14/34] target/ppc: Introduce a wrapper for powerpc_excp
-Date: Wed, 12 Jan 2022 12:55:31 +0100
-Message-Id: <20220112115551.987666-15-clg@kaod.org>
+Subject: [PULL 15/34] target/ppc: Set the correct endianness for powernv
+ memory dumps
+Date: Wed, 12 Jan 2022 12:55:32 +0100
+Message-Id: <20220112115551.987666-16-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220112115551.987666-1-clg@kaod.org>
 References: <20220112115551.987666-1-clg@kaod.org>
@@ -64,16 +65,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: wawuiJpSnU8BFZ8L9AU2BGFtLFU3U2IO
-X-Proofpoint-GUID: wawuiJpSnU8BFZ8L9AU2BGFtLFU3U2IO
+X-Proofpoint-GUID: jDeJ8Bj863gR_39i7yH4BRtWWbSTAWh7
+X-Proofpoint-ORIG-GUID: jDeJ8Bj863gR_39i7yH4BRtWWbSTAWh7
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-01-12_04,2022-01-11_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- priorityscore=1501 suspectscore=0 clxscore=1034 adultscore=0 mlxscore=0
- phishscore=0 impostorscore=0 spamscore=0 mlxlogscore=868 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ suspectscore=0 bulkscore=0
+ impostorscore=0 clxscore=1034 phishscore=0 priorityscore=1501
+ mlxlogscore=549 malwarescore=0 spamscore=0 adultscore=0 lowpriorityscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2201120075
 Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
@@ -105,47 +106,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Fabiano Rosas <farosas@linux.ibm.com>
 
-Next patches will split powerpc_excp in multiple family specific
-handlers. This patch adds a wrapper to make the transition clearer.
+We use the endianness of interrupts to determine which endianness to
+use for the guest kernel memory dump. For machines that support HILE
+(powernv8 and up) we have been always generating big endian dump
+files.
 
+This patch uses the HILE support recently added to
+ppc_interrupts_little_endian to fix the endianness of the dumps for
+powernv machines.
+
+Here are two dumps created at different moments:
+
+$ file skiboot.dump
+skiboot.dump: ELF 64-bit MSB core file, 64-bit PowerPC ...
+
+$ file kernel.dump
+kernel.dump: ELF 64-bit LSB core file, 64-bit PowerPC ...
+
+Suggested-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <20220107222601.4101511-8-farosas@linux.ibm.com>
+Message-Id: <20220107222601.4101511-9-farosas@linux.ibm.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/excp_helper.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ target/ppc/arch_dump.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 3b4123bc6590..bc646c67a0f5 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -396,7 +396,7 @@ static void powerpc_set_excp_state(PowerPCCPU *cpu,
-  * Note that this function should be greatly optimized when called
-  * with a constant excp, from ppc_hw_interrupt
-  */
--static void powerpc_excp(PowerPCCPU *cpu, int excp)
-+static inline void powerpc_excp_legacy(PowerPCCPU *cpu, int excp)
- {
-     CPUState *cs =3D CPU(cpu);
-     CPUPPCState *env =3D &cpu->env;
-@@ -867,6 +867,16 @@ static void powerpc_excp(PowerPCCPU *cpu, int excp)
-     powerpc_set_excp_state(cpu, vector, new_msr);
- }
+diff --git a/target/ppc/arch_dump.c b/target/ppc/arch_dump.c
+index 12cde198a315..993740897d83 100644
+--- a/target/ppc/arch_dump.c
++++ b/target/ppc/arch_dump.c
+@@ -237,7 +237,7 @@ int cpu_get_dump_info(ArchDumpInfo *info,
+     info->d_machine =3D PPC_ELF_MACHINE;
+     info->d_class =3D ELFCLASS;
 =20
-+static void powerpc_excp(PowerPCCPU *cpu, int excp)
-+{
-+    CPUPPCState *env =3D &cpu->env;
-+
-+    switch (env->excp_model) {
-+    default:
-+        powerpc_excp_legacy(cpu, excp);
-+    }
-+}
-+
- void ppc_cpu_do_interrupt(CPUState *cs)
- {
-     PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+-    if (ppc_interrupts_little_endian(cpu, false)) {
++    if (ppc_interrupts_little_endian(cpu, cpu->env.has_hv_mode)) {
+         info->d_endian =3D ELFDATA2LSB;
+     } else {
+         info->d_endian =3D ELFDATA2MSB;
 --=20
 2.31.1
 
