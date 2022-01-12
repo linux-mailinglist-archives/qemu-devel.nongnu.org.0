@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A28C48C09A
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 10:02:30 +0100 (CET)
-Received: from localhost ([::1]:39150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F0148C0DC
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 10:18:42 +0100 (CET)
+Received: from localhost ([::1]:33248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7ZWX-0001wQ-CZ
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 04:02:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49916)
+	id 1n7ZmE-0001hq-1n
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 04:18:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7ZEc-0008Su-2P
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 03:43:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35512)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7ZTY-0002PI-SC
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 03:59:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24393)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7ZEY-0004Lq-JX
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 03:43:57 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7ZTW-0006SE-77
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 03:59:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641977033;
+ s=mimecast20190719; t=1641977960;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZHF7lQnvRQd4BwxGI5zN8E97FZYb8PnmdQMEf+Su1F4=;
- b=YVGHCzJHQxlP1sGWG4CgCMV3yZbPobVGNww9VVQAOIbowemX6GujtrJqgFbvl62wp/aBSC
- I0qtE9OE7hoZc8Bt8gFYGWvygX77bcdgB4ACRGdUxojmnZ6FAYPWAOIkuPSwHJcZAQPb2q
- aBvFLL0YB9FzrooRUBk0mmLwHdZ2uKE=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=op5bLuHOuPmbMEL8bw66X8I+jH+Ujbzo2APsKWIG1RI=;
+ b=LVKGd5GuFDzvlERx8VtwjwwvDqxtj+/3CJe/sJ3fhYy7/W5jaan7VByB3ah+8pdlWSV5Gh
+ 5An8YFoAxtluo/y5085sBnkTX5MJAUj1nbg0WqoxM5+AwDFMiE3yFMk198OoqJ17V9al9r
+ ZKMp9Sf7gMUJFtRtAV9xmIntuLg9Gq8=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-386-U8GpLnVNMdyRMFiar3MG_w-1; Wed, 12 Jan 2022 03:43:50 -0500
-X-MC-Unique: U8GpLnVNMdyRMFiar3MG_w-1
-Received: by mail-ed1-f72.google.com with SMTP id
- m8-20020a056402510800b003f9d22c4d48so1589271edd.21
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:43:50 -0800 (PST)
+ us-mta-367-a0SfjSpIOAmyk5aDY9S-yQ-1; Wed, 12 Jan 2022 03:59:17 -0500
+X-MC-Unique: a0SfjSpIOAmyk5aDY9S-yQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ y18-20020a056402271200b003fa16a5debcso1649386edd.14
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:59:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=ZHF7lQnvRQd4BwxGI5zN8E97FZYb8PnmdQMEf+Su1F4=;
- b=bIDl0NYQcWuoKo+hhzUQsrkgd5uD8iWmCflIJ57tjo+5fkJz1AzOzlSQ0nRRUfl/xG
- 2jlhbB2Z9Wdg2GZLdfMV6PnXv7bQP+uSFGadqXltr+zZyGrFVfQ8q32lUbXN9JC2TZEl
- BKqGO62mvxAepcCE5Zu/P+VlnUGLf4mXFdo4tFwCqW9gHWDBniljFuw9/aOBDiJ+1lF7
- pZ8Maoq9WIqL08SqvIQEaoCaZnOgLuc75PHfTluHxIEYfllKxR1NVImDmoyl9URIxkMb
- FnCihsYboFaJp8tNWP2DnPYY6lX7leCb263RhEXof/AM8F9iB/YHeqi5z6gnS1emp+CM
- AiPw==
-X-Gm-Message-State: AOAM533z2QlA3g1jKJFgmLAWbf6LyQ0sxhWDn7z4wOrkCEyb01TcFLFq
- HnIccj3MW4ONw8nh/1y0EJQF2XOxZLKeNBSPK0j3ik15+fxq2AwS/oMBS9ASZzuCp+vqHNWAFZG
- cNyfl01i7Xaa6Pss=
-X-Received: by 2002:a17:906:6a90:: with SMTP id
- p16mr6730236ejr.115.1641977029201; 
- Wed, 12 Jan 2022 00:43:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw8aZIQFKcRj1m3J4asp7UJ+e2avKi3Sv+JRu1U/pnfE0Bd1F7BCpnbZBjrfz6ZxA57A5l5iQ==
-X-Received: by 2002:a17:906:6a90:: with SMTP id
- p16mr6730219ejr.115.1641977028954; 
- Wed, 12 Jan 2022 00:43:48 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:organization:subject
+ :in-reply-to:content-transfer-encoding;
+ bh=op5bLuHOuPmbMEL8bw66X8I+jH+Ujbzo2APsKWIG1RI=;
+ b=2/KcZ1Rg/HUB3pTWkXZ495q90tzhPdcT2R8O32n8n6FyjN0VHW7jmvVInK/luNl9Dk
+ WBDvojMwXJOuuF861zAc76SnE0oiQpdgWysupeN2deZVZ/NCG+Qc5KGwLm5hRIVwuu6q
+ rr1D9dawjZwT0QqZAjjjR/AEAdgQnKCdqoGh+lrwVmTe2DU5dBRUbllCBKrxrLB94pyK
+ aJucr1+1bzPXcojqr52/SJ3HiCz5c2ihKuV319iRyZSINGvW3J0f9FEFL28xAHs77xVH
+ VtQ7SnmB8u3hwzznUeAjIfVFYdEZAKRDhSBh+AhTdL7vYsRMXz6e4UQVzZi8VFwgUt4A
+ aMxA==
+X-Gm-Message-State: AOAM531aFaXjQOkDCmNHZN/wG4oCy3klHMes8AOs80xIU/5PVd7oA+JT
+ GdifAXzONEBH/oLv83cH+7KI+l2nSAK58M90jfuQfM+g3qdzkBXS5RYbIoojRASLqAEAmVoN9bt
+ bQWH5ZSAzPm4eIs4=
+X-Received: by 2002:a17:907:8687:: with SMTP id
+ qa7mr4908771ejc.106.1641977955854; 
+ Wed, 12 Jan 2022 00:59:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJywXlWmqu9V+yDGaEC6cEeH53bcvM1TuE9fiZq/uiuX+ZWV9HFwpFxwjpp2WbkuzdrXYkGbSA==
+X-Received: by 2002:a17:907:8687:: with SMTP id
+ qa7mr4908760ejc.106.1641977955647; 
+ Wed, 12 Jan 2022 00:59:15 -0800 (PST)
 Received: from ?IPV6:2003:cb:c702:4700:e25f:39eb:3cb8:1dec?
  (p200300cbc7024700e25f39eb3cb81dec.dip0.t-ipconnect.de.
  [2003:cb:c702:4700:e25f:39eb:3cb8:1dec])
- by smtp.gmail.com with ESMTPSA id s7sm5833115edx.56.2022.01.12.00.43.48
+ by smtp.gmail.com with ESMTPSA id j17sm4255873ejg.164.2022.01.12.00.59.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Jan 2022 00:43:48 -0800 (PST)
-Message-ID: <28a7fb97-6c81-6975-e6f2-c65370d1cc99@redhat.com>
-Date: Wed, 12 Jan 2022 09:43:47 +0100
+ Wed, 12 Jan 2022 00:59:15 -0800 (PST)
+Message-ID: <08948b31-0729-5463-829f-35fb444cf82d@redhat.com>
+Date: Wed, 12 Jan 2022 09:59:14 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH v2 4/5] target/s390x: Fix shifting 32-bit values for more
- than 31 bits
 To: Ilya Leoshkevich <iii@linux.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
 References: <20220112043948.224405-1-iii@linux.ibm.com>
- <20220112043948.224405-5-iii@linux.ibm.com>
+ <20220112043948.224405-4-iii@linux.ibm.com>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <20220112043948.224405-5-iii@linux.ibm.com>
+Subject: Re: [PATCH v2 3/5] target/s390x: Fix cc_calc_sla_64() missing
+ overflows
+In-Reply-To: <20220112043948.224405-4-iii@linux.ibm.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,7 +85,7 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -112,136 +112,52 @@ Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->  
-> +static uint32_t cc_calc_sla_32(uint32_t src, int shift)
-> +{
-> +    return cc_calc_sla_64(((uint64_t)src) << 32, shift);
-> +}
-> +
+On 12.01.22 05:39, Ilya Leoshkevich wrote:
+> An overflow occurs for SLAG when at least one shifted bit is not equal
+> to sign bit. Therefore, we need to check that `shift + 1` bits are
+> neither all 0s nor all 1s. The current code checks only `shift` bits,
+> missing some overflows.
 
-Nice trick. What about doing the shift in op_sla if  s->insn->data == 31
-and unifying to a single CC_OP_SLA ?
+Right, "shifted + 1" here means, the shifted bits + the sign bit.
 
->  static uint32_t cc_calc_flogr(uint64_t dst)
->  {
->      return dst ? 2 : 0;
-> diff --git a/target/s390x/tcg/insn-data.def b/target/s390x/tcg/insn-data.def
-> index 90c753068c..1c3e115712 100644
-> --- a/target/s390x/tcg/insn-data.def
-> +++ b/target/s390x/tcg/insn-data.def
-> @@ -747,8 +747,8 @@
->      C(0xb9e1, POPCNT,  RRE,   PC,  0, r2_o, r1, 0, popcnt, nz64)
->  
->  /* ROTATE LEFT SINGLE LOGICAL */
-> -    C(0xeb1d, RLL,     RSY_a, Z,   r3_o, sh32, new, r1_32, rll32, 0)
-> -    C(0xeb1c, RLLG,    RSY_a, Z,   r3_o, sh64, r1, 0, rll64, 0)
-> +    C(0xeb1d, RLL,     RSY_a, Z,   r3_o, sh, new, r1_32, rll32, 0)
-> +    C(0xeb1c, RLLG,    RSY_a, Z,   r3_o, sh, r1, 0, rll64, 0)
->  
->  /* ROTATE THEN INSERT SELECTED BITS */
->      C(0xec55, RISBG,   RIE_f, GIE, 0, r2, r1, 0, risbg, s64)
-> @@ -784,29 +784,29 @@
->      C(0x0400, SPM,     RR_a,  Z,   r1, 0, 0, 0, spm, 0)
->  
->  /* SHIFT LEFT SINGLE */
-> -    D(0x8b00, SLA,     RS_a,  Z,   r1, sh32, new, r1_32, sla, 0, 31)
-> -    D(0xebdd, SLAK,    RSY_a, DO,  r3, sh32, new, r1_32, sla, 0, 31)
-> -    D(0xeb0b, SLAG,    RSY_a, Z,   r3, sh64, r1, 0, sla, 0, 63)
-> +    D(0x8b00, SLA,     RS_a,  Z,   r1, sh, new, r1_32, sla, 0, 31)
-> +    D(0xebdd, SLAK,    RSY_a, DO,  r3, sh, new, r1_32, sla, 0, 31)
-> +    D(0xeb0b, SLAG,    RSY_a, Z,   r3, sh, r1, 0, sla, 0, 63)
->  /* SHIFT LEFT SINGLE LOGICAL */
-> -    C(0x8900, SLL,     RS_a,  Z,   r1_o, sh32, new, r1_32, sll, 0)
-> -    C(0xebdf, SLLK,    RSY_a, DO,  r3_o, sh32, new, r1_32, sll, 0)
-> -    C(0xeb0d, SLLG,    RSY_a, Z,   r3_o, sh64, r1, 0, sll, 0)
-> +    C(0x8900, SLL,     RS_a,  Z,   r1_o, sh, new, r1_32, sll, 0)
-> +    C(0xebdf, SLLK,    RSY_a, DO,  r3_o, sh, new, r1_32, sll, 0)
-> +    C(0xeb0d, SLLG,    RSY_a, Z,   r3_o, sh, r1, 0, sll, 0)
->  /* SHIFT RIGHT SINGLE */
-> -    C(0x8a00, SRA,     RS_a,  Z,   r1_32s, sh32, new, r1_32, sra, s32)
-> -    C(0xebdc, SRAK,    RSY_a, DO,  r3_32s, sh32, new, r1_32, sra, s32)
-> -    C(0xeb0a, SRAG,    RSY_a, Z,   r3_o, sh64, r1, 0, sra, s64)
-> +    C(0x8a00, SRA,     RS_a,  Z,   r1_32s, sh, new, r1_32, sra, s32)
-> +    C(0xebdc, SRAK,    RSY_a, DO,  r3_32s, sh, new, r1_32, sra, s32)
-> +    C(0xeb0a, SRAG,    RSY_a, Z,   r3_o, sh, r1, 0, sra, s64)
->  /* SHIFT RIGHT SINGLE LOGICAL */
-> -    C(0x8800, SRL,     RS_a,  Z,   r1_32u, sh32, new, r1_32, srl, 0)
-> -    C(0xebde, SRLK,    RSY_a, DO,  r3_32u, sh32, new, r1_32, srl, 0)
-> -    C(0xeb0c, SRLG,    RSY_a, Z,   r3_o, sh64, r1, 0, srl, 0)
-> +    C(0x8800, SRL,     RS_a,  Z,   r1_32u, sh, new, r1_32, srl, 0)
-> +    C(0xebde, SRLK,    RSY_a, DO,  r3_32u, sh, new, r1_32, srl, 0)
-> +    C(0xeb0c, SRLG,    RSY_a, Z,   r3_o, sh, r1, 0, srl, 0)
->  /* SHIFT LEFT DOUBLE */
-> -    D(0x8f00, SLDA,    RS_a,  Z,   r1_D32, sh64, new, r1_D32, sla, 0, 63)
-> +    D(0x8f00, SLDA,    RS_a,  Z,   r1_D32, sh, new, r1_D32, sla, 0, 63)
->  /* SHIFT LEFT DOUBLE LOGICAL */
-> -    C(0x8d00, SLDL,    RS_a,  Z,   r1_D32, sh64, new, r1_D32, sll, 0)
-> +    C(0x8d00, SLDL,    RS_a,  Z,   r1_D32, sh, new, r1_D32, sll, 0)
->  /* SHIFT RIGHT DOUBLE */
-> -    C(0x8e00, SRDA,    RS_a,  Z,   r1_D32, sh64, new, r1_D32, sra, s64)
-> +    C(0x8e00, SRDA,    RS_a,  Z,   r1_D32, sh, new, r1_D32, sra, s64)
->  /* SHIFT RIGHT DOUBLE LOGICAL */
-> -    C(0x8c00, SRDL,    RS_a,  Z,   r1_D32, sh64, new, r1_D32, srl, 0)
-> +    C(0x8c00, SRDL,    RS_a,  Z,   r1_D32, sh, new, r1_D32, srl, 0)
->  
->  /* SQUARE ROOT */
->      F(0xb314, SQEBR,   RRE,   Z,   0, e2, new, e1, sqeb, 0, IF_BFP)
-> diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-> index 68ca7e476a..5a2b609d0f 100644
-> --- a/target/s390x/tcg/translate.c
-> +++ b/target/s390x/tcg/translate.c
-> @@ -1178,19 +1178,6 @@ struct DisasInsn {
->  /* ====================================================================== */
->  /* Miscellaneous helpers, used by several operations.  */
->  
-> -static void help_l2_shift(DisasContext *s, DisasOps *o, int mask)
-> -{
-> -    int b2 = get_field(s, b2);
-> -    int d2 = get_field(s, d2);
-> -
-> -    if (b2 == 0) {
-> -        o->in2 = tcg_const_i64(d2 & mask);
-> -    } else {
-> -        o->in2 = get_address(s, 0, b2, d2);
-> -        tcg_gen_andi_i64(o->in2, o->in2, mask);
-> -    }
-> -}
-> -
->  static DisasJumpType help_goto_direct(DisasContext *s, uint64_t dest)
->  {
->      if (dest == s->pc_tmp) {
-> @@ -5923,17 +5910,19 @@ static void in2_ri2(DisasContext *s, DisasOps *o)
->  }
->  #define SPEC_in2_ri2 0
->  
-> -static void in2_sh32(DisasContext *s, DisasOps *o)
-> +static void in2_sh(DisasContext *s, DisasOps *o)
->  {
-> -    help_l2_shift(s, o, 31);
-> -}
-> -#define SPEC_in2_sh32 0
-> +    int b2 = get_field(s, b2);
-> +    int d2 = get_field(s, d2);
->  
-> -static void in2_sh64(DisasContext *s, DisasOps *o)
-> -{
-> -    help_l2_shift(s, o, 63);
-> +    if (b2 == 0) {
-> +        o->in2 = tcg_const_i64(d2 & 0x3f);
-> +    } else {
-> +        o->in2 = get_address(s, 0, b2, d2);
-> +        tcg_gen_andi_i64(o->in2, o->in2, 0x3f);
-> +    }
->  }
-> -#define SPEC_in2_sh64 0
-> +#define SPEC_in2_sh 0
->  
->  static void in2_m2_8u(DisasContext *s, DisasOps *o)
->  {
+But doesn't the
 
-LGTM, thanks
+if (src & sign) {
+    match = mask;
+} else {
+    match = 0;
+}
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+logic handle that?
+
+If the sign is false, the shifted bits (mask) have to be 0.
+If the sign bit is true, the shifted bits (mask) have to be set.
+
+Do you have an example that would be broken?
+
+> 
+> Fixes: cbe24bfa91d2 ("target-s390: Convert SHIFT, ROTATE SINGLE")
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
+>  target/s390x/tcg/cc_helper.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/s390x/tcg/cc_helper.c b/target/s390x/tcg/cc_helper.c
+> index c2c96c3a3c..b6acffa3e8 100644
+> --- a/target/s390x/tcg/cc_helper.c
+> +++ b/target/s390x/tcg/cc_helper.c
+> @@ -297,7 +297,8 @@ static uint32_t cc_calc_sla_32(uint32_t src, int shift)
+>  
+>  static uint32_t cc_calc_sla_64(uint64_t src, int shift)
+>  {
+> -    uint64_t mask = ((1ULL << shift) - 1ULL) << (64 - shift);
+> +    /* Do not use (1ULL << (shift + 1)): it triggers UB when shift is 63.  */
+> +    uint64_t mask = ((((1ULL << shift) - 1) << 1) + 1) << (64 - (shift + 1));
+>      uint64_t sign = 1ULL << 63;
+>      uint64_t match;
+>      int64_t r;
+
+This looks like some black magic :)
 
 -- 
 Thanks,
