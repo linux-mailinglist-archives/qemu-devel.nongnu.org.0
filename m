@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 534FD48C32D
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 12:31:50 +0100 (CET)
-Received: from localhost ([::1]:36602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDC9448C33E
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 12:34:55 +0100 (CET)
+Received: from localhost ([::1]:45382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7br3-0005eD-FN
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 06:31:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55302)
+	id 1n7bu2-000309-M6
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 06:34:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n7bn8-0002i1-1H
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:46 -0500
-Received: from [2607:f8b0:4864:20::a36] (port=34728
- helo=mail-vk1-xa36.google.com)
+ id 1n7bn8-0002i3-MS
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:47 -0500
+Received: from [2607:f8b0:4864:20::a2d] (port=46604
+ helo=mail-vk1-xa2d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n7bn5-0003Pk-Uy
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:45 -0500
-Received: by mail-vk1-xa36.google.com with SMTP id 191so1445848vkc.1
+ id 1n7bn6-0003Pr-Ba
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:46 -0500
+Received: by mail-vk1-xa2d.google.com with SMTP id bj47so1398023vkb.13
  for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 03:27:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qcpAn1et5Rc9ve1l2kkPSNJw8TE2Au+M5SjHGGjh70g=;
- b=QE09XDKWVO3zuqqBHyCMvuwEmfB7ELExuwN1/tMjzo8FPYcgo/B5mt7SPW+9FRJ508
- Rd4y136rBd+28NHyxCuhsePRc7puc64BsVAo0tzBG0xTuqDtMYBHxuqY5BntNA5AZz1H
- +iBe9zUMRu2MMi2FYnhBXB+6vuqvUnKgk1FkkdFZqdXcJ5mho4gH5DCsHjjcNlINzcgX
- tSsdZyEPxDjmWbKQ48WlwXuOZrxL95nI0ErYlC/Po6/kUHvwy8Dpx5max4uhnDpxFe35
- qn4kcWvsG/zXHO/FKSZtAELSq27jZwziCUuKZQjbkm/Pl8AoVlmt53fFJCklj99i3oIb
- 73GA==
+ bh=JBS0UnAvkMjgjVm5KFvh2N9q14vYOpBE5J7+DmeRalQ=;
+ b=SPI/zVqrfn78SSwKeWGN8j10Tl3/0lnosYsF3dzH3DFB/qlYLLLwpuHuM4UaukXZHL
+ W4KXBakZvhiITDCaejD7uNjGqrXRiX06yASrYPGgQStNMZ3a/19mkYG7wel4AWDg86XI
+ RN7A/YzvyVTxv/jGirsBtumckBNJHcPcwwHA98HfTakl+89baHU8a9LqBHnHtTsxAK/Q
+ 8r3Zh/mt51ENmDeE9IEK+Vf03U1wWWlS9VFZvaZYK3dKjJ048adBs1cVLc2E1QSRvLs6
+ rGTjrL4rRuLlgjdGNSWy2XK4u5LlttyUuZczypifLmPVY6bDx0IFgtKqQSscYFxLRaU6
+ kVOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qcpAn1et5Rc9ve1l2kkPSNJw8TE2Au+M5SjHGGjh70g=;
- b=aaBSTqX0B99EO9epfZLVefCOGW+RzfEDNzt1ak9OXNc+Q9fF5MsgwC1crgdh1WxVgG
- eezrpYHyssOa8GrM6xigAEFCRaZXj99dMQ57gdvtoAlw80d1MvZTC9KNxZ9M5YW8H+oD
- s8E5Wyy9Bshoaw3V7lUfJR4Rauo2fohdGs82iL7qSBrYXqPOKV89jLg2l9/LWNszhQ/x
- d5sPb/oqeQgSK4hXksZdKL+rvPoalPPpuRh3KI5c7HXPwCDIVvZhU4hoFAIlOvYopEB0
- 6tuYXFf1KYyrhi+zEpjgtFQucXyp3zMSlRKMXyDnzek5ktgCXqoQSHuDfqdkhiXja5N5
- d0bw==
-X-Gm-Message-State: AOAM531QnJp0ivpIE2YfmEzh4WsZo4zdawXgchw/TwXeLg0KcNxamGYs
- ahCanj6dDbgAf2WZoAvewOyaNQ==
-X-Google-Smtp-Source: ABdhPJz7ReLwQQ48pv6+9CC/0JzwSMdYcOC/Xev95qPSTQx6baucTpYvr0gQxg18E/pgZLJ9TlnUuA==
-X-Received: by 2002:a1f:a010:: with SMTP id j16mr4010261vke.29.1641986862441; 
- Wed, 12 Jan 2022 03:27:42 -0800 (PST)
+ bh=JBS0UnAvkMjgjVm5KFvh2N9q14vYOpBE5J7+DmeRalQ=;
+ b=I17qncU+M41eod/PnkwZK4U4DHtwbS2uL9PmyUlDPtAgtdhnPaJKILzK9fwbBxjWZx
+ 71M+Et1h0jm52Zp+YVbWCM8k0Py3JYxsGpK/OH2V3Zi5xaDnzw/K1t3ILTkpIjXzt+sU
+ 6K/iWsVLtJjGM6E+xqL8Dk+KpUNmSSPCV0youMUMKXRUiJb9FuWjuS+pXBDGsRYfJ0YP
+ HTPkAMxIOix81zQ/KjsncFdCosLFyBEWtS2fTrkP+yoBei7JVZ/IQK6AZFPXNSsGlYUg
+ KzYd0qkzINzd0fhp+Hl9QetdAFrx65Lr0yacXtGWe5kbFYxBxL13fDKKUwgGqhUetiFF
+ qxDw==
+X-Gm-Message-State: AOAM530Q6QzswWtCUSNOrghfMURoVzc1pvUS2i3HdroQEK0R1GiJR8VE
+ vL+jRyGYTyMS/bnD8MbAjLSong==
+X-Google-Smtp-Source: ABdhPJxzquoyks7XTfqmaJiWCckcwH/2qy+IwGrnJbBJEbYi3f2rLKVBq9susT2x9qlf8tGlifxIjg==
+X-Received: by 2002:a05:6122:208a:: with SMTP id
+ i10mr4423011vkd.18.1641986863362; 
+ Wed, 12 Jan 2022 03:27:43 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l202sm5916311vkl.40.2022.01.12.03.27.32
+ by smtp.gmail.com with ESMTPSA id l27sm4925646vko.17.2022.01.12.03.27.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 12 Jan 2022 03:27:34 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 66F341FFC4;
+ by zen.linaroharston (Postfix) with ESMTP id 77CF31FFC5;
  Wed, 12 Jan 2022 11:27:23 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 12/31] tests/docker: auto-generate opensuse-leap.docker with
- lcitool
-Date: Wed, 12 Jan 2022 11:27:03 +0000
-Message-Id: <20220112112722.3641051-13-alex.bennee@linaro.org>
+Subject: [PULL 13/31] tests/docker: remove ubuntu.docker container
+Date: Wed, 12 Jan 2022 11:27:04 +0000
+Message-Id: <20220112112722.3641051-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220112112722.3641051-1-alex.bennee@linaro.org>
 References: <20220112112722.3641051-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a36
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a2d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a36;
- envelope-from=alex.bennee@linaro.org; helo=mail-vk1-xa36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-vk1-xa2d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -102,279 +102,108 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-This commit is best examined using the "-b" option to diff.
+This duplicates the ubuntu2004 container but with an inconsistent set of
+packages.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20211215141949.3512719-13-berrange@redhat.com>
-Message-Id: <20220105135009.1584676-13-alex.bennee@linaro.org>
+Message-Id: <20211215141949.3512719-14-berrange@redhat.com>
+Message-Id: <20220105135009.1584676-14-alex.bennee@linaro.org>
 
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-index 3bbdb67f4f..5510bdf19c 100644
---- a/tests/docker/dockerfiles/opensuse-leap.docker
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -1,114 +1,137 @@
-+# THIS FILE WAS AUTO-GENERATED
-+#
-+#  $ lcitool dockerfile opensuse-leap-152 qemu
-+#
-+# https://gitlab.com/libvirt/libvirt-ci
-+
- FROM registry.opensuse.org/opensuse/leap:15.2
+diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+index cd06d3f5f4..b9b675fdcb 100644
+--- a/.gitlab-ci.d/containers.yml
++++ b/.gitlab-ci.d/containers.yml
+@@ -29,11 +29,6 @@ amd64-ubuntu2004-container:
+   variables:
+     NAME: ubuntu2004
  
--# Please keep this list sorted alphabetically
+-amd64-ubuntu-container:
+-  extends: .container_job_template
+-  variables:
+-    NAME: ubuntu
+-
+ amd64-opensuse-leap-container:
+   extends: .container_job_template
+   variables:
+diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
+deleted file mode 100644
+index f0e0180d21..0000000000
+--- a/tests/docker/dockerfiles/ubuntu.docker
++++ /dev/null
+@@ -1,71 +0,0 @@
+-#
+-# Latest Ubuntu Release
+-#
+-# Useful for testing against relatively bleeding edge libraries and
+-# compilers. We also have seperate recipe for the most recent LTS
+-# release.
+-#
+-# When updating use the full tag not :latest otherwise the build
+-# system won't pick up that it has changed.
+-#
+-
+-FROM docker.io/library/ubuntu:20.04
 -ENV PACKAGES \
--    Mesa-devel \
--    alsa-lib-devel \
--    bc \
--    brlapi-devel \
--    bzip2 \
--    ca-certificates \
 -    ccache \
 -    clang \
--    ctags \
--    cyrus-sasl-devel \
--    dbus-1 \
--    diffutils \
--    findutils \
+-    dbus \
 -    gcc \
--    gcc-c++ \
--    gcovr \
--    gettext-runtime \
+-    gettext \
 -    git \
--    glib2-devel \
--    glibc-locale \
--    glibc-static \
--    glusterfs-devel \
--    gtk3-devel \
--    hostname \
--    jemalloc-devel \
--    libSDL2-devel \
--    libSDL2_image-devel \
--    libaio-devel \
--    libasan6 \
--    libattr-devel \
--    libbpf-devel \
--    libbz2-devel \
--    libcacard-devel \
--    libcap-ng-devel \
--    libcurl-devel \
--    libdrm-devel \
--    libepoxy-devel \
--    libfdt-devel \
--    libffi-devel \
--    libgcrypt-devel \
--    libgnutls-devel \
--    libiscsi-devel \
--    libjpeg8-devel \
--    libndctl-devel \
--    libnettle-devel \
--    libnfs-devel \
--    libnuma-devel \
--    libpixman-1-0-devel \
--    libpmem-devel \
--    libpng16-devel \
--    libpulse-devel \
--    librbd-devel \
--    libseccomp-devel \
--    libselinux-devel \
--    libspice-server-devel \
--    libssh-devel \
--    libtasn1-devel \
--    libubsan1 \
--    libudev-devel \
--    libusb-1_0-devel \
--    libxml2-devel \
--    libzstd-devel \
--    llvm \
--    lttng-ust-devel \
--    lzo-devel \
+-    glusterfs-common \
+-    libaio-dev \
+-    libattr1-dev \
+-    libbrlapi-dev \
+-    libbz2-dev \
+-    libcacard-dev \
+-    libcap-ng-dev \
+-    libcurl4-gnutls-dev \
+-    libdrm-dev \
+-    libepoxy-dev \
+-    libfdt-dev \
+-    libffi-dev \
+-    libgbm-dev \
+-    libgnutls28-dev \
+-    libgtk-3-dev \
+-    libibverbs-dev \
+-    libiscsi-dev \
+-    libjemalloc-dev \
+-    libjpeg-turbo8-dev \
+-    liblzo2-dev \
+-    libncurses5-dev \
+-    libncursesw5-dev \
+-    libnfs-dev \
+-    libnuma-dev \
+-    libpixman-1-dev \
+-    libpng-dev \
+-    librados-dev \
+-    librbd-dev \
+-    librdmacm-dev \
+-    libsasl2-dev \
+-    libsdl2-dev \
+-    libseccomp-dev \
+-    libsnappy-dev \
+-    libspice-protocol-dev \
+-    libspice-server-dev \
+-    libssh-dev \
+-    libusb-1.0-0-dev \
+-    libusbredirhost-dev \
+-    libvdeplug-dev \
+-    libvte-2.91-dev \
+-    libxen-dev \
+-    libzstd-dev \
 -    make \
--    mkisofs \
--    ncat \
--    ncurses-devel \
--    ninja \
--    openssh \
--    pam-devel \
--    perl-Test-Harness \
--    perl-base \
--    pkgconfig \
--    python3-Pillow \
--    python3-PyYAML \
--    python3-Sphinx \
--    python3-base \
--    python3-numpy \
--    python3-opencv \
--    python3-pip \
--    python3-setuptools \
--    python3-sphinx_rtd_theme \
--    python3-virtualenv \
--    python3-wheel \
--    rdma-core-devel \
--    rpm \
--    sed \
--    snappy-devel \
+-    ninja-build \
+-    python3-yaml \
+-    python3-sphinx \
+-    python3-sphinx-rtd-theme \
 -    sparse \
--    spice-protocol-devel \
--    systemd-devel \
--    systemtap-sdt-devel \
--    tar \
--    tesseract-ocr \
--    tesseract-ocr-traineddata-english \
--    texinfo \
--    usbredir-devel \
--    util-linux \
--    virglrenderer-devel \
--    vte-devel \
--    which \
--    xen-devel \
--    xfsprogs-devel \
--    zlib-devel
--ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3.6
-+RUN zypper update -y && \
-+    zypper install -y \
-+           Mesa-devel \
-+           alsa-lib-devel \
-+           bash \
-+           bc \
-+           brlapi-devel \
-+           bzip2 \
-+           ca-certificates \
-+           ccache \
-+           clang \
-+           ctags \
-+           cyrus-sasl-devel \
-+           dbus-1 \
-+           diffutils \
-+           findutils \
-+           gcc \
-+           gcc-c++ \
-+           gcovr \
-+           gettext-runtime \
-+           git \
-+           glib2-devel \
-+           glibc-locale \
-+           glibc-static \
-+           glusterfs-devel \
-+           gtk3-devel \
-+           hostname \
-+           jemalloc-devel \
-+           libSDL2-devel \
-+           libSDL2_image-devel \
-+           libaio-devel \
-+           libasan6 \
-+           libattr-devel \
-+           libbpf-devel \
-+           libbz2-devel \
-+           libcacard-devel \
-+           libcap-ng-devel \
-+           libcurl-devel \
-+           libdrm-devel \
-+           libepoxy-devel \
-+           libfdt-devel \
-+           libffi-devel \
-+           libgcrypt-devel \
-+           libgnutls-devel \
-+           libiscsi-devel \
-+           libjpeg8-devel \
-+           libndctl-devel \
-+           libnettle-devel \
-+           libnfs-devel \
-+           libnuma-devel \
-+           libpixman-1-0-devel \
-+           libpmem-devel \
-+           libpng16-devel \
-+           libpulse-devel \
-+           librbd-devel \
-+           libseccomp-devel \
-+           libselinux-devel \
-+           libspice-server-devel \
-+           libssh-devel \
-+           libtasn1-devel \
-+           libubsan1 \
-+           libudev-devel \
-+           liburing-devel \
-+           libusb-1_0-devel \
-+           libxml2-devel \
-+           libzstd-devel \
-+           llvm \
-+           lttng-ust-devel \
-+           lzo-devel \
-+           make \
-+           mkisofs \
-+           ncat \
-+           ncurses-devel \
-+           ninja \
-+           openssh \
-+           pam-devel \
-+           pcre-devel-static \
-+           perl-Test-Harness \
-+           perl-base \
-+           pkgconfig \
-+           python3-Pillow \
-+           python3-PyYAML \
-+           python3-Sphinx \
-+           python3-base \
-+           python3-numpy \
-+           python3-opencv \
-+           python3-pip \
-+           python3-setuptools \
-+           python3-sphinx_rtd_theme \
-+           python3-virtualenv \
-+           python3-wheel \
-+           rdma-core-devel \
-+           rpm \
-+           sed \
-+           snappy-devel \
-+           sparse \
-+           spice-protocol-devel \
-+           systemd-devel \
-+           systemtap-sdt-devel \
-+           tar \
-+           tesseract-ocr \
-+           tesseract-ocr-traineddata-english \
-+           texinfo \
-+           usbredir-devel \
-+           util-linux \
-+           virglrenderer-devel \
-+           vte-devel \
-+           which \
-+           xen-devel \
-+           xfsprogs-devel \
-+           zlib-devel \
-+           zlib-devel-static && \
-+    zypper clean --all && \
-+    rpm -qa | sort > /packages.txt && \
-+    mkdir -p /usr/libexec/ccache-wrappers && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/c++ && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/clang && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
-+
-+RUN pip3 install \
-+         meson==0.56.0
- 
--RUN zypper update -y && zypper --non-interactive install -y $PACKAGES
--RUN rpm -q $PACKAGES | sort > /packages.txt
-+ENV LANG "en_US.UTF-8"
-+ENV MAKE "/usr/bin/make"
-+ENV NINJA "/usr/bin/ninja"
-+ENV PYTHON "/usr/bin/python3"
-+ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
-diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index 310bad1315..b8a69cee59 100755
---- a/tests/lcitool/refresh
-+++ b/tests/lcitool/refresh
-@@ -78,6 +78,7 @@ try:
-                        trailer="".join(ubuntu1804_skipssh))
-    generate_dockerfile("ubuntu2004", "ubuntu-2004",
-                        trailer="".join(ubuntu2004_tsanhack))
-+   generate_dockerfile("opensuse-leap", "opensuse-leap-152")
-    sys.exit(0)
- except Exception as ex:
-    print(str(ex), file=sys.stderr)
+-    xfslibs-dev
+-RUN apt-get update && \
+-    DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
+-RUN dpkg -l $PACKAGES | sort > /packages.txt
 -- 
 2.30.2
 
