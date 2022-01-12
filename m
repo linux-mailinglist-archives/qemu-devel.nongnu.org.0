@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B90948C392
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 12:53:57 +0100 (CET)
-Received: from localhost ([::1]:59642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27E4D48C39E
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 12:59:26 +0100 (CET)
+Received: from localhost ([::1]:46856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7cCS-0006de-4p
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 06:53:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55330)
+	id 1n7cHl-0000oB-Ac
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 06:59:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1n7bnB-0002mM-Sa
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:49 -0500
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:42179)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1n7bn5-0003NB-Un
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:49 -0500
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
- by outpost.zedat.fu-berlin.de (Exim 4.94) with esmtps (TLS1.2)
- tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
- (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1n7bmk-001wWv-Py; Wed, 12 Jan 2022 12:27:22 +0100
-Received: from p57bd9010.dip0.t-ipconnect.de ([87.189.144.16]
- helo=[192.168.178.81]) by inpost2.zedat.fu-berlin.de (Exim 4.94)
- with esmtpsa (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
- (envelope-from <glaubitz@physik.fu-berlin.de>)
- id 1n7bmk-003wRc-Jh; Wed, 12 Jan 2022 12:27:22 +0100
-Message-ID: <a9a107d8-f30a-a6d4-5569-4c541630a97e@physik.fu-berlin.de>
-Date: Wed, 12 Jan 2022 12:27:22 +0100
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n7bvP-0007Th-NX
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:36:19 -0500
+Received: from [2a00:1450:4864:20::52a] (port=38743
+ helo=mail-ed1-x52a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n7bvN-0004jp-F5
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:36:19 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id u21so8725923edd.5
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 03:36:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=qU0qCSSl4pmUaHPJTCWU5SfjM+Bm5LpUHH3/TENBYHM=;
+ b=Iv0+jBC7qicZ7diSUyFAhN7ud0F5/tUaKDSr4vHF07TsOMwIUV0amTw313XyG1NS+v
+ QRu92YorPOkmx9QcJuLqYFfMtF1EJ1Kc04QBneMGftkL5oGXvQqpQOYHOjZ0n2WG6skA
+ 75htYfPw/BPwo3/w4GQFV0tIY2MDJ/cahE2wY0lmCuBg23YJGefL1rI1GFgthdn7Vvd0
+ hEssFGGRHb9jDVEbwo8lIZ05EWV5qowzRYNjcnjWTT1aqQ+w1Fa/PITi1WDVBVp07Lzz
+ VvyZCQVabFZI9MydoAR0948TeMw6x1J/9RnQsJXdPJDj/ojkvzRUtWKZt4bH/HI0mFx8
+ 07Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=qU0qCSSl4pmUaHPJTCWU5SfjM+Bm5LpUHH3/TENBYHM=;
+ b=04+42rsuGoulozKabTvr/YYoUM+oXWeUc9cYt6ZdzcMTLt1kyPN+3WiqpzLBGEFpJo
+ pxdCbzlL/J6dovy3sAnqnEm3n0NlkWCbU9vQM3y1qfwxMEblvL7Vmkvvj+Lc8JM5etAc
+ eBkxmQr4rf2DuV44w/8lygD6Ce1/j3vdzRY+VDhyV76yCSPzwrSMJU7U49BHYmEqvJBM
+ eEQLdNMnrDubEBH2QwCEt7HAgGx33oLlXjp5LrKlaARh2AC1q8TqWAsqk3ctU4fh2FjE
+ jDmnEvZx+unS9JoFgOacu8d831O52l/uiD38CZ2ZBarEuy/SfgadqHGLQaKTW1WtRFnu
+ YBhA==
+X-Gm-Message-State: AOAM5305ba60wRGL3tj/t+1qsCbWF1m3oDmX6PcN8WZppUElUi/WYWSz
+ DnTTYa5GhBedksO1F8ihJ9Koeg==
+X-Google-Smtp-Source: ABdhPJwRmxv/pzhEVVNlsB9WDlePl+v1cwm5ODffjRbLpXuPwG+VkHxj4sI4uOaIVAZyHRM0SbZWqw==
+X-Received: by 2002:a17:907:94d6:: with SMTP id
+ dn22mr7097836ejc.541.1641987376014; 
+ Wed, 12 Jan 2022 03:36:16 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q20sm5959878edt.13.2022.01.12.03.36.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Jan 2022 03:36:10 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 56AED1FFD7;
+ Wed, 12 Jan 2022 11:27:25 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL 31/31] linux-user: Remove the deprecated ppc64abi32 target
+Date: Wed, 12 Jan 2022 11:27:22 +0000
+Message-Id: <20220112112722.3641051-32-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220112112722.3641051-1-alex.bennee@linaro.org>
+References: <20220112112722.3641051-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: Looking for advise on debugging a non-boot kernel on
- qemu-system-sh4
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <4882e4cc-6754-1c8a-a8ae-a2ceeca115fb@physik.fu-berlin.de>
- <e11d3ee1-2a25-7633-babd-d45f36b04c5b@eik.bme.hu>
- <013d782d-0d7c-8204-cab2-08102a7d80f4@physik.fu-berlin.de>
- <3c524162-e83-a9b3-1e28-2aa28dbefa76@eik.bme.hu>
- <f0933be1-75ee-b053-1f53-f96258d41163@physik.fu-berlin.de>
- <d2553511-b83c-d4f1-5a88-b661bc97eb@eik.bme.hu>
- <9189dbe7-cf92-19c7-dee5-b707262964d1@physik.fu-berlin.de>
- <3f483f63-9e68-b1da-01ab-a1e05dcf45aa@physik.fu-berlin.de>
- <378d863-abbb-57b7-d624-ce1ca81d09c@eik.bme.hu>
- <105383e6-9dab-e2bd-ffe2-fead5555f37c@physik.fu-berlin.de>
- <c3cf7b52-10bc-eff3-c08a-d6e743cb863@eik.bme.hu>
- <db8b375b-0403-e7b3-44a6-89e440b5e2d2@physik.fu-berlin.de>
- <82c6635-68c7-9b51-3f6c-7555dfb7958c@eik.bme.hu>
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-In-Reply-To: <82c6635-68c7-9b51-3f6c-7555dfb7958c@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 87.189.144.16
-Received-SPF: pass client-ip=130.133.4.66;
- envelope-from=glaubitz@zedat.fu-berlin.de; helo=outpost1.zedat.fu-berlin.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,58 +90,349 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Robert_=c5=9awi=c4=99cki?= <robert@swiecki.net>
+Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ "reviewer:Incompatible changes" <libvir-list@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Zoltan!
+From: Thomas Huth <thuth@redhat.com>
 
-On 10/26/21 00:40, BALATON Zoltan wrote:
-> On Tue, 26 Oct 2021, John Paul Adrian Glaubitz wrote:
->> Hi Zoltan!
->>
->> On 10/23/21 15:22, BALATON Zoltan wrote:
->>>> You either need to strip the kernel with "strip vmlinux" or use the image from arch/sh/
->>>> boot/zImage.
->>>
->>> I've actually used that kernel but looked at the wrong uncompressed size, it's indeed just
->>> 9.2MB when stripped so that should work. I was trying to debug further and found two problems:
->>>
->>> Commit abb0cd93494 (accel/tcg: Split out log_cpu_exec) seems to have broken -singlestep -d in_asm,cpu
->>> output with sh after a delay slot. Since that commit I get:
->>> (...)
->>> This seems to take a wrong turn at the delayed branch and somehow ends up at 0x8c800964 instead of
->>> 0x8c801528 but I'm not sure where to look firther why. I'm cc-ing Richard for both the -d cpu and
->>> this hoping he has some more insight.
->>
->> Shall we open a bug report?
-> 
-> Well, we don't know yet what to put in the bug report apart from there is some bug somewhere. That's
-> not too useful. I now understand that the -d output is not showing already translated TBs (I knew this
-> but most of the time with -singlestep it gives good results anyway) but here it runs the loops without
-> further output then we only see the first loop iteration and the end result. So the problem is not that
-> it goes to 0x8c800964 as I think that's part of the loop for decompressing the kernel but it seems
-> something is overwriting 0x8c800964 while it still expects to run code from there but I don't know what
-> and why. One way to find could be to disassemble the kernel code and compare that with the -d output and
-> check every instruction manually but that takes a lot of time or if you have a cross debugger you could
-> try attaching that to QEMU and try to debug it that way but I don't have that either. Any other idea how
-> to find out what is happening?
+It's likely broken, and nobody cared for picking it up again
+during the deprecation phase, so let's remove this now.
 
-Robert Święcki (CC'ed) found out that disabling tracing support makes Debian's kernel bootable [1].
+Since this is the last entry in deprecated_targets_list, remove
+the related code in the configure script, too.
 
-Not sure if this is a kernel bug or a QEMU bug then. Does QEMU have any support for kernel tracing?
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Cédric Le Goater <clg@kaod.org>
+Acked-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20211215084958.185214-1-thuth@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20220105135009.1584676-35-alex.bennee@linaro.org>
 
-Adrian
-
-> [1] https://marc.info/?l=linux-sh&m=164193147916418&w=2
-
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index e21e07478f..6f85afdee4 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -390,13 +390,6 @@ The above, converted to the current supported format::
+ linux-user mode CPUs
+ --------------------
+ 
+-``ppc64abi32`` CPUs (since 5.2)
+-'''''''''''''''''''''''''''''''
+-
+-The ``ppc64abi32`` architecture has a number of issues which regularly
+-trip up our CI testing and is suspected to be quite broken. For that
+-reason the maintainers strongly suspect no one actually uses it.
+-
+ MIPS ``I7200`` CPU (since 5.2)
+ ''''''''''''''''''''''''''''''
+ 
+diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
+index 4c4da20d0f..380a1b30ea 100644
+--- a/docs/about/removed-features.rst
++++ b/docs/about/removed-features.rst
+@@ -601,6 +601,14 @@ the upstream Linux kernel in 2018, and it has also been dropped from glibc, so
+ there is no new Linux development taking place with this architecture. For
+ running the old binaries, you can use older versions of QEMU.
+ 
++``ppc64abi32`` CPUs (removed in 7.0)
++''''''''''''''''''''''''''''''''''''
++
++The ``ppc64abi32`` architecture has a number of issues which regularly
++tripped up the CI testing and was suspected to be quite broken. For that
++reason the maintainers strongly suspected no one actually used it.
++
++
+ System emulator devices
+ -----------------------
+ 
+diff --git a/docs/user/main.rst b/docs/user/main.rst
+index e08d4be63b..6f2ffa080f 100644
+--- a/docs/user/main.rst
++++ b/docs/user/main.rst
+@@ -166,7 +166,6 @@ Other binaries
+ 
+ -  user mode (PowerPC)
+ 
+-   * ``qemu-ppc64abi32`` TODO.
+    * ``qemu-ppc64`` TODO.
+    * ``qemu-ppc`` TODO.
+ 
+diff --git a/configure b/configure
+index 030728d11e..0c57a063c6 100755
+--- a/configure
++++ b/configure
+@@ -1273,8 +1273,6 @@ if [ "$ARCH" = "unknown" ]; then
+ fi
+ 
+ default_target_list=""
+-deprecated_targets_list=ppc64abi32-linux-user
+-deprecated_features=""
+ mak_wilds=""
+ 
+ if [ "$softmmu" = "yes" ]; then
+@@ -1287,16 +1285,6 @@ if [ "$bsd_user" = "yes" ]; then
+     mak_wilds="${mak_wilds} $source_path/configs/targets/*-bsd-user.mak"
+ fi
+ 
+-# If the user doesn't explicitly specify a deprecated target we will
+-# skip it.
+-if test -z "$target_list"; then
+-    if test -z "$target_list_exclude"; then
+-        target_list_exclude="$deprecated_targets_list"
+-    else
+-        target_list_exclude="$target_list_exclude,$deprecated_targets_list"
+-    fi
+-fi
+-
+ for config in $mak_wilds; do
+     target="$(basename "$config" .mak)"
+     if echo "$target_list_exclude" | grep -vq "$target"; then
+@@ -1315,11 +1303,9 @@ Standard options:
+   --prefix=PREFIX          install in PREFIX [$prefix]
+   --interp-prefix=PREFIX   where to find shared libraries, etc.
+                            use %M for cpu name [$interp_prefix]
+-  --target-list=LIST       set target list (default: build all non-deprecated)
++  --target-list=LIST       set target list (default: build all)
+ $(echo Available targets: $default_target_list | \
+   fold -s -w 53 | sed -e 's/^/                           /')
+-$(echo Deprecated targets: $deprecated_targets_list | \
+-  fold -s -w 53 | sed -e 's/^/                           /')
+   --target-list-exclude=LIST exclude a set of targets from the default target-list
+ 
+ Advanced options (experts only):
+@@ -1804,13 +1790,6 @@ else
+     done
+ fi
+ 
+-for target in $target_list; do
+-    # if a deprecated target is enabled we note it here
+-    if echo "$deprecated_targets_list" | grep -q "$target"; then
+-        add_to deprecated_features $target
+-    fi
+-done
+-
+ # see if system emulation was really requested
+ case " $target_list " in
+   *"-softmmu "*) softmmu=yes
+@@ -3950,12 +3929,6 @@ else
+   fi
+ fi
+ 
+-if test -n "${deprecated_features}"; then
+-    echo "Warning, deprecated features enabled."
+-    echo "Please see docs/about/deprecated.rst"
+-    echo "  features: ${deprecated_features}"
+-fi
+-
+ # Create list of config switches that should be poisoned in common code...
+ # but filter out CONFIG_TCG and CONFIG_USER_ONLY which are special.
+ target_configs_h=$(ls *-config-devices.h *-config-target.h 2>/dev/null)
+diff --git a/configs/targets/ppc64abi32-linux-user.mak b/configs/targets/ppc64abi32-linux-user.mak
+deleted file mode 100644
+index 0945451081..0000000000
+--- a/configs/targets/ppc64abi32-linux-user.mak
++++ /dev/null
+@@ -1,8 +0,0 @@
+-TARGET_ARCH=ppc64
+-TARGET_ABI32=y
+-TARGET_BASE_ARCH=ppc
+-TARGET_ABI_DIR=ppc
+-TARGET_SYSTBL_ABI=common,nospu,32
+-TARGET_SYSTBL=syscall.tbl
+-TARGET_WORDS_BIGENDIAN=y
+-TARGET_XML_FILES= gdb-xml/power64-core.xml gdb-xml/power-fpu.xml gdb-xml/power-altivec.xml gdb-xml/power-spe.xml gdb-xml/power-vsx.xml
+diff --git a/linux-user/ppc/target_syscall.h b/linux-user/ppc/target_syscall.h
+index 8b364697d4..7df9118937 100644
+--- a/linux-user/ppc/target_syscall.h
++++ b/linux-user/ppc/target_syscall.h
+@@ -36,7 +36,7 @@ struct target_pt_regs {
+ 	abi_ulong link;
+ 	abi_ulong xer;
+ 	abi_ulong ccr;
+-#if defined(TARGET_PPC64) && !defined(TARGET_ABI32)
++#if defined(TARGET_PPC64)
+         abi_ulong softe;
+ #else
+ 	abi_ulong mq;		/* 601 only (not used at present) */
+@@ -58,7 +58,7 @@ struct target_revectored_struct {
+  * flags masks
+  */
+ 
+-#if defined(TARGET_PPC64) && !defined(TARGET_ABI32)
++#if defined(TARGET_PPC64)
+ #ifdef TARGET_WORDS_BIGENDIAN
+ #define UNAME_MACHINE "ppc64"
+ #else
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index cca561f622..dc7dcad6f7 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -1607,7 +1607,7 @@ struct target_stat64 {
+ struct target_stat {
+ 	abi_ulong st_dev;
+ 	abi_ulong st_ino;
+-#if defined(TARGET_PPC64) && !defined(TARGET_ABI32)
++#if defined(TARGET_PPC64)
+ 	abi_ulong st_nlink;
+ 	unsigned int st_mode;
+ #else
+@@ -1628,12 +1628,12 @@ struct target_stat {
+ 	abi_ulong  target_st_ctime_nsec;
+ 	abi_ulong  __unused4;
+ 	abi_ulong  __unused5;
+-#if defined(TARGET_PPC64) && !defined(TARGET_ABI32)
++#if defined(TARGET_PPC64)
+ 	abi_ulong  __unused6;
+ #endif
+ };
+ 
+-#if !defined(TARGET_PPC64) || defined(TARGET_ABI32)
++#if !defined(TARGET_PPC64)
+ #define TARGET_HAS_STRUCT_STAT64
+ struct QEMU_PACKED target_stat64 {
+ 	unsigned long long st_dev;
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index cb2f01ff01..107796c44d 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -718,7 +718,7 @@ static inline void init_thread(struct target_pt_regs *regs,
+ #define ELF_MACHINE    PPC_ELF_MACHINE
+ #define ELF_START_MMAP 0x80000000
+ 
+-#if defined(TARGET_PPC64) && !defined(TARGET_ABI32)
++#if defined(TARGET_PPC64)
+ 
+ #define elf_check_arch(x) ( (x) == EM_PPC64 )
+ 
+@@ -870,7 +870,7 @@ static uint32_t get_elf_hwcap2(void)
+ static inline void init_thread(struct target_pt_regs *_regs, struct image_info *infop)
+ {
+     _regs->gpr[1] = infop->start_stack;
+-#if defined(TARGET_PPC64) && !defined(TARGET_ABI32)
++#if defined(TARGET_PPC64)
+     if (get_ppc64_abi(infop) < 2) {
+         uint64_t val;
+         get_user_u64(val, infop->entry + 8);
+diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
+index 176c9d8503..ec0b9c0df3 100644
+--- a/linux-user/ppc/signal.c
++++ b/linux-user/ppc/signal.c
+@@ -477,9 +477,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     int i, err = 0;
+ #if defined(TARGET_PPC64)
+     struct target_sigcontext *sc = 0;
+-#if !defined(TARGET_ABI32)
+     struct image_info *image = ((TaskState *)thread_cpu->opaque)->info;
+-#endif
+ #endif
+ 
+     rt_sf_addr = get_sigframe(ka, env, sizeof(*rt_sf));
+@@ -530,7 +528,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     env->gpr[5] = (target_ulong) h2g(&rt_sf->uc);
+     env->gpr[6] = (target_ulong) h2g(rt_sf);
+ 
+-#if defined(TARGET_PPC64) && !defined(TARGET_ABI32)
++#if defined(TARGET_PPC64)
+     if (get_ppc64_abi(image) < 2) {
+         /* ELFv1 PPC64 function pointers are pointers to OPD entries. */
+         struct target_func_ptr *handler =
+@@ -562,7 +560,7 @@ sigsegv:
+ 
+ }
+ 
+-#if !defined(TARGET_PPC64) || defined(TARGET_ABI32)
++#if !defined(TARGET_PPC64)
+ long do_sigreturn(CPUPPCState *env)
+ {
+     struct target_sigcontext *sc = NULL;
+@@ -575,12 +573,9 @@ long do_sigreturn(CPUPPCState *env)
+     if (!lock_user_struct(VERIFY_READ, sc, sc_addr, 1))
+         goto sigsegv;
+ 
+-#if defined(TARGET_PPC64)
+-    set.sig[0] = sc->oldmask + ((uint64_t)(sc->_unused[3]) << 32);
+-#else
+     __get_user(set.sig[0], &sc->oldmask);
+     __get_user(set.sig[1], &sc->_unused[3]);
+-#endif
++
+     target_to_host_sigset_internal(&blocked, &set);
+     set_sigmask(&blocked);
+ 
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index 8f2a3c8f5b..0aa70213fb 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -473,33 +473,6 @@ tsan-build:
+     TARGETS: x86_64-softmmu ppc64-softmmu riscv64-softmmu x86_64-linux-user
+     MAKE_CHECK_ARGS: bench V=1
+ 
+-# These targets are on the way out
+-build-deprecated:
+-  extends: .native_build_job_template
+-  needs:
+-    job: amd64-debian-user-cross-container
+-  variables:
+-    IMAGE: debian-all-test-cross
+-    CONFIGURE_ARGS: --disable-tools
+-    MAKE_CHECK_ARGS: build-tcg
+-    TARGETS: ppc64abi32-linux-user
+-  artifacts:
+-    expire_in: 2 days
+-    paths:
+-      - build
+-
+-# We split the check-tcg step as test failures are expected but we still
+-# want to catch the build breaking.
+-check-deprecated:
+-  extends: .native_test_job_template
+-  needs:
+-    - job: build-deprecated
+-      artifacts: true
+-  variables:
+-    IMAGE: debian-all-test-cross
+-    MAKE_CHECK_ARGS: check-tcg
+-  allow_failure: true
+-
+ # gprof/gcov are GCC features
+ build-gprof-gcov:
+   extends: .native_build_job_template
+diff --git a/tests/docker/dockerfiles/debian-ppc64el-cross.docker b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
+index 1146a06be6..5de12b01cd 100644
+--- a/tests/docker/dockerfiles/debian-ppc64el-cross.docker
++++ b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
+@@ -16,7 +16,7 @@ RUN apt update && \
+ 
+ # Specify the cross prefix for this image (see tests/docker/common.rc)
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=powerpc64le-linux-gnu-
+-ENV DEF_TARGET_LIST ppc64-softmmu,ppc64-linux-user,ppc64abi32-linux-user
++ENV DEF_TARGET_LIST ppc64-softmmu,ppc64-linux-user
+ 
+ # Install extra libraries to increase code coverage
+ RUN apt update && \
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 309335a2bd..763e9b6ad8 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -167,7 +167,7 @@ for target in $target_list; do
+       container_image=debian-nios2-cross
+       container_cross_cc=nios2-linux-gnu-gcc
+       ;;
+-    ppc-*|ppc64abi32-*)
++    ppc-*)
+       container_hosts=x86_64
+       container_image=debian-powerpc-test-cross
+       container_cross_cc=powerpc-linux-gnu-gcc-10
 -- 
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer - glaubitz@debian.org
-`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
-
+2.30.2
 
 
