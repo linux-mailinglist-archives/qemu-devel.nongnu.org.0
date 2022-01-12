@@ -2,99 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D40F48C84D
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 17:28:26 +0100 (CET)
-Received: from localhost ([::1]:43044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6427148C8A2
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 17:42:50 +0100 (CET)
+Received: from localhost ([::1]:55586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7gU5-0005q5-A5
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 11:28:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55226)
+	id 1n7gi1-0007cm-3e
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 11:42:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7gS2-0004DM-P3
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 11:26:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48356)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1n7geQ-0005Ir-Sq; Wed, 12 Jan 2022 11:39:06 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:20478)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7gRz-0005Qp-8i
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 11:26:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642004774;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=btAnv5HQD9s7AF6IVxc3ryq16z1BpAVfzCFZB/4j4g8=;
- b=G+8JspXUkEByH3H07S2Q5so/ncoXjPeieoKE7dOFTUQzckNNKLniZHYGpaYwpuBNptZEfU
- bLSAfIPdeE9WHZO5E8zKj9Ej5Fm7pqbuLdIm/wZfyz0h6m7H6Muxnp+rscMjLnqkWHfjbt
- Aholk5mGQJJm3UQeyXbdibhhRMYWeKw=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-662-9f5SY-CvNLOFA-_q_CloaA-1; Wed, 12 Jan 2022 11:26:12 -0500
-X-MC-Unique: 9f5SY-CvNLOFA-_q_CloaA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- v18-20020a056402349200b003f8d3b7ee8dso2688895edc.23
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 08:26:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=btAnv5HQD9s7AF6IVxc3ryq16z1BpAVfzCFZB/4j4g8=;
- b=ESkOr1GNpCycBjZdDBcJBpI0pS8YJI8EN6R/9LNVsVdo+umj6wkvFoxTIpddmRCQrU
- D/hL8oV3I9HySpl3eXDqdYnYehpPsCRrmA9ON2pCS+dE594WnvqzgEIwfZG7wAV5WjVk
- o9MV6/IZUAN3YlQKfhmevzW9I+CGj6c5fFLB5jo6Y1I8RoS2vqy9C3EtXcVF/+GIW5ku
- ZIyhQSxtPg3Lq5AsIE81u4NQI2JCIoWyObiJfVbY5KIEbq/V2x+27KEb8+lB0FZYvlRE
- J+IZPhohxMFAteKETgCDC4ABiBVSaPIIqnsrGlODugrgbAE81uX8S3fr1rsvTLPtFlOj
- /3hA==
-X-Gm-Message-State: AOAM532jE7gI3d3P8SGh/Gr+7C+Lbp8j4Szg0qKqdUNAJXOaP5E+jtCd
- C4DTIUPMSNyFuaNO3kO9fYUxmJ63aPk0JWryrX0eQ1hsvnzSVsBsz5mmu2EgGxC7triJC1YuSvD
- aTiAejr773G7j62M=
-X-Received: by 2002:a17:906:7e11:: with SMTP id
- e17mr404898ejr.288.1642004771335; 
- Wed, 12 Jan 2022 08:26:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwGrdGTD2k6TEUAeAo2AWUz1oWBC4FUhqYkHV04HQQWjoG27oOP8/U7Ydr9Jii2+/dZlal+GA==
-X-Received: by 2002:a17:906:7e11:: with SMTP id
- e17mr404879ejr.288.1642004771064; 
- Wed, 12 Jan 2022 08:26:11 -0800 (PST)
-Received: from ?IPV6:2003:cb:c702:4700:e25f:39eb:3cb8:1dec?
- (p200300cbc7024700e25f39eb3cb81dec.dip0.t-ipconnect.de.
- [2003:cb:c702:4700:e25f:39eb:3cb8:1dec])
- by smtp.gmail.com with ESMTPSA id g17sm54971eja.165.2022.01.12.08.26.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Jan 2022 08:26:10 -0800 (PST)
-Message-ID: <f20bd3ca-8d55-4124-78c8-7a2f4ce9f7f7@redhat.com>
-Date: Wed, 12 Jan 2022 17:26:09 +0100
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1n7geO-0007TL-Np; Wed, 12 Jan 2022 11:39:06 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20CGMQss029294; 
+ Wed, 12 Jan 2022 16:38:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=k5CJ2iUtMPzk/xhWUG7ag9OacjBzh069HtkvIQmRWzc=;
+ b=E5KLsyb0BWW/EeCMruNBIVbIIq67VNeCGAMoki18TOGoWRKBmnUIQrpSnxqVQK58HaZq
+ 6Q5xcEbVUaWjcnT7vR5p8ABXFgHUwElABB7A9eRCCtEbakn2z3DVqM6+MoPbW4MdeZa1
+ jtqxnJAfPRjm0f+72bJMnvsWfXMysBt91d2MefHZOWG5KslOmS3IpWqppcekQf7A9ij8
+ OdCV6bTYqdLZtxDWsWbaN7ds8Q1vwYrVwDWFLvEmx+l25qQfqmI8KwJtSRsr2kisBC8F
+ Aks6+CohXLqQ5A5SWXfAmnO9K5SbeMiA9kh0IfMSFh43SM0cK4l1Z6/ho5P123ps5zLl DA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dj2eyra1f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Jan 2022 16:38:59 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20CGNeAq030855;
+ Wed, 12 Jan 2022 16:38:58 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dj2eyra0r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Jan 2022 16:38:58 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20CGM8E4019009;
+ Wed, 12 Jan 2022 16:38:56 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma02fra.de.ibm.com with ESMTP id 3df28abwyn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Jan 2022 16:38:56 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20CGcrqA42205608
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 12 Jan 2022 16:38:53 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8524A11C054;
+ Wed, 12 Jan 2022 16:38:53 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0E06F11C050;
+ Wed, 12 Jan 2022 16:38:53 +0000 (GMT)
+Received: from [9.171.78.41] (unknown [9.171.78.41])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 12 Jan 2022 16:38:52 +0000 (GMT)
+Message-ID: <4bf54d68d8e35db0c5555404934a3df47cacf8e1.camel@linux.ibm.com>
+Subject: Re: [PATCH v2 3/5] target/s390x: Fix cc_calc_sla_64() missing
+ overflows
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: David Hildenbrand <david@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Cornelia Huck <cohuck@redhat.com>, Thomas
+ Huth <thuth@redhat.com>
+Date: Wed, 12 Jan 2022 17:38:52 +0100
+In-Reply-To: <c9544f5c-545a-8edf-dac6-a960aa00d4dd@redhat.com>
+References: <20220112043948.224405-1-iii@linux.ibm.com>
+ <20220112043948.224405-4-iii@linux.ibm.com>
+ <08948b31-0729-5463-829f-35fb444cf82d@redhat.com>
+ <add9d2da455bf9b07cf77c942e95183f5bf6f090.camel@linux.ibm.com>
+ <c9544f5c-545a-8edf-dac6-a960aa00d4dd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.2 (3.42.2-1.fc35) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [RFC] virtio_pmem: enable live migration support
-To: Pankaj Gupta <pankaj.gupta@ionos.com>
-References: <20211231120127.22394-1-pankaj.gupta.linux@gmail.com>
- <625c92c6-3618-fbaa-aea6-0ed86df872d3@redhat.com>
- <CAM9Jb+hvCZoXLx4_xx8KTq4oBts7MCe-ozp5ZuX2yPW6=tyLGQ@mail.gmail.com>
- <d0fc0d8e-fe38-1ab2-2d56-23345de783e7@redhat.com>
- <CALzYo32zxdL6ET_5Btw=Hoat8i4KtA2iUEpd9+_sXSbw84_SAA@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <CALzYo32zxdL6ET_5Btw=Hoat8i4KtA2iUEpd9+_sXSbw84_SAA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: DgtMU4UnfxxUTztCIWXURE_nUOmAXdqK
+X-Proofpoint-ORIG-GUID: nzzZGfZxpgG5E9-5AOPYLUbPNnpm9YyG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-12_04,2022-01-11_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 clxscore=1015
+ impostorscore=0 adultscore=0 priorityscore=1501 phishscore=0 spamscore=0
+ mlxscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2201120104
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,58 +115,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Rik van Riel <riel@surriel.com>,
- Qemu Developers <qemu-devel@nongnu.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Dan Williams <dan.j.williams@intel.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12.01.22 17:08, Pankaj Gupta wrote:
->>>> I mean, that would be fundamentally broken, because the fsync() would
->>>> corrupt the file. So I assume in a sane environment, the dst could only
->>>> have stale clean pagecache pages. And we'd have to get rid of these to
->>>> re-read everything from file.
->>>
->>> In case of write back cache mode, we could still have stale dirty
->>> pages at the destination
->>> host and destination fsync is not the right thing to do. We need to
->>> invalidate these pages
->>> (Can we invalidate dirty pages resident in page cache with
->>> POSIX_FADV_DONTNEED as
->>> well?) man pages say, we cannot (unless i misunderstood it).
->>>
->>
->> I think you'd have to fsync + POSIX_FADV_DONTNEED. But I am still
->> confused how we could end up with dirty pagecache pages on the
->> destination. In my opinion, there should only be clean pagecache pages
->> -- can someone enlighten me? :)
+On Wed, 2022-01-12 at 16:45 +0100, David Hildenbrand wrote:
+> > > If the sign is false, the shifted bits (mask) have to be 0.
+> > > If the sign bit is true, the shifted bits (mask) have to be set.
+> > 
+> > IIUC this logic handles sign bit + "shift - 1" bits. So if the last
+> > shifted bit is different, the overflow is not detected.
 > 
-> because of activity on the page cache pages corresponding to mmap region
-> in the past which is not synced yet or not reclaimed yet. Maybe this
-> is hypothetical
-> or not possible, happy to learn?
+> Ah, right, because of the - 1ULL ...
+> 
+> [...]
+> 
+> > > This looks like some black magic :)
+> > 
+> > Yeah, I felt this way too, but didn't come up with anything better
+> > and
+> > just left a comment warning not to simplify.
+> > 
+> 
+> I wonder if all we want is
+> 
+> const uint64_t sign = 1ULL << 63;
+> uint64_t mask = (-1ULL << (63 - shift)) & ~sign;
+> 
+> For shift =
+> *  0: 0000000...0b
+> *  1: 0100000...0b
+> *  2: 0110000...0b
+> * 63: 0111111...1b
+> 
+> Seems to survive your tests.
 
-Right, but assume the following *sane*
+-1ULL does indeed help a lot to simplify this.
+I don't think we even need to mask out the sign, since it should be
+the same as the other bits anyway. So just
 
-#1 H0 starts and runs VM.
-#2 H0 migrates VM to H1.
-#3 H1 runs VM.
-#4 H1 migrates VM to H0.
-#5 H0 runs VM.
+    uint64_t mask = -1ULL << (63 - shift);
 
-We'd expect a proper fsync during #2, writing back any dirty pages to
-the memory backend. Otherwise, #3 would already be broken. Similarly,
-we'd expect a proper fsync during #4.
-
-I assume during #4 we could find clean pagecache pages that are actually
-invalid, because the underlying file was changed by H1. So we have to
-make sure to invalidate all pagecache pages (all clean).
-
--- 
-Thanks,
-
-David / dhildenb
-
+appears to be enough.
 
