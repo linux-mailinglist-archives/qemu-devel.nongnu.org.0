@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07DD848C3D9
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 13:18:59 +0100 (CET)
-Received: from localhost ([::1]:51550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E7D48C3E9
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 13:26:11 +0100 (CET)
+Received: from localhost ([::1]:39444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7cag-000861-4T
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 07:18:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59110)
+	id 1n7che-0002Yj-AW
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 07:26:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n7c6J-0005IB-OG
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:47:35 -0500
-Received: from [2a00:1450:4864:20::42c] (port=45032
- helo=mail-wr1-x42c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n7c6A-0006Le-8m
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:47:35 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id k18so3672606wrg.11
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 03:47:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=iPzahR7LY8rdmYb3nzNrYhi/6pQvLTR/WsI/s9Ygsg0=;
- b=inoSp3PIgHcOaBAkE5W9M73nLUI7rZ2Op1uFzihpoiQAXTVHjsCSjYCSSU2mpuZT0w
- 50BS4MHO4J+XrqPyYCZYCyfNAfYEoxdjvAYtRd4ep4k7qTpUbw4yS7oJxc4ScywvJX1F
- y2OWmPDKIUKrh7QI8hdI2ZNokQVjvuhenW6ar7mQbh/tNGLm1J7/yTApD0FI4mQ0j/BZ
- 79L+jzTM/JV3XjVccfQwR3izdKU5Wnip1VnBUoagP6fG5W1rcWnpclw/qcXeO6yBiGO6
- JG+7+4xzOk8ODQWPJtqUSg8NaXdWylnuhe98M1eqGPGzhDyhRhAJM9z0ywdKAEda+BYy
- iBjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=iPzahR7LY8rdmYb3nzNrYhi/6pQvLTR/WsI/s9Ygsg0=;
- b=K0AXR8k3rVEj85X25KJEw8SXf2jH9Gs+VOoxPyMB9uoXfqdK9JfwBy235fkav8bAoi
- UIPMxlhBIl0wyMlKbuwjn5H1nl75MStUc/zp8cU+v/OEM5xwH86ezf3fxROjkN5l4MUp
- 3Ys/GWDs3p1F0JGaI9q2yoWa5KOlj80gNjCTw48hDBOBu6oX+zOQoOM7C0UnsIIP1L/h
- zOHopDaR3MoPCgZongsbN1DZbs147kmrA07+XKkCLaRq1OcpQWTMaN7ZrNbxBn1MRl34
- wXk+SxvbtdF72oIM3poqWrtfxZCwMT2SIOsS04a85D/3g1nSl5K9iFoPf0ehO89aqqo8
- aFrg==
-X-Gm-Message-State: AOAM531pdNK5+wBc4GMXEODGX1CbkdLx9pTvMcm0vZZYZAJl89Z3VvFb
- pdfjhCBmqs7zf3E6+M8k1L/us45EZsLXPRqFmMXvIw==
-X-Google-Smtp-Source: ABdhPJz1O9pyzvl95ZulMnOw3WS+b+utIQhi5gIe0S4oH9kGvD6StzuE/PjYnKY3ed+aVVk3LD/CL+sMr0hAohrtRmY=
-X-Received: by 2002:a5d:52c4:: with SMTP id r4mr7917147wrv.521.1641988044244; 
- Wed, 12 Jan 2022 03:47:24 -0800 (PST)
-MIME-Version: 1.0
-References: <20220111082900.3341274-1-peter.maydell@linaro.org>
- <788123b9-1d4a-3f70-52d9-416e7f5c0e9b@vivier.eu>
-In-Reply-To: <788123b9-1d4a-3f70-52d9-416e7f5c0e9b@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 12 Jan 2022 11:47:13 +0000
-Message-ID: <CAFEAcA9zsjT2L=6QAVdcNiPw8wDdvkW-ZdoB03eC4SBmR0uj4A@mail.gmail.com>
-Subject: Re: [PATCH v2] linux-user: Fix clang warning for nios2-linux-user code
-To: Laurent Vivier <Laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1n7cEr-0006Tb-Cd; Wed, 12 Jan 2022 06:56:30 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:19240)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1n7cEn-0007VB-Nq; Wed, 12 Jan 2022 06:56:24 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20CBC0pG016818; 
+ Wed, 12 Jan 2022 11:56:08 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dhac0kfgd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Jan 2022 11:56:08 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20CBlpeh025184;
+ Wed, 12 Jan 2022 11:56:06 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma01fra.de.ibm.com with ESMTP id 3dfwhjc6bw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Jan 2022 11:56:05 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 20CBu2UE37356028
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 12 Jan 2022 11:56:02 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A329552067;
+ Wed, 12 Jan 2022 11:56:02 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 72B5552051;
+ Wed, 12 Jan 2022 11:56:02 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.70.95])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 91EA222016C;
+ Wed, 12 Jan 2022 12:56:01 +0100 (CET)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: [PULL 00/34] ppc queue
+Date: Wed, 12 Jan 2022 12:55:17 +0100
+Message-Id: <20220112115551.987666-1-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 5Qr8_0KUhezYe1GvYoFi4jhfm3DLLCPt
+X-Proofpoint-ORIG-GUID: 5Qr8_0KUhezYe1GvYoFi4jhfm3DLLCPt
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-12_04,2022-01-11_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1034 adultscore=0
+ priorityscore=1501 mlxscore=0 spamscore=0 malwarescore=0 bulkscore=0
+ phishscore=0 lowpriorityscore=0 mlxlogscore=753 suspectscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201120075
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,63 +89,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Warner Losh <imp@bsdimp.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 Jan 2022 at 09:00, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> Le 11/01/2022 =C3=A0 09:29, Peter Maydell a =C3=A9crit :
-> > The clang in Ubuntu 18.04 (10.0.0-4ubuntu1) produces a warning
-> > on the code added in commit f5ef0e518d03 where we use a
-> > shifted expression in a boolean context:
-> >
-> > ../../linux-user/elfload.c:2423:16: error: converting the result of '<<=
-' to a boolean always evaluates to true [-Werror,-Wtautological-constant-co=
-mpare]
-> >      } else if (LO_COMMPAGE) {
-> >                 ^
-> > ../../linux-user/elfload.c:1102:22: note: expanded from macro 'LO_COMMP=
-AGE'
-> > #define LO_COMMPAGE  TARGET_PAGE_SIZE
-> >                       ^
-> > /mnt/nvmedisk/linaro/qemu-from-laptop/qemu/include/exec/cpu-all.h:231:3=
-1: note: expanded from macro 'TARGET_PAGE_SIZE'
-> > #define TARGET_PAGE_SIZE   (1 << TARGET_PAGE_BITS)
-> >                                ^
-> > 1 error generated.
-> >
-> > The warning is bogus because whether LO_COMMPAGE is zero or not
-> > depends on compile-time ifdefs; shut the compiler up by adding
-> > an explicit comparison to zero.
-> >
-> > Fixes: f5ef0e518d0331 ("linux-user/nios2: Map a real kuser page")
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> > v1->v2: fix sense of comparison (oops!)
-> >
-> >   linux-user/elfload.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> > index 329b2375ef1..d3274edfdb7 100644
-> > --- a/linux-user/elfload.c
-> > +++ b/linux-user/elfload.c
-> > @@ -2420,7 +2420,7 @@ static void pgb_static(const char *image_name, ab=
-i_ulong orig_loaddr,
-> >           } else {
-> >               offset =3D -(HI_COMMPAGE & -align);
-> >           }
-> > -    } else if (LO_COMMPAGE) {
-> > +    } else if (LO_COMMPAGE !=3D 0) {
-> >           loaddr =3D MIN(loaddr, LO_COMMPAGE & -align);
-> >       }
-> >
->
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+The following changes since commit 7bb1272f40bdbdebcaec1737c412dcb52e414842:
 
-Thanks; applied to master as a build fix.
+  Merge remote-tracking branch 'remotes/jsnow-gitlab/tags/python-pull-reque=
+st' into staging (2022-01-11 14:20:42 +0000)
 
--- PMM
+are available in the Git repository at:
+
+  https://github.com/legoater/qemu/ tags/pull-ppc-20220112
+
+for you to fetch changes up to f83460bb203a49dd1693bf8b664d2a935a5be621:
+
+  ppc/pnv: use stack->pci_regs[] in pnv_pec_stk_pci_xscom_write() (2022-01-=
+12 11:28:27 +0100)
+
+----------------------------------------------------------------
+ppc 7.0 queue:
+
+* New SLOF for PPC970 and POWER5+ (Alexey)
+* Fixes for POWER5+ pseries (Cedric)
+* Updates of documentation (Leonardo and Thomas)
+* First step of exception model cleanup (Fabiano)
+* User created PHB3/PHB4 devices (Daniel and Cedric)
+
+----------------------------------------------------------------
+Alexey Kardashevskiy (1):
+      pseries: Update SLOF firmware image
+
+C=C3=A9dric Le Goater (9):
+      Merge tag 'qemu-slof-20220110' of github.com:aik/qemu into ppc-7.0
+      target/ppc: Add popcntb instruction to POWER5+ processors
+      spapr: Fix support of POWER5+ processors
+      target/ppc: Add extra float instructions to POWER5P processors
+      ppc/pnv: Attach PHB3 root port device when defaults are enabled
+      ppc/pnv: Introduce support for user created PHB3 devices
+      ppc/pnv: Reparent user created PHB3 devices to the PnvChip
+      ppc/pnv: Complete user created PHB3 devices
+      ppc/pnv: Move num_phbs under Pnv8Chip
+
+Daniel Henrique Barboza (14):
+      pnv_phb3.c: add unique chassis and slot for pnv_phb3_root_port
+      pnv_phb4.c: add unique chassis and slot for pnv_phb4_root_port
+      pnv_phb4.c: make pnv-phb4-root-port user creatable
+      pnv_phb4.c: check if root port exists in rc_config functions
+      pnv_phb3.h: change TYPE_PNV_PHB3_ROOT_BUS name
+      pnv_phb4.c: change TYPE_PNV_PHB4_ROOT_BUS name
+      pnv_phb4_pec.c: move pnv_pec_phb_offset() to pnv_phb4.c
+      pnv_phb4_pec: use pnv_phb4_pec_get_phb_id() in pnv_pec_dt_xscom()
+      ppc/pnv: set phb4 properties in stk_realize()
+      ppc/pnv: move PHB4 XSCOM init to phb4_realize()
+      ppc/pnv: turn 'phb' into a pointer in struct PnvPhb4PecStack
+      ppc/pnv: Introduce user creatable pnv-phb4 devices
+      ppc/pnv: turn pnv_phb4_update_regions() into static
+      ppc/pnv: use stack->pci_regs[] in pnv_pec_stk_pci_xscom_write()
+
+Fabiano Rosas (8):
+      target/ppc: powerpc_excp: Extract software TLB logging into a function
+      target/ppc: powerpc_excp: Keep 60x/7x5 soft MMU logs active
+      target/ppc: powerpc_excp: Group unimplemented exceptions
+      target/ppc: Add HV support to ppc_interrupts_little_endian
+      target/ppc: Add MSR_ILE support to ppc_interrupts_little_endian
+      target/ppc: Use ppc_interrupts_little_endian in powerpc_excp
+      target/ppc: Introduce a wrapper for powerpc_excp
+      target/ppc: Set the correct endianness for powernv memory dumps
+
+Leonardo Garcia (1):
+      docs: Clarifications and formatting changes in ppc docs.
+
+Thomas Huth (2):
+      docs/system/ppc: Merge the PEF information into the pseries page
+      MAINTAINERS: Improve the PowerPC machines section
+
+ docs/papr-pef.txt               |  30 ---
+ docs/specs/ppc-spapr-hcalls.rst |  21 +-
+ docs/system/ppc/pseries.rst     |  75 +++++--
+ include/hw/pci-host/pnv_phb3.h  |   4 +-
+ include/hw/pci-host/pnv_phb4.h  |  14 +-
+ include/hw/ppc/pnv.h            |   8 +-
+ target/ppc/cpu.h                |  25 ++-
+ hw/pci-host/pnv_phb3.c          |  57 ++++-
+ hw/pci-host/pnv_phb4.c          | 486 ++++++++++++++++++++++++++++++++++++=
+----
+ hw/pci-host/pnv_phb4_pec.c      | 347 ++--------------------------
+ hw/ppc/pnv.c                    |  55 ++++-
+ hw/ppc/spapr.c                  |  10 +-
+ target/ppc/arch_dump.c          |   2 +-
+ target/ppc/cpu_init.c           |   2 +
+ target/ppc/excp_helper.c        | 185 +++++----------
+ MAINTAINERS                     |  12 +-
+ pc-bios/README                  |   2 +-
+ pc-bios/slof.bin                | Bin 991920 -> 992384 bytes
+ roms/SLOF                       |   2 +-
+ 19 files changed, 737 insertions(+), 600 deletions(-)
+ delete mode 100644 docs/papr-pef.txt
 
