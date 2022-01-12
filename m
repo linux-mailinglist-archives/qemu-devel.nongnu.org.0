@@ -2,78 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7069648C8D6
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 17:52:33 +0100 (CET)
-Received: from localhost ([::1]:47492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8D448C8F3
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 18:01:32 +0100 (CET)
+Received: from localhost ([::1]:59890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7grQ-0005PM-HT
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 11:52:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35936)
+	id 1n7h06-0007KW-MS
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 12:01:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta@ionos.com>)
- id 1n7gnU-0002Ae-K0
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 11:48:31 -0500
-Received: from [2a00:1450:4864:20::136] (port=34637
- helo=mail-lf1-x136.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta@ionos.com>)
- id 1n7gnS-0000i7-7M
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 11:48:27 -0500
-Received: by mail-lf1-x136.google.com with SMTP id o12so10325436lfk.1
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 08:48:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rbF2fuX0LIWvt7pXdtlkHbqK2/gLyZj+z67OxzCD+XM=;
- b=UJq38y1+VEJ4m4DBKBZcRmF3ZQQ/6Zk/csdRJkyqJWm7AghoyvR6OqIx3aRt/6UJzk
- rKutNyLA1o5aB2KQtKPVlbdR5dFB9RTQbHxCFsyrU+zfDK0FNbOmKfLAVqxaoWyK99Xq
- zfSmtyDC9hFQbdTgmjsSLi6YHxCUB0PU7ypeiI3qJgZOPb3VMZlyz4MvBFz+hYp1eq4l
- l3ih5reCUCn5/EtfxvtWIrtiR+rj5iJtn2AIe9QnQ6+r/k46cwwPITKNvBaZCqbsED/U
- zIN8UsCOm7ezI3ZfECKk68HEB36xBBihiwy7S+2niQ5v4n4o+lZkjlJTvpPEO4nhXsWq
- qpiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rbF2fuX0LIWvt7pXdtlkHbqK2/gLyZj+z67OxzCD+XM=;
- b=2Fu0vrcpWOTTymdj+wJLm2J2I4X3nNiNU3fRwFhve/oHyaB2CQLF7SAxu+fhMLC4F9
- 4+e9Zgux8pno4zGwO155JQAgCxa5Ulf67PHLRl0CFUGVX0MElfbvqcvjZ4UTX5urHv1A
- qwgU0sLXHyOE52OC5623eOsSt+fFW23xcHHGYeovWbRaAQTwZ2Nor1zT/7lCKUPTp17D
- U3qdqz4I2NZugp3GainHenbWoZaJKzH3XPxbpmgCMOrstHmmGg8XLlSk4H/RCprVooPk
- Jr/3Wc3tuYqIHLyloEVrVx0jphu2j2+3B5RaBkMHJyJ6/+YMay0ADCv4QstRCJu+yPBk
- Om3A==
-X-Gm-Message-State: AOAM5310Sn2q0MV3e9JYjao4Pc3B0PO+s29NpFYLCuzhwjr9Yz6V8o5E
- sWX05lbAgSU2D/xC8u2TCdW1w3bs3WvJWg6fw6fx6g==
-X-Google-Smtp-Source: ABdhPJyDuMb1rNHcT49k0tmBxxp/4nE4O/iGaqjJGVeCdRVFeawlRypKvwazPXRMI1/WqdMvK7BIUWwJfDbHE3Z0Woo=
-X-Received: by 2002:a05:6512:6d3:: with SMTP id
- u19mr445662lff.310.1642006103776; 
- Wed, 12 Jan 2022 08:48:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1n7gpn-0004oG-Pw; Wed, 12 Jan 2022 11:50:51 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64878
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1n7gpa-00018t-Aa; Wed, 12 Jan 2022 11:50:41 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20CEpdE9025168; 
+ Wed, 12 Jan 2022 16:50:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=uhxbTlNWaCtInRWWT982pP5fpblptr31pVKi+8I3cR0=;
+ b=rcaTGdJqgBxImPDmz7s7rYxYPAcFjx1bZiYDOdIqQgcQVDDrOLHiMhcZXhfuR4oKCo0b
+ DHXVwEv0/dmC8GfkZ2XFIQNTHQbdCA0Aq/uu9TLXWVNU7LW4o++bqVc61H7Tq3GD+I7i
+ L2602Jo5+wmEbX8WJNqjlIdPGbtlMmr0JlSzziSFIfy6F5TROWm3oGufZWs+WJJ2kMYm
+ 3uRs7CYkUClyd/5czFf0MoZ3ITknsdfFloncJ2zlIWHJadQPp1EcasGwePtUlwin/DAM
+ CKvAdPfeqjw+D1vKTePl74EOokq+IIea5PJOOA9MC9pRGz7rSFSejgM9We/pn/W7dl9J Aw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dj0awbuee-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Jan 2022 16:50:24 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20CGJpQw007235;
+ Wed, 12 Jan 2022 16:50:23 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dj0awbue1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Jan 2022 16:50:23 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20CGmJ73019590;
+ Wed, 12 Jan 2022 16:50:22 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma04fra.de.ibm.com with ESMTP id 3df289v0yx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Jan 2022 16:50:21 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20CGoITS28508576
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 12 Jan 2022 16:50:18 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 95B66AE058;
+ Wed, 12 Jan 2022 16:50:18 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2AFFEAE061;
+ Wed, 12 Jan 2022 16:50:18 +0000 (GMT)
+Received: from vm.lan (unknown [9.171.78.41])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 12 Jan 2022 16:50:18 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: [PATCH v4 0/5] target/s390x: Fix shift instructions
+Date: Wed, 12 Jan 2022 17:50:11 +0100
+Message-Id: <20220112165016.226996-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.31.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: ukdILbN8Z7Qgk8dqD6QXfb2aGg9ZZiqM
+X-Proofpoint-GUID: pQB3vpVkgCIGP5zDC00MSyI2Hcdri4OR
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <20211231120127.22394-1-pankaj.gupta.linux@gmail.com>
- <625c92c6-3618-fbaa-aea6-0ed86df872d3@redhat.com>
- <CAM9Jb+hvCZoXLx4_xx8KTq4oBts7MCe-ozp5ZuX2yPW6=tyLGQ@mail.gmail.com>
- <d0fc0d8e-fe38-1ab2-2d56-23345de783e7@redhat.com>
- <CALzYo32zxdL6ET_5Btw=Hoat8i4KtA2iUEpd9+_sXSbw84_SAA@mail.gmail.com>
- <f20bd3ca-8d55-4124-78c8-7a2f4ce9f7f7@redhat.com>
- <CALzYo30gkF=8pTzyxsCOHUnHHBp-xrf8FWpLg-SVJFDScujXWw@mail.gmail.com>
-In-Reply-To: <CALzYo30gkF=8pTzyxsCOHUnHHBp-xrf8FWpLg-SVJFDScujXWw@mail.gmail.com>
-From: Pankaj Gupta <pankaj.gupta@ionos.com>
-Date: Wed, 12 Jan 2022 17:48:12 +0100
-Message-ID: <CALzYo304SsT92kNkscj5SyGAwsBOR2tk-Sk+3STBWkhxOYv+Lg@mail.gmail.com>
-Subject: Re: [RFC] virtio_pmem: enable live migration support
-To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::136
- (failed)
-Received-SPF: permerror client-ip=2a00:1450:4864:20::136;
- envelope-from=pankaj.gupta@ionos.com; helo=mail-lf1-x136.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-12_04,2022-01-11_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ lowpriorityscore=0 spamscore=0 malwarescore=0 priorityscore=1501
+ bulkscore=0 adultscore=0 impostorscore=0 mlxscore=0 clxscore=1015
+ phishscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2201120104
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,66 +108,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Rik van Riel <riel@surriel.com>,
- Qemu Developers <qemu-devel@nongnu.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Dan Williams <dan.j.williams@intel.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > >>>> I mean, that would be fundamentally broken, because the fsync() would
-> > >>>> corrupt the file. So I assume in a sane environment, the dst could only
-> > >>>> have stale clean pagecache pages. And we'd have to get rid of these to
-> > >>>> re-read everything from file.
-> > >>>
-> > >>> In case of write back cache mode, we could still have stale dirty
-> > >>> pages at the destination
-> > >>> host and destination fsync is not the right thing to do. We need to
-> > >>> invalidate these pages
-> > >>> (Can we invalidate dirty pages resident in page cache with
-> > >>> POSIX_FADV_DONTNEED as
-> > >>> well?) man pages say, we cannot (unless i misunderstood it).
-> > >>>
-> > >>
-> > >> I think you'd have to fsync + POSIX_FADV_DONTNEED. But I am still
-> > >> confused how we could end up with dirty pagecache pages on the
-> > >> destination. In my opinion, there should only be clean pagecache pages
-> > >> -- can someone enlighten me? :)
-> > >
-> > > because of activity on the page cache pages corresponding to mmap region
-> > > in the past which is not synced yet or not reclaimed yet. Maybe this
-> > > is hypothetical
-> > > or not possible, happy to learn?
-> >
-> > Right, but assume the following *sane*
-> >
-> > #1 H0 starts and runs VM.
-> > #2 H0 migrates VM to H1.
-> > #3 H1 runs VM.
-> > #4 H1 migrates VM to H0.
-> > #5 H0 runs VM.
-> >
-> > We'd expect a proper fsync during #2, writing back any dirty pages to
-> > the memory backend. Otherwise, #3 would already be broken. Similarly,
-> > we'd expect a proper fsync during #4.
-> >
-> > I assume during #4 we could find clean pagecache pages that are actually
-> > invalid, because the underlying file was changed by H1. So we have to
-> > make sure to invalidate all pagecache pages (all clean).
->
-> Yes, you mean fsync on source host before migration starts. My point
-> is something
-> like another process mmap same backend file on destination host and/or
-> guest/qemu
-> crashing abruptly.
+v3: https://lists.nongnu.org/archive/html/qemu-devel/2022-01/msg02680.html
+v3 -> v4: Simplify cc_calc_sla().
+          Free temporaries.
 
-In that case we should not start guest if we cannot invalidate all the
-corresponding
-page cache pages before starting guest i.e mmaping virtio-pmem backend file.
+v2: https://lists.nongnu.org/archive/html/qemu-devel/2022-01/msg02488.html
+v2 -> v3: Unify CC_OP_SLA_32 and CC_OP_SLA_64.
+          Add underscores to test macro parameters.
+          Shift CC in test asm.
+          Add a second SLAG test.
+          Add tags to commit messages.
 
-Thank you for the discussion!
+v1: https://lists.nongnu.org/archive/html/qemu-devel/2022-01/msg02035.html
+v1 -> v2: Fix cc_calc_sla_32().
+          Fix cc_calc_sla_64().
+          Fix SLDA sign bit index.
+          Inline help_l2_shift().
+          Fix wout_r1_D32().
+          Add all shift instructions to the test.
+          Split the series.
 
-Best regards,
-Pankaj
+Ilya Leoshkevich (5):
+  target/s390x: Fix SLDA sign bit index
+  target/s390x: Fix SRDA CC calculation
+  target/s390x: Fix cc_calc_sla_64() missing overflows
+  target/s390x: Fix shifting 32-bit values for more than 31 bits
+  tests/tcg/s390x: Test shift instructions
+
+ target/s390x/cpu-dump.c         |   3 +-
+ target/s390x/s390x-internal.h   |   3 +-
+ target/s390x/tcg/cc_helper.c    |  38 +----
+ target/s390x/tcg/insn-data.def  |  36 ++---
+ target/s390x/tcg/translate.c    |  53 +++----
+ tests/tcg/s390x/Makefile.target |   1 +
+ tests/tcg/s390x/shift.c         | 270 ++++++++++++++++++++++++++++++++
+ 7 files changed, 321 insertions(+), 83 deletions(-)
+ create mode 100644 tests/tcg/s390x/shift.c
+
+-- 
+2.31.1
+
 
