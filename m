@@ -2,71 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66CB248BFB7
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 09:18:47 +0100 (CET)
-Received: from localhost ([::1]:40070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C128F48BFBF
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 09:21:32 +0100 (CET)
+Received: from localhost ([::1]:47690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7YqE-00024y-Hf
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 03:18:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42998)
+	id 1n7Yst-0007Cr-NL
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 03:21:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leetroy@gmail.com>)
- id 1n7Yjz-0002th-Bx; Wed, 12 Jan 2022 03:12:22 -0500
-Received: from [2607:f8b0:4864:20::32d] (port=38796
- helo=mail-ot1-x32d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <leetroy@gmail.com>)
- id 1n7Yjw-000828-K3; Wed, 12 Jan 2022 03:12:19 -0500
-Received: by mail-ot1-x32d.google.com with SMTP id
- r7-20020a05683001c700b005906f5b0969so1689723ota.5; 
- Wed, 12 Jan 2022 00:12:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zo1Q9Dv81uRvroBqWzIcFgsE1+U+eNX9ZjQjlo+8yVs=;
- b=aXpzLG3xBM/0jWTkxN8vLUv50DSxL/pvrewL5uxHpnbGpJ6od6FF2Mr+Qt65IO6m8W
- IpMe9PxNUdcZhh7y7zTLK2NmBX2rs74TNU+Vfl+erB00rkZ0uETaLXmvlBDDvJs/wWl5
- nuGgtKpBoTPVLbyGr/yGb9r6tuKeErBZGoAEh4+ae0USfsfqt1sr6NmKs2Do74dIcufS
- OwY8ir1y5EoRDbAXPfCWiGXs+pyFq/nSP2sgMIS/c13qZQqczhd8dMZJEC4pJJGk30mW
- 4BHru3QgWneizQEuJOH9x8CRoBCwYRGK3QXhtpmLnr/umBFi02xehji+0znjHWi7mFXr
- ySyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zo1Q9Dv81uRvroBqWzIcFgsE1+U+eNX9ZjQjlo+8yVs=;
- b=Z/nHskHWWcpyKIBUxVETk7Jb0QkoQlmhmRKYKvHSASpgycrIFlCGgly+glek1dlgfs
- GH+ts+FAV9RFTqz0jEzLFCdwGmVUPxsEx1JcrjFFtAnOdETfO3UsGbUM8+IOyeuA06Vm
- 0eJUkv+7ErMi5hxJveDbT6Z0nINpDCIFg2zdf+81Y5AZ6HGpByPdSLfCaeEzQcvS7b6u
- t4OtGKD4Ve0fclfbzHqTc3JKJhFeeQ10hLG7WKVLK27BV1r0gvPd/XA23IHH6Hh56Odx
- 8uVT6cuvybycXQjjxk/vHzOj2MLZDVYnJqkD5LV1aUA8nc2sHWzlBUVfjhu7Wc0xA7NP
- XDmw==
-X-Gm-Message-State: AOAM531fALODvl/HpwrWoPs8IBhvUya8cquNrbon1q3vcUvOFh8espHQ
- qOZOV5lq9OeK1ENf+W7yvUYS/sPGMfHeRUhI0No=
-X-Google-Smtp-Source: ABdhPJwLereWY5KS+MEvRqAPJ0mdsd84Fx7ckf4A34U+VpbMV0gOH8Uzi6V8OJY/Y+6//8XpLdaFyxU1Y6yqzVFZvZY=
-X-Received: by 2002:a9d:12f8:: with SMTP id g111mr1390728otg.41.1641975135168; 
- Wed, 12 Jan 2022 00:12:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1n7YlK-0004dx-5b; Wed, 12 Jan 2022 03:13:42 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255]:3267)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1n7YlH-00089P-0g; Wed, 12 Jan 2022 03:13:41 -0500
+Received: from kwepemi500003.china.huawei.com (unknown [172.30.72.56])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4JYgGF6ytmz1FCft;
+ Wed, 12 Jan 2022 16:09:57 +0800 (CST)
+Received: from kwepemm600017.china.huawei.com (7.193.23.234) by
+ kwepemi500003.china.huawei.com (7.221.188.51) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 12 Jan 2022 16:13:33 +0800
+Received: from huawei.com (10.174.186.236) by kwepemm600017.china.huawei.com
+ (7.193.23.234) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 12 Jan
+ 2022 16:13:32 +0800
+To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
+CC: <kvm-riscv@lists.infradead.org>, <kvm@vger.kernel.org>,
+ <libvir-list@redhat.com>, <anup@brainfault.org>, <palmer@dabbelt.com>,
+ <Alistair.Francis@wdc.com>, <bin.meng@windriver.com>, <fanliang@huawei.com>,
+ <wu.wubin@huawei.com>, <wanghaibin.wang@huawei.com>, <wanbo13@huawei.com>,
+ Yifei Jiang <jiangyifei@huawei.com>
+Subject: [PATCH v5 00/13] Add riscv kvm accel support
+Date: Wed, 12 Jan 2022 16:13:16 +0800
+Message-ID: <20220112081329.1835-1-jiangyifei@huawei.com>
+X-Mailer: git-send-email 2.26.2.windows.1
 MIME-Version: 1.0
-References: <20220112080937.366835-1-troy_lee@aspeedtech.com>
- <20220112080937.366835-2-troy_lee@aspeedtech.com>
-In-Reply-To: <20220112080937.366835-2-troy_lee@aspeedtech.com>
-From: Troy Lee <leetroy@gmail.com>
-Date: Wed, 12 Jan 2022 16:12:07 +0800
-Message-ID: <CAN9Jwz11LmDi5mx-HC0RU2U7+Mcqy1bbtVUHZ+q_MbC44HZpLg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] hw/misc: Supporting AST2600 HACE accumulative mode
-To: Troy Lee <troy_lee@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
- envelope-from=leetroy@gmail.com; helo=mail-ot1-x32d.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.186.236]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemm600017.china.huawei.com (7.193.23.234)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=jiangyifei@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,184 +65,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- qemu-devel@nongnu.org, hailin.wu@aspeedtech.com,
- "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
- Klaus Heinrich Kiwi <klaus@klauskiwi.com>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Yifei Jiang <jiangyifei@huawei.com>
+From:  Yifei Jiang via <qemu-devel@nongnu.org>
 
-[ Adding Klaus ]
+This series adds both riscv32 and riscv64 kvm support, and implements
+migration based on riscv.
 
-Sorry I forgot to add Klaus to the CC list.
+Because of RISC-V KVM has been merged into the Linux master, so this
+series are changed from RFC to patch.
 
-On Wed, Jan 12, 2022 at 4:10 PM Troy Lee <troy_lee@aspeedtech.com> wrote:
->
-> Accumulative mode will supply a initial state and append padding bit at
-> the end of hash stream.  However, the crypto library will padding those
-> bit automatically, so ripped it off from iov array.
->
-> The aspeed ast2600 acculumative mode is described in datasheet
-> ast2600v10.pdf section 25.6.4:
->  1. Allocationg and initiating accumulative hash digest write buffer
->     with initial state.
->     * Since QEMU crypto/hash api doesn't provide the API to set initial
->       state of hash library, and the initial state is already setted by
->       crypto library (gcrypt/glib/...), so skip this step.
->  2. Calculating accumulative hash digest.
->     (a) When receiving the last accumulative data, software need to add
->         padding message at the end of the accumulative data. Padding
->         message described in specific of MD5, SHA-1, SHA224, SHA256,
->         SHA512, SHA512/224, SHA512/256.
->         * Since the crypto library (gcrypt/glib) already pad the
->           padding message internally.
->         * This patch is to remove the padding message which fed byguest
->           machine driver.
->
-> Changes in v2:
-> - Coding style
-> - Add accumulative mode description in comment
->
-> Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
-> ---
->  hw/misc/aspeed_hace.c         | 43 ++++++++++++++++++++++++++++-------
->  include/hw/misc/aspeed_hace.h |  1 +
->  2 files changed, 36 insertions(+), 8 deletions(-)
->
-> diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
-> index 10f00e65f4..0710f44621 100644
-> --- a/hw/misc/aspeed_hace.c
-> +++ b/hw/misc/aspeed_hace.c
-> @@ -11,6 +11,7 @@
->  #include "qemu/osdep.h"
->  #include "qemu/log.h"
->  #include "qemu/error-report.h"
-> +#include "qemu/bswap.h"
->  #include "hw/misc/aspeed_hace.h"
->  #include "qapi/error.h"
->  #include "migration/vmstate.h"
-> @@ -27,6 +28,7 @@
->
->  #define R_HASH_SRC      (0x20 / 4)
->  #define R_HASH_DEST     (0x24 / 4)
-> +#define R_HASH_KEY_BUFF (0x28 / 4)
->  #define R_HASH_SRC_LEN  (0x2c / 4)
->
->  #define R_HASH_CMD      (0x30 / 4)
-> @@ -94,7 +96,8 @@ static int hash_algo_lookup(uint32_t reg)
->      return -1;
->  }
->
-> -static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode)
-> +static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode,
-> +                              bool acc_mode)
->  {
->      struct iovec iov[ASPEED_HACE_MAX_SG];
->      g_autofree uint8_t *digest_buf;
-> @@ -103,6 +106,7 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode)
->
->      if (sg_mode) {
->          uint32_t len = 0;
-> +        uint32_t total_len = 0;
->
->          for (i = 0; !(len & SG_LIST_LEN_LAST); i++) {
->              uint32_t addr, src;
-> @@ -123,10 +127,26 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode)
->                                          MEMTXATTRS_UNSPECIFIED, NULL);
->              addr &= SG_LIST_ADDR_MASK;
->
-> -            iov[i].iov_len = len & SG_LIST_LEN_MASK;
-> -            plen = iov[i].iov_len;
-> +            plen = len & SG_LIST_LEN_MASK;
->              iov[i].iov_base = address_space_map(&s->dram_as, addr, &plen, false,
->                                                  MEMTXATTRS_UNSPECIFIED);
-> +
-> +            if (acc_mode) {
-> +                total_len += plen;
-> +
-> +                if (len & SG_LIST_LEN_LAST) {
-> +                    /*
-> +                     * In the padding message, the last 64/128 bit represents
-> +                     * the total length of bitstream in big endian.
-> +                     * SHA-224, SHA-256 are 64 bit
-> +                     * SHA-384, SHA-512, SHA-512/224, SHA-512/256 are 128 bit
-> +                     * However, we would not process such a huge bit stream.
-> +                     */
-> +                    plen -= total_len - (ldq_be_p(iov[i].iov_base + plen - 8) / 8);
-> +                }
-> +            }
-> +
-> +            iov[i].iov_len = plen;
->          }
->      } else {
->          hwaddr len = s->regs[R_HASH_SRC_LEN];
-> @@ -210,6 +230,9 @@ static void aspeed_hace_write(void *opaque, hwaddr addr, uint64_t data,
->      case R_HASH_DEST:
->          data &= ahc->dest_mask;
->          break;
-> +    case R_HASH_KEY_BUFF:
-> +        data &= ahc->key_mask;
-> +        break;
->      case R_HASH_SRC_LEN:
->          data &= 0x0FFFFFFF;
->          break;
-> @@ -229,12 +252,13 @@ static void aspeed_hace_write(void *opaque, hwaddr addr, uint64_t data,
->          }
->          algo = hash_algo_lookup(data);
->          if (algo < 0) {
-> -                qemu_log_mask(LOG_GUEST_ERROR,
-> -                        "%s: Invalid hash algorithm selection 0x%"PRIx64"\n",
-> -                        __func__, data & ahc->hash_mask);
-> -                break;
-> +            qemu_log_mask(LOG_GUEST_ERROR,
-> +                    "%s: Invalid hash algorithm selection 0x%"PRIx64"\n",
-> +                    __func__, data & ahc->hash_mask);
-> +            break;
->          }
-> -        do_hash_operation(s, algo, data & HASH_SG_EN);
-> +        do_hash_operation(s, algo, data & HASH_SG_EN,
-> +                ((data & HASH_HMAC_MASK) == HASH_DIGEST_ACCUM));
->
->          if (data & HASH_IRQ_EN) {
->              qemu_irq_raise(s->irq);
-> @@ -333,6 +357,7 @@ static void aspeed_ast2400_hace_class_init(ObjectClass *klass, void *data)
->
->      ahc->src_mask = 0x0FFFFFFF;
->      ahc->dest_mask = 0x0FFFFFF8;
-> +    ahc->key_mask = 0x0FFFFFC0;
->      ahc->hash_mask = 0x000003ff; /* No SG or SHA512 modes */
->  }
->
-> @@ -351,6 +376,7 @@ static void aspeed_ast2500_hace_class_init(ObjectClass *klass, void *data)
->
->      ahc->src_mask = 0x3fffffff;
->      ahc->dest_mask = 0x3ffffff8;
-> +    ahc->key_mask = 0x3FFFFFC0;
->      ahc->hash_mask = 0x000003ff; /* No SG or SHA512 modes */
->  }
->
-> @@ -369,6 +395,7 @@ static void aspeed_ast2600_hace_class_init(ObjectClass *klass, void *data)
->
->      ahc->src_mask = 0x7FFFFFFF;
->      ahc->dest_mask = 0x7FFFFFF8;
-> +    ahc->key_mask = 0x7FFFFFF8;
->      ahc->hash_mask = 0x00147FFF;
->  }
->
-> diff --git a/include/hw/misc/aspeed_hace.h b/include/hw/misc/aspeed_hace.h
-> index 94d5ada95f..2242945eb4 100644
-> --- a/include/hw/misc/aspeed_hace.h
-> +++ b/include/hw/misc/aspeed_hace.h
-> @@ -37,6 +37,7 @@ struct AspeedHACEClass {
->
->      uint32_t src_mask;
->      uint32_t dest_mask;
-> +    uint32_t key_mask;
->      uint32_t hash_mask;
->  };
->
-> --
-> 2.25.1
->
+Several steps to use this:
+1. Build emulation
+$ ./configure --target-list=riscv64-softmmu
+$ make -j$(nproc)
+
+2. Build kernel
+
+3. Build QEMU VM
+Cross built in riscv toolchain.
+$ PKG_CONFIG_LIBDIR=<toolchain pkgconfig path>
+$ export PKG_CONFIG_SYSROOT_DIR=<toolchain sysroot path>
+$ ./configure --target-list=riscv64-softmmu --enable-kvm \
+--cross-prefix=riscv64-linux-gnu- --disable-libiscsi --disable-glusterfs \
+--disable-libusb --disable-usb-redir --audio-drv-list= --disable-opengl \
+--disable-libxml2
+$ make -j$(nproc)
+
+4. Start emulation
+$ ./qemu-system-riscv64 -M virt -m 4096M -cpu rv64 -nographic \
+        -name guest=riscv-hyp,debug-threads=on \
+        -smp 4 \
+        -bios ./fw_jump.bin \
+        -kernel ./Image \
+        -drive file=./hyp.img,format=raw,id=hd0 \
+        -device virtio-blk-device,drive=hd0 \
+        -append "root=/dev/vda rw console=ttyS0 earlycon=sbi"
+
+5. Start kvm-acceled QEMU VM in emulation
+$ ./qemu-system-riscv64 -M virt,accel=kvm -m 1024M -cpu host -nographic \
+        -name guest=riscv-guset \
+        -smp 2 \
+        -bios none \
+        -kernel ./Image \
+        -drive file=./guest.img,format=raw,id=hd0 \
+        -device virtio-blk-device,drive=hd0 \
+        -append "root=/dev/vda rw console=ttyS0 earlycon=sbi"
+
+Changes since patch v4
+- Commit enable kvm accel as an independent patch.
+- Bugfix some checkpatch errors.
+- Bugfix lost a interrupt in the sifive_u machine.
+
+Changes since patch v3
+- Re-write the for-loop in sifive_plic_create().
+- Drop unnecessary change in hw/riscv/virt.c.
+- Use serial to handle console sbi call.
+
+Changes since patch v2
+- Create a macro for get and put timer csr.
+- Remove M-mode PLIC contexts when kvm is enabled.
+- Add get timer frequency.
+- Move cpu_host_load to vmstate_kvmtimer.
+
+Changes since patch v1
+- Rebase on recent commit a216e7cf119c91ffdf5931834a1a030ebea40d70
+- Sync-up headers with Linux-5.16-rc4.
+- Fixbug in kvm_arch_init_vcpu.
+- Create a macro for get and put regs csr.
+- Start kernel directly when kvm_enabled.
+- Use riscv_cpu_set_irq to inject KVM interrupts.
+- Use the Semihosting Console API for RISC-V kvm handle sbi.
+- Update vmstate_riscv_cpu version id.
+  Placing kvm_timer into a subsection.
+
+Changes since RFC v6
+- Rebase on recent commit 8627edfb3f1fca24a96a0954148885c3241c10f8
+- Sync-up headers with Linux-5.16-rc1
+
+Changes since RFC v5
+- Rebase on QEMU v6.1.0-rc1 and kvm-riscv linux v19.
+- Move kvm interrupt setting to riscv_cpu_update_mip().
+- Replace __u64 with uint64_t.
+
+Changes since RFC v4
+- Rebase on QEMU v6.0.0-rc2 and kvm-riscv linux v17.
+- Remove time scaling support as software solution is incomplete.
+  Because it will cause unacceptable performance degradation. and
+  We will post a better solution.
+- Revise according to Alistair's review comments.
+  - Remove compile time XLEN checks in kvm_riscv_reg_id
+  - Surround TYPE_RISCV_CPU_HOST definition by CONFIG_KVM and share
+    it between RV32 and RV64.
+  - Add kvm-stub.c for reduce unnecessary compilation checks.
+  - Add riscv_setup_direct_kernel() to direct boot kernel for KVM.
+
+Changes since RFC v3
+- Rebase on QEMU v5.2.0-rc2 and kvm-riscv linux v15.
+- Add time scaling support(New patches 13, 14 and 15).
+- Fix the bug that guest vm can't reboot.
+
+Changes since RFC v2
+- Fix checkpatch error at target/riscv/sbi_ecall_interface.h.
+- Add riscv migration support.
+
+Changes since RFC v1
+- Add separate SBI ecall interface header.
+- Add riscv32 kvm accel support.
+
+Yifei Jiang (13):
+  update-linux-headers: Add asm-riscv/kvm.h
+  target/riscv: Add target/riscv/kvm.c to place the public kvm interface
+  target/riscv: Implement function kvm_arch_init_vcpu
+  target/riscv: Implement kvm_arch_get_registers
+  target/riscv: Implement kvm_arch_put_registers
+  target/riscv: Support start kernel directly by KVM
+  target/riscv: Support setting external interrupt by KVM
+  target/riscv: Handle KVM_EXIT_RISCV_SBI exit
+  target/riscv: Add host cpu type
+  target/riscv: Add kvm_riscv_get/put_regs_timer
+  target/riscv: Implement virtual time adjusting with vm state changing
+  target/riscv: Support virtual time context synchronization
+  target/riscv: enable riscv kvm accel
+
+ hw/intc/sifive_plic.c              |  20 +-
+ hw/riscv/boot.c                    |  16 +-
+ hw/riscv/virt.c                    |  83 +++--
+ include/hw/riscv/boot.h            |   1 +
+ linux-headers/asm-riscv/kvm.h      | 128 +++++++
+ meson.build                        |   2 +
+ target/riscv/cpu.c                 |  29 +-
+ target/riscv/cpu.h                 |  11 +
+ target/riscv/kvm-stub.c            |  30 ++
+ target/riscv/kvm.c                 | 535 +++++++++++++++++++++++++++++
+ target/riscv/kvm_riscv.h           |  25 ++
+ target/riscv/machine.c             |  30 ++
+ target/riscv/meson.build           |   1 +
+ target/riscv/sbi_ecall_interface.h |  72 ++++
+ 14 files changed, 951 insertions(+), 32 deletions(-)
+ create mode 100644 linux-headers/asm-riscv/kvm.h
+ create mode 100644 target/riscv/kvm-stub.c
+ create mode 100644 target/riscv/kvm.c
+ create mode 100644 target/riscv/kvm_riscv.h
+ create mode 100644 target/riscv/sbi_ecall_interface.h
+
+-- 
+2.19.1
+
 
