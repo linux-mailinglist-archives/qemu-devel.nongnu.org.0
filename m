@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27FE148C36D
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 12:45:06 +0100 (CET)
-Received: from localhost ([::1]:36812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5FC48C350
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 12:39:08 +0100 (CET)
+Received: from localhost ([::1]:55792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7c3t-0007vE-8I
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 06:45:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55348)
+	id 1n7by7-0001bO-DW
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 06:39:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n7bnF-0002t0-1z
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:53 -0500
-Received: from [2a00:1450:4864:20::329] (port=42904
- helo=mail-wm1-x329.google.com)
+ id 1n7bvK-0007Dt-Vq
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:36:15 -0500
+Received: from [2a00:1450:4864:20::536] (port=44579
+ helo=mail-ed1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n7bnD-0003R5-HW
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:52 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- ay4-20020a05600c1e0400b0034a81a94607so435639wmb.1
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 03:27:50 -0800 (PST)
+ id 1n7bvI-0004iu-Qm
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:36:14 -0500
+Received: by mail-ed1-x536.google.com with SMTP id w16so8648640edc.11
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 03:36:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mJdXj+GU0g5MXSnXf9glzBj8PLt6BBcIJN6YQ+yHU5E=;
- b=g1nuwzTBkgYSQqoK8P5EikqAieavF0DQevcNlsPgtNVev9Silx7GRt7rewxLeATGd7
- JJrGNfzE+ocxi6e35IRodMD5A3KGNfi0moR2gvX7rx6NRUb5wdOJMKjaMyDjMVuqHv6d
- YhGZU0m0tFkt0jzF3h/Wy3ZLejJHMaJX2D2QV0syXSLcnRE+mB8/6gmuHJKnRQv+5xDO
- D8hvp6nUVdZrM7l+hj4+Qp1IjBHYppLyNmHnKNYZJKFSqqKSb7wczeLwA92y3wgaSdjF
- WbQbWbGxaz0YdSmU86U3MRRAppbeAjIim+F6hIhXrGNo3imDmICXbLwcY3PsuakwPXtE
- LesQ==
+ bh=rHX28DbuMN3e321WwVG/apIaG3UsFppN0tUYzi+lF40=;
+ b=xvygSE8cqqFyULW2hwJTnM5zdpbl71GHeMYwgaFXgv/cvbxCO9CbCLMKU4zDCf1IKl
+ 7HUlMpGJtZnQSPL7Kts5WbechXZ5uP/pVGIm3mVpS9bXSrvve+y0DMyDdSfVizyYiXee
+ GFVxB2gY7L2gTtvJYrI+8jVXn4aheX6iWKfNyc7uNosAY3nh6NH7PkQeMs+b521O4Irg
+ cFbyRtZIChs+ypU1Q24XLeP+85o/8fC/wNjsFq5pz/N3E0cFMq6rp2uRccfbiPOrJyHi
+ 6yiup1rUY/wUMeIY3DE8Fc5oJ06YTW3+jEK6CY5agWgfy6OM7CEcSgfFeuLAWvpM8nGx
+ AjxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mJdXj+GU0g5MXSnXf9glzBj8PLt6BBcIJN6YQ+yHU5E=;
- b=str8Zca26klRneq9HbdJP48l8dHovimkEyXjNWAPhTaeMq5c4Ek/lHbEamTAyW67+l
- TcMY/dv7lzC2bOlcMq9H71rjHiygx+BI6H2KGOyPoChCQVNuhewJQtW3jAYIbVILIrKt
- xMz7OxJAe6k0lCpG6gKE1yoyPCWQXNngp3dQ0Jih6ehogknxJTJ/Om44KpSEdsVNMuQb
- r9yKDMtZVeWPLS2s8BIu+wSH4JJujeOMpICc1NvDRdsAOXH6JUspcVnu0JGv5d/yQtYP
- peFDdBzcM4eiI87chtTXG2DfrYJTIepCE+rDi/1/HBPg5QZnmPKwRWOjkSTHNA1OBkiU
- Te5g==
-X-Gm-Message-State: AOAM530ZOCIcSsjrpgfrsO9m/RO3+Wdrgbmw3nXliOMqbXs+1Bp0Ock0
- yA3KM7UVuoZLaQBDpsiPIdm8Ig==
-X-Google-Smtp-Source: ABdhPJyjJ7Ls3imHTFb6CiNpya5JS0mbULWzCafwxolTGzXZfFsnlG6sGa8i4MaQVoo3VxnvS/6NSg==
-X-Received: by 2002:a05:600c:219:: with SMTP id
- 25mr3568416wmi.71.1641986868803; 
- Wed, 12 Jan 2022 03:27:48 -0800 (PST)
+ bh=rHX28DbuMN3e321WwVG/apIaG3UsFppN0tUYzi+lF40=;
+ b=xGqDwSDuETfaQfJB/Mbb7cKUjJ6FUgoTBNzSC/zP2R3em4pRToeBZRVSiZP8YtJznH
+ i+rdjRYrY34XnwHKQsW9EuOUX1xonBWO1sY7ZMmVrGVlGF/T1/pMwjdK6KYixsFbtrwU
+ nPfMhZkWJGFRm6jOth8AICNwgapfIajMwKrmgdHAb04sLYYWMrwOB4pWIPkNSz2BLDwV
+ 4SikyhfTJ5qLpO5KUXmA9MO8qdK8HoB7xFg+BIQ9YEFFxVVVZtV91iRVBvbLEhDZZTAo
+ mTpoCqsWKv4P5jSL6K2O8K3gZB3RvE6Dhgi34YIJAaz5/4zSd7TtTdl4pad0IkmFzJ5O
+ djKQ==
+X-Gm-Message-State: AOAM5302lzn39oB7Dxe92Bo7QnxTg6edyRK0MwT8JOMuy4R8u//gXsne
+ LOQGNHCZMQhDZ60dMx+u8fisAw==
+X-Google-Smtp-Source: ABdhPJzDKFuGhu/5SsUvibP6TkCo/JJ6pYsKQW8DliyQF3UdDbhX1LpxSVLI+/NFSz9ITbWkLjQgIA==
+X-Received: by 2002:a17:907:7602:: with SMTP id
+ jx2mr7342937ejc.92.1641987371152; 
+ Wed, 12 Jan 2022 03:36:11 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 5sm13731156wrb.77.2022.01.12.03.27.34
+ by smtp.gmail.com with ESMTPSA id hd17sm4394939ejc.58.2022.01.12.03.36.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jan 2022 03:27:45 -0800 (PST)
+ Wed, 12 Jan 2022 03:36:10 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 226CB1FFCC;
+ by zen.linaroharston (Postfix) with ESMTP id 32F721FFCD;
  Wed, 12 Jan 2022 11:27:24 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 20/31] tests/docker: add libfuse3 development headers
-Date: Wed, 12 Jan 2022 11:27:11 +0000
-Message-Id: <20220112112722.3641051-21-alex.bennee@linaro.org>
+Subject: [PULL 21/31] hw/arm: add control knob to disable kaslr_seed via DTB
+Date: Wed, 12 Jan 2022 11:27:12 +0000
+Message-Id: <20220112112722.3641051-22-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220112112722.3641051-1-alex.bennee@linaro.org>
 References: <20220112112722.3641051-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001, WEIRD_QUOTING=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,105 +90,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- "Richard W . M . Jones" <rjones@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Andrew Jones <drjones@redhat.com>, Jerome Forissier <jerome@forissier.org>,
+ Heinrich Schuchardt <xypron.glpk@gmx.de>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, qemu-devel@nongnu.org,
+ "open list:Virt" <qemu-arm@nongnu.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+Generally a guest needs an external source of randomness to properly
+enable things like address space randomisation. However in a trusted
+boot environment where the firmware will cryptographically verify
+components having random data in the DTB will cause verification to
+fail. Add a control knob so we can prevent this being added to the
+system DTB.
 
-The FUSE exports feature is not built because most container images do
-not have libfuse3 development headers installed. Add the necessary
-packages to the Dockerfiles.
-
-Cc: Hanna Reitz <hreitz@redhat.com>
-Cc: Richard W.M. Jones <rjones@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Acked-by: Richard W.M. Jones <rjones@redhat.com>
-Reviewed-by: Beraldo Leal <bleal@redhat.com>
-Tested-by: Beraldo Leal <bleal@redhat.com>
-Message-Id: <20211207160025.52466-1-stefanha@redhat.com>
-[AJB: migrate to lcitool qemu.yml and regenerate]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard W.M. Jones <rjones@redhat.com>
-Message-Id: <20220105135009.1584676-21-alex.bennee@linaro.org>
+Tested-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+Acked-by: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Acked-by: Jerome Forissier <jerome@forissier.org>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+Message-Id: <20220105135009.1584676-22-alex.bennee@linaro.org>
 
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index 97c7a88d1f..eb2251c81c 100644
---- a/tests/docker/dockerfiles/alpine.docker
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -29,6 +29,7 @@ RUN apk update && \
-         dtc-dev \
-         eudev-dev \
-         findutils \
-+        fuse3-dev \
-         g++ \
-         gcc \
-         gcovr \
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index 3c62b62a99..cbb909d02b 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -30,6 +30,7 @@ RUN dnf update -y && \
-         device-mapper-multipath-devel \
-         diffutils \
-         findutils \
-+        fuse3-devel \
-         gcc \
-         gcc-c++ \
-         genisoimage \
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 6784878b56..60207f3da3 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -37,6 +37,7 @@ exec "$@"' > /usr/bin/nosync && \
-         device-mapper-multipath-devel \
-         diffutils \
-         findutils \
-+        fuse3-devel \
-         gcc \
-         gcc-c++ \
-         gcovr \
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-index 5510bdf19c..f57d8cfb29 100644
---- a/tests/docker/dockerfiles/opensuse-leap.docker
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -22,6 +22,7 @@ RUN zypper update -y && \
-            dbus-1 \
-            diffutils \
-            findutils \
-+           fuse3-devel \
-            gcc \
-            gcc-c++ \
-            gcovr \
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index 40402b91fe..4e562dfdcd 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -46,6 +46,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-             libepoxy-dev \
-             libfdt-dev \
-             libffi-dev \
-+            libfuse3-dev \
-             libgbm-dev \
-             libgcrypt20-dev \
-             libglib2.0-dev \
-diff --git a/tests/lcitool/projects/qemu.yml b/tests/lcitool/projects/qemu.yml
-index 2e2271510e..ed5ab1407a 100644
---- a/tests/lcitool/projects/qemu.yml
-+++ b/tests/lcitool/projects/qemu.yml
-@@ -18,6 +18,7 @@ packages:
-  - diffutils
-  - dtrace
-  - findutils
-+ - fuse3
-  - g++
-  - gcc
-  - gcovr
+diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
+index 850787495b..1544632b67 100644
+--- a/docs/system/arm/virt.rst
++++ b/docs/system/arm/virt.rst
+@@ -121,6 +121,14 @@ ras
+   Set ``on``/``off`` to enable/disable reporting host memory errors to a guest
+   using ACPI and guest external abort exceptions. The default is off.
+ 
++dtb-kaslr-seed
++  Set ``on``/``off`` to pass a random seed via the guest dtb
++  kaslr-seed node (in both "/chosen" and /secure-chosen) to use
++  for features like address space randomisation. The default is
++  ``on``. You will want to disable it if your trusted boot chain will
++  verify the DTB it is passed. It would be the responsibility of the
++  firmware to come up with a seed and pass it on if it wants to.
++
+ Linux guest kernel configuration
+ """"""""""""""""""""""""""""""""
+ 
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index dc6b66ffc8..be0534608f 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -148,6 +148,7 @@ struct VirtMachineState {
+     bool virt;
+     bool ras;
+     bool mte;
++    bool dtb_kaslr_seed;
+     OnOffAuto acpi;
+     VirtGICType gic_version;
+     VirtIOMMUType iommu;
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index b45b52c90e..84c2444fff 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -247,11 +247,15 @@ static void create_fdt(VirtMachineState *vms)
+ 
+     /* /chosen must exist for load_dtb to fill in necessary properties later */
+     qemu_fdt_add_subnode(fdt, "/chosen");
+-    create_kaslr_seed(ms, "/chosen");
++    if (vms->dtb_kaslr_seed) {
++        create_kaslr_seed(ms, "/chosen");
++    }
+ 
+     if (vms->secure) {
+         qemu_fdt_add_subnode(fdt, "/secure-chosen");
+-        create_kaslr_seed(ms, "/secure-chosen");
++        if (vms->dtb_kaslr_seed) {
++            create_kaslr_seed(ms, "/secure-chosen");
++        }
+     }
+ 
+     /* Clock node, for the benefit of the UART. The kernel device tree
+@@ -2235,6 +2239,20 @@ static void virt_set_its(Object *obj, bool value, Error **errp)
+     vms->its = value;
+ }
+ 
++static bool virt_get_dtb_kaslr_seed(Object *obj, Error **errp)
++{
++    VirtMachineState *vms = VIRT_MACHINE(obj);
++
++    return vms->dtb_kaslr_seed;
++}
++
++static void virt_set_dtb_kaslr_seed(Object *obj, bool value, Error **errp)
++{
++    VirtMachineState *vms = VIRT_MACHINE(obj);
++
++    vms->dtb_kaslr_seed = value;
++}
++
+ static char *virt_get_oem_id(Object *obj, Error **errp)
+ {
+     VirtMachineState *vms = VIRT_MACHINE(obj);
+@@ -2764,6 +2782,13 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+                                           "Set on/off to enable/disable "
+                                           "ITS instantiation");
+ 
++    object_class_property_add_bool(oc, "dtb-kaslr-seed",
++                                   virt_get_dtb_kaslr_seed,
++                                   virt_set_dtb_kaslr_seed);
++    object_class_property_set_description(oc, "dtb-kaslr-seed",
++                                          "Set off to disable passing of kaslr-seed "
++                                          "dtb node to guest");
++
+     object_class_property_add_str(oc, "x-oem-id",
+                                   virt_get_oem_id,
+                                   virt_set_oem_id);
+@@ -2828,6 +2853,9 @@ static void virt_instance_init(Object *obj)
+     /* MTE is disabled by default.  */
+     vms->mte = false;
+ 
++    /* Supply a kaslr-seed by default */
++    vms->dtb_kaslr_seed = true;
++
+     vms->irqmap = a15irqmap;
+ 
+     virt_flash_create(vms);
 -- 
 2.30.2
 
