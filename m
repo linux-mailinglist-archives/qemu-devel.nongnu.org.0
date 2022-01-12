@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2250D48C0B8
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 10:06:58 +0100 (CET)
-Received: from localhost ([::1]:44912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C6548C0E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 10:21:16 +0100 (CET)
+Received: from localhost ([::1]:37024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7Zaq-0006Op-Sw
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 04:06:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53568)
+	id 1n7Zoh-0004aR-E5
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 04:21:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dario.binacchi@amarulasolutions.com>)
- id 1n7ZWG-0003n1-80
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 04:02:24 -0500
-Received: from [2a00:1450:4864:20::530] (port=39788
- helo=mail-ed1-x530.google.com)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1n7ZZp-0006PO-Pc; Wed, 12 Jan 2022 04:05:53 -0500
+Received: from [2607:f8b0:4864:20::92d] (port=34470
+ helo=mail-ua1-x92d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dario.binacchi@amarulasolutions.com>)
- id 1n7ZW6-0006wl-9z
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 04:02:04 -0500
-Received: by mail-ed1-x530.google.com with SMTP id c71so7098445edf.6
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 01:01:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VyMgynfmdcVnbW2UDNyZwHxej55p9RLUZqkpJfptshA=;
- b=ru/Gzij0p/7XjRdt9hwvNg5ycALxeQsJ2jbAhjC1Zh18X2f6Y29K/sdMKZ1fVBLNub
- vF7NzfVOWDEvgsHp8ylp2HiZDC6z9MIhS1MBZVNZESj6vafqp0nQ5Kpp9g0n+dCdDMka
- urdrvLI/iaa/bSL02qal7+4t6J4eZXCFEvNj8=
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1n7ZZo-0007fA-2G; Wed, 12 Jan 2022 04:05:53 -0500
+Received: by mail-ua1-x92d.google.com with SMTP id y4so3502535uad.1;
+ Wed, 12 Jan 2022 01:05:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vaKpJ7X40TtepWT2+I5FmR9q8hdbnJ/5P5y5Vqtw/uc=;
+ b=iUE68uF2psLX0PXXMaFuiRw5EakwtHpOCuQ6+t15yaZLH8CH+KF1pe21HEr77NW9CV
+ cQoQw0tEDpPUsC/kYm25pQqmXoH2b/l9HD6LfCYN9cwwhgfQrw8rc/X/VINSlWAiNXUR
+ rkW0srFgMTsrtwNQZ4t6L1hnaIdxISMnEGipxTITIArfx2Z99GQ958TV1zNMDXnGBqbx
+ 6y86iOxJ5dK96F+MZ2x/nMlKBds/hdNFGkpIvAWB+u8JG4Hpdxshv2FJnWECDSnP4pkf
+ M+6PxrGt+6I9+wX4T3CeOVfQBoXxLpc5midbiv9sihdh5kXH4wHgDXLYLHOzFOUk6EGE
+ jS5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VyMgynfmdcVnbW2UDNyZwHxej55p9RLUZqkpJfptshA=;
- b=vuIWXxwkhmOhclRerNmUDSypPplVuE2G6MPFER7kIkAIYJsRUQa2Ng1QJYy7iUkuMM
- Wv1plYbV37P/zFDIwn3cNBd6vdoQ8c8p9Gn2kYTFB4BLcrzHl2APhFiRFhQKgdE9xc9D
- aVisNuhv5Ip7eiSBwwjSyLwjpydEV+3d61vdvipxT5lM+uSx4Yju7IKlXVEOA/iEXYcp
- 8hMr6vbOQ6QKzR9oW83y3rln4dyQdWfl9DvzkMFzGpc6SUO2DAbsM7J9Elq57geWU7WF
- zdeVz6zMcDOmUMl0wu0HGpYEy2F5aY3d1/6iKB/8UB3yUELNSh2t8M0cm4PRkrkC8eoP
- 9dXA==
-X-Gm-Message-State: AOAM533EFXc/WKGrq9iD0oiQ7OTEtMMNCuFRb39BerSg9Jlq8U805hW5
- 8RRyKJuB+/L8/hAnjL6calzJ9CmeawiHZg==
-X-Google-Smtp-Source: ABdhPJwoOsJnH1xXYrWuSR+GXFbSuhdwZfSmgxXQ9B+nSa7T9tQJIGnZx5n7xzaSmpmgCbiWoJ999w==
-X-Received: by 2002:aa7:d785:: with SMTP id s5mr7854490edq.215.1641978113863; 
- Wed, 12 Jan 2022 01:01:53 -0800 (PST)
-Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it
- (host-82-52-8-210.retail.telecomitalia.it. [82.52.8.210])
- by smtp.gmail.com with ESMTPSA id 25sm4305673ejz.95.2022.01.12.01.01.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jan 2022 01:01:53 -0800 (PST)
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/usb/dev-wacom: add missing HID descriptor
-Date: Wed, 12 Jan 2022 10:01:25 +0100
-Message-Id: <20220112090125.381364-1-dario.binacchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.32.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vaKpJ7X40TtepWT2+I5FmR9q8hdbnJ/5P5y5Vqtw/uc=;
+ b=Gw+nlYyHIUIHrVPk6XG0+xMRNoGNVV91jzJWawCmSo9VBwMfAdNjBvm0fToUWHVNO8
+ ij/DW2EKMBkWB12mU5nhakr98Xv8mEEFtFLpgxrJKeibkWYhwlQH3kr2oPO2do330CUJ
+ qW22+AcGYH0NRcmI6cYKW8HaaEoPRplyYzUi6DycoMY9fipPZZVnLTCzVlIAkxFF8dKs
+ 6ch3W+Bad5rrjvrKc4mphUZTkMoHakjpSdrgjauXlbzZBKU2RUKVn/D9UihF1pGltOvK
+ K4H8II/Q+NvVkwxGt/zrxMvIPCD3bJp9lR6uWypjTE8Qz9gaWkwknURfmcYikBb/YtmR
+ t7nQ==
+X-Gm-Message-State: AOAM531Gv0yWm+4+yRcpI8Wxjfw0p2QeFEq5JeXGexhoEACsaETtKrlW
+ Gb+WCO+jGloSUBFMTIYnMYFef+ZVO67jW4YQtPq9nDfBQvc=
+X-Google-Smtp-Source: ABdhPJxWpMj+s/b0UYOqGNt9vVuDt1/pvAYNRPR173b29xVIkJMyH/bw9yu//uW50qyHYcdMNRizfEZxuwabWbJEtuk=
+X-Received: by 2002:ab0:2c17:: with SMTP id l23mr3707425uar.130.1641978343071; 
+ Wed, 12 Jan 2022 01:05:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::530
+References: <20220110114154.3774072-1-pl@kamp.de>
+ <20220110114154.3774072-2-pl@kamp.de>
+In-Reply-To: <20220110114154.3774072-2-pl@kamp.de>
+From: Ilya Dryomov <idryomov@gmail.com>
+Date: Wed, 12 Jan 2022 10:05:44 +0100
+Message-ID: <CAOi1vP_nvvfmXXq=2kXYVoO-4UtzDmJ0X44_NnB1QCnSKTyGMA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] block/rbd: fix handling of holes in
+ .bdrv_co_block_status
+To: Peter Lieven <pl@kamp.de>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=dario.binacchi@amarulasolutions.com;
- helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92d;
+ envelope-from=idryomov@gmail.com; helo=mail-ua1-x92d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -83,124 +79,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- Michael Trimarchi <michael@amarulasolutions.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-stable@nongnu.org, ct@flyingcircus.io,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Jason Dillaman <dillaman@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Linux need to fill up the HID descriptor in order to let the driver be
-emulated. The descriptor was downloaded from [1]. The patch was tested
-with evtest tool on top of qemu 5.2.0 with linux kernel 4.19.208.
+On Mon, Jan 10, 2022 at 12:42 PM Peter Lieven <pl@kamp.de> wrote:
+>
+> the assumption that we can't hit a hole if we do not diff against a snapshot was wrong.
+>
+> We can see a hole in an image if we diff against base if there exists an older snapshot
+> of the image and we have discarded blocks in the image where the snapshot has data.
+>
+> Fixes: 0347a8fd4c3faaedf119be04c197804be40a384b
+> Cc: qemu-stable@nongnu.org
+> Signed-off-by: Peter Lieven <pl@kamp.de>
+> ---
+>  block/rbd.c | 55 +++++++++++++++++++++++++++++++++--------------------
+>  1 file changed, 34 insertions(+), 21 deletions(-)
+>
+> diff --git a/block/rbd.c b/block/rbd.c
+> index def96292e0..5e9dc91d81 100644
+> --- a/block/rbd.c
+> +++ b/block/rbd.c
+> @@ -1279,13 +1279,24 @@ static int qemu_rbd_diff_iterate_cb(uint64_t offs, size_t len,
+>      RBDDiffIterateReq *req = opaque;
+>
+>      assert(req->offs + req->bytes <= offs);
+> -    /*
+> -     * we do not diff against a snapshot so we should never receive a callback
+> -     * for a hole.
+> -     */
+> -    assert(exists);
+>
+> -    if (!req->exists && offs > req->offs) {
+> +    if (req->exists && offs > req->offs + req->bytes) {
+> +        /*
+> +         * we started in an allocated area and jumped over an unallocated area,
+> +         * req->bytes contains the length of the allocated area before the
+> +         * unallocated area. stop further processing.
+> +         */
+> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
+> +    }
+> +    if (req->exists && !exists) {
+> +        /*
+> +         * we started in an allocated area and reached a hole. req->bytes
+> +         * contains the length of the allocated area before the hole.
+> +         * stop further processing.
+> +         */
+> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
+> +    }
+> +    if (!req->exists && exists && offs > req->offs) {
+>          /*
+>           * we started in an unallocated area and hit the first allocated
+>           * block. req->bytes must be set to the length of the unallocated area
+> @@ -1295,17 +1306,19 @@ static int qemu_rbd_diff_iterate_cb(uint64_t offs, size_t len,
+>          return QEMU_RBD_EXIT_DIFF_ITERATE2;
+>      }
+>
+> -    if (req->exists && offs > req->offs + req->bytes) {
+> -        /*
+> -         * we started in an allocated area and jumped over an unallocated area,
+> -         * req->bytes contains the length of the allocated area before the
+> -         * unallocated area. stop further processing.
+> -         */
+> -        return QEMU_RBD_EXIT_DIFF_ITERATE2;
+> -    }
+> +    /*
+> +     * assert that we caught all cases above and allocation state has not
+> +     * changed during callbacks.
+> +     */
+> +    assert(exists == req->exists || !req->bytes);
+> +    req->exists = exists;
+>
+> -    req->bytes += len;
+> -    req->exists = true;
+> +    /*
+> +     * assert that we either return an unallocated block or have got callbacks
+> +     * for all allocated blocks present.
+> +     */
+> +    assert(!req->exists || offs == req->offs + req->bytes);
+> +    req->bytes = offs + len - req->offs;
+>
+>      return 0;
+>  }
+> @@ -1354,13 +1367,13 @@ static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
+>      }
+>      assert(req.bytes <= bytes);
+>      if (!req.exists) {
+> -        if (r == 0) {
+> +        if (r == 0 && !req.bytes) {
+>              /*
+> -             * rbd_diff_iterate2 does not invoke callbacks for unallocated
+> -             * areas. This here catches the case where no callback was
+> -             * invoked at all (req.bytes == 0).
+> +             * rbd_diff_iterate2 does not invoke callbacks for unallocated areas
+> +             * except for the case where an overlay has a hole where the parent
+> +             * or an older snapshot of the image has not. This here catches the
+> +             * case where no callback was invoked at all.
+>               */
+> -            assert(req.bytes == 0);
+>              req.bytes = bytes;
+>          }
+>          status = BDRV_BLOCK_ZERO | BDRV_BLOCK_OFFSET_VALID;
+> --
+> 2.25.1
+>
+>
 
-[1] https://github.com/linuxwacom/wacom-hid-descriptors/tree/master/Wacom%20PenPartner
+Hi Peter,
 
-Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
-Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
----
+Can we just skip these "holes" by replacing the existing assert with
+an if statement that would simply bail from the callback on !exists?
 
- hw/usb/dev-wacom.c | 72 +++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 71 insertions(+), 1 deletion(-)
+Just trying to keep the logic as simple as possible since as it turns
+out we get to contend with ages-old librbd bugs here...
 
-diff --git a/hw/usb/dev-wacom.c b/hw/usb/dev-wacom.c
-index ed687bc9f1eb..8323650c6a4d 100644
---- a/hw/usb/dev-wacom.c
-+++ b/hw/usb/dev-wacom.c
-@@ -69,6 +69,65 @@ static const USBDescStrings desc_strings = {
-     [STR_SERIALNUMBER]     = "1",
- };
- 
-+static const uint8_t qemu_wacom_hid_report_descriptor[] = {
-+    0x05, 0x01,      /* Usage Page (Desktop) */
-+    0x09, 0x02,      /* Usage (Mouse) */
-+    0xa1, 0x01,      /* Collection (Application) */
-+    0x85, 0x01,      /*    Report ID (1) */
-+    0x09, 0x01,      /*    Usage (Pointer) */
-+    0xa1, 0x00,      /*    Collection (Physical) */
-+    0x05, 0x09,      /*       Usage Page (Button) */
-+    0x19, 0x01,      /*       Usage Minimum (01h) */
-+    0x29, 0x03,      /*       Usage Maximum (03h) */
-+    0x15, 0x00,      /*       Logical Minimum (0) */
-+    0x25, 0x01,      /*       Logical Maximum (1) */
-+    0x95, 0x03,      /*       Report Count (3) */
-+    0x75, 0x01,      /*       Report Size (1) */
-+    0x81, 0x02,      /*       Input (Data, Variable, Absolute) */
-+    0x95, 0x01,      /*       Report Count (1) */
-+    0x75, 0x05,      /*       Report Size (5) */
-+    0x81, 0x01,      /*       Input (Constant) */
-+    0x05, 0x01,      /*       Usage Page (Desktop) */
-+    0x09, 0x30,      /*       Usage (X) */
-+    0x09, 0x31,      /*       Usage (Y) */
-+    0x09, 0x38,      /*       Usage (Wheel) */
-+    0x15, 0x81,      /*       Logical Minimum (-127) */
-+    0x25, 0x7f,      /*       Logical Maximum (127) */
-+    0x75, 0x08,      /*       Report Size (8) */
-+    0x95, 0x03,      /*       Report Count (3) */
-+    0x81, 0x06,      /*       Input (Data, Variable, Relative) */
-+    0x95, 0x03,      /*       Report Count (3) */
-+    0x81, 0x01,      /*       Input (Constant) */
-+    0xc0,            /*    End Collection */
-+    0xc0,            /* End Collection */
-+    0x05, 0x0d,      /* Usage Page (Digitizer) */
-+    0x09, 0x01,      /* Usage (Digitizer) */
-+    0xa1, 0x01,      /* Collection (Application) */
-+    0x85, 0x02,      /*    Report ID (2) */
-+    0xa1, 0x00,      /*    Collection (Physical) */
-+    0x06, 0x00, 0xff,/*       Usage Page (ff00h), vendor-defined */
-+    0x09, 0x01,      /*       Usage (01h) */
-+    0x15, 0x00,      /*       Logical Minimum (0) */
-+    0x26, 0xff, 0x00,/*       Logical Maximum (255) */
-+    0x75, 0x08,      /*       Report Size (8) */
-+    0x95, 0x07,      /*       Report Count (7) */
-+    0x81, 0x02,      /*       Input (Data, Variable, Absolute) */
-+    0xc0,            /*    End Collection */
-+    0x09, 0x01,      /*    Usage (01h) */
-+    0x85, 0x63,      /*    Report ID (99) */
-+    0x95, 0x07,      /*    Report Count (7) */
-+    0x81, 0x02,      /*    Input (Data, Variable, Absolute) */
-+    0x09, 0x01,      /*    Usage (01h) */
-+    0x85, 0x02,      /*    Report ID (2) */
-+    0x95, 0x01,      /*    Report Count (1) */
-+    0xb1, 0x02,      /*    Feature (Variable) */
-+    0x09, 0x01,      /*    Usage (01h) */
-+    0x85, 0x03,      /*    Report ID (3) */
-+    0x95, 0x01,      /*    Report Count (1) */
-+    0xb1, 0x02,      /*    Feature (Variable) */
-+    0xc0             /* End Collection */
-+};
-+
- static const USBDescIface desc_iface_wacom = {
-     .bInterfaceNumber              = 0,
-     .bNumEndpoints                 = 1,
-@@ -86,7 +145,7 @@ static const USBDescIface desc_iface_wacom = {
-                 0x00,          /*  u8  country_code */
-                 0x01,          /*  u8  num_descriptors */
-                 USB_DT_REPORT, /*  u8  type: Report */
--                0x6e, 0,       /*  u16 len */
-+                sizeof(qemu_wacom_hid_report_descriptor), 0, /*  u16 len */
-             },
-         },
-     },
-@@ -266,6 +325,17 @@ static void usb_wacom_handle_control(USBDevice *dev, USBPacket *p,
-     }
- 
-     switch (request) {
-+    case InterfaceRequest | USB_REQ_GET_DESCRIPTOR:
-+        switch (value >> 8) {
-+        case 0x22:
-+                memcpy(data, qemu_wacom_hid_report_descriptor,
-+                       sizeof(qemu_wacom_hid_report_descriptor));
-+                p->actual_length = sizeof(qemu_wacom_hid_report_descriptor);
-+            break;
-+        default:
-+            return;
-+        }
-+        break;
-     case WACOM_SET_REPORT:
-         if (s->mouse_grabbed) {
-             qemu_remove_mouse_event_handler(s->eh_entry);
--- 
-2.32.0
+Thanks,
 
+                Ilya
 
