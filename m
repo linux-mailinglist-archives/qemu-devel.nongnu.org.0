@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6750F48CD7E
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 22:14:01 +0100 (CET)
-Received: from localhost ([::1]:33568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B7A48CDB5
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 22:22:35 +0100 (CET)
+Received: from localhost ([::1]:44522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7kwS-0008HF-6o
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 16:14:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50728)
+	id 1n7l4k-0007XS-Um
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 16:22:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>)
- id 1n7kqU-0003fi-Hh; Wed, 12 Jan 2022 16:07:54 -0500
-Received: from mout.gmx.net ([212.227.17.22]:36361)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>)
- id 1n7kqJ-0000ep-Ss; Wed, 12 Jan 2022 16:07:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1642021652;
- bh=KkexLjci6LW1vNBOmGNzhom0/yMwVW+n37nBFA34etI=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=QR6LBzL3KI0ItYd301DHnmLDbTH+kw7Rz7oYIZh0sJeqHuKRqGcHAUtz2OeFiA1b2
- pPRFLoSzWylSx4y042AWNT3Cf1IYZOZC/1fom6cBpLjZm9km84VviJMj635WYpCwTT
- SIvu+bd4EZhG+3mrmv9biyKFJ1VOSFiuUc6YEzhk=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from p100.fritz.box ([92.116.184.198]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M2f5T-1n3dhz2Jih-004Csg; Wed, 12
- Jan 2022 22:07:32 +0100
-From: Helge Deller <deller@gmx.de>
-To: qemu-devel@nongnu.org,
-	Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH 5/5] hw/display/artist: Fix framebuffer access for Linux
-Date: Wed, 12 Jan 2022 22:07:30 +0100
-Message-Id: <20220112210730.292775-6-deller@gmx.de>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220112210730.292775-1-deller@gmx.de>
-References: <20220112210730.292775-1-deller@gmx.de>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n7l3O-0006qn-S7
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 16:21:10 -0500
+Received: from [2a00:1450:4864:20::434] (port=45581
+ helo=mail-wr1-x434.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n7l3N-0002Zg-6G
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 16:21:10 -0500
+Received: by mail-wr1-x434.google.com with SMTP id q8so6491220wra.12
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 13:21:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=2yfvXuYC+pB9ynDwUGI7achzn93hF1V+ymTs2h3CFNU=;
+ b=eilhK9uXuJOLAD5Q9nFzlkp6Y+lzGHlgWajPezpzKNTfFd6pFsJC0eg8aVRQ4MhX3r
+ HvY1TcojK02zWIjmuThJA8KFxU5P/rAxDzUNaJpPeWjEkL8f7t7fu7xAJLbrdk2BdNlq
+ RQyfjbHAEbq/D9GtjoOJtXauqHuLTBO6mPB9FMBw+LCV+rwtJ5Nug5WlN+ZytjEYrZ1P
+ JTgrYouXDU/vybdvV+G/Dg+y7jQijSfQ2TfDInwcCUpKNXSwNc8INeOOPEyiZzg1UecB
+ 8DghvTJR39kcVUUiM9y6AoSb7A1uefavW/NrRKOI9BjqNrkoRLmlvD6DeXWyqSjdNUQu
+ wJvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=2yfvXuYC+pB9ynDwUGI7achzn93hF1V+ymTs2h3CFNU=;
+ b=UiIBg6eYLZja6qsauDZeav30j4wG8toPPCqzWz8L8ONjlgKOFNGctIUxRy/6hq1UEn
+ hN82M+m5VGeE0tmB+Pjk3195ShMQTLElGJvQi4nWVEU2mfwZAbxR/qPS2rVpjd+diE5e
+ 45roFpWptgp+qDoZRttGYQRNKWkk+8ksR/N1jC9u8cljpExlZK+f2qERLTEokNGB1u4U
+ LBRIOjrq/O8WTTuj8ueG6yjYQ6KXDCtfynf22g/EpFAUaI7HawxmTG6IvfswtfM/Q/yC
+ Gnp7zlc5+t6Az2rITp2Q2CH4KcAXJIedolv4G1FZ3aOBFMAOLdOCbDcS5GZH0BQ38Ant
+ 470Q==
+X-Gm-Message-State: AOAM532AZOQ/IcTLSARRLd54l+Rydi66C959FJqBG8UkVvLYeFLGa9Gu
+ lm4Ufyo43NCh19Mchs3SNP+iQMExchGWV85yulTgPw==
+X-Google-Smtp-Source: ABdhPJz/0hwprJZoSTkfm5SE9OaP2pPGhF2RyGQjmpU/HN026Bkk6iVbXNrMJWzCWo8jjw8vrKpoOkdwwi1+u6hDdRs=
+X-Received: by 2002:adf:e907:: with SMTP id f7mr1312029wrm.319.1642022467333; 
+ Wed, 12 Jan 2022 13:21:07 -0800 (PST)
 MIME-Version: 1.0
+References: <20220112112722.3641051-1-alex.bennee@linaro.org>
+In-Reply-To: <20220112112722.3641051-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 12 Jan 2022 21:20:56 +0000
+Message-ID: <CAFEAcA--rEZ0+JxFzeSFD1j6FM65_x3CXcn_oTnaNkNVU1hW0Q@mail.gmail.com>
+Subject: Re: [PULL 00/31] testing/next and other misc fixes
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:wTjYeZm5AYNTmBIQyTsZJOCQtL5GZdeNa5CWUUvIUuO1SIFqWON
- Nyqv2LUdoQtJH9jVpK8KjRZVVZsnsO8ZTXIwJl/H5sZOx68Nc9p5tNx1PEgjpufvovLezrx
- s0bdSAo7EFe7Je0Zf6LozeFW3XQSBPvb6CMyi2zOryG1IO3OTVoYsqfGZpaadITm9ZlJqFf
- D3blPtIK/Ldpt7wk1p9BQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nTZregWM1UI=:jvMdg4sY6g0TIlkBvcOF9I
- qKiQCjOFVgOuzSueRyjEzdPynL7k3gH/pAo2a7waaUZriDsgFFHSn1s1PPXhp8bHqAZmPEfBq
- iig8uMDiaIPK04J+SfWLeerGrB/obafFVYlDtGL5A09Qot8ycEsM43GfnMF9TgOnQjwUGDXy2
- Vm86iYRIACUOBocMWnjKLx5lyLI1uJmZ7C1oi6E10gFzurZKh5Cm6lavbtBkdKtRSJUAUgK7G
- fhT02IouAt2NMcVVtFEGIpQ1M6Q+MdzvY5nod7wYK5mHwEEsIPSlwFqv3RbxW+OhBtN2KgFNc
- 2gRTZ9z1gN7MXHFPfeqaOcbLmx8S2dyzK5kvUjebwWwago15oPWlagBlwff8eHI2jQsHWXCq8
- rBYpJQGnVLQEeWKWt+3N8wgj+HN8TQG2LlDytRJ6BTKc/KM6k2UqhsDQQW5eQAaQHfKQNYqDu
- 9XmWFoQJ/Ok5kiuc53Vm87HGjCLzB7rw4bbAFK3TgReh8Pnu0AzmT9zZwKQtFKXMYEv/6/Ny6
- NQ8dMKXiTj5YctMmLE88/FIWhG5twAYeIYnnE8txfTviG3AAe01/8lTUo1D5ClJhQ91IYVaId
- CcMZbuVb3c21pkprOhv1raRD6fpQ66kXipQWN2+q+R8NZrq+Vaom+kVFTAKtmUxCRewIeO72w
- ciPZ9OkG6mKxY2eUXb+KCSL/wPHzSvrYTRylmJxk8vRQmowuTACJyv4yZWQzflrSAsd6PIzLT
- IGolrQ92/2PFTYaY2mUZ7ko1hUtdRS40DpFW94RVZixtC890DT5DQoRd2s8Ntw3aOYe6GPJRp
- C0lm21QrrOvMBEsyC0mTatjs+L04U1maODHAos62mJ8cUYUf4OqRAHAakLxIIXCcJvTSvvygq
- cUKy3bc4ebs+A7tCo+X6b61J0DYmUP5Kve5kv3bE+caq2uOA6hRFCFqkLq7olHjy9JKFTZ5ws
- Kyt2Q8B9ZTC8k8FLEZm9BEWSqGdZdpQvmwbDLlM9WmXtXiMyiZu6sObuju7xTABRtahldg+Cs
- DSokJ4ZwunSUaCA+2ipdZER+pMqBOcGi+9q5+gzFpsVEcctR71xJDoJX2BXJAu8n+wFxE+FRB
- PRaX72rlRxWenw=
-Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,89 +81,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, qemu-stable@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch fixes two problems which prevented Linux to access the
-artist graphics framebuffer:
+On Wed, 12 Jan 2022 at 11:27, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> The following changes since commit bf99e0ec9a51976868d7a8334620716df15fe7=
+fe:
+>
+>   Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into stagi=
+ng (2022-01-11 10:12:29 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/stsquad/qemu.git tags/pull-for-7.0-110122-1
+>
+> for you to fetch changes up to dbd30b7abee963f4fb08892a7d7f920bb76ece58:
+>
+>   linux-user: Remove the deprecated ppc64abi32 target (2022-01-11 13:00:5=
+3 +0000)
+>
+> ----------------------------------------------------------------
+> Various testing and other misc updates:
+>
+>   - fix compiler warnings with ui and sdl
+>   - update QXL/spice dependancy
+>   - skip I/O tests on Alpine
+>   - update fedora image to latest version
+>   - integrate lcitool and regenerate docker images
+>   - favour CONFIG_LINUX_USER over CONFIG_LINUX
+>   - add libfuse3 dependencies to docker images
+>   - add dtb-kaslr-seed control knob to virt machine
+>   - fix build breakage from HMP update
+>   - update docs for C standard and suffix usage
+>   - add more logging for debugging user hole finding
+>   - fix bug with linux-user hold calculation
+>   - avoid affecting flags when printing results in float tests
+>   - add float reference files for ppc64
+>   - update FreeBSD to 12.3
+>   - add bison dependancy to tricore images
+>   - remove deprecated ppc64abi32 target
 
-The check if the framebuffer or the color map should be accessed was
-incomplete. By using the vram_read/write_bufidx() functions we now check
-correctly if ARTIST_BUFFER_CMAP should be accessed.
+This seems to fail the ubuntu-18.04-s390x-all-linux-static job
+with segfaults running linux-user binaries (not always the same
+binary), eg:
+https://gitlab.com/qemu-project/qemu/-/jobs/1968789446
+https://gitlab.com/qemu-project/qemu/-/jobs/1968080419
 
-The second fix is to correctly calculate the X- and Y-coordinates and
-check against the graphics resolution.
 
-With this fix in place, the Linux stifb driver now works correctly,
-shows the penguins at bootup and uses the stifb as graphics console.
-I haven't seen any negative side effects when running HP-UX.
-
-Signed-off-by: Helge Deller <deller@gmx.de>
-Cc: qemu-stable@nongnu.org
-=2D--
- hw/display/artist.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/hw/display/artist.c b/hw/display/artist.c
-index 6384076c60..fbf5525334 100644
-=2D-- a/hw/display/artist.c
-+++ b/hw/display/artist.c
-@@ -1186,7 +1186,7 @@ static void artist_vram_write(void *opaque, hwaddr a=
-ddr, uint64_t val,
-     unsigned int offset;
-     trace_artist_vram_write(size, addr, val);
-
--    if (s->cmap_bm_access) {
-+    if (vram_write_bufidx(s) =3D=3D ARTIST_BUFFER_CMAP) {
-         buf =3D &s->vram_buffer[ARTIST_BUFFER_CMAP];
-         if (addr + 3 < buf->size) {
-             *(uint32_t *)(buf->data + addr) =3D val;
-@@ -1195,14 +1195,14 @@ static void artist_vram_write(void *opaque, hwaddr=
- addr, uint64_t val,
-     }
-
-     buf =3D vram_write_buffer(s);
--    posy =3D ADDR_TO_Y(addr >> 2);
--    posx =3D ADDR_TO_X(addr >> 2);
-+    posy =3D ADDR_TO_Y(addr);
-+    posx =3D ADDR_TO_X(addr);
-
-     if (!buf->size) {
-         return;
-     }
-
--    if (posy > buf->height || posx > buf->width) {
-+    if (posy >=3D buf->height || posx >=3D buf->width) {
-         return;
-     }
-
-@@ -1242,7 +1242,7 @@ static uint64_t artist_vram_read(void *opaque, hwadd=
-r addr, unsigned size)
-     uint64_t val;
-     unsigned int posy, posx;
-
--    if (s->cmap_bm_access) {
-+    if (vram_read_bufidx(s) =3D=3D ARTIST_BUFFER_CMAP) {
-         buf =3D &s->vram_buffer[ARTIST_BUFFER_CMAP];
-         val =3D 0;
-         if (addr < buf->size && addr + 3 < buf->size) {
-@@ -1257,10 +1257,10 @@ static uint64_t artist_vram_read(void *opaque, hwa=
-ddr addr, unsigned size)
-         return 0;
-     }
-
--    posy =3D ADDR_TO_Y(addr >> 2);
--    posx =3D ADDR_TO_X(addr >> 2);
-+    posy =3D ADDR_TO_Y(addr);
-+    posx =3D ADDR_TO_X(addr);
-
--    if (posy > buf->height || posx > buf->width) {
-+    if (posy >=3D buf->height || posx >=3D buf->width) {
-         return 0;
-     }
-
-=2D-
-2.31.1
-
+thanks
+-- PMM
 
