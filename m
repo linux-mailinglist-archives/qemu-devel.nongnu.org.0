@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82C8548C39A
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 12:56:06 +0100 (CET)
-Received: from localhost ([::1]:39858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2DAB48C33F
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 12:34:58 +0100 (CET)
+Received: from localhost ([::1]:45696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7cEX-0003y3-Kj
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 06:56:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55410)
+	id 1n7bu5-0003CY-Qp
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 06:34:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n7bnM-00037P-Ow
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:28:00 -0500
-Received: from [2607:f8b0:4864:20::934] (port=42604
- helo=mail-ua1-x934.google.com)
+ id 1n7bnI-0002zK-Pw
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:56 -0500
+Received: from [2607:f8b0:4864:20::929] (port=46674
+ helo=mail-ua1-x929.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n7bnK-0003Rg-LO
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:59 -0500
-Received: by mail-ua1-x934.google.com with SMTP id p1so4065119uap.9
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 03:27:58 -0800 (PST)
+ id 1n7bnH-0003RQ-7z
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:56 -0500
+Received: by mail-ua1-x929.google.com with SMTP id c36so4010322uae.13
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 03:27:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tl2jfIhWkg+f/BATAZzs8Wm6cLVk0HsdmqCAU0+a2q4=;
- b=TmsxWdp4RZ6FsJ6JPuUNUtVHfMWZD4eakZc1uSogpJGXIGB1RJP+eckxhLN/vAqhEQ
- otXgj3Yc/baS4mzhRXGZELgD8VxvSegJzXOLWmWEUZ3HRtaLqGQlZCP9qwNvU4TvFyq5
- aBUhzgXNHBBN//fwPxkLBxqZQ8ry05sNH0OVNxk6653l3LF/vkOIX/mh6Mh4zkjWBw7f
- x+l//qvVmyKDoZJ5CEmvCnp3XtckyJZ7tEELHIYeAIw6NlZN/4A1h/ugVmLz88aLwYeA
- qMwQyImQce1cRYx3qLhiRz+rTRitU4xYWMi92Y1tg5kAJw0ZG/iqnVeOS8YOngSFksCO
- W2wg==
+ bh=NiZf1GLzDxKqTCX/uduKre0a1TCmwTjxCIKA0tKqIjk=;
+ b=T3ADZ+kWMi/25DcHl5qaIYE9Rp+vyRPNC7UCS8BcSrWH3eIRzIcINl8yWA1JZqxr1j
+ DzEV6Cz5LhzPHne0zm4x9NTV5rLcjYZy7l9QICjyDstG6QiTXQMscr2QMRVY3uGDBe8E
+ Hc9IMiYhdkSS3PH/YPqrn5Pjif+ejqSpdFd6ZK7sU2hvPm6jkNdwn7rmiTFEHIyGlbut
+ SJFICilF2vGXA1iADDSJsACAUTOagTWHTl/QM0DGNtCwyqKisYscTYnr0ZkRFRX5lFMb
+ WjJoIjOMlkVP0kzr+b/VXdoPk9/bnIsH9MLPCF/J4YIUjU3KoowU15tyElGUin3jb/2u
+ 568w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tl2jfIhWkg+f/BATAZzs8Wm6cLVk0HsdmqCAU0+a2q4=;
- b=2GmOw31rGT45y7R6NSLdRiRXhTo3iL/hQ1wkCHFWfI+WcnyXqPOLpNKXelnNkUIbpz
- mlIHhNtzOpCFXbo4GJ2iMdgNkI9dK6D7HeDS9JXBzaAfwzo0g1XP8T0DXz5QnOHu1xNm
- pSXw6DunBs65cTsX0ij6AFZKXbYvvDDjdpDvLi851fiR6k/J5CajzdybOadYARL+ibcF
- m09gUFSVLw8Bf4qfVReod8mCH1kNqfxi8qqk5laG3NdEfLqsUEEBWsO3Ei5VMDw+hLTn
- QlJnsPdrNF9XNM8yyNdARFa0vwNPabh3H4m884ItdbJEGgY3BPcpXVMvbhIFE59TgcRH
- oLJA==
-X-Gm-Message-State: AOAM533zCguISmxrQAtPRf5mFhwtLwq6e0gdXpkNY6qNNz7gj72n37Fj
- 0QZE7vytcNM2IFzBn2PGJlo5sg==
-X-Google-Smtp-Source: ABdhPJzYNVPYsdthw2IYkfwajRRm6Ey127yzY0X1nSm2P7+TBtJkf4fkvpmF0Um3t7Y85ZCGBdBUAA==
-X-Received: by 2002:a67:b90a:: with SMTP id q10mr3854528vsn.35.1641986877821; 
- Wed, 12 Jan 2022 03:27:57 -0800 (PST)
+ bh=NiZf1GLzDxKqTCX/uduKre0a1TCmwTjxCIKA0tKqIjk=;
+ b=lbnmAPOWib+HnoEhJndpHZb+9NO2XdTqb4rrYsatTtxw0zJmXYf1XL80GGuwwxS+Yu
+ QCj14T+hQBLyJZ14WvH9wxW5Wefa1JJTEsDog5mC0wm/ofak9BOf+48NtwFuM1Z+2YhX
+ MldhnSnFgPE/h7Lgf1Z0ec+S2dGcmfSWW7E1gv7YegIv8+qnx8ClBFQlB6SaWs5HI27n
+ 7sWpgTvCxUPUSdzf8JVyNsgcHEKZNbAW1FVt9XjzD9J9IDDT4QSVh4RyWOWu1X5UPmW0
+ fLfP8J7eQ5Yr+I6+MSEqUSgI4ZKkEddNg1T1UCu2LXc/wPQ1Hlvu7RCGO7GMZwTfGQmn
+ 0RFg==
+X-Gm-Message-State: AOAM531eGY4CEkX6nGu1AuavuhbI+/q+k84UYUezx3XoC7/nQQ0STOHp
+ R1YKVuPbJRQRMYKIeq+zLk+EBQ==
+X-Google-Smtp-Source: ABdhPJy4OzKbhczHKUdbF1I9uWu/EZTdKpOuhItRUmlA1+hHo/Pet80mT+n2AqEywIss646mV5B+Zg==
+X-Received: by 2002:a05:6102:1009:: with SMTP id
+ q9mr4005078vsp.22.1641986874389; 
+ Wed, 12 Jan 2022 03:27:54 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u124sm167018vkg.3.2022.01.12.03.27.35
+ by smtp.gmail.com with ESMTPSA id s69sm5739401vka.55.2022.01.12.03.27.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 12 Jan 2022 03:27:45 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A2FFD1FFC7;
+ by zen.linaroharston (Postfix) with ESMTP id B97F61FFC8;
  Wed, 12 Jan 2022 11:27:23 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 15/31] tests/docker: updates to alpine package list
-Date: Wed, 12 Jan 2022 11:27:06 +0000
-Message-Id: <20220112112722.3641051-16-alex.bennee@linaro.org>
+Subject: [PULL 16/31] tests/docker: fix sorting of alpine image package lists
+Date: Wed, 12 Jan 2022 11:27:07 +0000
+Message-Id: <20220112112722.3641051-17-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220112112722.3641051-1-alex.bennee@linaro.org>
 References: <20220112112722.3641051-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::934
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::929
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::934;
- envelope-from=alex.bennee@linaro.org; helo=mail-ua1-x934.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ua1-x929.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -101,60 +102,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-Cleanup the package lists by removing some entries that we don't need to
-directly reference
-
-  binutils: implied by the compiler toolchain
-  coreutils: not required by QEMU build
-  mesa-egl mesa-gbm: implied by mesa-dev
-  ninja: alias for samurai package
-  shadow: not required by QEMU build
-  util-linux-dev: not directly required by QEMU build
+"python" sorts alphabetically after "py3-xxxx"
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20211215141949.3512719-16-berrange@redhat.com>
-Message-Id: <20220105135009.1584676-16-alex.bennee@linaro.org>
+Message-Id: <20211215141949.3512719-17-berrange@redhat.com>
+Message-Id: <20220105135009.1584676-17-alex.bennee@linaro.org>
 
 diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index 7e6997e301..5a1808726e 100644
+index 5a1808726e..ca4b3b58d2 100644
 --- a/tests/docker/dockerfiles/alpine.docker
 +++ b/tests/docker/dockerfiles/alpine.docker
-@@ -8,9 +8,7 @@ RUN apk upgrade
- ENV PACKAGES \
- 	alsa-lib-dev \
- 	bash \
--	binutils \
- 	ccache \
--	coreutils \
- 	curl-dev \
- 	g++ \
- 	gcc \
-@@ -33,22 +31,18 @@ ENV PACKAGES \
- 	lzo-dev \
- 	make \
- 	mesa-dev \
--	mesa-egl \
--	mesa-gbm \
- 	meson \
+@@ -35,9 +35,9 @@ ENV PACKAGES \
  	ncurses-dev \
--	ninja \
  	perl \
  	pulseaudio-dev \
- 	python3 \
+-	python3 \
  	py3-sphinx \
  	py3-sphinx_rtd_theme \
--	shadow \
-+	samurai \
++	python3 \
+ 	samurai \
  	snappy-dev \
  	spice-dev \
- 	texinfo \
- 	usbredir-dev \
--	util-linux-dev \
- 	vde2-dev \
- 	virglrenderer-dev \
- 	vte3-dev \
 -- 
 2.30.2
 
