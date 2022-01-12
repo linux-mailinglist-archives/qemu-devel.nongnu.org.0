@@ -2,85 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A58D448C657
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 15:46:06 +0100 (CET)
-Received: from localhost ([::1]:53042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F05648C5E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 15:24:38 +0100 (CET)
+Received: from localhost ([::1]:37196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7et3-0003vz-Ou
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 09:46:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49102)
+	id 1n7eYH-0006dm-EN
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 09:24:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1n7dau-00021U-L5
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 08:23:17 -0500
-Received: from [2607:f8b0:4864:20::102b] (port=46015
- helo=mail-pj1-x102b.google.com)
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1n7dbO-0002dA-Av
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 08:23:46 -0500
+Received: from [2607:f8b0:4864:20::102e] (port=41573
+ helo=mail-pj1-x102e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1n7das-0004pJ-Ux
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 08:23:16 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- l16-20020a17090a409000b001b2e9628c9cso4680808pjg.4
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 05:23:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1n7dbK-0004qU-Ur
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 08:23:44 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id
+ b1-20020a17090a990100b001b14bd47532so4788909pjp.0
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 05:23:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=27fNSMg2VqF3iINeXPKi+bPCAJxOUAoNPZl8wQE/2PQ=;
- b=g2iKNKlhnV4ZRcLBBZzuYIERXxlXkjop5FXykX15I0uUgnbLpGg4D2iZpjzFbafFxJ
- xzD91pAGFCWyA4Pr/ZUhMoAWekzpNmAUMAtWEq9r2oCXddL88oQkYoChHbBXGLjhDhQj
- olyW4VfhmjgkhVceaQ1zkE2tttPxrfzP4ycT81rch8uZMTF4r9XNQlnIuTjnYCyxergi
- 0SPfRUUwKrrEd5L/qe1+KKe9ZcoP467dl+P7dY7Ttps4E41q0xWc8KdqwkK18534tgxP
- 9PVJd1cc//LUCDjqk+YwMOeOhJDfz9fXdbN91atfm/KlbDDIIMZkD0azugI0AvZry0z/
- vC1w==
+ :cc; bh=77Bq+vV9ubzhZF2uo4Ya2FlcyF7IlXGfdjn6AH8UfvA=;
+ b=jpTz3pQ6ZWi85r2Ga4c+auKBQAP2dHUT+l/Vp3Hhwect7TntYvrrQnhi2SHzsUITCh
+ Mtz2cY+xOeXjEeO+PWcU6OJvrUeKSv9DGoM9s/SoglF8EBKUZLUZsdoo4M54VuUY6yX1
+ K9h2hxu3Ukhq/T2+GycCrBUbh0WpgmzfDtz7iWv4PIcItFf3Qd5eb8N82vm7cyOlhbcn
+ qsfF0bIzStLqjdf3BeCBChGvGkzlpn70c76PCueeQ8atFDOuJ7u80SGxtdlesZTaCWif
+ j8JShZUeECMcZz3VZM/EAYsLbPRjD8Me+yLKNlzttu9LxPmfKe5nIrpI5/DOp+uOGBqD
+ v9rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=27fNSMg2VqF3iINeXPKi+bPCAJxOUAoNPZl8wQE/2PQ=;
- b=Ud4PsYXE0nr4WsfIvXMk3HxxtFdOlZF8Lt3pcFHizqhMhgPp8MsFW9NnFqndnUzQxR
- Z/zCIUP2Tn1HSS8NQ1xcbROfMJ3/8nfAGSv+ICXTsHNyEAQxfZPyp8/2jCDAtXnh6TYX
- xoxybXb2m0oaJcEsCAx4XtKVG3329Ouy4TgnTfMQ4xBgA+fpsCfh+6ClyHpkEVHNyRiF
- Z2lfM0VF3FKpMJwNADWtFA48VLlakkhvgTJ3x3pasPVgrI7J+qNrSma7e0W6iXOcmOFm
- SZpIcI99dndf0Y7bjLWetEGjG6utGOS/nbMAgFbRXWgVHRlj+VOs3upWWM7Np5hWGt7b
- g8uw==
-X-Gm-Message-State: AOAM531jFTF6jyOLnnniyYRAZ7EwrMiUhBANtzAJjqCrARJNOxowB2jT
- INLebYuQlQ02puSXIx1rxVpvsQ==
-X-Google-Smtp-Source: ABdhPJxie+1SBLyXV0DN1szo6HasmBWrUpaculF6M82XzbFt88yA8pyuNgmfMJ2m9LQmavfKQhGWkw==
-X-Received: by 2002:a17:90b:17c6:: with SMTP id
- me6mr5422786pjb.141.1641993793639; 
- Wed, 12 Jan 2022 05:23:13 -0800 (PST)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com.
- [209.85.216.43])
- by smtp.gmail.com with ESMTPSA id g14sm2671011pgp.76.2022.01.12.05.23.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Jan 2022 05:23:13 -0800 (PST)
-Received: by mail-pj1-f43.google.com with SMTP id
- rj2-20020a17090b3e8200b001b1944bad25so4661859pjb.5; 
- Wed, 12 Jan 2022 05:23:12 -0800 (PST)
-X-Received: by 2002:a05:6a00:26c5:b0:4bd:4ad6:9c71 with SMTP id
- p5-20020a056a0026c500b004bd4ad69c71mr9380126pfw.45.1641993792356; Wed, 12 Jan
- 2022 05:23:12 -0800 (PST)
+ bh=77Bq+vV9ubzhZF2uo4Ya2FlcyF7IlXGfdjn6AH8UfvA=;
+ b=D0HPbNAVr+Ln5GznV30d+ie+VspyWegayO9Y+/wAGOyU0wcmundn8/l7craq8lwYSA
+ BxOdfTF+hyVVnd3iC30n5ke9kDs8qoesOfupoQj5+X31OuGYR6lI3WcqokayQUTMMc6f
+ GWXDiLjATT54mUNfl56rBq3U0efbFDafRboiqojjXcLUaXKpLVO3NO/A2vUY81K/WuE2
+ YkmOMJuKSJT0RcaOzb3Tn84/nTJ/1lpdWRQ6Ayl5/qvqFIqRuyodwP7MSARrE0eyxutk
+ rs6fFp0uYeCpejfvbxvbhC4mypkmfBqd/XX2YXhr1rCY9rBNY2CyfxtEspVwPEwyFlLF
+ gxMg==
+X-Gm-Message-State: AOAM531emNGfSR4tb7ERKIG/q14MQ73dLPa7nYo6KPVGChUpO+nTAfHb
+ Bdiqxec57lzag2EUOsQC7JTLdCr9LfnLfwF8U8XBd9EwWK68e4mS
+X-Google-Smtp-Source: ABdhPJwpA598wYmDFZCx5c1prHD7xG8w/4wqebLf2PHWNfMXSFNraI+fuK6zMFapReNfzt6vx9VcEY5IIyPn6zYMzbI=
+X-Received: by 2002:a63:8c49:: with SMTP id q9mr8336294pgn.425.1641993821537; 
+ Wed, 12 Jan 2022 05:23:41 -0800 (PST)
 MIME-Version: 1.0
-References: <20211230123539.52786-1-anup@brainfault.org>
- <20211230123539.52786-23-anup@brainfault.org>
-In-Reply-To: <20211230123539.52786-23-anup@brainfault.org>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Wed, 12 Jan 2022 21:23:01 +0800
-X-Gmail-Original-Message-ID: <CANzO1D2uubuM5gc0n3YbMQ-J2PmUa8djLxsGcPrVT4AKOsZR7A@mail.gmail.com>
-Message-ID: <CANzO1D2uubuM5gc0n3YbMQ-J2PmUa8djLxsGcPrVT4AKOsZR7A@mail.gmail.com>
-Subject: Re: [PATCH v6 22/23] docs/system: riscv: Document AIA options for
- virt machine
-To: Anup Patel <anup@brainfault.org>
-Content-Type: multipart/alternative; boundary="000000000000b7853605d562781c"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
+References: <20220111211422.21789-1-yaroshchuk2000@gmail.com>
+ <Yd6ILKV75g4jll46@roolebo.dev> <Yd6PzI05p7y7PkGy@roolebo.dev>
+In-Reply-To: <Yd6PzI05p7y7PkGy@roolebo.dev>
+From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+Date: Wed, 12 Jan 2022 16:23:30 +0300
+Message-ID: <CADO9X9Snf8GBkBkwkCQ7Ks2cpRKpCM5Y557FssyS5LctZdBu2Q@mail.gmail.com>
+Subject: Re: [PATCH v10 0/7] Add vmnet.framework based network backend
+To: Roman Bolshakov <roman@roolebo.dev>
+Content-Type: multipart/alternative; boundary="00000000000074cb3a05d5627a2c"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=yaroshchuk2000@gmail.com; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -95,145 +82,423 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: Jason Wang <jasowang@redhat.com>, phillip.ennen@gmail.com,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Phillip Tennen <phillip@axleos.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Howard Spoelstra <hsp.cat7@gmail.com>,
+ Alessio Dionisi <hello@adns.io>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b7853605d562781c
+--00000000000074cb3a05d5627a2c
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Anup Patel <anup@brainfault.org> =E6=96=BC 2021=E5=B9=B412=E6=9C=8830=E6=97=
-=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=889:03=E5=AF=AB=E9=81=93=EF=BC=9A
+=D1=81=D1=80, 12 =D1=8F=D0=BD=D0=B2. 2022 =D0=B3. =D0=B2 11:22, Roman Bolsh=
+akov <roman@roolebo.dev>:
 
-> From: Anup Patel <anup.patel@wdc.com>
->
-> We have two new machine options "aia" and "aia-guests" available
-> for the RISC-V virt machine so let's document these options.
->
-> Signed-off-by: Anup Patel <anup.patel@wdc.com>
-> Signed-off-by: Anup Patel <anup@brainfault.org>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  docs/system/riscv/virt.rst | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->
-> diff --git a/docs/system/riscv/virt.rst b/docs/system/riscv/virt.rst
-> index fa016584bf..373645513a 100644
-> --- a/docs/system/riscv/virt.rst
-> +++ b/docs/system/riscv/virt.rst
-> @@ -63,6 +63,22 @@ The following machine-specific options are supported:
->    When this option is "on", ACLINT devices will be emulated instead of
->    SiFive CLINT. When not specified, this option is assumed to be "off".
->
-> +- aia=3D[none|aplic|aplic-imsic]
-> +
-> +  This option allows selecting interrupt controller defined by the AIA
-> +  (advanced interrupt architecture) specification. The "aia=3Daplic" sel=
-ects
-> +  APLIC (advanced platform level interrupt controller) to handle wired
-> +  interrupts whereas the "aia=3Daplic-imsic" selects APLIC and IMSIC
-> (incoming
-> +  message signaled interrupt controller) to handle both wired interrupts
+> On Wed, Jan 12, 2022 at 10:50:04AM +0300, Roman Bolshakov wrote:
+> > On Wed, Jan 12, 2022 at 12:14:15AM +0300, Vladislav Yaroshchuk wrote:
+> > > macOS provides networking API for VMs called 'vmnet.framework':
+> > > https://developer.apple.com/documentation/vmnet
+> > >
+> > > We can provide its support as the new QEMU network backends which
+> > > represent three different vmnet.framework interface usage modes:
+> > >
+> > >   * `vmnet-shared`:
+> > >     allows the guest to communicate with other guests in shared mode
 > and
-> +  MSIs. When not specified, this option is assumed to be "none" which
-> selects
-> +  SiFive PLIC to handle wired interrupts.
-> +
-> +- aia-guests=3Dnnn
-> +
-> +  The number of per-HART VS-level AIA IMSIC pages to be emulated for a
-> guest
-> +  having AIA IMSIC (i.e. "aia=3Daplic-imsic" selected). When not specifi=
-ed,
-> +  the default number of per-HART VS-level AIA IMSIC pages is 0.
-> +
->  Running Linux kernel
->  --------------------
+> > >     also with external network (Internet) via NAT. Has (macOS-provide=
+d)
+> > >     DHCP server; subnet mask and IP range can be configured;
+> > >
+> > >   * `vmnet-host`:
+> > >     allows the guest to communicate with other guests in host mode.
+> > >     By default has enabled DHCP as `vmnet-shared`, but providing
+> > >     network unique id (uuid) can make `vmnet-host` interfaces isolate=
+d
+> > >     from each other and also disables DHCP.
+> > >
+> > >   * `vmnet-bridged`:
+> > >     bridges the guest with a physical network interface.
+> > >
+> > > This backends cannot work on macOS Catalina 10.15 cause we use
+> > > vmnet.framework API provided only with macOS 11 and newer. Seems
+> > > that it is not a problem, because QEMU guarantees to work on two most
+> > > recent versions of macOS which now are Big Sur (11) and Monterey (12)=
+.
+> > >
+> > > Also, we have one inconvenient restriction: vmnet.framework interface=
+s
+> > > can create only privileged user:
+> > > `$ sudo qemu-system-x86_64 -nic vmnet-shared`
+> > >
+> > > Attempt of `vmnet-*` netdev creation being unprivileged user fails wi=
+th
+> > > vmnet's 'general failure'.
+> > >
+> > > This happens because vmnet.framework requires `com.apple.vm.networkin=
+g`
+> > > entitlement which is: "restricted to developers of virtualization
+> software.
+> > > To request this entitlement, contact your Apple representative." as
+> Apple
+> > > documentation says:
+> > >
+> https://developer.apple.com/documentation/bundleresources/entitlements/co=
+m_apple_vm_networking
+> > >
+> > > One more note: we still have quite useful but not supported
+> > > 'vmnet.framework' features as creating port forwarding rules, IPv6
+> > > NAT prefix specifying and so on.
+> > >
+> > > Nevertheless, new backends work fine and tested within
+> `qemu-system-x86-64`
+> > > on macOS Bir Sur 11.5.2 host with such nic models:
+> > >   * e1000-82545em
+> > >   * virtio-net-pci
+> > >   * vmxnet3
+> > >
+> > > The guests were:
+> > >   * macOS 10.15.7
+> > >   * Ubuntu Bionic (server cloudimg)
+> > >
+> > >
+> > > This series partially reuses patches by Phillip Tennen:
+> > >
+> https://patchew.org/QEMU/20210218134947.1860-1-phillip.ennen@gmail.com/
+> > > So I included them signed-off line into one of the commit messages an=
+d
+> > > also here.
+> > >
+> > > v1 -> v2:
+> > >  Since v1 minor typos were fixed, patches rebased onto latest master,
+> > >  redundant changes removed (small commits squashed)
+> > > v2 -> v3:
+> > >  - QAPI style fixes
+> > >  - Typos fixes in comments
+> > >  - `#include`'s updated to be in sync with recent master
+> > > v3 -> v4:
+> > >  - Support vmnet interfaces isolation feature
+> > >  - Support vmnet-host network uuid setting feature
+> > >  - Refactored sources a bit
+> > > v4 -> v5:
+> > >  - Missed 6.2 boat, now 7.0 candidate
+> > >  - Fix qapi netdev descriptions and styles
+> > >    (@subnetmask -> @subnet-mask)
+> > >  - Support vmnet-shared IPv6 prefix setting feature
+> > > v5 -> v6
+> > >  - provide detailed commit messages for commits of
+> > >    many changes
+> > >  - rename properties @dhcpstart and @dhcpend to
+> > >    @start-address and @end-address
+> > >  - improve qapi documentation about isolation
+> > >    features (@isolated, @net-uuid)
+> > > v6 -> v7:
+> > >  - update MAINTAINERS list
+> > > v7 -> v8
+> > >  - QAPI code style fixes
+> > > v8 -> v9
+> > >  - Fix building on Linux: add missing qapi
+> > >    `'if': 'CONFIG_VMNET'` statement to Netdev union
+> > > v9 -> v10
+> > >  - Disable vmnet feature for macOS < 11.0: add
+> > >    vmnet.framework API probe into meson.build.
+> > >    This fixes QEMU building on macOS < 11.0:
+> > >
+> https://patchew.org/QEMU/20220110034000.20221-1-jasowang@redhat.com/
+> > >
+> >
+> > Hi Vladislav,
+> >
+> > What symbols are missing on Catalina except VMNET_SHARING_BUSY?
+> >
+> > It'd be great to get the feature working there.
+> >
+> > Thanks,
+> > Roman
+> >
 >
-> --
-> 2.25.1
+> Ok it turned out not that many symbols are needed for successfull
+> compilation on Catalina:
+>
+> vmnet_enable_isolation_key
+> vmnet_network_identifier_key
+> VMNET_SHARING_SERVICE_BUSY
+>
+> The compilation suceeds if they're wrappeed by ifdefs. I haven't tested
+> it yet though.
 >
 >
->
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
+New version with Catalina 10.15 support submitted as v11.
 
---000000000000b7853605d562781c
+
+> Regards,
+> Roman
+>
+> > > Vladislav Yaroshchuk (7):
+> > >   net/vmnet: add vmnet dependency and customizable option
+> > >   net/vmnet: add vmnet backends to qapi/net
+> > >   net/vmnet: implement shared mode (vmnet-shared)
+> > >   net/vmnet: implement host mode (vmnet-host)
+> > >   net/vmnet: implement bridged mode (vmnet-bridged)
+> > >   net/vmnet: update qemu-options.hx
+> > >   net/vmnet: update MAINTAINERS list
+> > >
+> > >  MAINTAINERS                   |   5 +
+> > >  meson.build                   |  16 +-
+> > >  meson_options.txt             |   2 +
+> > >  net/clients.h                 |  11 ++
+> > >  net/meson.build               |   7 +
+> > >  net/net.c                     |  10 ++
+> > >  net/vmnet-bridged.m           | 111 ++++++++++++
+> > >  net/vmnet-common.m            | 330 ++++++++++++++++++++++++++++++++=
+++
+> > >  net/vmnet-host.c              | 105 +++++++++++
+> > >  net/vmnet-shared.c            |  92 ++++++++++
+> > >  net/vmnet_int.h               |  48 +++++
+> > >  qapi/net.json                 | 132 +++++++++++++-
+> > >  qemu-options.hx               |  25 +++
+> > >  scripts/meson-buildoptions.sh |   3 +
+> > >  14 files changed, 894 insertions(+), 3 deletions(-)
+> > >  create mode 100644 net/vmnet-bridged.m
+> > >  create mode 100644 net/vmnet-common.m
+> > >  create mode 100644 net/vmnet-host.c
+> > >  create mode 100644 net/vmnet-shared.c
+> > >  create mode 100644 net/vmnet_int.h
+> > >
+> > > --
+> > > 2.23.0
+> > >
+> > >
+>
+
+
+--=20
+Best Regards,
+
+Vladislav Yaroshchuk
+
+--00000000000074cb3a05d5627a2c
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Anup Patel &lt;<a href=3D"mailto:anup@bra=
-infault.org">anup@brainfault.org</a>&gt; =E6=96=BC 2021=E5=B9=B412=E6=9C=88=
-30=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=889:03=E5=AF=AB=E9=81=93=EF=
-=BC=9A<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">From: Anup Patel &lt;<a href=3D"mailto:anup.patel@wdc.com=
-" target=3D"_blank">anup.patel@wdc.com</a>&gt;<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">=D1=81=D1=80, 12 =D1=8F=D0=BD=D0=B2. 2022=
+ =D0=B3. =D0=B2 11:22, Roman Bolshakov &lt;<a href=3D"mailto:roman@roolebo.=
+dev">roman@roolebo.dev</a>&gt;:<br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex">On Wed, Jan 12, 2022 at 10:50:04AM +0300, Roman Bolshakov w=
+rote:<br>
+&gt; On Wed, Jan 12, 2022 at 12:14:15AM +0300, Vladislav Yaroshchuk wrote:<=
+br>
+&gt; &gt; macOS provides networking API for VMs called &#39;vmnet.framework=
+&#39;:<br>
+&gt; &gt; <a href=3D"https://developer.apple.com/documentation/vmnet" rel=
+=3D"noreferrer" target=3D"_blank">https://developer.apple.com/documentation=
+/vmnet</a><br>
+&gt; &gt; <br>
+&gt; &gt; We can provide its support as the new QEMU network backends which=
 <br>
-We have two new machine options &quot;aia&quot; and &quot;aia-guests&quot; =
-available<br>
-for the RISC-V virt machine so let&#39;s document these options.<br>
-<br>
-Signed-off-by: Anup Patel &lt;<a href=3D"mailto:anup.patel@wdc.com" target=
-=3D"_blank">anup.patel@wdc.com</a>&gt;<br>
-Signed-off-by: Anup Patel &lt;<a href=3D"mailto:anup@brainfault.org" target=
-=3D"_blank">anup@brainfault.org</a>&gt;<br>
-Reviewed-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.co=
-m" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
----<br>
-=C2=A0docs/system/riscv/virt.rst | 16 ++++++++++++++++<br>
-=C2=A01 file changed, 16 insertions(+)<br>
-<br>
-diff --git a/docs/system/riscv/virt.rst b/docs/system/riscv/virt.rst<br>
-index fa016584bf..373645513a 100644<br>
---- a/docs/system/riscv/virt.rst<br>
-+++ b/docs/system/riscv/virt.rst<br>
-@@ -63,6 +63,22 @@ The following machine-specific options are supported:<br=
+&gt; &gt; represent three different vmnet.framework interface usage modes:<=
+br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0* `vmnet-shared`:<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0allows the guest to communicate with other gue=
+sts in shared mode and<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0also with external network (Internet) via NAT.=
+ Has (macOS-provided)<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0DHCP server; subnet mask and IP range can be c=
+onfigured;<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0* `vmnet-host`:<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0allows the guest to communicate with other gue=
+sts in host mode.<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0By default has enabled DHCP as `vmnet-shared`,=
+ but providing<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0network unique id (uuid) can make `vmnet-host`=
+ interfaces isolated<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0from each other and also disables DHCP.<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0* `vmnet-bridged`:<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0bridges the guest with a physical network inte=
+rface.<br>
+&gt; &gt; <br>
+&gt; &gt; This backends cannot work on macOS Catalina 10.15 cause we use<br=
 >
-=C2=A0 =C2=A0When this option is &quot;on&quot;, ACLINT devices will be emu=
-lated instead of<br>
-=C2=A0 =C2=A0SiFive CLINT. When not specified, this option is assumed to be=
- &quot;off&quot;.<br>
+&gt; &gt; vmnet.framework API provided only with macOS 11 and newer. Seems<=
+br>
+&gt; &gt; that it is not a problem, because QEMU guarantees to work on two =
+most<br>
+&gt; &gt; recent versions of macOS which now are Big Sur (11) and Monterey =
+(12).<br>
+&gt; &gt; <br>
+&gt; &gt; Also, we have one inconvenient restriction: vmnet.framework inter=
+faces<br>
+&gt; &gt; can create only privileged user:<br>
+&gt; &gt; `$ sudo qemu-system-x86_64 -nic vmnet-shared`<br>
+&gt; &gt; <br>
+&gt; &gt; Attempt of `vmnet-*` netdev creation being unprivileged user fail=
+s with<br>
+&gt; &gt; vmnet&#39;s &#39;general failure&#39;.<br>
+&gt; &gt; <br>
+&gt; &gt; This happens because vmnet.framework requires `com.apple.vm.netwo=
+rking`<br>
+&gt; &gt; entitlement which is: &quot;restricted to developers of virtualiz=
+ation software.<br>
+&gt; &gt; To request this entitlement, contact your Apple representative.&q=
+uot; as Apple<br>
+&gt; &gt; documentation says:<br>
+&gt; &gt; <a href=3D"https://developer.apple.com/documentation/bundleresour=
+ces/entitlements/com_apple_vm_networking" rel=3D"noreferrer" target=3D"_bla=
+nk">https://developer.apple.com/documentation/bundleresources/entitlements/=
+com_apple_vm_networking</a><br>
+&gt; &gt; <br>
+&gt; &gt; One more note: we still have quite useful but not supported<br>
+&gt; &gt; &#39;vmnet.framework&#39; features as creating port forwarding ru=
+les, IPv6<br>
+&gt; &gt; NAT prefix specifying and so on.<br>
+&gt; &gt; <br>
+&gt; &gt; Nevertheless, new backends work fine and tested within `qemu-syst=
+em-x86-64`<br>
+&gt; &gt; on macOS Bir Sur 11.5.2 host with such nic models:<br>
+&gt; &gt;=C2=A0 =C2=A0* e1000-82545em<br>
+&gt; &gt;=C2=A0 =C2=A0* virtio-net-pci<br>
+&gt; &gt;=C2=A0 =C2=A0* vmxnet3<br>
+&gt; &gt; <br>
+&gt; &gt; The guests were:<br>
+&gt; &gt;=C2=A0 =C2=A0* macOS 10.15.7<br>
+&gt; &gt;=C2=A0 =C2=A0* Ubuntu Bionic (server cloudimg)<br>
+&gt; &gt; <br>
+&gt; &gt; <br>
+&gt; &gt; This series partially reuses patches by Phillip Tennen:<br>
+&gt; &gt; <a href=3D"https://patchew.org/QEMU/20210218134947.1860-1-phillip=
+.ennen@gmail.com/" rel=3D"noreferrer" target=3D"_blank">https://patchew.org=
+/QEMU/20210218134947.1860-1-phillip.ennen@gmail.com/</a><br>
+&gt; &gt; So I included them signed-off line into one of the commit message=
+s and<br>
+&gt; &gt; also here.<br>
+&gt; &gt; <br>
+&gt; &gt; v1 -&gt; v2:<br>
+&gt; &gt;=C2=A0 Since v1 minor typos were fixed, patches rebased onto lates=
+t master,<br>
+&gt; &gt;=C2=A0 redundant changes removed (small commits squashed)<br>
+&gt; &gt; v2 -&gt; v3:<br>
+&gt; &gt;=C2=A0 - QAPI style fixes<br>
+&gt; &gt;=C2=A0 - Typos fixes in comments<br>
+&gt; &gt;=C2=A0 - `#include`&#39;s updated to be in sync with recent master=
 <br>
-+- aia=3D[none|aplic|aplic-imsic]<br>
-+<br>
-+=C2=A0 This option allows selecting interrupt controller defined by the AI=
-A<br>
-+=C2=A0 (advanced interrupt architecture) specification. The &quot;aia=3Dap=
-lic&quot; selects<br>
-+=C2=A0 APLIC (advanced platform level interrupt controller) to handle wire=
-d<br>
-+=C2=A0 interrupts whereas the &quot;aia=3Daplic-imsic&quot; selects APLIC =
-and IMSIC (incoming<br>
-+=C2=A0 message signaled interrupt controller) to handle both wired interru=
-pts and<br>
-+=C2=A0 MSIs. When not specified, this option is assumed to be &quot;none&q=
-uot; which selects<br>
-+=C2=A0 SiFive PLIC to handle wired interrupts.<br>
-+<br>
-+- aia-guests=3Dnnn<br>
-+<br>
-+=C2=A0 The number of per-HART VS-level AIA IMSIC pages to be emulated for =
-a guest<br>
-+=C2=A0 having AIA IMSIC (i.e. &quot;aia=3Daplic-imsic&quot; selected). Whe=
-n not specified,<br>
-+=C2=A0 the default number of per-HART VS-level AIA IMSIC pages is 0.<br>
-+<br>
-=C2=A0Running Linux kernel<br>
-=C2=A0--------------------<br>
+&gt; &gt; v3 -&gt; v4:<br>
+&gt; &gt;=C2=A0 - Support vmnet interfaces isolation feature<br>
+&gt; &gt;=C2=A0 - Support vmnet-host network uuid setting feature<br>
+&gt; &gt;=C2=A0 - Refactored sources a bit<br>
+&gt; &gt; v4 -&gt; v5:<br>
+&gt; &gt;=C2=A0 - Missed 6.2 boat, now 7.0 candidate<br>
+&gt; &gt;=C2=A0 - Fix qapi netdev descriptions and styles<br>
+&gt; &gt;=C2=A0 =C2=A0 (@subnetmask -&gt; @subnet-mask)<br>
+&gt; &gt;=C2=A0 - Support vmnet-shared IPv6 prefix setting feature<br>
+&gt; &gt; v5 -&gt; v6<br>
+&gt; &gt;=C2=A0 - provide detailed commit messages for commits of<br>
+&gt; &gt;=C2=A0 =C2=A0 many changes<br>
+&gt; &gt;=C2=A0 - rename properties @dhcpstart and @dhcpend to<br>
+&gt; &gt;=C2=A0 =C2=A0 @start-address and @end-address<br>
+&gt; &gt;=C2=A0 - improve qapi documentation about isolation<br>
+&gt; &gt;=C2=A0 =C2=A0 features (@isolated, @net-uuid)<br>
+&gt; &gt; v6 -&gt; v7:<br>
+&gt; &gt;=C2=A0 - update MAINTAINERS list<br>
+&gt; &gt; v7 -&gt; v8<br>
+&gt; &gt;=C2=A0 - QAPI code style fixes<br>
+&gt; &gt; v8 -&gt; v9<br>
+&gt; &gt;=C2=A0 - Fix building on Linux: add missing qapi<br>
+&gt; &gt;=C2=A0 =C2=A0 `&#39;if&#39;: &#39;CONFIG_VMNET&#39;` statement to =
+Netdev union<br>
+&gt; &gt; v9 -&gt; v10<br>
+&gt; &gt;=C2=A0 - Disable vmnet feature for macOS &lt; 11.0: add<br>
+&gt; &gt;=C2=A0 =C2=A0 vmnet.framework API probe into meson.build.<br>
+&gt; &gt;=C2=A0 =C2=A0 This fixes QEMU building on macOS &lt; 11.0:<br>
+&gt; &gt;=C2=A0 =C2=A0 <a href=3D"https://patchew.org/QEMU/20220110034000.2=
+0221-1-jasowang@redhat.com/" rel=3D"noreferrer" target=3D"_blank">https://p=
+atchew.org/QEMU/20220110034000.20221-1-jasowang@redhat.com/</a><br>
+&gt; &gt; <br>
+&gt; <br>
+&gt; Hi Vladislav,<br>
+&gt; <br>
+&gt; What symbols are missing on Catalina except VMNET_SHARING_BUSY?<br>
+&gt; <br>
+&gt; It&#39;d be great to get the feature working there.<br>
+&gt; <br>
+&gt; Thanks,<br>
+&gt; Roman<br>
+&gt; <br>
 <br>
--- <br>
-2.25.1<br>
+Ok it turned out not that many symbols are needed for successfull<br>
+compilation on Catalina:<br>
 <br>
-<br></blockquote><div><br></div><div>Reviewed-by: Frank Chang &lt;<a href=
-=3D"mailto:frank.chang@sifive.com" target=3D"_blank">frank.chang@sifive.com=
-</a>&gt;=C2=A0</div></div></div>
+vmnet_enable_isolation_key<br>
+vmnet_network_identifier_key<br>
+VMNET_SHARING_SERVICE_BUSY<br>
+<br>
+The compilation suceeds if they&#39;re wrappeed by ifdefs. I haven&#39;t te=
+sted<br>
+it yet though.<br>
+<br></blockquote><div><br></div><div>New version with Catalina 10.15 suppor=
+t submitted as v11.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">
+Regards,<br>
+Roman<br>
+<br>
+&gt; &gt; Vladislav Yaroshchuk (7):<br>
+&gt; &gt;=C2=A0 =C2=A0net/vmnet: add vmnet dependency and customizable opti=
+on<br>
+&gt; &gt;=C2=A0 =C2=A0net/vmnet: add vmnet backends to qapi/net<br>
+&gt; &gt;=C2=A0 =C2=A0net/vmnet: implement shared mode (vmnet-shared)<br>
+&gt; &gt;=C2=A0 =C2=A0net/vmnet: implement host mode (vmnet-host)<br>
+&gt; &gt;=C2=A0 =C2=A0net/vmnet: implement bridged mode (vmnet-bridged)<br>
+&gt; &gt;=C2=A0 =C2=A0net/vmnet: update qemu-options.hx<br>
+&gt; &gt;=C2=A0 =C2=A0net/vmnet: update MAINTAINERS list<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A05 +<br>
+&gt; &gt;=C2=A0 meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0|=C2=A0 16 +-<br>
+&gt; &gt;=C2=A0 meson_options.txt=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 =C2=A02 +<br>
+&gt; &gt;=C2=A0 net/clients.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0|=C2=A0 11 ++<br>
+&gt; &gt;=C2=A0 net/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 =C2=A07 +<br>
+&gt; &gt;=C2=A0 net/net.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 10 ++<br>
+&gt; &gt;=C2=A0 net/vmnet-bridged.m=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0| 111 ++++++++++++<br>
+&gt; &gt;=C2=A0 net/vmnet-common.m=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ | 330 ++++++++++++++++++++++++++++++++++<br>
+&gt; &gt;=C2=A0 net/vmnet-host.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 | 105 +++++++++++<br>
+&gt; &gt;=C2=A0 net/vmnet-shared.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ |=C2=A0 92 ++++++++++<br>
+&gt; &gt;=C2=A0 net/vmnet_int.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 48 +++++<br>
+&gt; &gt;=C2=A0 qapi/net.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| 132 +++++++++++++-<br>
+&gt; &gt;=C2=A0 qemu-options.hx=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 25 +++<br>
+&gt; &gt;=C2=A0 scripts/meson-buildoptions.sh |=C2=A0 =C2=A03 +<br>
+&gt; &gt;=C2=A0 14 files changed, 894 insertions(+), 3 deletions(-)<br>
+&gt; &gt;=C2=A0 create mode 100644 net/vmnet-bridged.m<br>
+&gt; &gt;=C2=A0 create mode 100644 net/vmnet-common.m<br>
+&gt; &gt;=C2=A0 create mode 100644 net/vmnet-host.c<br>
+&gt; &gt;=C2=A0 create mode 100644 net/vmnet-shared.c<br>
+&gt; &gt;=C2=A0 create mode 100644 net/vmnet_int.h<br>
+&gt; &gt; <br>
+&gt; &gt; -- <br>
+&gt; &gt; 2.23.0<br>
+&gt; &gt; <br>
+&gt; &gt; <br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Best Regards,<div><br><div>Vlad=
+islav Yaroshchuk</div></div></div></div></div>
 
---000000000000b7853605d562781c--
+--00000000000074cb3a05d5627a2c--
 
