@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 585E748C41D
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 13:43:55 +0100 (CET)
-Received: from localhost ([::1]:57766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D7D48C56C
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 15:03:13 +0100 (CET)
+Received: from localhost ([::1]:45026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7cyo-0008Gi-2x
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 07:43:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60858)
+	id 1n7eDZ-00047b-3W
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 09:03:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n7cFJ-00073Y-TP; Wed, 12 Jan 2022 06:56:56 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:57500
+ id 1n7cYH-0007AL-3E; Wed, 12 Jan 2022 07:16:32 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:17982
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n7cFI-0007YL-DR; Wed, 12 Jan 2022 06:56:53 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20CBLM6a019354; 
- Wed, 12 Jan 2022 11:56:29 GMT
+ id 1n7cYC-0002v8-IB; Wed, 12 Jan 2022 07:16:27 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20CBVimW002444; 
+ Wed, 12 Jan 2022 12:16:08 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3dhx1us83w-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dht3ffvdr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jan 2022 11:56:28 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20CBgl8W027243;
- Wed, 12 Jan 2022 11:56:28 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3dhx1us834-1
+ Wed, 12 Jan 2022 12:16:08 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20CBvo6q031750;
+ Wed, 12 Jan 2022 12:16:07 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dht3ffvcm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jan 2022 11:56:28 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20CBmI3W018118;
- Wed, 12 Jan 2022 11:56:26 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma04fra.de.ibm.com with ESMTP id 3df289s284-1
+ Wed, 12 Jan 2022 12:16:07 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20CCC0TL025923;
+ Wed, 12 Jan 2022 12:16:05 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 3df1vjbbsu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jan 2022 11:56:26 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 20CBlKFj12976538
+ Wed, 12 Jan 2022 12:16:05 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 20CCG2rh29426004
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 Jan 2022 11:47:20 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7CF48AE080;
- Wed, 12 Jan 2022 11:56:22 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3A693AE076;
- Wed, 12 Jan 2022 11:56:22 +0000 (GMT)
+ Wed, 12 Jan 2022 12:16:03 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D7424A4E7D;
+ Wed, 12 Jan 2022 11:56:06 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8C96AA4E6F;
+ Wed, 12 Jan 2022 11:56:06 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Wed, 12 Jan 2022 11:56:22 +0000 (GMT)
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Wed, 12 Jan 2022 11:56:06 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.70.95])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 810DA2201C6;
- Wed, 12 Jan 2022 12:56:21 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id B4A9322016C;
+ Wed, 12 Jan 2022 12:56:05 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 29/34] ppc/pnv: set phb4 properties in stk_realize()
-Date: Wed, 12 Jan 2022 12:55:46 +0100
-Message-Id: <20220112115551.987666-30-clg@kaod.org>
+Subject: [PULL 06/34] MAINTAINERS: Improve the PowerPC machines section
+Date: Wed, 12 Jan 2022 12:55:23 +0100
+Message-Id: <20220112115551.987666-7-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220112115551.987666-1-clg@kaod.org>
 References: <20220112115551.987666-1-clg@kaod.org>
@@ -71,17 +71,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: yheWGtXyioxGXrHqcorhTcg_XlU45rKZ
-X-Proofpoint-ORIG-GUID: CGpP-utUIjjhQI3Q6gR8GpXZ0COETC4M
+X-Proofpoint-GUID: lCtw3Iv-DrS13rCodXvDf6-MxNWycTLi
+X-Proofpoint-ORIG-GUID: pQcKPv3eBeJnGGmhzv9Kp5X1wMXnUrQC
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-01-12_04,2022-01-11_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0
- impostorscore=0 clxscore=1034 phishscore=0 priorityscore=1501
- mlxlogscore=974 malwarescore=0 spamscore=0 adultscore=0 lowpriorityscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201120075
+ mlxlogscore=823 phishscore=0
+ spamscore=0 clxscore=1034 suspectscore=0 bulkscore=0 malwarescore=0
+ mlxscore=0 priorityscore=1501 impostorscore=0 adultscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201120079
 Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -7
@@ -102,80 +102,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
 
-Moving all phb4 properties setup to stk_realize() keeps this logic in
-a single place instead of having it scattered between stk_realize() and
-pec_realize().
+Add some documentation files to the corresponding machine sections
+and mention the machine names in the section titles where it is
+not so obvious (e.g. that "taihu" is a 405 machine).
 
-'phb->index' can be retrieved using stack->stack_no and
-pnv_phb4_pec_get_phb_id(), deprecating the use of 'phb-id' alias that
-was being used for this purpose in pec_realize().
-
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20220111131027.599784-2-danielhb413@gmail.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220105104800.407570-1-thuth@redhat.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/pci-host/pnv_phb4_pec.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ MAINTAINERS | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index d64310e7db1e..f8038dff171c 100644
---- a/hw/pci-host/pnv_phb4_pec.c
-+++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -392,10 +392,8 @@ static void pnv_pec_realize(DeviceState *dev, Error =
-**errp)
-     for (i =3D 0; i < pec->num_stacks; i++) {
-         PnvPhb4PecStack *stack =3D &pec->stacks[i];
-         Object *stk_obj =3D OBJECT(stack);
--        int phb_id =3D pnv_phb4_pec_get_phb_id(pec, i);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c98a61caeeed..6ccdec7f0207 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1245,7 +1245,7 @@ F: hw/openrisc/openrisc_sim.c
 =20
-         object_property_set_int(stk_obj, "stack-no", i, &error_abort);
--        object_property_set_int(stk_obj, "phb-id", phb_id, &error_abort)=
-;
-         object_property_set_link(stk_obj, "pec", OBJECT(pec), &error_abo=
-rt);
-         if (!qdev_realize(DEVICE(stk_obj), NULL, errp)) {
-             return;
-@@ -534,7 +532,6 @@ static void pnv_pec_stk_instance_init(Object *obj)
-     PnvPhb4PecStack *stack =3D PNV_PHB4_PEC_STACK(obj);
+ PowerPC Machines
+ ----------------
+-405
++405 (ref405ep and taihu)
+ L: qemu-ppc@nongnu.org
+ S: Orphan
+ F: hw/ppc/ppc405_boards.c
+@@ -1281,6 +1281,7 @@ New World (mac99)
+ M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+ L: qemu-ppc@nongnu.org
+ S: Odd Fixes
++F: docs/system/ppc/powermac.rst
+ F: hw/ppc/mac_newworld.c
+ F: hw/pci-host/uninorth.c
+ F: hw/pci-bridge/dec.[hc]
+@@ -1299,6 +1300,7 @@ Old World (g3beige)
+ M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+ L: qemu-ppc@nongnu.org
+ S: Odd Fixes
++F: docs/system/ppc/powermac.rst
+ F: hw/ppc/mac_oldworld.c
+ F: hw/pci-host/grackle.c
+ F: hw/misc/macio/
+@@ -1312,6 +1314,7 @@ PReP
+ M: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
+ L: qemu-ppc@nongnu.org
+ S: Maintained
++F: docs/system/ppc/prep.rst
+ F: hw/ppc/prep.c
+ F: hw/ppc/prep_systemio.c
+ F: hw/ppc/rs6000_mc.c
+@@ -1324,7 +1327,7 @@ F: include/hw/isa/pc87312.h
+ F: include/hw/rtc/m48t59.h
+ F: tests/avocado/ppc_prep_40p.py
 =20
-     object_initialize_child(obj, "phb", &stack->phb, TYPE_PNV_PHB4);
--    object_property_add_alias(obj, "phb-id", OBJECT(&stack->phb), "index=
-");
- }
-=20
- static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
-@@ -543,6 +540,7 @@ static void pnv_pec_stk_realize(DeviceState *dev, Err=
-or **errp)
-     PnvPhb4PecState *pec =3D stack->pec;
-     PnvPhb4PecClass *pecc =3D PNV_PHB4_PEC_GET_CLASS(pec);
-     PnvChip *chip =3D pec->chip;
-+    int phb_id =3D pnv_phb4_pec_get_phb_id(pec, stack->stack_no);
-     uint32_t pec_nest_base;
-     uint32_t pec_pci_base;
-     char name[64];
-@@ -570,6 +568,8 @@ static void pnv_pec_stk_realize(DeviceState *dev, Err=
-or **errp)
-=20
-     object_property_set_int(OBJECT(&stack->phb), "chip-id", pec->chip_id=
-,
-                             &error_fatal);
-+    object_property_set_int(OBJECT(&stack->phb), "index", phb_id,
-+                            &error_fatal);
-     object_property_set_int(OBJECT(&stack->phb), "version", pecc->versio=
-n,
-                             &error_fatal);
-     object_property_set_link(OBJECT(&stack->phb), "stack", OBJECT(stack)=
-,
+-sPAPR
++sPAPR (pseries)
+ M: C=C3=A9dric Le Goater <clg@kaod.org>
+ M: Daniel Henrique Barboza <danielhb413@gmail.com>
+ R: David Gibson <david@gibson.dropbear.id.au>
+@@ -1336,8 +1339,8 @@ F: include/hw/*/spapr*
+ F: hw/*/xics*
+ F: include/hw/*/xics*
+ F: pc-bios/slof.bin
+-F: docs/specs/ppc-spapr-hcalls.txt
+-F: docs/specs/ppc-spapr-hotplug.txt
++F: docs/system/ppc/pseries.rst
++F: docs/specs/ppc-spapr-*
+ F: tests/qtest/spapr*
+ F: tests/qtest/libqos/*spapr*
+ F: tests/qtest/rtas*
+@@ -1348,6 +1351,7 @@ PowerNV (Non-Virtualized)
+ M: C=C3=A9dric Le Goater <clg@kaod.org>
+ L: qemu-ppc@nongnu.org
+ S: Maintained
++F: docs/system/ppc/powernv.rst
+ F: hw/ppc/pnv*
+ F: hw/intc/pnv*
+ F: hw/intc/xics_pnv.c
 --=20
 2.31.1
 
