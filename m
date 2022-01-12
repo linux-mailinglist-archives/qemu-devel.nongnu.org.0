@@ -2,55 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94B8E48C0CB
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 10:14:05 +0100 (CET)
-Received: from localhost ([::1]:53030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A28C48C09A
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 10:02:30 +0100 (CET)
+Received: from localhost ([::1]:39150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7Zhg-0003yE-RU
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 04:14:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48606)
+	id 1n7ZWX-0001wQ-CZ
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 04:02:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <troy_lee@aspeedtech.com>)
- id 1n7Z93-00009L-LT; Wed, 12 Jan 2022 03:38:13 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:61395)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7ZEc-0008Su-2P
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 03:43:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <troy_lee@aspeedtech.com>)
- id 1n7Z91-0003VF-FR; Wed, 12 Jan 2022 03:38:13 -0500
-Received: from twspam01.aspeedtech.com (localhost [127.0.0.2] (may be forged))
- by twspam01.aspeedtech.com with ESMTP id 20C85Bp4000779;
- Wed, 12 Jan 2022 16:05:11 +0800 (GMT-8)
- (envelope-from troy_lee@aspeedtech.com)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 20C8332N099909;
- Wed, 12 Jan 2022 16:03:03 +0800 (GMT-8)
- (envelope-from troy_lee@aspeedtech.com)
-Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 12 Jan
- 2022 16:09:40 +0800
-From: Troy Lee <troy_lee@aspeedtech.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2 1/2] hw/misc: Supporting AST2600 HACE accumulative mode
-Date: Wed, 12 Jan 2022 16:09:36 +0800
-Message-ID: <20220112080937.366835-2-troy_lee@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220112080937.366835-1-troy_lee@aspeedtech.com>
-References: <20220112080937.366835-1-troy_lee@aspeedtech.com>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7ZEY-0004Lq-JX
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 03:43:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641977033;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZHF7lQnvRQd4BwxGI5zN8E97FZYb8PnmdQMEf+Su1F4=;
+ b=YVGHCzJHQxlP1sGWG4CgCMV3yZbPobVGNww9VVQAOIbowemX6GujtrJqgFbvl62wp/aBSC
+ I0qtE9OE7hoZc8Bt8gFYGWvygX77bcdgB4ACRGdUxojmnZ6FAYPWAOIkuPSwHJcZAQPb2q
+ aBvFLL0YB9FzrooRUBk0mmLwHdZ2uKE=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-386-U8GpLnVNMdyRMFiar3MG_w-1; Wed, 12 Jan 2022 03:43:50 -0500
+X-MC-Unique: U8GpLnVNMdyRMFiar3MG_w-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ m8-20020a056402510800b003f9d22c4d48so1589271edd.21
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 00:43:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=ZHF7lQnvRQd4BwxGI5zN8E97FZYb8PnmdQMEf+Su1F4=;
+ b=bIDl0NYQcWuoKo+hhzUQsrkgd5uD8iWmCflIJ57tjo+5fkJz1AzOzlSQ0nRRUfl/xG
+ 2jlhbB2Z9Wdg2GZLdfMV6PnXv7bQP+uSFGadqXltr+zZyGrFVfQ8q32lUbXN9JC2TZEl
+ BKqGO62mvxAepcCE5Zu/P+VlnUGLf4mXFdo4tFwCqW9gHWDBniljFuw9/aOBDiJ+1lF7
+ pZ8Maoq9WIqL08SqvIQEaoCaZnOgLuc75PHfTluHxIEYfllKxR1NVImDmoyl9URIxkMb
+ FnCihsYboFaJp8tNWP2DnPYY6lX7leCb263RhEXof/AM8F9iB/YHeqi5z6gnS1emp+CM
+ AiPw==
+X-Gm-Message-State: AOAM533z2QlA3g1jKJFgmLAWbf6LyQ0sxhWDn7z4wOrkCEyb01TcFLFq
+ HnIccj3MW4ONw8nh/1y0EJQF2XOxZLKeNBSPK0j3ik15+fxq2AwS/oMBS9ASZzuCp+vqHNWAFZG
+ cNyfl01i7Xaa6Pss=
+X-Received: by 2002:a17:906:6a90:: with SMTP id
+ p16mr6730236ejr.115.1641977029201; 
+ Wed, 12 Jan 2022 00:43:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw8aZIQFKcRj1m3J4asp7UJ+e2avKi3Sv+JRu1U/pnfE0Bd1F7BCpnbZBjrfz6ZxA57A5l5iQ==
+X-Received: by 2002:a17:906:6a90:: with SMTP id
+ p16mr6730219ejr.115.1641977028954; 
+ Wed, 12 Jan 2022 00:43:48 -0800 (PST)
+Received: from ?IPV6:2003:cb:c702:4700:e25f:39eb:3cb8:1dec?
+ (p200300cbc7024700e25f39eb3cb81dec.dip0.t-ipconnect.de.
+ [2003:cb:c702:4700:e25f:39eb:3cb8:1dec])
+ by smtp.gmail.com with ESMTPSA id s7sm5833115edx.56.2022.01.12.00.43.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Jan 2022 00:43:48 -0800 (PST)
+Message-ID: <28a7fb97-6c81-6975-e6f2-c65370d1cc99@redhat.com>
+Date: Wed, 12 Jan 2022 09:43:47 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.10.10]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 20C8332N099909
-Received-SPF: pass client-ip=211.20.114.71;
- envelope-from=troy_lee@aspeedtech.com; helo=twspam01.aspeedtech.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2 4/5] target/s390x: Fix shifting 32-bit values for more
+ than 31 bits
+To: Ilya Leoshkevich <iii@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
+References: <20220112043948.224405-1-iii@linux.ibm.com>
+ <20220112043948.224405-5-iii@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20220112043948.224405-5-iii@linux.ibm.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,178 +107,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- hailin.wu@aspeedtech.com, leetroy@gmail.com,
- "open list:ASPEED BMCs" <qemu-arm@nongnu.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Accumulative mode will supply a initial state and append padding bit at
-the end of hash stream.  However, the crypto library will padding those
-bit automatically, so ripped it off from iov array.
+>  
+> +static uint32_t cc_calc_sla_32(uint32_t src, int shift)
+> +{
+> +    return cc_calc_sla_64(((uint64_t)src) << 32, shift);
+> +}
+> +
 
-The aspeed ast2600 acculumative mode is described in datasheet
-ast2600v10.pdf section 25.6.4:
- 1. Allocationg and initiating accumulative hash digest write buffer
-    with initial state.
-    * Since QEMU crypto/hash api doesn't provide the API to set initial
-      state of hash library, and the initial state is already setted by
-      crypto library (gcrypt/glib/...), so skip this step.
- 2. Calculating accumulative hash digest.
-    (a) When receiving the last accumulative data, software need to add
-        padding message at the end of the accumulative data. Padding
-        message described in specific of MD5, SHA-1, SHA224, SHA256,
-        SHA512, SHA512/224, SHA512/256.
-        * Since the crypto library (gcrypt/glib) already pad the
-          padding message internally.
-        * This patch is to remove the padding message which fed byguest
-          machine driver.
+Nice trick. What about doing the shift in op_sla if  s->insn->data == 31
+and unifying to a single CC_OP_SLA ?
 
-Changes in v2:
-- Coding style
-- Add accumulative mode description in comment
+>  static uint32_t cc_calc_flogr(uint64_t dst)
+>  {
+>      return dst ? 2 : 0;
+> diff --git a/target/s390x/tcg/insn-data.def b/target/s390x/tcg/insn-data.def
+> index 90c753068c..1c3e115712 100644
+> --- a/target/s390x/tcg/insn-data.def
+> +++ b/target/s390x/tcg/insn-data.def
+> @@ -747,8 +747,8 @@
+>      C(0xb9e1, POPCNT,  RRE,   PC,  0, r2_o, r1, 0, popcnt, nz64)
+>  
+>  /* ROTATE LEFT SINGLE LOGICAL */
+> -    C(0xeb1d, RLL,     RSY_a, Z,   r3_o, sh32, new, r1_32, rll32, 0)
+> -    C(0xeb1c, RLLG,    RSY_a, Z,   r3_o, sh64, r1, 0, rll64, 0)
+> +    C(0xeb1d, RLL,     RSY_a, Z,   r3_o, sh, new, r1_32, rll32, 0)
+> +    C(0xeb1c, RLLG,    RSY_a, Z,   r3_o, sh, r1, 0, rll64, 0)
+>  
+>  /* ROTATE THEN INSERT SELECTED BITS */
+>      C(0xec55, RISBG,   RIE_f, GIE, 0, r2, r1, 0, risbg, s64)
+> @@ -784,29 +784,29 @@
+>      C(0x0400, SPM,     RR_a,  Z,   r1, 0, 0, 0, spm, 0)
+>  
+>  /* SHIFT LEFT SINGLE */
+> -    D(0x8b00, SLA,     RS_a,  Z,   r1, sh32, new, r1_32, sla, 0, 31)
+> -    D(0xebdd, SLAK,    RSY_a, DO,  r3, sh32, new, r1_32, sla, 0, 31)
+> -    D(0xeb0b, SLAG,    RSY_a, Z,   r3, sh64, r1, 0, sla, 0, 63)
+> +    D(0x8b00, SLA,     RS_a,  Z,   r1, sh, new, r1_32, sla, 0, 31)
+> +    D(0xebdd, SLAK,    RSY_a, DO,  r3, sh, new, r1_32, sla, 0, 31)
+> +    D(0xeb0b, SLAG,    RSY_a, Z,   r3, sh, r1, 0, sla, 0, 63)
+>  /* SHIFT LEFT SINGLE LOGICAL */
+> -    C(0x8900, SLL,     RS_a,  Z,   r1_o, sh32, new, r1_32, sll, 0)
+> -    C(0xebdf, SLLK,    RSY_a, DO,  r3_o, sh32, new, r1_32, sll, 0)
+> -    C(0xeb0d, SLLG,    RSY_a, Z,   r3_o, sh64, r1, 0, sll, 0)
+> +    C(0x8900, SLL,     RS_a,  Z,   r1_o, sh, new, r1_32, sll, 0)
+> +    C(0xebdf, SLLK,    RSY_a, DO,  r3_o, sh, new, r1_32, sll, 0)
+> +    C(0xeb0d, SLLG,    RSY_a, Z,   r3_o, sh, r1, 0, sll, 0)
+>  /* SHIFT RIGHT SINGLE */
+> -    C(0x8a00, SRA,     RS_a,  Z,   r1_32s, sh32, new, r1_32, sra, s32)
+> -    C(0xebdc, SRAK,    RSY_a, DO,  r3_32s, sh32, new, r1_32, sra, s32)
+> -    C(0xeb0a, SRAG,    RSY_a, Z,   r3_o, sh64, r1, 0, sra, s64)
+> +    C(0x8a00, SRA,     RS_a,  Z,   r1_32s, sh, new, r1_32, sra, s32)
+> +    C(0xebdc, SRAK,    RSY_a, DO,  r3_32s, sh, new, r1_32, sra, s32)
+> +    C(0xeb0a, SRAG,    RSY_a, Z,   r3_o, sh, r1, 0, sra, s64)
+>  /* SHIFT RIGHT SINGLE LOGICAL */
+> -    C(0x8800, SRL,     RS_a,  Z,   r1_32u, sh32, new, r1_32, srl, 0)
+> -    C(0xebde, SRLK,    RSY_a, DO,  r3_32u, sh32, new, r1_32, srl, 0)
+> -    C(0xeb0c, SRLG,    RSY_a, Z,   r3_o, sh64, r1, 0, srl, 0)
+> +    C(0x8800, SRL,     RS_a,  Z,   r1_32u, sh, new, r1_32, srl, 0)
+> +    C(0xebde, SRLK,    RSY_a, DO,  r3_32u, sh, new, r1_32, srl, 0)
+> +    C(0xeb0c, SRLG,    RSY_a, Z,   r3_o, sh, r1, 0, srl, 0)
+>  /* SHIFT LEFT DOUBLE */
+> -    D(0x8f00, SLDA,    RS_a,  Z,   r1_D32, sh64, new, r1_D32, sla, 0, 63)
+> +    D(0x8f00, SLDA,    RS_a,  Z,   r1_D32, sh, new, r1_D32, sla, 0, 63)
+>  /* SHIFT LEFT DOUBLE LOGICAL */
+> -    C(0x8d00, SLDL,    RS_a,  Z,   r1_D32, sh64, new, r1_D32, sll, 0)
+> +    C(0x8d00, SLDL,    RS_a,  Z,   r1_D32, sh, new, r1_D32, sll, 0)
+>  /* SHIFT RIGHT DOUBLE */
+> -    C(0x8e00, SRDA,    RS_a,  Z,   r1_D32, sh64, new, r1_D32, sra, s64)
+> +    C(0x8e00, SRDA,    RS_a,  Z,   r1_D32, sh, new, r1_D32, sra, s64)
+>  /* SHIFT RIGHT DOUBLE LOGICAL */
+> -    C(0x8c00, SRDL,    RS_a,  Z,   r1_D32, sh64, new, r1_D32, srl, 0)
+> +    C(0x8c00, SRDL,    RS_a,  Z,   r1_D32, sh, new, r1_D32, srl, 0)
+>  
+>  /* SQUARE ROOT */
+>      F(0xb314, SQEBR,   RRE,   Z,   0, e2, new, e1, sqeb, 0, IF_BFP)
+> diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+> index 68ca7e476a..5a2b609d0f 100644
+> --- a/target/s390x/tcg/translate.c
+> +++ b/target/s390x/tcg/translate.c
+> @@ -1178,19 +1178,6 @@ struct DisasInsn {
+>  /* ====================================================================== */
+>  /* Miscellaneous helpers, used by several operations.  */
+>  
+> -static void help_l2_shift(DisasContext *s, DisasOps *o, int mask)
+> -{
+> -    int b2 = get_field(s, b2);
+> -    int d2 = get_field(s, d2);
+> -
+> -    if (b2 == 0) {
+> -        o->in2 = tcg_const_i64(d2 & mask);
+> -    } else {
+> -        o->in2 = get_address(s, 0, b2, d2);
+> -        tcg_gen_andi_i64(o->in2, o->in2, mask);
+> -    }
+> -}
+> -
+>  static DisasJumpType help_goto_direct(DisasContext *s, uint64_t dest)
+>  {
+>      if (dest == s->pc_tmp) {
+> @@ -5923,17 +5910,19 @@ static void in2_ri2(DisasContext *s, DisasOps *o)
+>  }
+>  #define SPEC_in2_ri2 0
+>  
+> -static void in2_sh32(DisasContext *s, DisasOps *o)
+> +static void in2_sh(DisasContext *s, DisasOps *o)
+>  {
+> -    help_l2_shift(s, o, 31);
+> -}
+> -#define SPEC_in2_sh32 0
+> +    int b2 = get_field(s, b2);
+> +    int d2 = get_field(s, d2);
+>  
+> -static void in2_sh64(DisasContext *s, DisasOps *o)
+> -{
+> -    help_l2_shift(s, o, 63);
+> +    if (b2 == 0) {
+> +        o->in2 = tcg_const_i64(d2 & 0x3f);
+> +    } else {
+> +        o->in2 = get_address(s, 0, b2, d2);
+> +        tcg_gen_andi_i64(o->in2, o->in2, 0x3f);
+> +    }
+>  }
+> -#define SPEC_in2_sh64 0
+> +#define SPEC_in2_sh 0
+>  
+>  static void in2_m2_8u(DisasContext *s, DisasOps *o)
+>  {
 
-Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
----
- hw/misc/aspeed_hace.c         | 43 ++++++++++++++++++++++++++++-------
- include/hw/misc/aspeed_hace.h |  1 +
- 2 files changed, 36 insertions(+), 8 deletions(-)
+LGTM, thanks
 
-diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
-index 10f00e65f4..0710f44621 100644
---- a/hw/misc/aspeed_hace.c
-+++ b/hw/misc/aspeed_hace.c
-@@ -11,6 +11,7 @@
- #include "qemu/osdep.h"
- #include "qemu/log.h"
- #include "qemu/error-report.h"
-+#include "qemu/bswap.h"
- #include "hw/misc/aspeed_hace.h"
- #include "qapi/error.h"
- #include "migration/vmstate.h"
-@@ -27,6 +28,7 @@
- 
- #define R_HASH_SRC      (0x20 / 4)
- #define R_HASH_DEST     (0x24 / 4)
-+#define R_HASH_KEY_BUFF (0x28 / 4)
- #define R_HASH_SRC_LEN  (0x2c / 4)
- 
- #define R_HASH_CMD      (0x30 / 4)
-@@ -94,7 +96,8 @@ static int hash_algo_lookup(uint32_t reg)
-     return -1;
- }
- 
--static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode)
-+static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode,
-+                              bool acc_mode)
- {
-     struct iovec iov[ASPEED_HACE_MAX_SG];
-     g_autofree uint8_t *digest_buf;
-@@ -103,6 +106,7 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode)
- 
-     if (sg_mode) {
-         uint32_t len = 0;
-+        uint32_t total_len = 0;
- 
-         for (i = 0; !(len & SG_LIST_LEN_LAST); i++) {
-             uint32_t addr, src;
-@@ -123,10 +127,26 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode)
-                                         MEMTXATTRS_UNSPECIFIED, NULL);
-             addr &= SG_LIST_ADDR_MASK;
- 
--            iov[i].iov_len = len & SG_LIST_LEN_MASK;
--            plen = iov[i].iov_len;
-+            plen = len & SG_LIST_LEN_MASK;
-             iov[i].iov_base = address_space_map(&s->dram_as, addr, &plen, false,
-                                                 MEMTXATTRS_UNSPECIFIED);
-+
-+            if (acc_mode) {
-+                total_len += plen;
-+
-+                if (len & SG_LIST_LEN_LAST) {
-+                    /*
-+                     * In the padding message, the last 64/128 bit represents
-+                     * the total length of bitstream in big endian.
-+                     * SHA-224, SHA-256 are 64 bit
-+                     * SHA-384, SHA-512, SHA-512/224, SHA-512/256 are 128 bit
-+                     * However, we would not process such a huge bit stream.
-+                     */
-+                    plen -= total_len - (ldq_be_p(iov[i].iov_base + plen - 8) / 8);
-+                }
-+            }
-+
-+            iov[i].iov_len = plen;
-         }
-     } else {
-         hwaddr len = s->regs[R_HASH_SRC_LEN];
-@@ -210,6 +230,9 @@ static void aspeed_hace_write(void *opaque, hwaddr addr, uint64_t data,
-     case R_HASH_DEST:
-         data &= ahc->dest_mask;
-         break;
-+    case R_HASH_KEY_BUFF:
-+        data &= ahc->key_mask;
-+        break;
-     case R_HASH_SRC_LEN:
-         data &= 0x0FFFFFFF;
-         break;
-@@ -229,12 +252,13 @@ static void aspeed_hace_write(void *opaque, hwaddr addr, uint64_t data,
-         }
-         algo = hash_algo_lookup(data);
-         if (algo < 0) {
--                qemu_log_mask(LOG_GUEST_ERROR,
--                        "%s: Invalid hash algorithm selection 0x%"PRIx64"\n",
--                        __func__, data & ahc->hash_mask);
--                break;
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                    "%s: Invalid hash algorithm selection 0x%"PRIx64"\n",
-+                    __func__, data & ahc->hash_mask);
-+            break;
-         }
--        do_hash_operation(s, algo, data & HASH_SG_EN);
-+        do_hash_operation(s, algo, data & HASH_SG_EN,
-+                ((data & HASH_HMAC_MASK) == HASH_DIGEST_ACCUM));
- 
-         if (data & HASH_IRQ_EN) {
-             qemu_irq_raise(s->irq);
-@@ -333,6 +357,7 @@ static void aspeed_ast2400_hace_class_init(ObjectClass *klass, void *data)
- 
-     ahc->src_mask = 0x0FFFFFFF;
-     ahc->dest_mask = 0x0FFFFFF8;
-+    ahc->key_mask = 0x0FFFFFC0;
-     ahc->hash_mask = 0x000003ff; /* No SG or SHA512 modes */
- }
- 
-@@ -351,6 +376,7 @@ static void aspeed_ast2500_hace_class_init(ObjectClass *klass, void *data)
- 
-     ahc->src_mask = 0x3fffffff;
-     ahc->dest_mask = 0x3ffffff8;
-+    ahc->key_mask = 0x3FFFFFC0;
-     ahc->hash_mask = 0x000003ff; /* No SG or SHA512 modes */
- }
- 
-@@ -369,6 +395,7 @@ static void aspeed_ast2600_hace_class_init(ObjectClass *klass, void *data)
- 
-     ahc->src_mask = 0x7FFFFFFF;
-     ahc->dest_mask = 0x7FFFFFF8;
-+    ahc->key_mask = 0x7FFFFFF8;
-     ahc->hash_mask = 0x00147FFF;
- }
- 
-diff --git a/include/hw/misc/aspeed_hace.h b/include/hw/misc/aspeed_hace.h
-index 94d5ada95f..2242945eb4 100644
---- a/include/hw/misc/aspeed_hace.h
-+++ b/include/hw/misc/aspeed_hace.h
-@@ -37,6 +37,7 @@ struct AspeedHACEClass {
- 
-     uint32_t src_mask;
-     uint32_t dest_mask;
-+    uint32_t key_mask;
-     uint32_t hash_mask;
- };
- 
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
 -- 
-2.25.1
+Thanks,
+
+David / dhildenb
 
 
