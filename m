@@ -2,84 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583B748C80E
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 17:17:54 +0100 (CET)
-Received: from localhost ([::1]:54916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB31848C7A5
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 16:53:57 +0100 (CET)
+Received: from localhost ([::1]:50420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7gJs-0002gv-U1
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 11:17:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37722)
+	id 1n7fwi-0002ns-Iw
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 10:53:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7foO-0000xe-QL
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 10:45:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43540)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7fsZ-0007zl-De
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 10:49:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29677)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7foK-0005wA-R9
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 10:45:19 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7fsX-0006ip-4Z
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 10:49:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642002315;
+ s=mimecast20190719; t=1642002576;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TdxdNclfeaKpiAKBHKFQ313w39WGGsyWhXmNBtcek/k=;
- b=VFvmzRF64qi/rWz34CZaWAUuSYSnOvQ600M8hE4RxvHAtE24NEURzl6XXYjPyl2n93OU/J
- gMD/+UxR9jb62w7MvrNyLP+u/GetKjYd5QOlGsrHJr5003ZQCK/ZYx/8Vgj4nZqk1rd8+b
- qy5S9PBlL4e94v/wfIry5CaJIDO144g=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=cyRglFq0p8dYTRwHHhRB1Ak3Jezn2GVWuRRmjUXp3Sk=;
+ b=Wj0qbcV9x/GjixjOayQSYslO4B+0w20Q3AvDdiqZb6FfKZmW10FWniCZ3JAh4wNvjUyF9Z
+ bzj/JkSNHsqd7zjb8Q98ULpT+2aGdNbyunMwDjdvIgH2XXaS1vxywz5pLLlzS4DWalgskC
+ EvQd0MXU3wvuNtCMAP9sukG6owaoEYA=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-533-v6FZF4qbNP246LBUn302GQ-1; Wed, 12 Jan 2022 10:45:14 -0500
-X-MC-Unique: v6FZF4qbNP246LBUn302GQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- c8-20020a05640227c800b003fdc1684cdeso2621115ede.12
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 07:45:14 -0800 (PST)
+ us-mta-673-qKWF0UchPka2w_-pqpSIgA-1; Wed, 12 Jan 2022 10:49:35 -0500
+X-MC-Unique: qKWF0UchPka2w_-pqpSIgA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ i9-20020a05640242c900b003fe97faab62so2613111edc.9
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 07:49:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:organization:subject
- :in-reply-to:content-transfer-encoding;
- bh=TdxdNclfeaKpiAKBHKFQ313w39WGGsyWhXmNBtcek/k=;
- b=rt3cQLpIv1ySqbPPOXyX5r55wrM6o+ZfCgg4pBs/JiJr8hMpdLv7FRYAxOQLHy6VMQ
- /Gn0eBzXZbX421pxPYyvfGUTWVgiqwH8CZt5tB1+37UcvpnB8EB3Iz7icQWaxeoevcJF
- UEtNSBPbAb6M3t2zw5Yco8+sRtIC2a92h9fVDxxvzdX8Kz9mLQvJP1pJJiFylH1ocGEt
- qHjBFuClyFOXY1rGM0/EyhUjbbK7TG5Qq9KLEwFPe3MMBl7A6OVpmbaGlnV2FcQgKZJL
- b0OQc5909oC1ytKRdgyiSE+/i8B3TROLqC3gP1bmCuGKHrb2TLZP0eGLsD45ObGeGNgv
- fAXw==
-X-Gm-Message-State: AOAM530xgzsnvPrfAU1no/FRk5/w9GLT+H9h+mR0VFFXyGZKKaGo0H0D
- uibv1nd48IKDwWJs4zorm5NNN+dSqw6EIfVSuqDk96mGQf0WkPsIiilnG7yFhOCOfGA8PmnZZnE
- ALUQmim/0DqSt+wE=
-X-Received: by 2002:a17:907:d11:: with SMTP id
- gn17mr269754ejc.252.1642002313199; 
- Wed, 12 Jan 2022 07:45:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxIX+FeQuLSxd+cTzgHpWYHz51Q6TsXMp7jpuK4TlbffxJ9vgOcj9DEF9NCEAU1TRN3qFQG+Q==
-X-Received: by 2002:a17:907:d11:: with SMTP id
- gn17mr269740ejc.252.1642002312982; 
- Wed, 12 Jan 2022 07:45:12 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=cyRglFq0p8dYTRwHHhRB1Ak3Jezn2GVWuRRmjUXp3Sk=;
+ b=pLphJAPoVVtC2yoLfr8/mPN9vF0832m2EjFjUdF7XGjgAS93ZJYeshAuJBsR8u4D8H
+ 0IXMCRkYXRdt46fdWEzpvrnWpxNnxrK3nC1yeMZX7YVkz/UCunYBEu+2QGwBKWET3nz0
+ wwl6qiE0PE/0FTb6VgNlSskCsmYQ+a3zgwoq5OQTjf8iBJSJ/R0hmmh1lOHu2xWgyVxZ
+ F8A+IEt0eSyCoiOWbeOUVDsBKYEm5NhwCls/ykzxmgOUMnuuOWZW8Reehy+79aZmHKnJ
+ MbIcuD+7PCS+yd4B2MWbHmbtm/AvgxDg5LZU3IDKgNzRsMfJOo/5gTpSx9ACEVsoHGks
+ nIUA==
+X-Gm-Message-State: AOAM532vVi4+hnK87fCq6ZmWq1LNO2peIcCEep6iQFTSwYxQTRsi96WC
+ cyyQmHlQRMjfdxpTpnaD9czJ+vDOTibUFPIP9qE3UV0979ukM0oKU23zSbbA0GRUDr9QnV/yrsv
+ 8P4Q8P7kkKuncjJE=
+X-Received: by 2002:a17:906:16d5:: with SMTP id
+ t21mr251788ejd.547.1642002574015; 
+ Wed, 12 Jan 2022 07:49:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy/KJYR0cOu7m1x1gBO/B7t3pA8lJv11H+it/xksfwPZErlonaI5rG2AksDb0x8R4alE14WcA==
+X-Received: by 2002:a17:906:16d5:: with SMTP id
+ t21mr251779ejd.547.1642002573842; 
+ Wed, 12 Jan 2022 07:49:33 -0800 (PST)
 Received: from ?IPV6:2003:cb:c702:4700:e25f:39eb:3cb8:1dec?
  (p200300cbc7024700e25f39eb3cb81dec.dip0.t-ipconnect.de.
  [2003:cb:c702:4700:e25f:39eb:3cb8:1dec])
- by smtp.gmail.com with ESMTPSA id w17sm64925edr.68.2022.01.12.07.45.12
+ by smtp.gmail.com with ESMTPSA id j21sm26536ejj.133.2022.01.12.07.49.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Jan 2022 07:45:12 -0800 (PST)
-Message-ID: <c9544f5c-545a-8edf-dac6-a960aa00d4dd@redhat.com>
-Date: Wed, 12 Jan 2022 16:45:11 +0100
+ Wed, 12 Jan 2022 07:49:33 -0800 (PST)
+Message-ID: <d0fc0d8e-fe38-1ab2-2d56-23345de783e7@redhat.com>
+Date: Wed, 12 Jan 2022 16:49:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-To: Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
-References: <20220112043948.224405-1-iii@linux.ibm.com>
- <20220112043948.224405-4-iii@linux.ibm.com>
- <08948b31-0729-5463-829f-35fb444cf82d@redhat.com>
- <add9d2da455bf9b07cf77c942e95183f5bf6f090.camel@linux.ibm.com>
+Subject: Re: [RFC] virtio_pmem: enable live migration support
+To: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+References: <20211231120127.22394-1-pankaj.gupta.linux@gmail.com>
+ <625c92c6-3618-fbaa-aea6-0ed86df872d3@redhat.com>
+ <CAM9Jb+hvCZoXLx4_xx8KTq4oBts7MCe-ozp5ZuX2yPW6=tyLGQ@mail.gmail.com>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-Subject: Re: [PATCH v2 3/5] target/s390x: Fix cc_calc_sla_64() missing
- overflows
-In-Reply-To: <add9d2da455bf9b07cf77c942e95183f5bf6f090.camel@linux.ibm.com>
+In-Reply-To: <CAM9Jb+hvCZoXLx4_xx8KTq4oBts7MCe-ozp5ZuX2yPW6=tyLGQ@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -109,39 +105,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Pankaj Gupta <pankaj.gupta@ionos.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Rik van Riel <riel@surriel.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Qemu Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->> If the sign is false, the shifted bits (mask) have to be 0.
->> If the sign bit is true, the shifted bits (mask) have to be set.
+>>
+>> I mean, that would be fundamentally broken, because the fsync() would
+>> corrupt the file. So I assume in a sane environment, the dst could only
+>> have stale clean pagecache pages. And we'd have to get rid of these to
+>> re-read everything from file.
 > 
-> IIUC this logic handles sign bit + "shift - 1" bits. So if the last
-> shifted bit is different, the overflow is not detected.
-
-Ah, right, because of the - 1ULL ...
-
-[...]
-
->> This looks like some black magic :)
-> 
-> Yeah, I felt this way too, but didn't come up with anything better and
-> just left a comment warning not to simplify.
+> In case of write back cache mode, we could still have stale dirty
+> pages at the destination
+> host and destination fsync is not the right thing to do. We need to
+> invalidate these pages
+> (Can we invalidate dirty pages resident in page cache with
+> POSIX_FADV_DONTNEED as
+> well?) man pages say, we cannot (unless i misunderstood it).
 > 
 
-I wonder if all we want is
+I think you'd have to fsync + POSIX_FADV_DONTNEED. But I am still
+confused how we could end up with dirty pagecache pages on the
+destination. In my opinion, there should only be clean pagecache pages
+-- can someone enlighten me? :)
 
-const uint64_t sign = 1ULL << 63;
-uint64_t mask = (-1ULL << (63 - shift)) & ~sign;
+>>
+>> IIRC, an existing mmap of the file on the dst should not really be
+>> problematic *as long as* we didn't actually access file content that way
+>> and faulted in the pages. So *maybe*, if we do the POSIX_FADV_DONTNEED
+>> on the dst before accessing file content via the mmap, there shouldn't
+>> be an issue. Unless the mmap itself is already problematic.
+> 
+> mmap with shared=ON, might result in stale dirty page cache pages?
 
-For shift =
-*  0: 0000000...0b
-*  1: 0100000...0b
-*  2: 0110000...0b
-* 63: 0111111...1b
+But only if actually accessing memory, especially writing to it, no?
 
-Seems to survive your tests.
+> 
+>>
+>> I think we can assume that once QEMU starts on the dst and wants to mmap
+>> the file that it's not mapped into any other process yet. vhost-user
+>> will only mmap *after* being told from QEMU about the mmap region and
+>> the location in GPA.
+> 
+> maybe we have an old stale dirty page cache page even if there no mmap process
+> alive before mmaping virtio-pmem backend file in destination?
+
+But how could that happen in a sane environment? As I said, any
+writeback on that file from the destination would actually corrupt the
+file that has been used+modified on the source in the meantime, no?
+
 
 -- 
 Thanks,
