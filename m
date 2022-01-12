@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 135F748CE1A
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 22:58:22 +0100 (CET)
-Received: from localhost ([::1]:41112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 798A648CE25
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 23:00:39 +0100 (CET)
+Received: from localhost ([::1]:45176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7ldM-0003CD-T7
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 16:58:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55774)
+	id 1n7lfa-0006Ew-JJ
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 17:00:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1n7lIi-0008PO-2X
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 16:37:01 -0500
-Received: from [2a00:1450:4864:20::544] (port=45963
- helo=mail-ed1-x544.google.com)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1n7lIk-0008RB-Tu; Wed, 12 Jan 2022 16:37:03 -0500
+Received: from [2a00:1450:4864:20::541] (port=45963
+ helo=mail-ed1-x541.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1n7lIf-00052D-7w
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 16:36:59 -0500
-Received: by mail-ed1-x544.google.com with SMTP id z22so15215580edd.12
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 13:36:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1n7lIi-00052V-Gw; Wed, 12 Jan 2022 16:37:02 -0500
+Received: by mail-ed1-x541.google.com with SMTP id z22so15216143edd.12;
+ Wed, 12 Jan 2022 13:36:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tbxdYTTQryQSvZgiTmFwffxeBpRZqwLPI03HAWyY0Rg=;
- b=XwLTTAdL1cfVHpkg63aT7HA9HIJUnMXmQXyYL8QCBplNfjWWWw7rjdW5ZfwaTDoZ/n
- sfakHwT+SR7QzTiQancp0qWIV5s5hEpd2dqYJB4DuFXj/YUbkgcd1rg/mm96ZXnyeXsM
- a5jLKu8r39gItgOkWOcW3Ta6Q+6n1jRtE5ry1TwppmT5R799LhgimY1tWu2qfYmAyEGG
- m/YNJpXa3fob+u8w1iDXRDxvQDDKQDg7DtPrcQNCY0KLhWwLcXe94s9kkKrVmJ/qCEXo
- scYgaC7R25Fj0miwHLgJ9dA90RugTg88PcFpsUny5lQvARTrPzxe0NxNwFRg4H8o0tM3
- 2mzg==
+ bh=JWSHJ466Gc/72HN7jFQTmp67kv9rm6BTkU0JJlveaDs=;
+ b=SOWC83Nc1ovSWNM2GXItL0p+oUK9PT/iV1kdiQAzYn/QOQHu0Vql6j9La61xez9zIi
+ z5J+A2TPqXEJmKu2n1rQYjdKkNn3PeMuP0971BPBC+ytvE4qXaNRVj301hKZ4DFxZ9lj
+ PHlRptS1tFqgSGQ2S60ULn5PTDeq/lKrQgoodaf5tIIAZdaIiosN/kMMMAmul6nWPH8c
+ m+94kl1OE4aa3bsLSmLyVUAeHkTlcI0rdKV5mk0ZSsMPtAgnXfm/PB5mADBesmNX9P+q
+ AUnPu4JAt8KoKOfqIMxeGg8ao2ofKGmhJskXC6a3ojyQwN+G/xT3sGNqLhEco8Kx/sBD
+ Y/ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tbxdYTTQryQSvZgiTmFwffxeBpRZqwLPI03HAWyY0Rg=;
- b=q3FF7HkaGYY9yNxLx2L/c+01AmezgWGt5Ck1DGYIpTgqAIU5xzEoH+bLtdrizaavRB
- j8iFdFCIG2F2XnGlkQaEaIbEJRcJUT7BevhAKZ8p3SpxWafwOiGU8pqvGI26w8sq2twN
- DMF0u3m05UnOtyWRr0gJjvy2YLtnC1TjbwvaQqfn2xu/MwXh7jjhbbeIY7/KbLnyGk55
- cSsOXlwMJ1UP+kugr73tGC765a7Xi/16Pu6Yx4yUQ9caOBenPOWICHr3Shb5brEJ5+TN
- 3Yqc+bb9sOgGUi3umbTMiqVtYlVoVqU61e5KOhY/nckMHm/v7Ia/1wW1Lfo2DRe2SRlp
- rBsA==
-X-Gm-Message-State: AOAM531TyBa5LQbbY1z45/Sb3GW/bIWadjHZlxO0L7/axo8d0cbu54Vn
- Cdl2ApnmIn4fnl17/zPm12d0M9wawsxhphm9K64=
-X-Google-Smtp-Source: ABdhPJyumWeUPtL2wgLQ+98Ob9Ne65wAHLHJo+1N4xxK6NipHvJ5PSeoE6jeW6Qn/GnWLbGC1cuuEg==
-X-Received: by 2002:a05:6402:c19:: with SMTP id
- co25mr1411362edb.33.1642023415112; 
- Wed, 12 Jan 2022 13:36:55 -0800 (PST)
+ bh=JWSHJ466Gc/72HN7jFQTmp67kv9rm6BTkU0JJlveaDs=;
+ b=5w9/6+Ieo5/kF95BkVbHL5G7+tvlSB6sh1qbZHbvJZsz2ggvECZC1x1QVKgfSwEtq3
+ ePr5elIvF2BWiyI255BOPZNX/zNcuHZ8J3PMIjPECErABZnLx4NF8btVv00VXJRddAJh
+ yKpwH9GJ/eQ2N9Owj/sQyZrRRTCTpiPD6qbhchWcclMmc0nYGxzPsOJjDYZ5jGAWjxCQ
+ RgCEzZwHj2Rnt23+/j39nJHNVDLifNlC+aMhe2VXAK/cEj6gLemYA+Aw4rzJyIHMCVOH
+ x6Mzlo6E3S3330O03+pF3HaSd9ln76iuKn0Bjk5Ecj9xrkReHwLpyAndhsOgk4xZTMpY
+ NrWw==
+X-Gm-Message-State: AOAM532S13o4t+gNjz36NpUZzJKYvL1Eqfih/xdwFY1lirCo9diEopPo
+ f1udx6Mq33Z+t4INZzXti7nazAg4RiT6laHSOi6ktA==
+X-Google-Smtp-Source: ABdhPJyFnaG031s16D0kL20oMpU40WvAU6JlyBhGfsmJ4j82e4yQpJqUvDILA0ftypVxk67b1YnJBA==
+X-Received: by 2002:a17:907:1692:: with SMTP id
+ hc18mr1240574ejc.25.1642023418496; 
+ Wed, 12 Jan 2022 13:36:58 -0800 (PST)
 Received: from osoxes.fritz.box (mue-88-130-49-239.dsl.tropolys.de.
  [88.130.49.239])
- by smtp.gmail.com with ESMTPSA id b2sm257288ejh.221.2022.01.12.13.36.54
+ by smtp.gmail.com with ESMTPSA id b2sm257288ejh.221.2022.01.12.13.36.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jan 2022 13:36:54 -0800 (PST)
+ Wed, 12 Jan 2022 13:36:58 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] malta: Move PCI interrupt handling from gt64xxx to piix4
-Date: Wed, 12 Jan 2022 22:36:26 +0100
-Message-Id: <20220112213629.9126-2-shentey@gmail.com>
+Subject: [PATCH 2/3] pci: Always pass own DeviceState to pci_map_irq_fn's
+Date: Wed, 12 Jan 2022 22:36:27 +0100
+Message-Id: <20220112213629.9126-3-shentey@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220112213629.9126-1-shentey@gmail.com>
 References: <20220112213629.9126-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::544
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::541
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x544.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x541.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -74,7 +74,7 @@ X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 12 Jan 2022 16:56:17 -0500
+X-Mailman-Approved-At: Wed, 12 Jan 2022 16:56:18 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,253 +86,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Bernhard Beschow <shentey@gmail.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Magnus Damm <magnus.damm@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+ "open list:Versatile PB" <qemu-arm@nongnu.org>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ "open list:sam460ex" <qemu-ppc@nongnu.org>,
+ Bernhard Beschow <shentey@gmail.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Handling PCI interrupts in piix4 increases cohesion and reduces differences
-between piix4 and piix3.
+Passing own DeviceState rather than just the IRQs allows for resolving
+global variables.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/piix4.c         | 58 +++++++++++++++++++++++++++++++++++++++
- hw/mips/gt64xxx_pci.c  | 62 ++++--------------------------------------
- hw/mips/malta.c        |  6 +---
- include/hw/mips/mips.h |  2 +-
- 4 files changed, 65 insertions(+), 63 deletions(-)
+ hw/isa/piix4.c          | 6 +++---
+ hw/pci-host/sh_pci.c    | 6 +++---
+ hw/pci-host/versatile.c | 6 +++---
+ hw/ppc/ppc440_pcix.c    | 6 +++---
+ hw/ppc/ppc4xx_pci.c     | 6 +++---
+ 5 files changed, 15 insertions(+), 15 deletions(-)
 
 diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 0fe7b69bc4..5a86308689 100644
+index 5a86308689..a31e9714cf 100644
 --- a/hw/isa/piix4.c
 +++ b/hw/isa/piix4.c
-@@ -45,6 +45,7 @@ struct PIIX4State {
-     PCIDevice dev;
-     qemu_irq cpu_intr;
-     qemu_irq *isa;
-+    qemu_irq i8259[ISA_NUM_IRQS];
- 
-     RTCState rtc;
-     /* Reset Control Register */
-@@ -54,6 +55,30 @@ struct PIIX4State {
- 
- OBJECT_DECLARE_SIMPLE_TYPE(PIIX4State, PIIX4_PCI_DEVICE)
- 
-+static int pci_irq_levels[4];
-+
-+static void piix4_set_irq(void *opaque, int irq_num, int level)
-+{
-+    int i, pic_irq, pic_level;
-+    qemu_irq *pic = opaque;
-+
-+    pci_irq_levels[irq_num] = level;
-+
-+    /* now we change the pic irq level according to the piix irq mappings */
-+    /* XXX: optimize */
-+    pic_irq = piix4_dev->config[PIIX_PIRQCA + irq_num];
-+    if (pic_irq < 16) {
-+        /* The pic level is the logical OR of all the PCI irqs mapped to it. */
-+        pic_level = 0;
-+        for (i = 0; i < 4; i++) {
-+            if (pic_irq == piix4_dev->config[PIIX_PIRQCA + i]) {
-+                pic_level |= pci_irq_levels[i];
-+            }
-+        }
-+        qemu_set_irq(pic[pic_irq], pic_level);
-+    }
-+}
-+
- static void piix4_isa_reset(DeviceState *dev)
+@@ -60,7 +60,7 @@ static int pci_irq_levels[4];
+ static void piix4_set_irq(void *opaque, int irq_num, int level)
  {
-     PIIX4State *d = PIIX4_PCI_DEVICE(dev);
-@@ -248,8 +273,34 @@ static void piix4_register_types(void)
+     int i, pic_irq, pic_level;
+-    qemu_irq *pic = opaque;
++    PIIX4State *s = opaque;
  
- type_init(piix4_register_types)
+     pci_irq_levels[irq_num] = level;
  
-+static int pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
-+{
-+    int slot;
-+
-+    slot = PCI_SLOT(pci_dev->devfn);
-+
-+    switch (slot) {
-+    /* PIIX4 USB */
-+    case 10:
-+        return 3;
-+    /* AMD 79C973 Ethernet */
-+    case 11:
-+        return 1;
-+    /* Crystal 4281 Sound */
-+    case 12:
-+        return 2;
-+    /* PCI slot 1 to 4 */
-+    case 18 ... 21:
-+        return ((slot - 18) + irq_num) & 0x03;
-+    /* Unknown device, don't do any translation */
-+    default:
-+        return irq_num;
-+    }
-+}
-+
- DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
- {
-+    PIIX4State *s;
-     PCIDevice *pci;
-     DeviceState *dev;
-     int devfn = PCI_DEVFN(10, 0);
-@@ -257,6 +308,7 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
-     pci = pci_create_simple_multifunction(pci_bus, devfn,  true,
-                                           TYPE_PIIX4_PCI_DEVICE);
-     dev = DEVICE(pci);
-+    s = PIIX4_PCI_DEVICE(pci);
-     if (isa_bus) {
-         *isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
+@@ -75,7 +75,7 @@ static void piix4_set_irq(void *opaque, int irq_num, int level)
+                 pic_level |= pci_irq_levels[i];
+             }
+         }
+-        qemu_set_irq(pic[pic_irq], pic_level);
++        qemu_set_irq(s->i8259[pic_irq], pic_level);
      }
-@@ -271,5 +323,11 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
+ }
+ 
+@@ -323,7 +323,7 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
                                 NULL, 0, NULL);
      }
  
-+    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s->i8259, 4);
-+
-+    for (int i = 0; i < ISA_NUM_IRQS; i++) {
-+        s->i8259[i] = qdev_get_gpio_in_named(dev, "isa", i);
-+    }
-+
-     return dev;
- }
-diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-index c7480bd019..9e23e32eff 100644
---- a/hw/mips/gt64xxx_pci.c
-+++ b/hw/mips/gt64xxx_pci.c
-@@ -981,56 +981,6 @@ static const MemoryRegionOps isd_mem_ops = {
-     },
- };
+-    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s->i8259, 4);
++    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, 4);
  
--static int gt64120_pci_map_irq(PCIDevice *pci_dev, int irq_num)
--{
--    int slot;
--
--    slot = PCI_SLOT(pci_dev->devfn);
--
--    switch (slot) {
--    /* PIIX4 USB */
--    case 10:
--        return 3;
--    /* AMD 79C973 Ethernet */
--    case 11:
--        return 1;
--    /* Crystal 4281 Sound */
--    case 12:
--        return 2;
--    /* PCI slot 1 to 4 */
--    case 18 ... 21:
--        return ((slot - 18) + irq_num) & 0x03;
--    /* Unknown device, don't do any translation */
--    default:
--        return irq_num;
--    }
--}
--
--static int pci_irq_levels[4];
--
--static void gt64120_pci_set_irq(void *opaque, int irq_num, int level)
--{
--    int i, pic_irq, pic_level;
+     for (int i = 0; i < ISA_NUM_IRQS; i++) {
+         s->i8259[i] = qdev_get_gpio_in_named(dev, "isa", i);
+diff --git a/hw/pci-host/sh_pci.c b/hw/pci-host/sh_pci.c
+index 719d6ca2a6..ae0aa462b3 100644
+--- a/hw/pci-host/sh_pci.c
++++ b/hw/pci-host/sh_pci.c
+@@ -111,9 +111,9 @@ static int sh_pci_map_irq(PCIDevice *d, int irq_num)
+ 
+ static void sh_pci_set_irq(void *opaque, int irq_num, int level)
+ {
 -    qemu_irq *pic = opaque;
--
--    pci_irq_levels[irq_num] = level;
--
--    /* now we change the pic irq level according to the piix irq mappings */
--    /* XXX: optimize */
--    pic_irq = piix4_dev->config[PIIX_PIRQCA + irq_num];
--    if (pic_irq < 16) {
--        /* The pic level is the logical OR of all the PCI irqs mapped to it. */
--        pic_level = 0;
--        for (i = 0; i < 4; i++) {
--            if (pic_irq == piix4_dev->config[PIIX_PIRQCA + i]) {
--                pic_level |= pci_irq_levels[i];
--            }
--        }
--        qemu_set_irq(pic[pic_irq], pic_level);
--    }
--}
--
--
- static void gt64120_reset(DeviceState *dev)
- {
-     GT64120State *s = GT64120_PCI_HOST_BRIDGE(dev);
-@@ -1207,7 +1157,7 @@ static void gt64120_realize(DeviceState *dev, Error **errp)
-                           "gt64120-isd", 0x1000);
++    SHPCIState *s = opaque;
+ 
+-    qemu_set_irq(pic[irq_num], level);
++    qemu_set_irq(s->irq[irq_num], level);
  }
  
--PCIBus *gt64120_register(qemu_irq *pic)
-+PCIBus *gt64120_register(void)
+ static void sh_pci_device_realize(DeviceState *dev, Error **errp)
+@@ -128,7 +128,7 @@ static void sh_pci_device_realize(DeviceState *dev, Error **errp)
+     }
+     phb->bus = pci_register_root_bus(dev, "pci",
+                                      sh_pci_set_irq, sh_pci_map_irq,
+-                                     s->irq,
++                                     s,
+                                      get_system_memory(),
+                                      get_system_io(),
+                                      PCI_DEVFN(0, 0), 4, TYPE_PCI_BUS);
+diff --git a/hw/pci-host/versatile.c b/hw/pci-host/versatile.c
+index f66384fa02..5fbcb72d7d 100644
+--- a/hw/pci-host/versatile.c
++++ b/hw/pci-host/versatile.c
+@@ -362,9 +362,9 @@ static int pci_vpb_rv_map_irq(PCIDevice *d, int irq_num)
+ 
+ static void pci_vpb_set_irq(void *opaque, int irq_num, int level)
  {
-     GT64120State *d;
-     PCIHostState *phb;
-@@ -1218,12 +1168,10 @@ PCIBus *gt64120_register(qemu_irq *pic)
-     phb = PCI_HOST_BRIDGE(dev);
-     memory_region_init(&d->pci0_mem, OBJECT(dev), "pci0-mem", 4 * GiB);
-     address_space_init(&d->pci0_mem_as, &d->pci0_mem, "pci0-mem");
--    phb->bus = pci_register_root_bus(dev, "pci",
--                                     gt64120_pci_set_irq, gt64120_pci_map_irq,
--                                     pic,
--                                     &d->pci0_mem,
--                                     get_system_io(),
--                                     PCI_DEVFN(18, 0), 4, TYPE_PCI_BUS);
-+    phb->bus = pci_root_bus_new(dev, "pci",
-+                                &d->pci0_mem,
-+                                get_system_io(),
-+                                PCI_DEVFN(18, 0), TYPE_PCI_BUS);
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+-    qemu_irq *pic = opaque;
++    PCIVPBState *s = opaque;
  
-     pci_create_simple(phb->bus, PCI_DEVFN(0, 0), "gt64120_pci");
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index b770b8d367..13254dbc89 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -97,7 +97,6 @@ struct MaltaState {
+-    qemu_set_irq(pic[irq_num], level);
++    qemu_set_irq(s->irq[irq_num], level);
+ }
  
-     Clock *cpuclk;
-     MIPSCPSState cps;
--    qemu_irq i8259[ISA_NUM_IRQS];
- };
+ static void pci_vpb_reset(DeviceState *d)
+@@ -422,7 +422,7 @@ static void pci_vpb_realize(DeviceState *dev, Error **errp)
+         mapfn = pci_vpb_map_irq;
+     }
  
- static struct _loaderparams {
-@@ -1391,7 +1390,7 @@ void mips_malta_init(MachineState *machine)
-     stl_p(memory_region_get_ram_ptr(bios_copy) + 0x10, 0x00000420);
+-    pci_bus_irqs(&s->pci_bus, pci_vpb_set_irq, mapfn, s->irq, 4);
++    pci_bus_irqs(&s->pci_bus, pci_vpb_set_irq, mapfn, s, 4);
  
-     /* Northbridge */
--    pci_bus = gt64120_register(s->i8259);
-+    pci_bus = gt64120_register();
-     /*
-      * The whole address space decoded by the GT-64120A doesn't generate
-      * exception when accessing invalid memory. Create an empty slot to
-@@ -1404,9 +1403,6 @@ void mips_malta_init(MachineState *machine)
+     /* Our memory regions are:
+      * 0 : our control registers
+diff --git a/hw/ppc/ppc440_pcix.c b/hw/ppc/ppc440_pcix.c
+index 788d25514a..291c1bfbe7 100644
+--- a/hw/ppc/ppc440_pcix.c
++++ b/hw/ppc/ppc440_pcix.c
+@@ -431,14 +431,14 @@ static int ppc440_pcix_map_irq(PCIDevice *pci_dev, int irq_num)
  
-     /* Interrupt controller */
-     qdev_connect_gpio_out_named(dev, "intr", 0, i8259_irq);
--    for (int i = 0; i < ISA_NUM_IRQS; i++) {
--        s->i8259[i] = qdev_get_gpio_in_named(dev, "isa", i);
--    }
+ static void ppc440_pcix_set_irq(void *opaque, int irq_num, int level)
+ {
+-    qemu_irq *pci_irq = opaque;
++    PPC440PCIXState *s = opaque;
  
-     /* generate SPD EEPROM data */
-     generate_eeprom_spd(&smbus_eeprom_buf[0 * 256], ram_size);
-diff --git a/include/hw/mips/mips.h b/include/hw/mips/mips.h
-index 6c9c8805f3..ff88942e63 100644
---- a/include/hw/mips/mips.h
-+++ b/include/hw/mips/mips.h
-@@ -10,7 +10,7 @@
- #include "exec/memory.h"
+     trace_ppc440_pcix_set_irq(irq_num);
+     if (irq_num < 0) {
+         error_report("%s: PCI irq %d", __func__, irq_num);
+         return;
+     }
+-    qemu_set_irq(*pci_irq, level);
++    qemu_set_irq(s->irq, level);
+ }
  
- /* gt64xxx.c */
--PCIBus *gt64120_register(qemu_irq *pic);
-+PCIBus *gt64120_register(void);
+ static AddressSpace *ppc440_pcix_set_iommu(PCIBus *b, void *opaque, int devfn)
+@@ -492,7 +492,7 @@ static void ppc440_pcix_realize(DeviceState *dev, Error **errp)
+     sysbus_init_irq(sbd, &s->irq);
+     memory_region_init(&s->busmem, OBJECT(dev), "pci bus memory", UINT64_MAX);
+     h->bus = pci_register_root_bus(dev, NULL, ppc440_pcix_set_irq,
+-                         ppc440_pcix_map_irq, &s->irq, &s->busmem,
++                         ppc440_pcix_map_irq, s, &s->busmem,
+                          get_system_io(), PCI_DEVFN(0, 0), 1, TYPE_PCI_BUS);
  
- /* bonito.c */
- PCIBus *bonito_init(qemu_irq *pic);
+     s->dev = pci_create_simple(h->bus, PCI_DEVFN(0, 0), "ppc4xx-host-bridge");
+diff --git a/hw/ppc/ppc4xx_pci.c b/hw/ppc/ppc4xx_pci.c
+index 5df97e6d15..f6718746a1 100644
+--- a/hw/ppc/ppc4xx_pci.c
++++ b/hw/ppc/ppc4xx_pci.c
+@@ -256,11 +256,11 @@ static int ppc4xx_pci_map_irq(PCIDevice *pci_dev, int irq_num)
+ 
+ static void ppc4xx_pci_set_irq(void *opaque, int irq_num, int level)
+ {
+-    qemu_irq *pci_irqs = opaque;
++    PPC4xxPCIState *s = opaque;
+ 
+     trace_ppc4xx_pci_set_irq(irq_num);
+     assert(irq_num >= 0 && irq_num < PPC4xx_PCI_NUM_DEVS);
+-    qemu_set_irq(pci_irqs[irq_num], level);
++    qemu_set_irq(s->irq[irq_num], level);
+ }
+ 
+ static const VMStateDescription vmstate_pci_master_map = {
+@@ -319,7 +319,7 @@ static void ppc4xx_pcihost_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     b = pci_register_root_bus(dev, NULL, ppc4xx_pci_set_irq,
+-                              ppc4xx_pci_map_irq, s->irq, get_system_memory(),
++                              ppc4xx_pci_map_irq, s, get_system_memory(),
+                               get_system_io(), 0, ARRAY_SIZE(s->irq),
+                               TYPE_PCI_BUS);
+     h->bus = b;
 -- 
 2.34.1
 
