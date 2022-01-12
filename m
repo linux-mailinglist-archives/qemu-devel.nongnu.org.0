@@ -2,61 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D54048C235
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 11:27:18 +0100 (CET)
-Received: from localhost ([::1]:51526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7803C48C245
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 11:27:48 +0100 (CET)
+Received: from localhost ([::1]:53458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7aqb-0004vB-Bi
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 05:27:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42144)
+	id 1n7ar5-0006FG-Jk
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 05:27:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n7anT-0002qV-3G
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 05:24:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40556)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1n7anl-0003OK-7k
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 05:24:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51345)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n7anP-0002BC-Nt
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 05:24:02 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1n7anj-0002EL-M3
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 05:24:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641983038;
+ s=mimecast20190719; t=1641983058;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gxtZu0tzZHK4lCBhGkC0KICyM1a/rMpSmx0WzsQC6p4=;
- b=GDoAXtgmyAOTtg2ldSofauAuc2/eSkRTVGuryw876fN1kYM9BuNAERWO7sNM+nl5UqNG2o
- aVeyNS1Pf07uuZZvNQ+6DR6OdAi42b+M3cOBgZUll2IcMNBuXmeGMnoTXHcjGVW6CAm0Wd
- YSe4CGy/vha9E+BlOjeJVgure0ZlWeg=
+ bh=FW3A4IRNP8jNilVt2A6cuPNZUcWTNL+ec01VZgwQw8Q=;
+ b=F7BYweqDPkEP4dDAYtuoxxHAl/F+ds7OmjGIENjg3b1bGXc9AF8q4bdYTEcVTSIM6fp1Ok
+ DcVRR3m4KuYknTEkkNSSqzwNsZO59qPoz4+p4RPSAnzMiC16zCesIOIRh0lr69re3s9n5O
+ mukIsDe3VnjjyfIjIIVhHCKKuuqUcRM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-433-4KV55viIOwSrHYPJ2n-a-w-1; Wed, 12 Jan 2022 05:23:57 -0500
-X-MC-Unique: 4KV55viIOwSrHYPJ2n-a-w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-355-ehhhcrwGPJyw-rjvJ5roPQ-1; Wed, 12 Jan 2022 05:24:15 -0500
+X-MC-Unique: ehhhcrwGPJyw-rjvJ5roPQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B01010144E1;
- Wed, 12 Jan 2022 10:23:56 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 64B2C7B14C;
- Wed, 12 Jan 2022 10:23:49 +0000 (UTC)
-Date: Wed, 12 Jan 2022 11:23:48 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v3 0/2] block-backend: prevent dangling BDS pointers
- across aio_poll()
-Message-ID: <Yd6sNHrPuJkFw2Iv@redhat.com>
-References: <20220111153613.25453-1-stefanha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CD5C10144E1;
+ Wed, 12 Jan 2022 10:24:14 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 65D0A6F169;
+ Wed, 12 Jan 2022 10:24:00 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eric Farman <farman@linux.ibm.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+Subject: Re: [PATCH RFC v2] MAINTAINERS: split out s390x sections
+In-Reply-To: <aa11d65c8cb303b381c4e53aa948818b7b65a228.camel@linux.ibm.com>
+Organization: Red Hat GmbH
+References: <20211222105548.356852-1-cohuck@redhat.com>
+ <aa11d65c8cb303b381c4e53aa948818b7b65a228.camel@linux.ibm.com>
+User-Agent: Notmuch/0.34 (https://notmuchmail.org)
+Date: Wed, 12 Jan 2022 11:23:58 +0100
+Message-ID: <87r19dw8u9.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220111153613.25453-1-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -77,26 +81,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, qemu-stable@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 11.01.2022 um 16:36 hat Stefan Hajnoczi geschrieben:
-> This series fixes use-after-free bugs when blk->root changes across aio_poll().
-> For example, a temporary filter node can be removed by a blockjob when a
-> drained section begins. If the caller doesn't hold a ref on the BDS then it
-> will have been freed.
-> 
-> Hanna Reitz (1):
->   iotests/stream-error-on-reset: New test
-> 
-> Stefan Hajnoczi (1):
->   block-backend: prevent dangling BDS pointers across aio_poll()
+On Wed, Jan 05 2022, Eric Farman <farman@linux.ibm.com> wrote:
 
-Thanks, applied to the block branch.
+> On Wed, 2021-12-22 at 11:55 +0100, Cornelia Huck wrote:
+>> Split out some more specialized devices etc., so that we can build
+>> smarter lists of people to be put on cc: in the future.
+>>=20
+>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> Acked-by: David Hildenbrand <david@redhat.com>
+>> Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
+>> Acked-by: Thomas Huth <thuth@redhat.com>
+>> Acked-by: Halil Pasic <pasic@linux.ibm.com>
+>> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+>
+> (Late to the party, Happy New Year!) I like the rearrangement:
 
-Kevin
+Happy new year :)
+
+>
+> Acked-by: Eric Farman <farman@linux.ibm.com>
+>
+> Of course, you also said in v1:
+>
+> """
+> - The new sections have inherited the maintainers of the sections
+>   they have been split out of (except where people had already
+>   volunteered). That's easy to change, obviously, and I hope that
+>   the cc: list already contains people who might have interest in
+>   volunteering for some sections.
+> """
+>
+> As someone on cc, I could volunteer to help with these sections:
+>
+> S390 Machines
+> -------------
+> S390 Virtio-ccw
+> S390 channel subsystem
+>
+> Devices
+> -------
+> virtio-ccw
+
+Thanks!
+
+Do you want to do a patch on top, or should I do a v3? (A separate patch
+is probably better.)
 
 
