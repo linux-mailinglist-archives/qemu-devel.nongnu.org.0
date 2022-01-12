@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B07D148C33D
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 12:34:55 +0100 (CET)
-Received: from localhost ([::1]:45384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4025C48C36C
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 12:44:55 +0100 (CET)
+Received: from localhost ([::1]:36410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7bu2-00030E-PB
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 06:34:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55242)
+	id 1n7c3i-0007eG-8V
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 06:44:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n7bn4-0002eO-Ce
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:42 -0500
-Received: from [2607:f8b0:4864:20::929] (port=42588
- helo=mail-ua1-x929.google.com)
+ id 1n7bvQ-0007XZ-Mx
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:36:20 -0500
+Received: from [2a00:1450:4864:20::533] (port=46772
+ helo=mail-ed1-x533.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n7bn2-0003P6-ED
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:27:42 -0500
-Received: by mail-ua1-x929.google.com with SMTP id p1so4063644uap.9
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 03:27:39 -0800 (PST)
+ id 1n7bvO-0004jy-HA
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 06:36:20 -0500
+Received: by mail-ed1-x533.google.com with SMTP id k15so8590012edk.13
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 03:36:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3SEUvhH2k3bXiCX3jQVqzLtDpgP952xbxksksJlo+H4=;
- b=trGeMLPw+kCMdwD5u4GA3fzR819BqGHUO3sdOEV1jI7jhc0KqbmP+Gu+CkgLHakCSL
- qzkkCzzyOKSgf+lWqzDFtb/albvXCExyBpDkwZ1Jg+5zyubwCZngE2ERENRsLWHKEO8W
- uV0OSbPrck0BRixWaypOrbK5xILG264kbFg3Adlf49njc46CM+TBdpWH9b8RnhI5ZQ1v
- 4pcsHcCo2hwEcspMA8lrt2uJ/THIReF3W8RFO7ksykrjA1q2X5DTfuvKXqhWk/1UqxJv
- M0IoeHF3qfgIayg1fqVCfY9rV3f4rM7unKwoSWQqPnMYs6Kz/lP6PPor2KLH7GvUYq5l
- AUPw==
+ bh=7+TWnVIIiPpIpg4ToG86ZjsBJ1J+9y7hwWMwq56b2FY=;
+ b=riPVjg1oXy+9wxN3ziFvxSt41Y/ksoaikD3lwoLNxYMsqxW2NJfTQWjg5Kj87oJ0Nn
+ odim9XC+ekzLSfIAfBn7dabe7HeRlld1dN5Dfia0rAYTbasNdF9BS0+OY/PuQPuHucYY
+ bLeht1a+wFhkOjSBemEJWUWF6dNH2m0APmbg8NfGWL+yJkmyLwyNh/i6cajfBdBAR5Wc
+ UA8I9c8Ug7L0nfa2UOIC0N8u3/22JujY+twK3E0NQhh/kmtfAKtAICsbq4A1nkvQswtA
+ Elb9jDcbE+5Cr5DtraprjWvlMwB4NQmelpgfiG6Z2fD0OCBXiU5DRqrXkGVjjToyW8gR
+ Ni9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3SEUvhH2k3bXiCX3jQVqzLtDpgP952xbxksksJlo+H4=;
- b=r7mEQJ4rQX1XC27Qt14gBuOq76UX+68OzKjTdrOjqfN+2vZ/XuTHy0HvpfO+/8Tjwg
- x+UE+Tr2W2upRUjebtIJQibJ0bTiqSBSrQ3hbEONfQixN34KWtF4tj3BlkV8V6T+Lnmo
- YvwuicWrHM3WiJz6zbzPt3pVLk8SyE4UQAgzudvokSr4wuVtY+3Wrbbm+St3+/x9iQP9
- haSDCkeZwc4rGcIkVgWgkfHVObx0wtcooP6eoeq5gnNAx/Xv9NneIglmvIMsWMeryO6v
- TvRy4cBrbgv/vONVhu6m+9o30rHFSpwjymas5VZPW3XPYJ7zplFZWOADwqSa5XL9Kbki
- K1Zg==
-X-Gm-Message-State: AOAM533yqdUHqcYSUMM0phWnIaXqYv57ZrYVlFSWHM1XBF+LJQxrekzj
- xyg9gejeoijAu0YD6z7ampC0nQ==
-X-Google-Smtp-Source: ABdhPJxUkLgYJjwNM+I57k2tqRaJyEvaV6+Y/McfCseowgvKUdu80NUmn2F57sqNIn6d2UQtb3D7yw==
-X-Received: by 2002:a05:6102:38d0:: with SMTP id
- k16mr1804876vst.46.1641986858818; 
- Wed, 12 Jan 2022 03:27:38 -0800 (PST)
+ bh=7+TWnVIIiPpIpg4ToG86ZjsBJ1J+9y7hwWMwq56b2FY=;
+ b=mpFlK0kSlnWiq2cYrCWS4mLFL6EAjKC8kSalrCm76q1GkAJh2UfhAbJSMuXtjDQF9E
+ XmkVYQch4GkhBJd6gPE+tSsBbvpVMa9Fer+8WJAK77kAK0vu09GNX6bwAEdL3kXkw0th
+ 7Ig+HnXCIJqrKgijfhwd2oGCFQdzxPNObVvqV9QxYxZZNEZpnO8T2U9EqUaMoUONS6eB
+ C6ivNGEU38f4Ym9Z9MlYuQgIT+JCoNcpiT45zPWgCvTLLYt7C+pNZq9C7iFcXmpHMowZ
+ 3SrwwmWKEQsy+yEEMxZeHpFpTFekOHlvbqTNivYsZSvdJzHD9nJyskTW8wf0Swy/dnZd
+ Dv0Q==
+X-Gm-Message-State: AOAM530SuLLbJ4m/PrJx4BowE8qdQ/Nvrdks6bNZubsDURI93xGHXdLl
+ QkgRtz5dPBagfybQzAd8E0lT7Q==
+X-Google-Smtp-Source: ABdhPJybH2bQAPW+77vXVv7ZdH9PgXoUP/2Z/RbCfGSgNuoH+QZ0UkU5qRe3G6hxp7aAPD5Wt70iHw==
+X-Received: by 2002:a17:907:9709:: with SMTP id
+ jg9mr5147824ejc.397.1641987377187; 
+ Wed, 12 Jan 2022 03:36:17 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u8sm8097836vsi.18.2022.01.12.03.27.30
+ by smtp.gmail.com with ESMTPSA id z11sm6034098edr.72.2022.01.12.03.36.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jan 2022 03:27:34 -0800 (PST)
+ Wed, 12 Jan 2022 03:36:16 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3925B1FFC2;
+ by zen.linaroharston (Postfix) with ESMTP id 4B6C01FFC3;
  Wed, 12 Jan 2022 11:27:23 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 10/31] tests/docker: auto-generate ubuntu1804.docker with
+Subject: [PULL 11/31] tests/docker: auto-generate ubuntu2004.docker with
  lcitool
-Date: Wed, 12 Jan 2022 11:27:01 +0000
-Message-Id: <20220112112722.3641051-11-alex.bennee@linaro.org>
+Date: Wed, 12 Jan 2022 11:27:02 +0000
+Message-Id: <20220112112722.3641051-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220112112722.3641051-1-alex.bennee@linaro.org>
 References: <20220112112722.3641051-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::929
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::533
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
- envelope-from=alex.bennee@linaro.org; helo=mail-ua1-x929.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -108,21 +108,21 @@ This commit is best examined using the "-b" option to diff.
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20211215141949.3512719-11-berrange@redhat.com>
-Message-Id: <20220105135009.1584676-11-alex.bennee@linaro.org>
+Message-Id: <20211215141949.3512719-12-berrange@redhat.com>
+Message-Id: <20220105135009.1584676-12-alex.bennee@linaro.org>
 
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index 450fd06d0d..0ffa3c4d4b 100644
---- a/tests/docker/dockerfiles/ubuntu1804.docker
-+++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -1,117 +1,146 @@
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index 15a026be09..40402b91fe 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -1,119 +1,148 @@
 +# THIS FILE WAS AUTO-GENERATED
 +#
-+#  $ lcitool dockerfile ubuntu-1804 qemu
++#  $ lcitool dockerfile ubuntu-2004 qemu
 +#
 +# https://gitlab.com/libvirt/libvirt-ci
 +
- FROM docker.io/library/ubuntu:18.04
+ FROM docker.io/library/ubuntu:20.04
 -ENV PACKAGES \
 -    bc \
 -    bsdmainutils \
@@ -141,7 +141,6 @@ index 450fd06d0d..0ffa3c4d4b 100644
 -    genisoimage \
 -    gettext \
 -    git \
--    glusterfs-common \
 -    hostname \
 -    libaio-dev \
 -    libasan5 \
@@ -162,6 +161,7 @@ index 450fd06d0d..0ffa3c4d4b 100644
 -    libgbm-dev \
 -    libgcrypt20-dev \
 -    libglib2.0-dev \
+-    libglusterfs-dev \
 -    libgnutls28-dev \
 -    libgtk-3-dev \
 -    libibverbs-dev \
@@ -185,6 +185,7 @@ index 450fd06d0d..0ffa3c4d4b 100644
 -    libsdl2-image-dev \
 -    libseccomp-dev \
 -    libselinux-dev \
+-    libslirp-dev \
 -    libsnappy-dev \
 -    libspice-protocol-dev \
 -    libspice-server-dev \
@@ -206,7 +207,7 @@ index 450fd06d0d..0ffa3c4d4b 100644
 -    locales \
 -    make \
 -    multipath-tools \
--    netcat-openbsd \
+-    ncat \
 -    nettle-dev \
 -    ninja-build \
 -    openssh-client \
@@ -260,7 +261,6 @@ index 450fd06d0d..0ffa3c4d4b 100644
 +            genisoimage \
 +            gettext \
 +            git \
-+            glusterfs-common \
 +            hostname \
 +            libaio-dev \
 +            libasan5 \
@@ -281,6 +281,7 @@ index 450fd06d0d..0ffa3c4d4b 100644
 +            libgbm-dev \
 +            libgcrypt20-dev \
 +            libglib2.0-dev \
++            libglusterfs-dev \
 +            libgnutls28-dev \
 +            libgtk-3-dev \
 +            libibverbs-dev \
@@ -305,6 +306,7 @@ index 450fd06d0d..0ffa3c4d4b 100644
 +            libsdl2-image-dev \
 +            libseccomp-dev \
 +            libselinux1-dev \
++            libslirp-dev \
 +            libsnappy-dev \
 +            libspice-protocol-dev \
 +            libspice-server-dev \
@@ -326,7 +328,7 @@ index 450fd06d0d..0ffa3c4d4b 100644
 +            locales \
 +            make \
 +            multipath-tools \
-+            netcat-openbsd \
++            ncat \
 +            nettle-dev \
 +            ninja-build \
 +            openssh-client \
@@ -373,29 +375,34 @@ index 450fd06d0d..0ffa3c4d4b 100644
 +ENV NINJA "/usr/bin/ninja"
 +ENV PYTHON "/usr/bin/python3"
 +ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
- # https://bugs.launchpad.net/qemu/+bug/1838763
- ENV QEMU_CONFIGURE_OPTS --disable-libssh
+ # Apply patch https://reviews.llvm.org/D75820
+ # This is required for TSan in clang-10 to compile with QEMU.
+ RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h
 diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index d79d2b8c06..1e30674d67 100755
+index 1e30674d67..310bad1315 100755
 --- a/tests/lcitool/refresh
 +++ b/tests/lcitool/refresh
-@@ -60,9 +60,16 @@ def generate_dockerfile(host, target, cross=None, trailer=None):
-    cmd.extend([target, "qemu"])
-    generate(filename, cmd, trailer)
+@@ -65,12 +65,19 @@ ubuntu1804_skipssh = [
+    "ENV QEMU_CONFIGURE_OPTS --disable-libssh\n"
+ ]
  
-+ubuntu1804_skipssh = [
-+   "# https://bugs.launchpad.net/qemu/+bug/1838763\n",
-+   "ENV QEMU_CONFIGURE_OPTS --disable-libssh\n"
++ubuntu2004_tsanhack = [
++   "# Apply patch https://reviews.llvm.org/D75820\n",
++   "# This is required for TSan in clang-10 to compile with QEMU.\n",
++   "RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h\n"
 +]
 +
  try:
     generate_dockerfile("centos8", "centos-8")
     generate_dockerfile("fedora", "fedora-35")
-+   generate_dockerfile("ubuntu1804", "ubuntu-1804",
-+                       trailer="".join(ubuntu1804_skipssh))
- 
+    generate_dockerfile("ubuntu1804", "ubuntu-1804",
+                        trailer="".join(ubuntu1804_skipssh))
+-
++   generate_dockerfile("ubuntu2004", "ubuntu-2004",
++                       trailer="".join(ubuntu2004_tsanhack))
     sys.exit(0)
  except Exception as ex:
+    print(str(ex), file=sys.stderr)
 -- 
 2.30.2
 
