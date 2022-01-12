@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05D1748CD8A
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 22:17:07 +0100 (CET)
-Received: from localhost ([::1]:39330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6750F48CD7E
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 22:14:01 +0100 (CET)
+Received: from localhost ([::1]:33568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7kzS-0003mG-5A
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 16:17:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50730)
+	id 1n7kwS-0008HF-6o
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 16:14:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <deller@gmx.de>)
- id 1n7kqU-0003fj-HS; Wed, 12 Jan 2022 16:07:54 -0500
-Received: from mout.gmx.net ([212.227.17.22]:45619)
+ id 1n7kqU-0003fi-Hh; Wed, 12 Jan 2022 16:07:54 -0500
+Received: from mout.gmx.net ([212.227.17.22]:36361)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <deller@gmx.de>)
- id 1n7kqI-0000en-45; Wed, 12 Jan 2022 16:07:42 -0500
+ id 1n7kqJ-0000ep-Ss; Wed, 12 Jan 2022 16:07:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1642021652;
- bh=xGBb7L4vMQdEr2R1rRoHshMoMr2JSJ0JRn+F2ikeLPQ=;
+ bh=KkexLjci6LW1vNBOmGNzhom0/yMwVW+n37nBFA34etI=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=GuO/koyDzaTwCWLA4xlaAQpBPipduqEY41r3cnff+RARmpiXS174r+ShcCmhIlXPw
- OYM2KmURB5qQ2BM3TcRZsPOYsVRXhfbxTuQFBAEla/w7F1rZQYbJkMx7NlyTGX46iq
- 0/ad81HRMl0mz0exMMpk4IHPG+0zoE4jjoRy9Cxo=
+ b=QR6LBzL3KI0ItYd301DHnmLDbTH+kw7Rz7oYIZh0sJeqHuKRqGcHAUtz2OeFiA1b2
+ pPRFLoSzWylSx4y042AWNT3Cf1IYZOZC/1fom6cBpLjZm9km84VviJMj635WYpCwTT
+ SIvu+bd4EZhG+3mrmv9biyKFJ1VOSFiuUc6YEzhk=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100.fritz.box ([92.116.184.198]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MmlXK-1mfsgM1ao2-00jtMV; Wed, 12
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M2f5T-1n3dhz2Jih-004Csg; Wed, 12
  Jan 2022 22:07:32 +0100
 From: Helge Deller <deller@gmx.de>
 To: qemu-devel@nongnu.org,
 	Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH 4/5] hw/display/artist: Mouse cursor fixes for HP-UX
-Date: Wed, 12 Jan 2022 22:07:29 +0100
-Message-Id: <20220112210730.292775-5-deller@gmx.de>
+Subject: [PATCH 5/5] hw/display/artist: Fix framebuffer access for Linux
+Date: Wed, 12 Jan 2022 22:07:30 +0100
+Message-Id: <20220112210730.292775-6-deller@gmx.de>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220112210730.292775-1-deller@gmx.de>
 References: <20220112210730.292775-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:wi7BnjY/Nz7qy5yk5msnNp5DyCtaz7K1ff8iLxFoWSI9lYdF5to
- znbII6cSOPMmFFhlg+THXQiPSk9HBGElwQNlaKNDyWAOm3juZXgWdGNH19qNx0F/nZzx8xY
- cr+R0iE869mOSjp7ABTggKu3lvxJseWug+rvL7JBq8UbCDqFaNsrBEnT2KT/SBphavJxlEi
- arydqQjYjZdOE3uWUJJCA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8sFT7PcmpbU=:9KxxCzFBTrPEjlEpirR65P
- DaRI9cRSuAerOOxxa/LnqDvCKgrekG8ts2kJwtRUFTZE5MaivwR3UecmDExaoktW2biKkI5kD
- JuOno2EL4E4lX8KAZ/BspbrMz48aGXmYY6ujGn48ZE2BHZbrERURjodvLhL1JZ1Uo4uaJXS5y
- fpO5b4n1U3I2EPpFkF6XOetGew/KhsLvl2unmD0hgFvPL8RmnzJHLR8A9BTwRTYNJA1ZNs5yh
- +BQL92YHh2l0f1NbR33J8Qu6szuTrmhpwXvjB3qHlC+RTX9O8lRb/FiGqVN58G0sBqNo4ovKe
- wQ1IsmKz4jaVin8sFb3xrXhAckRF6pVWS0JXgysU1gHyf5CaKzCHK60gGnlAXQQsyObtfE172
- aL0hWaHJBxG8ZkkdRO45YVEt2VwCWA9KlRSlNmfTAxcVfiuClG8Nq4M3olotBTGhfKJV7wo4m
- F6y007WxUXrwtKejYlJtJkSf6lXD9z2x1CDR4B2RC+KjKbMpaWFDCDONtM4hXWp+NyEelTu0d
- vHi2hbXilp9SY/OIB0KWbCg1FyXzwmXLOcyCe18MmX8kHtscSRM5DpStwMtVBhHJTs+RXU2cg
- XPbvcaJDUUZtgfZ4eEDmxaCuIr9u2Sv4ExVix6OwLrhCrHp+cvwIbIgyrL8FKNHYnjkaYYLcH
- qwP2/PkmAGvcHGOZ1EFHX8wilP5po03TbNY3dxVGTASuGihrhWNmc9kksdnjj/eimSrnUdC4j
- aT5pHz4pWzMSf7qOdYgWe92+hEV3CrbbLBE/bmXw+7vHsF0y4bpOSE3oytQ+SCnYuV2hgEa56
- zQoE2534utjwHP9Aj3N9q51XTcjEv9baZ0mKYwUGuy7P2Xe23ATVA1a2iTrjKlOpHBamT1zc8
- pUvo5/D1dQY5E9/a4WaBDxvGa8zYW390g+7s4kTdjc7e50rbuxhsxod/2LX9bAFfRuGmY4wZs
- GoYjrEOLhhwu6lTJXYJk3s2rIhJsyCh+2nLN6EuvJe2IZHBZb1yyH2Qj1886nYEl5Jo8R+V/M
- 8hKbV/t7d51bQmsjgkMNAwCyd1s7jLTNOadKnhV+jZ2fZsLPbRsuqRuu70gRUVyArhO2jAfFb
- pFc070MDu5DRjI=
+X-Provags-ID: V03:K1:wTjYeZm5AYNTmBIQyTsZJOCQtL5GZdeNa5CWUUvIUuO1SIFqWON
+ Nyqv2LUdoQtJH9jVpK8KjRZVVZsnsO8ZTXIwJl/H5sZOx68Nc9p5tNx1PEgjpufvovLezrx
+ s0bdSAo7EFe7Je0Zf6LozeFW3XQSBPvb6CMyi2zOryG1IO3OTVoYsqfGZpaadITm9ZlJqFf
+ D3blPtIK/Ldpt7wk1p9BQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:nTZregWM1UI=:jvMdg4sY6g0TIlkBvcOF9I
+ qKiQCjOFVgOuzSueRyjEzdPynL7k3gH/pAo2a7waaUZriDsgFFHSn1s1PPXhp8bHqAZmPEfBq
+ iig8uMDiaIPK04J+SfWLeerGrB/obafFVYlDtGL5A09Qot8ycEsM43GfnMF9TgOnQjwUGDXy2
+ Vm86iYRIACUOBocMWnjKLx5lyLI1uJmZ7C1oi6E10gFzurZKh5Cm6lavbtBkdKtRSJUAUgK7G
+ fhT02IouAt2NMcVVtFEGIpQ1M6Q+MdzvY5nod7wYK5mHwEEsIPSlwFqv3RbxW+OhBtN2KgFNc
+ 2gRTZ9z1gN7MXHFPfeqaOcbLmx8S2dyzK5kvUjebwWwago15oPWlagBlwff8eHI2jQsHWXCq8
+ rBYpJQGnVLQEeWKWt+3N8wgj+HN8TQG2LlDytRJ6BTKc/KM6k2UqhsDQQW5eQAaQHfKQNYqDu
+ 9XmWFoQJ/Ok5kiuc53Vm87HGjCLzB7rw4bbAFK3TgReh8Pnu0AzmT9zZwKQtFKXMYEv/6/Ny6
+ NQ8dMKXiTj5YctMmLE88/FIWhG5twAYeIYnnE8txfTviG3AAe01/8lTUo1D5ClJhQ91IYVaId
+ CcMZbuVb3c21pkprOhv1raRD6fpQ66kXipQWN2+q+R8NZrq+Vaom+kVFTAKtmUxCRewIeO72w
+ ciPZ9OkG6mKxY2eUXb+KCSL/wPHzSvrYTRylmJxk8vRQmowuTACJyv4yZWQzflrSAsd6PIzLT
+ IGolrQ92/2PFTYaY2mUZ7ko1hUtdRS40DpFW94RVZixtC890DT5DQoRd2s8Ntw3aOYe6GPJRp
+ C0lm21QrrOvMBEsyC0mTatjs+L04U1maODHAos62mJ8cUYUf4OqRAHAakLxIIXCcJvTSvvygq
+ cUKy3bc4ebs+A7tCo+X6b61J0DYmUP5Kve5kv3bE+caq2uOA6hRFCFqkLq7olHjy9JKFTZ5ws
+ Kyt2Q8B9ZTC8k8FLEZm9BEWSqGdZdpQvmwbDLlM9WmXtXiMyiZu6sObuju7xTABRtahldg+Cs
+ DSokJ4ZwunSUaCA+2ipdZER+pMqBOcGi+9q5+gzFpsVEcctR71xJDoJX2BXJAu8n+wFxE+FRB
+ PRaX72rlRxWenw=
 Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
@@ -85,120 +85,84 @@ Cc: Helge Deller <deller@gmx.de>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch fix the behaviour and positioning of the X11 mouse cursor in HP=
--UX.
+This patch fixes two problems which prevented Linux to access the
+artist graphics framebuffer:
 
-The current code missed to subtract the offset of the CURSOR_CTRL register=
- from
-the current mouse cursor position. The HP-UX graphics driver stores in thi=
-s
-register the offset of the mouse graphics compared to the current cursor
-position.  Without this adjustment the mouse behaves strange at the screen
-borders.
+The check if the framebuffer or the color map should be accessed was
+incomplete. By using the vram_read/write_bufidx() functions we now check
+correctly if ARTIST_BUFFER_CMAP should be accessed.
 
-Additionally, depending on the HP-UX version, the mouse cursor position
-in the cursor_pos register reports different values. To accommodate this
-track the current min and max reported values and auto-adjust at runtime.
+The second fix is to correctly calculate the X- and Y-coordinates and
+check against the graphics resolution.
 
-With this fix the mouse now behaves as expected on HP-UX 10 and 11.
+With this fix in place, the Linux stifb driver now works correctly,
+shows the penguins at bootup and uses the stifb as graphics console.
+I haven't seen any negative side effects when running HP-UX.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 Cc: qemu-stable@nongnu.org
 =2D--
- hw/display/artist.c | 42 ++++++++++++++++++++++++++++++++++--------
- 1 file changed, 34 insertions(+), 8 deletions(-)
+ hw/display/artist.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/hw/display/artist.c b/hw/display/artist.c
-index 21b7fd1b44..6384076c60 100644
+index 6384076c60..fbf5525334 100644
 =2D-- a/hw/display/artist.c
 +++ b/hw/display/artist.c
-@@ -80,6 +80,7 @@ struct ARTISTState {
-     uint32_t line_pattern_skip;
+@@ -1186,7 +1186,7 @@ static void artist_vram_write(void *opaque, hwaddr a=
+ddr, uint64_t val,
+     unsigned int offset;
+     trace_artist_vram_write(size, addr, val);
 
-     uint32_t cursor_pos;
-+    uint32_t cursor_cntrl;
-
-     uint32_t cursor_height;
-     uint32_t cursor_width;
-@@ -328,19 +329,42 @@ static void artist_get_cursor_pos(ARTISTState *s, in=
-t *x, int *y)
- {
-     /*
-      * Don't know whether these magic offset values are configurable via
--     * some register. They are the same for all resolutions, so don't
--     * bother about it.
-+     * some register. They seem to be the same for all resolutions.
-+     * The cursor values provided in the registers are:
-+     * X-value: -295 (for HP-UX 11) and 338 (for HP-UX 10.20) up to 2265
-+     * Y-value: 1146 down to 0
-+     * The emulated Artist graphic is like a CRX graphic, and as such
-+     * it's usually fixed at 1280x1024 pixels.
-+     * Because of the maximum Y-value of 1146 you can not choose a higher
-+     * vertical resolution on HP-UX (unless you disable the mouse).
-      */
-
--    *y =3D 0x47a - artist_get_y(s->cursor_pos);
--    *x =3D ((artist_get_x(s->cursor_pos) - 338) / 2);
-+    static int offset =3D 338;
-+    int lx;
-+
-+    /* ignore if uninitialized */
-+    if (s->cursor_pos =3D=3D 0) {
-+        *x =3D *y =3D 0;
-+        return;
-+    }
-+
-+    lx =3D artist_get_x(s->cursor_pos);
-+    if (lx < offset)
-+        offset =3D lx;
-+    *x =3D (lx - offset) / 2;
-+
-+    *y =3D 1146 - artist_get_y(s->cursor_pos);
-+
-+    /* subtract cursor offset from cursor control register */
-+    *x -=3D (s->cursor_cntrl & 0xf0) >> 4;
-+    *y -=3D (s->cursor_cntrl & 0x0f);
-
-     if (*x > s->width) {
--        *x =3D 0;
-+        *x =3D s->width;
+-    if (s->cmap_bm_access) {
++    if (vram_write_bufidx(s) =3D=3D ARTIST_BUFFER_CMAP) {
+         buf =3D &s->vram_buffer[ARTIST_BUFFER_CMAP];
+         if (addr + 3 < buf->size) {
+             *(uint32_t *)(buf->data + addr) =3D val;
+@@ -1195,14 +1195,14 @@ static void artist_vram_write(void *opaque, hwaddr=
+ addr, uint64_t val,
      }
 
-     if (*y > s->height) {
--        *y =3D 0;
-+        *y =3D s->height;
+     buf =3D vram_write_buffer(s);
+-    posy =3D ADDR_TO_Y(addr >> 2);
+-    posx =3D ADDR_TO_X(addr >> 2);
++    posy =3D ADDR_TO_Y(addr);
++    posx =3D ADDR_TO_X(addr);
+
+     if (!buf->size) {
+         return;
      }
- }
 
-@@ -1034,6 +1058,7 @@ static void artist_reg_write(void *opaque, hwaddr ad=
-dr, uint64_t val,
-         break;
+-    if (posy > buf->height || posx > buf->width) {
++    if (posy >=3D buf->height || posx >=3D buf->width) {
+         return;
+     }
 
-     case CURSOR_CTRL:
-+        combine_write_reg(addr, val, size, &s->cursor_cntrl);
-         break;
+@@ -1242,7 +1242,7 @@ static uint64_t artist_vram_read(void *opaque, hwadd=
+r addr, unsigned size)
+     uint64_t val;
+     unsigned int posy, posx;
 
-     case IMAGE_BITMAP_OP:
-@@ -1422,8 +1447,8 @@ static int vmstate_artist_post_load(void *opaque, in=
-t version_id)
+-    if (s->cmap_bm_access) {
++    if (vram_read_bufidx(s) =3D=3D ARTIST_BUFFER_CMAP) {
+         buf =3D &s->vram_buffer[ARTIST_BUFFER_CMAP];
+         val =3D 0;
+         if (addr < buf->size && addr + 3 < buf->size) {
+@@ -1257,10 +1257,10 @@ static uint64_t artist_vram_read(void *opaque, hwa=
+ddr addr, unsigned size)
+         return 0;
+     }
 
- static const VMStateDescription vmstate_artist =3D {
-     .name =3D "artist",
--    .version_id =3D 1,
--    .minimum_version_id =3D 1,
-+    .version_id =3D 2,
-+    .minimum_version_id =3D 2,
-     .post_load =3D vmstate_artist_post_load,
-     .fields =3D (VMStateField[]) {
-         VMSTATE_UINT16(height, ARTISTState),
-@@ -1443,6 +1468,7 @@ static const VMStateDescription vmstate_artist =3D {
-         VMSTATE_UINT32(line_end, ARTISTState),
-         VMSTATE_UINT32(line_xy, ARTISTState),
-         VMSTATE_UINT32(cursor_pos, ARTISTState),
-+        VMSTATE_UINT32(cursor_cntrl, ARTISTState),
-         VMSTATE_UINT32(cursor_height, ARTISTState),
-         VMSTATE_UINT32(cursor_width, ARTISTState),
-         VMSTATE_UINT32(plane_mask, ARTISTState),
+-    posy =3D ADDR_TO_Y(addr >> 2);
+-    posx =3D ADDR_TO_X(addr >> 2);
++    posy =3D ADDR_TO_Y(addr);
++    posx =3D ADDR_TO_X(addr);
+
+-    if (posy > buf->height || posx > buf->width) {
++    if (posy >=3D buf->height || posx >=3D buf->width) {
+         return 0;
+     }
+
 =2D-
 2.31.1
 
