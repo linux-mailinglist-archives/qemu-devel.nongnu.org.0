@@ -2,102 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4202F48C5E1
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 15:21:31 +0100 (CET)
-Received: from localhost ([::1]:55504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D74948C61F
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 15:36:16 +0100 (CET)
+Received: from localhost ([::1]:60638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7eVG-0007sp-8r
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 09:21:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47870)
+	id 1n7ejV-0006Aj-SA
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 09:36:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1n7dVv-0003zS-9S; Wed, 12 Jan 2022 08:18:08 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57964)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1n7dVt-0003tI-9q; Wed, 12 Jan 2022 08:18:06 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20CCSEoQ024030; 
- Wed, 12 Jan 2022 13:18:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=wQiSqMlrgUPqcCUg2I60nTBBqaE+5HAUa2cWql5xACk=;
- b=LS0dsOwn3y41DWINocpQt+dXvpr9G+ji0B61+0+7xeg64lx+/MwiVdFkc0fHt0/24F6p
- f1aKSsQVOWtbcQdV4xGX5XwOdYxgxyY+Ywcz5ki3mubNaZi5Ccq8IPGArrCV4RhgtXUN
- hy7o4T9fdYzLwAERMwLWcSLBdu6xUSLwjIH23gMEh5L8i4uEi9MBncUn99jIzg/tRxG9
- LJz4QrhYQlg23K36uhGRs/fi7rCUTqr0Oley7GCPSItOCKKt3NDylUipvefbJt6Pljft
- +bHsS22rigQyo+os4bMR5ZZCpkfOAhUCoL32XLSLUfxAkEBYjBrz7v0SPoxPblbX1v/H Ng== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dhy0wgy5p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jan 2022 13:18:02 +0000
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20CClKXs026068;
- Wed, 12 Jan 2022 13:18:01 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dhy0wgy51-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jan 2022 13:18:01 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20CDC5up004294;
- Wed, 12 Jan 2022 13:17:59 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma02fra.de.ibm.com with ESMTP id 3df28aac43-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jan 2022 13:17:59 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20CDHuZ737880294
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 Jan 2022 13:17:56 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 16080AE058;
- Wed, 12 Jan 2022 13:17:56 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8FF0CAE045;
- Wed, 12 Jan 2022 13:17:55 +0000 (GMT)
-Received: from vm.lan (unknown [9.171.78.41])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 12 Jan 2022 13:17:55 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v3 5/5] tests/tcg/s390x: Test shift instructions
-Date: Wed, 12 Jan 2022 14:17:51 +0100
-Message-Id: <20220112131751.226011-6-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220112131751.226011-1-iii@linux.ibm.com>
-References: <20220112131751.226011-1-iii@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1n7dXf-0005to-Sw
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 08:19:56 -0500
+Received: from [2607:f8b0:4864:20::1031] (port=46647
+ helo=mail-pj1-x1031.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1n7dXc-00048a-W7
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 08:19:54 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ rj2-20020a17090b3e8200b001b1944bad25so4645047pjb.5
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 05:19:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IKRnPBwvStuYmtP9VBY0hs/lBM87YEuHTI8MryYLbEs=;
+ b=DprAxNNugwyaysm5Xrv7hpwMGAR4RpxznvuTEL2/GOTEnyyAAZk5UpkEZcdRo4YvOh
+ UzDJVaiq90o1TNyaTaOSETtuotjKmy43CyzOh71WXdWzXSeXzdrfHncBulYbfRHgaUuu
+ CM0zJ2hm1THjUEFwkCBsUX8eN0X6aGitqJgi/gfd4DEqMwBeUkq0sNHK/yHIVwvp4MOk
+ A30GAViMdrDdq9gja25QD7/xTANl6790XU0xIDqgIPzfMKdLMC3sfoDpapr3qlmSikZL
+ pvFNR0Ab741Jgo7D2bU+ba8bkfID0o9q7bYKS9uZCkWvCqzLzIFy7UfEcCL9g8S+jF5A
+ BrzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IKRnPBwvStuYmtP9VBY0hs/lBM87YEuHTI8MryYLbEs=;
+ b=WPLYJz4yfsjYu6H9mKjw+pgrAFnr5pRdJXhbRKLq25M9DKKonm7lUAxK6DIN2ExrPp
+ wE/2GtDKAioHH/aLnBG7+4TrFiKfagPuXrgIUff0/FCIobAUD2+pqNCyDveGjXKWvPFx
+ OgDULewov69VKym3JhuuZDm0EZNvucMl1vH+rAOBcjMqAoOg6RYHWEsYlBICXi2gZHsx
+ IBZPbQhvend90vzvTtcz+kPIlYEB3FzDTfXch9/OuMVeD+N2psAeoLVQi3biwhvbndll
+ DAyVZaNR5TCiRmgWmUwK+OtQaJLT7OohSLFWfjYsC/QSjBTJQdZGynfaEh8DmAahiFJN
+ 6HHw==
+X-Gm-Message-State: AOAM530VFjuZtxpnw8qEYTevOwIt/GShwX51QZFqBh+iOJqS5Fw8OMo0
+ lwrriBhrJQV3icxxz2nesYrFnA==
+X-Google-Smtp-Source: ABdhPJwbYIDqVbONQFCKZ9tQKMq8tTFrt3yKAqQG2qFHm83zQsTH0dgGltMeguc4hypOkn73G6Lxrg==
+X-Received: by 2002:a17:902:8d82:b0:149:a740:d8d0 with SMTP id
+ v2-20020a1709028d8200b00149a740d8d0mr9453840plo.5.1641993591604; 
+ Wed, 12 Jan 2022 05:19:51 -0800 (PST)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com.
+ [209.85.216.53])
+ by smtp.gmail.com with ESMTPSA id x6sm2691016pge.50.2022.01.12.05.19.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Jan 2022 05:19:51 -0800 (PST)
+Received: by mail-pj1-f53.google.com with SMTP id pj2so4811989pjb.2;
+ Wed, 12 Jan 2022 05:19:50 -0800 (PST)
+X-Received: by 2002:a17:902:b710:b0:14a:28ee:fe6b with SMTP id
+ d16-20020a170902b71000b0014a28eefe6bmr9188968pls.119.1641993590486; Wed, 12
+ Jan 2022 05:19:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: SZk--65v0YNh9H1umx86vHG5L3bALPEs
-X-Proofpoint-ORIG-GUID: cSnar6Q1gO-LsSxssglJ3m8CREHb_O6U
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-12_04,2022-01-11_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- malwarescore=0 clxscore=1015 phishscore=0 impostorscore=0 mlxlogscore=999
- mlxscore=0 spamscore=0 priorityscore=1501 adultscore=0 suspectscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201120086
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211230123539.52786-1-anup@brainfault.org>
+ <20211230123539.52786-18-anup@brainfault.org>
+In-Reply-To: <20211230123539.52786-18-anup@brainfault.org>
+From: Frank Chang <frank.chang@sifive.com>
+Date: Wed, 12 Jan 2022 21:19:39 +0800
+X-Gmail-Original-Message-ID: <CANzO1D2woQKeqP8XnJ9c8z0MvBjiUAPnYVGLJMZX5sMGwj=_Aw@mail.gmail.com>
+Message-ID: <CANzO1D2woQKeqP8XnJ9c8z0MvBjiUAPnYVGLJMZX5sMGwj=_Aw@mail.gmail.com>
+Subject: Re: [PATCH v6 17/23] target/riscv: Allow users to force enable AIA
+ CSRs in HART
+To: Anup Patel <anup@brainfault.org>
+Content-Type: multipart/alternative; boundary="000000000000af405805d5626c9d"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,310 +94,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a test for each shift instruction in order to to prevent
-regressions.
+--000000000000af405805d5626c9d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- tests/tcg/s390x/Makefile.target |   1 +
- tests/tcg/s390x/shift.c         | 270 ++++++++++++++++++++++++++++++++
- 2 files changed, 271 insertions(+)
- create mode 100644 tests/tcg/s390x/shift.c
+Anup Patel <anup@brainfault.org> =E6=96=BC 2021=E5=B9=B412=E6=9C=8830=E6=97=
+=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=888:57=E5=AF=AB=E9=81=93=EF=BC=9A
 
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index cc64dd32d2..1a7238b4eb 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -9,6 +9,7 @@ TESTS+=exrl-trtr
- TESTS+=pack
- TESTS+=mvo
- TESTS+=mvc
-+TESTS+=shift
- TESTS+=trap
- TESTS+=signals-s390x
- 
-diff --git a/tests/tcg/s390x/shift.c b/tests/tcg/s390x/shift.c
-new file mode 100644
-index 0000000000..29594fec5c
---- /dev/null
-+++ b/tests/tcg/s390x/shift.c
-@@ -0,0 +1,270 @@
-+#include <inttypes.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+
-+#define DEFINE_SHIFT_SINGLE_COMMON(_name, _insn_str) \
-+    static uint64_t _name(uint64_t op1, uint64_t op2, uint64_t *cc) \
-+    { \
-+        asm("    sll %[cc],28\n" \
-+            "    spm %[cc]\n" \
-+            "    " _insn_str "\n" \
-+            "    ipm %[cc]\n" \
-+            "    srl %[cc],28" \
-+            : [op1] "+&r" (op1), \
-+              [cc] "+&r" (*cc) \
-+            : [op2] "r" (op2) \
-+            : "cc"); \
-+        return op1; \
-+    }
-+#define DEFINE_SHIFT_SINGLE_2(_insn, _offset) \
-+    DEFINE_SHIFT_SINGLE_COMMON(_insn ## _ ## _offset, \
-+                               #_insn " %[op1]," #_offset "(%[op2])")
-+#define DEFINE_SHIFT_SINGLE_3(_insn, _offset) \
-+    DEFINE_SHIFT_SINGLE_COMMON(_insn ## _ ## _offset, \
-+                               #_insn " %[op1],%[op1]," #_offset "(%[op2])")
-+#define DEFINE_SHIFT_DOUBLE(_insn, _offset) \
-+    static uint64_t _insn ## _ ## _offset(uint64_t op1, uint64_t op2, \
-+                                          uint64_t *cc) \
-+    { \
-+        uint32_t op1h = op1 >> 32; \
-+        uint32_t op1l = op1 & 0xffffffff; \
-+        register uint32_t r2 asm("2") = op1h; \
-+        register uint32_t r3 asm("3") = op1l; \
-+        \
-+        asm("    sll %[cc],28\n" \
-+            "    spm %[cc]\n" \
-+            "    " #_insn " %[r2]," #_offset "(%[op2])\n" \
-+            "    ipm %[cc]\n" \
-+            "    srl %[cc],28" \
-+            : [r2] "+&r" (r2), \
-+              [r3] "+&r" (r3), \
-+              [cc] "+&r" (*cc) \
-+            : [op2] "r" (op2) \
-+            : "cc"); \
-+        op1h = r2; \
-+        op1l = r3; \
-+        return (((uint64_t)op1h) << 32) | op1l; \
-+    }
-+
-+DEFINE_SHIFT_SINGLE_3(rll, 0x4cf3b);
-+DEFINE_SHIFT_SINGLE_3(rllg, 0x697c9);
-+DEFINE_SHIFT_SINGLE_2(sla, 0x4b0);
-+DEFINE_SHIFT_SINGLE_2(sla, 0xd54);
-+DEFINE_SHIFT_SINGLE_3(slak, 0x2832c);
-+DEFINE_SHIFT_SINGLE_3(slag, 0x66cc4);
-+DEFINE_SHIFT_SINGLE_3(slag, 0xd54);
-+DEFINE_SHIFT_SINGLE_2(sll, 0xd04);
-+DEFINE_SHIFT_SINGLE_3(sllk, 0x2699f);
-+DEFINE_SHIFT_SINGLE_3(sllg, 0x59df9);
-+DEFINE_SHIFT_SINGLE_2(sra, 0x67e);
-+DEFINE_SHIFT_SINGLE_3(srak, 0x60943);
-+DEFINE_SHIFT_SINGLE_3(srag, 0x6b048);
-+DEFINE_SHIFT_SINGLE_2(srl, 0x035);
-+DEFINE_SHIFT_SINGLE_3(srlk, 0x43dfc);
-+DEFINE_SHIFT_SINGLE_3(srlg, 0x27227);
-+DEFINE_SHIFT_DOUBLE(slda, 0x38b);
-+DEFINE_SHIFT_DOUBLE(sldl, 0x031);
-+DEFINE_SHIFT_DOUBLE(srda, 0x36f);
-+DEFINE_SHIFT_DOUBLE(srdl, 0x99a);
-+
-+struct shift_test {
-+    const char *name;
-+    uint64_t (*insn)(uint64_t, uint64_t, uint64_t *);
-+    uint64_t op1;
-+    uint64_t op2;
-+    uint64_t exp_result;
-+    uint64_t exp_cc;
-+};
-+
-+static const struct shift_test tests[] = {
-+    {
-+        .name = "rll",
-+        .insn = rll_0x4cf3b,
-+        .op1 = 0xecbd589a45c248f5ull,
-+        .op2 = 0x62e5508ccb4c99fdull,
-+        .exp_result = 0xecbd589af545c248ull,
-+        .exp_cc = 0,
-+    },
-+    {
-+        .name = "rllg",
-+        .insn = rllg_0x697c9,
-+        .op1 = 0xaa2d54c1b729f7f4ull,
-+        .op2 = 0x5ffcf7465f5cd71full,
-+        .exp_result = 0x29f7f4aa2d54c1b7ull,
-+        .exp_cc = 0,
-+    },
-+    {
-+        .name = "sla-1",
-+        .insn = sla_0x4b0,
-+        .op1 = 0x8bf21fb67cca0e96ull,
-+        .op2 = 0x3ddf2f53347d3030ull,
-+        .exp_result = 0x8bf21fb600000000ull,
-+        .exp_cc = 3,
-+    },
-+    {
-+        .name = "sla-2",
-+        .insn = sla_0xd54,
-+        .op1 = 0xe4faaed5def0e926ull,
-+        .op2 = 0x18d586fab239cbeeull,
-+        .exp_result = 0xe4faaed5fbc3a498ull,
-+        .exp_cc = 3,
-+    },
-+    {
-+        .name = "slak",
-+        .insn = slak_0x2832c,
-+        .op1 = 0x7300bf78707f09f9ull,
-+        .op2 = 0x4d193b85bb5cb39bull,
-+        .exp_result = 0x7300bf783f84fc80ull,
-+        .exp_cc = 3,
-+    },
-+    {
-+        .name = "slag-1",
-+        .insn = slag_0x66cc4,
-+        .op1 = 0xe805966de1a77762ull,
-+        .op2 = 0x0e92953f6aa91c6bull,
-+        .exp_result = 0xbbb1000000000000ull,
-+        .exp_cc = 3,
-+    },
-+    {
-+        .name = "slag-2",
-+        .insn = slag_0xd54,
-+        .op1 = 0xdef0e92600000000ull,
-+        .op2 = 0x18d586fab239cbeeull,
-+        .exp_result = 0xfbc3a49800000000ull,
-+        .exp_cc = 3,
-+    },
-+    {
-+        .name = "sll",
-+        .insn = sll_0xd04,
-+        .op1 = 0xb90281a3105939dfull,
-+        .op2 = 0xb5e4df7e082e4c5eull,
-+        .exp_result = 0xb90281a300000000ull,
-+        .exp_cc = 0,
-+    },
-+    {
-+        .name = "sllk",
-+        .insn = sllk_0x2699f,
-+        .op1 = 0x777c6cf116f99557ull,
-+        .op2 = 0xe0556cf112e5a458ull,
-+        .exp_result = 0x777c6cf100000000ull,
-+        .exp_cc = 0,
-+    },
-+    {
-+        .name = "sllg",
-+        .insn = sllg_0x59df9,
-+        .op1 = 0xcdf86cbfbc0f3557ull,
-+        .op2 = 0x325a45acf99c6d3dull,
-+        .exp_result = 0x55c0000000000000ull,
-+        .exp_cc = 0,
-+    },
-+    {
-+        .name = "sra",
-+        .insn = sra_0x67e,
-+        .op1 = 0xb878f048d5354183ull,
-+        .op2 = 0x9e27d13195931f79ull,
-+        .exp_result = 0xb878f048ffffffffull,
-+        .exp_cc = 1,
-+    },
-+    {
-+        .name = "srak",
-+        .insn = srak_0x60943,
-+        .op1 = 0xb6ceb5a429cedb35ull,
-+        .op2 = 0x352354900ae34d7aull,
-+        .exp_result = 0xb6ceb5a400000000ull,
-+        .exp_cc = 0,
-+    },
-+    {
-+        .name = "srag",
-+        .insn = srag_0x6b048,
-+        .op1 = 0xd54dd4468676c63bull,
-+        .op2 = 0x84d026db7b4dca28ull,
-+        .exp_result = 0xffffffffffffd54dull,
-+        .exp_cc = 1,
-+    },
-+    {
-+        .name = "srl",
-+        .insn = srl_0x035,
-+        .op1 = 0x09be503ef826815full,
-+        .op2 = 0xbba8d1a0e542d5c1ull,
-+        .exp_result = 0x9be503e00000000ull,
-+        .exp_cc = 0,
-+    },
-+    {
-+        .name = "srlk",
-+        .insn = srlk_0x43dfc,
-+        .op1 = 0x540d6c8de71aee2aull,
-+        .op2 = 0x0000000000000000ull,
-+        .exp_result = 0x540d6c8d00000000ull,
-+        .exp_cc = 0,
-+    },
-+    {
-+        .name = "srlg",
-+        .insn = srlg_0x27227,
-+        .op1 = 0x26f7123c1c447a34ull,
-+        .op2 = 0x0000000000000000ull,
-+        .exp_result = 0x00000000004dee24ull,
-+        .exp_cc = 0,
-+    },
-+    {
-+        .name = "slda",
-+        .insn = slda_0x38b,
-+        .op1 = 0x7988f722dd5bbe7cull,
-+        .op2 = 0x9aed3f95b4d78cc2ull,
-+        .exp_result = 0x1ee45bab77cf8000ull,
-+        .exp_cc = 3,
-+    },
-+    {
-+        .name = "sldl",
-+        .insn = sldl_0x031,
-+        .op1 = 0xaae2918dce2b049aull,
-+        .op2 = 0x0000000000000000ull,
-+        .exp_result = 0x0934000000000000ull,
-+        .exp_cc = 0,
-+    },
-+    {
-+        .name = "srda",
-+        .insn = srda_0x36f,
-+        .op1 = 0x0cd4ed9228a50978ull,
-+        .op2 = 0x72b046f0848b8cc9ull,
-+        .exp_result = 0x000000000000000cull,
-+        .exp_cc = 2,
-+    },
-+    {
-+        .name = "srdl",
-+        .insn = srdl_0x99a,
-+        .op1 = 0x1018611c41689a1dull,
-+        .op2 = 0x2907e150c50ba319ull,
-+        .exp_result = 0x0000000000000203ull,
-+        .exp_cc = 0,
-+    },
-+};
-+
-+int main(void)
-+{
-+    int ret = 0;
-+    size_t i;
-+
-+    for (i = 0; i < sizeof(tests) / sizeof(tests[0]); i++) {
-+        uint64_t result;
-+        uint64_t cc = 0;
-+
-+        result = tests[i].insn(tests[i].op1, tests[i].op2, &cc);
-+        if (result != tests[i].exp_result) {
-+            fprintf(stderr,
-+                    "bad %s result:\n"
-+                    "actual   = 0x%" PRIx64 "\n"
-+                    "expected = 0x%" PRIx64 "\n",
-+                    tests[i].name, result, tests[i].exp_result);
-+            ret = 1;
-+        }
-+        if (cc != tests[i].exp_cc) {
-+            fprintf(stderr,
-+                    "bad %s cc:\n"
-+                    "actual   = %" PRIu64 "\n"
-+                    "expected = %" PRIu64 "\n",
-+                    tests[i].name, cc, tests[i].exp_cc);
-+            ret = 1;
-+        }
-+    }
-+    return ret;
-+}
--- 
-2.31.1
+> From: Anup Patel <anup.patel@wdc.com>
+>
+> We add "x-aia" command-line option for RISC-V HART using which
+> allows users to force enable CPU AIA CSRs without changing the
+> interrupt controller available in RISC-V machine.
+>
+> Signed-off-by: Anup Patel <anup.patel@wdc.com>
+> Signed-off-by: Anup Patel <anup@brainfault.org>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  target/riscv/cpu.c | 5 +++++
+>  target/riscv/cpu.h | 1 +
+>  2 files changed, 6 insertions(+)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 9ad26035e1..1ae9e15b27 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -463,6 +463,10 @@ static void riscv_cpu_realize(DeviceState *dev, Erro=
+r
+> **errp)
+>          }
+>      }
+>
+> +    if (cpu->cfg.aia) {
+> +        riscv_set_feature(env, RISCV_FEATURE_AIA);
+> +    }
+> +
+>      set_resetvec(env, cpu->cfg.resetvec);
+>
+>      /* Validate that MISA_MXL is set properly. */
+> @@ -691,6 +695,7 @@ static Property riscv_cpu_properties[] =3D {
+>      DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+>      /* ePMP 0.9.3 */
+>      DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
+> +    DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
+>
+>      DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec,
+> DEFAULT_RSTVEC),
+>      DEFINE_PROP_END_OF_LIST(),
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 82272f99fd..0b24c4324b 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -362,6 +362,7 @@ struct RISCVCPU {
+>          bool mmu;
+>          bool pmp;
+>          bool epmp;
+> +        bool aia;
+>          uint64_t resetvec;
+>      } cfg;
+>  };
+> --
+> 2.25.1
+>
+>
+>
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
 
+--000000000000af405805d5626c9d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Anup Patel &lt;<a href=3D"mailto:anup@bra=
+infault.org">anup@brainfault.org</a>&gt; =E6=96=BC 2021=E5=B9=B412=E6=9C=88=
+30=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=888:57=E5=AF=AB=E9=81=93=EF=
+=BC=9A<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">From: Anup Patel &lt;<a href=3D"mailto:anup.patel@wdc.com=
+" target=3D"_blank">anup.patel@wdc.com</a>&gt;<br>
+<br>
+We add &quot;x-aia&quot; command-line option for RISC-V HART using which<br=
+>
+allows users to force enable CPU AIA CSRs without changing the<br>
+interrupt controller available in RISC-V machine.<br>
+<br>
+Signed-off-by: Anup Patel &lt;<a href=3D"mailto:anup.patel@wdc.com" target=
+=3D"_blank">anup.patel@wdc.com</a>&gt;<br>
+Signed-off-by: Anup Patel &lt;<a href=3D"mailto:anup@brainfault.org" target=
+=3D"_blank">anup@brainfault.org</a>&gt;<br>
+Reviewed-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.co=
+m" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
+---<br>
+=C2=A0target/riscv/cpu.c | 5 +++++<br>
+=C2=A0target/riscv/cpu.h | 1 +<br>
+=C2=A02 files changed, 6 insertions(+)<br>
+<br>
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
+index 9ad26035e1..1ae9e15b27 100644<br>
+--- a/target/riscv/cpu.c<br>
++++ b/target/riscv/cpu.c<br>
+@@ -463,6 +463,10 @@ static void riscv_cpu_realize(DeviceState *dev, Error =
+**errp)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
++=C2=A0 =C2=A0 if (cpu-&gt;cfg.aia) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 riscv_set_feature(env, RISCV_FEATURE_AIA);<br>
++=C2=A0 =C2=A0 }<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0set_resetvec(env, cpu-&gt;cfg.resetvec);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0/* Validate that MISA_MXL is set properly. */<br>
+@@ -691,6 +695,7 @@ static Property riscv_cpu_properties[] =3D {<br>
+=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;x-j&quot;, RISCVCPU, cfg.ext_j, =
+false),<br>
+=C2=A0 =C2=A0 =C2=A0/* ePMP 0.9.3 */<br>
+=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;x-epmp&quot;, RISCVCPU, cfg.epmp=
+, false),<br>
++=C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;x-aia&quot;, RISCVCPU, cfg.aia, false=
+),<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_UINT64(&quot;resetvec&quot;, RISCVCPU, cfg.=
+resetvec, DEFAULT_RSTVEC),<br>
+=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_END_OF_LIST(),<br>
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h<br>
+index 82272f99fd..0b24c4324b 100644<br>
+--- a/target/riscv/cpu.h<br>
++++ b/target/riscv/cpu.h<br>
+@@ -362,6 +362,7 @@ struct RISCVCPU {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bool mmu;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bool pmp;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bool epmp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bool aia;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t resetvec;<br>
+=C2=A0 =C2=A0 =C2=A0} cfg;<br>
+=C2=A0};<br>
+-- <br>
+2.25.1<br>
+<br>
+<br></blockquote><div><br></div><div>Reviewed-by: Frank Chang &lt;<a href=
+=3D"mailto:frank.chang@sifive.com" target=3D"_blank">frank.chang@sifive.com=
+</a>&gt;=C2=A0</div></div></div>
+
+--000000000000af405805d5626c9d--
 
