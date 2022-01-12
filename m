@@ -2,73 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454E848C7C1
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 16:59:25 +0100 (CET)
-Received: from localhost ([::1]:33668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 583B748C80E
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 17:17:54 +0100 (CET)
+Received: from localhost ([::1]:54916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7g20-0003Ms-E3
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 10:59:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37686)
+	id 1n7gJs-0002gv-U1
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 11:17:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1n7foK-0000wH-7a
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 10:45:16 -0500
-Received: from [2607:f8b0:4864:20::d2c] (port=47066
- helo=mail-io1-xd2c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1n7foI-0005vX-6q
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 10:45:15 -0500
-Received: by mail-io1-xd2c.google.com with SMTP id w9so4138365iol.13
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 07:45:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rV+ugNGZEh+qQQGIOHQNnBLltvfjY5KqUYAnEpW4tbg=;
- b=VhBJFE9lgsuUjA1wTPMphSrVU8eI+2AnGyzhWmSDN085DN2y1cLgd+SZCyHtwdicOd
- yjk0RSgD5JzD9LlK29+lmBp2BLUVKCVbQdSe+EzjrB2hpy+XCBNBWugs17vitB76VBpx
- B3yOEpNyjaodgcgPwhwXkjjONIllJLPquBeff6H5prQcTUFSLiO4y50G15TWdMnL/TFB
- YkAScC0aW4gBd7I6xeOqkixPgU/Lw1yiUs9yOMIaKJbNHyAXF4oj82bLZY9BrA6uvZGD
- xd0D2RRzK3VkKXGK+rvMLrbglvRS4ejOcfIGAX3ZhzUGPppWJIwMVCMUIrTvshuJ9DFx
- Bcrg==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7foO-0000xe-QL
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 10:45:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43540)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n7foK-0005wA-R9
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 10:45:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642002315;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TdxdNclfeaKpiAKBHKFQ313w39WGGsyWhXmNBtcek/k=;
+ b=VFvmzRF64qi/rWz34CZaWAUuSYSnOvQ600M8hE4RxvHAtE24NEURzl6XXYjPyl2n93OU/J
+ gMD/+UxR9jb62w7MvrNyLP+u/GetKjYd5QOlGsrHJr5003ZQCK/ZYx/8Vgj4nZqk1rd8+b
+ qy5S9PBlL4e94v/wfIry5CaJIDO144g=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-533-v6FZF4qbNP246LBUn302GQ-1; Wed, 12 Jan 2022 10:45:14 -0500
+X-MC-Unique: v6FZF4qbNP246LBUn302GQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ c8-20020a05640227c800b003fdc1684cdeso2621115ede.12
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 07:45:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rV+ugNGZEh+qQQGIOHQNnBLltvfjY5KqUYAnEpW4tbg=;
- b=nNFCITMLAbitAT/2VnuyvMpGuN5KNB4hsByaQ+hCwT9NGyAx5aLGEj3s2B/qJTKXQo
- zQbq8W+ktKUy9W3fpayhYmMgxV46ipCexSTLzQ1tTJorX2dkRIWN6V1rg0ye4pYDccxT
- 8rRmj5LYmaL8nDA+s1Sd+Txv4OrXL6GJA9zosK4xX5YoN9OYJk+nWZfybe2XYGyskWDU
- bYbs3jeEDqJSJdP49yy6WPEUnKxl/loqjsEaeg21B6td72/ONduGQ0iKfRsNR/FwXrko
- htJUVBn6bP/RbzUsa9A5+pIdC9pUvCLTDXYzrIRjQgKy0yeRBrfrDFm7lG9Z60Rvk3xn
- 8bzg==
-X-Gm-Message-State: AOAM5305sKgu97szqFTFv6ATN7BGEVQ8KlVw1W6QG25IbQtz4RbZrAbh
- B3m3s3bAXE28fVzPyPcxATnULNLnjHHGQRoQ8kM=
-X-Google-Smtp-Source: ABdhPJyLBmG4uHeIUYOI7XVv6b71R8DETdu+cP4FzPrp3j+DdRbiUHRTN+iuwo11SKUbFkvE7b5Ri48DYsxLqwKi9nw=
-X-Received: by 2002:a05:6638:130f:: with SMTP id
- r15mr156269jad.130.1642002311041; 
- Wed, 12 Jan 2022 07:45:11 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:organization:subject
+ :in-reply-to:content-transfer-encoding;
+ bh=TdxdNclfeaKpiAKBHKFQ313w39WGGsyWhXmNBtcek/k=;
+ b=rt3cQLpIv1ySqbPPOXyX5r55wrM6o+ZfCgg4pBs/JiJr8hMpdLv7FRYAxOQLHy6VMQ
+ /Gn0eBzXZbX421pxPYyvfGUTWVgiqwH8CZt5tB1+37UcvpnB8EB3Iz7icQWaxeoevcJF
+ UEtNSBPbAb6M3t2zw5Yco8+sRtIC2a92h9fVDxxvzdX8Kz9mLQvJP1pJJiFylH1ocGEt
+ qHjBFuClyFOXY1rGM0/EyhUjbbK7TG5Qq9KLEwFPe3MMBl7A6OVpmbaGlnV2FcQgKZJL
+ b0OQc5909oC1ytKRdgyiSE+/i8B3TROLqC3gP1bmCuGKHrb2TLZP0eGLsD45ObGeGNgv
+ fAXw==
+X-Gm-Message-State: AOAM530xgzsnvPrfAU1no/FRk5/w9GLT+H9h+mR0VFFXyGZKKaGo0H0D
+ uibv1nd48IKDwWJs4zorm5NNN+dSqw6EIfVSuqDk96mGQf0WkPsIiilnG7yFhOCOfGA8PmnZZnE
+ ALUQmim/0DqSt+wE=
+X-Received: by 2002:a17:907:d11:: with SMTP id
+ gn17mr269754ejc.252.1642002313199; 
+ Wed, 12 Jan 2022 07:45:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxIX+FeQuLSxd+cTzgHpWYHz51Q6TsXMp7jpuK4TlbffxJ9vgOcj9DEF9NCEAU1TRN3qFQG+Q==
+X-Received: by 2002:a17:907:d11:: with SMTP id
+ gn17mr269740ejc.252.1642002312982; 
+ Wed, 12 Jan 2022 07:45:12 -0800 (PST)
+Received: from ?IPV6:2003:cb:c702:4700:e25f:39eb:3cb8:1dec?
+ (p200300cbc7024700e25f39eb3cb81dec.dip0.t-ipconnect.de.
+ [2003:cb:c702:4700:e25f:39eb:3cb8:1dec])
+ by smtp.gmail.com with ESMTPSA id w17sm64925edr.68.2022.01.12.07.45.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Jan 2022 07:45:12 -0800 (PST)
+Message-ID: <c9544f5c-545a-8edf-dac6-a960aa00d4dd@redhat.com>
+Date: Wed, 12 Jan 2022 16:45:11 +0100
 MIME-Version: 1.0
-References: <20211231120127.22394-1-pankaj.gupta.linux@gmail.com>
- <625c92c6-3618-fbaa-aea6-0ed86df872d3@redhat.com>
-In-Reply-To: <625c92c6-3618-fbaa-aea6-0ed86df872d3@redhat.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Wed, 12 Jan 2022 16:44:59 +0100
-Message-ID: <CAM9Jb+hvCZoXLx4_xx8KTq4oBts7MCe-ozp5ZuX2yPW6=tyLGQ@mail.gmail.com>
-Subject: Re: [RFC] virtio_pmem: enable live migration support
-To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd2c.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+To: Ilya Leoshkevich <iii@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
+References: <20220112043948.224405-1-iii@linux.ibm.com>
+ <20220112043948.224405-4-iii@linux.ibm.com>
+ <08948b31-0729-5463-829f-35fb444cf82d@redhat.com>
+ <add9d2da455bf9b07cf77c942e95183f5bf6f090.camel@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v2 3/5] target/s390x: Fix cc_calc_sla_64() missing
+ overflows
+In-Reply-To: <add9d2da455bf9b07cf77c942e95183f5bf6f090.camel@linux.ibm.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,126 +109,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta@ionos.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Rik van Riel <riel@surriel.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Qemu Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thank you David for replying!
+>> If the sign is false, the shifted bits (mask) have to be 0.
+>> If the sign bit is true, the shifted bits (mask) have to be set.
+> 
+> IIUC this logic handles sign bit + "shift - 1" bits. So if the last
+> shifted bit is different, the overflow is not detected.
 
-> > From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>>
-> >
-> > Enable live migration support for virtio-pmem device.
-> > Tested this: with live migration on same host.
-> >
-> > Need suggestion on below points to support virtio-pmem live migration
-> > between two separate host systems:
->
-> I assume emulated NVDIMMs would have the exact same issue, right?
->
-> There are two cases to consider I think:
->
-> 1) Backing storage is migrated manually to the destination (i.e., a file
-> that is copied/moved/transmitted during migration)
->
-> 2) Backing storage is located on a shared network storage (i.e., a file
-> that is not copied during migration)
->
-> IIRC you're concerned about 2).
+Ah, right, because of the - 1ULL ...
 
-Yes.
+[...]
 
->
-> >
-> > - There is still possibility of stale page cache page at the
-> >   destination host which we cannot invalidate currently as done in 1]
-> >   for write-back mode because virtio-pmem memory backend file is mmaped
-> >   in guest address space and invalidating corresponding page cache pages
-> >   would also fault all the other userspace process mappings on the same file.
-> >   Or we make it strict no other process would mmap this backing file?
->
-> I'd have assume that a simple fsync on the src once migration is about
-> to switch over (e.g., pre_save/post_save handler) should be enough to
-> trigger writeback to the backing storage, at which point the dst can
-> take over. So handling the src is easy.
->
-> So is the issue that the dst might still have stale pagecache
-> information, because it already accessed some of that file previously,
-> correct?
+>> This looks like some black magic :)
+> 
+> Yeah, I felt this way too, but didn't come up with anything better and
+> just left a comment warning not to simplify.
+> 
 
-yes.
+I wonder if all we want is
 
->
-> >
-> >   -- In commit 1] we first fsync and then invalidate all the pages from destination
-> >      page cache. fsync would sync the stale dirty page cache page, Is this the right
-> >      thing to do as we might end up in data discrepancy?
->
-> It would be weird if
->
-> a) The src used/modified the file and fsync'ed the modifications back to
->    backing storage
-> b) The dst has stale dirty pagecache pages that would result in a
->    modification of backing storage during fsync()
+const uint64_t sign = 1ULL << 63;
+uint64_t mask = (-1ULL << (63 - shift)) & ~sign;
 
-Yes. That's what I thought currently we are doing with commit 1] maybe Stefan
-can confirm. If yes, itvirg is broken as well.
+For shift =
+*  0: 0000000...0b
+*  1: 0100000...0b
+*  2: 0110000...0b
+* 63: 0111111...1b
 
->
-> I mean, that would be fundamentally broken, because the fsync() would
-> corrupt the file. So I assume in a sane environment, the dst could only
-> have stale clean pagecache pages. And we'd have to get rid of these to
-> re-read everything from file.
+Seems to survive your tests.
 
-In case of write back cache mode, we could still have stale dirty
-pages at the destination
-host and destination fsync is not the right thing to do. We need to
-invalidate these pages
-(Can we invalidate dirty pages resident in page cache with
-POSIX_FADV_DONTNEED as
-well?) man pages say, we cannot (unless i misunderstood it).
-
->
-> IIRC, an existing mmap of the file on the dst should not really be
-> problematic *as long as* we didn't actually access file content that way
-> and faulted in the pages. So *maybe*, if we do the POSIX_FADV_DONTNEED
-> on the dst before accessing file content via the mmap, there shouldn't
-> be an issue. Unless the mmap itself is already problematic.
-
-mmap with shared=ON, might result in stale dirty page cache pages?
-
->
-> I think we can assume that once QEMU starts on the dst and wants to mmap
-> the file that it's not mapped into any other process yet. vhost-user
-> will only mmap *after* being told from QEMU about the mmap region and
-> the location in GPA.
-
-maybe we have an old stale dirty page cache page even if there no mmap process
-alive before mmaping virtio-pmem backend file in destination?
->
-> So if the existing QEMU mmap is not problematic, it should be easy, just
-> do the POSIX_FADV_DONTNEED on the destination when initializing
-> virtio-pmem. If we have to POSIX_FADV_DONTNEED *before* performing the
-> mmap, we might need a way to tell QEMU to POSIX_FADV_DONTNEED before
-> doing the mmap. The could be a parameter for memory-backend-file like
-> "flush=on", or doing that implicitly when we're told that we expect an
-> incoming migration.
-
-Yes, that's what I had in mind. Just wanted to confirm some of my
-doubts for correct
-implementation. As I see it, page cache coherency across multiple host
-systems with
-live migration needs to be addressed or used to avoid such scenarios.
-
-
+-- 
 Thanks,
-Pankaj
->
-> --
-> Thanks,
->
-> David / dhildenb
+
+David / dhildenb
+
 
