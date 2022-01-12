@@ -2,70 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 778D548C667
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 15:47:31 +0100 (CET)
-Received: from localhost ([::1]:55970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF1C448C615
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 15:29:23 +0100 (CET)
+Received: from localhost ([::1]:47592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7euQ-000623-JJ
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 09:47:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54226)
+	id 1n7ecs-0005Le-KZ
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 09:29:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leetroy@gmail.com>) id 1n7e1F-0005RV-GN
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 08:50:34 -0500
-Received: from [2607:f8b0:4864:20::229] (port=36660
- helo=mail-oi1-x229.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <leetroy@gmail.com>) id 1n7e14-0001GM-64
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 08:50:20 -0500
-Received: by mail-oi1-x229.google.com with SMTP id r138so3418268oie.3
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 05:50:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=v7nQ/MZcVdG+hUoUTS7jHgUVp9FnVWDV0MFgJtRnVOE=;
- b=B7Pr1ZBrpomlgX1gs356IhMjj8nPi/0FdihMDNxFlJRAsjXUW+QK2I8/KG6TMq0QqI
- S+EbQhmBV/3MUhM4BzJE63eAbqyV0q/pSWx98uFYT6QtBCRZAWJrmLNyHU5E8iVNUPtd
- P7JIGSIIhwdO2STifVWHdbbtc3SsGwX/FGF+t4ZwBjrkLRHZ2EBzhdAVAfSszBtwCSmK
- hneePx8lBd21lwAxRj1f2P7dhxc3Y+nxdZczzyQvwSnixStXlfXPQVBKDg0UErzy6DHZ
- Z/HDC30DD9ff8knIMD4ljWPtCGWmn5Z3BTywZLLUNpTUb9GROh1RMpgIiBZbKRZ6L7wy
- 7a0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=v7nQ/MZcVdG+hUoUTS7jHgUVp9FnVWDV0MFgJtRnVOE=;
- b=jLHl8cvfG9b8NQP7itLAH3pPehtTTCbLst7Z8vwoPMByOuTRrRH78DgwLiQ40+g6bu
- E4acyZofIzqJJnZsXnl3sw0eQ+iX5JLlN3ICLxLoYbuvcwZYW09bcm/lPRpDs1wjJJyy
- Apd+1+lCMZtRqf2EdInHXxrGqCYtTRrfxFbpG3/UzsGejkzExfl2ASkzGSWZJNxAoC5q
- NPwRkQ8G6jaKrRzehTdu2d3wLILBXBrcq2QsZBQtyyf2NiJ/BNXgoWHX4ZtvojVeJbP1
- 9xEL25Z6qvknHk5l495g3nt5tzFZh+zM5zOSHMAop5WbTrqgSbz286pjYVnQ7rnBKOwi
- Qt9w==
-X-Gm-Message-State: AOAM530Zq0gZTg8XZy6MkAJsUMloQcOZduZwXoQyvbf3iJ4fzm9zmzDT
- 7FL9P1xl+L9BpA3vq7xGi9gHEkRhV1FuiylO5os=
-X-Google-Smtp-Source: ABdhPJxazij8YpWP87rmG4tRMPRQcGXj98G4yx00tiHqJ1Kh9iLQBshOpmCAQ7x59LBbzEm5NTKfrg/yHACHbUo552c=
-X-Received: by 2002:a54:4f81:: with SMTP id g1mr4859437oiy.172.1641995417089; 
- Wed, 12 Jan 2022 05:50:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
+ id 1n7e3o-0008Ds-HC; Wed, 12 Jan 2022 08:53:08 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24226)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
+ id 1n7e3l-0001bf-HD; Wed, 12 Jan 2022 08:53:08 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20CDoKdf027082; 
+ Wed, 12 Jan 2022 13:52:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=6QPR4eX8r2DZrFYbp7h61aGJtLhY7/kEhJmD/AjR4Fs=;
+ b=o+CI1JXWr5OH2LOHvQlQsw5strI0zu0FoK2+6ePOwuUeGfpfgtk7qU/ioAA2SnLEVwcX
+ uyzX514JLHGOZAqr3w+N9UuQt+9wb669yyVz4UKkbUNmxwt5bgtsHgeuZfjQ/Ek7xbFz
+ PTzZtp+dvp7vpmzwtYMlZB6ExW8NAy3QC7Pm4E1HSFZF7Uatog3o2AbmmPa09gLLAMre
+ avHHO4VX9Hjx7dbvlhmc4mb1dJOCudv0VbeH5asO6Q7Ip8e8Pcsn3jepVCa0Qykexh7Q
+ YPSPev+16amxIl2jbZPWlMqI8BS6FDpM/F9JJ1iz2Z4jIWGggcsloW/b9jMF8YnGVHu8 AA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dhwp74y88-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Jan 2022 13:52:36 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20CDoLCo027203;
+ Wed, 12 Jan 2022 13:52:35 GMT
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dhwp74y7r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Jan 2022 13:52:35 +0000
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20CDqKqs025802;
+ Wed, 12 Jan 2022 13:52:34 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma01wdc.us.ibm.com with ESMTP id 3df28auuuw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Jan 2022 13:52:34 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20CDqXfh12321454
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 12 Jan 2022 13:52:33 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C5B54C605B;
+ Wed, 12 Jan 2022 13:52:32 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 20B64C6059;
+ Wed, 12 Jan 2022 13:52:30 +0000 (GMT)
+Received: from lagarcia.br.ibm.com.com (unknown [9.65.79.38])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed, 12 Jan 2022 13:52:30 +0000 (GMT)
+From: lagarcia@linux.ibm.com
+To: qemu-ppc@nongnu.org
+Subject: [PATCH 0/3] rSTify ppc-spapr-hotplug.txt
+Date: Wed, 12 Jan 2022 10:52:13 -0300
+Message-Id: <cover.1641995057.git.lagarcia@br.ibm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220111084546.4145785-1-troy_lee@aspeedtech.com>
- <20220112105704.ovkq5yxl6phzeqi3@ggregory-linuxws>
-In-Reply-To: <20220112105704.ovkq5yxl6phzeqi3@ggregory-linuxws>
-From: Troy Lee <leetroy@gmail.com>
-Date: Wed, 12 Jan 2022 21:50:06 +0800
-Message-ID: <CAN9Jwz2cZ9W2rNLDa7xfHGqXon-3T7OW3M7wLqMwbEwkKm+Pdg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] Aspeed I3C device model
-To: Graeme Gregory <quic_ggregory@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::229
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
- envelope-from=leetroy@gmail.com; helo=mail-oi1-x229.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: b3ZJZQDqAZdzDyaBfdyOdfZ9ev6xTNoH
+X-Proofpoint-ORIG-GUID: xQ0hVrMgUESXmtEEj0OtFFrdIl7lYIDQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-12_04,2022-01-11_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0
+ clxscore=1015 priorityscore=1501 malwarescore=0 phishscore=0
+ lowpriorityscore=0 impostorscore=0 mlxscore=0 mlxlogscore=765 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201120088
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=lagarcia@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,62 +107,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Troy Lee <troy_lee@aspeedtech.com>, qemu-devel@nongnu.org,
- hailin.wu@aspeedtech.com
+Cc: Leonardo Garcia <lagarcia@br.ibm.com>, danielhb413@gmail.com,
+ qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 12, 2022 at 6:57 PM Graeme Gregory
-<quic_ggregory@quicinc.com> wrote:
->
-> On Tue, Jan 11, 2022 at 04:45:44PM +0800, Troy Lee wrote:
-> > This series of patch introduce a dummy implemenation of aspeed i3c
-> > model, and it provide just enough information for guest machine.
-> > However, the driver probing is still failed, but it will not cause
-> > kernel panic.
-> >
->
-> These patches arrived just in time for our i3c testing. This stops
-> our CI halting due to kernel panic on i3c probing.
->
-> Reviewed-by: Graeme Gregory <quic_ggregory@quicinc.com>
-> Tested-by: Graeme Gregory <quic_ggregory@quicinc.com>
->
+From: Leonardo Garcia <lagarcia@br.ibm.com>
 
-I'm glad it was able to help.
+This patch series depend on previously sent patch "docs: Clarification
+and formatting changes in ppc docs." which is already included in latest
+pull request from Cédric.
 
-Thanks,
-Troy Lee
+It is important to notice that I focused mainly in the layout of the
+document, and not so much on the content. My understanding is that some
+sections, such as Hot plug/unplug events and Hot plug/unplug event
+structure may need updates based on what I saw in the code, but I don't
+have the expertise today to rewrite these sections. Hopefully someone
+will be able to update them.
 
-> > v3:
-> > - Remove unused AspeedI3CClass
-> > - Refine memory region
-> > - Refine register reset
-> > - Remove unrelated changes to SPI2 address
-> > - Remove i3c controller irq line
-> >
-> > v2:
-> > - Split i3c model into i3c and i3c_device
-> > - Create 6x i3c devices
-> > - Using register fields macro
-> > - Rebase to mainline QEMU
-> >
-> > Troy Lee (2):
-> >   Introduce a dummy AST2600 I3C model.
-> >   This patch includes i3c instance in ast2600 soc.
-> >
-> >  hw/arm/aspeed_ast2600.c      |  16 ++
-> >  hw/misc/aspeed_i3c.c         | 381 +++++++++++++++++++++++++++++++++++
-> >  hw/misc/meson.build          |   1 +
-> >  hw/misc/trace-events         |   6 +
-> >  include/hw/arm/aspeed_soc.h  |   3 +
-> >  include/hw/misc/aspeed_i3c.h |  48 +++++
-> >  6 files changed, 455 insertions(+)
-> >  create mode 100644 hw/misc/aspeed_i3c.c
-> >  create mode 100644 include/hw/misc/aspeed_i3c.h
-> >
-> > --
-> > 2.25.1
-> >
-> >
+Leonardo Garcia (3):
+  docs: rSTify ppc-spapr-hotplug.txt.
+  docs: Rename ppc-spapr-hotplug.txt to ppc-spapr-hotplug.rst.
+  Link new ppc-spapr-hotplug.rst file to pseries.rst.
+
+ docs/specs/ppc-spapr-hotplug.rst | 510 +++++++++++++++++++++++++++++++
+ docs/specs/ppc-spapr-hotplug.txt | 409 -------------------------
+ docs/system/ppc/pseries.rst      |   2 +-
+ 3 files changed, 511 insertions(+), 410 deletions(-)
+ create mode 100644 docs/specs/ppc-spapr-hotplug.rst
+ delete mode 100644 docs/specs/ppc-spapr-hotplug.txt
+
+-- 
+2.34.1
+
 
