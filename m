@@ -2,85 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC51F48C6AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 16:04:39 +0100 (CET)
-Received: from localhost ([::1]:58684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D516748C722
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 16:22:36 +0100 (CET)
+Received: from localhost ([::1]:39724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7fB0-0002hg-JV
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 10:04:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59712)
+	id 1n7fSN-0003tq-D9
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 10:22:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n7eJb-0000bK-8s
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 09:09:27 -0500
-Received: from [2a00:1450:4864:20::42d] (port=38764
- helo=mail-wr1-x42d.google.com)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1n7eTo-0008NE-Kt
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 09:20:01 -0500
+Received: from [2a00:1450:4864:20::530] (port=45047
+ helo=mail-ed1-x530.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n7eJZ-0004t6-M0
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 09:09:26 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id a5so4479081wrh.5
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 06:09:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1n7eTl-0006jp-LN
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 09:19:59 -0500
+Received: by mail-ed1-x530.google.com with SMTP id w16so10518266edc.11
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 06:19:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
+ h=sender:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=465+avTfDWWat1xJ2NM3BWbE3tC0Rte3IWGOBoacK44=;
- b=HpaVvR4kz4SJkNrIMRSxrmfvkkW6CKFZmhKvevaWVxLwsMNf28Cdf7x62iKKJ3+Pc8
- VBxjWIW6GqjfdKCQ4xm1MGd++K5MyXWybpWarH2AV5hlT0Dw89FBVsR0TeSiSUgFIJ4f
- SHWc1XHZvNGE7fZGPltzZJmvexGPEXdzOACczmZ4NsIbPmDbAmPXI+j+y0tdfmPPLFIz
- 4M+mmrISz7AlSAgP2NTCbglRV5ZwAozSLQkxs7yxcPdD4tdZggWkPIGC6gklCip2yMHF
- Gn+J+vFn5Fyv1xZBqtcgERb+yvdgg/z60MDPfTJ+BRlBV4GoyFREoZL5JW8cSNyNzmkR
- xkjQ==
+ bh=/V4y+J/3npg0My06vqdr8PG/yW1GNB0pYxP8WeN9Rd8=;
+ b=eDUIbtzFjrJbUogrj/qbhNjcdloLfOcVFy75/m/ppq1do/8xemxy3b7vZTFBYzSBd5
+ we4cyrrTeHW+8d2vLsqHHB3Op27J5497eAu801ePYRFhU9htz8btof0qfKHozFCFyKVC
+ GvbpzB917Y0K/raM4IVU+KuvWhL57qqOckNuiiQAfwmRIYsBPeDbHXJTh+j9JVnbsn91
+ v7ZqlrQU5sGjMyfa/gTp6iVyDJEl44rB3VE7aAsSCjSORw4OxFCCyBE3dgscxxU0/q2+
+ YuHu+n9yetRvbwefbywxDiAEC/ck0F6Ncxvt+VF3GklXuBWZZeev8z2sS1rvZ5XUfxpF
+ wzZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=465+avTfDWWat1xJ2NM3BWbE3tC0Rte3IWGOBoacK44=;
- b=2D8DlfCcujDOdO+5yun582Fc9n2cZ/+BVU66nuuyrIw46MAt1Iaeek9rEKq4BsMuJ+
- bcravMazGbu5I1LSDDxoC8UJ2bryGhcIrnYcKZCu/G+uHTx8I4bKAaOSUwkwhHMpPoYD
- oLFmM3XRKQL9xU9ZLdXTRnhJD9345U+YmlggFmGYmQueML7gPFhwwoGpaGe/a07r2RRb
- tIAEgGo3Wz2bRolFhElqZqMmUpYwguAS5/tHQYz8Aqq1Y7yRItqvze6CmQEGUwmRabPL
- 5TRhW7UoyX4bKX+Q4RM+G0EVDl5WGnvtuYbnSUELW6G/WNxLh81etmfJOULBVLVKy1rc
- XtKA==
-X-Gm-Message-State: AOAM531QXacy8Pbzpst4NZPHHDEcevAuyh3y5QLqxjPjcgLqQS+mY2gc
- h4fnCIpWqVgFsu2zLRg0F8Q=
-X-Google-Smtp-Source: ABdhPJyEXlyd5++3Z7d/ukUYu/qzRumJebJdEk6GPtc9ebZwef7xiTpVqP1rEpL60vhrE7Tc7SKszg==
-X-Received: by 2002:a5d:64c7:: with SMTP id f7mr8281361wri.300.1641996563602; 
- Wed, 12 Jan 2022 06:09:23 -0800 (PST)
-Received: from [192.168.1.40] (83.red-83-50-87.dynamicip.rima-tde.net.
- [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id f13sm13568657wri.51.2022.01.12.06.09.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Jan 2022 06:09:23 -0800 (PST)
-Message-ID: <4492570c-1dd0-cf08-abf3-eabcae706039@amsat.org>
-Date: Wed, 12 Jan 2022 15:09:21 +0100
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=/V4y+J/3npg0My06vqdr8PG/yW1GNB0pYxP8WeN9Rd8=;
+ b=trBKAvYQW49jAJOwwph+om2OWQMtLxqH9W9NfkTtBA1++oo8LkRWTtw2OLXgaryZDB
+ d+DHdEqetGg/hhBnh66xcBWqXWGzrJfBjeukKl8TyJxncsTJaNiG3OB5vc0M65d7RuLT
+ gX6Ah2UmOy9gD/7HUZEnYdWya0bEtbDZ+HgiT8oW3B3cSI1B5WEE1DO+V+EP5iwsoUfB
+ jAJul76YAuCIqQ2IBf42gdgNnd2vfgnwzpeE7h6amlO/deHKDsEaBHJ4KtHPIkP3Btfw
+ 4Wf85MjCet6XnWsgj+zTjlNzz8JR5Af57h9kIa8+d/+SLMW0By0dKkFraK+m+jp5AMQv
+ OzkA==
+X-Gm-Message-State: AOAM530XY/WPfyM8bZXAu/+G5x+snSkFr0xLu973hADQxZ6NdBHNj/tz
+ rwXD7b5JG9jKh6txGxVt+oHoKQCaeus=
+X-Google-Smtp-Source: ABdhPJzXj4UmyQ9D+jfCEc/DZDmB0yOMDYNNsf/DySmVWrDpR4F2C0VkBRCPE56AWx29U3+hRw4X4w==
+X-Received: by 2002:a17:907:7245:: with SMTP id
+ ds5mr7990762ejc.155.1641997195274; 
+ Wed, 12 Jan 2022 06:19:55 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id x20sm6137893edd.28.2022.01.12.06.19.54
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Jan 2022 06:19:54 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v5 00/18] Build system and KVM changes for 2021-12-23
+Date: Wed, 12 Jan 2022 15:19:52 +0100
+Message-Id: <20220112141953.59545-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [RFC PATCH v3 1/7] configure: Allow passing extra Objective C
- compiler flags
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: Roman Bolshakov <roman@roolebo.dev>
-References: <20220110131001.614319-1-f4bug@amsat.org>
- <20220110131001.614319-2-f4bug@amsat.org> <Yd27fVx1iHyvA9ng@roolebo.dev>
- <7da4d428-9b9e-e4ee-39af-48a8223df8e6@amsat.org>
-In-Reply-To: <7da4d428-9b9e-e4ee-39af-48a8223df8e6@amsat.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::530
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -95,31 +87,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- "Emilio G. Cota" <cota@braap.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alexander Graf <agraf@csgraf.de>, Gerd Hoffmann <kraxel@redhat.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Emilio
+The following changes since commit b37778b840f6dc6d1bbaf0e8e0641b3d48ad77c5:
 
-On 1/12/22 14:46, Philippe Mathieu-Daudé wrote:
-> Anyway, with your/Akihiko/Christian help during review, this flag
-> is not necessary anymore to build softmmu/tools (I still have to
-> figure how to silent the "#pragma FENV_ACCESS" warning in tests),
-> so let forget about this patch (except if we expect macOS ObjC to
-> keep evolving and need a way to pass OBJCFLAGS).
+  linux-user: Fix clang warning for nios2-linux-user code (2022-01-12 09:22:01 +0000)
 
-Apparently Clang equivalent of "#pragma STDC FENV_ACESS ON" is
-"-ffp-model=strict"
+are available in the Git repository at:
 
-https://clang.llvm.org/docs/UsersManual.html#cmdoption-ffp-model
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-I'll see if patching tests/fp/meson.build is sufficient.
+for you to fetch changes up to 9d30c78c7d3b994825cbe63fa277279ae3ef4248:
+
+  meson: reenable filemonitor-inotify compilation (2022-01-12 14:09:06 +0100)
+
+----------------------------------------------------------------
+* configure and meson cleanups
+* KVM_GET/SET_SREGS2 support for x86
+
+----------------------------------------------------------------
+v4->v5: remove --enable/disable-xfsctl
+
+Maxim Levitsky (1):
+      KVM: use KVM_{GET|SET}_SREGS2 when supported.
+
+Paolo Bonzini (14):
+      meson: reuse common_user_inc when building files specific to user-mode emulators
+      user: move common-user includes to a subdirectory of {bsd,linux}-user/
+      meson: cleanup common-user/ build
+      configure: simplify creation of plugin symbol list
+      configure: do not set bsd_user/linux_user early
+      configure, makefile: remove traces of really old files
+      configure: parse --enable/--disable-strip automatically, flip default
+      configure: move non-command-line variables away from command-line parsing section
+      meson: build contrib/ executables after generated headers
+      configure, meson: move config-poison.h to meson
+      meson: add comments in the target-specific flags section
+      KVM: x86: ignore interrupt_bitmap field of KVM_GET/SET_SREGS
+      configure: do not create roms/seabios/config.mak if SeaBIOS not present
+      meson: build all modules by default
+
+Philippe Mathieu-Daudé (1):
+      tests/tcg: Fix target-specific Makefile variables path for user-mode
+
+Thomas Huth (1):
+      block/file-posix: Simplify the XFS_IOC_DIOINFO handling
+
+Volker Rümelin (1):
+      meson: reenable filemonitor-inotify compilation
+
+ Makefile                                           |  11 +-
+ block/file-posix.c                                 |  37 ++--
+ bsd-user/{ => include}/special-errno.h             |   0
+ bsd-user/meson.build                               |   2 +-
+ common-user/meson.build                            |   2 +-
+ configure                                          | 189 ++++-----------------
+ contrib/elf2dmp/meson.build                        |   2 +-
+ contrib/ivshmem-client/meson.build                 |   2 +-
+ contrib/ivshmem-server/meson.build                 |   2 +-
+ contrib/rdmacm-mux/meson.build                     |   2 +-
+ .../{ => include}/host/aarch64/host-signal.h       |   0
+ linux-user/{ => include}/host/alpha/host-signal.h  |   0
+ linux-user/{ => include}/host/arm/host-signal.h    |   0
+ linux-user/{ => include}/host/i386/host-signal.h   |   0
+ .../{ => include}/host/loongarch64/host-signal.h   |   0
+ linux-user/{ => include}/host/mips/host-signal.h   |   0
+ linux-user/{ => include}/host/ppc/host-signal.h    |   0
+ linux-user/{ => include}/host/ppc64/host-signal.h  |   0
+ linux-user/{ => include}/host/riscv/host-signal.h  |   0
+ linux-user/{ => include}/host/s390/host-signal.h   |   0
+ linux-user/{ => include}/host/s390x/host-signal.h  |   0
+ linux-user/{ => include}/host/sparc/host-signal.h  |   0
+ .../{ => include}/host/sparc64/host-signal.h       |   0
+ linux-user/{ => include}/host/x32/host-signal.h    |   0
+ linux-user/{ => include}/host/x86_64/host-signal.h |   0
+ linux-user/{ => include}/special-errno.h           |   0
+ linux-user/meson.build                             |   4 +-
+ meson.build                                        |  37 ++--
+ pc-bios/s390-ccw/Makefile                          |   2 -
+ plugins/meson.build                                |  13 +-
+ scripts/ci/org.centos/stream/8/x86_64/configure    |   1 -
+ scripts/coverity-scan/run-coverity-scan            |   2 +-
+ scripts/make-config-poison.sh                      |  16 ++
+ scripts/meson-buildoptions.py                      |  21 ++-
+ scripts/meson-buildoptions.sh                      |   3 +
+ target/i386/cpu.h                                  |   3 +
+ target/i386/kvm/kvm.c                              | 130 ++++++++++++--
+ target/i386/machine.c                              |  29 ++++
+ tests/qtest/meson.build                            |   3 +-
+ tests/tcg/Makefile.target                          |   2 +-
+ tests/unit/meson.build                             |   2 +-
+ util/meson.build                                   |   7 +-
+ 42 files changed, 276 insertions(+), 248 deletions(-)
+ rename bsd-user/{ => include}/special-errno.h (100%)
+ rename linux-user/{ => include}/host/aarch64/host-signal.h (100%)
+ rename linux-user/{ => include}/host/alpha/host-signal.h (100%)
+ rename linux-user/{ => include}/host/arm/host-signal.h (100%)
+ rename linux-user/{ => include}/host/i386/host-signal.h (100%)
+ rename linux-user/{ => include}/host/loongarch64/host-signal.h (100%)
+ rename linux-user/{ => include}/host/mips/host-signal.h (100%)
+ rename linux-user/{ => include}/host/ppc/host-signal.h (100%)
+ rename linux-user/{ => include}/host/ppc64/host-signal.h (100%)
+ rename linux-user/{ => include}/host/riscv/host-signal.h (100%)
+ rename linux-user/{ => include}/host/s390/host-signal.h (100%)
+ rename linux-user/{ => include}/host/s390x/host-signal.h (100%)
+ rename linux-user/{ => include}/host/sparc/host-signal.h (100%)
+ rename linux-user/{ => include}/host/sparc64/host-signal.h (100%)
+ rename linux-user/{ => include}/host/x32/host-signal.h (100%)
+ rename linux-user/{ => include}/host/x86_64/host-signal.h (100%)
+ rename linux-user/{ => include}/special-errno.h (100%)
+ create mode 100755 scripts/make-config-poison.sh
+-- 
+2.33.1
+
 
