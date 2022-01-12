@@ -2,46 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFBCF48CDCA
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 22:29:48 +0100 (CET)
-Received: from localhost ([::1]:51522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A1B648CE19
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 22:58:21 +0100 (CET)
+Received: from localhost ([::1]:40938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7lBj-0005LY-6a
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 16:29:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54588)
+	id 1n7ldM-000359-4E
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 16:58:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1n7lA2-0003gi-By; Wed, 12 Jan 2022 16:28:02 -0500
-Received: from kerio.kamp.de ([195.62.97.192]:56776)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1n7lA0-0003gj-2a; Wed, 12 Jan 2022 16:28:02 -0500
-X-Footer: a2FtcC5kZQ==
-Received: from smtpclient.apple ([79.201.201.167])
- (authenticated user pl@kamp.de) by kerio.kamp.de with ESMTPSA
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits));
- Wed, 12 Jan 2022 22:27:54 +0100
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Peter Lieven <pl@kamp.de>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH 1/2] block/rbd: fix handling of holes in
- .bdrv_co_block_status
-Date: Wed, 12 Jan 2022 22:27:54 +0100
-Message-Id: <28283639-9407-4651-A07F-B40712E509CC@kamp.de>
-References: <CAOi1vP93pvs8tOxj_9RL=bUTxyvYhcOha_JEa39AtWcVcey2_A@mail.gmail.com>
-In-Reply-To: <CAOi1vP93pvs8tOxj_9RL=bUTxyvYhcOha_JEa39AtWcVcey2_A@mail.gmail.com>
-To: Ilya Dryomov <idryomov@gmail.com>
-X-Mailer: iPhone Mail (19C56)
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1n7lIg-0008Oc-Cx
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 16:36:59 -0500
+Received: from [2a00:1450:4864:20::541] (port=46664
+ helo=mail-ed1-x541.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1n7lIe-00051z-L2
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 16:36:58 -0500
+Received: by mail-ed1-x541.google.com with SMTP id k15so15133782edk.13
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 13:36:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=F8xGQ/ecRo26di/B41Bp7PLunE7rrSrF8qTipT4e9ak=;
+ b=okDfTWK5x7JAAgiqWqhnaQ4ncSTX2qf2+nj9XEy4PZqAD9MUT+Ovj91gMmXlB9EJvG
+ DghtTFvDOIaPa22uS73+Q2CT3tU76y8OaaZZcUmcLnv1BNCWd7abvmv07B1oppyRfVZ9
+ F2f7OBgqHLmhpDxV9ctMjZOACMKrEkYpKMGzykT4MxCQButa+aaUc4pDNOYZAnCpGPhP
+ rA8mEedqDxeUrbzh3kn0ohsYsMOc3d2FH3Og0221Gap8ziUbZ3JGGGg5cDUlLqfjeCYA
+ wXl6BBjezlRnD3y6XqBFLICaGxvDmIB7qTUiMhflxwbSn/rN3ld67iIbS1aPuH5u2zrn
+ 4lZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=F8xGQ/ecRo26di/B41Bp7PLunE7rrSrF8qTipT4e9ak=;
+ b=IxBKvZqEdro72GpVsRf4SiG2R1vSH5Vg2SUBOC5NQ4eW8DY7U7q1rrd/UBFbgzBGHd
+ DvST0ugVK/Jv1FHsjCIoU4HrDXJbsbFhtS6RsV/FOsK5koqqsIT0qNFc6p+UCms5yI1g
+ j9igG48YopRiaX4aUfUMWPTZuIa+XXNWqOX2s3JMp7a8QPssFXZ67V3mgHUhhK+tcVcc
+ 57N1KMacWS7wwcn4idVTkFHneeWJK1Cnj+DdEIbaZuW8qvKwIDOIvVzy5LSXUrhIzqnE
+ bhe9Q+5UdwHNb8NBcCpAI7Rxb5539hy92sB/+dbtAej/ZBkjXaQu2+93Mw1tbJqssade
+ BD+Q==
+X-Gm-Message-State: AOAM532dDiziefTCaV7rv5Qa6LorfvovngaL49yInEaotIu9BQLKOs3s
+ 2pTBfJOhqLu9INMMeC8DhcxvpuBDaOL0ipJh7Nk=
+X-Google-Smtp-Source: ABdhPJy8x+QbUaTFK31dSBrKdJXRqA6ULSw/j7EVmuPP2ke8MW4GLc4OepmZa6L9ZO89GsXEJS2sLA==
+X-Received: by 2002:a17:906:4fd6:: with SMTP id
+ i22mr1261536ejw.70.1642023413095; 
+ Wed, 12 Jan 2022 13:36:53 -0800 (PST)
+Received: from osoxes.fritz.box (mue-88-130-49-239.dsl.tropolys.de.
+ [88.130.49.239])
+ by smtp.gmail.com with ESMTPSA id b2sm257288ejh.221.2022.01.12.13.36.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Jan 2022 13:36:52 -0800 (PST)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] malta: Move PCI interrupt handling from gt64xxx to piix4
+Date: Wed, 12 Jan 2022 22:36:25 +0100
+Message-Id: <20220112213629.9126-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::541
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x541.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 12 Jan 2022 16:56:17 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,167 +84,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "=?utf-8?Q? Daniel_P._Berrang=C3=A9 ?=" <berrange@redhat.com>,
- qemu-block@nongnu.org, ct@flyingcircus.io, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Jason Dillaman <dillaman@redhat.com>
+Cc: Bernhard Beschow <shentey@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
-> Am 12.01.2022 um 22:06 schrieb Ilya Dryomov <idryomov@gmail.com>:
->=20
-> =EF=BB=BFOn Wed, Jan 12, 2022 at 9:39 PM Peter Lieven <pl@kamp.de> wrote:
->>=20
->>> Am 12.01.22 um 10:05 schrieb Ilya Dryomov:
->>> On Mon, Jan 10, 2022 at 12:42 PM Peter Lieven <pl@kamp.de> wrote:
->>>> the assumption that we can't hit a hole if we do not diff against a sna=
-pshot was wrong.
->>>>=20
->>>> We can see a hole in an image if we diff against base if there exists a=
-n older snapshot
->>>> of the image and we have discarded blocks in the image where the snapsh=
-ot has data.
->>>>=20
->>>> Fixes: 0347a8fd4c3faaedf119be04c197804be40a384b
->>>> Cc: qemu-stable@nongnu.org
->>>> Signed-off-by: Peter Lieven <pl@kamp.de>
->>>> ---
->>>> block/rbd.c | 55 +++++++++++++++++++++++++++++++++--------------------
->>>> 1 file changed, 34 insertions(+), 21 deletions(-)
->>>>=20
->>>> diff --git a/block/rbd.c b/block/rbd.c
->>>> index def96292e0..5e9dc91d81 100644
->>>> --- a/block/rbd.c
->>>> +++ b/block/rbd.c
->>>> @@ -1279,13 +1279,24 @@ static int qemu_rbd_diff_iterate_cb(uint64_t of=
-fs, size_t len,
->>>>     RBDDiffIterateReq *req =3D opaque;
->>>>=20
->>>>     assert(req->offs + req->bytes <=3D offs);
->>>> -    /*
->>>> -     * we do not diff against a snapshot so we should never receive a c=
-allback
->>>> -     * for a hole.
->>>> -     */
->>>> -    assert(exists);
->>>>=20
->>>> -    if (!req->exists && offs > req->offs) {
->>>> +    if (req->exists && offs > req->offs + req->bytes) {
->>>> +        /*
->>>> +         * we started in an allocated area and jumped over an unalloca=
-ted area,
->>>> +         * req->bytes contains the length of the allocated area before=
- the
->>>> +         * unallocated area. stop further processing.
->>>> +         */
->>>> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
->>>> +    }
->>>> +    if (req->exists && !exists) {
->>>> +        /*
->>>> +         * we started in an allocated area and reached a hole. req->by=
-tes
->>>> +         * contains the length of the allocated area before the hole.
->>>> +         * stop further processing.
->>>> +         */
->>>> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
->>>> +    }
->>>> +    if (!req->exists && exists && offs > req->offs) {
->>>>         /*
->>>>          * we started in an unallocated area and hit the first allocate=
-d
->>>>          * block. req->bytes must be set to the length of the unallocat=
-ed area
->>>> @@ -1295,17 +1306,19 @@ static int qemu_rbd_diff_iterate_cb(uint64_t of=
-fs, size_t len,
->>>>         return QEMU_RBD_EXIT_DIFF_ITERATE2;
->>>>     }
->>>>=20
->>>> -    if (req->exists && offs > req->offs + req->bytes) {
->>>> -        /*
->>>> -         * we started in an allocated area and jumped over an unalloca=
-ted area,
->>>> -         * req->bytes contains the length of the allocated area before=
- the
->>>> -         * unallocated area. stop further processing.
->>>> -         */
->>>> -        return QEMU_RBD_EXIT_DIFF_ITERATE2;
->>>> -    }
->>>> +    /*
->>>> +     * assert that we caught all cases above and allocation state has n=
-ot
->>>> +     * changed during callbacks.
->>>> +     */
->>>> +    assert(exists =3D=3D req->exists || !req->bytes);
->>>> +    req->exists =3D exists;
->>>>=20
->>>> -    req->bytes +=3D len;
->>>> -    req->exists =3D true;
->>>> +    /*
->>>> +     * assert that we either return an unallocated block or have got c=
-allbacks
->>>> +     * for all allocated blocks present.
->>>> +     */
->>>> +    assert(!req->exists || offs =3D=3D req->offs + req->bytes);
->>>> +    req->bytes =3D offs + len - req->offs;
->>>>=20
->>>>     return 0;
->>>> }
->>>> @@ -1354,13 +1367,13 @@ static int coroutine_fn qemu_rbd_co_block_statu=
-s(BlockDriverState *bs,
->>>>     }
->>>>     assert(req.bytes <=3D bytes);
->>>>     if (!req.exists) {
->>>> -        if (r =3D=3D 0) {
->>>> +        if (r =3D=3D 0 && !req.bytes) {
->>>>             /*
->>>> -             * rbd_diff_iterate2 does not invoke callbacks for unalloc=
-ated
->>>> -             * areas. This here catches the case where no callback was=
+first-time contributor here. Inspired by an article in LWN [1] I figured I'd
+get my hands dirty with QEMU development. According to the article my goal is
+to eliminate some "accidental complexity".
 
->>>> -             * invoked at all (req.bytes =3D=3D 0).
->>>> +             * rbd_diff_iterate2 does not invoke callbacks for unalloc=
-ated areas
->>>> +             * except for the case where an overlay has a hole where t=
-he parent
->>>> +             * or an older snapshot of the image has not. This here ca=
-tches the
->>>> +             * case where no callback was invoked at all.
->>>>              */
->>>> -            assert(req.bytes =3D=3D 0);
->>>>             req.bytes =3D bytes;
->>>>         }
->>>>         status =3D BDRV_BLOCK_ZERO | BDRV_BLOCK_OFFSET_VALID;
->>>> --
->>>> 2.25.1
->>>>=20
->>>>=20
->>> Hi Peter,
->>>=20
->>> Can we just skip these "holes" by replacing the existing assert with
->>> an if statement that would simply bail from the callback on !exists?
->>>=20
->>> Just trying to keep the logic as simple as possible since as it turns
->>> out we get to contend with ages-old librbd bugs here...
->>=20
->>=20
->> I'm afraid I think this would not work. Consider qemu-img convert.
->>=20
->> If we bail out we would immediately call get_block_status with the offset=
+While studying the code I noticed some (accidental?) differences between piix3
+and piix4 where the PCI interrupts are handled. Moreover, I noticed presence of
+global variables in piix4 which probably constitute a limitation of QOM's idea
+of configuration-driven machine creation. By applying piix3 concepts, i.e.
+moving the interrupt handling from gt64xxx to piix4, it's possible to both
+eliminate the differences and resolve the global variables.
 
->>=20
->> where we stopped and hit the !exist again.
->=20
-> I'm suggesting bailing from the callback (i.e. return 0), not from the
-> entire rbd_diff_iterate2() instance.  The iteration would move on and
-> either stumble upon an allocated area within the requested range or run
-> off the end of the requested range.  Both of these cases are already
-> handled by the existing code.
+The patch series is structured as follows: Patch 1 eliminates the differences,
+patch 3 resolves the global variables. Patch 2 is a preparation for patch 3.
+Some of my further comments regarding the patches are:
 
-Ah, got it. That=E2=80=99s a smart solution!
+Patch 1:
+* pci_slot_get_pirq() looks quite malta-specific. Neither gt64xxx nor piix4
+  seem to be the perfect fit. So I moved it to piix4, analogous to piix3.
+* The i8259 property moved from MaltaState to PIIX4State looks quite redundant
+  to the isa property. Could isa be used instead, eliminating i8259?
 
-Peter
+Patch 2:
+* Besides piix4, there were four further cases where the PIC array was passed
+  as the opaque parameter to the pci_map_irq_fn's. AFAICS in all other cases
+  the DeviceState is passed instead. With this patch, consistency is
+  esablished.
+* Passing PIIX4State to piix4_set_irq() paves the way for eliminating all
+  global variables left in piix4.c (see patch 3).
 
+Comments welcome.
+
+Cheers
+Bernhard
+
+[1] https://lwn.net/Articles/872321/
+
+Bernhard Beschow (3):
+  malta: Move PCI interrupt handling from gt64xxx to piix4
+  pci: Always pass own DeviceState to pci_map_irq_fn's
+  isa/piix4: Resolve global variables
+
+ hw/isa/piix4.c                | 62 ++++++++++++++++++++++++++++++++---
+ hw/mips/gt64xxx_pci.c         | 62 +++--------------------------------
+ hw/mips/malta.c               |  6 +---
+ hw/pci-host/sh_pci.c          |  6 ++--
+ hw/pci-host/versatile.c       |  6 ++--
+ hw/ppc/ppc440_pcix.c          |  6 ++--
+ hw/ppc/ppc4xx_pci.c           |  6 ++--
+ include/hw/mips/mips.h        |  2 +-
+ include/hw/southbridge/piix.h |  2 --
+ 9 files changed, 77 insertions(+), 81 deletions(-)
+
+-- 
+2.34.1
 
 
