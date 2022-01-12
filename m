@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BCF148C95B
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 18:28:06 +0100 (CET)
-Received: from localhost ([::1]:50696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0576748C9FD
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Jan 2022 18:41:12 +0100 (CET)
+Received: from localhost ([::1]:40600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7hPo-0005zz-T8
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 12:28:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52286)
+	id 1n7hcU-0001qb-R4
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 12:41:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n7hNQ-00022q-NB
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 12:25:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50281)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n7hSa-0001s3-IY
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 12:30:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43411)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n7hNO-0007SM-AO
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 12:25:35 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n7hSW-00004w-4Y
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 12:30:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642008333;
+ s=mimecast20190719; t=1642008636;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rD0cghWn2Z9abNua7h6UXbf4Pzeb1Ih2LhGqPnO5fGM=;
- b=V93Cl59HagNsK3zE4mC1JAQU3hlEfZ8cGVCBhnxS5PE4ue/uPAc44LA5fy9wvvVcW2uU1J
- jWS/DfO+ra5LiNDwHPRceLa7NiJy9YC9+uNtbyT/Hm7qWnadX0PKExtkfIjnk7+eZ69o8p
- VoB3tPgw8xn4NpRj/0AuTdn2GzgATG0=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=+nCIP2vyyIXRDzq8YL8ENJEbX5KbR8CeBi/v2p8Ifos=;
+ b=ZoUcLPu9x0jP0juczKim6jVpDSHnMnGgD68f9EW8p/p5FnM5BwWQloZVoqyliIGfNWevrF
+ 8psBHPUZJRd5LDQfZwN0D8/DXomPL+D6k/5Vr4bXHxkyHNJkuOGIOvltkCST4NPFG604ey
+ EP//sOGHNaYW9/HNK5TEaUNe/WzLSgM=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-167-bNo9QTe-MKioLZC1O5tmmQ-1; Wed, 12 Jan 2022 12:25:28 -0500
-X-MC-Unique: bNo9QTe-MKioLZC1O5tmmQ-1
-Received: by mail-vk1-f198.google.com with SMTP id
- n15-20020a1fa40f000000b0031698b506b8so668201vke.0
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 09:25:28 -0800 (PST)
+ us-mta-194-kE7f0-haNA6nG7sZPtYyJA-1; Wed, 12 Jan 2022 12:30:34 -0500
+X-MC-Unique: kE7f0-haNA6nG7sZPtYyJA-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ k19-20020ab05393000000b003058f4a3fabso2089030uaa.2
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 09:30:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rD0cghWn2Z9abNua7h6UXbf4Pzeb1Ih2LhGqPnO5fGM=;
- b=dlMse0Q4uhsiXyHQoajQswctP6f0E9tGvSR2EfV4YCEV75bTSuMFs1Hc9kr71mRJBd
- D+AVaeSJJJx2/abGv90HOyL1qU4gbiII0aZlkDroxB1huco0syqwz5xxT9e69P90Yg7I
- 3nNBtyj4fyYVI/DtnkSYIBqYqNuKd5EwzF0z1jWnTMTAP6G8rjF0abmRRs1Rkq3cK2XD
- BANWwtIhkWJgPMxwUN6eo988yP9OJT2NoEI1v/LN3JuvUyYYWx45C6j1xCajn7k4rWPQ
- 9+M2ICusjETdr19YHfTC3cHrBVtIGYgW94VdBh//gGsslYQR6/pc7Erolj+9ZN43v7IF
- DGEg==
-X-Gm-Message-State: AOAM5308uFqSsB4nWqpXmSza8kIh1d0zIuBN7qv6v3NHtSJ60pVZCP4R
- 9/QmgAleczj8+Kgy0epcIKCLml8jHM/nUhYMtvKCr9SWkdpoXJ2KyNrwn12sE7VcJqaabnzbFNL
- xT8U67vFxQtuTDbzenGlsHBOFlo5TmwU=
-X-Received: by 2002:ab0:6497:: with SMTP id p23mr472472uam.32.1642008327837;
- Wed, 12 Jan 2022 09:25:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzkohy2GxAC6KfVYQUkzv14EzMhFx4Yn6c4lZIFleLFU1g2WmqbPNX4i4BFCyXLv/IeGUdS7Tjq71eO2dhsvsE=
-X-Received: by 2002:ab0:6497:: with SMTP id p23mr472452uam.32.1642008327644;
- Wed, 12 Jan 2022 09:25:27 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+nCIP2vyyIXRDzq8YL8ENJEbX5KbR8CeBi/v2p8Ifos=;
+ b=O221bDq3WMoLTu0xialmmtEy9rxMZWtjxW6j9U3ignoUHSAuQCF+Po/lKsxgMTlotb
+ vCBerf5d7K/C0+rEniYYE565xCkRJp1TT02/1Bq8sW2B/LqrI+J9BidHPxQrRs0f/nWV
+ DKtPXuisZ7VFv3+CJO401nbrO/rW5yM+S390qZShbQd5S3rgXNAoPPCnttadPnlzCg6a
+ PKIcq8AsUoID7c2odNj9Sc8qe7QajBVmxnD/gipv1q+MjWP8nK8yxvB9sS4ZfXQm2Qdc
+ p21i6XbQJqx8ng8PZr6mvyQxwP0KvvXNBLMIwjJvWCixHKzJb7fO4QlE6Ux16KQCThW1
+ mFVA==
+X-Gm-Message-State: AOAM530BkWLRIKStceudPpZSdoqhUoBSlC36wB8VXlkDQ8SZdyx2YCjp
+ ORhftAzrBM2RNFY5MWDpqSa41RORpyMW4G3I/D/trdUxIoaKOTyUlbuC1Esl/8c+Pvm09IL6WQr
+ mjH1c3y03mXr/mnP6Y6/unA92MVQ7lmM=
+X-Received: by 2002:a05:6102:3714:: with SMTP id
+ s20mr478252vst.61.1642008633842; 
+ Wed, 12 Jan 2022 09:30:33 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyhy1YrVKHiNtxpVuP0ep+SXUrH6CJCn0MLETmPwT6u0+c4MVS3h65AR0FlGBHXAMshET/NHwt8GZGqdZmfTmE=
+X-Received: by 2002:a05:6102:3714:: with SMTP id
+ s20mr478229vst.61.1642008633579; 
+ Wed, 12 Jan 2022 09:30:33 -0800 (PST)
 MIME-Version: 1.0
-References: <CAFn=p-b+ene2vKCCDJR9viT9P=GyhBeAO5ZLGsUmiijoxrkfCg@mail.gmail.com>
- <Yd6z2WS3hGwPNKkl@stefanha-x1.localdomain>
-In-Reply-To: <Yd6z2WS3hGwPNKkl@stefanha-x1.localdomain>
+References: <20211215210634.3779791-1-jsnow@redhat.com>
+ <20211215210634.3779791-18-jsnow@redhat.com>
+ <YbsZe9A/Lf2g1Xk8@redhat.com>
+ <CAFn=p-bPUsw19uW=gfzGBwT5zDm3t4QHCvzf0nJjbcwcOKkA=g@mail.gmail.com>
+ <YbyUlrmexR77cbip@redhat.com>
+ <CAFn=p-ZmBfThKMJ-vWyvJ8b7ccD+mv=TynSPDoCM-tdne5jEYw@mail.gmail.com>
+ <Yd6oS3mCXs1AXVPy@redhat.com>
+In-Reply-To: <Yd6oS3mCXs1AXVPy@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Date: Wed, 12 Jan 2022 12:25:16 -0500
-Message-ID: <CAFn=p-Zb3fmj5sf=+dGizxiYTySM4gU2Q6wudxnf67X=6nsyvQ@mail.gmail.com>
-Subject: Re: PyPI account
-To: Stefan Hajnoczi <stefanha@redhat.com>
+Date: Wed, 12 Jan 2022 12:30:22 -0500
+Message-ID: <CAFn=p-aoM8wnWBeHmtx8PQZokyOZDNPE90KKASNdKw1EkHx+LQ@mail.gmail.com>
+Subject: Re: [RFC qemu.qmp PATCH 17/24] Makefile: add build and publish targets
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -88,53 +97,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Berrange <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Beraldo Leal <bleal@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 12, 2022 at 5:56 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+On Wed, Jan 12, 2022 at 5:07 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
 >
-> [Context: John created a PyPI QEMU user in order to publish the qemu.qmp
-> package. If anyone wants to publish additional Python packages from
-> qemu.git, please contact him for PyPI access.]
->
-> On Tue, Jan 11, 2022 at 03:42:23PM -0500, John Snow wrote:
-> > Account made: https://pypi.org/user/QEMU/
+> On Tue, Jan 11, 2022 at 02:48:55PM -0500, John Snow wrote:
+> > On Fri, Dec 17, 2021 at 8:46 AM Daniel P. Berrang=C3=A9 <berrange@redha=
+t.com>
+> > wrote:
 > >
-> > I can't update the wiki, I lack admin perms to edit
-> > https://wiki.qemu.org/AdminContacts
+> > > On Thu, Dec 16, 2021 at 06:35:23PM -0500, John Snow wrote:
+> > > > On Thu, Dec 16, 2021 at 5:48 AM Daniel P. Berrang=C3=A9 <berrange@r=
+edhat.com>
+> > > > wrote:
+> > > >
+> > > > > On Wed, Dec 15, 2021 at 04:06:27PM -0500, John Snow wrote:
+> > > > > > Signed-off-by: John Snow <jsnow@redhat.com>
+> > > > > > ---
+> > > > > >  Makefile | 32 ++++++++++++++++++++++++++++++++
+> > > > > >  1 file changed, 32 insertions(+)
+> > > > > >
+> > > > > > diff --git a/Makefile b/Makefile
+> > > > > > index 97d737a..81bfca8 100644
+> > > > > > --- a/Makefile
+> > > > > > +++ b/Makefile
+> > > > > > @@ -110,3 +110,35 @@ distclean: clean
+> > > > > >       rm -f .coverage .coverage.*
+> > > > > >       rm -rf htmlcov/
+> > > > > >       rm -rf test-results/
+> > > > > > +
+> > > > > > +.PHONY: pristine
+> > > > > > +pristine:
+> > > > > > +     @git diff-files --quiet --ignore-submodules -- || \
+> > > > > > +             (echo "You have unstaged changes."; exit 1)
+> > > > > > +     @git diff-index --cached --quiet HEAD --ignore-submodules=
+ --
+> > > || \
+> > > > > > +             (echo "Your index contains uncommitted changes.";=
+ exit
+> > > 1)
+> > > > > > +     @[ -z "$(shell git ls-files -o)" ] || \
+> > > > > > +             (echo "You have untracked files: $(shell git ls-f=
+iles
+> > > > > -o)"; exit 1)
+> > > > > > +
+> > > > > > +dist: setup.cfg setup.py Makefile README.rst
+> > > > > > +     python3 -m build
+> > > > > > +     @touch dist
+> > > > > > +
+> > > > > > +.PHONY: pre-publish
+> > > > > > +pre-publish: pristine dist
+> > > > > > +     @git describe --exact-match 2>/dev/null || \
+> > > > > > +             (echo -e "\033[0;31mThere is no annotated tag for=
+ this
+> > > > > commit.\033[0m"; exit 1)
+> > > > > > +     python3 -m twine check --strict dist/*
+> > > > > > +     git push -v --atomic --follow-tags --dry-run
+> > > > > > +
+> > > > > > +.PHONY: publish
+> > > > > > +publish: pre-publish
+> > > > > > +     # Set the username via TWINE_USERNAME.
+> > > > > > +     # Set the password via TWINE_PASSWORD.
+> > > > > > +     # Set the pkg repository via TWINE_REPOSITORY.
+> > > > > > +     python3 -m twine upload --verbose dist/*
+> > > > > > +     git push -v --atomic --follow-tags
+> > > > > > +
+> > > > > > +.PHONY: publish-test
+> > > > > > +publish-test: pre-publish
+> > > > > > +     python3 -m twine upload --verbose -r testpypi dist/*
+> > > > >
+> > > > > It doesn't feel very pythonic to have a makefile in the project.
+> > > > >
+> > > > > If we want some helpers for publishing releases, I would have
+> > > > > expected to see a python script  eg scripts/publish.py
+> > > > >
+> > > > >
+> > > > Eh, Python folks use Makefiles too. I've been using these little Ma=
+kefile
+> > > > targets for hobby things for a while and I had them laying around a=
+nd
+> > > ready
+> > > > to go. I have no strong need to "upgrade" to python scripts for the=
+se
+> > > right
+> > > > now, unless there's some extra features you want to see.
+> > >
+> > > Using make means you have to worry about portability across different
+> > > impls of make and different impls of shell. Using python means your
+> > > python project is portable to anywhere that python runs.
 > >
-> > I assume in the event that I fall into a black hole or get launched
-> > out of a cannon into the sun, any mails sent to jsnow@redhat.com can
-> > be recovered by Red Hat in general, so there's a sufficient recourse
-> > for recovering the account in that circumstance.
+> >
+> > I still like the idea of using a Makefile as a "canonical menu of thing=
+s
+> > you can do in this directory", but there's probably room for interactiv=
+e
+> > error checking and so on with the TWINE_USERNAME / TWINE_PASSWORD /
+> > TWINE_REPOSITORY environment variables in a python script. I'll look in=
+to
+> > it as a follow-up, if that's fine. (I'm worried it's a lot of polish an=
+d
+> > effort on a maintainers-only interface that only I will likely use for =
+at
+> > least the next year or two.)
+> >
+> > Ultimately, what's likely to happen here is that I will generate some o=
+auth
+> > tokens with publish permissions and a hypothetical user would set e.g.
+> > TWINE_USERNAME to "__token__", and the password would be
+> > "pypi-tokengoeshere". Using the "keyring" python package, we could atte=
+mpt
+> > to fetch stored values from a session keyring, falling back to an
+> > interactive prompt if they're unset.
 >
-> Thanks, I have added the PyPI QEMU user and added you as the admin
-> contact:
-> https://wiki.qemu.org/AdminContacts#Other_resources
+> FWIW, don't consider this original comment of mine to be a technical
+> blocker, rather it is more of a conceptual observation.  If you don't
+> think it matters, I won't mind.
 >
-> Stefan
 
-Thanks, Stefan!
+OK, thanks -- just didn't want to give the impression I was just
+simply ignoring it, since I appreciate the look-over.
 
-As additional context, there is currently a single package that
-belongs to that user, "qemu.qmp" [1]. I published it "in advance" to
-be able to test integration in an RFC patch set I posted to the list
-just before the winter break [2]. The package is an "alpha prerelease"
-and is at a very low-risk to be installed by accident. The version
-chosen here will be considered "less than" any other valid version
-string chosen, and can be deleted permanently from PyPI after
-consensus on list review. Please forgive the mid-review publishing.
-The exact metadata, wording of the README, etc is still under review
-here [3].
-
-As for the PyPI account itself, I have volunteered to administer it.
-If anyone wants access (esp. a leadership committee member from
-another employer), please contact me - I'm happy to share.
-
-[1] https://pypi.org/project/qemu.qmp/
-[2] https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg02840.html
-[3] https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg02418.html
+--js
 
 
