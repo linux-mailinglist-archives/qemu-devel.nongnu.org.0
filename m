@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C49D48DCC4
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 18:19:46 +0100 (CET)
-Received: from localhost ([::1]:35388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A407448DCFF
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 18:36:48 +0100 (CET)
+Received: from localhost ([::1]:33206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n83lJ-0002Ro-1Y
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 12:19:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50218)
+	id 1n841n-00060d-Pi
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 12:36:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
- id 1n83YG-0005RV-PJ
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 12:06:18 -0500
-Received: from [2607:f8b0:4864:20::629] (port=43667
- helo=mail-pl1-x629.google.com)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1n83ct-0001fL-8d; Thu, 13 Jan 2022 12:11:04 -0500
+Received: from [2a00:1450:4864:20::444] (port=46805
+ helo=mail-wr1-x444.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
- id 1n83YC-0006gq-Ge
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 12:06:15 -0500
-Received: by mail-pl1-x629.google.com with SMTP id e19so10691659plc.10;
- Thu, 13 Jan 2022 09:06:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1n83cn-0007N1-09; Thu, 13 Jan 2022 12:11:01 -0500
+Received: by mail-wr1-x444.google.com with SMTP id l25so11288328wrb.13;
+ Thu, 13 Jan 2022 09:10:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0g7as0Oz9kbFxnb80G4KbJfypGNayTQUejWDvd14G0w=;
- b=efBWcyaneqt6287OUGQuV0SFzsqRWi6oZ/8lLzGExTez7NKaFj8WuEFVNXDtVWZDOz
- BhB22sjCQO7+AIoBOcTSHE/m+aqXZDAKqrXTiXAKcGRT9BBg34FI/dkVL5NTpaC41Shq
- dRJWEBAzbjRASN+gZBLNkVMW3yeVKayEpq/I0HXNv8D2yA2p1ub7ce+mB0BxcMeOXLkp
- LOwkcnHDsOdtndYREdNKud5OFl7E5CDXApyYG2Hjk0L8hyFdBQOh4QIUbfHhNq2vZNuw
- I6Fz1B5bsZg605L8WWvOPPajxvVOHP9WNQ0MlHi0R0o2+moisDk3fZHMpyFSEv+qd8eU
- oTBw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CSAtvbWfdrT0lmUK8NUHAYG5g7V1Ztn14ZRrTnDwyto=;
+ b=SSmAXm7jCvPtxBRBSr8/D22LAl8xNYoYCofn0HGgQA1RhUgKV8OA2zOgzmRwfddHWF
+ sDW1lyQt8Ny6T8jxd0Hsq7Sm3/QkOI57ypkR9GhHG/5imTcOLtGYr5aykNoN6dj21Pk/
+ ZUdMz1amiDdZbTQFrldmAFRI+o20aS4l4gcCfgqlVWDNtv1cnxy1PlwHyvLuU2+BzLcs
+ irxiY1HiI6qFvAUKMAboOHCjLIqDxbSMKrrL7J6pl4EWO9TqP7+vbwIBBabiexyo3FNi
+ MU2aB3CIhQRceWNtU2H5zzFlkxvOTjWW/fOoPCs+Tdzx7XgM8UJ3K3dV1s3aNJW6x3TW
+ 4xcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0g7as0Oz9kbFxnb80G4KbJfypGNayTQUejWDvd14G0w=;
- b=w5WqRnuQM4b9hLd8fyekWAYP3kXJs3KsR69lX1HW9E0Fwq6Mf4Z6HorU6F+2KeAI9u
- jbpyv7ELIed+0lxhT1jKms/zX5e9t44omkVrCkGQa8qEwHcybSyFSjvRog+EFKGHpFDt
- xzPi9N+cbDiAjWi+4YvUsk40q2AF2iXvRZTLGBt5eeM52mvJe8UhH7/CkQ0pxSBoKgex
- PyrEbGwnE0R5okdHrkmCPCZKGeuRyIOE1M76VSek1vH2YmTinXD/VHDDNECaITibpf6B
- V8LXDZDrjrCQQzhFwM8auisQN9/B9VBaI5YrnM2MTPRAHIncffYMw4l11c9DTnPS32nd
- yTsw==
-X-Gm-Message-State: AOAM533qM49bLdsYfjAiAAzTt2/FqRJAeAcr7b2Eiajx2epkSXZ8ELNG
- gqzHRZlmPhRl6RcSQg/GAsg38malRVhf8KqNCcw=
-X-Google-Smtp-Source: ABdhPJxSu6q0VO1inlxILLLFE6NuJd8umuHtsTj+ghnZrWcrrsK5esuSv3cEapY2WVFQzH9ukZgPHeJWoQw5Cv9RW+U=
-X-Received: by 2002:a17:902:d883:b0:14a:4ba5:6e72 with SMTP id
- b3-20020a170902d88300b0014a4ba56e72mr5462905plz.27.1642093570621; Thu, 13 Jan
- 2022 09:06:10 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CSAtvbWfdrT0lmUK8NUHAYG5g7V1Ztn14ZRrTnDwyto=;
+ b=dkII/0RCequY8uiwicJKuYsXbZeAhHrX2+Fy5a3WlMvZlDzdonC4sHnxHH9rnC/c3t
+ uGFpBBYh/XmbzlGuwjhJkmC0WwmgaWcqQlaBW5Wc+g7TfBeFLUqLksWIhoSYiPoYQRUw
+ mCOgTUbt6OYKHYvodMXmYWlLU5pHNk8GeLL2Xh+WVbGd5LLctJqptHrlh/zk3SGOKhj6
+ Zz35j0OgNo/KepG0eWLgkHjMV4GG5cQku9IU4q2D97m4aXQn3qsEKq51oYwzCbS2QXYX
+ Gs3V8ALqgKvdVjFa+a23xo8esGJpKizXfxKQsDJc0NbPcCb99UgIgrC0D2zOBWcE5Rno
+ RD8Q==
+X-Gm-Message-State: AOAM5334hN+J5ggQQp5bGoYG6RBPhIPrJM8R2MLzQ4q8JnOSsjMnOCV5
+ XhDesYogHZuxV55Kri38gpriZqd66UvV/ooTjaemww==
+X-Google-Smtp-Source: ABdhPJylx5icGNkROcpKw3yNDbyJEPhQt8WYDSmnvXws4sZvlQbRNk2guPcSqIckBnPf1QNj1tQiJg==
+X-Received: by 2002:adf:d4c8:: with SMTP id w8mr4886496wrk.137.1642093853284; 
+ Thu, 13 Jan 2022 09:10:53 -0800 (PST)
+Received: from osoxes.fritz.box (mue-88-130-49-176.dsl.tropolys.de.
+ [88.130.49.176])
+ by smtp.gmail.com with ESMTPSA id a20sm2833690wmb.27.2022.01.13.09.10.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Jan 2022 09:10:52 -0800 (PST)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] Mark remaining global TypeInfo instances as const
+Date: Thu, 13 Jan 2022 18:10:37 +0100
+Message-Id: <20220113171038.18128-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220113150113.58437-1-yaroshchuk2000@gmail.com>
- <20220113150113.58437-4-yaroshchuk2000@gmail.com>
- <CAMVc7JWVqG4TMJj_KeqRa-SJe7FqCPbcyP523bWHO4CPmQJ3iw@mail.gmail.com>
-In-Reply-To: <CAMVc7JWVqG4TMJj_KeqRa-SJe7FqCPbcyP523bWHO4CPmQJ3iw@mail.gmail.com>
-From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
-Date: Thu, 13 Jan 2022 20:05:58 +0300
-Message-ID: <CADO9X9QXFri2VjVojsJc-mQNXJ=uy7xbZ66=OHPwmZbXMvG5zw@mail.gmail.com>
-Subject: Re: [PATCH v12 3/7] net/vmnet: implement shared mode (vmnet-shared)
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000f7079805d579b313"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::444
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=yaroshchuk2000@gmail.com; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=shentey@gmail.com; helo=mail-wr1-x444.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -83,1239 +82,617 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-block@nongnu.org, =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Jason Wang <jasowang@redhat.com>, phillip.ennen@gmail.com,
- qemu Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Markus Armbruster <armbru@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alexander Graf <agraf@csgraf.de>, Phillip Tennen <phillip@axleos.com>,
- Roman Bolshakov <roman@roolebo.dev>, Howard Spoelstra <hsp.cat7@gmail.com>,
- Alessio Dionisi <hello@adns.io>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Eric Blake <eblake@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-trivial@nongnu.org,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>, Halil Pasic <pasic@linux.ibm.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Joel Stanley <joel@jms.id.au>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Bernhard Beschow <shentey@gmail.com>, Eric Farman <farman@linux.ibm.com>,
+ Corey Minyard <minyard@acm.org>, "open list:S390 PCI" <qemu-s390x@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "open list:Raspberry Pi" <qemu-arm@nongnu.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Tyrone Ting <kfting@nuvoton.com>, "open list:e500" <qemu-ppc@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f7079805d579b313
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+More than 1k of TypeInfo instances are already marked as const. Mark the
+remaining ones, too.
 
-Will fix it, thank you!
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+---
+ hw/core/generic-loader.c   | 2 +-
+ hw/core/guest-loader.c     | 2 +-
+ hw/display/bcm2835_fb.c    | 2 +-
+ hw/display/i2c-ddc.c       | 2 +-
+ hw/display/macfb.c         | 4 ++--
+ hw/display/virtio-vga.c    | 2 +-
+ hw/dma/bcm2835_dma.c       | 2 +-
+ hw/i386/pc_piix.c          | 2 +-
+ hw/i386/sgx-epc.c          | 2 +-
+ hw/intc/bcm2835_ic.c       | 2 +-
+ hw/intc/bcm2836_control.c  | 2 +-
+ hw/ipmi/ipmi.c             | 4 ++--
+ hw/mem/nvdimm.c            | 2 +-
+ hw/mem/pc-dimm.c           | 2 +-
+ hw/misc/bcm2835_mbox.c     | 2 +-
+ hw/misc/bcm2835_powermgt.c | 2 +-
+ hw/misc/bcm2835_property.c | 2 +-
+ hw/misc/bcm2835_rng.c      | 2 +-
+ hw/misc/pvpanic-isa.c      | 2 +-
+ hw/misc/pvpanic-pci.c      | 2 +-
+ hw/net/fsl_etsec/etsec.c   | 2 +-
+ hw/ppc/prep_systemio.c     | 2 +-
+ hw/ppc/spapr_iommu.c       | 2 +-
+ hw/s390x/s390-pci-bus.c    | 2 +-
+ hw/s390x/sclp.c            | 2 +-
+ hw/s390x/tod-kvm.c         | 2 +-
+ hw/s390x/tod-tcg.c         | 2 +-
+ hw/s390x/tod.c             | 2 +-
+ hw/scsi/lsi53c895a.c       | 2 +-
+ hw/sd/allwinner-sdhost.c   | 2 +-
+ hw/sd/aspeed_sdhci.c       | 2 +-
+ hw/sd/bcm2835_sdhost.c     | 2 +-
+ hw/sd/cadence_sdhci.c      | 2 +-
+ hw/sd/npcm7xx_sdhci.c      | 2 +-
+ hw/usb/dev-mtp.c           | 2 +-
+ hw/usb/host-libusb.c       | 2 +-
+ hw/vfio/igd.c              | 2 +-
+ hw/virtio/virtio-pmem.c    | 2 +-
+ qom/object.c               | 4 ++--
+ 39 files changed, 42 insertions(+), 42 deletions(-)
 
-Actually this (wrong) check:
+diff --git a/hw/core/generic-loader.c b/hw/core/generic-loader.c
+index 9a24ffb880..eaafc416f4 100644
+--- a/hw/core/generic-loader.c
++++ b/hw/core/generic-loader.c
+@@ -207,7 +207,7 @@ static void generic_loader_class_init(ObjectClass *klass, void *data)
+     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+ }
+ 
+-static TypeInfo generic_loader_info = {
++static const TypeInfo generic_loader_info = {
+     .name = TYPE_GENERIC_LOADER,
+     .parent = TYPE_DEVICE,
+     .instance_size = sizeof(GenericLoaderState),
+diff --git a/hw/core/guest-loader.c b/hw/core/guest-loader.c
+index d3f9d1a06e..391c875a29 100644
+--- a/hw/core/guest-loader.c
++++ b/hw/core/guest-loader.c
+@@ -129,7 +129,7 @@ static void guest_loader_class_init(ObjectClass *klass, void *data)
+     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+ }
+ 
+-static TypeInfo guest_loader_info = {
++static const TypeInfo guest_loader_info = {
+     .name = TYPE_GUEST_LOADER,
+     .parent = TYPE_DEVICE,
+     .instance_size = sizeof(GuestLoaderState),
+diff --git a/hw/display/bcm2835_fb.c b/hw/display/bcm2835_fb.c
+index 2be77bdd3a..088fc3d51c 100644
+--- a/hw/display/bcm2835_fb.c
++++ b/hw/display/bcm2835_fb.c
+@@ -454,7 +454,7 @@ static void bcm2835_fb_class_init(ObjectClass *klass, void *data)
+     dc->vmsd = &vmstate_bcm2835_fb;
+ }
+ 
+-static TypeInfo bcm2835_fb_info = {
++static const TypeInfo bcm2835_fb_info = {
+     .name          = TYPE_BCM2835_FB,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(BCM2835FBState),
+diff --git a/hw/display/i2c-ddc.c b/hw/display/i2c-ddc.c
+index 13eb529fc1..146489518c 100644
+--- a/hw/display/i2c-ddc.c
++++ b/hw/display/i2c-ddc.c
+@@ -113,7 +113,7 @@ static void i2c_ddc_class_init(ObjectClass *oc, void *data)
+     isc->send = i2c_ddc_tx;
+ }
+ 
+-static TypeInfo i2c_ddc_info = {
++static const TypeInfo i2c_ddc_info = {
+     .name = TYPE_I2CDDC,
+     .parent = TYPE_I2C_SLAVE,
+     .instance_size = sizeof(I2CDDCState),
+diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+index 4bd7c3ad6a..69c2ea2b6e 100644
+--- a/hw/display/macfb.c
++++ b/hw/display/macfb.c
+@@ -783,14 +783,14 @@ static void macfb_nubus_class_init(ObjectClass *klass, void *data)
+     device_class_set_props(dc, macfb_nubus_properties);
+ }
+ 
+-static TypeInfo macfb_sysbus_info = {
++static const TypeInfo macfb_sysbus_info = {
+     .name          = TYPE_MACFB,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(MacfbSysBusState),
+     .class_init    = macfb_sysbus_class_init,
+ };
+ 
+-static TypeInfo macfb_nubus_info = {
++static const TypeInfo macfb_nubus_info = {
+     .name          = TYPE_NUBUS_MACFB,
+     .parent        = TYPE_NUBUS_DEVICE,
+     .instance_size = sizeof(MacfbNubusState),
+diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
+index b23a75a04b..5a2f7a4540 100644
+--- a/hw/display/virtio-vga.c
++++ b/hw/display/virtio-vga.c
+@@ -220,7 +220,7 @@ static void virtio_vga_base_class_init(ObjectClass *klass, void *data)
+                                    virtio_vga_set_big_endian_fb);
+ }
+ 
+-static TypeInfo virtio_vga_base_info = {
++static const TypeInfo virtio_vga_base_info = {
+     .name          = TYPE_VIRTIO_VGA_BASE,
+     .parent        = TYPE_VIRTIO_PCI,
+     .instance_size = sizeof(VirtIOVGABase),
+diff --git a/hw/dma/bcm2835_dma.c b/hw/dma/bcm2835_dma.c
+index eb0002a2b9..5e9306110d 100644
+--- a/hw/dma/bcm2835_dma.c
++++ b/hw/dma/bcm2835_dma.c
+@@ -394,7 +394,7 @@ static void bcm2835_dma_class_init(ObjectClass *klass, void *data)
+     dc->vmsd = &vmstate_bcm2835_dma;
+ }
+ 
+-static TypeInfo bcm2835_dma_info = {
++static const TypeInfo bcm2835_dma_info = {
+     .name          = TYPE_BCM2835_DMA,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(BCM2835DMAState),
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 7c7790a5ce..f6557d3c21 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -865,7 +865,7 @@ static void isa_bridge_class_init(ObjectClass *klass, void *data)
+     k->class_id     = PCI_CLASS_BRIDGE_ISA;
+ };
+ 
+-static TypeInfo isa_bridge_info = {
++static const TypeInfo isa_bridge_info = {
+     .name          = "igd-passthrough-isa-bridge",
+     .parent        = TYPE_PCI_DEVICE,
+     .instance_size = sizeof(PCIDevice),
+diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
+index 96b2940d75..d664829d35 100644
+--- a/hw/i386/sgx-epc.c
++++ b/hw/i386/sgx-epc.c
+@@ -167,7 +167,7 @@ static void sgx_epc_class_init(ObjectClass *oc, void *data)
+     mdc->fill_device_info = sgx_epc_md_fill_device_info;
+ }
+ 
+-static TypeInfo sgx_epc_info = {
++static const TypeInfo sgx_epc_info = {
+     .name          = TYPE_SGX_EPC,
+     .parent        = TYPE_DEVICE,
+     .instance_size = sizeof(SGXEPCDevice),
+diff --git a/hw/intc/bcm2835_ic.c b/hw/intc/bcm2835_ic.c
+index 9000d995e8..4513fad16f 100644
+--- a/hw/intc/bcm2835_ic.c
++++ b/hw/intc/bcm2835_ic.c
+@@ -227,7 +227,7 @@ static void bcm2835_ic_class_init(ObjectClass *klass, void *data)
+     dc->vmsd = &vmstate_bcm2835_ic;
+ }
+ 
+-static TypeInfo bcm2835_ic_info = {
++static const TypeInfo bcm2835_ic_info = {
+     .name          = TYPE_BCM2835_IC,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(BCM2835ICState),
+diff --git a/hw/intc/bcm2836_control.c b/hw/intc/bcm2836_control.c
+index 2ead76ffdc..b0589df188 100644
+--- a/hw/intc/bcm2836_control.c
++++ b/hw/intc/bcm2836_control.c
+@@ -392,7 +392,7 @@ static void bcm2836_control_class_init(ObjectClass *klass, void *data)
+     dc->vmsd = &vmstate_bcm2836_control;
+ }
+ 
+-static TypeInfo bcm2836_control_info = {
++static const TypeInfo bcm2836_control_info = {
+     .name          = TYPE_BCM2836_CONTROL,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(BCM2836ControlState),
+diff --git a/hw/ipmi/ipmi.c b/hw/ipmi/ipmi.c
+index 8d35c9fdd6..bbb07b151e 100644
+--- a/hw/ipmi/ipmi.c
++++ b/hw/ipmi/ipmi.c
+@@ -85,7 +85,7 @@ static void ipmi_interface_class_init(ObjectClass *class, void *data)
+     ik->do_hw_op = ipmi_do_hw_op;
+ }
+ 
+-static TypeInfo ipmi_interface_type_info = {
++static const TypeInfo ipmi_interface_type_info = {
+     .name = TYPE_IPMI_INTERFACE,
+     .parent = TYPE_INTERFACE,
+     .class_size = sizeof(IPMIInterfaceClass),
+@@ -120,7 +120,7 @@ static void bmc_class_init(ObjectClass *oc, void *data)
+     device_class_set_props(dc, ipmi_bmc_properties);
+ }
+ 
+-static TypeInfo ipmi_bmc_type_info = {
++static const TypeInfo ipmi_bmc_type_info = {
+     .name = TYPE_IPMI_BMC,
+     .parent = TYPE_DEVICE,
+     .instance_size = sizeof(IPMIBmc),
+diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
+index 7397b67156..933bc5e0c7 100644
+--- a/hw/mem/nvdimm.c
++++ b/hw/mem/nvdimm.c
+@@ -248,7 +248,7 @@ static void nvdimm_class_init(ObjectClass *oc, void *data)
+     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+ }
+ 
+-static TypeInfo nvdimm_info = {
++static const TypeInfo nvdimm_info = {
+     .name          = TYPE_NVDIMM,
+     .parent        = TYPE_PC_DIMM,
+     .class_size    = sizeof(NVDIMMClass),
+diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
+index 48b913aba6..28af0d71b2 100644
+--- a/hw/mem/pc-dimm.c
++++ b/hw/mem/pc-dimm.c
+@@ -286,7 +286,7 @@ static void pc_dimm_class_init(ObjectClass *oc, void *data)
+     mdc->fill_device_info = pc_dimm_md_fill_device_info;
+ }
+ 
+-static TypeInfo pc_dimm_info = {
++static const TypeInfo pc_dimm_info = {
+     .name          = TYPE_PC_DIMM,
+     .parent        = TYPE_DEVICE,
+     .instance_size = sizeof(PCDIMMDevice),
+diff --git a/hw/misc/bcm2835_mbox.c b/hw/misc/bcm2835_mbox.c
+index 9f73cbd5e4..1908c152f6 100644
+--- a/hw/misc/bcm2835_mbox.c
++++ b/hw/misc/bcm2835_mbox.c
+@@ -324,7 +324,7 @@ static void bcm2835_mbox_class_init(ObjectClass *klass, void *data)
+     dc->vmsd = &vmstate_bcm2835_mbox;
+ }
+ 
+-static TypeInfo bcm2835_mbox_info = {
++static const TypeInfo bcm2835_mbox_info = {
+     .name          = TYPE_BCM2835_MBOX,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(BCM2835MboxState),
+diff --git a/hw/misc/bcm2835_powermgt.c b/hw/misc/bcm2835_powermgt.c
+index 25fa804cbd..976f3d34e5 100644
+--- a/hw/misc/bcm2835_powermgt.c
++++ b/hw/misc/bcm2835_powermgt.c
+@@ -144,7 +144,7 @@ static void bcm2835_powermgt_class_init(ObjectClass *klass, void *data)
+     dc->vmsd = &vmstate_bcm2835_powermgt;
+ }
+ 
+-static TypeInfo bcm2835_powermgt_info = {
++static const TypeInfo bcm2835_powermgt_info = {
+     .name          = TYPE_BCM2835_POWERMGT,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(BCM2835PowerMgtState),
+diff --git a/hw/misc/bcm2835_property.c b/hw/misc/bcm2835_property.c
+index 76ea511d53..e94e951057 100644
+--- a/hw/misc/bcm2835_property.c
++++ b/hw/misc/bcm2835_property.c
+@@ -421,7 +421,7 @@ static void bcm2835_property_class_init(ObjectClass *klass, void *data)
+     dc->vmsd = &vmstate_bcm2835_property;
+ }
+ 
+-static TypeInfo bcm2835_property_info = {
++static const TypeInfo bcm2835_property_info = {
+     .name          = TYPE_BCM2835_PROPERTY,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(BCM2835PropertyState),
+diff --git a/hw/misc/bcm2835_rng.c b/hw/misc/bcm2835_rng.c
+index d0c4e64e88..b3c80cf186 100644
+--- a/hw/misc/bcm2835_rng.c
++++ b/hw/misc/bcm2835_rng.c
+@@ -131,7 +131,7 @@ static void bcm2835_rng_class_init(ObjectClass *klass, void *data)
+     dc->vmsd = &vmstate_bcm2835_rng;
+ }
+ 
+-static TypeInfo bcm2835_rng_info = {
++static const TypeInfo bcm2835_rng_info = {
+     .name          = TYPE_BCM2835_RNG,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(BCM2835RngState),
+diff --git a/hw/misc/pvpanic-isa.c b/hw/misc/pvpanic-isa.c
+index 7b66d58acc..a39fcdd1fc 100644
+--- a/hw/misc/pvpanic-isa.c
++++ b/hw/misc/pvpanic-isa.c
+@@ -77,7 +77,7 @@ static void pvpanic_isa_class_init(ObjectClass *klass, void *data)
+     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+ }
+ 
+-static TypeInfo pvpanic_isa_info = {
++static const TypeInfo pvpanic_isa_info = {
+     .name          = TYPE_PVPANIC_ISA_DEVICE,
+     .parent        = TYPE_ISA_DEVICE,
+     .instance_size = sizeof(PVPanicISAState),
+diff --git a/hw/misc/pvpanic-pci.c b/hw/misc/pvpanic-pci.c
+index af8cbe2830..62e1be68c1 100644
+--- a/hw/misc/pvpanic-pci.c
++++ b/hw/misc/pvpanic-pci.c
+@@ -74,7 +74,7 @@ static void pvpanic_pci_class_init(ObjectClass *klass, void *data)
+     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+ }
+ 
+-static TypeInfo pvpanic_pci_info = {
++static const TypeInfo pvpanic_pci_info = {
+     .name          = TYPE_PVPANIC_PCI_DEVICE,
+     .parent        = TYPE_PCI_DEVICE,
+     .instance_size = sizeof(PVPanicPCIState),
+diff --git a/hw/net/fsl_etsec/etsec.c b/hw/net/fsl_etsec/etsec.c
+index bd9d62b559..e7fc082518 100644
+--- a/hw/net/fsl_etsec/etsec.c
++++ b/hw/net/fsl_etsec/etsec.c
+@@ -430,7 +430,7 @@ static void etsec_class_init(ObjectClass *klass, void *data)
+     dc->user_creatable = true;
+ }
+ 
+-static TypeInfo etsec_info = {
++static const TypeInfo etsec_info = {
+     .name                  = TYPE_ETSEC_COMMON,
+     .parent                = TYPE_SYS_BUS_DEVICE,
+     .instance_size         = sizeof(eTSEC),
+diff --git a/hw/ppc/prep_systemio.c b/hw/ppc/prep_systemio.c
+index b2bd783248..8c9b8dd67b 100644
+--- a/hw/ppc/prep_systemio.c
++++ b/hw/ppc/prep_systemio.c
+@@ -300,7 +300,7 @@ static void prep_systemio_class_initfn(ObjectClass *klass, void *data)
+     device_class_set_props(dc, prep_systemio_properties);
+ }
+ 
+-static TypeInfo prep_systemio800_info = {
++static const TypeInfo prep_systemio800_info = {
+     .name          = TYPE_PREP_SYSTEMIO,
+     .parent        = TYPE_ISA_DEVICE,
+     .instance_size = sizeof(PrepSystemIoState),
+diff --git a/hw/ppc/spapr_iommu.c b/hw/ppc/spapr_iommu.c
+index db01071858..81e5a1aea3 100644
+--- a/hw/ppc/spapr_iommu.c
++++ b/hw/ppc/spapr_iommu.c
+@@ -685,7 +685,7 @@ static void spapr_tce_table_class_init(ObjectClass *klass, void *data)
+     spapr_register_hypercall(H_STUFF_TCE, h_stuff_tce);
+ }
+ 
+-static TypeInfo spapr_tce_table_info = {
++static const TypeInfo spapr_tce_table_info = {
+     .name = TYPE_SPAPR_TCE_TABLE,
+     .parent = TYPE_DEVICE,
+     .instance_size = sizeof(SpaprTceTable),
+diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
+index 01b58ebc70..4b2bdd94b3 100644
+--- a/hw/s390x/s390-pci-bus.c
++++ b/hw/s390x/s390-pci-bus.c
+@@ -1392,7 +1392,7 @@ static const TypeInfo s390_pci_device_info = {
+     .class_init = s390_pci_device_class_init,
+ };
+ 
+-static TypeInfo s390_pci_iommu_info = {
++static const TypeInfo s390_pci_iommu_info = {
+     .name = TYPE_S390_PCI_IOMMU,
+     .parent = TYPE_OBJECT,
+     .instance_size = sizeof(S390PCIIOMMU),
+diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
+index 89c30a8a91..eff74479f4 100644
+--- a/hw/s390x/sclp.c
++++ b/hw/s390x/sclp.c
+@@ -460,7 +460,7 @@ static void sclp_class_init(ObjectClass *oc, void *data)
+     sc->service_interrupt = service_interrupt;
+ }
+ 
+-static TypeInfo sclp_info = {
++static const TypeInfo sclp_info = {
+     .name = TYPE_SCLP,
+     .parent = TYPE_DEVICE,
+     .instance_init = sclp_init,
+diff --git a/hw/s390x/tod-kvm.c b/hw/s390x/tod-kvm.c
+index ec855811ae..9d0cbfbce2 100644
+--- a/hw/s390x/tod-kvm.c
++++ b/hw/s390x/tod-kvm.c
+@@ -147,7 +147,7 @@ static void kvm_s390_tod_init(Object *obj)
+     td->stopped = false;
+ }
+ 
+-static TypeInfo kvm_s390_tod_info = {
++static const TypeInfo kvm_s390_tod_info = {
+     .name = TYPE_KVM_S390_TOD,
+     .parent = TYPE_S390_TOD,
+     .instance_size = sizeof(S390TODState),
+diff --git a/hw/s390x/tod-tcg.c b/hw/s390x/tod-tcg.c
+index 9bb94ff72b..ad4993203d 100644
+--- a/hw/s390x/tod-tcg.c
++++ b/hw/s390x/tod-tcg.c
+@@ -73,7 +73,7 @@ static void qemu_s390_tod_init(Object *obj)
+     }
+ }
+ 
+-static TypeInfo qemu_s390_tod_info = {
++static const TypeInfo qemu_s390_tod_info = {
+     .name = TYPE_QEMU_S390_TOD,
+     .parent = TYPE_S390_TOD,
+     .instance_size = sizeof(S390TODState),
+diff --git a/hw/s390x/tod.c b/hw/s390x/tod.c
+index fd5a36bf24..c81b1c0338 100644
+--- a/hw/s390x/tod.c
++++ b/hw/s390x/tod.c
+@@ -123,7 +123,7 @@ static void s390_tod_class_init(ObjectClass *oc, void *data)
+     dc->user_creatable = false;
+ }
+ 
+-static TypeInfo s390_tod_info = {
++static const TypeInfo s390_tod_info = {
+     .name = TYPE_S390_TOD,
+     .parent = TYPE_DEVICE,
+     .instance_size = sizeof(S390TODState),
+diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
+index 4c431adb77..c8773f73f7 100644
+--- a/hw/scsi/lsi53c895a.c
++++ b/hw/scsi/lsi53c895a.c
+@@ -2352,7 +2352,7 @@ static void lsi53c810_class_init(ObjectClass *klass, void *data)
+     k->device_id = PCI_DEVICE_ID_LSI_53C810;
+ }
+ 
+-static TypeInfo lsi53c810_info = {
++static const TypeInfo lsi53c810_info = {
+     .name          = TYPE_LSI53C810,
+     .parent        = TYPE_LSI53C895A,
+     .class_init    = lsi53c810_class_init,
+diff --git a/hw/sd/allwinner-sdhost.c b/hw/sd/allwinner-sdhost.c
+index de5bc49e68..041e45c680 100644
+--- a/hw/sd/allwinner-sdhost.c
++++ b/hw/sd/allwinner-sdhost.c
+@@ -835,7 +835,7 @@ static void allwinner_sdhost_sun5i_class_init(ObjectClass *klass, void *data)
+     sc->max_desc_size = 64 * KiB;
+ }
+ 
+-static TypeInfo allwinner_sdhost_info = {
++static const TypeInfo allwinner_sdhost_info = {
+     .name          = TYPE_AW_SDHOST,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_init = allwinner_sdhost_init,
+diff --git a/hw/sd/aspeed_sdhci.c b/hw/sd/aspeed_sdhci.c
+index df1bdf1fa4..be8cafd65f 100644
+--- a/hw/sd/aspeed_sdhci.c
++++ b/hw/sd/aspeed_sdhci.c
+@@ -198,7 +198,7 @@ static void aspeed_sdhci_class_init(ObjectClass *classp, void *data)
+     device_class_set_props(dc, aspeed_sdhci_properties);
+ }
+ 
+-static TypeInfo aspeed_sdhci_info = {
++static const TypeInfo aspeed_sdhci_info = {
+     .name          = TYPE_ASPEED_SDHCI,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(AspeedSDHCIState),
+diff --git a/hw/sd/bcm2835_sdhost.c b/hw/sd/bcm2835_sdhost.c
+index 088a7ac6ed..9431c35914 100644
+--- a/hw/sd/bcm2835_sdhost.c
++++ b/hw/sd/bcm2835_sdhost.c
+@@ -436,7 +436,7 @@ static void bcm2835_sdhost_class_init(ObjectClass *klass, void *data)
+     dc->vmsd = &vmstate_bcm2835_sdhost;
+ }
+ 
+-static TypeInfo bcm2835_sdhost_info = {
++static const TypeInfo bcm2835_sdhost_info = {
+     .name          = TYPE_BCM2835_SDHOST,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(BCM2835SDHostState),
+diff --git a/hw/sd/cadence_sdhci.c b/hw/sd/cadence_sdhci.c
+index 56b8bae1c3..75db34befe 100644
+--- a/hw/sd/cadence_sdhci.c
++++ b/hw/sd/cadence_sdhci.c
+@@ -175,7 +175,7 @@ static void cadence_sdhci_class_init(ObjectClass *classp, void *data)
+     dc->vmsd = &vmstate_cadence_sdhci;
+ }
+ 
+-static TypeInfo cadence_sdhci_info = {
++static const TypeInfo cadence_sdhci_info = {
+     .name          = TYPE_CADENCE_SDHCI,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(CadenceSDHCIState),
+diff --git a/hw/sd/npcm7xx_sdhci.c b/hw/sd/npcm7xx_sdhci.c
+index ef503365df..b2f5b4a542 100644
+--- a/hw/sd/npcm7xx_sdhci.c
++++ b/hw/sd/npcm7xx_sdhci.c
+@@ -166,7 +166,7 @@ static void npcm7xx_sdhci_instance_init(Object *obj)
+                             TYPE_SYSBUS_SDHCI);
+ }
+ 
+-static TypeInfo npcm7xx_sdhci_info = {
++static const TypeInfo npcm7xx_sdhci_info = {
+     .name = TYPE_NPCM7XX_SDHCI,
+     .parent = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(NPCM7xxSDHCIState),
+diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
+index c1d1694fd0..1e6ac76bef 100644
+--- a/hw/usb/dev-mtp.c
++++ b/hw/usb/dev-mtp.c
+@@ -2106,7 +2106,7 @@ static void usb_mtp_class_initfn(ObjectClass *klass, void *data)
+     device_class_set_props(dc, mtp_properties);
+ }
+ 
+-static TypeInfo mtp_info = {
++static const TypeInfo mtp_info = {
+     .name          = TYPE_USB_MTP,
+     .parent        = TYPE_USB_DEVICE,
+     .instance_size = sizeof(MTPState),
+diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
+index d0d46dd0a4..2b35cb6cdd 100644
+--- a/hw/usb/host-libusb.c
++++ b/hw/usb/host-libusb.c
+@@ -1801,7 +1801,7 @@ static void usb_host_class_initfn(ObjectClass *klass, void *data)
+     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+ }
+ 
+-static TypeInfo usb_host_dev_info = {
++static const TypeInfo usb_host_dev_info = {
+     .name          = TYPE_USB_HOST_DEVICE,
+     .parent        = TYPE_USB_DEVICE,
+     .instance_size = sizeof(USBHostDevice),
+diff --git a/hw/vfio/igd.c b/hw/vfio/igd.c
+index d4685709a3..afe3fe7efc 100644
+--- a/hw/vfio/igd.c
++++ b/hw/vfio/igd.c
+@@ -199,7 +199,7 @@ static void vfio_pci_igd_lpc_bridge_class_init(ObjectClass *klass, void *data)
+     k->class_id = PCI_CLASS_BRIDGE_ISA;
+ }
+ 
+-static TypeInfo vfio_pci_igd_lpc_bridge_info = {
++static const TypeInfo vfio_pci_igd_lpc_bridge_info = {
+     .name = "vfio-pci-igd-lpc-bridge",
+     .parent = TYPE_PCI_DEVICE,
+     .class_init = vfio_pci_igd_lpc_bridge_class_init,
+diff --git a/hw/virtio/virtio-pmem.c b/hw/virtio/virtio-pmem.c
+index d1aeb90a31..5419dca75e 100644
+--- a/hw/virtio/virtio-pmem.c
++++ b/hw/virtio/virtio-pmem.c
+@@ -182,7 +182,7 @@ static void virtio_pmem_class_init(ObjectClass *klass, void *data)
+     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+ }
+ 
+-static TypeInfo virtio_pmem_info = {
++static const TypeInfo virtio_pmem_info = {
+     .name          = TYPE_VIRTIO_PMEM,
+     .parent        = TYPE_VIRTIO_DEVICE,
+     .class_size    = sizeof(VirtIOPMEMClass),
+diff --git a/qom/object.c b/qom/object.c
+index 4f0677cca9..9f7a33139d 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -2793,13 +2793,13 @@ static void object_class_init(ObjectClass *klass, void *data)
+ 
+ static void register_types(void)
+ {
+-    static TypeInfo interface_info = {
++    static const TypeInfo interface_info = {
+         .name = TYPE_INTERFACE,
+         .class_size = sizeof(InterfaceClass),
+         .abstract = true,
+     };
+ 
+-    static TypeInfo object_info = {
++    static const TypeInfo object_info = {
+         .name = TYPE_OBJECT,
+         .instance_size = sizeof(Object),
+         .class_init = object_class_init,
+-- 
+2.34.1
 
-#if defined(MAC_OS_VERSION_11_0) && \
-    MAC_OS_X_VERSION_MAX_ALLOWED >=3D MAC_OS_VERSION_11_0
-
-worked fine on Catalina 10.15 for me cause the
-MAC_OS_VERSION_11_0 was not introduced there and it
-stopped on the 1st defined(MAC_OS_VERSION_11_0) check.
-I should have tested this more thoroughly, my fault.
-
-Now submitting v13 with MAC_OS_X_VERSION_MIN_REQUIRED.
-
---
-Best Regards,
-
-Vladislav Yaroshchuk
-
-
-=D1=87=D1=82, 13 =D1=8F=D0=BD=D0=B2. 2022 =D0=B3. =D0=B2 19:11, Akihiko Oda=
-ki <akihiko.odaki@gmail.com>:
-
-> On Fri, Jan 14, 2022 at 12:01 AM Vladislav Yaroshchuk
-> <yaroshchuk2000@gmail.com> wrote:
-> >
-> > Interaction with vmnet.framework in different modes
-> > differs only on configuration stage, so we can create
-> > common `send`, `receive`, etc. procedures and reuse them.
-> >
-> > vmnet.framework supports iov, but writing more than
-> > one iov into vmnet interface fails with
-> > 'VMNET_INVALID_ARGUMENT'. Collecting provided iovs into
-> > one and passing it to vmnet works fine. That's the
-> > reason why receive_iov() left unimplemented. But it still
-> > works with good enough performance having .receive()
-> > implemented only.
-> >
-> > Also, there is no way to unsubscribe from vmnet packages
-> > receiving except registering and unregistering event
-> > callback or simply drop packages just ignoring and
-> > not processing them when related flag is set. Here we do
-> > using the second way.
-> >
-> > Signed-off-by: Phillip Tennen <phillip@axleos.com>
-> > Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
-> > ---
-> >  net/vmnet-common.m | 313 +++++++++++++++++++++++++++++++++++++++++++++
-> >  net/vmnet-shared.c |  83 +++++++++++-
-> >  net/vmnet_int.h    |  23 ++++
-> >  3 files changed, 415 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/net/vmnet-common.m b/net/vmnet-common.m
-> > index 532d152840..45c983ac7f 100644
-> > --- a/net/vmnet-common.m
-> > +++ b/net/vmnet-common.m
-> > @@ -10,6 +10,8 @@
-> >   */
-> >
-> >  #include "qemu/osdep.h"
-> > +#include "qemu/main-loop.h"
-> > +#include "qemu/log.h"
-> >  #include "qapi/qapi-types-net.h"
-> >  #include "vmnet_int.h"
-> >  #include "clients.h"
-> > @@ -17,4 +19,315 @@
-> >  #include "qapi/error.h"
-> >
-> >  #include <vmnet/vmnet.h>
-> > +#include <dispatch/dispatch.h>
-> >
-> > +#ifdef DEBUG
-> > +#define D(x) x
-> > +#define D_LOG(...) qemu_log(__VA_ARGS__)
-> > +#else
-> > +#define D(x) do { } while (0)
-> > +#define D_LOG(...) do { } while (0)
-> > +#endif
-> > +
-> > +typedef struct vmpktdesc vmpktdesc_t;
-> > +typedef struct iovec iovec_t;
-> > +
-> > +static void vmnet_set_send_enabled(VmnetCommonState *s, bool enable)
-> > +{
-> > +    s->send_enabled =3D enable;
-> > +}
-> > +
-> > +
-> > +static void vmnet_send_completed(NetClientState *nc, ssize_t len)
-> > +{
-> > +    VmnetCommonState *s =3D DO_UPCAST(VmnetCommonState, nc, nc);
-> > +    vmnet_set_send_enabled(s, true);
-> > +}
-> > +
-> > +
-> > +static void vmnet_send(NetClientState *nc,
-> > +                       interface_event_t event_id,
-> > +                       xpc_object_t event)
-> > +{
-> > +    assert(event_id =3D=3D VMNET_INTERFACE_PACKETS_AVAILABLE);
-> > +
-> > +    VmnetCommonState *s;
-> > +    uint64_t packets_available;
-> > +
-> > +    struct iovec *iov;
-> > +    struct vmpktdesc *packets;
-> > +    int pkt_cnt;
-> > +    int i;
-> > +
-> > +    vmnet_return_t if_status;
-> > +    ssize_t size;
-> > +
-> > +    s =3D DO_UPCAST(VmnetCommonState, nc, nc);
-> > +
-> > +    packets_available =3D xpc_dictionary_get_uint64(
-> > +        event,
-> > +        vmnet_estimated_packets_available_key
-> > +    );
-> > +
-> > +    pkt_cnt =3D (packets_available < VMNET_PACKETS_LIMIT) ?
-> > +              packets_available :
-> > +              VMNET_PACKETS_LIMIT;
-> > +
-> > +
-> > +    iov =3D s->iov_buf;
-> > +    packets =3D s->packets_buf;
-> > +
-> > +    for (i =3D 0; i < pkt_cnt; ++i) {
-> > +        packets[i].vm_pkt_size =3D s->max_packet_size;
-> > +        packets[i].vm_pkt_iovcnt =3D 1;
-> > +        packets[i].vm_flags =3D 0;
-> > +    }
-> > +
-> > +    if_status =3D vmnet_read(s->vmnet_if, packets, &pkt_cnt);
-> > +    if (if_status !=3D VMNET_SUCCESS) {
-> > +        error_printf("vmnet: read failed: %s\n",
-> > +                     vmnet_status_map_str(if_status));
-> > +    }
-> > +    qemu_mutex_lock_iothread();
-> > +    for (i =3D 0; i < pkt_cnt; ++i) {
-> > +        size =3D qemu_send_packet_async(nc,
-> > +                                      iov[i].iov_base,
-> > +                                      packets[i].vm_pkt_size,
-> > +                                      vmnet_send_completed);
-> > +        if (size =3D=3D 0) {
-> > +            vmnet_set_send_enabled(s, false);
-> > +        } else if (size < 0) {
-> > +            break;
-> > +        }
-> > +    }
-> > +    qemu_mutex_unlock_iothread();
-> > +
-> > +}
-> > +
-> > +
-> > +static void vmnet_register_event_callback(VmnetCommonState *s)
-> > +{
-> > +    dispatch_queue_t avail_pkt_q =3D dispatch_queue_create(
-> > +        "org.qemu.vmnet.if_queue",
-> > +        DISPATCH_QUEUE_SERIAL
-> > +    );
-> > +
-> > +    vmnet_interface_set_event_callback(
-> > +        s->vmnet_if,
-> > +        VMNET_INTERFACE_PACKETS_AVAILABLE,
-> > +        avail_pkt_q,
-> > +        ^(interface_event_t event_id, xpc_object_t event) {
-> > +          if (s->send_enabled) {
-> > +              vmnet_send(&s->nc, event_id, event);
-> > +          }
-> > +        });
-> > +}
-> > +
-> > +
-> > +static void vmnet_bufs_init(VmnetCommonState *s)
-> > +{
-> > +    int i;
-> > +    struct vmpktdesc *packets;
-> > +    struct iovec *iov;
-> > +
-> > +    packets =3D s->packets_buf;
-> > +    iov =3D s->iov_buf;
-> > +
-> > +    for (i =3D 0; i < VMNET_PACKETS_LIMIT; ++i) {
-> > +        iov[i].iov_len =3D s->max_packet_size;
-> > +        iov[i].iov_base =3D g_malloc0(iov[i].iov_len);
-> > +        packets[i].vm_pkt_iov =3D iov + i;
-> > +    }
-> > +}
-> > +
-> > +
-> > +const char *vmnet_status_map_str(vmnet_return_t status)
-> > +{
-> > +    switch (status) {
-> > +    case VMNET_SUCCESS:
-> > +        return "success";
-> > +    case VMNET_FAILURE:
-> > +        return "general failure";
-> > +    case VMNET_MEM_FAILURE:
-> > +        return "memory allocation failure";
-> > +    case VMNET_INVALID_ARGUMENT:
-> > +        return "invalid argument specified";
-> > +    case VMNET_SETUP_INCOMPLETE:
-> > +        return "interface setup is not complete";
-> > +    case VMNET_INVALID_ACCESS:
-> > +        return "invalid access, permission denied";
-> > +    case VMNET_PACKET_TOO_BIG:
-> > +        return "packet size is larger than MTU";
-> > +    case VMNET_BUFFER_EXHAUSTED:
-> > +        return "buffers exhausted in kernel";
-> > +    case VMNET_TOO_MANY_PACKETS:
-> > +        return "packet count exceeds limit";
-> > +#if defined(MAC_OS_VERSION_11_0) && \
-> > +    MAC_OS_X_VERSION_MAX_ALLOWED >=3D MAC_OS_VERSION_11_0
-> > +    case VMNET_SHARING_SERVICE_BUSY:
-> > +        return "conflict, sharing service is in use";
-> > +#endif
-> > +    default:
-> > +        return "unknown vmnet error";
-> > +    }
-> > +}
-> > +
-> > +
-> > +int vmnet_if_create(NetClientState *nc,
-> > +                    xpc_object_t if_desc,
-> > +                    Error **errp,
-> > +                    void (*completion_callback)(xpc_object_t
-> interface_param))
-> > +{
-> > +    VmnetCommonState *s;
-> > +
-> > +    dispatch_queue_t if_create_q;
-> > +    dispatch_semaphore_t if_created_sem;
-> > +
-> > +    __block vmnet_return_t if_status;
-> > +
-> > +    if_create_q =3D dispatch_queue_create("org.qemu.vmnet.create",
-> > +                                        DISPATCH_QUEUE_SERIAL);
-> > +    if_created_sem =3D dispatch_semaphore_create(0);
-> > +
-> > +    xpc_dictionary_set_bool(
-> > +        if_desc,
-> > +        vmnet_allocate_mac_address_key,
-> > +        false
-> > +    );
-> > +
-> > +    D(D_LOG("vmnet.start.interface_desc:\n");
-> > +    xpc_dictionary_apply(if_desc,
-> > +                         ^bool(const char *k, xpc_object_t v) {
-> > +                           char *desc =3D xpc_copy_description(v);
-> > +                           D_LOG("  %s=3D%s\n", k, desc);
-> > +                           free(desc);
-> > +                           return true;
-> > +                         }));
-> > +
-> > +    s =3D DO_UPCAST(VmnetCommonState, nc, nc);
-> > +    s->vmnet_if =3D vmnet_start_interface(
-> > +        if_desc,
-> > +        if_create_q,
-> > +        ^(vmnet_return_t status, xpc_object_t interface_param) {
-> > +          if_status =3D status;
-> > +          if (status !=3D VMNET_SUCCESS || !interface_param) {
-> > +              dispatch_semaphore_signal(if_created_sem);
-> > +              return;
-> > +          }
-> > +
-> > +          D(D_LOG("vmnet.start.interface_param:\n");
-> > +                xpc_dictionary_apply(interface_param,
-> > +                                     ^bool(const char *k, xpc_object_t
-> v) {
-> > +                                       char *desc =3D
-> xpc_copy_description(v);
-> > +                                       D_LOG("  %s=3D%s\n", k, desc);
-> > +                                       free(desc);
-> > +                                       return true;
-> > +                                     }));
-> > +
-> > +          s->mtu =3D xpc_dictionary_get_uint64(
-> > +              interface_param,
-> > +              vmnet_mtu_key);
-> > +          s->max_packet_size =3D xpc_dictionary_get_uint64(
-> > +              interface_param,
-> > +              vmnet_max_packet_size_key);
-> > +
-> > +          if (completion_callback) {
-> > +              completion_callback(interface_param);
-> > +          }
-> > +          dispatch_semaphore_signal(if_created_sem);
-> > +        });
-> > +
-> > +    if (s->vmnet_if =3D=3D NULL) {
-> > +        error_setg(errp, "unable to create interface with requested
-> params");
-> > +        return -1;
-> > +    }
-> > +
-> > +    dispatch_semaphore_wait(if_created_sem, DISPATCH_TIME_FOREVER);
-> > +    dispatch_release(if_create_q);
-> > +
-> > +    if (if_status !=3D VMNET_SUCCESS) {
-> > +        error_setg(errp,
-> > +                   "cannot create vmnet interface: %s",
-> > +                   vmnet_status_map_str(if_status));
-> > +        return -1;
-> > +    }
-> > +
-> > +    vmnet_register_event_callback(s);
-> > +    vmnet_bufs_init(s);
-> > +    vmnet_set_send_enabled(s, true);
-> > +
-> > +    return 0;
-> > +}
-> > +
-> > +
-> > +ssize_t vmnet_receive_common(NetClientState *nc,
-> > +                             const uint8_t *buf,
-> > +                             size_t size)
-> > +{
-> > +    VmnetCommonState *s;
-> > +    vmpktdesc_t packet;
-> > +    iovec_t iov;
-> > +    int pkt_cnt;
-> > +    vmnet_return_t if_status;
-> > +
-> > +    s =3D DO_UPCAST(VmnetCommonState, nc, nc);
-> > +
-> > +    if (size > s->max_packet_size) {
-> > +        warn_report("vmnet: packet is too big, %zu > %llu\n",
-> > +                    packet.vm_pkt_size,
-> > +                    s->max_packet_size);
-> > +        return -1;
-> > +    }
-> > +
-> > +    iov.iov_base =3D (char *) buf;
-> > +    iov.iov_len =3D size;
-> > +
-> > +    packet.vm_pkt_iovcnt =3D 1;
-> > +    packet.vm_flags =3D 0;
-> > +    packet.vm_pkt_size =3D size;
-> > +    packet.vm_pkt_iov =3D &iov;
-> > +
-> > +    pkt_cnt =3D 1;
-> > +    if_status =3D vmnet_write(s->vmnet_if, &packet, &pkt_cnt);
-> > +
-> > +    if (if_status !=3D VMNET_SUCCESS) {
-> > +        error_report("vmnet: write error: %s\n",
-> > +                     vmnet_status_map_str(if_status));
-> > +    }
-> > +
-> > +    if (if_status =3D=3D VMNET_SUCCESS && pkt_cnt) {
-> > +        return size;
-> > +    }
-> > +    return 0;
-> > +}
-> > +
-> > +
-> > +void vmnet_cleanup_common(NetClientState *nc)
-> > +{
-> > +    VmnetCommonState *s;
-> > +    dispatch_queue_t if_destroy_q;
-> > +
-> > +    s =3D DO_UPCAST(VmnetCommonState, nc, nc);
-> > +
-> > +    qemu_purge_queued_packets(nc);
-> > +    vmnet_set_send_enabled(s, false);
-> > +
-> > +    if (s->vmnet_if =3D=3D NULL) {
-> > +        return;
-> > +    }
-> > +
-> > +    if_destroy_q =3D dispatch_queue_create(
-> > +        "org.qemu.vmnet.destroy",
-> > +        DISPATCH_QUEUE_SERIAL
-> > +    );
-> > +
-> > +    vmnet_stop_interface(
-> > +        s->vmnet_if,
-> > +        if_destroy_q,
-> > +        ^(vmnet_return_t status) {
-> > +        });
-> > +
-> > +    for (int i =3D 0; i < VMNET_PACKETS_LIMIT; ++i) {
-> > +        g_free(s->iov_buf[i].iov_base);
-> > +    }
-> > +}
-> > diff --git a/net/vmnet-shared.c b/net/vmnet-shared.c
-> > index f8c4a4f3b8..0896a41d1a 100644
-> > --- a/net/vmnet-shared.c
-> > +++ b/net/vmnet-shared.c
-> > @@ -10,16 +10,91 @@
-> >
-> >  #include "qemu/osdep.h"
-> >  #include "qapi/qapi-types-net.h"
-> > +#include "qapi/error.h"
-> >  #include "vmnet_int.h"
-> >  #include "clients.h"
-> > -#include "qemu/error-report.h"
-> > -#include "qapi/error.h"
-> >
-> >  #include <vmnet/vmnet.h>
-> >
-> > +typedef struct VmnetSharedState {
-> > +  VmnetCommonState cs;
-> > +} VmnetSharedState;
-> > +
-> > +
-> > +static xpc_object_t create_if_desc(const Netdev *netdev, Error **errp)
-> > +{
-> > +    const NetdevVmnetSharedOptions *options =3D &(netdev->u.vmnet_shar=
-ed);
-> > +    xpc_object_t if_desc =3D xpc_dictionary_create(NULL, NULL, 0);
-> > +
-> > +    xpc_dictionary_set_uint64(
-> > +        if_desc,
-> > +        vmnet_operation_mode_key,
-> > +        VMNET_SHARED_MODE
-> > +    );
-> > +
-> > +#if defined(MAC_OS_VERSION_11_0) && \
-> > +    MAC_OS_X_VERSION_MAX_ALLOWED >=3D MAC_OS_VERSION_11_0
-> > +    xpc_dictionary_set_bool(
-> > +        if_desc,
-> > +        vmnet_enable_isolation_key,
-> > +        options->isolated
-> > +    );
-> > +#else
-> > +    if (options->has_isolated) {
-> > +        error_setg(errp,
-> > +                   "vmnet-shared.isolated feature is "
-> > +                   "unavailable: outdated vmnet.framework API");
-> > +    }
-> > +#endif
->
-> Instead of MAC_OS_X_VERSION_MAX_ALLOWED, MAC_OS_X_VERSION_MIN_REQUIRED
-> should be used here. MAC_OS_X_VERSION_MIN_REQUIRED defines the lower
-> bound of the version range supported by the build while
-> MAC_OS_X_VERSION_MAX_ALLOWED defines the upper bound. Since the build
-> referencing vmnet_enable_isolation_key would not properly work on
-> macOS <11.0, the lower bound must be checked.
-> MacOSX.sdk/usr/include/AvailabilityMacros.h has a more detailed
-> explanation.
->
-> I'm CCing people receiving macOS 12 support patch series since we had
-> similar discussions there too.
-> https://lore.kernel.org/all/20220109170612.574104-1-f4bug@amsat.org/
->
-> Regards,
-> Akihiko Odaki
->
-> > +
-> > +    if (options->has_nat66_prefix) {
-> > +        xpc_dictionary_set_string(if_desc,
-> > +                                  vmnet_nat66_prefix_key,
-> > +                                  options->nat66_prefix);
-> > +    }
-> > +
-> > +    if (options->has_start_address ||
-> > +        options->has_end_address ||
-> > +        options->has_subnet_mask) {
-> > +
-> > +        if (options->has_start_address &&
-> > +            options->has_end_address &&
-> > +            options->has_subnet_mask) {
-> > +
-> > +            xpc_dictionary_set_string(if_desc,
-> > +                                      vmnet_start_address_key,
-> > +                                      options->start_address);
-> > +            xpc_dictionary_set_string(if_desc,
-> > +                                      vmnet_end_address_key,
-> > +                                      options->end_address);
-> > +            xpc_dictionary_set_string(if_desc,
-> > +                                      vmnet_subnet_mask_key,
-> > +                                      options->subnet_mask);
-> > +        } else {
-> > +            error_setg(
-> > +                errp,
-> > +                "'start-address', 'end-address', 'subnet-mask' "
-> > +                "should be provided together"
-> > +            );
-> > +        }
-> > +    }
-> > +
-> > +    return if_desc;
-> > +}
-> > +
-> > +static NetClientInfo net_vmnet_shared_info =3D {
-> > +    .type =3D NET_CLIENT_DRIVER_VMNET_SHARED,
-> > +    .size =3D sizeof(VmnetSharedState),
-> > +    .receive =3D vmnet_receive_common,
-> > +    .cleanup =3D vmnet_cleanup_common,
-> > +};
-> > +
-> >  int net_init_vmnet_shared(const Netdev *netdev, const char *name,
-> >                            NetClientState *peer, Error **errp)
-> >  {
-> > -  error_setg(errp, "vmnet-shared is not implemented yet");
-> > -  return -1;
-> > +    NetClientState *nc =3D qemu_new_net_client(&net_vmnet_shared_info,
-> > +                                             peer, "vmnet-shared",
-> name);
-> > +    xpc_object_t if_desc =3D create_if_desc(netdev, errp);
-> > +
-> > +    return vmnet_if_create(nc, if_desc, errp, NULL);
-> >  }
-> > diff --git a/net/vmnet_int.h b/net/vmnet_int.h
-> > index c5982259a4..3979fe4678 100644
-> > --- a/net/vmnet_int.h
-> > +++ b/net/vmnet_int.h
-> > @@ -16,10 +16,33 @@
-> >
-> >  #include <vmnet/vmnet.h>
-> >
-> > +#define VMNET_PACKETS_LIMIT 50
-> > +
-> >  typedef struct VmnetCommonState {
-> >    NetClientState nc;
-> > +  interface_ref vmnet_if;
-> > +
-> > +  bool send_enabled;
-> > +
-> > +  uint64_t mtu;
-> > +  uint64_t max_packet_size;
-> > +
-> > +  struct vmpktdesc packets_buf[VMNET_PACKETS_LIMIT];
-> > +  struct iovec iov_buf[VMNET_PACKETS_LIMIT];
-> >
-> >  } VmnetCommonState;
-> >
-> > +const char *vmnet_status_map_str(vmnet_return_t status);
-> > +
-> > +int vmnet_if_create(NetClientState *nc,
-> > +                    xpc_object_t if_desc,
-> > +                    Error **errp,
-> > +                    void (*completion_callback)(xpc_object_t
-> interface_param));
-> > +
-> > +ssize_t vmnet_receive_common(NetClientState *nc,
-> > +                             const uint8_t *buf,
-> > +                             size_t size);
-> > +
-> > +void vmnet_cleanup_common(NetClientState *nc);
-> >
-> >  #endif /* VMNET_INT_H */
-> > --
-> > 2.23.0
-> >
->
-
---000000000000f7079805d579b313
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Will fix it, thank you!<br><br></div><div=
- dir=3D"ltr">Actually this (wrong) check:<div><br><div>#if defined(MAC_OS_V=
-ERSION_11_0) &amp;&amp; \<br>=C2=A0 =C2=A0 MAC_OS_X_VERSION_MAX_ALLOWED &gt=
-;=3D MAC_OS_VERSION_11_0<br></div><div><br></div></div><div>worked fine on =
-Catalina 10.15 for me cause the=C2=A0</div><div>MAC_OS_VERSION_11_0 was not=
- introduced there and it</div><div>stopped on the 1st defined(MAC_OS_VERSIO=
-N_11_0) check.</div><div>I should have tested this more thoroughly,=C2=A0my=
- fault.</div><div><br></div><div>Now submitting v13 with MAC_OS_X_VERSION_M=
-IN_REQUIRED.</div></div><div><br class=3D"gmail-Apple-interchange-newline">=
---<br><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"ltr">Best Rega=
-rds,<div><br><div>Vladislav Yaroshchuk</div></div><div><br></div></div></di=
-v></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
-">=D1=87=D1=82, 13 =D1=8F=D0=BD=D0=B2. 2022 =D0=B3. =D0=B2 19:11, Akihiko O=
-daki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com">akihiko.odaki@gmail.com=
-</a>&gt;:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri=
-, Jan 14, 2022 at 12:01 AM Vladislav Yaroshchuk<br>
-&lt;<a href=3D"mailto:yaroshchuk2000@gmail.com" target=3D"_blank">yaroshchu=
-k2000@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Interaction with vmnet.framework in different modes<br>
-&gt; differs only on configuration stage, so we can create<br>
-&gt; common `send`, `receive`, etc. procedures and reuse them.<br>
-&gt;<br>
-&gt; vmnet.framework supports iov, but writing more than<br>
-&gt; one iov into vmnet interface fails with<br>
-&gt; &#39;VMNET_INVALID_ARGUMENT&#39;. Collecting provided iovs into<br>
-&gt; one and passing it to vmnet works fine. That&#39;s the<br>
-&gt; reason why receive_iov() left unimplemented. But it still<br>
-&gt; works with good enough performance having .receive()<br>
-&gt; implemented only.<br>
-&gt;<br>
-&gt; Also, there is no way to unsubscribe from vmnet packages<br>
-&gt; receiving except registering and unregistering event<br>
-&gt; callback or simply drop packages just ignoring and<br>
-&gt; not processing them when related flag is set. Here we do<br>
-&gt; using the second way.<br>
-&gt;<br>
-&gt; Signed-off-by: Phillip Tennen &lt;<a href=3D"mailto:phillip@axleos.com=
-" target=3D"_blank">phillip@axleos.com</a>&gt;<br>
-&gt; Signed-off-by: Vladislav Yaroshchuk &lt;<a href=3D"mailto:yaroshchuk20=
-00@gmail.com" target=3D"_blank">yaroshchuk2000@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 net/vmnet-common.m | 313 +++++++++++++++++++++++++++++++++++++++=
-++++++<br>
-&gt;=C2=A0 net/vmnet-shared.c |=C2=A0 83 +++++++++++-<br>
-&gt;=C2=A0 net/vmnet_int.h=C2=A0 =C2=A0 |=C2=A0 23 ++++<br>
-&gt;=C2=A0 3 files changed, 415 insertions(+), 4 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/net/vmnet-common.m b/net/vmnet-common.m<br>
-&gt; index 532d152840..45c983ac7f 100644<br>
-&gt; --- a/net/vmnet-common.m<br>
-&gt; +++ b/net/vmnet-common.m<br>
-&gt; @@ -10,6 +10,8 @@<br>
-&gt;=C2=A0 =C2=A0*/<br>
-&gt;<br>
-&gt;=C2=A0 #include &quot;qemu/osdep.h&quot;<br>
-&gt; +#include &quot;qemu/main-loop.h&quot;<br>
-&gt; +#include &quot;qemu/log.h&quot;<br>
-&gt;=C2=A0 #include &quot;qapi/qapi-types-net.h&quot;<br>
-&gt;=C2=A0 #include &quot;vmnet_int.h&quot;<br>
-&gt;=C2=A0 #include &quot;clients.h&quot;<br>
-&gt; @@ -17,4 +19,315 @@<br>
-&gt;=C2=A0 #include &quot;qapi/error.h&quot;<br>
-&gt;<br>
-&gt;=C2=A0 #include &lt;vmnet/vmnet.h&gt;<br>
-&gt; +#include &lt;dispatch/dispatch.h&gt;<br>
-&gt;<br>
-&gt; +#ifdef DEBUG<br>
-&gt; +#define D(x) x<br>
-&gt; +#define D_LOG(...) qemu_log(__VA_ARGS__)<br>
-&gt; +#else<br>
-&gt; +#define D(x) do { } while (0)<br>
-&gt; +#define D_LOG(...) do { } while (0)<br>
-&gt; +#endif<br>
-&gt; +<br>
-&gt; +typedef struct vmpktdesc vmpktdesc_t;<br>
-&gt; +typedef struct iovec iovec_t;<br>
-&gt; +<br>
-&gt; +static void vmnet_set_send_enabled(VmnetCommonState *s, bool enable)<=
-br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 s-&gt;send_enabled =3D enable;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +<br>
-&gt; +static void vmnet_send_completed(NetClientState *nc, ssize_t len)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 VmnetCommonState *s =3D DO_UPCAST(VmnetCommonState, nc,=
- nc);<br>
-&gt; +=C2=A0 =C2=A0 vmnet_set_send_enabled(s, true);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +<br>
-&gt; +static void vmnet_send(NetClientState *nc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0interface_event_t event_id,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0xpc_object_t event)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 assert(event_id =3D=3D VMNET_INTERFACE_PACKETS_AVAILABL=
-E);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 VmnetCommonState *s;<br>
-&gt; +=C2=A0 =C2=A0 uint64_t packets_available;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 struct iovec *iov;<br>
-&gt; +=C2=A0 =C2=A0 struct vmpktdesc *packets;<br>
-&gt; +=C2=A0 =C2=A0 int pkt_cnt;<br>
-&gt; +=C2=A0 =C2=A0 int i;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 vmnet_return_t if_status;<br>
-&gt; +=C2=A0 =C2=A0 ssize_t size;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 s =3D DO_UPCAST(VmnetCommonState, nc, nc);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 packets_available =3D xpc_dictionary_get_uint64(<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 event,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 vmnet_estimated_packets_available_key<br>
-&gt; +=C2=A0 =C2=A0 );<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 pkt_cnt =3D (packets_available &lt; VMNET_PACKETS_LIMIT=
-) ?<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 packets_available :<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 VMNET_PACKETS_LIMIT;=
-<br>
-&gt; +<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 iov =3D s-&gt;iov_buf;<br>
-&gt; +=C2=A0 =C2=A0 packets =3D s-&gt;packets_buf;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 for (i =3D 0; i &lt; pkt_cnt; ++i) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 packets[i].vm_pkt_size =3D s-&gt;max_pack=
-et_size;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 packets[i].vm_pkt_iovcnt =3D 1;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 packets[i].vm_flags =3D 0;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if_status =3D vmnet_read(s-&gt;vmnet_if, packets, &amp;=
-pkt_cnt);<br>
-&gt; +=C2=A0 =C2=A0 if (if_status !=3D VMNET_SUCCESS) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_printf(&quot;vmnet: read failed: %s=
-\n&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0vmnet_status_map_str(if_status));<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 qemu_mutex_lock_iothread();<br>
-&gt; +=C2=A0 =C2=A0 for (i =3D 0; i &lt; pkt_cnt; ++i) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 size =3D qemu_send_packet_async(nc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 iov[i].iov_=
-base,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 packets[i].=
-vm_pkt_size,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vmnet_send_=
-completed);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (size =3D=3D 0) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vmnet_set_send_enabled(s, f=
-alse);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (size &lt; 0) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 qemu_mutex_unlock_iothread();<br>
-&gt; +<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +<br>
-&gt; +static void vmnet_register_event_callback(VmnetCommonState *s)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 dispatch_queue_t avail_pkt_q =3D dispatch_queue_create(=
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;org.qemu.vmnet.if_queue&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 DISPATCH_QUEUE_SERIAL<br>
-&gt; +=C2=A0 =C2=A0 );<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 vmnet_interface_set_event_callback(<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;vmnet_if,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMNET_INTERFACE_PACKETS_AVAILABLE,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 avail_pkt_q,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ^(interface_event_t event_id, xpc_object_=
-t event) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (s-&gt;send_enabled) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vmnet_send(&amp;s-&g=
-t;nc, event_id, event);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 });<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +<br>
-&gt; +static void vmnet_bufs_init(VmnetCommonState *s)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 int i;<br>
-&gt; +=C2=A0 =C2=A0 struct vmpktdesc *packets;<br>
-&gt; +=C2=A0 =C2=A0 struct iovec *iov;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 packets =3D s-&gt;packets_buf;<br>
-&gt; +=C2=A0 =C2=A0 iov =3D s-&gt;iov_buf;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 for (i =3D 0; i &lt; VMNET_PACKETS_LIMIT; ++i) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 iov[i].iov_len =3D s-&gt;max_packet_size;=
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 iov[i].iov_base =3D g_malloc0(iov[i].iov_=
-len);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 packets[i].vm_pkt_iov =3D iov + i;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +<br>
-&gt; +const char *vmnet_status_map_str(vmnet_return_t status)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 switch (status) {<br>
-&gt; +=C2=A0 =C2=A0 case VMNET_SUCCESS:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;success&quot;;<br>
-&gt; +=C2=A0 =C2=A0 case VMNET_FAILURE:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;general failure&quot;;<br>
-&gt; +=C2=A0 =C2=A0 case VMNET_MEM_FAILURE:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;memory allocation failure&qu=
-ot;;<br>
-&gt; +=C2=A0 =C2=A0 case VMNET_INVALID_ARGUMENT:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;invalid argument specified&q=
-uot;;<br>
-&gt; +=C2=A0 =C2=A0 case VMNET_SETUP_INCOMPLETE:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;interface setup is not compl=
-ete&quot;;<br>
-&gt; +=C2=A0 =C2=A0 case VMNET_INVALID_ACCESS:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;invalid access, permission d=
-enied&quot;;<br>
-&gt; +=C2=A0 =C2=A0 case VMNET_PACKET_TOO_BIG:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;packet size is larger than M=
-TU&quot;;<br>
-&gt; +=C2=A0 =C2=A0 case VMNET_BUFFER_EXHAUSTED:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;buffers exhausted in kernel&=
-quot;;<br>
-&gt; +=C2=A0 =C2=A0 case VMNET_TOO_MANY_PACKETS:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;packet count exceeds limit&q=
-uot;;<br>
-&gt; +#if defined(MAC_OS_VERSION_11_0) &amp;&amp; \<br>
-&gt; +=C2=A0 =C2=A0 MAC_OS_X_VERSION_MAX_ALLOWED &gt;=3D MAC_OS_VERSION_11_=
-0<br>
-&gt; +=C2=A0 =C2=A0 case VMNET_SHARING_SERVICE_BUSY:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;conflict, sharing service is=
- in use&quot;;<br>
-&gt; +#endif<br>
-&gt; +=C2=A0 =C2=A0 default:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;unknown vmnet error&quot;;<b=
-r>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +<br>
-&gt; +int vmnet_if_create(NetClientState *nc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- xpc_object_t if_desc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- Error **errp,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- void (*completion_callback)(xpc_object_t interface_param))<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 VmnetCommonState *s;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 dispatch_queue_t if_create_q;<br>
-&gt; +=C2=A0 =C2=A0 dispatch_semaphore_t if_created_sem;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 __block vmnet_return_t if_status;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if_create_q =3D dispatch_queue_create(&quot;org.qemu.vm=
-net.create&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DISP=
-ATCH_QUEUE_SERIAL);<br>
-&gt; +=C2=A0 =C2=A0 if_created_sem =3D dispatch_semaphore_create(0);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 xpc_dictionary_set_bool(<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if_desc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 vmnet_allocate_mac_address_key,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 false<br>
-&gt; +=C2=A0 =C2=A0 );<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 D(D_LOG(&quot;vmnet.start.interface_desc:\n&quot;);<br>
-&gt; +=C2=A0 =C2=A0 xpc_dictionary_apply(if_desc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0^bool(const char *k, xpc_object_t v) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0char *desc =3D xpc_copy_description(v);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0D_LOG(&quot;=C2=A0 %s=3D%s\n&quot;, k, desc);<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0free(desc);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0return true;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0}));<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 s =3D DO_UPCAST(VmnetCommonState, nc, nc);<br>
-&gt; +=C2=A0 =C2=A0 s-&gt;vmnet_if =3D vmnet_start_interface(<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if_desc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if_create_q,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ^(vmnet_return_t status, xpc_object_t int=
-erface_param) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if_status =3D status;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (status !=3D VMNET_SUCCESS || !=
-interface_param) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dispatch_semaphore_s=
-ignal(if_created_sem);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 D(D_LOG(&quot;vmnet.start.interfac=
-e_param:\n&quot;);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 xpc_dictionar=
-y_apply(interface_param,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^bool(const =
-char *k, xpc_object_t v) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char =
-*desc =3D xpc_copy_description(v);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0D_LOG=
-(&quot;=C2=A0 %s=3D%s\n&quot;, k, desc);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0free(=
-desc);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0retur=
-n true;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}));<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;mtu =3D xpc_dictionary_get_u=
-int64(<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 interface_param,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vmnet_mtu_key);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;max_packet_size =3D xpc_dict=
-ionary_get_uint64(<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 interface_param,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vmnet_max_packet_siz=
-e_key);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (completion_callback) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 completion_callback(=
-interface_param);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dispatch_semaphore_signal(if_creat=
-ed_sem);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 });<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if (s-&gt;vmnet_if =3D=3D NULL) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;unable to create i=
-nterface with requested params&quot;);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 dispatch_semaphore_wait(if_created_sem, DISPATCH_TIME_F=
-OREVER);<br>
-&gt; +=C2=A0 =C2=A0 dispatch_release(if_create_q);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if (if_status !=3D VMNET_SUCCESS) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-&quot;cannot create vmnet interface: %s&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-vmnet_status_map_str(if_status));<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 vmnet_register_event_callback(s);<br>
-&gt; +=C2=A0 =C2=A0 vmnet_bufs_init(s);<br>
-&gt; +=C2=A0 =C2=A0 vmnet_set_send_enabled(s, true);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 return 0;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +<br>
-&gt; +ssize_t vmnet_receive_common(NetClientState *nc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const uint8_t *buf,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0size_t size)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 VmnetCommonState *s;<br>
-&gt; +=C2=A0 =C2=A0 vmpktdesc_t packet;<br>
-&gt; +=C2=A0 =C2=A0 iovec_t iov;<br>
-&gt; +=C2=A0 =C2=A0 int pkt_cnt;<br>
-&gt; +=C2=A0 =C2=A0 vmnet_return_t if_status;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 s =3D DO_UPCAST(VmnetCommonState, nc, nc);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if (size &gt; s-&gt;max_packet_size) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 warn_report(&quot;vmnet: packet is too bi=
-g, %zu &gt; %llu\n&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- packet.vm_pkt_size,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- s-&gt;max_packet_size);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 iov.iov_base =3D (char *) buf;<br>
-&gt; +=C2=A0 =C2=A0 iov.iov_len =3D size;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 packet.vm_pkt_iovcnt =3D 1;<br>
-&gt; +=C2=A0 =C2=A0 packet.vm_flags =3D 0;<br>
-&gt; +=C2=A0 =C2=A0 packet.vm_pkt_size =3D size;<br>
-&gt; +=C2=A0 =C2=A0 packet.vm_pkt_iov =3D &amp;iov;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 pkt_cnt =3D 1;<br>
-&gt; +=C2=A0 =C2=A0 if_status =3D vmnet_write(s-&gt;vmnet_if, &amp;packet, =
-&amp;pkt_cnt);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if (if_status !=3D VMNET_SUCCESS) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(&quot;vmnet: write error: %s=
-\n&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0vmnet_status_map_str(if_status));<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if (if_status =3D=3D VMNET_SUCCESS &amp;&amp; pkt_cnt) =
-{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return size;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 return 0;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +<br>
-&gt; +void vmnet_cleanup_common(NetClientState *nc)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 VmnetCommonState *s;<br>
-&gt; +=C2=A0 =C2=A0 dispatch_queue_t if_destroy_q;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 s =3D DO_UPCAST(VmnetCommonState, nc, nc);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 qemu_purge_queued_packets(nc);<br>
-&gt; +=C2=A0 =C2=A0 vmnet_set_send_enabled(s, false);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if (s-&gt;vmnet_if =3D=3D NULL) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if_destroy_q =3D dispatch_queue_create(<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;org.qemu.vmnet.destroy&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 DISPATCH_QUEUE_SERIAL<br>
-&gt; +=C2=A0 =C2=A0 );<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 vmnet_stop_interface(<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;vmnet_if,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if_destroy_q,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ^(vmnet_return_t status) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 });<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 for (int i =3D 0; i &lt; VMNET_PACKETS_LIMIT; ++i) {<br=
->
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(s-&gt;iov_buf[i].iov_base);<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +}<br>
-&gt; diff --git a/net/vmnet-shared.c b/net/vmnet-shared.c<br>
-&gt; index f8c4a4f3b8..0896a41d1a 100644<br>
-&gt; --- a/net/vmnet-shared.c<br>
-&gt; +++ b/net/vmnet-shared.c<br>
-&gt; @@ -10,16 +10,91 @@<br>
-&gt;<br>
-&gt;=C2=A0 #include &quot;qemu/osdep.h&quot;<br>
-&gt;=C2=A0 #include &quot;qapi/qapi-types-net.h&quot;<br>
-&gt; +#include &quot;qapi/error.h&quot;<br>
-&gt;=C2=A0 #include &quot;vmnet_int.h&quot;<br>
-&gt;=C2=A0 #include &quot;clients.h&quot;<br>
-&gt; -#include &quot;qemu/error-report.h&quot;<br>
-&gt; -#include &quot;qapi/error.h&quot;<br>
-&gt;<br>
-&gt;=C2=A0 #include &lt;vmnet/vmnet.h&gt;<br>
-&gt;<br>
-&gt; +typedef struct VmnetSharedState {<br>
-&gt; +=C2=A0 VmnetCommonState cs;<br>
-&gt; +} VmnetSharedState;<br>
-&gt; +<br>
-&gt; +<br>
-&gt; +static xpc_object_t create_if_desc(const Netdev *netdev, Error **errp=
-)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 const NetdevVmnetSharedOptions *options =3D &amp;(netde=
-v-&gt;u.vmnet_shared);<br>
-&gt; +=C2=A0 =C2=A0 xpc_object_t if_desc =3D xpc_dictionary_create(NULL, NU=
-LL, 0);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 xpc_dictionary_set_uint64(<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if_desc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 vmnet_operation_mode_key,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMNET_SHARED_MODE<br>
-&gt; +=C2=A0 =C2=A0 );<br>
-&gt; +<br>
-&gt; +#if defined(MAC_OS_VERSION_11_0) &amp;&amp; \<br>
-&gt; +=C2=A0 =C2=A0 MAC_OS_X_VERSION_MAX_ALLOWED &gt;=3D MAC_OS_VERSION_11_=
-0<br>
-&gt; +=C2=A0 =C2=A0 xpc_dictionary_set_bool(<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if_desc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 vmnet_enable_isolation_key,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 options-&gt;isolated<br>
-&gt; +=C2=A0 =C2=A0 );<br>
-&gt; +#else<br>
-&gt; +=C2=A0 =C2=A0 if (options-&gt;has_isolated) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-&quot;vmnet-shared.isolated feature is &quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-&quot;unavailable: outdated vmnet.framework API&quot;);<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +#endif<br>
-<br>
-Instead of MAC_OS_X_VERSION_MAX_ALLOWED, MAC_OS_X_VERSION_MIN_REQUIRED<br>
-should be used here. MAC_OS_X_VERSION_MIN_REQUIRED defines the lower<br>
-bound of the version range supported by the build while<br>
-MAC_OS_X_VERSION_MAX_ALLOWED defines the upper bound. Since the build<br>
-referencing vmnet_enable_isolation_key would not properly work on<br>
-macOS &lt;11.0, the lower bound must be checked.<br>
-MacOSX.sdk/usr/include/AvailabilityMacros.h has a more detailed<br>
-explanation.<br>
-<br>
-I&#39;m CCing people receiving macOS 12 support patch series since we had<b=
-r>
-similar discussions there too.<br>
-<a href=3D"https://lore.kernel.org/all/20220109170612.574104-1-f4bug@amsat.=
-org/" rel=3D"noreferrer" target=3D"_blank">https://lore.kernel.org/all/2022=
-0109170612.574104-1-f4bug@amsat.org/</a><br>
-<br>
-Regards,<br>
-Akihiko Odaki<br>
-<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if (options-&gt;has_nat66_prefix) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 xpc_dictionary_set_string(if_desc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vmnet_nat66_prefix_key,<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 options-&gt;nat66_prefix)=
-;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if (options-&gt;has_start_address ||<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 options-&gt;has_end_address ||<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 options-&gt;has_subnet_mask) {<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (options-&gt;has_start_address &amp;&a=
-mp;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 options-&gt;has_end_address=
- &amp;&amp;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 options-&gt;has_subnet_mask=
-) {<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 xpc_dictionary_set_string(i=
-f_desc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vmnet_start=
-_address_key,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 options-&gt=
-;start_address);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 xpc_dictionary_set_string(i=
-f_desc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vmnet_end_a=
-ddress_key,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 options-&gt=
-;end_address);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 xpc_dictionary_set_string(i=
-f_desc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vmnet_subne=
-t_mask_key,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 options-&gt=
-;subnet_mask);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 errp,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&#39;st=
-art-address&#39;, &#39;end-address&#39;, &#39;subnet-mask&#39; &quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;should =
-be provided together&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 );<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 return if_desc;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static NetClientInfo net_vmnet_shared_info =3D {<br>
-&gt; +=C2=A0 =C2=A0 .type =3D NET_CLIENT_DRIVER_VMNET_SHARED,<br>
-&gt; +=C2=A0 =C2=A0 .size =3D sizeof(VmnetSharedState),<br>
-&gt; +=C2=A0 =C2=A0 .receive =3D vmnet_receive_common,<br>
-&gt; +=C2=A0 =C2=A0 .cleanup =3D vmnet_cleanup_common,<br>
-&gt; +};<br>
-&gt; +<br>
-&gt;=C2=A0 int net_init_vmnet_shared(const Netdev *netdev, const char *name=
-,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 NetClientState *peer, Error **errp)<br>
-&gt;=C2=A0 {<br>
-&gt; -=C2=A0 error_setg(errp, &quot;vmnet-shared is not implemented yet&quo=
-t;);<br>
-&gt; -=C2=A0 return -1;<br>
-&gt; +=C2=A0 =C2=A0 NetClientState *nc =3D qemu_new_net_client(&amp;net_vmn=
-et_shared_info,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0peer, &quot;vmnet-shared&quot;, name);<br>
-&gt; +=C2=A0 =C2=A0 xpc_object_t if_desc =3D create_if_desc(netdev, errp);<=
-br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 return vmnet_if_create(nc, if_desc, errp, NULL);<br>
-&gt;=C2=A0 }<br>
-&gt; diff --git a/net/vmnet_int.h b/net/vmnet_int.h<br>
-&gt; index c5982259a4..3979fe4678 100644<br>
-&gt; --- a/net/vmnet_int.h<br>
-&gt; +++ b/net/vmnet_int.h<br>
-&gt; @@ -16,10 +16,33 @@<br>
-&gt;<br>
-&gt;=C2=A0 #include &lt;vmnet/vmnet.h&gt;<br>
-&gt;<br>
-&gt; +#define VMNET_PACKETS_LIMIT 50<br>
-&gt; +<br>
-&gt;=C2=A0 typedef struct VmnetCommonState {<br>
-&gt;=C2=A0 =C2=A0 NetClientState nc;<br>
-&gt; +=C2=A0 interface_ref vmnet_if;<br>
-&gt; +<br>
-&gt; +=C2=A0 bool send_enabled;<br>
-&gt; +<br>
-&gt; +=C2=A0 uint64_t mtu;<br>
-&gt; +=C2=A0 uint64_t max_packet_size;<br>
-&gt; +<br>
-&gt; +=C2=A0 struct vmpktdesc packets_buf[VMNET_PACKETS_LIMIT];<br>
-&gt; +=C2=A0 struct iovec iov_buf[VMNET_PACKETS_LIMIT];<br>
-&gt;<br>
-&gt;=C2=A0 } VmnetCommonState;<br>
-&gt;<br>
-&gt; +const char *vmnet_status_map_str(vmnet_return_t status);<br>
-&gt; +<br>
-&gt; +int vmnet_if_create(NetClientState *nc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- xpc_object_t if_desc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- Error **errp,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- void (*completion_callback)(xpc_object_t interface_param));<br>
-&gt; +<br>
-&gt; +ssize_t vmnet_receive_common(NetClientState *nc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const uint8_t *buf,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0size_t size);<br>
-&gt; +<br>
-&gt; +void vmnet_cleanup_common(NetClientState *nc);<br>
-&gt;<br>
-&gt;=C2=A0 #endif /* VMNET_INT_H */<br>
-&gt; --<br>
-&gt; 2.23.0<br>
-&gt;<br>
-</blockquote></div><br clear=3D"all"><div><br></div></div>
-
---000000000000f7079805d579b313--
 
