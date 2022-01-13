@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE6D548DD17
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 18:46:16 +0100 (CET)
-Received: from localhost ([::1]:49200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22CD848DD20
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 18:49:18 +0100 (CET)
+Received: from localhost ([::1]:55910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n84Ax-0000T8-Bo
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 12:46:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55070)
+	id 1n84Dt-0005B7-7A
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 12:49:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
- id 1n83oH-0007mD-VX
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 12:22:49 -0500
-Received: from [2a00:1450:4864:20::130] (port=36361
- helo=mail-lf1-x130.google.com)
+ id 1n83oK-0007t2-Ue
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 12:22:53 -0500
+Received: from [2a00:1450:4864:20::131] (port=42978
+ helo=mail-lf1-x131.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
- id 1n83oF-0000pE-0L
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 12:22:49 -0500
-Received: by mail-lf1-x130.google.com with SMTP id b14so3537339lff.3
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 09:22:46 -0800 (PST)
+ id 1n83oI-0000pl-NT
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 12:22:52 -0500
+Received: by mail-lf1-x131.google.com with SMTP id e3so19207876lfc.9
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 09:22:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6RclDevLSd6+w1woMZtxoloXjHn4OEESSZuOsEg2ug0=;
- b=h++zwS5+KwevZlvKknWgjT5NWv9dkZ/fd2gtEft55CDolT1GyCdWOFF7WRVn4AnNtJ
- GNqzB47e9kEGvR+dhEO7JYwb6R3to8Su7RTLJiYGfU6JNNBpG9y28zbuy76vJqv2bvv6
- Dm+PSC2mxFG7GrCsL4XFrH2hFt7KkNzpBqObSOLL88MhiFCWVAzIKF8mp9nd18cY6UPb
- 49pL4PaOOzkmF7aPgjhj3bbg2EBjcAO0w04bvjiIDc2BNnmGfX3V3hhG+dnQbrEEG5k3
- JTVsKe+bomY/2WKyzW6wI4krMh7HIYUZTnhERE+GuyFa1eCnnT0IP6QKo6Jks2yvtHsY
- vEWg==
+ bh=5QOM4FVgaVRCILMqy2m8XVHd/4owBSRjiNsRkRZyyLY=;
+ b=V5mvdtG+VGpetqaE42oDf/wNA/WjJOeNxxsKxQG9FBU3okM/g8JbQDDMOApOpOMkaC
+ 6Db6Wh/PZPaqB7EB/l7cZNfxY2PD02/eZ8qAwTuEhij37lrAWRXLnvsQTHK90QYxNvrv
+ 3w4M8MOAsUBAQb/afdDAA+I8z6s/MTa0LUwJZvic/rYbco8+eMY+7pDXFLT+sitOXpep
+ M4MyzdUUaf+e1yNNLIhb5q/s6GjaYEtoyd8X+WM5hgh2G5QCaBWg0VmUW1Yc1c/951Ri
+ cBqUig5kz9Youbml9Kib+zEua10kGhvJNOYFnJtsPsU8ZIBJWKJ8gOz1pyE3wsNSP3jv
+ zJ0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6RclDevLSd6+w1woMZtxoloXjHn4OEESSZuOsEg2ug0=;
- b=1ZotHOV3YF2Q8S1r7uk3kUsdEkOkBDFxNj7uLdcPGABJ41fPOB7wMz7AYYd34c0dNN
- Qms05kSryaxQSh+WX8EJAbiQZTo5SJy76HBEPQih3rfVxqHEJ0uot9zYzF6T+qhw0a4O
- SL5Ye/8AQYZa5qwIko9n7czR+hf88xzxM7HdEciecoc5O6SO6h8fC199Ub1r7nK+E93P
- fP1KhiA663Oi88yHh45C45X+S6zA496dFA//aa6ESo9Tsdw3tqudgL6G4sQ5ObO64Wpj
- Z+FIetIN+X5eFalyDTtAGs41TtBy+EF76YJsseboo0QtZhu81QLekBtPH4/z7130KPcj
- uHDA==
-X-Gm-Message-State: AOAM531wg2lvMn1vdfYTEFaBKbSY6lsEUJRZUqG2arsiJSAsz8MbyDYE
- 2qsQDrmDqP+ObhHlpKMyPSNA6jRrMcNoalhd
-X-Google-Smtp-Source: ABdhPJyevsn+6abst0HuQLt20n0rHcdFHUDV5FkKXXmm3Xd2bf/pNndVplQ+RnW2Fpg1kX2KpkEvYQ==
-X-Received: by 2002:a05:651c:224:: with SMTP id
- z4mr3517545ljn.418.1642094565211; 
- Thu, 13 Jan 2022 09:22:45 -0800 (PST)
+ bh=5QOM4FVgaVRCILMqy2m8XVHd/4owBSRjiNsRkRZyyLY=;
+ b=IOxgRIrnRrAYq6aGhJpbUJD5ECpmgPWGriiVlKM4x0hYdaiGjETqVQeIuLwGTgIPUh
+ dgJzmE9N98DHx02axUMBiM8Zk6Ff9cZHgY0RGu2/mM3J3+uXSdeZ1VflVcc6M7+SLKMS
+ 8dtcZI/IWg3OSkdOaqlTpXpFUSvmUKYErxGPoynD31mzhdoL7QfxqV1NbV+vaNsIv//k
+ s9sCvAPDkCfnJ3ROCWycY/6ACw8YTuKSzrppsOBWFnslamygUlpXXGf5Yidnk1+bVaDz
+ PU/W1xgwtYdAnYDD9X1YVEkm5FAdGy2V7EHAzG3A0wBqNUi3cInjAuxP42CP+5Jb/fZ0
+ Bp2A==
+X-Gm-Message-State: AOAM5307aG43YKxpl5NlQlcHJvfr2bE5nHQdFO07wtE52elVZ/ZUdrKY
+ 4c5f5BzEu5HYCwjOMRPE0uS4ZNh2Tswz5jKn
+X-Google-Smtp-Source: ABdhPJzorLzyKpdCbMJw3g3uWIYgyieAqs9uyYxlwL9fAaYAlMC7RSY4FDLNTEPiUCxNVsk3oKhOcQ==
+X-Received: by 2002:a2e:8190:: with SMTP id e16mr3777143ljg.111.1642094568902; 
+ Thu, 13 Jan 2022 09:22:48 -0800 (PST)
 Received: from UNIT-808.labs.intellij.net ([91.132.204.19])
- by smtp.gmail.com with ESMTPSA id h17sm323410ljk.41.2022.01.13.09.22.42
+ by smtp.gmail.com with ESMTPSA id h17sm323410ljk.41.2022.01.13.09.22.45
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 13 Jan 2022 09:22:44 -0800 (PST)
+ Thu, 13 Jan 2022 09:22:48 -0800 (PST)
 From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v13 1/7] net/vmnet: add vmnet dependency and customizable
- option
-Date: Thu, 13 Jan 2022 20:22:13 +0300
-Message-Id: <20220113172219.66372-2-yaroshchuk2000@gmail.com>
+Subject: [PATCH v13 2/7] net/vmnet: add vmnet backends to qapi/net
+Date: Thu, 13 Jan 2022 20:22:14 +0300
+Message-Id: <20220113172219.66372-3-yaroshchuk2000@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20220113172219.66372-1-yaroshchuk2000@gmail.com>
 References: <20220113172219.66372-1-yaroshchuk2000@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::130
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::131
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::130;
- envelope-from=yaroshchuk2000@gmail.com; helo=mail-lf1-x130.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::131;
+ envelope-from=yaroshchuk2000@gmail.com; helo=mail-lf1-x131.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -97,94 +95,410 @@ Cc: peter.maydell@linaro.org, Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vmnet.framework dependency is added with 'vmnet' option
-to enable or disable it. Default value is 'auto'.
-
-vmnet features to be used are available since macOS 11.0,
-corresponding probe is created into meson.build.
+Create separate netdevs for each vmnet operating mode:
+- vmnet-host
+- vmnet-shared
+- vmnet-bridged
 
 Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 ---
- meson.build                   | 16 +++++++++++++++-
- meson_options.txt             |  2 ++
- scripts/meson-buildoptions.sh |  3 +++
- 3 files changed, 20 insertions(+), 1 deletion(-)
+ net/clients.h       |  11 ++++
+ net/meson.build     |   7 +++
+ net/net.c           |  10 ++++
+ net/vmnet-bridged.m |  25 +++++++++
+ net/vmnet-common.m  |  20 +++++++
+ net/vmnet-host.c    |  24 ++++++++
+ net/vmnet-shared.c  |  25 +++++++++
+ net/vmnet_int.h     |  25 +++++++++
+ qapi/net.json       | 133 +++++++++++++++++++++++++++++++++++++++++++-
+ 9 files changed, 278 insertions(+), 2 deletions(-)
+ create mode 100644 net/vmnet-bridged.m
+ create mode 100644 net/vmnet-common.m
+ create mode 100644 net/vmnet-host.c
+ create mode 100644 net/vmnet-shared.c
+ create mode 100644 net/vmnet_int.h
 
-diff --git a/meson.build b/meson.build
-index c1b1db1e28..285fb7bc41 100644
---- a/meson.build
-+++ b/meson.build
-@@ -496,6 +496,18 @@ if cocoa.found() and get_option('gtk').enabled()
-   error('Cocoa and GTK+ cannot be enabled at the same time')
- endif
+diff --git a/net/clients.h b/net/clients.h
+index 92f9b59aed..c9157789f2 100644
+--- a/net/clients.h
++++ b/net/clients.h
+@@ -63,4 +63,15 @@ int net_init_vhost_user(const Netdev *netdev, const char *name,
  
-+vmnet = dependency('appleframeworks', modules: 'vmnet', required: get_option('vmnet'))
-+if vmnet.found() and not cc.has_header_symbol('vmnet/vmnet.h',
-+                                              'VMNET_BRIDGED_MODE',
-+                                              dependencies: vmnet)
-+  vmnet = not_found
-+  if get_option('vmnet').enabled()
-+    error('vmnet.framework API is outdated')
-+  else
-+    warning('vmnet.framework API is outdated, disabling')
-+  endif
-+endif
+ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+                         NetClientState *peer, Error **errp);
++#ifdef CONFIG_VMNET
++int net_init_vmnet_host(const Netdev *netdev, const char *name,
++                          NetClientState *peer, Error **errp);
 +
- seccomp = not_found
- if not get_option('seccomp').auto() or have_system or have_tools
-   seccomp = dependency('libseccomp', version: '>=2.3.0',
-@@ -1492,6 +1504,7 @@ config_host_data.set('CONFIG_SECCOMP', seccomp.found())
- config_host_data.set('CONFIG_SNAPPY', snappy.found())
- config_host_data.set('CONFIG_USB_LIBUSB', libusb.found())
- config_host_data.set('CONFIG_VDE', vde.found())
-+config_host_data.set('CONFIG_VMNET', vmnet.found())
- config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
- config_host_data.set('CONFIG_VNC', vnc.found())
- config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
-@@ -3406,7 +3419,8 @@ summary(summary_info, bool_yn: true, section: 'Crypto')
- # Libraries
- summary_info = {}
- if targetos == 'darwin'
--  summary_info += {'Cocoa support':   cocoa}
-+  summary_info += {'Cocoa support':           cocoa}
-+  summary_info += {'vmnet.framework support': vmnet}
- endif
- summary_info += {'SDL support':       sdl}
- summary_info += {'SDL image support': sdl_image}
-diff --git a/meson_options.txt b/meson_options.txt
-index 921967eddb..701e1381f9 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -151,6 +151,8 @@ option('netmap', type : 'feature', value : 'auto',
-        description: 'netmap network backend support')
- option('vde', type : 'feature', value : 'auto',
-        description: 'vde network backend support')
-+option('vmnet', type : 'feature', value : 'auto',
-+       description: 'vmnet.framework network backend support')
- option('virglrenderer', type : 'feature', value : 'auto',
-        description: 'virgl rendering support')
- option('vnc', type : 'feature', value : 'auto',
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index 50bd7bed4d..cdcece4b05 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -84,6 +84,7 @@ meson_options_help() {
-   printf "%s\n" '  u2f             U2F emulation support'
-   printf "%s\n" '  usb-redir       libusbredir support'
-   printf "%s\n" '  vde             vde network backend support'
-+  printf "%s\n" '  vmnet           vmnet.framework network backend support'
-   printf "%s\n" '  vhost-user-blk-server'
-   printf "%s\n" '                  build vhost-user-blk server'
-   printf "%s\n" '  virglrenderer   virgl rendering support'
-@@ -248,6 +249,8 @@ _meson_option_parse() {
-     --disable-usb-redir) printf "%s" -Dusb_redir=disabled ;;
-     --enable-vde) printf "%s" -Dvde=enabled ;;
-     --disable-vde) printf "%s" -Dvde=disabled ;;
-+    --enable-vmnet) printf "%s" -Dvmnet=enabled ;;
-+    --disable-vmnet) printf "%s" -Dvmnet=disabled ;;
-     --enable-vhost-user-blk-server) printf "%s" -Dvhost_user_blk_server=enabled ;;
-     --disable-vhost-user-blk-server) printf "%s" -Dvhost_user_blk_server=disabled ;;
-     --enable-virglrenderer) printf "%s" -Dvirglrenderer=enabled ;;
++int net_init_vmnet_shared(const Netdev *netdev, const char *name,
++                          NetClientState *peer, Error **errp);
++
++int net_init_vmnet_bridged(const Netdev *netdev, const char *name,
++                          NetClientState *peer, Error **errp);
++#endif /* CONFIG_VMNET */
++
+ #endif /* QEMU_NET_CLIENTS_H */
+diff --git a/net/meson.build b/net/meson.build
+index 847bc2ac85..00a88c4951 100644
+--- a/net/meson.build
++++ b/net/meson.build
+@@ -42,4 +42,11 @@ softmmu_ss.add(when: 'CONFIG_POSIX', if_true: files(tap_posix))
+ softmmu_ss.add(when: 'CONFIG_WIN32', if_true: files('tap-win32.c'))
+ softmmu_ss.add(when: 'CONFIG_VHOST_NET_VDPA', if_true: files('vhost-vdpa.c'))
+ 
++vmnet_files = files(
++  'vmnet-common.m',
++  'vmnet-bridged.m',
++  'vmnet-host.c',
++  'vmnet-shared.c'
++)
++softmmu_ss.add(when: vmnet, if_true: vmnet_files)
+ subdir('can')
+diff --git a/net/net.c b/net/net.c
+index f0d14dbfc1..1dbb64b935 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -1021,6 +1021,11 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
+ #ifdef CONFIG_L2TPV3
+         [NET_CLIENT_DRIVER_L2TPV3]    = net_init_l2tpv3,
+ #endif
++#ifdef CONFIG_VMNET
++        [NET_CLIENT_DRIVER_VMNET_HOST] = net_init_vmnet_host,
++        [NET_CLIENT_DRIVER_VMNET_SHARED] = net_init_vmnet_shared,
++        [NET_CLIENT_DRIVER_VMNET_BRIDGED] = net_init_vmnet_bridged,
++#endif /* CONFIG_VMNET */
+ };
+ 
+ 
+@@ -1106,6 +1111,11 @@ void show_netdevs(void)
+ #endif
+ #ifdef CONFIG_VHOST_VDPA
+         "vhost-vdpa",
++#endif
++#ifdef CONFIG_VMNET
++        "vmnet-host",
++        "vmnet-shared",
++        "vmnet-bridged",
+ #endif
+     };
+ 
+diff --git a/net/vmnet-bridged.m b/net/vmnet-bridged.m
+new file mode 100644
+index 0000000000..4e42a90391
+--- /dev/null
++++ b/net/vmnet-bridged.m
+@@ -0,0 +1,25 @@
++/*
++ * vmnet-bridged.m
++ *
++ * Copyright(c) 2021 Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "qapi/qapi-types-net.h"
++#include "vmnet_int.h"
++#include "clients.h"
++#include "qemu/error-report.h"
++#include "qapi/error.h"
++
++#include <vmnet/vmnet.h>
++
++int net_init_vmnet_bridged(const Netdev *netdev, const char *name,
++                           NetClientState *peer, Error **errp)
++{
++  error_setg(errp, "vmnet-bridged is not implemented yet");
++  return -1;
++}
+diff --git a/net/vmnet-common.m b/net/vmnet-common.m
+new file mode 100644
+index 0000000000..532d152840
+--- /dev/null
++++ b/net/vmnet-common.m
+@@ -0,0 +1,20 @@
++/*
++ * vmnet-common.m - network client wrapper for Apple vmnet.framework
++ *
++ * Copyright(c) 2021 Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
++ * Copyright(c) 2021 Phillip Tennen <phillip@axleos.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "qapi/qapi-types-net.h"
++#include "vmnet_int.h"
++#include "clients.h"
++#include "qemu/error-report.h"
++#include "qapi/error.h"
++
++#include <vmnet/vmnet.h>
++
+diff --git a/net/vmnet-host.c b/net/vmnet-host.c
+new file mode 100644
+index 0000000000..4a5ef99dc7
+--- /dev/null
++++ b/net/vmnet-host.c
+@@ -0,0 +1,24 @@
++/*
++ * vmnet-host.c
++ *
++ * Copyright(c) 2021 Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "qapi/qapi-types-net.h"
++#include "vmnet_int.h"
++#include "clients.h"
++#include "qemu/error-report.h"
++#include "qapi/error.h"
++
++#include <vmnet/vmnet.h>
++
++int net_init_vmnet_host(const Netdev *netdev, const char *name,
++                        NetClientState *peer, Error **errp) {
++  error_setg(errp, "vmnet-host is not implemented yet");
++  return -1;
++}
+diff --git a/net/vmnet-shared.c b/net/vmnet-shared.c
+new file mode 100644
+index 0000000000..f8c4a4f3b8
+--- /dev/null
++++ b/net/vmnet-shared.c
+@@ -0,0 +1,25 @@
++/*
++ * vmnet-shared.c
++ *
++ * Copyright(c) 2021 Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "qapi/qapi-types-net.h"
++#include "vmnet_int.h"
++#include "clients.h"
++#include "qemu/error-report.h"
++#include "qapi/error.h"
++
++#include <vmnet/vmnet.h>
++
++int net_init_vmnet_shared(const Netdev *netdev, const char *name,
++                          NetClientState *peer, Error **errp)
++{
++  error_setg(errp, "vmnet-shared is not implemented yet");
++  return -1;
++}
+diff --git a/net/vmnet_int.h b/net/vmnet_int.h
+new file mode 100644
+index 0000000000..c5982259a4
+--- /dev/null
++++ b/net/vmnet_int.h
+@@ -0,0 +1,25 @@
++/*
++ * vmnet_int.h
++ *
++ * Copyright(c) 2021 Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++#ifndef VMNET_INT_H
++#define VMNET_INT_H
++
++#include "qemu/osdep.h"
++#include "vmnet_int.h"
++#include "clients.h"
++
++#include <vmnet/vmnet.h>
++
++typedef struct VmnetCommonState {
++  NetClientState nc;
++
++} VmnetCommonState;
++
++
++#endif /* VMNET_INT_H */
+diff --git a/qapi/net.json b/qapi/net.json
+index 7fab2e7cd8..b922e2e34f 100644
+--- a/qapi/net.json
++++ b/qapi/net.json
+@@ -452,6 +452,120 @@
+     '*vhostdev':     'str',
+     '*queues':       'int' } }
+ 
++##
++# @NetdevVmnetHostOptions:
++#
++# vmnet (host mode) network backend.
++#
++# Allows the vmnet interface to communicate with other vmnet
++# interfaces that are in host mode and also with the host.
++#
++# @start-address: The starting IPv4 address to use for the interface.
++#                 Must be in the private IP range (RFC 1918). Must be
++#                 specified along with @end-address and @subnet-mask.
++#                 This address is used as the gateway address. The
++#                 subsequent address up to and including end-address are
++#                 placed in the DHCP pool.
++#
++# @end-address: The DHCP IPv4 range end address to use for the
++#               interface. Must be in the private IP range (RFC 1918).
++#               Must be specified along with @start-address and
++#               @subnet-mask.
++#
++# @subnet-mask: The IPv4 subnet mask to use on the interface. Must
++#               be specified along with @start-address and @subnet-mask.
++#
++# @isolated: Enable isolation for this interface. Interface isolation
++#            ensures that vmnet interface is not able to communicate
++#            with any other vmnet interfaces. Only communication with
++#            host is allowed. Available since macOS Big Sur 11.0.
++#
++# @net-uuid: The identifier (UUID) to uniquely identify the isolated
++#            network vmnet interface should be added to. If
++#            set, no DHCP service is provided for this interface and
++#            network communication is allowed only with other interfaces
++#            added to this network identified by the UUID. Available
++#            since macOS Big Sur 11.0.
++#
++# Since: 7.0
++##
++{ 'struct': 'NetdevVmnetHostOptions',
++  'data': {
++    '*start-address': 'str',
++    '*end-address':   'str',
++    '*subnet-mask':   'str',
++    '*isolated':      'bool',
++    '*net-uuid':      'str' },
++  'if': 'CONFIG_VMNET' }
++
++##
++# @NetdevVmnetSharedOptions:
++#
++# vmnet (shared mode) network backend.
++#
++# Allows traffic originating from the vmnet interface to reach the
++# Internet through a network address translator (NAT).
++# The vmnet interface can communicate with the host and with
++# other shared mode interfaces on the same subnet. If no DHCP
++# settings, subnet mask and IPv6 prefix specified, the interface can
++# communicate with any of other interfaces in shared mode.
++#
++# @start-address: The starting IPv4 address to use for the interface.
++#                 Must be in the private IP range (RFC 1918). Must be
++#                 specified along with @end-address and @subnet-mask.
++#                 This address is used as the gateway address. The
++#                 subsequent address up to and including end-address are
++#                 placed in the DHCP pool.
++#
++# @end-address: The DHCP IPv4 range end address to use for the
++#               interface. Must be in the private IP range (RFC 1918).
++#               Must be specified along with @start-address and @subnet-mask.
++#
++# @subnet-mask: The IPv4 subnet mask to use on the interface. Must
++#                be specified along with @start-address and @subnet-mask.
++#
++# @isolated: Enable isolation for this interface. Interface isolation
++#            ensures that vmnet interface is not able to communicate
++#            with any other vmnet interfaces. Only communication with
++#            host is allowed. Available since macOS Big Sur 11.0.
++#
++# @nat66-prefix: The IPv6 prefix to use into guest network. Must be a
++#                unique local address i.e. start with fd00::/8 and have
++#                length of 64.
++#
++# Since: 7.0
++##
++{ 'struct': 'NetdevVmnetSharedOptions',
++  'data': {
++    '*start-address': 'str',
++    '*end-address':   'str',
++    '*subnet-mask':   'str',
++    '*isolated':      'bool',
++    '*nat66-prefix':  'str' },
++  'if': 'CONFIG_VMNET' }
++
++##
++# @NetdevVmnetBridgedOptions:
++#
++# vmnet (bridged mode) network backend.
++#
++# Bridges the vmnet interface with a physical network interface.
++#
++# @ifname: The name of the physical interface to be bridged.
++#
++# @isolated: Enable isolation for this interface. Interface isolation
++#            ensures that vmnet interface is not able to communicate
++#            with any other vmnet interfaces. Only communication with
++#            host is allowed. Available since macOS Big Sur 11.0.
++#
++# Since: 7.0
++##
++{ 'struct': 'NetdevVmnetBridgedOptions',
++  'data': {
++    'ifname':     'str',
++    '*isolated':  'bool' },
++  'if': 'CONFIG_VMNET' }
++
+ ##
+ # @NetClientDriver:
+ #
+@@ -460,10 +574,16 @@
+ # Since: 2.7
+ #
+ #        @vhost-vdpa since 5.1
++#        @vmnet-host since 7.0
++#        @vmnet-shared since 7.0
++#        @vmnet-bridged since 7.0
+ ##
+ { 'enum': 'NetClientDriver',
+   'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
+-            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
++            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa',
++            { 'name': 'vmnet-host', 'if': 'CONFIG_VMNET' },
++            { 'name': 'vmnet-shared', 'if': 'CONFIG_VMNET' },
++            { 'name': 'vmnet-bridged', 'if': 'CONFIG_VMNET' }] }
+ 
+ ##
+ # @Netdev:
+@@ -477,6 +597,9 @@
+ # Since: 1.2
+ #
+ #        'l2tpv3' - since 2.1
++#        'vmnet-host' - since 7.0
++#        'vmnet-shared' - since 7.0
++#        'vmnet-bridged' - since 7.0
+ ##
+ { 'union': 'Netdev',
+   'base': { 'id': 'str', 'type': 'NetClientDriver' },
+@@ -492,7 +615,13 @@
+     'hubport':  'NetdevHubPortOptions',
+     'netmap':   'NetdevNetmapOptions',
+     'vhost-user': 'NetdevVhostUserOptions',
+-    'vhost-vdpa': 'NetdevVhostVDPAOptions' } }
++    'vhost-vdpa': 'NetdevVhostVDPAOptions',
++    'vmnet-host': { 'type': 'NetdevVmnetHostOptions',
++                    'if': 'CONFIG_VMNET' },
++    'vmnet-shared': { 'type': 'NetdevVmnetSharedOptions',
++                      'if': 'CONFIG_VMNET' },
++    'vmnet-bridged': { 'type': 'NetdevVmnetBridgedOptions',
++                       'if': 'CONFIG_VMNET' } } }
+ 
+ ##
+ # @RxState:
 -- 
 2.23.0
 
