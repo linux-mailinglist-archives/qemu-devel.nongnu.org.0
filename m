@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADDE848DE20
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 20:32:48 +0100 (CET)
-Received: from localhost ([::1]:58156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6584648DE2B
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 20:38:36 +0100 (CET)
+Received: from localhost ([::1]:38508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n85q3-00071H-6u
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 14:32:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35306)
+	id 1n85vf-00052s-HG
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 14:38:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n85ln-000572-LA
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 14:28:26 -0500
-Received: from [2a00:1450:4864:20::42b] (port=36863
- helo=mail-wr1-x42b.google.com)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n85nS-0006Jw-12; Thu, 13 Jan 2022 14:30:06 -0500
+Received: from [2607:f8b0:4864:20::32e] (port=35410
+ helo=mail-ot1-x32e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n85ll-0004mG-BI
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 14:28:22 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id r28so12033441wrc.3
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 11:28:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bJjcEv78iwo6e+RHCnGqm0+ZR7qW6aFT9ZdM0I4PdUs=;
- b=trDBhgNuXAg6veRWDbY4gB5/oFJFeoeUlqlJqbJYswnatuqxm05fj2ChS2xwsoz3vZ
- DD7w16tobREPx81exHZ6D4r9nS02HMO531zFNDysRsETkkMPT2YSY+V/aBTozOf/eaSJ
- IDN0qXP/w1BLb7qsNjhzGXo2IP1KanC0pM7ms9OltW0jplEwFDW/RP51jRjfwGo0UyDJ
- ZCF4KHhRUk31IFujzABmPvUjFfl5RW9t/UOBH79emD9tAIAB/eSeFESscqmwMqPnborp
- r8PaNPr+4IlL8IRQDOMaP90FJdtsYLYf/IEK4TMWU2KhRwEc6beU3+95S89ttBnkHxru
- 20tg==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n85nQ-0004vF-7n; Thu, 13 Jan 2022 14:30:05 -0500
+Received: by mail-ot1-x32e.google.com with SMTP id
+ 60-20020a9d0142000000b0059103eb18d4so7490483otu.2; 
+ Thu, 13 Jan 2022 11:30:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3aMG5WCT8tizkG9DNn8ZO9EIQ1NH6gQ0IP+0U0MKu9Y=;
+ b=RSLtiYVpyMV3iNaS9nUgelAbmwjLFvwvQE8MPdP7aj6YbbO7/RXp5JeQDuxNJZQJ3q
+ wHXtGagTJipWCS9Df6DRXFHL+42fynfltZTKgtfaA1Rh81Js5dKMCp6JgrK8ln61tOoL
+ BFF3tPAb4HZPOXW+3qyDHrfpkHZQ/MlGVFPqc4crhpNnzzkPrqu25gUnDtn00HkfSWfU
+ QG4KpaWr8/tt45Oy4M20ocfWeQ8ggoAW9JN0hgKkhVflO0nu+lBWZ/aIDnKrlZZpE/t9
+ t0QziML897NU7P2H6PSTJTI8qV6Rqt9xnCmKdeBuBcZK7t1zpx7W5VGXg5OP82CxK/B8
+ vZsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bJjcEv78iwo6e+RHCnGqm0+ZR7qW6aFT9ZdM0I4PdUs=;
- b=EHwCZjl035P1lmqdRYK7zfP1aXdmzd0B09YlgxY1mrFdAFWaeK1NrXxTUm4ttMu8G8
- E5OXFDwM1Ux5HEDEKuzLlLjjBDpAhi/t8YC1VsPKqqiXdx9EWmsl6TCGNOpvJ4+xhdHW
- rzCciR6MAKerTERbd0WkAp+mtWqwvTg0N9q2VxFehBS3ShInyquL+EABBaPwx/MDTW9z
- Da8J544AL7MAKJoSQ8CL1cmeqLFGDBvOplFUdcKaG/l/LtjlIFzZWKTVLyn5RWuDV9XX
- RRxGEVumeYk/uj73oTCDI5c71bbS5UtutlktF7yh7Aw1oltz/7lOZkQXDIOIUAO1bCr7
- c0Rw==
-X-Gm-Message-State: AOAM530hJbWDFk2u+5AuKiaRKUNckUY9eYIAQCC1YMRvxy3k2mm5w+jC
- uzWQ9g3nv/A8BoJCPSeEHkMsYc9Ubb/lFGnXTfEufg==
-X-Google-Smtp-Source: ABdhPJwCelIQ6KjIWKB8vsVQAUlkJAl2GrPxg3WV/T6yFdo/pIoNLirDbvLHhwDzvC3IiRSGMHcQCMTkljCHiJHBSKE=
-X-Received: by 2002:a5d:64c3:: with SMTP id f3mr5110574wri.295.1642102096665; 
- Thu, 13 Jan 2022 11:28:16 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3aMG5WCT8tizkG9DNn8ZO9EIQ1NH6gQ0IP+0U0MKu9Y=;
+ b=8L1kDaFBqiqhgA/sjMPp6OcF139hBeziS8lFVz3J3yPlNv1AhQSYJNEOGYjSn6Zk7b
+ HWJETrdFapTl51dS1yLt2PuIFynkhOK5mmlP4TqKnRUrjBV+XLIZujKH+u1ALsGrrE5+
+ dP7LRvfnp2WKYW+x2kN6/5oGWa4BEbrcnucnDLU1JUNca0KCD/2S+mLQmlJ9tH7x9tOw
+ RC+pyY4DTp/sLzf9e7CmOdpxQ4R+vCqhI1pTPFqUGK37obnKAThPwxZwTVpDcDmTteS6
+ di2h8zb0jQoL9GbsMQwO25o5Dfwl1P3UpCyD1iuToy1zdTFEZ3Ksy1CxAqUqNQSejUGD
+ ICJw==
+X-Gm-Message-State: AOAM531/neQwSmN1Fn+qyZIPHjnihuFglaZJPJ109f1X/Fka5GITpg8n
+ WtZFX0awZRcQeH52dAce5+7JXxdcjECiTqrq
+X-Google-Smtp-Source: ABdhPJyRDBOtTBgllGT0DedB0tXKZaU60sIdeJY8ZtAnw4YKxP7Q08O2AN4gMfZWBdwFPAOFABcTMg==
+X-Received: by 2002:a9d:6a4d:: with SMTP id h13mr4220261otn.95.1642102201923; 
+ Thu, 13 Jan 2022 11:30:01 -0800 (PST)
+Received: from rekt.COMFAST ([152.249.109.193])
+ by smtp.gmail.com with ESMTPSA id 90sm743409otn.59.2022.01.13.11.29.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Jan 2022 11:30:01 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/17] remove PnvPhb4PecStack from Powernv9
+Date: Thu, 13 Jan 2022 16:29:35 -0300
+Message-Id: <20220113192952.911188-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-References: <20220109161923.85683-1-imp@bsdimp.com>
- <20220109161923.85683-11-imp@bsdimp.com>
-In-Reply-To: <20220109161923.85683-11-imp@bsdimp.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Jan 2022 19:28:05 +0000
-Message-ID: <CAFEAcA9eX+f9j8wsrkPP-vap_OHyz70c_CdVPgo8ha71vZQxtw@mail.gmail.com>
-Subject: Re: [PATCH 10/30] bsd-user/signal.c: Implement signal_init()
-To: Warner Losh <imp@bsdimp.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32e.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -80,84 +83,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@freebsd.org>,
- qemu-devel@nongnu.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 9 Jan 2022 at 16:29, Warner Losh <imp@bsdimp.com> wrote:
->
-> Initialize the signal state for the emulator. Setup a set of sane
-> default signal handlers, mirroring the host's signals. For fatal signals
-> (those that exit by default), establish our own set of signal
-> handlers. Stub out the actual signal handler we use for the moment.
->
-> Signed-off-by: Stacey Son <sson@FreeBSD.org>
-> Signed-off-by: Kyle Evans <kevans@freebsd.org>
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
-> ---
->  bsd-user/qemu.h   |  1 +
->  bsd-user/signal.c | 68 +++++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 69 insertions(+)
+Hi,
 
-> +static struct target_sigaction sigact_table[TARGET_NSIG];
+After all the done enabling pnv-phb4 user devices, it became clear that
+the stack object is just a container of the PHB and its resources than
+something that needs to be maintained by its own. Removing the
+PnvPhb4PecStack object promotes a simpler code where we're dealing only
+with PECs and PHB4s.
 
+One thing that isn't handled in this series is the nested regs names.
+There are 30+ nested per-stack registers with names such as
+'PEC_NEST_STK*' or 'PEC_PCI_STK*' that are left as is. Renaming them to
+remove the 'STK' reference can be done in a follow up when we're
+satisfied with what it is presented here.
 
+No functional change is intended with this series. The series is based
+on top of current master (at f8d75e10d3),
 
+Daniel Henrique Barboza (17):
+  ppc/pnv: use PHB4 obj in pnv_pec_stk_pci_xscom_ops
+  ppc/pnv: move PCI registers to PnvPHB4
+  ppc/pnv: move phbbar to PnvPHB4
+  ppc/pnv: move intbar to PnvPHB4
+  ppc/pnv: change pnv_phb4_update_regions() to use PnvPHB4
+  ppc/pnv: move mmbar0/mmbar1 and friends to PnvPHB4
+  ppc/pnv: move nest_regs[] to PnvPHB4
+  ppc/pnv: change pnv_pec_stk_update_map() to use PnvPHB4
+  ppc/pnv: move nest_regs_mr to PnvPHB4
+  ppc/pnv: move phb_regs_mr to PnvPHB4
+  ppc/pnv: introduce PnvPHB4 'phb_number' property
+  ppc/pnv: introduce PnvPHB4 'pec' property
+  ppc/pnv: remove stack pointer from PnvPHB4
+  ppc/pnv: move default_phb_realize() to pec_realize()
+  ppc/pnv: convert pec->stacks[] into pec->phbs[]
+  ppc/pnv: remove PnvPhb4PecStack object
+  ppc/pnv: rename pnv_pec_stk_update_map()
 
->  void signal_init(void)
->  {
-> +    TaskState *ts = (TaskState *)thread_cpu->opaque;
-> +    struct sigaction act;
-> +    struct sigaction oact;
-> +    int i;
-> +    int host_sig;
-> +
-> +    /* Set the signal mask from the host mask. */
-> +    sigprocmask(0, 0, &ts->signal_mask);
-> +
-> +    /*
-> +     * Set all host signal handlers. ALL signals are blocked during the
-> +     * handlers to serialize them.
-> +     */
-> +    memset(sigact_table, 0, sizeof(sigact_table));
+ hw/pci-host/pnv_phb4.c         | 271 ++++++++++++++++-----------------
+ hw/pci-host/pnv_phb4_pec.c     | 122 ++++-----------
+ include/hw/pci-host/pnv_phb4.h |  84 +++++-----
+ 3 files changed, 200 insertions(+), 277 deletions(-)
 
-Do you need this memset()? sigact_table is a global, so it's
-zero-initialized on startup, and this function is only called once.
-The (otherwise basically identical) Linux version of this function
-doesn't have it.
+-- 
+2.33.1
 
-> +
-> +    sigfillset(&act.sa_mask);
-> +    act.sa_sigaction = host_signal_handler;
-> +    act.sa_flags = SA_SIGINFO;
-> +
-> +    for (i = 1; i <= TARGET_NSIG; i++) {
-> +        host_sig = target_to_host_signal(i);
-> +        sigaction(host_sig, NULL, &oact);
-> +        if (oact.sa_sigaction == (void *)SIG_IGN) {
-> +            sigact_table[i - 1]._sa_handler = TARGET_SIG_IGN;
-> +        } else if (oact.sa_sigaction == (void *)SIG_DFL) {
-> +            sigact_table[i - 1]._sa_handler = TARGET_SIG_DFL;
-> +        }
-> +        /*
-> +         * If there's already a handler installed then something has
-> +         * gone horribly wrong, so don't even try to handle that case.
-> +         * Install some handlers for our own use.  We need at least
-> +         * SIGSEGV and SIGBUS, to detect exceptions.  We can not just
-> +         * trap all signals because it affects syscall interrupt
-> +         * behavior.  But do trap all default-fatal signals.
-> +         */
-> +        if (fatal_signal(i)) {
-> +            sigaction(host_sig, &act, NULL);
-> +        }
-> +    }
->  }
-
-Otherwise
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
 
