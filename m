@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50FCB48CFD7
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 01:57:55 +0100 (CET)
-Received: from localhost ([::1]:35398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6919F48CFE3
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 01:59:57 +0100 (CET)
+Received: from localhost ([::1]:41344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7oR8-0002pT-EZ
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 19:57:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36822)
+	id 1n7oT6-0006z2-IR
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 19:59:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
- id 1n7oMx-0008Vu-H8
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 19:53:35 -0500
-Received: from [2a00:1450:4864:20::143] (port=44589
- helo=mail-lf1-x143.google.com)
+ id 1n7oN7-00009F-Q9
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 19:53:45 -0500
+Received: from [2a00:1450:4864:20::133] (port=36401
+ helo=mail-lf1-x133.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
- id 1n7oMt-0000X0-NO
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 19:53:35 -0500
-Received: by mail-lf1-x143.google.com with SMTP id o15so13979121lfo.11
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 16:53:31 -0800 (PST)
+ id 1n7oMw-0000YG-NI
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 19:53:37 -0500
+Received: by mail-lf1-x133.google.com with SMTP id j11so14111628lfg.3
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 16:53:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=phystech-edu.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WQaRJsaTTS3PbM0RSVFFC7TxkmLvya3coDXUZRZqHSQ=;
- b=vnLcv9LlOUAmvlbbMiVziWFSw4Zl0WkwoMziX2lZrF+sp8Q2gKd7WeVN8jQUDwKUqh
- qGT0LojJFlSnMRUIAdaatbsbp8PwhZ7Yaoz3afKt47OEtSw/PQdQP8W/W7cNjANzO+a0
- D/8Uu49n2BP+YkIpXZX7eqtu02UWOarDzJn/MjiV/5oKM9SZIuUsn00RyKAgi7tfPzNV
- u5KEjvmJXShL6z4XP/U9FoIBt2hE83HgJyLyKXxs5sCKiqDTBgwPHE+k425oqozsvZUf
- hlFh5C+X3lRI451xPelzMp57aFgXRl6vm75o7l6deZIP/xSAxG7Y4qYqmpFZn9L/N99I
- KkWg==
+ bh=/LJdqGaYOx2UrTajnO9wXZ7cQQh/SPwEo+RieODvDxs=;
+ b=e01KiqlSup7/JnROgDxoZp7f9idZ6VZNxrK/OK5bErtN8/Mo3e3wzlonFpUXydVC/u
+ tx3gBEdEoLz3k0BUqOg0osEazUnFV4ApAT0zO74s/F7JkQTQ38WbbV4qVge2dx+YI6Wf
+ fPdjH8VeulR8I1dA92l9u7basWGkS/HqcG0NkEDMCvqmE8wfbLGyf9GxT2vk2PLiohwn
+ ZVfn5AcRZ4d3dRg4Uy8ZFz9TOeeDWXT84Rxiwbmiy8VJ9hfu2qUF2nUpwCCTDyFnhyfe
+ gQmWtEOQWMVR/O2+4HgyYLx/CWVQphgtk+IYxFsu3NoeJquFwjS+66sxNhJJkF2sJh6t
+ /Qmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WQaRJsaTTS3PbM0RSVFFC7TxkmLvya3coDXUZRZqHSQ=;
- b=q3LgGi+L/RA4mSfKGeTXoF+INGMBCaxnaY8ShVr3ue0K6QiVGWEkfUJTFH708hIlkj
- 9IloGD5QgTt5FxTtqkoegIa3us1viO7fcQEuVJMffsfnL7D5RSKU7/uTho4NQbXkaMoH
- 9uBHCIpwBPg3bv2zHb2GhVZPWwWyfbMlAuQoe/ux9UgFSFijqM0ANbztafbeNmfAk1Hn
- Vi2A8mWFQ6Qiff1UIn/lgQUSS3/tpDJOuQVqYj41er5Yxg8kihGjvVofMsddFfYMQ5kM
- iC453JVjeHLUAZ3cvnzT2GmavZCtBQ4GgjDzPmYoj9lU1QT4jzIteyFwDVDuFgXx2ryf
- IleA==
-X-Gm-Message-State: AOAM531LT83BE8C5P9Mg33TWgfdNG93HOKhz4Ty+js0etgxmuihcr51j
- 7kV5SYeT7gcNwvaGmyo6H3Rd6w==
-X-Google-Smtp-Source: ABdhPJyPwaKsFm3osm6p08XDbXtlu/6NC+AeNge3Sl3vHEoG9EBQWtWOckCK0dk5xQpcHDQ3ic0glA==
-X-Received: by 2002:ac2:41c3:: with SMTP id d3mr1626258lfi.397.1642035209965; 
- Wed, 12 Jan 2022 16:53:29 -0800 (PST)
+ bh=/LJdqGaYOx2UrTajnO9wXZ7cQQh/SPwEo+RieODvDxs=;
+ b=jH+kU+zYnLWmvTKM7WN7YI+ivQgZfbQOhr07ipGe3KJFJiwes2LsCqtUef29yh+LIs
+ NBbcS5DM2ggmtnVOm5OpYi+3XqKtJAkXjCnfxpisJIal+0XW4KF3sFJap+1OAHTJ1eX5
+ RPHi689UXq4djpKPuXE8kCMHjVZrxpwoT+t0dwb5u5J3w5k1SPslofLcZJIp9tmVvOYP
+ kC4E0k0gJKOiEXX/TcFFflYSV/3Ci43zEj4InlfsCWnvUkAQcPT5lIXqvoiE98teIBdD
+ 5AzEh0MgVhOypJvtE5EaHyNCsDAbC1Vlawp3MbT7hLrsJ7J16Zp+zw4ydi8Z02AzlULy
+ QCNQ==
+X-Gm-Message-State: AOAM530OpF9x4OcVCG8wxBvuGNJvV20aHEszWEczCB4krPBk6L1aYfcj
+ EuPr2ykRXSbMu8DA2IYgt/55Tw==
+X-Google-Smtp-Source: ABdhPJw7Jb+US/t9kgvNt2j6bMN5MSVqGEKDLO79siw67Kxftfo20VgMZs5FgLDdfnNSfh/oXnT/ZQ==
+X-Received: by 2002:a05:6512:374f:: with SMTP id
+ a15mr1540646lfs.571.1642035211137; 
+ Wed, 12 Jan 2022 16:53:31 -0800 (PST)
 Received: from vp-pc.. ([2a00:1370:8174:b458:9ba9:b90b:f25a:ca4d])
- by smtp.gmail.com with ESMTPSA id d2sm107688ljj.118.2022.01.12.16.53.29
+ by smtp.gmail.com with ESMTPSA id d2sm107688ljj.118.2022.01.12.16.53.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jan 2022 16:53:29 -0800 (PST)
+ Wed, 12 Jan 2022 16:53:30 -0800 (PST)
 From: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 To: marcandre.lureau@redhat.com, dgilbert@redhat.com,
  yuri.benditovich@daynix.com, yan@daynix.com, philmd@redhat.com,
  qemu-devel@nongnu.org
-Subject: [PATCH v2 2/4] dump/win_dump: add helper macros for Windows dump
- header access
-Date: Thu, 13 Jan 2022 03:52:46 +0300
-Message-Id: <20220113005248.172522-3-viktor.prutyanov@phystech.edu>
+Subject: [PATCH v2 3/4] include/qemu: add 32-bit Windows dump structures
+Date: Thu, 13 Jan 2022 03:52:47 +0300
+Message-Id: <20220113005248.172522-4-viktor.prutyanov@phystech.edu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220113005248.172522-1-viktor.prutyanov@phystech.edu>
 References: <20220113005248.172522-1-viktor.prutyanov@phystech.edu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::143
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::133
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::143;
- envelope-from=viktor.prutyanov@phystech.edu; helo=mail-lf1-x143.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::133;
+ envelope-from=viktor.prutyanov@phystech.edu; helo=mail-lf1-x133.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -92,250 +92,183 @@ Cc: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Perform read access to Windows dump header fields via helper macros.
-This is preparation for the next 32-bit guest Windows dump support.
+These structures are required to produce 32-bit guest Windows Complete
+Memory Dump. Add 32-bit Windows dump header, CPU context and physical
+memory descriptor structures along with corresponding definitions.
 
 Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 ---
- dump/win_dump.c | 100 +++++++++++++++++++++++++++++++-----------------
- 1 file changed, 65 insertions(+), 35 deletions(-)
+ include/qemu/win_dump_defs.h | 107 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 107 insertions(+)
 
-diff --git a/dump/win_dump.c b/dump/win_dump.c
-index 29b6e4f670..df3b432ca5 100644
---- a/dump/win_dump.c
-+++ b/dump/win_dump.c
-@@ -24,11 +24,25 @@
- #include "hw/misc/vmcoreinfo.h"
- #include "win_dump.h"
+diff --git a/include/qemu/win_dump_defs.h b/include/qemu/win_dump_defs.h
+index 5a5e5a5e09..73a44e2408 100644
+--- a/include/qemu/win_dump_defs.h
++++ b/include/qemu/win_dump_defs.h
+@@ -11,11 +11,22 @@
+ #ifndef QEMU_WIN_DUMP_DEFS_H
+ #define QEMU_WIN_DUMP_DEFS_H
  
--static size_t write_run(WinDumpPhyMemRun64 *run, int fd, Error **errp)
-+#define WIN_DUMP_PTR_SIZE sizeof(uint64_t)
++typedef struct WinDumpPhyMemRun32 {
++    uint32_t BasePage;
++    uint32_t PageCount;
++} QEMU_PACKED WinDumpPhyMemRun32;
 +
-+#define _WIN_DUMP_FIELD(f) (h->f)
-+#define WIN_DUMP_FIELD(field) _WIN_DUMP_FIELD(field)
+ typedef struct WinDumpPhyMemRun64 {
+     uint64_t BasePage;
+     uint64_t PageCount;
+ } QEMU_PACKED WinDumpPhyMemRun64;
+ 
++typedef struct WinDumpPhyMemDesc32 {
++    uint32_t NumberOfRuns;
++    uint32_t NumberOfPages;
++    WinDumpPhyMemRun32 Run[86];
++} QEMU_PACKED WinDumpPhyMemDesc32;
 +
-+#define _WIN_DUMP_FIELD_PTR(f) ((void *)&h->f)
-+#define WIN_DUMP_FIELD_PTR(field) _WIN_DUMP_FIELD_PTR(field)
+ typedef struct WinDumpPhyMemDesc64 {
+     uint32_t NumberOfRuns;
+     uint32_t unused;
+@@ -33,6 +44,39 @@ typedef struct WinDumpExceptionRecord {
+     uint64_t ExceptionInformation[15];
+ } QEMU_PACKED WinDumpExceptionRecord;
+ 
++typedef struct WinDumpHeader32 {
++    char Signature[4];
++    char ValidDump[4];
++    uint32_t MajorVersion;
++    uint32_t MinorVersion;
++    uint32_t DirectoryTableBase;
++    uint32_t PfnDatabase;
++    uint32_t PsLoadedModuleList;
++    uint32_t PsActiveProcessHead;
++    uint32_t MachineImageType;
++    uint32_t NumberProcessors;
++    union {
++        struct {
++            uint32_t BugcheckCode;
++            uint32_t BugcheckParameter1;
++            uint32_t BugcheckParameter2;
++            uint32_t BugcheckParameter3;
++            uint32_t BugcheckParameter4;
++        };
++        uint8_t BugcheckData[20];
++    };
++    uint8_t VersionUser[32];
++    uint32_t reserved0;
++    uint32_t KdDebuggerDataBlock;
++    union {
++        WinDumpPhyMemDesc32 PhysicalMemoryBlock;
++        uint8_t PhysicalMemoryBlockBuffer[700];
++    };
++    uint8_t reserved1[3200];
++    uint32_t RequiredDumpSpace;
++    uint8_t reserved2[92];
++} QEMU_PACKED WinDumpHeader32;
 +
-+#define _WIN_DUMP_FIELD_SIZE(f) sizeof(h->f)
-+#define WIN_DUMP_FIELD_SIZE(field) _WIN_DUMP_FIELD_SIZE(field)
+ typedef struct WinDumpHeader64 {
+     char Signature[4];
+     char ValidDump[4];
+@@ -81,25 +125,49 @@ typedef struct WinDumpHeader64 {
+     uint8_t reserved[4018];
+ } QEMU_PACKED WinDumpHeader64;
+ 
++typedef union WinDumpHeader {
++    struct {
++        char Signature[4];
++        char ValidDump[4];
++    };
++    WinDumpHeader32 x32;
++    WinDumpHeader64 x64;
++} WinDumpHeader;
 +
-+#define WIN_DUMP_CTX_SIZE sizeof(WinContext64)
+ #define KDBG_OWNER_TAG_OFFSET64             0x10
+ #define KDBG_MM_PFN_DATABASE_OFFSET64       0xC0
+ #define KDBG_KI_BUGCHECK_DATA_OFFSET64      0x88
+ #define KDBG_KI_PROCESSOR_BLOCK_OFFSET64    0x218
+ #define KDBG_OFFSET_PRCB_CONTEXT_OFFSET64   0x338
+ 
++#define KDBG_OWNER_TAG_OFFSET           KDBG_OWNER_TAG_OFFSET64
++#define KDBG_MM_PFN_DATABASE_OFFSET     KDBG_MM_PFN_DATABASE_OFFSET64
++#define KDBG_KI_BUGCHECK_DATA_OFFSET    KDBG_KI_BUGCHECK_DATA_OFFSET64
++#define KDBG_KI_PROCESSOR_BLOCK_OFFSET  KDBG_KI_PROCESSOR_BLOCK_OFFSET64
++#define KDBG_OFFSET_PRCB_CONTEXT_OFFSET KDBG_OFFSET_PRCB_CONTEXT_OFFSET64
 +
-+static size_t write_run(uint64_t base_page, uint64_t page_count,
-+        int fd, Error **errp)
- {
-     void *buf;
--    uint64_t addr = run->BasePage << TARGET_PAGE_BITS;
--    uint64_t size = run->PageCount << TARGET_PAGE_BITS;
-+    uint64_t addr = base_page << TARGET_PAGE_BITS;
-+    uint64_t size = page_count << TARGET_PAGE_BITS;
-     uint64_t len, l;
-     size_t total = 0;
+ #define VMCOREINFO_ELF_NOTE_HDR_SIZE    24
++#define VMCOREINFO_WIN_DUMP_NOTE_SIZE64 (sizeof(WinDumpHeader64) + \
++                                         VMCOREINFO_ELF_NOTE_HDR_SIZE)
++#define VMCOREINFO_WIN_DUMP_NOTE_SIZE32 (sizeof(WinDumpHeader32) + \
++                                         VMCOREINFO_ELF_NOTE_HDR_SIZE)
  
-@@ -59,13 +73,14 @@ static size_t write_run(WinDumpPhyMemRun64 *run, int fd, Error **errp)
+ #define WIN_CTX_X64 0x00100000L
++#define WIN_CTX_X86 0x00010000L
  
- static void write_runs(DumpState *s, WinDumpHeader64 *h, Error **errp)
- {
--    WinDumpPhyMemDesc64 *desc = &h->PhysicalMemoryBlock;
--    WinDumpPhyMemRun64 *run = desc->Run;
-+    uint64_t BasePage, PageCount;
-     Error *local_err = NULL;
-     int i;
+ #define WIN_CTX_CTL 0x00000001L
+ #define WIN_CTX_INT 0x00000002L
+ #define WIN_CTX_SEG 0x00000004L
+ #define WIN_CTX_FP  0x00000008L
+ #define WIN_CTX_DBG 0x00000010L
++#define WIN_CTX_EXT 0x00000020L
  
--    for (i = 0; i < desc->NumberOfRuns; i++) {
--        s->written_size += write_run(run + i, s->fd, &local_err);
-+    for (i = 0; i < WIN_DUMP_FIELD(PhysicalMemoryBlock.NumberOfRuns); i++) {
-+        BasePage = WIN_DUMP_FIELD(PhysicalMemoryBlock.Run[i].BasePage);
-+        PageCount = WIN_DUMP_FIELD(PhysicalMemoryBlock.Run[i].PageCount);
-+        s->written_size += write_run(BasePage, PageCount, s->fd, &local_err);
-         if (local_err) {
-             error_propagate(errp, local_err);
-             return;
-@@ -73,11 +88,24 @@ static void write_runs(DumpState *s, WinDumpHeader64 *h, Error **errp)
-     }
- }
+ #define WIN_CTX64_FULL  (WIN_CTX_X64 | WIN_CTX_CTL | WIN_CTX_INT | WIN_CTX_FP)
+ #define WIN_CTX64_ALL   (WIN_CTX64_FULL | WIN_CTX_SEG | WIN_CTX_DBG)
  
-+static int cpu_read_ptr(CPUState *cpu, uint64_t addr, uint64_t *ptr)
-+{
-+    int ret;
-+    uint64_t ptr64;
++#define WIN_CTX32_FULL (WIN_CTX_X86 | WIN_CTX_CTL | WIN_CTX_INT | WIN_CTX_SEG)
++#define WIN_CTX32_ALL (WIN_CTX32_FULL | WIN_CTX_FP | WIN_CTX_DBG | WIN_CTX_EXT)
 +
-+    ret = cpu_memory_rw_debug(cpu, addr, &ptr64, WIN_DUMP_PTR_SIZE, 0);
+ #define LIVE_SYSTEM_DUMP    0x00000161
+ 
+ typedef struct WinM128A {
+@@ -107,6 +175,40 @@ typedef struct WinM128A {
+     int64_t high;
+ } QEMU_ALIGNED(16) WinM128A;
+ 
++typedef struct WinContext32 {
++    uint32_t ContextFlags;
 +
-+    *ptr = ptr64;
++    uint32_t Dr0;
++    uint32_t Dr1;
++    uint32_t Dr2;
++    uint32_t Dr3;
++    uint32_t Dr6;
++    uint32_t Dr7;
 +
-+    return ret;
-+}
++    uint8_t  FloatSave[112];
 +
- static void patch_mm_pfn_database(WinDumpHeader64 *h, Error **errp)
- {
-     if (cpu_memory_rw_debug(first_cpu,
--            h->KdDebuggerDataBlock + KDBG_MM_PFN_DATABASE_OFFSET64,
--            (uint8_t *)&h->PfnDatabase, sizeof(h->PfnDatabase), 0)) {
-+            WIN_DUMP_FIELD(KdDebuggerDataBlock) + KDBG_MM_PFN_DATABASE_OFFSET64,
-+            WIN_DUMP_FIELD_PTR(PfnDatabase),
-+            WIN_DUMP_FIELD_SIZE(PfnDatabase), 0)) {
-         error_setg(errp, "win-dump: failed to read MmPfnDatabase");
-         return;
-     }
-@@ -87,16 +115,17 @@ static void patch_bugcheck_data(WinDumpHeader64 *h, Error **errp)
- {
-     uint64_t KiBugcheckData;
++    uint32_t SegGs;
++    uint32_t SegFs;
++    uint32_t SegEs;
++    uint32_t SegDs;
++
++    uint32_t Edi;
++    uint32_t Esi;
++    uint32_t Ebx;
++    uint32_t Edx;
++    uint32_t Ecx;
++    uint32_t Eax;
++
++    uint32_t Ebp;
++    uint32_t Eip;
++    uint32_t SegCs;
++    uint32_t EFlags;
++    uint32_t Esp;
++    uint32_t SegSs;
++
++    uint8_t ExtendedRegisters[512];
++} QEMU_ALIGNED(16) WinContext32;
++
+ typedef struct WinContext64 {
+     uint64_t PHome[6];
  
--    if (cpu_memory_rw_debug(first_cpu,
--            h->KdDebuggerDataBlock + KDBG_KI_BUGCHECK_DATA_OFFSET64,
--            (uint8_t *)&KiBugcheckData, sizeof(KiBugcheckData), 0)) {
-+    if (cpu_read_ptr(first_cpu,
-+            WIN_DUMP_FIELD(KdDebuggerDataBlock) +
-+                KDBG_KI_BUGCHECK_DATA_OFFSET64,
-+            &KiBugcheckData)) {
-         error_setg(errp, "win-dump: failed to read KiBugcheckData");
-         return;
-     }
+@@ -176,4 +278,9 @@ typedef struct WinContext64 {
+     uint64_t LastExceptionFromRip;
+ } QEMU_ALIGNED(16) WinContext64;
  
--    if (cpu_memory_rw_debug(first_cpu,
--            KiBugcheckData,
--            h->BugcheckData, sizeof(h->BugcheckData), 0)) {
-+    if (cpu_memory_rw_debug(first_cpu, KiBugcheckData,
-+            WIN_DUMP_FIELD(BugcheckData),
-+            WIN_DUMP_FIELD_SIZE(BugcheckData), 0)) {
-         error_setg(errp, "win-dump: failed to read bugcheck data");
-         return;
-     }
-@@ -105,8 +134,8 @@ static void patch_bugcheck_data(WinDumpHeader64 *h, Error **errp)
-      * If BugcheckCode wasn't saved, we consider guest OS as alive.
-      */
- 
--    if (!h->BugcheckCode) {
--        h->BugcheckCode = LIVE_SYSTEM_DUMP;
-+    if (!WIN_DUMP_FIELD(BugcheckCode)) {
-+        *(uint32_t *)WIN_DUMP_FIELD_PTR(BugcheckCode) = LIVE_SYSTEM_DUMP;
-     }
- }
- 
-@@ -155,7 +184,7 @@ static void check_kdbg(WinDumpHeader64 *h, Error **errp)
- {
-     const char OwnerTag[] = "KDBG";
-     char read_OwnerTag[4];
--    uint64_t KdDebuggerDataBlock = h->KdDebuggerDataBlock;
-+    uint64_t KdDebuggerDataBlock = WIN_DUMP_FIELD(KdDebuggerDataBlock);
-     bool try_fallback = true;
- 
- try_again:
-@@ -174,7 +203,7 @@ try_again:
-              * we try to use KDBG obtained by guest driver.
-              */
- 
--            KdDebuggerDataBlock = h->BugcheckParameter1;
-+            KdDebuggerDataBlock = WIN_DUMP_FIELD(BugcheckParameter1);
-             try_fallback = false;
-             goto try_again;
-         } else {
-@@ -197,20 +226,21 @@ static void patch_and_save_context(WinDumpHeader64 *h,
-                                    struct saved_context *saved_ctx,
-                                    Error **errp)
- {
-+    uint64_t KdDebuggerDataBlock = WIN_DUMP_FIELD(KdDebuggerDataBlock);
-     uint64_t KiProcessorBlock;
-     uint16_t OffsetPrcbContext;
-     CPUState *cpu;
-     int i = 0;
- 
--    if (cpu_memory_rw_debug(first_cpu,
--            h->KdDebuggerDataBlock + KDBG_KI_PROCESSOR_BLOCK_OFFSET64,
--            (uint8_t *)&KiProcessorBlock, sizeof(KiProcessorBlock), 0)) {
-+    if (cpu_read_ptr(first_cpu,
-+            KdDebuggerDataBlock + KDBG_KI_PROCESSOR_BLOCK_OFFSET64,
-+            &KiProcessorBlock)) {
-         error_setg(errp, "win-dump: failed to read KiProcessorBlock");
-         return;
-     }
- 
-     if (cpu_memory_rw_debug(first_cpu,
--            h->KdDebuggerDataBlock + KDBG_OFFSET_PRCB_CONTEXT_OFFSET64,
-+            KdDebuggerDataBlock + KDBG_OFFSET_PRCB_CONTEXT_OFFSET64,
-             (uint8_t *)&OffsetPrcbContext, sizeof(OffsetPrcbContext), 0)) {
-         error_setg(errp, "win-dump: failed to read OffsetPrcbContext");
-         return;
-@@ -223,17 +253,17 @@ static void patch_and_save_context(WinDumpHeader64 *h,
-         uint64_t Context;
-         WinContext64 ctx;
- 
--        if (cpu_memory_rw_debug(first_cpu,
--                KiProcessorBlock + i * sizeof(uint64_t),
--                (uint8_t *)&Prcb, sizeof(Prcb), 0)) {
-+        if (cpu_read_ptr(first_cpu,
-+                KiProcessorBlock + i * WIN_DUMP_PTR_SIZE,
-+                &Prcb)) {
-             error_setg(errp, "win-dump: failed to read"
-                              " CPU #%d PRCB location", i);
-             return;
-         }
- 
--        if (cpu_memory_rw_debug(first_cpu,
-+        if (cpu_read_ptr(first_cpu,
-                 Prcb + OffsetPrcbContext,
--                (uint8_t *)&Context, sizeof(Context), 0)) {
-+                &Context)) {
-             error_setg(errp, "win-dump: failed to read"
-                              " CPU #%d ContextFrame location", i);
-             return;
-@@ -284,13 +314,13 @@ static void patch_and_save_context(WinDumpHeader64 *h,
-         };
- 
-         if (cpu_memory_rw_debug(first_cpu, Context,
--                (uint8_t *)&saved_ctx[i].ctx, sizeof(WinContext64), 0)) {
-+                &saved_ctx[i].ctx, WIN_DUMP_CTX_SIZE, 0)) {
-             error_setg(errp, "win-dump: failed to save CPU #%d context", i);
-             return;
-         }
- 
-         if (cpu_memory_rw_debug(first_cpu, Context,
--                (uint8_t *)&ctx, sizeof(WinContext64), 1)) {
-+                &ctx, WIN_DUMP_CTX_SIZE, 1)) {
-             error_setg(errp, "win-dump: failed to write CPU #%d context", i);
-             return;
-         }
-@@ -304,9 +334,9 @@ static void restore_context(WinDumpHeader64 *h,
- {
-     int i;
- 
--    for (i = 0; i < h->NumberProcessors; i++) {
-+    for (i = 0; i < WIN_DUMP_FIELD(NumberProcessors); i++) {
-         if (cpu_memory_rw_debug(first_cpu, saved_ctx[i].addr,
--                (uint8_t *)&saved_ctx[i].ctx, sizeof(WinContext64), 1)) {
-+                &saved_ctx[i].ctx, WIN_DUMP_CTX_SIZE, 1)) {
-             warn_report("win-dump: failed to restore CPU #%d context", i);
-         }
-     }
-@@ -338,7 +368,7 @@ void create_win_dump(DumpState *s, Error **errp)
-      * should be made from system context.
-      */
- 
--    first_x86_cpu->env.cr[3] = h->DirectoryTableBase;
-+    first_x86_cpu->env.cr[3] = WIN_DUMP_FIELD(DirectoryTableBase);
- 
-     check_kdbg(h, &local_err);
-     if (local_err) {
-@@ -348,7 +378,7 @@ void create_win_dump(DumpState *s, Error **errp)
- 
-     patch_header(h);
- 
--    saved_ctx = g_new(struct saved_context, h->NumberProcessors);
-+    saved_ctx = g_new(struct saved_context, WIN_DUMP_FIELD(NumberProcessors));
- 
-     /*
-      * Always patch context because there is no way
-@@ -361,7 +391,7 @@ void create_win_dump(DumpState *s, Error **errp)
-         goto out_free;
-     }
- 
--    s->total_size = h->RequiredDumpSpace;
-+    s->total_size = WIN_DUMP_FIELD(RequiredDumpSpace);
- 
-     s->written_size = qemu_write_full(s->fd, h, sizeof(*h));
-     if (s->written_size != sizeof(*h)) {
++typedef union WinContext {
++    WinContext32 x32;
++    WinContext64 x64;
++} WinContext;
++
+ #endif /* QEMU_WIN_DUMP_DEFS_H */
 -- 
 2.31.1
 
