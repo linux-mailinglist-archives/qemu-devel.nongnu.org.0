@@ -2,71 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBDF548D6C4
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 12:39:03 +0100 (CET)
-Received: from localhost ([::1]:43222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1298D48D6CD
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 12:44:01 +0100 (CET)
+Received: from localhost ([::1]:46936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7yRa-0001nI-LI
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 06:39:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60588)
+	id 1n7yWO-0004VT-1V
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 06:44:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n7yQB-00016p-QC
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 06:37:35 -0500
-Received: from [2a00:1450:4864:20::436] (port=40584
- helo=mail-wr1-x436.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n7yQA-0002Yt-5u
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 06:37:35 -0500
-Received: by mail-wr1-x436.google.com with SMTP id x4so9536668wru.7
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 03:37:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wC7eTCzKFEA8RPVfrflNT3a8QbfPEYg+SOrDjqD5MWg=;
- b=Yswn7EMm/WHvUvU6yrY0uF3Qgvc9JYEcx7tnwj33xdXudvwfwq6OXQuzt6RCMvC4x9
- STBpejeHdJ5r1hkFt2fgdGOPaLASznZ4EG3h2u0D5s27SB0lns0jeighKmaWhzH53kdj
- 7TFGJTBPVLTeRscWtgupIlX14yb8wbU7Sc3jHTGuF7jdLc6OfIaWgHPHoCU9LHfkiqco
- SFrHLd/qirrGgYt3Nfxs4+MRAS4ZCJqoVqvsOB9joLYBs/gT5ObERsjOSeXFVzKAr7rr
- /S4psGgmUlgdLU0Tu920BCZ85TR9Hq1wRvMPrDr3LkpKFDEloNLSkIkG6/DrjJTywX17
- zjkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wC7eTCzKFEA8RPVfrflNT3a8QbfPEYg+SOrDjqD5MWg=;
- b=nUoYq+dtdTnMDcUvcpNSQj/aKTwsYWheNSsQ34UWhdGizBrQCNB7U1KS1CAbGgIHi+
- tQfrOKZzWxGBG1XKQArQi3vkNX5/WpTCdDL7z/SFizJ7oYWQla6Ayq/4v9+3dw7Wxp8p
- BeWXffam6zp0nSTrpvO+9V9Z8XdY6INO98uqANVpIKDV/viKsG6SMYgKuNwxQun0payc
- 0pIxSFIg1EViH2A3+xS3162If/9/ULfAm0gtO2WYK/S/+HzhVXgckErwaGk4SOp/iuBs
- p7LLoo1/Ym0PKJEeIIJa4sicW7RW/B7T4n/S7ceLusEQJq6xv0dq1WJr41qsjdWJw9tY
- oZ6A==
-X-Gm-Message-State: AOAM530CAfuKfHdD+7iG2eUFJBZ+JDbKNgPaqNF28+I1Q0jdyFiuTR7d
- yIOK1njPrsI7xrr3RFFFqAM7usmSGaup+2KxEwbEUw==
-X-Google-Smtp-Source: ABdhPJxvtQXrT7DCIFFMt2HRSw9CjyBuUtv5jSkXMKF4ewjSvNeQr04VjojtSYJbWQR9LQ6WbO/cp0az1iT94yJYBkA=
-X-Received: by 2002:a5d:52c4:: with SMTP id r4mr3724628wrv.521.1642073852010; 
- Thu, 13 Jan 2022 03:37:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1n7ySq-0002eI-8a; Thu, 13 Jan 2022 06:40:20 -0500
+Received: from out28-75.mail.aliyun.com ([115.124.28.75]:58315)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1n7ySn-0002n2-2G; Thu, 13 Jan 2022 06:40:19 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07537566|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.0248949-0.000271598-0.974834;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047190; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=8; RT=8; SR=0; TI=SMTPD_---.Mb0yr6K_1642074009; 
+Received: from roman-VirtualBox.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.Mb0yr6K_1642074009)
+ by smtp.aliyun-inc.com(10.147.41.178);
+ Thu, 13 Jan 2022 19:40:09 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v6 00/22] Support UXL filed in xstatus
+Date: Thu, 13 Jan 2022 19:39:42 +0800
+Message-Id: <20220113114004.286796-1-zhiwei_liu@c-sky.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220105205628.5491-1-oxr463@gmx.us>
-In-Reply-To: <20220105205628.5491-1-oxr463@gmx.us>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Jan 2022 11:37:20 +0000
-Message-ID: <CAFEAcA8cY0R-jU8zH_QY4PehRnFCpJSo07VBQeXtxHKhMxjpZA@mail.gmail.com>
-Subject: Re: [PATCH] docs/can: convert to restructuredText
-To: oxr463@gmx.us
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=115.124.28.75; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-75.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,33 +55,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Lucas Ramage <lucas.ramage@infinite-omicron.com>,
- qemu-devel@nongnu.org
+Cc: guoren@linux.alibaba.com, bin.meng@windriver.com,
+ richard.henderson@linaro.org, palmer@dabbelt.com, Alistair.Francis@wdc.com,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 5 Jan 2022 at 20:56, <oxr463@gmx.us> wrote:
->
-> From: Lucas Ramage <lucas.ramage@infinite-omicron.com>
->
-> Buglink: https://gitlab.com/qemu-project/qemu/-/issues/527
-> Signed-off-by: Lucas Ramage <lucas.ramage@infinite-omicron.com>
-> ---
->  docs/{can.txt => system/can.rst} | 92 ++++++++++++++------------------
->  docs/system/index.rst            |  1 +
->  2 files changed, 42 insertions(+), 51 deletions(-)
->  rename docs/{can.txt => system/can.rst} (68%)
+In this patch set, we process the pc reigsters writes,
+gdb reads and writes, and address calculation under
+different UXLEN settings.
 
-Hi Lucas; thanks for this docs-conversion patch. It looks
-good to me, except that I think that rather than putting
-the new document in the top-level index of the system manual
-it would fit better in the "Device Emulation / Emulated Devices"
-subsection, where we already document things like USB devices.
+The patch set v6 has been tested by running rv64 Linux with 
+rv32 rootfs in compat mode. You can almost follow the test [1]
+given by GuoRen, except using the branch riscv-upstream-uxl-v6
+on my QEMU repo [2].
 
-Rather than ask you to respin the patch again for what is
-basically just a "git mv", I'm going to take this patch via
-my target-arm tree and make that change there.
+[1] https://lore.kernel.org/linux-arm-kernel/20211228143958.3409187-17-guoren@kernel.org/t/
+[2] https://github.com/romanheros/qemu.git 
 
-Thanks
--- PMM
+Patch 3, 5, 20, 22, have not been reviewed. Others have been reviewed or acked.
+
+v6:
+  Pass boot 32bit rootfs on compat Linux
+  Pass test cases on compat OpenTee
+  Fix csr write mask 
+  Fix WARL for uxl
+  Fix sstatus read for uxl
+  Relax UXL field for debugging
+  Don't bump machine state version for xl
+  Rename cpu_get_xl to cpu_recompute_xl
+  Rebase to vector v1.0
+  Rebase to 128 bit cpu
+
+v5:
+  Add xl field in env to clear up redundant riscv_cpu_xl
+  Adjust pmpcfg access with mxl
+  Select gdb core xml according to mxl 
+
+v4:
+  Support SSTATUS64_UXL write
+  Bump vmstate version for vill split
+
+v3:
+  Merge gen_pm_adjust_address into a canonical address function
+  Adjust address for RVA with XLEN
+  Split pm_enabled into pm_mask_enabled and pm_base_enabled
+  Replace array of pm tcg globals with one scalar tcg global
+  Split and change patch sequence
+
+v2:
+  Split out vill from vtype
+  Remove context switch when xlen changes at exception
+  Use XL instead of OL in many places
+  Use pointer masking and XLEN for vector address
+  Define an common fuction to calculate address for ld
+
+
+LIU Zhiwei (22):
+  target/riscv: Adjust pmpcfg access with mxl
+  target/riscv: Don't save pc when exception return
+  target/riscv: Sign extend link reg for jal and jalr
+  target/riscv: Sign extend pc for different XLEN
+  target/riscv: Create xl field in env
+  target/riscv: Ignore the pc bits above XLEN
+  target/riscv: Extend pc for runtime pc write
+  target/riscv: Use gdb xml according to max mxlen
+  target/riscv: Relax debug check for pm write
+  target/riscv: Adjust csr write mask with XLEN
+  target/riscv: Create current pm fields in env
+  target/riscv: Alloc tcg global for cur_pm[mask|base]
+  target/riscv: Calculate address according to XLEN
+  target/riscv: Split pm_enabled into mask and base
+  target/riscv: Split out the vill from vtype
+  target/riscv: Adjust vsetvl according to XLEN
+  target/riscv: Remove VILL field in VTYPE
+  target/riscv: Fix check range for first fault only
+  target/riscv: Adjust vector address with mask
+  target/riscv: Adjust scalar reg in vector with XLEN
+  target/riscv: Enable uxl field write
+  target/riscv: Relax UXL field for debugging
+
+ target/riscv/cpu.c                            | 32 +++++--
+ target/riscv/cpu.h                            | 45 ++++++++-
+ target/riscv/cpu_helper.c                     | 94 +++++++++----------
+ target/riscv/csr.c                            | 74 +++++++++++++--
+ target/riscv/gdbstub.c                        | 71 ++++++++++----
+ target/riscv/helper.h                         |  4 +-
+ .../riscv/insn_trans/trans_privileged.c.inc   |  9 +-
+ target/riscv/insn_trans/trans_rva.c.inc       |  9 +-
+ target/riscv/insn_trans/trans_rvd.c.inc       | 19 +---
+ target/riscv/insn_trans/trans_rvf.c.inc       | 19 +---
+ target/riscv/insn_trans/trans_rvi.c.inc       | 39 +++-----
+ target/riscv/insn_trans/trans_rvv.c.inc       |  6 +-
+ target/riscv/machine.c                        | 16 +++-
+ target/riscv/op_helper.c                      |  7 +-
+ target/riscv/pmp.c                            | 12 +--
+ target/riscv/translate.c                      | 90 +++++++++---------
+ target/riscv/vector_helper.c                  | 39 +++++---
+ 17 files changed, 355 insertions(+), 230 deletions(-)
+
+-- 
+2.25.1
+
 
