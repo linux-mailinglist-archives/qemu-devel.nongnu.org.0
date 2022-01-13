@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 749D948DEDB
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 21:25:43 +0100 (CET)
-Received: from localhost ([::1]:43004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3827248DEDC
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 21:26:46 +0100 (CET)
+Received: from localhost ([::1]:45126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n86fG-0001bZ-BN
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 15:25:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45806)
+	id 1n86gH-0003A2-C9
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 15:26:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n86aj-0003qg-Eu
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:21:01 -0500
-Received: from [2a00:1450:4864:20::429] (port=33357
- helo=mail-wr1-x429.google.com)
+ id 1n86c2-0005g5-VZ
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:22:23 -0500
+Received: from [2a00:1450:4864:20::42f] (port=37579
+ helo=mail-wr1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n86ag-0004LZ-8K
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:21:01 -0500
-Received: by mail-wr1-x429.google.com with SMTP id d19so12327875wrb.0
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 12:20:57 -0800 (PST)
+ id 1n86c1-0004aJ-G7
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:22:22 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id t20so4744425wrb.4
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 12:22:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nWzMoFMr4Pgyu/ZOEFNoONjbBKbc+bTU4qgq9FDibvw=;
- b=WhXgQ/5eBc4IXH8U5xFwe3LZpBZxNPO99ocgB0TJJ3Cvyxlru1D5GW6AQPykvrxHHk
- JXncYDpD6pmnagrDSwyjW1lQYeY9RX0LvGp896xnQ2sFgeBP/r85lStaolf7HFMbdzBM
- BUq24dLDr5qmN6ejUKSaxn8sdEJxGJTbgjKbmyc4+g4RqsKyC2s+hkYjq4JfV4mbnl4G
- eCjCfIDmFuYit167ajEvFl+33HIYqAL8qmZ1XiWb22uVORc44mjhPARbwC5pR6GpYIN6
- Px8uDGVZocN9RYE7wGbdW3l6PC4TzkUwg+RISv8ufjJe6VfIKhBOzFccBryHKALtwOGP
- cC7Q==
+ :cc; bh=Za22PiAYv/g/Uwi4wBM8hDA1fWBkvvaIrvWlq27yEkM=;
+ b=Vfxiq0mBNb3BIpskkSoSvumRgjl7Yvp3N3Q8kp5yh8w6HI75zCeZNWFOH2DL/scnXY
+ eqm3N29Q/qAMpskfPTCJ2yHYse/RXTGxx56D9OD9vqdnXWpBsGfxSB0CkSZ1RRLnJYDE
+ GFmZl3TUTrXlXaBS1vrNlEuM0I93xRgikmOeTHbQbMMxGyDtczJWYbCq1+igHjGdgN7R
+ So8xTdJy8Z/f1ITYAJkeLzLpzF6SPR9opZYDbxz3xjPUxv73nPgkqtaXdmxLvGZa8M+P
+ eAEIel9si2v4/D0GQFxY6ZOyiY9lx89aYjfSfZY/K+jvb1c1PgqZwI/q48YZngxkYIqT
+ JTrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=nWzMoFMr4Pgyu/ZOEFNoONjbBKbc+bTU4qgq9FDibvw=;
- b=rxAvzKfRd++nSVcxvI6WNy+Muz3we7Pkw0F145sQ8INniedKuJ4WBhSYXY7lTJfhHj
- Wxgju+laFaXagJMAwjT4dP+TBugcMteq2gp4P2Ro0tYnP9bjwT1BSfNroXqskCxaJ+jg
- Uxtj42BUJixvXLSvKYczao8ynUBNBXb7HN7JN6TgFw2ECwBLO/JqMmLoRLDxQWStfj+E
- F8iDzLT1RTdfC9bcmMk/TF1fV5ILRLH/DRfh2dtgbCgLsi/16y+S5x5RVify+ZiS82RS
- u8fzXG8DYtZ7S2rzA7xeyk2OnF64nPecb89rt1x01ITMna3SMHY+C+yed29nUiQYKsZA
- OQ/Q==
-X-Gm-Message-State: AOAM533mdX/X8Y5AZfLwN8zaVJB2JAlOdIu63LiI36glCu8eVtkTVi4X
- EKbGw/wzVVUbiJ6YelBEjm489qQ1A6HgebOWTzETMA==
-X-Google-Smtp-Source: ABdhPJymDW72JCOzRqjJ+RD6f+k6Lo/9a3x2wNQSQCAwowQfOKR3Jz9j3RM5A1+EGU8QXZIl5F/4sI6VnSU30Tiin6M=
-X-Received: by 2002:adf:ee0e:: with SMTP id y14mr5587418wrn.172.1642105256614; 
- Thu, 13 Jan 2022 12:20:56 -0800 (PST)
+ bh=Za22PiAYv/g/Uwi4wBM8hDA1fWBkvvaIrvWlq27yEkM=;
+ b=ISLN8TE9+ieICGx56h0blEiZa3xWgnQAxW2Aj7dzO1M7o0r8KLYre8NnRdCTZcmssU
+ W3pDKa2oMBZHmUB16kIOrYiQ3HtO8UZ1UH6EwC5okiI42M3ThyNuJd+TpENHUEASxuVR
+ A6Vwa/DT3bTpL+Kzthx7giXd4PC/1AdEKcaeNxQbgtEANbB0un7ap4kIAWlhBd0/0XOu
+ 3CTBvTPyIT2EOcZdyjQHhpp7L8mF8NoU9/+onmBoNCcof/WgqKIHTgKrtC3IL80fp8vG
+ /cmpv0Tuu8+DyJvAnA44j/970bMAnyi8dTkBQZwyP5cLxi6KzPsZeBbgscrVDqoygKoi
+ tr5Q==
+X-Gm-Message-State: AOAM531EzTBh4wTh5lQAS5GA+eEnzHAd3oBEV4PvHTg0py3KXV33pd2z
+ DcSUJMclLt0OB+rBMKKYJk6Eq7uc6gApGDGXseg1I/xIZjo=
+X-Google-Smtp-Source: ABdhPJzqZ6Y4rSpA67+k7lJ//3H7o9vwFMA+5E2PJRQHpIEBU8lRCVJ4gf8upqYKVFD/Hy/AiDMbpLDtgBQ3F9kghgo=
+X-Received: by 2002:a5d:52c4:: with SMTP id r4mr5570222wrv.521.1642105340168; 
+ Thu, 13 Jan 2022 12:22:20 -0800 (PST)
 MIME-Version: 1.0
 References: <20220109161923.85683-1-imp@bsdimp.com>
- <20220109161923.85683-20-imp@bsdimp.com>
-In-Reply-To: <20220109161923.85683-20-imp@bsdimp.com>
+ <20220109161923.85683-21-imp@bsdimp.com>
+In-Reply-To: <20220109161923.85683-21-imp@bsdimp.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Jan 2022 20:20:45 +0000
-Message-ID: <CAFEAcA-a80otDAdPgei=BJgXmX1g8wkKZGY6EvXQVVj8G88cAw@mail.gmail.com>
-Subject: Re: [PATCH 19/30] bsd-user/strace.c: print_taken_signal
+Date: Thu, 13 Jan 2022 20:22:09 +0000
+Message-ID: <CAFEAcA8ZMSuxyJiHEBbwnZ3cGyBdUrzSBiigLn7=8jWaH1YO4A@mail.gmail.com>
+Subject: Re: [PATCH 20/30] bsd-user/signal.c: core_dump_signal
 To: Warner Losh <imp@bsdimp.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -85,15 +85,46 @@ Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 9 Jan 2022 at 16:46, Warner Losh <imp@bsdimp.com> wrote:
+On Sun, 9 Jan 2022 at 16:48, Warner Losh <imp@bsdimp.com> wrote:
 >
-> print_taken_signal() prints signals when we're tracing signals.
+> Returns 1 for signals that cause core files.
 >
 > Signed-off-by: Stacey Son <sson@FreeBSD.org>
 > Signed-off-by: Kyle Evans <kevans@freebsd.org>
 > Signed-off-by: Warner Losh <imp@bsdimp.com>
+> ---
+>  bsd-user/signal.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+>
+> diff --git a/bsd-user/signal.c b/bsd-user/signal.c
+> index a6e07277fb2..824535be8b8 100644
+> --- a/bsd-user/signal.c
+> +++ b/bsd-user/signal.c
+> @@ -92,6 +92,23 @@ static inline void host_to_target_siginfo_noswap(target_siginfo_t *tinfo,
+>      }
+>  }
+>
+> +/* Returns 1 if given signal should dump core if not handled. */
+> +static int core_dump_signal(int sig)
+> +{
+> +    switch (sig) {
+> +    case TARGET_SIGABRT:
+> +    case TARGET_SIGFPE:
+> +    case TARGET_SIGILL:
+> +    case TARGET_SIGQUIT:
+> +    case TARGET_SIGSEGV:
+> +    case TARGET_SIGTRAP:
+> +    case TARGET_SIGBUS:
+> +        return 1;
+> +    default:
+> +        return 0;
+> +    }
+> +}
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Code is fine, but since this is a static function with no callers
+the compiler is going to emit a warning about that. It's a small
+function, so the easiest thing is just to squash this into the
+following patch which is what adds the code that calls it.
 
 thanks
 -- PMM
