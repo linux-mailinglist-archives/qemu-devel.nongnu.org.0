@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B83E48DEEC
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 21:29:50 +0100 (CET)
-Received: from localhost ([::1]:47380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F27D48DF01
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 21:33:58 +0100 (CET)
+Received: from localhost ([::1]:49698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n86jF-00057V-Jv
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 15:29:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47058)
+	id 1n86nF-000731-7M
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 15:33:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1n86i4-0004QD-1s
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:28:36 -0500
-Received: from [2607:f8b0:4864:20::935] (port=43556
- helo=mail-ua1-x935.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n86jC-0005dA-En
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:29:46 -0500
+Received: from [2a00:1450:4864:20::435] (port=45047
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1n86i2-0005Ib-3T
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:28:35 -0500
-Received: by mail-ua1-x935.google.com with SMTP id i5so13336911uaq.10
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 12:28:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n86j9-0005Nl-Rf
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:29:46 -0500
+Received: by mail-wr1-x435.google.com with SMTP id k18so12206188wrg.11
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 12:29:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JTp2eXg4Kyxdj24y4Qc2ReQWSQt86eyCzLh6WHwWI1U=;
- b=05EZ7pqc8Udly5wxqoYo0nUo/vO87Mzbbmack7XvyQAYVRJS3hFfyq0xNWlRReKYzT
- /3noLi8c5dib80nVshuCyhDar+ClGsqpEmVEq/lzkWRWTPKWyY7s+xO5eNZmRcfkji01
- ep0u04vV0ROcgEI2gSWXQNqbbHETGqCF+f1lLM6R5v58u/DywPhBQH5xPp21PUnsEHI9
- HRWc5v0Zvhror7N2oRkk+pK9hY+E1BIxK2PRorCbZmwiqId638VzwIXBFar81hV9GWbL
- YBWD1iaxcA90kk+VzbF/uYotBjjv3Cj3uFaFRi9tLqSvFLNUheSImLnzTFr2TxkLa73o
- J73Q==
+ :cc; bh=PARjI4optfbS7JbOIbMPrddfHmCPNF8pgeHjW5BVE7M=;
+ b=j2DVeFSkFe8EHvGpVLhlRDFx7ybmjzZKbhG1pglHKFdgAtjqp+LGmEGrdt1IeKI7HQ
+ pzqhYECOQbe9QwFbY+peTh1JkDsW4nNdcgQmooMsZOkl91FkLBVVyZzknRRJzZWGtFYn
+ ClPg4iFTqqnJgYvZuWu8vKQcmEjZbMDEjZk0h1YojJZPLTwl4p54ZJSpwZ86R2O9WCul
+ 03UEvzA8NdRTAOS3DcfyAU9yxzpLO4MkZNM7AnMi7pdmLcngih5/XYQNVTC3XqokfyhP
+ 4DPFGstKiMYAGT18XerGJe6YjaacMAhfEm2R3EqUJRdzJcCEWqJ/WOU+tuj9hXFDAQSK
+ lKLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=JTp2eXg4Kyxdj24y4Qc2ReQWSQt86eyCzLh6WHwWI1U=;
- b=Z+NbPmn1+gW9YTPxnOudPsmx4p1r3bTlQC85EA1IhmG3no6JbgXxvJIsfwUjjbHqTC
- zzDDAd2numJyA71HHRLkSfx7Ny5RXgJ69QTIJ829wJrBFgAMzL1JClbNIIZ/RXc48juf
- SRcky4AyREtNR6mu5VVv++6IQ91gjIuBgyq8ohEc+RHZXEzNbzrC5MWlHG63F1fug9IA
- mvloBbjV4shIl2XH2zN3p3ZitaX9Ln2Ux30TOyY9hoYjXK5agzWZik13oa/1JQcCmRVc
- h26oDwpaWo30PNvvfwFlvczsh2/Tur1RQ+ynJHYrOOZ7+o44rMEBS1TjRVJfyaj64nCk
- 6a2w==
-X-Gm-Message-State: AOAM531pqTKZaCMogJ5xo55brldZQ9XGYvIWifLQtEuxsbiHxqrW0ezJ
- 16Fc0VxsGNtHcnbebewuDTVVApmNpt1yb0SbT+Qq1w==
-X-Google-Smtp-Source: ABdhPJzRhyQvEFmKIReAv2DziICS6NBYLrlmaFETG0F9zs3iYzLG1bB9kLC+uSB3aYnInPgjpndUjSA2AEIFBVj74Do=
-X-Received: by 2002:ab0:71d0:: with SMTP id n16mr3233204uao.11.1642105712477; 
- Thu, 13 Jan 2022 12:28:32 -0800 (PST)
+ bh=PARjI4optfbS7JbOIbMPrddfHmCPNF8pgeHjW5BVE7M=;
+ b=Q8hQJuibPCnBbt79RgjJ5nR46Q3ZMyrXb2ViwJSO+xQpE59RMkdc5hIsSvPKHOPNOJ
+ OVMj6bORVad+1ySVM+Hb6bpfD6C3RadjbKuPsFs8zBpj0PoJl+6Zqhj4XY2u4iz2syl+
+ pIzRM6ANygrY0KcPGAGRV6ZfQDkbLN3kpxitwWcInzWHCG7raX4M3/4NT2vmyL7Y5Bae
+ q6r8LmYRc7BG/CPaQK/sWdUjQTivMe+YRS0Snou/Cg5LEOHuupoqmf3FG+Cg9VnM9NIC
+ 7Rpxk6eLWxczMU942hbW1RXhIBRV2IQnoiEDyTqqRWad6d7HEqeh46fW8m0NZ/FbZG35
+ Tc7A==
+X-Gm-Message-State: AOAM532+dVruCpGHEIvecxBkp3MJV2/P/vyrG+ZIoEfO25vwES+cwczm
+ 3QOy5Q6MlhHUtAf7lAI+k55AZNnJQJETBngJVlTvLA==
+X-Google-Smtp-Source: ABdhPJyahBp15M8huaJH/BrLIXGB4SA0TWqJ4aK96KqTQO4Ib9AzSORLJMGS3Yf2VHrS2TA+yJaiHzZv06q7O5yrb5I=
+X-Received: by 2002:a5d:6848:: with SMTP id o8mr5730461wrw.2.1642105781606;
+ Thu, 13 Jan 2022 12:29:41 -0800 (PST)
 MIME-Version: 1.0
 References: <20220109161923.85683-1-imp@bsdimp.com>
- <20220109161923.85683-21-imp@bsdimp.com>
- <CAFEAcA8ZMSuxyJiHEBbwnZ3cGyBdUrzSBiigLn7=8jWaH1YO4A@mail.gmail.com>
-In-Reply-To: <CAFEAcA8ZMSuxyJiHEBbwnZ3cGyBdUrzSBiigLn7=8jWaH1YO4A@mail.gmail.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Thu, 13 Jan 2022 13:28:21 -0700
-Message-ID: <CANCZdfqcxgaukAiSFyDMqG3q_XOonu_gUbJGYFrHen0JQDvrFg@mail.gmail.com>
-Subject: Re: [PATCH 20/30] bsd-user/signal.c: core_dump_signal
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000ad1c8805d57c876f"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::935
+ <20220109161923.85683-22-imp@bsdimp.com>
+In-Reply-To: <20220109161923.85683-22-imp@bsdimp.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 13 Jan 2022 20:29:30 +0000
+Message-ID: <CAFEAcA9xbOCjc7ZLULuyWNYi5jHtS=N8_HWiob_gaAE+3vxZAA@mail.gmail.com>
+Subject: Re: [PATCH 21/30] bsd-user/signal.c: force_sig
+To: Warner Losh <imp@bsdimp.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::935;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x935.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,123 +81,129 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@freebsd.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ad1c8805d57c876f
-Content-Type: text/plain; charset="UTF-8"
-
-On Thu, Jan 13, 2022 at 1:22 PM Peter Maydell <peter.maydell@linaro.org>
-wrote:
-
-> On Sun, 9 Jan 2022 at 16:48, Warner Losh <imp@bsdimp.com> wrote:
-> >
-> > Returns 1 for signals that cause core files.
-> >
-> > Signed-off-by: Stacey Son <sson@FreeBSD.org>
-> > Signed-off-by: Kyle Evans <kevans@freebsd.org>
-> > Signed-off-by: Warner Losh <imp@bsdimp.com>
-> > ---
-> >  bsd-user/signal.c | 17 +++++++++++++++++
-> >  1 file changed, 17 insertions(+)
-> >
-> > diff --git a/bsd-user/signal.c b/bsd-user/signal.c
-> > index a6e07277fb2..824535be8b8 100644
-> > --- a/bsd-user/signal.c
-> > +++ b/bsd-user/signal.c
-> > @@ -92,6 +92,23 @@ static inline void
-> host_to_target_siginfo_noswap(target_siginfo_t *tinfo,
-> >      }
-> >  }
-> >
-> > +/* Returns 1 if given signal should dump core if not handled. */
-> > +static int core_dump_signal(int sig)
-> > +{
-> > +    switch (sig) {
-> > +    case TARGET_SIGABRT:
-> > +    case TARGET_SIGFPE:
-> > +    case TARGET_SIGILL:
-> > +    case TARGET_SIGQUIT:
-> > +    case TARGET_SIGSEGV:
-> > +    case TARGET_SIGTRAP:
-> > +    case TARGET_SIGBUS:
-> > +        return 1;
-> > +    default:
-> > +        return 0;
-> > +    }
-> > +}
+On Sun, 9 Jan 2022 at 16:44, Warner Losh <imp@bsdimp.com> wrote:
 >
-> Code is fine, but since this is a static function with no callers
-> the compiler is going to emit a warning about that. It's a small
-> function, so the easiest thing is just to squash this into the
-> following patch which is what adds the code that calls it.
+> Force delivering a signal and generating a core file.
+>
+> Signed-off-by: Stacey Son <sson@FreeBSD.org>
+> Signed-off-by: Kyle Evans <kevans@freebsd.org>
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> ---
+>  bsd-user/qemu.h         |  1 +
+>  bsd-user/signal.c       | 59 +++++++++++++++++++++++++++++++++++++++++
+>  bsd-user/syscall_defs.h |  1 +
+>  3 files changed, 61 insertions(+)
+>
+> diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+> index 7c54a933eb8..e12617f5d69 100644
+> --- a/bsd-user/qemu.h
+> +++ b/bsd-user/qemu.h
+> @@ -223,6 +223,7 @@ void queue_signal(CPUArchState *env, int sig, target_siginfo_t *info);
+>  abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp);
+>  int target_to_host_signal(int sig);
+>  int host_to_target_signal(int sig);
+> +void QEMU_NORETURN force_sig(int target_sig);
+>
+>  /* mmap.c */
+>  int target_mprotect(abi_ulong start, abi_ulong len, int prot);
+> diff --git a/bsd-user/signal.c b/bsd-user/signal.c
+> index 824535be8b8..97f42f9c45e 100644
+> --- a/bsd-user/signal.c
+> +++ b/bsd-user/signal.c
+> @@ -109,6 +109,65 @@ static int core_dump_signal(int sig)
+>      }
+>  }
+>
+> +/* Abort execution with signal. */
+> +void QEMU_NORETURN force_sig(int target_sig)
+
+In linux-user we call this dump_core_and_abort(), which is
+a name that better describes what it's actually doing.
+
+(Today's linux-user's force_sig() does what the Linux kernel's
+function of that name does -- it's a wrapper around
+queue_signal() which delivers a signal to the guest with
+.si_code = SI_KERNEL , si_pid = si_uid = 0.
+Whether you want one of those or not depends on what BSD
+kernels do in that kind of "we have to kill this process"
+situation.)
+
+> +{
+> +    CPUArchState *env = thread_cpu->env_ptr;
+> +    CPUState *cpu = env_cpu(env);
+> +    TaskState *ts = cpu->opaque;
+> +    int core_dumped = 0;
+> +    int host_sig;
+> +    struct sigaction act;
+> +
+> +    host_sig = target_to_host_signal(target_sig);
+> +    gdb_signalled(env, target_sig);
+> +
+> +    /* Dump core if supported by target binary format */
+> +    if (core_dump_signal(target_sig) && (ts->bprm->core_dump != NULL)) {
+> +        stop_all_tasks();
+> +        core_dumped =
+> +            ((*ts->bprm->core_dump)(target_sig, env) == 0);
+> +    }
+> +    if (core_dumped) {
+> +        struct rlimit nodump;
+> +
+> +        /*
+> +         * We already dumped the core of target process, we don't want
+> +         * a coredump of qemu itself.
+> +         */
+> +         getrlimit(RLIMIT_CORE, &nodump);
+> +         nodump.rlim_cur = 0;
+> +         setrlimit(RLIMIT_CORE, &nodump);
+> +         (void) fprintf(stderr, "qemu: uncaught target signal %d (%s) "
+> +             "- %s\n", target_sig, strsignal(host_sig), "core dumped");
+> +    }
+> +
+> +    /*
+> +     * The proper exit code for dying from an uncaught signal is
+> +     * -<signal>.  The kernel doesn't allow exit() or _exit() to pass
+> +     * a negative value.  To get the proper exit code we need to
+> +     * actually die from an uncaught signal.  Here the default signal
+> +     * handler is installed, we send ourself a signal and we wait for
+> +     * it to arrive.
+> +     */
+> +    memset(&act, 0, sizeof(act));
+> +    sigfillset(&act.sa_mask);
+> +    act.sa_handler = SIG_DFL;
+> +    sigaction(host_sig, &act, NULL);
+> +
+> +    kill(getpid(), host_sig);
+> +
+> +    /*
+> +     * Make sure the signal isn't masked (just reuse the mask inside
+> +     * of act).
+> +     */
+> +    sigdelset(&act.sa_mask, host_sig);
+> +    sigsuspend(&act.sa_mask);
+> +
+> +    /* unreachable */
+> +    abort();
+> +}
+> +
+>  /*
+>   * Queue a signal so that it will be send to the virtual CPU as soon as
+>   * possible.
+> diff --git a/bsd-user/syscall_defs.h b/bsd-user/syscall_defs.h
+> index 04a1a886d7b..62b472b990b 100644
+> --- a/bsd-user/syscall_defs.h
+> +++ b/bsd-user/syscall_defs.h
+> @@ -21,6 +21,7 @@
+>  #define _SYSCALL_DEFS_H_
+>
+>  #include <sys/syscall.h>
+> +#include <sys/resource.h>
+>
+>  #include "errno_defs.h"
 >
 
-Sure thing. I'm still trying to get a feel for right-sizing the chunking...
-Since the warning didn't fail the compile, I thought it would be OK,
-but can easily fold this in with the first patch to use it.
-
-Warner
-
---000000000000ad1c8805d57c876f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 13, 2022 at 1:22 PM Peter=
- Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lina=
-ro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On Sun, 9 Jan 2022 at 16:48, Warner Losh &lt;<a href=3D"mailto:imp@bs=
-dimp.com" target=3D"_blank">imp@bsdimp.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Returns 1 for signals that cause core files.<br>
-&gt;<br>
-&gt; Signed-off-by: Stacey Son &lt;sson@FreeBSD.org&gt;<br>
-&gt; Signed-off-by: Kyle Evans &lt;<a href=3D"mailto:kevans@freebsd.org" ta=
-rget=3D"_blank">kevans@freebsd.org</a>&gt;<br>
-&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
-t=3D"_blank">imp@bsdimp.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 bsd-user/signal.c | 17 +++++++++++++++++<br>
-&gt;=C2=A0 1 file changed, 17 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/bsd-user/signal.c b/bsd-user/signal.c<br>
-&gt; index a6e07277fb2..824535be8b8 100644<br>
-&gt; --- a/bsd-user/signal.c<br>
-&gt; +++ b/bsd-user/signal.c<br>
-&gt; @@ -92,6 +92,23 @@ static inline void host_to_target_siginfo_noswap(ta=
-rget_siginfo_t *tinfo,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 }<br>
-&gt;<br>
-&gt; +/* Returns 1 if given signal should dump core if not handled. */<br>
-&gt; +static int core_dump_signal(int sig)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 switch (sig) {<br>
-&gt; +=C2=A0 =C2=A0 case TARGET_SIGABRT:<br>
-&gt; +=C2=A0 =C2=A0 case TARGET_SIGFPE:<br>
-&gt; +=C2=A0 =C2=A0 case TARGET_SIGILL:<br>
-&gt; +=C2=A0 =C2=A0 case TARGET_SIGQUIT:<br>
-&gt; +=C2=A0 =C2=A0 case TARGET_SIGSEGV:<br>
-&gt; +=C2=A0 =C2=A0 case TARGET_SIGTRAP:<br>
-&gt; +=C2=A0 =C2=A0 case TARGET_SIGBUS:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 1;<br>
-&gt; +=C2=A0 =C2=A0 default:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +}<br>
-<br>
-Code is fine, but since this is a static function with no callers<br>
-the compiler is going to emit a warning about that. It&#39;s a small<br>
-function, so the easiest thing is just to squash this into the<br>
-following patch which is what adds the code that calls it.<br></blockquote>=
-<div><br></div><div>Sure thing. I&#39;m still trying to get a feel for righ=
-t-sizing the chunking...</div><div>Since the warning didn&#39;t fail the co=
-mpile, I thought it would be OK,</div><div>but can easily fold this in with=
- the first patch to use it.</div><div><br></div><div>Warner=C2=A0</div></di=
-v></div>
-
---000000000000ad1c8805d57c876f--
+-- PMM
 
