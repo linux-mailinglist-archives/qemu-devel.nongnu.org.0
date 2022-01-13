@@ -2,104 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5871348DEC3
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 21:19:28 +0100 (CET)
-Received: from localhost ([::1]:57628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E51B348DEC5
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 21:19:37 +0100 (CET)
+Received: from localhost ([::1]:58246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n86ZD-0000VU-G3
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 15:19:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40300)
+	id 1n86ZM-0000vy-QB
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 15:19:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1n86Bj-0003uN-4f; Thu, 13 Jan 2022 14:55:12 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24452)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1n86Bf-0000En-8n; Thu, 13 Jan 2022 14:55:10 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20DJpj8B018025; 
- Thu, 13 Jan 2022 19:55:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=gLxxVkEuwOfa1uiWA+WF4AetZ5iwEFLZOSeEsGduc7I=;
- b=Jb1TWtcqieTiheXfIgM/sIe+TQEmQkQ6hE67ozDI5AAhW+cQkVRAytg96PHlkS1m6wJd
- LFDTs1qqZAn7W1jA8kTMtRfD8ILqprWz5TnpburmeQFBGfNPBr68oHiqQUMLu+Ao9GpT
- tlJA7Qgdh85xi5CNrJJ/k0vBwnYM3HU45xuIL5aYSZ+ClxBO37/GlqeCy9EO6lWC2xng
- k22xx/J08ieDP7MmetuLeztVFtweG+K5sp7jdPWs8bpMxyAN4u0GPxmWg83cKZH1D2We
- kvOaBbsdsUtzFuGzH4zc4Xr5Xf3YDrrVCFXYiVP7CxD7XysAe4SvMAK9WfAl3LccPljW TA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3djtm2r19p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Jan 2022 19:55:04 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20DJt4dq031070;
- Thu, 13 Jan 2022 19:55:04 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3djtm2r18s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Jan 2022 19:55:03 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20DJqSq1027416;
- Thu, 13 Jan 2022 19:55:01 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06ams.nl.ibm.com with ESMTP id 3df1vjqxa9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Jan 2022 19:55:01 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20DJsxVb37617942
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 13 Jan 2022 19:54:59 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E6667A4053;
- Thu, 13 Jan 2022 19:54:58 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 846CAA406D;
- Thu, 13 Jan 2022 19:54:58 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.15.51])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 13 Jan 2022 19:54:58 +0000 (GMT)
-Date: Thu, 13 Jan 2022 20:54:52 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 1/1] virtio: fix the condition for iommu_platform not
- supported
-Message-ID: <20220113205452.4443ee4e.pasic@linux.ibm.com>
-In-Reply-To: <20220113115617-mutt-send-email-mst@kernel.org>
-References: <20220113165131.1057714-1-pasic@linux.ibm.com>
- <20220113115617-mutt-send-email-mst@kernel.org>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n86Xn-0007Ia-Sg
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:17:59 -0500
+Received: from [2a00:1450:4864:20::336] (port=51118
+ helo=mail-wm1-x336.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n86Xl-0003ur-Tp
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:17:59 -0500
+Received: by mail-wm1-x336.google.com with SMTP id w26so4730726wmi.0
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 12:17:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hVbKJ64X0+j1Of2tXe1eEUMhEtaMlPAUWxb204volj8=;
+ b=gdG962q9WFh4cz9LhZXgwgsRLzqHNqUQoBtIM+7a1CZ+FtE/SlNbcWaoOHizVRhx4u
+ 1rqo/nie+hBSfLSf7kw481+HL5rovLlMPiFp5ecgdqssXR4Em39uyrfkw89Uwhphp0I0
+ DnY2JQhfQCEm/6P4IQQp6olu0rpeWx3rCCvJj0Fb1QIiRo4dV3+h0MtdRxow3g5VDKQE
+ zDP8OHwtV95m88TiWlHyFuwCcuphxnYvFmPg56sFoXqlUGDkwS47823HyESoU4m4ixGQ
+ h+1+AoSTMGJAschGxMRO68Al1KUcnHd4L1BTHBlzysVTEBOcGh/Bzrihf83Y5QIwny2f
+ AGHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hVbKJ64X0+j1Of2tXe1eEUMhEtaMlPAUWxb204volj8=;
+ b=X0fb1BCBUYqfiCUKXWefsHKgb5nTWe9L2WDnYBHzEu2efmpw6nNOwMPLBBDsMqFKWw
+ bkQpfbP7iuQvN0QEVzvdBly7gyzI8XZ0CkRGKjJqSIj6U+VpmxypVn3FnMS7kwpxcdEz
+ 5tZfRnl4Eg77MQmetr+dFDM3L5MgHvmPY+YzLfDvd9/+cnfbhLrSb/BoEEyP9QyO81tm
+ ZJRk8B065tov4LKNnUE0ed73YGkRGDkNMCPcqWeLD6lC+2AR0RjprqAfGhx8I8YqEvJT
+ se2nvt3A5pZ03XEoSdi9xyXirEgVojDSJGWYjz/2BTLVEOZ6eTGaO/M6ah8ZUW9ONgto
+ kEHw==
+X-Gm-Message-State: AOAM531HJru+j5ttFTKuJv/CZJ0HJnXu0whWCrpXvOCxQ55Quyb581JN
+ Jf8XFSwk2JJZAKpDLboVyxGxGmfTkrTJ9Mu7WrKWww==
+X-Google-Smtp-Source: ABdhPJxKkdpNYfy940xSwF+LWasVCK17eq4tin4etuxMGMCal8lNZQZHQgSs8qSU1LZ85axvGAOhdVRkjCwapARJk8s=
+X-Received: by 2002:a05:600c:3ac5:: with SMTP id
+ d5mr5400028wms.32.1642105075872; 
+ Thu, 13 Jan 2022 12:17:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 3JLX9GHxmHvYm8qjm6z3Gx-bEgMEERhU
-X-Proofpoint-ORIG-GUID: giupPGG0E8rpJFru3Uu7IDvwjtGszRJV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-13_09,2022-01-13_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- spamscore=0 malwarescore=0 priorityscore=1501 mlxscore=0 adultscore=0
- mlxlogscore=999 lowpriorityscore=0 suspectscore=0 impostorscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201130119
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220109161923.85683-1-imp@bsdimp.com>
+ <20220109161923.85683-19-imp@bsdimp.com>
+In-Reply-To: <20220109161923.85683-19-imp@bsdimp.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 13 Jan 2022 20:17:44 +0000
+Message-ID: <CAFEAcA9RLjFON6A89j+gVoiRxehiwNpbsF5GpPL3z1EFhrHw1Q@mail.gmail.com>
+Subject: Re: [PATCH 18/30] bsd-user/signal.c: Implement host_signal_handler
+To: Warner Losh <imp@bsdimp.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,129 +81,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- qemu-stable@nongnu.org, Jakob Naucke <Jakob.Naucke@ibm.com>,
+Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@freebsd.org>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 13 Jan 2022 12:11:42 -0500
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+On Sun, 9 Jan 2022 at 16:40, Warner Losh <imp@bsdimp.com> wrote:
+>
+> Implement host_signal_handler to handle signals generated by the host
+> and to do safe system calls.
+>
+> Signed-off-by: Stacey Son <sson@FreeBSD.org>
+> Signed-off-by: Kyle Evans <kevans@freebsd.org>
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> ---
+>  bsd-user/signal.c | 105 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 105 insertions(+)
+>
+> diff --git a/bsd-user/signal.c b/bsd-user/signal.c
+> index b1331f63d61..a6e07277fb2 100644
+> --- a/bsd-user/signal.c
+> +++ b/bsd-user/signal.c
+> @@ -142,6 +142,111 @@ void force_sig_fault(int sig, int code, abi_ulong addr)
+>
+>  static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
+>  {
+> +    CPUState *cpu = thread_cpu;
+> +    CPUArchState *env = cpu->env_ptr;
+> +    int sig;
+> +    target_siginfo_t tinfo;
+> +    ucontext_t *uc = puc;
+> +    uintptr_t pc = 0;
+> +    bool sync_sig = false;
+> +
+> +    /*
+> +     * Non-spoofed SIGSEGV and SIGBUS are synchronous, and need special
+> +     * handling wrt signal blocking and unwinding.
+> +     */
+> +    if ((host_sig == SIGSEGV || host_sig == SIGBUS) && info->si_code > 0) {
+> +        MMUAccessType access_type;
+> +        uintptr_t host_addr;
+> +        abi_ptr guest_addr;
+> +        bool is_write;
+> +
+> +        host_addr = (uintptr_t)info->si_addr;
+> +
+> +        /*
+> +         * Convert forcefully to guest address space: addresses outside
+> +         * reserved_va are still valid to report via SEGV_MAPERR.
+> +         */
+> +        guest_addr = h2g_nocheck(host_addr);
+> +
+> +        pc = host_signal_pc(uc);
+> +        is_write = host_signal_write(info, uc);
+> +        access_type = adjust_signal_pc(&pc, is_write);
+> +
+> +        if (host_sig == SIGSEGV) {
+> +            bool maperr = true;
+> +
+> +            if (info->si_code == SEGV_ACCERR && h2g_valid(host_addr)) {
+> +                /* If this was a write to a TB protected page, restart. */
+> +                if (is_write &&
+> +                    handle_sigsegv_accerr_write(cpu, &uc->uc_sigmask,
+> +                                                pc, guest_addr)) {
+> +                    return;
+> +                }
+> +
+> +                /*
+> +                 * With reserved_va, the whole address space is PROT_NONE,
+> +                 * which means that we may get ACCERR when we want MAPERR.
+> +                 */
+> +                if (page_get_flags(guest_addr) & PAGE_VALID) {
+> +                    maperr = false;
+> +                } else {
+> +                    info->si_code = SEGV_MAPERR;
+> +                }
+> +            }
+> +
+> +            sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
+> +            cpu_loop_exit_sigsegv(cpu, guest_addr, access_type, maperr, pc);
+> +        } else {
+> +            sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
+> +            if (info->si_code == BUS_ADRALN) {
+> +                cpu_loop_exit_sigbus(cpu, guest_addr, access_type, pc);
+> +            }
+> +        }
+> +
+> +        sync_sig = true;
+> +    }
+> +
+> +    /* Get the target signal number. */
+> +    sig = host_to_target_signal(host_sig);
+> +    if (sig < 1 || sig > TARGET_NSIG) {
+> +        return;
+> +    }
+> +    trace_user_host_signal(cpu, host_sig, sig);
+> +
+> +    host_to_target_siginfo_noswap(&tinfo, info);
+> +
+> +    queue_signal(env, sig, &tinfo);       /* XXX how to cope with failure? */
 
-> On Thu, Jan 13, 2022 at 05:51:31PM +0100, Halil Pasic wrote:
-> > The commit 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
-> > unsupported") claims to fail the device hotplug when iommu_platform
-> > is requested, but not supported by the (vhost) device. On the first
-> > glance the condition for detecting that situation looks perfect, but
-> > because a certain peculiarity of virtio_platform it ain't.
-> > 
-> > In fact the aforementioned commit introduces a regression. It breaks
-> > virtio-fs support for Secure Execution, and most likely also for AMD SEV
-> > or any other confidential guest scenario that relies encrypted guest
-> > memory.  The same also applies to any other vhost device that does not
-> > negotiate _F_ACCESS_PLATFORM.
-> > 
-> > The peculiarity is that iommu_platform and _F_ACCESS_PLATFORM collates
-> > "device can not access all of the guest ram" and "iova != gpa, thus
-> > device needs to translate iova".
-> > 
-> > Confidential guest technologies currently rely on the device/hypervisor
-> > offering _F_ACCESS_PLATFORM to grant access to whatever the device needs
-> > to see, because of the first. But, generally, they don't care for the
-> > second.
-> > 
-> > This is the very reason for which commit 7ef7e6e3b ("vhost: correctly
-> > turn on VIRTIO_F_IOMMU_PLATFORM") for, which fences _F_ACCESS_PLATFORM
-> > form the vhost device that does not need it, because on the vhost
-> > interface it only means "I/O address translation is needed".
-> > 
-> > This patch takes inspiration from 7ef7e6e3b ("vhost: correctly turn on
-> > VIRTIO_F_IOMMU_PLATFORM"),  
-> 
-> Strange, I could not find this commit. Did you mean f7ef7e6e3b?
-> 
+queue_signal() can't fail, so there is nothing to cope with.
+(Your bsd-user version even has the right 'void' type --
+linux-user's returns 1 always and we never look at the return
+value, so we should really switch that to void return too.)
 
-Right! Copy-paste error.
+> +    /*
+> +     * Linux does something else here -> the queue signal may be wrong, but
+> +     * maybe not.  And then it does the rewind_if_in_safe_syscall
+> +     */
 
+I think you have here a bit of a mix of linux-user's current design
+and some older (broken) version. This is how linux-user works today:
 
- 
- static void *vhost_memory_map(struct vhost_dev *dev, hwaddr addr,
-@@ -765,6 +772,9 @@ static int vhost_dev_set_features(struct vhost_dev *dev,
-     if (enable_log) {
-         features |= 0x1ULL << VHOST_F_LOG_ALL;
-     }
-+    if (!vhost_dev_has_iommu(dev)) {
-+        features &= ~(0x1ULL << VIRTIO_F_IOMMU_PLATFORM);
-+    }
-     r = dev->vhost_ops->vhost_set_features(dev, features);
-     if (r < 0) {
-         VHOST_OPS_DEBUG("vhost_set_features failed");
+ * queue_signal() is a little bit misnamed, because there is no
+   "queue" here: there can only be at most one "queued" signal,
+   and it lives in the TaskState struct (which is user-only specific
+   information that hangs off the guest CPU struct) as the
+   TaskState::sync_signal field. The reason
+   we only have one at once is that queue_signal() is used only
+   for signals generated by QEMU itself by calling queue_signal()
+   directly or indirectly from the cpu_loop() code. The cpu loop
+   always calls process_pending_signals() at the end of its loop,
+   which will pick up a queued signal. We never call queue_signal()
+   twice in a row before getting back to process_pending_signals(),
+   so there's only ever at most one thing in the "queue".
+ * for all signals we get from the host except SIGSEGV/SIGBUS,
+   we track whether there's a host signal pending in the
+   TaskState::sigtab[] array (which is indexed by signal number).
+   We block all host signals except SIGSEGV/SIGBUS before calling
+   cpu_exit(), so we know we're not going to get more than one
+   of these at once (and it won't clash with a queue_signal()
+   signal either, as those use the sync_signal field, not the
+   sigtab[]).
+ * for host-sent non-spoofed (ie not sent via 'kill()') SIGSEGV/SIGBUS,
+   we know this was caused by a bit of generated code, so we just
+   use cpu_loop_exit_restore() to turn this into an EXCP_INTERRUPT
+   at the right guest PC
 
-> > and uses the same condition for detecting the
-> > situation when _F_ACCESS_PLATFORM is requested, but no I/O translation
-> > by the device, and thus no device capability is needed.
-> >
-> > In this
-> > situation claiming that the device does not support iommu_plattform=on
-> > is counter-productive. So let us stop doing that!
-> > 
-> > Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-> > Reported-by: Jakob Naucke <Jakob.Naucke@ibm.com>
-> > Fixes: 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
-> > unsupported")
-> > Cc: Kevin Wolf <kwolf@redhat.com>
-> > Cc: qemu-stable@nongnu.org
-> > 
-> > ---
-> > 
-> > @Kevin: Can you please verify, that I don't break your fix?  
-> 
-> So which configurations did you test for this?
+I feel fairly strongly that you definitely want to use the same
+design as current linux-user does for signals:
+ * getting this right is pretty tricky, and even if we get two
+   different designs to both have the same semantics it's going
+   to be pretty confusing
+ * we thought quite hard about the linux-user code at the time
+   and it's definitely less buggy than the previous design
+ * It's much easier to review the bsd-user code as "yes this is
+   doing the same thing linux-user does" than working through
+   a different approach from first principles
 
-I tested it with virtio-fs and qemu-system-s390x with -device
-vhost-user-fs-ccw,iommu_platform=on,...
+I don't have as strong an opinion on whether we should try to get
+it into the tree that way from the start, or to put in whatever
+you have currently and then fix it later. (More accurately,
+I would prefer to review patches which use the same design
+as linux-user but if that's going to be massively painful/slow
+for you to get something upstream doing it that way around
+I can probably live with the other approach...)
 
-Regards,
-Halil
+> +    /*
+> +     * For synchronous signals, unwind the cpu state to the faulting
+> +     * insn and then exit back to the main loop so that the signal
+> +     * is delivered immediately.
+> +     XXXX Should this be in queue_signal?
 
-> 
-> > ---
-> >  hw/virtio/virtio-bus.c | 11 ++++++-----
-> >  1 file changed, 6 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
-> > index d23db98c56..c1578f3de2 100644
-> > --- a/hw/virtio/virtio-bus.c
-> > +++ b/hw/virtio/virtio-bus.c
-> > @@ -69,11 +69,6 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
-> >          return;
-> >      }
-> >  
-> > -    if (has_iommu && !virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
-> > -        error_setg(errp, "iommu_platform=true is not supported by the device");
-> > -        return;
-> > -    }
-> > -
-> >      if (klass->device_plugged != NULL) {
-> >          klass->device_plugged(qbus->parent, &local_err);
-> >      }
-> > @@ -88,6 +83,12 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
-> >      } else {
-> >          vdev->dma_as = &address_space_memory;
-> >      }
-> > +
-> > +    if (has_iommu && vdev->dma_as != &address_space_memory
-> > +                  && !virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
-> > +        error_setg(errp, "iommu_platform=true is not supported by the device");
-> > +        return;
-> > +    }
-> >  }
-> >  /* Reset the virtio_bus */
-> > 
-> > base-commit: f8d75e10d3e0033a0a29a7a7e4777a4fbc17a016
-> > -- 
-> > 2.32.0  
-> 
-> 
+No, because queue_signal() is called for lots of ways to pend
+a signal, most of which aren't real host signals.
 
+> +     */
+> +    if (sync_sig) {
+> +        cpu->exception_index = EXCP_INTERRUPT;
+> +        cpu_loop_exit_restore(cpu, pc);
+> +    }
+> +
+> +    rewind_if_in_safe_syscall(puc);
+> +
+> +    /*
+> +     * Block host signals until target signal handler entered. We
+> +     * can't block SIGSEGV or SIGBUS while we're executing guest
+> +     * code in case the guest code provokes one in the window between
+> +     * now and it getting out to the main loop. Signals will be
+> +     * unblocked again in process_pending_signals().
+> +     */
+> +    sigfillset(&uc->uc_sigmask);
+> +    sigdelset(&uc->uc_sigmask, SIGSEGV);
+> +    sigdelset(&uc->uc_sigmask, SIGBUS);
+> +
+> +    /* Interrupt the virtual CPU as soon as possible. */
+> +    cpu_exit(thread_cpu);
+>  }
+>
+>  void signal_init(void)
+
+thanks
+-- PMM
 
