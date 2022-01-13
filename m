@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29F6648D6E2
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 12:46:04 +0100 (CET)
-Received: from localhost ([::1]:50044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EBA748D6FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 12:57:36 +0100 (CET)
+Received: from localhost ([::1]:45788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7yYN-0006dx-9v
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 06:46:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33150)
+	id 1n7yjX-0007V9-JD
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 06:57:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n7yUU-0003gV-1N
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 06:42:03 -0500
-Received: from [2a00:1450:4864:20::530] (port=35333
- helo=mail-ed1-x530.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n7yWb-0006qh-4H
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 06:44:17 -0500
+Received: from [2a00:1450:4864:20::431] (port=41914
+ helo=mail-wr1-x431.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n7yUQ-0003AO-3B
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 06:42:00 -0500
-Received: by mail-ed1-x530.google.com with SMTP id q25so22024281edb.2
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 03:41:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=l/XMu0BKneGEZspUfGqn6ExZSu0GqhmbG+IaKmdBsZA=;
- b=FJU6xXIyVEF1bPohl2yDj/bARgEgIMTz8LJzPArXPwSq2lKqIMYgXcN67Txtlk7iLA
- YHJKoRiL3FfBBpshpIDFK5pBpbF+L24wnYhwzqlkqYHw1Qh9sRKHcFKOt6qIxph1BW/h
- KG7Nd4M09hZ/tTKBDCd4iFaiaZ56XfV82sw74HGorff4PkoeiDMvpfc9yDIlDsWFrbBf
- QN19woOlvX8tmVXUgO7idtDcxeF0amcOCzLUfWITMZCh9j3qXWITPvQJjJ0RFl3VqwdH
- JhY8pxuEF9VuGlYKzfRk2qwLI25i4hiQwn368zH+co7yuhCpqpgpQRGonZrzCMEBL3za
- /YnA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n7yWZ-0003Oy-De
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 06:44:12 -0500
+Received: by mail-wr1-x431.google.com with SMTP id v6so9546467wra.8
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 03:44:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wBTofGQOkoCWqrBNZ3OLFG/KpQB8lzD81aXGusDirtI=;
+ b=BUk34Grp3KXU7BKiBr9h2kNZWqh+MV2eFdUtQMETnM8nEwVblVYkqvUbFV1BbIJ2+C
+ /SqOUXSkeNOEIXnk6td/eRii4rErgb2Y0G804wEP5Qi4CQS3DZ0lY0DJj1k2iR6V2pY5
+ CEEQiw0bXmQ7J5XE8FR+J0rHGROutFlvJKll4W5a3diFSypUd3uuVeFvd6UNKp7icOMA
+ LBBDM39shLDJGpHwF5E4nxXATxL4x6VnOyL2jnDvDCpOAYJIF+j4rNjgTUukFpIZ4AP0
+ S26UQN5bcnE4XxCtJ93fm+UoGzCWamZjMWYzKfxtyGyjXOd9RBxiNllr1/XC2bqFPH8g
+ /61A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=l/XMu0BKneGEZspUfGqn6ExZSu0GqhmbG+IaKmdBsZA=;
- b=cxPgknaIZzrcBFxiPXBwrJusDtWqJH6VY4JaMfyGKfhOQxkFbcSWgiNKlqz0tazKLr
- WFmK4WpXQ2SlqtJ0lctW+DSfJ7CIFzo1+hzlCZX1cCHyBYC6wIjMiPiFPSmOyAAUj45V
- 7eQABgWPWTT9NWRp5G+KPIG8WpN/Ee0zLemV0svgIdPWp8H/uwUcMqQ7owYdr9rFPTV2
- 9ZDCMXGaGgBbqyvcaI+pcBRAb0wE8rvmtZfL9xiVIMbCC3EGnTMacfN9n8+ogaemBy7d
- X0ALV5MiHs8j2braO3HVadgnJj3qdHZQD8uoxglzvvFGJttShYaolsIrvtE6WHYIIxfZ
- 1NnQ==
-X-Gm-Message-State: AOAM533j2ynHZ/C30jKl3ecls3ItOtEzPVkd77/r+S8/xTLDtdc9i3It
- 14UwwVqzQmE4H2ygmgvSMec=
-X-Google-Smtp-Source: ABdhPJyMAHxrCMwU/lKPT5xEmM2mwNQflQxhCfGvs7MMLfPK0nL4zWrQ2HnkP3DH3vjovUThaLntbg==
-X-Received: by 2002:a17:906:7217:: with SMTP id
- m23mr3075406ejk.735.1642074101640; 
- Thu, 13 Jan 2022 03:41:41 -0800 (PST)
-Received: from [10.101.1.234] ([185.224.57.167])
- by smtp.gmail.com with ESMTPSA id y2sm1062992eda.45.2022.01.13.03.41.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Jan 2022 03:41:41 -0800 (PST)
-Message-ID: <4277f659-7514-5ec5-480a-a349699c6a6a@amsat.org>
-Date: Thu, 13 Jan 2022 12:41:38 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wBTofGQOkoCWqrBNZ3OLFG/KpQB8lzD81aXGusDirtI=;
+ b=322OG4EGwv1jgk0bfvV0Utknw5FhPvzj+W7i6k9ZWaMG3Oo/zsPoCPfKU7HDfEoquo
+ I1Jzf7W99Eybg3OvaTXuPcxUUgbOj/NFH6gg/SakFXusnf8OIkNB9rFzvOdsIxFd7SHQ
+ 5VymiJtAAP37dNEKDmB+/DkX1+kaIgyBhRVwrgx/sEH4g9IyKYHSQ3oJ2hI+erLiUdng
+ B28/8x2O3O7y1CHCqAKB2RCPLw6ETj2IZ5Jrk1jc8HzS0O4KfkjNUBt2deJESR77ST/b
+ a0/y1Axd7nn9FnaJ55p6SfQ2KIVQs+xbbnm8IpQKN9/V83PPuY++BUR7Z/w5EUtHJWaM
+ n5IA==
+X-Gm-Message-State: AOAM5328mZdjBvd6w7mr18THFzd2V2leKjQHybVg6zRFENLIG8BM5vU0
+ LNOVlcSRJzgm7pWPlkS2agPfyaGfd5mtyWXVwlMcvQ==
+X-Google-Smtp-Source: ABdhPJw9fmrWw6KQDUM5W4fHczojmYFtZqRltbjM0L0CR6ynQv1X/zrOM55DiOLcigySxzBbyFWC1XDJxW+G7TtklmE=
+X-Received: by 2002:a5d:64c3:: with SMTP id f3mr3548573wri.295.1642074248579; 
+ Thu, 13 Jan 2022 03:44:08 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [RFC PATCH v3 7/7] gitlab-ci: Support macOS 12 via cirrus-run
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20220110131001.614319-1-f4bug@amsat.org>
- <20220110131001.614319-8-f4bug@amsat.org>
- <c3c894b5-e6a6-d203-83c6-07c15982c281@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <c3c894b5-e6a6-d203-83c6-07c15982c281@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::530
+References: <20220107222557.3812222-1-venture@google.com>
+In-Reply-To: <20220107222557.3812222-1-venture@google.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 13 Jan 2022 11:43:57 +0000
+Message-ID: <CAFEAcA_DgtLw_AfYsL-G+HiqBsN+DXfTTOFUi+kCDCqVBWp8KA@mail.gmail.com>
+Subject: Re: [PATCH] tests/qtest: add qtests for npcm7xx sdhci
+To: Patrick Venture <venture@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -94,75 +79,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alexander Graf <agraf@csgraf.de>, Gerd Hoffmann <kraxel@redhat.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: lvivier@redhat.com, thuth@redhat.com, Shengtan Mao <stmao@google.com>,
+ qemu-devel@nongnu.org, hskinnemoen@google.com, Hao Wu <wuhaotsh@google.com>,
+ kfting@nuvoton.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
+ Chris Rauer <crauer@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/1/22 08:39, Thomas Huth wrote:
-> On 10/01/2022 14.10, Philippe Mathieu-Daudé wrote:
->> Add support for macOS 12 build on Cirrus-CI, similarly to commit
->> 0e103a65ba1 ("gitlab: support for ... macOS 11 via cirrus-run").
->>
->> Update the lcitool repository to get the macos12 mappings,
->> and generate the vars file by calling 'make lcitool-refresh'.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->> Pending on libvirt-ci MR #210:
->> https://gitlab.com/libvirt/libvirt-ci/-/merge_requests/210
->> ---
->>   .gitlab-ci.d/cirrus.yml           | 15 +++++++++++++++
->>   .gitlab-ci.d/cirrus/macos-12.vars | 16 ++++++++++++++++
->>   tests/lcitool/libvirt-ci          |  2 +-
->>   tests/lcitool/refresh             |  1 +
->>   4 files changed, 33 insertions(+), 1 deletion(-)
->>   create mode 100644 .gitlab-ci.d/cirrus/macos-12.vars
->>
->> diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
->> index b96b22e2697..b7662959070 100644
->> --- a/.gitlab-ci.d/cirrus.yml
->> +++ b/.gitlab-ci.d/cirrus.yml
->> @@ -87,6 +87,21 @@ x64-macos-11-base-build:
->>       PKG_CONFIG_PATH: 
->> /usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/ncurses/lib/pkgconfig:/usr/local/opt/readline/lib/pkgconfig 
->>
->>       TEST_TARGETS: check-unit check-block check-qapi-schema 
->> check-softfloat check-qtest-x86_64
->> +x64-macos-12-base-build:
->> +  extends: .cirrus_build_job
->> +  variables:
->> +    NAME: macos-12
->> +    CIRRUS_VM_INSTANCE_TYPE: osx_instance
->> +    CIRRUS_VM_IMAGE_SELECTOR: image
->> +    CIRRUS_VM_IMAGE_NAME: monterey-base
->> +    CIRRUS_VM_CPUS: 12
->> +    CIRRUS_VM_RAM: 24G
->> +    UPDATE_COMMAND: brew update
->> +    INSTALL_COMMAND: brew install
->> +    PATH_EXTRA: /usr/local/opt/ccache/libexec:/usr/local/opt/gettext/bin
->> +    PKG_CONFIG_PATH: 
->> /usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/ncurses/lib/pkgconfig:/usr/local/opt/readline/lib/pkgconfig 
->>
->> +    TEST_TARGETS: check-unit check-block check-qapi-schema 
->> check-softfloat check-qtest-x86_64
-> 
-> Since we cannot run that many Cirrus-CI jobs in parallel, I think it 
-> might make sense to limit the macos-11 job to manual mode now?
+On Fri, 7 Jan 2022 at 22:32, Patrick Venture <venture@google.com> wrote:
+>
+> From: Shengtan Mao <stmao@google.com>
+>
+> Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> Reviewed-by: Chris Rauer <crauer@google.com>
+> Signed-off-by: Shengtan Mao <stmao@google.com>
+> ---
+>  tests/qtest/meson.build          |   1 +
+>  tests/qtest/npcm7xx_sdhci-test.c | 201 +++++++++++++++++++++++++++++++
+>  2 files changed, 202 insertions(+)
+>  create mode 100644 tests/qtest/npcm7xx_sdhci-test.c
+>
+> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> index 37e1eaa449..b406eba8f6 100644
+> --- a/tests/qtest/meson.build
+> +++ b/tests/qtest/meson.build
+> @@ -189,6 +189,7 @@ qtests_npcm7xx = \
+>     'npcm7xx_gpio-test',
+>     'npcm7xx_pwm-test',
+>     'npcm7xx_rng-test',
+> +   'npcm7xx_sdhci-test',
+>     'npcm7xx_smbus-test',
+>     'npcm7xx_timer-test',
+>     'npcm7xx_watchdog_timer-test'] + \
+> diff --git a/tests/qtest/npcm7xx_sdhci-test.c b/tests/qtest/npcm7xx_sdhci-test.c
+> new file mode 100644
+> index 0000000000..feb09b921a
+> --- /dev/null
+> +++ b/tests/qtest/npcm7xx_sdhci-test.c
+> @@ -0,0 +1,201 @@
+> +/*
+> + * QTests for NPCM7xx SD-3.0 / MMC-4.51 Host Controller
+> + *
+> + * Copyright (c) 2021 Google LLC
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms of the GNU General Public License as published by the
+> + * Free Software Foundation; either version 2 of the License, or
+> + * (at your option) any later version.
+> + *
+> + * This program is distributed in the hope that it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+> + * for more details.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/sd/npcm7xx_sdhci.h"
+> +
+> +#include "libqos/libqtest.h"
+> +#include "libqtest-single.h"
+> +#include "libqos/sdhci-cmd.h"
+> +
+> +#define NPCM7XX_MMC_BA 0xF0842000
+> +#define NPCM7XX_BLK_SIZE 512
+> +#define NPCM7XX_TEST_IMAGE_SIZE (1 << 30)
+> +
+> +char *sd_path;
+> +
+> +static QTestState *setup_sd_card(void)
+> +{
+> +    QTestState *qts = qtest_initf(
+> +        "-machine kudo-bmc "
+> +        "-device sd-card,drive=drive0 "
+> +        "-drive id=drive0,if=none,file=%s,format=raw,auto-read-only=off",
+> +        sd_path);
+> +
+> +    qtest_writew(qts, NPCM7XX_MMC_BA + SDHC_SWRST, SDHC_RESET_ALL);
+> +    qtest_writew(qts, NPCM7XX_MMC_BA + SDHC_CLKCON,
+> +                 SDHC_CLOCK_SDCLK_EN | SDHC_CLOCK_INT_STABLE |
+> +                     SDHC_CLOCK_INT_EN);
+> +    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0, 0, SDHC_APP_CMD);
+> +    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0x41200000, 0, (41 << 8));
+> +    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0, 0, SDHC_ALL_SEND_CID);
+> +    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0, 0, SDHC_SEND_RELATIVE_ADDR);
+> +    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0x45670000, 0,
+> +                   SDHC_SELECT_DESELECT_CARD);
+> +
+> +    return qts;
+> +}
+> +
+> +static void write_sdread(QTestState *qts, const char *msg)
+> +{
+> +    size_t len = strlen(msg);
+> +    char *rmsg = g_malloc(len);
+> +
+> +    /* write message to sd */
+> +    int fd = open(sd_path, O_WRONLY);
+> +    int ret = write(fd, msg, len);
 
-TBH I don't know, IIUC macOS seems somehow a bit tied with hardware
-(updated less often), and apparently our user base is still interested
-in having the previous Catalina version working too.
+You're not checking that open() succeeded before using the fd
+(similarly in a function later on).
 
-What about FreeBSD jobs? Do you also plan to set the FreeBSD 12 job to 
-manual?
-
-Maybe we could split the configured options, but I'm not sure we'll save
-much, the basics to be covered are major sysemu with ui, tools & doc.
+-- PMM
 
