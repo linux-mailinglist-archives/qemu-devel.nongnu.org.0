@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A66248DE2C
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 20:40:01 +0100 (CET)
-Received: from localhost ([::1]:43128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3D8E48DE52
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 20:46:25 +0100 (CET)
+Received: from localhost ([::1]:51924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n85x2-0000Es-3j
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 14:40:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35606)
+	id 1n863E-0006EM-OT
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 14:46:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n85nZ-0006QW-Dq; Thu, 13 Jan 2022 14:30:13 -0500
-Received: from [2607:f8b0:4864:20::22c] (port=43902
- helo=mail-oi1-x22c.google.com)
+ id 1n85nZ-0006Qj-Ee; Thu, 13 Jan 2022 14:30:13 -0500
+Received: from [2607:f8b0:4864:20::333] (port=46970
+ helo=mail-ot1-x333.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n85nT-00056X-2N; Thu, 13 Jan 2022 14:30:09 -0500
-Received: by mail-oi1-x22c.google.com with SMTP id s22so9120798oie.10;
- Thu, 13 Jan 2022 11:30:06 -0800 (PST)
+ id 1n85nU-00057A-Si; Thu, 13 Jan 2022 14:30:10 -0500
+Received: by mail-ot1-x333.google.com with SMTP id
+ t4-20020a05683022e400b00591aaf48277so7452648otc.13; 
+ Thu, 13 Jan 2022 11:30:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=X6adjTzCeL/KTbF2SV7d/FZdaLhzdscVTQyETcayL7Y=;
- b=d5EQgErs90eG3lwKV4y462pDElpFHIMzXc9pUfZww0YJS1lxTJPsOjzdp08bqEyXPv
- Rz5vSo1YRBYQT3pQAM6CWSjTk9a1Nvv8X8ZRB1b38XWfEFTlUGWyzR2qk/vF0dOURQX7
- DCqLnyFWETkO7cUCrQY60/Jm6EgGfHhPLp1QF922ZDaEi7CmVDTTJED0E+zsPSyfmt5W
- 4OU/UwBvrzvNjXl15bmXeH9SeXX0rnrNg5cWh51F62fuizZF7zuAjcsm8cCTwlB3V22q
- paAYSkVjN9RajUEItuZOfSmqJAXf89xTN7VcYMgRnEqE+EGuv/4DiiFbFqEyZv0w9gmw
- T4QA==
+ bh=qlzqre5YnO1MD+zn72qC624iitqzx5olmZATphI6Tdo=;
+ b=J7rMY2XjhLqGDuA94xC411lU6PkWUCdjRhbLTDI45kOmMIZBuHK/TqCOjWBwQ6q5Qi
+ CR0Axk33U+kVmmsUFK2mlDOcLawmpotQXIVirlmm4IfSzDSgzD6FXQQwdxklpFwBAw9+
+ t2+B6Hm/CIr+0S/EGnRyBK0/DtAVg76DbsIXwuWBSov2Amu7nbg/X5FWJvIGWWayQYux
+ 6JNDJVBx7s2zx3qFoiTciM+WGV8c/sQlYorOOJAI9qX1tKJsHazM3Sw7Gl7c2IITnvx2
+ vSrAIR5/1XrtTznwIrFvCR1aNkHJAtSF16d1NZXz3riLj7AmlD3Mx2DH/mU4i3N8iRUr
+ P9EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=X6adjTzCeL/KTbF2SV7d/FZdaLhzdscVTQyETcayL7Y=;
- b=oKv7Ffi7F0uXayHNb93kmjKgI30HnDloOMoljYaqm4HvMr03Hnsak8Frfd04YwJjvZ
- 69mpHXihb1hZwEFJFCMYE58OtR8P8RFJVYhyWVZnf0H1X2H9qfM0FyVDYKRCgzfcDuyi
- 86Yyz3RnMT3juxEAv0qZFU9Nk1ZhSTvUbveSqYJOIvB8U/1bMn3BUni5wTzTrUoU7BVu
- yDF2HkGeFY9iMYab50Ma7uwoKwwOt2NERHBHx2Cp2bvD4DrCWHUTIxv0f5c7EwZRLI1C
- CJYtyIx/iiAaR+F2dYzAAZHnMtdoAB5kA/MPFhOTticaSvpNgVSbee7njd060G2QskyJ
- Xh+g==
-X-Gm-Message-State: AOAM5311Rr9aVcax+ZWQDixtTSUKv7G8eoAu8IuPu9Tu1RcuRsef4VCx
- uWtsbf/54HfURLRbtJ9W2ClAjhRCUz/V/Eq2
-X-Google-Smtp-Source: ABdhPJyInMm4yL4CQ0mc8vwldAwvUITEOkMSi5tyTmpXlK7dRe9y8VTquGyP7z6PVzuZ1htnElsloQ==
-X-Received: by 2002:aca:90a:: with SMTP id 10mr4476557oij.151.1642102205473;
- Thu, 13 Jan 2022 11:30:05 -0800 (PST)
+ bh=qlzqre5YnO1MD+zn72qC624iitqzx5olmZATphI6Tdo=;
+ b=eAT03pTYEVHu23RhSQfSTyD1COmkTatLvmomr/qnqVXLAxGwD/gojE5jBxuonBw7JN
+ jv+HG6ym8K223oGTf0FaRC9CK++OmFxtqQSZU+hZYuymieHYX3jBc2htrpxxK2Gg7itW
+ WdGF+Qf2d8TS8uAr/WCOqPZZikfzyWLHiYQJAgpEVtAQBvI4wjV+T/aWJ3UspXgvBAZN
+ dy8d5IKpmsewyRLcn2W7mwWRx8jlZQxgdGBU12GYV6TOs6+e9GzWd6IM+/a3ui/EzRFe
+ e1oT7U3eJ9SpxCZiVpMEf7+I2zmeo/bOwJy7+18FleYG4Y28NlSGkj3Ksx/Tok6X/mN+
+ 4oDw==
+X-Gm-Message-State: AOAM533YeYk0wW8w2qnPItbY1JA++Ikstq8S8K4UGtO+AD3IQi6MMrnJ
+ m+6X78oEpulPaS94ac663W4PedVV7o7s7RqF
+X-Google-Smtp-Source: ABdhPJz2qf3/vakyf5j1klsCbqe/vZkENdRwhNo2wvlwuLsrOjT6GiInUAAqJ8BqN13DOq28/CCqGw==
+X-Received: by 2002:a9d:7f81:: with SMTP id t1mr4105268otp.89.1642102207265;
+ Thu, 13 Jan 2022 11:30:07 -0800 (PST)
 Received: from rekt.COMFAST ([152.249.109.193])
- by smtp.gmail.com with ESMTPSA id 90sm743409otn.59.2022.01.13.11.30.03
+ by smtp.gmail.com with ESMTPSA id 90sm743409otn.59.2022.01.13.11.30.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jan 2022 11:30:05 -0800 (PST)
+ Thu, 13 Jan 2022 11:30:07 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/17] ppc/pnv: move PCI registers to PnvPHB4
-Date: Thu, 13 Jan 2022 16:29:37 -0300
-Message-Id: <20220113192952.911188-3-danielhb413@gmail.com>
+Subject: [PATCH 03/17] ppc/pnv: move phbbar to PnvPHB4
+Date: Thu, 13 Jan 2022 16:29:38 -0300
+Message-Id: <20220113192952.911188-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220113192952.911188-1-danielhb413@gmail.com>
 References: <20220113192952.911188-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::333
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x333.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -89,135 +90,102 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previous patch changed pnv_pec_stk_pci_xscom_read() and
-pnv_pec_stk_pci_xscom_write() to use a PnvPHB4 opaque, making it easier
-to move both pci_regs[] and the pci_regs_mr MemoryRegion to the PnvHB4
-object.
+This MemoryRegion is simple enough to be moved in a single step.
+
+A 'stack->phb' pointer had to be introduced in pnv_pec_stk_update_map()
+because this function isn't ready to be fully converted to use a PnvPHB4
+pointer instead. This will be dealt with in the following patches.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb4.c         | 30 +++++++++++++++---------------
- include/hw/pci-host/pnv_phb4.h | 10 +++++-----
- 2 files changed, 20 insertions(+), 20 deletions(-)
+ hw/pci-host/pnv_phb4.c         | 19 ++++++++++---------
+ include/hw/pci-host/pnv_phb4.h |  4 +++-
+ 2 files changed, 13 insertions(+), 10 deletions(-)
 
 diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index e010572376..fd9f6af4b3 100644
+index fd9f6af4b3..00eaf91fca 100644
 --- a/hw/pci-host/pnv_phb4.c
 +++ b/hw/pci-host/pnv_phb4.c
-@@ -1071,54 +1071,54 @@ static const MemoryRegionOps pnv_pec_stk_nest_xscom_ops = {
- static uint64_t pnv_pec_stk_pci_xscom_read(void *opaque, hwaddr addr,
-                                            unsigned size)
+@@ -874,15 +874,15 @@ static void pnv_phb4_update_regions(PnvPhb4PecStack *stack)
+ 
+     /* Unmap first always */
+     if (memory_region_is_mapped(&phb->mr_regs)) {
+-        memory_region_del_subregion(&stack->phbbar, &phb->mr_regs);
++        memory_region_del_subregion(&phb->phbbar, &phb->mr_regs);
+     }
+     if (memory_region_is_mapped(&phb->xsrc.esb_mmio)) {
+         memory_region_del_subregion(&stack->intbar, &phb->xsrc.esb_mmio);
+     }
+ 
+     /* Map registers if enabled */
+-    if (memory_region_is_mapped(&stack->phbbar)) {
+-        memory_region_add_subregion(&stack->phbbar, 0, &phb->mr_regs);
++    if (memory_region_is_mapped(&phb->phbbar)) {
++        memory_region_add_subregion(&phb->phbbar, 0, &phb->mr_regs);
+     }
+ 
+     /* Map ESB if enabled */
+@@ -897,6 +897,7 @@ static void pnv_phb4_update_regions(PnvPhb4PecStack *stack)
+ static void pnv_pec_stk_update_map(PnvPhb4PecStack *stack)
  {
--    PnvPhb4PecStack *stack = PNV_PHB4(opaque)->stack;
-+    PnvPHB4 *phb = PNV_PHB4(opaque);
-     uint32_t reg = addr >> 3;
- 
-     /* TODO: add list of allowed registers and error out if not */
--    return stack->pci_regs[reg];
-+    return phb->pci_regs[reg];
- }
- 
- static void pnv_pec_stk_pci_xscom_write(void *opaque, hwaddr addr,
-                                         uint64_t val, unsigned size)
- {
--    PnvPhb4PecStack *stack = PNV_PHB4(opaque)->stack;
-+    PnvPHB4 *phb = PNV_PHB4(opaque);
-     uint32_t reg = addr >> 3;
- 
-     switch (reg) {
-     case PEC_PCI_STK_PCI_FIR:
--        stack->pci_regs[reg] = val;
-+        phb->pci_regs[reg] = val;
-         break;
-     case PEC_PCI_STK_PCI_FIR_CLR:
--        stack->pci_regs[PEC_PCI_STK_PCI_FIR] &= val;
-+        phb->pci_regs[PEC_PCI_STK_PCI_FIR] &= val;
-         break;
-     case PEC_PCI_STK_PCI_FIR_SET:
--        stack->pci_regs[PEC_PCI_STK_PCI_FIR] |= val;
-+        phb->pci_regs[PEC_PCI_STK_PCI_FIR] |= val;
-         break;
-     case PEC_PCI_STK_PCI_FIR_MSK:
--        stack->pci_regs[reg] = val;
-+        phb->pci_regs[reg] = val;
-         break;
-     case PEC_PCI_STK_PCI_FIR_MSKC:
--        stack->pci_regs[PEC_PCI_STK_PCI_FIR_MSK] &= val;
-+        phb->pci_regs[PEC_PCI_STK_PCI_FIR_MSK] &= val;
-         break;
-     case PEC_PCI_STK_PCI_FIR_MSKS:
--        stack->pci_regs[PEC_PCI_STK_PCI_FIR_MSK] |= val;
-+        phb->pci_regs[PEC_PCI_STK_PCI_FIR_MSK] |= val;
-         break;
-     case PEC_PCI_STK_PCI_FIR_ACT0:
-     case PEC_PCI_STK_PCI_FIR_ACT1:
--        stack->pci_regs[reg] = val;
-+        phb->pci_regs[reg] = val;
-         break;
-     case PEC_PCI_STK_PCI_FIR_WOF:
--        stack->pci_regs[reg] = 0;
-+        phb->pci_regs[reg] = 0;
-         break;
-     case PEC_PCI_STK_ETU_RESET:
--        stack->pci_regs[reg] = val & 0x8000000000000000ull;
-+        phb->pci_regs[reg] = val & 0x8000000000000000ull;
-         /* TODO: Implement reset */
-         break;
-     case PEC_PCI_STK_PBAIB_ERR_REPORT:
-         break;
-     case PEC_PCI_STK_PBAIB_TX_CMD_CRED:
-     case PEC_PCI_STK_PBAIB_TX_DAT_CRED:
--        stack->pci_regs[reg] = val;
-+        phb->pci_regs[reg] = val;
-         break;
-     default:
-         qemu_log_mask(LOG_UNIMP, "phb4_pec_stk: pci_xscom_write 0x%"HWADDR_PRIx
-@@ -1477,7 +1477,7 @@ static void pnv_phb4_xscom_realize(PnvPHB4 *phb)
- 
-     snprintf(name, sizeof(name), "xscom-pec-%d.%d-pci-phb-%d",
-              pec->chip_id, pec->index, stack->stack_no);
--    pnv_xscom_region_init(&stack->pci_regs_mr, OBJECT(phb),
-+    pnv_xscom_region_init(&phb->pci_regs_mr, OBJECT(phb),
-                           &pnv_pec_stk_pci_xscom_ops, phb, name,
-                           PHB4_PEC_PCI_STK_REGS_COUNT);
- 
-@@ -1496,7 +1496,7 @@ static void pnv_phb4_xscom_realize(PnvPHB4 *phb)
-                             &stack->nest_regs_mr);
-     pnv_xscom_add_subregion(pec->chip,
-                             pec_pci_base + 0x40 * (stack->stack_no + 1),
--                            &stack->pci_regs_mr);
-+                            &phb->pci_regs_mr);
-     pnv_xscom_add_subregion(pec->chip,
-                             pec_pci_base + PNV9_XSCOM_PEC_PCI_STK0 +
-                             0x40 * stack->stack_no,
+     PnvPhb4PecState *pec = stack->pec;
++    PnvPHB4 *phb = stack->phb;
+     MemoryRegion *sysmem = get_system_memory();
+     uint64_t bar_en = stack->nest_regs[PEC_NEST_STK_BAR_EN];
+     uint64_t bar, mask, size;
+@@ -919,9 +920,9 @@ static void pnv_pec_stk_update_map(PnvPhb4PecStack *stack)
+         !(bar_en & PEC_NEST_STK_BAR_EN_MMIO1)) {
+         memory_region_del_subregion(sysmem, &stack->mmbar1);
+     }
+-    if (memory_region_is_mapped(&stack->phbbar) &&
++    if (memory_region_is_mapped(&phb->phbbar) &&
+         !(bar_en & PEC_NEST_STK_BAR_EN_PHB)) {
+-        memory_region_del_subregion(sysmem, &stack->phbbar);
++        memory_region_del_subregion(sysmem, &phb->phbbar);
+     }
+     if (memory_region_is_mapped(&stack->intbar) &&
+         !(bar_en & PEC_NEST_STK_BAR_EN_INT)) {
+@@ -956,14 +957,14 @@ static void pnv_pec_stk_update_map(PnvPhb4PecStack *stack)
+         stack->mmio1_base = bar;
+         stack->mmio1_size = size;
+     }
+-    if (!memory_region_is_mapped(&stack->phbbar) &&
++    if (!memory_region_is_mapped(&phb->phbbar) &&
+         (bar_en & PEC_NEST_STK_BAR_EN_PHB)) {
+         bar = stack->nest_regs[PEC_NEST_STK_PHB_REGS_BAR] >> 8;
+         size = PNV_PHB4_NUM_REGS << 3;
+-        snprintf(name, sizeof(name), "pec-%d.%d-stack-%d-phb",
++        snprintf(name, sizeof(name), "pec-%d.%d-phb-%d",
+                  pec->chip_id, pec->index, stack->stack_no);
+-        memory_region_init(&stack->phbbar, OBJECT(stack), name, size);
+-        memory_region_add_subregion(sysmem, bar, &stack->phbbar);
++        memory_region_init(&phb->phbbar, OBJECT(phb), name, size);
++        memory_region_add_subregion(sysmem, bar, &phb->phbbar);
+     }
+     if (!memory_region_is_mapped(&stack->intbar) &&
+         (bar_en & PEC_NEST_STK_BAR_EN_INT)) {
 diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
-index 4b7ce8a723..4487c3a6e2 100644
+index 4487c3a6e2..b11fa80e81 100644
 --- a/include/hw/pci-host/pnv_phb4.h
 +++ b/include/hw/pci-host/pnv_phb4.h
-@@ -107,6 +107,11 @@ struct PnvPHB4 {
-     MemoryRegion pci_mmio;
-     MemoryRegion pci_io;
+@@ -112,6 +112,9 @@ struct PnvPHB4 {
+     uint64_t pci_regs[PHB4_PEC_PCI_STK_REGS_COUNT];
+     MemoryRegion pci_regs_mr;
  
-+    /* PCI registers (excluding pass-through) */
-+#define PHB4_PEC_PCI_STK_REGS_COUNT  0xf
-+    uint64_t pci_regs[PHB4_PEC_PCI_STK_REGS_COUNT];
-+    MemoryRegion pci_regs_mr;
++    /* Memory windows from PowerBus to PHB */
++    MemoryRegion phbbar;
 +
      /* On-chip IODA tables */
      uint64_t ioda_LIST[PNV_PHB4_MAX_LSIs];
      uint64_t ioda_MIST[PNV_PHB4_MAX_MIST];
-@@ -155,11 +160,6 @@ struct PnvPhb4PecStack {
-     uint64_t nest_regs[PHB4_PEC_NEST_STK_REGS_COUNT];
-     MemoryRegion nest_regs_mr;
- 
--    /* PCI registers (excluding pass-through) */
--#define PHB4_PEC_PCI_STK_REGS_COUNT  0xf
--    uint64_t pci_regs[PHB4_PEC_PCI_STK_REGS_COUNT];
--    MemoryRegion pci_regs_mr;
--
-     /* PHB pass-through XSCOM */
-     MemoryRegion phb_regs_mr;
- 
+@@ -166,7 +169,6 @@ struct PnvPhb4PecStack {
+     /* Memory windows from PowerBus to PHB */
+     MemoryRegion mmbar0;
+     MemoryRegion mmbar1;
+-    MemoryRegion phbbar;
+     MemoryRegion intbar;
+     uint64_t mmio0_base;
+     uint64_t mmio0_size;
 -- 
 2.33.1
 
