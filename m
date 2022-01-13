@@ -2,72 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7353548DCB1
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 18:11:19 +0100 (CET)
-Received: from localhost ([::1]:47894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D37548DCED
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 18:28:32 +0100 (CET)
+Received: from localhost ([::1]:48094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n83d8-0008Ee-1M
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 12:11:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48516)
+	id 1n83tj-0003jK-W0
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 12:28:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n83TJ-0007xz-Ah
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 12:01:14 -0500
-Received: from [2a00:1450:4864:20::42d] (port=41935
- helo=mail-wr1-x42d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n83TH-0005go-5G
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 12:01:08 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id v6so11261481wra.8
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 09:01:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TckEmQgUy7GvBfpLfv65VlVT/rlMlwphu8gr19zZROw=;
- b=TuBPU5cs3udMh4eCUNMHVI7x9dqJR4BQUFH6WbhxVygsUF+L3le4wHQcejSMRCcrSx
- dlYw3OLc1AJiQSh0jDuHi/uIqLmIgJwBcr6rwLe4emRx6n7NdDkM9+yoI/K+QI5JaLuc
- Lxh3zcZXmlbFhuW8FFpqZ6u5qBgdAmnhvKTs1f/WIiyYAszzNc6zNkIPVQR6+pPixaX9
- yW2QTMTFf2VmeuAmZ6fiKb+Z+NNTQzDN98gzPRf5HZ6wsfgtDaeTMPecld/oVQ3E6Fq9
- lJ7lZ5hjl53TdZYPW7saDCPFP1ComWH8hfFe56dKy7gxX4hTIZqXEjax4PCBDdB9VCeo
- SuCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TckEmQgUy7GvBfpLfv65VlVT/rlMlwphu8gr19zZROw=;
- b=0mLcpjMT7JKjI52O7P5EGxOkc6pH1yuiR+xbyFPDNhGNGgK+Oz9gkQrDJpBF8d5/sh
- kl2cnCtlViYXBJEIXxbBBj0vdaqRfWrpIs9iSupyIoxbz3jUyu5WznBIuz2B1K9c7B5y
- qB96aONWHiKohUFDWPSGPuu2PZ+CqY3NMhPNRmNNYKJqcmr5YDuqLTrOOA0odsVWLlz1
- +3q597H2rtSTtEU2PgAWiwr3bcZglRKCdRowaCmqT7vzXCoy9u/+UsifqTIKAfnjrq9B
- 8iStIF6d/VSfN1Dc4tsDx87HUny6EM3jI7D7zkYekdTMUsx+5pucNMZfo6RmPivuflSF
- Na5Q==
-X-Gm-Message-State: AOAM5323IERnTh9cvgzJuX7kB04l9JuRWiKSuLgpJOYdvEu9iQbyOvL2
- FfjWj5eE0QPJ8Q89cJlaaUmgFMSzn6+RkR3PeiUp8A==
-X-Google-Smtp-Source: ABdhPJzMJ58EhGPGmGmRwE79EWhddTp8sfdj/CQKNo5AzBSNgR6K3skMRzZXOw2HvdrypwizAKAWQAlgKY/wmycixsM=
-X-Received: by 2002:adf:e907:: with SMTP id f7mr4734318wrm.319.1642093265617; 
- Thu, 13 Jan 2022 09:01:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1n83XE-0004en-KW; Thu, 13 Jan 2022 12:05:12 -0500
+Received: from [201.28.113.2] (port=33800 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1n83XC-0006PO-9J; Thu, 13 Jan 2022 12:05:12 -0500
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Thu, 13 Jan 2022 14:05:05 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 436B1800134;
+ Thu, 13 Jan 2022 14:05:05 -0300 (-03)
+From: matheus.ferst@eldorado.org.br
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH v3 0/3] linux-user/ppc: Deliver SIGTRAP on tw[i]/td[i]
+Date: Thu, 13 Jan 2022 14:04:53 -0300
+Message-Id: <20220113170456.1796911-1-matheus.ferst@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220109161923.85683-1-imp@bsdimp.com>
- <20220109161923.85683-5-imp@bsdimp.com>
-In-Reply-To: <20220109161923.85683-5-imp@bsdimp.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Jan 2022 17:00:54 +0000
-Message-ID: <CAFEAcA8v68NXB58rvjH-D_JZCrAqz3ep2iZgpeqjAL16cf1ZFA@mail.gmail.com>
-Subject: Re: [PATCH 04/30] bsd-user/signal.c: implement cpu_loop_exit_sigbus
-To: Warner Losh <imp@bsdimp.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 13 Jan 2022 17:05:05.0680 (UTC)
+ FILETIME=[B62F3900:01D8089F]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,23 +54,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@freebsd.org>,
- qemu-devel@nongnu.org
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org, laurent@vivier.eu,
+ groug@kaod.org, clg@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 9 Jan 2022 at 16:26, Warner Losh <imp@bsdimp.com> wrote:
->
-> First attempt at implementing cpu_loop_exit_sigbus, mostly copied from
-> linux-user version of this function.
->
-> Signed-off-by: Stacey Son <sson@FreeBSD.org>
-> Signed-off-by: Kyle Evans <kevans@freebsd.org>
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
-> ---
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+In the review of 66c6b40aba1, Richard Henderson suggested[1] using
+"trap" instead of ".long 0x0" to generate the signal to test XER
+save/restore behavior. However, linux-user aborts when a trap
+exception is raised, so we kept the patch with SIGILL.
 
-thanks
--- PMM
+This patch series is a follow-up to remove the cpu_abort call, deliver
+SIGTRAP instead (using TRAP_BRKPT as si_code), and apply the suggestion
+to the signal_save_restore_xer test.
+
+The first patch removes the "qemu: fatal: Tried to call a TRAP" reported
+in issue #588[2]. The third patch is an RFC to address the other logged
+messages of "Unknown privilege violation (03)".
+
+[1] https://lists.gnu.org/archive/html/qemu-ppc/2021-10/msg00143.html
+[2] https://gitlab.com/qemu-project/qemu/-/issues/588
+
+v3:
+ - RFC to address the "Unknown privilege violation (03)" in #588.
+
+v2:
+ - Based-on rth's patch to use force_sig_fault and avoid merge conflicts
+
+Matheus Ferst (3):
+  linux-user/ppc: deliver SIGTRAP on POWERPC_EXCP_TRAP
+  tests/tcg/ppc64le: change signal_save_restore_xer to use SIGTRAP
+  target/ppc: Fix gen_priv_exception error value in mfspr/mtspr
+
+ linux-user/ppc/cpu_loop.c                   | 3 ++-
+ target/ppc/translate.c                      | 8 ++++----
+ tests/tcg/ppc64le/signal_save_restore_xer.c | 8 ++++----
+ 3 files changed, 10 insertions(+), 9 deletions(-)
+
+-- 
+2.25.1
+
 
