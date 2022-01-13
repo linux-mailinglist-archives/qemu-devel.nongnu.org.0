@@ -2,93 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9046248D532
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 10:59:16 +0100 (CET)
-Received: from localhost ([::1]:33142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A8F48D536
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 11:01:40 +0100 (CET)
+Received: from localhost ([::1]:34484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7wt0-0004ty-AR
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 04:59:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39786)
+	id 1n7wvJ-0005oe-VT
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 05:01:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n7wq2-0003Rw-89
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 04:56:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39662)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1n7wrH-0004RI-Em
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 04:57:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n7wpz-0003U1-CA
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 04:56:09 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1n7wrE-0003hm-JN
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 04:57:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642067760;
+ s=mimecast20190719; t=1642067844;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Qg9yq3c1Y+ToCk0+TIVciRTP+iz9xLCSBQ4av64Tv2M=;
- b=PCNPjsOotYcc3/HCO1JiCn/nUCgUUkDeT+SidCLAtJQIja2ZB61pMv2py+CN+SUx2JJLKh
- O3P8t8npX9Q/P8k7AJ4AM6Tbyr39Xh7Pxq7ZIBWWL0mNXPe5k9hCnSD+aJBDD8nnWwATKg
- VTyyG6V0taKsrSGQYmnl3DoSh5hEr3Y=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=SO0+GsYBjIrc7F9d81bec6FPwWmwt6Y67NekeL8BFvw=;
+ b=AE3hUqgzHi4N94kGZER8xOKJCtL5m/DKvSkkDfl12ozsciS0DsSlgU7bnoOXvQ2wl+d9ar
+ 6uVBqbtzcXWLamyikIWcyTf3Wcr5Hh7On0rLXxEZHLygSmKC34NVmI/A+ucFTo4HDT4/JB
+ Aj7HoJjCDexc0Ez2J7vFzHWXG1XAjtE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-158-ft8vFUFVMRKYnWO_7KSW9A-1; Thu, 13 Jan 2022 04:55:59 -0500
-X-MC-Unique: ft8vFUFVMRKYnWO_7KSW9A-1
-Received: by mail-wr1-f72.google.com with SMTP id
- j19-20020adfa553000000b001a375e473d8so1009132wrb.4
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 01:55:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Qg9yq3c1Y+ToCk0+TIVciRTP+iz9xLCSBQ4av64Tv2M=;
- b=OJhh4llRsny1IX+hmwpX45Eko02rt/FOvwW7xRUTa680sNQhGhyTiiRdX9e8fGT+ur
- Ith/GUie+cVh1dASCnSGk7keoB7i3p5tu1PG3oVOgFmpUTZSkL3WfUU8QK0dX/WCVJ9b
- DCNaF9wPF4bGOtTQ3aEtGj7n5FCXP3n7W8vz0oYh9rFfI6tglVo0xmmii1ryD5CxR0J8
- cWfpsnxeDXrgh7QfEfAQxwgBKPdQpLh8Dzox/sISvZ6TKcsFAs18tjnp+teFzTG3toca
- +S6oCgOd9SmwMiJf1bX4ww3tbL/iyg8/QWCWqQce2qq07TSUdmr86lOXEMYjMzBrMoJL
- LVMQ==
-X-Gm-Message-State: AOAM532kwnPUJD/h5lwgIEwteQJ29lDEN86cDQua5MTqLTP9ftItUd22
- 9hqDzBG4UnygGuv2xmG3hM4xw+pkD7KXLBULoMOPVP6UG1HqCDuLCgCMPxO+Vm1TkRqqJdi01JE
- Bima38U4KVLLp7NM=
-X-Received: by 2002:a5d:53c3:: with SMTP id a3mr1970457wrw.276.1642067758390; 
- Thu, 13 Jan 2022 01:55:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxrgSbqokcEv/WBXf8W3qKK0a+KFVGBW+8BviMFv51a29WEsOg6bhgmCcTrrlBk/GceUTWvow==
-X-Received: by 2002:a5d:53c3:: with SMTP id a3mr1970439wrw.276.1642067758220; 
- Thu, 13 Jan 2022 01:55:58 -0800 (PST)
-Received: from [192.168.8.100] (tmo-098-68.customers.d1-online.com.
- [80.187.98.68])
- by smtp.gmail.com with ESMTPSA id q6sm2156959wrr.88.2022.01.13.01.55.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Jan 2022 01:55:57 -0800 (PST)
-Message-ID: <86567806-8880-f07e-e0ad-c60d2abc3bbc@redhat.com>
-Date: Thu, 13 Jan 2022 10:55:56 +0100
+ us-mta-103-e0c0ec2_PUmwqXZB22bn2g-1; Thu, 13 Jan 2022 04:57:18 -0500
+X-MC-Unique: e0c0ec2_PUmwqXZB22bn2g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58F5683DD20;
+ Thu, 13 Jan 2022 09:57:17 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.193.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EA9824BC4D;
+ Thu, 13 Jan 2022 09:57:16 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 11FFE1800091; Thu, 13 Jan 2022 10:57:15 +0100 (CET)
+Date: Thu, 13 Jan 2022 10:57:15 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v2] audio: Add sndio backend
+Message-ID: <20220113095715.luzvbinwhgwfiuzj@sirius.home.kraxel.org>
+References: <YbxamMLKHp3IbtlW@moule.localdomain>
+ <2493750.jclyaLVk8g@silver>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v2 2/2] tests: add qtest for hw/sensor/sbtsi
-To: Patrick Venture <venture@google.com>, lvivier@redhat.com,
- pbonzini@redhat.com, f4bug@amsat.org, cminyard@mvista.com
-References: <20220112232633.1811256-1-venture@google.com>
- <20220112232633.1811256-3-venture@google.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220112232633.1811256-3-venture@google.com>
+In-Reply-To: <2493750.jclyaLVk8g@silver>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.594,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,23 +79,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hao Wu <wuhaotsh@google.com>, qemu-devel@nongnu.org,
- Doug Evanwqs <dje@google.com>
+Cc: Brad <brad@comstyle.com>, qemu-devel@nongnu.org,
+ Alexandre Ratchov <alex@caoua.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/01/2022 00.26, Patrick Venture wrote:
-> From: Hao Wu <wuhaotsh@google.com>
+On Mon, Dec 20, 2021 at 04:41:31PM +0100, Christian Schoenebeck wrote:
+> On Freitag, 17. Dezember 2021 10:38:32 CET Alexandre Ratchov wrote:
+> > sndio is the native API used by OpenBSD, although it has been ported to
+> > other *BSD's and Linux (packages for Ubuntu, Debian, Void, Arch, etc.).
+
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 7543eb4d59..76bdad064f 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -2307,6 +2307,7 @@ X: audio/jackaudio.c
+> >  X: audio/ossaudio.c
+> >  X: audio/paaudio.c
+> >  X: audio/sdlaudio.c
+> > +X: audio/sndio.c
+> >  X: audio/spiceaudio.c
+> >  F: qapi/audio.json
+> > 
+> > @@ -2349,6 +2350,10 @@ R: Thomas Huth <huth@tuxfamily.org>
+> >  S: Odd Fixes
+> >  F: audio/sdlaudio.c
+> > 
+> > +Sndio Audio backend
+> > +R: Alexandre Ratchov <alex@caoua.org>
+> > +F: audio/sndio.c
+
+[ ... wading through my patch mail backlog ... ]
+
+> Thanks Alexandre for volunteering as reviewer!
 > 
-> Reviewed-by: Doug Evanwqs <dje@google.com>
-> Signed-off-by: Hao Wu <wuhaotsh@google.com>
-> Signed-off-by: Patrick Venture <venture@google.com>
-> ---
->   tests/qtest/meson.build      |   1 +
->   tests/qtest/tmp_sbtsi-test.c | 161 +++++++++++++++++++++++++++++++++++
+> Gerd, would it be OK to set you as maintainer for now until new maintainer(s) 
+> adopt audio sections? Or should this start with "S: Orphan" instead?
 
-I'd prefer to use "-" instead of "_" in the file name, but anyway:
+Yep, adding me is fine for now, although I can't promise timely
+responses due to being quite busy with tianocore.
 
-Acked-by: Thomas Huth <thuth@redhat.com>
+take care,
+  Gerd
 
 
