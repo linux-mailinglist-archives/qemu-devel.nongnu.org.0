@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 964BF48DEB3
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 21:17:32 +0100 (CET)
-Received: from localhost ([::1]:51922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B3DB48DEAC
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 21:13:45 +0100 (CET)
+Received: from localhost ([::1]:46572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n86XL-0004t5-H6
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 15:17:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38770)
+	id 1n86Tg-000140-4H
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 15:13:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1n862B-0007y4-OL
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 14:45:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39337)
+ id 1n862F-0007yd-Hf
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 14:45:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40710)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1n8622-0007Mk-5R
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 14:45:11 -0500
+ id 1n8624-0007Mv-LT
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 14:45:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642103108;
+ s=mimecast20190719; t=1642103110;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D9Rtqv5nFetkw54FozTaz0/o98J4ZnuNV1oSCeEl7W8=;
- b=SXaDTGlPntpwJwEg3EnQNihKnPR6VxZpEiq+POnYVfzCKG3Atl7iz2DSk1quJRvDrPrrah
- kEiWCVu+NBAykmUDXmtlGpXG9sJD+EmjSv05fQPw7W0ipJVmNYursAyDOK2Mv2YjOE3Go/
- jqTSefd8q+qJrkYvbG4q9EmooQvDecw=
+ bh=KCTSU2dzLGocSacE7o3F9FqPrmgf/LE2Ac3aHtzm9qg=;
+ b=iFUjmIpWdikxNo+InqTZUzZ0IdoM9J4hCNmUS/UkyhZGYcDiFHbJ8mRm15g3nNZDLJuykU
+ AOVmlIp/7Y5yOVhR8Psog0Zj4Tk4R1nVNDB6pOpq808j4N2XzSOHZ/l8XUw6EqmVhivCbn
+ AJe1EV/OYf8BS/dRToVL4qG1cjBB4tg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-90-qCqMfhKfM4uiuNpPgU052Q-1; Thu, 13 Jan 2022 14:45:03 -0500
-X-MC-Unique: qCqMfhKfM4uiuNpPgU052Q-1
+ us-mta-362-H6OGdCGPMeqVA7U5YVDXrw-1; Thu, 13 Jan 2022 14:45:05 -0500
+X-MC-Unique: H6OGdCGPMeqVA7U5YVDXrw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1D041B2C980;
- Thu, 13 Jan 2022 19:45:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6559985B66D;
+ Thu, 13 Jan 2022 19:45:04 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.39.195.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2D271100E125;
- Thu, 13 Jan 2022 19:45:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F2851100E125;
+ Thu, 13 Jan 2022 19:45:02 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, peter.maydell@linaro.org, quintela@redhat.com,
  marcandre.lureau@gmail.com
-Subject: [PATCH v2 2/3] migration: Add canary to VMSTATE_END_OF_LIST
-Date: Thu, 13 Jan 2022 19:44:51 +0000
-Message-Id: <20220113194452.254011-3-dgilbert@redhat.com>
+Subject: [PATCH v2 3/3] migration: Perform vmsd structure check during tests
+Date: Thu, 13 Jan 2022 19:44:52 +0000
+Message-Id: <20220113194452.254011-4-dgilbert@redhat.com>
 In-Reply-To: <20220113194452.254011-1-dgilbert@redhat.com>
 References: <20220113194452.254011-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -86,80 +86,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-We fairly regularly forget VMSTATE_END_OF_LIST markers off descriptions;
-given that the current check is only for ->name being NULL, sometimes
-we get unlucky and the code apparently works and no one spots the error.
+Perform a check on vmsd structures during test runs in the hope
+of catching any missing terminators and other simple screwups.
 
-Explicitly add a flag, VMS_END that should be set, and assert it is
-set during the traversal.
-
-Note: This can't go in until we update the copy of vmstate.h in slirp.
-
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- include/migration/vmstate.h | 7 ++++++-
- migration/savevm.c          | 1 +
- migration/vmstate.c         | 2 ++
- 3 files changed, 9 insertions(+), 1 deletion(-)
+ migration/savevm.c | 39 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
-diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-index 017c03675c..b50708e57a 100644
---- a/include/migration/vmstate.h
-+++ b/include/migration/vmstate.h
-@@ -147,6 +147,9 @@ enum VMStateFlags {
-      * VMStateField.struct_version_id to tell which version of the
-      * structure we are referencing to use. */
-     VMS_VSTRUCT           = 0x8000,
-+
-+    /* Marker for end of list */
-+    VMS_END = 0x10000
- };
- 
- typedef enum {
-@@ -1163,7 +1166,9 @@ extern const VMStateInfo vmstate_info_qlist;
-     VMSTATE_UNUSED_BUFFER(_test, 0, _size)
- 
- #define VMSTATE_END_OF_LIST()                                         \
--    {}
-+    {                     \
-+        .flags = VMS_END, \
-+    }
- 
- int vmstate_load_state(QEMUFile *f, const VMStateDescription *vmsd,
-                        void *opaque, int version_id);
 diff --git a/migration/savevm.c b/migration/savevm.c
-index 0bef031acb..8077393d11 100644
+index 8077393d11..97a4471220 100644
 --- a/migration/savevm.c
 +++ b/migration/savevm.c
-@@ -620,6 +620,7 @@ static void dump_vmstate_vmsd(FILE *out_file,
-             field++;
-             first = false;
-         }
-+        assert(field->flags == VMS_END);
-         fprintf(out_file, "\n%*s]", indent, "");
-     }
-     if (vmsd->subsections != NULL) {
-diff --git a/migration/vmstate.c b/migration/vmstate.c
-index 05f87cdddc..181ba08c7d 100644
---- a/migration/vmstate.c
-+++ b/migration/vmstate.c
-@@ -160,6 +160,7 @@ int vmstate_load_state(QEMUFile *f, const VMStateDescription *vmsd,
-         }
-         field++;
-     }
-+    assert(field->flags == VMS_END);
-     ret = vmstate_subsection_load(f, vmsd, opaque);
-     if (ret != 0) {
-         return ret;
-@@ -413,6 +414,7 @@ int vmstate_save_state_v(QEMUFile *f, const VMStateDescription *vmsd,
-         }
-         field++;
-     }
-+    assert(field->flags == VMS_END);
+@@ -66,6 +66,7 @@
+ #include "net/announce.h"
+ #include "qemu/yank.h"
+ #include "yank_functions.h"
++#include "sysemu/qtest.h"
  
-     if (vmdesc) {
-         json_writer_end_array(vmdesc);
+ const unsigned int postcopy_ram_discard_version;
+ 
+@@ -839,6 +840,39 @@ void unregister_savevm(VMStateIf *obj, const char *idstr, void *opaque)
+     }
+ }
+ 
++/*
++ * Perform some basic checks on vmsd's at registration
++ * time.
++ */
++static void vmstate_check(const VMStateDescription *vmsd)
++{
++    const VMStateField *field = vmsd->fields;
++    const VMStateDescription **subsection = vmsd->subsections;
++
++    if (field) {
++        while (field->name) {
++            if (field->flags & (VMS_STRUCT | VMS_VSTRUCT)) {
++                /* Recurse to sub structures */
++                vmstate_check(field->vmsd);
++            }
++            /* Carry on */
++            field++;
++        }
++        /* Check for the end of field list canary */
++        assert(field->flags == VMS_END);
++    }
++
++    while (subsection && *subsection) {
++        /*
++         * The name of a subsection should start with the name of the
++         * current object.
++         */
++        assert(!strncmp(vmsd->name, (*subsection)->name, strlen(vmsd->name)));
++        vmstate_check(*subsection);
++        subsection++;
++    }
++}
++
+ int vmstate_register_with_alias_id(VMStateIf *obj, uint32_t instance_id,
+                                    const VMStateDescription *vmsd,
+                                    void *opaque, int alias_id,
+@@ -884,6 +918,11 @@ int vmstate_register_with_alias_id(VMStateIf *obj, uint32_t instance_id,
+     } else {
+         se->instance_id = instance_id;
+     }
++
++    /* Perform a recursive sanity check during the test runs */
++    if (qtest_enabled()) {
++        vmstate_check(vmsd);
++    }
+     assert(!se->compat || se->instance_id == 0);
+     savevm_state_handler_insert(se);
+     return 0;
 -- 
 2.34.1
 
