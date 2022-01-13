@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EBA748D6FD
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 12:57:36 +0100 (CET)
-Received: from localhost ([::1]:45788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41F3248D75D
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 13:19:55 +0100 (CET)
+Received: from localhost ([::1]:53988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7yjX-0007V9-JD
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 06:57:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33552)
+	id 1n7z58-00015A-Cl
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 07:19:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n7yWb-0006qh-4H
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 06:44:17 -0500
-Received: from [2a00:1450:4864:20::431] (port=41914
- helo=mail-wr1-x431.google.com)
+ id 1n7yal-0004cG-7d
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 06:48:31 -0500
+Received: from [2a00:1450:4864:20::42f] (port=37739
+ helo=mail-wr1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n7yWZ-0003Oy-De
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 06:44:12 -0500
-Received: by mail-wr1-x431.google.com with SMTP id v6so9546467wra.8
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 03:44:09 -0800 (PST)
+ id 1n7yad-00043I-6G
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 06:48:25 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id t20so2121494wrb.4
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 03:48:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wBTofGQOkoCWqrBNZ3OLFG/KpQB8lzD81aXGusDirtI=;
- b=BUk34Grp3KXU7BKiBr9h2kNZWqh+MV2eFdUtQMETnM8nEwVblVYkqvUbFV1BbIJ2+C
- /SqOUXSkeNOEIXnk6td/eRii4rErgb2Y0G804wEP5Qi4CQS3DZ0lY0DJj1k2iR6V2pY5
- CEEQiw0bXmQ7J5XE8FR+J0rHGROutFlvJKll4W5a3diFSypUd3uuVeFvd6UNKp7icOMA
- LBBDM39shLDJGpHwF5E4nxXATxL4x6VnOyL2jnDvDCpOAYJIF+j4rNjgTUukFpIZ4AP0
- S26UQN5bcnE4XxCtJ93fm+UoGzCWamZjMWYzKfxtyGyjXOd9RBxiNllr1/XC2bqFPH8g
- /61A==
+ :cc; bh=Kk4nWK932Tv05QBY+rCwX7MLSuKB7/Th5MoZ2BNkuI8=;
+ b=NKf3dsCbITGbLG0Pbe6jmFbmmVRaDn8hR1CsPADzhnvHfbTM+Q6ngxIp39nYbxDPHY
+ u7hRjA9SCSvDDp9AGKC4iibugGYqnzP110nDAXZZ0uY2Uh48LXn4HQiCIhkJOppLd2Ug
+ Q/5WhJ8he5qT6q4Y4nAMcI6ATVp74wTwXQeAiAcCKEiIw5hXQ6ysDqgCQ/gSWJleR9gO
+ 4cvql0wQq4MS9ps5QbSgEeLUYNnPJLBSuvrnIs1ZK7anNtxvPdBQzTI7DmxyujHM5FcC
+ 9Xt5nZ64bd+/Per5QslLEWdQCBCwshagxkqv4Edst+6kAeMZFJoeDmzEknBG5eU5KFoD
+ xuGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=wBTofGQOkoCWqrBNZ3OLFG/KpQB8lzD81aXGusDirtI=;
- b=322OG4EGwv1jgk0bfvV0Utknw5FhPvzj+W7i6k9ZWaMG3Oo/zsPoCPfKU7HDfEoquo
- I1Jzf7W99Eybg3OvaTXuPcxUUgbOj/NFH6gg/SakFXusnf8OIkNB9rFzvOdsIxFd7SHQ
- 5VymiJtAAP37dNEKDmB+/DkX1+kaIgyBhRVwrgx/sEH4g9IyKYHSQ3oJ2hI+erLiUdng
- B28/8x2O3O7y1CHCqAKB2RCPLw6ETj2IZ5Jrk1jc8HzS0O4KfkjNUBt2deJESR77ST/b
- a0/y1Axd7nn9FnaJ55p6SfQ2KIVQs+xbbnm8IpQKN9/V83PPuY++BUR7Z/w5EUtHJWaM
- n5IA==
-X-Gm-Message-State: AOAM5328mZdjBvd6w7mr18THFzd2V2leKjQHybVg6zRFENLIG8BM5vU0
- LNOVlcSRJzgm7pWPlkS2agPfyaGfd5mtyWXVwlMcvQ==
-X-Google-Smtp-Source: ABdhPJw9fmrWw6KQDUM5W4fHczojmYFtZqRltbjM0L0CR6ynQv1X/zrOM55DiOLcigySxzBbyFWC1XDJxW+G7TtklmE=
-X-Received: by 2002:a5d:64c3:: with SMTP id f3mr3548573wri.295.1642074248579; 
- Thu, 13 Jan 2022 03:44:08 -0800 (PST)
+ bh=Kk4nWK932Tv05QBY+rCwX7MLSuKB7/Th5MoZ2BNkuI8=;
+ b=CAB0w0PTfWYXdAFsgDZzSPzgq9zHz+YevpYyd0vn9u5jwDNvUPBlnPN7OH05C56i3U
+ IwgtwJhU58H7JtMhK8CNjjHb4Hwol7m9CJMpe6doElkVqY79+rJgSQxK9FY36NzscT1i
+ vyq5kOB5Fo3Fo3mJaZHNHm9hDTrQIlsfQHwhf3w0NGaLLvXzX4NQJC2x/h6lvk4Y6svU
+ e3obqb/3KB8bqWeyjcj1UYdjwWXLN+JfAt9q1rIrWfum4sxnr+0DfxNbtiShdujcuCrX
+ eXt864ppq5lR8oHiXP/s7ZCI72rGf5mlgumlr2+El+3LeTdBpXF8ZCpGWBLvC1I92Nm3
+ 7fMA==
+X-Gm-Message-State: AOAM533iGgKrJflMf+5r6SCP2h5u1CF517EDdrEQLxKT7RrF9ETy3+AO
+ OLmmdwtu3PKn1nUvn5DmyVifdSJMIc+htjE3vGJyJA==
+X-Google-Smtp-Source: ABdhPJyklavDQ9uXmJC05oLUU5VFL2VFBGc2KVBMY6Yxdcm7Sgj86/L5OSL+0KuCR7JJfTqE01I+pUegJstQlcs41Cc=
+X-Received: by 2002:adf:ee0e:: with SMTP id y14mr3794615wrn.172.1642074501247; 
+ Thu, 13 Jan 2022 03:48:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20220107222557.3812222-1-venture@google.com>
-In-Reply-To: <20220107222557.3812222-1-venture@google.com>
+References: <20220110214755.810343-1-venture@google.com>
+In-Reply-To: <20220110214755.810343-1-venture@google.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Jan 2022 11:43:57 +0000
-Message-ID: <CAFEAcA_DgtLw_AfYsL-G+HiqBsN+DXfTTOFUi+kCDCqVBWp8KA@mail.gmail.com>
-Subject: Re: [PATCH] tests/qtest: add qtests for npcm7xx sdhci
+Date: Thu, 13 Jan 2022 11:48:10 +0000
+Message-ID: <CAFEAcA8Bki2dpyptkSibz5=t9Fvy-PN8SjD=Z0PwcssX3MprRA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Adds designware i2c module and adds it to virt arm
 To: Patrick Venture <venture@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -79,106 +79,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, Shengtan Mao <stmao@google.com>,
- qemu-devel@nongnu.org, hskinnemoen@google.com, Hao Wu <wuhaotsh@google.com>,
- kfting@nuvoton.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
- Chris Rauer <crauer@google.com>
+Cc: mst@redhat.com, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
+ qemu-arm@nongnu.org, ani@anisinha.ca, imammedo@redhat.com, crauer@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 7 Jan 2022 at 22:32, Patrick Venture <venture@google.com> wrote:
+On Mon, 10 Jan 2022 at 21:47, Patrick Venture <venture@google.com> wrote:
 >
-> From: Shengtan Mao <stmao@google.com>
+> This patch series introduces a new i2c module, namely the designware one and further enables this (optionally) for the virt-arm machine.
 >
-> Reviewed-by: Hao Wu <wuhaotsh@google.com>
-> Reviewed-by: Chris Rauer <crauer@google.com>
-> Signed-off-by: Shengtan Mao <stmao@google.com>
-> ---
->  tests/qtest/meson.build          |   1 +
->  tests/qtest/npcm7xx_sdhci-test.c | 201 +++++++++++++++++++++++++++++++
->  2 files changed, 202 insertions(+)
->  create mode 100644 tests/qtest/npcm7xx_sdhci-test.c
->
-> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-> index 37e1eaa449..b406eba8f6 100644
-> --- a/tests/qtest/meson.build
-> +++ b/tests/qtest/meson.build
-> @@ -189,6 +189,7 @@ qtests_npcm7xx = \
->     'npcm7xx_gpio-test',
->     'npcm7xx_pwm-test',
->     'npcm7xx_rng-test',
-> +   'npcm7xx_sdhci-test',
->     'npcm7xx_smbus-test',
->     'npcm7xx_timer-test',
->     'npcm7xx_watchdog_timer-test'] + \
-> diff --git a/tests/qtest/npcm7xx_sdhci-test.c b/tests/qtest/npcm7xx_sdhci-test.c
-> new file mode 100644
-> index 0000000000..feb09b921a
-> --- /dev/null
-> +++ b/tests/qtest/npcm7xx_sdhci-test.c
-> @@ -0,0 +1,201 @@
-> +/*
-> + * QTests for NPCM7xx SD-3.0 / MMC-4.51 Host Controller
-> + *
-> + * Copyright (c) 2021 Google LLC
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms of the GNU General Public License as published by the
-> + * Free Software Foundation; either version 2 of the License, or
-> + * (at your option) any later version.
-> + *
-> + * This program is distributed in the hope that it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-> + * for more details.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/sd/npcm7xx_sdhci.h"
-> +
-> +#include "libqos/libqtest.h"
-> +#include "libqtest-single.h"
-> +#include "libqos/sdhci-cmd.h"
-> +
-> +#define NPCM7XX_MMC_BA 0xF0842000
-> +#define NPCM7XX_BLK_SIZE 512
-> +#define NPCM7XX_TEST_IMAGE_SIZE (1 << 30)
-> +
-> +char *sd_path;
-> +
-> +static QTestState *setup_sd_card(void)
-> +{
-> +    QTestState *qts = qtest_initf(
-> +        "-machine kudo-bmc "
-> +        "-device sd-card,drive=drive0 "
-> +        "-drive id=drive0,if=none,file=%s,format=raw,auto-read-only=off",
-> +        sd_path);
-> +
-> +    qtest_writew(qts, NPCM7XX_MMC_BA + SDHC_SWRST, SDHC_RESET_ALL);
-> +    qtest_writew(qts, NPCM7XX_MMC_BA + SDHC_CLKCON,
-> +                 SDHC_CLOCK_SDCLK_EN | SDHC_CLOCK_INT_STABLE |
-> +                     SDHC_CLOCK_INT_EN);
-> +    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0, 0, SDHC_APP_CMD);
-> +    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0x41200000, 0, (41 << 8));
-> +    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0, 0, SDHC_ALL_SEND_CID);
-> +    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0, 0, SDHC_SEND_RELATIVE_ADDR);
-> +    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0x45670000, 0,
-> +                   SDHC_SELECT_DESELECT_CARD);
-> +
-> +    return qts;
-> +}
-> +
-> +static void write_sdread(QTestState *qts, const char *msg)
-> +{
-> +    size_t len = strlen(msg);
-> +    char *rmsg = g_malloc(len);
-> +
-> +    /* write message to sd */
-> +    int fd = open(sd_path, O_WRONLY);
-> +    int ret = write(fd, msg, len);
+> Chris Rauer (2):
+>   hw/i2c: Add designware i2c controller.
+>   hw/arm: Enable smbus on arm virt machine.
 
-You're not checking that open() succeeded before using the fd
-(similarly in a function later on).
+I need to see a pretty strong justification for why we
+should be adding new kinds of devices to the virt machine,
+given that it increases complexity and potential attack
+surface for using it with KVM; this cover letter doesn't
+seem to provide any...
 
+thanks
 -- PMM
 
