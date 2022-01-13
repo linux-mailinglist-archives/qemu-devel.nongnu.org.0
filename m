@@ -2,107 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E2C48DBA4
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 17:23:35 +0100 (CET)
-Received: from localhost ([::1]:50046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D74C48DBA6
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 17:23:47 +0100 (CET)
+Received: from localhost ([::1]:50820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n82sw-00084g-53
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 11:23:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39200)
+	id 1n82t8-00008d-PQ
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 11:23:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1n82qX-0006Pu-AG
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 11:21:05 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:11692)
+ id 1n82qv-0006ev-2z
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 11:21:29 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1n82qU-0007st-Sd
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 11:21:04 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20DENvXV008882; 
- Thu, 13 Jan 2022 16:20:57 GMT
+ id 1n82qt-00080u-5r
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 11:21:28 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20DFwWAb030559; 
+ Thu, 13 Jan 2022 16:21:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=rO6GGU/kGTEa6KD5KQE1wm5xB+SE9guisz/HrJVPqK0=;
- b=mscuc3xt8P9opjskQqLxC3owvQupMrpDas/GiSzdHCE6hf144VY3nwmJfyUiHOiFh5u/
- JzWHwjgz2FGI4vapFFcQMxTaruQQIsWcMZeeJrMlFwvZtWhymfsEfVoOYcXf5O9Q6qa4
- vz75bbBM2tX71deTz+0UxqIeUuoaD/jIR6ZkU6oOYlhkD5fLpPvNH9N3bbCa5oYWISul
- TWmp+M6QuZJNHNab25FWv440Q+YGFZN0IjBo5ZGe5Q7t0KxfoSPYFnBheLWXbEv76D9B
- 1SbU/mtY3g0CuIg5I4OAmIfA85iV6l3kllonKTWtZp4bQaqiQBQShDT3Aqpm23TXu6W+ +A== 
+ bh=rOeRP1+aXoUZd89CbZXr1Nto4heVX97fbYgOcnhUX+c=;
+ b=HIfQgVBSJgaF5MxxeRwMm5UD6Xedd1LsbhOCZkMWybOITdI99IEDt80pFCh0YjELui6H
+ 7k0/h0ra9mheIWN43nc+X4BhbUTUP7pqGAjYNhHmifZqnvS6S13S3h7EyqlJ/fzfbBP7
+ t+R4Je7CXJWSSHYoGHXrEvpRcKLntGj/Ipdm/10w6xb9fknvEozaJtk6/9hR/gjcEpLs
+ SjOgLPvHuPcgR5TSSEMp8JTCDw5smjan+7qiZ49X/77agKf8GKrBuW5rNdfh16k9Iwv1
+ fWJbEukHV/E2cyHgN2sSsHD+WN+WiudOIQPVETeV+N6ezQA6lNjAaUcQArS3WGjWT48Z PA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3djntejh24-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3djq6sghu2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Jan 2022 16:20:57 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20DFY9np036897;
- Thu, 13 Jan 2022 16:20:57 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3djntejh1p-1
+ Thu, 13 Jan 2022 16:21:22 +0000
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20DGGWU9014258;
+ Thu, 13 Jan 2022 16:21:21 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3djq6sghte-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Jan 2022 16:20:57 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20DGGT6n002919;
- Thu, 13 Jan 2022 16:20:56 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma04dal.us.ibm.com with ESMTP id 3df28c5p2h-1
+ Thu, 13 Jan 2022 16:21:21 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20DGHqZF028504;
+ Thu, 13 Jan 2022 16:21:20 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma02wdc.us.ibm.com with ESMTP id 3df28bw4ve-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Jan 2022 16:20:56 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20DGKsqH15008490
+ Thu, 13 Jan 2022 16:21:20 +0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
+ [9.57.199.106])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20DGLJtU13762890
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 13 Jan 2022 16:20:54 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AA66378060;
- Thu, 13 Jan 2022 16:20:54 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6049C78068;
- Thu, 13 Jan 2022 16:20:53 +0000 (GMT)
+ Thu, 13 Jan 2022 16:21:19 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 021C22806F;
+ Thu, 13 Jan 2022 16:21:19 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A5F192805C;
+ Thu, 13 Jan 2022 16:21:18 +0000 (GMT)
 Received: from [9.47.158.152] (unknown [9.47.158.152])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 13 Jan 2022 16:20:53 +0000 (GMT)
-Message-ID: <99f670fd-9908-8ec6-778e-aef0740e7889@linux.ibm.com>
-Date: Thu, 13 Jan 2022 11:20:52 -0500
+ by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+ Thu, 13 Jan 2022 16:21:18 +0000 (GMT)
+Message-ID: <123a075e-ee83-76ab-6e90-a253bd01e53e@linux.ibm.com>
+Date: Thu, 13 Jan 2022 11:21:18 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 1/2] tpm: CRB: Use ram_device for "tpm-crb-cmd" region
+Subject: Re: [PATCH 2/2] hw/vfio/common: Silence ram device offset alignment
+ error traces
 Content-Language: en-US
 To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
  stefanb@linux.vnet.ibm.com, qemu-devel@nongnu.org,
  alex.williamson@redhat.com
 References: <20220113103757.2801389-1-eric.auger@redhat.com>
- <20220113103757.2801389-2-eric.auger@redhat.com>
+ <20220113103757.2801389-3-eric.auger@redhat.com>
 From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <20220113103757.2801389-2-eric.auger@redhat.com>
+In-Reply-To: <20220113103757.2801389-3-eric.auger@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: jPJleo27DulWTZTywdDXSpIOxIMKTdTX
-X-Proofpoint-ORIG-GUID: MpMha5JKhslbEsnkZ4HvS2w5stirQ5LJ
+X-Proofpoint-ORIG-GUID: gtYJrcMqfhRAr4dMqrYm7IvQsilEDaiw
+X-Proofpoint-GUID: 09zm0eEl7afLPF929dD2tNcSZYQ42VMm
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-13_07,2022-01-13_01,2021-12-02_01
+ definitions=2022-01-13_08,2022-01-13_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0
- bulkscore=0 spamscore=0 lowpriorityscore=0 adultscore=0 suspectscore=0
- priorityscore=1501 clxscore=1015 mlxlogscore=999 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201130095
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
+ mlxlogscore=999 clxscore=1015
+ bulkscore=0 impostorscore=0 suspectscore=0 mlxscore=0 priorityscore=1501
+ phishscore=0 spamscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2201130099
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,79 +122,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 1/13/22 05:37, Eric Auger wrote:
-> Representing the CRB cmd/response buffer as a standard
-> RAM region causes some trouble when the device is used
-> with VFIO. Indeed VFIO attempts to DMA_MAP this region
-> as usual RAM but this latter does not have a valid page
-> size alignment causing such an error report:
-> "vfio_listener_region_add received unaligned region".
-> To allow VFIO to detect that failing dma mapping
-> this region is not an issue, let's use a ram_device
-> memory region type instead.
+> Failing to DMA MAP a ram_device should not cause an error message.
+> This is currently happening with the TPM CRB command region and
+> this is causing confusion.
 >
-> The change in meson.build is required to include the
-> cpu.h header.
+> We may want to keep the trace for debug purpose though.
 >
 > Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Suspend/resume tested it:
 
 Tested-by: Stefan Berger <stefanb@linux.ibm.com>
 
 
+>
 > ---
->   hw/tpm/meson.build |  2 +-
->   hw/tpm/tpm_crb.c   | 10 ++++++++--
->   2 files changed, 9 insertions(+), 3 deletions(-)
 >
-> diff --git a/hw/tpm/meson.build b/hw/tpm/meson.build
-> index 1c68d81d6a..3e74df945b 100644
-> --- a/hw/tpm/meson.build
-> +++ b/hw/tpm/meson.build
-> @@ -1,8 +1,8 @@
->   softmmu_ss.add(when: 'CONFIG_TPM_TIS', if_true: files('tpm_tis_common.c'))
->   softmmu_ss.add(when: 'CONFIG_TPM_TIS_ISA', if_true: files('tpm_tis_isa.c'))
->   softmmu_ss.add(when: 'CONFIG_TPM_TIS_SYSBUS', if_true: files('tpm_tis_sysbus.c'))
-> -softmmu_ss.add(when: 'CONFIG_TPM_CRB', if_true: files('tpm_crb.c'))
+> I am not totally clear why we do not fail on the non RAM device case
+> though.
+> ---
+>   hw/vfio/common.c     | 15 ++++++++++++++-
+>   hw/vfio/trace-events |  1 +
+>   2 files changed, 15 insertions(+), 1 deletion(-)
 >
-> +specific_ss.add(when: 'CONFIG_TPM_CRB', if_true: files('tpm_crb.c'))
->   specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TPM_TIS'], if_true: files('tpm_ppi.c'))
->   specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TPM_CRB'], if_true: files('tpm_ppi.c'))
->   specific_ss.add(when: 'CONFIG_TPM_SPAPR', if_true: files('tpm_spapr.c'))
-> diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
-> index 58ebd1469c..25f8e685e4 100644
-> --- a/hw/tpm/tpm_crb.c
-> +++ b/hw/tpm/tpm_crb.c
-> @@ -25,6 +25,7 @@
->   #include "sysemu/tpm_backend.h"
->   #include "sysemu/tpm_util.h"
->   #include "sysemu/reset.h"
-> +#include "cpu.h"
->   #include "tpm_prop.h"
->   #include "tpm_ppi.h"
->   #include "trace.h"
-> @@ -43,6 +44,7 @@ struct CRBState {
->
->       bool ppi_enabled;
->       TPMPPI ppi;
-> +    uint8_t *crb_cmd_buf;
->   };
->   typedef struct CRBState CRBState;
->
-> @@ -291,10 +293,14 @@ static void tpm_crb_realize(DeviceState *dev, Error **errp)
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 080046e3f5..9caa560b07 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -884,7 +884,20 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>       if (unlikely((section->offset_within_address_space &
+>                     ~qemu_real_host_page_mask) !=
+>                    (section->offset_within_region & ~qemu_real_host_page_mask))) {
+> -        error_report("%s received unaligned region", __func__);
+> +        if (memory_region_is_ram_device(section->mr)) { /* just debug purpose */
+> +            trace_vfio_listener_region_add_bad_offset_alignment(
+> +                memory_region_name(section->mr),
+> +                section->offset_within_address_space,
+> +                section->offset_within_region, qemu_real_host_page_size);
+> +        } else { /* error case we don't want to be fatal */
+> +            error_report("%s received unaligned region %s iova=0x%"PRIx64
+> +                         " offset_within_region=0x%"PRIx64
+> +                         " qemu_real_host_page_mask=0x%"PRIx64,
+> +                         __func__, memory_region_name(section->mr),
+> +                         section->offset_within_address_space,
+> +                         section->offset_within_region,
+> +                         qemu_real_host_page_mask);
+> +        }
 >           return;
 >       }
 >
-> +    s->crb_cmd_buf = qemu_memalign(qemu_real_host_page_size,
-> +                                HOST_PAGE_ALIGN(CRB_CTRL_CMD_SIZE));
-> +
->       memory_region_init_io(&s->mmio, OBJECT(s), &tpm_crb_memory_ops, s,
->           "tpm-crb-mmio", sizeof(s->regs));
-> -    memory_region_init_ram(&s->cmdmem, OBJECT(s),
-> -        "tpm-crb-cmd", CRB_CTRL_CMD_SIZE, errp);
-> +    memory_region_init_ram_device_ptr(&s->cmdmem, OBJECT(s), "tpm-crb-cmd",
-> +                                      CRB_CTRL_CMD_SIZE, s->crb_cmd_buf);
-> +    vmstate_register_ram(&s->cmdmem, DEVICE(s));
->
->       memory_region_add_subregion(get_system_memory(),
->           TPM_CRB_ADDR_BASE, &s->mmio);
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index 0ef1b5f4a6..ccd9d7610d 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -100,6 +100,7 @@ vfio_listener_region_add_skip(uint64_t start, uint64_t end) "SKIPPING region_add
+>   vfio_spapr_group_attach(int groupfd, int tablefd) "Attached groupfd %d to liobn fd %d"
+>   vfio_listener_region_add_iommu(uint64_t start, uint64_t end) "region_add [iommu] 0x%"PRIx64" - 0x%"PRIx64
+>   vfio_listener_region_add_ram(uint64_t iova_start, uint64_t iova_end, void *vaddr) "region_add [ram] 0x%"PRIx64" - 0x%"PRIx64" [%p]"
+> +vfio_listener_region_add_bad_offset_alignment(const char *name, uint64_t iova, uint64_t offset_within_region, uint64_t page_size) "Region \"%s\" @0x%"PRIx64", offset_within_region=0x%"PRIx64", qemu_real_host_page_mask=0x%"PRIx64 " cannot be mapped for DMA"
+>   vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
+>   vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING region_del 0x%"PRIx64" - 0x%"PRIx64
+>   vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
 
