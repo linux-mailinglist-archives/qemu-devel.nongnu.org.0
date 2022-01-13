@@ -2,97 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 057CC48DC42
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 17:54:56 +0100 (CET)
-Received: from localhost ([::1]:53940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8189E48DC46
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 17:57:18 +0100 (CET)
+Received: from localhost ([::1]:57218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n83NF-0007ta-R2
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 11:54:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46628)
+	id 1n83PZ-0002HN-Bl
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 11:57:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1n83KQ-0006k8-55; Thu, 13 Jan 2022 11:51:58 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:3142)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1n83O5-0000nC-5j
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 11:55:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1n83KK-0004E8-FY; Thu, 13 Jan 2022 11:51:57 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20DFSXXM009317; 
- Thu, 13 Jan 2022 16:51:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=BRkm/JbjAi1TjausmF5rG7oXtJEdSTGiD8IU4rmVpiY=;
- b=Rx6iBpIHvhE6ic4yo9DH7L/atfGKdVjbfHZNsryITxryxJd/o81T35I13HxiybDR4YXn
- mwjCronNHntj/xx/CKv/r3c0kGfavgvAIPlhnBWOmMzdLyr3HqXxHIU5npiBZLcjKWnu
- 9Isa97+mPXpUWF+5tnvIQ0sZkZDh8zKobh1WmQUGjQJesLi4hh4APG/YC8PSkNuh6AeV
- rhZrieyaGcgNK2RVPNf+q33St1dysM0E5r2KmhlYEKwAHoJq7k0O2jIr3i/3/8K7dM93
- ju5EoSyX00Tid10QV9IAnemPZ2hwbXm3KCOgOiBTyZ4rx8ay5NKIQMrdYgEREoByXz22 ug== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3djprpsu59-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Jan 2022 16:51:49 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20DFVF8T016327;
- Thu, 13 Jan 2022 16:51:49 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3djprpsu32-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Jan 2022 16:51:49 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20DGgSx4017752;
- Thu, 13 Jan 2022 16:51:45 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma03ams.nl.ibm.com with ESMTP id 3df28a6q4j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Jan 2022 16:51:45 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20DGph2P32833828
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 13 Jan 2022 16:51:43 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 08E874C080;
- Thu, 13 Jan 2022 16:51:43 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D22F94C070;
- Thu, 13 Jan 2022 16:51:42 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 13 Jan 2022 16:51:42 +0000 (GMT)
-From: Halil Pasic <pasic@linux.ibm.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-Subject: [PATCH 1/1] virtio: fix the condition for iommu_platform not supported
-Date: Thu, 13 Jan 2022 17:51:31 +0100
-Message-Id: <20220113165131.1057714-1-pasic@linux.ibm.com>
-X-Mailer: git-send-email 2.32.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1n83Nz-0004iY-QB
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 11:55:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642092936;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=DLKgS2HQAXmRBSUoyqDEUVOx2FkAJ944dXrJOarSakU=;
+ b=i9V3eMeY8KCljx3fq6xHsEne8yhQzMWlpOwq1m99GsUfT7HDizV3E9umLpfupXyEM2XSNc
+ KP4W+VfGVFwLsmlxQSWvYxKdhq8D2wUux4QvosV8qd2Uixctqz/tC6tCZuZNv+/eB7pIGH
+ lQt2CAXqPH7nxx6InjgsiXYTJDfH+CI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-426-G-iLln4mNuuT-g4m1AM_PA-1; Thu, 13 Jan 2022 11:55:33 -0500
+X-MC-Unique: G-iLln4mNuuT-g4m1AM_PA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E21664083;
+ Thu, 13 Jan 2022 16:55:32 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.33.37.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EEE197DE3E;
+ Thu, 13 Jan 2022 16:55:13 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] Improved support for AMD SEV firmware loading
+Date: Thu, 13 Jan 2022 16:55:09 +0000
+Message-Id: <20220113165511.46098-1-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: HM39lokxBGSKbYBWRRQBo0mt9DOvlDe3
-X-Proofpoint-ORIG-GUID: -SRQev01CCOnT9NW8SH6p1udhjIei_bW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-13_08,2022-01-13_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0
- adultscore=0 clxscore=1011 bulkscore=0 lowpriorityscore=0 mlxlogscore=999
- malwarescore=0 priorityscore=1501 spamscore=0 suspectscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2201130102
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.594,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,90 +76,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, Kevin Wolf <kwolf@redhat.com>,
- Jakob Naucke <Jakob.Naucke@ibm.com>, qemu-stable@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The commit 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
-unsupported") claims to fail the device hotplug when iommu_platform
-is requested, but not supported by the (vhost) device. On the first
-glance the condition for detecting that situation looks perfect, but
-because a certain peculiarity of virtio_platform it ain't.
-
-In fact the aforementioned commit introduces a regression. It breaks
-virtio-fs support for Secure Execution, and most likely also for AMD SEV
-or any other confidential guest scenario that relies encrypted guest
-memory.  The same also applies to any other vhost device that does not
-negotiate _F_ACCESS_PLATFORM.
-
-The peculiarity is that iommu_platform and _F_ACCESS_PLATFORM collates
-"device can not access all of the guest ram" and "iova != gpa, thus
-device needs to translate iova".
-
-Confidential guest technologies currently rely on the device/hypervisor
-offering _F_ACCESS_PLATFORM to grant access to whatever the device needs
-to see, because of the first. But, generally, they don't care for the
-second.
-
-This is the very reason for which commit 7ef7e6e3b ("vhost: correctly
-turn on VIRTIO_F_IOMMU_PLATFORM") for, which fences _F_ACCESS_PLATFORM
-form the vhost device that does not need it, because on the vhost
-interface it only means "I/O address translation is needed".
-
-This patch takes inspiration from 7ef7e6e3b ("vhost: correctly turn on
-VIRTIO_F_IOMMU_PLATFORM"), and uses the same condition for detecting the
-situation when _F_ACCESS_PLATFORM is requested, but no I/O translation
-by the device, and thus no device capability is needed. In this
-situation claiming that the device does not support iommu_plattform=on
-is counter-productive. So let us stop doing that!
-
-Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-Reported-by: Jakob Naucke <Jakob.Naucke@ibm.com>
-Fixes: 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
-unsupported")
-Cc: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-stable@nongnu.org
-
----
-
-@Kevin: Can you please verify, that I don't break your fix?
----
- hw/virtio/virtio-bus.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
-index d23db98c56..c1578f3de2 100644
---- a/hw/virtio/virtio-bus.c
-+++ b/hw/virtio/virtio-bus.c
-@@ -69,11 +69,6 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
-         return;
-     }
- 
--    if (has_iommu && !virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
--        error_setg(errp, "iommu_platform=true is not supported by the device");
--        return;
--    }
--
-     if (klass->device_plugged != NULL) {
-         klass->device_plugged(qbus->parent, &local_err);
-     }
-@@ -88,6 +83,12 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
-     } else {
-         vdev->dma_as = &address_space_memory;
-     }
-+
-+    if (has_iommu && vdev->dma_as != &address_space_memory
-+                  && !virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
-+        error_setg(errp, "iommu_platform=true is not supported by the device");
-+        return;
-+    }
- }
- 
- /* Reset the virtio_bus */
-
-base-commit: f8d75e10d3e0033a0a29a7a7e4777a4fbc17a016
--- 
-2.32.0
+The AMD SEV build of EDK2 only emits a single file, intended to be=0D
+mapped readonly. There is explicitly no separate writable VARS=0D
+store for persisting non-volatile firmware variables.=0D
+=0D
+This can be used with QEMU's traditional pflash configuration=0D
+mechanism by only populating pflash0, leaving pflash1 unconfigured.=0D
+Conceptually, however, it is odd to be using pflash at all when we=0D
+have no intention of supporting any writable variables. The -bios=0D
+option should be sufficient for any firmware that is exclusively=0D
+readonly code.=0D
+=0D
+=0D
+A second issue is that the firmware descriptor schema does not allow=0D
+for describing a firmware that uses pflash, without any associated=0D
+non-volatile storage.=0D
+=0D
+In docs/interop/firmware.json=0D
+=0D
+ 'struct' : 'FirmwareMappingFlash',=0D
+  'data'   : { 'executable'     : 'FirmwareFlashFile',=0D
+               'nvram-template' : 'FirmwareFlashFile' } }=0D
+=0D
+Notice that nvram-template is mandatory, and when consuming these=0D
+files libvirt will thus complain if the nvram-template field is=0D
+missing.=0D
+=0D
+We could in theory make nvram-template optional in the schema and=0D
+then update libvirt to take account of it, but this feels dubious=0D
+when we have a perfectly good way of describing a firmware without=0D
+NVRAM, using 'FirmwareMappingMemory' which is intended to be used=0D
+with QEMU's -bios option.=0D
+=0D
+=0D
+A third issue is in libvirt, where again the code handling the=0D
+configuration of pflash supports two scenarios=0D
+=0D
+ - A single pflash image, which is writable=0D
+ - A pair of pflash images, one writable one readonly=0D
+=0D
+There is no support for a single read-only pflash image in libvirt=0D
+today.=0D
+=0D
+=0D
+This all points towards the fact that we should be using -bios=0D
+to load the AMD SEV firmware build of EDK.=0D
+=0D
+The only thing preventing us doing that is that QEMU does not=0D
+initialize the SEV firmware when using -bios. That is fairly=0D
+easily solved, as done in this patch series.=0D
+=0D
+For testing I've launched QEMU in in these scenarios=0D
+=0D
+  - SEV guest using -bios and boot from HD=0D
+  - SEV guest using pflash and boot from HD=0D
+  - SEV-ES guest using -bios and direct kernel boot=0D
+  - SEV-ES guest using pflash and direct kernel boot=0D
+=0D
+In all these cases I was able to validate the reported SEV=0D
+guest measurement.=0D
+=0D
+Daniel P. Berrang=C3=A9 (2):=0D
+  hw/i386: refactor logic for setting up SEV firmware=0D
+  hw/i386: support loading OVMF using -bios too=0D
+=0D
+ hw/i386/pc_sysfw.c            | 24 +++---------------------=0D
+ hw/i386/pc_sysfw_ovmf-stubs.c | 10 ++++++++++=0D
+ hw/i386/pc_sysfw_ovmf.c       | 27 +++++++++++++++++++++++++++=0D
+ hw/i386/x86.c                 |  5 +++++=0D
+ include/hw/i386/pc.h          |  1 +=0D
+ 5 files changed, 46 insertions(+), 21 deletions(-)=0D
+=0D
+--=20=0D
+2.33.1=0D
+=0D
 
 
