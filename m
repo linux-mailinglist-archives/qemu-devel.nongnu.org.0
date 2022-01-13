@@ -2,57 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2AEE48D09C
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 04:04:58 +0100 (CET)
-Received: from localhost ([::1]:40686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6497148D0FC
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 04:36:59 +0100 (CET)
+Received: from localhost ([::1]:47294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7qQ5-0000oZ-MR
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 22:04:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59408)
+	id 1n7qv3-0007pG-Sw
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 22:36:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
- id 1n7qP4-0008Mx-Me; Wed, 12 Jan 2022 22:03:54 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3456)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n7qtt-00076z-W7
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 22:35:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30333)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
- id 1n7qP1-000271-CU; Wed, 12 Jan 2022 22:03:54 -0500
-Received: from kwepemi100004.china.huawei.com (unknown [172.30.72.53])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JZ8Pd1Rbyzcc7g;
- Thu, 13 Jan 2022 11:03:01 +0800 (CST)
-Received: from kwepemm600007.china.huawei.com (7.193.23.208) by
- kwepemi100004.china.huawei.com (7.221.188.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 13 Jan 2022 11:03:40 +0800
-Received: from [10.174.185.179] (10.174.185.179) by
- kwepemm600007.china.huawei.com (7.193.23.208) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 13 Jan 2022 11:03:40 +0800
-Subject: [Q] arm: SVE accesses at EL0 is broken with E2H+TGE?
-To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-CC: Richard Henderson <richard.henderson@linaro.org>, Peter Maydell
- <peter.maydell@linaro.org>, <kernel.yuz@gmail.com>,
- <wanghaibin.wang@huawei.com>
-Message-ID: <6cdfd5de-2465-adca-73b3-9c66945cf18a@huawei.com>
-Date: Thu, 13 Jan 2022 11:03:38 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n7qtp-0006Yy-LQ
+ for qemu-devel@nongnu.org; Wed, 12 Jan 2022 22:35:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642044928;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pT5SG3MaMLlSgUkCYN/5whbFNR0b1hlQGYWvR7HxyY8=;
+ b=e3zLcczUGU0wKnw2blVHZWVpfowFkl90vZCQUzLITv7Hgo7vUmrB89MLo2m8sVjik5mw2v
+ fiPNrVnpaMBbPDeln4QD0W0wI1bmtWp0Zlw9kURW0FcIA2HpbI2QAEkrL65AbspeoB9WS4
+ 3D2U9UNplvOYvLeaenz2cGBFVnmpHHc=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-178-ZiPl8KM2P9mPVYXc2NRaJA-1; Wed, 12 Jan 2022 22:35:27 -0500
+X-MC-Unique: ZiPl8KM2P9mPVYXc2NRaJA-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ 62-20020a17090a0fc400b001b31e840054so9188294pjz.1
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 19:35:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=pT5SG3MaMLlSgUkCYN/5whbFNR0b1hlQGYWvR7HxyY8=;
+ b=aZArM3pdVzhDPaea9abedHIjXrqxTKOVIYP2F0xcQIEXGZ7KcQxZF974aBArKWnOVS
+ Jf12/4wu3+h8lS7R8pDBIsornNNDK4OerHuAhrE+iF9VWuW3BtK0VEI5XyYioxuj4G4e
+ IolIHTAmxjBrF5ewntxBSQoAVAhWb0uQDPhgLJa+1Mk5c5oKw7GUI43tyaunZDH+AnPc
+ +aWQwK3IRx+vHAxcdn+CDc7L90SNsdDtYgC3pYmq7VkWpgRXN90mRMwNCdGYdxz4WBID
+ LhRylNFHFQON8Qx3x9Xj6jOISgQu0thX6D0GYktUXzJHdzfW7PrLYYor32SIB6LV1gI8
+ lKgA==
+X-Gm-Message-State: AOAM533pu/+pC+CvPhtPVE2k33SuoTI/GrZzF1sq2+YJPqIOvj2l2tAm
+ 3HB83ZDAaT17JmNvroFlseUgo/L8wrSWwUU6zhyGBuZrzOLXNwS7PRFVr2yPccX4D9wskQQj3bc
+ p6xqilkJJejKuRC8=
+X-Received: by 2002:a63:7a52:: with SMTP id j18mr2366834pgn.319.1642044926183; 
+ Wed, 12 Jan 2022 19:35:26 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzDlInZ2cqK/w7RP3p0y2/FPigrEQzX0DzAdACPAeARVTWt46AsPKcEkLtyiHyeliqz1a9Vww==
+X-Received: by 2002:a63:7a52:: with SMTP id j18mr2366810pgn.319.1642044925821; 
+ Wed, 12 Jan 2022 19:35:25 -0800 (PST)
+Received: from xz-m1.local ([191.101.132.233])
+ by smtp.gmail.com with ESMTPSA id n12sm7620409pjt.0.2022.01.12.19.35.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Jan 2022 19:35:24 -0800 (PST)
+Date: Thu, 13 Jan 2022 11:35:19 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH 1/3] intel-iommu: don't warn guest errors when getting
+ rid2pasid entry
+Message-ID: <Yd+d9ydZl7tLYWBj@xz-m1.local>
+References: <20220105041945.13459-1-jasowang@redhat.com>
+ <20220105041945.13459-3-jasowang@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.185.179]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemm600007.china.huawei.com (7.193.23.208)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187; envelope-from=yuzenghui@huawei.com;
- helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20220105041945.13459-3-jasowang@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,49 +94,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: yi.l.liu@intel.com, yi.y.sun@linux.intel.com, qemu-devel@nongnu.org,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Zenghui Yu <yuzenghui@huawei.com>
-From:  Zenghui Yu via <qemu-devel@nongnu.org>
 
-Hi,
+On Wed, Jan 05, 2022 at 12:19:43PM +0800, Jason Wang wrote:
+> We use to warn on wrong rid2pasid entry. But this error could be
+> triggered by the guest and could happens during initialization. So
+> let's don't warn in this case.
+> 
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> ---
+>  hw/i386/intel_iommu.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> index 4c6c016388..f2c7a23712 100644
+> --- a/hw/i386/intel_iommu.c
+> +++ b/hw/i386/intel_iommu.c
+> @@ -1524,8 +1524,10 @@ static bool vtd_dev_pt_enabled(IntelIOMMUState *s, VTDContextEntry *ce)
+>      if (s->root_scalable) {
+>          ret = vtd_ce_get_rid2pasid_entry(s, ce, &pe);
+>          if (ret) {
+> -            error_report_once("%s: vtd_ce_get_rid2pasid_entry error: %"PRId32,
+> -                              __func__, ret);
+> +            /*
+> +             * This error is guest triggerable. We should assumt PT
+> +             * not enabled for safety.
+> +             */
+>              return false;
+>          }
+>          return (VTD_PE_GET_TYPE(&pe) == VTD_SM_PASID_ENTRY_PT);
+> -- 
+> 2.25.1
+> 
 
-I've just exercised the SVE emulation in QEMU with
+No strong opinion, but the thing is mostly all error_report_once() in this file
+is guest triggerable.  If we remove this one then it's debatable on whether we
+want to remove all.
 
-| `qemu-system-aarch64 -M virt,virtualization=on,gic-version=3 \
-|  -cpu max -accel tcg [...]`
+IMHO we used the _once() variant just for this: it won't go into any form of
+DoS, meanwhile we'll still get some information (as hypervisor) that the guest
+OS may not be trustworthy.
 
-Since QEMU sets ID_AA64MMFR1_EL1.VH for -cpu max, the Linux guest I use
-was booting with VHE enabled and running with E2H+TGE. But I've then
-seen the Linux sve-probe-vls selftest [1] failure in guest which runs at
-EL0 and can be described as:
-
-1) Call prctl(PR_SVE_SET_VL, vl == 64) to set the vector length.
-2) Emit RDVL instruction **but** get vl == 16. Emmm..
-
-Looking a bit further at the way we emulate SVE in QEMU, there might be
-some issues need to be addressed.
-
-* sve_zcr_len_for_el() implementation
-
-Per DDI 0584 B.a, when HCR_EL2.{E2H,TGE} == {1,1} and EL2 is enabled in
-the current Security state, ZCR_EL1 has no effect on execution at EL0.
-We should use ZCR_EL2 instead for E2H+TGE.
-
-* CPTR_EL2 register accessors
-
-CPTR_EL2 has diffrent layout with or without VHE, but looks like we only
-take the nVHE one into account. Take sve_exception_el(env, el == 0) as
-an example, we don't check CPTR_EL2.ZEN for EL0 SVE accesses and we will
-never generate an exception even if needed...
-
-... whilst Linux kernel indeed relies on a trap to EL2 to restore SVE
-context appropriately for userland. SVE accesses at EL0 is broken in
-that case, I guess?
+So from that pov it's still useful?  Or is this error very special in some way?
 
 Thanks,
-Zenghui
 
-[1] 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/arm64/fp/sve-probe-vls.c
+-- 
+Peter Xu
+
 
