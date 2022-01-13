@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F27D48DF01
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 21:33:58 +0100 (CET)
-Received: from localhost ([::1]:49698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 118F348DF12
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 21:37:33 +0100 (CET)
+Received: from localhost ([::1]:53072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n86nF-000731-7M
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 15:33:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47420)
+	id 1n86qh-0001nd-JT
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 15:37:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n86jC-0005dA-En
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:29:46 -0500
-Received: from [2a00:1450:4864:20::435] (port=45047
- helo=mail-wr1-x435.google.com)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n86mE-0007XY-Rc; Thu, 13 Jan 2022 15:32:55 -0500
+Received: from [2607:f8b0:4864:20::330] (port=33461
+ helo=mail-ot1-x330.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n86j9-0005Nl-Rf
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:29:46 -0500
-Received: by mail-wr1-x435.google.com with SMTP id k18so12206188wrg.11
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 12:29:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PARjI4optfbS7JbOIbMPrddfHmCPNF8pgeHjW5BVE7M=;
- b=j2DVeFSkFe8EHvGpVLhlRDFx7ybmjzZKbhG1pglHKFdgAtjqp+LGmEGrdt1IeKI7HQ
- pzqhYECOQbe9QwFbY+peTh1JkDsW4nNdcgQmooMsZOkl91FkLBVVyZzknRRJzZWGtFYn
- ClPg4iFTqqnJgYvZuWu8vKQcmEjZbMDEjZk0h1YojJZPLTwl4p54ZJSpwZ86R2O9WCul
- 03UEvzA8NdRTAOS3DcfyAU9yxzpLO4MkZNM7AnMi7pdmLcngih5/XYQNVTC3XqokfyhP
- 4DPFGstKiMYAGT18XerGJe6YjaacMAhfEm2R3EqUJRdzJcCEWqJ/WOU+tuj9hXFDAQSK
- lKLg==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n86mB-00060w-6N; Thu, 13 Jan 2022 15:32:54 -0500
+Received: by mail-ot1-x330.google.com with SMTP id
+ 35-20020a9d08a6000000b00579cd5e605eso7760412otf.0; 
+ Thu, 13 Jan 2022 12:32:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=2LdewMtAJBis/pk0LPHBE/YqpENaVc9T2nZJ66j+ApA=;
+ b=LvcKtG4cb5QzE7PLE1CG9CJJOejQxQNq2TLPpoHCyCVD6sVvAo6J2xAJQvUygoFoO5
+ 00oqObNiv3ND10XS82xDPtui1Gwuor+NuVFeeqCqUPpjvFVw2nAKhnYu/4ot0t3WEIdY
+ C/7E8bqQ+IUjqDEYK8FXjiUytg6GQPu7IEB/0Vo0niOfDDG8ZGMm97pEsCERifByEsGr
+ 4tuqeBngdo5+2ytVq2aOLR24kzEi5WsnYTcQtmqqVwjyAD0eFlhSo0sknUPBR+Zpc4Wu
+ rFczNPSXohexjPjz/OL20t+6u+rEqgFDDprFORKdR/EnVfRi+kIPjuJ9pR7irm0buKNq
+ aH/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PARjI4optfbS7JbOIbMPrddfHmCPNF8pgeHjW5BVE7M=;
- b=Q8hQJuibPCnBbt79RgjJ5nR46Q3ZMyrXb2ViwJSO+xQpE59RMkdc5hIsSvPKHOPNOJ
- OVMj6bORVad+1ySVM+Hb6bpfD6C3RadjbKuPsFs8zBpj0PoJl+6Zqhj4XY2u4iz2syl+
- pIzRM6ANygrY0KcPGAGRV6ZfQDkbLN3kpxitwWcInzWHCG7raX4M3/4NT2vmyL7Y5Bae
- q6r8LmYRc7BG/CPaQK/sWdUjQTivMe+YRS0Snou/Cg5LEOHuupoqmf3FG+Cg9VnM9NIC
- 7Rpxk6eLWxczMU942hbW1RXhIBRV2IQnoiEDyTqqRWad6d7HEqeh46fW8m0NZ/FbZG35
- Tc7A==
-X-Gm-Message-State: AOAM532+dVruCpGHEIvecxBkp3MJV2/P/vyrG+ZIoEfO25vwES+cwczm
- 3QOy5Q6MlhHUtAf7lAI+k55AZNnJQJETBngJVlTvLA==
-X-Google-Smtp-Source: ABdhPJyahBp15M8huaJH/BrLIXGB4SA0TWqJ4aK96KqTQO4Ib9AzSORLJMGS3Yf2VHrS2TA+yJaiHzZv06q7O5yrb5I=
-X-Received: by 2002:a5d:6848:: with SMTP id o8mr5730461wrw.2.1642105781606;
- Thu, 13 Jan 2022 12:29:41 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=2LdewMtAJBis/pk0LPHBE/YqpENaVc9T2nZJ66j+ApA=;
+ b=XDtMQkQmKDF1QyA6moTm+m0rg1NmphpyHQiqNhtqgAjDJkvldJYi31MHahVodmI6P4
+ p/dPfFWsOCf5x5criyM7uDYwGhZUgGbYUkbpye0cHQyYMy8AtWF/lN5iljAVd6v3jk3L
+ oZ5oSWwDe76meJftQolGCRKHqxzHHUDGY4aFIJ3eKMAjlGr/UUUnaFHKhoOfj87IyGKn
+ 8Hd3i0UAafziEcAChTvnUTmaZbg05kQ9TxM646JaRIYr9ZKN4L+i5vLCa7VjOh+l+Kzm
+ ZrnJ+5oLh3iyo3xxuHwFcUvCQFX3gKdJ8qqtIMbqpdDMOfWzXNUa10AOXJcDJ7QkhYxZ
+ Phyw==
+X-Gm-Message-State: AOAM530pb9/Mub4TUV2aMFHY6PejzrEEDoEWlLPomRv3vjfpsBdJawuq
+ 8ueER8hx/EmOsCVV1KW6sQg=
+X-Google-Smtp-Source: ABdhPJwQHkR4l+J8iszLVal7f7v14URRTq485hkz7KtIvjudcXRIuZmUCP0++Y3g1RvKrSztZLhNAw==
+X-Received: by 2002:a9d:24e4:: with SMTP id z91mr4371813ota.11.1642105968813; 
+ Thu, 13 Jan 2022 12:32:48 -0800 (PST)
+Received: from [192.168.10.222] ([152.249.109.193])
+ by smtp.gmail.com with ESMTPSA id bd2sm902619oib.31.2022.01.13.12.32.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Jan 2022 12:32:48 -0800 (PST)
+Message-ID: <6ecec7e6-ce14-e699-cbb1-669b26eda588@gmail.com>
+Date: Thu, 13 Jan 2022 17:32:44 -0300
 MIME-Version: 1.0
-References: <20220109161923.85683-1-imp@bsdimp.com>
- <20220109161923.85683-22-imp@bsdimp.com>
-In-Reply-To: <20220109161923.85683-22-imp@bsdimp.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Jan 2022 20:29:30 +0000
-Message-ID: <CAFEAcA9xbOCjc7ZLULuyWNYi5jHtS=N8_HWiob_gaAE+3vxZAA@mail.gmail.com>
-Subject: Re: [PATCH 21/30] bsd-user/signal.c: force_sig
-To: Warner Losh <imp@bsdimp.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 1/3] docs: rSTify ppc-spapr-hotplug.txt.
+Content-Language: en-US
+To: lagarcia@linux.ibm.com, qemu-ppc@nongnu.org
+References: <cover.1641995057.git.lagarcia@br.ibm.com>
+ <50ed30232e0e6eafb580c17adec3fba17b873014.1641995058.git.lagarcia@br.ibm.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <50ed30232e0e6eafb580c17adec3fba17b873014.1641995058.git.lagarcia@br.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::330
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x330.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -80,130 +90,861 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@freebsd.org>,
- qemu-devel@nongnu.org
+Cc: Leonardo Garcia <lagarcia@br.ibm.com>, qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 9 Jan 2022 at 16:44, Warner Losh <imp@bsdimp.com> wrote:
->
-> Force delivering a signal and generating a core file.
->
-> Signed-off-by: Stacey Son <sson@FreeBSD.org>
-> Signed-off-by: Kyle Evans <kevans@freebsd.org>
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
+
+
+On 1/12/22 10:52, lagarcia@linux.ibm.com wrote:
+> From: Leonardo Garcia <lagarcia@br.ibm.com>
+> 
+> While working on this file, also removed and unused reference in the end of the file. The reference in the text was removed by commit 9f992cca93d (spapr: update spapr hotplug documentation), but the link in the end of the document was not removed then.
+> 
+> Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
 > ---
->  bsd-user/qemu.h         |  1 +
->  bsd-user/signal.c       | 59 +++++++++++++++++++++++++++++++++++++++++
->  bsd-user/syscall_defs.h |  1 +
->  3 files changed, 61 insertions(+)
->
-> diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-> index 7c54a933eb8..e12617f5d69 100644
-> --- a/bsd-user/qemu.h
-> +++ b/bsd-user/qemu.h
-> @@ -223,6 +223,7 @@ void queue_signal(CPUArchState *env, int sig, target_siginfo_t *info);
->  abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp);
->  int target_to_host_signal(int sig);
->  int host_to_target_signal(int sig);
-> +void QEMU_NORETURN force_sig(int target_sig);
->
->  /* mmap.c */
->  int target_mprotect(abi_ulong start, abi_ulong len, int prot);
-> diff --git a/bsd-user/signal.c b/bsd-user/signal.c
-> index 824535be8b8..97f42f9c45e 100644
-> --- a/bsd-user/signal.c
-> +++ b/bsd-user/signal.c
-> @@ -109,6 +109,65 @@ static int core_dump_signal(int sig)
->      }
->  }
->
-> +/* Abort execution with signal. */
-> +void QEMU_NORETURN force_sig(int target_sig)
 
-In linux-user we call this dump_core_and_abort(), which is
-a name that better describes what it's actually doing.
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-(Today's linux-user's force_sig() does what the Linux kernel's
-function of that name does -- it's a wrapper around
-queue_signal() which delivers a signal to the guest with
-.si_code = SI_KERNEL , si_pid = si_uid = 0.
-Whether you want one of those or not depends on what BSD
-kernels do in that kind of "we have to kill this process"
-situation.)
-
-> +{
-> +    CPUArchState *env = thread_cpu->env_ptr;
-> +    CPUState *cpu = env_cpu(env);
-> +    TaskState *ts = cpu->opaque;
-> +    int core_dumped = 0;
-> +    int host_sig;
-> +    struct sigaction act;
+>   docs/specs/ppc-spapr-hotplug.txt | 759 +++++++++++++++++--------------
+>   1 file changed, 430 insertions(+), 329 deletions(-)
+> 
+> diff --git a/docs/specs/ppc-spapr-hotplug.txt b/docs/specs/ppc-spapr-hotplug.txt
+> index d4fb2d46d9..f84dc55ad9 100644
+> --- a/docs/specs/ppc-spapr-hotplug.txt
+> +++ b/docs/specs/ppc-spapr-hotplug.txt
+> @@ -1,224 +1,316 @@
+> -= sPAPR Dynamic Reconfiguration =
+> +=============================
+> +sPAPR Dynamic Reconfiguration
+> +=============================
+>   
+> -sPAPR/"pseries" guests make use of a facility called dynamic-reconfiguration
+> -to handle hotplugging of dynamic "physical" resources like PCI cards, or
+> -"logical"/paravirtual resources like memory, CPUs, and "physical"
+> +sPAPR or pSeries guests make use of a facility called dynamic reconfiguration
+> +to handle hot plugging of dynamic "physical" resources like PCI cards, or
+> +"logical"/para-virtual resources like memory, CPUs, and "physical"
+>   host-bridges, which are generally managed by the host/hypervisor and provided
+> -to guests as virtualized resources. The specifics of dynamic-reconfiguration
+> -are documented extensively in PAPR+ v2.7, Section 13.1. This document
+> -provides a summary of that information as it applies to the implementation
+> -within QEMU.
+> +to guests as virtualized resources. The specifics of dynamic reconfiguration
+> +are documented extensively in section 13 of the Linux on Power Architecture
+> +Reference document ([LoPAR]_). This document provides a summary of that
+> +information as it applies to the implementation within QEMU.
+>   
+> -== Dynamic-reconfiguration Connectors ==
+> +Dynamic-reconfiguration Connectors
+> +==================================
+>   
+> -To manage hotplug/unplug of these resources, a firmware abstraction known as
+> +To manage hot plug/unplug of these resources, a firmware abstraction known as
+>   a Dynamic Resource Connector (DRC) is used to assign a particular dynamic
+>   resource to the guest, and provide an interface for the guest to manage
+>   configuration/removal of the resource associated with it.
+>   
+> -== Device-tree description of DRCs ==
+> +Device tree description of DRCs
+> +===============================
+>   
+> -A set of 4 Open Firmware device tree array properties are used to describe
+> +A set of four Open Firmware device tree array properties are used to describe
+>   the name/index/power-domain/type of each DRC allocated to a guest at
+> -boot-time. There may be multiple sets of these arrays, rooted at different
+> +boot time. There may be multiple sets of these arrays, rooted at different
+>   paths in the device tree depending on the type of resource the DRCs manage.
+>   
+>   In some cases, the DRCs themselves may be provided by a dynamic resource,
+> -such as the DRCs managing PCI slots on a hotplugged PHB. In this case the
+> +such as the DRCs managing PCI slots on a hot plugged PHB. In this case the
+>   arrays would be fetched as part of the device tree retrieval interfaces
+> -for hotplugged resources described under "Guest->Host interface".
+> +for hot plugged resources described under :ref:`guest-host-interface`.
+>   
+>   The array properties are described below. Each entry/element in an array
+>   describes the DRC identified by the element in the corresponding position
+> -of ibm,drc-indexes:
+> -
+> -ibm,drc-names:
+> -  first 4-bytes: BE-encoded integer denoting the number of entries
+> -  each entry: a NULL-terminated <name> string encoded as a byte array
+> -
+> -  <name> values for logical/virtual resources are defined in PAPR+ v2.7,
+> -  Section 13.5.2.4, and basically consist of the type of the resource
+> -  followed by a space and a numerical value that's unique across resources
+> -  of that type.
+> -
+> -  <name> values for "physical" resources such as PCI or VIO devices are
+> -  defined as being "location codes", which are the "location labels" of
+> -  each encapsulating device, starting from the chassis down to the
+> -  individual slot for the device, concatenated by a hyphen. This provides
+> -  a mapping of resources to a physical location in a chassis for debugging
+> -  purposes. For QEMU, this mapping is less important, so we assign a
+> -  location code that conforms to naming specifications, but is simply a
+> -  location label for the slot by itself to simplify the implementation.
+> -  The naming convention for location labels is documented in detail in
+> -  PAPR+ v2.7, Section 12.3.1.5, and in our case amounts to using "C<n>"
+> -  for PCI/VIO device slots, where <n> is unique across all PCI/VIO
+> -  device slots.
+> -
+> -ibm,drc-indexes:
+> -  first 4-bytes: BE-encoded integer denoting the number of entries
+> -  each 4-byte entry: BE-encoded <index> integer that is unique across all DRCs
+> -    in the machine
+> -
+> -  <index> is arbitrary, but in the case of QEMU we try to maintain the
+> -  convention used to assign them to pSeries guests on pHyp:
+> -
+> -    bit[31:28]: integer encoding of <type>, where <type> is:
+> -                  1 for CPU resource
+> -                  2 for PHB resource
+> -                  3 for VIO resource
+> -                  4 for PCI resource
+> -                  8 for Memory resource
+> -    bit[27:0]: integer encoding of <id>, where <id> is unique across
+> -                 all resources of specified type
+> -
+> -ibm,drc-power-domains:
+> -  first 4-bytes: BE-encoded integer denoting the number of entries
+> -  each 4-byte entry: 32-bit, BE-encoded <index> integer that specifies the
+> -    power domain the resource will be assigned to. In the case of QEMU
+> -    we associated all resources with a "live insertion" domain, where the
+> -    power is assumed to be managed automatically. The integer value for
+> -    this domain is a special value of -1.
+> -
+> -
+> -ibm,drc-types:
+> -  first 4-bytes: BE-encoded integer denoting the number of entries
+> -  each entry: a NULL-terminated <type> string encoded as a byte array
+> -
+> -  <type> is assigned as follows:
+> -    "CPU" for a CPU
+> -    "PHB" for a physical host-bridge
+> -    "SLOT" for a VIO slot
+> -    "28" for a PCI slot
+> -    "MEM" for memory resource
+> -
+> -== Guest->Host interface to manage dynamic resources ==
+> -
+> -Each DRC is given a globally unique DRC Index, and resources associated with
+> -a particular DRC are configured/managed by the guest via a number of RTAS
+> -calls which reference individual DRCs based on the DRC index. This can be
+> -considered the guest->host interface.
+> -
+> -rtas-set-power-level:
+> -  arg[0]: integer identifying power domain
+> -  arg[1]: new power level for the domain, 0-100
+> -  output[0]: status, 0 on success
+> -  output[1]: power level after command
+> -
+> -  Set the power level for a specified power domain
+> -
+> -rtas-get-power-level:
+> -  arg[0]: integer identifying power domain
+> -  output[0]: status, 0 on success
+> -  output[1]: current power level
+> -
+> -  Get the power level for a specified power domain
+> -
+> -rtas-set-indicator:
+> -  arg[0]: integer identifying sensor/indicator type
+> -  arg[1]: index of sensor, for DR-related sensors this is generally the
+> -          DRC index
+> -  arg[2]: desired sensor value
+> -  output[0]: status, 0 on success
+> -
+> -  Set the state of an indicator or sensor. For the purpose of this document we
+> -  focus on the indicator/sensor types associated with a DRC. The types are:
+> -
+> -    9001: isolation-state, controls/indicates whether a device has been made
+> -          accessible to a guest
+> -
+> -          supported sensor values:
+> -            0: isolate, device is made unaccessible by guest OS
+> -            1: unisolate, device is made available to guest OS
+> -
+> -    9002: dr-indicator, controls "visual" indicator associated with device
+> -
+> -          supported sensor values:
+> -            0: inactive, resource may be safely removed
+> -            1: active, resource is in use and cannot be safely removed
+> -            2: identify, used to visually identify slot for interactive hotplug
+> -            3: action, in most cases, used in the same manner as identify
+> -
+> -    9003: allocation-state, generally only used for "logical" DR resources to
+> -          request the allocation/deallocation of a resource prior to acquiring
+> -          it via isolation-state->unisolate, or after releasing it via
+> -          isolation-state->isolate, respectively. for "physical" DR (like PCI
+> -          hotplug/unplug) the pre-allocation of the resource is implied and
+> -          this sensor is unused.
+> -
+> -          supported sensor values:
+> -            0: unusable, tell firmware/system the resource can be
+> -               unallocated/reclaimed and added back to the system resource pool
+> -            1: usable, request the resource be allocated/reserved for use by
+> -               guest OS
+> -            2: exchange, used to allocate a spare resource to use for fail-over
+> -               in certain situations. unused in QEMU
+> -            3: recover, used to reclaim a previously allocated resource that's
+> -               not currently allocated to the guest OS. unused in QEMU
+> -
+> -rtas-get-sensor-state:
+> -  arg[0]: integer identifying sensor/indicator type
+> -  arg[1]: index of sensor, for DR-related sensors this is generally the
+> -          DRC index
+> -  output[0]: status, 0 on success
+> -
+> -  Used to read an indicator or sensor value.
+> -
+> -  For DR-related operations, the only noteworthy sensor is dr-entity-sense,
+> -  which has a type value of 9003, as allocation-state does in the case of
+> -  rtas-set-indicator. The semantics/encodings of the sensor values are distinct
+> -  however:
+> -
+> -  supported sensor values for dr-entity-sense (9003) sensor:
+> -    0: empty,
+> -         for physical resources: DRC/slot is empty
+> -         for logical resources: unused
+> -    1: present,
+> -         for physical resources: DRC/slot is populated with a device/resource
+> -         for logical resources: resource has been allocated to the DRC
+> -    2: unusable,
+> -         for physical resources: unused
+> -         for logical resources: DRC has no resource allocated to it
+> -    3: exchange,
+> -         for physical resources: unused
+> -         for logical resources: resource available for exchange (see
+> -           allocation-state sensor semantics above)
+> -    4: recovery,
+> -         for physical resources: unused
+> -         for logical resources: resource available for recovery (see
+> -           allocation-state sensor semantics above)
+> -
+> -rtas-ibm-configure-connector:
+> -  arg[0]: guest physical address of 4096-byte work area buffer
+> -  arg[1]: 0, or address of additional 4096-byte work area buffer. only non-zero
+> -          if a prior RTAS response indicated a need for additional memory
+> -  output[0]: status:
+> -               0: completed transmittal of device-tree node
+> -               1: instruct guest to prepare for next DT sibling node
+> -               2: instruct guest to prepare for next DT child node
+> -               3: instruct guest to prepare for next DT property
+> -               4: instruct guest to ascend to parent DT node
+> -               5: instruct guest to provide additional work-area buffer
+> -                  via arg[1]
+> -            990x: instruct guest that operation took too long and to try
+> -                  again later
+> -
+> -  Used to fetch an OF device-tree description of the resource associated with
+> -  a particular DRC. The DRC index is encoded in the first 4-bytes of the first
+> -  work area buffer.
+> -
+> -  Work area layout, using 4-byte offsets:
+> -    wa[0]: DRC index of the DRC to fetch device-tree nodes from
+> -    wa[1]: 0 (hard-coded)
+> -    wa[2]: for next-sibling/next-child response:
+> -             wa offset of null-terminated string denoting the new node's name
+> -           for next-property response:
+> -             wa offset of null-terminated string denoting new property's name
+> -    wa[3]: for next-property response (unused otherwise):
+> -             byte-length of new property's value
+> -    wa[4]: for next-property response (unused otherwise):
+> -             new property's value, encoded as an OFDT-compatible byte array
+> -
+> -== hotplug/unplug events ==
+> +of ``ibm,drc-indexes``:
 > +
-> +    host_sig = target_to_host_signal(target_sig);
-> +    gdb_signalled(env, target_sig);
+> +``ibm,drc-names``
+> +-----------------
 > +
-> +    /* Dump core if supported by target binary format */
-> +    if (core_dump_signal(target_sig) && (ts->bprm->core_dump != NULL)) {
-> +        stop_all_tasks();
-> +        core_dumped =
-> +            ((*ts->bprm->core_dump)(target_sig, env) == 0);
-> +    }
-> +    if (core_dumped) {
-> +        struct rlimit nodump;
+> +  First 4-bytes: big-endian (BE) encoded integer denoting the number of entries.
 > +
-> +        /*
-> +         * We already dumped the core of target process, we don't want
-> +         * a coredump of qemu itself.
-> +         */
-> +         getrlimit(RLIMIT_CORE, &nodump);
-> +         nodump.rlim_cur = 0;
-> +         setrlimit(RLIMIT_CORE, &nodump);
-> +         (void) fprintf(stderr, "qemu: uncaught target signal %d (%s) "
-> +             "- %s\n", target_sig, strsignal(host_sig), "core dumped");
-> +    }
+> +  Each entry: a NULL-terminated ``<name>`` string encoded as a byte array.
 > +
-> +    /*
-> +     * The proper exit code for dying from an uncaught signal is
-> +     * -<signal>.  The kernel doesn't allow exit() or _exit() to pass
-> +     * a negative value.  To get the proper exit code we need to
-> +     * actually die from an uncaught signal.  Here the default signal
-> +     * handler is installed, we send ourself a signal and we wait for
-> +     * it to arrive.
-> +     */
-> +    memset(&act, 0, sizeof(act));
-> +    sigfillset(&act.sa_mask);
-> +    act.sa_handler = SIG_DFL;
-> +    sigaction(host_sig, &act, NULL);
+> +    ``<name>`` values for logical/virtual resources are defined in the Linux on
+> +    Power Architecture Reference ([LoPAR]_) section 13.5.2.4, and basically
+> +    consist of the type of the resource followed by a space and a numerical
+> +    value that's unique across resources of that type.
 > +
-> +    kill(getpid(), host_sig);
+> +    ``<name>`` values for "physical" resources such as PCI or VIO devices are
+> +    defined as being "location codes", which are the "location labels" of each
+> +    encapsulating device, starting from the chassis down to the individual slot
+> +    for the device, concatenated by a hyphen. This provides a mapping of
+> +    resources to a physical location in a chassis for debugging purposes. For
+> +    QEMU, this mapping is less important, so we assign a location code that
+> +    conforms to naming specifications, but is simply a location label for the
+> +    slot by itself to simplify the implementation. The naming convention for
+> +    location labels is documented in detail in the [LoPAR]_ section 12.3.1.5,
+> +    and in our case amounts to using ``C<n>`` for PCI/VIO device slots, where
+> +    ``<n>`` is unique across all PCI/VIO device slots.
 > +
-> +    /*
-> +     * Make sure the signal isn't masked (just reuse the mask inside
-> +     * of act).
-> +     */
-> +    sigdelset(&act.sa_mask, host_sig);
-> +    sigsuspend(&act.sa_mask);
+> +``ibm,drc-indexes``
+> +-------------------
 > +
-> +    /* unreachable */
-> +    abort();
-> +}
+> +  First 4-bytes: BE-encoded integer denoting the number of entries.
 > +
->  /*
->   * Queue a signal so that it will be send to the virtual CPU as soon as
->   * possible.
-> diff --git a/bsd-user/syscall_defs.h b/bsd-user/syscall_defs.h
-> index 04a1a886d7b..62b472b990b 100644
-> --- a/bsd-user/syscall_defs.h
-> +++ b/bsd-user/syscall_defs.h
-> @@ -21,6 +21,7 @@
->  #define _SYSCALL_DEFS_H_
->
->  #include <sys/syscall.h>
-> +#include <sys/resource.h>
->
->  #include "errno_defs.h"
->
-
--- PMM
+> +  Each 4-byte entry: BE-encoded ``<index>`` integer that is unique across all
+> +  DRCs in the machine.
+> +
+> +    ``<index>`` is arbitrary, but in the case of QEMU we try to maintain the
+> +    convention used to assign them to pSeries guests on pHyp (the hypervisor
+> +    portion of PowerVM):
+> +
+> +      ``bit[31:28]``: integer encoding of ``<type>``, where ``<type>`` is:
+> +
+> +        ``1`` for CPU resource.
+> +
+> +        ``2`` for PHB resource.
+> +
+> +        ``3`` for VIO resource.
+> +
+> +        ``4`` for PCI resource.
+> +
+> +        ``8`` for memory resource.
+> +
+> +      ``bit[27:0]``: integer encoding of ``<id>``, where ``<id>`` is unique
+> +      across all resources of specified type.
+> +
+> +``ibm,drc-power-domains``
+> +-------------------------
+> +
+> +  First 4-bytes: BE-encoded integer denoting the number of entries.
+> +
+> +  Each 4-byte entry: 32-bit, BE-encoded ``<index>`` integer that specifies the
+> +  power domain the resource will be assigned to. In the case of QEMU we
+> +  associated all resources with a "live insertion" domain, where the power is
+> +  assumed to be managed automatically. The integer value for this domain is a
+> +  special value of ``-1``.
+> +
+> +
+> +``ibm,drc-types``
+> +-----------------
+> +
+> +  First 4-bytes: BE-encoded integer denoting the number of entries.
+> +
+> +  Each entry: a NULL-terminated ``<type>`` string encoded as a byte array.
+> +  ``<type>`` is assigned as follows:
+> +
+> +    "CPU" for a CPU.
+> +
+> +    "PHB" for a physical host-bridge.
+> +
+> +    "SLOT" for a VIO slot.
+> +
+> +    "28" for a PCI slot.
+> +
+> +    "MEM" for memory resource.
+> +
+> +.. _guest-host-interface:
+> +
+> +Guest->Host interface to manage dynamic resources
+> +=================================================
+> +
+> +Each DRC is given a globally unique DRC index, and resources associated with a
+> +particular DRC are configured/managed by the guest via a number of RTAS calls
+> +which reference individual DRCs based on the DRC index. This can be considered
+> +the guest->host interface.
+> +
+> +``rtas-set-power-level``
+> +------------------------
+> +
+> +Set the power level for a specified power domain.
+> +
+> +  ``arg[0]``: integer identifying power domain.
+> +
+> +  ``arg[1]``: new power level for the domain, ``0-100``.
+> +
+> +  ``output[0]``: status, ``0`` on success.
+> +
+> +  ``output[1]``: power level after command.
+> +
+> +``rtas-get-power-level``
+> +------------------------
+> +
+> +Get the power level for a specified power domain.
+> +
+> +  ``arg[0]``: integer identifying power domain.
+> +
+> +  ``output[0]``: status, ``0`` on success.
+> +
+> +  ``output[1]``: current power level.
+> +
+> +``rtas-set-indicator``
+> +----------------------
+> +
+> +Set the state of an indicator or sensor.
+> +
+> +  ``arg[0]``: integer identifying sensor/indicator type.
+> +
+> +  ``arg[1]``: index of sensor, for DR-related sensors this is generally the DRC
+> +  index.
+> +
+> +  ``arg[2]``: desired sensor value.
+> +
+> +  ``output[0]``: status, ``0`` on success.
+> +
+> +For the purpose of this document we focus on the indicator/sensor types
+> +associated with a DRC. The types are:
+> +
+> +* ``9001``: ``isolation-state``, controls/indicates whether a device has been
+> +  made accessible to a guest. Supported sensor values:
+> +
+> +    ``0``: ``isolate``, device is made inaccessible by guest OS.
+> +
+> +    ``1``: ``unisolate``, device is made available to guest OS.
+> +
+> +* ``9002``: ``dr-indicator``, controls "visual" indicator associated with
+> +  device. Supported sensor values:
+> +
+> +    ``0``: ``inactive``, resource may be safely removed.
+> +
+> +    ``1``: ``active``, resource is in use and cannot be safely removed.
+> +
+> +    ``2``: ``identify``, used to visually identify slot for interactive hot plug.
+> +
+> +    ``3``: ``action``, in most cases, used in the same manner as identify.
+> +
+> +* ``9003``: ``allocation-state``, generally only used for "logical" DR resources
+> +  to request the allocation/deallocation of a resource prior to acquiring it via
+> +  ``isolation-state->unisolate``, or after releasing it via
+> +  ``isolation-state->isolate``, respectively. For "physical" DR (like PCI
+> +  hot plug/unplug) the pre-allocation of the resource is implied and this sensor
+> +  is unused. Supported sensor values:
+> +
+> +    ``0``: ``unusable``, tell firmware/system the resource can be
+> +    unallocated/reclaimed and added back to the system resource pool.
+> +
+> +    ``1``: ``usable``, request the resource be allocated/reserved for use by
+> +    guest OS.
+> +
+> +    ``2``: ``exchange``, used to allocate a spare resource to use for fail-over
+> +    in certain situations. Unused in QEMU.
+> +
+> +    ``3``: ``recover``, used to reclaim a previously allocated resource that's
+> +    not currently allocated to the guest OS. Unused in QEMU.
+> +
+> +``rtas-get-sensor-state:``
+> +--------------------------
+> +
+> +Used to read an indicator or sensor value.
+> +
+> +  ``arg[0]``: integer identifying sensor/indicator type.
+> +
+> +  ``arg[1]``: index of sensor, for DR-related sensors this is generally the DRC
+> +  index
+> +
+> +  ``output[0]``: status, 0 on success
+> +
+> +For DR-related operations, the only noteworthy sensor is ``dr-entity-sense``,
+> +which has a type value of ``9003``, as ``allocation-state`` does in the case of
+> +``rtas-set-indicator``. The semantics/encodings of the sensor values are
+> +distinct however.
+> +
+> +Supported sensor values for ``dr-entity-sense`` (``9003``) sensor:
+> +
+> +  ``0``: empty.
+> +
+> +    For physical resources: DRC/slot is empty.
+> +
+> +    For logical resources: unused.
+> +
+> +  ``1``: present.
+> +
+> +    For physical resources: DRC/slot is populated with a device/resource.
+> +
+> +    For logical resources: resource has been allocated to the DRC.
+> +
+> +  ``2``: unusable.
+> +
+> +    For physical resources: unused.
+> +
+> +    For logical resources: DRC has no resource allocated to it.
+> +
+> +  ``3``: exchange.
+> +
+> +    For physical resources: unused.
+> +
+> +    For logical resources: resource available for exchange (see
+> +    ``allocation-state`` sensor semantics above).
+> +
+> +  ``4``: recovery.
+> +
+> +    For physical resources: unused.
+> +
+> +    For logical resources: resource available for recovery (see
+> +    ``allocation-state`` sensor semantics above).
+> +
+> +``rtas-ibm-configure-connector``
+> +--------------------------------
+> +
+> +Used to fetch an OpenFirmware device tree description of the resource associated
+> +with a particular DRC.
+> +
+> +  ``arg[0]``: guest physical address of 4096-byte work area buffer.
+> +
+> +  ``arg[1]``: 0, or address of additional 4096-byte work area buffer; only
+> +  non-zero if a prior RTAS response indicated a need for additional memory.
+> +
+> +  ``output[0]``: status:
+> +
+> +    ``0``: completed transmittal of device tree node.
+> +
+> +    ``1``: instruct guest to prepare for next device tree sibling node.
+> +
+> +    ``2``: instruct guest to prepare for next device tree child node.
+> +
+> +    ``3``: instruct guest to prepare for next device tree property.
+> +
+> +    ``4``: instruct guest to ascend to parent device tree node.
+> +
+> +    ``5``: instruct guest to provide additional work-area buffer via ``arg[1]``.
+> +
+> +    ``990x``: instruct guest that operation took too long and to try again
+> +    later.
+> +
+> +The DRC index is encoded in the first 4-bytes of the first work area buffer.
+> +Work area (``wa``) layout, using 4-byte offsets:
+> +
+> +  ``wa[0]``: DRC index of the DRC to fetch device tree nodes from.
+> +
+> +  ``wa[1]``: ``0`` (hard-coded).
+> +
+> +  ``wa[2]``:
+> +
+> +    For next-sibling/next-child response:
+> +
+> +      ``wa`` offset of null-terminated string denoting the new node's name.
+> +
+> +    For next-property response:
+> +
+> +      ``wa`` offset of null-terminated string denoting new property's name.
+> +
+> +  ``wa[3]``: for next-property response (unused otherwise):
+> +
+> +      Byte-length of new property's value.
+> +
+> +  ``wa[4]``: for next-property response (unused otherwise):
+> +
+> +      New property's value, encoded as an OFDT-compatible byte array.
+> +
+> +Hot plug/unplug events
+> +======================
+>   
+>   For most DR operations, the hypervisor will issue host->guest add/remove events
+>   using the EPOW/check-exception notification framework, where the host issues a
+> @@ -230,130 +322,140 @@ requests via EPOW events.
+>   For DR, this framework has been extended to include hotplug events, which were
+>   previously unneeded due to direct manipulation of DR-related guest userspace
+>   tools by host-level management such as an HMC. This level of management is not
+> -applicable to PowerKVM, hence the reason for extending the notification
+> +applicable to KVM on Power, hence the reason for extending the notification
+>   framework to support hotplug events.
+>   
+>   The format for these EPOW-signalled events is described below under
+> -"hotplug/unplug event structure". Note that these events are not
+> -formally part of the PAPR+ specification, and have been superseded by a
+> -newer format, also described below under "hotplug/unplug event structure",
+> -and so are now deemed a "legacy" format. The formats are similar, but the
+> -"modern" format contains additional fields/flags, which are denoted for the
+> -purposes of this documentation with "#ifdef GUEST_SUPPORTS_MODERN" guards.
+> +:ref:`hot-plug-unplug-event-structure`. Note that these events are not formally
+> +part of the PAPR+ specification, and have been superseded by a newer format,
+> +also described below under :ref:`hot-plug-unplug-event-structure`, and so are
+> +now deemed a "legacy" format. The formats are similar, but the "modern" format
+> +contains additional fields/flags, which are denoted for the purposes of this
+> +documentation with ``#ifdef GUEST_SUPPORTS_MODERN`` guards.
+>   
+>   QEMU should assume support only for "legacy" fields/flags unless the guest
+> -advertises support for the "modern" format via ibm,client-architecture-support
+> -hcall by setting byte 5, bit 6 of it's ibm,architecture-vec-5 option vector
+> -structure (as described by LoPAPR v11, B.6.2.3). As with "legacy" format events,
+> -"modern" format events are surfaced to the guest via check-exception RTAS calls,
+> -but use a dedicated event source to signal the guest. This event source is
+> -advertised to the guest by the addition of a "hot-plug-events" node under
+> -"/event-sources" node of the guest's device tree using the standard format
+> -described in LoPAPR v11, B.6.12.1.
+> -
+> -== hotplug/unplug event structure ==
+> -
+> -The hotplug-specific payload in QEMU is implemented as follows (with all values
+> +advertises support for the "modern" format via
+> +``ibm,client-architecture-support`` hcall by setting byte 5, bit 6 of it's
+> +``ibm,architecture-vec-5`` option vector structure (as described by [LoPAR]_,
+> +section B.5.2.3). As with "legacy" format events, "modern" format events are
+> +surfaced to the guest via check-exception RTAS calls, but use a dedicated event
+> +source to signal the guest. This event source is advertised to the guest by the
+> +addition of a ``hot-plug-events`` node under ``/event-sources`` node of the
+> +guest's device tree using the standard format described in [LoPAR]_,
+> +section B.5.12.2.
+> +
+> +.. _hot-plug-unplug-event-structure:
+> +
+> +Hot plug/unplug event structure
+> +===============================
+> +
+> +The hot plug specific payload in QEMU is implemented as follows (with all values
+>   encoded in big-endian format):
+>   
+> -struct rtas_event_log_v6_hp {
+> -#define SECTION_ID_HOTPLUG              0x4850 /* HP */
+> -    struct section_header {
+> -        uint16_t section_id;            /* set to SECTION_ID_HOTPLUG */
+> -        uint16_t section_length;        /* sizeof(rtas_event_log_v6_hp),
+> -                                         * plus the length of the DRC name
+> -                                         * if a DRC name identifier is
+> -                                         * specified for hotplug_identifier
+> -                                         */
+> -        uint8_t section_version;        /* version 1 */
+> -        uint8_t section_subtype;        /* unused */
+> -        uint16_t creator_component_id;  /* unused */
+> -    } hdr;
+> -#define RTAS_LOG_V6_HP_TYPE_CPU         1
+> -#define RTAS_LOG_V6_HP_TYPE_MEMORY      2
+> -#define RTAS_LOG_V6_HP_TYPE_SLOT        3
+> -#define RTAS_LOG_V6_HP_TYPE_PHB         4
+> -#define RTAS_LOG_V6_HP_TYPE_PCI         5
+> -    uint8_t hotplug_type;               /* type of resource/device */
+> -#define RTAS_LOG_V6_HP_ACTION_ADD       1
+> -#define RTAS_LOG_V6_HP_ACTION_REMOVE    2
+> -    uint8_t hotplug_action;             /* action (add/remove) */
+> -#define RTAS_LOG_V6_HP_ID_DRC_NAME          1
+> -#define RTAS_LOG_V6_HP_ID_DRC_INDEX         2
+> -#define RTAS_LOG_V6_HP_ID_DRC_COUNT         3
+> -#ifdef GUEST_SUPPORTS_MODERN
+> -#define RTAS_LOG_V6_HP_ID_DRC_COUNT_INDEXED 4
+> -#endif
+> -    uint8_t hotplug_identifier;         /* type of the resource identifier,
+> -                                         * which serves as the discriminator
+> -                                         * for the 'drc' union field below
+> -                                         */
+> -#ifdef GUEST_SUPPORTS_MODERN
+> -    uint8_t capabilities;               /* capability flags, currently unused
+> -                                         * by QEMU
+> -                                         */
+> -#else
+> -    uint8_t reserved;
+> -#endif
+> -    union {
+> -        uint32_t index;                 /* DRC index of resource to take action
+> -                                         * on
+> -                                         */
+> -        uint32_t count;                 /* number of DR resources to take
+> -                                         * action on (guest chooses which)
+> -                                         */
+> -#ifdef GUEST_SUPPORTS_MODERN
+> -        struct {
+> -            uint32_t count;             /* number of DR resources to take
+> -                                         * action on
+> -                                         */
+> -            uint32_t index;             /* DRC index of first resource to take
+> -                                         * action on. guest will take action
+> -                                         * on DRC index <index> through
+> -                                         * DRC index <index + count - 1> in
+> -                                         * sequential order
+> -                                         */
+> -        } count_indexed;
+> -#endif
+> -        char name[1];                   /* string representing the name of the
+> -                                         * DRC to take action on
+> -                                         */
+> -    } drc;
+> -} QEMU_PACKED;
+> -
+> -== ibm,lrdr-capacity ==
+> -
+> -ibm,lrdr-capacity is a property in the /rtas device tree node that identifies
+> -the dynamic reconfiguration capabilities of the guest. It consists of a triple
+> -consisting of <phys>, <size> and <maxcpus>.
+> -
+> -  <phys>, encoded in BE format represents the maximum address in bytes and
+> +.. code-block:: c
+> +
+> +   struct rtas_event_log_v6_hp {
+> +   #define SECTION_ID_HOTPLUG              0x4850 /* HP */
+> +       struct section_header {
+> +           uint16_t section_id;            /* set to SECTION_ID_HOTPLUG */
+> +           uint16_t section_length;        /* sizeof(rtas_event_log_v6_hp),
+> +                                            * plus the length of the DRC name
+> +                                            * if a DRC name identifier is
+> +                                            * specified for hotplug_identifier
+> +                                            */
+> +           uint8_t section_version;        /* version 1 */
+> +           uint8_t section_subtype;        /* unused */
+> +           uint16_t creator_component_id;  /* unused */
+> +       } hdr;
+> +   #define RTAS_LOG_V6_HP_TYPE_CPU         1
+> +   #define RTAS_LOG_V6_HP_TYPE_MEMORY      2
+> +   #define RTAS_LOG_V6_HP_TYPE_SLOT        3
+> +   #define RTAS_LOG_V6_HP_TYPE_PHB         4
+> +   #define RTAS_LOG_V6_HP_TYPE_PCI         5
+> +       uint8_t hotplug_type;               /* type of resource/device */
+> +   #define RTAS_LOG_V6_HP_ACTION_ADD       1
+> +   #define RTAS_LOG_V6_HP_ACTION_REMOVE    2
+> +       uint8_t hotplug_action;             /* action (add/remove) */
+> +   #define RTAS_LOG_V6_HP_ID_DRC_NAME          1
+> +   #define RTAS_LOG_V6_HP_ID_DRC_INDEX         2
+> +   #define RTAS_LOG_V6_HP_ID_DRC_COUNT         3
+> +   #ifdef GUEST_SUPPORTS_MODERN
+> +   #define RTAS_LOG_V6_HP_ID_DRC_COUNT_INDEXED 4
+> +   #endif
+> +       uint8_t hotplug_identifier;         /* type of the resource identifier,
+> +                                            * which serves as the discriminator
+> +                                            * for the 'drc' union field below
+> +                                            */
+> +   #ifdef GUEST_SUPPORTS_MODERN
+> +       uint8_t capabilities;               /* capability flags, currently unused
+> +                                            * by QEMU
+> +                                            */
+> +   #else
+> +       uint8_t reserved;
+> +   #endif
+> +       union {
+> +           uint32_t index;                 /* DRC index of resource to take action
+> +                                            * on
+> +                                            */
+> +           uint32_t count;                 /* number of DR resources to take
+> +                                            * action on (guest chooses which)
+> +                                            */
+> +   #ifdef GUEST_SUPPORTS_MODERN
+> +           struct {
+> +               uint32_t count;             /* number of DR resources to take
+> +                                            * action on
+> +                                            */
+> +               uint32_t index;             /* DRC index of first resource to take
+> +                                            * action on. guest will take action
+> +                                            * on DRC index <index> through
+> +                                            * DRC index <index + count - 1> in
+> +                                            * sequential order
+> +                                            */
+> +           } count_indexed;
+> +   #endif
+> +           char name[1];                   /* string representing the name of the
+> +                                            * DRC to take action on
+> +                                            */
+> +       } drc;
+> +   } QEMU_PACKED;
+> +
+> +``ibm,lrdr-capacity``
+> +=====================
+> +
+> +``ibm,lrdr-capacity`` is a property in the /rtas device tree node that
+> +identifies the dynamic reconfiguration capabilities of the guest. It consists
+> +of a triple consisting of ``<phys>``, ``<size>`` and ``<maxcpus>``.
+> +
+> +  ``<phys>``, encoded in BE format represents the maximum address in bytes and
+>     hence the maximum memory that can be allocated to the guest.
+>   
+> -  <size>, encoded in BE format represents the size increments in which
+> +  ``<size>``, encoded in BE format represents the size increments in which
+>     memory can be hot-plugged to the guest.
+>   
+> -  <maxcpus>, a BE-encoded integer, represents the maximum number of
+> +  ``<maxcpus>``, a BE-encoded integer, represents the maximum number of
+>     processors that the guest can have.
+>   
+> -pseries guests use this property to note the maximum allowed CPUs for the
+> +``pseries`` guests use this property to note the maximum allowed CPUs for the
+>   guest.
+>   
+> -== ibm,dynamic-reconfiguration-memory ==
+> +``ibm,dynamic-reconfiguration-memory``
+> +======================================
+>   
+> -ibm,dynamic-reconfiguration-memory is a device tree node that represents
+> -dynamically reconfigurable logical memory blocks (LMB). This node
+> -is generated only when the guest advertises the support for it via
+> -ibm,client-architecture-support call. Memory that is not dynamically
+> -reconfigurable is represented by /memory nodes. The properties of this
+> -node that are of interest to the sPAPR memory hotplug implementation
+> -in QEMU are described here.
+> +``ibm,dynamic-reconfiguration-memory`` is a device tree node that represents
+> +dynamically reconfigurable logical memory blocks (LMB). This node is generated
+> +only when the guest advertises the support for it via
+> +``ibm,client-architecture-support`` call. Memory that is not dynamically
+> +reconfigurable is represented by ``/memory`` nodes. The properties of this node
+> +that are of interest to the sPAPR memory hotplug implementation in QEMU are
+> +described here.
+>   
+> -ibm,lmb-size
+> +``ibm,lmb-size``
+> +----------------
+>   
+> -This 64bit integer defines the size of each dynamically reconfigurable LMB.
+> +This 64-bit integer defines the size of each dynamically reconfigurable LMB.
+>   
+> -ibm,associativity-lookup-arrays
+> +``ibm,associativity-lookup-arrays``
+> +-----------------------------------
+>   
+>   This property defines a lookup array in which the NUMA associativity
+>   information for each LMB can be found. It is a property encoded array
+> @@ -361,13 +463,14 @@ that begins with an integer M, the number of associativity lists followed
+>   by an integer N, the number of entries per associativity list and terminated
+>   by M associativity lists each of length N integers.
+>   
+> -This property provides the same information as given by ibm,associativity
+> -property in a /memory node. Each assigned LMB has an index value between
+> +This property provides the same information as given by ``ibm,associativity``
+> +property in a ``/memory`` node. Each assigned LMB has an index value between
+>   0 and M-1 which is used as an index into this table to select which
+> -associativity list to use for the LMB. This index value for each LMB
+> -is defined in ibm,dynamic-memory property.
+> +associativity list to use for the LMB. This index value for each LMB is defined
+> +in ``ibm,dynamic-memory`` property.
+>   
+> -ibm,dynamic-memory
+> +``ibm,dynamic-memory``
+> +----------------------
+>   
+>   This property describes the dynamically reconfigurable memory. It is a
+>   property encoded array that has an integer N, the number of LMBs followed
+> @@ -375,19 +478,19 @@ by N LMB list entries.
+>   
+>   Each LMB list entry consists of the following elements:
+>   
+> -- Logical address of the start of the LMB encoded as a 64bit integer. This
+> -  corresponds to reg property in /memory node.
+> -- DRC index of the LMB that corresponds to ibm,my-drc-index property
+> -  in a /memory node.
+> +- Logical address of the start of the LMB encoded as a 64-bit integer. This
+> +  corresponds to ``reg`` property in ``/memory`` node.
+> +- DRC index of the LMB that corresponds to ``ibm,my-drc-index`` property
+> +  in a ``/memory`` node.
+>   - Four bytes reserved for expansion.
+>   - Associativity list index for the LMB that is used as an index into
+> -  ibm,associativity-lookup-arrays property described earlier. This
+> -  is used to retrieve the right associativity list to be used for this
+> -  LMB.
+> -- A 32bit flags word. The bit at bit position 0x00000008 defines whether
+> +  ``ibm,associativity-lookup-arrays`` property described earlier. This is used
+> +  to retrieve the right associativity list to be used for this LMB.
+> +- A 32-bit flags word. The bit at bit position ``0x00000008`` defines whether
+>     the LMB is assigned to the partition as of boot time.
+>   
+> -ibm,dynamic-memory-v2
+> +``ibm,dynamic-memory-v2``
+> +-------------------------
+>   
+>   This property describes the dynamically reconfigurable memory. This is
+>   an alternate and newer way to describe dynamically reconfigurable memory.
+> @@ -397,13 +500,11 @@ for each sequential group of LMBs that share common attributes.
+>   
+>   Each LMB set entry consists of the following elements:
+>   
+> -- Number of sequential LMBs in the entry represented by a 32bit integer.
+> -- Logical address of the first LMB in the set encoded as a 64bit integer.
+> +- Number of sequential LMBs in the entry represented by a 32-bit integer.
+> +- Logical address of the first LMB in the set encoded as a 64-bit integer.
+>   - DRC index of the first LMB in the set.
+>   - Associativity list index that is used as an index into
+> -  ibm,associativity-lookup-arrays property described earlier. This
+> +  ``ibm,associativity-lookup-arrays`` property described earlier. This
+>     is used to retrieve the right associativity list to be used for all
+>     the LMBs in this set.
+> -- A 32bit flags word that applies to all the LMBs in the set.
+> -
+> -[1] http://thread.gmane.org/gmane.linux.ports.ppc.embedded/75350/focus=106867
+> +- A 32-bit flags word that applies to all the LMBs in the set.
 
