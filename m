@@ -2,125 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3D3448DD8C
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 19:18:00 +0100 (CET)
-Received: from localhost ([::1]:59808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7929248DDFB
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 20:02:05 +0100 (CET)
+Received: from localhost ([::1]:37692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n84ff-0004Sx-OX
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 13:17:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46056)
+	id 1n85MJ-0007G1-70
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 14:02:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1n84aW-0001t6-Bq
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 13:12:40 -0500
-Received: from [2a01:111:f403:7010::730] (port=41879
- helo=JPN01-TYC-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1n85Ch-0000L5-NM
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 13:52:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1n84aU-0001yL-Km
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 13:12:39 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GnEQoQHbBpkjsLqm2YxAwyVvKdaZrJRWt5QwmoMtIkDwitXNbthds20Y7oWmafsIdKKLHI4UZIyhYfyYRLPTcip2FrEIWJQ8elBgOeAQ9oiRArNwxIUKaS7/CpS7XmMpm+LeKB3adB5cBr+eKJa/IbfH4kq/m8fBsyVbQ8htH0EwCa7DnRyKcPDn4sjvOnIVXVKynzZ1pPv8X+8CS8dV+xw7vAUdPFX1vQ0FbHP0mZ7/rALWuCy+jdIF92c0hbJzc1/g6jJDLh+MuRoLkpZcm2ky6MM8PwG14RuGsI7HQbph5AsBC0nM87bzL2pU+BJviPf/PGYoYWaDIFLFFhOQuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xe9iOLv7iamUXphV6+faF9atlrqNzbnQ47tgV+SXHzw=;
- b=WtFtzAqKmVCZNvf8/aiQM+HFBeUl4NjpxyHpL+wqzgbFy18UPOI177HtOcTqfQu/fEaHb6+5TD9AE+5cklhmwdS7ySsUrgpBX1W5m8eA9wgUBR5oCz8x4xWBAelx/eU+/QkRWGiz0JkKa+DUrqcmK9LCaV2dhYnvHmZl1u7825SJ5HsZUZ10wt6nnQBJUa3N9d7Bm6SZ43KqxesT/BUl5wkiIEccre4TCgH2EP9SFmrZd0hzhMqVrr+zW19mwwfNGyCjJ/qj3kFWK3T+g5kbYwDje3EdMvtLSm8d4628QqnG7GMEV/OjTlO0GZUaoAK6TN9ugjbZ1NG0h1DWVcEc2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=zenithal.me; dmarc=pass action=none header.from=zenithal.me;
- dkim=pass header.d=zenithal.me; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zenithal.me;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xe9iOLv7iamUXphV6+faF9atlrqNzbnQ47tgV+SXHzw=;
- b=ThiBbyWZbr+ZGWJ0Z1I+sF0W8EgXwXZ3zqThGVCPvksYvfmN5nsgXpDxTBvbAjtaQXZTT0qM/NHB5tM1XoJP3nddL3RkuU0ZpmGFaPhCQEfjt7bNJZBoImR2B7njjNKwYzh+Kd7iY9Cwrsl85Cf8YFNU7fAk3wg35hUyn4w63q0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=zenithal.me;
-Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:c0::6) by
- OSZP286MB1166.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:13b::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4888.9; Thu, 13 Jan 2022 18:12:14 +0000
-Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
- ([fe80::5cf9:8c86:9001:90d9]) by TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
- ([fe80::5cf9:8c86:9001:90d9%8]) with mapi id 15.20.4888.011; Thu, 13 Jan 2022
- 18:12:14 +0000
-Date: Fri, 14 Jan 2022 02:12:12 +0800
-From: "Hongren (Zenithal) Zheng" <i@zenithal.me>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 6/6] MAINTAINERS: add myself as CanoKey maintainer
-Message-ID: <YeBrfDkT4ZBgJRPa@Sun>
-References: <YeBqg2AmIVYkrJcD@Sun>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1n85Ce-0007tv-32
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 13:52:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642099922;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=rJ5yvVrLRhCi2fhFSRcPqSa4hz7mzueVl7ocHE4nJ88=;
+ b=RzTrNrJ9L1a4m6qnb31eujRgtF5czazKZJC1BK6bjD/Ub3T8mYfxmkbs+ctCo7y49gSZn8
+ SHS1C92N4pN/dedp+mITzMJW/QSoo5orMfr/SI4jvKz918dhUrhoZDNGbB8B7zKx0IWONh
+ ZBugXfNwDojIyUpN4Wd7Vj9bNbbmeAE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-152-X1f7XCGcOGSmOVKt2pSWWA-1; Thu, 13 Jan 2022 13:52:01 -0500
+X-MC-Unique: X1f7XCGcOGSmOVKt2pSWWA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ q2-20020adfab02000000b001a3ed59eb96so1380564wrc.20
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 10:52:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=rJ5yvVrLRhCi2fhFSRcPqSa4hz7mzueVl7ocHE4nJ88=;
+ b=DWvwzWzx8QLsE58FKWQX6oVFyIsU1GzatCFEE6s1Fv103TJs9gQJCHNZXerohx0COi
+ cFssHyWt+u6isL67skHU0pLhb/9wIchZ7Jc8H9/w7pXQnnmOgKP1i8q86pWS9+p4ga4g
+ GseM5txSrtsD5udb1m6848L48E8YFQePn3kiit5jmf3w3BB8Q49B29IlLqFOTE3gk/Ua
+ vqxHPFFN7K7KUcqli5YNQKL+qQKh1j+pUHQEr8EBUeGhW4vpgBmCeIVL+DRVd2RGbL41
+ rG7qqjvOzdayYLpO9LvHNZNyD4TU833B5zkqvu0bh3fG7iMXUEgzLfiLNkSQbg/JVZVR
+ j4lg==
+X-Gm-Message-State: AOAM5312Ur/axzOMzVTOqmC3Jucxu7A6ufUkDplCoXjHWdlQqRsPCkX1
+ CC3GRmSM/Xyb9JA0eDj4PfmU3+S5y0F57PQR4mYrM/ZTk6vUGbMZTGs1p5LqfjyrYl/xkNEnS68
+ T/PbNykC5GnSFbwfwGe9MwXRMBty+XtAkGrE0wUScvt6BKRtD41IyZOu99+po5aOUF7k=
+X-Received: by 2002:a7b:c8d0:: with SMTP id f16mr5099893wml.142.1642099919794; 
+ Thu, 13 Jan 2022 10:51:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzV8KoPWyjuOSybRuzR75qvQn/riIc5fIoYRQnMCPjDsWHUhXYU5W7+xjrNOc2K8CbgWwOJ9A==
+X-Received: by 2002:a7b:c8d0:: with SMTP id f16mr5099865wml.142.1642099919412; 
+ Thu, 13 Jan 2022 10:51:59 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id h5sm3263267wrq.44.2022.01.13.10.51.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Jan 2022 10:51:58 -0800 (PST)
+Date: Thu, 13 Jan 2022 18:51:56 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, clg@kaod.org, danielhb413@gmail.com,
+ david@gibson.dropbear.id.au, groug@kaod.org, lvivier@redhat.com
+Subject: ppc pbr403 vmstate
+Message-ID: <YeB0zGRC/ct8DAzM@work-vm>
+MIME-Version: 1.0
+User-Agent: Mutt/2.1.3 (2021-09-10)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YeBqg2AmIVYkrJcD@Sun>
-X-Operating-System: Linux Sun 5.10.81 
-X-Mailer: Mutt 2.1.5 (2021-12-30)
-X-ClientProxiedBy: HK2PR04CA0046.apcprd04.prod.outlook.com
- (2603:1096:202:14::14) To TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:c0::6)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 47549bfa-2b76-4531-b82a-08d9d6c03a18
-X-MS-TrafficTypeDiagnostic: OSZP286MB1166:EE_
-X-Microsoft-Antispam-PRVS: <OSZP286MB11668EE842D1EA281A4EC6FDBC539@OSZP286MB1166.JPNP286.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:214;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kHLSakfvpkJj4TMSLHjnsj5kwmKXWYtrX+MaH+1dOI6nqJjkeo5K4eW2Nl0zXcdreHiCwsgWxbDOI/lo4/7V6p7EBaZLeYeBAYstEok7phhCSrsL8EF3NaXdvXhxFuGKcuYPMf5uv2myVL01ZqGBC1xnQvwKz/MVXE9vOE3yZabjqRwaBzO3PhIu7QD4HIeZQ7F7OciWqqFT3y1NvwsZSC4alhcO8RKhnne10TLP8f5xrjav1PVC2qUKz362dhv0MKdwjxEfkSM0podxNaq6hz9od/MAKeOCwZBDhR6d6Wh+LseP6pImXLUuvM/7qt6T2IjvR7gjBkBrC1Dv6mMPU0sxAIoxAVsur3UKq+GkojFI1K0DHT99BMT77JkCwkLgXxkyd2ie2npF81JAS6O7jUh8zOLaLtu/Rh99sWa+v4fzaimYOQ3x53qZDYvxAExJoJzsZ+yJcZxYFVkYzhfwkdSt/H28m/wntv7VK19kvYu/QHdOKMHS4/KfGTQc7M9J/BCGVSBDGdwt6iaFBx5QT9zrRiFi9itwIVADbgt6KwETkNkQoczi581GVQ1vmAnc0WEStwX2rSpble+9HMLkaX/te+2jPzEPOuuUD87msNZINANdfJBNf/ShWJIcChvtTwJZXYRBaSQ3PplpwZW2DmBQ0gh76lCh7FGe9+YjSaiCbIMz4iRUorIoiVslPu7isHpc6rKrXVRQhwIei5FVaQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(7916004)(396003)(346002)(39830400003)(366004)(136003)(376002)(6486002)(54906003)(8676002)(186003)(4326008)(52116002)(4744005)(5660300002)(8936002)(6506007)(2906002)(38100700002)(66946007)(66556008)(66476007)(316002)(9686003)(6916009)(6512007)(86362001)(508600001)(33716001)(786003)(49092004);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?bAxXxaO3/W0rr+yJVeCUUGzsRX0m2pEgT1pFIoD+5XNiACUO4Q84JioZtodk?=
- =?us-ascii?Q?4Kv5SJxxzOjDZ6LiRjC+qYjA2SpyojHPJkRrGJTVmsLVIkfbmyN5V4gq6QLE?=
- =?us-ascii?Q?6jOFszYp/GO5BXHFLDQPt74baghwAT+B4axMw3zKhMoVN2g1SvSRfAlvipSo?=
- =?us-ascii?Q?FDPHUnG0cULFpCGbDYngM0pKaGoRhVveEP2SLkrjuW97/ITnc6LpK1mTK2+I?=
- =?us-ascii?Q?nyHUn/f7SoeaoY0ZoukHepf1tvyI7PhEkRwPMvgFuQTUJcYMS2KeUM/FRhSM?=
- =?us-ascii?Q?W6gPWbtLT+hB7pnipjJXDzqRPrxS06beCawyuXwVBrzt+rfoA69HmNfXii9g?=
- =?us-ascii?Q?ljJXrTBk40b3bFq3LpcMHg/bHtlvpef12quRchtevZqD0uRxkbDoPRRvIZZK?=
- =?us-ascii?Q?fiIIKHaugTVlWZ76Nwn4SOWlb4iUKp9SyxlPsONbGt/oHSFaGKGY9kgA01C4?=
- =?us-ascii?Q?Pumm9xsxsU/5TiC7i+kH7cast13lyimEdlBlb4VPnzmvMujHwGVx/Be+Qeww?=
- =?us-ascii?Q?QzGLoMcsUJAB+kKROxFwtt5qiximvaGZatm4jor9WBZ63mkAM+A5Vsh+LfoL?=
- =?us-ascii?Q?xC5VBADTOJ2OA/yDgDjSmPSEe3PvdyVwZhIeuCiBZa2uZGJSH8WGpmkTcNmI?=
- =?us-ascii?Q?Lw7CN/uKFBI2T6Y6jaVuvNQ6MV+re/0nSqDKALdnsBEe4QEjadM8U4BE4gEP?=
- =?us-ascii?Q?c4DeJ0G3LipvtZ1YXFwwNhHCf4OfjJ/RqdQBHiEHyEukrBtB59MDRruwffts?=
- =?us-ascii?Q?t5z93YcmtWIJSotF1NUOQ0mfuaLBHKheraJt5LUlhyhr0uzvGZ7wtDjjhos6?=
- =?us-ascii?Q?KN9KM+CWQ49bgaZePfxYnE50OLSIQIFU9mCIEoDNBvBXmzKcYwKflQFv56Ke?=
- =?us-ascii?Q?jPT7ZWyMUUzunmuleUqLgtX5eERdowYz0Gqel9H1jMKVdIUAg4ziPDOoUynm?=
- =?us-ascii?Q?uDOpZkD98+tr7SUgXkaCDC0weFT/jHHoE6bOEP02Z8TnTxA5rSXtaA9iKc9C?=
- =?us-ascii?Q?5tSwVG2R4vXiY/SR99+GU1NzV/GRsWeVpWX/mZK8CmENbS1FwliTjzOf5zFU?=
- =?us-ascii?Q?f5ZPDXYjvVtD5ZyAZ8qaJ2Qz1bDHIrTGoKsXRz+vS4lz+1r+v/my02cfGPGI?=
- =?us-ascii?Q?fwOhpTDTquIjd7lWu/CzuNtDnPkcOIABf+aV5GtvhstTbn9hZEwmFtj5Y5e5?=
- =?us-ascii?Q?kgx/F11c7TkMVi0f2zpumcFH17/bx84bmNdGJvt73piDAS7HipZDeZbnGPt0?=
- =?us-ascii?Q?GKbqNd1VhF/j69BYcLYLEcTUskrpBevYX9QN8lPTLFr+x3xdWz+gsiK1bVBR?=
- =?us-ascii?Q?0fCKAZ0ZR4usT0hyF/jASe+rwOml+kPEUhbvviWi/oNHkVb6MjDGOBIW0Rzl?=
- =?us-ascii?Q?lyhaUBw8Z0jYm4QiV5gkGb539/xma+TJKGFfWhbJcjOiaSD+XRBrTZFxFtEK?=
- =?us-ascii?Q?soJUudHocBqwahKI2JYQmuvk1XmlfXduOTIt/jpL70VDqul+fxy92iy/NxA7?=
- =?us-ascii?Q?qEgzIUPBNDCfIYcJAODErf2yqdl3Mexnzmizyc2/RixGgAXhuSqp0xqH9OG6?=
- =?us-ascii?Q?TsubZZ2DP+kEF/WIauA3ecfXf2msirzeU5F7LzLG?=
-X-OriginatorOrg: zenithal.me
-X-MS-Exchange-CrossTenant-Network-Message-Id: 47549bfa-2b76-4531-b82a-08d9d6c03a18
-X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2022 18:12:14.7648 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 436d481c-43b1-4418-8d7f-84c1e4887cf0
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uGZXSdvqkalQG9fAsuieArTyzwtFTpu/XvdVb7rHjxNt2pfR0xvX+7CXbAp1vtbN
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZP286MB1166
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f403:7010::730
- (failed)
-Received-SPF: pass client-ip=2a01:111:f403:7010::730;
- envelope-from=i@zenithal.me;
- helo=JPN01-TYC-obe.outbound.protection.outlook.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.594,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -133,36 +94,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- contact@canokeys.org
+Cc: peter.maydell@linaro.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Hongren (Zenithal) Zheng <i@zenithal.me>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Hi,
+  Is there any easy way of getting a machine where the pbr403 vmstate
+would be generated?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f871d759fd..51dae611fa 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2296,6 +2296,14 @@ F: hw/timer/mips_gictimer.c
- F: include/hw/intc/mips_gic.h
- F: include/hw/timer/mips_gictimer.h
+  Given my vague understanding of vmstate subsection naming, I think
+we need:
+
+diff --git a/target/ppc/machine.c b/target/ppc/machine.c
+index 756d8de5d8..e535edb7c4 100644
+--- a/target/ppc/machine.c
++++ b/target/ppc/machine.c
+@@ -718,7 +718,7 @@ static bool pbr403_needed(void *opaque)
+ }
  
-+CanoKey
-+M: Hongren (Zenithal) Zheng <i@zenithal.me>
-+S: Maintained
-+R: Canokeys.org <contact@canokeys.org>
-+F: hw/usb/canokey.c
-+F: hw/usb/canokey.h
-+F: docs/canokey.txt
-+
- Subsystems
- ----------
- Overall Audio backends
+ static const VMStateDescription vmstate_pbr403 = {
+-    .name = "cpu/pbr403",
++    .name = "cpu/tlb6xx/pbr403",
+     .version_id = 1,
+     .minimum_version_id = 1,
+     .needed = pbr403_needed,
+
+to fit the rule where the name of a subsection is prefixed
+by the parent name. (Something a new check I added just triggered).
+
+Dave
+
 -- 
-2.34.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
