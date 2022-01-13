@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E92A48DCE3
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 18:25:59 +0100 (CET)
-Received: from localhost ([::1]:45792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 722DF48DCE2
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 18:25:56 +0100 (CET)
+Received: from localhost ([::1]:45752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n83rK-0001pk-Iv
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 12:25:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51906)
+	id 1n83rH-0001ny-0d
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 12:25:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n83eu-0004ee-5b
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 12:13:08 -0500
-Received: from [2a00:1450:4864:20::52c] (port=41901
- helo=mail-ed1-x52c.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n83fl-0005rY-As
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 12:14:03 -0500
+Received: from [2a00:1450:4864:20::330] (port=56238
+ helo=mail-wm1-x330.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n83er-0007ck-Mr
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 12:13:07 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id t24so25544596edi.8
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 09:13:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=/AY0CTtWvxELdQFWSRD/xT63q9bRhMylJ81/3F6tnhk=;
- b=VK/H5ni1cIycgfg1U7RcwqFcHuJjUY6XmP3kyWAsgjzJbrQHkPXM5Xjr3H3VdP14Mw
- KTBIxmk7eRYa6rs3sETYvMBq+FOWpeu7ehGgnGxJuQmx2vvnd6kgiqPHRbgzDSXxiV7s
- jpFlMti56XxYVoG+WxGzt+RwRcy/Bx25UueWWgWt2k28ZspZ2UsMrUfmRpLWk2SOFuJU
- ib8BEuS39cjcVN/l4Nw4oFTxyhyi09LMPEOyuPKNlNTB19UtMg+gYYLyZLbSH9i558H+
- oV0vvr3CEC5VRxjGei0vBVEdB4CVdId26na4GnDx+RO5YVhp+CYkeR061k41w3lgBKpq
- RSKw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n83fi-0007gF-6s
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 12:14:00 -0500
+Received: by mail-wm1-x330.google.com with SMTP id c66so4349898wma.5
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 09:13:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qptX/qO+0dHLr4mRwd+/lzCcgE+jX4z+b2J+1+jmxg8=;
+ b=azYnhggdcQSqBvcTZ/TUCu+3jZrVwOgYrj1+19EaNmWOi/LpqMzU9eHkSKTPA9dV5s
+ ZPN8nZECFNG9ltN7fTW858/ZZXGdXZ6ki8QdnVN3JIqP4EV3WuiCjYNOl3M6Y85CMMC+
+ 3QKHJ9qm+hCX4/hNA8SHO2s0CNHOV6jnu3Krm7M6LanW7aO1Z7Z0jmeZ797bNZrKWh/R
+ /YfT88XB7uhNtpqS29jmAR+I/5OZq6aVP/ynmNP7ClzKAcobfh7JMKtQ7gs0dLV8PCAe
+ Q6KcEKlN+cNuZ2txucl8r3f87JyvZ5eH92JSpP6zhY40LJFmv94HjdndQz9XvPaovM4L
+ qKMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=/AY0CTtWvxELdQFWSRD/xT63q9bRhMylJ81/3F6tnhk=;
- b=5rHaXQwGrW/3f4kTz4/0wLlclqEMujLsPPXZih7w6FNW/Q+CsIBkagfrDQwAPEiOZ7
- fTLRUG67TaMhwaKHR2w67GLiqnasQQ0CICJYUNxEJecDR2JAJ57AvsydNsXejryc2LmK
- yxoDuQO7nI9Xo+2YxY2jSepOZ23EFUqKpJVpiVzQlB9UWjso6az38vZU30bRbu/cB6qs
- KLwoDxVbgAzfrTPOZCxXvin5vSAZHpcKcJ1hDL6/vFJ0oIynnRU5aikv/dG5VJqz0WBi
- TLK+s8mOv/2TLDJZCRMOUs9pTTRZH/3mVV250MX7y1JPznPsQwHHHQcyioqEFq9bPFhs
- ym3Q==
-X-Gm-Message-State: AOAM533nstqCN8gOSlWBWHaXfifYU50rB1fPNEt6f1bGszXBi23HUy6N
- LqGCl74/bBPZ1SlNyoibE48=
-X-Google-Smtp-Source: ABdhPJy2GxlteBaNenxfeQf6QcSQWac5pEizSkwOJ1GA4WYfegCwMW2Dd6XMRw9mTL9Oy7aCWgQ37A==
-X-Received: by 2002:a17:907:9692:: with SMTP id
- hd18mr4544655ejc.267.1642093983381; 
- Thu, 13 Jan 2022 09:13:03 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id p4sm1049672eju.98.2022.01.13.09.13.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Jan 2022 09:13:03 -0800 (PST)
-Message-ID: <7403b918-d2c7-1d3f-8ef8-786db90fcbea@redhat.com>
-Date: Thu, 13 Jan 2022 18:13:01 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qptX/qO+0dHLr4mRwd+/lzCcgE+jX4z+b2J+1+jmxg8=;
+ b=OJphBGxXpBzOajmepRS245bC74SOK4ZfPHMLpH16JvVcobKg8uMEcG0WcoosocwRHD
+ XBXJREgdz4Tn53se4U8JcI5BGUAIO+XK04k8+zKL7JqPSY/x+uQQCoaN0vJ+qwu5p91z
+ R1Tuf30Esz8Nlcm+Uyij7Y0royAmljc/E2eDDgw0MFAWdvE8dQEaBHwXhVKGMN4kh7my
+ oTmNB8I+1c4ANCKSA63VMFjrtqQl0WJOwMzd7P76Qduk0Yq7a1BQ86HPyQTYSM4VFPee
+ 2T4tET4YvIbfRQtEqpLBXBdWQo424AJSkRhpcnaM+WgPKn2y29MaRKEH8+0zTaIsk7wL
+ wFqg==
+X-Gm-Message-State: AOAM531Vla2LJYOxvOw7rWbYCkz3GonVjz5Kf9QzjutnrrY59IsHW2k+
+ K7bY9EAp7crvz1TL735wjEVVt1ABVqAHwNaO5MVmFw==
+X-Google-Smtp-Source: ABdhPJwcJkCfotYZuZS7bcaGdA7vYbEnxM0NabZrEm2zgp1EYxccuWHCn7it4iBoSM+OPt//WUqP5AdL42fJ2iy+UHo=
+X-Received: by 2002:a05:600c:1991:: with SMTP id
+ t17mr11925874wmq.21.1642094036584; 
+ Thu, 13 Jan 2022 09:13:56 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: /usr/shared/qemu binaries
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, Liviu Ionescu <ilg@livius.net>
-References: <B9A4B86C-4540-486D-A261-876191FA7424@livius.net>
- <CAKmqyKPBDfxKwqcgzjBDEqoWyjjc3g7PiUOEqptL1vfDfh6H8g@mail.gmail.com>
- <D3A93704-3353-4407-9D47-56FF06BDFB87@livius.net>
- <CAKmqyKO-K-GtrHijVW9jVHTtxgeGdOHm7-Y_290HqtNG4k71eg@mail.gmail.com>
- <1E2E0E52-B384-404C-BD72-5697A611EEC5@livius.net>
- <CAFEAcA_vx48ZavZCHD5_=Ajc9zsWS2ieoDXvRzBAEMBjkR3Rrg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAFEAcA_vx48ZavZCHD5_=Ajc9zsWS2ieoDXvRzBAEMBjkR3Rrg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52c
+References: <20220109161923.85683-1-imp@bsdimp.com>
+ <20220109161923.85683-6-imp@bsdimp.com>
+In-Reply-To: <20220109161923.85683-6-imp@bsdimp.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 13 Jan 2022 17:13:45 +0000
+Message-ID: <CAFEAcA8T8xXv6+2hJ50oQpob7=7nFTh=sGGhcMxJnPfvZyHM7g@mail.gmail.com>
+Subject: Re: [PATCH 05/30] bsd-user/arm/arget_arch_cpu.h: Move EXCP_DEBUG and
+ EXCP_BKPT together
+To: Warner Losh <imp@bsdimp.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -98,20 +82,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kyle Evans <kevans@freebsd.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/12/22 14:56, Peter Maydell wrote:
-> Those are UEFI firmware images which are suitable for using with
-> the arm/aarch64 "virt" board. They're only used if the user specifically
-> asks to use them on the command line (eg with
-> "-drive if=pflash,format=raw,file=pc-bios/edk2-aarch64-code.fd" or
-> similar).
+On Sun, 9 Jan 2022 at 16:26, Warner Losh <imp@bsdimp.com> wrote:
+>
+> Implement EXCP_DEBUG and EXCP_BKPT the same, as is done in
+> linux-user. The prior adjustment of register 15 isn't needed, so remove
+> that. Remove a redunant comment (that code in FreeBSD never handled
+> break points).
+>
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> ---
+>  bsd-user/arm/target_arch_cpu.h | 23 +++--------------------
+>  1 file changed, 3 insertions(+), 20 deletions(-)
+>
+> diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch_cpu.h
+> index c526fc73502..05b19ce6119 100644
+> --- a/bsd-user/arm/target_arch_cpu.h
+> +++ b/bsd-user/arm/target_arch_cpu.h
+> @@ -21,6 +21,7 @@
+>  #define _TARGET_ARCH_CPU_H_
+>
+>  #include "target_arch.h"
+> +#include "signal-common.h"
+>
+>  #define TARGET_DEFAULT_CPU_MODEL "any"
+>
+> @@ -64,19 +65,7 @@ static inline void target_cpu_loop(CPUARMState *env)
+>              }
+>              break;
+>          case EXCP_SWI:
+> -        case EXCP_BKPT:
+>              {
+> -                /*
+> -                 * system call
+> -                 * See arm/arm/trap.c cpu_fetch_syscall_args()
+> -                 */
+> -                if (trapnr == EXCP_BKPT) {
+> -                    if (env->thumb) {
+> -                        env->regs[15] += 2;
+> -                    } else {
+> -                        env->regs[15] += 4;
+> -                    }
+> -                }
 
-There must be lots of zeros in there. Maybe we should tell QEMU to 
-unpack firmware .gz or .lzo files?
+So the previous code was implementing BKPT as a way to do
+a syscall (added in commit 8d450c9a30). Was that just a mistake ?
 
-Paolo
+>                  n = env->regs[7];
+>                  if (bsd_type == target_freebsd) {
+>                      int ret;
+> @@ -171,14 +160,8 @@ static inline void target_cpu_loop(CPUARMState *env)
+>              queue_signal(env, info.si_signo, &info);
+>              break;
+>          case EXCP_DEBUG:
+> -            {
+> -
+> -                info.si_signo = TARGET_SIGTRAP;
+> -                info.si_errno = 0;
+> -                info.si_code = TARGET_TRAP_BRKPT;
+> -                info.si_addr = env->exception.vaddress;
+> -                queue_signal(env, info.si_signo, &info);
+> -            }
+> +        case EXCP_BKPT:
+> +            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->regs[15]);
+>              break;
+>          case EXCP_YIELD:
+>              /* nothing to do here for user-mode, just resume guest code */
+
+Looks like it now matches the freebsd kernel behaviour, anyway.
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
