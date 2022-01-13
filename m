@@ -2,91 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A325348DB79
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 17:16:17 +0100 (CET)
-Received: from localhost ([::1]:37010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9210F48DB7C
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 17:16:48 +0100 (CET)
+Received: from localhost ([::1]:38000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n82lr-0007Ig-Km
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 11:16:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37052)
+	id 1n82mN-0007xr-GH
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 11:16:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n82gd-0004YU-Nc
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 11:10:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59662)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1n82hO-0004yV-Qi
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 11:11:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n82ga-0006R9-CJ
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 11:10:50 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1n82hN-0006ap-71
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 11:11:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642090247;
+ s=mimecast20190719; t=1642090293;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YgfUBKlaJyAwdOK3UfsCcQ17N07xfU47IxcPhdnvnKY=;
- b=ZEHfPtBa/49/ytMWMaWMqxtIvyT500grTz+Db9W5LHn5x1BOVVx9Lrkx0r8TBG+QFeGwSd
- 8cH1sQaBne7ITB9U1c2bwBQzPoaEtMJIM+KXCF7UmjyAroGDkSAFbJ6jBLb3MZnop1pQE1
- qUxR/Bvr/XJs+NBHGaqi4C/BWBJWfXI=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=M2Hjsmexf7hY+DSkVVbBArt5yjF2SPD1JIyX6Kvtaxc=;
+ b=YqjzjAnPR5cOmDFIEaIXRTDpd/1hUuX1OQbTa/g0z6YeJHZ8kaLeBnIP6JCs/xC8keVrpU
+ XjLx8SbVlCTcqt19NwfT/FlLec+MWqMOXeQ444G5pDy2iZn3pNJvL7N++hxtgxLqoNhEES
+ SM+6GIQdkVLhK2ZoD/7WJpOgGuwXiA0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-518-CEqp4Q1QN3-1zkneOVGDXA-1; Thu, 13 Jan 2022 11:10:44 -0500
-X-MC-Unique: CEqp4Q1QN3-1zkneOVGDXA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- z13-20020a05600c0a0d00b003457d6619f8so3856522wmp.1
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 08:10:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=YgfUBKlaJyAwdOK3UfsCcQ17N07xfU47IxcPhdnvnKY=;
- b=se7pjU6UjrjKuGNe9pfz4AnDNarnPrJDbzBTC9eHP/aULrp7byyoYpnVDoUwlQ/DHe
- 8UklPtjRyWr59wP5ZfV8ZVcI7bLzkL04C0UAZI2ZC0H1GTVu61WQDNny5Rlleitcci0Y
- OU+PqcCh76jIhRZGmS02j5RzJfwjQV1ndECTSWI95Ni8W5viQ+njPWdc35EEQSLYWlD6
- ZajD0dxT/wxoCIgrjGDbDZkmV12vlueOwtY5aN+QpBvZlvoi73C5IroL0cyZU+RFPYl9
- OodkM+srtV3ho/bjF7Oliw9ibpEv80Ok1zrwDS5J0CSvXcqGaYB8VcC/qWz+rCYlFXKy
- gGHQ==
-X-Gm-Message-State: AOAM530FS9W4TYfsye06hjCS+219ahHu13mCH/Hap2aFGpYk3reHGiF9
- QiRDYhWD9m5J0MyIiKl/hXlX7o2hdNa1JKE2K9oQqhD6AtSabrtQbPJPrD0hGM3llNUZDlvvxR9
- X732wItOvYHmZrG8=
-X-Received: by 2002:a5d:55ce:: with SMTP id i14mr4812863wrw.224.1642090242870; 
- Thu, 13 Jan 2022 08:10:42 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxXZ5iTCNyVDE5hc8wLQBRv9jm10ysqrgPIcu8UmSV6CSe2hmjCgz8ttISvJh0jI0yG4ogBAA==
-X-Received: by 2002:a5d:55ce:: with SMTP id i14mr4812850wrw.224.1642090242662; 
- Thu, 13 Jan 2022 08:10:42 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id k10sm2997403wrz.113.2022.01.13.08.10.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Jan 2022 08:10:42 -0800 (PST)
-Message-ID: <0bdee587-49fe-7bfd-21f8-1c846e676ba8@redhat.com>
-Date: Thu, 13 Jan 2022 17:10:41 +0100
+ us-mta-245-y9Dsq9wIOzabx8RQoxlyOw-1; Thu, 13 Jan 2022 11:11:30 -0500
+X-MC-Unique: y9Dsq9wIOzabx8RQoxlyOw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0EF768E34CE;
+ Thu, 13 Jan 2022 16:10:51 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-9.ams2.redhat.com [10.36.112.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 59D9978AB8;
+ Thu, 13 Jan 2022 16:10:50 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D977C11380A2; Thu, 13 Jan 2022 17:10:48 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Richard W.M. Jones" <rjones@redhat.com>
+Subject: Re: Redesign of QEMU startup & initial configuration
+References: <87lf13cx3x.fsf@dusky.pond.sub.org>
+ <20220104124059.GA1341@redhat.com>
+Date: Thu, 13 Jan 2022 17:10:48 +0100
+In-Reply-To: <20220104124059.GA1341@redhat.com> (Richard W. M. Jones's message
+ of "Tue, 4 Jan 2022 12:40:59 +0000")
+Message-ID: <87tue762gn.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] iotests/MRCE: Write data to source
-To: qemu-block@nongnu.org
-References: <20211223165308.103793-1-hreitz@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211223165308.103793-1-hreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.594,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,45 +80,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Mark Burton <mark.burton@greensocs.com>,
+ qemu-devel@nongnu.org, Mirela Grujic <mirela.grujic@greensocs.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>, "Edgar E.
+ Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.12.21 17:53, Hanna Reitz wrote:
-> This test assumes that mirror flushes the source when entering the READY
-> state, and that the format level will pass that flush on to the protocol
-> level (where we intercept it with blkdebug).
->
-> However, apparently that does not happen when using a VMDK image with
-> zeroed_grain=on, which actually is the default set by testenv.py.  Right
-> now, Python tests ignore IMGOPTS, though, so this has no effect; but
-> Vladimir has a series that will change this, so we need to fix this test
-> before that series lands.
->
-> We can fix it by writing data to the source before we start the mirror
-> job; apparently that makes the (VMDK) format layer change its mind and
-> pass on the pre-READY flush to the protocol level, so the test passes
-> again.  (I presume, without any data written, mirror just does a 64M
-> zero write on the target, which VMDK with zeroed_grain=on basically just
-> ignores.)
->
-> Without this, we do not get a flush, and so blkdebug only sees a single
-> flush at the end of the job instead of two, and therefore does not
-> inject an error, which makes the block job complete instead of raising
-> an error.
->
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-> ---
-> As hinted at above, I think this should be merged before Vladimir's
-> "iotests: support zstd" series, or said test fails for me with VMDK.
-> (At least on one system, not the other...  Would be too easy otherwise,
-> obviously.)
-> ---
->   tests/qemu-iotests/tests/mirror-ready-cancel-error | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
+"Richard W.M. Jones" <rjones@redhat.com> writes:
 
-Applied to my block branch.
+> Sorry for very delayed reply ...
+>
+> On Thu, Dec 02, 2021 at 07:57:38AM +0100, Markus Armbruster wrote:
+>> 1. QMP only
+>> 
+>>    Management applications need to use QMP for monitoring anyway.  They
+>>    may want to use it for initial configuration, too.  Libvirt does.
+>> 
+>>    They still need to bootstrap a QMP monitor, and for that, CLI is fine
+>>    as long as it's simple and stable.
+>
+> libguestfs actually does not use the QMP monitor but manages to
+> configure eveything from the command line just fine.  I've attached
+> below a typical example.  (Of course we can use libvirt too, but still
+> for many configurations libvirt causes problems unfortunately).
 
-Hanna
+This is just the example I've been looking for: an application that
+doesn't really need "QMP only".  Thanks!
+
+>> Human users struggle with inconsistent syntax, insufficiently expressive
+>> configuration files, and huge command lines.
+>
+> One advantage of "huge command lines" is that they document the
+> configuration of qemu quite well.  I know it's only an approximation,
+> but in many cases it's exactly what we want.  It is frequently the
+> case when troubleshooting that we ask the user "what is the qemu
+> command line", and they can get that from the libvirt log file or
+> through "ps".
+
+Yes.
+
+> So we need to consider this and make sure that everything is changed
+> so we don't regress.  libguestfs will need substantial changes and
+
+I think we should try to accomodate how libguestfs wants to use QEMU.
+
+> libvirt must dump the full configuration (qinfo or whatever) to the
+> log file.
+
+I believe the entire QMP traffic needs to be logged.
+
+CLI + configuration files are all or nothing: if QEMU starts, all, else
+nothing.  When you configure via QMP, any command may fail, and these
+failures are not fatal.
+
+In general, we can also have run-time configuration changes via QMP,
+such as hot plug.  Another reason to log all QMP traffic.
+
+> I don't really disagreee with anything else you wrote however.
+
+Thanks!
 
 
