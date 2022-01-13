@@ -2,56 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E90748DD70
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 19:06:49 +0100 (CET)
-Received: from localhost ([::1]:50500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB6F148DD74
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 19:07:27 +0100 (CET)
+Received: from localhost ([::1]:51546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n84Uq-0005oB-4h
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 13:06:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41044)
+	id 1n84VS-0006bJ-Vw
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 13:07:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1n84Ng-0000RJ-7Y
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 12:59:24 -0500
-Received: from [2001:738:2001:2001::2001] (port=17396 helo=zero.eik.bme.hu)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1n84SM-0004cE-4v; Thu, 13 Jan 2022 13:04:14 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:6420
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1n84Nd-0007dP-0E
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 12:59:23 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 8D1807470AB;
- Thu, 13 Jan 2022 18:59:13 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 74346746FEB; Thu, 13 Jan 2022 18:59:13 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 72986746351;
- Thu, 13 Jan 2022 18:59:13 +0100 (CET)
-Date: Thu, 13 Jan 2022 18:59:13 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: /usr/shared/qemu binaries
-In-Reply-To: <7403b918-d2c7-1d3f-8ef8-786db90fcbea@redhat.com>
-Message-ID: <f75aa7ab-dbca-fa52-a472-707e64d4457c@eik.bme.hu>
-References: <B9A4B86C-4540-486D-A261-876191FA7424@livius.net>
- <CAKmqyKPBDfxKwqcgzjBDEqoWyjjc3g7PiUOEqptL1vfDfh6H8g@mail.gmail.com>
- <D3A93704-3353-4407-9D47-56FF06BDFB87@livius.net>
- <CAKmqyKO-K-GtrHijVW9jVHTtxgeGdOHm7-Y_290HqtNG4k71eg@mail.gmail.com>
- <1E2E0E52-B384-404C-BD72-5697A611EEC5@livius.net>
- <CAFEAcA_vx48ZavZCHD5_=Ajc9zsWS2ieoDXvRzBAEMBjkR3Rrg@mail.gmail.com>
- <7403b918-d2c7-1d3f-8ef8-786db90fcbea@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1n84SK-0000Fy-4V; Thu, 13 Jan 2022 13:04:13 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20DFsKCq002431; 
+ Thu, 13 Jan 2022 18:04:01 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3djq4htrq3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Jan 2022 18:04:00 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20DHroc3022742;
+ Thu, 13 Jan 2022 18:04:00 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3djq4htrpb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Jan 2022 18:04:00 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20DI220C017337;
+ Thu, 13 Jan 2022 18:03:57 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma01fra.de.ibm.com with ESMTP id 3dfwhjr6ka-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Jan 2022 18:03:57 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20DI3tYo35258706
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 13 Jan 2022 18:03:55 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 38AA9A4057;
+ Thu, 13 Jan 2022 18:03:55 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DA247A404D;
+ Thu, 13 Jan 2022 18:03:54 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu, 13 Jan 2022 18:03:54 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.52.153])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id B1DE022016D;
+ Thu, 13 Jan 2022 19:03:53 +0100 (CET)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v3] ppc/ppc405: Fix TLB flushing
+Date: Thu, 13 Jan 2022 19:03:52 +0100
+Message-Id: <20220113180352.1234512-1-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:738:2001:2001::2001
- (failed)
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Y325XdvITyQZ7dmvhtCuCLGnNOalFKfY
+X-Proofpoint-ORIG-GUID: E7biY04LGBxqdIdd4Wp4tSizXYKbvJCS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-13_08,2022-01-13_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ clxscore=1034 suspectscore=0 impostorscore=0 spamscore=0
+ lowpriorityscore=0 bulkscore=0 mlxscore=0 adultscore=0 malwarescore=0
+ mlxlogscore=895 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2201130112
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.398,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,28 +100,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>, Liviu Ionescu <ilg@livius.net>
+Cc: Thomas Huth <thuth@redhat.com>, Fabiano Rosas <farosas@linux.ibm.com>,
+ Greg Kurz <groug@kaod.org>, Christophe Leroy <christophe.leroy@csgroup.eu>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 13 Jan 2022, Paolo Bonzini wrote:
-> On 1/12/22 14:56, Peter Maydell wrote:
->> Those are UEFI firmware images which are suitable for using with
->> the arm/aarch64 "virt" board. They're only used if the user specifically
->> asks to use them on the command line (eg with
->> "-drive if=pflash,format=raw,file=pc-bios/edk2-aarch64-code.fd" or
->> similar).
->
-> There must be lots of zeros in there. Maybe we should tell QEMU to unpack 
-> firmware .gz or .lzo files?
+Commit cd0c6f473532 did not take into account 405 CPUs when adding
+support to batching of TCG tlb flushes. Set the TLB_NEED_LOCAL_FLUSH
+flag when the SPR_40x_PID is set or a TLB updated.
 
-May be a crazy idea, but could the above command read format=qcov2 files 
-that don't need to have the zeros or may be compressed without adding any 
-more support to QEMU? (Or any other compressed format already supprted by 
--drive if there are any.)
+Cc: Thomas Huth <thuth@redhat.com>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Fabiano Rosas <farosas@linux.ibm.com>
+Fixes: cd0c6f473532 ("ppc: Do some batching of TCG tlb flushes")
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
 
-Regards,
-BALATON Zoltan
+ Changes in v3:
+
+ - (re) Program the flush operation when the TLB is updated.
+=20
+ Changes in v2:
+
+ - Rely on the SPR_40x_PID store helper to program the flush operation
+=20
+ target/ppc/helper.h     |  1 +
+ target/ppc/mmu_helper.c | 12 +++++++++++-
+ target/ppc/translate.c  |  2 +-
+ 3 files changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index f9c72dcd504d..08165184005c 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -708,6 +708,7 @@ DEF_HELPER_FLAGS_1(load_40x_pit, TCG_CALL_NO_RWG, tl,=
+ env)
+ DEF_HELPER_FLAGS_2(store_40x_pit, TCG_CALL_NO_RWG, void, env, tl)
+ DEF_HELPER_FLAGS_2(store_40x_tcr, TCG_CALL_NO_RWG, void, env, tl)
+ DEF_HELPER_FLAGS_2(store_40x_tsr, TCG_CALL_NO_RWG, void, env, tl)
++DEF_HELPER_2(store_40x_pid, void, env, tl)
+ DEF_HELPER_2(store_40x_dbcr0, void, env, tl)
+ DEF_HELPER_2(store_40x_sler, void, env, tl)
+ DEF_HELPER_FLAGS_2(store_booke_tcr, TCG_CALL_NO_RWG, void, env, tl)
+diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
+index 59df6952aea1..a2a52a12c3a4 100644
+--- a/target/ppc/mmu_helper.c
++++ b/target/ppc/mmu_helper.c
+@@ -664,6 +664,14 @@ static inline int booke_page_size_to_tlb(target_ulon=
+g page_size)
+ #define PPC4XX_TLBLO_ATTR_MASK      0x000000FF
+ #define PPC4XX_TLBLO_RPN_MASK       0xFFFFFC00
+=20
++void helper_store_40x_pid(CPUPPCState *env, target_ulong val)
++{
++    if (env->spr[SPR_40x_PID] !=3D val) {
++        env->spr[SPR_40x_PID] =3D val;
++        env->tlb_need_flush |=3D TLB_NEED_LOCAL_FLUSH;
++    }
++}
++
+ target_ulong helper_4xx_tlbre_hi(CPUPPCState *env, target_ulong entry)
+ {
+     ppcemb_tlb_t *tlb;
+@@ -681,7 +689,7 @@ target_ulong helper_4xx_tlbre_hi(CPUPPCState *env, ta=
+rget_ulong entry)
+         size =3D PPC4XX_TLBHI_SIZE_DEFAULT;
+     }
+     ret |=3D size << PPC4XX_TLBHI_SIZE_SHIFT;
+-    env->spr[SPR_40x_PID] =3D tlb->PID;
++    helper_store_40x_pid(env, tlb->PID);
+     return ret;
+ }
+=20
+@@ -794,6 +802,8 @@ void helper_4xx_tlbwe_lo(CPUPPCState *env, target_ulo=
+ng entry,
+                   tlb->prot & PAGE_WRITE ? 'w' : '-',
+                   tlb->prot & PAGE_EXEC ? 'x' : '-',
+                   tlb->prot & PAGE_VALID ? 'v' : '-', (int)tlb->PID);
++
++    env->tlb_need_flush |=3D TLB_NEED_LOCAL_FLUSH;
+ }
+=20
+ target_ulong helper_4xx_tlbsx(CPUPPCState *env, target_ulong address)
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 40232201bb0c..3ad1be60e71d 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -894,7 +894,7 @@ void spr_write_40x_pid(DisasContext *ctx, int sprn, i=
+nt gprn)
+ {
+     TCGv t0 =3D tcg_temp_new();
+     tcg_gen_andi_tl(t0, cpu_gpr[gprn], 0xFF);
+-    gen_store_spr(SPR_40x_PID, t0);
++    gen_helper_store_40x_pid(cpu_env, t0);
+     tcg_temp_free(t0);
+ }
+=20
+--=20
+2.31.1
+
 
