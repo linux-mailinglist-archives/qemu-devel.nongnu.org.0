@@ -2,64 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D948448D072
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 03:32:04 +0100 (CET)
-Received: from localhost ([::1]:34100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2AEE48D09C
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 04:04:58 +0100 (CET)
+Received: from localhost ([::1]:40686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7puF-0001Qs-Cp
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 21:32:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54114)
+	id 1n7qQ5-0000oZ-MR
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 22:04:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tgfbeta@me.com>) id 1n7psF-0000c8-W6
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 21:30:00 -0500
-Received: from pv50p00im-tydg10011801.me.com ([17.58.6.52]:45596)
+ (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
+ id 1n7qP4-0008Mx-Me; Wed, 12 Jan 2022 22:03:54 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tgfbeta@me.com>) id 1n7psE-0005vw-HY
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 21:29:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
- t=1642040995; bh=G+dhqPj8D9Yj04ZUh0QBg6F4RuWPEIZxa3WtHpOLqoQ=;
- h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
- b=PC891wSmGGbStqPbwgDHbQQPVjbSFWIyJQTDAbkjeZC9DWfudYzvkjlMUO05gVd68
- MMxnmJ78AkVLF5UfZyz+8jAb7YEV4YNRk7faFqXRQYQ85JYCs3egG4L4NRtctZJXAX
- p4AtIOk4m8hIz8DsuDp0DMalFfhliwpw4HUj3gowTV9kvlwri0RcgR+XUwWxE+cm19
- 3VQyJ41gWidOimXr6yyYcVudjZkrYWSuRkSpyaLn78vqKyZiIgFcglOohW/1wlAbD0
- be9pjj7xAMgDej2b0nLetq/TtoMc/ht4PeU65AtBDLZ5seXogT4lTx0yskbss+a6Xg
- J5vTChYjaPFwA==
-Received: from smtpclient.apple (unknown [111.163.120.4])
- by pv50p00im-tydg10011801.me.com (Postfix) with ESMTPSA id 43092800478;
- Thu, 13 Jan 2022 02:29:53 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [PATCH] ui/cocoa: capture screencast with AVAssetWriter
-From: Chen Zhang <tgfbeta@me.com>
-In-Reply-To: <CAFEAcA_zFwoCSXhqSbEmT=sKTZUvHu+vBzxDwF-6ECbeeUXeMQ@mail.gmail.com>
-Date: Thu, 13 Jan 2022 10:29:50 +0800
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <CE203C26-67F3-402C-8DD0-6CF97063C15D@me.com>
-References: <20220111070258.2983-1-tgfbeta@me.com>
- <CAFEAcA_zFwoCSXhqSbEmT=sKTZUvHu+vBzxDwF-6ECbeeUXeMQ@mail.gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.790
- definitions=2022-01-13_01:2022-01-11,
- 2022-01-13 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 clxscore=1015 mlxscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-2009150000 definitions=main-2201130008
-Received-SPF: pass client-ip=17.58.6.52; envelope-from=tgfbeta@me.com;
- helo=pv50p00im-tydg10011801.me.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
+ id 1n7qP1-000271-CU; Wed, 12 Jan 2022 22:03:54 -0500
+Received: from kwepemi100004.china.huawei.com (unknown [172.30.72.53])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JZ8Pd1Rbyzcc7g;
+ Thu, 13 Jan 2022 11:03:01 +0800 (CST)
+Received: from kwepemm600007.china.huawei.com (7.193.23.208) by
+ kwepemi100004.china.huawei.com (7.221.188.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 13 Jan 2022 11:03:40 +0800
+Received: from [10.174.185.179] (10.174.185.179) by
+ kwepemm600007.china.huawei.com (7.193.23.208) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 13 Jan 2022 11:03:40 +0800
+Subject: [Q] arm: SVE accesses at EL0 is broken with E2H+TGE?
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
+CC: Richard Henderson <richard.henderson@linaro.org>, Peter Maydell
+ <peter.maydell@linaro.org>, <kernel.yuz@gmail.com>,
+ <wanghaibin.wang@huawei.com>
+Message-ID: <6cdfd5de-2465-adca-73b3-9c66945cf18a@huawei.com>
+Date: Thu, 13 Jan 2022 11:03:38 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.185.179]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemm600007.china.huawei.com (7.193.23.208)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187; envelope-from=yuzenghui@huawei.com;
+ helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,36 +67,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Zenghui Yu <yuzenghui@huawei.com>
+From:  Zenghui Yu via <qemu-devel@nongnu.org>
 
-Granted that this patch might not fit for main branch, I hope this =
-snippet could help someone in need.
+Hi,
 
-Screen cast feature shipped with macOS does support screen recording, =
-but only for whole screen or selected rectangle, not for a selected =
-window like photo capture feature.
+I've just exercised the SVE emulation in QEMU with
 
-And pixels are not sourced from qemu display frame buffer. This means =
-the screencast would be scaled by contentsScale (for retina screen) and =
-window titlebar would be included.
+| `qemu-system-aarch64 -M virt,virtualization=on,gic-version=3 \
+|  -cpu max -accel tcg [...]`
 
+Since QEMU sets ID_AA64MMFR1_EL1.VH for -cpu max, the Linux guest I use
+was booting with VHE enabled and running with E2H+TGE. But I've then
+seen the Linux sve-probe-vls selftest [1] failure in guest which runs at
+EL0 and can be described as:
 
+1) Call prctl(PR_SVE_SET_VL, vl == 64) to set the vector length.
+2) Emit RDVL instruction **but** get vl == 16. Emmm..
 
-Best Regards
+Looking a bit further at the way we emulate SVE in QEMU, there might be
+some issues need to be addressed.
 
-> 2022=E5=B9=B41=E6=9C=8811=E6=97=A5 =E4=B8=8B=E5=8D=884:31=EF=BC=8CPeter =
-Maydell <peter.maydell@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> On Tue, 11 Jan 2022 at 07:09, Zhang Chen <tgfbeta@me.com> wrote:
->>=20
->> To record screencast, AVAssetWriter APIs were called for each
->> cocoa_update call.
->>=20
->> Commands for start/stop recording were added to View menu.
->=20
-> This seems a bit of an odd feature -- why doesn't the OS just
-> permit screen recording of any application without the app
-> having to have code for it specifically ?
->=20
-> -- PMM
+* sve_zcr_len_for_el() implementation
 
+Per DDI 0584 B.a, when HCR_EL2.{E2H,TGE} == {1,1} and EL2 is enabled in
+the current Security state, ZCR_EL1 has no effect on execution at EL0.
+We should use ZCR_EL2 instead for E2H+TGE.
+
+* CPTR_EL2 register accessors
+
+CPTR_EL2 has diffrent layout with or without VHE, but looks like we only
+take the nVHE one into account. Take sve_exception_el(env, el == 0) as
+an example, we don't check CPTR_EL2.ZEN for EL0 SVE accesses and we will
+never generate an exception even if needed...
+
+... whilst Linux kernel indeed relies on a trap to EL2 to restore SVE
+context appropriately for userland. SVE accesses at EL0 is broken in
+that case, I guess?
+
+Thanks,
+Zenghui
+
+[1] 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/arm64/fp/sve-probe-vls.c
 
