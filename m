@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04DDA48DC28
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 17:46:20 +0100 (CET)
-Received: from localhost ([::1]:48218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9FB948DC29
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 17:46:43 +0100 (CET)
+Received: from localhost ([::1]:49478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n83Ew-0003Y5-RK
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 11:46:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44204)
+	id 1n83FK-0004Wd-T4
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 11:46:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <30VXgYQcKChQFy7DEBy08805y.w86Ay6E-xyFy578707E.8B0@flex--venture.bounces.google.com>)
- id 1n838f-0006k5-HC
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 11:39:49 -0500
-Received: from [2607:f8b0:4864:20::f4a] (port=50141
- helo=mail-qv1-xf4a.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n83Ce-0002xl-9l
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 11:43:56 -0500
+Received: from [2a00:1450:4864:20::32c] (port=39777
+ helo=mail-wm1-x32c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <30VXgYQcKChQFy7DEBy08805y.w86Ay6E-xyFy578707E.8B0@flex--venture.bounces.google.com>)
- id 1n838d-0002Ma-L7
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 11:39:49 -0500
-Received: by mail-qv1-xf4a.google.com with SMTP id
- ib7-20020a0562141c8700b0040812bc4425so6208644qvb.16
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 08:39:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=LifCWiTQZmNhrBu401wbAO4/VaPVPFl+xifbloSN9Os=;
- b=BdDU8xQwJrziYkpMPT5scs/YareWo4fA8n728+E7WZab9/93blNf/92gpt0j62jTQy
- IhE0MXSgrlTjdqd0UxflVeY7/E2+c+62Lx76qGl4tNfhTaIcKb5XnWhiD2bBF0TIEs/C
- kgYqlYoT5WvDlu4beVISyQC3kbvTuOj6e/c8iLcT70diXKHOu0gHBmjrBO4cLBJs+diz
- 9wtdUXqpvb6kFln9/0/yyqeqNFa0JVvm6uMsVNtFL7Bh13QD5qTrG0CZwIuSdSVSc8rn
- UoLjknhvbw7DmkETIoqHSyvMu9LHV1282nlCeXhSPJWu/h0SEzTZeg9Qlb+G2yVR3nye
- U1Yw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n83Cc-00030f-II
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 11:43:55 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ d18-20020a05600c251200b0034974323cfaso5775697wma.4
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 08:43:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=J1GtZaDXQAjUBk5zuR3rvKMW0iMDugjZj4P1YauCIYg=;
+ b=W0HaFPGoauDly5PDV8l2o+f7b0rjGj6ITo9kV58kNF0aH9zE75poJL+yKMFvv/W+8B
+ 83V68ARl/uWjivbG+2mgplJqFcHdqOr3sa+cDHTXuAnRA1/Dsz1ca4/b1FSJuHoQHN2m
+ x4d+88wyzuwCM5W5+sHf2hV8kTQ5cTLryQ691ZNQXFVTiRPglxq75+Yytz9BiYWlh8mB
+ UpZnxZv+c5KHEnMAYL7CHjYIbJuJfY1aUR6Nnb1amKeyyD5+ltVG8MlYhodgITodLqEd
+ wD/gbrmHWbmHKMfZrrJ6LkuYqZuovp2UcBxQMJK+v3EjDTGODoISrHPV3xycn7Q3I29N
+ RvCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=LifCWiTQZmNhrBu401wbAO4/VaPVPFl+xifbloSN9Os=;
- b=OY37trvcvwzOLWvgz/zjpndfjMKU/MHIqQiywsDhwCiUJ1EKxkH3I3dnvEC2dERL9G
- I9QbhupdV9QdDfxQ0zq30euMRGw+2Df1FAQ3wV9+lDvFW0NEny12EFFB9mNBVIoGbEDv
- MK7C72BJvBxq1kp4FVKWXnuffxAs8ZR4ZOsYMbSK/Y5zQo1D0c61tKKRr/QjwEt27kAS
- 0T6CoW0A1f+3Ac68T53j2VEdek0vKgv8JiUfs2oui0O9nzBfmx67l2aBj7xtBS1YE1AR
- sCrrfRFk6QwGEoQk14ROoSZBF0ZBq+P0xlxzYO0T+/cnd2EjPfcMnBQmaKerLMIWSxyL
- +5zg==
-X-Gm-Message-State: AOAM532d/h+d/zlbNCanbGq19kASABlQM16mjtItxiKv32ZneUhd9sAy
- gLBcl3PhAWTyO+CkTaMDrxLRywaciPR2
-X-Google-Smtp-Source: ABdhPJziaM1iX12bYgULW0Vx9CHZZdX7SVu9fVMwUAwVP+Hr9IImucMDYDfXw9H3xKDAufg/tMROdK5mWTc5
-X-Received: from venture.svl.corp.google.com
- ([2620:15c:2a3:200:e292:b948:2633:96])
- (user=venture job=sendgmr) by 2002:a05:622a:1046:: with SMTP id
- f6mr4152358qte.517.1642091985787; Thu, 13 Jan 2022 08:39:45 -0800 (PST)
-Date: Thu, 13 Jan 2022 08:39:34 -0800
-In-Reply-To: <20220113163934.2556958-1-venture@google.com>
-Message-Id: <20220113163934.2556958-3-venture@google.com>
-Mime-Version: 1.0
-References: <20220113163934.2556958-1-venture@google.com>
-X-Mailer: git-send-email 2.34.1.575.g55b058a8bb-goog
-Subject: [PATCH v3 2/2] tests: add qtest for hw/sensor/sbtsi
-From: Patrick Venture <venture@google.com>
-To: thuth@redhat.com, lvivier@redhat.com, pbonzini@redhat.com, f4bug@amsat.org,
- cminyard@mvista.com
-Cc: qemu-devel@nongnu.org, Hao Wu <wuhaotsh@google.com>,
- Doug Evans <dje@google.com>, Patrick Venture <venture@google.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=J1GtZaDXQAjUBk5zuR3rvKMW0iMDugjZj4P1YauCIYg=;
+ b=UiSyMtOIbhB3RVMbMM0Iq5yPxkXEf4hcB9tv8AdUcKZ/B2Kao45ah8/emyREyUfilB
+ 8D7lGoKTzqfXk9Y3xzJGnAfVcLXWkX6LcpZduBFVIe0q7pG2S5Q1UyWt6adF8qEkF6tx
+ wFh+y3mwyFdQZRdIScB8IV6NEa07ZZI2iGYTYgYGzv7C9qnNqmQumPKT8jbpPazu/lQj
+ P8Q4/4epi+JGy44wOrU7Um6wDvINMRJLdLTuhhBg5pCL5gGd3F7ezbZAQaA4lnoFNoj2
+ AagB4mxHw9wvd2kwP60HzAro4jAbAvcc5czUaiD2bUfr1umWc0x80Za58aAwDUjo3iXe
+ QkzA==
+X-Gm-Message-State: AOAM531OBQdKFW3/h9CelvtzWmsYeb040IhOPaKsqlf9SP21M+IqXrNY
+ 9hbTiBaJJHKKl+tPb+k8Kav0C+2htnoR4DI98TestQ==
+X-Google-Smtp-Source: ABdhPJwOz5s9qW7/4FDc3aqUhfGlPczSJxdLI2VItmdy+nIZ+vs2nAeo1BJ3OSM/KGUxR8ZxUxIkzM67BEMfDKPgCjU=
+X-Received: by 2002:a05:600c:3ac5:: with SMTP id
+ d5mr4674872wms.32.1642092232776; 
+ Thu, 13 Jan 2022 08:43:52 -0800 (PST)
+MIME-Version: 1.0
+References: <20220109161923.85683-1-imp@bsdimp.com>
+ <20220109161923.85683-3-imp@bsdimp.com>
+In-Reply-To: <20220109161923.85683-3-imp@bsdimp.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 13 Jan 2022 16:43:41 +0000
+Message-ID: <CAFEAcA-zcpwAx-aGOR717j7NNgWUeP1SC1Usqv66dnG_c27XQQ@mail.gmail.com>
+Subject: Re: [PATCH 02/30] bsd-user/signal.c: implement force_sig_fault
+To: Warner Losh <imp@bsdimp.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f4a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f4a;
- envelope-from=30VXgYQcKChQFy7DEBy08805y.w86Ay6E-xyFy578707E.8B0@flex--venture.bounces.google.com;
- helo=mail-qv1-xf4a.google.com
-X-Spam_score_int: -87
-X-Spam_score: -8.8
-X-Spam_bar: --------
-X-Spam_report: (-8.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,201 +82,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@freebsd.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hao Wu <wuhaotsh@google.com>
+On Sun, 9 Jan 2022 at 16:23, Warner Losh <imp@bsdimp.com> wrote:
+>
+> Start to implement the force_sig_fault code. This currently just calls
+> queue_signal(). The bsd-user fork version of that will handle this the
+> synchronous nature of this call. Add signal-common.h to hold signal
+> helper functions like force_sig_fault.
+>
+> Signed-off-by: Stacey Son <sson@FreeBSD.org>
+> Signed-off-by: Kyle Evans <kevans@freebsd.org>
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
 
-Reviewed-by: Doug Evans <dje@google.com>
-Signed-off-by: Hao Wu <wuhaotsh@google.com>
-Signed-off-by: Patrick Venture <venture@google.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
----
- tests/qtest/tmp-sbtsi-test.c | 161 +++++++++++++++++++++++++++++++++++
- tests/qtest/meson.build      |   1 +
- 2 files changed, 162 insertions(+)
- create mode 100644 tests/qtest/tmp-sbtsi-test.c
+> +/*
+> + * Force a synchronously taken QEMU_SI_FAULT signal. For QEMU the
+> + * 'force' part is handled in process_pending_signals().
+> + */
+> +void force_sig_fault(int sig, int code, abi_ulong addr)
+> +{
+> +    CPUState *cpu = thread_cpu;
+> +    CPUArchState *env = cpu->env_ptr;
+> +    target_siginfo_t info = {};
+> +
+> +    info.si_signo = sig;
+> +    info.si_errno = 0;
+> +    info.si_code = code;
+> +    info.si_addr = addr;
+> +    queue_signal(env, sig, &info);
+> +}
 
-diff --git a/tests/qtest/tmp-sbtsi-test.c b/tests/qtest/tmp-sbtsi-test.c
-new file mode 100644
-index 0000000000..ff1e193739
---- /dev/null
-+++ b/tests/qtest/tmp-sbtsi-test.c
-@@ -0,0 +1,161 @@
-+/*
-+ * QTests for the SBTSI temperature sensor
-+ *
-+ * Copyright 2020 Google LLC
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms of the GNU General Public License as published by the
-+ * Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-+ * for more details.
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "libqtest-single.h"
-+#include "libqos/qgraph.h"
-+#include "libqos/i2c.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qemu/bitops.h"
-+#include "hw/sensor/sbtsi.h"
-+
-+#define TEST_ID   "sbtsi-test"
-+#define TEST_ADDR (0x4c)
-+
-+/* The temperature stored are in units of 0.125 degrees. */
-+#define LIMIT_LOW_IN_MILLIDEGREE (10500)
-+#define LIMIT_HIGH_IN_MILLIDEGREE (55125)
-+
-+static uint32_t qmp_sbtsi_get_temperature(const char *id)
-+{
-+    QDict *response;
-+    int ret;
-+
-+    response = qmp("{ 'execute': 'qom-get', 'arguments': { 'path': %s, "
-+                   "'property': 'temperature' } }", id);
-+    g_assert(qdict_haskey(response, "return"));
-+    ret = (uint32_t)qdict_get_int(response, "return");
-+    qobject_unref(response);
-+    return ret;
-+}
-+
-+static void qmp_sbtsi_set_temperature(const char *id, uint32_t value)
-+{
-+    QDict *response;
-+
-+    response = qmp("{ 'execute': 'qom-set', 'arguments': { 'path': %s, "
-+                   "'property': 'temperature', 'value': %d } }", id, value);
-+    g_assert(qdict_haskey(response, "return"));
-+    qobject_unref(response);
-+}
-+
-+/*
-+ * Compute the temperature using the integer and decimal part and return
-+ * millidegrees. The decimal part are only the top 3 bits so we shift it by
-+ * 5 here.
-+ */
-+static uint32_t regs_to_temp(uint8_t integer, uint8_t decimal)
-+{
-+    return ((integer << 3) + (decimal >> 5)) * SBTSI_TEMP_UNIT_IN_MILLIDEGREE;
-+}
-+
-+/*
-+ * Compute the integer and decimal parts of the temperature in millidegrees.
-+ * H/W store the decimal in the top 3 bits so we shift it by 5.
-+ */
-+static void temp_to_regs(uint32_t temp, uint8_t *integer, uint8_t *decimal)
-+{
-+    temp /= SBTSI_TEMP_UNIT_IN_MILLIDEGREE;
-+    *integer = temp >> 3;
-+    *decimal = (temp & 0x7) << 5;
-+}
-+
-+static void tx_rx(void *obj, void *data, QGuestAllocator *alloc)
-+{
-+    uint16_t value;
-+    uint8_t integer, decimal;
-+    QI2CDevice *i2cdev = (QI2CDevice *)obj;
-+
-+    /* Test default values */
-+    value = qmp_sbtsi_get_temperature(TEST_ID);
-+    g_assert_cmpuint(value, ==, 0);
-+
-+    integer = i2c_get8(i2cdev, SBTSI_REG_TEMP_INT);
-+    decimal = i2c_get8(i2cdev, SBTSI_REG_TEMP_DEC);
-+    g_assert_cmpuint(regs_to_temp(integer, decimal), ==, 0);
-+
-+    /* Test setting temperature */
-+    qmp_sbtsi_set_temperature(TEST_ID, 20000);
-+    value = qmp_sbtsi_get_temperature(TEST_ID);
-+    g_assert_cmpuint(value, ==, 20000);
-+
-+    integer = i2c_get8(i2cdev, SBTSI_REG_TEMP_INT);
-+    decimal = i2c_get8(i2cdev, SBTSI_REG_TEMP_DEC);
-+    g_assert_cmpuint(regs_to_temp(integer, decimal), ==, 20000);
-+
-+    /* Set alert mask in config */
-+    i2c_set8(i2cdev, SBTSI_REG_CONFIG_WR, SBTSI_CONFIG_ALERT_MASK);
-+    value = i2c_get8(i2cdev, SBTSI_REG_CONFIG);
-+    g_assert_cmphex(value, ==, SBTSI_CONFIG_ALERT_MASK);
-+    /* Enable alarm_en */
-+    i2c_set8(i2cdev, SBTSI_REG_ALERT_CONFIG, SBTSI_ALARM_EN);
-+    value = i2c_get8(i2cdev, SBTSI_REG_ALERT_CONFIG);
-+    g_assert_cmphex(value, ==, SBTSI_ALARM_EN);
-+
-+    /* Test setting limits */
-+    /* Limit low = 10.500 */
-+    temp_to_regs(LIMIT_LOW_IN_MILLIDEGREE, &integer, &decimal);
-+    i2c_set8(i2cdev, SBTSI_REG_TEMP_LOW_INT, integer);
-+    i2c_set8(i2cdev, SBTSI_REG_TEMP_LOW_DEC, decimal);
-+    integer = i2c_get8(i2cdev, SBTSI_REG_TEMP_LOW_INT);
-+    decimal = i2c_get8(i2cdev, SBTSI_REG_TEMP_LOW_DEC);
-+    g_assert_cmpuint(
-+        regs_to_temp(integer, decimal), ==, LIMIT_LOW_IN_MILLIDEGREE);
-+    /* Limit high = 55.125 */
-+    temp_to_regs(LIMIT_HIGH_IN_MILLIDEGREE, &integer, &decimal);
-+    i2c_set8(i2cdev, SBTSI_REG_TEMP_HIGH_INT, integer);
-+    i2c_set8(i2cdev, SBTSI_REG_TEMP_HIGH_DEC, decimal);
-+    integer = i2c_get8(i2cdev, SBTSI_REG_TEMP_HIGH_INT);
-+    decimal = i2c_get8(i2cdev, SBTSI_REG_TEMP_HIGH_DEC);
-+    g_assert_cmpuint(
-+        regs_to_temp(integer, decimal), ==, LIMIT_HIGH_IN_MILLIDEGREE);
-+    /* No alert is generated. */
-+    value = i2c_get8(i2cdev, SBTSI_REG_STATUS);
-+    g_assert_cmphex(value, ==, 0);
-+
-+    /* Test alert for low temperature */
-+    qmp_sbtsi_set_temperature(TEST_ID, LIMIT_LOW_IN_MILLIDEGREE);
-+    value = i2c_get8(i2cdev, SBTSI_REG_STATUS);
-+    g_assert_cmphex(value, ==, SBTSI_STATUS_LOW_ALERT);
-+
-+    /* Test alert for high temperature */
-+    qmp_sbtsi_set_temperature(TEST_ID, LIMIT_HIGH_IN_MILLIDEGREE);
-+    value = i2c_get8(i2cdev, SBTSI_REG_STATUS);
-+    g_assert_cmphex(value, ==, SBTSI_STATUS_HIGH_ALERT);
-+
-+    /* Disable alarm_en */
-+    i2c_set8(i2cdev, SBTSI_REG_ALERT_CONFIG, 0);
-+    value = i2c_get8(i2cdev, SBTSI_REG_ALERT_CONFIG);
-+    g_assert_cmphex(value, ==, 0);
-+    /* No alert when alarm_en is false. */
-+    value = i2c_get8(i2cdev, SBTSI_REG_STATUS);
-+    g_assert_cmphex(value, ==, 0);
-+}
-+
-+static void sbtsi_register_nodes(void)
-+{
-+    QOSGraphEdgeOptions opts = {
-+        .extra_device_opts = "id=" TEST_ID ",address=0x4c"
-+    };
-+    add_qi2c_address(&opts, &(QI2CAddress) { TEST_ADDR });
-+
-+    qos_node_create_driver("sbtsi", i2c_device_create);
-+    qos_node_consumes("sbtsi", "i2c-bus", &opts);
-+
-+    qos_add_test("tx-rx", "sbtsi", tx_rx, NULL);
-+}
-+libqos_init(sbtsi_register_nodes);
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 37e1eaa449..21e6152949 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -254,6 +254,7 @@ qos_test_ss.add(
-   'spapr-phb-test.c',
-   'tmp105-test.c',
-   'emc141x-test.c',
-+  'tmp-sbtsi-test.c',
-   'usb-hcd-ohci-test.c',
-   'virtio-test.c',
-   'virtio-blk-test.c',
--- 
-2.34.1.575.g55b058a8bb-goog
+In the linux-user implementation of this function, we pass in an extra
+argument to queue_signal(), which is a QEMU_SI_* value (in this case
+QEMU_SI_FAULT). The reason we do this is that the siginfo_t struct,
+at least on Linux, is a pain: it has a union, and which field of the
+union is the valid one is awkward to determine. Within the real
+Linux kernel, the high bits of si_code are used to track what field
+of the union is live, but those are masked out before handing the
+signal to userspace. The effect is that QEMU sometimes has to
+deal with siginfo_t structures where it knows exactly which field
+of the union is valid because it generated the structure itself,
+and sometimes with ones it got from guest userspace where it
+has to make a best-guess. linux-user code deals with that using
+the QEMU_SI_* codes: when we generate a siginfo_t ourselves and
+know what field of the union is valid, we put the QEMU_SI_* into
+the top part of si_code, and later when we need to byteswap it
+for the guest we use tswap_siginfo(), which uses that to make a
+known-correct choice. When we have to byteswap a siginfo_t which
+we got from guest userspace, we use host_to_target_siginfo_noswap(),
+which makes a best-guess based on things like the signal number.
+And when we hand a siginfo_t to guest userspace, we mask out the
+top part of si_code again, like the real kernel.
 
+I'm not sure how the BSDs handle this, but at the moment in
+this patchset you add both a host_to_target_siginfo_noswap()
+(patch 16) and a tswap_siginfo(), but you've given them both
+the guess-which-union-field-is-valid logic.
+
+You don't need to address this in this patch series, but I wanted
+to lay out the logic of why linux-user is doing things the
+way it does so you can determine whether bsd-user needs to do
+the same or not. (That might depend on which BSD: judging by
+the target_siginfo definitions in bsd_user, freebsd puts
+si_pid/si_uid in top-level struct fields, but netbsd and
+openbsd put them in sub-fields of the union the same way
+Linux does. For eg a SIGSEGV sent via kill() you want to swap
+the pid/uid fields, but for a SIGSEGV generated by QEMU
+you want to swap the si_addr. The other thing to check is
+to what extent the BSD kernel ABI lets userspace spoof the
+si_code field in a siginfo_t: Linux's rt_sigqueueinfo syscall
+is quite lax in this regard.)
+
+Anyway, for this patch:
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
