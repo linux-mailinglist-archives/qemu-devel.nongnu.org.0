@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0386C48DF35
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 21:51:03 +0100 (CET)
-Received: from localhost ([::1]:44824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF9C148DF21
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 21:43:01 +0100 (CET)
+Received: from localhost ([::1]:34994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n873l-0007Zr-Ul
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 15:51:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49586)
+	id 1n86w0-0000SF-VY
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 15:43:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n86tz-0006sX-BV
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:40:55 -0500
-Received: from [2a00:1450:4864:20::335] (port=52038
- helo=mail-wm1-x335.google.com)
+ id 1n86uu-0007Nd-Q4
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:41:52 -0500
+Received: from [2a00:1450:4864:20::42f] (port=34520
+ helo=mail-wr1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n86tx-0007EI-KR
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:40:54 -0500
-Received: by mail-wm1-x335.google.com with SMTP id e5so4746582wmq.1
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 12:40:53 -0800 (PST)
+ id 1n86ut-0007Kd-DF
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:41:52 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id h10so12319513wrb.1
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 12:41:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Y1DB1apbtxl2D9I9dSyF4ahS5YNjQcFy7BT+6GH72GM=;
- b=tD127z2wQ3lBjZg0lj5UIHuTSyauU99h0yAMllhHDBbHK5j/KgjwLKbAZ94s87R+Ps
- yj9grzX8VgqzkAhrbZMr1Nr3Vnq2RdbDmw68rsPQk1BXCc2VvIr+2KDT3zhrtzWbT6EW
- TbVeobthCoUEE12Pk9GlvM3yCHCIkv0VAlVR4wiO6UWd0cabaV/UVth7ekLF/1toT/Xs
- rImQhPmL8ls2Sxal1YVICNGkGRYYbZzo7Jfh8ywBTbpa8K5TaraPwJ4Rucchar3ZOCcH
- ZKroz7AyrwzHSMq7ToazKWFePs05I6lPpPQXmYvDedKaYIU3HPiWwaB1yaU+sKTa7T18
- fQRQ==
+ :cc; bh=8+OeM8/Q9tSqMXjzP3qbpv6cp6u2bkSUdqhUYtkZV5U=;
+ b=e4shpwUYJB+Ue3CaOQdW/nGd+rssLZVWonl6Dxt7E9x0rqjYZpjhLuosv/zZhSKEVE
+ KflyuX3ASNypAn6DH/Aql8CfJ53OwtiG+z4v4bwp2449wTcm7yXEOnYeVhhiHtmtrCsm
+ t/EVZMSz4IK5PBOAsrOiWIl58hQFOc86fT8h+wRlKAWqgW2W8sCYVvkbaKIOQDsw0XGw
+ 8U3N5/FxqRAsXZz/rI8zJ0ll6ISeB8lwO8QC/Vgbjj3m9iVVkPDHYwK7GwM8LctWht0O
+ DFNaLNPzz1fUcsAH0trzfa39mdkox4JN/HvRTvzkHvRkBH4Y6vJx/sEltrloqncHv/Cl
+ n6kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Y1DB1apbtxl2D9I9dSyF4ahS5YNjQcFy7BT+6GH72GM=;
- b=U/hZwVQmo1742Ig72x636T2VKiC3q+3mUZr/5F/YSTDnzG7vf1+2S8ZN6WDemS11LG
- L04P08+qmAPDgTNiKd9CsXk20b0y2uIcqLycyfcb6GwNu5I6wcUhrNsKM5N+hXjfNz2E
- Qt8G0lc1QWjdWqqiEQ96qSOLmDFddYIVqYALk0gtjiZsgnPz1vCs1+y3a6ZeKHZIMyWJ
- KvwL71LXHRfhgj30h+FKZ15Cf2cO1FZveKQM5wIDF9/bMhtlcH3rn0hqB7gtyFJ4PlmL
- g4K4YZrk9q3u59c1AC9Jl1rhl8G/ywl3Bim6VF6cL2bZGgG1FP+Q/ATCyEgJNbdciMbH
- OqSg==
-X-Gm-Message-State: AOAM531PG60s3Mh3UhNyfZT+OMplP8umMSTLw4ef3yRlFIeqqfygTU1O
- Vw1kkqJkaa7McK71j9yMbSzf63oN20z0jeWC8uXHgg==
-X-Google-Smtp-Source: ABdhPJxQrIwShF2sAInzAm4nuj6smqTipSIZHT8+PjLzXhNNnrWQQgZDK0zVST2d5kO5Kx2+RiImFU09L/R7PmRw5hY=
-X-Received: by 2002:a05:600c:1991:: with SMTP id
- t17mr12603123wmq.21.1642106452348; 
- Thu, 13 Jan 2022 12:40:52 -0800 (PST)
+ bh=8+OeM8/Q9tSqMXjzP3qbpv6cp6u2bkSUdqhUYtkZV5U=;
+ b=u0H7L88kmyWoAQbVkmqjnd9D2E8Rdd+VVAd9VF/eFOloeqUquUhB2hTB70Ur+voJOW
+ sGU0KOr1dMRyMy1FaKIAoviynLU2d6/Nx457OzD8e4GEv2lAGsLFdIRNjqHsztJepEaD
+ ijb2q7S5yxyfue4AHRrCjFfDeX/QI1nkXsILefo57aSZwgwTKA7RUQkPCVOX6lbac2B0
+ 5HR6nsaMP+A71l78mwDblcyQzewNyHeweLsq8dWphFutIGrF7V3txWLLcYKxJdzcM4HY
+ 5qXVAfQhWS+up+nj2LdYqz7xkc906Kn3aWa4PjtmjBj8O/EK7bFUvkO/BHdWjfqz0sYs
+ 5NMw==
+X-Gm-Message-State: AOAM532HxO9fezl+lO5/W+/WCtGlz3uYY5CLUEu7b8jxD3FkZuqBOVTn
+ e/5jSaJIKDgUSKTyW0SyxVGVDsuIOC38s02YP0urAw==
+X-Google-Smtp-Source: ABdhPJzgA518110fVmaDqi7JNyhWJv++kje9SnnhCD0rQmPdu1iJKG/kWIMPfpooSfycY2REhu8ICMdlND1HqK6O7GM=
+X-Received: by 2002:a5d:6848:: with SMTP id o8mr5762582wrw.2.1642106509950;
+ Thu, 13 Jan 2022 12:41:49 -0800 (PST)
 MIME-Version: 1.0
-References: <20220109161923.85683-1-imp@bsdimp.com>
- <20220109161923.85683-21-imp@bsdimp.com>
- <CAFEAcA8ZMSuxyJiHEBbwnZ3cGyBdUrzSBiigLn7=8jWaH1YO4A@mail.gmail.com>
- <CANCZdfqcxgaukAiSFyDMqG3q_XOonu_gUbJGYFrHen0JQDvrFg@mail.gmail.com>
-In-Reply-To: <CANCZdfqcxgaukAiSFyDMqG3q_XOonu_gUbJGYFrHen0JQDvrFg@mail.gmail.com>
+References: <20220113194452.254011-1-dgilbert@redhat.com>
+ <20220113194452.254011-3-dgilbert@redhat.com>
+In-Reply-To: <20220113194452.254011-3-dgilbert@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Jan 2022 20:40:41 +0000
-Message-ID: <CAFEAcA-G=Z5UcGFPnUnhNs3Pwx9q98cj5QZ3ESh6Ybx4V87A5Q@mail.gmail.com>
-Subject: Re: [PATCH 20/30] bsd-user/signal.c: core_dump_signal
-To: Warner Losh <imp@bsdimp.com>
+Date: Thu, 13 Jan 2022 20:41:39 +0000
+Message-ID: <CAFEAcA_ueCNVPukWPUksXAYBSg25hgO7UaqJ4v8vqc=Q57Zr7w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] migration: Add canary to VMSTATE_END_OF_LIST
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -83,27 +80,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@freebsd.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: lsoaresp@redhat.com, marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
+ peterx@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 13 Jan 2022 at 20:28, Warner Losh <imp@bsdimp.com> wrote:
-> On Thu, Jan 13, 2022 at 1:22 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->> Code is fine, but since this is a static function with no callers
->> the compiler is going to emit a warning about that. It's a small
->> function, so the easiest thing is just to squash this into the
->> following patch which is what adds the code that calls it.
+On Thu, 13 Jan 2022 at 19:45, Dr. David Alan Gilbert (git)
+<dgilbert@redhat.com> wrote:
 >
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 >
-> Sure thing. I'm still trying to get a feel for right-sizing the chunking...
-> Since the warning didn't fail the compile, I thought it would be OK,
-> but can easily fold this in with the first patch to use it.
+> We fairly regularly forget VMSTATE_END_OF_LIST markers off descriptions;
+> given that the current check is only for ->name being NULL, sometimes
+> we get unlucky and the code apparently works and no one spots the error.
+>
+> Explicitly add a flag, VMS_END that should be set, and assert it is
+> set during the traversal.
+>
+> Note: This can't go in until we update the copy of vmstate.h in slirp.
+>
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
 
-Ah yes, we don't currently default-enable -Werror for BSD hosts
-in configure (only for Linux and for mingw32). So in this particular
-case it doesn't matter much, but we might as well do it the way we would
-for code that's not BSD-specific.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
