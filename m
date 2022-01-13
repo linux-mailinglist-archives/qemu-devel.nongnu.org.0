@@ -2,88 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72B3348D296
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 08:06:12 +0100 (CET)
-Received: from localhost ([::1]:43248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 521D548D293
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 08:04:05 +0100 (CET)
+Received: from localhost ([::1]:40374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7uBX-0007Of-Ae
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 02:06:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34430)
+	id 1n7u9U-0005DC-46
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 02:04:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n7tuP-0007ok-JE
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 01:48:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n7txG-0008U0-5h
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 01:51:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51165)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n7tuM-00005j-84
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 01:48:28 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n7txE-0000cj-Lk
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 01:51:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642056504;
+ s=mimecast20190719; t=1642056683;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t9N4YmIpbXzQpkvCxQmCdinrj/XlHajnhkdKDW2duDg=;
- b=N8eJvaV09ndDiphPRZxjpWicaQQGj/hoF4RQOUVzeOqD9K/0ij7yw80kzrOicjLo1jgjsR
- P34CVXHyUXKaHkhlsEVTVbAo9GPyiCQM16azo5o+O4Pd3FhYyKEG4MAQhKfiBHWkZ1s1l6
- BV6PXlz2dHYgnlruFXXs0aFS/kJpF2s=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=EJyB3xFcnhMH5XNAli6aeyYenpUFM8sScxCOtfFrYeo=;
+ b=UhrOZIAtLBAbDHN4vmjLf3cRt26bp8e5LvyzaSW4+6wyihDIlQ3qzN+F0QNZCfeg9gFvq3
+ R+qmsBfS82HkWAMi4W+c/DFlaN0mVYhz3Rpb+Un/aEqukCxeXfJung7rNKVDgh6SDJj3Y2
+ i9R+ss9TTorEXqLKWZD54D1dtiahtsg=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-7-G9vqzC2JP46zJGIQKndLAg-1; Thu, 13 Jan 2022 01:48:23 -0500
-X-MC-Unique: G9vqzC2JP46zJGIQKndLAg-1
-Received: by mail-pl1-f198.google.com with SMTP id
- ik6-20020a170902ab0600b0014a1e5aab34so5073163plb.21
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 22:48:23 -0800 (PST)
+ us-mta-215-sAqD99QxNty7X9VDIUT1sw-1; Thu, 13 Jan 2022 01:51:22 -0500
+X-MC-Unique: sAqD99QxNty7X9VDIUT1sw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ bg32-20020a05600c3ca000b00349f2aca1beso3104871wmb.9
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 22:51:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=t9N4YmIpbXzQpkvCxQmCdinrj/XlHajnhkdKDW2duDg=;
- b=jRyYr2/+kCFXFqJIrAG3AYQvBlxPcQiXWBiB9kwJP3MJk1f7+2l13dVpPVAok+Slyj
- oTvGXx2vJSBkWKC7v22oCnrCaozehU8bxYD5ZCSe99A649GfqXParCPG8fCUYBkqqVhP
- hz0JAo88yGt70rsxY/PQrRcEhEnRhg0ARLFkIA/Hg3qlv5zKLK7Nw39tcGoBBdGaXgZX
- 3K9b6E19Bf9xxOcQHRN6hHdFfBZPnninExqCUaVsyKOY1VRilIDut78eu4EaPM+kNbmr
- +gqxcWwqVzzksa1DMVVUdgJoCl41GaXMhQBrsKOsSeNnHoq9FBX8yvgZWwNzbVoA0Xo+
- 0gpw==
-X-Gm-Message-State: AOAM532fRmIOSrJKQdzPP83Rt1vDFhjJHJZPF+RWMLGAipoaG3btcuCX
- AlzqVuQ1lrF7xfIVeLFd2ruSWGPHccTQMbPDZc3kqnlCy/oWkWXTkfHKf5rNa1ZX/4SzIGY/om9
- dc78dXoGFA+jmCcU=
-X-Received: by 2002:a17:902:c406:b0:14a:52e4:3e5e with SMTP id
- k6-20020a170902c40600b0014a52e43e5emr3168736plk.4.1642056502398; 
- Wed, 12 Jan 2022 22:48:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyDS1vqq7d3rCbi8UCIdzYeIx8fZ4yYztmUPOBqiUZzfnRgMeuAz0RSqGByHZWpi4oEVuYBzw==
-X-Received: by 2002:a17:902:c406:b0:14a:52e4:3e5e with SMTP id
- k6-20020a170902c40600b0014a52e43e5emr3168717plk.4.1642056502042; 
- Wed, 12 Jan 2022 22:48:22 -0800 (PST)
-Received: from xz-m1.local ([191.101.132.233])
- by smtp.gmail.com with ESMTPSA id s24sm1499357pfm.100.2022.01.12.22.48.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jan 2022 22:48:21 -0800 (PST)
-Date: Thu, 13 Jan 2022 14:48:15 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH v7 2/5] QIOChannelSocket: Implement io_writev zero copy
- flag & io_flush for CONFIG_LINUX
-Message-ID: <Yd/LLxNCItAIX3eN@xz-m1.local>
-References: <20220106221341.8779-1-leobras@redhat.com>
- <20220106221341.8779-3-leobras@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=EJyB3xFcnhMH5XNAli6aeyYenpUFM8sScxCOtfFrYeo=;
+ b=ZLuJKxNpu7wmlzCohqQkVlo9znomzjdoimoAH/JSQwN252nyfUuEZj6gPK9xitrgSf
+ 9Q/PAa4oXjTzDJm83YiH0AFtEvbN+niRIlsfmZLpNiCsr4Z1AVO/iqz5yxrPqca7R+4Y
+ FjYPZ+VGBg6+x+VncShDYuAYBCNvlt9NmAgpT5Zv4EeRnczfda9PXPMdA0p/B1SyxuRK
+ 4yHRZxUYb/xai9/BJZIY7FXys52tSeRa0EB10dlDl3F9JO20Y4CRh57r57rjpeuQ3HdK
+ 7eMLNIn7bJy6H5Ir4m9SrStXxq5h7iDO+BJe/WV9lXZ/P4dEEqKJgOJ57DIvRmC+fjvL
+ ayig==
+X-Gm-Message-State: AOAM5309SiVXADeqJrFEb5YAlo1DIzERBjSkjxtTFVi0Jf8wNunzIsmk
+ 8iWuaZfaIAbmn9sJcfgs8hrd+dZD1mat4wyeCSahw/2Jk0KBvc8S55Rkdg4pVfkL/7G53ujuINF
+ eWXsgBMYQb5mIb9k=
+X-Received: by 2002:a05:600c:1907:: with SMTP id
+ j7mr9736325wmq.175.1642056681020; 
+ Wed, 12 Jan 2022 22:51:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwZuDFKaAjyVmJG3D5Q8eOMzJmR60MKjLRGXmxDHNVHOweQEeUDdx345cE/S1xp9qHJNH2uNQ==
+X-Received: by 2002:a05:600c:1907:: with SMTP id
+ j7mr9736316wmq.175.1642056680750; 
+ Wed, 12 Jan 2022 22:51:20 -0800 (PST)
+Received: from [192.168.42.76] (tmo-065-240.customers.d1-online.com.
+ [80.187.65.240])
+ by smtp.gmail.com with ESMTPSA id g12sm1680301wrm.109.2022.01.12.22.51.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Jan 2022 22:51:20 -0800 (PST)
+Message-ID: <1809ef54-88bc-9fae-8be7-c22dd700b469@redhat.com>
+Date: Thu, 13 Jan 2022 07:51:18 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220106221341.8779-3-leobras@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] configure: do not create roms/seabios/config.mak if
+ SeaBIOS not present
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20220107114717.509665-1-pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220107114717.509665-1-pbonzini@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.594,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,52 +102,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 06, 2022 at 07:13:39PM -0300, Leonardo Bras wrote:
-> @@ -558,15 +575,26 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
->          memcpy(CMSG_DATA(cmsg), fds, fdsize);
->      }
->  
-> +    if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
-> +        sflags = MSG_ZEROCOPY;
-> +    }
-> +
->   retry:
-> -    ret = sendmsg(sioc->fd, &msg, 0);
-> +    ret = sendmsg(sioc->fd, &msg, sflags);
->      if (ret <= 0) {
-> -        if (errno == EAGAIN) {
-> +        switch (errno) {
-> +        case EAGAIN:
->              return QIO_CHANNEL_ERR_BLOCK;
-> -        }
-> -        if (errno == EINTR) {
-> +        case EINTR:
->              goto retry;
-> +        case ENOBUFS:
-> +            if (sflags & MSG_ZEROCOPY) {
-> +                error_setg_errno(errp, errno,
-> +                                 "Process can't lock enough memory for using MSG_ZEROCOPY");
-> +                return -1;
-> +            }
+On 07/01/2022 12.47, Paolo Bonzini wrote:
+> If roms/seabios/Makefile is not present, the configure script
+> is not creating the roms/seabios directory anymore (commit
+> 5dce7b8d8c, "configure: remove DIRS", 2021-12-18); thus, creating
+> roms/seabios/config.mak fails.
+> 
+> The easiest thing to do is to not create the file, since it will not
+> be used.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   configure | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index 0026388343..e1a31fb332 100755
+> --- a/configure
+> +++ b/configure
+> @@ -3704,7 +3704,8 @@ export target_list source_path use_containers cpu
+>   $source_path/tests/tcg/configure.sh)
+>   
+>   # temporary config to build submodules
+> -for rom in seabios; do
+> +if test -f $source_path/roms/seabios/Makefile; then
+> +  for rom in seabios; do
+>       config_mak=roms/$rom/config.mak
 
-I have no idea whether it'll make a real differnece, but - should we better add
-a "break" here?  If you agree and with that fixed, feel free to add:
+I think you can now simply remove the "for" loop line by setting 
+config_mak=roms/seabios/config.mak here.
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+  Thomas
 
-I also wonder whether you hit ENOBUFS in any of the environments.  On Fedora
-here it's by default unlimited, but just curious when we should keep an eye.
 
-Thanks,
-
--- 
-Peter Xu
+>       echo "# Automatically generated by configure - do not modify" > $config_mak
+>       echo "SRC_PATH=$source_path/roms/$rom" >> $config_mak
+> @@ -3717,7 +3718,8 @@ for rom in seabios; do
+>       echo "IASL=$iasl" >> $config_mak
+>       echo "LD=$ld" >> $config_mak
+>       echo "RANLIB=$ranlib" >> $config_mak
+> -done
+> +  done
+> +fi
+>   
+>   config_mak=pc-bios/optionrom/config.mak
+>   echo "# Automatically generated by configure - do not modify" > $config_mak
 
 
