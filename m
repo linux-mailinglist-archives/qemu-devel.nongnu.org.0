@@ -2,126 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B0E548DD8E
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 19:19:57 +0100 (CET)
-Received: from localhost ([::1]:37078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D0048DD99
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 19:21:49 +0100 (CET)
+Received: from localhost ([::1]:41954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n84hY-0008MN-7t
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 13:19:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45778)
+	id 1n84jM-0003Gb-LQ
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 13:21:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1n84Zo-00015D-Bb
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 13:11:57 -0500
-Received: from [2a01:111:f403:7010::702] (port=49479
+ (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1n84aT-0001rf-9c
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 13:12:38 -0500
+Received: from [2a01:111:f403:7010::730] (port=41879
  helo=JPN01-TYC-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1n84Zk-0001t7-CV
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 13:11:56 -0500
+ (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1n84aR-0001yL-Rc
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 13:12:37 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cMgLLgPBcLcY+bvtisDhdhFe9WgJ8U4+v6j1oOmjZB00W0RTnSC0lXHHlYFbcQL7PzuJDn6fCB3tiLi2m2l4MiKJRVUCX0LNzCZFy2uOVefabmRssLN8HqDMTGOD7uMajWFy6ZEWXaiWrNfNgJHID+p+L0LgqyY6avhzzrPpjb3OIPNCzRY2AnCeyr90L0KS2SiZNiFfGPfm+3yqtF75Y4F1iGcY5hvj0BrlDr+BqrjM9a+DJ76xczNzp1eHP6H6jmUZm/00dfNRPLvvS1/En1rC6z6OUYeSoPWdGr4zjXmWVR6pG8an5JLWGlOM+MamPmw5ydFHvIhp6MpGXwU80A==
+ b=fd3Katjp2G+gKOxGTPqU1/xIAj/7BXIn52FpigPLiIs3pFGEKQOvMOjwurqYaYE5WZxlZPnq847Cwk6ti3UDE3UIG8fCuHdHJ3hp9cja3D5z5hkV5LdG9HtpAxGQmSz5rGyhoUlDwyEkJsPnK8WWByrorBteyjZ+dpHgTCOXW8EFyeAxMEccIcpUE3VFk2/PNeBaXkoIWXZ/fw2gXaoGje0hIMwPeWiuluFVTZpuWhdnl62Xdk36VvReYTFjPYU3InRxBtzcFBcl2tTnWf8D6z6fSAa80ixkKfujiZ7K4BApMrTkndTGmAOmv4nfl+WVvXQqZiNDTE0Bv5NGnCKXoA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PoJNmgIQB+mGwaqLhSvUkV+y0pydFu6361UWYZyVskM=;
- b=AxJmn76/w9EmCKOnwM1nFdj3slJncNqpjDc6wo3FMavxf8/vebU+5FWwZ7m/c88RKr5LZ7twiTsSlMvMy0LtsgptCgr1gTEypHW5kfWvpqqKFsTiju6GFJ75DktdAA1WsoxFxzMo6WFWMkn1JQYUQTvAUwfv5g2W8KzzQNxZuX1LasAZ2GMSjfI/lijBLle2T/BH63MKSDtQhE6Kei4j1L4HcdlDdDj7VFiZAz+z4iiqpzyTF5An0gBlzPMXIduHdn03R09L0la2qfXcDTxJpPVVw6SHqvU3Ymw3Fts8Boz1TpyFdkTI04mN9fTWY4gIt1QKBysoLKSHlsSlvq31uQ==
+ bh=O8XKO/huN2cB+a81Use87V9PGHZOttZ5KeIkoMImvjM=;
+ b=cUn3T1FvrIw/l6JrrfRV7pSuncWmBlHlDomR00r1z8n4y/Xjlv+aWAz7guCAkGXEiUsFH9MoXXejgEWwY5cxxw8l/7lYGMddYh4fAmkfr2MqMYWp6k8A5w/4FRbrtzLPvR2TXaMn2v2qL7yQ2R8cCRd1Q3c0JKBb4Ks0Iu8Ivrz2df7iZ7uFH6tWp7vMiY6QDhbICRq49N5FKVB1jqakhAPRatRnKy/bV/jB6yn/3xPiWa+d/inkmMDXDhDkRp0sM3YmI80BoXXZYPieO7fAJd2nMYJfEYiLLnhQ40GJ8WBr6DMzm8q+rOk6dzLJLKBcx0l0x1NkmbdDO9FHOCF1bg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=zenithal.me; dmarc=pass action=none header.from=zenithal.me;
  dkim=pass header.d=zenithal.me; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zenithal.me;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PoJNmgIQB+mGwaqLhSvUkV+y0pydFu6361UWYZyVskM=;
- b=UQfDW/jw8r6ZvaAHcGCC3sqiNKpBuGDPyjhwX4avUTyuThPHd9balyugKeltgUSWGl9ykpw50Gl2ALIr8bcuaQMMlDdo3xv1G59l+i/ZHxSC8aHDNoMIBWWX+bwbBvqxJkOLaEXcBzMYmDF0gITf7vv3gzhcCB8Ja75e1Il1Dos=
+ bh=O8XKO/huN2cB+a81Use87V9PGHZOttZ5KeIkoMImvjM=;
+ b=hIo2NVBuB4AdLehuRmlI15kCeZctDkrbIXnLJ6JjxULK6gJcoqE/Ed2FP8FIB5cMLaWcUMxiO9KjYeDyX9awwrzdVyRIZYVQpkCMXRtv0y7BM2dMXg25i0IjjIK9GZCRYTob8PLe5FaqKY24eTn+d9p46KnqLgw35UITmicAR28=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=zenithal.me;
 Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:c0::6) by
  OSZP286MB1166.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:13b::8) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4888.9; Thu, 13 Jan 2022 18:11:43 +0000
+ 15.20.4888.9; Thu, 13 Jan 2022 18:11:59 +0000
 Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
  ([fe80::5cf9:8c86:9001:90d9]) by TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
  ([fe80::5cf9:8c86:9001:90d9%8]) with mapi id 15.20.4888.011; Thu, 13 Jan 2022
- 18:11:43 +0000
-Date: Fri, 14 Jan 2022 02:11:41 +0800
+ 18:11:59 +0000
+Date: Fri, 14 Jan 2022 02:11:56 +0800
 From: "Hongren (Zenithal) Zheng" <i@zenithal.me>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/6] docs: Add CanoKey documentation
-Message-ID: <YeBrXTTZ2sDISBrv@Sun>
+Subject: [PATCH v3 5/6] docs/system/devices/usb: Add CanoKey to USB devices
+ examples
+Message-ID: <YeBrbOLSDL1xJAj6@Sun>
 References: <YeBqg2AmIVYkrJcD@Sun>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <YeBqg2AmIVYkrJcD@Sun>
 X-Operating-System: Linux Sun 5.10.81 
 X-Mailer: Mutt 2.1.5 (2021-12-30)
-X-ClientProxiedBy: HK2PR04CA0057.apcprd04.prod.outlook.com
- (2603:1096:202:14::25) To TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+X-ClientProxiedBy: HK2PR04CA0058.apcprd04.prod.outlook.com
+ (2603:1096:202:14::26) To TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
  (2603:1096:400:c0::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 099b1937-25af-42cb-49bf-08d9d6c02781
+X-MS-Office365-Filtering-Correlation-Id: ffaa1560-94c6-4c9f-d147-08d9d6c030cf
 X-MS-TrafficTypeDiagnostic: OSZP286MB1166:EE_
-X-Microsoft-Antispam-PRVS: <OSZP286MB116649762C19EE0C208F27C0BC539@OSZP286MB1166.JPNP286.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Microsoft-Antispam-PRVS: <OSZP286MB11660374E104642D550F590CBC539@OSZP286MB1166.JPNP286.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:276;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BTpSXs/oXVFF3vkj7JORmDAhtvHo82qhKXtTzWqfkEC+VWLU4/I3jueSlTPHGAKC0F9DNHYXPSLAahafvZnn0jRKRWNAZcZgruzbFnaGokeSScipNUiUP5i6LhJ65Rxt4w5EMoiDLd1V04Q+6GqOW/jWYhEFj74KjSbXQcsqYRcGPWhQ5Xcn+icINfZw5HA6qI57MOf2xNugQQ29cb8auLU/KFhGNBZFs3xnWyZWimWYeY9MoAcN2otnP5AxsjndMazfLU7ndkdx4yCOkDQCOm3Ta0GpZhhCM4HbAHOPOnTDibTZL4GwGrEeG7Gj6wxTZvyDN1QdDgLBLjzibcKVdYAR5Bijpba4pHuzcEQ77KS+0JqJgCvM7HbM2EnP4hwN116Ias0N7B3ScT5xPepURdGu/M8FNSn+kZ4Zu9hjY9LaJNm9qxi86klInfKj/BipdeSenl9t/4kpXNb2LxfbGMKNmyJXPrW3z+yJkGbCtkUXExeJtPrNaniEgYlhdjUx/PCvOYDecDvXcG1LGRsOdjUsvUPbPKd2Dy1lmX3NMKzKILONAOgnc6O8ZMLvMJIHq25HNgMYEikpgz+Qfy1DfUbNrUQBqQ1l73wcGaXG7i1ELTzxlOyFVCCd9bsbT/nEWWJ/WB9Ay+AcF5EpaQPbIvslv9bAwAT7y/5gFT0EeZ8ySRa7X0gKFMwDmFAOwbP2gVqsSNnDUHsxAPPnm0RR8n4BNmdjP4OnyQkFoJmpS3qADRn5GcI0WR6i220qF/E+jID53cLHpLQqQttRbykikg==
+X-Microsoft-Antispam-Message-Info: 3upRU6GJmeJFZBYjwTDdOD3+CzK6qsK8GBAfsYq6rXsbJe6qRYlDHQaryWq93P9ozgkd82ESDDPGDE1aDC8OH0j9jKAXeZZr9UksnnZ07bq3wXF4MxSTkbjdqQSoIJen9HRNAP48t4KzO2dr/OCWlR1Q7HFAIE5JNheGxVrFihi3x3unjUHayvmQDerBOAd4VKfWU2DcTJx+1lzgF42zZxVcQfGR84NoI788GT2q/XT2v+6zZQNj2nFH6ytEX21dCAKUGdMg5DL1W0/nxJr3H2sbdgqU/L5fRXR27OKPNo0fBLNPNYhVjX1jMFybz31iY3wwPqgIKxSAqFVqWk3h2fwDnaiUBPHjxnrhDr2PIOISonqxaz+vbkACdsHfgL5uBZobCfFzjqNAF4ukiTlOMNkVYRCXd2Dkera+06s0srJDOiT2356rYv4IVpAFA9AsROaG5/4bgM6gC0vpKne59wuwiPWgRCfl8xA8Sa+Z73DPwl0oDrPW1KxEWROTrVQgXbYcmVcxs+McADdsgbwjWWviL3fgpl3oAAT1vD6S6wfgGedYW44qCxEO+zfX63tmlxhIdd+ERYzgR/u3MHq8oZYBaDwkPahGkgamKUAeY+VgvNQM41yLLArgiTS4yk2CAg5ZGAluM/eDCtYLlh1DYvGFiQHxYjVG4hAMcaAqiMzCphRNXgMEf0SjNy0ycdE3y7yE+QIdhpnibKWJxDoXGA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(7916004)(396003)(346002)(39830400003)(366004)(136003)(376002)(6486002)(54906003)(8676002)(186003)(4326008)(52116002)(966005)(5660300002)(8936002)(6506007)(2906002)(38100700002)(66946007)(66556008)(66476007)(316002)(9686003)(6916009)(6512007)(86362001)(508600001)(33716001)(786003)(83380400001)(49092004);
+ SFS:(7916004)(396003)(346002)(39830400003)(366004)(136003)(376002)(6486002)(54906003)(8676002)(6666004)(186003)(4326008)(52116002)(4744005)(5660300002)(8936002)(6506007)(2906002)(38100700002)(66946007)(66556008)(66476007)(316002)(9686003)(6916009)(6512007)(86362001)(508600001)(33716001)(786003)(49092004);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?k+mFOJ8H/rOjPlQSuf4z7OB1serjDvaz/UyPokzn0jJZu914b5cHi/ITgXO+?=
- =?us-ascii?Q?wCMherIXfS2Q4VcUMFhFjttOiZsJDEDSAs1qipp72TVpMHmwmSFGveWTtAxr?=
- =?us-ascii?Q?IHIUw/dSg4xKE1zs97suC58viAJ4bfD2n7OHjcnWhrCx1b8kbtX//y+lFEA+?=
- =?us-ascii?Q?/2qj7YvsKwEv+hwgBTXnYX57Y0foR2FbfD2NdpCvTZLXvgDI090E1wXS1c0a?=
- =?us-ascii?Q?RY2klUCx8TaeU+tkoJC2AUDm7oG/spNBwXWae/t++EwWnY97CA3wv8f/Gl46?=
- =?us-ascii?Q?1jAjjFCxeVDhL1d5EvqjEf/KzuRkTCMN8x5TW5zTLxOCUt4BRbmhuIrD0UYk?=
- =?us-ascii?Q?INex8PZWH3fhsOmXXeFQ40hRiY7bXkEPovLT7z8tnSQuMN8q1ZN/t1p2Ri9u?=
- =?us-ascii?Q?ELw62ebyevX2YdapK1aFjb4zeYQtCJst1/mFuiw0j/pAMlzl43xfI5jsSLbg?=
- =?us-ascii?Q?K6pry+ewJurCoP9GCzV4K5hukVgMlbrWU6O/Ru0GZTznJ3umVRAA/YV2eC9W?=
- =?us-ascii?Q?qL3UsJWkW4tbhHcrUTK607gXpCu2rasgqDfMsPWb3D8zFFDgVdOnBk8x3LdA?=
- =?us-ascii?Q?7uZN7OYUewAu04n+S80COhKtHRgK9tl2TJ0FM0RheL7ZtsK2zKB8TQ5bYsTF?=
- =?us-ascii?Q?bmdMPoVra6yiba7mz9n90ilViUI9q97aOSYGJTYiQLYGBHufwi5nCqn2VJPR?=
- =?us-ascii?Q?jQrp4fBRxMeayIrVKXJNd+0ci3QRZM6BGlQfudOdLcNFLH6+jAZ150V/7TRo?=
- =?us-ascii?Q?ydWjNL9gi4t8U+v6NM+JHk0XMa8sMiJ9SPLXu96tPseXEhayEcbPK05AGUs7?=
- =?us-ascii?Q?rD6KPd79kLSbYITfWYZptuMVuGy8bezP4bUL7Xq6c5HCnWd4z8CKmXnfl+xe?=
- =?us-ascii?Q?45MJX+hp2Zs1nGb1Rqm7f/nfNLD4yzJBrTwOuQjg76S+jcD3OIQ3LgrHb1Zm?=
- =?us-ascii?Q?a0QouDCPfa95GgOfKUY8U5QqNwDuFS+yWjW7/vMFoKOBxxXOaFD5iBEkzasn?=
- =?us-ascii?Q?oZvOtbn483v8D1RoZPtlTOkBQN6WOGcuKuH6YPBQSX1OZ+K5L4VpDo89PWtu?=
- =?us-ascii?Q?mNMLMPiwaMismhgLaOTVsclfL1iWHH/cpCvj++8aa5FkJ9PGpKT7M1dpmU6n?=
- =?us-ascii?Q?Pw2+aM0RZRAi962EOg0ebqb8swvkKtMyS27w6u1LtOsfo/gyCL5FI+zsH/4+?=
- =?us-ascii?Q?H9PLQhThafjXxfpfR9dfU2Isxw8y6bbmxiHAVrHGsdo/YK0+SygBRKH1mHoH?=
- =?us-ascii?Q?ISaP6PicGiwKNi2MO+fpobKb6E+qpo3XM+YBhQa0APSQ7EQHdAWmbh5jK2hH?=
- =?us-ascii?Q?0LevhqE0NTWvD0HUuTZyASNqu6g7STZu3rlvwi9Eo3Yv7N3SS0ZoXtMV6ez4?=
- =?us-ascii?Q?Wju8KNTJn3xIMqc34s6DbXZ+KJ5sMgz8VzgjqWObx60XG68BIEsbw1DlL8Zm?=
- =?us-ascii?Q?DTjsnrvNUzzU0FG/xo9YjWgFYAWWUcjBPazdeGmUpwuUE2RT5lxGf/bGam1p?=
- =?us-ascii?Q?HGKduzOjSm6BviAWkxYClIX2i3c+oFKVvXQslAiJ/6WotG9HnzYGGDMkbth2?=
- =?us-ascii?Q?of9j+quhNsvgytW4ugqPNlSfoPABqU8/AexB49w6?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?VjLauZMBVcXrupELC1uZbghK1b2NmIPTR0DLoWDYknGRyGGHBRAAimt4RttU?=
+ =?us-ascii?Q?UcltLpwlgFdjcRTR78VrxUgtNjSn1TUJR+KQ0zHASSzMuqmCnbxbHsUJPWQy?=
+ =?us-ascii?Q?GCnwo2ifFmt9FxuoFL+fKYKho5mozlrrNDnY5UWuWjvvdoBjPGMlyfN8AZf4?=
+ =?us-ascii?Q?BabUjVcokPopybxUpftfc4kvbwQ0pavvksmAhbPHX3qvM4eZ8MnJI2nISwWG?=
+ =?us-ascii?Q?ktNHY8kM7TQLpPWAtMOt0976xWOsZGKDQqKG+MIj+Jc0QmbJq6RZH/QCOBPf?=
+ =?us-ascii?Q?PR0Xw1gedYn5lgGe6gOUYnlEV21HjfHhWyZwsVBLydENkWaAKLjelOev6/k3?=
+ =?us-ascii?Q?vm6e0Vy12MCb/OmcHre/J0u+rkt5YNGFofENXwGTour+A2GN/nvR+zwMJ7bp?=
+ =?us-ascii?Q?vIAgiD/Vg+wB6qwawWoOEwFirlpuDPcj1qou1AHebJDTbq9fR9ZM3seG6TLa?=
+ =?us-ascii?Q?3PWbF2fdXMgU2XHBQnWoyD6S/tIKd/ai9XiNW59nIE1rZyCxD+MhUj7b9AVd?=
+ =?us-ascii?Q?/nKfp5DhaPocOR7KDNJV+AsyfkDBegcEYr+KaaP0s4NfR+BHkFu9JI7l7RdK?=
+ =?us-ascii?Q?sfsikSJpS3pwbs0+IKMApgT7S99bDi2XkZjWnQtd+wYYjlPKT7aHliBPJsSL?=
+ =?us-ascii?Q?SQXf0P7Hm/SPEOijT3ujpgqiO6d+nll3g2otkW4fOgG/5LPi5/qXprWPkWwZ?=
+ =?us-ascii?Q?zIkJhHRtsc2e0e7/N1rARZoC7jo81zQHSeq71x/yNRPHxFpf6lmivmTPpvs5?=
+ =?us-ascii?Q?1qqTmsaUJ4wnIDRECpu5xne9gmei24aJwqsQOjdOT0jNXeEqgpyrxD/mgxkN?=
+ =?us-ascii?Q?DTyuCRWJ8BMoBAXA1KCsGemsLVOPx0dnu33Esfk6jwnexqbN80YcL6DQ6rqv?=
+ =?us-ascii?Q?ClrAghS9jSujxUTE+qX2KT70gCMJp3WbaxiZPXHpOPgvbJKGvcZgcrHbJO59?=
+ =?us-ascii?Q?y/p25/kZBGGYa5vVmG0Eu8a0jc4OyrHAeSeyi7PDIH9BqEX1Ar27+9UTQmFz?=
+ =?us-ascii?Q?UlZ6DdRQEP6BhWDDtxoCHxMacf5azFjpl14bn7/pSubQKbxYcs+8uMee4nwe?=
+ =?us-ascii?Q?+V1tvx83SVT/PbuDAU9cLC0mAe41DUFttNMkIklzt/M2sFKqeqr6DIQrljoL?=
+ =?us-ascii?Q?hXw2uWjdEDiyLzMQBhvGyRmTrpLPt9YqedB5anugv5XRBuUCfcI4vw64xOej?=
+ =?us-ascii?Q?7Sc/khvQsbIYj7bW+uZ7nf6wbKstDV0kcE+l4hlfQoDbf945SztvovaVKbvE?=
+ =?us-ascii?Q?7dmEi58dbsJCFQiqGfoBzXREgLfMCSXqgNId/1ibT4nLM8jH12+hi8P8hEYd?=
+ =?us-ascii?Q?O/uaWLzbrjPGTHeAu2yUev3D4pwmidr4e4CaEYrd6jAJWMR/BttDio/0WFP1?=
+ =?us-ascii?Q?KqvEIb6fYUm0y1sxJ457f/dPrj6I/m8kRm4m0eVlkcMelW+Xu9adPVFYJCpS?=
+ =?us-ascii?Q?txRBmh2cEcP7VA0BEdlRxSlMLfnOPvMKXadgWz24qPRu+8tJjVTzGNeslq/h?=
+ =?us-ascii?Q?oa5lDm+Q/mhh6w4iUwDKIszjVSmfvBVsnf1byot6257285DGhHqnb4s7r3Kg?=
+ =?us-ascii?Q?5SDrI3hcdq46+yaJRx0L8hYX1w4/moTcGU3ytyCF?=
 X-OriginatorOrg: zenithal.me
-X-MS-Exchange-CrossTenant-Network-Message-Id: 099b1937-25af-42cb-49bf-08d9d6c02781
+X-MS-Exchange-CrossTenant-Network-Message-Id: ffaa1560-94c6-4c9f-d147-08d9d6c030cf
 X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2022 18:11:43.6047 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2022 18:11:59.1720 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 436d481c-43b1-4418-8d7f-84c1e4887cf0
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5sSJ6Szl9MpKFAa1gmuXX8HIH4vLyLjKG3JeHm8sTvicGbJkR9pkfWX+Y6m3Jbgw
+X-MS-Exchange-CrossTenant-UserPrincipalName: 47umCNBpOSnd5+Ra7HidOQhI2J1eS/mT9H2HohxJIH/f9f9N3rSXEr8lbffz/xS7
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZP286MB1166
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f403:7010::702
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f403:7010::730
  (failed)
-Received-SPF: pass client-ip=2a01:111:f403:7010::702;
+Received-SPF: pass client-ip=2a01:111:f403:7010::730;
  envelope-from=i@zenithal.me;
  helo=JPN01-TYC-obe.outbound.protection.outlook.com
-X-Spam_score_int: 7
-X-Spam_score: 0.7
-X-Spam_bar: /
-X-Spam_report: (0.7 / 5.0 requ) APP_DEVELOPMENT_NORDNS=1.997, BAYES_00=-1.9,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -141,184 +141,23 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Hongren (Zenithal) Zheng <i@zenithal.me>
 ---
- docs/system/device-emulation.rst |   1 +
- docs/system/devices/canokey.rst  | 158 +++++++++++++++++++++++++++++++
- 2 files changed, 159 insertions(+)
- create mode 100644 docs/system/devices/canokey.rst
+ docs/system/devices/usb.rst | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/docs/system/device-emulation.rst b/docs/system/device-emulation.rst
-index 19944f526c..b753fa83d0 100644
---- a/docs/system/device-emulation.rst
-+++ b/docs/system/device-emulation.rst
-@@ -89,3 +89,4 @@ Emulated Devices
-    devices/vhost-user.rst
-    devices/virtio-pmem.rst
-    devices/vhost-user-rng.rst
-+   devices/canokey.rst
-diff --git a/docs/system/devices/canokey.rst b/docs/system/devices/canokey.rst
-new file mode 100644
-index 0000000000..3b40bc4511
---- /dev/null
-+++ b/docs/system/devices/canokey.rst
-@@ -0,0 +1,158 @@
-+.. _canokey:
+diff --git a/docs/system/devices/usb.rst b/docs/system/devices/usb.rst
+index afb7d6c226..341694403a 100644
+--- a/docs/system/devices/usb.rst
++++ b/docs/system/devices/usb.rst
+@@ -199,6 +199,9 @@ option or the ``device_add`` monitor command. Available devices are:
+ ``u2f-{emulated,passthru}``
+    Universal Second Factor device
+ 
++``canokey``
++   An Open-source Secure Key implementing FIDO2, OpenPGP, PIV and more.
 +
-+CanoKey QEMU
-+------------
-+
-+CanoKey [1]_ is an open-source secure key with supports of
-+
-+* U2F / FIDO2 with Ed25519 and HMAC-secret
-+* OpenPGP Card V3.4 with RSA4096, Ed25519 and more [2]_
-+* PIV (NIST SP 800-73-4)
-+* HOTP / TOTP
-+* NDEF
-+
-+All these platform-independent code are in canokey-core [3]_.
-+
-+For different platforms, CanoKey has different implementations,
-+including both hardware implementions and virtual cards:
-+
-+* CanoKey STM32 [4]_
-+* CanoKey Pigeon [5]_
-+* (virt-card) CanoKey USB/IP
-+* (virt-card) CanoKey FunctionFS
-+
-+In QEMU, yet another CanoKey virt-card is implemented.
-+CanoKey QEMU exposes itself as a USB device to the guest OS.
-+
-+With the same software configuration as a hardware key,
-+the guest OS can use all the functionalities of a secure key as if
-+there was actually an hardware key plugged in.
-+
-+CanoKey QEMU provides much convenience for debuging:
-+
-+* libcanokey-qemu supports debuging output thus developers can
-+  inspect what happens inside a secure key
-+* CanoKey QEMU supports trace event thus event
-+* QEMU USB stack supports pcap thus USB packet between the guest
-+  and key can be captured and analysed
-+
-+Then for developers:
-+
-+* For developers on software with secure key support (e.g. FIDO2, OpenPGP),
-+  they can see what happens inside the secure key
-+* For secure key developers, USB packets between guest OS and CanoKey
-+  can be easily captured and analysed
-+
-+Also since this is a virtual card, it can be easily used in CI for testing
-+on code coping with secure key.
-+
-+Building
-+========
-+
-+libcanokey-qemu is required to use CanoKey QEMU.
-+
-+.. code-block:: shell
-+
-+    git clone https://github.com/canokeys/canokey-core
-+    mkdir canokey-core/build
-+    pushd canokey-core/build
-+
-+If you want to install libcanokey-qemu in a different place,
-+add ``-DCMAKE_INSTALL_PREFIX=/path/to/your/place`` to cmake below.
-+
-+.. code-block:: shell
-+
-+    cmake .. -DQEMU=ON
-+    make
-+    make install # may need sudo
-+    popd
-+
-+Then configuring and building:
-+
-+.. code-block:: shell
-+
-+    # depending on your env, lib/pkgconfig can be lib64/pkgconfig
-+    export PKG_CONFIG_PATH=/path/to/your/place/lib/pkgconfig:$PKG_CONFIG_PATH
-+    ./configure --enable-canokey && make
-+
-+Using CanoKey QEMU
-+==================
-+
-+CanoKey QEMU stores all its data on a file of the host specified by the argument
-+when invoking qemu.
-+
-+.. parsed-literal::
-+
-+    |qemu_system| -usb -device canokey,file=$HOME/.canokey-file
-+
-+Note: you should keep this file carefully as it may contain your private key!
-+
-+The first time when the file is used, it is created and initialized by CanoKey,
-+afterwards CanoKey QEMU would just read this file.
-+
-+After the guest OS boots, you can check that there is a USB device.
-+
-+For example, If the guest OS is an Linux machine. You may invoke lsusb
-+and find CanoKey QEMU there:
-+
-+.. code-block:: shell
-+
-+    $ lsusb
-+    Bus 001 Device 002: ID 20a0:42d4 Clay Logic CanoKey
-+
-+You may setup the key as guided in [6]_. The console for the key is at [7]_.
-+
-+Debuging
-+========
-+
-+CanoKey QEMU consists of two parts, ``libcanokey-qemu.so`` and ``canokey.c``,
-+the latter of which resides in QEMU. The former provides core functionality
-+of a secure key while the latter provides platform-dependent functions:
-+USB packet handling.
-+
-+If you want to trace what happens inside the secure key, when compiling
-+libcanokey-qemu, you should add ``-DENABLE_DEBUG_OUTPUT=ON`` in cmake command
-+line:
-+
-+.. code-block:: shell
-+
-+    cmake .. -DQEMU=ON -DENABLE_DEBUG_OUTPUT=ON
-+
-+If you want to trace events happened in canokey.c, use
-+
-+.. parsed-literal::
-+
-+    |qemu_system| --trace "canokey_*" \\
-+        -usb -device canokey,file=$HOME/.canokey-file
-+
-+If you want to capture USB packets between the guest and the host, you can:
-+
-+.. parsed-literal::
-+
-+    |qemu_system| -usb -device canokey,file=$HOME/.canokey-file,pcap=key.pcap
-+
-+Limitations
-+===========
-+
-+Currently libcanokey-qemu.so has dozens of global variables as it was originally
-+designed for embedded systems. Thus one qemu instance can not have
-+multiple CanoKey QEMU running, namely you can not
-+
-+.. parsed-literal::
-+
-+    |qemu_system| -usb -device canokey,file=$HOME/.canokey-file \\
-+         -device canokey,file=$HOME/.canokey-file2
-+
-+Also, there is no lock on canokey-file, thus two CanoKey QEMU instance
-+can not read one canokey-file at the same time.
-+
-+References
-+==========
-+
-+.. [1] `<https://canokeys.org>`_
-+.. [2] `<https://docs.canokeys.org/userguide/openpgp/#supported-algorithm>`_
-+.. [3] `<https://github.com/canokeys/canokey-core>`_
-+.. [4] `<https://github.com/canokeys/canokey-stm32>`_
-+.. [5] `<https://github.com/canokeys/canokey-pigeon>`_
-+.. [6] `<https://docs.canokeys.org/>`_
-+.. [7] `<https://console.canokeys.org/>`_
+ Physical port addressing
+ ^^^^^^^^^^^^^^^^^^^^^^^^
+ 
 -- 
 2.34.1
 
