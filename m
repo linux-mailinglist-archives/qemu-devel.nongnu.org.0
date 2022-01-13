@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E56F648DF30
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 21:48:50 +0100 (CET)
-Received: from localhost ([::1]:40038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A917F48DF3E
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 21:57:23 +0100 (CET)
+Received: from localhost ([::1]:54098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n871d-0004DI-I8
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 15:48:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50168)
+	id 1n879u-0006Xd-Qr
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 15:57:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n86ws-0002LL-ME
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:43:55 -0500
-Received: from [2a00:1450:4864:20::429] (port=39890
- helo=mail-wr1-x429.google.com)
+ id 1n876S-0003Er-B2
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:53:48 -0500
+Received: from [2a00:1450:4864:20::430] (port=38812
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n86wr-0007VA-3w
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:43:54 -0500
-Received: by mail-wr1-x429.google.com with SMTP id s1so12300677wra.6
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 12:43:52 -0800 (PST)
+ id 1n876Q-0000Rf-PG
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:53:47 -0500
+Received: by mail-wr1-x430.google.com with SMTP id a5so12349843wrh.5
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 12:53:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Kaag0bGJydDMMTDaSi9w7OYqhWGolg6pIfvPqtcX4d4=;
- b=GWrxA+pI0O/WFFSVb3Nh1djbm4OlnZNuevWtZozI3bVfsrGEPWY8/M5iEY9tKg4bMI
- qvdOX+7tZwvTj/NK0FliYvNBfDdZ8m/pqvmnqVYHs3JRe5TnnZou3D5478Ue5fZNhh2/
- 7aFMBcrwgGX2UgBzKEH95NG/ExN8RsAF05HSa0OiAoU5fOKIXJDJLRyqcG4EqhHls3zM
- KZF2jh/NPllz5qX9kJh0gVGnA42QxZzuv3sk+im08mG86VKhcNB96ldiQIEAKk+H57Qk
- xJFLWX5PnktgvC5TbKzxUFycAXBBY0La/GH+ibNRcdBOWLaYNAo916j11mShkapmZNkO
- gmsQ==
+ :cc; bh=2fZAkvVtZHwqrHdaG4RpnqkW/SdxcPRBAucfO2kuhQw=;
+ b=maDK0PImRn8ULCEjPAqO5maQ8eZSyDEiP1hquAdw9VJVV68WHo3g0bTAUM+gtNAX7S
+ vNnqEVWQ7hhfie99lQt71pk7Vi7Yg+8ZiwKETlE5ppDa6MtjlMIo7q7kM/AuYuaA/g90
+ 36Htd8i98NlgXt3AV1l5lhkrB4yrTPeemTvHY3omr7SxfcJk8dhr14aY+6qc/gWomYa9
+ Sxsg14zY5yAXbPAr3UUhZv5fSFUf0xyHDIMzD6AXg6NLvIrAEcr0X3tRHBtZvXL/eVtQ
+ 4JfB59CfYDOLHgQsE0QUakQpcfYz6V2CisnrY08jHsi3rUKrwucmKtRk+7V0Kl06Jy0c
+ YG1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Kaag0bGJydDMMTDaSi9w7OYqhWGolg6pIfvPqtcX4d4=;
- b=Sl103tLeHlXvMT52mGOXd3/DKKLhWmUP3nt6xkk6ehc2dENMsIc9npfwH1kAhrf2QH
- SgHJ3qcicavDfCxfXrYrM+ACFM/uUg96e0GScoK12IzfDfzh5lpdLXgwzNWWTst1j/U+
- VwWCL5j8Ms1w6WrcGeK4dS6+bCVpiVmpBWjU/UQ8XC5gqn4qpGYsMmPTmoMRzyXbzhPc
- 5eF8p2Jaax6jbZKDnEM4G43FiGXJbmmNgqzutSewlZKvdBHs53QjEd3MKfEBFO8dRJ7/
- anpxNlCba8R3OdsJQvSSOahcJY2SJXBTVmyfA/940k3YUGa82JpnEOkZ6aYf4Q3IdaN7
- s2Yw==
-X-Gm-Message-State: AOAM5307ucX6RPI2czIFzt7Y47J/WdBMG2DdotRGRlfdENEA66KWntW4
- q844hZwk/iApBuioMwU+IWJxF386tXDDQdwcvFZP/w==
-X-Google-Smtp-Source: ABdhPJwINiR8qKeUMz1B2nHyT3+WgNyKs1a5f+W4B2FaaNRaYZKWq7c8YXIGTsqB45jfpHmY1sY9WjMy4g+0BWgzmvU=
-X-Received: by 2002:adf:ee0e:: with SMTP id y14mr5647538wrn.172.1642106631520; 
- Thu, 13 Jan 2022 12:43:51 -0800 (PST)
+ bh=2fZAkvVtZHwqrHdaG4RpnqkW/SdxcPRBAucfO2kuhQw=;
+ b=RYVAX5HyQzbgMe7tHjwVXGWA4h2xzjJRE3eBS9VClGiduHu8ItKVh+UzbuTlvtjiB1
+ wfdURKaJgSkkDJGB+tD9+tlhofVgWPPKh4352RIdnRWZQODsvYkXSgsjwasmgH7pUeE3
+ A5axZUofALGNLjy5ilwB2u4k91h6NCcmuUviEHe70Qd76h6HT3anzkM+xW7K/O/jfbUD
+ UJQFD8s8ZVQVYYvaCdCcnAgjQINnX8ZbIhUG7oQL5B6JaCAE++5d/q6oDi5RH5U/NzWj
+ DhfuIM0FfruEzAo2OtkwWZ1e2VLs6KsI1xaNTnM67Rn5cc9h4kXQCMSqgJAVZKh5xL+3
+ ZRLg==
+X-Gm-Message-State: AOAM532FpDEH41wrPUoefGJHc1qvBG78awZMFb+j6nh6993VAGbr3DcF
+ CFisrd4oGzEoqcmmE5MyLdH9HE5oOdsX+a7nMvDs/g==
+X-Google-Smtp-Source: ABdhPJzblBN5lb16iVxLxiu/RF4dR1n0SvKd1x1HmrKfXKSdByfRB7os3HrF/BC1DvNRD/qkrDs/8oJRjIpQ6IvdJOI=
+X-Received: by 2002:a5d:52c4:: with SMTP id r4mr5651446wrv.521.1642107224827; 
+ Thu, 13 Jan 2022 12:53:44 -0800 (PST)
 MIME-Version: 1.0
-References: <20220113194452.254011-1-dgilbert@redhat.com>
- <20220113194452.254011-2-dgilbert@redhat.com>
-In-Reply-To: <20220113194452.254011-2-dgilbert@redhat.com>
+References: <20220109161923.85683-1-imp@bsdimp.com>
+ <20220109161923.85683-22-imp@bsdimp.com>
+ <CAFEAcA9xbOCjc7ZLULuyWNYi5jHtS=N8_HWiob_gaAE+3vxZAA@mail.gmail.com>
+In-Reply-To: <CAFEAcA9xbOCjc7ZLULuyWNYi5jHtS=N8_HWiob_gaAE+3vxZAA@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Jan 2022 20:43:40 +0000
-Message-ID: <CAFEAcA80kZMYZkOpw8mka+skyMyq4W_pLUeYg_1D2MJUGYLUJQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] ppc: Fix vmstate_pbr403 subsection name
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Date: Thu, 13 Jan 2022 20:53:34 +0000
+Message-ID: <CAFEAcA8bdDdn8-UOeGX_aHu1E1QuEasCK++x3qNrvRfg6MqCaw@mail.gmail.com>
+Subject: Re: [PATCH 21/30] bsd-user/signal.c: force_sig
+To: Warner Losh <imp@bsdimp.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -80,44 +81,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lsoaresp@redhat.com, marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
- peterx@redhat.com, quintela@redhat.com
+Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@freebsd.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 13 Jan 2022 at 19:45, Dr. David Alan Gilbert (git)
-<dgilbert@redhat.com> wrote:
+On Thu, 13 Jan 2022 at 20:29, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->
-> The pbr403 subsection is part of the tlb6xx state, so I believe it's
-> name needs to be:
->
->     .name = "cpu/tlb6xx/pbr403",
->
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  target/ppc/machine.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/ppc/machine.c b/target/ppc/machine.c
-> index 756d8de5d8..e535edb7c4 100644
-> --- a/target/ppc/machine.c
-> +++ b/target/ppc/machine.c
-> @@ -718,7 +718,7 @@ static bool pbr403_needed(void *opaque)
->  }
->
->  static const VMStateDescription vmstate_pbr403 = {
-> -    .name = "cpu/pbr403",
-> +    .name = "cpu/tlb6xx/pbr403",
->      .version_id = 1,
->      .minimum_version_id = 1,
->      .needed = pbr403_needed,
-> --
-> 2.34.1
+> On Sun, 9 Jan 2022 at 16:44, Warner Losh <imp@bsdimp.com> wrote:
+> >
+> > Force delivering a signal and generating a core file.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> > +/* Abort execution with signal. */
+> > +void QEMU_NORETURN force_sig(int target_sig)
+>
+> In linux-user we call this dump_core_and_abort(), which is
+> a name that better describes what it's actually doing.
+>
+> (Today's linux-user's force_sig() does what the Linux kernel's
+> function of that name does -- it's a wrapper around
+> queue_signal() which delivers a signal to the guest with
+> .si_code = SI_KERNEL , si_pid = si_uid = 0.
+> Whether you want one of those or not depends on what BSD
+> kernels do in that kind of "we have to kill this process"
+> situation.)
 
-thanks
+It looks like the FreeBSD kernel uses sigexit() as its equivalent
+function to Linux's force_sig(), incidentally. Not sure if
+you/we would prefer the bsd-user code to follow the naming that
+FreeBSD's kernel uses or the naming linux-user takes from
+the Linux kernel.
+
 -- PMM
 
