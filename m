@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0BA248D26C
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 07:47:01 +0100 (CET)
-Received: from localhost ([::1]:59396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72B3348D296
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 08:06:12 +0100 (CET)
+Received: from localhost ([::1]:43248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7tsh-0004rv-CT
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 01:46:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60738)
+	id 1n7uBX-0007Of-Ae
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 02:06:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n7tfR-0001yj-2z
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 01:33:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30913)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n7tuP-0007ok-JE
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 01:48:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56256)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n7tfO-0006NJ-CV
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 01:32:59 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n7tuM-00005j-84
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 01:48:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642055577;
+ s=mimecast20190719; t=1642056504;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=uaBiCyRz1gWNDkndDPW/89zaAdvs/uvuN5QX5e6w2z4=;
- b=YjV8oRzPhuxvCIpRtfnbGe8AeapgbTnCOXgOOp2NUv3lawiwrDjSFhUhKkW1ra2xAyXmpg
- ydFMoqDtiU9cqgmDoSivs0tX16s5+QtfxYRgyxPwvTmYOJjOwbE0FlQjWoBTWa0shJ/Deb
- 0Ki9BVlsVEV+4ecyMlsC+PrJ3HUvmbM=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=t9N4YmIpbXzQpkvCxQmCdinrj/XlHajnhkdKDW2duDg=;
+ b=N8eJvaV09ndDiphPRZxjpWicaQQGj/hoF4RQOUVzeOqD9K/0ij7yw80kzrOicjLo1jgjsR
+ P34CVXHyUXKaHkhlsEVTVbAo9GPyiCQM16azo5o+O4Pd3FhYyKEG4MAQhKfiBHWkZ1s1l6
+ BV6PXlz2dHYgnlruFXXs0aFS/kJpF2s=
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-101-0RxLsd3BNlC9kWOwoEhMCw-1; Thu, 13 Jan 2022 01:32:55 -0500
-X-MC-Unique: 0RxLsd3BNlC9kWOwoEhMCw-1
-Received: by mail-pj1-f71.google.com with SMTP id
- j13-20020a17090a318d00b001b3e4f72bfbso5589097pjb.9
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 22:32:55 -0800 (PST)
+ us-mta-7-G9vqzC2JP46zJGIQKndLAg-1; Thu, 13 Jan 2022 01:48:23 -0500
+X-MC-Unique: G9vqzC2JP46zJGIQKndLAg-1
+Received: by mail-pl1-f198.google.com with SMTP id
+ ik6-20020a170902ab0600b0014a1e5aab34so5073163plb.21
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 22:48:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=uaBiCyRz1gWNDkndDPW/89zaAdvs/uvuN5QX5e6w2z4=;
- b=GVhtM6MTIPsh2aXGhxAgW84ZzK03+S1Yaxl0fQ2UpWKg269Cw+OcPhuds1A1wzznZU
- O5upfzC9vXSWIIXSJmgcxZ9DEL8ffHpOegXZcXg6ESvi8gPEo3hTKzQsDzwuuMgqP11u
- 59Ux1FMseXcK3c7FSbwF078k8YrH4xwAF3E4m+VVuQdf9S8rVAW6P27M9HWIBKHhNhbG
- GXO2dUabCyuzKZtAgy4be8SDzFijYa6Ewh4A8AA6WNs3dXJLKU+jGY9k4hxvA3Nwf9Zs
- 1Jsh8p4Ct0HSKxJ2J0m72h2SaqrEYhw+CFujv7TfjeRMQVLllCp2RAFJQF4WJXS4sala
- hauw==
-X-Gm-Message-State: AOAM530P6nAiAgElIaIpqQSDvrw4Scd971Q2tVfYikQgKf+ccNnEtl7Q
- TYlx6RGGTzUaonu0AORKAsaaF64Ris3PUGTyJvAashpxizjvqMq8fm6SxBk06oQM+rDrw9cyuol
- OARjTfuKUXK5yHJI=
-X-Received: by 2002:a17:90a:db0b:: with SMTP id
- g11mr13021067pjv.46.1642055574150; 
- Wed, 12 Jan 2022 22:32:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwrbTy1ruVuUU4Yjvmo9XdnSjgnPjtlbWtSRMv5kKXyE//0N19B4WGlVKqPPUBbC6mqbnjI7Q==
-X-Received: by 2002:a17:90a:db0b:: with SMTP id
- g11mr13021050pjv.46.1642055573889; 
- Wed, 12 Jan 2022 22:32:53 -0800 (PST)
+ bh=t9N4YmIpbXzQpkvCxQmCdinrj/XlHajnhkdKDW2duDg=;
+ b=jRyYr2/+kCFXFqJIrAG3AYQvBlxPcQiXWBiB9kwJP3MJk1f7+2l13dVpPVAok+Slyj
+ oTvGXx2vJSBkWKC7v22oCnrCaozehU8bxYD5ZCSe99A649GfqXParCPG8fCUYBkqqVhP
+ hz0JAo88yGt70rsxY/PQrRcEhEnRhg0ARLFkIA/Hg3qlv5zKLK7Nw39tcGoBBdGaXgZX
+ 3K9b6E19Bf9xxOcQHRN6hHdFfBZPnninExqCUaVsyKOY1VRilIDut78eu4EaPM+kNbmr
+ +gqxcWwqVzzksa1DMVVUdgJoCl41GaXMhQBrsKOsSeNnHoq9FBX8yvgZWwNzbVoA0Xo+
+ 0gpw==
+X-Gm-Message-State: AOAM532fRmIOSrJKQdzPP83Rt1vDFhjJHJZPF+RWMLGAipoaG3btcuCX
+ AlzqVuQ1lrF7xfIVeLFd2ruSWGPHccTQMbPDZc3kqnlCy/oWkWXTkfHKf5rNa1ZX/4SzIGY/om9
+ dc78dXoGFA+jmCcU=
+X-Received: by 2002:a17:902:c406:b0:14a:52e4:3e5e with SMTP id
+ k6-20020a170902c40600b0014a52e43e5emr3168736plk.4.1642056502398; 
+ Wed, 12 Jan 2022 22:48:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyDS1vqq7d3rCbi8UCIdzYeIx8fZ4yYztmUPOBqiUZzfnRgMeuAz0RSqGByHZWpi4oEVuYBzw==
+X-Received: by 2002:a17:902:c406:b0:14a:52e4:3e5e with SMTP id
+ k6-20020a170902c40600b0014a52e43e5emr3168717plk.4.1642056502042; 
+ Wed, 12 Jan 2022 22:48:22 -0800 (PST)
 Received: from xz-m1.local ([191.101.132.233])
- by smtp.gmail.com with ESMTPSA id 13sm1577670pfm.161.2022.01.12.22.32.51
+ by smtp.gmail.com with ESMTPSA id s24sm1499357pfm.100.2022.01.12.22.48.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jan 2022 22:32:53 -0800 (PST)
-Date: Thu, 13 Jan 2022 14:32:48 +0800
+ Wed, 12 Jan 2022 22:48:21 -0800 (PST)
+Date: Thu, 13 Jan 2022 14:48:15 +0800
 From: Peter Xu <peterx@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 1/3] intel-iommu: don't warn guest errors when getting
- rid2pasid entry
-Message-ID: <Yd/HkPuflaEcozKt@xz-m1.local>
-References: <20220105041945.13459-1-jasowang@redhat.com>
- <20220105041945.13459-3-jasowang@redhat.com>
- <Yd+d9ydZl7tLYWBj@xz-m1.local>
- <CACGkMEvuqneYVyP2s=OnJpZPr5Cx11AA4fiFcC2=TTZzJLOzHA@mail.gmail.com>
+To: Leonardo Bras <leobras@redhat.com>
+Subject: Re: [PATCH v7 2/5] QIOChannelSocket: Implement io_writev zero copy
+ flag & io_flush for CONFIG_LINUX
+Message-ID: <Yd/LLxNCItAIX3eN@xz-m1.local>
+References: <20220106221341.8779-1-leobras@redhat.com>
+ <20220106221341.8779-3-leobras@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CACGkMEvuqneYVyP2s=OnJpZPr5Cx11AA4fiFcC2=TTZzJLOzHA@mail.gmail.com>
+In-Reply-To: <20220106221341.8779-3-leobras@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -98,65 +96,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Liu, Yi L" <yi.l.liu@intel.com>, yi.y.sun@linux.intel.com,
- qemu-devel <qemu-devel@nongnu.org>, mst <mst@redhat.com>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 13, 2022 at 02:16:35PM +0800, Jason Wang wrote:
-> On Thu, Jan 13, 2022 at 11:35 AM Peter Xu <peterx@redhat.com> wrote:
-> >
-> > On Wed, Jan 05, 2022 at 12:19:43PM +0800, Jason Wang wrote:
-> > > We use to warn on wrong rid2pasid entry. But this error could be
-> > > triggered by the guest and could happens during initialization. So
-> > > let's don't warn in this case.
-> > >
-> > > Signed-off-by: Jason Wang <jasowang@redhat.com>
-> > > ---
-> > >  hw/i386/intel_iommu.c | 6 ++++--
-> > >  1 file changed, 4 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> > > index 4c6c016388..f2c7a23712 100644
-> > > --- a/hw/i386/intel_iommu.c
-> > > +++ b/hw/i386/intel_iommu.c
-> > > @@ -1524,8 +1524,10 @@ static bool vtd_dev_pt_enabled(IntelIOMMUState *s, VTDContextEntry *ce)
-> > >      if (s->root_scalable) {
-> > >          ret = vtd_ce_get_rid2pasid_entry(s, ce, &pe);
-> > >          if (ret) {
-> > > -            error_report_once("%s: vtd_ce_get_rid2pasid_entry error: %"PRId32,
-> > > -                              __func__, ret);
-> > > +            /*
-> > > +             * This error is guest triggerable. We should assumt PT
-> > > +             * not enabled for safety.
-> > > +             */
-> > >              return false;
-> > >          }
-> > >          return (VTD_PE_GET_TYPE(&pe) == VTD_SM_PASID_ENTRY_PT);
-> > > --
-> > > 2.25.1
-> > >
-> >
-> > No strong opinion, but the thing is mostly all error_report_once() in this file
-> > is guest triggerable.  If we remove this one then it's debatable on whether we
-> > want to remove all.
-> >
-> > IMHO we used the _once() variant just for this: it won't go into any form of
-> > DoS, meanwhile we'll still get some information (as hypervisor) that the guest
-> > OS may not be trustworthy.
-> >
-> > So from that pov it's still useful?  Or is this error very special in some way?
-> 
-> I want to be consistent with vtd_as_pt_enabled() where we don't even
-> have error_report_once().
+On Thu, Jan 06, 2022 at 07:13:39PM -0300, Leonardo Bras wrote:
+> @@ -558,15 +575,26 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
+>          memcpy(CMSG_DATA(cmsg), fds, fdsize);
+>      }
+>  
+> +    if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
+> +        sflags = MSG_ZEROCOPY;
+> +    }
+> +
+>   retry:
+> -    ret = sendmsg(sioc->fd, &msg, 0);
+> +    ret = sendmsg(sioc->fd, &msg, sflags);
+>      if (ret <= 0) {
+> -        if (errno == EAGAIN) {
+> +        switch (errno) {
+> +        case EAGAIN:
+>              return QIO_CHANNEL_ERR_BLOCK;
+> -        }
+> -        if (errno == EINTR) {
+> +        case EINTR:
+>              goto retry;
+> +        case ENOBUFS:
+> +            if (sflags & MSG_ZEROCOPY) {
+> +                error_setg_errno(errp, errno,
+> +                                 "Process can't lock enough memory for using MSG_ZEROCOPY");
+> +                return -1;
+> +            }
 
-According to the comments (which, I think, left over by myself..) in
-vtd_as_pt_enabled() - maybe indeed it could be triggered during guest boot.
-Then I assume this can indeed a special case.
+I have no idea whether it'll make a real differnece, but - should we better add
+a "break" here?  If you agree and with that fixed, feel free to add:
 
-Acked-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
-Thanks.
+I also wonder whether you hit ENOBUFS in any of the environments.  On Fedora
+here it's by default unlimited, but just curious when we should keep an eye.
+
+Thanks,
 
 -- 
 Peter Xu
