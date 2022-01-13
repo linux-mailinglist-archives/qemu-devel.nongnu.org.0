@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 896E648D5F0
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 11:43:30 +0100 (CET)
-Received: from localhost ([::1]:37234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70CC348D601
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 11:48:05 +0100 (CET)
+Received: from localhost ([::1]:44182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7xZp-00055N-A0
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 05:43:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48306)
+	id 1n7xeG-0001d6-CY
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 05:48:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1n7xVG-0003Mo-5r
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 05:38:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57156)
+ id 1n7xVd-0003Z4-P7
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 05:39:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57078)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1n7xVD-0001Md-Ih
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 05:38:45 -0500
+ id 1n7xVO-0001N6-So
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 05:38:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642070316;
+ s=mimecast20190719; t=1642070332;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=OaPsqOCuBvvIjmQSGGUp5T72NJtZ/DzuEbf1kU2tV04=;
- b=UdrDbiJzbil9L4OKqUQlMwLoTB7/b4yU9MrxdlumgMV8LNqcOLWbRM383TzojdCaIj7dEL
- nHrYqnOCv2LtS5JM00fJboIymgj7N/nxeFKYhgavkq8B/ItfCZBbzDCLC3kAzJactvyXS/
- SumY/+iOLDS16xnj3naeXgZfqpmMRmo=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4i61MGdDaEZBSVJgLArAARMIoBrGXkQTMEmbVrvNOq8=;
+ b=HpWt7BmOVNaIrO5LXFm0pcLRGeUfddgl6FDDIhrf2wtxeUwFiP7Lgp3MU3BeWN+YNePmeP
+ zUjCJ8mJdJ8lOlzN+jmiV2osBlOpDOHp6+m9kL/VzH+yQ41qUAjjCjwL4vLcFGMbcpp3OE
+ dYbE1IyZLkfyqPVGdBSyttC/JZMJzq4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-526-h8DWxDByPsyJtOLshyBNVw-1; Thu, 13 Jan 2022 05:38:33 -0500
-X-MC-Unique: h8DWxDByPsyJtOLshyBNVw-1
+ us-mta-587-dSjee1c6MyaPMj-AamaRSA-1; Thu, 13 Jan 2022 05:38:46 -0500
+X-MC-Unique: dSjee1c6MyaPMj-AamaRSA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D5B73482D;
- Thu, 13 Jan 2022 10:38:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F460101AFA9;
+ Thu, 13 Jan 2022 10:38:45 +0000 (UTC)
 Received: from laptop.redhat.com (unknown [10.39.192.96])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 726F173152;
- Thu, 13 Jan 2022 10:37:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CD48073152;
+ Thu, 13 Jan 2022 10:38:32 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com,
  stefanb@linux.vnet.ibm.com, qemu-devel@nongnu.org,
  alex.williamson@redhat.com
-Subject: [PATCH 0/2] TPM-CRB: Remove spurious error report when used with VFIO
-Date: Thu, 13 Jan 2022 11:37:55 +0100
-Message-Id: <20220113103757.2801389-1-eric.auger@redhat.com>
+Subject: [PATCH 1/2] tpm: CRB: Use ram_device for "tpm-crb-cmd" region
+Date: Thu, 13 Jan 2022 11:37:56 +0100
+Message-Id: <20220113103757.2801389-2-eric.auger@redhat.com>
+In-Reply-To: <20220113103757.2801389-1-eric.auger@redhat.com>
+References: <20220113103757.2801389-1-eric.auger@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
@@ -57,7 +60,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124;
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -82,31 +85,76 @@ Cc: cohuck@redhat.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-launching a guest with a TPM-CRB device and VFIO-PCI devices.
+Representing the CRB cmd/response buffer as a standard
+RAM region causes some trouble when the device is used
+with VFIO. Indeed VFIO attempts to DMA_MAP this region
+as usual RAM but this latter does not have a valid page
+size alignment causing such an error report:
+"vfio_listener_region_add received unaligned region".
+To allow VFIO to detect that failing dma mapping
+this region is not an issue, let's use a ram_device
+memory region type instead.
 
-The CRB command buffer currently is a RAM MemoryRegion and given
-its base address alignment, it causes an error report on
-vfio_listener_region_add(). This series proposes to use a ram-device
-region instead which helps in better assessing the dma map error
-failure severity on VFIO side.
+The change in meson.build is required to include the
+cpu.h header.
 
-Best Regards
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+---
+ hw/tpm/meson.build |  2 +-
+ hw/tpm/tpm_crb.c   | 10 ++++++++--
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
-Eric
-
-This series can be found at:
-https://github.com/eauger/qemu/tree/tpm-crb-ram-device-v1
-
-Eric Auger (2):
-  tpm: CRB: Use ram_device for "tpm-crb-cmd" region
-  hw/vfio/common: Silence ram device offset alignment error traces
-
- hw/tpm/meson.build   |  2 +-
- hw/tpm/tpm_crb.c     | 10 ++++++++--
- hw/vfio/common.c     | 15 ++++++++++++++-
- hw/vfio/trace-events |  1 +
- 4 files changed, 24 insertions(+), 4 deletions(-)
-
+diff --git a/hw/tpm/meson.build b/hw/tpm/meson.build
+index 1c68d81d6a..3e74df945b 100644
+--- a/hw/tpm/meson.build
++++ b/hw/tpm/meson.build
+@@ -1,8 +1,8 @@
+ softmmu_ss.add(when: 'CONFIG_TPM_TIS', if_true: files('tpm_tis_common.c'))
+ softmmu_ss.add(when: 'CONFIG_TPM_TIS_ISA', if_true: files('tpm_tis_isa.c'))
+ softmmu_ss.add(when: 'CONFIG_TPM_TIS_SYSBUS', if_true: files('tpm_tis_sysbus.c'))
+-softmmu_ss.add(when: 'CONFIG_TPM_CRB', if_true: files('tpm_crb.c'))
+ 
++specific_ss.add(when: 'CONFIG_TPM_CRB', if_true: files('tpm_crb.c'))
+ specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TPM_TIS'], if_true: files('tpm_ppi.c'))
+ specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TPM_CRB'], if_true: files('tpm_ppi.c'))
+ specific_ss.add(when: 'CONFIG_TPM_SPAPR', if_true: files('tpm_spapr.c'))
+diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
+index 58ebd1469c..25f8e685e4 100644
+--- a/hw/tpm/tpm_crb.c
++++ b/hw/tpm/tpm_crb.c
+@@ -25,6 +25,7 @@
+ #include "sysemu/tpm_backend.h"
+ #include "sysemu/tpm_util.h"
+ #include "sysemu/reset.h"
++#include "cpu.h"
+ #include "tpm_prop.h"
+ #include "tpm_ppi.h"
+ #include "trace.h"
+@@ -43,6 +44,7 @@ struct CRBState {
+ 
+     bool ppi_enabled;
+     TPMPPI ppi;
++    uint8_t *crb_cmd_buf;
+ };
+ typedef struct CRBState CRBState;
+ 
+@@ -291,10 +293,14 @@ static void tpm_crb_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
++    s->crb_cmd_buf = qemu_memalign(qemu_real_host_page_size,
++                                HOST_PAGE_ALIGN(CRB_CTRL_CMD_SIZE));
++
+     memory_region_init_io(&s->mmio, OBJECT(s), &tpm_crb_memory_ops, s,
+         "tpm-crb-mmio", sizeof(s->regs));
+-    memory_region_init_ram(&s->cmdmem, OBJECT(s),
+-        "tpm-crb-cmd", CRB_CTRL_CMD_SIZE, errp);
++    memory_region_init_ram_device_ptr(&s->cmdmem, OBJECT(s), "tpm-crb-cmd",
++                                      CRB_CTRL_CMD_SIZE, s->crb_cmd_buf);
++    vmstate_register_ram(&s->cmdmem, DEVICE(s));
+ 
+     memory_region_add_subregion(get_system_memory(),
+         TPM_CRB_ADDR_BASE, &s->mmio);
 -- 
 2.26.3
 
