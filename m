@@ -2,88 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D4B848D2E2
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 08:34:32 +0100 (CET)
-Received: from localhost ([::1]:38734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E420548D2F4
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 08:37:57 +0100 (CET)
+Received: from localhost ([::1]:42130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7ucw-0008Kx-Ns
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 02:34:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38054)
+	id 1n7ugG-00035j-VY
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 02:37:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n7uLD-0000Fu-QH
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 02:16:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22447)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n7uOI-0000oJ-E0
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 02:19:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38294)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n7uLB-0003o9-7u
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 02:16:11 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n7uOF-0004Ge-8K
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 02:19:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642058168;
+ s=mimecast20190719; t=1642058358;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QO/wnKxsAy5NC7TC31Td+Win1sOH5kFsLk+71WrUz1g=;
- b=TnBKFXZiwYR2lre7Avo3K+3X2CM36jSWT1SUGd8tMitKrvChyV/y67rmvxXCM6gL/B7ZLy
- ulZlIk4H28jLPZOOOVTYF8FnKi/wSIbaTFpMedW7ADYjRgJMY/jH/s3GPUZi1Mgnkxr5Z1
- 2dWoc4ITDvb7spDztVPtdpYq6GJ053Q=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mK1Qetf/IICT31lP9OOGp5T3YASOcyqJW9P3+c3I7M4=;
+ b=a5QHqie+MaCx+z5ufdXj9dJZAeV2Izi+PUc1/ETXhE6jNc6gKMDDMTc3+4INMwU8c9q+zQ
+ 8goCT+yiEyMF743FSRmmH9BuXQAlsrL+l9BumMWqF/e+3LN6BbuWdPnhsBN+T99yVmYt22
+ Wgay3cUrN+gleJocO5uNVT0tWJrESzs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-609-2elSQkxHOZmdHAtxyALvoQ-1; Thu, 13 Jan 2022 02:16:07 -0500
-X-MC-Unique: 2elSQkxHOZmdHAtxyALvoQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- i9-20020a05640242c900b003fe97faab62so4481863edc.9
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 23:16:07 -0800 (PST)
+ us-mta-154-PFwVhWt8MxqUVId047HsQg-1; Thu, 13 Jan 2022 02:19:11 -0500
+X-MC-Unique: PFwVhWt8MxqUVId047HsQg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 20-20020a05600c22d400b00349067fe7b7so988110wmg.5
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 23:19:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=QO/wnKxsAy5NC7TC31Td+Win1sOH5kFsLk+71WrUz1g=;
- b=J9dOfNbNHtZ81pckdwh022WaZgNsvJz3Xf3kxMgjCXZpGDQ7Ux6UltcvD6AQAGtECH
- J1EA+stNuNbtSGOppRzn9Lkco8alDQRHOYurzhQVxhelcAVY/CDypSEDlTOZokh1Inyu
- RZoWupokLWO0K20xiVhe63LKcXdmq+mfHkk2QYohyJmmE1tuhisAdc1dW1BVL4lxb1FA
- K58kkeOlDyeXsLwdmROF5y1BOf96OAkxZthNSVRDGA59OPtg3y6NwDN3/cojHGLhLz4E
- 8vkY9fSgPe8mIq9GB1Gx+QlqXFbsisUKIGM7hwaVgLyLS5KgfuAbSItMAb/QCFnFoedM
- 2Tig==
-X-Gm-Message-State: AOAM532HB1oNzE+DKIFVu6IF8a0UnGzuFXuuYd1TIb5yPdgK+oB+4jaa
- k7Lq/7N0RfG6HkBDGZ1ncfXmKhgVNewfVp900wjHCqoA4062y79ifC54e5bZ1bFEc05eanczDj7
- LUW1pA+nwZNkoons=
-X-Received: by 2002:a17:907:7fa1:: with SMTP id
- qk33mr2579408ejc.95.1642058165977; 
- Wed, 12 Jan 2022 23:16:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwc6sGQkzMZUdOzzdDbdj6BrfZs7mk9UlT5jXdwQBMKPvmnmSbiQ1GaEOp5Zd59Fe3Pi9pxYw==
-X-Received: by 2002:a17:907:7fa1:: with SMTP id
- qk33mr2579394ejc.95.1642058165765; 
- Wed, 12 Jan 2022 23:16:05 -0800 (PST)
-Received: from redhat.com ([2.55.6.51])
- by smtp.gmail.com with ESMTPSA id j13sm762082edw.89.2022.01.12.23.16.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jan 2022 23:16:05 -0800 (PST)
-Date: Thu, 13 Jan 2022 02:16:02 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH 3/3] intel-iommu: PASID support
-Message-ID: <20220113021443-mutt-send-email-mst@kernel.org>
-References: <20220105041945.13459-1-jasowang@redhat.com>
- <20220105041945.13459-5-jasowang@redhat.com>
- <Yd+zQRouwsB/jnV3@xz-m1.local>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=mK1Qetf/IICT31lP9OOGp5T3YASOcyqJW9P3+c3I7M4=;
+ b=2fKsQhTiagpDc5eSg2RNUdlX4EUK0PQpjjWHn4awUIPGKvQDSpSHRl9g15HxT3zPHy
+ 6QhXQzvdpuq7ce9E5eJCsK3S46mj1D2s7HwVIlvn76332GPqI5O5BGJMYEVUot+ODFDE
+ F9U+EatQGfvpPe3xVBOG20ZmX73pdRsix3HozjMCjdfapQyB6b5EqUC3Ar9ELOFpDzy4
+ UdQaQ+Z+mKBMThpffalXzaeoBc0/xjb/tJNhBvQS/1hn+C1d1Lu3BLp0nku/WZWDz87Q
+ I+gv7itFdyL/u2Ngk6KQ8UCXFUfHO4obctKlbqdrF58XooUu3MpdzSdmnfLNlI/pZPjY
+ ExMQ==
+X-Gm-Message-State: AOAM532De145oE0gY7GavRNtTfeKficaxNtN1VvRvJm2PpgCgukMcy0j
+ oYqt29NsItBNj7TGOnkK9aOPa3eX79I23qL1WRVAlcx9rfKu3YH9/Lo2xC1Z1cNhvUXhPufoF9X
+ w2e112REqGuXMkNI=
+X-Received: by 2002:a7b:c747:: with SMTP id w7mr2562720wmk.89.1642058350295;
+ Wed, 12 Jan 2022 23:19:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJytHB3sXNqG5am0a/92O5J5EkRSe+CbaPfmnxdRUl8LgXaLeaD5Hx2gMX2UOa3y0gMmdLHf/w==
+X-Received: by 2002:a7b:c747:: with SMTP id w7mr2562709wmk.89.1642058350099;
+ Wed, 12 Jan 2022 23:19:10 -0800 (PST)
+Received: from [192.168.42.76] (tmo-065-240.customers.d1-online.com.
+ [80.187.65.240])
+ by smtp.gmail.com with ESMTPSA id a20sm1595449wmb.27.2022.01.12.23.19.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Jan 2022 23:19:09 -0800 (PST)
+Message-ID: <a1c2ebd6-1aca-f03e-e55c-f697ed244a06@redhat.com>
+Date: Thu, 13 Jan 2022 08:19:08 +0100
 MIME-Version: 1.0
-In-Reply-To: <Yd+zQRouwsB/jnV3@xz-m1.local>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] hw/sensor: Add SB-TSI Temperature Sensor Interface
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Patrick Venture <venture@google.com>, lvivier@redhat.com, pbonzini@redhat.com
+References: <20220108030451.3867815-1-venture@google.com>
+ <eaea55f9-71f8-4810-70a7-63aadf252f20@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <eaea55f9-71f8-4810-70a7-63aadf252f20@amsat.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.594,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,128 +101,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, yi.l.liu@intel.com,
- yi.y.sun@linux.intel.com, qemu-devel@nongnu.org
+Cc: Hao Wu <wuhaotsh@google.com>, qemu-devel@nongnu.org,
+ Corey Minyard <minyard@acm.org>, Doug Evans <dje@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 13, 2022 at 01:06:09PM +0800, Peter Xu wrote:
-> On Wed, Jan 05, 2022 at 12:19:45PM +0800, Jason Wang wrote:
-> > @@ -1725,11 +1780,16 @@ static bool vtd_do_iommu_translate(VTDAddressSpace *vtd_as, PCIBus *bus,
-> >          cc_entry->context_cache_gen = s->context_cache_gen;
-> >      }
-> >  
-> > +    /* Try to fetch slpte form IOTLB */
-> > +    if ((pasid == PCI_NO_PASID) && s->root_scalable) {
-> > +        pasid = VTD_CE_GET_RID2PASID(&ce);
-> > +    }
-> > +
-> >      /*
-> >       * We don't need to translate for pass-through context entries.
-> >       * Also, let's ignore IOTLB caching as well for PT devices.
-> >       */
-> > -    if (vtd_dev_pt_enabled(s, &ce)) {
-> > +    if (vtd_dev_pt_enabled(s, &ce, pasid)) {
-> >          entry->iova = addr & VTD_PAGE_MASK_4K;
-> >          entry->translated_addr = entry->iova;
-> >          entry->addr_mask = ~VTD_PAGE_MASK_4K;
-> > @@ -1750,14 +1810,24 @@ static bool vtd_do_iommu_translate(VTDAddressSpace *vtd_as, PCIBus *bus,
-> >          return true;
-> >      }
-> >  
-> > +    iotlb_entry = vtd_lookup_iotlb(s, source_id, addr, pasid);
-> > +    if (iotlb_entry) {
-> > +        trace_vtd_iotlb_page_hit(source_id, addr, iotlb_entry->slpte,
-> > +                                 iotlb_entry->domain_id);
-> > +        slpte = iotlb_entry->slpte;
-> > +        access_flags = iotlb_entry->access_flags;
-> > +        page_mask = iotlb_entry->mask;
-> > +        goto out;
-> > +    }
+On 10/01/2022 10.35, Philippe Mathieu-Daudé wrote:
+> Hi Patrick,
 > 
-> IIUC the iotlb lookup moved down just because the pasid==NO_PASID case then
-> we'll need to fetch the default pasid from the context entry.  That looks
-> reasonable.
+> On 1/8/22 04:04, Patrick Venture wrote:
+>> From: Hao Wu <wuhaotsh@google.com>
+>>
+>> SB Temperature Sensor Interface (SB-TSI) is an SMBus compatible
+>> interface that reports AMD SoC's Ttcl (normalized temperature),
+>> and resembles a typical 8-pin remote temperature sensor's I2C interface
+>> to BMC.
+>>
+>> This patch implements a basic AMD SB-TSI sensor that is
+>> compatible with the open-source data sheet from AMD and Linux
+>> kernel driver.
+>>
+>> Reference:
+>> Linux kernel driver:
+>> https://lkml.org/lkml/2020/12/11/968
+>> Register Map:
+>> https://developer.amd.com/wp-content/resources/56255_3_03.PDF
+>> (Chapter 6)
+>>
+>> Signed-off-by: Hao Wu <wuhaotsh@google.com>
+>> Reviewed-by: Doug Evans <dje@google.com>
+>> ---
+>>   hw/sensor/Kconfig            |   4 +
+>>   hw/sensor/meson.build        |   1 +
+>>   hw/sensor/tmp_sbtsi.c        | 393 +++++++++++++++++++++++++++++++++++
+>>   hw/sensor/trace-events       |   5 +
+>>   hw/sensor/trace.h            |   1 +
+>>   meson.build                  |   1 +
 > 
-> It's just a bit of pity because logically it'll slow down iotlb hits due to
-> context entry operations.  When NO_PASID we could have looked up iotlb without
-> checking pasid at all, assuming that "default pasid" will always match.  But
-> that is a little bit hacky.
+>>   tests/qtest/meson.build      |   1 +
+>>   tests/qtest/tmp_sbtsi-test.c | 180 ++++++++++++++++
+> 
+> Up to Thomas for qtest, but I'd rather split in 2 patches since
+> different set of maintainers / reviewers.
 
-Maybe that's not a bad idea for an optimization.
+I don't mind too much - but anyway, I'd prefer if we could stick to "-" in 
+file names here - mixing underscores and "-" in file names looks somewhat 
+weird (I know, there are already some files like this, but I'd prefer if 
+we'd not extend that list).
 
+  Thomas
 
-> vIOMMU seems to be mostly used for assigned devices and dpdk in production in
-> the future due to its slowness otherwise.. so maybe not a big deal at all.
-> 
-> [...]
-> 
-> > @@ -2011,7 +2083,52 @@ static void vtd_iotlb_page_invalidate(IntelIOMMUState *s, uint16_t domain_id,
-> >      vtd_iommu_lock(s);
-> >      g_hash_table_foreach_remove(s->iotlb, vtd_hash_remove_by_page, &info);
-> >      vtd_iommu_unlock(s);
-> > -    vtd_iotlb_page_invalidate_notify(s, domain_id, addr, am);
-> > +    vtd_iotlb_page_invalidate_notify(s, domain_id, addr, am, PCI_NO_PASID);
-> > +}
-> > +
-> > +static void vtd_iotlb_page_pasid_invalidate(IntelIOMMUState *s,
-> > +                                            uint16_t domain_id,
-> > +                                            hwaddr addr, uint8_t am,
-> > +                                            uint32_t pasid)
-> > +{
-> > +    VTDIOTLBPageInvInfo info;
-> > +
-> > +    trace_vtd_inv_desc_iotlb_pasid_pages(domain_id, addr, am, pasid);
-> > +
-> > +    assert(am <= VTD_MAMV);
-> > +    info.domain_id = domain_id;
-> > +    info.addr = addr;
-> > +    info.mask = ~((1 << am) - 1);
-> > +    info.pasid = pasid;
-> > +    vtd_iommu_lock(s);
-> > +    g_hash_table_foreach_remove(s->iotlb, vtd_hash_remove_by_page_pasid, &info);
-> > +    vtd_iommu_unlock(s);
-> > +    vtd_iotlb_page_invalidate_notify(s, domain_id, addr, am, pasid);
-> 
-> Hmm, I think indeed we need a notification, but it'll be unnecessary for
-> e.g. vfio map notifiers, because this is 1st level invalidation and at least so
-> far vfio map notifiers are rewalking only the 2nd level page table, so it'll be
-> destined to be a no-op and pure overhead.
-> 
-> > +}
-> > +
-> > +static void vtd_iotlb_pasid_invalidate(IntelIOMMUState *s, uint16_t domain_id,
-> > +                                       uint32_t pasid)
-> > +{
-> > +    VTDIOTLBPageInvInfo info;
-> > +    VTDAddressSpace *vtd_as;
-> > +    VTDContextEntry ce;
-> > +
-> > +    trace_vtd_inv_desc_iotlb_pasid(domain_id, pasid);
-> > +
-> > +    info.domain_id = domain_id;
-> > +    info.pasid = pasid;
-> > +    vtd_iommu_lock(s);
-> > +    g_hash_table_foreach_remove(s->iotlb, vtd_hash_remove_by_pasid, &info);
-> > +    vtd_iommu_unlock(s);
-> > +
-> > +    QLIST_FOREACH(vtd_as, &s->vtd_as_with_notifiers, next) {
-> > +        if (!vtd_dev_to_context_entry(s, pci_bus_num(vtd_as->bus),
-> > +                                      vtd_as->devfn, &ce) &&
-> > +            domain_id == vtd_get_domain_id(s, &ce, vtd_as->pasid) &&
-> > +            pasid == vtd_as->pasid) {
-> > +            vtd_sync_shadow_page_table(vtd_as);
-> 
-> Do we need to rewalk the shadow pgtable (which is the 2nd level, afaict) even
-> if we got the 1st level pgtable invalidated?
-> 
-> > +        }
-> > +    }
-> >  }
-> 
-> The rest looks mostly good to me; thanks.
-> 
-> -- 
-> Peter Xu
 
 
