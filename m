@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 722DF48DCE2
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 18:25:56 +0100 (CET)
-Received: from localhost ([::1]:45752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3A0948DCF3
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 18:32:20 +0100 (CET)
+Received: from localhost ([::1]:53490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n83rH-0001ny-0d
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 12:25:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52052)
+	id 1n83xT-0008Og-Uh
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 12:32:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n83fl-0005rY-As
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 12:14:03 -0500
-Received: from [2a00:1450:4864:20::330] (port=56238
- helo=mail-wm1-x330.google.com)
+ id 1n83hE-0007S5-LT
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 12:15:34 -0500
+Received: from [2a00:1450:4864:20::333] (port=34357
+ helo=mail-wm1-x333.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n83fi-0007gF-6s
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 12:14:00 -0500
-Received: by mail-wm1-x330.google.com with SMTP id c66so4349898wma.5
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 09:13:57 -0800 (PST)
+ id 1n83hA-00080u-Mn
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 12:15:31 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ bg19-20020a05600c3c9300b0034565e837b6so2750348wmb.1
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 09:15:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qptX/qO+0dHLr4mRwd+/lzCcgE+jX4z+b2J+1+jmxg8=;
- b=azYnhggdcQSqBvcTZ/TUCu+3jZrVwOgYrj1+19EaNmWOi/LpqMzU9eHkSKTPA9dV5s
- ZPN8nZECFNG9ltN7fTW858/ZZXGdXZ6ki8QdnVN3JIqP4EV3WuiCjYNOl3M6Y85CMMC+
- 3QKHJ9qm+hCX4/hNA8SHO2s0CNHOV6jnu3Krm7M6LanW7aO1Z7Z0jmeZ797bNZrKWh/R
- /YfT88XB7uhNtpqS29jmAR+I/5OZq6aVP/ynmNP7ClzKAcobfh7JMKtQ7gs0dLV8PCAe
- Q6KcEKlN+cNuZ2txucl8r3f87JyvZ5eH92JSpP6zhY40LJFmv94HjdndQz9XvPaovM4L
- qKMQ==
+ :cc; bh=cmvfI3H7ws6/Q5S8VYjoybp9hAME/OMuObGV6EYAU28=;
+ b=PMV5rY1FKUjKvJ8SBSKg4N1HJ2weJPexY4rhM2XQ7gGRzRyPZ947z0AS61JqPaSec9
+ 5ma3OtxFILoYrIt3f7qSPVsAacpqbX66oFqxAo4dvP3GYr1+va6ZBMQbkyRbfEM1yCS9
+ MJ/snX0lHUI0cPaVZINSgsdHquo+sIYDXTBhvlCpEAtsv9oOdOzgjqg9J8Kg96o05o7m
+ AOobZ4wkCoFpIADxuXS6kGdTrWJ736ff5SCj+2fxMd43qEnWOfQ+abznpiFPKW3YC7gZ
+ mAYUSan1/vEXS1hmrTYwO/eMiSLPevmfJXUPLcLlWG6vQ3C/OB5UGWqWsZz13lHAgQrA
+ u76A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=qptX/qO+0dHLr4mRwd+/lzCcgE+jX4z+b2J+1+jmxg8=;
- b=OJphBGxXpBzOajmepRS245bC74SOK4ZfPHMLpH16JvVcobKg8uMEcG0WcoosocwRHD
- XBXJREgdz4Tn53se4U8JcI5BGUAIO+XK04k8+zKL7JqPSY/x+uQQCoaN0vJ+qwu5p91z
- R1Tuf30Esz8Nlcm+Uyij7Y0royAmljc/E2eDDgw0MFAWdvE8dQEaBHwXhVKGMN4kh7my
- oTmNB8I+1c4ANCKSA63VMFjrtqQl0WJOwMzd7P76Qduk0Yq7a1BQ86HPyQTYSM4VFPee
- 2T4tET4YvIbfRQtEqpLBXBdWQo424AJSkRhpcnaM+WgPKn2y29MaRKEH8+0zTaIsk7wL
- wFqg==
-X-Gm-Message-State: AOAM531Vla2LJYOxvOw7rWbYCkz3GonVjz5Kf9QzjutnrrY59IsHW2k+
- K7bY9EAp7crvz1TL735wjEVVt1ABVqAHwNaO5MVmFw==
-X-Google-Smtp-Source: ABdhPJwcJkCfotYZuZS7bcaGdA7vYbEnxM0NabZrEm2zgp1EYxccuWHCn7it4iBoSM+OPt//WUqP5AdL42fJ2iy+UHo=
+ bh=cmvfI3H7ws6/Q5S8VYjoybp9hAME/OMuObGV6EYAU28=;
+ b=dDd71PmwQf/oB1+g/HNKnSLiu/Qgiw8dayZ7xqB/E3FjGdSyG6DMb65AlvKa56SouZ
+ zo0wS+Flx9YJnjkZHkVS9wRdiaH7cTpOl6+xMQvQeWXIL+oG6U8Fjvtz5A9nwgJtLNtk
+ Xf4PycZh32Qhf6rfIXkSl24bZAgjfwZ25Rn8NuynCnoq033rKnYAqsWxyXjj43DsIOJJ
+ Tpcw1kn8kxRZDVAI2bWqZ6daD2IzsfjCgdmakVNhtipPk3zl+ZFLAIzmjr9EptmF+yVy
+ o4sNSdGEtvhCUKayauJIiOMZTElzMNtjiRjC8g1QyXCamnOhv9QR79g9XZlLLhejvNqQ
+ aTkQ==
+X-Gm-Message-State: AOAM532rWQe1ravVZ0yPG0qSoGsFZBUnwyYy1DQT2FL7zz4pMoigvIR5
+ jbGnZzOn84URWRu4tW+MpAvgtLDX88AKKhbB4LHjPA==
+X-Google-Smtp-Source: ABdhPJwRO/BVNoBQR/XbnlXLOT8r12ZmROo3mPrO5nEc4YMxVg4Pf0WRqIqKa1+eOxgFxb6eCdUvVBdmp8ZWDSxNGl0=
 X-Received: by 2002:a05:600c:1991:: with SMTP id
- t17mr11925874wmq.21.1642094036584; 
- Thu, 13 Jan 2022 09:13:56 -0800 (PST)
+ t17mr11932135wmq.21.1642094127393; 
+ Thu, 13 Jan 2022 09:15:27 -0800 (PST)
 MIME-Version: 1.0
 References: <20220109161923.85683-1-imp@bsdimp.com>
- <20220109161923.85683-6-imp@bsdimp.com>
-In-Reply-To: <20220109161923.85683-6-imp@bsdimp.com>
+ <20220109161923.85683-7-imp@bsdimp.com>
+In-Reply-To: <20220109161923.85683-7-imp@bsdimp.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Jan 2022 17:13:45 +0000
-Message-ID: <CAFEAcA8T8xXv6+2hJ50oQpob7=7nFTh=sGGhcMxJnPfvZyHM7g@mail.gmail.com>
-Subject: Re: [PATCH 05/30] bsd-user/arm/arget_arch_cpu.h: Move EXCP_DEBUG and
- EXCP_BKPT together
+Date: Thu, 13 Jan 2022 17:15:16 +0000
+Message-ID: <CAFEAcA8rsxYLs-VjJF+efK=PEQrEh3mn3pTfEyVXz014CmHfqQ@mail.gmail.com>
+Subject: Re: [PATCH 06/30] bsd-user/arm/target_arch_cpu.h: Correct code pointer
 To: Warner Losh <imp@bsdimp.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -88,74 +88,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Sun, 9 Jan 2022 at 16:26, Warner Losh <imp@bsdimp.com> wrote:
 >
-> Implement EXCP_DEBUG and EXCP_BKPT the same, as is done in
-> linux-user. The prior adjustment of register 15 isn't needed, so remove
-> that. Remove a redunant comment (that code in FreeBSD never handled
-> break points).
+> The code has moved in FreeBSD since the emulator was started, update the
+> comment to reflect that change. Remove now-redundant comment saying the
+> same thing (but incorrectly).
 >
 > Signed-off-by: Warner Losh <imp@bsdimp.com>
 > ---
->  bsd-user/arm/target_arch_cpu.h | 23 +++--------------------
->  1 file changed, 3 insertions(+), 20 deletions(-)
+>  bsd-user/arm/target_arch_cpu.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch_cpu.h
-> index c526fc73502..05b19ce6119 100644
+> index 05b19ce6119..905f13aa1b9 100644
 > --- a/bsd-user/arm/target_arch_cpu.h
 > +++ b/bsd-user/arm/target_arch_cpu.h
-> @@ -21,6 +21,7 @@
->  #define _TARGET_ARCH_CPU_H_
+> @@ -73,7 +73,7 @@ static inline void target_cpu_loop(CPUARMState *env)
+>                      int32_t syscall_nr = n;
+>                      int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8;
 >
->  #include "target_arch.h"
-> +#include "signal-common.h"
->
->  #define TARGET_DEFAULT_CPU_MODEL "any"
->
-> @@ -64,19 +65,7 @@ static inline void target_cpu_loop(CPUARMState *env)
->              }
->              break;
->          case EXCP_SWI:
-> -        case EXCP_BKPT:
->              {
-> -                /*
-> -                 * system call
-> -                 * See arm/arm/trap.c cpu_fetch_syscall_args()
-> -                 */
-> -                if (trapnr == EXCP_BKPT) {
-> -                    if (env->thumb) {
-> -                        env->regs[15] += 2;
-> -                    } else {
-> -                        env->regs[15] += 4;
-> -                    }
-> -                }
+> -                    /* See arm/arm/trap.c cpu_fetch_syscall_args() */
+> +                    /* See arm/arm/syscall.c cpu_fetch_syscall_args() */
+>                      if (syscall_nr == TARGET_FREEBSD_NR_syscall) {
+>                          syscall_nr = env->regs[0];
+>                          arg1 = env->regs[1];
 
-So the previous code was implementing BKPT as a way to do
-a syscall (added in commit 8d450c9a30). Was that just a mistake ?
+Commit message says we're updating one comment and deleting a
+second one; code only does an update, no delete ?
 
->                  n = env->regs[7];
->                  if (bsd_type == target_freebsd) {
->                      int ret;
-> @@ -171,14 +160,8 @@ static inline void target_cpu_loop(CPUARMState *env)
->              queue_signal(env, info.si_signo, &info);
->              break;
->          case EXCP_DEBUG:
-> -            {
-> -
-> -                info.si_signo = TARGET_SIGTRAP;
-> -                info.si_errno = 0;
-> -                info.si_code = TARGET_TRAP_BRKPT;
-> -                info.si_addr = env->exception.vaddress;
-> -                queue_signal(env, info.si_signo, &info);
-> -            }
-> +        case EXCP_BKPT:
-> +            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->regs[15]);
->              break;
->          case EXCP_YIELD:
->              /* nothing to do here for user-mode, just resume guest code */
-
-Looks like it now matches the freebsd kernel behaviour, anyway.
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
 -- PMM
 
