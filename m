@@ -2,85 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA1348D857
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 13:58:19 +0100 (CET)
-Received: from localhost ([::1]:54858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A28AA48DA3D
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 15:58:19 +0100 (CET)
+Received: from localhost ([::1]:57662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7zgI-00088g-3N
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 07:58:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47586)
+	id 1n81YQ-0005ck-GB
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 09:58:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n7ze0-0006rq-JQ
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 07:55:56 -0500
-Received: from [2a00:1450:4864:20::32b] (port=41485
- helo=mail-wm1-x32b.google.com)
+ (Exim 4.90_1) (envelope-from <zhangruien@bytedance.com>)
+ id 1n7yjB-0000qL-Gk
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 06:57:14 -0500
+Received: from [2607:f8b0:4864:20::1030] (port=44709
+ helo=mail-pj1-x1030.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n7zdy-00079z-7a
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 07:55:55 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- q141-20020a1ca793000000b00347b48dfb53so3610884wme.0
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 04:55:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=UG6UaPGb27v94T2Brp5JKQQpi0QZX0gKivUZoh9cBjg=;
- b=Zjr9t6TIsMuTbtte/nKH94h4MtvBYct/JIJu7qEWmUCQaHHBQE2RwZx0PKvmg5NLJ9
- CIIFmqVzZcuetr43FzoT2jvKVywlW8A5KoyqW6N7oLWHYQrB/ZtiOn5+UObYb3WNwcg+
- IBS5JpVGbLGJhZ+TPKym7AuG7rD8O2pRszyu2iH78u+3Vi1Q3Ij1gv4dcVZMA8JS7gND
- Q4oXOIlEdIVib/nBaW2CD4bG2Pdabex6iylierInPN3SRoZkssbVW+EoLlGWkha9jZDJ
- L+gvtarolPZqAwrrJ+pvLQjc+malKk8EuPuz87R1fJctG2L6Fi9eHjV6XX5yo7LqSZJu
- MkBg==
+ (Exim 4.90_1) (envelope-from <zhangruien@bytedance.com>)
+ id 1n7yj7-0005OL-9m
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 06:57:11 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ n30-20020a17090a5aa100b001b2b6509685so10807233pji.3
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 03:57:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0vimvdTs4a/mEZ72Q90/D+Pfn53Sv01YbWRm5SpKVsc=;
+ b=v9cyrKtqJCMoIiTUZa1QO91AZeOhKQmvRXcjhJC63O+0XkEvPxNrgyL+3etUD5Axf8
+ 9UIvMQQvRhfP1c1WcjZm0FR3WkxmfKSy4NUwJ0MTO5/Bvjd1KLOUE6m0dd9i/bjhgzHH
+ SEHizIKwRopVNCRebXgvFq5wUzUx7Y7d7lxDSTZV6LjFzFFmuHql4rUFUbzs10tkCiwC
+ cSyoHEt2Qm8Ps/eFE6pDrY6xqMVKU5xbuDGlDmBl3I3h9I9tUeKduwBzXxvUT8eGs4pr
+ tZh8tPOlv8z6Fxx0W+c23Xen8tKuRkbQCXhf4b8U4fSbemyUonS62ogSQw7h06ffHYR8
+ Cgaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=UG6UaPGb27v94T2Brp5JKQQpi0QZX0gKivUZoh9cBjg=;
- b=jy+eHHoOIwkwh+Q4SRrAeDBIQ66Aay2PMt38EP9ljiK5qvcpi/iyAiEGzel+Rb6w6Y
- W0F3Z1L5HA39tB2oSioZCsc/YV0x+jUob6RZa5lpdhRcjogy88W/WQ/bVkTD61EhN1Ae
- 4yyqBfQjsdvX8NU2dHwdtJgAcYMiQoqK3v1E188E5JAvBsZICqh3C8lep/y5llIB7T/U
- IP1uggBMz0twZkbvpVA0LFbLv+oECLimg8UBUZppV0abl1jPlhnjx3Hmv+wDBTO2X6nV
- mWxGtmBfXs5dSxv7BTzQYFtIC0B4Zgcv5OlQ8dp3kLhHH/cY2+CpMz5EPwzikmYY8vog
- kQAg==
-X-Gm-Message-State: AOAM532uniRyAgVi4iqAQ1kOshJvqmEKfdhWgbXabpwdx8Tejf3yySpe
- MttQIfPNx1J+xuiXs+myTDINfg==
-X-Google-Smtp-Source: ABdhPJxLIK+Pjrw8Dh9TXhlEiAg3azL2iW/yR55zeaRGlJplBhlMoePwni807NNNyKtM6pwdlVSPdw==
-X-Received: by 2002:a1c:9ac7:: with SMTP id c190mr2178565wme.36.1642078550904; 
- Thu, 13 Jan 2022 04:55:50 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g15sm2551668wrm.2.2022.01.13.04.55.49
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0vimvdTs4a/mEZ72Q90/D+Pfn53Sv01YbWRm5SpKVsc=;
+ b=q2HaQo/Ha3QGGCLgpvlaHXMZ7xmahuiZHI2a+3Qi/2F61QUR76ETmKTZoDGmcl/LeI
+ JrFBTSAC7AVr5aog4qYSxLQLx6hSZ/o1tIieZDmTB86d8wgXQipeRG3lWwqOeQ9fM216
+ EAA/akLDl96tLfVREj1ClEWXNSj+SSJwLgiOIoOagcJK7A4PEC7mZshBmoEPhJBNTPht
+ O7q8ORgdr41si/jIQhjJ/z9/rKYbaydVMAf8p8kHwgIeuQe4buShEvAKjOO0DYa7EYTR
+ +4zIgMmXHq/6FL5VQQSR+GxDnDINxfSAwrjAZgM6dxhTZ0xEVbIbzmiJLWIdyCwM6ij/
+ h8vA==
+X-Gm-Message-State: AOAM533VmZpkwybJvn/VPIY1PEtsonNMtGUoYXtxEwh0BGzO6pR4eFXT
+ Cl2KhxR+nJUEXQauaAu88BoSMw==
+X-Google-Smtp-Source: ABdhPJzIPWcAZR0XRfjIWnKC34l40ccdY/sHOqe+CfcJcMQvTbl7yUxklR4nY/grbUMU6J+zHw6Zew==
+X-Received: by 2002:a17:902:b202:b0:149:9a8a:f93b with SMTP id
+ t2-20020a170902b20200b001499a8af93bmr3917979plr.127.1642075027249; 
+ Thu, 13 Jan 2022 03:57:07 -0800 (PST)
+Received: from localhost.localdomain ([139.177.225.242])
+ by smtp.gmail.com with ESMTPSA id f9sm2387572pjh.18.2022.01.13.03.57.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jan 2022 04:55:49 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 44AEB1FFB7;
- Thu, 13 Jan 2022 12:55:49 +0000 (GMT)
-References: <20220112112722.3641051-1-alex.bennee@linaro.org>
- <CAFEAcA--rEZ0+JxFzeSFD1j6FM65_x3CXcn_oTnaNkNVU1hW0Q@mail.gmail.com>
- <87h7a89bnm.fsf@linaro.org>
-User-agent: mu4e 1.7.5; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/31] testing/next and other misc fixes
-Date: Thu, 13 Jan 2022 12:49:18 +0000
-In-reply-to: <87h7a89bnm.fsf@linaro.org>
-Message-ID: <878rvjaj6y.fsf@linaro.org>
+ Thu, 13 Jan 2022 03:57:06 -0800 (PST)
+From: Ruien Zhang <zhangruien@bytedance.com>
+To: peter.maydell@linaro.org, richard.henderson@linaro.org, kraxel@redhat.com,
+ eblake@redhat.com, pbonzini@redhat.com, berrange@redhat.com
+Subject: [PATCH 0/2] Introduce printer subsystem and USB printer device
+Date: Thu, 13 Jan 2022 19:56:57 +0800
+Message-Id: <20220113115659.72788-1-zhangruien@bytedance.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=zhangruien@bytedance.com; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 13 Jan 2022 09:54:20 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,111 +87,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, zhangruien <zhangruien@bytedance.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: zhangruien <zhangruien@bytedance.com>
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+Currently, printer support in QEMU can generally be considered with these
+approaches:
 
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> (adding the s390x people to the CC if they have any clues)
->
->> On Wed, 12 Jan 2022 at 11:27, Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
->>>
->>> The following changes since commit bf99e0ec9a51976868d7a8334620716df15f=
-e7fe:
->>>
->>>   Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into sta=
-ging (2022-01-11 10:12:29 +0000)
->>>
->>> are available in the Git repository at:
->>>
->>>   https://github.com/stsquad/qemu.git tags/pull-for-7.0-110122-1
->>>
->>> for you to fetch changes up to dbd30b7abee963f4fb08892a7d7f920bb76ece58:
->>>
->>>   linux-user: Remove the deprecated ppc64abi32 target (2022-01-11 13:00=
-:53 +0000)
->>>
-> <snip>
->> This seems to fail the ubuntu-18.04-s390x-all-linux-static job
->> with segfaults running linux-user binaries (not always the same
->> binary), eg:
->> https://gitlab.com/qemu-project/qemu/-/jobs/1968789446
->> https://gitlab.com/qemu-project/qemu/-/jobs/1968080419
->
-> *sigh*
->
-> So the regression is caused by:
->
->   linux-user: don't adjust base of found hole
->
-> However it only occurs when pgb_static starts base at a low address. For
-> example:
->
->   pgb_find_hole: base @ 13dd000 for 17432080 bytes
->   pgb_static: base @ 13dd000 for 17432080 bytes
->   Locating guest address space @ 0x13dd000
->
-> fails whereas:
->
->   pgb_find_hole: base @ 41f97000 for 17432080 bytes=20=20=20=20=20=20
->   pgb_static: base @ 41f97000 for 17432080 bytes=20=20=20=20=20=20=20=20
->   Locating guest address space @ 0x41f97000=20=20=20=20=20=20
->
-> works.
->
-> What I find confusing is why we end up with different addresses when
-> both QEMU and the test binary are static allocations. However the
-> varying allocation occurs before the change but without triggering the
-> crash:
+1) USB passthrough & redirection, with the limitation of flexibility and
+   transport-specific issues that come along with.
 
-Continuing with debug dumps:
+2) Network reachability with network printers, which is also driver-specific,
+   thus less friendly to small systems.
 
-  read_self_maps: heap at 2445000->24ab000
-  pgb_find_hole: brk @ 24ab000
-  pgb_find_hole: start:24ab000 align_start:24ab000 end:3ffa0000000
-  pgb_find_hole: after brk tweak align_start:424ab000
-  Created 10 threads
-  Done
-  3, 0, PASS, 0.251649, 2, 3, -
-  read_self_maps: heap at 2d14000->2d7a000
-  pgb_find_hole: brk @ 2d7a000
-  pgb_find_hole: start:13dd000 align_start:13dd000 end:2d14000
-  4, -11, FALSE, 0.251602, 2, 4, -
-  read_self_maps: heap at 1e6c000->1ed2000
-  pgb_find_hole: brk @ 1ed2000
-  pgb_find_hole: start:1ed2000 align_start:1ed2000 end:3ff90000000
-  pgb_find_hole: after brk tweak align_start:41ed2000
-  Created 10 threads
-  Done
-  5, 0, PASS, 0.253451, 3, 5, -
-  read_self_maps: heap at 2c32000->2c98000
-  pgb_find_hole: brk @ 2c98000
-  pgb_find_hole: start:13dd000 align_start:13dd000 end:2c32000
-  6, -11, FALSE, 0.251998, 3, 6, -
-  read_self_maps: heap at 29f2000->2a58000
-  pgb_find_hole: brk @ 2a58000
-  pgb_find_hole: start:13dd000 align_start:13dd000 end:29f2000
-  7, -11, FALSE, 0.251922, 3, 7, -
-  read_self_maps: heap at 1b1f000->1b85000
-  pgb_find_hole: brk @ 1b85000
-  pgb_find_hole: start:1b85000 align_start:1b85000 end:3ff78000000
-  pgb_find_hole: after brk tweak align_start:41b85000
-  Created 10 threads
-  Done
-  8, 0, PASS, 0.251691, 4, 8, -
+Driverless Printing [1] may or may not be network-dependent, the former is the
+general case while the latter imposes less restraints on cloud environments, and
+it doesn't necessarily mean that we have to follow the methods in 1) to achieve
+this. Transport protocols targeted at devices such as USB printer class [2] with
+the extension of IPP-over-USB [3] and many others can be integrated into QEMU,
+presenting more flexibility and functionality.
 
-It looks like that we occasionally fit in bellow the heap and location
-of brk but we aren't asking for enough space. I would like to get a core
-dump of the failure because of course using gdb moves the maps around
-enough that everything always works.
+This patchset introduces:
 
---=20
-Alex Benn=C3=A9e
+1) Skeleton of QEMU printer subsystem with a dummy builtin driver.
+
+2) USB printer device emulation, with definitions in the extension of IPP-over-
+   USB [3].
+
+WIP:
+
+1) QEMU printer subsystem interfaces, which will be finalized with a concrete
+   backend driver.
+
+2) IPP-over-USB implementation.
+
+[1]: https://openprinting.github.io/driverless
+[2]: https://www.usb.org/sites/default/files/usbprint11a021811.pdf
+[3]: https://www.usb.org/document-library/ipp-protocol-10
+
+zhangruien (2):
+  printer: Introduce printer subsystem
+  usb-printer: Introduce USB printer class
+
+ MAINTAINERS                 |   7 +
+ docs/system/devices/usb.rst |   3 +
+ hw/usb/Kconfig              |   5 +
+ hw/usb/dev-printer.c        | 423 ++++++++++++++++++++++++++++++++++++++++++++
+ hw/usb/meson.build          |   1 +
+ hw/usb/trace-events         |  11 ++
+ include/hw/usb/printer.h    |  93 ++++++++++
+ include/printer/printer.h   |  42 +++++
+ meson.build                 |  12 +-
+ meson_options.txt           |   3 +
+ printer/builtin.c           |  61 +++++++
+ printer/meson.build         |  14 ++
+ printer/printer.c           | 191 ++++++++++++++++++++
+ printer/trace-events        |   5 +
+ printer/trace.h             |   1 +
+ qapi/meson.build            |   1 +
+ qapi/printer.json           |  47 +++++
+ qapi/qapi-schema.json       |   1 +
+ qemu-options.hx             |   8 +
+ softmmu/vl.c                |   4 +
+ 20 files changed, 932 insertions(+), 1 deletion(-)
+ create mode 100644 hw/usb/dev-printer.c
+ create mode 100644 include/hw/usb/printer.h
+ create mode 100644 include/printer/printer.h
+ create mode 100644 printer/builtin.c
+ create mode 100644 printer/meson.build
+ create mode 100644 printer/printer.c
+ create mode 100644 printer/trace-events
+ create mode 100644 printer/trace.h
+ create mode 100644 qapi/printer.json
+
+-- 
+2.11.0
+
 
