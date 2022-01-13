@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79AD48D31A
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 08:47:55 +0100 (CET)
-Received: from localhost ([::1]:49598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1CB048D334
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 08:52:38 +0100 (CET)
+Received: from localhost ([::1]:56436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7upu-0000E1-HU
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 02:47:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40662)
+	id 1n7uuT-0005Jm-Om
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 02:52:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n7uhh-0005RD-GA
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 02:39:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33136)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n7upV-00022W-Gr
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 02:47:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60946)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n7uhe-0006zM-9E
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 02:39:24 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n7upS-0008Gs-Rt
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 02:47:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642059553;
+ s=mimecast20190719; t=1642060045;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/5MzpJoEoExnJKph4196dB75zix8p1TQyZGrInk/RhM=;
- b=JJeXy2Utc1XSCZf2sFXyEd1fKFDsD8UOCBGo7kfa7KMLws2bxma/vs6nwCD37cA6ic1Zb2
- RSDsJhWI0UCavI9USE/eE2MILPMo+gW1vHKUyz3JK7wfOf8KjwJ+n8z7nkR7XvdplkAsOX
- bV2IiydqFyUDx4UPrqTSTR0+TaDAarQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mJmS3Z4eC80LOV0Ekw3nYwsjaZ5QiyK4aLVEL3xe1Ug=;
+ b=C4ZSs1SGbK6srh1xySXA0o0iC1wmXWS+/2M7PRXtgTrDL38xfagm3SsVP9BUibudxRHB2T
+ LdijeJEPQeRV8J5ivCkPxFZlNZUsKpLXiZWbTh3hAU8xgfN5Uv1LJY2841AUsfr6NDsgKF
+ fYnuXkEumci4+RgH4XOrrdmiJo+nRZs=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-595-sZev7X4mNw23sZfmP8bvjQ-1; Thu, 13 Jan 2022 02:39:11 -0500
-X-MC-Unique: sZev7X4mNw23sZfmP8bvjQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- p7-20020a05600c1d8700b0034a0c77dad6so3178934wms.7
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 23:39:11 -0800 (PST)
+ us-mta-554-K-J3pgKMM9mbjld2TaL2Qg-1; Thu, 13 Jan 2022 02:47:19 -0500
+X-MC-Unique: K-J3pgKMM9mbjld2TaL2Qg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ m19-20020a05600c4f5300b00345cb6e8dd4so1033715wmq.3
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 23:47:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/5MzpJoEoExnJKph4196dB75zix8p1TQyZGrInk/RhM=;
- b=6h9ortPvLgb6mb8wgJ6iAoutrY0KUSBfAijfOkpHeqwHFBWRV/dqSbjsqIiHhQ1PJ9
- ChMggzfeMbn2Kr1OsK+yrlHXQxwsLNLUpVSHudr6aIMsWzSEFilYpnzZMcImOFTtMak0
- kw1pcvs8dvzM4A6UA7Zx+f//cg2E59FTfSSF1h0El2wPGAiHxkRZQESvQWDns5OjIhZs
- G5XgOukFbMUNsKTXozQ3B+Q45OJa9O9JGKxMVY4U+P8cGa+u3UVAkMheFyYGjz0FGIPt
- j5GDbNvbJ2sgaY9JkIWurAcqnY+/Run4KGsI3uQwakoKlSVjDIsqYjD1LNmu5jHA9qCe
- SLsA==
-X-Gm-Message-State: AOAM53387eH4gX4HkXkLWBdUmy67oFDJ2joJQUpeAxOqt2R6qAeNJyKc
- qg7kGROwOlZSi1yVUOlAn/jJImr1WjRji4jAFeY6+028d9xjEk19v1XBThBGb7R+j/eQWJHxL5U
- vjO7sNiAR1RSt1Ts=
-X-Received: by 2002:a05:6000:168e:: with SMTP id
- y14mr2883118wrd.492.1642059550573; 
- Wed, 12 Jan 2022 23:39:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyvNkT6A44so7lh4uFZ0vPRV2ZSja6XTyxZCNEBpRytJRlZWzdFUKQzTz9XXj/Oacn4E09RSQ==
-X-Received: by 2002:a05:6000:168e:: with SMTP id
- y14mr2883094wrd.492.1642059550374; 
- Wed, 12 Jan 2022 23:39:10 -0800 (PST)
+ bh=mJmS3Z4eC80LOV0Ekw3nYwsjaZ5QiyK4aLVEL3xe1Ug=;
+ b=ylyqCOvJFMJsdD7MdZ09RUTDRifSpQKawfJR5jyCqqiMJ+wc2crubQl513cNVQc1OH
+ dhVOQbPZQfTtgsq/SqiASG3kSOooU+X2cB/GiXT8xTuhd0JIVx0RmKDuhvRI9m+VEZoe
+ UvfzwQ7PnxtUr0S0LDt7ss0yf7D6SRwSqXaVWxSxkYxkLjQCnszAxSn86VffAfhyXC04
+ sfld4BnMWYvw7J63QDD67pYM55bFc5Ggm0AfYHLdAPmY9YEPVLoHzF5KYE3hQm0Y/3AT
+ gtUJkfKe3mTM8QnLqdg3AtBBOp56rXUuIFNTET6uY8uQ/5glKmB4OWORf2hSoBmBQgb4
+ PgTg==
+X-Gm-Message-State: AOAM533QS1TdhrUBlfL5+1wFXzi1U/mcXBL6nKRhnfKuyJLDZOpY3UfW
+ nc8k/UAzRD9wtjFqYyIZsSVSCHbX1srKyW0Zx3Cx2D+30fR1flc4ciCiZb6i+l5GtRxbeAEV9IB
+ oeKelEImsNM0rUq8=
+X-Received: by 2002:a05:600c:3acc:: with SMTP id
+ d12mr6882454wms.85.1642060038353; 
+ Wed, 12 Jan 2022 23:47:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy+0N2ue7wq8JpfgT8Rkr4tyzIB0oW3twz5QC3YBYaHyvcDWpLnNL7tSoZ9MOOqIDpr4ooT9w==
+X-Received: by 2002:a05:600c:3acc:: with SMTP id
+ d12mr6882428wms.85.1642060038098; 
+ Wed, 12 Jan 2022 23:47:18 -0800 (PST)
 Received: from [192.168.42.76] (tmo-065-240.customers.d1-online.com.
  [80.187.65.240])
- by smtp.gmail.com with ESMTPSA id z6sm2052608wmp.9.2022.01.12.23.39.09
+ by smtp.gmail.com with ESMTPSA id k23sm1658870wmr.36.2022.01.12.23.47.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Jan 2022 23:39:10 -0800 (PST)
-Message-ID: <c3c894b5-e6a6-d203-83c6-07c15982c281@redhat.com>
-Date: Thu, 13 Jan 2022 08:39:08 +0100
+ Wed, 12 Jan 2022 23:47:17 -0800 (PST)
+Message-ID: <8274b1ed-c20f-cde1-2dee-0e13544210b6@redhat.com>
+Date: Thu, 13 Jan 2022 08:47:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [RFC PATCH v3 7/7] gitlab-ci: Support macOS 12 via cirrus-run
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20220110131001.614319-1-f4bug@amsat.org>
- <20220110131001.614319-8-f4bug@amsat.org>
+Subject: Re: [PATCH] softmmu/device_tree: Remove redundant pointer assignment
+To: Yanan Wang <wangyanan55@huawei.com>, qemu-devel@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20220111032758.27804-1-wangyanan55@huawei.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220110131001.614319-8-f4bug@amsat.org>
+In-Reply-To: <20220111032758.27804-1-wangyanan55@huawei.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -103,63 +103,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alexander Graf <agraf@csgraf.de>, Gerd Hoffmann <kraxel@redhat.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: wanghaibin.wang@huawei.com, Andrew Jones <drjones@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/01/2022 14.10, Philippe Mathieu-Daudé wrote:
-> Add support for macOS 12 build on Cirrus-CI, similarly to commit
-> 0e103a65ba1 ("gitlab: support for ... macOS 11 via cirrus-run").
+On 11/01/2022 04.27, Yanan Wang wrote:
+> The pointer assignment "const char *p = path;" in function
+> qemu_fdt_add_path is unnecessary. Let's remove it and just
+> use the "path" passed in. No functional change.
 > 
-> Update the lcitool repository to get the macos12 mappings,
-> and generate the vars file by calling 'make lcitool-refresh'.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 > ---
-> Pending on libvirt-ci MR #210:
-> https://gitlab.com/libvirt/libvirt-ci/-/merge_requests/210
+> Based on: softmmu/device_tree: Silence compiler warning with --enable-sanitizers
+> https://patchew.org/QEMU/20220107133844.145039-1-thuth@redhat.com/
 > ---
->   .gitlab-ci.d/cirrus.yml           | 15 +++++++++++++++
->   .gitlab-ci.d/cirrus/macos-12.vars | 16 ++++++++++++++++
->   tests/lcitool/libvirt-ci          |  2 +-
->   tests/lcitool/refresh             |  1 +
->   4 files changed, 33 insertions(+), 1 deletion(-)
->   create mode 100644 .gitlab-ci.d/cirrus/macos-12.vars
-> 
-> diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
-> index b96b22e2697..b7662959070 100644
-> --- a/.gitlab-ci.d/cirrus.yml
-> +++ b/.gitlab-ci.d/cirrus.yml
-> @@ -87,6 +87,21 @@ x64-macos-11-base-build:
->       PKG_CONFIG_PATH: /usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/ncurses/lib/pkgconfig:/usr/local/opt/readline/lib/pkgconfig
->       TEST_TARGETS: check-unit check-block check-qapi-schema check-softfloat check-qtest-x86_64
->   
-> +x64-macos-12-base-build:
-> +  extends: .cirrus_build_job
-> +  variables:
-> +    NAME: macos-12
-> +    CIRRUS_VM_INSTANCE_TYPE: osx_instance
-> +    CIRRUS_VM_IMAGE_SELECTOR: image
-> +    CIRRUS_VM_IMAGE_NAME: monterey-base
-> +    CIRRUS_VM_CPUS: 12
-> +    CIRRUS_VM_RAM: 24G
-> +    UPDATE_COMMAND: brew update
-> +    INSTALL_COMMAND: brew install
-> +    PATH_EXTRA: /usr/local/opt/ccache/libexec:/usr/local/opt/gettext/bin
-> +    PKG_CONFIG_PATH: /usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/ncurses/lib/pkgconfig:/usr/local/opt/readline/lib/pkgconfig
-> +    TEST_TARGETS: check-unit check-block check-qapi-schema check-softfloat check-qtest-x86_64
+>   softmmu/device_tree.c | 9 ++++-----
+>   1 file changed, 4 insertions(+), 5 deletions(-)
 
-Since we cannot run that many Cirrus-CI jobs in parallel, I think it might 
-make sense to limit the macos-11 job to manual mode now?
-
-  Thomas
-
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
