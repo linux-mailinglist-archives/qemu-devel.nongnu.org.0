@@ -2,107 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B886048E0DC
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 00:27:20 +0100 (CET)
-Received: from localhost ([::1]:55774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 389FE48E16B
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 01:19:33 +0100 (CET)
+Received: from localhost ([::1]:35354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n89Uy-0000bb-1r
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 18:27:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46800)
+	id 1n8AJX-0003Av-O9
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 19:19:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1n8998-0004bL-02
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 18:04:42 -0500
-Received: from mx2.freebsd.org ([96.47.72.81]:63670)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1n8AEh-0002Hr-Oy
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 19:14:31 -0500
+Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=35767
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1n8995-0002MJ-4g
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 18:04:40 -0500
-Received: from mx1.freebsd.org (mx1.freebsd.org [96.47.72.80])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits)
- client-signature RSA-PSS (4096 bits))
- (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
- by mx2.freebsd.org (Postfix) with ESMTPS id 4BF3A975A3
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 23:04:28 +0000 (UTC)
- (envelope-from kevans@freebsd.org)
-Received: from smtp.freebsd.org (smtp.freebsd.org [96.47.72.83])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
- client-signature RSA-PSS (4096 bits) client-digest SHA256)
- (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
- by mx1.freebsd.org (Postfix) with ESMTPS id 4JZg3w0zsFz3Fr2
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 23:04:28 +0000 (UTC)
- (envelope-from kevans@freebsd.org)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org; s=dkim;
- t=1642115068;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RraFeg7pea3mgo3fATwdz9u0kZG7HPNeeO6ATQf6PyI=;
- b=Zil02FDMDU2XKpnqXm1eA3CotrSw10rMFoOiluJuSfrGJH7TJHA/5CFnlwKns7SNXd2ivf
- FlgGsLzE80PC0VF+w+IMgitqceCdkghyaVxqsV9lv2E2c0s0DZip26IdlNVpK3GYn3/lC6
- VDDcOk+DZKPwlbnRSq1tUDRUy9pySnZ+shQksCcKBZb3Uy9PuRzis92Hm0aCUHDEp5RptW
- gh31HUFm5vyKFXALWuB6/khH8pcymbz+1/aFIPolQ2LDpYlzIbFqPKcOw0pqslOoMW61ws
- ZBRcQp/t/D0ZtEANajnYZO9FdUjv4csHiSHi+oWgS/gae/9wk8YaF6l4HCvLmQ==
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
- [209.85.160.181])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client CN "smtp.gmail.com", Issuer "GTS CA 1D4" (verified OK))
- (Authenticated sender: kevans)
- by smtp.freebsd.org (Postfix) with ESMTPSA id EDEDE127B
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 23:04:27 +0000 (UTC)
- (envelope-from kevans@freebsd.org)
-Received: by mail-qt1-f181.google.com with SMTP id c19so9025657qtx.3
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 15:04:27 -0800 (PST)
-X-Gm-Message-State: AOAM532lIj9vhUG+eBFARVcFIStQam4m76F1YwIQTsXqzkZijvzkqQei
- lXW/AnTRiwNhNCyOWpPDVtOYG5gNuQu5Pfrymj4=
-X-Google-Smtp-Source: ABdhPJwbAIvTkhiVQl11EY8ek+/2J6seOaMqm7FEn5ERo2A3ALf/ApCqgWFEDC0u53+AHVN+uaK3pb6EyyX04DK71NU=
-X-Received: by 2002:ac8:5c4a:: with SMTP id j10mr5549051qtj.449.1642115067390; 
- Thu, 13 Jan 2022 15:04:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1n8AEd-0003Ns-Il
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 19:14:31 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4JZhcR4W1Wz4y4q; Fri, 14 Jan 2022 11:14:15 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1642119255;
+ bh=TVFdGuSS47j8/ryvqV3Sm536yfoPESKqf/5AnicOJ8s=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iXAjpIIRmPsokYpikYJh7/CZE2nny/JVLFauOc1Kfi6CcPvm8JX9FJ52xIzITb5O3
+ ngprNo6tjsqsMx+ck8ASYaNf79bdV+yu3OEES2iZn2LTOp/8BIgKMb9EuomVDllLlC
+ 0s1w/lkmuoBo0CV6GPofDfNd1ogVe9F3o/Osyir4=
+Date: Fri, 14 Jan 2022 10:41:57 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: ppc pbr403 vmstate
+Message-ID: <YeC4xYrYhdAKKwTx@yekko.fritz.box>
+References: <YeB0zGRC/ct8DAzM@work-vm>
 MIME-Version: 1.0
-References: <20220109161923.85683-1-imp@bsdimp.com>
- <20220109161923.85683-22-imp@bsdimp.com>
- <CAFEAcA9xbOCjc7ZLULuyWNYi5jHtS=N8_HWiob_gaAE+3vxZAA@mail.gmail.com>
- <CAFEAcA8bdDdn8-UOeGX_aHu1E1QuEasCK++x3qNrvRfg6MqCaw@mail.gmail.com>
-In-Reply-To: <CAFEAcA8bdDdn8-UOeGX_aHu1E1QuEasCK++x3qNrvRfg6MqCaw@mail.gmail.com>
-From: Kyle Evans <kevans@freebsd.org>
-Date: Thu, 13 Jan 2022 17:04:16 -0600
-X-Gmail-Original-Message-ID: <CACNAnaF29EyoQSsGKQyXTC+9bYZaTra4DuunkbBC6jeDt4VAVw@mail.gmail.com>
-Message-ID: <CACNAnaF29EyoQSsGKQyXTC+9bYZaTra4DuunkbBC6jeDt4VAVw@mail.gmail.com>
-Subject: Re: [PATCH 21/30] bsd-user/signal.c: force_sig
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org;
- s=dkim; t=1642115068;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RraFeg7pea3mgo3fATwdz9u0kZG7HPNeeO6ATQf6PyI=;
- b=iOtNvYwIJ//hcH9DOmuTxXWQOUILMlivTMpuXpMgL52tPAUXhwZqGpgUz3d3+ftnUE717I
- X90/bZhqVccb/ob8Y20J00rWBj9nOXKk1tFjmbJDr6GMjsLqAub7/VzYbP1kr8x+hA60uz
- ++CoNwb/SEWgVENYgI+yibmXEkNBZSrdwg90yuMf+/653KgE4/Q9poy9zxnGDnlzdlwDaV
- ysFS7ivilHR6phtQIYTD3GIx/p9cKCCkObDkEbMq1jRiOi4Nc+QClOafW7K4oUm6dD8JRh
- SLAwwsr5MJaTN9DmfVulhY2YOj5rRibDGGM42SUqs/SJHhH90Fva0XnqtHDWew==
-ARC-Seal: i=1; s=dkim; d=freebsd.org; t=1642115068; a=rsa-sha256; cv=none;
- b=QXDlOZM888d91/l0f8/Upg0jqCmSIZ4DV57HvTC1vTOVQH1pcRlKrH9XkF8tSuOCUDp4kA
- ITeoy0z81TBUNpSQuzGR6DqPcSnUXG/I4fqM6G2XamfjPFZZKZuPnUGblQj+FvSHQxJA9B
- hjGE6RZ5Pr/E8aivxaBNyYVDIyMrQ1pBRmymkLPMYbg+Gmc9tCpfN8S5KyrxigeVFBXxG7
- p0wrqbVcAgESo8LkWYc0FolHX5tz+R+SbfClnBjMQxGSjXhI0gjHY8Gkws5A456H2hpkBj
- y1h4ykKkT49T9/+iKVcjR5+SWVoaDkgTzEn1yEVg6bv2xox59wYb2CtaSWFPuw==
-ARC-Authentication-Results: i=1;
-	mx1.freebsd.org;
-	none
-Received-SPF: pass client-ip=96.47.72.81; envelope-from=kevans@freebsd.org;
- helo=mx2.freebsd.org
-X-Spam_score_int: -76
-X-Spam_score: -7.7
-X-Spam_bar: -------
-X-Spam_report: (-7.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.594,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="kFpHUR3EA78QXSP6"
+Content-Disposition: inline
+In-Reply-To: <YeB0zGRC/ct8DAzM@work-vm>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for
+ 2404:9400:2:0:216:3eff:fee2:21ea (failed)
+Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,49 +63,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stacey Son <sson@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Warner Losh <imp@bsdimp.com>
+Cc: lvivier@redhat.com, peter.maydell@linaro.org, quintela@redhat.com,
+ danielhb413@gmail.com, groug@kaod.org, qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 13, 2022 at 2:53 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Thu, 13 Jan 2022 at 20:29, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > On Sun, 9 Jan 2022 at 16:44, Warner Losh <imp@bsdimp.com> wrote:
-> > >
-> > > Force delivering a signal and generating a core file.
->
-> > > +/* Abort execution with signal. */
-> > > +void QEMU_NORETURN force_sig(int target_sig)
-> >
-> > In linux-user we call this dump_core_and_abort(), which is
-> > a name that better describes what it's actually doing.
-> >
-> > (Today's linux-user's force_sig() does what the Linux kernel's
-> > function of that name does -- it's a wrapper around
-> > queue_signal() which delivers a signal to the guest with
-> > .si_code = SI_KERNEL , si_pid = si_uid = 0.
-> > Whether you want one of those or not depends on what BSD
-> > kernels do in that kind of "we have to kill this process"
-> > situation.)
->
-> It looks like the FreeBSD kernel uses sigexit() as its equivalent
-> function to Linux's force_sig(), incidentally. Not sure if
-> you/we would prefer the bsd-user code to follow the naming that
-> FreeBSD's kernel uses or the naming linux-user takes from
-> the Linux kernel.
->
 
-My $.02: let's go with linux-inherited linux-user names and drop in a
-comment with the FreeBSD name, if they're functionally similar enough
-(in general, not just for this specific case). My gut feeling is that
-it'll be more useful in the long run if we can more quickly identify
-parallels between the two, so changes affecting linux-user that may
-benefit bsd-user are more easily identified and exchanged (and
-vice-versa).
+--kFpHUR3EA78QXSP6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
+On Thu, Jan 13, 2022 at 06:51:56PM +0000, Dr. David Alan Gilbert wrote:
+> Hi,
+>   Is there any easy way of getting a machine where the pbr403 vmstate
+> would be generated?
 
-Kyle Evans
+The condition in pbr403_needed is...
+
+    return (pvr & 0xffff0000) =3D=3D 0x00200000;
+
+=2E. which looks to be the PVR for ppc403 models.  That makes sense with
+the section name... but not so much with the fact that it's under
+cpu/tlb6xx.  The 6xx MMU is basically unrelated to the 40x MMU.  But
+it looks like the vmstate_tlbemb might be shared between then, because
+of bad ideas of the past.
+
+But in any case, we already dropped what little 403 support we ever
+had - there's nothing with that PVR even listed in
+target/ppc/cpu-models.h.
+
+So I think we should just drop it.
+
+>   Given my vague understanding of vmstate subsection naming, I think
+> we need:
+>=20
+> diff --git a/target/ppc/machine.c b/target/ppc/machine.c
+> index 756d8de5d8..e535edb7c4 100644
+> --- a/target/ppc/machine.c
+> +++ b/target/ppc/machine.c
+> @@ -718,7 +718,7 @@ static bool pbr403_needed(void *opaque)
+>  }
+> =20
+>  static const VMStateDescription vmstate_pbr403 =3D {
+> -    .name =3D "cpu/pbr403",
+> +    .name =3D "cpu/tlb6xx/pbr403",
+>      .version_id =3D 1,
+>      .minimum_version_id =3D 1,
+>      .needed =3D pbr403_needed,
+>=20
+> to fit the rule where the name of a subsection is prefixed
+> by the parent name. (Something a new check I added just triggered).
+>=20
+> Dave
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--kFpHUR3EA78QXSP6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmHguKoACgkQgypY4gEw
+YSImeA//ff66rjV2ZEG996r3RGwrbdUaL10FB/pZy0uNtLn/UB80dWJqzfuxzY3B
+nZ8QpTERuAu6hxS8pwkT+XG0+GtOKwFcZxVL1jcgk9UDBH8731LEI3fyCuSzntoX
+tHnrR7YEIIk1z2v2grNJ2iAgcxbzJwOGetfLvymSvTs53vfuaSNFeYdS7CJzGDA9
+HHJYvDILuRibghhfVwlFxSULuPZ8bvV/3BuLNRz005Ww1mcQVzdcQ6tSjRoLcGyK
+6Crzxwyi5tqbDVbdoXHUph/X7pVjDAnPM0mLdSpPibW2R7GLDu6c1TfKp81YS1qh
+Q7w2POAgmcmnP5oGs38ih2Wp4EqzhAjteAaE0i7QD94k4jZMinMqCZiZmdS5leIr
+QM49G/1/jJzQrq5qTFYPEOjeJkUek9yGG4PB7s6TRocfTbztAL72VE6BE14UgTQO
+UAcOWajLx0ipP0kQwJpfNJ19I8a5Q0FwbquXUYkRjUDitTaHYztDZBVtiZmSCere
+aN9hBQFOkcJHIVZBMJUJPFDRTGhQ7czLb8Oyl/1WX4PbKyHXSLJrIzcNZoQNBqvX
+77WACX8w8OMM/GBYwOk26ZBH94Cjh461Q0qIqtHwqbwQngdsgLIFSKqxF7JqAPiv
+UCFBNGBI3glj/U0dXxhwIZ/6zGqqvii1vNk69iJJQIeEZEvz59E=
+=FIMh
+-----END PGP SIGNATURE-----
+
+--kFpHUR3EA78QXSP6--
 
