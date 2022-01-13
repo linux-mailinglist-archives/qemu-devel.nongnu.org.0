@@ -2,84 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521D548D293
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 08:04:05 +0100 (CET)
-Received: from localhost ([::1]:40374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A77948D28C
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 08:03:21 +0100 (CET)
+Received: from localhost ([::1]:39368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7u9U-0005DC-46
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 02:04:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34752)
+	id 1n7u8l-0004XY-6f
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 02:03:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n7txG-0008U0-5h
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 01:51:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51165)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n7u2y-0001Vn-9f
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 01:57:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44309)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n7txE-0000cj-Lk
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 01:51:25 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n7u2t-0001LS-OI
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 01:57:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642056683;
+ s=mimecast20190719; t=1642057029;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EJyB3xFcnhMH5XNAli6aeyYenpUFM8sScxCOtfFrYeo=;
- b=UhrOZIAtLBAbDHN4vmjLf3cRt26bp8e5LvyzaSW4+6wyihDIlQ3qzN+F0QNZCfeg9gFvq3
- R+qmsBfS82HkWAMi4W+c/DFlaN0mVYhz3Rpb+Un/aEqukCxeXfJung7rNKVDgh6SDJj3Y2
- i9R+ss9TTorEXqLKWZD54D1dtiahtsg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=aKrzh/vch3xbZ+rl+M072ZkbD8eMez/jR5rl5Oln4X8=;
+ b=Hvl8KZVcZ+bnA3FRyq1Td0eDtDh4OOjSitiWKO97zkW5jZxPck+LamGwipaDy9YCKnkxS0
+ QPPILRC11Six5WCsijfbkFkZbdW5dDSvEq28laid2mwavK9y4KRyUDCP3cTAaZFI/nJG5n
+ wkryttU+osTJs8g0q6giJkhNZm7G+PM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-215-sAqD99QxNty7X9VDIUT1sw-1; Thu, 13 Jan 2022 01:51:22 -0500
-X-MC-Unique: sAqD99QxNty7X9VDIUT1sw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- bg32-20020a05600c3ca000b00349f2aca1beso3104871wmb.9
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 22:51:21 -0800 (PST)
+ us-mta-299-yywr61G7N5eWdvoOtgx5WA-1; Thu, 13 Jan 2022 01:57:05 -0500
+X-MC-Unique: yywr61G7N5eWdvoOtgx5WA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ s190-20020a1ca9c7000000b00347c6c39d9aso3115130wme.5
+ for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 22:57:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=EJyB3xFcnhMH5XNAli6aeyYenpUFM8sScxCOtfFrYeo=;
- b=ZLuJKxNpu7wmlzCohqQkVlo9znomzjdoimoAH/JSQwN252nyfUuEZj6gPK9xitrgSf
- 9Q/PAa4oXjTzDJm83YiH0AFtEvbN+niRIlsfmZLpNiCsr4Z1AVO/iqz5yxrPqca7R+4Y
- FjYPZ+VGBg6+x+VncShDYuAYBCNvlt9NmAgpT5Zv4EeRnczfda9PXPMdA0p/B1SyxuRK
- 4yHRZxUYb/xai9/BJZIY7FXys52tSeRa0EB10dlDl3F9JO20Y4CRh57r57rjpeuQ3HdK
- 7eMLNIn7bJy6H5Ir4m9SrStXxq5h7iDO+BJe/WV9lXZ/P4dEEqKJgOJ57DIvRmC+fjvL
- ayig==
-X-Gm-Message-State: AOAM5309SiVXADeqJrFEb5YAlo1DIzERBjSkjxtTFVi0Jf8wNunzIsmk
- 8iWuaZfaIAbmn9sJcfgs8hrd+dZD1mat4wyeCSahw/2Jk0KBvc8S55Rkdg4pVfkL/7G53ujuINF
- eWXsgBMYQb5mIb9k=
-X-Received: by 2002:a05:600c:1907:: with SMTP id
- j7mr9736325wmq.175.1642056681020; 
- Wed, 12 Jan 2022 22:51:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwZuDFKaAjyVmJG3D5Q8eOMzJmR60MKjLRGXmxDHNVHOweQEeUDdx345cE/S1xp9qHJNH2uNQ==
-X-Received: by 2002:a05:600c:1907:: with SMTP id
- j7mr9736316wmq.175.1642056680750; 
- Wed, 12 Jan 2022 22:51:20 -0800 (PST)
+ bh=aKrzh/vch3xbZ+rl+M072ZkbD8eMez/jR5rl5Oln4X8=;
+ b=7fzFU48qDhpYf3gIOJmw45Ms0PziocEUyPMnCxl+7r2QpDFHwpSm1zaCKMqw4JWxn6
+ HxOG3RdNTw/I3bNEmBV9/zRlTaJrE60UG+4pvjUi3u2/rrbOPwiWXvGvNXVShEC4c2dt
+ kqIPGob1d5KdnvHBmEjEXz+q5zu473r7K3ZgwZxmLU0sba1zHamw8R6bjS+N6ZYYjIJv
+ 0bOXVr15G04xO9s8/exl4Jqlnk28FO0uzznLB9Y08b5QbdEWfYJwlLbUbfJHV//Ib+4c
+ 1Z3MQ1y+lhbYxWRXeDYtcPkQLxgp3p8R6Z9IuvtIxDPGT470ZzhAsF5nd+ddr8GuEFZ/
+ 9g9Q==
+X-Gm-Message-State: AOAM533sKOJ7VNEn5V9fd054i3Wymrk5xWTOXnDleRgbMClY4rjLBygB
+ iPmZYj6/ypte6SWJE+TVgNOIb4Nu0naqEN0g3v65hGwcbR+s69dTy24FDXR4jRO/xROvOnHgS+g
+ U8/BVkmij3cZ0HtY=
+X-Received: by 2002:a5d:4d45:: with SMTP id a5mr2582024wru.95.1642057024500;
+ Wed, 12 Jan 2022 22:57:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwdsMeOYIc/2Z0RqW7sizM05SHYYerdJhOMgavjzn8WJni2N5/wphKhEWNEF1fpRTbEGfPluQ==
+X-Received: by 2002:a5d:4d45:: with SMTP id a5mr2582006wru.95.1642057024309;
+ Wed, 12 Jan 2022 22:57:04 -0800 (PST)
 Received: from [192.168.42.76] (tmo-065-240.customers.d1-online.com.
  [80.187.65.240])
- by smtp.gmail.com with ESMTPSA id g12sm1680301wrm.109.2022.01.12.22.51.19
+ by smtp.gmail.com with ESMTPSA id d11sm1755430wri.67.2022.01.12.22.57.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Jan 2022 22:51:20 -0800 (PST)
-Message-ID: <1809ef54-88bc-9fae-8be7-c22dd700b469@redhat.com>
-Date: Thu, 13 Jan 2022 07:51:18 +0100
+ Wed, 12 Jan 2022 22:57:03 -0800 (PST)
+Message-ID: <de79524d-222e-360e-25fd-5d9122286b5d@redhat.com>
+Date: Thu, 13 Jan 2022 07:57:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH] configure: do not create roms/seabios/config.mak if
- SeaBIOS not present
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20220107114717.509665-1-pbonzini@redhat.com>
+Subject: Re: [PATCH] hw/i386: Add the possibility to disable the 'isapc'
+ machine
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220107160713.235918-1-thuth@redhat.com>
+ <280cccf6-7d6d-56da-4b5f-ddb4facfed7e@amsat.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220107114717.509665-1-pbonzini@redhat.com>
+In-Reply-To: <280cccf6-7d6d-56da-4b5f-ddb4facfed7e@amsat.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
@@ -102,53 +104,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ John Snow <jsnow@redhat.com>, Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/01/2022 12.47, Paolo Bonzini wrote:
-> If roms/seabios/Makefile is not present, the configure script
-> is not creating the roms/seabios directory anymore (commit
-> 5dce7b8d8c, "configure: remove DIRS", 2021-12-18); thus, creating
-> roms/seabios/config.mak fails.
+On 07/01/2022 19.54, Philippe Mathieu-Daudé wrote:
+> On 1/7/22 17:07, Thomas Huth wrote:
+>> We already have a CONFIG_ISAPC switch - but we're not using it yet.
+>> Add some "#ifdefs" to make it possible to disable this machine now.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   hw/i386/pc_piix.c        | 5 ++++-
+>>   tests/qtest/cdrom-test.c | 2 +-
+>>   2 files changed, 5 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+>> index 1999190276..5147e1ee74 100644
+>> --- a/hw/i386/pc_piix.c
+>> +++ b/hw/i386/pc_piix.c
+>> @@ -357,10 +357,12 @@ static void pc_compat_1_4_fn(MachineState *machine)
+>>       pc_compat_1_5_fn(machine);
+>>   }
+>>   
+>> +#ifdef CONFIG_ISAPC
+>>   static void pc_init_isa(MachineState *machine)
+>>   {
+>>       pc_init1(machine, TYPE_I440FX_PCI_HOST_BRIDGE, TYPE_I440FX_PCI_DEVICE);
+>>   }
+>> +#endif
+>>   
+>>   #ifdef CONFIG_XEN
+>>   static void pc_xen_hvm_init_pci(MachineState *machine)
+>> @@ -916,6 +918,7 @@ void igd_passthrough_isa_bridge_create(PCIBus *bus, uint16_t gpu_dev_id)
+>>       pci_config_set_revision(bridge_dev->config, pch_rev_id);
+>>   }
+>>   
+>> +#ifdef CONFIG_ISAPC
+>>   static void isapc_machine_options(MachineClass *m)
+>>   {
+>>       PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+>> @@ -935,7 +938,7 @@ static void isapc_machine_options(MachineClass *m)
+>>   
+>>   DEFINE_PC_MACHINE(isapc, "isapc", pc_init_isa,
+>>                     isapc_machine_options);
+>> -
+>> +#endif
 > 
-> The easiest thing to do is to not create the file, since it will not
-> be used.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   configure | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index 0026388343..e1a31fb332 100755
-> --- a/configure
-> +++ b/configure
-> @@ -3704,7 +3704,8 @@ export target_list source_path use_containers cpu
->   $source_path/tests/tcg/configure.sh)
->   
->   # temporary config to build submodules
-> -for rom in seabios; do
-> +if test -f $source_path/roms/seabios/Makefile; then
-> +  for rom in seabios; do
->       config_mak=roms/$rom/config.mak
+> Wouldn't it be cleaner to extract the isapc machine to a new C unit
+> (after renaming/declaring pc_init1 public)? 
 
-I think you can now simply remove the "for" loop line by setting 
-config_mak=roms/seabios/config.mak here.
+That would be cleaner, of course, but that would also mean a major 
+refactoring: We could rearrange the code so that it is possible to compile a 
+binary that has isapc, but not i440fx... but that likely means a complete 
+rework of pc_piix.c so that the code that is common between i440fx and isapc 
+needs to be moved into a separate file, too. And that's likely not worth the 
+effort, I guess, since people rather want to compile without isapc than 
+compiling without i440fx, I think. So let's go with this low-hanging fruit 
+here for now, and keep the possible clean-up in mind for later.
+
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Thanks!
 
   Thomas
 
-
->       echo "# Automatically generated by configure - do not modify" > $config_mak
->       echo "SRC_PATH=$source_path/roms/$rom" >> $config_mak
-> @@ -3717,7 +3718,8 @@ for rom in seabios; do
->       echo "IASL=$iasl" >> $config_mak
->       echo "LD=$ld" >> $config_mak
->       echo "RANLIB=$ranlib" >> $config_mak
-> -done
-> +  done
-> +fi
->   
->   config_mak=pc-bios/optionrom/config.mak
->   echo "# Automatically generated by configure - do not modify" > $config_mak
 
 
