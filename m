@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0961D48D1A9
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 05:31:53 +0100 (CET)
-Received: from localhost ([::1]:39240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 472C748D1AB
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 05:33:04 +0100 (CET)
+Received: from localhost ([::1]:41418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7rmB-00010X-Fi
-	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 23:31:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44436)
+	id 1n7rnL-0002YW-4S
+	for lists+qemu-devel@lfdr.de; Wed, 12 Jan 2022 23:33:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n7rkn-0000FK-Jo
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 23:30:25 -0500
-Received: from [2607:f8b0:4864:20::12d] (port=35350
- helo=mail-il1-x12d.google.com)
+ id 1n7rlO-0000mE-W2; Wed, 12 Jan 2022 23:31:03 -0500
+Received: from [2607:f8b0:4864:20::12f] (port=44722
+ helo=mail-il1-x12f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n7rkk-0006FK-W5
- for qemu-devel@nongnu.org; Wed, 12 Jan 2022 23:30:24 -0500
-Received: by mail-il1-x12d.google.com with SMTP id b1so4545790ilj.2
- for <qemu-devel@nongnu.org>; Wed, 12 Jan 2022 20:30:22 -0800 (PST)
+ id 1n7rlL-0006OW-Jg; Wed, 12 Jan 2022 23:31:02 -0500
+Received: by mail-il1-x12f.google.com with SMTP id i14so4516545ila.11;
+ Wed, 12 Jan 2022 20:30:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YCXdP6hCrItBGmK4DUyaoOdv4S9nY75o2QfAu2dNq/0=;
- b=dmse0DEYroSW6+qpfQZiw1Y3ZUiisT9GEAsI9NpeE77QwJS98OOnCQgacw1k91Uut8
- GSF8VaocsqFg2lfqP1zJBEiXXrgTSE9t/bKJgEMftBzP23BrUBI5CMJYWzxuLKvMUnz7
- 7QPc3JZtOfzqOLwO2M729Plv0gE8aAqJseEoIuMkw8cDz8PRS/05k6CKkV9+TH/fnq2m
- vXpe7iV54ae1O3xjFlLtJeOAaQWw8mDUwIWOyHw58tfthe+sbK5Pe8Rcq4kr1xzpsJqO
- bQnc6NiK+j4imGXkMRZh86/hAt50YJY532ZFHyzGNC0AcgYHMUy3G+8LeVih3oloHLYH
- 9IVg==
+ :cc; bh=G0yH73VEziEUsOBvUvuDtXgMhHfRsF+1URQubdxH1oA=;
+ b=pY7Mte0OzAcXW63BAUXaYTOdzsa1JGw3KPr011kvKGGHhoYVFXLOa8PxG97fl9D8d3
+ Z/J9pyIkcULFcslXy4pGNDmUdORuDAEYewbw4AMPowfA1t/lkNho8sIcAnQ3KA1fwnwg
+ ghwzsrNdWUcrcWCAA8tkM0fil0M5zrscmJKCBl74fWTg1g71dw5NAPYKna5ysfbKt2ag
+ Q1IwAy+gCdN/AIz5uzWrEQT6IopSUszPG30RHgnruoXjUm9/HmCHIzj833BCs/0AYQRE
+ BFrnEPW7cZRAFbzSeyZ8RalYnGR/irNgZxrJOphqRgFL0fMHSo7Ll9LGWxveJYuxlEvX
+ u+zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=YCXdP6hCrItBGmK4DUyaoOdv4S9nY75o2QfAu2dNq/0=;
- b=otM/Rd4Xhi6c8n2JoaWM7XlByIj62VhWPb4d9n6mijeOY9l+UadocrQgkOcU9jT5Sm
- XqM7j6+XepbIXo6Jr4Xgo1vQNUmQuURUqmxnj5TKcTA0wC5OQAoDuF9lircSEQuLESat
- 1v+CCgWHKxvmV6WDLheXDWXrhl8oJMbeUzjYYkyYr16N1LgnTwfYcBXIQs8i08ppLB0r
- 5RurJIzbtCeBZP19o4Jd4nWaknBLsnJiB6lSCkcsl/4dqV7yAuhseKRjTNJ/yNjhFPvw
- DLR3heMmkTCfe1bBO5y70qs+5wrbT2GLjx0OPVTe5YCeDQELdMNh52V6WloLMMDqF31x
- SJXg==
-X-Gm-Message-State: AOAM531/cXObwNZsFdOri0NivCNuB70IeeUJmn+LyTcOb+xX8D2qwMiL
- 6uxxD1uLN0v2uRsdi1MzkCllM54AcO/6YkSFzdY=
-X-Google-Smtp-Source: ABdhPJzSUxzWajIXo33kHc9/z4rqFLZ21lA6KZOBa6FSu4wcXcjcVQpXK6S9Ufl4d2aPt33e6r9pKexcsee3ex9yJ4M=
-X-Received: by 2002:a92:3012:: with SMTP id x18mr795107ile.221.1642048221556; 
- Wed, 12 Jan 2022 20:30:21 -0800 (PST)
+ bh=G0yH73VEziEUsOBvUvuDtXgMhHfRsF+1URQubdxH1oA=;
+ b=LgVOeZPDXNqY1/uIwtoMXSFehE/J2hFBgZcM/8r/51ENu4ii6JRQJMGCTsbd2/nWwx
+ Zz496KsmW7DdhXQW9lHJVOcqGr86M4n668xJ76OzznAt1Kn2MBzyJjVXzinJAynXQK17
+ /rtOykYoQctKRM+RuBmRTerESmMyyvZe4oCXmtcEfGmcZ7uymYAXoeMHth5+yupjeI3B
+ 7uivsit83pLGK/bg03YH42TatXRa1N84z7FP4wwgcPmXRA5hdNqeYeatW4z5ZD8xRVPE
+ KlL3C9uSpIv7rmAYE1xhTAIPLFO455+4V0VOrfhD99OIya/pmnlQrWu5nkV1dn7eHN/M
+ kYEw==
+X-Gm-Message-State: AOAM531/9b9vf+bGghOIt71uHmL0UOvkrlfj3FrGkpDMSywDKagPnUr3
+ T3KpCKD3vjfYUHjbv835GIfE1uUn5OFI3CA7P/E=
+X-Google-Smtp-Source: ABdhPJzRxeFEUP4HrT7eJCBNuyEqpJJ4QtpElQXV0jCU0k4GUcEF7zHHStQ4XECaA/lfs2IQ9LXpPbAYVIUjhhpgC6U=
+X-Received: by 2002:a92:c912:: with SMTP id t18mr1449305ilp.74.1642048253554; 
+ Wed, 12 Jan 2022 20:30:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20220111032758.27804-1-wangyanan55@huawei.com>
-In-Reply-To: <20220111032758.27804-1-wangyanan55@huawei.com>
+References: <20220112081329.1835-1-jiangyifei@huawei.com>
+ <20220112081329.1835-14-jiangyifei@huawei.com>
+In-Reply-To: <20220112081329.1835-14-jiangyifei@huawei.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 13 Jan 2022 14:29:55 +1000
-Message-ID: <CAKmqyKPsHG=ohDME04b+bTGPmzJ7_dAWEG7JGeXbginph-MsMg@mail.gmail.com>
-Subject: Re: [PATCH] softmmu/device_tree: Remove redundant pointer assignment
-To: Yanan Wang <wangyanan55@huawei.com>
+Date: Thu, 13 Jan 2022 14:30:27 +1000
+Message-ID: <CAKmqyKPsXeveeOH5-esui43xCpmn2WY0NhhhseL-BuLbzRBk-w@mail.gmail.com>
+Subject: Re: [PATCH v5 13/13] target/riscv: enable riscv kvm accel
+To: Yifei Jiang <jiangyifei@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12f.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -80,71 +79,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, Thomas Huth <thuth@redhat.com>,
- wanghaibin.wang@huawei.com, David Gibson <david@gibson.dropbear.id.au>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Mingwang Li <limingwang@huawei.com>, "open list:Overall" <kvm@vger.kernel.org>,
+ libvir-list@redhat.com, Anup Patel <anup@brainfault.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, wanbo13@huawei.com,
+ Palmer Dabbelt <palmer@dabbelt.com>, kvm-riscv@lists.infradead.org,
+ wanghaibin.wang@huawei.com, Alistair Francis <Alistair.Francis@wdc.com>,
+ fanliang@huawei.com, "Wubin \(H\)" <wu.wubin@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 11, 2022 at 1:28 PM Yanan Wang via <qemu-devel@nongnu.org> wrote:
+On Wed, Jan 12, 2022 at 6:25 PM Yifei Jiang via <qemu-devel@nongnu.org> wrote:
 >
-> The pointer assignment "const char *p = path;" in function
-> qemu_fdt_add_path is unnecessary. Let's remove it and just
-> use the "path" passed in. No functional change.
+> Add riscv kvm support in meson.build file.
 >
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
+> Signed-off-by: Mingwang Li <limingwang@huawei.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
-> Based on: softmmu/device_tree: Silence compiler warning with --enable-sanitizers
-> https://patchew.org/QEMU/20220107133844.145039-1-thuth@redhat.com/
-> ---
->  softmmu/device_tree.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+>  meson.build | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-> index 9e96f5ecd5..8897c79ea4 100644
-> --- a/softmmu/device_tree.c
-> +++ b/softmmu/device_tree.c
-> @@ -556,7 +556,6 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
->  int qemu_fdt_add_path(void *fdt, const char *path)
->  {
->      const char *name;
-> -    const char *p = path;
->      int namelen, retval;
->      int parent = 0;
->
-> @@ -565,9 +564,9 @@ int qemu_fdt_add_path(void *fdt, const char *path)
->      }
->
->      do {
-> -        name = p + 1;
-> -        p = strchr(name, '/');
-> -        namelen = p != NULL ? p - name : strlen(name);
-> +        name = path + 1;
-> +        path = strchr(name, '/');
-> +        namelen = path != NULL ? path - name : strlen(name);
->
->          retval = fdt_subnode_offset_namelen(fdt, parent, name, namelen);
->          if (retval < 0 && retval != -FDT_ERR_NOTFOUND) {
-> @@ -584,7 +583,7 @@ int qemu_fdt_add_path(void *fdt, const char *path)
->          }
->
->          parent = retval;
-> -    } while (p);
-> +    } while (path);
->
->      return retval;
->  }
+> diff --git a/meson.build b/meson.build
+> index c1b1db1e28..06a5476254 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -90,6 +90,8 @@ elif cpu in ['ppc', 'ppc64']
+>    kvm_targets = ['ppc-softmmu', 'ppc64-softmmu']
+>  elif cpu in ['mips', 'mips64']
+>    kvm_targets = ['mips-softmmu', 'mipsel-softmmu', 'mips64-softmmu', 'mips64el-softmmu']
+> +elif cpu in ['riscv']
+> +  kvm_targets = ['riscv32-softmmu', 'riscv64-softmmu']
+>  else
+>    kvm_targets = []
+>  endif
 > --
-> 2.27.0
+> 2.19.1
 >
 >
 
