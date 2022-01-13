@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97C1948D621
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 11:55:36 +0100 (CET)
-Received: from localhost ([::1]:59024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B80548D64A
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 12:05:27 +0100 (CET)
+Received: from localhost ([::1]:41994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n7xlX-0003WE-Mi
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 05:55:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51270)
+	id 1n7xv4-0004mJ-2R
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 06:05:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n7xjO-0001Ag-St
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 05:53:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31101)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n7xjL-0003dM-Cq
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 05:53:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642071197;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=RKmYJOUJyk7PFupuap45GZYtuiMKPHx+BVwSbcSna2E=;
- b=feofYegrYFRLqJj3FIjcEjvpvoX3bWU7jZ1w3n8XWyZCxF1VqCyq/soDZjHGke7H5pAz/A
- BqZ6Q0FWZKXFnPYp9m69zt2DIlW1vZ5JmvSoT0F4/kcrb4yXb4b2yo4G67gHq4hahpmSkJ
- ge5KQfY36CElH3Vz7dMLg2ygamrTV0g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-614-mlgGmWdLN3WL-KVp3hwxpg-1; Thu, 13 Jan 2022 05:53:16 -0500
-X-MC-Unique: mlgGmWdLN3WL-KVp3hwxpg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8F9F1923B82
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 10:53:15 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.37.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CDBB27B9F5;
- Thu, 13 Jan 2022 10:52:44 +0000 (UTC)
-Date: Thu, 13 Jan 2022 10:52:41 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH v7 1/5] QIOChannel: Add flags on io_writev and introduce
- io_flush callback
-Message-ID: <YeAEeZ1eDKqzDSc5@redhat.com>
-References: <20220106221341.8779-1-leobras@redhat.com>
- <20220106221341.8779-2-leobras@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n7xqX-0002Yd-2i
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 06:00:50 -0500
+Received: from [2a00:1450:4864:20::42a] (port=41795
+ helo=mail-wr1-x42a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n7xqQ-0004sN-UB
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 06:00:44 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id v6so9334569wra.8
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 03:00:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HTwBx0u8DClY/dihfaA3Dh48B4DW1rGeHcySJkjj4bw=;
+ b=XLL2t6uBooqKPHWm4JLulwY4i3/NR3Tl9j6kw9IP8FeqHa34argEhiDSYg1WbQyo8l
+ kl2C0brSwzVlRCgUWWebPywttwVGPBJTXzJ+Jzq26VM1pj+8VUiST7mQ+x85us+FQaKm
+ b0Il+09DWBQz/dwguzgype9aAle5AuCCuCTyE5rYwKEkXwPYccGJG2iKolz7oFTWpu/G
+ fQAcMq2f2r7/6ZTVJy/411pDQy1uYmXCorb/NW75gULq1uqiOE11YHglOqEN4de3z3E3
+ fki+yG+LgrguVo795go9/5ABJvWsMaty5Khv7z1hn7JnfEt3GmAmRsC1X0GjBhlaxAVL
+ zF8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HTwBx0u8DClY/dihfaA3Dh48B4DW1rGeHcySJkjj4bw=;
+ b=OcwBoplrqPbieHkBbOJS9FVKa49Ipuxon7S7TsXPu6Gul7cwEMeFoijDbKzoHL45Oy
+ NMimstTM+v9M8uo6BC2tB8Aqq8zz8fZpnP5nhCqw9sRV0CaU8ZGASOwcgT9VoTGg5Btw
+ /CygoSXwUZeDzW+ZIG7TnOfzBhrLkokJJ7fv9rA7lGphhZcm/4M6DoxRz/f57poas30h
+ i1ycw0TI1NJoVtmnIF0x9jlY9CJagIIZrDHv47htnV0XZ+q7e1L5dIrZiesnFg0lSn/0
+ r9lrySy/SaDyY0Fe958NsFYyPZEYwxyXJ+7cazUJ6E74NpYrtNSpAKZLPz411zN4mI+Z
+ 0jwA==
+X-Gm-Message-State: AOAM531K+JFAzVApGkgQ6rhqLkA+RIpEGmRtF7AlupxL8f6ykldVViHJ
+ I2JcZDijGXCpDzu2LiAduzqirME0wgQNVD7dV+40wg==
+X-Google-Smtp-Source: ABdhPJygc23qBU+P6Zdpab/oHOrqLF48xAz6+0oufu3VCjzUcCjixRRj0Euqo35STI5M9fBU7zXK/v/ERnH7dAx+H8k=
+X-Received: by 2002:a5d:6848:: with SMTP id o8mr3687852wrw.2.1642071631688;
+ Thu, 13 Jan 2022 03:00:31 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220106221341.8779-2-leobras@redhat.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.594,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220112102345.79395-1-dgilbert@redhat.com>
+ <CAFEAcA9b9NtkyWY2aCUpOvm2J5uRVt9qUPj6gPk3MFtkTh6ceQ@mail.gmail.com>
+ <Yd6wrYdzzT/XsSSK@work-vm>
+ <CAFEAcA_W9KoMiuBApJaPs9inOrWtjzr2F4L4qnnTxegvFwd_NA@mail.gmail.com>
+ <Yd9+mPj6tldj3uwo@xz-m1.local>
+In-Reply-To: <Yd9+mPj6tldj3uwo@xz-m1.local>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 13 Jan 2022 11:00:20 +0000
+Message-ID: <CAFEAcA_weTMMNsFXc5HOQLG39y-F3XBrpcez7Ln9-ckChfO-qA@mail.gmail.com>
+Subject: Re: [PATCH] migration: Add canary to VMSTATE_END_OF_LIST
+To: Peter Xu <peterx@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,161 +83,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: quintela@redhat.com, marcandre.lureau@gmail.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, lsoaresp@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 06, 2022 at 07:13:38PM -0300, Leonardo Bras wrote:
-> Add flags to io_writev and introduce io_flush as optional callback to
-> QIOChannelClass, allowing the implementation of zero copy writes by
-> subclasses.
-> 
-> How to use them:
-> - Write data using qio_channel_writev(...,QIO_CHANNEL_WRITE_FLAG_ZERO_COPY),
-> - Wait write completion with qio_channel_flush().
-> 
-> Notes:
-> As some zero copy implementations work asynchronously, it's
-> recommended to keep the write buffer untouched until the return of
-> qio_channel_flush(), to avoid the risk of sending an updated buffer
-> instead of the buffer state during write.
-> 
-> As io_flush callback is optional, if a subclass does not implement it, then:
-> - io_flush will return 0 without changing anything.
-> 
-> Also, some functions like qio_channel_writev_full_all() were adapted to
-> receive a flag parameter. That allows shared code between zero copy and
-> non-zero copy writev, and also an easier implementation on new flags.
-> 
-> Signed-off-by: Leonardo Bras <leobras@redhat.com>
-> ---
->  include/io/channel.h | 67 +++++++++++++++++++++++++++++++++++---------
->  io/channel-buffer.c  |  1 +
->  io/channel-command.c |  1 +
->  io/channel-file.c    |  1 +
->  io/channel-socket.c  |  2 ++
->  io/channel-tls.c     |  1 +
->  io/channel-websock.c |  1 +
->  io/channel.c         | 51 +++++++++++++++++++++++----------
->  migration/rdma.c     |  1 +
->  9 files changed, 98 insertions(+), 28 deletions(-)
-> 
-> diff --git a/include/io/channel.h b/include/io/channel.h
-> index 88988979f8..343766ce5b 100644
-> --- a/include/io/channel.h
-> +++ b/include/io/channel.h
-> @@ -32,12 +32,15 @@ OBJECT_DECLARE_TYPE(QIOChannel, QIOChannelClass,
->  
->  #define QIO_CHANNEL_ERR_BLOCK -2
->  
-> +#define QIO_CHANNEL_WRITE_FLAG_ZERO_COPY 0x1
-> +
->  typedef enum QIOChannelFeature QIOChannelFeature;
->  
->  enum QIOChannelFeature {
->      QIO_CHANNEL_FEATURE_FD_PASS,
->      QIO_CHANNEL_FEATURE_SHUTDOWN,
->      QIO_CHANNEL_FEATURE_LISTEN,
-> +    QIO_CHANNEL_FEATURE_WRITE_ZERO_COPY,
->  };
->  
->  
-> @@ -104,6 +107,7 @@ struct QIOChannelClass {
->                           size_t niov,
->                           int *fds,
->                           size_t nfds,
-> +                         int flags,
->                           Error **errp);
->      ssize_t (*io_readv)(QIOChannel *ioc,
->                          const struct iovec *iov,
-> @@ -136,6 +140,8 @@ struct QIOChannelClass {
->                                    IOHandler *io_read,
->                                    IOHandler *io_write,
->                                    void *opaque);
-> +    int (*io_flush)(QIOChannel *ioc,
-> +                    Error **errp);
->  };
->  
->  /* General I/O handling functions */
-> @@ -222,12 +228,13 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
->  
->  
->  /**
-> - * qio_channel_writev_full:
-> + * qio_channel_writev_full_flags:
->   * @ioc: the channel object
->   * @iov: the array of memory regions to write data from
->   * @niov: the length of the @iov array
->   * @fds: an array of file handles to send
->   * @nfds: number of file handles in @fds
-> + * @flags: write flags (QIO_CHANNEL_WRITE_FLAG_*)
->   * @errp: pointer to a NULL-initialized error object
->   *
->   * Write data to the IO channel, reading it from the
-> @@ -255,12 +262,16 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
->   * or QIO_CHANNEL_ERR_BLOCK if no data is can be sent
->   * and the channel is non-blocking
->   */
-> -ssize_t qio_channel_writev_full(QIOChannel *ioc,
-> -                                const struct iovec *iov,
-> -                                size_t niov,
-> -                                int *fds,
-> -                                size_t nfds,
-> -                                Error **errp);
-> +ssize_t qio_channel_writev_full_flags(QIOChannel *ioc,
-> +                                      const struct iovec *iov,
-> +                                      size_t niov,
-> +                                      int *fds,
-> +                                      size_t nfds,
-> +                                      int flags,
-> +                                      Error **errp);
-> +
-> +#define qio_channel_writev_full(ioc, iov, niov, fds, nfds, errp) \
-> +    qio_channel_writev_full_flags(ioc, iov, niov, fds, nfds, 0, errp)
+On Thu, 13 Jan 2022 at 01:21, Peter Xu <peterx@redhat.com> wrote:
+>
+> On Wed, Jan 12, 2022 at 10:56:07AM +0000, Peter Maydell wrote:
+> > We could have vmstate_register_with_alias_id() iterate through
+> > and assert presence of the right terminator (probably only if
+> > qtest enabled, or some other suitable condition). Then the
+> > existing tests that do the basic "check we can instantiate every
+> > device and initialize every board model" would run that code
+> > and catch most missing terminator cases, I think.
+>
+> Agreed.  How about assert it even without qtest?  We do tons of assertion for
+> programming errors anyway in QEMU.
 
-Don't introduce yet another API variant here. Just add flags to
-all the existing write APIs with "full" in their name. The word
-"full" in their name was intended to indicate that they are
-accepting all possible parameters, so it doesn't mean sense to
-add APIs which take even more possible parameters.
+I don't inherently object, but in this case to do the assertion
+we'd need to do a scan over the fields arrays which we wouldn't
+otherwise need to, so the cost of the assert is not simply
+the compare-and-branch but also the loop over the array. If
+that's not significant in terms of start-up time costs we can
+just go ahead and do it (which would be nicer for debugging
+and making it really obvious to people writing new devices)
+but my remark above was a gesture towards "maybe we need to
+not do it for normal startup"..
 
-> +int qio_channel_writev_full_all_flags(QIOChannel *ioc,
-> +                                      const struct iovec *iov,
-> +                                      size_t niov,
-> +                                      int *fds, size_t nfds,
-> +                                      int flags, Error **errp);
-> +#define qio_channel_writev_full_all(ioc, iov, niov, fds, nfds, errp) \
-> +    qio_channel_writev_full_all_flags(ioc, iov, niov, fds, nfds, 0, errp)
-
-Same note.
-
-> +/**
-> + * qio_channel_flush:
-> + * @ioc: the channel object
-> + * @errp: pointer to a NULL-initialized error object
-> + *
-> + * Will block until every packet queued with
-> + * qio_channel_writev_full_flags() + QIO_CHANNEL_WRITE_FLAG_ZERO_COPY
-> + * is sent, or return in case of any error.
-> + *
-> + * If not implemented, acts as a no-op, and returns 0.
-> + *
-> + * Returns -1 if any error is found,
-> + *          1 if every send failed to use zero copy.
-> + *          0 otherwise.
-> + */
-> +
-> +int qio_channel_flush(QIOChannel *ioc,
-> +                      Error **errp);
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+-- PMM
 
