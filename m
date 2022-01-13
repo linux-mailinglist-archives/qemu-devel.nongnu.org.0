@@ -2,90 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E89F48D8FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 14:31:34 +0100 (CET)
-Received: from localhost ([::1]:50556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C13248D961
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 15:06:01 +0100 (CET)
+Received: from localhost ([::1]:34548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n80CS-0002Me-Qo
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 08:31:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53926)
+	id 1n80jo-0007Mk-0f
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 09:06:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1n8090-0000GO-AA
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 08:27:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45601)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1n808w-0003zp-T6
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 08:27:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642080473;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pOTeD5HgPmqZAsT10G7w3pAIRS88DBwo89VngozI7IU=;
- b=EW9vNrEVKuhyRLSMIaea7j6XZpSNFRlk6GtyD/yhn3xbysvbngTm5dyslOpH6clgrOuitl
- T9YhVAC8wRTkIJhGha58Dq9riV0K83coFNgmiJQ61CWOrzijy6P+cLUIXq9YnTW8eSmvUH
- O/ykzMoYDv+sLeX5gIWE1YzW7m1RUXE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-638-pFPbZVf9P7aERGrERHSiBQ-1; Thu, 13 Jan 2022 08:27:52 -0500
-X-MC-Unique: pFPbZVf9P7aERGrERHSiBQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k36-20020a05600c1ca400b0034aeea679a5so84528wms.0
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 05:27:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n80e9-0004Fw-3L
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 09:00:16 -0500
+Received: from [2a00:1450:4864:20::433] (port=35362
+ helo=mail-wr1-x433.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n80e4-00018V-9V
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 09:00:07 -0500
+Received: by mail-wr1-x433.google.com with SMTP id e9so10299281wra.2
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 05:59:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=oVsivp6a6eJX1wFSXh67Hha3FngzheWYexomSXz9zCY=;
+ b=Ol/JkRxDzbGyHPB5dT6G2gzsdiv6ykdVz+AC7O1muVuYwnAH3fS6MNyU3s0EMydfyW
+ Gui6KA6hPJU+5BNyW6nSQVKrS1C61pUcJOWMr6YcDqUCaFWYnNlFiKBA6sn/vodPC8FB
+ gJTTUAti/8aRw0meSpxvhQyTDX1b9bSCYv4wIPBcEoWJ5vUb4h80xCsTEZ4bRBUBKPg9
+ seKBZLF4aODopWNQv0H6xxWotDTd07K6w28fDLM33OHRFClCcyP9jGMU0mhatoC9J48i
+ QnDUTiBOqrqXc2oF6R1PMW1Ljz2pvV+M1LYANY53bP+iajfqs8deYX/Jxa66FL9c7Iu+
+ SEJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=pOTeD5HgPmqZAsT10G7w3pAIRS88DBwo89VngozI7IU=;
- b=M8YMBVxW05drECSmKVDsH45HapFaVi1Dw7qeukzkDHN39fbqiIFtJk7R1OR+GMObRd
- afxBSi3Gf1kj/xoFJ8jThIV9eOQQn1xUAfCr/Rw9VD0kD3CaarpvVY+4Lthgfhe3Y40W
- DYB956F1FL8LBXcQ5TOoqHv5aXnTKLkJInaJZSGz3cmhNaIXT3B9TtlNYltHG426SFgf
- a+IBOYnbCJWMSmZ4LJgjaP3ySEkzTIlaILiM1l13wo27u5o5MYeu1wn27seLNYBqe+Cm
- iBbKWMJnsfUr46NjUyfJea30lq7EKh5C8JKo3hR+fJa0Tn2Paikgi8ZOVcSe2NoBi1/Q
- KSCg==
-X-Gm-Message-State: AOAM532vZacrh7VMitNrnz3b/wAmiXT4JTQETC2DmTDoIegG3yiwKPlR
- 2YhpeS+Xc5DD4tDMXihZhP/B8Id7UyGjUXDFBbwsq5sCrYfP1YlsXLZjAGnGQTn8qu/Jh5sZP6r
- kLXBP9ulZRP2Kg8Q=
-X-Received: by 2002:a05:6000:1a8a:: with SMTP id
- f10mr1419778wry.103.1642080471049; 
- Thu, 13 Jan 2022 05:27:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzNhpbIWn8uqmA1uV/uIAzNtTBTF/4sSSx/tA0cgtFE6y9Vy97B0BlNqFggVjpsONMZP67YxA==
-X-Received: by 2002:a05:6000:1a8a:: with SMTP id
- f10mr1419756wry.103.1642080470800; 
- Thu, 13 Jan 2022 05:27:50 -0800 (PST)
-Received: from work-vm (82-132-239-117.dab.02.net. [82.132.239.117])
- by smtp.gmail.com with ESMTPSA id s10sm7245169wmr.30.2022.01.13.05.27.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jan 2022 05:27:50 -0800 (PST)
-Date: Thu, 13 Jan 2022 13:27:47 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v4 07/23] multifd: Use proper maximum compression values
-Message-ID: <YeAo04uxOcOEM/fO@work-vm>
-References: <20220111130024.5392-1-quintela@redhat.com>
- <20220111130024.5392-8-quintela@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=oVsivp6a6eJX1wFSXh67Hha3FngzheWYexomSXz9zCY=;
+ b=HBP9FfodytD8VXvj/a+zeHVmP0C5VHcEEKR9oHBQ1f0S44b6ZYfq8RSwNzYtLKcPna
+ 7rpYOsbHSrdaQecGsUzZ+TLBK7GDmITD5Yeaa+IDn7lT3DjfZyYXnQFtC/5RYfIa13rJ
+ 7cRJna4G2DZ87EuoUSPJghozS5pG1OSBDNpK738JvEuRdh+rlKidHdnVVESVt8cSwhpB
+ C3hOZ3vl8TS79338yBHWmrpK41QxaujJbYN/M+MMg0Qnxtz5lXa16m/iLtMF1zmZ/g/N
+ Nu9reSI7WgKv/feO5j+InQVWlfu3DRljpCaDZW0+AljT/9uLjIZjmRhmR90mPU6uOOA7
+ GLCA==
+X-Gm-Message-State: AOAM530Es/bUim+mvWJpIJqMMnC+Si0IxR3NO8hXmTbWCY5BPDXODS1m
+ DFUUI1x4obZQ042G8ZgO9XQKUymXchAKpqbEsqsHHg==
+X-Google-Smtp-Source: ABdhPJzyX/Hm89ph4hSkuADqxjJitZ81ttz8epvtHwdbNJcn9RY30Lix/g7ivtlBfsLyyTDOjC+277qbFbDA7l/ZDKg=
+X-Received: by 2002:a5d:6848:: with SMTP id o8mr4346839wrw.2.1642082396178;
+ Thu, 13 Jan 2022 05:59:56 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220111130024.5392-8-quintela@redhat.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.594,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220112115551.987666-1-clg@kaod.org>
+In-Reply-To: <20220112115551.987666-1-clg@kaod.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 13 Jan 2022 13:59:44 +0000
+Message-ID: <CAFEAcA8KTFvO0XVtUHk9DHmLtV+HWYdvTP=eDgebZaGQ+uRDFg@mail.gmail.com>
+Subject: Re: [PULL 00/34] ppc queue
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,61 +81,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Leonardo Bras <leobras@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> It happens that there are functions to calculate the worst possible
-> compression size for a packet.  Use them.
-> 
-> Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+On Wed, 12 Jan 2022 at 11:56, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>
+> The following changes since commit 7bb1272f40bdbdebcaec1737c412dcb52e4148=
+42:
+>
+>   Merge remote-tracking branch 'remotes/jsnow-gitlab/tags/python-pull-req=
+uest' into staging (2022-01-11 14:20:42 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/legoater/qemu/ tags/pull-ppc-20220112
+>
+> for you to fetch changes up to f83460bb203a49dd1693bf8b664d2a935a5be621:
+>
+>   ppc/pnv: use stack->pci_regs[] in pnv_pec_stk_pci_xscom_write() (2022-0=
+1-12 11:28:27 +0100)
+>
+> ----------------------------------------------------------------
+> ppc 7.0 queue:
+>
+> * New SLOF for PPC970 and POWER5+ (Alexey)
+> * Fixes for POWER5+ pseries (Cedric)
+> * Updates of documentation (Leonardo and Thomas)
+> * First step of exception model cleanup (Fabiano)
+> * User created PHB3/PHB4 devices (Daniel and Cedric)
+>
+> ----------------------------------------------------------------
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-> ---
->  migration/multifd-zlib.c | 4 ++--
->  migration/multifd-zstd.c | 4 ++--
->  2 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
-> index 9f6ebf1076..a2fec4d01d 100644
-> --- a/migration/multifd-zlib.c
-> +++ b/migration/multifd-zlib.c
-> @@ -54,8 +54,8 @@ static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
->          error_setg(errp, "multifd %u: deflate init failed", p->id);
->          return -1;
->      }
-> -    /* To be safe, we reserve twice the size of the packet */
-> -    z->zbuff_len = MULTIFD_PACKET_SIZE * 2;
-> +    /* This is the maxium size of the compressed buffer */
-> +    z->zbuff_len = compressBound(MULTIFD_PACKET_SIZE);
->      z->zbuff = g_try_malloc(z->zbuff_len);
->      if (!z->zbuff) {
->          deflateEnd(&z->zs);
-> diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
-> index cc4e991724..97c08367d0 100644
-> --- a/migration/multifd-zstd.c
-> +++ b/migration/multifd-zstd.c
-> @@ -67,8 +67,8 @@ static int zstd_send_setup(MultiFDSendParams *p, Error **errp)
->                     p->id, ZSTD_getErrorName(res));
->          return -1;
->      }
-> -    /* To be safe, we reserve twice the size of the packet */
-> -    z->zbuff_len = MULTIFD_PACKET_SIZE * 2;
-> +    /* This is the maxium size of the compressed buffer */
-> +    z->zbuff_len = ZSTD_compressBound(MULTIFD_PACKET_SIZE);
->      z->zbuff = g_try_malloc(z->zbuff_len);
->      if (!z->zbuff) {
->          ZSTD_freeCStream(z->zcs);
-> -- 
-> 2.34.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
+for any user-visible changes.
+
+-- PMM
 
