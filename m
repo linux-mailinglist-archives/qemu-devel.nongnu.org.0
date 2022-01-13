@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6D148DCB5
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 18:13:09 +0100 (CET)
-Received: from localhost ([::1]:50030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3165148DCD5
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 18:21:01 +0100 (CET)
+Received: from localhost ([::1]:34406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n83eu-0001SG-BP
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 12:13:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50058)
+	id 1n83mS-0001ne-00
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 12:20:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1n83XN-0004oM-AE; Thu, 13 Jan 2022 12:05:21 -0500
+ id 1n83XW-0004ti-HK; Thu, 13 Jan 2022 12:05:31 -0500
 Received: from [201.28.113.2] (port=33800 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1n83XL-0006PO-6z; Thu, 13 Jan 2022 12:05:20 -0500
+ id 1n83XO-0006PO-G5; Thu, 13 Jan 2022 12:05:23 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Thu, 13 Jan 2022 14:05:06 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id C99B6800134;
- Thu, 13 Jan 2022 14:05:05 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 0E7F88006BD;
+ Thu, 13 Jan 2022 14:05:06 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v3 2/3] tests/tcg/ppc64le: change signal_save_restore_xer to
- use SIGTRAP
-Date: Thu, 13 Jan 2022 14:04:55 -0300
-Message-Id: <20220113170456.1796911-3-matheus.ferst@eldorado.org.br>
+Subject: [RFC PATCH v3 3/3] target/ppc: Fix gen_priv_exception error value in
+ mfspr/mtspr
+Date: Thu, 13 Jan 2022 14:04:56 -0300
+Message-Id: <20220113170456.1796911-4-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220113170456.1796911-1-matheus.ferst@eldorado.org.br>
 References: <20220113170456.1796911-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 13 Jan 2022 17:05:06.0164 (UTC)
- FILETIME=[B6791340:01D8089F]
+X-OriginalArrivalTime: 13 Jan 2022 17:05:06.0398 (UTC)
+ FILETIME=[B69CC7E0:01D8089F]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -65,47 +65,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Now that linux-user delivers the signal on tw, we can change
-signal_save_restore_xer to use SIGTRAP instead of SIGILL.
+The code in linux-user/ppc/cpu_loop.c expects POWERPC_EXCP_PRIV
+exception with error POWERPC_EXCP_PRIV_OPC or POWERPC_EXCP_PRIV_REG,
+while POWERPC_EXCP_INVAL_SPR is expected in POWERPC_EXCP_INVAL
+exceptions. This mismatch caused an EXCP_DUMP with the message "Unknown
+privilege violation (03)", as seen in [1].
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Fixes: 9b2fadda3e01 ("ppc: Rework generation of priv and inval interrupts")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/588
+
+[1] https://gitlab.com/qemu-project/qemu/-/issues/588
+
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- tests/tcg/ppc64le/signal_save_restore_xer.c | 8 ++++----
+Is there any case where throwing a PRIV/INVAL exception with a
+INVAL/PRIV error makes sense? It seems wrong, but maybe I'm missing
+something... especially with the HV_EMU to program check conversion.
+
+Also, if this patch is correct, it seems that all invalid SPR access
+would be nop or privilege exceptions. In this case, is
+POWERPC_EXCP_INVAL_SPR still needed?
+---
+ target/ppc/translate.c | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/tests/tcg/ppc64le/signal_save_restore_xer.c b/tests/tcg/ppc64le/signal_save_restore_xer.c
-index e4f8a07dd7..9227f4f455 100644
---- a/tests/tcg/ppc64le/signal_save_restore_xer.c
-+++ b/tests/tcg/ppc64le/signal_save_restore_xer.c
-@@ -11,7 +11,7 @@
- 
- uint64_t saved;
- 
--void sigill_handler(int sig, siginfo_t *si, void *ucontext)
-+void sigtrap_handler(int sig, siginfo_t *si, void *ucontext)
- {
-     ucontext_t *uc = ucontext;
-     uc->uc_mcontext.regs->nip += 4;
-@@ -23,14 +23,14 @@ int main(void)
- {
-     uint64_t initial = XER_CA | XER_CA32, restored;
-     struct sigaction sa = {
--        .sa_sigaction = sigill_handler,
-+        .sa_sigaction = sigtrap_handler,
-         .sa_flags = SA_SIGINFO
-     };
- 
--    sigaction(SIGILL, &sa, NULL);
-+    sigaction(SIGTRAP, &sa, NULL);
- 
-     asm("mtspr 1, %1\n\t"
--        ".long 0x0\n\t"
-+        "trap\n\t"
-         "mfspr %0, 1\n\t"
-         : "=r" (restored)
-         : "r" (initial));
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 40232201bb..abbc3a5bb9 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -4827,11 +4827,11 @@ static inline void gen_op_mfspr(DisasContext *ctx)
+          */
+         if (sprn & 0x10) {
+             if (ctx->pr) {
+-                gen_priv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
++                gen_priv_exception(ctx, POWERPC_EXCP_PRIV_REG);
+             }
+         } else {
+             if (ctx->pr || sprn == 0 || sprn == 4 || sprn == 5 || sprn == 6) {
+-                gen_hvpriv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
++                gen_hvpriv_exception(ctx, POWERPC_EXCP_PRIV_REG);
+             }
+         }
+     }
+@@ -5014,11 +5014,11 @@ static void gen_mtspr(DisasContext *ctx)
+          */
+         if (sprn & 0x10) {
+             if (ctx->pr) {
+-                gen_priv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
++                gen_priv_exception(ctx, POWERPC_EXCP_PRIV_REG);
+             }
+         } else {
+             if (ctx->pr || sprn == 0) {
+-                gen_hvpriv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
++                gen_hvpriv_exception(ctx, POWERPC_EXCP_PRIV_REG);
+             }
+         }
+     }
 -- 
 2.25.1
 
