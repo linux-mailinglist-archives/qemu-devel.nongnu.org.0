@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E51B348DEC5
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 21:19:37 +0100 (CET)
-Received: from localhost ([::1]:58246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D5B48DED4
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 21:23:05 +0100 (CET)
+Received: from localhost ([::1]:37288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n86ZM-0000vy-QB
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 15:19:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45036)
+	id 1n86ci-0005wi-C5
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 15:23:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n86Xn-0007Ia-Sg
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:17:59 -0500
-Received: from [2a00:1450:4864:20::336] (port=51118
- helo=mail-wm1-x336.google.com)
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1n86ai-0003qB-2W
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:21:00 -0500
+Received: from [2a00:1450:4864:20::12e] (port=35534
+ helo=mail-lf1-x12e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n86Xl-0003ur-Tp
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:17:59 -0500
-Received: by mail-wm1-x336.google.com with SMTP id w26so4730726wmi.0
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 12:17:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hVbKJ64X0+j1Of2tXe1eEUMhEtaMlPAUWxb204volj8=;
- b=gdG962q9WFh4cz9LhZXgwgsRLzqHNqUQoBtIM+7a1CZ+FtE/SlNbcWaoOHizVRhx4u
- 1rqo/nie+hBSfLSf7kw481+HL5rovLlMPiFp5ecgdqssXR4Em39uyrfkw89Uwhphp0I0
- DnY2JQhfQCEm/6P4IQQp6olu0rpeWx3rCCvJj0Fb1QIiRo4dV3+h0MtdRxow3g5VDKQE
- zDP8OHwtV95m88TiWlHyFuwCcuphxnYvFmPg56sFoXqlUGDkwS47823HyESoU4m4ixGQ
- h+1+AoSTMGJAschGxMRO68Al1KUcnHd4L1BTHBlzysVTEBOcGh/Bzrihf83Y5QIwny2f
- AGHg==
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1n86af-0004JW-Qm
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 15:20:59 -0500
+Received: by mail-lf1-x12e.google.com with SMTP id g11so23624611lfu.2
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 12:20:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FgQ8Uu9yMk7B6VogfgIrR+ppQRO52043xJsktZc86SA=;
+ b=qQ3iq5giEP1p2JRiEgLr6fVRGLVt8Bd76Mu8FaDzYdC+rlc3xX21WKsCG7kgaiBAa4
+ cEcgcf/WdODoRB7va3vdThJ7wvirUGfoiDlwjQPWVyMm2bGyejLCAHORn2IcBPLiH47e
+ 7SQ10Vcs/e+neeqmyzjtj0iSK+9IFdW0jWibl1oOzFwJGvPCMQU8bZOWB9IuAvQB40QW
+ aTQUpqDAzcULck0xyfCdKUmg9ivGhZ4KGu6p/oorDvKp8p9yTc2IpjaMbmTW6ZMAwn8u
+ obRkT5ea/WLWpHh1XWQrvV6Ac0BahK50aw53q846Oz2yKaNwFN23G3Ae3P6wtx8JekyW
+ KZFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hVbKJ64X0+j1Of2tXe1eEUMhEtaMlPAUWxb204volj8=;
- b=X0fb1BCBUYqfiCUKXWefsHKgb5nTWe9L2WDnYBHzEu2efmpw6nNOwMPLBBDsMqFKWw
- bkQpfbP7iuQvN0QEVzvdBly7gyzI8XZ0CkRGKjJqSIj6U+VpmxypVn3FnMS7kwpxcdEz
- 5tZfRnl4Eg77MQmetr+dFDM3L5MgHvmPY+YzLfDvd9/+cnfbhLrSb/BoEEyP9QyO81tm
- ZJRk8B065tov4LKNnUE0ed73YGkRGDkNMCPcqWeLD6lC+2AR0RjprqAfGhx8I8YqEvJT
- se2nvt3A5pZ03XEoSdi9xyXirEgVojDSJGWYjz/2BTLVEOZ6eTGaO/M6ah8ZUW9ONgto
- kEHw==
-X-Gm-Message-State: AOAM531HJru+j5ttFTKuJv/CZJ0HJnXu0whWCrpXvOCxQ55Quyb581JN
- Jf8XFSwk2JJZAKpDLboVyxGxGmfTkrTJ9Mu7WrKWww==
-X-Google-Smtp-Source: ABdhPJxKkdpNYfy940xSwF+LWasVCK17eq4tin4etuxMGMCal8lNZQZHQgSs8qSU1LZ85axvGAOhdVRkjCwapARJk8s=
-X-Received: by 2002:a05:600c:3ac5:: with SMTP id
- d5mr5400028wms.32.1642105075872; 
- Thu, 13 Jan 2022 12:17:55 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FgQ8Uu9yMk7B6VogfgIrR+ppQRO52043xJsktZc86SA=;
+ b=2agyVz9k/fkDoXC9zQB0Q2sETPlwfVD87yj3nYL1GZUYLTcUPJ6CyvLwEX167G1WQE
+ tSc+Cuw6AeeObr4jGRf6iyE9iBJu231Xtgu0nUlMwAzVEzjWlhhJOrLoWSctoyinjOBs
+ GkQKYNMdoDlsHrmcROCb9UZ+zzpFxPFx0IksIa1ACNW2nfYvlWA1yCvMkRSlkvmK9Mnf
+ 0F0gHpeLwjC11Vp6LfWNctGCEbgiRpTCq5aosdrgG4UeaizqpvZBpOk0spRwOfZpRo29
+ e21fex2p6BQwP5qvG3C+G36n6XFHbEs0z2nPIcVB9WLIalydFrcDeURzdeo4EfEiX5cm
+ CFOw==
+X-Gm-Message-State: AOAM530qyYjW2uOzSIZApdzZSiqTfmWlX/VPnK/SEnQJ9fnLl2psBWXX
+ R78lnH6FwHLP9QxYtJlQT5JBjO/0vqcjgNqu
+X-Google-Smtp-Source: ABdhPJzNBAYr2rqpuEp23YYW3Dgxvr7d+5AOfgEuOmPHx7AHwV9gUfj/Twmujlu8ZfcAngPXHVuBvw==
+X-Received: by 2002:a2e:8751:: with SMTP id q17mr1312462ljj.437.1642105244583; 
+ Thu, 13 Jan 2022 12:20:44 -0800 (PST)
+Received: from ubuntu-focal.. ([2a01:4f9:3a:1e26::2])
+ by smtp.gmail.com with ESMTPSA id h23sm371872ljk.9.2022.01.13.12.20.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Jan 2022 12:20:44 -0800 (PST)
+From: Philipp Tomsich <philipp.tomsich@vrull.eu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 1/2] target/riscv: iterate over a table of decoders
+Date: Thu, 13 Jan 2022 21:20:32 +0100
+Message-Id: <20220113202033.3320854-1-philipp.tomsich@vrull.eu>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-References: <20220109161923.85683-1-imp@bsdimp.com>
- <20220109161923.85683-19-imp@bsdimp.com>
-In-Reply-To: <20220109161923.85683-19-imp@bsdimp.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Jan 2022 20:17:44 +0000
-Message-ID: <CAFEAcA9RLjFON6A89j+gVoiRxehiwNpbsF5GpPL3z1EFhrHw1Q@mail.gmail.com>
-Subject: Re: [PATCH 18/30] bsd-user/signal.c: Implement host_signal_handler
-To: Warner Losh <imp@bsdimp.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x12e.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -81,197 +83,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@freebsd.org>,
- qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, Bin Meng <bin.meng@windriver.com>,
+ Philipp Tomsich <philipp.tomsich@vrull.eu>,
+ Greg Favor <gfavor@ventanamicro.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Kito Cheng <kito.cheng@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 9 Jan 2022 at 16:40, Warner Losh <imp@bsdimp.com> wrote:
->
-> Implement host_signal_handler to handle signals generated by the host
-> and to do safe system calls.
->
-> Signed-off-by: Stacey Son <sson@FreeBSD.org>
-> Signed-off-by: Kyle Evans <kevans@freebsd.org>
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
-> ---
->  bsd-user/signal.c | 105 ++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 105 insertions(+)
->
-> diff --git a/bsd-user/signal.c b/bsd-user/signal.c
-> index b1331f63d61..a6e07277fb2 100644
-> --- a/bsd-user/signal.c
-> +++ b/bsd-user/signal.c
-> @@ -142,6 +142,111 @@ void force_sig_fault(int sig, int code, abi_ulong addr)
->
->  static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
->  {
-> +    CPUState *cpu = thread_cpu;
-> +    CPUArchState *env = cpu->env_ptr;
-> +    int sig;
-> +    target_siginfo_t tinfo;
-> +    ucontext_t *uc = puc;
-> +    uintptr_t pc = 0;
-> +    bool sync_sig = false;
-> +
-> +    /*
-> +     * Non-spoofed SIGSEGV and SIGBUS are synchronous, and need special
-> +     * handling wrt signal blocking and unwinding.
-> +     */
-> +    if ((host_sig == SIGSEGV || host_sig == SIGBUS) && info->si_code > 0) {
-> +        MMUAccessType access_type;
-> +        uintptr_t host_addr;
-> +        abi_ptr guest_addr;
-> +        bool is_write;
-> +
-> +        host_addr = (uintptr_t)info->si_addr;
-> +
-> +        /*
-> +         * Convert forcefully to guest address space: addresses outside
-> +         * reserved_va are still valid to report via SEGV_MAPERR.
-> +         */
-> +        guest_addr = h2g_nocheck(host_addr);
-> +
-> +        pc = host_signal_pc(uc);
-> +        is_write = host_signal_write(info, uc);
-> +        access_type = adjust_signal_pc(&pc, is_write);
-> +
-> +        if (host_sig == SIGSEGV) {
-> +            bool maperr = true;
-> +
-> +            if (info->si_code == SEGV_ACCERR && h2g_valid(host_addr)) {
-> +                /* If this was a write to a TB protected page, restart. */
-> +                if (is_write &&
-> +                    handle_sigsegv_accerr_write(cpu, &uc->uc_sigmask,
-> +                                                pc, guest_addr)) {
-> +                    return;
-> +                }
-> +
-> +                /*
-> +                 * With reserved_va, the whole address space is PROT_NONE,
-> +                 * which means that we may get ACCERR when we want MAPERR.
-> +                 */
-> +                if (page_get_flags(guest_addr) & PAGE_VALID) {
-> +                    maperr = false;
-> +                } else {
-> +                    info->si_code = SEGV_MAPERR;
-> +                }
-> +            }
-> +
-> +            sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
-> +            cpu_loop_exit_sigsegv(cpu, guest_addr, access_type, maperr, pc);
-> +        } else {
-> +            sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
-> +            if (info->si_code == BUS_ADRALN) {
-> +                cpu_loop_exit_sigbus(cpu, guest_addr, access_type, pc);
-> +            }
-> +        }
-> +
-> +        sync_sig = true;
-> +    }
-> +
-> +    /* Get the target signal number. */
-> +    sig = host_to_target_signal(host_sig);
-> +    if (sig < 1 || sig > TARGET_NSIG) {
-> +        return;
-> +    }
-> +    trace_user_host_signal(cpu, host_sig, sig);
-> +
-> +    host_to_target_siginfo_noswap(&tinfo, info);
-> +
-> +    queue_signal(env, sig, &tinfo);       /* XXX how to cope with failure? */
+To split up the decoder into multiple functions (both to support
+vendor-specific opcodes in separate files and to simplify maintenance
+of orthogonal extensions), this changes decode_op to iterate over a
+table of decoders predicated on guard functions.
 
-queue_signal() can't fail, so there is nothing to cope with.
-(Your bsd-user version even has the right 'void' type --
-linux-user's returns 1 always and we never look at the return
-value, so we should really switch that to void return too.)
+This commit only adds the new structure and the table, allowing for
+the easy addition of additional decoders in the future.
 
-> +    /*
-> +     * Linux does something else here -> the queue signal may be wrong, but
-> +     * maybe not.  And then it does the rewind_if_in_safe_syscall
-> +     */
+Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+---
 
-I think you have here a bit of a mix of linux-user's current design
-and some older (broken) version. This is how linux-user works today:
+Changes in v2:
+- (new patch) iterate over a table of guarded decoder functions
 
- * queue_signal() is a little bit misnamed, because there is no
-   "queue" here: there can only be at most one "queued" signal,
-   and it lives in the TaskState struct (which is user-only specific
-   information that hangs off the guest CPU struct) as the
-   TaskState::sync_signal field. The reason
-   we only have one at once is that queue_signal() is used only
-   for signals generated by QEMU itself by calling queue_signal()
-   directly or indirectly from the cpu_loop() code. The cpu loop
-   always calls process_pending_signals() at the end of its loop,
-   which will pick up a queued signal. We never call queue_signal()
-   twice in a row before getting back to process_pending_signals(),
-   so there's only ever at most one thing in the "queue".
- * for all signals we get from the host except SIGSEGV/SIGBUS,
-   we track whether there's a host signal pending in the
-   TaskState::sigtab[] array (which is indexed by signal number).
-   We block all host signals except SIGSEGV/SIGBUS before calling
-   cpu_exit(), so we know we're not going to get more than one
-   of these at once (and it won't clash with a queue_signal()
-   signal either, as those use the sync_signal field, not the
-   sigtab[]).
- * for host-sent non-spoofed (ie not sent via 'kill()') SIGSEGV/SIGBUS,
-   we know this was caused by a bit of generated code, so we just
-   use cpu_loop_exit_restore() to turn this into an EXCP_INTERRUPT
-   at the right guest PC
+ target/riscv/translate.c | 38 ++++++++++++++++++++++++++++++++------
+ 1 file changed, 32 insertions(+), 6 deletions(-)
 
-I feel fairly strongly that you definitely want to use the same
-design as current linux-user does for signals:
- * getting this right is pretty tricky, and even if we get two
-   different designs to both have the same semantics it's going
-   to be pretty confusing
- * we thought quite hard about the linux-user code at the time
-   and it's definitely less buggy than the previous design
- * It's much easier to review the bsd-user code as "yes this is
-   doing the same thing linux-user does" than working through
-   a different approach from first principles
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 615048ec87..2cbf9cbb6f 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -116,6 +116,12 @@ static inline bool has_ext(DisasContext *ctx, uint32_t ext)
+     return ctx->misa_ext & ext;
+ }
+ 
++static inline bool always_true_p(CPURISCVState *env  __attribute__((__unused__)),
++                                 DisasContext *ctx  __attribute__((__unused__)))
++{
++    return true;
++}
++
+ #ifdef TARGET_RISCV32
+ #define get_xl(ctx)    MXL_RV32
+ #elif defined(CONFIG_USER_ONLY)
+@@ -844,16 +850,28 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
+ 
+ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+ {
+-    /* check for compressed insn */
++    /* If not handled, we'll raise an illegal instruction exception */
++    bool handled = false;
++
++    /*
++     * A table with predicate (i.e., guard) functions and decoder functions
++     * that are tested in-order until a decoder matches onto the opcode.
++     */
++    const struct {
++        bool (*guard_func)(CPURISCVState *, DisasContext *);
++        bool (*decode_func)(DisasContext *, uint32_t);
++    } decoders[] = {
++        { always_true_p,  decode_insn32 },
++    };
++
++    /* Check for compressed insn */
+     if (extract16(opcode, 0, 2) != 3) {
+         if (!has_ext(ctx, RVC)) {
+             gen_exception_illegal(ctx);
+         } else {
+             ctx->opcode = opcode;
+             ctx->pc_succ_insn = ctx->base.pc_next + 2;
+-            if (!decode_insn16(ctx, opcode)) {
+-                gen_exception_illegal(ctx);
+-            }
++            handled = decode_insn16(ctx, opcode);
+         }
+     } else {
+         uint32_t opcode32 = opcode;
+@@ -862,10 +880,18 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+                                              ctx->base.pc_next + 2));
+         ctx->opcode = opcode32;
+         ctx->pc_succ_insn = ctx->base.pc_next + 4;
+-        if (!decode_insn32(ctx, opcode32)) {
+-            gen_exception_illegal(ctx);
++
++        for (size_t i = 0; i < ARRAY_SIZE(decoders); ++i) {
++            if (!decoders[i].guard_func(env, ctx))
++                continue;
++
++            if ((handled = decoders[i].decode_func(ctx, opcode32)))
++                break;
+         }
+     }
++
++    if (!handled)
++        gen_exception_illegal(ctx);
+ }
+ 
+ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+-- 
+2.33.1
 
-I don't have as strong an opinion on whether we should try to get
-it into the tree that way from the start, or to put in whatever
-you have currently and then fix it later. (More accurately,
-I would prefer to review patches which use the same design
-as linux-user but if that's going to be massively painful/slow
-for you to get something upstream doing it that way around
-I can probably live with the other approach...)
-
-> +    /*
-> +     * For synchronous signals, unwind the cpu state to the faulting
-> +     * insn and then exit back to the main loop so that the signal
-> +     * is delivered immediately.
-> +     XXXX Should this be in queue_signal?
-
-No, because queue_signal() is called for lots of ways to pend
-a signal, most of which aren't real host signals.
-
-> +     */
-> +    if (sync_sig) {
-> +        cpu->exception_index = EXCP_INTERRUPT;
-> +        cpu_loop_exit_restore(cpu, pc);
-> +    }
-> +
-> +    rewind_if_in_safe_syscall(puc);
-> +
-> +    /*
-> +     * Block host signals until target signal handler entered. We
-> +     * can't block SIGSEGV or SIGBUS while we're executing guest
-> +     * code in case the guest code provokes one in the window between
-> +     * now and it getting out to the main loop. Signals will be
-> +     * unblocked again in process_pending_signals().
-> +     */
-> +    sigfillset(&uc->uc_sigmask);
-> +    sigdelset(&uc->uc_sigmask, SIGSEGV);
-> +    sigdelset(&uc->uc_sigmask, SIGBUS);
-> +
-> +    /* Interrupt the virtual CPU as soon as possible. */
-> +    cpu_exit(thread_cpu);
->  }
->
->  void signal_init(void)
-
-thanks
--- PMM
 
