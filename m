@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D5C648DC72
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 18:01:04 +0100 (CET)
-Received: from localhost ([::1]:34118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 974F748DC54
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jan 2022 17:59:50 +0100 (CET)
+Received: from localhost ([::1]:33504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n83TD-0006Ta-MJ
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 12:01:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47334)
+	id 1n83S1-00064I-PH
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 11:59:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n83Oc-0001gE-UG
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 11:56:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30264)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n83OR-0004ra-Pe
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 11:56:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642092967;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UnbELTmcyAtnylRxklQM5J14dTT7Kjm6dMwphBUIj4g=;
- b=BrGO0R7hKJ1OhahS5vEYR8ZytzLDiR14FSBm3H4IR18oSvgrycFFLuuyM93NKLSlvaXvmX
- QgWOKdyiEXIIp+ZlmX0m2k2jOAG5aaZdpN0BAMzM8tTm2RNRNI70eIUAg3csTL2V7N0RBt
- wQ1JSzEB09cu0q7C9OcXoFqsf4+jKvM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-240-n063_-LNMV6pfnt-YO_gwA-1; Thu, 13 Jan 2022 11:55:59 -0500
-X-MC-Unique: n063_-LNMV6pfnt-YO_gwA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5CA41018733;
- Thu, 13 Jan 2022 16:55:57 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.33.37.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B172C7DE35;
- Thu, 13 Jan 2022 16:55:54 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n83OJ-00015J-Ii
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 11:55:59 -0500
+Received: from [2a00:1450:4864:20::42f] (port=41868
+ helo=mail-wr1-x42f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n83OH-0004qD-TH
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 11:55:59 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id v6so11232860wra.8
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 08:55:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cn2FHmuKCe4MNexTKI7QIgWiqc4HTiH38slyXhZB5N4=;
+ b=FBs8Zi2SlNxZb5A9DQoAvhyRkqnkKZyBwo/qtUaFwAvjGbGEqhN2xzuZZg86F8ASOY
+ TtWruN45UmFgPV20D4TetnizySPi8qBkNZ8SiHvVxN+idU9rNlOLnLQAJhnaHlRSVqDh
+ XKyh+I8+NIyFhXfHIBHgibGmZoA8DDDVLXBRmVEJfASFsnKk5/lt33PMd0zBIrl9DzgC
+ qka8FkbfNHNltaFNc1nRmocRf7ePITLCBB0+QxS0ihEvXoyCblvVuLCXhVMYzkV0/R8x
+ WWetJGWPYu+kDCM5P3tw1Xq8ZKDcBBkQIwHAzir3R0xtILDBd5KVdEY8xhh5uC4/c+pO
+ y+tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cn2FHmuKCe4MNexTKI7QIgWiqc4HTiH38slyXhZB5N4=;
+ b=lhUoAct8wyACgkSLMSvvQO6KpTIhw7ipICmb9vk//JGbcq4mSUrDJrdWxhQLNN8c4A
+ WfFaSzAfTxnprboBOqBJlhlJv3QNqg4c2zutXisEj5c1qwoIpI7NUZZcjKiN27bKt77p
+ pxZK3qLJcNIXXKvCeT/ZEYRNN3qHEpodvD1x6JRtWmzw97xazZSUzps/nIdLxdkbOI0K
+ bFFGNTcsYY72ddVHG3cEBaNLvoXiAA+ohbvP4Hz6otYEX1GGikzycDHfGivGBzaq7Xs7
+ XSgA2dqTljsDCyzP5XCZRsByakCACRp5cYhAmgEXF9pB6+chJlkkRnW4yu9h9V+eIJXa
+ CjKg==
+X-Gm-Message-State: AOAM532M8ci/sxPuC83RsDFqjJJqXkwiX0mMAJap7r6bWDW7RE1rFf6f
+ BDKdLaUsvuP5J7D8PzEDzf/piQ==
+X-Google-Smtp-Source: ABdhPJww9ktuMquOOqe0sc/md7qKLrnLPVCfxwdyOL9dG0PnpZ5/NQ1g8c0YRCmvMlNZnZ+G6DfcfA==
+X-Received: by 2002:a5d:6488:: with SMTP id o8mr4733894wri.576.1642092955622; 
+ Thu, 13 Jan 2022 08:55:55 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 1sm3912700wrb.13.2022.01.13.08.55.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Jan 2022 08:55:53 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3B35C1FFB7;
+ Thu, 13 Jan 2022 16:55:53 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] hw/i386: support loading OVMF using -bios too
-Date: Thu, 13 Jan 2022 16:55:11 +0000
-Message-Id: <20220113165511.46098-3-berrange@redhat.com>
-In-Reply-To: <20220113165511.46098-1-berrange@redhat.com>
-References: <20220113165511.46098-1-berrange@redhat.com>
+Subject: [RFC PATCH] linux-user: expand reserved brk space for 64bit guests
+Date: Thu, 13 Jan 2022 16:55:50 +0000
+Message-Id: <20220113165550.4184455-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.594,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,65 +87,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, cohuck@redhat.com,
+ richard.henderson@linaro.org, Laurent Vivier <laurent@vivier.eu>,
+ qemu-s390x@nongnu.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Traditionally the OVMF firmware has been loaded using the pflash
-mechanism. This is because it is usually provided as a pair of
-files, one read-only containing the code and one writable to
-provided persistence of non-volatile firmware variables.
+A recent change to fix commpage allocation issues on 32bit hosts
+revealed another intermittent issue on s390x. The root cause was the
+headroom we give for the brk space wasn't enough causing the guest to
+attempt to map something on top of QEMUs own pages. We do not
+currently do anything to protect from this (see #555).
 
-The AMD SEV build of EDK2, however, is provided as a single
-file that contains only the code. This is intended to be used
-read-only and explicitly does not provide any ability for
-persistance of non-volatile firmware variables. While it is
-possible to configure this with the pflash mechanism, by only
-providing one of the 2 pflash blobs, conceptually it is a
-little strange to use pflash if there won't be any persistent
-data.
+By inspection the brk mmap moves around and top of the address range
+has been measured as far as 19Mb away from the top of the binary. As
+we chose a smallish number to keep 32bit on 32 bit feasible we only
+increase the gap for 64 bit guests. This does mean that 64-on-32
+static binaries are more likely to fail to find a hole in the address
+space but that is hopefully a fairly rare situation.
 
-A stateless OVMF build can be loaded with -bios, however, QEMU
-does not currently initialize SEV in that scenario. This patch
-introduces the call needed for SEV initialization of the
-firmware.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- hw/i386/x86.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ linux-user/elfload.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index b84840a1bb..c79d84936f 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -45,6 +45,7 @@
- #include "target/i386/cpu.h"
- #include "hw/i386/topology.h"
- #include "hw/i386/fw_cfg.h"
-+#include "hw/i386/pc.h"
- #include "hw/intc/i8259.h"
- #include "hw/rtc/mc146818rtc.h"
- #include "target/i386/sev.h"
-@@ -1157,6 +1158,10 @@ void x86_bios_rom_init(MachineState *ms, const char *default_firmware,
-     memory_region_add_subregion(rom_memory,
-                                 (uint32_t)(-bios_size),
-                                 bios);
-+
-+    pc_system_ovmf_initialize_sev(
-+        rom_ptr((uint32_t)-bios_size, bios_size),
-+        bios_size);
- }
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 64b87d37e8..9628a38361 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2800,11 +2800,17 @@ static void load_elf_image(const char *image_name, int image_fd,
+          * and the stack, lest they be placed immediately after
+          * the data segment and block allocation from the brk.
+          *
+-         * 16MB is chosen as "large enough" without being so large
+-         * as to allow the result to not fit with a 32-bit guest on
+-         * a 32-bit host.
++         * 16MB is chosen as "large enough" without being so large as
++         * to allow the result to not fit with a 32-bit guest on a
++         * 32-bit host. However some 64 bit guests (e.g. s390x)
++         * attempt to place their heap further ahead and currently
++         * nothing stops them smashing into QEMUs address space.
+          */
++#if TARGET_LONG_BITS == 64
++        info->reserve_brk = 32 * MiB;
++#else
+         info->reserve_brk = 16 * MiB;
++#endif
+         hiaddr += info->reserve_brk;
  
- bool x86_machine_is_smm_enabled(const X86MachineState *x86ms)
+         if (ehdr->e_type == ET_EXEC) {
 -- 
-2.33.1
+2.30.2
 
 
