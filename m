@@ -2,80 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6B9F48E951
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 12:41:50 +0100 (CET)
-Received: from localhost ([::1]:60642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 525CF48E965
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 12:46:09 +0100 (CET)
+Received: from localhost ([::1]:39474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8Kxp-0001WR-Qz
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 06:41:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43144)
+	id 1n8L1y-0006oK-Qy
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 06:46:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n8Klb-0003nC-T8; Fri, 14 Jan 2022 06:29:11 -0500
-Received: from [2607:f8b0:4864:20::232] (port=44932
- helo=mail-oi1-x232.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n8Kog-0005OD-HV
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 06:32:26 -0500
+Received: from [2a00:1450:4864:20::434] (port=43924
+ helo=mail-wr1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n8KlY-0007J5-MS; Fri, 14 Jan 2022 06:29:10 -0500
-Received: by mail-oi1-x232.google.com with SMTP id s9so11719980oib.11;
- Fri, 14 Jan 2022 03:29:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n8Koe-000814-VA
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 06:32:22 -0500
+Received: by mail-wr1-x434.google.com with SMTP id o3so15065044wrh.10
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 03:32:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=QJbkwhe2dPr1TViEGHvCtHZd5EktpjdUkvPQl5mimeo=;
- b=bETS6eAkncLKNdxFbcWjFNSMkNiFLKSj19e9llOOVF2XcPO6Sx7OswdDws8C3zCoee
- rjKPTvwmsolbmI+g36Rd6tWCDdefJ1u6dhIMKL8ZhZ1y3ks6AZI1Yfw5Zaj6DbATV1Fq
- U9dAoCdoD0KrT8zRDreOELWHAszSJrgHYXJr+eB4XWp//s2qtlZW5oGuApetwb6xEzFc
- h38W+RgCw6Sy+JeXEKh+lRqIEWP0bWATnVv7lUMapglh7M86f641zSpyUYis33UFY/DV
- Al2JQDvwQpgI1Hoth0e7DGvRCFk28wbyZxbv/Rwr4Wj6rZzlIWiHvP5eyNyL15aroSRy
- qT+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=QJbkwhe2dPr1TViEGHvCtHZd5EktpjdUkvPQl5mimeo=;
- b=gQErE7vB8Iw0C12w5WOrLG3cvFa1AGAkKi+k08VGaYz8ly1lM3r894OtxCaEwgDbrz
- bcsP7gA/TUwrnItpkupO0LyPACX5XMR+KIEeNckZMU+qalhbiFJcI1eZ2MeccYL4GDmk
- naYCREWGRCg3Lh51moXhRwlbjX4l+iSspnQgsFAS1donsZi/sOTzPERwcb4BsZjuLjVo
- mBbrGWllerhVRZUIhp895e9iyEV52yYEpQq4L3Axr5FOFyiJYY1UmBHARhC0H6oFst/C
- 0K/ND3guhztzpTuI/xdAPp2g8I7OGXoW5jmrZh0MFxN3x8JwGSqJBW6SOFteU0lPtOoG
- a8Kg==
-X-Gm-Message-State: AOAM532qFYHq6kcdolEzd3ENfVA13Sq69CVCcjx7E1bicrRlevuA19YK
- lGFLCDzXH4Urqo4p+m47FQzuVCqS1gIp/1rq
-X-Google-Smtp-Source: ABdhPJw3ZRuQnBSEUuz6zcIWQso0sVouz0l239OesxF6oPUiM3hWZPP33qdqOLPrc4k9wnJ3FKNZ4Q==
-X-Received: by 2002:a54:4086:: with SMTP id i6mr6838630oii.9.1642159746933;
- Fri, 14 Jan 2022 03:29:06 -0800 (PST)
-Received: from [192.168.10.222] ([152.249.109.193])
- by smtp.gmail.com with ESMTPSA id w20sm1538320oti.69.2022.01.14.03.29.05
+ bh=7o+3TJ36ee7cfHM3hyfwktSjD4IdfOHQWmZAAY95S9o=;
+ b=bXIJUJC4Ps/tAJF+OPQgtF4fMOGp5ha0LlTAIaViQQUNCDInUlLyR4CE4sO5TZyTD2
+ miMrDDynT12aaFCrHHiErs5/FpSmZ4mIK7I90zXlm4E0RFOwucuaOOhAaW5Kl5HHH7D3
+ rwCu+1ihIIx0aTrjb9hFkCcq864MNf65d/lPwbTAB25Xqie06/mUgfFYY+zs7J0EhgCv
+ BYUWBuJkddjFPAR5lb6wNPsru7Nx66dHXe0HN6Y8K+5lZzf730h2AI6zY1zsgNZ2ZySM
+ Ji5ljHb2G5/AXWmNkNsS4IRYcDFTXGOhwWSyJdSKe9BUsDEg0cOiXz9QgbHAk6igDCug
+ gEQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=7o+3TJ36ee7cfHM3hyfwktSjD4IdfOHQWmZAAY95S9o=;
+ b=p7fCeh80F/xAFZdfknFwchXmCxb12phKEwUWZGrqqsJI8nfFVdx0XxNTBmtT5LtbJ/
+ A5nfbMJAGx2wE30M6GBwbnn97WPRdt8iFluyRe5qrYhrHeF+2oQjetYsKqXhHtnFoG0d
+ vtq21mEP29LrOTNZQnMdizfBMqCHXtG9gk8vQkbmrGjpOPI5S5Vzn9u/iIsKIB5ESzMm
+ lBicG2PART/u3V3NkTCEM1d2qm2g0YxckfqvxSNIkevPSX6ccS7IGaVZDPwnLv2ACUYr
+ PUmlpPCF6wFLhKHAxZoM/5L9cyjiWB+O09bFyQ7G9vCFT3kEQDnP/pa4jjXgAX8wS9XO
+ 37eQ==
+X-Gm-Message-State: AOAM530Fu6rscYtuo9gQt0wCrsFYEvA8r4EhLOimzK9YA/CXywOGOCRN
+ PW0IE6JxZ4zoE53AcpOZ+R0=
+X-Google-Smtp-Source: ABdhPJywZ+nCJQk3RyusdGWJbZj4mBdXas1AgIiHE2RyWsWS/ZD9ITWmGAFjSseUTgTjxfXOREhMaQ==
+X-Received: by 2002:a05:6000:1a8a:: with SMTP id
+ f10mr5308543wry.103.1642159938624; 
+ Fri, 14 Jan 2022 03:32:18 -0800 (PST)
+Received: from ?IPV6:2a01:e34:ec40:49e0:48b5:8fce:b44b:d951?
+ ([2a01:e34:ec40:49e0:48b5:8fce:b44b:d951])
+ by smtp.gmail.com with ESMTPSA id p9sm5719100wmb.32.2022.01.14.03.32.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Jan 2022 03:29:06 -0800 (PST)
-Message-ID: <6501c291-38d3-3131-9b3d-7b4513cadee4@gmail.com>
-Date: Fri, 14 Jan 2022 08:29:03 -0300
+ Fri, 14 Jan 2022 03:32:18 -0800 (PST)
+Message-ID: <5995c5df-435e-01cf-150c-8e06098e18c2@amsat.org>
+Date: Fri, 14 Jan 2022 12:32:16 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 11/17] ppc/pnv: introduce PnvPHB4 'phb_number' property
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.0
+Subject: Re: [PATCH v2 2/3] migration: Add canary to VMSTATE_END_OF_LIST
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
-References: <20220113192952.911188-1-danielhb413@gmail.com>
- <20220113192952.911188-12-danielhb413@gmail.com>
- <3416965f-203e-f902-a4cb-a5dcd4da6f83@kaod.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <3416965f-203e-f902-a4cb-a5dcd4da6f83@kaod.org>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, peter.maydell@linaro.org, quintela@redhat.com,
+ marcandre.lureau@gmail.com
+Cc: lsoaresp@redhat.com, peterx@redhat.com
+References: <20220113194452.254011-1-dgilbert@redhat.com>
+ <20220113194452.254011-3-dgilbert@redhat.com>
+In-Reply-To: <20220113194452.254011-3-dgilbert@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::232
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x232.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -90,178 +96,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-
-
-On 1/14/22 07:46, Cédric Le Goater wrote:
-> On 1/13/22 20:29, Daniel Henrique Barboza wrote:
->> One of the remaining dependencies we have on the PnvPhb4PecStack object
->> is the stack->stack_no property. This is set as the position the stack
->> occupies in the pec->stacks[] array.
->>
->> We need a way to report this same value in the PnvPHB4. This patch
->> creates a new property called 'phb_number' to be used in existing code
->> in all instances stack->stack_no is currently being used.
->>
->> The 'phb_number' name is an indication of our future intention to convert
->> the pec->stacks[] array into a pec->phbs[] array, when the PEC object will
->> deal directly with phb4 objects.
+On 13/1/22 20:44, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 > 
+> We fairly regularly forget VMSTATE_END_OF_LIST markers off descriptions;
+> given that the current check is only for ->name being NULL, sometimes
+> we get unlucky and the code apparently works and no one spots the error.
 > 
-> So the PHB would have a 'phb_number' and a 'index' property ? That's
-> confusing. Can we simplify ? compute one from another ?
+> Explicitly add a flag, VMS_END that should be set, and assert it is
+> set during the traversal.
 > 
-> or keep 'stack_no' to make it clear this belongs to the stack subunit
-> logic.
+> Note: This can't go in until we update the copy of vmstate.h in slirp.
 
+Do we need a libslirp buildsys version check to get this patch merged?
 
-I guess for now we can keep it as phb->stack_no. We can think about reworking the
-logic (my initial reaction is to keep 'index' and then derive the 'stack_no' from
-it when needed) in a follow up.
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-
-
-Thanks,
-
-
-Daniel
-
-> 
-> Thanks,
-> 
-> C.
-> 
->>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   hw/pci-host/pnv_phb4.c         | 28 +++++++++++++++++-----------
->>   hw/pci-host/pnv_phb4_pec.c     |  2 ++
->>   include/hw/pci-host/pnv_phb4.h |  3 +++
->>   3 files changed, 22 insertions(+), 11 deletions(-)
->>
->> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
->> index b5045fca64..44f3087913 100644
->> --- a/hw/pci-host/pnv_phb4.c
->> +++ b/hw/pci-host/pnv_phb4.c
->> @@ -937,7 +937,7 @@ static void pnv_pec_stk_update_map(PnvPHB4 *phb)
->>           mask = phb->nest_regs[PEC_NEST_STK_MMIO_BAR0_MASK];
->>           size = ((~mask) >> 8) + 1;
->>           snprintf(name, sizeof(name), "pec-%d.%d-phb-%d-mmio0",
->> -                 pec->chip_id, pec->index, stack->stack_no);
->> +                 pec->chip_id, pec->index, phb->phb_number);
->>           memory_region_init(&phb->mmbar0, OBJECT(phb), name, size);
->>           memory_region_add_subregion(sysmem, bar, &phb->mmbar0);
->>           phb->mmio0_base = bar;
->> @@ -949,7 +949,7 @@ static void pnv_pec_stk_update_map(PnvPHB4 *phb)
->>           mask = phb->nest_regs[PEC_NEST_STK_MMIO_BAR1_MASK];
->>           size = ((~mask) >> 8) + 1;
->>           snprintf(name, sizeof(name), "pec-%d.%d-phb-%d-mmio1",
->> -                 pec->chip_id, pec->index, stack->stack_no);
->> +                 pec->chip_id, pec->index, phb->phb_number);
->>           memory_region_init(&phb->mmbar1, OBJECT(phb), name, size);
->>           memory_region_add_subregion(sysmem, bar, &phb->mmbar1);
->>           phb->mmio1_base = bar;
->> @@ -960,7 +960,7 @@ static void pnv_pec_stk_update_map(PnvPHB4 *phb)
->>           bar = phb->nest_regs[PEC_NEST_STK_PHB_REGS_BAR] >> 8;
->>           size = PNV_PHB4_NUM_REGS << 3;
->>           snprintf(name, sizeof(name), "pec-%d.%d-phb-%d",
->> -                 pec->chip_id, pec->index, stack->stack_no);
->> +                 pec->chip_id, pec->index, phb->phb_number);
->>           memory_region_init(&phb->phbbar, OBJECT(phb), name, size);
->>           memory_region_add_subregion(sysmem, bar, &phb->phbbar);
->>       }
->> @@ -969,7 +969,7 @@ static void pnv_pec_stk_update_map(PnvPHB4 *phb)
->>           bar = phb->nest_regs[PEC_NEST_STK_INT_BAR] >> 8;
->>           size = PNV_PHB4_MAX_INTs << 16;
->>           snprintf(name, sizeof(name), "pec-%d.%d-phb-%d-int",
->> -                 stack->pec->chip_id, stack->pec->index, stack->stack_no);
->> +                 stack->pec->chip_id, stack->pec->index, phb->phb_number);
->>           memory_region_init(&phb->intbar, OBJECT(phb), name, size);
->>           memory_region_add_subregion(sysmem, bar, &phb->intbar);
->>       }
->> @@ -1469,20 +1469,20 @@ static void pnv_phb4_xscom_realize(PnvPHB4 *phb)
->>       /* Initialize the XSCOM regions for the stack registers */
->>       snprintf(name, sizeof(name), "xscom-pec-%d.%d-nest-phb-%d",
->> -             pec->chip_id, pec->index, stack->stack_no);
->> +             pec->chip_id, pec->index, phb->phb_number);
->>       pnv_xscom_region_init(&phb->nest_regs_mr, OBJECT(phb),
->>                             &pnv_pec_stk_nest_xscom_ops, phb, name,
->>                             PHB4_PEC_NEST_STK_REGS_COUNT);
->>       snprintf(name, sizeof(name), "xscom-pec-%d.%d-pci-phb-%d",
->> -             pec->chip_id, pec->index, stack->stack_no);
->> +             pec->chip_id, pec->index, phb->phb_number);
->>       pnv_xscom_region_init(&phb->pci_regs_mr, OBJECT(phb),
->>                             &pnv_pec_stk_pci_xscom_ops, phb, name,
->>                             PHB4_PEC_PCI_STK_REGS_COUNT);
->>       /* PHB pass-through */
->>       snprintf(name, sizeof(name), "xscom-pec-%d.%d-pci-phb-%d",
->> -             pec->chip_id, pec->index, stack->stack_no);
->> +             pec->chip_id, pec->index, phb->phb_number);
->>       pnv_xscom_region_init(&phb->phb_regs_mr, OBJECT(phb),
->>                             &pnv_phb4_xscom_ops, phb, name, 0x40);
->> @@ -1491,14 +1491,14 @@ static void pnv_phb4_xscom_realize(PnvPHB4 *phb)
->>       /* Populate the XSCOM address space. */
->>       pnv_xscom_add_subregion(pec->chip,
->> -                            pec_nest_base + 0x40 * (stack->stack_no + 1),
->> +                            pec_nest_base + 0x40 * (phb->phb_number + 1),
->>                               &phb->nest_regs_mr);
->>       pnv_xscom_add_subregion(pec->chip,
->> -                            pec_pci_base + 0x40 * (stack->stack_no + 1),
->> +                            pec_pci_base + 0x40 * (phb->phb_number + 1),
->>                               &phb->pci_regs_mr);
->>       pnv_xscom_add_subregion(pec->chip,
->>                               pec_pci_base + PNV9_XSCOM_PEC_PCI_STK0 +
->> -                            0x40 * stack->stack_no,
->> +                            0x40 * phb->phb_number,
->>                               &phb->phb_regs_mr);
->>   }
->> @@ -1568,10 +1568,15 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
->>               return;
->>           }
->> -        /* All other phb properties but 'version' are already set */
->> +        /*
->> +         * All other phb properties but 'version' and 'phb-number'
->> +         * are already set.
->> +         */
->>           pecc = PNV_PHB4_PEC_GET_CLASS(phb->stack->pec);
->>           object_property_set_int(OBJECT(phb), "version", pecc->version,
->>                                   &error_fatal);
->> +        object_property_set_int(OBJECT(phb), "phb-number",
->> +                                phb->stack->stack_no, &error_abort);
->>           /*
->>            * Assign stack->phb since pnv_phb4_update_regions() uses it
->> @@ -1677,6 +1682,7 @@ static void pnv_phb4_xive_notify(XiveNotifier *xf, uint32_t srcno)
->>   }
->>   static Property pnv_phb4_properties[] = {
->> +        DEFINE_PROP_UINT32("phb-number", PnvPHB4, phb_number, 0),
->>           DEFINE_PROP_UINT32("index", PnvPHB4, phb_id, 0),
->>           DEFINE_PROP_UINT32("chip-id", PnvPHB4, chip_id, 0),
->>           DEFINE_PROP_UINT64("version", PnvPHB4, version, 0),
->> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
->> index 7fe7f1f007..7c4b4023df 100644
->> --- a/hw/pci-host/pnv_phb4_pec.c
->> +++ b/hw/pci-host/pnv_phb4_pec.c
->> @@ -285,6 +285,8 @@ static void pnv_pec_stk_default_phb_realize(PnvPhb4PecStack *stack,
->>       stack->phb = PNV_PHB4(qdev_new(TYPE_PNV_PHB4));
->> +    object_property_set_int(OBJECT(stack->phb), "phb-number", stack->stack_no,
->> +                            &error_abort);
->>       object_property_set_int(OBJECT(stack->phb), "chip-id", pec->chip_id,
->>                               &error_fatal);
->>       object_property_set_int(OBJECT(stack->phb), "index", phb_id,
->> diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
->> index 6968efaba8..fc7807be1c 100644
->> --- a/include/hw/pci-host/pnv_phb4.h
->> +++ b/include/hw/pci-host/pnv_phb4.h
->> @@ -84,6 +84,9 @@ struct PnvPHB4 {
->>       uint64_t version;
->> +    /* My own PHB number */
->> +    uint32_t phb_number;
->> +
->>       char bus_path[8];
->>       /* Main register images */
->>
-> 
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>   include/migration/vmstate.h | 7 ++++++-
+>   migration/savevm.c          | 1 +
+>   migration/vmstate.c         | 2 ++
+>   3 files changed, 9 insertions(+), 1 deletion(-)
 
