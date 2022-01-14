@@ -2,72 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8110C48E419
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 07:12:59 +0100 (CET)
-Received: from localhost ([::1]:42238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B8F48E407
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 07:03:41 +0100 (CET)
+Received: from localhost ([::1]:38904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8Fpa-0006tz-BN
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 01:12:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46514)
+	id 1n8FgZ-0003FP-N8
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 01:03:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1n8Fno-00066x-4V
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 01:11:08 -0500
-Received: from mga05.intel.com ([192.55.52.43]:56751)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1n8FbY-0002Ll-LN
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 00:58:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22253)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1n8Fni-0002H5-Ed
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 01:11:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642140662; x=1673676662;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=vFkrUx7JlBhH8tQHdr680ZVtcCkoqOiY56p9j5M74UM=;
- b=I1O4E6LyCTJTRgZatGglQ85HF+ZafOo+6RegQBI6SJ24uRgTJgtmzE/6
- 46EEXcjcrLdJMculvZGi0gfY5fVQFCRs70cTsutlT8yPMvUJ1fS/ptQ2F
- BzguEWMaCsg5N/6YRmFfJ1fVva1r/4L7lWwSPoSOdoUtsjcv5g5mKkSz0
- QaRKxcblFe4y6HDav2rNgdddLXCeZzrJLnRitInYNch8s6rtBnHBUx6s5
- tXYxP/fR6uh/ZGRkiFkO3un7kdMnWCU5F3lx34nDCuMESDcDMoxV2VGCF
- 3bVUi6LyV+SF60z1UU5J+ALXefZ3qtOTf3y4nomacrlpD73fNFphOMzOQ Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10226"; a="330539081"
-X-IronPort-AV: E=Sophos;i="5.88,287,1635231600"; d="scan'208";a="330539081"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2022 22:10:59 -0800
-X-IronPort-AV: E=Sophos;i="5.88,287,1635231600"; d="scan'208";a="559370934"
-Received: from yzhao56-desk.sh.intel.com ([10.239.159.43])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2022 22:10:52 -0800
-Date: Fri, 14 Jan 2022 13:53:15 +0800
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Subject: Re: [PATCH v3 kvm/queue 14/16] KVM: Handle page fault for private
- memory
-Message-ID: <20220114055315.GA29165@yzhao56-desk.sh.intel.com>
-References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
- <20211223123011.41044-15-chao.p.peng@linux.intel.com>
- <20220104014629.GA2330@yzhao56-desk.sh.intel.com>
- <20220104091008.GA21806@chaop.bj.intel.com>
- <20220104100612.GA19947@yzhao56-desk.sh.intel.com>
- <20220105062810.GB25283@chaop.bj.intel.com>
- <20220105075356.GB19947@yzhao56-desk.sh.intel.com>
- <YdYFFzlPTvgFdSXL@google.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1n8FbT-0000ND-HV
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 00:58:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642139901;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=39rNh/QFYGdlvI7QgzHZm01MaB69rTv4QN1Sx/9s4xw=;
+ b=NRwZXqIr5fTNyvu6HdjHSAVJATq9M9D/GzLoW7EbyRE74bKtnBEXKRxbqprjMeym3ANXcq
+ MOOvfN1+8vNKP4LwuQLWUDjOGdQXPaA2RBaBdpGxlXhRDZUbEP9owTgwfmWNVxDreXaXIe
+ kVx9cZsYkJ0GbiOT1hTKJQu4HA5wUi0=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-371-1U_5pc5DNiCbzyUVe30IGg-1; Fri, 14 Jan 2022 00:58:20 -0500
+X-MC-Unique: 1U_5pc5DNiCbzyUVe30IGg-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ f19-20020ac251b3000000b0042ce8273990so5513684lfk.1
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 21:58:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=39rNh/QFYGdlvI7QgzHZm01MaB69rTv4QN1Sx/9s4xw=;
+ b=a0eAuWorlV/Zjdo29szc5jQqHTEWgq03cJqOOiEbaNuIoDKpyxfOk5f6rRNWSqzbsK
+ 77iQUK7NZT23jg3Zp8PH1pD5OQpHyhiqPYv81TvYhfqv5LDMtlh8xtYs+KyCHG83rDNK
+ NiMxDYugVKugJpDesLrgERHCeOX4inzhxLxUyu4AhP0rWKH7DwUCMNvdvUAhudOjWpe6
+ OwObtJVQFxeTTdw640X6mCbJGOfDMPefv0SrD3c7xknmSd+noQkL/RP6mZgUZdBOtZIQ
+ qO/5T1vkW1/XFRHQSjWOdQ9EiG+pcB0hopK+7MmeDxwo5aviK5A2rWa3AYb8BYejTiVb
+ Wh4Q==
+X-Gm-Message-State: AOAM532ehxVI/AGEhjWBDFQE/wjd8kGBSjkRKn11PFLDx6FqJd8pugwU
+ GFsHCRZtk3O3Suak6YFRwPhO4xndRTuIq/SeG8kh2vYX7PBDSgwWEF1Fi8FX0/g6RuFYo26xmin
+ 0o7HFkAySM695AprmBndfjK/Mdg/IwXQ=
+X-Received: by 2002:a19:760f:: with SMTP id c15mr5640749lff.498.1642139898881; 
+ Thu, 13 Jan 2022 21:58:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyvhR/J9rRLv3G9EZmvUMpxpKNr9Tvl4GczJBQjYyRy/urFq4uFqEearGa/0GRtuZRPATY/wxYq6e/APEj2cxs=
+X-Received: by 2002:a19:760f:: with SMTP id c15mr5640734lff.498.1642139898555; 
+ Thu, 13 Jan 2022 21:58:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YdYFFzlPTvgFdSXL@google.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=yan.y.zhao@intel.com;
- helo=mga05.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220105041945.13459-1-jasowang@redhat.com>
+ <20220105041945.13459-5-jasowang@redhat.com>
+ <Yd+zQRouwsB/jnV3@xz-m1.local>
+ <8beffd3d-5eff-6462-ce23-faf44c6653f1@redhat.com>
+ <YeDumkj9ZgPKGgoN@xz-m1.local>
+In-Reply-To: <YeDumkj9ZgPKGgoN@xz-m1.local>
+From: Jason Wang <jasowang@redhat.com>
+Date: Fri, 14 Jan 2022 13:58:07 +0800
+Message-ID: <CACGkMEun7WEhXy_ApxfgYmbVofjjKgGuA0ezPZG4ypRK+HtSfA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] intel-iommu: PASID support
+To: Peter Xu <peterx@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.594,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,121 +95,231 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, Chao Peng <chao.p.peng@linux.intel.com>,
- ak@linux.intel.com, Jonathan Corbet <corbet@lwn.net>,
- Joerg Roedel <joro@8bytes.org>, x86@kernel.org,
- Hugh Dickins <hughd@google.com>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, luto@kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Jim Mattson <jmattson@google.com>, dave.hansen@intel.com, susie.li@intel.com,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- john.ji@intel.com, Yu Zhang <yu.c.zhang@linux.intel.com>,
- linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: "Liu, Yi L" <yi.l.liu@intel.com>, yi.y.sun@linux.intel.com,
+ qemu-devel <qemu-devel@nongnu.org>, mst <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-hi Sean,
-Sorry for the late reply. I just saw this mail in my mailbox.
-
-On Wed, Jan 05, 2022 at 08:52:39PM +0000, Sean Christopherson wrote:
-> On Wed, Jan 05, 2022, Yan Zhao wrote:
-> > Sorry, maybe I didn't express it clearly.
-> > 
-> > As in the kvm_faultin_pfn_private(), 
-> > static bool kvm_faultin_pfn_private(struct kvm_vcpu *vcpu,
-> > 				    struct kvm_page_fault *fault,
-> > 				    bool *is_private_pfn, int *r)
-> > {
-> > 	int order;
-> > 	int mem_convert_type;
-> > 	struct kvm_memory_slot *slot = fault->slot;
-> > 	long pfn = kvm_memfd_get_pfn(slot, fault->gfn, &order);
-> > 	...
-> > }
-> > Currently, kvm_memfd_get_pfn() is called unconditionally.
-> > However, if the backend of a private memslot is not memfd, and is device
-> > fd for example, a different xxx_get_pfn() is required here.
-> 
-> Ya, I've complained about this in a different thread[*].  This should really be
-> something like kvm_private_fd_get_pfn(), where the underlying ops struct can point
-> at any compatible backing store.
-> 
-> https://lore.kernel.org/all/YcuMUemyBXFYyxCC@google.com/
+On Fri, Jan 14, 2022 at 11:31 AM Peter Xu <peterx@redhat.com> wrote:
 >
-ok. 
-
-> > Further, though mapped to a private gfn, it might be ok for QEMU to
-> > access the device fd in hva-based way (or call it MMU access way, e.g.
-> > read/write/mmap), it's desired that it could use the traditional to get
-> > pfn without convert the range to a shared one.
-> 
-> No, this is expressly forbidden.  The backing store for a private gfn must not
-> be accessible by userspace.  It's possible a backing store could support both, but
-> not concurrently, and any conversion must be done without KVM being involved.
-> In other words, resolving a private gfn must either succeed or fail (exit to
-> userspace), KVM cannot initiate any conversions.
+> On Fri, Jan 14, 2022 at 10:47:44AM +0800, Jason Wang wrote:
+> >
+> > =E5=9C=A8 2022/1/13 =E4=B8=8B=E5=8D=881:06, Peter Xu =E5=86=99=E9=81=93=
+:
+> > > On Wed, Jan 05, 2022 at 12:19:45PM +0800, Jason Wang wrote:
+> > > > @@ -1725,11 +1780,16 @@ static bool vtd_do_iommu_translate(VTDAddre=
+ssSpace *vtd_as, PCIBus *bus,
+> > > >           cc_entry->context_cache_gen =3D s->context_cache_gen;
+> > > >       }
+> > > > +    /* Try to fetch slpte form IOTLB */
+> > > > +    if ((pasid =3D=3D PCI_NO_PASID) && s->root_scalable) {
+> > > > +        pasid =3D VTD_CE_GET_RID2PASID(&ce);
+> > > > +    }
+> > > > +
+> > > >       /*
+> > > >        * We don't need to translate for pass-through context entrie=
+s.
+> > > >        * Also, let's ignore IOTLB caching as well for PT devices.
+> > > >        */
+> > > > -    if (vtd_dev_pt_enabled(s, &ce)) {
+> > > > +    if (vtd_dev_pt_enabled(s, &ce, pasid)) {
+> > > >           entry->iova =3D addr & VTD_PAGE_MASK_4K;
+> > > >           entry->translated_addr =3D entry->iova;
+> > > >           entry->addr_mask =3D ~VTD_PAGE_MASK_4K;
+> > > > @@ -1750,14 +1810,24 @@ static bool vtd_do_iommu_translate(VTDAddre=
+ssSpace *vtd_as, PCIBus *bus,
+> > > >           return true;
+> > > >       }
+> > > > +    iotlb_entry =3D vtd_lookup_iotlb(s, source_id, addr, pasid);
+> > > > +    if (iotlb_entry) {
+> > > > +        trace_vtd_iotlb_page_hit(source_id, addr, iotlb_entry->slp=
+te,
+> > > > +                                 iotlb_entry->domain_id);
+> > > > +        slpte =3D iotlb_entry->slpte;
+> > > > +        access_flags =3D iotlb_entry->access_flags;
+> > > > +        page_mask =3D iotlb_entry->mask;
+> > > > +        goto out;
+> > > > +    }
+> > > IIUC the iotlb lookup moved down just because the pasid=3D=3DNO_PASID=
+ case then
+> > > we'll need to fetch the default pasid from the context entry.  That l=
+ooks
+> > > reasonable.
+> > >
+> > > It's just a bit of pity because logically it'll slow down iotlb hits =
+due to
+> > > context entry operations.  When NO_PASID we could have looked up iotl=
+b without
+> > > checking pasid at all, assuming that "default pasid" will always matc=
+h.  But
+> > > that is a little bit hacky.
+> >
+> >
+> > Right, but I think you meant to do this only when scalable mode is disa=
+bled.
 >
-When it comes to a device passthrough via VFIO, there might be more work
-related to the device fd as a backend.
+> Yes IMHO it will definitely suite for !scalable case since that's exactly=
+ what
+> we did before.  What I'm also wondering is even if scalable is enabled bu=
+t no
+> "real" pasid is used, so if all the translations go through the default p=
+asid
+> that stored in the device context entry, then maybe we can ignore checkin=
+g it.
+> The latter is the "hacky" part mentioned above.
 
-First, unlike memfd which can allocate one private fd for a set of PFNs,
-and one shared fd for another set of PFNs, for device fd, it needs to open
-the same physical device twice, one for shared fd, and one for private fd.
+The problem I see is that we can't know what PASID is used as default
+without reading the context entry?
 
-Then, for private device fd, now its ramblock has to use qemu_ram_alloc_from_fd()
-instead of current qemu_ram_alloc_from_ptr().
-And as in VFIO, this private fd is shared by several ramblocks (each locating from
-a different base offset), the base offsets also need to be kept somewhere 
-in order to call get_pfn successfully. (this info is kept in
-vma through mmap() previously, so without mmap(), a new interface might
-be required). 
+>
+> The other thing to mention is, if we postpone the iotlb lookup to be afte=
+r
+> context entry, then logically we can have per-device iotlb, that means we=
+ can
+> replace IntelIOMMUState.iotlb with VTDAddressSpace.iotlb in the future, t=
+oo,
+> which can also be more efficient.
 
-Also, for shared device fd,  mmap() is required in order to allocate the
-ramblock with qemu_ram_alloc_from_ptr(), and more importantly to make
-the future gfn_to_hva, and hva_to_pfn possible.
-But as the shared and private fds are based on the same physical device,
-the vfio driver needs to record which vma ranges are allowed for the actual
-mmap_fault, which vma area are not.
+Right but we still need to limit the total slots and ATS is a better
+way to deal with the IOTLB bottleneck actually.
 
-With the above changes, it only prevents the host user space from accessing
-the device mapped to private GFNs.
-For memory backends, host kernel space accessing is prevented via MKTME.
-And for device, the device needs to the work to disallow host kernel
-space access.
-However, unlike memory side, the device side would not cause any MCE. 
-Thereby, host user space access to the device also would not cause MCEs, either. 
+>
+> Not sure whether Michael will have a preference, for me I think either wa=
+y can
+> be done on top.
+>
+> >
+> >
+> > >
+> > > vIOMMU seems to be mostly used for assigned devices and dpdk in produ=
+ction in
+> > > the future due to its slowness otherwise.. so maybe not a big deal at=
+ all.
+> > >
+> > > [...]
+> > >
+> > > > @@ -2011,7 +2083,52 @@ static void vtd_iotlb_page_invalidate(IntelI=
+OMMUState *s, uint16_t domain_id,
+> > > >       vtd_iommu_lock(s);
+> > > >       g_hash_table_foreach_remove(s->iotlb, vtd_hash_remove_by_page=
+, &info);
+> > > >       vtd_iommu_unlock(s);
+> > > > -    vtd_iotlb_page_invalidate_notify(s, domain_id, addr, am);
+> > > > +    vtd_iotlb_page_invalidate_notify(s, domain_id, addr, am, PCI_N=
+O_PASID);
+> > > > +}
+> > > > +
+> > > > +static void vtd_iotlb_page_pasid_invalidate(IntelIOMMUState *s,
+> > > > +                                            uint16_t domain_id,
+> > > > +                                            hwaddr addr, uint8_t a=
+m,
+> > > > +                                            uint32_t pasid)
+> > > > +{
+> > > > +    VTDIOTLBPageInvInfo info;
+> > > > +
+> > > > +    trace_vtd_inv_desc_iotlb_pasid_pages(domain_id, addr, am, pasi=
+d);
+> > > > +
+> > > > +    assert(am <=3D VTD_MAMV);
+> > > > +    info.domain_id =3D domain_id;
+> > > > +    info.addr =3D addr;
+> > > > +    info.mask =3D ~((1 << am) - 1);
+> > > > +    info.pasid =3D pasid;
+> > > > +    vtd_iommu_lock(s);
+> > > > +    g_hash_table_foreach_remove(s->iotlb, vtd_hash_remove_by_page_=
+pasid, &info);
+> > > > +    vtd_iommu_unlock(s);
+> > > > +    vtd_iotlb_page_invalidate_notify(s, domain_id, addr, am, pasid=
+);
+> > > Hmm, I think indeed we need a notification, but it'll be unnecessary =
+for
+> > > e.g. vfio map notifiers, because this is 1st level invalidation and a=
+t least so
+> > > far vfio map notifiers are rewalking only the 2nd level page table, s=
+o it'll be
+> > > destined to be a no-op and pure overhead.
+> >
+> >
+> > Right, consider we don't implement l1 and we don't have a 1st level
+> > abstraction in neither vhost nor vfio, we can simply remove this.
+>
+> We probably still need the real pasid invalidation parts in the future?
 
-So, I'm not sure if the above work is worthwhile to the device fd.
+Yes.
 
+>  Either
+> for vhost (if vhost will going to cache pasid-based translations), or for
+> compatible assigned devices in the future where the HW can cache it.
 
-> > pfn = __gfn_to_pfn_memslot(slot, fault->gfn, ...)
-> > 	|->addr = __gfn_to_hva_many (slot, gfn,...)
-> > 	|  pfn = hva_to_pfn (addr,...)
-> > 
-> > 
-> > So, is it possible to recognize such kind of backends in KVM, and to get
-> > the pfn in traditional way without converting them to shared?
-> > e.g.
-> > - specify KVM_MEM_PRIVATE_NONPROTECT to memory regions with such kind
-> > of backends, or
-> > - detect the fd type and check if get_pfn is provided. if no, go the
-> >   traditional way.
-> 
-> No, because the whole point of this is to make guest private memory inaccessible
-> to host userspace.  Or did I misinterpret your questions?
-I think the host unmap series is based on the assumption that host user
-space access to the memory based to private guest GFNs would cause fatal
-MCEs.
-So, I hope for backends who will not bring this fatal error can keep
-using traditional way to get pfn and be mapped to private GFNs at the
-same time.
+Vhost has the plan to support ASID here:
+
+https://patchwork.kernel.org/project/kvm/patch/20201216064818.48239-11-jaso=
+wang@redhat.com/#23866593
+
+>
+> I'm not sure what's the best way to do this, yet. Perhaps adding a new fi=
+eld to
+> vtd_iotlb_page_invalidate_notify() telling whether this is pasid-based or=
+ not
+> (basically, an invalidation for 1st or 2nd level pgtable)?
+
+AFAIK there's no L1 in the abstraction for device IOTLB but a combined
+translation result from IVOA-GPA
+
+>  Then if it is
+> pasid-based, we could opt-out for the shadow page walking.
+>
+> But as you mentioned we could also postpone it to the future.  Your call.=
+ :-)
+
+Right, I tend to defer it otherwise there seems no way to test this.
 
 Thanks
-Yan
+
+>
+> Thanks,
+>
+> >
+> >
+> > >
+> > > > +}
+> > > > +
+> > > > +static void vtd_iotlb_pasid_invalidate(IntelIOMMUState *s, uint16_=
+t domain_id,
+> > > > +                                       uint32_t pasid)
+> > > > +{
+> > > > +    VTDIOTLBPageInvInfo info;
+> > > > +    VTDAddressSpace *vtd_as;
+> > > > +    VTDContextEntry ce;
+> > > > +
+> > > > +    trace_vtd_inv_desc_iotlb_pasid(domain_id, pasid);
+> > > > +
+> > > > +    info.domain_id =3D domain_id;
+> > > > +    info.pasid =3D pasid;
+> > > > +    vtd_iommu_lock(s);
+> > > > +    g_hash_table_foreach_remove(s->iotlb, vtd_hash_remove_by_pasid=
+, &info);
+> > > > +    vtd_iommu_unlock(s);
+> > > > +
+> > > > +    QLIST_FOREACH(vtd_as, &s->vtd_as_with_notifiers, next) {
+> > > > +        if (!vtd_dev_to_context_entry(s, pci_bus_num(vtd_as->bus),
+> > > > +                                      vtd_as->devfn, &ce) &&
+> > > > +            domain_id =3D=3D vtd_get_domain_id(s, &ce, vtd_as->pas=
+id) &&
+> > > > +            pasid =3D=3D vtd_as->pasid) {
+> > > > +            vtd_sync_shadow_page_table(vtd_as);
+> > > Do we need to rewalk the shadow pgtable (which is the 2nd level, afai=
+ct) even
+> > > if we got the 1st level pgtable invalidated?
+> >
+> >
+> > Seems not and this makes me think to remove the whole PASID based
+> > invalidation logic since they are for L1 which is not implemented in th=
+is
+> > series.
+>
+> --
+> Peter Xu
+>
+
 
