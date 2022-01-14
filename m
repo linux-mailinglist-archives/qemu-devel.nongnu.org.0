@@ -2,93 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AB2F48EF66
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 18:54:00 +0100 (CET)
-Received: from localhost ([::1]:55534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B79A848EFA7
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 19:09:46 +0100 (CET)
+Received: from localhost ([::1]:35030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8Qly-0006bo-U3
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 12:53:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44874)
+	id 1n8R1F-0007H2-8Y
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 13:09:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n8QjX-0005cu-0C
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 12:51:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36694)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n8Qyz-0005IW-EG
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 13:07:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57797)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n8QjV-0005nI-Hb
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 12:51:26 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n8Qyw-0000MA-Qh
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 13:07:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642182685;
+ s=mimecast20190719; t=1642183641;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7V+K+HS9k19i1EUYDjzVfHmxDJXQjLuJ/CSwC9+2ako=;
- b=KArp/RrJwpUAhGzgcORbvLgeKMAJlqzhdIkANFpgyZsEW+ZCQbM9+VLhJQVrYbptUECV1v
- RWEDN59UvAOe6xGtOlZOSoyObah02T5fRNXt9D/cEhJUglLpuCJ0Ljl7alM+1bCnHdmcJ5
- vIoSRXKOZ/hTcEC79cbmGco0nMG6Nfs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0T48o+QFAiH25oezDOwj0bzYcroyEePThN8//vpz7u4=;
+ b=hbuNlpkbuOLLdWQkuIJvT3v9zssICjRBWoZcWFOZ/sg974SKFdII8P2kpNWiRJNA9nhjIZ
+ PYZfKUZffarGxo19J5KvHBSTH2mzPcdhgz8J71iL2cwTUyUrcz8PPENYZiy6pKpAB0+xFJ
+ LZgHYreUPEEi+vxc51RsUobwXw/uyEw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-534-iR5UrAeLNDK68L9W0FEQrg-1; Fri, 14 Jan 2022 12:51:21 -0500
-X-MC-Unique: iR5UrAeLNDK68L9W0FEQrg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- j18-20020a05600c1c1200b0034aeea95dacso3082275wms.8
- for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 09:51:21 -0800 (PST)
+ us-mta-404-2pEM9zsxNCqNVu5cWeFS8w-1; Fri, 14 Jan 2022 13:07:15 -0500
+X-MC-Unique: 2pEM9zsxNCqNVu5cWeFS8w-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ n14-20020a7bcbce000000b003488820f0d9so5994522wmi.8
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 10:07:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=7V+K+HS9k19i1EUYDjzVfHmxDJXQjLuJ/CSwC9+2ako=;
- b=UPaZAvpb/E9XLwi5I1H6VHD2UM04k+Ui79CpZCwCxom9rWSjsb9TOqyq9j++6HrHqi
- b7r16gqqCc9gN7ag/5EPi2qr3BrmGKAfo/s3KU0zTRWF/1Rf8ztfOZF3KMtJCHlaBE/Q
- 2F9GoSxnJeSj4FWpICxaOXj9QmHD81VHNmJk9uXCJ5AMOOqshWPhsHq4eL/btRwmjv67
- L7jdUse4chEf/Rr1YB3a0GTx/id2Q5CRCpMNJm4O7N8D37Abv8alrVtB15WjYsq84cb9
- 3PGT4uxEhFBbXbDCYIkaESVS4fgnRPH73GyXqM2dXKzqprgWkId0clB12XEbU+Rumst+
- L3RA==
-X-Gm-Message-State: AOAM530SO97y8Kzn8bgjCwf246CBC77oncyyVQDObNuzdz/3VARMBWod
- uqsGCcEwY9ad9d1S4WG/3/Eig7alRXHCp9/l5c1h2u7SBDszbooyAqSfF6ohCz5DluCSsARzLUa
- cin0jR+QOXbynfsk=
-X-Received: by 2002:adf:fa81:: with SMTP id h1mr9338380wrr.19.1642182680745;
- Fri, 14 Jan 2022 09:51:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwAzWFJXoiX9uQnj5nDlGmGyUjlSdCluhyT3r2dUzV9rZHkNq6BEQ94hCu7LZv0pbGiy7dl+Q==
-X-Received: by 2002:adf:fa81:: with SMTP id h1mr9338356wrr.19.1642182680555;
- Fri, 14 Jan 2022 09:51:20 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id o13sm7472823wrc.111.2022.01.14.09.51.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Jan 2022 09:51:20 -0800 (PST)
-Message-ID: <9ee3f011-51ff-d0cf-5cc5-b6518a635c09@redhat.com>
-Date: Fri, 14 Jan 2022 18:51:19 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=0T48o+QFAiH25oezDOwj0bzYcroyEePThN8//vpz7u4=;
+ b=5cgHADy7fhkNknAfk+4+sPuluZvUPLPneyGYqYED4sGViR9qCg21LfwUdiYX45h+rn
+ YEgpyfhpCD7nHad6dsYaLfHy3cFOjcMgI2iEdmh7xO+xH26M044+9lOZpSLCWC9aFZmG
+ 3WlOJpCfxBNHFccxcPSHvMcLM6KsKEUSU56jY4/G0ePYWO2jBhS+p8uYt/HDXcEZNwP8
+ x2E+JFn6DPu/bMxjxV3V/3XnZlCBxbzK52EzknoTG52pZMHSwWQ4DlsgqGPxHtx6HONm
+ ehFM7zbduWTluyQxQ34RZujplR0Xvd4AQ1DokoyTSHZYr0LfMR0ZOIIUw/gPWNzUxEMZ
+ 3xvg==
+X-Gm-Message-State: AOAM531+j+z7ozoccuA8RtWMh5c0kAPLxzz32tLbzfhAO3erhs5i44YG
+ BI6UAN8aSllWoYoPfkdzJx1jg3FOxlwRVSZJJoqLOd2z8aRhZj+VUpUihPx1xXy64GFzN1z2rH3
+ vdzW8fxwC0CEtjoo=
+X-Received: by 2002:a5d:6d8e:: with SMTP id l14mr9323540wrs.507.1642183633916; 
+ Fri, 14 Jan 2022 10:07:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwqQPYB0mKgz7abSXO2w40RICzp6N+tv7SbWyHhwIBPSMJw+yk11xUV5AYEevBwVdvHp6B/Fg==
+X-Received: by 2002:a5d:6d8e:: with SMTP id l14mr9323519wrs.507.1642183633687; 
+ Fri, 14 Jan 2022 10:07:13 -0800 (PST)
+Received: from redhat.com ([2.55.154.210])
+ by smtp.gmail.com with ESMTPSA id g2sm5813165wro.41.2022.01.14.10.07.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Jan 2022 10:07:13 -0800 (PST)
+Date: Fri, 14 Jan 2022 13:07:08 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH 2/2] hw/i386: support loading OVMF using -bios too
+Message-ID: <20220114125946-mutt-send-email-mst@kernel.org>
+References: <20220113165511.46098-1-berrange@redhat.com>
+ <20220113165511.46098-3-berrange@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v3 05/19] block/block-copy: add block_copy_reset()
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20211222174018.257550-1-vsementsov@virtuozzo.com>
- <20211222174018.257550-6-vsementsov@virtuozzo.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211222174018.257550-6-vsementsov@virtuozzo.com>
+In-Reply-To: <20220113165511.46098-3-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,22 +96,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
- qemu-devel@nongnu.org, armbru@redhat.com, jsnow@redhat.com,
- nikita.lapshin@virtuozzo.com, eblake@redhat.com
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Dov Murik <dovmurik@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22.12.21 18:40, Vladimir Sementsov-Ogievskiy wrote:
-> Split block_copy_reset() out of block_copy_reset_unallocated() to be
-> used separately later.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+On Thu, Jan 13, 2022 at 04:55:11PM +0000, Daniel P. Berrangé wrote:
+> Traditionally the OVMF firmware has been loaded using the pflash
+> mechanism. This is because it is usually provided as a pair of
+> files, one read-only containing the code and one writable to
+> provided persistence of non-volatile firmware variables.
+> 
+> The AMD SEV build of EDK2, however, is provided as a single
+> file that contains only the code. This is intended to be used
+> read-only and explicitly does not provide any ability for
+> persistance of non-volatile firmware variables. While it is
+> possible to configure this with the pflash mechanism, by only
+> providing one of the 2 pflash blobs, conceptually it is a
+> little strange to use pflash if there won't be any persistent
+> data.
+> 
+> A stateless OVMF build can be loaded with -bios, however, QEMU
+> does not currently initialize SEV in that scenario. This patch
+> introduces the call needed for SEV initialization of the
+> firmware.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->   include/block/block-copy.h |  1 +
->   block/block-copy.c         | 21 +++++++++++++--------
->   2 files changed, 14 insertions(+), 8 deletions(-)
+>  hw/i386/x86.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> index b84840a1bb..c79d84936f 100644
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -45,6 +45,7 @@
+>  #include "target/i386/cpu.h"
+>  #include "hw/i386/topology.h"
+>  #include "hw/i386/fw_cfg.h"
+> +#include "hw/i386/pc.h"
+>  #include "hw/intc/i8259.h"
+>  #include "hw/rtc/mc146818rtc.h"
+>  #include "target/i386/sev.h"
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+This builds fine because there's a stub in pc_sysfw_ovmf-stubs.c
+
+The unfortunate thing about this however is that it's too easy to pull
+in a PC dependency, and people building with CONFIG_PC will not notice
+until it breaks for others.
+
+Is it time we split pc.h further and had pc_sysfw_ovmf.h ?
+
+> @@ -1157,6 +1158,10 @@ void x86_bios_rom_init(MachineState *ms, const char *default_firmware,
+>      memory_region_add_subregion(rom_memory,
+>                                  (uint32_t)(-bios_size),
+>                                  bios);
+> +
+> +    pc_system_ovmf_initialize_sev(
+> +        rom_ptr((uint32_t)-bios_size, bios_size),
+> +        bios_size);
+
+Just curious about the formatting here:
+
+    pc_system_ovmf_initialize_sev(rom_ptr((uint32_t)-bios_size, bios_size),
+				  bios_size);
+
+would be prettier ...
+
+>  }
+>  
+>  bool x86_machine_is_smm_enabled(const X86MachineState *x86ms)
+> -- 
+> 2.33.1
 
 
