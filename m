@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B4FB48ED81
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 16:58:28 +0100 (CET)
-Received: from localhost ([::1]:36720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B6A48ED66
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 16:48:41 +0100 (CET)
+Received: from localhost ([::1]:48348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8OyA-0007ON-P3
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 10:58:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39440)
+	id 1n8Ooi-0002os-Ps
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 10:48:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n8Oe4-00088K-NP
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 10:37:43 -0500
-Received: from [2a00:1450:4864:20::433] (port=43650
- helo=mail-wr1-x433.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n8OmW-0000Yp-DX
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 10:46:25 -0500
+Received: from [2607:f8b0:4864:20::42e] (port=36455
+ helo=mail-pf1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n8Oe3-0000cX-BU
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 10:37:40 -0500
-Received: by mail-wr1-x433.google.com with SMTP id o3so16219461wrh.10
- for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 07:37:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=fY4h9Zasl1T6lu5BwFhXAKfI2EvfJnF9sL2oRaoqTGk=;
- b=cOIG5UujQAev1mHdAPGLcpBxYivOBceG9Xp9trVyRF86PWz0UwYY0da3XrdcNtZS6T
- YfFxLdhhKLgVjDYUh+RqlBp7mgexfeXEHVfTgOeF03nSyKdH46pL2ZqpbfVXF/P9CUqR
- 8OciWjlAArY9bN5iVWs9qjZ8WayhOMw/WM+sf9ya538NKpB4XdCDQMNtC0uy4XTFqRMc
- IXgSoQOfqwX41uW4XWLfgJrVZj772p1VL8y7MMLMjTYC4l0EvWCeCAMLnA2IVO+frGtf
- gPob52sRl/ujjFBsTnw1biS6ECnML5oxtYdtSS5hjqe19jEYPmGuxG7e32qKpCLGzeQr
- 0Y3A==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n8OmU-0001qP-P1
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 10:46:24 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id m21so3077646pfd.3
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 07:46:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=gy2bAwiJ2PQbEkV70foMpE/aYUDRbqxBeQXFPEB1V8s=;
+ b=m/aNiryvhdlrgb+KRt4H3A/URTvM48gvrzdcKSF328m1iRN1xahIovq0DMyS/QaaG9
+ Z/1u0th5iOITitm/cUBRruduat43nV97GJoqiVPocjpzZssJCA9njktqsTU/bU29Bs0a
+ oZenwFSKT44+VbmWjXw/iGzcLluIysHVLm5U7rSU7apmRC2DAAC9qdwvrMAFFBIYAdmu
+ 9vSnFFDDrbgJhkOupbKsUv0/aBtWjEdA8ZTR7tdAZ1rno5zz2exJ3Ij1mkbxH0JitiZY
+ SmYioKIA+qWjslAjciXyMSb9lUXmIa2+moXxcMlvycDxfbS9Qmfp9dt6Z9ycunHF+AmG
+ fCfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=fY4h9Zasl1T6lu5BwFhXAKfI2EvfJnF9sL2oRaoqTGk=;
- b=DASYAMFA4384MGnrICj1rQgB8XOzr7mqowoMBhY5eXUdP1Jt0WB/fDapSw7cRGeVq5
- DQ+NKAdtPUsM6hBrcvoUBoSdEKN984ZGeqyRR/Qjg1AcXqLnTP8UCnazsjm4gP1Vy61R
- /iUo521JhNjLdhMAahEJFBSHDTacXHg5rMw0oy3a3wyNW1XaTSXSFfoWMKNjFfXPrZm/
- URcM65PJzvVeFXhAtW8Hv39Fgfxwfqhwt0Q67ywr8JE5F5NbJv7xvjCPUFBHmgZlPBn/
- jY7OoDXEWGM+KRuagX/2nC2ZbItk1R0b7G2voFTSZ3t5IqBXRCr+yQz9Ddb/b2DYXRyZ
- 0iBw==
-X-Gm-Message-State: AOAM530P+yn6ABXo29F3Ob+54XwKfil6klD4dkDpDGAtKOVX7mSK5Urg
- qQWPq37iPUjUjzTvv9XkmmyN2ZTsd9NLLw==
-X-Google-Smtp-Source: ABdhPJwIPjppWJBN4Gd1epyRqGIKY84Cufx5qSX/3CGs8AnrppyD/UKhTuymz8j6Z3lQQF12nHRjQw==
-X-Received: by 2002:a5d:6c6a:: with SMTP id r10mr5118704wrz.489.1642174658177; 
- Fri, 14 Jan 2022 07:37:38 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id v13sm6464141wro.90.2022.01.14.07.37.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Jan 2022 07:37:36 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] linux-user: Return void from queue_signal()
-Date: Fri, 14 Jan 2022 15:37:32 +0000
-Message-Id: <20220114153732.3767229-4-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220114153732.3767229-1-peter.maydell@linaro.org>
-References: <20220114153732.3767229-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=gy2bAwiJ2PQbEkV70foMpE/aYUDRbqxBeQXFPEB1V8s=;
+ b=jISV/yfnEuEmPpNe94pdPindfxwj/yneqpvhu1bmftlQUD4HpOBPyuAHMf1xMyaSLM
+ IGFU+ziUtiNpHBJhr44iCFEBt9Jgsvovy4nKIUe8cM3SmO/6QhuK8hvUv5R71QsoAWTz
+ BY7PqFTvxB8neNyftC5yrJ+aSydKP8hDfqJXi9SSA0RdwCVdYEhzTe+jP50CwU/SrN38
+ Eu21PYtakO5GgN3G4lgiYa+qGzbKRlxXxI8Q/XlhYO+g+v/7h9SdjKUI7odEDnjhMiOw
+ 5d8S2otN2RoLSGXLM+A4DPRtY0syc3E3xfiQ0Jwi3nCPWRSx36lxMmG1ACLU/RZkxY55
+ 549w==
+X-Gm-Message-State: AOAM530BF90iBBQOcO/GE+lQgVMz8EHaT58nGqfmCOUYkTI8TPpD/Pnk
+ +GuPfrZxpPB8rdcn5lTopJo=
+X-Google-Smtp-Source: ABdhPJxUH6GY/ata+fHoUoCQWr2T2B1deJhic/yOi4aSXjeORvP1EWzfHRWe7JzDUdvZGKQuk+sggQ==
+X-Received: by 2002:a05:6a00:a18:b0:4bb:9f3e:94c8 with SMTP id
+ p24-20020a056a000a1800b004bb9f3e94c8mr9333745pfh.67.1642175180677; 
+ Fri, 14 Jan 2022 07:46:20 -0800 (PST)
+Received: from ?IPV6:2a01:e34:ec40:49e0:48b5:8fce:b44b:d951?
+ ([2a01:e34:ec40:49e0:48b5:8fce:b44b:d951])
+ by smtp.gmail.com with ESMTPSA id d3sm4767160pfh.47.2022.01.14.07.46.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Jan 2022 07:46:20 -0800 (PST)
+Message-ID: <611fff2f-7aad-4e2c-5f48-5225748f963d@amsat.org>
+Date: Fri, 14 Jan 2022 16:46:17 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.0
+Subject: Re: [PATCH 2/3] linux-user: Rename user_force_sig tracepoint to match
+ function name
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
+References: <20220114153732.3767229-1-peter.maydell@linaro.org>
+ <20220114153732.3767229-3-peter.maydell@linaro.org>
+In-Reply-To: <20220114153732.3767229-3-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -85,65 +95,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-The linux-user queue_signal() function always returns 1, and none of
-its callers check the return value.  Give it a void return type
-instead.
+On 14/1/22 16:37, Peter Maydell wrote:
+> In commit c599d4d6d6e9bfdb64 in 2016 we renamed the old force_sig()
+> function to dump_core_and_abort(), but we forgot to rename the
+> associated tracepoint.  Rename the tracepoint to to match the
+> function it's called from.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   linux-user/signal.c     | 2 +-
+>   linux-user/trace-events | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 
-The return value is a leftover from the old pre-2016 linux-user
-signal handling code, which really did have a queue of signals and so
-might return a failure indication if too many signals were queued at
-once.  The current design avoids having to ever have more than one
-signal queued via queue_signal() at once, so it can never fail.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- linux-user/signal-common.h | 4 ++--
- linux-user/signal.c        | 5 ++---
- 2 files changed, 4 insertions(+), 5 deletions(-)
-
-diff --git a/linux-user/signal-common.h b/linux-user/signal-common.h
-index 42aa479080b..2113165a758 100644
---- a/linux-user/signal-common.h
-+++ b/linux-user/signal-common.h
-@@ -59,8 +59,8 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
- 
- void process_pending_signals(CPUArchState *cpu_env);
- void signal_init(void);
--int queue_signal(CPUArchState *env, int sig, int si_type,
--                 target_siginfo_t *info);
-+void queue_signal(CPUArchState *env, int sig, int si_type,
-+                  target_siginfo_t *info);
- void host_to_target_siginfo(target_siginfo_t *tinfo, const siginfo_t *info);
- void target_to_host_siginfo(siginfo_t *info, const target_siginfo_t *tinfo);
- int target_to_host_signal(int sig);
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index bfbbeab9ad2..32854bb3752 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -780,8 +780,8 @@ static void QEMU_NORETURN dump_core_and_abort(int target_sig)
- 
- /* queue a signal so that it will be send to the virtual CPU as soon
-    as possible */
--int queue_signal(CPUArchState *env, int sig, int si_type,
--                 target_siginfo_t *info)
-+void queue_signal(CPUArchState *env, int sig, int si_type,
-+                  target_siginfo_t *info)
- {
-     CPUState *cpu = env_cpu(env);
-     TaskState *ts = cpu->opaque;
-@@ -794,7 +794,6 @@ int queue_signal(CPUArchState *env, int sig, int si_type,
-     ts->sync_signal.pending = sig;
-     /* signal that a new signal is pending */
-     qatomic_set(&ts->signal_pending, 1);
--    return 1; /* indicates that the signal was queued */
- }
- 
- 
--- 
-2.25.1
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
