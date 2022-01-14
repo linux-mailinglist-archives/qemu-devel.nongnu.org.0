@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87F348E23E
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 02:46:00 +0100 (CET)
-Received: from localhost ([::1]:38396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9582648E23F
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 02:46:11 +0100 (CET)
+Received: from localhost ([::1]:38564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8BfD-0000Ua-QE
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 20:45:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40604)
+	id 1n8BfO-0000cE-OA
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 20:46:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1n8Ban-0006lB-FQ; Thu, 13 Jan 2022 20:41:25 -0500
-Received: from smtp23.cstnet.cn ([159.226.251.23]:36960 helo=cstnet.cn)
+ id 1n8Ban-0006lU-N2; Thu, 13 Jan 2022 20:41:25 -0500
+Received: from smtp23.cstnet.cn ([159.226.251.23]:36964 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1n8Bak-00076c-At; Thu, 13 Jan 2022 20:41:25 -0500
+ id 1n8Bak-00076f-MV; Thu, 13 Jan 2022 20:41:25 -0500
 Received: from localhost.localdomain (unknown [180.156.147.178])
- by APP-03 (Coremail) with SMTP id rQCowADX3y+41OBheoyDBQ--.37348S3;
- Fri, 14 Jan 2022 09:41:13 +0800 (CST)
+ by APP-03 (Coremail) with SMTP id rQCowADX3y+41OBheoyDBQ--.37348S4;
+ Fri, 14 Jan 2022 09:41:14 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: anup@brainfault.org, palmer@dabbelt.com, alistair.francis@wdc.com,
  bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v3 1/3] target/riscv: add support for svnapot extension
-Date: Fri, 14 Jan 2022 09:40:56 +0800
-Message-Id: <20220114014059.23300-2-liweiwei@iscas.ac.cn>
+Subject: [PATCH v3 2/3] target/riscv: add support for svinval extension
+Date: Fri, 14 Jan 2022 09:40:57 +0800
+Message-Id: <20220114014059.23300-3-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220114014059.23300-1-liweiwei@iscas.ac.cn>
 References: <20220114014059.23300-1-liweiwei@iscas.ac.cn>
-X-CM-TRANSID: rQCowADX3y+41OBheoyDBQ--.37348S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxAF4UXr13tw47Cw4DXw4fZrb_yoW5AF4rpr
- Z8G3sFkrZ7JFW3Aa1fKF1UJw1rCw4Y9rWF9w4xZrs7Jw4rJrW5W3Wqkw4Y9F4UXF48ZryY
- 9an8CFyYyr4UZa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9G14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
- x26xkF7I0E14v26r1I6r4UM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+X-CM-TRANSID: rQCowADX3y+41OBheoyDBQ--.37348S4
+X-Coremail-Antispam: 1UD129KBjvJXoW3WryfKFykXF1rKF1UZF1rtFb_yoW7GF17pF
+ 4UKrW7Cr4kJFyfAayftF45JFyUGrs3uayUG3saywn5Xa15GrWDJr1DKrW7KrW5JF4kWr1Y
+ 9F4jyr90yrW8XaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9G14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
+ x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
  Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
  ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
  M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
@@ -45,7 +45,7 @@ X-Coremail-Antispam: 1UD129KBjvJXoWxAF4UXr13tw47Cw4DXw4fZrb_yoW5AF4rpr
  wI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20x
  vE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v2
  0xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxV
- W8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbec_DUUUUU==
+ W8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjYiiDUUUUU==
 X-Originating-IP: [180.156.147.178]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
@@ -76,88 +76,146 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 ---
- target/riscv/cpu.c        |  2 ++
- target/riscv/cpu.h        |  1 +
- target/riscv/cpu_bits.h   |  1 +
- target/riscv/cpu_helper.c | 20 ++++++++++++++++----
- 4 files changed, 20 insertions(+), 4 deletions(-)
+ target/riscv/cpu.c                          |  1 +
+ target/riscv/cpu.h                          |  1 +
+ target/riscv/insn32.decode                  |  7 ++
+ target/riscv/insn_trans/trans_svinval.c.inc | 75 +++++++++++++++++++++
+ target/riscv/translate.c                    |  1 +
+ 5 files changed, 85 insertions(+)
+ create mode 100644 target/riscv/insn_trans/trans_svinval.c.inc
 
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 9bc25d3055..ff6c86c85b 100644
+index ff6c86c85b..45ac98e06b 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -668,6 +668,8 @@ static Property riscv_cpu_properties[] = {
+@@ -668,6 +668,7 @@ static Property riscv_cpu_properties[] = {
      DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
      DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
  
-+    DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
-+
++    DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
+     DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
+ 
      DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
-     DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
-     DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 4d63086765..d3d17cde82 100644
+index d3d17cde82..c3d1845ca1 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
 @@ -327,6 +327,7 @@ struct RISCVCPU {
          bool ext_counters;
          bool ext_ifencei;
          bool ext_icsr;
-+        bool ext_svnapot;
++        bool ext_svinval;
+         bool ext_svnapot;
          bool ext_zfh;
          bool ext_zfhmin;
- 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 5a6d49aa64..bc23e3b523 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -486,6 +486,7 @@ typedef enum {
- #define PTE_A               0x040 /* Accessed */
- #define PTE_D               0x080 /* Dirty */
- #define PTE_SOFT            0x300 /* Reserved for Software */
-+#define PTE_N               0x8000000000000000 /* NAPOT translation */
- 
- /* Page table PPN shift amount */
- #define PTE_PPN_SHIFT       10
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 434a83e66a..58ab85bca3 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -619,9 +619,12 @@ restart:
-             return TRANSLATE_FAIL;
-         }
- 
--        hwaddr ppn = pte >> PTE_PPN_SHIFT;
-+        hwaddr ppn = (pte & ~(target_ulong)PTE_N) >> PTE_PPN_SHIFT;
- 
--        if (!(pte & PTE_V)) {
-+        RISCVCPU *cpu = env_archcpu(env);
-+        if (!cpu->cfg.ext_svnapot && (pte & PTE_N)) {
-+            return TRANSLATE_FAIL;
-+        } else if (!(pte & PTE_V)) {
-             /* Invalid PTE */
-             return TRANSLATE_FAIL;
-         } else if (!(pte & (PTE_R | PTE_W | PTE_X))) {
-@@ -699,8 +702,17 @@ restart:
-             /* for superpage mappings, make a fake leaf PTE for the TLB's
-                benefit. */
-             target_ulong vpn = addr >> PGSHIFT;
--            *physical = ((ppn | (vpn & ((1L << ptshift) - 1))) << PGSHIFT) |
--                        (addr & ~TARGET_PAGE_MASK);
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index 5bbedc254c..7a0351fde2 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -809,3 +809,10 @@ fcvt_l_h   1100010  00010 ..... ... ..... 1010011 @r2_rm
+ fcvt_lu_h  1100010  00011 ..... ... ..... 1010011 @r2_rm
+ fcvt_h_l   1101010  00010 ..... ... ..... 1010011 @r2_rm
+ fcvt_h_lu  1101010  00011 ..... ... ..... 1010011 @r2_rm
 +
-+            int napot_bits = ((pte & PTE_N) ? (ctzl(ppn) + 1) : 0);
-+            if (((pte & PTE_N) && ((ppn == 0) || (i != (levels - 1)))) ||
-+                (napot_bits != 0 && napot_bits != 4)) {
-+                return TRANSLATE_FAIL;
-+            }
++# *** Svinval Standard Extension ***
++sinval_vma        0001011 ..... ..... 000 00000 1110011 @sfence_vma
++sfence_w_inval    0001100 00000 00000 000 00000 1110011
++sfence_inval_ir   0001100 00001 00000 000 00000 1110011
++hinval_vvma       0011011 ..... ..... 000 00000 1110011 @hfence_vvma
++hinval_gvma       0111011 ..... ..... 000 00000 1110011 @hfence_gvma
+diff --git a/target/riscv/insn_trans/trans_svinval.c.inc b/target/riscv/insn_trans/trans_svinval.c.inc
+new file mode 100644
+index 0000000000..1dde665661
+--- /dev/null
++++ b/target/riscv/insn_trans/trans_svinval.c.inc
+@@ -0,0 +1,75 @@
++/*
++ * RISC-V translation routines for the Svinval Standard Instruction Set.
++ *
++ * Copyright (c) 2020-2021 PLCT lab
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
 +
-+            *physical = (((ppn & ~(((target_ulong)1 << napot_bits) - 1)) |
-+                          (vpn & (((target_ulong)1 << napot_bits) - 1)) |
-+                          (vpn & (((target_ulong)1 << ptshift) - 1))
-+                        ) << PGSHIFT) | (addr & ~TARGET_PAGE_MASK);
++#define REQUIRE_SVINVAL(ctx) do {                    \
++    if (!RISCV_CPU(ctx->cs)->cfg.ext_svinval) {      \
++        return false;                                \
++    }                                                \
++} while (0)
++
++static bool trans_sinval_vma(DisasContext *ctx, arg_sinval_vma *a)
++{
++    REQUIRE_SVINVAL(ctx);
++    /* Do the same as sfence.vma currently */
++    REQUIRE_EXT(ctx, RVS);
++#ifndef CONFIG_USER_ONLY
++    gen_helper_tlb_flush(cpu_env);
++    return true;
++#endif
++    return false;
++}
++
++static bool trans_sfence_w_inval(DisasContext *ctx, arg_sfence_w_inval *a)
++{
++    REQUIRE_SVINVAL(ctx);
++    REQUIRE_EXT(ctx, RVS);
++    /* Do nothing currently */
++    return true;
++}
++
++static bool trans_sfence_inval_ir(DisasContext *ctx, arg_sfence_inval_ir *a)
++{
++    REQUIRE_SVINVAL(ctx);
++    REQUIRE_EXT(ctx, RVS);
++    /* Do nothing currently */
++    return true;
++}
++
++static bool trans_hinval_vvma(DisasContext *ctx, arg_hinval_vvma *a)
++{
++    REQUIRE_SVINVAL(ctx);
++    /* Do the same as hfence.vvma currently */
++    REQUIRE_EXT(ctx, RVH);
++#ifndef CONFIG_USER_ONLY
++    gen_helper_hyp_tlb_flush(cpu_env);
++    return true;
++#endif
++    return false;
++}
++
++static bool trans_hinval_gvma(DisasContext *ctx, arg_hinval_gvma *a)
++{
++    REQUIRE_SVINVAL(ctx);
++    /* Do the same as hfence.gvma currently */
++    REQUIRE_EXT(ctx, RVH);
++#ifndef CONFIG_USER_ONLY
++    gen_helper_hyp_gvma_tlb_flush(cpu_env);
++    return true;
++#endif
++    return false;
++}
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 615048ec87..4e5a9660a4 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -838,6 +838,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
+ #include "insn_trans/trans_rvb.c.inc"
+ #include "insn_trans/trans_rvzfh.c.inc"
+ #include "insn_trans/trans_privileged.c.inc"
++#include "insn_trans/trans_svinval.c.inc"
  
-             /* set permissions on the TLB entry */
-             if ((pte & PTE_R) || ((pte & PTE_X) && mxr)) {
+ /* Include the auto-generated decoder for 16 bit insn */
+ #include "decode-insn16.c.inc"
 -- 
 2.17.1
 
