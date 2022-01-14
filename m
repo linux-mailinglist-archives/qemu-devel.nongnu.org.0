@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A0D948EFB5
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 19:14:38 +0100 (CET)
-Received: from localhost ([::1]:45050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB0648EFCD
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 19:18:18 +0100 (CET)
+Received: from localhost ([::1]:53448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8R5x-0005gH-89
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 13:14:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49956)
+	id 1n8R9W-0002ts-2h
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 13:18:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n8Qz8-0005SO-3U; Fri, 14 Jan 2022 13:07:34 -0500
-Received: from [2607:f8b0:4864:20::c31] (port=45745
- helo=mail-oo1-xc31.google.com)
+ id 1n8QzH-0005lH-12; Fri, 14 Jan 2022 13:07:43 -0500
+Received: from [2607:f8b0:4864:20::32b] (port=36834
+ helo=mail-ot1-x32b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n8Qz6-0000Mr-CZ; Fri, 14 Jan 2022 13:07:33 -0500
-Received: by mail-oo1-xc31.google.com with SMTP id
- l10-20020a4a840a000000b002dc09752694so2770661oog.12; 
- Fri, 14 Jan 2022 10:07:31 -0800 (PST)
+ id 1n8Qz8-0000OK-9m; Fri, 14 Jan 2022 13:07:42 -0500
+Received: by mail-ot1-x32b.google.com with SMTP id
+ s21-20020a05683004d500b0058f585672efso10975173otd.3; 
+ Fri, 14 Jan 2022 10:07:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UeZQhN7i74gPGlvXNoYGRr9eqyhQ4j7/HSM2uxOXsKI=;
- b=qBJEUaytMzeSaWKhRleUqWsQkSQWiRVU+riJ1+gfK8QeuSb44wB0lfM0+sMxnf0HgO
- DuKwlwNXsgBeyMXCTnBbPWkPHR/moMz2rjHJqclskXh5eWIpp5BZHr+B8DZxkuTocDSf
- tGUMsdVDuRIO4B45Mp3/s0Fqq/3Icl92O3YSzdacup1F+W5OLYrVy8DkwEAxo6NEPNE1
- Bgijgh1gd0DCckeMlBypqu8zuB1uGKdfmaDHOe7Kbrn4lx6vgCEoOCXPBNuHyBt7ISFW
- Ua1Xg3G9L3PU70xfZD2ksFcb8u/TM27+D4BCDZctNycYDzf5mswxYKioh5+Ew2zkQpRe
- DDeQ==
+ bh=SCTWNvfONvAG20pSuoDHmmCdiFQbwCr5TBcbCLkF+bg=;
+ b=U21i/gmHvLmgON8X66XvQKMzWA/xbrv0yocWx5/5a5jl79IoD4JI86ushJYovlQNth
+ jUcECvXEzDElYnbT438SkS7Zp6kIrCpm5Rw4uTTJN/b2easrdbv8zHmtxw9BNJkupk0Z
+ dytkdpu3xMMe5YnSgIU8jbP7JyN5NePaK3F5fpcGQzhdFF3B8JRw0lG+zUQUufPDl7FO
+ PUivldFNpHxCwH/CLOFTh6T/NmV4OQynPkcwUswsjd/SgmdaWoZix5/IgTTr4xNpb9Wt
+ 12GvktsKysXbStttzOJldX6xxviv9FhQepvyLPUMLACnvZIjfCJdjWhWBn77XVQpZqMi
+ 9T/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UeZQhN7i74gPGlvXNoYGRr9eqyhQ4j7/HSM2uxOXsKI=;
- b=jMqhB4BM2ZaE5rfH6eFoPqWJSnqB9cJ+zMrautDYqc9rCY9/HgPb1QshSkfTiLC6fd
- PvgU6sREs2gZYcgRVoYFP4+b5aSGNnttLu/AU+cjgZKFU01xk3RdpEGgpk1kxvZohD15
- LXR5gXwN4ec4vcRl4W3UNx0Cj284QHRkqAjennujMrDsyYGcnQ+g8/fOsrhy7ZD4f27g
- BHE98Zcq6ZisSUpssb5kLLk9dGvxfC2Fki3+vVGt00mpUu7G6KTMbdu/gnFRi/wRIZFA
- TdXDOPSrBH5JKo/LiWf75K179Bj7RpVq2XBDJWAtY0rK2/96pgjyNcqJjcckefQnxiag
- d35Q==
-X-Gm-Message-State: AOAM530XyUz18qGcQfkx20VvOWmR/pEpcV9VFxafT2C8xlsFOIJkUEt+
- CdQZCSbizQcjn6SPoIfG0vYOyd6u8yz2Edi2
-X-Google-Smtp-Source: ABdhPJxxU5+qGZxCfiDi1zy6FNlOot43X+9aJtb1Neb0fmcr6vpO2ctzf6YDOnmB75fCG0mbu4KnzQ==
-X-Received: by 2002:a4a:e50e:: with SMTP id r14mr7483493oot.27.1642183650796; 
- Fri, 14 Jan 2022 10:07:30 -0800 (PST)
+ bh=SCTWNvfONvAG20pSuoDHmmCdiFQbwCr5TBcbCLkF+bg=;
+ b=y3jMk2l7wBzS8QG7sFl5qKjM2PePfJ27jJCCwSir7B3/7e/mloW17VTA9KuAhO/KSU
+ GcsHoySzsyTXWPG0BMi9Q6orwIB67BhDF4zIB3+7hZACMsUgMI7zJArdWjhgHG/XbIT2
+ Vt/w0IewScVEJcRzmvoLErCeLDSc6SpPElcj0CTilQud8hUe76MayrptTN0EV+Xf3srq
+ E7ZpEaJk7ZStBYwcv3/wqo6KE9olcPVs2u4ATDi8BDqhJbGaIwVZ/xPHMR/gHyoGgcZX
+ U0RURQLiCrvTR01R72dXYKr/ngfwaRSbitIJJEaEwcA47NYWf33SbD6Ctvl9i+m9yzkt
+ CGmw==
+X-Gm-Message-State: AOAM531LYpUV1CWOhQjxlyKd5roOzzEiHWMBa6tyMg4ZXGXL+hZ2tRec
+ nBdZ+PXJczqqU8eqwOKQaOKKxJ/dRckB6RsK
+X-Google-Smtp-Source: ABdhPJwhV6KqiHGZTbVzB2/VUhmt66PVJZZ8+dj277UlP3bEi3DSGO8SvJkEUHOycvUPpCdl7qXBWg==
+X-Received: by 2002:a05:6830:22c8:: with SMTP id
+ q8mr7643643otc.54.1642183652790; 
+ Fri, 14 Jan 2022 10:07:32 -0800 (PST)
 Received: from rekt.COMFAST ([152.249.109.193])
- by smtp.gmail.com with ESMTPSA id e17sm1353584otr.13.2022.01.14.10.07.29
+ by smtp.gmail.com with ESMTPSA id e17sm1353584otr.13.2022.01.14.10.07.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Jan 2022 10:07:30 -0800 (PST)
+ Fri, 14 Jan 2022 10:07:32 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/8] ppc/pnv: introduce PnvPHB4 'pec' property
-Date: Fri, 14 Jan 2022 15:07:12 -0300
-Message-Id: <20220114180719.52117-2-danielhb413@gmail.com>
+Subject: [PATCH v2 2/8] ppc/pnv: reduce stack->stack_no usage
+Date: Fri, 14 Jan 2022 15:07:13 -0300
+Message-Id: <20220114180719.52117-3-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220114180719.52117-1-danielhb413@gmail.com>
 References: <20220114180719.52117-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c31
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c31;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32b.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -91,110 +91,159 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This property will track the owner PEC of this PHB. For now it's
-redundant since we can retrieve the PEC via phb->stack->pec but it
-will not be redundant when we get rid of the stack device.
+'stack->stack_no' represents the order that a stack appears in its PEC.
+Its primary use is in XSCOM address space calculation in
+pnv_phb4_xscom_realize() when calculating the memory region offset.
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+This attribute is redundant with phb->phb_id, which is calculated via
+pnv_phb4_pec_get_phb_id() using stack->stack_no information. It'll also
+be awkward to assign it when dealing with PECs and PHBs only in a future
+patch.
+
+A new pnv_phb4_get_phb_stack_no() helper is introduced to eliminate most
+of the stack->stack_no uses we have. The only use left after this patch
+is during pnv_pec_stk_default_phb_realize() when calculating phb_id,
+which will also handled in the next patches.
+
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb4.c         | 19 +++++++++++++------
- hw/pci-host/pnv_phb4_pec.c     |  2 ++
- include/hw/pci-host/pnv_phb4.h |  3 +++
- 3 files changed, 18 insertions(+), 6 deletions(-)
+ hw/pci-host/pnv_phb4.c | 46 +++++++++++++++++++++++++++++++-----------
+ 1 file changed, 34 insertions(+), 12 deletions(-)
 
 diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index b5045fca64..2658ef2d84 100644
+index 2658ef2d84..4933fe57fe 100644
 --- a/hw/pci-host/pnv_phb4.c
 +++ b/hw/pci-host/pnv_phb4.c
-@@ -895,7 +895,7 @@ static void pnv_phb4_update_regions(PnvPHB4 *phb)
+@@ -868,6 +868,28 @@ static uint64_t pnv_pec_stk_nest_xscom_read(void *opaque, hwaddr addr,
+     return phb->nest_regs[reg];
+ }
+ 
++/*
++ * Return the 'stack_no' of a PHB4. 'stack_no' is the order
++ * the PHB4 occupies in the PEC. This is the reverse of what
++ * pnv_phb4_pec_get_phb_id() does.
++ *
++ * E.g. a phb with phb_id = 4 and pec->index = 1 (PEC1) will
++ * be the second phb (stack_no = 1) of the PEC.
++ */
++static int pnv_phb4_get_phb_stack_no(PnvPHB4 *phb)
++{
++    PnvPhb4PecState *pec = phb->pec;
++    PnvPhb4PecClass *pecc = PNV_PHB4_PEC_GET_CLASS(pec);
++    int index = pec->index;
++    int stack_no = phb->phb_id;
++
++    while (index--) {
++        stack_no -= pecc->num_stacks[index];
++    }
++
++    return stack_no;
++}
++
+ static void pnv_phb4_update_regions(PnvPHB4 *phb)
+ {
+     /* Unmap first always */
+@@ -894,10 +916,10 @@ static void pnv_phb4_update_regions(PnvPHB4 *phb)
+ 
  static void pnv_pec_stk_update_map(PnvPHB4 *phb)
  {
-     PnvPhb4PecStack *stack = phb->stack;
--    PnvPhb4PecState *pec = stack->pec;
-+    PnvPhb4PecState *pec = phb->pec;
+-    PnvPhb4PecStack *stack = phb->stack;
+     PnvPhb4PecState *pec = phb->pec;
      MemoryRegion *sysmem = get_system_memory();
      uint64_t bar_en = phb->nest_regs[PEC_NEST_STK_BAR_EN];
++    int stack_no = pnv_phb4_get_phb_stack_no(phb);
      uint64_t bar, mask, size;
-@@ -969,7 +969,7 @@ static void pnv_pec_stk_update_map(PnvPHB4 *phb)
+     char name[64];
+ 
+@@ -937,7 +959,7 @@ static void pnv_pec_stk_update_map(PnvPHB4 *phb)
+         mask = phb->nest_regs[PEC_NEST_STK_MMIO_BAR0_MASK];
+         size = ((~mask) >> 8) + 1;
+         snprintf(name, sizeof(name), "pec-%d.%d-phb-%d-mmio0",
+-                 pec->chip_id, pec->index, stack->stack_no);
++                 pec->chip_id, pec->index, stack_no);
+         memory_region_init(&phb->mmbar0, OBJECT(phb), name, size);
+         memory_region_add_subregion(sysmem, bar, &phb->mmbar0);
+         phb->mmio0_base = bar;
+@@ -949,7 +971,7 @@ static void pnv_pec_stk_update_map(PnvPHB4 *phb)
+         mask = phb->nest_regs[PEC_NEST_STK_MMIO_BAR1_MASK];
+         size = ((~mask) >> 8) + 1;
+         snprintf(name, sizeof(name), "pec-%d.%d-phb-%d-mmio1",
+-                 pec->chip_id, pec->index, stack->stack_no);
++                 pec->chip_id, pec->index, stack_no);
+         memory_region_init(&phb->mmbar1, OBJECT(phb), name, size);
+         memory_region_add_subregion(sysmem, bar, &phb->mmbar1);
+         phb->mmio1_base = bar;
+@@ -960,7 +982,7 @@ static void pnv_pec_stk_update_map(PnvPHB4 *phb)
+         bar = phb->nest_regs[PEC_NEST_STK_PHB_REGS_BAR] >> 8;
+         size = PNV_PHB4_NUM_REGS << 3;
+         snprintf(name, sizeof(name), "pec-%d.%d-phb-%d",
+-                 pec->chip_id, pec->index, stack->stack_no);
++                 pec->chip_id, pec->index, stack_no);
+         memory_region_init(&phb->phbbar, OBJECT(phb), name, size);
+         memory_region_add_subregion(sysmem, bar, &phb->phbbar);
+     }
+@@ -969,7 +991,7 @@ static void pnv_pec_stk_update_map(PnvPHB4 *phb)
          bar = phb->nest_regs[PEC_NEST_STK_INT_BAR] >> 8;
          size = PNV_PHB4_MAX_INTs << 16;
          snprintf(name, sizeof(name), "pec-%d.%d-phb-%d-int",
--                 stack->pec->chip_id, stack->pec->index, stack->stack_no);
-+                 phb->pec->chip_id, phb->pec->index, stack->stack_no);
+-                 phb->pec->chip_id, phb->pec->index, stack->stack_no);
++                 phb->pec->chip_id, phb->pec->index, stack_no);
          memory_region_init(&phb->intbar, OBJECT(phb), name, size);
          memory_region_add_subregion(sysmem, bar, &phb->intbar);
      }
-@@ -982,7 +982,7 @@ static void pnv_pec_stk_nest_xscom_write(void *opaque, hwaddr addr,
-                                          uint64_t val, unsigned size)
- {
-     PnvPHB4 *phb = PNV_PHB4(opaque);
--    PnvPhb4PecState *pec = phb->stack->pec;
-+    PnvPhb4PecState *pec = phb->pec;
-     uint32_t reg = addr >> 3;
+@@ -1458,9 +1480,9 @@ static AddressSpace *pnv_phb4_dma_iommu(PCIBus *bus, void *opaque, int devfn)
  
-     switch (reg) {
-@@ -1459,7 +1459,7 @@ static AddressSpace *pnv_phb4_dma_iommu(PCIBus *bus, void *opaque, int devfn)
  static void pnv_phb4_xscom_realize(PnvPHB4 *phb)
  {
-     PnvPhb4PecStack *stack = phb->stack;
--    PnvPhb4PecState *pec = stack->pec;
-+    PnvPhb4PecState *pec = phb->pec;
+-    PnvPhb4PecStack *stack = phb->stack;
+     PnvPhb4PecState *pec = phb->pec;
      PnvPhb4PecClass *pecc = PNV_PHB4_PEC_GET_CLASS(pec);
++    int stack_no = pnv_phb4_get_phb_stack_no(phb);
      uint32_t pec_nest_base;
      uint32_t pec_pci_base;
-@@ -1568,8 +1568,13 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
-             return;
-         }
+     char name[64];
+@@ -1469,20 +1491,20 @@ static void pnv_phb4_xscom_realize(PnvPHB4 *phb)
  
--        /* All other phb properties but 'version' are already set */
--        pecc = PNV_PHB4_PEC_GET_CLASS(phb->stack->pec);
-+        /*
-+         * All other phb properties but 'pec' ad 'version' are
-+         * already set.
-+         */
-+        object_property_set_link(OBJECT(phb), "pec", OBJECT(phb->stack->pec),
-+                                 &error_abort);
-+        pecc = PNV_PHB4_PEC_GET_CLASS(phb->pec);
-         object_property_set_int(OBJECT(phb), "version", pecc->version,
-                                 &error_fatal);
+     /* Initialize the XSCOM regions for the stack registers */
+     snprintf(name, sizeof(name), "xscom-pec-%d.%d-nest-phb-%d",
+-             pec->chip_id, pec->index, stack->stack_no);
++             pec->chip_id, pec->index, stack_no);
+     pnv_xscom_region_init(&phb->nest_regs_mr, OBJECT(phb),
+                           &pnv_pec_stk_nest_xscom_ops, phb, name,
+                           PHB4_PEC_NEST_STK_REGS_COUNT);
  
-@@ -1682,6 +1687,8 @@ static Property pnv_phb4_properties[] = {
-         DEFINE_PROP_UINT64("version", PnvPHB4, version, 0),
-         DEFINE_PROP_LINK("stack", PnvPHB4, stack, TYPE_PNV_PHB4_PEC_STACK,
-                          PnvPhb4PecStack *),
-+        DEFINE_PROP_LINK("pec", PnvPHB4, pec, TYPE_PNV_PHB4_PEC,
-+                         PnvPhb4PecState *),
-         DEFINE_PROP_END_OF_LIST(),
- };
+     snprintf(name, sizeof(name), "xscom-pec-%d.%d-pci-phb-%d",
+-             pec->chip_id, pec->index, stack->stack_no);
++             pec->chip_id, pec->index, stack_no);
+     pnv_xscom_region_init(&phb->pci_regs_mr, OBJECT(phb),
+                           &pnv_pec_stk_pci_xscom_ops, phb, name,
+                           PHB4_PEC_PCI_STK_REGS_COUNT);
  
-diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index 7fe7f1f007..22194b8de2 100644
---- a/hw/pci-host/pnv_phb4_pec.c
-+++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -285,6 +285,8 @@ static void pnv_pec_stk_default_phb_realize(PnvPhb4PecStack *stack,
+     /* PHB pass-through */
+     snprintf(name, sizeof(name), "xscom-pec-%d.%d-pci-phb-%d",
+-             pec->chip_id, pec->index, stack->stack_no);
++             pec->chip_id, pec->index, stack_no);
+     pnv_xscom_region_init(&phb->phb_regs_mr, OBJECT(phb),
+                           &pnv_phb4_xscom_ops, phb, name, 0x40);
  
-     stack->phb = PNV_PHB4(qdev_new(TYPE_PNV_PHB4));
+@@ -1491,14 +1513,14 @@ static void pnv_phb4_xscom_realize(PnvPHB4 *phb)
  
-+    object_property_set_link(OBJECT(stack->phb), "pec", OBJECT(pec),
-+                             &error_abort);
-     object_property_set_int(OBJECT(stack->phb), "chip-id", pec->chip_id,
-                             &error_fatal);
-     object_property_set_int(OBJECT(stack->phb), "index", phb_id,
-diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
-index 6968efaba8..1d27e4c0cb 100644
---- a/include/hw/pci-host/pnv_phb4.h
-+++ b/include/hw/pci-host/pnv_phb4.h
-@@ -84,6 +84,9 @@ struct PnvPHB4 {
+     /* Populate the XSCOM address space. */
+     pnv_xscom_add_subregion(pec->chip,
+-                            pec_nest_base + 0x40 * (stack->stack_no + 1),
++                            pec_nest_base + 0x40 * (stack_no + 1),
+                             &phb->nest_regs_mr);
+     pnv_xscom_add_subregion(pec->chip,
+-                            pec_pci_base + 0x40 * (stack->stack_no + 1),
++                            pec_pci_base + 0x40 * (stack_no + 1),
+                             &phb->pci_regs_mr);
+     pnv_xscom_add_subregion(pec->chip,
+                             pec_pci_base + PNV9_XSCOM_PEC_PCI_STK0 +
+-                            0x40 * stack->stack_no,
++                            0x40 * stack_no,
+                             &phb->phb_regs_mr);
+ }
  
-     uint64_t version;
- 
-+    /* The owner PEC */
-+    PnvPhb4PecState *pec;
-+
-     char bus_path[8];
- 
-     /* Main register images */
 -- 
 2.33.1
 
