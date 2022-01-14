@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D1E248E84F
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 11:24:59 +0100 (CET)
-Received: from localhost ([::1]:52730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C39CA48E85B
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 11:33:28 +0100 (CET)
+Received: from localhost ([::1]:58260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8JlS-0006Q4-H2
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 05:24:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58486)
+	id 1n8Jtf-0002mo-3y
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 05:33:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n8Jkb-0005bN-Bn
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 05:24:05 -0500
-Received: from [2a00:1450:4864:20::332] (port=38777
- helo=mail-wm1-x332.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1n8Jrm-0001pX-JQ
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 05:31:31 -0500
+Received: from [2a00:1450:4864:20::530] (port=44831
+ helo=mail-ed1-x530.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n8JkZ-0005Sg-PN
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 05:24:04 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- p1-20020a1c7401000000b00345c2d068bdso7019657wmc.3
- for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 02:24:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=2O09dV3SFpeKGTWgEXGcCDRm69tJ2XcEtwmJ8LAWF+Q=;
- b=zObjgfBUlZFDf6iU/7QUcasuK+DWNuXhLrrEeOCyLF6j/B6I3rEMarjMjugUVIT/zE
- XufhIXPSeaD7sIzAD+wfH4k14S+eo7vPPWp7UzYgrpsjUtmmZc9zx6dhua1RzxiDeS0w
- HC21dy5gzIwsTonEy7r6RJgYK1tcNDykyKM4j33yeqzVcGivu0f8snd+ws4YKv1lHNTH
- 9AQKGxx8K0y0TZwe5p4X4U+6QDr70IIEDqyboyX34IgIrLu+/4N7H2pnjqYrFCw3f4B7
- XUvpfFCZveVOsalurU5SUZbUUjZpm1DwAoaLigRpoAanN8KHCbXXYgq5+hBWbpNr6EuM
- ZYDA==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1n8Jrk-0006dr-Eq
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 05:31:30 -0500
+Received: by mail-ed1-x530.google.com with SMTP id w16so33270674edc.11
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 02:31:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=YWAHgxdTzyv21LORiz3Eq6c2CC2+eAcWxKIQe73RCeM=;
+ b=Ybq5BZXUfn7YghhkRKSix4p1AHuQ6ix4H9+9sd0K/oTg+wil78escndr1wAVipZioN
+ S+OuFc3LNtxN5LDeGu1tkcWxgZNUUN5//K4jXezmHKZZVbEK5wpj04RhLSICTjw+NgH5
+ G/4Cf/VNVy+0cy+B8AZTLbGuQv8F3HkCe4B49f6U+Eibj26ywQUk1jaxiNYJZGAvHOdc
+ EXybibI+jpTS6NIN+CXdb7bMVJqphVqSyxXaHOkQrylHzqlJM/yvUcY13CWapztG7dAF
+ KZdhl8zY2yOYnKuTl1r9ilKOt+nzm3joeAmfihwEN/dm+h9gHA0+cYOVichWPUuOm2k1
+ WWHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2O09dV3SFpeKGTWgEXGcCDRm69tJ2XcEtwmJ8LAWF+Q=;
- b=f65RvTF/xBG5MbdRtH4lYGO42MgiFXPLV8gKJlIV2YhpqUb/du/k2+HujR+8x+B6hD
- D4mXOtRr95IBEIBnGVJaYdtTahJOBxP3eWhNaKDMLQ6BZKBA7Co8pR6gfMhpuL8CdUrS
- AKdmGBUJDyToq+ebEoY2lN8+GnE8kUWqeXoKPqaxqtUBEaqvtYHi0oucPF4bnj39WyFe
- qGnBcAvFox3Gpm9qHeTMVLYeO0X9N2aAalw5RxXjug+JiNJhXiauetp7eWKJTt7uhX7l
- iy1S56Rn4/kKBfiPWy+lMiBiGI1bWneKKyDrOlbADW3IdP/e9X+iihAWXPnwx2WyQBvw
- wZvw==
-X-Gm-Message-State: AOAM530Bk2RUAsqLGQlo02/8z7mmpkkA4WIyT4mzPtpU/z5itzFpnVbN
- LjnIjE7dMvlF+g4y1FWj+WfIDIysQ2eQq+gbMxRllw==
-X-Google-Smtp-Source: ABdhPJx193dE/ZqvAr1bGO4LAeEnjpPJBKV0rUSqSEbIdJBTAiwQq7a0P9Chz6YYX3YmaS3Dc1qX7xT2of0sr3qBKCE=
-X-Received: by 2002:a05:600c:3ac5:: with SMTP id
- d5mr7718464wms.32.1642155842284; 
- Fri, 14 Jan 2022 02:24:02 -0800 (PST)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=YWAHgxdTzyv21LORiz3Eq6c2CC2+eAcWxKIQe73RCeM=;
+ b=dspSluvPIuFnzMKPkrzYK/oXpyunfTO3+SOOLY4FMTT2rluXH/rQmdWXs2FGs2/oQt
+ kcGFxvDYVlCJizoSZ4SJlp+TVwUc63I+1QzRjFxAX87mqeQztxDkpBFZYS4SaRjnBZoc
+ iKV23yd7x1s53+frPp+S80hn1QRYAkJE1drQiZbrsbG6ScAV/Oyj/7hmuclIlId/oxO8
+ t0r/WhcqvsxiiJHL34cmR1tTOly1FuLfMAD7iGU0uNr5EVlLUvWU14s96TfvcwTBEwh5
+ BTQv3+YaLs0GsKzPA+gMaKBh9efbs322FL4qcXqQGvphzHFWYhBRdI8fVKAfsQVc5+ux
+ iLCg==
+X-Gm-Message-State: AOAM532s07gfpUeGLzK1NjBkaGQtw593oIncY6bFqh7cJcQU4hNXrXjH
+ ppQ5ZcJrDCkCDD1mrSQrWWReMoIURJErTdtV+W7VMw==
+X-Google-Smtp-Source: ABdhPJzxMfRVmh5pq5VX57UFZ8S81ylV20DIACLZ0asm8UL8qs4V2GBQdSC9oO9Mn73zxxSzmbIAw62qXkCevNjJo5g=
+X-Received: by 2002:a17:906:1315:: with SMTP id
+ w21mr6577299ejb.51.1642156285998; 
+ Fri, 14 Jan 2022 02:31:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20220114050909.27133-1-jasowang@redhat.com>
- <3756d550-8f03-4546-f138-9905f0485661@redhat.com>
-In-Reply-To: <3756d550-8f03-4546-f138-9905f0485661@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 14 Jan 2022 10:23:51 +0000
-Message-ID: <CAFEAcA8=mEbNKfLr52ezkgeAw6YJLpwJ5VESNHuzRUbtduVQjw@mail.gmail.com>
-Subject: Re: [PULL V3 00/13] Net patches
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 14 Jan 2022 16:01:14 +0530
+Message-ID: <CAARzgwx6YtzANV1z24bCmnDiu3bEsX1SSiJ8HjZbmryA2N2Uyg@mail.gmail.com>
+Subject: Re max ISA serial ports
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="00000000000017ca9f05d5884e65"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::530
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: none client-ip=2a00:1450:4864:20::530;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x530.google.com
+X-Spam_score_int: 8
+X-Spam_score: 0.8
+X-Spam_bar: /
+X-Spam_report: (0.8 / 5.0 requ) BAYES_20=-0.001, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,43 +76,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Akihiko Odaki <akihiko.odaki@gmail.com>, qemu-devel@nongnu.org,
- Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 14 Jan 2022 at 09:19, Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2022/1/14 =E4=B8=8B=E5=8D=881:08, Jason Wang =E5=86=99=E9=81=93=
-:
-> > The following changes since commit f8d75e10d3e0033a0a29a7a7e4777a4fbc17=
-a016:
-> >
-> >    Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-2022011=
-2' into staging (2022-01-13 11:18:24 +0000)
-> >
-> > are available in the git repository at:
-> >
-> >    https://github.com/jasowang/qemu.git tags/net-pull-request
-> >
-> > for you to fetch changes up to 818692f0a01587d02220916b31d5bb8e7dced611=
-:
-> >
-> >    net/vmnet: update MAINTAINERS list (2022-01-14 12:58:19 +0800)
-> >
-> > ----------------------------------------------------------------
-> >
-> > Changes since V2:
-> >
-> > - Try to make vmnet work on some old mac version
->
->
-> I tend to hold this pull request since new issues were spotted in the
-> vmnet series.
+--00000000000017ca9f05d5884e65
+Content-Type: text/plain; charset="UTF-8"
 
-OK; I'll drop this one from my queue.
+I have a question re the following commit :
 
-thanks
--- PMM
+commit def337ffda34d331404bd7f1a42726b71500df22
+Author: Peter Maydell <peter.maydell@linaro.org>
+Date:   Fri Apr 20 15:52:46 2018 +0100
+
+    serial-isa: Use MAX_ISA_SERIAL_PORTS instead of MAX_SERIAL_PORTS
+
+
+Does this mean that this limit of 4 slots qemu / hypervisor specific or is
+it limited in general by hardware across all hypervisor? Can you please
+clarify?
+
+--00000000000017ca9f05d5884e65
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>I have a question re the following commit :<div dir=3D"auto"><br></div=
+><div dir=3D"auto"><span style=3D"word-spacing:1px;color:rgb(49,49,49)">com=
+mit def337ffda34d331404bd7f1a42726</span><span style=3D"word-spacing:1px;co=
+lor:rgb(49,49,49)">b71500df22</span><br style=3D"color:rgb(49,49,49);word-s=
+pacing:1px"><span style=3D"word-spacing:1px;color:rgb(49,49,49)">Author: Pe=
+ter Maydell &lt;</span><a href=3D"mailto:peter.maydell@linaro.org" style=3D=
+"font-size:1rem;word-spacing:1px" target=3D"_blank">peter.maydell@linaro.or=
+g</a><span style=3D"word-spacing:1px;color:rgb(49,49,49)">&gt;</span><br st=
+yle=3D"color:rgb(49,49,49);word-spacing:1px"><span style=3D"word-spacing:1p=
+x;color:rgb(49,49,49)">Date:=C2=A0 =C2=A0Fri Apr 20 15:52:46 2018 +0100</sp=
+an><br style=3D"color:rgb(49,49,49);word-spacing:1px"><br style=3D"color:rg=
+b(49,49,49);word-spacing:1px"><span style=3D"word-spacing:1px;color:rgb(49,=
+49,49)">=C2=A0 =C2=A0 serial-isa: Use MAX_ISA_SERIAL_PORTS instead of MAX_S=
+ERIAL_PORTS</span><br style=3D"color:rgb(49,49,49);word-spacing:1px"><br></=
+div><div dir=3D"auto"><br></div><div dir=3D"auto"><font style=3D"color:rgb(=
+49,49,49)"><span style=3D"word-spacing:1px">Does this mean that this limit =
+of 4 slots qemu / hypervisor specific or is it limited in general by hardwa=
+re across all hypervisor? Can you please clarify?</span></font></div><div d=
+ir=3D"auto"><span style=3D"word-spacing:1px;color:rgb(49,49,49)"><br></span=
+></div><div dir=3D"auto"><span style=3D"word-spacing:1px;color:rgb(49,49,49=
+)"><br></span></div><div dir=3D"auto"><span style=3D"word-spacing:1px;color=
+:rgb(49,49,49)"><br></span></div>
+</div>
+
+--00000000000017ca9f05d5884e65--
 
