@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45EA748E516
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 08:58:11 +0100 (CET)
-Received: from localhost ([::1]:47298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5350848E50D
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 08:52:58 +0100 (CET)
+Received: from localhost ([::1]:38428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8HTM-0000go-W6
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 02:58:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50730)
+	id 1n8HOK-0002Xu-Sh
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 02:52:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1n8GUy-0007i5-7k
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 01:55:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29522)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1n8GUw-0007ft-9n
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 01:55:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1n8GUs-0007Wr-H6
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 01:55:43 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1n8GUs-0007Wn-Gp
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 01:55:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642143332;
+ s=mimecast20190719; t=1642143331;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=17YLqj/s+D8vD82SzPimJoIWA+Z8SO5x4Ma5QCb2xHc=;
- b=eCyB1opuaXqY8sKu4l3XGmOY+973ymkJTv1t1F3VH5vayXCPbeCfYU7oj9lJe887Xu439x
- Xq8vg0z6mtNRjAxtBYTd4ukXdXIcosAYL2Rsl1WReah7DZVvyE6zkJf/eE+00AGfUctasP
- S9sXrWDut+BHJ6+sLiy4i+xd+Ef+GxY=
+ bh=stEF7xDvPTTpqRnLSu3uFfwdPxVTXS6eA8fG7yqXhmI=;
+ b=JXopdlb1Qd4qFgLwWYishHZGZE6Tdkdoxb5mEwIAOLTZNMUgMY5mFubo7v1b4gTG8vtMQO
+ DN1EI8NvGGkp29gkFX3Ehd5/crSTpYuSFB2ThybwXZW9egwuxk3uAp+K34crAyKiqoYD+8
+ iSYl2FVC2IH1o0tgsHfLcpjgaWR1JGQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-336-IAdmZuhxPCGVfJFrQV67iQ-1; Fri, 14 Jan 2022 01:55:27 -0500
-X-MC-Unique: IAdmZuhxPCGVfJFrQV67iQ-1
+ us-mta-99-7e8DHyxvOZu1b-GhwBedfQ-1; Fri, 14 Jan 2022 01:55:28 -0500
+X-MC-Unique: 7e8DHyxvOZu1b-GhwBedfQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5EE0A101AFC0;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1BAB85B66F;
  Fri, 14 Jan 2022 06:55:26 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.193.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 019334EC8A;
- Fri, 14 Jan 2022 06:55:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F1A1B4EC89;
+ Fri, 14 Jan 2022 06:55:25 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 48FB1180084D; Fri, 14 Jan 2022 07:53:27 +0100 (CET)
+ id 59D0B180084F; Fri, 14 Jan 2022 07:53:27 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/20] edid: Added support for 4k@60 Hz monitor
-Date: Fri, 14 Jan 2022 07:53:21 +0100
-Message-Id: <20220114065326.782420-16-kraxel@redhat.com>
+Subject: [PULL 16/20] ps2: Initial horizontal scroll support
+Date: Fri, 14 Jan 2022 07:53:22 +0100
+Message-Id: <20220114065326.782420-17-kraxel@redhat.com>
 In-Reply-To: <20220114065326.782420-1-kraxel@redhat.com>
 References: <20220114065326.782420-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -81,8 +81,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Satyeshwar Singh <satyeshwar.singh@intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Dmitry Petrov <dpetroff@gmail.com>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Markus Armbruster <armbru@redhat.com>,
@@ -93,36 +92,160 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Satyeshwar Singh <satyeshwar.singh@intel.com>
+From: Dmitry Petrov <dpetroff@gmail.com>
 
-Previously, the large modes (>1080p) that were generated by Qemu in its EDID
-were all 50 Hz. If we provide them to a Guest OS and the user selects
-one of these modes, then the OS by default only gets 50 FPS. This is
-especially true for Windows OS. With this patch, we are now exposing a
-3840x2160@60 Hz which will allow the guest OS to get 60 FPS.
+This change adds support for horizontal scroll to ps/2 mouse device
+code. The code is implemented to match the logic of linux kernel
+which is used as a reference.
 
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Satyeshwar Singh <satyeshwar.singh@intel.com>
-Message-Id: <20211116221103.27128-1-dongwon.kim@intel.com>
+Signed-off-by: Dmitry Petrov <dpetroff@gmail.com>
+Message-Id: <20220108153947.171861-2-dpetroff@gmail.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/edid-generate.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/input/ps2.c | 57 +++++++++++++++++++++++++++++++++++++++++++-------
+ qapi/ui.json   |  2 +-
+ 2 files changed, 50 insertions(+), 9 deletions(-)
 
-diff --git a/hw/display/edid-generate.c b/hw/display/edid-generate.c
-index 6f5ac6a38ad8..bccf32af69ce 100644
---- a/hw/display/edid-generate.c
-+++ b/hw/display/edid-generate.c
-@@ -24,6 +24,9 @@ static const struct edid_mode {
-     { .xres = 2048,   .yres = 1152 },
-     { .xres = 1920,   .yres = 1080,   .dta =  31 },
+diff --git a/hw/input/ps2.c b/hw/input/ps2.c
+index 9376a8f4ce53..6236711e1b8f 100644
+--- a/hw/input/ps2.c
++++ b/hw/input/ps2.c
+@@ -123,6 +123,7 @@ typedef struct {
+     int mouse_dx; /* current values, needed for 'poll' mode */
+     int mouse_dy;
+     int mouse_dz;
++    int mouse_dw;
+     uint8_t mouse_buttons;
+ } PS2MouseState;
  
-+    /* dea/dta extension timings (all @ 60 Hz) */
-+    { .xres = 3840,   .yres = 2160,   .dta =  97 },
+@@ -715,7 +716,7 @@ static int ps2_mouse_send_packet(PS2MouseState *s)
+     /* IMPS/2 and IMEX send 4 bytes, PS2 sends 3 bytes */
+     const int needed = s->mouse_type ? 4 : 3;
+     unsigned int b;
+-    int dx1, dy1, dz1;
++    int dx1, dy1, dz1, dw1;
+ 
+     if (PS2_QUEUE_SIZE - s->common.queue.count < needed) {
+         return 0;
+@@ -724,6 +725,7 @@ static int ps2_mouse_send_packet(PS2MouseState *s)
+     dx1 = s->mouse_dx;
+     dy1 = s->mouse_dy;
+     dz1 = s->mouse_dz;
++    dw1 = s->mouse_dw;
+     /* XXX: increase range to 8 bits ? */
+     if (dx1 > 127)
+         dx1 = 127;
+@@ -740,6 +742,9 @@ static int ps2_mouse_send_packet(PS2MouseState *s)
+     /* extra byte for IMPS/2 or IMEX */
+     switch(s->mouse_type) {
+     default:
++        /* Just ignore the wheels if not supported */
++        s->mouse_dz = 0;
++        s->mouse_dw = 0;
+         break;
+     case 3:
+         if (dz1 > 127)
+@@ -747,13 +752,41 @@ static int ps2_mouse_send_packet(PS2MouseState *s)
+         else if (dz1 < -127)
+                 dz1 = -127;
+         ps2_queue_noirq(&s->common, dz1 & 0xff);
++        s->mouse_dz -= dz1;
++        s->mouse_dw = 0;
+         break;
+     case 4:
+-        if (dz1 > 7)
+-            dz1 = 7;
+-        else if (dz1 < -7)
+-            dz1 = -7;
+-        b = (dz1 & 0x0f) | ((s->mouse_buttons & 0x18) << 1);
++        /*
++         * This matches what the Linux kernel expects for exps/2 in
++         * drivers/input/mouse/psmouse-base.c. Note, if you happen to
++         * press/release the 4th or 5th buttons at the same moment as a
++         * horizontal wheel scroll, those button presses will get lost. I'm not
++         * sure what to do about that, since by this point we don't know
++         * whether those buttons actually changed state.
++         */
++        if (dw1 != 0) {
++            if (dw1 > 31) {
++                dw1 = 31;
++            } else if (dw1 < -31) {
++                dw1 = -31;
++            }
 +
-     /* additional standard timings 3 (all @ 60Hz) */
-     { .xres = 1920,   .yres = 1200,   .xtra3 = 10,   .bit = 0 },
-     { .xres = 1600,   .yres = 1200,   .xtra3 =  9,   .bit = 2 },
++            /*
++             * linux kernel expects first 6 bits to represent the value
++             * for horizontal scroll
++             */
++            b = (dw1 & 0x3f) | 0x40;
++            s->mouse_dw -= dw1;
++        } else {
++            if (dz1 > 7) {
++                dz1 = 7;
++            } else if (dz1 < -7) {
++                dz1 = -7;
++            }
++
++            b = (dz1 & 0x0f) | ((s->mouse_buttons & 0x18) << 1);
++            s->mouse_dz -= dz1;
++        }
+         ps2_queue_noirq(&s->common, b);
+         break;
+     }
+@@ -764,7 +797,6 @@ static int ps2_mouse_send_packet(PS2MouseState *s)
+     /* update deltas */
+     s->mouse_dx -= dx1;
+     s->mouse_dy -= dy1;
+-    s->mouse_dz -= dz1;
+ 
+     return 1;
+ }
+@@ -806,6 +838,12 @@ static void ps2_mouse_event(DeviceState *dev, QemuConsole *src,
+             } else if (btn->button == INPUT_BUTTON_WHEEL_DOWN) {
+                 s->mouse_dz++;
+             }
++
++            if (btn->button == INPUT_BUTTON_WHEEL_RIGHT) {
++                s->mouse_dw--;
++            } else if (btn->button == INPUT_BUTTON_WHEEL_LEFT) {
++                s->mouse_dw++;
++            }
+         } else {
+             s->mouse_buttons &= ~bmap[btn->button];
+         }
+@@ -833,8 +871,10 @@ static void ps2_mouse_sync(DeviceState *dev)
+         /* if not remote, send event. Multiple events are sent if
+            too big deltas */
+         while (ps2_mouse_send_packet(s)) {
+-            if (s->mouse_dx == 0 && s->mouse_dy == 0 && s->mouse_dz == 0)
++            if (s->mouse_dx == 0 && s->mouse_dy == 0
++                    && s->mouse_dz == 0 && s->mouse_dw == 0) {
+                 break;
++            }
+         }
+     }
+ }
+@@ -1036,6 +1076,7 @@ static void ps2_mouse_reset(void *opaque)
+     s->mouse_dx = 0;
+     s->mouse_dy = 0;
+     s->mouse_dz = 0;
++    s->mouse_dw = 0;
+     s->mouse_buttons = 0;
+ }
+ 
+diff --git a/qapi/ui.json b/qapi/ui.json
+index 2b4371da3777..9354f4c46716 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -905,7 +905,7 @@
+ ##
+ { 'enum'  : 'InputButton',
+   'data'  : [ 'left', 'middle', 'right', 'wheel-up', 'wheel-down', 'side',
+-  'extra' ] }
++  'extra', 'wheel-left', 'wheel-right' ] }
+ 
+ ##
+ # @InputAxis:
 -- 
 2.34.1
 
