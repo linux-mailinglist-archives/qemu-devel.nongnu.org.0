@@ -2,87 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B8F48E407
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 07:03:41 +0100 (CET)
-Received: from localhost ([::1]:38904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6066B48E454
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 07:43:54 +0100 (CET)
+Received: from localhost ([::1]:45942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8FgZ-0003FP-N8
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 01:03:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45246)
+	id 1n8GJU-0004kZ-UN
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 01:43:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1n8FbY-0002Ll-LN
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 00:58:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22253)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1n8FbT-0000ND-HV
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 00:58:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642139901;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=39rNh/QFYGdlvI7QgzHZm01MaB69rTv4QN1Sx/9s4xw=;
- b=NRwZXqIr5fTNyvu6HdjHSAVJATq9M9D/GzLoW7EbyRE74bKtnBEXKRxbqprjMeym3ANXcq
- MOOvfN1+8vNKP4LwuQLWUDjOGdQXPaA2RBaBdpGxlXhRDZUbEP9owTgwfmWNVxDreXaXIe
- kVx9cZsYkJ0GbiOT1hTKJQu4HA5wUi0=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-371-1U_5pc5DNiCbzyUVe30IGg-1; Fri, 14 Jan 2022 00:58:20 -0500
-X-MC-Unique: 1U_5pc5DNiCbzyUVe30IGg-1
-Received: by mail-lf1-f72.google.com with SMTP id
- f19-20020ac251b3000000b0042ce8273990so5513684lfk.1
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 21:58:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1n8G9U-0003Z5-MM
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 01:33:35 -0500
+Received: from [2607:f8b0:4864:20::935] (port=36473
+ helo=mail-ua1-x935.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1n8G9S-0004rR-Li
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 01:33:32 -0500
+Received: by mail-ua1-x935.google.com with SMTP id r15so15392582uao.3
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 22:33:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KNwx21nmAcBXYaeoznU7kIQS9JuOvC/iEaC+Er2jdmk=;
+ b=t2IGrfchYaR0381hXqe0SmdFqVFY2MUNGHUzi3iratvMfVFD1gf1CJB5G6qap6IUeZ
+ KRhMexsdji2AySzqYjHMf1mwcm/T8o5aj94s8o6mkpqVV2nIFQcQkBOkEmAPDrwVeZfx
+ ZeKXCmUINmh7QL8Dx1Jo0tskx8+yvaAe+It1FUoIhMq8NOzKIP21TbRSLi2fF+AOidmJ
+ x6mBEy/Bp5/jIcpvwYZ0+oPvPrvsgFGpsDP44TFhl25lOuN7n9ZcK0vjPm0RzkxDxdXz
+ a73wVQIZ4u4ihMj8hBsgUG9Y3s02h+tRR3hk0yDeViAfGbz1UJIUcstKcOXbdeLkAwjK
+ KS3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=39rNh/QFYGdlvI7QgzHZm01MaB69rTv4QN1Sx/9s4xw=;
- b=a0eAuWorlV/Zjdo29szc5jQqHTEWgq03cJqOOiEbaNuIoDKpyxfOk5f6rRNWSqzbsK
- 77iQUK7NZT23jg3Zp8PH1pD5OQpHyhiqPYv81TvYhfqv5LDMtlh8xtYs+KyCHG83rDNK
- NiMxDYugVKugJpDesLrgERHCeOX4inzhxLxUyu4AhP0rWKH7DwUCMNvdvUAhudOjWpe6
- OwObtJVQFxeTTdw640X6mCbJGOfDMPefv0SrD3c7xknmSd+noQkL/RP6mZgUZdBOtZIQ
- qO/5T1vkW1/XFRHQSjWOdQ9EiG+pcB0hopK+7MmeDxwo5aviK5A2rWa3AYb8BYejTiVb
- Wh4Q==
-X-Gm-Message-State: AOAM532ehxVI/AGEhjWBDFQE/wjd8kGBSjkRKn11PFLDx6FqJd8pugwU
- GFsHCRZtk3O3Suak6YFRwPhO4xndRTuIq/SeG8kh2vYX7PBDSgwWEF1Fi8FX0/g6RuFYo26xmin
- 0o7HFkAySM695AprmBndfjK/Mdg/IwXQ=
-X-Received: by 2002:a19:760f:: with SMTP id c15mr5640749lff.498.1642139898881; 
- Thu, 13 Jan 2022 21:58:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyvhR/J9rRLv3G9EZmvUMpxpKNr9Tvl4GczJBQjYyRy/urFq4uFqEearGa/0GRtuZRPATY/wxYq6e/APEj2cxs=
-X-Received: by 2002:a19:760f:: with SMTP id c15mr5640734lff.498.1642139898555; 
- Thu, 13 Jan 2022 21:58:18 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=KNwx21nmAcBXYaeoznU7kIQS9JuOvC/iEaC+Er2jdmk=;
+ b=XKZrH5kjtFzvbPGXq7fjWHa/FeKrE7CukutTy70ESz0TKSw77Wta4guTdL6L/y0JI2
+ 1hltFEPU1uJORw+JiGybNSLWUleoXjCuZjlJY8z2NJB7zDd4k8PsK2rbMHmUPBvre4f6
+ 6LnYnbmqT6rTpy5N0he8vpbIxCJarGFddiwUj/Tf9wSZVYpLYy1t+MbKd0oRYr78eGr4
+ x+ri3GfoaPFAM2K9pJXEJ5brRwYgEs5FBLmNVpfeAZLqgJFPQsg14WeO1G5IhjS2U92J
+ R3N7vTz1/DpfMrBXuk/J/MUxDQHb9RlbwWb3bd7YH21A2JHDuccrmmRt7hrttVp6XxR5
+ BVZw==
+X-Gm-Message-State: AOAM531bZnUPA/YFoGfHqzw69hcyWfEc/pcIjrw4wIrit7dxXBA5F/mW
+ JtVQiSbvkS7Ab6fx84ydUNu+8l5qEbucdCfEo6uZQg==
+X-Google-Smtp-Source: ABdhPJy4MPry19BSrHRtdxokvk55l7a4lilO0+bcZdyfsueK2m+I2iGhgtXTl8UyoZzq8Tx1rA6DrOCSwyXRYLnVw6E=
+X-Received: by 2002:a05:6102:ecf:: with SMTP id
+ m15mr2806732vst.68.1642142009153; 
+ Thu, 13 Jan 2022 22:33:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20220105041945.13459-1-jasowang@redhat.com>
- <20220105041945.13459-5-jasowang@redhat.com>
- <Yd+zQRouwsB/jnV3@xz-m1.local>
- <8beffd3d-5eff-6462-ce23-faf44c6653f1@redhat.com>
- <YeDumkj9ZgPKGgoN@xz-m1.local>
-In-Reply-To: <YeDumkj9ZgPKGgoN@xz-m1.local>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 14 Jan 2022 13:58:07 +0800
-Message-ID: <CACGkMEun7WEhXy_ApxfgYmbVofjjKgGuA0ezPZG4ypRK+HtSfA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] intel-iommu: PASID support
-To: Peter Xu <peterx@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.594,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220109161923.85683-1-imp@bsdimp.com>
+ <20220109161923.85683-6-imp@bsdimp.com>
+ <CAFEAcA8T8xXv6+2hJ50oQpob7=7nFTh=sGGhcMxJnPfvZyHM7g@mail.gmail.com>
+In-Reply-To: <CAFEAcA8T8xXv6+2hJ50oQpob7=7nFTh=sGGhcMxJnPfvZyHM7g@mail.gmail.com>
+From: Warner Losh <imp@bsdimp.com>
+Date: Thu, 13 Jan 2022 23:33:17 -0700
+Message-ID: <CANCZdfo=S8BA-iPukYnQ7HrDd90m77LTxnb9s62OLqPBXDjXpA@mail.gmail.com>
+Subject: Re: [PATCH 05/30] bsd-user/arm/arget_arch_cpu.h: Move EXCP_DEBUG and
+ EXCP_BKPT together
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="00000000000020774c05d584fb06"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::935
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::935;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x935.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,231 +82,222 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Liu, Yi L" <yi.l.liu@intel.com>, yi.y.sun@linux.intel.com,
- qemu-devel <qemu-devel@nongnu.org>, mst <mst@redhat.com>
+Cc: Kyle Evans <kevans@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 14, 2022 at 11:31 AM Peter Xu <peterx@redhat.com> wrote:
->
-> On Fri, Jan 14, 2022 at 10:47:44AM +0800, Jason Wang wrote:
+--00000000000020774c05d584fb06
+Content-Type: text/plain; charset="UTF-8"
+
+On Thu, Jan 13, 2022 at 10:13 AM Peter Maydell <peter.maydell@linaro.org>
+wrote:
+
+> On Sun, 9 Jan 2022 at 16:26, Warner Losh <imp@bsdimp.com> wrote:
 > >
-> > =E5=9C=A8 2022/1/13 =E4=B8=8B=E5=8D=881:06, Peter Xu =E5=86=99=E9=81=93=
-:
-> > > On Wed, Jan 05, 2022 at 12:19:45PM +0800, Jason Wang wrote:
-> > > > @@ -1725,11 +1780,16 @@ static bool vtd_do_iommu_translate(VTDAddre=
-ssSpace *vtd_as, PCIBus *bus,
-> > > >           cc_entry->context_cache_gen =3D s->context_cache_gen;
-> > > >       }
-> > > > +    /* Try to fetch slpte form IOTLB */
-> > > > +    if ((pasid =3D=3D PCI_NO_PASID) && s->root_scalable) {
-> > > > +        pasid =3D VTD_CE_GET_RID2PASID(&ce);
-> > > > +    }
-> > > > +
-> > > >       /*
-> > > >        * We don't need to translate for pass-through context entrie=
-s.
-> > > >        * Also, let's ignore IOTLB caching as well for PT devices.
-> > > >        */
-> > > > -    if (vtd_dev_pt_enabled(s, &ce)) {
-> > > > +    if (vtd_dev_pt_enabled(s, &ce, pasid)) {
-> > > >           entry->iova =3D addr & VTD_PAGE_MASK_4K;
-> > > >           entry->translated_addr =3D entry->iova;
-> > > >           entry->addr_mask =3D ~VTD_PAGE_MASK_4K;
-> > > > @@ -1750,14 +1810,24 @@ static bool vtd_do_iommu_translate(VTDAddre=
-ssSpace *vtd_as, PCIBus *bus,
-> > > >           return true;
-> > > >       }
-> > > > +    iotlb_entry =3D vtd_lookup_iotlb(s, source_id, addr, pasid);
-> > > > +    if (iotlb_entry) {
-> > > > +        trace_vtd_iotlb_page_hit(source_id, addr, iotlb_entry->slp=
-te,
-> > > > +                                 iotlb_entry->domain_id);
-> > > > +        slpte =3D iotlb_entry->slpte;
-> > > > +        access_flags =3D iotlb_entry->access_flags;
-> > > > +        page_mask =3D iotlb_entry->mask;
-> > > > +        goto out;
-> > > > +    }
-> > > IIUC the iotlb lookup moved down just because the pasid=3D=3DNO_PASID=
- case then
-> > > we'll need to fetch the default pasid from the context entry.  That l=
-ooks
-> > > reasonable.
-> > >
-> > > It's just a bit of pity because logically it'll slow down iotlb hits =
-due to
-> > > context entry operations.  When NO_PASID we could have looked up iotl=
-b without
-> > > checking pasid at all, assuming that "default pasid" will always matc=
-h.  But
-> > > that is a little bit hacky.
+> > Implement EXCP_DEBUG and EXCP_BKPT the same, as is done in
+> > linux-user. The prior adjustment of register 15 isn't needed, so remove
+> > that. Remove a redunant comment (that code in FreeBSD never handled
+> > break points).
 > >
+> > Signed-off-by: Warner Losh <imp@bsdimp.com>
+> > ---
+> >  bsd-user/arm/target_arch_cpu.h | 23 +++--------------------
+> >  1 file changed, 3 insertions(+), 20 deletions(-)
 > >
-> > Right, but I think you meant to do this only when scalable mode is disa=
-bled.
->
-> Yes IMHO it will definitely suite for !scalable case since that's exactly=
- what
-> we did before.  What I'm also wondering is even if scalable is enabled bu=
-t no
-> "real" pasid is used, so if all the translations go through the default p=
-asid
-> that stored in the device context entry, then maybe we can ignore checkin=
-g it.
-> The latter is the "hacky" part mentioned above.
-
-The problem I see is that we can't know what PASID is used as default
-without reading the context entry?
-
->
-> The other thing to mention is, if we postpone the iotlb lookup to be afte=
-r
-> context entry, then logically we can have per-device iotlb, that means we=
- can
-> replace IntelIOMMUState.iotlb with VTDAddressSpace.iotlb in the future, t=
-oo,
-> which can also be more efficient.
-
-Right but we still need to limit the total slots and ATS is a better
-way to deal with the IOTLB bottleneck actually.
-
->
-> Not sure whether Michael will have a preference, for me I think either wa=
-y can
-> be done on top.
->
+> > diff --git a/bsd-user/arm/target_arch_cpu.h
+> b/bsd-user/arm/target_arch_cpu.h
+> > index c526fc73502..05b19ce6119 100644
+> > --- a/bsd-user/arm/target_arch_cpu.h
+> > +++ b/bsd-user/arm/target_arch_cpu.h
+> > @@ -21,6 +21,7 @@
+> >  #define _TARGET_ARCH_CPU_H_
 > >
+> >  #include "target_arch.h"
+> > +#include "signal-common.h"
 > >
-> > >
-> > > vIOMMU seems to be mostly used for assigned devices and dpdk in produ=
-ction in
-> > > the future due to its slowness otherwise.. so maybe not a big deal at=
- all.
-> > >
-> > > [...]
-> > >
-> > > > @@ -2011,7 +2083,52 @@ static void vtd_iotlb_page_invalidate(IntelI=
-OMMUState *s, uint16_t domain_id,
-> > > >       vtd_iommu_lock(s);
-> > > >       g_hash_table_foreach_remove(s->iotlb, vtd_hash_remove_by_page=
-, &info);
-> > > >       vtd_iommu_unlock(s);
-> > > > -    vtd_iotlb_page_invalidate_notify(s, domain_id, addr, am);
-> > > > +    vtd_iotlb_page_invalidate_notify(s, domain_id, addr, am, PCI_N=
-O_PASID);
-> > > > +}
-> > > > +
-> > > > +static void vtd_iotlb_page_pasid_invalidate(IntelIOMMUState *s,
-> > > > +                                            uint16_t domain_id,
-> > > > +                                            hwaddr addr, uint8_t a=
-m,
-> > > > +                                            uint32_t pasid)
-> > > > +{
-> > > > +    VTDIOTLBPageInvInfo info;
-> > > > +
-> > > > +    trace_vtd_inv_desc_iotlb_pasid_pages(domain_id, addr, am, pasi=
-d);
-> > > > +
-> > > > +    assert(am <=3D VTD_MAMV);
-> > > > +    info.domain_id =3D domain_id;
-> > > > +    info.addr =3D addr;
-> > > > +    info.mask =3D ~((1 << am) - 1);
-> > > > +    info.pasid =3D pasid;
-> > > > +    vtd_iommu_lock(s);
-> > > > +    g_hash_table_foreach_remove(s->iotlb, vtd_hash_remove_by_page_=
-pasid, &info);
-> > > > +    vtd_iommu_unlock(s);
-> > > > +    vtd_iotlb_page_invalidate_notify(s, domain_id, addr, am, pasid=
-);
-> > > Hmm, I think indeed we need a notification, but it'll be unnecessary =
-for
-> > > e.g. vfio map notifiers, because this is 1st level invalidation and a=
-t least so
-> > > far vfio map notifiers are rewalking only the 2nd level page table, s=
-o it'll be
-> > > destined to be a no-op and pure overhead.
+> >  #define TARGET_DEFAULT_CPU_MODEL "any"
 > >
-> >
-> > Right, consider we don't implement l1 and we don't have a 1st level
-> > abstraction in neither vhost nor vfio, we can simply remove this.
+> > @@ -64,19 +65,7 @@ static inline void target_cpu_loop(CPUARMState *env)
+> >              }
+> >              break;
+> >          case EXCP_SWI:
+> > -        case EXCP_BKPT:
+> >              {
+> > -                /*
+> > -                 * system call
+> > -                 * See arm/arm/trap.c cpu_fetch_syscall_args()
+> > -                 */
+> > -                if (trapnr == EXCP_BKPT) {
+> > -                    if (env->thumb) {
+> > -                        env->regs[15] += 2;
+> > -                    } else {
+> > -                        env->regs[15] += 4;
+> > -                    }
+> > -                }
 >
-> We probably still need the real pasid invalidation parts in the future?
-
-Yes.
-
->  Either
-> for vhost (if vhost will going to cache pasid-based translations), or for
-> compatible assigned devices in the future where the HW can cache it.
-
-Vhost has the plan to support ASID here:
-
-https://patchwork.kernel.org/project/kvm/patch/20201216064818.48239-11-jaso=
-wang@redhat.com/#23866593
-
->
-> I'm not sure what's the best way to do this, yet. Perhaps adding a new fi=
-eld to
-> vtd_iotlb_page_invalidate_notify() telling whether this is pasid-based or=
- not
-> (basically, an invalidation for 1st or 2nd level pgtable)?
-
-AFAIK there's no L1 in the abstraction for device IOTLB but a combined
-translation result from IVOA-GPA
-
->  Then if it is
-> pasid-based, we could opt-out for the shadow page walking.
->
-> But as you mentioned we could also postpone it to the future.  Your call.=
- :-)
-
-Right, I tend to defer it otherwise there seems no way to test this.
-
-Thanks
-
->
-> Thanks,
->
-> >
-> >
-> > >
-> > > > +}
-> > > > +
-> > > > +static void vtd_iotlb_pasid_invalidate(IntelIOMMUState *s, uint16_=
-t domain_id,
-> > > > +                                       uint32_t pasid)
-> > > > +{
-> > > > +    VTDIOTLBPageInvInfo info;
-> > > > +    VTDAddressSpace *vtd_as;
-> > > > +    VTDContextEntry ce;
-> > > > +
-> > > > +    trace_vtd_inv_desc_iotlb_pasid(domain_id, pasid);
-> > > > +
-> > > > +    info.domain_id =3D domain_id;
-> > > > +    info.pasid =3D pasid;
-> > > > +    vtd_iommu_lock(s);
-> > > > +    g_hash_table_foreach_remove(s->iotlb, vtd_hash_remove_by_pasid=
-, &info);
-> > > > +    vtd_iommu_unlock(s);
-> > > > +
-> > > > +    QLIST_FOREACH(vtd_as, &s->vtd_as_with_notifiers, next) {
-> > > > +        if (!vtd_dev_to_context_entry(s, pci_bus_num(vtd_as->bus),
-> > > > +                                      vtd_as->devfn, &ce) &&
-> > > > +            domain_id =3D=3D vtd_get_domain_id(s, &ce, vtd_as->pas=
-id) &&
-> > > > +            pasid =3D=3D vtd_as->pasid) {
-> > > > +            vtd_sync_shadow_page_table(vtd_as);
-> > > Do we need to rewalk the shadow pgtable (which is the 2nd level, afai=
-ct) even
-> > > if we got the 1st level pgtable invalidated?
-> >
-> >
-> > Seems not and this makes me think to remove the whole PASID based
-> > invalidation logic since they are for L1 which is not implemented in th=
-is
-> > series.
->
-> --
-> Peter Xu
+> So the previous code was implementing BKPT as a way to do
+> a syscall (added in commit 8d450c9a30). Was that just a mistake ?
 >
 
+I did some digging and I'm at a loss for why this code was ever here.
+
+
+> >                  n = env->regs[7];
+> >                  if (bsd_type == target_freebsd) {
+> >                      int ret;
+> > @@ -171,14 +160,8 @@ static inline void target_cpu_loop(CPUARMState *env)
+> >              queue_signal(env, info.si_signo, &info);
+> >              break;
+> >          case EXCP_DEBUG:
+> > -            {
+> > -
+> > -                info.si_signo = TARGET_SIGTRAP;
+> > -                info.si_errno = 0;
+> > -                info.si_code = TARGET_TRAP_BRKPT;
+> > -                info.si_addr = env->exception.vaddress;
+> > -                queue_signal(env, info.si_signo, &info);
+> > -            }
+> > +        case EXCP_BKPT:
+> > +            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT,
+> env->regs[15]);
+> >              break;
+> >          case EXCP_YIELD:
+> >              /* nothing to do here for user-mode, just resume guest code
+> */
+>
+> Looks like it now matches the freebsd kernel behaviour, anyway.
+>
+
+Yea. That's why I went ahead and made the change rather than slavishly
+carry it
+over for something weird I couldn't find out about... I think it's an old
+mistake...
+I'll update the commit message to specifically note it.
+
+
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>
+> thanks
+> -- PMM
+>
+
+--00000000000020774c05d584fb06
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 13, 2022 at 10:13 AM Pete=
+r Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lin=
+aro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">On Sun, 9 Jan 2022 at 16:26, Warner Losh &lt;<a href=3D"mailto:imp@b=
+sdimp.com" target=3D"_blank">imp@bsdimp.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Implement EXCP_DEBUG and EXCP_BKPT the same, as is done in<br>
+&gt; linux-user. The prior adjustment of register 15 isn&#39;t needed, so r=
+emove<br>
+&gt; that. Remove a redunant comment (that code in FreeBSD never handled<br=
+>
+&gt; break points).<br>
+&gt;<br>
+&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
+t=3D"_blank">imp@bsdimp.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 bsd-user/arm/target_arch_cpu.h | 23 +++--------------------<br>
+&gt;=C2=A0 1 file changed, 3 insertions(+), 20 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch=
+_cpu.h<br>
+&gt; index c526fc73502..05b19ce6119 100644<br>
+&gt; --- a/bsd-user/arm/target_arch_cpu.h<br>
+&gt; +++ b/bsd-user/arm/target_arch_cpu.h<br>
+&gt; @@ -21,6 +21,7 @@<br>
+&gt;=C2=A0 #define _TARGET_ARCH_CPU_H_<br>
+&gt;<br>
+&gt;=C2=A0 #include &quot;target_arch.h&quot;<br>
+&gt; +#include &quot;signal-common.h&quot;<br>
+&gt;<br>
+&gt;=C2=A0 #define TARGET_DEFAULT_CPU_MODEL &quot;any&quot;<br>
+&gt;<br>
+&gt; @@ -64,19 +65,7 @@ static inline void target_cpu_loop(CPUARMState *env=
+)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case EXCP_SWI:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 case EXCP_BKPT:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* syste=
+m call<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* See a=
+rm/arm/trap.c cpu_fetch_syscall_args()<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (trapnr =
+=3D=3D EXCP_BKPT) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ if (env-&gt;thumb) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 env-&gt;regs[15] +=3D 2;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ } else {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 env-&gt;regs[15] +=3D 4;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+So the previous code was implementing BKPT as a way to do<br>
+a syscall (added in commit 8d450c9a30). Was that just a mistake ?<br></bloc=
+kquote><div><br></div><div>I did some digging and I&#39;m at a loss for why=
+ this code was ever here.</div><div>=C2=A0</div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 n =3D en=
+v-&gt;regs[7];<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (bsd_=
+type =3D=3D target_freebsd) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 int ret;<br>
+&gt; @@ -171,14 +160,8 @@ static inline void target_cpu_loop(CPUARMState *e=
+nv)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 queue_signal(env, info=
+.si_signo, &amp;info);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case EXCP_DEBUG:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
+&gt; -<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.si_signo=
+ =3D TARGET_SIGTRAP;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.si_errno=
+ =3D 0;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.si_code =
+=3D TARGET_TRAP_BRKPT;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.si_addr =
+=3D env-&gt;exception.vaddress;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 queue_signal(=
+env, info.si_signo, &amp;info);<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case EXCP_BKPT:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 force_sig_fault(TARGET_SIGT=
+RAP, TARGET_TRAP_BRKPT, env-&gt;regs[15]);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case EXCP_YIELD:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* nothing to do here =
+for user-mode, just resume guest code */<br>
+<br>
+Looks like it now matches the freebsd kernel behaviour, anyway.<br></blockq=
+uote><div><br></div><div>Yea. That&#39;s why I went ahead and made the chan=
+ge rather than slavishly carry it</div><div>over for something weird I coul=
+dn&#39;t find out about... I think it&#39;s an old mistake...</div><div>I&#=
+39;ll update the commit message to specifically note it.</div><div>=C2=A0</=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">
+Reviewed-by: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" =
+target=3D"_blank">peter.maydell@linaro.org</a>&gt;<br>
+<br>
+thanks<br>
+-- PMM<br>
+</blockquote></div></div>
+
+--00000000000020774c05d584fb06--
 
