@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D40C548ED73
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 16:54:14 +0100 (CET)
-Received: from localhost ([::1]:59090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B0AF48ED7E
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 16:57:30 +0100 (CET)
+Received: from localhost ([::1]:35354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8Ou5-0001g7-W4
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 10:54:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42102)
+	id 1n8OxF-0005wU-JY
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 10:57:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n8OqM-0005ge-Lr
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 10:50:22 -0500
-Received: from [2a00:1450:4864:20::336] (port=51809
- helo=mail-wm1-x336.google.com)
+ id 1n8Oqb-0005sG-F4
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 10:50:37 -0500
+Received: from [2a00:1450:4864:20::335] (port=45710
+ helo=mail-wm1-x335.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n8OqL-0002ON-0q
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 10:50:22 -0500
-Received: by mail-wm1-x336.google.com with SMTP id c2so1439641wml.1
- for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 07:50:18 -0800 (PST)
+ id 1n8OqZ-0002WG-SK
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 10:50:37 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ c126-20020a1c9a84000000b00346f9ebee43so6548683wme.4
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 07:50:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=a4j5ZpoogZrXBGeG+pIIBBROVX3mdgsqsUVcHMIm4RM=;
- b=eaHKcHp/MI13hh0jZndo5XL5050D0CxxYZW9kRqxFiGF0QI67dTblhgevJ00RqrBid
- 1a2jgyrNK8fCqzOcA1KFCb6tjxNSfHsDLY52udUaS2H+/LHJ7YJPCHwL5NIifl0w5Iw1
- wXqLJ+Y3pYstRnJSeZhURjrLgDj5N0PAd1Vo50aAfiYM8TIGi2l6Qz/kkucC/fntDPSS
- V6kfBdIG7lkQPppi+nERqQz24sE929Pl1ClGDfopTWWF0TEhCv9Qii2u9r8xLku9VkDq
- x5P4EIW+DRviMBs/EWuimMqPL+U1hWxqbJHc0ckFG50PIOOcTnez7JbNbiPM16jqag+f
- cegA==
+ b=XZAroNc1jUjO9QEtwuY/24T5u/A2wHeG8EmDPgWjXWWgO+jJAUugCYj9gHEh/qbqB1
+ NKQWexQck3W6yLmZ5I4fYzrBIch/8bxoVL2xx4vE+BeDsovbgoqAN/X5TfVatkxK7gtt
+ L90xgJiNLlLko6WPTpXgXG+l2PdTnzNJaipfjNPeaC/BZoDY1YuNI9HpcTtRnGZuU2w9
+ kZ8LGaUoGnZxvWg5uAtmubBaWUXjvEXENmBXcHHDaRsxKqTuEzV1XiJzuNXpi7hDzifX
+ OsHQLjll2CACMofDSsBJKNLWFJMr5pQ5u3nMb7BWRfFcHkHEN44y5pOcNEhZ9Y4kSiVx
+ n0yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=a4j5ZpoogZrXBGeG+pIIBBROVX3mdgsqsUVcHMIm4RM=;
- b=juQ+Aj672jNfMKbH9OvCS2uRT5kOO6k9AUElp7OXTpo6DsId605igU9EJTebjlBEId
- ZDZvNVVdqmQsBP8VjVpR4uDYb9V15/r3apj0u9DbpQ0j3hyvT6O38f5yXOvz4SiBJJFo
- cqqM0+VbjTkMiCa5o6iCHjAGhoGp9gudA1JRY7Z5Vsot7s82O+MWlRpuC+E8BGYTtZY9
- 1tA0Xp166XNJ/xONHB9bdYO3m3PscrgFWfGuvN2keOPrC8S67bCYLdm7Is99LHx9jzQR
- 9jOHqZI04Ga3OwxzSp0OdapTGVd891SinhXqyAbau3uqZE3VApEJcDeeurr7dC+b3Qkc
- qhFg==
-X-Gm-Message-State: AOAM530h7n0A35+q9sGvDpFiUebOI5/I7I8vfXWEpLVgWJDfu7AtVNgj
- j6jLtnThF8YqtGcb1wJGx4KFe2kMkH50GA==
-X-Google-Smtp-Source: ABdhPJwx+oweiqin5BHLKgyCnKYd85xLTtyP8r8oH3qQ2KZJCwiFvHeBPmbU+0r/sBYM1etrsWJ3IQ==
-X-Received: by 2002:a1c:f616:: with SMTP id w22mr8713811wmc.75.1642175417534; 
- Fri, 14 Jan 2022 07:50:17 -0800 (PST)
+ b=YErmaT69+M/CoC/2kcsnZOP3g9D5jnc2gyVRz6wtisyvyGdSAEDLynhQJf2aEAa8+4
+ AMrxz7A/CPePHK0+xqkO3VKKp/Wf62SMKyBo4In8BgfvZjBlVTVF215B2VsZWF5ZWfdg
+ SSxdZlSMx5gXlMgvNZy0LlQw2BiYrhhRi3Zcvt0wJOeBI4oQziJsfPymI6LPsESc0mSZ
+ c1E/42AzTqQxldvzhtiqLiSM7fAXkTHO2loe8nr00sgZk3Foovncuk3wsMBA9ZHHSomJ
+ 4b9qreFRjz/UiV2Xq1wneN4+gOmqM4vzDgXDfX93glS7TX0E4wD8dA1KLCunOI8yhGdC
+ 8auw==
+X-Gm-Message-State: AOAM530ARBAKEcyC4lI8wf9GSAp1pj56Bwf8XWgLBMlVtQGenaqtf4VE
+ aq/jLAUy8F5DlIGbBaLkPnIKIPep3DyQRw==
+X-Google-Smtp-Source: ABdhPJyvitejQLUI31tp2oDx6Gvd+oom9pSruCId7a6+ktOW/pe2OYO0dIAqi3piw2XNgkZ7pLGohA==
+X-Received: by 2002:a05:600c:1c8e:: with SMTP id
+ k14mr7723893wms.170.1642175434469; 
+ Fri, 14 Jan 2022 07:50:34 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id k35sm5017651wms.21.2022.01.14.07.50.16
+ by smtp.gmail.com with ESMTPSA id c11sm12426318wmq.48.2022.01.14.07.50.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Jan 2022 07:50:17 -0800 (PST)
+ Fri, 14 Jan 2022 07:50:33 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] linux-user: Remove stale "not threadsafe" comments
-Date: Fri, 14 Jan 2022 15:50:15 +0000
-Message-Id: <20220114155015.3767671-1-peter.maydell@linaro.org>
+Subject: [RFC] linux-user: Remove stale "not threadsafe" comments
+Date: Fri, 14 Jan 2022 15:50:32 +0000
+Message-Id: <20220114155032.3767771-1-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
