@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86B9948E84A
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 11:23:53 +0100 (CET)
-Received: from localhost ([::1]:50508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D1E248E84F
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 11:24:59 +0100 (CET)
+Received: from localhost ([::1]:52730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8JkO-0004eS-3I
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 05:23:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58278)
+	id 1n8JlS-0006Q4-H2
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 05:24:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n8Jiv-0003wp-Hk
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 05:22:21 -0500
-Received: from [2a00:1450:4864:20::330] (port=53977
- helo=mail-wm1-x330.google.com)
+ id 1n8Jkb-0005bN-Bn
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 05:24:05 -0500
+Received: from [2a00:1450:4864:20::332] (port=38777
+ helo=mail-wm1-x332.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n8Jit-0005Mf-Ph
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 05:22:20 -0500
-Received: by mail-wm1-x330.google.com with SMTP id l4so5668573wmq.3
- for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 02:22:19 -0800 (PST)
+ id 1n8JkZ-0005Sg-PN
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 05:24:04 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ p1-20020a1c7401000000b00345c2d068bdso7019657wmc.3
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 02:24:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=V+m4kae7mKXYjETUkZiDiL1ZtEQSVHNcLRKY7Lg2piE=;
- b=uSOZgt03h47eqBoDpOb8Y8B0PvjZpPuBMV/JcyTKZ+XnghBSm2iwt+RFdIje4Jr7ip
- T1x6bjoyD0VdEFAPnWS6vxbZ2lTY+3RioRu+hKdqu4HhXt6Hm5cXQb3a9GeA26Vf3IqX
- sviPTb54POV+iRoszODSxC1mLeD/NM/z7Cl3398DdCwTEdltBUABlbvtJOUGfVY8AI8P
- efAyGM88pXeW3itNfqRJaKPtBzBIV5iojnEWQkAUmlSNDYhehOJPNDBsdQxdAOWDH1lu
- OsxUEHogW4jdlgsFSA27SlxZXkMtGbDJV2DeBbFCdPgsS09VhdfvDQv57hEHURDxMd0P
- AUZA==
+ :cc:content-transfer-encoding;
+ bh=2O09dV3SFpeKGTWgEXGcCDRm69tJ2XcEtwmJ8LAWF+Q=;
+ b=zObjgfBUlZFDf6iU/7QUcasuK+DWNuXhLrrEeOCyLF6j/B6I3rEMarjMjugUVIT/zE
+ XufhIXPSeaD7sIzAD+wfH4k14S+eo7vPPWp7UzYgrpsjUtmmZc9zx6dhua1RzxiDeS0w
+ HC21dy5gzIwsTonEy7r6RJgYK1tcNDykyKM4j33yeqzVcGivu0f8snd+ws4YKv1lHNTH
+ 9AQKGxx8K0y0TZwe5p4X4U+6QDr70IIEDqyboyX34IgIrLu+/4N7H2pnjqYrFCw3f4B7
+ XUvpfFCZveVOsalurU5SUZbUUjZpm1DwAoaLigRpoAanN8KHCbXXYgq5+hBWbpNr6EuM
+ ZYDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=V+m4kae7mKXYjETUkZiDiL1ZtEQSVHNcLRKY7Lg2piE=;
- b=AOQkUsu9XshOTXEsbHIP6g2W6VseOo0CYDz/fciedxJQbsZZ/twDr7Ejp279JzDMaB
- mCpYgK2r0oBl/Y0/cCYfeYK2+BrHOuNDQKo/uBWmjOg8lNQqPFUDm6DQTxFmENVImFpJ
- RNSO8X6DXCY6Abo3nA4pW25KH1FzTrGoNW3sEyIUg/hLuU+M/m2HfgpfZ4yal1DsggGr
- C5PAxMGlFngVtoIcU9tgcm77pNjJ6tck567Hl4PmdKYAosgfPz0IBoewKTNeGhtfGn4V
- ddeuBj937VyU+EBDu5Qlrfn+1O3tAEDIKQ/q7d7KdCaVcE/RrcrIj9LZz1lYd/IJhEBv
- sSmQ==
-X-Gm-Message-State: AOAM532I5Kzrd1oO0RUwCjGYsNbtx2moZs4RRN/G8l9eh6ywDxyjgbkI
- RAeLsVHyhfhBmFUl6+RDUYYhhiAZa0UfJdd0nDW0iQ==
-X-Google-Smtp-Source: ABdhPJzE4q01WWEQih5dhnGCf/s8jRkLA+3jIHJUkLsW6BMoMzuiJZ82TICx0GeaKcbzhB6bIo9YK249qqvxqzm95VM=
-X-Received: by 2002:a05:600c:1991:: with SMTP id
- t17mr14842841wmq.21.1642155737622; 
- Fri, 14 Jan 2022 02:22:17 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=2O09dV3SFpeKGTWgEXGcCDRm69tJ2XcEtwmJ8LAWF+Q=;
+ b=f65RvTF/xBG5MbdRtH4lYGO42MgiFXPLV8gKJlIV2YhpqUb/du/k2+HujR+8x+B6hD
+ D4mXOtRr95IBEIBnGVJaYdtTahJOBxP3eWhNaKDMLQ6BZKBA7Co8pR6gfMhpuL8CdUrS
+ AKdmGBUJDyToq+ebEoY2lN8+GnE8kUWqeXoKPqaxqtUBEaqvtYHi0oucPF4bnj39WyFe
+ qGnBcAvFox3Gpm9qHeTMVLYeO0X9N2aAalw5RxXjug+JiNJhXiauetp7eWKJTt7uhX7l
+ iy1S56Rn4/kKBfiPWy+lMiBiGI1bWneKKyDrOlbADW3IdP/e9X+iihAWXPnwx2WyQBvw
+ wZvw==
+X-Gm-Message-State: AOAM530Bk2RUAsqLGQlo02/8z7mmpkkA4WIyT4mzPtpU/z5itzFpnVbN
+ LjnIjE7dMvlF+g4y1FWj+WfIDIysQ2eQq+gbMxRllw==
+X-Google-Smtp-Source: ABdhPJx193dE/ZqvAr1bGO4LAeEnjpPJBKV0rUSqSEbIdJBTAiwQq7a0P9Chz6YYX3YmaS3Dc1qX7xT2of0sr3qBKCE=
+X-Received: by 2002:a05:600c:3ac5:: with SMTP id
+ d5mr7718464wms.32.1642155842284; 
+ Fri, 14 Jan 2022 02:24:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20220109161923.85683-1-imp@bsdimp.com>
- <20220109161923.85683-7-imp@bsdimp.com>
- <CAFEAcA8rsxYLs-VjJF+efK=PEQrEh3mn3pTfEyVXz014CmHfqQ@mail.gmail.com>
- <CANCZdfqcik=SkyS9TOUp_Nuu2oSatDmeYU4n0pnRx=ghiytymw@mail.gmail.com>
-In-Reply-To: <CANCZdfqcik=SkyS9TOUp_Nuu2oSatDmeYU4n0pnRx=ghiytymw@mail.gmail.com>
+References: <20220114050909.27133-1-jasowang@redhat.com>
+ <3756d550-8f03-4546-f138-9905f0485661@redhat.com>
+In-Reply-To: <3756d550-8f03-4546-f138-9905f0485661@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 14 Jan 2022 10:22:06 +0000
-Message-ID: <CAFEAcA-dSiEh0QsadkRL=00_ZxJ9H+sSpdK3z71As-fcQ9ZL1g@mail.gmail.com>
-Subject: Re: [PATCH 06/30] bsd-user/arm/target_arch_cpu.h: Correct code pointer
-To: Warner Losh <imp@bsdimp.com>
+Date: Fri, 14 Jan 2022 10:23:51 +0000
+Message-ID: <CAFEAcA8=mEbNKfLr52ezkgeAw6YJLpwJ5VESNHuzRUbtduVQjw@mail.gmail.com>
+Subject: Re: [PULL V3 00/13] Net patches
+To: Jason Wang <jasowang@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -83,54 +84,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Akihiko Odaki <akihiko.odaki@gmail.com>, qemu-devel@nongnu.org,
+ Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 14 Jan 2022 at 06:38, Warner Losh <imp@bsdimp.com> wrote:
+On Fri, 14 Jan 2022 at 09:19, Jason Wang <jasowang@redhat.com> wrote:
 >
 >
->
-> On Thu, Jan 13, 2022 at 10:15 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->>
->> On Sun, 9 Jan 2022 at 16:26, Warner Losh <imp@bsdimp.com> wrote:
->> >
->> > The code has moved in FreeBSD since the emulator was started, update the
->> > comment to reflect that change. Remove now-redundant comment saying the
->> > same thing (but incorrectly).
->> >
->> > Signed-off-by: Warner Losh <imp@bsdimp.com>
->> > ---
->> >  bsd-user/arm/target_arch_cpu.h | 2 +-
->> >  1 file changed, 1 insertion(+), 1 deletion(-)
->> >
->> > diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch_cpu.h
->> > index 05b19ce6119..905f13aa1b9 100644
->> > --- a/bsd-user/arm/target_arch_cpu.h
->> > +++ b/bsd-user/arm/target_arch_cpu.h
->> > @@ -73,7 +73,7 @@ static inline void target_cpu_loop(CPUARMState *env)
->> >                      int32_t syscall_nr = n;
->> >                      int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8;
->> >
->> > -                    /* See arm/arm/trap.c cpu_fetch_syscall_args() */
->> > +                    /* See arm/arm/syscall.c cpu_fetch_syscall_args() */
->> >                      if (syscall_nr == TARGET_FREEBSD_NR_syscall) {
->> >                          syscall_nr = env->regs[0];
->> >                          arg1 = env->regs[1];
->>
->> Commit message says we're updating one comment and deleting a
->> second one; code only does an update, no delete ?
+> =E5=9C=A8 2022/1/14 =E4=B8=8B=E5=8D=881:08, Jason Wang =E5=86=99=E9=81=93=
+:
+> > The following changes since commit f8d75e10d3e0033a0a29a7a7e4777a4fbc17=
+a016:
+> >
+> >    Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-2022011=
+2' into staging (2022-01-13 11:18:24 +0000)
+> >
+> > are available in the git repository at:
+> >
+> >    https://github.com/jasowang/qemu.git tags/net-pull-request
+> >
+> > for you to fetch changes up to 818692f0a01587d02220916b31d5bb8e7dced611=
+:
+> >
+> >    net/vmnet: update MAINTAINERS list (2022-01-14 12:58:19 +0800)
+> >
+> > ----------------------------------------------------------------
+> >
+> > Changes since V2:
+> >
+> > - Try to make vmnet work on some old mac version
 >
 >
-> Commit is right, commit message is wrong. I'll fix the commit message. I got
-> this confused with part 8 where I kinda sorta did something similar (but not
-> that similar).
+> I tend to hold this pull request since new issues were spotted in the
+> vmnet series.
 
-(Maybe you had in mind the similar comment that used to be a few lines
-above this one and which you removed in patch 5?)
-
-With a fixed commit message:
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+OK; I'll drop this one from my queue.
 
 thanks
 -- PMM
