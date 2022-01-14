@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17EAB48EBC5
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 15:39:02 +0100 (CET)
-Received: from localhost ([::1]:50846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B2B148EBB4
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 15:33:13 +0100 (CET)
+Received: from localhost ([::1]:35530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8NjJ-0001e8-2k
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 09:39:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48186)
+	id 1n8Ndg-00075w-J3
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 09:33:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n8NGB-0007vx-3F
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 09:08:56 -0500
-Received: from [2a00:1450:4864:20::42f] (port=44966
- helo=mail-wr1-x42f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n8NG9-0002yf-JL
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 09:08:54 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id k18so15772624wrg.11
- for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 06:08:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=XSOvOhd9lIclNKKyrqE6dBBkuEhgGoc1Yxy3uJWYbyw=;
- b=TNUJ2pe/cmTEqrIO3YvDAtL7eRCeXIz16weaOpimvkXjWsEI+ZA+4HNztWD5jEgfhH
- L7NJPpywWybg5wHxe6oy67bhtUCT0EovK4hrWZnPH3e8ObC64fG6w6D5iKHXdIY0b2sK
- DSibJHgDTtkMalXrj6PRuyGYc9U+hw15JrdrydMjxluIvezFasSTRKJU08CBwTcAUd/e
- /Dln0R6WsNjzUf5P1elrNIPxaSvvgHkJF6CZSvCb3aa0y1BHuJRvsptLkaLrQ5DP2ERe
- K3023NHxrMms8DJs8n94PFK/1WrQNYmHHd/qjzq/SSi1D05+yMxGiGnhR1KcA3L1F9ME
- X3sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=XSOvOhd9lIclNKKyrqE6dBBkuEhgGoc1Yxy3uJWYbyw=;
- b=2Scy1569FLkF5Y47MqU6nq1TbzsT+3SpyQEzo5HnS7/uD9MzZCjdqUBTX2P4a7Nd0L
- R9/KD0UOXSknPajb3n8hYd959dFP4obGPW1fFpcAGUMZA5xdErVX44FhZk6RsVnabJ+t
- dRaj41rGS2h7jkMsSp9XFVkh97aBkwdstkV+9nZncw11/WKm+V7G6lZ4Fo1/fazvuwQO
- rV7PWjZamlDooGyWSIansBGxofe3w33T7QwexNm+VzoeQD11uYvHsVmDXDm/qPwbhKpS
- HmYUlLQpbqz/L0/ZUcZGfV9vBDM93vBUakWjJ7uUoQNT+H6e1kkg46ua6lqkbJEZ1Py4
- drKw==
-X-Gm-Message-State: AOAM5304Ske92CZ9lsL37yxIzMzL9Zzg3LnJoRYp4KuYpnGlhiUoauO8
- XrtBUu4wasK0nY3lsJOOcSDetw==
-X-Google-Smtp-Source: ABdhPJy62jQQB2mLpzg4dquT++ZgQ8EaSzQNEEYkuoxmZ82azff55LcPVgrGPZjWMwYieO4K0zR0uA==
-X-Received: by 2002:a5d:484f:: with SMTP id n15mr8392422wrs.625.1642169331672; 
- Fri, 14 Jan 2022 06:08:51 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e12sm2193177wrg.33.2022.01.14.06.08.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Jan 2022 06:08:50 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 25F761FFB7;
- Fri, 14 Jan 2022 14:08:50 +0000 (GMT)
-References: <cover.1641987128.git.viresh.kumar@linaro.org>
- <5390324a748194a21bc99b1538e19761a8c64092.1641987128.git.viresh.kumar@linaro.org>
-User-agent: mu4e 1.7.5; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Subject: Re: [PATCH 1/2] hw/virtio: add boilerplate for vhost-user-gpio device
-Date: Fri, 14 Jan 2022 14:06:31 +0000
-In-reply-to: <5390324a748194a21bc99b1538e19761a8c64092.1641987128.git.viresh.kumar@linaro.org>
-Message-ID: <87zgny8l59.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n8NFY-0006gH-EU
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 09:08:16 -0500
+Received: from [2604:1380:4641:c500::1] (port=45830 helo=dfw.source.kernel.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n8NFU-0002pE-RG
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 09:08:14 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 35AF361C36;
+ Fri, 14 Jan 2022 14:08:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BB31C36AEA;
+ Fri, 14 Jan 2022 14:08:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1642169284;
+ bh=knOBnUE82gt9CRPjZF6CxX2oukDKd5Mgh+KsoFSKdKo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Or0G3wm6TzjDuXFNjXFJKPgN0O1xeNzSj8ugOdspnJQpYkt0xDa1l3kUARpBrwRHW
+ CegsBQsXZbHIhL+wC2U32dc/nugrvkJ5qLg1mv6kx0vHMYP2uqqN/Hls27jVrYZyHV
+ e1KZD9mvTVlWyg2wy4XLivIsfwb/oczKCGFfYVmQDtXrgnNQRQCzcmN/XMiWmzrP8r
+ VZo5DHEUaMxyRDOI63wzo3TnypbAE1GRz7sJjF3yFRMcdaPEaD/SU664NzQDlYQxOV
+ SMp0z8V53AY8HOFvO55QwCGNf1+R/J2CicKZfpRpbe7LTiHaqQ0Q4UXQEd+ntb2W8h
+ GU1BXxJ9mEOJg==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=hot-poop.lan)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1n8NFK-000V8K-Iy; Fri, 14 Jan 2022 14:08:02 +0000
+From: Marc Zyngier <maz@kernel.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/6] target/arm: Reduced-IPA space and highmem fixes
+Date: Fri, 14 Jan 2022 14:07:35 +0000
+Message-Id: <20220114140741.1358263-1-maz@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: qemu-devel@nongnu.org, drjones@redhat.com,
+ eric.auger@redhat.com, peter.maydell@linaro.org, kvmarm@lists.cs.columbia.edu,
+ kvm@vger.kernel.org, kernel-team@android.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2604:1380:4641:c500::1
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=maz@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,54 +77,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stratos-dev@op-lists.linaro.org,
- Vincent Guittot <vincent.guittot@linaro.org>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ kvm@vger.kernel.org, Eric Auger <eric.auger@redhat.com>,
+ kernel-team@android.com, kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Here's yet another stab at enabling QEMU on systems with
+pathologically reduced IPA ranges such as the Apple M1 (previous
+version at [1]). Eventually, we're able to run a KVM guest with more
+than just 3GB of RAM on a system with a 36bit IPA space, and at most
+123 vCPUs.
 
-Viresh Kumar <viresh.kumar@linaro.org> writes:
+This also addresses some pathological QEMU behaviours, where the
+highmem property is used as a flag allowing exposure of devices that
+can't possibly fit in the PA space of the VM, resulting in a guest
+failure.
 
-> This creates the QEMU side of the vhost-user-gpio device which connects
-> to the remote daemon. It is based of vhost-user-i2c code.
->
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-<snip>
-> +++ b/include/hw/virtio/vhost-user-gpio.h
-> @@ -0,0 +1,35 @@
-> +/*
-> + * Vhost-user GPIO virtio device
-> + *
-> + * Copyright (c) 2021 Viresh Kumar <viresh.kumar@linaro.org>
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#ifndef _QEMU_VHOST_USER_GPIO_H
-> +#define _QEMU_VHOST_USER_GPIO_H
-> +
-> +#include "hw/virtio/virtio.h"
-> +#include "hw/virtio/vhost.h"
-> +#include "hw/virtio/vhost-user.h"
-> +#include "standard-headers/linux/virtio_gpio.h"
+In the end, we generalise the notion of PA space when exposing
+individual devices in the expanded memory map, and treat highmem as
+another flavour of PA space restriction.
 
-Hmm this fails:
+This series does a few things:
 
-  In file included from ../../hw/virtio/vhost-user-gpio.c:13:
-  /home/alex/lsrc/qemu.git/include/hw/virtio/vhost-user-gpio.h:15:10: fatal=
- error: standard-headers/linux/virtio_gpio.h: No such file or directory
-     15 | #include "standard-headers/linux/virtio_gpio.h"
-        |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  compilation terminated.
+- introduce new attributes to control the enabling of the highmem
+  GICv3 redistributors and the highmem PCIe MMIO range
 
-The usual solution is to create a patch that imports the headers using:
+- correctly cap the PA range with highmem is off
 
-  ./scripts/update-linux-headers.sh
+- generalise the highmem behaviour to any PA range
 
-either from the current mainline (or your own tree if the feature is in
-flight) and mark the patch clearly as not for merging.
+- disable each highmem device region that doesn't fit in the PA range
 
---=20
-Alex Benn=C3=A9e
+- cleanup uses of highmem outside of virt_set_memmap()
+
+This has been tested on an M1-based Mac-mini running Linux v5.16-rc6
+with both KVM and TCG.
+
+* From v4: [1]
+
+  - Moved cpu_type_valid() check before we compute the memory map
+  - Drop useless MAX() when computing highest_gpa
+  - Fixed more deviations from the QEMU coding style
+  - Collected Eric's RBs, with thanks
+
+[1]: https://lore.kernel.org/r/20220107163324.2491209-1-maz@kernel.org
+
+Marc Zyngier (6):
+  hw/arm/virt: Add a control for the the highmem PCIe MMIO
+  hw/arm/virt: Add a control for the the highmem redistributors
+  hw/arm/virt: Honor highmem setting when computing the memory map
+  hw/arm/virt: Use the PA range to compute the memory map
+  hw/arm/virt: Disable highmem devices that don't fit in the PA range
+  hw/arm/virt: Drop superfluous checks against highmem
+
+ hw/arm/virt-acpi-build.c | 10 ++--
+ hw/arm/virt.c            | 98 ++++++++++++++++++++++++++++++++++------
+ include/hw/arm/virt.h    |  5 +-
+ 3 files changed, 91 insertions(+), 22 deletions(-)
+
+-- 
+2.30.2
+
 
