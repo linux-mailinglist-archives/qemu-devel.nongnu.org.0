@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CF0A48EBA6
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 15:26:59 +0100 (CET)
-Received: from localhost ([::1]:54438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2FB748EBAB
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 15:28:17 +0100 (CET)
+Received: from localhost ([::1]:56336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8NXd-0007Kh-Sk
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 09:26:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46228)
+	id 1n8NYu-0000ce-PA
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 09:28:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1n8N9a-00008O-A5
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 09:02:06 -0500
-Received: from [2a00:1450:4864:20::429] (port=38905
- helo=mail-wr1-x429.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n8NDb-0002fT-Cf
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 09:06:19 -0500
+Received: from [2a00:1450:4864:20::436] (port=41804
+ helo=mail-wr1-x436.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1n8N9W-0001dC-3g
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 09:02:06 -0500
-Received: by mail-wr1-x429.google.com with SMTP id a5so15787221wrh.5
- for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 06:01:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=m7eKgeijq1/hXsahomS3u6Px2JAXH2eEzgaGqsoUwus=;
- b=cKt5X/no5IKD/sL9CA5O1uVFrDm5RcbtxsoNUnft/A8VjAfv8qGppgvXPCe1wsXsDp
- gYqGgCU8swTB3FSl56maT/RvN/l/tq23DMwkN8wOtyGl209tzatipOtSkkMs3w+IuZoh
- Vv2x0/jOO/M2/P0I+rMtZMbhvIiPbGe+jD6PZMIpcjo5u9xFheBxbv8rXQRV1dm//HXp
- FDN4Pn11/5oCrsftJnbljtd20sOZotqKfvyRan8C1BvVP1wTgVM9Euee7LSA4oclcK1R
- 8DhM7IkMbgSWqyXZAl1/Lk1br5FkzdHUbI9Xeh9N1NVdkkN5towcszJZBwyH25EyLv2P
- Netg==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n8NDA-0002G9-An
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 09:05:49 -0500
+Received: by mail-wr1-x436.google.com with SMTP id v6so15775755wra.8
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 06:05:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=uWPbVkkm7Demt4k3UjuHXCc+keffVtBLyiXBg8HFNjM=;
+ b=qzIRvLtRfJHP9c/CeZF9Z9DkpZ4lFSdghtrcXUFKmGqsX0amEPErfwR1qp3OjYiAcw
+ 0sj8peZd4tKe9HcVnj8OzJJYn3xl1BC1UIGaa/PI9bYO1WRaI1KoAqOoKjiv5eMixz8O
+ F+IErejUMvQOpMWrPNFq0iYVoAwxXsTty/MJOeaOqcBNb96oj0GhbVyfJDOTH9inUe8L
+ IczscwpUJKKvHH7eo2rnYhrWm5oMNz7+wpUouSOgCBbv38dYI9XUyJksHUGZx6DnxRF0
+ WI39F+n9qHUCqd+YrVgogjwyZFm4XZL/0BuA7vTgyr4DpokFeKPCDs/1NUq5isEnnloo
+ AXDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=m7eKgeijq1/hXsahomS3u6Px2JAXH2eEzgaGqsoUwus=;
- b=GDfFRtsEQhUIkTuBAKKHmuRB0hLRTaPyQIrFM2u0VlWasWzm9CcA+wdO/GcQhDDh9g
- PqjMLorfyaRswfBthVcuPF+fE1mg56DNiDbZKYdv1bJcHwMc7Imy5g4/j7PgM8cec7JU
- dqSH8ueX6taFpWlQ+/b59oBMywa/PqoxUoIJLYXO4ocOleA4Khw+G+u29BKyRD9B45Y/
- VprJY+URF53H4DyiLnTh7enKhBoq0CkDt4OOZEPb1pZVcSrtIkX/tuLYJ0vMy6mkG6wK
- pR/TVqgGHMZZtZSKstSo1J/M9vDgROYZnAkNxNPiEQJF+oYQMAsWDxfQMr12zYTJqpvi
- h28w==
-X-Gm-Message-State: AOAM533TgBZtna26SW0rn+iDJw8+nU0JwG6ZmcblqiTC+LSdTC8a9c9R
- DWBJJXZh6GED48Wz6Of3Su2tVAOPvHYfLt4Cd+t4Rg==
-X-Google-Smtp-Source: ABdhPJyTly3m+RD6uBUKg19prRPVFkVAu4O0BQhjWwQ5hKIpWzN9htGMmzTsC5/hIjyAQkcqeRtSMjlT6eqHWfe6CXA=
-X-Received: by 2002:adf:d1e1:: with SMTP id g1mr8841746wrd.214.1642168879965; 
- Fri, 14 Jan 2022 06:01:19 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=uWPbVkkm7Demt4k3UjuHXCc+keffVtBLyiXBg8HFNjM=;
+ b=xQJ3I2RjJQlBhcL3JiDzD9BBQZYNt/6vRPoa6OGPeaHKivH35fClXiVIuGpvqE9om+
+ 2epxONJUsj73RK52HhZbA8sBV6UkxYISvfsSCpPVf09VyXt3jugSp842BHWka2Tig1oU
+ dVT4KTHgoV0++GjOn1Sxy3Ox7Aki7XvyC9YTm/K9UYtPegrPAcdHqYvyHPi2sRCKg95z
+ J9ZZtejZvfm/2Jb2H0jIUsaOXcaKbi/IlVAqt3SVcKaBVXsUjb7zs4X0SRObx8HT2YXt
+ yvv0ooJcX7FPoJwANSOK+mv7uQg47py9i3OiMzvMscKjQsPxr0SIn8Ejck1WtJ5C4hqR
+ SjDg==
+X-Gm-Message-State: AOAM530LLAWMPoyIWk0HFFnXDGmy1EgKmGPV5MGzqS4zsUQap+Fiqj6Y
+ GgpL4FW0r74e0J0H4AF5n5poFuYhkrDJ5g==
+X-Google-Smtp-Source: ABdhPJw+4XdyMap6QsYWPWMAcj9EVoAkJzM9LGfALzgoG7kFaIlsYD4JstxP/OaGN8JT25SN/HhLLw==
+X-Received: by 2002:a5d:598a:: with SMTP id n10mr2629194wri.604.1642169144670; 
+ Fri, 14 Jan 2022 06:05:44 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 83sm5782174wmc.41.2022.01.14.06.05.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Jan 2022 06:05:43 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 63DD81FFB7;
+ Fri, 14 Jan 2022 14:05:42 +0000 (GMT)
+References: <cover.1641987128.git.viresh.kumar@linaro.org>
+ <5390324a748194a21bc99b1538e19761a8c64092.1641987128.git.viresh.kumar@linaro.org>
+User-agent: mu4e 1.7.5; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Subject: Re: [PATCH 1/2] hw/virtio: add boilerplate for vhost-user-gpio device
+Date: Fri, 14 Jan 2022 14:05:36 +0000
+In-reply-to: <5390324a748194a21bc99b1538e19761a8c64092.1641987128.git.viresh.kumar@linaro.org>
+Message-ID: <874k669zux.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20220114014059.23300-1-liweiwei@iscas.ac.cn>
- <20220114014059.23300-3-liweiwei@iscas.ac.cn>
- <CAAhSdy0KEm=CeG4TCLdyf1i_aO-pKG9N5yYQU6_OLPE44fQi-g@mail.gmail.com>
- <a67b7ae3-e741-487d-765a-9fc98e53ca95@iscas.ac.cn>
-In-Reply-To: <a67b7ae3-e741-487d-765a-9fc98e53ca95@iscas.ac.cn>
-From: Anup Patel <anup@brainfault.org>
-Date: Fri, 14 Jan 2022 19:31:08 +0530
-Message-ID: <CAAhSdy0eQ+aX1G0sP8+Q6UQEefrj7Cz4tbyUvkvc4NXxhdFp9g@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] target/riscv: add support for svinval extension
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::429;
- envelope-from=anup@brainfault.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,213 +90,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, wangjunqiang@iscas.ac.cn,
- Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: stratos-dev@op-lists.linaro.org,
+ Vincent Guittot <vincent.guittot@linaro.org>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 14, 2022 at 7:24 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->
-> Thanks for your comments.
->
-> =E5=9C=A8 2022/1/14 =E4=B8=8B=E5=8D=889:40, Anup Patel =E5=86=99=E9=81=93=
-:
->
-> On Fri, Jan 14, 2022 at 7:11 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> ---
->  target/riscv/cpu.c                          |  1 +
->  target/riscv/cpu.h                          |  1 +
->  target/riscv/insn32.decode                  |  7 ++
->  target/riscv/insn_trans/trans_svinval.c.inc | 75 +++++++++++++++++++++
->  target/riscv/translate.c                    |  1 +
->  5 files changed, 85 insertions(+)
->  create mode 100644 target/riscv/insn_trans/trans_svinval.c.inc
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index ff6c86c85b..45ac98e06b 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -668,6 +668,7 @@ static Property riscv_cpu_properties[] =3D {
->      DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
->      DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
->
-> +    DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
->      DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
->
->      DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index d3d17cde82..c3d1845ca1 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -327,6 +327,7 @@ struct RISCVCPU {
->          bool ext_counters;
->          bool ext_ifencei;
->          bool ext_icsr;
-> +        bool ext_svinval;
->          bool ext_svnapot;
->          bool ext_zfh;
->          bool ext_zfhmin;
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 5bbedc254c..7a0351fde2 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -809,3 +809,10 @@ fcvt_l_h   1100010  00010 ..... ... ..... 1010011 @r=
-2_rm
->  fcvt_lu_h  1100010  00011 ..... ... ..... 1010011 @r2_rm
->  fcvt_h_l   1101010  00010 ..... ... ..... 1010011 @r2_rm
->  fcvt_h_lu  1101010  00011 ..... ... ..... 1010011 @r2_rm
-> +
-> +# *** Svinval Standard Extension ***
-> +sinval_vma        0001011 ..... ..... 000 00000 1110011 @sfence_vma
-> +sfence_w_inval    0001100 00000 00000 000 00000 1110011
-> +sfence_inval_ir   0001100 00001 00000 000 00000 1110011
-> +hinval_vvma       0011011 ..... ..... 000 00000 1110011 @hfence_vvma
->
-> s/0011011/0010011/
->
-> +hinval_gvma       0111011 ..... ..... 000 00000 1110011 @hfence_gvma
->
-> s/0111011/0110011/
->
-> Sorry. I didn't find the encodings for svinval instructions from the spec=
-. So I get them from  spike (https://github.com/riscv-software-src/riscv-is=
-a-sim/blob/master/riscv/encoding.h) which are as follows:
->
-> #define MATCH_HINVAL_VVMA 0x36000073
-> #define MASK_HINVAL_VVMA 0xfe007fff
-> #define MATCH_HINVAL_GVMA 0x76000073
-> #define MASK_HINVAL_GVMA 0xfe007fff
-> Are they not the latest encodings?
 
-The code in Spike seems to be buggy but that's a separate issue.
+Viresh Kumar <viresh.kumar@linaro.org> writes:
 
-Refer, page 138 of
-https://github.com/riscv/riscv-isa-manual/releases/download/draft-20220110-=
-eae4f00/riscv-privileged.pdf
+> This creates the QEMU side of the vhost-user-gpio device which connects
+> to the remote daemon. It is based of vhost-user-i2c code.
+>
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
 
-Regards,
-Anup
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
->
-> diff --git a/target/riscv/insn_trans/trans_svinval.c.inc b/target/riscv/i=
-nsn_trans/trans_svinval.c.inc
-> new file mode 100644
-> index 0000000000..1dde665661
-> --- /dev/null
-> +++ b/target/riscv/insn_trans/trans_svinval.c.inc
-> @@ -0,0 +1,75 @@
-> +/*
-> + * RISC-V translation routines for the Svinval Standard Instruction Set.
-> + *
-> + * Copyright (c) 2020-2021 PLCT lab
-> + *
-> + * This program is free software; you can redistribute it and/or modify =
-it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOU=
-T
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
- for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License alo=
-ng with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#define REQUIRE_SVINVAL(ctx) do {                    \
-> +    if (!RISCV_CPU(ctx->cs)->cfg.ext_svinval) {      \
-> +        return false;                                \
-> +    }                                                \
-> +} while (0)
-> +
-> +static bool trans_sinval_vma(DisasContext *ctx, arg_sinval_vma *a)
-> +{
-> +    REQUIRE_SVINVAL(ctx);
-> +    /* Do the same as sfence.vma currently */
-> +    REQUIRE_EXT(ctx, RVS);
-> +#ifndef CONFIG_USER_ONLY
-> +    gen_helper_tlb_flush(cpu_env);
-> +    return true;
-> +#endif
-> +    return false;
-> +}
-> +
-> +static bool trans_sfence_w_inval(DisasContext *ctx, arg_sfence_w_inval *=
-a)
-> +{
-> +    REQUIRE_SVINVAL(ctx);
-> +    REQUIRE_EXT(ctx, RVS);
-> +    /* Do nothing currently */
-> +    return true;
-> +}
-> +
-> +static bool trans_sfence_inval_ir(DisasContext *ctx, arg_sfence_inval_ir=
- *a)
-> +{
-> +    REQUIRE_SVINVAL(ctx);
-> +    REQUIRE_EXT(ctx, RVS);
-> +    /* Do nothing currently */
-> +    return true;
-> +}
-> +
-> +static bool trans_hinval_vvma(DisasContext *ctx, arg_hinval_vvma *a)
-> +{
-> +    REQUIRE_SVINVAL(ctx);
-> +    /* Do the same as hfence.vvma currently */
-> +    REQUIRE_EXT(ctx, RVH);
-> +#ifndef CONFIG_USER_ONLY
-> +    gen_helper_hyp_tlb_flush(cpu_env);
-> +    return true;
-> +#endif
-> +    return false;
-> +}
-> +
-> +static bool trans_hinval_gvma(DisasContext *ctx, arg_hinval_gvma *a)
-> +{
-> +    REQUIRE_SVINVAL(ctx);
-> +    /* Do the same as hfence.gvma currently */
-> +    REQUIRE_EXT(ctx, RVH);
-> +#ifndef CONFIG_USER_ONLY
-> +    gen_helper_hyp_gvma_tlb_flush(cpu_env);
-> +    return true;
-> +#endif
-> +    return false;
-> +}
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 615048ec87..4e5a9660a4 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -838,6 +838,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase, t=
-arget_ulong pc)
->  #include "insn_trans/trans_rvb.c.inc"
->  #include "insn_trans/trans_rvzfh.c.inc"
->  #include "insn_trans/trans_privileged.c.inc"
-> +#include "insn_trans/trans_svinval.c.inc"
->
->  /* Include the auto-generated decoder for 16 bit insn */
->  #include "decode-insn16.c.inc"
-> --
-> 2.17.1
->
->
-> Apart from the minor mistake above, it looks good to me.
->
-> Reviewed-by: Anup Patel <anup@brainfault.org>
->
-> Regards,
-> Anup
->
->
-> Regards,
-> Weiwei Li
+--=20
+Alex Benn=C3=A9e
 
