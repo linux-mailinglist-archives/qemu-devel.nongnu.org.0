@@ -2,93 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A461F48E979
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 12:52:01 +0100 (CET)
-Received: from localhost ([::1]:47816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0135448E97C
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 12:53:39 +0100 (CET)
+Received: from localhost ([::1]:51114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8L7g-0004yW-QU
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 06:52:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47646)
+	id 1n8L9F-0007SS-Rm
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 06:53:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1n8L4F-0002B7-S2
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 06:48:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28584)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1n8L4D-0002W3-Jo
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 06:48:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642160904;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PlWJqcqdluyCu9qi4KDq3i2QKpKWDkqlutnxxDc69xI=;
- b=OcDUtvGEqQcKN4qFW59it1SR8MiV0UjG7JCAJWVBuf2XNBu0mU6Q7ciRuDQHmjXqQFxR4x
- Gt+f+8P3h9IdZkvKt9jyyG43r68gWIYvmuaWAN8NAMIbQU6g/wQVqv1oWx9ZKJIelMwTb/
- SeMrigUJ0hUDjE9LI8A7y285LPYqzHs=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-396-BneQyNR-P-2cW2IIuRn5Bg-1; Fri, 14 Jan 2022 06:48:23 -0500
-X-MC-Unique: BneQyNR-P-2cW2IIuRn5Bg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- c8-20020a05640227c800b003fdc1684cdeso8170457ede.12
- for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 03:48:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n8L6M-0004dl-9i
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 06:50:41 -0500
+Received: from [2a00:1450:4864:20::42b] (port=38679
+ helo=mail-wr1-x42b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n8L6J-00031p-9T
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 06:50:37 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id a5so15189892wrh.5
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 03:50:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=E7RvrfG8u3XOxcIpkAtybFM5yz3s+5wDK+Cb2BJpIHQ=;
+ b=kXvm1ThSVzoy+n8SJshzOvzdvROLhFMxR5wRKmjsKmNdny9x+zUAD6NFSUspXmHh/2
+ CAOCE9692aMDAqUErj0pFQWcXD8+PqpNSLFxjJ+Qp+ok6LzjVXP6WZtkAr+bXKM+4zvh
+ OMA/lYQB+g2iq1V3JAeReXrz/LoDZlkQ/PH0DUUrT760PtOoFwpzr8K3zXcH7pE1lH4V
+ Z3eGYShXRQ57ipIPm6fGNpeIzAgDEdvaiJOVViAJaf8uyXAACOmIJEGuWhiQDXSuD2Sx
+ TP/RU5Z9WYkDshcl7GG7UlEtA6Bo3F9CY0/ws9c2uyjl3jKjBocm6vIQmNvVkHCOB5qY
+ t9OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=PlWJqcqdluyCu9qi4KDq3i2QKpKWDkqlutnxxDc69xI=;
- b=PCcBALYzF93XpGSHo3a7NiW1msF4siRjr7dcE8CSkhuaC/XYQR+MVsq+BM2MbtAFPv
- aCX8H74vXRntn+udCrHC2/G0+5zOxJbx/pBXFb9gEHdXZe9btIazwLfkezYuc40aV4LX
- Kj8uhaEhQRxPPKNdCRY6oN7FpNRPmdn/tF9eUMBYMyCA/JbcFq8RRFXmaZ6uJgaY4uKu
- GZmsgoN6fHpZAleFdecm9y2USWh77Ro2dWZ7DNqumAJr/IjVTycpT60PEUD70qlTyEgt
- uJIwx6CXzr84kfrMeemeSst7bb0uG/SQn2rs/KtH0FjZXo05JBFJQJr3/9P3jUNRPFPf
- mqCg==
-X-Gm-Message-State: AOAM53388SmBDJkCAuthGxLkyzaVk+OgZL4e5bDSdRXkjZ+lV5iShwSq
- 1mmqSZ9Ax3sW0QYxu6JYvyYpvZ0FtPW/ZHde6uXy89Xwxcx8gUXfthH0F6KmsTCSXUWPJ0l1RR8
- 2PICgyORA6XSOmaM=
-X-Received: by 2002:a17:906:6a20:: with SMTP id
- qw32mr6971105ejc.724.1642160902071; 
- Fri, 14 Jan 2022 03:48:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzvSqqsUVgMKwQFda9bRZ2HR3o6kMUF/9X3TawRIfJTzAMsphoHUuLmI9yOL7xR9Hc+rt87hA==
-X-Received: by 2002:a17:906:6a20:: with SMTP id
- qw32mr6971085ejc.724.1642160901769; 
- Fri, 14 Jan 2022 03:48:21 -0800 (PST)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id e4sm1742435eje.103.2022.01.14.03.48.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Jan 2022 03:48:21 -0800 (PST)
-Date: Fri, 14 Jan 2022 12:48:20 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 1/4] tests: acpi: manually pad OEM_ID/OEM_TABLE_ID for
- test_oem_fields() test
-Message-ID: <20220114124820.7aa72a3a@redhat.com>
-In-Reply-To: <20220112084124-mutt-send-email-mst@kernel.org>
-References: <20220112130332.1648664-1-imammedo@redhat.com>
- <20220112130332.1648664-2-imammedo@redhat.com>
- <20220112084124-mutt-send-email-mst@kernel.org>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=E7RvrfG8u3XOxcIpkAtybFM5yz3s+5wDK+Cb2BJpIHQ=;
+ b=Zer5GDsfF1ytx0FiW7KhKD8LjtBcxBcgmEq9JD280Mol3nijXeOGG/rfsmi8e9vZSA
+ +3j3IpZdMeCWZeZzNZHFwguJ/OYWkpsZM36nvPwDVCB86Xhuw0DLXQ9VteKQZvxnlEie
+ SuBgnadwyzVEJCcoHkPLu19cXVMsNjcELswwbB1RVJdHFYqHbKWB+UK88b0AKMnWsQCk
+ vJojS0ViKLKNrFV/QiYOaeIht9/FO75SxTJzJeBztn0rTIo3+Mp788v/60+LqY+5P7EN
+ G8qBBZ53D3grgpV4Gi0iUEVJWFQlE1/JXzjrWQ6jmywdR2C5QdDbCR/U7nGCpOJ24dMq
+ zADw==
+X-Gm-Message-State: AOAM532ZDnimMIunM8pRNwFNWm3DC+2iDW1UJzu6cdvVaeh4DKD0xsI4
+ IflB6IT0rTg0DwpZbLMM3vrqbKLPp+OkKZD/bmX696lBd6zbug==
+X-Google-Smtp-Source: ABdhPJzNBFYsZN9xgS2pig7ZaCoItTvlesPQy32qcqCXAk6MRZrEDqYTG6KyTKfxOAE+/0MqHGQYy1Iae3prwFwhwz8=
+X-Received: by 2002:adf:ee0e:: with SMTP id y14mr8202014wrn.172.1642161033229; 
+ Fri, 14 Jan 2022 03:50:33 -0800 (PST)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220109161923.85683-1-imp@bsdimp.com>
+ <20220109161923.85683-26-imp@bsdimp.com>
+In-Reply-To: <20220109161923.85683-26-imp@bsdimp.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 14 Jan 2022 11:50:22 +0000
+Message-ID: <CAFEAcA9_saH9MgsU5G6R=N6guZNx9YQ3vJfyD-CXZB3CY04GbA@mail.gmail.com>
+Subject: Re: [PATCH 25/30] bsd-user/signal.c: handle_pending_signal
+To: Warner Losh <imp@bsdimp.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,117 +80,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, qemu-devel@nongnu.org,
- Marian Postevca <posteuca@mutex.one>
+Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@freebsd.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 12 Jan 2022 08:44:19 -0500
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
-
-> On Wed, Jan 12, 2022 at 08:03:29AM -0500, Igor Mammedov wrote:
-> > The next commit will revert OEM fields padding with whitespace to
-> > padding with '\0' as it was before [1]. As result test_oem_fields() will
-> > fail due to unexpectedly smaller ID sizes read from QEMU ACPI tables.
-> > 
-> > Pad OEM_ID/OEM_TABLE_ID manually with spaces so that values the test
-> > puts on QEMU CLI and expected values match.
-> > 
-> > 1) 602b458201 ("acpi: Permit OEM ID and OEM table ID fields to be changed")
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>  
-> 
-> That's kind of ugly in that we do not test
-> shorter names then.  How about we pad with \0 instead?
+On Sun, 9 Jan 2022 at 16:47, Warner Losh <imp@bsdimp.com> wrote:
+>
+> Handle a queued signal.
+>
+> Signed-off-by: Stacey Son <sson@FreeBSD.org>
+> Signed-off-by: Kyle Evans <kevans@freebsd.org>
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
 
 
-test_acpi_q35_slic() should cover short OEM_TABLE_ID.
+> +static void handle_pending_signal(CPUArchState *cpu_env, int sig,
+> +                                  struct emulated_sigtable *k)
+> +{
+> +    CPUState *cpu = env_cpu(cpu_env);
+> +    TaskState *ts = cpu->opaque;
+> +    struct qemu_sigqueue *q;
+> +    struct target_sigaction *sa;
+> +    int code;
+> +    sigset_t set;
+> +    abi_ulong handler;
+> +    target_siginfo_t tinfo;
+> +    target_sigset_t target_old_set;
+> +
+> +    trace_user_handle_signal(cpu_env, sig);
+> +
+> +    /* Dequeue signal. */
+> +    q = k->first;
+> +    k->first = q->next;
+> +    if (!k->first) {
+> +        k->pending = 0;
+> +    }
 
-also padding in this patch makes test_oem_fields() cleaner
-and simplifies 3/4, switching to \0 here would require
-merging this patch with the fix itself to avoid breaking
-bisection.
+(The dequeue simplifies if you follow linux-user's way of handling
+"queueing" a signal.)
 
-If you still prefer to have test_oem_fields() test short
-names, I can post following on top that can to it without
-breaking bisection:
+> +
+> +    sig = gdb_handlesig(cpu, sig);
+> +    if (!sig) {
+> +        sa = NULL;
+> +        handler = TARGET_SIG_IGN;
+> +    } else {
+> +        sa = &sigact_table[sig - 1];
+> +        handler = sa->_sa_handler;
+> +    }
+> +
+> +    if (do_strace) {
+> +        print_taken_signal(sig, &q->info);
+> +    }
+> +
+> +    if (handler == TARGET_SIG_DFL) {
+> +        /*
+> +         * default handler : ignore some signal. The other are job
+> +         * control or fatal.
+> +         */
+> +        if (TARGET_SIGTSTP == sig || TARGET_SIGTTIN == sig ||
+> +                TARGET_SIGTTOU == sig) {
+> +            kill(getpid(), SIGSTOP);
+> +        } else if (TARGET_SIGCHLD != sig && TARGET_SIGURG != sig &&
+> +            TARGET_SIGINFO != sig &&
+> +            TARGET_SIGWINCH != sig && TARGET_SIGCONT != sig) {
+> +            force_sig(sig);
+> +        }
+> +    } else if (TARGET_SIG_IGN == handler) {
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 90c9f6a0a2..0fd7cf1f89 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -71,8 +71,8 @@
- 
- #define ACPI_REBUILD_EXPECTED_AML "TEST_ACPI_REBUILD_AML"
- 
--#define OEM_ID             "TEST  "
--#define OEM_TABLE_ID       "OEM     "
-+#define OEM_ID             "TEST"
-+#define OEM_TABLE_ID       "OEM"
- #define OEM_TEST_ARGS      "-machine x-oem-id='" OEM_ID "',x-oem-table-id='" \
-                            OEM_TABLE_ID "'"
- 
-@@ -1530,8 +1530,8 @@ static void test_oem_fields(test_data *data)
-             continue;
-         }
- 
--        g_assert(memcmp(sdt->aml + 10, OEM_ID, 6) == 0);
--        g_assert(memcmp(sdt->aml + 16, OEM_TABLE_ID, 8) == 0);
-+        g_assert(strncmp((char *)sdt->aml + 10, OEM_ID, 6) == 0);
-+        g_assert(strncmp((char *)sdt->aml + 16, OEM_TABLE_ID, 8) == 0);
-     }
- }
- 
+Avoid the yoda-conditionals, please.
 
+> +        /* ignore sig */
+> +    } else if (TARGET_SIG_ERR == handler) {
+> +        force_sig(sig);
 
-> And add a comment explaining why it's done.
-> 
-> > ---
-> >  tests/qtest/bios-tables-test.c | 15 ++++++---------
-> >  1 file changed, 6 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> > index e6b72d9026..90c9f6a0a2 100644
-> > --- a/tests/qtest/bios-tables-test.c
-> > +++ b/tests/qtest/bios-tables-test.c
-> > @@ -71,9 +71,10 @@
-> >  
-> >  #define ACPI_REBUILD_EXPECTED_AML "TEST_ACPI_REBUILD_AML"
-> >  
-> > -#define OEM_ID             "TEST"
-> > -#define OEM_TABLE_ID       "OEM"
-> > -#define OEM_TEST_ARGS      "-machine x-oem-id="OEM_ID",x-oem-table-id="OEM_TABLE_ID
-> > +#define OEM_ID             "TEST  "
-> > +#define OEM_TABLE_ID       "OEM     "
-> > +#define OEM_TEST_ARGS      "-machine x-oem-id='" OEM_ID "',x-oem-table-id='" \
-> > +                           OEM_TABLE_ID "'"
-> >  
-> >  typedef struct {
-> >      bool tcg_only;
-> > @@ -1519,11 +1520,7 @@ static void test_acpi_q35_slic(void)
-> >  static void test_oem_fields(test_data *data)
-> >  {
-> >      int i;
-> > -    char oem_id[6];
-> > -    char oem_table_id[8];
-> >  
-> > -    strpadcpy(oem_id, sizeof oem_id, OEM_ID, ' ');
-> > -    strpadcpy(oem_table_id, sizeof oem_table_id, OEM_TABLE_ID, ' ');
-> >      for (i = 0; i < data->tables->len; ++i) {
-> >          AcpiSdtTable *sdt;
-> >  
-> > @@ -1533,8 +1530,8 @@ static void test_oem_fields(test_data *data)
-> >              continue;
-> >          }
-> >  
-> > -        g_assert(memcmp(sdt->aml + 10, oem_id, 6) == 0);
-> > -        g_assert(memcmp(sdt->aml + 16, oem_table_id, 8) == 0);
-> > +        g_assert(memcmp(sdt->aml + 10, OEM_ID, 6) == 0);
-> > +        g_assert(memcmp(sdt->aml + 16, OEM_TABLE_ID, 8) == 0);
-> >      }
-> >  }
-> >  
-> > -- 
-> > 2.31.1  
-> 
+Note that if you follow linux-user and my suggestion on
+patch 21, these force_sig() calls become calls to
+dump_core_and_abort(), unlike the one in setup_frame(),
+which should be a "queue this signal". (The difference is
+that here we know the process is definitely going to die,
+because it has no valid handler for a fatal signal. In
+setup_frame() the process might be able to continue, if it
+has a signal handler for the SIGILL or SIGSEGV or whatever.)
 
+> +    } else {
+> +        /* compute the blocked signals during the handler execution */
+> +        sigset_t *blocked_set;
+> +
+> +        target_to_host_sigset(&set, &sa->sa_mask);
+> +        /*
+> +         * SA_NODEFER indicates that the current signal should not be
+> +         * blocked during the handler.
+> +         */
+> +        if (!(sa->sa_flags & TARGET_SA_NODEFER)) {
+> +            sigaddset(&set, target_to_host_signal(sig));
+> +        }
+> +
+> +        /*
+> +         * Save the previous blocked signal state to restore it at the
+> +         * end of the signal execution (see do_sigreturn).
+> +         */
+> +        host_to_target_sigset_internal(&target_old_set, &ts->signal_mask);
+> +
+> +        blocked_set = ts->in_sigsuspend ?
+> +            &ts->sigsuspend_mask : &ts->signal_mask;
+> +        qemu_sigorset(&ts->signal_mask, blocked_set, &set);
+> +        ts->in_sigsuspend = false;
+> +        sigprocmask(SIG_SETMASK, &ts->signal_mask, NULL);
+> +
+> +        /* XXX VM86 on x86 ??? */
+> +
+> +        code = q->info.si_code;
+> +        /* prepare the stack frame of the virtual CPU */
+> +        if (sa->sa_flags & TARGET_SA_SIGINFO) {
+> +            tswap_siginfo(&tinfo, &q->info);
+
+Oh, you're doing the tswap_siginfo() here. If you really want to
+do that, then the setup_frame() should be able to do a simple
+structure-copy I think and doesn't need the logic to figure out
+which union fields are relevant. But putting the tswap_siginfo()
+inside setup_frame() would match where linux-user does it.
+
+> +            setup_frame(sig, code, sa, &target_old_set, &tinfo, cpu_env);
+> +        } else {
+> +            setup_frame(sig, code, sa, &target_old_set, NULL, cpu_env);
+> +        }
+> +        if (sa->sa_flags & TARGET_SA_RESETHAND) {
+> +            sa->_sa_handler = TARGET_SIG_DFL;
+> +        }
+> +    }
+> +    if (q != &k->info) {
+> +        free_sigqueue(cpu_env, q);
+> +    }
+> +}
+> +
+>  void process_pending_signals(CPUArchState *cpu_env)
+>  {
+>  }
+> --
+> 2.33.1
+
+thanks
+-- PMM
 
