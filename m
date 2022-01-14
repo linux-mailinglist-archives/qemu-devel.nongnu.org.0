@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 368F448ED72
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 16:53:03 +0100 (CET)
-Received: from localhost ([::1]:54850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4048248ED46
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 16:42:14 +0100 (CET)
+Received: from localhost ([::1]:37858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8Osv-0007Uj-B3
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 10:53:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38990)
+	id 1n8OiT-0003VD-CZ
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 10:42:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n8OcD-0005SR-L9
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 10:35:45 -0500
-Received: from [2607:f8b0:4864:20::636] (port=34315
- helo=mail-pl1-x636.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n8Oe1-00086t-Nz
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 10:37:38 -0500
+Received: from [2a00:1450:4864:20::430] (port=42496
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n8Oc7-0000PP-LP
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 10:35:41 -0500
-Received: by mail-pl1-x636.google.com with SMTP id a7so10833653plh.1
- for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 07:35:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n8Oe0-0000c6-7h
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 10:37:37 -0500
+Received: by mail-wr1-x430.google.com with SMTP id k30so16225660wrd.9
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 07:37:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=jFvz1mZiSSBKbqDFZi+a0UcyAN07kAMki2j6juPveQc=;
- b=ZL2cGhcICJ+bMMvxGT8JJJS5Pz2IlsFPDbV/H3YxY8Ke8c9EX2MFLAw4vOw4ZPiDkg
- 32yTRQgaKkV76XIxMs9Fe7RMUDvp8FYlrqahfqswNfeCIzMTVdvEpQ9RTRPBC/KkKAcY
- derENzm7M1XzzQw9Q+VAdwrsOY+Q6e+K/gb2DE4mlqYsoVtdHBgpvivXxIedw2gJz1jN
- R51Yn1AFXrOVxPMaBwj808I2HjTeayhksKEAWyKseok/e7YoV41umqqZ/+O4OUqBpNnt
- K2w/0OFj0PkZXoV1Sg1BTXoUGRzdzHOvvXFf8PgfJNj5HdvfOAa4KfzmfmntngkkAoRh
- QBwQ==
+ bh=zAAnYJDmSdDlcSXt+uikxFStig4JaHzhYe8nFOo17wo=;
+ b=dbvKTiVwFCN+OjNonw4y2Q72JzPmBdhwZCWepKjuxlFcqTGJnCgHKRrZ4Y3tsXnnjJ
+ KHgxgSX8I5TRFtJEYcx2xVwjaJWrQQ20xAfcVTGWlnlgkGEEOSbK6H5mSuEKv7kaZZEc
+ lZqDLLWKmI+B26HqA5qkStpoSUppMuvpipO1bd4YLGDJAZjszCxaXSaSPXMvBJ4pIPyK
+ LtFbm+oIrKJqErnG/N5L0ssO3YboJv8H7rxoBjbKosHi8nFlpYDECaYF/zs01fLtYgvd
+ ddKuZqVNfGAGyG3UOaklFit99yY+sjAwnF3886a5+LUmcVRdTIOjP4sukJyoxbEGVy69
+ v6qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:from:to:cc:references:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=jFvz1mZiSSBKbqDFZi+a0UcyAN07kAMki2j6juPveQc=;
- b=T+pekSqat0S7boSyMGK90SpTJtaEwJgBp7JUsseeL3iYZMCwt2oTGn+e5UA7fRv/O9
- flly3kDGP4t86hKRjCdGRdFJN2So0vNDoRiTXlpdId2J+T9DwH23RaDty6gde3q6N16y
- /zaRScADIADkqJ/LfaBwQpdOZUIEfk9tT6C8tXvcD820xs/jUXqF9/xchX6kE2MTV2+Y
- lTRkZmbNZp/IuP+HcbIVUUrujPSP+4HrSBhQ3roTaqs5fWOnAVLtijqd0XaGe4hbBh4a
- qn2bs4g4GkD3E1s4NKy+kFB1cIopNdCEJqWOFYcVB35l/BXzKgcpXfn8i93YR3clG4bj
- 6/sA==
-X-Gm-Message-State: AOAM530olKTTIHIAf0g26o/RLFQ5tBKDTItYGW7kaz23l5bF41gb2dk2
- 7czm3ewmc8gRMefkrqH3jC4=
-X-Google-Smtp-Source: ABdhPJyevjDb8E3A9xkyYmvMxQmIFYhLAcpCpARMiBkp91olBqO2UwE6TBm+14KaBU6sTfwaj4e2Cg==
-X-Received: by 2002:a17:90a:a105:: with SMTP id
- s5mr11276079pjp.170.1642174538243; 
- Fri, 14 Jan 2022 07:35:38 -0800 (PST)
-Received: from ?IPV6:2a01:e34:ec40:49e0:48b5:8fce:b44b:d951?
- ([2a01:e34:ec40:49e0:48b5:8fce:b44b:d951])
- by smtp.gmail.com with ESMTPSA id x2sm4901867pgo.2.2022.01.14.07.35.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Jan 2022 07:35:37 -0800 (PST)
-Message-ID: <bf9fa13d-f57f-9e0e-3b18-4ed285640a22@amsat.org>
-Date: Fri, 14 Jan 2022 16:35:33 +0100
+ bh=zAAnYJDmSdDlcSXt+uikxFStig4JaHzhYe8nFOo17wo=;
+ b=oJwCgEigBfdY1QJBHMp8LOjDT4SdUo3CHQNjlt177thv5jfgjpq5yqyoetN/3NdTWp
+ LTTgyxgg450DHZgj6JJcvtyZDR1n9MTynr9SjUCwG2WDbqujmH+9gtIt1z8KuclyeZGt
+ exiHGglDZrZfVljBtq+8Iw0lL5Lmg1GP+XekMSvpXL9T5vgQaJ8lFPwz2D+Df//YsMR0
+ 5xu+LjLPZOSCm3BtA6pghkSxCpvMkW38BBKn81fAEOEslOTLLV20jaLPCcmqyHCDDphK
+ X8Z6sVo4IKutB/Ar5KVSE8ko2OIGxw85Rx4gEHXlw1zMKz5/5dr53nYC9K+moC0C1s5T
+ FuiA==
+X-Gm-Message-State: AOAM532WY7F75PSfbn9DyHcqnTctM4h3tWw/dXq3fTdu4UDiVQWt+L8j
+ 2weIaeLzswRw3thbMEr3+4EQqhK3F4D5Eg==
+X-Google-Smtp-Source: ABdhPJxlEKn7GqG9zGofArL9WRYj+cm4DH/5jO0IFZ5f2unVJxilIQeVTMbjSksFx/bJ6p/grP5LTg==
+X-Received: by 2002:a5d:608e:: with SMTP id w14mr7939719wrt.40.1642174654540; 
+ Fri, 14 Jan 2022 07:37:34 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id v13sm6464141wro.90.2022.01.14.07.37.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Jan 2022 07:37:34 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] linux-user: Fix some minor nits
+Date: Fri, 14 Jan 2022 15:37:29 +0000
+Message-Id: <20220114153732.3767229-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH v2 2/3] migration: Add canary to VMSTATE_END_OF_LIST
-Content-Language: en-US
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, peter.maydell@linaro.org, quintela@redhat.com,
- marcandre.lureau@gmail.com
-Cc: lsoaresp@redhat.com, peterx@redhat.com
-References: <20220113194452.254011-1-dgilbert@redhat.com>
- <20220113194452.254011-3-dgilbert@redhat.com>
- <5995c5df-435e-01cf-150c-8e06098e18c2@amsat.org>
-In-Reply-To: <5995c5df-435e-01cf-150c-8e06098e18c2@amsat.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::636
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x636.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -97,38 +83,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 14/1/22 12:32, Philippe Mathieu-Daudé wrote:
-> On 13/1/22 20:44, Dr. David Alan Gilbert (git) wrote:
->> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->>
->> We fairly regularly forget VMSTATE_END_OF_LIST markers off descriptions;
->> given that the current check is only for ->name being NULL, sometimes
->> we get unlucky and the code apparently works and no one spots the error.
->>
->> Explicitly add a flag, VMS_END that should be set, and assert it is
->> set during the traversal.
->>
->> Note: This can't go in until we update the copy of vmstate.h in slirp.
-> 
-> Do we need a libslirp buildsys version check to get this patch merged?
+This patchset fixes up some minor nits in the linux-user code that I
+noticed while I was reading code to assist with reviewing the
+bsd-user signal handling.
 
-In that case we should use an intermediate function which would
-eventually call assert() after checking SLIRP_MAJOR_VERSION/...
-values.
+thanks
+-- PMM
 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> 
->> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
->> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> ---
->>   include/migration/vmstate.h | 7 ++++++-
->>   migration/savevm.c          | 1 +
->>   migration/vmstate.c         | 2 ++
->>   3 files changed, 9 insertions(+), 1 deletion(-)
+Peter Maydell (3):
+  linux-user: Remove unnecessary 'aligned' attribute from TaskState
+  linux-user: Rename user_force_sig tracepoint to match function name
+  linux-user: Return void from queue_signal()
+
+ linux-user/qemu.h          | 6 +-----
+ linux-user/signal-common.h | 4 ++--
+ linux-user/signal.c        | 7 +++----
+ linux-user/trace-events    | 2 +-
+ 4 files changed, 7 insertions(+), 12 deletions(-)
+
+-- 
+2.25.1
 
 
