@@ -2,66 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DB2748EBE7
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 15:43:59 +0100 (CET)
-Received: from localhost ([::1]:60240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADACC48EC0E
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 15:56:21 +0100 (CET)
+Received: from localhost ([::1]:46278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8No6-0008IY-DG
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 09:43:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54860)
+	id 1n8O04-0001br-0j
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 09:56:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1n8Ni5-0008Uv-IQ; Fri, 14 Jan 2022 09:37:48 -0500
-Received: from smtp25.cstnet.cn ([159.226.251.25]:44870 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1n8Ni0-0007jp-Ls; Fri, 14 Jan 2022 09:37:44 -0500
-Received: from [192.168.0.104] (unknown [180.156.147.178])
- by APP-05 (Coremail) with SMTP id zQCowAA3FxSwiuFh_2s3Bg--.49053S2;
- Fri, 14 Jan 2022 22:37:36 +0800 (CST)
-Subject: Re: [PATCH v3 3/3] target/riscv: add support for svpbmt extension
-To: Anup Patel <anup@brainfault.org>
-References: <20220114014059.23300-1-liweiwei@iscas.ac.cn>
- <20220114014059.23300-4-liweiwei@iscas.ac.cn>
- <CAAhSdy3pwbw8E7KnjQBguY83DbVYhX4LiLK2WBwb_A9KvyAivQ@mail.gmail.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <8d76aab5-eee0-aef0-37c6-94b7e44f38c3@iscas.ac.cn>
-Date: Fri, 14 Jan 2022 22:37:36 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1n8NxY-00006J-Vx
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 09:53:45 -0500
+Received: from [2a00:1450:4864:20::330] (port=39759
+ helo=mail-wm1-x330.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1n8NxX-00029i-DA
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 09:53:44 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ d18-20020a05600c251200b0034974323cfaso7691568wma.4
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 06:53:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=u8lDFI1DORSF8ab34BlNEpCrwyoiZcGiwuQro5PKTSs=;
+ b=GhXPeGRU7xt513jdQYq1GrVhnqW3WNH7qQJS/BCKa98rGwi38+D3VN0lWQSt7bO+cz
+ TCNR7P6E5LGgFmdU1fxkL4rkgJ6QPTbmmcOzlK5YcnOTX+QVrSXKIPv/ZTp7YZtuaowX
+ mzz7ogpb0r3umJqrkFglu95jphoJ2h8mFcZGZ/kSPqDl8LFQSRiYF1xWkbM6eydDLZqa
+ WJilMXJfjKEPyWwkFE0TVH0vxzRwJy3KBp4+urhA9BPfT9IlqS2KqJSzzj40g64FSF/I
+ ny17YIoZgJd6qxFJbrAQ5Zizh/BihDTbu08qU4Thm2+Jwbn5uML84lhcH/GnHwN/C047
+ 9e7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=u8lDFI1DORSF8ab34BlNEpCrwyoiZcGiwuQro5PKTSs=;
+ b=GrdjDE+IJdTDFvVWtymWVao5v4qr104um7TB7tps0OclGRxPOi8b80Oa/biS4VKREp
+ 6Wfbi6MhAMHx8ghqg3R/+mbxp0g8Pi+KpJtmeCI5DcQ0hM9WeR/4z2dDpe/+c9b4GHPL
+ KaD4A6heSnbTDl8PHMLAVwZY4uhooV8h5M+XLdDqgrlflyCrsaUdCetf+SBkBYy4dclY
+ LMcfJyElqrfCGruURrgpZqQHXUvjGcJjQ9WRojaQvANtrSOibh9tTrly0d57jIKA1ibE
+ W6dWZVKj8Dl0EdL2jTchEEYPi3lRyTCeSLxCxhWDns89WOD3qY2w95+5hUwyLCUIteXg
+ 0pug==
+X-Gm-Message-State: AOAM530yd7du5xzT0zvnIYv9C2qixKm0n+R1tHeh5yffDnFX5gsDFWh1
+ JmAGrc2IUXXlORaOWvDVX3CQBz8PVhVrFZscNon8yQ==
+X-Google-Smtp-Source: ABdhPJzsCk0NR5JlfffwFtP7pLXpm6tYUoZdBfzEikmcpMKcy5LINDi5Re6cbdbNIz9XaUhxMz8xRKNrJa/RU/hp+nY=
+X-Received: by 2002:a05:6402:3554:: with SMTP id
+ f20mr9008166edd.343.1642172020986; 
+ Fri, 14 Jan 2022 06:53:40 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAAhSdy3pwbw8E7KnjQBguY83DbVYhX4LiLK2WBwb_A9KvyAivQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: zQCowAA3FxSwiuFh_2s3Bg--.49053S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxZw4rZrW8tw47Ar1kAryDAwb_yoWrJF45pr
- WkGay2kayktFWaka1xtr15Jw4UJws09F4Fkws7Xrs7Jw45J3yrGF1DKw43KF45XF48Zr1j
- 9F1j9F1Yyr4jqaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
- 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
- jxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
- 1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CEbIxv
- r21lc7CjxVAKzI0EY4vE52x082I5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
- 1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
- b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
- vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Zr0_Wr1UMIIF
- 0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxh
- VjvjDU0xZFpf9x0JUTOJ5UUUUU=
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220112130332.1648664-1-imammedo@redhat.com>
+ <20220114142641.1727679-1-imammedo@redhat.com>
+In-Reply-To: <20220114142641.1727679-1-imammedo@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 14 Jan 2022 20:23:29 +0530
+Message-ID: <CAARzgwyn-HGJcF+noLrckRk5ysuHDqGJ6KJm3if1yrdTMkMveA@mail.gmail.com>
+Subject: Re: [PATCH 5/4] tests: acpi: test short OEM_ID/OEM_TABLE_ID values in
+ test_oem_fields()
+To: Igor Mammedov <imammedo@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000f8b63505d58bf7fd"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::330;
+ envelope-from=ani@anisinha.ca; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,118 +82,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, wangjunqiang@iscas.ac.cn,
- Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000f8b63505d58bf7fd
+Content-Type: text/plain; charset="UTF-8"
 
-在 2022/1/14 下午9:59, Anup Patel 写道:
-> On Fri, Jan 14, 2022 at 7:11 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->> It uses two PTE bits, but otherwise has no effect on QEMU, since QEMU is sequentially consistent and doesn't model PMAs currently
->>
->> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
->> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
->> Tested-by: Heiko Stuebner <heiko@sntech.de>
->> ---
->>   target/riscv/cpu.c        | 1 +
->>   target/riscv/cpu.h        | 1 +
->>   target/riscv/cpu_bits.h   | 3 +++
->>   target/riscv/cpu_helper.c | 9 ++++++++-
->>   4 files changed, 13 insertions(+), 1 deletion(-)
->>
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index 45ac98e06b..4f82bd00a3 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -670,6 +670,7 @@ static Property riscv_cpu_properties[] = {
->>
->>       DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
->>       DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
->> +    DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
->>
->>       DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
->>       DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
->> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->> index c3d1845ca1..53f314c752 100644
->> --- a/target/riscv/cpu.h
->> +++ b/target/riscv/cpu.h
->> @@ -329,6 +329,7 @@ struct RISCVCPU {
->>           bool ext_icsr;
->>           bool ext_svinval;
->>           bool ext_svnapot;
->> +        bool ext_svpbmt;
->>           bool ext_zfh;
->>           bool ext_zfhmin;
->>
->> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
->> index bc23e3b523..ee294c1d0b 100644
->> --- a/target/riscv/cpu_bits.h
->> +++ b/target/riscv/cpu_bits.h
->> @@ -486,7 +486,10 @@ typedef enum {
->>   #define PTE_A               0x040 /* Accessed */
->>   #define PTE_D               0x080 /* Dirty */
->>   #define PTE_SOFT            0x300 /* Reserved for Software */
->> +#define PTE_RSVD            0x1FC0000000000000 /* Reserved for future use */
->> +#define PTE_PBMT            0x6000000000000000 /* Page-based memory types */
->>   #define PTE_N               0x8000000000000000 /* NAPOT translation */
->> +#define PTE_ATTR            0xFFC0000000000000 /* All attributes bits */
->>
->>   /* Page table PPN shift amount */
->>   #define PTE_PPN_SHIFT       10
->> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
->> index 58ab85bca3..f90766e026 100644
->> --- a/target/riscv/cpu_helper.c
->> +++ b/target/riscv/cpu_helper.c
->> @@ -619,16 +619,23 @@ restart:
->>               return TRANSLATE_FAIL;
->>           }
->>
->> -        hwaddr ppn = (pte & ~(target_ulong)PTE_N) >> PTE_PPN_SHIFT;
->> +        hwaddr ppn = (pte & ~(target_ulong)PTE_ATTR) >> PTE_PPN_SHIFT;
->>
->>           RISCVCPU *cpu = env_archcpu(env);
->>           if (!cpu->cfg.ext_svnapot && (pte & PTE_N)) {
->>               return TRANSLATE_FAIL;
->> +        } else if (!cpu->cfg.ext_svpbmt && (pte & PTE_PBMT)) {
->> +            return TRANSLATE_FAIL;
->> +        } else if (pte & PTE_RSVD) {
->> +            return TRANSLATE_FAIL;
->>           } else if (!(pte & PTE_V)) {
->>               /* Invalid PTE */
->>               return TRANSLATE_FAIL;
->>           } else if (!(pte & (PTE_R | PTE_W | PTE_X))) {
->>               /* Inner PTE, continue walking */
->> +            if (pte & (PTE_D | PTE_A | PTE_U | PTE_N | PTE_PBMT)) {
->> +                return TRANSLATE_FAIL;
->> +            }
-> I think you should add a patch before PATCH1 to add following:
->
-> if (pte & (PTE_D | PTE_A | PTE_U)) {
->      return TRANSLATE_FAIL;
-> }
->
-> The current PATCH1 should add PTE_N to the comparison and
-> this patch can add PTE_PBMT to the comparison.
-OK. I'll update this.
->>               base = ppn << PGSHIFT;
->>           } else if ((pte & (PTE_R | PTE_W | PTE_X)) == PTE_W) {
->>               /* Reserved leaf PTE flags: PTE_W */
->> --
->> 2.17.1
->>
-> Apart from the minor comment above, it looks good to me.
->
-> Reviewed-by: Anup Patel <anup@brainfault.org>
->
-> Regards,
-> Anup
+On Fri, Jan 14, 2022 at 7:57 PM Igor Mammedov <imammedo@redhat.com> wrote:
 
-Regards,
+> Previous patch [1] added explicit whitespace padding to OEM_ID/OEM_TABLE_ID
+> values used in test_oem_fields() testcase to avoid false positive and
+> bisection issues when QEMU is switched to \0' padding. As result
+> testcase ceased to test values that were shorter than max possible
+> length values.
+>
+> Update testcase to make sure that it's testing shorter IDs like it
+> used to before [2].
+>
+> 1) "tests: acpi: manually pad OEM_ID/OEM_TABLE_ID for  test_oem_fields()
+> test"
+> 2) 602b458201 ("acpi: Permit OEM ID and OEM table ID fields to be changed")
+>
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 
-Weiwei Li
 
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
+
+
+
+>
+
+--000000000000f8b63505d58bf7fd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Fri, Jan 14, 2022 at 7:57 PM Igor Mammedov &lt;<a href=
+=3D"mailto:imammedo@redhat.com">imammedo@redhat.com</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:=
+rgb(204,204,204)">Previous patch [1] added explicit whitespace padding to O=
+EM_ID/OEM_TABLE_ID<br>
+values used in test_oem_fields() testcase to avoid false positive and<br>
+bisection issues when QEMU is switched to \0&#39; padding. As result<br>
+testcase ceased to test values that were shorter than max possible<br>
+length values.<br>
+<br>
+Update testcase to make sure that it&#39;s testing shorter IDs like it<br>
+used to before [2].<br>
+<br>
+1) &quot;tests: acpi: manually pad OEM_ID/OEM_TABLE_ID for=C2=A0 test_oem_f=
+ields() test&quot;<br>
+2) 602b458201 (&quot;acpi: Permit OEM ID and OEM table ID fields to be chan=
+ged&quot;)<br>
+<br>
+Signed-off-by: Igor Mammedov &lt;<a href=3D"mailto:imammedo@redhat.com" tar=
+get=3D"_blank">imammedo@redhat.com</a>&gt;</blockquote><div dir=3D"auto"><b=
+r></div><div dir=3D"auto">Reviewed-by: Ani Sinha &lt;<a href=3D"mailto:ani@=
+anisinha.ca">ani@anisinha.ca</a>&gt;</div><div dir=3D"auto"><br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-=
+width:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(20=
+4,204,204)" dir=3D"auto"></blockquote><div dir=3D"auto"><br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-widt=
+h:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,20=
+4,204)" dir=3D"auto"><br>
+</blockquote></div></div>
+
+--000000000000f8b63505d58bf7fd--
 
