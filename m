@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7374448E90A
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 12:20:00 +0100 (CET)
-Received: from localhost ([::1]:48620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C23BD48E945
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 12:35:04 +0100 (CET)
+Received: from localhost ([::1]:55566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8Kch-0007Uy-Cw
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 06:19:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40120)
+	id 1n8KrH-00055g-EP
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 06:35:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n8KX7-0001vo-NV
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 06:14:13 -0500
-Received: from [2a00:1450:4864:20::432] (port=36646
- helo=mail-wr1-x432.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n8KX5-0004ke-HQ
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 06:14:13 -0500
-Received: by mail-wr1-x432.google.com with SMTP id r28so15060893wrc.3
- for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 03:14:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XB2tzPoHF6xwtfWDK+YLssS7FK1RxqYWDkmyjrFU0Ng=;
- b=TTN08nD9/DUMgD34gyCrc5To2d0chqYwmAOyjAMlRU1+A2XN9YsGU5NP14MQrakn/g
- s6NeMEHgZ2tJrb5HDl4NcSQe9OUpQxjRiZlLSdChPV2r6UdYBBAFLuc6sscCjmj03HXO
- x6sVprHAW48sFAgeKpNWDm5JOwRmckKXjR/VqKGtk2Y3WEm3+1B+gwmQUfsk91ERODr1
- UJDUrl5Rodd7oA+j0rOtiwtcNrkQleRuIvYcokbCmUVRC0eN5ogNI16dqSP+CC3ISp71
- AvF7KwSipfa4GANyMra1IDSlDIP3MfMMiJE5mqLgrqWF4EWBjpPdLjZKvaqnenLeu1q0
- jUIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XB2tzPoHF6xwtfWDK+YLssS7FK1RxqYWDkmyjrFU0Ng=;
- b=FP5hpoZQ9BLZMcQNzkbMLUgECzSJwDlIE1Bk7ign3dIdwpRTPBR8ctN1tY+rLL93rW
- MxJm/hJYMtfmwfTCNzuz24+08+5MM7fXwi1qqNObZp9GAMPiisycaX/pDm+XHYO+8a6C
- SbK+x1Z+VSX1qaRJkCDUhKGjVL7gWhmseba93aALwvVJuIeqlJcK9P2Zqz9NzzrralXR
- Y0i13d4vMu/B5xDH752qXBRshIsfSCsAlQg4t+XUrX9oqoDAe8sGfbYz9zWzkNoKxIms
- TlSht33rbHjU99zMLNkOpPauOtKfRUlYxoaSOZqxptsw4Q044OCnHMDOLW+SX0WV0SUL
- tkEA==
-X-Gm-Message-State: AOAM530LUeqLbfGo40tQ3iD4/T4k+SOMl8MYvgbsE+FuP+aqYmxWKtZv
- YxRSS9Kx/txqkt8yRUvzNXySbKyJYrC9cdn33YHQmodkvpcfIA==
-X-Google-Smtp-Source: ABdhPJyziKV6sJ8Z78sM4fyTnlAoB5LPYwKrU0BQf1ZtFI9iOsp1S53pNgwtrYuybxCAXU0W0nabdg2V84eCcmkfUWM=
-X-Received: by 2002:a5d:64c3:: with SMTP id f3mr7607299wri.295.1642158850064; 
- Fri, 14 Jan 2022 03:14:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1n8KfB-0001oz-1X
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 06:22:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60414)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1n8Kex-0006GE-Go
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 06:22:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642159338;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=a8tZRPMMIXIK6ScRv8w5RD1FZQgCCYwUiRNTKgINVH4=;
+ b=jK3Z7rvIPTb/dBrZUZbTb+2NHnnwYKmvVddsB67nIWwNkjXzQoCw6PiMScMsSzBYZqT6di
+ o+FI/+L5QtvhL0UiWX4Hrlpb7+xp/J7jdk9NcScOJYcH2Pt+WmK0mHdCO9SsfBrPlbfEQn
+ Fcg4MNWBAoeT3kS7iAWi0sKKb2G92xI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-262-oCt_OrCINV6CfMH4xLh4bA-1; Fri, 14 Jan 2022 06:22:17 -0500
+X-MC-Unique: oCt_OrCINV6CfMH4xLh4bA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38C301006AA6;
+ Fri, 14 Jan 2022 11:22:16 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-9.ams2.redhat.com [10.36.112.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 862F023085;
+ Fri, 14 Jan 2022 11:22:15 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E429C11380A2; Fri, 14 Jan 2022 12:22:13 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Nikita Lapshin <nikita.lapshin@virtuozzo.com>
+Subject: Re: [PATCH 4/6] migration: Add ram-only capability
+References: <20211224111148.345438-1-nikita.lapshin@virtuozzo.com>
+ <20211224111148.345438-5-nikita.lapshin@virtuozzo.com>
+Date: Fri, 14 Jan 2022 12:22:13 +0100
+In-Reply-To: <20211224111148.345438-5-nikita.lapshin@virtuozzo.com> (Nikita
+ Lapshin's message of "Fri, 24 Dec 2021 14:11:46 +0300")
+Message-ID: <87v8ym36l6.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220109161923.85683-1-imp@bsdimp.com>
- <20220109161923.85683-24-imp@bsdimp.com>
-In-Reply-To: <20220109161923.85683-24-imp@bsdimp.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 14 Jan 2022 11:13:59 +0000
-Message-ID: <CAFEAcA_fc_-qXoY07uZuMpT6kAUT+oT8RD_G=8vGgSQqDmH-WA@mail.gmail.com>
-Subject: Re: [PATCH 23/30] bsd-user/signal.c: sigset manipulation routines.
-To: Warner Losh <imp@bsdimp.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,147 +80,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@freebsd.org>,
- qemu-devel@nongnu.org
+Cc: eduardo@habkost.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ den@virtuozzo.com, quintela@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, hreitz@redhat.com, crosa@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 9 Jan 2022 at 16:53, Warner Losh <imp@bsdimp.com> wrote:
->
-> target_sigemptyset: resets a set to having no bits set
-> qemu_sigorset:      computes the or of two sets
-> target_sigaddset:   adds a signal to a set
-> target_sigismember: returns true when signal is a member
-> host_to_target_sigset_internal: convert host sigset to target
-> host_to_target_sigset: convert host sigset to target
-> target_to_host_sigset_internal: convert target sigset to host
-> target_to_host_sigset: convert target sigset to host
->
-> Signed-off-by: Stacey Son <sson@FreeBSD.org>
-> Signed-off-by: Kyle Evans <kevans@freebsd.org>
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
-> ---
->  bsd-user/qemu.h   |  3 ++
->  bsd-user/signal.c | 89 +++++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 92 insertions(+)
->
-> diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-> index e12617f5d69..e8c417c7c33 100644
-> --- a/bsd-user/qemu.h
-> +++ b/bsd-user/qemu.h
-> @@ -223,7 +223,10 @@ void queue_signal(CPUArchState *env, int sig, target_siginfo_t *info);
->  abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp);
->  int target_to_host_signal(int sig);
->  int host_to_target_signal(int sig);
-> +void host_to_target_sigset(target_sigset_t *d, const sigset_t *s);
-> +void target_to_host_sigset(sigset_t *d, const target_sigset_t *s);
->  void QEMU_NORETURN force_sig(int target_sig);
-> +int qemu_sigorset(sigset_t *dest, const sigset_t *left, const sigset_t *right);
->
->  /* mmap.c */
->  int target_mprotect(abi_ulong start, abi_ulong len, int prot);
-> diff --git a/bsd-user/signal.c b/bsd-user/signal.c
-> index 93c3b3c5033..8dadc9a39a7 100644
-> --- a/bsd-user/signal.c
-> +++ b/bsd-user/signal.c
-> @@ -32,6 +32,9 @@
->
->  static struct target_sigaction sigact_table[TARGET_NSIG];
->  static void host_signal_handler(int host_sig, siginfo_t *info, void *puc);
-> +static void target_to_host_sigset_internal(sigset_t *d,
-> +        const target_sigset_t *s);
-> +
->
->  int host_to_target_signal(int sig)
->  {
-> @@ -43,6 +46,44 @@ int target_to_host_signal(int sig)
->      return sig;
->  }
->
-> +static inline void target_sigemptyset(target_sigset_t *set)
-> +{
-> +    memset(set, 0, sizeof(*set));
-> +}
-> +
-> +#include <signal.h>
+Nikita Lapshin <nikita.lapshin@virtuozzo.com> writes:
 
-Don't include system headers halfway through the file like this,
-please : put the #include at the top of the file with the others.
-
-> +
-> +int
-> +qemu_sigorset(sigset_t *dest, const sigset_t *left, const sigset_t *right)
-> +{
-> +    sigset_t work;
-> +    int i;
-> +
-> +    sigemptyset(&work);
-> +    for (i = 1; i < NSIG; ++i) {
-> +        if (sigismember(left, i) || sigismember(right, i)) {
-> +            sigaddset(&work, i);
-> +        }
-> +    }
-> +
-> +    *dest = work;
-> +    return 0;
-> +}
-
-FreeBSD's manpage says it has a native sigorset() --
-https://www.freebsd.org/cgi/man.cgi?query=sigemptyset&sektion=3&apropos=0&manpath=freebsd
-can you just use that ?
-
-> +
-> +static inline void target_sigaddset(target_sigset_t *set, int signum)
-> +{
-> +    signum--;
-> +    uint32_t mask = (uint32_t)1 << (signum % TARGET_NSIG_BPW);
-> +    set->__bits[signum / TARGET_NSIG_BPW] |= mask;
-> +}
-> +
-> +static inline int target_sigismember(const target_sigset_t *set, int signum)
-> +{
-> +    signum--;
-> +    abi_ulong mask = (abi_ulong)1 << (signum % TARGET_NSIG_BPW);
-> +    return (set->__bits[signum / TARGET_NSIG_BPW] & mask) != 0;
-> +}
-> +
->  /* Adjust the signal context to rewind out of safe-syscall if we're in it */
->  static inline void rewind_if_in_safe_syscall(void *puc)
->  {
-> @@ -55,6 +96,54 @@ static inline void rewind_if_in_safe_syscall(void *puc)
->      }
->  }
+> If this capability is enabled migration stream
+> will have RAM section only.
 >
-> +static void host_to_target_sigset_internal(target_sigset_t *d,
-> +        const sigset_t *s)
-> +{
-> +    int i;
-> +
-> +    target_sigemptyset(d);
-> +    for (i = 1; i <= TARGET_NSIG; i++) {
+> Signed-off-by: Nikita Lapshin <nikita.lapshin@virtuozzo.com>
 
-i here is iterating through host signal numbers, not target
-numbers, so TARGET_NSIG isn't the right upper bound.
-On Linux we iterate from 1 to _NSIG-1; on BSD I think
-you may want (i = 0; i < NSIG; i++), but you should check that.
+[...]
 
-> +        if (sigismember(s, i)) {
-> +            target_sigaddset(d, host_to_target_signal(i));
-> +        }
-> +    }
-> +}
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index d53956852c..626fc59d14 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -454,6 +454,8 @@
+>  #
+>  # @no-ram: If enabled, migration stream won't contain any ram in it. (since 7.0)
+>  #
+> +# @ram-only: If enabled, only RAM sections will be sent. (since 7.0)
+> +#
 
-These functions are a little odd when you compare them to their
-linux-user equivalents, because they're both written
-with a sort of abstraction between host and target signal
-numbers (they call host_to_target_signal() and
-target_to_host_signal()) but also written with baked-in
-assumptions that the mapping is basically 1:1 (they don't
-have the code that handles the possibility that the
-target signal isn't representable as a host signal or
-vice-versa). But assuming the BSDs don't change their
-signal numbering across architectures, this is fine.
+What happens when I ask for 'no-ram': true, 'ram-only': true?
 
-thanks
--- PMM
+>  # Features:
+>  # @unstable: Members @x-colo and @x-ignore-shared are experimental.
+>  #
+> @@ -467,7 +469,7 @@
+>             'block', 'return-path', 'pause-before-switchover', 'multifd',
+>             'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
+>             { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
+> -           'validate-uuid', 'background-snapshot', 'no-ram'] }
+> +           'validate-uuid', 'background-snapshot', 'no-ram', 'ram-only'] }
+>  ##
+>  # @MigrationCapabilityStatus:
+>  #
+> @@ -521,7 +523,8 @@
+>  #       {"state": true, "capability": "events"},
+>  #       {"state": false, "capability": "postcopy-ram"},
+>  #       {"state": false, "capability": "x-colo"},
+> -#       {"state": false, "capability": "no-ram"}
+> +#       {"state": false, "capability": "no-ram"},
+> +#       {"state": false, "capability": "ram-only"}
+>  #    ]}
+>  #
+>  ##
+
 
