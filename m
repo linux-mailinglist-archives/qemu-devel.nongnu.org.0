@@ -2,72 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57A8848E8A7
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 11:55:33 +0100 (CET)
-Received: from localhost ([::1]:33340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA2AD48E894
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 11:51:07 +0100 (CET)
+Received: from localhost ([::1]:52106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8KF2-0001BK-D8
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 05:55:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33660)
+	id 1n8KAl-0002Z8-1E
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 05:51:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n8K21-0001eG-04
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n8K21-0001eI-2Y
  for qemu-devel@nongnu.org; Fri, 14 Jan 2022 05:42:05 -0500
-Received: from [2a00:1450:4864:20::331] (port=44545
- helo=mail-wm1-x331.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n8K1z-0008CW-3N
+Received: from 4.mo552.mail-out.ovh.net ([178.33.43.201]:55869)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n8K1x-0008CT-Nw
  for qemu-devel@nongnu.org; Fri, 14 Jan 2022 05:42:04 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- f141-20020a1c1f93000000b003497aec3f86so5376154wmf.3
- for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 02:41:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Dtt5vkuk64SUnnIs9/zeBgnqYywvysvnTay8RmFCubw=;
- b=T4x8pNJZ2ueEGPDnvhaUQs3oEQ56CHA6J1ciX+gq8JgAJuE8wvGmx1cwzDoQWRuX+A
- hAm6gUdaz7WDZiQbpr5CMMDrE/HciExfW0pX81WnY5FrXAbI+8aUBEnoiAZdCvPRPuTc
- OvBQQjpfPx5aLHhf4rC5+6yoGceBcpwa+Jqzz+5WxIcWb45BTq80JOqgk9s8RCWLJ68p
- Y3ICgemONVLpzUQudXIqpfmrlg4hzJk9CiG9KEeITjjqg/ctilqeKZK1vz9ba1rZOECj
- bnjr/XZwU1GcMs9+VZqU3qI7NGxDv2NER1Q7ZDT1dH0MAEl/gV+N6SiGkZ0bEB1EX7XN
- TmtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Dtt5vkuk64SUnnIs9/zeBgnqYywvysvnTay8RmFCubw=;
- b=5brgHZl5taE1VJ1R42Qfk2sc/Uie6vTEKX92mmCbkBUq8j5eCnEuBE9Zz37Fchy+hy
- w4GPqfiHPfLdahsmuEXOhdmnDLPyAMu/oGlK6tvAKEEa4PPbwirNe51ExaUt0DUT+LAd
- XsTwPTNZCrxzcDEW2/+A5LIYYvFOHQCOMZEjP3mYuTDGP4tN4G1/GSr1cZ+a2svC8xlB
- J/Y4C5WLgxORW5dv5mFyIeKX0G2MgF6ezbyXyh4dovTtShHkI1IWhsLToEQ6loWcyMOf
- Yz2QB1NEYFyTHlylAUWTdD8HtnLFMqm16WirvGYdFxhSCCnXDkQQjMHmQ3oBu/joYegy
- 3a+g==
-X-Gm-Message-State: AOAM530T+94mgHugYy+tGfHXQC9qRkiLlTvW+WWXcLYtdPc5PxAZxa85
- rIsi/r2SRusu640TsTjrPhdeJS6N9VsOLYLMzIWnTQ==
-X-Google-Smtp-Source: ABdhPJyiGGd830Zxv4WqwPmRo6hWBQ/T4SzIpv9fC9F1xLt2/lXENAOabXL6YS4l1YLMaS0b7Xu1It5is7PdW+j34RI=
-X-Received: by 2002:a1c:f70d:: with SMTP id v13mr7801964wmh.133.1642156915046; 
- Fri, 14 Jan 2022 02:41:55 -0800 (PST)
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.108])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id E79DB2195A;
+ Fri, 14 Jan 2022 10:41:54 +0000 (UTC)
+Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Fri, 14 Jan
+ 2022 11:41:54 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R0063c6a274e-480c-49b5-835c-2d827fd84f21,
+ CC0F12677928C812C874D314DD24F058DC39716A) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <7245b1c9-fcf6-215c-a40e-bc79ce53fb5f@kaod.org>
+Date: Fri, 14 Jan 2022 11:41:48 +0100
 MIME-Version: 1.0
-References: <CAARzgwx6YtzANV1z24bCmnDiu3bEsX1SSiJ8HjZbmryA2N2Uyg@mail.gmail.com>
-In-Reply-To: <CAARzgwx6YtzANV1z24bCmnDiu3bEsX1SSiJ8HjZbmryA2N2Uyg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 14 Jan 2022 10:41:44 +0000
-Message-ID: <CAFEAcA9-vmMY2347xq7h-gp2WWO+7SZjPy2j55AjEaKGddxF9w@mail.gmail.com>
-Subject: Re: Re max ISA serial ports
-To: Ani Sinha <ani@anisinha.ca>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 08/17] ppc/pnv: change pnv_pec_stk_update_map() to use
+ PnvPHB4
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
+References: <20220113192952.911188-1-danielhb413@gmail.com>
+ <20220113192952.911188-9-danielhb413@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220113192952.911188-9-danielhb413@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 2b722ad9-f3fd-409e-a67a-64a8372e9543
+X-Ovh-Tracer-Id: 6012868453405658080
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrtdehgddulecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
+Received-SPF: pass client-ip=178.33.43.201; envelope-from=clg@kaod.org;
+ helo=4.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,44 +71,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 14 Jan 2022 at 10:31, Ani Sinha <ani@anisinha.ca> wrote:
->
-> I have a question re the following commit :
->
-> commit def337ffda34d331404bd7f1a42726b71500df22
-> Author: Peter Maydell <peter.maydell@linaro.org>
-> Date:   Fri Apr 20 15:52:46 2018 +0100
->
->     serial-isa: Use MAX_ISA_SERIAL_PORTS instead of MAX_SERIAL_PORTS
->
->
-> Does this mean that this limit of 4 slots qemu / hypervisor specific
-> or is it limited in general by hardware across all hypervisor?
-> Can you please clarify?
+On 1/13/22 20:29, Daniel Henrique Barboza wrote:
+> stack->nest_regs_mr wasn't migrated to PnvPHB4 together with phb->nest_regs[] in
+> the previous patch. We were unable to cleanly convert its write MemoryRegionOps,
+> pnv_pec_stk_nest_xscom_write(), to use PnvPHB4 instead of PnvPhb4PecStack due to
+> pnv_pec_stk_update_map() using a stack. Thing is, we're now able to convert
+> pnv_pec_stk_update_map() because of what the did in previous patch.
+> 
+> The need for this intermediate step is a good example of the interconnected
+> relationship between stack and phb that we aim to cleanup.
+> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-This commit was part of a series which removed the previous
-compile time limit on the number of serial ports. (The later
-6af2692e86f9fdfb3 and b8846a4d6352b2 remove that limit.)
-For some hardware, like the ISA serial port, there is still a
-compile time limit because we are emulating real hardware
-which had a fixed limit, so there's no point in making QEMU's
-code for that device capable of handling any number of ports.
-(As the commit message says, the limit in this case is
-imposed because there are fixed IO port and IRQ settings for
-ISA serial ports.) Commit def337ffda3 is just disentangling
-the old generic compile-time limit MAX_SERIAL_PORTS from the
-new specific-to-this-device compile-time limit MAX_ISA_SERIAL_PORTS
-so that the later commit 6af2692e86f9fdfb3 can delete
-MAX_SERIAL_PORTS entirely.
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-Summary: QEMU (and KVM etc) have no limit on the number
-of serial ports. Some specific device emulation does,
-usually where the real device it's emulating is similarly
-limited.
+Thanks,
 
--- PMM
+C.
+
+> ---
+>   hw/pci-host/pnv_phb4.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+> index 916a7a3cf0..0f4464ec67 100644
+> --- a/hw/pci-host/pnv_phb4.c
+> +++ b/hw/pci-host/pnv_phb4.c
+> @@ -893,10 +893,10 @@ static void pnv_phb4_update_regions(PnvPHB4 *phb)
+>       pnv_phb4_check_all_mbt(phb);
+>   }
+>   
+> -static void pnv_pec_stk_update_map(PnvPhb4PecStack *stack)
+> +static void pnv_pec_stk_update_map(PnvPHB4 *phb)
+>   {
+> +    PnvPhb4PecStack *stack = phb->stack;
+>       PnvPhb4PecState *pec = stack->pec;
+> -    PnvPHB4 *phb = stack->phb;
+>       MemoryRegion *sysmem = get_system_memory();
+>       uint64_t bar_en = phb->nest_regs[PEC_NEST_STK_BAR_EN];
+>       uint64_t bar, mask, size;
+> @@ -1046,7 +1046,7 @@ static void pnv_pec_stk_nest_xscom_write(void *opaque, hwaddr addr,
+>           break;
+>       case PEC_NEST_STK_BAR_EN:
+>           phb->nest_regs[reg] = val & 0xf000000000000000ull;
+> -        pnv_pec_stk_update_map(stack);
+> +        pnv_pec_stk_update_map(phb);
+>           break;
+>       case PEC_NEST_STK_DATA_FRZ_TYPE:
+>       case PEC_NEST_STK_PBCQ_TUN_BAR:
+> 
+
 
