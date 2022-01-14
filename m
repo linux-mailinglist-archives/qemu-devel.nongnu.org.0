@@ -2,87 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD4C48E6FA
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 09:55:32 +0100 (CET)
-Received: from localhost ([::1]:57306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64DB348E6FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 09:55:43 +0100 (CET)
+Received: from localhost ([::1]:58310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8IMu-00007y-2a
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 03:55:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42014)
+	id 1n8IN4-00017l-Ek
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 03:55:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1n8IDd-0000sr-6i
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 03:46:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43228)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n8IK4-0006Kl-Kd
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 03:52:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1n8IDb-0007Zd-HX
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 03:45:56 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n8IK3-0008PO-3d
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 03:52:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642149954;
+ s=mimecast20190719; t=1642150354;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nFFDsLvIiLoWR0WFRWbUEThEi12UvcsOYd0bEDF/LAo=;
- b=XtvaH3vHs9Q/GK5Val8C9ogGrDr/Vewm8JIQ9IG8wHPze8IjfVWMVTEzLDukANS/9WapC0
- AzfzfjRvfansO7hJwVrpRguxnMp/f8ZtS8MbOYc+CfXQbO8ttUcvRJ2E4iyD3vOJzv2r/I
- 0gGGWeipaEtl18pfEopgdkZ7KvkEe/Y=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=sunfqT0mxH4lSbP5b+qZzOn8G8tatyfsWdTecLtroJo=;
+ b=iCD/Y11UfsuKAtfDW3Uf7n+UWvLfX3g0PXEVgJQynPSHe5BPvNZW48COQhwPPZJC127VoV
+ RyaQb9XWRUZraGbcjmmZzLphKpECK8BB7sLWi3tFSn7Us3NX3ZqfSnAfR4vU4FGv2+doke
+ 1DJc5ielJYYLez1nkw04e5Rx6T2Wrgw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-651-rRz_Du8cOryucBdz7Q10ow-1; Fri, 14 Jan 2022 03:45:53 -0500
-X-MC-Unique: rRz_Du8cOryucBdz7Q10ow-1
-Received: by mail-wr1-f72.google.com with SMTP id
- w2-20020adfbac2000000b001a540eeb812so1562015wrg.8
- for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 00:45:53 -0800 (PST)
+ us-mta-166-ZieGeumJPRCl0SXD4_BHng-1; Fri, 14 Jan 2022 03:52:33 -0500
+X-MC-Unique: ZieGeumJPRCl0SXD4_BHng-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 20-20020a05600c22d400b00349067fe7b7so2036275wmg.5
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 00:52:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=nFFDsLvIiLoWR0WFRWbUEThEi12UvcsOYd0bEDF/LAo=;
- b=BFBcmF6ZdE4TfGF6t7lNR6ZjO97k+kmZhaHKOvLCg558ykx99F7UOZ72BfAljHb5QV
- 0HR8RVsGsW9k8CjijKE26RCm7HK9g0XEAYLJ7K3yIsz4EsIbQKSWhmz1yhJ5/XYA6W5c
- VXRZy8D4b4QKzKsrL7p5ZzBYQNrFycx5WQ7PrFNXrRGQqBjmzK9WDrGmiGHw7nwBHccA
- j0/dmamYwiI08I0yB3+iM0WFrofua+WLOP3IlzmsukYghyChH8/oGFkqZ3BsYJDvFmvu
- mY6qseBPvfdy7yKYolhTjnzJQmEHyZNR1StKQgWW5ptZ6ictkkJrRkUkQSc+GeDJjXl4
- AEcw==
-X-Gm-Message-State: AOAM530+cwYK8YwyhhyxearQIAa3bekOrQD5S1cU0Umr1b92yB/x9Dxg
- AybSCX1OUrcmonnGTLW9SjcHd3+tbZm0cFsTzayndJwG6V+BJiyfmoi2o5yboLQLBUhcryt3K27
- /6l6wfmMxh2l8YDM=
-X-Received: by 2002:a1c:1dd0:: with SMTP id d199mr7342990wmd.121.1642149952213; 
- Fri, 14 Jan 2022 00:45:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxcZlAADVA9l9eWzW4pGcnQTgg2dLQaEwy+A37zRaSEN0kJQHgaGfnvCkgo8JL7wAbqoqKWhQ==
-X-Received: by 2002:a1c:1dd0:: with SMTP id d199mr7342967wmd.121.1642149951962; 
- Fri, 14 Jan 2022 00:45:51 -0800 (PST)
-Received: from gator (cst2-173-70.cust.vodafone.cz. [31.30.173.70])
- by smtp.gmail.com with ESMTPSA id z7sm5536226wrm.117.2022.01.14.00.45.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Jan 2022 00:45:51 -0800 (PST)
-Date: Fri, 14 Jan 2022 09:45:49 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>
-Subject: Re: [PATCH] hw/arm/virt: Default enable the virtualization
- option(VHE) on A64FX
-Message-ID: <20220114084549.5lkdhqushaxivpew@gator>
-References: <20220114072438.3085054-1-ishii.shuuichir@fujitsu.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=sunfqT0mxH4lSbP5b+qZzOn8G8tatyfsWdTecLtroJo=;
+ b=ay+KEa6uqYkqdYc5Bjm0X9/xZGiPu5r4Otx+XDAuWAQdJH5jRwwwOQPQBeUFjITal6
+ GW+iZ5lKkMMCjyVpsE3Y2P/XJkjc0+OEP8a6GDol6y3CRlyQ1tG5u8lzv6eS5S19TV0l
+ drbDA/+7taZg4qu401kMmCgNz9lvKJ4Qc48mt22VRSYUDorHjP+O9hcWbLAW3Nwv4EmU
+ cVe2cE6T7tNQbIK4Y+0tQmudgMha63zNZFhbKoPDP8tT1+77FwJZC//foWY8O1UoGi/i
+ D9gyfm0Coiip/maIi7AczyjG9OazwyI9VfEpJHXr/5CGxorU/wRcIWUGi5Q6i0CC+Svu
+ Druw==
+X-Gm-Message-State: AOAM532efnCKE/Kquq7rgnQrSHV6CxZfWAx5nXUx71WlPuMlluhoh1ZL
+ ixMRzaU4tq91TOAJ2yPmSW6FJvBgRbDG71fVd/aG8m95m7Qfg+mTQtTwgC1doHbqPzynpONvQE6
+ zG/Q7X964RMCtlHc=
+X-Received: by 2002:a7b:cb01:: with SMTP id u1mr7452318wmj.187.1642150351847; 
+ Fri, 14 Jan 2022 00:52:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx8KEJ9CyCKDWnuNGLH23McJuocs9LCtCBI2MZoybdgR6IHhiO9xSAczc+pTEBLQ8y60Kr0Cg==
+X-Received: by 2002:a7b:cb01:: with SMTP id u1mr7452298wmj.187.1642150351652; 
+ Fri, 14 Jan 2022 00:52:31 -0800 (PST)
+Received: from [10.33.192.205] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id p1sm5428227wrr.75.2022.01.14.00.52.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Jan 2022 00:52:31 -0800 (PST)
+Message-ID: <e0189600-1f6e-ac8e-c756-4fe0d1aa4144@redhat.com>
+Date: Fri, 14 Jan 2022 09:52:29 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220114072438.3085054-1-ishii.shuuichir@fujitsu.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 1/6] tests/qtest/vhost-user-test.c: Use vhostforce=on
+To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ pbonzini@redhat.com, lvivier@redhat.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
+ david@gibson.dropbear.id.au, clg@kaod.org
+References: <20220110211915.2749082-1-eric.auger@redhat.com>
+ <20220110211915.2749082-2-eric.auger@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220110211915.2749082-2-eric.auger@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=drjones@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,51 +102,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, mst@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, f4bug@amsat.org, qemu-arm@nongnu.org
+Cc: jean-philippe@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 14, 2022 at 04:24:37PM +0900, Shuuichirou Ishii wrote:
-> At A64FX specification, VHE is enabled by default, so
-> the virtualization option should be enabled when -cpu a64fx
-> is specified.
+On 10/01/2022 22.19, Eric Auger wrote:
+> -netdev vhost-user,vhostforce is deprecated and vhostforce=on
+> should be used instead.
 > 
-> Signed-off-by: Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
 > ---
->  hw/arm/virt.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>   tests/qtest/vhost-user-test.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index b45b52c90e..56acf5cc7e 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -1932,6 +1932,12 @@ static void machvirt_init(MachineState *machine)
->      firmware_loaded = virt_firmware_init(vms, sysmem,
->                                           secure_sysmem ?: sysmem);
->  
-> +    /* A64FX proceesor is supported the ARMv8.1-VHE */
-> +    if (!vms->virt &&
-> +            !strncmp(machine->cpu_type, ARM_CPU_TYPE_NAME("a64fx"), 13)) {
-> +        vms->virt = true;
-> +    }
-> +
->      /* If we have an EL3 boot ROM then the assumption is that it will
->       * implement PSCI itself, so disable QEMU's internal implementation
->       * so it doesn't get in the way. Instead of starting secondary
-> -- 
-> 2.27.0
->
+> diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
+> index 3d6337fb5c5..6e79935c47e 100644
+> --- a/tests/qtest/vhost-user-test.c
+> +++ b/tests/qtest/vhost-user-test.c
+> @@ -42,7 +42,7 @@
+>   #define QEMU_CMD_MEMFD  " -m %d -object memory-backend-memfd,id=mem,size=%dM," \
+>                           " -numa node,memdev=mem"
+>   #define QEMU_CMD_CHR    " -chardev socket,id=%s,path=%s%s"
+> -#define QEMU_CMD_NETDEV " -netdev vhost-user,id=hs0,chardev=%s,vhostforce"
+> +#define QEMU_CMD_NETDEV " -netdev vhost-user,id=hs0,chardev=%s,vhostforce=on"
+>   
+>   #define HUGETLBFS_MAGIC       0x958458f6
+>   
 
-a64fx isn't the only CPU type the virt machine type supports which has
-EL2 support. In fact, all the CPU types supported by mach-virt do, unless
-KVM is enabled. So, while I understand the sentiment of this patch, it
-doesn't fit the current model. And, since we don't want to start
-accumulating hacks like this one in mach-virt, then the options are either
-a) push the problem up the stack to whatever constructs the QEMU command
-line or b) consider/propose a different machine type.
-
-Thanks,
-drew
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
