@@ -2,93 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0339448E664
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 09:26:59 +0100 (CET)
-Received: from localhost ([::1]:58924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7804048E6A3
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 09:37:00 +0100 (CET)
+Received: from localhost ([::1]:40226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8HvD-00055y-O8
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 03:26:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57896)
+	id 1n8I4x-000414-1h
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 03:36:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n8HGz-0001AO-At
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 02:45:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20526)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1n8I1u-00026h-IE
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 03:33:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45128)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n8HGw-0006AB-7T
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 02:45:19 -0500
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1n8I1l-0005dx-Nh
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 03:33:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642146316;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1642149221;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ro3ALW41mNPk2tlc0zN6SpFn2JA1txz1LcXPYTI8TVs=;
- b=RBAbfXkYQcxHZycLrJbXasB4xelhERfIp1nRrTkwa95Ngl4/9dOYvplJozFXLKnQc68tBB
- x1EFrZfeJsfGizS0rjGYDePW/E9fH0ugahxynvzmy8lxU0/blEm3l6/Fdu+bhX5ik6NWam
- b1QdgM2QOdatw6naYlZc6tczrkUKvjY=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=L9Mqi81hNQl7yIDn+OKS73ATISedqr4KY1kCz2IcTLo=;
+ b=KcUstV/YlJWV6meFxhRr9lX0m3gTf/mdJjOGTuCKN0QOwWbDB9xmGVqh0JwMsl4OZGSEq4
+ MYieH/85UFO+VMcWklJ35+SSwM9tFxJrW4RNwVB2f7yKGQb1GNH1DrIcoZ+0ysovowJjKL
+ BLSRbEiZTwrxc1j60Ox+HlD7+O3zFJk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-428-f6PEesnOOxiwc4n5xAseIg-1; Fri, 14 Jan 2022 02:45:15 -0500
-X-MC-Unique: f6PEesnOOxiwc4n5xAseIg-1
-Received: by mail-pj1-f71.google.com with SMTP id
- p1-20020a17090a680100b001b1ea621b81so8040940pjj.2
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 23:45:15 -0800 (PST)
+ us-mta-617-zZA1I5vBP0-sBIkTmpDijQ-1; Fri, 14 Jan 2022 03:33:35 -0500
+X-MC-Unique: zZA1I5vBP0-sBIkTmpDijQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ v185-20020a1cacc2000000b0034906580813so7591817wme.1
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 00:33:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ro3ALW41mNPk2tlc0zN6SpFn2JA1txz1LcXPYTI8TVs=;
- b=brvRC0sgrdNndRZJVvP0M85Cko/NHaPqmXGRI8jrLkCBY/xSVBPDZOzx0cDHd5Y6pu
- ayvhjLpfxV3uGgNiKBryjvpbOqnjbBbA0JpL/DoafRQSBuPhjpr1GpHdgmYUUHiCIiU3
- Wc1+ODtKFuerxA4C6H/gPDeCFKzj2SI6H37N/rykuAh0sApA605Y+PWFb+Z1xtMTQtIE
- OLAYycduRKh4dBVhuk1EzWY4TLxaR5wj2djboZENNRT3SXbP/n1HA/exyzyvImcHG6zf
- Mm5dRWGATNFYam7zgosLUyRkSdlx3p35SX/Xb3465+3zmhvQcjhkhfyOV08FQDY90rqE
- qK0A==
-X-Gm-Message-State: AOAM532JIBZYIjXlL2ShZgYi0ZZttyDrwYGenQlA8R9GVELYAz6c8GCN
- Ls5dgCGmJRaz5cxHF6sKHRkVZEg0tArxF/odmy5wCvRXNqatA5hDjKxnnTPCSwcPjnfe4pGjTlM
- qWP+cTj48lTJekWc=
-X-Received: by 2002:a17:90b:3503:: with SMTP id
- ls3mr581325pjb.186.1642146314769; 
- Thu, 13 Jan 2022 23:45:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwvMyxtCEQj66Bin9tXEj/RJyN6uTC43VUQHDd/7XcxVmLzh0gVGMYo35PLoSgEnXUTAthVpg==
-X-Received: by 2002:a17:90b:3503:: with SMTP id
- ls3mr581310pjb.186.1642146314479; 
- Thu, 13 Jan 2022 23:45:14 -0800 (PST)
-Received: from xz-m1.local ([191.101.132.59])
- by smtp.gmail.com with ESMTPSA id 34sm3872156pgl.72.2022.01.13.23.45.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jan 2022 23:45:13 -0800 (PST)
-Date: Fri, 14 Jan 2022 15:45:08 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 3/3] intel-iommu: PASID support
-Message-ID: <YeEqBADUtQmIa5Pc@xz-m1.local>
-References: <20220105041945.13459-1-jasowang@redhat.com>
- <20220105041945.13459-5-jasowang@redhat.com>
- <Yd+zQRouwsB/jnV3@xz-m1.local>
- <8beffd3d-5eff-6462-ce23-faf44c6653f1@redhat.com>
- <YeDumkj9ZgPKGgoN@xz-m1.local>
- <CACGkMEun7WEhXy_ApxfgYmbVofjjKgGuA0ezPZG4ypRK+HtSfA@mail.gmail.com>
- <YeEifFCR6Rc5ObGg@xz-m1.local>
- <CACGkMEtGhBC2LDvzsLr+ZS+5mo_r09BOk-qp0suOP+YBUdFG+g@mail.gmail.com>
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=L9Mqi81hNQl7yIDn+OKS73ATISedqr4KY1kCz2IcTLo=;
+ b=Id1q4bLVXkoeg+Eq6DMthwtPPrI1DbAjcQqxjLwRUDaTJXNckYEXZUaBdTSF+kkYf8
+ Hlsid4bYAMlTmpyU7tCRsQnDvir/dNkfspMqV+9GEnaB43NM4USPXPoTUg0zoZ/d+3ma
+ ZlVYOtQNAfm667Da+wK4kzrEZhLaN1744LEoWnvjnkgmHyMp3Mr7B508QjxAf6qEUjlS
+ 94cbmwjOfjYrFK9ZRidp2l4RiGbnkqxca1ehNDZ6cHm8/wphdvDJf2ytSeL2IF0KXodu
+ l1GCMNZuJ4GNbzHla7lTZr9niutdmhMRPcu4y11EULU6oF+uSWdNiKHg1USm2LTac6uI
+ rbTw==
+X-Gm-Message-State: AOAM530uEGhZUa+nc4daF9ghS5PPKNX/84Y1xdyN7mx/arJWySchD0oG
+ 2I59dHhKbaEcJCksnClmjCgNgnYVtm7k/do5DS13iu62tRxRdri3LYcVVtr42U6oqInOY0Nn5yt
+ nO5AEkvA9lahlIk8=
+X-Received: by 2002:adf:f4d2:: with SMTP id h18mr7489517wrp.167.1642149213817; 
+ Fri, 14 Jan 2022 00:33:33 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwWqDTrj4IRocQ5XS/JL9sTWRG//+wEOGX6Komv+MunfPbi2j1bEI0ynQvkrVRjowHtJw479A==
+X-Received: by 2002:adf:f4d2:: with SMTP id h18mr7489494wrp.167.1642149213535; 
+ Fri, 14 Jan 2022 00:33:33 -0800 (PST)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id w17sm5438410wmc.14.2022.01.14.00.33.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Jan 2022 00:33:33 -0800 (PST)
+Subject: Re: [PATCH 1/2] tpm: CRB: Use ram_device for "tpm-crb-cmd" region
+To: Stefan Berger <stefanb@linux.ibm.com>, eric.auger.pro@gmail.com,
+ stefanb@linux.vnet.ibm.com, qemu-devel@nongnu.org,
+ alex.williamson@redhat.com, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
+ <marcandre.lureau@redhat.com>
+References: <20220113103757.2801389-1-eric.auger@redhat.com>
+ <20220113103757.2801389-2-eric.auger@redhat.com>
+ <75a7ffde-5ca4-cd98-2221-203fc5d771d6@linux.ibm.com>
+ <b7eb78c2-4909-508f-b4d0-a5b95d13d6a7@redhat.com>
+ <a980d96e-3a4b-f06b-dd77-588309f8109e@linux.ibm.com>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <880bf2e5-4202-9e37-45a0-9aeb721c1d3d@redhat.com>
+Date: Fri, 14 Jan 2022 09:33:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <CACGkMEtGhBC2LDvzsLr+ZS+5mo_r09BOk-qp0suOP+YBUdFG+g@mail.gmail.com>
+In-Reply-To: <a980d96e-3a4b-f06b-dd77-588309f8109e@linux.ibm.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,92 +109,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Liu, Yi L" <yi.l.liu@intel.com>, yi.y.sun@linux.intel.com,
- qemu-devel <qemu-devel@nongnu.org>, mst <mst@redhat.com>
+Reply-To: eric.auger@redhat.com
+Cc: cohuck@redhat.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 14, 2022 at 03:22:16PM +0800, Jason Wang wrote:
-> On Fri, Jan 14, 2022 at 3:13 PM Peter Xu <peterx@redhat.com> wrote:
-> >
-> > On Fri, Jan 14, 2022 at 01:58:07PM +0800, Jason Wang wrote:
-> > > > > Right, but I think you meant to do this only when scalable mode is disabled.
-> > > >
-> > > > Yes IMHO it will definitely suite for !scalable case since that's exactly what
-> > > > we did before.  What I'm also wondering is even if scalable is enabled but no
-> > > > "real" pasid is used, so if all the translations go through the default pasid
-> > > > that stored in the device context entry, then maybe we can ignore checking it.
-> > > > The latter is the "hacky" part mentioned above.
-> > >
-> > > The problem I see is that we can't know what PASID is used as default
-> > > without reading the context entry?
-> >
-> > Can the default NO_PASID being used in mixture of !NO_PASID use case on the
-> > same device?  If that's possible, then I agree..
-> 
-> My understanding is that it is possible.
+Hi Stefan,
 
-OK.
+On 1/13/22 4:38 PM, Stefan Berger wrote:
+> On 1/13/22 09:40, Eric Auger wrote:
+>
+>> Hi Stefan,
+>>
+>> On 1/13/22 3:06 PM, Stefan Berger wrote:
+>>> On 1/13/22 05:37, Eric Auger wrote:
+>>>> Representing the CRB cmd/response buffer as a standard
+>>>> RAM region causes some trouble when the device is used
+>>>> with VFIO. Indeed VFIO attempts to DMA_MAP this region
+>>>> as usual RAM but this latter does not have a valid page
+>>>> size alignment causing such an error report:
+>>>> "vfio_listener_region_add received unaligned region".
+>>>> To allow VFIO to detect that failing dma mapping
+>>>> this region is not an issue, let's use a ram_device
+>>>> memory region type instead.
+>>>>
+>>>> The change in meson.build is required to include the
+>>>> cpu.h header.
+>>>>
+>>>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>>>> ---
+>>>>    hw/tpm/meson.build |  2 +-
+>>>>    hw/tpm/tpm_crb.c   | 10 ++++++++--
+>>>>    2 files changed, 9 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/hw/tpm/meson.build b/hw/tpm/meson.build
+>>>> index 1c68d81d6a..3e74df945b 100644
+>>>> --- a/hw/tpm/meson.build
+>>>> +++ b/hw/tpm/meson.build
+>>>> @@ -1,8 +1,8 @@
+>>>>    softmmu_ss.add(when: 'CONFIG_TPM_TIS', if_true:
+>>>> files('tpm_tis_common.c'))
+>>>>    softmmu_ss.add(when: 'CONFIG_TPM_TIS_ISA', if_true:
+>>>> files('tpm_tis_isa.c'))
+>>>>    softmmu_ss.add(when: 'CONFIG_TPM_TIS_SYSBUS', if_true:
+>>>> files('tpm_tis_sysbus.c'))
+>>>> -softmmu_ss.add(when: 'CONFIG_TPM_CRB', if_true: files('tpm_crb.c'))
+>>>>
+>>>> +specific_ss.add(when: 'CONFIG_TPM_CRB', if_true: files('tpm_crb.c'))
+>>>>    specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TPM_TIS'],
+>>>> if_true: files('tpm_ppi.c'))
+>>>>    specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TPM_CRB'],
+>>>> if_true: files('tpm_ppi.c'))
+>>>>    specific_ss.add(when: 'CONFIG_TPM_SPAPR', if_true:
+>>>> files('tpm_spapr.c'))
+>>>> diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
+>>>> index 58ebd1469c..25f8e685e4 100644
+>>>> --- a/hw/tpm/tpm_crb.c
+>>>> +++ b/hw/tpm/tpm_crb.c
+>>>> @@ -25,6 +25,7 @@
+>>>>    #include "sysemu/tpm_backend.h"
+>>>>    #include "sysemu/tpm_util.h"
+>>>>    #include "sysemu/reset.h"
+>>>> +#include "cpu.h"
+>>>>    #include "tpm_prop.h"
+>>>>    #include "tpm_ppi.h"
+>>>>    #include "trace.h"
+>>>> @@ -43,6 +44,7 @@ struct CRBState {
+>>>>
+>>>>        bool ppi_enabled;
+>>>>        TPMPPI ppi;
+>>>> +    uint8_t *crb_cmd_buf;
+>>>>    };
+>>>>    typedef struct CRBState CRBState;
+>>>>
+>>>> @@ -291,10 +293,14 @@ static void tpm_crb_realize(DeviceState *dev,
+>>>> Error **errp)
+>>>>            return;
+>>>>        }
+>>>>
+>>>> +    s->crb_cmd_buf = qemu_memalign(qemu_real_host_page_size,
+>>>> +                                HOST_PAGE_ALIGN(CRB_CTRL_CMD_SIZE));
+>>>> +
+>>> Do we need an unrealize function now to qemu_vfree() this memory?
+>> I would say it is needed if the device can be hot-unplugged.
+>> tpmppi->buf is not freeed either.
+>
+>
+> Correct about PPI. My main concern would be the CRB related test cases
+> that likely currently run without PPI but now could complain about a
+> memory leak upon shutdown. I tried to compile with --enable-sanitizers
+> and run the tests but it doesn't compile when the sanitizers are enabled.
+>
+>
+> FAILED: libcommon.fa.p/disas_i386.c.o
+> cc -m64 -mcx16 -Ilibcommon.fa.p -I../capstone/include/capstone
+> -I../dtc/libfdt -I../slirp -I../slirp/src -I/usr/include/pixman-1
+> -I/usr/include/p11-kit-1 -I/usr/include/glib-2.0
+> -I/usr/lib64/glib-2.0/include -I/usr/include/sysprof-4
+> -I/usr/include/libmount -I/usr/include/blkid
+> -I/usr/include/gio-unix-2.0 -fdiagnostics-color=auto -Wall
+> -Winvalid-pch -Werror -std=gnu11 -O2 -g -isystem
+> /home/stefanb/dev/qemu/linux-headers -isystem linux-headers -iquote .
+> -iquote /home/stefanb/dev/qemu -iquote /home/stefanb/dev/qemu/include
+> -iquote /home/stefanb/dev/qemu/disas/libvixl -iquote
+> /home/stefanb/dev/qemu/tcg/i386 -pthread -fsanitize=undefined
+> -fsanitize=address -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE
+> -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Wstrict-prototypes
+> -Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototypes
+> -fno-strict-aliasing -fno-common -fwrapv -Wold-style-declaration
+> -Wold-style-definition -Wtype-limits -Wformat-security -Wformat-y2k
+> -Winit-self -Wignored-qualifiers -Wempty-body -Wnested-externs
+> -Wendif-labels -Wexpansion-to-defined -Wimplicit-fallthrough=2
+> -Wno-missing-include-dirs -Wno-shift-negative-value -Wno-psabi
+> -fstack-protector-strong -fPIE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600
+> -DNCURSES_WIDECHAR=1 -DSTRUCT_IOVEC_DEFINED -MD -MQ
+> libcommon.fa.p/disas_i386.c.o -MF libcommon.fa.p/disas_i386.c.o.d -o
+> libcommon.fa.p/disas_i386.c.o -c ../disas/i386.c
+> In file included from /usr/include/string.h:519,
+>                  from /home/stefanb/dev/qemu/include/qemu/osdep.h:87,
+>                  from ../disas/i386.c:34:
+> In function ?strcpy?,
+>     inlined from ?PNI_Fixup? at ../disas/i386.c:6434:4,
+>     inlined from ?PNI_Fixup? at ../disas/i386.c:6400:1:
+> /usr/include/bits/string_fortified.h:79:10: error: ?__builtin_memcpy?
+> offset [0, 7] is out of the bounds [0, 0] [-Werror=array-bounds]
+>    79 |   return __builtin___strcpy_chk (__dest, __src,
+> __glibc_objsize (__dest));
+>       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> In function ?strcpy?,
+>     inlined from ?PNI_Fixup? at ../disas/i386.c:6427:4,
+>     inlined from ?PNI_Fixup? at ../disas/i386.c:6400:1:
+> /usr/include/bits/string_fortified.h:79:10: error: ?__builtin_memcpy?
+> offset [0, 5] is out of the bounds [0, 0] [-Werror=array-bounds]
+>    79 |   return __builtin___strcpy_chk (__dest, __src,
+> __glibc_objsize (__dest));
+>       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> cc1: all warnings being treated as errors
 
-> 
-> >
-> > My previous idea should be based on the fact that if NO_PASID is used on one
-> > device, then all translations will be based on NO_PASID, but now I'm not sure
-> > of it.
-> 
-> Actually, what I meant is:
-> 
-> device 1 using transactions without PASID with RID2PASID 1
-> device 2 using transactions without PASID with RID2PASID 2
-> 
-> Then we can't assume a default pasid here.
+thank you for the tests and above trial. Anyway I can add the unrealize
+and deal with the deallocation of both buffers
 
-This seems fine, because "device N" is still part of the equation when looking
-up, so we won't lookup wrong.
-
-But yeah.. it could not really work anyway.
-
-> 
-> >
-> > >
-> > > >
-> > > > The other thing to mention is, if we postpone the iotlb lookup to be after
-> > > > context entry, then logically we can have per-device iotlb, that means we can
-> > > > replace IntelIOMMUState.iotlb with VTDAddressSpace.iotlb in the future, too,
-> > > > which can also be more efficient.
-> > >
-> > > Right but we still need to limit the total slots and ATS is a better
-> > > way to deal with the IOTLB bottleneck actually.
-> >
-> > I think it depends on how the iotlb ghash is implemented.  Logically I think if
-> > we can split the cache to per-device it'll be slightly better because we don't
-> > need to iterate over iotlbs of other devices when lookup anymore; meanwhile
-> > each iotlb takes less space too (no devfn needed anymore).
-> 
-> So we've already used sid in the IOTLB hash, I wonder how much we can
-> gain form this.
-
-I think at least we can shrink iotlb structures, e.g.:
-
-struct vtd_iotlb_key {
-    uint16_t sid;               <------ not needed
-    uint32_t pasid;             <------ not needed
-    uint64_t gfn;
-    uint32_t level;
-};
-
-struct VTDIOTLBEntry {
-    uint64_t gfn;
-    uint16_t domain_id;
-    uint32_t pasid;             <------ not needed
-    uint64_t slpte;
-    uint64_t mask;
-    uint8_t access_flags;
-};
-
-Thanks,
-
--- 
-Peter Xu
+Eric
+>
+>    Stefan
+>
+>>
+>> Thanks
+>>
+>> Eric
+>>
+>>>
+>>>>        memory_region_init_io(&s->mmio, OBJECT(s),
+>>>> &tpm_crb_memory_ops, s,
+>>>>            "tpm-crb-mmio", sizeof(s->regs));
+>>>> -    memory_region_init_ram(&s->cmdmem, OBJECT(s),
+>>>> -        "tpm-crb-cmd", CRB_CTRL_CMD_SIZE, errp);
+>>>> +    memory_region_init_ram_device_ptr(&s->cmdmem, OBJECT(s),
+>>>> "tpm-crb-cmd",
+>>>> +                                      CRB_CTRL_CMD_SIZE,
+>>>> s->crb_cmd_buf);
+>>>> +    vmstate_register_ram(&s->cmdmem, DEVICE(s));
+>>>>        memory_region_add_subregion(get_system_memory(),
+>>>>            TPM_CRB_ADDR_BASE, &s->mmio);
+>
 
 
