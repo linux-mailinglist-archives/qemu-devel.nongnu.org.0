@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A90248EB97
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 15:21:56 +0100 (CET)
-Received: from localhost ([::1]:46290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F1A248EB80
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 15:18:57 +0100 (CET)
+Received: from localhost ([::1]:39140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8NSl-0001Bc-Og
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 09:21:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44124)
+	id 1n8NPs-0004oM-2G
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 09:18:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n8N0f-0003IW-4k
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n8N0e-0003H2-Iv
  for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:52:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43996)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27405)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n8N0d-0000Ng-IH
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n8N0c-0000NL-Tw
  for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:52:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642168371;
+ s=mimecast20190719; t=1642168370;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h+Cxm0dWgNF1FatP7v9EAri02bBoOs4vzaitqar3HcM=;
- b=F5Q9c4ImAO2PfQauWmMtJ8UEtVRSel4eJtq4UY4x8invZJ1BpkF5ZAK5JZv+xVm5oEdQLW
- p+0E3RnDX9eX8LWgMljPZKyYgAH5zpfY6/IeGMF0JxgW9oBtnL1phUtH48VQfnPADbD/b7
- J2ZQpE4KKxNrvkW3VJ/e0E2tFN0MhIw=
+ bh=I4aq1SO/dnyF/nSA0Mkl9gIarZVffuIuzcCCoM6+wKE=;
+ b=CwkMjYIpw/2+XaMAD/Gbyzg7DhF12K+Re59rx8VJBvIHRe7ecoeegrrff7uvDti8ZN+Ecd
+ /sEpL1NZ49RDtkDGXjneSdBtA86hT3qAJS9/7ul36wIS1AWz3YpMxeTbK+CX7QUTDehKb0
+ p7UrEU5gOa8WhX6yCX5zOLxP89U0loA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-643-GRg2k5J6P-uF1YeiIuhCFw-1; Fri, 14 Jan 2022 08:52:48 -0500
-X-MC-Unique: GRg2k5J6P-uF1YeiIuhCFw-1
+ us-mta-422-fQLYUzfuNPmfx0a1WR0rkw-1; Fri, 14 Jan 2022 08:52:49 -0500
+X-MC-Unique: fQLYUzfuNPmfx0a1WR0rkw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EAEFA760C1;
- Fri, 14 Jan 2022 13:52:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C4881023F4E;
+ Fri, 14 Jan 2022 13:52:48 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C4177105B20E;
- Fri, 14 Jan 2022 13:52:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1BB38105B20E;
+ Fri, 14 Jan 2022 13:52:46 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 12/16] vvfat: Fix vvfat_write() for writes before the root
- directory
-Date: Fri, 14 Jan 2022 14:52:22 +0100
-Message-Id: <20220114135226.185407-13-kwolf@redhat.com>
+Subject: [PULL 13/16] iotests: Test qemu-img convert of zeroed data cluster
+Date: Fri, 14 Jan 2022 14:52:23 +0100
+Message-Id: <20220114135226.185407-14-kwolf@redhat.com>
 In-Reply-To: <20220114135226.185407-1-kwolf@redhat.com>
 References: <20220114135226.185407-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -65,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,94 +81,69 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The calculation in sector2cluster() is done relative to the offset of
-the root directory. Any writes to blocks before the start of the root
-directory (in particular, writes to the FAT) result in negative values,
-which are not handled correctly in vvfat_write().
-
-This changes sector2cluster() to return a signed value, and makes sure
-that vvfat_write() doesn't try to find mappings for negative cluster
-number. It clarifies the code in vvfat_write() to make it more obvious
-that the cluster numbers can be negative.
+This demonstrates what happens when the block status changes in
+sub-min_sparse granularity, but all of the parts are zeroed out. The
+alignment logic in is_allocated_sectors() prevents that the target image
+remains fully sparse as expected, but turns it into a data cluster of
+explicit zeros.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20211209152231.23756-1-kwolf@redhat.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20211217164654.1184218-2-vsementsov@virtuozzo.com>
+Tested-by: Peter Lieven <pl@kamp.de>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/vvfat.c | 30 ++++++++++++++++++++++--------
- 1 file changed, 22 insertions(+), 8 deletions(-)
+ tests/qemu-iotests/122     |  1 +
+ tests/qemu-iotests/122.out | 10 ++++++++--
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/block/vvfat.c b/block/vvfat.c
-index 36e73d4c64..b2b58d93b8 100644
---- a/block/vvfat.c
-+++ b/block/vvfat.c
-@@ -882,7 +882,7 @@ static int read_directory(BDRVVVFATState* s, int mapping_index)
-     return 0;
- }
+diff --git a/tests/qemu-iotests/122 b/tests/qemu-iotests/122
+index efb260d822..be0f6b79e5 100755
+--- a/tests/qemu-iotests/122
++++ b/tests/qemu-iotests/122
+@@ -251,6 +251,7 @@ $QEMU_IO -c "write -P 0 0 64k" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_test
+ $QEMU_IO -c "write 0 1k" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
+ $QEMU_IO -c "write 8k 1k" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
+ $QEMU_IO -c "write 17k 1k" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
++$QEMU_IO -c "write -P 0 65k 1k" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
  
--static inline uint32_t sector2cluster(BDRVVVFATState* s,off_t sector_num)
-+static inline int32_t sector2cluster(BDRVVVFATState* s,off_t sector_num)
- {
-     return (sector_num - s->offset_to_root_dir) / s->sectors_per_cluster;
- }
-@@ -2981,6 +2981,7 @@ static int vvfat_write(BlockDriverState *bs, int64_t sector_num,
- {
-     BDRVVVFATState *s = bs->opaque;
-     int i, ret;
-+    int first_cluster, last_cluster;
+ for min_sparse in 4k 8k; do
+     echo
+diff --git a/tests/qemu-iotests/122.out b/tests/qemu-iotests/122.out
+index 8fbdac2b39..69b8e8b803 100644
+--- a/tests/qemu-iotests/122.out
++++ b/tests/qemu-iotests/122.out
+@@ -192,6 +192,8 @@ wrote 1024/1024 bytes at offset 8192
+ 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ wrote 1024/1024 bytes at offset 17408
+ 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 1024/1024 bytes at offset 66560
++1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
  
- DLOG(checkpoint());
+ convert -S 4k
+ [{ "start": 0, "length": 4096, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET},
+@@ -199,7 +201,9 @@ convert -S 4k
+ { "start": 8192, "length": 4096, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET},
+ { "start": 12288, "length": 4096, "depth": 0, "present": false, "zero": true, "data": false},
+ { "start": 16384, "length": 4096, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET},
+-{ "start": 20480, "length": 67088384, "depth": 0, "present": false, "zero": true, "data": false}]
++{ "start": 20480, "length": 46080, "depth": 0, "present": false, "zero": true, "data": false},
++{ "start": 66560, "length": 1024, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET},
++{ "start": 67584, "length": 67041280, "depth": 0, "present": false, "zero": true, "data": false}]
  
-@@ -2999,9 +3000,20 @@ DLOG(checkpoint());
-     if (sector_num < s->offset_to_fat)
-         return -1;
+ convert -c -S 4k
+ [{ "start": 0, "length": 1024, "depth": 0, "present": true, "zero": false, "data": true},
+@@ -211,7 +215,9 @@ convert -c -S 4k
  
--    for (i = sector2cluster(s, sector_num);
--            i <= sector2cluster(s, sector_num + nb_sectors - 1);) {
--        mapping_t* mapping = find_mapping_for_cluster(s, i);
-+    /*
-+     * Values will be negative for writes to the FAT, which is located before
-+     * the root directory.
-+     */
-+    first_cluster = sector2cluster(s, sector_num);
-+    last_cluster = sector2cluster(s, sector_num + nb_sectors - 1);
-+
-+    for (i = first_cluster; i <= last_cluster;) {
-+        mapping_t *mapping = NULL;
-+
-+        if (i >= 0) {
-+            mapping = find_mapping_for_cluster(s, i);
-+        }
-+
-         if (mapping) {
-             if (mapping->read_only) {
-                 fprintf(stderr, "Tried to write to write-protected file %s\n",
-@@ -3041,8 +3053,9 @@ DLOG(checkpoint());
-                 }
-             }
-             i = mapping->end;
--        } else
-+        } else {
-             i++;
-+        }
-     }
+ convert -S 8k
+ [{ "start": 0, "length": 24576, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET},
+-{ "start": 24576, "length": 67084288, "depth": 0, "present": false, "zero": true, "data": false}]
++{ "start": 24576, "length": 41984, "depth": 0, "present": false, "zero": true, "data": false},
++{ "start": 66560, "length": 1024, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET},
++{ "start": 67584, "length": 67041280, "depth": 0, "present": false, "zero": true, "data": false}]
  
-     /*
-@@ -3056,10 +3069,11 @@ DLOG(fprintf(stderr, "Write to qcow backend: %d + %d\n", (int)sector_num, nb_sec
-         return ret;
-     }
- 
--    for (i = sector2cluster(s, sector_num);
--            i <= sector2cluster(s, sector_num + nb_sectors - 1); i++)
--        if (i >= 0)
-+    for (i = first_cluster; i <= last_cluster; i++) {
-+        if (i >= 0) {
-             s->used_clusters[i] |= USED_ALLOCATED;
-+        }
-+    }
- 
- DLOG(checkpoint());
-     /* TODO: add timeout */
+ convert -c -S 8k
+ [{ "start": 0, "length": 1024, "depth": 0, "present": true, "zero": false, "data": true},
 -- 
 2.31.1
 
