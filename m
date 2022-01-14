@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F09348EA9D
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 14:24:38 +0100 (CET)
-Received: from localhost ([::1]:37224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D81E948EA9F
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 14:26:59 +0100 (CET)
+Received: from localhost ([::1]:38888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8MZJ-0007ca-Mc
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 08:24:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36734)
+	id 1n8MbZ-0000GR-TB
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 08:26:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n8MTr-0003yw-OB
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:19:01 -0500
-Received: from [2a00:1450:4864:20::431] (port=43805
- helo=mail-wr1-x431.google.com)
+ id 1n8MVo-0005ws-IO
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:21:00 -0500
+Received: from [2a00:1450:4864:20::334] (port=37599
+ helo=mail-wm1-x334.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n8MTq-00027d-09
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:18:59 -0500
-Received: by mail-wr1-x431.google.com with SMTP id o3so15541509wrh.10
- for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 05:18:57 -0800 (PST)
+ id 1n8MVn-0002fT-3c
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:21:00 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ l12-20020a7bc34c000000b003467c58cbdfso7318836wmj.2
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 05:20:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Sr0GoZNMLgoJ1NKsJsevfQ5Q6X8u/J0pKmrCf1Urvpc=;
- b=jUaXNRBxZKl43yYivFOuiUXZ0rUybOFLdJKS/kmRVcHMOJQoewQU3NRhb4SyDAY8Yk
- uoJYBl095qZIHL73iPl8EqjS04WMMyg3QjT4bFvWYIj94fyDrUjOUV0R4W9cmGOenC5T
- JBhb6WGpI2WPkWS1MbWByWmFjpxfRZEnQmQBFW4y4pcMnV3wDqr90gvXZTzruqra9EwB
- 5EgQ+/lkZKBsSVYdPuDDnAJDOKknWf6VCVcgMBICisuA/oZhesB7oOnydz68XsMa2NQd
- x+mydHFD5f5ptgfghvpJSsUm7vNUDVD7xPv573uXQk1Bl8trTbq4gsj1JqNvydGk78c0
- hUNw==
+ :cc; bh=3S3a7VZSa5E/IeRCSnQQDKJDEvgVGD/GAjWb0Gpgr2I=;
+ b=XpWoT2f1KNwpRq+L+5zaaa5cWDOdMN06n9XRQC6JLFtxC18Eqr2AUWpXMILKsw6inc
+ yAhx3oS/xJHJJVQiI1sCSr49s5Fg7Pf0ag4cVTuo2gsQUzsB313HTAK4HscRqlDSPHYH
+ 2ut3+H/5IiOn3PjXGK6Kx3+tgL5MaEJwU3Wr9K6pwf2GTUdODtQ5SnrdKx1sxvE3l43j
+ kOR0daaBt0a/GNDJzIto9f9tr7jRnkcPggjoBWyXO64eWyLE7XZ26xa0Gin2CVV+evSW
+ xiRxY4Fmjjzb6/29EjnErg4yIwS1xEHLZ6Ram32EDIzIt544g0rAUnBgJ92pMw0KBk/L
+ MzkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Sr0GoZNMLgoJ1NKsJsevfQ5Q6X8u/J0pKmrCf1Urvpc=;
- b=Juh3XI0MvQLeFj219KDa+V1jLuepCbDekFsv5PmqZWiO53wmIst3VmuPb3y0FNA3If
- t7B3WcfZzlJ5WiTTyPp5HbBtO9l6StXvekBd1qn8+ZxLHeej9kfjSlKlPgjng2JkmIH7
- 2HjPo753zxtvMRj5WS7cv6kLM2F4yVC9HS+ifvcatYlPmi/B3GJnBJ1DT1o5+1lVMLyu
- WjMLVr2vbLwtIXteKVeg6f051inIZd88ayjdQXtPGe2oJq75jVRttGV4jjkHHl4VZ7jd
- Ug/wUeGBWL7k/Yzhtvr5+FmcU392PPwZ4gK3ETqR6HX7ivKrxzdMM26ev30WoH/CSXAE
- p7jw==
-X-Gm-Message-State: AOAM530talmwmzqqQ5S891cyK/7cOcIR32Co1OLEAVP8JCO7CQTx8cmN
- 4tKeAQbihXdO3vxlVWexkviqfcdsjMnLbcUL4jnJCQ==
-X-Google-Smtp-Source: ABdhPJwY1EWlAo9Q5dh+HOmuywx9fIW1LEWqIyuwKbIB0lGfhOrWCjGgS2U21S1n3SOY1S9jQWnDKO0GC75Xlh6bq38=
-X-Received: by 2002:adf:ee0e:: with SMTP id y14mr8526055wrn.172.1642166336256; 
- Fri, 14 Jan 2022 05:18:56 -0800 (PST)
+ bh=3S3a7VZSa5E/IeRCSnQQDKJDEvgVGD/GAjWb0Gpgr2I=;
+ b=7D73ZDPpuEAdoUIFSFkzE0FoZ1yLdbzMRsFURJvEWpO7UifvFVLIvOVCZoLXE6dNNv
+ 3YlicQgqqm3vhtYA+xmKrtx/8tjmShR82bfUC96+hVGApKsE0KQQoTXQ4f4e+we8seRD
+ srUw3J7XwQeKKOCtc2T4eSQ7TZhyXs2zws1nvYsg56CzGdN2gUteTL1TxcQzS19qw8Yx
+ 9wtPCzUIe9Fa7TUnJVzLfq69/K3elnx5m2YsGga1HrKWSjoUc8Nhi1PZFnjBr2v/ic29
+ +0I5wkdKexCVmoA7orv26hi6zQ5kkjNhvaBkzATLuzZd+cve+OnnAiJKL3x60ERpao0N
+ B5Wg==
+X-Gm-Message-State: AOAM533sX5loDhYwjXmnY9VnNRZ8SRrWy9snJruiQq6R0U/dFMfJbU2n
+ 6hThK2y8RiQ9FXy0LGjYXBMEOHZ1FvdADqGzDT9M6Q==
+X-Google-Smtp-Source: ABdhPJwWiHARTsh072ageF8tKY+axPu6xprBLcT+gQFgmeLZtjSpzunlyDocrjoLDgVurg4RgvYqnZDPu5m0dhmzElw=
+X-Received: by 2002:a05:600c:154c:: with SMTP id
+ f12mr11899500wmg.126.1642166457779; 
+ Fri, 14 Jan 2022 05:20:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20220109161923.85683-1-imp@bsdimp.com>
- <20220109161923.85683-31-imp@bsdimp.com>
-In-Reply-To: <20220109161923.85683-31-imp@bsdimp.com>
+References: <20220113151916.17978-1-ppavlu@suse.cz>
+In-Reply-To: <20220113151916.17978-1-ppavlu@suse.cz>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 14 Jan 2022 13:18:45 +0000
-Message-ID: <CAFEAcA96g9uvq_ukUGG8X6v4vk2ve4QWQepiCp7MEYpb1byt-Q@mail.gmail.com>
-Subject: Re: [PATCH 30/30] bsd-user/signal.c: do_sigaltstack
-To: Warner Losh <imp@bsdimp.com>
+Date: Fri, 14 Jan 2022 13:20:47 +0000
+Message-ID: <CAFEAcA8KwD6q0sv2WMCXCpiSXTSB0U_=AyeDCGW0h=y6d9iK2Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] hw/intc/arm_gic: Allow reset of the running
+ priority
+To: Petr Pavlu <ppavlu@suse.cz>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -80,59 +82,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@freebsd.org>,
- qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, petr.pavlu@suse.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 9 Jan 2022 at 17:08, Warner Losh <imp@bsdimp.com> wrote:
+On Thu, 13 Jan 2022 at 15:19, Petr Pavlu <ppavlu@suse.cz> wrote:
 >
-> Implement the meat of the sigaltstack(2) system call with do_sigaltstack.
+> Thank you Peter for review of the first version of the patch. v2 splits
+> the changes into two commits and updates the code as suggested.
 >
-> Signed-off-by: Stacey Son <sson@FreeBSD.org>
-> Signed-off-by: Kyle Evans <kevans@freebsd.org>
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
-> ---
->  bsd-user/qemu.h   |  1 +
->  bsd-user/signal.c | 66 +++++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 67 insertions(+)
->
-> diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-> index c643d6ba246..fcdea460ed2 100644
-> --- a/bsd-user/qemu.h
-> +++ b/bsd-user/qemu.h
-> @@ -226,6 +226,7 @@ int host_to_target_signal(int sig);
->  void host_to_target_sigset(target_sigset_t *d, const sigset_t *s);
->  void target_to_host_sigset(sigset_t *d, const target_sigset_t *s);
->  long do_sigreturn(CPUArchState *regs, abi_ulong addr);
-> +abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp);
->  int do_sigaction(int sig, const struct target_sigaction *act,
->                  struct target_sigaction *oact);
->  void QEMU_NORETURN force_sig(int target_sig);
-> diff --git a/bsd-user/signal.c b/bsd-user/signal.c
-> index f055d1db407..e5e5e28c60c 100644
-> --- a/bsd-user/signal.c
-> +++ b/bsd-user/signal.c
-> @@ -528,6 +528,72 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
->      cpu_exit(thread_cpu);
->  }
->
-> +/* do_sigaltstack() returns target values and errnos. */
-> +/* compare to kern/kern_sig.c sys_sigaltstack() and kern_sigaltstack() */
-> +abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp)
-> +{
-> +    int ret;
-> +    target_stack_t oss;
-> +
-> +    if (uoss_addr) {
-> +        /* Save current signal stack params */
-> +        oss.ss_sp = tswapl(target_sigaltstack_used.ss_sp);
-> +        oss.ss_size = tswapl(target_sigaltstack_used.ss_size);
-> +        oss.ss_flags = tswapl(sas_ss_flags(sp));
-> +    }
 
-This will need some minor changes to work with the sigaltstack
-info being per-thread and in the TaskState struct.
+
+Applied to target-arm.next, thanks.
 
 -- PMM
 
