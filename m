@@ -2,67 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F72D48E8FE
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 12:14:00 +0100 (CET)
-Received: from localhost ([::1]:38932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8859348E8FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 12:13:27 +0100 (CET)
+Received: from localhost ([::1]:37458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8KWt-0000by-6q
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 06:13:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37020)
+	id 1n8KWM-000831-M9
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 06:13:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1n8KI7-0006zD-4Z; Fri, 14 Jan 2022 05:58:43 -0500
-Received: from [2607:f8b0:4864:20::933] (port=42700
- helo=mail-ua1-x933.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n8KMC-0003Xs-0j; Fri, 14 Jan 2022 06:02:56 -0500
+Received: from [2a00:1450:4864:20::42f] (port=39727
+ helo=mail-wr1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1n8KI4-0002Ct-F8; Fri, 14 Jan 2022 05:58:42 -0500
-Received: by mail-ua1-x933.google.com with SMTP id p1so16232010uap.9;
- Fri, 14 Jan 2022 02:58:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n8KMA-0002zo-9U; Fri, 14 Jan 2022 06:02:55 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id s1so14965279wra.6;
+ Fri, 14 Jan 2022 03:02:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cU/MDS19N/vdVKWZhLGczm9vCsUkhvGtzg+BwxovWwU=;
- b=UYoFFXDjn0Uolaxm21gxcWlRDnQnhS+t82G6xVpnmrEIzcF+NHcLf4KZju9Vg7c3u2
- Mkx8iUTRLvCq0hNOsoHn0LGKwHbVwBuEXUWTk8Wog/T9x36GoXxbcyE5Mx5m/hnllTJC
- 5GJ2NYwAxO9xy/+dI9lebgdBHI14gUxLE5CZt5hEF34pKdFkPg4HMH1c8u1vrw2+NKRd
- e8trfxPoAB5BiKfsyF2m5C58YZndE34RSX6pcEX7OqhX6iRq/yT/zHF/fw2XmjxKZ7nP
- 4nvj/Z6fpZ76pntslHA7pfC1caZM3pP4BLlLigKQTwzOREe+lnrodFvEn+4MMjqLe9aW
- eODQ==
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=t/G7JZA9GQDFGfYcKoq7rnD+jJp/08VTYN/09/cRKc4=;
+ b=X3EnmfRzzUCkoKzau5pNnZ7iZ+INseRQ75C1ofylalMX35Y+WBDgf63tSrFdlRtmkE
+ 1RDXrAlKxXoJ/LIpqzSUPWdEJhaGIlWYaP1esYACXAaThenXrolN2IZxgxT+5J39O7tf
+ 5s18Wu+2nzl3U1GsTI/vXDZq3yjjnYQssPJ2sYp4/cle1aTEyxIa+q33XEslVWkNe5/4
+ Sc+SQaZOF5Ht82sLMEoPn4964FDR1qrVMkaKe8APogfjFrMVpz9QkLAE8k+OkbkIAONu
+ 7L4SQopTl5UrzOoRb1/mxsUgRsSbRk+FhktijIblNYpJym+DjHzkDOEn6KtFr8taDPkw
+ XbRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cU/MDS19N/vdVKWZhLGczm9vCsUkhvGtzg+BwxovWwU=;
- b=kM4iI/OxZtWIOXOrLSFIa+BpeZX9u/HSsH/d6AJ/SKg9GHX+Bfm4PUtSpQotZVI9tt
- MlpTcVgdOQ3Wvqeps+gthQsrFlqMapdFor/VmaGdc1FytC69TWPWNnHY9xCD6pevmZxe
- hnV66JUq0bMbH6lEjeHW+/KuUVBc1JD1UkUqo91Ui3KSTu6DJa1IaTZ3n7ZAlQgY8F+M
- UPBQBZSmBgN6y4VMcPFzyAvBd6BLGv5BQTjzn5rpvvcGHOOzdllQzPUIgGbEdfWAc3iE
- f5qtGprndHNcyQAvn52+/Uz1S8ljhi0Vh4RLCeXM3yHKuwwUy7qJ4wYClqpP4KqI+2EJ
- e+mw==
-X-Gm-Message-State: AOAM5334dzk6fTBFVcHEkUb2k9Z6WOPcAZJmtLmCYF6r3Yy7BPxhbmIA
- /b3J+oLGPrjhyVnNvxz+1Nqvz9gUA4fmO4j0UdXOtfgjPyI=
-X-Google-Smtp-Source: ABdhPJzieRAoA9mGV5gV5IS+SdKyCWhm8qbz5MVIH14hsROe26geeUOQA9/Ju7nnugCUCpH8J1ePv5lyCg93WKm6ESs=
-X-Received: by 2002:a67:ef1c:: with SMTP id j28mr3914985vsr.13.1642157919306; 
- Fri, 14 Jan 2022 02:58:39 -0800 (PST)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=t/G7JZA9GQDFGfYcKoq7rnD+jJp/08VTYN/09/cRKc4=;
+ b=cx17F7OSPfEP03XK2pU+9g5DqLEqSXl1EdN7kYqScjqudRH/m+vJVZ61y6K9/iA2lK
+ 2k0yYEjAVtuN6qpf3n8VBvzMj/OfLPx3jOtB91rfu8D2QGltet3YklW2f0fmdLWV4oyE
+ kSRWGYSnJddOOxgvp7z6qr+sriLd5WKeVWDSsQNLMNeimi3PhJ+C6BUE1FRgsxyLb2hi
+ NWTPoqFDMAajbnevwqhTdMR5HAixqSMDHkxUB9VHAeN7yyZpt/FjWRp836SFXW89hqMs
+ divpOiLiwiYB4UXKtemJPJaY98HOtkIYUxfNxIdkqfnYkSRqYwV8s35X7yqq47on9aCv
+ 0aww==
+X-Gm-Message-State: AOAM531Xk2x8fdugUMLLQOhH4v1mZM5CeEIsHL962u7HwbeVqn/Pee04
+ VYM6HxD3/rzjCnpxLPO0zT0=
+X-Google-Smtp-Source: ABdhPJw1Lp+pfkjhVE9hqZpenPO4cc2wMslXnA7d/8vNWyF1R90+TCqWN2cNZc8fAi3rAX94d3L6pw==
+X-Received: by 2002:adf:cd8f:: with SMTP id q15mr2214666wrj.118.1642158171105; 
+ Fri, 14 Jan 2022 03:02:51 -0800 (PST)
+Received: from ?IPV6:2a01:e34:ec40:49e0:48b5:8fce:b44b:d951?
+ ([2a01:e34:ec40:49e0:48b5:8fce:b44b:d951])
+ by smtp.gmail.com with ESMTPSA id v13sm5729254wro.90.2022.01.14.03.02.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Jan 2022 03:02:50 -0800 (PST)
+Message-ID: <abbe1a9b-96ea-26d5-0375-1eeb7f5e4e42@amsat.org>
+Date: Fri, 14 Jan 2022 12:02:48 +0100
 MIME-Version: 1.0
-References: <20220113144426.4036493-1-pl@kamp.de>
-In-Reply-To: <20220113144426.4036493-1-pl@kamp.de>
-From: Ilya Dryomov <idryomov@gmail.com>
-Date: Fri, 14 Jan 2022 11:58:40 +0100
-Message-ID: <CAOi1vP9r3_aWPdvxWxcivC57f74G418=7esi6xd5ydBeOENmQQ@mail.gmail.com>
-Subject: Re: [PATCH V2 for-6.2 0/2] fixes for bdrv_co_block_status
-To: Peter Lieven <pl@kamp.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::933
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.0
+Subject: Re: [PATCH] Mark remaining global TypeInfo instances as const
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Alistair Francis <alistair@alistair23.me>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Laurent Vivier <laurent@vivier.eu>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Corey Minyard <minyard@acm.org>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Jason Wang <jasowang@redhat.com>, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
+ <hpoussin@reactos.org>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, Fam Zheng
+ <fam@euphon.net>, Beniamino Galvani <b.galvani@gmail.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>, Tyrone Ting
+ <kfting@nuvoton.com>, Alex Williamson <alex.williamson@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ "open list:Raspberry Pi" <qemu-arm@nongnu.org>,
+ "open list:e500" <qemu-ppc@nongnu.org>,
+ "open list:S390 PCI" <qemu-s390x@nongnu.org>
+References: <20220113171038.18128-1-shentey@gmail.com>
+In-Reply-To: <20220113171038.18128-1-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::933;
- envelope-from=idryomov@gmail.com; helo=mail-ua1-x933.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -77,41 +118,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu block <qemu-block@nongnu.org>, Christian Theune <ct@flyingcircus.io>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Jason Dillaman <dillaman@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Thu, Jan 13, 2022 at 3:44 PM Peter Lieven <pl@kamp.de> wrote:
->
-> V1->V2:
->  Patch 1: Treat a hole just like an unallocated area. [Ilya]
->  Patch 2: Apply workaround only for pre-Quincy librbd versions and
->           ensure default striping and non child images. [Ilya]
->
-> Peter Lieven (2):
->   block/rbd: fix handling of holes in .bdrv_co_block_status
->   block/rbd: workaround for ceph issue #53784
->
->  block/rbd.c | 52 +++++++++++++++++++++++++++++++++++++++++++++-------
->  1 file changed, 45 insertions(+), 7 deletions(-)
->
-> --
-> 2.25.1
->
->
+On 13/1/22 18:10, Bernhard Beschow wrote:
+> More than 1k of TypeInfo instances are already marked as const. Mark the
+> remaining ones, too.
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>   hw/core/generic-loader.c   | 2 +-
+>   hw/core/guest-loader.c     | 2 +-
+>   hw/display/bcm2835_fb.c    | 2 +-
+>   hw/display/i2c-ddc.c       | 2 +-
+>   hw/display/macfb.c         | 4 ++--
+>   hw/display/virtio-vga.c    | 2 +-
+>   hw/dma/bcm2835_dma.c       | 2 +-
+>   hw/i386/pc_piix.c          | 2 +-
+>   hw/i386/sgx-epc.c          | 2 +-
+>   hw/intc/bcm2835_ic.c       | 2 +-
+>   hw/intc/bcm2836_control.c  | 2 +-
+>   hw/ipmi/ipmi.c             | 4 ++--
+>   hw/mem/nvdimm.c            | 2 +-
+>   hw/mem/pc-dimm.c           | 2 +-
+>   hw/misc/bcm2835_mbox.c     | 2 +-
+>   hw/misc/bcm2835_powermgt.c | 2 +-
+>   hw/misc/bcm2835_property.c | 2 +-
+>   hw/misc/bcm2835_rng.c      | 2 +-
+>   hw/misc/pvpanic-isa.c      | 2 +-
+>   hw/misc/pvpanic-pci.c      | 2 +-
+>   hw/net/fsl_etsec/etsec.c   | 2 +-
+>   hw/ppc/prep_systemio.c     | 2 +-
+>   hw/ppc/spapr_iommu.c       | 2 +-
+>   hw/s390x/s390-pci-bus.c    | 2 +-
+>   hw/s390x/sclp.c            | 2 +-
+>   hw/s390x/tod-kvm.c         | 2 +-
+>   hw/s390x/tod-tcg.c         | 2 +-
+>   hw/s390x/tod.c             | 2 +-
+>   hw/scsi/lsi53c895a.c       | 2 +-
+>   hw/sd/allwinner-sdhost.c   | 2 +-
+>   hw/sd/aspeed_sdhci.c       | 2 +-
+>   hw/sd/bcm2835_sdhost.c     | 2 +-
+>   hw/sd/cadence_sdhci.c      | 2 +-
+>   hw/sd/npcm7xx_sdhci.c      | 2 +-
+>   hw/usb/dev-mtp.c           | 2 +-
+>   hw/usb/host-libusb.c       | 2 +-
+>   hw/vfio/igd.c              | 2 +-
+>   hw/virtio/virtio-pmem.c    | 2 +-
+>   qom/object.c               | 4 ++--
+>   39 files changed, 42 insertions(+), 42 deletions(-)
+> 
+> diff --git a/hw/core/generic-loader.c b/hw/core/generic-loader.c
+> index 9a24ffb880..eaafc416f4 100644
+> --- a/hw/core/generic-loader.c
+> +++ b/hw/core/generic-loader.c
+> @@ -207,7 +207,7 @@ static void generic_loader_class_init(ObjectClass *klass, void *data)
+>       set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+>   }
+>   
+> -static TypeInfo generic_loader_info = {
+> +static const TypeInfo generic_loader_info = {
 
-These patches have both "for-6.2" in the subject and
-Cc: qemu-stable@nongnu.org in the description, which is a little
-confusing.  Just want to clarify that they should go into master
-and be backported to 6.2.
+Good cleanup. If you use a sed expression to automatically replace,
+it would be nice to mention it (see i.e. commit f548f20176cb5f4406).
 
-Reviewed-by: Ilya Dryomov <idryomov@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+To avoid further non-const static TypeInfo introduced, we should
+add a check in scripts/checkpatch.pl. Maybe a simple "static TypeInfo"
+line comparison is enough. Do you mind having a look for a patch?
 
 Thanks,
 
-                Ilya
+Phil.
 
