@@ -2,73 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F3F648F1C7
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 21:59:41 +0100 (CET)
-Received: from localhost ([::1]:32852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 577BC48F1D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 22:08:23 +0100 (CET)
+Received: from localhost ([::1]:45060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8Tff-0004Ga-Kl
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 15:59:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51684)
+	id 1n8To6-0003Uo-0i
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 16:08:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <idan.horowitz@gmail.com>)
- id 1n8Td7-0001gW-O4; Fri, 14 Jan 2022 15:57:01 -0500
-Received: from [2607:f8b0:4864:20::32b] (port=35352
- helo=mail-ot1-x32b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <idan.horowitz@gmail.com>)
- id 1n8Td6-0007nS-EB; Fri, 14 Jan 2022 15:57:01 -0500
-Received: by mail-ot1-x32b.google.com with SMTP id
- 60-20020a9d0142000000b0059103eb18d4so11485170otu.2; 
- Fri, 14 Jan 2022 12:56:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9cyEBUzATocJv7ZX/1lhYMaB4y2O9dXDe2JOA9IZXFc=;
- b=pS7iLp4AXuX/U1PANWMAsTJ7Lqe0D2ILlOjeCRLQpvGvC7yuVMl3P/27t5I4wfjUzo
- F81obfnE9YMInFX85w8V7W4BDL8YeTYj7u7TjZgjXfPRQxrIPbgktTvMsDIMnWyn8oYD
- tQ4LNcNYDuZmzqJzsYriiZTjxC8CFqSO1/XgKPtgUO9qYNPDud5GT9mhIjm+vp4LxGE9
- /dmeXBsLRZRYJZqHD5Yh1o4k50Mzfx4UrunbrCj0IcyQCr9kEYX60eZ+xNxaZ/U6vUzF
- Zyeg4iZA7qASxasSxhcqQpb2MRL/+8L04tn0PDvPp6bVsm+M4eUl0cytsWcw6HHPyhQY
- TpNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9cyEBUzATocJv7ZX/1lhYMaB4y2O9dXDe2JOA9IZXFc=;
- b=gtPnD/Svhr3qmOGZ3t1GovPbC+6NwVok+9ye8jUjZqrlNhhNNPfe8ZUZqkvka9NyO7
- Suqd+wblrW+yg3JsxOQhARU4JcOVeGfzXZQXnlRQOutcTiDxf4/V90QHKXMY5QNykDvz
- rUpEQdsMziosopbHjvbjGdKr8C0F1DkcgWK78a8uEZirRGYc2ZQyuaCozwrpQzgx1yiv
- wratDpT6b4SwAWsTFeEPdfAZ5XLATXcz3pmbD+TWPykoM1wnXUrUUeVVZqz1X8+4TkTX
- q5yx7Qtn3NH3iBSfQgQA0su3O7Cc4pRg+91y8m7hfrduaOMTNjpK5/PZxG85rxN23a/y
- LcFw==
-X-Gm-Message-State: AOAM532I3nxkwYyE3Wii3vq4kAPyTWYW0h+7UtKv7C8+dq3U+4XaVzTj
- UHKOa/EzBXhbBGd313GsUCj71xgPzpB0ErJfVhY=
-X-Google-Smtp-Source: ABdhPJxniehsxMgrngi34GSfqk8XAa/CW7kiwg8zjXEBSeVMFJyGx0qmtxP1pe8lJznauVcboeenGNGmPO1ZMRza0Zk=
-X-Received: by 2002:a9d:27c1:: with SMTP id c59mr6131536otb.150.1642193817521; 
- Fri, 14 Jan 2022 12:56:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1n8Tkc-0002Y3-DV; Fri, 14 Jan 2022 16:04:46 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50566)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1n8Tka-0000Nl-MR; Fri, 14 Jan 2022 16:04:46 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20EIwBaV030132; 
+ Fri, 14 Jan 2022 21:04:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : from : to : cc : references : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=U8xPbafIJzKPaySmj+q6pQGQvOEnly+FaVHpoL4VWrg=;
+ b=cxy8aPeW5h8s82+SOaER5GGUMeeXXxhA2DlukqIGpn8WvWl+u4vI8NnaExq2l9JyazqG
+ JofUU/iunIuydRwNM2/ipqa4yxVkT+WR0Iy5MGLpkiEaowY+mkbh2ltJ8h+ivpjr+FGl
+ Gi0yLty9bp8Pf8EI0lXXOPe1GFoO7Ey+W+dPXjrXtWg7JPYMz/KiKo+Buyy1rvfcB3AX
+ VRA2I/1mGrzYV6ZvgwIyWnPcSqDJCi2mv/UjKKNb+0IdwO/4murt7rA2sKL4WGh2Ka6V
+ ubauz7GuzENfRTsrpkrX3yarWPOhoqxxiMLY6rQrmLt98C9jMdYsLFzeegJyQrBac0qm Zw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dkewyj990-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Jan 2022 21:04:40 +0000
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20EL1Glj031973;
+ Fri, 14 Jan 2022 21:04:40 GMT
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dkewyj98j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Jan 2022 21:04:40 +0000
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20EKrZsc003535;
+ Fri, 14 Jan 2022 21:04:38 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma01wdc.us.ibm.com with ESMTP id 3df28cfqe0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Jan 2022 21:04:38 +0000
+Received: from b03ledav002.gho.boulder.ibm.com
+ (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20EL4bOq36569420
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 14 Jan 2022 21:04:37 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 66FBB136067;
+ Fri, 14 Jan 2022 21:04:37 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2011C136053;
+ Fri, 14 Jan 2022 21:04:35 +0000 (GMT)
+Received: from [9.211.65.142] (unknown [9.211.65.142])
+ by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri, 14 Jan 2022 21:04:35 +0000 (GMT)
+Message-ID: <4ff00131-911b-644b-0de4-ccecb7820f7d@linux.ibm.com>
+Date: Fri, 14 Jan 2022 16:04:35 -0500
 MIME-Version: 1.0
-References: <20220110164754.1066025-1-idan.horowitz@gmail.com>
- <87ilum8gfp.fsf@linaro.org>
- <CA+4MfEK8nJLPd3J7ENG52nXkZoeqhKP_zu7NBfFg-SC-hQRzAQ@mail.gmail.com>
-In-Reply-To: <CA+4MfEK8nJLPd3J7ENG52nXkZoeqhKP_zu7NBfFg-SC-hQRzAQ@mail.gmail.com>
-From: Idan Horowitz <idan.horowitz@gmail.com>
-Date: Fri, 14 Jan 2022 22:56:46 +0200
-Message-ID: <CA+4MfEJyB0T7SLLbXXhNk+JSVxSJk_QRmOsvUpoZi+v0=+sX6Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] accel/tcg: Optimize jump cache flush during tlb range
- flush
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32b
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
- envelope-from=idan.horowitz@gmail.com; helo=mail-ot1-x32b.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2 3/9] fixup: force interp off for QEMU machine 6.2 and
+ older
+Content-Language: en-US
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+To: qemu-s390x@nongnu.org
+References: <20220114203849.243657-1-mjrosato@linux.ibm.com>
+ <20220114203849.243657-4-mjrosato@linux.ibm.com>
+In-Reply-To: <20220114203849.243657-4-mjrosato@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 5DMODYIJWxJ0B8OrOnwuec0zp2l5wiHS
+X-Proofpoint-GUID: v4irdAulTB2JxQzU569NhlhmCBV0GRlw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-14_06,2022-01-14_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ priorityscore=1501 phishscore=0 malwarescore=0 clxscore=1015
+ suspectscore=0 spamscore=0 bulkscore=0 mlxlogscore=999 adultscore=0
+ impostorscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201140121
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,34 +113,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, pbonzini@redhat.com
+Cc: farman@linux.ibm.com, kvm@vger.kernel.org, pmorel@linux.ibm.com,
+ schnelle@linux.ibm.com, cohuck@redhat.com, richard.henderson@linaro.org,
+ thuth@redhat.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
+ alex.williamson@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ david@redhat.com, borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Idan Horowitz <idan.horowitz@gmail.com> wrote:
->
-> cbnz     x9, 0x5168abc8
->
+On 1/14/22 3:38 PM, Matthew Rosato wrote:
+> Double-check I'm doing this right + test.
+> 
 
-I forgot to include the addresses of the instructions, making this
-jump undecipherable, here's the snippet again but with addresses this
-time:
+Argh...  This should have been squashed into the preceding patch 
+'target/s390x: add zpci-interp to cpu models'
 
-0x5168abb0 movk    x0, #0x0
-0x5168abb4 movk    x0, #0x0, lsl #16
-0x5168abb8 movk    x0, #0xff80, lsl #32
-0x5168abbc movk    x0, #0x0, lsl #48
-0x5168abc0 mov     x9, #0x64
-0x5168abc4 str     x9, [x8]
-0x5168abc8 tlbi    rvae1, x0
-0x5168abcc ldr     x9, [x8]
-0x5168abd0 sub     x9, x9, #0x1
-0x5168abd4 str     x9, [x8]
-0x5168abd8 cbnz    x9, 0x5168abc8
+> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> ---
+>   hw/s390x/s390-virtio-ccw.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index 84e3e63c43..e02fe11b07 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -803,6 +803,7 @@ DEFINE_CCW_MACHINE(7_0, "7.0", true);
+>   static void ccw_machine_6_2_instance_options(MachineState *machine)
+>   {
+>       ccw_machine_7_0_instance_options(machine);
+> +    s390_cpudef_featoff_greater(14, 1, S390_FEAT_ZPCI_INTERP);
+>   }
+>   
+>   static void ccw_machine_6_2_class_options(MachineClass *mc)
 
->
-> Idan Horowitz
-
-Idan Horowitz
 
