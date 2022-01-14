@@ -2,98 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2565748F21D
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 22:49:56 +0100 (CET)
-Received: from localhost ([::1]:39112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB81048F2A6
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 23:53:58 +0100 (CET)
+Received: from localhost ([::1]:38814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8USI-0004sN-On
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 16:49:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59104)
+	id 1n8VSH-0003KY-EH
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 17:53:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n8UP7-0002tH-Dj; Fri, 14 Jan 2022 16:46:38 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:51486)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n8UP5-0006QC-BO; Fri, 14 Jan 2022 16:46:36 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20EL8jxM004801; 
- Fri, 14 Jan 2022 21:46:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=+EDiKQYJcUizRlE/gHxV6yiVfLZQydI2ffBCWZto/N0=;
- b=S8uPiwW2tE2LFshAlPH0hqLM86y+aRyI9HUPd/R0kbHg5ugrTB5C9nS6msW7tsaV7zoI
- +5twgv5ORwk037aUYqZ64bKCM6FyZS/PjhbPUMkSODYjCtg3GkF8fhmfw6PLiEichPT9
- APAE/7zrQXSyd0tH+jYuNxHvdwdbynwuhGA9gVMyqsOWceNBGprLLlOyk5VQ4sbx8iwT
- 6nNG1jkaefjhJOaAcHh1TfGgy1mtIiJPdvmDmcQWCaNQ6SqrtYo3VIzYiP2KMeufwbBW
- UVT7mjb+09QMi+gdO/Bq7syzlkswEekqaHxxovFGNhIRo8Dmp/2wVp06Ykp0j59RbDW2 UA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dkdnccc28-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 14 Jan 2022 21:46:18 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20ELgA3m014227;
- Fri, 14 Jan 2022 21:46:17 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dkdnccc1r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 14 Jan 2022 21:46:17 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20ELhrHf000516;
- Fri, 14 Jan 2022 21:46:16 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma05wdc.us.ibm.com with ESMTP id 3df28d0rxf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 14 Jan 2022 21:46:16 +0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
- [9.57.199.109])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20ELkFIT35651900
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 14 Jan 2022 21:46:15 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DA69C112067;
- Fri, 14 Jan 2022 21:46:14 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CD7D0112062;
- Fri, 14 Jan 2022 21:46:13 +0000 (GMT)
-Received: from localhost (unknown [9.211.74.33])
- by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTPS;
- Fri, 14 Jan 2022 21:46:13 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH 2/8] target/ppc: 405: Add missing exception handlers
-In-Reply-To: <YdznIKAOxcLRSPDl@yekko>
-References: <20220110181546.4131853-1-farosas@linux.ibm.com>
- <20220110181546.4131853-3-farosas@linux.ibm.com> <YdznIKAOxcLRSPDl@yekko>
-Date: Fri, 14 Jan 2022 18:46:10 -0300
-Message-ID: <87tue6vvml.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n8VQJ-0002dU-Vd
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 17:51:56 -0500
+Received: from [2607:f8b0:4864:20::12a] (port=38858
+ helo=mail-il1-x12a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n8VQD-00075u-Gd
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 17:51:54 -0500
+Received: by mail-il1-x12a.google.com with SMTP id x15so9586165ilc.5
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 14:51:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=YBzT4AV/6LEVj8WfZ4RDag1cqQMAPGzWl6rAMAcvJBI=;
+ b=TWQocT0sSaVL6H6/FWrMyPxlOntg+DtyBvg+2KtP7QFYfE2NyMStUS77/Ud1L1Z59w
+ mySaxj9JnnkoNilHE4yjQMSkCZ+neWNEXHUpDYF8T9MdwB2scPiUyZAHHEIJPr34dgS9
+ YuMRcGNLIT5ZhyfV+BHWwxVgEMz3tvFPoNCGvPkp1PcnrTg0MRafhmYVTEO1a146/Eoh
+ nT4wIH4BoCuALOSdEkmkgCE/A7vCv2CDPcU07SqHJeL9rLdyFBOtrsdqL9iI3eRBT12k
+ 6NIy945TzhWkqHSceX+6yUjUMFhoSdlBB/hfIVnx6tKbRy+CV7B+4F+rzSDVn/E1wdIH
+ HQyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=YBzT4AV/6LEVj8WfZ4RDag1cqQMAPGzWl6rAMAcvJBI=;
+ b=0qMeDsZXyLjK9Tb4Or278Qg+1vbXPPTlFb9Ujymx4p8YiA83kDrqUcaQsSQz28oja9
+ tcUpk0bJKpKq1jKuti7zPt8KDuaodSqM8q5GnvGmic8wxw3oTO3di2eZNRUaKbOQRd6e
+ go+3QOHxhiD1aeKJFRw7m1Ia4khgfQxE+AWMDo8SKh8UgmkSZy8ErLWi1voWXb8GtVWn
+ oqU7vhWSDQ7oD4I6gzMKt7JhV1XjLADPyNbDRKXNMygl4mVUNt9RnMt7cm9ZIMLgv9ZZ
+ j24U/6+E3ZYtMj5htSVVNfzXjdp0Vi9uMyv9ckMAn6+vsgva+8KXUHW9HQYMnff6YY8V
+ IKlw==
+X-Gm-Message-State: AOAM531BpvS6tUnyG7vIh/78Q56VkgI2vSgcLvzubqoOxvD1wVplid8O
+ BeSLTJlk3QyzlhVNmB6QE5zhCOTWwif3zmFcpvc=
+X-Google-Smtp-Source: ABdhPJw3/kybMTm0Ht0VQQSbL9r8QmZtkqN9amGAr0ULs0fjBQkBY66WqWhAvB0+wr9u1nJY5Ii6lUR0REncZ67vwvs=
+X-Received: by 2002:a92:3012:: with SMTP id x18mr5164347ile.221.1642200698408; 
+ Fri, 14 Jan 2022 14:51:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: VtIHSEByvzhaUKv-UjDtVDl9e1OjxIQh
-X-Proofpoint-GUID: 1P_PlG00_wbb-inf1M9shn09Nd-FJU5L
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-14_06,2022-01-14_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=979
- impostorscore=0 malwarescore=0 bulkscore=0 suspectscore=0 adultscore=0
- clxscore=1015 phishscore=0 spamscore=0 lowpriorityscore=0 mlxscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201140122
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220109205640.4126817-1-philipp.tomsich@vrull.eu>
+ <05100e8f-ce11-9da1-8afe-6010d9bbebb5@amsat.org>
+ <CAAeLtUAZ41bkq_UEKd8=-kO52wtTxv3rxYrzSHfp_sTd3K4+aw@mail.gmail.com>
+ <91394f9d-aa65-a4f9-f54f-3ecc5aac9e70@amsat.org>
+ <CAAeLtUCy+Yib4D9-WMDRvTqVH-dP+sJT=h1pa1eYKEaYuNZrtg@mail.gmail.com>
+ <8715f643-7057-8997-d77d-1b55d4ddebc8@amsat.org>
+ <CAAeLtUAiFhD0o1YAtz8R5uzn77Wj_LG8D2unAMrdmmRaMAYt-Q@mail.gmail.com>
+ <CAKmqyKPbZ+N2fb_LY80OzrBfKi35P1C_Thx5_O0h_6X1ThUggw@mail.gmail.com>
+ <CAAeLtUB8Mz-=m6R2Amm56Q+Jtpdn=JixXJ7ykaCCHc7W_Byb8w@mail.gmail.com>
+In-Reply-To: <CAAeLtUB8Mz-=m6R2Amm56Q+Jtpdn=JixXJ7ykaCCHc7W_Byb8w@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Sat, 15 Jan 2022 08:51:12 +1000
+Message-ID: <CAKmqyKOKTmASs-BD3eZ2mMOGZHqrmh=yo_0+bh8Eb8mtWaCOYA@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] decodetree: Add an optional predicate-function for
+ decoding
+To: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12a;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12a.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,76 +91,209 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, clg@kaod.org
+Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Luis Pires <luis.pires@eldorado.org.br>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Kito Cheng <kito.cheng@sifive.com>,
+ Greg Favor <gfavor@ventanamicro.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-David Gibson <david@gibson.dropbear.id.au> writes:
-
-> On Mon, Jan 10, 2022 at 03:15:40PM -0300, Fabiano Rosas wrote:
->> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
->> ---
->>  target/ppc/cpu_init.c | 2 ++
->>  1 file changed, 2 insertions(+)
->> 
->> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
->> index a50ddaeaae..9097948e67 100644
->> --- a/target/ppc/cpu_init.c
->> +++ b/target/ppc/cpu_init.c
->> @@ -1951,7 +1951,9 @@ static void init_excp_4xx_softmmu(CPUPPCState *env)
->>      env->excp_vectors[POWERPC_EXCP_EXTERNAL] = 0x00000500;
->>      env->excp_vectors[POWERPC_EXCP_ALIGN]    = 0x00000600;
->>      env->excp_vectors[POWERPC_EXCP_PROGRAM]  = 0x00000700;
->> +    env->excp_vectors[POWERPC_EXCP_FPU]      = 0x00000800;
+On Thu, Jan 13, 2022 at 6:28 PM Philipp Tomsich
+<philipp.tomsich@vrull.eu> wrote:
 >
-> I have a vague recollection from my days of working on 405 that there
-> may have been something funky with FP emulation on there: e.g. FP
-> instructions causing 0x700 program interrupts instead of FP unavailble
-> interrupts or something.
+> On Thu, 13 Jan 2022 at 06:07, Alistair Francis <alistair23@gmail.com> wro=
+te:
+> >
+> > On Thu, Jan 13, 2022 at 1:42 AM Philipp Tomsich
+> > <philipp.tomsich@vrull.eu> wrote:
+> > >
+> > > Alistair,
+> > >
+> > > Do you (and the other RISC-V custodians of target/riscv) have any opi=
+nion on this?
+> > > We can go either way =E2=80=94 and it boils down to a style and proce=
+ss question.
+> >
+> > Sorry, it's a busy week!
+> >
+> > I had a quick look over this series and left some comments below.
+>
+>
+> Thank you for taking the time despite the busy week =E2=80=94 I can absol=
+utely
+> relate, as it seems that January is picking up right where December
+> left off ;-)
+>
+> >
+> > >
+> > > Thanks,
+> > > Philipp.
+> > >
+> > > On Mon, 10 Jan 2022 at 12:30, Philippe Mathieu-Daud=C3=A9 <f4bug@amsa=
+t.org> wrote:
+> > >>
+> > >> On 1/10/22 12:11, Philipp Tomsich wrote:
+> > >> > On Mon, 10 Jan 2022 at 11:03, Philippe Mathieu-Daud=C3=A9 <f4bug@a=
+msat.org
+> > >> > <mailto:f4bug@amsat.org>> wrote:
+> > >> >
+> > >> >     On 1/10/22 10:52, Philipp Tomsich wrote:
+> > >> >     > For RISC-V the opcode decode will change between different v=
+endor
+> > >> >     > implementations of RISC-V (emulated by the same qemu binary)=
+.
+> > >> >     > Any two vendors may reuse the same opcode space, e.g., we ma=
+y end
+> > >> >     up with:
+> > >> >     >
+> > >> >     > # *** RV64 Custom-3 Extension ***
+> > >> >     > {
+> > >> >     >   vt_maskc   0000000  ..... ..... 110 ..... 1111011 @r
+> > >> >     |has_xventanacondops_p
+> > >> >     >   vt_maskcn  0000000  ..... ..... 111 ..... 1111011 @r
+> > >> >     |has_xventanacondops_p
+> > >> >     >   someone_something  ............ ..... 000 ..... 1100111 @i
+> > >> >     > |has_xsomeonesomething_p
+> > >> >     > }
+> >
+> > I don't love this. If even a few vendors use this we could have a huge
+> > number of instructions here
+> >
+> > >> >     >
+> > >> >     > With extensions being enabled either from the commandline
+> > >> >     >     -cpu any,xventanacondops=3Dtrue
+> > >> >     > or possibly even having a AMP in one emulation setup (e.g. a=
+pplication
+> > >> >     > cores having one extension and power-mangement cores having =
+a
+> > >> >     > different one =E2=80=94 or even a conflicting one).
+> >
+> > Agreed, an AMP configuration is entirely possible.
+> >
+> > >> >
+> > >> >     I understand, I think this is what MIPS does, see commit 9d005=
+392390:
+> > >> >     ("target/mips: Introduce decodetree structure for NEC Vr54xx e=
+xtension")
+> > >> >
+> > >> >
+> > >> > The MIPS implementation is functionally equivalent, and I could se=
+e us
+> > >> > doing something similar for RISC-V (although I would strongly pref=
+er to
+> > >> > make everything explicit via the .decode-file instead of relying o=
+n
+> > >> > people being aware of the logic in decode_op).
+> > >> >
+> > >> > With the growing number of optional extensions (as of today, at le=
+ast
+> > >> > the Zb[abcs] and vector comes to mind), we would end up with a lar=
+ge
+> > >> > number of decode-files that will then need to be sequentially call=
+ed
+> > >> > from decode_op(). The predicates can then move up into decode_op,
+> > >> > predicting the auto-generated decoders from being invoked.
+> > >> >
+> > >> > As of today, we have predicates for at least the following:
+> > >> >
+> > >> >   * Zb[abcs]
+> > >> >   * Vectors
+> >
+> > I see your point, having a long list of decode_*() functions to call
+> > is a hassle. On the other hand having thousands of lines in
+> > insn32.decode is also a pain.
+> >
+> > In saying that, having official RISC-V extensions in insn32.decode and
+> > vendor instructions in insn<vendor>.decode seems like a reasonable
+> > compromise. Maybe even large extensions (vector maybe?) could have
+> > their own insn<extension>.decode file, on a case by case basis.
+> >
+> > >> >
+> > >> > As long as we are in greenfield territory (i.e. not dealing with
+> > >> > HINT-instructions that overlap existing opcode space), this will b=
+e fine
+> > >> > and provide proper isolation between the .decode-tables.
+> > >> > However, as soon as we need to implement something along the lines=
+ (I
+> > >> > know this is a bad example, as prefetching will be a no-op on qemu=
+) of:
+> > >> >
+> > >> >     {
+> > >> >       {
+> > >> >         # *** RV32 Zicbop Sandard Extension (hints in the ori-spac=
+e) ***
+> > >> >         prefetch_i  ....... 00000 ..... 110 00000 0010011 @cbo_pre=
+f
+> > >> >         prefetch_r  ....... 00001 ..... 110 00000 0010011 @cbo_pre=
+f
+> > >> >         prefetch_w  ....... 00011 ..... 110 00000 0010011 @cbo_pre=
+f
+> > >> >       }
+> > >> >       ori      ............     ..... 110 ..... 0010011 @i
+> > >> >     }
+> > >> >
+> > >> > we'd need to make sure that the generated decoders are called in t=
+he
+> > >> > appropriate order (i.e. the decoder for the specialized instructio=
+ns
+> > >> > will need to be called first), which would not be apparent from lo=
+oking
+> > >> > at the individual .decode files.
+> > >> >
+> > >> > Let me know what direction we want to take (of course, I have a bi=
+as
+> > >> > towards the one in the patch).
+> > >>
+> > >> I can't say for RISCV performance, I am myself biased toward mainten=
+ance
+> > >> where having one compilation unit per (vendor) extension.
+> > >> ARM and MIPS seems to go in this direction, while PPC and RISCV in t=
+he
+> > >> other one.
+> >
+> > I think we could do both right?
+> >
+> > We could add the predicate support, but also isolate vendors to their
+> > own decode file
+> >
+> > So for example, for vendor abc
+> >
+> > +++ b/target/riscv/insnabc.decode
+> > +# *** Custom abc Extension ***
+> > +{
+> > +  vt_maskc   0000000  ..... ..... 110 ..... 1111011 @r |has_abc_c
+> > +  vt_maskcn  0000000  ..... ..... 111 ..... 1111011 @r |has_abc_d
+> > +}
+> >
+> > Then there is a decode_abc(), but we support extension abc_c and abc_d
+> >
+> > That way we can keep all the vendor code seperate, while still
+> > allowing flexibility. Will that work?
+>
+> I'll split this up into multiple series then:
+> 1. XVentanaCondOps will use a separate decoder (so no decodetree changes =
+in v2).
+> 2. A new series that adds predicate support and uses it for Zb[abcs]
+> 3. A third series that factors vector out of the insn32.decode and
+> puts it into its own decoder.
+>
+> This will give us the chance to discuss individual design changes at
+> their own speed.
 
-Maybe this (from the manual):
+Great! Thanks for that
 
-  Program - causing conditions:
-  
-  Attempted execution of illegal instructions, TRAP instruction,
-  privileged instruction in problem state, or auxiliary processor (APU)
-  instruction, or unimplemented FPU instruction, or unimplemented APU
-  instruction, or APU interrupt, or FPU interrupt
-  
-  FPU Unavailable - causing conditions:
-  
-  Attempted execution of an FPU instruction when MSR[FP]=0.
+Alistair
 
-There's also this bit:
-
-  Attempted execution of an APU instruction while the APUc405exception
-  signal is asserted) results in a program interrupt. Similarly, attempted
-  execution of an FPU instruction whilethe FPUc405exception signal is
-  asserted) also results in a program interrupt. The following also result
-  in program interrupts: attempted execution of an APU instruction while
-  APUc405DcdAPUOp is asserted but APUC405DcdValidOp is deasserted; and
-  attempted execution of an FPU instruction while APUc405DcdFpuOp but
-  APUC405DcdValidOp is deasserted.
-
-> I might be remembering incorrectly - the manual does seem to imply
-> that 0x800 FP unavailable is there as normal, but it might be worth
-> double checking this (against real hardware, if possible).
-
-The Linux kernel has the vectors that I'm adding disabled:
-
-  EXCEPTION(0x0800, Trap_08, unknown_exception) <-- FPU
-  EXCEPTION(0x0900, Trap_09, unknown_exception)
-  EXCEPTION(0x0A00, Trap_0A, unknown_exception) 
-  EXCEPTION(0x0B00, Trap_0B, unknown_exception)
-  ...
-  EXCEPTION(0x0F00, Trap_0F, unknown_exception) <-- APU
-
-(0xf20 would probably cause a crash as we'd jump to the middle of the
-exception prologue)
-
-Maybe I should drop this patch then? That way future developers won't
-feel tempted to raise one of these.
-
-It seems mostly inconsequential either way, what do you think?
+>
+> Philipp.
+>
+> >
+> > We can also then use predicate support for the standard RISC-V
+> > extensions as described by Philipp
+> >
+> > Alistair
 
