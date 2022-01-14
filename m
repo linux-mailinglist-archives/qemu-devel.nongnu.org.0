@@ -2,85 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD56048EC15
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 15:59:14 +0100 (CET)
-Received: from localhost ([::1]:49446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E8548EBB1
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 15:31:46 +0100 (CET)
+Received: from localhost ([::1]:33032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8O2r-0003zY-RK
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 09:59:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50998)
+	id 1n8NcF-0004pO-TO
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 09:31:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n8NRS-0008Pp-RM; Fri, 14 Jan 2022 09:20:38 -0500
-Received: from [2607:f8b0:4864:20::42b] (port=39783
- helo=mail-pf1-x42b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n8NRM-00053f-OG; Fri, 14 Jan 2022 09:20:31 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id f144so2104645pfa.6;
- Fri, 14 Jan 2022 06:20:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=YpRb1ij/CPG7glc/r0KtFgu4hhX8la49MIJBpNXRg5M=;
- b=ShSBUlDmxB4K5cxN1gPufipujwiUsgQd/VIoXKpXW5h0NcSC4W9Q+Gx2HefZcDrhWw
- JZ6mXl3KTAPHxTk8C5vbEvv5NDp9xHwOylbOIbUZn+0yHZz2/m73j79vKzh6yWKVKrsK
- lJQDy/85xCZWozhQA4NiU5Ru+VNW/5004xARmcwj8ulvajQkaXoN9vMPoXWNdu6Ew8Bc
- vuCBu93LNdx9PXDeBWyziC+rk7R6nPgu8pf5VCi69QTV7vXlo3ZMYqlBS2/Z97YEJdtx
- SrlgBi4tAnjGsj7bbU07dQfgd54UA/xUGdBwXR1DG8EIXKuRv/c0pTRk5RPn9LuxEYTB
- JIpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=YpRb1ij/CPG7glc/r0KtFgu4hhX8la49MIJBpNXRg5M=;
- b=hJTr9woYDLwErgiqLUQIXpaXmQ46K8lTo72lNsPwcaHESYkBh+a17HN+Xd94m8cj/J
- WW76tOGv3tfUmZYl46s9WyToLPCoLt2SHch+G4oMeVsdQYfeTRvDSRHdZ+KpA4UdKNJI
- jRVQA5BOXSNBFRf1U79iwGPSkePRw4K4qHwqalcNs3z47jIrNN47ZvsBdheByUL0niCh
- wU0TrWolRYzRtT08Z8ejJHLRHnDRDtPOge4gLwUsx3frXHPKtqvB66e3WMzn4MMFCTVX
- /yd+VuAddKJj4mCPUlyW2VBOaYSwsed7yOVtv15Ft8gETE5brYrHbCLpPd5kWlqfXBoB
- tNCQ==
-X-Gm-Message-State: AOAM533FOtjqbBTbkWLqQjylElC6Ak4nPF1iz15cMVjcUtF/fCrkvB2q
- HJcWV7mzhm0etR2963QfKto=
-X-Google-Smtp-Source: ABdhPJzsdi3CshSSLk74y+XYqkoZZ0kTlIHevvBGPKVx5ca6u4I094I2eAZC+atqAFJML4zpAePgLA==
-X-Received: by 2002:a63:7407:: with SMTP id p7mr8300075pgc.14.1642170024482;
- Fri, 14 Jan 2022 06:20:24 -0800 (PST)
-Received: from ?IPV6:2a01:e34:ec40:49e0:48b5:8fce:b44b:d951?
- ([2a01:e34:ec40:49e0:48b5:8fce:b44b:d951])
- by smtp.gmail.com with ESMTPSA id e7sm5906191pfv.9.2022.01.14.06.20.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Jan 2022 06:20:24 -0800 (PST)
-Message-ID: <5812053f-f930-e478-f561-4fafbd099471@amsat.org>
-Date: Fri, 14 Jan 2022 15:20:20 +0100
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1n8NXl-0001Mi-PN
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 09:27:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41271)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1n8NXi-00063o-6I
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 09:27:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642170421;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gz/PlscR5ViT7vQuPMAg6A6391eeD9oieYHYP7x78u8=;
+ b=PAFFILQ1c/piFBeXdfjY/zCgkkbCkQ8UDiJm/iLfkqHoOpmWXVJ0Qpw+YFFFnsuTCoAQx6
+ nUqiB6+z+zN8HxhU5KX4L6nBk5WSVDF3MNxmAZVJWuHykicXVGWiPAY4DIIjavo755ruDa
+ Jv61oxXPITN3TlLRugpZJsnJ/VOezgg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-520-II2_i3r6MXeksaibe9e4Xw-1; Fri, 14 Jan 2022 09:26:58 -0500
+X-MC-Unique: II2_i3r6MXeksaibe9e4Xw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1472781EE60;
+ Fri, 14 Jan 2022 14:26:57 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 64332798D8;
+ Fri, 14 Jan 2022 14:26:45 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 5/4] tests: acpi: test short OEM_ID/OEM_TABLE_ID values in
+ test_oem_fields()
+Date: Fri, 14 Jan 2022 09:26:41 -0500
+Message-Id: <20220114142641.1727679-1-imammedo@redhat.com>
+In-Reply-To: <20220112130332.1648664-1-imammedo@redhat.com>
+References: <20220112130332.1648664-1-imammedo@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PULL 07/16] qapi/block: Restrict vhost-user-blk to
- CONFIG_VHOST_USER_BLK_SERVER
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
-References: <20220114135226.185407-1-kwolf@redhat.com>
- <20220114135226.185407-8-kwolf@redhat.com>
-In-Reply-To: <20220114135226.185407-8-kwolf@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42b
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,66 +81,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: ani@anisinha.ca, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 14/1/22 14:52, Kevin Wolf wrote:
-> From: Philippe Mathieu-Daudé <philmd@redhat.com>
-> 
-> When building QEMU with --disable-vhost-user and using introspection,
-> query-qmp-schema lists vhost-user-blk even though it's not actually
-> available:
-> 
->    { "execute": "query-qmp-schema" }
->    {
->        "return": [
->            ...
->            {
->                "name": "312",
->                "members": [
->                    {
->                        "name": "nbd"
->                    },
->                    {
->                        "name": "vhost-user-blk"
->                    }
->                ],
->                "meta-type": "enum",
->                "values": [
->                    "nbd",
->                    "vhost-user-blk"
->                ]
->            },
-> 
-> Restrict vhost-user-blk in BlockExportType when
-> CONFIG_VHOST_USER_BLK_SERVER is disabled, so it
-> doesn't end listed by query-qmp-schema.
-> 
-> Fixes: 90fc91d50b7 ("convert vhost-user-blk server to block export API")
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Message-Id: <20220107105420.395011-4-f4bug@amsat.org>
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->   qapi/block-export.json | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/qapi/block-export.json b/qapi/block-export.json
-> index c1b92ce1c1..f9ce79a974 100644
-> --- a/qapi/block-export.json
-> +++ b/qapi/block-export.json
-> @@ -277,7 +277,8 @@
->   # Since: 4.2
->   ##
->   { 'enum': 'BlockExportType',
-> -  'data': [ 'nbd', 'vhost-user-blk',
-> +  'data': [ 'nbd',
-> +            { 'name': 'vhost-user-blk', 'if': 'CONFIG_VHOST_USER_BLK_SERVER' },
->               { 'name': 'fuse', 'if': 'CONFIG_FUSE' } ] }
+Previous patch [1] added explicit whitespace padding to OEM_ID/OEM_TABLE_ID
+values used in test_oem_fields() testcase to avoid false positive and
+bisection issues when QEMU is switched to \0' padding. As result
+testcase ceased to test values that were shorter than max possible
+length values.
 
-Markus asked to split this line:
-https://lore.kernel.org/qemu-devel/87zgny37s8.fsf@dusky.pond.sub.org/
-I will add a cleanup patch, no need to cancel this PR for that ;)
+Update testcase to make sure that it's testing shorter IDs like it
+used to before [2].
+
+1) "tests: acpi: manually pad OEM_ID/OEM_TABLE_ID for  test_oem_fields() test"
+2) 602b458201 ("acpi: Permit OEM ID and OEM table ID fields to be changed")
+
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+ tests/qtest/bios-tables-test.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 90c9f6a0a2..ad536fd7b1 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -71,10 +71,10 @@
+ 
+ #define ACPI_REBUILD_EXPECTED_AML "TEST_ACPI_REBUILD_AML"
+ 
+-#define OEM_ID             "TEST  "
+-#define OEM_TABLE_ID       "OEM     "
+-#define OEM_TEST_ARGS      "-machine x-oem-id='" OEM_ID "',x-oem-table-id='" \
+-                           OEM_TABLE_ID "'"
++#define OEM_ID             "TEST"
++#define OEM_TABLE_ID       "OEM"
++#define OEM_TEST_ARGS      "-machine x-oem-id=" OEM_ID ",x-oem-table-id=" \
++                           OEM_TABLE_ID
+ 
+ typedef struct {
+     bool tcg_only;
+@@ -1530,8 +1530,8 @@ static void test_oem_fields(test_data *data)
+             continue;
+         }
+ 
+-        g_assert(memcmp(sdt->aml + 10, OEM_ID, 6) == 0);
+-        g_assert(memcmp(sdt->aml + 16, OEM_TABLE_ID, 8) == 0);
++        g_assert(strncmp((char *)sdt->aml + 10, OEM_ID, 6) == 0);
++        g_assert(strncmp((char *)sdt->aml + 16, OEM_TABLE_ID, 8) == 0);
+     }
+ }
+ 
+-- 
+2.31.1
+
 
