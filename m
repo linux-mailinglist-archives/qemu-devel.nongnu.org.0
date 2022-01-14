@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14F7148EB36
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 15:07:31 +0100 (CET)
-Received: from localhost ([::1]:40358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F8D848EB2F
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 15:04:47 +0100 (CET)
+Received: from localhost ([::1]:36350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8NEn-0002iJ-IB
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 09:07:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43914)
+	id 1n8NC9-0007jc-Et
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 09:04:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n8N0U-000309-Ro
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:52:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53471)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n8N0Y-00031N-Cu
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:52:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41531)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n8N0T-0000K7-90
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:52:42 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n8N0W-0000L1-SG
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:52:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642168360;
+ s=mimecast20190719; t=1642168364;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PJAeIDTzFB0lyVcDFZdcUvZc+kB3SleGw6HOFB3RExs=;
- b=SiWfrrUGN6SxFV5+/IM7rev1OPKTzt87mfxxX8+T98ej8Z/Cv1QguUeaFZxdU13rKi9pDv
- FhMbOnMhehVfx/oe9i+A5T5Ti+e65NcJkP9P186f5ZVD7k4ClletaLdkwhoX6kjvWQPN3+
- 9xebdXkJ9FOuRpO+bzs6kd/L8Xq8FUo=
+ bh=Hg4GavXcIyyKHZ3LcdHXTMWCD+n4iUVopHqlBHCdcO0=;
+ b=NVUvJMrOcqdEd/Tr2/MxL1dP/TIPZBu0PrVznyRkvj/jJEfQWDAL0pEyoPzGh6pEmWtRYd
+ yE2dSbVj6lV7h92kojoTk8lQsu6rwg1voMLJ9dpveUOdhh9yW7+80ncNwSW6vXHZapxAEc
+ AwwO3f0AVHlbH1BScaUV16lYvTJCrys=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-187-jcDR5ID1PtC7v07t4gii1w-1; Fri, 14 Jan 2022 08:52:39 -0500
-X-MC-Unique: jcDR5ID1PtC7v07t4gii1w-1
+ us-mta-203-YGwMZhbAOEO3zLur3Kxjgw-1; Fri, 14 Jan 2022 08:52:41 -0500
+X-MC-Unique: YGwMZhbAOEO3zLur3Kxjgw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B60311853020;
- Fri, 14 Jan 2022 13:52:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27AF481EE62;
+ Fri, 14 Jan 2022 13:52:40 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B50C5105B20E;
- Fri, 14 Jan 2022 13:52:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0FC75105B20E;
+ Fri, 14 Jan 2022 13:52:38 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 06/16] qemu-storage-daemon: Add vhost-user-blk help
-Date: Fri, 14 Jan 2022 14:52:16 +0100
-Message-Id: <20220114135226.185407-7-kwolf@redhat.com>
+Subject: [PULL 07/16] qapi/block: Restrict vhost-user-blk to
+ CONFIG_VHOST_USER_BLK_SERVER
+Date: Fri, 14 Jan 2022 14:52:17 +0100
+Message-Id: <20220114135226.185407-8-kwolf@redhat.com>
 In-Reply-To: <20220114135226.185407-1-kwolf@redhat.com>
 References: <20220114135226.185407-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -83,57 +84,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Add missing vhost-user-blk help:
+When building QEMU with --disable-vhost-user and using introspection,
+query-qmp-schema lists vhost-user-blk even though it's not actually
+available:
 
-  $ qemu-storage-daemon -h
-  ...
-    --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,
-             addr.type=unix,addr.path=<socket-path>[,writable=on|off]
-             [,logical-block-size=<block-size>][,num-queues=<num-queues>]
-                           export the specified block node as a
-                           vhosts-user-blk device over UNIX domain socket
-    --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,
-             fd,addr.str=<fd>[,writable=on|off]
-             [,logical-block-size=<block-size>][,num-queues=<num-queues>]
-                           export the specified block node as a
-                           vhosts-user-blk device over file descriptor
-  ...
+  { "execute": "query-qmp-schema" }
+  {
+      "return": [
+          ...
+          {
+              "name": "312",
+              "members": [
+                  {
+                      "name": "nbd"
+                  },
+                  {
+                      "name": "vhost-user-blk"
+                  }
+              ],
+              "meta-type": "enum",
+              "values": [
+                  "nbd",
+                  "vhost-user-blk"
+              ]
+          },
+
+Restrict vhost-user-blk in BlockExportType when
+CONFIG_VHOST_USER_BLK_SERVER is disabled, so it
+doesn't end listed by query-qmp-schema.
 
 Fixes: 90fc91d50b7 ("convert vhost-user-blk server to block export API")
-Reported-by: Qing Wang <qinwang@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220107105420.395011-3-f4bug@amsat.org>
+Message-Id: <20220107105420.395011-4-f4bug@amsat.org>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- storage-daemon/qemu-storage-daemon.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ qapi/block-export.json | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index 52cf17e8ac..9d76d1114d 100644
---- a/storage-daemon/qemu-storage-daemon.c
-+++ b/storage-daemon/qemu-storage-daemon.c
-@@ -104,6 +104,19 @@ static void help(void)
- "                         export the specified block node over FUSE\n"
- "\n"
- #endif /* CONFIG_FUSE */
-+#ifdef CONFIG_VHOST_USER_BLK_SERVER
-+"  --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,\n"
-+"           addr.type=unix,addr.path=<socket-path>[,writable=on|off]\n"
-+"           [,logical-block-size=<block-size>][,num-queues=<num-queues>]\n"
-+"                         export the specified block node as a\n"
-+"                         vhost-user-blk device over UNIX domain socket\n"
-+"  --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,\n"
-+"           fd,addr.str=<fd>[,writable=on|off]\n"
-+"           [,logical-block-size=<block-size>][,num-queues=<num-queues>]\n"
-+"                         export the specified block node as a\n"
-+"                         vhost-user-blk device over file descriptor\n"
-+"\n"
-+#endif /* CONFIG_VHOST_USER_BLK_SERVER */
- "  --monitor [chardev=]name[,mode=control][,pretty[=on|off]]\n"
- "                         configure a QMP monitor\n"
- "\n"
+diff --git a/qapi/block-export.json b/qapi/block-export.json
+index c1b92ce1c1..f9ce79a974 100644
+--- a/qapi/block-export.json
++++ b/qapi/block-export.json
+@@ -277,7 +277,8 @@
+ # Since: 4.2
+ ##
+ { 'enum': 'BlockExportType',
+-  'data': [ 'nbd', 'vhost-user-blk',
++  'data': [ 'nbd',
++            { 'name': 'vhost-user-blk', 'if': 'CONFIG_VHOST_USER_BLK_SERVER' },
+             { 'name': 'fuse', 'if': 'CONFIG_FUSE' } ] }
+ 
+ ##
+@@ -319,7 +320,8 @@
+   'discriminator': 'type',
+   'data': {
+       'nbd': 'BlockExportOptionsNbd',
+-      'vhost-user-blk': 'BlockExportOptionsVhostUserBlk',
++      'vhost-user-blk': { 'type': 'BlockExportOptionsVhostUserBlk',
++                          'if': 'CONFIG_VHOST_USER_BLK_SERVER' },
+       'fuse': { 'type': 'BlockExportOptionsFuse',
+                 'if': 'CONFIG_FUSE' }
+    } }
 -- 
 2.31.1
 
