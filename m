@@ -2,59 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA42E48E227
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 02:34:26 +0100 (CET)
-Received: from localhost ([::1]:33082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0884848E226
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 02:34:19 +0100 (CET)
+Received: from localhost ([::1]:60772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8BU1-0004vS-TK
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 20:34:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38832)
+	id 1n8BTt-0004DO-Jf
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 20:34:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1n8BQs-00038y-59
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 20:31:10 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.220]:33320
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1n8BQh-0005VV-3Q
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 20:31:02 -0500
-HMM_SOURCE_IP: 172.18.0.188:50772.1406760444
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-182.150.57.243 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id 986A9280170;
- Fri, 14 Jan 2022 09:30:42 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.188])
- by app0023 with ESMTP id 70fa52b884a149029a1d836238ca1359 for
- armbru@redhat.com; Fri, 14 Jan 2022 09:30:46 CST
-X-Transaction-ID: 70fa52b884a149029a1d836238ca1359
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.188
-X-MEDUSA-Status: 0
-Message-ID: <38d0cc91-2995-2d73-d917-e5e1fc4e5206@chinatelecom.cn>
-Date: Fri, 14 Jan 2022 09:30:39 +0800
+ (Exim 4.90_1) (envelope-from <jmaloy@redhat.com>) id 1n8BQ0-0002jW-Fn
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 20:30:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26128)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jmaloy@redhat.com>) id 1n8BPv-0005O7-EE
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 20:30:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642123808;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=u3OXl0FTJ5rTjyhmpGyboP8ZPbI3HYMAaPhMjNgU8gY=;
+ b=TJ0bCwn20vuEMSvxXmoz3+BF4tNCu2J2SesrWTv/o1DpKTCBzfp5BEsrSDQv9xhKn0jvmR
+ iNO3Dylya7UfOt6fOIupPAUGd7nT2Z5KLhiGCpVkwnYzQ45IpncF6l0chMd1Oua7oHhG7H
+ XB8h0Lz4VwkDIzm2h0XJ9bETISlzsag=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-64-qn0SW4XJOSWzAYu0-RBDxA-1; Thu, 13 Jan 2022 20:30:07 -0500
+X-MC-Unique: qn0SW4XJOSWzAYu0-RBDxA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37ED31926DA4
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 01:30:06 +0000 (UTC)
+Received: from fenrir.redhat.com (unknown [10.22.11.139])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8FC361002390;
+ Fri, 14 Jan 2022 01:30:05 +0000 (UTC)
+From: Jon Maloy <jmaloy@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] fdc: check for illegal dma length calculation
+Date: Thu, 13 Jan 2022 20:33:19 -0500
+Message-Id: <20220114013319.348012-1-jmaloy@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH v10 2/3] cpu-throttle: implement virtual CPU throttle
-To: Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>
-References: <cover.1639479557.git.huangy81@chinatelecom.cn>
- <671e8a25261262085b998a08ef8dafdcdc9e0ae9.1639479557.git.huangy81@chinatelecom.cn>
- <YcVWzuPDawXtXGIX@xz-m1.local>
- <98211637-b2ad-d99b-9dc2-23c5d3566b24@chinatelecom.cn>
- <YdOxDRvCaXutEmOx@xz-m1.local> <87pmov61wv.fsf@dusky.pond.sub.org>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <87pmov61wv.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jmaloy@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.220;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jmaloy@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.594,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,62 +74,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: jmaloy@redhat.com, jasowang@redhat.com, pjp@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The function fdctrl_start_transfer() calculates the dma data length
+wrongly when certain boundary conditions are fulfilled. We have
+noticed that the if ((fdctrl->fifo[5] - fdctrl->fifo[6]) > 1) we get
+a dma length that will be interpreted as negative by the next function
+in the chain, fdctrl_transfer_handler(). This leads to a crash.
 
+Rather than trying to fix this obscure calculation, we just check if
+the harmful condition is fulfilled, and return without action if that
+is the case. Since this is a condition that can only be created by a
+malicious user we deem this solution safe.
 
-在 2022/1/14 0:22, Markus Armbruster 写道:
-> Peter Xu <peterx@redhat.com> writes:
-> 
->> On Fri, Dec 31, 2021 at 12:36:40AM +0800, Hyman Huang wrote:
->>>>> +struct {
->>>>> +    DirtyLimitState *states;
->>>>> +    int max_cpus;
->>>>> +    unsigned long *bmap; /* running thread bitmap */
->>>>> +    unsigned long nr;
->>>>> +    QemuThread thread;
->>>>> +} *dirtylimit_state;
->>>>> +
->>>>> +static bool dirtylimit_quit = true;
->>>>
->>>> Again, I think "quit" is not a good wording to show "whether dirtylimit is in
->>>> service".  How about "dirtylimit_global_enabled"?
->>>>
->>>> You can actually use "dirtylimit_state" to show whether it's enabled already
->>>> (then drop the global value) since it's a pointer.  It shouldn't need to be
->>>> init-once-for-all, but we can alloc the strucuture wAhen dirty limit enabled
->>>> globally, and destroy it (and reset it to NULL) when globally disabled.
->>>>
->>>> Then "whether it's enabled" is simply to check "!!dirtylimit_state" under BQL.
->>> Yes, checking pointer is fairly straightforword, but since dirtylimit thread
->>> also access the dirtylimit_state when doing the limit, if we free
->>> dirtylimit_state after last limited vcpu be canceled, dirtylimit thread
->>> would crash when reference null pointer. And this method turn out to
->>> introduce a mutex lock to protect dirtylimit_state, comparing with qatomic
->>> operation, which is better ?
->>
->> I don't see much difference here on using either atomic or mutex, because it's
->> not a hot path.
-> 
-> Quick interjection without having bothered to understand the details:
-> correct use of atomics and memory barriers is *much* harder than correct
-> use of locks.  Stick to locks unless you *know* they impair performance.
-> 
-Ok, i get it, i removed most of atomic operations in v11 and use the 
-lock instead. But still thanks for the advice :)
-> [...]
-> 
+This fix is intended to address CVE-2021-3507.
 
+Signed-off-by: Jon Maloy <jmaloy@redhat.com>
+---
+ hw/block/fdc.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index 21d18ac2e3..80a1f1750a 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -1532,6 +1532,11 @@ static void fdctrl_start_transfer(FDCtrl *fdctrl, int direction)
+         if (fdctrl->fifo[0] & 0x80)
+             tmp += fdctrl->fifo[6];
+         fdctrl->data_len *= tmp;
++        if (tmp < 0) {
++            FLOPPY_DPRINTF("calculated illegal data_len=%u, tmp=%i\n",
++                           fdctrl->data_len, tmp);
++            return;
++        }
+     }
+     fdctrl->eot = fdctrl->fifo[6];
+     if (fdctrl->dor & FD_DOR_DMAEN) {
 -- 
-Best regard
+2.31.1
 
-Hyman Huang(黄勇)
 
