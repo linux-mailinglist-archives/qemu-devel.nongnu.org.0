@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77EB348EB37
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 15:07:55 +0100 (CET)
-Received: from localhost ([::1]:41398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A260848EB4B
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 15:10:04 +0100 (CET)
+Received: from localhost ([::1]:48732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8NFA-0003R9-NX
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 09:07:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44018)
+	id 1n8NHH-0000BS-Nn
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 09:10:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n8N0a-0003B8-Ug
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:52:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35449)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n8N0d-0003Dh-6s
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:52:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28105)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n8N0Y-0000M4-Nu
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:52:48 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n8N0a-0000MY-TK
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:52:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642168366;
+ s=mimecast20190719; t=1642168368;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gpT2w30WSUo7d2SOMBmCERq8noAYchtmHueolHdpuD8=;
- b=aN3tBLHGtCUQjLMU+j5ovtwax9JH+tJRExEy0nYP7cnFqK7uiwDJ/c6PvP5G3zanTy9+h8
- zKwBjcYuim4Bq8SfsDd5suCwvKNHwvQMgBhycQpro4f4U7sANw3U9GP643moVNgCOG9xkT
- CMWI+OuxhDrjtsP7PxmVK7iISmZqnu4=
+ bh=XqlX6m2FKBI9Fml4ap/jhMvbWxTyaWroJQcKYgH6OvQ=;
+ b=EBh3t/ffPQlg0PbHecWrzIJolwzCs/jclVLpoTa/ELLKhXsm+bvJ/ny4RzPWVbtq3Iwnsv
+ Almu7tV/j79168mI+Oo8xZgOdlTcDi/Zb+L6zu6yBXrO3swts3yqwjugMtYQpwhD1ASbNl
+ LeaVMEPOs4vpEmqVMG6iW27f8xruElc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-333-A1CCwysFOhOCTwXChcCDsQ-1; Fri, 14 Jan 2022 08:52:43 -0500
-X-MC-Unique: A1CCwysFOhOCTwXChcCDsQ-1
+ us-mta-576-0HDb0DNGP_m_ffYQJVyYPw-1; Fri, 14 Jan 2022 08:52:45 -0500
+X-MC-Unique: 0HDb0DNGP_m_ffYQJVyYPw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C860D1853030;
- Fri, 14 Jan 2022 13:52:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22D161023F4D;
+ Fri, 14 Jan 2022 13:52:44 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C3F05105B213;
- Fri, 14 Jan 2022 13:52:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2180A105B20E;
+ Fri, 14 Jan 2022 13:52:42 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 09/16] iotests/stream-error-on-reset: New test
-Date: Fri, 14 Jan 2022 14:52:19 +0100
-Message-Id: <20220114135226.185407-10-kwolf@redhat.com>
+Subject: [PULL 10/16] iotests/308: Fix for CAP_DAC_OVERRIDE
+Date: Fri, 14 Jan 2022 14:52:20 +0100
+Message-Id: <20220114135226.185407-11-kwolf@redhat.com>
 In-Reply-To: <20220114135226.185407-1-kwolf@redhat.com>
 References: <20220114135226.185407-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -64,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,184 +83,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hanna Reitz <hreitz@redhat.com>
 
-Test the following scenario:
-- Simple stream block in two-layer backing chain (base and top)
-- The job is drained via blk_drain(), then an error occurs while the job
-  settles the ongoing request
-- And so the job completes while in blk_drain()
+With CAP_DAC_OVERRIDE (which e.g. root generally has), permission checks
+will be bypassed when opening files.
 
-This was reported as a segfault, but is fixed by "block-backend: prevent
-dangling BDS pointers across aio_poll()".
+308 in one instance tries to open a read-only file (FUSE export) with
+qemu-io as read/write, and expects this to fail.  However, when running
+it as root, opening will succeed (thanks to CAP_DAC_OVERRIDE) and only
+the actual write operation will fail.
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2036178
+Note this as "Case not run", but have the test pass in either case.
+
+Reported-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Fixes: 2c7dd057aa7bd7a875e9b1a53975c220d6380bc4
+       ("export/fuse: Pass default_permissions for mount")
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20220111153613.25453-3-stefanha@redhat.com>
+Message-Id: <20220103120014.13061-1-hreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- .../qemu-iotests/tests/stream-error-on-reset  | 140 ++++++++++++++++++
- .../tests/stream-error-on-reset.out           |   5 +
- 2 files changed, 145 insertions(+)
- create mode 100755 tests/qemu-iotests/tests/stream-error-on-reset
- create mode 100644 tests/qemu-iotests/tests/stream-error-on-reset.out
+ tests/qemu-iotests/308     | 25 +++++++++++++++++++++++--
+ tests/qemu-iotests/308.out |  2 +-
+ 2 files changed, 24 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qemu-iotests/tests/stream-error-on-reset b/tests/qemu-iotests/tests/stream-error-on-reset
-new file mode 100755
-index 0000000000..7eaedb24d7
---- /dev/null
-+++ b/tests/qemu-iotests/tests/stream-error-on-reset
-@@ -0,0 +1,140 @@
-+#!/usr/bin/env python3
-+# group: rw quick
-+#
-+# Test what happens when a stream job completes in a blk_drain().
-+#
-+# Copyright (C) 2022 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
+diff --git a/tests/qemu-iotests/308 b/tests/qemu-iotests/308
+index 2e3f8f4282..bde4aac2fa 100755
+--- a/tests/qemu-iotests/308
++++ b/tests/qemu-iotests/308
+@@ -230,8 +230,29 @@ echo '=== Writable export ==='
+ fuse_export_add 'export-mp' "'mountpoint': '$EXT_MP', 'writable': true"
+ 
+ # Check that writing to the read-only export fails
+-$QEMU_IO -f raw -c 'write -P 42 1M 64k' "$TEST_IMG" 2>&1 \
+-    | _filter_qemu_io | _filter_testdir | _filter_imgfmt
++output=$($QEMU_IO -f raw -c 'write -P 42 1M 64k' "$TEST_IMG" 2>&1 \
++             | _filter_qemu_io | _filter_testdir | _filter_imgfmt)
 +
-+import os
-+import iotests
-+from iotests import imgfmt, qemu_img_create, qemu_io_silent, QMPTestCase
++# Expected reference output: Opening the file fails because it has no
++# write permission
++reference="Could not open 'TEST_DIR/t.IMGFMT': Permission denied"
 +
++if echo "$output" | grep -q "$reference"; then
++    echo "Writing to read-only export failed: OK"
++elif echo "$output" | grep -q "write failed: Permission denied"; then
++    # With CAP_DAC_OVERRIDE (e.g. when running this test as root), the export
++    # can be opened regardless of its file permissions, but writing will then
++    # fail.  This is not the result for which we want to test, so count this as
++    # a SKIP.
++    _casenotrun "Opening RO export as R/W succeeded, perhaps because of" \
++        "CAP_DAC_OVERRIDE"
 +
-+image_size = 1 * 1024 * 1024
-+data_size = 64 * 1024
-+base = os.path.join(iotests.test_dir, 'base.img')
-+top = os.path.join(iotests.test_dir, 'top.img')
-+
-+
-+# We want to test completing a stream job in a blk_drain().
-+#
-+# The blk_drain() we are going to use is a virtio-scsi device resetting,
-+# which we can trigger by resetting the system.
-+#
-+# In order to have the block job complete on drain, we (1) throttle its
-+# base image so we can start the drain after it has begun, but before it
-+# completes, and (2) make it encounter an I/O error on the ensuing write.
-+# (If it completes regularly, the completion happens after the drain for
-+# some reason.)
-+
-+class TestStreamErrorOnReset(QMPTestCase):
-+    def setUp(self) -> None:
-+        """
-+        Create two images:
-+        - base image {base} with {data_size} bytes allocated
-+        - top image {top} without any data allocated
-+
-+        And the following VM configuration:
-+        - base image throttled to {data_size}
-+        - top image with a blkdebug configuration so the first write access
-+          to it will result in an error
-+        - top image is attached to a virtio-scsi device
-+        """
-+        assert qemu_img_create('-f', imgfmt, base, str(image_size)) == 0
-+        assert qemu_io_silent('-c', f'write 0 {data_size}', base) == 0
-+        assert qemu_img_create('-f', imgfmt, top, str(image_size)) == 0
-+
-+        self.vm = iotests.VM()
-+        self.vm.add_args('-accel', 'tcg') # Make throttling work properly
-+        self.vm.add_object(self.vm.qmp_to_opts({
-+            'qom-type': 'throttle-group',
-+            'id': 'thrgr',
-+            'x-bps-total': str(data_size)
-+        }))
-+        self.vm.add_blockdev(self.vm.qmp_to_opts({
-+            'driver': imgfmt,
-+            'node-name': 'base',
-+            'file': {
-+                'driver': 'throttle',
-+                'throttle-group': 'thrgr',
-+                'file': {
-+                    'driver': 'file',
-+                    'filename': base
-+                }
-+            }
-+        }))
-+        self.vm.add_blockdev(self.vm.qmp_to_opts({
-+            'driver': imgfmt,
-+            'node-name': 'top',
-+            'file': {
-+                'driver': 'blkdebug',
-+                'node-name': 'top-blkdebug',
-+                'inject-error': [{
-+                    'event': 'pwritev',
-+                    'immediately': 'true',
-+                    'once': 'true'
-+                }],
-+                'image': {
-+                    'driver': 'file',
-+                    'filename': top
-+                }
-+            },
-+            'backing': 'base'
-+        }))
-+        self.vm.add_device(self.vm.qmp_to_opts({
-+            'driver': 'virtio-scsi',
-+            'id': 'vscsi'
-+        }))
-+        self.vm.add_device(self.vm.qmp_to_opts({
-+            'driver': 'scsi-hd',
-+            'bus': 'vscsi.0',
-+            'drive': 'top'
-+        }))
-+        self.vm.launch()
-+
-+    def tearDown(self) -> None:
-+        self.vm.shutdown()
-+        os.remove(top)
-+        os.remove(base)
-+
-+    def test_stream_error_on_reset(self) -> None:
-+        # Launch a stream job, which will take at least a second to
-+        # complete, because the base image is throttled (so we can
-+        # get in between it having started and it having completed)
-+        res = self.vm.qmp('block-stream', job_id='stream', device='top')
-+        self.assert_qmp(res, 'return', {})
-+
-+        while True:
-+            ev = self.vm.event_wait('JOB_STATUS_CHANGE')
-+            if ev['data']['status'] == 'running':
-+                # Once the stream job is running, reset the system, which
-+                # forces the virtio-scsi device to be reset, thus draining
-+                # the stream job, and making it complete.  Completing
-+                # inside of that drain should not result in a segfault.
-+                res = self.vm.qmp('system_reset')
-+                self.assert_qmp(res, 'return', {})
-+            elif ev['data']['status'] == 'null':
-+                # The test is done once the job is gone
-+                break
-+
-+
-+if __name__ == '__main__':
-+    # Passes with any format with backing file support, but qed and
-+    # qcow1 do not seem to exercise the used-to-be problematic code
-+    # path, so there is no point in having them in this list
-+    iotests.main(supported_fmts=['qcow2', 'vmdk'],
-+                 supported_protocols=['file'])
-diff --git a/tests/qemu-iotests/tests/stream-error-on-reset.out b/tests/qemu-iotests/tests/stream-error-on-reset.out
-new file mode 100644
-index 0000000000..ae1213e6f8
---- /dev/null
-+++ b/tests/qemu-iotests/tests/stream-error-on-reset.out
-@@ -0,0 +1,5 @@
-+.
-+----------------------------------------------------------------------
-+Ran 1 tests
-+
-+OK
++    # Still, write this to the reference output to make the test pass
++    echo "Writing to read-only export failed: OK"
++else
++    echo "Writing to read-only export failed: ERROR"
++    echo "$output"
++fi
+ 
+ # But here it should work
+ $QEMU_IO -f raw -c 'write -P 42 1M 64k' "$EXT_MP" | _filter_qemu_io
+diff --git a/tests/qemu-iotests/308.out b/tests/qemu-iotests/308.out
+index fc47bb11a2..e4467a10cf 100644
+--- a/tests/qemu-iotests/308.out
++++ b/tests/qemu-iotests/308.out
+@@ -95,7 +95,7 @@ virtual size: 0 B (0 bytes)
+               'mountpoint': 'TEST_DIR/t.IMGFMT.fuse', 'writable': true
+           } }
+ {"return": {}}
+-qemu-io: can't open device TEST_DIR/t.IMGFMT: Could not open 'TEST_DIR/t.IMGFMT': Permission denied
++Writing to read-only export failed: OK
+ wrote 65536/65536 bytes at offset 1048576
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ wrote 65536/65536 bytes at offset 1048576
 -- 
 2.31.1
 
