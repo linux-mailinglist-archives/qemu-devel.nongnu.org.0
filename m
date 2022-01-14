@@ -2,84 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FDCA48E2FF
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 04:36:51 +0100 (CET)
-Received: from localhost ([::1]:41242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B0D148E37C
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 06:14:04 +0100 (CET)
+Received: from localhost ([::1]:58340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8DOT-0001vb-UL
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 22:36:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56620)
+	id 1n8EuY-00086a-Fh
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 00:14:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n8DNA-0001BE-GH
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 22:35:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35197)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1n8EqC-0005hd-NF
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 00:09:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n8DN8-00063W-Vt
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 22:35:28 -0500
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1n8Eq8-0001Np-RH
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 00:09:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642131325;
+ s=mimecast20190719; t=1642136967;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KjBNzOUTV3LA9eGdb8MaUMPnBWLQR6cDo/LqDKaEusU=;
- b=UXcB2L2CcdFZXSXzGWAXqUFOJfd/+yy44xOaHtVJeb6OXzZzsN83MhQP7W+jyb90eiyWQ4
- x1aynE7HkPTD8gi/K5rNCocaHfNcanTuluB1QfQsOPxVTGdnBrsmaXzV9gB2gs4Oc4Rf19
- rdWrkgVNWlIake2GD42uzLztYlW3tn8=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=YRTa5i6gTUCkHwNVWWmki0S5VDHZVK0W7hHaxbOcS18=;
+ b=cgUAPeCPaQtVA44AnVwwXejcLU689mNdUXK1ycPb7QbGpsUsHPiPzVwPculkb916TfQ/aw
+ rS5zvNWW//YDuh0G7vnyrhRb5SYOthrSWXOIX6sAtcKSc5leA/aACh916tk6ejIvt/Bhoq
+ vWi0Fi9kGQ3B8nDVKfGmtluHhOzO5Dc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-221-FcmaJIQDPjOccrM4o3hgkg-1; Thu, 13 Jan 2022 22:35:22 -0500
-X-MC-Unique: FcmaJIQDPjOccrM4o3hgkg-1
-Received: by mail-pf1-f200.google.com with SMTP id
- m13-20020a056a00080d00b004be40ef1fd9so991650pfk.22
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 19:35:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=KjBNzOUTV3LA9eGdb8MaUMPnBWLQR6cDo/LqDKaEusU=;
- b=0KcD+6cKsqc4Ud7oUEP41MTxLpGKGDxr0EU0kjomvAZ0pDynnYzO4nS2pxRbUveS3W
- AqFhbv6YJ8fODHaD6CA8lOGCLju/UG+oyTjN0GVqYxJhhSId7O7KMcn9sjWOT6pUaM2E
- OV7gfqG1Bvma7EBVgnFnYstGfVeq7WX1VLoNX074eUn3T9bSpW/J4tsrmxxPJF6L1WrY
- Hf+JvdZlL1GuUb9TevU9eCXC0pmZbld/upX2AWosBK+nTjGD9jhjmmEERv8jVERzsFD4
- UYa/lSi7F3B2bE9WpvYn+JiTn0+bajyceqHCUMsX728Q5Y+2cYi/i6AlvL5RsjoC3UK0
- jBVw==
-X-Gm-Message-State: AOAM533g5G/eln7hffomGd6X6MThiQvJ9/5+1U9Hg7j4TyAlUVtPOwml
- w8o0uwU9oop8ye+0DuX0aM8IROyjUe1Pa6dMEBfFhTl2YJOGLmtM5LQsPhK+b/oG/URnSldCndq
- MpWgT6J9JRXx++No=
-X-Received: by 2002:a17:90b:684:: with SMTP id m4mr8461959pjz.5.1642131321706; 
- Thu, 13 Jan 2022 19:35:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJygn5I3hbY4rCAmKPemlK7FMiG57b0H2SPQ8U1TYU0La9FvwIFsgAEZjhOLYg/6nAkAYY4T2w==
-X-Received: by 2002:a17:90b:684:: with SMTP id m4mr8461932pjz.5.1642131321389; 
- Thu, 13 Jan 2022 19:35:21 -0800 (PST)
-Received: from xz-m1.local ([191.101.132.59])
- by smtp.gmail.com with ESMTPSA id 17sm3415965pgt.6.2022.01.13.19.35.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jan 2022 19:35:20 -0800 (PST)
-Date: Fri, 14 Jan 2022 11:35:14 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Hyman Huang <huangy81@chinatelecom.cn>
-Subject: Re: [PATCH v10 2/3] cpu-throttle: implement virtual CPU throttle
-Message-ID: <YeDvckGNTYq7OZTO@xz-m1.local>
-References: <cover.1639479557.git.huangy81@chinatelecom.cn>
- <671e8a25261262085b998a08ef8dafdcdc9e0ae9.1639479557.git.huangy81@chinatelecom.cn>
- <YcVWzuPDawXtXGIX@xz-m1.local>
- <98211637-b2ad-d99b-9dc2-23c5d3566b24@chinatelecom.cn>
- <YdOxDRvCaXutEmOx@xz-m1.local> <87pmov61wv.fsf@dusky.pond.sub.org>
- <38d0cc91-2995-2d73-d917-e5e1fc4e5206@chinatelecom.cn>
+ us-mta-235-J097QaZXOYO_e0bZpQ0YEA-1; Fri, 14 Jan 2022 00:09:15 -0500
+X-MC-Unique: J097QaZXOYO_e0bZpQ0YEA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87378185302A;
+ Fri, 14 Jan 2022 05:09:14 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-13-172.pek2.redhat.com
+ [10.72.13.172])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 70F2D108A9;
+ Fri, 14 Jan 2022 05:09:12 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: peter.maydell@linaro.org
+Subject: [PULL V3 00/13] Net patches
+Date: Fri, 14 Jan 2022 13:08:56 +0800
+Message-Id: <20220114050909.27133-1-jasowang@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <38d0cc91-2995-2d73-d917-e5e1fc4e5206@chinatelecom.cn>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -100,71 +77,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 14, 2022 at 09:30:39AM +0800, Hyman Huang wrote:
-> 
-> 
-> 在 2022/1/14 0:22, Markus Armbruster 写道:
-> > Peter Xu <peterx@redhat.com> writes:
-> > 
-> > > On Fri, Dec 31, 2021 at 12:36:40AM +0800, Hyman Huang wrote:
-> > > > > > +struct {
-> > > > > > +    DirtyLimitState *states;
-> > > > > > +    int max_cpus;
-> > > > > > +    unsigned long *bmap; /* running thread bitmap */
-> > > > > > +    unsigned long nr;
-> > > > > > +    QemuThread thread;
-> > > > > > +} *dirtylimit_state;
-> > > > > > +
-> > > > > > +static bool dirtylimit_quit = true;
-> > > > > 
-> > > > > Again, I think "quit" is not a good wording to show "whether dirtylimit is in
-> > > > > service".  How about "dirtylimit_global_enabled"?
-> > > > > 
-> > > > > You can actually use "dirtylimit_state" to show whether it's enabled already
-> > > > > (then drop the global value) since it's a pointer.  It shouldn't need to be
-> > > > > init-once-for-all, but we can alloc the strucuture wAhen dirty limit enabled
-> > > > > globally, and destroy it (and reset it to NULL) when globally disabled.
-> > > > > 
-> > > > > Then "whether it's enabled" is simply to check "!!dirtylimit_state" under BQL.
-> > > > Yes, checking pointer is fairly straightforword, but since dirtylimit thread
-> > > > also access the dirtylimit_state when doing the limit, if we free
-> > > > dirtylimit_state after last limited vcpu be canceled, dirtylimit thread
-> > > > would crash when reference null pointer. And this method turn out to
-> > > > introduce a mutex lock to protect dirtylimit_state, comparing with qatomic
-> > > > operation, which is better ?
-> > > 
-> > > I don't see much difference here on using either atomic or mutex, because it's
-> > > not a hot path.
-> > 
-> > Quick interjection without having bothered to understand the details:
-> > correct use of atomics and memory barriers is *much* harder than correct
-> > use of locks.  Stick to locks unless you *know* they impair performance
+The following changes since commit f8d75e10d3e0033a0a29a7a7e4777a4fbc17a016:
 
-Yong,
+  Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220112' into staging (2022-01-13 11:18:24 +0000)
 
-Just a heads up - You seem to have replied something but there's really nothing
-I saw... it happened multiple times, so I hope you didn't miss it by sending
-something empty.
+are available in the git repository at:
 
-I agree with Markus, and that's also what I wanted to express too (it's not a
-perf critical path, so we don't necessarily need to use atomics; obviously I
-failed again on using English to express myself.. :).  But I don't urge it if
-the atomics works pretty simple and well.  I think I'll read the atomic version
-you posted first and I'll comment again there.
+  https://github.com/jasowang/qemu.git tags/net-pull-request
 
-Thanks,
+for you to fetch changes up to 818692f0a01587d02220916b31d5bb8e7dced611:
 
--- 
-Peter Xu
+  net/vmnet: update MAINTAINERS list (2022-01-14 12:58:19 +0800)
+
+----------------------------------------------------------------
+
+Changes since V2:
+
+- Try to make vmnet work on some old mac version
+
+----------------------------------------------------------------
+Peter Foley (2):
+      net/tap: Set return code on failure
+      net: Fix uninitialized data usage
+
+Philippe Mathieu-Daudé (1):
+      hw/net/vmxnet3: Log guest-triggerable errors using LOG_GUEST_ERROR
+
+Rao Lei (1):
+      net/filter: Optimize filter_send to coroutine
+
+Vladislav Yaroshchuk (7):
+      net/vmnet: add vmnet dependency and customizable option
+      net/vmnet: add vmnet backends to qapi/net
+      net/vmnet: implement shared mode (vmnet-shared)
+      net/vmnet: implement host mode (vmnet-host)
+      net/vmnet: implement bridged mode (vmnet-bridged)
+      net/vmnet: update qemu-options.hx
+      net/vmnet: update MAINTAINERS list
+
+Zhang Chen (2):
+      net/colo-compare.c: Optimize compare order for performance
+      net/colo-compare.c: Update the default value comments
+
+ MAINTAINERS                   |   5 +
+ hw/net/vmxnet3.c              |   4 +-
+ meson.build                   |  16 +-
+ meson_options.txt             |   2 +
+ net/clients.h                 |  11 ++
+ net/colo-compare.c            |  28 ++--
+ net/filter-mirror.c           |  66 +++++++--
+ net/meson.build               |   7 +
+ net/net.c                     |  10 ++
+ net/tap-linux.c               |   1 +
+ net/tap.c                     |   1 +
+ net/vmnet-bridged.m           | 120 +++++++++++++++
+ net/vmnet-common.m            | 333 ++++++++++++++++++++++++++++++++++++++++++
+ net/vmnet-host.c              | 122 ++++++++++++++++
+ net/vmnet-shared.c            | 100 +++++++++++++
+ net/vmnet_int.h               |  48 ++++++
+ qapi/net.json                 | 133 ++++++++++++++++-
+ qemu-options.hx               |  25 ++++
+ scripts/meson-buildoptions.sh |   3 +
+ 19 files changed, 1004 insertions(+), 31 deletions(-)
+ create mode 100644 net/vmnet-bridged.m
+ create mode 100644 net/vmnet-common.m
+ create mode 100644 net/vmnet-host.c
+ create mode 100644 net/vmnet-shared.c
+ create mode 100644 net/vmnet_int.h
 
 
