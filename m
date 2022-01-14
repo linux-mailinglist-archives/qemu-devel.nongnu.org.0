@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D230E48E6F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 09:54:02 +0100 (CET)
-Received: from localhost ([::1]:54356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1266248E706
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 10:00:00 +0100 (CET)
+Received: from localhost ([::1]:35624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8ILR-0006Pz-VF
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 03:54:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41624)
+	id 1n8IRC-0005XE-VQ
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 03:59:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1n8IBX-0007ev-Lv
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 03:43:47 -0500
-Received: from [2607:f8b0:4864:20::42b] (port=33482
- helo=mail-pf1-x42b.google.com)
+ id 1n8IBh-0007tl-MA
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 03:43:57 -0500
+Received: from [2607:f8b0:4864:20::1031] (port=51897
+ helo=mail-pj1-x1031.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1n8IBW-00079S-1N
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 03:43:47 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id x83so2171820pfc.0
- for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 00:43:45 -0800 (PST)
+ id 1n8IBg-0007AS-3c
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 03:43:57 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id o3so12824646pjs.1
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 00:43:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:from:subject:to:cc
  :references:content-language:in-reply-to:content-transfer-encoding;
- bh=mN+AMFDwsWlV/yPnE2XHf0NpAao/rlZZMOX7907hcBA=;
- b=hAC/qjoLBH7+GBKTcAD/WSy06ukf1RevY3T2zJ6K00zRV8qfDH50avCyxhY96r75Gp
- I50127TEPF0IJ83CVf8lAdHvaJ8sG8KTGqTIXjKnbH22p+2X0qr/DpBOQ/vmuFvyYFN8
- i0wTqfgHZ6HRyEgs9a+NrA3QuMhqL4cZpVj+CkgxnD9yPsZ5PN2YF+rJiON7EWl9aywr
- 3YnNe8kbhLc+DososrMceAf5FI5o0pCd2AY4xhl8+/3ZRZHasibM6G/DJhDkJ42l1yQ7
- hdwzqr5mvEv3ufNywOmMJ2BqTHJlVrIQ6QJr1ZG0mmXFlEJ4yAEkQvekmhnMGB3+Ibak
- 7DCQ==
+ bh=p3CR2/duSCKvA5SlWGJj0nlQRdf373D5j+rTpuNgiNE=;
+ b=nSEZdJTvmH6vGbGmi2mC46qx7VgpbYGaSs+kZlxGedSE80UO2vXOKPywemP8Y9oQp/
+ C03FtN0nHbipX3qpqbSJGyvVvmMVPyeLHJpvSbTAFoZs4v9WrlDibf10Kf8vYFXCvX3k
+ r/gOmyWnARuDV8O4fDfZVeS3GXxmI4wOxSHjaMv4EXy2Ozgy5urB5F6pKgTaCa9rafD3
+ qlh8Urpl8Hk/FUo1iMPbfcRBDmM9gO1Yb2mwaZosg+Q+ZwdB3Io9tDgG2RpjpN/NEw+E
+ IFJ79HBXgTq1dm0fGDk4jzlOcStzxESMhQk75H+fpathaDbOfZB6rBXuKSZ1bLg0+7nv
+ SGew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:from
  :subject:to:cc:references:content-language:in-reply-to
  :content-transfer-encoding;
- bh=mN+AMFDwsWlV/yPnE2XHf0NpAao/rlZZMOX7907hcBA=;
- b=JMvYnBkzJbqY0+tBXEKopgpX7ufznV/F2sjyPPzaL/k0VS4Mv4aNfPkAGKBBYG+qVJ
- QGw1X6jJoNBx+3Tkc/UEnl7hH9q2yHPPo4vWQWHOBfxSLRMlZHHXb9DshUpnlHu+wpl4
- lEG1RGhoeLmkwD8iQTK5iXUSkXUQjNdUkDL4Da1P2dGtUqIIQzs5kNZ4CCbbBKB9WSq9
- Q9mPPt3PA2idHvxet7z9vQ5Lp6wHCzoH3dwlQjdX21yamIRjcY7Ik1j8N2ytpHNCoGTl
- O+z+61XelvoFhbetfd3T9cmQDm16pvfMoIBnP/ejHmlxof7yETQ68BxoJ0JKcijIvcVa
- mmow==
-X-Gm-Message-State: AOAM533LUZnSF74H7sUBlAkS83mKWG/66r7HEOuQ7gisqy+cbHXEueIb
- rR0RIHPT7sjYuUCahMDp4Dk=
-X-Google-Smtp-Source: ABdhPJxMB8uFjVXtdF8WVBtK0JApbtIsVW59KMylbuat8kQCI1Joeoa2zJA4pG+UgcmmrhWn8IKAJw==
-X-Received: by 2002:a63:90c8:: with SMTP id a191mr7374659pge.622.1642149824726; 
- Fri, 14 Jan 2022 00:43:44 -0800 (PST)
+ bh=p3CR2/duSCKvA5SlWGJj0nlQRdf373D5j+rTpuNgiNE=;
+ b=OAZNQ83WmYEo7Uru/c1xs24nr/FoFK/L3/kzOA0QzMrefvPvYlga/hZMGEobLXkp55
+ 8MeqXGIofhn6aKUoVIGewnmOzJqBfgyOvzeqdu61QgnYY6sQ0fhigKKAQ+ZdR/LMWA2Y
+ McQDNDP2Bfoq0sXoDWFapDgzGYa06C81kegeYzFRYGsAOyznGqXgznsRPBxUYY2xCcxd
+ OnonNLlmJ1bRxYxG5KW+56R4Un8VMn53uMomc5vHS6ZJ1zq8O9PcJ80+UzxVTmBtDUNt
+ SSfjNSQhXXTMEHV5uQxjs9azysAibqONTeYivGq27lgA/8XP4nqccjucGrlkcP+bQ0dv
+ FTkQ==
+X-Gm-Message-State: AOAM530cfUe4iYyXll7Wf2QnOAxI+0AK7Pj952fHQYpSSnvrvft+zQWH
+ ha9bIF6lk6oMIXE49gkPwp8=
+X-Google-Smtp-Source: ABdhPJyYqlHuW1i+O/E888APmYCBv3a/YZSYqswWUjB8vXraqOoZ31HZALvV++Wk1I4jv8oDXQZ3aA==
+X-Received: by 2002:a17:902:ce88:b0:14a:8fda:e339 with SMTP id
+ f8-20020a170902ce8800b0014a8fdae339mr1012482plg.95.1642149834747; 
+ Fri, 14 Jan 2022 00:43:54 -0800 (PST)
 Received: from [192.168.64.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
  by smtp.gmail.com with ESMTPSA id
- z18sm5249758pfe.146.2022.01.14.00.43.39
+ ip14sm983926pjb.11.2022.01.14.00.43.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Jan 2022 00:43:44 -0800 (PST)
-Message-ID: <fde9c204-646c-8f56-495f-fe0b6f6a2066@gmail.com>
-Date: Fri, 14 Jan 2022 17:43:38 +0900
+ Fri, 14 Jan 2022 00:43:54 -0800 (PST)
+Message-ID: <2bc90989-fd13-932a-30c7-780cbb691cfe@gmail.com>
+Date: Fri, 14 Jan 2022 17:43:49 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH v13 5/7] net/vmnet: implement bridged mode (vmnet-bridged)
+Subject: Re: [PATCH v13 6/7] net/vmnet: update qemu-options.hx
 To: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>, qemu-devel@nongnu.org
 References: <20220113172219.66372-1-yaroshchuk2000@gmail.com>
- <20220113172219.66372-6-yaroshchuk2000@gmail.com>
+ <20220113172219.66372-7-yaroshchuk2000@gmail.com>
 Content-Language: en-US
-In-Reply-To: <20220113172219.66372-6-yaroshchuk2000@gmail.com>
+In-Reply-To: <20220113172219.66372-7-yaroshchuk2000@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -100,151 +101,66 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org, jasowang@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The corresponding change for hmp-commands.hx is missing (Look for 
+hmp_netdev_add).
+
+Regards,
+Akihiko Odaki
+
 On 2022/01/14 2:22, Vladislav Yaroshchuk wrote:
 > Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 > ---
->   net/vmnet-bridged.m | 105 +++++++++++++++++++++++++++++++++++++++++---
->   1 file changed, 100 insertions(+), 5 deletions(-)
+>   qemu-options.hx | 25 +++++++++++++++++++++++++
+>   1 file changed, 25 insertions(+)
 > 
-> diff --git a/net/vmnet-bridged.m b/net/vmnet-bridged.m
-> index 4e42a90391..bc499c6195 100644
-> --- a/net/vmnet-bridged.m
-> +++ b/net/vmnet-bridged.m
-> @@ -10,16 +10,111 @@
->   
->   #include "qemu/osdep.h"
->   #include "qapi/qapi-types-net.h"
-> -#include "vmnet_int.h"
-> -#include "clients.h"
-> -#include "qemu/error-report.h"
->   #include "qapi/error.h"
-> +#include "clients.h"
-> +#include "vmnet_int.h"
->   
->   #include <vmnet/vmnet.h>
->   
-> +typedef struct VmnetBridgedState {
-> +  VmnetCommonState cs;
-> +} VmnetBridgedState;
-> +
-> +static bool validate_ifname(const char *ifname)
-> +{
-> +    xpc_object_t shared_if_list = vmnet_copy_shared_interface_list();
-> +    __block bool match = false;
-> +
-> +    xpc_array_apply(
-> +        shared_if_list,
-> +        ^bool(size_t index, xpc_object_t value) {
-> +          if (strcmp(xpc_string_get_string_ptr(value), ifname) == 0) {
-> +              match = true;
-> +              return false;
-> +          }
-> +          return true;
-> +        });
-> +
-> +    return match;
-> +}
-
-shared_if_list leaks here. Add xpc_release(shared_if_list);
-
-It can be simpler like the following:
-return !xpc_array_apply(
-     shared_if_list,
-     ^bool(size_t index, xpc_object_t value) {
-         return strcmp(xpc_string_get_string_ptr(value), ifname) != 0;
-     });
-
-> +
-> +static const char *get_valid_ifnames(void)
-> +{
-> +    xpc_object_t shared_if_list = vmnet_copy_shared_interface_list();
-> +    __block char *if_list = NULL;
-> +
-> +    xpc_array_apply(
-> +        shared_if_list,
-> +        ^bool(size_t index, xpc_object_t value) {
-> +          if_list = g_strconcat(xpc_string_get_string_ptr(value),
-> +                                " ",
-> +                                if_list,
-> +                                NULL);
-> +          return true;
-> +        });
-> +
-> +    if (if_list) {
-> +        return if_list;
-> +    }
-> +    return "[no interfaces]";
-> +}
-> +
-> +static xpc_object_t create_if_desc(const Netdev *netdev, Error **errp)
-> +{
-> +    const NetdevVmnetBridgedOptions *options = &(netdev->u.vmnet_bridged);
-> +    xpc_object_t if_desc = xpc_dictionary_create(NULL, NULL, 0);
-> +
-> +    xpc_dictionary_set_uint64(
-> +        if_desc,
-> +        vmnet_operation_mode_key,
-> +        VMNET_BRIDGED_MODE
-> +    );
-> +
-> +#if defined(MAC_OS_VERSION_11_0) && \
-> +    MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_11_0
-> +    xpc_dictionary_set_bool(
-> +        if_desc,
-> +        vmnet_enable_isolation_key,
-> +        options->isolated
-> +    );
-> +#else
-> +    if (options->has_isolated) {
-> +        error_setg(errp,
-> +                   "vmnet-bridged.isolated feature is "
-> +                   "unavailable: outdated vmnet.framework API");
-> +    }
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index ec90505d84..81dd34f550 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -2732,6 +2732,25 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
+>   #ifdef __linux__
+>       "-netdev vhost-vdpa,id=str,vhostdev=/path/to/dev\n"
+>       "                configure a vhost-vdpa network,Establish a vhost-vdpa netdev\n"
 > +#endif
-> +
-> +    if (validate_ifname(options->ifname)) {
-> +        xpc_dictionary_set_string(if_desc,
-> +                                  vmnet_shared_interface_name_key,
-> +                                  options->ifname);
-> +    } else {
-> +        return NULL;
-> +    }
-
-The dictionary leaks if the validation fails. The validation should 
-happen as early as possible.
-
-> +    return if_desc;
-> +}
-> +
-> +static NetClientInfo net_vmnet_bridged_info = {
-> +    .type = NET_CLIENT_DRIVER_VMNET_BRIDGED,
-> +    .size = sizeof(VmnetBridgedState),
-> +    .receive = vmnet_receive_common,
-> +    .cleanup = vmnet_cleanup_common,
-> +};
-> +
->   int net_init_vmnet_bridged(const Netdev *netdev, const char *name,
->                              NetClientState *peer, Error **errp)
->   {
-> -  error_setg(errp, "vmnet-bridged is not implemented yet");
-> -  return -1;
-> +    NetClientState *nc = qemu_new_net_client(&net_vmnet_bridged_info,
-> +                                             peer, "vmnet-bridged", name);
-> +    xpc_object_t if_desc = create_if_desc(netdev, errp);;
-
-Duplicate semicolon.
-
-> +
-> +    if (!if_desc) {
-> +        error_setg(errp,
-> +                   "unsupported ifname, should be one of: %s",
-> +                   get_valid_ifnames());
-
-nc and get_valid_ifnames() leaks.
-
-> +        return -1;
-> +    }
-> +
-> +    return vmnet_if_create(nc, if_desc, errp, NULL);
->   }
+> +#ifdef CONFIG_VMNET
+> +    "-netdev vmnet-host,id=str[,isolated=on|off][,net-uuid=uuid]\n"
+> +    "         [,start-address=addr,end-address=addr,subnet-mask=mask]\n"
+> +    "                configure a vmnet network backend in host mode with ID 'str',\n"
+> +    "                isolate this interface from others with 'isolated',\n"
+> +    "                configure the address range and choose a subnet mask,\n"
+> +    "                specify network UUID 'uuid' to disable DHCP and interact with\n"
+> +    "                vmnet-host interfaces within this isolated network\n"
+> +    "-netdev vmnet-shared,id=str[,isolated=on|off][,nat66-prefix=addr]\n"
+> +    "         [,start-address=addr,end-address=addr,subnet-mask=mask]\n"
+> +    "                configure a vmnet network backend in shared mode with ID 'str',\n"
+> +    "                configure the address range and choose a subnet mask,\n"
+> +    "                set IPv6 ULA prefix (of length 64) to use for internal network,\n"
+> +    "                isolate this interface from others with 'isolated'\n"
+> +    "-netdev vmnet-bridged,id=str,ifname=name[,isolated=on|off]\n"
+> +    "                configure a vmnet network backend in bridged mode with ID 'str',\n"
+> +    "                use 'ifname=name' to select a physical network interface to be bridged,\n"
+> +    "                isolate this interface from others with 'isolated'\n"
+>   #endif
+>       "-netdev hubport,id=str,hubid=n[,netdev=nd]\n"
+>       "                configure a hub port on the hub with ID 'n'\n", QEMU_ARCH_ALL)
+> @@ -2751,6 +2770,9 @@ DEF("nic", HAS_ARG, QEMU_OPTION_nic,
+>   #endif
+>   #ifdef CONFIG_POSIX
+>       "vhost-user|"
+> +#endif
+> +#ifdef CONFIG_VMNET
+> +    "vmnet-host|vmnet-shared|vmnet-bridged|"
+>   #endif
+>       "socket][,option][,...][mac=macaddr]\n"
+>       "                initialize an on-board / default host NIC (using MAC address\n"
+> @@ -2773,6 +2795,9 @@ DEF("net", HAS_ARG, QEMU_OPTION_net,
+>   #endif
+>   #ifdef CONFIG_NETMAP
+>       "netmap|"
+> +#endif
+> +#ifdef CONFIG_VMNET
+> +    "vmnet-host|vmnet-shared|vmnet-bridged|"
+>   #endif
+>       "socket][,option][,option][,...]\n"
+>       "                old way to initialize a host network interface\n"
 
