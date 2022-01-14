@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 058E448E4F3
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 08:43:20 +0100 (CET)
-Received: from localhost ([::1]:58874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 889B748E4E4
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 08:33:43 +0100 (CET)
+Received: from localhost ([::1]:50434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8HF1-0005Tg-3F
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 02:43:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50482)
+	id 1n8H5i-0005un-1j
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 02:33:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1n8GUa-0007bG-Jc
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 01:55:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25613)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1n8GUG-0007We-D4
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 01:55:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49189)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1n8GUW-0007Uw-TF
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 01:55:18 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1n8GUE-0007Sc-PO
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 01:55:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642143316;
+ s=mimecast20190719; t=1642143298;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X7wUmoEWXNQW858mTc66O7eXLS6YBPIx9OaefQ+lC4s=;
- b=Y2B56XvGN3Ik9KlYsEAkAwtY32AaiLFsa4j7s1Mr1N1MEzWJ5yK49woEC1//TQBOa1l/1y
- 0FKVztb6DsWi0jNEYmTrPOA+L2RcN269EE6qWqCeeFJEJQsK8LKRTCDxoniFKyevL/oOt1
- 5xivPNUg26g/hhvSDKrwMKpbzUC/miQ=
+ bh=E2aP4LCS1zwAwH3RWdjldRbWxxjT6RN5o/mJnGtszRw=;
+ b=GR6DLltmSaz0iw3pxJi1EVFbOtJQ/4Kcgv33/s7Nwf1UOdoRsXx/zyme/AgTR/bVT1X7Uo
+ 7vx8nDqAGQP/9rbnk0Nnlwn9oIjYWunDHXIiG+Z3Q1//ZmaYN24cBJUR8nFyUmFJICx3ZZ
+ K+29hkBXss1zUeGpLdSpSezmYUnIZmw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-616-lVqwptcoPEqFDVINC8ujRg-1; Fri, 14 Jan 2022 01:55:13 -0500
-X-MC-Unique: lVqwptcoPEqFDVINC8ujRg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-530-NfDg6pwfN3-bip7H8Gthng-1; Fri, 14 Jan 2022 01:54:54 -0500
+X-MC-Unique: NfDg6pwfN3-bip7H8Gthng-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D2DA100D680;
- Fri, 14 Jan 2022 06:55:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 850EA1023F59;
+ Fri, 14 Jan 2022 06:54:53 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.193.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D4DE45F91C;
- Fri, 14 Jan 2022 06:54:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AC16510589D8;
+ Fri, 14 Jan 2022 06:54:42 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8EAE31800639; Fri, 14 Jan 2022 07:53:26 +0100 (CET)
+ id 9D4B8180063C; Fri, 14 Jan 2022 07:53:26 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/20] jackaudio: use ifdefs to hide unavailable functions
-Date: Fri, 14 Jan 2022 07:53:10 +0100
-Message-Id: <20220114065326.782420-5-kraxel@redhat.com>
+Subject: [PULL 05/20] dsoundaudio: fix crackling audio recordings
+Date: Fri, 14 Jan 2022 07:53:11 +0100
+Message-Id: <20220114065326.782420-6-kraxel@redhat.com>
 In-Reply-To: <20220114065326.782420-1-kraxel@redhat.com>
 References: <20220114065326.782420-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -95,59 +95,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-On Windows the jack_set_thread_creator() function and on MacOS the
-pthread_setname_np() function with a thread pointer paramater is
-not available. Use #ifdefs to remove the jack_set_thread_creator()
-function call and the qjack_thread_creator() function in both
-cases.
+Audio recordings with the DirectSound backend don't sound right.
+A look a the Microsoft online documentation tells us why.
 
-The qjack_thread_creator() function just sets the name of the
-created thread for debugging purposes and isn't really necessary.
+From the DirectSound Programming Guide, Capture Buffer Information:
+'You can safely copy data from the buffer only up to the read
+cursor.'
 
-From the jack_set_thread_creator() documentation:
-(...)
+Change the code to read up to the read cursor instead of the
+capture cursor.
 
-No normal application/client should consider calling this. (...)
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/785
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Message-Id: <20211226154017.6067-1-vr_qemu@t-online.de>
+Message-Id: <20211226154017.6067-2-vr_qemu@t-online.de>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/jackaudio.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ audio/dsoundaudio.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/audio/jackaudio.c b/audio/jackaudio.c
-index e7de6d5433e9..317009e93660 100644
---- a/audio/jackaudio.c
-+++ b/audio/jackaudio.c
-@@ -622,6 +622,7 @@ static void qjack_enable_in(HWVoiceIn *hw, bool enable)
-     ji->c.enabled = enable;
- }
+diff --git a/audio/dsoundaudio.c b/audio/dsoundaudio.c
+index cfc79c129eee..3dd2c4d4a60b 100644
+--- a/audio/dsoundaudio.c
++++ b/audio/dsoundaudio.c
+@@ -536,13 +536,12 @@ static void *dsound_get_buffer_in(HWVoiceIn *hw, size_t *size)
+     DSoundVoiceIn *ds = (DSoundVoiceIn *) hw;
+     LPDIRECTSOUNDCAPTUREBUFFER dscb = ds->dsound_capture_buffer;
+     HRESULT hr;
+-    DWORD cpos, rpos, act_size;
++    DWORD rpos, act_size;
+     size_t req_size;
+     int err;
+     void *ret;
  
-+#if !defined(WIN32) && defined(CONFIG_PTHREAD_SETNAME_NP_W_TID)
- static int qjack_thread_creator(jack_native_thread_t *thread,
-     const pthread_attr_t *attr, void *(*function)(void *), void *arg)
- {
-@@ -635,6 +636,7 @@ static int qjack_thread_creator(jack_native_thread_t *thread,
+-    hr = IDirectSoundCaptureBuffer_GetCurrentPosition(
+-        dscb, &cpos, ds->first_time ? &rpos : NULL);
++    hr = IDirectSoundCaptureBuffer_GetCurrentPosition(dscb, NULL, &rpos);
+     if (FAILED(hr)) {
+         dsound_logerr(hr, "Could not get capture buffer position\n");
+         *size = 0;
+@@ -554,7 +553,7 @@ static void *dsound_get_buffer_in(HWVoiceIn *hw, size_t *size)
+         ds->first_time = false;
+     }
  
-     return ret;
- }
-+#endif
+-    req_size = audio_ring_dist(cpos, hw->pos_emul, hw->size_emul);
++    req_size = audio_ring_dist(rpos, hw->pos_emul, hw->size_emul);
+     req_size = MIN(*size, MIN(req_size, hw->size_emul - hw->pos_emul));
  
- static void *qjack_init(Audiodev *dev)
- {
-@@ -687,7 +689,9 @@ static void register_audio_jack(void)
- {
-     qemu_mutex_init(&qjack_shutdown_lock);
-     audio_driver_register(&jack_driver);
-+#if !defined(WIN32) && defined(CONFIG_PTHREAD_SETNAME_NP_W_TID)
-     jack_set_thread_creator(qjack_thread_creator);
-+#endif
-     jack_set_error_function(qjack_error);
-     jack_set_info_function(qjack_info);
- }
+     if (req_size == 0) {
 -- 
 2.34.1
 
