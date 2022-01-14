@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1973F48EB1E
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 14:55:43 +0100 (CET)
-Received: from localhost ([::1]:51064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8087948EB28
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 14:59:38 +0100 (CET)
+Received: from localhost ([::1]:60104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8N3O-0006Uq-5n
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 08:55:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43862)
+	id 1n8N7B-0004DN-BK
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 08:59:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n8N0T-0002zJ-2q
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:52:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43784)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n8N0U-000307-Ew
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:52:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n8N0R-0000JD-Ii
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:52:40 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n8N0S-0000Jx-L8
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:52:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642168358;
+ s=mimecast20190719; t=1642168360;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cgFY6FYWAmea9btfG53zrB8BGsroNsMyvdy9HMacuzY=;
- b=hOWdl3R68oWgU1o12OOIrGXNmG2eZVwt/6egp0x53IiFDZprbDc6RNGQ1RC8YFTgkDr1Bk
- b8puRH6To+wUmYjx3Rq9+nDyQo3K5rsLupNfgx2apWP6COwxWOD1Nm5wW1DlnouYuZ/wck
- xg2bm8IvGUTfuXvCdx+OdISGdLYPSRg=
+ bh=hzZXTLmmLA7YlJEboW2drBQ+s+ZG+F2OELE7QTNMOwU=;
+ b=i7n3lfZbNX+/Ixq5cv2ImW6+CXKnaabLK99+bz0M0CtusPhvKKjDiu9kDKGLLl0+hAe5/H
+ EAL5KrHGwysRpZ6MZkX2r/XroX0Rw+hZvqeVhX9fT+N4iOYgvTf/oaoVzvhhGcZPZSvu7h
+ el17alkJ5lDEKdIyDF5UkMd03w6zAks=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-362-ACfSdj9nMk6M0PAqw0E8hg-1; Fri, 14 Jan 2022 08:52:35 -0500
-X-MC-Unique: ACfSdj9nMk6M0PAqw0E8hg-1
+ us-mta-594-DnaFf6FgOz2iYbgFn8-_PQ-1; Fri, 14 Jan 2022 08:52:37 -0500
+X-MC-Unique: DnaFf6FgOz2iYbgFn8-_PQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 929CD1023F53;
- Fri, 14 Jan 2022 13:52:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0065F83DD21;
+ Fri, 14 Jan 2022 13:52:36 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 906FD105B213;
- Fri, 14 Jan 2022 13:52:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DF41D105B20E;
+ Fri, 14 Jan 2022 13:52:34 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 03/16] include/sysemu/blockdev.h: remove drive_get_max_devs
-Date: Fri, 14 Jan 2022 14:52:13 +0100
-Message-Id: <20220114135226.185407-4-kwolf@redhat.com>
+Subject: [PULL 04/16] softmmu: fix device deletion events with -device JSON
+ syntax
+Date: Fri, 14 Jan 2022 14:52:14 +0100
+Message-Id: <20220114135226.185407-5-kwolf@redhat.com>
 In-Reply-To: <20220114135226.185407-1-kwolf@redhat.com>
 References: <20220114135226.185407-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -81,63 +82,116 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-Remove drive_get_max_devs, as it is not used by anyone.
+The -device JSON syntax impl leaks a reference on the created
+DeviceState instance. As a result when you hot-unplug the
+device, the device_finalize method won't be called and thus
+it will fail to emit the required DEVICE_DELETED event.
 
-Last use was removed in commit 8f2d75e81d5
-("hw: Drop superfluous special checks for orphaned -drive").
+A 'json-cli' feature was previously added against the
+'device_add' QMP command QAPI schema to indicated to mgmt
+apps that -device supported JSON syntax. Given the hotplug
+bug that feature flag is not usable for its purpose, so
+we add a new 'json-cli-hotplug' feature to indicate the
+-device supports JSON without breaking hotplug.
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20211215121140.456939-4-eesposit@redhat.com>
+Fixes: 5dacda5167560b3af8eadbce5814f60ba44b467e
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/802
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20220105123847.4047954-2-berrange@redhat.com>
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+Tested-by: Ján Tomko <jtomko@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/sysemu/blockdev.h |  1 -
- blockdev.c                | 17 -----------------
- 2 files changed, 18 deletions(-)
+ qapi/qdev.json                 |  5 ++++-
+ softmmu/vl.c                   |  4 +++-
+ tests/qtest/device-plug-test.c | 19 +++++++++++++++++++
+ 3 files changed, 26 insertions(+), 2 deletions(-)
 
-diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
-index ea35c42f5c..f9fb54d437 100644
---- a/include/sysemu/blockdev.h
-+++ b/include/sysemu/blockdev.h
-@@ -48,7 +48,6 @@ DriveInfo *drive_get(BlockInterfaceType type, int bus, int unit);
- void drive_check_orphaned(void);
- DriveInfo *drive_get_by_index(BlockInterfaceType type, int index);
- int drive_get_max_bus(BlockInterfaceType type);
--int drive_get_max_devs(BlockInterfaceType type);
+diff --git a/qapi/qdev.json b/qapi/qdev.json
+index 69656b14df..26cd10106b 100644
+--- a/qapi/qdev.json
++++ b/qapi/qdev.json
+@@ -44,6 +44,9 @@
+ # @json-cli: If present, the "-device" command line option supports JSON
+ #            syntax with a structure identical to the arguments of this
+ #            command.
++# @json-cli-hotplug: If present, the "-device" command line option supports JSON
++#                    syntax without the reference counting leak that broke
++#                    hot-unplug
+ #
+ # Notes:
+ #
+@@ -74,7 +77,7 @@
+ { 'command': 'device_add',
+   'data': {'driver': 'str', '*bus': 'str', '*id': 'str'},
+   'gen': false, # so we can get the additional arguments
+-  'features': ['json-cli'] }
++  'features': ['json-cli', 'json-cli-hotplug'] }
  
- QemuOpts *drive_add(BlockInterfaceType type, int index, const char *file,
-                     const char *optstr);
-diff --git a/blockdev.c b/blockdev.c
-index 25b3b202e7..8197165bb5 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -168,23 +168,6 @@ void blockdev_auto_del(BlockBackend *blk)
+ ##
+ # @device_del:
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 207a9eb8be..5e1b35ba48 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2684,6 +2684,7 @@ static void qemu_create_cli_devices(void)
+     qemu_opts_foreach(qemu_find_opts("device"),
+                       device_init_func, NULL, &error_fatal);
+     QTAILQ_FOREACH(opt, &device_opts, next) {
++        DeviceState *dev;
+         loc_push_restore(&opt->loc);
+         /*
+          * TODO Eventually we should call qmp_device_add() here to make sure it
+@@ -2692,7 +2693,8 @@ static void qemu_create_cli_devices(void)
+          * from the start, so call qdev_device_add_from_qdict() directly for
+          * now.
+          */
+-        qdev_device_add_from_qdict(opt->opts, true, &error_fatal);
++        dev = qdev_device_add_from_qdict(opt->opts, true, &error_fatal);
++        object_unref(OBJECT(dev));
+         loc_pop(&opt->loc);
      }
+     rom_reset_order_override();
+diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
+index 559d47727a..ad79bd4c14 100644
+--- a/tests/qtest/device-plug-test.c
++++ b/tests/qtest/device-plug-test.c
+@@ -77,6 +77,23 @@ static void test_pci_unplug_request(void)
+     qtest_quit(qtest);
  }
  
--/**
-- * Returns the current mapping of how many units per bus
-- * a particular interface can support.
-- *
-- *  A positive integer indicates n units per bus.
-- *  0 implies the mapping has not been established.
-- * -1 indicates an invalid BlockInterfaceType was given.
-- */
--int drive_get_max_devs(BlockInterfaceType type)
--{
--    if (type >= IF_IDE && type < IF_COUNT) {
--        return if_max_devs[type];
--    }
--
--    return -1;
--}
--
- static int drive_index_to_bus_id(BlockInterfaceType type, int index)
++static void test_pci_unplug_json_request(void)
++{
++    QTestState *qtest = qtest_initf(
++        "-device '{\"driver\": \"virtio-mouse-pci\", \"id\": \"dev0\"}'");
++
++    /*
++     * Request device removal. As the guest is not running, the request won't
++     * be processed. However during system reset, the removal will be
++     * handled, removing the device.
++     */
++    device_del(qtest, "dev0");
++    system_reset(qtest);
++    wait_device_deleted_event(qtest, "dev0");
++
++    qtest_quit(qtest);
++}
++
+ static void test_ccw_unplug(void)
  {
-     int max_devs = if_max_devs[type];
+     QTestState *qtest = qtest_initf("-device virtio-balloon-ccw,id=dev0");
+@@ -145,6 +162,8 @@ int main(int argc, char **argv)
+      */
+     qtest_add_func("/device-plug/pci-unplug-request",
+                    test_pci_unplug_request);
++    qtest_add_func("/device-plug/pci-unplug-json-request",
++                   test_pci_unplug_json_request);
+ 
+     if (!strcmp(arch, "s390x")) {
+         qtest_add_func("/device-plug/ccw-unplug",
 -- 
 2.31.1
 
