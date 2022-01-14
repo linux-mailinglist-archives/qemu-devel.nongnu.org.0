@@ -2,87 +2,127 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5BA348E533
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 09:07:56 +0100 (CET)
-Received: from localhost ([::1]:33878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C32448E53C
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 09:12:09 +0100 (CET)
+Received: from localhost ([::1]:36736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8Hci-0003Gq-US
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 03:07:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54294)
+	id 1n8Hgt-0005V2-NY
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 03:12:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1n8Gv2-00008z-T3
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 02:22:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46109)
+ (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1n8GvY-0000Jx-Po
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 02:23:13 -0500
+Received: from [2a01:111:f403:7010::713] (port=42723
+ helo=JPN01-TYC-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1n8Gv0-0002rZ-Ea
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 02:22:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642144952;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7zk3FHSqSqkO3+fTskAMx2T9ZkmAnDyBIsQS2JXbZD4=;
- b=NyG4eqStC42AJF0CBpj2SlQ4eUPvUNgcthuGbeAKvMpl0+zAFEliTXeph2bC2ulEV7hWYK
- +zvOgOxQtJfP+V1csE5f4DOu91qmInTdBG7ztJptFEnw/jrzHN9sm77D2oal64QR9hG2rk
- x9FLfd6EH2ywQfuF3DJb9Gv4WukddFk=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-306-6R7x9Ng0Pmi0-xRXBJOLAA-1; Fri, 14 Jan 2022 02:22:29 -0500
-X-MC-Unique: 6R7x9Ng0Pmi0-xRXBJOLAA-1
-Received: by mail-lf1-f69.google.com with SMTP id
- q14-20020ac246ee000000b0042c02909ed4so5603844lfo.19
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 23:22:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7zk3FHSqSqkO3+fTskAMx2T9ZkmAnDyBIsQS2JXbZD4=;
- b=b6Vry8ZiRYqyTUimbbPDtX7RRCRNcUjAedZzJH3txTPOQZzRBX3irKQvgeXECRzMZN
- gOHRtAY4HKcROHSku1iAWbZ+o3mxLPv1FD9H+cDId1NCF8w6TYTarcS0Aoul8HXLdA+R
- D2lO59JlUpgok+NRPPLTtcnekdt+tVbq6+8Ll1twpGclE1KOXgSC+pO2PDudhXx7cE7C
- jCtRIiQeH8P2b1xzRCW+KKbA1nwdKlHfnOi6azBs5/rVAeVziy5/jDC5G3JrWaVMRyMB
- Q+PHmVsqOy58rnuTz+NghPAXDkhed7zhNZdZ03YVaOCJHTxAnGpDBxbiQ5rPmJdaNRv/
- jtXw==
-X-Gm-Message-State: AOAM530RP6hECS6kQeSldaLsg7a6k97ucEBNo+JzQEwa43N6Ehyx3tIx
- RKS79SvOlOwCuAsT247wyWziiH86QWHgPvaCuwiZNGt9l2EF1FFEIp8bume55k7Ox/MsHgGNx+K
- qIwusNOq6YIZQZsRhOerk7CcJNZbMDkk=
-X-Received: by 2002:a2e:8645:: with SMTP id i5mr2181507ljj.420.1642144947650; 
- Thu, 13 Jan 2022 23:22:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwtWvbRdJMj5lBlFVdsB6kxep+qFd305HLeC2QVLDaylCb9c0QyzmJzcjol96MtSOoy5JFrSJ5VEcOeLSMxCWw=
-X-Received: by 2002:a2e:8645:: with SMTP id i5mr2181494ljj.420.1642144947373; 
- Thu, 13 Jan 2022 23:22:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1n8GvW-0002sz-0T
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 02:23:11 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lLeGP6p8I8W27dP7S19VXsFKDcBJEYhcFoBloAc5pLkkyswVRYYXo9gPKyiuQ8JTXkj1xnj8RlUKg5l/UwgARXCbOZ7Z7JfaOnkzrX1VNHN/jmw1CaKjqVNUhDu0zHS+J3o6Wz4w4XKWgCldewBGsgVL5JaiG1jxyOJBdxf4r3yxUBLLe3UdT+qC7Wtc8Uq9CVlGFHb4NpdwAdIpVZjb5DK7/4DGFCjENp/8wcUyoROnC5pf+XD7z7oGxUsr7hEMkdRPPGDZU0UoEMLAx6hxcLNS26VBhtoOm6fOrGiICLRLKX2Q4UI0GE0vGbK5+ekTUOWXY0vQ2jERVt1GkFHBNQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eEknVqjBwJCQDjao6xBWWw2HpokTydQLn/qV71BRgt8=;
+ b=d/67A+ohVCkMN2T50iEbDkat7fdaxmXNOYw3mN4HOkcA4XfT0B/Le5ONqNBoeZejBuDY/UjjdvhqMASK9d1U8t9ZspsmcR8FryEx+h97ff/RRooddIypFdnnZoZY49MeL3sng8cL8kHE8jBAm01nONplvfCK1KzpZbbRS/Ir3b8KjEXrHbAM0LAqJ4agUxaWt6Ez+n0LWckpuBWtLENxwysytu1TjNfkaVtlQLu/vXfxWuoBJLo7aOZ/OLJfdUdgkQPzzqa9FpkOqMy3N+mZoDf2rdX5KkNkRPZ5IoYg3MacWhu05x6AjtEZSc47tZrbTVmiJiMrB/1FUKvyCA24Ww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=zenithal.me; dmarc=pass action=none header.from=zenithal.me;
+ dkim=pass header.d=zenithal.me; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zenithal.me;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eEknVqjBwJCQDjao6xBWWw2HpokTydQLn/qV71BRgt8=;
+ b=rE0KHwJifaTiiZnWVuk5ixUtKhcJjzSTljT+z2MqG9ixvPzcDhSKQNTZQ6vGtz6SY2bfSe7d6ChdBlixr/aGIWNJqWuJSj3b3heol7CYJZd09Eng72ZZ7+X1QqXG6YCD/aVaUE4uKslGnzoz8rxG+xkBiE+wFPZJP1N+Fw8hVvs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=zenithal.me;
+Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:c0::6) by
+ OSZP286MB1168.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:118::11) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4888.11; Fri, 14 Jan 2022 07:23:05 +0000
+Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::5cf9:8c86:9001:90d9]) by TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::5cf9:8c86:9001:90d9%8]) with mapi id 15.20.4888.011; Fri, 14 Jan 2022
+ 07:23:04 +0000
+Date: Fri, 14 Jan 2022 15:23:01 +0800
+From: "Hongren (Zenithal) Zheng" <i@zenithal.me>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 6/6] MAINTAINERS: add myself as CanoKey maintainer
+Message-ID: <YeEk1YPhQLboQ6+E@Sun>
+References: <YeBqg2AmIVYkrJcD@Sun>
+ <YeBrfDkT4ZBgJRPa@Sun>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YeBrfDkT4ZBgJRPa@Sun>
+X-Operating-System: Linux Sun 5.10.81 
+X-Mailer: Mutt 2.1.5 (2021-12-30)
+X-ClientProxiedBy: HK2PR0302CA0001.apcprd03.prod.outlook.com
+ (2603:1096:202::11) To TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:c0::6)
 MIME-Version: 1.0
-References: <20220105041945.13459-1-jasowang@redhat.com>
- <20220105041945.13459-5-jasowang@redhat.com>
- <Yd+zQRouwsB/jnV3@xz-m1.local>
- <8beffd3d-5eff-6462-ce23-faf44c6653f1@redhat.com>
- <YeDumkj9ZgPKGgoN@xz-m1.local>
- <CACGkMEun7WEhXy_ApxfgYmbVofjjKgGuA0ezPZG4ypRK+HtSfA@mail.gmail.com>
- <YeEifFCR6Rc5ObGg@xz-m1.local>
-In-Reply-To: <YeEifFCR6Rc5ObGg@xz-m1.local>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 14 Jan 2022 15:22:16 +0800
-Message-ID: <CACGkMEtGhBC2LDvzsLr+ZS+5mo_r09BOk-qp0suOP+YBUdFG+g@mail.gmail.com>
-Subject: Re: [PATCH 3/3] intel-iommu: PASID support
-To: Peter Xu <peterx@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7e346b13-196c-4ac6-f121-08d9d72eb46e
+X-MS-TrafficTypeDiagnostic: OSZP286MB1168:EE_
+X-Microsoft-Antispam-PRVS: <OSZP286MB11686FD3EE543906BC1E4F29BC549@OSZP286MB1168.JPNP286.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dXmf4Uuvc+yBFdPPIJLEQV6p1sdqQHgfUoJIQ7Bj15ggbM/No4DvNnptHHfGrGmw8vf+jDcmevetxVr1kCE7P7T8cJPk1+Iy52RKuyZWHRCrwo9cSG70cyKDNubMkEPdkYE8p4gWokcHGWvHq8049V1CGasZuuFozrx0AOn0XqSVP7iYAT7BioIKccvSe2T8lJ36R0QvjTA94BYCf3D/YHxRSUwwaVJBG9KaSDgpD95F7C9gd0DtBAWs95TKnKm3l96SB1DQWoEj/cWu6+UjxBX0RHZgBWSrM8h511Cvzn37DMOW3O+cF5LC0/4aQ6Ar8d9MWqmK/rjUcNiVS5VPU23Z2qz6cX+XJ4bAfTTaQisorw3VasScD+I0397rt1TiXbDaIU4KVljml3AeDtn996cBZj20TgfwIi2TFE4L0LptwvZfs+go5bYEFJuIhudfxaQ/JUfIVe/Ve+eLCRSOF8xusceqPf1d/o5/FLKYX4cyZf2GaX1RlRACrZZ6bjCFoqgu/tth0UTUS0TMtot1BRsiIJFWnZzkfsJs57NTbZ1xKHETafFvEPLUQxnlUdW5XVcJQ3N1jtCto6XY6+wmXnqGju1T4iD30uOr6zvBjvZloDlKjak6QfbKiFd0Z8vkRPv/06YR2ThsbxkIP6Fb08COViP29cWILiesGoMN4f6gkOTGZjB6z6b/xJcDXcd/wyBoWTNauhclgFyXY8UESA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(7916004)(396003)(39830400003)(136003)(346002)(366004)(376002)(316002)(54906003)(558084003)(6506007)(66556008)(4326008)(5660300002)(66946007)(6666004)(6916009)(83380400001)(786003)(2906002)(66476007)(8936002)(8676002)(52116002)(86362001)(33716001)(508600001)(6512007)(9686003)(186003)(38100700002)(6486002)(49092004)(67856001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Fo5QCqTn1GEr72WdT59CFjiFOg6rkwoh3gKwcF1DOtL83l4jDub7Kp5oqEH/?=
+ =?us-ascii?Q?ywGhZYfJwCkYUuo8xxz6kiDU8XB+nqRxElCy8K9jPXCkrArYgVg9onS63D39?=
+ =?us-ascii?Q?xgCaougSazV7JpQm2QLFVjB9nuAPBgcKKpuHE1FtFjrY4Xmd6eiGapy0WBb/?=
+ =?us-ascii?Q?eVfWWeZaD2cG1S4xbntv5Z0/HvgdhxDTD2kCsCCemet42VaPXRKSyBZewPBU?=
+ =?us-ascii?Q?9AE3qPKq+wCr+WknfjEKoscnBaeDIm/AxVDDQt7xueXhxeo24Pin361Cx7g8?=
+ =?us-ascii?Q?AO3ctUt+l4py2zKEihC/MNQIdXZY5qdkCWjSzh9OysLe3+AmejRwkjLVeJJF?=
+ =?us-ascii?Q?Qa0TyctGoOzuUB7lE+bWgkNcM8RWa3blYOLdMGaxdbdkwSdIrkQmBI452aab?=
+ =?us-ascii?Q?4eNyddffH5xp+CizoPpYtH5j1gAq5Ksi9s/KgpzTjBAmDMqb5ayX2DupD9k0?=
+ =?us-ascii?Q?/FAZKEDhFtDdkkfeeFhxXddScOWVIQUSDLHycOYEfZXva3wzDwrEPZ1xh0PQ?=
+ =?us-ascii?Q?p4FeVNYI3TwQMXAlivMkdrDzSSlVc3OrsAsw+8nF001G82ryQZT9jQjY6EMS?=
+ =?us-ascii?Q?AXrOhnkG2e3mHk1U+gWU7DlRFapk29cWd5Lvab1O0U00I8XmLq4hvre6zexp?=
+ =?us-ascii?Q?ckKgGt1TRUDOHs6/4oVdQNndT1KhBoYwDieAhg1soWx8wiL1ANOF/ZiWC+YU?=
+ =?us-ascii?Q?XGt0Che+mCv19h/a559XY61bvsw02J0OOaoPZXtKeKlVKGUKGYrjeoulwcSN?=
+ =?us-ascii?Q?TfdQNJOKudNl7QsS7em7VTFfULYXWk48JZsDvGvgp58cR6HBhKLnVvBTF1hz?=
+ =?us-ascii?Q?OoHt5cDI9nfP3wIVNG9ABrvm7t7faMaLGVuZg4tc/6M/fb/uFVkVQWTsjCzN?=
+ =?us-ascii?Q?60GHE7JTil1XoiacVFmienEIVFuuuWmCkgvfMhRXiz53rzIIZcB6cQ5fNSXi?=
+ =?us-ascii?Q?fktN1K1z1UmQ9a9/h//+DOqCvFRnPYOW8Y8kmejip2a+EhefK3MX/hsKHqTj?=
+ =?us-ascii?Q?Sf+8ndcn8Q0SVsRiZSgemXRlisSyYOlpn09DylAQ+8vJz6++S6vLYK3DXi06?=
+ =?us-ascii?Q?PBhyXQGg/Dfa4xnXTlyYDDPSTeTEUFEC/Sg40OI6hKrXS9V6j+e3p/WYTg4c?=
+ =?us-ascii?Q?9BrJYWSxURpi517GTanvMR9SHszv+rQfy9/ShpT2k8L8FQ6VT+tYg8WrA0Fz?=
+ =?us-ascii?Q?99+j/YxjRAHIjyNZdIWTmPHW7gffA2SCYeUKOpvPH1fUlbC4L9qZGOdYKbzM?=
+ =?us-ascii?Q?+cXZpg4qyRpoiur0bXg2+52HredQ0z+AiYSAY2kiFUb8F5ChGU5JdjteFD6x?=
+ =?us-ascii?Q?7npFGh+fmZcqm3dG/a7Vvrn37tTnWuG/G7PZhXJpE8aY6S/m8nMMlbGSBG4K?=
+ =?us-ascii?Q?JQyST27s5PRrn2o3p9teutQf+ZGhC0P0tn5jKtFd9Dvg857ttD8WlOBrQR0v?=
+ =?us-ascii?Q?Z0iW1bJDFFg5gfuZ3WGuM9omeF1kEhMQ0kyvqr3g89tNuF6SrpJ/xFtpz7BL?=
+ =?us-ascii?Q?0sJKpSwBewMeYvprcQ9r/aivGpq2wNoobkKLv1s4WN4VHImttfezw5FgtWSQ?=
+ =?us-ascii?Q?Mu2i+BJutawgyfRWqBbAOvrogMdH5288+NrnVyi5?=
+X-OriginatorOrg: zenithal.me
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e346b13-196c-4ac6-f121-08d9d72eb46e
+X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2022 07:23:04.9334 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 436d481c-43b1-4418-8d7f-84c1e4887cf0
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 61flcs6tYUfdTuY+euVHAhHEkCuUpniUIjpSiiycQZru6WI6aawo5spXkhMuSBGx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZP286MB1168
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f403:7010::713
+ (failed)
+Received-SPF: pass client-ip=2a01:111:f403:7010::713;
+ envelope-from=i@zenithal.me;
+ helo=JPN01-TYC-obe.outbound.protection.outlook.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,68 +135,14 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Liu, Yi L" <yi.l.liu@intel.com>, yi.y.sun@linux.intel.com,
- qemu-devel <qemu-devel@nongnu.org>, mst <mst@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ contact@canokeys.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 14, 2022 at 3:13 PM Peter Xu <peterx@redhat.com> wrote:
->
-> On Fri, Jan 14, 2022 at 01:58:07PM +0800, Jason Wang wrote:
-> > > > Right, but I think you meant to do this only when scalable mode is disabled.
-> > >
-> > > Yes IMHO it will definitely suite for !scalable case since that's exactly what
-> > > we did before.  What I'm also wondering is even if scalable is enabled but no
-> > > "real" pasid is used, so if all the translations go through the default pasid
-> > > that stored in the device context entry, then maybe we can ignore checking it.
-> > > The latter is the "hacky" part mentioned above.
-> >
-> > The problem I see is that we can't know what PASID is used as default
-> > without reading the context entry?
->
-> Can the default NO_PASID being used in mixture of !NO_PASID use case on the
-> same device?  If that's possible, then I agree..
+On Fri, Jan 14, 2022 at 02:12:12AM +0800, Hongren (Zenithal) Zheng wrote:
+> +F: docs/canokey.txt
 
-My understanding is that it is possible.
-
->
-> My previous idea should be based on the fact that if NO_PASID is used on one
-> device, then all translations will be based on NO_PASID, but now I'm not sure
-> of it.
-
-Actually, what I meant is:
-
-device 1 using transactions without PASID with RID2PASID 1
-device 2 using transactions without PASID with RID2PASID 2
-
-Then we can't assume a default pasid here.
-
->
-> >
-> > >
-> > > The other thing to mention is, if we postpone the iotlb lookup to be after
-> > > context entry, then logically we can have per-device iotlb, that means we can
-> > > replace IntelIOMMUState.iotlb with VTDAddressSpace.iotlb in the future, too,
-> > > which can also be more efficient.
-> >
-> > Right but we still need to limit the total slots and ATS is a better
-> > way to deal with the IOTLB bottleneck actually.
->
-> I think it depends on how the iotlb ghash is implemented.  Logically I think if
-> we can split the cache to per-device it'll be slightly better because we don't
-> need to iterate over iotlbs of other devices when lookup anymore; meanwhile
-> each iotlb takes less space too (no devfn needed anymore).
-
-So we've already used sid in the IOTLB hash, I wonder how much we can
-gain form this.
-
-Thanks
-
->
-> Thanks,
->
-> --
-> Peter Xu
->
-
+I forgot to change this line, I will change it in the next version
+along with other requested changes.
 
