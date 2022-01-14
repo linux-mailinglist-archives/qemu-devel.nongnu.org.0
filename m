@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C8C048E4A4
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 07:59:57 +0100 (CET)
-Received: from localhost ([::1]:52640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C78DD48E4BB
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 08:12:45 +0100 (CET)
+Received: from localhost ([::1]:32986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8GZ2-0002m2-8C
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 01:59:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50550)
+	id 1n8GlQ-0001gE-5c
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 02:12:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1n8GUf-0007cn-KD
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 01:55:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51893)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1n8GUd-0007Vt-1o
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 01:55:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642143322;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G+bYqZZPcQ4/iUFWZFgkt0+6DR4Lu9NyDLSI30jgDZo=;
- b=fg2peesre3QvnNf16K45NFS9W5PHFmpMkYcPzvsK5I5ioYZ/jh3OcKPfhtiVsxBrQ/Km6x
- Zu6LAZLfC9Tvt1IKMnQ1u05wRl+qGG6oQexgxdrbZoFHLtYMRMKP3hMz8+hcDn7iOc75gW
- +81tMYSHIduaf3J5Nd+WK9F2/WtxU9w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-Xul6wxPlODqRcXhK_Vxbnw-1; Fri, 14 Jan 2022 01:55:19 -0500
-X-MC-Unique: Xul6wxPlODqRcXhK_Vxbnw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF22080D680;
- Fri, 14 Jan 2022 06:55:17 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.193.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 126F04699B;
- Fri, 14 Jan 2022 06:55:17 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id ED9C218007B7; Fri, 14 Jan 2022 07:53:26 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 10/20] hw/display: Rename VGA_ISA_MM -> VGA_MMIO
-Date: Fri, 14 Jan 2022 07:53:16 +0100
-Message-Id: <20220114065326.782420-11-kraxel@redhat.com>
-In-Reply-To: <20220114065326.782420-1-kraxel@redhat.com>
-References: <20220114065326.782420-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1n8GEb-0005Dd-Oe
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 01:38:54 -0500
+Received: from [2607:f8b0:4864:20::929] (port=41614
+ helo=mail-ua1-x929.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1n8GEa-0005Uy-3H
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 01:38:49 -0500
+Received: by mail-ua1-x929.google.com with SMTP id p37so15329330uae.8
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 22:38:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mQ2fc+Gz3vZuFv3MOarOIfLp+5I6xrESd5nj20tzFdY=;
+ b=l0dDuutPm+i2hHeix/mh51y/asHPO1u3Lf2SZCSwPVaQ2DUlRUT8fJw7YBFX8tksJx
+ xNOkLgP1ltnl5Xb2MZGM+9JxkHpv3x0lZSPLMA+ROolqYbH/oFhM9txCcqUVYj6yF4th
+ b5eiBEmnQBQSH/821ppFQH7isL7IlUFGVrLwIsEQLrh4gWN34JqYvk2kvAO3L8YIP60N
+ 6EP1jQXnsllyUBcHpEDE/uEg9nn4z5ctbp6/LC/o7uEn6540NQ+YbmTvG48K1Yspknb2
+ XvVm8rAqByQEIkTjQBE02VQOc0ee+l56syYFByb5+NAC2hFzzMllkbUfhCV3qVEzm+jv
+ DOjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mQ2fc+Gz3vZuFv3MOarOIfLp+5I6xrESd5nj20tzFdY=;
+ b=R8PpASxajStjIh9SI5cgOl3Rmfj6yzG5N2KXT1fsGQS8IOLV7W3u8NQMgD87QqKP/R
+ sTySVI5jxdcSQ2sRbhQkOG5cfm1+nmbGtrd9Pees745k+5q3AndPB4OqvJ+PJPhJxBcZ
+ +8C8BYmSLlIofAoSVqLPOAXkWFGjvWYyFaQU4pDKK9qQAwJ1i5ffV1jM7FuNSdy/afW3
+ o06qqWLcqshFO6fM0khdxIW+po5IS0EkN3xfBPmUuuZxpYvuDX3iK5KzoJ95M3QEkDWe
+ kd7eL9HkaE8E1wJcrlnX8/BcJzAuv94NTcMsuwe0Kb5zNONt26DmY/bW9adkqn7ESrj+
+ zngA==
+X-Gm-Message-State: AOAM532/g7aSIcFOyGaEPzeKA0fAUdV8syXk/sNi367aWDdmQ2rPL96d
+ p8zxkNxg1OXjzBa/tJy7nh0oLYslkWiZbKZXhm44Qg==
+X-Google-Smtp-Source: ABdhPJyM12//jSRkZ45j0cO5COFf133rjY79YM4c6GbTRKMB5/xcZ0E5wpruoJukUCNt1saftfF7nu/Vc73jOTtrdoA=
+X-Received: by 2002:a05:6102:3e86:: with SMTP id
+ m6mr3497747vsv.77.1642142325779; 
+ Thu, 13 Jan 2022 22:38:45 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220109161923.85683-1-imp@bsdimp.com>
+ <20220109161923.85683-7-imp@bsdimp.com>
+ <CAFEAcA8rsxYLs-VjJF+efK=PEQrEh3mn3pTfEyVXz014CmHfqQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA8rsxYLs-VjJF+efK=PEQrEh3mn3pTfEyVXz014CmHfqQ@mail.gmail.com>
+From: Warner Losh <imp@bsdimp.com>
+Date: Thu, 13 Jan 2022 23:38:34 -0700
+Message-ID: <CANCZdfqcik=SkyS9TOUp_Nuu2oSatDmeYU4n0pnRx=ghiytymw@mail.gmail.com>
+Subject: Re: [PATCH 06/30] bsd-user/arm/target_arch_cpu.h: Correct code pointer
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000ffc5ba05d5850d32"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::929
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::929;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x929.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,192 +81,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: Kyle Evans <kevans@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+--000000000000ffc5ba05d5850d32
+Content-Type: text/plain; charset="UTF-8"
 
-There is no ISA bus part in the MMIO VGA device, so rename:
+On Thu, Jan 13, 2022 at 10:15 AM Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
- *  hw/display/vga-isa-mm.c -> hw/display/vga-mmio.c
- *  CONFIG_VGA_ISA_MM -> CONFIG_VGA_MMIO
- *  ISAVGAMMState -> VGAMmioState
- *  isa_vga_mm_init() -> vga_mmio_init()
+> On Sun, 9 Jan 2022 at 16:26, Warner Losh <imp@bsdimp.com> wrote:
+> >
+> > The code has moved in FreeBSD since the emulator was started, update the
+> > comment to reflect that change. Remove now-redundant comment saying the
+> > same thing (but incorrectly).
+> >
+> > Signed-off-by: Warner Losh <imp@bsdimp.com>
+> > ---
+> >  bsd-user/arm/target_arch_cpu.h | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/bsd-user/arm/target_arch_cpu.h
+> b/bsd-user/arm/target_arch_cpu.h
+> > index 05b19ce6119..905f13aa1b9 100644
+> > --- a/bsd-user/arm/target_arch_cpu.h
+> > +++ b/bsd-user/arm/target_arch_cpu.h
+> > @@ -73,7 +73,7 @@ static inline void target_cpu_loop(CPUARMState *env)
+> >                      int32_t syscall_nr = n;
+> >                      int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7,
+> arg8;
+> >
+> > -                    /* See arm/arm/trap.c cpu_fetch_syscall_args() */
+> > +                    /* See arm/arm/syscall.c cpu_fetch_syscall_args() */
+> >                      if (syscall_nr == TARGET_FREEBSD_NR_syscall) {
+> >                          syscall_nr = env->regs[0];
+> >                          arg1 = env->regs[1];
+>
+> Commit message says we're updating one comment and deleting a
+> second one; code only does an update, no delete ?
+>
 
-Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20211206224528.563588-2-f4bug@amsat.org>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- include/hw/display/vga.h                |  5 ++---
- hw/display/{vga-isa-mm.c => vga-mmio.c} | 19 +++++++++----------
- hw/mips/jazz.c                          |  2 +-
- configs/devices/mips-softmmu/common.mak |  2 +-
- hw/display/Kconfig                      |  2 +-
- hw/display/meson.build                  |  2 +-
- hw/mips/Kconfig                         |  2 +-
- 7 files changed, 16 insertions(+), 18 deletions(-)
- rename hw/display/{vga-isa-mm.c => vga-mmio.c} (90%)
+Commit is right, commit message is wrong. I'll fix the commit message. I got
+this confused with part 8 where I kinda sorta did something similar (but not
+that similar).
 
-diff --git a/include/hw/display/vga.h b/include/hw/display/vga.h
-index 5f7825e0e368..c16a5c26dae9 100644
---- a/include/hw/display/vga.h
-+++ b/include/hw/display/vga.h
-@@ -24,8 +24,7 @@ enum vga_retrace_method {
- 
- extern enum vga_retrace_method vga_retrace_method;
- 
--int isa_vga_mm_init(hwaddr vram_base,
--                    hwaddr ctrl_base, int it_shift,
--                    MemoryRegion *address_space);
-+int vga_mmio_init(hwaddr vram_base, hwaddr ctrl_base,
-+                  int it_shift, MemoryRegion *address_space);
- 
- #endif
-diff --git a/hw/display/vga-isa-mm.c b/hw/display/vga-mmio.c
-similarity index 90%
-rename from hw/display/vga-isa-mm.c
-rename to hw/display/vga-mmio.c
-index 7321b7a06d59..4ffe3afe32db 100644
---- a/hw/display/vga-isa-mm.c
-+++ b/hw/display/vga-mmio.c
-@@ -1,5 +1,5 @@
- /*
-- * QEMU ISA MM VGA Emulator.
-+ * QEMU MMIO VGA Emulator.
-  *
-  * Copyright (c) 2003 Fabrice Bellard
-  *
-@@ -32,15 +32,15 @@
- 
- #define VGA_RAM_SIZE (8 * MiB)
- 
--typedef struct ISAVGAMMState {
-+typedef struct VGAMmioState {
-     VGACommonState vga;
-     int it_shift;
--} ISAVGAMMState;
-+} VGAMmioState;
- 
- /* Memory mapped interface */
- static uint64_t vga_mm_read(void *opaque, hwaddr addr, unsigned size)
- {
--    ISAVGAMMState *s = opaque;
-+    VGAMmioState *s = opaque;
- 
-     return vga_ioport_read(&s->vga, addr >> s->it_shift) &
-         MAKE_64BIT_MASK(0, size * 8);
-@@ -49,7 +49,7 @@ static uint64_t vga_mm_read(void *opaque, hwaddr addr, unsigned size)
- static void vga_mm_write(void *opaque, hwaddr addr, uint64_t value,
-                          unsigned size)
- {
--    ISAVGAMMState *s = opaque;
-+    VGAMmioState *s = opaque;
- 
-     vga_ioport_write(&s->vga, addr >> s->it_shift,
-                      value & MAKE_64BIT_MASK(0, size * 8));
-@@ -65,7 +65,7 @@ static const MemoryRegionOps vga_mm_ctrl_ops = {
-     .endianness = DEVICE_NATIVE_ENDIAN,
- };
- 
--static void vga_mm_init(ISAVGAMMState *s, hwaddr vram_base,
-+static void vga_mm_init(VGAMmioState *s, hwaddr vram_base,
-                         hwaddr ctrl_base, int it_shift,
-                         MemoryRegion *address_space)
- {
-@@ -91,11 +91,10 @@ static void vga_mm_init(ISAVGAMMState *s, hwaddr vram_base,
-     memory_region_set_coalescing(vga_io_memory);
- }
- 
--int isa_vga_mm_init(hwaddr vram_base,
--                    hwaddr ctrl_base, int it_shift,
--                    MemoryRegion *address_space)
-+int vga_mmio_init(hwaddr vram_base, hwaddr ctrl_base,
-+                  int it_shift, MemoryRegion *address_space)
- {
--    ISAVGAMMState *s;
-+    VGAMmioState *s;
- 
-     s = g_malloc0(sizeof(*s));
- 
-diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
-index f5a26e174d58..8f345afd137a 100644
---- a/hw/mips/jazz.c
-+++ b/hw/mips/jazz.c
-@@ -274,7 +274,7 @@ static void mips_jazz_init(MachineState *machine,
-         }
-         break;
-     case JAZZ_PICA61:
--        isa_vga_mm_init(0x40000000, 0x60000000, 0, get_system_memory());
-+        vga_mmio_init(0x40000000, 0x60000000, 0, get_system_memory());
-         break;
-     default:
-         break;
-diff --git a/configs/devices/mips-softmmu/common.mak b/configs/devices/mips-softmmu/common.mak
-index 752b62b1e636..d2202c839e03 100644
---- a/configs/devices/mips-softmmu/common.mak
-+++ b/configs/devices/mips-softmmu/common.mak
-@@ -7,7 +7,7 @@ CONFIG_ISA_BUS=y
- CONFIG_PCI=y
- CONFIG_PCI_DEVICES=y
- CONFIG_VGA_ISA=y
--CONFIG_VGA_ISA_MM=y
-+CONFIG_VGA_MMIO=y
- CONFIG_VGA_CIRRUS=y
- CONFIG_VMWARE_VGA=y
- CONFIG_SERIAL=y
-diff --git a/hw/display/Kconfig b/hw/display/Kconfig
-index a2306b67d87c..a1b159becd76 100644
---- a/hw/display/Kconfig
-+++ b/hw/display/Kconfig
-@@ -49,7 +49,7 @@ config VGA_ISA
-     depends on ISA_BUS
-     select VGA
- 
--config VGA_ISA_MM
-+config VGA_MMIO
-     bool
-     select VGA
- 
-diff --git a/hw/display/meson.build b/hw/display/meson.build
-index 861c43ff9847..adc53dd8b6cc 100644
---- a/hw/display/meson.build
-+++ b/hw/display/meson.build
-@@ -18,7 +18,7 @@ softmmu_ss.add(when: 'CONFIG_XEN', if_true: files('xenfb.c'))
- 
- softmmu_ss.add(when: 'CONFIG_VGA_PCI', if_true: files('vga-pci.c'))
- softmmu_ss.add(when: 'CONFIG_VGA_ISA', if_true: files('vga-isa.c'))
--softmmu_ss.add(when: 'CONFIG_VGA_ISA_MM', if_true: files('vga-isa-mm.c'))
-+softmmu_ss.add(when: 'CONFIG_VGA_MMIO', if_true: files('vga-mmio.c'))
- softmmu_ss.add(when: 'CONFIG_VMWARE_VGA', if_true: files('vmware_vga.c'))
- softmmu_ss.add(when: 'CONFIG_BOCHS_DISPLAY', if_true: files('bochs-display.c'))
- 
-diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
-index b4c5549ce844..725525358d96 100644
---- a/hw/mips/Kconfig
-+++ b/hw/mips/Kconfig
-@@ -16,7 +16,7 @@ config JAZZ
-     select I8254
-     select I8257
-     select PCSPK
--    select VGA_ISA_MM
-+    select VGA_MMIO
-     select G364FB
-     select DP8393X
-     select ESP
--- 
-2.34.1
+Warner
 
+--000000000000ffc5ba05d5850d32
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 13, 2022 at 10:15 AM Pete=
+r Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lin=
+aro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">On Sun, 9 Jan 2022 at 16:26, Warner Losh &lt;<a href=3D"mailto:imp@b=
+sdimp.com" target=3D"_blank">imp@bsdimp.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; The code has moved in FreeBSD since the emulator was started, update t=
+he<br>
+&gt; comment to reflect that change. Remove now-redundant comment saying th=
+e<br>
+&gt; same thing (but incorrectly).<br>
+&gt;<br>
+&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
+t=3D"_blank">imp@bsdimp.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 bsd-user/arm/target_arch_cpu.h | 2 +-<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch=
+_cpu.h<br>
+&gt; index 05b19ce6119..905f13aa1b9 100644<br>
+&gt; --- a/bsd-user/arm/target_arch_cpu.h<br>
+&gt; +++ b/bsd-user/arm/target_arch_cpu.h<br>
+&gt; @@ -73,7 +73,7 @@ static inline void target_cpu_loop(CPUARMState *env)=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 int32_t syscall_nr =3D n;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8;<br>
+&gt;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ /* See arm/arm/trap.c cpu_fetch_syscall_args() */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ /* See arm/arm/syscall.c cpu_fetch_syscall_args() */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 if (syscall_nr =3D=3D TARGET_FREEBSD_NR_syscall) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 syscall_nr =3D env-&gt;regs[0];<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 arg1 =3D env-&gt;regs[1];<br>
+<br>
+Commit message says we&#39;re updating one comment and deleting a<br>
+second one; code only does an update, no delete ?<br></blockquote><div><br>=
+</div><div>Commit is right, commit message is wrong. I&#39;ll fix the commi=
+t message. I got</div><div>this confused with part 8 where I kinda sorta di=
+d something similar (but not</div><div>that similar).</div><div><br></div><=
+div>Warner</div></div></div>
+
+--000000000000ffc5ba05d5850d32--
 
