@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B0248E72B
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 10:11:31 +0100 (CET)
-Received: from localhost ([::1]:51702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBAFF48E734
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 10:14:44 +0100 (CET)
+Received: from localhost ([::1]:59452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8IcL-0002IC-Ma
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 04:11:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43156)
+	id 1n8IfT-0007e3-VJ
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 04:14:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n8IMC-0001OZ-0u
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 03:54:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21182)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n8IOT-0004zK-O8
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 03:57:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48174)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n8IMA-00006r-5P
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 03:54:47 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n8IOS-0000cp-1n
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 03:57:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642150485;
+ s=mimecast20190719; t=1642150626;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=96a0o/zGn6+jmJgYuV2SaRYOmyrJsGqi1HSKr1shTYc=;
- b=L5CB1aFzmqAAEOkHNQ8Sn8cN7Fe++fTtB7tcletYmR/WH4dig/h9A2bEvwCEp1RD588una
- XzX4l7HNWBNCspQr9/fQHFgZ7g9EA2Fwx2RVVPMWB2v7sXKZbcm1fBhbRbrXvRjynauu8P
- EzRee6jGmZ1l2/VqnzpXKtaw5kBrD3Y=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xc1r2+mAmNKMz834tct/RAdtqugVn0my1bFIICtY1sA=;
+ b=AJunxsEBaTHaGPUV9Y5n6LqdY7BKiTkea/vUzvQ0ZGjMJzjJulQlXoRq8cKlgTXkD5ZavH
+ P7k/FqJumVKemH73GzkG9jrE3WPbTMKrTTahrBs1hwtgTEwtAlwI05AVRiWSywrCIj+PnT
+ 6cU3/B7X3xx5X7uTyfLhud8AkodhSl4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-44-wcQwqlnaP-yRYeShH2AyDw-1; Fri, 14 Jan 2022 03:54:39 -0500
-X-MC-Unique: wcQwqlnaP-yRYeShH2AyDw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- r2-20020a05600c35c200b00345c3b82b22so7653000wmq.0
- for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 00:54:39 -0800 (PST)
+ us-mta-496-k9pi0w0RPY2FXIiegTXB9Q-1; Fri, 14 Jan 2022 03:57:05 -0500
+X-MC-Unique: k9pi0w0RPY2FXIiegTXB9Q-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ n14-20020a7bcbce000000b003488820f0d9so5186541wmi.8
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 00:57:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=96a0o/zGn6+jmJgYuV2SaRYOmyrJsGqi1HSKr1shTYc=;
- b=Zn6cR7dYnhyB0IH02L3a2BNglVVycxLGFw9ufqxn983RYGciw/CVA5tFB84qcWr3R+
- icnQ9w/yvA6MkOfjgybS8CI+j9N77XW+TjD0vyBBOcTY7LWXCdz4al8/d+ifBkJSndhG
- 9z9LUlL4nXxuzruPD4WUC3xogKCNzbdYVa+cfmlsqy1HFBfV4cHGEFaNzDiZezwgSNNq
- pMlA2gZVzbCv7ppM4n40bA10VfiNUjtBCl7BAiXaLv1+vUFArrWwB2CXFFSukNgWJrQf
- wonvvAZQkr44JXrnvT77A+WxTZGEQd5CewVLjKSiqIwPz7BWcEpQA8twouh4AZstNfUn
- 13zA==
-X-Gm-Message-State: AOAM533XnIcp4EWUyAuMoKx5mtehlXHDQIzf4L9NVW/bDIZxuQxZRW9X
- pyL2F1+avUVrGqrDA5juML2cWrG5UOZdcZEEIc9ppWw20pKNKoNDLE07H2TvbyJOSLIvNyOZfP9
- 6x/5PgNXeebhN4Uw=
-X-Received: by 2002:a5d:46c6:: with SMTP id g6mr7341906wrs.322.1642150478511; 
- Fri, 14 Jan 2022 00:54:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwwrO8W3vjqr6Z+E1C+opoVdGX0yV0wAM1AJW68SN/KhpcGto9ajWC6UOovkPBMp2hUYmSkrA==
-X-Received: by 2002:a5d:46c6:: with SMTP id g6mr7341887wrs.322.1642150478233; 
- Fri, 14 Jan 2022 00:54:38 -0800 (PST)
+ bh=xc1r2+mAmNKMz834tct/RAdtqugVn0my1bFIICtY1sA=;
+ b=XmnRP4eYS9/q3Rav05k9HCp96afQktq9oJCkhk6dGlWceFhmhaJ47CRZMjnY8T/Wej
+ ZSQoaSCU+hwU9TL81tKfJXc9U6qcep3/4hxu/rIkvjkPMCG2Trdc8hZAAv9ajgdcnOm8
+ 2grncvFane5qeVkpeUupexk0nKf+AvyVIkVAAZ+bOMrSfG4GaSc38eqRSzpMDyg9FUfK
+ Zt3zW2pasqLpB9uXngZfpF2BUGyLPSSVAxOYF9Mxi+kXYmbB9BKpse/bHM0mOmBHoWuX
+ LKUdRpVrrEfdkehZ3cDL/zoEKrDuYahaYQXMv8WtO6kBvZ9cVYbc1XZP3fIarz9Kk4EX
+ JPvg==
+X-Gm-Message-State: AOAM531Z1WMmSeFczyQ+hjPFO8OjL7Y0AZ1MBRubZEiPKfSZxQM686i2
+ marZ1Wahef+CIecKbyzb6R0was6qdLgGi5ZN22B4qw79omEIze5Z1k2uS0s7AD8WDXg09swftZd
+ 9nP3C+XB8V3A3iHM=
+X-Received: by 2002:a05:600c:1c1a:: with SMTP id
+ j26mr1819126wms.96.1642150624443; 
+ Fri, 14 Jan 2022 00:57:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzExCpIOd4HFrZdPTb3JdRRv3PxVw4bgXKCymTbQcE+n17epjA3thCtkJTMbqMaZiJ6MrqeEw==
+X-Received: by 2002:a05:600c:1c1a:: with SMTP id
+ j26mr1819112wms.96.1642150624263; 
+ Fri, 14 Jan 2022 00:57:04 -0800 (PST)
 Received: from [10.33.192.205] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id v8sm4917050wrt.116.2022.01.14.00.54.37
+ by smtp.gmail.com with ESMTPSA id u16sm4651877wrn.24.2022.01.14.00.57.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Jan 2022 00:54:37 -0800 (PST)
-Message-ID: <9448f6b2-4ad3-162f-170d-d82f0a03455c@redhat.com>
-Date: Fri, 14 Jan 2022 09:54:36 +0100
+ Fri, 14 Jan 2022 00:57:03 -0800 (PST)
+Message-ID: <4cbc788f-7935-9d1f-9d56-0cebeda7a5bb@redhat.com>
+Date: Fri, 14 Jan 2022 09:57:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH 2/6] tests/qtest/libqos/pci: Introduce pio_limit
+Subject: Re: [PATCH 3/6] tests/qtest/libqos: Skip hotplug tests if pci root
+ bus is not hotpluggable
 To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
  pbonzini@redhat.com, lvivier@redhat.com, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
  david@gibson.dropbear.id.au, clg@kaod.org
 References: <20220110211915.2749082-1-eric.auger@redhat.com>
- <20220110211915.2749082-3-eric.auger@redhat.com>
+ <20220110211915.2749082-4-eric.auger@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220110211915.2749082-3-eric.auger@redhat.com>
+In-Reply-To: <20220110211915.2749082-4-eric.auger@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -107,28 +110,42 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/01/2022 22.19, Eric Auger wrote:
-> At the moment the IO space limit is hardcoded to
-> QPCI_PIO_LIMIT = 0x10000. When accesses are performed to a bar,
-> the base address of this latter is compared against the limit
-> to decide whether we perform an IO or a memory access.
-> 
-> On ARM, we cannot keep this PIO limit as the arm-virt machine
-> uses [0x3eff0000, 0x3f000000 ] for the IO space map and we
-> are mandated to allocate at 0x0.
-> 
-> Add a new flag in QPCIBar indicating whether it is an IO bar
-> or a memory bar. This flag is set on QPCIBar allocation and
-> provisionned based on the BAR configuration. Then the new flag
-> is used in access functions and in iomap() function.
+> ARM does not not support hotplug on pcie.0. Add a flag on the bus
+> which tells if devices can be hotplugged and skip hotplug tests
+> if the bus cannot be hotplugged. This is a temporary solution to
+> enable the other pci tests on aarch64.
 > 
 > Signed-off-by: Eric Auger <eric.auger@redhat.com>
 > ---
->   tests/qtest/libqos/pci-pc.c    |  1 +
->   tests/qtest/libqos/pci-spapr.c |  1 +
->   tests/qtest/libqos/pci.c       | 78 ++++++++++++++++++++++------------
->   tests/qtest/libqos/pci.h       |  5 +--
->   4 files changed, 54 insertions(+), 31 deletions(-)
+>   tests/qtest/e1000e-test.c         |  6 ++++++
+>   tests/qtest/libqos/pci.h          |  1 +
+>   tests/qtest/vhost-user-blk-test.c | 10 ++++++++++
+>   tests/qtest/virtio-blk-test.c     |  5 +++++
+>   tests/qtest/virtio-net-test.c     |  5 +++++
+>   tests/qtest/virtio-rng-test.c     |  5 +++++
+>   6 files changed, 32 insertions(+)
+> 
+> diff --git a/tests/qtest/e1000e-test.c b/tests/qtest/e1000e-test.c
+> index 0273fe4c156..0d656d3af63 100644
+> --- a/tests/qtest/e1000e-test.c
+> +++ b/tests/qtest/e1000e-test.c
+> @@ -235,6 +235,12 @@ static void test_e1000e_multiple_transfers(void *obj, void *data,
+>   static void test_e1000e_hotplug(void *obj, void *data, QGuestAllocator * alloc)
+>   {
+>       QTestState *qts = global_qtest;  /* TODO: get rid of global_qtest here */
+> +    QE1000E_PCI *dev = obj;
+> +
+> +    if (dev->pci_dev.bus->not_hotpluggable) {
+> +        g_test_skip("bus pci.0 does not support hotplug");
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+I'd maybe rather say "pci bus does not support hotplug", i.e. avoid "pci.0" 
+here, in case this is ever used for another port, too.
+
+Apart from that:
+Acked-by: Thomas Huth <thuth@redhat.com>
+
+
+> +        return;
+> +    }
 
 
