@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E2E648E8D1
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 12:04:25 +0100 (CET)
-Received: from localhost ([::1]:49158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4968A48E8CC
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 12:03:06 +0100 (CET)
+Received: from localhost ([::1]:45458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8KNc-0004Ed-Ei
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 06:04:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34880)
+	id 1n8KMJ-0001YT-Rq
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 06:03:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n8K6b-0007ml-QP
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 05:46:52 -0500
-Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156]:34627)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n8K7s-0000d0-3b
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 05:48:08 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:46747)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n8K6Y-0000dG-3g
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 05:46:49 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.109])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id AC2BB2168F;
- Fri, 14 Jan 2022 10:46:38 +0000 (UTC)
-Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n8K7p-0000iC-JL
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 05:48:07 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.36])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 6F80DD7B95F0;
+ Fri, 14 Jan 2022 11:48:00 +0100 (CET)
+Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Fri, 14 Jan
- 2022 11:46:38 +0100
+ 2022 11:47:59 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-101G004c7f93514-eba0-40f6-995b-218445a87d49,
+ (GARM-99G003d974ca49-6a1b-4b7d-b34f-1f1a53ca39ac,
  CC0F12677928C812C874D314DD24F058DC39716A) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <3416965f-203e-f902-a4cb-a5dcd4da6f83@kaod.org>
-Date: Fri, 14 Jan 2022 11:46:35 +0100
+Message-ID: <34e6af4e-83e2-08ef-541b-e9e8df356e27@kaod.org>
+Date: Fri, 14 Jan 2022 11:47:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 11/17] ppc/pnv: introduce PnvPHB4 'phb_number' property
+Subject: Re: [PATCH 13/17] ppc/pnv: remove stack pointer from PnvPHB4
 Content-Language: en-US
 To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
 References: <20220113192952.911188-1-danielhb413@gmail.com>
- <20220113192952.911188-12-danielhb413@gmail.com>
+ <20220113192952.911188-14-danielhb413@gmail.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220113192952.911188-12-danielhb413@gmail.com>
+In-Reply-To: <20220113192952.911188-14-danielhb413@gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 88d8b6b7-ba92-4299-ab6c-98fd61fa63a6
-X-Ovh-Tracer-Id: 6092807347672550368
+X-Ovh-Tracer-GUID: 72580bd9-9153-4446-a47a-b36771654154
+X-Ovh-Tracer-Id: 6115888295450414048
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrtdehgddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
-Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
- helo=3.mo548.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrtdehgddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,171 +75,114 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/13/22 20:29, Daniel Henrique Barboza wrote:
-> One of the remaining dependencies we have on the PnvPhb4PecStack object
-> is the stack->stack_no property. This is set as the position the stack
-> occupies in the pec->stacks[] array.
+> This pointer was being used for two reasons: pnv_phb4_update_regions()
+> was using it to access the PHB and phb4_realize() was using it as a way
+> to determine if the PHB was user created.
 > 
-> We need a way to report this same value in the PnvPHB4. This patch
-> creates a new property called 'phb_number' to be used in existing code
-> in all instances stack->stack_no is currently being used.
+> We can determine if the PHB is user created via phb->pec, introduced in
+> the previous patch, and pnv_phb4_update_regions() is no longer using
+> stack->phb.
 > 
-> The 'phb_number' name is an indication of our future intention to convert
-> the pec->stacks[] array into a pec->phbs[] array, when the PEC object will
-> deal directly with phb4 objects.
+> Remove the pointer from the PnvPHB4 device.
 
-
-So the PHB would have a 'phb_number' and a 'index' property ? That's
-confusing. Can we simplify ? compute one from another ?
-
-or keep 'stack_no' to make it clear this belongs to the stack subunit
-logic.
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
 Thanks,
 
 C.
 
+
+
 > 
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
->   hw/pci-host/pnv_phb4.c         | 28 +++++++++++++++++-----------
->   hw/pci-host/pnv_phb4_pec.c     |  2 ++
->   include/hw/pci-host/pnv_phb4.h |  3 +++
->   3 files changed, 22 insertions(+), 11 deletions(-)
+>   hw/pci-host/pnv_phb4.c         | 17 +++++------------
+>   hw/pci-host/pnv_phb4_pec.c     |  2 --
+>   include/hw/pci-host/pnv_phb4.h |  2 --
+>   3 files changed, 5 insertions(+), 16 deletions(-)
 > 
 > diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-> index b5045fca64..44f3087913 100644
+> index c9117221b2..25b4248776 100644
 > --- a/hw/pci-host/pnv_phb4.c
 > +++ b/hw/pci-host/pnv_phb4.c
-> @@ -937,7 +937,7 @@ static void pnv_pec_stk_update_map(PnvPHB4 *phb)
->           mask = phb->nest_regs[PEC_NEST_STK_MMIO_BAR0_MASK];
->           size = ((~mask) >> 8) + 1;
->           snprintf(name, sizeof(name), "pec-%d.%d-phb-%d-mmio0",
-> -                 pec->chip_id, pec->index, stack->stack_no);
-> +                 pec->chip_id, pec->index, phb->phb_number);
->           memory_region_init(&phb->mmbar0, OBJECT(phb), name, size);
->           memory_region_add_subregion(sysmem, bar, &phb->mmbar0);
->           phb->mmio0_base = bar;
-> @@ -949,7 +949,7 @@ static void pnv_pec_stk_update_map(PnvPHB4 *phb)
->           mask = phb->nest_regs[PEC_NEST_STK_MMIO_BAR1_MASK];
->           size = ((~mask) >> 8) + 1;
->           snprintf(name, sizeof(name), "pec-%d.%d-phb-%d-mmio1",
-> -                 pec->chip_id, pec->index, stack->stack_no);
-> +                 pec->chip_id, pec->index, phb->phb_number);
->           memory_region_init(&phb->mmbar1, OBJECT(phb), name, size);
->           memory_region_add_subregion(sysmem, bar, &phb->mmbar1);
->           phb->mmio1_base = bar;
-> @@ -960,7 +960,7 @@ static void pnv_pec_stk_update_map(PnvPHB4 *phb)
->           bar = phb->nest_regs[PEC_NEST_STK_PHB_REGS_BAR] >> 8;
->           size = PNV_PHB4_NUM_REGS << 3;
->           snprintf(name, sizeof(name), "pec-%d.%d-phb-%d",
-> -                 pec->chip_id, pec->index, stack->stack_no);
-> +                 pec->chip_id, pec->index, phb->phb_number);
->           memory_region_init(&phb->phbbar, OBJECT(phb), name, size);
->           memory_region_add_subregion(sysmem, bar, &phb->phbbar);
->       }
-> @@ -969,7 +969,7 @@ static void pnv_pec_stk_update_map(PnvPHB4 *phb)
->           bar = phb->nest_regs[PEC_NEST_STK_INT_BAR] >> 8;
->           size = PNV_PHB4_MAX_INTs << 16;
->           snprintf(name, sizeof(name), "pec-%d.%d-phb-%d-int",
-> -                 stack->pec->chip_id, stack->pec->index, stack->stack_no);
-> +                 stack->pec->chip_id, stack->pec->index, phb->phb_number);
->           memory_region_init(&phb->intbar, OBJECT(phb), name, size);
->           memory_region_add_subregion(sysmem, bar, &phb->intbar);
->       }
-> @@ -1469,20 +1469,20 @@ static void pnv_phb4_xscom_realize(PnvPHB4 *phb)
+> @@ -1549,9 +1549,10 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
+>       char name[32];
 >   
->       /* Initialize the XSCOM regions for the stack registers */
->       snprintf(name, sizeof(name), "xscom-pec-%d.%d-nest-phb-%d",
-> -             pec->chip_id, pec->index, stack->stack_no);
-> +             pec->chip_id, pec->index, phb->phb_number);
->       pnv_xscom_region_init(&phb->nest_regs_mr, OBJECT(phb),
->                             &pnv_pec_stk_nest_xscom_ops, phb, name,
->                             PHB4_PEC_NEST_STK_REGS_COUNT);
+>       /* User created PHB */
+> -    if (!phb->stack) {
+> +    if (!phb->pec) {
+>           PnvMachineState *pnv = PNV_MACHINE(qdev_get_machine());
+>           PnvChip *chip = pnv_get_chip(pnv, phb->chip_id);
+> +        PnvPhb4PecStack *stack;
+>           PnvPhb4PecClass *pecc;
+>           BusState *s;
 >   
->       snprintf(name, sizeof(name), "xscom-pec-%d.%d-pci-phb-%d",
-> -             pec->chip_id, pec->index, stack->stack_no);
-> +             pec->chip_id, pec->index, phb->phb_number);
->       pnv_xscom_region_init(&phb->pci_regs_mr, OBJECT(phb),
->                             &pnv_pec_stk_pci_xscom_ops, phb, name,
->                             PHB4_PEC_PCI_STK_REGS_COUNT);
->   
->       /* PHB pass-through */
->       snprintf(name, sizeof(name), "xscom-pec-%d.%d-pci-phb-%d",
-> -             pec->chip_id, pec->index, stack->stack_no);
-> +             pec->chip_id, pec->index, phb->phb_number);
->       pnv_xscom_region_init(&phb->phb_regs_mr, OBJECT(phb),
->                             &pnv_phb4_xscom_ops, phb, name, 0x40);
->   
-> @@ -1491,14 +1491,14 @@ static void pnv_phb4_xscom_realize(PnvPHB4 *phb)
->   
->       /* Populate the XSCOM address space. */
->       pnv_xscom_add_subregion(pec->chip,
-> -                            pec_nest_base + 0x40 * (stack->stack_no + 1),
-> +                            pec_nest_base + 0x40 * (phb->phb_number + 1),
->                               &phb->nest_regs_mr);
->       pnv_xscom_add_subregion(pec->chip,
-> -                            pec_pci_base + 0x40 * (stack->stack_no + 1),
-> +                            pec_pci_base + 0x40 * (phb->phb_number + 1),
->                               &phb->pci_regs_mr);
->       pnv_xscom_add_subregion(pec->chip,
->                               pec_pci_base + PNV9_XSCOM_PEC_PCI_STK0 +
-> -                            0x40 * stack->stack_no,
-> +                            0x40 * phb->phb_number,
->                               &phb->phb_regs_mr);
->   }
->   
-> @@ -1568,10 +1568,15 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
+> @@ -1560,7 +1561,7 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
 >               return;
 >           }
 >   
-> -        /* All other phb properties but 'version' are already set */
-> +        /*
-> +         * All other phb properties but 'version' and 'phb-number'
-> +         * are already set.
-> +         */
->           pecc = PNV_PHB4_PEC_GET_CLASS(phb->stack->pec);
+> -        phb->stack = pnv_phb4_get_stack(chip, phb, &local_err);
+> +        stack = pnv_phb4_get_stack(chip, phb, &local_err);
+>           if (local_err) {
+>               error_propagate(errp, local_err);
+>               return;
+> @@ -1570,19 +1571,13 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
+>            * All other phb properties but 'pec', 'version' and
+>            * 'phb-number' are already set.
+>            */
+> -        object_property_set_link(OBJECT(phb), "pec", OBJECT(phb->stack->pec),
+> +        object_property_set_link(OBJECT(phb), "pec", OBJECT(stack->pec),
+>                                    &error_abort);
+>           pecc = PNV_PHB4_PEC_GET_CLASS(phb->pec);
 >           object_property_set_int(OBJECT(phb), "version", pecc->version,
 >                                   &error_fatal);
-> +        object_property_set_int(OBJECT(phb), "phb-number",
-> +                                phb->stack->stack_no, &error_abort);
+>           object_property_set_int(OBJECT(phb), "phb-number",
+> -                                phb->stack->stack_no, &error_abort);
+> -
+> -        /*
+> -         * Assign stack->phb since pnv_phb4_update_regions() uses it
+> -         * to access the phb.
+> -         */
+> -        phb->stack->phb = phb;
+> +                                stack->stack_no, &error_abort);
 >   
 >           /*
->            * Assign stack->phb since pnv_phb4_update_regions() uses it
-> @@ -1677,6 +1682,7 @@ static void pnv_phb4_xive_notify(XiveNotifier *xf, uint32_t srcno)
->   }
->   
->   static Property pnv_phb4_properties[] = {
-> +        DEFINE_PROP_UINT32("phb-number", PnvPHB4, phb_number, 0),
+>            * Reparent user created devices to the chip to build
+> @@ -1686,8 +1681,6 @@ static Property pnv_phb4_properties[] = {
 >           DEFINE_PROP_UINT32("index", PnvPHB4, phb_id, 0),
 >           DEFINE_PROP_UINT32("chip-id", PnvPHB4, chip_id, 0),
 >           DEFINE_PROP_UINT64("version", PnvPHB4, version, 0),
+> -        DEFINE_PROP_LINK("stack", PnvPHB4, stack, TYPE_PNV_PHB4_PEC_STACK,
+> -                         PnvPhb4PecStack *),
+>           DEFINE_PROP_LINK("pec", PnvPHB4, pec, TYPE_PNV_PHB4_PEC,
+>                            PnvPhb4PecState *),
+>           DEFINE_PROP_END_OF_LIST(),
 > diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-> index 7fe7f1f007..7c4b4023df 100644
+> index 36cc4ffe7c..1de0eb9adc 100644
 > --- a/hw/pci-host/pnv_phb4_pec.c
 > +++ b/hw/pci-host/pnv_phb4_pec.c
-> @@ -285,6 +285,8 @@ static void pnv_pec_stk_default_phb_realize(PnvPhb4PecStack *stack,
->   
->       stack->phb = PNV_PHB4(qdev_new(TYPE_PNV_PHB4));
->   
-> +    object_property_set_int(OBJECT(stack->phb), "phb-number", stack->stack_no,
-> +                            &error_abort);
->       object_property_set_int(OBJECT(stack->phb), "chip-id", pec->chip_id,
+> @@ -295,8 +295,6 @@ static void pnv_pec_stk_default_phb_realize(PnvPhb4PecStack *stack,
 >                               &error_fatal);
->       object_property_set_int(OBJECT(stack->phb), "index", phb_id,
+>       object_property_set_int(OBJECT(stack->phb), "version", pecc->version,
+>                               &error_fatal);
+> -    object_property_set_link(OBJECT(stack->phb), "stack", OBJECT(stack),
+> -                             &error_abort);
+>   
+>       if (!sysbus_realize(SYS_BUS_DEVICE(stack->phb), errp)) {
+>           return;
 > diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
-> index 6968efaba8..fc7807be1c 100644
+> index f66bc76b78..90eb4575f8 100644
 > --- a/include/hw/pci-host/pnv_phb4.h
 > +++ b/include/hw/pci-host/pnv_phb4.h
-> @@ -84,6 +84,9 @@ struct PnvPHB4 {
+> @@ -154,8 +154,6 @@ struct PnvPHB4 {
+>       XiveSource xsrc;
+>       qemu_irq *qirqs;
 >   
->       uint64_t version;
+> -    PnvPhb4PecStack *stack;
+> -
+>       QLIST_HEAD(, PnvPhb4DMASpace) dma_spaces;
+>   };
 >   
-> +    /* My own PHB number */
-> +    uint32_t phb_number;
-> +
->       char bus_path[8];
->   
->       /* Main register images */
 > 
 
 
