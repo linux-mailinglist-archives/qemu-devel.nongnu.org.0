@@ -2,85 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1266248E706
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 10:00:00 +0100 (CET)
-Received: from localhost ([::1]:35624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBD4C48E6FA
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 09:55:32 +0100 (CET)
+Received: from localhost ([::1]:57306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8IRC-0005XE-VQ
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 03:59:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41652)
+	id 1n8IMu-00007y-2a
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 03:55:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1n8IBh-0007tl-MA
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 03:43:57 -0500
-Received: from [2607:f8b0:4864:20::1031] (port=51897
- helo=mail-pj1-x1031.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1n8IBg-0007AS-3c
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 03:43:57 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id o3so12824646pjs.1
- for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 00:43:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:from:subject:to:cc
- :references:content-language:in-reply-to:content-transfer-encoding;
- bh=p3CR2/duSCKvA5SlWGJj0nlQRdf373D5j+rTpuNgiNE=;
- b=nSEZdJTvmH6vGbGmi2mC46qx7VgpbYGaSs+kZlxGedSE80UO2vXOKPywemP8Y9oQp/
- C03FtN0nHbipX3qpqbSJGyvVvmMVPyeLHJpvSbTAFoZs4v9WrlDibf10Kf8vYFXCvX3k
- r/gOmyWnARuDV8O4fDfZVeS3GXxmI4wOxSHjaMv4EXy2Ozgy5urB5F6pKgTaCa9rafD3
- qlh8Urpl8Hk/FUo1iMPbfcRBDmM9gO1Yb2mwaZosg+Q+ZwdB3Io9tDgG2RpjpN/NEw+E
- IFJ79HBXgTq1dm0fGDk4jzlOcStzxESMhQk75H+fpathaDbOfZB6rBXuKSZ1bLg0+7nv
- SGew==
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1n8IDd-0000sr-6i
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 03:46:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43228)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1n8IDb-0007Zd-HX
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 03:45:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642149954;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nFFDsLvIiLoWR0WFRWbUEThEi12UvcsOYd0bEDF/LAo=;
+ b=XtvaH3vHs9Q/GK5Val8C9ogGrDr/Vewm8JIQ9IG8wHPze8IjfVWMVTEzLDukANS/9WapC0
+ AzfzfjRvfansO7hJwVrpRguxnMp/f8ZtS8MbOYc+CfXQbO8ttUcvRJ2E4iyD3vOJzv2r/I
+ 0gGGWeipaEtl18pfEopgdkZ7KvkEe/Y=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-651-rRz_Du8cOryucBdz7Q10ow-1; Fri, 14 Jan 2022 03:45:53 -0500
+X-MC-Unique: rRz_Du8cOryucBdz7Q10ow-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ w2-20020adfbac2000000b001a540eeb812so1562015wrg.8
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 00:45:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:from
- :subject:to:cc:references:content-language:in-reply-to
- :content-transfer-encoding;
- bh=p3CR2/duSCKvA5SlWGJj0nlQRdf373D5j+rTpuNgiNE=;
- b=OAZNQ83WmYEo7Uru/c1xs24nr/FoFK/L3/kzOA0QzMrefvPvYlga/hZMGEobLXkp55
- 8MeqXGIofhn6aKUoVIGewnmOzJqBfgyOvzeqdu61QgnYY6sQ0fhigKKAQ+ZdR/LMWA2Y
- McQDNDP2Bfoq0sXoDWFapDgzGYa06C81kegeYzFRYGsAOyznGqXgznsRPBxUYY2xCcxd
- OnonNLlmJ1bRxYxG5KW+56R4Un8VMn53uMomc5vHS6ZJ1zq8O9PcJ80+UzxVTmBtDUNt
- SSfjNSQhXXTMEHV5uQxjs9azysAibqONTeYivGq27lgA/8XP4nqccjucGrlkcP+bQ0dv
- FTkQ==
-X-Gm-Message-State: AOAM530cfUe4iYyXll7Wf2QnOAxI+0AK7Pj952fHQYpSSnvrvft+zQWH
- ha9bIF6lk6oMIXE49gkPwp8=
-X-Google-Smtp-Source: ABdhPJyYqlHuW1i+O/E888APmYCBv3a/YZSYqswWUjB8vXraqOoZ31HZALvV++Wk1I4jv8oDXQZ3aA==
-X-Received: by 2002:a17:902:ce88:b0:14a:8fda:e339 with SMTP id
- f8-20020a170902ce8800b0014a8fdae339mr1012482plg.95.1642149834747; 
- Fri, 14 Jan 2022 00:43:54 -0800 (PST)
-Received: from [192.168.64.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
- by smtp.gmail.com with ESMTPSA id
- ip14sm983926pjb.11.2022.01.14.00.43.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Jan 2022 00:43:54 -0800 (PST)
-Message-ID: <2bc90989-fd13-932a-30c7-780cbb691cfe@gmail.com>
-Date: Fri, 14 Jan 2022 17:43:49 +0900
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=nFFDsLvIiLoWR0WFRWbUEThEi12UvcsOYd0bEDF/LAo=;
+ b=BFBcmF6ZdE4TfGF6t7lNR6ZjO97k+kmZhaHKOvLCg558ykx99F7UOZ72BfAljHb5QV
+ 0HR8RVsGsW9k8CjijKE26RCm7HK9g0XEAYLJ7K3yIsz4EsIbQKSWhmz1yhJ5/XYA6W5c
+ VXRZy8D4b4QKzKsrL7p5ZzBYQNrFycx5WQ7PrFNXrRGQqBjmzK9WDrGmiGHw7nwBHccA
+ j0/dmamYwiI08I0yB3+iM0WFrofua+WLOP3IlzmsukYghyChH8/oGFkqZ3BsYJDvFmvu
+ mY6qseBPvfdy7yKYolhTjnzJQmEHyZNR1StKQgWW5ptZ6ictkkJrRkUkQSc+GeDJjXl4
+ AEcw==
+X-Gm-Message-State: AOAM530+cwYK8YwyhhyxearQIAa3bekOrQD5S1cU0Umr1b92yB/x9Dxg
+ AybSCX1OUrcmonnGTLW9SjcHd3+tbZm0cFsTzayndJwG6V+BJiyfmoi2o5yboLQLBUhcryt3K27
+ /6l6wfmMxh2l8YDM=
+X-Received: by 2002:a1c:1dd0:: with SMTP id d199mr7342990wmd.121.1642149952213; 
+ Fri, 14 Jan 2022 00:45:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxcZlAADVA9l9eWzW4pGcnQTgg2dLQaEwy+A37zRaSEN0kJQHgaGfnvCkgo8JL7wAbqoqKWhQ==
+X-Received: by 2002:a1c:1dd0:: with SMTP id d199mr7342967wmd.121.1642149951962; 
+ Fri, 14 Jan 2022 00:45:51 -0800 (PST)
+Received: from gator (cst2-173-70.cust.vodafone.cz. [31.30.173.70])
+ by smtp.gmail.com with ESMTPSA id z7sm5536226wrm.117.2022.01.14.00.45.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Jan 2022 00:45:51 -0800 (PST)
+Date: Fri, 14 Jan 2022 09:45:49 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>
+Subject: Re: [PATCH] hw/arm/virt: Default enable the virtualization
+ option(VHE) on A64FX
+Message-ID: <20220114084549.5lkdhqushaxivpew@gator>
+References: <20220114072438.3085054-1-ishii.shuuichir@fujitsu.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH v13 6/7] net/vmnet: update qemu-options.hx
-To: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>, qemu-devel@nongnu.org
-References: <20220113172219.66372-1-yaroshchuk2000@gmail.com>
- <20220113172219.66372-7-yaroshchuk2000@gmail.com>
-Content-Language: en-US
-In-Reply-To: <20220113172219.66372-7-yaroshchuk2000@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20220114072438.3085054-1-ishii.shuuichir@fujitsu.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,74 +95,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org, jasowang@redhat.com,
- phillip.ennen@gmail.com, armbru@redhat.com, dirty@apple.com, f4bug@amsat.org,
- r.bolshakov@yadro.com, agraf@csgraf.de, phillip@axleos.com, roman@roolebo.dev,
- hsp.cat7@gmail.com, hello@adns.io, qemu_oss@crudebyte.com, eblake@redhat.com,
- kraxel@redhat.com
+Cc: peter.maydell@linaro.org, mst@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, f4bug@amsat.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The corresponding change for hmp-commands.hx is missing (Look for 
-hmp_netdev_add).
-
-Regards,
-Akihiko Odaki
-
-On 2022/01/14 2:22, Vladislav Yaroshchuk wrote:
-> Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
-> ---
->   qemu-options.hx | 25 +++++++++++++++++++++++++
->   1 file changed, 25 insertions(+)
+On Fri, Jan 14, 2022 at 04:24:37PM +0900, Shuuichirou Ishii wrote:
+> At A64FX specification, VHE is enabled by default, so
+> the virtualization option should be enabled when -cpu a64fx
+> is specified.
 > 
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index ec90505d84..81dd34f550 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -2732,6 +2732,25 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
->   #ifdef __linux__
->       "-netdev vhost-vdpa,id=str,vhostdev=/path/to/dev\n"
->       "                configure a vhost-vdpa network,Establish a vhost-vdpa netdev\n"
-> +#endif
-> +#ifdef CONFIG_VMNET
-> +    "-netdev vmnet-host,id=str[,isolated=on|off][,net-uuid=uuid]\n"
-> +    "         [,start-address=addr,end-address=addr,subnet-mask=mask]\n"
-> +    "                configure a vmnet network backend in host mode with ID 'str',\n"
-> +    "                isolate this interface from others with 'isolated',\n"
-> +    "                configure the address range and choose a subnet mask,\n"
-> +    "                specify network UUID 'uuid' to disable DHCP and interact with\n"
-> +    "                vmnet-host interfaces within this isolated network\n"
-> +    "-netdev vmnet-shared,id=str[,isolated=on|off][,nat66-prefix=addr]\n"
-> +    "         [,start-address=addr,end-address=addr,subnet-mask=mask]\n"
-> +    "                configure a vmnet network backend in shared mode with ID 'str',\n"
-> +    "                configure the address range and choose a subnet mask,\n"
-> +    "                set IPv6 ULA prefix (of length 64) to use for internal network,\n"
-> +    "                isolate this interface from others with 'isolated'\n"
-> +    "-netdev vmnet-bridged,id=str,ifname=name[,isolated=on|off]\n"
-> +    "                configure a vmnet network backend in bridged mode with ID 'str',\n"
-> +    "                use 'ifname=name' to select a physical network interface to be bridged,\n"
-> +    "                isolate this interface from others with 'isolated'\n"
->   #endif
->       "-netdev hubport,id=str,hubid=n[,netdev=nd]\n"
->       "                configure a hub port on the hub with ID 'n'\n", QEMU_ARCH_ALL)
-> @@ -2751,6 +2770,9 @@ DEF("nic", HAS_ARG, QEMU_OPTION_nic,
->   #endif
->   #ifdef CONFIG_POSIX
->       "vhost-user|"
-> +#endif
-> +#ifdef CONFIG_VMNET
-> +    "vmnet-host|vmnet-shared|vmnet-bridged|"
->   #endif
->       "socket][,option][,...][mac=macaddr]\n"
->       "                initialize an on-board / default host NIC (using MAC address\n"
-> @@ -2773,6 +2795,9 @@ DEF("net", HAS_ARG, QEMU_OPTION_net,
->   #endif
->   #ifdef CONFIG_NETMAP
->       "netmap|"
-> +#endif
-> +#ifdef CONFIG_VMNET
-> +    "vmnet-host|vmnet-shared|vmnet-bridged|"
->   #endif
->       "socket][,option][,option][,...]\n"
->       "                old way to initialize a host network interface\n"
+> Signed-off-by: Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>
+> ---
+>  hw/arm/virt.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index b45b52c90e..56acf5cc7e 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -1932,6 +1932,12 @@ static void machvirt_init(MachineState *machine)
+>      firmware_loaded = virt_firmware_init(vms, sysmem,
+>                                           secure_sysmem ?: sysmem);
+>  
+> +    /* A64FX proceesor is supported the ARMv8.1-VHE */
+> +    if (!vms->virt &&
+> +            !strncmp(machine->cpu_type, ARM_CPU_TYPE_NAME("a64fx"), 13)) {
+> +        vms->virt = true;
+> +    }
+> +
+>      /* If we have an EL3 boot ROM then the assumption is that it will
+>       * implement PSCI itself, so disable QEMU's internal implementation
+>       * so it doesn't get in the way. Instead of starting secondary
+> -- 
+> 2.27.0
+>
+
+a64fx isn't the only CPU type the virt machine type supports which has
+EL2 support. In fact, all the CPU types supported by mach-virt do, unless
+KVM is enabled. So, while I understand the sentiment of this patch, it
+doesn't fit the current model. And, since we don't want to start
+accumulating hacks like this one in mach-virt, then the options are either
+a) push the problem up the stack to whatever constructs the QEMU command
+line or b) consider/propose a different machine type.
+
+Thanks,
+drew
+
 
