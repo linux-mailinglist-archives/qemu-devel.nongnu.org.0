@@ -2,88 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BC2248EA70
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 14:15:51 +0100 (CET)
-Received: from localhost ([::1]:54240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4644E48EA88
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 14:22:59 +0100 (CET)
+Received: from localhost ([::1]:33834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8MQo-00081E-53
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 08:15:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34684)
+	id 1n8MXh-0005Hn-SI
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 08:22:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n8MLb-0005o3-9c
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:10:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39552)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n8MLX-0000Ow-6E
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:10:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642165822;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=szsmUDZMubaBsBKnbofxNf6p139VW3/uO5HplkvCbYk=;
- b=Oq/Zqm5+Fa1L0dGgknBXGJ7mn6/34mi/p+B78zu/UysiFirTX0/2XF3+GBMegtxoRXlwcA
- rES3h42DPKC3kvn9VIDwxrhFylfjOW5GABlM3tIZ5JzPV9OW6xHZCz459qk1tjCK1K1kpn
- DBEyU8mTMTRN/3xLDdzhT5fPnFZRMzA=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-Dip60jzdOKmmmWkYzXIzHw-1; Fri, 14 Jan 2022 08:10:20 -0500
-X-MC-Unique: Dip60jzdOKmmmWkYzXIzHw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- v18-20020a056402349200b003f8d3b7ee8dso8290657edc.23
- for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 05:10:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n8MOm-0000Pn-SF
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:13:44 -0500
+Received: from [2a00:1450:4864:20::32c] (port=36774
+ helo=mail-wm1-x32c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n8MOi-000124-AP
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:13:44 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ n19-20020a7bc5d3000000b003466ef16375so7314994wmk.1
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 05:13:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pgf2f1KhIv7PGgauBe1vm0ZI0BX6wRBEEaL30X3hHiw=;
+ b=hPBDkD1QHK07Hb6AZ6EhKrmcGCpMuYcy/FshI8SDpPeFE39ipFUU1KZW6mcveycetZ
+ 9GqzEyVOIM7BPX6XIBzpSUmMU4hDD4mZ3KMHICLRIY2YdG+HRg35qsKZkZRnMc1Dsb1d
+ jp3ySicWtPyElK42A++gwOT63175X60S7oaYmarSa4n5W2IBL9HCt3BzMG1dwKyzKKf4
+ TtKbdy3hyko1g9c8x/hZMlSYcYP0/eCp4gnuCY2uhhlCCJDCica+Pe79Q5VYwTysTSUi
+ oaxQChNVTk4qX9Q45HBK919lP9qoCo6K9iVTS5zzxNGxskzAsq9hfYw+UHs8jKr0oObf
+ z1Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=szsmUDZMubaBsBKnbofxNf6p139VW3/uO5HplkvCbYk=;
- b=r0uzIgJE0+/iAurAfY24SszGP0hLpNqyFGVemYsi4YiqkShin3Wk0qd+rY+GTUfL9p
- kSH2rDiFKKvoJdBdv3dArO8YcCa73muFSidk/BlsGsiJCP2p5Sr7OSRfq+j6QM9k5+88
- n0b6DaTkl/0KJqdcxwXR5/L4H+DSvhNfcxFFA/nP+MxNx35vXb07DzK+IwKzKoxjiJE5
- OQOF4Ama7tSnwH6VY5FbkhBiytsVfxlbFdD1hCHIw9619YHAXsGfSt8amZZhW01l2xTJ
- AlG5C/L27c8mFyA1GRkrrg5WJQS0jaXuepIJvLsrABXNf/QAH7I6zRN54HAQKre82f9J
- LQzw==
-X-Gm-Message-State: AOAM530u1joWIbCZMYMDlvzOcAbyUD1SeHkPrhSF1gucCesDE4stY6Om
- vm8sZ0m1RDviHmUc5ljfo8me1VrJtatJFCdZKYqyGfQ3+pgAk9MWeIKgrL4zDp1h6Ole2lXmJa7
- ett9RxlzZ9nMCF3U=
-X-Received: by 2002:aa7:cdca:: with SMTP id h10mr8656836edw.279.1642165819745; 
- Fri, 14 Jan 2022 05:10:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxGeKIC1Kq5ZQqZSbeGhHRB/cC/IelGi2ItNDYYGKNBp3gfbaxtPDUbyxdWvSVpVrUT2DmRIQ==
-X-Received: by 2002:aa7:cdca:: with SMTP id h10mr8656809edw.279.1642165819519; 
- Fri, 14 Jan 2022 05:10:19 -0800 (PST)
-Received: from redhat.com ([2.55.154.210])
- by smtp.gmail.com with ESMTPSA id rp17sm1762783ejb.113.2022.01.14.05.09.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Jan 2022 05:10:04 -0800 (PST)
-Date: Fri, 14 Jan 2022 08:09:50 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH 1/4] tests: acpi: manually pad OEM_ID/OEM_TABLE_ID for
- test_oem_fields() test
-Message-ID: <20220114075714-mutt-send-email-mst@kernel.org>
-References: <20220112130332.1648664-1-imammedo@redhat.com>
- <20220112130332.1648664-2-imammedo@redhat.com>
- <20220112084124-mutt-send-email-mst@kernel.org>
- <20220114124820.7aa72a3a@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pgf2f1KhIv7PGgauBe1vm0ZI0BX6wRBEEaL30X3hHiw=;
+ b=OGHTDCqPyBLb3awRguiDK/1HzCWYFxyhp7O4dA2TS1e60lqMBaj/4YSAQyrYtZQ4Of
+ lb4dTaQwTzDJQxw07CvTniuBm/IVUtojDaySktg/F5DzdhLFcU9MgYrNnixWYZTLyouQ
+ qtqozIp4ou6cIygIWGg1FL0OHkvysy1x/ktUPZqA9DBBcpHv54uXFW1PNqDn751Jmmh7
+ KEfO2Y+ieT8qj+Q8gzS3mLlLQTrhJ1uehOIwsmZSvouT3hc1As6kDuPdYr4wbjDA2szA
+ 5gIyI17XCqRnFZ7/TTs2x3+7MDVWqA9BJJ9vKs1S3a1yulwv++Ro0Ov3JINBkWvqncvp
+ vPCw==
+X-Gm-Message-State: AOAM5330Ls2eXDiOdVU6OSkO+nVBXX9aud+JQ3Ev6mVR1DR5AtQCU5Un
+ CG2fW03Yw2jGf/HPWuKIqkjT2Vm9j4pB1NjY9DJo9w==
+X-Google-Smtp-Source: ABdhPJwKQyiIRHBMOYadKXQ65quapS3XIpLAmyYg8KX/9VLqtdxIQDO9zGFTUwNy4HPYEvePMyicGKikxRl/c11Dp+s=
+X-Received: by 2002:a05:600c:28c8:: with SMTP id
+ h8mr15594049wmd.37.1642166018615; 
+ Fri, 14 Jan 2022 05:13:38 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220114124820.7aa72a3a@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220109161923.85683-1-imp@bsdimp.com>
+ <20220109161923.85683-30-imp@bsdimp.com>
+In-Reply-To: <20220109161923.85683-30-imp@bsdimp.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 14 Jan 2022 13:13:27 +0000
+Message-ID: <CAFEAcA-Rux0fbm26vGBaYrbwsV792m6cjVOKQSGhJpHMbka6hg@mail.gmail.com>
+Subject: Re: [PATCH 29/30] bsd-user/signal.c: implement do_sigaction
+To: Warner Losh <imp@bsdimp.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,124 +82,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, qemu-devel@nongnu.org,
- Marian Postevca <posteuca@mutex.one>
+Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@freebsd.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 14, 2022 at 12:48:20PM +0100, Igor Mammedov wrote:
-> On Wed, 12 Jan 2022 08:44:19 -0500
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> 
-> > On Wed, Jan 12, 2022 at 08:03:29AM -0500, Igor Mammedov wrote:
-> > > The next commit will revert OEM fields padding with whitespace to
-> > > padding with '\0' as it was before [1]. As result test_oem_fields() will
-> > > fail due to unexpectedly smaller ID sizes read from QEMU ACPI tables.
-> > > 
-> > > Pad OEM_ID/OEM_TABLE_ID manually with spaces so that values the test
-> > > puts on QEMU CLI and expected values match.
-> > > 
-> > > 1) 602b458201 ("acpi: Permit OEM ID and OEM table ID fields to be changed")
-> > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>  
-> > 
-> > That's kind of ugly in that we do not test
-> > shorter names then.  How about we pad with \0 instead?
-> 
-> 
-> test_acpi_q35_slic() should cover short OEM_TABLE_ID.
-> 
-> also padding in this patch makes test_oem_fields() cleaner
-> and simplifies 3/4, switching to \0 here would require
-> merging this patch with the fix itself to avoid breaking
-> bisection.
-> 
-> If you still prefer to have test_oem_fields() test short
-> names, I can post following on top that can to it without
-> breaking bisection:
-> 
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index 90c9f6a0a2..0fd7cf1f89 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -71,8 +71,8 @@
->  
->  #define ACPI_REBUILD_EXPECTED_AML "TEST_ACPI_REBUILD_AML"
->  
-> -#define OEM_ID             "TEST  "
-> -#define OEM_TABLE_ID       "OEM     "
-> +#define OEM_ID             "TEST"
-> +#define OEM_TABLE_ID       "OEM"
->  #define OEM_TEST_ARGS      "-machine x-oem-id='" OEM_ID "',x-oem-table-id='" \
->                             OEM_TABLE_ID "'"
-
-Don't we want to revert ARGS change too then?
-
-
-> @@ -1530,8 +1530,8 @@ static void test_oem_fields(test_data *data)
->              continue;
->          }
->  
-> -        g_assert(memcmp(sdt->aml + 10, OEM_ID, 6) == 0);
-> -        g_assert(memcmp(sdt->aml + 16, OEM_TABLE_ID, 8) == 0);
-> +        g_assert(strncmp((char *)sdt->aml + 10, OEM_ID, 6) == 0);
-> +        g_assert(strncmp((char *)sdt->aml + 16, OEM_TABLE_ID, 8) == 0);
+On Sun, 9 Jan 2022 at 16:32, Warner Losh <imp@bsdimp.com> wrote:
+>
+> Implement the meat of the sigaction(2) system call with do_sigaction and
+> helper routiner block_signals (which is also used to implemement signal
+> masking so it's global).
+>
+> Signed-off-by: Stacey Son <sson@FreeBSD.org>
+> Signed-off-by: Kyle Evans <kevans@freebsd.org>
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> ---
+>  bsd-user/qemu.h   | 21 +++++++++++++
+>  bsd-user/signal.c | 76 +++++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 97 insertions(+)
+>
+> diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+> index b8c64ca0e5b..c643d6ba246 100644
+> --- a/bsd-user/qemu.h
+> +++ b/bsd-user/qemu.h
+> @@ -226,8 +226,29 @@ int host_to_target_signal(int sig);
+>  void host_to_target_sigset(target_sigset_t *d, const sigset_t *s);
+>  void target_to_host_sigset(sigset_t *d, const target_sigset_t *s);
+>  long do_sigreturn(CPUArchState *regs, abi_ulong addr);
+> +int do_sigaction(int sig, const struct target_sigaction *act,
+> +                struct target_sigaction *oact);
+>  void QEMU_NORETURN force_sig(int target_sig);
+>  int qemu_sigorset(sigset_t *dest, const sigset_t *left, const sigset_t *right);
+> +/**
+> + * block_signals: block all signals while handling this guest syscall
+> + *
+> + * Block all signals, and arrange that the signal mask is returned to
+> + * its correct value for the guest before we resume execution of guest code.
+> + * If this function returns non-zero, then the caller should immediately
+> + * return -TARGET_ERESTARTSYS to the main loop, which will take the pending
+> + * signal and restart execution of the syscall.
+> + * If block_signals() returns zero, then the caller can continue with
+> + * emulation of the system call knowing that no signals can be taken
+> + * (and therefore that no race conditions will result).
+> + * This should only be called once, because if it is called a second time
+> + * it will always return non-zero. (Think of it like a mutex that can't
+> + * be recursively locked.)
+> + * Signals will be unblocked again by process_pending_signals().
+> + *
+> + * Return value: non-zero if there was a pending signal, zero if not.
+> + */
+> +int block_signals(void); /* Returns non zero if signal pending */
+>
+>  /* mmap.c */
+>  int target_mprotect(abi_ulong start, abi_ulong len, int prot);
+> diff --git a/bsd-user/signal.c b/bsd-user/signal.c
+> index d11f5eddd7e..f055d1db407 100644
+> --- a/bsd-user/signal.c
+> +++ b/bsd-user/signal.c
+> @@ -231,6 +231,22 @@ static void tswap_siginfo(target_siginfo_t *tinfo, const target_siginfo_t *info)
 >      }
 >  }
->  
+>
+> +int block_signals(void)
+> +{
+> +    TaskState *ts = (TaskState *)thread_cpu->opaque;
+> +    sigset_t set;
+> +
+> +    /*
+> +     * It's OK to block everything including SIGSEGV, because we won't run any
+> +     * further guest code before unblocking signals in
+> +     * process_pending_signals().
+> +     */
+> +    sigfillset(&set);
+> +    sigprocmask(SIG_SETMASK, &set, 0);
 
-Looks much cleaner to me. OK as a patch on top.
+For linux-user we rely on sigprocmask() in a multithreaded
+program setting the signal mask for only the calling thread,
+which isn't POSIX-mandated. (Arguably we should use
+pthread_sigmask() instead, but we don't for basically
+historical reasons since linux-user is host-OS-specific anyway.)
+Does BSD have the same "this changes this thread's signal mask"
+semantics for sigprocmask()?
 
+> +
+> +    return qatomic_xchg(&ts->signal_pending, 1);
+> +}
+> +
+>  /* Returns 1 if given signal should dump core if not handled. */
+>  static int core_dump_signal(int sig)
+>  {
+> @@ -534,6 +550,66 @@ static int fatal_signal(int sig)
+>      }
+>  }
+>
+> +/* do_sigaction() return host values and errnos */
+> +int do_sigaction(int sig, const struct target_sigaction *act,
+> +        struct target_sigaction *oact)
+> +{
+> +    struct target_sigaction *k;
+> +    struct sigaction act1;
+> +    int host_sig;
+> +    int ret = 0;
+> +
+> +    if (sig < 1 || sig > TARGET_NSIG || TARGET_SIGKILL == sig ||
+> +            TARGET_SIGSTOP == sig) {
 
-> 
-> > And add a comment explaining why it's done.
-> > 
-> > > ---
-> > >  tests/qtest/bios-tables-test.c | 15 ++++++---------
-> > >  1 file changed, 6 insertions(+), 9 deletions(-)
-> > > 
-> > > diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> > > index e6b72d9026..90c9f6a0a2 100644
-> > > --- a/tests/qtest/bios-tables-test.c
-> > > +++ b/tests/qtest/bios-tables-test.c
-> > > @@ -71,9 +71,10 @@
-> > >  
-> > >  #define ACPI_REBUILD_EXPECTED_AML "TEST_ACPI_REBUILD_AML"
-> > >  
-> > > -#define OEM_ID             "TEST"
-> > > -#define OEM_TABLE_ID       "OEM"
-> > > -#define OEM_TEST_ARGS      "-machine x-oem-id="OEM_ID",x-oem-table-id="OEM_TABLE_ID
-> > > +#define OEM_ID             "TEST  "
-> > > +#define OEM_TABLE_ID       "OEM     "
-> > > +#define OEM_TEST_ARGS      "-machine x-oem-id='" OEM_ID "',x-oem-table-id='" \
-> > > +                           OEM_TABLE_ID "'"
-> > >  
-> > >  typedef struct {
-> > >      bool tcg_only;
-> > > @@ -1519,11 +1520,7 @@ static void test_acpi_q35_slic(void)
-> > >  static void test_oem_fields(test_data *data)
-> > >  {
-> > >      int i;
-> > > -    char oem_id[6];
-> > > -    char oem_table_id[8];
-> > >  
-> > > -    strpadcpy(oem_id, sizeof oem_id, OEM_ID, ' ');
-> > > -    strpadcpy(oem_table_id, sizeof oem_table_id, OEM_TABLE_ID, ' ');
-> > >      for (i = 0; i < data->tables->len; ++i) {
-> > >          AcpiSdtTable *sdt;
-> > >  
-> > > @@ -1533,8 +1530,8 @@ static void test_oem_fields(test_data *data)
-> > >              continue;
-> > >          }
-> > >  
-> > > -        g_assert(memcmp(sdt->aml + 10, oem_id, 6) == 0);
-> > > -        g_assert(memcmp(sdt->aml + 16, oem_table_id, 8) == 0);
-> > > +        g_assert(memcmp(sdt->aml + 10, OEM_ID, 6) == 0);
-> > > +        g_assert(memcmp(sdt->aml + 16, OEM_TABLE_ID, 8) == 0);
-> > >      }
-> > >  }
-> > >  
-> > > -- 
-> > > 2.31.1  
-> > 
+Kernel seems to allow SIGKILL and SIGSTOP unless act is
+non-NULL and act->sa_handler is SIG_DFL ?
+https://github.com/freebsd/freebsd-src/blob/main/sys/kern/kern_sig.c#L747
+(Compare linux-user commit ee3500d33a7431, a recent bugfix.)
 
+> +        return -EINVAL;
+> +    }
+> +
+> +    if (block_signals()) {
+> +        return -TARGET_ERESTART;
+
+Are we returning host errnos, or target errnos ?
+(The linux-user version of this function has been a bit
+confused about this in the past; I suspect you've picked up
+fragments of it from different points in time.)
+
+> +    }
+> +
+> +    k = &sigact_table[sig - 1];
+> +    if (oact) {
+> +        oact->_sa_handler = tswapal(k->_sa_handler);
+> +        oact->sa_flags = tswap32(k->sa_flags);
+> +        oact->sa_mask = k->sa_mask;
+> +    }
+> +    if (act) {
+> +        /* XXX: this is most likely not threadsafe. */
+> +        k->_sa_handler = tswapal(act->_sa_handler);
+> +        k->sa_flags = tswap32(act->sa_flags);
+> +        k->sa_mask = act->sa_mask;
+> +
+> +        /* Update the host signal state. */
+> +        host_sig = target_to_host_signal(sig);
+> +        if (host_sig != SIGSEGV && host_sig != SIGBUS) {
+> +            memset(&act1, 0, sizeof(struct sigaction));
+> +            sigfillset(&act1.sa_mask);
+> +            act1.sa_flags = SA_SIGINFO;
+> +            if (k->sa_flags & TARGET_SA_RESTART) {
+> +                act1.sa_flags |= SA_RESTART;
+> +            }
+> +            /*
+> +             *  Note: It is important to update the host kernel signal mask to
+> +             *  avoid getting unexpected interrupted system calls.
+> +             */
+> +            if (k->_sa_handler == TARGET_SIG_IGN) {
+> +                act1.sa_sigaction = (void *)SIG_IGN;
+> +            } else if (k->_sa_handler == TARGET_SIG_DFL) {
+> +                if (fatal_signal(sig)) {
+> +                    act1.sa_sigaction = host_signal_handler;
+> +                } else {
+> +                    act1.sa_sigaction = (void *)SIG_DFL;
+> +                }
+> +            } else {
+> +                act1.sa_sigaction = host_signal_handler;
+> +            }
+> +            ret = sigaction(host_sig, &act1, NULL);
+> +        }
+> +    }
+> +    return ret;
+> +}
+
+-- PMM
 
