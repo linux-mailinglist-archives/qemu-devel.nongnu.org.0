@@ -2,88 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79A848EFA7
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 19:09:46 +0100 (CET)
-Received: from localhost ([::1]:35030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB30048EFA8
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 19:09:57 +0100 (CET)
+Received: from localhost ([::1]:35910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8R1F-0007H2-8Y
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 13:09:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49882)
+	id 1n8R1R-0007r0-1V
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 13:09:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n8Qyz-0005IW-EG
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 13:07:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57797)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n8Qyw-0000MA-Qh
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 13:07:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642183641;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0T48o+QFAiH25oezDOwj0bzYcroyEePThN8//vpz7u4=;
- b=hbuNlpkbuOLLdWQkuIJvT3v9zssICjRBWoZcWFOZ/sg974SKFdII8P2kpNWiRJNA9nhjIZ
- PYZfKUZffarGxo19J5KvHBSTH2mzPcdhgz8J71iL2cwTUyUrcz8PPENYZiy6pKpAB0+xFJ
- LZgHYreUPEEi+vxc51RsUobwXw/uyEw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-404-2pEM9zsxNCqNVu5cWeFS8w-1; Fri, 14 Jan 2022 13:07:15 -0500
-X-MC-Unique: 2pEM9zsxNCqNVu5cWeFS8w-1
-Received: by mail-wm1-f72.google.com with SMTP id
- n14-20020a7bcbce000000b003488820f0d9so5994522wmi.8
- for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 10:07:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n8Qz6-0005PW-Cl; Fri, 14 Jan 2022 13:07:32 -0500
+Received: from [2607:f8b0:4864:20::229] (port=41501
+ helo=mail-oi1-x229.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n8Qz4-0000MY-A5; Fri, 14 Jan 2022 13:07:32 -0500
+Received: by mail-oi1-x229.google.com with SMTP id q186so13234368oih.8;
+ Fri, 14 Jan 2022 10:07:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WWojEUAAmpykUVK1GzIYTatA6VIQP1qtXZcASjPRTho=;
+ b=GP9edyN4PaCx2drNUdHjKlgH16/a0IS95kjlNKcEd96KhWknsCgEgZAkv4nBWZPYkO
+ Xp9MB066s3l1mF2PowHWbEQU5+cvWJ+ST09+UQHPi3vmqEw/ub0vIal2x2sIybSk/lCA
+ H2yA8tw9gjd+d2Y/88FZZ/oZ7r54wMfW+M+DJSD2LFpRqSX7r9FIPNO3ER+OMme3wt9j
+ I3bASyvFc6K/Ia+ziTk0ppY12ycM7mYneBb0UBGJLdMpHboVItzaJ3kvPDPic0uIIpQ4
+ moZnXdz9qIKMPW5JAZJ+HnMtmBNtpqm1KW/FOPPnI6tDpkAqtxNRpPJSI4OdRxyodPu2
+ 7wow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=0T48o+QFAiH25oezDOwj0bzYcroyEePThN8//vpz7u4=;
- b=5cgHADy7fhkNknAfk+4+sPuluZvUPLPneyGYqYED4sGViR9qCg21LfwUdiYX45h+rn
- YEgpyfhpCD7nHad6dsYaLfHy3cFOjcMgI2iEdmh7xO+xH26M044+9lOZpSLCWC9aFZmG
- 3WlOJpCfxBNHFccxcPSHvMcLM6KsKEUSU56jY4/G0ePYWO2jBhS+p8uYt/HDXcEZNwP8
- x2E+JFn6DPu/bMxjxV3V/3XnZlCBxbzK52EzknoTG52pZMHSwWQ4DlsgqGPxHtx6HONm
- ehFM7zbduWTluyQxQ34RZujplR0Xvd4AQ1DokoyTSHZYr0LfMR0ZOIIUw/gPWNzUxEMZ
- 3xvg==
-X-Gm-Message-State: AOAM531+j+z7ozoccuA8RtWMh5c0kAPLxzz32tLbzfhAO3erhs5i44YG
- BI6UAN8aSllWoYoPfkdzJx1jg3FOxlwRVSZJJoqLOd2z8aRhZj+VUpUihPx1xXy64GFzN1z2rH3
- vdzW8fxwC0CEtjoo=
-X-Received: by 2002:a5d:6d8e:: with SMTP id l14mr9323540wrs.507.1642183633916; 
- Fri, 14 Jan 2022 10:07:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwqQPYB0mKgz7abSXO2w40RICzp6N+tv7SbWyHhwIBPSMJw+yk11xUV5AYEevBwVdvHp6B/Fg==
-X-Received: by 2002:a5d:6d8e:: with SMTP id l14mr9323519wrs.507.1642183633687; 
- Fri, 14 Jan 2022 10:07:13 -0800 (PST)
-Received: from redhat.com ([2.55.154.210])
- by smtp.gmail.com with ESMTPSA id g2sm5813165wro.41.2022.01.14.10.07.11
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WWojEUAAmpykUVK1GzIYTatA6VIQP1qtXZcASjPRTho=;
+ b=cKUVB47pA8T/eOPLFDCYpshnFg17/6fNHMyeIf+EIQ+aLWWq0/uaP5YKnm6IqiIB6Z
+ i9WyXe0AATsiUHRQ1Q3g19dzSj8kd7BD7KG8bgGFaZ/krfweQR/Bi1NxKbwSrQvOXNG4
+ qaa2aThbQWienl7EcS/aUKGpytpdN1xAmQHEWbfti6oADLL4SVOmzRyU8RNanTC2s9Ea
+ qNb/dPPdfg1fIJdSeqmNNwbvX/4ibGLQReopqOAkfYOdslChZzFiCbjWs6cjkW7iT12S
+ cRfUgQY4+sPQXhuFAdVg7zt53yyTSLmkeCiG6e40h54G2W4qGbX1dNaV4x0GGFJCukJy
+ qpPQ==
+X-Gm-Message-State: AOAM530ouEUCc+ab88UkAJFYA5Ek1Tioh7bB39jNQ/kpyxZ4Tu+q8jSY
+ Hhrq2ghnNzy2j/7HVY8QFY1rZHd7ACYzzyj+
+X-Google-Smtp-Source: ABdhPJzAaZcIkIM1Xu4d5OpM/jN5ziK0ri6VqSrmNJMDfTO6jwHCrvtFUzyL709c3M7Q1tQ3kSVl6w==
+X-Received: by 2002:aca:aa03:: with SMTP id t3mr3003023oie.167.1642183648714; 
+ Fri, 14 Jan 2022 10:07:28 -0800 (PST)
+Received: from rekt.COMFAST ([152.249.109.193])
+ by smtp.gmail.com with ESMTPSA id e17sm1353584otr.13.2022.01.14.10.07.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Jan 2022 10:07:13 -0800 (PST)
-Date: Fri, 14 Jan 2022 13:07:08 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 2/2] hw/i386: support loading OVMF using -bios too
-Message-ID: <20220114125946-mutt-send-email-mst@kernel.org>
-References: <20220113165511.46098-1-berrange@redhat.com>
- <20220113165511.46098-3-berrange@redhat.com>
+ Fri, 14 Jan 2022 10:07:28 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/8] remove PnvPhb4PecStack from Powernv9
+Date: Fri, 14 Jan 2022 15:07:11 -0300
+Message-Id: <20220114180719.52117-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-In-Reply-To: <20220113165511.46098-3-berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::229
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x229.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,81 +83,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Dov Murik <dovmurik@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 13, 2022 at 04:55:11PM +0000, Daniel P. Berrangé wrote:
-> Traditionally the OVMF firmware has been loaded using the pflash
-> mechanism. This is because it is usually provided as a pair of
-> files, one read-only containing the code and one writable to
-> provided persistence of non-volatile firmware variables.
-> 
-> The AMD SEV build of EDK2, however, is provided as a single
-> file that contains only the code. This is intended to be used
-> read-only and explicitly does not provide any ability for
-> persistance of non-volatile firmware variables. While it is
-> possible to configure this with the pflash mechanism, by only
-> providing one of the 2 pflash blobs, conceptually it is a
-> little strange to use pflash if there won't be any persistent
-> data.
-> 
-> A stateless OVMF build can be loaded with -bios, however, QEMU
-> does not currently initialize SEV in that scenario. This patch
-> introduces the call needed for SEV initialization of the
-> firmware.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  hw/i386/x86.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> index b84840a1bb..c79d84936f 100644
-> --- a/hw/i386/x86.c
-> +++ b/hw/i386/x86.c
-> @@ -45,6 +45,7 @@
->  #include "target/i386/cpu.h"
->  #include "hw/i386/topology.h"
->  #include "hw/i386/fw_cfg.h"
-> +#include "hw/i386/pc.h"
->  #include "hw/intc/i8259.h"
->  #include "hw/rtc/mc146818rtc.h"
->  #include "target/i386/sev.h"
+Hi,
 
-This builds fine because there's a stub in pc_sysfw_ovmf-stubs.c
+This second version contains improvements suggested by Cedric in the
+v1 review.
 
-The unfortunate thing about this however is that it's too easy to pull
-in a PC dependency, and people building with CONFIG_PC will not notice
-until it breaks for others.
+Patches 1-10 from v1 are already accepted and aren't included in this
+v2.
 
-Is it time we split pc.h further and had pc_sysfw_ovmf.h ?
 
-> @@ -1157,6 +1158,10 @@ void x86_bios_rom_init(MachineState *ms, const char *default_firmware,
->      memory_region_add_subregion(rom_memory,
->                                  (uint32_t)(-bios_size),
->                                  bios);
-> +
-> +    pc_system_ovmf_initialize_sev(
-> +        rom_ptr((uint32_t)-bios_size, bios_size),
-> +        bios_size);
+Changes from v1:
+- v1 patches 1-10: already accepted, not included in the v2
+- 'stack-stack_no' use is eliminated. We're now deriving stack_no from
+phb->phb_id
+- no longer use phb->phb_number
+- no longer use pec->phbs[]
+- v1 link: https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg03000.html
 
-Just curious about the formatting here:
+Daniel Henrique Barboza (8):
+  ppc/pnv: introduce PnvPHB4 'pec' property
+  ppc/pnv: reduce stack->stack_no usage
+  ppc/pnv: remove stack pointer from PnvPHB4
+  ppc/pnv: move default_phb_realize() to pec_realize()
+  ppc/pnv: remove PnvPhb4PecStack::stack_no
+  ppc/pnv: make PECs create and realize PHB4s
+  ppc/pnv: remove PnvPhb4PecStack object
+  ppc/pnv: rename pnv_pec_stk_update_map()
 
-    pc_system_ovmf_initialize_sev(rom_ptr((uint32_t)-bios_size, bios_size),
-				  bios_size);
+ hw/pci-host/pnv_phb4.c         |  88 ++++++++++++++----------
+ hw/pci-host/pnv_phb4_pec.c     | 118 ++++++++-------------------------
+ include/hw/pci-host/pnv_phb4.h |  33 ++-------
+ 3 files changed, 86 insertions(+), 153 deletions(-)
 
-would be prettier ...
-
->  }
->  
->  bool x86_machine_is_smm_enabled(const X86MachineState *x86ms)
-> -- 
-> 2.33.1
+-- 
+2.33.1
 
 
