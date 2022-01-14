@@ -2,73 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C78DD48E4BB
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 08:12:45 +0100 (CET)
-Received: from localhost ([::1]:32986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BA4B48E4D8
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 08:24:14 +0100 (CET)
+Received: from localhost ([::1]:41998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8GlQ-0001gE-5c
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 02:12:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48758)
+	id 1n8GwX-0008Dn-Do
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 02:24:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1n8GEb-0005Dd-Oe
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 01:38:54 -0500
-Received: from [2607:f8b0:4864:20::929] (port=41614
- helo=mail-ua1-x929.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1n8GEa-0005Uy-3H
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 01:38:49 -0500
-Received: by mail-ua1-x929.google.com with SMTP id p37so15329330uae.8
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 22:38:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mQ2fc+Gz3vZuFv3MOarOIfLp+5I6xrESd5nj20tzFdY=;
- b=l0dDuutPm+i2hHeix/mh51y/asHPO1u3Lf2SZCSwPVaQ2DUlRUT8fJw7YBFX8tksJx
- xNOkLgP1ltnl5Xb2MZGM+9JxkHpv3x0lZSPLMA+ROolqYbH/oFhM9txCcqUVYj6yF4th
- b5eiBEmnQBQSH/821ppFQH7isL7IlUFGVrLwIsEQLrh4gWN34JqYvk2kvAO3L8YIP60N
- 6EP1jQXnsllyUBcHpEDE/uEg9nn4z5ctbp6/LC/o7uEn6540NQ+YbmTvG48K1Yspknb2
- XvVm8rAqByQEIkTjQBE02VQOc0ee+l56syYFByb5+NAC2hFzzMllkbUfhCV3qVEzm+jv
- DOjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mQ2fc+Gz3vZuFv3MOarOIfLp+5I6xrESd5nj20tzFdY=;
- b=R8PpASxajStjIh9SI5cgOl3Rmfj6yzG5N2KXT1fsGQS8IOLV7W3u8NQMgD87QqKP/R
- sTySVI5jxdcSQ2sRbhQkOG5cfm1+nmbGtrd9Pees745k+5q3AndPB4OqvJ+PJPhJxBcZ
- +8C8BYmSLlIofAoSVqLPOAXkWFGjvWYyFaQU4pDKK9qQAwJ1i5ffV1jM7FuNSdy/afW3
- o06qqWLcqshFO6fM0khdxIW+po5IS0EkN3xfBPmUuuZxpYvuDX3iK5KzoJ95M3QEkDWe
- kd7eL9HkaE8E1wJcrlnX8/BcJzAuv94NTcMsuwe0Kb5zNONt26DmY/bW9adkqn7ESrj+
- zngA==
-X-Gm-Message-State: AOAM532/g7aSIcFOyGaEPzeKA0fAUdV8syXk/sNi367aWDdmQ2rPL96d
- p8zxkNxg1OXjzBa/tJy7nh0oLYslkWiZbKZXhm44Qg==
-X-Google-Smtp-Source: ABdhPJyM12//jSRkZ45j0cO5COFf133rjY79YM4c6GbTRKMB5/xcZ0E5wpruoJukUCNt1saftfF7nu/Vc73jOTtrdoA=
-X-Received: by 2002:a05:6102:3e86:: with SMTP id
- m6mr3497747vsv.77.1642142325779; 
- Thu, 13 Jan 2022 22:38:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1n8GKa-0005pL-HX; Fri, 14 Jan 2022 01:45:01 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48842
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1n8GKY-0006CD-Au; Fri, 14 Jan 2022 01:45:00 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20E5pADN004909; 
+ Fri, 14 Jan 2022 06:44:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=HL40AwSIHjq/3A/maSXVjmrtAyAqTyBkR8eJka3EpfA=;
+ b=AIPmQi66JKeSq8KvzAAAf0mF990i7H47FjUfp9WHJNAwkxUn5rYZGwRfm1L7rch1mG+a
+ 4qGNv/xeP3cWOlanOd129EX9WWl00x77gaAmyfidnhwrqK4nGzItF0+iREPJ54arqO0W
+ X1S+vXsibSiUndgi94nWcFksoHcXapfBR5IXhQrm/VW9RS9ll6yUpB3C0uRQQEsi6ufn
+ DNVrlBQZQCQZnXQH9shy71EDbVZ0ldUlCaUIxRnA8OOtOEwffaCPwxNoR4MA13/xbLn9
+ pV/YPs5Vk1FVUaZgKozepCuI/QjRxcrXgHhNFBMhn5H0wrlm1VxQ0FolRdRqP+KVTGOq 4w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dk3d30sge-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Jan 2022 06:44:53 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20E6fWI0019492;
+ Fri, 14 Jan 2022 06:44:53 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dk3d30sfy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Jan 2022 06:44:53 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20E6coBr012674;
+ Fri, 14 Jan 2022 06:44:51 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma03ams.nl.ibm.com with ESMTP id 3df28abwf4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Jan 2022 06:44:51 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 20E6ZfXv36569454
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 14 Jan 2022 06:35:41 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1B65EA4051;
+ Fri, 14 Jan 2022 06:44:48 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AF0AAA404D;
+ Fri, 14 Jan 2022 06:44:47 +0000 (GMT)
+Received: from [9.171.88.24] (unknown [9.171.88.24])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 14 Jan 2022 06:44:47 +0000 (GMT)
+Message-ID: <2aa30d2d-4b6d-c022-f21e-2e877387e244@linux.ibm.com>
+Date: Fri, 14 Jan 2022 07:44:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [RFC PATCH] MAINTAINERS: Add myself to s390 I/O areas
+Content-Language: en-US
+To: Eric Farman <farman@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+References: <20211222105548.356852-1-cohuck@redhat.com>
+ <20220112164044.2210508-1-farman@linux.ibm.com>
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <20220112164044.2210508-1-farman@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: n79m73P250EAmimLTGLWcxFYDnzWObe4
+X-Proofpoint-ORIG-GUID: ZKEbSk2Hq18jJfdUm4lG-EaaD2GcsupR
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <20220109161923.85683-1-imp@bsdimp.com>
- <20220109161923.85683-7-imp@bsdimp.com>
- <CAFEAcA8rsxYLs-VjJF+efK=PEQrEh3mn3pTfEyVXz014CmHfqQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA8rsxYLs-VjJF+efK=PEQrEh3mn3pTfEyVXz014CmHfqQ@mail.gmail.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Thu, 13 Jan 2022 23:38:34 -0700
-Message-ID: <CANCZdfqcik=SkyS9TOUp_Nuu2oSatDmeYU4n0pnRx=ghiytymw@mail.gmail.com>
-Subject: Re: [PATCH 06/30] bsd-user/arm/target_arch_cpu.h: Correct code pointer
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000ffc5ba05d5850d32"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::929
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::929;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x929.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-14_02,2022-01-13_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0
+ mlxlogscore=999 spamscore=0 priorityscore=1501 malwarescore=0 adultscore=0
+ phishscore=0 lowpriorityscore=0 mlxscore=0 suspectscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2201140045
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,106 +115,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ffc5ba05d5850d32
-Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jan 13, 2022 at 10:15 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
 
-> On Sun, 9 Jan 2022 at 16:26, Warner Losh <imp@bsdimp.com> wrote:
-> >
-> > The code has moved in FreeBSD since the emulator was started, update the
-> > comment to reflect that change. Remove now-redundant comment saying the
-> > same thing (but incorrectly).
-> >
-> > Signed-off-by: Warner Losh <imp@bsdimp.com>
-> > ---
-> >  bsd-user/arm/target_arch_cpu.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/bsd-user/arm/target_arch_cpu.h
-> b/bsd-user/arm/target_arch_cpu.h
-> > index 05b19ce6119..905f13aa1b9 100644
-> > --- a/bsd-user/arm/target_arch_cpu.h
-> > +++ b/bsd-user/arm/target_arch_cpu.h
-> > @@ -73,7 +73,7 @@ static inline void target_cpu_loop(CPUARMState *env)
-> >                      int32_t syscall_nr = n;
-> >                      int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7,
-> arg8;
-> >
-> > -                    /* See arm/arm/trap.c cpu_fetch_syscall_args() */
-> > +                    /* See arm/arm/syscall.c cpu_fetch_syscall_args() */
-> >                      if (syscall_nr == TARGET_FREEBSD_NR_syscall) {
-> >                          syscall_nr = env->regs[0];
-> >                          arg1 = env->regs[1];
->
-> Commit message says we're updating one comment and deleting a
-> second one; code only does an update, no delete ?
->
+Am 12.01.22 um 17:40 schrieb Eric Farman:
+> After the recent restructuring, I'd like to volunteer to help
+> in some of the s390 I/O areas.
+> 
+> Built on "[PATCH RFC v2] MAINTAINERS: split out s390x sections"
+> 
+> Signed-off-by: Eric Farman <farman@linux.ibm.com>
 
-Commit is right, commit message is wrong. I'll fix the commit message. I got
-this confused with part 8 where I kinda sorta did something similar (but not
-that similar).
+Acked-by: Christian Borntraeger <borntraeger@linux.ibm.com>
 
-Warner
-
---000000000000ffc5ba05d5850d32
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 13, 2022 at 10:15 AM Pete=
-r Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lin=
-aro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">On Sun, 9 Jan 2022 at 16:26, Warner Losh &lt;<a href=3D"mailto:imp@b=
-sdimp.com" target=3D"_blank">imp@bsdimp.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; The code has moved in FreeBSD since the emulator was started, update t=
-he<br>
-&gt; comment to reflect that change. Remove now-redundant comment saying th=
-e<br>
-&gt; same thing (but incorrectly).<br>
-&gt;<br>
-&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
-t=3D"_blank">imp@bsdimp.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 bsd-user/arm/target_arch_cpu.h | 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt;<br>
-&gt; diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch=
-_cpu.h<br>
-&gt; index 05b19ce6119..905f13aa1b9 100644<br>
-&gt; --- a/bsd-user/arm/target_arch_cpu.h<br>
-&gt; +++ b/bsd-user/arm/target_arch_cpu.h<br>
-&gt; @@ -73,7 +73,7 @@ static inline void target_cpu_loop(CPUARMState *env)=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 int32_t syscall_nr =3D n;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8;<br>
-&gt;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- /* See arm/arm/trap.c cpu_fetch_syscall_args() */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- /* See arm/arm/syscall.c cpu_fetch_syscall_args() */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 if (syscall_nr =3D=3D TARGET_FREEBSD_NR_syscall) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 syscall_nr =3D env-&gt;regs[0];<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 arg1 =3D env-&gt;regs[1];<br>
-<br>
-Commit message says we&#39;re updating one comment and deleting a<br>
-second one; code only does an update, no delete ?<br></blockquote><div><br>=
-</div><div>Commit is right, commit message is wrong. I&#39;ll fix the commi=
-t message. I got</div><div>this confused with part 8 where I kinda sorta di=
-d something similar (but not</div><div>that similar).</div><div><br></div><=
-div>Warner</div></div></div>
-
---000000000000ffc5ba05d5850d32--
+Thanks a lot Eric
+> ---
+>   MAINTAINERS | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5d37b0eec5..343f43e83d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1521,6 +1521,7 @@ S390 Machines
+>   S390 Virtio-ccw
+>   M: Halil Pasic <pasic@linux.ibm.com>
+>   M: Christian Borntraeger <borntraeger@linux.ibm.com>
+> +M: Eric Farman <farman@linux.ibm.com>
+>   S: Supported
+>   F: hw/s390x/
+>   F: include/hw/s390x/
+> @@ -1551,6 +1552,7 @@ L: qemu-s390x@nongnu.org
+>   S390 channel subsystem
+>   M: Halil Pasic <pasic@linux.ibm.com>
+>   M: Christian Borntraeger <borntraeger@linux.ibm.com>
+> +M: Eric Farman <farman@linux.ibm.com>
+>   S: Supported
+>   F: hw/s390x/ccw-device.[ch]
+>   F: hw/s390x/css.c
+> @@ -1975,6 +1977,7 @@ T: git https://github.com/stefanha/qemu.git block
+>   virtio-ccw
+>   M: Cornelia Huck <cohuck@redhat.com>
+>   M: Halil Pasic <pasic@linux.ibm.com>
+> +M: Eric Farman <farman@linux.ibm.com>
+>   S: Supported
+>   F: hw/s390x/virtio-ccw*.[hc]
+>   F: hw/s390x/vhost-vsock-ccw.c
 
