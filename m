@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55BEC48E1D4
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 01:56:59 +0100 (CET)
-Received: from localhost ([::1]:45998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D0048E1D5
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 01:57:09 +0100 (CET)
+Received: from localhost ([::1]:46238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8Atm-0005aD-31
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 19:56:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60538)
+	id 1n8Ats-0005jP-2D
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jan 2022 19:57:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <idan.horowitz@gmail.com>)
- id 1n8AhQ-0002vt-Vy
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 19:44:13 -0500
-Received: from [2a00:1450:4864:20::42a] (port=36782
- helo=mail-wr1-x42a.google.com)
+ id 1n8AhW-00031Z-VE
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 19:44:19 -0500
+Received: from [2a00:1450:4864:20::432] (port=44810
+ helo=mail-wr1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <idan.horowitz@gmail.com>)
- id 1n8AhP-0007R1-96
- for qemu-devel@nongnu.org; Thu, 13 Jan 2022 19:44:12 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id r28so13096866wrc.3
- for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 16:44:10 -0800 (PST)
+ id 1n8AhV-0007RG-CR
+ for qemu-devel@nongnu.org; Thu, 13 Jan 2022 19:44:18 -0500
+Received: by mail-wr1-x432.google.com with SMTP id k18so13018566wrg.11
+ for <qemu-devel@nongnu.org>; Thu, 13 Jan 2022 16:44:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KNFirWGngv7fdeuZsucp5CU8AXZV7k6EpjsRRJqMZVs=;
- b=VUfrFgg3C4tXxT21Km+8oDJD0tvAooIohduZtTTpQ7CAhP8lyhuZR2+hDXdiqwh75l
- +vyq4C2sc9yKQ1XnRF7ulf6qjkInejxmAhJU9CY/udNuzjR+IsOWf2pBVivkqHuY3q3l
- 7NABIFe1nMwxBkbUesJSATY5nzx1uPBNVK7hae0mDx9LyK7VLwF/jSXYkKnV4OOfRKK4
- kemZ9ivLn459EvOXRHmyr3KjPn17051qKDmsBIJxJ8RYO5yhHALoUocBya6rAxxrc01+
- xnut4SDQe7WnkQ7UKsOMSlnbuBwhTY55tYTjMNelM16LPrxC+o4BPgay/MMA0enxK2Lt
- dPkA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=YSbdZh2dFJwaLvSXX6knvM8l1aJUmBIRrjcxKQD7KkU=;
+ b=FIrjJqcq4blM3cUE+wQkn51B5USWwlb5KO50t7JD0H74bL90oBlQdzXEfokcS3Yeup
+ f6lucg/MSLiZbJfkxfbQZblcMcZbiVd1wV3EOHs73QPa6TI7fhI1rbbRCO6JCTIrZGxf
+ ZTGagrYcOesIYr5FreKWW4AWH1p94U9xMY18VJ4GChAZfV66b0Dq+RvQwOEttjCSaBKR
+ 6bUu7ygWEk02XQR8xdzuLmWkx5BlgTMCg/vRbshZkC+rBVSH3iSxvDqN//UiWkDhcSpU
+ +cC2dccUak5TUJ4PoPHuMUMyWYKyT3aL3OFeLDtXvZejhiGb8Ka6nGpDXxoTO+uAOf+M
+ Tmww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KNFirWGngv7fdeuZsucp5CU8AXZV7k6EpjsRRJqMZVs=;
- b=y4TbhdZNWlgGm5x1cAw99pHGdhacBA3epourbLQmzMMHaf4siO4+w/bW33J1SxHAA5
- k8rfWV2R/VhPEj12PZ78hjK5KOF+cn7bGvhd8B+9BaRxgJWpB/6OeeZ8122MwN8pfM+R
- obTnC+sDwhTUK4yk3T1XElWlfNQy6RfXiLDCZ7G60dpuBUHcm3ZOGr1kKrRuKxudH0JA
- qrMGlsXselmau5cd5O7J5TsQwTAbmwvY4BZj+46560VOyJYjRe8ydkFXrQg0hJ4EaQ0S
- pZ534rgl3+3xlLeYto285G5g4mgclu9NrMLiEpCqAycwByf7jOcg5IBkgUHSL8Stn+ds
- Ls2Q==
-X-Gm-Message-State: AOAM531kdzb1fqT8y8eZH4lhvP6y8LZKty19VgGx8ctARPeI9BOJTbGl
- kgCugbzSRnHJL0GQbI5FOtSudoCm0qY=
-X-Google-Smtp-Source: ABdhPJyPYZ1dRZ2OwvXhHf22yFgAej3MkPZdhqLsQgBh+ch5dzSvBLvRNRYUvcPr4rUxdi4FHOhgbw==
-X-Received: by 2002:a5d:4841:: with SMTP id n1mr6065483wrs.620.1642121048863; 
- Thu, 13 Jan 2022 16:44:08 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=YSbdZh2dFJwaLvSXX6knvM8l1aJUmBIRrjcxKQD7KkU=;
+ b=2FPVUSW6tTlwWdLe+9KIBPphDMi7ehCIGpv0vQAxTXa3HsBMlMu5GgK2bcb5tWjQbx
+ TK+HmXEVkXe8EIXk9WhBOmq+jJD3AL7iLL4SLh7WqTWsPz/XLe+cCegnc1YV9w16yoZx
+ IE8coL3iKxT++0kcQBu7IIYbohr4mkTALbkrpWCt78fh42ZH77uLQITetwp5GiPfInHR
+ dNGVJk1m5OhDtb6cBJTW3Bsn47bwNt79KgmVF7H4GqWusd2ua7VO6BwMly4loent9C8e
+ EEpxJIWYv1HQnYK2Ayr1mu8SoLd9qXJ4jjTnxLoWdtHr9kC0efxIiF1wnqVCgwS2W+UU
+ caNg==
+X-Gm-Message-State: AOAM533x03yw0zn2TEIrasRWuLEA27cqmioBu4I7jlGgW3hJ+ldUYQ6i
+ dVd5I2OMOzAjulnKBn0+L64kian76dQ=
+X-Google-Smtp-Source: ABdhPJyqby29ianmTgZe0jJBznZAWc242v8QZ1E2XRS7urPqfbCZeQslfOhncsax8yLcOZCnZI5dMw==
+X-Received: by 2002:a5d:64ed:: with SMTP id g13mr5986289wri.197.1642121055778; 
+ Thu, 13 Jan 2022 16:44:15 -0800 (PST)
 Received: from li-142ea8cc-3370-11b2-a85c-c55585c2aa0e.ibm.com.com
  (bzq-79-176-122-157.red.bezeqint.net. [79.176.122.157])
- by smtp.gmail.com with ESMTPSA id b6sm4230513wri.56.2022.01.13.16.44.07
+ by smtp.gmail.com with ESMTPSA id b6sm4230513wri.56.2022.01.13.16.44.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jan 2022 16:44:08 -0800 (PST)
+ Thu, 13 Jan 2022 16:44:15 -0800 (PST)
 From: Idan Horowitz <idan.horowitz@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] softmmu/cpus: Check if the cpu work list is empty
- atomically
-Date: Fri, 14 Jan 2022 02:43:57 +0200
-Message-Id: <20220114004358.299534-1-idan.horowitz@gmail.com>
+Subject: [PATCH 2/2] qemu-timer: Skip empty timer lists before locking in
+ qemu_clock_deadline_ns_all
+Date: Fri, 14 Jan 2022 02:43:58 +0200
+Message-Id: <20220114004358.299534-2-idan.horowitz@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220114004358.299534-1-idan.horowitz@gmail.com>
+References: <20220114004358.299534-1-idan.horowitz@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=idan.horowitz@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=idan.horowitz@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,34 +92,28 @@ Cc: richard.henderson@linaro.org, Idan Horowitz <idan.horowitz@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of taking the lock of the cpu work list in order to check if it's
-empty, we can just read the head pointer atomically. This decreases
-cpu_work_list_empty's share from 5% to 1.3% in a profile of icount-enabled
-aarch64-softmmu.
+This decreases qemu_clock_deadline_ns_all's share from 23.2% to 13% in a
+profile of icount-enabled aarch64-softmmu.
 
 Signed-off-by: Idan Horowitz <idan.horowitz@gmail.com>
 ---
- softmmu/cpus.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ util/qemu-timer.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 23bca46b07..035395ae13 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -73,12 +73,7 @@ bool cpu_is_stopped(CPUState *cpu)
+diff --git a/util/qemu-timer.c b/util/qemu-timer.c
+index f36c75e594..e56895ef55 100644
+--- a/util/qemu-timer.c
++++ b/util/qemu-timer.c
+@@ -261,6 +261,9 @@ int64_t qemu_clock_deadline_ns_all(QEMUClockType type, int attr_mask)
+     }
  
- bool cpu_work_list_empty(CPUState *cpu)
- {
--    bool ret;
--
--    qemu_mutex_lock(&cpu->work_mutex);
--    ret = QSIMPLEQ_EMPTY(&cpu->work_list);
--    qemu_mutex_unlock(&cpu->work_mutex);
--    return ret;
-+    return QSIMPLEQ_EMPTY_ATOMIC(&cpu->work_list);
- }
- 
- bool cpu_thread_is_idle(CPUState *cpu)
+     QLIST_FOREACH(timer_list, &clock->timerlists, list) {
++        if (!qatomic_read(&timer_list->active_timers)) {
++            continue;
++        }
+         qemu_mutex_lock(&timer_list->active_timers_lock);
+         ts = timer_list->active_timers;
+         /* Skip all external timers */
 -- 
 2.34.1
 
