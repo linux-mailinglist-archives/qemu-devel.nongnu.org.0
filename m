@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F1A248EB80
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 15:18:57 +0100 (CET)
-Received: from localhost ([::1]:39140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA00948EB58
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 15:14:06 +0100 (CET)
+Received: from localhost ([::1]:56172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8NPs-0004oM-2G
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 09:18:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44116)
+	id 1n8NLB-0005dP-QI
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 09:14:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n8N0e-0003H2-Iv
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:52:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27405)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n8N0i-0003JX-8W
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:53:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56765)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n8N0c-0000NL-Tw
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:52:52 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1n8N0g-0000OJ-Fy
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 08:52:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642168370;
+ s=mimecast20190719; t=1642168374;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I4aq1SO/dnyF/nSA0Mkl9gIarZVffuIuzcCCoM6+wKE=;
- b=CwkMjYIpw/2+XaMAD/Gbyzg7DhF12K+Re59rx8VJBvIHRe7ecoeegrrff7uvDti8ZN+Ecd
- /sEpL1NZ49RDtkDGXjneSdBtA86hT3qAJS9/7ul36wIS1AWz3YpMxeTbK+CX7QUTDehKb0
- p7UrEU5gOa8WhX6yCX5zOLxP89U0loA=
+ bh=yBeDq1TQZkaS+a6CTH6lheHgQ07lW02DNpjs6pu+mhc=;
+ b=cCbjwRKqYJ4i8/PUNguc9S/OTKfR3D2+d4TzVuoFa5HPNuaGMrv2xuneZLSPYRceZDcbJI
+ ajBXGayNwUbWCKTfh++c5xvc9V4gO5eyI/GikP2gYs5/M85hJrWukCx7wGH5r8vJkblVtn
+ 9pf1gaOaljjuXnAXibdeH0q3ly/Q1Ho=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-422-fQLYUzfuNPmfx0a1WR0rkw-1; Fri, 14 Jan 2022 08:52:49 -0500
-X-MC-Unique: fQLYUzfuNPmfx0a1WR0rkw-1
+ us-mta-500-BuSpUOGqPvilPo0t3swPVQ-1; Fri, 14 Jan 2022 08:52:50 -0500
+X-MC-Unique: BuSpUOGqPvilPo0t3swPVQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C4881023F4E;
- Fri, 14 Jan 2022 13:52:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72A3D760C0;
+ Fri, 14 Jan 2022 13:52:49 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1BB38105B20E;
- Fri, 14 Jan 2022 13:52:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B3C2105B20E;
+ Fri, 14 Jan 2022 13:52:48 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 13/16] iotests: Test qemu-img convert of zeroed data cluster
-Date: Fri, 14 Jan 2022 14:52:23 +0100
-Message-Id: <20220114135226.185407-14-kwolf@redhat.com>
+Subject: [PULL 14/16] qemu-img: make is_allocated_sectors() more efficient
+Date: Fri, 14 Jan 2022 14:52:24 +0100
+Message-Id: <20220114135226.185407-15-kwolf@redhat.com>
 In-Reply-To: <20220114135226.185407-1-kwolf@redhat.com>
 References: <20220114135226.185407-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -81,66 +81,95 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This demonstrates what happens when the block status changes in
-sub-min_sparse granularity, but all of the parts are zeroed out. The
-alignment logic in is_allocated_sectors() prevents that the target image
-remains fully sparse as expected, but turns it into a data cluster of
-explicit zeros.
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Consider the case when the whole buffer is zero and end is unaligned.
+
+If i <= tail, we return 1 and do one unaligned WRITE, RMW happens.
+
+If i > tail, we do on aligned WRITE_ZERO (or skip if target is zeroed)
+and again one unaligned WRITE, RMW happens.
+
+Let's do better: don't fragment the whole-zero buffer and report it as
+ZERO: in case of zeroed target we just do nothing and avoid RMW. If
+target is not zeroes, one unaligned WRITE_ZERO should not be much worse
+than one unaligned WRITE.
+
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20211217164654.1184218-2-vsementsov@virtuozzo.com>
+Message-Id: <20211217164654.1184218-3-vsementsov@virtuozzo.com>
 Tested-by: Peter Lieven <pl@kamp.de>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/122     |  1 +
- tests/qemu-iotests/122.out | 10 ++++++++--
- 2 files changed, 9 insertions(+), 2 deletions(-)
+ qemu-img.c                 | 23 +++++++++++++++++++----
+ tests/qemu-iotests/122.out |  8 ++------
+ 2 files changed, 21 insertions(+), 10 deletions(-)
 
-diff --git a/tests/qemu-iotests/122 b/tests/qemu-iotests/122
-index efb260d822..be0f6b79e5 100755
---- a/tests/qemu-iotests/122
-+++ b/tests/qemu-iotests/122
-@@ -251,6 +251,7 @@ $QEMU_IO -c "write -P 0 0 64k" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_test
- $QEMU_IO -c "write 0 1k" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
- $QEMU_IO -c "write 8k 1k" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
- $QEMU_IO -c "write 17k 1k" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
-+$QEMU_IO -c "write -P 0 65k 1k" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
+diff --git a/qemu-img.c b/qemu-img.c
+index 21ba1e6800..6fe2466032 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -1171,19 +1171,34 @@ static int is_allocated_sectors(const uint8_t *buf, int n, int *pnum,
+         }
+     }
  
- for min_sparse in 4k 8k; do
-     echo
++    if (i == n) {
++        /*
++         * The whole buf is the same.
++         * No reason to split it into chunks, so return now.
++         */
++        *pnum = i;
++        return !is_zero;
++    }
++
+     tail = (sector_num + i) & (alignment - 1);
+     if (tail) {
+         if (is_zero && i <= tail) {
+-            /* treat unallocated areas which only consist
+-             * of a small tail as allocated. */
++            /*
++             * For sure next sector after i is data, and it will rewrite this
++             * tail anyway due to RMW. So, let's just write data now.
++             */
+             is_zero = false;
+         }
+         if (!is_zero) {
+-            /* align up end offset of allocated areas. */
++            /* If possible, align up end offset of allocated areas. */
+             i += alignment - tail;
+             i = MIN(i, n);
+         } else {
+-            /* align down end offset of zero areas. */
++            /*
++             * For sure next sector after i is data, and it will rewrite this
++             * tail anyway due to RMW. Better is avoid RMW and write zeroes up
++             * to aligned bound.
++             */
+             i -= tail;
+         }
+     }
 diff --git a/tests/qemu-iotests/122.out b/tests/qemu-iotests/122.out
-index 8fbdac2b39..69b8e8b803 100644
+index 69b8e8b803..e18766e167 100644
 --- a/tests/qemu-iotests/122.out
 +++ b/tests/qemu-iotests/122.out
-@@ -192,6 +192,8 @@ wrote 1024/1024 bytes at offset 8192
- 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- wrote 1024/1024 bytes at offset 17408
- 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 1024/1024 bytes at offset 66560
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
- convert -S 4k
- [{ "start": 0, "length": 4096, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET},
-@@ -199,7 +201,9 @@ convert -S 4k
+@@ -201,9 +201,7 @@ convert -S 4k
  { "start": 8192, "length": 4096, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET},
  { "start": 12288, "length": 4096, "depth": 0, "present": false, "zero": true, "data": false},
  { "start": 16384, "length": 4096, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 20480, "length": 67088384, "depth": 0, "present": false, "zero": true, "data": false}]
-+{ "start": 20480, "length": 46080, "depth": 0, "present": false, "zero": true, "data": false},
-+{ "start": 66560, "length": 1024, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 67584, "length": 67041280, "depth": 0, "present": false, "zero": true, "data": false}]
+-{ "start": 20480, "length": 46080, "depth": 0, "present": false, "zero": true, "data": false},
+-{ "start": 66560, "length": 1024, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET},
+-{ "start": 67584, "length": 67041280, "depth": 0, "present": false, "zero": true, "data": false}]
++{ "start": 20480, "length": 67088384, "depth": 0, "present": false, "zero": true, "data": false}]
  
  convert -c -S 4k
  [{ "start": 0, "length": 1024, "depth": 0, "present": true, "zero": false, "data": true},
-@@ -211,7 +215,9 @@ convert -c -S 4k
+@@ -215,9 +213,7 @@ convert -c -S 4k
  
  convert -S 8k
  [{ "start": 0, "length": 24576, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 24576, "length": 67084288, "depth": 0, "present": false, "zero": true, "data": false}]
-+{ "start": 24576, "length": 41984, "depth": 0, "present": false, "zero": true, "data": false},
-+{ "start": 66560, "length": 1024, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 67584, "length": 67041280, "depth": 0, "present": false, "zero": true, "data": false}]
+-{ "start": 24576, "length": 41984, "depth": 0, "present": false, "zero": true, "data": false},
+-{ "start": 66560, "length": 1024, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET},
+-{ "start": 67584, "length": 67041280, "depth": 0, "present": false, "zero": true, "data": false}]
++{ "start": 24576, "length": 67084288, "depth": 0, "present": false, "zero": true, "data": false}]
  
  convert -c -S 8k
  [{ "start": 0, "length": 1024, "depth": 0, "present": true, "zero": false, "data": true},
