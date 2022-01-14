@@ -2,88 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B0DC48EFB8
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 19:17:06 +0100 (CET)
-Received: from localhost ([::1]:50316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBB1D48EFD6
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 19:24:43 +0100 (CET)
+Received: from localhost ([::1]:36290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8R8L-0000kP-6Y
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 13:17:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50214)
+	id 1n8RFj-000275-2C
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 13:24:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n8Qzf-00078z-2e
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 13:08:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26019)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n8Qzd-0000RB-IH
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 13:08:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642183685;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PKmBa5wLGhwaMLWeL2D75DNgZV3IlEndv1DtQvRkcmc=;
- b=SxtkW4sPujLtRcfM54vKxtFAEzOm8KxKm4Rtmf7NLXmagquCOSKiPEAmbbmwXH3CeixYJH
- mHj9NMZEFaW+oP1LYNk4N2CGyTEF+zII0bbXP2wxAdSeHMloW20TQSCHlKcchZ4u9OAnbw
- kONjo/D9Zv1eRPJjuZQlmDtRHjEDCgc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-645-l64Pg5_xNIGgw0inKG5zbA-1; Fri, 14 Jan 2022 13:08:03 -0500
-X-MC-Unique: l64Pg5_xNIGgw0inKG5zbA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- c188-20020a1c35c5000000b00346a2160ea8so2628997wma.9
- for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 10:08:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1n8R5Y-00060R-2e
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 13:14:12 -0500
+Received: from [2607:f8b0:4864:20::a2d] (port=33568
+ helo=mail-vk1-xa2d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1n8R5V-0001MH-R7
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 13:14:11 -0500
+Received: by mail-vk1-xa2d.google.com with SMTP id g5so6374275vkg.0
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 10:14:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4Pqhk4naImMMhbRyCz8wPolnnxEjvzHGyeBmHFhijmI=;
+ b=6Sz9Pq7iKSsg4FuFKiqBRlAnlPsUMRb0WTulyoxqHcC29rLcLDchSV2DifKWVtimt9
+ YwAlyk/QQF1xUvvE1xdcP+iW5MmCts01dS3VXoEHyXI2NX1Sc8CoRkFbblM48EEgvSsi
+ NVN0vy9s4Rl3KSJGCUyjqw3+m3oh/iYfyGWbLmCuyR+4747mFN61goDhYhwxiVQ22l3m
+ KWd8uTwBghOC6i9S5D+TWJZ8tkIASgG4XWSv0y0T7lzTI5K6TD43wgqC5WQGqcg2UYrC
+ XEQShLfQo2miy8Wi3lpH+WldoFFcXTQnBWn59lSdap+1BoBZNvOUlMak28G1bo+zeFCU
+ WRHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=PKmBa5wLGhwaMLWeL2D75DNgZV3IlEndv1DtQvRkcmc=;
- b=I3YklnwcHSapLrvZBBl958e6pBK1AneOXKlvdp8gmNsJaSkHni25tW2TfpX7wYTkB9
- v8+2VyZ8m8zngTHl7FLy/DaGW9ytYC5JxLfwqnHZZvnmzeqpYd1Hy6cvtZRWD0eHVoGi
- FvaruAB1qav48ZgdvxLclqcz0eEPE/pt6Tp3zmawVIh1ChlGrACXwwnKtP5N1B4JNHxW
- tZYPFhgqLQFBpOULIiIjd+Dncmn14sDj9u/s/Rl5sfoIjukGBVoKXo1N0Tg51oOMxcwd
- FeAkhkf/8ybiO2jckddSnKbt/4lynF2KEI74K7qL3dRZTW7UNPcXBsyUeZTJyM15oofB
- oGeg==
-X-Gm-Message-State: AOAM533ngmTIkGvG4buzp+J52NWQriYSkKlE4aN5VUK2yNaCGqj4LpxI
- nXnbU3wR0zQdPn0SVDpUVudS4BlXafoMmpuyIWxo7xxvx20FhM0w31UrXf/8KyT7LreK2VGneJN
- hlJYmt2jZmQywGX0=
-X-Received: by 2002:adf:d1ed:: with SMTP id g13mr2847180wrd.719.1642183682428; 
- Fri, 14 Jan 2022 10:08:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy1eWig6KKgnSCux1ffZgqalawaZ5P35jHEOQeltJIDMMLfnH1WQM/5OiBRxatMsd4XL1hzRg==
-X-Received: by 2002:adf:d1ed:: with SMTP id g13mr2847169wrd.719.1642183682206; 
- Fri, 14 Jan 2022 10:08:02 -0800 (PST)
-Received: from redhat.com ([2.55.154.210])
- by smtp.gmail.com with ESMTPSA id u16sm5997785wrn.24.2022.01.14.10.08.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Jan 2022 10:08:01 -0800 (PST)
-Date: Fri, 14 Jan 2022 13:07:58 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [PATCH 1/1] virtio: fix the condition for iommu_platform not
- supported
-Message-ID: <20220114130741-mutt-send-email-mst@kernel.org>
-References: <20220113165131.1057714-1-pasic@linux.ibm.com>
- <20220113115617-mutt-send-email-mst@kernel.org>
- <20220113205452.4443ee4e.pasic@linux.ibm.com>
- <20220114170556.3859488d.pasic@linux.ibm.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4Pqhk4naImMMhbRyCz8wPolnnxEjvzHGyeBmHFhijmI=;
+ b=cZ02bHv25QnlsSEUrCEXoUwLaWmsmDo5Mz0OtId7JrCf6OEt0DZ367YsuRPXwUYC1o
+ +XZBhOGQb1ZJSD9a94weBDt9LS/7lxuCrNxZp4M6n7cSjYmjN5keJCXGh/duDohD+KTu
+ SdGyf10uVOGZsYiW1hh2WSk6Q/PhvqpWpPxKn9zBrrGb8lS1ZNaV02A/kWPe21SVjtmD
+ OAEtIwT46TQ7Mjn6/fnyXiUCam1oCfrSAdBI3h+j1EY4WxNs/r2fW5Rn6yI0Z8vicrnM
+ zxZqws4GOVwPi0wxDfuEUntLLsch64NCyodbOzTaSKAvr3vWi7iaUZg397Z1sIP5YYhX
+ ZUjQ==
+X-Gm-Message-State: AOAM5309kooX1QIURjpa7kKMARX43KvdZ3mIp3Ke0xs0thjkbMpAspfX
+ Qig5kwMhHQJ4y3zJ+F0rPuT+leo4mXlv06yPxK6GlF3MeHw=
+X-Google-Smtp-Source: ABdhPJxp386rNwbMM6KtEZfmSwHVCukbf+O273B62Emk5lxqqAuH10d/AT2Ab700zLfG2bngOnYIeEfSh8f4mqNNKRc=
+X-Received: by 2002:a05:6122:1805:: with SMTP id
+ ay5mr4655756vkb.5.1642184048748; 
+ Fri, 14 Jan 2022 10:14:08 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220114170556.3859488d.pasic@linux.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220109161923.85683-1-imp@bsdimp.com>
+ <20220109161923.85683-9-imp@bsdimp.com>
+ <CAFEAcA-ieL5iT5tq4M_D_wAN=aOe9fzAvpFJ7thq6YvaQwqJRg@mail.gmail.com>
+In-Reply-To: <CAFEAcA-ieL5iT5tq4M_D_wAN=aOe9fzAvpFJ7thq6YvaQwqJRg@mail.gmail.com>
+From: Warner Losh <imp@bsdimp.com>
+Date: Fri, 14 Jan 2022 11:13:57 -0700
+Message-ID: <CANCZdfpGhj-M21GWgd6QzVmzcTjhY4E93jMObv7uAyHjdxm4dg@mail.gmail.com>
+Subject: Re: [PATCH 08/30] bsd-user/arm/target_arch_cpu.h: Implement data
+ faults
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000e1bdf505d58ec4c9"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a2d
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::a2d;
+ envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa2d.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,51 +82,240 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org, Jakob Naucke <Jakob.Naucke@ibm.com>
+Cc: Kyle Evans <kevans@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 14, 2022 at 05:05:56PM +0100, Halil Pasic wrote:
-> On Thu, 13 Jan 2022 20:54:52 +0100
-> Halil Pasic <pasic@linux.ibm.com> wrote:
-> 
-> > > > This is the very reason for which commit 7ef7e6e3b ("vhost: correctly
-> > > > turn on VIRTIO_F_IOMMU_PLATFORM") for, which fences _F_ACCESS_PLATFORM
-> > > > form the vhost device that does not need it, because on the vhost
-> > > > interface it only means "I/O address translation is needed".
-> > > > 
-> > > > This patch takes inspiration from 7ef7e6e3b ("vhost: correctly turn on
-> > > > VIRTIO_F_IOMMU_PLATFORM"),    
-> > > 
-> > > Strange, I could not find this commit. Did you mean f7ef7e6e3b?
-> > >   
-> > 
-> > Right! Copy-paste error.
-> > 
-> > 
-> 
-> Should I spin a v2 to correct this?
-> 
-> 
-> Sorry for the hunk below. I wanted to post the  whole patch in question,
-> then deleted it, but left some leftovers. Another copy-paste error. Grrr
+--000000000000e1bdf505d58ec4c9
+Content-Type: text/plain; charset="UTF-8"
 
-Yes pls.
+On Thu, Jan 13, 2022 at 10:40 AM Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
-> >  
-> >  static void *vhost_memory_map(struct vhost_dev *dev, hwaddr addr,
-> > @@ -765,6 +772,9 @@ static int vhost_dev_set_features(struct vhost_dev *dev,
-> >      if (enable_log) {
-> >          features |= 0x1ULL << VHOST_F_LOG_ALL;
-> >      }
-> > +    if (!vhost_dev_has_iommu(dev)) {
-> > +        features &= ~(0x1ULL << VIRTIO_F_IOMMU_PLATFORM);
-> > +    }
-> >      r = dev->vhost_ops->vhost_set_features(dev, features);
-> >      if (r < 0) {
-> >          VHOST_OPS_DEBUG("vhost_set_features failed");
-> > 
-> > > > and uses the same condition for detecting the
+> On Sun, 9 Jan 2022 at 16:29, Warner Losh <imp@bsdimp.com> wrote:
+> >
+> > Update for the richer set of data faults that are now possible. Copied
+> > largely from linux-user/arm/cpu_loop.c
+> >
+> > Signed-off-by: Warner Losh <imp@bsdimp.com>
+> > ---
+> >  bsd-user/arm/target_arch_cpu.h | 44 ++++++++++++++++++++++++++--------
+> >  1 file changed, 34 insertions(+), 10 deletions(-)
+> >
+> > diff --git a/bsd-user/arm/target_arch_cpu.h
+> b/bsd-user/arm/target_arch_cpu.h
+> > index 996a361e3fe..51e592bcfe7 100644
+> > --- a/bsd-user/arm/target_arch_cpu.h
+> > +++ b/bsd-user/arm/target_arch_cpu.h
+> > @@ -39,8 +39,7 @@ static inline void target_cpu_init(CPUARMState *env,
+> >
+> >  static inline void target_cpu_loop(CPUARMState *env)
+> >  {
+> > -    int trapnr;
+> > -    target_siginfo_t info;
+> > +    int trapnr, si_signo, si_code;
+> >      unsigned int n;
+> >      CPUState *cs = env_cpu(env);
+> >
+> > @@ -143,15 +142,40 @@ static inline void target_cpu_loop(CPUARMState
+> *env)
+> >              /* just indicate that signals should be handled asap */
+> >              break;
+> >          case EXCP_PREFETCH_ABORT:
+> > -            /* See arm/arm/trap.c prefetch_abort_handler() */
+> >          case EXCP_DATA_ABORT:
+> > -            /* See arm/arm/trap.c data_abort_handler() */
+> > -            info.si_signo = TARGET_SIGSEGV;
+> > -            info.si_errno = 0;
+> > -            /* XXX: check env->error_code */
+> > -            info.si_code = 0;
+> > -            info.si_addr = env->exception.vaddress;
+> > -            queue_signal(env, info.si_signo, &info);
+> > +            /*
+> > +             * See arm/arm/trap-v6.c prefetch_abort_handler() and
+> data_abort_handler()
+> > +             *
+> > +             * However, FreeBSD maps these to a generic value and then
+> uses that
+> > +             * to maybe fault in pages in
+> vm/vm_fault.c:vm_fault_trap(). I
+> > +             * believe that the indirection maps the same as Linux, but
+> haven't
+> > +             * chased down every single possible indirection.
+> > +             */
+> > +
+> > +            /* For user-only we don't set TTBCR_EAE, so look at the
+> FSR. */
+> > +            switch (env->exception.fsr & 0x1f) {
+> > +            case 0x1: /* Alignment */
+> > +                si_signo = TARGET_SIGBUS;
+> > +                si_code = TARGET_BUS_ADRALN;
+> > +                break;
+> > +            case 0x3: /* Access flag fault, level 1 */
+> > +            case 0x6: /* Access flag fault, level 2 */
+> > +            case 0x9: /* Domain fault, level 1 */
+> > +            case 0xb: /* Domain fault, level 2 */
+> > +            case 0xd: /* Permision fault, level 1 */
+> > +            case 0xf: /* Permision fault, level 2 */
+>
+> "Permission" (I see we have this typo in linux-user).
+>
 
+Fixed. Also, if you can, please cc me if you'd like on 'back ported' fixes
+into linux-user when you post them
+for review that arise from this. It helps me keep track and not miss them
+in this rather high volume mailing
+list.
+
+
+> > +                si_signo = TARGET_SIGSEGV;
+> > +                si_code = TARGET_SEGV_ACCERR;
+> > +                break;
+> > +            case 0x5: /* Translation fault, level 1 */
+> > +            case 0x7: /* Translation fault, level 2 */
+> > +                si_signo = TARGET_SIGSEGV;
+> > +                si_code = TARGET_SEGV_MAPERR;
+> > +                break;
+> > +            default:
+> > +                g_assert_not_reached();
+> > +            }
+>
+> Otherwise
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>
+
+Thanks!
+
+Warner
+
+--000000000000e1bdf505d58ec4c9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 13, 2022 at 10:40 AM Pete=
+r Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lin=
+aro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">On Sun, 9 Jan 2022 at 16:29, Warner Losh &lt;<a href=3D"mailto:imp@b=
+sdimp.com" target=3D"_blank">imp@bsdimp.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Update for the richer set of data faults that are now possible. Copied=
+<br>
+&gt; largely from linux-user/arm/cpu_loop.c<br>
+&gt;<br>
+&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
+t=3D"_blank">imp@bsdimp.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 bsd-user/arm/target_arch_cpu.h | 44 ++++++++++++++++++++++++++--=
+------<br>
+&gt;=C2=A0 1 file changed, 34 insertions(+), 10 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch=
+_cpu.h<br>
+&gt; index 996a361e3fe..51e592bcfe7 100644<br>
+&gt; --- a/bsd-user/arm/target_arch_cpu.h<br>
+&gt; +++ b/bsd-user/arm/target_arch_cpu.h<br>
+&gt; @@ -39,8 +39,7 @@ static inline void target_cpu_init(CPUARMState *env,=
+<br>
+&gt;<br>
+&gt;=C2=A0 static inline void target_cpu_loop(CPUARMState *env)<br>
+&gt;=C2=A0 {<br>
+&gt; -=C2=A0 =C2=A0 int trapnr;<br>
+&gt; -=C2=A0 =C2=A0 target_siginfo_t info;<br>
+&gt; +=C2=A0 =C2=A0 int trapnr, si_signo, si_code;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 unsigned int n;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 CPUState *cs =3D env_cpu(env);<br>
+&gt;<br>
+&gt; @@ -143,15 +142,40 @@ static inline void target_cpu_loop(CPUARMState *=
+env)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* just indicate that =
+signals should be handled asap */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case EXCP_PREFETCH_ABORT:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* See arm/arm/trap.c prefe=
+tch_abort_handler() */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case EXCP_DATA_ABORT:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* See arm/arm/trap.c data_=
+abort_handler() */<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.si_signo =3D TARGET_SI=
+GSEGV;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.si_errno =3D 0;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* XXX: check env-&gt;error=
+_code */<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.si_code =3D 0;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.si_addr =3D env-&gt;ex=
+ception.vaddress;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 queue_signal(env, info.si_s=
+igno, &amp;info);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* See arm/arm/trap-v6=
+.c prefetch_abort_handler() and data_abort_handler()<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* However, FreeBSD ma=
+ps these to a generic value and then uses that<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* to maybe fault in p=
+ages in vm/vm_fault.c:vm_fault_trap(). I<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* believe that the in=
+direction maps the same as Linux, but haven&#39;t<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* chased down every s=
+ingle possible indirection.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* For user-only we don&#39=
+;t set TTBCR_EAE, so look at the FSR. */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (env-&gt;exception.f=
+sr &amp; 0x1f) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 0x1: /* Alignment */<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 si_signo =3D =
+TARGET_SIGBUS;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 si_code =3D T=
+ARGET_BUS_ADRALN;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 0x3: /* Access flag fa=
+ult, level 1 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 0x6: /* Access flag fa=
+ult, level 2 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 0x9: /* Domain fault, =
+level 1 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 0xb: /* Domain fault, =
+level 2 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 0xd: /* Permision faul=
+t, level 1 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 0xf: /* Permision faul=
+t, level 2 */<br>
+<br>
+&quot;Permission&quot; (I see we have this typo in linux-user).<br></blockq=
+uote><div><br></div><div>Fixed. Also, if you can, please cc me if you&#39;d=
+ like on &#39;back ported&#39; fixes into linux-user when you post them</di=
+v><div>for review that arise from this. It helps me keep track and not miss=
+ them in this rather high volume mailing</div><div>list.</div><div>=C2=A0</=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 si_signo =3D =
+TARGET_SIGSEGV;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 si_code =3D T=
+ARGET_SEGV_ACCERR;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 0x5: /* Translation fa=
+ult, level 1 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 0x7: /* Translation fa=
+ult, level 2 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 si_signo =3D =
+TARGET_SIGSEGV;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 si_code =3D T=
+ARGET_SEGV_MAPERR;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_not_=
+reached();<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+Otherwise<br>
+Reviewed-by: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" =
+target=3D"_blank">peter.maydell@linaro.org</a>&gt;<br></blockquote><div><br=
+></div><div>Thanks!</div><div><br></div><div>Warner</div></div></div>
+
+--000000000000e1bdf505d58ec4c9--
 
