@@ -2,97 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EFA748EC2D
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 16:04:54 +0100 (CET)
-Received: from localhost ([::1]:54614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42CD048ED25
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jan 2022 16:31:51 +0100 (CET)
+Received: from localhost ([::1]:42370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8O8K-000897-TY
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 10:04:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52898)
+	id 1n8OYP-00041V-Qm
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 10:31:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n8NYp-0002ji-CN
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 09:28:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41031)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n8NYY-00069E-Mz
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 09:27:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642170473;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JB+HW/cLvV/FJWKctK2co39OaqfJasnOQH2X/cXDhr4=;
- b=Pxh0x1hr+2l4TZdeEKsX9lP/3efl87cAsxcoECL8mlHAhgZPFlETuoZizoMDawmn/AEd4t
- J8ZEM5wtBHO1FNdEI/cGIILw/cOmZKqXobLKBb89KuXB8A4qGjXbaDRr1lVIhtjog9bIoo
- zgG+eZj8jwRXQGQFDmFNVYE2WZMOf44=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-278--YnRmF09NyeA6zAdDkGNKw-1; Fri, 14 Jan 2022 09:27:52 -0500
-X-MC-Unique: -YnRmF09NyeA6zAdDkGNKw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 20-20020a05600c22d400b00349067fe7b7so2296016wmg.5
- for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 06:27:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1n8OVF-0001vZ-Ne
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 10:28:33 -0500
+Received: from [2a00:1450:4864:20::12b] (port=36739
+ helo=mail-lf1-x12b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1n8OVE-0007TO-4K
+ for qemu-devel@nongnu.org; Fri, 14 Jan 2022 10:28:33 -0500
+Received: by mail-lf1-x12b.google.com with SMTP id b14so12918709lff.3
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 07:28:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=z/JX1tenfC5wsT84raxQ7+N7mm06NTrEeXttwvSVH1s=;
+ b=HVMOxx1CWWZs07aI8GuOxGHtlmRIDjk79bMl8bTZQN3S0Eh/7fb7BkiwGObHG1AcpM
+ tFF0TyTA67usku5jZ78jYaVuJ8Ys1FzbmE151T7AHDe/l0WwcgYs/D0j3fstEJjtBoGA
+ NjZIJJQyzJeWb828Dr2TIvpM3mFNNe0H9mD0vdZSyAtCbg1urDNTirKS7YQDTNjpzRq3
+ I5WVaKnUoD/aTvlpm09u1XInsEA6xiMdjtmjU3NHA1fasb9+Ea/MCVtD3kQ1YeC0cWJ8
+ OM3sybgX/ZilgTK0PZ160/ks9sR2gCWwdA4TbX96Bz1i4JmkkUll1T9JIHpvvEChGDnN
+ KDrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=JB+HW/cLvV/FJWKctK2co39OaqfJasnOQH2X/cXDhr4=;
- b=yJGsC1kIqlPv/SiiKFY0UO0OmZ4uKK2rVaf0w3a0jkCjq/R2I11+UbAKrReU+Bq94Q
- 5HKForlZ/u9tnqyRoIoYkjXYnR8oEv5fLgOClBM+aVy0S1DA8ZWSGlYDUIR7HU7yMIIp
- pR6GD3QRgdLOp0IXRjfGoXQdFiKRzpOe84UnU4xVnVe3U4IGxNp+8lCCAGEH6woNSsN5
- Wd7vlVEUImGmCS16JEI6Trz/ZsK+8n9PSo1RdoHHWSP7iBKw1nBzCwXA9L9b6DU44ME0
- BY40VtO6yXK3LfyTRmTzCqxt7p+wM99u5SSdzK0bP89BA8NhrI9Al2HRRWIGXw8ukPqD
- nu+g==
-X-Gm-Message-State: AOAM533HjW1P8FopgeNqrPr3FnIMS8sqKFD7HXodTSGmlZcXUnmTDRR9
- wLoS81AH0Zy6sPz5OZn6uWyNplwFVM7fwwzBk0PXqPX2/4iUIW9tx9UHeSJjR6g8QVdqFcaCg4k
- +mlpTVamh10UUDkI=
-X-Received: by 2002:a05:6000:178c:: with SMTP id
- e12mr8399611wrg.563.1642170471151; 
- Fri, 14 Jan 2022 06:27:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwrV/4W8erl24h91da86K8VJgNAXhbSGeIcSDudmToz9FlBdIMA0J4JbyH4yFHVRrLU6usWrg==
-X-Received: by 2002:a05:6000:178c:: with SMTP id
- e12mr8399591wrg.563.1642170470931; 
- Fri, 14 Jan 2022 06:27:50 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id 1sm2410749wry.46.2022.01.14.06.27.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Jan 2022 06:27:50 -0800 (PST)
-Message-ID: <a6da24a0-9ece-f0a8-9f07-8f5c946529c0@redhat.com>
-Date: Fri, 14 Jan 2022 15:27:49 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=z/JX1tenfC5wsT84raxQ7+N7mm06NTrEeXttwvSVH1s=;
+ b=i3taYgvsA5WR/CrhjfJxSDAcdFZH5DxTzHiQ+mIMxzo1TgoTcl5e3+PzyBZxGC1tWp
+ SVNgxPJryc3U5DrM1o1XuQglTUbAeZqxJw4EHUaBLkIWqO91S8AyzSSXRlGRb6P7ewaW
+ v/02r5JRZEOT5dNrEUhDWsVlKHcyqs816dlhK2Z3uVWHM8kULJNZsrilt/Uc6wR6ipnH
+ MpiXmcnLmatnO1l7x/dN9VMhIfUlvfDM3VQ/YCHBDil0zFwfWH72UlNfXS3zlXWgOwM3
+ vYElhullXZpsSigk8uYInhFpg3Ao/7i4GCm7oBl1WYIyv8D0eS+saFelYTifaJY2jTRk
+ jMSw==
+X-Gm-Message-State: AOAM533qkFNeVRBKq95T1fIviqjEhEwrWdFLmJ+YEAQmlcC7vHlLQziB
+ tYVk274hRwW6pX/CzLep6uM=
+X-Google-Smtp-Source: ABdhPJyyS1pvE8ddXnMk5bssLFOBNEhQ0k1zgKsM2L3Cb72HuZCLMf945uaKUh/qx4ytVzmgXUFWrA==
+X-Received: by 2002:a2e:9e8e:: with SMTP id f14mr6680198ljk.343.1642174108287; 
+ Fri, 14 Jan 2022 07:28:28 -0800 (PST)
+Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
+ by smtp.gmail.com with ESMTPSA id
+ f22sm611952lfg.288.2022.01.14.07.28.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Jan 2022 07:28:27 -0800 (PST)
+Date: Fri, 14 Jan 2022 16:28:26 +0100
+From: Francisco Iglesias <frasse.iglesias@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v5 12/12] docs/devel: Add documentation for the DMA
+ control interface
+Message-ID: <20220114152825.GA14171@fralle-msi>
+References: <20211214110354.21816-1-francisco.iglesias@xilinx.com>
+ <20211214110354.21816-13-francisco.iglesias@xilinx.com>
+ <CAFEAcA8wykmf4ZkpEbj_DrJkmSTU0JSfsar7ysDHcHEg4AzinA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [RFC PATCH] block/file-posix: Remove a deprecation warning on
- macOS 12
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20220105235607.212848-1-f4bug@amsat.org>
- <54a82da6-3546-ddf1-692e-105174ddcaec@redhat.com>
- <9f852ddf-810b-c008-1887-52519358049a@amsat.org>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <9f852ddf-810b-c008-1887-52519358049a@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA8wykmf4ZkpEbj_DrJkmSTU0JSfsar7ysDHcHEg4AzinA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::12b;
+ envelope-from=frasse.iglesias@gmail.com; helo=mail-lf1-x12b.google.com
+X-Spam_score_int: -1012
+X-Spam_score: -101.3
+X-Spam_bar: ---------------------------------------------------
+X-Spam_report: (-101.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_WELCOMELIST=-0.01,
+ USER_IN_WHITELIST=-100 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,63 +91,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, John Arbuckle <programmingkidx@gmail.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Joelle van Dyne <j@getutm.app>
+Cc: edgar.iglesias@xilinx.com, alistair@alistair23.me, qemu-devel@nongnu.org,
+ Francisco Iglesias <francisco.iglesias@xilinx.com>, alistair23@gmail.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14.01.22 15:15, Philippe Mathieu-Daudé wrote:
-> On 14/1/22 15:09, Hanna Reitz wrote:
->> On 06.01.22 00:56, Philippe Mathieu-Daudé wrote:
->>> When building on macOS 12 we get:
->>>
->>>    ../block/file-posix.c:3335:18: warning: 'IOMasterPort' is 
->>> deprecated: first deprecated in macOS 12.0 [-Wdeprecated-declarations]
->>>        kernResult = IOMasterPort( MACH_PORT_NULL, &masterPort );
->>>                     ^~~~~~~~~~~~
->>>                     IOMainPort
->>>
->>> Use IOMainPort (define it to IOMasterPort on macOS < 12),
->>> and replace 'master' by 'main' in a variable name.
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>> ---
->>>   block/file-posix.c | 13 +++++++++----
->>>   1 file changed, 9 insertions(+), 4 deletions(-)
->>
->> I hope the [RFC] tag isn’t directed at me.
->>
->> Still, I can give my comment, of course.
->>
->>> diff --git a/block/file-posix.c b/block/file-posix.c
->>> index b283093e5b..0dcfce1856 100644
->>> --- a/block/file-posix.c
->>> +++ b/block/file-posix.c
->>> @@ -3324,17 +3324,22 @@ BlockDriver bdrv_file = {
->>>   #if defined(__APPLE__) && defined(__MACH__)
->>>   static kern_return_t GetBSDPath(io_iterator_t mediaIterator, char 
->>> *bsdPath,
->>>                                   CFIndex maxPathSize, int flags);
->>> +
->>> +#if !defined(MAC_OS_VERSION_12_0)
->>
->> So AFAIU from my quick rather fruit-less googling, this macro is 
->> defined (to some version-defining integer) on every macOS version 
->> starting from 12.0?  (Just confirming because the name could also 
->> mean it’d be defined only on 12.0.)
->
-> Thanks, I posted up to v3 and macOS users helped me, I will post a v4 
-> soon.
->
-> v3: 
-> https://lore.kernel.org/qemu-devel/20220110131001.614319-1-f4bug@amsat.org/
+On [2022 Jan 07] Fri 16:07:17, Peter Maydell wrote:
+> On Tue, 14 Dec 2021 at 11:04, Francisco Iglesias
+> <francisco.iglesias@xilinx.com> wrote:
+> >
+> > Also, since being the author, list myself as maintainer for the file.
+> >
+> > Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
+> 
+> 
+> > +DmaCtrlIfClass
+> > +--------------
+> > +
+> > +The ``DmaCtrlIfClass`` contains the interface methods that can be
+> > +implemented by a DMA engine.
+> > +
+> > +.. code-block:: c
+> > +
+> > +    typedef struct DmaCtrlIfClass {
+> > +        InterfaceClass parent;
+> > +
+> > +        /*
+> > +         * read: Start a read transfer on the DMA engine implementing the DMA
+> > +         * control interface
+> > +         *
+> > +         * @dma_ctrl: the DMA engine implementing this interface
+> > +         * @addr: the address to read
+> > +         * @len: the number of bytes to read at 'addr'
+> > +         */
+> 
+> The prototype seems to be missing here.
+> 
+> > +    } DmaCtrlIfClass;
+> > +
+> > +
+> > +dma_ctrl_if_read
+> > +----------------------------
+> > +
+> > +The ``dma_ctrl_if_read`` function is used from a model embedding the DMA engine
+> > +for starting DMA read transfers.
+> > +
+> > +.. code-block:: c
+> > +
+> > +    /*
+> > +     * Start a read transfer on a DMA engine implementing the DMA control
+> > +     * interface.
+> > +     *
+> > +     * @dma_ctrl: the DMA engine implementing this interface
+> > +     * @addr: the address to read
+> > +     * @len: the number of bytes to read at 'addr'
+> > +     */
+> > +    void dma_ctrl_if_read(DmaCtrlIf *dma, hwaddr addr, uint32_t len);
 
-I see.  The MAC_OS_X_VERSION_M{IN,AX}_REQUIRED thing was exactly what I 
-didn’t really understand from said googling, but the important thing is 
-that you do.  (Something to do with what runtime is actually in use 
-rather than what the system can provide?  Well, I’ll just stop asking.)  O:)
+Hi Peter,
 
-Hanna
+> 
+> The method says it "starts" the transfer. How does the thing on the
+> end of the DMA control interface find out when the transfer completes,
+> or if there were any errors ?
 
+Yes, I can see that above is not clear enough at the moment, I'll attemp to
+improve and fix this in v6! I'll also correct the other issues you found in the
+series!
+
+Thank you very much for reviewing again!
+
+Best regards,
+Francisco
+
+> 
+> thanks
+> -- PMM
 
