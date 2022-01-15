@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF01748F71D
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jan 2022 14:39:41 +0100 (CET)
-Received: from localhost ([::1]:32874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC8448F723
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jan 2022 14:47:50 +0100 (CET)
+Received: from localhost ([::1]:35914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8jHQ-0000S7-Ii
-	for lists+qemu-devel@lfdr.de; Sat, 15 Jan 2022 08:39:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34674)
+	id 1n8jPJ-0003GO-2w
+	for lists+qemu-devel@lfdr.de; Sat, 15 Jan 2022 08:47:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1n8jDa-0007PF-G6
- for qemu-devel@nongnu.org; Sat, 15 Jan 2022 08:35:42 -0500
-Received: from [2001:41c9:1:41f::167] (port=48750
+ id 1n8jJj-0002Nj-3R
+ for qemu-devel@nongnu.org; Sat, 15 Jan 2022 08:42:04 -0500
+Received: from [2001:41c9:1:41f::167] (port=48762
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1n8jDX-0007f0-Pr
- for qemu-devel@nongnu.org; Sat, 15 Jan 2022 08:35:42 -0500
+ id 1n8jJg-0002vv-6p
+ for qemu-devel@nongnu.org; Sat, 15 Jan 2022 08:42:02 -0500
 Received: from [2a00:23c4:8ba0:4900:614:7796:ec2b:4f88]
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1n8jD2-0005yc-VQ; Sat, 15 Jan 2022 13:35:13 +0000
-Message-ID: <81217ed4-075b-5f2c-cb15-314d621cc2be@ilande.co.uk>
-Date: Sat, 15 Jan 2022 13:35:29 +0000
+ id 1n8jJB-00060J-FP; Sat, 15 Jan 2022 13:41:33 +0000
+Message-ID: <56506490-9166-15a7-16b5-77f4674f5d74@ilande.co.uk>
+Date: Sat, 15 Jan 2022 13:41:49 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
 Content-Language: en-US
 To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
 References: <20220108091419.2027710-1-yangxiaojuan@loongson.cn>
- <20220108091419.2027710-16-yangxiaojuan@loongson.cn>
+ <20220108091419.2027710-19-yangxiaojuan@loongson.cn>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220108091419.2027710-16-yangxiaojuan@loongson.cn>
+In-Reply-To: <20220108091419.2027710-19-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:4900:614:7796:ec2b:4f88
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [RFC PATCH v4 15/30] hw/loongarch: Add support loongson3-ls7a
- machine type.
+Subject: Re: [RFC PATCH v4 18/30] hw/intc: Add LoongArch ls7a interrupt
+ controller support(PCH-PIC)
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -67,450 +67,597 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, philmd@redhat.com,
+Cc: philmd@redhat.com, richard.henderson@linaro.org,
  Song Gao <gaosong@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 08/01/2022 09:14, Xiaojuan Yang wrote:
-
-> Emulate a 3A5000 board use the new loongarch instruction.
-> 3A5000 belongs to the Loongson3 series processors.
-> The board consists of a 3A5000 cpu model and the 7A1000
-> bridge. The host 3A5000 board is really complicated and
-> contains many functions.Now for the tcg softmmu mode
-> only part functions are emulated.
-> 
-> More detailed info you can see
-> https://github.com/loongson/LoongArch-Documentation
+> This patch realize the PCH-PIC interrupt controller.
 > 
 > Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 > Signed-off-by: Song Gao <gaosong@loongson.cn>
 > ---
->   .../devices/loongarch64-softmmu/default.mak   |   3 +
->   configs/targets/loongarch64-softmmu.mak       |   3 +
->   hw/Kconfig                                    |   1 +
->   hw/loongarch/Kconfig                          |   3 +
->   hw/loongarch/loongson3.c                      | 152 ++++++++++++++++++
->   hw/loongarch/meson.build                      |   4 +
->   hw/meson.build                                |   1 +
->   include/exec/poison.h                         |   2 +
->   include/hw/loongarch/loongarch.h              |  50 ++++++
->   include/sysemu/arch_init.h                    |   1 +
->   qapi/machine.json                             |   2 +-
->   target/Kconfig                                |   1 +
->   target/loongarch/Kconfig                      |   2 +
->   target/loongarch/cpu.c                        |   3 +
->   target/loongarch/cpu.h                        |   2 +
->   15 files changed, 229 insertions(+), 1 deletion(-)
->   create mode 100644 configs/devices/loongarch64-softmmu/default.mak
->   create mode 100644 hw/loongarch/Kconfig
->   create mode 100644 hw/loongarch/loongson3.c
->   create mode 100644 hw/loongarch/meson.build
->   create mode 100644 include/hw/loongarch/loongarch.h
->   create mode 100644 target/loongarch/Kconfig
+>   hw/intc/Kconfig                     |   4 +
+>   hw/intc/loongarch_pch_pic.c         | 428 ++++++++++++++++++++++++++++
+>   hw/intc/meson.build                 |   1 +
+>   hw/intc/trace-events                |   7 +
+>   hw/loongarch/Kconfig                |   1 +
+>   include/hw/intc/loongarch_pch_pic.h |  74 +++++
+>   6 files changed, 515 insertions(+)
+>   create mode 100644 hw/intc/loongarch_pch_pic.c
+>   create mode 100644 include/hw/intc/loongarch_pch_pic.h
 > 
-> diff --git a/configs/devices/loongarch64-softmmu/default.mak b/configs/devices/loongarch64-softmmu/default.mak
-> new file mode 100644
-> index 0000000000..973ce4c30a
-> --- /dev/null
-> +++ b/configs/devices/loongarch64-softmmu/default.mak
-> @@ -0,0 +1,3 @@
-> +# Default configuration for loongarch64-softmmu
+> diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+> index 9f5aaffb6f..928db92bb4 100644
+> --- a/hw/intc/Kconfig
+> +++ b/hw/intc/Kconfig
+> @@ -81,3 +81,7 @@ config M68K_IRQC
+>   
+>   config LOONGARCH_IPI
+>       bool
 > +
-> +CONFIG_LOONGSON3_LS7A=y
-> diff --git a/configs/targets/loongarch64-softmmu.mak b/configs/targets/loongarch64-softmmu.mak
-> index f33fa1590b..7bc06c850c 100644
-> --- a/configs/targets/loongarch64-softmmu.mak
-> +++ b/configs/targets/loongarch64-softmmu.mak
-> @@ -1 +1,4 @@
-> +TARGET_ARCH=loongarch64
-> +TARGET_BASE_ARCH=loongarch
-> +TARGET_SUPPORTS_MTTCG=y
->   TARGET_XML_FILES= gdb-xml/loongarch-base64.xml gdb-xml/loongarch-fpu64.xml
-> diff --git a/hw/Kconfig b/hw/Kconfig
-> index ad20cce0a9..f71b2155ed 100644
-> --- a/hw/Kconfig
-> +++ b/hw/Kconfig
-> @@ -49,6 +49,7 @@ source avr/Kconfig
->   source cris/Kconfig
->   source hppa/Kconfig
->   source i386/Kconfig
-> +source loongarch/Kconfig
->   source m68k/Kconfig
->   source microblaze/Kconfig
->   source mips/Kconfig
-> diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
-> new file mode 100644
-> index 0000000000..ae8498de6a
-> --- /dev/null
-> +++ b/hw/loongarch/Kconfig
-> @@ -0,0 +1,3 @@
-> +config LOONGSON3_LS7A
+> +config LOONGARCH_PCH_PIC
 > +    bool
-> +    select PCI_EXPRESS_7A
-> diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
+> +    select UNIMP
+> diff --git a/hw/intc/loongarch_pch_pic.c b/hw/intc/loongarch_pch_pic.c
 > new file mode 100644
-> index 0000000000..3e72c1666c
+> index 0000000000..4da78b5bc8
 > --- /dev/null
-> +++ b/hw/loongarch/loongson3.c
-> @@ -0,0 +1,152 @@
+> +++ b/hw/intc/loongarch_pch_pic.c
+> @@ -0,0 +1,428 @@
 > +/* SPDX-License-Identifier: GPL-2.0-or-later */
 > +/*
-> + * QEMU loongson 3a5000 develop board emulation
+> + * QEMU Loongson 7A1000 I/O interrupt controller.
 > + *
-> + * Copyright (c) 2021 Loongson Technology Corporation Limited
+> + * Copyright (C) 2021 Loongson Technology Corporation Limited
 > + */
+> +
 > +#include "qemu/osdep.h"
-> +#include "qemu-common.h"
-> +#include "qemu/units.h"
-> +#include "qemu/datadir.h"
-> +#include "qapi/error.h"
-> +#include "hw/boards.h"
-> +#include "sysemu/sysemu.h"
-> +#include "sysemu/qtest.h"
-> +#include "sysemu/runstate.h"
-> +#include "sysemu/reset.h"
+> +#include "hw/sysbus.h"
 > +#include "hw/loongarch/loongarch.h"
-> +#include "hw/pci-host/ls7a.h"
+> +#include "hw/irq.h"
+> +#include "hw/intc/loongarch_pch_pic.h"
+> +#include "migration/vmstate.h"
+> +#include "trace.h"
 > +
-> +static void loongarch_cpu_reset(void *opaque)
+> +static void pch_pic_update_irq(LoongArchPCHPIC *s, uint32_t mask,
+> +                               int level, int hi)
 > +{
-> +    LoongArchCPU *cpu = opaque;
+> +    uint32_t val, irq;
 > +
-> +    cpu_reset(CPU(cpu));
-> +}
-> +
-> +#define LOONGARCH_SIMPLE_MMIO_OPS(ADDR, NAME, SIZE, INDEX) \
-> +({\
-> +     memory_region_init_io(env->iocsr_mem[INDEX], NULL, &loongarch_qemu_ops,\
-> +                           (void *)ADDR, NAME, SIZE);\
-
-The second parameter to memory_region_init_io() should be the name of the owning 
-device if possible, which I believe here is the CPU (LoongArchCPU).
-
-> +     memory_region_add_subregion(env->system_iocsr, ADDR, env->iocsr_mem[INDEX]);\
-> +})
-> +
-> +static void loongarch_qemu_write(void *opaque, hwaddr addr,
-> +                                 uint64_t val, unsigned size)
-> +{
-> +}
-> +
-> +static uint64_t loongarch_qemu_read(void *opaque, hwaddr addr, unsigned size)
-> +{
-> +    uint64_t feature = 0UL;
-> +    addr = ((hwaddr)(long)opaque) + addr;
-
-This looks odd...
-
-> +    switch (addr) {
-> +    case FEATURE_REG:
-> +        feature |= 1UL << IOCSRF_MSI | 1UL << IOCSRF_EXTIOI |
-> +                   1UL << IOCSRF_CSRIPI;
-> +        return feature ;
-> +    case VENDOR_REG:
-> +        return *(uint64_t *)"Loongson";
-> +    case CPUNAME_REG:
-> +        return *(uint64_t *)"3A5000";
-> +    case MISC_FUNC_REG:
-> +        return 1UL << IOCSRM_EXTIOI_EN;
+> +    if (level == 1) {
+> +        if (hi) {
+> +            val = mask & s->intirr_hi & (~s->int_mask_hi);
+> +            irq = find_first_bit((void *)&val, 32);
+> +            if (irq != 32) {
+> +                s->intisr_hi |= 1ULL << irq;
+> +                qemu_set_irq(s->parent_irq[s->htmsi_vector[irq + 32]], 1);
+> +            }
+> +        } else {
+> +            val = mask & s->intirr_lo & (~s->int_mask_lo);
+> +            irq = find_first_bit((void *)&val, 32);
+> +            if (irq != 32) {
+> +                s->intisr_lo |= 1ULL << irq;
+> +                qemu_set_irq(s->parent_irq[s->htmsi_vector[irq]], 1);
+> +            }
+> +        }
+> +    } else {
+> +        if (hi) {
+> +            val = mask & s->intisr_hi;
+> +            irq = find_first_bit((void *)&val, 32);
+> +            if (irq != 32) {
+> +                s->intisr_hi &= ~(0x1ULL << irq);
+> +                qemu_set_irq(s->parent_irq[s->htmsi_vector[irq + 32]], 0);
+> +            }
+> +        } else {
+> +            val = mask & s->intisr_lo;
+> +            irq = find_first_bit((void *)&val, 32);
+> +            if (irq != 32) {
+> +                s->intisr_lo &= ~(0x1ULL << irq);
+> +                qemu_set_irq(s->parent_irq[s->htmsi_vector[irq]], 0);
+> +            }
+> +        }
 > +    }
-> +    return 0;
 > +}
 > +
-> +static const MemoryRegionOps loongarch_qemu_ops = {
-> +    .read = loongarch_qemu_read,
-> +    .write = loongarch_qemu_write,
-> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +static void pch_pic_irq_handler(void *opaque, int irq, int level)
+> +{
+> +    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
+> +    int hi = 0;
+> +    uint32_t mask;
+> +
+> +    assert(irq < PCH_PIC_IRQ_NUM);
+> +    trace_pch_pic_irq_handler(irq, level);
+> +
+> +    hi = (irq >= 32) ? 1 : 0;
+> +    if (hi) {
+> +        irq = irq - 32;
+> +    }
+> +
+> +    mask = 1ULL << irq;
+> +
+> +    if (hi) {
+> +        if (s->intedge_hi & mask) {
+> +            /* Edge triggered */
+> +            if (level) {
+> +                if ((s->last_intirr_hi & mask) == 0) {
+> +                    s->intirr_hi |= mask;
+> +                }
+> +                s->last_intirr_hi |= mask;
+> +            } else {
+> +                s->last_intirr_hi &= ~mask;
+> +            }
+> +        } else {
+> +            /* Level triggered */
+> +            if (level) {
+> +                s->intirr_hi |= mask;
+> +                s->last_intirr_hi |= mask;
+> +            } else {
+> +                s->intirr_hi &= ~mask;
+> +                s->last_intirr_hi &= ~mask;
+> +            }
+> +        }
+> +    } else {
+> +        if (s->intedge_lo & mask) {
+> +            /* Edge triggered */
+> +            if (level) {
+> +                if ((s->last_intirr_lo & mask) == 0) {
+> +                    s->intirr_lo |= mask;
+> +                }
+> +                s->last_intirr_lo |= mask;
+> +            } else {
+> +                s->last_intirr_lo &= ~mask;
+> +            }
+> +        } else {
+> +            /* Level triggered */
+> +            if (level) {
+> +                s->intirr_lo |= mask;
+> +                s->last_intirr_lo |= mask;
+> +            } else {
+> +                s->intirr_lo &= ~mask;
+> +                s->last_intirr_lo &= ~mask;
+> +            }
+> +
+> +        }
+> +    }
+> +    pch_pic_update_irq(s, mask, level, hi);
+> +}
+> +
+> +static uint64_t loongarch_pch_pic_readw(void *opaque, hwaddr addr,
+> +                                        unsigned size)
+> +{
+> +    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
+> +    uint64_t val = 0;
+> +    uint32_t offset = addr & 0xfff;
+> +
+> +    switch (offset) {
+> +    case PCH_PIC_INT_ID_LO:
+> +        val = PCH_PIC_INT_ID_VAL;
+> +        break;
+> +    case PCH_PIC_INT_ID_HI:
+> +        val = PCH_PIC_INT_ID_NUM;
+> +        break;
+> +    case PCH_PIC_INT_MASK_LO:
+> +        val = s->int_mask_lo;
+> +        break;
+> +    case PCH_PIC_INT_MASK_HI:
+> +        val = s->int_mask_hi;
+> +        break;
+> +    case PCH_PIC_INT_STATUS_LO:
+> +        val = s->intisr_lo & (~s->int_mask_lo);
+> +        break;
+> +    case PCH_PIC_INT_STATUS_HI:
+> +        val = s->intisr_hi & (~s->int_mask_hi);
+> +        break;
+> +    case PCH_PIC_INT_EDGE_LO:
+> +        val = s->intedge_lo;
+> +        break;
+> +    case PCH_PIC_INT_EDGE_HI:
+> +        val = s->intedge_hi;
+> +        break;
+> +    case PCH_PIC_INT_POL_LO:
+> +        val = s->int_polarity_lo;
+> +        break;
+> +    case PCH_PIC_INT_POL_HI:
+> +        val = s->int_polarity_hi;
+> +        break;
+> +    case PCH_PIC_HTMSI_EN_LO:
+> +        val = s->htmsi_en_lo;
+> +        break;
+> +    case PCH_PIC_HTMSI_EN_HI:
+> +        val = s->htmsi_en_hi;
+> +        break;
+> +    case PCH_PIC_AUTO_CTRL0_LO:
+> +    case PCH_PIC_AUTO_CTRL0_HI:
+> +    case PCH_PIC_AUTO_CTRL1_LO:
+> +    case PCH_PIC_AUTO_CTRL1_HI:
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +
+> +    trace_loongarch_pch_pic_readw(size, (uint32_t)addr, val);
+> +    return val;
+> +}
+> +
+> +static void loongarch_pch_pic_writew(void *opaque, hwaddr addr,
+> +                                     uint64_t data, unsigned size)
+> +{
+> +    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
+> +    uint32_t offset, old;
+> +    offset = addr & 0xfff;
+> +
+> +    trace_loongarch_pch_pic_writew(size, (uint32_t)addr, data);
+> +
+> +    switch (offset) {
+> +    case PCH_PIC_INT_MASK_LO:
+> +        old = s->int_mask_lo;
+> +        s->int_mask_lo = data;
+> +        if (old & ~data) {
+> +            pch_pic_update_irq(s, (old & ~data), 1, 0);
+> +        } else if (~old & data) {
+> +            pch_pic_update_irq(s, (~old & data), 0, 0);
+> +        }
+> +        break;
+> +    case PCH_PIC_INT_MASK_HI:
+> +        old = s->int_mask_hi;
+> +        s->int_mask_hi = data;
+> +        if (old & ~data) {
+> +            pch_pic_update_irq(s, (old & ~data), 1, 1);
+> +        } else if (~old & data) {
+> +            pch_pic_update_irq(s, (~old & data), 0, 1);
+> +        }
+> +        break;
+> +    case PCH_PIC_INT_STATUS_LO:
+> +        s->intisr_lo = data;
+> +        break;
+> +    case PCH_PIC_INT_STATUS_HI:
+> +        s->intisr_hi = data;
+> +        break;
+> +    case PCH_PIC_INT_EDGE_LO:
+> +        s->intedge_lo = data;
+> +        break;
+> +    case PCH_PIC_INT_EDGE_HI:
+> +        s->intedge_hi = data;
+> +        break;
+> +    case PCH_PIC_INT_CLEAR_LO:
+> +        if (s->intedge_lo & data) {
+> +            s->intirr_lo &= (~data);
+> +            pch_pic_update_irq(s, data, 0, 0);
+> +            s->intisr_lo &= (~data);
+> +        }
+> +        break;
+> +    case PCH_PIC_INT_CLEAR_HI:
+> +        if (s->intedge_hi & data) {
+> +            s->intirr_hi &= (~data);
+> +            pch_pic_update_irq(s, data, 0, 1);
+> +            s->intisr_hi &= (~data);
+> +        }
+> +        break;
+> +    case PCH_PIC_INT_POL_LO:
+> +        s->int_polarity_lo = data;
+> +        break;
+> +    case PCH_PIC_INT_POL_HI:
+> +        s->int_polarity_hi = data;
+> +        break;
+> +    case PCH_PIC_HTMSI_EN_LO:
+> +        s->htmsi_en_lo = data;
+> +        break;
+> +    case PCH_PIC_HTMSI_EN_HI:
+> +        s->htmsi_en_hi = data;
+> +        break;
+> +    case PCH_PIC_AUTO_CTRL0_LO:
+> +    case PCH_PIC_AUTO_CTRL0_HI:
+> +    case PCH_PIC_AUTO_CTRL1_LO:
+> +    case PCH_PIC_AUTO_CTRL1_HI:
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +}
+> +
+> +static uint64_t loongarch_pch_pic_readb(void *opaque, hwaddr addr,
+> +                                        unsigned size)
+> +{
+> +    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
+> +    uint64_t val = 0;
+> +    uint32_t offset = (addr & 0xfff) + PCH_PIC_ROUTE_ENTRY_OFFSET;
+> +    int64_t offset_tmp;
+> +
+> +    if (offset >= PCH_PIC_HTMSI_VEC_OFFSET) {
+> +        offset_tmp = offset - PCH_PIC_HTMSI_VEC_OFFSET;
+> +        if (offset_tmp >= 0 && offset_tmp < 64) {
+> +            val = s->htmsi_vector[offset_tmp];
+> +        }
+> +    } else if (offset >= PCH_PIC_ROUTE_ENTRY_OFFSET) {
+> +        offset_tmp = offset - PCH_PIC_ROUTE_ENTRY_OFFSET;
+> +        if (offset_tmp >= 0 && offset_tmp < 64) {
+> +            val = s->route_entry[offset_tmp];
+> +        }
+> +    }
+
+Can you convert this into a switch() so it is like the others (plus it makes it 
+easier to read):
+
+     switch (offset) {
+     case PCH_PIC_HTMSI_VEC_OFFSET ... PCH_PIC_HTMSI_VEC_END:
+         ....
+         break;
+     case PCH_PIC_ROUTE_ENTRY_OFFSET ... PCH_PIC_ROUTE_ENTRY_END:
+         ....
+         break;
+     }
+
+> +    trace_loongarch_pch_pic_readb(size, (uint32_t)addr, val);
+> +    return val;
+> +}
+> +
+> +static void loongarch_pch_pic_writeb(void *opaque, hwaddr addr,
+> +                                     uint64_t data, unsigned size)
+> +{
+> +    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
+> +    int32_t offset_tmp;
+> +    uint32_t offset = (addr & 0xfff) + PCH_PIC_ROUTE_ENTRY_OFFSET;
+> +
+> +    trace_loongarch_pch_pic_writeb(size, (uint32_t)addr, data);
+> +
+> +    if (offset >= PCH_PIC_HTMSI_VEC_OFFSET) {
+> +        offset_tmp = offset - PCH_PIC_HTMSI_VEC_OFFSET;
+> +        if (offset_tmp >= 0 && offset_tmp < 64) {
+> +            s->htmsi_vector[offset_tmp] = (uint8_t)(data & 0xff);
+> +        }
+> +    } else if (offset >=  PCH_PIC_ROUTE_ENTRY_OFFSET) {
+> +        offset_tmp = offset - PCH_PIC_ROUTE_ENTRY_OFFSET;
+> +        if (offset_tmp >= 0 && offset_tmp < 64) {
+> +            s->route_entry[offset_tmp] = (uint8_t)(data & 0xff);
+> +        }
+> +    }
+> +}
+> +
+> +static const MemoryRegionOps loongarch_pch_pic_reg32_ops = {
+> +    .read = loongarch_pch_pic_readw,
+> +    .write = loongarch_pch_pic_writew,
 > +    .valid = {
 > +        .min_access_size = 4,
 > +        .max_access_size = 8,
 > +    },
 > +    .impl = {
 > +        .min_access_size = 4,
-> +        .max_access_size = 8,
+> +        .max_access_size = 4,
 > +    },
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
 > +};
 > +
-> +static void loongarch_init(MachineState *machine)
+> +static const MemoryRegionOps loongarch_pch_pic_reg8_ops = {
+> +    .read = loongarch_pch_pic_readb,
+> +    .write = loongarch_pch_pic_writeb,
+> +    .valid = {
+> +        .min_access_size = 1,
+> +        .max_access_size = 1,
+> +    },
+> +    .impl = {
+> +        .min_access_size = 1,
+> +        .max_access_size = 1,
+> +    },
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +};
+> +
+> +static void loongarch_pch_pic_reset(DeviceState *d)
 > +{
-> +    const char *cpu_model = machine->cpu_type;
-> +    LoongArchCPU *la_cpu;
-> +    CPULoongArchState *env;
-> +    ram_addr_t offset = 0;
-> +    ram_addr_t ram_size = machine->ram_size;
-> +    uint64_t highram_size = 0;
-> +    MemoryRegion *address_space_mem = get_system_memory();
-> +    LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
+> +    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(d);
 > +    int i;
 > +
-> +    if (!cpu_model) {
-> +        cpu_model = LOONGARCH_CPU_TYPE_NAME("Loongson-3A5000");
+> +    s->int_mask_lo = -1;
+> +    s->int_mask_hi = -1;
+> +    s->htmsi_en_lo = 0x0;
+> +    s->htmsi_en_hi = 0x0;
+> +    s->intedge_lo  = 0x0;
+> +    s->intedge_hi  = 0x0;
+> +    s->intclr_lo   = 0x0;
+> +    s->intclr_hi   = 0x0;
+> +    s->auto_crtl0_lo = 0x0;
+> +    s->auto_crtl0_hi = 0x0;
+> +    s->auto_crtl1_lo = 0x0;
+> +    s->auto_crtl1_hi = 0x0;
+> +    for (i = 0; i < 64; i++) {
+> +        s->route_entry[i] = 0x1;
+> +        s->htmsi_vector[i] = 0x0;
 > +    }
-> +
-> +    if (!strstr(cpu_model, "Loongson-3A5000")) {
-> +        error_report("LoongArch/TCG needs cpu type Loongson-3A5000");
-> +        exit(1);
-> +    }
-> +
-> +    /* Init CPUs */
-> +    for (i = 0; i < machine->smp.cpus; i++) {
-> +        la_cpu = LOONGARCH_CPU(cpu_create(machine->cpu_type));
-> +
-> +        qemu_register_reset(loongarch_cpu_reset, la_cpu);
-> +
-> +        env = &la_cpu->env;
-> +        LOONGARCH_SIMPLE_MMIO_OPS(FEATURE_REG, "loongarch_feature", 0x8, 0);
-> +        LOONGARCH_SIMPLE_MMIO_OPS(VENDOR_REG, "loongarch_vendor", 0x8, 1);
-> +        LOONGARCH_SIMPLE_MMIO_OPS(CPUNAME_REG, "loongarch_cpuname", 0x8, 2);
-> +        LOONGARCH_SIMPLE_MMIO_OPS(MISC_FUNC_REG, "loongarch_misc_func", 0x8, 3);
-
-How come these are separate memory regions? Could this not just be done with a single 
-memory region or do the registers need to be sparse to return a fault for a unknown 
-register.
-
-This should enable you to remove the opaque cast to hwaddr if possible.
-
-> +    }
-> +
-> +    /* Add memory region */
-> +    memory_region_init_alias(&lams->lowmem, NULL, "loongarch.lowram",
-> +                             machine->ram, 0, 256 * MiB);
-> +    memory_region_add_subregion(address_space_mem, offset, &lams->lowmem);
-> +    offset += 256 * MiB;
-> +
-> +    highram_size = ram_size - 256 * MiB;
-> +    memory_region_init_alias(&lams->highmem, NULL, "loongarch.highmem",
-> +                             machine->ram, offset, highram_size);
-> +    memory_region_add_subregion(address_space_mem, 0x90000000, &lams->highmem);
-> +    offset += highram_size;
-> +
-> +    /* Add isa io region */
-> +    memory_region_init_alias(&lams->isa_io, NULL, "isa-io",
-> +                             get_system_io(), 0, LOONGARCH_ISA_IO_SIZE);
-> +    memory_region_add_subregion(get_system_memory(), LOONGARCH_ISA_IO_BASE,
-> +                                &lams->isa_io);
-
-This looks like the odd one out: should it also be address_space_mem, or should the 
-others use get_system_memory() directory and then drop address_space_mem entirely?
-
+> +    s->intirr_lo = 0x0;
+> +    s->intirr_hi = 0x0;
+> +    s->intisr_lo = 0x0;
+> +    s->intisr_hi = 0x0;
+> +    s->last_intirr_lo = 0x0;
+> +    s->last_intirr_hi = 0x0;
+> +    s->int_polarity_lo = 0x0;
+> +    s->int_polarity_hi = 0x0;
 > +}
 > +
-> +static void loongarch_class_init(ObjectClass *oc, void *data)
+> +static void loongarch_pch_pic_init(Object *obj)
 > +{
-> +    MachineClass *mc = MACHINE_CLASS(oc);
+> +    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(obj);
+> +    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+> +    int i;
 > +
-> +    mc->desc = "Loongson-3A5000 LS7A1000 machine";
-> +    mc->init = loongarch_init;
-> +    mc->default_ram_size = 1 * GiB;
-> +    mc->default_cpu_type = LOONGARCH_CPU_TYPE_NAME("Loongson-3A5000");
-> +    mc->default_ram_id = "loongarch.ram";
-> +    mc->max_cpus = LOONGARCH_MAX_VCPUS;
-> +    mc->is_default = 1;
-> +    mc->default_kernel_irqchip_split = false;
-> +    mc->block_default_type = IF_VIRTIO;
-> +    mc->default_boot_order = "c";
-> +    mc->no_cdrom = 1;
+> +    memory_region_init_io(&s->iomem32, obj, &loongarch_pch_pic_reg32_ops,
+> +                          s, TYPE_LOONGARCH_PCH_PIC, 0x1000);
+> +    memory_region_init_io(&s->iomem8, obj, &loongarch_pch_pic_reg8_ops,
+> +                          s, TYPE_LOONGARCH_PCH_PIC, 0x140);
+> +    sysbus_init_mmio(sbd, &s->iomem32);
+> +    sysbus_init_mmio(sbd, &s->iomem8);
+> +
+> +    for (i = 0; i < PCH_PIC_IRQ_NUM; i++) {
+> +        sysbus_init_irq(sbd, &s->parent_irq[i]);
+> +    }
+> +    qdev_init_gpio_in(DEVICE(obj), pch_pic_irq_handler, PCH_PIC_IRQ_NUM);
 > +}
 > +
-> +static const TypeInfo loongarch_machine_types[] = {
-> +    {
-> +        .name           = TYPE_LOONGARCH_MACHINE,
-> +        .parent         = TYPE_MACHINE,
-> +        .instance_size  = sizeof(LoongArchMachineState),
-> +        .class_init     = loongarch_class_init,
+> +static const VMStateDescription vmstate_loongarch_pch_pic = {
+> +    .name = TYPE_LOONGARCH_PCH_PIC,
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT32(int_mask_lo, LoongArchPCHPIC),
+> +        VMSTATE_UINT32(int_mask_hi, LoongArchPCHPIC),
+> +        VMSTATE_UINT32(htmsi_en_lo, LoongArchPCHPIC),
+> +        VMSTATE_UINT32(htmsi_en_hi, LoongArchPCHPIC),
+> +        VMSTATE_UINT32(intedge_lo, LoongArchPCHPIC),
+> +        VMSTATE_UINT32(intedge_hi, LoongArchPCHPIC),
+> +        VMSTATE_UINT32(intclr_lo, LoongArchPCHPIC),
+> +        VMSTATE_UINT32(intclr_hi, LoongArchPCHPIC),
+> +        VMSTATE_UINT32(auto_crtl0_lo, LoongArchPCHPIC),
+> +        VMSTATE_UINT32(auto_crtl0_hi, LoongArchPCHPIC),
+> +        VMSTATE_UINT32(auto_crtl1_lo, LoongArchPCHPIC),
+> +        VMSTATE_UINT32(auto_crtl1_hi, LoongArchPCHPIC),
+> +        VMSTATE_UINT8_ARRAY(route_entry, LoongArchPCHPIC, 64),
+> +        VMSTATE_UINT8_ARRAY(htmsi_vector, LoongArchPCHPIC, 64),
+> +        VMSTATE_UINT32(last_intirr_lo, LoongArchPCHPIC),
+> +        VMSTATE_UINT32(last_intirr_hi, LoongArchPCHPIC),
+> +        VMSTATE_UINT32(intirr_lo, LoongArchPCHPIC),
+> +        VMSTATE_UINT32(intirr_hi, LoongArchPCHPIC),
+> +        VMSTATE_UINT32(intisr_lo, LoongArchPCHPIC),
+> +        VMSTATE_UINT32(intisr_hi, LoongArchPCHPIC),
+> +        VMSTATE_UINT32(int_polarity_lo, LoongArchPCHPIC),
+> +        VMSTATE_UINT32(int_polarity_hi, LoongArchPCHPIC),
+> +        VMSTATE_END_OF_LIST()
 > +    }
 > +};
 > +
-> +DEFINE_TYPES(loongarch_machine_types)
-> diff --git a/hw/loongarch/meson.build b/hw/loongarch/meson.build
-> new file mode 100644
-> index 0000000000..1db3529cbc
-> --- /dev/null
-> +++ b/hw/loongarch/meson.build
-> @@ -0,0 +1,4 @@
-> +loongarch_ss = ss.source_set()
-> +loongarch_ss.add(when: 'CONFIG_LOONGSON3_LS7A', if_true: files('loongson3.c'))
+> +static void loongarch_pch_pic_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
 > +
-> +hw_arch += {'loongarch': loongarch_ss}
-> diff --git a/hw/meson.build b/hw/meson.build
-> index b3366c888e..95202649b7 100644
-> --- a/hw/meson.build
-> +++ b/hw/meson.build
-> @@ -49,6 +49,7 @@ subdir('avr')
->   subdir('cris')
->   subdir('hppa')
->   subdir('i386')
-> +subdir('loongarch')
->   subdir('m68k')
->   subdir('microblaze')
->   subdir('mips')
-> diff --git a/include/exec/poison.h b/include/exec/poison.h
-> index 7ad4ad18e8..590bc305c7 100644
-> --- a/include/exec/poison.h
-> +++ b/include/exec/poison.h
-> @@ -14,6 +14,7 @@
->   #pragma GCC poison TARGET_CRIS
->   #pragma GCC poison TARGET_HEXAGON
->   #pragma GCC poison TARGET_HPPA
-> +#pragma GCC poison TARGET_LOONGARCH64
->   #pragma GCC poison TARGET_M68K
->   #pragma GCC poison TARGET_MICROBLAZE
->   #pragma GCC poison TARGET_MIPS
-> @@ -73,6 +74,7 @@
->   #pragma GCC poison CONFIG_HPPA_DIS
->   #pragma GCC poison CONFIG_I386_DIS
->   #pragma GCC poison CONFIG_HEXAGON_DIS
-> +#pragma GCC poison CONFIG_LOONGARCH_DIS
->   #pragma GCC poison CONFIG_M68K_DIS
->   #pragma GCC poison CONFIG_MICROBLAZE_DIS
->   #pragma GCC poison CONFIG_MIPS_DIS
-> diff --git a/include/hw/loongarch/loongarch.h b/include/hw/loongarch/loongarch.h
+> +    dc->reset = loongarch_pch_pic_reset;
+> +    dc->vmsd = &vmstate_loongarch_pch_pic;
+> +}
+> +
+> +static const TypeInfo loongarch_pch_pic_info = {
+> +    .name          = TYPE_LOONGARCH_PCH_PIC,
+> +    .parent        = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size = sizeof(LoongArchPCHPIC),
+> +    .instance_init = loongarch_pch_pic_init,
+> +    .class_init    = loongarch_pch_pic_class_init,
+> +};
+> +
+> +static void loongarch_pch_pic_register_types(void)
+> +{
+> +    type_register_static(&loongarch_pch_pic_info);
+> +}
+> +
+> +type_init(loongarch_pch_pic_register_types)
+> diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+> index 14c0834c67..cf08816547 100644
+> --- a/hw/intc/meson.build
+> +++ b/hw/intc/meson.build
+> @@ -61,3 +61,4 @@ specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
+>   specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
+>   specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
+>   specific_ss.add(when: 'CONFIG_LOONGARCH_IPI', if_true: files('loongarch_ipi.c'))
+> +specific_ss.add(when: 'CONFIG_LOONGARCH_PCH_PIC', if_true: files('loongarch_pch_pic.c'))
+> diff --git a/hw/intc/trace-events b/hw/intc/trace-events
+> index 55f2f3a8b6..ec42cfd3d5 100644
+> --- a/hw/intc/trace-events
+> +++ b/hw/intc/trace-events
+> @@ -250,3 +250,10 @@ sh_intc_set(int id, int enable) "setting interrupt group %d to %d"
+>   # loongarch_ipi.c
+>   loongarch_ipi_read(unsigned size, uint64_t addr, unsigned long val) "size: %u addr: 0x%"PRIx64 "val: 0x%"PRIx64
+>   loongarch_ipi_write(unsigned size, uint64_t addr, unsigned long val) "size: %u addr: 0x%"PRIx64 "val: 0x%"PRIx64
+> +
+> +# loongarch_pch_pic.c
+> +pch_pic_irq_handler(int irq, int level) "irq %d level %d"
+> +loongarch_pch_pic_readw(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
+> +loongarch_pch_pic_writew(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
+> +loongarch_pch_pic_readb(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
+> +loongarch_pch_pic_writeb(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
+> diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+> index 1591574397..c2b8046b94 100644
+> --- a/hw/loongarch/Kconfig
+> +++ b/hw/loongarch/Kconfig
+> @@ -2,3 +2,4 @@ config LOONGSON3_LS7A
+>       bool
+>       select PCI_EXPRESS_7A
+>       select LOONGARCH_IPI
+> +    select LOONGARCH_PCH_PIC
+> diff --git a/include/hw/intc/loongarch_pch_pic.h b/include/hw/intc/loongarch_pch_pic.h
 > new file mode 100644
-> index 0000000000..fd95fbce91
+> index 0000000000..3c2a5ed3eb
 > --- /dev/null
-> +++ b/include/hw/loongarch/loongarch.h
-> @@ -0,0 +1,50 @@
+> +++ b/include/hw/intc/loongarch_pch_pic.h
+> @@ -0,0 +1,74 @@
 > +/* SPDX-License-Identifier: GPL-2.0-or-later */
 > +/*
-> + * Definitions for loongarch board emulation.
+> + * LoongArch 7A1000 I/O interrupt controller definitions
 > + *
-> + * Copyright (C) 2021 Loongson Technology Corporation Limited
+> + * Copyright (c) 2021 Loongson Technology Corporation Limited
 > + */
 > +
-> +#ifndef HW_LOONGARCH_H
-> +#define HW_LOONGARCH_H
+> +#define TYPE_LOONGARCH_PCH_PIC "loongarch_pch_pic"
+> +DECLARE_INSTANCE_CHECKER(struct LoongArchPCHPIC, LOONGARCH_PCH_PIC,
+> +                         TYPE_LOONGARCH_PCH_PIC)
 > +
-> +#include "target/loongarch/cpu.h"
-> +#include "qemu-common.h"
-> +#include "hw/boards.h"
-> +#include "qemu/queue.h"
+> +#define PCH_PIC_IRQ_START               0
+> +#define PCH_PIC_IRQ_END                 63
+> +#define PCH_PIC_IRQ_NUM                 64
+> +#define PCH_PIC_INT_ID_VAL              0x7000000UL
+> +#define PCH_PIC_INT_ID_NUM              0x3f0001UL
 > +
-> +#define LOONGARCH_MAX_VCPUS     4
+> +#define PCH_PIC_INT_ID_LO               0x00
+> +#define PCH_PIC_INT_ID_HI               0x04
+> +#define PCH_PIC_INT_MASK_LO             0x20
+> +#define PCH_PIC_INT_MASK_HI             0x24
+> +#define PCH_PIC_HTMSI_EN_LO             0x40
+> +#define PCH_PIC_HTMSI_EN_HI             0x44
+> +#define PCH_PIC_INT_EDGE_LO             0x60
+> +#define PCH_PIC_INT_EDGE_HI             0x64
+> +#define PCH_PIC_INT_CLEAR_LO            0x80
+> +#define PCH_PIC_INT_CLEAR_HI            0x84
+> +#define PCH_PIC_AUTO_CTRL0_LO           0xc0
+> +#define PCH_PIC_AUTO_CTRL0_HI           0xc4
+> +#define PCH_PIC_AUTO_CTRL1_LO           0xe0
+> +#define PCH_PIC_AUTO_CTRL1_HI           0xe4
+> +#define PCH_PIC_ROUTE_ENTRY_OFFSET      0x100
+> +#define PCH_PIC_ROUTE_ENTRY_END         0x13f
+> +#define PCH_PIC_HTMSI_VEC_OFFSET        0x200
+> +#define PCH_PIC_HTMSI_VEC_END           0x23f
+> +#define PCH_PIC_INT_STATUS_LO           0x3a0
+> +#define PCH_PIC_INT_STATUS_HI           0x3a4
+> +#define PCH_PIC_INT_POL_LO              0x3e0
+> +#define PCH_PIC_INT_POL_HI              0x3e4
 > +
-> +#define FEATURE_REG             0x8
-> +#define IOCSRF_TEMP             0
-> +#define IOCSRF_NODECNT          1
-> +#define IOCSRF_MSI              2
-> +#define IOCSRF_EXTIOI           3
-> +#define IOCSRF_CSRIPI           4
-> +#define IOCSRF_FREQCSR          5
-> +#define IOCSRF_FREQSCALE        6
-> +#define IOCSRF_DVFSV1           7
-> +#define IOCSRF_GMOD             9
-> +#define IOCSRF_VM               11
+> +typedef struct LoongArchPCHPIC {
+> +    SysBusDevice parent_obj;
+> +    qemu_irq parent_irq[64];
+> +    uint32_t int_mask_lo; /*0x020 interrupt mask register*/
+> +    uint32_t int_mask_hi;
+> +    uint32_t htmsi_en_lo; /*0x040 1=msi*/
+> +    uint32_t htmsi_en_hi;
+> +    uint32_t intedge_lo; /*0x060 edge=1 level  =0*/
+> +    uint32_t intedge_hi; /*0x060 edge=1 level  =0*/
+> +    uint32_t intclr_lo; /*0x080 for clean edge int,set 1 clean,set 0 is noused*/
+> +    uint32_t intclr_hi; /*0x080 for clean edge int,set 1 clean,set 0 is noused*/
+> +    uint32_t auto_crtl0_lo; /*0x0c0*/
+> +    uint32_t auto_crtl0_hi; /*0x0c0*/
+> +    uint32_t auto_crtl1_lo; /*0x0e0*/
+> +    uint32_t auto_crtl1_hi; /*0x0e0*/
+> +    uint32_t last_intirr_lo;    /* edge detection */
+> +    uint32_t last_intirr_hi;    /* edge detection */
+> +    uint32_t intirr_lo; /* 0x380 interrupt request register */
+> +    uint32_t intirr_hi; /* 0x380 interrupt request register */
+> +    uint32_t intisr_lo; /* 0x3a0 interrupt service register */
+> +    uint32_t intisr_hi; /* 0x3a0 interrupt service register */
+> +    /*
+> +     * 0x3e0 interrupt level polarity selection
+> +     * register 0 for high level trigger
+> +     */
+> +    uint32_t int_polarity_lo;
+> +    uint32_t int_polarity_hi;
 > +
-> +#define VENDOR_REG              0x10
-> +#define CPUNAME_REG             0x20
-> +#define MISC_FUNC_REG           0x420
-> +#define IOCSRM_EXTIOI_EN        48
+> +    uint8_t route_entry[64]; /*0x100 - 0x138*/
+> +    uint8_t htmsi_vector[64]; /*0x200 - 0x238*/
 > +
-> +#define LOONGARCH_ISA_IO_BASE   0x18000000UL
-> +#define LOONGARCH_ISA_IO_SIZE   0x0004000
-> +
-> +typedef struct LoongArchMachineState {
-> +    /*< private >*/
-> +    MachineState parent_obj;
-> +
-> +    MemoryRegion lowmem;
-> +    MemoryRegion highmem;
-> +    MemoryRegion isa_io;
-> +} LoongArchMachineState;
-> +
-> +#define TYPE_LOONGARCH_MACHINE  MACHINE_TYPE_NAME("loongson3-ls7a")
-> +DECLARE_INSTANCE_CHECKER(LoongArchMachineState, LOONGARCH_MACHINE,
-> +                         TYPE_LOONGARCH_MACHINE)
-> +#endif
-> diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-> index 70c579560a..3ac3634bbb 100644
-> --- a/include/sysemu/arch_init.h
-> +++ b/include/sysemu/arch_init.h
-> @@ -24,6 +24,7 @@ enum {
->       QEMU_ARCH_RX = (1 << 20),
->       QEMU_ARCH_AVR = (1 << 21),
->       QEMU_ARCH_HEXAGON = (1 << 22),
-> +    QEMU_ARCH_LOONGARCH = (1 << 23),
->   };
->   
->   extern const uint32_t arch_type;
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index b6a37e17c4..b261017e90 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -30,7 +30,7 @@
->   ##
->   { 'enum' : 'SysEmuTarget',
->     'data' : [ 'aarch64', 'alpha', 'arm', 'avr', 'cris', 'hppa', 'i386',
-> -             'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
-> +             'loongarch64', 'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
->                'mips64el', 'mipsel', 'nios2', 'or1k', 'ppc',
->                'ppc64', 'riscv32', 'riscv64', 'rx', 's390x', 'sh4',
->                'sh4eb', 'sparc', 'sparc64', 'tricore',
-> diff --git a/target/Kconfig b/target/Kconfig
-> index ae7f24fc66..83da0bd293 100644
-> --- a/target/Kconfig
-> +++ b/target/Kconfig
-> @@ -4,6 +4,7 @@ source avr/Kconfig
->   source cris/Kconfig
->   source hppa/Kconfig
->   source i386/Kconfig
-> +source loongarch/Kconfig
->   source m68k/Kconfig
->   source microblaze/Kconfig
->   source mips/Kconfig
-> diff --git a/target/loongarch/Kconfig b/target/loongarch/Kconfig
-> new file mode 100644
-> index 0000000000..46b26b1a85
-> --- /dev/null
-> +++ b/target/loongarch/Kconfig
-> @@ -0,0 +1,2 @@
-> +config LOONGARCH64
-> +    bool
-> diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-> index 8d0be47d4b..f97206ac67 100644
-> --- a/target/loongarch/cpu.c
-> +++ b/target/loongarch/cpu.c
-> @@ -403,6 +403,9 @@ static void loongarch_3a5000_initfn(Object *obj)
->   #ifndef CONFIG_USER_ONLY
->       env->address_space_iocsr = g_malloc(sizeof(*env->address_space_iocsr));
->       env->system_iocsr = g_malloc(sizeof(*env->system_iocsr));
-> +    for (i = 0; i < IOCSR_NUM; i++) {
-> +        env->iocsr_mem[i] = g_malloc(sizeof(*env->system_iocsr));
-> +    }
+> +    MemoryRegion iomem32;
+> +    MemoryRegion iomem8;
+> +} LoongArchPCHPIC;
 
-These g_malloc() allocations look odd: since they are all constant size could they 
-not be declared inline in env?
-
->       memory_region_init_io(env->system_iocsr, obj, NULL,
->                             env, "iocsr", UINT64_MAX);
->       address_space_init(env->address_space_iocsr, env->system_iocsr, "IOCSR");
-> diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
-> index e623e358ec..5d6ad4a5a4 100644
-> --- a/target/loongarch/cpu.h
-> +++ b/target/loongarch/cpu.h
-> @@ -152,6 +152,7 @@ extern const char * const fregnames[32];
->   #define N_IRQS      14
->   #define IRQ_TIMER   11
->   #define IRQ_IPI     12
-> +#define IOCSR_NUM   4
->   
->   #define LOONGARCH_TLB_MAX      (2048 + 64) /* 2048 STLB + 64 MTLB */
->   #define LOONGARCH_STLB         2048 /* 2048 STLB */
-> @@ -261,6 +262,7 @@ struct CPULoongArchState {
->   
->       AddressSpace *address_space_iocsr;
->       MemoryRegion *system_iocsr;
-> +    MemoryRegion *iocsr_mem[IOCSR_NUM];
-
-As above I'd expect these fields to be inline in CPULoongArchState since they are 
-constant.
-
->   #endif
->   };
->   
-
-ATB,
-
-Mark.
 
