@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5892648F9A5
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jan 2022 23:24:47 +0100 (CET)
-Received: from localhost ([::1]:60272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB3CE48F9A7
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jan 2022 23:24:53 +0100 (CET)
+Received: from localhost ([::1]:60704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8rTa-0002tI-6B
-	for lists+qemu-devel@lfdr.de; Sat, 15 Jan 2022 17:24:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45288)
+	id 1n8rTh-0003A8-0F
+	for lists+qemu-devel@lfdr.de; Sat, 15 Jan 2022 17:24:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n8rQx-0000Dm-BO; Sat, 15 Jan 2022 17:22:03 -0500
-Received: from [2a00:1450:4864:20::334] (port=51834
- helo=mail-wm1-x334.google.com)
+ id 1n8rR0-0000LE-Gy; Sat, 15 Jan 2022 17:22:06 -0500
+Received: from [2a00:1450:4864:20::32c] (port=34566
+ helo=mail-wm1-x32c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n8rQs-0000eq-Lc; Sat, 15 Jan 2022 17:22:03 -0500
-Received: by mail-wm1-x334.google.com with SMTP id c2so7321582wml.1;
- Sat, 15 Jan 2022 14:21:58 -0800 (PST)
+ id 1n8rQw-0000ex-FL; Sat, 15 Jan 2022 17:22:06 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ bg19-20020a05600c3c9300b0034565e837b6so5603115wmb.1; 
+ Sat, 15 Jan 2022 14:21:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=j9x33SKmuccOPBnIOni9qflM/+GMe9iP0bONb6a7cmM=;
- b=Rx4Kd6mHpxkOnn9JnrHDLhA1xznSvIbCvNJAXT3Ubwyeesym5lP11tqpSeO82xm5xN
- KP5KpibzBCDHGGlU3vr5btffvedLgOdjhQ2wLjScMyWJke9VnUd+g8m/K2CbwCtJBMcq
- cAbYd8OTf8PykPxjX83msgFpZs83Zrd0NRLKiprLZINPGakDj0G3rzoPBhyvN3m6nFzb
- ++IDfqFfkxCGnU9ilHGBI45s+OvaRhuS+JPMKG0ZZTKQIWUQFLHaMoR/Cve1NaDG8A6r
- cZd2ZGleh0mcc24IG776eJUMV3qLKZTzIZ9rCTBKg7h89X91ZTMwxpb1UR6lGaBOlbKy
- lWXw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ltaiY5u20TfA3hXvAel5LXqN/1DsxwrhOAowQF2omaM=;
+ b=TO79unu2eApykPtXNJNx+QQSqjbiOfmdpOUR0jV2L3nCdHpHGr359xwNPxWq8xygVh
+ zCCD49BkjHYQK4b6MlsbsEz2wyQjYO+KufxImS/hE9ZizWLTGbhpR85AxP+VThTZ2sld
+ ILoMTIOF2UOmWTWNsXXJ1llCBl3ZPB/wEHcwi57G2uFxrFX8JtdsczSaxUEMUBg7tzWe
+ qlQ6kcZ1rlALg2DaI/aOkEVMPpXtQ3QrspkgWQPUk8f3xiwPZvtkLS4Qpwi24mU0RQOA
+ mqA+HzeIhEZhWvCNUBgf2OY+HMo4PkNEpvZWwyAGgJ3BGQfuERRdJAFG6D78l0KuVnEZ
+ Pu4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=j9x33SKmuccOPBnIOni9qflM/+GMe9iP0bONb6a7cmM=;
- b=4XjYlTEeyN8SUxToz559xSEGpVx7SzZoRaWKMWHVjQl7Pe4dMM5AIPYigYcxqy8jQF
- dnKXhVrgY7NWJgQAL+fioSiHXRFgMLQS+vjGdUF5hnISaI5pILdlLriuJrk4Xb93JU//
- 03/4nr46vYKj7dwlwyI4osD8CIF7fcDVObKTPEe1KMqmrZgIfWaoVCq3IlW+0ODY7iG2
- 2yIYiUJWbDUUuwUT/zO56MRjgt3zFV85Ki/I1kHRnNOIjzgt02E1QPhvSX1F4LMqiKIr
- VOwNtdPQjjARBCRwfa6avrJw3mu7oDbG8pZ4YCcBoalOnI8xv//fhcWTUStP2HJisEYh
- FDUg==
-X-Gm-Message-State: AOAM530iHhK2T7N7rkmSb5bFXWpFMV30XQ+J0KLu7u5YbhYUUY2XmmSO
- UVyqP+egPJBvqw1evP/7MNcKrSBt7Cc=
-X-Google-Smtp-Source: ABdhPJzMISNQLpviphR0P9F90mrmID0iD2S7C4WEAHSNcBlXEsEOF3xZJFzdkwLgsbjURzYtiCDDyw==
-X-Received: by 2002:a5d:6488:: with SMTP id o8mr13483275wri.576.1642285317050; 
- Sat, 15 Jan 2022 14:21:57 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=ltaiY5u20TfA3hXvAel5LXqN/1DsxwrhOAowQF2omaM=;
+ b=d9zSGGaUDERp9U7fdpNa3hr7q/P8zleR8qfpCILELk+I0Rl3djN7F2EagoIqb3Od5h
+ S17asrbCCHpKzbabVWVfa4DFlr/hHzyFA1nUkmZKyDPB50VnZ4BK0Nu2vELcdGkomg3G
+ ULRe3yKVYNkTLztdiV17Wp6qYeeXjuA7TVxolpLDmsAO3+ACJV68AKe+lr5hogWz64qE
+ qezdZ5n8Nsot8tg/r6lRMt4q6oXf4/MGKeh3c93gVMOD/cj41LbYo8ivUzHucj9t+pr0
+ s0v7c93pWtxuZXn5kX8vGAjHapDBDDrYJOvH9+zG0e+cDvGlA/6bXv4w4nLTO3pgNNi/
+ pkpw==
+X-Gm-Message-State: AOAM530JlcU4cIggIM32DNKnZ5g4rQo/zvUk6xEzaf6prORKq+zP9e2E
+ EHC+FGOGuMPlW3kNmAQGEV6bDWiFcMg=
+X-Google-Smtp-Source: ABdhPJwtnzjaNWHo80ufAQW//nE8Ie6LZcpcNsZH9estVJ2VTRI+vIPbhMa3PBj8dT6198lUuCXmMg==
+X-Received: by 2002:a1c:a747:: with SMTP id q68mr20842103wme.98.1642285318833; 
+ Sat, 15 Jan 2022 14:21:58 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id s1sm8929616wrv.38.2022.01.15.14.21.56
+ by smtp.gmail.com with ESMTPSA id s1sm8929616wrv.38.2022.01.15.14.21.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Jan 2022 14:21:56 -0800 (PST)
+ Sat, 15 Jan 2022 14:21:58 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] make check-block a meson test
-Date: Sat, 15 Jan 2022 23:21:50 +0100
-Message-Id: <20220115222154.341628-1-pbonzini@redhat.com>
+Subject: [PATCH 1/4] scripts/mtest2make: add support for SPEED=thorough
+Date: Sat, 15 Jan 2022 23:21:51 +0100
+Message-Id: <20220115222154.341628-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20220115222154.341628-1-pbonzini@redhat.com>
+References: <20220115222154.341628-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -86,30 +89,62 @@ Cc: qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series makes "meson test" run the block layer tests, reporting
-their outcome in the same way as the other TAP tests.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ meson.build           |  5 +++--
+ scripts/mtest2make.py | 10 +++++++---
+ 2 files changed, 10 insertions(+), 5 deletions(-)
 
-Based-on: <20211223183933.1497037-1-vsementsov@virtuozzo.com>
-
-Paolo Bonzini (4):
-  scripts/mtest2make: add support for SPEED=thorough
-  build: make check-block a meson test
-  qemu-iotests: require at least an argument to check-block.sh
-  check-block: replace -makecheck with TAP output
-
- meson.build                      |  5 ++--
- scripts/mtest2make.py            | 20 ++++++++++---
- tests/Makefile.include           | 16 ++---------
- tests/check-block.sh             | 45 +++++++++++++----------------
- tests/meson.build                |  1 +
- tests/qemu-iotests/check         |  6 ++--
- tests/qemu-iotests/meson.build   | 30 +++++++++++++++++++
- tests/qemu-iotests/testenv.py    | 30 +++++++++----------
- tests/qemu-iotests/testrunner.py | 49 +++++++++++++++++---------------
- 9 files changed, 117 insertions(+), 85 deletions(-)
- create mode 100644 tests/qemu-iotests/meson.build
-
+diff --git a/meson.build b/meson.build
+index 762d7cee85..c9004bd25e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3,8 +3,9 @@ project('qemu', ['c'], meson_version: '>=0.58.2',
+                           'b_staticpic=false', 'stdsplit=false'],
+         version: files('VERSION'))
+ 
+-add_test_setup('quick', exclude_suites: 'slow', is_default: true)
+-add_test_setup('slow', env: ['G_TEST_SLOW=1', 'SPEED=slow'])
++add_test_setup('quick', exclude_suites: ['slow', 'thorough'], is_default: true)
++add_test_setup('slow', exclude_suites: ['thorough'], env: ['G_TEST_SLOW=1', 'SPEED=slow'])
++add_test_setup('thorough', env: ['G_TEST_SLOW=1', 'SPEED=thorough'])
+ 
+ not_found = dependency('', required: false)
+ keyval = import('keyval')
+diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
+index 7067bdadf5..4b9c561b30 100644
+--- a/scripts/mtest2make.py
++++ b/scripts/mtest2make.py
+@@ -23,8 +23,9 @@ def names(self, base):
+ print('''
+ SPEED = quick
+ 
+-.speed.quick = $(foreach s,$(sort $(filter-out %-slow, $1)), --suite $s)
+-.speed.slow = $(foreach s,$(sort $1), --suite $s)
++.speed.quick = $(foreach s,$(sort $(filter-out %-slow %-thorough, $1)), --suite $s)
++.speed.slow = $(foreach s,$(sort $(filter-out %-thorough, $1)), --suite $s)
++.speed.thorough = $(foreach s,$(sort $1), --suite $s)
+ 
+ .mtestargs = --no-rebuild -t 0
+ ifneq ($(SPEED), quick)
+@@ -52,11 +53,14 @@ def process_tests(test, targets, suites):
+     for s in test_suites:
+         # The suite name in the introspection info is "PROJECT:SUITE"
+         s = s.split(':')[1]
+-        if s == 'slow':
++        if s == 'slow' or s == 'thorough':
+             continue
+         if s.endswith('-slow'):
+             s = s[:-5]
+             suites[s].speeds.append('slow')
++        if s.endswith('-thorough'):
++            s = s[:-9]
++            suites[s].speeds.append('thorough')
+         suites[s].deps.update(deps)
+ 
+ def emit_prolog(suites, prefix):
 -- 
 2.33.1
+
 
 
