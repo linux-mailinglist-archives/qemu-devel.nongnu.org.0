@@ -2,146 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6863548F495
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jan 2022 04:38:42 +0100 (CET)
-Received: from localhost ([::1]:40364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A40E48F57C
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jan 2022 07:23:36 +0100 (CET)
+Received: from localhost ([::1]:56572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8Ztp-00064V-0G
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jan 2022 22:38:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57988)
+	id 1n8cTP-000751-5K
+	for lists+qemu-devel@lfdr.de; Sat, 15 Jan 2022 01:23:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bcain@quicinc.com>) id 1n8ZrW-0005IU-ID
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 22:36:18 -0500
-Received: from esa.hc3962-90.iphmx.com ([216.71.142.165]:19334)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bcain@quicinc.com>) id 1n8ZrU-0007ey-7q
- for qemu-devel@nongnu.org; Fri, 14 Jan 2022 22:36:18 -0500
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1n8cPZ-0005b2-BT
+ for qemu-devel@nongnu.org; Sat, 15 Jan 2022 01:19:37 -0500
+Received: from [2607:f8b0:4864:20::a2f] (port=39680
+ helo=mail-vk1-xa2f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1n8cPW-0008It-KB
+ for qemu-devel@nongnu.org; Sat, 15 Jan 2022 01:19:37 -0500
+Received: by mail-vk1-xa2f.google.com with SMTP id n14so5906140vkk.6
+ for <qemu-devel@nongnu.org>; Fri, 14 Jan 2022 22:19:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
- t=1642217776; x=1642822576;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:mime-version;
- bh=sWg7izRtL87EVlTlHwydAbRciKagO9pcDHRhzHIy5ms=;
- b=jKVv/LdAZssY6LVgnMm5O8yxkKUpeJJkKh5GpSVC+8cwlGAAyEOIVhyz
- BPZYmhLRsuVsxDexhb+rQcPPC121Uq2ZzaEJsrxRjI2TBfffltWrzYWaL
- 1/zPRPTEc+5IykpIQY+z6MPJfy3Y9Y/y3BJv4mBHAh/ZPLVxUH7ZIOWoX Q=;
-Received: from mail-bn8nam11lp2172.outbound.protection.outlook.com (HELO
- NAM11-BN8-obe.outbound.protection.outlook.com) ([104.47.58.172])
- by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jan 2022 03:36:12 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jbp5nCWGb+zXQLowQdvq7gTvO55ifhC7XwJwUZjYUGAEYpaxMGLZxAWIIB/l3WD5nqIU6Zg19/1xFSd17T5m8tETv1lJp1CigrUwBFx/b/SzhTHYJQAwvafW3vrOa95KdIZvEMIdudIL7AQQRuJo2kedQ8aRojZQVVkPp5SIqu8yLBy4HMNlDMfflWMxrDqPRlLdb886hj3SyqwZch5lida+8xt6ggq3zX8Dg3x57bb4VtysL8KdrRcDXTcwNsWi3kvwkRnHm/QOZuRjqxKM2mjws6YG8mZlKK678WOT6ltw/i5XCydLcAYA8VvYgRBnXb/HjmtIWRxXI5bCJ2Xurg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sWg7izRtL87EVlTlHwydAbRciKagO9pcDHRhzHIy5ms=;
- b=PbKA614nyLb1oHNN4h4v72BUtaOIB8opL5zAD+ClEVQW23AaiDtA5ZxpMFrSaioLd0z+ymz4Au7AX/rfA6HMhVemmsmXkUefVqq+mZ8HicXhw/ubW7usUXd/gVif3Q59i6lr7xWVdOPveUUvhKVsFoFVojyxoaXHrl7oZbpFTbjih3dYN/Sg6NfHBo+U6AXJhQj3ozpo5xtBPqMdXTB2hWe/fZyoAo+R8mM604YM4suvY+0A9f8Sfcee7wKbqmsdIW3uOqdzR3AJEzQ6YPhlp3fLk5pL9COjinN/QZ6EYQZ3E0fRkrzvmv3S+xorHracuuEFyzLO8uhM88pCplu0nA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from SN6PR02MB4205.namprd02.prod.outlook.com (2603:10b6:805:35::17)
- by SJ0PR02MB7440.namprd02.prod.outlook.com (2603:10b6:a03:29c::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.10; Sat, 15 Jan
- 2022 03:36:07 +0000
-Received: from SN6PR02MB4205.namprd02.prod.outlook.com
- ([fe80::85b4:5d53:c403:d0c7]) by SN6PR02MB4205.namprd02.prod.outlook.com
- ([fe80::85b4:5d53:c403:d0c7%6]) with mapi id 15.20.4888.012; Sat, 15 Jan 2022
- 03:36:08 +0000
-From: Brian Cain <bcain@quicinc.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- =?utf-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: RE: hexagon container update
-Thread-Topic: hexagon container update
-Thread-Index: Ade25RCxllT+hUwlRb2vNrqCSUbc9QABASCAAABlCPAADdM14BSgmYTg
-Date: Sat, 15 Jan 2022 03:36:08 +0000
-Message-ID: <SN6PR02MB42050D02581C5FF732732D29B8559@SN6PR02MB4205.namprd02.prod.outlook.com>
-References: <SN6PR02MB42057F473618E661B72E1FF3B8AB9@SN6PR02MB4205.namprd02.prod.outlook.com>
- <107df921-3339-7b73-15f3-daba2d61882e@linaro.org>
- <SN6PR02MB420572E9084C240BE8E698CAB8AB9@SN6PR02MB4205.namprd02.prod.outlook.com>
- <SN6PR02MB42059B3D252751BEDBB540C3B8AC9@SN6PR02MB4205.namprd02.prod.outlook.com>
-In-Reply-To: <SN6PR02MB42059B3D252751BEDBB540C3B8AC9@SN6PR02MB4205.namprd02.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=quicinc.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 694f916f-a669-4c6f-04f7-08d9d7d82adb
-x-ms-traffictypediagnostic: SJ0PR02MB7440:EE_
-x-microsoft-antispam-prvs: <SJ0PR02MB7440C5F2B654098E8729B30AB8559@SJ0PR02MB7440.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: UedHfVzMgWLpTUtgeuKgGIj+M3u0Y1aGbxD7u7C0lKbeU4w++C2wXHM2Exsps2Bj79hoTy1mIWKiYwtdOFOAacRXYZuKaI+4SFYGFi5E4haZ+yA5pRi74Sv5tGYY93Nja0OfM09PGIwx5BatCyZdzAtQyMWrqdPaiGzxqArx4fYSC+x96fVs4wqmvHPo1pNUF8QlK1zWrWVduiaOY4uKAEB4EVhpouDSzEhoNlquSuC1M924Tj7Ad+nfUdsx/r2syYXX8rgIdFNLpwCy9OB8Fxpu9ajV/CFMlXSSQ3NgGcPaWYxl3AQSSAMwz70jD4CBw/3SpxgJXyJ+Sfw00kN5gXmMErCpq2K49fosfMTbWrp/mRZgDdcURYYhaSI0biUS09rbfn0BuoKkOJ/pAui3Kt1uX7keYuQGmX27eqQ6VSvuFdjG/6GIX5hewTvkd5NkANbEx65d/lW4DgFRg31uEse7eAhrBdAcpGnOwIX+oFsTNvrqKuTKIuQ6mQjn2WSye9oRSfuZwgLRglgll25ejymrs22xEX2ukSY8XwtlQX1qDoGr7I7zLbL02HTqj1+MhKBHVWEv1w6cS7jV/CWvdG/ZJw1KzEvz8x1RathsMK0GVnwXZm25EJ5Ps+Xi+a9dIi5EZjvIdbZGZVDxBGUcoGIAIaNdJ1FwV1c6bREfnyd2SaE8FxJ2q53FV7gaEzbepNkpwKz9stpUA/VuyW+M9PV2oz4zdP5i6HWs4pcAHdKT4Cu172OPpinFL7DAvgOUmWs89pbB8WNSbwdoaZhOfWNdkRMiuIssPSAayNZGYGQ=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR02MB4205.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(38070700005)(966005)(2906002)(53546011)(66574015)(186003)(86362001)(55016003)(508600001)(7116003)(7696005)(4326008)(52536014)(122000001)(99936003)(5660300002)(38100700002)(316002)(107886003)(6506007)(66556008)(33656002)(66446008)(66476007)(9686003)(8936002)(15650500001)(66946007)(71200400001)(8676002)(64756008)(110136005)(26005)(76116006)(3480700007)(83380400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?anRvR2o0WW84dUtqMFl3eUhOT3VGcE44UmVwUURnZkhyNGlEN1cwM1ZwYWg0?=
- =?utf-8?B?R3M0WUszbldiaThTRzEvRTdlTG9oNXZuZWlTZG0ydUJNQ1dFcmIvSnYzdklS?=
- =?utf-8?B?VHBoQUtXMzBGZ1VpNTJsaE1PeUpzY0wwRitZZmRweFF5d0tCQWVyb3JJMVR0?=
- =?utf-8?B?U2VJck9rbCtIOVBMY2VmRStETnlBUGh6UzY3WTlJZENzRFNnTm9VTUhQYmdC?=
- =?utf-8?B?UmJuZ3poWHRNTkc4VFdlQUFMenc2dXZLbzFFaU5SUHBMYmhrNC9NMlg0UVpL?=
- =?utf-8?B?Q0tDQ0pOWUxIUWFIejFjTmJRNnNLRFV4SDV4ZkZQZHdXSUlQY2JBMDNUSmNK?=
- =?utf-8?B?WWVIK2ZIS3hsSnJqOGRjQTQ3bTNuTTdGam4wbFd2S3hReEkrZDdVYVB6SUE3?=
- =?utf-8?B?L01QeVhtR3Z3OUJiR25kbS9EZDQwNXdlZnRtMTdOSk10a1dtSHJ0b25HTjdI?=
- =?utf-8?B?YXZSUW5PMGlQOS9QTllpMTdQeGNlVllwckYzdjE4T0VsMmhvNGR3a0F0SnUy?=
- =?utf-8?B?VGgzbFRwaG5sL3E2d1lFTjhpZzZlb01MNEJFQjB4QUlKSE55SWxrL1htankz?=
- =?utf-8?B?QkZVU2VPa0JuTDJsVkluK1FMRmRiUTRhSlVLNytXcVdhL1NLTjZqUmFPTXFJ?=
- =?utf-8?B?ajRUdnBVd0YvRm90QkxuY1dsZW5Nc2ZzaFRkSXVDWXFQOWJveGRIT0lKQms1?=
- =?utf-8?B?MHFZLzlOcXNWSG54MHhyR29RSmNqT3VtYmJkVVEzSFZnNkpEUGNOYzlqR2Fw?=
- =?utf-8?B?WjlKNGJid04yMThxQnVPWXNoTkNUKzlsdExRa1JlcFUrQkJ4YTJjQVR5Q3Ez?=
- =?utf-8?B?bm51K2wxTFJZNUlJMmVWUktJTVpWWk1YSmFFZ2w2RWYxRktYKzExWjNEa0Np?=
- =?utf-8?B?MldSNWZoTFpIcm5rN2tES3VhdmIxcVlIUnBlcDdpWHlxYy9MVEs0bDFGNFNy?=
- =?utf-8?B?YTRFaDNpKzM1dVNRM0hzeldMZmx5aUlpRDRqemNndnhtSjJtQ3dPVnlTeDNN?=
- =?utf-8?B?dVJvZlAwTHk4dkxMUHhZc0NMRE1hQVhzTEQvRVBOTWZSNlFSNXBKaCtoZjhP?=
- =?utf-8?B?M04rZmlvWXVOcEhLNVQ3STdlRk8rVUY4dnJHUGp0angrTEowQnY1UUJ6Vmxp?=
- =?utf-8?B?cS9NRDY5RHFMdHRNSVBaM3RjM016RjVBSlRKR0FlWXJaSGhmM3V2WHdkajdt?=
- =?utf-8?B?RjlxWmJOeG83VDJ0QjlzUERGQ3hHa2xBUldoU3p2elhPOTVlMnVEZ2swSjZN?=
- =?utf-8?B?WUJxTE9BZEQ2eEdVK0FYaTU3VGtLNGYrMUgzSWg5UGlGYnpPS2FBNDNQbFM3?=
- =?utf-8?B?NHZBTTZnajduSyttRHVpUTBOclY0eFdRcWIxaTJGd1FVR3RQU1JENDhFZS9G?=
- =?utf-8?B?UjJ0TkhqZnVPeCsweVhrU0ZzVUkxVnUzUFlScjBkbjV2a0lsUTRrQVYwMitC?=
- =?utf-8?B?UGNrMHlydWQ3SnR5UE1FME12eEhYZWtqTW1QeURPeDJCZGh0NEZiMVFrNlpL?=
- =?utf-8?B?UGVURVczaDJrM3Y4REg3cDhDU3NITFg3S3QzUU9jZTRlMzBwajBCSVZLc2pm?=
- =?utf-8?B?VXJ2cEx2cHBZYk1tVlpaaFViMW5BeEsvOUlERmhmYmg1NWI5WTM0cXRRRjlh?=
- =?utf-8?B?Z0NsKzlNWEp0cDdrR2xSOE5GNXUxaTlQdElnS0tIM1hJZ1ZtRWw2eVNlQ0x0?=
- =?utf-8?B?Z3BsYm13UXg3K2FsQjhVdWFUR1JSL0djU1hFU3pHUENoR1JsdktIZVc2WHNt?=
- =?utf-8?B?UThxa0ZSUGhla0FFRmFnMDZ3a2thKy8vTVBldEZ0QUsrckcrUDA5a2JWaGpO?=
- =?utf-8?B?Y0JnZjIxUmp2MVl1VEk2ell5Q2ZqMzFmbW14Y1paVlNZSzhiQzE5WnI2VnRw?=
- =?utf-8?B?N0pHajUzUTFUMis3SkNBWXBvZ0IrNi9NZTFWYWtjU1FIWVR5bWU5b21YUnVx?=
- =?utf-8?B?c1VIN1padWlFNjdjeFZmczlQeFgvSCtQRC8yQnB2T3lsMDcvTmpTM2w3aTQ3?=
- =?utf-8?B?RWdxQnZ0S1NtVlRnaWtzYjgrV3VzdTlpc1RzQWwvMTZVNE0yY0h3NDNQR3hj?=
- =?utf-8?B?c3dzVVdoSWlBMFFxVjFFVVhobGZPVjZqZEdPUmRraTlEaTYxYTBQSEFKcDkv?=
- =?utf-8?B?QXlickdhdGd1dlMzV3BaZFVHTVBZVUg1c2wwQ3RFamN4aDcyMG11TWxkWVE3?=
- =?utf-8?Q?ZMprViDl7c1eG/zeHO717Oc=3D?=
-Content-Type: multipart/mixed;
- boundary="_002_SN6PR02MB42050D02581C5FF732732D29B8559SN6PR02MB4205namp_"
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5jkTa5H4X2L0/JPCKYn4JKtmF0fNULM1mN2QL0UOVEw=;
+ b=kKu/50iMI57ZMmXHkq+vN20PdpJoiYRRvd1CYKAo9bQ8FCp8K/6qt2ZL3GWWyq+Jgw
+ 0ud9oKgaMgM60VVByegsgDWWzWcPcAmJbYF+Q/VZ+N+zhq5uwjRQijKVRsviVVvOAFNy
+ vHF0Ad3hFEv+j6GxjfYlOHZ/YTQXa/SwsSkPrkpL9b5/NZpZSfOdANLwto8B/XjVyaj/
+ v8rGIqP/+OyGclTzz3K5pWJ9IUxyG/mG2ZxAz7+BMGRQoX41Sysj5vEEnZL11HAt1HTI
+ jjBUcecKJK0ozPXf4BnbVXocrXb3hyBEoX70FK9+FmZ3EqWO8vG8wVp8FJSavCk3dhgH
+ hu3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5jkTa5H4X2L0/JPCKYn4JKtmF0fNULM1mN2QL0UOVEw=;
+ b=V2ZZaKT7vaf1Rn367oEQg116pERYBKsuInm/pvCFEzv2NQH9/dOSKmSh098rI1PMHn
+ nDKzlhkm+kfRE0BHoD8+hIEy4lrYHKWBgIAqKHImWF3kPHQQO1uJBynaoDt156mrSf3E
+ /WAHPL0xpJtcF7XkYJVKtkV5Rlp2bXYLzm9jWR0mJlDUB80UWB4n6ud406OWQNHFNFci
+ 9XpJN8ngbZnpkC/oKBCuWGL1wZ5Og431YmZAJ1Ytng3oE47CHYyRERMqseKeBqC6t/2x
+ nBGMTB14APItOdzE+e8I/3nSnuQb+NiAFY53hZN3AdMoTJmFQlZAAqSuSMWeaPdbnSdm
+ e3Iw==
+X-Gm-Message-State: AOAM533DPdIH1v+3TiSaDANVDNPKWpqapQP7XHGtLQoVSEUbOpBMXDz7
+ SFlJRALt6k5Sv1n2GEcJR59TJqepzkO8Pbr6FQ4W5A==
+X-Google-Smtp-Source: ABdhPJwz4UjTifqxJnWK9pVy0vGyv7JxUFjLJT/2Fa+UpJAoAEBmQkEJ4H+G3dsgiTEk8D6qVPHPMSB7mU+bYiED1CM=
+X-Received: by 2002:a05:6122:130d:: with SMTP id
+ e13mr93551vkp.26.1642227573023; 
+ Fri, 14 Jan 2022 22:19:33 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4205.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 694f916f-a669-4c6f-04f7-08d9d7d82adb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2022 03:36:08.0446 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: d6XHp8k1RXnhWzCxX5qjZ8haIn+jBrIrUc6jGFQOVCfWKoVa4mDQBsIt7RP1LBiHuvs0yypbCU6WfUK9R+fZxA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR02MB7440
-Received-SPF: pass client-ip=216.71.142.165; envelope-from=bcain@quicinc.com;
- helo=esa.hc3962-90.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220109161923.85683-1-imp@bsdimp.com>
+ <20220109161923.85683-17-imp@bsdimp.com>
+ <CAFEAcA9ikK-GV6fy35wZHpTKZkQ8jD8=xm1z+25OdPG56yS=Ow@mail.gmail.com>
+In-Reply-To: <CAFEAcA9ikK-GV6fy35wZHpTKZkQ8jD8=xm1z+25OdPG56yS=Ow@mail.gmail.com>
+From: Warner Losh <imp@bsdimp.com>
+Date: Fri, 14 Jan 2022 23:19:27 -0700
+Message-ID: <CANCZdfroBqUPuu8SU5-WzbFP25ansqgmf==XTcoMRsRGim5WJw@mail.gmail.com>
+Subject: Re: [PATCH 16/30] bsd-user/signal.c: host_to_target_siginfo_noswap
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000217e2105d598e7c4"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a2f
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::a2f;
+ envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa2f.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -154,94 +81,249 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Taylor Simpson <tsimpson@quicinc.com>
+Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@freebsd.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_002_SN6PR02MB42050D02581C5FF732732D29B8559SN6PR02MB4205namp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--000000000000217e2105d598e7c4
+Content-Type: text/plain; charset="UTF-8"
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCcmlhbiBDYWluDQo+IFNlbnQ6
-IEZyaWRheSwgT2N0b2JlciAxLCAyMDIxIDc6MjMgUE0NCj4gVG86IFJpY2hhcmQgSGVuZGVyc29u
-IDxyaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnPjsgQWxleCBCZW5uw6llDQo+IDxhbGV4LmJl
-bm5lZUBsaW5hcm8ub3JnPjsgcWVtdS1kZXZlbEBub25nbnUub3JnDQo+IENjOiBUYXlsb3IgU2lt
-cHNvbiA8dHNpbXBzb25AcXVpY2luYy5jb20+DQo+IFN1YmplY3Q6IFJFOiBoZXhhZ29uIGNvbnRh
-aW5lciB1cGRhdGUNCj4gDQo+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiBGcm9t
-OiBCcmlhbiBDYWluDQo+IC4uLg0KPiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4g
-PiA+IEZyb206IFJpY2hhcmQgSGVuZGVyc29uIDxyaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3Jn
-Pg0KPiA+IC4uLg0KPiA+ID4gT24gMTAvMS8yMSAxMjo1OSBQTSwgQnJpYW4gQ2FpbiB3cm90ZToN
-Cj4gPiA+ID4gQWxleCwNCj4gPiA+ID4NCj4gPiA+ID4gV2UgbmVlZCB0byB1cGRhdGUgdGhlIGRv
-Y2tlciBjb250YWluZXIgdXNlZCBmb3IgaGV4YWdvbiBmb3IgbmV3IHRlc3QNCj4gPiBjYXNlcw0K
-PiA+ID4gcHJvcG9zZWQgaW4gVGF5bG9yJ3MgcmVjZW50IHBhdGNoIHNlcmllcyB1bmRlciByZXZp
-ZXcuICBUaGFua2Z1bGx5LA0KPiA+IENvZGVMaW5hcm8NCj4gPiA+IGhhcyBwcm92aWRlZCBhIGJp
-bmFyeSBvZiB0aGUgaGV4YWdvbiBjcm9zcyB0b29sY2hhaW4gc28gbm93IEkgdGhpbmsgd2UgY2Fu
-DQo+ID4gPiBzaW1wbGlmeSB0aGUgaGV4YWdvbiBkb2NrZXIgZmlsZSB0byBzb21ldGhpbmcgbGlr
-ZSB0aGUgYmVsb3cuICBJIGhvcGUgdGhpcw0KPiBhbHNvDQo+ID4gPiBtZWFucyB0aGF0IHdlIGNh
-biByZW1vdmUgdGhlIGV4Y2VwdGlvbmFsIGhhbmRsaW5nIGZvciB0aGUgaGV4YWdvbg0KPiA+IGNv
-bnRhaW5lci4NCg0KV2UgaGFkIHNvbWUgaXNzdWVzIHdpdGggdGhlIHByZXZpb3VzIGF0dGVtcHQg
-dG8gdXBkYXRlIHRoZSBjb250YWluZXIuICBUaGUgbGludXgtdXNlciAic2lnbmFscyIgdGVzdCBm
-YWlsZWQuICBSaWNoYXJkIHBvaW50ZWQgb3V0IHRoYXQgdGhlIGFyY2hpdmUgb2YgdGhlIEMgbGli
-cmFyeSBoYWQgd2hhdCBsb29rcyBsaWtlIGEgZGVmZWN0IHRoYXQgd291bGQgY2F1c2UgdGhlIHRl
-c3QgdG8gZmFpbC4NCg0KaHR0cHM6Ly93d3cubWFpbC1hcmNoaXZlLmNvbS9xZW11LWRldmVsQG5v
-bmdudS5vcmcvbXNnODQ5NjM1Lmh0bWwNCg0KSSdtIGZvbGxvd2luZyB1cCBub3cgd2l0aCBhIHdv
-cmthcm91bmQgLSB0aGUgYXR0YWNoZWQgcGF0Y2ggcmVmZXJlbmNlcyBhIHRvb2xjaGFpbiB3aGlj
-aCBhdm9pZHMgdGhlIHByb2JsZW0gYW5kIHBhc3NlcyB0aGUgc2lnbmFscyB0ZXN0LiAgVGhpcyB0
-b29sY2hhaW4gaXMgYmFzZWQgb24gbGx2bStjbGFuZyAxMy4wLjEtcmMyLiAgQlRXLCB0aGUgcmVs
-ZWFzZSBwYWdlIGhhcyBhIHNpZ25hdHVyZSBwcm92aWRlZCBpbiBjYXNlIGFueW9uZSB3YW50cyB0
-byB2ZXJpZnkgdGhlIGRvd25sb2FkOiBodHRwczovL2dpdGh1Yi5jb20vcXVpYy90b29sY2hhaW5f
-Zm9yX2hleGFnb24vcmVsZWFzZXMvdGFnLzEzLjAuMS1yYzJfDQoNCkNhbiB3ZSB0cnkgYWdhaW4g
-d2l0aCB0aGlzIG5ldyBjb250YWluZXIgZGVmaW5pdGlvbj8NCg0KLUJyaWFuDQo=
+On Thu, Jan 13, 2022 at 12:43 PM Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
---_002_SN6PR02MB42050D02581C5FF732732D29B8559SN6PR02MB4205namp_
-Content-Type: application/octet-stream;
-	name="0001-Update-Hexagon-toolchain-to-13.0.1-rc2.patch"
-Content-Description: 0001-Update-Hexagon-toolchain-to-13.0.1-rc2.patch
-Content-Disposition: attachment;
-	filename="0001-Update-Hexagon-toolchain-to-13.0.1-rc2.patch"; size=2200;
-	creation-date="Sat, 15 Jan 2022 00:10:19 GMT";
-	modification-date="Sat, 15 Jan 2022 03:36:07 GMT"
-Content-Transfer-Encoding: base64
+> On Sun, 9 Jan 2022 at 16:41, Warner Losh <imp@bsdimp.com> wrote:
+> >
+> > Implement conversion of host to target siginfo.
+> >
+> > Signed-off-by: Stacey Son <sson@FreeBSD.org>
+> > Signed-off-by: Kyle Evans <kevans@freebsd.org>
+> > Signed-off-by: Warner Losh <imp@bsdimp.com>
+> > ---
+> >  bsd-user/signal.c | 37 +++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 37 insertions(+)
+> >
+> > diff --git a/bsd-user/signal.c b/bsd-user/signal.c
+> > index 7168d851be8..3fe8b2d9898 100644
+> > --- a/bsd-user/signal.c
+> > +++ b/bsd-user/signal.c
+> > @@ -43,6 +43,43 @@ int target_to_host_signal(int sig)
+> >      return sig;
+> >  }
+> >
+> > +/* Siginfo conversion. */
+> > +static inline void host_to_target_siginfo_noswap(target_siginfo_t
+> *tinfo,
+> > +        const siginfo_t *info)
+> > +{
+> > +    int sig, code;
+> > +
+> > +    sig = host_to_target_signal(info->si_signo);
+> > +    /* XXX should have host_to_target_si_code() */
+> > +    code = tswap32(info->si_code);
+> > +    tinfo->si_signo = sig;
+> > +    tinfo->si_errno = info->si_errno;
+> > +    tinfo->si_code = info->si_code;
+> > +    tinfo->si_pid = info->si_pid;
+> > +    tinfo->si_uid = info->si_uid;
+> > +    tinfo->si_status = info->si_status;
+> > +    tinfo->si_addr = (abi_ulong)(unsigned long)info->si_addr;
+> > +    /* si_value is opaque to kernel */
+> > +    tinfo->si_value.sival_ptr =
+> > +        (abi_ulong)(unsigned long)info->si_value.sival_ptr;
+> > +    if (SIGILL == sig || SIGFPE == sig || SIGSEGV == sig || SIGBUS ==
+> sig ||
+>
+> Don't use yoda-conditions, please. sig == SIGILL, etc.
+>
+> > +            SIGTRAP == sig) {
+> > +        tinfo->_reason._fault._trapno = info->_reason._fault._trapno;
+> > +    }
+> > +#ifdef SIGPOLL
+> > +    if (SIGPOLL == sig) {
+> > +        tinfo->_reason._poll._band = info->_reason._poll._band;
+> > +    }
+> > +#endif
+> > +    if (SI_TIMER == code) {
+> > +        int timerid;
+> > +
+> > +        timerid = info->_reason._timer._timerid;
+> > +        tinfo->_reason._timer._timerid = timerid;
+> > +        tinfo->_reason._timer._overrun = info->_reason._timer._overrun;
+> > +    }
+> > +}
+>
+> I think this will only compile on FreeBSD (the other BSDs having
+> notably different target_siginfo_t structs); I guess we're OK
+> with that ?
+>
 
-RnJvbSA3ZGZjZDliN2U4MjdiYzc3YmExNTY5ZmU0YTExYTc4OWI0ODczZjIzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBCcmlhbiBDYWluIDxiY2FpbkBxdWljaW5jLmNvbT4KRGF0ZTog
-RnJpLCAxNCBKYW4gMjAyMiAxNjowODoyMyAtMDgwMApTdWJqZWN0OiBbUEFUQ0hdIFVwZGF0ZSBI
-ZXhhZ29uIHRvb2xjaGFpbiB0byAxMy4wLjEtcmMyCgpUaGlzIGNvbW1pdCBtb2RpZmllcyB0aGUg
-SGV4YWdvbiBjcm9zcyBjb250YWluZXIgdG8gZG93bmxvYWQgaW5zdGVhZCBvZgpidWlsZGluZyB0
-aGUgdG9vbGNoYWluLiAgQWxzbywgd2UgdXBkYXRlIHRvIGEgbmV3ZXIgYnVpbGQgb2YgdGhlIHRv
-b2xjaGFpbi4KCjEzLjAuMS1yYzIgc2hvdWxkIGJlIHN1ZmZpY2llbnQgZm9yIHZhbGlkYXRpb24g
-YW5kIGlmIGFsbCBnb2VzIHdlbGwsIHdlCmNhbiBzd2l0Y2ggdG8gMTMuMC4xIGJlZm9yZSBtZXJn
-aW5nIHRoaXMgY29tbWl0LgoKU2lnbmVkLW9mZi1ieTogQnJpYW4gQ2FpbiA8YmNhaW5AcXVpY2lu
-Yy5jb20+Ci0tLQogdGVzdHMvZG9ja2VyL2RvY2tlcmZpbGVzL2RlYmlhbi1oZXhhZ29uLWNyb3Nz
-LmRvY2tlciB8IDEyICsrKystLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygr
-KSwgOCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS90ZXN0cy9kb2NrZXIvZG9ja2VyZmlsZXMv
-ZGViaWFuLWhleGFnb24tY3Jvc3MuZG9ja2VyIGIvdGVzdHMvZG9ja2VyL2RvY2tlcmZpbGVzL2Rl
-Ymlhbi1oZXhhZ29uLWNyb3NzLmRvY2tlcgppbmRleCAzN2QyMWUxM2Y3Li4zN2UwNWU5NGJkIDEw
-MDY0NAotLS0gYS90ZXN0cy9kb2NrZXIvZG9ja2VyZmlsZXMvZGViaWFuLWhleGFnb24tY3Jvc3Mu
-ZG9ja2VyCisrKyBiL3Rlc3RzL2RvY2tlci9kb2NrZXJmaWxlcy9kZWJpYW4taGV4YWdvbi1jcm9z
-cy5kb2NrZXIKQEAgLTEsMTEgKzEsNyBAQAogIwogIyBEb2NrZXIgSGV4YWdvbiBjcm9zcy1jb21w
-aWxlciB0YXJnZXQKICMKLSMgVGhpcyBkb2NrZXIgdGFyZ2V0IGlzIHVzZWQgZm9yIGJ1aWxkaW5n
-IGhleGFnb24gdGVzdHMuIEFzIGl0IGFsc28KLSMgbmVlZHMgdG8gYmUgYWJsZSB0byBidWlsZCBR
-RU1VIGl0c2VsZiBpbiBDSSB3ZSBpbmNsdWRlIGl0J3MKLSMgYnVpbGQtZGVwcy4gSXQgaXMgYWxz
-byBhICJzdGFuZC1hbG9uZSIgaW1hZ2Ugc28gYXMgbm90IHRvIGJlCi0jIHRyaWdnZXJlZCBieSBy
-ZS1idWlsZHMgb24gb3RoZXIgYmFzZSBpbWFnZXMgZ2l2ZW4gaXQgdGFrZXMgYSBsb25nCi0jIHRp
-bWUgdG8gYnVpbGQuCisjIFRoaXMgZG9ja2VyIHRhcmdldCBpcyB1c2VkIGZvciBidWlsZGluZyBo
-ZXhhZ29uIHRlc3RzLgogIwogRlJPTSBxZW11L2RlYmlhbjEwCiAKQEAgLTE5LDExICsxNSwxMSBA
-QCBSVU4gYXB0IHVwZGF0ZSAmJiBcCiAKIEVOViBUT09MQ0hBSU5fSU5TVEFMTCAvdXNyL2xvY2Fs
-CiBFTlYgUk9PVEZTIC91c3IvbG9jYWwKLUVOViBDTEFOR19VUkwgaHR0cHM6Ly9jb2RlbGluYXJv
-Lmpmcm9nLmlvL2FydGlmYWN0b3J5L2NvZGVsaW5hcm8tdG9vbGNoYWluLWZvci1oZXhhZ29uL3Yy
-MDIxLjA5LjEwL2NsYW5nK2xsdm0tU2VwdC0yMDIxLWNyb3NzLWhleGFnb24tdW5rbm93bi1saW51
-eC1tdXNsLnRhci54egorRU5WIENMQU5HX1VSTCBodHRwczovL2NvZGVsaW5hcm8uamZyb2cuaW8v
-YXJ0aWZhY3RvcnkvY29kZWxpbmFyby10b29sY2hhaW4tZm9yLWhleGFnb24vMTMuMC4xLXJjMl8v
-Y2xhbmcrbGx2bS0xMy4wLjEtcmMyLWNyb3NzLWhleGFnb24tdW5rbm93bi1saW51eC1tdXNsLnRh
-ci54egogCiBSVU4gY2QgL3RtcCAmJiBcCiAgICAgd2dldCAtLXF1aWV0ICR7Q0xBTkdfVVJMfSAm
-JiBcCiAgICAgY2QgJHtUT09MQ0hBSU5fSU5TVEFMTH0gJiYgXAotICAgIHRhciB4ZiAvdG1wL2Ns
-YW5nK2xsdm0tU2VwdC0yMDIxLWNyb3NzLWhleGFnb24tdW5rbm93bi1saW51eC1tdXNsLnRhci54
-eiAmJiBcCi0gICAgcm0gICAgIC90bXAvY2xhbmcrbGx2bS1TZXB0LTIwMjEtY3Jvc3MtaGV4YWdv
-bi11bmtub3duLWxpbnV4LW11c2wudGFyLnh6CisgICAgdGFyIHhmIC90bXAvY2xhbmcrbGx2bS0x
-My4wLjEtcmMyLWNyb3NzLWhleGFnb24tdW5rbm93bi1saW51eC1tdXNsLnRhci54eiAmJiBcCisg
-ICAgcm0gICAgIC90bXAvY2xhbmcrbGx2bS0xMy4wLjEtcmMyLWNyb3NzLWhleGFnb24tdW5rbm93
-bi1saW51eC1tdXNsLnRhci54egogCi0tIAoyLjE3LjEKCg==
+Yes. bsd-user fork does not compile on the other BSDs. There's too many
+things missing, and too few places where specific code is in place. I'm
+thinking
+that it won't be possible to implement running NetBSD binaries on FreeBSD
+or vice versa since they are so different. OpenBSD and NetBSD are a lot
+closer to each other, with fewer critical differences in areas like
+threads, so
+it may be possible there. There's a lot of rework that's needed in this area
+to take what's even in bsd-user fork and make it work on NetBSD or
+OpenBSD, exactly for reasons like this. I've been ignoring the elephant
+in the room for a while now, ever since I realized this fundamental
+shift.
 
---_002_SN6PR02MB42050D02581C5FF732732D29B8559SN6PR02MB4205namp_--
+
+> I also commented on the general setup linux-user has for this
+> function back in patch 2; I'll let you figure out whether what
+> you have here is the right thing for BSD.
+>
+
+Yea. I'm still thinking through what you said there (and elsewhere). These
+issues may be the root cause of some regressions in arm binaries between
+6.1 and 6.2 as I tried to adopt the sigsegv/sigbus changes.
+
+I need to work through those things in our development branch before trying
+to fold them into this series. And I'm not yet sure the right way to do
+that because
+many of the things are likely to be largish changes that may be tough to
+manage
+keeping this patch series in sync. So I'm going to do all the trivial style
+and
+tiny bug things first, then tackle this more fundamental issue. I've thought
+about it enough to understand that the code in this patch series has some
+conceptual mistakes that must be addressed. Having this very detailed
+feedback
+is quite helpful in laying out the path for me to fix these issues (even if
+I don't
+ultimately do everything like linux-user, I'll know why it's different
+rather than
+the current situation where there's much inherited code and the best answer
+I could give is 'well linux-user was like that 5 years ago and we needed to
+make
+these hacks to make things work' which is completely unsatisfying to give
+and
+to hear.
+
+Warner
+
+--000000000000217e2105d598e7c4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 13, 2022 at 12:43 PM Pete=
+r Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lin=
+aro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">On Sun, 9 Jan 2022 at 16:41, Warner Losh &lt;<a href=3D"mailto:imp@b=
+sdimp.com" target=3D"_blank">imp@bsdimp.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Implement conversion of host to target siginfo.<br>
+&gt;<br>
+&gt; Signed-off-by: Stacey Son &lt;sson@FreeBSD.org&gt;<br>
+&gt; Signed-off-by: Kyle Evans &lt;<a href=3D"mailto:kevans@freebsd.org" ta=
+rget=3D"_blank">kevans@freebsd.org</a>&gt;<br>
+&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
+t=3D"_blank">imp@bsdimp.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 bsd-user/signal.c | 37 +++++++++++++++++++++++++++++++++++++<br>
+&gt;=C2=A0 1 file changed, 37 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/bsd-user/signal.c b/bsd-user/signal.c<br>
+&gt; index 7168d851be8..3fe8b2d9898 100644<br>
+&gt; --- a/bsd-user/signal.c<br>
+&gt; +++ b/bsd-user/signal.c<br>
+&gt; @@ -43,6 +43,43 @@ int target_to_host_signal(int sig)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 return sig;<br>
+&gt;=C2=A0 }<br>
+&gt;<br>
+&gt; +/* Siginfo conversion. */<br>
+&gt; +static inline void host_to_target_siginfo_noswap(target_siginfo_t *ti=
+nfo,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 const siginfo_t *info)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 int sig, code;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 sig =3D host_to_target_signal(info-&gt;si_signo);<br>
+&gt; +=C2=A0 =C2=A0 /* XXX should have host_to_target_si_code() */<br>
+&gt; +=C2=A0 =C2=A0 code =3D tswap32(info-&gt;si_code);<br>
+&gt; +=C2=A0 =C2=A0 tinfo-&gt;si_signo =3D sig;<br>
+&gt; +=C2=A0 =C2=A0 tinfo-&gt;si_errno =3D info-&gt;si_errno;<br>
+&gt; +=C2=A0 =C2=A0 tinfo-&gt;si_code =3D info-&gt;si_code;<br>
+&gt; +=C2=A0 =C2=A0 tinfo-&gt;si_pid =3D info-&gt;si_pid;<br>
+&gt; +=C2=A0 =C2=A0 tinfo-&gt;si_uid =3D info-&gt;si_uid;<br>
+&gt; +=C2=A0 =C2=A0 tinfo-&gt;si_status =3D info-&gt;si_status;<br>
+&gt; +=C2=A0 =C2=A0 tinfo-&gt;si_addr =3D (abi_ulong)(unsigned long)info-&g=
+t;si_addr;<br>
+&gt; +=C2=A0 =C2=A0 /* si_value is opaque to kernel */<br>
+&gt; +=C2=A0 =C2=A0 tinfo-&gt;si_value.sival_ptr =3D<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 (abi_ulong)(unsigned long)info-&gt;si_val=
+ue.sival_ptr;<br>
+&gt; +=C2=A0 =C2=A0 if (SIGILL =3D=3D sig || SIGFPE =3D=3D sig || SIGSEGV =
+=3D=3D sig || SIGBUS =3D=3D sig ||<br>
+<br>
+Don&#39;t use yoda-conditions, please. sig =3D=3D SIGILL, etc.<br>
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 SIGTRAP =3D=3D sig) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 tinfo-&gt;_reason._fault._trapno =3D info=
+-&gt;_reason._fault._trapno;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +#ifdef SIGPOLL<br>
+&gt; +=C2=A0 =C2=A0 if (SIGPOLL =3D=3D sig) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 tinfo-&gt;_reason._poll._band =3D info-&g=
+t;_reason._poll._band;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +#endif<br>
+&gt; +=C2=A0 =C2=A0 if (SI_TIMER =3D=3D code) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 int timerid;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 timerid =3D info-&gt;_reason._timer._time=
+rid;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 tinfo-&gt;_reason._timer._timerid =3D tim=
+erid;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 tinfo-&gt;_reason._timer._overrun =3D inf=
+o-&gt;_reason._timer._overrun;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +}<br>
+<br>
+I think this will only compile on FreeBSD (the other BSDs having<br>
+notably different target_siginfo_t structs); I guess we&#39;re OK<br>
+with that ?<br></blockquote><div><br></div><div>Yes. bsd-user fork does not=
+ compile on the other BSDs. There&#39;s too many</div><div>things missing, =
+and too few places where specific code is in place. I&#39;m thinking</div><=
+div>that it won&#39;t be possible to implement running NetBSD binaries on F=
+reeBSD</div><div>or vice versa since they are so different. OpenBSD and Net=
+BSD are a lot</div><div>closer to each other, with fewer critical differenc=
+es in areas like threads, so</div><div>it may be possible there. There&#39;=
+s a lot of rework that&#39;s needed in this area</div><div>to take what&#39=
+;s even in bsd-user fork and make it work on NetBSD or</div><div>OpenBSD, e=
+xactly for reasons like this. I&#39;ve been ignoring the elephant</div><div=
+>in the room for a while now, ever since I realized this fundamental</div><=
+div>shift.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">
+I also commented on the general setup linux-user has for this<br>
+function back in patch 2; I&#39;ll let you figure out whether what<br>
+you have here is the right thing for BSD.<br></blockquote><div><br></div><d=
+iv>Yea. I&#39;m still thinking through what you said there (and elsewhere).=
+ These</div><div>issues may be the root cause of some regressions in arm bi=
+naries between</div><div>6.1 and 6.2 as I tried to adopt the sigsegv/sigbus=
+ changes.</div><div><br></div><div>I need to work through those things in o=
+ur development branch before trying</div><div>to fold them into this series=
+. And I&#39;m not yet sure the right way to do that because</div><div>many =
+of the things are likely to be largish changes that may be tough to manage<=
+/div><div>keeping this patch series in sync. So I&#39;m going to do all the=
+ trivial style and</div><div>tiny bug things first, then tackle this more f=
+undamental issue. I&#39;ve thought</div><div>about it enough to understand =
+that the code in this patch series has some</div><div>conceptual mistakes t=
+hat must be addressed. Having this very detailed feedback</div><div>is quit=
+e helpful in laying out the path for me to fix these issues (even if I don&=
+#39;t</div><div>ultimately do everything like linux-user, I&#39;ll know why=
+ it&#39;s different rather than</div><div>the current situation where there=
+&#39;s much inherited code and the best answer</div><div>I could give is &#=
+39;well linux-user was like that 5 years ago and we needed to make</div><di=
+v>these hacks to make things work&#39; which is completely unsatisfying to =
+give and</div><div>to hear.</div><div><br></div><div>Warner<br></div></div>=
+</div>
+
+--000000000000217e2105d598e7c4--
 
