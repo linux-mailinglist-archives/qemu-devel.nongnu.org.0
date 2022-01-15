@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 601DF48F7BF
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jan 2022 17:11:35 +0100 (CET)
-Received: from localhost ([::1]:42592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9070848F7BE
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jan 2022 17:11:26 +0100 (CET)
+Received: from localhost ([::1]:41894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8leQ-0005mA-Gc
-	for lists+qemu-devel@lfdr.de; Sat, 15 Jan 2022 11:11:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59176)
+	id 1n8leH-0005Ju-43
+	for lists+qemu-devel@lfdr.de; Sat, 15 Jan 2022 11:11:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n8lZg-0002rz-7W
- for qemu-devel@nongnu.org; Sat, 15 Jan 2022 11:06:41 -0500
-Received: from [2a00:1450:4864:20::333] (port=42770
- helo=mail-wm1-x333.google.com)
+ id 1n8lZk-0002sN-LB
+ for qemu-devel@nongnu.org; Sat, 15 Jan 2022 11:06:44 -0500
+Received: from [2a00:1450:4864:20::331] (port=40643
+ helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n8lZe-00048Y-7i
- for qemu-devel@nongnu.org; Sat, 15 Jan 2022 11:06:39 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- ay4-20020a05600c1e0400b0034a81a94607so10764371wmb.1
- for <qemu-devel@nongnu.org>; Sat, 15 Jan 2022 08:06:24 -0800 (PST)
+ id 1n8lZh-0004DH-Gz
+ for qemu-devel@nongnu.org; Sat, 15 Jan 2022 11:06:42 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ 25-20020a05600c231900b003497473a9c4so13651855wmo.5
+ for <qemu-devel@nongnu.org>; Sat, 15 Jan 2022 08:06:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=XGRaFmOkGeFXTDHL1wbJOj0w7ZZj1PDikzBa5UYGTyQ=;
- b=bGdH6GpHiuTnIfcD04L4mlovqeBUtwR/BNSc5OdPFstH3vXMDubg7jffEkfFXTDe72
- CtDU1FSBEQ4ARhDzdqJ2VrIudnmGiycy6hm7SSUJ0vrxVcMzMuZ2t7NREdsqFsMEXqy9
- Bf+8MVyD1YiYXvsM9VigMPxZbSklziM1xBV1a8YdzIeYne8Y0BCahh+N4MIAIXZ7PnU2
- OESGvcb8wLIdIPq7vqSn1RFVaG7/hWZr0fVNmz4hn9FTl/wsnFkx0dOge2k95POKyYmz
- LnyLSBtXBJpOlsdSNMxhkTj9pOC+ZboYL/B0HBURJOzd+uzX58YNEnnj/tXAJns/za3G
- C+3A==
+ bh=cCpg3A/iZ8gJ5mGomd1TjXjpLpyoFkRGhOE4NwJt3js=;
+ b=igrLSgLC4g/W+teo3oYMZvgjmbiv4yfwjSacWvoQmf6WOQ38d7vapNyxNlh3o2oCQE
+ yndOCUTlEujyKslQ/fRgI7bLjqUT8L/BfOAxSzXWU8PZ+eOwSjcWjoLQfTIisv5JlfRt
+ SJjSW7s40Dr9mOzpXe4pxH6NJgbjj1x7olrlux1JEOP6gH76z0RdakJE7kp4ITutV11h
+ Y2MFReHdA0YHTM3QD36bjVUjG2FZbImyqc4lbMBLQ/puH56WHEr2GhqnVYHrOydNj6UK
+ OziCBwzVlNtZ4DsE7b9jJy2xaT7hTwW5KE5F1JYIXkNj/nNHcbU2LJUnzyO/RU3Q/9tm
+ cbng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ :subject:content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=XGRaFmOkGeFXTDHL1wbJOj0w7ZZj1PDikzBa5UYGTyQ=;
- b=NpHj9Ndev1FeWAe4rb/HV3BRvLQZa+QcT9ocNW9yusqqtztMAk+GeLjch/59jsyeth
- 8XAF81+GSmLdcA9aKRgOcJFHuo+hgadxFg4LEORbCxfSHJUm6Mn8Lr4i0Gud+MpYFp3v
- OQLqL8osg9WVyL6ahJGfROUpMyqQik08fDrZl1N03JSvpTuAj/lnCvTmsw/WRwxCUh+H
- 8GTR7zkpYly71sG/bg5WeoHGsZkWjfuUcVIrdqQgmb5GqH8ROphrXXWAxiGXYudJwwBW
- GlOdFMisZgPEdrnI9rB6lUIECeqlLjXuQBYcWnNUYFP1BPbThoKGI7Y6rq7mutbQXgdx
- T/aQ==
-X-Gm-Message-State: AOAM532OPnXwZkmzr06imr2Jmt/Qapm4EybauvOv0dhWfab56W6+jOJp
- BcN5Lybxnnu1Z8wrG4ofjOw=
-X-Google-Smtp-Source: ABdhPJwDqd2rssltRD2yZl/7L7sDrd4OmRRkfiN/Ixe5r2wKtY70Gaa4JG+lJnqDbgRt/34Hx8Sayw==
-X-Received: by 2002:a05:6000:1786:: with SMTP id
- e6mr12351556wrg.432.1642262783477; 
- Sat, 15 Jan 2022 08:06:23 -0800 (PST)
+ bh=cCpg3A/iZ8gJ5mGomd1TjXjpLpyoFkRGhOE4NwJt3js=;
+ b=6qKoVmnwp3aPIqYzIfYKOoS0zjV3zjU+D4W5fYOcTICeoc49WHNGjQv7AV0ZkO8F/q
+ iNW4yID3lnDosnJfpQMfirvjqvB4sWiUG0rDeq5+tO119/0cCXGdJx2NBHz02pCdAvyV
+ RH4wg/PzevtLAdj/2bj6lnB+B15S24hpruJTwuViD+sTkwOqiKXFlkjkq05IOFDdd/9/
+ v3Frf5a5X4uurYBgrMOyaUspRdbBHsxgChuhIhmhq3nGuO6uOfR20dkhKMMZIBgkN/Fe
+ 0D/tj8R4siNHuDPOBx36gs9GFxApenwP6L/O470R//+Gu49wcSdr76q3idRCeHE8T/Bd
+ qWOQ==
+X-Gm-Message-State: AOAM532IIvgU3AfoWHSXl7YyHU9Ldalpy/dkusPfZO8DDRND45L27nCT
+ 2iPiWXaj/vwHeFmWrnGsLKw=
+X-Google-Smtp-Source: ABdhPJxoPS6JlFekkKTHOtX08Z+a99IqwxFIgf2+XhiJ2kdduacDC5xYwK4x3lfNJ6j+5cPp2DI1jA==
+X-Received: by 2002:a5d:6586:: with SMTP id q6mr13036521wru.62.1642262799265; 
+ Sat, 15 Jan 2022 08:06:39 -0800 (PST)
 Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
  ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.googlemail.com with ESMTPSA id 9sm6059546wrb.77.2022.01.15.08.06.22
+ by smtp.googlemail.com with ESMTPSA id o12sm56117wrc.51.2022.01.15.08.06.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 15 Jan 2022 08:06:23 -0800 (PST)
-Message-ID: <65664282-01a8-c75f-3762-5348a48fba7a@redhat.com>
-Date: Sat, 15 Jan 2022 17:06:22 +0100
+ Sat, 15 Jan 2022 08:06:38 -0800 (PST)
+Message-ID: <f02b1b04-412e-8d2f-8233-3838d59d1084@redhat.com>
+Date: Sat, 15 Jan 2022 17:06:37 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH] build-sys: fix a meson deprecation warning
+Subject: Re: [PATCH 1/2] build-sys: fix undefined ARCH error
 Content-Language: en-US
 To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20220113162148.3621818-1-marcandre.lureau@redhat.com>
+References: <20220114084312.3725242-1-marcandre.lureau@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220113162148.3621818-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20220114084312.3725242-1-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,37 +93,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/13/22 17:21, marcandre.lureau@redhat.com wrote:
+On 1/14/22 09:43, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> WARNING: Deprecated features used:
->   * 0.56.0: {'meson.source_root'}
+> ../qga/meson.build:76:4: ERROR: Key ARCH is not in the dictionary.
+> 
+> Fixes commit 823eb013 ("configure, meson: move ARCH to meson.build")
 > 
 > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   tests/qtest/meson.build | 2 +-
+>   qga/meson.build | 2 +-
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-> index 37e1eaa4498e..2f6687576757 100644
-> --- a/tests/qtest/meson.build
-> +++ b/tests/qtest/meson.build
-> @@ -103,7 +103,7 @@ if dbus_daemon.found() and config_host.has_key('GDBUS_CODEGEN')
->     #qtests_i386 += ['dbus-vmstate-test']
->     dbus_vmstate1 = custom_target('dbus-vmstate description',
->                                   output: ['dbus-vmstate1.h', 'dbus-vmstate1.c'],
-> -                                input: meson.source_root() / 'backends/dbus-vmstate1.xml',
-> +                                input: meson.project_source_root() / 'backends/dbus-vmstate1.xml',
->                                   command: [config_host['GDBUS_CODEGEN'],
->                                             '@INPUT@',
->                                             '--interface-prefix', 'org.qemu',
+> diff --git a/qga/meson.build b/qga/meson.build
+> index cfb1fbc0853c..613ecb980286 100644
+> --- a/qga/meson.build
+> +++ b/qga/meson.build
+> @@ -75,7 +75,7 @@ if targetos == 'windows'
+>       endif
+>       qga_msi = custom_target('QGA MSI',
+>                               input: files('installer/qemu-ga.wxs'),
+> -                            output: 'qemu-ga-@0@.msi'.format(config_host['ARCH']),
+> +                            output: 'qemu-ga-@0@.msi'.format(host_arch),
+>                               depends: deps,
+>                               command: [
+>                                 find_program('env'),
 
-Queued, thanks.
+Queued both, thanks.
 
 Paolo
 
