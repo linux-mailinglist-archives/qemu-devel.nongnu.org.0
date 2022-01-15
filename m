@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CF1E48F9A4
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jan 2022 23:24:21 +0100 (CET)
-Received: from localhost ([::1]:58924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5892648F9A5
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jan 2022 23:24:47 +0100 (CET)
+Received: from localhost ([::1]:60272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8rT9-0001yX-NI
-	for lists+qemu-devel@lfdr.de; Sat, 15 Jan 2022 17:24:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45162)
+	id 1n8rTa-0002tI-6B
+	for lists+qemu-devel@lfdr.de; Sat, 15 Jan 2022 17:24:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n8rQi-0008Qc-4s
- for qemu-devel@nongnu.org; Sat, 15 Jan 2022 17:21:48 -0500
-Received: from [2a00:1450:4864:20::32d] (port=45776
- helo=mail-wm1-x32d.google.com)
+ id 1n8rQx-0000Dm-BO; Sat, 15 Jan 2022 17:22:03 -0500
+Received: from [2a00:1450:4864:20::334] (port=51834
+ helo=mail-wm1-x334.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n8rQg-0000d6-KH
- for qemu-devel@nongnu.org; Sat, 15 Jan 2022 17:21:47 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- c126-20020a1c9a84000000b00346f9ebee43so13097395wme.4
- for <qemu-devel@nongnu.org>; Sat, 15 Jan 2022 14:21:46 -0800 (PST)
+ id 1n8rQs-0000eq-Lc; Sat, 15 Jan 2022 17:22:03 -0500
+Received: by mail-wm1-x334.google.com with SMTP id c2so7321582wml.1;
+ Sat, 15 Jan 2022 14:21:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:mime-version
+ h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=j9x33SKmuccOPBnIOni9qflM/+GMe9iP0bONb6a7cmM=;
- b=GDL9Q5VNAg02uJEtLPF55fngprQ9Gj8Rfr/7roCFAwSJQvDXsyK/rBcT+QrLa1/D0/
- 3lDqC6DoEaT2K3KCub+lOiMAPC+5EjqC9ktiDqXPJPpxU+gwtAF6VBXn5kpkEbBeBY//
- Amfmbr2roag6tuf9/vgGMK4/HaHsVvLAnK2sNTUQkIMlAcrE9DucPhZ+9QKWCwT6cLfr
- wGguHCHW6ih/Q4vL0906xORh6PY+g0mPBo2ooFaWsu7tubHc4LOsmCSKwDPkYF1D3dld
- 135yEt3ZRfU7oebapiU+hI2VqUPBo3hMVnDemcpSuQi/n/XfTnDgdqIDGivLmeiFePZK
- d5+g==
+ b=Rx4Kd6mHpxkOnn9JnrHDLhA1xznSvIbCvNJAXT3Ubwyeesym5lP11tqpSeO82xm5xN
+ KP5KpibzBCDHGGlU3vr5btffvedLgOdjhQ2wLjScMyWJke9VnUd+g8m/K2CbwCtJBMcq
+ cAbYd8OTf8PykPxjX83msgFpZs83Zrd0NRLKiprLZINPGakDj0G3rzoPBhyvN3m6nFzb
+ ++IDfqFfkxCGnU9ilHGBI45s+OvaRhuS+JPMKG0ZZTKQIWUQFLHaMoR/Cve1NaDG8A6r
+ cZd2ZGleh0mcc24IG776eJUMV3qLKZTzIZ9rCTBKg7h89X91ZTMwxpb1UR6lGaBOlbKy
+ lWXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :mime-version:content-transfer-encoding;
  bh=j9x33SKmuccOPBnIOni9qflM/+GMe9iP0bONb6a7cmM=;
- b=Gz0dBxI2EEhAhhMry4p8YtfDhVkwx38wJw32L40fIWuDFUZPuH5UOj35iutM2+8Fmf
- tYkrwwbwXxkD/UdQkz02tPW9cfASyrKDoTIr7V31GlO02/XUlTlW05NfM9xbKHcghiT3
- xdEWmNMN63gk+2GYcZ7zj9sPeblrxrYwVUsKj0OScUfCrKUFscxVrE3fZnsGgaw4DrJQ
- KUosxOn/Wi7KxkxfGFSlBa9GL9MX1JRqtsBQH99ktgW4N+yq2VowiJijeuWXmEfw+hrp
- XFNyFYi65rAe3OjJxFeErLFtBQ5mpGGtgFk8mUNKVOIYCdWKsQYV1u8CPIyJGqANpL4G
- ioaA==
-X-Gm-Message-State: AOAM533izpCDc6j1SwXWJgOI+eWUtkpvGAIAE5sg5ncFVYKdiE2CWpB4
- 4lwJY0keBuu0ZBAcrd2iQN7X+owmGm4=
-X-Google-Smtp-Source: ABdhPJzd+4TNbPZ5ND6/JO7xeC9UfoASZccjW0+YdR5gaUa28dw1Hf/ngvYhqyM7/lPer9yIuV/LpA==
-X-Received: by 2002:a05:600c:1f0f:: with SMTP id
- bd15mr9667322wmb.117.1642285304991; 
- Sat, 15 Jan 2022 14:21:44 -0800 (PST)
+ b=4XjYlTEeyN8SUxToz559xSEGpVx7SzZoRaWKMWHVjQl7Pe4dMM5AIPYigYcxqy8jQF
+ dnKXhVrgY7NWJgQAL+fioSiHXRFgMLQS+vjGdUF5hnISaI5pILdlLriuJrk4Xb93JU//
+ 03/4nr46vYKj7dwlwyI4osD8CIF7fcDVObKTPEe1KMqmrZgIfWaoVCq3IlW+0ODY7iG2
+ 2yIYiUJWbDUUuwUT/zO56MRjgt3zFV85Ki/I1kHRnNOIjzgt02E1QPhvSX1F4LMqiKIr
+ VOwNtdPQjjARBCRwfa6avrJw3mu7oDbG8pZ4YCcBoalOnI8xv//fhcWTUStP2HJisEYh
+ FDUg==
+X-Gm-Message-State: AOAM530iHhK2T7N7rkmSb5bFXWpFMV30XQ+J0KLu7u5YbhYUUY2XmmSO
+ UVyqP+egPJBvqw1evP/7MNcKrSBt7Cc=
+X-Google-Smtp-Source: ABdhPJzMISNQLpviphR0P9F90mrmID0iD2S7C4WEAHSNcBlXEsEOF3xZJFzdkwLgsbjURzYtiCDDyw==
+X-Received: by 2002:a5d:6488:: with SMTP id o8mr13483275wri.576.1642285317050; 
+ Sat, 15 Jan 2022 14:21:57 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id g15sm9555024wrm.2.2022.01.15.14.21.44
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id s1sm8929616wrv.38.2022.01.15.14.21.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Jan 2022 14:21:44 -0800 (PST)
+ Sat, 15 Jan 2022 14:21:56 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Subject: [PATCH 0/4] make check-block a meson test
-Date: Sat, 15 Jan 2022 23:21:39 +0100
-Message-Id: <20220115222143.341587-1-pbonzini@redhat.com>
+Date: Sat, 15 Jan 2022 23:21:50 +0100
+Message-Id: <20220115222154.341628-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -87,6 +82,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
