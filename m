@@ -2,29 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3D8A49722B
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Jan 2022 15:40:01 +0100 (CET)
-Received: from localhost ([::1]:55828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B004749722C
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Jan 2022 15:42:02 +0100 (CET)
+Received: from localhost ([::1]:58070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBe2C-0000tV-IU
-	for lists+qemu-devel@lfdr.de; Sun, 23 Jan 2022 09:40:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44444)
+	id 1nBe49-0002WX-Ql
+	for lists+qemu-devel@lfdr.de; Sun, 23 Jan 2022 09:42:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <belyshev@depni.sinp.msu.ru>)
- id 1nBZs9-0002b0-40; Sun, 23 Jan 2022 05:13:21 -0500
-Received: from depni-mx.sinp.msu.ru ([213.131.7.21]:39481)
+ id 1nBZto-0002wG-4U; Sun, 23 Jan 2022 05:15:04 -0500
+Received: from depni-mx.sinp.msu.ru ([213.131.7.21]:39483)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <belyshev@depni.sinp.msu.ru>)
- id 1nBZs6-0003LI-FN; Sun, 23 Jan 2022 05:13:20 -0500
+ id 1nBZtm-0003q9-9A; Sun, 23 Jan 2022 05:15:03 -0500
 Received: from spider (unknown [176.195.59.180])
- by depni-mx.sinp.msu.ru (Postfix) with ESMTPSA id 329D71BF45A;
- Sun, 23 Jan 2022 13:13:24 +0300 (MSK)
+ by depni-mx.sinp.msu.ru (Postfix) with ESMTPSA id 392321BF45A;
+ Sun, 23 Jan 2022 13:15:14 +0300 (MSK)
 From: Serge Belyshev <belyshev@depni.sinp.msu.ru>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] linux-user/syscall: Do not ignore info.si_pid == 0 in waitid()
-Date: Thu, 13 Jan 2022 12:37:46 +0300
-Message-ID: <8735len4jt.fsf@depni.sinp.msu.ru>
+Subject: [PATCH] linux-user/alpha: Fix target rlimits for alpha and
+ rearrange for clarity
+Date: Sat, 15 Jan 2022 14:32:35 +0300
+Message-ID: <87y236lpwb.fsf@depni.sinp.msu.ru>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/29.0.50 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -37,7 +38,7 @@ X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
  RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sun, 23 Jan 2022 09:38:31 -0500
+X-Mailman-Approved-At: Sun, 23 Jan 2022 09:38:32 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,31 +54,79 @@ Cc: qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When called with WNOHANG and no child has exited, waitid returns with
-info.si_pid set to zero and thus check for info.si_pid != 0 will cause
-target siginfo structure to be uninitialized.  Fixed by removing the check.
+Alpha uses different values of some TARGET_RLIMIT_* constants, which were
+missing and caused bugs like #577, fixed thus.  Also rearranged all three
+(alpha, mips and sparc) that differ from everyone else for clarity.
 
 Signed-off-by: Serge Belyshev <belyshev@depni.sinp.msu.ru>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/817
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/577
 ---
- linux-user/syscall.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ linux-user/syscall_defs.h | 31 ++++++++++++++-----------------
+ 1 file changed, 14 insertions(+), 17 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 5950222a77..b80531ac4c 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -8724,9 +8724,8 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-     case TARGET_NR_waitid:
-         {
-             siginfo_t info;
--            info.si_pid = 0;
-             ret = get_errno(safe_waitid(arg1, arg2, &info, arg4, NULL));
--            if (!is_error(ret) && arg3 && info.si_pid != 0) {
-+            if (!is_error(ret) && arg3) {
-                 if (!(p = lock_user(VERIFY_WRITE, arg3, sizeof(target_siginfo_t), 0)))
-                     return -TARGET_EFAULT;
-                 host_to_target_siginfo(p, &info);
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index f23f0a2178..3fcabaeae3 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -730,44 +730,41 @@ struct target_rlimit {
+ #define TARGET_RLIM_INFINITY	((abi_ulong)-1)
+ #endif
+ 
+-#if defined(TARGET_MIPS)
+ #define TARGET_RLIMIT_CPU		0
+ #define TARGET_RLIMIT_FSIZE		1
+ #define TARGET_RLIMIT_DATA		2
+ #define TARGET_RLIMIT_STACK		3
+ #define TARGET_RLIMIT_CORE		4
++#if defined(TARGET_MIPS)
++#define TARGET_RLIMIT_NOFILE		5
++#define TARGET_RLIMIT_AS		6
+ #define TARGET_RLIMIT_RSS		7
+ #define TARGET_RLIMIT_NPROC		8
+-#define TARGET_RLIMIT_NOFILE		5
+ #define TARGET_RLIMIT_MEMLOCK		9
+-#define TARGET_RLIMIT_AS		6
+-#define TARGET_RLIMIT_LOCKS		10
+-#define TARGET_RLIMIT_SIGPENDING	11
+-#define TARGET_RLIMIT_MSGQUEUE		12
+-#define TARGET_RLIMIT_NICE		13
+-#define TARGET_RLIMIT_RTPRIO		14
+-#else
+-#define TARGET_RLIMIT_CPU		0
+-#define TARGET_RLIMIT_FSIZE		1
+-#define TARGET_RLIMIT_DATA		2
+-#define TARGET_RLIMIT_STACK		3
+-#define TARGET_RLIMIT_CORE		4
++#elif defined(TARGET_ALPHA)
++#define TARGET_RLIMIT_RSS		5
++#define TARGET_RLIMIT_NOFILE		6
++#define TARGET_RLIMIT_AS		7
++#define TARGET_RLIMIT_NPROC		8
++#define TARGET_RLIMIT_MEMLOCK		9
++#elif defined(TARGET_SPARC)
+ #define TARGET_RLIMIT_RSS		5
+-#if defined(TARGET_SPARC)
+ #define TARGET_RLIMIT_NOFILE		6
+ #define TARGET_RLIMIT_NPROC		7
++#define TARGET_RLIMIT_MEMLOCK		8
++#define TARGET_RLIMIT_AS		9
+ #else
++#define TARGET_RLIMIT_RSS		5
+ #define TARGET_RLIMIT_NPROC		6
+ #define TARGET_RLIMIT_NOFILE		7
+-#endif
+ #define TARGET_RLIMIT_MEMLOCK		8
+ #define TARGET_RLIMIT_AS		9
++#endif
+ #define TARGET_RLIMIT_LOCKS		10
+ #define TARGET_RLIMIT_SIGPENDING	11
+ #define TARGET_RLIMIT_MSGQUEUE		12
+ #define TARGET_RLIMIT_NICE		13
+ #define TARGET_RLIMIT_RTPRIO		14
+-#endif
+ 
+ struct target_pollfd {
+     int fd;           /* file descriptor */
 -- 
 2.34.1
 
