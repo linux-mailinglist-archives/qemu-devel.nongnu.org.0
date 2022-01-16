@@ -2,32 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E217E48FD39
+	by mail.lfdr.de (Postfix) with ESMTPS id D951648FD38
 	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jan 2022 14:42:44 +0100 (CET)
-Received: from localhost ([::1]:55794 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:55814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n95nv-0003WN-Na
-	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 08:42:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55058)
+	id 1n95nw-0003YT-0F
+	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 08:42:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1n95im-0000jg-8U
- for qemu-devel@nongnu.org; Sun, 16 Jan 2022 08:37:24 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:53159)
+ id 1n95in-0000kg-BX
+ for qemu-devel@nongnu.org; Sun, 16 Jan 2022 08:37:25 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:53161)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1n95ik-0001h2-2U
- for qemu-devel@nongnu.org; Sun, 16 Jan 2022 08:37:23 -0500
+ id 1n95ik-0001h3-2R
+ for qemu-devel@nongnu.org; Sun, 16 Jan 2022 08:37:25 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 4E4C87470C6;
+ by localhost (Postfix) with SMTP id A99A47470C7;
  Sun, 16 Jan 2022 14:37:19 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 36BA3746346; Sun, 16 Jan 2022 14:37:19 +0100 (CET)
-Message-Id: <cover.1642339238.git.balaton@eik.bme.hu>
+ id 3AFCF746FCF; Sun, 16 Jan 2022 14:37:19 +0100 (CET)
+Message-Id: <79f1cf913e9fd2e39bf11dc1f816860b6f6b8876.1642339238.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1642339238.git.balaton@eik.bme.hu>
+References: <cover.1642339238.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 0/5] Misc OHCI clean ups
-Date: Sun, 16 Jan 2022 14:20:38 +0100
+Subject: [PATCH 1/5] usb/ohci: Move trace point and log ep number to help
+ debugging
+Date: Sun, 16 Jan 2022 14:20:39 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -56,32 +59,58 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/usb/hcd-ohci.c   | 14 +++++++-------
+ hw/usb/trace-events |  2 +-
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-I have these patches from last October when we've looked at what
-causes problems with mac99 and USB. We've found the main problem is
-likely not allowing pending packets per endpoint which we did not fix
-but these patches came out of debugging that and trying to improve the
-device model so eventually the real problem could be fixed more
-easily. So these are just clean ups and fixing one potential issue
-with isochronous transfers breaking pending async packet but it does
-not solve all problems OHCI currently has. I'm sending it anyway as I
-don't plan to work further on this so this series could be taken as is
-for now.
-
-Regards,
-
-BALATON Zoltan (5):
-  usb/ohci: Move trace point and log ep number to help debugging
-  usb/ohci: Move cancelling async packet to ohci_stop_endpoints()
-  usb/ohci: Move USBPortOps related functions together
-  usb/ohci: Merge ohci_async_cancel_device() into ohci_child_detach()
-  usb/ohci: Don't use packet from OHCIState for isochronous transfers
-
- hw/usb/hcd-ohci.c   | 295 +++++++++++++++++++++-----------------------
- hw/usb/trace-events |   2 +-
- 2 files changed, 144 insertions(+), 153 deletions(-)
-
+diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
+index a93d6b2e98..f915cc5473 100644
+--- a/hw/usb/hcd-ohci.c
++++ b/hw/usb/hcd-ohci.c
+@@ -1033,21 +1033,21 @@ static int ohci_service_td(OHCIState *ohci, struct ohci_ed *ed)
+         ohci->async_td = 0;
+         ohci->async_complete = false;
+     } else {
++        dev = ohci_find_device(ohci, OHCI_BM(ed->flags, ED_FA));
++        if (dev == NULL) {
++            trace_usb_ohci_td_dev_error();
++            return 1;
++        }
++        ep = usb_ep_get(dev, pid, OHCI_BM(ed->flags, ED_EN));
+         if (ohci->async_td) {
+             /* ??? The hardware should allow one active packet per
+                endpoint.  We only allow one active packet per controller.
+                This should be sufficient as long as devices respond in a
+                timely manner.
+             */
+-            trace_usb_ohci_td_too_many_pending();
++            trace_usb_ohci_td_too_many_pending(ep->nr);
+             return 1;
+         }
+-        dev = ohci_find_device(ohci, OHCI_BM(ed->flags, ED_FA));
+-        if (dev == NULL) {
+-            trace_usb_ohci_td_dev_error();
+-            return 1;
+-        }
+-        ep = usb_ep_get(dev, pid, OHCI_BM(ed->flags, ED_EN));
+         usb_packet_setup(&ohci->usb_packet, pid, ep, 0, addr, !flag_r,
+                          OHCI_BM(td.flags, TD_DI) == 0);
+         usb_packet_addbuf(&ohci->usb_packet, ohci->usb_buf, pktlen);
+diff --git a/hw/usb/trace-events b/hw/usb/trace-events
+index b8287b63f1..9773cb5330 100644
+--- a/hw/usb/trace-events
++++ b/hw/usb/trace-events
+@@ -51,7 +51,7 @@ usb_ohci_td_skip_async(void) ""
+ usb_ohci_td_pkt_hdr(uint32_t addr, int64_t pktlen, int64_t len, const char *s, int flag_r, uint32_t cbp, uint32_t be) " TD @ 0x%.8x %" PRId64 " of %" PRId64 " bytes %s r=%d cbp=0x%.8x be=0x%.8x"
+ usb_ohci_td_pkt_short(const char *dir, const char *buf) "%s data: %s"
+ usb_ohci_td_pkt_full(const char *dir, const char *buf) "%s data: %s"
+-usb_ohci_td_too_many_pending(void) ""
++usb_ohci_td_too_many_pending(int ep) "ep=%d"
+ usb_ohci_td_packet_status(int status) "status=%d"
+ usb_ohci_ed_read_error(uint32_t addr) "ED read error at 0x%x"
+ usb_ohci_ed_pkt(uint32_t cur, int h, int c, uint32_t head, uint32_t tail, uint32_t next) "ED @ 0x%.8x h=%u c=%u\n  head=0x%.8x tailp=0x%.8x next=0x%.8x"
 -- 
 2.30.2
 
