@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366C548FFA8
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 00:56:01 +0100 (CET)
-Received: from localhost ([::1]:38038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C6C48FFA9
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 00:56:06 +0100 (CET)
+Received: from localhost ([::1]:38452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9FNQ-0005uP-1I
-	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 18:56:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40064)
+	id 1n9FNV-0006B6-Fa
+	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 18:56:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9FLC-0003vo-6j
- for qemu-devel@nongnu.org; Sun, 16 Jan 2022 18:53:42 -0500
-Received: from [2a00:1450:4864:20::32b] (port=41593
- helo=mail-wm1-x32b.google.com)
+ id 1n9FLG-00045W-FC
+ for qemu-devel@nongnu.org; Sun, 16 Jan 2022 18:53:46 -0500
+Received: from [2a00:1450:4864:20::336] (port=46799
+ helo=mail-wm1-x336.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9FLA-0007Zw-K2
- for qemu-devel@nongnu.org; Sun, 16 Jan 2022 18:53:41 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- q141-20020a1ca793000000b00347b48dfb53so18870698wme.0
- for <qemu-devel@nongnu.org>; Sun, 16 Jan 2022 15:53:40 -0800 (PST)
+ id 1n9FLE-0007aa-Uw
+ for qemu-devel@nongnu.org; Sun, 16 Jan 2022 18:53:46 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ d187-20020a1c1dc4000000b003474b4b7ebcso18820920wmd.5
+ for <qemu-devel@nongnu.org>; Sun, 16 Jan 2022 15:53:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=naCeFovSJ651wMdQgl34MkCNA0kADyvFrkhnCjatNM8=;
- b=ncwzxDTA8oIJyB3Y8ecVMxx+r4z1Ght7VmWNAxsq0qfXxwCjBHFy7Y81JT0giGLRGb
- VJQ41+o/d2sOId1BnNCwsuLbnWp1Erx0vY74scJU4qsO5GELEhy/mq4xQ1y3jpbddfRt
- OnymjLtorVXxH01PZXfd4l4Njhw6c6zNA4/Rqy7cDiT9c3GgDMtAdOCYtjc7qxCqPorS
- 8ivdjRw8wrERGYv81M26k6wXz3VYVeP+uZZce24i1ElnWEWcyvpBHSXvBTaMYJtI7eX8
- Q7GfktTqMLaysna+xmrMwGP9rEHhsIPtnehx5zqqGckJGz7Tpl/RpoUBd4G3ZN4Bo1M/
- /QkA==
+ bh=mE9T7K6SmPhZ9bXu37ofq8U0FJgzH9QPe/lM62Txz24=;
+ b=g5IzHq5w5/u95mZqLI0RU96p0HPBwJeHbwsihiYZ7b7WrExoFZUHCF5X5/Gxx3CA4K
+ zPOfX7DAeGMCPN3x4F6O+68wW3ePiXfAykL3JYP0b9qCtz89i/9q38H/0yloSEORf05E
+ LKuZUSbCTN+XBtTuLAEUrPlbZmpx3ky8RXl5cTPNlsI0grnGgSV8I8kXFKLiUE5M6HKq
+ KAflOw0zRbQJXcNrSz2ZVaTtMRFVrji3VZTrPLCfwhYqXjaQpbYylWCM1At4ZOW5N5yt
+ iYJKMz1z5sCfAYpPtNi24aTTEvH/xe/wXWs0U7pjuvmgd6oNz0t/NUi8GLfaxWGwmjYa
+ QqQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=naCeFovSJ651wMdQgl34MkCNA0kADyvFrkhnCjatNM8=;
- b=DoItrzOwwGSCmyUWowNC/yzFOYZNhYK+Y0Z7rSZdnaJe9pL/X4CLbtUHqKQW+Nzk+v
- V1XUPtbmRW+pQVBpus8OMQ760G0sOAoKHJDMCxypSnboen7f0al0ubeFVI7KvRJ8gA93
- XV7w9D/69iR1CQ9L2WV0mPGQG+U+a5la2TF0of97netqYyDW0lmGC17oc5b2Rc4E1u40
- 3tJ/fIDsjoLTXirWXzjcav/5A7Viyu/StTvj9nCC9eJ9hTSffeihOmtirMJVn1kLVfRN
- nSaxf8/9AfcP5r/EWZkSd6idRz1MqdpinwXpk7tOV1+nLMJto91yA+F7Xjy9o+NeObzS
- Md5w==
-X-Gm-Message-State: AOAM5321Fw4GK1bd1LFXaifrc3X+0TGAJYgd67fusopk8HOnIV8wt7H3
- BFL72FW86usnTOrVn2raLz+o44UGSti5HtFX
-X-Google-Smtp-Source: ABdhPJyzCVCKhUO/kCrbnV0Ys0Ap9iU/XsgQqVqCErpiBp5O2bS0U1Duqn/y1zXAqs0ol8pEyNH8cw==
-X-Received: by 2002:a5d:6e8b:: with SMTP id k11mr16774770wrz.102.1642377218990; 
- Sun, 16 Jan 2022 15:53:38 -0800 (PST)
+ bh=mE9T7K6SmPhZ9bXu37ofq8U0FJgzH9QPe/lM62Txz24=;
+ b=wWluyA5HmzBvRgO0uN0siftnjtf9Zz/5YaAkt5LAC5IHJJ4t0Uri4Bn9WkjGNx9QFc
+ BngUUojzqGbLG+IhsbC/tT2sjvW3ZPz51A52jy0yV0PsyWKCOlALgP1deTh0HAaYTeTx
+ iETiy9QlxT/NLw1KmweG1hvJy9aoV4lz1JnHGdFtJbpAalYn45PwU5Q2WfVkkBgzTvQ7
+ 4AAYzRq/dSd7x9QAFnnyf4wNLgqjWbFwLmr4QMrWwOnZ2D12gATur/r/hiic1QHWW77Z
+ TIxrqNeToo/QeVXb19iGRsLqmdIiP1CTdxQ669/BNjEY65SL0vYf7/Tvz/wYjWNpKt7r
+ qpBQ==
+X-Gm-Message-State: AOAM532d9oIGvFGow0qWdbtZsw9zpFqkLlxOfYNqV9GGEe/560Zc2y3o
+ zB4BQ9HHUlQIdha6KmMomrVC2wV7nVp/xAlM
+X-Google-Smtp-Source: ABdhPJykXdj1ESuWqwQfLg0oNfVV00xZmzL4g3/rYTcQABK8pAdx8jRAlVzuG4cHYGgpSzaX5BLCMg==
+X-Received: by 2002:a05:600c:35cd:: with SMTP id
+ r13mr1638733wmq.29.1642377223618; 
+ Sun, 16 Jan 2022 15:53:43 -0800 (PST)
 Received: from nuc.. (154.red-83-50-83.dynamicip.rima-tde.net. [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id
- d5sm12353367wrs.61.2022.01.16.15.53.38
+ by smtp.gmail.com with ESMTPSA id n4sm73055wri.29.2022.01.16.15.53.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Jan 2022 15:53:38 -0800 (PST)
+ Sun, 16 Jan 2022 15:53:43 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -61,19 +61,19 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH 1/2] hw/i386/x86: Attach CPUs to machine
-Date: Mon, 17 Jan 2022 00:53:30 +0100
-Message-Id: <20220116235331.103977-2-f4bug@amsat.org>
+Subject: [RFC PATCH 2/2] hw/i386/sgx: Attach SGX-EPC to its memory backend
+Date: Mon, 17 Jan 2022 00:53:31 +0100
+Message-Id: <20220116235331.103977-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220116235331.103977-1-f4bug@amsat.org>
 References: <20220116235331.103977-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,26 +99,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Avoid having CPUs objects dangling as unattached QOM ones,
-directly attach them to the machine.
+We have one SGX-EPC address/size/node per memory backend,
+make it child of the backend in the QOM composition tree.
 
+Cc: Yang Zhong <yang.zhong@intel.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/i386/x86.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/i386/sgx.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index b84840a1bb9..50bf249c700 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -108,6 +108,7 @@ void x86_cpu_new(X86MachineState *x86ms, int64_t apic_id, Error **errp)
- {
-     Object *cpu = object_new(MACHINE(x86ms)->cpu_type);
- 
-+    object_property_add_child(OBJECT(x86ms), "cpu[*]", OBJECT(cpu));
-     if (!object_property_set_uint(cpu, "apic-id", apic_id, errp)) {
-         goto out;
-     }
+diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
+index 5de5dd08936..6362e5e9d02 100644
+--- a/hw/i386/sgx.c
++++ b/hw/i386/sgx.c
+@@ -300,6 +300,9 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
+         /* set the memdev link with memory backend */
+         object_property_parse(obj, SGX_EPC_MEMDEV_PROP, list->value->memdev,
+                               &error_fatal);
++        object_property_add_child(OBJECT(list->value->memdev), "sgx-epc",
++                                  OBJECT(obj));
++
+         /* set the numa node property for sgx epc object */
+         object_property_set_uint(obj, SGX_EPC_NUMA_NODE_PROP, list->value->node,
+                              &error_fatal);
 -- 
 2.34.1
 
