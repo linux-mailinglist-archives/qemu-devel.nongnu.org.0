@@ -2,47 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C35748FD45
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jan 2022 14:46:20 +0100 (CET)
-Received: from localhost ([::1]:34026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E6C48FDEE
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jan 2022 17:48:55 +0100 (CET)
+Received: from localhost ([::1]:45370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n95rP-0007pq-FT
-	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 08:46:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55094)
+	id 1n98i6-0006EA-BP
+	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 11:48:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1n95in-0000lA-Lp
- for qemu-devel@nongnu.org; Sun, 16 Jan 2022 08:37:27 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:53163)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1n95ik-0001h4-3e
- for qemu-devel@nongnu.org; Sun, 16 Jan 2022 08:37:25 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id AACA47470C8;
- Sun, 16 Jan 2022 14:37:19 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 4A8FF7470BD; Sun, 16 Jan 2022 14:37:19 +0100 (CET)
-Message-Id: <58b79c2f74864af713a575c3011cc77dfc6ea0f8.1642339238.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1642339238.git.balaton@eik.bme.hu>
-References: <cover.1642339238.git.balaton@eik.bme.hu>
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 5/5] usb/ohci: Don't use packet from OHCIState for isochronous
- transfers
-Date: Sun, 16 Jan 2022 14:20:43 +0100
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n98fQ-0004Xo-DH
+ for qemu-devel@nongnu.org; Sun, 16 Jan 2022 11:46:08 -0500
+Received: from [2a00:1450:4864:20::329] (port=36660
+ helo=mail-wm1-x329.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n98fM-0003nl-LX
+ for qemu-devel@nongnu.org; Sun, 16 Jan 2022 11:46:08 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ n19-20020a7bc5d3000000b003466ef16375so18753107wmk.1
+ for <qemu-devel@nongnu.org>; Sun, 16 Jan 2022 08:46:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Tb8uaPbx4DAdtnNUsWa4b4XyGc9qKNuEDwK67C/+30w=;
+ b=nhfookOn3vh37nMdhmzuxdoMh3gVYGkDQCdnUuGbkn2s2GP7PH6rldrfS5AiCFwa4h
+ esEaSCq4PVSF2hqOlO2aikSoxDrDq5fRdDuX63bg7vCDQJLLO9O5QWYeLdShQx9tTnhL
+ r/PefvAlB7rHyfOYBM8V/ngBoq6VRO5RqIdKJafsfAJ5vA+xhIWMo0Uh9ia+U47zvyCb
+ VWc7gz/ry/xLxe5Irpkk2V7OVA5wFZ1apDvHq1GFfZpFodCWEBL1S5pVwMihM/BJP4iw
+ wU3z8IedkJKzSPCLzYHR17mUw12T8qUoiEowNh2fF1EMJIHnHDaYWhQroVHoXG9UpilS
+ q56Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Tb8uaPbx4DAdtnNUsWa4b4XyGc9qKNuEDwK67C/+30w=;
+ b=BDWmB5Zo6UifJ5stLFAxhK2AO3nAFDUXtdiyhbXLjxh54U6dZcIP02MQWox0ZFKZTq
+ wakUyD3k5TswMNyPgLrvGxoOVwWCf4yBamh27a4fiO4aG9uuj7QvzhdP3/0N01vtPOkN
+ nNnLadLVesFwCkfHrvKU6ZPCmdY0/xPWBSLqwsN2G/Q5DJa50nHSVeUaXyeNWgXkejJX
+ rKW3zd9N5gqrJzjXWsDYobgAUPZfHyyDO2A+cZMpDRCKuskUazNhHgpNeov8ME959zQF
+ TdpmJT1+xP38+O6BK4CXQvQCz/tmmBWpw91EDviswzp9fCLNtVpd7Wp/rE0naZr+KXGd
+ Dbmg==
+X-Gm-Message-State: AOAM530Opp8pK+VHgd/ZrrqrsrHHCwcnIAq4ZN/4oW5LTybhXA5Qd7rA
+ G+Z9q4bgEhWoeNly1yD5zgkx/jF/D02VKBfFeEykWQ==
+X-Google-Smtp-Source: ABdhPJx5YSFSTFFGdq7cwAVNGyK2VnusvK419rPngMgXDDgqK1FrVuYO8dQD/VdJ1j48W73/Z2SU1sYP+lbBryfUlN4=
+X-Received: by 2002:adf:ee0e:: with SMTP id y14mr16524792wrn.172.1642351562053; 
+ Sun, 16 Jan 2022 08:46:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To: qemu-devel@nongnu.org
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220107072423.2278113-1-aik@ozlabs.ru>
+In-Reply-To: <20220107072423.2278113-1-aik@ozlabs.ru>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 16 Jan 2022 16:45:50 +0000
+Message-ID: <CAFEAcA9JS9SfN3LmGfd8T_icCUx8tJXC=tKDE6j1i1GQE2c-mg@mail.gmail.com>
+Subject: Re: [PATCH qemu] spapr: Force 32bit when resetting a core
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -55,191 +80,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since isochronous transfers cannot be handled async (the function
-returns error in that case) we don't need to remember the packet.
-Avoid using the usb_packet field in OHCIState (as that can be a
-waiting async packet on another endpoint) and allocate and use a local
-USBPacket for the iso transfer instead. After this we don't have to
-care if we're called from a completion callback or not so we can drop
-that parameter as well.
+On Fri, 7 Jan 2022 at 07:29, Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
+>
+> "PowerPC Processor binding to IEEE 1275" says in
+> "8.2.1. Initial Register Values" that the initial state is defined as
+> 32bit so do it for both SLOF and VOF.
+>
+> This should not cause behavioral change as SLOF switches to 64bit very
+> early anyway. As nothing enforces LE anywhere, this drops it for VOF.
+>
+> The goal is to make VOF work with TCG as otherwise it barfs with
+> qemu: fatal: TCG hflags mismatch (current:0x6c000004 rebuilt:0x6c000000)
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/usb/hcd-ohci.c | 70 +++++++++++++++++++++++++----------------------
- 1 file changed, 37 insertions(+), 33 deletions(-)
+If you get this assert it means that something is changing
+the CPU state and not calling the function to recalculate
+the hflags (which are basically caching part of the CPU state).
+So I don't know whether this patch is correct or not in updating
+MSR bits, but in any case I think it is only masking the
+missing-hflags-update that is causing the assertion...
 
-diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
-index e87f5bd813..5e5a93e54f 100644
---- a/hw/usb/hcd-ohci.c
-+++ b/hw/usb/hcd-ohci.c
-@@ -548,8 +548,7 @@ static int ohci_copy_iso_td(OHCIState *ohci,
- 
- #define USUB(a, b) ((int16_t)((uint16_t)(a) - (uint16_t)(b)))
- 
--static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed,
--                               int completion)
-+static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed)
- {
-     int dir;
-     size_t len = 0;
-@@ -559,6 +558,9 @@ static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed,
-     int i;
-     USBDevice *dev;
-     USBEndpoint *ep;
-+    USBPacket *pkt;
-+    uint8_t buf[8192];
-+    bool int_req;
-     struct ohci_iso_td iso_td;
-     uint32_t addr;
-     uint16_t starting_frame;
-@@ -693,40 +695,42 @@ static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed,
-     } else {
-         len = end_addr - start_addr + 1;
-     }
--    if (len > sizeof(ohci->usb_buf)) {
--        len = sizeof(ohci->usb_buf);
-+    if (len > sizeof(buf)) {
-+        len = sizeof(buf);
-     }
- 
-     if (len && dir != OHCI_TD_DIR_IN) {
--        if (ohci_copy_iso_td(ohci, start_addr, end_addr, ohci->usb_buf, len,
-+        if (ohci_copy_iso_td(ohci, start_addr, end_addr, buf, len,
-                              DMA_DIRECTION_TO_DEVICE)) {
-             ohci_die(ohci);
-             return 1;
-         }
-     }
- 
--    if (!completion) {
--        bool int_req = relative_frame_number == frame_count &&
--                       OHCI_BM(iso_td.flags, TD_DI) == 0;
--        dev = ohci_find_device(ohci, OHCI_BM(ed->flags, ED_FA));
--        if (dev == NULL) {
--            trace_usb_ohci_td_dev_error();
--            return 1;
--        }
--        ep = usb_ep_get(dev, pid, OHCI_BM(ed->flags, ED_EN));
--        usb_packet_setup(&ohci->usb_packet, pid, ep, 0, addr, false, int_req);
--        usb_packet_addbuf(&ohci->usb_packet, ohci->usb_buf, len);
--        usb_handle_packet(dev, &ohci->usb_packet);
--        if (ohci->usb_packet.status == USB_RET_ASYNC) {
--            usb_device_flush_ep_queue(dev, ep);
--            return 1;
--        }
-+    dev = ohci_find_device(ohci, OHCI_BM(ed->flags, ED_FA));
-+    if (dev == NULL) {
-+        trace_usb_ohci_td_dev_error();
-+        return 1;
-     }
--    if (ohci->usb_packet.status == USB_RET_SUCCESS) {
--        ret = ohci->usb_packet.actual_length;
-+    ep = usb_ep_get(dev, pid, OHCI_BM(ed->flags, ED_EN));
-+    pkt = g_new0(USBPacket, 1);
-+    usb_packet_init(pkt);
-+    int_req = relative_frame_number == frame_count &&
-+              OHCI_BM(iso_td.flags, TD_DI) == 0;
-+    usb_packet_setup(pkt, pid, ep, 0, addr, false, int_req);
-+    usb_packet_addbuf(pkt, buf, len);
-+    usb_handle_packet(dev, pkt);
-+    if (pkt->status == USB_RET_ASYNC) {
-+        usb_device_flush_ep_queue(dev, ep);
-+        g_free(pkt);
-+        return 1;
-+    }
-+    if (pkt->status == USB_RET_SUCCESS) {
-+        ret = pkt->actual_length;
-     } else {
--        ret = ohci->usb_packet.status;
-+        ret = pkt->status;
-     }
-+    g_free(pkt);
- 
-     trace_usb_ohci_iso_td_so(start_offset, end_offset, start_addr, end_addr,
-                              str, len, ret);
-@@ -734,7 +738,7 @@ static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed,
-     /* Writeback */
-     if (dir == OHCI_TD_DIR_IN && ret >= 0 && ret <= len) {
-         /* IN transfer succeeded */
--        if (ohci_copy_iso_td(ohci, start_addr, end_addr, ohci->usb_buf, ret,
-+        if (ohci_copy_iso_td(ohci, start_addr, end_addr, buf, ret,
-                              DMA_DIRECTION_FROM_DEVICE)) {
-             ohci_die(ohci);
-             return 1;
-@@ -1057,7 +1061,7 @@ exit_no_retire:
- }
- 
- /* Service an endpoint list.  Returns nonzero if active TD were found.  */
--static int ohci_service_ed_list(OHCIState *ohci, uint32_t head, int completion)
-+static int ohci_service_ed_list(OHCIState *ohci, uint32_t head)
- {
-     struct ohci_ed ed;
-     uint32_t next_ed;
-@@ -1108,7 +1112,7 @@ static int ohci_service_ed_list(OHCIState *ohci, uint32_t head, int completion)
-                     break;
-             } else {
-                 /* Handle isochronous endpoints */
--                if (ohci_service_iso_td(ohci, &ed, completion))
-+                if (ohci_service_iso_td(ohci, &ed))
-                     break;
-             }
-         }
-@@ -1136,20 +1140,20 @@ static void ohci_sof(OHCIState *ohci)
- }
- 
- /* Process Control and Bulk lists.  */
--static void ohci_process_lists(OHCIState *ohci, int completion)
-+static void ohci_process_lists(OHCIState *ohci)
- {
-     if ((ohci->ctl & OHCI_CTL_CLE) && (ohci->status & OHCI_STATUS_CLF)) {
-         if (ohci->ctrl_cur && ohci->ctrl_cur != ohci->ctrl_head) {
-             trace_usb_ohci_process_lists(ohci->ctrl_head, ohci->ctrl_cur);
-         }
--        if (!ohci_service_ed_list(ohci, ohci->ctrl_head, completion)) {
-+        if (!ohci_service_ed_list(ohci, ohci->ctrl_head)) {
-             ohci->ctrl_cur = 0;
-             ohci->status &= ~OHCI_STATUS_CLF;
-         }
-     }
- 
-     if ((ohci->ctl & OHCI_CTL_BLE) && (ohci->status & OHCI_STATUS_BLF)) {
--        if (!ohci_service_ed_list(ohci, ohci->bulk_head, completion)) {
-+        if (!ohci_service_ed_list(ohci, ohci->bulk_head)) {
-             ohci->bulk_cur = 0;
-             ohci->status &= ~OHCI_STATUS_BLF;
-         }
-@@ -1173,7 +1177,7 @@ static void ohci_frame_boundary(void *opaque)
-         int n;
- 
-         n = ohci->frame_number & 0x1f;
--        ohci_service_ed_list(ohci, le32_to_cpu(hcca.intr[n]), 0);
-+        ohci_service_ed_list(ohci, le32_to_cpu(hcca.intr[n]));
-     }
- 
-     /* Cancel all pending packets if either of the lists has been disabled.  */
-@@ -1181,7 +1185,7 @@ static void ohci_frame_boundary(void *opaque)
-         ohci_stop_endpoints(ohci);
-     }
-     ohci->old_ctl = ohci->ctl;
--    ohci_process_lists(ohci, 0);
-+    ohci_process_lists(ohci);
- 
-     /* Stop if UnrecoverableError happened or ohci_sof will crash */
-     if (ohci->intr_status & OHCI_INTR_UE) {
-@@ -1793,7 +1797,7 @@ static void ohci_async_complete_packet(USBPort *port, USBPacket *packet)
- 
-     trace_usb_ohci_async_complete();
-     ohci->async_complete = true;
--    ohci_process_lists(ohci, 1);
-+    ohci_process_lists(ohci);
- }
- 
- static USBPortOps ohci_port_ops = {
--- 
-2.30.2
-
+-- PMM
 
