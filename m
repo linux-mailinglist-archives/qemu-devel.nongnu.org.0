@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1774D48FEFB
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jan 2022 22:10:47 +0100 (CET)
-Received: from localhost ([::1]:33636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5947B48FEFD
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jan 2022 22:12:08 +0100 (CET)
+Received: from localhost ([::1]:36378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9CnS-0005II-U3
-	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 16:10:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41084)
+	id 1n9Cop-0007NH-Fn
+	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 16:12:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9Cj8-0004b5-1o
- for qemu-devel@nongnu.org; Sun, 16 Jan 2022 16:06:14 -0500
-Received: from [2a00:1450:4864:20::52b] (port=45651
- helo=mail-ed1-x52b.google.com)
+ id 1n9ClQ-0005dQ-Um; Sun, 16 Jan 2022 16:08:36 -0500
+Received: from [2a00:1450:4864:20::52a] (port=39568
+ helo=mail-ed1-x52a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9Cj6-0008J0-9B
- for qemu-devel@nongnu.org; Sun, 16 Jan 2022 16:06:13 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id z22so57263238edd.12
- for <qemu-devel@nongnu.org>; Sun, 16 Jan 2022 13:06:11 -0800 (PST)
+ id 1n9Ckw-0008VQ-3B; Sun, 16 Jan 2022 16:08:36 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id c71so57281506edf.6;
+ Sun, 16 Jan 2022 13:07:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=MHG62zmxCaH+1a3woeR3/Lrxw53+ERETskctod1v0fU=;
- b=D0K/nz0+hOKM7nuh+M4qqn0IbqKmP4ar4Gh3QtDOS9Rzvptspi1ShdMlmn/s59Hq/O
- GKRcyLhS2BhIkq5bF3b6z9ecXPEiRhwZDm1c7rIu5GG4RBYsye96tJTPBeMakKUzUrIZ
- Rdu+GK1DRVdjWkgSoeSl/9Y7mHk/70882XYFXih/AO52l9YwUr28ScYVBWgRY1jfIyMo
- 3DdCyo+UwWb448dPcxnyRwTPiucYmxEIjrzeXMPk2jgw5S9q/WEumzbPQAPyf9JXPX5G
- rTNUmesJixRl6a4EOtlvRnWeEA6kXmDM3JY6Lf5x5yvdq0sS1FFOT7UOr5B48G33NhhY
- mFtw==
+ bh=uXKa5IQf2ankP6OGR1CBy5BD9P5argFvH3z+K3xkLhc=;
+ b=OesrA0K211n6WJxcgb22M4omrtnXe6of6TYKAWW3ABUusgS7f+5m2blIXIH9O2gnhu
+ y7ymP5op5TBURz0wvHo+PbXRZUYWAwsW4aTMMG/vOyDMMDqqcTgzZzvaL4zqld4Nov0N
+ uk2An0M4jOnMTmOLqK/CplOXZoe3FUYm+gFTcwgv8+ibYPW6uazo/2HVUuxGKTNjvYnW
+ Swv/K8yOBL01SuH9RS2kNJ1CVdWDz4O/lLpy3xSRInk+/xi1FgZy6pw8uKG6/58BuBS9
+ eYZclePbUVmKNVBhmruzUB1D/GgsTWjfzqR4kw8a5oWFREFcrQ7g3f0abshFcAhrCmdl
+ sriQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=MHG62zmxCaH+1a3woeR3/Lrxw53+ERETskctod1v0fU=;
- b=xbU3Fj3w4LFuMX0H2ymTLDigHA+gYqpuKjfaQYka3Zrh8KlDnyjWA6sY8Pp/zSiBeF
- x1hv+o5N9FRCsSvWE8G3yz740jVP9gWCRUu+YWmaI0uKd2AXnEu00mS9B1TewvP+Gs3W
- u272lOZMrfZAeOK1eTQEwoPEIXiecZV0RjHoM1O8He1CvestneAkDp8cRAbz5aZil+oR
- xIjqqxyRUnFFU27o7S5OdxHEd6Xznye/0lCn4dzO4yrLzOOnbuCwE4U62WhnBvFym0xA
- BiZqlPs1Ij35mivLw4m3JsmTX2+pLRGVxeVUAErowmxo7Y/6R8Bp12W/aa2E7nIHPdX5
- l1CA==
-X-Gm-Message-State: AOAM530h5+n5zqNDRaBc6UWIc1GySlvAGSxHHlxUpfXrf6GAdsKm59JV
- Dw158pziRzou0tXKPnEhJ8M=
-X-Google-Smtp-Source: ABdhPJy/VXt0NAGBsNlkeowxHmlcNCSSIpnJRKCv2ASv6o9sEaXXCqLROMLi7DihkPJnfFSnKSp/EQ==
-X-Received: by 2002:aa7:c79a:: with SMTP id n26mr11259679eds.350.1642367170380; 
- Sun, 16 Jan 2022 13:06:10 -0800 (PST)
+ bh=uXKa5IQf2ankP6OGR1CBy5BD9P5argFvH3z+K3xkLhc=;
+ b=UH8lLyaLrmfOjdOi0mTQ0Ngllb8oFvwJbXnWPcRKKXpjLDedmWaavFh23XTnOYog0I
+ 3Xvo0LlFwVfXgRPbPdgMReFc80Rh6BdL8fZVpPMQuvJvGEYbchDOxyo4KKQ/+TK99bkQ
+ /SKt/FCJKsjQOPxXGsUudKrRTDDCc3F2O+6+gN4DgCG7OAzWZiihGepBLMeaJHYf6V93
+ gfQO8vIzVZSC0cjr9ZsNgzjt+erTni1xPVR5RGSqvCEpmK/VI9B3Nx3eQdRn3YTMm/Vb
+ Scg26XyeV2A67VFJlu2OsCyr5CdWLIib7bQv+XNMkr5IHasRqHDcuIUiv1vRVyf7J9bG
+ AchA==
+X-Gm-Message-State: AOAM533XHqw5rVEGJ2rsY7W2RLA/+HAN55CUjaM53j859RO5jNSheXFb
+ KVpK+ydYDtfBAIGEG5iIgQg=
+X-Google-Smtp-Source: ABdhPJyGt+1A/bhLxn4/INBqvNca0ib5cB0QKUGjhs9zzqjP3SmuYzEdrLfS+IGeNJQWgjslFa3Wow==
+X-Received: by 2002:a17:907:da1:: with SMTP id
+ go33mr15100452ejc.662.1642367264257; 
+ Sun, 16 Jan 2022 13:07:44 -0800 (PST)
 Received: from [10.101.1.234] ([185.224.57.167])
- by smtp.gmail.com with ESMTPSA id a6sm91819edx.94.2022.01.16.13.06.07
+ by smtp.gmail.com with ESMTPSA id 4sm3719525ejc.168.2022.01.16.13.07.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 16 Jan 2022 13:06:09 -0800 (PST)
-Message-ID: <66f3f633-3a61-163a-a0f4-622ef988611f@amsat.org>
-Date: Sun, 16 Jan 2022 22:05:58 +0100
+ Sun, 16 Jan 2022 13:07:43 -0800 (PST)
+Message-ID: <710d0fe1-f1cc-1864-d8e3-404c0c3f47a2@amsat.org>
+Date: Sun, 16 Jan 2022 22:07:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH 2/2] hw/i386: support loading OVMF using -bios too
+Subject: Re: [PATCH] softmmu: Provide a clue as to why device tree loading
+ failed
 Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Paolo Bonzini <pbonzini@redhat.com>, Dov Murik <dovmurik@linux.ibm.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-References: <20220113165511.46098-1-berrange@redhat.com>
- <20220113165511.46098-3-berrange@redhat.com>
- <20220114125946-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220114125946-mutt-send-email-mst@kernel.org>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20220116114649.40859-1-shentey@gmail.com>
+In-Reply-To: <20220116114649.40859-1-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: 26
 X-Spam_score: 2.6
 X-Spam_bar: ++
@@ -104,62 +98,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 14/1/22 19:07, Michael S. Tsirkin wrote:
-> On Thu, Jan 13, 2022 at 04:55:11PM +0000, Daniel P. Berrangé wrote:
->> Traditionally the OVMF firmware has been loaded using the pflash
->> mechanism. This is because it is usually provided as a pair of
->> files, one read-only containing the code and one writable to
->> provided persistence of non-volatile firmware variables.
->>
->> The AMD SEV build of EDK2, however, is provided as a single
->> file that contains only the code. This is intended to be used
->> read-only and explicitly does not provide any ability for
->> persistance of non-volatile firmware variables. While it is
->> possible to configure this with the pflash mechanism, by only
->> providing one of the 2 pflash blobs, conceptually it is a
->> little strange to use pflash if there won't be any persistent
->> data.
-
-It certainly would be simpler to have a ROM for the CODE part.
-IIUC using CFI pflash allows the firmware to poll the underlying
-device size.
-
->> A stateless OVMF build can be loaded with -bios, however, QEMU
->> does not currently initialize SEV in that scenario. This patch
->> introduces the call needed for SEV initialization of the
->> firmware.
->>
->> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
->> ---
->>   hw/i386/x86.c | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
->> index b84840a1bb..c79d84936f 100644
->> --- a/hw/i386/x86.c
->> +++ b/hw/i386/x86.c
->> @@ -45,6 +45,7 @@
->>   #include "target/i386/cpu.h"
->>   #include "hw/i386/topology.h"
->>   #include "hw/i386/fw_cfg.h"
->> +#include "hw/i386/pc.h"
->>   #include "hw/intc/i8259.h"
->>   #include "hw/rtc/mc146818rtc.h"
->>   #include "target/i386/sev.h"
+On 16/1/22 12:46, Bernhard Beschow wrote:
+> fdt_open_into() obligingly returns an error code in case the operation
+> failed. So be obliging as well and use it in the error message.
 > 
-> This builds fine because there's a stub in pc_sysfw_ovmf-stubs.c
-> 
-> The unfortunate thing about this however is that it's too easy to pull
-> in a PC dependency, and people building with CONFIG_PC will not notice
-> until it breaks for others.
-> 
-> Is it time we split pc.h further and had pc_sysfw_ovmf.h ?
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>   softmmu/device_tree.c | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
 
-While "pc*" is specific to the PC machines, "x86*" is shared between
-PC and microvm. "pc.h" must not be included in "x86.c". The shared
-method introduced in the previous patch becomes
-x86_system_ovmf_initialize_sev(). The dual pflash mechanism is proper
-to OVMF, so having this method in "x86.h" seems correct.
-
-Phil.
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
