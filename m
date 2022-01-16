@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2E6C48FDEE
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jan 2022 17:48:55 +0100 (CET)
-Received: from localhost ([::1]:45370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E85448FEC4
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jan 2022 21:13:28 +0100 (CET)
+Received: from localhost ([::1]:43328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n98i6-0006EA-BP
-	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 11:48:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54734)
+	id 1n9Bu2-0006d8-L3
+	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 15:13:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n98fQ-0004Xo-DH
- for qemu-devel@nongnu.org; Sun, 16 Jan 2022 11:46:08 -0500
-Received: from [2a00:1450:4864:20::329] (port=36660
+ id 1n9BsT-0005xA-Co
+ for qemu-devel@nongnu.org; Sun, 16 Jan 2022 15:11:49 -0500
+Received: from [2a00:1450:4864:20::329] (port=36692
  helo=mail-wm1-x329.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n98fM-0003nl-LX
- for qemu-devel@nongnu.org; Sun, 16 Jan 2022 11:46:08 -0500
+ id 1n9BsR-0005vx-Kp
+ for qemu-devel@nongnu.org; Sun, 16 Jan 2022 15:11:48 -0500
 Received: by mail-wm1-x329.google.com with SMTP id
- n19-20020a7bc5d3000000b003466ef16375so18753107wmk.1
- for <qemu-devel@nongnu.org>; Sun, 16 Jan 2022 08:46:03 -0800 (PST)
+ n19-20020a7bc5d3000000b003466ef16375so19589410wmk.1
+ for <qemu-devel@nongnu.org>; Sun, 16 Jan 2022 12:11:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Tb8uaPbx4DAdtnNUsWa4b4XyGc9qKNuEDwK67C/+30w=;
- b=nhfookOn3vh37nMdhmzuxdoMh3gVYGkDQCdnUuGbkn2s2GP7PH6rldrfS5AiCFwa4h
- esEaSCq4PVSF2hqOlO2aikSoxDrDq5fRdDuX63bg7vCDQJLLO9O5QWYeLdShQx9tTnhL
- r/PefvAlB7rHyfOYBM8V/ngBoq6VRO5RqIdKJafsfAJ5vA+xhIWMo0Uh9ia+U47zvyCb
- VWc7gz/ry/xLxe5Irpkk2V7OVA5wFZ1apDvHq1GFfZpFodCWEBL1S5pVwMihM/BJP4iw
- wU3z8IedkJKzSPCLzYHR17mUw12T8qUoiEowNh2fF1EMJIHnHDaYWhQroVHoXG9UpilS
- q56Q==
+ :cc; bh=+H9EBh3/6fq4BMSWby97OzMBiXE0VkQ2mFGgenXMpXg=;
+ b=oFZowQlqzPoBg9Nky7aMUBSuPY2VOI3Og/kK/KcpF6yAoWEEbpq4xG3P4R0R8Hcah5
+ 4tu9iZpGbN5h0GjEL0ERDvmT2It13nu9D8H18RZqwGyqWc/Yt3ZaqFn388NH48vWFPm/
+ LfRv8GSnZc9lodZ++AO0+IGHHyp0rPAlP4a8c/upukiI5t2w6uGRjjMQeqsWeFezzPwT
+ CbGMUnMdnntgljxQ4wriX3G82R970jHKyg5e/zTVg3na4ckoa+w8tCKCTIp6Z/uBlsyX
+ yc17lb622b6ffyxj7e9ha6euSa7nh7swkMBPg65XugufoaDmMMy3bWbKny87qSlobW87
+ X3EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Tb8uaPbx4DAdtnNUsWa4b4XyGc9qKNuEDwK67C/+30w=;
- b=BDWmB5Zo6UifJ5stLFAxhK2AO3nAFDUXtdiyhbXLjxh54U6dZcIP02MQWox0ZFKZTq
- wakUyD3k5TswMNyPgLrvGxoOVwWCf4yBamh27a4fiO4aG9uuj7QvzhdP3/0N01vtPOkN
- nNnLadLVesFwCkfHrvKU6ZPCmdY0/xPWBSLqwsN2G/Q5DJa50nHSVeUaXyeNWgXkejJX
- rKW3zd9N5gqrJzjXWsDYobgAUPZfHyyDO2A+cZMpDRCKuskUazNhHgpNeov8ME959zQF
- TdpmJT1+xP38+O6BK4CXQvQCz/tmmBWpw91EDviswzp9fCLNtVpd7Wp/rE0naZr+KXGd
- Dbmg==
-X-Gm-Message-State: AOAM530Opp8pK+VHgd/ZrrqrsrHHCwcnIAq4ZN/4oW5LTybhXA5Qd7rA
- G+Z9q4bgEhWoeNly1yD5zgkx/jF/D02VKBfFeEykWQ==
-X-Google-Smtp-Source: ABdhPJx5YSFSTFFGdq7cwAVNGyK2VnusvK419rPngMgXDDgqK1FrVuYO8dQD/VdJ1j48W73/Z2SU1sYP+lbBryfUlN4=
-X-Received: by 2002:adf:ee0e:: with SMTP id y14mr16524792wrn.172.1642351562053; 
- Sun, 16 Jan 2022 08:46:02 -0800 (PST)
+ bh=+H9EBh3/6fq4BMSWby97OzMBiXE0VkQ2mFGgenXMpXg=;
+ b=pO8GniI0zRY8OpQn2X+nnzN7qbeUMCcWEJID9q4cXT43Elzi9f6yA7VfKqivL7e9rQ
+ 2oKf7kYcmMxO0rs5NWTo/CFO16Umxm3SATaQFpOEpOjxUe6h1xs83V4xg2s7D/mjdh2S
+ BCrc8xCmRsU7YCKx2Tb44zwyl0gpU4d951HVvOGprB4w3/jEr/j+iSRnThHS0ipfy5t/
+ 0b4GaZqoU8o8vh27K3LcMcYATpyZIiStAdHA0t/E0gSF1cLUPJIgu5uA9eZt34qJggsP
+ bsA8UT6z25wa4h7Klkhf/I4EfuqQwupniIWzessHxPtqmcRnItrD7ws2zxsu6akxwpC5
+ SF/A==
+X-Gm-Message-State: AOAM533adbBJ18VUnWmIVq1bDyjWNOw6XvUzV9VaCnKgMCFYfUxV00Mq
+ +spn6oGnM5LKnRdF11o6RjRa/NC1XoRpL2t8ovVjtA==
+X-Google-Smtp-Source: ABdhPJwQUr1lVdbL19bfbH0zJQPKgUgBT6OjKK5ZqEpSB+jpI3kH2AtB5j4wn5jAS+c0SAel7Vz4Egjsan11aCzsWsc=
+X-Received: by 2002:a5d:64aa:: with SMTP id m10mr5736713wrp.295.1642363905974; 
+ Sun, 16 Jan 2022 12:11:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20220107072423.2278113-1-aik@ozlabs.ru>
-In-Reply-To: <20220107072423.2278113-1-aik@ozlabs.ru>
+References: <20220110134644.107375-1-kkostiuk@redhat.com>
+ <CAFEAcA_fgs1JAjMDXjd76xFWfmTMba1BfhYHFPrXCQyUk6o-eg@mail.gmail.com>
+ <CAPMcbCrCSct7AEPgmPJ2qC+VQQGJcAqsJGJh4G0aS8mj4dRzSw@mail.gmail.com>
+In-Reply-To: <CAPMcbCrCSct7AEPgmPJ2qC+VQQGJcAqsJGJh4G0aS8mj4dRzSw@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 16 Jan 2022 16:45:50 +0000
-Message-ID: <CAFEAcA9JS9SfN3LmGfd8T_icCUx8tJXC=tKDE6j1i1GQE2c-mg@mail.gmail.com>
-Subject: Re: [PATCH qemu] spapr: Force 32bit when resetting a core
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Date: Sun, 16 Jan 2022 20:11:35 +0000
+Message-ID: <CAFEAcA_Bthxb4uvaQ3CFK-ny=aGzxBfcg=WpCED_Ys7h7F09MQ@mail.gmail.com>
+Subject: Re: [PULL 0/9] qemu-ga-win patches
+To: Konstantin Kostiuk <kkostiuk@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
  (failed)
@@ -80,31 +82,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 7 Jan 2022 at 07:29, Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
->
-> "PowerPC Processor binding to IEEE 1275" says in
-> "8.2.1. Initial Register Values" that the initial state is defined as
-> 32bit so do it for both SLOF and VOF.
->
-> This should not cause behavioral change as SLOF switches to 64bit very
-> early anyway. As nothing enforces LE anywhere, this drops it for VOF.
->
-> The goal is to make VOF work with TCG as otherwise it barfs with
-> qemu: fatal: TCG hflags mismatch (current:0x6c000004 rebuilt:0x6c000000)
+On Sat, 15 Jan 2022 at 22:13, Konstantin Kostiuk <kkostiuk@redhat.com> wrote:
+> Hi. I uploaded my GPG key to keys.openpgp.org. You can find it by my RedHat email.
+> Unfortunately, for now, this key can not be signed by other RedHat developers.
+> I signed my tag and pushed it to GitHub. Should I resend this set of patches?
 
-If you get this assert it means that something is changing
-the CPU state and not calling the function to recalculate
-the hflags (which are basically caching part of the CPU state).
-So I don't know whether this patch is correct or not in updating
-MSR bits, but in any case I think it is only masking the
-missing-hflags-update that is causing the assertion...
+No, there's no need to resend.
+
+If you get an opportunity at some point to get some signatures
+on your gpg key that would be great, but I know it's tricky
+especially at the moment and for the last couple of years.
+
+> For tag signing, I use the 'git tag -s' command.
+> I am sorry for the mistakes, this is my first PR.
+
+No worries.
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
+for any user-visible changes.
 
 -- PMM
 
