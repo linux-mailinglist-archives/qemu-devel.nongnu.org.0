@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 678D148FF43
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jan 2022 22:47:23 +0100 (CET)
-Received: from localhost ([::1]:54432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B81AE48FF45
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jan 2022 22:47:35 +0100 (CET)
+Received: from localhost ([::1]:54888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9DMw-00040T-2U
-	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 16:47:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47486)
+	id 1n9DN8-0004Ir-SB
+	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 16:47:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n9DKa-0002fv-2p
- for qemu-devel@nongnu.org; Sun, 16 Jan 2022 16:44:56 -0500
-Received: from [2a00:1450:4864:20::335] (port=37494
- helo=mail-wm1-x335.google.com)
+ id 1n9DLM-0002up-05
+ for qemu-devel@nongnu.org; Sun, 16 Jan 2022 16:45:44 -0500
+Received: from [2a00:1450:4864:20::32a] (port=42629
+ helo=mail-wm1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n9DKY-0007ID-9Q
- for qemu-devel@nongnu.org; Sun, 16 Jan 2022 16:44:55 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- l12-20020a7bc34c000000b003467c58cbdfso19953860wmj.2
- for <qemu-devel@nongnu.org>; Sun, 16 Jan 2022 13:44:53 -0800 (PST)
+ id 1n9DLK-00081p-8K
+ for qemu-devel@nongnu.org; Sun, 16 Jan 2022 16:45:43 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ ay4-20020a05600c1e0400b0034a81a94607so17434850wmb.1
+ for <qemu-devel@nongnu.org>; Sun, 16 Jan 2022 13:45:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7TVWkqkeO6FjjiIBahjqpVF6yUEEjXomzhQgTsCpcyk=;
- b=XB30x7ZMSPaOiW5bryIqCZiSnD8hvzvIyAbhHnJHoCHHeHZGMb/lky+chiXLqgzSfz
- Co+t1wN9DL6/gIyBqP01xvVQSsawBemYe9+19USGtVaC0BKqpPogt3+EsWr2OV1kG4Fu
- JL5UMJ27YPx7ifsCNobR2IGC9rD/RPt/wV1x0ShikVrz7Io9gRuFoNz5fbnOCagfkCr1
- hcnRf+acEf07tiXsSE5bdMAiEPFIbW7X3ubrNgpslreaVvMvW8N4tb+YYPOkIut7ZU0T
- jxBblvs3595jvIO2BKU1eoMFpUo9Q9+/A9IYAcfkf/Rdap17KP2Qg6xZZowgThbF+ZqW
- AYEQ==
+ :cc; bh=rS/5E5Lb2l8jEZlqA3tDBWH4b3MWSumuWG5T2NCtlx8=;
+ b=LU6goTbjdqGGVIcrZIu0+Gm82G5iFl8VtPT69yKP7BdjQSnuv90CsCCGk92OVccWFc
+ lVlxLls88W5bSCrar0wfTekAdXZXMMUEPiCgeTzqjrEkJowiFWhCZJNzQycJRLtKwv4z
+ bNH3+NRdrdSBBclw6e/lnjjdwOcgkNgUgR6nYGoV+56cpzf9vqwIk6P+bdQMlgjDefCy
+ qteSDH31q+17vqeZtvrv4nmcwzkgKd4HDCL6A90w5Dc3VCBYkNeJpcCPMv/AXe1sWtFi
+ 9J1m3Kc15e/F7UECnOLbQSpEVneKUREzBqNxs1qMeB4WTvtDfa86t69YuDXV+ffFdIwh
+ NXRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7TVWkqkeO6FjjiIBahjqpVF6yUEEjXomzhQgTsCpcyk=;
- b=1PT7UKhIN8WmuekbkMfSay0HrghDsXQPmm8pYaQHXglT5CK7qaBw0ShP9OkLjMyvO0
- k/SH4sXEIIIIWsQtbJhBvd1G8tNy43c6N9/JJN7PD0FfL6+zAo/0nLLfqG3aOTVvwJjw
- a/p1IEKjcG1ISay+wyJNUQfj6ts5y5s3soDCEmrpylE+WwicLEUXKFdL6zuvJuTe5ouj
- UU+up4DFKsPqfXgeDgXn5ZbuLNQCxlcMILFZjh128brSxS46+jm3yyabaj+k5D5QlBgr
- uwV6TiHpbt1zxHRXbb22q6XjVlOfudNT9Tmnh5nuVoAgjBlZyTQAGBG974tUktpnX5j8
- Gm9w==
-X-Gm-Message-State: AOAM531H74IIyI+fmcQ09xqbr04NmIV4eQQtioDkuY3tOH4BhDbkxC7m
- 2gBnX1tIeZLkcIa1ileNB591q7TtGqpedeB0Ds1+gQ==
-X-Google-Smtp-Source: ABdhPJxXisDDQQbsRbrqQBMJ3ur8C/6yrCknWJC/D68unSMtQfy0hq20xcSpUw2cA8HQFvLaLVDvh2oN4dZ2zxUNqUA=
-X-Received: by 2002:a1c:f70d:: with SMTP id v13mr17549919wmh.133.1642369491955; 
- Sun, 16 Jan 2022 13:44:51 -0800 (PST)
+ bh=rS/5E5Lb2l8jEZlqA3tDBWH4b3MWSumuWG5T2NCtlx8=;
+ b=4big4nmDUSSaxYtxyEIRk/CR8I17l1w8Psg1mF/F9JC6vnUkY//wuLz99dYvBsaOYe
+ DwyAcEEsGWGec9uAAi3YM/vwK+DK6NXiL2KOV0K/D5BBvHHTA+V0v4xsJ5+T68JJ3JiW
+ 4Rhr4HU/H4V4JASQoH57PRFunRcfDQi9uaxo9ouuIbGksdzFsYWHZF+8bTS1Aj5e5HlJ
+ cjKAlc2cOzpZcKkeO+VsgujMUevenuZsxbex/d0X/V95JXIDe6Juht0TPrmxrgpGPJ16
+ fQwVWMTPRV2TClFJgGCAsY/v0XuDLQuroBigjsa9I3kDbMwMhn3R5lX6Y27VJR3nI9R/
+ 2Isw==
+X-Gm-Message-State: AOAM530kn7722Nuhts9fTuoNCYwJQHd5SJWMPdai1rqiGpDwDdKDN6T2
+ r1jhJoV+2QzeN1BSi583Iip+/U3Lz4tL6Wr2v66wKg==
+X-Google-Smtp-Source: ABdhPJw5rmFRkWxdc5J2XhuGjhk6aY9l5N+ySGqRhoaeh+iQUyTEW7Z2nSfypMqQ4w2PJp1LW2ELH9ZJVjzd0pXMVRo=
+X-Received: by 2002:a5d:64aa:: with SMTP id m10mr5928524wrp.295.1642369540792; 
+ Sun, 16 Jan 2022 13:45:40 -0800 (PST)
 MIME-Version: 1.0
 References: <20220116204423.16133-1-imp@bsdimp.com>
- <20220116204423.16133-3-imp@bsdimp.com>
-In-Reply-To: <20220116204423.16133-3-imp@bsdimp.com>
+ <20220116204423.16133-2-imp@bsdimp.com>
+In-Reply-To: <20220116204423.16133-2-imp@bsdimp.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 16 Jan 2022 21:44:40 +0000
-Message-ID: <CAFEAcA9YBjaapcZ538oakESnJBHd0Tysk8XTw+AESb8p8Q28qQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] linxu-user: Change return type of queue_signal to void
+Date: Sun, 16 Jan 2022 21:45:29 +0000
+Message-ID: <CAFEAcA8vMgXRoNfZvAJrCE43Ojazs_DBV7Z52KHyq6MroDoJCA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] linx-user: Remove MAX_SIGQUEUE_SIZE
 To: Warner Losh <imp@bsdimp.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -88,18 +88,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Sun, 16 Jan 2022 at 20:44, Warner Losh <imp@bsdimp.com> wrote:
 >
-> queue_signal always returns 1, and nobody checks it. This is better
-> expressed as a void function return type.
+> It's been unused for 7 years since 907f5fddaa67 when linux-user stopped
+> queueing any signals.
 >
 > Signed-off-by: Warner Losh <imp@bsdimp.com>
 > ---
->  linux-user/signal-common.h | 4 ++--
->  linux-user/signal.c        | 5 ++---
->  2 files changed, 4 insertions(+), 5 deletions(-
 
-This one's a dup of patch 3 from my series from Friday:
-https://patchew.org/QEMU/20220114153732.3767229-1-peter.maydell@linaro.org/20220114153732.3767229-4-peter.maydell@linaro.org/
+Typo in subject (should be 'linux-user'); otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-
+thanks
 -- PMM
 
