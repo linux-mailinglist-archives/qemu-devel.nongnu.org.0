@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861AC48FF0B
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jan 2022 22:17:32 +0100 (CET)
-Received: from localhost ([::1]:44104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C95E48FF0F
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jan 2022 22:19:02 +0100 (CET)
+Received: from localhost ([::1]:47186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9Cu3-0003hh-Lp
-	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 16:17:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42824)
+	id 1n9CvV-0005QS-5v
+	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 16:19:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9Csf-0002Fb-HK
- for qemu-devel@nongnu.org; Sun, 16 Jan 2022 16:16:05 -0500
-Received: from [2a00:1450:4864:20::52c] (port=46913
- helo=mail-ed1-x52c.google.com)
+ id 1n9CtP-0003uV-SM
+ for qemu-devel@nongnu.org; Sun, 16 Jan 2022 16:16:51 -0500
+Received: from [2a00:1450:4864:20::532] (port=46934
+ helo=mail-ed1-x532.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9Csd-00025v-Uc
- for qemu-devel@nongnu.org; Sun, 16 Jan 2022 16:16:05 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id k15so57206995edk.13
- for <qemu-devel@nongnu.org>; Sun, 16 Jan 2022 13:16:03 -0800 (PST)
+ id 1n9CtO-0002Ax-D3
+ for qemu-devel@nongnu.org; Sun, 16 Jan 2022 16:16:51 -0500
+Received: by mail-ed1-x532.google.com with SMTP id k15so57212135edk.13
+ for <qemu-devel@nongnu.org>; Sun, 16 Jan 2022 13:16:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=6RYKlyN4l/KIAozc5xu7P6tQuzg8viwmBKPjcJ0p5wU=;
- b=VGRm16YqQd7Un5pGIYtRQpkX8lFAlNT+RFouzpDc89OmlSXnRdtH+mYpqHXh5F4/W8
- 2uHfobxnNC4aOa0wlFJURBGKzGrh9OF7e15e1tHv+t1S10eJluXqacfPAc5okoEQykMA
- dBKaSn/POFJqifzQGfXD0T/mCHB+DmbMB7ts8Gh04qgsw3iDzVoSjG7Vn168S7hlY8YL
- FOMjNpvzViLSEbX+d2VaIghYkuVX2M9kWo+ud3LFr4Oesfg56qduuuqb68YMbcFCzqQ8
- Qro5JJ7hI1ASHGZhMdRM8NP8G2+rxAN4YKqSBQF/mqoAHzKS8KAA0/R4U38ndyEXJqRE
- EGwQ==
+ bh=yoWimvA0Ds4AjdE7ZXYhAtk3yUS97KL8ETfpPX7AopQ=;
+ b=jbGOJW8Kpa88z7NzOMqqPuXSTFiPilvIYGBJCQgEpWnKhNdjQIAH9dYYa6nT1/Gobr
+ iU9OkA30JvrIuQMt+S/Ok3IjlC7Rxj/Y+nvb8qHb1WcZME5cg8dyjzuvB+NYA8e5gs2t
+ huOrGPkRMK6Sa2e98IK3kigKkmwkbsqFHstjfU5bu4RIF4Sv5t1R9IQNMNwN3a3gy1GF
+ 7P9+BzedFo2IMkeYTZWzCx2xD+RWbfleclOIMa6zzDwNO5QijdZMvvImEwTv17s7yAc/
+ 0gKfYt9K0F3skAFQDBHLzRfPPmoGQAc3c+IZFUhUFrE1f2wouqOADi9ggmtW2t5th8oG
+ HwsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=6RYKlyN4l/KIAozc5xu7P6tQuzg8viwmBKPjcJ0p5wU=;
- b=VyrOWVgo5+zA+2rUURPUhau4L7m7g4zWGvdLAaSQwqaJ/lR1zjvMA97MoQ3GPBEjQe
- 4U6FsdXqKq/VArgcDsL6I/AXIGdGd6TkPFFR5al1zt9Oxn0DUYUXS1XelPblud+pMyQ2
- y60Ikg+t5Uczxo0eZbY1jhYC8AltGZ8kLrhd4ZRgQZyt3D7SGJKTAU8ThpvpYxt1Q0ly
- RkPzsa+m7zuprzf5dhbDSJfO+WXnPTt/0o5NPuhu/gBA/jBoH6hD1zTeBzNJ5nR8K/7F
- c7TuULO6DlhQ/kFQ5E12F7L3pRK6JrLTp6/9jBPtoaxgMw3GyQlXuclSioGtMHUpqUY9
- 2QoQ==
-X-Gm-Message-State: AOAM530zjF6kTJH0QMVpa+NBH5UPQZTcd+VMoH5HHLwTuoex7/MI9jvi
- ZPX9qxRlF6/EWYA3bB8m27W//Ec4B0hCCCcr
-X-Google-Smtp-Source: ABdhPJzE9c0gjXPA+o+WBsnMnAV7iIJTVMyhqjwqbubth7aEYPFbKbMaP4R221/C65OOhhi/TJRY4Q==
-X-Received: by 2002:a17:906:7305:: with SMTP id
- di5mr14316571ejc.255.1642367762610; 
- Sun, 16 Jan 2022 13:16:02 -0800 (PST)
+ bh=yoWimvA0Ds4AjdE7ZXYhAtk3yUS97KL8ETfpPX7AopQ=;
+ b=Ly+sSFLWjPUUKBzaa1TUNgiyZ+2jBrXoSRuXo0VQLMRf4D7+EX8Dz18lS5x1B7JO4T
+ aToJ0AsAlUNFxn0RZ8cmsxMy3nzxHtGGEwTfk0WG+gvvcddzBLhokFBsot+BCr9zeU8e
+ 3PW6oOLKIEefi33Mig2YCxGeorinAylPKmyFNMermzAHCGSvvsSUFkZN+QeXkNO944L5
+ UWRSi6akEF2YscFMpDugKRWCoLvnyI1iLRCnc+Gnc/YE/Kfy9GqdwColz4mhraJnrGsS
+ iSnSWCMfDNtFT1FYDWuRvWyxRo7kVsRpR1wq+m433NVUTy3Ld9GU0cRePFWK48LCtlPv
+ mrnw==
+X-Gm-Message-State: AOAM530y7vWD1Pr0u6o9Ed+2z8xUZ82NPj1YkkVwBiWDEJKBllVH5m45
+ kv7iQa2Od3EX4GADIXh1Twr9YatloILjNwYu
+X-Google-Smtp-Source: ABdhPJyStzy5+uU7E/TPKgQGPKQFxUDj0h5/YloqmEhN0lkhvT7cLbyH+22sM1310kZKnt0rSltXbw==
+X-Received: by 2002:a05:6402:35c2:: with SMTP id
+ z2mr18414186edc.136.1642367808821; 
+ Sun, 16 Jan 2022 13:16:48 -0800 (PST)
 Received: from [10.101.1.234] ([185.224.57.167])
- by smtp.gmail.com with ESMTPSA id e4sm3881178ejs.13.2022.01.16.13.16.01
+ by smtp.gmail.com with ESMTPSA id i16sm4959533edu.29.2022.01.16.13.16.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 16 Jan 2022 13:16:02 -0800 (PST)
-Message-ID: <7ce4a122-7027-2bc0-9a94-0a19f99d8888@amsat.org>
-Date: Sun, 16 Jan 2022 22:15:59 +0100
+ Sun, 16 Jan 2022 13:16:48 -0800 (PST)
+Message-ID: <1b5d5c3a-d03b-900e-23a8-74c497e742c3@amsat.org>
+Date: Sun, 16 Jan 2022 22:16:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH 4/5] usb/ohci: Merge ohci_async_cancel_device() into
- ohci_child_detach()
+Subject: Re: [PATCH 1/2] linx-user: Remove MAX_SIGQUEUE_SIZE
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-References: <cover.1642339238.git.balaton@eik.bme.hu>
- <a207b2537c1547e0983d66afe6d9471245f9230b.1642339238.git.balaton@eik.bme.hu>
-In-Reply-To: <a207b2537c1547e0983d66afe6d9471245f9230b.1642339238.git.balaton@eik.bme.hu>
+To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, Peter Maydell <peter.maydell@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
+References: <20220116204423.16133-1-imp@bsdimp.com>
+ <20220116204423.16133-2-imp@bsdimp.com>
+In-Reply-To: <20220116204423.16133-2-imp@bsdimp.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::532
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: 26
 X-Spam_score: 2.6
 X-Spam_bar: ++
@@ -100,14 +100,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 16/1/22 14:20, BALATON Zoltan wrote:
-> These two do the same and only used once so no need to have two
-> functions, simplify by merging them.
+On 16/1/22 21:44, Warner Losh wrote:
+> It's been unused for 7 years since 907f5fddaa67 when linux-user stopped
+> queueing any signals.
 > 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
 > ---
->   hw/usb/hcd-ohci.c | 13 ++++---------
->   1 file changed, 4 insertions(+), 9 deletions(-)
+>   linux-user/qemu.h | 2 --
+>   1 file changed, 2 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
