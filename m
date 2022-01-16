@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D04D848FAA7
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jan 2022 05:33:01 +0100 (CET)
-Received: from localhost ([::1]:34806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2640448FC68
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jan 2022 12:52:57 +0100 (CET)
+Received: from localhost ([::1]:35094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n8xDw-00034S-W6
-	for lists+qemu-devel@lfdr.de; Sat, 15 Jan 2022 23:33:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35918)
+	id 1n945f-0003iN-QU
+	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 06:52:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1n8xDA-0002PX-KY
- for qemu-devel@nongnu.org; Sat, 15 Jan 2022 23:32:12 -0500
-Received: from [2607:f938:3000:8::2] (port=16868 helo=mail.comstyle.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1n8xD8-0002Hk-GG
- for qemu-devel@nongnu.org; Sat, 15 Jan 2022 23:32:12 -0500
-Received: from mail.comstyle.com (localhost [127.0.0.1])
- by mail.comstyle.com (Postfix) with ESMTP id 4Jc2Dx0XtCz8PbN;
- Sat, 15 Jan 2022 23:32:01 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=message-id
- :date:mime-version:subject:to:cc:references:from:in-reply-to
- :content-type:content-transfer-encoding; s=default; bh=QCsGKJHX6
- JBcI85/KfeanJptf1E=; b=M6f5aR7ysWhRdxOTkLqrwdxIOmm22W0sBOifckwtK
- CFg+CjHQ9Y7NM2TiVWOGy7eVhn/R6T+xPXGDYmDoENCDJIhmnQrmygETpppPYhGh
- Py3cVXiVMtKPGDucXefJoEcft+LNfzk7Du3BTX9MrCWJ2PxSoNS9rPBkapDpV6++
- Tk=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=message-id
- :date:mime-version:subject:to:cc:references:from:in-reply-to
- :content-type:content-transfer-encoding; q=dns; s=default; b=RK2
- LhMde6a6cTTtJ+jrPsUEKoPPSW8hWU+MeOfWpuStFfkOxdz5vUFUqSvk3cWu9f6Q
- c5CF1ao5q5Jkloxf6mkfbHjkVKUVcUpel2GjT7GDNR49au7pwp6MV5y+pGxUN/WH
- 6ubmi8/WcLWMtWdCwlp5pxJ7UTFh0Y1gw3Bgup3E=
-Received: from [192.168.6.68]
- (bras-base-toroon2719w-grc-53-142-114-5-252.dsl.bell.ca [142.114.5.252])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: brad)
- by mail.comstyle.com (Postfix) with ESMTPSA id 4Jc2Dw6h6Fz8PbK;
- Sat, 15 Jan 2022 23:32:00 -0500 (EST)
-Message-ID: <ce2e40ad-e7cd-1da6-c2be-5d87775e2693@comstyle.com>
-Date: Sat, 15 Jan 2022 23:32:00 -0500
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1n940f-0002C1-To; Sun, 16 Jan 2022 06:47:45 -0500
+Received: from [2a00:1450:4864:20::32e] (port=56142
+ helo=mail-wm1-x32e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1n940e-0005SZ-An; Sun, 16 Jan 2022 06:47:45 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id c66so14693698wma.5;
+ Sun, 16 Jan 2022 03:47:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5WzYoThcsei8A9VEkMpBtgYA8Q7YWohPWelEZsybKUo=;
+ b=P+XqAiDBcBJAqvcHTmxfJvFLXXLB+b0SAYPV2OFUP/kzoDn8gME1ojlHHABP3085MH
+ yOuLLKH89ZUNteEoJ22FPq/xt/Jx0iPotQYP06skouT1yYdIIwXvWL3VjcTBifY0oqI9
+ HR16PsEQTN+Pfo8ipJxM8kGto2qf0zBAfGVaNGzkCl3kP4TuBEOLfE4SG4Z671YL14XS
+ lN4x6FSqGPm8BScw4mFYNywrQ3VmbLdkMSqUcpeVopec3lPqr2S5Lm7PJZ6Gc+fcTwkL
+ 0qmdBBrqrtk/zyi2Y01opmu7YhqbsjyRTKBPqlMWrjlYrKQBPE5iIPeW7YhL1uoiSd0P
+ eoug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5WzYoThcsei8A9VEkMpBtgYA8Q7YWohPWelEZsybKUo=;
+ b=JDJm2cF1CPcNcu+ZB05S+9UMl46nwXatF168xqZITrVYJiw9qKfQTZU/1ObRtl8CEV
+ GI3B1NFRHd7Vm9hggapw/XhpRf04g5ZjGL6pZ0AfRfhxUytuc7pl448/vay15Ae+DmRe
+ rJ3VNDm47+Vz1BRHds+o8C45UL1j2kxDB+PMEOG8x6ceGwl5VUZg+Nk7CoN9ktzozZR2
+ bWP/vGwTaLgW/u0pIPXMzKGskD00xo5i5G1GhnuiKyFx5WTsDUsrstu4j7ZpL4Yjvoin
+ AkUgkaXpzK3kAJpP0z7dgV6MHKksq60YoyOVP9sVr5AIlZGz9RsSWUNZWoFAJYKEmfwk
+ m2zw==
+X-Gm-Message-State: AOAM533nc76Uyv1TnKqOMSer/Cav/9k6CaPzBzGMh7+ARDUzlx0Jpd6b
+ KSzD/WM6j3/WhcdMRzC+3rH4YYbxwXHd5ExumO0=
+X-Google-Smtp-Source: ABdhPJzV0oJjGR7QcvvX/+OftAD0E7PObsgvUvQRLn8SjPUMi6H0p9Xsn8XPjADNNnRY0KU4//tUQg==
+X-Received: by 2002:a05:6000:1108:: with SMTP id
+ z8mr15186236wrw.269.1642333661371; 
+ Sun, 16 Jan 2022 03:47:41 -0800 (PST)
+Received: from localhost.localdomain
+ (dynamic-078-054-082-013.78.54.pool.telefonica.de. [78.54.82.13])
+ by smtp.gmail.com with ESMTPSA id h13sm10849769wrx.8.2022.01.16.03.47.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 16 Jan 2022 03:47:40 -0800 (PST)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] softmmu: Provide a clue as to why device tree loading failed
+Date: Sun, 16 Jan 2022 12:46:49 +0100
+Message-Id: <20220116114649.40859-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:97.0) Gecko/20100101
- Thunderbird/97.0
-Subject: Re: [PATCH v2] audio: Add sndio backend
-Content-Language: en-US
-To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- Alexandre Ratchov <alex@caoua.org>, Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <YbxamMLKHp3IbtlW@moule.localdomain>
- <8564d506-069e-b26f-b1e5-39e56e915951@t-online.de>
-From: Brad Smith <brad@comstyle.com>
-In-Reply-To: <8564d506-069e-b26f-b1e5-39e56e915951@t-online.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f938:3000:8::2
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
  (failed)
-Received-SPF: pass client-ip=2607:f938:3000:8::2;
- envelope-from=brad@comstyle.com; helo=mail.comstyle.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=shentey@gmail.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,79 +83,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ Bernhard Beschow <shentey@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/19/2021 4:07 PM, Volker R=C3=BCmelin wrote:
+fdt_open_into() obligingly returns an error code in case the operation
+failed. So be obliging as well and use it in the error message.
 
-> Hi Alexandre,
->
->> sndio is the native API used by OpenBSD, although it has been ported t=
-o
->> other *BSD's and Linux (packages for Ubuntu, Debian, Void, Arch, etc.)=
-.
->>
->> Signed-off-by: Brad Smith<brad@comstyle.com>
->> Signed-off-by: Alexandre Ratchov<alex@caoua.org>
->> ---
->>
->> Thank you for the reviews and all the comments. Here's a second diff
->> with all the suggested changes:
->>
->> - Replace ISC license by SPDX-License-Identifier header
->> - Fix units (milli- vs micro-) in comment about SNDIO_LATENCY_US
->> - Drop outdated comment about the "size" argument of=20
->> sndio_get_buffer_out()
->> - Fix AUDIO_FORMAT_U32 handling (missing "break" statement)
->> - Set {read,write] methods to audio_generic_{read,write} (fixes crache=
-s)
->> - Check if backend is enabled in sndio_poll_event()
->> - Usehttps://sndio.org=C2=A0 in description
->> - Mark options as available after 7.0 release (instead of 6.2)
->> - Describe sndio-specific options (dev, latency) in qemu-options.hx
->> - Add myself as reviewer to MAINTAINERS
->> - Style fixes: no space after function names, use 4-space indent
->> - Don't use "return foo()" if foo() returns void
->> - Include backend to audio_drivers_priority[]
->>
->> Tested on OpenBSD, works as expected!
->>
->> =C2=A0 MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0=C2=A0 5 +
->> =C2=A0 audio/audio.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0 1 +
->> =C2=A0 audio/audio_template.h |=C2=A0=C2=A0 2 +
->> =C2=A0 audio/meson.build=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1=
- +
->> =C2=A0 audio/sndioaudio.c=C2=A0=C2=A0=C2=A0=C2=A0 | 555 ++++++++++++++=
-+++++++++++++++++++++++++++
->> =C2=A0 meson.build=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0=C2=A0 9 +-
->> =C2=A0 meson_options.txt=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4=
- +-
->
-> I just noticed you changed meson_options.txt but you forgot to=20
-> regenerate scripts/meson-buildoptions.sh with make update-buildoptions=20
-> in your build directory. See docs/devel/build-system.rst.
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+---
+ softmmu/device_tree.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-My bad. That was me. We were discussing the diff before Alexandre posted=20
-it. I was not sure
-if the auto-generated file should be touched.
+diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+index 3965c834ca..31d1066940 100644
+--- a/softmmu/device_tree.c
++++ b/softmmu/device_tree.c
+@@ -60,7 +60,8 @@ void *create_device_tree(int *sizep)
+     }
+     ret = fdt_open_into(fdt, fdt, *sizep);
+     if (ret) {
+-        error_report("Unable to copy device tree in memory");
++        error_report("%s: Unable to copy device tree into memory: %s",
++                     __func__, fdt_strerror(ret));
+         exit(1);
+     }
+ 
+@@ -104,7 +105,8 @@ void *load_device_tree(const char *filename_path, int *sizep)
+ 
+     ret = fdt_open_into(fdt, fdt, dt_size);
+     if (ret) {
+-        error_report("Unable to copy device tree in memory");
++        error_report("%s: Unable to copy device tree into memory: %s",
++                     __func__, fdt_strerror(ret));
+         goto fail;
+     }
+ 
+-- 
+2.34.1
 
->
-> And I'm still convinced you should CC all maintainers of the files=20
-> this patch changes.
->
-> With best regards,
-> Volker
->
->> =C2=A0 qapi/audio.json=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=
- 25 +-
->> =C2=A0 qemu-options.hx=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=
- 16 ++
->> =C2=A0 tests/vm/freebsd=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0 3 +
->> =C2=A0 10 files changed, 618 insertions(+), 3 deletions(-)
->>
->
 
