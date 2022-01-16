@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35D8D48FEE0
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jan 2022 21:48:28 +0100 (CET)
-Received: from localhost ([::1]:55666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DFE048FEDE
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jan 2022 21:46:58 +0100 (CET)
+Received: from localhost ([::1]:52274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9CRv-00080K-0T
-	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 15:48:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37698)
+	id 1n9CQT-0005gR-7Z
+	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 15:46:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n9COF-0004EL-4s
- for qemu-devel@nongnu.org; Sun, 16 Jan 2022 15:44:40 -0500
-Received: from [2607:f8b0:4864:20::d29] (port=46935
- helo=mail-io1-xd29.google.com)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n9COC-0004Ce-AX
+ for qemu-devel@nongnu.org; Sun, 16 Jan 2022 15:44:36 -0500
+Received: from [2607:f8b0:4864:20::12f] (port=37763
+ helo=mail-il1-x12f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n9COA-0003z9-7j
- for qemu-devel@nongnu.org; Sun, 16 Jan 2022 15:44:38 -0500
-Received: by mail-io1-xd29.google.com with SMTP id w9so18982433iol.13
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n9COA-0003zC-7n
+ for qemu-devel@nongnu.org; Sun, 16 Jan 2022 15:44:35 -0500
+Received: by mail-il1-x12f.google.com with SMTP id v17so5436009ilg.4
  for <qemu-devel@nongnu.org>; Sun, 16 Jan 2022 12:44:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+VxXnxDuxJfrupzeMTzbLXuJLCG5XURcPjDcwr1Agxk=;
- b=f/yTsa80TIfMzFM9mFg1dOVTsrz6mi+3yBV/zZxiEmA6B03RKOazZ9Kkh1iYY+Sfc1
- K6PjUnCxJ3Nxqm9CSeys31x+i+CReGZ+YsAhWPKFDyGUUJ1gYspTy7RmSiCZJWi8B3WO
- oiCX8cFl4oHoFA3f8J0brGtJBLLB30e9jAI1MfsWPNzYPCfIWY6cLPlmZwiCBMIRKWdq
- BNfjy2HOLIdFdBU2/BqPygJUdSmqdGTBOjm4nYV/arTYQayZNhFfWrdYstwYWIcWufR8
- SSqk0Vry7xGJVnS6NY6Xk3R6PkdGE021oHu8lgxhKSq6PuFi5/XHnYFSc4DuSY6URtFk
- VdBA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=5FnruuyT71sta5DTi1cTeawA0wmg9fd8cToXJkXTivI=;
+ b=PQFVJ7PRMb5T4GhPTmWLFvgYhVHobR1QmhlKdZ/jMOcmbCIII8RPnkY1/fVq2SnIYH
+ mxQqcOweK29UolBxDJRUlWVnjalBsG7/TPC9524WZz7RqrGhUCFeV2ODDinLwKwwYsVN
+ 9WlGoCFVRgBZeNYpAFJtghxC2oEXaRLTwKSW1uVupg0rBu/PoGyIvS2Ik17ynXABQ69z
+ ZQtM4gcTC+p1wz5PguMWHVzvPMvJz4uiEhOxqeQsdBi4DO0QOQpPGQynpCtMQv0m0Zek
+ 6mChADwI3FjuY4zRv+AV7H4qyihUOe/O6ZoI94wo8p9Er69qtsLsMzso3T73LHFo8ghS
+ aXcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+VxXnxDuxJfrupzeMTzbLXuJLCG5XURcPjDcwr1Agxk=;
- b=KJUgPVAUMZmwpJmzj9K3TenXmO0uRiem+isFK5vZILKpcAX3Al429nPhUH9Pn1tEjX
- Q54jitqWsmLExhUUEULk3KrYlhg4MtF7D37lUf8fq6AF5/d3MiOY876s5ohtUlqtjwUk
- 2+eKy3d+ll1CP9PAaZBeYsbULbRZDh/1qtF+59Yexu4b4gx8Py1vJZ0VFnSSfO8kN2ek
- kP/e++m90qsHKFAMDXVVTuzZDYQ9vrvuTtlj5Raua2fDreJXWRsaMTTsaovkkAGxxP4P
- Y7Pbu4vXhyCEflb9KUBVovsQhnuNjCIdDOC7Y8GBl4NEqTIL4tAwMmmtbXnHkOzqaqVf
- K1+Q==
-X-Gm-Message-State: AOAM533RHkQV7sLORyFsSQCGU3Kug89H92HF/a01MTYxC16Mv936EoDU
- JARsqFTE6cZ+cZn0RUtFriC0fdzlDVKVVhGz
-X-Google-Smtp-Source: ABdhPJx0mN4GL3zuLEpKpjAO8PPqDa99rQyQYVzbLJ0z8tmFkHTQO81863SLAFWjYARG0XoOCZ5sdQ==
-X-Received: by 2002:a02:a106:: with SMTP id f6mr8048283jag.303.1642365871859; 
- Sun, 16 Jan 2022 12:44:31 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=5FnruuyT71sta5DTi1cTeawA0wmg9fd8cToXJkXTivI=;
+ b=AVyvQ269IO8HJ43rY3gKIaf3sEiYByFiRZdmV9cgDdmwc4B/DgayUWO2TPpSU23Q/F
+ Af9VyXI1d6qSRbMzPMGIrSYQX0femP9+JkKATZyTP8Pc0JKMGcOF5ezl4TabhKh9Zf70
+ ZzNX1Xx/gUAzpZCALfPrWC/1HZfv1dDyxP+tVlWInduR5O79Ji/0OjzI51G0y9tm5D0x
+ AI6NHRDUMkadI8rykg8rrk9sAC+S194xX2O8HeRkcD7Zqfppu0z4tXd8t81ilNhSV0IK
+ gnyEt+Zmm7k2YHSOzOzhi0sHAtBU+gds9DxJZfs476Olmx51xvl4xe29T/swu8Drc3c4
+ 2uJg==
+X-Gm-Message-State: AOAM532y7YnzOQ6WAu3W2iBnmkWVGfCzoDvZ11hN9/gwXDqDkwaalwkW
+ gteSY+F6e1cL88KrfcdJTuU6Ry4RQvsZThqf
+X-Google-Smtp-Source: ABdhPJw7E68r54VI7ouDDm95huF1QdO4sQmXXeIfkayx2KO/JsrGt6zpZoyPCK64kHjFT6z42J0eMw==
+X-Received: by 2002:a05:6e02:5d2:: with SMTP id
+ l18mr9914666ils.294.1642365872541; 
+ Sun, 16 Jan 2022 12:44:32 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
  by smtp.gmail.com with ESMTPSA id s6sm8275018ild.5.2022.01.16.12.44.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Jan 2022 12:44:31 -0800 (PST)
+ Sun, 16 Jan 2022 12:44:32 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] linux-user: Two minor patches
-Date: Sun, 16 Jan 2022 13:44:21 -0700
-Message-Id: <20220116204423.16133-1-imp@bsdimp.com>
+Subject: [PATCH 1/2] linx-user: Remove MAX_SIGQUEUE_SIZE
+Date: Sun, 16 Jan 2022 13:44:22 -0700
+Message-Id: <20220116204423.16133-2-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220116204423.16133-1-imp@bsdimp.com>
+References: <20220116204423.16133-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d29
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12f
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d29;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd29.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12f;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12f.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
 X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_NONE=0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,18 +92,27 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There's two, almost trivial patches that arose out of the review of bsd-user.
-There's a chance that one or both of these were submitted already...
+It's been unused for 7 years since 907f5fddaa67 when linux-user stopped
+queueing any signals.
 
-Warner Losh (2):
-  linx-user: Remove MAX_SIGQUEUE_SIZE
-  linxu-user: Change return type of queue_signal to void
+Signed-off-by: Warner Losh <imp@bsdimp.com>
+---
+ linux-user/qemu.h | 2 --
+ 1 file changed, 2 deletions(-)
 
- linux-user/qemu.h          | 2 --
- linux-user/signal-common.h | 4 ++--
- linux-user/signal.c        | 5 ++---
- 3 files changed, 4 insertions(+), 7 deletions(-)
-
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index 5c713fa8ab2..7910ce59cc8 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -89,8 +89,6 @@ struct vm86_saved_state {
+ #include "nwfpe/fpa11.h"
+ #endif
+ 
+-#define MAX_SIGQUEUE_SIZE 1024
+-
+ struct emulated_sigtable {
+     int pending; /* true if signal is pending */
+     target_siginfo_t info;
 -- 
 2.33.1
 
