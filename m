@@ -2,84 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F074A490B0F
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 16:04:48 +0100 (CET)
-Received: from localhost ([::1]:44844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3A5F490B69
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 16:34:01 +0100 (CET)
+Received: from localhost ([::1]:48572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9TYt-0007mf-4n
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 10:04:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39242)
+	id 1n9U1A-0007PN-Sp
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 10:34:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1n9S61-0001Y9-1V
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 08:30:54 -0500
-Received: from [2607:f8b0:4864:20::102e] (port=33711
- helo=mail-pj1-x102e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1n9S5p-0001AM-Gg
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 08:30:52 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id
- g11-20020a17090a7d0b00b001b2c12c7273so10425384pjl.0
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 05:30:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=0+v+tn6fSf0CxSp3HiUfvEiZNnLwgF0oy6XKKX69EWs=;
- b=ZZqthHPKgfQlFb4dsucdw5KN4pV8YZA/Bogy//NHfmUVBm1bkolRu8jFMIVslPQJin
- nKDn+HABBqqfiL/hiwBpGC5rOeFz3QOxkmoIiTCqQCC3kme/KxSU/K9kwEYqaIA7dnFd
- nvHtUXXCVVGpqTK9BEN8lYjUEDtAnu0ztspKXgwk8nROcs029JVlYSqHg4AWmZgL5YBW
- QC/qfB+wwDjowPVV9sH5zBwy9xvllRKaGPQx709FeJsxt5KDriVpi8bIMtKhGebRGOwy
- AdotPlLj0VKEVybTRueAHHEgWo+sDAN5XkmAYV+18y2DpYHdMpn6c2oiAInJzNFkP+ZK
- kpkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=0+v+tn6fSf0CxSp3HiUfvEiZNnLwgF0oy6XKKX69EWs=;
- b=2MReRsikzNUGGtUjixOu4a1xytNL87YoM1tHuebkTOt0oBve5NP/4WATrkCM1W92Mg
- 7tycwmO6RMpBxeqFwPPvqal1Ea9cgm1OR0FWdAwNziABnkgpFh2lsrxaiHXgf0sNs8LQ
- VaxlFOkg7fpk15z0xoIY1MlS7nXSzGCClZLSKu1Msrs3VkdhX2/UowD87C4BJ+XxLhYE
- TwqplzuDw3nNVqB+gwclSMDonVi/ScFMZNoTGEKpam8RMLCpQeYqluXSUrS2p0KILShJ
- 1iP/UQKPlJ2K+TTwRwqCLWd/yvIjaq9Qw2FDD76XultFg7Gb8HqNvuUEYyTWjcPIDugc
- t3cg==
-X-Gm-Message-State: AOAM533y6xsTBe62tAVJZAK/4ShvZnZwmfPMv7dQlb4W5mHCOSBq/W4h
- MmSALNY1uWcTfJTfhkb1N4lFjg==
-X-Google-Smtp-Source: ABdhPJybTcYYRAn+XOuacfYpkboHTIpPatS/XnDyEGLqlbifHXI4Ti1l1p29ryDBSpu2P3RMzrT6VQ==
-X-Received: by 2002:a17:90b:1bc9:: with SMTP id
- oa9mr5625349pjb.47.1642426240116; 
- Mon, 17 Jan 2022 05:30:40 -0800 (PST)
-Received: from localhost.localdomain ([122.179.70.109])
- by smtp.gmail.com with ESMTPSA id 7sm9532607pfm.25.2022.01.17.05.30.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Jan 2022 05:30:39 -0800 (PST)
-From: Anup Patel <anup@brainfault.org>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
-Subject: [PATCH v7 21/23] hw/riscv: virt: Add optional AIA IMSIC support to
- virt machine
-Date: Mon, 17 Jan 2022 18:58:24 +0530
-Message-Id: <20220117132826.426418-22-anup@brainfault.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220117132826.426418-1-anup@brainfault.org>
-References: <20220117132826.426418-1-anup@brainfault.org>
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1n9SZk-0000Px-0g
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:01:36 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:50162
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1n9SZf-0007UU-IW
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:01:35 -0500
+HMM_SOURCE_IP: 172.18.0.188:48810.464115077
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-182.138.181.54 (unknown [172.18.0.188])
+ by chinatelecom.cn (HERMES) with SMTP id F2B48280079;
+ Mon, 17 Jan 2022 22:00:58 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.188])
+ by app0023 with ESMTP id 3cea25ccb9c740eea1da4b0f5f272d06 for
+ peterx@redhat.com; Mon, 17 Jan 2022 22:01:04 CST
+X-Transaction-ID: 3cea25ccb9c740eea1da4b0f5f272d06
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.188
+X-MEDUSA-Status: 0
+Message-ID: <1b41a2ed-4d78-6221-88c4-2b14bad6bd70@chinatelecom.cn>
+Date: Mon, 17 Jan 2022 22:00:57 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v11 3/4] softmmu/dirtylimit: implement virtual CPU throttle
+Content-Language: en-US
+To: Peter Xu <peterx@redhat.com>
+References: <cover.1641316375.git.huangy81@chinatelecom.cn>
+ <0381e32c2cc70613613aaa284b8e8c9760d6932f.1641316375.git.huangy81@chinatelecom.cn>
+ <YeUbhC7MG32K9pxu@xz-m1.local>
+From: Hyman Huang <huangy81@chinatelecom.cn>
+In-Reply-To: <YeUbhC7MG32K9pxu@xz-m1.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::102e;
- envelope-from=anup@brainfault.org; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=42.123.76.223;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,762 +66,420 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <anup@brainfault.org>, Bin Meng <bmeng.cn@gmail.com>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Atish Patra <atishp@atishpatra.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Anup Patel <anup.patel@wdc.com>
 
-We extend virt machine to emulate both AIA IMSIC and AIA APLIC
-devices only when "aia=aplic-imsic" parameter is passed along
-with machine name in the QEMU command-line. The AIA IMSIC is
-only a per-HART MSI controller so we use AIA APLIC in MSI-mode
-to forward all wired interrupts as MSIs to the AIA IMSIC.
 
-We also provide "aia-guests=<xyz>" parameter which can be used
-to specify number of VS-level AIA IMSIC Guests MMIO pages for
-each HART.
+On 1/17/22 15:32, Peter Xu wrote:
+> On Wed, Jan 05, 2022 at 01:14:08AM +0800, huangy81@chinatelecom.cn wrote:
+>>   ##
+>> +# @DirtyLimitInfo:
+>> +#
+>> +# Dirty page rate limit information of virtual CPU.
+>> +#
+>> +# @cpu-index: index of virtual CPU.
+>> +#
+>> +# @limit-rate: upper limit of dirty page rate for virtual CPU.
+>> +#
+>> +# @current-rate: current dirty page rate for virtual CPU.
+> 
+> Please consider spell out the unit too for all these dirty rate fields (MB/s).
+Ok
+> 
+>> +#
+>> +# Since: 7.0
+>> +#
+>> +##
+>> +{ 'struct': 'DirtyLimitInfo',
+>> +  'data': { 'cpu-index': 'int',
+>> +            'limit-rate': 'int64',
+>> +            'current-rate': 'int64' } }
+>> +
+>> +##
+>>   # @snapshot-save:
+>>   #
+>>   # Save a VM snapshot
+>> diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
+>> index a10ac6f..c9f5745 100644
+>> --- a/softmmu/dirtylimit.c
+>> +++ b/softmmu/dirtylimit.c
+>> @@ -18,6 +18,26 @@
+>>   #include "sysemu/dirtylimit.h"
+>>   #include "exec/memory.h"
+>>   #include "hw/boards.h"
+>> +#include "sysemu/kvm.h"
+>> +#include "trace.h"
+>> +
+>> +/*
+>> + * Dirtylimit stop working if dirty page rate error
+>> + * value less than DIRTYLIMIT_TOLERANCE_RANGE
+>> + */
+>> +#define DIRTYLIMIT_TOLERANCE_RANGE  25  /* MB/s */
+>> +/*
+>> + * Plus or minus vcpu sleep time linearly if dirty
+>> + * page rate error value percentage over
+>> + * DIRTYLIMIT_LINEAR_ADJUSTMENT_PCT.
+>> + * Otherwise, plus or minus a fixed vcpu sleep time.
+>> + */
+>> +#define DIRTYLIMIT_LINEAR_ADJUSTMENT_PCT     50
+>> +/*
+>> + * Max vcpu sleep time percentage during a cycle
+>> + * composed of dirty ring full and sleep time.
+>> + */
+>> +#define DIRTYLIMIT_THROTTLE_PCT_MAX 99
+> 
+> (Thanks for the enriched comments)
+> 
+>> +static inline void dirtylimit_vcpu_set_quota(int cpu_index,
+>> +                                             uint64_t quota,
+>> +                                             bool on)
+>> +{
+>> +    dirtylimit_state->states[cpu_index].quota = quota;
+> 
+> To be clear, we could move this line into the "(on)" if condition, then in !on
+> case we reset it.
+> 
+>> +    if (on) {
+>> +        if (!dirtylimit_vcpu_get_state(cpu_index)->enabled) {
+>> +            dirtylimit_state->limited_nvcpu++;
+>> +        }
+>> +    } else {
+>> +        if (dirtylimit_state->states[cpu_index].enabled) {
+>> +            dirtylimit_state->limited_nvcpu--;
+>> +        }
+>> +    }
+>> +
+>> +    dirtylimit_state->states[cpu_index].enabled = on;
+>> +}
+>> +
+>> +static inline int64_t dirtylimit_dirty_ring_full_time(uint64_t dirtyrate)
+>> +{
+>> +    static uint64_t max_dirtyrate;
+>> +    uint32_t dirty_ring_size = kvm_dirty_ring_size();
+>> +    uint64_t dirty_ring_size_meory_MB =
+>> +        dirty_ring_size * TARGET_PAGE_SIZE >> 20;
+>> +
+>> +    if (max_dirtyrate < dirtyrate) {
+>> +        max_dirtyrate = dirtyrate;
+>> +    }
+>> +
+>> +    return dirty_ring_size_meory_MB * 1000000 / max_dirtyrate;
+>> +}
+>> +
+>> +static inline bool dirtylimit_done(uint64_t quota,
+>> +                                   uint64_t current)
+>> +{
+>> +    uint64_t min, max;
+>> +
+>> +    min = MIN(quota, current);
+>> +    max = MAX(quota, current);
+>> +
+>> +    return ((max - min) <= DIRTYLIMIT_TOLERANCE_RANGE) ? true : false;
+>> +}
+>> +
+>> +static inline bool
+>> +dirtylimit_need_linear_adjustment(uint64_t quota,
+>> +                                  uint64_t current)
+>> +{
+>> +    uint64_t min, max, pct;
+>> +
+>> +    min = MIN(quota, current);
+>> +    max = MAX(quota, current);
+>> +
+>> +    pct = (max - min) * 100 / max;
+>> +
+>> +    return pct > DIRTYLIMIT_LINEAR_ADJUSTMENT_PCT;
+>> +}
+>> +
+>> +static void dirtylimit_set_throttle(CPUState *cpu,
+>> +                                    uint64_t quota,
+>> +                                    uint64_t current)
+>> +{
+>> +    int64_t ring_full_time_us = 0;
+>> +    uint64_t sleep_pct = 0;
+>> +    uint64_t throttle_us = 0;
+>> +
+>> +    ring_full_time_us = dirtylimit_dirty_ring_full_time(current);
+>> +
+>> +    if (dirtylimit_need_linear_adjustment(quota, current)) {
+>> +        if (quota < current) {
+>> +            sleep_pct = (current - quota) * 100 / current;
+>> +            throttle_us =
+>> +                ring_full_time_us * sleep_pct / (double)(100 - sleep_pct);
+>> +            cpu->throttle_us_per_full += throttle_us;
+>> +        } else {
+>> +            sleep_pct = (quota - current) * 100 / quota;
+>> +            throttle_us =
+>> +                ring_full_time_us * sleep_pct / (double)(100 - sleep_pct);
+>> +            cpu->throttle_us_per_full -= throttle_us;
+>> +        }
+>> +
+>> +        trace_dirtylimit_throttle_pct(cpu->cpu_index,
+>> +                                      sleep_pct,
+>> +                                      throttle_us);
+>> +    } else {
+>> +        if (quota < current) {
+>> +            cpu->throttle_us_per_full += ring_full_time_us / 10;
+>> +        } else {
+>> +            cpu->throttle_us_per_full -= ring_full_time_us / 10;
+>> +        }
+>> +    }
+>> +
+>> +    cpu->throttle_us_per_full = MIN(cpu->throttle_us_per_full,
+>> +        ring_full_time_us * DIRTYLIMIT_THROTTLE_PCT_MAX);
+>> +
+>> +    cpu->throttle_us_per_full = MAX(cpu->throttle_us_per_full, 0);
+>> +}
+> 
+> This algorithm seems works even worse than the previous version, could you have
+> a look on what's wrong?
+What number the dirty-ring-size of qemu be configured? is it the same as 
+previous version test?
+> 
+> See how it fluctuates when I set a throttle of 300MB/s:
+> 
+> (QMP) set-vcpu-dirty-limit dirty-rate=300
+> 
+> Dirty rate: 17622 (MB/s), duration: 1000 (ms), load: 100.00%
+> Dirty rate: 17617 (MB/s), duration: 1000 (ms), load: 100.00%
+> Dirty rate: 17611 (MB/s), duration: 1000 (ms), load: 100.00%
+> Dirty rate: 13023 (MB/s), duration: 1153 (ms), load: 100.00%
+> Dirty rate: 923 (MB/s), duration: 1000 (ms), load: 100.00%
+> Dirty rate: 2853 (MB/s), duration: 1000 (ms), load: 100.00%
+> Dirty rate: 1963 (MB/s), duration: 1040 (ms), load: 100.00%
+> Dirty rate: 180 (MB/s), duration: 1006 (ms), load: 100.00%
+> Dirty rate: 182 (MB/s), duration: 1007 (ms), load: 100.00%
+> Dirty rate: 177 (MB/s), duration: 1005 (ms), load: 100.00%
+> Dirty rate: 181 (MB/s), duration: 1007 (ms), load: 100.00%
+> Dirty rate: 179 (MB/s), duration: 1006 (ms), load: 100.00%
+> Dirty rate: 168 (MB/s), duration: 1005 (ms), load: 100.00%
+> Dirty rate: 169 (MB/s), duration: 1006 (ms), load: 100.00%
+> Dirty rate: 2717 (MB/s), duration: 1000 (ms), load: 100.00%
+> Dirty rate: 2851 (MB/s), duration: 1000 (ms), load: 100.00%
+> Dirty rate: 1773 (MB/s), duration: 1021 (ms), load: 100.00%
+> Dirty rate: 177 (MB/s), duration: 1006 (ms), load: 100.00%
+> Dirty rate: 179 (MB/s), duration: 1006 (ms), load: 100.00%
+> Dirty rate: 175 (MB/s), duration: 1005 (ms), load: 100.00%
+> Dirty rate: 1973 (MB/s), duration: 1000 (ms), load: 100.00%
+> Dirty rate: 2878 (MB/s), duration: 1000 (ms), load: 100.00%
+> Dirty rate: 1690 (MB/s), duration: 1022 (ms), load: 100.00%
+> Dirty rate: 174 (MB/s), duration: 1005 (ms), load: 100.00%
+> Dirty rate: 184 (MB/s), duration: 1006 (ms), load: 100.00%
+> 
+> This is the tool I'm using:
+> 
+> https://github.com/xzpeter/mig_mon#memory-dirty
+> 
+> Again, I won't ask for a good algorithm as the 1st version, but then I think
+> it's nicer we have the simplest algorithm merged first, which should be very
+> easy to verify.
+> 
+>> +
+>> +static void dirtylimit_adjust_throttle(CPUState *cpu)
+>> +{
+>> +    uint64_t quota = 0;
+>> +    uint64_t current = 0;
+>> +    int cpu_index = cpu->cpu_index;
+>> +
+>> +    quota = dirtylimit_vcpu_get_state(cpu_index)->quota;
+>> +    current = vcpu_dirty_rate_get(cpu_index);
+>> +
+>> +    if (current == 0 &&
+>> +        dirtylimit_vcpu_get_state(cpu_index)->unmatched_cnt == 0) {
+>> +        cpu->throttle_us_per_full = 0;
+>> +        goto end;
+>> +    } else if (++dirtylimit_vcpu_get_state(cpu_index)->unmatched_cnt
+>> +               < 2) {
+>> +        goto end;
+>> +    } else if (dirtylimit_done(quota, current)) {
+>> +        goto end;
+>> +    } else {
+>> +        dirtylimit_vcpu_get_state(cpu_index)->unmatched_cnt = 0;
+>> +        dirtylimit_set_throttle(cpu, quota, current);
+>> +    }
+>> +end:
+>> +    trace_dirtylimit_adjust_throttle(cpu_index,
+>> +                                     quota, current,
+>> +                                     cpu->throttle_us_per_full);
+>> +    return;
+>> +}
+>> +
+>> +static void *dirtylimit_thread(void *opaque)
+>> +{
+>> +    CPUState *cpu;
+>> +
+>> +    rcu_register_thread();
+>> +
+>> +    while (!qatomic_read(&dirtylimit_quit)) {
+>> +        sleep(DIRTYLIMIT_CALC_TIME_MS / 1000);
+> 
+> Sorry to have not mentioned this: I think we probably don't even need this
+> dirtylimit thread.
+> 
+> It'll be hard to make the "sleep" right here.. you could read two identical
+> values from the dirty calc thread because the 1sec sleep is not accurate, so
+> even after this sleep() the calc thread may not have provided the latest number
+> yet.
+> 
+> It'll be much cleaner (and most importantly, accurate..) to me if we could make
+> this a hook function being passed over to the vcpu_dirty_rate_stat_thread()
+> thread, then after each vcpu_dirty_rate_stat_collect() we call the hook.
+> 
+>> +
+>> +        dirtylimit_state_lock();
+>> +
+>> +        if (!dirtylimit_in_service()) {
+>> +            dirtylimit_state_unlock();
+>> +            break;
+>> +        }
+>> +
+>> +        CPU_FOREACH(cpu) {
+>> +            if (!dirtylimit_vcpu_get_state(cpu->cpu_index)->enabled) {
+>> +                continue;
+>> +            }
+>> +            dirtylimit_adjust_throttle(cpu);
+>> +        }
+>> +        dirtylimit_state_unlock();
+>> +    }
+>> +
+>> +    rcu_unregister_thread();
+>> +
+>> +    return NULL;
+>> +}
+>> +
+>> +static void dirtylimit_thread_start(void)
+>> +{
+>> +    qatomic_set(&dirtylimit_quit, 0);
+>> +    qemu_thread_create(&dirtylimit_thr,
+>> +                       "dirtylimit",
+>> +                       dirtylimit_thread,
+>> +                       NULL,
+>> +                       QEMU_THREAD_JOINABLE);
+>> +}
+>> +
+>> +static void dirtylimit_thread_stop(void)
+>> +{
+>> +    qatomic_set(&dirtylimit_quit, 1);
+>> +    qemu_mutex_unlock_iothread();
+>> +    qemu_thread_join(&dirtylimit_thr);
+>> +    qemu_mutex_lock_iothread();
+>> +}
+>> +
+>> +void dirtylimit_set_vcpu(int cpu_index,
+>> +                         uint64_t quota,
+>> +                         bool enable)
+>> +{
+>> +    trace_dirtylimit_set_vcpu(cpu_index, quota);
+>> +
+>> +    if (enable) {
+>> +        if (dirtylimit_in_service()) {
+>> +            /* only set the vcpu dirty page rate limit */
+>> +            dirtylimit_vcpu_set_quota(cpu_index, quota, true);
+>> +            return;
+>> +        }
+>> +
+>> +        /* initialize state when set dirtylimit first time */
+>> +        dirtylimit_state_lock();
+>> +        dirtylimit_state_initialize();
+>> +        dirtylimit_vcpu_set_quota(cpu_index, quota, true);
+>> +        dirtylimit_state_unlock();
+>> +
+>> +        dirtylimit_thread_start();
+> 
+> Can we move dirtylimit global initializations out of dirtylimit_set_vcpu() too?
+> We should always keep init/cleanup of dirty_rate_calc and dirtylimit together,
+> because they should, imho.  We never enable one of them.
+> 
+> I commented similarly in previous version on this.
+> 
+>> +    } else {
+>> +        if (!dirtylimit_in_service()) {
+>> +            return;
+>> +        }
+>> +
+>> +        dirtylimit_state_lock();
+>> +        /* dirty page rate limit is not enabled */
+>> +        if (!dirtylimit_vcpu_get_state(cpu_index)->enabled) {
+>> +            dirtylimit_state_unlock();
+>> +            return;
+>> +        }
+>> +
+>> +        /* switch off vcpu dirty page rate limit */
+>> +        dirtylimit_vcpu_set_quota(cpu_index, 0, false);
+>> +        dirtylimit_state_unlock();
+>> +
+>> +        if (!dirtylimit_state->limited_nvcpu) {
+>> +            dirtylimit_thread_stop();
+>> +
+>> +            dirtylimit_state_lock();
+>> +            dirtylimit_state_finalize();
+>> +            dirtylimit_state_unlock();
+> 
+> We don't need such a fine control of locking, IMHO.. it can be a very big lock
+> just to serialize things..
+> 
+> IMHO it could be as simple as:
+> 
+> void dirtylimit_set_vcpu(int cpu_index,
+>                           uint64_t quota,
+>                           bool enable)
+> {
+>      dirtylimit_vcpu_set_quota(cpu_index, quota, enable);
+>      trace_dirtylimit_set_vcpu(cpu_index, quota);
+> }
+> 
+> void qmp_set_vcpu_dirty_limit(bool has_cpu_index,
+>                                uint64_t cpu_index,
+>                                uint64_t dirty_rate,
+>                                Error **errp)
+> {
+>      if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
+>          error_setg(errp, "dirty page limit feature requires KVM with"
+>                     " accelerator property 'dirty-ring-size' set'");
+>          return;
+>      }
+> 
+>      if (has_cpu_index && !dirtylimit_vcpu_index_valid(cpu_index)) {
+>          error_setg(errp, "incorrect cpu index specified");
+>          return;
+>      }
+> 
+>      dirtylimit_state_lock();
+> 
+>      if (!dirtylimit_in_service()) {
+>          /* TODO: we could have one helper to initialize all of them */
+>          vcpu_dirty_rate_stat_initialize();
+>          vcpu_dirty_rate_stat_start();
+>          dirtylimit_state_initialize();
+>          dirtylimit_vcpu_set_quota(cpu_index, quota, true);
+>      }
+> 
+>      if (has_cpu_index) {
+>          dirtylimit_set_vcpu(cpu_index, dirty_rate, true);
+>      } else {
+>          dirtylimit_set_all(dirty_rate, true);
+>      }
+> 
+>      dirtylimit_state_unlock();
+> }
+> 
+> I didn't write the cleanup path, but it's the same: we should only cleanup all
+> the global structs in cancel-vcpu-dirty-limit when we found there's zero vcpus
+> in track, and it should be done once there.
+> 
+> Thanks,
+> 
+Sound good.
 
-Signed-off-by: Anup Patel <anup.patel@wdc.com>
-Signed-off-by: Anup Patel <anup@brainfault.org>
----
- hw/riscv/Kconfig        |   1 +
- hw/riscv/virt.c         | 434 ++++++++++++++++++++++++++++++++--------
- include/hw/riscv/virt.h |  17 +-
- 3 files changed, 368 insertions(+), 84 deletions(-)
-
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index c30bb7cb6c..91bb9d21c4 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -43,6 +43,7 @@ config RISCV_VIRT
-     select SERIAL
-     select RISCV_ACLINT
-     select RISCV_APLIC
-+    select RISCV_IMSIC
-     select SIFIVE_PLIC
-     select SIFIVE_TEST
-     select VIRTIO_MMIO
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 45d85d274f..73b2be7b60 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -34,6 +34,7 @@
- #include "hw/riscv/numa.h"
- #include "hw/intc/riscv_aclint.h"
- #include "hw/intc/riscv_aplic.h"
-+#include "hw/intc/riscv_imsic.h"
- #include "hw/intc/sifive_plic.h"
- #include "hw/misc/sifive_test.h"
- #include "chardev/char.h"
-@@ -43,6 +44,18 @@
- #include "hw/pci-host/gpex.h"
- #include "hw/display/ramfb.h"
- 
-+#define VIRT_IMSIC_GROUP_MAX_SIZE      (1U << IMSIC_MMIO_GROUP_MIN_SHIFT)
-+#if VIRT_IMSIC_GROUP_MAX_SIZE < \
-+    IMSIC_GROUP_SIZE(VIRT_CPUS_MAX_BITS, VIRT_IRQCHIP_MAX_GUESTS_BITS)
-+#error "Can't accomodate single IMSIC group in address space"
-+#endif
-+
-+#define VIRT_IMSIC_MAX_SIZE            (VIRT_SOCKETS_MAX * \
-+                                        VIRT_IMSIC_GROUP_MAX_SIZE)
-+#if 0x4000000 < VIRT_IMSIC_MAX_SIZE
-+#error "Can't accomodate all IMSIC groups in address space"
-+#endif
-+
- static const MemMapEntry virt_memmap[] = {
-     [VIRT_DEBUG] =       {        0x0,         0x100 },
-     [VIRT_MROM] =        {     0x1000,        0xf000 },
-@@ -58,6 +71,8 @@ static const MemMapEntry virt_memmap[] = {
-     [VIRT_VIRTIO] =      { 0x10001000,        0x1000 },
-     [VIRT_FW_CFG] =      { 0x10100000,          0x18 },
-     [VIRT_FLASH] =       { 0x20000000,     0x4000000 },
-+    [VIRT_IMSIC_M] =     { 0x24000000, VIRT_IMSIC_MAX_SIZE },
-+    [VIRT_IMSIC_S] =     { 0x28000000, VIRT_IMSIC_MAX_SIZE },
-     [VIRT_PCIE_ECAM] =   { 0x30000000,    0x10000000 },
-     [VIRT_PCIE_MMIO] =   { 0x40000000,    0x40000000 },
-     [VIRT_DRAM] =        { 0x80000000,           0x0 },
-@@ -309,7 +324,7 @@ static void create_fdt_socket_aclint(RISCVVirtState *s,
- {
-     int cpu;
-     char *name;
--    unsigned long addr;
-+    unsigned long addr, size;
-     uint32_t aclint_cells_size;
-     uint32_t *aclint_mswi_cells;
-     uint32_t *aclint_sswi_cells;
-@@ -330,29 +345,38 @@ static void create_fdt_socket_aclint(RISCVVirtState *s,
-     }
-     aclint_cells_size = s->soc[socket].num_harts * sizeof(uint32_t) * 2;
- 
--    addr = memmap[VIRT_CLINT].base + (memmap[VIRT_CLINT].size * socket);
--    name = g_strdup_printf("/soc/mswi@%lx", addr);
--    qemu_fdt_add_subnode(mc->fdt, name);
--    qemu_fdt_setprop_string(mc->fdt, name, "compatible", "riscv,aclint-mswi");
--    qemu_fdt_setprop_cells(mc->fdt, name, "reg",
--        0x0, addr, 0x0, RISCV_ACLINT_SWI_SIZE);
--    qemu_fdt_setprop(mc->fdt, name, "interrupts-extended",
--        aclint_mswi_cells, aclint_cells_size);
--    qemu_fdt_setprop(mc->fdt, name, "interrupt-controller", NULL, 0);
--    qemu_fdt_setprop_cell(mc->fdt, name, "#interrupt-cells", 0);
--    riscv_socket_fdt_write_id(mc, mc->fdt, name, socket);
--    g_free(name);
-+    if (s->aia_type != VIRT_AIA_TYPE_APLIC_IMSIC) {
-+        addr = memmap[VIRT_CLINT].base + (memmap[VIRT_CLINT].size * socket);
-+        name = g_strdup_printf("/soc/mswi@%lx", addr);
-+        qemu_fdt_add_subnode(mc->fdt, name);
-+        qemu_fdt_setprop_string(mc->fdt, name, "compatible",
-+            "riscv,aclint-mswi");
-+        qemu_fdt_setprop_cells(mc->fdt, name, "reg",
-+            0x0, addr, 0x0, RISCV_ACLINT_SWI_SIZE);
-+        qemu_fdt_setprop(mc->fdt, name, "interrupts-extended",
-+            aclint_mswi_cells, aclint_cells_size);
-+        qemu_fdt_setprop(mc->fdt, name, "interrupt-controller", NULL, 0);
-+        qemu_fdt_setprop_cell(mc->fdt, name, "#interrupt-cells", 0);
-+        riscv_socket_fdt_write_id(mc, mc->fdt, name, socket);
-+        g_free(name);
-+    }
- 
--    addr = memmap[VIRT_CLINT].base + RISCV_ACLINT_SWI_SIZE +
--        (memmap[VIRT_CLINT].size * socket);
-+    if (s->aia_type == VIRT_AIA_TYPE_APLIC_IMSIC) {
-+        addr = memmap[VIRT_CLINT].base +
-+               (RISCV_ACLINT_DEFAULT_MTIMER_SIZE * socket);
-+        size = RISCV_ACLINT_DEFAULT_MTIMER_SIZE;
-+    } else {
-+        addr = memmap[VIRT_CLINT].base + RISCV_ACLINT_SWI_SIZE +
-+            (memmap[VIRT_CLINT].size * socket);
-+        size = memmap[VIRT_CLINT].size - RISCV_ACLINT_SWI_SIZE;
-+    }
-     name = g_strdup_printf("/soc/mtimer@%lx", addr);
-     qemu_fdt_add_subnode(mc->fdt, name);
-     qemu_fdt_setprop_string(mc->fdt, name, "compatible",
-         "riscv,aclint-mtimer");
-     qemu_fdt_setprop_cells(mc->fdt, name, "reg",
-         0x0, addr + RISCV_ACLINT_DEFAULT_MTIME,
--        0x0, memmap[VIRT_CLINT].size - RISCV_ACLINT_SWI_SIZE -
--             RISCV_ACLINT_DEFAULT_MTIME,
-+        0x0, size - RISCV_ACLINT_DEFAULT_MTIME,
-         0x0, addr + RISCV_ACLINT_DEFAULT_MTIMECMP,
-         0x0, RISCV_ACLINT_DEFAULT_MTIME);
-     qemu_fdt_setprop(mc->fdt, name, "interrupts-extended",
-@@ -360,19 +384,22 @@ static void create_fdt_socket_aclint(RISCVVirtState *s,
-     riscv_socket_fdt_write_id(mc, mc->fdt, name, socket);
-     g_free(name);
- 
--    addr = memmap[VIRT_ACLINT_SSWI].base +
--        (memmap[VIRT_ACLINT_SSWI].size * socket);
--    name = g_strdup_printf("/soc/sswi@%lx", addr);
--    qemu_fdt_add_subnode(mc->fdt, name);
--    qemu_fdt_setprop_string(mc->fdt, name, "compatible", "riscv,aclint-sswi");
--    qemu_fdt_setprop_cells(mc->fdt, name, "reg",
--        0x0, addr, 0x0, memmap[VIRT_ACLINT_SSWI].size);
--    qemu_fdt_setprop(mc->fdt, name, "interrupts-extended",
--        aclint_sswi_cells, aclint_cells_size);
--    qemu_fdt_setprop(mc->fdt, name, "interrupt-controller", NULL, 0);
--    qemu_fdt_setprop_cell(mc->fdt, name, "#interrupt-cells", 0);
--    riscv_socket_fdt_write_id(mc, mc->fdt, name, socket);
--    g_free(name);
-+    if (s->aia_type != VIRT_AIA_TYPE_APLIC_IMSIC) {
-+        addr = memmap[VIRT_ACLINT_SSWI].base +
-+            (memmap[VIRT_ACLINT_SSWI].size * socket);
-+        name = g_strdup_printf("/soc/sswi@%lx", addr);
-+        qemu_fdt_add_subnode(mc->fdt, name);
-+        qemu_fdt_setprop_string(mc->fdt, name, "compatible",
-+            "riscv,aclint-sswi");
-+        qemu_fdt_setprop_cells(mc->fdt, name, "reg",
-+            0x0, addr, 0x0, memmap[VIRT_ACLINT_SSWI].size);
-+        qemu_fdt_setprop(mc->fdt, name, "interrupts-extended",
-+            aclint_sswi_cells, aclint_cells_size);
-+        qemu_fdt_setprop(mc->fdt, name, "interrupt-controller", NULL, 0);
-+        qemu_fdt_setprop_cell(mc->fdt, name, "#interrupt-cells", 0);
-+        riscv_socket_fdt_write_id(mc, mc->fdt, name, socket);
-+        g_free(name);
-+    }
- 
-     g_free(aclint_mswi_cells);
-     g_free(aclint_mtimer_cells);
-@@ -425,10 +452,145 @@ static void create_fdt_socket_plic(RISCVVirtState *s,
-     g_free(plic_cells);
- }
- 
--static void create_fdt_socket_aia(RISCVVirtState *s,
--                                  const MemMapEntry *memmap, int socket,
--                                  uint32_t *phandle, uint32_t *intc_phandles,
--                                  uint32_t *aplic_phandles)
-+static uint32_t imsic_num_bits(uint32_t count)
-+{
-+    uint32_t ret = 0;
-+
-+    while (BIT(ret) < count) {
-+        ret++;
-+    }
-+
-+    return ret;
-+}
-+
-+static void create_fdt_imsic(RISCVVirtState *s, const MemMapEntry *memmap,
-+                             uint32_t *phandle, uint32_t *intc_phandles,
-+                             uint32_t *msi_m_phandle, uint32_t *msi_s_phandle)
-+{
-+    int cpu, socket;
-+    char *imsic_name;
-+    MachineState *mc = MACHINE(s);
-+    uint32_t imsic_max_hart_per_socket, imsic_guest_bits;
-+    uint32_t *imsic_cells, *imsic_regs, imsic_addr, imsic_size;
-+
-+    *msi_m_phandle = (*phandle)++;
-+    *msi_s_phandle = (*phandle)++;
-+    imsic_cells = g_new0(uint32_t, mc->smp.cpus * 2);
-+    imsic_regs = g_new0(uint32_t, riscv_socket_count(mc) * 4);
-+
-+    /* M-level IMSIC node */
-+    for (cpu = 0; cpu < mc->smp.cpus; cpu++) {
-+        imsic_cells[cpu * 2 + 0] = cpu_to_be32(intc_phandles[cpu]);
-+        imsic_cells[cpu * 2 + 1] = cpu_to_be32(IRQ_M_EXT);
-+    }
-+    imsic_max_hart_per_socket = 0;
-+    for (socket = 0; socket < riscv_socket_count(mc); socket++) {
-+        imsic_addr = memmap[VIRT_IMSIC_M].base +
-+                     socket * VIRT_IMSIC_GROUP_MAX_SIZE;
-+        imsic_size = IMSIC_HART_SIZE(0) * s->soc[socket].num_harts;
-+        imsic_regs[socket * 4 + 0] = 0;
-+        imsic_regs[socket * 4 + 1] = cpu_to_be32(imsic_addr);
-+        imsic_regs[socket * 4 + 2] = 0;
-+        imsic_regs[socket * 4 + 3] = cpu_to_be32(imsic_size);
-+        if (imsic_max_hart_per_socket < s->soc[socket].num_harts) {
-+            imsic_max_hart_per_socket = s->soc[socket].num_harts;
-+        }
-+    }
-+    imsic_name = g_strdup_printf("/soc/imsics@%lx",
-+        memmap[VIRT_IMSIC_M].base);
-+    qemu_fdt_add_subnode(mc->fdt, imsic_name);
-+    qemu_fdt_setprop_string(mc->fdt, imsic_name, "compatible",
-+        "riscv,imsics");
-+    qemu_fdt_setprop_cell(mc->fdt, imsic_name, "#interrupt-cells",
-+        FDT_IMSIC_INT_CELLS);
-+    qemu_fdt_setprop(mc->fdt, imsic_name, "interrupt-controller",
-+        NULL, 0);
-+    qemu_fdt_setprop(mc->fdt, imsic_name, "msi-controller",
-+        NULL, 0);
-+    qemu_fdt_setprop(mc->fdt, imsic_name, "interrupts-extended",
-+        imsic_cells, mc->smp.cpus * sizeof(uint32_t) * 2);
-+    qemu_fdt_setprop(mc->fdt, imsic_name, "reg", imsic_regs,
-+        riscv_socket_count(mc) * sizeof(uint32_t) * 4);
-+    qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,num-ids",
-+        VIRT_IRQCHIP_NUM_MSIS);
-+    qemu_fdt_setprop_cells(mc->fdt, imsic_name, "riscv,ipi-id",
-+        VIRT_IRQCHIP_IPI_MSI);
-+    if (riscv_socket_count(mc) > 1) {
-+        qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,hart-index-bits",
-+            imsic_num_bits(imsic_max_hart_per_socket));
-+        qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,group-index-bits",
-+            imsic_num_bits(riscv_socket_count(mc)));
-+        qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,group-index-shift",
-+            IMSIC_MMIO_GROUP_MIN_SHIFT);
-+    }
-+    qemu_fdt_setprop_cell(mc->fdt, imsic_name, "phandle", *msi_m_phandle);
-+    g_free(imsic_name);
-+
-+    /* S-level IMSIC node */
-+    for (cpu = 0; cpu < mc->smp.cpus; cpu++) {
-+        imsic_cells[cpu * 2 + 0] = cpu_to_be32(intc_phandles[cpu]);
-+        imsic_cells[cpu * 2 + 1] = cpu_to_be32(IRQ_S_EXT);
-+    }
-+    imsic_guest_bits = imsic_num_bits(s->aia_guests + 1);
-+    imsic_max_hart_per_socket = 0;
-+    for (socket = 0; socket < riscv_socket_count(mc); socket++) {
-+        imsic_addr = memmap[VIRT_IMSIC_S].base +
-+                     socket * VIRT_IMSIC_GROUP_MAX_SIZE;
-+        imsic_size = IMSIC_HART_SIZE(imsic_guest_bits) *
-+                     s->soc[socket].num_harts;
-+        imsic_regs[socket * 4 + 0] = 0;
-+        imsic_regs[socket * 4 + 1] = cpu_to_be32(imsic_addr);
-+        imsic_regs[socket * 4 + 2] = 0;
-+        imsic_regs[socket * 4 + 3] = cpu_to_be32(imsic_size);
-+        if (imsic_max_hart_per_socket < s->soc[socket].num_harts) {
-+            imsic_max_hart_per_socket = s->soc[socket].num_harts;
-+        }
-+    }
-+    imsic_name = g_strdup_printf("/soc/imsics@%lx",
-+        memmap[VIRT_IMSIC_S].base);
-+    qemu_fdt_add_subnode(mc->fdt, imsic_name);
-+    qemu_fdt_setprop_string(mc->fdt, imsic_name, "compatible",
-+        "riscv,imsics");
-+    qemu_fdt_setprop_cell(mc->fdt, imsic_name, "#interrupt-cells",
-+        FDT_IMSIC_INT_CELLS);
-+    qemu_fdt_setprop(mc->fdt, imsic_name, "interrupt-controller",
-+        NULL, 0);
-+    qemu_fdt_setprop(mc->fdt, imsic_name, "msi-controller",
-+        NULL, 0);
-+    qemu_fdt_setprop(mc->fdt, imsic_name, "interrupts-extended",
-+        imsic_cells, mc->smp.cpus * sizeof(uint32_t) * 2);
-+    qemu_fdt_setprop(mc->fdt, imsic_name, "reg", imsic_regs,
-+        riscv_socket_count(mc) * sizeof(uint32_t) * 4);
-+    qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,num-ids",
-+        VIRT_IRQCHIP_NUM_MSIS);
-+    qemu_fdt_setprop_cells(mc->fdt, imsic_name, "riscv,ipi-id",
-+        VIRT_IRQCHIP_IPI_MSI);
-+    if (imsic_guest_bits) {
-+        qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,guest-index-bits",
-+            imsic_guest_bits);
-+    }
-+    if (riscv_socket_count(mc) > 1) {
-+        qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,hart-index-bits",
-+            imsic_num_bits(imsic_max_hart_per_socket));
-+        qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,group-index-bits",
-+            imsic_num_bits(riscv_socket_count(mc)));
-+        qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,group-index-shift",
-+            IMSIC_MMIO_GROUP_MIN_SHIFT);
-+    }
-+    qemu_fdt_setprop_cell(mc->fdt, imsic_name, "phandle", *msi_s_phandle);
-+    g_free(imsic_name);
-+
-+    g_free(imsic_regs);
-+    g_free(imsic_cells);
-+}
-+
-+static void create_fdt_socket_aplic(RISCVVirtState *s,
-+                                    const MemMapEntry *memmap, int socket,
-+                                    uint32_t msi_m_phandle,
-+                                    uint32_t msi_s_phandle,
-+                                    uint32_t *phandle,
-+                                    uint32_t *intc_phandles,
-+                                    uint32_t *aplic_phandles)
- {
-     int cpu;
-     char *aplic_name;
-@@ -454,8 +616,13 @@ static void create_fdt_socket_aia(RISCVVirtState *s,
-     qemu_fdt_setprop_cell(mc->fdt, aplic_name,
-         "#interrupt-cells", FDT_APLIC_INT_CELLS);
-     qemu_fdt_setprop(mc->fdt, aplic_name, "interrupt-controller", NULL, 0);
--    qemu_fdt_setprop(mc->fdt, aplic_name, "interrupts-extended",
--        aplic_cells, s->soc[socket].num_harts * sizeof(uint32_t) * 2);
-+    if (s->aia_type == VIRT_AIA_TYPE_APLIC) {
-+        qemu_fdt_setprop(mc->fdt, aplic_name, "interrupts-extended",
-+            aplic_cells, s->soc[socket].num_harts * sizeof(uint32_t) * 2);
-+    } else {
-+        qemu_fdt_setprop_cell(mc->fdt, aplic_name, "msi-parent",
-+            msi_m_phandle);
-+    }
-     qemu_fdt_setprop_cells(mc->fdt, aplic_name, "reg",
-         0x0, aplic_addr, 0x0, memmap[VIRT_APLIC_M].size);
-     qemu_fdt_setprop_cell(mc->fdt, aplic_name, "riscv,num-sources",
-@@ -481,8 +648,13 @@ static void create_fdt_socket_aia(RISCVVirtState *s,
-     qemu_fdt_setprop_cell(mc->fdt, aplic_name,
-         "#interrupt-cells", FDT_APLIC_INT_CELLS);
-     qemu_fdt_setprop(mc->fdt, aplic_name, "interrupt-controller", NULL, 0);
--    qemu_fdt_setprop(mc->fdt, aplic_name, "interrupts-extended",
--        aplic_cells, s->soc[socket].num_harts * sizeof(uint32_t) * 2);
-+    if (s->aia_type == VIRT_AIA_TYPE_APLIC) {
-+        qemu_fdt_setprop(mc->fdt, aplic_name, "interrupts-extended",
-+            aplic_cells, s->soc[socket].num_harts * sizeof(uint32_t) * 2);
-+    } else {
-+        qemu_fdt_setprop_cell(mc->fdt, aplic_name, "msi-parent",
-+            msi_s_phandle);
-+    }
-     qemu_fdt_setprop_cells(mc->fdt, aplic_name, "reg",
-         0x0, aplic_addr, 0x0, memmap[VIRT_APLIC_S].size);
-     qemu_fdt_setprop_cell(mc->fdt, aplic_name, "riscv,num-sources",
-@@ -499,13 +671,14 @@ static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
-                                bool is_32_bit, uint32_t *phandle,
-                                uint32_t *irq_mmio_phandle,
-                                uint32_t *irq_pcie_phandle,
--                               uint32_t *irq_virtio_phandle)
-+                               uint32_t *irq_virtio_phandle,
-+                               uint32_t *msi_pcie_phandle)
- {
--    int socket;
-     char *clust_name;
--    uint32_t *intc_phandles;
-+    int socket, phandle_pos;
-     MachineState *mc = MACHINE(s);
--    uint32_t xplic_phandles[MAX_NODES];
-+    uint32_t msi_m_phandle = 0, msi_s_phandle = 0;
-+    uint32_t *intc_phandles, xplic_phandles[MAX_NODES];
- 
-     qemu_fdt_add_subnode(mc->fdt, "/cpus");
-     qemu_fdt_setprop_cell(mc->fdt, "/cpus", "timebase-frequency",
-@@ -514,35 +687,53 @@ static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
-     qemu_fdt_setprop_cell(mc->fdt, "/cpus", "#address-cells", 0x1);
-     qemu_fdt_add_subnode(mc->fdt, "/cpus/cpu-map");
- 
-+    intc_phandles = g_new0(uint32_t, mc->smp.cpus);
-+
-+    phandle_pos = mc->smp.cpus;
-     for (socket = (riscv_socket_count(mc) - 1); socket >= 0; socket--) {
-+        phandle_pos -= s->soc[socket].num_harts;
-+
-         clust_name = g_strdup_printf("/cpus/cpu-map/cluster%d", socket);
-         qemu_fdt_add_subnode(mc->fdt, clust_name);
- 
--        intc_phandles = g_new0(uint32_t, s->soc[socket].num_harts);
--
-         create_fdt_socket_cpus(s, socket, clust_name, phandle,
--            is_32_bit, intc_phandles);
-+            is_32_bit, &intc_phandles[phandle_pos]);
- 
-         create_fdt_socket_memory(s, memmap, socket);
- 
-+        g_free(clust_name);
-+
-         if (s->have_aclint) {
--            create_fdt_socket_aclint(s, memmap, socket, intc_phandles);
-+            create_fdt_socket_aclint(s, memmap, socket,
-+                &intc_phandles[phandle_pos]);
-         } else {
--            create_fdt_socket_clint(s, memmap, socket, intc_phandles);
-+            create_fdt_socket_clint(s, memmap, socket,
-+                &intc_phandles[phandle_pos]);
-         }
-+    }
-+
-+    if (s->aia_type == VIRT_AIA_TYPE_APLIC_IMSIC) {
-+        create_fdt_imsic(s, memmap, phandle, intc_phandles,
-+            &msi_m_phandle, &msi_s_phandle);
-+        *msi_pcie_phandle = msi_s_phandle;
-+    }
-+
-+    phandle_pos = mc->smp.cpus;
-+    for (socket = (riscv_socket_count(mc) - 1); socket >= 0; socket--) {
-+        phandle_pos -= s->soc[socket].num_harts;
- 
-         if (s->aia_type == VIRT_AIA_TYPE_NONE) {
-             create_fdt_socket_plic(s, memmap, socket, phandle,
--                intc_phandles, xplic_phandles);
-+                &intc_phandles[phandle_pos], xplic_phandles);
-         } else {
--            create_fdt_socket_aia(s, memmap, socket, phandle,
--                intc_phandles, xplic_phandles);
-+            create_fdt_socket_aplic(s, memmap, socket,
-+                msi_m_phandle, msi_s_phandle, phandle,
-+                &intc_phandles[phandle_pos], xplic_phandles);
-         }
--
--        g_free(intc_phandles);
--        g_free(clust_name);
-     }
- 
-+    g_free(intc_phandles);
-+
-     for (socket = 0; socket < riscv_socket_count(mc); socket++) {
-         if (socket == 0) {
-             *irq_mmio_phandle = xplic_phandles[socket];
-@@ -590,7 +781,8 @@ static void create_fdt_virtio(RISCVVirtState *s, const MemMapEntry *memmap,
- }
- 
- static void create_fdt_pcie(RISCVVirtState *s, const MemMapEntry *memmap,
--                            uint32_t irq_pcie_phandle)
-+                            uint32_t irq_pcie_phandle,
-+                            uint32_t msi_pcie_phandle)
- {
-     char *name;
-     MachineState *mc = MACHINE(s);
-@@ -610,6 +802,9 @@ static void create_fdt_pcie(RISCVVirtState *s, const MemMapEntry *memmap,
-     qemu_fdt_setprop_cells(mc->fdt, name, "bus-range", 0,
-         memmap[VIRT_PCIE_ECAM].size / PCIE_MMCFG_SIZE_MIN - 1);
-     qemu_fdt_setprop(mc->fdt, name, "dma-coherent", NULL, 0);
-+    if (s->aia_type == VIRT_AIA_TYPE_APLIC_IMSIC) {
-+        qemu_fdt_setprop_cell(mc->fdt, name, "msi-parent", msi_pcie_phandle);
-+    }
-     qemu_fdt_setprop_cells(mc->fdt, name, "reg", 0,
-         memmap[VIRT_PCIE_ECAM].base, 0, memmap[VIRT_PCIE_ECAM].size);
-     qemu_fdt_setprop_sized_cells(mc->fdt, name, "ranges",
-@@ -735,7 +930,7 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
-                        uint64_t mem_size, const char *cmdline, bool is_32_bit)
- {
-     MachineState *mc = MACHINE(s);
--    uint32_t phandle = 1, irq_mmio_phandle = 1;
-+    uint32_t phandle = 1, irq_mmio_phandle = 1, msi_pcie_phandle = 1;
-     uint32_t irq_pcie_phandle = 1, irq_virtio_phandle = 1;
- 
-     if (mc->dtb) {
-@@ -765,11 +960,12 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
-     qemu_fdt_setprop_cell(mc->fdt, "/soc", "#address-cells", 0x2);
- 
-     create_fdt_sockets(s, memmap, is_32_bit, &phandle,
--        &irq_mmio_phandle, &irq_pcie_phandle, &irq_virtio_phandle);
-+        &irq_mmio_phandle, &irq_pcie_phandle, &irq_virtio_phandle,
-+        &msi_pcie_phandle);
- 
-     create_fdt_virtio(s, memmap, irq_virtio_phandle);
- 
--    create_fdt_pcie(s, memmap, irq_pcie_phandle);
-+    create_fdt_pcie(s, memmap, irq_pcie_phandle, msi_pcie_phandle);
- 
-     create_fdt_reset(s, memmap, &phandle);
- 
-@@ -884,30 +1080,55 @@ static DeviceState *virt_create_plic(const MemMapEntry *memmap, int socket,
-     return ret;
- }
- 
--static DeviceState *virt_create_aia(RISCVVirtAIAType aia_type,
-+static DeviceState *virt_create_aia(RISCVVirtAIAType aia_type, int aia_guests,
-                                     const MemMapEntry *memmap, int socket,
-                                     int base_hartid, int hart_count)
- {
-+    int i;
-+    hwaddr addr;
-+    uint32_t guest_bits;
-     DeviceState *aplic_m;
-+    bool msimode = (aia_type == VIRT_AIA_TYPE_APLIC_IMSIC) ? true : false;
-+
-+    if (msimode) {
-+        /* Per-socket M-level IMSICs */
-+        addr = memmap[VIRT_IMSIC_M].base + socket * VIRT_IMSIC_GROUP_MAX_SIZE;
-+        for (i = 0; i < hart_count; i++) {
-+            riscv_imsic_create(addr + i * IMSIC_HART_SIZE(0),
-+                               base_hartid + i, true, 1,
-+                               VIRT_IRQCHIP_NUM_MSIS);
-+        }
-+
-+        /* Per-socket S-level IMSICs */
-+        guest_bits = imsic_num_bits(aia_guests + 1);
-+        addr = memmap[VIRT_IMSIC_S].base + socket * VIRT_IMSIC_GROUP_MAX_SIZE;
-+        for (i = 0; i < hart_count; i++) {
-+            riscv_imsic_create(addr + i * IMSIC_HART_SIZE(guest_bits),
-+                               base_hartid + i, false, 1 + aia_guests,
-+                               VIRT_IRQCHIP_NUM_MSIS);
-+        }
-+    }
- 
-     /* Per-socket M-level APLIC */
-     aplic_m = riscv_aplic_create(
-         memmap[VIRT_APLIC_M].base + socket * memmap[VIRT_APLIC_M].size,
-         memmap[VIRT_APLIC_M].size,
--        base_hartid, hart_count,
-+        (msimode) ? 0 : base_hartid,
-+        (msimode) ? 0 : hart_count,
-         VIRT_IRQCHIP_NUM_SOURCES,
-         VIRT_IRQCHIP_NUM_PRIO_BITS,
--        false, true, NULL);
-+        msimode, true, NULL);
- 
-     if (aplic_m) {
-         /* Per-socket S-level APLIC */
-         riscv_aplic_create(
-             memmap[VIRT_APLIC_S].base + socket * memmap[VIRT_APLIC_S].size,
-             memmap[VIRT_APLIC_S].size,
--            base_hartid, hart_count,
-+            (msimode) ? 0 : base_hartid,
-+            (msimode) ? 0 : hart_count,
-             VIRT_IRQCHIP_NUM_SOURCES,
-             VIRT_IRQCHIP_NUM_PRIO_BITS,
--            false, false, aplic_m);
-+            msimode, false, aplic_m);
-     }
- 
-     return aplic_m;
-@@ -966,23 +1187,38 @@ static void virt_machine_init(MachineState *machine)
-                                 hart_count, &error_abort);
-         sysbus_realize(SYS_BUS_DEVICE(&s->soc[i]), &error_abort);
- 
--        /* Per-socket CLINT */
--        riscv_aclint_swi_create(
--            memmap[VIRT_CLINT].base + i * memmap[VIRT_CLINT].size,
--            base_hartid, hart_count, false);
--        riscv_aclint_mtimer_create(
--            memmap[VIRT_CLINT].base + i * memmap[VIRT_CLINT].size +
--                RISCV_ACLINT_SWI_SIZE,
--            RISCV_ACLINT_DEFAULT_MTIMER_SIZE, base_hartid, hart_count,
--            RISCV_ACLINT_DEFAULT_MTIMECMP, RISCV_ACLINT_DEFAULT_MTIME,
--            RISCV_ACLINT_DEFAULT_TIMEBASE_FREQ, true);
--
--        /* Per-socket ACLINT SSWI */
-         if (s->have_aclint) {
-+            if (s->aia_type == VIRT_AIA_TYPE_APLIC_IMSIC) {
-+                /* Per-socket ACLINT MTIMER */
-+                riscv_aclint_mtimer_create(memmap[VIRT_CLINT].base +
-+                        i * RISCV_ACLINT_DEFAULT_MTIMER_SIZE,
-+                    RISCV_ACLINT_DEFAULT_MTIMER_SIZE, base_hartid, hart_count,
-+                    RISCV_ACLINT_DEFAULT_MTIMECMP, RISCV_ACLINT_DEFAULT_MTIME,
-+                    RISCV_ACLINT_DEFAULT_TIMEBASE_FREQ, true);
-+            } else {
-+                /* Per-socket ACLINT MSWI, MTIMER, and SSWI */
-+                riscv_aclint_swi_create(memmap[VIRT_CLINT].base +
-+                        i * memmap[VIRT_CLINT].size,
-+                    base_hartid, hart_count, false);
-+                riscv_aclint_mtimer_create(memmap[VIRT_CLINT].base +
-+                        i * memmap[VIRT_CLINT].size + RISCV_ACLINT_SWI_SIZE,
-+                    RISCV_ACLINT_DEFAULT_MTIMER_SIZE, base_hartid, hart_count,
-+                    RISCV_ACLINT_DEFAULT_MTIMECMP, RISCV_ACLINT_DEFAULT_MTIME,
-+                    RISCV_ACLINT_DEFAULT_TIMEBASE_FREQ, true);
-+                riscv_aclint_swi_create(memmap[VIRT_ACLINT_SSWI].base +
-+                        i * memmap[VIRT_ACLINT_SSWI].size,
-+                    base_hartid, hart_count, true);
-+            }
-+        } else {
-+            /* Per-socket SiFive CLINT */
-             riscv_aclint_swi_create(
--                memmap[VIRT_ACLINT_SSWI].base +
--                    i * memmap[VIRT_ACLINT_SSWI].size,
--                base_hartid, hart_count, true);
-+                memmap[VIRT_CLINT].base + i * memmap[VIRT_CLINT].size,
-+                base_hartid, hart_count, false);
-+            riscv_aclint_mtimer_create(memmap[VIRT_CLINT].base +
-+                    i * memmap[VIRT_CLINT].size + RISCV_ACLINT_SWI_SIZE,
-+                RISCV_ACLINT_DEFAULT_MTIMER_SIZE, base_hartid, hart_count,
-+                RISCV_ACLINT_DEFAULT_MTIMECMP, RISCV_ACLINT_DEFAULT_MTIME,
-+                RISCV_ACLINT_DEFAULT_TIMEBASE_FREQ, true);
-         }
- 
-         /* Per-socket interrupt controller */
-@@ -990,8 +1226,9 @@ static void virt_machine_init(MachineState *machine)
-             s->irqchip[i] = virt_create_plic(memmap, i,
-                                              base_hartid, hart_count);
-         } else {
--            s->irqchip[i] = virt_create_aia(s->aia_type, memmap, i,
--                                            base_hartid, hart_count);
-+            s->irqchip[i] = virt_create_aia(s->aia_type, s->aia_guests,
-+                                            memmap, i, base_hartid,
-+                                            hart_count);
-         }
- 
-         /* Try to use different IRQCHIP instance based device type */
-@@ -1138,6 +1375,27 @@ static void virt_machine_instance_init(Object *obj)
- {
- }
- 
-+static char *virt_get_aia_guests(Object *obj, Error **errp)
-+{
-+    RISCVVirtState *s = RISCV_VIRT_MACHINE(obj);
-+    char val[32];
-+
-+    sprintf(val, "%d", s->aia_guests);
-+    return g_strdup(val);
-+}
-+
-+static void virt_set_aia_guests(Object *obj, const char *val, Error **errp)
-+{
-+    RISCVVirtState *s = RISCV_VIRT_MACHINE(obj);
-+
-+    s->aia_guests = atoi(val);
-+    if (s->aia_guests < 0 || s->aia_guests > VIRT_IRQCHIP_MAX_GUESTS) {
-+        error_setg(errp, "Invalid number of AIA IMSIC guests");
-+        error_append_hint(errp, "Valid values be between 0 and %d.\n",
-+                          VIRT_IRQCHIP_MAX_GUESTS);
-+    }
-+}
-+
- static char *virt_get_aia(Object *obj, Error **errp)
- {
-     RISCVVirtState *s = RISCV_VIRT_MACHINE(obj);
-@@ -1147,6 +1405,9 @@ static char *virt_get_aia(Object *obj, Error **errp)
-     case VIRT_AIA_TYPE_APLIC:
-         val = "aplic";
-         break;
-+    case VIRT_AIA_TYPE_APLIC_IMSIC:
-+        val = "aplic-imsic";
-+        break;
-     default:
-         val = "none";
-         break;
-@@ -1163,9 +1424,12 @@ static void virt_set_aia(Object *obj, const char *val, Error **errp)
-         s->aia_type = VIRT_AIA_TYPE_NONE;
-     } else if (!strcmp(val, "aplic")) {
-         s->aia_type = VIRT_AIA_TYPE_APLIC;
-+    } else if (!strcmp(val, "aplic-imsic")) {
-+        s->aia_type = VIRT_AIA_TYPE_APLIC_IMSIC;
-     } else {
-         error_setg(errp, "Invalid AIA interrupt controller type");
--        error_append_hint(errp, "Valid values are none, and aplic.\n");
-+        error_append_hint(errp, "Valid values are none, aplic, and "
-+                          "aplic-imsic.\n");
-     }
- }
- 
-@@ -1187,6 +1451,7 @@ static void virt_set_aclint(Object *obj, bool value, Error **errp)
- 
- static void virt_machine_class_init(ObjectClass *oc, void *data)
- {
-+    char str[128];
-     MachineClass *mc = MACHINE_CLASS(oc);
- 
-     mc->desc = "RISC-V VirtIO board";
-@@ -1213,7 +1478,14 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-     object_class_property_set_description(oc, "aia",
-                                           "Set type of AIA interrupt "
-                                           "conttoller. Valid values are "
--                                          "none, and aplic.");
-+                                          "none, aplic, and aplic-imsic.");
-+
-+    object_class_property_add_str(oc, "aia-guests",
-+                                  virt_get_aia_guests,
-+                                  virt_set_aia_guests);
-+    sprintf(str, "Set number of guest MMIO pages for AIA IMSIC. Valid value "
-+                 "should be between 0 and %d.", VIRT_IRQCHIP_MAX_GUESTS);
-+    object_class_property_set_description(oc, "aia-guests", str);
- }
- 
- static const TypeInfo virt_machine_typeinfo = {
-diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-index 4584042090..7898c574af 100644
---- a/include/hw/riscv/virt.h
-+++ b/include/hw/riscv/virt.h
-@@ -24,8 +24,10 @@
- #include "hw/block/flash.h"
- #include "qom/object.h"
- 
--#define VIRT_CPUS_MAX 32
--#define VIRT_SOCKETS_MAX 8
-+#define VIRT_CPUS_MAX_BITS             3
-+#define VIRT_CPUS_MAX                  (1 << VIRT_CPUS_MAX_BITS)
-+#define VIRT_SOCKETS_MAX_BITS          2
-+#define VIRT_SOCKETS_MAX               (1 << VIRT_SOCKETS_MAX_BITS)
- 
- #define TYPE_RISCV_VIRT_MACHINE MACHINE_TYPE_NAME("virt")
- typedef struct RISCVVirtState RISCVVirtState;
-@@ -35,6 +37,7 @@ DECLARE_INSTANCE_CHECKER(RISCVVirtState, RISCV_VIRT_MACHINE,
- typedef enum RISCVVirtAIAType {
-     VIRT_AIA_TYPE_NONE=0,
-     VIRT_AIA_TYPE_APLIC,
-+    VIRT_AIA_TYPE_APLIC_IMSIC,
- } RISCVVirtAIAType;
- 
- struct RISCVVirtState {
-@@ -50,6 +53,7 @@ struct RISCVVirtState {
-     int fdt_size;
-     bool have_aclint;
-     RISCVVirtAIAType aia_type;
-+    int aia_guests;
- };
- 
- enum {
-@@ -65,6 +69,8 @@ enum {
-     VIRT_UART0,
-     VIRT_VIRTIO,
-     VIRT_FW_CFG,
-+    VIRT_IMSIC_M,
-+    VIRT_IMSIC_S,
-     VIRT_FLASH,
-     VIRT_DRAM,
-     VIRT_PCIE_MMIO,
-@@ -81,8 +87,12 @@ enum {
-     VIRTIO_NDEV = 0x35 /* Arbitrary maximum number of interrupts */
- };
- 
--#define VIRT_IRQCHIP_NUM_SOURCES 127
-+#define VIRT_IRQCHIP_IPI_MSI 1
-+#define VIRT_IRQCHIP_NUM_MSIS 255
-+#define VIRT_IRQCHIP_NUM_SOURCES VIRTIO_NDEV
- #define VIRT_IRQCHIP_NUM_PRIO_BITS 3
-+#define VIRT_IRQCHIP_MAX_GUESTS_BITS 3
-+#define VIRT_IRQCHIP_MAX_GUESTS ((1U << VIRT_IRQCHIP_MAX_GUESTS_BITS) - 1U)
- 
- #define VIRT_PLIC_PRIORITY_BASE 0x04
- #define VIRT_PLIC_PENDING_BASE 0x1000
-@@ -97,6 +107,7 @@ enum {
- #define FDT_PCI_INT_CELLS     1
- #define FDT_PLIC_INT_CELLS    1
- #define FDT_APLIC_INT_CELLS   2
-+#define FDT_IMSIC_INT_CELLS   0
- #define FDT_MAX_INT_CELLS     2
- #define FDT_MAX_INT_MAP_WIDTH (FDT_PCI_ADDR_CELLS + FDT_PCI_INT_CELLS + \
-                                  1 + FDT_MAX_INT_CELLS)
 -- 
-2.25.1
-
+Best Regards
+Hyman Huang(黄勇)
 
