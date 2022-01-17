@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 429CA49074B
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 12:49:33 +0100 (CET)
-Received: from localhost ([::1]:46700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B1A949074E
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 12:50:11 +0100 (CET)
+Received: from localhost ([::1]:48348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9QVw-0003ci-DS
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 06:49:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46822)
+	id 1n9QWY-0004kR-0i
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 06:50:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n9QTh-0002m1-FB; Mon, 17 Jan 2022 06:47:13 -0500
-Received: from [2a00:1450:4864:20::329] (port=47030
- helo=mail-wm1-x329.google.com)
+ id 1n9QUg-0003L0-VK
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 06:48:15 -0500
+Received: from [2a00:1450:4864:20::333] (port=46060
+ helo=mail-wm1-x333.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n9QTf-0000w8-Mx; Mon, 17 Jan 2022 06:47:13 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- d187-20020a1c1dc4000000b003474b4b7ebcso22033465wmd.5; 
- Mon, 17 Jan 2022 03:47:10 -0800 (PST)
+ id 1n9QUf-000107-I8
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 06:48:14 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ c126-20020a1c9a84000000b00346f9ebee43so22044779wme.4
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 03:48:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=dqOmpL1FcairqlcBfpTkt9DgGiDvAf8SlLksjcCl6xI=;
- b=FN0LisYf2P2YKik2IDDGl7rTGFHvzqoxbEVRCbNKPtPYahAVyqrUCk05J4X6n7uTa0
- JX4NWgCKpv9H1EwASSa5lRPvkVyVkarEksjglnrgCdoLxAi1vVpv1R7R5s1csnXeZUXE
- QCoAFsZcCYhcaKFsqeW0ZAokrFwgvIglQM3lHYb/xDuWADSKJu0G3s7L415uTkVoz7Be
- jvHOYQFcJIwntjz2exxpTsm3gGdATH8YS/zayywB5MpPUnAZEv6VA7Sk7WSDBSSIgTjO
- TeSvY4RYSTJhIJKEQegB1ugi1j4vTfPYCNKbFQtqIVdGxbPb4YD7Mh96iZAwMK+eIqgU
- LUwQ==
+ bh=oEWKl2rs/VU5bUkXr78FDq/VGZMQu/FeLw+/4KD+8xs=;
+ b=TYSPNWfuTjTmOl3Oq0iDGhsFtUDdMciSPAx6Ks0XTPkkfRVe8Be79q4gSrnpre/R7P
+ OkiX8ZzQE+iZVfkeT7DdMnbqKnv+BKiIbKZSNCjwBS7Iyu+M93DR/5vYk0OIcrUVcOUv
+ 0HQuPsn/6Nr/Vx+uDUYRw5AcZsAh37YdFEAzdbblKqrl9hJglIG3f9SVfgj5+EwSpT0/
+ oq7ib9HxyYhGYpmBGABsTTtt/7Akuq94J0nx1xuKpivU5apNUdYbpGPJMcA+Db41HLbM
+ ggBwO5t2K9lxjRu4BA7YKuGP7YQN0XT+p1HGMI4VPKyCF0cNLMpmwxenCoxETbGaTrVz
+ XWMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=dqOmpL1FcairqlcBfpTkt9DgGiDvAf8SlLksjcCl6xI=;
- b=JE/0yBBGsYT3ymHsJHJhAXlq6Ae7Nb2d+7TOHGExpe580AoLGKChx8Ma9RYkNdKNyJ
- 6APZkz7+IcYriQnxED2gHYz4OrRf2sfisNJdPLOupsmGWiJIA/tLf7LqGhNYbalBeuyo
- fLgR89Q+A0ac/iFKofIzqoGdHv3eo+wJ94R613GUKvRJPoGJF3URWc0/BJRX+ZZipWCw
- gwF1oJdvak2YcmPLur4Y43CBCtak3Q3QAhSNE4HLIZSk5u2XqowASn1M91t9Qjg4N4h8
- KertzxVAgCDcgF49imNTpCqk5HDzr/Znigsqq0yU4GnMLq1mRlBMzBs0Eep2RS/wyT0S
- wUUw==
-X-Gm-Message-State: AOAM5308Rca5Y0OkFcthVbbz7NFGFsq9SFsUQ7fRM+ZbNPageitC5dGC
- pTeWnE9xExkfoNYDVMLWC1M=
-X-Google-Smtp-Source: ABdhPJw7H/aHyrGDXpIeWGO5pFHrWqxSsHhryuvBHXqEg0L3wJWO2DYcluX/l3Rzv5F5KYYIRCZIgA==
-X-Received: by 2002:a05:6000:1862:: with SMTP id
- d2mr19049700wri.337.1642420029773; 
- Mon, 17 Jan 2022 03:47:09 -0800 (PST)
+ bh=oEWKl2rs/VU5bUkXr78FDq/VGZMQu/FeLw+/4KD+8xs=;
+ b=NFiMwfkFfO6UeNIIFug/ibcbxk2aYgh/9BobKvrfpUn5f4QID5zeTmAyFFGXA2xH7+
+ pdinRrOwKRpn7dlWmVdqF+P5aMK3WXzUn3FmScE0PGqsKA+ivfkP/kJFoaF25562BAWK
+ DokeRhsXMGymVd2dU2dOZZxgX/gFdq7gm2Ad2A1Zxy4KoitX7Jb4ozV67vEbD8ML/nfJ
+ RMAGjj+v/iCM1h3Aw0WyjuRgEt3MlT1u75cuxevtlTNIcamNlqdfKy2dfvfIiCRkbOYZ
+ 01DWlt8NN7dvSQFIaEnqSAGPCdTXd4OoteZyXoPrIclbR49ED8Oe1qmBHZYaDJLg2OVr
+ uTmA==
+X-Gm-Message-State: AOAM530xTxpNEfYEHmuFPXXDq5qFg02JwQvntF4ZECkCXFpKCtiju+k3
+ dXzA+puIziWodO+muMDuJsg=
+X-Google-Smtp-Source: ABdhPJxaBTPJVfKjCFixyXfqnF/fGtid1juIEg3tvuxRezrgR/Ki1EsToGLNxsxkKTju4AMCNyDCGQ==
+X-Received: by 2002:a7b:cb8a:: with SMTP id m10mr27341492wmi.165.1642420092123; 
+ Mon, 17 Jan 2022 03:48:12 -0800 (PST)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id g13sm4298817wmq.22.2022.01.17.03.47.08
+ by smtp.googlemail.com with ESMTPSA id z17sm13489819wrh.87.2022.01.17.03.48.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jan 2022 03:47:09 -0800 (PST)
-Message-ID: <127028e9-7df1-5ccd-30ef-d7b327a1d788@redhat.com>
-Date: Mon, 17 Jan 2022 12:47:07 +0100
+ Mon, 17 Jan 2022 03:48:11 -0800 (PST)
+Message-ID: <c1a8eba5-b1a1-bbcf-c237-23e16ce88475@redhat.com>
+Date: Mon, 17 Jan 2022 12:48:10 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH] intc: Unexport InterruptStatsProviderClass-related
- functions
+Subject: Re: [RFC PATCH 2/2] hw/i386/sgx: Attach SGX-EPC to its memory backend
 Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-References: <20220116122327.73048-1-shentey@gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20220116235331.103977-1-f4bug@amsat.org>
+ <20220116235331.103977-3-f4bug@amsat.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220116122327.73048-1-shentey@gmail.com>
+In-Reply-To: <20220116235331.103977-3-f4bug@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,86 +95,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Yang Zhong <yang.zhong@intel.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/16/22 13:23, Bernhard Beschow wrote:
-> The functions are only used within their respective source files, so no
-> need for exporting.
+On 1/17/22 00:53, Philippe Mathieu-Daudé via wrote:
+> We have one SGX-EPC address/size/node per memory backend,
+> make it child of the backend in the QOM composition tree.
 > 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> Cc: Yang Zhong <yang.zhong@intel.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->   hw/intc/i8259_common.c            | 6 +++---
->   hw/intc/ioapic_common.c           | 2 +-
->   include/hw/i386/ioapic_internal.h | 1 -
->   include/hw/isa/i8259_internal.h   | 3 ---
->   4 files changed, 4 insertions(+), 8 deletions(-)
+>   hw/i386/sgx.c | 3 +++
+>   1 file changed, 3 insertions(+)
 > 
-> diff --git a/hw/intc/i8259_common.c b/hw/intc/i8259_common.c
-> index d90b40fe4c..af2e4a2241 100644
-> --- a/hw/intc/i8259_common.c
-> +++ b/hw/intc/i8259_common.c
-> @@ -116,8 +116,8 @@ void pic_stat_update_irq(int irq, int level)
->       }
->   }
->   
-> -bool pic_get_statistics(InterruptStatsProvider *obj,
-> -                        uint64_t **irq_counts, unsigned int *nb_irqs)
-> +static bool pic_get_statistics(InterruptStatsProvider *obj,
-> +                               uint64_t **irq_counts, unsigned int *nb_irqs)
->   {
->       PICCommonState *s = PIC_COMMON(obj);
->   
-> @@ -132,7 +132,7 @@ bool pic_get_statistics(InterruptStatsProvider *obj,
->       return true;
->   }
->   
-> -void pic_print_info(InterruptStatsProvider *obj, Monitor *mon)
-> +static void pic_print_info(InterruptStatsProvider *obj, Monitor *mon)
->   {
->       PICCommonState *s = PIC_COMMON(obj);
->   
-> diff --git a/hw/intc/ioapic_common.c b/hw/intc/ioapic_common.c
-> index 3cccfc1556..aa5f760871 100644
-> --- a/hw/intc/ioapic_common.c
-> +++ b/hw/intc/ioapic_common.c
-> @@ -76,7 +76,7 @@ static void ioapic_irr_dump(Monitor *mon, const char *name, uint32_t bitmap)
->       monitor_printf(mon, "\n");
->   }
->   
-> -void ioapic_print_redtbl(Monitor *mon, IOAPICCommonState *s)
-> +static void ioapic_print_redtbl(Monitor *mon, IOAPICCommonState *s)
->   {
->       static const char *delm_str[] = {
->           "fixed", "lowest", "SMI", "...", "NMI", "INIT", "...", "extINT"};
-> diff --git a/include/hw/i386/ioapic_internal.h b/include/hw/i386/ioapic_internal.h
-> index 021e715f11..9880443cc7 100644
-> --- a/include/hw/i386/ioapic_internal.h
-> +++ b/include/hw/i386/ioapic_internal.h
-> @@ -112,7 +112,6 @@ struct IOAPICCommonState {
->   
->   void ioapic_reset_common(DeviceState *dev);
->   
-> -void ioapic_print_redtbl(Monitor *mon, IOAPICCommonState *s);
->   void ioapic_stat_update_irq(IOAPICCommonState *s, int irq, int level);
->   
->   #endif /* QEMU_IOAPIC_INTERNAL_H */
-> diff --git a/include/hw/isa/i8259_internal.h b/include/hw/isa/i8259_internal.h
-> index a6ae8a583f..d272d879fb 100644
-> --- a/include/hw/isa/i8259_internal.h
-> +++ b/include/hw/isa/i8259_internal.h
-> @@ -72,8 +72,5 @@ struct PICCommonState {
->   void pic_reset_common(PICCommonState *s);
->   ISADevice *i8259_init_chip(const char *name, ISABus *bus, bool master);
->   void pic_stat_update_irq(int irq, int level);
-> -bool pic_get_statistics(InterruptStatsProvider *obj,
-> -                        uint64_t **irq_counts, unsigned int *nb_irqs);
-> -void pic_print_info(InterruptStatsProvider *obj, Monitor *mon);
->   
->   #endif /* QEMU_I8259_INTERNAL_H */
+> diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
+> index 5de5dd08936..6362e5e9d02 100644
+> --- a/hw/i386/sgx.c
+> +++ b/hw/i386/sgx.c
+> @@ -300,6 +300,9 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
+>           /* set the memdev link with memory backend */
+>           object_property_parse(obj, SGX_EPC_MEMDEV_PROP, list->value->memdev,
+>                                 &error_fatal);
+> +        object_property_add_child(OBJECT(list->value->memdev), "sgx-epc",
+> +                                  OBJECT(obj));
+> +
+>           /* set the numa node property for sgx epc object */
+>           object_property_set_uint(obj, SGX_EPC_NUMA_NODE_PROP, list->value->node,
+>                                &error_fatal);
 
-Queued, thanks.
+I don't think this is a good idea; only list->value->memdev should add 
+something below itself in the tree.
+
+However, I think obj can be added under the machine itself as 
+/machine/sgx-epc-device[*].
 
 Paolo
 
