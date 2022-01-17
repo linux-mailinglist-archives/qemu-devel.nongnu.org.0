@@ -2,79 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B11A7490851
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 13:09:55 +0100 (CET)
-Received: from localhost ([::1]:59796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0BF249085F
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 13:13:04 +0100 (CET)
+Received: from localhost ([::1]:35076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9Qpe-0004jX-Aw
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 07:09:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50752)
+	id 1n9Qsh-0007MY-V1
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 07:13:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n9Qlm-000244-R3
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 07:05:54 -0500
-Received: from [2a00:1450:4864:20::335] (port=37757
- helo=mail-wm1-x335.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n9Qo4-0004gn-NV
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 07:08:17 -0500
+Received: from [2a00:1450:4864:20::334] (port=41711
+ helo=mail-wm1-x334.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n9QlS-0003ZT-NR
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 07:05:54 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- l12-20020a7bc34c000000b003467c58cbdfso23816675wmj.2
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 04:05:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n9Qo0-0004Lz-S5
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 07:08:16 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ q141-20020a1ca793000000b00347b48dfb53so22213458wme.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 04:08:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=6DhulN/T6buC+GwiIXobHDOp4CrzAFYXib0SWZTaiQo=;
- b=P5CDjqwBF3sKGo+yn5XfgbeBRcDyg6LntzhVP5AisLLnSEQgvTw4CORB9Qcei2YjT4
- IemAeKfF0/TezVD4hAdo5gQLHqG3SIE4wRjrrG7Lpgf7EfKYM+PgyL0E0iRdEAp71Bqo
- /PcTTy0w0Mw/7Tcu71ILQHGcbZlvM5uMhJ9duxbFHCcxBd9McfOxYEogzVDiXe77YTlA
- futL3raZyK/eTZ04HYzezoeia4xfvkHlVIy3eiAPLwp5SHypThCP1UDgl6OcaI6bIxoJ
- KNRAo4WC2+ByCq63E9+mxaTML7Zu/n3EBu6S0EDlHbyCfOd93+zqvz+SrZMYI68TDgi4
- VkxQ==
+ bh=/2WdEKJX4cuNWWFPKfuzZ+4MRScyZrGq4iJDtRDmcLI=;
+ b=Q4j507vy8dXwH1C/F1FWF/atrRIlhJ6JY/UHY7N8ZQfzI6/17PcjI1paW7NqHIdRV2
+ SJUN2CHfYy8ldK3OQ9pGOs4qDA5O2fEpP6Y37+aJYlC5BrwkmH2eee26oH5bVmYwJm49
+ hKvVmhJbZ3JzTLwfBUt1Q4TY+M420Kv1JRJ7KNupXO7rWoFS8A+XESgW5IAK00givGxV
+ KR/oPp+5GuhCvNCtaTdRIskYFkQqSuIaKEN5DjxPMg/epDYA8pDp1fGawZXkLHM3ASv+
+ uXPtdYGAy6Q9ZK1S32Gi3MH4EsU+AGmR2isC9xXCryrlzUF+evXiN55Ln5KNMkK1kfkE
+ JbyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=6DhulN/T6buC+GwiIXobHDOp4CrzAFYXib0SWZTaiQo=;
- b=qKkTFNP/FYbw2WpYWZyJyE3lMRyFbRN9mF105eJHGK8s04arqvTPNZkiJmCu9H/zhv
- errS9yeq8k/dbn2IL33Js5VQSweI3WjjJHMbcJl6ratNUKO7IgKHr7WEdW98xIcdUNPI
- V7WrQVHLf7XJhTasBoFK0eExoIR5+MzXRP+u0TvoGys/RQgBk+7pQ+MDfDJkJE8acZ5I
- YeAsNANRlpxmEB3Egyn0TcGapvFklyGMozD/iIkGDemeRDwpTJezf8zKvzF9eBwz6ceQ
- uk6yovTAqBWVGbGCXSoF9/fieVsRouxS53evGyAz/wuh2B6w1Fu8RQHiW+VH5w/SttuQ
- BTYA==
-X-Gm-Message-State: AOAM533sC0lilknZZK7QvuQ57rr4DUGUyzOqkp7r9ziCQTAXYVTpMdhx
- rfi5O+H9gakAID8QxRW3zj8=
-X-Google-Smtp-Source: ABdhPJzb/B7M+vgTcEdC0frCOe0EDhsEObQ4WSxpjhx6obd5/onqn6lJIzUQkW/XIbsD1qCzFupduw==
-X-Received: by 2002:a7b:cb01:: with SMTP id u1mr20007951wmj.187.1642421114640; 
- Mon, 17 Jan 2022 04:05:14 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id l6sm17954335wmq.22.2022.01.17.04.05.13
+ bh=/2WdEKJX4cuNWWFPKfuzZ+4MRScyZrGq4iJDtRDmcLI=;
+ b=b4W1K9IFCFuvdHAfZeSGzBpD5XAjs9CMvOh0xyLBFQbF5bjtnuBMHcXingstW1GGxa
+ QG2rbJhXoYE4bvlxfvOdwwhUKgpWRn8GgAu4RROWvOvFSkjtOq1pbZv7GOq7tZfpRE9l
+ 7cDswnD+lnAg2KoFkIyQqc0bP2Q1Iv1RN2frSKiIRCEpO7DQTGd+Cn0JOFwnyfAR68is
+ hrcuFIS7n27evDZ223lDJUhaUKYjH+V9pnR95dyFbTo3Olfu0/rlIzA+dB0YDR6OXtai
+ wot+ghRfr1Kuh2Pge6BmJi0qhWpzjj7W4U0g/4gAMIPXxL8p54esTsckeflmoQN2qpH9
+ w6dw==
+X-Gm-Message-State: AOAM532Rqd38jmmk15StI+gsW9qAx0+gQLoyQKVIEUU2hhsYGXVtvGO5
+ Y2AQXbRxE0T10GxiTOSauoE=
+X-Google-Smtp-Source: ABdhPJwTfLShAtXvHIXLDe3pqxQ0x6dnQG8Kl3LVSEqZocATs83NRC4VrHbBxQJ/R7RLDsbka37oCw==
+X-Received: by 2002:adf:e312:: with SMTP id b18mr13737524wrj.321.1642421288139; 
+ Mon, 17 Jan 2022 04:08:08 -0800 (PST)
+Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id b14sm6424181wri.62.2022.01.17.04.08.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jan 2022 04:05:14 -0800 (PST)
-Message-ID: <ee0d6990-06f3-9a1b-f7d5-7c379f0e9773@redhat.com>
-Date: Mon, 17 Jan 2022 13:05:13 +0100
+ Mon, 17 Jan 2022 04:08:07 -0800 (PST)
+Message-ID: <f9423310-4385-89cf-d8f1-eae7b9f9dcbb@amsat.org>
+Date: Mon, 17 Jan 2022 13:08:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH v2 1/3] qmp: Support for querying stats
+Subject: Re: [RFC PATCH 2/2] hw/i386/sgx: Attach SGX-EPC to its memory backend
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Mark Kanda <mark.kanda@oracle.com>
-References: <20211119195153.11815-1-mark.kanda@oracle.com>
- <20211119195153.11815-2-mark.kanda@oracle.com> <Ya+rLex1djU/1Wc1@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <Ya+rLex1djU/1Wc1@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Yang Zhong <yang.zhong@intel.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20220116235331.103977-1-f4bug@amsat.org>
+ <20220116235331.103977-3-f4bug@amsat.org>
+ <c1a8eba5-b1a1-bbcf-c237-23e16ce88475@redhat.com>
+In-Reply-To: <c1a8eba5-b1a1-bbcf-c237-23e16ce88475@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,116 +99,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 12/7/21 19:42, Daniel P. Berrangé wrote:
-> Now onto the values being reported. AFAICT from the kernel
-> docs, for all the types of data it currently reports
-> (cumulative, instant, peak, none), there is only ever going
-> to be a single value. I assume the ability to report multiple
-> values is future proofing for a later requirement.
-
-Yes, in fact histogram values have since been added.
-
-> Second, for a given named statistic, AFAICT, the data type,
-> unit, base and exponent are all fixed. I don't see a reason
-> for us to be reporting that information every time we call
-> 'query-stats'. Just report the name + value(s).  Apps that
-> want a specific named stat won't care about the dimensions,
-> because they'll already know what the value means.
-
-I agree on this.
-
-> The 'name' and 'type' are used for filtering I presume. Only allowing
-> a single value for each feels pretty inflexible. I'd say we want to
-> allow mutliple requests at a time for efficiency.
+On 1/17/22 12:48, Paolo Bonzini wrote:
+> On 1/17/22 00:53, Philippe Mathieu-Daudé via wrote:
+>> We have one SGX-EPC address/size/node per memory backend,
+>> make it child of the backend in the QOM composition tree.
+>>
+>> Cc: Yang Zhong <yang.zhong@intel.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   hw/i386/sgx.c | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
+>> index 5de5dd08936..6362e5e9d02 100644
+>> --- a/hw/i386/sgx.c
+>> +++ b/hw/i386/sgx.c
+>> @@ -300,6 +300,9 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
+>>           /* set the memdev link with memory backend */
+>>           object_property_parse(obj, SGX_EPC_MEMDEV_PROP,
+>> list->value->memdev,
+>>                                 &error_fatal);
+>> +        object_property_add_child(OBJECT(list->value->memdev),
+>> "sgx-epc",
+>> +                                  OBJECT(obj));
+>> +
+>>           /* set the numa node property for sgx epc object */
+>>           object_property_set_uint(obj, SGX_EPC_NUMA_NODE_PROP,
+>> list->value->node,
+>>                                &error_fatal);
 > 
-> Bearing in mind my other suggestions above, I'd think we should have
-> something  more like
-> 
->   { 'enum': 'StatsProvider',
->     'data': ["kvm", "qemu", "tcg", ....],
->   }
-> 
->   { 'struct': 'StatsRequest',
->     'data': {
->        'provider': 'StatsProvider',
->        // If omitted, report everything for this provider
->        '*fields': [ 'str' ]
+> I don't think this is a good idea; only list->value->memdev should add
+> something below itself in the tree.
 
-I think provider should be optional as well.  See below.
+OK, I see.
 
->     }
->   }
-> 
->   { 'struct': 'StatsVCPURequest',
->     'base': 'StatsRequest',
->     'data': {
->       // To request subset of vCPUs e.g.
->       //  "cpu_set": "0-3"
->       // Could use ['int'] instead if desired
->       '*cpu_set': str,
+> However, I think obj can be added under the machine itself as
+> /machine/sgx-epc-device[*].
 
-Yes, ['int'] is preferrable.
+OK. It is hard to understand the difference between /unattached and
+/machine.
 
->     },
->   }
-> 
->   { 'struct': 'StatsFilter',
->     'data': {
->       // If omitted means don't report that group of data
->       '*vcpu': 'StatsVCPURequest',
->       '*vm': 'StatsRequest',
->     },
->   }
+Thanks for the review,
 
-I agree except that I think this and StatsResults should be unions, even 
-if it means running multiple query-stats commands.  There should also be 
-an enum ['vcpu', 'vm'] that acts as the discriminator for both 
-StatsFilter and StatsResults:
-
-  { 'enum': 'StatsTarget',
-    'data': [ 'vcpu', 'vm' ] }
-
-  { 'union': 'StatsFilter',
-    'base': { 'target': 'StatsTarget', '*providers': ['StatsProvider'] },
-    'discriminator': 'target',
-    'data': { 'vcpu': ['*cpu-set': ['int']] }
-}
-
-  { 'union': 'StatsResults',
-    'base': { 'target': 'StatsTarget', stats: ['StatsResultsEntry'] },
-    'discriminator': 'target',
-    'data': { 'vcpu': ['id': 'int'] }
-}
-
-Alternatively, the providers should simply be keys in the dictionary
-
-Paolo
-
-> 
->   { 'alternate': 'StatsValue',
->     'data': { 'scalar': 'int64',
->               'list': [ 'int64 ' ] }
->   }
-> 
->   { 'struct': 'StatsResultsEntry',
->     'data': {
->       'provider': 'StatsProvider',
->       'stats': [ 'StatsValue' ]
->     }
->   }
-> 
->   { 'struct': 'StatsResults':
->     'data': {
->       '*vcpu': [ [ 'StatsResultsEntry' ] ],
->       '*vm': [ 'StatsResultsEntry' ]
->     }
->   }
-> 
->   { 'command': 'query-stats',
->     'data': { 'filter': '*StatsFilter' },
->     'returns': 'StatsResults' }
+Phil.
 
