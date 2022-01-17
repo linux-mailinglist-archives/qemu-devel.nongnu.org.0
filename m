@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E4C2491102
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 21:38:52 +0100 (CET)
-Received: from localhost ([::1]:54496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02C0C491100
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 21:38:07 +0100 (CET)
+Received: from localhost ([::1]:52796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9YmB-0007O6-O0
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 15:38:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55730)
+	id 1n9YlS-0006HQ-4Z
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 15:38:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n9Yic-0003j0-GC
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 15:35:11 -0500
-Received: from [2a01:111:f400:fe0e::724] (port=62262
+ id 1n9YiW-0003d3-1j
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 15:35:04 -0500
+Received: from [2a01:111:f400:fe0e::704] (port=61063
  helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n9Yia-0005kl-Fj
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 15:35:10 -0500
+ id 1n9YiU-0005Zt-6P
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 15:35:03 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QOLbtMYNy24E0ovnF3hVkueFgJ1NG7vOwAHdAnZnonisoeUj2g/SUUIApfahbGdwwohGDeCbiDXi5XOmaLLlozTHXDvvAZi9LfSFizvPy7XTdM9bJzfefLstJftM6Ghxu0H5WtHr+L7FJPSa3iwnUlOwT3ndbSaWe2UflrcQnV8kloNPGyduVtbGQyPDp8twIQ3EOwVQ025xzcL+0SDEHTKleEA7cqM9bM1CROCyaBZGpAD8uBmZi3tvF/83YJkV0pqYu3VWEjVybOCgez9LsqqWiPco/mxl1iXOUgk4Q2TD8NTVv61VW5lG6KkIe4mma/ck3wMv1j9H4RQhVVgrFQ==
+ b=LJMpMAgpOKIaeaeqsB96K/0TQEnLAoUKwS+EPVmvPahZ/GQ1FxhizN3LWQ/b9BYzAKL7Q7sp20HV1Ti9q1biagkLokAZVZS4Z9v4QIqvUln2Wfbrm3Pp8Oj6h+qTaTsJFy1+AIfzqhYV11RHezjyYNpYNW5AnccANsRX456V3C2jYJk1PT6rPc7ciYQw+te5E4r0R/If+ZMzb9H/3f39bUdlXULAgTSbQnZUFcXSNeuFcO4ec9wrVN/9SXOorBxK2tb/cpO9IVIs3lzo6QhFjs8cAUbltllzu7dSmnohkWygd4GdSqTOR5uBOyXPjdT7W+4AGQLj4ua8Tz55AAfZXQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iRlCtudMBhU5tGg/wgtouuk4S3nyBRotNLey/jgSTbY=;
- b=IWkzvuWY2d+IbUYHBQnhHtFXYn70sEJqKfMs4b/7JlQ4HjoGD6ddRBx0QE4VRR/4G0XQ80lcw6MXboiyzTiXTS5uTdhsv0wiWvNg8rAnqKdVzvioMhlNuJ/80Qtirx7Ogf9kKAcJhX2gwkcg7HmqBVCQspvT+4a0JANJDMobAkOzxR19reMlbDmu+p4D1UsESoZbmCz5x+8eZq8GaUhSWtRhf+zMO3f0Si36tQHyfeZlJwVrqM+ZDP3CLcPlk1uZeabDPkSMI1EAF5ydkXSlA8916RF5IW+4J2yV4hLGkfs4IatORy68onZvyW/WnIn5tgW4dDB+AizwiXgVEtE+VA==
+ bh=+jTc/7mJSdZVPAuLLC348SLvGQUGauCNUGCG99EW2y8=;
+ b=NGoU8rF3Rai2cGDHmUqIWIrii7KRyzl+pVdjQO8qRIF/twbeQ+FdAyNItHf26fMK2CS+XGbF84dEhYNCcrU4Oc85voagPN9nZ1JjiBBvax/ThTaquHZaYLn/OWh+jFbLUemSi/RwfrrFHzF5psvd3suIq0y0w+V+kjm/RGhUjyBqR3epsTx3oPeNENc8WNomXMwBeC8Ln0yPxB0aOVlzqgzVFdE/yWmzm+fTm1SfKT9mMZ1OKTh6P2TqwfAaVuk2EgVS1bompRcKZ8Epvvey90wdOFLL6FFnFRHOHlO9XfiaINixoa8kncA3MofxSN908An8e69Rvm8SbW0SDk799A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iRlCtudMBhU5tGg/wgtouuk4S3nyBRotNLey/jgSTbY=;
- b=akd73evppRpJpYEc8Fn+NLZ/ZMXW5F1S8jmXOeCzw+XtZrfFTL+8TkBXesyg9vO/AAeL3hXAqVAfLE34n6FyfruU5LrvuzM6RNJMkdH1iLZaHWeiuZLDG7dWnKFbt6NC92WRr21wfDOhzrIMGBbXqrwmXIA4ot+j0h4IwlmqOW8=
+ bh=+jTc/7mJSdZVPAuLLC348SLvGQUGauCNUGCG99EW2y8=;
+ b=frG9h3vuldg5LyTy8rip/67MixwfaZ7PWPUlyQLpDaHZkXa7g1Qw8tbrQGNY0vfE3M0bEXJa0IvfLIs2sfg3x6djbr1/Y22R4OcDcarjXa3DGzmp/c6NxMdhOAEvLcJQaxBcGgb+f4XfEjNaicOR46R9Bshfybqm/AurCn4s/sU=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
@@ -51,9 +51,9 @@ To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com, michael.roth@amd.com, armbru@redhat.com,
  vsementsov@virtuozzo.com, jsnow@redhat.com, hreitz@redhat.com,
  kwolf@redhat.com, pbonzini@redhat.com
-Subject: [PATCH v3 2/3] scripts/qapi-gen.py: add --add-trace-events option
-Date: Mon, 17 Jan 2022 21:18:44 +0100
-Message-Id: <20220117201845.2438382-3-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 3/3] meson: generate trace events for qmp commands
+Date: Mon, 17 Jan 2022 21:18:45 +0100
+Message-Id: <20220117201845.2438382-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220117201845.2438382-1-vsementsov@virtuozzo.com>
 References: <20220117201845.2438382-1-vsementsov@virtuozzo.com>
@@ -64,61 +64,61 @@ X-ClientProxiedBy: AM6P193CA0069.EURP193.PROD.OUTLOOK.COM
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 248ffeec-857a-4196-d762-08d9d9f69b21
+X-MS-Office365-Filtering-Correlation-Id: 7ab9714f-b9f0-4aa3-eebe-08d9d9f69b6b
 X-MS-TrafficTypeDiagnostic: VI1PR08MB2957:EE_
-X-Microsoft-Antispam-PRVS: <VI1PR08MB2957E6CE1190E9A6AFF397EDC1579@VI1PR08MB2957.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:265;
+X-Microsoft-Antispam-PRVS: <VI1PR08MB2957124B037D665D60A64960C1579@VI1PR08MB2957.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZXmHHVeIM+rR5C7i69V0UnlO3CaCNNsJqA8uuwATQOZFN1x3VBCcuJSP3N7sEVUCSXLLbESfqiMVeM6Law1yd0W6YljehOhJeK1DQzIW5CJIQTckgpzNPtVteqxH5muSpb2nmO3MulOr8mE9dQCQrBAgNAVEGoEJjYLoU/8rXCWa5BvVx5yJaiWab19eKZMsEPOnv14AnZ5bskGTGi34NFvNDxZFqWg0BltZUEkIqQlJfqwB2KeVNz+TZn1fNLM82c7MkMtc1kYVODUWqNBusajuKVc4ICzCnAaxSLE3yRCK7tIPX8Omdq23yTVpx2KtJD5qdT85WCsWjCngKPd7eBr3Q2il0C4EwNrR1Lw7/6SXMbNTZGcZ5e/18xdOM/TqDfBBUOF6fyyZ4ALHiVqqEfxbPUa5r+K75C8XeyIzKA5Dg7Dej4Tkzp56CUYK5uUwFBinpPN4qSweWQGwvxvojU/LJ9pXx+d9eRS/LG6y8zAa9kOL8EaVqj9UsaQub+bfLlEnq3Z7rZYwnewYYn7NcvZDTLdU50Nz+dBvnmSmOJM9gV5VwM+LTx2hh+mwuxZWL9P36FX3C+KYD0/UdlU64RT1NlXZZTZNt9tBc0LWjtdxuFB3y3bra389ym3i7+rLao2ltsobeVpTwWI4m1Fl23F5U7w3tW8K7PGie+P8+IBFu64VDzHg1pI32N67ifOb045Dt2zp7hYbWkisBja36g==
+X-Microsoft-Antispam-Message-Info: jUKni86sdW8wJxAYt8/uYezRQz1KKrEiLXMZ1pqjtQpeMRtL7/2AMZaptDnYGkNYEaIGketFB3yZHn+pdpxs13dKgqISq1UtVIW9+k8ltucME4QdXnf+1HI/Z13aGDGKOCM82SBz9XXTP+24pLZwkBFmgN5TarmBM954LPjV5YIIJ0k/uBtTmb2GmUXtCTqkowD+tHsBGpIlUxz8VcXkb0/CKxRYAgIYWZwa/rIDcj6mQUAX0BgEW+dy3L2Uga3+5SgKKHH/mZgP4gBTwAXV+HzX4HB/uyAj1+m4h2umqvIIV1YULGw6kfW59+Qk8IXAJMcs+DHqEDT1BenZpL+PPcGKrMus7aOb1lg7FuivXblBeKXRqcajHqRSSbGjxev67FLN0NxaJqmx9OH6WTgfFZzrBr1EeICtQBdmjAMyQl/PD7DX4J7rhZlhOEU2DE+RD1b2n7gNEFRJM1MfX7RkfPHL234wnKvnEPdgP6EdvH/EFc8CAur1AJ35izTALwrn+HZsGn1gIiajmRxL/fx4hiM/P1a7FFdIvzW9o6A/pxEB3TNjep8FTqN+vBJHE4DPbgpZUD7cWyfMbZFpafrZcRC4+B3NH47/mVqlEuMP0jszbKFHkQtKvNEYvNmGQFa2NXaKXgI7don1FLHYsdoaBzuEOqbpcpQH4nODbgy/2HmEV1yiL+P1YWfSpjd/3OvwcPd9Oh5ZhpjNO2g1N5rG0g==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(366004)(36756003)(8936002)(4326008)(86362001)(66946007)(508600001)(26005)(6512007)(6486002)(66476007)(66556008)(52116002)(6916009)(2616005)(186003)(38100700002)(38350700002)(2906002)(6506007)(5660300002)(316002)(8676002)(1076003)(83380400001)(6666004);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?e/Ghz6x8RbKD1KbCYzE1FN3PENd8sPf22RRIAOf1wFKpui0zAS1vGRiRrSHR?=
- =?us-ascii?Q?zcad+bjEQDWQZt8EItRzUpFvmiaz+vkz2xNoIZn89Qw8G397ZhvuJtbJobAl?=
- =?us-ascii?Q?wEAp6x9F+MtLJe249B1oIFxvvY3O/CDhkKG8UTvQpYlrHX1qeN8tEMDBSnsI?=
- =?us-ascii?Q?51f7HcUq9rRBDVqehIRrGzW8AyojYe8aY66O7BmZzK+p6B0EgWQYCNuPm6bP?=
- =?us-ascii?Q?1/il3cgBkTSMdN4MYUWQfHgCm//wLukwkwyPfDrv4b/qAjMleYZHilDPNuUf?=
- =?us-ascii?Q?vS8uyzSRXiG9tjIdZcmiPTbRRHRGyFzP+qDA673so18NHb2lEhmmcq70hFia?=
- =?us-ascii?Q?gNjAy4o/7+ATaO3DbdpxJtZbsx+Y8/A//MSjaEir7ish4AyuH3YEZM1ctaP0?=
- =?us-ascii?Q?A49T7Vh14d3RN7kimbjh2JC3jYUo24oD+nphfKTh96P2I6cyplfBF1rDRSQm?=
- =?us-ascii?Q?yUj21ECy5kkYFvIUc4c9xVxmGmEm8Uw9yuYGZ1qLEOLxowTERJwyMmCdymuv?=
- =?us-ascii?Q?ofk2Qpl7h78jQSUE023k44uK9OQ+VXWijqBtzfrjRrXfdzg/KRm/xTKvBQIt?=
- =?us-ascii?Q?O5eIl1qQqh0to+ZItmYx7rUB60n+O9MiXcfK5Okes+YdI3HDNIfBvQuVvNGC?=
- =?us-ascii?Q?JuPP99aig0M2TozZbxbEKnSE4m3gNJ00UuvVegViprh9IHG1LC9ai36uy2HM?=
- =?us-ascii?Q?uj/WL0gsfKBPR05PISEjQdJ1XbpJE0uju7LdpgEU9e62ukadmQKvikV/D9I3?=
- =?us-ascii?Q?bhdTNL63glN7U7w4PtB0CVMnt2Rd+lgfIdbbrXP/nd39qJQtsou7T521goaZ?=
- =?us-ascii?Q?la9l1/k7FSkRYh+ftMEXtWVE9DsBV1KwOD8CddD9jKfpIaOH6u4ANujuLKkt?=
- =?us-ascii?Q?JxqgA2RgMjlxofrUJ049Q4aBbZlhh5kfd5KYGd+uVpf4daBGyQR5uq2vWzfp?=
- =?us-ascii?Q?c9/CFOBVPYdTtSlkHl/wVGpRF7RQdpMK29K/euP1PqM6dwi3qAKZSsF7wY2i?=
- =?us-ascii?Q?Fdhxzpsz/FY+eb5RoFvjpY4G+bc1Y6QCmGYZcFMQ0kaW68Tkyk/anORky9xT?=
- =?us-ascii?Q?UhI61oeFaqtB/KvceI09swwVthsKbtnbqDOTZfhoEUuWHZVuvahSw3fO7O5x?=
- =?us-ascii?Q?HQnanQz7Y9T5KzxMeE61y/t7E6vUcJSn6YWdoVcgo0R1Wx2+UCbRqL7gWryo?=
- =?us-ascii?Q?xIMZKq7jaYqlBPVW1XGBOVL820c290gr0N//YgAiIgpIQlieaunsXDWGpbPD?=
- =?us-ascii?Q?LJqHdgM8/19Kb6me2cfN5B/41p0tq1Sz0aoBlmEjP1sPv+BktesxmVg7/fME?=
- =?us-ascii?Q?fyX90SzK/8sobwPEmYWG2wCNvrHsdN1WSUgUSz7RScTAMAOJ8auz8bOkRJnA?=
- =?us-ascii?Q?p1UNdCyqnNRclUz48pLfm9SOQ3uGulGkM8/W2/Th4QOp9TAtLcF4cHxL1125?=
- =?us-ascii?Q?Oy0GYtyWqFwJuqhxO1DlOX5vXM4VWG8aOb3xhdOlGS8TBu+qrrFfl6b/Rucx?=
- =?us-ascii?Q?IJEahjRUKrdgFOklRb2rRepP6MlDs57MvQgFnHkMFszuQFdT7lSZtKIsOXMX?=
- =?us-ascii?Q?aNq36jfFWsPaDra71lvXL/RVz+TTsMcG3h2T+ODRJh+lRwGeS1HG6tfFfebl?=
- =?us-ascii?Q?FGcipQdZ+lXiPfZUTiUm/KPYDXiCnUZ2/Q8LOzKBqAnJ2WRGxTATEGFXGO5x?=
- =?us-ascii?Q?1JjI5rPpGJ1DJdegKTvGFAjB5rA=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3lsijqrqnb57mexNssBOiRVUFLkypruNPU2HvRja9FO9SYjTDvOBF8d0scwf?=
+ =?us-ascii?Q?2SxtwjbiG8TaD9Qh78cN4TAnJRetsDdLHQig3mUiTl7wRgtgFGs2+3OrhCMm?=
+ =?us-ascii?Q?1tbW5LaoKSKd6o5Dl9BrMIkvpcpM2Y6i+vsKq7/GkdeKO3SQcbwYi7tpILEG?=
+ =?us-ascii?Q?2O6UBEqsHiKZgdnAgumT0zjprk9pgKNDETXvexJrovYScvY9i+TbtUSCTLFg?=
+ =?us-ascii?Q?xdjjMsz+ezG7fVGD9k93Ge1rJLLvqe+znlq3qlMJ7M4DtqOVXWR0tHwZUFhz?=
+ =?us-ascii?Q?oxgh7S6X9Cp2KotNxktOeZs1rJ/2gwLCqyt7Iszr4+hw9LAwkIQELYpkySWQ?=
+ =?us-ascii?Q?0Dm/YUrerv3rStDXEI9dJBINW4nIhjl9aNc1o25brqVlXxASzbDSmD63Gbon?=
+ =?us-ascii?Q?wmLhU8rLpDFVu+wXvxnBgOVAchwBDCBLTw6izPZgVRkTblWATbQVxaQYfi5X?=
+ =?us-ascii?Q?Fk8DnezvctEcIMT58c6Lr4vePpVMmXd++QukX37gZq38j9wJ1UsG1I3Kt3v+?=
+ =?us-ascii?Q?DWy18HPSw3hJpppi6Izc9NDX0TjPg+BKCSgTscV50QWb2FGorPZkhQfOuF3G?=
+ =?us-ascii?Q?4T79bOhAsVVeme8F9YhI074WLMv5SHKbdm45SUZayjoskKN7KOtMtTADXVcG?=
+ =?us-ascii?Q?CkSSaECKuiir7hCqbCHEbZl27SrwLi0sCt7/M/TBS3d4OunZvZsDUg9L6FuQ?=
+ =?us-ascii?Q?vNn3wQQd2Bvs/SqyAacJSHnCuw6XXxgLZpa74zHEtk3qSJHtnv6+JWOXd5EI?=
+ =?us-ascii?Q?JLAvIbovKdFo3QY356PB69S7NIoxTTL2/Yut8xoc/uCYPttaPAKyD6ll2Cx5?=
+ =?us-ascii?Q?rDy3HeJUfWukEDJwjk/wLQ5JHg1IPPobMxgfGQdpPTkh4VB9DV+ao4OGjrUG?=
+ =?us-ascii?Q?Blu8IFStrl4rB3RnMWEky43SJk1XNZLEwjOKu0wCV3T8r+G6nusHMsErXum8?=
+ =?us-ascii?Q?0QfPj86SEmmiq/kVwujPKZT3SW9v54IPfTcWhoPPOJgo7Dx9atkdntsgZnbt?=
+ =?us-ascii?Q?0NKA8CUAgvk04uSIH2R8M5ZemRPCwMjboTZWdSwPRwy13GzlndmEcWC6qcbd?=
+ =?us-ascii?Q?rxS2b9m0Ui9QJt/XDPTQJZr/tz0gviMgdtVcJ+Cr8t6/pRr+dTNzxBepFoib?=
+ =?us-ascii?Q?pjW0CSL10j6YNzh4ORSZTy+ASH+gnwwwOaP30CD2yuxmKsqoYtq2g2RSowtJ?=
+ =?us-ascii?Q?2oEYaYcTgESedMsTGN+hTDjC3Y3lMRWjwf+DRzgW5eu2105xGsXEgOWI7pGs?=
+ =?us-ascii?Q?ddh9mKh9cwcbBJKB2JbXvwAEjdQ9VWgC/Ik91mpTo0tFuiHmFwV09n6ILJiJ?=
+ =?us-ascii?Q?GRcCRyHAa/yjblA0R9NlVwGXWuQdihnr82JFVswjqjLvniouVLnAy8npzyDF?=
+ =?us-ascii?Q?8laEyULUb0FB4rTxPF0TbS/ts6vatQy8y5k9E8gTdwg8CEh9LMtBtMRNxdL3?=
+ =?us-ascii?Q?nEyR/Tu0ROta1xcvhyZbbVe5dPInAFCJ6j5p6Agxm5fk+dECenHVV7hsF6+H?=
+ =?us-ascii?Q?DpCVhefHMUj/GmO8/e/135NTizi5QE4KpmHSY1UsP3I9VnYp8bNdsXp75Fno?=
+ =?us-ascii?Q?Pi/eJKMg9RiwN8G0nj3u0llxFK7PUehxgfMZ03YxyVf4vRj1IVC5zCbe6EJc?=
+ =?us-ascii?Q?7D7PTOIorSHYvhEXKohT01JDwgyzS3tGkTawEcxbVxvtnc3NDkmzCjBB+BQM?=
+ =?us-ascii?Q?DJi+Fw=3D=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 248ffeec-857a-4196-d762-08d9d9f69b21
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ab9714f-b9f0-4aa3-eebe-08d9d9f69b6b
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2022 20:19:03.9547 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2022 20:19:04.6252 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QCGzfoYkyp2ge4HIgL+X77OfX+g2L3TD67eLtX4SaxSsEfzBx4Vp5dcGSFitSybXbMJaWA8EzzJAXSymvW+vJFW1y4ChN0sNbKhUMviblQI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: mVHenCp3fwEz0cpXfKPfxAzauq5bolg7hT6hJuwZKYgbPPROiKgdfq53je3h5gMxGvC3SNyFPMUH1CKg97OeatDyQjF7eX7Kl2jiIx3VMx0=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB2957
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe0e::724
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe0e::704
  (failed)
-Received-SPF: pass client-ip=2a01:111:f400:fe0e::724;
+Received-SPF: pass client-ip=2a01:111:f400:fe0e::704;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR04-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -12
@@ -143,223 +143,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add and option to generate trace events. We should generate both trace
-events and trace-events files for further trace events code generation.
+1. Use --add-trace-events when generate qmp commands
+2. Add corresponding .trace-events files as outputs in qapi_files
+   custom target
+3. Define global qapi_trace_events list of .trace-events file targets,
+   to fill in trace/qapi.build and to use in trace/meson.build
+4. In trace/meson.build use the new array as an additional source of
+   .trace_events files to be processed
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- scripts/qapi/commands.py | 91 ++++++++++++++++++++++++++++++++++------
- scripts/qapi/main.py     | 10 +++--
- 2 files changed, 85 insertions(+), 16 deletions(-)
+ meson.build       |  5 +++++
+ qapi/meson.build  |  9 ++++++++-
+ trace/meson.build | 11 ++++++++---
+ 3 files changed, 21 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index 21001bbd6b..8cd1aa41ce 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -53,7 +53,8 @@ def gen_command_decl(name: str,
- def gen_call(name: str,
-              arg_type: Optional[QAPISchemaObjectType],
-              boxed: bool,
--             ret_type: Optional[QAPISchemaType]) -> str:
-+             ret_type: Optional[QAPISchemaType],
-+             add_trace_events: bool) -> str:
-     ret = ''
+diff --git a/meson.build b/meson.build
+index 762d7cee85..effd66e4c2 100644
+--- a/meson.build
++++ b/meson.build
+@@ -41,6 +41,7 @@ qemu_icondir = get_option('datadir') / 'icons'
  
-     argstr = ''
-@@ -71,21 +72,65 @@ def gen_call(name: str,
-     if ret_type:
-         lhs = 'retval = '
+ config_host_data = configuration_data()
+ genh = []
++qapi_trace_events = []
  
--    ret = mcgen('''
-+    name = c_name(name)
-+    upper = name.upper()
+ target_dirs = config_host['TARGET_DIRS'].split()
+ have_linux_user = false
+@@ -2554,6 +2555,10 @@ if 'CONFIG_VHOST_USER' in config_host
+   vhost_user = libvhost_user.get_variable('vhost_user_dep')
+ endif
  
--    %(lhs)sqmp_%(c_name)s(%(args)s&err);
--    error_propagate(errp, err);
--''',
--                c_name=c_name(name), args=argstr, lhs=lhs)
--    if ret_type:
-+    if add_trace_events:
-         ret += mcgen('''
-+
-+    if (trace_event_get_state_backends(TRACE_QMP_ENTER_%(upper)s)) {
-+        g_autoptr(GString) req_json = qobject_to_json(QOBJECT(args));
-+        trace_qmp_enter_%(name)s(req_json->str);
-+    }
-+    ''',
-+                     upper=upper, name=name)
-+
-+    ret += mcgen('''
-+
-+    %(lhs)sqmp_%(name)s(%(args)s&err);
-+''',
-+                name=name, args=argstr, lhs=lhs)
-+
-+    ret += mcgen('''
-     if (err) {
-+''')
-+
-+    if add_trace_events:
-+        ret += mcgen('''
-+        trace_qmp_exit_%(name)s(error_get_pretty(err), false);
-+''',
-+                     name=name)
-+
-+    ret += mcgen('''
-+        error_propagate(errp, err);
-         goto out;
-     }
-+''')
-+
-+    if ret_type:
-+        ret += mcgen('''
++# Please keep ordering between 'qapi' and 'trace' subdirs:
++# We should first handle 'qapi' subdir, so that all
++# generated trace events be generated prior handling 'trace'
++# subdir.
+ subdir('qapi')
+ subdir('qobject')
+ subdir('stubs')
+diff --git a/qapi/meson.build b/qapi/meson.build
+index c0c49c15e4..b48125f8da 100644
+--- a/qapi/meson.build
++++ b/qapi/meson.build
+@@ -114,6 +114,7 @@ foreach module : qapi_all_modules
+       'qapi-events-@0@.h'.format(module),
+       'qapi-commands-@0@.c'.format(module),
+       'qapi-commands-@0@.h'.format(module),
++      'qapi-commands-@0@.trace-events'.format(module),
+     ]
+   endif
+   if module.endswith('-target')
+@@ -126,7 +127,7 @@ endforeach
+ qapi_files = custom_target('shared QAPI source files',
+   output: qapi_util_outputs + qapi_specific_outputs + qapi_nonmodule_outputs,
+   input: [ files('qapi-schema.json') ],
+-  command: [ qapi_gen, '-o', 'qapi', '-b', '@INPUT0@' ],
++  command: [ qapi_gen, '-o', 'qapi', '-b', '@INPUT0@', '--add-trace-events' ],
+   depend_files: [ qapi_inputs, qapi_gen_depends ])
  
-     qmp_marshal_output_%(c_name)s(retval, ret, errp);
- ''',
-                      c_name=ret_type.c_name())
-+
-+    if add_trace_events:
-+        if ret_type:
-+            ret += mcgen('''
-+
-+    if (trace_event_get_state_backends(TRACE_QMP_EXIT_%(upper)s)) {
-+        g_autoptr(GString) ret_json = qobject_to_json(*ret);
-+        trace_qmp_exit_%(name)s(ret_json->str, true);
-+    }
-+    ''',
-+                     upper=upper, name=name)
-+        else:
-+            ret += mcgen('''
-+
-+    trace_qmp_exit_%(name)s("{}", true);
-+    ''',
-+                         name=name)
-+
-     return ret
+ # Now go through all the outputs and add them to the right sourceset.
+@@ -137,6 +138,9 @@ foreach output : qapi_util_outputs
+   if output.endswith('.h')
+     genh += qapi_files[i]
+   endif
++  if output.endswith('.trace-events')
++    qapi_trace_events += qapi_files[i]
++  endif
+   util_ss.add(qapi_files[i])
+   i = i + 1
+ endforeach
+@@ -145,6 +149,9 @@ foreach output : qapi_specific_outputs + qapi_nonmodule_outputs
+   if output.endswith('.h')
+     genh += qapi_files[i]
+   endif
++  if output.endswith('.trace-events')
++    qapi_trace_events += qapi_files[i]
++  endif
+   specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: qapi_files[i])
+   i = i + 1
+ endforeach
+diff --git a/trace/meson.build b/trace/meson.build
+index 573dd699c6..c4794a1f2a 100644
+--- a/trace/meson.build
++++ b/trace/meson.build
+@@ -2,10 +2,15 @@
+ specific_ss.add(files('control-target.c'))
  
+ trace_events_files = []
+-foreach dir : [ '.' ] + trace_events_subdirs
+-  trace_events_file = meson.project_source_root() / dir / 'trace-events'
++foreach item : [ '.' ] + trace_events_subdirs + qapi_trace_events
++  if item in qapi_trace_events
++    trace_events_file = item
++    group_name = item.full_path().split('/')[-1].underscorify()
++  else
++    trace_events_file = meson.project_source_root() / item / 'trace-events'
++    group_name = item == '.' ? 'root' : item.underscorify()
++  endif
+   trace_events_files += [ trace_events_file ]
+-  group_name = dir == '.' ? 'root' : dir.underscorify()
+   group = '--group=' + group_name
+   fmt = '@0@-' + group_name + '.@1@'
  
-@@ -122,10 +167,17 @@ def gen_marshal_decl(name: str) -> str:
-                  proto=build_marshal_proto(name))
- 
- 
-+def gen_trace(name: str) -> str:
-+    name = c_name(name)
-+    return f"""\
-+qmp_enter_{name}(const char *json) "%s"\n
-+qmp_exit_{name}(const char *result, bool succeeded) "%s %d"\n"""
-+
- def gen_marshal(name: str,
-                 arg_type: Optional[QAPISchemaObjectType],
-                 boxed: bool,
--                ret_type: Optional[QAPISchemaType]) -> str:
-+                ret_type: Optional[QAPISchemaType],
-+                add_trace_events: bool) -> str:
-     have_args = boxed or (arg_type and not arg_type.is_empty())
-     if have_args:
-         assert arg_type is not None
-@@ -180,7 +232,7 @@ def gen_marshal(name: str,
-     }
- ''')
- 
--    ret += gen_call(name, arg_type, boxed, ret_type)
-+    ret += gen_call(name, arg_type, boxed, ret_type, add_trace_events)
- 
-     ret += mcgen('''
- 
-@@ -238,11 +290,12 @@ def gen_register_command(name: str,
- 
- 
- class QAPISchemaGenCommandVisitor(QAPISchemaModularCVisitor):
--    def __init__(self, prefix: str):
-+    def __init__(self, prefix: str, add_trace_events: bool):
-         super().__init__(
-             prefix, 'qapi-commands',
-             ' * Schema-defined QAPI/QMP commands', None, __doc__)
-         self._visited_ret_types: Dict[QAPIGenC, Set[QAPISchemaType]] = {}
-+        self.add_trace_events = add_trace_events
- 
-     def _begin_user_module(self, name: str) -> None:
-         self._visited_ret_types[self._genc] = set()
-@@ -261,6 +314,15 @@ def _begin_user_module(self, name: str) -> None:
- 
- ''',
-                              commands=commands, visit=visit))
-+
-+        if self.add_trace_events and c_name(commands) != 'qapi_commands':
-+            self._genc.add(mcgen('''
-+#include "trace/trace-qapi.h"
-+#include "qapi/qmp/qjson.h"
-+#include "trace/trace-%(nm)s_trace_events.h"
-+''',
-+                                 nm=c_name(commands)))
-+
-         self._genh.add(mcgen('''
- #include "%(types)s.h"
- 
-@@ -322,7 +384,9 @@ def visit_command(self,
-         with ifcontext(ifcond, self._genh, self._genc):
-             self._genh.add(gen_command_decl(name, arg_type, boxed, ret_type))
-             self._genh.add(gen_marshal_decl(name))
--            self._genc.add(gen_marshal(name, arg_type, boxed, ret_type))
-+            self._genc.add(gen_marshal(name, arg_type, boxed, ret_type,
-+                                       self.add_trace_events))
-+            self._gent.add(gen_trace(name))
-         with self._temp_module('./init'):
-             with ifcontext(ifcond, self._genh, self._genc):
-                 self._genc.add(gen_register_command(
-@@ -332,7 +396,8 @@ def visit_command(self,
- 
- def gen_commands(schema: QAPISchema,
-                  output_dir: str,
--                 prefix: str) -> None:
--    vis = QAPISchemaGenCommandVisitor(prefix)
-+                 prefix: str,
-+                 add_trace_events: bool) -> None:
-+    vis = QAPISchemaGenCommandVisitor(prefix, add_trace_events)
-     schema.visit(vis)
-     vis.write(output_dir)
-diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
-index f2ea6e0ce4..7fab71401c 100644
---- a/scripts/qapi/main.py
-+++ b/scripts/qapi/main.py
-@@ -32,7 +32,8 @@ def generate(schema_file: str,
-              output_dir: str,
-              prefix: str,
-              unmask: bool = False,
--             builtins: bool = False) -> None:
-+             builtins: bool = False,
-+             add_trace_events: bool = False) -> None:
-     """
-     Generate C code for the given schema into the target directory.
- 
-@@ -49,7 +50,7 @@ def generate(schema_file: str,
-     schema = QAPISchema(schema_file)
-     gen_types(schema, output_dir, prefix, builtins)
-     gen_visit(schema, output_dir, prefix, builtins)
--    gen_commands(schema, output_dir, prefix)
-+    gen_commands(schema, output_dir, prefix, add_trace_events)
-     gen_events(schema, output_dir, prefix)
-     gen_introspect(schema, output_dir, prefix, unmask)
- 
-@@ -74,6 +75,8 @@ def main() -> int:
-     parser.add_argument('-u', '--unmask-non-abi-names', action='store_true',
-                         dest='unmask',
-                         help="expose non-ABI names in introspection")
-+    parser.add_argument('--add-trace-events', action='store_true',
-+                        help="add trace events to qmp marshals")
-     parser.add_argument('schema', action='store')
-     args = parser.parse_args()
- 
-@@ -88,7 +91,8 @@ def main() -> int:
-                  output_dir=args.output_dir,
-                  prefix=args.prefix,
-                  unmask=args.unmask,
--                 builtins=args.builtins)
-+                 builtins=args.builtins,
-+                 add_trace_events=args.add_trace_events)
-     except QAPIError as err:
-         print(f"{sys.argv[0]}: {str(err)}", file=sys.stderr)
-         return 1
 -- 
 2.31.1
 
