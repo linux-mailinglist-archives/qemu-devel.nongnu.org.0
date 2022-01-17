@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC65E491220
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 00:03:23 +0100 (CET)
-Received: from localhost ([::1]:50050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1C3949122C
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 00:09:39 +0100 (CET)
+Received: from localhost ([::1]:32874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9b22-0008Dj-QX
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 18:03:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56542)
+	id 1n9b87-0007KJ-3z
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 18:09:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n9awk-0000YW-4P; Mon, 17 Jan 2022 17:57:54 -0500
-Received: from [2607:f8b0:4864:20::131] (port=46948
- helo=mail-il1-x131.google.com)
+ id 1n9ayR-0003Ul-T1; Mon, 17 Jan 2022 17:59:40 -0500
+Received: from [2607:f8b0:4864:20::132] (port=35633
+ helo=mail-il1-x132.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n9awi-0001dz-RB; Mon, 17 Jan 2022 17:57:53 -0500
-Received: by mail-il1-x131.google.com with SMTP id e8so16017585ilm.13;
- Mon, 17 Jan 2022 14:57:52 -0800 (PST)
+ id 1n9ayP-0001i6-9M; Mon, 17 Jan 2022 17:59:38 -0500
+Received: by mail-il1-x132.google.com with SMTP id b1so16063827ilj.2;
+ Mon, 17 Jan 2022 14:59:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LR4WfMKs67yg/RV+w1+70cx/S2LByGXyY/T0F3/R7dU=;
- b=KT8RDVieZctqlq63BkLYETaqnrhqROMJdLYFPt2yWwn9zB3EE8PtXDPKema+7SQS37
- OuWZZswUuF/Ejw5SU5Soc48iGwec+vI9Yiu1SliEhRlRQ0FD0g5ROv/WwrMPBA+lTazi
- WTmLkOCKkDZA/BNSDkBdIQQR+F69pEB1NpAo1NomKsA6GFv1Dg8dHUElnI4coGcpS7xK
- l+ehCvdvjE2KN+4GqTGMSH105pjf2rlL1gkPJ3n4DTzCs8/v6aA/8BKPLObzfxyqscKS
- CjbHZq/6KT1Erp11cFKitfX+FMUDzwn7AG2F1envL05oysekmkgDj/syyEoIdPm3GpHT
- ijIw==
+ :cc; bh=OGZ2zvR718/Y4sugLGycIV5onIEvZRhGDo5VoFiSSuI=;
+ b=LKOxtwF0JXwe71K3WFTl3dEPI5HgubbnP5zGQIU5XA66zMT2QtXnBDDgYbgP9E4bsN
+ ZzwXrTTDW+XFAKavIWj7Nd2jQYiqd+DpkDwOOrSJqs9ouThLmFdLrapX9HF/BnNwURTS
+ Zvc1x0fM54LiNH0AZI7UcrnvOESwu+AZIWSMPTV9M7TN/HSQicRuDUa83peyky2zYsne
+ 3zEDy/vw7QpndVRa1k6vSc7ROWcoqkI8YA9nHxygg8UTDKdYUnMVlKrCe2W3wIwCE7EZ
+ gr0n9uKWg4gDijj/hXX2Q0W+MQnKqETaGw5MdwYvMcOjYwXHs0B2FCPi76DqkIXlhztI
+ 1nrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=LR4WfMKs67yg/RV+w1+70cx/S2LByGXyY/T0F3/R7dU=;
- b=bLUppOiLF4Q0vpSXXpVppiaOGDv5h4EOaAIDkFbcLmRy+KtArenFROS8G1CU/gfAU3
- WA8jIPfvE7hHnZy53iCC1pYY5jK6cJPogXvg9dvcpycJrTRH6wHzeUjMPIJRGMDpGiuc
- ZJp8507sUk9xYPCTxdYMMUpVbp7EPwoYHX6asQev49tn1h/czFYsMFrrG23nRGpOPwJy
- oNPBQa2ymZCjmmoJ2feExS7ZB6ARgwTbOvUPtFLKzqzCC/ZpKK+Caxw/H1EMmuv/SmEE
- ugdMJycKOB52Xa7YSsJLKNEqmnOVi7XE4PZvRKEr4VfOpKYhZLb6GbPRXOj4f4PsC6Kw
- 3fow==
-X-Gm-Message-State: AOAM531ZU7PDNeI/n5BVnQR11V+N4Ekn8U2Pthd22vLVwNaQUNCOjqUX
- YklC3U2G3drSL6kEI0m0+eQf69bpvAa0/YvvbXkfaXAAJ2G/LZX1
-X-Google-Smtp-Source: ABdhPJyc2gUEVQ/W6o/xBazOeuuP+sz4eGhxJekuRlh0RkaBW0LIyLqXKH+PiYa6j+M5ZSZxEHLFz/Iql/I33mrQPmY=
-X-Received: by 2002:a05:6e02:6d1:: with SMTP id
- p17mr9139202ils.74.1642460271695; 
- Mon, 17 Jan 2022 14:57:51 -0800 (PST)
+ bh=OGZ2zvR718/Y4sugLGycIV5onIEvZRhGDo5VoFiSSuI=;
+ b=XAqpyFlyaFxsQHTmdqTBrz8T/WgH4S7Au9NVE0ywDXB+44cY4BbDaNAOmndwxaoZ44
+ mz3F979LE+4pvt2m+C74fEpl0D+3iPD1wUoInbY+oSn7BM/6cPEmq3Ev4/KJJC7fzBA0
+ 9ZsgJcVoQrySiZzxWdMd4sDTfjkr5Cf9Z6Vg8JAOUMQCehpNWzQ8neTb703UkT7fQ2P7
+ gTNldrCWfqLiFt7q+hPSSYZMci9Li6AoCRcshCpYA9HyssufaQ0oDKIS2HnCY8r2WI9U
+ VgLPXN4wRMbQyDBwxhOHezKZ0hmX+ucD3mapR7iNX9YdnII/Q95q+p0dwVXA6sQAvQZx
+ 0CiQ==
+X-Gm-Message-State: AOAM530sdVodwrNoayzPwbzCSyL0aR9G2vmHG9vJ5yFLRRMePq94OxWT
+ lzF4DBRr/VaJO0rmXNh3qaXiuX5v/n9YC4/bEEQXmGTdE6BbU63R
+X-Google-Smtp-Source: ABdhPJzEueAq6PKGnzjDxlp5CtdA3Jq/vVc69d6Pm6MnRcLYuHZZxEuOA8eIIuHwRtSHDsIqN2sNn12iAglEikANIaM=
+X-Received: by 2002:a05:6e02:1567:: with SMTP id
+ k7mr12783612ilu.46.1642460347360; 
+ Mon, 17 Jan 2022 14:59:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20211229023348.12606-1-frank.chang@sifive.com>
- <20211229023348.12606-18-frank.chang@sifive.com>
-In-Reply-To: <20211229023348.12606-18-frank.chang@sifive.com>
+References: <20220116114649.40859-1-shentey@gmail.com>
+In-Reply-To: <20220116114649.40859-1-shentey@gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 18 Jan 2022 08:57:25 +1000
-Message-ID: <CAKmqyKNabafdrr-Yimj=Fg7LBKPdH_fzKKXLBkY4vcVKQ22Hbg@mail.gmail.com>
-Subject: Re: [PATCH 17/17] target/riscv: rvv-1.0: Allow Zve32f extension to be
- turned on
-To: Frank Chang <frank.chang@sifive.com>
+Date: Tue, 18 Jan 2022 08:58:41 +1000
+Message-ID: <CAKmqyKNN1Nb1g-j=UndSyjDPboci87y5Qs8BMj0jEbnRxxpztw@mail.gmail.com>
+Subject: Re: [PATCH] softmmu: Provide a clue as to why device tree loading
+ failed
+To: Bernhard Beschow <shentey@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::131
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::132
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x131.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x132.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -81,41 +80,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 29, 2021 at 12:52 PM <frank.chang@sifive.com> wrote:
+On Sun, Jan 16, 2022 at 9:49 PM Bernhard Beschow <shentey@gmail.com> wrote:
 >
-> From: Frank Chang <frank.chang@sifive.com>
+> fdt_open_into() obligingly returns an error code in case the operation
+> failed. So be obliging as well and use it in the error message.
 >
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  target/riscv/cpu.c | 1 +
->  1 file changed, 1 insertion(+)
+>  softmmu/device_tree.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 >
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 5e98860a09..2b54c64f56 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -636,6 +636,7 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
->      DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
->      DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
-> +    DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
->      DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
->      DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
->      DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+> index 3965c834ca..31d1066940 100644
+> --- a/softmmu/device_tree.c
+> +++ b/softmmu/device_tree.c
+> @@ -60,7 +60,8 @@ void *create_device_tree(int *sizep)
+>      }
+>      ret = fdt_open_into(fdt, fdt, *sizep);
+>      if (ret) {
+> -        error_report("Unable to copy device tree in memory");
+> +        error_report("%s: Unable to copy device tree into memory: %s",
+> +                     __func__, fdt_strerror(ret));
+>          exit(1);
+>      }
+>
+> @@ -104,7 +105,8 @@ void *load_device_tree(const char *filename_path, int *sizep)
+>
+>      ret = fdt_open_into(fdt, fdt, dt_size);
+>      if (ret) {
+> -        error_report("Unable to copy device tree in memory");
+> +        error_report("%s: Unable to copy device tree into memory: %s",
+> +                     __func__, fdt_strerror(ret));
+>          goto fail;
+>      }
+>
 > --
-> 2.31.1
+> 2.34.1
 >
 >
 
