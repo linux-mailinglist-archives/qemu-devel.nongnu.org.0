@@ -2,85 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3FDA490B1A
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 16:07:03 +0100 (CET)
-Received: from localhost ([::1]:48972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD124490B32
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 16:10:46 +0100 (CET)
+Received: from localhost ([::1]:57944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9Tb4-0002aw-7V
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 10:07:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50710)
+	id 1n9Tef-0000GJ-LA
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 10:10:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9ShY-00038w-7K
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:09:41 -0500
-Received: from [2607:f8b0:4864:20::430] (port=38685
- helo=mail-pf1-x430.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9ShW-0000t0-Ig
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:09:39 -0500
-Received: by mail-pf1-x430.google.com with SMTP id a5so10298696pfo.5
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 06:09:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=RzLVX5iuxz5LrmPqzSwYx7iAa1h4BRsTfPAP3w2ficU=;
- b=A042oNbyYiQcVN78F3BjsvuEDBsu3q0NMOAzVkpUJ4+4c66KZZmHRZWvjrM/UIMST6
- O2mjKaDMdltd+t0rQIQWm/+W0SlGSubVcVd2KFCV+KJTz/8B+GS2WC/daMNlh6n1eBwb
- EofvubLzXRW2AlXL5cUR7ad94N5JCOWr3xH6XK1NLwI5yabfVduFrtBkIaKjMy5gNPDQ
- bHCtkRCjAuSZAfdRj/FPhS4AzAUkQFYDo5Ft4f99K4tlmbis///q/zy8QNk/xcsZ8tNt
- rp7fJzVHiZwCd556hfrV6UxcivUjJASwxh479iazH8snYHDsc/0Tfz4mdbpuFFACHgwh
- 48/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=RzLVX5iuxz5LrmPqzSwYx7iAa1h4BRsTfPAP3w2ficU=;
- b=Dnheo34AP/Rek5RoAa+7KGT7mtic2OJPaNnolOTDEYT7r3n/etlQWb2o38DZubCEfW
- 04l29ONEnpzbYVmju2vg30d3xSWpSjzOLhY9PXC5AOaFjL65UVat583fLh0IsJwuMLSh
- GDxcPjTnwN+hWwAxSNRRZgWPOezXMCjMeIy2d7D0Up8ZACyWKbaQIlkC2wZuGBB+9hkB
- skjvrs50jIoIKEfSThJHYAzk9CgG3LM+f/aiQZtpdmOuB+xYuhCVQlsAXB4WhBxw9+gO
- 1bc+/UmJyr2sEIbUU/hAErCO0tgYGGCl1zMgWX2umNnuodavGE+KJI3c7t40n4F2s3pZ
- z0kg==
-X-Gm-Message-State: AOAM530pPz/Nbhqha+zeVPKYgeR4QPfspEztG9KgHHPZI7mJwId5k0ds
- a/DlevXI+G3+apjUxG2mNYDos50JVmkuC30J
-X-Google-Smtp-Source: ABdhPJwg2G/FO/j6zXax5rGJgifY2ptbjGbSmm34m6BEWm2xzmUNzNRKplCBvnvdl6P0KCTGQZkfdA==
-X-Received: by 2002:a17:902:8601:b0:149:ee23:890a with SMTP id
- f1-20020a170902860100b00149ee23890amr22148785plo.12.1642428190364; 
- Mon, 17 Jan 2022 06:03:10 -0800 (PST)
-Received: from [192.168.125.175] (41.red-95-127-166.staticip.rima-tde.net.
- [95.127.166.41])
- by smtp.gmail.com with ESMTPSA id f7sm14856771pfc.206.2022.01.17.06.03.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jan 2022 06:03:09 -0800 (PST)
-Message-ID: <37a251a7-b6bc-ac80-8c2f-02a03f4fab26@amsat.org>
-Date: Mon, 17 Jan 2022 15:03:05 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1n9SjB-0004Az-KY
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:11:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53474)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1n9Sj8-0001Ih-7E
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:11:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642428675;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ArD7xnkSOO5ZbXgjjJ0HN0qCpvjQ+TviCku5pzHFDrQ=;
+ b=UCNu1hdYfAxOxUpdQWyYHXtreftPEzRBF3f1KiOaZvjIzbMsG3lthzkVaq17tZfjFVAL67
+ SH4mVK8xOzjbEX0s3RTnu5lCNXayWz2ldiN2T8+ZjBAL4dYvc45UAgwC2bqTRgixMmq+fz
+ I9ThteXmaVkvarE6viWuT7CCR3tfDcw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-464-3J_fDL9APCirvzh6EJENag-1; Mon, 17 Jan 2022 09:11:11 -0500
+X-MC-Unique: 3J_fDL9APCirvzh6EJENag-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B28AE184608E;
+ Mon, 17 Jan 2022 14:11:10 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.33.36.172])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DAC7A79C53;
+ Mon, 17 Jan 2022 14:11:08 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/2] python: introduce qmp-shell-wrap convenience tool
+Date: Mon, 17 Jan 2022 14:11:02 +0000
+Message-Id: <20220117141103.157288-2-berrange@redhat.com>
+In-Reply-To: <20220117141103.157288-1-berrange@redhat.com>
+References: <20220117141103.157288-1-berrange@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: 9p root fs HOWTO
-Content-Language: en-US
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-References: <2785520.nJZE4KsnAZ@silver>
-In-Reply-To: <2785520.nJZE4KsnAZ@silver>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::430
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x430.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,25 +79,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 17/1/22 14:14, Christian Schoenebeck wrote:
-> As I was still reading claims on the net that 9p was not usable for more
-> complex use cases, I decided to write a complete HOWTO for installing and
-> configuring an entire guest OS (with Debian 11 "Bullseye" as example) on top
-> of 9p being guest's root fs:
-> 
-> https://wiki.qemu.org/Documentation/9p_root_fs
+With the current 'qmp-shell' tool developers must first spawn QEMU with
+a suitable -qmp arg and then spawn qmp-shell in a separate terminal
+pointing to the right socket.
 
-Thanks for doing this!
+With 'qmp-shell-wrap' developers can ignore QMP sockets entirely and
+just pass the QEMU command and arguments they want. The program will
+listen on a UNIX socket and tell QEMU to connect QMP to that.
 
-Doesn't it deserve its entry in the sphinx-generated manual,
-rather than the wiki?
+For example, this:
 
-Regards,
+ # qmp-shell-wrap -- qemu-system-x86_64 -display none
 
-Phil.
+Is roughly equivalent of running:
+
+ # qemu-system-x86_64 -display none -qmp qmp-shell-1234 &
+ # qmp-shell qmp-shell-1234
+
+Except that 'qmp-shell-wrap' switches the socket peers around so that
+it is the UNIX socket server and QEMU is the socket client. This makes
+QEMU reliably go away when qmp-shell-wrap exits, closing the server
+socket.
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ python/qemu/qmp/qmp_shell.py | 61 +++++++++++++++++++++++++++++++++---
+ scripts/qmp/qmp-shell-wrap   | 11 +++++++
+ 2 files changed, 68 insertions(+), 4 deletions(-)
+ create mode 100755 scripts/qmp/qmp-shell-wrap
+
+diff --git a/python/qemu/qmp/qmp_shell.py b/python/qemu/qmp/qmp_shell.py
+index e7d7eb18f1..12f7d28afc 100644
+--- a/python/qemu/qmp/qmp_shell.py
++++ b/python/qemu/qmp/qmp_shell.py
+@@ -86,6 +86,7 @@
+ import os
+ import re
+ import readline
++from subprocess import Popen
+ import sys
+ from typing import (
+     Iterator,
+@@ -162,8 +163,10 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+     :param verbose: Echo outgoing QMP messages to console.
+     """
+     def __init__(self, address: qmp.SocketAddrT,
+-                 pretty: bool = False, verbose: bool = False):
+-        super().__init__(address)
++                 pretty: bool = False,
++                 verbose: bool = False,
++                 server: bool = False):
++        super().__init__(address, server=server)
+         self._greeting: Optional[QMPMessage] = None
+         self._completer = QMPCompleter()
+         self._transmode = False
+@@ -404,8 +407,10 @@ class HMPShell(QMPShell):
+     :param verbose: Echo outgoing QMP messages to console.
+     """
+     def __init__(self, address: qmp.SocketAddrT,
+-                 pretty: bool = False, verbose: bool = False):
+-        super().__init__(address, pretty, verbose)
++                 pretty: bool = False,
++                 verbose: bool = False,
++                 server: bool = False):
++        super().__init__(address, pretty, verbose, server)
+         self._cpu_index = 0
+ 
+     def _cmd_completion(self) -> None:
+@@ -529,6 +534,54 @@ def main() -> None:
+         for _ in qemu.repl():
+             pass
+ 
++def main_wrap() -> None:
++    """
++    qmp-shell-wrap entry point: parse command line arguments and start the REPL.
++    """
++    parser = argparse.ArgumentParser()
++    parser.add_argument('-H', '--hmp', action='store_true',
++                        help='Use HMP interface')
++    parser.add_argument('-v', '--verbose', action='store_true',
++                        help='Verbose (echo commands sent and received)')
++    parser.add_argument('-p', '--pretty', action='store_true',
++                        help='Pretty-print JSON')
++
++    parser.add_argument('command', nargs=argparse.REMAINDER,
++                        help='QEMU command line to invoke')
++
++    args = parser.parse_args()
++
++    cmd = args.command
++    if len(cmd) != 0 and cmd[0] == '--':
++        cmd = cmd[1:]
++    if len(cmd) == 0:
++        cmd = "qemu-system-x86_64"
++
++    sockpath = "qmp-shell-wrap-%d" % os.getpid()
++    cmd += ["-qmp", "unix:%s" % sockpath]
++
++    shell_class = HMPShell if args.hmp else QMPShell
++
++    try:
++        address = shell_class.parse_address(sockpath)
++    except qmp.QMPBadPortError:
++        parser.error(f"Bad port number: {socketpath}")
++        return  # pycharm doesn't know error() is noreturn
++
++    with shell_class(address, args.pretty, args.verbose, True) as qemu:
++        qemuproc = Popen(cmd)
++
++        try:
++            qemu.accept()
++        except qmp.QMPConnectError:
++            die("Didn't get QMP greeting message")
++        except qmp.QMPCapabilitiesError:
++            die("Couldn't negotiate capabilities")
++        except OSError as err:
++            die(f"Couldn't connect to {sockpath}: {err!s}")
++
++        for _ in qemu.repl():
++            pass
+ 
+ if __name__ == '__main__':
+     main()
+diff --git a/scripts/qmp/qmp-shell-wrap b/scripts/qmp/qmp-shell-wrap
+new file mode 100755
+index 0000000000..9e94da114f
+--- /dev/null
++++ b/scripts/qmp/qmp-shell-wrap
+@@ -0,0 +1,11 @@
++#!/usr/bin/env python3
++
++import os
++import sys
++
++sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
++from qemu.qmp import qmp_shell
++
++
++if __name__ == '__main__':
++    qmp_shell.main_wrap()
+-- 
+2.33.1
+
 
