@@ -2,91 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A96490C8B
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 17:34:51 +0100 (CET)
-Received: from localhost ([::1]:43072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37DE3490C91
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 17:38:31 +0100 (CET)
+Received: from localhost ([::1]:48430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9Uy2-0000s3-CM
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 11:34:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33016)
+	id 1n9V1Z-0004eX-To
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 11:38:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n9UrO-0002Zl-2J
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 11:27:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24783)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n9UrM-00017x-EW
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 11:27:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642436875;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=f0uGvpFIj/KMeZA6c4YaTxu0+IIkMRQKxMxjWO1itR8=;
- b=dPx4W74FgjNP1bGfqDD7DERgPOx9gsQVXPaX8U40XU0P8magI2dmwONJnrJ0hQ2X7h0Ocf
- 8eQEgyNsdPK+0xKDbCmL25p2eOvrwwn5BBX+38D6L6vdtloUXBG3NpZNZPVr3RTQyKw6zO
- MdMwgbGszu22Gs0l4c3VKZvNmhefQ9Y=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-664-Ws-TU8_ZPH-VapoQMW2bug-1; Mon, 17 Jan 2022 11:27:54 -0500
-X-MC-Unique: Ws-TU8_ZPH-VapoQMW2bug-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k41-20020a05600c1ca900b0034aea0b9948so9112540wms.3
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 08:27:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n9Uwz-0001bP-Qv
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 11:33:46 -0500
+Received: from [2a00:1450:4864:20::336] (port=43702
+ helo=mail-wm1-x336.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n9Uwy-000242-56
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 11:33:45 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ s6-20020a7bc386000000b0034a89445406so833050wmj.2
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 08:33:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zGovJ4D+1nfAux2g9KphS39tgcVp/iJwdTLIKlw/kE4=;
+ b=iwuCd1xjM60xpAm7UgMhv6KlvNydPVn7hiRYek23zNJyKbODdFz4hHRY3E3U1RJM2S
+ J7tpw9JrRIWJlFDcAvv3mNBdlAjMu1lxdHLnF62BQlTAt4hG7owIQgCKbLhtG2pFFupr
+ +jmAs+YlOFU31m+vBc9DNeEwJmjUOYVmyhG7AD4HuGqfKg8BT+80hOGJ2h1beu/t+WZ8
+ mygCfwYdzGxlSiUW+HGZVMbrscMQYjpZu3bsie8P+NuCH7j1mZPtOEuanRWlMROWYgr7
+ mg0Hmh/Q3prT0NUHhNfuAXqPsrTEAXOKwSoBSHSMmoTCvlXoAJ0ykVXRI+YHctChCl80
+ qAOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=f0uGvpFIj/KMeZA6c4YaTxu0+IIkMRQKxMxjWO1itR8=;
- b=InW+VzjRV+xIVNMiYwLHqg7IeIiFNS9yH7ZORvtfL/l66H5FNG/jHhrNtZ3eJvmFV+
- t1/uE/gkfljUfhkNENpLkHVRPquXyTVV9ILUWjaMxoLSAwJhEINctVquPRcXzWkPG0bF
- to6hcqE+6oYAxP7ur+9XBvYkvi19SA26boRIiCP0cSnwlBLR23OaARGxZ64ugD2F8rDx
- XMYzyvhUUSJmXkPjUo8wLTVGOZZIODE5/KjQP3Gyv5sFZuFk4enc+54AO2vi8PF35J2e
- PjWTgzl6nugi/m52XkY9vE4OkvHAdSe5MINqMPC1otGVNDTUOdyUU1pIZzgnyixmwbc2
- GAJA==
-X-Gm-Message-State: AOAM530y/6jBvHiVN1It8+wYaO3jCHbcTuWBk+3lDqbTSXbGeMS4KQmJ
- tUCiBIRAt54LvTlzjCK71LaIPxs3jHXLat6uRZl5bauD52UwvzkO0tBXOTpIQ0yES02b7YOLycr
- rUAfe0CKJzm5YLXI=
-X-Received: by 2002:a1c:f205:: with SMTP id s5mr21661742wmc.33.1642436873522; 
- Mon, 17 Jan 2022 08:27:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwayFU7cg7sEXvi74forWDTBl/ltielWpOdSEk5IHYI4EWzdj3ATV4kxfWbd6gWp6KxzvC2Kw==
-X-Received: by 2002:a1c:f205:: with SMTP id s5mr21661716wmc.33.1642436873169; 
- Mon, 17 Jan 2022 08:27:53 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id e10sm16968176wrq.40.2022.01.17.08.27.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jan 2022 08:27:52 -0800 (PST)
-Message-ID: <f8af32c2-6127-dc87-0230-a98914897a27@redhat.com>
-Date: Mon, 17 Jan 2022 17:27:52 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zGovJ4D+1nfAux2g9KphS39tgcVp/iJwdTLIKlw/kE4=;
+ b=s6iGCr+82iDuajGt4H+8n+EWO4XkSGPXo5FRE3TmTxJnTh6W14q6QvxAFZ/eRcPULR
+ gsv94bUPzv1H/18ABDx2b65IedKHBjgbwlPX5G1gRftti5X3ylG3TFrexigTgaNcpBxW
+ emGdvKXyM42WLtWhm6MEHa0eNbvGL8KW8U+60HWgKH8gvP/4g1q/nLLo/F7L6XgBn5d3
+ zhUCV/8oCTgPZnO9z3AvDyFFC4jud7OKJZN0G0fojrjeohBJ2E5jhjsdramYXZWVXSw8
+ 2/T1c1sxRtSraaH/DFCdparyqm4y8cOkd98V4NPuSrKHKDTTZpJiwG4IC/NpXMamOJdi
+ 2eOg==
+X-Gm-Message-State: AOAM533/e7kZJP6zXEH2EREN5wKuGWG+WhYHl8UWrRirsYSEA6cvPBb2
+ SFXSiZxMD5t0lOXiqo2ySN5vhfASNmYulEh4KP2JoQ==
+X-Google-Smtp-Source: ABdhPJwtrRHTBA7UNbnQRctopHtWIJ7YantiXIG7JY+a9htYqN5aOw61vFp3M3iJuq6FEmHw6LMlIYRJTCwMTP6AjqM=
+X-Received: by 2002:adf:ee0e:: with SMTP id y14mr20536580wrn.172.1642437218840; 
+ Mon, 17 Jan 2022 08:33:38 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 0/2] block/io: Update BSC only if want_zero is true
-To: qemu-block@nongnu.org
-References: <20220117162649.193501-1-hreitz@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220117162649.193501-1-hreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20220109161923.85683-1-imp@bsdimp.com>
+ <20220109161923.85683-23-imp@bsdimp.com>
+ <CAFEAcA-wf3UDDocabE6Th4ixrVWd4Lsfy3pjvnHGwGfNupzK_w@mail.gmail.com>
+ <CANCZdfrGAgVzGDMSf4qqq4B2KAs_9Lu4sj4dn96HdhfmkgWqxw@mail.gmail.com>
+In-Reply-To: <CANCZdfrGAgVzGDMSf4qqq4B2KAs_9Lu4sj4dn96HdhfmkgWqxw@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 17 Jan 2022 16:33:27 +0000
+Message-ID: <CAFEAcA-irGJ9wEF7gyNU72QZU6-Yx0Af9ykk1t1afHbrOG19CA@mail.gmail.com>
+Subject: Re: [PATCH 22/30] bsd-user/signal.c: Fill in queue_signal
+To: Warner Losh <imp@bsdimp.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,47 +83,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
- qemu-devel@nongnu.org, qemu-stable <qemu-stable@nongnu.org>
+Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@freebsd.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Forgot to CC qemu-stable.
+On Mon, 17 Jan 2022 at 16:22, Warner Losh <imp@bsdimp.com> wrote:
+> On Thu, Jan 13, 2022 at 1:37 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>> > +    /*
+>> > +     * FreeBSD signals are always queued.  Linux only queues real time signals.
+>> > +     * XXX this code is not thread safe.  "What lock protects ts->sigtab?"
+>> > +     */
+>>
+>> ts->sigtab shouldn't need a lock, because it is per-thread,
+>> like all of TaskState. (The TaskState structure is pointed
+>> to by the CPUState 'opaque' field. CPUStates are per-thread;
+>> the TaskState for a new thread's new CPUState is allocated
+>> and initialized as part of the emulating of whatever the
+>> "create new thread" syscall is. For Linux this is in
+>> do_fork() for the CLONE_VM case. The TaskState for the
+>> initial thread is allocated in main.c.) We do need to deal
+>> with the fact that ts->sigtab can be updated by a signal
+>> handler (which always runs in the thread corresponding to
+>> that guest CPU): the linux-user process_pending_signals()
+>> has been written with that in mind.
+>
+>
+> Gotcha. That makes sense. Any reason that atomics aren't used
+> for this between the different routines?
 
-On 17.01.22 17:26, Hanna Reitz wrote:
-> Hi,
->
-> As reported by Nir
-> (https://lists.nongnu.org/archive/html/qemu-block/2022-01/msg00292.html)
-> there’s a problem with the block-status cache, namely that it is updated
-> when want_zero is false, but we return the result later even when the
-> caller now passes want_zero=true.  In the worst case, the
-> want_zero=false call may have resulted in the cache containing an entry
-> describing the whole image to contain data, and then all future requests
-> will be served from that cache entry.
->
-> There are a couple ways this could be fixed (e.g. one cache per
-> want_zero mode, or storing want_zero in the cache and comparing it when
-> the cached data is fetched), but I think the simplest way is to only
-> store want_zero=true block-status results in the cache.  (This way, the
-> cache will not work with want_zero=false, but the want_zero=true case is
-> the one for which we introduced the cache in the first place.  I think
-> want_zero=false generally is fast enough(tm), that’s why we introduced
-> want_zero after all.)
->
-> Patch 1 is the fix, patch 2 a regression test.
->
->
-> Hanna Reitz (2):
->    block/io: Update BSC only if want_zero is true
->    iotests/block-status-cache: New test
->
->   block/io.c                                    |   6 +-
->   tests/qemu-iotests/tests/block-status-cache   | 130 ++++++++++++++++++
->   .../qemu-iotests/tests/block-status-cache.out |   5 +
->   3 files changed, 140 insertions(+), 1 deletion(-)
->   create mode 100755 tests/qemu-iotests/tests/block-status-cache
->   create mode 100644 tests/qemu-iotests/tests/block-status-cache.out
->
+We use atomics in some places, eg the qatomic_read()/qatomic_set()
+of ts->signal_pending in process_pending_signals. We deal with
+some other races by blocking signals. sigtab's a cmplex
+data structure, so simply making accesses to its individual
+fields atomic isn't sufficient, and the more usual approach of
+taking a lock doesn't work when the thing being protected against
+is code running in a signal handler.
 
+It's also quite possible that we missed some places
+where we should be being stricter about using the atomic
+accessors -- if you spot anything like that let us know.
+
+thanks
+-- PMM
 
