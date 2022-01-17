@@ -2,75 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37DE3490C91
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 17:38:31 +0100 (CET)
-Received: from localhost ([::1]:48430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B211490EC0
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 18:11:50 +0100 (CET)
+Received: from localhost ([::1]:41358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9V1Z-0004eX-To
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 11:38:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34848)
+	id 1n9VXo-0005IY-TF
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 12:11:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n9Uwz-0001bP-Qv
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 11:33:46 -0500
-Received: from [2a00:1450:4864:20::336] (port=43702
- helo=mail-wm1-x336.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n9Uwy-000242-56
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 11:33:45 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- s6-20020a7bc386000000b0034a89445406so833050wmj.2
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 08:33:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zGovJ4D+1nfAux2g9KphS39tgcVp/iJwdTLIKlw/kE4=;
- b=iwuCd1xjM60xpAm7UgMhv6KlvNydPVn7hiRYek23zNJyKbODdFz4hHRY3E3U1RJM2S
- J7tpw9JrRIWJlFDcAvv3mNBdlAjMu1lxdHLnF62BQlTAt4hG7owIQgCKbLhtG2pFFupr
- +jmAs+YlOFU31m+vBc9DNeEwJmjUOYVmyhG7AD4HuGqfKg8BT+80hOGJ2h1beu/t+WZ8
- mygCfwYdzGxlSiUW+HGZVMbrscMQYjpZu3bsie8P+NuCH7j1mZPtOEuanRWlMROWYgr7
- mg0Hmh/Q3prT0NUHhNfuAXqPsrTEAXOKwSoBSHSMmoTCvlXoAJ0ykVXRI+YHctChCl80
- qAOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zGovJ4D+1nfAux2g9KphS39tgcVp/iJwdTLIKlw/kE4=;
- b=s6iGCr+82iDuajGt4H+8n+EWO4XkSGPXo5FRE3TmTxJnTh6W14q6QvxAFZ/eRcPULR
- gsv94bUPzv1H/18ABDx2b65IedKHBjgbwlPX5G1gRftti5X3ylG3TFrexigTgaNcpBxW
- emGdvKXyM42WLtWhm6MEHa0eNbvGL8KW8U+60HWgKH8gvP/4g1q/nLLo/F7L6XgBn5d3
- zhUCV/8oCTgPZnO9z3AvDyFFC4jud7OKJZN0G0fojrjeohBJ2E5jhjsdramYXZWVXSw8
- 2/T1c1sxRtSraaH/DFCdparyqm4y8cOkd98V4NPuSrKHKDTTZpJiwG4IC/NpXMamOJdi
- 2eOg==
-X-Gm-Message-State: AOAM533/e7kZJP6zXEH2EREN5wKuGWG+WhYHl8UWrRirsYSEA6cvPBb2
- SFXSiZxMD5t0lOXiqo2ySN5vhfASNmYulEh4KP2JoQ==
-X-Google-Smtp-Source: ABdhPJwtrRHTBA7UNbnQRctopHtWIJ7YantiXIG7JY+a9htYqN5aOw61vFp3M3iJuq6FEmHw6LMlIYRJTCwMTP6AjqM=
-X-Received: by 2002:adf:ee0e:: with SMTP id y14mr20536580wrn.172.1642437218840; 
- Mon, 17 Jan 2022 08:33:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1n9VVH-0004WQ-3Q
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 12:09:11 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:20749)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1n9VVF-0007Ik-Ga
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 12:09:10 -0500
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-209-YDh462i1Mf6pFlTACsgr7w-1; Mon, 17 Jan 2022 12:08:59 -0500
+X-MC-Unique: YDh462i1Mf6pFlTACsgr7w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 216AC18C8C01;
+ Mon, 17 Jan 2022 17:08:58 +0000 (UTC)
+Received: from bahia (unknown [10.39.193.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 30B91105C88B;
+ Mon, 17 Jan 2022 17:08:56 +0000 (UTC)
+Date: Mon, 17 Jan 2022 18:08:55 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Sebastian Hasler <sebastian.hasler@stuvus.uni-stuttgart.de>
+Subject: Re: [Virtio-fs] [PATCH v2] virtiofsd: Do not support blocking flock
+Message-ID: <20220117180855.6353fc05@bahia>
+In-Reply-To: <20220113153249.710216-1-sebastian.hasler@stuvus.uni-stuttgart.de>
+References: <20220113153249.710216-1-sebastian.hasler@stuvus.uni-stuttgart.de>
 MIME-Version: 1.0
-References: <20220109161923.85683-1-imp@bsdimp.com>
- <20220109161923.85683-23-imp@bsdimp.com>
- <CAFEAcA-wf3UDDocabE6Th4ixrVWd4Lsfy3pjvnHGwGfNupzK_w@mail.gmail.com>
- <CANCZdfrGAgVzGDMSf4qqq4B2KAs_9Lu4sj4dn96HdhfmkgWqxw@mail.gmail.com>
-In-Reply-To: <CANCZdfrGAgVzGDMSf4qqq4B2KAs_9Lu4sj4dn96HdhfmkgWqxw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 17 Jan 2022 16:33:27 +0000
-Message-ID: <CAFEAcA-irGJ9wEF7gyNU72QZU6-Yx0Af9ykk1t1afHbrOG19CA@mail.gmail.com>
-Subject: Re: [PATCH 22/30] bsd-user/signal.c: Fill in queue_signal
-To: Warner Losh <imp@bsdimp.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,47 +65,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@freebsd.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 17 Jan 2022 at 16:22, Warner Losh <imp@bsdimp.com> wrote:
-> On Thu, Jan 13, 2022 at 1:37 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->> > +    /*
->> > +     * FreeBSD signals are always queued.  Linux only queues real time signals.
->> > +     * XXX this code is not thread safe.  "What lock protects ts->sigtab?"
->> > +     */
->>
->> ts->sigtab shouldn't need a lock, because it is per-thread,
->> like all of TaskState. (The TaskState structure is pointed
->> to by the CPUState 'opaque' field. CPUStates are per-thread;
->> the TaskState for a new thread's new CPUState is allocated
->> and initialized as part of the emulating of whatever the
->> "create new thread" syscall is. For Linux this is in
->> do_fork() for the CLONE_VM case. The TaskState for the
->> initial thread is allocated in main.c.) We do need to deal
->> with the fact that ts->sigtab can be updated by a signal
->> handler (which always runs in the thread corresponding to
->> that guest CPU): the linux-user process_pending_signals()
->> has been written with that in mind.
+On Thu, 13 Jan 2022 16:32:49 +0100
+Sebastian Hasler <sebastian.hasler@stuvus.uni-stuttgart.de> wrote:
+
+> With the current implementation, blocking flock can lead to
+> deadlock. Thus, it's better to return EOPNOTSUPP if a user attempts
+> to perform a blocking flock request.
+>=20
+> Signed-off-by: Sebastian Hasler <sebastian.hasler@stuvus.uni-stuttgart.de=
 >
->
-> Gotcha. That makes sense. Any reason that atomics aren't used
-> for this between the different routines?
+> ---
 
-We use atomics in some places, eg the qatomic_read()/qatomic_set()
-of ts->signal_pending in process_pending_signals. We deal with
-some other races by blocking signals. sigtab's a cmplex
-data structure, so simply making accesses to its individual
-fields atomic isn't sufficient, and the more usual approach of
-taking a lock doesn't work when the thing being protected against
-is code running in a signal handler.
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-It's also quite possible that we missed some places
-where we should be being stricter about using the atomic
-accessors -- if you spot anything like that let us know.
+>  tools/virtiofsd/passthrough_ll.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>=20
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrou=
+gh_ll.c
+> index 64b5b4fbb1..faa62278c5 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -2442,6 +2442,15 @@ static void lo_flock(fuse_req_t req, fuse_ino_t in=
+o, struct fuse_file_info *fi,
+>      int res;
+>      (void)ino;
+> =20
+> +    if (!(op & LOCK_NB)) {
+> +        /*
+> +         * Blocking flock can deadlock as there is only one thread
+> +         * serving the queue.
+> +         */
+> +        fuse_reply_err(req, EOPNOTSUPP);
+> +        return;
+> +    }
+> +
+>      res =3D flock(lo_fi_fd(req, fi), op);
+> =20
+>      fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
 
-thanks
--- PMM
 
