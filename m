@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 145C5490B4F
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 16:22:16 +0100 (CET)
-Received: from localhost ([::1]:47864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F074A490B0F
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 16:04:48 +0100 (CET)
+Received: from localhost ([::1]:44844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9Tpn-0004iB-2s
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 10:22:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41058)
+	id 1n9TYt-0007mf-4n
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 10:04:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1n9SDL-0006en-Kt
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 08:38:28 -0500
-Received: from [2607:f8b0:4864:20::232] (port=45622
- helo=mail-oi1-x232.google.com)
+ id 1n9S61-0001Y9-1V
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 08:30:54 -0500
+Received: from [2607:f8b0:4864:20::102e] (port=33711
+ helo=mail-pj1-x102e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1n9SDJ-0002a4-7F
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 08:38:27 -0500
-Received: by mail-oi1-x232.google.com with SMTP id t9so23349316oie.12
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 05:38:23 -0800 (PST)
+ id 1n9S5p-0001AM-Gg
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 08:30:52 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id
+ g11-20020a17090a7d0b00b001b2c12c7273so10425384pjl.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 05:30:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=brainfault-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=E/kCm7OfSfvFhunsvzlwA7HQ30gJuUNMAar3JtatnQ4=;
- b=29Km1xYwERmOKWS1DkBefru9od1O7Dz0ZeCum4asQDasHqk1MloT4KffY6NYzyjw+A
- UK6X2Sk+bq8ztfR97+TRlkTZ67SIQxGt3qP53Etb6MySR1jJT9hPvrHue1rlrydqJPD7
- Yi4G7jqKaImeuA+pfD9zfEovpxfXdseO5RIxFsUxxu3dtn6WI4i+JuVTy4EHJwEmcUOw
- SZwUwWlFdwCEPGEKLW+X+9SuQksSWRZQQW6OJ+OyVIA9Uryj9vmzLQspyFR1ay5T53J8
- xNg5MxQ71YdJYxjPcuY4eSZjk804lGCa95G35u5zXJHPN4RxgZ8cO47lRQTnHc+CQBOD
- YDyw==
+ bh=0+v+tn6fSf0CxSp3HiUfvEiZNnLwgF0oy6XKKX69EWs=;
+ b=ZZqthHPKgfQlFb4dsucdw5KN4pV8YZA/Bogy//NHfmUVBm1bkolRu8jFMIVslPQJin
+ nKDn+HABBqqfiL/hiwBpGC5rOeFz3QOxkmoIiTCqQCC3kme/KxSU/K9kwEYqaIA7dnFd
+ nvHtUXXCVVGpqTK9BEN8lYjUEDtAnu0ztspKXgwk8nROcs029JVlYSqHg4AWmZgL5YBW
+ QC/qfB+wwDjowPVV9sH5zBwy9xvllRKaGPQx709FeJsxt5KDriVpi8bIMtKhGebRGOwy
+ AdotPlLj0VKEVybTRueAHHEgWo+sDAN5XkmAYV+18y2DpYHdMpn6c2oiAInJzNFkP+ZK
+ kpkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=E/kCm7OfSfvFhunsvzlwA7HQ30gJuUNMAar3JtatnQ4=;
- b=fU3vQHE8hhaUqDkuntOFlc6QLjgTH8MjzNcfgTy8EcdtyrmHV860L5Yxb/IJWVSWAP
- zFL9p0SN6RpPlEvPYcuPqe8lj+a5i19biX6EnaIzN+tWH4RqkYMgqu2wJPm3YzQWrw9P
- yuGwOtB5VkDHRJCMjb0qaieCXYAPXMFbUrXsPn5L+vi8t6C9QzX3XLMTaRsYZm+9NJ3U
- fy7PL6PWaTNm0wJxUbQ697WxhVNToimXi5LslFlqf1znDLvYh0u0Wib9hxWJSgZv3Inl
- r6MwvccOEeaGdOwlAi5Ov5GL/6deFqFNa7USVVYfR2UBSpRFGQ1WQgg8C2X4X8vOkoBK
- uwuA==
-X-Gm-Message-State: AOAM533hjk8VLs+sQmJr3uQOokr39y1u6pilqTuCIr8TW6dpQ7egMq6k
- fmwBYPWUcwStKlZ1bb6/Qd67csqMLezTLw==
-X-Google-Smtp-Source: ABdhPJwO4d/EUGW7+M70VJT1U07EEdpJlbc7wQKQDvU6UYSceEyZZXCn0XH5s91Q8l4WSVSRVVLqfw==
-X-Received: by 2002:a17:90a:f015:: with SMTP id
- bt21mr25139826pjb.3.1642426232566; 
- Mon, 17 Jan 2022 05:30:32 -0800 (PST)
+ bh=0+v+tn6fSf0CxSp3HiUfvEiZNnLwgF0oy6XKKX69EWs=;
+ b=2MReRsikzNUGGtUjixOu4a1xytNL87YoM1tHuebkTOt0oBve5NP/4WATrkCM1W92Mg
+ 7tycwmO6RMpBxeqFwPPvqal1Ea9cgm1OR0FWdAwNziABnkgpFh2lsrxaiHXgf0sNs8LQ
+ VaxlFOkg7fpk15z0xoIY1MlS7nXSzGCClZLSKu1Msrs3VkdhX2/UowD87C4BJ+XxLhYE
+ TwqplzuDw3nNVqB+gwclSMDonVi/ScFMZNoTGEKpam8RMLCpQeYqluXSUrS2p0KILShJ
+ 1iP/UQKPlJ2K+TTwRwqCLWd/yvIjaq9Qw2FDD76XultFg7Gb8HqNvuUEYyTWjcPIDugc
+ t3cg==
+X-Gm-Message-State: AOAM533y6xsTBe62tAVJZAK/4ShvZnZwmfPMv7dQlb4W5mHCOSBq/W4h
+ MmSALNY1uWcTfJTfhkb1N4lFjg==
+X-Google-Smtp-Source: ABdhPJybTcYYRAn+XOuacfYpkboHTIpPatS/XnDyEGLqlbifHXI4Ti1l1p29ryDBSpu2P3RMzrT6VQ==
+X-Received: by 2002:a17:90b:1bc9:: with SMTP id
+ oa9mr5625349pjb.47.1642426240116; 
+ Mon, 17 Jan 2022 05:30:40 -0800 (PST)
 Received: from localhost.localdomain ([122.179.70.109])
- by smtp.gmail.com with ESMTPSA id 7sm9532607pfm.25.2022.01.17.05.30.29
+ by smtp.gmail.com with ESMTPSA id 7sm9532607pfm.25.2022.01.17.05.30.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Jan 2022 05:30:31 -0800 (PST)
+ Mon, 17 Jan 2022 05:30:39 -0800 (PST)
 From: Anup Patel <anup@brainfault.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>
-Subject: [PATCH v7 19/23] hw/riscv: virt: Add optional AIA APLIC support to
+Subject: [PATCH v7 21/23] hw/riscv: virt: Add optional AIA IMSIC support to
  virt machine
-Date: Mon, 17 Jan 2022 18:58:22 +0530
-Message-Id: <20220117132826.426418-20-anup@brainfault.org>
+Date: Mon, 17 Jan 2022 18:58:24 +0530
+Message-Id: <20220117132826.426418-22-anup@brainfault.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220117132826.426418-1-anup@brainfault.org>
 References: <20220117132826.426418-1-anup@brainfault.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::232
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::232;
- envelope-from=anup@brainfault.org; helo=mail-oi1-x232.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=anup@brainfault.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -99,568 +100,753 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Anup Patel <anup.patel@wdc.com>
 
-We extend virt machine to emulate AIA APLIC devices only when
-"aia=aplic" parameter is passed along with machine name in QEMU
-command-line. When "aia=none" or not specified then we fallback
-to original PLIC device emulation.
+We extend virt machine to emulate both AIA IMSIC and AIA APLIC
+devices only when "aia=aplic-imsic" parameter is passed along
+with machine name in the QEMU command-line. The AIA IMSIC is
+only a per-HART MSI controller so we use AIA APLIC in MSI-mode
+to forward all wired interrupts as MSIs to the AIA IMSIC.
+
+We also provide "aia-guests=<xyz>" parameter which can be used
+to specify number of VS-level AIA IMSIC Guests MMIO pages for
+each HART.
 
 Signed-off-by: Anup Patel <anup.patel@wdc.com>
 Signed-off-by: Anup Patel <anup@brainfault.org>
 ---
  hw/riscv/Kconfig        |   1 +
- hw/riscv/virt.c         | 293 ++++++++++++++++++++++++++++++++--------
- include/hw/riscv/virt.h |  26 +++-
- 3 files changed, 260 insertions(+), 60 deletions(-)
+ hw/riscv/virt.c         | 434 ++++++++++++++++++++++++++++++++--------
+ include/hw/riscv/virt.h |  17 +-
+ 3 files changed, 368 insertions(+), 84 deletions(-)
 
 diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index d2d869aaad..c30bb7cb6c 100644
+index c30bb7cb6c..91bb9d21c4 100644
 --- a/hw/riscv/Kconfig
 +++ b/hw/riscv/Kconfig
-@@ -42,6 +42,7 @@ config RISCV_VIRT
-     select PFLASH_CFI01
+@@ -43,6 +43,7 @@ config RISCV_VIRT
      select SERIAL
      select RISCV_ACLINT
-+    select RISCV_APLIC
+     select RISCV_APLIC
++    select RISCV_IMSIC
      select SIFIVE_PLIC
      select SIFIVE_TEST
      select VIRTIO_MMIO
 diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 720641b1dd..45d85d274f 100644
+index 45d85d274f..73b2be7b60 100644
 --- a/hw/riscv/virt.c
 +++ b/hw/riscv/virt.c
-@@ -33,6 +33,7 @@
- #include "hw/riscv/boot.h"
+@@ -34,6 +34,7 @@
  #include "hw/riscv/numa.h"
  #include "hw/intc/riscv_aclint.h"
-+#include "hw/intc/riscv_aplic.h"
+ #include "hw/intc/riscv_aplic.h"
++#include "hw/intc/riscv_imsic.h"
  #include "hw/intc/sifive_plic.h"
  #include "hw/misc/sifive_test.h"
  #include "chardev/char.h"
-@@ -51,6 +52,8 @@ static const MemMapEntry virt_memmap[] = {
-     [VIRT_ACLINT_SSWI] = {  0x2F00000,        0x4000 },
-     [VIRT_PCIE_PIO] =    {  0x3000000,       0x10000 },
-     [VIRT_PLIC] =        {  0xc000000, VIRT_PLIC_SIZE(VIRT_CPUS_MAX * 2) },
-+    [VIRT_APLIC_M] =     {  0xc000000, APLIC_SIZE(VIRT_CPUS_MAX) },
-+    [VIRT_APLIC_S] =     {  0xd000000, APLIC_SIZE(VIRT_CPUS_MAX) },
-     [VIRT_UART0] =       { 0x10000000,         0x100 },
+@@ -43,6 +44,18 @@
+ #include "hw/pci-host/gpex.h"
+ #include "hw/display/ramfb.h"
+ 
++#define VIRT_IMSIC_GROUP_MAX_SIZE      (1U << IMSIC_MMIO_GROUP_MIN_SHIFT)
++#if VIRT_IMSIC_GROUP_MAX_SIZE < \
++    IMSIC_GROUP_SIZE(VIRT_CPUS_MAX_BITS, VIRT_IRQCHIP_MAX_GUESTS_BITS)
++#error "Can't accomodate single IMSIC group in address space"
++#endif
++
++#define VIRT_IMSIC_MAX_SIZE            (VIRT_SOCKETS_MAX * \
++                                        VIRT_IMSIC_GROUP_MAX_SIZE)
++#if 0x4000000 < VIRT_IMSIC_MAX_SIZE
++#error "Can't accomodate all IMSIC groups in address space"
++#endif
++
+ static const MemMapEntry virt_memmap[] = {
+     [VIRT_DEBUG] =       {        0x0,         0x100 },
+     [VIRT_MROM] =        {     0x1000,        0xf000 },
+@@ -58,6 +71,8 @@ static const MemMapEntry virt_memmap[] = {
      [VIRT_VIRTIO] =      { 0x10001000,        0x1000 },
      [VIRT_FW_CFG] =      { 0x10100000,          0x18 },
-@@ -132,12 +135,13 @@ static void virt_flash_map(RISCVVirtState *s,
-                     sysmem);
- }
- 
--static void create_pcie_irq_map(void *fdt, char *nodename,
--                                uint32_t plic_phandle)
-+static void create_pcie_irq_map(RISCVVirtState *s, void *fdt, char *nodename,
-+                                uint32_t irqchip_phandle)
+     [VIRT_FLASH] =       { 0x20000000,     0x4000000 },
++    [VIRT_IMSIC_M] =     { 0x24000000, VIRT_IMSIC_MAX_SIZE },
++    [VIRT_IMSIC_S] =     { 0x28000000, VIRT_IMSIC_MAX_SIZE },
+     [VIRT_PCIE_ECAM] =   { 0x30000000,    0x10000000 },
+     [VIRT_PCIE_MMIO] =   { 0x40000000,    0x40000000 },
+     [VIRT_DRAM] =        { 0x80000000,           0x0 },
+@@ -309,7 +324,7 @@ static void create_fdt_socket_aclint(RISCVVirtState *s,
  {
-     int pin, dev;
--    uint32_t
--        full_irq_map[GPEX_NUM_IRQS * GPEX_NUM_IRQS * FDT_INT_MAP_WIDTH] = {};
-+    uint32_t irq_map_stride = 0;
-+    uint32_t full_irq_map[GPEX_NUM_IRQS * GPEX_NUM_IRQS *
-+                          FDT_MAX_INT_MAP_WIDTH] = {};
-     uint32_t *irq_map = full_irq_map;
- 
-     /* This code creates a standard swizzle of interrupts such that
-@@ -155,23 +159,31 @@ static void create_pcie_irq_map(void *fdt, char *nodename,
-             int irq_nr = PCIE_IRQ + ((pin + PCI_SLOT(devfn)) % GPEX_NUM_IRQS);
-             int i = 0;
- 
-+            /* Fill PCI address cells */
-             irq_map[i] = cpu_to_be32(devfn << 8);
--
-             i += FDT_PCI_ADDR_CELLS;
--            irq_map[i] = cpu_to_be32(pin + 1);
- 
-+            /* Fill PCI Interrupt cells */
-+            irq_map[i] = cpu_to_be32(pin + 1);
-             i += FDT_PCI_INT_CELLS;
--            irq_map[i++] = cpu_to_be32(plic_phandle);
- 
--            i += FDT_PLIC_ADDR_CELLS;
--            irq_map[i] = cpu_to_be32(irq_nr);
--
--            irq_map += FDT_INT_MAP_WIDTH;
-+            /* Fill interrupt controller phandle and cells */
-+            irq_map[i++] = cpu_to_be32(irqchip_phandle);
-+            irq_map[i++] = cpu_to_be32(irq_nr);
-+            if (s->aia_type != VIRT_AIA_TYPE_NONE) {
-+                irq_map[i++] = cpu_to_be32(0x4);
-+            }
-+
-+            if (!irq_map_stride) {
-+                irq_map_stride = i;
-+            }
-+            irq_map += irq_map_stride;
-         }
+     int cpu;
+     char *name;
+-    unsigned long addr;
++    unsigned long addr, size;
+     uint32_t aclint_cells_size;
+     uint32_t *aclint_mswi_cells;
+     uint32_t *aclint_sswi_cells;
+@@ -330,29 +345,38 @@ static void create_fdt_socket_aclint(RISCVVirtState *s,
      }
+     aclint_cells_size = s->soc[socket].num_harts * sizeof(uint32_t) * 2;
  
--    qemu_fdt_setprop(fdt, nodename, "interrupt-map",
--                     full_irq_map, sizeof(full_irq_map));
-+    qemu_fdt_setprop(fdt, nodename, "interrupt-map", full_irq_map,
-+                     GPEX_NUM_IRQS * GPEX_NUM_IRQS *
-+                     irq_map_stride * sizeof(uint32_t));
+-    addr = memmap[VIRT_CLINT].base + (memmap[VIRT_CLINT].size * socket);
+-    name = g_strdup_printf("/soc/mswi@%lx", addr);
+-    qemu_fdt_add_subnode(mc->fdt, name);
+-    qemu_fdt_setprop_string(mc->fdt, name, "compatible", "riscv,aclint-mswi");
+-    qemu_fdt_setprop_cells(mc->fdt, name, "reg",
+-        0x0, addr, 0x0, RISCV_ACLINT_SWI_SIZE);
+-    qemu_fdt_setprop(mc->fdt, name, "interrupts-extended",
+-        aclint_mswi_cells, aclint_cells_size);
+-    qemu_fdt_setprop(mc->fdt, name, "interrupt-controller", NULL, 0);
+-    qemu_fdt_setprop_cell(mc->fdt, name, "#interrupt-cells", 0);
+-    riscv_socket_fdt_write_id(mc, mc->fdt, name, socket);
+-    g_free(name);
++    if (s->aia_type != VIRT_AIA_TYPE_APLIC_IMSIC) {
++        addr = memmap[VIRT_CLINT].base + (memmap[VIRT_CLINT].size * socket);
++        name = g_strdup_printf("/soc/mswi@%lx", addr);
++        qemu_fdt_add_subnode(mc->fdt, name);
++        qemu_fdt_setprop_string(mc->fdt, name, "compatible",
++            "riscv,aclint-mswi");
++        qemu_fdt_setprop_cells(mc->fdt, name, "reg",
++            0x0, addr, 0x0, RISCV_ACLINT_SWI_SIZE);
++        qemu_fdt_setprop(mc->fdt, name, "interrupts-extended",
++            aclint_mswi_cells, aclint_cells_size);
++        qemu_fdt_setprop(mc->fdt, name, "interrupt-controller", NULL, 0);
++        qemu_fdt_setprop_cell(mc->fdt, name, "#interrupt-cells", 0);
++        riscv_socket_fdt_write_id(mc, mc->fdt, name, socket);
++        g_free(name);
++    }
  
-     qemu_fdt_setprop_cells(fdt, nodename, "interrupt-map-mask",
-                            0x1800, 0, 0, 0x7);
-@@ -394,8 +406,6 @@ static void create_fdt_socket_plic(RISCVVirtState *s,
-     plic_addr = memmap[VIRT_PLIC].base + (memmap[VIRT_PLIC].size * socket);
-     plic_name = g_strdup_printf("/soc/plic@%lx", plic_addr);
-     qemu_fdt_add_subnode(mc->fdt, plic_name);
--    qemu_fdt_setprop_cell(mc->fdt, plic_name,
--        "#address-cells", FDT_PLIC_ADDR_CELLS);
-     qemu_fdt_setprop_cell(mc->fdt, plic_name,
-         "#interrupt-cells", FDT_PLIC_INT_CELLS);
-     qemu_fdt_setprop_string_array(mc->fdt, plic_name, "compatible",
-@@ -415,6 +425,76 @@ static void create_fdt_socket_plic(RISCVVirtState *s,
+-    addr = memmap[VIRT_CLINT].base + RISCV_ACLINT_SWI_SIZE +
+-        (memmap[VIRT_CLINT].size * socket);
++    if (s->aia_type == VIRT_AIA_TYPE_APLIC_IMSIC) {
++        addr = memmap[VIRT_CLINT].base +
++               (RISCV_ACLINT_DEFAULT_MTIMER_SIZE * socket);
++        size = RISCV_ACLINT_DEFAULT_MTIMER_SIZE;
++    } else {
++        addr = memmap[VIRT_CLINT].base + RISCV_ACLINT_SWI_SIZE +
++            (memmap[VIRT_CLINT].size * socket);
++        size = memmap[VIRT_CLINT].size - RISCV_ACLINT_SWI_SIZE;
++    }
+     name = g_strdup_printf("/soc/mtimer@%lx", addr);
+     qemu_fdt_add_subnode(mc->fdt, name);
+     qemu_fdt_setprop_string(mc->fdt, name, "compatible",
+         "riscv,aclint-mtimer");
+     qemu_fdt_setprop_cells(mc->fdt, name, "reg",
+         0x0, addr + RISCV_ACLINT_DEFAULT_MTIME,
+-        0x0, memmap[VIRT_CLINT].size - RISCV_ACLINT_SWI_SIZE -
+-             RISCV_ACLINT_DEFAULT_MTIME,
++        0x0, size - RISCV_ACLINT_DEFAULT_MTIME,
+         0x0, addr + RISCV_ACLINT_DEFAULT_MTIMECMP,
+         0x0, RISCV_ACLINT_DEFAULT_MTIME);
+     qemu_fdt_setprop(mc->fdt, name, "interrupts-extended",
+@@ -360,19 +384,22 @@ static void create_fdt_socket_aclint(RISCVVirtState *s,
+     riscv_socket_fdt_write_id(mc, mc->fdt, name, socket);
+     g_free(name);
+ 
+-    addr = memmap[VIRT_ACLINT_SSWI].base +
+-        (memmap[VIRT_ACLINT_SSWI].size * socket);
+-    name = g_strdup_printf("/soc/sswi@%lx", addr);
+-    qemu_fdt_add_subnode(mc->fdt, name);
+-    qemu_fdt_setprop_string(mc->fdt, name, "compatible", "riscv,aclint-sswi");
+-    qemu_fdt_setprop_cells(mc->fdt, name, "reg",
+-        0x0, addr, 0x0, memmap[VIRT_ACLINT_SSWI].size);
+-    qemu_fdt_setprop(mc->fdt, name, "interrupts-extended",
+-        aclint_sswi_cells, aclint_cells_size);
+-    qemu_fdt_setprop(mc->fdt, name, "interrupt-controller", NULL, 0);
+-    qemu_fdt_setprop_cell(mc->fdt, name, "#interrupt-cells", 0);
+-    riscv_socket_fdt_write_id(mc, mc->fdt, name, socket);
+-    g_free(name);
++    if (s->aia_type != VIRT_AIA_TYPE_APLIC_IMSIC) {
++        addr = memmap[VIRT_ACLINT_SSWI].base +
++            (memmap[VIRT_ACLINT_SSWI].size * socket);
++        name = g_strdup_printf("/soc/sswi@%lx", addr);
++        qemu_fdt_add_subnode(mc->fdt, name);
++        qemu_fdt_setprop_string(mc->fdt, name, "compatible",
++            "riscv,aclint-sswi");
++        qemu_fdt_setprop_cells(mc->fdt, name, "reg",
++            0x0, addr, 0x0, memmap[VIRT_ACLINT_SSWI].size);
++        qemu_fdt_setprop(mc->fdt, name, "interrupts-extended",
++            aclint_sswi_cells, aclint_cells_size);
++        qemu_fdt_setprop(mc->fdt, name, "interrupt-controller", NULL, 0);
++        qemu_fdt_setprop_cell(mc->fdt, name, "#interrupt-cells", 0);
++        riscv_socket_fdt_write_id(mc, mc->fdt, name, socket);
++        g_free(name);
++    }
+ 
+     g_free(aclint_mswi_cells);
+     g_free(aclint_mtimer_cells);
+@@ -425,10 +452,145 @@ static void create_fdt_socket_plic(RISCVVirtState *s,
      g_free(plic_cells);
  }
  
-+static void create_fdt_socket_aia(RISCVVirtState *s,
-+                                  const MemMapEntry *memmap, int socket,
-+                                  uint32_t *phandle, uint32_t *intc_phandles,
-+                                  uint32_t *aplic_phandles)
+-static void create_fdt_socket_aia(RISCVVirtState *s,
+-                                  const MemMapEntry *memmap, int socket,
+-                                  uint32_t *phandle, uint32_t *intc_phandles,
+-                                  uint32_t *aplic_phandles)
++static uint32_t imsic_num_bits(uint32_t count)
 +{
-+    int cpu;
-+    char *aplic_name;
-+    uint32_t *aplic_cells;
-+    unsigned long aplic_addr;
-+    MachineState *mc = MACHINE(s);
-+    uint32_t aplic_m_phandle, aplic_s_phandle;
++    uint32_t ret = 0;
 +
-+    aplic_m_phandle = (*phandle)++;
-+    aplic_s_phandle = (*phandle)++;
-+    aplic_cells = g_new0(uint32_t, s->soc[socket].num_harts * 2);
-+
-+    /* M-level APLIC node */
-+    for (cpu = 0; cpu < s->soc[socket].num_harts; cpu++) {
-+        aplic_cells[cpu * 2 + 0] = cpu_to_be32(intc_phandles[cpu]);
-+        aplic_cells[cpu * 2 + 1] = cpu_to_be32(IRQ_M_EXT);
++    while (BIT(ret) < count) {
++        ret++;
 +    }
-+    aplic_addr = memmap[VIRT_APLIC_M].base +
-+                 (memmap[VIRT_APLIC_M].size * socket);
-+    aplic_name = g_strdup_printf("/soc/aplic@%lx", aplic_addr);
-+    qemu_fdt_add_subnode(mc->fdt, aplic_name);
-+    qemu_fdt_setprop_string(mc->fdt, aplic_name, "compatible", "riscv,aplic");
-+    qemu_fdt_setprop_cell(mc->fdt, aplic_name,
-+        "#interrupt-cells", FDT_APLIC_INT_CELLS);
-+    qemu_fdt_setprop(mc->fdt, aplic_name, "interrupt-controller", NULL, 0);
-+    qemu_fdt_setprop(mc->fdt, aplic_name, "interrupts-extended",
-+        aplic_cells, s->soc[socket].num_harts * sizeof(uint32_t) * 2);
-+    qemu_fdt_setprop_cells(mc->fdt, aplic_name, "reg",
-+        0x0, aplic_addr, 0x0, memmap[VIRT_APLIC_M].size);
-+    qemu_fdt_setprop_cell(mc->fdt, aplic_name, "riscv,num-sources",
-+        VIRT_IRQCHIP_NUM_SOURCES);
-+    qemu_fdt_setprop_cell(mc->fdt, aplic_name, "riscv,children",
-+        aplic_s_phandle);
-+    qemu_fdt_setprop_cells(mc->fdt, aplic_name, "riscv,delegate",
-+        aplic_s_phandle, 0x1, VIRT_IRQCHIP_NUM_SOURCES);
-+    riscv_socket_fdt_write_id(mc, mc->fdt, aplic_name, socket);
-+    qemu_fdt_setprop_cell(mc->fdt, aplic_name, "phandle", aplic_m_phandle);
-+    g_free(aplic_name);
-+
-+    /* S-level APLIC node */
-+    for (cpu = 0; cpu < s->soc[socket].num_harts; cpu++) {
-+        aplic_cells[cpu * 2 + 0] = cpu_to_be32(intc_phandles[cpu]);
-+        aplic_cells[cpu * 2 + 1] = cpu_to_be32(IRQ_S_EXT);
-+    }
-+    aplic_addr = memmap[VIRT_APLIC_S].base +
-+                 (memmap[VIRT_APLIC_S].size * socket);
-+    aplic_name = g_strdup_printf("/soc/aplic@%lx", aplic_addr);
-+    qemu_fdt_add_subnode(mc->fdt, aplic_name);
-+    qemu_fdt_setprop_string(mc->fdt, aplic_name, "compatible", "riscv,aplic");
-+    qemu_fdt_setprop_cell(mc->fdt, aplic_name,
-+        "#interrupt-cells", FDT_APLIC_INT_CELLS);
-+    qemu_fdt_setprop(mc->fdt, aplic_name, "interrupt-controller", NULL, 0);
-+    qemu_fdt_setprop(mc->fdt, aplic_name, "interrupts-extended",
-+        aplic_cells, s->soc[socket].num_harts * sizeof(uint32_t) * 2);
-+    qemu_fdt_setprop_cells(mc->fdt, aplic_name, "reg",
-+        0x0, aplic_addr, 0x0, memmap[VIRT_APLIC_S].size);
-+    qemu_fdt_setprop_cell(mc->fdt, aplic_name, "riscv,num-sources",
-+        VIRT_IRQCHIP_NUM_SOURCES);
-+    riscv_socket_fdt_write_id(mc, mc->fdt, aplic_name, socket);
-+    qemu_fdt_setprop_cell(mc->fdt, aplic_name, "phandle", aplic_s_phandle);
-+    g_free(aplic_name);
-+
-+    g_free(aplic_cells);
-+    aplic_phandles[socket] = aplic_s_phandle;
-+}
-+
- static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
-                                bool is_32_bit, uint32_t *phandle,
-                                uint32_t *irq_mmio_phandle,
-@@ -451,8 +531,13 @@ static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
-             create_fdt_socket_clint(s, memmap, socket, intc_phandles);
-         }
- 
--        create_fdt_socket_plic(s, memmap, socket, phandle,
--            intc_phandles, xplic_phandles);
-+        if (s->aia_type == VIRT_AIA_TYPE_NONE) {
-+            create_fdt_socket_plic(s, memmap, socket, phandle,
-+                intc_phandles, xplic_phandles);
-+        } else {
-+            create_fdt_socket_aia(s, memmap, socket, phandle,
-+                intc_phandles, xplic_phandles);
-+        }
- 
-         g_free(intc_phandles);
-         g_free(clust_name);
-@@ -493,7 +578,13 @@ static void create_fdt_virtio(RISCVVirtState *s, const MemMapEntry *memmap,
-             0x0, memmap[VIRT_VIRTIO].size);
-         qemu_fdt_setprop_cell(mc->fdt, name, "interrupt-parent",
-             irq_virtio_phandle);
--        qemu_fdt_setprop_cell(mc->fdt, name, "interrupts", VIRTIO_IRQ + i);
-+        if (s->aia_type == VIRT_AIA_TYPE_NONE) {
-+            qemu_fdt_setprop_cell(mc->fdt, name, "interrupts",
-+                                  VIRTIO_IRQ + i);
-+        } else {
-+            qemu_fdt_setprop_cells(mc->fdt, name, "interrupts",
-+                                   VIRTIO_IRQ + i, 0x4);
-+        }
-         g_free(name);
-     }
- }
-@@ -531,7 +622,7 @@ static void create_fdt_pcie(RISCVVirtState *s, const MemMapEntry *memmap,
-         2, virt_high_pcie_memmap.base,
-         2, virt_high_pcie_memmap.base, 2, virt_high_pcie_memmap.size);
- 
--    create_pcie_irq_map(mc->fdt, name, irq_pcie_phandle);
-+    create_pcie_irq_map(s, mc->fdt, name, irq_pcie_phandle);
-     g_free(name);
- }
- 
-@@ -590,7 +681,11 @@ static void create_fdt_uart(RISCVVirtState *s, const MemMapEntry *memmap,
-         0x0, memmap[VIRT_UART0].size);
-     qemu_fdt_setprop_cell(mc->fdt, name, "clock-frequency", 3686400);
-     qemu_fdt_setprop_cell(mc->fdt, name, "interrupt-parent", irq_mmio_phandle);
--    qemu_fdt_setprop_cell(mc->fdt, name, "interrupts", UART0_IRQ);
-+    if (s->aia_type == VIRT_AIA_TYPE_NONE) {
-+        qemu_fdt_setprop_cell(mc->fdt, name, "interrupts", UART0_IRQ);
-+    } else {
-+        qemu_fdt_setprop_cells(mc->fdt, name, "interrupts", UART0_IRQ, 0x4);
-+    }
- 
-     qemu_fdt_add_subnode(mc->fdt, "/chosen");
-     qemu_fdt_setprop_string(mc->fdt, "/chosen", "stdout-path", name);
-@@ -611,7 +706,11 @@ static void create_fdt_rtc(RISCVVirtState *s, const MemMapEntry *memmap,
-         0x0, memmap[VIRT_RTC].base, 0x0, memmap[VIRT_RTC].size);
-     qemu_fdt_setprop_cell(mc->fdt, name, "interrupt-parent",
-         irq_mmio_phandle);
--    qemu_fdt_setprop_cell(mc->fdt, name, "interrupts", RTC_IRQ);
-+    if (s->aia_type == VIRT_AIA_TYPE_NONE) {
-+        qemu_fdt_setprop_cell(mc->fdt, name, "interrupts", RTC_IRQ);
-+    } else {
-+        qemu_fdt_setprop_cells(mc->fdt, name, "interrupts", RTC_IRQ, 0x4);
-+    }
-     g_free(name);
- }
- 
-@@ -692,7 +791,7 @@ static inline DeviceState *gpex_pcie_init(MemoryRegion *sys_mem,
-                                           hwaddr high_mmio_base,
-                                           hwaddr high_mmio_size,
-                                           hwaddr pio_base,
--                                          DeviceState *plic)
-+                                          DeviceState *irqchip)
- {
-     DeviceState *dev;
-     MemoryRegion *ecam_alias, *ecam_reg;
-@@ -726,7 +825,7 @@ static inline DeviceState *gpex_pcie_init(MemoryRegion *sys_mem,
-     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 2, pio_base);
- 
-     for (i = 0; i < GPEX_NUM_IRQS; i++) {
--        irq = qdev_get_gpio_in(plic, PCIE_IRQ + i);
-+        irq = qdev_get_gpio_in(irqchip, PCIE_IRQ + i);
- 
-         sysbus_connect_irq(SYS_BUS_DEVICE(dev), i, irq);
-         gpex_set_irq_num(GPEX_HOST(dev), i, PCIE_IRQ + i);
-@@ -757,18 +856,75 @@ static FWCfgState *create_fw_cfg(const MachineState *mc)
-     return fw_cfg;
- }
- 
-+static DeviceState *virt_create_plic(const MemMapEntry *memmap, int socket,
-+                                     int base_hartid, int hart_count)
-+{
-+    DeviceState *ret;
-+    char *plic_hart_config;
-+
-+    /* Per-socket PLIC hart topology configuration string */
-+    plic_hart_config = riscv_plic_hart_config_string(hart_count);
-+
-+    /* Per-socket PLIC */
-+    ret = sifive_plic_create(
-+            memmap[VIRT_PLIC].base + socket * memmap[VIRT_PLIC].size,
-+            plic_hart_config, hart_count, base_hartid,
-+            VIRT_IRQCHIP_NUM_SOURCES,
-+            ((1U << VIRT_IRQCHIP_NUM_PRIO_BITS) - 1),
-+            VIRT_PLIC_PRIORITY_BASE,
-+            VIRT_PLIC_PENDING_BASE,
-+            VIRT_PLIC_ENABLE_BASE,
-+            VIRT_PLIC_ENABLE_STRIDE,
-+            VIRT_PLIC_CONTEXT_BASE,
-+            VIRT_PLIC_CONTEXT_STRIDE,
-+            memmap[VIRT_PLIC].size);
-+
-+    g_free(plic_hart_config);
 +
 +    return ret;
 +}
 +
-+static DeviceState *virt_create_aia(RISCVVirtAIAType aia_type,
-+                                    const MemMapEntry *memmap, int socket,
-+                                    int base_hartid, int hart_count)
++static void create_fdt_imsic(RISCVVirtState *s, const MemMapEntry *memmap,
++                             uint32_t *phandle, uint32_t *intc_phandles,
++                             uint32_t *msi_m_phandle, uint32_t *msi_s_phandle)
 +{
-+    DeviceState *aplic_m;
++    int cpu, socket;
++    char *imsic_name;
++    MachineState *mc = MACHINE(s);
++    uint32_t imsic_max_hart_per_socket, imsic_guest_bits;
++    uint32_t *imsic_cells, *imsic_regs, imsic_addr, imsic_size;
 +
-+    /* Per-socket M-level APLIC */
-+    aplic_m = riscv_aplic_create(
-+        memmap[VIRT_APLIC_M].base + socket * memmap[VIRT_APLIC_M].size,
-+        memmap[VIRT_APLIC_M].size,
-+        base_hartid, hart_count,
-+        VIRT_IRQCHIP_NUM_SOURCES,
-+        VIRT_IRQCHIP_NUM_PRIO_BITS,
-+        false, true, NULL);
++    *msi_m_phandle = (*phandle)++;
++    *msi_s_phandle = (*phandle)++;
++    imsic_cells = g_new0(uint32_t, mc->smp.cpus * 2);
++    imsic_regs = g_new0(uint32_t, riscv_socket_count(mc) * 4);
 +
-+    if (aplic_m) {
-+        /* Per-socket S-level APLIC */
-+        riscv_aplic_create(
-+            memmap[VIRT_APLIC_S].base + socket * memmap[VIRT_APLIC_S].size,
-+            memmap[VIRT_APLIC_S].size,
-+            base_hartid, hart_count,
-+            VIRT_IRQCHIP_NUM_SOURCES,
-+            VIRT_IRQCHIP_NUM_PRIO_BITS,
-+            false, false, aplic_m);
++    /* M-level IMSIC node */
++    for (cpu = 0; cpu < mc->smp.cpus; cpu++) {
++        imsic_cells[cpu * 2 + 0] = cpu_to_be32(intc_phandles[cpu]);
++        imsic_cells[cpu * 2 + 1] = cpu_to_be32(IRQ_M_EXT);
 +    }
++    imsic_max_hart_per_socket = 0;
++    for (socket = 0; socket < riscv_socket_count(mc); socket++) {
++        imsic_addr = memmap[VIRT_IMSIC_M].base +
++                     socket * VIRT_IMSIC_GROUP_MAX_SIZE;
++        imsic_size = IMSIC_HART_SIZE(0) * s->soc[socket].num_harts;
++        imsic_regs[socket * 4 + 0] = 0;
++        imsic_regs[socket * 4 + 1] = cpu_to_be32(imsic_addr);
++        imsic_regs[socket * 4 + 2] = 0;
++        imsic_regs[socket * 4 + 3] = cpu_to_be32(imsic_size);
++        if (imsic_max_hart_per_socket < s->soc[socket].num_harts) {
++            imsic_max_hart_per_socket = s->soc[socket].num_harts;
++        }
++    }
++    imsic_name = g_strdup_printf("/soc/imsics@%lx",
++        memmap[VIRT_IMSIC_M].base);
++    qemu_fdt_add_subnode(mc->fdt, imsic_name);
++    qemu_fdt_setprop_string(mc->fdt, imsic_name, "compatible",
++        "riscv,imsics");
++    qemu_fdt_setprop_cell(mc->fdt, imsic_name, "#interrupt-cells",
++        FDT_IMSIC_INT_CELLS);
++    qemu_fdt_setprop(mc->fdt, imsic_name, "interrupt-controller",
++        NULL, 0);
++    qemu_fdt_setprop(mc->fdt, imsic_name, "msi-controller",
++        NULL, 0);
++    qemu_fdt_setprop(mc->fdt, imsic_name, "interrupts-extended",
++        imsic_cells, mc->smp.cpus * sizeof(uint32_t) * 2);
++    qemu_fdt_setprop(mc->fdt, imsic_name, "reg", imsic_regs,
++        riscv_socket_count(mc) * sizeof(uint32_t) * 4);
++    qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,num-ids",
++        VIRT_IRQCHIP_NUM_MSIS);
++    qemu_fdt_setprop_cells(mc->fdt, imsic_name, "riscv,ipi-id",
++        VIRT_IRQCHIP_IPI_MSI);
++    if (riscv_socket_count(mc) > 1) {
++        qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,hart-index-bits",
++            imsic_num_bits(imsic_max_hart_per_socket));
++        qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,group-index-bits",
++            imsic_num_bits(riscv_socket_count(mc)));
++        qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,group-index-shift",
++            IMSIC_MMIO_GROUP_MIN_SHIFT);
++    }
++    qemu_fdt_setprop_cell(mc->fdt, imsic_name, "phandle", *msi_m_phandle);
++    g_free(imsic_name);
 +
-+    return aplic_m;
++    /* S-level IMSIC node */
++    for (cpu = 0; cpu < mc->smp.cpus; cpu++) {
++        imsic_cells[cpu * 2 + 0] = cpu_to_be32(intc_phandles[cpu]);
++        imsic_cells[cpu * 2 + 1] = cpu_to_be32(IRQ_S_EXT);
++    }
++    imsic_guest_bits = imsic_num_bits(s->aia_guests + 1);
++    imsic_max_hart_per_socket = 0;
++    for (socket = 0; socket < riscv_socket_count(mc); socket++) {
++        imsic_addr = memmap[VIRT_IMSIC_S].base +
++                     socket * VIRT_IMSIC_GROUP_MAX_SIZE;
++        imsic_size = IMSIC_HART_SIZE(imsic_guest_bits) *
++                     s->soc[socket].num_harts;
++        imsic_regs[socket * 4 + 0] = 0;
++        imsic_regs[socket * 4 + 1] = cpu_to_be32(imsic_addr);
++        imsic_regs[socket * 4 + 2] = 0;
++        imsic_regs[socket * 4 + 3] = cpu_to_be32(imsic_size);
++        if (imsic_max_hart_per_socket < s->soc[socket].num_harts) {
++            imsic_max_hart_per_socket = s->soc[socket].num_harts;
++        }
++    }
++    imsic_name = g_strdup_printf("/soc/imsics@%lx",
++        memmap[VIRT_IMSIC_S].base);
++    qemu_fdt_add_subnode(mc->fdt, imsic_name);
++    qemu_fdt_setprop_string(mc->fdt, imsic_name, "compatible",
++        "riscv,imsics");
++    qemu_fdt_setprop_cell(mc->fdt, imsic_name, "#interrupt-cells",
++        FDT_IMSIC_INT_CELLS);
++    qemu_fdt_setprop(mc->fdt, imsic_name, "interrupt-controller",
++        NULL, 0);
++    qemu_fdt_setprop(mc->fdt, imsic_name, "msi-controller",
++        NULL, 0);
++    qemu_fdt_setprop(mc->fdt, imsic_name, "interrupts-extended",
++        imsic_cells, mc->smp.cpus * sizeof(uint32_t) * 2);
++    qemu_fdt_setprop(mc->fdt, imsic_name, "reg", imsic_regs,
++        riscv_socket_count(mc) * sizeof(uint32_t) * 4);
++    qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,num-ids",
++        VIRT_IRQCHIP_NUM_MSIS);
++    qemu_fdt_setprop_cells(mc->fdt, imsic_name, "riscv,ipi-id",
++        VIRT_IRQCHIP_IPI_MSI);
++    if (imsic_guest_bits) {
++        qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,guest-index-bits",
++            imsic_guest_bits);
++    }
++    if (riscv_socket_count(mc) > 1) {
++        qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,hart-index-bits",
++            imsic_num_bits(imsic_max_hart_per_socket));
++        qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,group-index-bits",
++            imsic_num_bits(riscv_socket_count(mc)));
++        qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,group-index-shift",
++            IMSIC_MMIO_GROUP_MIN_SHIFT);
++    }
++    qemu_fdt_setprop_cell(mc->fdt, imsic_name, "phandle", *msi_s_phandle);
++    g_free(imsic_name);
++
++    g_free(imsic_regs);
++    g_free(imsic_cells);
 +}
 +
- static void virt_machine_init(MachineState *machine)
++static void create_fdt_socket_aplic(RISCVVirtState *s,
++                                    const MemMapEntry *memmap, int socket,
++                                    uint32_t msi_m_phandle,
++                                    uint32_t msi_s_phandle,
++                                    uint32_t *phandle,
++                                    uint32_t *intc_phandles,
++                                    uint32_t *aplic_phandles)
  {
-     const MemMapEntry *memmap = virt_memmap;
-     RISCVVirtState *s = RISCV_VIRT_MACHINE(machine);
-     MemoryRegion *system_memory = get_system_memory();
-     MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
--    char *plic_hart_config, *soc_name;
-+    char *soc_name;
-     target_ulong start_addr = memmap[VIRT_DRAM].base;
-     target_ulong firmware_end_addr, kernel_start_addr;
-     uint32_t fdt_load_addr;
-     uint64_t kernel_entry;
--    DeviceState *mmio_plic, *virtio_plic, *pcie_plic;
-+    DeviceState *mmio_irqchip, *virtio_irqchip, *pcie_irqchip;
-     int i, base_hartid, hart_count;
+     int cpu;
+     char *aplic_name;
+@@ -454,8 +616,13 @@ static void create_fdt_socket_aia(RISCVVirtState *s,
+     qemu_fdt_setprop_cell(mc->fdt, aplic_name,
+         "#interrupt-cells", FDT_APLIC_INT_CELLS);
+     qemu_fdt_setprop(mc->fdt, aplic_name, "interrupt-controller", NULL, 0);
+-    qemu_fdt_setprop(mc->fdt, aplic_name, "interrupts-extended",
+-        aplic_cells, s->soc[socket].num_harts * sizeof(uint32_t) * 2);
++    if (s->aia_type == VIRT_AIA_TYPE_APLIC) {
++        qemu_fdt_setprop(mc->fdt, aplic_name, "interrupts-extended",
++            aplic_cells, s->soc[socket].num_harts * sizeof(uint32_t) * 2);
++    } else {
++        qemu_fdt_setprop_cell(mc->fdt, aplic_name, "msi-parent",
++            msi_m_phandle);
++    }
+     qemu_fdt_setprop_cells(mc->fdt, aplic_name, "reg",
+         0x0, aplic_addr, 0x0, memmap[VIRT_APLIC_M].size);
+     qemu_fdt_setprop_cell(mc->fdt, aplic_name, "riscv,num-sources",
+@@ -481,8 +648,13 @@ static void create_fdt_socket_aia(RISCVVirtState *s,
+     qemu_fdt_setprop_cell(mc->fdt, aplic_name,
+         "#interrupt-cells", FDT_APLIC_INT_CELLS);
+     qemu_fdt_setprop(mc->fdt, aplic_name, "interrupt-controller", NULL, 0);
+-    qemu_fdt_setprop(mc->fdt, aplic_name, "interrupts-extended",
+-        aplic_cells, s->soc[socket].num_harts * sizeof(uint32_t) * 2);
++    if (s->aia_type == VIRT_AIA_TYPE_APLIC) {
++        qemu_fdt_setprop(mc->fdt, aplic_name, "interrupts-extended",
++            aplic_cells, s->soc[socket].num_harts * sizeof(uint32_t) * 2);
++    } else {
++        qemu_fdt_setprop_cell(mc->fdt, aplic_name, "msi-parent",
++            msi_s_phandle);
++    }
+     qemu_fdt_setprop_cells(mc->fdt, aplic_name, "reg",
+         0x0, aplic_addr, 0x0, memmap[VIRT_APLIC_S].size);
+     qemu_fdt_setprop_cell(mc->fdt, aplic_name, "riscv,num-sources",
+@@ -499,13 +671,14 @@ static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
+                                bool is_32_bit, uint32_t *phandle,
+                                uint32_t *irq_mmio_phandle,
+                                uint32_t *irq_pcie_phandle,
+-                               uint32_t *irq_virtio_phandle)
++                               uint32_t *irq_virtio_phandle,
++                               uint32_t *msi_pcie_phandle)
+ {
+-    int socket;
+     char *clust_name;
+-    uint32_t *intc_phandles;
++    int socket, phandle_pos;
+     MachineState *mc = MACHINE(s);
+-    uint32_t xplic_phandles[MAX_NODES];
++    uint32_t msi_m_phandle = 0, msi_s_phandle = 0;
++    uint32_t *intc_phandles, xplic_phandles[MAX_NODES];
  
-     /* Check socket count limit */
-@@ -779,7 +935,7 @@ static void virt_machine_init(MachineState *machine)
-     }
+     qemu_fdt_add_subnode(mc->fdt, "/cpus");
+     qemu_fdt_setprop_cell(mc->fdt, "/cpus", "timebase-frequency",
+@@ -514,35 +687,53 @@ static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
+     qemu_fdt_setprop_cell(mc->fdt, "/cpus", "#address-cells", 0x1);
+     qemu_fdt_add_subnode(mc->fdt, "/cpus/cpu-map");
  
-     /* Initialize sockets */
--    mmio_plic = virtio_plic = pcie_plic = NULL;
-+    mmio_irqchip = virtio_irqchip = pcie_irqchip = NULL;
-     for (i = 0; i < riscv_socket_count(machine); i++) {
-         if (!riscv_socket_check_hartids(machine, i)) {
-             error_report("discontinuous hartids in socket%d", i);
-@@ -829,36 +985,27 @@ static void virt_machine_init(MachineState *machine)
-                 base_hartid, hart_count, true);
-         }
++    intc_phandles = g_new0(uint32_t, mc->smp.cpus);
++
++    phandle_pos = mc->smp.cpus;
+     for (socket = (riscv_socket_count(mc) - 1); socket >= 0; socket--) {
++        phandle_pos -= s->soc[socket].num_harts;
++
+         clust_name = g_strdup_printf("/cpus/cpu-map/cluster%d", socket);
+         qemu_fdt_add_subnode(mc->fdt, clust_name);
  
--        /* Per-socket PLIC hart topology configuration string */
--        plic_hart_config = riscv_plic_hart_config_string(hart_count);
+-        intc_phandles = g_new0(uint32_t, s->soc[socket].num_harts);
 -
--        /* Per-socket PLIC */
--        s->plic[i] = sifive_plic_create(
--            memmap[VIRT_PLIC].base + i * memmap[VIRT_PLIC].size,
--            plic_hart_config, hart_count, base_hartid,
--            VIRT_PLIC_NUM_SOURCES,
--            VIRT_PLIC_NUM_PRIORITIES,
--            VIRT_PLIC_PRIORITY_BASE,
--            VIRT_PLIC_PENDING_BASE,
--            VIRT_PLIC_ENABLE_BASE,
--            VIRT_PLIC_ENABLE_STRIDE,
--            VIRT_PLIC_CONTEXT_BASE,
--            VIRT_PLIC_CONTEXT_STRIDE,
--            memmap[VIRT_PLIC].size);
--        g_free(plic_hart_config);
-+        /* Per-socket interrupt controller */
-+        if (s->aia_type == VIRT_AIA_TYPE_NONE) {
-+            s->irqchip[i] = virt_create_plic(memmap, i,
-+                                             base_hartid, hart_count);
-+        } else {
-+            s->irqchip[i] = virt_create_aia(s->aia_type, memmap, i,
-+                                            base_hartid, hart_count);
+         create_fdt_socket_cpus(s, socket, clust_name, phandle,
+-            is_32_bit, intc_phandles);
++            is_32_bit, &intc_phandles[phandle_pos]);
+ 
+         create_fdt_socket_memory(s, memmap, socket);
+ 
++        g_free(clust_name);
++
+         if (s->have_aclint) {
+-            create_fdt_socket_aclint(s, memmap, socket, intc_phandles);
++            create_fdt_socket_aclint(s, memmap, socket,
++                &intc_phandles[phandle_pos]);
+         } else {
+-            create_fdt_socket_clint(s, memmap, socket, intc_phandles);
++            create_fdt_socket_clint(s, memmap, socket,
++                &intc_phandles[phandle_pos]);
+         }
++    }
++
++    if (s->aia_type == VIRT_AIA_TYPE_APLIC_IMSIC) {
++        create_fdt_imsic(s, memmap, phandle, intc_phandles,
++            &msi_m_phandle, &msi_s_phandle);
++        *msi_pcie_phandle = msi_s_phandle;
++    }
++
++    phandle_pos = mc->smp.cpus;
++    for (socket = (riscv_socket_count(mc) - 1); socket >= 0; socket--) {
++        phandle_pos -= s->soc[socket].num_harts;
+ 
+         if (s->aia_type == VIRT_AIA_TYPE_NONE) {
+             create_fdt_socket_plic(s, memmap, socket, phandle,
+-                intc_phandles, xplic_phandles);
++                &intc_phandles[phandle_pos], xplic_phandles);
+         } else {
+-            create_fdt_socket_aia(s, memmap, socket, phandle,
+-                intc_phandles, xplic_phandles);
++            create_fdt_socket_aplic(s, memmap, socket,
++                msi_m_phandle, msi_s_phandle, phandle,
++                &intc_phandles[phandle_pos], xplic_phandles);
+         }
+-
+-        g_free(intc_phandles);
+-        g_free(clust_name);
+     }
+ 
++    g_free(intc_phandles);
++
+     for (socket = 0; socket < riscv_socket_count(mc); socket++) {
+         if (socket == 0) {
+             *irq_mmio_phandle = xplic_phandles[socket];
+@@ -590,7 +781,8 @@ static void create_fdt_virtio(RISCVVirtState *s, const MemMapEntry *memmap,
+ }
+ 
+ static void create_fdt_pcie(RISCVVirtState *s, const MemMapEntry *memmap,
+-                            uint32_t irq_pcie_phandle)
++                            uint32_t irq_pcie_phandle,
++                            uint32_t msi_pcie_phandle)
+ {
+     char *name;
+     MachineState *mc = MACHINE(s);
+@@ -610,6 +802,9 @@ static void create_fdt_pcie(RISCVVirtState *s, const MemMapEntry *memmap,
+     qemu_fdt_setprop_cells(mc->fdt, name, "bus-range", 0,
+         memmap[VIRT_PCIE_ECAM].size / PCIE_MMCFG_SIZE_MIN - 1);
+     qemu_fdt_setprop(mc->fdt, name, "dma-coherent", NULL, 0);
++    if (s->aia_type == VIRT_AIA_TYPE_APLIC_IMSIC) {
++        qemu_fdt_setprop_cell(mc->fdt, name, "msi-parent", msi_pcie_phandle);
++    }
+     qemu_fdt_setprop_cells(mc->fdt, name, "reg", 0,
+         memmap[VIRT_PCIE_ECAM].base, 0, memmap[VIRT_PCIE_ECAM].size);
+     qemu_fdt_setprop_sized_cells(mc->fdt, name, "ranges",
+@@ -735,7 +930,7 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
+                        uint64_t mem_size, const char *cmdline, bool is_32_bit)
+ {
+     MachineState *mc = MACHINE(s);
+-    uint32_t phandle = 1, irq_mmio_phandle = 1;
++    uint32_t phandle = 1, irq_mmio_phandle = 1, msi_pcie_phandle = 1;
+     uint32_t irq_pcie_phandle = 1, irq_virtio_phandle = 1;
+ 
+     if (mc->dtb) {
+@@ -765,11 +960,12 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
+     qemu_fdt_setprop_cell(mc->fdt, "/soc", "#address-cells", 0x2);
+ 
+     create_fdt_sockets(s, memmap, is_32_bit, &phandle,
+-        &irq_mmio_phandle, &irq_pcie_phandle, &irq_virtio_phandle);
++        &irq_mmio_phandle, &irq_pcie_phandle, &irq_virtio_phandle,
++        &msi_pcie_phandle);
+ 
+     create_fdt_virtio(s, memmap, irq_virtio_phandle);
+ 
+-    create_fdt_pcie(s, memmap, irq_pcie_phandle);
++    create_fdt_pcie(s, memmap, irq_pcie_phandle, msi_pcie_phandle);
+ 
+     create_fdt_reset(s, memmap, &phandle);
+ 
+@@ -884,30 +1080,55 @@ static DeviceState *virt_create_plic(const MemMapEntry *memmap, int socket,
+     return ret;
+ }
+ 
+-static DeviceState *virt_create_aia(RISCVVirtAIAType aia_type,
++static DeviceState *virt_create_aia(RISCVVirtAIAType aia_type, int aia_guests,
+                                     const MemMapEntry *memmap, int socket,
+                                     int base_hartid, int hart_count)
+ {
++    int i;
++    hwaddr addr;
++    uint32_t guest_bits;
+     DeviceState *aplic_m;
++    bool msimode = (aia_type == VIRT_AIA_TYPE_APLIC_IMSIC) ? true : false;
++
++    if (msimode) {
++        /* Per-socket M-level IMSICs */
++        addr = memmap[VIRT_IMSIC_M].base + socket * VIRT_IMSIC_GROUP_MAX_SIZE;
++        for (i = 0; i < hart_count; i++) {
++            riscv_imsic_create(addr + i * IMSIC_HART_SIZE(0),
++                               base_hartid + i, true, 1,
++                               VIRT_IRQCHIP_NUM_MSIS);
 +        }
++
++        /* Per-socket S-level IMSICs */
++        guest_bits = imsic_num_bits(aia_guests + 1);
++        addr = memmap[VIRT_IMSIC_S].base + socket * VIRT_IMSIC_GROUP_MAX_SIZE;
++        for (i = 0; i < hart_count; i++) {
++            riscv_imsic_create(addr + i * IMSIC_HART_SIZE(guest_bits),
++                               base_hartid + i, false, 1 + aia_guests,
++                               VIRT_IRQCHIP_NUM_MSIS);
++        }
++    }
  
--        /* Try to use different PLIC instance based device type */
-+        /* Try to use different IRQCHIP instance based device type */
-         if (i == 0) {
--            mmio_plic = s->plic[i];
--            virtio_plic = s->plic[i];
--            pcie_plic = s->plic[i];
-+            mmio_irqchip = s->irqchip[i];
-+            virtio_irqchip = s->irqchip[i];
-+            pcie_irqchip = s->irqchip[i];
-         }
-         if (i == 1) {
--            virtio_plic = s->plic[i];
--            pcie_plic = s->plic[i];
-+            virtio_irqchip = s->irqchip[i];
-+            pcie_irqchip = s->irqchip[i];
-         }
-         if (i == 2) {
--            pcie_plic = s->plic[i];
-+            pcie_irqchip = s->irqchip[i];
-         }
+     /* Per-socket M-level APLIC */
+     aplic_m = riscv_aplic_create(
+         memmap[VIRT_APLIC_M].base + socket * memmap[VIRT_APLIC_M].size,
+         memmap[VIRT_APLIC_M].size,
+-        base_hartid, hart_count,
++        (msimode) ? 0 : base_hartid,
++        (msimode) ? 0 : hart_count,
+         VIRT_IRQCHIP_NUM_SOURCES,
+         VIRT_IRQCHIP_NUM_PRIO_BITS,
+-        false, true, NULL);
++        msimode, true, NULL);
+ 
+     if (aplic_m) {
+         /* Per-socket S-level APLIC */
+         riscv_aplic_create(
+             memmap[VIRT_APLIC_S].base + socket * memmap[VIRT_APLIC_S].size,
+             memmap[VIRT_APLIC_S].size,
+-            base_hartid, hart_count,
++            (msimode) ? 0 : base_hartid,
++            (msimode) ? 0 : hart_count,
+             VIRT_IRQCHIP_NUM_SOURCES,
+             VIRT_IRQCHIP_NUM_PRIO_BITS,
+-            false, false, aplic_m);
++            msimode, false, aplic_m);
      }
  
-@@ -957,7 +1104,7 @@ static void virt_machine_init(MachineState *machine)
-     for (i = 0; i < VIRTIO_COUNT; i++) {
-         sysbus_create_simple("virtio-mmio",
-             memmap[VIRT_VIRTIO].base + i * memmap[VIRT_VIRTIO].size,
--            qdev_get_gpio_in(DEVICE(virtio_plic), VIRTIO_IRQ + i));
-+            qdev_get_gpio_in(DEVICE(virtio_irqchip), VIRTIO_IRQ + i));
-     }
+     return aplic_m;
+@@ -966,23 +1187,38 @@ static void virt_machine_init(MachineState *machine)
+                                 hart_count, &error_abort);
+         sysbus_realize(SYS_BUS_DEVICE(&s->soc[i]), &error_abort);
  
-     gpex_pcie_init(system_memory,
-@@ -968,14 +1115,14 @@ static void virt_machine_init(MachineState *machine)
-                    virt_high_pcie_memmap.base,
-                    virt_high_pcie_memmap.size,
-                    memmap[VIRT_PCIE_PIO].base,
--                   DEVICE(pcie_plic));
-+                   DEVICE(pcie_irqchip));
+-        /* Per-socket CLINT */
+-        riscv_aclint_swi_create(
+-            memmap[VIRT_CLINT].base + i * memmap[VIRT_CLINT].size,
+-            base_hartid, hart_count, false);
+-        riscv_aclint_mtimer_create(
+-            memmap[VIRT_CLINT].base + i * memmap[VIRT_CLINT].size +
+-                RISCV_ACLINT_SWI_SIZE,
+-            RISCV_ACLINT_DEFAULT_MTIMER_SIZE, base_hartid, hart_count,
+-            RISCV_ACLINT_DEFAULT_MTIMECMP, RISCV_ACLINT_DEFAULT_MTIME,
+-            RISCV_ACLINT_DEFAULT_TIMEBASE_FREQ, true);
+-
+-        /* Per-socket ACLINT SSWI */
+         if (s->have_aclint) {
++            if (s->aia_type == VIRT_AIA_TYPE_APLIC_IMSIC) {
++                /* Per-socket ACLINT MTIMER */
++                riscv_aclint_mtimer_create(memmap[VIRT_CLINT].base +
++                        i * RISCV_ACLINT_DEFAULT_MTIMER_SIZE,
++                    RISCV_ACLINT_DEFAULT_MTIMER_SIZE, base_hartid, hart_count,
++                    RISCV_ACLINT_DEFAULT_MTIMECMP, RISCV_ACLINT_DEFAULT_MTIME,
++                    RISCV_ACLINT_DEFAULT_TIMEBASE_FREQ, true);
++            } else {
++                /* Per-socket ACLINT MSWI, MTIMER, and SSWI */
++                riscv_aclint_swi_create(memmap[VIRT_CLINT].base +
++                        i * memmap[VIRT_CLINT].size,
++                    base_hartid, hart_count, false);
++                riscv_aclint_mtimer_create(memmap[VIRT_CLINT].base +
++                        i * memmap[VIRT_CLINT].size + RISCV_ACLINT_SWI_SIZE,
++                    RISCV_ACLINT_DEFAULT_MTIMER_SIZE, base_hartid, hart_count,
++                    RISCV_ACLINT_DEFAULT_MTIMECMP, RISCV_ACLINT_DEFAULT_MTIME,
++                    RISCV_ACLINT_DEFAULT_TIMEBASE_FREQ, true);
++                riscv_aclint_swi_create(memmap[VIRT_ACLINT_SSWI].base +
++                        i * memmap[VIRT_ACLINT_SSWI].size,
++                    base_hartid, hart_count, true);
++            }
++        } else {
++            /* Per-socket SiFive CLINT */
+             riscv_aclint_swi_create(
+-                memmap[VIRT_ACLINT_SSWI].base +
+-                    i * memmap[VIRT_ACLINT_SSWI].size,
+-                base_hartid, hart_count, true);
++                memmap[VIRT_CLINT].base + i * memmap[VIRT_CLINT].size,
++                base_hartid, hart_count, false);
++            riscv_aclint_mtimer_create(memmap[VIRT_CLINT].base +
++                    i * memmap[VIRT_CLINT].size + RISCV_ACLINT_SWI_SIZE,
++                RISCV_ACLINT_DEFAULT_MTIMER_SIZE, base_hartid, hart_count,
++                RISCV_ACLINT_DEFAULT_MTIMECMP, RISCV_ACLINT_DEFAULT_MTIME,
++                RISCV_ACLINT_DEFAULT_TIMEBASE_FREQ, true);
+         }
  
-     serial_mm_init(system_memory, memmap[VIRT_UART0].base,
--        0, qdev_get_gpio_in(DEVICE(mmio_plic), UART0_IRQ), 399193,
-+        0, qdev_get_gpio_in(DEVICE(mmio_irqchip), UART0_IRQ), 399193,
-         serial_hd(0), DEVICE_LITTLE_ENDIAN);
+         /* Per-socket interrupt controller */
+@@ -990,8 +1226,9 @@ static void virt_machine_init(MachineState *machine)
+             s->irqchip[i] = virt_create_plic(memmap, i,
+                                              base_hartid, hart_count);
+         } else {
+-            s->irqchip[i] = virt_create_aia(s->aia_type, memmap, i,
+-                                            base_hartid, hart_count);
++            s->irqchip[i] = virt_create_aia(s->aia_type, s->aia_guests,
++                                            memmap, i, base_hartid,
++                                            hart_count);
+         }
  
-     sysbus_create_simple("goldfish_rtc", memmap[VIRT_RTC].base,
--        qdev_get_gpio_in(DEVICE(mmio_plic), RTC_IRQ));
-+        qdev_get_gpio_in(DEVICE(mmio_irqchip), RTC_IRQ));
- 
-     virt_flash_create(s);
- 
-@@ -991,6 +1138,37 @@ static void virt_machine_instance_init(Object *obj)
+         /* Try to use different IRQCHIP instance based device type */
+@@ -1138,6 +1375,27 @@ static void virt_machine_instance_init(Object *obj)
  {
  }
  
-+static char *virt_get_aia(Object *obj, Error **errp)
++static char *virt_get_aia_guests(Object *obj, Error **errp)
 +{
 +    RISCVVirtState *s = RISCV_VIRT_MACHINE(obj);
-+    const char *val;
++    char val[32];
 +
-+    switch (s->aia_type) {
-+    case VIRT_AIA_TYPE_APLIC:
-+        val = "aplic";
-+        break;
-+    default:
-+        val = "none";
-+        break;
-+    };
-+
++    sprintf(val, "%d", s->aia_guests);
 +    return g_strdup(val);
 +}
 +
-+static void virt_set_aia(Object *obj, const char *val, Error **errp)
++static void virt_set_aia_guests(Object *obj, const char *val, Error **errp)
 +{
 +    RISCVVirtState *s = RISCV_VIRT_MACHINE(obj);
 +
-+    if (!strcmp(val, "none")) {
-+        s->aia_type = VIRT_AIA_TYPE_NONE;
-+    } else if (!strcmp(val, "aplic")) {
-+        s->aia_type = VIRT_AIA_TYPE_APLIC;
-+    } else {
-+        error_setg(errp, "Invalid AIA interrupt controller type");
-+        error_append_hint(errp, "Valid values are none, and aplic.\n");
++    s->aia_guests = atoi(val);
++    if (s->aia_guests < 0 || s->aia_guests > VIRT_IRQCHIP_MAX_GUESTS) {
++        error_setg(errp, "Invalid number of AIA IMSIC guests");
++        error_append_hint(errp, "Valid values be between 0 and %d.\n",
++                          VIRT_IRQCHIP_MAX_GUESTS);
 +    }
 +}
 +
- static bool virt_get_aclint(Object *obj, Error **errp)
+ static char *virt_get_aia(Object *obj, Error **errp)
  {
-     MachineState *ms = MACHINE(obj);
-@@ -1029,6 +1207,13 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-     object_class_property_set_description(oc, "aclint",
-                                           "Set on/off to enable/disable "
-                                           "emulating ACLINT devices");
+     RISCVVirtState *s = RISCV_VIRT_MACHINE(obj);
+@@ -1147,6 +1405,9 @@ static char *virt_get_aia(Object *obj, Error **errp)
+     case VIRT_AIA_TYPE_APLIC:
+         val = "aplic";
+         break;
++    case VIRT_AIA_TYPE_APLIC_IMSIC:
++        val = "aplic-imsic";
++        break;
+     default:
+         val = "none";
+         break;
+@@ -1163,9 +1424,12 @@ static void virt_set_aia(Object *obj, const char *val, Error **errp)
+         s->aia_type = VIRT_AIA_TYPE_NONE;
+     } else if (!strcmp(val, "aplic")) {
+         s->aia_type = VIRT_AIA_TYPE_APLIC;
++    } else if (!strcmp(val, "aplic-imsic")) {
++        s->aia_type = VIRT_AIA_TYPE_APLIC_IMSIC;
+     } else {
+         error_setg(errp, "Invalid AIA interrupt controller type");
+-        error_append_hint(errp, "Valid values are none, and aplic.\n");
++        error_append_hint(errp, "Valid values are none, aplic, and "
++                          "aplic-imsic.\n");
+     }
+ }
+ 
+@@ -1187,6 +1451,7 @@ static void virt_set_aclint(Object *obj, bool value, Error **errp)
+ 
+ static void virt_machine_class_init(ObjectClass *oc, void *data)
+ {
++    char str[128];
+     MachineClass *mc = MACHINE_CLASS(oc);
+ 
+     mc->desc = "RISC-V VirtIO board";
+@@ -1213,7 +1478,14 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+     object_class_property_set_description(oc, "aia",
+                                           "Set type of AIA interrupt "
+                                           "conttoller. Valid values are "
+-                                          "none, and aplic.");
++                                          "none, aplic, and aplic-imsic.");
 +
-+    object_class_property_add_str(oc, "aia", virt_get_aia,
-+                                  virt_set_aia);
-+    object_class_property_set_description(oc, "aia",
-+                                          "Set type of AIA interrupt "
-+                                          "conttoller. Valid values are "
-+                                          "none, and aplic.");
++    object_class_property_add_str(oc, "aia-guests",
++                                  virt_get_aia_guests,
++                                  virt_set_aia_guests);
++    sprintf(str, "Set number of guest MMIO pages for AIA IMSIC. Valid value "
++                 "should be between 0 and %d.", VIRT_IRQCHIP_MAX_GUESTS);
++    object_class_property_set_description(oc, "aia-guests", str);
  }
  
  static const TypeInfo virt_machine_typeinfo = {
 diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-index 6e9f61ccd9..4584042090 100644
+index 4584042090..7898c574af 100644
 --- a/include/hw/riscv/virt.h
 +++ b/include/hw/riscv/virt.h
-@@ -32,18 +32,24 @@ typedef struct RISCVVirtState RISCVVirtState;
- DECLARE_INSTANCE_CHECKER(RISCVVirtState, RISCV_VIRT_MACHINE,
-                          TYPE_RISCV_VIRT_MACHINE)
+@@ -24,8 +24,10 @@
+ #include "hw/block/flash.h"
+ #include "qom/object.h"
  
-+typedef enum RISCVVirtAIAType {
-+    VIRT_AIA_TYPE_NONE=0,
-+    VIRT_AIA_TYPE_APLIC,
-+} RISCVVirtAIAType;
-+
+-#define VIRT_CPUS_MAX 32
+-#define VIRT_SOCKETS_MAX 8
++#define VIRT_CPUS_MAX_BITS             3
++#define VIRT_CPUS_MAX                  (1 << VIRT_CPUS_MAX_BITS)
++#define VIRT_SOCKETS_MAX_BITS          2
++#define VIRT_SOCKETS_MAX               (1 << VIRT_SOCKETS_MAX_BITS)
+ 
+ #define TYPE_RISCV_VIRT_MACHINE MACHINE_TYPE_NAME("virt")
+ typedef struct RISCVVirtState RISCVVirtState;
+@@ -35,6 +37,7 @@ DECLARE_INSTANCE_CHECKER(RISCVVirtState, RISCV_VIRT_MACHINE,
+ typedef enum RISCVVirtAIAType {
+     VIRT_AIA_TYPE_NONE=0,
+     VIRT_AIA_TYPE_APLIC,
++    VIRT_AIA_TYPE_APLIC_IMSIC,
+ } RISCVVirtAIAType;
+ 
  struct RISCVVirtState {
-     /*< private >*/
-     MachineState parent;
- 
-     /*< public >*/
-     RISCVHartArrayState soc[VIRT_SOCKETS_MAX];
--    DeviceState *plic[VIRT_SOCKETS_MAX];
-+    DeviceState *irqchip[VIRT_SOCKETS_MAX];
-     PFlashCFI01 *flash[2];
-     FWCfgState *fw_cfg;
- 
+@@ -50,6 +53,7 @@ struct RISCVVirtState {
      int fdt_size;
      bool have_aclint;
-+    RISCVVirtAIAType aia_type;
+     RISCVVirtAIAType aia_type;
++    int aia_guests;
  };
  
  enum {
-@@ -54,6 +60,8 @@ enum {
-     VIRT_CLINT,
-     VIRT_ACLINT_SSWI,
-     VIRT_PLIC,
-+    VIRT_APLIC_M,
-+    VIRT_APLIC_S,
+@@ -65,6 +69,8 @@ enum {
      VIRT_UART0,
      VIRT_VIRTIO,
      VIRT_FW_CFG,
-@@ -73,8 +81,9 @@ enum {
++    VIRT_IMSIC_M,
++    VIRT_IMSIC_S,
+     VIRT_FLASH,
+     VIRT_DRAM,
+     VIRT_PCIE_MMIO,
+@@ -81,8 +87,12 @@ enum {
      VIRTIO_NDEV = 0x35 /* Arbitrary maximum number of interrupts */
  };
  
--#define VIRT_PLIC_NUM_SOURCES 127
--#define VIRT_PLIC_NUM_PRIORITIES 7
-+#define VIRT_IRQCHIP_NUM_SOURCES 127
-+#define VIRT_IRQCHIP_NUM_PRIO_BITS 3
-+
+-#define VIRT_IRQCHIP_NUM_SOURCES 127
++#define VIRT_IRQCHIP_IPI_MSI 1
++#define VIRT_IRQCHIP_NUM_MSIS 255
++#define VIRT_IRQCHIP_NUM_SOURCES VIRTIO_NDEV
+ #define VIRT_IRQCHIP_NUM_PRIO_BITS 3
++#define VIRT_IRQCHIP_MAX_GUESTS_BITS 3
++#define VIRT_IRQCHIP_MAX_GUESTS ((1U << VIRT_IRQCHIP_MAX_GUESTS_BITS) - 1U)
+ 
  #define VIRT_PLIC_PRIORITY_BASE 0x04
  #define VIRT_PLIC_PENDING_BASE 0x1000
- #define VIRT_PLIC_ENABLE_BASE 0x2000
-@@ -86,9 +95,14 @@ enum {
- 
- #define FDT_PCI_ADDR_CELLS    3
+@@ -97,6 +107,7 @@ enum {
  #define FDT_PCI_INT_CELLS     1
--#define FDT_PLIC_ADDR_CELLS   0
  #define FDT_PLIC_INT_CELLS    1
--#define FDT_INT_MAP_WIDTH     (FDT_PCI_ADDR_CELLS + FDT_PCI_INT_CELLS + 1 + \
--                               FDT_PLIC_ADDR_CELLS + FDT_PLIC_INT_CELLS)
-+#define FDT_APLIC_INT_CELLS   2
-+#define FDT_MAX_INT_CELLS     2
-+#define FDT_MAX_INT_MAP_WIDTH (FDT_PCI_ADDR_CELLS + FDT_PCI_INT_CELLS + \
-+                                 1 + FDT_MAX_INT_CELLS)
-+#define FDT_PLIC_INT_MAP_WIDTH  (FDT_PCI_ADDR_CELLS + FDT_PCI_INT_CELLS + \
-+                                 1 + FDT_PLIC_INT_CELLS)
-+#define FDT_APLIC_INT_MAP_WIDTH (FDT_PCI_ADDR_CELLS + FDT_PCI_INT_CELLS + \
-+                                 1 + FDT_APLIC_INT_CELLS)
- 
- #endif
+ #define FDT_APLIC_INT_CELLS   2
++#define FDT_IMSIC_INT_CELLS   0
+ #define FDT_MAX_INT_CELLS     2
+ #define FDT_MAX_INT_MAP_WIDTH (FDT_PCI_ADDR_CELLS + FDT_PCI_INT_CELLS + \
+                                  1 + FDT_MAX_INT_CELLS)
 -- 
 2.25.1
 
