@@ -2,86 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D18E14908B9
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 13:31:24 +0100 (CET)
-Received: from localhost ([::1]:54800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74BBB4908BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 13:31:47 +0100 (CET)
+Received: from localhost ([::1]:55280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9RAL-0005MB-4D
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 07:31:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55298)
+	id 1n9RAn-0005gy-Iw
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 07:31:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9R6m-0002dx-6i; Mon, 17 Jan 2022 07:27:36 -0500
-Received: from [2a00:1450:4864:20::32c] (port=50902
- helo=mail-wm1-x32c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9R6k-0007se-Az; Mon, 17 Jan 2022 07:27:35 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id w26so19974707wmi.0;
- Mon, 17 Jan 2022 04:27:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=GnX53MrZvincwz9JdkrvjmI09MWRx1r078gan7qeNjI=;
- b=koWFFzax93kXsPc2+nL86gOJV8HUj1Bd5Lbt7RFpUeYEuCk82bgvlTTrarWF9o6Xpw
- CI/TWRBQw2MIKD5RpxzjTvM+v3Mmo7u8YqIuItZpGp6RGFqXkSwWk5RBCk8QRBaD8WyX
- VBu47VGT5ZPoM3mgizxcNzTlJpFcQmi9Ct+0N8VCUB2o0WVjTqz7O1FpGVqC9SFi7VLa
- GBUN0FI1JDQT3sJQTlAHOTFAihs1D/S4D+YO+R5wh0fnBaOcRMo8jsattGaTW26Rv9/v
- HdiX5VvKWojoAN8ZhjE5vN1YsEB0319HCHIgLwDpTuDzm/Qp1AgVS5pxMK84hvjAVWMH
- bcNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=GnX53MrZvincwz9JdkrvjmI09MWRx1r078gan7qeNjI=;
- b=JVivt/2SX9nsJinm309EP/Sxi6+Te0JDNq4dTZwlX9yv/rT9fA1sqfvCdnftpkkkF4
- 2nyEcZO9dffVXLYonBRJ7HgOJs+9PFCCgvW5ovhmmYeh2BWlCdcDWloByWP+P+AcW0b5
- kYAEYk+PDpB1MJ7Iugcfgonc+KAGaTGYGvjDzIBRpODAJ0ztxuo0ia/1b0L7/lquxJlt
- iwFSD3dv8j/Yo0Z05XKbsueij5EpKpql8esEd7Ufde609UYALnrez1GT9axT3/wdes+h
- /gZ3wahDE3pWqYGLfv5QT/yTHBtIRfc0f1BpmTpboKlwuL6aFMIyjJn/mBUsp1DOxlwE
- JTpA==
-X-Gm-Message-State: AOAM533akva3VBHYXlrJvlAynN9NMExxZV3ZOoYhMtYyk9Q8PTjOAdVl
- U+7yw/ATJbAdFToDWhsxjhY=
-X-Google-Smtp-Source: ABdhPJz87um2sYJ6OvTM0/OvuPq/Y6Pabx25ClP+1GFk/rVn/hPvcO0awHGT1xCd/axZbJEwB+qx4w==
-X-Received: by 2002:a05:600c:154c:: with SMTP id
- f12mr24083041wmg.126.1642422452597; 
- Mon, 17 Jan 2022 04:27:32 -0800 (PST)
-Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id i11sm12892722wrn.59.2022.01.17.04.27.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jan 2022 04:27:32 -0800 (PST)
-Message-ID: <4918a992-3903-6b78-c43e-76a487b651f5@amsat.org>
-Date: Mon, 17 Jan 2022 13:27:31 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1n9R7F-0002pf-0b; Mon, 17 Jan 2022 07:28:05 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:65426
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1n9R7D-0007vK-3Y; Mon, 17 Jan 2022 07:28:04 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20HAXQcH011848; 
+ Mon, 17 Jan 2022 12:28:00 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dn6t2tcve-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Jan 2022 12:28:00 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20HCREjA007985;
+ Mon, 17 Jan 2022 12:27:59 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dn6t2tcuv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Jan 2022 12:27:59 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20HCD1Ap015563;
+ Mon, 17 Jan 2022 12:27:58 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma05fra.de.ibm.com with ESMTP id 3dknw8k17b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Jan 2022 12:27:58 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20HCRtic23003432
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 17 Jan 2022 12:27:55 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BD26FAE051;
+ Mon, 17 Jan 2022 12:27:55 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8A3DCAE04D;
+ Mon, 17 Jan 2022 12:27:55 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Mon, 17 Jan 2022 12:27:55 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.52.153])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 9C4AF22010B;
+ Mon, 17 Jan 2022 13:27:54 +0100 (CET)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH 0/3] ppc/pnv: Final refinements on PHB4s
+Date: Mon, 17 Jan 2022 13:27:50 +0100
+Message-Id: <20220117122753.1655504-1-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [RFC PATCH 3/6] hw/arm: wire-up memory from the Pico board and
- the SoC
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
-References: <20220110175104.2908956-1-alex.bennee@linaro.org>
- <20220110175104.2908956-4-alex.bennee@linaro.org>
-In-Reply-To: <20220110175104.2908956-4-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: KIunmfZWOQwe0Tu26xjYYjRgkUFletZo
+X-Proofpoint-GUID: 2D9aitCCJqeR2pAqmEVPa_tguzRogqPi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-17_05,2022-01-14_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxlogscore=626
+ suspectscore=0 bulkscore=0 malwarescore=0 impostorscore=0
+ priorityscore=1501 spamscore=0 mlxscore=0 phishscore=0 clxscore=1034
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201170077
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.32,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,56 +100,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 1/10/22 18:51, Alex Bennée wrote:
-> All the memory aside from the external flash is a feature of the SoC
-> itself. However the flash is part of the board and different RP2040
-> boards can choose to wire up different amounts of it.
-> 
-> For now add unimplemented devices for all the rp2040 peripheral
-> blocks. Before we can boot more of the ROM we will need to model at
-> least the SIO and CLOCKS blocks.
-> 
-> For now CPU#1 starts disabled as it needs a working CPUID register so
-> it can identify itself before sleeping.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  include/hw/arm/rp2040.h |   9 +++-
->  hw/arm/raspi_pico.c     |  20 +++++++
->  hw/arm/rp2040.c         | 113 ++++++++++++++++++++++++++++++++++++++--
->  3 files changed, 137 insertions(+), 5 deletions(-)
+Hello,
 
-> +static Property rp2040_soc_properties[] = {
-> +    DEFINE_PROP_LINK("memory", RP2040State, memory, TYPE_MEMORY_REGION,
-> +                     MemoryRegion *),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
->  static void rp2040_class_init(ObjectClass *oc, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(oc);
-> @@ -61,14 +167,13 @@ static void rp2040_class_init(ObjectClass *oc, void *data)
->  
->      bc->cpu_type = ARM_CPU_TYPE_NAME("cortex-m0");
->      dc->realize = rp2040_realize;
-> -    /* any props? */
-> +    device_class_set_props(dc, rp2040_soc_properties);
->  };
->  
->  static const TypeInfo rp2040_types[] = {
->      {
->          .name           = TYPE_RP2040,
-> -        /* .parent         = TYPE_SYS_BUS_DEVICE, */
-> -        .parent         = TYPE_DEVICE,
-> +        .parent         = TYPE_SYS_BUS_DEVICE,
->          .instance_size  = sizeof(RP2040State),
->          .instance_init  = rp2040_init,
->          .class_size     = sizeof(RP2040Class),
+These are the last little tweaks on PHB4 to prepare ground for PHB5.
 
-Squash that in patch #1 without any MemoryRegion property?
+Thanks,
+
+C.=20
+
+C=C3=A9dric Le Goater (3):
+  ppc/pnv: Move root port allocation under pnv_pec_default_phb_realize()
+  ppc/pnv: Add a 'rp_model' class attribute for the PHB4 PEC
+  ppc/pnv: Remove PHB4 version property
+
+ include/hw/pci-host/pnv_phb4.h |  1 +
+ hw/pci-host/pnv_phb4.c         | 16 +---------------
+ hw/pci-host/pnv_phb4_pec.c     |  9 ++++++---
+ 3 files changed, 8 insertions(+), 18 deletions(-)
+
+--=20
+2.31.1
+
 
