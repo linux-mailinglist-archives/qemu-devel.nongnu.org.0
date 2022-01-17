@@ -2,83 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A329490322
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 08:48:15 +0100 (CET)
-Received: from localhost ([::1]:34366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 380C8490318
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 08:47:13 +0100 (CET)
+Received: from localhost ([::1]:32780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9MkQ-0001x7-Aw
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 02:48:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51534)
+	id 1n9MjQ-0000qI-BL
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 02:47:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1n9MYM-0005SZ-EJ
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 02:35:53 -0500
-Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:52384)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n9MVK-0004Ri-8D
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 02:32:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51433)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1n9MYI-00035M-DS
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 02:35:46 -0500
-Received: from loganberry.canonical.com (loganberry.canonical.com
- [91.189.90.37])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 02AF83F868
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 07:35:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1642404929;
- bh=JlwhbJR3BbplFN/xBZoJSUeX9LqCtlMy0XMXafUcv9s=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=Vng3kB2btha+t1G5o9dvVFQLgXxt5ui8cBDq6U6tmTjzTDCXOkxGe4Osp3NhLsn4T
- N5V0dOgUFNEc7LIGqsqHIWElgNgMXj8G2j5TmcTsFOvHgdZTZoWqzSXneAt+4x9qGU
- /I58YPuSazYD97vL3otGmKYJzBxx8zUAeJl6CBXUVs07TNqoHbg4Jd8szYzggFInBV
- ZrZmtpAkCzb5vTFBSimKW03qKXfeNByocOVBhUMKqF8UDIhkwY57qjGq21e4xx4+uC
- UyTBg+8hKcsm9KVJgrl7l3kVdlZ2MsZupStKSUIijGcy96cknmOs2+hXBmubQF+jtq
- CWGeWPfq/7OMA==
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C8E282E8192
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 07:35:28 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n9MVG-0002g8-Eu
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 02:32:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642404753;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=92PqXdFYoPjk/EH7Y3ZQ1GkYzc6/Q6L4ckNNXJUPGr4=;
+ b=QRZFQqKgC64MkEU9ZcVnRUL1T9uV3eIxW58T5Z09DlJ7JJfJjJ89dRWsVX/yRQi7fzqNSz
+ Aa9Eoz/WkDBggeAvgPB7pJ79pFBk18qCahb7l3mhqukmt/ePKlaQqm/QsAIGw66hXTivhs
+ 4aQHNYCRKUm62zYWGxAuyJnoXGJGcVY=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-426-mGuFQLWAOriKOoZFyEJOqw-1; Mon, 17 Jan 2022 02:32:29 -0500
+X-MC-Unique: mGuFQLWAOriKOoZFyEJOqw-1
+Received: by mail-pg1-f197.google.com with SMTP id
+ r1-20020a639b01000000b0034243da71caso7190652pgd.7
+ for <qemu-devel@nongnu.org>; Sun, 16 Jan 2022 23:32:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=92PqXdFYoPjk/EH7Y3ZQ1GkYzc6/Q6L4ckNNXJUPGr4=;
+ b=idqN5mL7fxTWQ82ucscffLnMgQmK4QpqXadafFoJr9QoVr/vrXz2RMynaCXlBsaaPn
+ r4+MFWp0rHl4RJSTuVlcWWsxIjbwFoAvMUB2mbZetnuiAfW5FxROuvwAsWt2DjpE41tT
+ XMCdfGHlD3gNUivl6GLSlxy2KXbgijt5MzI8kRAcq5Dc7goR4EnU/MTKmqgRfSb9MWSM
+ ++TgYh5aGHvLJMkAeKBoMXL8nUTyH7DVeKE9ZliGKkH1eIBWMnau09shs5aafXMrRHpZ
+ viGzYUHxyoaS5z3QdIpOrgrh7i53+yliB/2PzXGEP4cTR9xE07v18Ca4Yz2mHr/41pkO
+ H1oQ==
+X-Gm-Message-State: AOAM530qyxmo1w8r+VcQ1b1jDY3i+uYSlyZmDpWCKRhvXn5VcIX/nUnG
+ tgb+hL3N/yWUXyKdZz1UR8Oqj1YxDKWN5cUDyZ1wCaFFOCFULT8Pv5pIdHkLYhY/pawHHbftwCv
+ /u2cdlzXkA6yF9eQ=
+X-Received: by 2002:a63:2ac2:: with SMTP id q185mr18299131pgq.25.1642404747893; 
+ Sun, 16 Jan 2022 23:32:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy0fP7hGQtNX7PlhAn9m/WfGqHOWrhWyT1oa06f5wigm6dQZ9w0UOkUyVb/tcVgJlJjGUsAQA==
+X-Received: by 2002:a63:2ac2:: with SMTP id q185mr18299101pgq.25.1642404747478; 
+ Sun, 16 Jan 2022 23:32:27 -0800 (PST)
+Received: from xz-m1.local ([191.101.132.74])
+ by smtp.gmail.com with ESMTPSA id s8sm13301548pfk.165.2022.01.16.23.32.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 16 Jan 2022 23:32:26 -0800 (PST)
+Date: Mon, 17 Jan 2022 15:32:20 +0800
+From: Peter Xu <peterx@redhat.com>
+To: huangy81@chinatelecom.cn
+Subject: Re: [PATCH v11 3/4] softmmu/dirtylimit: implement virtual CPU throttle
+Message-ID: <YeUbhC7MG32K9pxu@xz-m1.local>
+References: <cover.1641316375.git.huangy81@chinatelecom.cn>
+ <0381e32c2cc70613613aaa284b8e8c9760d6932f.1641316375.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 17 Jan 2022 07:30:06 -0000
-From: Tommy Thorn <1921664@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Expired; importance=Low; assignee=None; 
-X-Launchpad-Bug-Tags: apport-bug arm64 hirsute uec-images
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: danagoyette janitor paelzer th-huth tommy-ubuntuone
-X-Launchpad-Bug-Reporter: Tommy Thorn (tommy-ubuntuone)
-X-Launchpad-Bug-Modifier: Tommy Thorn (tommy-ubuntuone)
-References: <161698578843.25105.11508850027610231738.malonedeb@wampee.canonical.com>
-Message-Id: <164240460689.8042.6053232538412076136.malone@angus.internal>
-Subject: [Bug 1921664] Re: Coroutines are racy for risc64 emu on arm64 - crash
- on Assertion
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0072e2709f85567cc6c8d33e98acde9fcc09f491"; Instance="production"
-X-Launchpad-Hash: 89b06dfcd39212a0cc44c8944e4e28983ec889c0
-Received-SPF: pass client-ip=185.125.188.250;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <0381e32c2cc70613613aaa284b8e8c9760d6932f.1641316375.git.huangy81@chinatelecom.cn>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,184 +93,412 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1921664 <1921664@bugs.launchpad.net>
+Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No, as I described in great detail it has nothing to do with the attached d=
-evices.
-I just noticed that the bug was excused away
-as being do to the =E2=80=9Cslow=E2=80=9D RPi 4.  I=E2=80=99ll share that I=
- originally hit it
-on Apple=E2=80=99s M1 but as I expect my environment might be too unusual I=
- replicated
-it on RPi 4. I have since switched to building qemu from source so I don=E2=
-=80=99t know if
-it still happens.
+On Wed, Jan 05, 2022 at 01:14:08AM +0800, huangy81@chinatelecom.cn wrote:
+>  ##
+> +# @DirtyLimitInfo:
+> +#
+> +# Dirty page rate limit information of virtual CPU.
+> +#
+> +# @cpu-index: index of virtual CPU.
+> +#
+> +# @limit-rate: upper limit of dirty page rate for virtual CPU.
+> +#
+> +# @current-rate: current dirty page rate for virtual CPU.
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1921664
+Please consider spell out the unit too for all these dirty rate fields (MB/s).
 
-Title:
-  Coroutines are racy for risc64 emu on arm64 - crash on Assertion
+> +#
+> +# Since: 7.0
+> +#
+> +##
+> +{ 'struct': 'DirtyLimitInfo',
+> +  'data': { 'cpu-index': 'int',
+> +            'limit-rate': 'int64',
+> +            'current-rate': 'int64' } }
+> +
+> +##
+>  # @snapshot-save:
+>  #
+>  # Save a VM snapshot
+> diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
+> index a10ac6f..c9f5745 100644
+> --- a/softmmu/dirtylimit.c
+> +++ b/softmmu/dirtylimit.c
+> @@ -18,6 +18,26 @@
+>  #include "sysemu/dirtylimit.h"
+>  #include "exec/memory.h"
+>  #include "hw/boards.h"
+> +#include "sysemu/kvm.h"
+> +#include "trace.h"
+> +
+> +/*
+> + * Dirtylimit stop working if dirty page rate error
+> + * value less than DIRTYLIMIT_TOLERANCE_RANGE
+> + */
+> +#define DIRTYLIMIT_TOLERANCE_RANGE  25  /* MB/s */
+> +/*
+> + * Plus or minus vcpu sleep time linearly if dirty
+> + * page rate error value percentage over
+> + * DIRTYLIMIT_LINEAR_ADJUSTMENT_PCT.
+> + * Otherwise, plus or minus a fixed vcpu sleep time.
+> + */
+> +#define DIRTYLIMIT_LINEAR_ADJUSTMENT_PCT     50
+> +/*
+> + * Max vcpu sleep time percentage during a cycle
+> + * composed of dirty ring full and sleep time.
+> + */
+> +#define DIRTYLIMIT_THROTTLE_PCT_MAX 99
 
-Status in QEMU:
-  Expired
-Status in qemu package in Ubuntu:
-  Expired
+(Thanks for the enriched comments)
 
-Bug description:
-  Note: this could as well be "riscv64 on arm64" for being slow@slow and af=
-fect
-  other architectures as well.
+> +static inline void dirtylimit_vcpu_set_quota(int cpu_index,
+> +                                             uint64_t quota,
+> +                                             bool on)
+> +{
+> +    dirtylimit_state->states[cpu_index].quota = quota;
 
-  The following case triggers on a Raspberry Pi4 running with arm64 on
-  Ubuntu 21.04 [1][2]. It might trigger on other environments as well,
-  but that is what we have seen it so far.
+To be clear, we could move this line into the "(on)" if condition, then in !on
+case we reset it.
 
-     $ wget https://github.com/carlosedp/riscv-bringup/releases/download/v1=
-.0/UbuntuFocal-riscv64-QemuVM.tar.gz
-     $ tar xzf UbuntuFocal-riscv64-QemuVM.tar.gz
-     $ ./run_riscvVM.sh
-  (wait ~2 minutes)
-     [ OK ] Reached target Local File Systems (Pre).
-     [ OK ] Reached target Local File Systems.
-              Starting udev Kernel Device Manager...
-  qemu-system-riscv64: ../../util/qemu-coroutine-lock.c:57: qemu_co_queue_w=
-ait_impl: Assertion `qemu_in_coroutine()' failed.
+> +    if (on) {
+> +        if (!dirtylimit_vcpu_get_state(cpu_index)->enabled) {
+> +            dirtylimit_state->limited_nvcpu++;
+> +        }
+> +    } else {
+> +        if (dirtylimit_state->states[cpu_index].enabled) {
+> +            dirtylimit_state->limited_nvcpu--;
+> +        }
+> +    }
+> +
+> +    dirtylimit_state->states[cpu_index].enabled = on;
+> +}
+> +
+> +static inline int64_t dirtylimit_dirty_ring_full_time(uint64_t dirtyrate)
+> +{
+> +    static uint64_t max_dirtyrate;
+> +    uint32_t dirty_ring_size = kvm_dirty_ring_size();
+> +    uint64_t dirty_ring_size_meory_MB =
+> +        dirty_ring_size * TARGET_PAGE_SIZE >> 20;
+> +
+> +    if (max_dirtyrate < dirtyrate) {
+> +        max_dirtyrate = dirtyrate;
+> +    }
+> +
+> +    return dirty_ring_size_meory_MB * 1000000 / max_dirtyrate;
+> +}
+> +
+> +static inline bool dirtylimit_done(uint64_t quota,
+> +                                   uint64_t current)
+> +{
+> +    uint64_t min, max;
+> +
+> +    min = MIN(quota, current);
+> +    max = MAX(quota, current);
+> +
+> +    return ((max - min) <= DIRTYLIMIT_TOLERANCE_RANGE) ? true : false;
+> +}
+> +
+> +static inline bool
+> +dirtylimit_need_linear_adjustment(uint64_t quota,
+> +                                  uint64_t current)
+> +{
+> +    uint64_t min, max, pct;
+> +
+> +    min = MIN(quota, current);
+> +    max = MAX(quota, current);
+> +
+> +    pct = (max - min) * 100 / max;
+> +
+> +    return pct > DIRTYLIMIT_LINEAR_ADJUSTMENT_PCT;
+> +}
+> +
+> +static void dirtylimit_set_throttle(CPUState *cpu,
+> +                                    uint64_t quota,
+> +                                    uint64_t current)
+> +{
+> +    int64_t ring_full_time_us = 0;
+> +    uint64_t sleep_pct = 0;
+> +    uint64_t throttle_us = 0;
+> +
+> +    ring_full_time_us = dirtylimit_dirty_ring_full_time(current);
+> +
+> +    if (dirtylimit_need_linear_adjustment(quota, current)) {
+> +        if (quota < current) {
+> +            sleep_pct = (current - quota) * 100 / current;
+> +            throttle_us =
+> +                ring_full_time_us * sleep_pct / (double)(100 - sleep_pct);
+> +            cpu->throttle_us_per_full += throttle_us;
+> +        } else {
+> +            sleep_pct = (quota - current) * 100 / quota;
+> +            throttle_us =
+> +                ring_full_time_us * sleep_pct / (double)(100 - sleep_pct);
+> +            cpu->throttle_us_per_full -= throttle_us;
+> +        }
+> +
+> +        trace_dirtylimit_throttle_pct(cpu->cpu_index,
+> +                                      sleep_pct,
+> +                                      throttle_us);
+> +    } else {
+> +        if (quota < current) {
+> +            cpu->throttle_us_per_full += ring_full_time_us / 10;
+> +        } else {
+> +            cpu->throttle_us_per_full -= ring_full_time_us / 10;
+> +        }
+> +    }
+> +
+> +    cpu->throttle_us_per_full = MIN(cpu->throttle_us_per_full,
+> +        ring_full_time_us * DIRTYLIMIT_THROTTLE_PCT_MAX);
+> +
+> +    cpu->throttle_us_per_full = MAX(cpu->throttle_us_per_full, 0);
+> +}
 
-  This is often, but not 100% reproducible and the cases differ slightly we
-  see either of:
-  - qemu-system-riscv64: ../../util/qemu-coroutine-lock.c:57: qemu_co_queue=
-_wait_impl: Assertion `qemu_in_coroutine()' failed.
-  - qemu-system-riscv64: ../../block/aio_task.c:64: aio_task_pool_wait_one:=
- Assertion `qemu_coroutine_self() =3D=3D pool->main_co' failed.
+This algorithm seems works even worse than the previous version, could you have
+a look on what's wrong? 
 
-  Rebuilding working cases has shown to make them fail, as well as rebulding
-  (or even reinstalling) bad cases has made them work. Also the same builds=
- on
-  different arm64 CPUs behave differently. TL;DR: The full list of conditio=
-ns
-  influencing good/bad case here are not yet known.
+See how it fluctuates when I set a throttle of 300MB/s:
 
-  [1]: https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry=
--pi#1-overview
-  [2]: http://cdimage.ubuntu.com/daily-preinstalled/pending/hirsute-preinst=
-alled-desktop-arm64+raspi.img.xz
+(QMP) set-vcpu-dirty-limit dirty-rate=300
 
- =20
-  --- --- original report --- ---
+Dirty rate: 17622 (MB/s), duration: 1000 (ms), load: 100.00%
+Dirty rate: 17617 (MB/s), duration: 1000 (ms), load: 100.00%
+Dirty rate: 17611 (MB/s), duration: 1000 (ms), load: 100.00%
+Dirty rate: 13023 (MB/s), duration: 1153 (ms), load: 100.00%
+Dirty rate: 923 (MB/s), duration: 1000 (ms), load: 100.00%
+Dirty rate: 2853 (MB/s), duration: 1000 (ms), load: 100.00%
+Dirty rate: 1963 (MB/s), duration: 1040 (ms), load: 100.00%
+Dirty rate: 180 (MB/s), duration: 1006 (ms), load: 100.00%
+Dirty rate: 182 (MB/s), duration: 1007 (ms), load: 100.00%
+Dirty rate: 177 (MB/s), duration: 1005 (ms), load: 100.00%
+Dirty rate: 181 (MB/s), duration: 1007 (ms), load: 100.00%
+Dirty rate: 179 (MB/s), duration: 1006 (ms), load: 100.00%
+Dirty rate: 168 (MB/s), duration: 1005 (ms), load: 100.00%
+Dirty rate: 169 (MB/s), duration: 1006 (ms), load: 100.00%
+Dirty rate: 2717 (MB/s), duration: 1000 (ms), load: 100.00%
+Dirty rate: 2851 (MB/s), duration: 1000 (ms), load: 100.00%
+Dirty rate: 1773 (MB/s), duration: 1021 (ms), load: 100.00%
+Dirty rate: 177 (MB/s), duration: 1006 (ms), load: 100.00%
+Dirty rate: 179 (MB/s), duration: 1006 (ms), load: 100.00%
+Dirty rate: 175 (MB/s), duration: 1005 (ms), load: 100.00%
+Dirty rate: 1973 (MB/s), duration: 1000 (ms), load: 100.00%
+Dirty rate: 2878 (MB/s), duration: 1000 (ms), load: 100.00%
+Dirty rate: 1690 (MB/s), duration: 1022 (ms), load: 100.00%
+Dirty rate: 174 (MB/s), duration: 1005 (ms), load: 100.00%
+Dirty rate: 184 (MB/s), duration: 1006 (ms), load: 100.00%
 
-  I regularly run a RISC-V (RV64GC) QEMU VM, but an update a few days
-  ago broke it.  Now when I launch it, it hits an assertion:
+This is the tool I'm using:
 
-  OpenSBI v0.6
-  =C2=A0=C2=A0=C2=A0____                    _____ ____ _____
-  =C2=A0=C2=A0/ __ \                  / ____|  _ \_   _|
-  =C2=A0| |  | |_ __   ___ _ __ | (___ | |_) || |
-  =C2=A0| |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
-  =C2=A0| |__| | |_) |  __/ | | |____) | |_) || |_
-  =C2=A0=C2=A0\____/| .__/ \___|_| |_|_____/|____/_____|
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| |
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|_|
+https://github.com/xzpeter/mig_mon#memory-dirty
 
-  ...
-  Found /boot/extlinux/extlinux.conf
-  Retrieving file: /boot/extlinux/extlinux.conf
-  618 bytes read in 2 ms (301.8 KiB/s)
-  RISC-V Qemu Boot Options
-  1:      Linux kernel-5.5.0-dirty
-  2:      Linux kernel-5.5.0-dirty (recovery mode)
-  Enter choice: 1:        Linux kernel-5.5.0-dirty
-  Retrieving file: /boot/initrd.img-5.5.0-dirty
-  qemu-system-riscv64: ../../block/aio_task.c:64: aio_task_pool_wait_one: A=
-ssertion `qemu_coroutine_self() =3D=3D pool->main_co' failed.
-  ./run.sh: line 31:  1604 Aborted                 (core dumped) qemu-syste=
-m-riscv64 -machine virt -nographic -smp 8 -m 8G -bios fw_payload.bin -devic=
-e virtio-blk-devi
-  ce,drive=3Dhd0 -object rng-random,filename=3D/dev/urandom,id=3Drng0 -devi=
-ce virtio-rng-device,rng=3Drng0 -drive file=3Driscv64-UbuntuFocal-qemu.qcow=
-2,format=3Dqcow2,id=3Dhd0 -devi
-  ce virtio-net-device,netdev=3Dusernet -netdev user,id=3Dusernet,$ports
+Again, I won't ask for a good algorithm as the 1st version, but then I think
+it's nicer we have the simplest algorithm merged first, which should be very
+easy to verify.
 
-  Interestingly this doesn't happen on the AMD64 version of Ubuntu 21.04
-  (fully updated).
+> +
+> +static void dirtylimit_adjust_throttle(CPUState *cpu)
+> +{
+> +    uint64_t quota = 0;
+> +    uint64_t current = 0;
+> +    int cpu_index = cpu->cpu_index;
+> +
+> +    quota = dirtylimit_vcpu_get_state(cpu_index)->quota;
+> +    current = vcpu_dirty_rate_get(cpu_index);
+> +
+> +    if (current == 0 &&
+> +        dirtylimit_vcpu_get_state(cpu_index)->unmatched_cnt == 0) {
+> +        cpu->throttle_us_per_full = 0;
+> +        goto end;
+> +    } else if (++dirtylimit_vcpu_get_state(cpu_index)->unmatched_cnt
+> +               < 2) {
+> +        goto end;
+> +    } else if (dirtylimit_done(quota, current)) {
+> +        goto end;
+> +    } else {
+> +        dirtylimit_vcpu_get_state(cpu_index)->unmatched_cnt = 0;
+> +        dirtylimit_set_throttle(cpu, quota, current);
+> +    }
+> +end:
+> +    trace_dirtylimit_adjust_throttle(cpu_index,
+> +                                     quota, current,
+> +                                     cpu->throttle_us_per_full);
+> +    return;
+> +}
+> +
+> +static void *dirtylimit_thread(void *opaque)
+> +{
+> +    CPUState *cpu;
+> +
+> +    rcu_register_thread();
+> +
+> +    while (!qatomic_read(&dirtylimit_quit)) {
+> +        sleep(DIRTYLIMIT_CALC_TIME_MS / 1000);
 
-  Think you have everything already, but just in case:
+Sorry to have not mentioned this: I think we probably don't even need this
+dirtylimit thread.
 
-  $ lsb_release -rd
-  Description:    Ubuntu Hirsute Hippo (development branch)
-  Release:        21.04
+It'll be hard to make the "sleep" right here.. you could read two identical
+values from the dirty calc thread because the 1sec sleep is not accurate, so
+even after this sleep() the calc thread may not have provided the latest number
+yet.
 
-  $ uname -a
-  Linux minimacvm 5.11.0-11-generic #12-Ubuntu SMP Mon Mar 1 19:27:36 UTC 2=
-021 aarch64 aarch64 aarch64 GNU/Linux
-  (note this is a VM running on macOS/M1)
+It'll be much cleaner (and most importantly, accurate..) to me if we could make
+this a hook function being passed over to the vcpu_dirty_rate_stat_thread()
+thread, then after each vcpu_dirty_rate_stat_collect() we call the hook.
 
-  $ apt-cache policy qemu
-  qemu:
-  =C2=A0=C2=A0Installed: 1:5.2+dfsg-9ubuntu1
-  =C2=A0=C2=A0Candidate: 1:5.2+dfsg-9ubuntu1
-  =C2=A0=C2=A0Version table:
-  =C2=A0*** 1:5.2+dfsg-9ubuntu1 500
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0500 http://ports.ubuntu.c=
-om/ubuntu-ports hirsute/universe arm64 Packages
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0100 /var/lib/dpkg/status
+> +
+> +        dirtylimit_state_lock();
+> +
+> +        if (!dirtylimit_in_service()) {
+> +            dirtylimit_state_unlock();
+> +            break;
+> +        }
+> +
+> +        CPU_FOREACH(cpu) {
+> +            if (!dirtylimit_vcpu_get_state(cpu->cpu_index)->enabled) {
+> +                continue;
+> +            }
+> +            dirtylimit_adjust_throttle(cpu);
+> +        }
+> +        dirtylimit_state_unlock();
+> +    }
+> +
+> +    rcu_unregister_thread();
+> +
+> +    return NULL;
+> +}
+> +
+> +static void dirtylimit_thread_start(void)
+> +{
+> +    qatomic_set(&dirtylimit_quit, 0);
+> +    qemu_thread_create(&dirtylimit_thr,
+> +                       "dirtylimit",
+> +                       dirtylimit_thread,
+> +                       NULL,
+> +                       QEMU_THREAD_JOINABLE);
+> +}
+> +
+> +static void dirtylimit_thread_stop(void)
+> +{
+> +    qatomic_set(&dirtylimit_quit, 1);
+> +    qemu_mutex_unlock_iothread();
+> +    qemu_thread_join(&dirtylimit_thr);
+> +    qemu_mutex_lock_iothread();
+> +}
+> +
+> +void dirtylimit_set_vcpu(int cpu_index,
+> +                         uint64_t quota,
+> +                         bool enable)
+> +{
+> +    trace_dirtylimit_set_vcpu(cpu_index, quota);
+> +
+> +    if (enable) {
+> +        if (dirtylimit_in_service()) {
+> +            /* only set the vcpu dirty page rate limit */
+> +            dirtylimit_vcpu_set_quota(cpu_index, quota, true);
+> +            return;
+> +        }
+> +
+> +        /* initialize state when set dirtylimit first time */
+> +        dirtylimit_state_lock();
+> +        dirtylimit_state_initialize();
+> +        dirtylimit_vcpu_set_quota(cpu_index, quota, true);
+> +        dirtylimit_state_unlock();
+> +
+> +        dirtylimit_thread_start();
 
-  ProblemType: Bug
-  DistroRelease: Ubuntu 21.04
-  Package: qemu 1:5.2+dfsg-9ubuntu1
-  ProcVersionSignature: Ubuntu 5.11.0-11.12-generic 5.11.0
-  Uname: Linux 5.11.0-11-generic aarch64
-  ApportVersion: 2.20.11-0ubuntu61
-  Architecture: arm64
-  CasperMD5CheckResult: unknown
-  CurrentDmesg:
-  =C2=A0Error: command ['pkexec', 'dmesg'] failed with exit code 127: polki=
-t-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freed=
-esktop.PolicyKit1.Error.Failed: No session for cookie
-  =C2=A0Error executing command as another user: Not authorized
+Can we move dirtylimit global initializations out of dirtylimit_set_vcpu() too?
+We should always keep init/cleanup of dirty_rate_calc and dirtylimit together,
+because they should, imho.  We never enable one of them.
 
-  =C2=A0This incident has been reported.
-  Date: Mon Mar 29 02:33:25 2021
-  Dependencies:
+I commented similarly in previous version on this.
 
-  KvmCmdLine: COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
-  Lspci-vt:
-  =C2=A0-[0000:00]-+-00.0  Apple Inc. Device f020
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
--01.0  Red Hat, Inc. Virtio network device
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
--05.0  Red Hat, Inc. Virtio console
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
--06.0  Red Hat, Inc. Virtio block device
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0\=
--07.0  Red Hat, Inc. Virtio RNG
-  Lsusb: Error: command ['lsusb'] failed with exit code 1:
-  Lsusb-t:
+> +    } else {
+> +        if (!dirtylimit_in_service()) {
+> +            return;
+> +        }
+> +
+> +        dirtylimit_state_lock();
+> +        /* dirty page rate limit is not enabled */
+> +        if (!dirtylimit_vcpu_get_state(cpu_index)->enabled) {
+> +            dirtylimit_state_unlock();
+> +            return;
+> +        }
+> +
+> +        /* switch off vcpu dirty page rate limit */
+> +        dirtylimit_vcpu_set_quota(cpu_index, 0, false);
+> +        dirtylimit_state_unlock();
+> +
+> +        if (!dirtylimit_state->limited_nvcpu) {
+> +            dirtylimit_thread_stop();
+> +
+> +            dirtylimit_state_lock();
+> +            dirtylimit_state_finalize();
+> +            dirtylimit_state_unlock();
 
-  Lsusb-v: Error: command ['lsusb', '-v'] failed with exit code 1:
-  ProcEnviron:
-  =C2=A0TERM=3Dscreen
-  =C2=A0PATH=3D(custom, no user)
-  =C2=A0XDG_RUNTIME_DIR=3D<set>
-  =C2=A0LANG=3DC.UTF-8
-  =C2=A0SHELL=3D/bin/bash
-  ProcKernelCmdLine: console=3Dhvc0 root=3D/dev/vda
-  SourcePackage: qemu
-  UpgradeStatus: Upgraded to hirsute on 2020-12-30 (88 days ago)
-  acpidump:
-  =C2=A0Error: command ['pkexec', '/usr/share/apport/dump_acpi_tables.py'] =
-failed with exit code 127: polkit-agent-helper-1: error response to PolicyK=
-it daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session =
-for cookie
-  =C2=A0Error executing command as another user: Not authorized
+We don't need such a fine control of locking, IMHO.. it can be a very big lock
+just to serialize things..
 
-  =C2=A0This incident has been reported.
+IMHO it could be as simple as:
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1921664/+subscriptions
+void dirtylimit_set_vcpu(int cpu_index,
+                         uint64_t quota,
+                         bool enable)
+{
+    dirtylimit_vcpu_set_quota(cpu_index, quota, enable);
+    trace_dirtylimit_set_vcpu(cpu_index, quota);
+}
+
+void qmp_set_vcpu_dirty_limit(bool has_cpu_index,
+                              uint64_t cpu_index,
+                              uint64_t dirty_rate,
+                              Error **errp)
+{
+    if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
+        error_setg(errp, "dirty page limit feature requires KVM with"
+                   " accelerator property 'dirty-ring-size' set'");
+        return;
+    }
+
+    if (has_cpu_index && !dirtylimit_vcpu_index_valid(cpu_index)) {
+        error_setg(errp, "incorrect cpu index specified");
+        return;
+    }
+
+    dirtylimit_state_lock();
+
+    if (!dirtylimit_in_service()) {
+        /* TODO: we could have one helper to initialize all of them */
+        vcpu_dirty_rate_stat_initialize();
+        vcpu_dirty_rate_stat_start();
+        dirtylimit_state_initialize();
+        dirtylimit_vcpu_set_quota(cpu_index, quota, true);
+    }
+
+    if (has_cpu_index) {
+        dirtylimit_set_vcpu(cpu_index, dirty_rate, true);
+    } else {
+        dirtylimit_set_all(dirty_rate, true);
+    }
+
+    dirtylimit_state_unlock();
+}
+
+I didn't write the cleanup path, but it's the same: we should only cleanup all
+the global structs in cancel-vcpu-dirty-limit when we found there's zero vcpus
+in track, and it should be done once there.
+
+Thanks,
+
+-- 
+Peter Xu
 
 
