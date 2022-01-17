@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AF6D490C8C
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 17:34:54 +0100 (CET)
-Received: from localhost ([::1]:43184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6167490C85
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 17:30:41 +0100 (CET)
+Received: from localhost ([::1]:34302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9Uy5-0000wb-PT
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 11:34:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32836)
+	id 1n9Utw-0003N2-J0
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 11:30:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n9Uqc-0000dI-Ac
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 11:27:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21943)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n9UqW-000122-DF
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n9Uqa-0000ao-Q3
  for qemu-devel@nongnu.org; Mon, 17 Jan 2022 11:27:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49472)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n9UqW-00012O-Dd
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 11:27:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642436815;
+ s=mimecast20190719; t=1642436823;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=G4DB0TuvfMJwAgakxbv8Hk3vRzmHvjQV5TRpFV2qXTQ=;
- b=PhKX3UEnIg8RBBGt3MOYy3kpW5U5btn9WV1XAWMCZdBTpxK4fAOPGqbUHCa+TZbbdWK6pS
- YR+o7pv8JLwzAAhwlZnr3TMMplSrLqC6BxaAtnS+IHI0ck6qOE22VM73uRFKd3kXl2c2AS
- zU0hKFL/nlwTxf2ubsWHdAlUEdMFNKw=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RanLABclwS1rxfLdARyAScIv31MGF+bW4scJmZngNJQ=;
+ b=I5aaw7RuDceY3sZpONNOpeuE9a3quNscj2d/ZjNZRuLq04RGLs/7KLTw68R2RHgrvKwHup
+ B2N3ERHrFWki+dmuQaSptl5u8/wCmi2ffqM5vLsrpLoXYcAEVSpVfDWJhq2ZWaZ7zLW6CI
+ fPTdjMmsXsMQOMDvK3li538G+j6Kgc8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-338-bqJX1-aOP22tJVwVdKtX6A-1; Mon, 17 Jan 2022 11:26:53 -0500
-X-MC-Unique: bqJX1-aOP22tJVwVdKtX6A-1
+ us-mta-67-zWB-XJ_jMOaU7y7vjtsfQw-1; Mon, 17 Jan 2022 11:26:55 -0500
+X-MC-Unique: zWB-XJ_jMOaU7y7vjtsfQw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2035874980;
- Mon, 17 Jan 2022 16:26:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B3D31083F62;
+ Mon, 17 Jan 2022 16:26:54 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.131])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 96E755B93F;
- Mon, 17 Jan 2022 16:26:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AFF105B950;
+ Mon, 17 Jan 2022 16:26:53 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 0/2] block/io: Update BSC only if want_zero is true
-Date: Mon, 17 Jan 2022 17:26:47 +0100
-Message-Id: <20220117162649.193501-1-hreitz@redhat.com>
+Subject: [PATCH 1/2] block/io: Update BSC only if want_zero is true
+Date: Mon, 17 Jan 2022 17:26:48 +0100
+Message-Id: <20220117162649.193501-2-hreitz@redhat.com>
+In-Reply-To: <20220117162649.193501-1-hreitz@redhat.com>
+References: <20220117162649.193501-1-hreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -61,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,40 +82,40 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+We update the block-status cache whenever we get new information from a
+bdrv_co_block_status() call to the block driver.  However, if we have
+passed want_zero=false to that call, it may flag areas containing zeroes
+as data, and so we would update the block-status cache with wrong
+information.
 
-As reported by Nir
-(https://lists.nongnu.org/archive/html/qemu-block/2022-01/msg00292.html)
-there’s a problem with the block-status cache, namely that it is updated
-when want_zero is false, but we return the result later even when the
-caller now passes want_zero=true.  In the worst case, the
-want_zero=false call may have resulted in the cache containing an entry
-describing the whole image to contain data, and then all future requests
-will be served from that cache entry.
+Therefore, we should not update the cache with want_zero=false.
 
-There are a couple ways this could be fixed (e.g. one cache per
-want_zero mode, or storing want_zero in the cache and comparing it when
-the cached data is fetched), but I think the simplest way is to only
-store want_zero=true block-status results in the cache.  (This way, the
-cache will not work with want_zero=false, but the want_zero=true case is
-the one for which we introduced the cache in the first place.  I think
-want_zero=false generally is fast enough(tm), that’s why we introduced
-want_zero after all.)
+Reported-by: Nir Soffer <nsoffer@redhat.com>
+Fixes: 0bc329fbb009f8601cec23bf2bc48ead0c5a5fa2
+       ("block: block-status cache for data regions")
+Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+---
+ block/io.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Patch 1 is the fix, patch 2 a regression test.
-
-
-Hanna Reitz (2):
-  block/io: Update BSC only if want_zero is true
-  iotests/block-status-cache: New test
-
- block/io.c                                    |   6 +-
- tests/qemu-iotests/tests/block-status-cache   | 130 ++++++++++++++++++
- .../qemu-iotests/tests/block-status-cache.out |   5 +
- 3 files changed, 140 insertions(+), 1 deletion(-)
- create mode 100755 tests/qemu-iotests/tests/block-status-cache
- create mode 100644 tests/qemu-iotests/tests/block-status-cache.out
-
+diff --git a/block/io.c b/block/io.c
+index bb0a254def..4e4cb556c5 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -2497,8 +2497,12 @@ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
+              * non-protocol nodes, and then it is never used.  However, filling
+              * the cache requires an RCU update, so double check here to avoid
+              * such an update if possible.
++             *
++             * Check want_zero, because we only want to update the cache when we
++             * have accurate information about what is zero and what is data.
+              */
+-            if (ret == (BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID) &&
++            if (want_zero &&
++                ret == (BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID) &&
+                 QLIST_EMPTY(&bs->children))
+             {
+                 /*
 -- 
 2.33.1
 
