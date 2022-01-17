@@ -2,98 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 955F7491149
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 22:15:59 +0100 (CET)
-Received: from localhost ([::1]:39946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FD004911B1
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 23:23:56 +0100 (CET)
+Received: from localhost ([::1]:35926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9ZM6-0005Yv-6m
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 16:15:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36722)
+	id 1n9aPr-00028h-BY
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 17:23:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n9ZIw-0004cw-BY; Mon, 17 Jan 2022 16:12:42 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32644)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n9ZIu-0003j9-Ih; Mon, 17 Jan 2022 16:12:42 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20HJvOpT004120; 
- Mon, 17 Jan 2022 21:12:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=aG7CLHKqPXz5CSotHNV4wWijU8/z+ZhPCkZ85PtuAfE=;
- b=mUAbQEQi7QC98l8aTGbz/d4+yBMC0sFTsOq+fEN2+8HFGC9C3QP01hUqgRK81igVj1e4
- sF0PLwqup2DnmZeL1Ays9FznBRCdxFYDt3zftmnAHHFVzS12TLDB8mA3ToQSYT+tAm+0
- DshzTVFjSGsgm7+ZH+QXuFDqvlUsw0QKoNgGhCmx7gE8KQA5q8tyq0YxetBVSxwbO7m2
- 9hU//I4DLeAbo1i3k1D3prFaSvxormH4maN0D+e3U9KKas3bv15ajfirOC5+aj61piaR
- G0t9Epkfa0ZCOvMS205bw1nC5HZWvY7tKUgE31BtbYXwzMNLfYotxxnpuYxu0Cb6M5ib NQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dnf2qhcfk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Jan 2022 21:12:25 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20HKurRs024882;
- Mon, 17 Jan 2022 21:12:25 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dnf2qhcfb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Jan 2022 21:12:25 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20HL74we029978;
- Mon, 17 Jan 2022 21:12:24 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma03dal.us.ibm.com with ESMTP id 3dknwbdjw1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Jan 2022 21:12:24 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20HLCN3q12255494
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Jan 2022 21:12:23 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5ED09AE062;
- Mon, 17 Jan 2022 21:12:23 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9287AAE05F;
- Mon, 17 Jan 2022 21:12:22 +0000 (GMT)
-Received: from localhost (unknown [9.211.141.90])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
- Mon, 17 Jan 2022 21:12:22 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 1/8] target/ppc: 405: Add missing MSR bits to msr_mask
-In-Reply-To: <20220110181546.4131853-2-farosas@linux.ibm.com>
-References: <20220110181546.4131853-1-farosas@linux.ibm.com>
- <20220110181546.4131853-2-farosas@linux.ibm.com>
-Date: Mon, 17 Jan 2022 18:12:20 -0300
-Message-ID: <87iluivzgr.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n9aO3-0000ex-Io; Mon, 17 Jan 2022 17:22:03 -0500
+Received: from [2607:f8b0:4864:20::d32] (port=35794
+ helo=mail-io1-xd32.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n9aO2-0005Mt-0Q; Mon, 17 Jan 2022 17:22:03 -0500
+Received: by mail-io1-xd32.google.com with SMTP id p7so23347174iod.2;
+ Mon, 17 Jan 2022 14:22:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4CCOpjj5UNpY6MqvvKnRB1X2rgGYkj06zarT2Yr6uR4=;
+ b=HOYlSxQpZBQumT71Dz6kx5RD+UTWH2g+0OR000CyjqZDPkWp2Oir000x2h/C+4529b
+ fosa0Gt2coWnP/my8PpmLGdBdBthECoJsIMwZuheq0fa+ZHA9x5M1VVCLW2trArn74m3
+ GKTRB+GWfJUetiRPO67HgX574jAiuvlLz57r2MBRA1C3h2jBF0IiheLIGPlHrj78AoZQ
+ ZfqDsRSz6a/AUO8xo76ynDufWE/PyCogOfG8jnV+hASH4ByOHy1k3IzGn/tXcZXsRybP
+ ZD0MV2sH0JwouiWX39IFGis2zxx2YdpDdoSDtjF1m49cLBEKLiHrbtSQcB7LT/xnvqdw
+ THag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4CCOpjj5UNpY6MqvvKnRB1X2rgGYkj06zarT2Yr6uR4=;
+ b=ZTuZko+OfTLvrZUU5QPa7fRjH2IeCPxckeu3rI3wK82uTV87GwIOFcL4FU3WG8fu/x
+ xRFNXfmP4ozlbX8LzM2F2vzOArekCZOIDCfJBl0XPLdHy4LwXWG+na/kLCEdHQ+gvgSb
+ O2EsXRZo0gIk0yKbZbZS8ZRuecIPSAukNEuhJ/stbwXS6pWi+OyN2QGDGMkq/c2d3JSG
+ 15NuEt4KaMOLMLFO6UFRMLq4hH92dd9eQMpWBjkJNV4pnowPFuG7Thi45AmdOQ/PqtJA
+ oYAHSIOgCCln20pmMvjkodxeof3T5bQtHZX3FBOMTVqEypxXoWwljhLBf5LckjpS8j7G
+ LUSw==
+X-Gm-Message-State: AOAM531jKzyCb6xKqAPx+gwxsxUltM8PA5G9wyw4oq9H02+YxsMIX6xd
+ xNbbCIa5vA670K/2/LnpgRrdAD205D8li88XXhc=
+X-Google-Smtp-Source: ABdhPJyXkWPvkzZ+Dr32C3Rqv8oEjZGXvgV7VKmQruB6Wo4Wtzh0pKlgKNDtbVXbP9XIf4nJjP9eLoQM7bQCOJbe2+U=
+X-Received: by 2002:a02:a403:: with SMTP id c3mr10939805jal.318.1642458120102; 
+ Mon, 17 Jan 2022 14:22:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: tjd0GriRu23SHD1cAjWq1B-aZ6ONsPmJ
-X-Proofpoint-GUID: YvfleFVi8VI9Q6o8slpyiDAjxqCSSmQC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-17_07,2022-01-14_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- priorityscore=1501 suspectscore=0 mlxscore=0 bulkscore=0 phishscore=0
- malwarescore=0 lowpriorityscore=0 impostorscore=0 adultscore=0
- mlxlogscore=999 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2110150000 definitions=main-2201170132
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211229023348.12606-1-frank.chang@sifive.com>
+ <20211229023348.12606-3-frank.chang@sifive.com>
+In-Reply-To: <20211229023348.12606-3-frank.chang@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 18 Jan 2022 08:21:34 +1000
+Message-ID: <CAKmqyKPcN1MWxGBV3spurYBdD28nn71uDdMWFWTA5R9QdiQ9+Q@mail.gmail.com>
+Subject: Re: [PATCH 02/17] target/riscv: rvv-1.0: Add Zve64f support for
+ configuration insns
+To: Frank Chang <frank.chang@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d32
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,76 +80,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, richard.henderson@linaro.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fabiano Rosas <farosas@linux.ibm.com> writes:
-
-> Some bits described in the user manual are missing from msr_mask. Add
-> them.
+On Wed, Dec 29, 2021 at 12:36 PM <frank.chang@sifive.com> wrote:
 >
-> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+> From: Frank Chang <frank.chang@sifive.com>
+>
+> All Zve* extensions support the vector configuration instructions.
+>
+> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
->  target/ppc/cpu_init.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>  target/riscv/insn_trans/trans_rvv.c.inc | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 >
-> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index e30e86fe9d..a50ddaeaae 100644
-> --- a/target/ppc/cpu_init.c
-> +++ b/target/ppc/cpu_init.c
-> @@ -2535,15 +2535,19 @@ POWERPC_FAMILY(405)(ObjectClass *oc, void *data)
->                         PPC_MEM_SYNC | PPC_MEM_EIEIO |
->                         PPC_40x_TLB | PPC_MEM_TLBIA | PPC_MEM_TLBSYNC |
->                         PPC_4xx_COMMON | PPC_405_MAC | PPC_40x_EXCP;
-> -    pcc->msr_mask = (1ull << MSR_POW) |
-> +    pcc->msr_mask = (1ull << MSR_AP) |
-> +                    (1ull << MSR_POW) |
->                      (1ull << MSR_CE) |
->                      (1ull << MSR_EE) |
->                      (1ull << MSR_PR) |
->                      (1ull << MSR_FP) |
-> +                    (1ull << MSR_ME) |
->                      (1ull << MSR_DWE) |
->                      (1ull << MSR_DE) |
-> +                    (1ull << MSR_FE1) |
->                      (1ull << MSR_IR) |
->                      (1ull << MSR_DR);
-
-This patch brings an unexpected complication:
-
-MSR_AP here is not correct, it is defined as:
-
-#define MSR_AP   23 /* Access privilege state on 602 */
-
-That is bit 8. While MSR_AP in the 405 is bit 6. So I would need to
-introduce a new MSR_AP_405 defined as:
-
-#define MSR_AP_405   25 /* Auxiliar processor available on 405 */
-
-But 25 is the same as MSR_SPE, so it triggers this code in
-init_ppc_proc:
-
-    /* MSR bits & flags consistency checks */
-    if (env->msr_mask & (1 << 25)) {
-        switch (env->flags & (POWERPC_FLAG_SPE | POWERPC_FLAG_VRE)) {
-        case POWERPC_FLAG_SPE:
-        case POWERPC_FLAG_VRE:
-            break;
-        default:
-            fprintf(stderr, "PowerPC MSR definition inconsistency\n"
-                    "Should define POWERPC_FLAG_SPE or POWERPC_FLAG_VRE\n");
-            exit(1);
-        }
-     ...
-
-The commit that introduced that sanity check is 25ba3a6812 ("Remove
-synonymous in PowerPC MSR bits definitions..."), which sort of assumes
-that MSR bits will not have different purposes between any of the (now
-47) CPUs, while itself leaving other duplicated bits around.
-   
-So my idea is to drop this patch and only include the MSR_ME that is of
-practical effect at patch 6. I think going into the rabbit hole of
-disambiguating MSR bits falls out of the scope of the exception series.
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+> index 6c285c958b..5b47729a21 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -129,7 +129,8 @@ static bool do_vsetvl(DisasContext *s, int rd, int rs1, TCGv s2)
+>  {
+>      TCGv s1, dst;
+>
+> -    if (!require_rvv(s) || !has_ext(s, RVV)) {
+> +    if (!require_rvv(s) ||
+> +        !(has_ext(s, RVV) || s->ext_zve64f)) {
+>          return false;
+>      }
+>
+> @@ -164,7 +165,8 @@ static bool do_vsetivli(DisasContext *s, int rd, TCGv s1, TCGv s2)
+>  {
+>      TCGv dst;
+>
+> -    if (!require_rvv(s) || !has_ext(s, RVV)) {
+> +    if (!require_rvv(s) ||
+> +        !(has_ext(s, RVV) || s->ext_zve64f)) {
+>          return false;
+>      }
+>
+> --
+> 2.31.1
+>
+>
 
