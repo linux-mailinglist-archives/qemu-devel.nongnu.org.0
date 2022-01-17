@@ -2,141 +2,146 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 950F5490911
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 13:57:20 +0100 (CET)
-Received: from localhost ([::1]:40172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13AA1490957
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 14:19:30 +0100 (CET)
+Received: from localhost ([::1]:56234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9RZX-0007Qm-KP
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 07:57:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56932)
+	id 1n9Ruz-0003VS-5h
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 08:19:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nikita.lapshin@virtuozzo.com>)
- id 1n9RDi-0001qy-4L; Mon, 17 Jan 2022 07:34:46 -0500
-Received: from mail-db8eur05on2119.outbound.protection.outlook.com
- ([40.107.20.119]:62560 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
+ id 1n9RD0-0000oh-MS
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 07:34:04 -0500
+Received: from mail-bn7nam10on2047.outbound.protection.outlook.com
+ ([40.107.92.47]:62208 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nikita.lapshin@virtuozzo.com>)
- id 1n9RDc-0000ZO-5S; Mon, 17 Jan 2022 07:34:45 -0500
+ (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
+ id 1n9RCw-0000RO-P3
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 07:34:02 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Yv5BsdzhRNOf8z1/biJwEgKSpXwWUeQuiy/CUQjTDUwEjnSOroaKsEWbcgyGTgfF8yqvg90QBhpJVjD94g5jGBlKnpf571TqjnxpM/6HZkSIBRYem4Gh+a7HzZ15rpM8Rc7pASUw22hfJjR3WFwXKMbs/9lP+8Ima+eTJauaPIrPzqstWR1zeC/0SUZb7kGE6MROC7Q/3GQNPyze+/cMymAExOtRGJ7Cp3O8xQx4d/xRtnaJFj25qyvY0QrQLxwHwA2Ko1lmvou5mIlHkIjTUnLS7+d4tOixjnhkCw7sOmPNf51aNkuucL4HBtpd2qNso2MwZyCaZGIK8LKEnv9oOw==
+ b=EaPwx/Y+yjvlt3b6RYcEpMbSp5i1+P/Kk/SW0+Kc4hT90MeuIt96c9K3y4RiSGnBTV3u0hsGMmzSDulS8XFn89IGT3FOwggMYKBo1Ip9V9PoqTfIOf/Z+vbp3rG9Z8dSJSx/9L6lLFGJCQ8yEKmXZ4G6xpL1q1MiqgnZE/hbZmgzCI1j9RmEsm45s2K88tDu0zyYOwXTcaDkkbGGTTTGkpnjV5BY5UI65X8KRwlAGmWMMdFcSmnqgrpL4e6EYiQt/2zl6yg01BCOyDuQiEKGeTI6tEdeFQNgRZdoLu0XeVH5ViFm1jUIDwMrKKrcgOsLoca8rJLuc6RraQCAx/BC4w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UVwbaISIxslh89zRwVMGn5lFWjDFKrr7OTCB9msl5lI=;
- b=dgA/BHAaZ+CJtpnoZ8rfkDQxN3Se9KQXP/heuLqMxdBXseVL8jg53727K/D7cPBpfjNkQ0F7jdMzkpSp0JhAAq7qZRsrfUB+xhJK2hnrkuCAeIwdXeDKY9jgJpMZ8T0+parjsLp8rsJZOUsH5VVSTXZlnxbSwgk916nsTKqwnitTbJYZgTY+zCKOUx8cgz+le+91R4jW+S7LUXFPM8UoBX7+RLQ7PXWRrFDEneQ3wAdJcwMt2E+ktmPdlvOh9PyvY5xB+515Bz8HMwV8OZtfWmgCdY23PhEr3ncly04mSEWO42e2ZpyiqEcYeB4Z1lsgI0Zoiz1GrekiWjN+KwZEfQ==
+ bh=FWzrSFGdRByZBt0qyOWlsF84Ene0iSMrCRVrgBgXMe8=;
+ b=fXGu5PImDrX7kC+B5tSmRmEbXiheNcch9YjBdbNV/SZQQwiK5fWldvz0mkhR8VUnjIacRJUCG67qSchiiOflBa9yMQfOPsdZrzf5NlBDXjC6sh+veo1QWJKIX6KLELo7UAJDDGTgCIcNKdvoDwggRaLz211aa7/3ywhxFkyLD5WdnyddQFGxbAJcgL9sY4ijdv8Typl/p6AhvWq3Ti4cYE8fHi2pC2JqLNJYDhTZJ1n0ODobgqiCa6f9xat6yjsLKYNwyFobi0niCDTAfNiiKcjm9BEgpWcmwoQeW/jgV4MBeXh6F9OKkBLbJS0OcyWSUaletacbYgcTH3V/BtQ9JA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UVwbaISIxslh89zRwVMGn5lFWjDFKrr7OTCB9msl5lI=;
- b=ewOOzWykxOo5D6S+CppP4jMINbhG74AbftXUT7e606NDmF9+w/V7xHcOl8MfY/yAx1nByCECKsrU3MR1wC9/vuxWp+EhxRzIYoQDUPIgvvcmguqNoNnLJV1NrQBRHkOOX1VOT5zNbKWMQ0mYR7orbsIhhTbLrTQTjYIuC4MLGH4=
+ bh=FWzrSFGdRByZBt0qyOWlsF84Ene0iSMrCRVrgBgXMe8=;
+ b=bVDt4l8pTzuk8Y5iT8F950btS+jaj/z1U4z3PQJUJ57jmaxfmGyRRVccmFCFm0vUXWdEKC0RiZWx6JislMjDZovD9hX1aK/zOdEq3lZ9mF0e8BDllyKDsg3H+fINsPoNKsP1jm+RjxXhwVOxseEO8Or17ITYRaYKKMhwpuu6UdQ=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from DB7PR08MB3484.eurprd08.prod.outlook.com (2603:10a6:10:45::25)
- by PR3PR08MB5691.eurprd08.prod.outlook.com (2603:10a6:102:82::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.11; Mon, 17 Jan
- 2022 12:34:37 +0000
-Received: from DB7PR08MB3484.eurprd08.prod.outlook.com
- ([fe80::55e1:e502:c66f:7461]) by DB7PR08MB3484.eurprd08.prod.outlook.com
- ([fe80::55e1:e502:c66f:7461%5]) with mapi id 15.20.4888.013; Mon, 17 Jan 2022
- 12:34:36 +0000
-Content-Type: multipart/alternative;
- boundary="------------Zm2IDpHjJtbvMTATx5XDaeLC"
-Message-ID: <f670fcc7-6956-809a-97d3-ab495d33585a@virtuozzo.com>
-Date: Mon, 17 Jan 2022 15:34:34 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v3 08/19] block/reqlist: add reqlist_wait_all()
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB2718.namprd12.prod.outlook.com (2603:10b6:805:6f::22)
+ by BN9PR12MB5244.namprd12.prod.outlook.com (2603:10b6:408:101::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.9; Mon, 17 Jan
+ 2022 12:12:53 +0000
+Received: from SN6PR12MB2718.namprd12.prod.outlook.com
+ ([fe80::35:281:b7f8:ed4c]) by SN6PR12MB2718.namprd12.prod.outlook.com
+ ([fe80::35:281:b7f8:ed4c%6]) with mapi id 15.20.4888.014; Mon, 17 Jan 2022
+ 12:12:53 +0000
+Message-ID: <f746b847-d1e4-082a-0796-b3cf0f7873b5@amd.com>
+Date: Mon, 17 Jan 2022 06:12:50 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.0
+Cc: brijesh.singh@amd.com, Richard Henderson <richard.henderson@linaro.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <Ashish.Kalra@amd.com>
+Subject: Re: [PATCH 0/2] Improved support for AMD SEV firmware loading
 Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, armbru@redhat.com, xiechanglong.d@gmail.com,
- wencongyang2@huawei.com, eblake@redhat.com, hreitz@redhat.com,
- kwolf@redhat.com, jsnow@redhat.com
-References: <20211222174018.257550-1-vsementsov@virtuozzo.com>
- <20211222174018.257550-9-vsementsov@virtuozzo.com>
-From: Nikta Lapshin <nikita.lapshin@virtuozzo.com>
-In-Reply-To: <20211222174018.257550-9-vsementsov@virtuozzo.com>
-X-ClientProxiedBy: AM6P195CA0063.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:209:87::40) To DB7PR08MB3484.eurprd08.prod.outlook.com
- (2603:10a6:10:45::25)
+To: Dov Murik <dovmurik@linux.ibm.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20220113165511.46098-1-berrange@redhat.com>
+ <59d81ace-8a66-4ab4-2768-a68d302e62d8@linux.ibm.com>
+From: Brijesh Singh <brijesh.singh@amd.com>
+In-Reply-To: <59d81ace-8a66-4ab4-2768-a68d302e62d8@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA9PR10CA0019.namprd10.prod.outlook.com
+ (2603:10b6:806:a7::24) To SN6PR12MB2718.namprd12.prod.outlook.com
+ (2603:10b6:805:6f::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7ee3bf59-3900-4cbc-2715-08d9d9b5b90c
-X-MS-TrafficTypeDiagnostic: PR3PR08MB5691:EE_
-X-Microsoft-Antispam-PRVS: <PR3PR08MB5691CAFC65906F91F2259CB886579@PR3PR08MB5691.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:411;
+X-MS-Office365-Filtering-Correlation-Id: db73ea56-9c54-4fbc-2b64-08d9d9b2afeb
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5244:EE_
+X-Microsoft-Antispam-PRVS: <BN9PR12MB524437E0C1C998AB160BCC97E5579@BN9PR12MB5244.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zCbnwjmkSwzDMPvlVZIjbX+1hbqzJE3c/rok5DddgAOZKULcRwKgz2hjnAtCS8L1EI7U7IwdNbDv9vCWBhjsi9SZTcTG4M5Bu79WgY4lAIxhNvuZoP3ujddOc6zf0P7AZQhxaYEeIC4Xovc+VelN6GFaNJm0TPPebGacg/Dk5eXU591m7d82vChTUhLT1PuG+uiXxnhahfgXEOwXLvexS+jFkg8+/VZ2mOF0P31vDnGCFp8HWl+ZkN2WurdMT6Ol5alzNQHvO5MemVQY17Bo2M/2jUzQ1N25Fi2Bvhf2Zp0M0NkO3weS93uQdaGBN2FXmQRRoKr5L7nx7ayknp3gajhXneSA/rkGliALr1mwRHhzXpnWX8HNGPIqIH1EM8a+Ro5lA3zrgnMYJ22c8U77uD0JoLOVxgtIayxyAbmcRjQiEgCiFcboZxJ4dIC3roB5MDGPOWpJRdbYiAnQGlrff1YKo373ljJqR3nYqftUOpguUN+D+fgAPoRUFTRE/Np10EL4dWD671wh3S9erSM9rA/ZjmQr9VCuHJmuFIEddYZhzvglI+LKRsBLBlAxkDSDJitXH08oHuKmPTKfT3sKyak8L+HTPP6v9zA0dB5Nlm0CN7Ks+2GDRbvl8wCckGHQxRASLHyQnZ6HYi7WCAYRkI3t/jN7kylamDcwdYp4qlhOJGU+GlAjEb9zsw/ZfKssti44cBLkV2PahcSHUxXLAmAgRurSlYpDGFrCirC0/ue59fp3ElggBlVhBOI+zUhvtXxX6MkfTO326Ys8J2KCgw==
+X-Microsoft-Antispam-Message-Info: titNEnuRZyQn5EN/TSzkMOQoNstML5sqLr18ug1fAZtXk0l3FxP1Z5hj5fyZCodh22ctd2yZsBjLRnvyzNONZCd2luHzwBjQ0nuUHpwmm9aeVQHxxnXRJZif7hqnHg5lOdn5M3gHTLXS8qkN8ELLYfI2SzDgUxuOVX22R6lJ2mAyN+o2dYdAqunFT5mPYuvwc7/l8tAJovr4LQ1Yc/rA226Edcfbc2UPfuZq1Ao20wQ3L9VkVK9gK9Ic0/I54e61nwm3/n4VKDCdi9PKbJUHEGnMPASVSv8qCAPfbos9U7U/NIn+uJa7lAFBJocS7d7ywMxZnQXiNHsTLle6qXITUU9QneJ5pm9Ys1/6FecCjoFiyq1/cJwvljZ1FsgXTbsDygMfy8tRR1KPs+pNssPJOi/G+E8ReiwlbmL05/YTcRUaGWZCnJy5Gwnc9NdPrdmK7yqhNVZliPZ3uWHShq96BB++V8KDhf0tjnjvAUCk3e+len8pY3DATayRr/O4vaJpz+zkEczEUBgNGFjvwGiOm6eCKH7BqJup4hAUhcFY4s3Buhd1mMzV564b8nK0NVzYf0skwPZlxX/G/VKvdP1qeWjXis3il2jNvXVMcmWWiKc4toVpF4BMWJpQxeleZnmbMJTdfioyHnunFnpEh/rgEePa9+wgRKPHYd11Ui1H1ympKyxKzfkXTfB4rc/m+klA/lyYDGMS0mehGB9oxVF/Qv2DBQQuegw17vQVgswhaag=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DB7PR08MB3484.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(36756003)(316002)(186003)(31696002)(38100700002)(33964004)(38350700002)(4326008)(6506007)(508600001)(2616005)(66556008)(52116002)(26005)(86362001)(6512007)(5660300002)(53546011)(8676002)(2906002)(83380400001)(8936002)(66946007)(66476007)(6486002)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB2718.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(31686004)(54906003)(8936002)(110136005)(2616005)(4326008)(316002)(2906002)(44832011)(6512007)(186003)(508600001)(7416002)(5660300002)(66476007)(66946007)(36756003)(86362001)(38100700002)(6506007)(53546011)(31696002)(8676002)(66556008)(6486002)(83380400001)(26005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MWE4Nnl6b3E4bFJPeGlqOG1aWHVlanZNTTQxdTNTMGZRVnh3RUVlMVVtcE1R?=
- =?utf-8?B?QWpCZUZONnRHOW5tSUtObFVTR0t4bmFxMEwrVlJwZEFiRlQrRFdHcFVlczVj?=
- =?utf-8?B?MldPL0VZeGZPSy8yT05wREpwYm56Y2ZXRWRsckx1Q3dtQUZNT29sMnlRWGRQ?=
- =?utf-8?B?aUQxUmE1SXF6S2ZodkhxV3pRVjlrc003OWdhckk4bEFaWHVZK2tGTUt0ckpn?=
- =?utf-8?B?VmUwdC9KTkpQN0E2dkdneFN0dzN2VEpsVnJJWE0wVlM2cUZBYWVWT3pHVHVB?=
- =?utf-8?B?ODRiNG1WY2dha1A1VENwb0tTVERWa2dZUTdYdUNTRWlwWEloSW1SV1pyWDFw?=
- =?utf-8?B?bG5YaDdIeUg1R1ZtcEp0UUlheStmeDl2SlBWZ3BXRzVYbTQzaStWeFFDT1Zj?=
- =?utf-8?B?djZGUVBhYXdIZVVKVG9ZSkFqTyt0NjVhWk5ydFROajNNM0VPZWlyejdFV1FE?=
- =?utf-8?B?NDRoM1FKaEp2bS9IK0tQRGNMa2tNOUhFdFB1UWRnRXpEaE5ZdzdZZHpaTUpF?=
- =?utf-8?B?WGpQamx1clMvbTY3TWM5c29CalVXOTUraTZybGVvUkRMN1o5T0phRWpKUXl2?=
- =?utf-8?B?VW9FWW1BaFpPeHNUaXBucjRCc01Ma2oyTHo0MGRUUFR6WldGMDlsVmx3d2pj?=
- =?utf-8?B?YkZ6Y1BhNGwzeDhrSUpMd0NacVd1NFNCN2RvcG5lMUVnaEU1bkhZZGRiUzRa?=
- =?utf-8?B?UGFodDRaNlp5c0RMMVBSVUhlR1NxelZ0Y1VkYVNDOVFyRGFXTldRQ1dlbXhU?=
- =?utf-8?B?YnpvMHo4M0hnVHAvRXltYjVGdGhoMVpkT0pSUmNBU0xKRXMxU0tQbE11Mm1C?=
- =?utf-8?B?N0k5c2ZwQ0U4bjNTNHlTVVVDcW84VUJvNnN4NllVTDR4UkgrNzdnQ05XQ1BH?=
- =?utf-8?B?ZFUxbFhjNkFkMmN0U3IrNlNtemp6SkhqODBKakJMa1U4M3JMam4wRlkray9S?=
- =?utf-8?B?a1NlemNQWU1uRTEvTUN3VWU0MVlLRTFUdFNodHBybHFuYmFsazN4WXNvR09u?=
- =?utf-8?B?VS9aTEN3Skc0OERDdVNtV01yb01KMWpKVjJYTnhTM243S00zcnJTVThjOU94?=
- =?utf-8?B?SGw0OXZEVXNId3lkV20weXJRTUhPNjJNZXYxSGw4MkphaUpKcHArOXRkUHZX?=
- =?utf-8?B?dEZGaEhBNEZrRXdCTU9XZnQvOWhScGxIQ0VQN0lFVDRvN3VqY3pVbm82S1g3?=
- =?utf-8?B?Q3VqRHVKQzd3cGk0ejVkTEZtN2VJT1NnOFBzOUlaUXptNGZRQk95eEpQZlJw?=
- =?utf-8?B?UHE3M2t5dHYxblFCQWpJL3NTT2EvbjcwZ0VKaW5xR0dURmI5aHNHamdBbUI2?=
- =?utf-8?B?eUhRQ0ZtOWFrdzJqcXdZU04zVG9pL0tScXhKSS9oaGxubUNOYUFJWEFLRHoz?=
- =?utf-8?B?bmNsSjdSckNkTHUveVlsanl4VzlPcUVTcWhnT0VqZVpUenFEMG4xcyswSmw0?=
- =?utf-8?B?aW1PNDV4WmVpUjFCM3NYc0dyeG51ZDVCZjYybzJEbWpRdFBSRzNSZzl4WmVJ?=
- =?utf-8?B?dENIa2pxYzhIZW1CRFlhUnVrQnR5ejZXK1NSdjFDc3U0WENuR2JLQ1ZUdEs0?=
- =?utf-8?B?a1BsZkljazJoaDBoc2tqZDd2MEwyQ2x3MXdtZ3hvYUZSMWxXU3VWUTFDTCt1?=
- =?utf-8?B?Um1FUGtGTDBCbUQ0eFNtaUFwVEpTUit4UUQ4SkNwT2U2dFRTSW56L1cvQzBk?=
- =?utf-8?B?UjZ4Nk5YNnYrSCs3ZGlmRE1iWW4xZDJlLy9iQVhNUjNnSDdJdi96VitKZjBV?=
- =?utf-8?B?TVh4RUg2NzZuc0dyVGl3ZlRpN1p2NzlRSFlxdEJ3enN4Z3NkQ0Q0YVNoMmJQ?=
- =?utf-8?B?dndRLytFRTZ2NGp4WUM4cEhmV0NLOW9hbGpqdzdnclhEU2Yxb0d1WXpGN2Jq?=
- =?utf-8?B?UWRkN3RwUC9pMkJFN2IyZnlPekVyT3JYcWVWeGJQZEgvWDZjdDdnQ1A0ZXRu?=
- =?utf-8?B?aDVmZ202Nlh4aUQ0S293V2dxVm5CU2l0cXdUeEVUYndaWUU5emkyMjBGZkEx?=
- =?utf-8?B?ZXRYdEhydWZYOXZ1WTJaRS9OdmhGOFMvTnBZV2Z4TEJzVjBqVDVhditjT1R5?=
- =?utf-8?B?VThDWTFwNmhxTFlneUh4TmhFWDMxZWxzcDg4ajhtQVA3U1BoZzhmejFCSjFE?=
- =?utf-8?B?SlA4b1ZuYUp4c1c3VmxtSjNHSGVNRFU4dGRuZEQ2cC9KUElMd3NMR2M1d0l5?=
- =?utf-8?B?WWlIdlZFb3JwUVdrd21MRU43bStEazYycXhDcXNJMHlGMkE4U2VQMjRQNy9H?=
- =?utf-8?B?bGJQcHdqYklOaGp2dGlaak1iR0JnPT0=?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7ee3bf59-3900-4cbc-2715-08d9d9b5b90c
-X-MS-Exchange-CrossTenant-AuthSource: DB7PR08MB3484.eurprd08.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UDVnWktWTWlLWjk3TFZ5UVpFdGZyRnkzWkkvZVdFQXpvbU94Nm1KbHdjYjJu?=
+ =?utf-8?B?ZmlaK3NoemJSeTdFcGFMQ2NjMzlwd1ZWeFA2K05WWUlpdXVWdUgzdDB1NjNN?=
+ =?utf-8?B?L3RQQTI0WUxnd1BtZlR2aUdWWjY4M1dicFRzV0lUZ2wzeUZLM2FXOENWT3Jm?=
+ =?utf-8?B?NDNyaEJRVWZ0RUNReVl0N21OTlJ4T0NzempPTU1sY2tDSURLQlVVRUFjUExu?=
+ =?utf-8?B?YlFCZWhjWGdZWSs1bkpveElXY1g3WkZjRTRlT1dQanRPRjFINXRaU1Zxb1FC?=
+ =?utf-8?B?NDkzMmVHdmROejZpVXFqcCtYUlM0VGc4QUc3OEErUmFWcGphRVV6bXp1YktD?=
+ =?utf-8?B?aEZlYUx6eDIzY0J4cEN5QkszWWNUMHNmNVZkTXZyV2IzcnE2SjkzcHJKKzlU?=
+ =?utf-8?B?ZXlCV2NYTlZteFp5ZmVmQWtXYks3ZEJJL3o0bVRoTXVXZnVzVHNpMlRac1Qy?=
+ =?utf-8?B?V1FnOTB6S3FrWVQ5U1ovVm54VmZISHZEbVdpdy83Y2hwcmFjMmMvTWZLVmRl?=
+ =?utf-8?B?VXFHZ1BDV0lqODQ2VmRIb3RuNUlpTkxxczFjMzlTU0EvME55QWZ6TlFiVFZ0?=
+ =?utf-8?B?bE41MlJIN2FjRnl0b24zVzk3ZGlpOEJ0UzAxakExTUNVaExYNGN3dlViRk1I?=
+ =?utf-8?B?bEVnY0V4YmFYKzQyMkN0d2pXMmI2TE1ubXhBN1ZOb3J1K20rbXk2bHpLMHpK?=
+ =?utf-8?B?S2UwZ3lONmRSaWIzQVpRS2NCSXJjR1pDTHRXdFovWm1US2swelhiTjFqOGRN?=
+ =?utf-8?B?WStCYndJRHk1RUFjaG9YelBDd0RWZ1gxZCtkZlh4cUpVN09OeFlCNDBaZytn?=
+ =?utf-8?B?eFhSNi96TFJHcGJ1YWlwY1FDTWRwM29jWTVqOTFuSlFTZ1dTaXVVcGs2RTV1?=
+ =?utf-8?B?MWp3K2hXc1VpRWJHVkVhamFReDRnYklZZGZHUFpwTzY4ZzAzeDNFNlZ6MnFo?=
+ =?utf-8?B?M2JOK1RSYi9FM0hlb1Avc0NxRVZIR3VjUWZ3c0w4SXZYVTA1SlhiR3JKVXhN?=
+ =?utf-8?B?ajBTRlpXSGxGNVVXOTQ4WUp2WE1wVmJnQ3Y1TVNBVGQxa2NKYVRBVGZ6RHBV?=
+ =?utf-8?B?dHdqWk5VTFJLU0pobEdVcDNqNCtsVVpobzBkVnB1VGdqa0dNUDlDbWZhTS84?=
+ =?utf-8?B?bTJyOU9Ga0VPT2svZHU2OG9IbmhBeDQrQXROaXhpZ0ZZNCt6elQydndoVy9q?=
+ =?utf-8?B?V3JDd0VRRlg3V0lGTVJoNTUvN3ZBdFdrbzFsd0lYVHExUS9zaVQvQmRZSmF2?=
+ =?utf-8?B?azJiV3hQWFpkd2hlc3JOL0REZUovY2MxdkhKQUlmeEJBRTlKQzQ5djE1TXRH?=
+ =?utf-8?B?djJRWG52MU5FdXhIYTZUZDVqblE1QTBqTTk0ZlBWNEgzeFY5ZVJla1ZNaDZw?=
+ =?utf-8?B?TkZXNnAzYitlY1d5KzhYN1pSckkxTnVwZ0s3aTNVY1A2cFR1WmxLM25IN0JG?=
+ =?utf-8?B?aG93d3ZVckc1bUx2cENFOXlDeGVQYkh3L0lxZURiSWhrZG40N0NBbmJsWUdM?=
+ =?utf-8?B?elIzWGZtYllIcE8vYVZVcUFwOGh0MVgzK2FTYjV1YlpYeFFUWXJQRXlVSWxl?=
+ =?utf-8?B?YUdQQ2ZENzFnWXhqbTVqYTk0UGZGblZZbjZSSWNmS3JQZ0xEQ014d2xPUEZV?=
+ =?utf-8?B?QlllenF1UXYwb3M4SksvcFZIZFBmc2JYMm1ERldGdnBmOFlzYUpQSEIzMldH?=
+ =?utf-8?B?bjVnaXRob0NSR0VFUjZ6QXhYbkJsaU56RkhWTmtvQzlIZS9kR0tka0laL0dF?=
+ =?utf-8?B?WnJ1bVhOU1pZeW9tb0F2TXN6YWVqRmlydlI4R0QwZ3hZRzBHd2IyS0RQaDd4?=
+ =?utf-8?B?N3phSW95RGpTdHdkMEl3KytLNFIrOWlMWDloY1VML1ZtMHpzSjdqSzVXN2x5?=
+ =?utf-8?B?RXhWTFg0TmZTbHBUcTAveVI0VUFiQXFCdTZqR1pRNEdrRktMMks0d09oSVZx?=
+ =?utf-8?B?S1Y4MlFwVkdPeWhORUNsZFRQZWdiTXBjaG5Ld3ppVk1uS0hCV1orVXBjMURS?=
+ =?utf-8?B?ODlOQVAxMmM5blFQK2RrVlJTYkRtY29PN1Yxb2JqcS9NTXpKTDRYdFBvZTVh?=
+ =?utf-8?B?QkxJRzIzQXdlMW5nNWdONnJrM2ZwZ2VFQjY4MitvMVU2RkRhNS9SSHJKWGVR?=
+ =?utf-8?B?Y3J1Z1oyb3VUVnN1aEJsUVhaNnBER0toM2ZxWTZjOFlBRTBJTDczK01oR2R0?=
+ =?utf-8?Q?XVg33V2i3IYMgtCrR7iwe64=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: db73ea56-9c54-4fbc-2b64-08d9d9b2afeb
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2718.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2022 12:34:36.8594 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2022 12:12:53.0415 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Jx330PcgGuLGOyuAqhapIsw5UchsaJez5G2r6Uk4ZfMemV9EOxoW2slXjeI4cZVWL8RsGRoZL2RW0E6eZZbPFuM/eXIlruUtilMLQYp9+Xw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR08MB5691
-Received-SPF: pass client-ip=40.107.20.119;
- envelope-from=nikita.lapshin@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: hGHJ1D1Zf2pmRckeQyTnCtlNlq7w1lYc7Y7XW3nk0bvt3roW5rzwqBgqYU155ra7sFI9LVYF2TcNSIWsItY5ig==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5244
+Received-SPF: softfail client-ip=40.107.92.47;
+ envelope-from=brijesh.singh@amd.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -152,131 +157,260 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---------------Zm2IDpHjJtbvMTATx5XDaeLC
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-
-On 12/22/21 20:40, Vladimir Sementsov-Ogievskiy wrote:
-
-> Add function to wait for all intersecting requests.
-> To be used in the further commit.
+On 1/17/22 1:34 AM, Dov Murik wrote:
+> [+cc Tom, Brijesh, Ashish - see SEV-related changes in this series]
 >
-> Signed-off-by: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
-> ---
->   include/block/reqlist.h | 8 ++++++++
->   block/reqlist.c         | 8 ++++++++
->   2 files changed, 16 insertions(+)
 >
-> diff --git a/include/block/reqlist.h b/include/block/reqlist.h
-> index b904d80216..4695623bb3 100644
-> --- a/include/block/reqlist.h
-> +++ b/include/block/reqlist.h
-> @@ -53,6 +53,14 @@ BlockReq *reqlist_find_conflict(BlockReqList *reqs, int64_t offset,
->   bool coroutine_fn reqlist_wait_one(BlockReqList *reqs, int64_t offset,
->                                      int64_t bytes, CoMutex *lock);
->   
-> +/*
-> + * Wait for all intersecting requests. It just calls reqlist_wait_one() in a
-> + * loops, caller is responsible to stop producing new requests in this region
-> + * in parallel, otherwise reqlist_wait_all() may never return.
-> + */
-> +void coroutine_fn reqlist_wait_all(BlockReqList *reqs, int64_t offset,
-> +                                   int64_t bytes, CoMutex *lock);
-> +
->   /*
->    * Shrink request and wake all waiting coroutines (may be some of them are not
->    * intersecting with shrunk request).
-> diff --git a/block/reqlist.c b/block/reqlist.c
-> index 5e320ba649..52a362a1d8 100644
-> --- a/block/reqlist.c
-> +++ b/block/reqlist.c
-> @@ -57,6 +57,14 @@ bool coroutine_fn reqlist_wait_one(BlockReqList *reqs, int64_t offset,
->       return true;
->   }
->   
-> +void coroutine_fn reqlist_wait_all(BlockReqList *reqs, int64_t offset,
-> +                                   int64_t bytes, CoMutex *lock)
-> +{
-> +    while (reqlist_wait_one(reqs, offset, bytes, lock)) {
-> +        /* continue */
-> +    }
-> +}
-> +
->   void coroutine_fn reqlist_shrink_req(BlockReq *req, int64_t new_bytes)
->   {
->       if (new_bytes == req->bytes) {
+> On 13/01/2022 18:55, Daniel P. Berrangé wrote:
+>> The AMD SEV build of EDK2 only emits a single file, intended to be
+>>
+>> mapped readonly. There is explicitly no separate writable VARS
+>>
+>> store for persisting non-volatile firmware variables.
+>>
+>>
+>>
+>> This can be used with QEMU's traditional pflash configuration
+>>
+>> mechanism by only populating pflash0, leaving pflash1 unconfigured.
+>>
+>> Conceptually, however, it is odd to be using pflash at all when we
+>>
+>> have no intention of supporting any writable variables. The -bios
+>>
+>> option should be sufficient for any firmware that is exclusively
+>>
+>> readonly code.
+>>
+>>
+>>
+>>
+>>
+>> A second issue is that the firmware descriptor schema does not allow
+>>
+>> for describing a firmware that uses pflash, without any associated
+>>
+>> non-volatile storage.
+>>
+>>
+>>
+>> In docs/interop/firmware.json
+>>
+>>
+>>
+>>  'struct' : 'FirmwareMappingFlash',
+>>
+>>   'data'   : { 'executable'     : 'FirmwareFlashFile',
+>>
+>>                'nvram-template' : 'FirmwareFlashFile' } }
+>>
+>>
+>>
+>> Notice that nvram-template is mandatory, and when consuming these
+>>
+>> files libvirt will thus complain if the nvram-template field is
+>>
+>> missing.
+>>
+>>
+>>
+>> We could in theory make nvram-template optional in the schema and
+>>
+>> then update libvirt to take account of it, but this feels dubious
+>>
+>> when we have a perfectly good way of describing a firmware without
+>>
+>> NVRAM, using 'FirmwareMappingMemory' which is intended to be used
+>>
+>> with QEMU's -bios option.
+>>
+>>
+>>
+>>
+>>
+>> A third issue is in libvirt, where again the code handling the
+>>
+>> configuration of pflash supports two scenarios
+>>
+>>
+>>
+>>  - A single pflash image, which is writable
+>>
+>>  - A pair of pflash images, one writable one readonly
+>>
+>>
+>>
+>> There is no support for a single read-only pflash image in libvirt
+>>
+>> today.
+>>
+>>
+>>
+>>
+>>
+>> This all points towards the fact that we should be using -bios
+>>
+>> to load the AMD SEV firmware build of EDK.
+>>
+>>
+>>
+>> The only thing preventing us doing that is that QEMU does not
+>>
+>> initialize the SEV firmware when using -bios. That is fairly
+>>
+>> easily solved, as done in this patch series.
+>>
+>>
+>>
+>> For testing I've launched QEMU in in these scenarios
+>>
+>>
+>>
+>>   - SEV guest using -bios and boot from HD
+>>
+>>   - SEV guest using pflash and boot from HD
+>>
+>>   - SEV-ES guest using -bios and direct kernel boot
+>>
+>>   - SEV-ES guest using pflash and direct kernel boot
+>>
+>>
+>>
+>> In all these cases I was able to validate the reported SEV
+>>
+>> guest measurement.
+>>
+>>
+>
+> I'm having trouble testing this series (applied on top of master commit 69353c332c):
+> it hangs with -bios but works OK with pflash:
+>
+> Here's with -bios:
+>
+> $ sudo /home/dmurik/git/qemu/build/qemu-system-x86_64 -enable-kvm \
+>        -cpu host -machine q35 -smp 4 -m 2G \
+>        -machine confidential-guest-support=sev0 \
+>        -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1,policy=0x0 \
+>        -bios /home/dmurik/git/edk2/Build/AmdSev/DEBUG_GCC5/FV/OVMF.fd \
+>        -nographic \
+>        -global isa-debugcon.iobase=0x402 -debugcon file:ovmf-1.log \
+>        -monitor pty -trace 'enable=kvm_sev_*'
+>
+> char device redirected to /dev/pts/14 (label compat_monitor0)
+> kvm_sev_init
+> kvm_sev_launch_start policy 0x0 session (nil) pdh (nil)
+> kvm_sev_change_state uninit -> launch-update
+> kvm_sev_launch_update_data addr 0x7f42e9bff010 len 0x400000
+> kvm_sev_change_state launch-update -> launch-secret
+> kvm_sev_launch_measurement data PF6n7+Vujx5sW8PC6iMRtHXfpXdJ4osbcfYvoknu7gg4ypMqs727NTzG86Ft8Llu
+> kvm_sev_launch_finish
+> kvm_sev_change_state launch-secret -> running
+>
+>
+> Here it hangs. The ovmf-1.log file is empty.
+>
+> Notice that kvm_sev_launch_update_data is called, so the new
+> -bios behaviour is triggered correctly.  But the guest doesn't
+> start running.
+
+I have not looked at the patch detail yet but address looks wrong, it
+looks like the hva 0x7f42e9bff010 end of the ROM. We need to encrypt the
+entire ROM to boot, so I was hoping that hva will be 2MB aligned or a
+page-aligned. You can enable the KVM trace to see if we are able to
+enter and execute anything from guest.
 
 
-Reviewed-by: Nikita Lapshin<nikita.lapshin@virtuozzo.com>
-
---------------Zm2IDpHjJtbvMTATx5XDaeLC
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <address><br>
-    </address>
-    <div class="moz-cite-prefix">
-      <pre>On 12/22/21 20:40, Vladimir Sementsov-Ogievskiy wrote:</pre>
-    </div>
-    <blockquote type="cite" cite="mid:20211222174018.257550-9-vsementsov@virtuozzo.com">
-      <pre class="moz-quote-pre" wrap="">Add function to wait for all intersecting requests.
-To be used in the further commit.
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <a class="moz-txt-link-rfc2396E" href="mailto:vsementsov@virtuozzo.com">&lt;vsementsov@virtuozzo.com&gt;</a>
----
- include/block/reqlist.h | 8 ++++++++
- block/reqlist.c         | 8 ++++++++
- 2 files changed, 16 insertions(+)
-
-diff --git a/include/block/reqlist.h b/include/block/reqlist.h
-index b904d80216..4695623bb3 100644
---- a/include/block/reqlist.h
-+++ b/include/block/reqlist.h
-@@ -53,6 +53,14 @@ BlockReq *reqlist_find_conflict(BlockReqList *reqs, int64_t offset,
- bool coroutine_fn reqlist_wait_one(BlockReqList *reqs, int64_t offset,
-                                    int64_t bytes, CoMutex *lock);
- 
-+/*
-+ * Wait for all intersecting requests. It just calls reqlist_wait_one() in a
-+ * loops, caller is responsible to stop producing new requests in this region
-+ * in parallel, otherwise reqlist_wait_all() may never return.
-+ */
-+void coroutine_fn reqlist_wait_all(BlockReqList *reqs, int64_t offset,
-+                                   int64_t bytes, CoMutex *lock);
-+
- /*
-  * Shrink request and wake all waiting coroutines (may be some of them are not
-  * intersecting with shrunk request).
-diff --git a/block/reqlist.c b/block/reqlist.c
-index 5e320ba649..52a362a1d8 100644
---- a/block/reqlist.c
-+++ b/block/reqlist.c
-@@ -57,6 +57,14 @@ bool coroutine_fn reqlist_wait_one(BlockReqList *reqs, int64_t offset,
-     return true;
- }
- 
-+void coroutine_fn reqlist_wait_all(BlockReqList *reqs, int64_t offset,
-+                                   int64_t bytes, CoMutex *lock)
-+{
-+    while (reqlist_wait_one(reqs, offset, bytes, lock)) {
-+        /* continue */
-+    }
-+}
-+
- void coroutine_fn reqlist_shrink_req(BlockReq *req, int64_t new_bytes)
- {
-     if (new_bytes == req-&gt;bytes) {
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre>Reviewed-by: Nikita Lapshin <a class="moz-txt-link-rfc2396E" href="mailto:nikita.lapshin@virtuozzo.com">&lt;nikita.lapshin@virtuozzo.com&gt;</a></pre>
-  </body>
-</html>
---------------Zm2IDpHjJtbvMTATx5XDaeLC--
+> Here is the guest's state:
+>
+> (qemu) info registers
+> EAX=0000606b EBX=00001268 ECX=0000440c EDX=008328d2
+> ESI=000091e2 EDI=0000e9e3 EBP=0000a451 ESP=00009af0
+> EIP=00003612 EFL=00000082 [--S----] CPL=0 II=0 A20=1 SMM=0 HLT=0
+> ES =0000 00000000 0000ffff 00009300
+> CS =a76e 000a76e0 0000ffff 00009b00
+> SS =0000 00000000 0000ffff 00009300
+> DS =0000 00000000 0000ffff 00009300
+> FS =0000 00000000 0000ffff 00009300
+> GS =0000 00000000 0000ffff 00009300
+> LDT=0000 00000000 0000ffff 00008200
+> TR =0000 00000000 0000ffff 00008b00
+> GDT=     00000000 0000ffff
+> IDT=     00000000 0000ffff
+> CR0=60000010 CR2=00000000 CR3=00000000 CR4=00000000
+> DR0=0000000000000000 DR1=0000000000000000 DR2=0000000000000000 DR3=0000000000000000
+> DR6=00000000ffff0ff0 DR7=0000000000000400
+> EFER=0000000000000000
+> FCW=037f FSW=0000 [ST=0] FTW=00 MXCSR=00001f80
+> ...
+>
+> (qemu) info sev
+> handle: 1
+> state: running
+> build: 10
+> api version: 0.23
+> debug: on
+> key-sharing: on
+>
+>
+>
+> If I try the same with pflash (instead of -bios), I get:
+>
+> # sudo /home/dmurik/git/qemu/build/qemu-system-x86_64 -enable-kvm \
+>        -cpu host -machine q35 -smp 4 -m 2G \
+>        -machine confidential-guest-support=sev0 \
+>        -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1,policy=0x0 \
+>        -drive if=pflash,format=raw,unit=0,file=/home/dmurik/git/edk2/Build/AmdSev/DEBUG_GCC5/FV/OVMF.fd,readonly=on \
+>        -nographic \
+>        -global isa-debugcon.iobase=0x402 -debugcon file:ovmf-1.log \
+>        -monitor pty -trace 'enable=kvm_sev_*'
+>
+> char device redirected to /dev/pts/14 (label compat_monitor0)
+> kvm_sev_init
+> kvm_sev_launch_start policy 0x0 session (nil) pdh (nil)
+> kvm_sev_change_state uninit -> launch-update
+> kvm_sev_launch_update_data addr 0x7f0343000000 len 0x400000
+> kvm_sev_change_state launch-update -> launch-secret
+> kvm_sev_launch_measurement data esqzlr4xX2eEY92xsKEKL7FyKRDW7VYiyIb+aXS4S/ctON2s1xxwFjAKU7ImfULJ
+> kvm_sev_launch_finish
+> kvm_sev_change_state launch-secret -> running
+> BdsDxe: failed to load Boot0003 "Grub Bootloader" from Fv(7CB8BDC9-F8EB-4F34-AAEA-3EE4AF6516A1)/FvFile(B5AE312C-BC8A-43B1-9C62-EBB826DD5D07): Not
+>  Found
+>
+>
+> The "failed to load Grub" is what I expected. So this works OK. 
+> The ovmf-1.log file shows normal sequence of AmdSev boot. 
+>
+>
+> I tried the two options with the standard OvmfX64 package as well - same behaviour.
+>
+>
+> Do I need to build the OVMF file differently to use with -bios ?
+>
+>
+> -Dov
+>
+>
+>> Daniel P. Berrangé (2):
+>>
+>>   hw/i386: refactor logic for setting up SEV firmware
+>>
+>>   hw/i386: support loading OVMF using -bios too
+>>
+>>
+>>
+>>  hw/i386/pc_sysfw.c            | 24 +++---------------------
+>>
+>>  hw/i386/pc_sysfw_ovmf-stubs.c | 10 ++++++++++
+>>
+>>  hw/i386/pc_sysfw_ovmf.c       | 27 +++++++++++++++++++++++++++
+>>
+>>  hw/i386/x86.c                 |  5 +++++
+>>
+>>  include/hw/i386/pc.h          |  1 +
+>>
+>>  5 files changed, 46 insertions(+), 21 deletions(-)
+>>
+>>
+>>
 
