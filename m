@@ -2,87 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B1A949074E
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 12:50:11 +0100 (CET)
-Received: from localhost ([::1]:48348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 744F9490806
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 12:58:49 +0100 (CET)
+Received: from localhost ([::1]:52904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9QWY-0004kR-0i
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 06:50:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46934)
+	id 1n9Qeu-0007h2-0k
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 06:58:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n9QUg-0003L0-VK
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 06:48:15 -0500
-Received: from [2a00:1450:4864:20::333] (port=46060
- helo=mail-wm1-x333.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n9QUf-000107-I8
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 06:48:14 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- c126-20020a1c9a84000000b00346f9ebee43so22044779wme.4
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 03:48:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=oEWKl2rs/VU5bUkXr78FDq/VGZMQu/FeLw+/4KD+8xs=;
- b=TYSPNWfuTjTmOl3Oq0iDGhsFtUDdMciSPAx6Ks0XTPkkfRVe8Be79q4gSrnpre/R7P
- OkiX8ZzQE+iZVfkeT7DdMnbqKnv+BKiIbKZSNCjwBS7Iyu+M93DR/5vYk0OIcrUVcOUv
- 0HQuPsn/6Nr/Vx+uDUYRw5AcZsAh37YdFEAzdbblKqrl9hJglIG3f9SVfgj5+EwSpT0/
- oq7ib9HxyYhGYpmBGABsTTtt/7Akuq94J0nx1xuKpivU5apNUdYbpGPJMcA+Db41HLbM
- ggBwO5t2K9lxjRu4BA7YKuGP7YQN0XT+p1HGMI4VPKyCF0cNLMpmwxenCoxETbGaTrVz
- XWMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=oEWKl2rs/VU5bUkXr78FDq/VGZMQu/FeLw+/4KD+8xs=;
- b=NFiMwfkFfO6UeNIIFug/ibcbxk2aYgh/9BobKvrfpUn5f4QID5zeTmAyFFGXA2xH7+
- pdinRrOwKRpn7dlWmVdqF+P5aMK3WXzUn3FmScE0PGqsKA+ivfkP/kJFoaF25562BAWK
- DokeRhsXMGymVd2dU2dOZZxgX/gFdq7gm2Ad2A1Zxy4KoitX7Jb4ozV67vEbD8ML/nfJ
- RMAGjj+v/iCM1h3Aw0WyjuRgEt3MlT1u75cuxevtlTNIcamNlqdfKy2dfvfIiCRkbOYZ
- 01DWlt8NN7dvSQFIaEnqSAGPCdTXd4OoteZyXoPrIclbR49ED8Oe1qmBHZYaDJLg2OVr
- uTmA==
-X-Gm-Message-State: AOAM530xTxpNEfYEHmuFPXXDq5qFg02JwQvntF4ZECkCXFpKCtiju+k3
- dXzA+puIziWodO+muMDuJsg=
-X-Google-Smtp-Source: ABdhPJxaBTPJVfKjCFixyXfqnF/fGtid1juIEg3tvuxRezrgR/Ki1EsToGLNxsxkKTju4AMCNyDCGQ==
-X-Received: by 2002:a7b:cb8a:: with SMTP id m10mr27341492wmi.165.1642420092123; 
- Mon, 17 Jan 2022 03:48:12 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id z17sm13489819wrh.87.2022.01.17.03.48.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jan 2022 03:48:11 -0800 (PST)
-Message-ID: <c1a8eba5-b1a1-bbcf-c237-23e16ce88475@redhat.com>
-Date: Mon, 17 Jan 2022 12:48:10 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1n9QdD-0006ul-7L
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 06:57:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52569)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1n9Qd9-0002Me-9d
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 06:57:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642420615;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6dV35EUYVkKZ81W55neF7PgN0JvKrw243x3xmp6twM4=;
+ b=eXWSsCkGEUEUw2kDOUBMYeIJ9scHd2kb5Z8jFECO0YC6sJERQdLQ8nszbRgSW+ZQ8nV8+8
+ SkSc5Nkcv/68sGGDk8TQziB7gSFK1txVxgXirvhNALAmg1tDwXL5QiWW6dAHqzluoO+J92
+ iD95fUXNByJoNJH/4crrJ/iOZf7M4Hs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-445-FGFsHUtNPk2BnNrybSLGpg-1; Mon, 17 Jan 2022 06:56:49 -0500
+X-MC-Unique: FGFsHUtNPk2BnNrybSLGpg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A47CA1015DDB;
+ Mon, 17 Jan 2022 11:56:39 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.172])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E5BF70D42;
+ Mon, 17 Jan 2022 11:56:36 +0000 (UTC)
+Date: Mon, 17 Jan 2022 11:56:33 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Dov Murik <dovmurik@linux.ibm.com>
+Subject: Re: [PATCH 0/2] Improved support for AMD SEV firmware loading
+Message-ID: <YeVZcQ/MW+P9Lh0l@redhat.com>
+References: <20220113165511.46098-1-berrange@redhat.com>
+ <59d81ace-8a66-4ab4-2768-a68d302e62d8@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [RFC PATCH 2/2] hw/i386/sgx: Attach SGX-EPC to its memory backend
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20220116235331.103977-1-f4bug@amsat.org>
- <20220116235331.103977-3-f4bug@amsat.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220116235331.103977-3-f4bug@amsat.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <59d81ace-8a66-4ab4-2768-a68d302e62d8@linux.ibm.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,42 +83,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>, Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <Ashish.Kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/17/22 00:53, Philippe Mathieu-Daudé via wrote:
-> We have one SGX-EPC address/size/node per memory backend,
-> make it child of the backend in the QOM composition tree.
+On Mon, Jan 17, 2022 at 09:34:30AM +0200, Dov Murik wrote:
+> [+cc Tom, Brijesh, Ashish - see SEV-related changes in this series]
 > 
-> Cc: Yang Zhong <yang.zhong@intel.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   hw/i386/sgx.c | 3 +++
->   1 file changed, 3 insertions(+)
 > 
-> diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
-> index 5de5dd08936..6362e5e9d02 100644
-> --- a/hw/i386/sgx.c
-> +++ b/hw/i386/sgx.c
-> @@ -300,6 +300,9 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
->           /* set the memdev link with memory backend */
->           object_property_parse(obj, SGX_EPC_MEMDEV_PROP, list->value->memdev,
->                                 &error_fatal);
-> +        object_property_add_child(OBJECT(list->value->memdev), "sgx-epc",
-> +                                  OBJECT(obj));
-> +
->           /* set the numa node property for sgx epc object */
->           object_property_set_uint(obj, SGX_EPC_NUMA_NODE_PROP, list->value->node,
->                                &error_fatal);
+> On 13/01/2022 18:55, Daniel P. Berrangé wrote:
+> > The AMD SEV build of EDK2 only emits a single file, intended to be
+> > 
+> > mapped readonly. There is explicitly no separate writable VARS
+> > 
+> > store for persisting non-volatile firmware variables.
+> > 
+> > 
+> > 
+> > This can be used with QEMU's traditional pflash configuration
+> > 
+> > mechanism by only populating pflash0, leaving pflash1 unconfigured.
+> > 
+> > Conceptually, however, it is odd to be using pflash at all when we
+> > 
+> > have no intention of supporting any writable variables. The -bios
+> > 
+> > option should be sufficient for any firmware that is exclusively
+> > 
+> > readonly code.
+> > 
+> > 
+> > 
+> > 
+> > 
+> > A second issue is that the firmware descriptor schema does not allow
+> > 
+> > for describing a firmware that uses pflash, without any associated
+> > 
+> > non-volatile storage.
+> > 
+> > 
+> > 
+> > In docs/interop/firmware.json
+> > 
+> > 
+> > 
+> >  'struct' : 'FirmwareMappingFlash',
+> > 
+> >   'data'   : { 'executable'     : 'FirmwareFlashFile',
+> > 
+> >                'nvram-template' : 'FirmwareFlashFile' } }
+> > 
+> > 
+> > 
+> > Notice that nvram-template is mandatory, and when consuming these
+> > 
+> > files libvirt will thus complain if the nvram-template field is
+> > 
+> > missing.
+> > 
+> > 
+> > 
+> > We could in theory make nvram-template optional in the schema and
+> > 
+> > then update libvirt to take account of it, but this feels dubious
+> > 
+> > when we have a perfectly good way of describing a firmware without
+> > 
+> > NVRAM, using 'FirmwareMappingMemory' which is intended to be used
+> > 
+> > with QEMU's -bios option.
+> > 
+> > 
+> > 
+> > 
+> > 
+> > A third issue is in libvirt, where again the code handling the
+> > 
+> > configuration of pflash supports two scenarios
+> > 
+> > 
+> > 
+> >  - A single pflash image, which is writable
+> > 
+> >  - A pair of pflash images, one writable one readonly
+> > 
+> > 
+> > 
+> > There is no support for a single read-only pflash image in libvirt
+> > 
+> > today.
+> > 
+> > 
+> > 
+> > 
+> > 
+> > This all points towards the fact that we should be using -bios
+> > 
+> > to load the AMD SEV firmware build of EDK.
+> > 
+> > 
+> > 
+> > The only thing preventing us doing that is that QEMU does not
+> > 
+> > initialize the SEV firmware when using -bios. That is fairly
+> > 
+> > easily solved, as done in this patch series.
+> > 
+> > 
+> > 
+> > For testing I've launched QEMU in in these scenarios
+> > 
+> > 
+> > 
+> >   - SEV guest using -bios and boot from HD
+> > 
+> >   - SEV guest using pflash and boot from HD
+> > 
+> >   - SEV-ES guest using -bios and direct kernel boot
+> > 
+> >   - SEV-ES guest using pflash and direct kernel boot
+> > 
+> > 
+> > 
+> > In all these cases I was able to validate the reported SEV
+> > 
+> > guest measurement.
+> > 
+> > 
+> 
+> 
+> I'm having trouble testing this series (applied on top of master commit 69353c332c):
+> it hangs with -bios but works OK with pflash:
+> 
+> Here's with -bios:
+> 
+> $ sudo /home/dmurik/git/qemu/build/qemu-system-x86_64 -enable-kvm \
+>        -cpu host -machine q35 -smp 4 -m 2G \
+>        -machine confidential-guest-support=sev0 \
+>        -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1,policy=0x0 \
+>        -bios /home/dmurik/git/edk2/Build/AmdSev/DEBUG_GCC5/FV/OVMF.fd \
+>        -nographic \
+>        -global isa-debugcon.iobase=0x402 -debugcon file:ovmf-1.log \
+>        -monitor pty -trace 'enable=kvm_sev_*'
+> 
+> char device redirected to /dev/pts/14 (label compat_monitor0)
+> kvm_sev_init
+> kvm_sev_launch_start policy 0x0 session (nil) pdh (nil)
+> kvm_sev_change_state uninit -> launch-update
+> kvm_sev_launch_update_data addr 0x7f42e9bff010 len 0x400000
+> kvm_sev_change_state launch-update -> launch-secret
+> kvm_sev_launch_measurement data PF6n7+Vujx5sW8PC6iMRtHXfpXdJ4osbcfYvoknu7gg4ypMqs727NTzG86Ft8Llu
+> kvm_sev_launch_finish
+> kvm_sev_change_state launch-secret -> running
+> 
+> 
+> Here it hangs. The ovmf-1.log file is empty.
+> 
+> Notice that kvm_sev_launch_update_data is called, so the new
+> -bios behaviour is triggered correctly.  But the guest doesn't
+> start running.
 
-I don't think this is a good idea; only list->value->memdev should add 
-something below itself in the tree.
+Sorry, it seems I failed to test this properly before rushing into
+sending last week. I was too focused on making sure the SEV measurement
+was working and not the rest.
 
-However, I think obj can be added under the machine itself as 
-/machine/sgx-epc-device[*].
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Paolo
 
