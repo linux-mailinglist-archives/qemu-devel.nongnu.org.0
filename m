@@ -2,63 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EEF6490AAE
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 15:43:17 +0100 (CET)
-Received: from localhost ([::1]:36404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A44490ACC
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 15:53:58 +0100 (CET)
+Received: from localhost ([::1]:57022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9TE4-0008JO-Hv
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 09:43:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51234)
+	id 1n9TOP-0005Br-G7
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 09:53:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n9SjD-0004BG-SW
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:11:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51641)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1n9SvW-0005N4-9e
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:24:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60072)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n9SjC-0001JV-4w
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:11:23 -0500
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1n9SvT-0003sA-9L
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:24:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642428681;
+ s=mimecast20190719; t=1642429442;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9fgGFMgDJGs1OmQ+wiN6PtoFPMsV5Y3xrxyTUjTf3Sg=;
- b=Cpnhaz+sxnAn9pYdy3d5ZPFwVO50Y+gJtxWpYwO6VwLYqPgCKSfkg0/0Vj6WVcuZB2Dowb
- AqdhjO2F9ICBF+0TVqAIO9tROGewE00Z2F7oBFxCKnOepoNOoqHt4rBK7tNQ5YRgRftoBO
- Qyhzfa8GQ6Cz6Mk2WpXUHUI0lAZw9HQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=v0MYrwTxN26u/ssoscmPZrGEi61IZwPDgVQsQKg5zTU=;
+ b=ICo967XCQSXdr7fLCESAntwA6wXXWJlYIbuux0mRweN+gPSjKkj1AQL80ivsac02GUNfdT
+ oMK6UxbpsXaGBlHI4zy4InqBsMn0qGT7r0BhM4f6mHU3+sjl8ZSB52/g3ALJ8O6hlJu4E3
+ 6jHxRQPtjVjAxqQafIis9EvtyKpsxBQ=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-140-gZyW8PnFPRGZ2poAlwfs-Q-1; Mon, 17 Jan 2022 09:11:13 -0500
-X-MC-Unique: gZyW8PnFPRGZ2poAlwfs-Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4DEA1018725;
- Mon, 17 Jan 2022 14:11:12 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.33.36.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1DD2C753FB;
- Mon, 17 Jan 2022 14:11:10 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] python: support recording QMP session to a file
-Date: Mon, 17 Jan 2022 14:11:03 +0000
-Message-Id: <20220117141103.157288-3-berrange@redhat.com>
-In-Reply-To: <20220117141103.157288-1-berrange@redhat.com>
-References: <20220117141103.157288-1-berrange@redhat.com>
+ us-mta-438-4tmnevu9PcCGm_iE53C2EA-1; Mon, 17 Jan 2022 09:23:55 -0500
+X-MC-Unique: 4tmnevu9PcCGm_iE53C2EA-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ z191-20020a3765c8000000b00478d7915c95so13480878qkb.9
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 06:23:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=v0MYrwTxN26u/ssoscmPZrGEi61IZwPDgVQsQKg5zTU=;
+ b=AoZRChFpG6yoRjqXmlbLrVF5RFqnyjFH4A/bGePGFe6QZ3DT8COmVvoOlgvezeaXZb
+ txpJfFTaFAoY0MISSQnPCKm4zBcgis0iz0O0SCGNPsKWoP6+2SSQ304Bk6Gv1e7p+DEx
+ DM2uzYCbTWffgLG9ER5iQeTwI9oxzt5jlMys9RH+YI1q6tWiwjDarGnXZgOnRzNo8ABB
+ bHMQMM0CueGnPbwAk70n8zWvAB1SL+O9iGA4/lYb8uh2Bu9Il5TT9CVcD7NRARpIy75c
+ 2fsjNQUXKReVSil8gnu0ROrFEsOU8USm02/ZZ+QSgK4ZXN/nZsAMAYhzi/yV8YPb4y6e
+ Dqqw==
+X-Gm-Message-State: AOAM530Tqmsgv3vXxyhcn9JpnQjZsZ4+1JaHmC8f3EUMkplvkg6hzVx2
+ G5AF4BGoNm/baLjY+lKaKr4AThEr31wPdk2A1Ofw71SvK1BPaHVu7aOF3b7vNlZvIjdO5zZvByE
+ SbZoiyCFegobLFL0=
+X-Received: by 2002:a05:620a:13f7:: with SMTP id
+ h23mr14442141qkl.771.1642429435097; 
+ Mon, 17 Jan 2022 06:23:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwtExeVOe6Ywckivn3Luts2+BXBjLU0qoFCIhEC7bPwDMqVPeQPV1gbAMDLlk5QmpaIvDZsVw==
+X-Received: by 2002:a05:620a:13f7:: with SMTP id
+ h23mr14442127qkl.771.1642429434854; 
+ Mon, 17 Jan 2022 06:23:54 -0800 (PST)
+Received: from steredhat (host-95-238-125-214.retail.telecomitalia.it.
+ [95.238.125.214])
+ by smtp.gmail.com with ESMTPSA id h9sm9057175qkp.106.2022.01.17.06.23.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Jan 2022 06:23:54 -0800 (PST)
+Date: Mon, 17 Jan 2022 15:23:48 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Peter Lieven <pl@kamp.de>
+Subject: Re: [PATCH V2 for-6.2 2/2] block/rbd: workaround for ceph issue #53784
+Message-ID: <20220117142348.oq3gcr6wsxxo3owa@steredhat>
+References: <20220113144426.4036493-1-pl@kamp.de>
+ <20220113144426.4036493-3-pl@kamp.de>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20220113144426.4036493-3-pl@kamp.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -79,160 +98,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: kwolf@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
+ ct@flyingcircus.io, qemu-stable@nongnu.org, qemu-devel@nongnu.org,
+ mreitz@redhat.com, pbonzini@redhat.com, idryomov@gmail.com,
+ idryomov@redhat.com, dillaman@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When running QMP commands with very large response payloads, it is often
-not easy to spot the info you want. If we can save the response to a
-file then tools like 'grep' or 'jq' can be used to extract information.
+On Thu, Jan 13, 2022 at 03:44:26PM +0100, Peter Lieven wrote:
+>librbd had a bug until early 2022 that affected all versions of ceph that
+>supported fast-diff. This bug results in reporting of incorrect offsets
+>if the offset parameter to rbd_diff_iterate2 is not object aligned.
+>
+>This patch works around this bug for pre Quincy versions of librbd.
+>
 
-For convenience of processing, we merge the QMP command and response
-dictionaries together:
+I'm not sure, but maybe we could add the fixes tag also to this patch, 
+since without this workaround we can have issues with buggy librbd.
 
-  {
-      "arguments": {},
-      "execute": "query-kvm",
-      "return": {
-          "enabled": false,
-          "present": true
-      }
-  }
+Fixes: 0347a8fd4c3faaedf119be04c197804be40a384b
 
-Example usage
+>Cc: qemu-stable@nongnu.org
+>Signed-off-by: Peter Lieven <pl@kamp.de>
+>---
+> block/rbd.c | 42 ++++++++++++++++++++++++++++++++++++++++--
+> 1 file changed, 40 insertions(+), 2 deletions(-)
 
-  $ ./scripts/qmp/qmp-shell-wrap -l q.log -p -- ./build/qemu-system-x86_64 -display none
-  Welcome to the QMP low-level shell!
-  Connected
-  (QEMU) query-kvm
-  {
-      "return": {
-          "enabled": false,
-          "present": true
-      }
-  }
-  (QEMU) query-mice
-  {
-      "return": [
-          {
-              "absolute": false,
-              "current": true,
-              "index": 2,
-              "name": "QEMU PS/2 Mouse"
-          }
-      ]
-  }
+Tested-by: Stefano Garzarella <sgarzare@redhat.com>
 
- $ jq --slurp '. | to_entries[] | select(.value.execute == "query-kvm") |
-               .value.return.enabled' < q.log
-   false
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- python/qemu/qmp/qmp_shell.py | 27 ++++++++++++++++++++-------
- 1 file changed, 20 insertions(+), 7 deletions(-)
-
-diff --git a/python/qemu/qmp/qmp_shell.py b/python/qemu/qmp/qmp_shell.py
-index 12f7d28afc..a50c3f1bc7 100644
---- a/python/qemu/qmp/qmp_shell.py
-+++ b/python/qemu/qmp/qmp_shell.py
-@@ -165,7 +165,8 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-     def __init__(self, address: qmp.SocketAddrT,
-                  pretty: bool = False,
-                  verbose: bool = False,
--                 server: bool = False):
-+                 server: bool = False,
-+                 logfile: str = None):
-         super().__init__(address, server=server)
-         self._greeting: Optional[QMPMessage] = None
-         self._completer = QMPCompleter()
-@@ -175,6 +176,10 @@ def __init__(self, address: qmp.SocketAddrT,
-                                       '.qmp-shell_history')
-         self.pretty = pretty
-         self.verbose = verbose
-+        self.logfile = None
-+
-+        if logfile is not None:
-+            self.logfile = open(logfile, "w")
- 
-     def close(self) -> None:
-         # Hook into context manager of parent to save shell history.
-@@ -315,11 +320,11 @@ def _build_cmd(self, cmdline: str) -> Optional[QMPMessage]:
-         self._cli_expr(cmdargs[1:], qmpcmd['arguments'])
-         return qmpcmd
- 
--    def _print(self, qmp_message: object) -> None:
-+    def _print(self, qmp_message: object, fh=sys.stdout) -> None:
-         jsobj = json.dumps(qmp_message,
-                            indent=4 if self.pretty else None,
-                            sort_keys=self.pretty)
--        print(str(jsobj))
-+        print(str(jsobj), file=fh)
- 
-     def _execute_cmd(self, cmdline: str) -> bool:
-         try:
-@@ -342,6 +347,9 @@ def _execute_cmd(self, cmdline: str) -> bool:
-             print('Disconnected')
-             return False
-         self._print(resp)
-+        if self.logfile is not None:
-+            cmd = {**qmpcmd, **resp}
-+            self._print(cmd, fh=self.logfile)
-         return True
- 
-     def connect(self, negotiate: bool = True) -> None:
-@@ -409,8 +417,9 @@ class HMPShell(QMPShell):
-     def __init__(self, address: qmp.SocketAddrT,
-                  pretty: bool = False,
-                  verbose: bool = False,
--                 server: bool = False):
--        super().__init__(address, pretty, verbose, server)
-+                 server: bool = False,
-+                 logfile: str = None):
-+        super().__init__(address, pretty, verbose, server, logfile)
-         self._cpu_index = 0
- 
-     def _cmd_completion(self) -> None:
-@@ -503,6 +512,8 @@ def main() -> None:
-                         help='Verbose (echo commands sent and received)')
-     parser.add_argument('-p', '--pretty', action='store_true',
-                         help='Pretty-print JSON')
-+    parser.add_argument('-l', '--logfile',
-+                        help='Save log of all QMP messages to PATH')
- 
-     default_server = os.environ.get('QMP_SOCKET')
-     parser.add_argument('qmp_server', action='store',
-@@ -521,7 +532,7 @@ def main() -> None:
-         parser.error(f"Bad port number: {args.qmp_server}")
-         return  # pycharm doesn't know error() is noreturn
- 
--    with shell_class(address, args.pretty, args.verbose) as qemu:
-+    with shell_class(address, args.pretty, args.verbose, args.logfile) as qemu:
-         try:
-             qemu.connect(negotiate=not args.skip_negotiation)
-         except qmp.QMPConnectError:
-@@ -545,6 +556,8 @@ def main_wrap() -> None:
-                         help='Verbose (echo commands sent and received)')
-     parser.add_argument('-p', '--pretty', action='store_true',
-                         help='Pretty-print JSON')
-+    parser.add_argument('-l', '--logfile',
-+                        help='Save log of all QMP messages to PATH')
- 
-     parser.add_argument('command', nargs=argparse.REMAINDER,
-                         help='QEMU command line to invoke')
-@@ -568,7 +581,7 @@ def main_wrap() -> None:
-         parser.error(f"Bad port number: {socketpath}")
-         return  # pycharm doesn't know error() is noreturn
- 
--    with shell_class(address, args.pretty, args.verbose, True) as qemu:
-+    with shell_class(address, args.pretty, args.verbose, True, args.logfile) as qemu:
-         qemuproc = Popen(cmd)
- 
-         try:
--- 
-2.33.1
+>
+>diff --git a/block/rbd.c b/block/rbd.c
+>index 20bb896c4a..d174d51659 100644
+>--- a/block/rbd.c
+>+++ b/block/rbd.c
+>@@ -1320,6 +1320,7 @@ static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
+>     int status, r;
+>     RBDDiffIterateReq req = { .offs = offset };
+>     uint64_t features, flags;
+>+    uint64_t head = 0;
+>
+>     assert(offset + bytes <= s->image_size);
+>
+>@@ -1347,7 +1348,43 @@ static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
+>         return status;
+>     }
+>
+>-    r = rbd_diff_iterate2(s->image, NULL, offset, bytes, true, true,
+>+#if LIBRBD_VERSION_CODE < LIBRBD_VERSION(1, 17, 0)
+>+    /*
+>+     * librbd had a bug until early 2022 that affected all versions of ceph that
+>+     * supported fast-diff. This bug results in reporting of incorrect offsets
+>+     * if the offset parameter to rbd_diff_iterate2 is not object aligned.
+>+     * Work around this bug by rounding down the offset to object boundaries.
+>+     * This is OK because we call rbd_diff_iterate2 with whole_object = true.
+>+     * However, this workaround only works for non cloned images with default
+>+     * striping.
+>+     *
+>+     * See: https://tracker.ceph.com/issues/53784
+>+     */
+>+
+>+    /*  check if RBD image has non-default striping enabled */
+>+    if (features & RBD_FEATURE_STRIPINGV2) {
+>+        return status;
+>+    }
+>+
+>+#pragma GCC diagnostic push
+>+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+>+    /*
+>+     * check if RBD image is a clone (= has a parent).
+>+     *
+>+     * rbd_get_parent_info is deprecated from Nautilus onwards, but the
+>+     * replacement rbd_get_parent is not present in Luminous and Mimic.
+>+     */
+>+    if (rbd_get_parent_info(s->image, NULL, 0, NULL, 0, NULL, 0) != -ENOENT) {
+>+        return status;
+>+    }
+>+#pragma GCC diagnostic pop
+>+
+>+    head = req.offs & (s->object_size - 1);
+>+    req.offs -= head;
+>+    bytes += head;
+>+#endif
+>+
+>+    r = rbd_diff_iterate2(s->image, NULL, req.offs, bytes, true, true,
+>                           qemu_rbd_diff_iterate_cb, &req);
+>     if (r < 0 && r != QEMU_RBD_EXIT_DIFF_ITERATE2) {
+>         return status;
+>@@ -1366,7 +1403,8 @@ static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
+>         status = BDRV_BLOCK_ZERO | BDRV_BLOCK_OFFSET_VALID;
+>     }
+>
+>-    *pnum = req.bytes;
+>+    assert(req.bytes > head);
+>+    *pnum = req.bytes - head;
+>     return status;
+> }
+>
+>-- 
+>2.25.1
+>
+>
+>
 
 
