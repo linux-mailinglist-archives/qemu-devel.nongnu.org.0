@@ -2,85 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 380C8490318
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 08:47:13 +0100 (CET)
-Received: from localhost ([::1]:32780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E0E3490304
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 08:42:59 +0100 (CET)
+Received: from localhost ([::1]:58882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9MjQ-0000qI-BL
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 02:47:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51068)
+	id 1n9MfJ-0007fw-RA
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 02:42:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n9MVK-0004Ri-8D
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 02:32:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51433)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1n9MXW-00055U-2F
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 02:34:55 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:15718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n9MVG-0002g8-Eu
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 02:32:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642404753;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=92PqXdFYoPjk/EH7Y3ZQ1GkYzc6/Q6L4ckNNXJUPGr4=;
- b=QRZFQqKgC64MkEU9ZcVnRUL1T9uV3eIxW58T5Z09DlJ7JJfJjJ89dRWsVX/yRQi7fzqNSz
- Aa9Eoz/WkDBggeAvgPB7pJ79pFBk18qCahb7l3mhqukmt/ePKlaQqm/QsAIGw66hXTivhs
- 4aQHNYCRKUm62zYWGxAuyJnoXGJGcVY=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-426-mGuFQLWAOriKOoZFyEJOqw-1; Mon, 17 Jan 2022 02:32:29 -0500
-X-MC-Unique: mGuFQLWAOriKOoZFyEJOqw-1
-Received: by mail-pg1-f197.google.com with SMTP id
- r1-20020a639b01000000b0034243da71caso7190652pgd.7
- for <qemu-devel@nongnu.org>; Sun, 16 Jan 2022 23:32:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=92PqXdFYoPjk/EH7Y3ZQ1GkYzc6/Q6L4ckNNXJUPGr4=;
- b=idqN5mL7fxTWQ82ucscffLnMgQmK4QpqXadafFoJr9QoVr/vrXz2RMynaCXlBsaaPn
- r4+MFWp0rHl4RJSTuVlcWWsxIjbwFoAvMUB2mbZetnuiAfW5FxROuvwAsWt2DjpE41tT
- XMCdfGHlD3gNUivl6GLSlxy2KXbgijt5MzI8kRAcq5Dc7goR4EnU/MTKmqgRfSb9MWSM
- ++TgYh5aGHvLJMkAeKBoMXL8nUTyH7DVeKE9ZliGKkH1eIBWMnau09shs5aafXMrRHpZ
- viGzYUHxyoaS5z3QdIpOrgrh7i53+yliB/2PzXGEP4cTR9xE07v18Ca4Yz2mHr/41pkO
- H1oQ==
-X-Gm-Message-State: AOAM530qyxmo1w8r+VcQ1b1jDY3i+uYSlyZmDpWCKRhvXn5VcIX/nUnG
- tgb+hL3N/yWUXyKdZz1UR8Oqj1YxDKWN5cUDyZ1wCaFFOCFULT8Pv5pIdHkLYhY/pawHHbftwCv
- /u2cdlzXkA6yF9eQ=
-X-Received: by 2002:a63:2ac2:: with SMTP id q185mr18299131pgq.25.1642404747893; 
- Sun, 16 Jan 2022 23:32:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy0fP7hGQtNX7PlhAn9m/WfGqHOWrhWyT1oa06f5wigm6dQZ9w0UOkUyVb/tcVgJlJjGUsAQA==
-X-Received: by 2002:a63:2ac2:: with SMTP id q185mr18299101pgq.25.1642404747478; 
- Sun, 16 Jan 2022 23:32:27 -0800 (PST)
-Received: from xz-m1.local ([191.101.132.74])
- by smtp.gmail.com with ESMTPSA id s8sm13301548pfk.165.2022.01.16.23.32.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Jan 2022 23:32:26 -0800 (PST)
-Date: Mon, 17 Jan 2022 15:32:20 +0800
-From: Peter Xu <peterx@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v11 3/4] softmmu/dirtylimit: implement virtual CPU throttle
-Message-ID: <YeUbhC7MG32K9pxu@xz-m1.local>
-References: <cover.1641316375.git.huangy81@chinatelecom.cn>
- <0381e32c2cc70613613aaa284b8e8c9760d6932f.1641316375.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1n9MXU-0002sS-15
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 02:34:53 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20H6QSkK032064; 
+ Mon, 17 Jan 2022 07:34:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=9hcsWQECMLjkxQkpY0ZdGTeHngwslcpcVMAJxNqy0Vo=;
+ b=h1t8kdMLay6rjPa1B0aJPdQm8GBfWSApJ33hrZSLaNQX79FOBqjdD695hzhPoZ/Vp9h1
+ 2Fp+cM+lZ/8JoJtE1PL2ojKdQBh1aAgLKaysGOlTb+assUr9uNb2X+QVsrciWWsi23CK
+ g3GR2xCdOT87tkmoFxdMv4MCHzBX/CRewkKNMTWwwk96oZQqDRkPoHU1Hm7NjqtQ8QyT
+ irR+ZS2kscslo8Io29Z3j8Jw5ykva1hSBh/AkTIWWnPdZtIeZojxW/XMQDNxTfnTf5rW
+ PzdTkYsAqFe62XMCXuXj7VkZRzBUR7ul35ViUJ2GzfSfOzB9BooES3fI7U1+aKItP4cf fw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dn36mh6gq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Jan 2022 07:34:37 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20H7YaMD006221;
+ Mon, 17 Jan 2022 07:34:36 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dn36mh6fs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Jan 2022 07:34:36 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20H7MKCG030433;
+ Mon, 17 Jan 2022 07:34:35 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma02dal.us.ibm.com with ESMTP id 3dknwa6a3d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Jan 2022 07:34:35 +0000
+Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
+ [9.57.199.109])
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20H7YYmq23003590
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 17 Jan 2022 07:34:34 GMT
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2AC66112064;
+ Mon, 17 Jan 2022 07:34:34 +0000 (GMT)
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 88263112063;
+ Mon, 17 Jan 2022 07:34:31 +0000 (GMT)
+Received: from [9.160.102.180] (unknown [9.160.102.180])
+ by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
+ Mon, 17 Jan 2022 07:34:31 +0000 (GMT)
+Message-ID: <59d81ace-8a66-4ab4-2768-a68d302e62d8@linux.ibm.com>
+Date: Mon, 17 Jan 2022 09:34:30 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 0/2] Improved support for AMD SEV firmware loading
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20220113165511.46098-1-berrange@redhat.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+In-Reply-To: <20220113165511.46098-1-berrange@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 5mGEiwy4jfhAv-FvX-r7XX4IAfOJYSLT
+X-Proofpoint-GUID: vzwChD4fvX_N7qIPUG3ZJMJDz6OoAih4
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-In-Reply-To: <0381e32c2cc70613613aaa284b8e8c9760d6932f.1641316375.git.huangy81@chinatelecom.cn>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-17_02,2022-01-14_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ malwarescore=0 mlxscore=0 phishscore=0 adultscore=0 lowpriorityscore=0
+ bulkscore=0 priorityscore=1501 clxscore=1011 spamscore=0 suspectscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201170048
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,412 +114,264 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <Ashish.Kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 05, 2022 at 01:14:08AM +0800, huangy81@chinatelecom.cn wrote:
->  ##
-> +# @DirtyLimitInfo:
-> +#
-> +# Dirty page rate limit information of virtual CPU.
-> +#
-> +# @cpu-index: index of virtual CPU.
-> +#
-> +# @limit-rate: upper limit of dirty page rate for virtual CPU.
-> +#
-> +# @current-rate: current dirty page rate for virtual CPU.
+[+cc Tom, Brijesh, Ashish - see SEV-related changes in this series]
 
-Please consider spell out the unit too for all these dirty rate fields (MB/s).
 
-> +#
-> +# Since: 7.0
-> +#
-> +##
-> +{ 'struct': 'DirtyLimitInfo',
-> +  'data': { 'cpu-index': 'int',
-> +            'limit-rate': 'int64',
-> +            'current-rate': 'int64' } }
-> +
-> +##
->  # @snapshot-save:
->  #
->  # Save a VM snapshot
-> diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-> index a10ac6f..c9f5745 100644
-> --- a/softmmu/dirtylimit.c
-> +++ b/softmmu/dirtylimit.c
-> @@ -18,6 +18,26 @@
->  #include "sysemu/dirtylimit.h"
->  #include "exec/memory.h"
->  #include "hw/boards.h"
-> +#include "sysemu/kvm.h"
-> +#include "trace.h"
-> +
-> +/*
-> + * Dirtylimit stop working if dirty page rate error
-> + * value less than DIRTYLIMIT_TOLERANCE_RANGE
-> + */
-> +#define DIRTYLIMIT_TOLERANCE_RANGE  25  /* MB/s */
-> +/*
-> + * Plus or minus vcpu sleep time linearly if dirty
-> + * page rate error value percentage over
-> + * DIRTYLIMIT_LINEAR_ADJUSTMENT_PCT.
-> + * Otherwise, plus or minus a fixed vcpu sleep time.
-> + */
-> +#define DIRTYLIMIT_LINEAR_ADJUSTMENT_PCT     50
-> +/*
-> + * Max vcpu sleep time percentage during a cycle
-> + * composed of dirty ring full and sleep time.
-> + */
-> +#define DIRTYLIMIT_THROTTLE_PCT_MAX 99
+On 13/01/2022 18:55, Daniel P. Berrangé wrote:
+> The AMD SEV build of EDK2 only emits a single file, intended to be
+> 
+> mapped readonly. There is explicitly no separate writable VARS
+> 
+> store for persisting non-volatile firmware variables.
+> 
+> 
+> 
+> This can be used with QEMU's traditional pflash configuration
+> 
+> mechanism by only populating pflash0, leaving pflash1 unconfigured.
+> 
+> Conceptually, however, it is odd to be using pflash at all when we
+> 
+> have no intention of supporting any writable variables. The -bios
+> 
+> option should be sufficient for any firmware that is exclusively
+> 
+> readonly code.
+> 
+> 
+> 
+> 
+> 
+> A second issue is that the firmware descriptor schema does not allow
+> 
+> for describing a firmware that uses pflash, without any associated
+> 
+> non-volatile storage.
+> 
+> 
+> 
+> In docs/interop/firmware.json
+> 
+> 
+> 
+>  'struct' : 'FirmwareMappingFlash',
+> 
+>   'data'   : { 'executable'     : 'FirmwareFlashFile',
+> 
+>                'nvram-template' : 'FirmwareFlashFile' } }
+> 
+> 
+> 
+> Notice that nvram-template is mandatory, and when consuming these
+> 
+> files libvirt will thus complain if the nvram-template field is
+> 
+> missing.
+> 
+> 
+> 
+> We could in theory make nvram-template optional in the schema and
+> 
+> then update libvirt to take account of it, but this feels dubious
+> 
+> when we have a perfectly good way of describing a firmware without
+> 
+> NVRAM, using 'FirmwareMappingMemory' which is intended to be used
+> 
+> with QEMU's -bios option.
+> 
+> 
+> 
+> 
+> 
+> A third issue is in libvirt, where again the code handling the
+> 
+> configuration of pflash supports two scenarios
+> 
+> 
+> 
+>  - A single pflash image, which is writable
+> 
+>  - A pair of pflash images, one writable one readonly
+> 
+> 
+> 
+> There is no support for a single read-only pflash image in libvirt
+> 
+> today.
+> 
+> 
+> 
+> 
+> 
+> This all points towards the fact that we should be using -bios
+> 
+> to load the AMD SEV firmware build of EDK.
+> 
+> 
+> 
+> The only thing preventing us doing that is that QEMU does not
+> 
+> initialize the SEV firmware when using -bios. That is fairly
+> 
+> easily solved, as done in this patch series.
+> 
+> 
+> 
+> For testing I've launched QEMU in in these scenarios
+> 
+> 
+> 
+>   - SEV guest using -bios and boot from HD
+> 
+>   - SEV guest using pflash and boot from HD
+> 
+>   - SEV-ES guest using -bios and direct kernel boot
+> 
+>   - SEV-ES guest using pflash and direct kernel boot
+> 
+> 
+> 
+> In all these cases I was able to validate the reported SEV
+> 
+> guest measurement.
+> 
+> 
 
-(Thanks for the enriched comments)
 
-> +static inline void dirtylimit_vcpu_set_quota(int cpu_index,
-> +                                             uint64_t quota,
-> +                                             bool on)
-> +{
-> +    dirtylimit_state->states[cpu_index].quota = quota;
+I'm having trouble testing this series (applied on top of master commit 69353c332c):
+it hangs with -bios but works OK with pflash:
 
-To be clear, we could move this line into the "(on)" if condition, then in !on
-case we reset it.
+Here's with -bios:
 
-> +    if (on) {
-> +        if (!dirtylimit_vcpu_get_state(cpu_index)->enabled) {
-> +            dirtylimit_state->limited_nvcpu++;
-> +        }
-> +    } else {
-> +        if (dirtylimit_state->states[cpu_index].enabled) {
-> +            dirtylimit_state->limited_nvcpu--;
-> +        }
-> +    }
-> +
-> +    dirtylimit_state->states[cpu_index].enabled = on;
-> +}
-> +
-> +static inline int64_t dirtylimit_dirty_ring_full_time(uint64_t dirtyrate)
-> +{
-> +    static uint64_t max_dirtyrate;
-> +    uint32_t dirty_ring_size = kvm_dirty_ring_size();
-> +    uint64_t dirty_ring_size_meory_MB =
-> +        dirty_ring_size * TARGET_PAGE_SIZE >> 20;
-> +
-> +    if (max_dirtyrate < dirtyrate) {
-> +        max_dirtyrate = dirtyrate;
-> +    }
-> +
-> +    return dirty_ring_size_meory_MB * 1000000 / max_dirtyrate;
-> +}
-> +
-> +static inline bool dirtylimit_done(uint64_t quota,
-> +                                   uint64_t current)
-> +{
-> +    uint64_t min, max;
-> +
-> +    min = MIN(quota, current);
-> +    max = MAX(quota, current);
-> +
-> +    return ((max - min) <= DIRTYLIMIT_TOLERANCE_RANGE) ? true : false;
-> +}
-> +
-> +static inline bool
-> +dirtylimit_need_linear_adjustment(uint64_t quota,
-> +                                  uint64_t current)
-> +{
-> +    uint64_t min, max, pct;
-> +
-> +    min = MIN(quota, current);
-> +    max = MAX(quota, current);
-> +
-> +    pct = (max - min) * 100 / max;
-> +
-> +    return pct > DIRTYLIMIT_LINEAR_ADJUSTMENT_PCT;
-> +}
-> +
-> +static void dirtylimit_set_throttle(CPUState *cpu,
-> +                                    uint64_t quota,
-> +                                    uint64_t current)
-> +{
-> +    int64_t ring_full_time_us = 0;
-> +    uint64_t sleep_pct = 0;
-> +    uint64_t throttle_us = 0;
-> +
-> +    ring_full_time_us = dirtylimit_dirty_ring_full_time(current);
-> +
-> +    if (dirtylimit_need_linear_adjustment(quota, current)) {
-> +        if (quota < current) {
-> +            sleep_pct = (current - quota) * 100 / current;
-> +            throttle_us =
-> +                ring_full_time_us * sleep_pct / (double)(100 - sleep_pct);
-> +            cpu->throttle_us_per_full += throttle_us;
-> +        } else {
-> +            sleep_pct = (quota - current) * 100 / quota;
-> +            throttle_us =
-> +                ring_full_time_us * sleep_pct / (double)(100 - sleep_pct);
-> +            cpu->throttle_us_per_full -= throttle_us;
-> +        }
-> +
-> +        trace_dirtylimit_throttle_pct(cpu->cpu_index,
-> +                                      sleep_pct,
-> +                                      throttle_us);
-> +    } else {
-> +        if (quota < current) {
-> +            cpu->throttle_us_per_full += ring_full_time_us / 10;
-> +        } else {
-> +            cpu->throttle_us_per_full -= ring_full_time_us / 10;
-> +        }
-> +    }
-> +
-> +    cpu->throttle_us_per_full = MIN(cpu->throttle_us_per_full,
-> +        ring_full_time_us * DIRTYLIMIT_THROTTLE_PCT_MAX);
-> +
-> +    cpu->throttle_us_per_full = MAX(cpu->throttle_us_per_full, 0);
-> +}
+$ sudo /home/dmurik/git/qemu/build/qemu-system-x86_64 -enable-kvm \
+       -cpu host -machine q35 -smp 4 -m 2G \
+       -machine confidential-guest-support=sev0 \
+       -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1,policy=0x0 \
+       -bios /home/dmurik/git/edk2/Build/AmdSev/DEBUG_GCC5/FV/OVMF.fd \
+       -nographic \
+       -global isa-debugcon.iobase=0x402 -debugcon file:ovmf-1.log \
+       -monitor pty -trace 'enable=kvm_sev_*'
 
-This algorithm seems works even worse than the previous version, could you have
-a look on what's wrong? 
+char device redirected to /dev/pts/14 (label compat_monitor0)
+kvm_sev_init
+kvm_sev_launch_start policy 0x0 session (nil) pdh (nil)
+kvm_sev_change_state uninit -> launch-update
+kvm_sev_launch_update_data addr 0x7f42e9bff010 len 0x400000
+kvm_sev_change_state launch-update -> launch-secret
+kvm_sev_launch_measurement data PF6n7+Vujx5sW8PC6iMRtHXfpXdJ4osbcfYvoknu7gg4ypMqs727NTzG86Ft8Llu
+kvm_sev_launch_finish
+kvm_sev_change_state launch-secret -> running
 
-See how it fluctuates when I set a throttle of 300MB/s:
 
-(QMP) set-vcpu-dirty-limit dirty-rate=300
+Here it hangs. The ovmf-1.log file is empty.
 
-Dirty rate: 17622 (MB/s), duration: 1000 (ms), load: 100.00%
-Dirty rate: 17617 (MB/s), duration: 1000 (ms), load: 100.00%
-Dirty rate: 17611 (MB/s), duration: 1000 (ms), load: 100.00%
-Dirty rate: 13023 (MB/s), duration: 1153 (ms), load: 100.00%
-Dirty rate: 923 (MB/s), duration: 1000 (ms), load: 100.00%
-Dirty rate: 2853 (MB/s), duration: 1000 (ms), load: 100.00%
-Dirty rate: 1963 (MB/s), duration: 1040 (ms), load: 100.00%
-Dirty rate: 180 (MB/s), duration: 1006 (ms), load: 100.00%
-Dirty rate: 182 (MB/s), duration: 1007 (ms), load: 100.00%
-Dirty rate: 177 (MB/s), duration: 1005 (ms), load: 100.00%
-Dirty rate: 181 (MB/s), duration: 1007 (ms), load: 100.00%
-Dirty rate: 179 (MB/s), duration: 1006 (ms), load: 100.00%
-Dirty rate: 168 (MB/s), duration: 1005 (ms), load: 100.00%
-Dirty rate: 169 (MB/s), duration: 1006 (ms), load: 100.00%
-Dirty rate: 2717 (MB/s), duration: 1000 (ms), load: 100.00%
-Dirty rate: 2851 (MB/s), duration: 1000 (ms), load: 100.00%
-Dirty rate: 1773 (MB/s), duration: 1021 (ms), load: 100.00%
-Dirty rate: 177 (MB/s), duration: 1006 (ms), load: 100.00%
-Dirty rate: 179 (MB/s), duration: 1006 (ms), load: 100.00%
-Dirty rate: 175 (MB/s), duration: 1005 (ms), load: 100.00%
-Dirty rate: 1973 (MB/s), duration: 1000 (ms), load: 100.00%
-Dirty rate: 2878 (MB/s), duration: 1000 (ms), load: 100.00%
-Dirty rate: 1690 (MB/s), duration: 1022 (ms), load: 100.00%
-Dirty rate: 174 (MB/s), duration: 1005 (ms), load: 100.00%
-Dirty rate: 184 (MB/s), duration: 1006 (ms), load: 100.00%
+Notice that kvm_sev_launch_update_data is called, so the new
+-bios behaviour is triggered correctly.  But the guest doesn't
+start running.
 
-This is the tool I'm using:
+Here is the guest's state:
 
-https://github.com/xzpeter/mig_mon#memory-dirty
+(qemu) info registers
+EAX=0000606b EBX=00001268 ECX=0000440c EDX=008328d2
+ESI=000091e2 EDI=0000e9e3 EBP=0000a451 ESP=00009af0
+EIP=00003612 EFL=00000082 [--S----] CPL=0 II=0 A20=1 SMM=0 HLT=0
+ES =0000 00000000 0000ffff 00009300
+CS =a76e 000a76e0 0000ffff 00009b00
+SS =0000 00000000 0000ffff 00009300
+DS =0000 00000000 0000ffff 00009300
+FS =0000 00000000 0000ffff 00009300
+GS =0000 00000000 0000ffff 00009300
+LDT=0000 00000000 0000ffff 00008200
+TR =0000 00000000 0000ffff 00008b00
+GDT=     00000000 0000ffff
+IDT=     00000000 0000ffff
+CR0=60000010 CR2=00000000 CR3=00000000 CR4=00000000
+DR0=0000000000000000 DR1=0000000000000000 DR2=0000000000000000 DR3=0000000000000000
+DR6=00000000ffff0ff0 DR7=0000000000000400
+EFER=0000000000000000
+FCW=037f FSW=0000 [ST=0] FTW=00 MXCSR=00001f80
+...
 
-Again, I won't ask for a good algorithm as the 1st version, but then I think
-it's nicer we have the simplest algorithm merged first, which should be very
-easy to verify.
+(qemu) info sev
+handle: 1
+state: running
+build: 10
+api version: 0.23
+debug: on
+key-sharing: on
 
-> +
-> +static void dirtylimit_adjust_throttle(CPUState *cpu)
-> +{
-> +    uint64_t quota = 0;
-> +    uint64_t current = 0;
-> +    int cpu_index = cpu->cpu_index;
-> +
-> +    quota = dirtylimit_vcpu_get_state(cpu_index)->quota;
-> +    current = vcpu_dirty_rate_get(cpu_index);
-> +
-> +    if (current == 0 &&
-> +        dirtylimit_vcpu_get_state(cpu_index)->unmatched_cnt == 0) {
-> +        cpu->throttle_us_per_full = 0;
-> +        goto end;
-> +    } else if (++dirtylimit_vcpu_get_state(cpu_index)->unmatched_cnt
-> +               < 2) {
-> +        goto end;
-> +    } else if (dirtylimit_done(quota, current)) {
-> +        goto end;
-> +    } else {
-> +        dirtylimit_vcpu_get_state(cpu_index)->unmatched_cnt = 0;
-> +        dirtylimit_set_throttle(cpu, quota, current);
-> +    }
-> +end:
-> +    trace_dirtylimit_adjust_throttle(cpu_index,
-> +                                     quota, current,
-> +                                     cpu->throttle_us_per_full);
-> +    return;
-> +}
-> +
-> +static void *dirtylimit_thread(void *opaque)
-> +{
-> +    CPUState *cpu;
-> +
-> +    rcu_register_thread();
-> +
-> +    while (!qatomic_read(&dirtylimit_quit)) {
-> +        sleep(DIRTYLIMIT_CALC_TIME_MS / 1000);
 
-Sorry to have not mentioned this: I think we probably don't even need this
-dirtylimit thread.
 
-It'll be hard to make the "sleep" right here.. you could read two identical
-values from the dirty calc thread because the 1sec sleep is not accurate, so
-even after this sleep() the calc thread may not have provided the latest number
-yet.
+If I try the same with pflash (instead of -bios), I get:
 
-It'll be much cleaner (and most importantly, accurate..) to me if we could make
-this a hook function being passed over to the vcpu_dirty_rate_stat_thread()
-thread, then after each vcpu_dirty_rate_stat_collect() we call the hook.
+# sudo /home/dmurik/git/qemu/build/qemu-system-x86_64 -enable-kvm \
+       -cpu host -machine q35 -smp 4 -m 2G \
+       -machine confidential-guest-support=sev0 \
+       -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1,policy=0x0 \
+       -drive if=pflash,format=raw,unit=0,file=/home/dmurik/git/edk2/Build/AmdSev/DEBUG_GCC5/FV/OVMF.fd,readonly=on \
+       -nographic \
+       -global isa-debugcon.iobase=0x402 -debugcon file:ovmf-1.log \
+       -monitor pty -trace 'enable=kvm_sev_*'
 
-> +
-> +        dirtylimit_state_lock();
-> +
-> +        if (!dirtylimit_in_service()) {
-> +            dirtylimit_state_unlock();
-> +            break;
-> +        }
-> +
-> +        CPU_FOREACH(cpu) {
-> +            if (!dirtylimit_vcpu_get_state(cpu->cpu_index)->enabled) {
-> +                continue;
-> +            }
-> +            dirtylimit_adjust_throttle(cpu);
-> +        }
-> +        dirtylimit_state_unlock();
-> +    }
-> +
-> +    rcu_unregister_thread();
-> +
-> +    return NULL;
-> +}
-> +
-> +static void dirtylimit_thread_start(void)
-> +{
-> +    qatomic_set(&dirtylimit_quit, 0);
-> +    qemu_thread_create(&dirtylimit_thr,
-> +                       "dirtylimit",
-> +                       dirtylimit_thread,
-> +                       NULL,
-> +                       QEMU_THREAD_JOINABLE);
-> +}
-> +
-> +static void dirtylimit_thread_stop(void)
-> +{
-> +    qatomic_set(&dirtylimit_quit, 1);
-> +    qemu_mutex_unlock_iothread();
-> +    qemu_thread_join(&dirtylimit_thr);
-> +    qemu_mutex_lock_iothread();
-> +}
-> +
-> +void dirtylimit_set_vcpu(int cpu_index,
-> +                         uint64_t quota,
-> +                         bool enable)
-> +{
-> +    trace_dirtylimit_set_vcpu(cpu_index, quota);
-> +
-> +    if (enable) {
-> +        if (dirtylimit_in_service()) {
-> +            /* only set the vcpu dirty page rate limit */
-> +            dirtylimit_vcpu_set_quota(cpu_index, quota, true);
-> +            return;
-> +        }
-> +
-> +        /* initialize state when set dirtylimit first time */
-> +        dirtylimit_state_lock();
-> +        dirtylimit_state_initialize();
-> +        dirtylimit_vcpu_set_quota(cpu_index, quota, true);
-> +        dirtylimit_state_unlock();
-> +
-> +        dirtylimit_thread_start();
+char device redirected to /dev/pts/14 (label compat_monitor0)
+kvm_sev_init
+kvm_sev_launch_start policy 0x0 session (nil) pdh (nil)
+kvm_sev_change_state uninit -> launch-update
+kvm_sev_launch_update_data addr 0x7f0343000000 len 0x400000
+kvm_sev_change_state launch-update -> launch-secret
+kvm_sev_launch_measurement data esqzlr4xX2eEY92xsKEKL7FyKRDW7VYiyIb+aXS4S/ctON2s1xxwFjAKU7ImfULJ
+kvm_sev_launch_finish
+kvm_sev_change_state launch-secret -> running
+BdsDxe: failed to load Boot0003 "Grub Bootloader" from Fv(7CB8BDC9-F8EB-4F34-AAEA-3EE4AF6516A1)/FvFile(B5AE312C-BC8A-43B1-9C62-EBB826DD5D07): Not
+ Found
 
-Can we move dirtylimit global initializations out of dirtylimit_set_vcpu() too?
-We should always keep init/cleanup of dirty_rate_calc and dirtylimit together,
-because they should, imho.  We never enable one of them.
 
-I commented similarly in previous version on this.
+The "failed to load Grub" is what I expected. So this works OK. 
+The ovmf-1.log file shows normal sequence of AmdSev boot. 
 
-> +    } else {
-> +        if (!dirtylimit_in_service()) {
-> +            return;
-> +        }
-> +
-> +        dirtylimit_state_lock();
-> +        /* dirty page rate limit is not enabled */
-> +        if (!dirtylimit_vcpu_get_state(cpu_index)->enabled) {
-> +            dirtylimit_state_unlock();
-> +            return;
-> +        }
-> +
-> +        /* switch off vcpu dirty page rate limit */
-> +        dirtylimit_vcpu_set_quota(cpu_index, 0, false);
-> +        dirtylimit_state_unlock();
-> +
-> +        if (!dirtylimit_state->limited_nvcpu) {
-> +            dirtylimit_thread_stop();
-> +
-> +            dirtylimit_state_lock();
-> +            dirtylimit_state_finalize();
-> +            dirtylimit_state_unlock();
 
-We don't need such a fine control of locking, IMHO.. it can be a very big lock
-just to serialize things..
+I tried the two options with the standard OvmfX64 package as well - same behaviour.
 
-IMHO it could be as simple as:
 
-void dirtylimit_set_vcpu(int cpu_index,
-                         uint64_t quota,
-                         bool enable)
-{
-    dirtylimit_vcpu_set_quota(cpu_index, quota, enable);
-    trace_dirtylimit_set_vcpu(cpu_index, quota);
-}
+Do I need to build the OVMF file differently to use with -bios ?
 
-void qmp_set_vcpu_dirty_limit(bool has_cpu_index,
-                              uint64_t cpu_index,
-                              uint64_t dirty_rate,
-                              Error **errp)
-{
-    if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
-        error_setg(errp, "dirty page limit feature requires KVM with"
-                   " accelerator property 'dirty-ring-size' set'");
-        return;
-    }
 
-    if (has_cpu_index && !dirtylimit_vcpu_index_valid(cpu_index)) {
-        error_setg(errp, "incorrect cpu index specified");
-        return;
-    }
+-Dov
 
-    dirtylimit_state_lock();
 
-    if (!dirtylimit_in_service()) {
-        /* TODO: we could have one helper to initialize all of them */
-        vcpu_dirty_rate_stat_initialize();
-        vcpu_dirty_rate_stat_start();
-        dirtylimit_state_initialize();
-        dirtylimit_vcpu_set_quota(cpu_index, quota, true);
-    }
-
-    if (has_cpu_index) {
-        dirtylimit_set_vcpu(cpu_index, dirty_rate, true);
-    } else {
-        dirtylimit_set_all(dirty_rate, true);
-    }
-
-    dirtylimit_state_unlock();
-}
-
-I didn't write the cleanup path, but it's the same: we should only cleanup all
-the global structs in cancel-vcpu-dirty-limit when we found there's zero vcpus
-in track, and it should be done once there.
-
-Thanks,
-
--- 
-Peter Xu
-
+> 
+> Daniel P. Berrangé (2):
+> 
+>   hw/i386: refactor logic for setting up SEV firmware
+> 
+>   hw/i386: support loading OVMF using -bios too
+> 
+> 
+> 
+>  hw/i386/pc_sysfw.c            | 24 +++---------------------
+> 
+>  hw/i386/pc_sysfw_ovmf-stubs.c | 10 ++++++++++
+> 
+>  hw/i386/pc_sysfw_ovmf.c       | 27 +++++++++++++++++++++++++++
+> 
+>  hw/i386/x86.c                 |  5 +++++
+> 
+>  include/hw/i386/pc.h          |  1 +
+> 
+>  5 files changed, 46 insertions(+), 21 deletions(-)
+> 
+> 
+> 
 
