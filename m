@@ -2,83 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F16749099A
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 14:33:20 +0100 (CET)
-Received: from localhost ([::1]:46070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 889304909AD
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 14:44:26 +0100 (CET)
+Received: from localhost ([::1]:57788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9S8N-0008KV-Eq
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 08:33:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60680)
+	id 1n9SJ7-0000gz-Ag
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 08:44:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1n9RYU-0001Te-9T
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 07:56:14 -0500
-Received: from [2607:f8b0:4864:20::531] (port=43885
- helo=mail-pg1-x531.google.com)
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1n9Ri6-0006OM-FF
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 08:06:11 -0500
+Received: from [2a00:1450:4864:20::529] (port=37760
+ helo=mail-ed1-x529.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1n9RYR-0003sA-T0
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 07:56:13 -0500
-Received: by mail-pg1-x531.google.com with SMTP id 8so10792522pgc.10
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 04:56:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VBP4F0Qb1NTxbFa/ly3w6QBIRc7baJNfIgHerPuVAxs=;
- b=jPx5B6W+YNwFmUQCW6wV8PEluOnwAPw5QNUgUdFg7ygObMyh6bBbNwoaFs431JVnP8
- 4gcwdo7pdE+JKSV7Mg+bMVcQeY8yyOgwHlZM64r/9J4uWU9/EEp9aAb7GD4kZljuV15Z
- h3BldSvETZT1lFjiCKuqgyWlK9o+ThvS9Hy2DClwJfDSkkeCOPQZx6aK+cYMUN6o921X
- qDjbdpgvLHfglVYGJ+mDSQMgT3EV58DhEHY7pEBD9DU4pn+P1O/uqVRY2P6svk2Rpwac
- bi6JK5Ne8pV+JglHwE/1hBqTCFg9jjdqgZUadcwPUpRTO9jVJhWVSkrvIvIJgUrJwK0W
- SSxA==
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1n9Rhx-0005Pr-LF
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 08:06:06 -0500
+Received: by mail-ed1-x529.google.com with SMTP id j7so16873481edr.4
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 05:06:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=livius-net.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=6MkfaMCh2MDkpUiFGTUWW3xB1cslD/ksNGP3W9LXGcU=;
+ b=pqrnGSwWg093QZyDWBRus9M892BHk4mggJ/e4jp3x/h9NaukenjejPtWoQpdRb807t
+ f+L/tiwch+3RA5eys9V3h8tAt6VKZlQPBlXsocpo8buYDf3svHlJ2X6vChpGe+tuhcau
+ z9c3gcNgwyq29uZKR+IPY8fNSJlkxoDNlIuSaiPrCv7+iw/J6aXJpHlJgfoceA8LycWS
+ puFYukskax8utJWOuof74a0VUGRHQGKwpzz1VSFLROjit+njeuki/vcCTfCa94l/SJv2
+ SfI8UaCuIT542wq2yus9x9Zd+zDi+6zq9fBlezP/oSDACmIBRExVPLjrclwv4eOawI0P
+ 3+Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VBP4F0Qb1NTxbFa/ly3w6QBIRc7baJNfIgHerPuVAxs=;
- b=w2tQVbRbA6nlLCBTqCjZl4NlOozC5hpesJ+mbPN0oriDtxyuMRHTkP4RFWCrG92LTr
- gl8rzCeRvggo7xZ4RT9v1AzVC37UONyJbCXYfLIjJawtnXqlXhilBWqRe007e5Qag3sF
- 6KfwIs2Qvu3y23Q3xWSXmOe39GbIJeVC87ET5dzp3R0aDNWh0ro4Bm+Vcz39ZfczVIuA
- DUz2LZKqW7PDKkoGkGRbIxrfiXaK4WsvD2sMAGYFBHmiwOvMRXPDXewV7j+qtk+8PKep
- t6waIjMUqWvvfQrNN4un8uq3tSqk5lLTRAkCopw2psSEok6u0mM1RaE1wkxK9JnMwTGR
- EGZQ==
-X-Gm-Message-State: AOAM530ThlNv6VSLIldbTg10XqkdJiZ9vnAarIsdiah9AnKM5pBw1/XT
- B0MqKq+kHlXO639NzoxX7PYILHrOyjqUQg==
-X-Google-Smtp-Source: ABdhPJwcOv77/XZYWGkMtokBOF0cgNCn6r3XbiQP5NkxAqOnd9SPtna/Up97frBZdQ+VsrKMgADRbQ==
-X-Received: by 2002:a62:79c2:0:b0:4bd:e9da:c173 with SMTP id
- u185-20020a6279c2000000b004bde9dac173mr20983439pfc.65.1642424169594; 
- Mon, 17 Jan 2022 04:56:09 -0800 (PST)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com.
- [209.85.210.179])
- by smtp.gmail.com with ESMTPSA id u2sm583748pfi.98.2022.01.17.04.56.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jan 2022 04:56:08 -0800 (PST)
-Received: by mail-pf1-f179.google.com with SMTP id 128so10120542pfe.12;
- Mon, 17 Jan 2022 04:56:08 -0800 (PST)
-X-Received: by 2002:a05:6a00:26c5:b0:4bd:4ad6:9c71 with SMTP id
- p5-20020a056a0026c500b004bd4ad69c71mr20854515pfw.45.1642424168205; Mon, 17
- Jan 2022 04:56:08 -0800 (PST)
-MIME-Version: 1.0
-References: <20211229023348.12606-1-frank.chang@sifive.com>
-In-Reply-To: <20211229023348.12606-1-frank.chang@sifive.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Mon, 17 Jan 2022 20:55:57 +0800
-X-Gmail-Original-Message-ID: <CANzO1D2MjL+d9Rconz4F9vtwzY9n2LOGChTZk_UW6F32TTMbuA@mail.gmail.com>
-Message-ID: <CANzO1D2MjL+d9Rconz4F9vtwzY9n2LOGChTZk_UW6F32TTMbuA@mail.gmail.com>
-Subject: Re: [PATCH 00/17] Add RISC-V RVV Zve32f and Zve64f extensions
-To: Frank Chang <frank.chang@sifive.com>
-Content-Type: multipart/alternative; boundary="0000000000001dd13a05d5c6ad9a"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::531
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=6MkfaMCh2MDkpUiFGTUWW3xB1cslD/ksNGP3W9LXGcU=;
+ b=KZ6rtPWDQvvbxc4qAcpan5w0q4mHYKgHYpqyUdqyBr5ad8qk2MoWIfZGt/pvtWkwt8
+ knDG0SKb1kjVK8qtO1tD4YjX0xLiY0quEyw8Qqx8fGr46cQF2GY3KlFrZrnuEdcbi8lI
+ cObz758uceOT3NnZQoYAJL56r7yl34sAvmnrZ28L/27ci6gFTHgJK/dI0hapnfyYvw90
+ HXXEyNzWOq9F7KcxH0Jp+8T1cxY25KcnvmPW/rkmTPMdYefZSwGh7zt6pJ0rIQCax0fp
+ FhRVVh97ksDs5ZP4u3r6vBlsqjABXjanbnGpxRu1XxoNQGnRkiGmpeVHh4TKUin62dKv
+ +1/w==
+X-Gm-Message-State: AOAM532K3aSByq5OhyhnjA9a4z4p8sCD60aQ5UbgvxX6EEo22iVUoNOF
+ FX+b3rO/a6wpAf0Xn8wni9JAyA==
+X-Google-Smtp-Source: ABdhPJwSPRSV7LdGp2H/2DA3U222PBZyOoHileV/nLeWDXbOqkSnjtCYN/JwSJLPOLvm1gvfq+BaAg==
+X-Received: by 2002:a05:6402:518c:: with SMTP id
+ q12mr20369860edd.312.1642424758837; 
+ Mon, 17 Jan 2022 05:05:58 -0800 (PST)
+Received: from smtpclient.apple ([79.115.178.1])
+ by smtp.gmail.com with ESMTPSA id by26sm2995597edb.31.2022.01.17.05.05.57
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 17 Jan 2022 05:05:58 -0800 (PST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.40.0.1.81\))
+Subject: Re: ui/cocoa.m compile error (Cocoa -> SDL)
+From: Liviu Ionescu <ilg@livius.net>
+In-Reply-To: <CAFEAcA9sNksi2=xiFUp_r0_NeCuUKXYU6sd1LDvX=j0+Mh3gYQ@mail.gmail.com>
+Date: Mon, 17 Jan 2022 15:05:56 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <E0050B48-D285-415E-8CD9-4824C1F05AF1@livius.net>
+References: <586FEC07-844C-4E1B-88E0-93B97FFC9010@livius.net>
+ <CAFEAcA_=jn1G==9R1=LuU7GF0=LWPz92f1Qx9xO7w+m+TqL1Tw@mail.gmail.com>
+ <F140E9AC-F44C-44A9-8670-F60E33046B83@livius.net>
+ <574D1950-B892-430B-A450-23262C258950@livius.net>
+ <ef5e98d4-d8b2-fc6e-2735-53c075db3f3b@redhat.com>
+ <CCB6E84E-5F90-4FC6-BEEB-42A7C591BDBF@livius.net>
+ <CAFEAcA9sNksi2=xiFUp_r0_NeCuUKXYU6sd1LDvX=j0+Mh3gYQ@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+X-Mailer: Apple Mail (2.3693.40.0.1.81)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::529
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x531.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: none client-ip=2a00:1450:4864:20::529;
+ envelope-from=ilg@livius.net; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,202 +93,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000001dd13a05d5c6ad9a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<frank.chang@sifive.com> =E6=96=BC 2021=E5=B9=B412=E6=9C=8829=E6=97=A5 =E9=
-=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=8810:35=E5=AF=AB=E9=81=93=EF=BC=9A
 
-> From: Frank Chang <frank.chang@sifive.com>
->
-> In RVV v1.0 spec, several Zve* vector extensions for embedded processors
-> are defined in Chapter 18.2:
->
-> https://github.com/riscv/riscv-v-spec/blob/v1.0/v-spec.adoc#zve-vector-ex=
-tensions-for-embedded-processors
->
-> This patchset implements Zve32f and Zve64f extensions.
->
-> The port is available at:
-> https://github.com/sifive/qemu/tree/rvv-zve32f-zve64f-upstream
->
-> Zve32f can be enabled with -cpu option: Zve32f=3Dtrue and
-> Zve64f can be enabled with -cpu option: Zve64f=3Dtrue.
-> V is not required to be enabled explicitly.
->
-> Quote from the inclusion diagram for the six standard vector extensions
-> from Nick Knight <nick.knight@sifive.com>:
->
->       V
->       |
->     Zve64d
->       |
->     Zve64f
->    /      \
-> Zve64x   Zve32f
->    \      /
->     Zve32x
->
-> Note: This patchset depends on other patchsets listed in Based-on
->       section below so it is not able to be built unless those patchsets
->       are applied.
->
-> Based-on: <20211229021250.29804-1-frank.chang@sifive.com>
->
-> Frank Chang (17):
->   target/riscv: rvv-1.0: Add Zve64f extension into RISC-V
->   target/riscv: rvv-1.0: Add Zve64f support for configuration insns
->   target/riscv: rvv-1.0: Add Zve64f support for load and store insns
->   target/riscv: rvv-1.0: Add Zve64f support for vmulh variant insns
->   target/riscv: rvv-1.0: Add Zve64f support for vsmul.vv and vsmul.vx
->     insns
->   target/riscv: rvv-1.0: Add Zve64f support for scalar fp insns
->   target/riscv: rvv-1.0: Add Zve64f support for single-width fp
->     reduction insns
->   target/riscv: rvv-1.0: Add Zve64f support for widening type-convert
->     insns
->   target/riscv: rvv-1.0: Add Zve64f support for narrowing type-convert
->     insns
->   target/riscv: rvv-1.0: Allow Zve64f extension to be turned on
->   target/riscv: rvv-1.0: Add Zve32f extension into RISC-V
->   target/riscv: rvv-1.0: Add Zve32f support for configuration insns
->   target/riscv: rvv-1.0: Add Zve32f support for scalar fp insns
->   target/riscv: rvv-1.0: Add Zve32f support for single-width fp
->     reduction insns
->   target/riscv: rvv-1.0: Add Zve32f support for widening type-convert
->     insns
->   target/riscv: rvv-1.0: Add Zve32f support for narrowing type-convert
->     insns
->   target/riscv: rvv-1.0: Allow Zve32f extension to be turned on
->
->  target/riscv/cpu.c                      |   6 +
->  target/riscv/cpu.h                      |   2 +
->  target/riscv/cpu_helper.c               |   5 +-
->  target/riscv/csr.c                      |   6 +-
->  target/riscv/insn_trans/trans_rvv.c.inc | 217 ++++++++++++++++++++----
->  target/riscv/translate.c                |   4 +
->  6 files changed, 203 insertions(+), 37 deletions(-)
->
-> --
-> 2.31.1
->
->
->
-ping
+> On 17 Jan 2022, at 13:35, Peter Maydell <peter.maydell@linaro.org> =
+wrote:
+>=20
+> ... the macOS host support in QEMU is not very well
+> maintained, so the default is "it doesn't change"
 
---0000000000001dd13a05d5c6ad9a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+BTW, my main development platform is macOS, both Intel and Apple =
+Silicon, so if someone is willing to improve macOS host support in QEMU, =
+I can help with testing.
 
-<div dir=3D"ltr"><div dir=3D"ltr">&lt;<a href=3D"mailto:frank.chang@sifive.=
-com">frank.chang@sifive.com</a>&gt; =E6=96=BC 2021=E5=B9=B412=E6=9C=8829=E6=
-=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=8810:35=E5=AF=AB=E9=81=93=EF=BC=
-=9A<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">From: Frank Chang &lt;<a href=3D"mailto:frank.chang@sifive.c=
-om" target=3D"_blank">frank.chang@sifive.com</a>&gt;<br>
-<br>
-In RVV v1.0 spec, several Zve* vector extensions for embedded processors<br=
->
-are defined in Chapter 18.2:<br>
-<a href=3D"https://github.com/riscv/riscv-v-spec/blob/v1.0/v-spec.adoc#zve-=
-vector-extensions-for-embedded-processors" rel=3D"noreferrer" target=3D"_bl=
-ank">https://github.com/riscv/riscv-v-spec/blob/v1.0/v-spec.adoc#zve-vector=
--extensions-for-embedded-processors</a><br>
-<br>
-This patchset implements Zve32f and Zve64f extensions.<br>
-<br>
-The port is available at:<br>
-<a href=3D"https://github.com/sifive/qemu/tree/rvv-zve32f-zve64f-upstream" =
-rel=3D"noreferrer" target=3D"_blank">https://github.com/sifive/qemu/tree/rv=
-v-zve32f-zve64f-upstream</a><br>
-<br>
-Zve32f can be enabled with -cpu option: Zve32f=3Dtrue and<br>
-Zve64f can be enabled with -cpu option: Zve64f=3Dtrue.<br>
-V is not required to be enabled explicitly.<br>
-<br>
-Quote from the inclusion diagram for the six standard vector extensions<br>
-from Nick Knight &lt;<a href=3D"mailto:nick.knight@sifive.com" target=3D"_b=
-lank">nick.knight@sifive.com</a>&gt;:<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 V<br>
-=C2=A0 =C2=A0 =C2=A0 |<br>
-=C2=A0 =C2=A0 Zve64d<br>
-=C2=A0 =C2=A0 =C2=A0 |<br>
-=C2=A0 =C2=A0 Zve64f<br>
-=C2=A0 =C2=A0/=C2=A0 =C2=A0 =C2=A0 \<br>
-Zve64x=C2=A0 =C2=A0Zve32f<br>
-=C2=A0 =C2=A0\=C2=A0 =C2=A0 =C2=A0 /<br>
-=C2=A0 =C2=A0 Zve32x<br>
-<br>
-Note: This patchset depends on other patchsets listed in Based-on<br>
-=C2=A0 =C2=A0 =C2=A0 section below so it is not able to be built unless tho=
-se patchsets<br>
-=C2=A0 =C2=A0 =C2=A0 are applied.<br>
-<br>
-Based-on: &lt;<a href=3D"mailto:20211229021250.29804-1-frank.chang@sifive.c=
-om" target=3D"_blank">20211229021250.29804-1-frank.chang@sifive.com</a>&gt;=
-<br>
-<br>
-Frank Chang (17):<br>
-=C2=A0 target/riscv: rvv-1.0: Add Zve64f extension into RISC-V<br>
-=C2=A0 target/riscv: rvv-1.0: Add Zve64f support for configuration insns<br=
->
-=C2=A0 target/riscv: rvv-1.0: Add Zve64f support for load and store insns<b=
-r>
-=C2=A0 target/riscv: rvv-1.0: Add Zve64f support for vmulh variant insns<br=
->
-=C2=A0 target/riscv: rvv-1.0: Add Zve64f support for vsmul.vv and vsmul.vx<=
-br>
-=C2=A0 =C2=A0 insns<br>
-=C2=A0 target/riscv: rvv-1.0: Add Zve64f support for scalar fp insns<br>
-=C2=A0 target/riscv: rvv-1.0: Add Zve64f support for single-width fp<br>
-=C2=A0 =C2=A0 reduction insns<br>
-=C2=A0 target/riscv: rvv-1.0: Add Zve64f support for widening type-convert<=
-br>
-=C2=A0 =C2=A0 insns<br>
-=C2=A0 target/riscv: rvv-1.0: Add Zve64f support for narrowing type-convert=
-<br>
-=C2=A0 =C2=A0 insns<br>
-=C2=A0 target/riscv: rvv-1.0: Allow Zve64f extension to be turned on<br>
-=C2=A0 target/riscv: rvv-1.0: Add Zve32f extension into RISC-V<br>
-=C2=A0 target/riscv: rvv-1.0: Add Zve32f support for configuration insns<br=
->
-=C2=A0 target/riscv: rvv-1.0: Add Zve32f support for scalar fp insns<br>
-=C2=A0 target/riscv: rvv-1.0: Add Zve32f support for single-width fp<br>
-=C2=A0 =C2=A0 reduction insns<br>
-=C2=A0 target/riscv: rvv-1.0: Add Zve32f support for widening type-convert<=
-br>
-=C2=A0 =C2=A0 insns<br>
-=C2=A0 target/riscv: rvv-1.0: Add Zve32f support for narrowing type-convert=
-<br>
-=C2=A0 =C2=A0 insns<br>
-=C2=A0 target/riscv: rvv-1.0: Allow Zve32f extension to be turned on<br>
-<br>
-=C2=A0target/riscv/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A06 +<br>
-=C2=A0target/riscv/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +<br>
-=C2=A0target/riscv/cpu_helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 =C2=A05 +-<br>
-=C2=A0target/riscv/csr.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A06 +-<br>
-=C2=A0target/riscv/insn_trans/trans_rvv.c.inc | 217 ++++++++++++++++++++---=
--<br>
-=C2=A0target/riscv/translate.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 =C2=A04 +<br>
-=C2=A06 files changed, 203 insertions(+), 37 deletions(-)<br>
-<br>
---<br>
-2.31.1<br>
-<br>
-<br></blockquote><div><br></div><div>ping=C2=A0</div></div></div>
+My experience with Cocoa is close to none, but with SDL2 I had a light =
+contact when I implemented the animated LEDs in =
+qemu-system-gnuarmeclipse.
 
---0000000000001dd13a05d5c6ad9a--
+
+Regards,
+
+Liviu
+
 
