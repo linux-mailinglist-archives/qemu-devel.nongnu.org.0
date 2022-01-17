@@ -2,82 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F644491135
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 22:01:17 +0100 (CET)
-Received: from localhost ([::1]:57682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 955F7491149
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 22:15:59 +0100 (CET)
+Received: from localhost ([::1]:39946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9Z7r-00056q-EM
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 16:01:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58342)
+	id 1n9ZM6-0005Yv-6m
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 16:15:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n9Z0W-0005sh-VS; Mon, 17 Jan 2022 15:53:41 -0500
-Received: from [2607:f8b0:4864:20::230] (port=41893
- helo=mail-oi1-x230.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n9Z0V-0008HP-AM; Mon, 17 Jan 2022 15:53:40 -0500
-Received: by mail-oi1-x230.google.com with SMTP id q186so25355628oih.8;
- Mon, 17 Jan 2022 12:53:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=i4qnazTiy3jdHJH09SN5eXFyO3PjqbHC9StEcF+JqqE=;
- b=SgD2+NQj2O57itzgpJpxvvUQelY+JuOESaLB/1pWS9K1/zECEAR7ycct7vjPXmh7oz
- GBJu//v8xR4JKgsC9T/L7G6MKG7ODuKlY+I3JijLQIl1O0qjWt+slHPRoRvic4bUEZcV
- tKB1hbOoY/XUrxPSvdahWk6VZHLF98d9C+46ijQ2pBXoCIXNJuDLLYz0mdglV/86HTTW
- D8Sx7I5eZqHhkSpLfUNCIwljc6k6v3gCRJ0f4m2yPPDhDFbueKQ1qSF4x8g6cPQwn687
- c3BueJesXKizMKZ51U+ZjGgEoWNwdd4L4nGkumkg7YgmkNN2eLK9QNb511ngJhwG3MyC
- bqKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=i4qnazTiy3jdHJH09SN5eXFyO3PjqbHC9StEcF+JqqE=;
- b=loEGdl+IFNkD3NZtuc+GV0xFXzDs9IANI5uur1C+PrcKbuhNnV8l78Vo8Ne4neuCtL
- NuxmVbjnWvRVqLubqtFuxgwGtH+Em/7UWBWDCAPZS2X2ehgdE1SPCI4j4TUk6cI0MGvi
- Zww22BHYZ5gggxkhZXNBL/LBDciF7BghWEVihCBUP08rqlPjoTA8eWMNxf6sSLhX05jp
- uXRxlmJWl25ZOAF/1EE88dqqeIuk/C8vMnhbyGVffEg4m6Hnhb1yb3tXLXG92kN/VRR+
- ZBhN+/GI+QacsTejxqhitLcxRp/c/zM/m7N8Jz326rm6C1ajs/B2S7NOKVwU0+Kv02tM
- xcSQ==
-X-Gm-Message-State: AOAM5323zX41787DKLfiedBK01IsxonByQ//PWw2UN8sSrD+X9ksXnvQ
- /N17tyjh5kQqtl0Ak3nM+DE=
-X-Google-Smtp-Source: ABdhPJy+HD5cPpZ7JOVdfG2VjUMYwvjLklEFLEvqr4M+Qw9Vrv4x3bOM6Qs8myCtHGfGPc3kBi2SUA==
-X-Received: by 2002:a05:6808:13:: with SMTP id
- u19mr16181518oic.28.1642452817697; 
- Mon, 17 Jan 2022 12:53:37 -0800 (PST)
-Received: from [192.168.10.222] ([152.249.109.193])
- by smtp.gmail.com with ESMTPSA id a5sm1312105oto.66.2022.01.17.12.53.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jan 2022 12:53:37 -0800 (PST)
-Message-ID: <e08c04ee-012f-0310-8bf3-d9f939e83356@gmail.com>
-Date: Mon, 17 Jan 2022 17:53:34 -0300
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1n9ZIw-0004cw-BY; Mon, 17 Jan 2022 16:12:42 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32644)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1n9ZIu-0003j9-Ih; Mon, 17 Jan 2022 16:12:42 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20HJvOpT004120; 
+ Mon, 17 Jan 2022 21:12:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=aG7CLHKqPXz5CSotHNV4wWijU8/z+ZhPCkZ85PtuAfE=;
+ b=mUAbQEQi7QC98l8aTGbz/d4+yBMC0sFTsOq+fEN2+8HFGC9C3QP01hUqgRK81igVj1e4
+ sF0PLwqup2DnmZeL1Ays9FznBRCdxFYDt3zftmnAHHFVzS12TLDB8mA3ToQSYT+tAm+0
+ DshzTVFjSGsgm7+ZH+QXuFDqvlUsw0QKoNgGhCmx7gE8KQA5q8tyq0YxetBVSxwbO7m2
+ 9hU//I4DLeAbo1i3k1D3prFaSvxormH4maN0D+e3U9KKas3bv15ajfirOC5+aj61piaR
+ G0t9Epkfa0ZCOvMS205bw1nC5HZWvY7tKUgE31BtbYXwzMNLfYotxxnpuYxu0Cb6M5ib NQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dnf2qhcfk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Jan 2022 21:12:25 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20HKurRs024882;
+ Mon, 17 Jan 2022 21:12:25 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dnf2qhcfb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Jan 2022 21:12:25 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20HL74we029978;
+ Mon, 17 Jan 2022 21:12:24 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma03dal.us.ibm.com with ESMTP id 3dknwbdjw1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Jan 2022 21:12:24 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20HLCN3q12255494
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 17 Jan 2022 21:12:23 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5ED09AE062;
+ Mon, 17 Jan 2022 21:12:23 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9287AAE05F;
+ Mon, 17 Jan 2022 21:12:22 +0000 (GMT)
+Received: from localhost (unknown [9.211.141.90])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Mon, 17 Jan 2022 21:12:22 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/8] target/ppc: 405: Add missing MSR bits to msr_mask
+In-Reply-To: <20220110181546.4131853-2-farosas@linux.ibm.com>
+References: <20220110181546.4131853-1-farosas@linux.ibm.com>
+ <20220110181546.4131853-2-farosas@linux.ibm.com>
+Date: Mon, 17 Jan 2022 18:12:20 -0300
+Message-ID: <87iluivzgr.fsf@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 3/3] Link new ppc-spapr-uv-hcalls.rst to pseries.rst.
-Content-Language: en-US
-To: lagarcia@linux.ibm.com, qemu-ppc@nongnu.org
-References: <cover.1642446868.git.lagarcia@br.ibm.com>
- <a24d2c260442e44aa99d4c18b1717f2f4a73529a.1642446876.git.lagarcia@br.ibm.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <a24d2c260442e44aa99d4c18b1717f2f4a73529a.1642446876.git.lagarcia@br.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::230
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x230.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: tjd0GriRu23SHD1cAjWq1B-aZ6ONsPmJ
+X-Proofpoint-GUID: YvfleFVi8VI9Q6o8slpyiDAjxqCSSmQC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-17_07,2022-01-14_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ priorityscore=1501 suspectscore=0 mlxscore=0 bulkscore=0 phishscore=0
+ malwarescore=0 lowpriorityscore=0 impostorscore=0 adultscore=0
+ mlxlogscore=999 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2201170132
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,52 +106,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Garcia <lagarcia@br.ibm.com>, qemu-devel@nongnu.org, clg@kaod.org
+Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, richard.henderson@linaro.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Fabiano Rosas <farosas@linux.ibm.com> writes:
 
-
-On 1/17/22 16:19, lagarcia@linux.ibm.com wrote:
-> From: Leonardo Garcia <lagarcia@br.ibm.com>
-> 
-> Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
+> Some bits described in the user manual are missing from msr_mask. Add
+> them.
+>
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 > ---
+>  target/ppc/cpu_init.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+> index e30e86fe9d..a50ddaeaae 100644
+> --- a/target/ppc/cpu_init.c
+> +++ b/target/ppc/cpu_init.c
+> @@ -2535,15 +2535,19 @@ POWERPC_FAMILY(405)(ObjectClass *oc, void *data)
+>                         PPC_MEM_SYNC | PPC_MEM_EIEIO |
+>                         PPC_40x_TLB | PPC_MEM_TLBIA | PPC_MEM_TLBSYNC |
+>                         PPC_4xx_COMMON | PPC_405_MAC | PPC_40x_EXCP;
+> -    pcc->msr_mask = (1ull << MSR_POW) |
+> +    pcc->msr_mask = (1ull << MSR_AP) |
+> +                    (1ull << MSR_POW) |
+>                      (1ull << MSR_CE) |
+>                      (1ull << MSR_EE) |
+>                      (1ull << MSR_PR) |
+>                      (1ull << MSR_FP) |
+> +                    (1ull << MSR_ME) |
+>                      (1ull << MSR_DWE) |
+>                      (1ull << MSR_DE) |
+> +                    (1ull << MSR_FE1) |
+>                      (1ull << MSR_IR) |
+>                      (1ull << MSR_DR);
 
-It is worth noticing that this patch applies cleanly only if the
+This patch brings an unexpected complication:
 
-"[PATCH 0/3] rSTify ppc-spapr-hotplug.txt" [1]
+MSR_AP here is not correct, it is defined as:
 
-series is applied first. The reason is that docs/system/ppc/pseries.rst being changed
-here already has the ppc-spapr-hotplug.rst link.
+#define MSR_AP   23 /* Access privilege state on 602 */
 
+That is bit 8. While MSR_AP in the 405 is bit 6. So I would need to
+introduce a new MSR_AP_405 defined as:
 
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+#define MSR_AP_405   25 /* Auxiliar processor available on 405 */
 
+But 25 is the same as MSR_SPE, so it triggers this code in
+init_ppc_proc:
 
+    /* MSR bits & flags consistency checks */
+    if (env->msr_mask & (1 << 25)) {
+        switch (env->flags & (POWERPC_FLAG_SPE | POWERPC_FLAG_VRE)) {
+        case POWERPC_FLAG_SPE:
+        case POWERPC_FLAG_VRE:
+            break;
+        default:
+            fprintf(stderr, "PowerPC MSR definition inconsistency\n"
+                    "Should define POWERPC_FLAG_SPE or POWERPC_FLAG_VRE\n");
+            exit(1);
+        }
+     ...
 
-[1] https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg02701.html
-
->   docs/system/ppc/pseries.rst | 6 +-----
->   1 file changed, 1 insertion(+), 5 deletions(-)
-> 
-> diff --git a/docs/system/ppc/pseries.rst b/docs/system/ppc/pseries.rst
-> index d0aade3a31..569237dc0c 100644
-> --- a/docs/system/ppc/pseries.rst
-> +++ b/docs/system/ppc/pseries.rst
-> @@ -113,13 +113,9 @@ can  also be found in QEMU documentation:
->      ../../specs/ppc-spapr-hotplug.rst
->      ../../specs/ppc-spapr-hcalls.rst
->      ../../specs/ppc-spapr-numa.rst
-> +   ../../specs/ppc-spapr-uv-hcalls.rst
->      ../../specs/ppc-spapr-xive.rst
->   
-> -Other documentation available in QEMU docs directory:
-> -
-> -* Hypervisor calls needed by the Ultravisor
-> -  (``/docs/specs/ppc-spapr-uv-hcalls.txt``).
-> -
->   Switching between the KVM-PR and KVM-HV kernel module
->   =====================================================
->   
+The commit that introduced that sanity check is 25ba3a6812 ("Remove
+synonymous in PowerPC MSR bits definitions..."), which sort of assumes
+that MSR bits will not have different purposes between any of the (now
+47) CPUs, while itself leaving other duplicated bits around.
+   
+So my idea is to drop this patch and only include the MSR_ME that is of
+practical effect at patch 6. I think going into the rabbit hole of
+disambiguating MSR bits falls out of the scope of the exception series.
 
