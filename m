@@ -2,94 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F13774908C0
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 13:34:05 +0100 (CET)
-Received: from localhost ([::1]:56578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5727E490902
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 13:49:37 +0100 (CET)
+Received: from localhost ([::1]:37718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9RD3-0006Yw-2M
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 07:34:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55502)
+	id 1n9RRz-0005Pc-I5
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 07:49:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n9R7M-0003Cz-AM; Mon, 17 Jan 2022 07:28:12 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46212
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n9R7K-0007wB-Pb; Mon, 17 Jan 2022 07:28:12 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20HAw1vG008715; 
- Mon, 17 Jan 2022 12:28:02 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3dn75vstq8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Jan 2022 12:28:01 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20HBebaE005310;
- Mon, 17 Jan 2022 12:28:01 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3dn75vstpp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Jan 2022 12:28:01 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20HCCmiD020533;
- Mon, 17 Jan 2022 12:27:59 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma02fra.de.ibm.com with ESMTP id 3dknw8u27f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Jan 2022 12:27:59 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20HCRvga31195410
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Jan 2022 12:27:57 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 131DC4C058;
- Mon, 17 Jan 2022 12:27:57 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D3AEF4C04A;
- Mon, 17 Jan 2022 12:27:56 +0000 (GMT)
-Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Mon, 17 Jan 2022 12:27:56 +0000 (GMT)
-Received: from yukon.ibmuc.com (unknown [9.171.52.153])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 4224A22010B;
- Mon, 17 Jan 2022 13:27:56 +0100 (CET)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH 3/3] ppc/pnv: Remove PHB4 version property
-Date: Mon, 17 Jan 2022 13:27:53 +0100
-Message-Id: <20220117122753.1655504-4-clg@kaod.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220117122753.1655504-1-clg@kaod.org>
-References: <20220117122753.1655504-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n9R8W-0006kO-K7; Mon, 17 Jan 2022 07:29:27 -0500
+Received: from [2a00:1450:4864:20::334] (port=43540
+ helo=mail-wm1-x334.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n9R8V-00081h-7h; Mon, 17 Jan 2022 07:29:24 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ s6-20020a7bc386000000b0034a89445406so20163830wmj.2; 
+ Mon, 17 Jan 2022 04:29:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=EbFpMn4ZN9+tA5q1tjlgrdMpTZqE9EWZ2ycdfSkGbcY=;
+ b=d+Kv7mQ4gnyOIh98oZCUO5msojK1Uhx9hL2pKbP0OFDU2y3Kadkv1SFmQKaltnuvJF
+ TPnrCRlHt+xkLPxrfzadk8h8Rcrt6oSHNER1f3SBBkSY/4EHmzGetW4HWc9HSA/P0MCh
+ df7I+XYDC0J3ICW6pC40H6FnsGiTxO7I5r0SgTw4jCY0qY5lzl7iLoQWcMlchcq5L43E
+ a1xecCgugdrTUJbJV+JNJw0i35OJ5joJeEDTBtzSydheeBfYCkofUCzkDwSPPpmDiHTe
+ 7/0eaq1rxc0XsRbhQ0Ai+ISXLnsAZ+GCLsXFraAibwU5JMousS6Nvw0tqoRWfbERJQuR
+ Gp/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=EbFpMn4ZN9+tA5q1tjlgrdMpTZqE9EWZ2ycdfSkGbcY=;
+ b=mlojglq9SURP5UlIyK2oW3Vgsz0ZtDE6iGxRSUJVIlCnSl9QJIWVchSSdsMDfQ9YCI
+ 7N7dCvXBLLOlprv3F63NlaNrm5Dk0pif1p/6SbuKVTY1xBDfOik5GyfaK56h5JtXYAN3
+ 8f5jEalzNM44Nf0vYH/EsXvCw0DMone3flCyKdElUqxOHdYei+6pcTQDYhbIE2MrrJFN
+ 9KGOJc+3/jGe8tkE0tFmBR1pt7x5nmLqt7R1H54kl4zR8yDyNky9mTAZGJLh8UD2mSyS
+ zJZm+GnbRUrb0pi/WSjjpNLJAShTn51Ozke0yEo1PZ6kX/zwSsRZaSlY40V25cJ7ZYnu
+ EOpg==
+X-Gm-Message-State: AOAM533moCLIDAXfNJwG2UVj1bZyNlXmTX9iM1hddHzXXwUFiG2MHv7d
+ aqGN45gxzVGbVz42Vw/Dc6Y=
+X-Google-Smtp-Source: ABdhPJwEGprV4SAf4wkm1JoSmA7T518wmb0VvXL/Mw7v2y5JZmDzlQxMlAGEcoqE8K3HB+G7kBTXaQ==
+X-Received: by 2002:a1c:44d7:: with SMTP id r206mr20245753wma.79.1642422561234; 
+ Mon, 17 Jan 2022 04:29:21 -0800 (PST)
+Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id v3sm13810540wri.4.2022.01.17.04.29.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Jan 2022 04:29:20 -0800 (PST)
+Message-ID: <9f9d83eb-02d7-bd5a-e72e-62427b785253@amsat.org>
+Date: Mon, 17 Jan 2022 13:29:19 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [RFC PATCH 6/6] docs/devel: add some clarifying text for aliases
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>
+References: <20220110175104.2908956-1-alex.bennee@linaro.org>
+ <20220110175104.2908956-7-alex.bennee@linaro.org>
+In-Reply-To: <20220110175104.2908956-7-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: OBemvLndYGGg4dA2M6FMpiKNLIZnHr6a
-X-Proofpoint-GUID: 0Sszhqe9ptS9ZAW55AeeGP9VAlDHsXBE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-17_05,2022-01-14_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- spamscore=0 phishscore=0 mlxscore=0 suspectscore=0 adultscore=0
- clxscore=1034 mlxlogscore=999 impostorscore=0 priorityscore=1501
- malwarescore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201170077
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.32,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,88 +94,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-and grab the PHB version from the PEC class directly when needed.
+On 1/10/22 18:51, Alex Bennée wrote:
+> We do mention the limitation of single parenthood for
+> memory_region_add_subregion but lets also make it clear how aliases
+> help solve that conundrum.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  docs/devel/memory.rst | 14 +++++++++-----
+>  1 file changed, 9 insertions(+), 5 deletions(-)
+> 
+> diff --git a/docs/devel/memory.rst b/docs/devel/memory.rst
+> index 5dc8a12682..69c5e3f914 100644
+> --- a/docs/devel/memory.rst
+> +++ b/docs/devel/memory.rst
+> @@ -67,11 +67,15 @@ MemoryRegion):
+>  
+>    You initialize a pure container with memory_region_init().
+>  
+> -- alias: a subsection of another region.  Aliases allow a region to be
+> -  split apart into discontiguous regions.  Examples of uses are memory banks
+> -  used when the guest address space is smaller than the amount of RAM
+> -  addressed, or a memory controller that splits main memory to expose a "PCI
+> -  hole".  Aliases may point to any type of region, including other aliases,
+> +- alias: a subsection of another region. Aliases allow a region to be
+> +  split apart into discontiguous regions. Examples of uses are memory
+> +  banks used when the guest address space is smaller than the amount
+> +  of RAM addressed, or a memory controller that splits main memory to
+> +  expose a "PCI hole". You can also create aliases to avoid trying to
+> +  add the original region to multiple parents via
+> +  `memory_region_add_subregion`.
+> +
+> +  Aliases may point to any type of region, including other aliases,
+>    but an alias may not point back to itself, directly or indirectly.
+>    You initialize these with memory_region_init_alias().
+>  
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- hw/pci-host/pnv_phb4.c     | 9 +--------
- hw/pci-host/pnv_phb4_pec.c | 3 ---
- 2 files changed, 1 insertion(+), 11 deletions(-)
-
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index c688976caec9..a78add75b043 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -672,7 +672,7 @@ static uint64_t pnv_phb4_reg_read(void *opaque, hwadd=
-r off, unsigned size)
-=20
-     switch (off) {
-     case PHB_VERSION:
--        return phb->version;
-+        return PNV_PHB4_PEC_GET_CLASS(phb->pec)->version;
-=20
-         /* Read-only */
-     case PHB_PHB4_GEN_CAP:
-@@ -1575,7 +1575,6 @@ static void pnv_phb4_realize(DeviceState *dev, Erro=
-r **errp)
-     if (!phb->pec) {
-         PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
-         PnvChip *chip =3D pnv_get_chip(pnv, phb->chip_id);
--        PnvPhb4PecClass *pecc;
-         BusState *s;
-=20
-         if (!chip) {
-@@ -1589,11 +1588,6 @@ static void pnv_phb4_realize(DeviceState *dev, Err=
-or **errp)
-             return;
-         }
-=20
--        /* All other phb properties are already set */
--        pecc =3D PNV_PHB4_PEC_GET_CLASS(phb->pec);
--        object_property_set_int(OBJECT(phb), "version", pecc->version,
--                                &error_fatal);
--
-         /*
-          * Reparent user created devices to the chip to build
-          * correctly the device tree.
-@@ -1688,7 +1682,6 @@ static void pnv_phb4_xive_notify(XiveNotifier *xf, =
-uint32_t srcno)
- static Property pnv_phb4_properties[] =3D {
-         DEFINE_PROP_UINT32("index", PnvPHB4, phb_id, 0),
-         DEFINE_PROP_UINT32("chip-id", PnvPHB4, chip_id, 0),
--        DEFINE_PROP_UINT64("version", PnvPHB4, version, 0),
-         DEFINE_PROP_LINK("pec", PnvPHB4, pec, TYPE_PNV_PHB4_PEC,
-                          PnvPhb4PecState *),
-         DEFINE_PROP_END_OF_LIST(),
-diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index a3c4b4ef850c..40d89fda56e5 100644
---- a/hw/pci-host/pnv_phb4_pec.c
-+++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -117,7 +117,6 @@ static void pnv_pec_default_phb_realize(PnvPhb4PecSta=
-te *pec,
-                                         Error **errp)
- {
-     PnvPHB4 *phb =3D PNV_PHB4(qdev_new(TYPE_PNV_PHB4));
--    PnvPhb4PecClass *pecc =3D PNV_PHB4_PEC_GET_CLASS(pec);
-     int phb_id =3D pnv_phb4_pec_get_phb_id(pec, stack_no);
-=20
-     object_property_set_link(OBJECT(phb), "pec", OBJECT(pec),
-@@ -126,8 +125,6 @@ static void pnv_pec_default_phb_realize(PnvPhb4PecSta=
-te *pec,
-                             &error_fatal);
-     object_property_set_int(OBJECT(phb), "index", phb_id,
-                             &error_fatal);
--    object_property_set_int(OBJECT(phb), "version", pecc->version,
--                            &error_fatal);
-=20
-     if (!sysbus_realize(SYS_BUS_DEVICE(phb), errp)) {
-         return;
---=20
-2.31.1
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
