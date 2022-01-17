@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C37A491215
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 00:01:12 +0100 (CET)
-Received: from localhost ([::1]:43218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC34491212
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 23:59:42 +0100 (CET)
+Received: from localhost ([::1]:40678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9azv-00030x-Ms
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 18:01:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55960)
+	id 1n9ayT-0001LW-4V
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 17:59:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n9ato-0005n9-RQ; Mon, 17 Jan 2022 17:54:53 -0500
-Received: from [2607:f8b0:4864:20::12c] (port=34658
- helo=mail-il1-x12c.google.com)
+ id 1n9av7-0006qe-87; Mon, 17 Jan 2022 17:56:14 -0500
+Received: from [2607:f8b0:4864:20::d36] (port=43931
+ helo=mail-io1-xd36.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n9atk-000175-45; Mon, 17 Jan 2022 17:54:52 -0500
-Received: by mail-il1-x12c.google.com with SMTP id d14so16061912ila.1;
- Mon, 17 Jan 2022 14:54:47 -0800 (PST)
+ id 1n9av5-0001Sz-Iq; Mon, 17 Jan 2022 17:56:12 -0500
+Received: by mail-io1-xd36.google.com with SMTP id v1so23263589ioj.10;
+ Mon, 17 Jan 2022 14:56:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Lorhal5rSnlzQIlFbAWwO/Hh70y6KnUK6KDk6Ls5qhY=;
- b=Ed7qn25z+PvKPNS/7Zm53HHYDwytaWa7QNtqQgPzHH2wKWTNuB1Zfo22v8lPSY5Kul
- 8js3YBVPMh7GS7DTbpeC3oo3AJq4uKgmtmdD6X7zmYqOKVtiyRiCk2XRgYpLFnzVH5kU
- 1xHYMbfO4oUcjtue+VFTSjENwjPiXY2BJzLFTz8cgJgOlte9TmGK2Xqds1MtnPdc0em0
- YkoJDygY0kWhfhYqhULkJ2EnDa8iS+9Kc4fsksloQZZVCKo8pF+tMyr7ZXjF3Vzxek/X
- qYSLHfKch1BOByh7m6FnCFnBVjCzX8zDoHxAK42QigaQnxOuaTBv07vIW20Ep3Iar/Gf
- 0l9A==
+ :cc; bh=gfhdsLDH4/B3r+aDzhZGQYBdIIiBqGQW6uC1cEhw3Qw=;
+ b=TV3R7Qm0J1YuQXbWv+uJdwegLA4D5kOdYQXmU8Ewj59K0mHU6OF2Ze79S2YAJkMghl
+ V89fRf3zRc8H2yEodTSwfMOzuBolJej8y1rEP0mnGsGtrM/XJMzAU5q3UfQKHqn8RTIX
+ 3CYaPFvnwTgln+cm/WSNkD2YlRUjeajC43aBAqYXM3/7pu3MeRgvdA0uZxtw8Bo2DV+S
+ oU3xWLmi8m2NHy0ZVRHsa14kY8giiSUt2i776BJ7PUfSoJQ2K/FNyXZjuJU6OxLuwaud
+ BdNPM/rDooqRQxkBFyLJ+jT0zqyYn8FiDOllwBnO3oPumYsdAQw8EiRk9Ng9P7syWQrZ
+ fQsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Lorhal5rSnlzQIlFbAWwO/Hh70y6KnUK6KDk6Ls5qhY=;
- b=7pnRUDLvl0SGksmV8N48GqScNSHyrisQQmWZdY9N9kMfn+B7FEHW3UIvdGOtNWnOUh
- Gb9sLS9IBT6u93FyPhBPpJaMWzFaqHP3BpgghGrukTTudufBDFGcl99684PfNnMO4MSc
- PUeGGtgPtUWrRnE4HXpezsmMrymVXY2g48/+31DatULCRXmSIQgqvkX3k+LDEVfjpPmA
- eyfj82/h6oaZ52U1EBDSIy4o3Xd1lokYU2H9oqdiwcwLTTbRDrC7YR+ZEpOgksGNBVzF
- kg3dtUsmn8xGfz2oJYXqD8BZpSEr/zpS76UNpguq3hT0WOTxEfIe4N5Lh7yEexR2wngW
- 0zjg==
-X-Gm-Message-State: AOAM531ipNzLk/J6DDL4ryq0kKms5QpPkb38HnIo/HLggUvCexXqiuo5
- DfnZuFRPeYj6ThKDjAWMg980PYcb4i+myh/ILL0=
-X-Google-Smtp-Source: ABdhPJxmCImO7aZZhGLjWrJImjzWpRqb86ioAvHMXJalQrqHhoPXBFBLhZG6nA/I0i8rbeHq1Lxm7gKg5yG7g+Gbpho=
-X-Received: by 2002:a05:6e02:6d1:: with SMTP id
- p17mr9135382ils.74.1642460086951; 
- Mon, 17 Jan 2022 14:54:46 -0800 (PST)
+ bh=gfhdsLDH4/B3r+aDzhZGQYBdIIiBqGQW6uC1cEhw3Qw=;
+ b=IFnRKNXAyjPhgTJ8yFTrOFtpWxPOh26fyt2QUX+Wt4V1ktBCkSoa7+OFE0/98fbq2r
+ WtfN0SYKaD88FDQPw40NQgAEHLE/QwLddShj47KzHi5RB6/kDYoT8ETfApiDNd7H98Ji
+ 2TTEFwHRcEmgOIAgh+HrlPzNzpT8LF5hZ47zi3CcPYe4FPVDvohi8MflFP2IkkH414OT
+ f+T7TdCf/QBShM92DDSHFNURj3GECuVZNiDKpYs92ji8oZjwoEEgNlaAJOreX5i777ZN
+ yb3xzT2n7shlixiuAL5mLklox8Z4Nj9gP1wxcORgiPQUW2utC5LTgBXGlDjkEsIqctm4
+ ftUg==
+X-Gm-Message-State: AOAM531+1pmNMt1cNHUCPsmCRR5MpvYBZLU7iCYpP1pf1Za5p/Je5VQ/
+ 1OHCAV7avZk+CkaXGJu6YPtFoTmSHR2DxHWjmv4=
+X-Google-Smtp-Source: ABdhPJxmU4HUz9dz0WiamF3pwvS7PMIuLbz9kmbe0g4SRORYqScZkW4ZbcnYtgqK3jElkaxzYP95c33/phQToHarVc0=
+X-Received: by 2002:a02:7702:: with SMTP id g2mr11136978jac.206.1642460169690; 
+ Mon, 17 Jan 2022 14:56:09 -0800 (PST)
 MIME-Version: 1.0
 References: <20211229023348.12606-1-frank.chang@sifive.com>
- <20211229023348.12606-12-frank.chang@sifive.com>
-In-Reply-To: <20211229023348.12606-12-frank.chang@sifive.com>
+ <20211229023348.12606-14-frank.chang@sifive.com>
+In-Reply-To: <20211229023348.12606-14-frank.chang@sifive.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 18 Jan 2022 08:54:20 +1000
-Message-ID: <CAKmqyKP6vDaXDAOf+dQOf_dA6Qzdh=-wmZUS6MbTdH88HLs-Bg@mail.gmail.com>
-Subject: Re: [PATCH 11/17] target/riscv: rvv-1.0: Add Zve32f extension into
- RISC-V
+Date: Tue, 18 Jan 2022 08:55:43 +1000
+Message-ID: <CAKmqyKMCDArArm4jTmcOMtCEL8+z_u4UL6rGJqVO4dwT1RRUCg@mail.gmail.com>
+Subject: Re: [PATCH 13/17] target/riscv: rvv-1.0: Add Zve32f support for
+ scalar fp insns
 To: Frank Chang <frank.chang@sifive.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d36
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd36.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -81,16 +80,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 29, 2021 at 12:34 PM <frank.chang@sifive.com> wrote:
+On Wed, Dec 29, 2021 at 12:48 PM <frank.chang@sifive.com> wrote:
 >
 > From: Frank Chang <frank.chang@sifive.com>
+>
+> Zve32f extension requires the scalar processor to implement the F
+> extension and implement all vector floating-point instructions for
+> floating-point operands with EEW=32 (i.e., no widening floating-point
+> operations).
 >
 > Signed-off-by: Frank Chang <frank.chang@sifive.com>
 
@@ -99,86 +105,111 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  target/riscv/cpu.c        | 4 ++--
->  target/riscv/cpu.h        | 1 +
->  target/riscv/cpu_helper.c | 2 +-
->  target/riscv/csr.c        | 2 +-
->  target/riscv/translate.c  | 2 ++
->  5 files changed, 7 insertions(+), 4 deletions(-)
+>  target/riscv/insn_trans/trans_rvv.c.inc | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 >
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 38cd11a8ae..5e98860a09 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -562,8 +562,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->              }
->              set_vext_version(env, vext_version);
->          }
-> -        if (cpu->cfg.ext_zve64f && !cpu->cfg.ext_f) {
-> -            error_setg(errp, "Zve64f extension depends upon RVF.");
-> +        if ((cpu->cfg.ext_zve32f || cpu->cfg.ext_zve64f) && !cpu->cfg.ext_f) {
-> +            error_setg(errp, "Zve32f/Zve64f extension depends upon RVF.");
->              return;
->          }
->          if (cpu->cfg.ext_j) {
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index d7b2db2b2f..3f3b3bb062 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -317,6 +317,7 @@ struct RISCVCPU {
->          bool ext_icsr;
->          bool ext_zfh;
->          bool ext_zfhmin;
-> +        bool ext_zve32f;
->          bool ext_zve64f;
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+> index c6280c7b0b..1f5a75eca7 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -66,6 +66,17 @@ static bool require_scale_rvf(DisasContext *s)
+>      }
+>  }
 >
->          char *priv_spec;
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 52d93a41fd..7d8b34cf1a 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -77,7 +77,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
->      *pc = env->pc;
->      *cs_base = 0;
+> +static bool require_zve32f(DisasContext *s)
+> +{
+> +    /* RVV + Zve32f = RVV. */
+> +    if (has_ext(s, RVV)) {
+> +        return true;
+> +    }
+> +
+> +    /* Zve32f doesn't support FP64. (Section 18.2) */
+> +    return s->ext_zve32f ? s->sew <= MO_32 : true;
+> +}
+> +
+>  static bool require_zve64f(DisasContext *s)
+>  {
+>      /* RVV + Zve64f = RVV. */
+> @@ -2227,6 +2238,7 @@ static bool opfvv_check(DisasContext *s, arg_rmrr *a)
+>             require_rvf(s) &&
+>             vext_check_isa_ill(s) &&
+>             vext_check_sss(s, a->rd, a->rs1, a->rs2, a->vm) &&
+> +           require_zve32f(s) &&
+>             require_zve64f(s);
+>  }
 >
-> -    if (riscv_has_ext(env, RVV) || cpu->cfg.ext_zve64f) {
-> +    if (riscv_has_ext(env, RVV) || cpu->cfg.ext_zve32f || cpu->cfg.ext_zve64f) {
->          /*
->           * If env->vl equals to VLMAX, we can use generic vector operation
->           * expanders (GVEC) to accerlate the vector operations.
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 340b9661a8..7bd3a5d1af 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -51,7 +51,7 @@ static RISCVException vs(CPURISCVState *env, int csrno)
->      RISCVCPU *cpu = RISCV_CPU(cs);
+> @@ -2308,6 +2320,7 @@ static bool opfvf_check(DisasContext *s, arg_rmrr *a)
+>             require_rvf(s) &&
+>             vext_check_isa_ill(s) &&
+>             vext_check_ss(s, a->rd, a->rs2, a->vm) &&
+> +           require_zve32f(s) &&
+>             require_zve64f(s);
+>  }
 >
->      if (env->misa_ext & RVV ||
-> -        cpu->cfg.ext_zve64f) {
-> +        cpu->cfg.ext_zve32f || cpu->cfg.ext_zve64f) {
->  #if !defined(CONFIG_USER_ONLY)
->          if (!env->debugger && !riscv_cpu_vector_enabled(env)) {
->              return RISCV_EXCP_ILLEGAL_INST;
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 8c3b0168b7..3d89a6650d 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -78,6 +78,7 @@ typedef struct DisasContext {
->      bool ext_ifencei;
->      bool ext_zfh;
->      bool ext_zfhmin;
-> +    bool ext_zve32f;
->      bool ext_zve64f;
->      bool hlsx;
->      /* vector extension */
-> @@ -706,6 +707,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->      ctx->ext_ifencei = cpu->cfg.ext_ifencei;
->      ctx->ext_zfh = cpu->cfg.ext_zfh;
->      ctx->ext_zfhmin = cpu->cfg.ext_zfhmin;
-> +    ctx->ext_zve32f = cpu->cfg.ext_zve32f;
->      ctx->ext_zve64f = cpu->cfg.ext_zve64f;
->      ctx->vlen = cpu->cfg.vlen;
->      ctx->elen = cpu->cfg.elen;
+> @@ -2530,6 +2543,7 @@ static bool opfv_check(DisasContext *s, arg_rmr *a)
+>             vext_check_isa_ill(s) &&
+>             /* OPFV instructions ignore vs1 check */
+>             vext_check_ss(s, a->rd, a->rs2, a->vm) &&
+> +           require_zve32f(s) &&
+>             require_zve64f(s);
+>  }
+>
+> @@ -2596,6 +2610,7 @@ static bool opfvv_cmp_check(DisasContext *s, arg_rmrr *a)
+>             require_rvf(s) &&
+>             vext_check_isa_ill(s) &&
+>             vext_check_mss(s, a->rd, a->rs1, a->rs2) &&
+> +           require_zve32f(s) &&
+>             require_zve64f(s);
+>  }
+>
+> @@ -2610,6 +2625,7 @@ static bool opfvf_cmp_check(DisasContext *s, arg_rmrr *a)
+>             require_rvf(s) &&
+>             vext_check_isa_ill(s) &&
+>             vext_check_ms(s, a->rd, a->rs2) &&
+> +           require_zve32f(s) &&
+>             require_zve64f(s);
+>  }
+>
+> @@ -2632,6 +2648,7 @@ static bool trans_vfmv_v_f(DisasContext *s, arg_vfmv_v_f *a)
+>          require_rvf(s) &&
+>          vext_check_isa_ill(s) &&
+>          require_align(a->rd, s->lmul) &&
+> +        require_zve32f(s) &&
+>          require_zve64f(s)) {
+>          gen_set_rm(s, RISCV_FRM_DYN);
+>
+> @@ -3366,6 +3383,7 @@ static bool trans_vfmv_f_s(DisasContext *s, arg_vfmv_f_s *a)
+>      if (require_rvv(s) &&
+>          require_rvf(s) &&
+>          vext_check_isa_ill(s) &&
+> +        require_zve32f(s) &&
+>          require_zve64f(s)) {
+>          gen_set_rm(s, RISCV_FRM_DYN);
+>
+> @@ -3393,6 +3411,7 @@ static bool trans_vfmv_s_f(DisasContext *s, arg_vfmv_s_f *a)
+>      if (require_rvv(s) &&
+>          require_rvf(s) &&
+>          vext_check_isa_ill(s) &&
+> +        require_zve32f(s) &&
+>          require_zve64f(s)) {
+>          gen_set_rm(s, RISCV_FRM_DYN);
+>
+> @@ -3445,6 +3464,7 @@ static bool fslideup_check(DisasContext *s, arg_rmrr *a)
+>  {
+>      return slideup_check(s, a) &&
+>             require_rvf(s) &&
+> +           require_zve32f(s) &&
+>             require_zve64f(s);
+>  }
+>
+> @@ -3452,6 +3472,7 @@ static bool fslidedown_check(DisasContext *s, arg_rmrr *a)
+>  {
+>      return slidedown_check(s, a) &&
+>             require_rvf(s) &&
+> +           require_zve32f(s) &&
+>             require_zve64f(s);
+>  }
+>
 > --
 > 2.31.1
 >
