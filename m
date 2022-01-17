@@ -2,90 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65A44490ACC
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 15:53:58 +0100 (CET)
-Received: from localhost ([::1]:57022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98CE6490ADD
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 15:57:19 +0100 (CET)
+Received: from localhost ([::1]:33172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9TOP-0005Br-G7
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 09:53:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55478)
+	id 1n9TRe-00083R-NH
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 09:57:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1n9SvW-0005N4-9e
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:24:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60072)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1n9TF0-0002Ma-08
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:44:14 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:33317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1n9SvT-0003sA-9L
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:24:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642429442;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=v0MYrwTxN26u/ssoscmPZrGEi61IZwPDgVQsQKg5zTU=;
- b=ICo967XCQSXdr7fLCESAntwA6wXXWJlYIbuux0mRweN+gPSjKkj1AQL80ivsac02GUNfdT
- oMK6UxbpsXaGBlHI4zy4InqBsMn0qGT7r0BhM4f6mHU3+sjl8ZSB52/g3ALJ8O6hlJu4E3
- 6jHxRQPtjVjAxqQafIis9EvtyKpsxBQ=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-438-4tmnevu9PcCGm_iE53C2EA-1; Mon, 17 Jan 2022 09:23:55 -0500
-X-MC-Unique: 4tmnevu9PcCGm_iE53C2EA-1
-Received: by mail-qk1-f199.google.com with SMTP id
- z191-20020a3765c8000000b00478d7915c95so13480878qkb.9
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 06:23:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=v0MYrwTxN26u/ssoscmPZrGEi61IZwPDgVQsQKg5zTU=;
- b=AoZRChFpG6yoRjqXmlbLrVF5RFqnyjFH4A/bGePGFe6QZ3DT8COmVvoOlgvezeaXZb
- txpJfFTaFAoY0MISSQnPCKm4zBcgis0iz0O0SCGNPsKWoP6+2SSQ304Bk6Gv1e7p+DEx
- DM2uzYCbTWffgLG9ER5iQeTwI9oxzt5jlMys9RH+YI1q6tWiwjDarGnXZgOnRzNo8ABB
- bHMQMM0CueGnPbwAk70n8zWvAB1SL+O9iGA4/lYb8uh2Bu9Il5TT9CVcD7NRARpIy75c
- 2fsjNQUXKReVSil8gnu0ROrFEsOU8USm02/ZZ+QSgK4ZXN/nZsAMAYhzi/yV8YPb4y6e
- Dqqw==
-X-Gm-Message-State: AOAM530Tqmsgv3vXxyhcn9JpnQjZsZ4+1JaHmC8f3EUMkplvkg6hzVx2
- G5AF4BGoNm/baLjY+lKaKr4AThEr31wPdk2A1Ofw71SvK1BPaHVu7aOF3b7vNlZvIjdO5zZvByE
- SbZoiyCFegobLFL0=
-X-Received: by 2002:a05:620a:13f7:: with SMTP id
- h23mr14442141qkl.771.1642429435097; 
- Mon, 17 Jan 2022 06:23:55 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwtExeVOe6Ywckivn3Luts2+BXBjLU0qoFCIhEC7bPwDMqVPeQPV1gbAMDLlk5QmpaIvDZsVw==
-X-Received: by 2002:a05:620a:13f7:: with SMTP id
- h23mr14442127qkl.771.1642429434854; 
- Mon, 17 Jan 2022 06:23:54 -0800 (PST)
-Received: from steredhat (host-95-238-125-214.retail.telecomitalia.it.
- [95.238.125.214])
- by smtp.gmail.com with ESMTPSA id h9sm9057175qkp.106.2022.01.17.06.23.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Jan 2022 06:23:54 -0800 (PST)
-Date: Mon, 17 Jan 2022 15:23:48 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Peter Lieven <pl@kamp.de>
-Subject: Re: [PATCH V2 for-6.2 2/2] block/rbd: workaround for ceph issue #53784
-Message-ID: <20220117142348.oq3gcr6wsxxo3owa@steredhat>
-References: <20220113144426.4036493-1-pl@kamp.de>
- <20220113144426.4036493-3-pl@kamp.de>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1n9TEv-0007hV-Il
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:44:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=HvRWx10ilSS8pDAfxnrupBgqJgDkcvqxJxjMuTvsZw0=; b=C8mj2RStTr7E9svtFoLsmdwVn2
+ qt5ZEoXpwL7OcTqfbakOGSmBXQ/IZz2xwJJ11j2gx4udr5Glb2NCE9vJG+YUBjIdpv2rYPiCIfxNA
+ XqGTqhEl/pV0ypJk/LSlTaOKdup4wRJRwNQNOkK2Qa0DUhh5efs5+zUsd4n5LhblmPxTEJ0E3+Q/2
+ iH6rOHC92KLz4/J+UZIVKLH8FNPE1qPSCGmzZJ7FrM7u+ecJRodJD14K0qGM+JwWale/9Uyj1pz+A
+ mS0twxCtD5WxGt+0LU6ySiJ2r2ugOt2BaYSEwtqP1DGFmreom+aVtAsU6hinff6uthBLZFB5dJ9q7
+ Sxc8iSrY3Es0Z9jJc6zrtzL8ryL7v1yQSYuPR32Bl71Z1kh0lVa3WGILl2cmbEmrTfEAAhojnI/KT
+ VTRab2/G82j0hhEL0KNlS9ybCO1GXnnQHmm4GGr+LWFojdC4gqh6CWoIFV8Ltyegm1DJ0WPBaSLDB
+ 3x9PVa8Q9+SplXHriDsgNLXwON6aRIlHJhhgVRi5nMxtgOyDAxBSL43lFAcJWJmeXZxh4iI/jcTcx
+ Ao+oEXg6E5LUyG6iZI8Zi1HvfprYhVz5DC7lK02fA6BrmpEG8RBltOm5PkBKLxUuHeB4hTfrT+Dal
+ dKpM2qWMLu/vtu4gOchK95Izg8i51ytH/zWW7IJ4c=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>
+Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Subject: Re: 9p root fs HOWTO
+Date: Mon, 17 Jan 2022 15:44:05 +0100
+Message-ID: <3065564.DFbkM2JXdW@silver>
+In-Reply-To: <37a251a7-b6bc-ac80-8c2f-02a03f4fab26@amsat.org>
+References: <2785520.nJZE4KsnAZ@silver>
+ <37a251a7-b6bc-ac80-8c2f-02a03f4fab26@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20220113144426.4036493-3-pl@kamp.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,107 +65,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
- ct@flyingcircus.io, qemu-stable@nongnu.org, qemu-devel@nongnu.org,
- mreitz@redhat.com, pbonzini@redhat.com, idryomov@gmail.com,
- idryomov@redhat.com, dillaman@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 13, 2022 at 03:44:26PM +0100, Peter Lieven wrote:
->librbd had a bug until early 2022 that affected all versions of ceph that
->supported fast-diff. This bug results in reporting of incorrect offsets
->if the offset parameter to rbd_diff_iterate2 is not object aligned.
->
->This patch works around this bug for pre Quincy versions of librbd.
->
+On Montag, 17. Januar 2022 15:03:05 CET Philippe Mathieu-Daud=E9 wrote:
+> On 17/1/22 14:14, Christian Schoenebeck wrote:
+> > As I was still reading claims on the net that 9p was not usable for more
+> > complex use cases, I decided to write a complete HOWTO for installing a=
+nd
+> > configuring an entire guest OS (with Debian 11 "Bullseye" as example) on
+> > top of 9p being guest's root fs:
+> >=20
+> > https://wiki.qemu.org/Documentation/9p_root_fs
+>=20
+> Thanks for doing this!
+>=20
+> Doesn't it deserve its entry in the sphinx-generated manual,
+> rather than the wiki?
 
-I'm not sure, but maybe we could add the fixes tag also to this patch, 
-since without this workaround we can have issues with buggy librbd.
+I already had a run on this for the 9p developer docs before, but=20
+unfortunately there does not seem to be an adequate solution:
 
-Fixes: 0347a8fd4c3faaedf119be04c197804be40a384b
+https://lore.kernel.org/qemu-devel/2001177.cHeAXU27Kk@silver/
 
->Cc: qemu-stable@nongnu.org
->Signed-off-by: Peter Lieven <pl@kamp.de>
->---
-> block/rbd.c | 42 ++++++++++++++++++++++++++++++++++++++++--
-> 1 file changed, 40 insertions(+), 2 deletions(-)
+Best regards,
+Christian Schoenebeck
 
-Tested-by: Stefano Garzarella <sgarzare@redhat.com>
-
-
->
->diff --git a/block/rbd.c b/block/rbd.c
->index 20bb896c4a..d174d51659 100644
->--- a/block/rbd.c
->+++ b/block/rbd.c
->@@ -1320,6 +1320,7 @@ static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
->     int status, r;
->     RBDDiffIterateReq req = { .offs = offset };
->     uint64_t features, flags;
->+    uint64_t head = 0;
->
->     assert(offset + bytes <= s->image_size);
->
->@@ -1347,7 +1348,43 @@ static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
->         return status;
->     }
->
->-    r = rbd_diff_iterate2(s->image, NULL, offset, bytes, true, true,
->+#if LIBRBD_VERSION_CODE < LIBRBD_VERSION(1, 17, 0)
->+    /*
->+     * librbd had a bug until early 2022 that affected all versions of ceph that
->+     * supported fast-diff. This bug results in reporting of incorrect offsets
->+     * if the offset parameter to rbd_diff_iterate2 is not object aligned.
->+     * Work around this bug by rounding down the offset to object boundaries.
->+     * This is OK because we call rbd_diff_iterate2 with whole_object = true.
->+     * However, this workaround only works for non cloned images with default
->+     * striping.
->+     *
->+     * See: https://tracker.ceph.com/issues/53784
->+     */
->+
->+    /*  check if RBD image has non-default striping enabled */
->+    if (features & RBD_FEATURE_STRIPINGV2) {
->+        return status;
->+    }
->+
->+#pragma GCC diagnostic push
->+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
->+    /*
->+     * check if RBD image is a clone (= has a parent).
->+     *
->+     * rbd_get_parent_info is deprecated from Nautilus onwards, but the
->+     * replacement rbd_get_parent is not present in Luminous and Mimic.
->+     */
->+    if (rbd_get_parent_info(s->image, NULL, 0, NULL, 0, NULL, 0) != -ENOENT) {
->+        return status;
->+    }
->+#pragma GCC diagnostic pop
->+
->+    head = req.offs & (s->object_size - 1);
->+    req.offs -= head;
->+    bytes += head;
->+#endif
->+
->+    r = rbd_diff_iterate2(s->image, NULL, req.offs, bytes, true, true,
->                           qemu_rbd_diff_iterate_cb, &req);
->     if (r < 0 && r != QEMU_RBD_EXIT_DIFF_ITERATE2) {
->         return status;
->@@ -1366,7 +1403,8 @@ static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
->         status = BDRV_BLOCK_ZERO | BDRV_BLOCK_OFFSET_VALID;
->     }
->
->-    *pnum = req.bytes;
->+    assert(req.bytes > head);
->+    *pnum = req.bytes - head;
->     return status;
-> }
->
->-- 
->2.25.1
->
->
->
 
 
