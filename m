@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1F1D490479
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 09:57:36 +0100 (CET)
-Received: from localhost ([::1]:57754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D59F749047D
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 09:59:49 +0100 (CET)
+Received: from localhost ([::1]:33108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9NpY-0007UY-1y
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 03:57:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37660)
+	id 1n9Nrg-0001WA-FW
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 03:59:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n9NmX-0005XC-4r
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 03:54:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56658)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n9Npr-0000Ze-PL
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 03:57:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n9NmU-0007bg-JA
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 03:54:27 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n9Npq-0008Hr-75
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 03:57:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642409665;
+ s=mimecast20190719; t=1642409873;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1fwg2MoNFA0aPoCt0QfjY2bv8JCAypDzq/LPDbFICv4=;
- b=F3Fwhz/j/H8pYfOwV3gJIG1Vg8KteQHz5/HyxVs5VBH2dZA0Yyc6oe0NBbIUK3nJWufKaO
- H6GLLg5Ta7D3pKGlzwqgQJzqSpopbKX8jmsmTScUrUYLKzwznPCM4EnC266dYsL8K9uNAm
- IwvHOWiHptWxZYFI+mz1AfqK2QmwMuM=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=9lkM9D+hKZicLzPjC4IAzPnNgmKE5BQxg+XnuzvHlA0=;
+ b=Ek0cpnkvEpGm03+zpDlEmx1Ead3362xeDq0YuA79eQjicfQJInmIHe+hIK6qJn4yMG3lSW
+ o8InWxpmjfmDkjTviDr5tMuK4ohJvZkCHb7meOeWKTbMTVEJ1vh4G53TGr6oDwStKEqTbH
+ l50Xou+0vHcXaMHpJ0jDLjuaIS8sSR8=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-433--xwWurXwN-iHC0P-SWnEWg-1; Mon, 17 Jan 2022 03:54:24 -0500
-X-MC-Unique: -xwWurXwN-iHC0P-SWnEWg-1
-Received: by mail-pj1-f72.google.com with SMTP id
- o7-20020a17090a3d4700b001b4243e9ea2so6182732pjf.6
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 00:54:24 -0800 (PST)
+ us-mta-150-L7Gmp3xjOKCyBeNbmG4Jxg-1; Mon, 17 Jan 2022 03:57:50 -0500
+X-MC-Unique: L7Gmp3xjOKCyBeNbmG4Jxg-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ n203-20020a628fd4000000b004be3d8ec115so5872401pfd.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 00:57:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=1fwg2MoNFA0aPoCt0QfjY2bv8JCAypDzq/LPDbFICv4=;
- b=O9BI/vkWmii7eGbC0ZpVu6HvJkXJcIY6eq7MIZ3xOTL7kDeAv4qUqph26lsE7V5y5b
- T9SfdiVVDWKVE5ePFkA3oMK4h3aWnOdwnJtnOPxwRXpi+zL2ohOloF6U42W4X9nDfd7X
- XMwZIge9h4yHnn7b2rLVDgab+nibnAsskliWQcHooiKWPXvR/c74QLtLA2T5LgtN9WfE
- RL3FDBEhxJXrd7SOuR57VLdBm3Yu2IUffrYKTPq/NZCeXeszwDWdSUW2ObU1gfHWxMA9
- UtWUrk84V/PZWC7EIa7CCjvWl+tqr/Q2iYnasttWdj3EmwvGZlep2wBQbML2urtVx6tf
- 8bhw==
-X-Gm-Message-State: AOAM5312c7im17ccIrcUWaBmD9UmQ6eJyRvCrDsgrmoZHeCiKoz84MGI
- Y50OWy+05sF+YiNYmKm1speU/0XWgAR+7KZA2S1R13R9GW3t9TX29cdoEF3eZTBHI9grYkcZ+i9
- Zd3ThbQX2avlzT/4=
-X-Received: by 2002:a17:902:aa85:b0:149:4614:bc1f with SMTP id
- d5-20020a170902aa8500b001494614bc1fmr21214521plr.150.1642409663238; 
- Mon, 17 Jan 2022 00:54:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzpeZGHe1CV/beNiWKWCvvHLw2hPaMpJzSI6x8KL23EoBIdGTOQRGjnbXmnjJqS4qfyb4yVwA==
-X-Received: by 2002:a17:902:aa85:b0:149:4614:bc1f with SMTP id
- d5-20020a170902aa8500b001494614bc1fmr21214507plr.150.1642409662929; 
- Mon, 17 Jan 2022 00:54:22 -0800 (PST)
+ bh=9lkM9D+hKZicLzPjC4IAzPnNgmKE5BQxg+XnuzvHlA0=;
+ b=TtODw3MrUX+/kTjMZIu0c9JOmgciTDeUJ/+ruVrBYezb/V1GuRnGkSG4kpjqxTJKgW
+ WHiOdkzA75pAANDZX1QQMmEivkSALWQQJby6qKyjtW/7gunjEqmV0+wNYZQ1hL+jXkJs
+ sqcrpRHZTLhn7EfXijgIiZ3swT7cbKjJ3daK8BLqfafxOCFdkeU+CCgAxDEqbYwYo+7B
+ ekUx88k1o1SP+rTNRfxrZzFTgPt6tL7qHUs1OSs1/Vd0d1+Mw9aUCnZv9i+Zu/pD1ORd
+ N8eDlSLWy3Wr5fpqk2rCdj1sj+DwzAB+8F+PHR5FwcipX1oDRZw+5Nzbp4yS76PofTcc
+ INpA==
+X-Gm-Message-State: AOAM532gCR8FBHWc5Nk5890nK7ARGl5O4jXYRw18p8PhRxQ/YDjShLja
+ jeGxnirwxQruVutzYQkpRIVEN1l7EqERHSQyd1mNRh1g7MbSav5IOz5kai82YohbSlzVNb1lYD+
+ YtYYdBMTWWusV6Ag=
+X-Received: by 2002:a17:902:e9d3:b0:14a:aae2:7bce with SMTP id
+ 19-20020a170902e9d300b0014aaae27bcemr7307164plk.34.1642409869363; 
+ Mon, 17 Jan 2022 00:57:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzdKC6csyzA9lEOYFcMCUsUDudM5vrzICEKNV2tJA9MzjC0POpwYoumPxXIxBCyuaOVK/i+5Q==
+X-Received: by 2002:a17:902:e9d3:b0:14a:aae2:7bce with SMTP id
+ 19-20020a170902e9d300b0014aaae27bcemr7307155plk.34.1642409869140; 
+ Mon, 17 Jan 2022 00:57:49 -0800 (PST)
 Received: from xz-m1.local ([191.101.132.74])
- by smtp.gmail.com with ESMTPSA id mq15sm1564493pjb.19.2022.01.17.00.54.17
+ by smtp.gmail.com with ESMTPSA id f125sm12834329pfa.28.2022.01.17.00.57.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Jan 2022 00:54:22 -0800 (PST)
-Date: Mon, 17 Jan 2022 16:54:14 +0800
+ Mon, 17 Jan 2022 00:57:48 -0800 (PST)
+Date: Mon, 17 Jan 2022 16:57:43 +0800
 From: Peter Xu <peterx@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v11 0/4] support dirty restraint on vCPU
-Message-ID: <YeUutnW6DYQbVkY9@xz-m1.local>
-References: <cover.1641315745.git.huangy81@chinatelecom.cn>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH 1/3] exec/memory: Extract address_space_set() from
+ dma_memory_set()
+Message-ID: <YeUvh+OBefyxDEvv@xz-m1.local>
+References: <20220115203725.3834712-1-laurent@vivier.eu>
+ <20220115203725.3834712-2-laurent@vivier.eu>
 MIME-Version: 1.0
-In-Reply-To: <cover.1641315745.git.huangy81@chinatelecom.cn>
+In-Reply-To: <20220115203725.3834712-2-laurent@vivier.eu>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -76,7 +78,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -97,40 +99,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
+Cc: David Hildenbrand <david@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 05, 2022 at 01:14:05AM +0800, huangy81@chinatelecom.cn wrote:
-> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+On Sat, Jan 15, 2022 at 09:37:23PM +0100, Laurent Vivier wrote:
+> From: Philippe Mathieu-Daudé <philmd@redhat.com>
 > 
-> v11
-> - rebase on master
-> - add a commit " refactor dirty page rate calculation"  so that dirty page rate limit
->   can reuse the calculation logic. 
-> - handle the cpu hotplug/unplug case in the dirty page rate calculation logic.
-> - modify the qmp commands according to Markus's advice.
-> - introduce a standalone file dirtylimit.c to implement dirty page rate limit
-> - check if dirty limit in service by dirtylimit_state pointer instead of global variable
-> - introduce dirtylimit_mutex to protect dirtylimit_state
-> - do some code clean and docs
+> dma_memory_set() does a DMA barrier, set the address space with
+> a constant value. The constant value filling code is not specific
+> to DMA and can be used for AddressSpace. Extract it as a new
+> helper: address_space_set().
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> [lv: rebase]
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 
-Yong,
-
-Would you consider picking up this patch too alongside?
-
-https://lore.kernel.org/qemu-devel/20211130080028.6474-1-peterx@redhat.com/
-
-I didn't explicitly test cancel of dirty limit during migration just now, but I
-think it'll need it.
-
-Thanks,
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
 -- 
 Peter Xu
