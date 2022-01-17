@@ -2,96 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 363B049055A
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 10:45:02 +0100 (CET)
-Received: from localhost ([::1]:55566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC71490563
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 10:48:29 +0100 (CET)
+Received: from localhost ([::1]:33172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9OZQ-0002wT-NI
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 04:45:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48524)
+	id 1n9Ocl-00071u-Rt
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 04:48:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n9OWf-0000lN-Qe
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 04:42:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46392)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n9OaR-0005RG-BF
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 04:46:03 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:38605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n9OWb-0007Ag-FG
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 04:42:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642412523;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CAGMPnFNso7dhLjbhkjmQTFs3Di4Pro5ysmINbgTdps=;
- b=F5ME/JobbRuFPjdKs74ruIr6g38e1c6bMXLcYDuLChZ45QDHirOUHrglUip9HkX5PFOeAW
- NH8ZM1kLJa1aVG5O2HZQWCs6xiQ+kRxeSbKvUPElW41ixefMH7VPXXiCJSCrgUfcsHQ4tW
- cYZYBLTHUrPDavIZNn98ls/ZesnqcW4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-Ba0LOmmsPYK_ED2hEjsVyw-1; Mon, 17 Jan 2022 04:42:00 -0500
-X-MC-Unique: Ba0LOmmsPYK_ED2hEjsVyw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j6-20020a05600c1c0600b0034c02775da7so1200339wms.3
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 01:42:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=CAGMPnFNso7dhLjbhkjmQTFs3Di4Pro5ysmINbgTdps=;
- b=JDvvyftiE4+Bp19QBm58bH7WoSpmVEeDHgy36jDFVYi1DvxgQIVU1MvOfmb76lrOdv
- BK6LLNQsbg9PUG3AzGr9yepo7B3ekxjDwE0AsNMS8CjTBKnLA3bKmEwIswUoZNct5hgJ
- W6ycdYwgMfE3+leXZ3Y91iCRVmv7RJRfzKIuvWwFl7yQEKj6OLSj3Le0DCJCpBlXM0It
- P13wIJI1uozvwO1HV0F9SwyaHPI4aZI8kaBdKcCkgB0eKECRB+tzbL5ujoN75pv3WZ+E
- W4yT5o6lDg0Je6juHCezaT8mwWT1k3OqJ877sTMA5MAzXMgccFwYBcpBUTgUBTHwSgzu
- nHXw==
-X-Gm-Message-State: AOAM532jnNEnVP+57//SxycqZ4eisdl9o4U/xPkWIkdKg+ObY/Z/KwOJ
- 7Qn+++uMNkArdTTjuywjI+H3TvCIcO4FEPbQAu3VaLbBCNcYsQZWnbaLNBxCxMLMBsyfqpgAMXh
- RlPRrTPpwete78ys=
-X-Received: by 2002:a05:6000:2cb:: with SMTP id
- o11mr13449770wry.187.1642412519611; 
- Mon, 17 Jan 2022 01:41:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJywJ4DpXyE46dC8W1PIxmVAaabVY0abnd5J3ZzUzSERGRF4Oct2R213UyAFSWViHei6i1FuNA==
-X-Received: by 2002:a05:6000:2cb:: with SMTP id
- o11mr13449759wry.187.1642412519440; 
- Mon, 17 Jan 2022 01:41:59 -0800 (PST)
-Received: from [192.168.8.100] (tmo-098-68.customers.d1-online.com.
- [80.187.98.68])
- by smtp.gmail.com with ESMTPSA id o15sm13880427wro.70.2022.01.17.01.41.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jan 2022 01:41:59 -0800 (PST)
-Message-ID: <ef5e98d4-d8b2-fc6e-2735-53c075db3f3b@redhat.com>
-Date: Mon, 17 Jan 2022 10:41:57 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n9OaO-0007qm-JN
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 04:46:02 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.193])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id B9027D82E6A0;
+ Mon, 17 Jan 2022 10:45:57 +0100 (CET)
+Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 17 Jan
+ 2022 10:45:56 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G0033e9c74ef-75bf-4211-aa9e-bbcd12091710,
+ 9556A11AC16C5E8FE4FF301E40865CB3D13C347E) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <8609da8e-e4e6-3b78-6d49-c6cf4cb07ddd@kaod.org>
+Date: Mon, 17 Jan 2022 10:45:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: ui/cocoa.m compile error (Cocoa -> SDL)
-To: Liviu Ionescu <ilg@livius.net>, Peter Maydell <peter.maydell@linaro.org>
-References: <586FEC07-844C-4E1B-88E0-93B97FFC9010@livius.net>
- <CAFEAcA_=jn1G==9R1=LuU7GF0=LWPz92f1Qx9xO7w+m+TqL1Tw@mail.gmail.com>
- <F140E9AC-F44C-44A9-8670-F60E33046B83@livius.net>
- <574D1950-B892-430B-A450-23262C258950@livius.net>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <574D1950-B892-430B-A450-23262C258950@livius.net>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.3.0
+Subject: Re: ppc pbr403 vmstate
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <YeB0zGRC/ct8DAzM@work-vm> <YeC4xYrYhdAKKwTx@yekko.fritz.box>
+ <a2b11256-5afe-42de-ffb3-dad07c8165b3@kaod.org>
+ <YeUEB0lb7mhuoP6G@yekko.fritz.box>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <YeUEB0lb7mhuoP6G@yekko.fritz.box>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 9d61fdff-d07f-4484-81eb-6286bf37d322
+X-Ovh-Tracer-Id: 4239294625816152940
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddruddugddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,25 +71,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: lvivier@redhat.com, peter.maydell@linaro.org, quintela@redhat.com,
+ qemu-devel@nongnu.org, danielhb413@gmail.com, groug@kaod.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/01/2022 11.33, Liviu Ionescu wrote:
-> I now have successful builds on all platforms, including on macOS 11 with Apple Silicon and macOS 10.13 with Intel, but I had to disable Cocoa support, and enable SDL support.
+On 1/17/22 06:52, David Gibson wrote:
+> On Fri, Jan 14, 2022 at 08:07:21AM +0100, Cédric le Goater wrote:
+>> On 1/14/22 00:41, David Gibson wrote:
+>>> On Thu, Jan 13, 2022 at 06:51:56PM +0000, Dr. David Alan Gilbert wrote:
+>>>> Hi,
+>>>>     Is there any easy way of getting a machine where the pbr403 vmstate
+>>>> would be generated?
+>>>
+>>> The condition in pbr403_needed is...
+>>>
+>>>       return (pvr & 0xffff0000) == 0x00200000;
+>>>
+>>> .. which looks to be the PVR for ppc403 models.  That makes sense with
+>>> the section name... but not so much with the fact that it's under
+>>> cpu/tlb6xx.  The 6xx MMU is basically unrelated to the 40x MMU.  But
+>>> it looks like the vmstate_tlbemb might be shared between then, because
+>>> of bad ideas of the past.
+>>>
+>>> But in any case, we already dropped what little 403 support we ever
+>>> had - there's nothing with that PVR even listed in
+>>> target/ppc/cpu-models.h.
+>>>
+>>> So I think we should just drop it.
+>>
+>> yes. But we can not remove env.pb since this would break migration
+>> compatibility, correct ?
 > 
-> The resulting binaries (qemu-system-arm/aarch64/riscv32/riscv64) start, but I could not tell if the lack of Cocoa in the macOS builds has some disadvantages or not.
-> 
-> 
-> Are there any emulated Arm/RISC-V machines that use graphics, so I can test my macOS binaries with?
+> Only if it appears in a migration section that's actually emitted by a
+> supported machine type.  As far as I can tell the only section that
+> does that is vmstate_pbr403, which we're also dropping so we should be
+> fine.
 
-Have a look here:
+I sent a patch to remove vmstate_pbr403 first.
 
-  https://www.qemu-advent-calendar.org/2018/#day-16
-  https://www.qemu-advent-calendar.org/2018/#day-24
+  > It is also touched in the *super* old cpu_load_old.  I suspect we
+> could probably just drop that completely, since I don't think we
+> realistically support migration from a version that old anyway.  But
+> even if we don't want to do that right now, we can just replace the
+> reads into env->pb with discarding reads and we'll be fine.  We don't
+> implement any cpus that actually used those fields, so we can ignore
+> them in the migration stream.
 
-HTH,
-  Thomas
+I will take a look at this also with follow ups.
 
+Thanks,
 
+C.
 
