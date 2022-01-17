@@ -2,94 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0CE0490C0F
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 17:06:42 +0100 (CET)
-Received: from localhost ([::1]:40458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D4CE490C46
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 17:13:44 +0100 (CET)
+Received: from localhost ([::1]:46292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9UWn-0004TP-DW
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 11:06:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46572)
+	id 1n9Uda-0000HP-27
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 11:13:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n9U5q-0007lu-PO
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 10:38:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53331)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n9U5o-0000en-4w
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 10:38:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642433926;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wOusBN6XfQOfHOxleziR5QfImcP1X7Da7CkR+CRdf1o=;
- b=iOjTe+mmWzidd+0CKo6qeTJlkP7CAy32LbyQQUn5AIjZv3hptsrGzpc9GMMmM78FKc3PSe
- Na0BETaXa4Z77MRUuXfFwu+Sk7YW0jvpU4hP/E7q73Z502P3c6ykcpcqHFxEqjV7Q5u6s6
- jS3SsxauFU0AjCxwLvJUJVBLtf4gl1w=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-540-OuAUwQ3SNWSnPCdNSVSuXg-1; Mon, 17 Jan 2022 10:38:40 -0500
-X-MC-Unique: OuAUwQ3SNWSnPCdNSVSuXg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n25-20020a05600c3b9900b00348b83fbd0dso134045wms.0
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 07:38:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1n9UXg-0006Km-FY
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 11:07:37 -0500
+Received: from [2a00:1450:4864:20::535] (port=45770
+ helo=mail-ed1-x535.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1n9UXe-0005oW-Rj
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 11:07:36 -0500
+Received: by mail-ed1-x535.google.com with SMTP id z22so67655550edd.12
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 08:07:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=livius-net.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=dDsylYSYZOSLxDRoA0N8sJqQb8ERfXcJtm4+YyEt1Ik=;
+ b=mstqM8VtId++MVnpYodU0k5dtlrWP+DXK//0rA2KGRCa+DqCu/hujxhHZV1lGcNd0B
+ saBlra5GzksY1DpvpX8obASYEAJr0ITou38zfdZVYmIB4YIkfPq0ctNxvLE+dldNiy6u
+ eMzGz0XHhWW3QMrh5t132tRT8QjVWA8vOFfjJlRVNadeqeSZs27ltTOvuAEpYT+CuQDU
+ 7NP1fi3A4hXaxPevjbJYPoXR5yceNnvXg8kJlxakqiU9lTJibKlnkftUFtW+3kEKJ+XQ
+ mBI3BB/8OkSE4CUicJQXGVWpNylq4CzvJc5R+7n+8GzuNMvCeMN4INvh5Kp72UjamFj3
+ GUSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=wOusBN6XfQOfHOxleziR5QfImcP1X7Da7CkR+CRdf1o=;
- b=7wrIuFgHcj3wiwEWUMyevrzqiASoq5GoN2Sr1Ttk/Vr11YQ6NeI9pCKbwYzSRzvOdi
- WTBXaSeuED4JsqWRc+zlJ/ibPq7oPRLEbhnJnsk6d3OmqOslcbwkzzSSkSAw2f0oSz2v
- 53LCo77y+Q6OkKk7atXTK15U2t8lANU3Sd1lqFGpAeGm/Jiyn/GG3PA+/GLtugQ1pR/X
- 1SgfR5Mq7RHprRRzqEHANmOKEs6SL2d6Qe1KD9PPHt7eIoc4hCsaqdFshKUaUSf4yHIK
- p0RK+BHmKJTgyp70tjNVKVzUJmR/w7MHfetWbJquwk3ZrlnecbLh9di+50AQOuPmdNKE
- +fmg==
-X-Gm-Message-State: AOAM530R00CtFgJgLPhjz3r7UCDKk23Fx/xLiJNpNEQ0g2hjac1/5DPI
- Lw2vHZg+P3zA0LuGiRCOh5znG4KDJNxka4xnKiZ86I0ntvLZnSCyR3b1AuALbRWZfaMi9F29x3z
- rguvcI4NFh383yQc=
-X-Received: by 2002:a05:600c:364b:: with SMTP id
- y11mr18294648wmq.156.1642433908586; 
- Mon, 17 Jan 2022 07:38:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzobrH/M5S9n0iOAFC2L0Ob4FJaT4FkMiqTq/8tKjyizFX/APce3EwLHrb4nAWo53clG/YK7Q==
-X-Received: by 2002:a05:600c:364b:: with SMTP id
- y11mr18294636wmq.156.1642433908407; 
- Mon, 17 Jan 2022 07:38:28 -0800 (PST)
-Received: from [192.168.8.100] (tmo-098-68.customers.d1-online.com.
- [80.187.98.68])
- by smtp.gmail.com with ESMTPSA id o1sm3562904wri.12.2022.01.17.07.38.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jan 2022 07:38:27 -0800 (PST)
-Message-ID: <9f55cf89-9d58-b1c5-0d97-d0730498b62f@redhat.com>
-Date: Mon, 17 Jan 2022 16:38:25 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v2 4/9] s390x/pci: enable for load/store intepretation
-To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
-References: <20220114203849.243657-1-mjrosato@linux.ibm.com>
- <20220114203849.243657-5-mjrosato@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220114203849.243657-5-mjrosato@linux.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=dDsylYSYZOSLxDRoA0N8sJqQb8ERfXcJtm4+YyEt1Ik=;
+ b=DZR2LNhfaOYfMH+IHmDnJ/cQ0tFriaQ5JkP+Ka5IkpPzgv+OfLzlw12vTS0sb46IcC
+ 0swc2qF7C3ez6f0mmUjHANyNRSjdgGbsM19nFPkFghGl2hVFn1jBeKIfIcz1Miq4XOET
+ AmRJJBNg70cNZ6b3otBTHpKwFkIKaO/x3K6fO/zM4ZutUQQ/s2Rlg9+XpdRNfSEtwnsX
+ yn3vr+3Uwyo3WjdyvVR+TOOES0z/jJ+bsB2jEAvofWFp6eN55Wnd+BE0tsUjTjmogDM9
+ +poPXOLdQYlhXbU14it+EPBT/D9d/Egj/TeO5CUDc8Tjjs9X0W6+et1AkI1YzYC18xII
+ jnSQ==
+X-Gm-Message-State: AOAM5337DZtWuEKhR5bh7MFa0aYSWrKh6iU+odn7+G9Zc8EHE8j10mDd
+ D6AjUbZykAtlY+uPl9Jo8M4Cdw==
+X-Google-Smtp-Source: ABdhPJz1JCNuNLqZKTws09SNPIQ/zG/kb4q1YUeYlwAFUcyrrzCaVwr6PZJnRzaWUBOgg3B3EuwShg==
+X-Received: by 2002:a17:907:e86:: with SMTP id
+ ho6mr8593028ejc.296.1642435653337; 
+ Mon, 17 Jan 2022 08:07:33 -0800 (PST)
+Received: from smtpclient.apple ([79.115.178.1])
+ by smtp.gmail.com with ESMTPSA id e17sm4549013eje.218.2022.01.17.08.07.32
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 17 Jan 2022 08:07:32 -0800 (PST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.40.0.1.81\))
+Subject: Re: ui/cocoa.m compile error (Cocoa -> SDL)
+From: Liviu Ionescu <ilg@livius.net>
+In-Reply-To: <CAFEAcA8aMc40ea=F1P7vHHeNF=rqE+B=sz+6QdzrOWGwZU7W6A@mail.gmail.com>
+Date: Mon, 17 Jan 2022 18:07:31 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <E7A03D00-4F6F-4DC8-A8E5-84D0E13A79E3@livius.net>
+References: <586FEC07-844C-4E1B-88E0-93B97FFC9010@livius.net>
+ <CAFEAcA_=jn1G==9R1=LuU7GF0=LWPz92f1Qx9xO7w+m+TqL1Tw@mail.gmail.com>
+ <F140E9AC-F44C-44A9-8670-F60E33046B83@livius.net>
+ <574D1950-B892-430B-A450-23262C258950@livius.net>
+ <ef5e98d4-d8b2-fc6e-2735-53c075db3f3b@redhat.com>
+ <CCB6E84E-5F90-4FC6-BEEB-42A7C591BDBF@livius.net>
+ <CAFEAcA9sNksi2=xiFUp_r0_NeCuUKXYU6sd1LDvX=j0+Mh3gYQ@mail.gmail.com>
+ <3DE1FD39-B0F7-45D2-BC44-66D9B0533057@livius.net>
+ <CAFEAcA8aMc40ea=F1P7vHHeNF=rqE+B=sz+6QdzrOWGwZU7W6A@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+X-Mailer: Apple Mail (2.3693.40.0.1.81)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::535;
+ envelope-from=ilg@livius.net; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,46 +95,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, kvm@vger.kernel.org, pmorel@linux.ibm.com,
- schnelle@linux.ibm.com, cohuck@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, david@redhat.com,
- borntraeger@linux.ibm.com
+Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/01/2022 21.38, Matthew Rosato wrote:
-> Use the associated vfio feature ioctl to enable interpretation for devices
-> when requested.  As part of this process, we must use the host function
-> handle rather than a QEMU-generated one -- this is provided as part of the
-> ioctl payload.
-> 
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-> ---
->   hw/s390x/s390-pci-bus.c          | 70 +++++++++++++++++++++++++++++++-
->   hw/s390x/s390-pci-inst.c         | 63 +++++++++++++++++++++++++++-
->   hw/s390x/s390-pci-vfio.c         | 52 ++++++++++++++++++++++++
->   include/hw/s390x/s390-pci-bus.h  |  1 +
->   include/hw/s390x/s390-pci-vfio.h | 15 +++++++
->   5 files changed, 199 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-> index 01b58ebc70..a39ccfee05 100644
-> --- a/hw/s390x/s390-pci-bus.c
-> +++ b/hw/s390x/s390-pci-bus.c
-...
-> @@ -1360,6 +1427,7 @@ static Property s390_pci_device_properties[] = {
->       DEFINE_PROP_UINT16("uid", S390PCIBusDevice, uid, UID_UNDEFINED),
->       DEFINE_PROP_S390_PCI_FID("fid", S390PCIBusDevice, fid),
->       DEFINE_PROP_STRING("target", S390PCIBusDevice, target),
-> +    DEFINE_PROP_BOOL("interp", S390PCIBusDevice, interp, true),
->       DEFINE_PROP_END_OF_LIST(),
->   };
 
-Since this is something that the user can see, would it maybe make sense to 
-provide a full word instead of an abbreviation here? I.e. "interpret" or 
-"interpretation" instead of "interp" ?
 
-  Thomas
+> On 17 Jan 2022, at 16:06, Peter Maydell <peter.maydell@linaro.org> =
+wrote:
+>=20
+> This is newer versions of macOS being stricter about enforcing that
+> some operations are only permitted on the correct thread. Older =
+versions
+> let QEMU/SDL get away with doing them on the "wrong" thread, which
+> all happened to work.
+
+Ah, right, I remember this gave me a lot of headaches when I added the =
+animated LEDs to qemu-system-gnuarmeclipse, and in the end I had to =
+rewrite the SDL code to guarantee that graphical updates happen only on =
+the main thread.
+
+> It looks like it's "code would need to be updated to fix the
+> problems that newer macOS complains about", which nobody has done.
+
+Later this year I plan to add animated LEDs to qemu-system-arm too, so I =
+might face the same problems again.
+
+If you think useful, I can contribute the patches back to upstream.
+
+
+Liviu
 
 
