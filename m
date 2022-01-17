@@ -2,85 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C53A49111C
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 21:44:31 +0100 (CET)
-Received: from localhost ([::1]:35106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EDAE49111D
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 21:45:56 +0100 (CET)
+Received: from localhost ([::1]:36922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9Yre-0005F9-3K
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 15:44:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56624)
+	id 1n9Yt1-0006Tm-NV
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 15:45:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9Ypl-0003xL-Nu; Mon, 17 Jan 2022 15:42:33 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=44637
- helo=mail-pj1-x1035.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n9YqQ-0004fp-PG
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 15:43:14 -0500
+Received: from [2a00:1450:4864:20::333] (port=55085
+ helo=mail-wm1-x333.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9Ype-0006j5-JL; Mon, 17 Jan 2022 15:42:29 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- l6-20020a17090a4d4600b001b44bb75a8bso811481pjh.3; 
- Mon, 17 Jan 2022 12:42:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=/kPUvwAFvMNsCCQ4O2hlMAklvsBHQ0VDsRiUWvV478g=;
- b=Qzs69NTb0bnWKdIEOpINsxOrR+FnxH53GsJ/itu3/G0joC6u0dO9rETH57E6f+3w4f
- Ge6zBuoJQ+86VS1L9Q3sVZKtnMmNjYuGYka75vjElLqoR+kDoJ3LPZPGZj5e2+46ULzX
- qTq1lQcqWNDwWmboeKQicSy1f4LFtejO+3EwFHM7PT5PwhcXtnQaIP95ddgqvNMNWPpk
- Vu1XcLKTqKj5dyG2whKLG1Bd6+v+CD4wON9Xocw1pNYdSMuuInU958QFJh+OQLXjI4Dw
- 3M6pNO7n9fDqv8sZ08s28X9E6/gs8p00gBidvkQMGEgEPXkNjD0lFJzOVyEv9EVmqoSI
- iZhQ==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n9YqO-0006la-QL
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 15:43:14 -0500
+Received: by mail-wm1-x333.google.com with SMTP id p18so23099877wmg.4
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 12:43:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+RJ0dLEV7kSX2msgfWQBYLSI3BZn9Kxt6GI6lo/QEFk=;
+ b=ZKDbKhguehk3VyfwYAlRLFO8OLl6KnHXWuUZMmgG/ttANDAmhF6N5DuSEKHnKjNJIy
+ ua1X+okicFA8C/E1tLk2jneZO9Epv9h8nGbOjhZofSVTjxcIVVz5z6YizHbXoEzNefSL
+ Mt78EYSbmskinJu6l6qwBEsYB7L8hCgVwVz/0gMFJVadSOyVM9Z9wrZ3cAY4a53saS6u
+ XgTa/uLDD5RQ63Vruvi7ty9OAZFFh4cfdt505nCd/yV2DSpgcDvgWM71/QFiGE5zy9ai
+ MwhJu1sHaIQNSl2Sg56cMN1yulxveDrxNC5seBGppuFH+PoUolXlwrlb15cRAClYsAhc
+ WJXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=/kPUvwAFvMNsCCQ4O2hlMAklvsBHQ0VDsRiUWvV478g=;
- b=5hdPx9c5CTtQDBt7pn+o8WxVt4Aho4yr0GQ2WjUpZPqX2703A0+PtI8dNe68W8yKj9
- 9SjtqzW37ZhAgFI9zgTv8N88xPmfW3ijEfbgiowYDJ62gX6rtVkTqDNUdpe+09VLSVji
- RFw6IpsxpnrgDhMmc6CfN1k+y6jVVwqdBCr3zXu3En/NjRBYaaMN+LCFjb0DS2hWfyJf
- RC35g/2afGawMI/udirfdAAZx0adgG5DB6wj73T7c+Oi83ZMUuat+FLkGx8DG3C5xB+a
- Fh3gk+6optKrafuX18lpGqzy632g42IYnSla7cDVpfOVJB5zBYDg/CzpzdZjAl51P8IC
- 6sPA==
-X-Gm-Message-State: AOAM5332dnWSnOVrdyQcrh/qaJKdjk7GKkc6G5W1VicbSqMV1dY4PbK6
- W3gRzgrU4S7m+kZ+Nux9BsQ=
-X-Google-Smtp-Source: ABdhPJzTRLBprAQ6L6E4ei1A83AvqI4Yu0buA5W6KsPgkYzXDGAw643FXLeUjJHCo84ZAvd4Ai8OYw==
-X-Received: by 2002:a17:903:110d:b0:149:a908:16a2 with SMTP id
- n13-20020a170903110d00b00149a90816a2mr23909194plh.77.1642452143825; 
- Mon, 17 Jan 2022 12:42:23 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id 65sm14651557pfw.70.2022.01.17.12.42.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jan 2022 12:42:23 -0800 (PST)
-Message-ID: <dadd3528-4cf1-9249-f741-74a6e2fbdfee@amsat.org>
-Date: Mon, 17 Jan 2022 21:42:20 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+RJ0dLEV7kSX2msgfWQBYLSI3BZn9Kxt6GI6lo/QEFk=;
+ b=K5v6Gdc03UeYb3q7/kaZaEWL1F96Ts8C0DTcuQJx2RgOQTpgKMGSIPUtIF6fovA7it
+ g4jxJY/Yxjxl64AkwlUKIMwaglLnKJ+IJEI1hrt/o3uycIDEvKqj9IRhgSgmh8qYtkvT
+ mLSbQ43YcjE1Fpj5ZF5URJ2lpHauzz7GINSHkoOhLHYWFBCIeSXFLGX0UpGmh2YxjMV/
+ aGhMpIykmd+ZLwl/tB+cLSmW4ceOFa5bKHM8MMsBqiSXQ3Mvu6mAaEWZrtHgV3Fbit8l
+ J6EPZPH1mYP2CujovfcRxFiwFGgl/SEM+CEL/uhs7F4prPjh3ToTxAM8p8mkw/LSbqTS
+ lWZw==
+X-Gm-Message-State: AOAM530PPFTbpMDtTWDBG9+UgoBnpX067UBcwXz4vGdvHtc7qX0PTFWI
+ dUqOHNHschDTWOpIg0LTdV5d7TJa8YyjpSU39g+faQ==
+X-Google-Smtp-Source: ABdhPJw/36WeMaLkS3FY9CjX6d8zkYwp2jgGySKuKZagUn0GxzKQA8HLuVXFd+enbsVllf+UP17u5fKcyBtgDMjs4SU=
+X-Received: by 2002:adf:ee0e:: with SMTP id y14mr21343985wrn.172.1642452191261; 
+ Mon, 17 Jan 2022 12:43:11 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH RESEND] tests/avocado: ppc: Add smoke tests for MPC7400
- and MPC7450 families
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>,
- Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: mark.cave-ayland@ilande.co.uk, qemu-ppc@nongnu.org, clg@kaod.org
-References: <20220117144757.782441-1-farosas@linux.ibm.com>
- <e83875f1-70bd-2a5b-ba4e-39baa4cc3c6e@gmail.com>
-In-Reply-To: <e83875f1-70bd-2a5b-ba4e-39baa4cc3c6e@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+References: <CAFEAcA-UKdcTROB7e3jO1qe=WCbuHRuX5WN7HZF2CcdMsmAt=g@mail.gmail.com>
+ <YeU/YCUI59f33PBh@redhat.com>
+ <CAFn=p-YDo8tTQ1Y8HgtQuCDv3i5EdFEX8-2BAjs-7L5q_b4=Gg@mail.gmail.com>
+In-Reply-To: <CAFn=p-YDo8tTQ1Y8HgtQuCDv3i5EdFEX8-2BAjs-7L5q_b4=Gg@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 17 Jan 2022 20:43:00 +0000
+Message-ID: <CAFEAcA8ru2FzmBgs1O1vmUVEqMGVcNeQwm_GoZN8E2K_jkSObw@mail.gmail.com>
+Subject: Re: iotest 040, 041, intermittent failure in netbsd VM
+To: John Snow <jsnow@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -95,49 +81,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 17/1/22 21:08, Daniel Henrique Barboza wrote:
-> On 1/17/22 11:47, Fabiano Rosas wrote:
->> These tests ensure that our emulation for these cpus is not completely
->> broken and we can at least run OpenBIOS on them.
->>
->> $ make check-avocado AVOCADO_TESTS=../tests/avocado/ppc_74xx.py
->>
->> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
->> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
->> ---
->> ---
->>   tests/avocado/ppc_74xx.py | 123 ++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 123 insertions(+)
->>   create mode 100644 tests/avocado/ppc_74xx.py
->>
->> diff --git a/tests/avocado/ppc_74xx.py b/tests/avocado/ppc_74xx.py
->> new file mode 100644
->> index 0000000000..556a9a7da9
->> --- /dev/null
->> +++ b/tests/avocado/ppc_74xx.py
->> @@ -0,0 +1,123 @@
->> +# Smoke tests for 74xx cpus (aka G4).
->> +#
->> +# Copyright (c) 2021, IBM Corp.
-> 
-> 
-> Not sure if the copyright year must be changed to 2022 (the year that 
-> this is going to
-> be published) or 2021 (the year that it was developed). GNU docs isn't 
-> clear about
-> it. Our COPYING file is also not clear about whether we should put the 
-> code creation
-> or code publishing year in this header.
-> 
-> I don't mind leaving it as 2021. I'm just curious about what is the 
-> semantics involved
-> here.
+On Mon, 17 Jan 2022 at 20:35, John Snow <jsnow@redhat.com> wrote:
+>
+> On Mon, Jan 17, 2022 at 5:05 AM Kevin Wolf <kwolf@redhat.com> wrote:
+> >
+> > Am 10.01.2022 um 16:55 hat Peter Maydell geschrieben:
+> > > Just saw this failure of iotests in a netbsd VM
 
-I think I read once "the date it was first published on the list", but
-I am not sure and certainly IANAL ;)
+> This trace says that we timed out while awaiting a connection from
+> QEMU during the VM launch phase. i.e. python/qemu/qmp/machine.py line
+> 340:
+>
+>     def _post_launch(self) -> None:
+>         if self._qmp_connection:
+>             self._qmp.accept(self._qmp_timer)  <-- we timed out here.
+>
+> (Note to self: make this traceback look more obvious as to what was
+> canceled and why. I think I can improve readability here a bit ...)
+>
+> Sky's the limit on why QEMU never connected to the socket, but:
+>
+> > > --- /home/qemu/qemu-test.MPWquy/src/tests/qemu-iotests/040.out
+> > > fcntl(): Invalid argument
+>
+> That looks fairly suspicious, and I don't know which process was
+> responsible for printing it (or when, relative to the other outputs).
+> I assume you don't see any such output like this on a good run.
+
+The NetBSD VM prints those fcntl messages all over the place.
+I think something in the build system (make? ninja? who knows)
+triggers them.
+
+> > > -OK
+> > > +FAILED (errors=1)
+> > >   TEST   iotest-qcow2: 041 [fail]
+> > > QEMU          --
+> > > "/home/qemu/qemu-test.MPWquy/build/tests/qemu-iotests/../../qemu-system-aarch64"
+> > > -nodefaults -display none -accel qtest -machine virt
+> > > QEMU_IMG      --
+> > > "/home/qemu/qemu-test.MPWquy/build/tests/qemu-iotests/../../qemu-img"
+> > > QEMU_IO       --
+> > > "/home/qemu/qemu-test.MPWquy/build/tests/qemu-iotests/../../qemu-io"
+> > > --cache writeback --aio threads -f qcow2
+> > > QEMU_NBD      --
+> > > "/home/qemu/qemu-test.MPWquy/build/tests/qemu-iotests/../../qemu-nbd"
+> > > IMGFMT        -- qcow2
+> > > IMGPROTO      -- file
+> > > PLATFORM      -- NetBSD/amd64 localhost 9.2
+> > > TEST_DIR      -- /home/qemu/qemu-test.MPWquy/build/tests/qemu-iotests/scratch
+> > > SOCK_DIR      -- /tmp/tmpuniuicbi
+> > > GDB_OPTIONS   --
+> > > VALGRIND_QEMU --
+> > > PRINT_QEMU_OUTPUT --
+> > >
+> > > --- /home/qemu/qemu-test.MPWquy/src/tests/qemu-iotests/041.out
+> > > +++ 041.out.bad
+> > > @@ -1,5 +1,32 @@
+> > > -...........................................................................................................
+> > > +..........................................ERROR:qemu.aqmp.qmp_client.qemu-15252:Failed
+> > > to establish connection: concurrent.futures._base.CancelledError
+> > > +E................................................................
+> > > +======================================================================
+> > > +ERROR: test_small_buffer (__main__.TestSingleBlockdev)
+> > > +----------------------------------------------------------------------
+> > > +Traceback (most recent call last):
+> > > +  File "/home/qemu/qemu-test.MPWquy/src/tests/qemu-iotests/041", line
+> > > 233, in setUp
+> > > +    TestSingleDrive.setUp(self)
+> > > +  File "/home/qemu/qemu-test.MPWquy/src/tests/qemu-iotests/041", line
+> > > 54, in setUp
+> > > +    self.vm.launch()
+> > > +  File "/home/qemu/qemu-test.MPWquy/src/python/qemu/machine/machine.py",
+> > > line 399, in launch
+> > > +    self._launch()
+> > > +  File "/home/qemu/qemu-test.MPWquy/src/python/qemu/machine/machine.py",
+> > > line 434, in _launch
+> > > +    self._post_launch()
+> > > +  File "/home/qemu/qemu-test.MPWquy/src/python/qemu/machine/qtest.py",
+> > > line 147, in _post_launch
+> > > +    super()._post_launch()
+> > > +  File "/home/qemu/qemu-test.MPWquy/src/python/qemu/machine/machine.py",
+> > > line 340, in _post_launch
+> > > +    self._qmp.accept(self._qmp_timer)
+> > > +  File "/home/qemu/qemu-test.MPWquy/src/python/qemu/aqmp/legacy.py",
+> > > line 69, in accept
+> > > +    timeout
+> > > +  File "/home/qemu/qemu-test.MPWquy/src/python/qemu/aqmp/legacy.py",
+> > > line 42, in _sync
+> > > +    asyncio.wait_for(future, timeout=timeout)
+> > > +  File "/usr/pkg/lib/python3.7/asyncio/base_events.py", line 587, in
+> > > run_until_complete
+> > > +    return future.result()
+> > > +  File "/usr/pkg/lib/python3.7/asyncio/tasks.py", line 449, in wait_for
+> > > +    raise futures.TimeoutError()
+> > > +concurrent.futures._base.TimeoutError
+>
+> Same problem here, except I don't see any output from QEMU to blame.
+> As far as the Python code knows, it just never got a connection on the
+> socket, so it timed out and died.
+
+I think the NetBSD VM does for some reason get a bit slow to do
+stuff. I've never worked out why. In the past we've had to bump
+up various overoptimistic timeouts to help it out.
+
+> I do expect this to print more information on failure than it
+> currently is, though (bug somewhere in machine.py, I think).
+> Can you please try applying this temporary patch and running `./check
+> -qcow2 040 041` until you see a breakage and show me the output from
+> that?
+>
+> diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
+> index 67ab06ca2b..ca49e6fcd2 100644
+> --- a/python/qemu/machine/machine.py
+> +++ b/python/qemu/machine/machine.py
+> @@ -403,16 +403,19 @@ def launch(self) -> None:
+>              # Assume the VM didn't launch or is exiting.
+>              # If we don't wait for the process, exitcode() may still be
+>              # 'None' by the time control is ceded back to the caller.
+> +            LOG.error('Error launching VM')
+>              if self._launched:
+> +                LOG.error('Process was forked, waiting on it')
+>                  self.wait()
+>              else:
+> +                LOG.error('Process was not forked, just cleaning up')
+>                  self._post_shutdown()
+>
+> -            LOG.debug('Error launching VM')
+>              if self._qemu_full_args:
+> -                LOG.debug('Command: %r', ' '.join(self._qemu_full_args))
+> +                LOG.error('Command: %r', ' '.join(self._qemu_full_args))
+>              if self._iolog:
+> -                LOG.debug('Output: %r', self._iolog)
+> +                LOG.error('Output: %r', self._iolog)
+> +            LOG.error('exitcode: %s', str(self.exitcode()))
+>              raise
+>
+>      def _launch(self) -> None:
+
+Yeah, I should be able to test this.
+
+-- PMM
 
