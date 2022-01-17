@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF3EE490A85
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 15:34:45 +0100 (CET)
-Received: from localhost ([::1]:46420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5334490A96
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 15:38:02 +0100 (CET)
+Received: from localhost ([::1]:55146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9T5o-00042A-N6
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 09:34:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38536)
+	id 1n9T8z-0001mm-W4
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 09:38:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1n9S5D-0001Jh-B4
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 08:30:03 -0500
-Received: from [2607:f8b0:4864:20::536] (port=36745
- helo=mail-pg1-x536.google.com)
+ id 1n9S5I-0001LD-Mq
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 08:30:12 -0500
+Received: from [2607:f8b0:4864:20::1032] (port=56124
+ helo=mail-pj1-x1032.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1n9S58-0000fg-PC
+ id 1n9S58-0000h1-PY
  for qemu-devel@nongnu.org; Mon, 17 Jan 2022 08:30:03 -0500
-Received: by mail-pg1-x536.google.com with SMTP id e9so374500pgb.3
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 05:29:48 -0800 (PST)
+Received: by mail-pj1-x1032.google.com with SMTP id hv15so20538015pjb.5
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 05:29:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=brainfault-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=et/vu/jUQE/J1fBuabFyLO2+T/t14yfVAc9Ry0i324A=;
- b=mXSD7tfcj6DbAeUcRl7p0MC2Jv8gCQRdFUmwg6VgogdsWYIHm+siDHVhrbx4Mdt9Qu
- kOnfaMiEyFATkRDBlvVt28JpAUpfuSw9VhHbmU7oarGB+uj74FRP04mgjfAM/453zB/5
- BRZ12Fn/MIeYHbEwmbS0jJyC+z7Wu9M75tdimqq4/46FqFJfGmIS2JDl/vXKGAcSRreg
- bmykfJ014T4r3QbGZYhLtPU8xgbGMdeu67CQtYlvU+5FeB64MclBGZ3oI5OydZ8k00Up
- QutZy4GdAEsR4WheHu8pkdH4UoXckIEyU3EStlBnNjmioYBEUDn31iyA1PIcC3faq2kn
- 1Gqw==
+ bh=DV+1jm6zdFl126A0iBqYeG97FScr8VTPmyJLGw4/f0M=;
+ b=vUS1Kjj88uZLxLvgTIjhvy66u0drk0K6IQ86+WmXSgAt2FnUg+ZaAdVPmjxYvEyxUJ
+ T6rbJBtKrzQqPJiXZa3bMH5PISLuHY6LXTJr/1b1lEA1snvTpDx0v7LaKB6oHqcuVn9d
+ Z8Z7fbh0UYPixCOj8QnagHCL6mD4ZEdajkHqOXpEb111q0rYoHmYNzHzxlWEQEGMD6CZ
+ 46OhdQCeTZwFq6aWGGyNnuboDPjoy5SFth0X3M1ECx7Mxk0O8yVaoKGdOUkhVHTf0La3
+ t895DS7gS/AUqgFI0eF2g8IFEv4aygIkKGyW0D0A4fsa2L6WA/rnNIiV/uqo2ekOojAk
+ zPKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=et/vu/jUQE/J1fBuabFyLO2+T/t14yfVAc9Ry0i324A=;
- b=t+K9lYv3fXYjik7QzPZ3rAfH4uHk6jFv6x7xFa4GaTRjP83tZpgs8svYdUFgHxlTKV
- 7B28VWkvMzoYVufEf2sPI+ALWwNOBinJiaPh/wpPYN3BjBBbt79wMXvvU6FXJYbIx/Qc
- 2hFdpjVUbeUb4AhCCH9xFIOBOBF3zvLCbJaU5IwwG2CFPKAWzaWpP0GcPzbSQArmmg3W
- bMP4dJSYysoDqgkPk7okOfE5h2a8HyTRcxCZ5uBZL6byrpxU7UYsdEIN/JHBlZ1Vlh/m
- f0bOeHWQASemNXehK03w2E6dX0S1ZWQH0hyC2ADrohoVpYdKUr+k1A0iVgSt5b31jgWE
- 710Q==
-X-Gm-Message-State: AOAM531mekblYsfQqjcrdb+jzwUMxPwf5l3gafFuRaEwTxJsWUmqLZjQ
- DH+O7pgOV6VylEXkYWcBtpwbQA==
-X-Google-Smtp-Source: ABdhPJy+O3r35E87/OIpDKCuMUDkNOWXGE3w0oIsM1Nnw95Ra0GdT2bn9DLLVfgK3QLLOc+ebkmKeQ==
-X-Received: by 2002:a63:90c8:: with SMTP id
- a191mr19579561pge.622.1642426186939; 
- Mon, 17 Jan 2022 05:29:46 -0800 (PST)
+ bh=DV+1jm6zdFl126A0iBqYeG97FScr8VTPmyJLGw4/f0M=;
+ b=iLtb1s2zpR/T041NWapuu+3tIXe65m4IyJF9Mvhmz5Ce7IQfBKKoPa+EiJdj7pUMmU
+ Bb9q9FC81gx3c2C6AjmdDmonAICclW9WNIsww1nZSmGvdQHMeyeYB2/P+WgHKlop1jMa
+ tHLjgPr6LvlYNd/BFqBxoNn3PZoWYgP3gHf3fQkbWgw+g+xeCdZD7HzHNIws9wV5Hw0V
+ o3nPCKi2ZFv/rbTN+GQA7wxLEui85RZogeN3SJRWw1q5a8Eta+Gr1oEBcNpZ6ZFuL+h5
+ ulIMML/bt426ZeBtpJSp3v1Mgu8s/EmBwN5fsp/HSfW2TuIHagOtHltAzMc1n3TpbrWt
+ /C4Q==
+X-Gm-Message-State: AOAM5306Ap7vClem9oGxb9+2Ex6Nab+KgN5XixVBNN9Teb70SkwvgjGf
+ QILwXW14cNtnf/SG4Bo4xouQSQ==
+X-Google-Smtp-Source: ABdhPJzdi5hTN+NtPUBI7sPL0zMw5pvqHtP77Ts24tMBstnHcjyjppgQwhI8sLptbJedaxpsSDbrqg==
+X-Received: by 2002:a17:90a:f015:: with SMTP id
+ bt21mr25136473pjb.3.1642426191095; 
+ Mon, 17 Jan 2022 05:29:51 -0800 (PST)
 Received: from localhost.localdomain ([122.179.70.109])
- by smtp.gmail.com with ESMTPSA id 7sm9532607pfm.25.2022.01.17.05.29.43
+ by smtp.gmail.com with ESMTPSA id 7sm9532607pfm.25.2022.01.17.05.29.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Jan 2022 05:29:46 -0800 (PST)
+ Mon, 17 Jan 2022 05:29:50 -0800 (PST)
 From: Anup Patel <anup@brainfault.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>
-Subject: [PATCH v7 08/23] target/riscv: Allow AIA device emulation to set ireg
- rmw callback
-Date: Mon, 17 Jan 2022 18:58:11 +0530
-Message-Id: <20220117132826.426418-9-anup@brainfault.org>
+Subject: [PATCH v7 09/23] target/riscv: Implement AIA local interrupt
+ priorities
+Date: Mon, 17 Jan 2022 18:58:12 +0530
+Message-Id: <20220117132826.426418-10-anup@brainfault.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220117132826.426418-1-anup@brainfault.org>
 References: <20220117132826.426418-1-anup@brainfault.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::536
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::536;
- envelope-from=anup@brainfault.org; helo=mail-pg1-x536.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=anup@brainfault.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -91,94 +91,386 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
- Anup Patel <anup@brainfault.org>, qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
+Cc: qemu-riscv@nongnu.org, Anup Patel <anup@brainfault.org>,
+ qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
  Atish Patra <atishp@atishpatra.org>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Anup Patel <anup.patel@wdc.com>
 
-The AIA device emulation (such as AIA IMSIC) should be able to set
-(or provide) AIA ireg read-modify-write callback for each privilege
-level of a RISC-V HART.
+The AIA spec defines programmable 8-bit priority for each local interrupt
+at M-level, S-level and VS-level so we extend local interrupt processing
+to consider AIA interrupt priorities. The AIA CSRs which help software
+configure local interrupt priorities will be added by subsequent patches.
 
 Signed-off-by: Anup Patel <anup.patel@wdc.com>
 Signed-off-by: Anup Patel <anup@brainfault.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/cpu.h        | 23 +++++++++++++++++++++++
- target/riscv/cpu_helper.c | 14 ++++++++++++++
- 2 files changed, 37 insertions(+)
+ target/riscv/cpu.c        |  19 +++
+ target/riscv/cpu.h        |  12 ++
+ target/riscv/cpu_helper.c | 242 ++++++++++++++++++++++++++++++++++----
+ target/riscv/machine.c    |   3 +
+ 4 files changed, 255 insertions(+), 21 deletions(-)
 
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 76f9786836..167d86eef7 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -370,6 +370,10 @@ void restore_state_to_opc(CPURISCVState *env, TranslationBlock *tb,
+ 
+ static void riscv_cpu_reset(DeviceState *dev)
+ {
++#ifndef CONFIG_USER_ONLY
++    uint8_t iprio;
++    int i, irq, rdzero;
++#endif
+     CPUState *cs = CPU(dev);
+     RISCVCPU *cpu = RISCV_CPU(cs);
+     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(cpu);
+@@ -392,6 +396,21 @@ static void riscv_cpu_reset(DeviceState *dev)
+     env->miclaim = MIP_SGEIP;
+     env->pc = env->resetvec;
+     env->two_stage_lookup = false;
++
++    /* Initialized default priorities of local interrupts. */
++    for (i = 0; i < ARRAY_SIZE(env->miprio); i++) {
++        iprio = riscv_cpu_default_priority(i);
++        env->miprio[i] = (i == IRQ_M_EXT) ? 0 : iprio;
++        env->siprio[i] = (i == IRQ_S_EXT) ? 0 : iprio;
++        env->hviprio[i] = 0;
++    }
++    i = 0;
++    while (!riscv_cpu_hviprio_index2irq(i, &irq, &rdzero)) {
++        if (!rdzero) {
++            env->hviprio[irq] = env->miprio[irq];
++        }
++        i++;
++    }
+     /* mmte is supposed to have pm.current hardwired to 1 */
+     env->mmte |= (PM_EXT_INITIAL | MMTE_M_PM_CURRENT);
+ #endif
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 71a2fd1da7..cee70f8608 100644
+index cee70f8608..65d2b606fc 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -254,6 +254,22 @@ struct CPURISCVState {
-     uint64_t (*rdtime_fn)(uint32_t);
-     uint32_t rdtime_fn_arg;
+@@ -190,6 +190,10 @@ struct CPURISCVState {
+     target_ulong mcause;
+     target_ulong mtval;  /* since: priv-1.10.0 */
  
-+    /* machine specific AIA ireg read-modify-write callback */
-+#define AIA_MAKE_IREG(__isel, __priv, __virt, __vgein, __xlen) \
-+    ((((__xlen) & 0xff) << 24) | \
-+     (((__vgein) & 0x3f) << 20) | \
-+     (((__virt) & 0x1) << 18) | \
-+     (((__priv) & 0x3) << 16) | \
-+     (__isel & 0xffff))
-+#define AIA_IREG_ISEL(__ireg)                  ((__ireg) & 0xffff)
-+#define AIA_IREG_PRIV(__ireg)                  (((__ireg) >> 16) & 0x3)
-+#define AIA_IREG_VIRT(__ireg)                  (((__ireg) >> 18) & 0x1)
-+#define AIA_IREG_VGEIN(__ireg)                 (((__ireg) >> 20) & 0x3f)
-+#define AIA_IREG_XLEN(__ireg)                  (((__ireg) >> 24) & 0xff)
-+    int (*aia_ireg_rmw_fn[4])(void *arg, target_ulong reg,
-+        target_ulong *val, target_ulong new_val, target_ulong write_mask);
-+    void *aia_ireg_rmw_fn_arg[4];
++    /* Machine and Supervisor interrupt priorities */
++    uint8_t miprio[64];
++    uint8_t siprio[64];
 +
-     /* True if in debugger mode.  */
-     bool debugger;
+     /* Hypervisor CSRs */
+     target_ulong hstatus;
+     target_ulong hedeleg;
+@@ -202,6 +206,9 @@ struct CPURISCVState {
+     target_ulong hgeip;
+     uint64_t htimedelta;
  
-@@ -410,6 +426,13 @@ uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value);
- #define BOOL_TO_MASK(x) (-!!(x)) /* helper for riscv_cpu_update_mip value */
- void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(uint32_t),
-                              uint32_t arg);
-+void riscv_cpu_set_aia_ireg_rmw_fn(CPURISCVState *env, uint32_t priv,
-+                                   int (*rmw_fn)(void *arg,
-+                                                 target_ulong reg,
-+                                                 target_ulong *val,
-+                                                 target_ulong new_val,
-+                                                 target_ulong write_mask),
-+                                   void *rmw_fn_arg);
- #endif
- void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv);
- 
++    /* Hypervisor controlled virtual interrupt priorities */
++    uint8_t hviprio[64];
++
+     /* Upper 64-bits of 128-bit CSRs */
+     uint64_t mscratchh;
+     uint64_t sscratchh;
+@@ -392,6 +399,11 @@ int riscv_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
+                                int cpuid, void *opaque);
+ int riscv_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+ int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
++int riscv_cpu_hviprio_index2irq(int index, int *out_irq, int *out_rdzero);
++uint8_t riscv_cpu_default_priority(int irq);
++int riscv_cpu_mirq_pending(CPURISCVState *env);
++int riscv_cpu_sirq_pending(CPURISCVState *env);
++int riscv_cpu_vsirq_pending(CPURISCVState *env);
+ bool riscv_cpu_fp_enabled(CPURISCVState *env);
+ target_ulong riscv_cpu_get_geilen(CPURISCVState *env);
+ void riscv_cpu_set_geilen(CPURISCVState *env, target_ulong geilen);
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 01a8baea06..59c8f900df 100644
+index 59c8f900df..3a36200780 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -395,6 +395,20 @@ void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(uint32_t),
-     env->rdtime_fn_arg = arg;
+@@ -151,36 +151,236 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
  }
  
-+void riscv_cpu_set_aia_ireg_rmw_fn(CPURISCVState *env, uint32_t priv,
-+                                   int (*rmw_fn)(void *arg,
-+                                                 target_ulong reg,
-+                                                 target_ulong *val,
-+                                                 target_ulong new_val,
-+                                                 target_ulong write_mask),
-+                                   void *rmw_fn_arg)
-+{
-+    if (priv <= PRV_M) {
-+        env->aia_ireg_rmw_fn[priv] = rmw_fn;
-+        env->aia_ireg_rmw_fn_arg[priv] = rmw_fn_arg;
+ #ifndef CONFIG_USER_ONLY
+-static int riscv_cpu_local_irq_pending(CPURISCVState *env)
++
++/*
++ * The HS-mode is allowed to configure priority only for the
++ * following VS-mode local interrupts:
++ *
++ * 0  (Reserved interrupt, reads as zero)
++ * 1  Supervisor software interrupt
++ * 4  (Reserved interrupt, reads as zero)
++ * 5  Supervisor timer interrupt
++ * 8  (Reserved interrupt, reads as zero)
++ * 13 (Reserved interrupt)
++ * 14 "
++ * 15 "
++ * 16 "
++ * 18 Debug/trace interrupt
++ * 20 (Reserved interrupt)
++ * 22 "
++ * 24 "
++ * 26 "
++ * 28 "
++ * 30 (Reserved for standard reporting of bus or system errors)
++ */
++
++static int hviprio_index2irq[] =
++    { 0, 1, 4, 5, 8, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 30 };
++static int hviprio_index2rdzero[] =
++    { 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
++
++int riscv_cpu_hviprio_index2irq(int index, int *out_irq, int *out_rdzero)
+ {
+-    target_ulong virt_enabled = riscv_cpu_virt_enabled(env);
++    if (index < 0 || ARRAY_SIZE(hviprio_index2irq) <= index) {
++        return -EINVAL;
 +    }
++
++    if (out_irq) {
++        *out_irq = hviprio_index2irq[index];
++    }
+ 
+-    target_ulong mstatus_mie = get_field(env->mstatus, MSTATUS_MIE);
+-    target_ulong mstatus_sie = get_field(env->mstatus, MSTATUS_SIE);
++    if (out_rdzero) {
++        *out_rdzero = hviprio_index2rdzero[index];
++    }
+ 
+-    target_ulong vsgemask =
+-                (target_ulong)1 << get_field(env->hstatus, HSTATUS_VGEIN);
+-    target_ulong vsgein = (env->hgeip & vsgemask) ? MIP_VSEIP : 0;
++    return 0;
++}
+ 
+-    target_ulong pending = (env->mip | vsgein) & env->mie;
++uint8_t riscv_cpu_default_priority(int irq)
++{
++    int u, l;
++    uint8_t iprio = IPRIO_MMAXIPRIO;
+ 
+-    target_ulong mie    = env->priv < PRV_M ||
+-                          (env->priv == PRV_M && mstatus_mie);
+-    target_ulong sie    = env->priv < PRV_S ||
+-                          (env->priv == PRV_S && mstatus_sie);
+-    target_ulong hsie   = virt_enabled || sie;
+-    target_ulong vsie   = virt_enabled && sie;
++    if (irq < 0 || irq > 63) {
++        return iprio;
++    }
+ 
+-    target_ulong irqs =
+-            (pending & ~env->mideleg & -mie) |
+-            (pending &  env->mideleg & ~env->hideleg & -hsie) |
+-            (pending &  env->mideleg &  env->hideleg & -vsie);
++    /*
++     * Default priorities of local interrupts are defined in the
++     * RISC-V Advanced Interrupt Architecture specification.
++     *
++     * ----------------------------------------------------------------
++     *  Default  |
++     *  Priority | Major Interrupt Numbers
++     * ----------------------------------------------------------------
++     *  Highest  | 63 (3f), 62 (3e), 31 (1f), 30 (1e), 61 (3d), 60 (3c),
++     *           | 59 (3b), 58 (3a), 29 (1d), 28 (1c), 57 (39), 56 (38),
++     *           | 55 (37), 54 (36), 27 (1b), 26 (1a), 53 (35), 52 (34),
++     *           | 51 (33), 50 (32), 25 (19), 24 (18), 49 (31), 48 (30)
++     *           |
++     *           | 11 (0b),  3 (03),  7 (07)
++     *           |  9 (09),  1 (01),  5 (05)
++     *           | 12 (0c)
++     *           | 10 (0a),  2 (02),  6 (06)
++     *           |
++     *           | 47 (2f), 46 (2e), 23 (17), 22 (16), 45 (2d), 44 (2c),
++     *           | 43 (2b), 42 (2a), 21 (15), 20 (14), 41 (29), 40 (28),
++     *           | 39 (27), 38 (26), 19 (13), 18 (12), 37 (25), 36 (24),
++     *  Lowest   | 35 (23), 34 (22), 17 (11), 16 (10), 33 (21), 32 (20)
++     * ----------------------------------------------------------------
++     */
+ 
+-    if (irqs) {
+-        return ctz64(irqs); /* since non-zero */
++    u = IPRIO_DEFAULT_U(irq);
++    l = IPRIO_DEFAULT_L(irq);
++    if (u == 0) {
++        if (irq == IRQ_VS_EXT || irq == IRQ_VS_TIMER ||
++            irq == IRQ_VS_SOFT) {
++            iprio = IPRIO_DEFAULT_VS;
++        } else if (irq == IRQ_S_GEXT) {
++            iprio = IPRIO_DEFAULT_SGEXT;
++        } else if (irq == IRQ_S_EXT || irq == IRQ_S_TIMER ||
++                   irq == IRQ_S_SOFT) {
++            iprio = IPRIO_DEFAULT_S;
++        } else if (irq == IRQ_M_EXT || irq == IRQ_M_TIMER ||
++                   irq == IRQ_M_SOFT) {
++            iprio = IPRIO_DEFAULT_M;
++        } else {
++            iprio = IPRIO_DEFAULT_VS;
++        }
++    } else if (u == 1) {
++        if (l < 8) {
++            iprio = IPRIO_DEFAULT_16_23(irq);
++        } else {
++            iprio = IPRIO_DEFAULT_24_31(irq);
++        }
++    } else if (u == 2) {
++        iprio = IPRIO_DEFAULT_32_47(irq);
++    } else if (u == 3) {
++        iprio = IPRIO_DEFAULT_48_63(irq);
++    }
++
++    return iprio;
 +}
 +
- void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
- {
-     if (newpriv > PRV_M) {
++static int riscv_cpu_pending_to_irq(CPURISCVState *env,
++                                    int extirq, unsigned int extirq_def_prio,
++                                    uint64_t pending, uint8_t *iprio)
++{
++    int irq, best_irq = RISCV_EXCP_NONE;
++    unsigned int prio, best_prio = UINT_MAX;
++
++    if (!pending) {
++        return RISCV_EXCP_NONE;
++    }
++
++    irq = ctz64(pending);
++    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
++        return irq;
++    }
++
++    pending = pending >> irq;
++    while (pending) {
++        prio = iprio[irq];
++        if (!prio) {
++            if (irq == extirq) {
++                prio = extirq_def_prio;
++            } else {
++                prio = (riscv_cpu_default_priority(irq) < extirq_def_prio) ?
++                       1 : IPRIO_MMAXIPRIO;
++            }
++        }
++        if ((pending & 0x1) && (prio <= best_prio)) {
++            best_irq = irq;
++            best_prio = prio;
++        }
++        irq++;
++        pending = pending >> 1;
++    }
++
++    return best_irq;
++}
++
++static uint64_t riscv_cpu_all_pending(CPURISCVState *env)
++{
++    uint32_t gein = get_field(env->hstatus, HSTATUS_VGEIN);
++    uint64_t vsgein = (env->hgeip & (1ULL << gein)) ? MIP_VSEIP : 0;
++
++    return (env->mip | vsgein) & env->mie;
++}
++
++int riscv_cpu_mirq_pending(CPURISCVState *env)
++{
++    uint64_t irqs = riscv_cpu_all_pending(env) & ~env->mideleg &
++                    ~(MIP_SGEIP | MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
++
++    return riscv_cpu_pending_to_irq(env, IRQ_M_EXT, IPRIO_DEFAULT_M,
++                                    irqs, env->miprio);
++}
++
++int riscv_cpu_sirq_pending(CPURISCVState *env)
++{
++    uint64_t irqs = riscv_cpu_all_pending(env) & env->mideleg &
++                    ~(MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
++
++    return riscv_cpu_pending_to_irq(env, IRQ_S_EXT, IPRIO_DEFAULT_S,
++                                    irqs, env->siprio);
++}
++
++int riscv_cpu_vsirq_pending(CPURISCVState *env)
++{
++    uint64_t irqs = riscv_cpu_all_pending(env) & env->mideleg &
++                    (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
++
++    return riscv_cpu_pending_to_irq(env, IRQ_S_EXT, IPRIO_DEFAULT_S,
++                                    irqs >> 1, env->hviprio);
++}
++
++static int riscv_cpu_local_irq_pending(CPURISCVState *env)
++{
++    int virq;
++    uint64_t irqs, pending, mie, hsie, vsie;
++
++    /* Determine interrupt enable state of all privilege modes */
++    if (riscv_cpu_virt_enabled(env)) {
++        mie = 1;
++        hsie = 1;
++        vsie = (env->priv < PRV_S) ||
++               (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_SIE));
+     } else {
+-        return RISCV_EXCP_NONE; /* indicates no pending interrupt */
++        mie = (env->priv < PRV_M) ||
++              (env->priv == PRV_M && get_field(env->mstatus, MSTATUS_MIE));
++        hsie = (env->priv < PRV_S) ||
++               (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_SIE));
++        vsie = 0;
+     }
++
++    /* Determine all pending interrupts */
++    pending = riscv_cpu_all_pending(env);
++
++    /* Check M-mode interrupts */
++    irqs = pending & ~env->mideleg & -mie;
++    if (irqs) {
++        return riscv_cpu_pending_to_irq(env, IRQ_M_EXT, IPRIO_DEFAULT_M,
++                                        irqs, env->miprio);
++    }
++
++    /* Check HS-mode interrupts */
++    irqs = pending & env->mideleg & ~env->hideleg & -hsie;
++    if (irqs) {
++        return riscv_cpu_pending_to_irq(env, IRQ_S_EXT, IPRIO_DEFAULT_S,
++                                        irqs, env->siprio);
++    }
++
++    /* Check VS-mode interrupts */
++    irqs = pending & env->mideleg & env->hideleg & -vsie;
++    if (irqs) {
++        virq = riscv_cpu_pending_to_irq(env, IRQ_S_EXT, IPRIO_DEFAULT_S,
++                                        irqs >> 1, env->hviprio);
++        return (virq <= 0) ? virq : virq + 1;
++    }
++
++    /* Indicate no pending interrupt */
++    return RISCV_EXCP_NONE;
+ }
+ 
+ bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+index c11eb4639c..bae4f69725 100644
+--- a/target/riscv/machine.c
++++ b/target/riscv/machine.c
+@@ -92,6 +92,7 @@ static const VMStateDescription vmstate_hyper = {
+         VMSTATE_UINTTL(env.hgeie, RISCVCPU),
+         VMSTATE_UINTTL(env.hgeip, RISCVCPU),
+         VMSTATE_UINT64(env.htimedelta, RISCVCPU),
++        VMSTATE_UINT8_ARRAY(env.hviprio, RISCVCPU, 64),
+ 
+         VMSTATE_UINT64(env.vsstatus, RISCVCPU),
+         VMSTATE_UINTTL(env.vstvec, RISCVCPU),
+@@ -194,6 +195,8 @@ const VMStateDescription vmstate_riscv_cpu = {
+     .fields = (VMStateField[]) {
+         VMSTATE_UINTTL_ARRAY(env.gpr, RISCVCPU, 32),
+         VMSTATE_UINT64_ARRAY(env.fpr, RISCVCPU, 32),
++        VMSTATE_UINT8_ARRAY(env.miprio, RISCVCPU, 64),
++        VMSTATE_UINT8_ARRAY(env.siprio, RISCVCPU, 64),
+         VMSTATE_UINTTL(env.pc, RISCVCPU),
+         VMSTATE_UINTTL(env.load_res, RISCVCPU),
+         VMSTATE_UINTTL(env.load_val, RISCVCPU),
 -- 
 2.25.1
 
