@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB5CD49047A
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 09:57:55 +0100 (CET)
-Received: from localhost ([::1]:58350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1F1D490479
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 09:57:36 +0100 (CET)
+Received: from localhost ([::1]:57754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9Npq-0007sY-Nr
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 03:57:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37448)
+	id 1n9NpY-0007UY-1y
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 03:57:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n9NlL-0004Nw-R8
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 03:53:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40098)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n9NmX-0005XC-4r
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 03:54:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56658)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n9NlK-0007SS-6m
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 03:53:15 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n9NmU-0007bg-JA
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 03:54:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642409593;
+ s=mimecast20190719; t=1642409665;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YG/gED+48Vpds5BrEeSnlrbwJaqA3vUw2a2GB2N+a1g=;
- b=gHbnPX60XM3YmUDDkLOy/ntohZc2v3Jmsy2XuB/qLh+d3IwSjkGu7M83NfCe7qtULLKaAL
- HQoFCXr2Amfi4bUvyUUsRA0Z/MBk/OFb76qpVQVzwhDL3S/zhPbZUZF9c2xhsLJ51eU1iR
- 1TqvxsTbrKwP4cPOL+fJ3udwOiXPqzM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1fwg2MoNFA0aPoCt0QfjY2bv8JCAypDzq/LPDbFICv4=;
+ b=F3Fwhz/j/H8pYfOwV3gJIG1Vg8KteQHz5/HyxVs5VBH2dZA0Yyc6oe0NBbIUK3nJWufKaO
+ H6GLLg5Ta7D3pKGlzwqgQJzqSpopbKX8jmsmTScUrUYLKzwznPCM4EnC266dYsL8K9uNAm
+ IwvHOWiHptWxZYFI+mz1AfqK2QmwMuM=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-384-FRRjIvX-OISGZdt8jpom-g-1; Mon, 17 Jan 2022 03:53:11 -0500
-X-MC-Unique: FRRjIvX-OISGZdt8jpom-g-1
-Received: by mail-wm1-f69.google.com with SMTP id
- p14-20020a1c544e000000b003490705086bso4687687wmi.7
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 00:53:11 -0800 (PST)
+ us-mta-433--xwWurXwN-iHC0P-SWnEWg-1; Mon, 17 Jan 2022 03:54:24 -0500
+X-MC-Unique: -xwWurXwN-iHC0P-SWnEWg-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ o7-20020a17090a3d4700b001b4243e9ea2so6182732pjf.6
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 00:54:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=YG/gED+48Vpds5BrEeSnlrbwJaqA3vUw2a2GB2N+a1g=;
- b=xVeRARiUKIyWP7fQcFtqe++EIjHgXlJ4o5ahebhoaEQo3y/HiWdoAQrBMa6CgNjOdd
- PmLzpAopwdkoBVg7txUcOlwQSUEkSrtHl83Sz3tlErSXM9u2BhWZXmHIfHBAsKe0QW6b
- JeLFjUxcmBAgy3Nxwrb/fHke/dLMJINriD8WGIGMfzFLdMZ45LML7P9iqr3GW7DE0vcN
- Z+ndUKErVPmGaX928gn8ZBcaWt79APj21XBjWqGP2a5tccELDw4D5byju5hac9KYaKTj
- MRdEgZxE6UQV/p0X4H2KcyDJhJO1nwX9GullJOS3ev1VtFoVOUBybrbll+xAaMQNTrq8
- t5ZQ==
-X-Gm-Message-State: AOAM532CXaatE6punXVaJtL+/Lt8+zh1u39U6EIkCG5trIMuktMvu3HK
- EgL4xfXnNS9JSyj1K5AqLxppNQNFrB3bxAswqDfUAWbx5vl2eYxnLf0fpw+eydxsx5AKrOPxZP7
- qxHmVymxiRSQkTLA=
-X-Received: by 2002:adf:d849:: with SMTP id k9mr6158133wrl.513.1642409590315; 
- Mon, 17 Jan 2022 00:53:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwDvkkIFYHDGuxL26VL6pOweunOrVcAIpqo5/5r/dHhkz/+LMdy09k1wRQL4BnhdzlSk7MFDw==
-X-Received: by 2002:adf:d849:: with SMTP id k9mr6158103wrl.513.1642409590026; 
- Mon, 17 Jan 2022 00:53:10 -0800 (PST)
-Received: from redhat.com ([2.55.154.241])
- by smtp.gmail.com with ESMTPSA id o1sm2137081wri.12.2022.01.17.00.53.07
+ bh=1fwg2MoNFA0aPoCt0QfjY2bv8JCAypDzq/LPDbFICv4=;
+ b=O9BI/vkWmii7eGbC0ZpVu6HvJkXJcIY6eq7MIZ3xOTL7kDeAv4qUqph26lsE7V5y5b
+ T9SfdiVVDWKVE5ePFkA3oMK4h3aWnOdwnJtnOPxwRXpi+zL2ohOloF6U42W4X9nDfd7X
+ XMwZIge9h4yHnn7b2rLVDgab+nibnAsskliWQcHooiKWPXvR/c74QLtLA2T5LgtN9WfE
+ RL3FDBEhxJXrd7SOuR57VLdBm3Yu2IUffrYKTPq/NZCeXeszwDWdSUW2ObU1gfHWxMA9
+ UtWUrk84V/PZWC7EIa7CCjvWl+tqr/Q2iYnasttWdj3EmwvGZlep2wBQbML2urtVx6tf
+ 8bhw==
+X-Gm-Message-State: AOAM5312c7im17ccIrcUWaBmD9UmQ6eJyRvCrDsgrmoZHeCiKoz84MGI
+ Y50OWy+05sF+YiNYmKm1speU/0XWgAR+7KZA2S1R13R9GW3t9TX29cdoEF3eZTBHI9grYkcZ+i9
+ Zd3ThbQX2avlzT/4=
+X-Received: by 2002:a17:902:aa85:b0:149:4614:bc1f with SMTP id
+ d5-20020a170902aa8500b001494614bc1fmr21214521plr.150.1642409663238; 
+ Mon, 17 Jan 2022 00:54:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzpeZGHe1CV/beNiWKWCvvHLw2hPaMpJzSI6x8KL23EoBIdGTOQRGjnbXmnjJqS4qfyb4yVwA==
+X-Received: by 2002:a17:902:aa85:b0:149:4614:bc1f with SMTP id
+ d5-20020a170902aa8500b001494614bc1fmr21214507plr.150.1642409662929; 
+ Mon, 17 Jan 2022 00:54:22 -0800 (PST)
+Received: from xz-m1.local ([191.101.132.74])
+ by smtp.gmail.com with ESMTPSA id mq15sm1564493pjb.19.2022.01.17.00.54.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Jan 2022 00:53:09 -0800 (PST)
-Date: Mon, 17 Jan 2022 03:53:05 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 2/2] hw/i386: support loading OVMF using -bios too
-Message-ID: <20220117035119-mutt-send-email-mst@kernel.org>
-References: <20220113165511.46098-1-berrange@redhat.com>
- <20220113165511.46098-3-berrange@redhat.com>
- <20220114125946-mutt-send-email-mst@kernel.org>
- <66f3f633-3a61-163a-a0f4-622ef988611f@amsat.org>
+ Mon, 17 Jan 2022 00:54:22 -0800 (PST)
+Date: Mon, 17 Jan 2022 16:54:14 +0800
+From: Peter Xu <peterx@redhat.com>
+To: huangy81@chinatelecom.cn
+Subject: Re: [PATCH v11 0/4] support dirty restraint on vCPU
+Message-ID: <YeUutnW6DYQbVkY9@xz-m1.local>
+References: <cover.1641315745.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-In-Reply-To: <66f3f633-3a61-163a-a0f4-622ef988611f@amsat.org>
+In-Reply-To: <cover.1641315745.git.huangy81@chinatelecom.cn>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -98,82 +97,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jan 16, 2022 at 10:05:58PM +0100, Philippe Mathieu-Daudé wrote:
-> On 14/1/22 19:07, Michael S. Tsirkin wrote:
-> > On Thu, Jan 13, 2022 at 04:55:11PM +0000, Daniel P. Berrangé wrote:
-> > > Traditionally the OVMF firmware has been loaded using the pflash
-> > > mechanism. This is because it is usually provided as a pair of
-> > > files, one read-only containing the code and one writable to
-> > > provided persistence of non-volatile firmware variables.
-> > > 
-> > > The AMD SEV build of EDK2, however, is provided as a single
-> > > file that contains only the code. This is intended to be used
-> > > read-only and explicitly does not provide any ability for
-> > > persistance of non-volatile firmware variables. While it is
-> > > possible to configure this with the pflash mechanism, by only
-> > > providing one of the 2 pflash blobs, conceptually it is a
-> > > little strange to use pflash if there won't be any persistent
-> > > data.
+On Wed, Jan 05, 2022 at 01:14:05AM +0800, huangy81@chinatelecom.cn wrote:
+> From: Hyman Huang(é»„å‹‡) <huangy81@chinatelecom.cn>
 > 
-> It certainly would be simpler to have a ROM for the CODE part.
-> IIUC using CFI pflash allows the firmware to poll the underlying
-> device size.
-> 
-> > > A stateless OVMF build can be loaded with -bios, however, QEMU
-> > > does not currently initialize SEV in that scenario. This patch
-> > > introduces the call needed for SEV initialization of the
-> > > firmware.
-> > > 
-> > > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > > ---
-> > >   hw/i386/x86.c | 5 +++++
-> > >   1 file changed, 5 insertions(+)
-> > > 
-> > > diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> > > index b84840a1bb..c79d84936f 100644
-> > > --- a/hw/i386/x86.c
-> > > +++ b/hw/i386/x86.c
-> > > @@ -45,6 +45,7 @@
-> > >   #include "target/i386/cpu.h"
-> > >   #include "hw/i386/topology.h"
-> > >   #include "hw/i386/fw_cfg.h"
-> > > +#include "hw/i386/pc.h"
-> > >   #include "hw/intc/i8259.h"
-> > >   #include "hw/rtc/mc146818rtc.h"
-> > >   #include "target/i386/sev.h"
-> > 
-> > This builds fine because there's a stub in pc_sysfw_ovmf-stubs.c
-> > 
-> > The unfortunate thing about this however is that it's too easy to pull
-> > in a PC dependency, and people building with CONFIG_PC will not notice
-> > until it breaks for others.
-> > 
-> > Is it time we split pc.h further and had pc_sysfw_ovmf.h ?
-> 
-> While "pc*" is specific to the PC machines, "x86*" is shared between
-> PC and microvm. "pc.h" must not be included in "x86.c". The shared
-> method introduced in the previous patch becomes
-> x86_system_ovmf_initialize_sev(). The dual pflash mechanism is proper
-> to OVMF, so having this method in "x86.h" seems correct.
-> 
-> Phil.
+> v11
+> - rebase on master
+> - add a commit " refactor dirty page rate calculation"  so that dirty page rate limit
+>   can reuse the calculation logic. 
+> - handle the cpu hotplug/unplug case in the dirty page rate calculation logic.
+> - modify the qmp commands according to Markus's advice.
+> - introduce a standalone file dirtylimit.c to implement dirty page rate limit
+> - check if dirty limit in service by dirtylimit_state pointer instead of global variable
+> - introduce dirtylimit_mutex to protect dirtylimit_state
+> - do some code clean and docs
 
-Well.  E.g. pc_system_parse_ovmf_flash is defined in hw/i386/pc_sysfw_ovmf.c
-and declared in pc.h. If you want to move all pc_sysfw_ovmf.c
-declarations to x86.h that might be fine, but please do not
-split declarations between multiple headers, that's messy.
-And really, when in doubt do a separate header is a good rule.
+Yong,
+
+Would you consider picking up this patch too alongside?
+
+https://lore.kernel.org/qemu-devel/20211130080028.6474-1-peterx@redhat.com/
+
+I didn't explicitly test cancel of dirty limit during migration just now, but I
+think it'll need it.
+
+Thanks,
 
 -- 
-MST
+Peter Xu
 
 
