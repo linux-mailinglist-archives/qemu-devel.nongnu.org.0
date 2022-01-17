@@ -2,96 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F9E0490BA4
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 16:43:15 +0100 (CET)
-Received: from localhost ([::1]:35194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64750490B49
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 16:21:13 +0100 (CET)
+Received: from localhost ([::1]:44758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9UA6-0001rI-7c
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 10:43:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60826)
+	id 1n9Tol-0002Wi-GY
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 10:21:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n9TJ9-0005fN-7q; Mon, 17 Jan 2022 09:48:31 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:10356)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n9TMb-0002RY-HC
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:52:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n9TIu-0008Pl-Nd; Mon, 17 Jan 2022 09:48:24 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20HESLJZ010559; 
- Mon, 17 Jan 2022 14:48:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=QPppwABvEm/jfmPDMMhioYqDlSUZJrnUvw5FprvsxOQ=;
- b=BDxbdVdqfhoVaeznnwlYfppV6eA2k44R/2D7YfDxMg73T3ziDhJIML9MRXxNc9GsPwwG
- 9n9+/C0KynwePqc6g6aLpDSjNwxqGXANCKccfp0mKO6ZVCD5PuqjhrlD85krqkYl9Uk/
- Z/zR5koBjXm201KXmfH1ExUr7gyX7aLOe/qXUBVAwzJAPSa5y5DmMarPsgzRDQ47cB4X
- vMuANPC2pGyuIyGgKG94OdiuOO6x6PEnvCS7AVzyVKPRHnXiDaLwXGlmf6mjOUjxrKCe
- IemuAVpBbtk3eSGbAhicPtrrrPbTVIHxlVvg4RCbKbQNFM3yAL1LgSLZPjfXrmaI81u2 kw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dna8fratb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Jan 2022 14:48:06 +0000
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20HESPaZ010771;
- Mon, 17 Jan 2022 14:48:06 GMT
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dna8frat1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Jan 2022 14:48:06 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20HEfk1t012854;
- Mon, 17 Jan 2022 14:48:05 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma01wdc.us.ibm.com with ESMTP id 3dknw9y6nh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Jan 2022 14:48:05 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20HEm4hO32375218
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Jan 2022 14:48:04 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E7997C6059;
- Mon, 17 Jan 2022 14:48:03 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A6A2CC605B;
- Mon, 17 Jan 2022 14:48:02 +0000 (GMT)
-Received: from farosas.linux.ibm.com.com (unknown [9.211.141.90])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 17 Jan 2022 14:48:02 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND] tests/avocado: ppc: Add smoke tests for MPC7400 and
- MPC7450 families
-Date: Mon, 17 Jan 2022 11:47:57 -0300
-Message-Id: <20220117144757.782441-1-farosas@linux.ibm.com>
-X-Mailer: git-send-email 2.33.1
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n9TMX-0000h0-W8
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:52:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642431120;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JYAtZcjyuoX0DjZkPIZLJjV+OOG9FhqW9aqSYkAjkg4=;
+ b=RGVYzdM3J3sMaH0ktt57oa3QHl5XOHyUIw1FPO6RaVoh6ivChrzPozDsa+VQW35HRSAMVB
+ C9lc71b86ywFYVpJMGzbUwNR1mUBCURIFN2C7+Jj8BWm3o8To6rx7uKkYlDbD465x1uJ+g
+ 7bxSknTsD1r/R6LZsXsXdmDcJ5xxKz0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-588-15VY3qKYNa2CYnBs7lqXfA-1; Mon, 17 Jan 2022 09:51:59 -0500
+X-MC-Unique: 15VY3qKYNa2CYnBs7lqXfA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ n25-20020a05600c3b9900b00348b83fbd0dso48376wms.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 06:51:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=JYAtZcjyuoX0DjZkPIZLJjV+OOG9FhqW9aqSYkAjkg4=;
+ b=saZl4TXvNGn4TaRhyRamqDIHDQh0UsV/3mK4WCx6kH+4apRZPDz3650CYY3/fgBWuc
+ Gwo4RSfBQeiNeSGOLIagY4F7d+Qu99YlzhWFsd7meYx/GnDXL6CoAt/WHoV6ZKnLiXuu
+ PsZJaopuzyP/l4k9rf7bOt7WpwqXPylfWmuxqXi8WWVPYWZEcadbFrTQyFGmKQ3MFQ4G
+ zUL3hFXjhFd/8lZMkzbNcXHgC1N/xWHmC32j3N+4JNDbecqfN+G/CqJVy2B2kE/F+blS
+ QhqFblkp7FReNC5Lu1p9QO6V5FBysCk39i7xIFDSc1+/ZEig/lzLsxM08fAFtWGyrEL2
+ EWfQ==
+X-Gm-Message-State: AOAM533SZ/O4OnIrhun27wWMsIwNRkB23Yas3DmVU9z1DagjzYdFfZt2
+ 2FQ6fIjxuubnxna34uOmuZBrsQpdgQL86OsM54gPXkxlrFlZmO7XdBGbM2j8i1Kv1AUj7Ipkyhz
+ qpTz6+dwcXPSY+qU=
+X-Received: by 2002:a05:6000:101:: with SMTP id
+ o1mr20002490wrx.173.1642431118293; 
+ Mon, 17 Jan 2022 06:51:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyayeNL3WusA1PdWvtbjUbFmtFwRg6j5ZoTNy/AM2OabqsS9JtSXb1LfP0FA4rQJR+v0S+8WQ==
+X-Received: by 2002:a05:6000:101:: with SMTP id
+ o1mr20002471wrx.173.1642431118056; 
+ Mon, 17 Jan 2022 06:51:58 -0800 (PST)
+Received: from [192.168.8.100] (tmo-098-68.customers.d1-online.com.
+ [80.187.98.68])
+ by smtp.gmail.com with ESMTPSA id g13sm4945512wmq.22.2022.01.17.06.51.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Jan 2022 06:51:57 -0800 (PST)
+Message-ID: <27a1db36-5664-6c90-ec39-aa6da5c23c31@redhat.com>
+Date: Mon, 17 Jan 2022 15:51:55 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: PYRhoFJJ0pVnxn2edBYuHpA4jPQhzR6D
-X-Proofpoint-ORIG-GUID: uLkMSyQ-PQroNG1nktWsIfWbnbMccZpp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-17_06,2022-01-14_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0
- adultscore=0 impostorscore=0 bulkscore=0 phishscore=0 suspectscore=0
- clxscore=1015 mlxscore=0 mlxlogscore=999 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201170093
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2 4/9] s390x/pci: enable for load/store intepretation
+To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
+References: <20220114203849.243657-1-mjrosato@linux.ibm.com>
+ <20220114203849.243657-5-mjrosato@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220114203849.243657-5-mjrosato@linux.ibm.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -106,154 +102,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.cave-ayland@ilande.co.uk, danielhb413@gmail.com, qemu-ppc@nongnu.org,
- clg@kaod.org
+Cc: farman@linux.ibm.com, kvm@vger.kernel.org, pmorel@linux.ibm.com,
+ schnelle@linux.ibm.com, cohuck@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, david@redhat.com,
+ borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These tests ensure that our emulation for these cpus is not completely
-broken and we can at least run OpenBIOS on them.
+On 14/01/2022 21.38, Matthew Rosato wrote:
+> Use the associated vfio feature ioctl to enable interpretation for devices
+> when requested.  As part of this process, we must use the host function
+> handle rather than a QEMU-generated one -- this is provided as part of the
+> ioctl payload.
+> 
+> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> ---
+>   hw/s390x/s390-pci-bus.c          | 70 +++++++++++++++++++++++++++++++-
+>   hw/s390x/s390-pci-inst.c         | 63 +++++++++++++++++++++++++++-
+>   hw/s390x/s390-pci-vfio.c         | 52 ++++++++++++++++++++++++
+>   include/hw/s390x/s390-pci-bus.h  |  1 +
+>   include/hw/s390x/s390-pci-vfio.h | 15 +++++++
+>   5 files changed, 199 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
+> index 01b58ebc70..a39ccfee05 100644
+> --- a/hw/s390x/s390-pci-bus.c
+> +++ b/hw/s390x/s390-pci-bus.c
+> @@ -971,12 +971,58 @@ static void s390_pci_update_subordinate(PCIDevice *dev, uint32_t nr)
+>       }
+>   }
+>   
+> +static int s390_pci_interp_plug(S390pciState *s, S390PCIBusDevice *pbdev)
+> +{
+> +    uint32_t idx;
+> +    int rc;
+> +
+> +    rc = s390_pci_probe_interp(pbdev);
+> +    if (rc) {
+> +        return rc;
+> +    }
+> +
+> +    rc = s390_pci_update_passthrough_fh(pbdev);
+> +    if (rc) {
+> +        return rc;
+> +    }
+> +
+> +    /*
+> +     * The host device is already in an enabled state, but we always present
+> +     * the initial device state to the guest as disabled (ZPCI_FS_DISABLED).
+> +     * Therefore, mask off the enable bit from the passthrough handle until
+> +     * the guest issues a CLP SET PCI FN later to enable the device.
+> +     */
+> +    pbdev->fh &= ~FH_MASK_ENABLE;
+> +
+> +    /* Next, see if the idx is already in-use */
+> +    idx = pbdev->fh & FH_MASK_INDEX;
+> +    if (pbdev->idx != idx) {
+> +        if (s390_pci_find_dev_by_idx(s, idx)) {
+> +            return -EINVAL;
+> +        }
+> +        /*
+> +         * Update the idx entry with the passed through idx
+> +         * If the relinquished idx is lower than next_idx, use it
+> +         * to replace next_idx
+> +         */
+> +        g_hash_table_remove(s->zpci_table, &pbdev->idx);
+> +        if (idx < s->next_idx) {
+> +            s->next_idx = idx;
+> +        }
+> +        pbdev->idx = idx;
+> +        g_hash_table_insert(s->zpci_table, &pbdev->idx, pbdev);
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>   static void s390_pcihost_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+>                                 Error **errp)
+>   {
+>       S390pciState *s = S390_PCI_HOST_BRIDGE(hotplug_dev);
+>       PCIDevice *pdev = NULL;
+>       S390PCIBusDevice *pbdev = NULL;
+> +    int rc;
+>   
+>       if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_BRIDGE)) {
+>           PCIBridge *pb = PCI_BRIDGE(dev);
+> @@ -1022,12 +1068,33 @@ static void s390_pcihost_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+>           set_pbdev_info(pbdev);
+>   
+>           if (object_dynamic_cast(OBJECT(dev), "vfio-pci")) {
+> -            pbdev->fh |= FH_SHM_VFIO;
+> +            /*
+> +             * By default, interpretation is always requested; if the available
+> +             * facilities indicate it is not available, fallback to the
+> +             * intercept model.
+> +             */
+> +            if (pbdev->interp && !s390_has_feat(S390_FEAT_ZPCI_INTERP)) {
+> +                    DPRINTF("zPCI interpretation facilities missing.\n");
+> +                    pbdev->interp = false;
+> +                }
 
-$ make check-avocado AVOCADO_TESTS=../tests/avocado/ppc_74xx.py
+Wrong indentation in the above three lines.
 
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
----
----
- tests/avocado/ppc_74xx.py | 123 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 123 insertions(+)
- create mode 100644 tests/avocado/ppc_74xx.py
+> +            if (pbdev->interp) {
+> +                rc = s390_pci_interp_plug(s, pbdev);
+> +                if (rc) {
+> +                    error_setg(errp, "zpci interp plug failed: %d", rc);
 
-diff --git a/tests/avocado/ppc_74xx.py b/tests/avocado/ppc_74xx.py
-new file mode 100644
-index 0000000000..556a9a7da9
---- /dev/null
-+++ b/tests/avocado/ppc_74xx.py
-@@ -0,0 +1,123 @@
-+# Smoke tests for 74xx cpus (aka G4).
-+#
-+# Copyright (c) 2021, IBM Corp.
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+from avocado_qemu import QemuSystemTest
-+from avocado_qemu import wait_for_console_pattern
-+
-+class ppc74xxCpu(QemuSystemTest):
-+    """
-+    :avocado: tags=arch:ppc
-+    """
-+    timeout = 5
-+
-+    def test_ppc_7400(self):
-+        """
-+        :avocado: tags=cpu:7400
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7410(self):
-+        """
-+        :avocado: tags=cpu:7410
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,74xx')
-+
-+    def test_ppc_7441(self):
-+        """
-+        :avocado: tags=cpu:7441
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7445(self):
-+        """
-+        :avocado: tags=cpu:7445
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7447(self):
-+        """
-+        :avocado: tags=cpu:7447
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7447a(self):
-+        """
-+        :avocado: tags=cpu:7447a
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7448(self):
-+        """
-+        :avocado: tags=cpu:7448
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,MPC86xx')
-+
-+    def test_ppc_7450(self):
-+        """
-+        :avocado: tags=cpu:7450
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7451(self):
-+        """
-+        :avocado: tags=cpu:7451
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7455(self):
-+        """
-+        :avocado: tags=cpu:7455
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7457(self):
-+        """
-+        :avocado: tags=cpu:7457
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7457a(self):
-+        """
-+        :avocado: tags=cpu:7457a
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
--- 
-2.33.1
+The error message is a little bit scarce for something that might be 
+presented to the user - maybe write at least "interpretation" instead of 
+"interp" ?
+
+> +                    return;
+> +                }
+> +            }
+>               pbdev->iommu->dma_limit = s390_pci_start_dma_count(s, pbdev);
+>               /* Fill in CLP information passed via the vfio region */
+>               s390_pci_get_clp_info(pbdev);
+> +            if (!pbdev->interp) {
+> +                /* Do vfio passthrough but intercept for I/O */
+> +                pbdev->fh |= FH_SHM_VFIO;
+> +            }
+>           } else {
+>               pbdev->fh |= FH_SHM_EMUL;
+> +            /* Always intercept emulated devices */
+> +            pbdev->interp = false;
+>           }
+
+  Thomas
 
 
