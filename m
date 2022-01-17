@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A4D04903A7
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 09:23:27 +0100 (CET)
-Received: from localhost ([::1]:53356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 150CB4903AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 09:23:57 +0100 (CET)
+Received: from localhost ([::1]:54020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9NIU-0000Ca-3L
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 03:23:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59554)
+	id 1n9NIx-0000di-Sb
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 03:23:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n9NEh-0006qW-SO
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 03:19:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43985)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n9NF7-0007H4-1M
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 03:19:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n9NEe-0001vR-QZ
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 03:19:30 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n9NF4-0001y8-Iw
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 03:19:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642407567;
+ s=mimecast20190719; t=1642407594;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Wpigy0oAub9yKSY50NOkMU3eXVe3psMi8Qv62capukk=;
- b=QcTR5IxOF3xs/R1bPJXsJ59jh5hC8gYgHS6PDCHYoXCgHMYBgqvMvoOc5CvRZ+5uXacqmk
- umPjMef+VtXLWoH68C67GOGQCmVzBaIV2VIj5/RJ+XXNn6jYmZXu6VW9RaQW9sGS9CpH1X
- CbnpChSXiHoEuOb49VacB2j7cTku/k8=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mti/wPtqQrrtRt/MxDgkbBNxSJf5R4XKH4GTNnO6kqs=;
+ b=OyvKaIQUPAlLiRTSz5WNTz1JDvIhSXgFfHrAHz7YhvY00xWFCS03aQoEetXEmUUzJl9FnW
+ tXw/d2NjPCbjXer26ntqIXOcE8FYl4GCKoWGQ1JD+TCX94itcqvSBqy852WqC1MGqJBFyt
+ 3XfMFJ/uPX/s3suisWkdAWkTahGcUQA=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-363-gGndIMe7MAi4TNtnHmq7YA-1; Mon, 17 Jan 2022 03:19:26 -0500
-X-MC-Unique: gGndIMe7MAi4TNtnHmq7YA-1
-Received: by mail-ed1-f70.google.com with SMTP id
- c11-20020a056402120b00b0040321cea9d4so374127edw.23
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 00:19:25 -0800 (PST)
+ us-mta-599-3ByiuLiWPgyE91NG6KeCDw-1; Mon, 17 Jan 2022 03:19:50 -0500
+X-MC-Unique: 3ByiuLiWPgyE91NG6KeCDw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ j10-20020a05640211ca00b003ff0e234fdfso13567404edw.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 00:19:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:organization:in-reply-to
  :content-transfer-encoding;
- bh=Wpigy0oAub9yKSY50NOkMU3eXVe3psMi8Qv62capukk=;
- b=nxCMyKjjFS3XHYl/CcxNvpGkvdEDWYI72s1dw1pcQQGIr51tg+AP3KGWkh00cJRt7D
- w4+pEOgeeufR1g05FJFVo93OtVta9VZl4rNEPT9F5Wm+mrXKI54l8Wnet4iw30kujGgw
- LQ5f0xFA66CXOuIUfn8ZacRnjibTR3PdwuPPPVPyexc/u74A8IYYpRcFXc+6QthiyERY
- ptpXY0H32FMc8hIQPAUf2Scz2JaYaSSyqm/3CVxDi1yIo5CFFd4/bNoQEHU7/xyCMjhl
- odYnQRDZ7Y886P3zlP7d3R6BCoZwKURpCWQGhHtEeaA8dEI3+UsggWDrJ2OpcspvQ0FS
- 3lVA==
-X-Gm-Message-State: AOAM532tHLOh+mzxN3eq5eprVc8pLAHTU40acZ00/Q/NTknLY6SLa4BB
- dgx3QuuxGBjQX+709T9A2VfIyEqOzt93I/fnUsN8fq0eszzBZpIGeGJKuH4OfirdtgRcIZ4Gfhe
- XmzQ5DjsVGzz9u2k=
-X-Received: by 2002:a17:907:97c4:: with SMTP id
- js4mr16334764ejc.422.1642407565025; 
- Mon, 17 Jan 2022 00:19:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxwmhGTluBh9+gTYXIdySY24k1cyKa0a+jmfJN6GKYLHM0xQIkCqn0CVcios0kHUedmcHEl3w==
-X-Received: by 2002:a17:907:97c4:: with SMTP id
- js4mr16334752ejc.422.1642407564834; 
- Mon, 17 Jan 2022 00:19:24 -0800 (PST)
+ bh=mti/wPtqQrrtRt/MxDgkbBNxSJf5R4XKH4GTNnO6kqs=;
+ b=VCgvaFxfBm+phUwuPMpdRIBIfFyA7H5kv0CzzS2yZFe1999BeJJCfmeaC+rvV3txpr
+ zNlVjkxNrL3XfBuQlLLhSk2LNC6dVQ/ZoWP6isDiI0EYR+9Bt+gpQwNQoSHOyZL3Im7R
+ 2jrgfwzZD+jb2R78jan5oSsI4F4X6sSRuUkllaojYUNCaKHHcI1QxgiudFjwuX4SWOTY
+ /Smeh2EGTR6REPri1KJ2fYZQ3d363WvYAYXOn/467c9el8cTAnpb7BiZOKKS6MWthIu0
+ dM15F9AU8NUu8IPiETx5Lw9cc+NpRLeXQOpEITLvwPOKmZhPaKzY/vWPMEEsMhWJNZOE
+ K1/w==
+X-Gm-Message-State: AOAM531QJAJRc4XC06YbL47t/zrombusqX3c3gqBG4DmFSODPU1pEkHm
+ bcXyOfQHaDIxcdwfXc2KRYCu04G3Nz846cH1sA754FaP22+zv8Nji9m4cFFYuTsDfmwBbg4WkLW
+ Niea7NJEinZZ4Ubw=
+X-Received: by 2002:aa7:d554:: with SMTP id u20mr20195572edr.322.1642407589109; 
+ Mon, 17 Jan 2022 00:19:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx1YnWpVHexMKuj+/Febcjn107j0wj/OJlVuVOWEhifD6qQY+mhMpv4YE3fuwLOuwdsaqLVUA==
+X-Received: by 2002:aa7:d554:: with SMTP id u20mr20195555edr.322.1642407588863; 
+ Mon, 17 Jan 2022 00:19:48 -0800 (PST)
 Received: from ?IPV6:2003:cb:c705:dd00:68a1:1bd:6733:bde9?
  (p200300cbc705dd0068a101bd6733bde9.dip0.t-ipconnect.de.
  [2003:cb:c705:dd00:68a1:1bd:6733:bde9])
- by smtp.gmail.com with ESMTPSA id e24sm5488415edv.62.2022.01.17.00.19.23
+ by smtp.gmail.com with ESMTPSA id z15sm1662789ejl.72.2022.01.17.00.19.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jan 2022 00:19:24 -0800 (PST)
-Message-ID: <eab22fd3-3466-ac47-311f-a97408bf588b@redhat.com>
-Date: Mon, 17 Jan 2022 09:19:23 +0100
+ Mon, 17 Jan 2022 00:19:48 -0800 (PST)
+Message-ID: <d099d341-0027-1ba9-d319-d057d1c5ecb9@redhat.com>
+Date: Mon, 17 Jan 2022 09:19:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH v3 1/6] libvhost-user: Add vu_rem_mem_reg input validation
+Subject: Re: [PATCH v3 2/6] libvhost-user: Add vu_add_mem_reg input validation
 To: Raphael Norwitz <raphael.norwitz@nutanix.com>,
  "stefanha@redhat.com" <stefanha@redhat.com>,
  "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
  "mst@redhat.com" <mst@redhat.com>
 References: <20220117041050.19718-1-raphael.norwitz@nutanix.com>
- <20220117041050.19718-2-raphael.norwitz@nutanix.com>
+ <20220117041050.19718-3-raphael.norwitz@nutanix.com>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <20220117041050.19718-2-raphael.norwitz@nutanix.com>
+In-Reply-To: <20220117041050.19718-3-raphael.norwitz@nutanix.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -114,31 +112,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 17.01.22 05:12, Raphael Norwitz wrote:
 > Today if multiple FDs are sent from the VMM to the backend in a
-> VHOST_USER_REM_MEM_REG message, one FD will be unmapped and the remaining
+> VHOST_USER_ADD_MEM_REG message, one FD will be mapped and the remaining
 > FDs will be leaked. Therefore if multiple FDs are sent we report an
 > error and fail the operation, closing all FDs in the message.
 > 
-> Likewise in case the VMM sends a message with a size less than that of a
-> memory region descriptor, we add a check to gracefully report an error
-> and fail the operation rather than crashing.
+> Likewise in case the VMM sends a message with a size less than that
+> of a memory region descriptor, we add a check to gracefully report an
+> error and fail the operation rather than crashing.
 > 
 > Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 > ---
 >  subprojects/libvhost-user/libvhost-user.c | 15 +++++++++++++++
->  subprojects/libvhost-user/libvhost-user.h |  2 ++
->  2 files changed, 17 insertions(+)
+>  1 file changed, 15 insertions(+)
 > 
 > diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
-> index 787f4d2d4f..b09b1c269e 100644
+> index b09b1c269e..1a8fc9d600 100644
 > --- a/subprojects/libvhost-user/libvhost-user.c
 > +++ b/subprojects/libvhost-user/libvhost-user.c
-> @@ -801,6 +801,21 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
->      VuDevRegion shadow_regions[VHOST_USER_MAX_RAM_SLOTS] = {};
->      VhostUserMemoryRegion m = vmsg->payload.memreg.region, *msg_region = &m;
+> @@ -690,6 +690,21 @@ vu_add_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
+>      VuDevRegion *dev_region = &dev->regions[dev->nregions];
+>      void *mmap_addr;
 >  
 > +    if (vmsg->fd_num != 1) {
 > +        vmsg_close_fds(vmsg);
-> +        vu_panic(dev, "VHOST_USER_REM_MEM_REG received %d fds - only 1 fd "
+> +        vu_panic(dev, "VHOST_USER_ADD_MEM_REG received %d fds - only 1 fd "
 > +                      "should be sent for this message type", vmsg->fd_num);
 > +        return false;
 > +    }
@@ -146,9 +143,10 @@ On 17.01.22 05:12, Raphael Norwitz wrote:
 > +    if (vmsg->size < VHOST_USER_MEM_REG_SIZE) {
 > +        close(vmsg->fds[0]);
 
-I wonder if using vmsg_close_fds(vmsg); makes the code easier to read.
+Same comment as for patch #1
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
+
 
 -- 
 Thanks,
