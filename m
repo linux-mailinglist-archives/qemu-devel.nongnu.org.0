@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4B7D4910CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 20:55:48 +0100 (CET)
-Received: from localhost ([::1]:50352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 157B54910E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 21:11:29 +0100 (CET)
+Received: from localhost ([::1]:33900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9Y6W-0007Rl-01
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 14:55:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48274)
+	id 1n9YLc-0000da-Ts
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 15:11:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n9Y1m-0004KV-VN; Mon, 17 Jan 2022 14:50:55 -0500
-Received: from [2607:f8b0:4864:20::c31] (port=33364
- helo=mail-oo1-xc31.google.com)
+ id 1n9YId-00080u-ST; Mon, 17 Jan 2022 15:08:19 -0500
+Received: from [2607:f8b0:4864:20::232] (port=40509
+ helo=mail-oi1-x232.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n9Y1h-0007Wo-VM; Mon, 17 Jan 2022 14:50:54 -0500
-Received: by mail-oo1-xc31.google.com with SMTP id
- v10-20020a4a244a000000b002ddfb22ab49so4953906oov.0; 
- Mon, 17 Jan 2022 11:50:07 -0800 (PST)
+ id 1n9YIY-0002DR-AV; Mon, 17 Jan 2022 15:08:19 -0500
+Received: by mail-oi1-x232.google.com with SMTP id bx18so6764581oib.7;
+ Mon, 17 Jan 2022 12:08:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=gRFUuO6a6sQeMWZbcQCXgs5/54bTjObeAs1Ieb6gF9M=;
- b=YwR9B43AoCu0XvvvXVl8WSpzYR3kWLsTIYaGSDSFw+DIoscn99Oy2XZIhsWiYsX6J2
- aPGqbH6wmHTTUpCsKmPOQBs/QoqqRnHhNpcwoDtXjSlWFNDcRK/Xidmo63lZK32y4eM0
- lNwyiiu6wT0mXhZSB7cEkmA5zW3PGXebkxZ94+T95k77Vg0j+VZx55mEzOStVxvy55qh
- 4Za86ndQO+PVIRgtbGcaT8VbZ6yU4oyY/9ijTMWPZEBQ3do43JooVE5z6apUIKamwO7H
- jxZNvDJw0IBzC5eSZKlyatufClk0ssIxwcLJS+hLZx5r82U/aq7tz8Mj2ATtoW0VcqQG
- AG7Q==
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=lNY59be8Pfza9HOVUy0rFQ1yaOjEx9SbGukIsQdhFi4=;
+ b=FkKr9mEUMWjVBBiTeTGPQdCjfGwQ/vvco3ow9EjVnUG61pFor2Eb8xrYjFVaOYgEBi
+ XPeonvH1W9zObnGPPVD3SKj7WakCQH0JRS+ndbSX6RT0uzG41cu4L3hlxhFoOTSexE2D
+ 8SGc0tESQ7YP6kruvpu1tYH4ACHhNV/72qJlRfr4Kd7YlBlL193Uh4GcrbWhDfrY8377
+ btYptgV3x6lhap662n+PXDdhHMR64mIpmuxA7s5K5NCs222dJYffFv/slN7gpx01jpSD
+ iw+j//OuCQJxg9xoPiLtt9FrXfb99nSjQLNj/aU3GSpovJNYbYEfJWL9JfbU1izCzdZJ
+ XKYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=gRFUuO6a6sQeMWZbcQCXgs5/54bTjObeAs1Ieb6gF9M=;
- b=ti9QPfLv89sYqvmY/TQkth26A/zO4W8JI2rpcCgn9F85o9xrKa5G+ckgZtBUMtHeD2
- ZUGU+F5VKopSKA2m9BGrGGGrKmWF2MXenUDrQ8Nxe/nXBdvmjeKxUPMGEV98OmkudTwe
- Rw47l+XNRoCp20bal+fetwU0t8iP2DfwgZoSPCs5Jl98yqXq4sh9/rv797QlRiBkqddF
- xpA1ucU6HFaRnORGr/P9jt5tMB+M3U3OakMwdTNKrk1sCWc1isaOgr9bDNNJKQimeuL6
- Pu4o9BUOXA6eFOzt6r6kIVRgaZ9uQUQ8eaSm+M4GfhthOjstnujhQhzCnp1eEEu4HhSD
- 0xnQ==
-X-Gm-Message-State: AOAM531zq59v+7vv8mUYeV3o+zA391Fh5HN6yqqsU/4gyGReVN4rbxvt
- D1d6tvebtKf3yX0IMQliVR8=
-X-Google-Smtp-Source: ABdhPJxNbhJsbcmWF4JAwvaDO64Prew71NZar6p3jX2oqX6FVNGfrejuWwa60FTR0HnjVly6d12Gvg==
-X-Received: by 2002:a4a:da04:: with SMTP id e4mr9034624oou.33.1642449007075;
- Mon, 17 Jan 2022 11:50:07 -0800 (PST)
+ bh=lNY59be8Pfza9HOVUy0rFQ1yaOjEx9SbGukIsQdhFi4=;
+ b=BHHaPqJJNc5GlV8tA1Xxa8bK27Q5LcMNEfzHNHd9/Me6AGg0l1zNMpYnh1UDSl2vH+
+ s2P5tsKGdUVRJ4u1Yxc5YDYBZfF9E9uFUqDqtlGYRLFDa6YodbHnBwvNR7HorPMqFOEt
+ GMPBzJjKnkrWkEtXeJMaQo7UfSmwZJ6HPatVYjuSnocEz5Jhxm0LN4tuxZ0XV0QkdGmX
+ suHO5QIMllu++Ks9VbHOpHx3kLdFwBbBnRU7/Q5oHq0jWMclb2iZUYT5X54cZB7XDbcH
+ QAHygNdoXwFp1frQEP1FXluciFmDEYfeQSN6IVUPQPG9Hzo6YAUGbU3xgtwO4onzffnC
+ 4aRQ==
+X-Gm-Message-State: AOAM530lrAHqZWyV1ayvXqGhPoiY4JWE6BQ3UKLrRk2d1OoZ/EASDPIr
+ 6E0PC1KJNII6VlVtLoFB6nI=
+X-Google-Smtp-Source: ABdhPJwz7yORYKFaMszIp0KxQctk701LwnLEGFXQOWnJHwbc3SopnteLY9LTcOBPxcBFY99hkqJQTg==
+X-Received: by 2002:a05:6808:1828:: with SMTP id
+ bh40mr9950400oib.31.1642450092375; 
+ Mon, 17 Jan 2022 12:08:12 -0800 (PST)
 Received: from [192.168.10.222] ([152.249.109.193])
- by smtp.gmail.com with ESMTPSA id k19sm5686121oot.32.2022.01.17.11.50.05
+ by smtp.gmail.com with ESMTPSA id e26sm5667899oog.46.2022.01.17.12.08.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jan 2022 11:50:06 -0800 (PST)
-Message-ID: <329048b5-819f-603b-7e5b-efd98df81598@gmail.com>
-Date: Mon, 17 Jan 2022 16:50:04 -0300
+ Mon, 17 Jan 2022 12:08:12 -0800 (PST)
+Message-ID: <e83875f1-70bd-2a5b-ba4e-39baa4cc3c6e@gmail.com>
+Date: Mon, 17 Jan 2022 17:08:09 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH 3/3] ppc/pnv: Remove PHB4 version property
+Subject: Re: [PATCH RESEND] tests/avocado: ppc: Add smoke tests for MPC7400
+ and MPC7450 families
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220117122753.1655504-1-clg@kaod.org>
- <20220117122753.1655504-4-clg@kaod.org>
+To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20220117144757.782441-1-farosas@linux.ibm.com>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220117122753.1655504-4-clg@kaod.org>
+In-Reply-To: <20220117144757.782441-1-farosas@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c31
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::232
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c31;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc31.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x232.google.com
+X-Spam_score_int: -9
+X-Spam_score: -1.0
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,91 +90,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: mark.cave-ayland@ilande.co.uk, qemu-ppc@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 1/17/22 09:27, Cédric Le Goater wrote:
-> and grab the PHB version from the PEC class directly when needed.
-
-I guess we want a capital "A" when starting the commit msg
-
+On 1/17/22 11:47, Fabiano Rosas wrote:
+> These tests ensure that our emulation for these cpus is not completely
+> broken and we can at least run OpenBIOS on them.
 > 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> $ make check-avocado AVOCADO_TESTS=../tests/avocado/ppc_74xx.py
+> 
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 > ---
+> ---
+>   tests/avocado/ppc_74xx.py | 123 ++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 123 insertions(+)
+>   create mode 100644 tests/avocado/ppc_74xx.py
+> 
+> diff --git a/tests/avocado/ppc_74xx.py b/tests/avocado/ppc_74xx.py
+> new file mode 100644
+> index 0000000000..556a9a7da9
+> --- /dev/null
+> +++ b/tests/avocado/ppc_74xx.py
+> @@ -0,0 +1,123 @@
+> +# Smoke tests for 74xx cpus (aka G4).
+> +#
+> +# Copyright (c) 2021, IBM Corp.
 
 
-This change also makes pnv-phb4s a little closer with pnv-phb3s, given that we don't
-have a "Version" attribute exposed in the QOM for pnv-phb3s as well.
+Not sure if the copyright year must be changed to 2022 (the year that this is going to
+be published) or 2021 (the year that it was developed). GNU docs isn't clear about
+it. Our COPYING file is also not clear about whether we should put the code creation
+or code publishing year in this header.
+
+I don't mind leaving it as 2021. I'm just curious about what is the semantics involved
+here.
 
 
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
->   hw/pci-host/pnv_phb4.c     | 9 +--------
->   hw/pci-host/pnv_phb4_pec.c | 3 ---
->   2 files changed, 1 insertion(+), 11 deletions(-)
-> 
-> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-> index c688976caec9..a78add75b043 100644
-> --- a/hw/pci-host/pnv_phb4.c
-> +++ b/hw/pci-host/pnv_phb4.c
-> @@ -672,7 +672,7 @@ static uint64_t pnv_phb4_reg_read(void *opaque, hwaddr off, unsigned size)
->   
->       switch (off) {
->       case PHB_VERSION:
-> -        return phb->version;
-> +        return PNV_PHB4_PEC_GET_CLASS(phb->pec)->version;
->   
->           /* Read-only */
->       case PHB_PHB4_GEN_CAP:
-> @@ -1575,7 +1575,6 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
->       if (!phb->pec) {
->           PnvMachineState *pnv = PNV_MACHINE(qdev_get_machine());
->           PnvChip *chip = pnv_get_chip(pnv, phb->chip_id);
-> -        PnvPhb4PecClass *pecc;
->           BusState *s;
->   
->           if (!chip) {
-> @@ -1589,11 +1588,6 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
->               return;
->           }
->   
-> -        /* All other phb properties are already set */
-> -        pecc = PNV_PHB4_PEC_GET_CLASS(phb->pec);
-> -        object_property_set_int(OBJECT(phb), "version", pecc->version,
-> -                                &error_fatal);
-> -
->           /*
->            * Reparent user created devices to the chip to build
->            * correctly the device tree.
-> @@ -1688,7 +1682,6 @@ static void pnv_phb4_xive_notify(XiveNotifier *xf, uint32_t srcno)
->   static Property pnv_phb4_properties[] = {
->           DEFINE_PROP_UINT32("index", PnvPHB4, phb_id, 0),
->           DEFINE_PROP_UINT32("chip-id", PnvPHB4, chip_id, 0),
-> -        DEFINE_PROP_UINT64("version", PnvPHB4, version, 0),
->           DEFINE_PROP_LINK("pec", PnvPHB4, pec, TYPE_PNV_PHB4_PEC,
->                            PnvPhb4PecState *),
->           DEFINE_PROP_END_OF_LIST(),
-> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-> index a3c4b4ef850c..40d89fda56e5 100644
-> --- a/hw/pci-host/pnv_phb4_pec.c
-> +++ b/hw/pci-host/pnv_phb4_pec.c
-> @@ -117,7 +117,6 @@ static void pnv_pec_default_phb_realize(PnvPhb4PecState *pec,
->                                           Error **errp)
->   {
->       PnvPHB4 *phb = PNV_PHB4(qdev_new(TYPE_PNV_PHB4));
-> -    PnvPhb4PecClass *pecc = PNV_PHB4_PEC_GET_CLASS(pec);
->       int phb_id = pnv_phb4_pec_get_phb_id(pec, stack_no);
->   
->       object_property_set_link(OBJECT(phb), "pec", OBJECT(pec),
-> @@ -126,8 +125,6 @@ static void pnv_pec_default_phb_realize(PnvPhb4PecState *pec,
->                               &error_fatal);
->       object_property_set_int(OBJECT(phb), "index", phb_id,
->                               &error_fatal);
-> -    object_property_set_int(OBJECT(phb), "version", pecc->version,
-> -                            &error_fatal);
->   
->       if (!sysbus_realize(SYS_BUS_DEVICE(phb), errp)) {
->           return;
+> +#
+> +# This work is licensed under the terms of the GNU GPL, version 2 or
+> +# later.  See the COPYING file in the top-level directory.
+> +
+> +from avocado_qemu import QemuSystemTest
+> +from avocado_qemu import wait_for_console_pattern
+> +
+> +class ppc74xxCpu(QemuSystemTest):
+> +    """
+> +    :avocado: tags=arch:ppc
+> +    """
+> +    timeout = 5
+> +
+> +    def test_ppc_7400(self):
+> +        """
+> +        :avocado: tags=cpu:7400
+> +        """
+> +        self.vm.set_console()
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, '>> OpenBIOS')
+> +        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
+> +
+> +    def test_ppc_7410(self):
+> +        """
+> +        :avocado: tags=cpu:7410
+> +        """
+> +        self.vm.set_console()
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, '>> OpenBIOS')
+> +        wait_for_console_pattern(self, '>> CPU type PowerPC,74xx')
+> +
+> +    def test_ppc_7441(self):
+> +        """
+> +        :avocado: tags=cpu:7441
+> +        """
+> +        self.vm.set_console()
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, '>> OpenBIOS')
+> +        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
+> +
+> +    def test_ppc_7445(self):
+> +        """
+> +        :avocado: tags=cpu:7445
+> +        """
+> +        self.vm.set_console()
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, '>> OpenBIOS')
+> +        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
+> +
+> +    def test_ppc_7447(self):
+> +        """
+> +        :avocado: tags=cpu:7447
+> +        """
+> +        self.vm.set_console()
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, '>> OpenBIOS')
+> +        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
+> +
+> +    def test_ppc_7447a(self):
+> +        """
+> +        :avocado: tags=cpu:7447a
+> +        """
+> +        self.vm.set_console()
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, '>> OpenBIOS')
+> +        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
+> +
+> +    def test_ppc_7448(self):
+> +        """
+> +        :avocado: tags=cpu:7448
+> +        """
+> +        self.vm.set_console()
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, '>> OpenBIOS')
+> +        wait_for_console_pattern(self, '>> CPU type PowerPC,MPC86xx')
+> +
+> +    def test_ppc_7450(self):
+> +        """
+> +        :avocado: tags=cpu:7450
+> +        """
+> +        self.vm.set_console()
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, '>> OpenBIOS')
+> +        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
+> +
+> +    def test_ppc_7451(self):
+> +        """
+> +        :avocado: tags=cpu:7451
+> +        """
+> +        self.vm.set_console()
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, '>> OpenBIOS')
+> +        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
+> +
+> +    def test_ppc_7455(self):
+> +        """
+> +        :avocado: tags=cpu:7455
+> +        """
+> +        self.vm.set_console()
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, '>> OpenBIOS')
+> +        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
+> +
+> +    def test_ppc_7457(self):
+> +        """
+> +        :avocado: tags=cpu:7457
+> +        """
+> +        self.vm.set_console()
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, '>> OpenBIOS')
+> +        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
+> +
+> +    def test_ppc_7457a(self):
+> +        """
+> +        :avocado: tags=cpu:7457a
+> +        """
+> +        self.vm.set_console()
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, '>> OpenBIOS')
+> +        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
 
