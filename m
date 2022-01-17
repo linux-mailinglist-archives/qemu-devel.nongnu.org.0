@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E746949102A
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 19:19:56 +0100 (CET)
-Received: from localhost ([::1]:42798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B960149108D
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 20:06:05 +0100 (CET)
+Received: from localhost ([::1]:57570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9Wbj-00075i-Bs
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 13:19:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57442)
+	id 1n9XKO-0003PX-9k
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 14:06:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1n9WY6-0003gI-DC
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 13:16:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28575)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1n9XHL-0002h7-1e
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 14:02:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1n9WXv-0001PL-OD
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 13:16:01 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1n9XHH-00084U-FF
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 14:02:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642443359;
+ s=mimecast20190719; t=1642446169;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aS5fCwwlRdsCJVX7P/9nYoSsTUo0fso9L0b5kbv6pu4=;
- b=MimURvEgn9dBPmgb+39Pf+r41UanjK1SvCfTyKkRiEm/ARXbSnAvKb4t1o0pZXRPx2k2Az
- XLPtqvJwyDhy/OXnboqq3dh0L1q1tEfnX1UvXCIIqt7tTxcGkaxrIvU6V5+aZOaMQluTGU
- TFotg7tNyCpolL+PXjGVKgyx7qo68y0=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VqM5Femgz3FKQagpBb4W99xgvj1lWfM56AJYMMMEiIU=;
+ b=E/ceiu86o1+uVpgVD1ZEIwga2zsV3MSOMRDiqbLiknUuJ9v+KxG7rUedgny9gkVr4zIprv
+ H8pI/lkcAYSQYxsbu/3XkKP8UHdJ7K28Jb4QnGBSGqvPMQ5R9ahPogERI9pCBMkaghggy+
+ lQyPwDGNRxt7PQ8HAkY/f2BWqWJ9LEc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-166-FAu04leRNCKvnZaeSJq19Q-1; Mon, 17 Jan 2022 13:15:56 -0500
-X-MC-Unique: FAu04leRNCKvnZaeSJq19Q-1
-Received: by mail-lf1-f72.google.com with SMTP id
- x23-20020ac25dd7000000b0042ffb81aaffso6297464lfq.5
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 10:15:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aS5fCwwlRdsCJVX7P/9nYoSsTUo0fso9L0b5kbv6pu4=;
- b=1kX5tiOpikJeqwWXUfmjCIeIa8IPd7HCDcitLIpSM83tOn/IA+IC6yADZ5XiYYd8qG
- hezEyxmq91ZKDz64JoWO4qw89Y4nvHYg+M/2fbIXqTpN7v9YIcZuSFiQjpcpybpcGMMG
- LaD6RBcmYjDkgJO+bLQwK6eF1yOEVA2Yp6LA/gYFm9vSalWiSPoZbK/JTxF4MuKozP0r
- mTcZ6axMVAJKScUTYQFGqQF2cVvnszW18lUahjDquQIrGMGZmgb6g75AOR/0GSzLP0Oi
- 0hQml+hJZtmLxhr7HHVCSy/lYYli6JybTrG06+etnxlV4ao7q7MX/Si8dSvUrwDDRaJL
- S7Ww==
-X-Gm-Message-State: AOAM5319SLpzJMLK4orrg0qj7J9I4EGoj1m8H1kRJ0SLNqaJ21mTfStA
- TEwYrPd2yDPE/80fFd/rHM2vTfct/Zw1lMKolst53fqCdfyae17BOae7TzlkGMXi1QpbvNfTrTU
- yDL2N8zjv12lFYP+0V7dJEOHv2KQZ3MA=
-X-Received: by 2002:a05:6512:3da1:: with SMTP id
- k33mr16623779lfv.212.1642443355398; 
- Mon, 17 Jan 2022 10:15:55 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzpTHFVbwMrLLRR8xYZ8XxLMnFECOpaeol90gXeuoZdkN3rCTvEyFTyBhNGDNunpJo/7yCJI0AZmjcnkPG9+c8=
-X-Received: by 2002:a05:6512:3da1:: with SMTP id
- k33mr16623754lfv.212.1642443354993; 
- Mon, 17 Jan 2022 10:15:54 -0800 (PST)
+ us-mta-147-9R4X3pZ5PviNTD3q8onoVA-1; Mon, 17 Jan 2022 14:02:44 -0500
+X-MC-Unique: 9R4X3pZ5PviNTD3q8onoVA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34A4A100CCC2;
+ Mon, 17 Jan 2022 19:02:43 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
+ [10.36.112.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A856760854;
+ Mon, 17 Jan 2022 19:02:38 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 380EC11380A2; Mon, 17 Jan 2022 20:02:37 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: "Startup" meeting (was Re: Meeting today?)
+References: <YbeWxAn6Zw7rH+5K@redhat.com>
+ <CC132B60-3F08-4F03-B328-4C33407BB944@greensocs.com>
+ <87lf0nto1k.fsf@dusky.pond.sub.org> <YbiS8Zc7fcoeoSyC@redhat.com>
+ <87bl1jqm1a.fsf@dusky.pond.sub.org>
+ <CAJy5ezofpy09ZOtVHFofGTzt3U8MEA_ddpBHifuF50sVDFXULA@mail.gmail.com>
+ <73955990-9FD1-42CD-B476-F2AD95C219E9@greensocs.com>
+ <YdbRShE01esANc5h@redhat.com>
+ <fb519eb4-c0c6-a0b6-585d-e708b04ed207@amsat.org>
+ <BC0208B2-5ECE-4F74-9DFF-FB8959642C48@greensocs.com>
+ <YeWjtxEcbb6jcbi8@redhat.com>
+Date: Mon, 17 Jan 2022 20:02:37 +0100
+In-Reply-To: <YeWjtxEcbb6jcbi8@redhat.com> (Kevin Wolf's message of "Mon, 17
+ Jan 2022 18:13:27 +0100")
+Message-ID: <87y23erxrm.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220117162649.193501-1-hreitz@redhat.com>
- <20220117162649.193501-2-hreitz@redhat.com>
-In-Reply-To: <20220117162649.193501-2-hreitz@redhat.com>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Mon, 17 Jan 2022 20:15:39 +0200
-Message-ID: <CAMRbyyugX6mvQzt=Mb11assL1FoMwWvGEXYFZLJjZHi7H+07zQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] block/io: Update BSC only if want_zero is true
-To: Hanna Reitz <hreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=nsoffer@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -92,54 +91,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-block <qemu-block@nongnu.org>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Mark Burton <mark.burton@greensocs.com>,
+ Philippe =?utf-8?Q?Mathieu-D?= =?utf-8?Q?aud=C3=A9?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Mirela Grujic <mirela.grujic@greensocs.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 17, 2022 at 6:26 PM Hanna Reitz <hreitz@redhat.com> wrote:
->
-> We update the block-status cache whenever we get new information from a
-> bdrv_co_block_status() call to the block driver.  However, if we have
-> passed want_zero=false to that call, it may flag areas containing zeroes
-> as data, and so we would update the block-status cache with wrong
-> information.
->
-> Therefore, we should not update the cache with want_zero=false.
->
-> Reported-by: Nir Soffer <nsoffer@redhat.com>
-> Fixes: 0bc329fbb009f8601cec23bf2bc48ead0c5a5fa2
->        ("block: block-status cache for data regions")
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-> ---
->  block/io.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/block/io.c b/block/io.c
-> index bb0a254def..4e4cb556c5 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-> @@ -2497,8 +2497,12 @@ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
->               * non-protocol nodes, and then it is never used.  However, filling
->               * the cache requires an RCU update, so double check here to avoid
->               * such an update if possible.
-> +             *
-> +             * Check want_zero, because we only want to update the cache when we
-> +             * have accurate information about what is zero and what is data.
->               */
-> -            if (ret == (BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID) &&
-> +            if (want_zero &&
-> +                ret == (BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID) &&
->                  QLIST_EMPTY(&bs->children))
->              {
->                  /*
-> --
-> 2.33.1
->
+Kevin Wolf <kwolf@redhat.com> writes:
 
-ovirt-imageio tests pass with this change.
-Thanks for the quick fix!
+> Am 11.01.2022 um 11:22 hat Mark Burton geschrieben:
+>> That is my understanding=E2=80=A6=20
+>> See you there!
+>
+> Unfortunately, I missed this whole thread until now.
+>
+> If the meeting did happen, has anyone taken notes? And if so, where
+> could I find them?
 
-Reviewed-by: Nir Soffer <nsoffer@redhat.com>
+Yes, it did.  Juan, did you take notes?
 
 
