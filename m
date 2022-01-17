@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD169491234
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 00:12:22 +0100 (CET)
-Received: from localhost ([::1]:36298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C63C749125D
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 00:28:50 +0100 (CET)
+Received: from localhost ([::1]:42670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9bAj-0001F2-T7
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 18:12:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58180)
+	id 1n9bQe-0006SC-9v
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 18:28:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n9b7k-0007hP-Qa
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 18:09:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47760)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n9bPZ-0005lz-BF
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 18:27:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n9b7i-0003FW-0t
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 18:09:15 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n9bPW-0005nh-DN
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 18:27:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642460946;
+ s=mimecast20190719; t=1642462057;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZFKXAkLk5BSNwbIqtGwDuXs8yKu6st9ghkJhbSBlmlg=;
- b=iL7G/aTdX4KhxHolXTfuFogrQww82C/umdX3aiNNpJfx9b/cKoKQy7FBN/0RudgN/WEPf3
- ednBhpoFCtrmHWoADgaOQ9sxZcVCqzQGUO50eLn0g6vUsRS6jHH4X8dyPrA08uCItZyjBp
- 94d/Wj7bVPWKDbXFikzHRlUjD+Kc6iA=
+ bh=NXZVAzv0TX2oYHM1L0Wi+Foojx3C8ABMLV+zdD+RKu0=;
+ b=gtsv12jU8zv3bNq+htzhSzXgQrSAsMC/DX9GzPgsVVcQpnAHgCc7S3krcLWGQF85v77yZH
+ y8bUlcuXYs4R5xYxqMglTbeRw+LsuvbhkqOsdVq9R6V6rg7u7fv7uDJDlewYh4TPw++Xq6
+ Zo1KlWMyOEDDXuonsGCHaNAsQc61eHs=
 Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
  [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-2-lI8RxZtYPEWiUi5cHSuUDQ-1; Mon, 17 Jan 2022 18:09:04 -0500
-X-MC-Unique: lI8RxZtYPEWiUi5cHSuUDQ-1
+ us-mta-650-7Z0ysc08MEOoin9BL_JaRA-1; Mon, 17 Jan 2022 18:27:35 -0500
+X-MC-Unique: 7Z0ysc08MEOoin9BL_JaRA-1
 Received: by mail-ua1-f69.google.com with SMTP id
- x9-20020ab05789000000b002fa60bdf012so10915197uaa.1
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 15:09:04 -0800 (PST)
+ i28-20020a9f305c000000b00305923be96aso10916558uab.9
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 15:27:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZFKXAkLk5BSNwbIqtGwDuXs8yKu6st9ghkJhbSBlmlg=;
- b=LXaMDz3jI/fcuo44zt/R41xdTsaVCMynAYhaRsjmLwDaFJCmvGk6yTQ1MciH8QPcgJ
- e6o8LgIbyhug5f1EId2rstpFq8zIFhtAXG8K4jy9YwTp0MFS40smaY2+bhlKbk57141N
- uYn9h4xVQKTHS0zgTjSEnWqVc7/9mk592r3LdZuKYslG9Na6yLn44Jpiy43a98VzlN9A
- YsKut6PfPN+VwGbqqBO8Sz0kSNN9M+avpcuiEQPK1VsOtHwgaWU4Lle1K2RhqyBxtrbA
- mOafkB2tQvc+zQRTRS7NVDY+QwY7Jj3rBEiHFbSjPziIJNdi1CHH1ZsN4Px0Ve7URfD6
- BXbw==
-X-Gm-Message-State: AOAM530lFglGnD14kwqK0Fo1xs3md194g/O7iw8PVm3wK4BASMJ73Ijc
- 18gSnnn4e7foupTuZ6/9TOsp30ghJPtMhYDiRfXmUvroxZKnVerJUYcL7WWA8tJE9wQS9/wZ90E
- urGAWqP6OYln15727jByCnw/y7ZqMzME=
-X-Received: by 2002:ab0:6497:: with SMTP id p23mr8773805uam.32.1642460944087; 
- Mon, 17 Jan 2022 15:09:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw3yMZ3CvBvaeimGfw4sYXErMg3T+dSvkP10xhru9IQ/0/o8PlpNvWwwcGRQ8U/RQGhbjsg/uF08/YUNzTv0z4=
-X-Received: by 2002:ab0:6497:: with SMTP id p23mr8773799uam.32.1642460943825; 
- Mon, 17 Jan 2022 15:09:03 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=NXZVAzv0TX2oYHM1L0Wi+Foojx3C8ABMLV+zdD+RKu0=;
+ b=iZCxJqqxt48wzqqldLAXxFvxZmFaI379DYezIMJHqViuVaMs7Qs74GdfS3a9DACaZp
+ JoTZvD7RTdCNvHeJQhSjfn+VZM0VHlKN+5/H7ztHrGJVmVupJJFvoYFLNGBOF481perI
+ sAR++ubcjYacINosCPbOLb9Rn1yWJGJKMbLiEfZGU9VFUFYVbVl2MT9/A+8Zp2UOk+ZQ
+ UuA0a+nVsGpUc+opIWYmeqYr4fv105mWHPuL5QWfvTY8iWAh1lNZVvSMfnZyzS1+QNFX
+ LFi1qVeXamcCmFzX8BbfNkkdgTx5OV/4pkQyQeDGrBvDdQ1vx1xYorkP/hewh6+bhkKO
+ JlOg==
+X-Gm-Message-State: AOAM531xJvF09kmmJ7+mwe42Gm1hmCDh2oWKVSWRq1x1NsgzVAdisLzi
+ QgxRS/rayhI6qqYx6q0hKABHT4zAQUyrwh3Ab8epVIX4dYefQojuo9tiOLoEqpZ3StkNC72qTHP
+ 0BDr5BMAC17OXlcwdX87V0aoC8wmLyzU=
+X-Received: by 2002:a05:6102:1045:: with SMTP id
+ h5mr8576441vsq.38.1642462055321; 
+ Mon, 17 Jan 2022 15:27:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwobdWzmjHCGgYj7Fd9MQIuAknVUmNKJH/q/RB/sdwda+cLDw8B4L5D70vXp6KAOsYaL6fEcKhfKjgvUY41mAY=
+X-Received: by 2002:a05:6102:1045:: with SMTP id
+ h5mr8576434vsq.38.1642462055035; 
+ Mon, 17 Jan 2022 15:27:35 -0800 (PST)
 MIME-Version: 1.0
-References: <CAFEAcA-UKdcTROB7e3jO1qe=WCbuHRuX5WN7HZF2CcdMsmAt=g@mail.gmail.com>
- <YeU/YCUI59f33PBh@redhat.com>
- <CAFn=p-YDo8tTQ1Y8HgtQuCDv3i5EdFEX8-2BAjs-7L5q_b4=Gg@mail.gmail.com>
- <CAFEAcA_uBfCyJVq24p1jt5gaRmcMCZsjXae4y69QZ5dXpYX_Pg@mail.gmail.com>
-In-Reply-To: <CAFEAcA_uBfCyJVq24p1jt5gaRmcMCZsjXae4y69QZ5dXpYX_Pg@mail.gmail.com>
+References: <20220117141103.157288-1-berrange@redhat.com>
+ <20220117141103.157288-2-berrange@redhat.com>
+In-Reply-To: <20220117141103.157288-2-berrange@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Date: Mon, 17 Jan 2022 18:08:52 -0500
-Message-ID: <CAFn=p-Zba+Ge6EckjRzkKsH4vU18RkspBaJvpSVE9H6gEU=r+Q@mail.gmail.com>
-Subject: Re: iotest 040, 041, intermittent failure in netbsd VM
-To: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 17 Jan 2022 18:27:24 -0500
+Message-ID: <CAFn=p-Z4sn94+i18JjEnXgPTJK1H0GBqjCA3kwxtHdrELcOc5g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] python: introduce qmp-shell-wrap convenience tool
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -90,122 +92,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 17, 2022 at 3:49 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+On Mon, Jan 17, 2022 at 9:11 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
 >
-> On Mon, 17 Jan 2022 at 20:35, John Snow <jsnow@redhat.com> wrote:
+> With the current 'qmp-shell' tool developers must first spawn QEMU with
+> a suitable -qmp arg and then spawn qmp-shell in a separate terminal
+> pointing to the right socket.
 >
-> > Can you please try applying this temporary patch and running `./check
-> > -qcow2 040 041` until you see a breakage and show me the output from
-> > that?
+> With 'qmp-shell-wrap' developers can ignore QMP sockets entirely and
+> just pass the QEMU command and arguments they want. The program will
+> listen on a UNIX socket and tell QEMU to connect QMP to that.
 >
-> With this temporary patch the VM doesn't launch at all:
-
-"Works for me", but I found out why.
-
+> For example, this:
 >
-> peter.maydell@hackbox2.linaro.org:~/qemu-netbsd$ make -C build/
-> vm-build-netbsd J=8 V=1 2>&1 | tee netbsd.log
-> make: Entering directory '/home/peter.maydell/qemu-netbsd/build'
-> /usr/bin/python3 -B /home/peter.maydell/qemu-netbsd/meson/meson.py
-> introspect --targets --tests --benchmarks | /usr/bin/python3 -B
-> scripts/mtest2m
-> ake.py > Makefile.mtest
-> { \
->   echo 'ninja-targets = \'; \
->   /usr/bin/ninja -t targets all | sed 's/:.*//; $!s/$/ \\/'; \
->   echo 'build-files = \'; \
->   /usr/bin/ninja -t query build.ninja | sed -n '1,/^  input:/d; /^
-> outputs:/q; s/$/ \\/p'; \
-> } > Makefile.ninja.tmp && mv Makefile.ninja.tmp Makefile.ninja
-> (GIT="git" "/home/peter.maydell/qemu-netbsd/scripts/git-submodule.sh"
-> update ui/keycodemapdb meson tests/fp/berkeley-testfloat-3
-> tests/fp/berkeley-softfloat-3 dtc capstone slirp)
-> (GIT="git" "/home/peter.maydell/qemu-netbsd/scripts/git-submodule.sh"
-> update ui/keycodemapdb meson tests/fp/berkeley-testfloat-3
-> tests/fp/berkeley-softfloat-3 dtc capstone slirp)
-> /usr/bin/python3 -B /home/peter.maydell/qemu-netbsd/tests/vm/netbsd
-> --debug  --jobs 8 --verbose    --image
-> "/home/peter.maydell/.cache/qemu-vm/images/netbsd.img"  --snapshot
-> --build-qemu /home/peter.maydell/qemu-netbsd --
-> DEBUG:root:Creating archive
-> /home/peter.maydell/qemu-netbsd/build/vm-test-72ra6_8s.tmp/data-f706c.tar
-> for src_dir dir: /home/peter.maydell/qemu-netbsd
-> DEBUG:root:QEMU args: -nodefaults -m 4G -cpu max -netdev
-> user,id=vnet,hostfwd=:127.0.0.1:0-:22,ipv6=no -device
-> virtio-net-pci,netdev=vnet -vnc 127.0.0.1:0,to=20 -smp 8 -enable-kvm
-> -drive file=/home/peter.maydell/.cache/qemu-vm/images/netbsd.img,snapshot=on,if=none,id=drive0,cache=writeback
-> -device virtio-blk,drive=drive0,bootindex=0 -drive
-> file=/home/peter.maydell/qemu-netbsd/build/vm-test-72ra6_8s.tmp/data-f706c.tar,if=none,id=data-f706c,cache=writeback,format=raw
-> -device virtio-blk,drive=data-f706c,serial=data-f706c,bootindex=1
-> DEBUG:asyncio:Using selector: EpollSelector
-> DEBUG:qemu.aqmp.qmp_client.qemu-2335-7f3b78d7f128:Registering
-> <qemu.aqmp.events.EventListener object at 0x7f3b76bfc9b0>.
-> DEBUG:qemu.machine.machine:VM launch command: 'qemu-system-x86_64
-> -display none -vga none -chardev
-> socket,id=mon,path=/var/tmp/qemu-machine-0m15ou19/qemu-2335-7f3b78d7f128-monitor.sock
-> -mon chardev=mon,mode=control -machine pc -chardev
-> socket,id=console,path=/var/tmp/qemu-machine-0m15ou19/qemu-2335-7f3b78d7f128-console.sock,server=on,wait=off
-> -serial chardev:console -nodefaults -m 4G -cpu max -netdev
-> user,id=vnet,hostfwd=:127.0.0.1:0-:22,ipv6=no -device
-> virtio-net-pci,netdev=vnet -vnc 127.0.0.1:0,to=20 -smp 8 -enable-kvm
-> -drive file=/home/peter.maydell/.cache/qemu-vm/images/netbsd.img,snapshot=on,if=none,id=drive0,cache=writeback
-> -device virtio-blk,drive=drive0,bootindex=0 -drive
-> file=/home/peter.maydell/qemu-netbsd/build/vm-test-72ra6_8s.tmp/data-f706c.tar,if=none,id=data-f706c,cache=writeback,format=raw
-> -device virtio-blk,drive=data-f706c,serial=data-f706c,bootindex=1'
-> DEBUG:qemu.aqmp.qmp_client.qemu-2335-7f3b78d7f128:Transitioning from
-> 'Runstate.IDLE' to 'Runstate.CONNECTING'.
-> DEBUG:qemu.aqmp.qmp_client.qemu-2335-7f3b78d7f128:Awaiting connection
-> on /var/tmp/qemu-machine-0m15ou19/qemu-2335-7f3b78d7f128-monitor.sock
-> ...
-> DEBUG:qemu.aqmp.qmp_client.qemu-2335-7f3b78d7f128:Connection accepted.
-> DEBUG:qemu.aqmp.qmp_client.qemu-2335-7f3b78d7f128:Awaiting greeting ...
-> DEBUG:qemu.aqmp.qmp_client.qemu-2335-7f3b78d7f128:<-- {
->   "QMP": {
->     "version": {
->       "qemu": {
->         "micro": 1,
->         "minor": 11,
->         "major": 2
->       },
->       "package": "(Debian 1:2.11+dfsg-1ubuntu7.38)"
->     },
->     "capabilities": []
->   }
-> }
+>  # qmp-shell-wrap -- qemu-system-x86_64 -display none
+>
+> Is roughly equivalent of running:
+>
+>  # qemu-system-x86_64 -display none -qmp qmp-shell-1234 &
+>  # qmp-shell qmp-shell-1234
+>
+> Except that 'qmp-shell-wrap' switches the socket peers around so that
+> it is the UNIX socket server and QEMU is the socket client. This makes
+> QEMU reliably go away when qmp-shell-wrap exits, closing the server
+> socket.
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>  python/qemu/qmp/qmp_shell.py | 61 +++++++++++++++++++++++++++++++++---
+>  scripts/qmp/qmp-shell-wrap   | 11 +++++++
+>  2 files changed, 68 insertions(+), 4 deletions(-)
+>  create mode 100755 scripts/qmp/qmp-shell-wrap
+>
+> diff --git a/python/qemu/qmp/qmp_shell.py b/python/qemu/qmp/qmp_shell.py
+> index e7d7eb18f1..12f7d28afc 100644
+> --- a/python/qemu/qmp/qmp_shell.py
+> +++ b/python/qemu/qmp/qmp_shell.py
+> @@ -86,6 +86,7 @@
+>  import os
+>  import re
+>  import readline
+> +from subprocess import Popen
+>  import sys
+>  from typing import (
+>      Iterator,
+> @@ -162,8 +163,10 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+>      :param verbose: Echo outgoing QMP messages to console.
+>      """
+>      def __init__(self, address: qmp.SocketAddrT,
+> -                 pretty: bool =3D False, verbose: bool =3D False):
+> -        super().__init__(address)
+> +                 pretty: bool =3D False,
+> +                 verbose: bool =3D False,
+> +                 server: bool =3D False):
+> +        super().__init__(address, server=3Dserver)
+>          self._greeting: Optional[QMPMessage] =3D None
+>          self._completer =3D QMPCompleter()
+>          self._transmode =3D False
+> @@ -404,8 +407,10 @@ class HMPShell(QMPShell):
+>      :param verbose: Echo outgoing QMP messages to console.
+>      """
+>      def __init__(self, address: qmp.SocketAddrT,
+> -                 pretty: bool =3D False, verbose: bool =3D False):
+> -        super().__init__(address, pretty, verbose)
+> +                 pretty: bool =3D False,
+> +                 verbose: bool =3D False,
+> +                 server: bool =3D False):
+> +        super().__init__(address, pretty, verbose, server)
+>          self._cpu_index =3D 0
+>
+>      def _cmd_completion(self) -> None:
+> @@ -529,6 +534,54 @@ def main() -> None:
+>          for _ in qemu.repl():
+>              pass
+>
+> +def main_wrap() -> None:
+> +    """
+> +    qmp-shell-wrap entry point: parse command line arguments and start t=
+he REPL.
+> +    """
+> +    parser =3D argparse.ArgumentParser()
+> +    parser.add_argument('-H', '--hmp', action=3D'store_true',
+> +                        help=3D'Use HMP interface')
+> +    parser.add_argument('-v', '--verbose', action=3D'store_true',
+> +                        help=3D'Verbose (echo commands sent and received=
+)')
+> +    parser.add_argument('-p', '--pretty', action=3D'store_true',
+> +                        help=3D'Pretty-print JSON')
+> +
+> +    parser.add_argument('command', nargs=3Dargparse.REMAINDER,
+> +                        help=3D'QEMU command line to invoke')
+> +
+> +    args =3D parser.parse_args()
+> +
+> +    cmd =3D args.command
+> +    if len(cmd) !=3D 0 and cmd[0] =3D=3D '--':
+> +        cmd =3D cmd[1:]
+> +    if len(cmd) =3D=3D 0:
+> +        cmd =3D "qemu-system-x86_64"
+> +
+> +    sockpath =3D "qmp-shell-wrap-%d" % os.getpid()
+> +    cmd +=3D ["-qmp", "unix:%s" % sockpath]
+> +
+> +    shell_class =3D HMPShell if args.hmp else QMPShell
+> +
+> +    try:
+> +        address =3D shell_class.parse_address(sockpath)
+> +    except qmp.QMPBadPortError:
+> +        parser.error(f"Bad port number: {socketpath}")
+> +        return  # pycharm doesn't know error() is noreturn
+> +
+> +    with shell_class(address, args.pretty, args.verbose, True) as qemu:
+> +        qemuproc =3D Popen(cmd)
+> +
+> +        try:
+> +            qemu.accept()
+> +        except qmp.QMPConnectError:
+> +            die("Didn't get QMP greeting message")
+> +        except qmp.QMPCapabilitiesError:
+> +            die("Couldn't negotiate capabilities")
+> +        except OSError as err:
+> +            die(f"Couldn't connect to {sockpath}: {err!s}")
+> +
+> +        for _ in qemu.repl():
+> +            pass
+>
+>  if __name__ =3D=3D '__main__':
+>      main()
+> diff --git a/scripts/qmp/qmp-shell-wrap b/scripts/qmp/qmp-shell-wrap
+> new file mode 100755
+> index 0000000000..9e94da114f
+> --- /dev/null
+> +++ b/scripts/qmp/qmp-shell-wrap
+> @@ -0,0 +1,11 @@
+> +#!/usr/bin/env python3
+> +
+> +import os
+> +import sys
+> +
+> +sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'pyt=
+hon'))
+> +from qemu.qmp import qmp_shell
+> +
+> +
+> +if __name__ =3D=3D '__main__':
+> +    qmp_shell.main_wrap()
+> --
+> 2.33.1
+>
 
-Well, today I learned that:
+Adds some new failures to the python linters; try "make check-dev" in
+the python sub-dir.
 
-(1) vm-build-XXX targets use your host system's QEMU to run that VM
-(2) my QMP library cannot talk to QEMU 2.11.
+... Though, due to a bug in avocado, this helpfully doesn't actually
+show you the failure output right now ...
 
-That doesn't explain the intermittent netbsd failure yet, though.
-(I guess this wasn't a failure point for you due to the aggressive
-caching of the VM images? Unlucky.)
+making this little edit should fix that, sorry for the inconvenience here.
 
-Here's another hotfix, this one I cannot easily test quickly (I don't
-have 2.11 handy and it no longer builds for me),
-but I think it'll fix the VM installation problem against older QEMU versions:
-
-diff --git a/python/qemu/aqmp/qmp_client.py b/python/qemu/aqmp/qmp_client.py
-index 8105e29fa8..6b43e1dbbe 100644
---- a/python/qemu/aqmp/qmp_client.py
-+++ b/python/qemu/aqmp/qmp_client.py
-@@ -292,9 +292,9 @@ async def _negotiate(self) -> None:
-         """
-         self.logger.debug("Negotiating capabilities ...")
-
--        arguments: Dict[str, List[str]] = {'enable': []}
-+        arguments: Dict[str, List[str]] = {}
-         if self._greeting and 'oob' in self._greeting.QMP.capabilities:
--            arguments['enable'].append('oob')
-+            arguments.setdefault('enable', []).append('oob')
-         msg = self.make_execute_msg('qmp_capabilities', arguments=arguments)
-
-         # It's not safe to use execute() here, because the reader/writers
+diff --git a/python/avocado.cfg b/python/avocado.cfg
+index c7722e7ecd..a460420059 100644
+--- a/python/avocado.cfg
++++ b/python/avocado.cfg
+@@ -1,5 +1,5 @@
+ [run]
+-test_runner =3D runner
++test_runner =3D nrunner
 
 
