@@ -2,56 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 166644900C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 05:17:02 +0100 (CET)
-Received: from localhost ([::1]:48678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D13E44900A4
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 04:54:31 +0100 (CET)
+Received: from localhost ([::1]:41944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9JS1-0000cl-2w
-	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 23:17:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47068)
+	id 1n9J6E-0003IB-FF
+	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 22:54:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1n9JMo-0006Gb-0G
- for qemu-devel@nongnu.org; Sun, 16 Jan 2022 23:11:38 -0500
-Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=49179
- helo=gandalf.ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1n9JMl-0003CM-51
- for qemu-devel@nongnu.org; Sun, 16 Jan 2022 23:11:37 -0500
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4Jcdkj29WKz4y4p; Mon, 17 Jan 2022 15:11:25 +1100 (AEDT)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1n9J5P-0002VJ-Fn
+ for qemu-devel@nongnu.org; Sun, 16 Jan 2022 22:53:39 -0500
+Received: from [2607:f8b0:4864:20::92d] (port=34352
+ helo=mail-ua1-x92d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1n9J5N-0008C8-HM
+ for qemu-devel@nongnu.org; Sun, 16 Jan 2022 22:53:39 -0500
+Received: by mail-ua1-x92d.google.com with SMTP id y4so28199127uad.1
+ for <qemu-devel@nongnu.org>; Sun, 16 Jan 2022 19:53:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1642392685;
- bh=MvciGaojKnVxvNYtKv68ZXr9FJqofOhluZxX10xonAM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=S6olyj04OK33wfkI+Gzl7zE+ODT9I1z0GGt+NUja33uWfQUi1LDsAm4NK6T9BJcX1
- FgNs5wuUPSLvQWAv9uu+4IJ7Yl5ZO7VPCrtRQNAwAc7aE0lBDBBOExgkKSescX50Ow
- oPWwm0Lb2GVtI58SPwvTM3Y6ifFhpNCOnX2foFvA=
-Date: Mon, 17 Jan 2022 12:16:54 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Bernhard Beschow <shentey@gmail.com>
-Subject: Re: [PATCH] softmmu: Provide a clue as to why device tree loading
- failed
-Message-ID: <YeTDhrIB/g0i41Bq@yekko.fritz.box>
-References: <20220116114649.40859-1-shentey@gmail.com>
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aI5qPQHeO1yScTcW1xawd8VmCAVRPgIeBcw1QLBSuHY=;
+ b=cNx+hSuO/mwxeYDugBwMx8WVy1Gp095E+wGBTUSaFXK2uZf2tDqcnuSgWOinEqYWsA
+ nIXUxjonsNk67dDghHKF/PRpblkQltBv1gWTCiAksAdJ0OaNngwfNvUj85616ZlYblSM
+ /fk4LHnE1+IpKErYE4SFwJNZ0W8WmdMKoDY7VV4s1fzVPiXZ3+56BGTYkvpp2Ft1WDdY
+ pUSiDKmPTEnj/cmOiBB7K0btXMpcj2q5xkmhz8JOYthiieMaoX9pk7nnrEYoCGv4CUxr
+ OOml2CDEdmlQylWEWasLTq2f5WpBfx22O94xFioECVf7kYbAAUg/pyQ25VYQf5fGtP/i
+ pT6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aI5qPQHeO1yScTcW1xawd8VmCAVRPgIeBcw1QLBSuHY=;
+ b=pWm+qL5LKA83Ej5ZG/jd7OvVMkBkn3RVofKDjN5ZZDHtyNi1gVFIm1e9sLLeIoo7Bz
+ tx7Q5PVB/sFH5a7Arhj0YXlYOOTsLEivovYs39jw/Sx6JPwgzwCPk7fG9TsKejvyTm0E
+ ReOsyJ20T20VC5UjwTc82K8nisHLS3UV1YlzsW3Q1W9F84uAyoQF1nrKcQGXMlL4Ywip
+ y3HO7K0o7cnYC0Pwbv0FRLBu+ZD4TUfd/mSEU2QQTlGHnBZGT0tJV3g3S2hfTjxDXNpC
+ OzLC/b+0Z5WNNguKYyhXfXPpqnaD1VmymwJGkRuxc8rBodvvNGJoFbRDQj79s3rcB8aB
+ byiQ==
+X-Gm-Message-State: AOAM532g+PJ9J+V8cdQ5jVa4MBYCQy0dMAgBYAia2DaUWohHJcTMpmnh
+ b9X2tzhalFGd1Uwo4i86+mHhquhPgRHU4o0ckE3BJg==
+X-Google-Smtp-Source: ABdhPJzkJ/wsvn6EtZ8Gk4L4NwOHyc3c+UH9EZ3Cj/Ow2qo9fnP9GZYUCmFeSUjRFfNrCR0b75WpWN2p3FhpXFjKn8Y=
+X-Received: by 2002:a67:edc5:: with SMTP id e5mr7159642vsp.6.1642391615869;
+ Sun, 16 Jan 2022 19:53:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wpmJLnrc3R1EpmVm"
-Content-Disposition: inline
-In-Reply-To: <20220116114649.40859-1-shentey@gmail.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for
- 2404:9400:2:0:216:3eff:fee2:21ea (failed)
-Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -9
-X-Spam_score: -1.0
+References: <20220109161923.85683-1-imp@bsdimp.com>
+ <20220109161923.85683-12-imp@bsdimp.com>
+ <CAFEAcA9jUpf9r566_1Rb6FrMjyQA-B9f0dTrEoQXuTBXhoPyAA@mail.gmail.com>
+In-Reply-To: <CAFEAcA9jUpf9r566_1Rb6FrMjyQA-B9f0dTrEoQXuTBXhoPyAA@mail.gmail.com>
+From: Warner Losh <imp@bsdimp.com>
+Date: Sun, 16 Jan 2022 20:53:32 -0700
+Message-ID: <CANCZdfqPy6JKA4qmX=shPDqdFJZLAZxkMT7E_F5tdoTXa9zupw@mail.gmail.com>
+Subject: Re: [PATCH 11/30] bsd-user/host/arm/host-signal.h: Implement
+ host_signal_*
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000d8a6f605d5bf1898"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92d
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::92d;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92d.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,80 +81,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- qemu-devel@nongnu.org
+Cc: Kyle Evans <kevans@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000d8a6f605d5bf1898
+Content-Type: text/plain; charset="UTF-8"
 
---wpmJLnrc3R1EpmVm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Thu, Jan 13, 2022 at 12:32 PM Peter Maydell <peter.maydell@linaro.org>
+wrote:
+
+> On Sun, 9 Jan 2022 at 16:33, Warner Losh <imp@bsdimp.com> wrote:
+> >
+> > Implement host_signal_pc, host_signal_set_pc and host_signal_write for
+> > arm.
+> >
+> > Signed-off-by: Kyle Evans <kevans@freebsd.org>
+> > Signed-off-by: Warner Losh <imp@bsdimp.com>
+>
+> > +static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+> > +{
+> > +    /*
+> > +     * In the FSR, bit 11 is WnR. FreeBSD returns this as part of the
+> > +     * si_info.si_trapno which we don't have access to here.  We assume
+> that uc
+> > +     * is part of a trapframe and reach around to get to the si_info
+> that's in
+> > +     * the sigframe just before it, though this may be unwise.
+> > +     */
+>
+> Yeah, that's pretty nasty. But this function is passed a
+> siginfo_t pointer -- isn't that the one you need ?
+>
+
+Doh! I feel stupid now... You're right. This is a lot easier than I
+thought. I'll fix that.
+
+Warner
+
+
+> > +    siginfo_t *si;
+> > +    si = &((siginfo_t *)uc)[-1];
+> > +    uint32_t fsr = si->si_trapno;
+> > +
+> > +    return extract32(fsr, 11, 1);
+> > +}
+>
+> thanks
+> -- PMM
+>
+
+--000000000000d8a6f605d5bf1898
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jan 16, 2022 at 12:46:49PM +0100, Bernhard Beschow wrote:
-> fdt_open_into() obligingly returns an error code in case the operation
-> failed. So be obliging as well and use it in the error message.
->=20
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 13, 2022 at 12:32 PM Pete=
+r Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lin=
+aro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">On Sun, 9 Jan 2022 at 16:33, Warner Losh &lt;<a href=3D"mailto:imp@b=
+sdimp.com" target=3D"_blank">imp@bsdimp.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Implement host_signal_pc, host_signal_set_pc and host_signal_write for=
+<br>
+&gt; arm.<br>
+&gt;<br>
+&gt; Signed-off-by: Kyle Evans &lt;<a href=3D"mailto:kevans@freebsd.org" ta=
+rget=3D"_blank">kevans@freebsd.org</a>&gt;<br>
+&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
+t=3D"_blank">imp@bsdimp.com</a>&gt;<br>
+<br>
+&gt; +static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)=
+<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 /*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* In the FSR, bit 11 is WnR. FreeBSD returns this=
+ as part of the<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* si_info.si_trapno which we don&#39;t have acces=
+s to here.=C2=A0 We assume that uc<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* is part of a trapframe and reach around to get =
+to the si_info that&#39;s in<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* the sigframe just before it, though this may be=
+ unwise.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
+<br>
+Yeah, that&#39;s pretty nasty. But this function is passed a<br>
+siginfo_t pointer -- isn&#39;t that the one you need ?<br></blockquote><div=
+><br></div><div>Doh! I feel stupid now... You&#39;re right. This is a lot e=
+asier than I thought. I&#39;ll fix that.<br></div><div><br></div><div>Warne=
+r<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">
+&gt; +=C2=A0 =C2=A0 siginfo_t *si;<br>
+&gt; +=C2=A0 =C2=A0 si =3D &amp;((siginfo_t *)uc)[-1];<br>
+&gt; +=C2=A0 =C2=A0 uint32_t fsr =3D si-&gt;si_trapno;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 return extract32(fsr, 11, 1);<br>
+&gt; +}<br>
+<br>
+thanks<br>
+-- PMM<br>
+</blockquote></div></div>
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-
-> ---
->  softmmu/device_tree.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->=20
-> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-> index 3965c834ca..31d1066940 100644
-> --- a/softmmu/device_tree.c
-> +++ b/softmmu/device_tree.c
-> @@ -60,7 +60,8 @@ void *create_device_tree(int *sizep)
->      }
->      ret =3D fdt_open_into(fdt, fdt, *sizep);
->      if (ret) {
-> -        error_report("Unable to copy device tree in memory");
-> +        error_report("%s: Unable to copy device tree into memory: %s",
-> +                     __func__, fdt_strerror(ret));
->          exit(1);
->      }
-> =20
-> @@ -104,7 +105,8 @@ void *load_device_tree(const char *filename_path, int=
- *sizep)
-> =20
->      ret =3D fdt_open_into(fdt, fdt, dt_size);
->      if (ret) {
-> -        error_report("Unable to copy device tree in memory");
-> +        error_report("%s: Unable to copy device tree into memory: %s",
-> +                     __func__, fdt_strerror(ret));
->          goto fail;
->      }
-> =20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---wpmJLnrc3R1EpmVm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmHkw3sACgkQgypY4gEw
-YSKv8w/9GHJ0L0QXMxPqJ9C30bgTak2btdLqGFl5Og3gtUnRi7+9HWI5UeSHHJkt
-ZslxeKbcmRS2ypC9TOUVr66sRDpHI2d77H7We+kowNXkJER74Oq+c9QPBoajL+cY
-iIZF7vx7a1fnDcl6BRZBUqbrmD3voG92xI4O2AypVRP1jiUNdj52W4+Yw8+9yR0K
-sCDWhU0nE7Gy8wlUzfDyJYqBYVRCHXR1fwQdDDbzS73RFwQCbYLJibN+emOjGJF4
-MJCJ7wrIvRrgoIDPg900eN6lT1q5GmU5wW/M/4Ho1fpXwC43Z9/CgqMmqz52kYKg
-2XqnAjWd/yw1L5oCgVtvWr9W1HYqWhYA/Cr/AY6XGWfZ/YbeM428nhlalLWW6WXw
-wD7osMy/fhAbyqiSeGaFm6Z6WZBGPxaIgoAK70gdC2sXRipZNu5rVuhxNDuAPT3/
-CMIty/Sk3o0nFWaXGI1CUVsuVgDVVKeSaBPuahGMgfx47m8HHmZyxEM/4Wara/kt
-eV7f457fhNlJegosyJipcQiHMqtkTpCwdJCXUaXchwr7at3rn9FFbf+6P62xmRdN
-Hkl8UkWgW8QkxvRih5pKbmmD61Miu9upMuOgMNIhE+fv7w2eAaiOlSIotG+0RqZa
-Sfxj22cisnaObzOm8emBjUBC1Q1enU+n5RttZcPioflFqxZ5wgU=
-=Ew13
------END PGP SIGNATURE-----
-
---wpmJLnrc3R1EpmVm--
+--000000000000d8a6f605d5bf1898--
 
