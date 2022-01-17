@@ -2,91 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F264B49003A
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 03:33:02 +0100 (CET)
-Received: from localhost ([::1]:54640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72B78490061
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 03:55:04 +0100 (CET)
+Received: from localhost ([::1]:57950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9HpN-0004lJ-Ig
-	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 21:33:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60992)
+	id 1n9IAg-00084a-NZ
+	for lists+qemu-devel@lfdr.de; Sun, 16 Jan 2022 21:55:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n9Hnl-00040a-NG
- for qemu-devel@nongnu.org; Sun, 16 Jan 2022 21:31:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33127)
+ (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1n9I9n-0007OJ-A5
+ for qemu-devel@nongnu.org; Sun, 16 Jan 2022 21:54:07 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:37964)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n9Hni-00022o-NS
- for qemu-devel@nongnu.org; Sun, 16 Jan 2022 21:31:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642386677;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2exwr+9RvRCQJoQbGRpkWT0wNqjHxOQytG2XTXV60r4=;
- b=FA2tWz8chPuz6gu4Z+8Z8M1gwbvobpSMKA+wRht9/j6hMD/Xq2ON5FhqYl2ybG1FZk/vEZ
- AfZ0jM/BsgylJrMBPBjfaJoBGDRVK9wQnjT5s+GyFjkptDns0iYBxhcabo58QGZDuwRavD
- MlcDemK4XY1DIxS8LW90DP1G5itXh58=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-224-_pzv8MagN4G1QNjf8KqCmg-1; Sun, 16 Jan 2022 21:31:16 -0500
-X-MC-Unique: _pzv8MagN4G1QNjf8KqCmg-1
-Received: by mail-pl1-f198.google.com with SMTP id
- o9-20020a170902d4c900b0014ab4c82aacso213437plg.16
- for <qemu-devel@nongnu.org>; Sun, 16 Jan 2022 18:31:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=2exwr+9RvRCQJoQbGRpkWT0wNqjHxOQytG2XTXV60r4=;
- b=FfPYFwF6he5a0AwCzUGUj82Bo64FXP59ahubs9JUnK6hZ/QfUM+4YTnetYqjpOCSG8
- MLhRD6kmIZHpWeNaIB95SGOksoRi1LA9Yv42dbxib1CBN2QBziTHgKWh/sOGOhDQ3iAw
- AtH8j96lyMllktXKeoeD2e3HRBjpDULLMtqFpb0z9BD25jcQfrGRDIW3RZHVzXCocbNs
- /XCGy6RjsbXNu2qa6c2g/WF+hpmA9HEiYv7L9TiNWLw15ALsA0mGrYybvfQtxgayxZwy
- XS46wEgNqDq9lCgO5thz8vaGyxuuiwYNy862mxf5JpLJkND8Nt6mOfymRmuSPxrekS4p
- KBKg==
-X-Gm-Message-State: AOAM533uLYfKBwIs1NGxPMoZAuf9ui5tcy44VFIcE9vSawfXpEiVQxHZ
- mV8VLzzjQZlOKsW80NVVq/fZAn8bhzYgYOfUPB4EWEbM6cEu/AjW5vOuIRC9nlAgQ1GEt4N4iji
- QIXn9eJbxVIbANyg=
-X-Received: by 2002:a17:902:b189:b0:143:8079:3d3b with SMTP id
- s9-20020a170902b18900b0014380793d3bmr20475618plr.71.1642386675650; 
- Sun, 16 Jan 2022 18:31:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwH3b089234kA2Nm0uoKGQPj0PhA+1VRGvZYHpcoRYfZiIhHAxhfrfrYGS2ZKQP9gxL0UXRkA==
-X-Received: by 2002:a17:902:b189:b0:143:8079:3d3b with SMTP id
- s9-20020a170902b18900b0014380793d3bmr20475592plr.71.1642386675421; 
- Sun, 16 Jan 2022 18:31:15 -0800 (PST)
-Received: from xz-m1.local ([191.101.132.59])
- by smtp.gmail.com with ESMTPSA id i11sm10031187pgt.68.2022.01.16.18.31.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Jan 2022 18:31:14 -0800 (PST)
-Date: Mon, 17 Jan 2022 10:31:07 +0800
-From: Peter Xu <peterx@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v11 2/4] softmmu/dirtylimit: implement vCPU dirtyrate
- calculation periodically
-Message-ID: <YeTU6z+2lokZsY5m@xz-m1.local>
-References: <cover.1641316375.git.huangy81@chinatelecom.cn>
- <3f7e224b0f367ec64a21929d110b18ded2ff6d22.1641316375.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1n9I9k-0006Ag-R4
+ for qemu-devel@nongnu.org; Sun, 16 Jan 2022 21:54:06 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 3D3DFB80CBC;
+ Mon, 17 Jan 2022 02:54:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A129C36AE9;
+ Mon, 17 Jan 2022 02:53:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1642388040;
+ bh=KFx+a5BYMMi2f+IK88CebpOMSE3REIsFxRXjxNpUz28=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PumacI+zRxX+OE6k7LMEN9GskZl0C0usGSqq37e2YuyJ/y2E8me2ELRdcTc04+1wT
+ NEY3tG8HdlVMwi/OQBVqT5Ne4THGTooboRw/HGq6u8Y6tQIqOjxdMcs8DpGwNNvrGd
+ ctY3K6Vt0J+iRXrYw8LfL/7XdQKmgogLnjy5MjVsCLmP/VPevwho3ggwhSvgBJzJL6
+ 4cvioOOzaRP6bG5JtpJFmQ2SBFX2GN+u1fV5ikyAiJKI60gxHsjEWd5C61cV99KMcE
+ ZmeNzOZCAW3DT4DgRPYiA3iDQJ8sDZyqI2LlNNlR0n7N+pHr6v4LGxvh5rYC9dgzoO
+ yfCosbmn4VuRQ==
+Date: Mon, 17 Jan 2022 04:53:45 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Yang Zhong <yang.zhong@intel.com>
+Subject: Re: unable to execute QEMU command 'qom-get': Property
+ 'sgx-epc.unavailable-features' not found
+Message-ID: <YeTaOVpWeGLa2xzb@iki.fi>
+References: <20211125124722.GA25401@yangzhon-Virtual>
+ <20211130121536.GA32686@yangzhon-Virtual>
 MIME-Version: 1.0
-In-Reply-To: <3f7e224b0f367ec64a21929d110b18ded2ff6d22.1641316375.git.huangy81@chinatelecom.cn>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+In-Reply-To: <20211130121536.GA32686@yangzhon-Virtual>
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=jarkko@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -77
+X-Spam_score: -7.8
+X-Spam_bar: -------
+X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,34 +67,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: pbonzini@redhat.com, eblake@redhat.com, qemu-devel@nongnu.org,
+ linux-sgx@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 05, 2022 at 01:14:07AM +0800, huangy81@chinatelecom.cn wrote:
-> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+On Tue, Nov 30, 2021 at 08:15:36PM +0800, Yang Zhong wrote:
+> On Thu, Nov 25, 2021 at 08:47:22PM +0800, Yang Zhong wrote:
+> > Hello Paolo,
+> > 
+> > Our customer used the Libvirt XML to start a SGX VM, but failed.
+> > 
+> > libvirt.libvirtError: internal error: unable to execute QEMU command 'qom-get': Property 'sgx-epc.unavailable-features' not found
+> > 
+> > The XML file,
+> > <qemu:commandline>
+> >     <qemu:arg value="-cpu"/>
+> >     <qemu:arg value="host,+sgx,+sgx-debug,+sgx-exinfo,+sgx-kss,+sgx-mode64,+sgx-provisionkey,+sgx-tokenkey,+sgx1,+sgx2,+sgxlc"/>
+> >     <qemu:arg value="-object"/>
+> >     <qemu:arg value="memory-backend-epc,id=mem1,size=16M,prealloc=on"/>
+> >     <qemu:arg value="-M"/>
+> >     <qemu:arg value="sgx-epc.0.memdev=mem1"/>
+> >   </qemu:commandline>
+> > 
+> > The new compound property command should be located in /machine path,
+> > which are different with old command '-sgx-epc id=epc1,memdev=mem1'.
+> > 
+> > I also tried this from Qemu monitor tool, 
+> > (qemu) qom-list /machine
+> > type (string)
+> > kernel (string)
+> > ......
+> > sgx-epc (SgxEPC)
+> > ......
+> > sgx-epc[0] (child<memory-region>)
+> > ......
+> > 
+> > We can find sgx-epc from /machine list.
+> > 
 > 
-> Introduce the third method GLOBAL_DIRTY_LIMIT of dirty
-> tracking for calculate dirtyrate periodly for dirty page
-> rate limit.
+>   This issue is clear now, which is caused by Libvirt to get the CPU's unavailable-features by below command:
+>   {"execute":"qom-get","arguments":{"path":"/machine/unattached/device[0]","property":"unavailable-features"}
 > 
-> Add dirtylimit.c to implement dirtyrate calculation periodly,
-> which will be used for dirty page rate limit.
+>   but in SGX vm, since the sgx is initialized before VCPU because sgx need set the virtual EPC info in the cpuid.  
 > 
-> Add dirtylimit.h to export util functions for dirty page rate
-> limit implementation.
+>   So the /machine/unattached/device[0] is occupied by sgx, which fail to get the unvailable-features from
+>   /machine/unattached/device[0].
 > 
-> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+> 
+>   We need fix this issue, but this can be done in Qemu or Libvirt side.
+> 
+>   1) Libvirt side
+>      If the libvirt support SGX EPCs, libvirt can use /machine/unattached/device[n] to check "unavailable-features".
+>      n is the next number of sgx's unattached_count.
+> 
+>   2) Qemu side
+>     
+>      One temp patch to create one /sgx in the /machine in the device_set_realized() 
+> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+> index 84f3019440..4154eef0d8 100644
+> --- a/hw/core/qdev.c
+> +++ b/hw/core/qdev.c
+> @@ -497,7 +497,7 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
+>      NamedClockList *ncl;
+>      Error *local_err = NULL;
+>      bool unattached_parent = false;
+> -    static int unattached_count;
+> +    static int unattached_count, sgx_count;
+> 
+>      if (dev->hotplugged && !dc->hotpluggable) {
+>          error_setg(errp, QERR_DEVICE_NO_HOTPLUG, object_get_typename(obj));
+> @@ -509,7 +509,15 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
+>              goto fail;
+>          }
+> 
+> -        if (!obj->parent) {
+> +        if (!obj->parent && !strcmp(object_get_typename(obj), "sgx-epc")) {
+> +            gchar *name = g_strdup_printf("device[%d]", sgx_count++);
+> +
+> +            object_property_add_child(container_get(qdev_get_machine(),
+> +                                                    "/sgx"),
+> +                                      name, obj);
+> +            unattached_parent = true;
+> +            g_free(name);
+> +        } else if (!obj->parent) {
+>              gchar *name = g_strdup_printf("device[%d]", unattached_count++);
+> 
+>              object_property_add_child(container_get(qdev_get_machine()
+>    
+>     This patch can make sure vcpu is still /machine/unattached/device[0].
+> 
+> 
+>     Which solution is best?  thanks!
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Has either of the fixes reached yet reached upstream or not?
 
--- 
-Peter Xu
+>     Yang
 
+BR, Jarkko
 
