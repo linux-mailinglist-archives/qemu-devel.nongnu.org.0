@@ -2,65 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52C064911F6
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 23:52:34 +0100 (CET)
-Received: from localhost ([::1]:57500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2281C4911FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 23:56:36 +0100 (CET)
+Received: from localhost ([::1]:34722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9arY-0001SR-Uf
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 17:52:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54690)
+	id 1n9avT-0005X8-7h
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 17:56:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n9anX-0000eX-WE
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 17:48:24 -0500
-Received: from [2607:f8b0:4864:20::d32] (port=35433
- helo=mail-io1-xd32.google.com)
+ id 1n9anz-0000rF-CY; Mon, 17 Jan 2022 17:48:52 -0500
+Received: from [2607:f8b0:4864:20::d33] (port=44761
+ helo=mail-io1-xd33.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n9anV-0000MP-A9
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 17:48:23 -0500
-Received: by mail-io1-xd32.google.com with SMTP id p7so23412136iod.2
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 14:48:20 -0800 (PST)
+ id 1n9anv-0000Ok-T8; Mon, 17 Jan 2022 17:48:50 -0500
+Received: by mail-io1-xd33.google.com with SMTP id h23so23226121iol.11;
+ Mon, 17 Jan 2022 14:48:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Mn58rj0ZliGxXdjzC3bpj2ZdbEk9ZadbWstsQH6mJsg=;
- b=U28wGIL2w8eLG1NV1o1oDWojKZ9nUIk8O0Bg13u/tS6ucqtzHkcQX2CItYP5QZbRoO
- 9SACSqRwaBM001/qAIQQs363HhzXwhgCQhj1Ha+FEt3LEXBMX74mS5KLLQwqJOU0OrQo
- rlxoXm0PuocfWUiMswc14GkH0WDyGoNKkoj0d3b9Ti63uDR4mLMETn9gJY4gyovB4cEH
- sZlvFIRFwWfwUnVDD5adv1DyZ6X5adOxwraFv2RRNNt62MpaPxIfFXjNsU6HkiR8lMCI
- PynYCo4lmKSoh8/vIv2uJRSyXg6C3xn6rT882ZXan4dhXTACO7POBWIapRcyL+hRQF6M
- cvmQ==
+ :cc; bh=EcdR1AHcB+Wsmc2souX2vZeAdLHZkB3gZF3osCxqYcs=;
+ b=lu0Wi+UTzC5aYVhJJLA0lbY0BZ4Zfs2O+b0fg8S/BSVONr/a0fm/HYCCTyP4ly/8c9
+ QIa5mG8aTnHQ4rMVpmfEZZ9PCwYarAnpGEqOAHEcI9kUsR18AMGa8yBP+T+9xsFF2wLV
+ VhxZqx9UxjcC5HA8ISnTKv1zUSyRDKyW/ca8kpXi+Z5aBLRzrX1/MMgKEjfW8geMnYaB
+ ROTiwQ3l7oq+dHNcORh6HGJ8VrEqaITVLqFZ1uHi2PRoDIHMNgue3i3kDLrkjH/h22A/
+ uGPRsVXh6aGuS25lWJU9a983u8FTz9qi4gjz+QvwIxw5Px3jUK8cAWTyym4vi4mCoThQ
+ 7glw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Mn58rj0ZliGxXdjzC3bpj2ZdbEk9ZadbWstsQH6mJsg=;
- b=QpnzAU/7XoSoj/ql1lGBN73nwntTAp4PpbVwFKtFcfi9gt4swj3l3J4F8Yv2VvhTBX
- 4UfW1GLEBRUZf099Io47DximB4mVLaei7FsYkLmaNTAlJSz3HXa9vaI6WCCYnMRTNH16
- 6KJldgrWs9KBk7SEoU/UloLebF4I1Eb+vjZ7bItc3+tXAA6G9J+g95e3VvaTa0W10dbl
- rLQnytjQMFiOXRuOajZM6adlUhmOMIZClav2Lg1dZhhjDkOWqa4Hp/tPxISVMJkPAdwZ
- FYK36JburJ0+HK+rV5xB7/K6mzHtHxioo9GLVNLARPBln34pxelDxKm3yxcd+rf3BtRz
- x1rA==
-X-Gm-Message-State: AOAM5310PLIXJ7zif7ZR0cXGmAz6rKUOCIwGNK+I7ID7sIPSeHrvPFAB
- wBxb7J2Resd5BNXKEivCCcOEgOSLdAtm2xN4wq4=
-X-Google-Smtp-Source: ABdhPJya2hTLG6XI6qWy9kL7gQpkP3z0jPD/0XFzYgDjMAgp2O4z/POqIuIUYRTYY6amZqe/qnoU34PW9TCHCjV5GvU=
-X-Received: by 2002:a05:6602:14cd:: with SMTP id
- b13mr5633844iow.57.1642459700268; 
- Mon, 17 Jan 2022 14:48:20 -0800 (PST)
+ bh=EcdR1AHcB+Wsmc2souX2vZeAdLHZkB3gZF3osCxqYcs=;
+ b=kcznE43lyJ0B3t3b0CVWYq8uKp6scfE9Mu1qAdrPoRXtPSt8+FXXhVYB/YJ2pd3bSR
+ 3YXxLHqkLNOjaSzwPpU1cglLTDMMR25w3Z9EV4Yl9AhGOJzs5SdP3ztI4gAPyNeA1X0g
+ R2e5jNAEIXoVHePONBkQzROJ1/vvvr03BaARd7DkbNxwXQfnLS5oWUMnd3Wag1lZYLzw
+ 0JIjcB8FseybgohwVWUVlyuPEWjO+V3uuO8ZV938A5xQtr3T8k3CnqBx4W6VwtYLBNMY
+ u3iyqeWIh32QjV3JJiodH9s3s9T85XrDAinGG9a/lqajpb3ckg6qTqrbm886qQzliMOF
+ KXMg==
+X-Gm-Message-State: AOAM531Dbj34rUJ8xWYhdnW4zWFmSHkpE4Qj6rdykRYS3HQTtKF8I4Bk
+ T279At170WxRm27VC60nKIXBb/bh0FsaupVNVbs=
+X-Google-Smtp-Source: ABdhPJz38DW7GPkHoX8/vQGy11Al3GVlytUW2dHFKjEqs0D8Im24gf8PJltjVx+bcRDF4+K09VTRXl2CC36hKeKmF5M=
+X-Received: by 2002:a5e:8912:: with SMTP id k18mr9651868ioj.90.1642459726388; 
+ Mon, 17 Jan 2022 14:48:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20220111032758.27804-1-wangyanan55@huawei.com>
-In-Reply-To: <20220111032758.27804-1-wangyanan55@huawei.com>
+References: <20220112081329.1835-1-jiangyifei@huawei.com>
+In-Reply-To: <20220112081329.1835-1-jiangyifei@huawei.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 18 Jan 2022 08:47:54 +1000
-Message-ID: <CAKmqyKPFU+JWfrdANmWWAKjTL=eDXmuG8xh=8exnQxm0BLYBAQ@mail.gmail.com>
-Subject: Re: [PATCH] softmmu/device_tree: Remove redundant pointer assignment
-To: Yanan Wang <wangyanan55@huawei.com>
+Date: Tue, 18 Jan 2022 08:48:19 +1000
+Message-ID: <CAKmqyKOEB279xvYAjEgwyAsbz=NtsqnhX6oE=W5Lik4Yp+X_Mw@mail.gmail.com>
+Subject: Re: [PATCH v5 00/13] Add riscv kvm accel support
+To: Yifei Jiang <jiangyifei@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d32
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d33
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -81,23 +78,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, Thomas Huth <thuth@redhat.com>,
- wanghaibin.wang@huawei.com, David Gibson <david@gibson.dropbear.id.au>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "open list:Overall" <kvm@vger.kernel.org>, libvir-list@redhat.com,
+ Anup Patel <anup@brainfault.org>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, wanbo13@huawei.com,
+ Palmer Dabbelt <palmer@dabbelt.com>, kvm-riscv@lists.infradead.org,
+ wanghaibin.wang@huawei.com, Alistair Francis <Alistair.Francis@wdc.com>,
+ fanliang@huawei.com, "Wubin \(H\)" <wu.wubin@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 11, 2022 at 1:28 PM Yanan Wang via <qemu-devel@nongnu.org> wrote:
+On Wed, Jan 12, 2022 at 6:20 PM Yifei Jiang via <qemu-devel@nongnu.org> wrote:
 >
-> The pointer assignment "const char *p = path;" in function
-> qemu_fdt_add_path is unnecessary. Let's remove it and just
-> use the "path" passed in. No functional change.
+> This series adds both riscv32 and riscv64 kvm support, and implements
+> migration based on riscv.
 >
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> Because of RISC-V KVM has been merged into the Linux master, so this
+> series are changed from RFC to patch.
+>
+> Several steps to use this:
+> 1. Build emulation
+> $ ./configure --target-list=riscv64-softmmu
+> $ make -j$(nproc)
+>
+> 2. Build kernel
+>
+> 3. Build QEMU VM
+> Cross built in riscv toolchain.
+> $ PKG_CONFIG_LIBDIR=<toolchain pkgconfig path>
+> $ export PKG_CONFIG_SYSROOT_DIR=<toolchain sysroot path>
+> $ ./configure --target-list=riscv64-softmmu --enable-kvm \
+> --cross-prefix=riscv64-linux-gnu- --disable-libiscsi --disable-glusterfs \
+> --disable-libusb --disable-usb-redir --audio-drv-list= --disable-opengl \
+> --disable-libxml2
+> $ make -j$(nproc)
+>
+> 4. Start emulation
+> $ ./qemu-system-riscv64 -M virt -m 4096M -cpu rv64 -nographic \
+>         -name guest=riscv-hyp,debug-threads=on \
+>         -smp 4 \
+>         -bios ./fw_jump.bin \
+>         -kernel ./Image \
+>         -drive file=./hyp.img,format=raw,id=hd0 \
+>         -device virtio-blk-device,drive=hd0 \
+>         -append "root=/dev/vda rw console=ttyS0 earlycon=sbi"
+>
+> 5. Start kvm-acceled QEMU VM in emulation
+> $ ./qemu-system-riscv64 -M virt,accel=kvm -m 1024M -cpu host -nographic \
+>         -name guest=riscv-guset \
+>         -smp 2 \
+>         -bios none \
+>         -kernel ./Image \
+>         -drive file=./guest.img,format=raw,id=hd0 \
+>         -device virtio-blk-device,drive=hd0 \
+>         -append "root=/dev/vda rw console=ttyS0 earlycon=sbi"
+>
+> Changes since patch v4
+> - Commit enable kvm accel as an independent patch.
+> - Bugfix some checkpatch errors.
+> - Bugfix lost a interrupt in the sifive_u machine.
+>
+> Changes since patch v3
+> - Re-write the for-loop in sifive_plic_create().
+> - Drop unnecessary change in hw/riscv/virt.c.
+> - Use serial to handle console sbi call.
+>
+> Changes since patch v2
+> - Create a macro for get and put timer csr.
+> - Remove M-mode PLIC contexts when kvm is enabled.
+> - Add get timer frequency.
+> - Move cpu_host_load to vmstate_kvmtimer.
+>
+> Changes since patch v1
+> - Rebase on recent commit a216e7cf119c91ffdf5931834a1a030ebea40d70
+> - Sync-up headers with Linux-5.16-rc4.
+> - Fixbug in kvm_arch_init_vcpu.
+> - Create a macro for get and put regs csr.
+> - Start kernel directly when kvm_enabled.
+> - Use riscv_cpu_set_irq to inject KVM interrupts.
+> - Use the Semihosting Console API for RISC-V kvm handle sbi.
+> - Update vmstate_riscv_cpu version id.
+>   Placing kvm_timer into a subsection.
+>
+> Changes since RFC v6
+> - Rebase on recent commit 8627edfb3f1fca24a96a0954148885c3241c10f8
+> - Sync-up headers with Linux-5.16-rc1
+>
+> Changes since RFC v5
+> - Rebase on QEMU v6.1.0-rc1 and kvm-riscv linux v19.
+> - Move kvm interrupt setting to riscv_cpu_update_mip().
+> - Replace __u64 with uint64_t.
+>
+> Changes since RFC v4
+> - Rebase on QEMU v6.0.0-rc2 and kvm-riscv linux v17.
+> - Remove time scaling support as software solution is incomplete.
+>   Because it will cause unacceptable performance degradation. and
+>   We will post a better solution.
+> - Revise according to Alistair's review comments.
+>   - Remove compile time XLEN checks in kvm_riscv_reg_id
+>   - Surround TYPE_RISCV_CPU_HOST definition by CONFIG_KVM and share
+>     it between RV32 and RV64.
+>   - Add kvm-stub.c for reduce unnecessary compilation checks.
+>   - Add riscv_setup_direct_kernel() to direct boot kernel for KVM.
+>
+> Changes since RFC v3
+> - Rebase on QEMU v5.2.0-rc2 and kvm-riscv linux v15.
+> - Add time scaling support(New patches 13, 14 and 15).
+> - Fix the bug that guest vm can't reboot.
+>
+> Changes since RFC v2
+> - Fix checkpatch error at target/riscv/sbi_ecall_interface.h.
+> - Add riscv migration support.
+>
+> Changes since RFC v1
+> - Add separate SBI ecall interface header.
+> - Add riscv32 kvm accel support.
+>
+> Yifei Jiang (13):
+>   update-linux-headers: Add asm-riscv/kvm.h
+>   target/riscv: Add target/riscv/kvm.c to place the public kvm interface
+>   target/riscv: Implement function kvm_arch_init_vcpu
+>   target/riscv: Implement kvm_arch_get_registers
+>   target/riscv: Implement kvm_arch_put_registers
+>   target/riscv: Support start kernel directly by KVM
+>   target/riscv: Support setting external interrupt by KVM
+>   target/riscv: Handle KVM_EXIT_RISCV_SBI exit
+>   target/riscv: Add host cpu type
+>   target/riscv: Add kvm_riscv_get/put_regs_timer
+>   target/riscv: Implement virtual time adjusting with vm state changing
+>   target/riscv: Support virtual time context synchronization
+>   target/riscv: enable riscv kvm accel
 
 Thanks!
 
@@ -105,49 +215,30 @@ Applied to riscv-to-apply.next
 
 Alistair
 
-> ---
-> Based on: softmmu/device_tree: Silence compiler warning with --enable-sanitizers
-> https://patchew.org/QEMU/20220107133844.145039-1-thuth@redhat.com/
-> ---
->  softmmu/device_tree.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
 >
-> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-> index 9e96f5ecd5..8897c79ea4 100644
-> --- a/softmmu/device_tree.c
-> +++ b/softmmu/device_tree.c
-> @@ -556,7 +556,6 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
->  int qemu_fdt_add_path(void *fdt, const char *path)
->  {
->      const char *name;
-> -    const char *p = path;
->      int namelen, retval;
->      int parent = 0;
+>  hw/intc/sifive_plic.c              |  20 +-
+>  hw/riscv/boot.c                    |  16 +-
+>  hw/riscv/virt.c                    |  83 +++--
+>  include/hw/riscv/boot.h            |   1 +
+>  linux-headers/asm-riscv/kvm.h      | 128 +++++++
+>  meson.build                        |   2 +
+>  target/riscv/cpu.c                 |  29 +-
+>  target/riscv/cpu.h                 |  11 +
+>  target/riscv/kvm-stub.c            |  30 ++
+>  target/riscv/kvm.c                 | 535 +++++++++++++++++++++++++++++
+>  target/riscv/kvm_riscv.h           |  25 ++
+>  target/riscv/machine.c             |  30 ++
+>  target/riscv/meson.build           |   1 +
+>  target/riscv/sbi_ecall_interface.h |  72 ++++
+>  14 files changed, 951 insertions(+), 32 deletions(-)
+>  create mode 100644 linux-headers/asm-riscv/kvm.h
+>  create mode 100644 target/riscv/kvm-stub.c
+>  create mode 100644 target/riscv/kvm.c
+>  create mode 100644 target/riscv/kvm_riscv.h
+>  create mode 100644 target/riscv/sbi_ecall_interface.h
 >
-> @@ -565,9 +564,9 @@ int qemu_fdt_add_path(void *fdt, const char *path)
->      }
->
->      do {
-> -        name = p + 1;
-> -        p = strchr(name, '/');
-> -        namelen = p != NULL ? p - name : strlen(name);
-> +        name = path + 1;
-> +        path = strchr(name, '/');
-> +        namelen = path != NULL ? path - name : strlen(name);
->
->          retval = fdt_subnode_offset_namelen(fdt, parent, name, namelen);
->          if (retval < 0 && retval != -FDT_ERR_NOTFOUND) {
-> @@ -584,7 +583,7 @@ int qemu_fdt_add_path(void *fdt, const char *path)
->          }
->
->          parent = retval;
-> -    } while (p);
-> +    } while (path);
->
->      return retval;
->  }
 > --
-> 2.27.0
+> 2.19.1
 >
 >
 
