@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4CAD490B34
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 16:11:53 +0100 (CET)
-Received: from localhost ([::1]:60754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE42490B48
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 16:19:50 +0100 (CET)
+Received: from localhost ([::1]:40932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9Tfk-0002EP-ES
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 10:11:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35346)
+	id 1n9TnR-0008Ji-Jc
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 10:19:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1n9TT8-0005Xw-KN; Mon, 17 Jan 2022 09:58:50 -0500
-Received: from [2a00:1450:4864:20::32a] (port=39652
- helo=mail-wm1-x32a.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n9TTY-00068j-If
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:59:16 -0500
+Received: from [2a00:1450:4864:20::332] (port=54790
+ helo=mail-wm1-x332.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1n9TT3-0001lT-R2; Mon, 17 Jan 2022 09:58:50 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- d18-20020a05600c251200b0034974323cfaso24989928wma.4; 
- Mon, 17 Jan 2022 06:58:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n9TTX-0001r9-1x
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:59:16 -0500
+Received: by mail-wm1-x332.google.com with SMTP id p18so20960787wmg.4
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 06:59:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7347/TCXKHFTqW4c+ub1isoBgmSJE9thbenFQABOcvM=;
- b=C+VUkLHmTKV9jT06CeSgl+hFZy1y5kKQcN39cT8QJoCc8lxeASuYbUgGEllC3IE5hi
- VExHm7R/3nsfXq9Y8S3E9rI6eQBNijxs3/cb16KyI4I5r35qmtUZxF92jD3258D3nl7c
- m+0Hmir+Fqomp8AoJGzf985Y2zfEt+8fbdmMJWjmrpWG00ICLjQdcqq/5/QT7gy6Dk/V
- iETQqPZFLtGZL/H3n+loeBBn9fNdGYMXIxstQ5jyh2hvV3tHUoCuqra3Fg2cCyQ/4T+n
- qdwCITl8gKBJWP2cdv2sMaTC19ykqJruI0s4xyw4NCd0ybDwh2FnGGZqY8nbr/52N/yD
- H8wA==
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=2//u51+G64ypLQn4+9r+/Lpoz3IiEayIZi5RWV3IwfM=;
+ b=aM5PVq1euh3iXGt/aeVyl/zPYPf4R2R9oK+N1w3lhaO7iYVERy5aoIvKrfBBTcKr3y
+ vCWeDZA7WQWkok9mUkMUnMuRHvbtE9ZoiG3LieRrgvf4MhzJme35/XEFeBU1npFqcRlW
+ ou5wGF9zFNl+7hDNFZFIe5Z6088hHBcX6QMcrrPq6InFCkq4Fji6mdrWw+NakpkOjznm
+ V7b2qwjBzR5zTyK+Z/X2MVvbPdkBLLK7MdV36KWE+WOrF2ZcfThjZmWq9SqrvejPXktO
+ aQTbVjtn80U0uDhnRXQhICOa3D6PibNF8x7aLbgYIQWYDLz4qAmOcnC3wOGA79qOYHxB
+ WBYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7347/TCXKHFTqW4c+ub1isoBgmSJE9thbenFQABOcvM=;
- b=hauq7jaTKfb2OEDoCxPL+axudhe9KdQa7KeiNK8rbs46g4bMGA1j6dwpbfs+VIAfoB
- QeMEDPqsbZ8edhRKPdfS1+qM8192zG309nOSQwpJUVIgACSwN9DNzoasM5MJgFs2uKa7
- gKNc9/cMcq9BkXBWxfbRxf6dOX5zjxHDBl0fSf4sLotUQZvahMl2kgwx6qmd5KBu68Je
- /AJRZBfEVACdUCSYmic2R8c5owuLfYIC7XxJ5Q1pQ4DRVZEb23dGISBtZ3m7ywFygVl/
- u4EzRaJplt+149ixRFh71UoyyqNbl5AM67ymvRmatmSuo4v6Sqx6OMgZB6NctU85FCEb
- T5Cg==
-X-Gm-Message-State: AOAM533uAxiAZAO7TNZoUIaSCMm0fi++KPBNDsW/jAIQVjyrvCCVBicq
- Dnx6Q4zwz58BmQZiiWROz10ACom3S5s0lYNuk3EApg==
-X-Google-Smtp-Source: ABdhPJx7yGeE2WwP9VaSsXJdtBALuIkJ/TzIUKVRTce0vGe6PRkHqMHk+ELihsrAcgp7WbsojqAIew==
-X-Received: by 2002:adf:fdc8:: with SMTP id i8mr19923200wrs.613.1642431524178; 
- Mon, 17 Jan 2022 06:58:44 -0800 (PST)
-Received: from localhost.localdomain
- (dynamic-089-014-042-014.89.14.pool.telefonica.de. [89.14.42.14])
- by smtp.gmail.com with ESMTPSA id m20sm14155593wms.4.2022.01.17.06.58.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Jan 2022 06:58:43 -0800 (PST)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] checkpatch: Ensure that TypeInfos are const
-Date: Mon, 17 Jan 2022 15:58:05 +0100
-Message-Id: <20220117145805.173070-3-shentey@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220117145805.173070-1-shentey@gmail.com>
-References: <20220117145805.173070-1-shentey@gmail.com>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=2//u51+G64ypLQn4+9r+/Lpoz3IiEayIZi5RWV3IwfM=;
+ b=F683/YTEsKi3SX9BMDoNLlOIBDkCmeKOdFQQFzCjBO/d5TABhiBi0Q9No2GbrTZIi0
+ pBJCiS61oMhSUr2DkJnqX9tHTyBWiEtFEvuI12gUK7W02tVsRu2510eI1TKGDAYdcxBT
+ ZU0R5fg3q+JbAk0wCIoa6bHcD6PIWsBe8JRwNB/L06eHafNC5RkHqU7vJ2u7lPgj8pZ+
+ HTwak0EoDws2vqET/r9tZq6N+rvFytEeuyd59LJ3W34ybQqsXUQvNf16kKRYcDHAS4pC
+ tkvU+38+pitKvJl7e6kFRYaOeNjNqV/y6ocobmy3PHJKBuyvNHLBO9iPv/sXgrviv7xE
+ oiMw==
+X-Gm-Message-State: AOAM532P5B4e6JD5v4CUR3gWXTXpp5djc474tZGjJO4d9zCPriwHITKB
+ rmeVg2Mpo5UnBNieD/XWJ6EDNIHQpj2lF639
+X-Google-Smtp-Source: ABdhPJxj2OGvuZA4OlPx00x6I7Drj69zeQeCgUzgcmCNUvZ8X5LBqiy+ODDPyLYzxateJvcx8S8roA==
+X-Received: by 2002:a7b:c5c4:: with SMTP id n4mr20443795wmk.134.1642431551188; 
+ Mon, 17 Jan 2022 06:59:11 -0800 (PST)
+Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id q206sm14683997wme.8.2022.01.17.06.59.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Jan 2022 06:59:10 -0800 (PST)
+Message-ID: <02479c57-d2b2-19de-ca97-caf10cfee754@amsat.org>
+Date: Mon, 17 Jan 2022 15:59:09 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: 9p root fs HOWTO
+Content-Language: en-US
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+References: <2785520.nJZE4KsnAZ@silver>
+ <37a251a7-b6bc-ac80-8c2f-02a03f4fab26@amsat.org> <3065564.DFbkM2JXdW@silver>
+In-Reply-To: <3065564.DFbkM2JXdW@silver>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=shentey@gmail.com; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,31 +93,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Bernhard Beschow <shentey@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Now that all static TypeInfo instances are declared const, prevent that
-new non-const instances are created.
+On 1/17/22 15:44, Christian Schoenebeck wrote:
+> On Montag, 17. Januar 2022 15:03:05 CET Philippe Mathieu-Daudé wrote:
+>> On 17/1/22 14:14, Christian Schoenebeck wrote:
+>>> As I was still reading claims on the net that 9p was not usable for more
+>>> complex use cases, I decided to write a complete HOWTO for installing and
+>>> configuring an entire guest OS (with Debian 11 "Bullseye" as example) on
+>>> top of 9p being guest's root fs:
+>>>
+>>> https://wiki.qemu.org/Documentation/9p_root_fs
+>>
+>> Thanks for doing this!
+>>
+>> Doesn't it deserve its entry in the sphinx-generated manual,
+>> rather than the wiki?
+> 
+> I already had a run on this for the 9p developer docs before, but 
+> unfortunately there does not seem to be an adequate solution:
+> 
+> https://lore.kernel.org/qemu-devel/2001177.cHeAXU27Kk@silver/
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- scripts/checkpatch.pl | 1 +
- 1 file changed, 1 insertion(+)
+OK I see :(
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 5caa739db4..509a290041 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -2883,6 +2883,7 @@ sub process {
- 				SCSIBusInfo|
- 				SCSIReqOps|
- 				Spice[A-Z][a-zA-Z0-9]*Interface|
-+				TypeInfo|
- 				USBDesc[A-Z][a-zA-Z0-9]*|
- 				VhostOps|
- 				VMStateDescription|
--- 
-2.34.1
+Thanks for the clarification,
 
+Phil.
 
