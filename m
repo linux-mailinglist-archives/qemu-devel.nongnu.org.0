@@ -2,97 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D78354903C2
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 09:26:59 +0100 (CET)
-Received: from localhost ([::1]:57676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A7FA4903E7
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 09:32:51 +0100 (CET)
+Received: from localhost ([::1]:36698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9NLt-0003IT-4i
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 03:26:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60182)
+	id 1n9NRV-0000UY-UR
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 03:32:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n9NIi-0001jp-DJ
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 03:23:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55658)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n9NIb-0002aY-GX
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 03:23:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642407813;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mEjJk4LK2sh0/lou2XhrvDelJc6JkYjtEXG/9ipxOrY=;
- b=V+8zM23hxq/knRlH29h/EAU62XTy0VsJ3KLAo6x4w1Q/HpPbTCVr6MRiS/CXa/RQyfHk0S
- QhvMQISv90py6P5jRAzkG/Iao44TLEowUFZsv4dAotzMmmIJYSCFDF7nUPTpC4uN+FUeZ0
- oy/WI+tVwBck3DYBqaV6/Llox0c4Tw4=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-38-Aqe2lO9mOMGldSVPJFnAWw-1; Mon, 17 Jan 2022 03:23:31 -0500
-X-MC-Unique: Aqe2lO9mOMGldSVPJFnAWw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- cf15-20020a0564020b8f00b0040284b671c6so2386613edb.22
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 00:23:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=mEjJk4LK2sh0/lou2XhrvDelJc6JkYjtEXG/9ipxOrY=;
- b=hJdfzc208xIBGu2B2VrIM3CR9MIJqhTMz95nXpN8SsBHwfLQviofDDmiIKx3nVuWg2
- YCvllYduo7AOIvI9802nXdadDG7Bk5t3uWPif52iHGDpRhZs5Nc3zqAQE+pb91DDPa0a
- d+HnIauhcnarrQ80q2doeZ1XqISIszCs3Ww5pQQdzRuhwWSNtPHTa+Ao5rvtRiyYMoW2
- A2inB1JaNI4cSjw2+rf55MbA5ITx8y1XszUdtMwNCn3s4iKjcAbRc5dCcR/2SdA3TVhr
- LHih0RKGmDEvC82npYrVMFH86WEDdC+20k3nPzieSRx4qM1QX8NN+ZqdmpD0iBwdUFmG
- aRDQ==
-X-Gm-Message-State: AOAM530NpdU3jHRtzK4P+NA2LVSP0U1WzVlTXhnNlkeQXJSEqRcrD4HX
- DV6y33SUsxtiATKpbcgbpAID87mmU6lP6r1t0oq9+MjZ9JgsiOawwScArYyRR1xfYsWE3ONwkDV
- ZaauP6yaFAVogIs4=
-X-Received: by 2002:a17:907:6d8a:: with SMTP id
- sb10mr2031632ejc.86.1642407810576; 
- Mon, 17 Jan 2022 00:23:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzVF5b+oFjczVlv+LDfOuCdDRTIl1cFgk2IsxqSoRtoP5xyvi0aepusGHYg8Xnjifu/AKKKdw==
-X-Received: by 2002:a17:907:6d8a:: with SMTP id
- sb10mr2031623ejc.86.1642407810427; 
- Mon, 17 Jan 2022 00:23:30 -0800 (PST)
-Received: from ?IPV6:2003:cb:c705:dd00:68a1:1bd:6733:bde9?
- (p200300cbc705dd0068a101bd6733bde9.dip0.t-ipconnect.de.
- [2003:cb:c705:dd00:68a1:1bd:6733:bde9])
- by smtp.gmail.com with ESMTPSA id c4sm4505195edf.23.2022.01.17.00.23.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jan 2022 00:23:29 -0800 (PST)
-Message-ID: <b6c13230-4768-e61a-f7ff-7432242b1ce1@redhat.com>
-Date: Mon, 17 Jan 2022 09:23:29 +0100
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1n9NO4-00070s-FB; Mon, 17 Jan 2022 03:29:15 -0500
+Received: from smtp23.cstnet.cn ([159.226.251.23]:52756 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1n9NO1-0003Mv-Gg; Mon, 17 Jan 2022 03:29:12 -0500
+Received: from [192.168.0.104] (unknown [180.156.147.178])
+ by APP-03 (Coremail) with SMTP id rQCowAAnLFjCKOVhTRCtBQ--.8130S2;
+ Mon, 17 Jan 2022 16:28:51 +0800 (CST)
+Subject: Re: [PATCH v4 4/4] target/riscv: add support for svpbmt extension
+To: Guo Ren <guoren@kernel.org>
+References: <20220116025925.29973-1-liweiwei@iscas.ac.cn>
+ <20220116025925.29973-5-liweiwei@iscas.ac.cn>
+ <CAJF2gTTh+L5PX2kAnAMQUeindidpW=tWRhAX_B0HwV4rFzsyBA@mail.gmail.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <facc03c8-f2ba-9e5e-b571-4fbfbdff72f3@iscas.ac.cn>
+Date: Mon, 17 Jan 2022 16:28:50 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 1/3] exec/memory: Extract address_space_set() from
- dma_memory_set()
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20220115203725.3834712-1-laurent@vivier.eu>
- <20220115203725.3834712-2-laurent@vivier.eu>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220115203725.3834712-2-laurent@vivier.eu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <CAJF2gTTh+L5PX2kAnAMQUeindidpW=tWRhAX_B0HwV4rFzsyBA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+X-CM-TRANSID: rQCowAAnLFjCKOVhTRCtBQ--.8130S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxXw1rWr4xAFWfCw13Gr4fGrg_yoW5Kw1xpr
+ WkGay2ka95tFy3Ca1xtF15tw18JwsI9F4rCws7Zr4xJw45JrW3GF1DKw47KF45XF48ur10
+ 9F1j9F1Yvr4jqaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBF14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY
+ 04v7Mxk0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAKzI0EY4vE52x082I5MxAIw28IcxkI7V
+ AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
+ r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6x
+ IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAI
+ w20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
+ kF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JU2fOwUUUUU=
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L4=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,55 +74,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <anup@brainfault.org>,
+ Wang Junqiang <wangjunqiang@iscas.ac.cn>, bin.meng@windriver.com,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15.01.22 21:37, Laurent Vivier wrote:
-> From: Philippe Mathieu-Daudé <philmd@redhat.com>
-> 
-> dma_memory_set() does a DMA barrier, set the address space with
-> a constant value. The constant value filling code is not specific
-> to DMA and can be used for AddressSpace. Extract it as a new
-> helper: address_space_set().
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> [lv: rebase]
-> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-> ---
->  include/exec/memory.h | 16 ++++++++++++++++
->  softmmu/dma-helpers.c | 15 +--------------
->  softmmu/physmem.c     | 19 +++++++++++++++++++
->  3 files changed, 36 insertions(+), 14 deletions(-)
-> 
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index 20f1b27377ea..c00c50943107 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -2906,6 +2906,22 @@ address_space_write_cached(MemoryRegionCache *cache, hwaddr addr,
->      }
->  }
->  
-> +/**
-> + * address_space_set: Fill address space with a constant byte.
 
-nit: Fill selected part of an address space with a constant byte.
+在 2022/1/17 下午3:18, Guo Ren 写道:
+> On Sun, Jan 16, 2022 at 11:08 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>> - add PTE_PBMT bits: It uses two PTE bits, but otherwise has no effect on QEMU, since QEMU is sequentially consistent and doesn't model PMAs currently
+>> - add PTE_PBMT bits check for inner PTE
+>> - add reserved bits check for all PTE
+>>
+>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>> Tested-by: Heiko Stuebner <heiko@sntech.de>
+>> Reviewed-by: Anup Patel <anup@brainfault.org>
+>> ---
+>>   target/riscv/cpu.c        | 1 +
+>>   target/riscv/cpu.h        | 1 +
+>>   target/riscv/cpu_bits.h   | 3 +++
+>>   target/riscv/cpu_helper.c | 8 ++++++--
+>>   4 files changed, 11 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index 45ac98e06b..4f82bd00a3 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -670,6 +670,7 @@ static Property riscv_cpu_properties[] = {
+>>
+>>       DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
+>>       DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
+>> +    DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
+>>
+>>       DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
+>>       DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
+>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> index c3d1845ca1..53f314c752 100644
+>> --- a/target/riscv/cpu.h
+>> +++ b/target/riscv/cpu.h
+>> @@ -329,6 +329,7 @@ struct RISCVCPU {
+>>           bool ext_icsr;
+>>           bool ext_svinval;
+>>           bool ext_svnapot;
+>> +        bool ext_svpbmt;
+>>           bool ext_zfh;
+>>           bool ext_zfhmin;
+>>
+>> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+>> index bc23e3b523..ee294c1d0b 100644
+>> --- a/target/riscv/cpu_bits.h
+>> +++ b/target/riscv/cpu_bits.h
+>> @@ -486,7 +486,10 @@ typedef enum {
+>>   #define PTE_A               0x040 /* Accessed */
+>>   #define PTE_D               0x080 /* Dirty */
+>>   #define PTE_SOFT            0x300 /* Reserved for Software */
+>> +#define PTE_RSVD            0x1FC0000000000000 /* Reserved for future use */
+>> +#define PTE_PBMT            0x6000000000000000 /* Page-based memory types */
+>>   #define PTE_N               0x8000000000000000 /* NAPOT translation */
+>> +#define PTE_ATTR            0xFFC0000000000000 /* All attributes bits */
+>>
+>>   /* Page table PPN shift amount */
+>>   #define PTE_PPN_SHIFT       10
+>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+>> index 832a2dd79c..f90766e026 100644
+>> --- a/target/riscv/cpu_helper.c
+>> +++ b/target/riscv/cpu_helper.c
+>> @@ -619,17 +619,21 @@ restart:
+>>               return TRANSLATE_FAIL;
+>>           }
+>>
+>> -        hwaddr ppn = (pte & ~(target_ulong)PTE_N) >> PTE_PPN_SHIFT;
+>> +        hwaddr ppn = (pte & ~(target_ulong)PTE_ATTR) >> PTE_PPN_SHIFT;
+> This would break rv32. Please ref:
+> https://lore.kernel.org/qemu-devel/1569456861-8502-1-git-send-email-guoren@kernel.org/
+>
+Thanks for your comment . I'll merge this into our patchset.
 
+Regards,
 
-:)
+Weiwei Li
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
-
--- 
-Thanks,
-
-David / dhildenb
+>>           RISCVCPU *cpu = env_archcpu(env);
+>>           if (!cpu->cfg.ext_svnapot && (pte & PTE_N)) {
+>>               return TRANSLATE_FAIL;
+>> +        } else if (!cpu->cfg.ext_svpbmt && (pte & PTE_PBMT)) {
+>> +            return TRANSLATE_FAIL;
+>> +        } else if (pte & PTE_RSVD) {
+>> +            return TRANSLATE_FAIL;
+>>           } else if (!(pte & PTE_V)) {
+>>               /* Invalid PTE */
+>>               return TRANSLATE_FAIL;
+>>           } else if (!(pte & (PTE_R | PTE_W | PTE_X))) {
+>>               /* Inner PTE, continue walking */
+>> -            if (pte & (PTE_D | PTE_A | PTE_U | PTE_N)) {
+>> +            if (pte & (PTE_D | PTE_A | PTE_U | PTE_N | PTE_PBMT)) {
+>>                   return TRANSLATE_FAIL;
+>>               }
+>>               base = ppn << PGSHIFT;
+>> --
+>> 2.17.1
+>>
+>>
+>
 
 
