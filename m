@@ -2,98 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0147490852
+	by mail.lfdr.de (Postfix) with ESMTPS id B11A7490851
 	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 13:09:55 +0100 (CET)
-Received: from localhost ([::1]:59774 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:59796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9Qpe-0004iY-JA
+	id 1n9Qpe-0004jX-Aw
 	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 07:09:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50196)
+Received: from eggs.gnu.org ([209.51.188.92]:50752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1n9QjI-0001Kb-H3; Mon, 17 Jan 2022 07:03:20 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:30390)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1n9QjG-0003HY-LA; Mon, 17 Jan 2022 07:03:20 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20HBumXI006767; 
- Mon, 17 Jan 2022 12:02:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=Ry7m7hg7C5HMTJ0rULBipU0H1WMvwedE+jq9ByPuUbQ=;
- b=AVH/60kHIZQH6l73rvADn4Uu10Az7hO62wGUnHOtiZmI/mmxQ8O9qSWKLrMTup3X/tEI
- CDMRqaa57gpQeiWhZW76fvAv3/ZUudjjfEX7um6gq4jQbsRGGDtIk0bRznK4EEnjxulG
- frPAbDJnNkTXcljAr2w+fMjMzMMwATfZyNRM5tZLKGOyw2lqcljQjBoXPxajzE84ZIuL
- w26kj6nLhIPj5oJLzeVyCSnOyI7lB9bp+Da0ewm04saQaB4OkJFwB0tEWxBPKs0ZOseb
- PMYe7WuFTArq+ynrAqvi0+IybE04jLdVWwEq53EopX5cqwnJsLx0vECSZhQRaWDu2Inc /A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dn81fg4gr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Jan 2022 12:02:45 +0000
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20HBvLLi010068;
- Mon, 17 Jan 2022 12:02:45 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dn81fg4fj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Jan 2022 12:02:44 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20HBqtXD016054;
- Mon, 17 Jan 2022 12:02:42 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma01fra.de.ibm.com with ESMTP id 3dknw92v1b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Jan 2022 12:02:42 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20HC2eUL27394380
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Jan 2022 12:02:40 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2B23F4C040;
- Mon, 17 Jan 2022 12:02:40 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DE1E34C044;
- Mon, 17 Jan 2022 12:02:39 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 17 Jan 2022 12:02:39 +0000 (GMT)
-From: Halil Pasic <pasic@linux.ibm.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-Subject: [PATCH v2 1/1] virtio: fix the condition for iommu_platform not
- supported
-Date: Mon, 17 Jan 2022 13:02:38 +0100
-Message-Id: <20220117120238.2519239-1-pasic@linux.ibm.com>
-X-Mailer: git-send-email 2.32.0
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1n9Qlm-000244-R3
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 07:05:54 -0500
+Received: from [2a00:1450:4864:20::335] (port=37757
+ helo=mail-wm1-x335.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1n9QlS-0003ZT-NR
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 07:05:54 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ l12-20020a7bc34c000000b003467c58cbdfso23816675wmj.2
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 04:05:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=6DhulN/T6buC+GwiIXobHDOp4CrzAFYXib0SWZTaiQo=;
+ b=P5CDjqwBF3sKGo+yn5XfgbeBRcDyg6LntzhVP5AisLLnSEQgvTw4CORB9Qcei2YjT4
+ IemAeKfF0/TezVD4hAdo5gQLHqG3SIE4wRjrrG7Lpgf7EfKYM+PgyL0E0iRdEAp71Bqo
+ /PcTTy0w0Mw/7Tcu71ILQHGcbZlvM5uMhJ9duxbFHCcxBd9McfOxYEogzVDiXe77YTlA
+ futL3raZyK/eTZ04HYzezoeia4xfvkHlVIy3eiAPLwp5SHypThCP1UDgl6OcaI6bIxoJ
+ KNRAo4WC2+ByCq63E9+mxaTML7Zu/n3EBu6S0EDlHbyCfOd93+zqvz+SrZMYI68TDgi4
+ VkxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=6DhulN/T6buC+GwiIXobHDOp4CrzAFYXib0SWZTaiQo=;
+ b=qKkTFNP/FYbw2WpYWZyJyE3lMRyFbRN9mF105eJHGK8s04arqvTPNZkiJmCu9H/zhv
+ errS9yeq8k/dbn2IL33Js5VQSweI3WjjJHMbcJl6ratNUKO7IgKHr7WEdW98xIcdUNPI
+ V7WrQVHLf7XJhTasBoFK0eExoIR5+MzXRP+u0TvoGys/RQgBk+7pQ+MDfDJkJE8acZ5I
+ YeAsNANRlpxmEB3Egyn0TcGapvFklyGMozD/iIkGDemeRDwpTJezf8zKvzF9eBwz6ceQ
+ uk6yovTAqBWVGbGCXSoF9/fieVsRouxS53evGyAz/wuh2B6w1Fu8RQHiW+VH5w/SttuQ
+ BTYA==
+X-Gm-Message-State: AOAM533sC0lilknZZK7QvuQ57rr4DUGUyzOqkp7r9ziCQTAXYVTpMdhx
+ rfi5O+H9gakAID8QxRW3zj8=
+X-Google-Smtp-Source: ABdhPJzb/B7M+vgTcEdC0frCOe0EDhsEObQ4WSxpjhx6obd5/onqn6lJIzUQkW/XIbsD1qCzFupduw==
+X-Received: by 2002:a7b:cb01:: with SMTP id u1mr20007951wmj.187.1642421114640; 
+ Mon, 17 Jan 2022 04:05:14 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id l6sm17954335wmq.22.2022.01.17.04.05.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Jan 2022 04:05:14 -0800 (PST)
+Message-ID: <ee0d6990-06f3-9a1b-f7d5-7c379f0e9773@redhat.com>
+Date: Mon, 17 Jan 2022 13:05:13 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2 1/3] qmp: Support for querying stats
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Mark Kanda <mark.kanda@oracle.com>
+References: <20211119195153.11815-1-mark.kanda@oracle.com>
+ <20211119195153.11815-2-mark.kanda@oracle.com> <Ya+rLex1djU/1Wc1@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <Ya+rLex1djU/1Wc1@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: _6QJ1t-y0kWTeN54Dpu9sStjle7EGFm3
-X-Proofpoint-ORIG-GUID: zTO-obo6P9GpvwVHVwsaTkzSCTeZFyik
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-17_05,2022-01-14_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- priorityscore=1501 adultscore=0 suspectscore=0 spamscore=0 mlxscore=0
- phishscore=0 impostorscore=0 malwarescore=0 mlxlogscore=999
- lowpriorityscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2110150000 definitions=main-2201170077
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,96 +95,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, Kevin Wolf <kwolf@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Jakob Naucke <Jakob.Naucke@ibm.com>,
- qemu-stable@nongnu.org
+Cc: qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The commit 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
-unsupported") claims to fail the device hotplug when iommu_platform
-is requested, but not supported by the (vhost) device. On the first
-glance the condition for detecting that situation looks perfect, but
-because a certain peculiarity of virtio_platform it ain't.
+On 12/7/21 19:42, Daniel P. Berrangé wrote:
+> Now onto the values being reported. AFAICT from the kernel
+> docs, for all the types of data it currently reports
+> (cumulative, instant, peak, none), there is only ever going
+> to be a single value. I assume the ability to report multiple
+> values is future proofing for a later requirement.
 
-In fact the aforementioned commit introduces a regression. It breaks
-virtio-fs support for Secure Execution, and most likely also for AMD SEV
-or any other confidential guest scenario that relies encrypted guest
-memory.  The same also applies to any other vhost device that does not
-support _F_ACCESS_PLATFORM.
+Yes, in fact histogram values have since been added.
 
-The peculiarity is that iommu_platform and _F_ACCESS_PLATFORM collates
-"device can not access all of the guest RAM" and "iova != gpa, thus
-device needs to translate iova".
+> Second, for a given named statistic, AFAICT, the data type,
+> unit, base and exponent are all fixed. I don't see a reason
+> for us to be reporting that information every time we call
+> 'query-stats'. Just report the name + value(s).  Apps that
+> want a specific named stat won't care about the dimensions,
+> because they'll already know what the value means.
 
-Confidential guest technologies currently rely on the device/hypervisor
-offering _F_ACCESS_PLATFORM, so that, after the feature has been
-negotiated, the guest  grants access to the portions of memory the
-device needs to see. So in for confidential guests, generally,
-_F_ACCESS_PLATFORM is about the restricted access to memory, but not
-about the addresses used being something else than guest physical
-addresses.
+I agree on this.
 
-This is the very reason for which commit f7ef7e6e3b ("vhost: correctly
-turn on VIRTIO_F_IOMMU_PLATFORM") for, which fences _F_ACCESS_PLATFORM
-form the vhost device that does not need it, because on the vhost
-interface it only means "I/O address translation is needed".
+> The 'name' and 'type' are used for filtering I presume. Only allowing
+> a single value for each feels pretty inflexible. I'd say we want to
+> allow mutliple requests at a time for efficiency.
+> 
+> Bearing in mind my other suggestions above, I'd think we should have
+> something  more like
+> 
+>   { 'enum': 'StatsProvider',
+>     'data': ["kvm", "qemu", "tcg", ....],
+>   }
+> 
+>   { 'struct': 'StatsRequest',
+>     'data': {
+>        'provider': 'StatsProvider',
+>        // If omitted, report everything for this provider
+>        '*fields': [ 'str' ]
 
-This patch takes inspiration from f7ef7e6e3b ("vhost: correctly turn on
-VIRTIO_F_IOMMU_PLATFORM"), and uses the same condition for detecting the
-situation when _F_ACCESS_PLATFORM is requested, but no I/O translation
-by the device, and thus no device capability is needed. In this
-situation claiming that the device does not support iommu_plattform=on
-is counter-productive. So let us stop doing that!
+I think provider should be optional as well.  See below.
 
-Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-Reported-by: Jakob Naucke <Jakob.Naucke@ibm.com>
-Fixes: 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
-unsupported")
-Cc: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-stable@nongnu.org
+>     }
+>   }
+> 
+>   { 'struct': 'StatsVCPURequest',
+>     'base': 'StatsRequest',
+>     'data': {
+>       // To request subset of vCPUs e.g.
+>       //  "cpu_set": "0-3"
+>       // Could use ['int'] instead if desired
+>       '*cpu_set': str,
 
----
+Yes, ['int'] is preferrable.
 
-v1->v2: 
-* Commit message tweaks. Most notably fixed commit SHA (Michael)
+>     },
+>   }
+> 
+>   { 'struct': 'StatsFilter',
+>     'data': {
+>       // If omitted means don't report that group of data
+>       '*vcpu': 'StatsVCPURequest',
+>       '*vm': 'StatsRequest',
+>     },
+>   }
 
----
- hw/virtio/virtio-bus.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+I agree except that I think this and StatsResults should be unions, even 
+if it means running multiple query-stats commands.  There should also be 
+an enum ['vcpu', 'vm'] that acts as the discriminator for both 
+StatsFilter and StatsResults:
 
-diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
-index d23db98c56..c1578f3de2 100644
---- a/hw/virtio/virtio-bus.c
-+++ b/hw/virtio/virtio-bus.c
-@@ -69,11 +69,6 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
-         return;
-     }
- 
--    if (has_iommu && !virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
--        error_setg(errp, "iommu_platform=true is not supported by the device");
--        return;
--    }
--
-     if (klass->device_plugged != NULL) {
-         klass->device_plugged(qbus->parent, &local_err);
-     }
-@@ -88,6 +83,12 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
-     } else {
-         vdev->dma_as = &address_space_memory;
-     }
-+
-+    if (has_iommu && vdev->dma_as != &address_space_memory
-+                  && !virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
-+        error_setg(errp, "iommu_platform=true is not supported by the device");
-+        return;
-+    }
- }
- 
- /* Reset the virtio_bus */
+  { 'enum': 'StatsTarget',
+    'data': [ 'vcpu', 'vm' ] }
 
-base-commit: 6621441db50d5bae7e34dbd04bf3c57a27a71b32
--- 
-2.32.0
+  { 'union': 'StatsFilter',
+    'base': { 'target': 'StatsTarget', '*providers': ['StatsProvider'] },
+    'discriminator': 'target',
+    'data': { 'vcpu': ['*cpu-set': ['int']] }
+}
 
+  { 'union': 'StatsResults',
+    'base': { 'target': 'StatsTarget', stats: ['StatsResultsEntry'] },
+    'discriminator': 'target',
+    'data': { 'vcpu': ['id': 'int'] }
+}
+
+Alternatively, the providers should simply be keys in the dictionary
+
+Paolo
+
+> 
+>   { 'alternate': 'StatsValue',
+>     'data': { 'scalar': 'int64',
+>               'list': [ 'int64 ' ] }
+>   }
+> 
+>   { 'struct': 'StatsResultsEntry',
+>     'data': {
+>       'provider': 'StatsProvider',
+>       'stats': [ 'StatsValue' ]
+>     }
+>   }
+> 
+>   { 'struct': 'StatsResults':
+>     'data': {
+>       '*vcpu': [ [ 'StatsResultsEntry' ] ],
+>       '*vm': [ 'StatsResultsEntry' ]
+>     }
+>   }
+> 
+>   { 'command': 'query-stats',
+>     'data': { 'filter': '*StatsFilter' },
+>     'returns': 'StatsResults' }
 
