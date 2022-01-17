@@ -2,68 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 436C2490BBA
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 16:48:41 +0100 (CET)
-Received: from localhost ([::1]:47630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20344490B5A
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jan 2022 16:28:01 +0100 (CET)
+Received: from localhost ([::1]:34926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9UFM-0008Dj-6T
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 10:48:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33640)
+	id 1n9TvL-0006aY-Ny
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 10:27:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n9TMr-0003II-45
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:52:21 -0500
-Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:60485)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n9TMo-0000kA-Pu
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:52:20 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.214])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 5A7EC1FEBE;
- Mon, 17 Jan 2022 14:52:15 +0000 (UTC)
-Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 17 Jan
- 2022 15:52:14 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G00248dfeba8-1840-4005-8502-1a0c8ef120a3,
- 9556A11AC16C5E8FE4FF301E40865CB3D13C347E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <8f70fc45-1f2f-ce23-f95e-cb4f8ac53ab9@kaod.org>
-Date: Mon, 17 Jan 2022 15:52:13 +0100
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n9TQO-0000Yu-1f
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:56:02 -0500
+Received: from [2a00:1450:4864:20::32b] (port=35645
+ helo=mail-wm1-x32b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n9TQL-0001Jj-9G
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 09:55:59 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ q9-20020a7bce89000000b00349e697f2fbso24369715wmj.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 06:55:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GTjOK4VUjH8B9DdomRyUCCneRFf/WvtWbiFPIDUepfg=;
+ b=pRpAbp9E1sITuib+ZaU+AnxouqqWKk74oOyfCsQn85WFRftNeCklFKEBGGiJtgKyzc
+ 7+wyyGttXTfRBDsXHn8mxa2g1SY6AAVHr1bTI3GpuuEeEbtFHQGPew79r9k3OVfj8wXt
+ XTpdJttxy1AtSLJIAsymOy8FCFTGYaRGdXG1T9cQJg2kZsGvICnoeMS66Q59ZAw0JStR
+ 4Zqke7ewXd3A3GKcjnoGrCKSYRMeyFJSI+hSMgGa2r9UY/Bt2qDCGX/jAuaZ56H5vRfV
+ rPK3ZyMpWpVStkr5Y/2SJewH684ymKg0NX/BkHhrWO02Omm6ouIn3zhp/Kz+9SpEsUTG
+ Qkxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=GTjOK4VUjH8B9DdomRyUCCneRFf/WvtWbiFPIDUepfg=;
+ b=QjuT9stj2BYbxz8GTj+fHTsWOuStEVGdMGBzfsFq8iGVZjQ1pTjpt4SB2gU8llV7on
+ eQ1BZsfDkI8HMFaGzuTpRcCGRJncyIVUePlM1yJG2/dW0B8tfJX4lcgrmAH8c/707zXR
+ /W/X5Y+OzgLkJ0HbS2MSgZ1I7Uot67JYLvsNzkzaN3wmffnjHSCzQ9ULQX6g4ld/73IW
+ ALsiWgLwYMBFK6+rIm7QtgSV6tfrSI3QXZGv+zCUeXt1DiINfOjWL2fQNHgAmvIca9AR
+ IiOWCt7h3KkGZvS4DYLGzO/q275WdQxLLCws5/gE4X2OdFB0xd8iNK1/eEZKv3xWn0nL
+ vPag==
+X-Gm-Message-State: AOAM533v0gkwh2OezM9k6Ktfn4Bm9+OKBZxzq72A8nvhSdaCllrWGm2s
+ zg2sBA6L9OinvXFPWUUZaLKUzVTzyrWrk81I
+X-Google-Smtp-Source: ABdhPJw+mhPLGjLSQm+U1/AqBWViCLuPKRClxGcZ7ndblyj95TTPKsIoxor8jB+bP4qbBmpjRkw8dg==
+X-Received: by 2002:a7b:ce94:: with SMTP id q20mr20438258wmj.5.1642431351763; 
+ Mon, 17 Jan 2022 06:55:51 -0800 (PST)
+Received: from nuc.. (154.red-83-50-83.dynamicip.rima-tde.net. [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id
+ r205sm13121798wma.26.2022.01.17.06.55.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Jan 2022 06:55:51 -0800 (PST)
+To: qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Yang Zhong <yang.zhong@intel.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH v2 0/2] hw/i386: QOM-attach CPUs/SGX-EPC objects to their
+ parents
+Date: Mon, 17 Jan 2022 15:55:47 +0100
+Message-Id: <20220117145549.145650-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH qemu] spapr: Force 32bit when resetting a core
-Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Alexey Kardashevskiy
- <aik@ozlabs.ru>, Greg Kurz <groug@kaod.org>, David Gibson
- <david@gibson.dropbear.id.au>
-References: <20220107072423.2278113-1-aik@ozlabs.ru>
- <20220107125747.7ddfd3a0@bahia> <Ydgvt0VwFUP0MD5h@yekko>
- <20220107143910.4443af02@bahia>
- <4bad4da5-44b6-717c-7770-609ddd5256f0@ozlabs.ru>
- <989489c1-33f4-698c-01de-70f6f27cb51d@kaod.org>
- <89f6b051-2d7d-02cf-6de2-b1065bb5696b@ilande.co.uk>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <89f6b051-2d7d-02cf-6de2-b1065bb5696b@ilande.co.uk>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: b369f7b1-0e8c-4e07-b5d7-3fb57ab480bf
-X-Ovh-Tracer-Id: 9412241746848680809
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddruddugdejtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefiedviefgtefhleeutefgvdeutefhleegledtteejveejueejhfeuieduheefvdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhgvghnthhoohdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
- helo=5.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,97 +94,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-On 1/15/22 15:21, Mark Cave-Ayland wrote:
-> On 14/01/2022 14:12, Cédric Le Goater wrote:
-> 
->> Yes, more info here :
->>
->> https://patchwork.kernel.org/project/qemu-devel/patch/1458121432-2855-1-git-send-email-lvivier@redhat.com/
->> mac99+970 only boots with a 64bit kernel. 32bit are not supported because
->> of the use of the rfi instruction which was removed in v2.01. 32bit user
->> space is supported though.
->>
->> However I was not able to build a disk with a compatible boot partition
->> for OpenBIOS. The above support only applies for kernel loaded in memory.
->> May be Mark knows how to do this ?
-> 
-> The Mac machines generally require a HFS filesystem for booting with OpenBIOS: it's a bit convoluted, but some instructions for grub can be found at https://wiki.gentoo.org/wiki/GRUB_on_Open_Firmware_(PowerPC).
-
-Initially, I installed a debian11 ppc64 on a QEMU mac99/970 machine.
-Something went wrong with the bootloader at installation and I was
-stuck with memory boot. I didn't manage to restore a decent boot
-setup even after that.
-
-I stole the HFS partition from a real G5 and after some manual tweaks
-on the disk, I got it working.
-
-There are a few harmless errors :
-     
-     >> =============================================================
-     >> OpenBIOS 1.1 [Jan 15 2022 14:23]
-     >> Configuration device id QEMU version 1 machine id 3
-     >> CPUs: 1
-     >> Memory: 1024M
-     >> UUID: 00000000-0000-0000-0000-000000000000
-     >> CPU type PowerPC,970
-     milliseconds isn't unique.
-     Welcome to OpenBIOS v1.1 built on Jan 15 2022 14:23
-     Trying hd:,\\:tbxi...
-     >> switching to new context:
-     call-method color!: exception -21
-     >> call-method color! failed with error ffffffdf
-     call-method color!: exception -21
-     
-     ...
-     call-method block-size: exception -21
-     >> call-method block-size failed with error ffffffdf
-     call-method block-size: exception -21
-     >> call-method block-size failed with error ffffffdf
-     
-
-I guess the initial problem is in the debian installer. I will report.
-
-> I can certainly help out if you get stuck. If this is a more obscure combination 
-> then is it worth adding a tiny image for use with avocado?
-
-No. It is really a standard setup :
-
-     root@vm02:~# mac-fdisk -l /dev/sda
-     /dev/sda
-             #                    type name                length   base    ( size )  system
-     /dev/sda1     Apple_partition_map Apple                   63 @ 1       ( 31.5k)  Partition map
-     /dev/sda2               Apple_HFS bootstrap           500001 @ 64      (244.1M)  HFS
-     /dev/sda3         Apple_UNIX_SVR2 untitled           39634766 @ 500065  ( 18.9G)  Linux native
-     /dev/sda4         Apple_UNIX_SVR2 swap               1808208 @ 40134831 (882.9M)  Linux swap
-     /dev/sda5              Apple_Free Extra                    1 @ 41943039 (  0.5k)  Free space
-     
-     Block size=512, Number of Blocks=41943040
-     DeviceType=0x0, DeviceId=0x0
-     
-     root@vm02:~# cat /proc/cpuinfo
-     processor	: 0
-     cpu		: PPC970, altivec supported
-     clock		: 900.000000MHz
-     revision	: 2.2 (pvr 0039 0202)
-     
-     timebase	: 100000000
-     platform	: PowerMac
-     model		: PowerMac3,1
-     machine		: PowerMac3,1
-     motherboard	: PowerMac3,1 MacRISC MacRISC2 Power Macintosh
-     detected as	: 0 ((null))
-     pmac flags	: 00000000
-     pmac-generation	: NewWorld
-     root@vm02:~# uname -a
-     Linux vm02 5.15.0-2-powerpc64 #1 SMP Debian 5.15.5-2 (2021-12-18) ppc64 GNU/Linux
-  
-
-Thanks,
-
-C.
+Trying to fix the issue reported here:=0D
+https://lists.nongnu.org/archive/html/qemu-devel/2021-11/msg05670.html=0D
+=0D
+First attach the CPUs and SGX-EPC objects to the machine.=0D
+=0D
+Since v1:=0D
+- addressed Paolo & Daniel review feedbacks=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  hw/i386: Attach CPUs to machine=0D
+  hw/i386/sgx: Attach SGX-EPC objects to machine=0D
+=0D
+ hw/i386/sgx.c | 2 ++=0D
+ hw/i386/x86.c | 1 +=0D
+ 2 files changed, 3 insertions(+)=0D
+=0D
+-- =0D
+2.34.1=0D
+=0D
 
