@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66E42492F0D
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 21:13:37 +0100 (CET)
-Received: from localhost ([::1]:56380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9A6A492F19
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 21:16:18 +0100 (CET)
+Received: from localhost ([::1]:60962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9urI-0004Hm-IM
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 15:13:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60740)
+	id 1n9utu-0007PC-0U
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 15:16:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1n9uOg-00083E-MP
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 14:44:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55648)
+ id 1n9uUV-0006t0-DF
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 14:50:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1n9uOc-0002kS-3u
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 14:44:01 -0500
+ id 1n9uUS-0003mP-CJ
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 14:50:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642535027;
+ s=mimecast20190719; t=1642535399;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=V3HBHWIbbtQPx61DTu+cLs+T9kosfpbBIf8+MIiJ5JQ=;
- b=Fo2RhgMat6tYERyQGLa62/W7vITzyaHqgc4ayzMpaP1o5cxcKOzAPAOkE1jRZTnqakc6B1
- SSm5XGHewwYfpb4n8bFrGfdOTezW7n1FTir9+tj4ONn8aOyJPM1o8D9G2yNWb0ZP5Z6yR6
- tXnvgxqh2bANPT9gfVj1fS3CslwB3tM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Uk6vzp7IRymayusGKgXtoSrG5gUqsyyj1P+WQoDfNmE=;
+ b=NJFqbyBxIboIRPKAgK59aI7gkpCHwoWn/Yfdlb5IWT/PS4DWI1k2SiANkwqrod5sKlKpgu
+ N3GqYKFMEDwiljrE/5v4+ghWVHmu8HA47I3Q3xGEoELOMfppJm4aUGxCyaOztJwoU1Eb9E
+ 8pIh4yaX2Pqd1iEYm2fPknEweJyotUo=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-481-DVVDENxuMZCGR21l0g9CHg-1; Tue, 18 Jan 2022 14:43:46 -0500
-X-MC-Unique: DVVDENxuMZCGR21l0g9CHg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 14-20020a05600c024e00b0034a83f7391aso185540wmj.4
- for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 11:43:46 -0800 (PST)
+ us-mta-383-r0QzWNv-PTS9qelcip0L_A-1; Tue, 18 Jan 2022 14:49:58 -0500
+X-MC-Unique: r0QzWNv-PTS9qelcip0L_A-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ x10-20020a7bc20a000000b0034c3d77f277so204958wmi.3
+ for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 11:49:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=V3HBHWIbbtQPx61DTu+cLs+T9kosfpbBIf8+MIiJ5JQ=;
- b=Fn0Tf0kxhJxDbm2J73qBzgGDW1/aQs5f4mpMGw6DfTK7XNC0aqwK0yr6rLaFJk1+V7
- BhQ97GsjjKaVMZfiTgG3JDS7Vx4qhBxlqBi3LdwYfM3XzAq/rE5BT/yG63IIkjkYgF/s
- t8zoAK9mdUbB216FL3WGQn4NPlhsLOOZoZRJzZL07L2Kfvn3AeQClLbq0GBJBGUtduKI
- LvRqqmt7pJPxVesrSVASt3NkdHBvT7EWRMRNjN224dvv2hxECuKiFpp7tVAWXfGPMOp1
- 6gAIJ4HStTNRrIwELezgYmUWdbi/ERHZvDaKw1vbjftWehsrzkG1zpqdL0lWccSn4UEt
- 7Zcg==
-X-Gm-Message-State: AOAM530SHpZpohq/JknFlrWmS55QZ2BuVN9/4a6wjKSkd1kIwUrIi/Mh
- tpSzj8O2/krplQEZbCN4Pt7BzPboaqgvbN6pE+z4vGho4hujY4gSv7JDSd4ByvdB12TysEIu7Nm
- WvEzwln0lFIu42L0=
-X-Received: by 2002:a1c:4d0e:: with SMTP id o14mr110606wmh.102.1642535025033; 
- Tue, 18 Jan 2022 11:43:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy75qfMXqYqeUoTpWlms6MEa1TNDQZ9RTI9wyNgrUuzspfFJ4HWlBZBugGmqNW5CNegfOOLNQ==
-X-Received: by 2002:a1c:4d0e:: with SMTP id o14mr110598wmh.102.1642535024857; 
- Tue, 18 Jan 2022 11:43:44 -0800 (PST)
+ bh=Uk6vzp7IRymayusGKgXtoSrG5gUqsyyj1P+WQoDfNmE=;
+ b=dvrDDiuB8Fvn1RP54AhYvE+0bSzVQ1g/kK/2I6v2ZcgNEu14zQE63+I85DMMNPmKzv
+ DVZ5/cIeWPlvOtFJ+M6MpyppJj8cVmeA+Zx0NUJqlwyrkGVJ0fbPH6idQI0fCqcM/dum
+ 7xgJxWhcZvJsy3uvccm6m5N76xKwR8RPpY0CgnWkNJyR/Q6R7CBelmtN3+2Gxow0rePJ
+ P8Mdy+x24rg7SZTlz2ADwPVDiNPNbV4C5qFjyzdRn0t7AibC7Yiqz/V+T8Bnhs1kXue0
+ 1QqynGwkm16aCkWUAsoOz80LNVDWA/K4c4CDVlOYWqXaxuQHwrG5KLqqYKoOOFc31jUP
+ 5QSQ==
+X-Gm-Message-State: AOAM531jxvxHtfd29KdFGb8YbmCee92dTgZd2Ij8Lq9TvHYE2TV11AMK
+ exoF/yZYfWb/XvkNUEoNQCa7YdUUq4z+DYgm5yhm0Rb/sb5riJinZ2W5UVLD7zAy+cpFDNToAX5
+ CgdFCqLxpncTZbQQ=
+X-Received: by 2002:a05:6000:18a5:: with SMTP id
+ b5mr16984726wri.339.1642535396960; 
+ Tue, 18 Jan 2022 11:49:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzuhsxOy3ZU80gAGzEBMGD19GHUZf86OvhJ5EjekqvlWgSyhYUraVBDDZZLbumyrKVHckOs7Q==
+X-Received: by 2002:a05:6000:18a5:: with SMTP id
+ b5mr16984709wri.339.1642535396690; 
+ Tue, 18 Jan 2022 11:49:56 -0800 (PST)
 Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
  [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id t15sm16974900wrz.82.2022.01.18.11.43.43
+ by smtp.gmail.com with ESMTPSA id o15sm18480203wro.70.2022.01.18.11.49.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jan 2022 11:43:44 -0800 (PST)
-Date: Tue, 18 Jan 2022 19:43:42 +0000
+ Tue, 18 Jan 2022 11:49:56 -0800 (PST)
+Date: Tue, 18 Jan 2022 19:49:54 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v4 18/23] migration: Make ram_save_target_page() a pointer
-Message-ID: <YecYbroeoeWfZkFM@work-vm>
+Subject: Re: [PATCH v4 20/23] multifd: Support for zero pages transmission
+Message-ID: <YecZ4td0L9Lrz00h@work-vm>
 References: <20220111130024.5392-1-quintela@redhat.com>
- <20220111130024.5392-19-quintela@redhat.com>
+ <20220111130024.5392-21-quintela@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220111130024.5392-19-quintela@redhat.com>
+In-Reply-To: <20220111130024.5392-21-quintela@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
@@ -105,77 +107,152 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 * Juan Quintela (quintela@redhat.com) wrote:
-> We are going to create a new function for multifd latest in the series.
-                                                        ^^ 'later'
-
-
+> This patch adds counters and similar.  Logic will be added on the
+> following patch.
+> 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-> 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
 > ---
->  migration/ram.c | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
+>  migration/multifd.h    | 13 ++++++++++++-
+>  migration/multifd.c    | 22 +++++++++++++++++++---
+>  migration/trace-events |  2 +-
+>  3 files changed, 32 insertions(+), 5 deletions(-)
 > 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index e9dcd3ca4e..3536778e19 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -294,6 +294,9 @@ struct RAMSrcPageRequest {
->      QSIMPLEQ_ENTRY(RAMSrcPageRequest) next_req;
->  };
+> diff --git a/migration/multifd.h b/migration/multifd.h
+> index 4dda900a0b..4c6d29c954 100644
+> --- a/migration/multifd.h
+> +++ b/migration/multifd.h
+> @@ -49,7 +49,10 @@ typedef struct {
+>      /* size of the next packet that contains pages */
+>      uint32_t next_packet_size;
+>      uint64_t packet_num;
+> -    uint64_t unused[4];    /* Reserved for future use */
+> +    /* zero pages */
+> +    uint32_t zero_pages;
+> +    uint32_t unused32[1];    /* Reserved for future use */
+> +    uint64_t unused64[3];    /* Reserved for future use */
+>      char ramblock[256];
+>      uint64_t offset[];
+>  } __attribute__((packed)) MultiFDPacket_t;
+> @@ -117,6 +120,10 @@ typedef struct {
+>      ram_addr_t *normal;
+>      /* num of non zero pages */
+>      uint32_t normal_num;
+> +    /* Pages that are  zero */
+> +    ram_addr_t *zero;
+> +    /* num of zero pages */
+> +    uint32_t zero_num;
+>      /* used for compression methods */
+>      void *data;
+>  }  MultiFDSendParams;
+> @@ -162,6 +169,10 @@ typedef struct {
+>      ram_addr_t *normal;
+>      /* num of non zero pages */
+>      uint32_t normal_num;
+> +    /* Pages that are  zero */
+> +    ram_addr_t *zero;
+> +    /* num of zero pages */
+> +    uint32_t zero_num;
+>      /* used for de-compression methods */
+>      void *data;
+>  } MultiFDRecvParams;
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 76b57a7177..cfa9f75d13 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -265,6 +265,7 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
+>      packet->normal_pages = cpu_to_be32(p->normal_num);
+>      packet->next_packet_size = cpu_to_be32(p->next_packet_size);
+>      packet->packet_num = cpu_to_be64(p->packet_num);
+> +    packet->zero_pages = cpu_to_be32(p->zero_num);
 >  
-> +typedef struct RAMState RAMState;
-> +typedef struct PageSearchStatus PageSearchStatus;
+>      if (p->pages->block) {
+>          strncpy(packet->ramblock, p->pages->block->idstr, 256);
+> @@ -327,7 +328,15 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
+>      p->next_packet_size = be32_to_cpu(packet->next_packet_size);
+>      p->packet_num = be64_to_cpu(packet->packet_num);
+>  
+> -    if (p->normal_num == 0) {
+> +    p->zero_num = be32_to_cpu(packet->zero_pages);
+> +    if (p->zero_num > packet->pages_alloc - p->normal_num) {
+> +        error_setg(errp, "multifd: received packet "
+> +                   "with %u zero pages and expected maximum pages are %u",
+> +                   p->zero_num, packet->pages_alloc - p->normal_num) ;
+> +        return -1;
+> +    }
 > +
->  /* State of RAM for migration */
->  struct RAMState {
->      /* QEMUFile used for this migration */
-> @@ -348,8 +351,8 @@ struct RAMState {
->      /* Queue of outstanding page requests from the destination */
->      QemuMutex src_page_req_mutex;
->      QSIMPLEQ_HEAD(, RAMSrcPageRequest) src_page_requests;
-> +    int (*ram_save_target_page)(RAMState *rs, PageSearchStatus *pss);
->  };
-> -typedef struct RAMState RAMState;
+> +    if (p->normal_num == 0 && p->zero_num == 0) {
+>          return 0;
+>      }
 >  
->  static RAMState *ram_state;
+> @@ -553,6 +562,8 @@ void multifd_save_cleanup(void)
+>          p->iov = NULL;
+>          g_free(p->normal);
+>          p->normal = NULL;
+> +        g_free(p->zero);
+> +        p->zero = NULL;
+>          multifd_send_state->ops->send_cleanup(p, &local_err);
+>          if (local_err) {
+>              migrate_set_error(migrate_get_current(), local_err);
+> @@ -641,6 +652,7 @@ static void *multifd_send_thread(void *opaque)
+>              uint32_t flags = p->flags;
+>              p->iovs_num = 1;
+>              p->normal_num = 0;
+> +            p->zero_num = 0;
 >  
-> @@ -2117,14 +2120,14 @@ static bool save_compress_page(RAMState *rs, RAMBlock *block, ram_addr_t offset)
->  }
+>              for (int i = 0; i < p->pages->num; i++) {
+>                  p->normal[p->normal_num] = p->pages->offset[i];
+> @@ -662,8 +674,8 @@ static void *multifd_send_thread(void *opaque)
+>              p->pages->block = NULL;
+>              qemu_mutex_unlock(&p->mutex);
 >  
->  /**
-> - * ram_save_target_page: save one target page
-> + * ram_save_target_page_legacy: save one target page
->   *
->   * Returns the number of pages written
->   *
->   * @rs: current RAM state
->   * @pss: data about the page we want to send
->   */
-> -static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
-> +static int ram_save_target_page_legacy(RAMState *rs, PageSearchStatus *pss)
->  {
->      RAMBlock *block = pss->block;
->      ram_addr_t offset = ((ram_addr_t)pss->page) << TARGET_PAGE_BITS;
-> @@ -2200,7 +2203,7 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
->      do {
->          /* Check the pages is dirty and if it is send it */
->          if (migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
-> -            tmppages = ram_save_target_page(rs, pss);
-> +            tmppages = rs->ram_save_target_page(rs, pss);
->              if (tmppages < 0) {
->                  return tmppages;
->              }
-> @@ -3008,6 +3011,7 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
->      ram_control_before_iterate(f, RAM_CONTROL_SETUP);
->      ram_control_after_iterate(f, RAM_CONTROL_SETUP);
+> -            trace_multifd_send(p->id, packet_num, p->normal_num, flags,
+> -                               p->next_packet_size);
+> +            trace_multifd_send(p->id, packet_num, p->normal_num, p->zero_num,
+> +                               flags, p->next_packet_size);
 >  
-> +    (*rsp)->ram_save_target_page = ram_save_target_page_legacy;
->      multifd_send_sync_main(f);
->      qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
->      qemu_fflush(f);
+>              p->iov[0].iov_len = p->packet_len;
+>              p->iov[0].iov_base = p->packet;
+> @@ -913,6 +925,7 @@ int multifd_save_setup(Error **errp)
+>          /* We need one extra place for the packet header */
+>          p->iov = g_new0(struct iovec, page_count + 1);
+>          p->normal = g_new0(ram_addr_t, page_count);
+> +        p->zero = g_new0(ram_addr_t, page_count);
+>          socket_send_channel_create(multifd_new_send_channel_async, p);
+>      }
+>  
+> @@ -1014,6 +1027,8 @@ int multifd_load_cleanup(Error **errp)
+>          p->iov = NULL;
+>          g_free(p->normal);
+>          p->normal = NULL;
+> +        g_free(p->zero);
+> +        p->zero = NULL;
+>          multifd_recv_state->ops->recv_cleanup(p);
+>      }
+>      qemu_sem_destroy(&multifd_recv_state->sem_sync);
+> @@ -1153,6 +1168,7 @@ int multifd_load_setup(Error **errp)
+>          p->name = g_strdup_printf("multifdrecv_%d", i);
+>          p->iov = g_new0(struct iovec, page_count);
+>          p->normal = g_new0(ram_addr_t, page_count);
+> +        p->zero = g_new0(ram_addr_t, page_count);
+>      }
+>  
+>      for (i = 0; i < thread_count; i++) {
+> diff --git a/migration/trace-events b/migration/trace-events
+> index 171a83a55d..b7e8f54395 100644
+> --- a/migration/trace-events
+> +++ b/migration/trace-events
+> @@ -124,7 +124,7 @@ multifd_recv_sync_main_wait(uint8_t id) "channel %u"
+>  multifd_recv_terminate_threads(bool error) "error %d"
+>  multifd_recv_thread_end(uint8_t id, uint64_t packets, uint64_t pages) "channel %u packets %" PRIu64 " pages %" PRIu64
+>  multifd_recv_thread_start(uint8_t id) "%u"
+> -multifd_send(uint8_t id, uint64_t packet_num, uint32_t normal, uint32_t flags, uint32_t next_packet_size) "channel %u packet_num %" PRIu64 " normal pages %u flags 0x%x next packet size %u"
+> +multifd_send(uint8_t id, uint64_t packet_num, uint32_t normal, uint32_t zero, uint32_t flags, uint32_t next_packet_size) "channel %u packet_num %" PRIu64 " normal pages %u zero pages %u flags 0x%x next packet size %u"
+>  multifd_send_error(uint8_t id) "channel %u"
+>  multifd_send_sync_main(long packet_num) "packet num %ld"
+>  multifd_send_sync_main_signal(uint8_t id) "channel %u"
 > -- 
 > 2.34.1
 > 
