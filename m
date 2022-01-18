@@ -2,75 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FFBB492785
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 14:53:26 +0100 (CET)
-Received: from localhost ([::1]:45582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E26492802
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 15:07:48 +0100 (CET)
+Received: from localhost ([::1]:40366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9ovN-0003P3-He
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 08:53:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36008)
+	id 1n9p9G-0003zo-JX
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 09:07:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1n9oBH-0002hl-7s
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 08:05:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46769)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1n9oCX-0003Bk-GM
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 08:07:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56768)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1n9oB9-00083V-3z
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 08:05:44 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1n9oCV-00007g-Vo
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 08:07:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642511136;
+ s=mimecast20190719; t=1642511221;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r8Kj91L6nhy9WQwdJE9pRlHsAOAMpjnJRDxgzVNvZyI=;
- b=fak2h4LWCZPKIC5RrS2tCCUTnmSHPp11cjfPYOtswEp37st++bbCM/Zky6bpz2h+MAM3ij
- Ale0n4Eas1KH5/QNq6P9HJ9TJFT4Z+tsZ+b1+qQ7tXHOuPBF3vmYY0cmojbMU8KHNFD8L0
- irTfe7x6K63w1IdklL4pj2yvl6+EsHQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=riYyBLsWgoNWjrKGMnty/PxlIohkH+LtcPxY9VFpep0=;
+ b=EIz6FNjettognpRjRXPhgwUFBZNHE5crAoZWDABJoYgL8X1MOrNRvDhW7qUTc+6mgkh5jl
+ 5pyg3Xfw5eK2maeZ7mFfIiv4wRxAyUhsDHDPBr15ZjKngGPygNlBpVyWAI6QkBndHRfnj0
+ NDcMe5X0wEtHuO9sdY1ybY39rJS32Eg=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-227-yAOg7wUjNIiGN-m-Mt2vBA-1; Tue, 18 Jan 2022 08:05:35 -0500
-X-MC-Unique: yAOg7wUjNIiGN-m-Mt2vBA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B418A100C61F;
- Tue, 18 Jan 2022 13:05:33 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
- [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ECCDA78AB5;
- Tue, 18 Jan 2022 13:05:04 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6D2E211380A2; Tue, 18 Jan 2022 14:05:03 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v3 3/3] meson: generate trace events for qmp commands
-References: <20220117201845.2438382-1-vsementsov@virtuozzo.com>
- <20220117201845.2438382-4-vsementsov@virtuozzo.com>
- <871r15pc8p.fsf@dusky.pond.sub.org>
- <30f67e03-0c51-aaa0-3bc5-bb7d26493f93@redhat.com>
-Date: Tue, 18 Jan 2022 14:05:03 +0100
-In-Reply-To: <30f67e03-0c51-aaa0-3bc5-bb7d26493f93@redhat.com> (Paolo
- Bonzini's message of "Tue, 18 Jan 2022 13:21:28 +0100")
-Message-ID: <87y23dmby8.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-81-zb3zF8e2M0SPLfmgEse13g-1; Tue, 18 Jan 2022 08:06:58 -0500
+X-MC-Unique: zb3zF8e2M0SPLfmgEse13g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ o3-20020a05600c4fc300b0034aee9534bdso5960601wmq.2
+ for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 05:06:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=riYyBLsWgoNWjrKGMnty/PxlIohkH+LtcPxY9VFpep0=;
+ b=39nTvPlIu8+qELn8hb9bc0zCVaJsZPfJ7q9NK6S//DhS6KohXcpTkQr04HDwcyMpan
+ a2Y38HeBtNnSS705f2qu9+pKza977pu6Yy7S1fupR2A2Cbc9T7Poqknv1jkZ9VRxAacH
+ 67aTqqOH3r9xnMHSqSFGRb1UwO/uNCCtn1Niav44ZNSHjpoOKsD1LwAx9DMivpD8wTON
+ 4LNh5oeumxUtTnu6psn6ihT1Yb8/mTE2OpZDWyajc/U0NLRnDmRyeY4CTn+ya59I7LfL
+ e9FyLL+FzSHLEPDR8FCKmdS6zP+r341eRXGN+zFfg1cgvC8qYSMAGCH2pROlHaNbmFYx
+ vB8w==
+X-Gm-Message-State: AOAM533NJkAQiMBa8Yh8F2Y0DK3ORreTrMyBa1I/+LokNDsPD+Y0ewsV
+ hp9XspGmtVcrwYfjiicIPfkQmx8XQsomzMRRIPMszJ2qQAQ4u+EjK7kBDVZXrQdss+dXeXMxqPX
+ JMi0y8fcgyCObKtg=
+X-Received: by 2002:a5d:610f:: with SMTP id v15mr1497291wrt.139.1642511217149; 
+ Tue, 18 Jan 2022 05:06:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw+aYJifx6+IBHdm6XleqqY92pw1e44pGkcyQeWUYmEZhAbSw5fnQfufsM00Ndvb+6UNYAh9w==
+X-Received: by 2002:a5d:610f:: with SMTP id v15mr1497268wrt.139.1642511216936; 
+ Tue, 18 Jan 2022 05:06:56 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id e10sm20041964wrq.40.2022.01.18.05.06.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Jan 2022 05:06:56 -0800 (PST)
+Message-ID: <0ad4f708-f338-0742-dc69-af08e908cff5@redhat.com>
+Date: Tue, 18 Jan 2022 14:06:55 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [RFC PATCH 3/7] x86: Grant AMX permission for guest
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org
+References: <20220107093134.136441-1-yang.zhong@intel.com>
+ <20220107093134.136441-4-yang.zhong@intel.com>
+ <29573e51-aa21-dbf3-b626-facf72e5b9c6@redhat.com>
+In-Reply-To: <29573e51-aa21-dbf3-b626-facf72e5b9c6@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,46 +103,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- michael.roth@amd.com, qemu-devel@nongnu.org, hreitz@redhat.com,
- stefanha@redhat.com, jsnow@redhat.com
+Cc: seanjc@google.com, kevin.tian@intel.com, jing2.liu@linux.intel.com,
+ wei.w.wang@intel.com, guang.zeng@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+Sorry, hit send on the wrong window.  This is the only patch that will 
+require a bit more work.
 
-> On 1/18/22 11:30, Markus Armbruster wrote:
->>> +# Please keep ordering between 'qapi' and 'trace' subdirs:
->>> +# We should first handle 'qapi' subdir, so that all
->>> +# generated trace events be generated prior handling 'trace'
->>> +# subdir.
->> I naively expect explicit dependencies to be used for ordering, but I'm
->> a Meson noob.  I'd like an ACK from a non-noob on this one.
->> 
->
-> The Make-time dependencies are just fine, but still the Meson language
-> is imperative (with generally immutable objects in order to avoid 
-> aliasing horrors) and variables in Meson are all of the ":=" kind;
-> there's no equivalent for Make's "=".  So you have to do
->
-> 	subdir('qapi')
-> 	subdir('trace')
->
-> in this order so that the variables defined by qapi/ are found in trace/.
->
-> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
->
-> but I would replace the comment with:
->
-> # NOTE: the trace/ subdirectory needs the qapi_trace_events variable
-> # that is filled in by qapi/.
->
-> Paolo
+On 1/18/22 13:52, Paolo Bonzini wrote:
+>> @@ -124,6 +150,8 @@ void x86_cpus_init(X86MachineState *x86ms, int 
+>> default_cpu_version)
+>>       MachineState *ms = MACHINE(x86ms);
+>>       MachineClass *mc = MACHINE_GET_CLASS(x86ms);
+>> +    /* Request AMX pemission for guest */
+>> +    x86_xsave_req_perm();
+>>       x86_cpu_set_default_version(default_cpu_version);
+> 
+> This should be done before creating a CPU with support for state 
+> component 18.  It happens in kvm_init_vcpu, with the following call stack:
+> 
+>      kvm_init_vcpu
+>      kvm_vcpu_thread_fn
+>      kvm_start_vcpu_thread
+>      qemu_init_vcpu
+>      x86_cpu_realizefn
+> 
+> The issue however is that this has to be done before 
+> KVM_GET_SUPPORTED_CPUID and KVM_CHECK_EXTENSION(KVM_CAP_XSAVE2).
+> 
+> For the former, you can assume that anything returned by 
+> ARCH_GET_XCOMP_GUEST_PERM will be returned by KVM_GET_SUPPORTED_CPUID in 
+> CPUID[0xD].EDX:EAX, so you can:
+> 
+> - add it to kvm_arch_get_supported_cpuid
 
-Thanks!
+... together with the other special cases (otherwise 
+x86_cpu_get_supported_feature_word complains that XTILEDATA is not 
+available)
 
-Please also have a look at Vladimir's "supporting auto-generated trace
-points for qga qmp commands requires some deeper refactoring" in reply
-to PATCH 2.
+- change kvm_cpu_xsave_init to use host_cpuid instead of 
+kvm_arch_get_supported_cpuid.
+
+- call ARCH_REQ_XCOMP_GUEST_PERM from x86_cpu_enable_xsave_components, 
+with a conditional like
+
+     if (kvm_enabled()) {
+         kvm_request_xsave_components(cpu, mask);
+     }
+
+KVM_CHECK_EXTENSION(KVM_CAP_XSAVE2) is actually not a problem; the ioctl 
+is only called from kvm_arch_init_vcpu and therefore after 
+x86_cpu_enable_xsave_components.
+
+Thanks,
+
+Paolo
 
 
