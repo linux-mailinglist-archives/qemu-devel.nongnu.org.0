@@ -2,80 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1263D4913E5
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 03:04:53 +0100 (CET)
-Received: from localhost ([::1]:34386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 381804913EC
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 03:10:47 +0100 (CET)
+Received: from localhost ([::1]:45586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9drg-0006Ac-5i
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 21:04:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50982)
+	id 1n9dxO-0005JW-BG
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 21:10:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1n9das-0000wB-ED
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 20:47:32 -0500
-Received: from [2607:f8b0:4864:20::1034] (port=56114
- helo=mail-pj1-x1034.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1n9dal-0007eV-MO
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 20:47:28 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id hv15so21898082pjb.5
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 17:46:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=QuND1ULQJ+/TaSqlnYNx8EL683pCF87FYDnAtdJNACU=;
- b=cU7ElmE8svPbDLciy9g/5DfyZ1CwYCnRg4InNDX5gfmwTCwV3INa4GL7CAIuO1x3dl
- kexCSU0E7+wO4xv59jqT2GO9N36pt0puSrJ3sUphZH4WaFCWfFWv+pi//9wlknzUTkQW
- ZdfIp9YX27U9i9lLQxOTiYcuOan/Istxvf2KwJZrinK+iERcZeERDXc51d7ZX41exMo6
- LP/8kS6w1MMuFerbtwnq08xHOSFRU0sh+BWepebDVqQCMRtKLWTJnPTLfZPTjnng0XKA
- vPq5e/ySSKCoUpmu65QJRHd7wWxac891Dnru4CbekELQgjYViS3+q9dsojSICRWbuYhg
- Nhrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=QuND1ULQJ+/TaSqlnYNx8EL683pCF87FYDnAtdJNACU=;
- b=ok4CT2Zf8GO2B1xYzjHUV+iHHEIg+xfux7NB+RSuU1YSUc/aoJUzQMaoosYaXo3T+9
- 0U4icU9k25IWtQAQ+/mYneKf4+76sZQi6I9Lrop5F2tzcJogjOKV1vXxFbTo3rFUVEl4
- DVP6LmdIGG0sSZpTIsuZExl7zdIjBn0WmmVhKd8iyCJrMY5SbF6IE5Ngi+a3bFoekkgH
- Yfc+pbH0hG3kN+F55P7/rpKVFbSQkR2UDsMRNzwkjoetG6OOCbCdn6QDB1OhPknUrghw
- +BQVrgw473h9WByYFyNTYHShNKHxujq62FmUlYIYIC0ypLHhCjjLkQk+Pc/mO6+Lge3k
- 2JCQ==
-X-Gm-Message-State: AOAM530zscspEwaKztYD9SjcBrAbUnO1HxhkrtawNOn/rHyobM25mHi2
- 5SeqA4p8oLihF1JOFVNE7p2Cq0iCRJUXTXKu
-X-Google-Smtp-Source: ABdhPJxbhFkCA/4uEa4T4W+Hlta92zKRzYngFc5q8xieCmYxNFxWjJ9L/XsPMBK+C2THMLGzvTCWaw==
-X-Received: by 2002:a17:90a:d3c8:: with SMTP id
- d8mr27902572pjw.189.1642470383916; 
- Mon, 17 Jan 2022 17:46:23 -0800 (PST)
-Received: from hsinchu16.internal.sifive.com
- (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id c12sm8286136pfm.113.2022.01.17.17.46.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Jan 2022 17:46:23 -0800 (PST)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 17/17] target/riscv: rvv-1.0: Allow Zve32f extension to be
- turned on
-Date: Tue, 18 Jan 2022 09:45:20 +0800
-Message-Id: <20220118014522.13613-18-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220118014522.13613-1-frank.chang@sifive.com>
-References: <20220118014522.13613-1-frank.chang@sifive.com>
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1n9dvF-0003Pr-Vk
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 21:08:33 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:33595
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1n9dvD-0002Aw-G0
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 21:08:33 -0500
+HMM_SOURCE_IP: 172.18.0.188:54978.1718758930
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-182.150.57.243 (unknown [172.18.0.188])
+ by chinatelecom.cn (HERMES) with SMTP id 5A4A728012B;
+ Tue, 18 Jan 2022 10:08:08 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.188])
+ by app0023 with ESMTP id 24215f1e3c7f4d4aa41287c0d20f6c68 for
+ peterx@redhat.com; Tue, 18 Jan 2022 10:08:21 CST
+X-Transaction-ID: 24215f1e3c7f4d4aa41287c0d20f6c68
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.188
+X-MEDUSA-Status: 0
+Message-ID: <dbc349be-48e5-64e8-4358-f8387161747f@chinatelecom.cn>
+Date: Tue, 18 Jan 2022 10:08:00 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v11 3/4] softmmu/dirtylimit: implement virtual CPU throttle
+To: Peter Xu <peterx@redhat.com>
+References: <cover.1641316375.git.huangy81@chinatelecom.cn>
+ <0381e32c2cc70613613aaa284b8e8c9760d6932f.1641316375.git.huangy81@chinatelecom.cn>
+ <YeUbhC7MG32K9pxu@xz-m1.local>
+ <1b41a2ed-4d78-6221-88c4-2b14bad6bd70@chinatelecom.cn>
+ <YeYRNHsmZJneG/x5@xz-m1.local>
+From: Hyman Huang <huangy81@chinatelecom.cn>
+In-Reply-To: <YeYRNHsmZJneG/x5@xz-m1.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: pass client-ip=42.123.76.228;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,33 +67,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- qemu-riscv@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
 
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 0898954c02..33c1df638b 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -664,6 +664,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-     DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
-     DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
-+    DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
-     DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
-     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+在 2022/1/18 9:00, Peter Xu 写道:
+> On Mon, Jan 17, 2022 at 10:00:57PM +0800, Hyman Huang wrote:
+>>> This algorithm seems works even worse than the previous version, could you have
+>>> a look on what's wrong?
+>> What number the dirty-ring-size of qemu be configured? is it the same as
+>> previous version test?
+> 
+> It should be the same 4096.
+> 
+> The test environment can be slightly different, I used a larger guest this time
+> (20G, 40 cores), though.  Previously it should be a few gig only with a few cores.
+> 
+Ok, i'll work this out.
+> Side note: would you also consider picking up this patch along with the series?
+> 
+Of course yes, i think this patch can reduce time overhead of 
+memory_global_dirty_log_start/memory_global_dirty_log_stop but need some 
+migration tests, i'll do that and once all these be ready, i'll cherry 
+pick the series before dirtylimit patchset.
+> https://lore.kernel.org/qemu-devel/20211130080028.6474-1-peterx@redhat.com/
+> 
+> I wanted to make sure it lands before this series, e.g., when enabled both
+> dirty limit and migration, disabling dirty limit might trigger the bug already.
+>  > Thanks,
+> 
+
 -- 
-2.31.1
+Best regard
 
+Hyman Huang(黄勇)
 
