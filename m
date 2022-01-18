@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 484134913C1
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 02:51:49 +0100 (CET)
-Received: from localhost ([::1]:36502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F15214913DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 03:01:39 +0100 (CET)
+Received: from localhost ([::1]:55050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9df1-0003do-U8
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 20:51:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50288)
+	id 1n9doY-00011P-Ku
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 21:01:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1n9dZ4-0008PW-PJ
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 20:45:38 -0500
-Received: from [2607:f8b0:4864:20::52a] (port=36425
- helo=mail-pg1-x52a.google.com)
+ id 1n9dZ6-0008S3-RB
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 20:45:40 -0500
+Received: from [2607:f8b0:4864:20::1033] (port=36506
+ helo=mail-pj1-x1033.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1n9dZ2-0007RP-Bz
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 20:45:37 -0500
-Received: by mail-pg1-x52a.google.com with SMTP id e9so1949703pgb.3
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 17:45:35 -0800 (PST)
+ id 1n9dZ5-0007Rr-4U
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 20:45:40 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ i8-20020a17090a138800b001b3936fb375so848678pja.1
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 17:45:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aLuiFRxCl9GAREYS9eIUmBjZFW4u96x46O22xdwe8ZQ=;
- b=bnV2jI7agoa+mxV7oX4x84LY5DYmA2JJk1gJm92mfPt7mvQbOn7+YZghNCEXhgkOKr
- VY1gSgP0Esg0PJ8xC9ZtKVEyYiYiaHBS6fETwRbPcnYvcH9IqrrxpAOpuM6QRnAqcY6y
- 8oDPhmrCM2/xcIhpgcypjURbPmdlAXzKJ0f3q08spaBhk/UhJ0Yz/YhILktE4zteQ+Dp
- D0Bal0lZ0WkFRFEWQF+As6qVI4zZOves5ez8TLIJ7c9o8RNbIBDW+Sv4kOSo+8rHNLHG
- bflwZTiW2YeYuxXK7eneaTD6JmYyioufo0bWf7pw7OfIoZuRGvVQql//EM+eIAHPf9p1
- OrUg==
+ bh=wTumydVPN7vaOmVu2aTT01lAWA4wv+vG4rcMpjjNZeY=;
+ b=GVBt7n0w8F44kCg3YTs5Pr8kfOKWZGjGji/su8aO/9yiaeh9JBw9ujkvZC2DBqupsN
+ Wp4xP/wUNYETC7kkurYP8l9pbCLOAXaHvq4gT8/eI/njz5WJT1Rpvfa6Zu/kaAKvkJPi
+ Cm3bG/YvFZyxBCdlPeJvDvjiHQhHLquIlcDrI0Fw/roB3WTTRWSEGGIlE8gaoKVepCVt
+ 61zA9/hejBit4+4JhhJlw/FcVz+3iLQvxdlCwu7SgDBIUCZFVMCilrCK9kTppp+SOGa5
+ tMSjyRye/QpuxdkLd5LXkrArwsLP+TqE30L0iI5j7GLzG4O7ZHvpYIbViaDl0AQ/ejmx
+ z4gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aLuiFRxCl9GAREYS9eIUmBjZFW4u96x46O22xdwe8ZQ=;
- b=t66Pi74+rEdI/UVR3247rgH3kBpiFL0NOtz0f0riROiU+V9V15kcICFeM+smnEfMlv
- urJF5m+oujBByLHUvO/aIJcYXsv/L87St05pbxKVKTaX/ZMe10/WOIoe6bDStc44q7lc
- gt3BrtsDZQ3ja1ic8JQMErSs49Wg77LWy7unzXnLTVrStlIk2m4KYJcrkkXk3nz1OnQS
- bFV/dkDgV5h/eHzma8CRwmiOMsKQfICXN5AXZiyZ9uTMyBYiCXb2PyxtvZt/rr8qaBNO
- dXOn0Yl4eU3M/lok2saSRrMHHCxh4KTAo+UmFpobSEBEmQw6YMWoUV8IQ9rSg0VQFd5+
- wkzA==
-X-Gm-Message-State: AOAM5320oD5UKdV7kTQWIpFbJSX6amRVKnqsfgBYcS7MjEuIo1e5w96v
- QvBCpGcllTToshVizk+JG1famv6+8Ol3r0qt
-X-Google-Smtp-Source: ABdhPJyHtRCwBT6U4HnMvxlqVNlkZ5aNd8T6yMbQj/tI42ntr6p8AB0B8TqtjcM5RNhWHfTcJ/Z4wg==
-X-Received: by 2002:a63:ce4c:: with SMTP id r12mr21414566pgi.21.1642470334293; 
- Mon, 17 Jan 2022 17:45:34 -0800 (PST)
+ bh=wTumydVPN7vaOmVu2aTT01lAWA4wv+vG4rcMpjjNZeY=;
+ b=6UM7gG7AV5mmKuOiRGpCTeL3cFAnOY4axzigADU3kuisi1etkspyvI7vy8/qTreGnT
+ WNCh9qKzNavNKBXWTT2YRCgg3RpTkdADOVgBoC4G++7JmmIem7ZLAowKdahi5Nb3HKZt
+ gm+4XeEBbofWr18QDNLkezAqjhaT0k4ANlAErQCiFccOIzMRIlMyqm0C4vhLemtDHwOe
+ qkqMxmM6wLvJTdeoIJwU1HHLykKuEJwY8s8ya/Ob/WBxXAGD11VdhZ6tbIp7TStC5ozO
+ Qvp3cYy8J9pAzpKC3Wxfwxe8UMSbHWKfnB48UvNVLpMWmEwnBDEVohXbSvy9IrDpy8hO
+ 5V9Q==
+X-Gm-Message-State: AOAM533GQhvpS3eh5avn52ugiqXdGgPPbY7vqhqb8e0vJbbgrHhC82VM
+ cmxlGY/STElYGDm9P1xnSfAUHmvGi4u+PGsX
+X-Google-Smtp-Source: ABdhPJx2jVPpjZxh/Su2WU1EZ1r3bVlLa1d2WqCiNqnqjrFowSQVlmSS52UodxJP2HTRforClOPcJw==
+X-Received: by 2002:a17:902:e8c2:b0:149:fdf8:270 with SMTP id
+ v2-20020a170902e8c200b00149fdf80270mr25492166plg.167.1642470337681; 
+ Mon, 17 Jan 2022 17:45:37 -0800 (PST)
 Received: from hsinchu16.internal.sifive.com
  (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id c12sm8286136pfm.113.2022.01.17.17.45.32
+ by smtp.gmail.com with ESMTPSA id c12sm8286136pfm.113.2022.01.17.17.45.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Jan 2022 17:45:33 -0800 (PST)
+ Mon, 17 Jan 2022 17:45:37 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/17] target/riscv: rvv-1.0: Add Zve64f support for
- configuration insns
-Date: Tue, 18 Jan 2022 09:45:05 +0800
-Message-Id: <20220118014522.13613-3-frank.chang@sifive.com>
+Subject: [PATCH v2 03/17] target/riscv: rvv-1.0: Add Zve64f support for load
+ and store insns
+Date: Tue, 18 Jan 2022 09:45:06 +0800
+Message-Id: <20220118014522.13613-4-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220118014522.13613-1-frank.chang@sifive.com>
 References: <20220118014522.13613-1-frank.chang@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,45 +92,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
  Bin Meng <bin.meng@windriver.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-All Zve* extensions support the vector configuration instructions.
+All Zve* extensions support all vector load and store instructions,
+except Zve64* extensions do not support EEW=64 for index values when
+XLEN=32.
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn_trans/trans_rvv.c.inc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ target/riscv/insn_trans/trans_rvv.c.inc | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
 
 diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 6c285c958b..5b47729a21 100644
+index 5b47729a21..0bf41aaa1e 100644
 --- a/target/riscv/insn_trans/trans_rvv.c.inc
 +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -129,7 +129,8 @@ static bool do_vsetvl(DisasContext *s, int rd, int rs1, TCGv s2)
+@@ -263,10 +263,21 @@ static bool vext_check_st_index(DisasContext *s, int vd, int vs2, int nf,
+                                 uint8_t eew)
  {
-     TCGv s1, dst;
+     int8_t emul = eew - s->sew + s->lmul;
+-    return (emul >= -3 && emul <= 3) &&
+-            require_align(vs2, emul) &&
+-            require_align(vd, s->lmul) &&
+-            require_nf(vd, nf, s->lmul);
++    bool ret = (emul >= -3 && emul <= 3) &&
++               require_align(vs2, emul) &&
++               require_align(vd, s->lmul) &&
++               require_nf(vd, nf, s->lmul);
++
++    /*
++     * All Zve* extensions support all vector load and store instructions,
++     * except Zve64* extensions do not support EEW=64 for index values
++     * when XLEN=32. (Section 18.2)
++     */
++    if (get_xl(s) == MXL_RV32) {
++        ret &= (!has_ext(s, RVV) && s->ext_zve64f ? eew != MO_64 : true);
++    }
++
++    return ret;
+ }
  
--    if (!require_rvv(s) || !has_ext(s, RVV)) {
-+    if (!require_rvv(s) ||
-+        !(has_ext(s, RVV) || s->ext_zve64f)) {
-         return false;
-     }
- 
-@@ -164,7 +165,8 @@ static bool do_vsetivli(DisasContext *s, int rd, TCGv s1, TCGv s2)
- {
-     TCGv dst;
- 
--    if (!require_rvv(s) || !has_ext(s, RVV)) {
-+    if (!require_rvv(s) ||
-+        !(has_ext(s, RVV) || s->ext_zve64f)) {
-         return false;
-     }
- 
+ /*
 -- 
 2.31.1
 
