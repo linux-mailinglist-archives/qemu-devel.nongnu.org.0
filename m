@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE0F4492621
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 13:52:35 +0100 (CET)
-Received: from localhost ([::1]:56166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB2404925A9
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 13:24:36 +0100 (CET)
+Received: from localhost ([::1]:60392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9nyP-0007bx-US
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 07:52:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51652)
+	id 1n9nXQ-0006H7-1r
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 07:24:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9nEN-0006CQ-DT; Tue, 18 Jan 2022 07:05:05 -0500
-Received: from [2a00:1450:4864:20::333] (port=40831
- helo=mail-wm1-x333.google.com)
+ id 1n9nES-0006Cg-Lp; Tue, 18 Jan 2022 07:05:03 -0500
+Received: from [2a00:1450:4864:20::32f] (port=39623
+ helo=mail-wm1-x32f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9nEC-0005sa-Qp; Tue, 18 Jan 2022 07:04:49 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- 25-20020a05600c231900b003497473a9c4so5174413wmo.5; 
- Tue, 18 Jan 2022 04:03:15 -0800 (PST)
+ id 1n9nEI-0005sg-T6; Tue, 18 Jan 2022 07:04:57 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ d18-20020a05600c251200b0034974323cfaso5171933wma.4; 
+ Tue, 18 Jan 2022 04:03:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=95uk+zI0cWzNzaMAxJlxn1n1i/neyy/TLYWrgzPz8RA=;
- b=gB5xEdht4+5oT+SP2IyTlibvpibdXl95XXQn7d1ckFRlCc+aUTLpjMKLK8oU4YnabO
- K34HExd/CDOtOLHo83bpYj7tg3TZQkwWiNYXrAz7SiiD9h6cqInE6tmFRnfFWEZ6nIv4
- ORlx/epSj8UI9JGYMmElJA6XXKL3C1NKmcZRVOerLMNORylKRr9paHIxq5jcdGRqKfJc
- ogDA7y399j+beDdqOwXoEBV7iMFU1BrjNxL05cZauJi8XfefJzEXQNW5Ngbw9eiWjji4
- HSPsl+NVTHyHMIqNOf/ItTAof2OoOBOY4UV/b8P8cuDgb88x+AP78bRKrVRxLyBtwsye
- TBew==
+ bh=7PQJvTm7D5iEMygal/TsZr37XrHXS89Xmn4EjxuRMgQ=;
+ b=XsqplmIn3VH2aVKdkQVVyyo0QLMnUs0a+t6Lz9a9endCE994teWrbcLmkOzeu0oaWj
+ zl2fxLML17U78GCOJiAQr5SQh5hJ2i28RKABPTAkCo0C+klYxM/HWix23p++N6euQPH0
+ 9+v1VWfqRRunTGgNwBXFitBQPGLv9lZ5gqaxEL9R6oKr++/3EYe3v5e7vRZehc/hx4DM
+ 2o5ye6qO7ZWeNB02JzoV5KK9+VFhCFm48gOyPMlqqIsNSgisaauwXaq5jMlknwOUnETv
+ MRli6t9kHB8K6bTKHKTcEBdtjcHEGsV0TnACHsnxYN1bLAXqKnJyETjJ/VbDL/1IS0fv
+ zjzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=95uk+zI0cWzNzaMAxJlxn1n1i/neyy/TLYWrgzPz8RA=;
- b=VU+q+l7WUn8ZKFeTQXxzezIYakHzRHAcXUydje+7xrparEw8Zn8LZI8niovUjyi4Fe
- ekhWj3vSPrru7UllD5WjndTM7ivOMdrxPfpH2k/Oitxc0vWaHyH68oOiVBDEDCcVh4Vi
- SwQwtLGNm/DbaRZzKXEqjvBdUgjVxZGac8Pk+GTiFvDicZOtcBB5os4rbrdAu7WiptYN
- sjgDD00Wy9N+lwC+mOXI6BYg6NbUoyn9WpcVNJPnlY9tsHSz5bUVzxas74pdizatfZ3i
- XlW/ZB/WqaYcJoXnL+gqcdgUbIN+PDvf3i0+MEPpYD4xni+MfXnsJeoi2kQNpH7HMqbw
- riJQ==
-X-Gm-Message-State: AOAM532FWeNpp0ghChgviVYAurGY2fae8HymSHeICIWl5EaPphxVEXZV
- gXk1QlrZmj8wWxkX7Fta1IxFSzZfyyw=
-X-Google-Smtp-Source: ABdhPJxfTerP8ne+Jtnw/utZvdKaqRXYVGSXVWPNAVW5AjnPsGZrxrLOuqTdmSAmM79K3mv07WRt5Q==
-X-Received: by 2002:adf:cc90:: with SMTP id p16mr24829004wrj.685.1642507394540; 
- Tue, 18 Jan 2022 04:03:14 -0800 (PST)
+ bh=7PQJvTm7D5iEMygal/TsZr37XrHXS89Xmn4EjxuRMgQ=;
+ b=r0D2Dp4732sCtCAsFPTzBv57IAWzYPM5oemy+AXYrFjgTTxgFSiYnHvVxZLQsRBg1w
+ ZCiBPXQp4ln5vwzA+FJ7cReZ9ltcQj+1vsejeVScyJkkZ6n4/mbswunEX3KrkbJ32I1x
+ WmCGsacC96/eO4yEQQqu8FZTxDxX3yfBPVEO+XEqq3H4Gx56LbPHsK74+b7aoHPBD/sM
+ UKlAfqNY7YcxxfsIGrLTqvNQrRIk29F9B4i69UpqYtn8/sTMa8QJKAsx4ugoeuSMH/Tw
+ 8zBPVehnqNGU5FQeCUQlpZR448pk99uB7fm5iiTeuNBa6fMa1zafT4R3T7na+Io6T40k
+ Supw==
+X-Gm-Message-State: AOAM531GJ2pmPiK5EIaIRcNSy1pLa1jDbQEfuMLZeUnqI7dFcztyXGPc
+ q/0J4DcQt/D7UbkiAcgexTHgZnL53PA=
+X-Google-Smtp-Source: ABdhPJw+ZMoFQnolu4O7utNWFNT9s3ZaOb9h9VZh4fcHKMRkgIXWUf3GGH7eOkBjgXNJ7Z+LOA3aBQ==
+X-Received: by 2002:a5d:548b:: with SMTP id h11mr23471378wrv.12.1642507399490; 
+ Tue, 18 Jan 2022 04:03:19 -0800 (PST)
 Received: from nuc.. (154.red-83-50-83.dynamicip.rima-tde.net. [83.50.83.154])
  by smtp.gmail.com with ESMTPSA id
- v5sm1919951wrx.114.2022.01.18.04.03.13
+ r3sm8081621wrz.92.2022.01.18.04.03.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jan 2022 04:03:14 -0800 (PST)
+ Tue, 18 Jan 2022 04:03:19 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 09/19] hw/nvram: Restrict fw_cfg QOM interface to sysemu and
- tools
-Date: Tue, 18 Jan 2022 13:02:19 +0100
-Message-Id: <20220118120229.196337-10-f4bug@amsat.org>
+Subject: [PULL 10/19] hw/pci: Restrict pci-bus stub to sysemu
+Date: Tue, 18 Jan 2022 13:02:20 +0100
+Message-Id: <20220118120229.196337-11-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220118120229.196337-1-f4bug@amsat.org>
 References: <20220118120229.196337-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,31 +99,38 @@ From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-fw_cfg QOM interface is required by system emulation and
-qemu-storage-daemon. User-mode emulation doesn't need it.
+Neither tools nor user-mode emulation require the PCI bus stub.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20220111184309.28637-3-f4bug@amsat.org>
+Message-Id: <20220111184309.28637-4-f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/nvram/meson.build | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ stubs/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/nvram/meson.build b/hw/nvram/meson.build
-index 202a5466e63..f5ee9f6b88c 100644
---- a/hw/nvram/meson.build
-+++ b/hw/nvram/meson.build
-@@ -1,5 +1,7 @@
--# QOM interfaces must be available anytime QOM is used.
--qom_ss.add(files('fw_cfg-interface.c'))
-+if have_system or have_tools
-+  # QOM interfaces must be available anytime QOM is used.
-+  qom_ss.add(files('fw_cfg-interface.c'))
-+endif
- 
- softmmu_ss.add(files('fw_cfg.c'))
- softmmu_ss.add(when: 'CONFIG_CHRP_NVRAM', if_true: files('chrp_nvram.c'))
+diff --git a/stubs/meson.build b/stubs/meson.build
+index 363f6fa785d..d359cbe1ad7 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -26,7 +26,6 @@
+ stub_ss.add(files('module-opts.c'))
+ stub_ss.add(files('monitor.c'))
+ stub_ss.add(files('monitor-core.c'))
+-stub_ss.add(files('pci-bus.c'))
+ stub_ss.add(files('qemu-timer-notify-cb.c'))
+ stub_ss.add(files('qmp_memory_device.c'))
+ stub_ss.add(files('qmp-command-available.c'))
+@@ -51,6 +50,7 @@
+ endif
+ if have_system
+   stub_ss.add(files('fw_cfg.c'))
++  stub_ss.add(files('pci-bus.c'))
+   stub_ss.add(files('semihost.c'))
+   stub_ss.add(files('usb-dev-stub.c'))
+   stub_ss.add(files('xen-hw-stub.c'))
 -- 
 2.34.1
 
