@@ -2,65 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E94C492A00
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 17:02:55 +0100 (CET)
-Received: from localhost ([::1]:50080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8139A492996
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 16:24:00 +0100 (CET)
+Received: from localhost ([::1]:56922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9qwf-0003PZ-Ep
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 11:02:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38404)
+	id 1n9qL1-0006n2-In
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 10:23:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1n9pys-00070c-Vq
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 10:01:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46033)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n9q5M-0008O2-KC
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 10:07:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55851)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1n9pyn-0005Lr-2a
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 10:01:05 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n9q5J-0006a7-Um
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 10:07:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642518059;
+ s=mimecast20190719; t=1642518465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XkepvNBTkMcNWwv3Urqhti24cACgK/VCFi1Q5opS3SE=;
- b=M28I6y8fzTVeuSGRCOq7KGrKWyoMyndtCeZirRbLJzSeIOV17KxpsD6UNXsmJcXkw6LQwg
- FCulWFFUKBWv4UDL5MaKxKq+qj16l9z86eM4g1UZzQw/arqQoEw9hPHG3QAWAFm5eTwq1K
- 5Eh5PjcPwTwvCJWGt/Kr4wDAlmHS024=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=su0ZJXXZxiaOLvsjK+p+kXNdeVMdn3q15RPMbYlYNz0=;
+ b=JHjF+7knLjNpGooNb8Hyb5wwy2mfT8BHsLeYkiImI7QvLZkSvUe7v0lSpwgZ3XZV8qtmfz
+ YxRM39YzG6PNvaqOfgbwkxt+bjUByZLsW9VIbsf4rOFDKaOTu7cxFYDAwJVHr6DAgFhUgf
+ 3L9uVPOVN+V7FtNOY47H61RQoB9tjuI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-327-THIx9BOSMOiDeJvjr4uJ1Q-1; Tue, 18 Jan 2022 10:00:58 -0500
-X-MC-Unique: THIx9BOSMOiDeJvjr4uJ1Q-1
+ us-mta-641-9Tw4KND1M_aRVziVfAZorw-1; Tue, 18 Jan 2022 10:07:43 -0500
+X-MC-Unique: 9Tw4KND1M_aRVziVfAZorw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68127190A7A6;
- Tue, 18 Jan 2022 15:00:55 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-16.ams2.redhat.com
- [10.36.112.16])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4AD71753ED;
- Tue, 18 Jan 2022 15:00:33 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BA215113865F; Tue, 18 Jan 2022 16:00:31 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
-Subject: Re: [PATCH v13 2/7] net/vmnet: add vmnet backends to qapi/net
-References: <20220113172219.66372-1-yaroshchuk2000@gmail.com>
- <20220113172219.66372-3-yaroshchuk2000@gmail.com>
-Date: Tue, 18 Jan 2022 16:00:31 +0100
-In-Reply-To: <20220113172219.66372-3-yaroshchuk2000@gmail.com> (Vladislav
- Yaroshchuk's message of "Thu, 13 Jan 2022 20:22:14 +0300")
-Message-ID: <87r19584xc.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6770193248E
+ for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 15:07:42 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.195.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 78D6373269;
+ Tue, 18 Jan 2022 15:07:13 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 0/2] virtio-mem: Handle preallocation with migration
+Date: Tue, 18 Jan 2022 16:07:10 +0100
+Message-Id: <20220118150712.139953-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -81,206 +74,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org, jasowang@redhat.com,
- phillip.ennen@gmail.com, qemu-devel@nongnu.org, dirty@apple.com,
- f4bug@amsat.org, roman@roolebo.dev, r.bolshakov@yadro.com, agraf@csgraf.de,
- phillip@axleos.com, akihiko.odaki@gmail.com, hsp.cat7@gmail.com, hello@adns.io,
- qemu_oss@crudebyte.com, eblake@redhat.com, kraxel@redhat.com
+Cc: Michal Privoznik <mprivozn@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladislav Yaroshchuk <yaroshchuk2000@gmail.com> writes:
+While playing with migration of virtio-mem with an ordinary file backing,
+I realized that migration and prealloc doesn't currently work as expected
+for virtio-mem, especially when migrating zeropages or skipping migration
+of some pages.
 
-> Create separate netdevs for each vmnet operating mode:
-> - vmnet-host
-> - vmnet-shared
-> - vmnet-bridged
->
-> Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+In contrast to ordinary memory backend preallocation, virtio-mem
+preallocates memory before plugging blocks to the guest. Consequently,
+when migrating we are not actually preallocating on the destination but
+"only" migrate pages. When migrating the zeropage, we might not end up
+allocating actual backend memory.
 
-I acked v8 of the QAPI schema part.  You should add Acked-by and
-Reviewed-by you receive in later revisions, unless you make changes that
-invalidate them.  When in doubt, drop them.
+Postcopy needs some extra care, and I realized that prealloc+postcopy is
+shaky in general. Let's at least try to mimic what ordinary
+prealloc+postcopy does: temporarily allocate the memory, discard it, and
+cross fingers that we'll still have sufficient memory when postcopy
+actually tries placing pages.
 
-> diff --git a/qapi/net.json b/qapi/net.json
-> index 7fab2e7cd8..b922e2e34f 100644
-> --- a/qapi/net.json
-> +++ b/qapi/net.json
-> @@ -452,6 +452,120 @@
->      '*vhostdev':     'str',
->      '*queues':       'int' } }
->  
-> +##
-> +# @NetdevVmnetHostOptions:
-> +#
-> +# vmnet (host mode) network backend.
-> +#
-> +# Allows the vmnet interface to communicate with other vmnet
-> +# interfaces that are in host mode and also with the host.
-> +#
-> +# @start-address: The starting IPv4 address to use for the interface.
-> +#                 Must be in the private IP range (RFC 1918). Must be
-> +#                 specified along with @end-address and @subnet-mask.
-> +#                 This address is used as the gateway address. The
-> +#                 subsequent address up to and including end-address are
-> +#                 placed in the DHCP pool.
-> +#
-> +# @end-address: The DHCP IPv4 range end address to use for the
-> +#               interface. Must be in the private IP range (RFC 1918).
-> +#               Must be specified along with @start-address and
-> +#               @subnet-mask.
-> +#
-> +# @subnet-mask: The IPv4 subnet mask to use on the interface. Must
-> +#               be specified along with @start-address and @subnet-mask.
-> +#
-> +# @isolated: Enable isolation for this interface. Interface isolation
-> +#            ensures that vmnet interface is not able to communicate
-> +#            with any other vmnet interfaces. Only communication with
-> +#            host is allowed. Available since macOS Big Sur 11.0.
+For postcopy to work with prealloc=on, we need a matching "requested-size"
+on source and destination, meaning we have to start QEMU on the destination
+with the current "requested-size" on the source. Only that way, we can try
+temporarily allocating the "requested-size" to see if there is a
+fundamental issue. If we detect a mismatch, we don't start postcopy.
 
-What happens when the host is too old?
+Cc: Juan Quintela <quintela@redhat.com>
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Michal Privoznik <mprivozn@redhat.com>
 
-> +#
-> +# @net-uuid: The identifier (UUID) to uniquely identify the isolated
-> +#            network vmnet interface should be added to. If
-> +#            set, no DHCP service is provided for this interface and
-> +#            network communication is allowed only with other interfaces
-> +#            added to this network identified by the UUID. Available
-> +#            since macOS Big Sur 11.0.
+David Hildenbrand (2):
+  virtio-mem: Warn if a memory backend with "prealloc=on" is used
+  virtio-mem: Handle preallocation with migration
 
-Same question.
+ hw/virtio/virtio-mem.c         | 143 +++++++++++++++++++++++++++++++++
+ include/hw/virtio/virtio-mem.h |   6 ++
+ 2 files changed, 149 insertions(+)
 
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'struct': 'NetdevVmnetHostOptions',
-> +  'data': {
-> +    '*start-address': 'str',
-> +    '*end-address':   'str',
-> +    '*subnet-mask':   'str',
-> +    '*isolated':      'bool',
-> +    '*net-uuid':      'str' },
-> +  'if': 'CONFIG_VMNET' }
-> +
-> +##
-> +# @NetdevVmnetSharedOptions:
-> +#
-> +# vmnet (shared mode) network backend.
-> +#
-> +# Allows traffic originating from the vmnet interface to reach the
-> +# Internet through a network address translator (NAT).
-> +# The vmnet interface can communicate with the host and with
-> +# other shared mode interfaces on the same subnet. If no DHCP
-> +# settings, subnet mask and IPv6 prefix specified, the interface can
-> +# communicate with any of other interfaces in shared mode.
-> +#
-> +# @start-address: The starting IPv4 address to use for the interface.
-> +#                 Must be in the private IP range (RFC 1918). Must be
-> +#                 specified along with @end-address and @subnet-mask.
-> +#                 This address is used as the gateway address. The
-> +#                 subsequent address up to and including end-address are
-> +#                 placed in the DHCP pool.
-> +#
-> +# @end-address: The DHCP IPv4 range end address to use for the
-> +#               interface. Must be in the private IP range (RFC 1918).
-> +#               Must be specified along with @start-address and @subnet-mask.
-> +#
-> +# @subnet-mask: The IPv4 subnet mask to use on the interface. Must
-> +#                be specified along with @start-address and @subnet-mask.
-> +#
-> +# @isolated: Enable isolation for this interface. Interface isolation
-> +#            ensures that vmnet interface is not able to communicate
-> +#            with any other vmnet interfaces. Only communication with
-> +#            host is allowed. Available since macOS Big Sur 11.0.
-
-Same question.
-
-> +#
-> +# @nat66-prefix: The IPv6 prefix to use into guest network. Must be a
-> +#                unique local address i.e. start with fd00::/8 and have
-> +#                length of 64.
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'struct': 'NetdevVmnetSharedOptions',
-> +  'data': {
-> +    '*start-address': 'str',
-> +    '*end-address':   'str',
-> +    '*subnet-mask':   'str',
-> +    '*isolated':      'bool',
-> +    '*nat66-prefix':  'str' },
-> +  'if': 'CONFIG_VMNET' }
-> +
-> +##
-> +# @NetdevVmnetBridgedOptions:
-> +#
-> +# vmnet (bridged mode) network backend.
-> +#
-> +# Bridges the vmnet interface with a physical network interface.
-> +#
-> +# @ifname: The name of the physical interface to be bridged.
-> +#
-> +# @isolated: Enable isolation for this interface. Interface isolation
-> +#            ensures that vmnet interface is not able to communicate
-> +#            with any other vmnet interfaces. Only communication with
-> +#            host is allowed. Available since macOS Big Sur 11.0.
-
-Same question.
-
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'struct': 'NetdevVmnetBridgedOptions',
-> +  'data': {
-> +    'ifname':     'str',
-> +    '*isolated':  'bool' },
-> +  'if': 'CONFIG_VMNET' }
-> +
->  ##
->  # @NetClientDriver:
->  #
-> @@ -460,10 +574,16 @@
->  # Since: 2.7
->  #
->  #        @vhost-vdpa since 5.1
-> +#        @vmnet-host since 7.0
-> +#        @vmnet-shared since 7.0
-> +#        @vmnet-bridged since 7.0
->  ##
->  { 'enum': 'NetClientDriver',
->    'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
-> -            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
-> +            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa',
-> +            { 'name': 'vmnet-host', 'if': 'CONFIG_VMNET' },
-> +            { 'name': 'vmnet-shared', 'if': 'CONFIG_VMNET' },
-> +            { 'name': 'vmnet-bridged', 'if': 'CONFIG_VMNET' }] }
->  
->  ##
->  # @Netdev:
-> @@ -477,6 +597,9 @@
->  # Since: 1.2
->  #
->  #        'l2tpv3' - since 2.1
-> +#        'vmnet-host' - since 7.0
-> +#        'vmnet-shared' - since 7.0
-> +#        'vmnet-bridged' - since 7.0
->  ##
->  { 'union': 'Netdev',
->    'base': { 'id': 'str', 'type': 'NetClientDriver' },
-> @@ -492,7 +615,13 @@
->      'hubport':  'NetdevHubPortOptions',
->      'netmap':   'NetdevNetmapOptions',
->      'vhost-user': 'NetdevVhostUserOptions',
-> -    'vhost-vdpa': 'NetdevVhostVDPAOptions' } }
-> +    'vhost-vdpa': 'NetdevVhostVDPAOptions',
-> +    'vmnet-host': { 'type': 'NetdevVmnetHostOptions',
-> +                    'if': 'CONFIG_VMNET' },
-> +    'vmnet-shared': { 'type': 'NetdevVmnetSharedOptions',
-> +                      'if': 'CONFIG_VMNET' },
-> +    'vmnet-bridged': { 'type': 'NetdevVmnetBridgedOptions',
-> +                       'if': 'CONFIG_VMNET' } } }
->  
->  ##
->  # @RxState:
+-- 
+2.34.1
 
 
