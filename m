@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00486492C88
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 18:38:13 +0100 (CET)
-Received: from localhost ([::1]:50792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6730F492CA3
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 18:43:58 +0100 (CET)
+Received: from localhost ([::1]:60864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9sQu-0004Sc-K3
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 12:38:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49764)
+	id 1n9sWT-0002sm-I8
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 12:43:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n9s2S-00062o-5w
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 12:13:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44071)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n9s8S-0005Py-6S
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 12:19:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48573)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n9s2Q-0003cf-2B
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 12:12:55 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n9s8N-0004Ua-Tn
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 12:19:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642525973;
+ s=mimecast20190719; t=1642526338;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yJiKI/EfP3Kb9cR4D+B6fiifYdDk2ui7y40xn8IgahE=;
- b=Cl8KJaGH8NVVKZsqkmzI6E15AhAeQ7TpAmZWDIY651yHHNcFQv9YEKB7S9TBb4dpVzG4ms
- Jht53nQJzTXESb18+0PYqKx4nzJo5YktfbUOyFMW7GnIsEjqAAXNNDuXF72S432smJ4yHm
- fF4l8hetYX53wNh48TEO1UcynvdnApU=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qUx4BP0FIwrp/ETX7AzAIjDyfL8mLaDKixyBGKf1G00=;
+ b=F1s5GnpQYTs0pUa5XjZ6z2yOqIE0MkbJX9aHBUu82aeAYg1RJ9I8TlsmlBOOYBelffqER0
+ MhTypD7qxbPyTrBZMRMUIqnx+7fhCrkmspnKHHA1CQMGP34q0V3EpCsvGtYnDyYfqqfgmH
+ j1SWo1tmSqzwJoDv7kWttp3iKTBEojo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-XdrUFlaPOuS7xc6-NOGKPQ-1; Tue, 18 Jan 2022 12:12:35 -0500
-X-MC-Unique: XdrUFlaPOuS7xc6-NOGKPQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-640-1Va_pZ9NMPqAZQ_UIMy5Ow-1; Tue, 18 Jan 2022 12:18:53 -0500
+X-MC-Unique: 1Va_pZ9NMPqAZQ_UIMy5Ow-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7124710A2609;
- Tue, 18 Jan 2022 17:00:14 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.149])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B641184D07;
- Tue, 18 Jan 2022 17:00:13 +0000 (UTC)
-From: Hanna Reitz <hreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v2 2/2] iotests/block-status-cache: New test
-Date: Tue, 18 Jan 2022 18:00:00 +0100
-Message-Id: <20220118170000.49423-3-hreitz@redhat.com>
-In-Reply-To: <20220118170000.49423-1-hreitz@redhat.com>
-References: <20220118170000.49423-1-hreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA78018982B4;
+ Tue, 18 Jan 2022 17:06:09 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.194.216])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 78FB4753DA;
+ Tue, 18 Jan 2022 17:06:04 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Alistair Francis <alistair.francis@wdc.com>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org
+Subject: [PATCH] meson.build: Use a function from libfdt 1.5.1 for the library
+ check
+Date: Tue, 18 Jan 2022 18:05:48 +0100
+Message-Id: <20220118170548.97288-1-thuth@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -64,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,186 +76,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org, qemu-stable@nongnu.org
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new test to verify that want_zero=false block-status calls do not
-pollute the block-status cache for want_zero=true calls.
+The fdt version test in meson.build uses a function from libfdt v1.4.7,
+but we require version 1.5.1 nowadays. Thus use a function that has
+been introduced in that version instead.
 
-We check want_zero=true calls and their results using `qemu-img map`
-(over NBD), and want_zero=false calls also using `qemu-img map` over
-NBD, but using the qemu:allocation-depth context.
-
-(This test case cannot be integrated into nbd-qemu-allocation, because
-that is a qcow2 test, and this is a raw test.)
-
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/822
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qemu-iotests/tests/block-status-cache   | 139 ++++++++++++++++++
- .../qemu-iotests/tests/block-status-cache.out |   5 +
- 2 files changed, 144 insertions(+)
- create mode 100755 tests/qemu-iotests/tests/block-status-cache
- create mode 100644 tests/qemu-iotests/tests/block-status-cache.out
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/tests/block-status-cache b/tests/qemu-iotests/tests/block-status-cache
-new file mode 100755
-index 0000000000..6fa10bb8f8
---- /dev/null
-+++ b/tests/qemu-iotests/tests/block-status-cache
-@@ -0,0 +1,139 @@
-+#!/usr/bin/env python3
-+# group: rw quick
-+#
-+# Test cases for the block-status cache.
-+#
-+# Copyright (C) 2022 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import os
-+import signal
-+import iotests
-+from iotests import qemu_img_create, qemu_img_pipe, qemu_nbd
-+
-+
-+image_size = 1 * 1024 * 1024
-+test_img = os.path.join(iotests.test_dir, 'test.img')
-+
-+nbd_pidfile = os.path.join(iotests.test_dir, 'nbd.pid')
-+nbd_sock = os.path.join(iotests.sock_dir, 'nbd.sock')
-+
-+
-+class TestBscWithNbd(iotests.QMPTestCase):
-+    def setUp(self) -> None:
-+        """Just create an empty image with a read-only NBD server on it"""
-+        assert qemu_img_create('-f', iotests.imgfmt, test_img,
-+                               str(image_size)) == 0
-+
-+        # Pass --allocation-depth to enable the qemu:allocation-depth context,
-+        # which we are going to query to provoke a block-status inquiry with
-+        # want_zero=false.
-+        assert qemu_nbd(f'--socket={nbd_sock}',
-+                        f'--format={iotests.imgfmt}',
-+                        '--persistent',
-+                        '--allocation-depth',
-+                        '--read-only',
-+                        f'--pid-file={nbd_pidfile}',
-+                        test_img) \
-+            == 0
-+
-+    def tearDown(self) -> None:
-+        with open(nbd_pidfile, encoding='utf-8') as f:
-+            pid = int(f.read())
-+        os.kill(pid, signal.SIGTERM)
-+        os.remove(nbd_pidfile)
-+        os.remove(test_img)
-+
-+    def test_with_zero_bug(self) -> None:
-+        """
-+        Verify that the block-status cache is not corrupted by a
-+        want_zero=false call.
-+        We can provoke a want_zero=false call with `qemu-img map` over NBD with
-+        x-dirty-bitmap=qemu:allocation-depth, so we first run a normal `map`
-+        (which results in want_zero=true), then using said
-+        qemu:allocation-depth context, and finally another normal `map` to
-+        verify that the cache has not been corrupted.
-+        """
-+
-+        nbd_img_opts = f'driver=nbd,server.type=unix,server.path={nbd_sock}'
-+        nbd_img_opts_alloc_depth = nbd_img_opts + \
-+            ',x-dirty-bitmap=qemu:allocation-depth'
-+
-+        # Normal map, results in want_zero=true.
-+        # This will probably detect an allocated data sector first (qemu likes
-+        # to allocate the first sector to facilitate alignment probing), and
-+        # then the rest to be zero.  The BSC will thus contain (if anything)
-+        # one range covering the first sector.
-+        map_pre = qemu_img_pipe('map', '--output=json', '--image-opts',
-+                                nbd_img_opts)
-+
-+        # qemu:allocation-depth maps for want_zero=false.
-+        # want_zero=false should (with the file driver, which the server is
-+        # using) report everything as data.  While this is sufficient for
-+        # want_zero=false, this is nothing that should end up in the
-+        # block-status cache.
-+        # Due to a bug, this information did end up in the cache, though, and
-+        # this would lead to wrong information being returned on subsequent
-+        # want_zero=true calls.
-+        #
-+        # We need to run this map twice: On the first call, we probably still
-+        # have the first sector in the cache, and so this will be served from
-+        # the cache; and only the subsequent range will be queried from the
-+        # block driver.  This subsequent range will then be entered into the
-+        # cache.
-+        # If we did a want_zero=true call at this point, we would thus get
-+        # correct information: The first sector is not covered by the cache, so
-+        # we would get fresh block-status information from the driver, which
-+        # would return a data range, and this would then go into the cache,
-+        # evicting the wrong range from the want_zero=false call before.
-+        #
-+        # Therefore, we need a second want_zero=false map to reproduce:
-+        # Since the first sector is not in the cache, the query for its status
-+        # will go to the driver, which will return a result that reports the
-+        # whole image to be a single data area.  This result will then go into
-+        # the cache, and so the cache will then report the whole image to
-+        # contain data.
-+        #
-+        # Note that once the cache reports the whole image to contain data, any
-+        # subsequent map operation will be served from the cache, and so we can
-+        # never loop too many times here.
-+        for _ in range(2):
-+            # (Ignore the result, this is just to contaminate the cache)
-+            qemu_img_pipe('map', '--output=json', '--image-opts',
-+                          nbd_img_opts_alloc_depth)
-+
-+        # Now let's see whether the cache reports everything as data, or
-+        # whether we get correct information (i.e. the same as we got on our
-+        # first attempt).
-+        map_post = qemu_img_pipe('map', '--output=json', '--image-opts',
-+                                 nbd_img_opts)
-+
-+        if map_pre != map_post:
-+            print('ERROR: Map information differs before and after querying ' +
-+                  'qemu:allocation-depth')
-+            print('Before:')
-+            print(map_pre)
-+            print('After:')
-+            print(map_post)
-+
-+            self.fail("Map information differs")
-+
-+
-+if __name__ == '__main__':
-+    # The block-status cache only works on the protocol layer, so to test it,
-+    # we can only use the raw format
-+    iotests.main(supported_fmts=['raw'],
-+                 supported_protocols=['file'])
-diff --git a/tests/qemu-iotests/tests/block-status-cache.out b/tests/qemu-iotests/tests/block-status-cache.out
-new file mode 100644
-index 0000000000..ae1213e6f8
---- /dev/null
-+++ b/tests/qemu-iotests/tests/block-status-cache.out
-@@ -0,0 +1,5 @@
-+.
-+----------------------------------------------------------------------
-+Ran 1 tests
-+
-+OK
+diff --git a/meson.build b/meson.build
+index 762d7cee85..d1cc04c7a2 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2276,7 +2276,7 @@ if have_system
+     if fdt.found() and cc.links('''
+        #include <libfdt.h>
+        #include <libfdt_env.h>
+-       int main(void) { fdt_check_full(NULL, 0); return 0; }''',
++       int main(void) { fdt_find_max_phandle(NULL, NULL); return 0; }''',
+          dependencies: fdt)
+       fdt_opt = 'system'
+     elif fdt_opt == 'system'
 -- 
-2.33.1
+2.27.0
 
 
