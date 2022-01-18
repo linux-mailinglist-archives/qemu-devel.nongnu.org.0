@@ -2,76 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56CDF492413
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 11:48:07 +0100 (CET)
-Received: from localhost ([::1]:45354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20562492423
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 11:51:56 +0100 (CET)
+Received: from localhost ([::1]:49882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9m20-0007RL-KM
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 05:48:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35188)
+	id 1n9m5j-00027t-5e
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 05:51:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n9lz0-0005Dq-I3
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 05:44:58 -0500
-Received: from [2a00:1450:4864:20::330] (port=39763
- helo=mail-wm1-x330.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n9lyi-0001yk-Iq
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 05:44:57 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- d18-20020a05600c251200b0034974323cfaso4638781wma.4
- for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 02:44:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=12vMxq55Y3U+9+h1tBchFHOl0I3ELQYNeTIBQgT3/8Y=;
- b=jUSbMBc5WUYM3OncjdWaj8yAus+4QqFETImuc1Z0F78OwZEACuPoHaCa047WwI0vxu
- neyQmKzndxwM6OPFCtYQMqLVxeHh/kfJibG3/zH4HBSfRPUYY4hilcAdes5lkvGd3eTh
- o+ESSYjxIsBLqdgpurddO/xy7oNErVNQqWVhlqFizcIVveLCiU28mHNXVgLTUaQ8IIY3
- 6egYy7aOY+8XkbFbClVM9iVxIhJRkSEVzcOPOFUZkUK94e3mRzuLgsJnLcwtilzje9JY
- Sh+SvgipmdVZq+A5rDiyVGS02aLoYq37ruYPt/AJAlinGTTlPircSAsyTPTzMYG0pyD1
- YQuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=12vMxq55Y3U+9+h1tBchFHOl0I3ELQYNeTIBQgT3/8Y=;
- b=rA+TH6/A5cBYk4mTPRja7b4IUCglhlWoIejFfAx33uoK4JypHVNFazoBBjVWEXFm2R
- gROnWAvgS/fjKv1FTHFRYwiWOnXeCmb+U7fT+WeDO0pi2WHFbKVMtu9hU13P39QS5mFp
- PBTjKrdD5q3LeclGfgUxs+F9pNp3ReKbwPlF04K5xIkYsnw1U80oxLeC2TaVXL1b/LYx
- 5zgMTHQVdchjtk+Hw4QXo3SqAN+Qpl+lA7V3e5c/DyMtBr4vAokWidmAG1q9g4KeNpmU
- QLW/On/3Ck9i7qd0ZSFumvMtugeluDLmwwXnzHUfQ5IPWnEeiUHX7UEZY+gUkPrgRkS6
- r6Qg==
-X-Gm-Message-State: AOAM533+C7SNigs0KHk2rsTIEhSgl0Mkqt2kY+xzNmEjU8LXM50lCjV3
- CSYtLu6nmtlhns8gVSG/1A6TYBlWyqQXWQ==
-X-Google-Smtp-Source: ABdhPJyKCgNpCcDo7TSF3RzCp9LnNDdTeUlDqduu/YAdSJAAhpYzS0oIUk22PxAFo26IOdpxX64Y3A==
-X-Received: by 2002:adf:fb42:: with SMTP id c2mr22723042wrs.168.1642502676933; 
- Tue, 18 Jan 2022 02:44:36 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id v13sm18778694wro.90.2022.01.18.02.44.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jan 2022 02:44:36 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] Remove unnecessary minimum_version_id_old fields
-Date: Tue, 18 Jan 2022 10:44:34 +0000
-Message-Id: <20220118104434.4117879-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1n9m0u-00087X-JG; Tue, 18 Jan 2022 05:46:56 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:58381)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1n9m0r-0002Uj-LF; Tue, 18 Jan 2022 05:46:56 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4JdQSS4V5Tz4y3s; Tue, 18 Jan 2022 21:46:48 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1642502808;
+ bh=QTlU9PtZQ3bcE/SYjqhnq0gAnuT9PWCoIJuacYwLdL8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=W13CezaR4t2kvJk0s8Bn562kD8/0Z9hFGkvp7xhbjgjULM9/2+gZD5bR9f6EdTL5S
+ obyvL3wDvavy0Stl6uu6nY5bNjKco3vXbETnya8YbbND8/5o1lDf8p28FhWvgOD5Wo
+ 8klfKZH5ESRSrbJCs1g5AFLQPzTV928RikXC8tvs=
+Date: Tue, 18 Jan 2022 21:46:36 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v2 1/2] target/ppc: Remove last user of .load_state_old
+Message-ID: <YeaajF8ZU6ASVZzC@yekko>
+References: <20220118104150.1899661-1-clg@kaod.org>
+ <20220118104150.1899661-2-clg@kaod.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="xyouzo2HPLfW9gOa"
+Content-Disposition: inline
+In-Reply-To: <20220118104150.1899661-2-clg@kaod.org>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,449 +58,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The migration code will not look at a VMStateDescription's
-minimum_version_id_old field unless that VMSD has set the
-load_state_old field to something non-NULL.  (The purpose of
-minimum_version_id_old is to specify what migration version is needed
-for the code in the function pointed to by load_state_old to be able
-to handle it on incoming migration.)
 
-We have exactly one VMSD which still has a load_state_old,
-in the PPC CPU; every other VMSD which sets minimum_version_id_old
-is doing so unnecessarily. Delete all the unnecessary ones.
+--xyouzo2HPLfW9gOa
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Commit created with:
-  sed -i '/\.minimum_version_id_old/d' $(git grep -l '\.minimum_version_id_old')
-with the one legitimate use then hand-edited back in.
+On Tue, Jan 18, 2022 at 11:41:49AM +0100, C=E9dric le Goater wrote:
+> This breaks migration compatibility from (very) old versions of
+> QEMU. This should not be a problem for the pseries machine for which
+> migration is only supported on recent QEMUs ( > 2.x). There is no
+> clear status on what is supported or not for the other machines. Let's
+> move forward and remove the .load_state_old handler.
+>=20
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/acpi/cpu.c                 | 2 --
- hw/acpi/ich9.c                | 3 ---
- hw/acpi/memory_hotplug.c      | 2 --
- hw/acpi/piix4.c               | 2 --
- hw/acpi/tco.c                 | 1 -
- hw/audio/pcspk.c              | 1 -
- hw/display/macfb.c            | 1 -
- hw/dma/xlnx-zdma.c            | 1 -
- hw/dma/xlnx_csu_dma.c         | 1 -
- hw/gpio/imx_gpio.c            | 1 -
- hw/misc/bcm2835_mbox.c        | 1 -
- hw/net/can/can_kvaser_pci.c   | 1 -
- hw/net/can/can_mioe3680_pci.c | 1 -
- hw/net/can/can_pcm3680_pci.c  | 1 -
- hw/net/can/can_sja1000.c      | 2 --
- hw/net/can/ctucan_core.c      | 2 --
- hw/net/can/ctucan_pci.c       | 1 -
- hw/ppc/ppc.c                  | 1 -
- hw/scsi/megasas.c             | 1 -
- hw/scsi/mptsas.c              | 1 -
- hw/virtio/virtio-mmio.c       | 1 -
- hw/virtio/virtio-pci.c        | 1 -
- hw/virtio/virtio.c            | 1 -
- target/openrisc/machine.c     | 1 -
- target/ppc/machine.c          | 1 -
- target/sparc/machine.c        | 4 ----
- 26 files changed, 36 deletions(-)
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
-diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
-index b20903ea303..3646dbfe68a 100644
---- a/hw/acpi/cpu.c
-+++ b/hw/acpi/cpu.c
-@@ -297,7 +297,6 @@ static const VMStateDescription vmstate_cpuhp_sts = {
-     .name = "CPU hotplug device state",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields      = (VMStateField[]) {
-         VMSTATE_BOOL(is_inserting, AcpiCpuStatus),
-         VMSTATE_BOOL(is_removing, AcpiCpuStatus),
-@@ -311,7 +310,6 @@ const VMStateDescription vmstate_cpu_hotplug = {
-     .name = "CPU hotplug state",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields      = (VMStateField[]) {
-         VMSTATE_UINT32(selector, CPUHotplugState),
-         VMSTATE_UINT8(command, CPUHotplugState),
-diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-index ebe08ed831f..bd9bbade705 100644
---- a/hw/acpi/ich9.c
-+++ b/hw/acpi/ich9.c
-@@ -163,7 +163,6 @@ static const VMStateDescription vmstate_memhp_state = {
-     .name = "ich9_pm/memhp",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .needed = vmstate_test_use_memhp,
-     .fields      = (VMStateField[]) {
-         VMSTATE_MEMORY_HOTPLUG(acpi_memory_hotplug, ICH9LPCPMRegs),
-@@ -181,7 +180,6 @@ static const VMStateDescription vmstate_tco_io_state = {
-     .name = "ich9_pm/tco",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .needed = vmstate_test_use_tco,
-     .fields      = (VMStateField[]) {
-         VMSTATE_STRUCT(tco_regs, ICH9LPCPMRegs, 1, vmstate_tco_io_sts,
-@@ -208,7 +206,6 @@ static const VMStateDescription vmstate_cpuhp_state = {
-     .name = "ich9_pm/cpuhp",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .needed = vmstate_test_use_cpuhp,
-     .pre_load = vmstate_cpuhp_pre_load,
-     .fields      = (VMStateField[]) {
-diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
-index d0fffcf7870..a581a2183b2 100644
---- a/hw/acpi/memory_hotplug.c
-+++ b/hw/acpi/memory_hotplug.c
-@@ -318,7 +318,6 @@ static const VMStateDescription vmstate_memhp_sts = {
-     .name = "memory hotplug device state",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields      = (VMStateField[]) {
-         VMSTATE_BOOL(is_enabled, MemStatus),
-         VMSTATE_BOOL(is_inserting, MemStatus),
-@@ -332,7 +331,6 @@ const VMStateDescription vmstate_memory_hotplug = {
-     .name = "memory hotplug state",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields      = (VMStateField[]) {
-         VMSTATE_UINT32(selector, MemHotplugState),
-         VMSTATE_STRUCT_VARRAY_POINTER_UINT32(devs, MemHotplugState, dev_count,
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index f0b5fac44a1..cc37fa34168 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -230,7 +230,6 @@ static const VMStateDescription vmstate_memhp_state = {
-     .name = "piix4_pm/memhp",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .needed = vmstate_test_use_memhp,
-     .fields      = (VMStateField[]) {
-         VMSTATE_MEMORY_HOTPLUG(acpi_memory_hotplug, PIIX4PMState),
-@@ -255,7 +254,6 @@ static const VMStateDescription vmstate_cpuhp_state = {
-     .name = "piix4_pm/cpuhp",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .needed = vmstate_test_use_cpuhp,
-     .pre_load = vmstate_cpuhp_pre_load,
-     .fields      = (VMStateField[]) {
-diff --git a/hw/acpi/tco.c b/hw/acpi/tco.c
-index cf1e68a5393..4783721e4e7 100644
---- a/hw/acpi/tco.c
-+++ b/hw/acpi/tco.c
-@@ -239,7 +239,6 @@ const VMStateDescription vmstate_tco_io_sts = {
-     .name = "tco io device status",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields      = (VMStateField[]) {
-         VMSTATE_UINT16(tco.rld, TCOIORegs),
-         VMSTATE_UINT8(tco.din, TCOIORegs),
-diff --git a/hw/audio/pcspk.c b/hw/audio/pcspk.c
-index b056c05387c..dfc7ebca4e1 100644
---- a/hw/audio/pcspk.c
-+++ b/hw/audio/pcspk.c
-@@ -209,7 +209,6 @@ static const VMStateDescription vmstate_spk = {
-     .name = "pcspk",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .needed = migrate_needed,
-     .fields      = (VMStateField[]) {
-         VMSTATE_UINT8(data_on, PCSpkState),
-diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-index 4bd7c3ad6a5..2eeb80cc3f0 100644
---- a/hw/display/macfb.c
-+++ b/hw/display/macfb.c
-@@ -616,7 +616,6 @@ static const VMStateDescription vmstate_macfb = {
-     .name = "macfb",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .post_load = macfb_post_load,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT8_ARRAY(color_palette, MacfbState, 256 * 3),
-diff --git a/hw/dma/xlnx-zdma.c b/hw/dma/xlnx-zdma.c
-index a5a92b4ff8c..4eb7f66e9f8 100644
---- a/hw/dma/xlnx-zdma.c
-+++ b/hw/dma/xlnx-zdma.c
-@@ -806,7 +806,6 @@ static const VMStateDescription vmstate_zdma = {
-     .name = TYPE_XLNX_ZDMA,
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT32_ARRAY(regs, XlnxZDMA, ZDMA_R_MAX),
-         VMSTATE_UINT32(state, XlnxZDMA),
-diff --git a/hw/dma/xlnx_csu_dma.c b/hw/dma/xlnx_csu_dma.c
-index 896bb3574dd..5b62a2f74f7 100644
---- a/hw/dma/xlnx_csu_dma.c
-+++ b/hw/dma/xlnx_csu_dma.c
-@@ -663,7 +663,6 @@ static const VMStateDescription vmstate_xlnx_csu_dma = {
-     .name = TYPE_XLNX_CSU_DMA,
-     .version_id = 0,
-     .minimum_version_id = 0,
--    .minimum_version_id_old = 0,
-     .fields = (VMStateField[]) {
-         VMSTATE_PTIMER(src_timer, XlnxCSUDMA),
-         VMSTATE_UINT16(width, XlnxCSUDMA),
-diff --git a/hw/gpio/imx_gpio.c b/hw/gpio/imx_gpio.c
-index 7a591804a99..c7f98b7bb15 100644
---- a/hw/gpio/imx_gpio.c
-+++ b/hw/gpio/imx_gpio.c
-@@ -277,7 +277,6 @@ static const VMStateDescription vmstate_imx_gpio = {
-     .name = TYPE_IMX_GPIO,
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT32(dr, IMXGPIOState),
-         VMSTATE_UINT32(gdir, IMXGPIOState),
-diff --git a/hw/misc/bcm2835_mbox.c b/hw/misc/bcm2835_mbox.c
-index 9f73cbd5e41..04e53c98282 100644
---- a/hw/misc/bcm2835_mbox.c
-+++ b/hw/misc/bcm2835_mbox.c
-@@ -271,7 +271,6 @@ static const VMStateDescription vmstate_bcm2835_mbox = {
-     .name = TYPE_BCM2835_MBOX,
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields      = (VMStateField[]) {
-         VMSTATE_BOOL_ARRAY(available, BCM2835MboxState, MBOX_CHAN_COUNT),
-         VMSTATE_STRUCT_ARRAY(mbox, BCM2835MboxState, 2, 1,
-diff --git a/hw/net/can/can_kvaser_pci.c b/hw/net/can/can_kvaser_pci.c
-index 168b3a620d9..94b3a534f84 100644
---- a/hw/net/can/can_kvaser_pci.c
-+++ b/hw/net/can/can_kvaser_pci.c
-@@ -266,7 +266,6 @@ static const VMStateDescription vmstate_kvaser_pci = {
-     .name = "kvaser_pci",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields = (VMStateField[]) {
-         VMSTATE_PCI_DEVICE(dev, KvaserPCIState),
-         /* Load this before sja_state.  */
-diff --git a/hw/net/can/can_mioe3680_pci.c b/hw/net/can/can_mioe3680_pci.c
-index 7a79e2605ae..29dc696f7c8 100644
---- a/hw/net/can/can_mioe3680_pci.c
-+++ b/hw/net/can/can_mioe3680_pci.c
-@@ -203,7 +203,6 @@ static const VMStateDescription vmstate_mioe3680_pci = {
-     .name = "mioe3680_pci",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields = (VMStateField[]) {
-         VMSTATE_PCI_DEVICE(dev, Mioe3680PCIState),
-         VMSTATE_STRUCT(sja_state[0], Mioe3680PCIState, 0, vmstate_can_sja,
-diff --git a/hw/net/can/can_pcm3680_pci.c b/hw/net/can/can_pcm3680_pci.c
-index 8ef4e74af02..e8e57f4f33e 100644
---- a/hw/net/can/can_pcm3680_pci.c
-+++ b/hw/net/can/can_pcm3680_pci.c
-@@ -204,7 +204,6 @@ static const VMStateDescription vmstate_pcm3680i_pci = {
-     .name = "pcm3680i_pci",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields = (VMStateField[]) {
-         VMSTATE_PCI_DEVICE(dev, Pcm3680iPCIState),
-         VMSTATE_STRUCT(sja_state[0], Pcm3680iPCIState, 0,
-diff --git a/hw/net/can/can_sja1000.c b/hw/net/can/can_sja1000.c
-index 34eea684ced..3ba803e947d 100644
---- a/hw/net/can/can_sja1000.c
-+++ b/hw/net/can/can_sja1000.c
-@@ -928,7 +928,6 @@ const VMStateDescription vmstate_qemu_can_filter = {
-     .name = "qemu_can_filter",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT32(can_id, qemu_can_filter),
-         VMSTATE_UINT32(can_mask, qemu_can_filter),
-@@ -952,7 +951,6 @@ const VMStateDescription vmstate_can_sja = {
-     .name = "can_sja",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .post_load = can_sja_post_load,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT8(mode, CanSJA1000State),
-diff --git a/hw/net/can/ctucan_core.c b/hw/net/can/ctucan_core.c
-index d171c372e00..f2c3b6a7061 100644
---- a/hw/net/can/ctucan_core.c
-+++ b/hw/net/can/ctucan_core.c
-@@ -617,7 +617,6 @@ const VMStateDescription vmstate_qemu_ctucan_tx_buffer = {
-     .name = "qemu_ctucan_tx_buffer",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT8_ARRAY(data, CtuCanCoreMsgBuffer, CTUCAN_CORE_MSG_MAX_LEN),
-         VMSTATE_END_OF_LIST()
-@@ -636,7 +635,6 @@ const VMStateDescription vmstate_ctucan = {
-     .name = "ctucan",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .post_load = ctucan_post_load,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT32(mode_settings.u32, CtuCanCoreState),
-diff --git a/hw/net/can/ctucan_pci.c b/hw/net/can/ctucan_pci.c
-index f1c86cd06a7..50f4ea6cd63 100644
---- a/hw/net/can/ctucan_pci.c
-+++ b/hw/net/can/ctucan_pci.c
-@@ -215,7 +215,6 @@ static const VMStateDescription vmstate_ctucan_pci = {
-     .name = "ctucan_pci",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields = (VMStateField[]) {
-         VMSTATE_PCI_DEVICE(dev, CtuCanPCIState),
-         VMSTATE_STRUCT(ctucan_state[0], CtuCanPCIState, 0, vmstate_ctucan,
-diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-index bb5bee9a338..462c87dba8b 100644
---- a/hw/ppc/ppc.c
-+++ b/hw/ppc/ppc.c
-@@ -1049,7 +1049,6 @@ const VMStateDescription vmstate_ppc_timebase = {
-     .name = "timebase",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .pre_save = timebase_pre_save,
-     .fields      = (VMStateField []) {
-         VMSTATE_UINT64(guest_timebase, PPCTimebase),
-diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
-index dc9bbdb740e..1a72e52396a 100644
---- a/hw/scsi/megasas.c
-+++ b/hw/scsi/megasas.c
-@@ -2293,7 +2293,6 @@ static const VMStateDescription vmstate_megasas_gen2 = {
-     .name = "megasas-gen2",
-     .version_id = 0,
-     .minimum_version_id = 0,
--    .minimum_version_id_old = 0,
-     .fields      = (VMStateField[]) {
-         VMSTATE_PCI_DEVICE(parent_obj, MegasasState),
-         VMSTATE_MSIX(parent_obj, MegasasState),
-diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
-index 5181b0c0b0d..706cf0df3a1 100644
---- a/hw/scsi/mptsas.c
-+++ b/hw/scsi/mptsas.c
-@@ -1363,7 +1363,6 @@ static const VMStateDescription vmstate_mptsas = {
-     .name = "mptsas",
-     .version_id = 0,
-     .minimum_version_id = 0,
--    .minimum_version_id_old = 0,
-     .post_load = mptsas_post_load,
-     .fields      = (VMStateField[]) {
-         VMSTATE_PCI_DEVICE(dev, MPTSASState),
-diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-index 72da12fea59..688eccda94d 100644
---- a/hw/virtio/virtio-mmio.c
-+++ b/hw/virtio/virtio-mmio.c
-@@ -592,7 +592,6 @@ static const VMStateDescription vmstate_virtio_mmio = {
-     .name = "virtio_mmio",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields = (VMStateField[]) {
-         VMSTATE_END_OF_LIST()
-     },
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 750aa47ec14..f9cf9592fdf 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -131,7 +131,6 @@ static const VMStateDescription vmstate_virtio_pci = {
-     .name = "virtio_pci",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields = (VMStateField[]) {
-         VMSTATE_END_OF_LIST()
-     },
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index aae72fb8b73..9e8f51dfb03 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -2808,7 +2808,6 @@ static const VMStateDescription vmstate_virtio = {
-     .name = "virtio",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields = (VMStateField[]) {
-         VMSTATE_END_OF_LIST()
-     },
-diff --git a/target/openrisc/machine.c b/target/openrisc/machine.c
-index 6239725c4f5..b7d73886401 100644
---- a/target/openrisc/machine.c
-+++ b/target/openrisc/machine.c
-@@ -25,7 +25,6 @@ static const VMStateDescription vmstate_tlb_entry = {
-     .name = "tlb_entry",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINTTL(mr, OpenRISCTLBEntry),
-         VMSTATE_UINTTL(tr, OpenRISCTLBEntry),
-diff --git a/target/ppc/machine.c b/target/ppc/machine.c
-index 756d8de5d8d..a46aa96e9d8 100644
---- a/target/ppc/machine.c
-+++ b/target/ppc/machine.c
-@@ -532,7 +532,6 @@ static const VMStateDescription vmstate_tm = {
-     .name = "cpu/tm",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .needed = tm_needed,
-     .fields      = (VMStateField []) {
-         VMSTATE_UINTTL_ARRAY(env.tm_gpr, PowerPCCPU, 32),
-diff --git a/target/sparc/machine.c b/target/sparc/machine.c
-index 917375c3a17..44b9e7d75d6 100644
---- a/target/sparc/machine.c
-+++ b/target/sparc/machine.c
-@@ -10,7 +10,6 @@ static const VMStateDescription vmstate_cpu_timer = {
-     .name = "cpu_timer",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT32(frequency, CPUTimer),
-         VMSTATE_UINT32(disabled, CPUTimer),
-@@ -30,7 +29,6 @@ static const VMStateDescription vmstate_trap_state = {
-     .name = "trap_state",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT64(tpc, trap_state),
-         VMSTATE_UINT64(tnpc, trap_state),
-@@ -44,7 +42,6 @@ static const VMStateDescription vmstate_tlb_entry = {
-     .name = "tlb_entry",
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT64(tag, SparcTLBEntry),
-         VMSTATE_UINT64(tte, SparcTLBEntry),
-@@ -113,7 +110,6 @@ const VMStateDescription vmstate_sparc_cpu = {
-     .name = "cpu",
-     .version_id = SPARC_VMSTATE_VER,
-     .minimum_version_id = SPARC_VMSTATE_VER,
--    .minimum_version_id_old = SPARC_VMSTATE_VER,
-     .pre_save = cpu_pre_save,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINTTL_ARRAY(env.gregs, SPARCCPU, 8),
--- 
-2.25.1
+> ---
+>  target/ppc/machine.c | 112 -------------------------------------------
+>  1 file changed, 112 deletions(-)
+>=20
+> diff --git a/target/ppc/machine.c b/target/ppc/machine.c
+> index 756d8de5d8dd..df547385ff1e 100644
+> --- a/target/ppc/machine.c
+> +++ b/target/ppc/machine.c
+> @@ -23,117 +23,6 @@ static void post_load_update_msr(CPUPPCState *env)
+>      pmu_update_summaries(env);
+>  }
+> =20
+> -static int cpu_load_old(QEMUFile *f, void *opaque, int version_id)
+> -{
+> -    PowerPCCPU *cpu =3D opaque;
+> -    CPUPPCState *env =3D &cpu->env;
+> -    unsigned int i, j;
+> -    target_ulong sdr1;
+> -    uint32_t fpscr, vscr;
+> -#if defined(TARGET_PPC64)
+> -    int32_t slb_nr;
+> -#endif
+> -    target_ulong xer;
+> -
+> -    for (i =3D 0; i < 32; i++) {
+> -        qemu_get_betls(f, &env->gpr[i]);
+> -    }
+> -#if !defined(TARGET_PPC64)
+> -    for (i =3D 0; i < 32; i++) {
+> -        qemu_get_betls(f, &env->gprh[i]);
+> -    }
+> -#endif
+> -    qemu_get_betls(f, &env->lr);
+> -    qemu_get_betls(f, &env->ctr);
+> -    for (i =3D 0; i < 8; i++) {
+> -        qemu_get_be32s(f, &env->crf[i]);
+> -    }
+> -    qemu_get_betls(f, &xer);
+> -    cpu_write_xer(env, xer);
+> -    qemu_get_betls(f, &env->reserve_addr);
+> -    qemu_get_betls(f, &env->msr);
+> -    for (i =3D 0; i < 4; i++) {
+> -        qemu_get_betls(f, &env->tgpr[i]);
+> -    }
+> -    for (i =3D 0; i < 32; i++) {
+> -        union {
+> -            float64 d;
+> -            uint64_t l;
+> -        } u;
+> -        u.l =3D qemu_get_be64(f);
+> -        *cpu_fpr_ptr(env, i) =3D u.d;
+> -    }
+> -    qemu_get_be32s(f, &fpscr);
+> -    env->fpscr =3D fpscr;
+> -    qemu_get_sbe32s(f, &env->access_type);
+> -#if defined(TARGET_PPC64)
+> -    qemu_get_betls(f, &env->spr[SPR_ASR]);
+> -    qemu_get_sbe32s(f, &slb_nr);
+> -#endif
+> -    qemu_get_betls(f, &sdr1);
+> -    for (i =3D 0; i < 32; i++) {
+> -        qemu_get_betls(f, &env->sr[i]);
+> -    }
+> -    for (i =3D 0; i < 2; i++) {
+> -        for (j =3D 0; j < 8; j++) {
+> -            qemu_get_betls(f, &env->DBAT[i][j]);
+> -        }
+> -    }
+> -    for (i =3D 0; i < 2; i++) {
+> -        for (j =3D 0; j < 8; j++) {
+> -            qemu_get_betls(f, &env->IBAT[i][j]);
+> -        }
+> -    }
+> -    qemu_get_sbe32s(f, &env->nb_tlb);
+> -    qemu_get_sbe32s(f, &env->tlb_per_way);
+> -    qemu_get_sbe32s(f, &env->nb_ways);
+> -    qemu_get_sbe32s(f, &env->last_way);
+> -    qemu_get_sbe32s(f, &env->id_tlbs);
+> -    qemu_get_sbe32s(f, &env->nb_pids);
+> -    if (env->tlb.tlb6) {
+> -        /* XXX assumes 6xx */
+> -        for (i =3D 0; i < env->nb_tlb; i++) {
+> -            qemu_get_betls(f, &env->tlb.tlb6[i].pte0);
+> -            qemu_get_betls(f, &env->tlb.tlb6[i].pte1);
+> -            qemu_get_betls(f, &env->tlb.tlb6[i].EPN);
+> -        }
+> -    }
+> -    for (i =3D 0; i < 4; i++) {
+> -        qemu_get_betls(f, &env->pb[i]);
+> -    }
+> -    for (i =3D 0; i < 1024; i++) {
+> -        qemu_get_betls(f, &env->spr[i]);
+> -    }
+> -    if (!cpu->vhyp) {
+> -        ppc_store_sdr1(env, sdr1);
+> -    }
+> -    qemu_get_be32s(f, &vscr);
+> -    ppc_store_vscr(env, vscr);
+> -    qemu_get_be64s(f, &env->spe_acc);
+> -    qemu_get_be32s(f, &env->spe_fscr);
+> -    qemu_get_betls(f, &env->msr_mask);
+> -    qemu_get_be32s(f, &env->flags);
+> -    qemu_get_sbe32s(f, &env->error_code);
+> -    qemu_get_be32s(f, &env->pending_interrupts);
+> -    qemu_get_be32s(f, &env->irq_input_state);
+> -    for (i =3D 0; i < POWERPC_EXCP_NB; i++) {
+> -        qemu_get_betls(f, &env->excp_vectors[i]);
+> -    }
+> -    qemu_get_betls(f, &env->excp_prefix);
+> -    qemu_get_betls(f, &env->ivor_mask);
+> -    qemu_get_betls(f, &env->ivpr_mask);
+> -    qemu_get_betls(f, &env->hreset_vector);
+> -    qemu_get_betls(f, &env->nip);
+> -    qemu_get_sbetl(f); /* Discard unused hflags */
+> -    qemu_get_sbetl(f); /* Discard unused hflags_nmsr */
+> -    qemu_get_sbe32(f); /* Discard unused mmu_idx */
+> -    qemu_get_sbe32(f); /* Discard unused power_mode */
+> -
+> -    post_load_update_msr(env);
+> -
+> -    return 0;
+> -}
+> -
+>  static int get_avr(QEMUFile *f, void *pv, size_t size,
+>                     const VMStateField *field)
+>  {
+> @@ -808,7 +697,6 @@ const VMStateDescription vmstate_ppc_cpu =3D {
+>      .version_id =3D 5,
+>      .minimum_version_id =3D 5,
+>      .minimum_version_id_old =3D 4,
+> -    .load_state_old =3D cpu_load_old,
+>      .pre_save =3D cpu_pre_save,
+>      .post_load =3D cpu_post_load,
+>      .fields =3D (VMStateField[]) {
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--xyouzo2HPLfW9gOa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmHmmoIACgkQgypY4gEw
+YSK0pQ/+PU+P32L61Ns7sovbYXT0DfLv654hoWWHhZ4irAUxgJ33IJGTxENpsndz
+jof1BRdUCifH/R2lkPDJczWoB0gRnb9BdPEyHaxSZ39cFRZWbPDKXVKdZm4igNDk
+S96tExs9flnFwu2fd8XS+JR1V7dvfRdh5LV8a2++6b4+nN+w1tZfiLs2PwmoDQFR
+mJzGTWGfDVX4VUPFGA8tfeO4gKlk1f2WQAvUQmHmAM7AyhRzKEHVhq1PrrF5UklO
+jG+2baCTGiRwyMykagciyoZYilrFq+nzXf8tWx3MAXwwLKquPP2ez6SPmXJDDPpl
+3yV3GeqkkSIlPAQ7tyiLng1c+Rw4X3Tae3JAlx658ZJ8oAYI/clntTygrqiMWw/9
+8kBeXnU0EVrQLuR4W6/jTbtQBDdHYRTDgU2//ANBD9tkO0q+rM7RQLCb192JJa4r
+piL3Z64eCGKQgk75e7Hj4HDjMFNcjUlkuuZFsN+rzWpwF2NmpYOFBbjnmDy5kQMV
+2BQJ6ED7/yY7vjWFpoYtuHgXQ21CPcH/O5A2rB3mpAkJkfTsWKEPvfQlaE0kkVGM
+tP4Eb5aHg6JJyJM8YQ6nf0jGaNWINHmqdVcYlVMM9pa1doTMP465k2AdPJGB2Zac
+TxleFhMPg6tUs2wyVUSBCTBt7MLrlWpzkFQgmwB1nHG4YVU1f3U=
+=wAlj
+-----END PGP SIGNATURE-----
+
+--xyouzo2HPLfW9gOa--
 
