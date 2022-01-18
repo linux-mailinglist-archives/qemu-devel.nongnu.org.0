@@ -2,94 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91386492243
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 10:11:16 +0100 (CET)
-Received: from localhost ([::1]:60752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BFFB492253
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 10:13:04 +0100 (CET)
+Received: from localhost ([::1]:35604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9kWJ-00065f-B9
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 04:11:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39872)
+	id 1n9kY3-0008Gc-2t
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 04:13:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n9kU8-00058H-Eb
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 04:09:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47321)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n9kU5-0003pJ-HB
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 04:08:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642496936;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=f80ToSTeRS2QhHqxBMupOVmqC4E2yi9LdqXCQgyxTq8=;
- b=LsR1/neJWQ4jiw7YdP13IA/wnKPdsgWx7yEnYfn6s8Bpf5XEx5iVvK/uS0VFNm3ljtC4SG
- ZkgyOL6ioRlwZo0iWJ+tSy0tWDr4pR1P7wl5XyMJooMAF/KeJC2AP+4+o50M2GngcIO+gi
- eDWBDq60NP4g2TrNOHszB7XDcMaBCmk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-505-FwHwzeSIN6q9Yii0n87cHA-1; Tue, 18 Jan 2022 04:08:54 -0500
-X-MC-Unique: FwHwzeSIN6q9Yii0n87cHA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- j6-20020a05600c1c0600b0034c02775da7so2792416wms.3
- for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 01:08:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=f80ToSTeRS2QhHqxBMupOVmqC4E2yi9LdqXCQgyxTq8=;
- b=3lMhK6apgSbRGvbia8BLS1Ot5+ylZAKALzyGjB57RG41Ky9gHdytBwqGD/aHC/VUiH
- lkngzBQHXke7zXp6MNxKKSUzrMp/LDSvEjakIxeRasHKdHLnf8XNXiAR7xCobU35vM2B
- StpT1rW6pgFwPSqEHwow9/caAQcrbN1wNYyM2DyGeTsg63lpq5izAAGt+n2hG42KK1jO
- nx7em5bCMEQU75P6N54UY9M75UBIm44uhznNsv1T51a0zGvJyFUgcydu3m7QWotk3ff6
- 90lrTF/tIY2V/msbEoHz7AzjuS0+eeDeNBwV9j4JTGbc/fi3d6CUY8Wznw6FBM/PGX92
- TK4w==
-X-Gm-Message-State: AOAM5311B9SsLh2ws8P1147HMrw+/Gmuwwoap4TZxVVIDyWd1yG+URv0
- hVYRinozDgjpDzLe8uMs2YQDjQtKH7cmv4l/GbeDcljp+wSWvIZjkmzt/G19mQeLe1Hpj3+8Q9U
- 9AR3X0027qRyCxWs=
-X-Received: by 2002:a05:600c:19d0:: with SMTP id
- u16mr8184961wmq.39.1642496933424; 
- Tue, 18 Jan 2022 01:08:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwvFkMkQRbiSSxkGSFp47LmW549QWv9f9uRAYwcLrH6a0zS3dL7sgRziNAa3qTjgRm+Ec3qYw==
-X-Received: by 2002:a05:600c:19d0:: with SMTP id
- u16mr8184932wmq.39.1642496933118; 
- Tue, 18 Jan 2022 01:08:53 -0800 (PST)
-Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id r4sm1816898wmq.33.2022.01.18.01.08.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Jan 2022 01:08:52 -0800 (PST)
-Message-ID: <fbf732e9-02cf-a772-06dd-e673b997efa3@redhat.com>
-Date: Tue, 18 Jan 2022 10:08:51 +0100
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1n9kVC-00065u-Cu; Tue, 18 Jan 2022 04:10:06 -0500
+Received: from smtp23.cstnet.cn ([159.226.251.23]:48132 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1n9kUv-0003sn-CS; Tue, 18 Jan 2022 04:09:52 -0500
+Received: from [192.168.0.102] (unknown [180.156.147.178])
+ by APP-03 (Coremail) with SMTP id rQCowADX3FjUg+ZhSjC1BQ--.19017S2;
+ Tue, 18 Jan 2022 17:09:41 +0800 (CST)
+Subject: Re: [PATCH v5 5/5] target/riscv: add support for svpbmt extension
+To: Anup Patel <anup@brainfault.org>
+References: <20220118011711.7243-1-liweiwei@iscas.ac.cn>
+ <20220118011711.7243-6-liweiwei@iscas.ac.cn>
+ <CAAhSdy3bMG3htJSCMsT9HjrYXQP5XZk8y_8KN7pXjPoNPzc58w@mail.gmail.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <a7a73309-8112-4590-efa6-bc3f0122a5f0@iscas.ac.cn>
+Date: Tue, 18 Jan 2022 17:09:40 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v4 0/5] target/s390x: Fix shift instructions
-To: Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>
-References: <20220112165016.226996-1-iii@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220112165016.226996-1-iii@linux.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <CAAhSdy3bMG3htJSCMsT9HjrYXQP5XZk8y_8KN7pXjPoNPzc58w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CM-TRANSID: rQCowADX3FjUg+ZhSjC1BQ--.19017S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxXw1rWr4xAFWfCw13Gr4fGrg_yoW5tr47pr
+ WkGay2ka95tFW2kayxt3WUtw1UtwsI9F4rCan7Zr48Aw4rJ3yfGF1DKw43ua15XF48Zr4Y
+ 9F1j9F1Yvr4jqaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBa14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY
+ 04v7Mxk0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAKzI0EY4vE52x082I5MxAIw28IcxkI7V
+ AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
+ r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6x
+ IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAI
+ w20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aV
+ CY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUnYFAUUUUU=
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L4=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,53 +74,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
+Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, Heiko Stuebner <heiko@sntech.de>,
+ wangjunqiang@iscas.ac.cn, Bin Meng <bin.meng@windriver.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/01/2022 17.50, Ilya Leoshkevich wrote:
-> v3: https://lists.nongnu.org/archive/html/qemu-devel/2022-01/msg02680.html
-> v3 -> v4: Simplify cc_calc_sla().
->            Free temporaries.
-> 
-> v2: https://lists.nongnu.org/archive/html/qemu-devel/2022-01/msg02488.html
-> v2 -> v3: Unify CC_OP_SLA_32 and CC_OP_SLA_64.
->            Add underscores to test macro parameters.
->            Shift CC in test asm.
->            Add a second SLAG test.
->            Add tags to commit messages.
-> 
-> v1: https://lists.nongnu.org/archive/html/qemu-devel/2022-01/msg02035.html
-> v1 -> v2: Fix cc_calc_sla_32().
->            Fix cc_calc_sla_64().
->            Fix SLDA sign bit index.
->            Inline help_l2_shift().
->            Fix wout_r1_D32().
->            Add all shift instructions to the test.
->            Split the series.
-> 
-> Ilya Leoshkevich (5):
->    target/s390x: Fix SLDA sign bit index
->    target/s390x: Fix SRDA CC calculation
->    target/s390x: Fix cc_calc_sla_64() missing overflows
->    target/s390x: Fix shifting 32-bit values for more than 31 bits
->    tests/tcg/s390x: Test shift instructions
-> 
->   target/s390x/cpu-dump.c         |   3 +-
->   target/s390x/s390x-internal.h   |   3 +-
->   target/s390x/tcg/cc_helper.c    |  38 +----
->   target/s390x/tcg/insn-data.def  |  36 ++---
->   target/s390x/tcg/translate.c    |  53 +++----
->   tests/tcg/s390x/Makefile.target |   1 +
->   tests/tcg/s390x/shift.c         | 270 ++++++++++++++++++++++++++++++++
->   7 files changed, 321 insertions(+), 83 deletions(-)
->   create mode 100644 tests/tcg/s390x/shift.c
 
-Thanks, queued to my s390x-next branch now:
+在 2022/1/18 上午11:35, Anup Patel 写道:
+> On Tue, Jan 18, 2022 at 6:47 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>> - add PTE_PBMT bits: It uses two PTE bits, but otherwise has no effect on QEMU, since QEMU is sequentially consistent and doesn't model PMAs currently
+>> - add PTE_PBMT bit check for inner PTE
+>>
+>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>> Cc: Heiko Stuebner <heiko@sntech.de>
+>> Cc: Anup Patel <anup@brainfault.org>
+>> ---
+>>   target/riscv/cpu.c        | 1 +
+>>   target/riscv/cpu.h        | 1 +
+>>   target/riscv/cpu_bits.h   | 2 ++
+>>   target/riscv/cpu_helper.c | 4 +++-
+>>   4 files changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index 45ac98e06b..4f82bd00a3 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -670,6 +670,7 @@ static Property riscv_cpu_properties[] = {
+>>
+>>       DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
+>>       DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
+>> +    DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
+>>
+>>       DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
+>>       DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
+>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> index c3d1845ca1..53f314c752 100644
+>> --- a/target/riscv/cpu.h
+>> +++ b/target/riscv/cpu.h
+>> @@ -329,6 +329,7 @@ struct RISCVCPU {
+>>           bool ext_icsr;
+>>           bool ext_svinval;
+>>           bool ext_svnapot;
+>> +        bool ext_svpbmt;
+>>           bool ext_zfh;
+>>           bool ext_zfhmin;
+>>
+>> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+>> index 5501e9698b..24b7eb2b1f 100644
+>> --- a/target/riscv/cpu_bits.h
+>> +++ b/target/riscv/cpu_bits.h
+>> @@ -486,7 +486,9 @@ typedef enum {
+>>   #define PTE_A               0x040 /* Accessed */
+>>   #define PTE_D               0x080 /* Dirty */
+>>   #define PTE_SOFT            0x300 /* Reserved for Software */
+>> +#define PTE_PBMT            0x6000000000000000 /* Page-based memory types */
+>>   #define PTE_N               0x8000000000000000 /* NAPOT translation */
+>> +#define PTE_ATTR            (PTE_N | PTE_PBMT) /* All attributes bits */
+>>
+>>   /* Page table PPN shift amount */
+>>   #define PTE_PPN_SHIFT       10
+>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+>> index c276760c7f..9fffaccffb 100644
+>> --- a/target/riscv/cpu_helper.c
+>> +++ b/target/riscv/cpu_helper.c
+>> @@ -625,9 +625,11 @@ restart:
+>>           if (!(pte & PTE_V)) {
+>>               /* Invalid PTE */
+>>               return TRANSLATE_FAIL;
+>> +        } else if (!cpu->cfg.ext_svpbmt && (pte & (target_ulong)PTE_PBMT)) {
+> Rather than, type-casting defines here you can simply define
+> ULL constants. E.g.
+> #define PTE_PBMT            0x6000000000000000ULL
 
-  https://gitlab.com/thuth/qemu/-/commits/s390x-next/
+Sorry, I'm wonder why add ULL can replace the function of type-casting.
 
-  Thomas
+The type-casting here is to compatible with RV32 for possible strict 
+type check warnings since pte is 32 bits and PTE_PBMT is 64 bits in RV32.
+
+If I add ULL in PTE_PBMT, it seems have no change to PTE_PBMT. It's 
+still 64 bits in RV32.
+
+Regards,
+
+Weiwei Li
+
+>
+>> +            return TRANSLATE_FAIL;
+>>           } else if (!(pte & (PTE_R | PTE_W | PTE_X))) {
+>>               /* Inner PTE, continue walking */
+>> -            if (pte & (target_ulong)(PTE_D | PTE_A | PTE_U | PTE_N)) {
+>> +            if (pte & (target_ulong)(PTE_D | PTE_A | PTE_U | PTE_ATTR)) {
+>>                   return TRANSLATE_FAIL;
+>>               }
+>>               base = ppn << PGSHIFT;
+>> --
+>> 2.17.1
+>>
+> Regards,
+> Anup
 
 
