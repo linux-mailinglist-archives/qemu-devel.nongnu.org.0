@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E77F2492753
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 14:36:48 +0100 (CET)
-Received: from localhost ([::1]:53300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F44E492767
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 14:45:18 +0100 (CET)
+Received: from localhost ([::1]:33904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9ofI-0004sj-0w
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 08:36:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32820)
+	id 1n9onV-0003Ly-Ho
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 08:45:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n9nyr-00028N-66
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 07:52:58 -0500
-Received: from [2a00:1450:4864:20::331] (port=40621
- helo=mail-wm1-x331.google.com)
+ id 1n9nyx-0002Be-VR
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 07:53:05 -0500
+Received: from [2a00:1450:4864:20::32a] (port=35698
+ helo=mail-wm1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n9nyo-00062H-LG
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 07:52:55 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- 25-20020a05600c231900b003497473a9c4so5515789wmo.5
- for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 04:52:53 -0800 (PST)
+ id 1n9nyw-00062p-6Z
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 07:53:03 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ q9-20020a7bce89000000b00349e697f2fbso5637918wmj.0
+ for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 04:53:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=No3OeGy2Dg+3OezDTl9QFHVXdYq4FobJ4DmJ7y1ibFw=;
- b=jtF3kVXMA7jzFke3QQWjs+/gv8ZorWIDnTD5XJldhmukpW99h7V6/vumzvOtr/MIig
- 8X72T+EGVJ5p4pyqr2NgqlnYYV/haO7uGItZfv+e5OEWxAGuTWe/IV2VKMHeaR/Tn5Uw
- G2FBVmrhKT1f3U8Kpp5YBzJnVwWoKKyDD4EqWtmj1jaawv4Ml5BxCvXeXcd1lcf3wA9y
- V0kJ/WibQMJR0oMFnyHpI8JtCDfxszplMZnIbEF4SUeTmx+AVouFb21fa+B96CZmXgAk
- 2b2kNMYO9zK6hPwI57JPD79zZydm5BcEK2aTv3wtzOoc+q1tqjxz1Av8OWt/Ar7HHVOR
- UUvQ==
+ bh=Tq5QBbvJL3nvpJ14vbT7ux1TBu4szrjWqZOXeHamumo=;
+ b=Mg9FJwBcSTwRmcnQf2w3yM+ZmUPxdeaAXQykSD8bgxW+RK5GMb43N2EW7CLCBFuIcQ
+ 5HX0nSHuWxYbCkH6HL+zFL7fGdc5o6hIC1r+J/JrgZjccC7aMGMUg9s/8VgAgceufryU
+ 5QnFsUK/I3hltKER9UiitQCSLSmRwmP4Vo03wmRxt/Y8XvBkYZ20v60M4r0Dct75B8Tj
+ 3w5up5ll+7k0gHH2K0c5RE4uWxdGtZDYDrkJnI8J9MJDEnvPdn8o4wJV9N1S7xzqcs7u
+ nTwttGg2LZRlVRTSjY5PxhmweMbkMD1bB9Ha+fxYKESqcprc9d40kbncfimN6LllGPdk
+ PNPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=No3OeGy2Dg+3OezDTl9QFHVXdYq4FobJ4DmJ7y1ibFw=;
- b=LMW0cKa8OJusQgGU4XdPOv/17iLEIUSGqYzuC2gKI8B+BZDBQgPyxXGbZ9geOlYREi
- 0X52Miy5r7Vk735nUDycY1vC5XtBiQI2mKl8Z3FK9bYiRfNwHhCRYYevBWWyxX94M8aR
- tdM3z9yGMWBEZyowzZwV+uBWe/qi7sKgXc0pkQyza2K9yGWs3OREYydDyO8SudYEz3X2
- ySvc6wnNvrTHp2oEGycyEQsS0TLgbJFdm7lVlGASUwTQ0kyJD11AWi2MnVNlRrTIREIP
- +xhlcbbJOcffCx+gGIFgBL5nIhXfUQ4eBUS1M+1ZLnYzjFl27OT8TheMSkiCYPDjgyhh
- Y02w==
-X-Gm-Message-State: AOAM533BEGggFVrwCg4VrRHqfsnZOVLlR9x/DMBeRv9Wn84FwH1QtVPE
- VWUr4nX8lPK9azRADqBqvwc=
-X-Google-Smtp-Source: ABdhPJzxGn9nMExEpEh4cbKJH04upNOpg00U8m8+tFbZtru8W++PdgXzGD7oGawKDPnIbsRWxPhLGg==
-X-Received: by 2002:a7b:cb58:: with SMTP id v24mr24861539wmj.135.1642510372478; 
- Tue, 18 Jan 2022 04:52:52 -0800 (PST)
+ bh=Tq5QBbvJL3nvpJ14vbT7ux1TBu4szrjWqZOXeHamumo=;
+ b=QpYbTQEq9NHwBadXw4P6L1pWjKIgghMl2qJCpt2B9ZFrPeViilxYEQONN+xUnuPu8y
+ RTA/iAJ7afw/NGbOdMvRCLiJB6/eHwd1g+wh7YsfP/INRAKLVqj3Y5azFVBpFBkH318O
+ LqpZhcjNXLa5cn3TQM1LDrmFgpvTsZbymUPTe7x9Xcz8bkcqlZTo3vCHpI1rmFqhHdWr
+ H0/6qHCl7b6hZofGHhL5OCcpTVpdgoi9VTo6r8TIbWcXseNsr9jMA/Ua8x4rFCe+bxfn
+ aqNupc9lj2Ijo8C5psvrDYDgLBi8tElNzP7Z1K8VEwh7LCUzQgGGzUKWQrOzFTvMAkEf
+ UcUg==
+X-Gm-Message-State: AOAM531pgg7xeyCh5QWLSyt3Nk8TFpXB0H4qKNaVWknIG/LQG969G8Rx
+ Wnu6E/R0pL+U9hLSL/OpScc=
+X-Google-Smtp-Source: ABdhPJwzu3egeD0HZPQFoi1HKste37AJNauhdOZFB8JIFWQnVCSF2JYHP8pw/joKyqcDvxRZ1wQZLg==
+X-Received: by 2002:a5d:4089:: with SMTP id o9mr2344721wrp.299.1642510380539; 
+ Tue, 18 Jan 2022 04:53:00 -0800 (PST)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id e4sm7508197wrq.63.2022.01.18.04.52.51
+ by smtp.googlemail.com with ESMTPSA id z5sm3005850wmp.10.2022.01.18.04.52.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Jan 2022 04:52:52 -0800 (PST)
-Message-ID: <c494456b-42a7-d591-02e0-dbdeecf2c36b@redhat.com>
-Date: Tue, 18 Jan 2022 13:52:51 +0100
+ Tue, 18 Jan 2022 04:53:00 -0800 (PST)
+Message-ID: <29573e51-aa21-dbf3-b626-facf72e5b9c6@redhat.com>
+Date: Tue, 18 Jan 2022 13:52:56 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [RFC PATCH 4/7] x86: Add XFD faulting bit for state components
+Subject: Re: [RFC PATCH 3/7] x86: Grant AMX permission for guest
 Content-Language: en-US
 To: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org
 References: <20220107093134.136441-1-yang.zhong@intel.com>
- <20220107093134.136441-5-yang.zhong@intel.com>
+ <20220107093134.136441-4-yang.zhong@intel.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220107093134.136441-5-yang.zhong@intel.com>
+In-Reply-To: <20220107093134.136441-4-yang.zhong@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -100,17 +100,57 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/7/22 10:31, Yang Zhong wrote:
-> -    uint32_t need_align;
-> +    uint32_t need_align, support_xfd;
+> +static void x86_xsave_req_perm(void)
+> +{
+> +    unsigned long bitmask;
+> +
+> +    long rc = syscall(SYS_arch_prctl, ARCH_REQ_XCOMP_GUEST_PERM,
+> +                      XSTATE_XTILE_DATA_BIT);
+> +    if (rc) {
+> +        /*
+> +         * The older kernel version(<5.15) can't support
+> +         * ARCH_REQ_XCOMP_GUEST_PERM and directly return.
+> +         */
+> +        return;
+> +    }
+> +
+> +    rc = syscall(SYS_arch_prctl, ARCH_GET_XCOMP_GUEST_PERM, &bitmask);
+> +    if (rc) {
+> +        error_report("prctl(ARCH_GET_XCOMP_GUEST_PERM) error: %ld", rc);
+> +    } else if (!(bitmask & XFEATURE_XTILE_MASK)) {
+> +        error_report("prctl(ARCH_REQ_XCOMP_GUEST_PERM) failure "
+> +                     "and bitmask=0x%lx", bitmask);
+> +        exit(EXIT_FAILURE);
+> +    }
+> +}
+> +
+>   void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
+>   {
+>       int i;
+> @@ -124,6 +150,8 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
+>       MachineState *ms = MACHINE(x86ms);
+>       MachineClass *mc = MACHINE_GET_CLASS(x86ms);
+>   
+> +    /* Request AMX pemission for guest */
+> +    x86_xsave_req_perm();
+>       x86_cpu_set_default_version(default_cpu_version);
+>   
 
-These can be replaced by a single field "uint32_t ecx".
+This should be done before creating a CPU with support for state 
+component 18.  It happens in kvm_init_vcpu, with the following call stack:
 
-You can add also macros like
+	kvm_init_vcpu
+	kvm_vcpu_thread_fn
+	kvm_start_vcpu_thread
+	qemu_init_vcpu
+	x86_cpu_realizefn
 
-#define ESA_FEATURE_ALIGN64_BIT	(1)
-#define ESA_FEATURE_XFD_BIT	(2)
+The issue however is that this has to be done before 
+KVM_GET_SUPPORTED_CPUID and KVM_CHECK_EXTENSION(KVM_CAP_XSAVE2).
 
-to simplify access.
+For the former, you can assume that anything returned by 
+ARCH_GET_XCOMP_GUEST_PERM will be returned by KVM_GET_SUPPORTED_CPUID in 
+CPUID[0xD].EDX:EAX, so you can:
 
-Paolo
+- add it to kvm_arch_get_supported_cpuid
 
