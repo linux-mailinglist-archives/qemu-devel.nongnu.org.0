@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0F92492196
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 09:46:42 +0100 (CET)
-Received: from localhost ([::1]:32786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D0549213D
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 09:31:40 +0100 (CET)
+Received: from localhost ([::1]:46498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9k8Y-0002aR-2B
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 03:46:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57030)
+	id 1n9jtz-0000nS-ST
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 03:31:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1n9jn8-0003ex-M1
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 03:24:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20688)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1n9jmz-0004sw-UR
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 03:24:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642494252;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=RWiXY0qRGffWsZ86WDzh4lGPcJYVUuPIERRF1pJSF4M=;
- b=Hvmq9xRUR3bXj1OkDjo+KuLJXOXoD1qAaPX7PQNb9tbcrscpNEDT7ktqRZl0ocR2J7szQa
- gbjOvgLwJ6cNUeVNC5BDuZevDvARremqe4rcrLfIDbcg9eEeLVoLtTQIKGZzP16f00cwGe
- vMFjHyhtlMPuPaOaiKXpFleXJ87sq3M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-463-bsydMgDjPIi6CD7lVPb1AA-1; Tue, 18 Jan 2022 03:24:05 -0500
-X-MC-Unique: bsydMgDjPIi6CD7lVPb1AA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E617F824F83
- for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 08:24:04 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
- [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 14C7F6F948;
- Tue, 18 Jan 2022 08:23:52 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9704C11380A2; Tue, 18 Jan 2022 09:23:50 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: tracing.rst neglects to document syntax of trace-events files
-Date: Tue, 18 Jan 2022 09:23:50 +0100
-Message-ID: <87zgntpi3t.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1n9jn7-0003ey-FL; Tue, 18 Jan 2022 03:24:33 -0500
+Received: from smtp25.cstnet.cn ([159.226.251.25]:58970 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1n9jn0-0004tJ-Nw; Tue, 18 Jan 2022 03:24:30 -0500
+Received: from [192.168.0.102] (unknown [180.156.147.178])
+ by APP-05 (Coremail) with SMTP id zQCowAB3VxQxeeZh5A91Bg--.55720S2;
+ Tue, 18 Jan 2022 16:24:18 +0800 (CST)
+Subject: Re: [PATCH v4 0/7] support subsets of scalar crypto extension
+To: Alistair Francis <alistair23@gmail.com>
+References: <20220111035124.9468-1-liweiwei@iscas.ac.cn>
+ <CAKmqyKOxD33qVpT1k3-BU1MRSZS3+vN-f7z-kaGQ0RhXWKhBqQ@mail.gmail.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <a39932a0-ab57-3a13-a75f-b3d0bcffd51c@iscas.ac.cn>
+Date: Tue, 18 Jan 2022 16:24:17 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAKmqyKOxD33qVpT1k3-BU1MRSZS3+vN-f7z-kaGQ0RhXWKhBqQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: zQCowAB3VxQxeeZh5A91Bg--.55720S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxZF17tw17CryxAF48Jr1DJrb_yoW5AFykpa
+ 1rG3yrC3y5JrZrGr1Sq3W8Jw15Xr4rur4fJwn3Jw1rA39xtrZ3JrZ2kw1akFnrJF18Wry2
+ 9a4UCw13uw4rAFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBI14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
+ c2xKxwCYjI0SjxkI62AI1cAE67vIY487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x
+ 0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+ 7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcV
+ C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF
+ 04k26cxKx2IYs7xG6Fyj6rWUJwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6x
+ kF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUj2jg7UUUUU==
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,31 +73,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: lazyparser@gmail.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ lustrew@foxmail.com, wangjunqiang <wangjunqiang@iscas.ac.cn>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, luruibo2000@163.com,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Almost[*] all trace-events files start with this line:
 
-    # See docs/devel/tracing.rst for syntax documentation.
+在 2022/1/18 下午12:41, Alistair Francis 写道:
+> On Tue, Jan 11, 2022 at 1:54 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>> This patchset implements RISC-V scalar crypto extension v1.0.0 version instructions.
+>> Partial instructions are reused from B-extension.
+>>
+>> Specification:
+>> https://github.com/riscv/riscv-crypto
+>>
+>> The port is available here:
+>> https://github.com/plctlab/plct-qemu/tree/plct-k-upstream-v4
+>>
+>> To test rvk implementation,  specify cpu argument with 'zks=true,zkn=true'
+>> or
+>> "zbkb=true,zbkc=true,zbkx=true,zknd=true,zkne=true,zknh=true,zksed=true,zksh=true,zkr=true"
+>>   to enable  K-extension support.  This implementation can pass the ACT tests
+>> for K with our extended act support for qemu (available at
+>> https://github.com/plctlab/plct-qemu/tree/plct-k-upstream-v4-with-act)
+>>
+>> v4:
+>> * drop "x-" in exposed properties
+>> * delete unrelated changes
+>>
+>> v3:
+>> * add extension check for SEED csr access
+>>
+>> v2:
+>> * optimize implementation for brev8, xperm, zip, unzip
+>> * use aes related sbox array from crypto/aes.h
+>> * move sm4_sbox to crypto/sm4.c, and share it with target/arm
+>>
+>> Weiwei Li (7):
+>>    target/riscv: rvk: add cfg properties for zbk* and zk*
+>>    target/riscv: rvk: add implementation of instructions for Zbk*
+>>    crypto include/crypto target/arm: move sm4_sbox to crypto
+>>    target/riscv: rvk: add implementation of instructions for Zk*
+>>    target/riscv: rvk: add CSR support for Zkr
+>>    disas/riscv.c: rvk: add disas support for Zbk* and Zk* instructions
+>>    target/riscv: rvk: expose zbk* and zk* properties
+> Thanks for the patches!
+>
+> Overall this looks good, just some small comments on the individual patches.
+>
+> For the next version do you mind splitting the patches up a little bit
+> more? That will make it easier and faster to review
+>
+> Alistair
+>
+Thanks for your comments. Sorry for the big patches. I'll divide them.
 
-But I can't find syntax documentation there.
+Regards,
 
+Weiwei Li
 
-[*] Exceptions:
-    $ git-ls-files \*/trace-events| xargs fgrep -L '# See docs/devel/tracing.rst for syntax documentation.'
-    ebpf/trace-events
-    hw/core/trace-events
-    hw/hyperv/trace-events
-    hw/mips/trace-events
-    hw/net/can/trace-events
-    hw/nubus/trace-events
-    hw/nvme/trace-events
-    hw/remote/trace-events
-    hw/sh4/trace-events
-    hw/ssi/trace-events
-    target/arm/hvf/trace-events
-    target/riscv/trace-events
-    target/s390x/kvm/trace-events
+>>   crypto/meson.build                      |   1 +
+>>   crypto/sm4.c                            |  49 +++
+>>   disas/riscv.c                           | 170 +++++++++
+>>   include/crypto/sm4.h                    |   6 +
+>>   target/arm/crypto_helper.c              |  36 +-
+>>   target/riscv/bitmanip_helper.c          |  74 ++++
+>>   target/riscv/cpu.c                      |  37 ++
+>>   target/riscv/cpu.h                      |  13 +
+>>   target/riscv/cpu_bits.h                 |   9 +
+>>   target/riscv/crypto_helper.c            | 446 ++++++++++++++++++++++
+>>   target/riscv/csr.c                      |  74 ++++
+>>   target/riscv/helper.h                   |  42 +++
+>>   target/riscv/insn32.decode              |  94 ++++-
+>>   target/riscv/insn_trans/trans_rvb.c.inc | 127 ++++++-
+>>   target/riscv/insn_trans/trans_rvk.c.inc | 467 ++++++++++++++++++++++++
+>>   target/riscv/meson.build                |   3 +-
+>>   target/riscv/pmp.h                      |   8 +-
+>>   target/riscv/translate.c                |   8 +
+>>   18 files changed, 1594 insertions(+), 70 deletions(-)
+>>   create mode 100644 crypto/sm4.c
+>>   create mode 100644 include/crypto/sm4.h
+>>   create mode 100644 target/riscv/crypto_helper.c
+>>   create mode 100644 target/riscv/insn_trans/trans_rvk.c.inc
+>>
+>> --
+>> 2.17.1
+>>
+>>
 
 
