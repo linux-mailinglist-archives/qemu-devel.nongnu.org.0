@@ -2,93 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8385492C29
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 18:19:59 +0100 (CET)
-Received: from localhost ([::1]:43368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04199492C4B
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 18:26:46 +0100 (CET)
+Received: from localhost ([::1]:58606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9s9G-0004B3-W2
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 12:19:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40572)
+	id 1n9sFo-0006DL-Rc
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 12:26:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n9rYP-0002wU-OD
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:41:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41667)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n9rYJ-0006qy-VA
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:41:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642524107;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bSSIMRvLLfSwgozJf8Fax5e4v5kFZwbWKWi1kxfT094=;
- b=bJNHBKt/5WeD1nR+7UQYh9PjuEGYfBiVWT1LS2ZEKYlLj/YbjUgl4A+dTsUOtZZKmU2q9j
- aun5EZa8JNmyg6cNZc9ud+zdf+uEAcs1NZ6L/u7wS/c0q2aRFgQEa7IsT2AzOfEJcnw8HN
- aF/RBf2gRyMXAbBFqCWjK9++d7Z7Npo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-593-HzG5ebbVMDC-dbe-iPSM_w-1; Tue, 18 Jan 2022 11:41:44 -0500
-X-MC-Unique: HzG5ebbVMDC-dbe-iPSM_w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- bg16-20020a05600c3c9000b0034bea12c043so2218672wmb.7
- for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 08:41:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1n9rco-0006if-57
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:46:26 -0500
+Received: from [2607:f8b0:4864:20::936] (port=39810
+ helo=mail-ua1-x936.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1n9rcl-0007eg-2N
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:46:25 -0500
+Received: by mail-ua1-x936.google.com with SMTP id m15so37893753uap.6
+ for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 08:46:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xCXKPmlsFMG4gntn+kfQ9ReTGeRzf/fESlH4itnk7dg=;
+ b=anoB43IWkj8VMAP/pUwjKTFs6mdEQPCXuQhBt64ZuTutb2NiKGNGDqp0kDf19l0Ym5
+ Xw0ZWZdJ/ukpF2e0uuKdKTkgIH1jStxg3BNWHeCBdjGRlG9Db/q4pZBMJCJHruk3HRaD
+ 0lrgK/9GcFMXUAyyLc8YPyWaJVqaENbB2mQrv9LggPOgU7bt7NvLX06VvwSgNpKCK0jp
+ +3zoJ+Ao6iDNHapTTLers03qI8jtdXel4P82cl+fXLCKvF5UCvKyYWyPpQOkPy73hNhy
+ J1cQ04vsXhvpkXJvyUmwzJn+upw6I65sPFNqXpz8MQ/vMqec88/bkaWWS4Y+vMj9DvEY
+ btTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=bSSIMRvLLfSwgozJf8Fax5e4v5kFZwbWKWi1kxfT094=;
- b=3v4TyRE0SXluU1+xqArW1jpyv68Y/ExKVSDQzW++xr4WSCv+D/Q/0FiMZ1Jam8HwfY
- 4mkHqdc3ChRpOsmgs1w/2rGMNKLJQKlibARu4iShlAX13VzCZAeZ7XpuPsDbSEu3q4Cz
- 956aUBdgtcDBXjSzHypApNkXnKm+xiyvFktdNjA6weQozjxLaOcYf41s6z2YSKg0aTOR
- qQTyHgLbM+4E4PZjZd2iWfmj6e+NX8CK3KH6BJldkooenHvY4ovQrAgHNLIBgSZwqaft
- j21pdQ9lvO8L/BWDpCH3pC81MVKWe+gYdCz+vMpUKlDJAVYEOLJxFmiw3fi8kqM3IbLy
- 5peg==
-X-Gm-Message-State: AOAM530LLDttF2buCHLzan6A4ilYhSFQ5d6SYSGXvGDVjrj7gYIZuR1k
- 3meVNq6AClP8MdYlMTWUsBbmiRnJDFDZSHWZRIHWzmqZEoyhidkPRCINOr3KRtbERf4KqkjM/4o
- vhbjyEGJJO8oC/K0=
-X-Received: by 2002:adf:fbcd:: with SMTP id d13mr24976000wrs.170.1642524100987; 
- Tue, 18 Jan 2022 08:41:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw9SDzHqKb6wmBZA7GUn+5GKW3K/oL2N5lNLzBOjWGsFynXCNYA32QII9BT1qeQvB0cmiC5lA==
-X-Received: by 2002:adf:fbcd:: with SMTP id d13mr24975967wrs.170.1642524100584; 
- Tue, 18 Jan 2022 08:41:40 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id o3sm11493568wry.14.2022.01.18.08.41.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Jan 2022 08:41:40 -0800 (PST)
-Message-ID: <a22b43dd-eae0-9eee-a0a2-4875c55299df@redhat.com>
-Date: Tue, 18 Jan 2022 17:41:39 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xCXKPmlsFMG4gntn+kfQ9ReTGeRzf/fESlH4itnk7dg=;
+ b=DEsmPwczOlDY9KPk8hq4VZQHtmaRyrrQhMv27TZZFViYWjANCeIe6+MBSzcgtUrPTk
+ GQSu1IIpJuez/zMMgHuFdurei5jPTXOIS3E8vWlkE1aeYZV2755q5fMc8/JYhBv1kYHl
+ +LGblK1XIVL3FbDa7rovvkMEqbY4qHrK0PFUx8XA9a5Pd2M9vnmxJPjYRlgoDm7XT9/N
+ qpzUw0bUwtWFUJeifrThiayuTsJcKJYqFbfXhLQ5a6NCpaWgBa/T1zwwEYOc5ozVE+eD
+ KD8oZVhtUUKJ4FXPnNV1VB6bd52pdA0OoTRhqK19eqQKsqIPglb2KZkQTB5XpJJGkpCn
+ uwYg==
+X-Gm-Message-State: AOAM532dIcPRC/AQ556dcYnzcdv7CHPY53esTR/lmVguV6lvfQkHMvM7
+ N0mjnoQ1k5Z9zS9DM3XOoBtUmMQoWsHfY9WtVpI=
+X-Google-Smtp-Source: ABdhPJwG/II/+Mh180WfdBVtzqkgSkZ/bdpL46XSafCuucqG7UTMSJQ5LVzSLwI1+6LLWuu8EP6wRCHowFkubVobWsc=
+X-Received: by 2002:ab0:13ee:: with SMTP id n43mr10189656uae.9.1642524381989; 
+ Tue, 18 Jan 2022 08:46:21 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 2/2] iotests/block-status-cache: New test
-To: Nir Soffer <nsoffer@redhat.com>
-References: <20220117162649.193501-1-hreitz@redhat.com>
- <20220117162649.193501-3-hreitz@redhat.com>
- <CAMRbyyu8onwO86m7uVEwDBPvt0hR=SEX1J2L2T9COea_tNr_CQ@mail.gmail.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <CAMRbyyu8onwO86m7uVEwDBPvt0hR=SEX1J2L2T9COea_tNr_CQ@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220113172219.66372-1-yaroshchuk2000@gmail.com>
+ <20220113172219.66372-3-yaroshchuk2000@gmail.com>
+ <87r19584xc.fsf@dusky.pond.sub.org>
+ <CADO9X9TWscKRoJMTNQt+v84xCyc5SX8H71XcGchZ1dNF_WLQtw@mail.gmail.com>
+ <87fspl6mdb.fsf@dusky.pond.sub.org>
+In-Reply-To: <87fspl6mdb.fsf@dusky.pond.sub.org>
+From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+Date: Tue, 18 Jan 2022 19:46:11 +0300
+Message-ID: <CADO9X9TJMvu+sYRE6o+uUwXm8z53BHUD-9qogZuNxRAjjOtosw@mail.gmail.com>
+Subject: Re: [PATCH v13 2/7] net/vmnet: add vmnet backends to qapi/net
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000052ce1d05d5de0272"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::936
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::936;
+ envelope-from=yaroshchuk2000@gmail.com; helo=mail-ua1-x936.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,223 +84,251 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-block <qemu-block@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Jason Wang <jasowang@redhat.com>, phillip.ennen@gmail.com,
+ qemu-devel <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Roman Bolshakov <roman@roolebo.dev>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Alexander Graf <agraf@csgraf.de>, Phillip Tennen <phillip@axleos.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Howard Spoelstra <hsp.cat7@gmail.com>,
+ Alessio Dionisi <hello@adns.io>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Eric Blake <eblake@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17.01.22 18:57, Nir Soffer wrote:
-> On Mon, Jan 17, 2022 at 6:26 PM Hanna Reitz <hreitz@redhat.com> wrote:
->> Add a new test to verify that want_zero=false block-status calls do not
->> pollute the block-status cache for want_zero=true calls.
->>
->> We check want_zero=true calls and their results using `qemu-img map`
->> (over NBD), and want_zero=false calls also using `qemu-img map` over
->> NBD, but using the qemu:allocation-depth context.
->>
->> (This test case cannot be integrated into nbd-qemu-allocation, because
->> that is a qcow2 test, and this is a raw test.)
->>
->> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
->> ---
->>   tests/qemu-iotests/tests/block-status-cache   | 130 ++++++++++++++++++
->>   .../qemu-iotests/tests/block-status-cache.out |   5 +
->>   2 files changed, 135 insertions(+)
->>   create mode 100755 tests/qemu-iotests/tests/block-status-cache
->>   create mode 100644 tests/qemu-iotests/tests/block-status-cache.out
->>
->> diff --git a/tests/qemu-iotests/tests/block-status-cache b/tests/qemu-iotests/tests/block-status-cache
->> new file mode 100755
->> index 0000000000..1f2c3109d3
->> --- /dev/null
->> +++ b/tests/qemu-iotests/tests/block-status-cache
->> @@ -0,0 +1,130 @@
->> +#!/usr/bin/env python3
->> +# group: rw quick
->> +#
->> +# Test cases for the block-status cache.
->> +#
->> +# Copyright (C) 2022 Red Hat, Inc.
->> +#
->> +# This program is free software; you can redistribute it and/or modify
->> +# it under the terms of the GNU General Public License as published by
->> +# the Free Software Foundation; either version 2 of the License, or
->> +# (at your option) any later version.
->> +#
->> +# This program is distributed in the hope that it will be useful,
->> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
->> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
->> +# GNU General Public License for more details.
->> +#
->> +# You should have received a copy of the GNU General Public License
->> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
->> +#
->> +
->> +import os
->> +import signal
->> +import iotests
->> +from iotests import qemu_img_create, qemu_img_pipe, qemu_nbd
->> +
->> +
->> +image_size = 1 * 1024 * 1024
->> +test_img = os.path.join(iotests.test_dir, 'test.img')
->> +
->> +nbd_pidfile = os.path.join(iotests.test_dir, 'nbd.pid')
->> +nbd_sock = os.path.join(iotests.sock_dir, 'nbd.sock')
->> +
->> +
->> +class TestBscWithNbd(iotests.QMPTestCase):
->> +    def setUp(self) -> None:
->> +        """Just create an empty image with a read-only NBD server on it"""
->> +        assert qemu_img_create('-f', iotests.imgfmt, test_img,
->> +                               str(image_size)) == 0
->> +
->> +        assert qemu_nbd('-k', nbd_sock, '-f', iotests.imgfmt, '-t', '-A', '-r',
->> +                        f'--pid-file={nbd_pidfile}', test_img) == 0
-> This is a good place to comment that -A (or better --allocation-depth)
-> is required for this test.
+--00000000000052ce1d05d5de0272
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sure, why not.
+=D0=B2=D1=82, 18 =D1=8F=D0=BD=D0=B2. 2022 =D0=B3. =D0=B2 19:35, Markus Armb=
+ruster <armbru@redhat.com>:
 
->> +
->> +    def tearDown(self) -> None:
->> +        with open(nbd_pidfile, encoding='utf-8') as f:
->> +            pid = int(f.read())
->> +        os.kill(pid, signal.SIGTERM)
->> +        os.remove(nbd_pidfile)
->> +        os.remove(test_img)
->> +
->> +    def test_with_zero_bug(self) -> None:
->> +        """
->> +        Verify that the block-status cache is not corrupted by a
->> +        want_zero=false call.
->> +        We can provoke a want_zero=false call with `qemu-img map` over NBD with
->> +        x-dirty-bitmap=qemu:allocation-depth, so we first run a normal `map`
-> x-dirty-bitmap=qemu:allocation-depth looks a bit dirty to me but I guess
-> we don't have a better way without depending on another nbd client.
-
-Should be just fine for an iotest.  If the parameter is ever reworked, 
-we can easily adjust the test.
-
-> If depending on libnbd is ok, this test can be much simpler:
+> Vladislav Yaroshchuk <yaroshchuk2000@gmail.com> writes:
 >
-> $ nbdinfo --map=base:allocation nbd+unix:///?socket=/tmp/nbd.sock
->           0        4096    0  data
->        4096  1073737728    3  hole,zero
-> $ nbdinfo --map=qemu:allocation-depth nbd+unix:///?socket=/tmp/nbd.sock
->           0  1073741824    1  local
-> $ nbdinfo --map=qemu:allocation-depth nbd+unix:///?socket=/tmp/nbd.sock
->           0  1073741824    1  local
-> $ nbdinfo --map=base:allocation nbd+unix:///?socket=/tmp/nbd.sock
->           0  1073741824    0  data
+> > =D0=B2=D1=82, 18 =D1=8F=D0=BD=D0=B2. 2022 =D0=B3. =D0=B2 18:01, Markus =
+Armbruster <armbru@redhat.com>:
+> >
+> >> Vladislav Yaroshchuk <yaroshchuk2000@gmail.com> writes:
+> >>
+> >> > Create separate netdevs for each vmnet operating mode:
+> >> > - vmnet-host
+> >> > - vmnet-shared
+> >> > - vmnet-bridged
+> >> >
+> >> > Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+> >>
+> >> I acked v8 of the QAPI schema part.  You should add Acked-by and
+> >> Reviewed-by you receive in later revisions, unless you make changes th=
+at
+> >> invalidate them.  When in doubt, drop them.
+> >>
+> >>
+> > Oh ok, I'll do that next time.
 >
->> +        (which results in want_zero=true), then using said
->> +        qemu:allocation-depth context, and finally another normal `map` to
->> +        verify that the cache has not been corrupted.
->> +        """
->> +
->> +        nbd_img_opts = f'driver=nbd,server.type=unix,server.path={nbd_sock}'
->> +        nbd_img_opts_alloc_depth = nbd_img_opts + \
->> +            ',x-dirty-bitmap=qemu:allocation-depth'
->> +
->> +        # Normal map, results in want_zero=true.
->> +        # This will probably detect an allocated data sector first (qemu likes
->> +        # to allocate the first sector to facilitate alignment probing), and
->> +        # then the rest to be zero.  The BSC will thus contain (if anything)
->> +        # one range covering the first sector.
->> +        map_pre = qemu_img_pipe('map', '--output=json', '--image-opts',
->> +                                nbd_img_opts)
->> +
->> +        # qemu:allocation-depth maps for want_zero=false.
->> +        # want_zero=false should (with the file driver, which the server is
->> +        # using) report everything as data.  While this is sufficient for
->> +        # want_zero=false, this is nothing that should end up in the
->> +        # block-status cache.
->> +        # Due to a bug, this information did end up in the cache, though, and
->> +        # this would lead to wrong information being returned on subsequent
->> +        # want_zero=true calls.
->> +        #
->> +        # We need to run this map twice: On the first call, we probably still
->> +        # have the first sector in the cache, and so this will be served from
->> +        # the cache; and only the subsequent range will be queried from the
->> +        # block driver.  This subsequent range will then be entered into the
->> +        # cache.
->> +        # If we did a want_zero=true call at this point, we would thus get
->> +        # correct information: The first sector is not covered by the cache, so
->> +        # we would get fresh block-status information from the driver, which
->> +        # would return a data range, and this would then go into the cache,
->> +        # evicting the wrong range from the want_zero=false call before.
->> +        #
->> +        # Therefore, we need a second want_zero=false map to reproduce:
->> +        # Since the first sector is not in the cache, the query for its status
->> +        # will go to the driver, which will return a result that reports the
->> +        # whole image to be a single data area.  This result will then go into
->> +        # the cache, and so the cache will then report the whole image to
->> +        # contain data.
-> Interesting, but once we fix the bug this complex flow is gone so
-> we can eliminate this text, no?
+> Thanks :)
+>
+> >> > diff --git a/qapi/net.json b/qapi/net.json
+> >> > index 7fab2e7cd8..b922e2e34f 100644
+> >> > --- a/qapi/net.json
+> >> > +++ b/qapi/net.json
+> >> > @@ -452,6 +452,120 @@
+> >> >      '*vhostdev':     'str',
+> >> >      '*queues':       'int' } }
+> >> >
+> >> > +##
+> >> > +# @NetdevVmnetHostOptions:
+> >> > +#
+> >> > +# vmnet (host mode) network backend.
+> >> > +#
+> >> > +# Allows the vmnet interface to communicate with other vmnet
+> >> > +# interfaces that are in host mode and also with the host.
+> >> > +#
+> >> > +# @start-address: The starting IPv4 address to use for the interfac=
+e.
+> >> > +#                 Must be in the private IP range (RFC 1918). Must =
+be
+> >> > +#                 specified along with @end-address and @subnet-mas=
+k.
+> >> > +#                 This address is used as the gateway address. The
+> >> > +#                 subsequent address up to and including end-addres=
+s
+> are
+> >> > +#                 placed in the DHCP pool.
+> >> > +#
+> >> > +# @end-address: The DHCP IPv4 range end address to use for the
+> >> > +#               interface. Must be in the private IP range (RFC
+> 1918).
+> >> > +#               Must be specified along with @start-address and
+> >> > +#               @subnet-mask.
+> >> > +#
+> >> > +# @subnet-mask: The IPv4 subnet mask to use on the interface. Must
+> >> > +#               be specified along with @start-address and
+> @subnet-mask.
+> >> > +#
+> >> > +# @isolated: Enable isolation for this interface. Interface isolati=
+on
+> >> > +#            ensures that vmnet interface is not able to communicat=
+e
+> >> > +#            with any other vmnet interfaces. Only communication wi=
+th
+> >> > +#            host is allowed. Available since macOS Big Sur 11.0.
+> >>
+> >> What happens when the host is too old?
+> >>
+> >>
+> > In this case netdev creation will fail with
+> > corresponding message (error_setg() used).
+>
+> "Available" feels slightly misleading.  It's always available, it just
+> doesn't work unless the host OS is new enough.  Suggest something like
+> "Requires at least macOS Big Sur 11.0."
+>
+>
+Yep, "Requires" sounds much more suitable. Will update
+the description in the next version along with other fixes.
 
-Well...  Once the bug is fixed, we technically don’t need this test at 
-all, right? O:)
+Thank you!
 
-This is a regression test to show that the behavior before the fix is 
-broken, so it needs to reproduce the bug that existed before the fix.  
-Therefore, it should include a detailed description how the reproducer 
-works, i.e. in what way qemu’s behavior was broken before the fix.
+Same for the others.
+>
+> QAPI schema
+> Acked-by: Markus Armbruster <armbru@redhat.com>
+>
+> [...]
+>
+>
 
-(Otherwise it’d be unclear why we need to have this `range(2)` loop.)
+--=20
+Best Regards,
 
->> +        #
->> +        # Note that once the cache reports the whole image to contain data, any
->> +        # subsequent map operation will be served from the cache, and so we can
->> +        # never loop too many times here.
->> +        for _ in range(2):
->> +            # (Ignore the result, this is just to contaminate the cache)
->> +            qemu_img_pipe('map', '--output=json', '--image-opts',
->> +                          nbd_img_opts_alloc_depth)
->> +
->> +        # Now let's see whether the cache reports everything as data, or
->> +        # whether we get correct information (i.e. the same as we got on our
->> +        # first attempt).
->> +        map_post = qemu_img_pipe('map', '--output=json', '--image-opts',
->> +                                 nbd_img_opts)
->> +
->> +        if map_pre != map_post:
->> +            print('ERROR: Map information differs before and after querying ' +
->> +                  'qemu:allocation-depth')
->> +            print('Before:')
->> +            print(map_pre)
->> +            print('After:')
->> +            print(map_post)
->> +
->> +            self.fail("Map information differs")
->> +
->> +
->> +if __name__ == '__main__':
->> +    # The block-status cache only works on the protocol layer, so to test it,
->> +    # we can only use the raw format
->> +    iotests.main(supported_fmts=['raw'],
->> +                 supported_protocols=['file'])
->> diff --git a/tests/qemu-iotests/tests/block-status-cache.out b/tests/qemu-iotests/tests/block-status-cache.out
->> new file mode 100644
->> index 0000000000..ae1213e6f8
->> --- /dev/null
->> +++ b/tests/qemu-iotests/tests/block-status-cache.out
->> @@ -0,0 +1,5 @@
->> +.
->> +----------------------------------------------------------------------
->> +Ran 1 tests
->> +
->> +OK
->> --
->> 2.33.1
->>
-> Reviewed-by: Nir Soffer <nsoffer@redhat.com>
+Vladislav Yaroshchuk
 
-Thanks, and also thanks for reporting and testing!
+--00000000000052ce1d05d5de0272
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-(I’ll send a v2 with a comment added for the qemu-nbd invocation.)
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">=D0=B2=D1=82, 18 =D1=8F=D0=BD=D0=B2. =
+2022 =D0=B3. =D0=B2 19:35, Markus Armbruster &lt;<a href=3D"mailto:armbru@r=
+edhat.com">armbru@redhat.com</a>&gt;:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">Vladislav Yaroshchuk &lt;<a href=3D"mailto:yaroshchuk=
+2000@gmail.com" target=3D"_blank">yaroshchuk2000@gmail.com</a>&gt; writes:<=
+br>
+<br>
+&gt; =D0=B2=D1=82, 18 =D1=8F=D0=BD=D0=B2. 2022 =D0=B3. =D0=B2 18:01, Markus=
+ Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" target=3D"_blank">armb=
+ru@redhat.com</a>&gt;:<br>
+&gt;<br>
+&gt;&gt; Vladislav Yaroshchuk &lt;<a href=3D"mailto:yaroshchuk2000@gmail.co=
+m" target=3D"_blank">yaroshchuk2000@gmail.com</a>&gt; writes:<br>
+&gt;&gt;<br>
+&gt;&gt; &gt; Create separate netdevs for each vmnet operating mode:<br>
+&gt;&gt; &gt; - vmnet-host<br>
+&gt;&gt; &gt; - vmnet-shared<br>
+&gt;&gt; &gt; - vmnet-bridged<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Signed-off-by: Vladislav Yaroshchuk &lt;<a href=3D"mailto:yar=
+oshchuk2000@gmail.com" target=3D"_blank">yaroshchuk2000@gmail.com</a>&gt;<b=
+r>
+&gt;&gt;<br>
+&gt;&gt; I acked v8 of the QAPI schema part.=C2=A0 You should add Acked-by =
+and<br>
+&gt;&gt; Reviewed-by you receive in later revisions, unless you make change=
+s that<br>
+&gt;&gt; invalidate them.=C2=A0 When in doubt, drop them.<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt; Oh ok, I&#39;ll do that next time.<br>
+<br>
+Thanks :)<br>
+<br>
+&gt;&gt; &gt; diff --git a/qapi/net.json b/qapi/net.json<br>
+&gt;&gt; &gt; index 7fab2e7cd8..b922e2e34f 100644<br>
+&gt;&gt; &gt; --- a/qapi/net.json<br>
+&gt;&gt; &gt; +++ b/qapi/net.json<br>
+&gt;&gt; &gt; @@ -452,6 +452,120 @@<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 &#39;*vhostdev&#39;:=C2=A0 =C2=A0 =C2=A0&=
+#39;str&#39;,<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 &#39;*queues&#39;:=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0&#39;int&#39; } }<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; +##<br>
+&gt;&gt; &gt; +# @NetdevVmnetHostOptions:<br>
+&gt;&gt; &gt; +#<br>
+&gt;&gt; &gt; +# vmnet (host mode) network backend.<br>
+&gt;&gt; &gt; +#<br>
+&gt;&gt; &gt; +# Allows the vmnet interface to communicate with other vmnet=
+<br>
+&gt;&gt; &gt; +# interfaces that are in host mode and also with the host.<b=
+r>
+&gt;&gt; &gt; +#<br>
+&gt;&gt; &gt; +# @start-address: The starting IPv4 address to use for the i=
+nterface.<br>
+&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0Must be in the private IP range (RFC 1918). Must be<br>
+&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0specified along with @end-address and @subnet-mask.<br>
+&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0This address is used as the gateway address. The<br>
+&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0subsequent address up to and including end-address are<br>
+&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0placed in the DHCP pool.<br>
+&gt;&gt; &gt; +#<br>
+&gt;&gt; &gt; +# @end-address: The DHCP IPv4 range end address to use for t=
+he<br>
+&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0inte=
+rface. Must be in the private IP range (RFC 1918).<br>
+&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Must=
+ be specified along with @start-address and<br>
+&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@sub=
+net-mask.<br>
+&gt;&gt; &gt; +#<br>
+&gt;&gt; &gt; +# @subnet-mask: The IPv4 subnet mask to use on the interface=
+. Must<br>
+&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0be s=
+pecified along with @start-address and @subnet-mask.<br>
+&gt;&gt; &gt; +#<br>
+&gt;&gt; &gt; +# @isolated: Enable isolation for this interface. Interface =
+isolation<br>
+&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ensures that vmne=
+t interface is not able to communicate<br>
+&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with any other vm=
+net interfaces. Only communication with<br>
+&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 host is allowed. =
+Available since macOS Big Sur 11.0.<br>
+&gt;&gt;<br>
+&gt;&gt; What happens when the host is too old?<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt; In this case netdev creation will fail with<br>
+&gt; corresponding message (error_setg() used).<br>
+<br>
+&quot;Available&quot; feels slightly misleading.=C2=A0 It&#39;s always avai=
+lable, it just<br>
+doesn&#39;t work unless the host OS is new enough.=C2=A0 Suggest something =
+like<br>
+&quot;Requires at least macOS Big Sur 11.0.&quot;<br>
+<br></blockquote><div><br></div><div>Yep, &quot;Requires&quot; sounds much =
+more suitable. Will update=C2=A0</div><div>the description in the next vers=
+ion along with other fixes.</div><div><br></div><div>Thank you!</div><div><=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Same for the others.<br>
+<br>
+QAPI schema<br>
+Acked-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" target=
+=3D"_blank">armbru@redhat.com</a>&gt;<br>
+<br>
+[...]<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"l=
+tr">Best Regards,<div><br><div>Vladislav Yaroshchuk</div></div></div></div>=
+</div>
 
-Hanna
-
+--00000000000052ce1d05d5de0272--
 
