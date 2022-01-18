@@ -2,49 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8139A492996
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 16:24:00 +0100 (CET)
-Received: from localhost ([::1]:56922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 480E24929CF
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 16:44:13 +0100 (CET)
+Received: from localhost ([::1]:44044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9qL1-0006n2-In
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 10:23:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40586)
+	id 1n9qeZ-0002zV-Ri
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 10:44:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n9q5M-0008O2-KC
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 10:07:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55851)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n9q5p-0000SL-1E
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 10:08:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n9q5J-0006a7-Um
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 10:07:47 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1n9q5m-0006ch-V6
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 10:08:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642518465;
+ s=mimecast20190719; t=1642518494;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=su0ZJXXZxiaOLvsjK+p+kXNdeVMdn3q15RPMbYlYNz0=;
- b=JHjF+7knLjNpGooNb8Hyb5wwy2mfT8BHsLeYkiImI7QvLZkSvUe7v0lSpwgZ3XZV8qtmfz
- YxRM39YzG6PNvaqOfgbwkxt+bjUByZLsW9VIbsf4rOFDKaOTu7cxFYDAwJVHr6DAgFhUgf
- 3L9uVPOVN+V7FtNOY47H61RQoB9tjuI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mSqTXeGEA5FR0UobAxa0cVsfO5y4bLI6WLK1pPj15QQ=;
+ b=eVTA4cc4R+KO0sI6jPuNrK4bReDWru7VDLEE+nQ1iXTNasTpB03/MDoG6ed2j5NkMB3vAz
+ xkL6euDVawOTqvM+dTNYyJyw09AQ9rYJDt0B00umdfXiM4Ediwv5cS3Oa762h7WBoE+V+Z
+ Ig/b83PHeh61h9bt8LdGz1r3AWrEiAE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-641-9Tw4KND1M_aRVziVfAZorw-1; Tue, 18 Jan 2022 10:07:43 -0500
-X-MC-Unique: 9Tw4KND1M_aRVziVfAZorw-1
+ us-mta-344-wv3f3PgcPc6_uij8Mnv5OQ-1; Tue, 18 Jan 2022 10:08:11 -0500
+X-MC-Unique: wv3f3PgcPc6_uij8Mnv5OQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6770193248E
- for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 15:07:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D1251014509
+ for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 15:08:10 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.195.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 78D6373269;
- Tue, 18 Jan 2022 15:07:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 507785DBA2;
+ Tue, 18 Jan 2022 15:07:43 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 0/2] virtio-mem: Handle preallocation with migration
-Date: Tue, 18 Jan 2022 16:07:10 +0100
-Message-Id: <20220118150712.139953-1-david@redhat.com>
+Subject: [PATCH v1 1/2] virtio-mem: Warn if a memory backend with
+ "prealloc=on" is used
+Date: Tue, 18 Jan 2022 16:07:11 +0100
+Message-Id: <20220118150712.139953-2-david@redhat.com>
+In-Reply-To: <20220118150712.139953-1-david@redhat.com>
+References: <20220118150712.139953-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
@@ -53,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -81,42 +85,38 @@ Cc: Michal Privoznik <mprivozn@redhat.com>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While playing with migration of virtio-mem with an ordinary file backing,
-I realized that migration and prealloc doesn't currently work as expected
-for virtio-mem, especially when migrating zeropages or skipping migration
-of some pages.
+"prealloc=on" for the memory backend does not work as expected, as
+virtio-mem will simply discard all preallocated memory immediately again.
+In the best case, it's an expensive NOP. In the worst case, it's an
+unexpected allocation error.
 
-In contrast to ordinary memory backend preallocation, virtio-mem
-preallocates memory before plugging blocks to the guest. Consequently,
-when migrating we are not actually preallocating on the destination but
-"only" migrate pages. When migrating the zeropage, we might not end up
-allocating actual backend memory.
+Instead, "prealloc=on" should be specified for the virtio-mem device only,
+such that virtio-mem will try preallocating memory before plugging
+memory dynamically to the guest.
 
-Postcopy needs some extra care, and I realized that prealloc+postcopy is
-shaky in general. Let's at least try to mimic what ordinary
-prealloc+postcopy does: temporarily allocate the memory, discard it, and
-cross fingers that we'll still have sufficient memory when postcopy
-actually tries placing pages.
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ hw/virtio/virtio-mem.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-For postcopy to work with prealloc=on, we need a matching "requested-size"
-on source and destination, meaning we have to start QEMU on the destination
-with the current "requested-size" on the source. Only that way, we can try
-temporarily allocating the "requested-size" to see if there is a
-fundamental issue. If we detect a mismatch, we don't start postcopy.
-
-Cc: Juan Quintela <quintela@redhat.com>
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Michal Privoznik <mprivozn@redhat.com>
-
-David Hildenbrand (2):
-  virtio-mem: Warn if a memory backend with "prealloc=on" is used
-  virtio-mem: Handle preallocation with migration
-
- hw/virtio/virtio-mem.c         | 143 +++++++++++++++++++++++++++++++++
- include/hw/virtio/virtio-mem.h |   6 ++
- 2 files changed, 149 insertions(+)
-
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index 04c223b0c9..6c337db0a7 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -765,6 +765,13 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
++    if (vmem->memdev->prealloc) {
++        warn_report("'%s' property specifies a memdev with preallocation"
++                    " enabled: %s. Instead, specify 'prealloc=on' for the"
++                    " virtio-mem device. ", VIRTIO_MEM_MEMDEV_PROP,
++                    object_get_canonical_path_component(OBJECT(vmem->memdev)));
++    }
++
+     if ((nb_numa_nodes && vmem->node >= nb_numa_nodes) ||
+         (!nb_numa_nodes && vmem->node)) {
+         error_setg(errp, "'%s' property has value '%" PRIu32 "', which exceeds"
 -- 
 2.34.1
 
