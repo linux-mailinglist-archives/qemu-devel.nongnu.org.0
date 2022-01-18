@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92E01492075
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 08:42:32 +0100 (CET)
-Received: from localhost ([::1]:59820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 477D4492076
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 08:44:39 +0100 (CET)
+Received: from localhost ([::1]:33870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9j8R-0002yd-0T
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 02:42:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45820)
+	id 1n9jAU-0004fW-2y
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 02:44:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9itj-0007ke-Rn
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 02:27:20 -0500
-Received: from [2a00:1450:4864:20::32b] (port=46880
+ id 1n9itx-0007mG-Hi; Tue, 18 Jan 2022 02:27:34 -0500
+Received: from [2a00:1450:4864:20::32b] (port=54948
  helo=mail-wm1-x32b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9itd-00047D-QG
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 02:27:16 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- az27-20020a05600c601b00b0034d2956eb04so2527817wmb.5
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 23:27:13 -0800 (PST)
+ id 1n9itw-00048E-3s; Tue, 18 Jan 2022 02:27:33 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id p18so25540557wmg.4;
+ Mon, 17 Jan 2022 23:27:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=uNjyZmX5ESegAmIIExpBzBzyAVv1u6xiaK1e/eB5DOw=;
- b=Rwdvw2Dxbl3q+bA6p/GMLObKUUqtqq94WtfHKVXoAxEmZLZoICgUNK3F6LkS3nX5KP
- nAA7bXg+wWuyTq3PDe3DzNMlc2pRAtGIzkAstl9CEbggcbJQbN4LiQli1ttukVUfVK+v
- 67ud32tAQDG6eP/5gbAYdj9aJm5kNr0SXmaU7CWO9NiNn29qnj1m8IbKDslIVEGVmAtP
- GKU9ZwOpwqNksLY6H00LUJ7qbR9uBXMP84bSos9FP1NN9IDD6mwBOtDbMorfvu94IuQd
- rWZ/j+sJIBYQIfAOLnyJl39px37gftDTMcXEMv2QWiBQzdT6Tbg2qZcjOS3zdtwUaA2t
- muWw==
+ bh=d74k9kYwoWMSqApFDCfao3RK7yeHeLhpUIUocQOy9KQ=;
+ b=NOIxIOuYb/E1KeHRQKGAswqJtFQkVY1HTlGi+WiodJU0p6dCgMQEXiV5FlIuihdMW4
+ 5dvZBlueVJuUAQsZAlnU3aQj+QXmndc9wmSNgrC5vB5esrljpK3KXJigzv5ME2RkacpG
+ s/O19e8bEy592PV/3iCzTWbSGeV28O2Ud4qx0RsbqYZ4Ed4xjGh7H42oqMOmaMq9fPla
+ Kky1XLlpZkLQlB086T05hCMTILyaww/DHelnUsZR7+mUYZbkIaicgm6Ix0Vps33U9gX5
+ FxAkenwzprHQPpcqq0z//HAgCDN8J93Ohf1vZs615/LuSkwznJljduy/VooeLSE4f95h
+ ou/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=uNjyZmX5ESegAmIIExpBzBzyAVv1u6xiaK1e/eB5DOw=;
- b=GXGpwALjvGwNCTcb3iwwjbAAt6hceKD7otQYlgvkhQF8f22XpBJG3cFxSmarq6tuxG
- Y+IXYfGQC+IrXbn7NxDXpxoWz2BGhvWyvISz/rOpnzQ5OcCYut8zedQqQLe5w6GKLVq3
- 8dsenSykIlQicMmKJcB3h0UHyPl8bn3mLc7pwBtlJbcjJOHTfihRQ3sMCZrFJapzTP4e
- xzBa3Q3cyGul4U2OAqTafxvantSQp/pdmx3aAuBIbVTxFmxb7YlS/XpYwhqZDt/NJKGM
- NoEnqiXAc/YbcKziaYmYleiHj3hb56qUx8uN7NURcBWHhODkG8X4+f0tcQrMFUFOV0Mx
- 23sA==
-X-Gm-Message-State: AOAM533bat2DPPQtP5+mXOCPhjgx5ANC26iNLjJSndMmdtljlCg3Dr/X
- aU1fxw6whYn6xBeidnnRFIA=
-X-Google-Smtp-Source: ABdhPJwetJGFS+Agbo0L62EUwudas/G0Y5CQmjzFxZSMxNqCiTQY0RZxjPy+tHY4MqrNqDknpIesMA==
-X-Received: by 2002:a05:600c:d7:: with SMTP id u23mr886308wmm.44.1642490831727; 
- Mon, 17 Jan 2022 23:27:11 -0800 (PST)
+ bh=d74k9kYwoWMSqApFDCfao3RK7yeHeLhpUIUocQOy9KQ=;
+ b=3u+FappZ3iWozhncUuCGEU2StdI6TYLyUL1GXPszXSsvDl4t1cQkhfeO5uj9uL9sZz
+ ZI4o6okfmEcXkGCsiy1+M9V4l0uA3T02fOL2NFRnvaw8kQYu9LyYuNv78S09G7InLXbG
+ 4x2ESTSHfyJHyUW6Xpko7gSQ9dbb+9lhZmB1lt0YAYO/rfyVZE6/Ow2s+FFnei6BAQ1R
+ zsNs7EwExJbaLcnJJeXBn6K4+4O3NnMT59V/6youj1gtyejKs41CTKHDMI8eLUFjCx87
+ aglXa17dY8bHv4OKHI1ydgkypNMOHJwWci/sVLqUvDfkiUV6rhbfEBjCAsRTmjERSUZj
+ sT/g==
+X-Gm-Message-State: AOAM5332WVyYQdbVuGC2+glb5AckhJ9UkpmwwgIt8PO1SpoN8CreW+Zr
+ J9TYhfXMDY6LTkFubaQ2B2y/NqNCfpU=
+X-Google-Smtp-Source: ABdhPJyev9Gw14MDYBhXtpTf0CIJ7y76HWeOH5dTUgpuZjHZSOOqsumYttjcppCwrWlnPMbpnbG7MQ==
+X-Received: by 2002:adf:f312:: with SMTP id i18mr22279969wro.589.1642490841220; 
+ Mon, 17 Jan 2022 23:27:21 -0800 (PST)
 Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id e17sm15276777wrr.34.2022.01.17.23.27.10
+ by smtp.gmail.com with ESMTPSA id r7sm586977wma.39.2022.01.17.23.27.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jan 2022 23:27:11 -0800 (PST)
-Message-ID: <153c941b-116f-1323-7078-bf8ddb3f9539@amsat.org>
-Date: Tue, 18 Jan 2022 08:27:10 +0100
+ Mon, 17 Jan 2022 23:27:20 -0800 (PST)
+Message-ID: <9acf1bf2-2775-1b0c-892d-9bfd1dd11837@amsat.org>
+Date: Tue, 18 Jan 2022 08:27:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH v7 0/2] memory: Have 'info mtree' remove duplicated
- Address Space information
+Subject: Re: [PATCH v3 00/10] hw/dma: Use dma_addr_t type definition when
+ relevant
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-Cc: David Hildenbrand <david@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Peter Xu <peterx@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20210904231101.1071929-1-philmd@redhat.com>
-In-Reply-To: <20210904231101.1071929-1-philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand
+ <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Peter Xu <peterx@redhat.com>, qemu-block@nongnu.org
+References: <20220111184309.28637-1-f4bug@amsat.org>
+In-Reply-To: <20220111184309.28637-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
@@ -103,11 +98,19 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 9/5/21 01:10, Philippe Mathieu-Daudé wrote:
+On 1/11/22 19:42, Philippe Mathieu-Daudé wrote:
 
-> Philippe Mathieu-Daudé (2):
->   memory: Split mtree_info() as mtree_info_flatview() + mtree_info_as()
->   memory: Have 'info mtree' remove duplicated Address Space information
+> Philippe Mathieu-Daudé (10):
+>   stubs: Restrict fw_cfg to system emulation
+>   hw/nvram: Restrict fw_cfg QOM interface to sysemu and tools
+>   hw/pci: Restrict pci-bus stub to sysemu
+>   hw/pci: Document pci_dma_map()
+>   hw/dma: Remove CONFIG_USER_ONLY check
+>   hw/rdma/rdma_utils: Rename rdma_pci_dma_map 'len' argument
+>   hw/scsi: Rename SCSIRequest::resid as 'residual'
+>   hw/dma: Fix format string issues using dma_addr_t
+>   hw/dma: Move ScatterGatherEntry / QEMUSGList declarations around
+>   hw/dma: Use dma_addr_t type definition when relevant
 
 Queued via memory-api.
 
