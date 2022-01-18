@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 212BB492BAF
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 17:55:41 +0100 (CET)
-Received: from localhost ([::1]:59954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A7EE492BC1
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 17:59:21 +0100 (CET)
+Received: from localhost ([::1]:41500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9rli-0001XX-Mp
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 11:55:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38432)
+	id 1n9rpI-0008IJ-K0
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 11:59:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1n9rTJ-0002Qf-N2
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:36:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42908)
+ id 1n9rUt-0006P8-Cs
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:38:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35115)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1n9rTH-0005qS-UM
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:36:37 -0500
+ id 1n9rUo-00061X-Oz
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:38:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642523795;
+ s=mimecast20190719; t=1642523886;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oCNhTywy/F6op3ibTVRQmfx5IM0UrdJWaXcz6og+PZk=;
- b=QKFA1tF7eJe/bW5xjDHUxNuOpFoegEQUGrV2psdGNJW+yCmpnwDDm9qf60d0okD8gWyajJ
- HKEMEU1UHLizHxcYQk64nLKHy92cpu80V0OuFzv71iYZmA8JM1ipoCuX6JmWR591vKvxIR
- jdg8WBbpFgGwuxZ8hMQtSKPt6RmBDGI=
+ bh=9N1PNDVUG/C5XbnDQHJ/4SUfJSxUMs/3JNk+hdgVuwU=;
+ b=iKO6AYCh4+0wP4JaSWHPp2dP3mKx2M/RfuXJ7c4sRY7STwOgvmn3LwbI4hC6MdOIibj1Ia
+ b4/6G+3IAB3YMnwsaos3gR9mesf29owaljtIRixifysujeZcAF/l9Bjsudbd6SyP/3IGUw
+ XkyiopQDx9F9BIk5yoeydULxOfB73tk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-645-k5OKaxp_OSiE8q8bpCxxMg-1; Tue, 18 Jan 2022 11:36:30 -0500
-X-MC-Unique: k5OKaxp_OSiE8q8bpCxxMg-1
+ us-mta-363-iZ7KR0nxNVieLzaD8-eIzg-1; Tue, 18 Jan 2022 11:38:00 -0500
+X-MC-Unique: iZ7KR0nxNVieLzaD8-eIzg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC7EB8143EF;
- Tue, 18 Jan 2022 16:28:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF5CE1142342;
+ Tue, 18 Jan 2022 16:28:23 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0ECBF348F8;
- Tue, 18 Jan 2022 16:28:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E5A7C348F8;
+ Tue, 18 Jan 2022 16:28:22 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 05/12] test-bdrv-drain.c: adapt test to the coming subtree
- drains
-Date: Tue, 18 Jan 2022 11:27:31 -0500
-Message-Id: <20220118162738.1366281-6-eesposit@redhat.com>
+Subject: [PATCH 06/12] test-bdrv-drain.c: remove test_detach_by_parent_cb()
+Date: Tue, 18 Jan 2022 11:27:32 -0500
+Message-Id: <20220118162738.1366281-7-eesposit@redhat.com>
 In-Reply-To: <20220118162738.1366281-1-eesposit@redhat.com>
 References: <20220118162738.1366281-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -68,7 +67,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,89 +88,190 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There will be 2 problems in this test when we will add
-subtree drains in bdrv_replace_child_noperm:
+This test uses a callback of an I/O function (blk_aio_preadv)
+to modify the graph, using bdrv_attach_child.
+This is simply not allowed anymore. I/O cannot change the graph.
 
-- First of all, inconsistency between block_job_create under
-aiocontext lock that internally calls blk_insert_bs and therefore
-bdrv_replace_child_noperm, and blk_insert_bs that is called two lines
-above in the same test without aiocontext. There seems to be no
-reason on why we need the lock there, so move the aiocontext lock further
-down.
+Before "block/io.c: make bdrv_do_drained_begin_quiesce static
+and introduce bdrv_drained_begin_no_poll", the test would simply
+be at risk of failure, because if bdrv_replace_child_noperm()
+(called to modify the graph) would call a drain,
+then one callback of .drained_begin() is bdrv_do_drained_begin_quiesce,
+that specifically asserts that we are not in a coroutine.
 
-- test_detach_indirect: here it is simply a matter of wrong callbacks
-used. In the original test, there was only a subtree drain, so
-overriding .drained_begin was not a problem. Now that we want to have
-additional subtree drains, we risk to call the test callback
-to early, or multiple times. We do not want that, so override
-the callback only when we actually want to use it.
+Now that we fixed the behavior, the drain will invoke a bh in the
+main loop, so we don't have such problem. However, this test is still
+illegal and fails because we forbid graph changes from I/O paths.
+
+Once we add the required subtree_drains to protect
+bdrv_replace_child_noperm(), the key problem in this test is in:
+
+acb = blk_aio_preadv(blk, 0, &qiov, 0, detach_by_parent_aio_cb, NULL);
+/* Drain and check the expected result */
+bdrv_subtree_drained_begin(parent_b);
+
+because the detach_by_parent_aio_cb calls detach_indirect_bh(), that
+modifies the graph and is invoked during bdrv_subtree_drained_begin().
+The call stack is the following:
+1. blk_aio_preadv() creates a coroutine, increments in_flight counter
+and enters the coroutine running blk_aio_read_entry()
+2. blk_aio_read_entry() performs the read and then schedules a bh to
+   complete (blk_aio_complete)
+3. at this point, subtree_drained_begin() kicks in and waits for all
+   in_flight requests, polling
+4. polling allows the bh to be scheduled, so blk_aio_complete runs
+5. blk_aio_complete *first* invokes the callback
+   (detach_by_parent_aio_cb) and then decrements the in_flight counter
+6. Here we have the problem: detach_by_parent_aio_cb modifies the graph,
+   so both bdrv_unref_child() and bdrv_attach_child() will have
+   subtree_drains inside. And this causes a deadlock, because the
+   nested drain will wait for in_flight counter to go to zero, which
+   is only happening once the drain itself finishes.
+
+Different story is test_detach_by_driver_cb(): in this case,
+detach_by_parent_aio_cb() does not call detach_indirect_bh(),
+but it is instead called as a bh running in the main loop by
+detach_by_driver_cb_drained_begin(), the callback for
+.drained_begin().
+
+This test was added in 231281ab42 and part of the series
+"Drain fixes and cleanups, part 3"
+https://lists.nongnu.org/archive/html/qemu-block/2018-05/msg01132.html
+but as explained above I believe that it is not valid anymore, and
+can be discarded.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- tests/unit/test-bdrv-drain.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+ tests/unit/test-bdrv-drain.c | 46 +++++++++---------------------------
+ 1 file changed, 11 insertions(+), 35 deletions(-)
 
 diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
-index 5a35dc391d..f6af206748 100644
+index f6af206748..af3501c46d 100644
 --- a/tests/unit/test-bdrv-drain.c
 +++ b/tests/unit/test-bdrv-drain.c
-@@ -912,12 +912,12 @@ static void test_blockjob_common_drain_node(enum drain_type drain_type,
-     blk_insert_bs(blk_target, target, &error_abort);
-     blk_set_allow_aio_context_change(blk_target, true);
+@@ -1296,7 +1296,6 @@ struct detach_by_parent_data {
+     BdrvChild *child_b;
+     BlockDriverState *c;
+     BdrvChild *child_c;
+-    bool by_parent_cb;
+ };
+ static struct detach_by_parent_data detach_by_parent_data;
  
--    aio_context_acquire(ctx);
-     tjob = block_job_create("job0", &test_job_driver, NULL, src,
-                             0, BLK_PERM_ALL,
-                             0, 0, NULL, NULL, &error_abort);
-     tjob->bs = src;
-     job = &tjob->common;
-+    aio_context_acquire(ctx);
-     block_job_add_bdrv(job, "target", target, 0, BLK_PERM_ALL, &error_abort);
+@@ -1314,12 +1313,7 @@ static void detach_indirect_bh(void *opaque)
  
-     switch (result) {
-@@ -1322,15 +1322,18 @@ static void detach_by_parent_aio_cb(void *opaque, int ret)
-     }
- }
- 
-+static BdrvChildClass detach_by_driver_cb_class;
-+
- static void detach_by_driver_cb_drained_begin(BdrvChild *child)
+ static void detach_by_parent_aio_cb(void *opaque, int ret)
  {
-+    /* restore .drained_begin cb, we don't need it anymore. */
-+    detach_by_driver_cb_class.drained_begin = child_of_bds.drained_begin;
-+
-     aio_bh_schedule_oneshot(qemu_get_current_aio_context(),
-                             detach_indirect_bh, &detach_by_parent_data);
-     child_of_bds.drained_begin(child);
+-    struct detach_by_parent_data *data = &detach_by_parent_data;
+-
+     g_assert_cmpint(ret, ==, 0);
+-    if (data->by_parent_cb) {
+-        detach_indirect_bh(data);
+-    }
  }
  
--static BdrvChildClass detach_by_driver_cb_class;
--
- /*
-  * Initial graph:
+ static BdrvChildClass detach_by_driver_cb_class;
+@@ -1341,31 +1335,24 @@ static void detach_by_driver_cb_drained_begin(BdrvChild *child)
+  *    \ /   \
+  *     A     B     C
   *
-@@ -1362,8 +1365,6 @@ static void test_detach_indirect(bool by_parent_cb)
+- * by_parent_cb == true:  Test that parent callbacks don't poll
+- *
+- *     PA has a pending write request whose callback changes the child nodes of
+- *     PB: It removes B and adds C instead. The subtree of PB is drained, which
+- *     will indirectly drain the write request, too.
+- *
+- * by_parent_cb == false: Test that bdrv_drain_invoke() doesn't poll
++ * Test that bdrv_drain_invoke() doesn't poll
+  *
+  *     PA's BdrvChildClass has a .drained_begin callback that schedules a BH
+  *     that does the same graph change. If bdrv_drain_invoke() calls it, the
+  *     state is messed up, but if it is only polled in the single
+  *     BDRV_POLL_WHILE() at the end of the drain, this should work fine.
+  */
+-static void test_detach_indirect(bool by_parent_cb)
++static void test_detach_indirect(void)
+ {
+     BlockBackend *blk;
+     BlockDriverState *parent_a, *parent_b, *a, *b, *c;
+     BdrvChild *child_a, *child_b;
+     BlockAIOCB *acb;
++    BDRVTestState *s;
  
-     if (!by_parent_cb) {
-         detach_by_driver_cb_class = child_of_bds;
--        detach_by_driver_cb_class.drained_begin =
--            detach_by_driver_cb_drained_begin;
-     }
+     QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, NULL, 0);
+ 
+-    if (!by_parent_cb) {
+-        detach_by_driver_cb_class = child_of_bds;
+-    }
++    detach_by_driver_cb_class = child_of_bds;
  
      /* Create all involved nodes */
-@@ -1421,6 +1422,12 @@ static void test_detach_indirect(bool by_parent_cb)
+     parent_a = bdrv_new_open_driver(&bdrv_test, "parent-a", BDRV_O_RDWR,
+@@ -1384,10 +1371,8 @@ static void test_detach_indirect(bool by_parent_cb)
+ 
+     /* If we want to get bdrv_drain_invoke() to call aio_poll(), the driver
+      * callback must not return immediately. */
+-    if (!by_parent_cb) {
+-        BDRVTestState *s = parent_a->opaque;
+-        s->sleep_in_drain_begin = true;
+-    }
++    s = parent_a->opaque;
++    s->sleep_in_drain_begin = true;
+ 
+     /* Set child relationships */
+     bdrv_ref(b);
+@@ -1399,7 +1384,7 @@ static void test_detach_indirect(bool by_parent_cb)
+ 
+     bdrv_ref(a);
+     bdrv_attach_child(parent_a, a, "PA-A",
+-                      by_parent_cb ? &child_of_bds : &detach_by_driver_cb_class,
++                      &detach_by_driver_cb_class,
+                       BDRV_CHILD_DATA, &error_abort);
+ 
+     g_assert_cmpint(parent_a->refcnt, ==, 1);
+@@ -1417,16 +1402,13 @@ static void test_detach_indirect(bool by_parent_cb)
+         .parent_b = parent_b,
+         .child_b = child_b,
+         .c = c,
+-        .by_parent_cb = by_parent_cb,
+     };
      acb = blk_aio_preadv(blk, 0, &qiov, 0, detach_by_parent_aio_cb, NULL);
      g_assert(acb != NULL);
  
-+    if (!by_parent_cb) {
-+        /* set .drained_begin cb to run only in the following drain. */
-+        detach_by_driver_cb_class.drained_begin =
-+            detach_by_driver_cb_drained_begin;
-+    }
-+
+-    if (!by_parent_cb) {
+-        /* set .drained_begin cb to run only in the following drain. */
+-        detach_by_driver_cb_class.drained_begin =
+-            detach_by_driver_cb_drained_begin;
+-    }
++    /* set .drained_begin cb to run only in the following drain. */
++    detach_by_driver_cb_class.drained_begin =
++        detach_by_driver_cb_drained_begin;
+ 
      /* Drain and check the expected result */
      bdrv_subtree_drained_begin(parent_b);
+@@ -1462,14 +1444,9 @@ static void test_detach_indirect(bool by_parent_cb)
+     bdrv_unref(c);
+ }
  
+-static void test_detach_by_parent_cb(void)
+-{
+-    test_detach_indirect(true);
+-}
+-
+ static void test_detach_by_driver_cb(void)
+ {
+-    test_detach_indirect(false);
++    test_detach_indirect();
+ }
+ 
+ static void test_append_to_drained(void)
+@@ -2224,7 +2201,6 @@ int main(int argc, char **argv)
+     g_test_add_func("/bdrv-drain/detach/drain_all", test_detach_by_drain_all);
+     g_test_add_func("/bdrv-drain/detach/drain", test_detach_by_drain);
+     g_test_add_func("/bdrv-drain/detach/drain_subtree", test_detach_by_drain_subtree);
+-    g_test_add_func("/bdrv-drain/detach/parent_cb", test_detach_by_parent_cb);
+     g_test_add_func("/bdrv-drain/detach/driver_cb", test_detach_by_driver_cb);
+ 
+     g_test_add_func("/bdrv-drain/attach/drain", test_append_to_drained);
 -- 
 2.31.1
 
