@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE74492570
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 13:09:19 +0100 (CET)
-Received: from localhost ([::1]:57394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A8E8492587
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 13:15:48 +0100 (CET)
+Received: from localhost ([::1]:38600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9nIb-00016O-Ns
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 07:09:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50914)
+	id 1n9nOt-0008He-9w
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 07:15:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n9nAv-0005ei-AI
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 07:01:23 -0500
-Received: from 4.mo552.mail-out.ovh.net ([178.33.43.201]:37643)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n9nB2-0005hI-PG
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 07:01:29 -0500
+Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231]:34937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n9nAe-0005RU-I0
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 07:01:09 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.47])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id B660D21D5C;
- Tue, 18 Jan 2022 12:01:01 +0000 (UTC)
-Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n9nAx-0005Xc-Nt
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 07:01:28 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.192])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id BD49A20C2B;
+ Tue, 18 Jan 2022 12:01:20 +0000 (UTC)
+Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 18 Jan
- 2022 13:01:01 +0100
+ 2022 13:01:19 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-103G00594a83139-2471-4755-bd7a-ed8f77069871,
+ (GARM-106R00604c9d4e6-f231-4d32-ad93-fca9b687ce2d,
  78124C4340FA50D00486B2609A05927D7A7C6ABE) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <c8e030c4-fef8-8825-2f99-7ddded8e37ef@kaod.org>
-Date: Tue, 18 Jan 2022 13:01:00 +0100
+Message-ID: <4b3d6325-2f20-b44f-c9e1-7019dedcb70c@kaod.org>
+Date: Tue, 18 Jan 2022 13:01:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH RESEND] tests/avocado: ppc: Add smoke tests for MPC7400
- and MPC7450 families
+Subject: Re: [PATCH 0/3] ppc/pnv: Final refinements on PHB4s
 Content-Language: en-US
-To: Fabiano Rosas <farosas@linux.ibm.com>, <qemu-devel@nongnu.org>
-References: <20220117144757.782441-1-farosas@linux.ibm.com>
+To: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
+References: <20220117122753.1655504-1-clg@kaod.org>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220117144757.782441-1-farosas@linux.ibm.com>
+In-Reply-To: <20220117122753.1655504-1-clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: f7351ff9-d62f-4704-bcc2-ac966cf552fd
-X-Ovh-Tracer-Id: 12393061749726022563
+X-Ovh-Tracer-GUID: 9a9a17c0-8d65-4cc7-97d2-cc6f5ba85045
+X-Ovh-Tracer-Id: 12398409774320094173
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudefgdefgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehmrghrkhdrtggrvhgvqdgrhihlrghnugesihhlrghnuggvrdgtohdruhhk
-Received-SPF: pass client-ip=178.33.43.201; envelope-from=clg@kaod.org;
- helo=4.mo552.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudefgdefgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhm
+Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
+ helo=8.mo548.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -70,18 +69,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.cave-ayland@ilande.co.uk, danielhb413@gmail.com, qemu-ppc@nongnu.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/17/22 15:47, Fabiano Rosas wrote:
-> These tests ensure that our emulation for these cpus is not completely
-> broken and we can at least run OpenBIOS on them.
+On 1/17/22 13:27, Cédric Le Goater wrote:
+> Hello,
 > 
-> $ make check-avocado AVOCADO_TESTS=../tests/avocado/ppc_74xx.py
+> These are the last little tweaks on PHB4 to prepare ground for PHB5.
 > 
-> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+> Thanks,
+> 
+> C.
+> 
+> Cédric Le Goater (3):
+>    ppc/pnv: Move root port allocation under pnv_pec_default_phb_realize()
+>    ppc/pnv: Add a 'rp_model' class attribute for the PHB4 PEC
+>    ppc/pnv: Remove PHB4 version property
+
+
 
 
 Applied to ppc-7.0
@@ -89,143 +95,4 @@ Applied to ppc-7.0
 Thanks,
 
 C.
-
-
-> ---
-> ---
->   tests/avocado/ppc_74xx.py | 123 ++++++++++++++++++++++++++++++++++++++
->   1 file changed, 123 insertions(+)
->   create mode 100644 tests/avocado/ppc_74xx.py
-> 
-> diff --git a/tests/avocado/ppc_74xx.py b/tests/avocado/ppc_74xx.py
-> new file mode 100644
-> index 0000000000..556a9a7da9
-> --- /dev/null
-> +++ b/tests/avocado/ppc_74xx.py
-> @@ -0,0 +1,123 @@
-> +# Smoke tests for 74xx cpus (aka G4).
-> +#
-> +# Copyright (c) 2021, IBM Corp.
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2 or
-> +# later.  See the COPYING file in the top-level directory.
-> +
-> +from avocado_qemu import QemuSystemTest
-> +from avocado_qemu import wait_for_console_pattern
-> +
-> +class ppc74xxCpu(QemuSystemTest):
-> +    """
-> +    :avocado: tags=arch:ppc
-> +    """
-> +    timeout = 5
-> +
-> +    def test_ppc_7400(self):
-> +        """
-> +        :avocado: tags=cpu:7400
-> +        """
-> +        self.vm.set_console()
-> +        self.vm.launch()
-> +        wait_for_console_pattern(self, '>> OpenBIOS')
-> +        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-> +
-> +    def test_ppc_7410(self):
-> +        """
-> +        :avocado: tags=cpu:7410
-> +        """
-> +        self.vm.set_console()
-> +        self.vm.launch()
-> +        wait_for_console_pattern(self, '>> OpenBIOS')
-> +        wait_for_console_pattern(self, '>> CPU type PowerPC,74xx')
-> +
-> +    def test_ppc_7441(self):
-> +        """
-> +        :avocado: tags=cpu:7441
-> +        """
-> +        self.vm.set_console()
-> +        self.vm.launch()
-> +        wait_for_console_pattern(self, '>> OpenBIOS')
-> +        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-> +
-> +    def test_ppc_7445(self):
-> +        """
-> +        :avocado: tags=cpu:7445
-> +        """
-> +        self.vm.set_console()
-> +        self.vm.launch()
-> +        wait_for_console_pattern(self, '>> OpenBIOS')
-> +        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-> +
-> +    def test_ppc_7447(self):
-> +        """
-> +        :avocado: tags=cpu:7447
-> +        """
-> +        self.vm.set_console()
-> +        self.vm.launch()
-> +        wait_for_console_pattern(self, '>> OpenBIOS')
-> +        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-> +
-> +    def test_ppc_7447a(self):
-> +        """
-> +        :avocado: tags=cpu:7447a
-> +        """
-> +        self.vm.set_console()
-> +        self.vm.launch()
-> +        wait_for_console_pattern(self, '>> OpenBIOS')
-> +        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-> +
-> +    def test_ppc_7448(self):
-> +        """
-> +        :avocado: tags=cpu:7448
-> +        """
-> +        self.vm.set_console()
-> +        self.vm.launch()
-> +        wait_for_console_pattern(self, '>> OpenBIOS')
-> +        wait_for_console_pattern(self, '>> CPU type PowerPC,MPC86xx')
-> +
-> +    def test_ppc_7450(self):
-> +        """
-> +        :avocado: tags=cpu:7450
-> +        """
-> +        self.vm.set_console()
-> +        self.vm.launch()
-> +        wait_for_console_pattern(self, '>> OpenBIOS')
-> +        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-> +
-> +    def test_ppc_7451(self):
-> +        """
-> +        :avocado: tags=cpu:7451
-> +        """
-> +        self.vm.set_console()
-> +        self.vm.launch()
-> +        wait_for_console_pattern(self, '>> OpenBIOS')
-> +        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-> +
-> +    def test_ppc_7455(self):
-> +        """
-> +        :avocado: tags=cpu:7455
-> +        """
-> +        self.vm.set_console()
-> +        self.vm.launch()
-> +        wait_for_console_pattern(self, '>> OpenBIOS')
-> +        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-> +
-> +    def test_ppc_7457(self):
-> +        """
-> +        :avocado: tags=cpu:7457
-> +        """
-> +        self.vm.set_console()
-> +        self.vm.launch()
-> +        wait_for_console_pattern(self, '>> OpenBIOS')
-> +        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-> +
-> +    def test_ppc_7457a(self):
-> +        """
-> +        :avocado: tags=cpu:7457a
-> +        """
-> +        self.vm.set_console()
-> +        self.vm.launch()
-> +        wait_for_console_pattern(self, '>> OpenBIOS')
-> +        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-> 
-
 
