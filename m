@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A130F492ECF
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 20:59:20 +0100 (CET)
-Received: from localhost ([::1]:40698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF5B492F08
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 21:12:30 +0100 (CET)
+Received: from localhost ([::1]:54998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9udT-0000w3-9g
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 14:59:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36428)
+	id 1n9uqD-0003C6-GH
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 15:12:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1n9uaD-0006bF-LH
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 14:55:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28466)
+ id 1n9uft-0004EM-PL
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 15:01:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48246)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1n9ua8-000547-Nt
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 14:55:56 -0500
+ id 1n9ufr-00063X-Iy
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 15:01:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642535741;
+ s=mimecast20190719; t=1642536106;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=NW7gDXp5TqoZaLoAfDLM9a87zh/K0/X+mBRzzsTUYHI=;
- b=XEiG82fzAqhYrfUjCxdzxdzAgchvdxJQkUAtPVbpafrTe2VNX3unfsmhq/iWxuZCaeFv0W
- jHZMhC8d73H3T4lZJEHz2mOKJr1bn+3OPG+UIACNoIGbsaiig3Pv9tDNHZyhSHGExtZeka
- KBLC2w5rkVdjdOUBZvOth9qsqsEK8Mw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=q/rV0diipbbEzBqueUvVD+y/6fIjSR6VxKwrEwDEb9M=;
+ b=RFXO54Cl/0PSCjCMnf5JGA/crm1DslKxeQW8FhgO2vLURbsVYk+2CYSATNgwZV0wUsjOGX
+ ikdE5L8n/sIijAq5fMMMIAFq2Xpoy4CyY8O/tR+ylYgkbVjv/T8qqfr/mFDcxUrMNMyXrH
+ YxjbkwkY11VnR+i7s8OLUy6JepvNx74=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-396-nc4a02dXPc62FkXFLm9H7w-1; Tue, 18 Jan 2022 14:55:40 -0500
-X-MC-Unique: nc4a02dXPc62FkXFLm9H7w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- z2-20020a05600c220200b0034d2eb95f27so219183wml.1
- for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 11:55:40 -0800 (PST)
+ us-mta-280-nMrD_wi7Nr6uMEpTFrdsyg-1; Tue, 18 Jan 2022 15:01:45 -0500
+X-MC-Unique: nMrD_wi7Nr6uMEpTFrdsyg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ bg32-20020a05600c3ca000b00349f2aca1beso201474wmb.9
+ for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 12:01:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=NW7gDXp5TqoZaLoAfDLM9a87zh/K0/X+mBRzzsTUYHI=;
- b=gX+V1vrWBhthIBUZ459ZQu8HPJazdbxNTnFvbG6gnDIzvaQKwmoc18laY5YChm9zc5
- +Pii00YMfhwXhzq2CrxYfDE2Lfk2LIzwQeySWuO84XZctb8NykdFn5O1uaGLKwCeL3AO
- e4/seeTXihjkPj0kDi8l8EwckmMTPzcone3S56Mn6thJNDwEzdAKQ6bLLW02ytT5+LPp
- gGxzVBeXc348gdE0q3vVE3BjbQE9GDx/ot4DBXJ92vgbxJwXX/f7UWXeTC/A60Rz+l4G
- P+i/koUeCzSSN0XqoXsmv1fwRBU5zUj7KeUyXNbLtDdQjmBagcP/UtL19w62ZovhwaaW
- lcMA==
-X-Gm-Message-State: AOAM531lCe0thfNkAeAcXOrJeORMNHcxg5jWCYQDxLnh/+OMW6mwCSTP
- lYXghHHPn9xF1j1LVzMDnWrj4aij0kSbvtYq7JtfuTEfrcof5HuuvAQs7+RixndozgDcsK9h+xm
- epb+RZ9m3smsd0tA=
-X-Received: by 2002:a05:600c:3510:: with SMTP id
- h16mr140688wmq.122.1642535738101; 
- Tue, 18 Jan 2022 11:55:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzGkQ751wvW+ME4mBsR5tK5kg0w7v1wIGVNVSEgbcgwd1wq2AJgQhv/XkcKoXpl8zvQgCPqEQ==
-X-Received: by 2002:a05:600c:3510:: with SMTP id
- h16mr140667wmq.122.1642535737848; 
- Tue, 18 Jan 2022 11:55:37 -0800 (PST)
+ bh=q/rV0diipbbEzBqueUvVD+y/6fIjSR6VxKwrEwDEb9M=;
+ b=saArYDb1itmahYa4zzrDRyZN+2AY2Lb3My5zN+41XhuWkWbEJ7ziZknlqetqCIq1U1
+ tM29MEVf1TaTq0DL/Eymk40dLw9otHDTex3ZmQ2r+/jQWtS4okgtQRuSm1yeapiJTD+e
+ O5EQcug8pc95PkVqN9kw4NDSgjoiz5fnRlT/dknt/ASsguCnCfiHXtti/tEN+IffE0zv
+ p6Y2XVFBt9LtJSj3WPqEC+2C24v83ymoD2XC6LOx+PuR/JdGwzJc32LPEHKvty+QvQxx
+ Dn7CJQ8ioB9+OWTN+ABja8GGPRBtQUad3rs24dJia33nUC0B4piptwitlZf/4vu0XLwL
+ becA==
+X-Gm-Message-State: AOAM532rBut2s9JtJhdssDmI55yW5ec5+Hr8AxmSjG6Y/3DGhlCD5hfq
+ O3ueskH/uCbzSMS7hJUHd14ENdyKgag5x/QHmjJMJVqiNWThyaoNUo32Fjb8/vf1sJZ+FA1XGhF
+ sPCHxJMpf05Li3fY=
+X-Received: by 2002:a05:6000:c2:: with SMTP id
+ q2mr21220943wrx.518.1642536103795; 
+ Tue, 18 Jan 2022 12:01:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzUOtKaHjGGgDEryG9te86qVplsvDHBeBBBnGCs8r6NklmFpKVDkqbb1QvyYldTAlQPRoLvSA==
+X-Received: by 2002:a05:6000:c2:: with SMTP id
+ q2mr21220922wrx.518.1642536103566; 
+ Tue, 18 Jan 2022 12:01:43 -0800 (PST)
 Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
  [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id i8sm9878381wry.33.2022.01.18.11.55.37
+ by smtp.gmail.com with ESMTPSA id u16sm4503282wmq.23.2022.01.18.12.01.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jan 2022 11:55:37 -0800 (PST)
-Date: Tue, 18 Jan 2022 19:55:35 +0000
+ Tue, 18 Jan 2022 12:01:42 -0800 (PST)
+Date: Tue, 18 Jan 2022 20:01:41 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v4 21/23] multifd: Zero pages transmission
-Message-ID: <YecbN5MbUvL3oVKm@work-vm>
+Subject: Re: [PATCH v4 22/23] migration: Use multifd before we check for the
+ zero page
+Message-ID: <YeccpUQWfgU1sF7e@work-vm>
 References: <20220111130024.5392-1-quintela@redhat.com>
- <20220111130024.5392-22-quintela@redhat.com>
+ <20220111130024.5392-23-quintela@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220111130024.5392-22-quintela@redhat.com>
+In-Reply-To: <20220111130024.5392-23-quintela@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
@@ -107,122 +108,73 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 * Juan Quintela (quintela@redhat.com) wrote:
-> This implements the zero page dection and handling.
+> So we use multifd to transmit zero pages.
 > 
 > Signed-off-by: Juan Quintela <quintela@redhat.com>
-> 
 > ---
+>  migration/ram.c | 32 +++++++++++++++++++++++++++++++-
+>  1 file changed, 31 insertions(+), 1 deletion(-)
 > 
-> Add comment for offset (dave)
-> ---
->  migration/multifd.h |  4 ++++
->  migration/multifd.c | 36 ++++++++++++++++++++++++++++++++++--
->  2 files changed, 38 insertions(+), 2 deletions(-)
-> 
-> diff --git a/migration/multifd.h b/migration/multifd.h
-> index 4c6d29c954..d014747122 100644
-> --- a/migration/multifd.h
-> +++ b/migration/multifd.h
-> @@ -54,6 +54,10 @@ typedef struct {
->      uint32_t unused32[1];    /* Reserved for future use */
->      uint64_t unused64[3];    /* Reserved for future use */
->      char ramblock[256];
-> +    /* This array contains the pointers to:
-> +       - normal pages (initial normal_pages entries)
-> +       - zero pages (following zero_pages entries)
-> +    */
->      uint64_t offset[];
->  } __attribute__((packed)) MultiFDPacket_t;
->  
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index cfa9f75d13..ded13289e7 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -11,6 +11,7 @@
->   */
->  
->  #include "qemu/osdep.h"
-> +#include "qemu/cutils.h"
->  #include "qemu/rcu.h"
->  #include "exec/target_page.h"
->  #include "sysemu/sysemu.h"
-> @@ -277,6 +278,12 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
->  
->          packet->offset[i] = cpu_to_be64(temp);
->      }
-> +    for (i = 0; i < p->zero_num; i++) {
-> +        /* there are architectures where ram_addr_t is 32 bit */
-> +        uint64_t temp = p->zero[i];
-> +
-> +        packet->offset[p->normal_num + i] = cpu_to_be64(temp);
-> +    }
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 3536778e19..bdc7cec4cd 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -2168,6 +2168,32 @@ static int ram_save_target_page_legacy(RAMState *rs, PageSearchStatus *pss)
+>      return ram_save_page(rs, pss);
 >  }
 >  
->  static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
-> @@ -362,6 +369,18 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
->          p->normal[i] = offset;
->      }
->  
-> +    for (i = 0; i < p->zero_num; i++) {
-> +        uint64_t offset = be64_to_cpu(packet->offset[p->normal_num + i]);
+> +/**
+> + * ram_save_target_page_multifd: save one target page
+> + *
+> + * Returns the number of pages written
+> + *
+> + * @rs: current RAM state
+> + * @pss: data about the page we want to send
+> + */
+> +static int ram_save_target_page_multifd(RAMState *rs, PageSearchStatus *pss)
+> +{
+> +    RAMBlock *block = pss->block;
+> +    ram_addr_t offset = ((ram_addr_t)pss->page) << TARGET_PAGE_BITS;
+> +    int res;
 > +
-> +        if (offset > (block->used_length - page_size)) {
-> +            error_setg(errp, "multifd: offset too long %" PRIu64
-> +                       " (max " RAM_ADDR_FMT ")",
-> +                       offset, block->used_length);
-> +            return -1;
-> +        }
-> +        p->zero[i] = offset;
+> +    if (!migration_in_postcopy()) {
+> +        return ram_save_multifd_page(rs, block, offset);
 > +    }
 > +
->      return 0;
->  }
->  
-> @@ -627,6 +646,8 @@ static void *multifd_send_thread(void *opaque)
->  {
->      MultiFDSendParams *p = opaque;
->      Error *local_err = NULL;
-> +    /* qemu older than 7.0 don't understand zero page on multifd channel */
-> +    bool use_zero_page = migrate_use_multifd_zero_page();
->      int ret = 0;
->  
->      trace_multifd_send_thread_start(p->id);
-> @@ -655,8 +676,15 @@ static void *multifd_send_thread(void *opaque)
->              p->zero_num = 0;
->  
->              for (int i = 0; i < p->pages->num; i++) {
-> -                p->normal[p->normal_num] = p->pages->offset[i];
-> -                p->normal_num++;
-> +                if (use_zero_page &&
-> +                    buffer_is_zero(p->pages->block->host + p->pages->offset[i],
-> +                                   qemu_target_page_size())) {
-> +                    p->zero[p->zero_num] = p->pages->offset[i];
-> +                    p->zero_num++;
-> +                } else {
-> +                    p->normal[p->normal_num] = p->pages->offset[i];
-> +                    p->normal_num++;
-> +                }
->              }
->  
->              if (p->normal_num) {
-> @@ -1115,6 +1143,10 @@ static void *multifd_recv_thread(void *opaque)
->              }
->          }
->  
-> +        for (int i = 0; i < p->zero_num; i++) {
-> +            memset(p->host + p->zero[i], 0, qemu_target_page_size());
-> +        }
-> +
+> +    res = save_zero_page(rs, block, offset);
 
-On the existing code, it tries to avoid doing the memset if the target
-page size matches; that avoids allocating the zero pages on the
-destination host; should we try and do the same here?
+I'm confused; I think I was expecting to see in this patch, the one that
+would check the parameter you added and do something different - where
+did that go?
+
+Note I think this is quite subtle that the difference here is really
+just the ordering rather than adding a zero page test.
 
 Dave
 
->          if (flags & MULTIFD_FLAG_SYNC) {
->              qemu_sem_post(&multifd_recv_state->sem_sync);
->              qemu_sem_wait(&p->sem_sync);
+> +    if (res > 0) {
+> +        return res;
+> +    }
+> +
+> +    return ram_save_page(rs, pss);
+> +}
+> +
+>  /**
+>   * ram_save_host_page: save a whole host page
+>   *
+> @@ -3011,7 +3037,11 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
+>      ram_control_before_iterate(f, RAM_CONTROL_SETUP);
+>      ram_control_after_iterate(f, RAM_CONTROL_SETUP);
+>  
+> -    (*rsp)->ram_save_target_page = ram_save_target_page_legacy;
+> +    if (migrate_use_multifd()) {
+> +        (*rsp)->ram_save_target_page = ram_save_target_page_multifd;
+> +    } else {
+> +        (*rsp)->ram_save_target_page = ram_save_target_page_legacy;
+> +    }
+>      multifd_send_sync_main(f);
+>      qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+>      qemu_fflush(f);
 > -- 
 > 2.34.1
 > 
