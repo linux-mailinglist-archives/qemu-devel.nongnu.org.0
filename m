@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B92949242E
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 11:59:11 +0100 (CET)
-Received: from localhost ([::1]:55740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43311492450
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 12:08:40 +0100 (CET)
+Received: from localhost ([::1]:37924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9mCj-0006aX-Vc
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 05:59:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37214)
+	id 1n9mLv-0005nj-9Z
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 06:08:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n9m9Y-00052S-Lv
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 05:55:57 -0500
-Received: from [2a00:1450:4864:20::332] (port=52818
- helo=mail-wm1-x332.google.com)
+ (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
+ id 1n9mHh-0002TR-Iz
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 06:04:19 -0500
+Received: from [2607:f8b0:4864:20::536] (port=47049
+ helo=mail-pg1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n9m9W-0003bn-MF
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 05:55:51 -0500
-Received: by mail-wm1-x332.google.com with SMTP id v123so26724604wme.2
- for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 02:55:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
+ id 1n9mHf-0004yU-Mr
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 06:04:17 -0500
+Received: by mail-pg1-x536.google.com with SMTP id i8so13594154pgt.13
+ for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 03:04:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MN7bLWAytmp+YZGRHKRLWgxeVaw2m0GTrIymcb+PxLk=;
- b=CkwzxlGrzhF3No7NulZ1mgcvZbTzLzIe6yf2nsEyVhpbnvnn7CIluego1ey6tCBmdK
- BjdCLa0iLvJ9ll8T8glYANrGzEjfX0fTqgdDtLHdRDyDnpCzzV+d86QhGSF/UixqEC4m
- RHhCz1MCRb/qWHsUQ7F5ms4r6YPzcGoCur1PWtrx5hW/ro9Gi5OATc+boHGxRb2nXcYc
- 0+2aIq/f6MGEgzj+nMExEPm/S+oN9zTEn8EXKF7yStYINA/qTKA33Q/2W89cCx0X69iS
- N9hBG5M0Gr02kKL9qs5YI2W5/lUCEfXINsvswLSj3xdt7f4H6krmaOqQa0Kf40bVQ3ol
- 9WTA==
+ :cc:content-transfer-encoding;
+ bh=eDBqfIwCd44rUFG6mFVIrW17UoarlnAl5n5cRRKuRoM=;
+ b=WsLy7TlQhsnpmvQDg1c8UdpkkFWQaoXXJVc4u5CGlm1kGenV6mTj1/+RDZcN6kQIby
+ wCGjL/AAUXuXymeqswNqxCz9xoWMtJp8NdrYu50iNn8ddOJ0iB17jv0xWAysCsLm07Js
+ mWuwAGVERUjnhXlAOJoJgCodTmC+8iQO85KwHUxl6NPGUuwQgxSl+8w0Gpyhwfh27WaY
+ pGQDWnwUK7JHRw1Owak06mW9vSjA4+YHFmkpjR7RZvL9J4YtQB68o7bNqErmBAvOZ/1b
+ rxFPo5RD+LkNSlMS2zGGxNY0rFNO8jceXRbaWfC7QDoNbiy/FFJiZkIjiNFkuQULheSw
+ riaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MN7bLWAytmp+YZGRHKRLWgxeVaw2m0GTrIymcb+PxLk=;
- b=aRsvfAWUJU6pgjsg1JXXdJu3H7mBdIuHHJjYX72VzZ4Fx5YyP8TV1YPpS4E0ZUS6cB
- 7BdZ6jctiB1Bm02Q0uUaon9AmlRE/28XkYFI87B5iIqM6a3Add8rO7AmHwnTA56MvXlA
- yLjcC711A469FFUdhtebnwSFXRZFm0b+4iWawPDDiE6jPHxhVgT3/G2fpydf7Y3ls7Xn
- Wq4SMJlb/aTwMHANeaDuwk0GonZ9Lg23fOJBA3kGHYcF+zPZiA8+mx1kGNSNln+u2X6g
- ZlCzT+HVArWepUCsjvMqqlVu1hw+M0uxy2zwnKB1vfA0gtN+/LmLr701NOyICnUiGZ4z
- Pr+Q==
-X-Gm-Message-State: AOAM533Qo5beKd0a8fXlCqNQUkT4mVN0wFZZK1aBPsgtnu0abqT2srvi
- 9YNcTtwL6RogPD+qJh+RkUAu7VjLGEZb2HkFqkVIXw==
-X-Google-Smtp-Source: ABdhPJzK1iC4E95YZbhr7yG2krHrdlurkBc3iR3t880YvUdSyvH90/BuNZvx6ipF/4jIUl9W5p96L4zpDxAJzCE+FlU=
-X-Received: by 2002:adf:ee0e:: with SMTP id y14mr23923572wrn.172.1642503347722; 
- Tue, 18 Jan 2022 02:55:47 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=eDBqfIwCd44rUFG6mFVIrW17UoarlnAl5n5cRRKuRoM=;
+ b=zJff5nBXLVGSzHZVApqV7n5DYtCcAXlgcuiMQgEGQjKkHMFK8KgbMwdJ144FrRsnhv
+ 3n0QSxdrSnDo49ySVLAuUvVqyMc5qdSeMc2sKwvEWhMhLO1wQgaaQX5+AG+n8USGYHXr
+ g0jgRRdvXmYXXaJGY44FqCcEw4lHoFy6gGqbkQV2UicU0ho+4ms4yvs2NzdBXW60mOdi
+ FbKbON6HkWKqnPTQ+8E/cT9gG5M0gRbkQSeqhGOBZyfdSzC1pwVlccjjVWsx73Uohtel
+ qcNpc2Z2yqaXvthhs29S3AWCm+RppxJVhn1rLghhEqqgZdNvND5eOowqpTNHidnXwrGx
+ q0qQ==
+X-Gm-Message-State: AOAM531ZBfQTeYLJV0PKXWEzQSKjdE0hW5dJlrQLX59APTSMINO29HBv
+ 4mUf5hC4Z2O9B6QEpmjPhueOzmQ0pRooaDWYPm2REg==
+X-Google-Smtp-Source: ABdhPJzEDaQhQhQx6VfQypdjOKRXdJAyZMT7lpGHrA1DAxNEps+rGNTRfKS1XvLSenTjk1TrRV8fkrC++6mLnvJ9ZKo=
+X-Received: by 2002:a05:6a00:2410:b0:4bc:dda9:2e92 with SMTP id
+ z16-20020a056a00241000b004bcdda92e92mr25081153pfh.76.1642503854200; Tue, 18
+ Jan 2022 03:04:14 -0800 (PST)
 MIME-Version: 1.0
-References: <CAFEAcA-UKdcTROB7e3jO1qe=WCbuHRuX5WN7HZF2CcdMsmAt=g@mail.gmail.com>
- <YeU/YCUI59f33PBh@redhat.com>
- <CAFn=p-YDo8tTQ1Y8HgtQuCDv3i5EdFEX8-2BAjs-7L5q_b4=Gg@mail.gmail.com>
- <CAFEAcA_uBfCyJVq24p1jt5gaRmcMCZsjXae4y69QZ5dXpYX_Pg@mail.gmail.com>
- <CAFn=p-Zba+Ge6EckjRzkKsH4vU18RkspBaJvpSVE9H6gEU=r+Q@mail.gmail.com>
-In-Reply-To: <CAFn=p-Zba+Ge6EckjRzkKsH4vU18RkspBaJvpSVE9H6gEU=r+Q@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 Jan 2022 10:55:36 +0000
-Message-ID: <CAFEAcA_pO7XwstjX8vBhj4RECifQLbC-+3eR4g9Cc9XtjNCLxQ@mail.gmail.com>
-Subject: Re: iotest 040, 041, intermittent failure in netbsd VM
-To: John Snow <jsnow@redhat.com>
+References: <20220118011711.7243-1-liweiwei@iscas.ac.cn>
+ <20220118011711.7243-6-liweiwei@iscas.ac.cn>
+ <CAAhSdy3bMG3htJSCMsT9HjrYXQP5XZk8y_8KN7pXjPoNPzc58w@mail.gmail.com>
+ <a7a73309-8112-4590-efa6-bc3f0122a5f0@iscas.ac.cn>
+In-Reply-To: <a7a73309-8112-4590-efa6-bc3f0122a5f0@iscas.ac.cn>
+From: Anup Patel <apatel@ventanamicro.com>
+Date: Tue, 18 Jan 2022 16:34:02 +0530
+Message-ID: <CAK9=C2U22weKz6soWWAO9xDMpnY4D40ziBGK631ssQSf_eYpaA@mail.gmail.com>
+Subject: Re: [PATCH v5 5/5] target/riscv: add support for svpbmt extension
+To: Weiwei Li <liweiwei@iscas.ac.cn>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::536
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=apatel@ventanamicro.com; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -83,21 +86,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
+ Heiko Stuebner <heiko@sntech.de>, Anup Patel <anup@brainfault.org>,
+ Wang Junqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 17 Jan 2022 at 23:09, John Snow <jsnow@redhat.com> wrote:
-> Well, today I learned that:
+On Tue, Jan 18, 2022 at 2:40 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
 >
-> (1) vm-build-XXX targets use your host system's QEMU to run that VM
-> (2) my QMP library cannot talk to QEMU 2.11.
+>
+> =E5=9C=A8 2022/1/18 =E4=B8=8A=E5=8D=8811:35, Anup Patel =E5=86=99=E9=81=
+=93:
+> > On Tue, Jan 18, 2022 at 6:47 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+> >> - add PTE_PBMT bits: It uses two PTE bits, but otherwise has no effect=
+ on QEMU, since QEMU is sequentially consistent and doesn't model PMAs curr=
+ently
+> >> - add PTE_PBMT bit check for inner PTE
+> >>
+> >> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> >> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> >> Cc: Heiko Stuebner <heiko@sntech.de>
+> >> Cc: Anup Patel <anup@brainfault.org>
+> >> ---
+> >>   target/riscv/cpu.c        | 1 +
+> >>   target/riscv/cpu.h        | 1 +
+> >>   target/riscv/cpu_bits.h   | 2 ++
+> >>   target/riscv/cpu_helper.c | 4 +++-
+> >>   4 files changed, 7 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> >> index 45ac98e06b..4f82bd00a3 100644
+> >> --- a/target/riscv/cpu.c
+> >> +++ b/target/riscv/cpu.c
+> >> @@ -670,6 +670,7 @@ static Property riscv_cpu_properties[] =3D {
+> >>
+> >>       DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
+> >>       DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
+> >> +    DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
+> >>
+> >>       DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
+> >>       DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
+> >> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> >> index c3d1845ca1..53f314c752 100644
+> >> --- a/target/riscv/cpu.h
+> >> +++ b/target/riscv/cpu.h
+> >> @@ -329,6 +329,7 @@ struct RISCVCPU {
+> >>           bool ext_icsr;
+> >>           bool ext_svinval;
+> >>           bool ext_svnapot;
+> >> +        bool ext_svpbmt;
+> >>           bool ext_zfh;
+> >>           bool ext_zfhmin;
+> >>
+> >> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> >> index 5501e9698b..24b7eb2b1f 100644
+> >> --- a/target/riscv/cpu_bits.h
+> >> +++ b/target/riscv/cpu_bits.h
+> >> @@ -486,7 +486,9 @@ typedef enum {
+> >>   #define PTE_A               0x040 /* Accessed */
+> >>   #define PTE_D               0x080 /* Dirty */
+> >>   #define PTE_SOFT            0x300 /* Reserved for Software */
+> >> +#define PTE_PBMT            0x6000000000000000 /* Page-based memory t=
+ypes */
+> >>   #define PTE_N               0x8000000000000000 /* NAPOT translation =
+*/
+> >> +#define PTE_ATTR            (PTE_N | PTE_PBMT) /* All attributes bits=
+ */
+> >>
+> >>   /* Page table PPN shift amount */
+> >>   #define PTE_PPN_SHIFT       10
+> >> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> >> index c276760c7f..9fffaccffb 100644
+> >> --- a/target/riscv/cpu_helper.c
+> >> +++ b/target/riscv/cpu_helper.c
+> >> @@ -625,9 +625,11 @@ restart:
+> >>           if (!(pte & PTE_V)) {
+> >>               /* Invalid PTE */
+> >>               return TRANSLATE_FAIL;
+> >> +        } else if (!cpu->cfg.ext_svpbmt && (pte & (target_ulong)PTE_P=
+BMT)) {
+> > Rather than, type-casting defines here you can simply define
+> > ULL constants. E.g.
+> > #define PTE_PBMT            0x6000000000000000ULL
+>
+> Sorry, I'm wonder why add ULL can replace the function of type-casting.
+>
+> The type-casting here is to compatible with RV32 for possible strict
+> type check warnings since pte is 32 bits and PTE_PBMT is 64 bits in RV32.
 
-Whoops, I hadn't realised I was running with that ancient a QEMU.
-For the scripted runs I set the PATH to include a 5.0 QEMU, but
-this by-hand command-line invocation of 'make' didn't do that, so
-it got the ancient system QEMU.
+If adding ULL does not help for RV32 target then no need to change.
 
--- PMM
+>
+> If I add ULL in PTE_PBMT, it seems have no change to PTE_PBMT. It's
+> still 64 bits in RV32.
+
+Reviewed-by: Anup Patel <anup@brainfault.org>
+
+Regards,
+Anup
+
+>
+> Regards,
+>
+> Weiwei Li
+>
+> >
+> >> +            return TRANSLATE_FAIL;
+> >>           } else if (!(pte & (PTE_R | PTE_W | PTE_X))) {
+> >>               /* Inner PTE, continue walking */
+> >> -            if (pte & (target_ulong)(PTE_D | PTE_A | PTE_U | PTE_N)) =
+{
+> >> +            if (pte & (target_ulong)(PTE_D | PTE_A | PTE_U | PTE_ATTR=
+)) {
+> >>                   return TRANSLATE_FAIL;
+> >>               }
+> >>               base =3D ppn << PGSHIFT;
+> >> --
+> >> 2.17.1
+> >>
+> > Regards,
+> > Anup
+>
+>
 
