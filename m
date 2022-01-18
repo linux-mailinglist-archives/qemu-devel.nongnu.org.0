@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41001492BB9
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 17:57:33 +0100 (CET)
-Received: from localhost ([::1]:37412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36835492BCB
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 18:01:51 +0100 (CET)
+Received: from localhost ([::1]:44358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9rnY-0005Vs-Bz
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 11:57:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38978)
+	id 1n9rri-0001js-9T
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 12:01:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1n9rUa-00064C-Ps
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:37:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40146)
+ id 1n9rUq-0006FB-PF
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:38:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41321)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1n9rUY-0005zx-6J
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:37:55 -0500
+ id 1n9rUo-00060q-NZ
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:38:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642523873;
+ s=mimecast20190719; t=1642523881;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OIS+nEi2zL0K3rc9EeZsqcQV+p5qmb4EJ5SeDrUI3VU=;
- b=WegK+I8FlcSwm+DQwEql4QAsRiGaIbAXi8Lsv1ng99ikOaLn9ar99KAWA94KlvUi/2RJ94
- ymowuj5p07KUcVMsyknLhhD/WZv5lL96UZW4O2IToahAb+L+rnfWMG8DNvBF6lhu96Rfci
- ILlRitQ/jN8rWgmpzS6ESFZ+Ux/zNDw=
+ bh=h9oH9KFDshDkkrZj6LuueG0DMST4LEuRstXa0K9NWyU=;
+ b=a4HSOukWM5eSBp5iOigN/wNfeNdBmaKs9ybtC6WOeP0Ni5iHo63IOjY8OJOhyK/ykKLwec
+ GwgC1Tk+z8kfZpjvA9XYMGsA0sRFVPBVRVu2iAi1AFJB3he62l6pws7VhpBoY1fcPZwT+e
+ zQ9bg10D4I6nrhXjYHVAvx9bcLbIDFY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-198-UDJw0UwdMaq-ODb60sCRmQ-1; Tue, 18 Jan 2022 11:37:52 -0500
-X-MC-Unique: UDJw0UwdMaq-ODb60sCRmQ-1
+ us-mta-607-rc7TMCNfMlyHGNhO-Go2Vg-1; Tue, 18 Jan 2022 11:37:56 -0500
+X-MC-Unique: rc7TMCNfMlyHGNhO-Go2Vg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF57C1856EE1;
- Tue, 18 Jan 2022 16:28:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92A4F1856EFB;
+ Tue, 18 Jan 2022 16:28:28 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8D79934D44;
- Tue, 18 Jan 2022 16:28:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C8C7334D3A;
+ Tue, 18 Jan 2022 16:28:27 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 09/12] jobs: ensure sleep in job_sleep_ns is fully performed
-Date: Tue, 18 Jan 2022 11:27:35 -0500
-Message-Id: <20220118162738.1366281-10-eesposit@redhat.com>
+Subject: [PATCH 10/12] block.c: add subtree_drains where needed
+Date: Tue, 18 Jan 2022 11:27:36 -0500
+Message-Id: <20220118162738.1366281-11-eesposit@redhat.com>
 In-Reply-To: <20220118162738.1366281-1-eesposit@redhat.com>
 References: <20220118162738.1366281-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -88,171 +88,179 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a drain happens while a job is sleeping, the timeout
-gets cancelled and the job continues once the drain ends.
-This is especially bad for the sleep performed in commit and stream
-jobs, since that is dictated by ratelimit to maintain a certain speed.
+Protect bdrv_replace_child_noperm, as it modifies the
+graph by adding/removing elements to .children and .parents
+list of a bs. Use the newly introduced
+bdrv_subtree_drained_{begin/end}_unlocked drains to achieve
+that and be free from the aiocontext lock.
 
-Basically the execution path is the followig:
-1. job calls job_sleep_ns, and yield with a timer in @ns ns.
-2. meanwhile, a drain is executed, and
-   child_job_drained_{begin/end} could be executed as ->drained_begin()
-   and ->drained_end() callbacks.
-   Therefore child_job_drained_begin() enters the job, that continues
-   execution in job_sleep_ns() and calls job_pause_point_locked().
-3. job_pause_point_locked() detects that we are in the middle of a
-   drain, and firstly deletes any existing timer and then yields again,
-   waiting for ->drained_end().
-4. Once draining is finished, child_job_drained_end() runs and resumes
-   the job. At this point, the timer has been lost and we just resume
-   without checking if enough time has passed.
+One important criteria to keep in mind is that if the caller of
+bdrv_replace_child_noperm creates a transaction, we need to make sure that the
+whole transaction is under the same drain block. This is imperative, as having
+multiple drains also in the .abort() class of functions causes discrepancies
+in the drained counters (as nodes are put back into the original positions),
+making it really hard to retourn all to zero and leaving the code very buggy.
+See https://patchew.org/QEMU/20211213104014.69858-1-eesposit@redhat.com/
+for more explanations.
 
-This fix implies that from now onwards, job_sleep_ns will force the job
-to sleep @ns, even if it is wake up (purposefully or not) in the middle
-of the sleep. Therefore qemu-iotests test might run a little bit slower,
-depending on the speed of the job. Setting a job speed to values like "1"
-is not allowed anymore (unless you want to wait forever).
-
-Because of this fix, test_stream_parallel() in tests/qemu-iotests/030
-takes too long, since speed of stream job is just 1024 and before
-it was skipping all the wait thanks to the drains. Increase the
-speed to 256 * 1024. Exactly the same happens for test 151.
-
-Instead we need to sleep less in test_cancel_ready() test-blockjob.c,
-so that the job will be able to exit the sleep and transition to ready
-before the main loop asserts.
+Unfortunately we still need to have bdrv_subtree_drained_begin/end
+in bdrv_detach_child() releasing and then holding the AioContext
+lock, since it later invokes bdrv_try_set_aio_context() that is
+not safe yet. Once all is cleaned up, we can also remove the
+acquire/release locks in job_unref, artificially added because of this.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- job.c                      | 28 +++++++++++++++++-----------
- tests/qemu-iotests/030     |  2 +-
- tests/qemu-iotests/151     |  4 ++--
- tests/unit/test-blockjob.c |  2 +-
- 4 files changed, 21 insertions(+), 15 deletions(-)
+ block.c | 50 ++++++++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 44 insertions(+), 6 deletions(-)
 
-diff --git a/job.c b/job.c
-index 83921dd79b..6ef2adead4 100644
---- a/job.c
-+++ b/job.c
-@@ -584,17 +584,15 @@ static void coroutine_fn job_do_yield_locked(Job *job, uint64_t ns)
-     assert(job->busy);
- }
+diff --git a/block.c b/block.c
+index fcc44a49a0..6196c95aae 100644
+--- a/block.c
++++ b/block.c
+@@ -3114,8 +3114,22 @@ static void bdrv_detach_child(BdrvChild **childp)
+     BlockDriverState *old_bs = (*childp)->bs;
  
--void coroutine_fn job_pause_point(Job *job)
-+/* Called with job_mutex held, but releases it temporarly. */
-+static void coroutine_fn job_pause_point_locked(Job *job)
- {
-     assert(job && job_started(job));
- 
--    job_lock();
-     if (!job_should_pause_locked(job)) {
--        job_unlock();
-         return;
-     }
-     if (job_is_cancelled_locked(job)) {
--        job_unlock();
-         return;
-     }
- 
-@@ -614,13 +612,20 @@ void coroutine_fn job_pause_point(Job *job)
-         job->paused = false;
-         job_state_transition_locked(job, status);
-     }
--    job_unlock();
- 
-     if (job->driver->resume) {
-+        job_unlock();
-         job->driver->resume(job);
-+        job_lock();
-     }
- }
- 
-+void coroutine_fn job_pause_point(Job *job)
-+{
-+    JOB_LOCK_GUARD();
-+    job_pause_point_locked(job);
-+}
+     assert(qemu_in_main_thread());
++    if (old_bs) {
++        /*
++         * TODO: this is called by job_unref with lock held, because
++         * afterwards it calls bdrv_try_set_aio_context.
++         * Once all of this is fixed, take care of removing
++         * the aiocontext lock and make this function _unlocked.
++         */
++        bdrv_subtree_drained_begin(old_bs);
++    }
 +
- void job_yield(Job *job)
- {
-     WITH_JOB_LOCK_GUARD() {
-@@ -641,21 +646,22 @@ void job_yield(Job *job)
+     bdrv_replace_child_noperm(childp, NULL, true);
  
- void coroutine_fn job_sleep_ns(Job *job, int64_t ns)
- {
--    WITH_JOB_LOCK_GUARD() {
--        assert(job->busy);
-+    int64_t end_ns = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + ns;
-+    JOB_LOCK_GUARD();
-+    assert(job->busy);
++    if (old_bs) {
++        bdrv_subtree_drained_end(old_bs);
++    }
++
+     if (old_bs) {
+         /*
+          * Update permissions for old node. We're just taking a parent away, so
+@@ -3154,6 +3168,7 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
+     Transaction *tran = tran_new();
  
-+    do {
-         /* Check cancellation *before* setting busy = false, too!  */
-         if (job_is_cancelled_locked(job)) {
-             return;
-         }
+     assert(qemu_in_main_thread());
++    bdrv_subtree_drained_begin_unlocked(child_bs);
  
-         if (!job_should_pause_locked(job)) {
--            job_do_yield_locked(job,
--                                qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + ns);
-+            job_do_yield_locked(job, end_ns);
-         }
--    }
+     ret = bdrv_attach_child_common(child_bs, child_name, child_class,
+                                    child_role, perm, shared_perm, opaque,
+@@ -3168,6 +3183,7 @@ out:
+     tran_finalize(tran, ret);
+     /* child is unset on failure by bdrv_attach_child_common_abort() */
+     assert((ret < 0) == !child);
++    bdrv_subtree_drained_end_unlocked(child_bs);
  
--    job_pause_point(job);
-+        job_pause_point_locked(job);
-+    } while (qemu_clock_get_ns(QEMU_CLOCK_REALTIME) < end_ns);
+     bdrv_unref(child_bs);
+     return child;
+@@ -3197,6 +3213,9 @@ BdrvChild *bdrv_attach_child(BlockDriverState *parent_bs,
+ 
+     assert(qemu_in_main_thread());
+ 
++    bdrv_subtree_drained_begin_unlocked(parent_bs);
++    bdrv_subtree_drained_begin_unlocked(child_bs);
++
+     ret = bdrv_attach_child_noperm(parent_bs, child_bs, child_name, child_class,
+                                    child_role, &child, tran, errp);
+     if (ret < 0) {
+@@ -3211,6 +3230,9 @@ BdrvChild *bdrv_attach_child(BlockDriverState *parent_bs,
+ out:
+     tran_finalize(tran, ret);
+     /* child is unset on failure by bdrv_attach_child_common_abort() */
++    bdrv_subtree_drained_end_unlocked(child_bs);
++    bdrv_subtree_drained_end_unlocked(parent_bs);
++
+     assert((ret < 0) == !child);
+ 
+     bdrv_unref(child_bs);
+@@ -3456,6 +3478,11 @@ int bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
+ 
+     assert(qemu_in_main_thread());
+ 
++    bdrv_subtree_drained_begin_unlocked(bs);
++    if (backing_hd) {
++        bdrv_subtree_drained_begin_unlocked(backing_hd);
++    }
++
+     ret = bdrv_set_backing_noperm(bs, backing_hd, tran, errp);
+     if (ret < 0) {
+         goto out;
+@@ -3464,6 +3491,10 @@ int bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
+     ret = bdrv_refresh_perms(bs, errp);
+ out:
+     tran_finalize(tran, ret);
++    if (backing_hd) {
++        bdrv_subtree_drained_end_unlocked(backing_hd);
++    }
++    bdrv_subtree_drained_end_unlocked(bs);
+ 
+     return ret;
  }
+@@ -5266,7 +5297,8 @@ static int bdrv_replace_node_common(BlockDriverState *from,
  
- /* Assumes the job_mutex is held */
-diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
-index 567bf1da67..969b246d0f 100755
---- a/tests/qemu-iotests/030
-+++ b/tests/qemu-iotests/030
-@@ -248,7 +248,7 @@ class TestParallelOps(iotests.QMPTestCase):
-             pending_jobs.append(job_id)
-             result = self.vm.qmp('block-stream', device=node_name,
-                                  job_id=job_id, bottom=f'node{i-1}',
--                                 speed=1024)
-+                                 speed=256*1024)
-             self.assert_qmp(result, 'return', {})
+     assert(qemu_get_current_aio_context() == qemu_get_aio_context());
+     assert(bdrv_get_aio_context(from) == bdrv_get_aio_context(to));
+-    bdrv_drained_begin(from);
++    bdrv_subtree_drained_begin_unlocked(from);
++    bdrv_subtree_drained_begin_unlocked(to);
  
-         # Do this in reverse: After unthrottling them, some jobs may finish
-diff --git a/tests/qemu-iotests/151 b/tests/qemu-iotests/151
-index 93d14193d0..5998beb5c4 100755
---- a/tests/qemu-iotests/151
-+++ b/tests/qemu-iotests/151
-@@ -129,7 +129,7 @@ class TestActiveMirror(iotests.QMPTestCase):
-                              sync='full',
-                              copy_mode='write-blocking',
-                              buf_size=(1048576 // 4),
--                             speed=1)
-+                             speed=1024*1024)
-         self.assert_qmp(result, 'return', {})
+     /*
+      * Do the replacement without permission update.
+@@ -5298,7 +5330,8 @@ static int bdrv_replace_node_common(BlockDriverState *from,
+ out:
+     tran_finalize(tran, ret);
  
-         # Start an unaligned request to a dirty area
-@@ -154,7 +154,7 @@ class TestActiveMirror(iotests.QMPTestCase):
-                              target='target-node',
-                              sync='full',
-                              copy_mode='write-blocking',
--                             speed=1)
-+                             speed=1024*1024)
+-    bdrv_drained_end(from);
++    bdrv_subtree_drained_end_unlocked(to);
++    bdrv_subtree_drained_end_unlocked(from);
+     bdrv_unref(from);
  
-         self.vm.hmp_qemu_io('source', 'break write_aio A')
-         self.vm.hmp_qemu_io('source', 'aio_write 0 1M')  # 1
-diff --git a/tests/unit/test-blockjob.c b/tests/unit/test-blockjob.c
-index c926db7b5d..0b3010b94d 100644
---- a/tests/unit/test-blockjob.c
-+++ b/tests/unit/test-blockjob.c
-@@ -184,7 +184,7 @@ static int coroutine_fn cancel_job_run(Job *job, Error **errp)
-             job_transition_to_ready(&s->common.job);
-         }
+     return ret;
+@@ -5345,6 +5378,9 @@ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
  
--        job_sleep_ns(&s->common.job, 100000);
-+        job_sleep_ns(&s->common.job, 100);
-     }
+     assert(!bs_new->backing);
  
-     return 0;
++    bdrv_subtree_drained_begin_unlocked(bs_new);
++    bdrv_subtree_drained_begin_unlocked(bs_top);
++
+     ret = bdrv_attach_child_noperm(bs_new, bs_top, "backing",
+                                    &child_of_bds, bdrv_backing_role(bs_new),
+                                    &bs_new->backing, tran, errp);
+@@ -5360,6 +5396,8 @@ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
+     ret = bdrv_refresh_perms(bs_new, errp);
+ out:
+     tran_finalize(tran, ret);
++    bdrv_subtree_drained_end_unlocked(bs_top);
++    bdrv_subtree_drained_end_unlocked(bs_new);
+ 
+     bdrv_refresh_limits(bs_top, NULL, NULL);
+ 
+@@ -5379,8 +5417,8 @@ int bdrv_replace_child_bs(BdrvChild *child, BlockDriverState *new_bs,
+     assert(qemu_in_main_thread());
+ 
+     bdrv_ref(old_bs);
+-    bdrv_drained_begin(old_bs);
+-    bdrv_drained_begin(new_bs);
++    bdrv_subtree_drained_begin_unlocked(old_bs);
++    bdrv_subtree_drained_begin_unlocked(new_bs);
+ 
+     bdrv_replace_child_tran(&child, new_bs, tran, true);
+     /* @new_bs must have been non-NULL, so @child must not have been freed */
+@@ -5394,8 +5432,8 @@ int bdrv_replace_child_bs(BdrvChild *child, BlockDriverState *new_bs,
+ 
+     tran_finalize(tran, ret);
+ 
+-    bdrv_drained_end(old_bs);
+-    bdrv_drained_end(new_bs);
++    bdrv_subtree_drained_end_unlocked(new_bs);
++    bdrv_subtree_drained_end_unlocked(old_bs);
+     bdrv_unref(old_bs);
+ 
+     return ret;
 -- 
 2.31.1
 
