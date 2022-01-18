@@ -2,86 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33982492D02
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 19:12:49 +0100 (CET)
-Received: from localhost ([::1]:42370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89F53492D01
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 19:11:04 +0100 (CET)
+Received: from localhost ([::1]:39942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9syO-0004tw-BD
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 13:12:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38260)
+	id 1n9swh-00037M-MI
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 13:11:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n9sqD-0005iW-6V
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 13:04:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31535)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1n9suJ-0001hB-1k; Tue, 18 Jan 2022 13:08:35 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n9sqB-0004dM-54
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 13:04:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642529058;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tISaqgH6LMizGcqN9ild5fLx+F/T5Cn9e1GtQc+7X3Y=;
- b=JV/X+i1f0WJ6FSCc95qrV8Ki5BzZlek1fUxbXzdFUklk87UZ/Yb6Ff0UShg5A5Z98a2qOm
- ENnVOXa8GX37Z7tnWihFONZ6guwaI5pjdm/Z5xYhPOFhPqjHZeHt+l4/aCRRiwxEoX5b47
- R6t/ASBPsNCZ1JZTvwMBOHON7RIht/g=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-657-iPwxq3FKOhq-Z7U_ikP4UQ-1; Tue, 18 Jan 2022 13:04:14 -0500
-X-MC-Unique: iPwxq3FKOhq-Z7U_ikP4UQ-1
-Received: by mail-vk1-f197.google.com with SMTP id
- w65-20020a1f6244000000b00317041f0e4bso3240731vkb.16
- for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 10:04:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=tISaqgH6LMizGcqN9ild5fLx+F/T5Cn9e1GtQc+7X3Y=;
- b=4r3w9ccgbbecbHpicR/jcVl5WFTKVL5rB1CgURNZgSxTqFZ1vLFGTQCz/ztiHK5iiO
- nlngBiBHYtYNZOrvMn6uiJvQLvbso/AkOJFqYvgGj02jGgDFV/K5dgs09XR54UnKnov1
- xdp12irMCL8dE27QXVR5wUrulNHg8fE2W/jn8Wpv3ozvuPP9LfIedC7T+6xKMA9NlyJc
- 7mU2dI+FqYyiH8pEcBSpzoz8UvRGFqDtAZ9kufg73hPb6CvSsZHkwvPUcTPt65X8z2LD
- zYTxDxrsnGA97OYYmHalCYJSaf4FYdAtiLNmIGJopQGjBDpjWn5zZ4NChmkO893wwCYR
- l7KA==
-X-Gm-Message-State: AOAM533uYub2go0iEM/mXsmYMe9vF9eHKUIXWHV/jyeK4SQQqF8b2V0t
- vdAflXur6jufzlCBQdygIUwUdoP7QSBII8KbSIEyDlT/dQ/pqdDSBcFucKP3vMCq3a12QHvszDE
- vYOqyCFFjlFH94ErE8/qWcLJmnWHwS7o=
-X-Received: by 2002:a05:6102:3714:: with SMTP id
- s20mr10223004vst.61.1642529054154; 
- Tue, 18 Jan 2022 10:04:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx6Nehlw9zfmc2iCrscwx/57FJyrGWbhTVQcttBmpOjaAq9OnWISONSW0wvJE7VsdFA2iEM4lz7llsOAYBBFLE=
-X-Received: by 2002:a05:6102:3714:: with SMTP id
- s20mr10222975vst.61.1642529053744; 
- Tue, 18 Jan 2022 10:04:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1n9suH-0005QF-45; Tue, 18 Jan 2022 13:08:34 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20IHRNfu009195; 
+ Tue, 18 Jan 2022 18:08:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=Vrrff/534M3gFRv4swAZXOmk9d9vnH6q62GPtHCmP6Q=;
+ b=rK2ibh467Batmkw3L7Kb/pHfhjrpx7shAyelzpWREsSVfA/9lt9chHFRQROZ1RhCFTAu
+ fbS4adPTOsIMRYiLv+Zp2YNE0SZhkQ0qr5C+9MvLuSjDFV7tvaTww3qNOxrlGL5KHEDe
+ 5zmN0ZDYSnMOM+5ee+mA9/zB0/wAKV4HLQ3E0lpWLoVfdI2VXTsNX3oiwjFQg4P7E5Wz
+ yGByxfg507aogsne2DRDifjZW/4pHpx1CTYxrFU7U/N7Gui/dQcsmhcg35QcmCUjnMDY
+ EDGS9O2y6FCos6aHo2M1ULJ3ipUpO+58TnN6pX8s0rZrShljL6EXtXyG+f/qvBu2Lrgy ow== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dp1yd924r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Jan 2022 18:08:29 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20IHiCZD012996;
+ Tue, 18 Jan 2022 18:08:29 GMT
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dp1yd9249-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Jan 2022 18:08:29 +0000
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20II1reo021198;
+ Tue, 18 Jan 2022 18:08:28 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma01wdc.us.ibm.com with ESMTP id 3dknwaq67k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Jan 2022 18:08:28 +0000
+Received: from b03ledav001.gho.boulder.ibm.com
+ (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20II8Neo38076882
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 18 Jan 2022 18:08:23 GMT
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C66BB6E05F;
+ Tue, 18 Jan 2022 18:08:23 +0000 (GMT)
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5E5BD6E060;
+ Tue, 18 Jan 2022 18:08:22 +0000 (GMT)
+Received: from [9.163.19.30] (unknown [9.163.19.30])
+ by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue, 18 Jan 2022 18:08:22 +0000 (GMT)
+Message-ID: <aea53638-b38a-bc33-db46-a9ceefe95c87@linux.ibm.com>
+Date: Tue, 18 Jan 2022 13:08:21 -0500
 MIME-Version: 1.0
-References: <20220117141103.157288-1-berrange@redhat.com>
- <20220117141103.157288-2-berrange@redhat.com>
- <CAFn=p-Z4sn94+i18JjEnXgPTJK1H0GBqjCA3kwxtHdrELcOc5g@mail.gmail.com>
- <YeaRJF3tqMjipU3o@redhat.com>
-In-Reply-To: <YeaRJF3tqMjipU3o@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 18 Jan 2022 13:04:02 -0500
-Message-ID: <CAFn=p-ZS247FdLySHMcBTpqKzV=eTgsQQMAXyU5CwNEWdZQusQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] python: introduce qmp-shell-wrap convenience tool
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2 4/9] s390x/pci: enable for load/store intepretation
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+References: <20220114203849.243657-1-mjrosato@linux.ibm.com>
+ <20220114203849.243657-5-mjrosato@linux.ibm.com>
+ <27a1db36-5664-6c90-ec39-aa6da5c23c31@redhat.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+In-Reply-To: <27a1db36-5664-6c90-ec39-aa6da5c23c31@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: rrnIHrg9GqvPjJRoRkQxCDoF2oBAA3Lq
+X-Proofpoint-ORIG-GUID: xAtsdosmGujN18LnB-HkEINBSBQEzEC-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-18_05,2022-01-18_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1015
+ suspectscore=0 lowpriorityscore=0 adultscore=0 phishscore=0
+ mlxlogscore=999 mlxscore=0 impostorscore=0 priorityscore=1501 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201180109
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,236 +113,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Beraldo Leal <bleal@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: farman@linux.ibm.com, kvm@vger.kernel.org, pmorel@linux.ibm.com,
+ schnelle@linux.ibm.com, cohuck@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, david@redhat.com,
+ borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 18, 2022 at 5:06 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
->
-> On Mon, Jan 17, 2022 at 06:27:24PM -0500, John Snow wrote:
-> > On Mon, Jan 17, 2022 at 9:11 AM Daniel P. Berrang=C3=A9 <berrange@redha=
-t.com> wrote:
-> > >
-> > > With the current 'qmp-shell' tool developers must first spawn QEMU wi=
-th
-> > > a suitable -qmp arg and then spawn qmp-shell in a separate terminal
-> > > pointing to the right socket.
-> > >
-> > > With 'qmp-shell-wrap' developers can ignore QMP sockets entirely and
-> > > just pass the QEMU command and arguments they want. The program will
-> > > listen on a UNIX socket and tell QEMU to connect QMP to that.
-> > >
-> > > For example, this:
-> > >
-> > >  # qmp-shell-wrap -- qemu-system-x86_64 -display none
-> > >
-> > > Is roughly equivalent of running:
-> > >
-> > >  # qemu-system-x86_64 -display none -qmp qmp-shell-1234 &
-> > >  # qmp-shell qmp-shell-1234
-> > >
-> > > Except that 'qmp-shell-wrap' switches the socket peers around so that
-> > > it is the UNIX socket server and QEMU is the socket client. This make=
-s
-> > > QEMU reliably go away when qmp-shell-wrap exits, closing the server
-> > > socket.
-> > >
-> > > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> > > ---
-> > >  python/qemu/qmp/qmp_shell.py | 61 +++++++++++++++++++++++++++++++++-=
---
-> > >  scripts/qmp/qmp-shell-wrap   | 11 +++++++
-> > >  2 files changed, 68 insertions(+), 4 deletions(-)
-> > >  create mode 100755 scripts/qmp/qmp-shell-wrap
-> > >
-> > > diff --git a/python/qemu/qmp/qmp_shell.py b/python/qemu/qmp/qmp_shell=
-.py
-> > > index e7d7eb18f1..12f7d28afc 100644
-> > > --- a/python/qemu/qmp/qmp_shell.py
-> > > +++ b/python/qemu/qmp/qmp_shell.py
-> > > @@ -86,6 +86,7 @@
-> > >  import os
-> > >  import re
-> > >  import readline
-> > > +from subprocess import Popen
-> > >  import sys
-> > >  from typing import (
-> > >      Iterator,
-> > > @@ -162,8 +163,10 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-> > >      :param verbose: Echo outgoing QMP messages to console.
-> > >      """
-> > >      def __init__(self, address: qmp.SocketAddrT,
-> > > -                 pretty: bool =3D False, verbose: bool =3D False):
-> > > -        super().__init__(address)
-> > > +                 pretty: bool =3D False,
-> > > +                 verbose: bool =3D False,
-> > > +                 server: bool =3D False):
-> > > +        super().__init__(address, server=3Dserver)
-> > >          self._greeting: Optional[QMPMessage] =3D None
-> > >          self._completer =3D QMPCompleter()
-> > >          self._transmode =3D False
-> > > @@ -404,8 +407,10 @@ class HMPShell(QMPShell):
-> > >      :param verbose: Echo outgoing QMP messages to console.
-> > >      """
-> > >      def __init__(self, address: qmp.SocketAddrT,
-> > > -                 pretty: bool =3D False, verbose: bool =3D False):
-> > > -        super().__init__(address, pretty, verbose)
-> > > +                 pretty: bool =3D False,
-> > > +                 verbose: bool =3D False,
-> > > +                 server: bool =3D False):
-> > > +        super().__init__(address, pretty, verbose, server)
-> > >          self._cpu_index =3D 0
-> > >
-> > >      def _cmd_completion(self) -> None:
-> > > @@ -529,6 +534,54 @@ def main() -> None:
-> > >          for _ in qemu.repl():
-> > >              pass
-> > >
-> > > +def main_wrap() -> None:
-> > > +    """
-> > > +    qmp-shell-wrap entry point: parse command line arguments and sta=
-rt the REPL.
-> > > +    """
-> > > +    parser =3D argparse.ArgumentParser()
-> > > +    parser.add_argument('-H', '--hmp', action=3D'store_true',
-> > > +                        help=3D'Use HMP interface')
-> > > +    parser.add_argument('-v', '--verbose', action=3D'store_true',
-> > > +                        help=3D'Verbose (echo commands sent and rece=
-ived)')
-> > > +    parser.add_argument('-p', '--pretty', action=3D'store_true',
-> > > +                        help=3D'Pretty-print JSON')
-> > > +
-> > > +    parser.add_argument('command', nargs=3Dargparse.REMAINDER,
-> > > +                        help=3D'QEMU command line to invoke')
-> > > +
-> > > +    args =3D parser.parse_args()
-> > > +
-> > > +    cmd =3D args.command
-> > > +    if len(cmd) !=3D 0 and cmd[0] =3D=3D '--':
-> > > +        cmd =3D cmd[1:]
-> > > +    if len(cmd) =3D=3D 0:
-> > > +        cmd =3D "qemu-system-x86_64"
-> > > +
-> > > +    sockpath =3D "qmp-shell-wrap-%d" % os.getpid()
-> > > +    cmd +=3D ["-qmp", "unix:%s" % sockpath]
-> > > +
-> > > +    shell_class =3D HMPShell if args.hmp else QMPShell
-> > > +
-> > > +    try:
-> > > +        address =3D shell_class.parse_address(sockpath)
-> > > +    except qmp.QMPBadPortError:
-> > > +        parser.error(f"Bad port number: {socketpath}")
-> > > +        return  # pycharm doesn't know error() is noreturn
-> > > +
-> > > +    with shell_class(address, args.pretty, args.verbose, True) as qe=
-mu:
-> > > +        qemuproc =3D Popen(cmd)
-> > > +
-> > > +        try:
-> > > +            qemu.accept()
-> > > +        except qmp.QMPConnectError:
-> > > +            die("Didn't get QMP greeting message")
-> > > +        except qmp.QMPCapabilitiesError:
-> > > +            die("Couldn't negotiate capabilities")
-> > > +        except OSError as err:
-> > > +            die(f"Couldn't connect to {sockpath}: {err!s}")
-> > > +
-> > > +        for _ in qemu.repl():
-> > > +            pass
-> > >
-> > >  if __name__ =3D=3D '__main__':
-> > >      main()
-> > > diff --git a/scripts/qmp/qmp-shell-wrap b/scripts/qmp/qmp-shell-wrap
-> > > new file mode 100755
-> > > index 0000000000..9e94da114f
-> > > --- /dev/null
-> > > +++ b/scripts/qmp/qmp-shell-wrap
-> > > @@ -0,0 +1,11 @@
-> > > +#!/usr/bin/env python3
-> > > +
-> > > +import os
-> > > +import sys
-> > > +
-> > > +sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', =
-'python'))
-> > > +from qemu.qmp import qmp_shell
-> > > +
-> > > +
-> > > +if __name__ =3D=3D '__main__':
-> > > +    qmp_shell.main_wrap()
-> > > --
-> > > 2.33.1
-> > >
-> >
-> > Adds some new failures to the python linters; try "make check-dev" in
-> > the python sub-dir.
->
-> It would be nice to just have this integrated into 'make check' so we
-> don't need to remember to run a special command.
+On 1/17/22 9:51 AM, Thomas Huth wrote:
+> On 14/01/2022 21.38, Matthew Rosato wrote:
+...
+>>   static void s390_pcihost_plug(HotplugHandler *hotplug_dev, 
+>> DeviceState *dev,
+>>                                 Error **errp)
+>>   {
+>>       S390pciState *s = S390_PCI_HOST_BRIDGE(hotplug_dev);
+>>       PCIDevice *pdev = NULL;
+>>       S390PCIBusDevice *pbdev = NULL;
+>> +    int rc;
+>>       if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_BRIDGE)) {
+>>           PCIBridge *pb = PCI_BRIDGE(dev);
+>> @@ -1022,12 +1068,33 @@ static void s390_pcihost_plug(HotplugHandler 
+>> *hotplug_dev, DeviceState *dev,
+>>           set_pbdev_info(pbdev);
+>>           if (object_dynamic_cast(OBJECT(dev), "vfio-pci")) {
+>> -            pbdev->fh |= FH_SHM_VFIO;
+>> +            /*
+>> +             * By default, interpretation is always requested; if the 
+>> available
+>> +             * facilities indicate it is not available, fallback to the
+>> +             * intercept model.
+>> +             */
+>> +            if (pbdev->interp && 
+>> !s390_has_feat(S390_FEAT_ZPCI_INTERP)) {
+>> +                    DPRINTF("zPCI interpretation facilities 
+>> missing.\n");
+>> +                    pbdev->interp = false;
+>> +                }
+> 
+> Wrong indentation in the above three lines.
 
-The CI will run it, but 'make check' doesn't. To add it to make check,
-I need to figure out how to insert a venv-building step into 'make
-check' such that the venv gets deposited into the build dir instead of
-the source dir.
-I think I may also need yet another set of package dependencies that
-pin on precise dependencies for testing purposes to prevent random
-regressions during 'make check' when nobody has touched the Python
-code.
+Thanks
 
-Overall, I felt like maybe it was more hassle than it was worth if I
-can just nudge people touching the python to run a 'make check-dev'
-every so often.
+> 
+>> +            if (pbdev->interp) {
+>> +                rc = s390_pci_interp_plug(s, pbdev);
+>> +                if (rc) {
+>> +                    error_setg(errp, "zpci interp plug failed: %d", rc);
+> 
+> The error message is a little bit scarce for something that might be 
+> presented to the user - maybe write at least "interpretation" instead of 
+> "interp" ?
+> 
+Good point, I'll re-word to something like "Plug failed for zPCI device 
+in interpretation mode: %d"
 
-Patches welcome, etc. My overall strategy with the python tests so far has =
-been:
-
-(1) Keep python tests fully separate from the QEMU build system to
-allow them to be split out into new repositories easily.
-(2) Use the pipenv test to lock the very oldest dependencies the code
-and tests support, using the very oldest python we support (3.6) This
-test is used as the gating test in GitLab CI, as it is very repeatable
-and the GitLab CI setup ensures I can always have the exact Python
-packages it requires available.
-(3) Use the tox test to test against a wide variety of Python
-interpreters (3.6 through 3.10 inclusive) using the very latest python
-packages to detect regressions on cutting-edge environments
-(4) Use the widest possible range of versions for dependent packages
-in setup.cfg such that QEMU packages are unlikely to cause versioning
-conflicts in environments that decide to integrate our code.
-
-Overall, I test on 3.6 through 3.10, and against the "oldest" and
-"newest" dependencies. It's a good, wide matrix.
-
-However, It's #4 there that runs me into trouble with tests that are
-guaranteed to pass -- the linters update all the time and cause new
-problems. I use pipenv to lock to specific versions, but that tool
-wants to run against Python 3.6 *explicitly*, so it isn't suitable for
-a generic purpose 'make check' because not everyone will have a Python
-3.6 interpreter available. I need something kind of halfway between,
-where I can lock against specific versions but not against the Python
-interpreter version, and that's what could be used for a decent 'make
-check' test.
-
-Of course, I don't want to maintain like 10 versions of a dependent
-packages list, either.
-
-(I really, really wish pip had an --use-oldest flag for dependency
-resolution, but it doesn't.)
-
->
-> > ... Though, due to a bug in avocado, this helpfully doesn't actually
-> > show you the failure output right now ...
->
-> Urgh.
->
-
-It regressed during winter vacation. I sent a small patch to enable
-the new runner [1], and I have been discussing with Beraldo how to
-re-enable the Coverage.py tests under the new Avocado.
-
-[1] https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg03614.html
+>> +                    return;
+>> +                }
+>> +            }
+>>               pbdev->iommu->dma_limit = s390_pci_start_dma_count(s, 
+>> pbdev);
+>>               /* Fill in CLP information passed via the vfio region */
+>>               s390_pci_get_clp_info(pbdev);
+>> +            if (!pbdev->interp) {
+>> +                /* Do vfio passthrough but intercept for I/O */
+>> +                pbdev->fh |= FH_SHM_VFIO;
+>> +            }
+>>           } else {
+>>               pbdev->fh |= FH_SHM_EMUL;
+>> +            /* Always intercept emulated devices */
+>> +            pbdev->interp = false;
+>>           }
+> 
+>   Thomas
+> 
 
 
