@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB04C49257A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 13:11:19 +0100 (CET)
-Received: from localhost ([::1]:34022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AD2E4925C1
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 13:34:52 +0100 (CET)
+Received: from localhost ([::1]:47540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9nKY-0004Vm-CW
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 07:11:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51612)
+	id 1n9nhL-0000tV-GI
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 07:34:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9nEJ-0006C0-6m; Tue, 18 Jan 2022 07:05:00 -0500
-Received: from [2a00:1450:4864:20::332] (port=50712
- helo=mail-wm1-x332.google.com)
+ id 1n9nEN-0006CM-CP; Tue, 18 Jan 2022 07:05:03 -0500
+Received: from [2a00:1450:4864:20::32e] (port=56305
+ helo=mail-wm1-x32e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9nEC-0005r6-Pt; Tue, 18 Jan 2022 07:04:47 -0500
-Received: by mail-wm1-x332.google.com with SMTP id w26so27155447wmi.0;
- Tue, 18 Jan 2022 04:03:06 -0800 (PST)
+ id 1n9nED-0005rF-0w; Tue, 18 Jan 2022 07:04:51 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id c66so27129951wma.5;
+ Tue, 18 Jan 2022 04:03:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hxLa1Ic+oybIIaxhFPog8XM4Pmte85GJPK9MXeVj63o=;
- b=O7bd4EtLj01BUr/Jqa34IHAsVt/KzxBcUJPmhU15WC1wLvTX178Bx2nhzYsIvSX+9X
- sEl9ljNKBiRe/xy8TS0W3O5gmpFvjfS45cQpClUqJxY/2G8RI63EIlzSAT3DHnzalRFi
- ioCU9gk6A5r4fqlnr3V054N8A+wWcGAmv28uJyegrgqhLjjFq3wBSqifU5MNFpq/8zJW
- avH7HdlQExwhsJ6iGQPqWzwZyeKOwoGkBct0aHPBSoPWUxzeOKXD6CsS4AIxLHn341qe
- 5KLBKP5Zqw2I1ec/dT6/YqoQjiZ8xYZALQqTjLAqq/Tw6NcGBYRhhJLsjSKXT/YRwOcY
- LGWA==
+ bh=yWsVPs9o1V93WUmz88EzV+Be2X5TrPFA2W+WEyPYUY4=;
+ b=K7baPdwK/uLtcEBZbURq+yANLrqK3J4jKGPq/PEVcGVwO7szUUOCAnV8ftb4RWiC54
+ 4u0vHcXO6NnXvaUoZ0aBIVq4s0b5VKuE2G1ZxBvIfdO7pUPUONz4H6VZyvNmkPpU/ghT
+ Lj3YNaU33+yLqFI4+r3azJoS0EQ3fhOEplutIy6xVdkHEKVMj8DcNqa4njWshHsLBAla
+ CeY+ViPmdcSbG33lAvMrecaVqjtZNb/yPY4Qqx636d5naHeUUNCsuf90lOtEsc+Eo432
+ isXGt2TFzEIZ0pcsdKsFj1XISlaZ1cp3dEL8FPuqXuTrFw6yX0MXl3silD6mjp0wWxhW
+ JuBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=hxLa1Ic+oybIIaxhFPog8XM4Pmte85GJPK9MXeVj63o=;
- b=PfLBy31aFxqgg3X1fYfFrwUOZeUT8KyRfacz/Yy6DU+Av6wgGStMVSjHMCtspN7ul9
- K3TM118og/3tOQ6ugT1RJzmizQMshFBkixRxQ71+cnzUKGvvaIHhFjUipvu4wEZNcZV8
- GAhXlTOC7ujMhtD9zqAOjZpxDMGuB0M0lpCIqPYq+n/tfHo9+rIudXvzxgc5lG4WcQBp
- SB9YBEnMrcymXI9Ost2Kvl8l65ggDX7JoEAEbGnjuZmeH88trQnxqJtOk6N0rt7woySC
- JXwiaFJ3sbYwg7QEUQwSPR/s8QwH9yNzdqlXEWZ+ZXF4uJDPYwsus03yszgiOopxknDY
- KHxQ==
-X-Gm-Message-State: AOAM532naPKs6ieZ4PQoWjEAnUUgJEz5qBQKyuCtdxbg0uRGU6JtrTBU
- VR9JT5zXBvVS5uswQKRmKhE6BzQTPDg=
-X-Google-Smtp-Source: ABdhPJwEvKgmumh8Nh1oK47qDO3VUsxvWAXlDjZ8f1E11pgk6ACQR+tBRNhlCLT0tOcXFXPFQq3Zyg==
-X-Received: by 2002:a05:6000:1ac7:: with SMTP id
- i7mr6381681wry.491.1642507385380; 
- Tue, 18 Jan 2022 04:03:05 -0800 (PST)
+ bh=yWsVPs9o1V93WUmz88EzV+Be2X5TrPFA2W+WEyPYUY4=;
+ b=l1uAi0oOoUBOujrJYGuK7pz3TEPjZ2zDI2zYxwQY3DhuRrIbc6mj4OBvBoXj4ElPRs
+ /DrLuLTWSxVGEdjShe0l4F2+QaJ74EA2gH8yiCIGTK2y+WezIVm1zYwfQE2CSMs/+Vzn
+ b02tYeFVUXzpGBI8tyKy0fi7HGqYGn5WB8L1nybOu5hGPgMa1V/l9qoCNWGMnOxlNUax
+ RqSEHk5DYb4lZLJ0xYo0bZIet0H+I8pPKjcW+40gunpvcf6gdct+DJmXCbhGI6ImXeLf
+ u5ZgHLBd+ooCDpSRU19duL6AbGU5YqAAN5QHNDdcqXdsV1Z1fId7J0beNzCI1EiXk77i
+ 9/dQ==
+X-Gm-Message-State: AOAM532FVKaCaxYyte2eMhZzAzgHXaut0FRaZslCmqCQKq0RZYXCkCVA
+ z5kq5BaHrzmyGZamSWF/W7NNtEcMJPY=
+X-Google-Smtp-Source: ABdhPJxik7H45qDkTRHgq7dUPWL+3eD+CiHk+ncpBfdnGMpAPw2KtafpqC/qhYuVR0oy2N7rxByyGA==
+X-Received: by 2002:a05:600c:3d86:: with SMTP id
+ bi6mr2277505wmb.1.1642507389916; 
+ Tue, 18 Jan 2022 04:03:09 -0800 (PST)
 Received: from nuc.. (154.red-83-50-83.dynamicip.rima-tde.net. [83.50.83.154])
  by smtp.gmail.com with ESMTPSA id
- y13sm10157596wry.111.2022.01.18.04.03.03
+ o10sm2106556wmr.38.2022.01.18.04.03.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jan 2022 04:03:04 -0800 (PST)
+ Tue, 18 Jan 2022 04:03:09 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
- qemu-stable@nongnu.org, Hyman Huang <huangy81@chinatelecom.cn>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 07/19] memory: Fix incorrect calls of log_global_start/stop
-Date: Tue, 18 Jan 2022 13:02:17 +0100
-Message-Id: <20220118120229.196337-8-f4bug@amsat.org>
+Subject: [PULL 08/19] stubs: Restrict fw_cfg to system emulation
+Date: Tue, 18 Jan 2022 13:02:18 +0100
+Message-Id: <20220118120229.196337-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220118120229.196337-1-f4bug@amsat.org>
 References: <20220118120229.196337-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -97,84 +94,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-From: Peter Xu <peterx@redhat.com>
+fw_cfg_arch_key_name() stub is only required for sysemu.
 
-We should only call the log_global_start/stop when the global dirty track
-bitmask changes from zero<->non-zero.
-
-No real issue reported for this yet probably because no immediate user to
-enable both dirty rate measurement and migration at the same time.  However
-it'll be good to be prepared for it.
-
-Fixes: 63b41db4bc ("memory: make global_dirty_tracking a bitmask")
-Cc: qemu-stable@nongnu.org
-Cc: Hyman Huang <huangy81@chinatelecom.cn>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>
-Cc: David Hildenbrand <david@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20211130080028.6474-1-peterx@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20220111184309.28637-2-f4bug@amsat.org>
 ---
- softmmu/memory.c | 27 ++++++++++++++-------------
- 1 file changed, 14 insertions(+), 13 deletions(-)
+ stubs/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index e37a4b8ae39..678dc62f069 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -2794,6 +2794,8 @@ static VMChangeStateEntry *vmstate_change;
- 
- void memory_global_dirty_log_start(unsigned int flags)
- {
-+    unsigned int old_flags = global_dirty_tracking;
-+
-     if (vmstate_change) {
-         qemu_del_vm_change_state_handler(vmstate_change);
-         vmstate_change = NULL;
-@@ -2802,15 +2804,14 @@ void memory_global_dirty_log_start(unsigned int flags)
-     assert(flags && !(flags & (~GLOBAL_DIRTY_MASK)));
-     assert(!(global_dirty_tracking & flags));
-     global_dirty_tracking |= flags;
--
-     trace_global_dirty_changed(global_dirty_tracking);
- 
--    MEMORY_LISTENER_CALL_GLOBAL(log_global_start, Forward);
--
--    /* Refresh DIRTY_MEMORY_MIGRATION bit.  */
--    memory_region_transaction_begin();
--    memory_region_update_pending = true;
--    memory_region_transaction_commit();
-+    if (!old_flags) {
-+        MEMORY_LISTENER_CALL_GLOBAL(log_global_start, Forward);
-+        memory_region_transaction_begin();
-+        memory_region_update_pending = true;
-+        memory_region_transaction_commit();
-+    }
- }
- 
- static void memory_global_dirty_log_do_stop(unsigned int flags)
-@@ -2821,12 +2822,12 @@ static void memory_global_dirty_log_do_stop(unsigned int flags)
- 
-     trace_global_dirty_changed(global_dirty_tracking);
- 
--    /* Refresh DIRTY_MEMORY_MIGRATION bit.  */
--    memory_region_transaction_begin();
--    memory_region_update_pending = true;
--    memory_region_transaction_commit();
--
--    MEMORY_LISTENER_CALL_GLOBAL(log_global_stop, Reverse);
-+    if (!global_dirty_tracking) {
-+        memory_region_transaction_begin();
-+        memory_region_update_pending = true;
-+        memory_region_transaction_commit();
-+        MEMORY_LISTENER_CALL_GLOBAL(log_global_stop, Reverse);
-+    }
- }
- 
- static void memory_vm_change_state_handler(void *opaque, bool running,
+diff --git a/stubs/meson.build b/stubs/meson.build
+index 71469c1d50a..363f6fa785d 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -11,7 +11,6 @@
+ stub_ss.add(files('dump.c'))
+ stub_ss.add(files('error-printf.c'))
+ stub_ss.add(files('fdset.c'))
+-stub_ss.add(files('fw_cfg.c'))
+ stub_ss.add(files('gdbstub.c'))
+ stub_ss.add(files('get-vm-name.c'))
+ if linux_io_uring.found()
+@@ -51,6 +50,7 @@
+   stub_ss.add(files('replay-tools.c'))
+ endif
+ if have_system
++  stub_ss.add(files('fw_cfg.c'))
+   stub_ss.add(files('semihost.c'))
+   stub_ss.add(files('usb-dev-stub.c'))
+   stub_ss.add(files('xen-hw-stub.c'))
 -- 
 2.34.1
 
