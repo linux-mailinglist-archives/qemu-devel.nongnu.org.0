@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04199492C4B
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 18:26:46 +0100 (CET)
-Received: from localhost ([::1]:58606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0404492C1C
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 18:16:45 +0100 (CET)
+Received: from localhost ([::1]:36898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9sFo-0006DL-Rc
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 12:26:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42050)
+	id 1n9s68-0008Bh-Ft
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 12:16:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
- id 1n9rco-0006if-57
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:46:26 -0500
-Received: from [2607:f8b0:4864:20::936] (port=39810
- helo=mail-ua1-x936.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
- id 1n9rcl-0007eg-2N
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:46:25 -0500
-Received: by mail-ua1-x936.google.com with SMTP id m15so37893753uap.6
- for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 08:46:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xCXKPmlsFMG4gntn+kfQ9ReTGeRzf/fESlH4itnk7dg=;
- b=anoB43IWkj8VMAP/pUwjKTFs6mdEQPCXuQhBt64ZuTutb2NiKGNGDqp0kDf19l0Ym5
- Xw0ZWZdJ/ukpF2e0uuKdKTkgIH1jStxg3BNWHeCBdjGRlG9Db/q4pZBMJCJHruk3HRaD
- 0lrgK/9GcFMXUAyyLc8YPyWaJVqaENbB2mQrv9LggPOgU7bt7NvLX06VvwSgNpKCK0jp
- +3zoJ+Ao6iDNHapTTLers03qI8jtdXel4P82cl+fXLCKvF5UCvKyYWyPpQOkPy73hNhy
- J1cQ04vsXhvpkXJvyUmwzJn+upw6I65sPFNqXpz8MQ/vMqec88/bkaWWS4Y+vMj9DvEY
- btTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xCXKPmlsFMG4gntn+kfQ9ReTGeRzf/fESlH4itnk7dg=;
- b=DEsmPwczOlDY9KPk8hq4VZQHtmaRyrrQhMv27TZZFViYWjANCeIe6+MBSzcgtUrPTk
- GQSu1IIpJuez/zMMgHuFdurei5jPTXOIS3E8vWlkE1aeYZV2755q5fMc8/JYhBv1kYHl
- +LGblK1XIVL3FbDa7rovvkMEqbY4qHrK0PFUx8XA9a5Pd2M9vnmxJPjYRlgoDm7XT9/N
- qpzUw0bUwtWFUJeifrThiayuTsJcKJYqFbfXhLQ5a6NCpaWgBa/T1zwwEYOc5ozVE+eD
- KD8oZVhtUUKJ4FXPnNV1VB6bd52pdA0OoTRhqK19eqQKsqIPglb2KZkQTB5XpJJGkpCn
- uwYg==
-X-Gm-Message-State: AOAM532dIcPRC/AQ556dcYnzcdv7CHPY53esTR/lmVguV6lvfQkHMvM7
- N0mjnoQ1k5Z9zS9DM3XOoBtUmMQoWsHfY9WtVpI=
-X-Google-Smtp-Source: ABdhPJwG/II/+Mh180WfdBVtzqkgSkZ/bdpL46XSafCuucqG7UTMSJQ5LVzSLwI1+6LLWuu8EP6wRCHowFkubVobWsc=
-X-Received: by 2002:ab0:13ee:: with SMTP id n43mr10189656uae.9.1642524381989; 
- Tue, 18 Jan 2022 08:46:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n9rzJ-0004ZK-LA
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 12:09:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59239)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n9rzD-00030Q-Ez
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 12:09:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642525773;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=wEjnUm5PjpUXKVlO+C62JjzdFBaaY0Pe/f7kaiaTRTk=;
+ b=QqN15f4sDDCp1UkAHBqcoA+t6Zd0C4UuZ5rm4IxVsYzNypjMcBMsdH5FVMEnMl76K56ErZ
+ Jp3TW7eHz9Z8BYZOf6u28EMtnJHaANWLTcpUh9zO/2rK8AZN40DiImx/LJ7uBPF/YSn/ao
+ fmrdYlLSsaUY75/VnGmdFOkRSfQwcXk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-479-CcWr8y4SM6iQdApgnw407w-1; Tue, 18 Jan 2022 12:09:28 -0500
+X-MC-Unique: CcWr8y4SM6iQdApgnw407w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32C628B8581;
+ Tue, 18 Jan 2022 17:00:09 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.149])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C17E884D23;
+ Tue, 18 Jan 2022 17:00:02 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2 0/2] block/io: Update BSC only if want_zero is true
+Date: Tue, 18 Jan 2022 17:59:58 +0100
+Message-Id: <20220118170000.49423-1-hreitz@redhat.com>
 MIME-Version: 1.0
-References: <20220113172219.66372-1-yaroshchuk2000@gmail.com>
- <20220113172219.66372-3-yaroshchuk2000@gmail.com>
- <87r19584xc.fsf@dusky.pond.sub.org>
- <CADO9X9TWscKRoJMTNQt+v84xCyc5SX8H71XcGchZ1dNF_WLQtw@mail.gmail.com>
- <87fspl6mdb.fsf@dusky.pond.sub.org>
-In-Reply-To: <87fspl6mdb.fsf@dusky.pond.sub.org>
-From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
-Date: Tue, 18 Jan 2022 19:46:11 +0300
-Message-ID: <CADO9X9TJMvu+sYRE6o+uUwXm8z53BHUD-9qogZuNxRAjjOtosw@mail.gmail.com>
-Subject: Re: [PATCH v13 2/7] net/vmnet: add vmnet backends to qapi/net
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000052ce1d05d5de0272"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::936
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::936;
- envelope-from=yaroshchuk2000@gmail.com; helo=mail-ua1-x936.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,251 +74,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Jason Wang <jasowang@redhat.com>, phillip.ennen@gmail.com,
- qemu-devel <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Roman Bolshakov <roman@roolebo.dev>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alexander Graf <agraf@csgraf.de>, Phillip Tennen <phillip@axleos.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>, Howard Spoelstra <hsp.cat7@gmail.com>,
- Alessio Dionisi <hello@adns.io>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Eric Blake <eblake@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000052ce1d05d5de0272
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-=D0=B2=D1=82, 18 =D1=8F=D0=BD=D0=B2. 2022 =D0=B3. =D0=B2 19:35, Markus Armb=
-ruster <armbru@redhat.com>:
+Cover letter from v1:
+https://lists.nongnu.org/archive/html/qemu-block/2022-01/msg00314.html
 
-> Vladislav Yaroshchuk <yaroshchuk2000@gmail.com> writes:
->
-> > =D0=B2=D1=82, 18 =D1=8F=D0=BD=D0=B2. 2022 =D0=B3. =D0=B2 18:01, Markus =
-Armbruster <armbru@redhat.com>:
-> >
-> >> Vladislav Yaroshchuk <yaroshchuk2000@gmail.com> writes:
-> >>
-> >> > Create separate netdevs for each vmnet operating mode:
-> >> > - vmnet-host
-> >> > - vmnet-shared
-> >> > - vmnet-bridged
-> >> >
-> >> > Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
-> >>
-> >> I acked v8 of the QAPI schema part.  You should add Acked-by and
-> >> Reviewed-by you receive in later revisions, unless you make changes th=
-at
-> >> invalidate them.  When in doubt, drop them.
-> >>
-> >>
-> > Oh ok, I'll do that next time.
->
-> Thanks :)
->
-> >> > diff --git a/qapi/net.json b/qapi/net.json
-> >> > index 7fab2e7cd8..b922e2e34f 100644
-> >> > --- a/qapi/net.json
-> >> > +++ b/qapi/net.json
-> >> > @@ -452,6 +452,120 @@
-> >> >      '*vhostdev':     'str',
-> >> >      '*queues':       'int' } }
-> >> >
-> >> > +##
-> >> > +# @NetdevVmnetHostOptions:
-> >> > +#
-> >> > +# vmnet (host mode) network backend.
-> >> > +#
-> >> > +# Allows the vmnet interface to communicate with other vmnet
-> >> > +# interfaces that are in host mode and also with the host.
-> >> > +#
-> >> > +# @start-address: The starting IPv4 address to use for the interfac=
-e.
-> >> > +#                 Must be in the private IP range (RFC 1918). Must =
-be
-> >> > +#                 specified along with @end-address and @subnet-mas=
-k.
-> >> > +#                 This address is used as the gateway address. The
-> >> > +#                 subsequent address up to and including end-addres=
-s
-> are
-> >> > +#                 placed in the DHCP pool.
-> >> > +#
-> >> > +# @end-address: The DHCP IPv4 range end address to use for the
-> >> > +#               interface. Must be in the private IP range (RFC
-> 1918).
-> >> > +#               Must be specified along with @start-address and
-> >> > +#               @subnet-mask.
-> >> > +#
-> >> > +# @subnet-mask: The IPv4 subnet mask to use on the interface. Must
-> >> > +#               be specified along with @start-address and
-> @subnet-mask.
-> >> > +#
-> >> > +# @isolated: Enable isolation for this interface. Interface isolati=
-on
-> >> > +#            ensures that vmnet interface is not able to communicat=
-e
-> >> > +#            with any other vmnet interfaces. Only communication wi=
-th
-> >> > +#            host is allowed. Available since macOS Big Sur 11.0.
-> >>
-> >> What happens when the host is too old?
-> >>
-> >>
-> > In this case netdev creation will fail with
-> > corresponding message (error_setg() used).
->
-> "Available" feels slightly misleading.  It's always available, it just
-> doesn't work unless the host OS is new enough.  Suggest something like
-> "Requires at least macOS Big Sur 11.0."
->
->
-Yep, "Requires" sounds much more suitable. Will update
-the description in the next version along with other fixes.
+In v2, I’ve added a comment to the new test explaining why we need to
+pass --allocation-depth to qemu-nbd, as requested by Nir; and as he has
+implied, using the short options is kind of silly because they are
+anything but self-explanatory, so in v2, I’ve switched to exclusively
+using long options for the qemu-nbd invocation.
 
-Thank you!
+(Also, added “Cc: qemu-stable” tag in patch 1.)
 
-Same for the others.
->
-> QAPI schema
-> Acked-by: Markus Armbruster <armbru@redhat.com>
->
-> [...]
->
->
+git-backport-diff against v1:
 
---=20
-Best Regards,
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream patch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
 
-Vladislav Yaroshchuk
+001/2:[----] [--] 'block/io: Update BSC only if want_zero is true'
+002/2:[0013] [FC] 'iotests/block-status-cache: New test'
 
---00000000000052ce1d05d5de0272
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">=D0=B2=D1=82, 18 =D1=8F=D0=BD=D0=B2. =
-2022 =D0=B3. =D0=B2 19:35, Markus Armbruster &lt;<a href=3D"mailto:armbru@r=
-edhat.com">armbru@redhat.com</a>&gt;:<br></div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex">Vladislav Yaroshchuk &lt;<a href=3D"mailto:yaroshchuk=
-2000@gmail.com" target=3D"_blank">yaroshchuk2000@gmail.com</a>&gt; writes:<=
-br>
-<br>
-&gt; =D0=B2=D1=82, 18 =D1=8F=D0=BD=D0=B2. 2022 =D0=B3. =D0=B2 18:01, Markus=
- Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" target=3D"_blank">armb=
-ru@redhat.com</a>&gt;:<br>
-&gt;<br>
-&gt;&gt; Vladislav Yaroshchuk &lt;<a href=3D"mailto:yaroshchuk2000@gmail.co=
-m" target=3D"_blank">yaroshchuk2000@gmail.com</a>&gt; writes:<br>
-&gt;&gt;<br>
-&gt;&gt; &gt; Create separate netdevs for each vmnet operating mode:<br>
-&gt;&gt; &gt; - vmnet-host<br>
-&gt;&gt; &gt; - vmnet-shared<br>
-&gt;&gt; &gt; - vmnet-bridged<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Signed-off-by: Vladislav Yaroshchuk &lt;<a href=3D"mailto:yar=
-oshchuk2000@gmail.com" target=3D"_blank">yaroshchuk2000@gmail.com</a>&gt;<b=
-r>
-&gt;&gt;<br>
-&gt;&gt; I acked v8 of the QAPI schema part.=C2=A0 You should add Acked-by =
-and<br>
-&gt;&gt; Reviewed-by you receive in later revisions, unless you make change=
-s that<br>
-&gt;&gt; invalidate them.=C2=A0 When in doubt, drop them.<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt; Oh ok, I&#39;ll do that next time.<br>
-<br>
-Thanks :)<br>
-<br>
-&gt;&gt; &gt; diff --git a/qapi/net.json b/qapi/net.json<br>
-&gt;&gt; &gt; index 7fab2e7cd8..b922e2e34f 100644<br>
-&gt;&gt; &gt; --- a/qapi/net.json<br>
-&gt;&gt; &gt; +++ b/qapi/net.json<br>
-&gt;&gt; &gt; @@ -452,6 +452,120 @@<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 &#39;*vhostdev&#39;:=C2=A0 =C2=A0 =C2=A0&=
-#39;str&#39;,<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 &#39;*queues&#39;:=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0&#39;int&#39; } }<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; +##<br>
-&gt;&gt; &gt; +# @NetdevVmnetHostOptions:<br>
-&gt;&gt; &gt; +#<br>
-&gt;&gt; &gt; +# vmnet (host mode) network backend.<br>
-&gt;&gt; &gt; +#<br>
-&gt;&gt; &gt; +# Allows the vmnet interface to communicate with other vmnet=
-<br>
-&gt;&gt; &gt; +# interfaces that are in host mode and also with the host.<b=
-r>
-&gt;&gt; &gt; +#<br>
-&gt;&gt; &gt; +# @start-address: The starting IPv4 address to use for the i=
-nterface.<br>
-&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0Must be in the private IP range (RFC 1918). Must be<br>
-&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0specified along with @end-address and @subnet-mask.<br>
-&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0This address is used as the gateway address. The<br>
-&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0subsequent address up to and including end-address are<br>
-&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0placed in the DHCP pool.<br>
-&gt;&gt; &gt; +#<br>
-&gt;&gt; &gt; +# @end-address: The DHCP IPv4 range end address to use for t=
-he<br>
-&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0inte=
-rface. Must be in the private IP range (RFC 1918).<br>
-&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Must=
- be specified along with @start-address and<br>
-&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@sub=
-net-mask.<br>
-&gt;&gt; &gt; +#<br>
-&gt;&gt; &gt; +# @subnet-mask: The IPv4 subnet mask to use on the interface=
-. Must<br>
-&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0be s=
-pecified along with @start-address and @subnet-mask.<br>
-&gt;&gt; &gt; +#<br>
-&gt;&gt; &gt; +# @isolated: Enable isolation for this interface. Interface =
-isolation<br>
-&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ensures that vmne=
-t interface is not able to communicate<br>
-&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with any other vm=
-net interfaces. Only communication with<br>
-&gt;&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 host is allowed. =
-Available since macOS Big Sur 11.0.<br>
-&gt;&gt;<br>
-&gt;&gt; What happens when the host is too old?<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt; In this case netdev creation will fail with<br>
-&gt; corresponding message (error_setg() used).<br>
-<br>
-&quot;Available&quot; feels slightly misleading.=C2=A0 It&#39;s always avai=
-lable, it just<br>
-doesn&#39;t work unless the host OS is new enough.=C2=A0 Suggest something =
-like<br>
-&quot;Requires at least macOS Big Sur 11.0.&quot;<br>
-<br></blockquote><div><br></div><div>Yep, &quot;Requires&quot; sounds much =
-more suitable. Will update=C2=A0</div><div>the description in the next vers=
-ion along with other fixes.</div><div><br></div><div>Thank you!</div><div><=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-Same for the others.<br>
-<br>
-QAPI schema<br>
-Acked-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" target=
-=3D"_blank">armbru@redhat.com</a>&gt;<br>
-<br>
-[...]<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"l=
-tr">Best Regards,<div><br><div>Vladislav Yaroshchuk</div></div></div></div>=
-</div>
+Hanna Reitz (2):
+  block/io: Update BSC only if want_zero is true
+  iotests/block-status-cache: New test
 
---00000000000052ce1d05d5de0272--
+ block/io.c                                    |   6 +-
+ tests/qemu-iotests/tests/block-status-cache   | 139 ++++++++++++++++++
+ .../qemu-iotests/tests/block-status-cache.out |   5 +
+ 3 files changed, 149 insertions(+), 1 deletion(-)
+ create mode 100755 tests/qemu-iotests/tests/block-status-cache
+ create mode 100644 tests/qemu-iotests/tests/block-status-cache.out
+
+-- 
+2.33.1
+
 
