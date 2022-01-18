@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F063492FB9
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 21:51:44 +0100 (CET)
-Received: from localhost ([::1]:44988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73577492FA7
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 21:47:02 +0100 (CET)
+Received: from localhost ([::1]:59414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9vSA-00034E-Ai
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 15:51:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46100)
+	id 1n9vNc-00022F-1k
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 15:47:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1n9vGU-0006jz-Pz
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 15:39:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24253)
+ id 1n9vGX-0006mS-KV
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 15:39:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1n9vGT-0003LB-5g
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 15:39:38 -0500
+ id 1n9vGV-0003Ly-FK
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 15:39:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642538374;
+ s=mimecast20190719; t=1642538378;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tNydDTYaWN8bVxhXPpl3ShPmt922xSEsE9g+zjMcyqY=;
- b=WGecIQIgHkcnedNpeFCSjpxFlsPUf22+jQUJh4FgTtIZ04jLz5skKi4XVhL++K+2HuCZ3P
- OEn2HVkrHroEVI4vRXynf0/zMszwIEArMdKH5FCQBjU0LNXrdrext32sPSamyqw6UVHuQW
- ILBeUYSBdar85Iyevdu6bkNJDYafQdw=
+ bh=urOsnqKe9Kh2tuvXB4TKoo+Jr9uPfxqsgPkKqjgzbj0=;
+ b=Ad0HnHJGvfv09AKqk/Ufh4UalLxxiYGP86y2knmjb1xvN2PGdTS5MeSAmMwrPc0dgi4TD2
+ Hhta4cwS1TKqAs8e7VdG3Tgyu2c1XpIpHRU/by1Qqyrg+ZnTiEjGkHIFHkul+WDMBITMYL
+ HxjR0jbv+5X0+KWypYZkTYkWvnx+Xtw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-453-QBjAVd-5OpKUnQ-CMtiyCA-1; Tue, 18 Jan 2022 15:39:31 -0500
-X-MC-Unique: QBjAVd-5OpKUnQ-CMtiyCA-1
+ us-mta-523-OyTDv0vaPIWkqBxhz7jt3A-1; Tue, 18 Jan 2022 15:39:35 -0500
+X-MC-Unique: OyTDv0vaPIWkqBxhz7jt3A-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD57485EE61;
- Tue, 18 Jan 2022 20:39:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5164B1091DA1;
+ Tue, 18 Jan 2022 20:39:34 +0000 (UTC)
 Received: from laptop.redhat.com (unknown [10.39.194.124])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD9D045D95;
- Tue, 18 Jan 2022 20:39:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 14CFA5DB83;
+ Tue, 18 Jan 2022 20:39:29 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, thuth@redhat.com,
  pbonzini@redhat.com, lvivier@redhat.com, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
  david@gibson.dropbear.id.au, clg@kaod.org, eesposit@redhat.com
-Subject: [PATCH v2 5/6] tests/qtest/vhost-user-blk-test: Factorize vq setup
- code
-Date: Tue, 18 Jan 2022 21:38:32 +0100
-Message-Id: <20220118203833.316741-6-eric.auger@redhat.com>
+Subject: [PATCH v2 6/6] tests/qtest/libqos: Add generic pci host bridge in
+ arm-virt machine
+Date: Tue, 18 Jan 2022 21:38:33 +0100
+Message-Id: <20220118203833.316741-7-eric.auger@redhat.com>
 In-Reply-To: <20220118203833.316741-1-eric.auger@redhat.com>
 References: <20220118203833.316741-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -70,7 +70,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,101 +87,413 @@ Cc: jean-philippe@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The vq setup code is repeated several times and can be
-easily factorized.
+Up to now the virt-machine node contains a virtio-mmio node.
+However no driver produces any PCI interface node. Hence, PCI
+tests cannot be run with aarch64 binary.
+
+Add a GPEX driver node that produces a pci interface node. This latter
+then can be consumed by all the pci tests. One of the first motivation
+was to be able to run the virtio-iommu-pci tests.
+
+We still face an issue with pci hotplug tests as hotplug cannot happen
+on the pcie root bus and require a generic root port. This will be
+addressed later on.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
----
- tests/qtest/vhost-user-blk-test.c | 33 +++++++++++++++----------------
- 1 file changed, 16 insertions(+), 17 deletions(-)
 
-diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk-test.c
-index 2606428df3..9567f3dc42 100644
---- a/tests/qtest/vhost-user-blk-test.c
-+++ b/tests/qtest/vhost-user-blk-test.c
-@@ -211,6 +211,19 @@ static void test_invalid_discard_write_zeroes(QVirtioDevice *dev,
-     guest_free(alloc, req_addr);
- }
+---
+v1 -> v2:
+- copyright updated to 2022
+- QPCIBusARM renamed into QGenericPCIBus
+- QGenericPCIHost declarations and definitions moved in the same
+  place as the generic pci implementation
+- rename pci-arm.c/h in generic-pcihost.c/h and remove any ref to
+  ARM there
+- remove qos_node_produces_opts, qpci_new_arm, qpci_free_arm
+- ecam_alloc_ptr now is a field of QGenericPCIBus and not QPCIBus
+- new libqos_init to create generic-pcihost driver that contains
+  pci-bus-generic
+- QGenericPCIHost moved in the same place as the generic pci
+  bindings
+---
+ tests/qtest/libqos/arm-virt-machine.c |  18 +-
+ tests/qtest/libqos/generic-pcihost.c  | 231 ++++++++++++++++++++++++++
+ tests/qtest/libqos/generic-pcihost.h  |  54 ++++++
+ tests/qtest/libqos/meson.build        |   1 +
+ 4 files changed, 300 insertions(+), 4 deletions(-)
+ create mode 100644 tests/qtest/libqos/generic-pcihost.c
+ create mode 100644 tests/qtest/libqos/generic-pcihost.h
+
+diff --git a/tests/qtest/libqos/arm-virt-machine.c b/tests/qtest/libqos/arm-virt-machine.c
+index e0f5932284..a2cc1790b5 100644
+--- a/tests/qtest/libqos/arm-virt-machine.c
++++ b/tests/qtest/libqos/arm-virt-machine.c
+@@ -22,6 +22,8 @@
+ #include "malloc.h"
+ #include "qgraph.h"
+ #include "virtio-mmio.h"
++#include "generic-pcihost.h"
++#include "hw/pci/pci_regs.h"
  
-+static QVirtQueue *setup_vq(QVirtioDevice *dev, QGuestAllocator *alloc)
-+{
-+    QVirtioPCIDevice *vpcidev = container_of(dev, QVirtioPCIDevice, vdev);
-+    QVirtQueue *vq;
-+
-+    qpci_msix_enable(vpcidev->pdev);
-+    qvirtio_pci_set_msix_configuration_vector(vpcidev, alloc, 0);
-+
-+    vq = qvirtqueue_setup(dev, alloc, 0);
-+    qvirtqueue_pci_msix_setup(vpcidev, (QVirtQueuePCI *)vq, alloc, 1);
-+    return vq;
-+}
-+
- /* Returns the request virtqueue so the caller can perform further tests */
- static QVirtQueue *test_basic(QVirtioDevice *dev, QGuestAllocator *alloc)
+ #define ARM_PAGE_SIZE               4096
+ #define VIRTIO_MMIO_BASE_ADDR       0x0A003E00
+@@ -35,6 +37,7 @@ struct QVirtMachine {
+     QOSGraphObject obj;
+     QGuestAllocator alloc;
+     QVirtioMMIODevice virtio_mmio;
++    QGenericPCIHost bridge;
+ };
+ 
+ static void virt_destructor(QOSGraphObject *obj)
+@@ -57,11 +60,13 @@ static void *virt_get_driver(void *object, const char *interface)
+ static QOSGraphObject *virt_get_device(void *obj, const char *device)
  {
-@@ -223,10 +236,6 @@ static QVirtQueue *test_basic(QVirtioDevice *dev, QGuestAllocator *alloc)
-     char *data;
-     QTestState *qts = global_qtest;
-     QVirtQueue *vq;
--    QVirtioPCIDevice *vpcidev = container_of(dev, QVirtioPCIDevice, vdev);
--
--    qpci_msix_enable(vpcidev->pdev);
--    qvirtio_pci_set_msix_configuration_vector(vpcidev, alloc, 0);
- 
-     features = qvirtio_get_features(dev);
-     features = features & ~(QVIRTIO_F_BAD_FEATURE |
-@@ -238,8 +247,7 @@ static QVirtQueue *test_basic(QVirtioDevice *dev, QGuestAllocator *alloc)
-     capacity = qvirtio_config_readq(dev, 0);
-     g_assert_cmpint(capacity, ==, TEST_IMAGE_SIZE / 512);
- 
--    vq = qvirtqueue_setup(dev, alloc, 0);
--    qvirtqueue_pci_msix_setup(vpcidev, (QVirtQueuePCI *)vq, alloc, 1);
-+    vq = setup_vq(dev, alloc);
- 
-     qvirtio_set_driver_ok(dev);
- 
-@@ -474,10 +482,6 @@ static void indirect(void *obj, void *u_data, QGuestAllocator *t_alloc)
-     uint8_t status;
-     char *data;
-     QTestState *qts = global_qtest;
--    QVirtioPCIDevice *vpcidev = container_of(dev, QVirtioPCIDevice, vdev);
--
--    qpci_msix_enable(vpcidev->pdev);
--    qvirtio_pci_set_msix_configuration_vector(vpcidev, t_alloc, 0);
- 
-     features = qvirtio_get_features(dev);
-     g_assert_cmphex(features & (1u << VIRTIO_RING_F_INDIRECT_DESC), !=, 0);
-@@ -489,8 +493,7 @@ static void indirect(void *obj, void *u_data, QGuestAllocator *t_alloc)
-     capacity = qvirtio_config_readq(dev, 0);
-     g_assert_cmpint(capacity, ==, TEST_IMAGE_SIZE / 512);
- 
--    vq = qvirtqueue_setup(dev, t_alloc, 0);
--    qvirtqueue_pci_msix_setup(vpcidev, (QVirtQueuePCI *)vq, t_alloc, 1);
-+    vq = setup_vq(dev, t_alloc);
- 
-     qvirtio_set_driver_ok(dev);
- 
-@@ -576,9 +579,6 @@ static void idx(void *obj, void *u_data, QGuestAllocator *t_alloc)
-         return;
+     QVirtMachine *machine = obj;
+-    if (!g_strcmp0(device, "virtio-mmio")) {
++    if (!g_strcmp0(device, "generic-pcihost")) {
++        return &machine->bridge.obj;
++    } else if (!g_strcmp0(device, "virtio-mmio")) {
+         return &machine->virtio_mmio.obj;
      }
  
--    qpci_msix_enable(pdev->pdev);
--    qvirtio_pci_set_msix_configuration_vector(pdev, t_alloc, 0);
--
-     features = qvirtio_get_features(dev);
-     features = features & ~(QVIRTIO_F_BAD_FEATURE |
-                             (1u << VIRTIO_RING_F_INDIRECT_DESC) |
-@@ -589,8 +589,7 @@ static void idx(void *obj, void *u_data, QGuestAllocator *t_alloc)
-     capacity = qvirtio_config_readq(dev, 0);
-     g_assert_cmpint(capacity, ==, TEST_IMAGE_SIZE / 512);
+-    fprintf(stderr, "%s not present in arm/virtio\n", device);
++    fprintf(stderr, "%s not present in arm/virt\n", device);
+     g_assert_not_reached();
+ }
  
--    vq = qvirtqueue_setup(dev, t_alloc, 0);
--    qvirtqueue_pci_msix_setup(pdev, (QVirtQueuePCI *)vq, t_alloc, 1);
-+    vq = setup_vq(dev, t_alloc);
+@@ -76,16 +81,21 @@ static void *qos_create_machine_arm_virt(QTestState *qts)
+     qvirtio_mmio_init_device(&machine->virtio_mmio, qts, VIRTIO_MMIO_BASE_ADDR,
+                              VIRTIO_MMIO_SIZE);
  
-     qvirtio_set_driver_ok(dev);
++    qos_create_generic_pcihost(&machine->bridge, qts, &machine->alloc);
++
+     machine->obj.get_device = virt_get_device;
+     machine->obj.get_driver = virt_get_driver;
+     machine->obj.destructor = virt_destructor;
+     return machine;
+ }
  
+-static void virtio_mmio_register_nodes(void)
++static void virt_machine_register_nodes(void)
+ {
+     qos_node_create_machine("arm/virt", qos_create_machine_arm_virt);
+     qos_node_contains("arm/virt", "virtio-mmio", NULL);
++
++    qos_node_create_machine("aarch64/virt", qos_create_machine_arm_virt);
++    qos_node_contains("aarch64/virt", "generic-pcihost", NULL);
+ }
+ 
+-libqos_init(virtio_mmio_register_nodes);
++libqos_init(virt_machine_register_nodes);
+diff --git a/tests/qtest/libqos/generic-pcihost.c b/tests/qtest/libqos/generic-pcihost.c
+new file mode 100644
+index 0000000000..704bbc3473
+--- /dev/null
++++ b/tests/qtest/libqos/generic-pcihost.c
+@@ -0,0 +1,231 @@
++/*
++ * libqos PCI bindings for generic PCI
++ *
++ * Copyright Red Hat Inc., 2022
++ *
++ * Authors:
++ *  Eric Auger   <eric.auger@redhat.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "libqtest.h"
++#include "generic-pcihost.h"
++#include "qapi/qmp/qdict.h"
++#include "hw/pci/pci_regs.h"
++
++#include "qemu/module.h"
++
++/* QGenericPCIHost */
++
++QOSGraphObject *generic_pcihost_get_device(void *obj, const char *device)
++{
++    QGenericPCIHost *host = obj;
++    if (!g_strcmp0(device, "pci-bus-generic")) {
++        return &host->pci.obj;
++    }
++    fprintf(stderr, "%s not present in generic-pcihost\n", device);
++    g_assert_not_reached();
++}
++
++void qos_create_generic_pcihost(QGenericPCIHost *host,
++                                QTestState *qts,
++                                QGuestAllocator *alloc)
++{
++    host->obj.get_device = generic_pcihost_get_device;
++    qpci_init_generic(&host->pci, qts, alloc, false);
++}
++
++static uint8_t qpci_generic_pio_readb(QPCIBus *bus, uint32_t addr)
++{
++    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
++
++    return qtest_readb(bus->qts, s->gpex_pio_base + addr);
++}
++
++static void qpci_generic_pio_writeb(QPCIBus *bus, uint32_t addr, uint8_t val)
++{
++    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
++
++    qtest_writeb(bus->qts, s->gpex_pio_base + addr,  val);
++}
++
++static uint16_t qpci_generic_pio_readw(QPCIBus *bus, uint32_t addr)
++{
++    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
++
++    return qtest_readw(bus->qts, s->gpex_pio_base + addr);
++}
++
++static void qpci_generic_pio_writew(QPCIBus *bus, uint32_t addr, uint16_t val)
++{
++    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
++
++    qtest_writew(bus->qts, s->gpex_pio_base + addr, val);
++}
++
++static uint32_t qpci_generic_pio_readl(QPCIBus *bus, uint32_t addr)
++{
++    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
++
++    return qtest_readl(bus->qts, s->gpex_pio_base + addr);
++}
++
++static void qpci_generic_pio_writel(QPCIBus *bus, uint32_t addr, uint32_t val)
++{
++    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
++
++    qtest_writel(bus->qts, s->gpex_pio_base + addr, val);
++}
++
++static uint64_t qpci_generic_pio_readq(QPCIBus *bus, uint32_t addr)
++{
++    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
++
++    return qtest_readq(bus->qts, s->gpex_pio_base + addr);
++}
++
++static void qpci_generic_pio_writeq(QPCIBus *bus, uint32_t addr, uint64_t val)
++{
++    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
++
++    qtest_writeq(bus->qts, s->gpex_pio_base + addr, val);
++}
++
++static void qpci_generic_memread(QPCIBus *bus, uint32_t addr, void *buf, size_t len)
++{
++    qtest_memread(bus->qts, addr, buf, len);
++}
++
++static void qpci_generic_memwrite(QPCIBus *bus, uint32_t addr,
++                                  const void *buf, size_t len)
++{
++    qtest_memwrite(bus->qts, addr, buf, len);
++}
++
++static uint8_t qpci_generic_config_readb(QPCIBus *bus, int devfn, uint8_t offset)
++{
++    QGenericPCIBus *gbus = container_of(bus, QGenericPCIBus, bus);
++    uint64_t addr = gbus->ecam_alloc_ptr + ((0 << 20) | (devfn << 12) | offset);
++    uint8_t val;
++
++    qtest_memread(bus->qts, addr, &val, 1);
++    return val;
++}
++
++static uint16_t qpci_generic_config_readw(QPCIBus *bus, int devfn, uint8_t offset)
++{
++    QGenericPCIBus *gbus = container_of(bus, QGenericPCIBus, bus);
++    uint64_t addr = gbus->ecam_alloc_ptr + ((0 << 20) | (devfn << 12) | offset);
++    uint16_t val;
++
++    qtest_memread(bus->qts, addr, &val, 2);
++    return val;
++}
++
++static uint32_t qpci_generic_config_readl(QPCIBus *bus, int devfn, uint8_t offset)
++{
++    QGenericPCIBus *gbus = container_of(bus, QGenericPCIBus, bus);
++    uint64_t addr = gbus->ecam_alloc_ptr + ((0 << 20) | (devfn << 12) | offset);
++    uint32_t val;
++
++    qtest_memread(bus->qts, addr, &val, 4);
++    return val;
++}
++
++static void
++qpci_generic_config_writeb(QPCIBus *bus, int devfn, uint8_t offset, uint8_t value)
++{
++    QGenericPCIBus *gbus = container_of(bus, QGenericPCIBus, bus);
++    uint64_t addr = gbus->ecam_alloc_ptr + ((0 << 20) | (devfn << 12) | offset);
++    uint32_t val = value;
++
++    qtest_memwrite(bus->qts, addr, &val, 1);
++}
++
++static void
++qpci_generic_config_writew(QPCIBus *bus, int devfn, uint8_t offset, uint16_t value)
++{
++    QGenericPCIBus *gbus = container_of(bus, QGenericPCIBus, bus);
++    uint64_t addr = gbus->ecam_alloc_ptr + ((0 << 20) | (devfn << 12) | offset);
++    uint32_t val = value;
++
++    qtest_memwrite(bus->qts, addr, &val, 2);
++}
++
++static void
++qpci_generic_config_writel(QPCIBus *bus, int devfn, uint8_t offset, uint32_t value)
++{
++    QGenericPCIBus *gbus = container_of(bus, QGenericPCIBus, bus);
++    uint64_t addr = gbus->ecam_alloc_ptr + ((0 << 20) | (devfn << 12) | offset);
++    uint32_t val = value;
++
++    qtest_memwrite(bus->qts, addr, &val, 4);
++}
++
++static void *qpci_generic_get_driver(void *obj, const char *interface)
++{
++    QGenericPCIBus *qpci = obj;
++    if (!g_strcmp0(interface, "pci-bus")) {
++        return &qpci->bus;
++    }
++    fprintf(stderr, "%s not present in pci-bus-generic\n", interface);
++    g_assert_not_reached();
++}
++
++void qpci_init_generic(QGenericPCIBus *qpci, QTestState *qts,
++                       QGuestAllocator *alloc, bool hotpluggable)
++{
++    assert(qts);
++
++    qpci->gpex_pio_base = 0x3eff0000;
++    qpci->bus.not_hotpluggable = !hotpluggable;
++    qpci->bus.has_buggy_msi = false;
++
++    qpci->bus.pio_readb = qpci_generic_pio_readb;
++    qpci->bus.pio_readw = qpci_generic_pio_readw;
++    qpci->bus.pio_readl = qpci_generic_pio_readl;
++    qpci->bus.pio_readq = qpci_generic_pio_readq;
++
++    qpci->bus.pio_writeb = qpci_generic_pio_writeb;
++    qpci->bus.pio_writew = qpci_generic_pio_writew;
++    qpci->bus.pio_writel = qpci_generic_pio_writel;
++    qpci->bus.pio_writeq = qpci_generic_pio_writeq;
++
++    qpci->bus.memread = qpci_generic_memread;
++    qpci->bus.memwrite = qpci_generic_memwrite;
++
++    qpci->bus.config_readb = qpci_generic_config_readb;
++    qpci->bus.config_readw = qpci_generic_config_readw;
++    qpci->bus.config_readl = qpci_generic_config_readl;
++
++    qpci->bus.config_writeb = qpci_generic_config_writeb;
++    qpci->bus.config_writew = qpci_generic_config_writew;
++    qpci->bus.config_writel = qpci_generic_config_writel;
++
++    qpci->bus.qts = qts;
++    qpci->bus.pio_alloc_ptr = 0x0000;
++    qpci->bus.pio_limit = 0x10000;
++    qpci->bus.mmio_alloc_ptr = 0x10000000;
++    qpci->bus.mmio_limit = 0x2eff0000;
++    qpci->ecam_alloc_ptr = 0x4010000000;
++
++    qpci->obj.get_driver = qpci_generic_get_driver;
++}
++
++static void qpci_generic_register_nodes(void)
++{
++    qos_node_create_driver("pci-bus-generic", NULL);
++    qos_node_produces("pci-bus-generic", "pci-bus");
++}
++
++static void qpci_generic_pci_register_nodes(void)
++{
++    qos_node_create_driver("generic-pcihost", NULL);
++    qos_node_contains("generic-pcihost", "pci-bus-generic", NULL);
++}
++
++libqos_init(qpci_generic_register_nodes);
++libqos_init(qpci_generic_pci_register_nodes);
+diff --git a/tests/qtest/libqos/generic-pcihost.h b/tests/qtest/libqos/generic-pcihost.h
+new file mode 100644
+index 0000000000..c693c769df
+--- /dev/null
++++ b/tests/qtest/libqos/generic-pcihost.h
+@@ -0,0 +1,54 @@
++/*
++ * libqos Generic PCI bindings and generic pci host bridge
++ *
++ * Copyright Red Hat Inc., 2022
++ *
++ * Authors:
++ *  Eric Auger <eric.auger@redhat.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef LIBQOS_GENERIC_PCIHOST_H
++#define LIBQOS_GENERIC_PCIHOST_H
++
++#include "pci.h"
++#include "malloc.h"
++#include "qgraph.h"
++
++typedef struct QGenericPCIBus {
++    QOSGraphObject obj;
++    QPCIBus bus;
++    uint64_t gpex_pio_base;
++    uint64_t ecam_alloc_ptr;
++} QGenericPCIBus;
++
++/*
++ * qpci_init_generic():
++ * @ret: A valid QGenericPCIBus * pointer
++ * @qts: The %QTestState
++ * @alloc: A previously initialized @alloc providing memory for @qts
++ * @bool: devices can be hotplugged on this bus
++ *
++ * This function initializes an already allocated
++ * QGenericPCIBus object.
++ */
++void qpci_init_generic(QGenericPCIBus *ret, QTestState *qts,
++                       QGuestAllocator *alloc, bool hotpluggable);
++
++/* QGenericPCIHost */
++
++typedef struct QGenericPCIHost QGenericPCIHost;
++
++struct QGenericPCIHost {
++    QOSGraphObject obj;
++    QGenericPCIBus pci;
++};
++
++QOSGraphObject *generic_pcihost_get_device(void *obj, const char *device);
++void qos_create_generic_pcihost(QGenericPCIHost *host,
++                                QTestState *qts,
++                                QGuestAllocator *alloc);
++
++#endif
+diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
+index e988d15791..8c8ee15553 100644
+--- a/tests/qtest/libqos/meson.build
++++ b/tests/qtest/libqos/meson.build
+@@ -42,6 +42,7 @@ libqos_srcs = files('../libqtest.c',
+         'virtio-scsi.c',
+         'virtio-serial.c',
+         'virtio-iommu.c',
++        'generic-pcihost.c',
+ 
+         # qgraph machines:
+         'aarch64-xlnx-zcu102-machine.c',
 -- 
 2.26.3
 
