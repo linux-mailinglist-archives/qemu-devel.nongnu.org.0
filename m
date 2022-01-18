@@ -2,81 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F4C44926BB
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 14:13:11 +0100 (CET)
-Received: from localhost ([::1]:50378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3257492738
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 14:24:31 +0100 (CET)
+Received: from localhost ([::1]:35756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9oIQ-0007nn-5w
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 08:13:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51820)
+	id 1n9oTO-0000e1-Lg
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 08:24:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9nEX-0006G2-LU; Tue, 18 Jan 2022 07:05:07 -0500
-Received: from [2a00:1450:4864:20::32b] (port=34495
- helo=mail-wm1-x32b.google.com)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1n9na1-000263-56
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 07:27:17 -0500
+Received: from [2a00:1450:4864:20::32e] (port=43739
+ helo=mail-wm1-x32e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9nES-0005tz-7G; Tue, 18 Jan 2022 07:05:05 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- bg19-20020a05600c3c9300b0034565e837b6so2047296wmb.1; 
- Tue, 18 Jan 2022 04:03:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1n9nZy-0001mM-P9
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 07:27:16 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ e9-20020a05600c4e4900b0034d23cae3f0so4764247wmq.2
+ for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 04:26:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=EB1E6GjOT965H1546eRI7MAYmLzsPxdyv9nPv4t3lfs=;
- b=HcbGOWVmaC2G2Dufl5xmxx17M0entBkI3dSD5MyXXe7+ceSdtMlxqP1jLedeW2rqI0
- HmUv0tazGlETjG/ZmCKS1j1a+j/IOabHsyLtJgLo3kR08zg7pkolaU0KnAtCrnjO/rTH
- /DFqUu1i8uQdRcWdiONvEpNY1FojkvRu9swiROUtiI0pMkKpxvfHvhjg2x02uzPwrlDX
- VfV4Vjt1Ip70yxs3kDYrFvw5u0NiKB2DV9n6CN1+zzjkC9U5IxLEDtnTwZaFZ7a/HnAr
- BoW6r8MAFUtzqqrUz7aEzypZ3zsWPCPgW4kR7xrdBJneOeBFaXXaPCf0xZfmX8sFafZ6
- 9/aw==
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Y1lrci0Jci44E7AKoNdT1rztU7asikoU7pbMv3cTTl8=;
+ b=OMnfO+McSblK1+xCZdWVDLVtmkMdPNNhNY5MwNdZ2TZe98+qVsz/+SqyIyeQV14jl7
+ b27UkRWFZ8IrIwuFDc7fuxWLzdVeo6lGB79fkVZpSTP/EaQsFZ4uAjtjvQqMrsZOkGQ/
+ C5vqcd132+XEo9ztsQDcLGLH6xXVFqcCPRiNz3aVuqAdcuVbOBfZJnqNvdTBp7i4Zi6p
+ O/YNKefmGSbcj3ame74IBSYvXZ9dtvrS5pA8xRE78oDsBgP4Pm2gM9U5purVee4/OfKD
+ JhEF/QywQoe4ff9I9y/GTTOkembJX8EjFExh77Y5Q1QSTbDfsTpAwZ3xU0WTKPvsWCZa
+ rT3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=EB1E6GjOT965H1546eRI7MAYmLzsPxdyv9nPv4t3lfs=;
- b=LVp0/ToeWE2QQk+Fv9zcJSZ6+QLUgaakBCks+8lax4PIMoBwy1oREebspHRy/NrWIn
- BhVtW9p4uKyBDpkxfBzvU5OI+T2KsdmoNqueiwT0xcIuk0IDRg0U1eEwdgzc653NOYlM
- BgZWw0UeeOJRxqmkDrpiZRI2nCeQAWLPPdqgOQHzTmKADSgc3sj3RqQ6aeRyM3LHcMYN
- 5U4h5ndwXi1AOd9OJVsCZAGXl19HrnLx9bmEtpCgeS1pOD5ZworLTymLyXxGQjhzE6Ky
- MpWB5P8cgAUEYvkrjUs/2kPTjBYfsprASTaXL76ux1Mzyad7J+f0NVyE+2JSkoly76Iz
- Hv8w==
-X-Gm-Message-State: AOAM530i4GrpqEJboxlkzQv79XVf3590ahld6K2hHscMM1HyaoAzTpmv
- huDAIpWc2UpAufl1xMYqj5m1LBG40xU=
-X-Google-Smtp-Source: ABdhPJy3Rshjmbxuc8TEMhQsZ51xhukuzz1DefY2bvAZB+RNf4NsV1pReDGzutQCoZYQ51cfWVGF7w==
-X-Received: by 2002:a05:6000:144c:: with SMTP id
- v12mr24124345wrx.218.1642507433042; 
- Tue, 18 Jan 2022 04:03:53 -0800 (PST)
-Received: from nuc.. (154.red-83-50-83.dynamicip.rima-tde.net. [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id
- 1sm7656390wry.81.2022.01.18.04.03.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jan 2022 04:03:52 -0800 (PST)
-To: qemu-devel@nongnu.org
-Cc: Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 17/19] hw/dma: Use dma_addr_t type definition when relevant
-Date: Tue, 18 Jan 2022 13:02:27 +0100
-Message-Id: <20220118120229.196337-18-f4bug@amsat.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220118120229.196337-1-f4bug@amsat.org>
-References: <20220118120229.196337-1-f4bug@amsat.org>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Y1lrci0Jci44E7AKoNdT1rztU7asikoU7pbMv3cTTl8=;
+ b=eSyKjp0TNHSmeO6xDzQFO9EErFOsWvjed0gcf1Y1pvYhlyueP9sMs68u1T9CP367Kj
+ wBPCVyvP3VsOI4YCSr/mvD2AtD5lLTnhCGs5C4Z1jgfuYpTqYWQfoMtGkvNZLI3rvU2N
+ ffyNcPYrpqqnn4Eu7gt5Bc7wP4hUDkcqrzV5xw+bcQxU1uF6wpYkIYreAKzk1PYM45J1
+ OcY4qifhTiHg5G7ZDTP2XDi0Ehfi4ozGsaKNGVmfdBO5U+Q/1mCyPoNRgMGESMYt3Yuw
+ abniEUsj7w11GWWdD3Vq9hx0Zap2RZsfW3q/AQhs0V0LJUkkU32If5f7Tg5IE8q3+te7
+ zDfg==
+X-Gm-Message-State: AOAM533ACXldxs6dypmxpDPQM0hI6igJ1anBrPhsHeLWifMj7T0Swrr8
+ 8k0RDUkOttpqR1V4PXm7pgM=
+X-Google-Smtp-Source: ABdhPJyB/ILdJxTGlP6eN8fXgJCyxFt4lfUufRJ50LYt5MSsCbhxRvdiv+JLwsuT6VgtwSoDI/Nh1Q==
+X-Received: by 2002:a1c:ed01:: with SMTP id l1mr32504803wmh.185.1642508794823; 
+ Tue, 18 Jan 2022 04:26:34 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id e9sm2079327wmq.46.2022.01.18.04.26.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Jan 2022 04:26:34 -0800 (PST)
+Message-ID: <a39efdf3-82f3-9042-8b53-86394d7aa90d@redhat.com>
+Date: Tue, 18 Jan 2022 13:26:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2 1/3] qmp: Support for querying stats
+Content-Language: en-US
+To: Mark Kanda <mark.kanda@oracle.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20211119195153.11815-1-mark.kanda@oracle.com>
+ <20211119195153.11815-2-mark.kanda@oracle.com> <Ya+rLex1djU/1Wc1@redhat.com>
+ <ee0d6990-06f3-9a1b-f7d5-7c379f0e9773@redhat.com>
+ <5b2f4acf-29fb-34fd-eee0-341eec163da7@oracle.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <5b2f4acf-29fb-34fd-eee0-341eec163da7@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -91,186 +97,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On 1/17/22 16:17, Mark Kanda wrote:
+>>
+>> I agree except that I think this and StatsResults should be unions, 
+>> even if it means running multiple query-stats commands. 
+> 
+> IIUC, making StatsResults a union implies the filter is a required 
+> argument (currently it is optional - omitting it dumps all VM and VCPU 
+> stats). Just to confirm - we want the filter to be required?
 
-Update the obvious places where dma_addr_t should be used
-(instead of uint64_t, hwaddr, size_t, int32_t types).
+Yeah, I think at least the "kind" (vcpu, vm, perhaps in the future block 
+or net) should be mandatory.  If the caller doesn't know of a "kind", 
+chances are it won't be able to understand what object the stats refer 
+to, for example the vcpu "id" here:
 
-This allows to have &dma_addr_t type portable on 32/64-bit
-hosts.
+{ 'union': 'StatsResults',
+    'base': { 'target': 'StatsTarget', stats: ['StatsResultsEntry'] },
+    'discriminator': 'target',
+    'data': { 'vcpu': ['id': 'int'] }
+}
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220111184309.28637-11-f4bug@amsat.org>
----
- include/sysemu/dma.h  |  8 +++++---
- hw/nvme/ctrl.c        |  2 +-
- hw/rdma/rdma_utils.c  |  2 +-
- hw/scsi/megasas.c     | 10 +++++-----
- softmmu/dma-helpers.c | 16 +++++++++-------
- 5 files changed, 21 insertions(+), 17 deletions(-)
+(which is another different between Daniel's proposal and mine; his just 
+placed all vcpus into an array with no explicit id, if I understand 
+correctly).
 
-diff --git a/include/sysemu/dma.h b/include/sysemu/dma.h
-index c992d9d5d6b..36039c5e687 100644
---- a/include/sysemu/dma.h
-+++ b/include/sysemu/dma.h
-@@ -38,7 +38,7 @@ struct QEMUSGList {
-     ScatterGatherEntry *sg;
-     int nsg;
-     int nalloc;
--    size_t size;
-+    dma_addr_t size;
-     DeviceState *dev;
-     AddressSpace *as;
- };
-@@ -301,8 +301,10 @@ BlockAIOCB *dma_blk_read(BlockBackend *blk,
- BlockAIOCB *dma_blk_write(BlockBackend *blk,
-                           QEMUSGList *sg, uint64_t offset, uint32_t align,
-                           BlockCompletionFunc *cb, void *opaque);
--uint64_t dma_buf_read(void *ptr, int32_t len, QEMUSGList *sg, MemTxAttrs attrs);
--uint64_t dma_buf_write(void *ptr, int32_t len, QEMUSGList *sg, MemTxAttrs attrs);
-+dma_addr_t dma_buf_read(void *ptr, dma_addr_t len,
-+                         QEMUSGList *sg, MemTxAttrs attrs);
-+dma_addr_t dma_buf_write(void *ptr, dma_addr_t len,
-+                          QEMUSGList *sg, MemTxAttrs attrs);
- 
- void dma_acct_start(BlockBackend *blk, BlockAcctCookie *cookie,
-                     QEMUSGList *sg, enum BlockAcctType type);
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 462f79a1f60..c3c49176110 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -1147,7 +1147,7 @@ static uint16_t nvme_tx(NvmeCtrl *n, NvmeSg *sg, uint8_t *ptr, uint32_t len,
- 
-     if (sg->flags & NVME_SG_DMA) {
-         const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
--        uint64_t residual;
-+        dma_addr_t residual;
- 
-         if (dir == NVME_TX_DIRECTION_TO_DEVICE) {
-             residual = dma_buf_write(ptr, len, &sg->qsg, attrs);
-diff --git a/hw/rdma/rdma_utils.c b/hw/rdma/rdma_utils.c
-index 61cb8ede0fd..5a7ef63ad28 100644
---- a/hw/rdma/rdma_utils.c
-+++ b/hw/rdma/rdma_utils.c
-@@ -20,7 +20,7 @@
- void *rdma_pci_dma_map(PCIDevice *dev, dma_addr_t addr, dma_addr_t len)
- {
-     void *p;
--    hwaddr pci_len = len;
-+    dma_addr_t pci_len = len;
- 
-     if (!addr) {
-         rdma_error_report("addr is NULL");
-diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
-index cb019549371..6c1ae6b980f 100644
---- a/hw/scsi/megasas.c
-+++ b/hw/scsi/megasas.c
-@@ -1046,7 +1046,7 @@ static int megasas_pd_get_info_submit(SCSIDevice *sdev, int lun,
-     uint16_t pd_id = ((sdev->id & 0xFF) << 8) | (lun & 0xFF);
-     uint8_t cmdbuf[6];
-     size_t len;
--    size_t residual;
-+    dma_addr_t residual;
- 
-     if (!cmd->iov_buf) {
-         cmd->iov_buf = g_malloc0(dcmd_size);
-@@ -1152,7 +1152,7 @@ static int megasas_dcmd_ld_get_list(MegasasState *s, MegasasCmd *cmd)
- {
-     struct mfi_ld_list info;
-     size_t dcmd_size = sizeof(info);
--    size_t residual;
-+    dma_addr_t residual;
-     uint32_t num_ld_disks = 0, max_ld_disks;
-     uint64_t ld_size;
-     BusChild *kid;
-@@ -1198,7 +1198,7 @@ static int megasas_dcmd_ld_list_query(MegasasState *s, MegasasCmd *cmd)
-     uint16_t flags;
-     struct mfi_ld_targetid_list info;
-     size_t dcmd_size = sizeof(info);
--    size_t residual;
-+    dma_addr_t residual;
-     uint32_t num_ld_disks = 0, max_ld_disks = s->fw_luns;
-     BusChild *kid;
- 
-@@ -1251,7 +1251,7 @@ static int megasas_ld_get_info_submit(SCSIDevice *sdev, int lun,
-     size_t dcmd_size = sizeof(struct mfi_ld_info);
-     uint8_t cdb[6];
-     ssize_t len;
--    size_t residual;
-+    dma_addr_t residual;
-     uint16_t sdev_id = ((sdev->id & 0xFF) << 8) | (lun & 0xFF);
-     uint64_t ld_size;
- 
-@@ -1625,7 +1625,7 @@ static int megasas_handle_dcmd(MegasasState *s, MegasasCmd *cmd)
- }
- 
- static int megasas_finish_internal_dcmd(MegasasCmd *cmd,
--                                        SCSIRequest *req, size_t residual)
-+                                        SCSIRequest *req, dma_addr_t residual)
- {
-     int retval = MFI_STAT_OK;
-     int lun = req->lun;
-diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
-index 4563a775aa7..916cf12ed42 100644
---- a/softmmu/dma-helpers.c
-+++ b/softmmu/dma-helpers.c
-@@ -294,12 +294,12 @@ BlockAIOCB *dma_blk_write(BlockBackend *blk,
- }
- 
- 
--static MemTxResult dma_buf_rw(void *buf, int32_t len, uint64_t *residual,
-+static MemTxResult dma_buf_rw(void *buf, dma_addr_t len, dma_addr_t *residual,
-                               QEMUSGList *sg, DMADirection dir,
-                               MemTxAttrs attrs)
- {
-     uint8_t *ptr = buf;
--    uint64_t xresidual;
-+    dma_addr_t xresidual;
-     int sg_cur_index;
-     MemTxResult res = MEMTX_OK;
- 
-@@ -308,7 +308,7 @@ static MemTxResult dma_buf_rw(void *buf, int32_t len, uint64_t *residual,
-     len = MIN(len, xresidual);
-     while (len > 0) {
-         ScatterGatherEntry entry = sg->sg[sg_cur_index++];
--        int32_t xfer = MIN(len, entry.len);
-+        dma_addr_t xfer = MIN(len, entry.len);
-         res |= dma_memory_rw(sg->as, entry.base, ptr, xfer, dir, attrs);
-         ptr += xfer;
-         len -= xfer;
-@@ -321,18 +321,20 @@ static MemTxResult dma_buf_rw(void *buf, int32_t len, uint64_t *residual,
-     return res;
- }
- 
--uint64_t dma_buf_read(void *ptr, int32_t len, QEMUSGList *sg, MemTxAttrs attrs)
-+dma_addr_t dma_buf_read(void *ptr, dma_addr_t len,
-+                         QEMUSGList *sg, MemTxAttrs attrs)
- {
--    uint64_t residual;
-+    dma_addr_t residual;
- 
-     dma_buf_rw(ptr, len, &residual, sg, DMA_DIRECTION_FROM_DEVICE, attrs);
- 
-     return residual;
- }
- 
--uint64_t dma_buf_write(void *ptr, int32_t len, QEMUSGList *sg, MemTxAttrs attrs)
-+dma_addr_t dma_buf_write(void *ptr, dma_addr_t len,
-+                          QEMUSGList *sg, MemTxAttrs attrs)
- {
--    uint64_t residual;
-+    dma_addr_t residual;
- 
-     dma_buf_rw(ptr, len, &residual, sg, DMA_DIRECTION_TO_DEVICE, attrs);
- 
--- 
-2.34.1
-
+Paolo
 
