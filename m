@@ -2,54 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8679493054
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 23:10:47 +0100 (CET)
-Received: from localhost ([::1]:38244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B7DF4930BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 23:28:04 +0100 (CET)
+Received: from localhost ([::1]:44956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9wgg-0000RS-AZ
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 17:10:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38136)
+	id 1n9wxP-0005rr-7U
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 17:28:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1n9wY3-0008GK-CH
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 17:01:51 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:50222)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1n9wXx-000880-RM
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 17:01:51 -0500
-Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id D6930C60912;
- Tue, 18 Jan 2022 23:01:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1642543302;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pimYEGTY3kRjpsZv9XUTTZZWJv14rfUt8a4JYMse5ak=;
- b=NaJjunrQOjHdwvMGV2CAhBQGOV0y0MypcISA42JEkiwautY/Ob4vm2PfOKsv5snpYLSIgO
- AEZyoROy3qjg031LBS361d3cu0wq1HHNVf6nVhMHF56V16I/2dySBoos7+tlAuP6f4gG6A
- tIEy+FlD6DlfTb9a4yowGXbBsRaqwmyV0eGu7t6I+L9uKBA3LDOcBJ3+WZljYZAbNMInN8
- QSVdEatldYzAlr/mPs/B82YWnYuRZUTNRuToUfkGcMHutglnj4DSWxOkLZ6KVWHdI4WhoI
- tolEdvZQ2fKuWC+4qs5b42ZVfN0N+b/BrnkAsQ9I/V+c5F7PMYSqvLzViUpZ+Q==
-Date: Tue, 18 Jan 2022 23:01:42 +0100
-From: Luc Michel <luc@lmichel.fr>
-To: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Subject: Re: [PATCH v6 05/12] hw/dma: Add the DMA control interface
-Message-ID: <20220118220142.mqtbrqht2de773zm@sekoia-pc.home.lmichel.fr>
-References: <20220114152841.1740-1-francisco.iglesias@xilinx.com>
- <20220114152841.1740-6-francisco.iglesias@xilinx.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n9wvU-0004yg-7Y; Tue, 18 Jan 2022 17:26:04 -0500
+Received: from [2607:f8b0:4864:20::134] (port=44971
+ helo=mail-il1-x134.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n9wvR-0003De-Rm; Tue, 18 Jan 2022 17:26:03 -0500
+Received: by mail-il1-x134.google.com with SMTP id i14so492067ila.11;
+ Tue, 18 Jan 2022 14:26:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rpCM3/8uvKgeTIWSKgenaW9yOYCKRvAQlLPIOSrfZXs=;
+ b=PptUPsZyvT3JFM5NM/ybFACDL0cpVTwm0jdNpe9oly0gPK+cq2jMhVFGQ3xw3wa/iU
+ HtE9/AALaGFcW25B31GxIOTSvH5n8702zUIlEc+JXNyLd1ZGd0VrV2knHtG1g0gpEgmE
+ 3+8+A3V/0saWWA8Ep7Ed7dfxaIVhNvs33fkG65VFTAF6lPTyBnSfl8XhOTvxINbdAkHd
+ p0cknWhYIawwuE0UbtIUWtmnhh4LSkcBK8y8wDDRvM8rYMObDI8dzV10RGkBNJFO1IDB
+ 8my2UzxBK3Yn4MKjMOrTt4wFSMOSmBw+l6cCvftu/+HjYKjN7yF7on7KP0XcrgM4FuKe
+ LyvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rpCM3/8uvKgeTIWSKgenaW9yOYCKRvAQlLPIOSrfZXs=;
+ b=V14DhIjmpFS4VOhVfID6UK1oN8NiPsfclWheZ6vizZhfxzk4OGKQ2wPzftvVbmIlIT
+ TKz8fIzfqiD+7DVS0xdz9tx6fdAN7hpCTT0aLUAleKz87qF2TY6zvadYEiCPmnRjB4B0
+ BypI9HzjaXetaZNn6/58VsvS7JWiG0aIZg8UuR4/XLXJORwxlo3iNDw+t3468ofeA0wZ
+ hqKQGcN4h8WFoF+auLCOY+q5Me19AEtgqpeMMZ+k+wB9ikpjR40CFxowce0XyVPvAnlE
+ FbWpvoFTRFMZBf2SJXK7MgEMsyCp7xYhsS0shlJ4r8cOh7hPjKuAcxlIwxc50CZPpzmd
+ S47Q==
+X-Gm-Message-State: AOAM531G87/aE898Vq3FMZVOQhCh98+1cOXMXfeG2xuRVIUiy0TGaIFm
+ /QPljwhIkirlVudNoiGuupTItNStR+vgYlUGUtk=
+X-Google-Smtp-Source: ABdhPJzrkKNq6JVAq2rRXaPWKBEN4ize3x4zhoZY61DtRIe59Af+TWR6BHUNTCsuQNKQUF2m/Hlf1LvSMBmMKKcgcP8=
+X-Received: by 2002:a92:3012:: with SMTP id x18mr14152129ile.221.1642544759566; 
+ Tue, 18 Jan 2022 14:25:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220114152841.1740-6-francisco.iglesias@xilinx.com>
-Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
- helo=pharaoh.lmichel.fr
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220118014522.13613-1-frank.chang@sifive.com>
+In-Reply-To: <20220118014522.13613-1-frank.chang@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 19 Jan 2022 08:25:33 +1000
+Message-ID: <CAKmqyKNMX1QTJghKyMwn7CXsydE3znWbuJ97k4dDuFb1ks_Syg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/17] Add RISC-V RVV Zve32f and Zve64f extensions
+To: Frank Chang <frank.chang@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::134
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::134;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x134.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,190 +78,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org,
- frasse.iglesias@gmail.com, alistair@alistair23.me, qemu-devel@nongnu.org,
- alistair23@gmail.com, philmd@redhat.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Francisco!
+On Tue, Jan 18, 2022 at 11:50 AM <frank.chang@sifive.com> wrote:
+>
+> From: Frank Chang <frank.chang@sifive.com>
+>
+> In RVV v1.0 spec, several Zve* vector extensions for embedded processors
+> are defined in Chapter 18.2:
+> https://github.com/riscv/riscv-v-spec/blob/v1.0/v-spec.adoc#zve-vector-extensions-for-embedded-processors
+>
+> This patchset implements Zve32f and Zve64f extensions.
+>
+> The port is available at:
+> https://github.com/sifive/qemu/tree/rvv-zve32f-zve64f-upstream-v2
+>
+> Zve32f can be enabled with -cpu option: Zve32f=true and
+> Zve64f can be enabled with -cpu option: Zve64f=true.
+> V is not required to be enabled explicitly.
+>
+> Here's the inclusion diagram for the six standard vector extensions
+> quoted from Nick Knight <nick.knight@sifive.com>:
+>
+>       V
+>       |
+>     Zve64d
+>       |
+>     Zve64f
+>    /      \
+> Zve64x   Zve32f
+>    \      /
+>     Zve32x
+>
+> Changelog:
+>
+> v2:
+>   * Replace hardcoded TARGET_RISCV32 macro with get_xl().
+>
+> Frank Chang (17):
+>   target/riscv: rvv-1.0: Add Zve64f extension into RISC-V
+>   target/riscv: rvv-1.0: Add Zve64f support for configuration insns
+>   target/riscv: rvv-1.0: Add Zve64f support for load and store insns
+>   target/riscv: rvv-1.0: Add Zve64f support for vmulh variant insns
+>   target/riscv: rvv-1.0: Add Zve64f support for vsmul.vv and vsmul.vx
+>     insns
+>   target/riscv: rvv-1.0: Add Zve64f support for scalar fp insns
+>   target/riscv: rvv-1.0: Add Zve64f support for single-width fp
+>     reduction insns
+>   target/riscv: rvv-1.0: Add Zve64f support for widening type-convert
+>     insns
+>   target/riscv: rvv-1.0: Add Zve64f support for narrowing type-convert
+>     insns
+>   target/riscv: rvv-1.0: Allow Zve64f extension to be turned on
+>   target/riscv: rvv-1.0: Add Zve32f extension into RISC-V
+>   target/riscv: rvv-1.0: Add Zve32f support for configuration insns
+>   target/riscv: rvv-1.0: Add Zve32f support for scalar fp insns
+>   target/riscv: rvv-1.0: Add Zve32f support for single-width fp
+>     reduction insns
+>   target/riscv: rvv-1.0: Add Zve32f support for widening type-convert
+>     insns
+>   target/riscv: rvv-1.0: Add Zve32f support for narrowing type-convert
+>     insns
+>   target/riscv: rvv-1.0: Allow Zve32f extension to be turned on
 
-On 15:28 Fri 14 Jan     , Francisco Iglesias wrote:
-> An option on real hardware when embedding a DMA engine into a peripheral
-> is to make the peripheral control the engine through a custom DMA control
-> (hardware) interface between the two. Software drivers in this scenario
-> configure and trigger DMA operations through the controlling peripheral's
-> register API (for example, writing a specific bit in a register could
-> propagate down to a transfer start signal on the DMA control interface).
-> At the same time the status, results and interrupts for the transfer might
-> still be intended to be read and caught through the DMA engine's register
-> API (and signals).
+Thanks!
 
-I understand the goal you trying to achieve here. Having a generic
-interface between a peripheral and the internal DMA it's using for its
-memory transfers.
+Applied to riscv-to-apply.next
 
-I wonder however how much this scenario can be generalized. I see that
-you have only one method in this interface, which is basically "perform
-a DMA transaction". Given the method's parameters, the peripheral can
-indicate what address/length it wants to read.
+Alistair
 
-IIUC this is well suited to your case (the OSPI controller), because
-other DMA parameters are configured by other means (DMA or OSPI
-registers I guess).
-
-But how much this will suite the next use case for this interface? Will
-the embedded DMA be configured the same way? Maybe the method will also
-require e.g., the destination buffer address?
-
-My feeling is that this interface is quite ad-hoc for your case. It is
-either going to stay really simple as it is now, and won't necessarily
-fit the next similar use case, or is going to get pretty complicated to
-cover all cases. For an added value I'm not sure I can see because the
-pair "peripheral - DMA" seems tightly coupled to me. Do you foresee a
-case where you want to be able to e.g., instantiate DMA B instead of DMA
-A for the same controller?
-
-I think you could have basically the same code by having a pointer to
-your XlnxCSUDMA object (instead of the iface) in the OSPI struct, and a
-function like xlnx_csu_dma_start_transfer declared in xlnx_csu_dma.h,
-having the same behaviour as dma_ctrl_if_read.
-
-Maybe I'm wrong and you actually foresee cases where the genericity this
-interface gives is what you want? What do you think?
-
-Luc
-
-> 
-> This patch adds a QEMU DMA control interface that can be used for
-> modelling above scenario. Through this new interface a peripheral model
-> embedding a DMA engine model will be able to directly initiate transfers
-> through the DMA. At the same time the transfer state, result and
-> completion signaling will be read and caught through the DMA engine
-> model's register API and signaling.
-> 
-> Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-> ---
->  hw/dma/dma-ctrl-if.c         | 30 +++++++++++++++++++++++
->  hw/dma/meson.build           |  1 +
->  include/hw/dma/dma-ctrl-if.h | 58 ++++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 89 insertions(+)
->  create mode 100644 hw/dma/dma-ctrl-if.c
->  create mode 100644 include/hw/dma/dma-ctrl-if.h
-> 
-> diff --git a/hw/dma/dma-ctrl-if.c b/hw/dma/dma-ctrl-if.c
-> new file mode 100644
-> index 0000000000..895edac277
-> --- /dev/null
-> +++ b/hw/dma/dma-ctrl-if.c
-> @@ -0,0 +1,30 @@
-> +/*
-> + * DMA control interface.
-> + *
-> + * Copyright (c) 2021 Xilinx Inc.
-> + * Written by Francisco Iglesias <francisco.iglesias@xilinx.com>
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +#include "qemu/osdep.h"
-> +#include "exec/hwaddr.h"
-> +#include "hw/dma/dma-ctrl-if.h"
-> +
-> +MemTxResult dma_ctrl_if_read(DmaCtrlIf *dma, hwaddr addr, uint32_t len)
-> +{
-> +    DmaCtrlIfClass *dcic =  DMA_CTRL_IF_GET_CLASS(dma);
-> +    return dcic->read(dma, addr, len);
-> +}
-> +
-> +static const TypeInfo dma_ctrl_if_info = {
-> +    .name          = TYPE_DMA_CTRL_IF,
-> +    .parent        = TYPE_INTERFACE,
-> +    .class_size = sizeof(DmaCtrlIfClass),
-> +};
-> +
-> +static void dma_ctrl_if_register_types(void)
-> +{
-> +    type_register_static(&dma_ctrl_if_info);
-> +}
-> +
-> +type_init(dma_ctrl_if_register_types)
-> diff --git a/hw/dma/meson.build b/hw/dma/meson.build
-> index f3f0661bc3..c43c067856 100644
-> --- a/hw/dma/meson.build
-> +++ b/hw/dma/meson.build
-> @@ -14,3 +14,4 @@ softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_dma.c'))
->  softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_dma.c'))
->  softmmu_ss.add(when: 'CONFIG_SIFIVE_PDMA', if_true: files('sifive_pdma.c'))
->  softmmu_ss.add(when: 'CONFIG_XLNX_CSU_DMA', if_true: files('xlnx_csu_dma.c'))
-> +common_ss.add(when: 'CONFIG_XILINX_AXI', if_true: files('dma-ctrl-if.c'))
-> diff --git a/include/hw/dma/dma-ctrl-if.h b/include/hw/dma/dma-ctrl-if.h
-> new file mode 100644
-> index 0000000000..0662149e14
-> --- /dev/null
-> +++ b/include/hw/dma/dma-ctrl-if.h
-> @@ -0,0 +1,58 @@
-> +/*
-> + * DMA control interface.
-> + *
-> + * Copyright (c) 2021 Xilinx Inc.
-> + * Written by Francisco Iglesias <francisco.iglesias@xilinx.com>
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +#ifndef HW_DMA_CTRL_IF_H
-> +#define HW_DMA_CTRL_IF_H
-> +
-> +#include "hw/hw.h"
-> +#include "exec/memory.h"
-> +#include "qom/object.h"
-> +
-> +#define TYPE_DMA_CTRL_IF "dma-ctrl-if"
-> +typedef struct DmaCtrlIfClass DmaCtrlIfClass;
-> +DECLARE_CLASS_CHECKERS(DmaCtrlIfClass, DMA_CTRL_IF,
-> +                       TYPE_DMA_CTRL_IF)
-> +
-> +#define DMA_CTRL_IF(obj) \
-> +     INTERFACE_CHECK(DmaCtrlIf, (obj), TYPE_DMA_CTRL_IF)
-> +
-> +typedef struct DmaCtrlIf {
-> +    Object Parent;
-> +} DmaCtrlIf;
-> +
-> +typedef struct DmaCtrlIfClass {
-> +    InterfaceClass parent;
-> +
-> +    /*
-> +     * read: Start a read transfer on the DMA engine implementing the DMA
-> +     * control interface
-> +     *
-> +     * @dma_ctrl: the DMA engine implementing this interface
-> +     * @addr: the address to read
-> +     * @len: the number of bytes to read at 'addr'
-> +     *
-> +     * @return a MemTxResult indicating whether the operation succeeded ('len'
-> +     * bytes were read) or failed.
-> +     */
-> +    MemTxResult (*read)(DmaCtrlIf *dma, hwaddr addr, uint32_t len);
-> +} DmaCtrlIfClass;
-> +
-> +/*
-> + * Start a read transfer on a DMA engine implementing the DMA control
-> + * interface.
-> + *
-> + * @dma_ctrl: the DMA engine implementing this interface
-> + * @addr: the address to read
-> + * @len: the number of bytes to read at 'addr'
-> + *
-> + * @return a MemTxResult indicating whether the operation succeeded ('len'
-> + * bytes were read) or failed.
-> + */
-> +MemTxResult dma_ctrl_if_read(DmaCtrlIf *dma, hwaddr addr, uint32_t len);
-> +
-> +#endif /* HW_DMA_CTRL_IF_H */
-> -- 
-> 2.11.0
-> 
-> 
-
--- 
+>
+>  target/riscv/cpu.c                      |   6 +
+>  target/riscv/cpu.h                      |   2 +
+>  target/riscv/cpu_helper.c               |   5 +-
+>  target/riscv/csr.c                      |   6 +-
+>  target/riscv/insn_trans/trans_rvv.c.inc | 219 ++++++++++++++++++++----
+>  target/riscv/translate.c                |   4 +
+>  6 files changed, 205 insertions(+), 37 deletions(-)
+>
+> --
+> 2.31.1
+>
+>
 
