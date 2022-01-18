@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32F3492B29
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 17:26:42 +0100 (CET)
-Received: from localhost ([::1]:37690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E348492B4C
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 17:34:18 +0100 (CET)
+Received: from localhost ([::1]:48134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9rJi-0008Sl-2N
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 11:26:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57204)
+	id 1n9rR3-0007CH-LH
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 11:34:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n9r39-0003aC-EO
+ id 1n9r39-0003a4-Da
  for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:09:35 -0500
-Received: from mail-db8eur05on2108.outbound.protection.outlook.com
- ([40.107.20.108]:18657 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+Received: from mail-vi1eur05on2134.outbound.protection.outlook.com
+ ([40.107.21.134]:20257 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n9r37-0000PK-C5
+ id 1n9r36-0000R9-QL
  for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:09:34 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l2A/4iQOA4kSczG1P9KeY5/PCqVFLKlKqa/cTMBzTxRN/whHu3aX029YbQkkY/Ec70BqHqzWisWy7W91gy5mwFzSFl+v3QWoVLul1ZjK2R5xkDOGE3AOBXvh1AvLqu0v8YeudaCA0XG194/w0izu64eVCfD3UM43hQMt3R+SY8m/Fa54grY7FqEa02QXyDSZY08/4HMngFn2qAGa0OMpZ62he1LsXnBOHd1qgUqeSpHROZ2lV3DnmZMUlpzE8biFV5nOSfAnt3vzqFYfsGdPi/wqdeVj0Pt23NcbvAWFY2HBSVqrLelyFKs5ikc8c2RfNaeASFQqCIYtmkezWX0d/Q==
+ b=c9vxuDS5x1xsqCZivqNzvjdRWNOzfNishKhteipOVOFzbFOm+UvLvrKg3SWuSaLtkLcXaOp4xeZo4rBI0aWre1KP1A64IVxdkybRR2lEeyeJR+yTiCy2tKScjf792LVSjfCw/nmV1MF/x+ePpGF4hIKjsCxRIVfmKVp/jmhkecOdtTwpbMTZc4Fg6ORxE2gKMWPbb1HGd6fOylZns32jRt6IjPjkyQJDJmzgqmtE4WbGy0dundcUBDgE5467Rgri9yJXodkLb7AHH+RR+BBm6gvCnCkIlIlmyOCoVXNXu0ghrEb2sohiCfb9heRR/v1lOGHpzj+yYo5MHJzwHJ3a8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dwmd9IUTp6EA5vP92DJkcOcyWHbwtF5Z9EDZevcIXyw=;
- b=iYZcH4JQnUFCUroLhQaUrfkN1tKNQ2YSGUi363OY6U+Q0wybu4uRsp9K0+TCj525usEubHXxxj7lXkCDYe7G87U9uJtySVlfrCFycSRknrM4qdAHdczsPAPBa1ymCrzWNpFt2ORErvVc6QZxrdJRE7WMnwiUALT4rxK7iV/7kgo6jRc4XM6rnUWLJajGLEJT5rsB3ngR4rE6nOa0pjjN54Z1aE9LAF7S8kUtHdPPD7/rhf6Qv4TrYdsxMS3L/y+cvcuE/bLamRjHiLzn5jqmTCllYmUbG4qIXpTEkJpOg7x26gwMJXlu60DzE1O4WLm6jg79Jn/Ico4Y3zKXy+UkSg==
+ bh=o73IuOANFqReNKaxuOQ+RIejmRgosbACCyK8Qf2V4sE=;
+ b=io9H0Bcl+vGPHMkEg4Irm44506c7jUbRKcZKNoM21YXACZMloclx7fQK2gO0r6Hc7V9JCkMCYn8hrSgH8SpkIXVyYwmHjkZbFXAqAZFAX5eng4ESRsNbXSERS3fpSv+dN1K+gTcCBaFgqSF5R7NPqnfSj5A96LyNj5lFanomdiqWYhx/0aLYN8U/cYnNhfUOH9pRxsDDXXYrBGXxlEImY5XztanhsUWYHUVO0M0Z0u/+OmMuGq9Og4v3CPl1/NcS+nS57Up5WfhfoimseZbvpm3J+6VFCSZVx1GE4z25hZ1soinQ1fLbRGmXWEyVdwBe22op/op+KJb6mOdoPhpVsQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dwmd9IUTp6EA5vP92DJkcOcyWHbwtF5Z9EDZevcIXyw=;
- b=PA6kLiPOksqbmX3upa1jdld196LeJfGsIZsx++j6UccPiAeYLL2+8P4UErYNzG7//fbhdTUbLp3DrEfXA05LkcizEu/qFfHx3tf5XmsOFzL1/xAyemaGznCEGlkoZkng/PNICwOdOXLUWPUTbNZGr/opb5WzHij86Sh3VthBYuY=
+ bh=o73IuOANFqReNKaxuOQ+RIejmRgosbACCyK8Qf2V4sE=;
+ b=oVMHNkbl227mWRd74VRlXKmXFsJ7hzAh/m4R6PpRuk88TJHHAE9w3XdhyAwq+idGB3n7WTMaRLed+BM4QfG9TcS4TvwyVROpJYfnKPkMk9IzgBn0KBJ7/bhF/tedoXXCoggYpyWQfQfhK2Rzw6INLkwAZA3/h1IK32t621l9jak=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by AM0PR08MB3953.eurprd08.prod.outlook.com (2603:10a6:208:125::29)
+ by AM0PR08MB4964.eurprd08.prod.outlook.com (2603:10a6:208:157::11)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.10; Tue, 18 Jan
- 2022 16:09:28 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.11; Tue, 18 Jan
+ 2022 16:09:30 +0000
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::b435:c0de:ef6b:5917]) by AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::b435:c0de:ef6b:5917%7]) with mapi id 15.20.4888.014; Tue, 18 Jan 2022
- 16:09:28 +0000
+ 16:09:30 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
 Cc: bleal@redhat.com, wainersm@redhat.com, f4bug@amsat.org, crosa@redhat.com,
  eblake@redhat.com, armbru@redhat.com, kraxel@redhat.com,
  berrange@redhat.com, vsementsov@virtuozzo.com, marcandre.lureau@redhat.com
-Subject: [PATCH v3 2/3] qapi/ui: display-reload: add possibility to change
- listen address
-Date: Tue, 18 Jan 2022 17:09:08 +0100
-Message-Id: <20220118160909.2502374-3-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 3/3] avocado/vnc: add test_change_listen
+Date: Tue, 18 Jan 2022 17:09:09 +0100
+Message-Id: <20220118160909.2502374-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220118160909.2502374-1-vsementsov@virtuozzo.com>
 References: <20220118160909.2502374-1-vsementsov@virtuozzo.com>
@@ -65,61 +64,61 @@ X-ClientProxiedBy: AM7PR03CA0006.eurprd03.prod.outlook.com
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bccd94be-fc56-4386-1106-08d9da9ce696
-X-MS-TrafficTypeDiagnostic: AM0PR08MB3953:EE_
-X-Microsoft-Antispam-PRVS: <AM0PR08MB3953E9153425B6B5CDB6AF02C1589@AM0PR08MB3953.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
+X-MS-Office365-Filtering-Correlation-Id: a023954c-19da-441e-43ec-08d9da9ce6ee
+X-MS-TrafficTypeDiagnostic: AM0PR08MB4964:EE_
+X-Microsoft-Antispam-PRVS: <AM0PR08MB4964A993868CFC02A37E806DC1589@AM0PR08MB4964.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1186;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: O8OLr/mS43AU5+h7Ub2rDx1TsjYSKrCdQ943XpaZ4OfuRtuRtIlbCLv8lMxqC3uYvABD+HoV/Fbr9/qxH+CPqWEgI0ULAFU4Webz7+3c6oxRi1NQHntZdRQ7zla6wjWA9BOlNWnzYCC3l1S0nJV5u7CFVU5Iycu4L179I//9bn3Im4phBraJw3gaOzZRlDb/6uf/wIUEvXESKC51OF/XyV4EoBqfqjDEfjXsP73PK2UsE9kWBIYtpuTe/4CIwzF+2hkdtPgOsf2Gykr8evKALcxu8iJq/Au3/Dk48wuXGGQwEzM8CPz4XiNbGo4IQ35gwzHSioV2sEEvQNJWXZHync6Q5Y8WsLRLUeR+g+bno1u+PDUiJQPh8WPZHCw6vd1UEanU4z3hKIwiGyii+Nl0UgMTk8ls9aASyqhNyfID3HXO0RWC4qO4DZMVQUyk0/a6zYIIxgUiIvsIMMI1vAIuweEn/ZCEAfzIJZ7At2Juy+8ngDTX2tHvARTk7aBx8QZEon1ylkucYKhFv/FabyRBHu/BeYkvEQuON5ZykBKIRPcl+zWFzLXlSb5sc9PiyAY9LPm+cftFN/QtwUAmJko2ii3Z+lL9n64iHRC7gWv60oQD6os79qyep8l3fwJ6oJNLGNe1+Q2YVR4faOR+bDv1XLQA4stf1Px8UwjWtJmX2aYASvVTT4ZUVY9Qo/XiVh6Z5ELZIJD3KRNj8sMENPvtyQ==
+X-Microsoft-Antispam-Message-Info: AfizWjWQuJJdfeWcCVTUp32un8zd5fGG1hXb3VeuQzgoCSR5UFGP1wqprZstQR1pMh2Rsutc7tSBqUXutm5C/+fLw91jv81GjPizcBOLTvS3KzyyQoXPuoIkWQ+q7+mkD5Hy2U6p3gCt4n8VLsV7U89n6IqR3cSyqo5B50FVrtqX8WK1edPWd2FyT4Gvib8CPp7wxDS0/S2pB8FQzpqC5/qqYh5KDVodJ0NHN4ZtZVehyd8QRJuwRA7FMRKfvEgGxMdjaMWwsVMq6llSJX6E+4e9bb61hYa2F6DXtha0UMr+MBT6aUqh0st1Yim04GV3hLrDdBFpcxy3q9iONzV6XAW0kRa2lossNocwrB3zYOLTvpDllYRwsCvLfIbGl/bPifK9D6CdNrh6WAs/6Y8tFMDxM7GSu4rlQJRO+mYRAaQxsQ1VG/S/eitzRUttU4xf8YeBVAeq8w/fn+rckpGZs2DlqfHIi4W5Rcj2aGbGVgX9LesBQw6wDOQ0tUB0UtNIIO3EYmGkUw2Dq4TkSN12qBJF/yRf/5k94lZaLIQTbZDNJFm72SQJHazkj3G2AB+tlMU7M3QRUAc20WQcBpgNJi/5YAWOrr0SGnK1Mt6UIJbJlHtKd9La5lywtlY91INtaFh3/A3CImhGQHX60pzjx7pRquQI1dCpc8DDYKRAmBBxL3+c7cfcAtCgxmwq3XjUtX2aDLO7hk66oFt0Wy5Z/w==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(52116002)(2616005)(1076003)(66946007)(8676002)(186003)(6506007)(5660300002)(66556008)(38350700002)(4326008)(66476007)(8936002)(26005)(6486002)(86362001)(316002)(6512007)(6666004)(83380400001)(2906002)(38100700002)(508600001)(6916009)(7416002)(36756003);
+ SFS:(4636009)(366004)(6916009)(6506007)(4744005)(52116002)(38350700002)(5660300002)(86362001)(36756003)(508600001)(316002)(38100700002)(2906002)(26005)(1076003)(6512007)(83380400001)(2616005)(8936002)(186003)(66946007)(66476007)(6486002)(66556008)(4326008)(7416002)(6666004)(8676002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9maeDuUXddfpFaSfg3HRddaf5meVyBMQtQQA9T1Cy+SOFi4v1y7WpyYGXqPv?=
- =?us-ascii?Q?+8R42AX9JOcFqnUBLy1rK6w1J4RKsQpdfE/fJODKH6lkDx2H6siYAt5Ff6mj?=
- =?us-ascii?Q?uqtcderq4mVbdShJdQMT+oi4kKtALP1xtebyoKfvtjNfOIglWbV91/r9gtFG?=
- =?us-ascii?Q?KiycC2/av/kWLSP+y0oEzfY9FqeSdxrRF9fTngel68OvIyaauN6fjJfqrZGy?=
- =?us-ascii?Q?/ESsNjrblbPeE4Q5aYA8gdCU9AaeiiYijp9zpo5U7JsI9DVUKbbGVt5K2SNZ?=
- =?us-ascii?Q?JVlVfWC7crIf+kVyKnxc2UL59D2dqrPKDc6TO7dXnIzfpMCPDlJqX5NgXGdM?=
- =?us-ascii?Q?CXEyxnU169UqG/yRTiAyEGKln98LRjtqXxZhH7n35DEZcZHQt5kzUZdyNmoK?=
- =?us-ascii?Q?xVtSZ3vXJf8sw7qMeifiBsHod63IigqMcxKEi8JXYgeDhPYseqyyFWQosVe1?=
- =?us-ascii?Q?fs05WGVwp/IlM+vgX8BztdWFpkLKv+OW2t4t9wr+oCZHHdVqIkYcrCv15+YV?=
- =?us-ascii?Q?JGG7iYx0N2MwvEFqApRkF2KK8H2Psip/+4qLR532KUN0aVlWB1Gz1icfOHIN?=
- =?us-ascii?Q?BatlGBOMrKwF0zHs/M52QvTW4Ic4UCK7ipvjwvC+mJyjUEJfyzC9BU23w+3+?=
- =?us-ascii?Q?pH/pLcH0Fl6b4zK+VkBr8K9RGhm/wlp4ucccoLfrqgdIJQYArxIPNoKZt+Bv?=
- =?us-ascii?Q?RUf4chNINBO5VXVadxDKPljzoJDSsahIcDgeksMdUhB0YtJ91nd4M0/Yebp4?=
- =?us-ascii?Q?LrD/9hxlIqVGSi4u1cNRWP1AJ3NQs/UJMBicgM52zCmwOiAjCItncfuI7BI6?=
- =?us-ascii?Q?R/cAPVyf8D2PuG1qCgL7+UemNjV4i/p46GAjNyT8Fw0kTN+MeCKb3n8mBrOq?=
- =?us-ascii?Q?l6duwgpOJ6krawjAbc6G9IzROO+DQ9zhoSkJ7TyvMRxz/epBXbwcaTDq4ka5?=
- =?us-ascii?Q?aW97Q0rQdGpGtbhh9dtLw5FEL7Imb372NJYtlnanFN9qc8TFm3Jmm/iEmqIS?=
- =?us-ascii?Q?s6SBsX6w5N4Dz1sekXiLUTZqo70XcoWomHEH1qXGkPOZW/oZXlmEYgGtO+mQ?=
- =?us-ascii?Q?5tGnYEj9U8+aNUzeAPgnqWwGaLDQPJAF8F9YRetXQ95ecGGTXuK3y1C5kRG+?=
- =?us-ascii?Q?1ny7snrVxdkFW+8qqFWwKlFs2qMIzKYBDpmV9XEsemhJ5no43Y7WPp7ZK5uN?=
- =?us-ascii?Q?2yvtrGBv9cwXd9NZ1cbG1U/vzUlo23xcKWOQLZGpXHaKM0nr3jLUvzmNJc2z?=
- =?us-ascii?Q?JGi3q6Ab7nayPGI1/OBflADQEFLLqujFbgNYhwCtaohnyQ8xBG0hDJF7t66P?=
- =?us-ascii?Q?IL6Z0UiDywSgL4jchxWHjnamrW/RWNAYimhBwmKgDXbWRvrF4WrUeRX+1rh1?=
- =?us-ascii?Q?OZE2K2QU1EVHz9w/YbImEzkks18/8PsV+nOabHaqI44uvJZtyrqszDKe7UEp?=
- =?us-ascii?Q?ClIkuAZHpunBYvkG7N7wTToTawGZDvhqd/nEBTqBgeDaFjDzcB035oedCHjj?=
- =?us-ascii?Q?qhNGCMStSG2kT9wjgTjaBYdzzBHRFfuCJSiq9XoS+bodH1qr7lt2JRe8gj4R?=
- =?us-ascii?Q?88AkLPaywrLOINe2NFZyFSGvMWtFqT55AOpLBYAvHVGCXP5Zk1fyHRLHcfz4?=
- =?us-ascii?Q?ax1dLICtD/OdI4n4q5cLvMQTdclaZHi1PZmYmcLoX5xv+Zu/tQPdKGmfktwr?=
- =?us-ascii?Q?1OdoC4zZz0PwJxZI8Pvqcp4FhBo=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?P9sfLxefeTJ3b2v3ABblibma++JKiEn9UG29sSk2Npuj9r5EJHvkqzPpuhkE?=
+ =?us-ascii?Q?OwpjBwsmpluv5R3O0I/MVjQacp1sUZU1l1XQkBKfXn7n2x7yNPf4a+ICHeDJ?=
+ =?us-ascii?Q?xIahrL7ulPvxikFH0HwfQ/xZu6UyoT4Kl6TdVM+/r9On6zbsp9EtQphM4PlA?=
+ =?us-ascii?Q?FJDrp2/SIcNlEVmc4mQ2WUk+q0VRvmffNfGM3ZhwKYKeSlgW0CGwrdDV8G1l?=
+ =?us-ascii?Q?ovevAyqJj+XC7zbdVZiG612a7ZrX/KNH0OTfEv24kUgKDAcDHKRNsnEUuZcf?=
+ =?us-ascii?Q?uxnG1NFBOG2rGbZWQ1Cdta3hiwJlRuFga8Ukvgmowc5rjHHezmj1R1dPURAh?=
+ =?us-ascii?Q?IAthuY9b7VjNwfgyoouv011YmRAb4rFk4x+HdeKQfPMq+hQnYvz2OgS85M82?=
+ =?us-ascii?Q?W0bvK1ZglqbmHNulMjQKHZsYBTEROiquh8P665hsbrul5S4uD/pcD6h8xf5o?=
+ =?us-ascii?Q?KfR8JHlA/RQuY1k8CqTUC8GnLwfVyUxs4uTydxBhEaRHqpUC/CGHMc/6HtQH?=
+ =?us-ascii?Q?eYCwugGdieucDbkFUjnYIOl4/3+AZcOvzMDmsKJnk7M/7zCw7rg8q5Iupust?=
+ =?us-ascii?Q?OdqJvSJikYaVyqI+vxqkHbT4bGg4n4VhJg23septesXdsHR7oVqqPhNt7e9o?=
+ =?us-ascii?Q?/dKBgbu35c91qbrYsluM3UYBG7y/2NXpviu8glfqTDzz0ptTOU4Rxu9WmD1A?=
+ =?us-ascii?Q?Uux1R6IgelwMyEYbi3NDbWxavX3Zru+mdCgJJrWNiXEKy1pYBrW6qcFgwE0W?=
+ =?us-ascii?Q?pJdA7v5qYUYi5TF85OdOjz6eCuAhuR119ll9eAl1p17wN4wiOrETHBE+H3Yd?=
+ =?us-ascii?Q?OWyv5pFDojchD8HGE21HijrANKDAcRUqYbpxqHPRmjjqWhp9K3xUpOXwZi6q?=
+ =?us-ascii?Q?jQA3uaVCtSY4eGrn9dVXUMAtzjLawfid1o9lLtuldt53Dihpt4n4SFkrD4wq?=
+ =?us-ascii?Q?ZkxkqoKuzsvq7hAdJuEH/k41Eb4z3zdTdYmpyg8ty130jW7GeN/AdoZV8okC?=
+ =?us-ascii?Q?TXpyN8lMS5OKbNuJ6egw9U3f9ncxRuR1KA7BXNAnspGUBnUk0PWwy7vj64th?=
+ =?us-ascii?Q?HoW2r1hxB7CjEQzCRlH2pWj2vG5RZ6bR/MkyDxEtQZzirOT304DLog0GU+jv?=
+ =?us-ascii?Q?sbAwm2LkA3S2uwgjNLVbbBrXZxM3y2omQ2/IaW3D6dLTok6j/SfiG+kdl86x?=
+ =?us-ascii?Q?R8YZwHY9f3cT8Xg8nVnZomg+4M+p3bCoUSkocPXjpbt03lB/4YD6BOdcXlGx?=
+ =?us-ascii?Q?pGrMw0Ki9C7j9FZRdBdAE0l5B9K9eNQ456Aja3UX0korKH5o9hXr49xGGLwc?=
+ =?us-ascii?Q?Rhyrh03nw5EJV77bKV5vlCDjPOq4u9mlkG96Yfxi5o5jniEJayagRckuUpAQ?=
+ =?us-ascii?Q?ohQ7pkf/PLrztzf71qUnPKga/aUIiJbdclyjuyRptC45xjCYD3DLlrkYTXLh?=
+ =?us-ascii?Q?xsUqURRT56jIQotZgjE3Gt9mmLJwfZw0lFesejDWVniDHYI+5sKgRkScQv6K?=
+ =?us-ascii?Q?RBmPj4xKa6cngMZPhxOdA6peWNrQ606lZ+DRNsVc2wwfU0OAbDNHh23V7hnO?=
+ =?us-ascii?Q?eS075tYdwVRW5aVOTmfYMtJXb63ZqvIjKm37rsJ6nMRsWuBonk1i3s8fiOuA?=
+ =?us-ascii?Q?HUzKdy+/cT7hcIb53YSICHJWsKx6b5KttY84gWj7iCimwSRXOBostW3O3JHU?=
+ =?us-ascii?Q?dUuoL0Eq232DFwyDQqTP8ixmOFU=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bccd94be-fc56-4386-1106-08d9da9ce696
+X-MS-Exchange-CrossTenant-Network-Message-Id: a023954c-19da-441e-43ec-08d9da9ce6ee
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2022 16:09:26.9858 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2022 16:09:28.2980 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +9uTj2QC60+ti7TIfpvcunYQunrDlbatGLUI7M5SFinX/kaG5t82YzziEqACTsOc5jXY5Po15SyyBt081ZH48a+E51hTFpqyUaesbXlc+kU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3953
-Received-SPF: pass client-ip=40.107.20.108;
+X-MS-Exchange-CrossTenant-UserPrincipalName: ls8aQ5my3DTepl+nK4G0gau+p6sPhrrjwI7G1TndvnYwdy4G1TqEZsXmKgPYay4rLktwAz2l1oHht6O9YuOAaQADH7AfhPwCgwEpcfpuAbs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4964
+Received-SPF: pass client-ip=40.107.21.134;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -142,141 +141,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add possibility to change addresses where VNC server listens for new
-connections. Prior to 6.0 this functionality was available through
-'change' qmp command which was deleted.
+Add simple test-case for new addresses argument of display-reload qmp
+command.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- docs/about/removed-features.rst |  3 ++-
- qapi/ui.json                    |  6 +++++-
- include/ui/console.h            |  2 +-
- monitor/qmp-cmds.c              |  4 +---
- ui/vnc.c                        | 37 ++++++++++++++++++++++++++-------
- 5 files changed, 39 insertions(+), 13 deletions(-)
+ tests/avocado/vnc.py | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-index 4c4da20d0f..b92626a74e 100644
---- a/docs/about/removed-features.rst
-+++ b/docs/about/removed-features.rst
-@@ -355,7 +355,8 @@ documentation of ``query-hotpluggable-cpus`` for additional details.
- ``change`` (removed in 6.0)
- '''''''''''''''''''''''''''
- 
--Use ``blockdev-change-medium`` or ``change-vnc-password`` instead.
-+Use ``blockdev-change-medium`` or ``change-vnc-password`` or
-+``display-reload`` instead.
- 
- ``query-events`` (removed in 6.0)
- '''''''''''''''''''''''''''''''''
-diff --git a/qapi/ui.json b/qapi/ui.json
-index 9354f4c467..4c4448f378 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -1293,12 +1293,16 @@
- # Specify the VNC reload options.
- #
- # @tls-certs: reload tls certs or not.
-+# @addresses: If specified, change set of addresses
-+#             to listen for connections. Addresses configured
-+#             for websockets are not touched. (since 7.0)
- #
- # Since: 6.0
- #
- ##
- { 'struct': 'DisplayReloadOptionsVNC',
--  'data': { '*tls-certs': 'bool' } }
-+  'data': { '*tls-certs': 'bool',
-+            '*addresses': ['SocketAddress'] } }
- 
- ##
- # @DisplayReloadOptions:
-diff --git a/include/ui/console.h b/include/ui/console.h
-index f590819880..b052027915 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -512,7 +512,7 @@ int vnc_display_password(const char *id, const char *password);
- int vnc_display_pw_expire(const char *id, time_t expires);
- void vnc_parse(const char *str);
- int vnc_init_func(void *opaque, QemuOpts *opts, Error **errp);
--bool vnc_display_reload_certs(const char *id,  Error **errp);
-+bool vnc_display_reload(DisplayReloadOptionsVNC *arg, Error **errp);
- 
- /* input.c */
- int index_from_key(const char *key, size_t key_length);
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index 14e3beeaaf..ad45baa12b 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -356,9 +356,7 @@ void qmp_display_reload(DisplayReloadOptions *arg, Error **errp)
-     switch (arg->type) {
-     case DISPLAY_RELOAD_TYPE_VNC:
- #ifdef CONFIG_VNC
--        if (arg->u.vnc.has_tls_certs && arg->u.vnc.tls_certs) {
--            vnc_display_reload_certs(NULL, errp);
--        }
-+        vnc_display_reload(&arg->u.vnc, errp);
- #else
-         error_setg(errp, "vnc is invalid, missing 'CONFIG_VNC'");
- #endif
-diff --git a/ui/vnc.c b/ui/vnc.c
-index fa0fb736d3..a86bd6335e 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -587,16 +587,10 @@ VncInfo2List *qmp_query_vnc_servers(Error **errp)
-     return prev;
- }
- 
--bool vnc_display_reload_certs(const char *id, Error **errp)
-+static bool vnc_display_reload_certs(VncDisplay *vd, Error **errp)
- {
--    VncDisplay *vd = vnc_display_find(id);
-     QCryptoTLSCredsClass *creds = NULL;
- 
--    if (!vd) {
--        error_setg(errp, "Can not find vnc display");
--        return false;
--    }
--
-     if (!vd->tlscreds) {
-         error_setg(errp, "vnc tls is not enabled");
-         return false;
-@@ -3973,6 +3967,35 @@ static int vnc_display_listen(VncDisplay *vd,
-     return 0;
- }
- 
-+bool vnc_display_reload(DisplayReloadOptionsVNC *arg, Error **errp)
-+{
-+    VncDisplay *vd = vnc_display_find(NULL);
+diff --git a/tests/avocado/vnc.py b/tests/avocado/vnc.py
+index 096432988f..936285a50b 100644
+--- a/tests/avocado/vnc.py
++++ b/tests/avocado/vnc.py
+@@ -51,3 +51,13 @@ def test_change_password(self):
+         set_password_response = self.vm.qmp('change-vnc-password',
+                                             password='new_password')
+         self.assertEqual(set_password_response['return'], {})
 +
-+    if (!vd) {
-+        error_setg(errp, "Can not find vnc display");
-+        return false;
-+    }
-+
-+    if (arg->has_tls_certs && arg->tls_certs) {
-+        if (!vnc_display_reload_certs(vd, errp)) {
-+            return false;
-+        }
-+    }
-+
-+    if (arg->has_addresses) {
-+        if (vd->listener) {
-+            qio_net_listener_disconnect(vd->listener);
-+            object_unref(OBJECT(vd->listener));
-+            vd->listener = NULL;
-+        }
-+
-+        if (vnc_display_listen(vd, arg->addresses, NULL, errp) < 0) {
-+            return false;
-+        }
-+    }
-+
-+    return true;
-+}
- 
- void vnc_display_open(const char *id, Error **errp)
- {
++    def test_change_listen(self):
++        self.vm.add_args('-nodefaults', '-S', '-vnc', ':0')
++        self.vm.launch()
++        self.assertEqual(self.vm.qmp('query-vnc')['return']['service'], '5900')
++        res = self.vm.qmp('display-reload', type='vnc',
++                          addresses=[{'type': 'inet', 'host': '0.0.0.0',
++                                      'port': '5901'}])
++        self.assertEqual(res['return'], {})
++        self.assertEqual(self.vm.qmp('query-vnc')['return']['service'], '5901')
 -- 
 2.31.1
 
