@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A712492B87
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 17:50:54 +0100 (CET)
-Received: from localhost ([::1]:49086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC37492B75
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 17:43:35 +0100 (CET)
+Received: from localhost ([::1]:39120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9rh6-00029z-4C
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 11:50:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39374)
+	id 1n9ra2-0003eU-9L
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 11:43:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1n9rVW-0007Pp-Fg
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:38:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46999)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1n9rVU-00066x-Kx
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:38:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642523932;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hKHLrZHyUcnoBxO5vObGu0F6VvFauzwbCCLT3dnhHGs=;
- b=i+1Z0xAa49l3o6YDIOGweYj/IreCjjmiCrOAMJsJ0mpPKIRxR2WOCefYvCiSXpp7IzEsZP
- HVPFy7sqVFSiJHT8yw855eI70s3yFfNbZihf0AOUXXuunXJr2BlKwRmAt4JuOxexuPpA+6
- rGOOriftMQamYmCFXcc7YXOORDJfoig=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-605-sVX_1yfUOiuEalazIhX0tg-1; Tue, 18 Jan 2022 11:38:48 -0500
-X-MC-Unique: sVX_1yfUOiuEalazIhX0tg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 747DC108668D;
- Tue, 18 Jan 2022 16:28:29 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AB170348F8;
- Tue, 18 Jan 2022 16:28:28 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 11/12] block/io.c: fully enable assert_bdrv_graph_writable
-Date: Tue, 18 Jan 2022 11:27:37 -0500
-Message-Id: <20220118162738.1366281-12-eesposit@redhat.com>
-In-Reply-To: <20220118162738.1366281-1-eesposit@redhat.com>
-References: <20220118162738.1366281-1-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <christophm30@gmail.com>)
+ id 1n9rPh-0007q2-KR; Tue, 18 Jan 2022 11:32:53 -0500
+Received: from mail-wm1-f49.google.com ([209.85.128.49]:37586)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <christophm30@gmail.com>)
+ id 1n9rPf-0004zO-CS; Tue, 18 Jan 2022 11:32:53 -0500
+Received: by mail-wm1-f49.google.com with SMTP id
+ l12-20020a7bc34c000000b003467c58cbdfso7218152wmj.2; 
+ Tue, 18 Jan 2022 08:32:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BEIuM8Ewuht3Tz73m5zUaWGnW4vxR/IXUenLHgVYYoY=;
+ b=X+1WBz1r1uj0YecRU1BpEK3cduyr4gX2uzBRWF96zC4D75bsWmbyZBhuwVbg8UWWNh
+ CuZul6gUbjpzD50JoTmw61ryANToeFKJgFm4XgE7bQfhfFyAxFMwwodukNT81PF05ekC
+ Ot98nZU0DAD5uFSmVQtEaCY0Nl1RsDPqttCgMHaRLhX+Q3bE+PVOXVEihFCHf3M//Fm3
+ /+8fsygd3znmdliNRQ1apSb6Sv9Q4hZ1p9VCQ1JJWLv8h/fWniQn9oBPm6snXOjvD7Dy
+ rkKkWhLtoXaO8ugx11x9QnbN+q1mMfI0MTPzMcw6DA/CwGpeEC3HEOUl/BiDd2YLoABU
+ oL1g==
+X-Gm-Message-State: AOAM533cFO6hw/oN4HmSyPtWf7JkNx4g+yNdwiziEClSCuYkVP5fFxls
+ cWzuZRx1dnOYye2L3K/CjJw=
+X-Google-Smtp-Source: ABdhPJyyxnIicK9LAoGUmkyywHHlBylXroaZiWq6pj4WJKIilfBwx6EbQu95ElRyyB2/s3Q6HBYazg==
+X-Received: by 2002:a05:6000:1a8c:: with SMTP id
+ f12mr20012994wry.628.1642523568625; 
+ Tue, 18 Jan 2022 08:32:48 -0800 (PST)
+Received: from beast.fritz.box (62-178-148-172.cable.dynamic.surfer.at.
+ [62.178.148.172])
+ by smtp.gmail.com with ESMTPSA id m7sm2649985wmi.13.2022.01.18.08.32.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Jan 2022 08:32:48 -0800 (PST)
+From: Christoph Muellner <cmuellner@linux.com>
+To: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Philipp Tomsich <philipp.tomsich@vrull.eu>
+Subject: [RESEND] target/riscv: fix RV128 lq encoding
+Date: Tue, 18 Jan 2022 17:32:45 +0100
+Message-Id: <20220118163245.2596468-1-cmuellner@linux.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=209.85.128.49;
+ envelope-from=christophm30@gmail.com; helo=mail-wm1-f49.google.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,45 +75,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Christoph Muellner <cmuellner@linux.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As explained in the TODO, complete the function by checking
-that the node is also drained.
+If LQ has func3==010 and is located in the MISC-MEM opcodes,
+then it conflicts with the CBO opcode space.
+However, since LQ is specified as: "LQ is added to the MISC-MEM major
+opcode", we have an implementation bug, because 'major opcode'
+refers to func3, which must be 111.
 
-In this way, we can ensure that modify the bs is thread safe,
-as the drain makes sure that no I/O concurrently reads the field,
-and all writes are under BQL.
+This results in the following instruction encodings:
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+lq        ........ ........ .111.... .0001111
+cbo_clean 00000000 0001.... .0100000 00001111
+cbo_flush 00000000 0010.... .0100000 00001111
+cbo_inval 00000000 0000.... .0100000 00001111
+cbo_zero  00000000 0100.... .0100000 00001111
+                             ^^^-func3
+                                      ^^^^^^^-opcode
+
+Signed-off-by: Christoph Muellner <cmuellner@linux.com>
 ---
- block/io.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ target/riscv/insn32.decode | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/io.c b/block/io.c
-index 9d5167f64a..d7b0707662 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -765,12 +765,7 @@ void bdrv_drain_all(void)
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index 5bbedc254c..d3f798ca10 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -168,7 +168,7 @@ sraw     0100000 .....  ..... 101 ..... 0111011 @r
  
- void assert_bdrv_graph_writable(BlockDriverState *bs)
- {
--    /*
--     * TODO: this function is incomplete. Because the users of this
--     * assert lack the necessary drains, check only for BQL.
--     * Once the necessary drains are added,
--     * assert also for qatomic_read(&bs->quiesce_counter) > 0
--     */
-+    assert(qatomic_read(&bs->quiesce_counter) > 0);
-     assert(qemu_in_main_thread());
- }
- 
+ # *** RV128I Base Instruction Set (in addition to RV64I) ***
+ ldu      ............   ..... 111 ..... 0000011 @i
+-lq       ............   ..... 010 ..... 0001111 @i
++lq       ............   ..... 111 ..... 0001111 @i
+ sq       ............   ..... 100 ..... 0100011 @s
+ addid    ............  .....  000 ..... 1011011 @i
+ sllid    000000 ......  ..... 001 ..... 1011011 @sh6
 -- 
-2.31.1
+2.34.1
 
 
