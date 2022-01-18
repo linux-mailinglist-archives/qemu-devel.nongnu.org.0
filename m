@@ -2,104 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D74F492D5A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 19:33:46 +0100 (CET)
-Received: from localhost ([::1]:57804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0196492D73
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 19:36:53 +0100 (CET)
+Received: from localhost ([::1]:60898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9tIe-0007NR-Rk
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 13:33:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47036)
+	id 1n9tLg-0001BJ-Vo
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 13:36:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1n9tHJ-0006cX-9I; Tue, 18 Jan 2022 13:32:21 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:5608)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n9tJj-0008J2-LG
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 13:34:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1n9tHH-0000so-KF; Tue, 18 Jan 2022 13:32:20 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20IHvg7l013536; 
- Tue, 18 Jan 2022 18:32:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=nXIc+BurcjMJbheQTjSBw3CQWZoO1FMRGYbXtUdLIdo=;
- b=kESWBSVi1qqTNTxOQlgMuygD2p6FNoGmkcNsrIZQd/3HzduIASnohg94stFSD0wlJx0a
- yWvIQyDHyrQj5J84f9VCEfRC/JSjNG3IzOoWLJIEWsgexHL8RNWzFIpZzPBCaw9tMMbX
- 7Mqtk+oUCuyfTr7L9igfuBjx+g5X0GSUv0KJQxKfq9ScdoaTHyFKBpbgDhQkMpG1RlKy
- ebf1/rcukhXBhqtY2MERBwme/5S42qNXvBuixZ0D9T/u0aGDuRxn0BZq4pKBdypA/f87
- k5F3Uwo5u13hYGX8LteuXaCrXuG0GOiNe3qQJRqMPxNk55Q1qTsR/+na7uvrOf5kAvqZ wQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dp2dms4nh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Jan 2022 18:32:16 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20IIV2SS008226;
- Tue, 18 Jan 2022 18:32:15 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dp2dms4ms-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Jan 2022 18:32:15 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20IIHviM020629;
- Tue, 18 Jan 2022 18:32:14 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma05wdc.us.ibm.com with ESMTP id 3dknwaqje1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Jan 2022 18:32:14 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20IIWDvD31785328
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 18 Jan 2022 18:32:13 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5AE546E05B;
- Tue, 18 Jan 2022 18:32:13 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CE1856E05D;
- Tue, 18 Jan 2022 18:32:11 +0000 (GMT)
-Received: from [9.163.19.30] (unknown [9.163.19.30])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 18 Jan 2022 18:32:11 +0000 (GMT)
-Message-ID: <c44a7ba3-37bf-6b25-1e89-719a1487ca20@linux.ibm.com>
-Date: Tue, 18 Jan 2022 13:32:11 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n9tJg-00015E-Ja
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 13:34:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642530887;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BiRlaH6UD2wGYwgrYnzf754czgQ44YX6I3fxjhKU3Iw=;
+ b=fsjDeykc2eoMnn9SR523jYqWx8CyTo2whkzHfnYPo9kg6kyGxnQgmMIOV7q4tarTTunkQQ
+ fsHeO76phjDeCN6/8hCV5u9mbhnBFDvKw7aYIjBMb/WDxYQf72sc9fof/DRMd3MqiQIkLL
+ MoobuiMx5UyJuA3RIX09cwwObztQWi0=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-14-noPU8qJ1MWWyZZzXU8S3cQ-1; Tue, 18 Jan 2022 13:34:43 -0500
+X-MC-Unique: noPU8qJ1MWWyZZzXU8S3cQ-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ o12-20020ab0544c000000b002fa5ad28f16so12526772uaa.18
+ for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 10:34:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BiRlaH6UD2wGYwgrYnzf754czgQ44YX6I3fxjhKU3Iw=;
+ b=JmcOAQxbjV5RfUIEvsRKcZrIRnxBoQMolLd00AfnN7f530v4g9W+xVEeKUNwVt9APz
+ 7pXThGu7dRO4GK+9iqKZmP408DZt09lXbJ/XMrsTtnh/JXOGJlyt3xVw8NLsVVx1VlHC
+ dAUXctTRVvF2RBBI7lkOnsq3934Z9eZ+EQrQvP+QTHczVm+70IOyMxm6jO700gZ6bpuH
+ iE5JTHMI+8gbKGecuFCOnt/Kly1AGGaCfm3jHNbiqXEWNmggbLgmUC2wFD2K4SHrvQRY
+ DgMpjMkNx6wxF6QzYzdTSkHzXfEkItVqPetXzk+ZG8IPfV2i08bZBVK2KDLTdoviUvFj
+ xAyg==
+X-Gm-Message-State: AOAM533qjzi1cZZzivneb3KsjVkLeFAwVrfOKYe/R8BH+U1r8Co5ixwI
+ 59Zkzgex9EUmb9RtJHsLM4vdhXzEWM92LSWLar1P0THghHFgH0NYh1Fmgwqfmh7423okHnxPwIz
+ t8YHkHADUota4xccfYBncg+BhzYUuwPs=
+X-Received: by 2002:ab0:678f:: with SMTP id v15mr2458178uar.87.1642530882563; 
+ Tue, 18 Jan 2022 10:34:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJznGAv4iB3IcEHOCT/xwGOs9+iL8rxnjWKf8ORPvlPZu+waJBmrsRasmvZYIAg6PmGYVODoipqrGzj1QDWwIOk=
+X-Received: by 2002:ab0:678f:: with SMTP id v15mr2458169uar.87.1642530882292; 
+ Tue, 18 Jan 2022 10:34:42 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v2 0/9] s390x/pci: zPCI interpretation support
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
-References: <20220114203849.243657-1-mjrosato@linux.ibm.com>
- <32c83624-eb3b-05ea-6fb6-737bd9876db3@redhat.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-In-Reply-To: <32c83624-eb3b-05ea-6fb6-737bd9876db3@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: axDwkrt98FfFsrlLXD9vFSJaiBdYi8hr
-X-Proofpoint-GUID: UUWcwG8OkAizBPCo4zGyv7o9iVS9R8Tf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-18_05,2022-01-18_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- priorityscore=1501 impostorscore=0 malwarescore=0 bulkscore=0
- lowpriorityscore=0 suspectscore=0 clxscore=1015 spamscore=0 phishscore=0
- mlxscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201180112
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CAFEAcA-UKdcTROB7e3jO1qe=WCbuHRuX5WN7HZF2CcdMsmAt=g@mail.gmail.com>
+ <YeU/YCUI59f33PBh@redhat.com>
+ <CAFn=p-YDo8tTQ1Y8HgtQuCDv3i5EdFEX8-2BAjs-7L5q_b4=Gg@mail.gmail.com>
+ <CAFEAcA__xayWZJWCmcPQqR40rKsNk0JxbAe7Hx8V65wSuXCfEg@mail.gmail.com>
+In-Reply-To: <CAFEAcA__xayWZJWCmcPQqR40rKsNk0JxbAe7Hx8V65wSuXCfEg@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 18 Jan 2022 13:34:31 -0500
+Message-ID: <CAFn=p-aLZmh4erVjsMEORJAj5ZC4ME_6TuWh_Bk=EQz=Xh8Ohw@mail.gmail.com>
+Subject: Re: iotest 040, 041, intermittent failure in netbsd VM
+To: Peter Maydell <peter.maydell@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,42 +90,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, kvm@vger.kernel.org, pmorel@linux.ibm.com,
- schnelle@linux.ibm.com, cohuck@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, david@redhat.com,
- borntraeger@linux.ibm.com
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/17/22 10:23 AM, Thomas Huth wrote:
-> On 14/01/2022 21.38, Matthew Rosato wrote:
->> For QEMU, the majority of the work in enabling instruction interpretation
->> is handled via new VFIO ioctls to SET the appropriate interpretation and
->> interrupt forwarding modes, and to GET the function handle to use for
->> interpretive execution.
->>
->> This series implements these new ioctls, as well as adding a new, 
->> optional
->> 'intercept' parameter to zpci to request interpretation support not be 
->> used
->> as well as an 'intassist' parameter to determine whether or not the
->> firmware assist will be used for interrupt delivery or whether the host
->> will be responsible for delivering all interrupts.
-> 
->   Hi Matthew,
-> 
-> would it make sense to create a docs/system/s390x/zpci.rst doc file, 
+On Tue, Jan 18, 2022 at 7:13 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Mon, 17 Jan 2022 at 20:35, John Snow <jsnow@redhat.com> wrote:
+> > I do expect this to print more information on failure than it
+> > currently is, though (bug somewhere in machine.py, I think).
+> > Can you please try applying this temporary patch and running `./check
+> > -qcow2 040 041` until you see a breakage and show me the output from
+> > that?
+>
 
-This is a good idea and probably something that was due for zpci before 
-this series even.
+Thanks for playing tele-debug.
 
-> too, where you could describe such new parameters like 'intassist' and 
-> 'intercept' (or is it 'interp') ? ... otherwise hardly anybody except 
+> Having fixed my setup to not use an ancient host QEMU, here's
+> the relevant bit of the log:
+>
+>   TEST   iotest-qcow2: 037
+>   TEST   iotest-qcow2: 038 [not run]
+>   TEST   iotest-qcow2: 039 [not run]
+>   TEST   iotest-qcow2: 040 [fail]
+> QEMU          --
+> "/home/qemu/qemu-test.vdrI02/build/tests/qemu-iotests/../../qemu-system-aarch64"
+> -nodefaults -display none -accel qtest -machine virt
+> QEMU_IMG      --
+> "/home/qemu/qemu-test.vdrI02/build/tests/qemu-iotests/../../qemu-img"
+> QEMU_IO       --
+> "/home/qemu/qemu-test.vdrI02/build/tests/qemu-iotests/../../qemu-io"
+> --cache writeback --aio threads -f qcow2
+> QEMU_NBD      --
+> "/home/qemu/qemu-test.vdrI02/build/tests/qemu-iotests/../../qemu-nbd"
+> IMGFMT        -- qcow2
+> IMGPROTO      -- file
+> PLATFORM      -- NetBSD/amd64 localhost 9.2
+> TEST_DIR      -- /home/qemu/qemu-test.vdrI02/build/tests/qemu-iotests/scratch
+> SOCK_DIR      -- /tmp/tmp1h12r7ev
+> GDB_OPTIONS   --
+> VALGRIND_QEMU --
+> PRINT_QEMU_OUTPUT --
+>
+> --- /home/qemu/qemu-test.vdrI02/src/tests/qemu-iotests/040.out
+> +++ 040.out.bad
+> @@ -1,5 +1,95 @@
+> -.................................................................
+> +.......ERROR:qemu.aqmp.qmp_client.qemu-12407:Failed to establish
+> connection: concurrent.futures._base.CancelledError
+> +ERROR:qemu.machine.machine:Error launching VM
+> +ERROR:qemu.machine.machine:Process was forked, waiting on it
+> +ERROR:qemu.machine.machine:Command:
+> '/home/qemu/qemu-test.vdrI02/build/tests/qemu-iotests/../../qemu-system-aarch64
+> -display none -vga none -chardev
+> socket,id=mon,path=/tmp/tmp1h12r7ev/qemu-12407-monitor.sock -mon
+> chardev=mon,mode=control -qtest
+> unix:path=/tmp/tmp1h12r7ev/qemu-12407-qtest.sock -accel qtest
+> -nodefaults -display none -accel qtest -machine virt -drive
+> if=none,id=drive0,file=/home/qemu/qemu-test.vdrI02/build/tests/qemu-iotests/scratch/test.img,format=qcow2,cache=writeback,aio=threads,node-name=top,backing.node-name=mid,backing.backing.node-name=base
+> -device virtio-scsi -device scsi-hd,id=scsi0,drive=drive0'
 
-Oops, 'intercept' was a holdover from a previous version and effectively 
-had an inverted meaning.  It is indeed 'interp' with this current series 
-(and subject to change again per other thread)
+> +ERROR:qemu.machine.machine:Output: "qemu-system-aarch64: -chardev
+> socket,id=mon,path=/tmp/tmp1h12r7ev/qemu-12407-monitor.sock: Failed to
+> connect to '/tmp/tmp1h12r7ev/qemu-12407-monitor.sock': No such file or
+> directory\n"
 
+... Oh. That's unpleasant. My guess is that we aren't listening on the
+socket before the QEMU process gets far enough to want to connect to
+it. The change to an asynchronous backend must have jostled the
+timing.
+
+> +ERROR:qemu.machine.machine:exitcode: 1
+
+And, oh: The VM launching library only chirps about *negative* error
+codes. That's why it wasn't printing anything more useful. I suppose
+the thinking was that we use the VM launch utility to knowingly launch
+bad command lines, so we only wanted to see failure notifications on
+-errno style codes, but that obviously makes debugging unintentional
+failures a lot more awful. I'll try to improve the usability and
+legibility of the errors here.
+
+Thanks,
+--js
 
 
