@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E611449219C
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 09:48:52 +0100 (CET)
-Received: from localhost ([::1]:36662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D64F44921AE
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 09:55:01 +0100 (CET)
+Received: from localhost ([::1]:45418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9kAe-0005Ps-25
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 03:48:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58944)
+	id 1n9kGa-00035S-Vk
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 03:55:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <guoren@kernel.org>)
- id 1n9jwJ-0004Nf-G2; Tue, 18 Jan 2022 03:34:04 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:49966)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1n9k0Q-0007Bx-4v
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 03:38:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31516)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <guoren@kernel.org>)
- id 1n9jwH-0006H1-7Z; Tue, 18 Jan 2022 03:34:03 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1n9k0M-00071p-4q
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 03:38:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642495092;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Cr/gxYLA/Hl/gw/7fgfjPMcS2rtMupOQVHJfZTgxaNQ=;
+ b=TrKRkRLQ9IlUoR0ycmnIx/0CNhqf6JI9t8W/AHyw3OVnz/sL5T4h1qo6VbFPLDttdNa1oD
+ JWFaNFuH9G7UUmZRteXRQmJmgfL6qSz+hzdzdw5S0ALwvgc0ADuV8G8CZSRDn30wfp5a+d
+ mSmdjNtfh+O7BeUBTFpSQaPsd/Aplmo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-205-z3C9sovpMkGx79vyGn65NQ-1; Tue, 18 Jan 2022 03:38:08 -0500
+X-MC-Unique: z3C9sovpMkGx79vyGn65NQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E7C7E60AB6;
- Tue, 18 Jan 2022 08:33:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 589B2C340E6;
- Tue, 18 Jan 2022 08:33:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642494828;
- bh=sCKL6LSN+t5gbMYxwDGzs2FfADys/CVkPenCtSBuwdg=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=OuXCVaiJFv5OB2M6nHLHKX6zgfr18BSqDQrwAkppjlzSi0rMXqbUlLAl1XWidoX+n
- 71h+MYpMRDx9hPRt2pmPN6Bi7YI+U0Ww/ZfYHSYlRITolmWLBYUO9oLFfBFF8Iaehr
- KDPXbJYXYOGyFIRfTr0wM03H7//pUj2Xytwr4hOCCuP37pSBaZRyHHTXgq2keUc7J7
- XiOronbgsQCtNfqsVSvAzFLYzH9Jv7uw+EiZpJLmMHEG9meTGU+1hPteyc2zn2xQ/O
- vKQkGG32ffEKJsR3C4EW84YrYwLYcVerezKAEzxfz2UKV78kM/mIEwj5lMlfZUvjij
- 1y3BU3mYnVdkw==
-Received: by mail-ua1-f52.google.com with SMTP id p1so35067317uap.9;
- Tue, 18 Jan 2022 00:33:48 -0800 (PST)
-X-Gm-Message-State: AOAM5322SYxXZ5RdKKOsphv/AyplEgsVEGYFgVmkpNlbzRkxRiSDMrx4
- uGACbb+L2/1b3/syyZUbSY8ReRsiDMRqKETc2pg=
-X-Google-Smtp-Source: ABdhPJzSnET6CMGle4d0/7o1Xy5eKA36ruTsR/hqGmmVXD/XJahY6zP787nLcMaCNm98eGLysL/EpIfzTI9uTUJgOwA=
-X-Received: by 2002:a05:6102:2d5:: with SMTP id
- h21mr8161378vsh.51.1642494827311; 
- Tue, 18 Jan 2022 00:33:47 -0800 (PST)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2758874982;
+ Tue, 18 Jan 2022 08:38:06 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
+ [10.36.112.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BFC6660C3E;
+ Tue, 18 Jan 2022 08:38:06 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4DCD711380A2; Tue, 18 Jan 2022 09:38:05 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 1/3] scripts/qapi/gen.py: add .trace-events file for
+ module
+References: <20220117201845.2438382-1-vsementsov@virtuozzo.com>
+ <20220117201845.2438382-2-vsementsov@virtuozzo.com>
+Date: Tue, 18 Jan 2022 09:38:05 +0100
+In-Reply-To: <20220117201845.2438382-2-vsementsov@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Mon, 17 Jan 2022 21:18:43 +0100")
+Message-ID: <87y23dphg2.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220118011711.7243-1-liweiwei@iscas.ac.cn>
- <20220118011711.7243-2-liweiwei@iscas.ac.cn>
- <CAAhSdy3zjeW-WkbiicTJfurQkhts4m9XwvmoS+Zr1XVMzhy+3w@mail.gmail.com>
-In-Reply-To: <CAAhSdy3zjeW-WkbiicTJfurQkhts4m9XwvmoS+Zr1XVMzhy+3w@mail.gmail.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Tue, 18 Jan 2022 16:33:36 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTSztdr_geRwQAU=Y3T14urwwpi8+K5uzjf8K_R5ecfLqQ@mail.gmail.com>
-Message-ID: <CAJF2gTSztdr_geRwQAU=Y3T14urwwpi8+K5uzjf8K_R5ecfLqQ@mail.gmail.com>
-Subject: Re: [PATCH v5 1/5] target/riscv: Ignore reserved bits in PTE for RV64
-To: Anup Patel <anup@brainfault.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=139.178.84.217; envelope-from=guoren@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -77
-X-Spam_score: -7.8
-X-Spam_bar: -------
-X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,113 +82,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Weiwei Li <liweiwei@iscas.ac.cn>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Wang Junqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, Guo Ren <ren_guo@c-sky.com>,
- =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: kwolf@redhat.com, michael.roth@amd.com, qemu-devel@nongnu.org,
+ hreitz@redhat.com, stefanha@redhat.com, pbonzini@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 18, 2022 at 11:32 AM Anup Patel <anup@brainfault.org> wrote:
->
-> On Tue, Jan 18, 2022 at 6:47 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
-> >
-> > From: Guo Ren <ren_guo@c-sky.com>
-> >
-> > Highest bits of PTE has been used for svpbmt, ref: [1], [2], so we
-> > need to ignore them. They cannot be a part of ppn.
-> >
-> > 1: The RISC-V Instruction Set Manual, Volume II: Privileged Architecture
-> >    4.4 Sv39: Page-Based 39-bit Virtual-Memory System
-> >    4.5 Sv48: Page-Based 48-bit Virtual-Memory System
-> >
-> > 2: https://github.com/riscv/virtual-memory/blob/main/specs/663-Svpbmt-diff.pdf
-> >
-> > Signed-off-by: Guo Ren <ren_guo@c-sky.com>
-> > Tested-by: Bin Meng <bmeng.cn@gmail.com>
-> > Reviewed-by: Liu Zhiwei <zhiwei_liu@c-sky.com>
-> > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  target/riscv/cpu_bits.h   | 7 +++++++
-> >  target/riscv/cpu_helper.c | 2 +-
-> >  2 files changed, 8 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> > index 5a6d49aa64..282cd8eecd 100644
-> > --- a/target/riscv/cpu_bits.h
-> > +++ b/target/riscv/cpu_bits.h
-> > @@ -490,6 +490,13 @@ typedef enum {
-> >  /* Page table PPN shift amount */
-> >  #define PTE_PPN_SHIFT       10
-> >
-> > +/* Page table PPN mask */
-> > +#if defined(TARGET_RISCV32)
-> > +#define PTE_PPN_MASK        0xffffffffUL
-> > +#elif defined(TARGET_RISCV64)
-> > +#define PTE_PPN_MASK        0x3fffffffffffffULL
-> > +#endif
-> > +
->
-> Going forward we should avoid using target specific "#if"
-> so that we can use the same qemu-system-riscv64 for both
-> RV32 and RV64.
->
-> >  /* Leaf page shift amount */
-> >  #define PGSHIFT             12
-> >
-> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> > index 434a83e66a..26608ddf1c 100644
-> > --- a/target/riscv/cpu_helper.c
-> > +++ b/target/riscv/cpu_helper.c
-> > @@ -619,7 +619,7 @@ restart:
-> >              return TRANSLATE_FAIL;
-> >          }
-> >
-> > -        hwaddr ppn = pte >> PTE_PPN_SHIFT;
-> > +        hwaddr ppn = (pte & PTE_PPN_MASK) >> PTE_PPN_SHIFT;
->
-> Rather than using "#if", please use "xlen" comparison to extract
-> PPN correctly from PTE.
-Do you mean?
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 9fffaccffb..071b7ea4cf 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -619,7 +619,11 @@ restart:
-             return TRANSLATE_FAIL;
-         }
+> We are going to generate trace events for qmp commands. We should
+> generate both trace events and trace-events.
 
--        hwaddr ppn = (pte & PTE_PPN_MASK) >> PTE_PPN_SHIFT;
-+        if (riscv_cpu_mxl(env) == MXL_RV32) {
-+               hwaddr ppn = pte  >> PTE_PPN_SHIFT;
-+       } else {
-+               hwaddr ppn = (pte &  0x3fffffffffffffULL) >> PTE_PPN_SHIFT;
-+       }
+What do you mean to say with the second sentence?  "trace events" == the
+calls of generated trace_FOO(), and "trace-events" == the input file for
+tracetool?
 
-         RISCVCPU *cpu = env_archcpu(env);
-         if (!(pte & PTE_V)) {
+> For now, add .trace-events file object, to be filled in further commit.
 
+What is a file object?  See below.
+
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  scripts/qapi/gen.py | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
 >
-> Regards,
-> Anup
->
-> >
-> >          if (!(pte & PTE_V)) {
-> >              /* Invalid PTE */
-> > --
-> > 2.17.1
-> >
->
+> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+> index 995a97d2b8..605b3fe68a 100644
+> --- a/scripts/qapi/gen.py
+> +++ b/scripts/qapi/gen.py
+> @@ -251,7 +251,7 @@ def __init__(self,
+>          self._builtin_blurb = builtin_blurb
+>          self._pydoc = pydoc
+>          self._current_module: Optional[str] = None
+> -        self._module: Dict[str, Tuple[QAPIGenC, QAPIGenH]] = {}
+> +        self._module: Dict[str, Tuple[QAPIGenC, QAPIGenH, QAPIGen]] = {}
+>          self._main_module: Optional[str] = None
+>  
+>      @property
+> @@ -264,6 +264,11 @@ def _genh(self) -> QAPIGenH:
+>          assert self._current_module is not None
+>          return self._module[self._current_module][1]
+>  
+> +    @property
+> +    def _gent(self) -> QAPIGen:
+> +        assert self._current_module is not None
+> +        return self._module[self._current_module][2]
+> +
+>      @staticmethod
+>      def _module_dirname(name: str) -> str:
+>          if QAPISchemaModule.is_user_module(name):
+> @@ -293,7 +298,8 @@ def _add_module(self, name: str, blurb: str) -> None:
+>          basename = self._module_filename(self._what, name)
+>          genc = QAPIGenC(basename + '.c', blurb, self._pydoc)
+>          genh = QAPIGenH(basename + '.h', blurb, self._pydoc)
+> -        self._module[name] = (genc, genh)
+> +        gent = QAPIGen(basename + '.trace-events')
+
+Aha.  You're adding an output module FOO.trace-events for schema module
+FOO.
+
+We commonly use a single trace-events per directory, but I believe your
+choice of one per module is simpler for the QAPI generator, and just
+fine for tracing.
+
+Please add
+
+   class QAPIGenTrace(QAPIGen):
+   
+       def _top(self, fname):
+           return (QAPIGen._top(self, fname)
+                   + '# AUTOMATICALLY GENERATED, DO NOT MODIFY\n\n')
 
 
--- 
-Best Regards
- Guo Ren
+> +        self._module[name] = (genc, genh, gent)
+>          self._current_module = name
+>  
+>      @contextmanager
+> @@ -304,11 +310,12 @@ def _temp_module(self, name: str) -> Iterator[None]:
+>          self._current_module = old_module
+>  
+>      def write(self, output_dir: str, opt_builtins: bool = False) -> None:
+> -        for name, (genc, genh) in self._module.items():
+> +        for name, (genc, genh, gent) in self._module.items():
+>              if QAPISchemaModule.is_builtin_module(name) and not opt_builtins:
+>                  continue
+>              genc.write(output_dir)
+>              genh.write(output_dir)
+> +            gent.write(output_dir)
+>  
+>      def _begin_builtin_module(self) -> None:
+>          pass
 
-ML: https://lore.kernel.org/linux-csky/
 
