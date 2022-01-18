@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD54B492986
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 16:19:13 +0100 (CET)
-Received: from localhost ([::1]:44126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0A2492994
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 16:22:44 +0100 (CET)
+Received: from localhost ([::1]:53812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9qGO-0006ZW-Iv
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 10:19:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40930)
+	id 1n9qJl-0004ht-Si
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 10:22:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n9oTt-0003ll-Gg
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 08:25:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32898)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n9oTq-0003QY-BC
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 08:25:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642512297;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=dVQmUazxr0xjSVJUl2JL5q5VPHJCuvU5YrVgh98JUQc=;
- b=ZZmL08BS/byz3G06oEzBLD8GXizkOyR1yLKBm4qiJuAMYsYhK82w4vKNfW5DovsWTZyFLR
- fn1sBPqTm+ChiHpC1CQh9wXCvstClBbsuc0kifIqXrrang90JhbM1EkLBbhZfIGUlRr2Kw
- WRSaGO2Awj9fMaDkxilTfODUDTCnWH0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-120-S20nI0rMOjy666nLOfbLUg-1; Tue, 18 Jan 2022 08:24:48 -0500
-X-MC-Unique: S20nI0rMOjy666nLOfbLUg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>)
+ id 1n9oYu-0000xd-3h; Tue, 18 Jan 2022 08:30:13 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:52250)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>)
+ id 1n9oYr-0004Ew-WB; Tue, 18 Jan 2022 08:30:11 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7083801B0B;
- Tue, 18 Jan 2022 13:24:47 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0FFE26A023;
- Tue, 18 Jan 2022 13:24:43 +0000 (UTC)
-Date: Tue, 18 Jan 2022 13:24:40 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: /usr/shared/qemu binaries
-Message-ID: <Yea/mMFP7WW3v42b@redhat.com>
-References: <B9A4B86C-4540-486D-A261-876191FA7424@livius.net>
- <CAKmqyKPBDfxKwqcgzjBDEqoWyjjc3g7PiUOEqptL1vfDfh6H8g@mail.gmail.com>
- <D3A93704-3353-4407-9D47-56FF06BDFB87@livius.net>
- <CAKmqyKO-K-GtrHijVW9jVHTtxgeGdOHm7-Y_290HqtNG4k71eg@mail.gmail.com>
- <1E2E0E52-B384-404C-BD72-5697A611EEC5@livius.net>
- <CAFEAcA_vx48ZavZCHD5_=Ajc9zsWS2ieoDXvRzBAEMBjkR3Rrg@mail.gmail.com>
- <7403b918-d2c7-1d3f-8ef8-786db90fcbea@redhat.com>
- <CAFEAcA_qkUPjSz2PQTxtkTFuho=HusONxN56e9z89B8jHrOJag@mail.gmail.com>
- <d9c9de5c-7b33-ea60-4a14-634cdd8f66a2@redhat.com>
+ by smtp-out2.suse.de (Postfix) with ESMTPS id A35831F3B5;
+ Tue, 18 Jan 2022 13:30:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1642512603; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kxmpdeBrM6ctsnfl3X+Gfjpo9hYY9ZBWOQACPgZg2cI=;
+ b=LjWQlCN7f+Ds0dV7DosplpCLsI7VITFOSO9q0KukFlrxQjLD6WrH1qri/9he46FdoqNBkw
+ xGJ9vbyI40C/0ZNFC+8teZR1/d0ekzrX18PmPBnxVl/AWaQqgm6pkiCrIgyVHinHICiudu
+ qSBCwoBXZD8mm1AlM0ajw5XjjcffIIA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1642512603;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kxmpdeBrM6ctsnfl3X+Gfjpo9hYY9ZBWOQACPgZg2cI=;
+ b=Y1Lxm2oU9SV0imxZVS93p4B3LIjg22WwiSQX+yjsVqV7d5hTkQ3bg+9pIb8uNApiVTSdcu
+ ctOwfch6EFKJUDAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6D01913AA1;
+ Tue, 18 Jan 2022 13:30:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id VM7pFNvA5mEIFwAAMHmgww
+ (envelope-from <lizhang@suse.de>); Tue, 18 Jan 2022 13:30:03 +0000
+Subject: Re: iotest 040, 041, intermittent failure in netbsd VM
+To: John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <CAFEAcA-UKdcTROB7e3jO1qe=WCbuHRuX5WN7HZF2CcdMsmAt=g@mail.gmail.com>
+ <YeU/YCUI59f33PBh@redhat.com>
+ <CAFn=p-YDo8tTQ1Y8HgtQuCDv3i5EdFEX8-2BAjs-7L5q_b4=Gg@mail.gmail.com>
+ <CAFEAcA_uBfCyJVq24p1jt5gaRmcMCZsjXae4y69QZ5dXpYX_Pg@mail.gmail.com>
+ <CAFn=p-Zba+Ge6EckjRzkKsH4vU18RkspBaJvpSVE9H6gEU=r+Q@mail.gmail.com>
+From: Li Zhang <lizhang@suse.de>
+Message-ID: <6598f1de-dd7d-254d-9a60-2df7c9fe7396@suse.de>
+Date: Tue, 18 Jan 2022 14:30:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <d9c9de5c-7b33-ea60-4a14-634cdd8f66a2@redhat.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFn=p-Zba+Ge6EckjRzkKsH4vU18RkspBaJvpSVE9H6gEU=r+Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=lizhang@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,53 +88,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>, Liviu Ionescu <ilg@livius.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 18, 2022 at 01:30:35PM +0100, Paolo Bonzini wrote:
-> On 1/13/22 18:23, Peter Maydell wrote:
-> > On Thu, 13 Jan 2022 at 17:13, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> > > 
-> > > On 1/12/22 14:56, Peter Maydell wrote:
-> > > > Those are UEFI firmware images which are suitable for using with
-> > > > the arm/aarch64 "virt" board. They're only used if the user specifically
-> > > > asks to use them on the command line (eg with
-> > > > "-drive if=pflash,format=raw,file=pc-bios/edk2-aarch64-code.fd" or
-> > > > similar).
-> > > 
-> > > There must be lots of zeros in there. Maybe we should tell QEMU to
-> > > unpack firmware .gz or .lzo files?
-> > 
-> > Not hugely keen on adding more "do what I mean" behaviour...
+On 1/18/22 12:08 AM, John Snow wrote:
+> On Mon, Jan 17, 2022 at 3:49 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>>
+>> On Mon, 17 Jan 2022 at 20:35, John Snow <jsnow@redhat.com> wrote:
+>>
+>>> Can you please try applying this temporary patch and running `./check
+>>> -qcow2 040 041` until you see a breakage and show me the output from
+>>> that?
+>>
+>> With this temporary patch the VM doesn't launch at all:
 > 
-> Certainly no autodetection (with writable pflash there's the possibility of
-> the guest causing real problems), but we already distribute firmware as
-> compressed files so the zeroes _are_ causing problems for us as well.  We
-> are just telling the users to deal with it.
+> "Works for me", but I found out why.
+> 
+>>
+>> peter.maydell@hackbox2.linaro.org:~/qemu-netbsd$ make -C build/
+>> vm-build-netbsd J=8 V=1 2>&1 | tee netbsd.log
+>> make: Entering directory '/home/peter.maydell/qemu-netbsd/build'
+>> /usr/bin/python3 -B /home/peter.maydell/qemu-netbsd/meson/meson.py
+>> introspect --targets --tests --benchmarks | /usr/bin/python3 -B
+>> scripts/mtest2m
+>> ake.py > Makefile.mtest
+>> { \
+>>    echo 'ninja-targets = \'; \
+>>    /usr/bin/ninja -t targets all | sed 's/:.*//; $!s/$/ \\/'; \
+>>    echo 'build-files = \'; \
+>>    /usr/bin/ninja -t query build.ninja | sed -n '1,/^  input:/d; /^
+>> outputs:/q; s/$/ \\/p'; \
+>> } > Makefile.ninja.tmp && mv Makefile.ninja.tmp Makefile.ninja
+>> (GIT="git" "/home/peter.maydell/qemu-netbsd/scripts/git-submodule.sh"
+>> update ui/keycodemapdb meson tests/fp/berkeley-testfloat-3
+>> tests/fp/berkeley-softfloat-3 dtc capstone slirp)
+>> (GIT="git" "/home/peter.maydell/qemu-netbsd/scripts/git-submodule.sh"
+>> update ui/keycodemapdb meson tests/fp/berkeley-testfloat-3
+>> tests/fp/berkeley-softfloat-3 dtc capstone slirp)
+>> /usr/bin/python3 -B /home/peter.maydell/qemu-netbsd/tests/vm/netbsd
+>> --debug  --jobs 8 --verbose    --image
+>> "/home/peter.maydell/.cache/qemu-vm/images/netbsd.img"  --snapshot
+>> --build-qemu /home/peter.maydell/qemu-netbsd --
+>> DEBUG:root:Creating archive
+>> /home/peter.maydell/qemu-netbsd/build/vm-test-72ra6_8s.tmp/data-f706c.tar
+>> for src_dir dir: /home/peter.maydell/qemu-netbsd
+>> DEBUG:root:QEMU args: -nodefaults -m 4G -cpu max -netdev
+>> user,id=vnet,hostfwd=:127.0.0.1:0-:22,ipv6=no -device
+>> virtio-net-pci,netdev=vnet -vnc 127.0.0.1:0,to=20 -smp 8 -enable-kvm
+>> -drive file=/home/peter.maydell/.cache/qemu-vm/images/netbsd.img,snapshot=on,if=none,id=drive0,cache=writeback
+>> -device virtio-blk,drive=drive0,bootindex=0 -drive
+>> file=/home/peter.maydell/qemu-netbsd/build/vm-test-72ra6_8s.tmp/data-f706c.tar,if=none,id=data-f706c,cache=writeback,format=raw
+>> -device virtio-blk,drive=data-f706c,serial=data-f706c,bootindex=1
+>> DEBUG:asyncio:Using selector: EpollSelector
+>> DEBUG:qemu.aqmp.qmp_client.qemu-2335-7f3b78d7f128:Registering
+>> <qemu.aqmp.events.EventListener object at 0x7f3b76bfc9b0>.
+>> DEBUG:qemu.machine.machine:VM launch command: 'qemu-system-x86_64
+>> -display none -vga none -chardev
+>> socket,id=mon,path=/var/tmp/qemu-machine-0m15ou19/qemu-2335-7f3b78d7f128-monitor.sock
+>> -mon chardev=mon,mode=control -machine pc -chardev
+>> socket,id=console,path=/var/tmp/qemu-machine-0m15ou19/qemu-2335-7f3b78d7f128-console.sock,server=on,wait=off
+>> -serial chardev:console -nodefaults -m 4G -cpu max -netdev
+>> user,id=vnet,hostfwd=:127.0.0.1:0-:22,ipv6=no -device
+>> virtio-net-pci,netdev=vnet -vnc 127.0.0.1:0,to=20 -smp 8 -enable-kvm
+>> -drive file=/home/peter.maydell/.cache/qemu-vm/images/netbsd.img,snapshot=on,if=none,id=drive0,cache=writeback
+>> -device virtio-blk,drive=drive0,bootindex=0 -drive
+>> file=/home/peter.maydell/qemu-netbsd/build/vm-test-72ra6_8s.tmp/data-f706c.tar,if=none,id=data-f706c,cache=writeback,format=raw
+>> -device virtio-blk,drive=data-f706c,serial=data-f706c,bootindex=1'
+>> DEBUG:qemu.aqmp.qmp_client.qemu-2335-7f3b78d7f128:Transitioning from
+>> 'Runstate.IDLE' to 'Runstate.CONNECTING'.
+>> DEBUG:qemu.aqmp.qmp_client.qemu-2335-7f3b78d7f128:Awaiting connection
+>> on /var/tmp/qemu-machine-0m15ou19/qemu-2335-7f3b78d7f128-monitor.sock
+>> ...
+>> DEBUG:qemu.aqmp.qmp_client.qemu-2335-7f3b78d7f128:Connection accepted.
+>> DEBUG:qemu.aqmp.qmp_client.qemu-2335-7f3b78d7f128:Awaiting greeting ...
+>> DEBUG:qemu.aqmp.qmp_client.qemu-2335-7f3b78d7f128:<-- {
+>>    "QMP": {
+>>      "version": {
+>>        "qemu": {
+>>          "micro": 1,
+>>          "minor": 11,
+>>          "major": 2
+>>        },
+>>        "package": "(Debian 1:2.11+dfsg-1ubuntu7.38)"
+>>      },
+>>      "capabilities": []
+>>    }
+>> }
+> 
+> Well, today I learned that:
+> 
+> (1) vm-build-XXX targets use your host system's QEMU to run that VM
+> (2) my QMP library cannot talk to QEMU 2.11.
+> 
+> That doesn't explain the intermittent netbsd failure yet, though.
+> (I guess this wasn't a failure point for you due to the aggressive
+> caching of the VM images? Unlucky.)
+> 
+> Here's another hotfix, this one I cannot easily test quickly (I don't
+> have 2.11 handy and it no longer builds for me),
+> but I think it'll fix the VM installation problem against older QEMU versions:
+> 
+> diff --git a/python/qemu/aqmp/qmp_client.py b/python/qemu/aqmp/qmp_client.py
+> index 8105e29fa8..6b43e1dbbe 100644
+> --- a/python/qemu/aqmp/qmp_client.py
+> +++ b/python/qemu/aqmp/qmp_client.py
+> @@ -292,9 +292,9 @@ async def _negotiate(self) -> None:
+>           """
+>           self.logger.debug("Negotiating capabilities ...")
+> 
+> -        arguments: Dict[str, List[str]] = {'enable': []}
+> +        arguments: Dict[str, List[str]] = {}
+>           if self._greeting and 'oob' in self._greeting.QMP.capabilities:
+> -            arguments['enable'].append('oob')
+> +            arguments.setdefault('enable', []).append('oob')
+>           msg = self.make_execute_msg('qmp_capabilities', arguments=arguments)
+> 
+>           # It's not safe to use execute() here, because the reader/writers
+> 
 
-I don't think compression will make a meaningful difference here.
-The firmware is split with both code and vars files. When booting
-a guest the vars file is deep copied. The vars file can't be
-compressed because it needs to be writable at runtime.
+I also found that iotest 040, 041 fail sometimes (not always) on X86
+when I run the test cases in my environment.
 
-So for 100 guests, you have  1 x 64 MB of code.fd plus 100 x 64 MB
-of vars.fd. If only the code.fd can be compressed, that isn't going
-to dent the disk space consumed.
+> 
 
-If we want the firmware to be smaller the file could be made sparse
-on disk. If the firmware only needs to be used with pflash, then
-we could distribute it in qcow2 format instead of raw, which would
-get rid of the zeros too.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
