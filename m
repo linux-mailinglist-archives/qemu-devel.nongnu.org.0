@@ -2,59 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 381804913EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 03:10:47 +0100 (CET)
-Received: from localhost ([::1]:45586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B0D04915F7
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 03:32:32 +0100 (CET)
+Received: from localhost ([::1]:54832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9dxO-0005JW-BG
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 21:10:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54178)
+	id 1n9eIR-0004qY-0S
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 21:32:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1n9dvF-0003Pr-Vk
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 21:08:33 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:33595
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1n9dvD-0002Aw-G0
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 21:08:33 -0500
-HMM_SOURCE_IP: 172.18.0.188:54978.1718758930
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-182.150.57.243 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id 5A4A728012B;
- Tue, 18 Jan 2022 10:08:08 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.188])
- by app0023 with ESMTP id 24215f1e3c7f4d4aa41287c0d20f6c68 for
- peterx@redhat.com; Tue, 18 Jan 2022 10:08:21 CST
-X-Transaction-ID: 24215f1e3c7f4d4aa41287c0d20f6c68
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.188
-X-MEDUSA-Status: 0
-Message-ID: <dbc349be-48e5-64e8-4358-f8387161747f@chinatelecom.cn>
-Date: Tue, 18 Jan 2022 10:08:00 +0800
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1n9eGn-00041T-LB
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 21:30:49 -0500
+Received: from mga09.intel.com ([134.134.136.24]:1127)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1n9eGl-00058R-3r
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 21:30:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642473047; x=1674009047;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=5eLdad3S1vdQkGSJ7/2dKqAr5TdzYhYyNViEe7h+WMc=;
+ b=G28No5+j4h7/mhHMVpKCS/+9L01r4R47ttB/4CFOIrBjse70yaTSb3ti
+ H3fvDNSmPm4yTnUV9rD0VzvzH/y8XaHM44+NPSxa/QcafQfCDuK7DTC5h
+ SH73pWBFG9yT6tsX0VL3dqMUBYZeLYTw/qsdmLDge6IVrXu20h2mDyCW5
+ PIx0Au25EMjpQYeXlX27RdXNslooamukxZc/SSTQUlFnBV25uu6neXaLW
+ jy6EUCBZwAt4J638VtOGflHxxwz56amvesJbltnjS8H0jvSiuVLP7+6gf
+ dSDqrB8UIWnCuuAbhahvLX96LDIdpb3uBgHDTpJZqS5ZfK5cIgW+GO6aQ g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10230"; a="244519077"
+X-IronPort-AV: E=Sophos;i="5.88,296,1635231600"; d="scan'208";a="244519077"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2022 18:30:43 -0800
+X-IronPort-AV: E=Sophos;i="5.88,296,1635231600"; d="scan'208";a="625360871"
+Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
+ ([10.238.145.56])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 17 Jan 2022 18:30:40 -0800
+Date: Tue, 18 Jan 2022 10:15:24 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH 1/2] hw/i386/x86: Attach CPUs to machine
+Message-ID: <20220118021524.GA22453@yangzhon-Virtual>
+References: <20220116235331.103977-1-f4bug@amsat.org>
+ <20220116235331.103977-2-f4bug@amsat.org>
+ <YeVzvkcTLIJEvgLi@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v11 3/4] softmmu/dirtylimit: implement virtual CPU throttle
-To: Peter Xu <peterx@redhat.com>
-References: <cover.1641316375.git.huangy81@chinatelecom.cn>
- <0381e32c2cc70613613aaa284b8e8c9760d6932f.1641316375.git.huangy81@chinatelecom.cn>
- <YeUbhC7MG32K9pxu@xz-m1.local>
- <1b41a2ed-4d78-6221-88c4-2b14bad6bd70@chinatelecom.cn>
- <YeYRNHsmZJneG/x5@xz-m1.local>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <YeYRNHsmZJneG/x5@xz-m1.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.228;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YeVzvkcTLIJEvgLi@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=134.134.136.24; envelope-from=yang.zhong@intel.com;
+ helo=mga09.intel.com
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,46 +76,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
+Cc: Eduardo Habkost <eduardo@habkost.net>, yang.zhong@intel.com,
+ "Michael S. Tsirkin" <mst@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Jan 17, 2022 at 01:48:46PM +0000, Daniel P. Berrangé wrote:
+> On Mon, Jan 17, 2022 at 12:53:30AM +0100, Philippe Mathieu-Daudé via wrote:
+> > Avoid having CPUs objects dangling as unattached QOM ones,
+> > directly attach them to the machine.
+> 
+> Lets be more explicit here
+> 
+> [quote]
+>   Previously CPUs were exposed in the QOM tree at a path
+> 
+>     /machine/unattached/device[nn]
+> 
+>   where the 'nn' of the first CPU is usually zero, but can
+>   vary depending on what devices were already created.
+> 
+>   With this change the CPUs are now at
+> 
+>     /machine/cpu[nn]
+> 
+>   where the 'nn' of the first CPU is always zero
+> [/quote]
+> 
+> to  /machine/unattached/device[0->$SMP-COUNT]
+> 
+> > 
+> > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> > ---
+> >  hw/i386/x86.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> > index b84840a1bb9..50bf249c700 100644
+> > --- a/hw/i386/x86.c
+> > +++ b/hw/i386/x86.c
+> > @@ -108,6 +108,7 @@ void x86_cpu_new(X86MachineState *x86ms, int64_t apic_id, Error **errp)
+> >  {
+> >      Object *cpu = object_new(MACHINE(x86ms)->cpu_type);
+> >  
+> > +    object_property_add_child(OBJECT(x86ms), "cpu[*]", OBJECT(cpu));
+> >      if (!object_property_set_uint(cpu, "apic-id", apic_id, errp)) {
+> >          goto out;
+> >      }
+> > -- 
+> > 2.34.1
+> > 
+> > 
 
 
-åœ¨ 2022/1/18 9:00, Peter Xu å†™é“:
-> On Mon, Jan 17, 2022 at 10:00:57PM +0800, Hyman Huang wrote:
->>> This algorithm seems works even worse than the previous version, could you have
->>> a look on what's wrong?
->> What number the dirty-ring-size of qemu be configured? is it the same as
->> previous version test?
-> 
-> It should be the same 4096.
-> 
-> The test environment can be slightly different, I used a larger guest this time
-> (20G, 40 cores), though.  Previously it should be a few gig only with a few cores.
-> 
-Ok, i'll work this out.
-> Side note: would you also consider picking up this patch along with the series?
-> 
-Of course yes, i think this patch can reduce time overhead of 
-memory_global_dirty_log_start/memory_global_dirty_log_stop but need some 
-migration tests, i'll do that and once all these be ready, i'll cherry 
-pick the series before dirtylimit patchset.
-> https://lore.kernel.org/qemu-devel/20211130080028.6474-1-peterx@redhat.com/
-> 
-> I wanted to make sure it lands before this series, e.g., when enabled both
-> dirty limit and migration, disabling dirty limit might trigger the bug already.
->  > Thanks,
-> 
+  Thanks Philippe, if we change /machine/unattached/device[nn] to /machine/cpu[nn],
+  the related changes should also be done in the Libvirt side, which still check
+  /machine/unattached/device[0] to get unvailable-features. thanks!
 
--- 
-Best regard
+  Yang
 
-Hyman Huang(é»„å‹‡)
+> 
+> Regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
