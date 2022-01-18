@@ -2,89 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7B85492D38
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 19:24:36 +0100 (CET)
-Received: from localhost ([::1]:53622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D74F492D5A
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 19:33:46 +0100 (CET)
+Received: from localhost ([::1]:57804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9t9n-0003ao-Bz
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 13:24:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45102)
+	id 1n9tIe-0007NR-Rk
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 13:33:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1n9t87-0002vn-8g
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 13:22:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51625)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1n9tHJ-0006cX-9I; Tue, 18 Jan 2022 13:32:21 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:5608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1n9t84-0007x5-9a
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 13:22:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642530166;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KwIp03EvCMvJjamxEdgxzH/Pi7Hni9uq3WYEMMLOwpg=;
- b=OwtBNPvn3ss/sxkySMGt0x3YlH4k3orbNAdaf2BDyBkAAjS3oNUpZQ+8LEx5b4dTlF4u8M
- hCY/KhUWDwCgBBSmGN4yya5K8Llq+1eCjrAm+rlHvsw7jSGkA1HRM4m4LQIHYCRNtRJ67R
- 1mkeYxK1WZL6UslIROlvpKQV1fxsb0E=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-215-8l_0pQd-PFS9u9S0VFRPwA-1; Tue, 18 Jan 2022 13:22:45 -0500
-X-MC-Unique: 8l_0pQd-PFS9u9S0VFRPwA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- n13-20020a05600c3b8d00b0034979b7e200so7480874wms.4
- for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 10:22:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=KwIp03EvCMvJjamxEdgxzH/Pi7Hni9uq3WYEMMLOwpg=;
- b=hTqcIv64Jbhv5i6XI6U2A5TgqpVAAN4Qh458eL6+5S+HMkGAp4ddjMQIoFN5EvZeqE
- krCq599B/LJexJmkwL+X3ImMu5qzuaFf5KYZJO+0H5Snb6df1wtgjVKpTwcnbfxXNKQ6
- 5m4yjbHHdp794bgAeyc4ev5i64UHe7ZfYbpECRchpgq5PWMXsPdNQu8IxQ1Ah9nwvjiA
- VB29C4yCaW5rJyYCiM/82FfkqsDTBKFVMBM+EooGVK4keXSKBNB3p7OTysvoiX63ZaBV
- SoaqCZB/qnfmj4Yh/mU3HaxxRvi0r8e2Kc7OSZnO62TjQKoUZX5SSj6dCt8gnltoYnBp
- i+Ww==
-X-Gm-Message-State: AOAM532ZKmf7+AFlcGibuN1B1fx1RXaCMRwy0BjRVwIn7r3iYNEkoEJy
- c5aOyYJAqylkD6FefpX52fRBvN8aZDeka4z/XvJvl114Ur8eTce9eqvDZEy8eR2zmmdS9GrxcsG
- 3XWDRbJlh4yOE/JU=
-X-Received: by 2002:a5d:6da1:: with SMTP id u1mr18676798wrs.592.1642530164410; 
- Tue, 18 Jan 2022 10:22:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxwLIT2dLiFK/ljJi0z0xWfkY23TmzID/CJ9qN3aPnnLBzb9r5WPc9tir4oSHjTjpe/b81yBg==
-X-Received: by 2002:a5d:6da1:: with SMTP id u1mr18676773wrs.592.1642530164148; 
- Tue, 18 Jan 2022 10:22:44 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id u13sm2836984wmm.16.2022.01.18.10.22.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jan 2022 10:22:43 -0800 (PST)
-Date: Tue, 18 Jan 2022 18:22:41 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v4 11/23] multifd: Remove send_write() method
-Message-ID: <YecFcVZg5SIj0/8/@work-vm>
-References: <20220111130024.5392-1-quintela@redhat.com>
- <20220111130024.5392-12-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1n9tHH-0000so-KF; Tue, 18 Jan 2022 13:32:20 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20IHvg7l013536; 
+ Tue, 18 Jan 2022 18:32:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=nXIc+BurcjMJbheQTjSBw3CQWZoO1FMRGYbXtUdLIdo=;
+ b=kESWBSVi1qqTNTxOQlgMuygD2p6FNoGmkcNsrIZQd/3HzduIASnohg94stFSD0wlJx0a
+ yWvIQyDHyrQj5J84f9VCEfRC/JSjNG3IzOoWLJIEWsgexHL8RNWzFIpZzPBCaw9tMMbX
+ 7Mqtk+oUCuyfTr7L9igfuBjx+g5X0GSUv0KJQxKfq9ScdoaTHyFKBpbgDhQkMpG1RlKy
+ ebf1/rcukhXBhqtY2MERBwme/5S42qNXvBuixZ0D9T/u0aGDuRxn0BZq4pKBdypA/f87
+ k5F3Uwo5u13hYGX8LteuXaCrXuG0GOiNe3qQJRqMPxNk55Q1qTsR/+na7uvrOf5kAvqZ wQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dp2dms4nh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Jan 2022 18:32:16 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20IIV2SS008226;
+ Tue, 18 Jan 2022 18:32:15 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dp2dms4ms-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Jan 2022 18:32:15 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20IIHviM020629;
+ Tue, 18 Jan 2022 18:32:14 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma05wdc.us.ibm.com with ESMTP id 3dknwaqje1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Jan 2022 18:32:14 +0000
+Received: from b03ledav001.gho.boulder.ibm.com
+ (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20IIWDvD31785328
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 18 Jan 2022 18:32:13 GMT
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5AE546E05B;
+ Tue, 18 Jan 2022 18:32:13 +0000 (GMT)
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CE1856E05D;
+ Tue, 18 Jan 2022 18:32:11 +0000 (GMT)
+Received: from [9.163.19.30] (unknown [9.163.19.30])
+ by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue, 18 Jan 2022 18:32:11 +0000 (GMT)
+Message-ID: <c44a7ba3-37bf-6b25-1e89-719a1487ca20@linux.ibm.com>
+Date: Tue, 18 Jan 2022 13:32:11 -0500
 MIME-Version: 1.0
-In-Reply-To: <20220111130024.5392-12-quintela@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2 0/9] s390x/pci: zPCI interpretation support
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+References: <20220114203849.243657-1-mjrosato@linux.ibm.com>
+ <32c83624-eb3b-05ea-6fb6-737bd9876db3@redhat.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+In-Reply-To: <32c83624-eb3b-05ea-6fb6-737bd9876db3@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: axDwkrt98FfFsrlLXD9vFSJaiBdYi8hr
+X-Proofpoint-GUID: UUWcwG8OkAizBPCo4zGyv7o9iVS9R8Tf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-18_05,2022-01-18_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ priorityscore=1501 impostorscore=0 malwarescore=0 bulkscore=0
+ lowpriorityscore=0 suspectscore=0 clxscore=1015 spamscore=0 phishscore=0
+ mlxscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201180112
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,159 +112,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Leonardo Bras <leobras@redhat.com>
+Cc: farman@linux.ibm.com, kvm@vger.kernel.org, pmorel@linux.ibm.com,
+ schnelle@linux.ibm.com, cohuck@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, david@redhat.com,
+ borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> Everything use now iov's.
+On 1/17/22 10:23 AM, Thomas Huth wrote:
+> On 14/01/2022 21.38, Matthew Rosato wrote:
+>> For QEMU, the majority of the work in enabling instruction interpretation
+>> is handled via new VFIO ioctls to SET the appropriate interpretation and
+>> interrupt forwarding modes, and to GET the function handle to use for
+>> interpretive execution.
+>>
+>> This series implements these new ioctls, as well as adding a new, 
+>> optional
+>> 'intercept' parameter to zpci to request interpretation support not be 
+>> used
+>> as well as an 'intassist' parameter to determine whether or not the
+>> firmware assist will be used for interrupt delivery or whether the host
+>> will be responsible for delivering all interrupts.
 > 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>   Hi Matthew,
+> 
+> would it make sense to create a docs/system/s390x/zpci.rst doc file, 
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+This is a good idea and probably something that was due for zpci before 
+this series even.
 
-> ---
->  migration/multifd.h      |  2 --
->  migration/multifd-zlib.c | 17 -----------------
->  migration/multifd-zstd.c | 17 -----------------
->  migration/multifd.c      | 20 ++------------------
->  4 files changed, 2 insertions(+), 54 deletions(-)
-> 
-> diff --git a/migration/multifd.h b/migration/multifd.h
-> index c3f18af364..7496f951a7 100644
-> --- a/migration/multifd.h
-> +++ b/migration/multifd.h
-> @@ -164,8 +164,6 @@ typedef struct {
->      void (*send_cleanup)(MultiFDSendParams *p, Error **errp);
->      /* Prepare the send packet */
->      int (*send_prepare)(MultiFDSendParams *p, Error **errp);
-> -    /* Write the send packet */
-> -    int (*send_write)(MultiFDSendParams *p, uint32_t used, Error **errp);
->      /* Setup for receiving side */
->      int (*recv_setup)(MultiFDRecvParams *p, Error **errp);
->      /* Cleanup for receiving side */
-> diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
-> index 71480c82bb..ba90f1aaf4 100644
-> --- a/migration/multifd-zlib.c
-> +++ b/migration/multifd-zlib.c
-> @@ -152,22 +152,6 @@ static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
->      return 0;
->  }
->  
-> -/**
-> - * zlib_send_write: do the actual write of the data
-> - *
-> - * Do the actual write of the comprresed buffer.
-> - *
-> - * Returns 0 for success or -1 for error
-> - *
-> - * @p: Params for the channel that we are using
-> - * @used: number of pages used
-> - * @errp: pointer to an error
-> - */
-> -static int zlib_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
-> -{
-> -    return qio_channel_writev_all(p->c, p->iov, p->iovs_num, errp);
-> -}
-> -
->  /**
->   * zlib_recv_setup: setup receive side
->   *
-> @@ -307,7 +291,6 @@ static MultiFDMethods multifd_zlib_ops = {
->      .send_setup = zlib_send_setup,
->      .send_cleanup = zlib_send_cleanup,
->      .send_prepare = zlib_send_prepare,
-> -    .send_write = zlib_send_write,
->      .recv_setup = zlib_recv_setup,
->      .recv_cleanup = zlib_recv_cleanup,
->      .recv_pages = zlib_recv_pages
-> diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
-> index bd393aee0d..757434d1ee 100644
-> --- a/migration/multifd-zstd.c
-> +++ b/migration/multifd-zstd.c
-> @@ -163,22 +163,6 @@ static int zstd_send_prepare(MultiFDSendParams *p, Error **errp)
->      return 0;
->  }
->  
-> -/**
-> - * zstd_send_write: do the actual write of the data
-> - *
-> - * Do the actual write of the comprresed buffer.
-> - *
-> - * Returns 0 for success or -1 for error
-> - *
-> - * @p: Params for the channel that we are using
-> - * @used: number of pages used
-> - * @errp: pointer to an error
-> - */
-> -static int zstd_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
-> -{
-> -    return qio_channel_writev_all(p->c, p->iov, p->iovs_num, errp);
-> -}
-> -
->  /**
->   * zstd_recv_setup: setup receive side
->   *
-> @@ -320,7 +304,6 @@ static MultiFDMethods multifd_zstd_ops = {
->      .send_setup = zstd_send_setup,
->      .send_cleanup = zstd_send_cleanup,
->      .send_prepare = zstd_send_prepare,
-> -    .send_write = zstd_send_write,
->      .recv_setup = zstd_recv_setup,
->      .recv_cleanup = zstd_recv_cleanup,
->      .recv_pages = zstd_recv_pages
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index f75bd3c188..96b9cc0d8b 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -100,22 +100,6 @@ static int nocomp_send_prepare(MultiFDSendParams *p, Error **errp)
->      return 0;
->  }
->  
-> -/**
-> - * nocomp_send_write: do the actual write of the data
-> - *
-> - * For no compression we just have to write the data.
-> - *
-> - * Returns 0 for success or -1 for error
-> - *
-> - * @p: Params for the channel that we are using
-> - * @used: number of pages used
-> - * @errp: pointer to an error
-> - */
-> -static int nocomp_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
-> -{
-> -    return qio_channel_writev_all(p->c, p->iov, p->iovs_num, errp);
-> -}
-> -
->  /**
->   * nocomp_recv_setup: setup receive side
->   *
-> @@ -173,7 +157,6 @@ static MultiFDMethods multifd_nocomp_ops = {
->      .send_setup = nocomp_send_setup,
->      .send_cleanup = nocomp_send_cleanup,
->      .send_prepare = nocomp_send_prepare,
-> -    .send_write = nocomp_send_write,
->      .recv_setup = nocomp_recv_setup,
->      .recv_cleanup = nocomp_recv_cleanup,
->      .recv_pages = nocomp_recv_pages
-> @@ -690,7 +673,8 @@ static void *multifd_send_thread(void *opaque)
->              }
->  
->              if (used) {
-> -                ret = multifd_send_state->ops->send_write(p, used, &local_err);
-> +                ret = qio_channel_writev_all(p->c, p->iov, p->iovs_num,
-> +                                             &local_err);
->                  if (ret != 0) {
->                      break;
->                  }
-> -- 
-> 2.34.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> too, where you could describe such new parameters like 'intassist' and 
+> 'intercept' (or is it 'interp') ? ... otherwise hardly anybody except 
+
+Oops, 'intercept' was a holdover from a previous version and effectively 
+had an inverted meaning.  It is indeed 'interp' with this current series 
+(and subject to change again per other thread)
+
 
 
