@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54261491357
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 02:21:53 +0100 (CET)
-Received: from localhost ([::1]:41454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4515491355
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 02:21:49 +0100 (CET)
+Received: from localhost ([::1]:41212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9dC4-0002AO-EZ
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 20:21:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47460)
+	id 1n9dC0-00020d-HU
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 20:21:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1n9d7z-00086S-Is; Mon, 17 Jan 2022 20:17:39 -0500
-Received: from smtp21.cstnet.cn ([159.226.251.21]:53698 helo=cstnet.cn)
+ id 1n9d80-00087m-UK; Mon, 17 Jan 2022 20:17:40 -0500
+Received: from smtp21.cstnet.cn ([159.226.251.21]:53700 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1n9d7w-0003qE-Gv; Mon, 17 Jan 2022 20:17:39 -0500
+ id 1n9d7w-0003qF-Hk; Mon, 17 Jan 2022 20:17:40 -0500
 Received: from localhost.localdomain (unknown [180.156.147.178])
- by APP-01 (Coremail) with SMTP id qwCowAD3_lYmFeZhTWGLBg--.14045S3;
- Tue, 18 Jan 2022 09:17:29 +0800 (CST)
+ by APP-01 (Coremail) with SMTP id qwCowAD3_lYmFeZhTWGLBg--.14045S4;
+ Tue, 18 Jan 2022 09:17:30 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: anup@brainfault.org, palmer@dabbelt.com, alistair.francis@wdc.com,
  bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v5 1/5] target/riscv: Ignore reserved bits in PTE for RV64
-Date: Tue, 18 Jan 2022 09:17:07 +0800
-Message-Id: <20220118011711.7243-2-liweiwei@iscas.ac.cn>
+Subject: [PATCH v5 2/5] target/riscv: add PTE_A/PTE_D/PTE_U bits check for
+ inner PTE
+Date: Tue, 18 Jan 2022 09:17:08 +0800
+Message-Id: <20220118011711.7243-3-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220118011711.7243-1-liweiwei@iscas.ac.cn>
 References: <20220118011711.7243-1-liweiwei@iscas.ac.cn>
-X-CM-TRANSID: qwCowAD3_lYmFeZhTWGLBg--.14045S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7Aw43Jr4DKFyUury8Jr43Wrg_yoW8Ar17pr
- WfW34Iy3ykJr93CayrKF4Yyr45JwsY9w1ruaykur1UCa1rJrWru3ZrKa10g3ZxXF1vvF1S
- 93Wq9r45ZF4DXFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9qb7Iv0xC_Cr1lb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI
- 8067AKxVWUGwA2048vs2IY020Ec7CjxVAFwI0_JFI_Gr1l8cAvFVAK0II2c7xJM28CjxkF
- 64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcV
- CY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280
- aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64
- kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm
- 72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l4I8I3I
- 0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWU
- GVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI
- 0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0
- rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r
- 4UJbIYCTnIWIevJa73UjIFyTuYvjxU7NeODUUUU
+X-CM-TRANSID: qwCowAD3_lYmFeZhTWGLBg--.14045S4
+X-Coremail-Antispam: 1UD129KBjvdXoW7GFyUXr4ktr13Ar13Cw4kZwb_yoW3GFb_CF
+ W0gFn7uw1ku3WvkFsYyryqqr1Ig3s5GF10ka17GF48Gryjgry3Cw1ktws5CryUur15ArnF
+ y3ZrJry3Cr15CjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbTxFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUXwA2048vs2IY02
+ 0Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84
+ ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
+ M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
+ v20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
+ F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAKI48JMx
+ C20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAF
+ wI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20x
+ vE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v2
+ 0xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxV
+ W8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjJKsUUUUUU==
 X-Originating-IP: [180.156.147.178]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
@@ -68,62 +69,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, Guo Ren <ren_guo@c-sky.com>
+Cc: wangjunqiang@iscas.ac.cn, Weiwei Li <liweiwei@iscas.ac.cn>,
+ lazyparser@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Guo Ren <ren_guo@c-sky.com>
-
-Highest bits of PTE has been used for svpbmt, ref: [1], [2], so we
-need to ignore them. They cannot be a part of ppn.
-
-1: The RISC-V Instruction Set Manual, Volume II: Privileged Architecture
-   4.4 Sv39: Page-Based 39-bit Virtual-Memory System
-   4.5 Sv48: Page-Based 48-bit Virtual-Memory System
-
-2: https://github.com/riscv/virtual-memory/blob/main/specs/663-Svpbmt-diff.pdf
-
-Signed-off-by: Guo Ren <ren_guo@c-sky.com>
-Tested-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Liu Zhiwei <zhiwei_liu@c-sky.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+Reviewed-by: Anup Patel <anup@brainfault.org>
 ---
- target/riscv/cpu_bits.h   | 7 +++++++
- target/riscv/cpu_helper.c | 2 +-
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ target/riscv/cpu_helper.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 5a6d49aa64..282cd8eecd 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -490,6 +490,13 @@ typedef enum {
- /* Page table PPN shift amount */
- #define PTE_PPN_SHIFT       10
- 
-+/* Page table PPN mask */
-+#if defined(TARGET_RISCV32)
-+#define PTE_PPN_MASK        0xffffffffUL
-+#elif defined(TARGET_RISCV64)
-+#define PTE_PPN_MASK        0x3fffffffffffffULL
-+#endif
-+
- /* Leaf page shift amount */
- #define PGSHIFT             12
- 
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 434a83e66a..26608ddf1c 100644
+index 26608ddf1c..1820188f41 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -619,7 +619,7 @@ restart:
+@@ -626,6 +626,9 @@ restart:
              return TRANSLATE_FAIL;
-         }
- 
--        hwaddr ppn = pte >> PTE_PPN_SHIFT;
-+        hwaddr ppn = (pte & PTE_PPN_MASK) >> PTE_PPN_SHIFT;
- 
-         if (!(pte & PTE_V)) {
-             /* Invalid PTE */
+         } else if (!(pte & (PTE_R | PTE_W | PTE_X))) {
+             /* Inner PTE, continue walking */
++            if (pte & (PTE_D | PTE_A | PTE_U)) {
++                return TRANSLATE_FAIL;
++            }
+             base = ppn << PGSHIFT;
+         } else if ((pte & (PTE_R | PTE_W | PTE_X)) == PTE_W) {
+             /* Reserved leaf PTE flags: PTE_W */
 -- 
 2.17.1
 
