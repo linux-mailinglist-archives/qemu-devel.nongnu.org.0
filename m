@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A85EE49289B
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 15:43:04 +0100 (CET)
-Received: from localhost ([::1]:54376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9155C492886
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 15:37:23 +0100 (CET)
+Received: from localhost ([::1]:44628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9phP-00043j-K5
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 09:43:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40440)
+	id 1n9pbu-0004u8-A6
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 09:37:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1n9oRr-0001GP-Ek
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 08:22:57 -0500
-Received: from mga14.intel.com ([192.55.52.115]:49835)
+ id 1n9oRw-0001If-TY
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 08:23:00 -0500
+Received: from mga12.intel.com ([192.55.52.136]:1557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1n9oRo-0003GX-Ty
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 08:22:55 -0500
+ id 1n9oRt-0003Gk-AU
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 08:22:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642512172; x=1674048172;
+ t=1642512177; x=1674048177;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=sOy+oj7x4sTMI5lpkFFnOHPfnLg7BWRRkoBuCyEaorQ=;
- b=fZ4QihxW3OBMTUMwW3aQp3GX752y5ZSck4JLfYBij9zXCbEQCQ3WgcTb
- qNoLBEv7ZOxbtCN6b8wmlz4WpTZtb0a//4LkjMQeffm2S+5Jq/qxMgYvh
- NQeGcamB9EYj0cClWfk9nq8Lbw6WeyshQOYPVlpnE5ijfFj1ernyX9cqN
- 2ntQSogYdv2cUpITCmEWf6kVo/MsInVw9KaAxYMZQ/6rVbB66kBjzgAh1
- +goy344aDQViSANSKy9/ZsrbuBWPA889E8AmZx7DDfvplpx8JVPQRzJdt
- dJ3Vor+60egCrFG0r32idGhogeBFnOZklxTRI9sVxoFY6FbpfjuPVGIjT A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10230"; a="245007896"
-X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; d="scan'208";a="245007896"
+ bh=Sxmzc3HCYf+A9G7nAq2yyNQIgWHQdtSxzJnS7/C1WdQ=;
+ b=hL2+HxVZricn2zr/dzQ8GZAwbTkDqoyCW53TXzoIePdEQiKN4PtiJpGR
+ /p80VcPvt2HkDJdtsqIZ0JQvWqPRY3Au6VIabRQx+n4yM1UFiFBLBFhbq
+ 8OPryc9+ozWA5IfPDuwWaanPfLjJFWc/mYSDzZo4Z5LubpKyEU9hwmuPd
+ I5o+tlR/qdzTb7wvBzYhZJCbi/ZWD+FG8tI8P83g+97jMo0cxfubjofcy
+ quVx2DtH8YnTMwFoD50ebNg6uIQ6nHU+AkD0V6Y6yLfWBZTYlDs70TMyd
+ WX6sernqwBeUuI6ep4If7+BxoNZxDPSAG/paKH54OjyqWcIa3cCz2M7vo w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10230"; a="224791094"
+X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; d="scan'208";a="224791094"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2022 05:22:42 -0800
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2022 05:22:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; d="scan'208";a="531791806"
+X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; d="scan'208";a="531791861"
 Received: from chaop.bj.intel.com ([10.240.192.101])
- by orsmga008.jf.intel.com with ESMTP; 18 Jan 2022 05:22:35 -0800
+ by orsmga008.jf.intel.com with ESMTP; 18 Jan 2022 05:22:49 -0800
 From: Chao Peng <chao.p.peng@linux.intel.com>
 To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
-Subject: [PATCH v4 06/12] KVM: Use kvm_userspace_memory_region_ext
-Date: Tue, 18 Jan 2022 21:21:15 +0800
-Message-Id: <20220118132121.31388-7-chao.p.peng@linux.intel.com>
+Subject: [PATCH v4 08/12] KVM: Use memfile_pfn_ops to obtain pfn for private
+ pages
+Date: Tue, 18 Jan 2022 21:21:17 +0800
+Message-Id: <20220118132121.31388-9-chao.p.peng@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
 References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
-Received-SPF: none client-ip=192.55.52.115;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga14.intel.com
-X-Spam_score_int: -76
-X-Spam_score: -7.7
-X-Spam_bar: -------
-X-Spam_report: (-7.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=192.55.52.136;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga12.intel.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,133 +84,100 @@ Cc: Wanpeng Li <wanpengli@tencent.com>, luto@kernel.org, david@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the new extended memslot structure kvm_userspace_memory_region_ext.
-The extended part (private_fd/ private_offset) will be copied from
-userspace only when KVM_MEM_PRIVATE is set. Internally old
-kvm_userspace_memory_region will still be used for places where the
-extended fields are not needed.
+Private pages are not mmap-ed into userspace so can not reply on
+get_user_pages() to obtain the pfn. Instead we add a memfile_pfn_ops
+pointer pfn_ops in each private memslot and use it to obtain the pfn
+for a gfn. To do that, KVM should convert the gfn to the offset into
+the fd and then call get_lock_pfn callback. Once KVM completes its job
+it should call put_unlock_pfn to unlock the pfn. Note the pfn(page) is
+locked between get_lock_pfn/put_unlock_pfn to ensure pfn is valid when
+KVM uses it to establish the mapping in the secondary MMU page table.
+
+The pfn_ops is initialized via memfile_register_notifier from the memory
+backing store that provided the private_fd.
 
 Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
 Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 ---
- arch/x86/kvm/x86.c       | 12 ++++++------
- include/linux/kvm_host.h |  4 ++--
- virt/kvm/kvm_main.c      | 30 ++++++++++++++++++++----------
- 3 files changed, 28 insertions(+), 18 deletions(-)
+ arch/x86/kvm/Kconfig     |  1 +
+ include/linux/kvm_host.h | 33 +++++++++++++++++++++++++++++++++
+ 2 files changed, 34 insertions(+)
 
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index c194a8cbd25f..7f8d87463391 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -11572,13 +11572,13 @@ void __user * __x86_set_memory_region(struct kvm *kvm, int id, gpa_t gpa,
- 	}
- 
- 	for (i = 0; i < KVM_ADDRESS_SPACE_NUM; i++) {
--		struct kvm_userspace_memory_region m;
-+		struct kvm_userspace_memory_region_ext m;
- 
--		m.slot = id | (i << 16);
--		m.flags = 0;
--		m.guest_phys_addr = gpa;
--		m.userspace_addr = hva;
--		m.memory_size = size;
-+		m.region.slot = id | (i << 16);
-+		m.region.flags = 0;
-+		m.region.guest_phys_addr = gpa;
-+		m.region.userspace_addr = hva;
-+		m.region.memory_size = size;
- 		r = __kvm_set_memory_region(kvm, &m);
- 		if (r < 0)
- 			return ERR_PTR_USR(r);
+diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
+index ebc8ce9ec917..5d5bebaad9e7 100644
+--- a/arch/x86/kvm/Kconfig
++++ b/arch/x86/kvm/Kconfig
+@@ -47,6 +47,7 @@ config KVM
+ 	select SRCU
+ 	select INTERVAL_TREE
+ 	select HAVE_KVM_PM_NOTIFIER if PM
++	select MEMFILE_NOTIFIER
+ 	help
+ 	  Support hosting fully virtualized guest machines using hardware
+ 	  virtualization extensions.  You will need a fairly recent
 diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index 5011ac35bc50..26118a45f0bb 100644
+index 26118a45f0bb..927e7f44a02a 100644
 --- a/include/linux/kvm_host.h
 +++ b/include/linux/kvm_host.h
-@@ -977,9 +977,9 @@ enum kvm_mr_change {
+@@ -42,6 +42,7 @@
+ 
+ #include <asm/kvm_host.h>
+ #include <linux/kvm_dirty_ring.h>
++#include <linux/memfile_notifier.h>
+ 
+ #ifndef KVM_MAX_VCPU_IDS
+ #define KVM_MAX_VCPU_IDS KVM_MAX_VCPUS
+@@ -460,6 +461,7 @@ struct kvm_memory_slot {
+ 	u16 as_id;
+ 	struct file *private_file;
+ 	loff_t private_offset;
++	struct memfile_pfn_ops *pfn_ops;
  };
  
- int kvm_set_memory_region(struct kvm *kvm,
--			  const struct kvm_userspace_memory_region *mem);
-+		const struct kvm_userspace_memory_region_ext *region_ext);
- int __kvm_set_memory_region(struct kvm *kvm,
--			    const struct kvm_userspace_memory_region *mem);
-+		const struct kvm_userspace_memory_region_ext *region_ext);
- void kvm_arch_free_memslot(struct kvm *kvm, struct kvm_memory_slot *slot);
- void kvm_arch_memslots_updated(struct kvm *kvm, u64 gen);
- int kvm_arch_prepare_memory_region(struct kvm *kvm,
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index 168d0ab93c88..ecf94e2548f7 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -1815,8 +1815,9 @@ static bool kvm_check_memslot_overlap(struct kvm_memslots *slots, int id,
-  * Must be called holding kvm->slots_lock for write.
-  */
- int __kvm_set_memory_region(struct kvm *kvm,
--			    const struct kvm_userspace_memory_region *mem)
-+		const struct kvm_userspace_memory_region_ext *region_ext)
+ static inline bool kvm_slot_is_private(const struct kvm_memory_slot *slot)
+@@ -810,6 +812,7 @@ static inline void kvm_irqfd_exit(void)
  {
-+	const struct kvm_userspace_memory_region *mem = &region_ext->region;
- 	struct kvm_memory_slot *old, *new;
- 	struct kvm_memslots *slots;
- 	enum kvm_mr_change change;
-@@ -1919,24 +1920,24 @@ int __kvm_set_memory_region(struct kvm *kvm,
- EXPORT_SYMBOL_GPL(__kvm_set_memory_region);
- 
- int kvm_set_memory_region(struct kvm *kvm,
--			  const struct kvm_userspace_memory_region *mem)
-+		const struct kvm_userspace_memory_region_ext *region_ext)
- {
- 	int r;
- 
- 	mutex_lock(&kvm->slots_lock);
--	r = __kvm_set_memory_region(kvm, mem);
-+	r = __kvm_set_memory_region(kvm, region_ext);
- 	mutex_unlock(&kvm->slots_lock);
- 	return r;
  }
- EXPORT_SYMBOL_GPL(kvm_set_memory_region);
+ #endif
++
+ int kvm_init(void *opaque, unsigned vcpu_size, unsigned vcpu_align,
+ 		  struct module *module);
+ void kvm_exit(void);
+@@ -2103,4 +2106,34 @@ static inline void kvm_handle_signal_exit(struct kvm_vcpu *vcpu)
+ /* Max number of entries allowed for each kvm dirty ring */
+ #define  KVM_DIRTY_RING_MAX_ENTRIES  65536
  
- static int kvm_vm_ioctl_set_memory_region(struct kvm *kvm,
--					  struct kvm_userspace_memory_region *mem)
-+			struct kvm_userspace_memory_region_ext *region_ext)
- {
--	if ((u16)mem->slot >= KVM_USER_MEM_SLOTS)
-+	if ((u16)region_ext->region.slot >= KVM_USER_MEM_SLOTS)
- 		return -EINVAL;
- 
--	return kvm_set_memory_region(kvm, mem);
-+	return kvm_set_memory_region(kvm, region_ext);
- }
- 
- #ifndef CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT
-@@ -4482,14 +4483,23 @@ static long kvm_vm_ioctl(struct file *filp,
- 		break;
- 	}
- 	case KVM_SET_USER_MEMORY_REGION: {
--		struct kvm_userspace_memory_region kvm_userspace_mem;
-+		struct kvm_userspace_memory_region_ext region_ext;
- 
- 		r = -EFAULT;
--		if (copy_from_user(&kvm_userspace_mem, argp,
--						sizeof(kvm_userspace_mem)))
-+		if (copy_from_user(&region_ext, argp,
-+				sizeof(struct kvm_userspace_memory_region)))
- 			goto out;
-+		if (region_ext.region.flags & KVM_MEM_PRIVATE) {
-+			int offset = offsetof(
-+				struct kvm_userspace_memory_region_ext,
-+				private_offset);
-+			if (copy_from_user(&region_ext.private_offset,
-+					   argp + offset,
-+					   sizeof(region_ext) - offset))
-+				goto out;
-+		}
- 
--		r = kvm_vm_ioctl_set_memory_region(kvm, &kvm_userspace_mem);
-+		r = kvm_vm_ioctl_set_memory_region(kvm, &region_ext);
- 		break;
- 	}
- 	case KVM_GET_DIRTY_LOG: {
++#ifdef CONFIG_MEMFILE_NOTIFIER
++static inline long kvm_memfile_get_pfn(struct kvm_memory_slot *slot, gfn_t gfn,
++				       int *order)
++{
++	pgoff_t index = gfn - slot->base_gfn +
++			(slot->private_offset >> PAGE_SHIFT);
++
++	return slot->pfn_ops->get_lock_pfn(file_inode(slot->private_file),
++					   index, order);
++}
++
++static inline void kvm_memfile_put_pfn(struct kvm_memory_slot *slot,
++				       kvm_pfn_t pfn)
++{
++	slot->pfn_ops->put_unlock_pfn(pfn);
++}
++
++#else
++static inline long kvm_memfile_get_pfn(struct kvm_memory_slot *slot, gfn_t gfn,
++				       int *order)
++{
++	return -1;
++}
++
++static inline void kvm_memfile_put_pfn(struct kvm_memory_slot *slot,
++				       kvm_pfn_t pfn)
++{
++}
++#endif /* CONFIG_MEMFILE_NOTIFIER */
++
+ #endif
 -- 
 2.17.1
 
