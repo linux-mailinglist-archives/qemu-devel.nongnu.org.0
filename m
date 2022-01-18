@@ -2,92 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F08FC49292A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 16:01:24 +0100 (CET)
-Received: from localhost ([::1]:34916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 031EB492858
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 15:27:31 +0100 (CET)
+Received: from localhost ([::1]:54942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9pz9-0004zu-WC
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 10:01:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37028)
+	id 1n9pSL-0000Ds-PN
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 09:27:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n9oDx-0004VX-Pf; Tue, 18 Jan 2022 08:08:34 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:27798)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1n9oR4-0000Xe-2I
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 08:22:06 -0500
+Received: from mga12.intel.com ([192.55.52.136]:1472)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n9oDt-0000Ib-B4; Tue, 18 Jan 2022 08:08:33 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20ICSkV5023643; 
- Tue, 18 Jan 2022 13:08:01 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dnwkb9c9k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Jan 2022 13:08:01 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20ID6ZaW003777;
- Tue, 18 Jan 2022 13:08:00 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dnwkb9c7b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Jan 2022 13:08:00 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20ID7S4U006515;
- Tue, 18 Jan 2022 13:07:55 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma01fra.de.ibm.com with ESMTP id 3dknw9bawq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Jan 2022 13:07:55 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20ID7ruX47448554
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 18 Jan 2022 13:07:53 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2833AAE058;
- Tue, 18 Jan 2022 13:07:53 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DA3ACAE05D;
- Tue, 18 Jan 2022 13:07:52 +0000 (GMT)
-Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Tue, 18 Jan 2022 13:07:52 +0000 (GMT)
-Received: from yukon.ibmuc.com (unknown [9.171.52.153])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 2F40B2201EB;
- Tue, 18 Jan 2022 14:07:52 +0100 (CET)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 31/31] ppc/pnv: Remove PHB4 version property
-Date: Tue, 18 Jan 2022 14:07:30 +0100
-Message-Id: <20220118130730.1927983-32-clg@kaod.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220118130730.1927983-1-clg@kaod.org>
-References: <20220118130730.1927983-1-clg@kaod.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: yVbq94GPPSWSyxp88M8-TA2EDKpbsKHf
-X-Proofpoint-GUID: YN_eqG_dugn_doGZuUgkKJFlaeDOi9R8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-18_03,2022-01-18_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1034 mlxlogscore=999
- malwarescore=0 adultscore=0 priorityscore=1501 bulkscore=0 phishscore=0
- lowpriorityscore=0 mlxscore=0 spamscore=0 suspectscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2201180081
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1n9oR0-00038x-4g
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 08:22:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642512122; x=1674048122;
+ h=from:to:cc:subject:date:message-id;
+ bh=PpPDuKlK4KNFGBWBo+UuY5gc5zGtdKCEIZbTqvtOkeE=;
+ b=OZthqXIs9CPbGK0M98jHUereczn/InpjwbJV3TXaV7qFKAwE47mpOvBp
+ RV95mgnI3JJWWqO1DJFm2wHHt7WZQplFztNUO8oPbp61M1Yso+q75oYpe
+ 8KH8pFnK7onQAKhuqOlVe+cxcDMLmCK2Ai3mR5JmtdvuPpkwYJd2KtJLv
+ klrA872XTyZvApllPR5Zid8DyC70hXSE6sNnPdrDJCY0P91F3HGND6Bzh
+ Q0o6ClnLUv62teBfLMBjzLbZovlymssXnFPkGICdgv/fMn0gsykMNm8hQ
+ 01Qg4c9Jon7R22lrEFJaoSNzo1DWHsyYl8GDXKogfWh4fg8ECYf5Df7tw w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10230"; a="224790857"
+X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; d="scan'208";a="224790857"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2022 05:21:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; d="scan'208";a="531791597"
+Received: from chaop.bj.intel.com ([10.240.192.101])
+ by orsmga008.jf.intel.com with ESMTP; 18 Jan 2022 05:21:51 -0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
+Subject: [PATCH v4 00/12] KVM: mm: fd-based approach for supporting KVM guest
+ private memory 
+Date: Tue, 18 Jan 2022 21:21:09 +0800
+Message-Id: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: none client-ip=192.55.52.136;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga12.intel.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,93 +67,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Wanpeng Li <wanpengli@tencent.com>, luto@kernel.org, david@redhat.com,
+ "J . Bruce Fields" <bfields@fieldses.org>, dave.hansen@intel.com,
+ "H . Peter Anvin" <hpa@zytor.com>, Chao Peng <chao.p.peng@linux.intel.com>,
+ ak@linux.intel.com, Jonathan Corbet <corbet@lwn.net>,
+ Joerg Roedel <joro@8bytes.org>, x86@kernel.org,
+ Hugh Dickins <hughd@google.com>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, jun.nakajima@intel.com,
+ Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Jim Mattson <jmattson@google.com>, Sean Christopherson <seanjc@google.com>,
+ Jeff Layton <jlayton@kernel.org>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Grab the PHB version from the PEC class directly when needed.
+This is the v4 of this series which try to implement the fd-based KVM
+guest private memory. The patches are based on latest kvm/queue branch
+commit:
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20220117122753.1655504-4-clg@kaod.org>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- hw/pci-host/pnv_phb4.c     | 9 +--------
- hw/pci-host/pnv_phb4_pec.c | 3 ---
- 2 files changed, 1 insertion(+), 11 deletions(-)
+  fea31d169094 KVM: x86/pmu: Fix available_event_types check for
+               REF_CPU_CYCLES event
 
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index c688976caec9..a78add75b043 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -672,7 +672,7 @@ static uint64_t pnv_phb4_reg_read(void *opaque, hwadd=
-r off, unsigned size)
-=20
-     switch (off) {
-     case PHB_VERSION:
--        return phb->version;
-+        return PNV_PHB4_PEC_GET_CLASS(phb->pec)->version;
-=20
-         /* Read-only */
-     case PHB_PHB4_GEN_CAP:
-@@ -1575,7 +1575,6 @@ static void pnv_phb4_realize(DeviceState *dev, Erro=
-r **errp)
-     if (!phb->pec) {
-         PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
-         PnvChip *chip =3D pnv_get_chip(pnv, phb->chip_id);
--        PnvPhb4PecClass *pecc;
-         BusState *s;
-=20
-         if (!chip) {
-@@ -1589,11 +1588,6 @@ static void pnv_phb4_realize(DeviceState *dev, Err=
-or **errp)
-             return;
-         }
-=20
--        /* All other phb properties are already set */
--        pecc =3D PNV_PHB4_PEC_GET_CLASS(phb->pec);
--        object_property_set_int(OBJECT(phb), "version", pecc->version,
--                                &error_fatal);
--
-         /*
-          * Reparent user created devices to the chip to build
-          * correctly the device tree.
-@@ -1688,7 +1682,6 @@ static void pnv_phb4_xive_notify(XiveNotifier *xf, =
-uint32_t srcno)
- static Property pnv_phb4_properties[] =3D {
-         DEFINE_PROP_UINT32("index", PnvPHB4, phb_id, 0),
-         DEFINE_PROP_UINT32("chip-id", PnvPHB4, chip_id, 0),
--        DEFINE_PROP_UINT64("version", PnvPHB4, version, 0),
-         DEFINE_PROP_LINK("pec", PnvPHB4, pec, TYPE_PNV_PHB4_PEC,
-                          PnvPhb4PecState *),
-         DEFINE_PROP_END_OF_LIST(),
-diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index a3c4b4ef850c..40d89fda56e5 100644
---- a/hw/pci-host/pnv_phb4_pec.c
-+++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -117,7 +117,6 @@ static void pnv_pec_default_phb_realize(PnvPhb4PecSta=
-te *pec,
-                                         Error **errp)
- {
-     PnvPHB4 *phb =3D PNV_PHB4(qdev_new(TYPE_PNV_PHB4));
--    PnvPhb4PecClass *pecc =3D PNV_PHB4_PEC_GET_CLASS(pec);
-     int phb_id =3D pnv_phb4_pec_get_phb_id(pec, stack_no);
-=20
-     object_property_set_link(OBJECT(phb), "pec", OBJECT(pec),
-@@ -126,8 +125,6 @@ static void pnv_pec_default_phb_realize(PnvPhb4PecSta=
-te *pec,
-                             &error_fatal);
-     object_property_set_int(OBJECT(phb), "index", phb_id,
-                             &error_fatal);
--    object_property_set_int(OBJECT(phb), "version", pecc->version,
--                            &error_fatal);
-=20
-     if (!sysbus_realize(SYS_BUS_DEVICE(phb), errp)) {
-         return;
---=20
-2.31.1
+Introduction
+------------
+In general this patch series introduce fd-based memslot which provides
+guest memory through memory file descriptor fd[offset,size] instead of
+hva/size. The fd can be created from a supported memory filesystem
+like tmpfs/hugetlbfs etc. which we refer as memory backing store. KVM
+and the the memory backing store exchange callbacks when such memslot
+gets created. At runtime KVM will call into callbacks provided by the
+backing store to get the pfn with the fd+offset. Memory backing store
+will also call into KVM callbacks when userspace fallocate/punch hole
+on the fd to notify KVM to map/unmap secondary MMU page tables.
+
+Comparing to existing hva-based memslot, this new type of memslot allows
+guest memory unmapped from host userspace like QEMU and even the kernel
+itself, therefore reduce attack surface and prevent bugs.
+
+Based on this fd-based memslot, we can build guest private memory that
+is going to be used in confidential computing environments such as Intel
+TDX and AMD SEV. When supported, the memory backing store can provide
+more enforcement on the fd and KVM can use a single memslot to hold both
+the private and shared part of the guest memory. 
+
+mm extension
+---------------------
+Introduces new F_SEAL_INACCESSIBLE for shmem and new MFD_INACCESSIBLE
+flag for memfd_create(), the file created with these flags cannot read(),
+write() or mmap() etc via normal MMU operations. The file content can
+only be used with the newly introduced memfile_notifier extension.
+
+The memfile_notifier extension provides two sets of callbacks for KVM to
+interact with the memory backing store:
+  - memfile_notifier_ops: callbacks for memory backing store to notify
+    KVM when memory gets allocated/invalidated.
+  - memfile_pfn_ops: callbacks for KVM to call into memory backing store
+    to request memory pages for guest private memory.
+
+memslot extension
+-----------------
+Add the private fd and the fd offset to existing 'shared' memslot so that
+both private/shared guest memory can live in one single memslot. A page in
+the memslot is either private or shared. A page is private only when it's
+already allocated in the backing store fd, all the other cases it's treated
+as shared, this includes those already mapped as shared as well as those
+having not been mapped. This means the memory backing store is the place
+which tells the truth of which page is private.
+
+Private memory map/unmap and conversion
+---------------------------------------
+Userspace's map/unmap operations are done by fallocate() ioctl on the
+backing store fd.
+  - map: default fallocate() with mode=0.
+  - unmap: fallocate() with FALLOC_FL_PUNCH_HOLE.
+The map/unmap will trigger above memfile_notifier_ops to let KVM map/unmap
+secondary MMU page tables.
+
+Test
+----
+To test the new functionalities of this patch TDX patchset is needed.
+Since TDX patchset has not been merged so I did two kinds of test:
+
+-  Regresion test on kvm/queue (this patch)
+   Most new code are not covered. I only tested building and booting.
+
+-  New Funational test on latest TDX code
+   The patch is rebased to latest TDX code and tested the new
+   funcationalities.
+
+For TDX test please see below repos:
+Linux: https://github.com/chao-p/linux/tree/privmem-v4.3
+QEMU: https://github.com/chao-p/qemu/tree/privmem-v4
+
+And an example QEMU command line:
+-object tdx-guest,id=tdx \
+-object memory-backend-memfd-private,id=ram1,size=2G \
+-machine q35,kvm-type=tdx,pic=no,kernel_irqchip=split,memory-encryption=tdx,memory-backend=ram1
+
+Changelog
+----------
+v4:
+  - Decoupled the callbacks between KVM/mm from memfd and use new
+    name 'memfile_notifier'.
+  - Supported register multiple memslots to the same backing store.
+  - Added per-memslot pfn_ops instead of per-system.
+  - Reworked the invalidation part.
+  - Improved new KVM uAPIs (private memslot extension and memory
+    error) per Sean's suggestions.
+  - Addressed many other minor fixes for comments from v3.
+v3:
+  - Added locking protection when calling
+    invalidate_page_range/fallocate callbacks.
+  - Changed memslot structure to keep use useraddr for shared memory.
+  - Re-organized F_SEAL_INACCESSIBLE and MEMFD_OPS.
+  - Added MFD_INACCESSIBLE flag to force F_SEAL_INACCESSIBLE.
+  - Commit message improvement.
+  - Many small fixes for comments from the last version.
+
+Links of previous discussions
+-----------------------------
+[1] Original design proposal:
+https://lkml.kernel.org/kvm/20210824005248.200037-1-seanjc@google.com/
+[2] Updated proposal and RFC patch v1:
+https://lkml.kernel.org/linux-fsdevel/20211111141352.26311-1-chao.p.peng@linux.intel.com/
+[3] Patch v3: https://lkml.org/lkml/2021/12/23/283
+
+Chao Peng (11):
+  mm/memfd: Introduce MFD_INACCESSIBLE flag
+  mm: Introduce memfile_notifier
+  mm/shmem: Support memfile_notifier
+  KVM: Extend the memslot to support fd-based private memory
+  KVM: Use kvm_userspace_memory_region_ext
+  KVM: Add KVM_EXIT_MEMORY_ERROR exit
+  KVM: Use memfile_pfn_ops to obtain pfn for private pages
+  KVM: Handle page fault for private memory
+  KVM: Register private memslot to memory backing store
+  KVM: Zap existing KVM mappings when pages changed in the private fd
+  KVM: Expose KVM_MEM_PRIVATE
+
+Kirill A. Shutemov (1):
+  mm/shmem: Introduce F_SEAL_INACCESSIBLE
+
+ arch/x86/kvm/Kconfig             |   1 +
+ arch/x86/kvm/mmu/mmu.c           |  73 +++++++++++-
+ arch/x86/kvm/mmu/paging_tmpl.h   |  11 +-
+ arch/x86/kvm/x86.c               |  12 +-
+ include/linux/kvm_host.h         |  49 +++++++-
+ include/linux/memfile_notifier.h |  53 +++++++++
+ include/linux/shmem_fs.h         |   4 +
+ include/uapi/linux/fcntl.h       |   1 +
+ include/uapi/linux/kvm.h         |  17 +++
+ include/uapi/linux/memfd.h       |   1 +
+ mm/Kconfig                       |   4 +
+ mm/Makefile                      |   1 +
+ mm/memfd.c                       |  20 +++-
+ mm/memfile_notifier.c            |  99 ++++++++++++++++
+ mm/shmem.c                       | 121 +++++++++++++++++++-
+ virt/kvm/kvm_main.c              | 188 +++++++++++++++++++++++++++----
+ 16 files changed, 614 insertions(+), 41 deletions(-)
+ create mode 100644 include/linux/memfile_notifier.h
+ create mode 100644 mm/memfile_notifier.c
+
+-- 
+2.17.1
 
 
