@@ -2,95 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E26492802
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 15:07:48 +0100 (CET)
-Received: from localhost ([::1]:40366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A15DF492804
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 15:09:09 +0100 (CET)
+Received: from localhost ([::1]:41740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9p9G-0003zo-JX
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 09:07:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36322)
+	id 1n9pAa-0004yf-M0
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 09:09:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1n9oCX-0003Bk-GM
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 08:07:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56768)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1n9oDD-0003by-8e; Tue, 18 Jan 2022 08:07:47 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37766
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1n9oCV-00007g-Vo
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 08:07:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642511221;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=riYyBLsWgoNWjrKGMnty/PxlIohkH+LtcPxY9VFpep0=;
- b=EIz6FNjettognpRjRXPhgwUFBZNHE5crAoZWDABJoYgL8X1MOrNRvDhW7qUTc+6mgkh5jl
- 5pyg3Xfw5eK2maeZ7mFfIiv4wRxAyUhsDHDPBr15ZjKngGPygNlBpVyWAI6QkBndHRfnj0
- NDcMe5X0wEtHuO9sdY1ybY39rJS32Eg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-81-zb3zF8e2M0SPLfmgEse13g-1; Tue, 18 Jan 2022 08:06:58 -0500
-X-MC-Unique: zb3zF8e2M0SPLfmgEse13g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- o3-20020a05600c4fc300b0034aee9534bdso5960601wmq.2
- for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 05:06:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=riYyBLsWgoNWjrKGMnty/PxlIohkH+LtcPxY9VFpep0=;
- b=39nTvPlIu8+qELn8hb9bc0zCVaJsZPfJ7q9NK6S//DhS6KohXcpTkQr04HDwcyMpan
- a2Y38HeBtNnSS705f2qu9+pKza977pu6Yy7S1fupR2A2Cbc9T7Poqknv1jkZ9VRxAacH
- 67aTqqOH3r9xnMHSqSFGRb1UwO/uNCCtn1Niav44ZNSHjpoOKsD1LwAx9DMivpD8wTON
- 4LNh5oeumxUtTnu6psn6ihT1Yb8/mTE2OpZDWyajc/U0NLRnDmRyeY4CTn+ya59I7LfL
- e9FyLL+FzSHLEPDR8FCKmdS6zP+r341eRXGN+zFfg1cgvC8qYSMAGCH2pROlHaNbmFYx
- vB8w==
-X-Gm-Message-State: AOAM533NJkAQiMBa8Yh8F2Y0DK3ORreTrMyBa1I/+LokNDsPD+Y0ewsV
- hp9XspGmtVcrwYfjiicIPfkQmx8XQsomzMRRIPMszJ2qQAQ4u+EjK7kBDVZXrQdss+dXeXMxqPX
- JMi0y8fcgyCObKtg=
-X-Received: by 2002:a5d:610f:: with SMTP id v15mr1497291wrt.139.1642511217149; 
- Tue, 18 Jan 2022 05:06:57 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw+aYJifx6+IBHdm6XleqqY92pw1e44pGkcyQeWUYmEZhAbSw5fnQfufsM00Ndvb+6UNYAh9w==
-X-Received: by 2002:a5d:610f:: with SMTP id v15mr1497268wrt.139.1642511216936; 
- Tue, 18 Jan 2022 05:06:56 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id e10sm20041964wrq.40.2022.01.18.05.06.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Jan 2022 05:06:56 -0800 (PST)
-Message-ID: <0ad4f708-f338-0742-dc69-af08e908cff5@redhat.com>
-Date: Tue, 18 Jan 2022 14:06:55 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1n9oDB-0000CU-K9; Tue, 18 Jan 2022 08:07:46 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20IBsH2P030346; 
+ Tue, 18 Jan 2022 13:07:37 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dnt4dp5fq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Jan 2022 13:07:37 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20ID7U2o006542;
+ Tue, 18 Jan 2022 13:07:35 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma01fra.de.ibm.com with ESMTP id 3dknw9baus-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Jan 2022 13:07:35 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20ID7WpA44171588
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 18 Jan 2022 13:07:32 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A1E7F4C040;
+ Tue, 18 Jan 2022 13:07:32 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6615C4C044;
+ Tue, 18 Jan 2022 13:07:32 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Tue, 18 Jan 2022 13:07:32 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.52.153])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 759E922016C;
+ Tue, 18 Jan 2022 14:07:31 +0100 (CET)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: [PULL 00/31] ppc queue
+Date: Tue, 18 Jan 2022 14:06:59 +0100
+Message-Id: <20220118130730.1927983-1-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 4xfWhiOTuX8RVtLfJB6XyXINQ0nlRBwr
+X-Proofpoint-GUID: 4xfWhiOTuX8RVtLfJB6XyXINQ0nlRBwr
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [RFC PATCH 3/7] x86: Grant AMX permission for guest
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org
-References: <20220107093134.136441-1-yang.zhong@intel.com>
- <20220107093134.136441-4-yang.zhong@intel.com>
- <29573e51-aa21-dbf3-b626-facf72e5b9c6@redhat.com>
-In-Reply-To: <29573e51-aa21-dbf3-b626-facf72e5b9c6@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-18_03,2022-01-18_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1034
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 impostorscore=0
+ mlxlogscore=649 suspectscore=0 bulkscore=0 adultscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201180081
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.322,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,61 +94,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: seanjc@google.com, kevin.tian@intel.com, jing2.liu@linux.intel.com,
- wei.w.wang@intel.com, guang.zeng@intel.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sorry, hit send on the wrong window.  This is the only patch that will 
-require a bit more work.
+The following changes since commit 6621441db50d5bae7e34dbd04bf3c57a27a71b32:
 
-On 1/18/22 13:52, Paolo Bonzini wrote:
->> @@ -124,6 +150,8 @@ void x86_cpus_init(X86MachineState *x86ms, int 
->> default_cpu_version)
->>       MachineState *ms = MACHINE(x86ms);
->>       MachineClass *mc = MACHINE_GET_CLASS(x86ms);
->> +    /* Request AMX pemission for guest */
->> +    x86_xsave_req_perm();
->>       x86_cpu_set_default_version(default_cpu_version);
-> 
-> This should be done before creating a CPU with support for state 
-> component 18.  It happens in kvm_init_vcpu, with the following call stack:
-> 
->      kvm_init_vcpu
->      kvm_vcpu_thread_fn
->      kvm_start_vcpu_thread
->      qemu_init_vcpu
->      x86_cpu_realizefn
-> 
-> The issue however is that this has to be done before 
-> KVM_GET_SUPPORTED_CPUID and KVM_CHECK_EXTENSION(KVM_CAP_XSAVE2).
-> 
-> For the former, you can assume that anything returned by 
-> ARCH_GET_XCOMP_GUEST_PERM will be returned by KVM_GET_SUPPORTED_CPUID in 
-> CPUID[0xD].EDX:EAX, so you can:
-> 
-> - add it to kvm_arch_get_supported_cpuid
+  Merge remote-tracking branch 'remotes/mcayland/tags/qemu-openbios-2022011=
+5' into staging (2022-01-16 20:12:23 +0000)
 
-... together with the other special cases (otherwise 
-x86_cpu_get_supported_feature_word complains that XTILEDATA is not 
-available)
+are available in the Git repository at:
 
-- change kvm_cpu_xsave_init to use host_cpuid instead of 
-kvm_arch_get_supported_cpuid.
+  https://github.com/legoater/qemu/ tags/pull-ppc-20220118
 
-- call ARCH_REQ_XCOMP_GUEST_PERM from x86_cpu_enable_xsave_components, 
-with a conditional like
+for you to fetch changes up to ba49190107ee9803fb2f336b15283b457384b178:
 
-     if (kvm_enabled()) {
-         kvm_request_xsave_components(cpu, mask);
-     }
+  ppc/pnv: Remove PHB4 version property (2022-01-18 12:56:31 +0100)
 
-KVM_CHECK_EXTENSION(KVM_CAP_XSAVE2) is actually not a problem; the ioctl 
-is only called from kvm_arch_init_vcpu and therefore after 
-x86_cpu_enable_xsave_components.
+----------------------------------------------------------------
+ppc 7.0 queue:
 
-Thanks,
+* More documentation updates (Leonardo)
+* Fixes for the 7448 CPU (Fabiano and Cedric)
+* Final removal of 403 CPUs and the .load_state_old handler (Cedric)
+* More cleanups of PHB4 models (Daniel and Cedric)
 
-Paolo
+----------------------------------------------------------------
+C=C3=A9dric Le Goater (6):
+      target/ppc: Remove last user of .load_state_old
+      target/ppc: Finish removal of 401/403 CPUs
+      target/ppc: Fix 7448 support
+      ppc/pnv: Move root port allocation under pnv_pec_default_phb_realize()
+      ppc/pnv: Add a 'rp_model' class attribute for the PHB4 PEC
+      ppc/pnv: Remove PHB4 version property
 
+Daniel Henrique Barboza (18):
+      ppc/pnv: use PHB4 obj in pnv_pec_stk_pci_xscom_ops
+      ppc/pnv: move PCI registers to PnvPHB4
+      ppc/pnv: move phbbar to PnvPHB4
+      ppc/pnv: move intbar to PnvPHB4
+      ppc/pnv: change pnv_phb4_update_regions() to use PnvPHB4
+      ppc/pnv: move mmbar0/mmbar1 and friends to PnvPHB4
+      ppc/pnv: move nest_regs[] to PnvPHB4
+      ppc/pnv: change pnv_pec_stk_update_map() to use PnvPHB4
+      ppc/pnv: move nest_regs_mr to PnvPHB4
+      ppc/pnv: move phb_regs_mr to PnvPHB4
+      ppc/pnv: introduce PnvPHB4 'pec' property
+      ppc/pnv: reduce stack->stack_no usage
+      ppc/pnv: remove stack pointer from PnvPHB4
+      ppc/pnv: move default_phb_realize() to pec_realize()
+      ppc/pnv: remove PnvPhb4PecStack::stack_no
+      ppc/pnv: make PECs create and realize PHB4s
+      ppc/pnv: remove PnvPhb4PecStack object
+      ppc/pnv: rename pnv_pec_stk_update_map()
+
+Fabiano Rosas (1):
+      tests/avocado: ppc: Add smoke tests for MPC7400 and MPC7450 families
+
+Leonardo Garcia (6):
+      docs: rSTify ppc-spapr-hotplug.txt.
+      docs: Rename ppc-spapr-hotplug.txt to ppc-spapr-hotplug.rst.
+      Link new ppc-spapr-hotplug.rst file to pseries.rst.
+      rSTify ppc-spapr-uv-hcalls.txt.
+      Rename ppc-spapr-uv-hcalls.txt to ppc-spapr-uv-hcalls.rst.
+      Link new ppc-spapr-uv-hcalls.rst to pseries.rst.
+
+ docs/specs/ppc-spapr-hotplug.rst   | 510 +++++++++++++++++++++++++++++++++=
+++++
+ docs/specs/ppc-spapr-hotplug.txt   | 409 -----------------------------
+ docs/specs/ppc-spapr-uv-hcalls.rst |  89 +++++++
+ docs/specs/ppc-spapr-uv-hcalls.txt |  76 ------
+ docs/system/ppc/pseries.rst        |   8 +-
+ include/hw/pci-host/pnv_phb4.h     |  80 +++---
+ target/ppc/cpu.h                   |   1 -
+ target/ppc/helper.h                |   1 -
+ hw/pci-host/pnv_phb4.c             | 299 +++++++++++-----------
+ hw/pci-host/pnv_phb4_pec.c         | 121 +++------
+ target/ppc/cpu-models.c            |   9 +-
+ target/ppc/machine.c               | 136 ----------
+ target/ppc/misc_helper.c           |   9 -
+ target/ppc/translate.c             |  16 +-
+ tests/avocado/ppc_74xx.py          | 123 +++++++++
+ 15 files changed, 940 insertions(+), 947 deletions(-)
+ create mode 100644 docs/specs/ppc-spapr-hotplug.rst
+ delete mode 100644 docs/specs/ppc-spapr-hotplug.txt
+ create mode 100644 docs/specs/ppc-spapr-uv-hcalls.rst
+ delete mode 100644 docs/specs/ppc-spapr-uv-hcalls.txt
+ create mode 100644 tests/avocado/ppc_74xx.py
 
