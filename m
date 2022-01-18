@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E34D0492704
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 14:22:00 +0100 (CET)
-Received: from localhost ([::1]:60530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65AA349273C
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 14:27:22 +0100 (CET)
+Received: from localhost ([::1]:41060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9oQv-0006a4-Hz
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 08:21:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56036)
+	id 1n9oW4-0004Mv-Oi
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 08:27:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n9ndJ-0006As-Fp
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 07:30:41 -0500
-Received: from [2a00:1450:4864:20::332] (port=41970
- helo=mail-wm1-x332.google.com)
+ id 1n9njp-0005C3-MK
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 07:37:25 -0500
+Received: from [2a00:1450:4864:20::329] (port=44980
+ helo=mail-wm1-x329.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n9ndG-00027c-6t
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 07:30:41 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- q141-20020a1ca793000000b00347b48dfb53so7088549wme.0
- for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 04:30:37 -0800 (PST)
+ id 1n9njo-0003e6-5n
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 07:37:25 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ l35-20020a05600c1d2300b0034d477271c1so3554707wms.3
+ for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 04:37:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=C/jgBKl6541porzzwol3KCBPwD85bJnsXXVRPxroVxs=;
- b=LfWbeUP9E3uP2jz4B67Wl+QX9EGjJM3+5hQMgDgzY4cDXe0WjdNaD5tgWkd6wtoSrj
- /XbPcbx/HBt3C/kdWGpzX/Vnb79VPO/3LG2Zy3Eb4S2syAh0IUd+DhUPxC7uJfBifR0K
- jN4XUW+07HjMMjKs1eqiJmuR5WtUbmGZaOMxj3098MKCF9+LdZ2yLPiRxx8n4vOti7As
- GeQW1Jd2mQ5G3Vdto2igfKhiNDeKyO+NEvt3b2jswKyq5G1JYkW4ElQVwD0WtqfEBLIY
- U+g2B/9WKGwjOfbH4PPGb4LA5krCDSPQUELhupCRC0RK9IlqisWm2k4OMDg+iEsEnA1m
- HnMw==
+ bh=h6pzLsUAMb/qBaASv3koy93SgO9fXI3IyJ6aXduLksQ=;
+ b=KRNjR52TPkfjC2vYlpqyN6vVrN7nar6xn5B5DVBjCLAEMEpFMXGiIPS9PEA/B/r4xs
+ Omb4o98IOI1YGkXKt672paUILp4z+NQ8w0yVjchnzGBY3/60Kol1oaRU+0icyk0HTZH9
+ TSxd5PHxB7lnlhUmYJDGXhWM7WvX0K0uryjgiXyHUC0zCYnwbU/a+6Dp6MsYdsUm+ard
+ /vWfbvRF4ULAkQs8huP/mrujZLKlzwnjr+odQzvu6RY6Zd0n4KUNdrBVsvx1TrbLqC2o
+ t4UilHjBWS98oiQciAO8FgbTA5WoJNEb0QeKzMMjZNDFitqReBe7ez3U/AAu9qtVk1A6
+ ZrPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=C/jgBKl6541porzzwol3KCBPwD85bJnsXXVRPxroVxs=;
- b=2WIgLcxdusU4bUishkdqFkTEaKM2QQry1DgYw+TeZe10kpgllT5/BsizPmuFeHd5Q/
- pNHsPV/xuhWqMykqrTzv8TtyFBXJatVdzHzllGgtyd7rljBdSQwPN1+Fzev6AkLlVKBo
- O7pMmo3HaM539IZBUoyOfZalqjbTpYCt5PA9ohfrphP7A8jMAuLvnR62lod9O+J0kLOS
- 8juSk+yHUlTOOaH0+fbvFFvR4+cSrvLjmEk9ywoI0ldzj3Yfq2fcKLhNnEwXLUoOmVUG
- xe6RUW0eJSUbgzcCVFPdjVa0Z4RHPjJfxaTz9DO5XjLO71yGbUAiNtSXBxDT50QMLrG1
- qMSA==
-X-Gm-Message-State: AOAM531vEpJzQlxYS7ZKvf6yJthYeebDzka13i9Pm7bPdxaDCPVcp5fO
- /XTBtW4YTeqrkpuRPloEtAk=
-X-Google-Smtp-Source: ABdhPJzoqEcNb11vb6Iah77tXmEp6xizHV8vEKHApDhy9uTRpbFHNGk9K4OX3X6gKrSdm3OFANdIUA==
-X-Received: by 2002:adf:d1c8:: with SMTP id b8mr22670261wrd.317.1642509036831; 
- Tue, 18 Jan 2022 04:30:36 -0800 (PST)
+ bh=h6pzLsUAMb/qBaASv3koy93SgO9fXI3IyJ6aXduLksQ=;
+ b=qdacW5vsppse+Rqug7PthwP8H+FFptQ+MV7TzcIEZvQJ7oRHuLH9BZfJEu+/hfXsS/
+ J/x2Da1iF08101IZMeLD7TuRPeCIYxg/gydglGwcGrpdrjii1l0BN8h0AoonxAf5pJz0
+ We8QCDYvgsOZsKoPJ4U8XURDtZInRu/o38G2LMwRWXjBm9FU0C6IZoQ7KBr4tveUjQXv
+ psbrdJ8tJYecv67aX1jl2xPE0HN2NrVoa/sKBQ3iWVl1lbvm2mCkg9qsA+sXd7ad43X9
+ 3mrCc4oBw9r2LWXsCxjsg2exTqKQ8aTjqc++Na9PMCZGJ6Pp1zTv21NnWrZAiQc3+Pqz
+ 7WoQ==
+X-Gm-Message-State: AOAM5331ajhgw4VwEV+xktX6Yt9/3W3/12/eoumT7VxhJ+84Y9Z/wtiL
+ vk/MqAxvxfoiYxcsQTqyD/s=
+X-Google-Smtp-Source: ABdhPJwPoVAJJC8+4mY19kAhxe8aXmB0sz+uXav8SBgP7R5o2LQ7M1CgEkByY/JJMLTY9ZKWzSrkyA==
+X-Received: by 2002:adf:d1ec:: with SMTP id g12mr16488632wrd.210.1642509443012; 
+ Tue, 18 Jan 2022 04:37:23 -0800 (PST)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id 1sm15550195wry.46.2022.01.18.04.30.35
+ by smtp.googlemail.com with ESMTPSA id 8sm17178591wrz.60.2022.01.18.04.37.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Jan 2022 04:30:35 -0800 (PST)
-Message-ID: <d9c9de5c-7b33-ea60-4a14-634cdd8f66a2@redhat.com>
-Date: Tue, 18 Jan 2022 13:30:35 +0100
+ Tue, 18 Jan 2022 04:37:22 -0800 (PST)
+Message-ID: <3aaa1a42-e3b0-2d55-78fd-368c925af4af@redhat.com>
+Date: Tue, 18 Jan 2022 13:37:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: /usr/shared/qemu binaries
+Subject: Re: [RFC PATCH 1/7] x86: Fix the 64-byte boundary enumeration for
+ extended state
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <B9A4B86C-4540-486D-A261-876191FA7424@livius.net>
- <CAKmqyKPBDfxKwqcgzjBDEqoWyjjc3g7PiUOEqptL1vfDfh6H8g@mail.gmail.com>
- <D3A93704-3353-4407-9D47-56FF06BDFB87@livius.net>
- <CAKmqyKO-K-GtrHijVW9jVHTtxgeGdOHm7-Y_290HqtNG4k71eg@mail.gmail.com>
- <1E2E0E52-B384-404C-BD72-5697A611EEC5@livius.net>
- <CAFEAcA_vx48ZavZCHD5_=Ajc9zsWS2ieoDXvRzBAEMBjkR3Rrg@mail.gmail.com>
- <7403b918-d2c7-1d3f-8ef8-786db90fcbea@redhat.com>
- <CAFEAcA_qkUPjSz2PQTxtkTFuho=HusONxN56e9z89B8jHrOJag@mail.gmail.com>
+To: Yang Zhong <yang.zhong@intel.com>, "Tian, Kevin" <kevin.tian@intel.com>
+References: <20220107093134.136441-1-yang.zhong@intel.com>
+ <20220107093134.136441-2-yang.zhong@intel.com>
+ <BN9PR11MB5276BFF130081C9ED21F89238C509@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <20220111022218.GA10706@yangzhon-Virtual>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAFEAcA_qkUPjSz2PQTxtkTFuho=HusONxN56e9z89B8jHrOJag@mail.gmail.com>
+In-Reply-To: <20220111022218.GA10706@yangzhon-Virtual>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -100,31 +97,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liviu Ionescu <ilg@livius.net>, QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>
+Cc: "Christopherson, , Sean" <seanjc@google.com>, "Wang,
+ Wei W" <wei.w.wang@intel.com>,
+ "jing2.liu@linux.intel.com" <jing2.liu@linux.intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Zeng,
+ Guang" <guang.zeng@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/13/22 18:23, Peter Maydell wrote:
-> On Thu, 13 Jan 2022 at 17:13, Paolo Bonzini <pbonzini@redhat.com> wrote:
->>
->> On 1/12/22 14:56, Peter Maydell wrote:
->>> Those are UEFI firmware images which are suitable for using with
->>> the arm/aarch64 "virt" board. They're only used if the user specifically
->>> asks to use them on the command line (eg with
->>> "-drive if=pflash,format=raw,file=pc-bios/edk2-aarch64-code.fd" or
->>> similar).
->>
->> There must be lots of zeros in there. Maybe we should tell QEMU to
->> unpack firmware .gz or .lzo files?
-> 
-> Not hugely keen on adding more "do what I mean" behaviour...
+On 1/11/22 03:22, Yang Zhong wrote:
+>    Thanks Kevin, I will update this in next version.
 
-Certainly no autodetection (with writable pflash there's the possibility 
-of the guest causing real problems), but we already distribute firmware 
-as compressed files so the zeroes _are_ causing problems for us as well. 
-  We are just telling the users to deal with it.
+Also:
+
+     The extended state subleaves (EAX=0Dh, ECX=n, n>1).ECX[1]
+     indicate whether the extended state component locates
+     on the next 64-byte boundary following the preceding state
+     component when the compacted format of an XSAVE area is
+     used.
+
+     Right now, they are all zero because no supported component
+     needed the bit to be set, but the upcoming AMX feature will
+     use it.  Fix the subleaves value according to KVM's supported
+     cpuid.
 
 Paolo
-
 
