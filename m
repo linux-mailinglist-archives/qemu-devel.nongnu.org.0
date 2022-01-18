@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90C9149301F
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 22:48:34 +0100 (CET)
-Received: from localhost ([::1]:44664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64C7949303E
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 22:58:06 +0100 (CET)
+Received: from localhost ([::1]:48494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9wLB-0000eU-7O
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 16:48:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34394)
+	id 1n9wUO-0004w4-MH
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 16:58:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1n9wJN-0008Ib-B3
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 16:46:41 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:50212)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1n9wT3-0004En-5X
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 16:56:41 -0500
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:50214)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1n9wJK-0005kj-TR
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 16:46:41 -0500
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1n9wT1-0007PR-8I
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 16:56:40 -0500
 Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 2368DC60912;
- Tue, 18 Jan 2022 22:46:33 +0100 (CET)
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 59B0EC60912;
+ Tue, 18 Jan 2022 22:56:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1642542393;
+ t=1642542995;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=nF5WeQX4EY/85aIO1rd0Gl3Mz9oBF/u164LrxPvEs5w=;
- b=djZ8xwGp/SPsTg+RxwhB0TySMhk6Rx0On5gSu+gpWJMuHDBZi7VdyQfKTE/6S2Z5f/Np07
- xREcJOmgeVUs+YASPBmCUhHjHd2GbYZU2VpORwrjI2MTke2rDfVfO5BSNWs/RtU6Y3kzu9
- HReJVv7KASRz9am6btxjIeGwJSPgOPZO/SFPX3lRNBrhgvBjejEk8jF28WBcIDadJMYZmG
- 0qu3OUKrhZSpiKj0kDDUrhyfenVAEbV9ojVRxJ61MF9ZXO1twhz82mtRqiq5JkwOaCe6z0
- GFrAEDQiJkl38q9fwOw7obWahcfOXI/+522yevbMVqrPasZogl6beLHTNgveHQ==
-Date: Tue, 18 Jan 2022 22:46:32 +0100
+ bh=fghMFuwfDf2H9w13yDzje5yC2WohrLBfRYBOxdoRKsw=;
+ b=cFkN/QuJbb8N7VoUdlRw2rkUZAcix8iZU3k2v7ZGvVtKHfWu3SY9Nq2ND3WHEo/5fiE/yH
+ 0sACXC1OLYMmXSl8ji3C3NPbcdSJa5KXgJNm51+STePLTD3l6Ex+YV9SEPuaVL2IEg1bH2
+ MuSo0VnnGGrb99Kza3UE6U0cbSM+ox3PfdG+5nQLnz8VPgd1FMYXosNrB37G+uoB/rNcWN
+ yJcOyNF1Twtd5cfw3gQQD5HDx4EFSCuf8yMaHyi1ZLe7FdgIPrrUciTnTCkSeCwnDJrkKu
+ X1Wjb7QUZ2Lq+azxsr3J8L4EuD19JFTJwKWDBJgEP69bpaLeQdKkjsap5FLU9A==
+Date: Tue, 18 Jan 2022 22:56:35 +0100
 From: Luc Michel <luc@lmichel.fr>
 To: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Subject: Re: [PATCH v6 07/12] hw/ssi: Add a model of Xilinx Versal's OSPI
- flash memory controller
-Message-ID: <20220118214632.hhojvvcrj7ovrip7@sekoia-pc.home.lmichel.fr>
+Subject: Re: [PATCH v6 03/12] hw/arm/xlnx-versal: Connect Versal's PMC SLCR
+Message-ID: <20220118215635.wrf26bkcsoqqcday@sekoia-pc.home.lmichel.fr>
 References: <20220114152841.1740-1-francisco.iglesias@xilinx.com>
- <20220114152841.1740-8-francisco.iglesias@xilinx.com>
+ <20220114152841.1740-4-francisco.iglesias@xilinx.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220114152841.1740-8-francisco.iglesias@xilinx.com>
+In-Reply-To: <20220114152841.1740-4-francisco.iglesias@xilinx.com>
 Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
  helo=pharaoh.lmichel.fr
 X-Spam_score_int: -20
@@ -69,189 +68,175 @@ Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Francisco,
-
-Impressive beast :-) Nicely done. Maybe I would have split it in a
-couple of commits to ease review. Also, you can use 
-
-[diff]
-    orderFile = scripts/git.orderfile
-
-as a local config in your QEMU git so that files are placed in a
-sensible order (.h files will come first), which ease a bit the
-reviewing process.
-
-See my remarks below. My biggest concern is about the tx_sram fifo.
-The rest are small suggestions here and there.
-
 On 15:28 Fri 14 Jan     , Francisco Iglesias wrote:
-[snip]
-> +
-> +static int ospi_stig_membank_rd_bytes(XlnxVersalOspi *s)
+> Connect Versal's PMC SLCR (system-level control registers) model.
+> 
+> Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
+
+Reviewed-by: Luc Michel <luc@lmichel.fr>
+
+> ---
+>  hw/arm/xlnx-versal.c         | 71 +++++++++++++++++++++++++++++++++++++++++++-
+>  include/hw/arm/xlnx-versal.h |  5 ++++
+>  2 files changed, 75 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+> index fefd00b57c..c8c0c102c7 100644
+> --- a/hw/arm/xlnx-versal.c
+> +++ b/hw/arm/xlnx-versal.c
+> @@ -21,11 +21,13 @@
+>  #include "kvm_arm.h"
+>  #include "hw/misc/unimp.h"
+>  #include "hw/arm/xlnx-versal.h"
+> +#include "qemu/log.h"
+> +#include "hw/sysbus.h"
+>  
+>  #define XLNX_VERSAL_ACPU_TYPE ARM_CPU_TYPE_NAME("cortex-a72")
+>  #define GEM_REVISION        0x40070106
+>  
+> -#define VERSAL_NUM_PMC_APB_IRQS 2
+> +#define VERSAL_NUM_PMC_APB_IRQS 3
+>  
+>  static void versal_create_apu_cpus(Versal *s)
+>  {
+> @@ -271,6 +273,7 @@ static void versal_create_pmc_apb_irq_orgate(Versal *s, qemu_irq *pic)
+>       * models:
+>       *  - RTC
+>       *  - BBRAM
+> +     *  - PMC SLCR
+>       */
+>      object_initialize_child(OBJECT(s), "pmc-apb-irq-orgate",
+>                              &s->pmc.apb_irq_orgate, TYPE_OR_IRQ);
+> @@ -392,6 +395,23 @@ static void versal_create_efuse(Versal *s, qemu_irq *pic)
+>      sysbus_connect_irq(SYS_BUS_DEVICE(ctrl), 0, pic[VERSAL_EFUSE_IRQ]);
+>  }
+>  
+> +static void versal_create_pmc_iou_slcr(Versal *s, qemu_irq *pic)
 > +{
-> +    int rd_data_fld = ARRAY_FIELD_EX32(s->regs, FLASH_COMMAND_CTRL_MEM_REG,
-> +                                       NB_OF_STIG_READ_BYTES_FLD);
-> +    int sizes[6] = { 16, 32, 64, 128, 256, 512 };
-
-static const int sizes[6]
-
-(or return (rd_data_fld < 6) ? (1 << (4 + rd_data_fld)) : 0; )
-
-> +    return (rd_data_fld < 6) ? sizes[rd_data_fld] : 0;
+> +    SysBusDevice *sbd;
+> +
+> +    object_initialize_child(OBJECT(s), "versal-pmc-iou-slcr", &s->pmc.iou.slcr,
+> +                            TYPE_XILINX_VERSAL_PMC_IOU_SLCR);
+> +
+> +    sbd = SYS_BUS_DEVICE(&s->pmc.iou.slcr);
+> +    sysbus_realize(sbd, &error_fatal);
+> +
+> +    memory_region_add_subregion(&s->mr_ps, MM_PMC_PMC_IOU_SLCR,
+> +                                sysbus_mmio_get_region(sbd, 0));
+> +
+> +    sysbus_connect_irq(sbd, 0,
+> +                       qdev_get_gpio_in(DEVICE(&s->pmc.apb_irq_orgate), 2));
 > +}
 > +
-[snip]
-> +
-> +static void ospi_ahb_decoder_enable_cs(XlnxVersalOspi *s, hwaddr addr)
+>  /* This takes the board allocated linear DDR memory and creates aliases
+>   * for each split DDR range/aperture on the Versal address map.
+>   */
+> @@ -448,8 +468,31 @@ static void versal_unimp_area(Versal *s, const char *name,
+>      memory_region_add_subregion(mr, base, mr_dev);
+>  }
+>  
+> +static void versal_unimp_sd_emmc_sel(void *opaque, int n, int level)
 > +{
-> +    int cs = ospi_ahb_decoder_cs(s, addr);
-> +
-> +    if (cs >= 0) {
-> +        for (int i = 0; i < s->num_cs; i++) {
-> +            if (cs == i) {
-> +                qemu_set_irq(s->cs_lines[i], 0);
-> +            } else {
-> +                qemu_set_irq(s->cs_lines[i], 1);
-> +            }
-
-Maybe `qemu_set_irq(s->cs_lines[i], cs != i);` instead of the if/else?
-
-> +        }
-> +    }
+> +    qemu_log_mask(LOG_UNIMP,
+> +                  "Selecting between enabling SD mode or eMMC mode on "
+> +                  "controller %d is not yet implemented\n", n);
 > +}
 > +
-[snip]
-> +
-> +static void ospi_stig_fill_membank(XlnxVersalOspi *s)
+> +static void versal_unimp_qspi_ospi_mux_sel(void *opaque, int n, int level)
 > +{
-> +    int num_rd_bytes = ospi_stig_membank_rd_bytes(s);
-> +    int idx = num_rd_bytes - 8; /* first of last 8 */
-> +    int i;
-> +
-> +    for (i = 0; i < num_rd_bytes; i++) {
-> +        s->stig_membank[i] = fifo8_pop(&s->rx_fifo);
-> +    }
-> +
-
-Even though ospi_stig_membank_rd_bytes is safe, I would add a
-
-g_assert((idx + 4) < ARRAY_SIZE(s->stig_membank));
-
-here, to be future proof :-)
-
-> +    /* Fill in lower upper regs */
-> +    s->regs[R_FLASH_RD_DATA_LOWER_REG] = ldl_le_p(&s->stig_membank[idx]);
-> +    s->regs[R_FLASH_RD_DATA_UPPER_REG] = ldl_le_p(&s->stig_membank[idx + 4]);
+> +    qemu_log_mask(LOG_UNIMP,
+> +                  "Selecting between enabling the QSPI or OSPI linear address "
+> +                  "region is not yet implemented\n");
 > +}
 > +
-[snip]
-> +
-> +static void ospi_tx_sram_write(XlnxVersalOspi *s, uint64_t value,
-> +                               unsigned int size)
+> +static void versal_unimp_irq_parity_imr(void *opaque, int n, int level)
 > +{
-> +    int i;
-> +    for (i = 0; i < size; i++) {
-> +        fifo8_push(&s->tx_sram, value >> 8 * i);
-
-By tracing the callers of this function, it seems that `size' is the
-size of an MMIO access. But you don't seem to check if the tx_sram fifo
-can accept `size' elements (the fifo8_push doc stats it is undefined
-behaviour to push on a full fifo).
-
-> +    }
+> +    qemu_log_mask(LOG_UNIMP,
+> +                  "PMC SLCR parity interrupt behaviour "
+> +                  "is not yet implemented\n");
 > +}
 > +
+>  static void versal_unimp(Versal *s)
+>  {
+> +    qemu_irq gpio_in;
 > +
-> +static void ospi_indac_write(void *opaque, uint64_t value, unsigned int size)
-> +{
-> +    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(opaque);
+>      versal_unimp_area(s, "psm", &s->mr_ps,
+>                          MM_PSM_START, MM_PSM_END - MM_PSM_START);
+>      versal_unimp_area(s, "crl", &s->mr_ps,
+> @@ -464,6 +507,31 @@ static void versal_unimp(Versal *s)
+>                          MM_IOU_SCNTR, MM_IOU_SCNTR_SIZE);
+>      versal_unimp_area(s, "iou-scntr-seucre", &s->mr_ps,
+>                          MM_IOU_SCNTRS, MM_IOU_SCNTRS_SIZE);
 > +
-> +    if (s->ind_write_disabled) {
-> +        g_assert_not_reached();
-> +    }
-
-g_assert(!s->ind_write_disabled);
-
+> +    qdev_init_gpio_in_named(DEVICE(s), versal_unimp_sd_emmc_sel,
+> +                            "sd-emmc-sel-dummy", 2);
+> +    qdev_init_gpio_in_named(DEVICE(s), versal_unimp_qspi_ospi_mux_sel,
+> +                            "qspi-ospi-mux-sel-dummy", 1);
+> +    qdev_init_gpio_in_named(DEVICE(s), versal_unimp_irq_parity_imr,
+> +                            "irq-parity-imr-dummy", 1);
 > +
-> +    if (!ospi_ind_op_completed(s->wr_ind_op)) {
-> +        ospi_tx_sram_write(s, value, size);
-> +        ospi_do_indirect_write(s);
-> +    } else {
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +            "OSPI wr into indac area while no ongoing indac wr\n");
-> +    }
-> +}
+> +    gpio_in = qdev_get_gpio_in_named(DEVICE(s), "sd-emmc-sel-dummy", 0);
+> +    qdev_connect_gpio_out_named(DEVICE(&s->pmc.iou.slcr), "sd-emmc-sel", 0,
+> +                                gpio_in);
 > +
-[snip]
-> diff --git a/include/hw/ssi/xlnx-versal-ospi.h b/include/hw/ssi/xlnx-versal-ospi.h
-> new file mode 100644
-> index 0000000000..c454ff3016
-> --- /dev/null
-> +++ b/include/hw/ssi/xlnx-versal-ospi.h
-> @@ -0,0 +1,111 @@
-> +/*
-> + * Header file for the Xilinx Versal's OSPI controller
-> + *
-> + * Copyright (C) 2021 Xilinx Inc
-> + * Written by Francisco Iglesias <francisco.iglesias@xilinx.com>
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining a copy
-> + * of this software and associated documentation files (the "Software"), to deal
-> + * in the Software without restriction, including without limitation the rights
-> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-> + * copies of the Software, and to permit persons to whom the Software is
-> + * furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be included in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-> + * THE SOFTWARE.
-> + */
+> +    gpio_in = qdev_get_gpio_in_named(DEVICE(s), "sd-emmc-sel-dummy", 1);
+> +    qdev_connect_gpio_out_named(DEVICE(&s->pmc.iou.slcr), "sd-emmc-sel", 1,
+> +                                gpio_in);
 > +
-> +/*
-> + * This is a model of Xilinx Versal's Octal SPI flash memory controller
-> + * documented in Versal's Technical Reference manual [1] and the Versal ACAP
-> + * Register reference [2].
-> + *
-> + * References:
-> + *
-> + * [1] Versal ACAP Technical Reference Manual,
-> + *     https://www.xilinx.com/support/documentation/architecture-manuals/am011-versal-acap-trm.pdf
-> + *
-> + * [2] Versal ACAP Register Reference,
-> + *     https://www.xilinx.com/html_docs/registers/am012/am012-versal-register-reference.html#mod___ospi.html
-> + *
-> + *
-> + * QEMU interface:
-> + * + sysbus MMIO region 0: MemoryRegion for the device's registers
-> + * + sysbus MMIO region 1: MemoryRegion for flash memory linear address space
-> + *   (data transfer).
-> + * + sysbus IRQ 0: Device interrupt.
-> + * + Named GPIO input "ospi-mux-sel": 0: enables indirect access mode
-> + *   and 1: enables direct access mode.
-> + * + Property "dac-with-indac": Allow both direct accesses and indirect
-> + *   accesses simultaneously.
-> + * + Property "indac-write-disabled": Disable indirect access writes.
-> + */
+> +    gpio_in = qdev_get_gpio_in_named(DEVICE(s), "qspi-ospi-mux-sel-dummy", 0);
+> +    qdev_connect_gpio_out_named(DEVICE(&s->pmc.iou.slcr),
+> +                                "qspi-ospi-mux-sel", 0,
+> +                                gpio_in);
 > +
-> +#ifndef XILINX_VERSAL_OSPI_H
-> +#define XILINX_VERSAL_OSPI_H
+> +    gpio_in = qdev_get_gpio_in_named(DEVICE(s), "irq-parity-imr-dummy", 0);
+> +    qdev_connect_gpio_out_named(DEVICE(&s->pmc.iou.slcr),
+> +                                SYSBUS_DEVICE_GPIO_IRQ, 0,
+> +                                gpio_in);
+>  }
+>  
+>  static void versal_realize(DeviceState *dev, Error **errp)
+> @@ -483,6 +551,7 @@ static void versal_realize(DeviceState *dev, Error **errp)
+>      versal_create_xrams(s, pic);
+>      versal_create_bbram(s, pic);
+>      versal_create_efuse(s, pic);
+> +    versal_create_pmc_iou_slcr(s, pic);
+>      versal_map_ddr(s);
+>      versal_unimp(s);
+>  
+> diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
+> index 62fb6f0a68..811df73350 100644
+> --- a/include/hw/arm/xlnx-versal.h
+> +++ b/include/hw/arm/xlnx-versal.h
+> @@ -26,6 +26,7 @@
+>  #include "hw/misc/xlnx-versal-xramc.h"
+>  #include "hw/nvram/xlnx-bbram.h"
+>  #include "hw/nvram/xlnx-versal-efuse.h"
+> +#include "hw/misc/xlnx-versal-pmc-iou-slcr.h"
+>  
+>  #define TYPE_XLNX_VERSAL "xlnx-versal"
+>  OBJECT_DECLARE_SIMPLE_TYPE(Versal, XLNX_VERSAL)
+> @@ -78,6 +79,7 @@ struct Versal {
+>      struct {
+>          struct {
+>              SDHCIState sd[XLNX_VERSAL_NR_SDS];
+> +            XlnxVersalPmcIouSlcr slcr;
+>          } iou;
+>  
+>          XlnxZynqMPRTC rtc;
+> @@ -179,6 +181,9 @@ struct Versal {
+>  #define MM_FPD_FPD_APU              0xfd5c0000
+>  #define MM_FPD_FPD_APU_SIZE         0x100
+>  
+> +#define MM_PMC_PMC_IOU_SLCR         0xf1060000
+> +#define MM_PMC_PMC_IOU_SLCR_SIZE    0x10000
 > +
-> +#include "hw/register.h"
-> +#include "hw/ssi/ssi.h"
-> +#include "qemu/fifo32.h"
-
-fifo8.h ?
-
-
-Thanks.
+>  #define MM_PMC_SD0                  0xf1040000U
+>  #define MM_PMC_SD0_SIZE             0x10000
+>  #define MM_PMC_BBRAM_CTRL           0xf11f0000
+> -- 
+> 2.11.0
+> 
+> 
 
 -- 
-Luc
 
