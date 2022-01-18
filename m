@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA4D749190A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 03:50:54 +0100 (CET)
-Received: from localhost ([::1]:32820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ED3849173C
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 03:38:51 +0100 (CET)
+Received: from localhost ([::1]:57332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9eaD-0001Lr-B4
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 21:50:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59376)
+	id 1n9eOY-0006lA-Cg
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 21:38:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1n9eY6-0000J4-Vl
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 21:48:42 -0500
-Received: from mga03.intel.com ([134.134.136.65]:18366)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1n9eY4-0007WN-C3
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 21:48:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642474120; x=1674010120;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=w0JpAT8wjrwi1PhkHdZNFqAU1qMBjwPQsQjHS+Yw94g=;
- b=e6C3s6BvePBqZQgASR+ijXmQOg8TCiy9bJ/srvyz+cWLcvgJszalJ2cx
- Ql0GF5M8Ba5/TaGX4U7vojuVXxedieMTyJ8MSr6049rtM7Tcm79swvx0f
- YUbn60kNnOerRw8+2gnvtu+zdwh4B41mjqCVQtbUrA/Lqxq4/XojcPxiO
- Zi+Kn2o+TjPO3aVvAcBZGzSPMj+0FTjkqleRp39DKqeBSjbRd3HxXa+dH
- jLDaGc6dPEWdZHSViv5R6kQJPTGYDScrBsLJtJxU67GvrWuhHEShr3ULN
- VGAyY5QTJRaF0wI5PrJbsxZfQSSkgNYTKczmO2i1PnT5SnG5LM6AsgeAL w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10230"; a="244682924"
-X-IronPort-AV: E=Sophos;i="5.88,296,1635231600"; d="scan'208";a="244682924"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2022 18:48:32 -0800
-X-IronPort-AV: E=Sophos;i="5.88,296,1635231600"; d="scan'208";a="531563617"
-Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
- ([10.238.145.56])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 17 Jan 2022 18:48:30 -0800
-Date: Tue, 18 Jan 2022 10:33:12 +0800
-From: Yang Zhong <yang.zhong@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH 2/2] hw/i386/sgx: Attach SGX-EPC to its memory backend
-Message-ID: <20220118023312.GA22498@yangzhon-Virtual>
-References: <20220116235331.103977-1-f4bug@amsat.org>
- <20220116235331.103977-3-f4bug@amsat.org>
- <c1a8eba5-b1a1-bbcf-c237-23e16ce88475@redhat.com>
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1n9eL9-0005ml-Vo
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 21:35:20 -0500
+Received: from [2607:f8b0:4864:20::52e] (port=36674
+ helo=mail-pg1-x52e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1n9eL7-0005pT-FW
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 21:35:19 -0500
+Received: by mail-pg1-x52e.google.com with SMTP id e9so2042080pgb.3
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 18:35:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9VA+CPBaVlIXQJIjd2n3KCqK1vK4vBHKaZ5Iduz6fOo=;
+ b=dqM5mBfGw3+SJnu4Znq/dEl9cBFj5MR/VoslvxINMAHhz3B0n4K+j5H3oTMPtT0CXr
+ hr23Sqgt+tS6dAdueiLBrhvUm4HLhYm14cZTwpv6okMWbH2xQCszftUdJBV44RhUzKZF
+ GmARhip8+jrpkLsfWbYHWdVD/JklVfPTPxXdY9w8JAiTqAQvEmcvjKo+icAef8uYZoi/
+ SZaZLYTfbsL4Y2TXKEcg6ftFzsVXrKK0Eg07DKz1ir6ttEAIOSIMK7b4LrSDhIB2yHYq
+ b/J8lmUtGv+J4lvotUqH2Cifu84Rsz9jkc46qrelt87tDLZqa5iZXjWtiyvdQS8cfoE8
+ S4mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9VA+CPBaVlIXQJIjd2n3KCqK1vK4vBHKaZ5Iduz6fOo=;
+ b=GQPOs53oqqxMpTuFs17gnFkGZvtfwUZ6kIw/tXPTJy5Gd7gwuYxX0n/0g+0immoqP5
+ og1C1LrLjfxKUN+zYS7eZ3N4x9aWNUWn0ZSjyWg0mFDrvEIS8BZTOt7eCtAXTD3JLJsw
+ dJTGPxcoIc2nzwcThsjgKKi2QhGwOOna8e95lmTOoJdBqszHaZaUzaRd9VWjhQaxH5hk
+ /4zZBMMX2IxqFfCpmwZbtDHsL249Ksb2in1XloUHlw9QVpwSiWR/DN3DUArvuKub4DZd
+ X1fS19Hl5WQ+EPApSLulkxeipbayc1LrKkV99VmbhDkP6Lcpwg6LjYYjJhyaGBEFV2/a
+ 6fWA==
+X-Gm-Message-State: AOAM530it5FVcBjK3XpFgnDsgVJ5IX1ty/GuyVgw+9MIrd/MFQe3yKEZ
+ SUy27ZRaCNTxeNwMs9ybOSimZl8526pth54l
+X-Google-Smtp-Source: ABdhPJwFTNMq7vuFHJ2SUvWxqf/wyqp6HaxE3DUlLGEcvlVJPidD4BYrpfDoXqiwPyfH7CrS3/EgmA==
+X-Received: by 2002:a05:6a00:a20:b0:4bb:95f6:93b3 with SMTP id
+ p32-20020a056a000a2000b004bb95f693b3mr23871373pfh.77.1642473315012; 
+ Mon, 17 Jan 2022 18:35:15 -0800 (PST)
+Received: from hsinchu16.internal.sifive.com
+ (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
+ by smtp.gmail.com with ESMTPSA id h5sm15037482pfi.46.2022.01.17.18.35.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Jan 2022 18:35:14 -0800 (PST)
+From: frank.chang@sifive.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/sd: Correct the CURRENT_STATE bits in SPI-mode response
+Date: Tue, 18 Jan 2022 10:35:05 +0800
+Message-Id: <20220118023509.14496-1-frank.chang@sifive.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <c1a8eba5-b1a1-bbcf-c237-23e16ce88475@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=134.134.136.65; envelope-from=yang.zhong@intel.com;
- helo=mga03.intel.com
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52e
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=frank.chang@sifive.com; helo=mail-pg1-x52e.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,51 +85,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, yang.zhong@intel.com,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ Frank Chang <frank.chang@sifive.com>, Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Alexander Bulekov <alxndr@bu.edu>, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 17, 2022 at 12:48:10PM +0100, Paolo Bonzini wrote:
-> On 1/17/22 00:53, Philippe Mathieu-Daudé via wrote:
-> >We have one SGX-EPC address/size/node per memory backend,
-> >make it child of the backend in the QOM composition tree.
-> >
-> >Cc: Yang Zhong <yang.zhong@intel.com>
-> >Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> >---
-> >  hw/i386/sgx.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> >diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
-> >index 5de5dd08936..6362e5e9d02 100644
-> >--- a/hw/i386/sgx.c
-> >+++ b/hw/i386/sgx.c
-> >@@ -300,6 +300,9 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
-> >          /* set the memdev link with memory backend */
-> >          object_property_parse(obj, SGX_EPC_MEMDEV_PROP, list->value->memdev,
-> >                                &error_fatal);
-> >+        object_property_add_child(OBJECT(list->value->memdev), "sgx-epc",
-> >+                                  OBJECT(obj));
-> >+
-> >          /* set the numa node property for sgx epc object */
-> >          object_property_set_uint(obj, SGX_EPC_NUMA_NODE_PROP, list->value->node,
-> >                               &error_fatal);
-> 
-> I don't think this is a good idea; only list->value->memdev should
-> add something below itself in the tree.
-> 
-> However, I think obj can be added under the machine itself as
-> /machine/sgx-epc-device[*].
-> 
+From: Frank Chang <frank.chang@sifive.com>
 
-  Thanks Philippe, calling object_property_add_child() in the hw/i386/sgx.c is more
-  reasonable than in device_set_realized(), thanks!
+In SPI-mode, type B ("cleared on valid command") clear condition is not
+supported, and as the "In idle state" bit in SPI-mode has type A
+("according to current state") clear condition, the CURRENT_STATE bits
+in an SPI-mode response should be the SD card's state after the command
+is executed, instead of the state when it received the preceding
+command.
 
-  Yang
+Also, we don't need to clear the type B ("clear on valid command")
+status bits after the response is updated in SPI-mode.
 
-> Paolo
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
+---
+ hw/sd/sd.c | 26 ++++++++++++++++++--------
+ 1 file changed, 18 insertions(+), 8 deletions(-)
+
+diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+index cd67a7bac8..9736b8912d 100644
+--- a/hw/sd/sd.c
++++ b/hw/sd/sd.c
+@@ -1757,12 +1757,20 @@ int sd_do_command(SDState *sd, SDRequest *req,
+     if (rtype == sd_illegal) {
+         sd->card_status |= ILLEGAL_COMMAND;
+     } else {
+-        /* Valid command, we can update the 'state before command' bits.
+-         * (Do this now so they appear in r1 responses.)
+-         */
+         sd->current_cmd = req->cmd;
+         sd->card_status &= ~CURRENT_STATE;
+-        sd->card_status |= (last_state << 9);
++
++        if (!sd->spi) {
++            /* Valid command, we can update the 'state before command' bits.
++             * (Do this now so they appear in r1 responses.)
++             */
++            sd->card_status |= (last_state << 9);
++        } else {
++            /* Type B ("clear on valid command") is not supported
++             * in SPI-mode.
++             */
++            sd->card_status |= (sd->state << 9);
++        }
+     }
+ 
+ send_response:
+@@ -1808,10 +1816,12 @@ send_response:
+     trace_sdcard_response(sd_response_name(rtype), rsplen);
+ 
+     if (rtype != sd_illegal) {
+-        /* Clear the "clear on valid command" status bits now we've
+-         * sent any response
+-         */
+-        sd->card_status &= ~CARD_STATUS_B;
++        if (!sd->spi) {
++            /* Clear the "clear on valid command" status bits now we've
++             * sent any response
++             */
++            sd->card_status &= ~CARD_STATUS_B;
++        }
+     }
+ 
+ #ifdef DEBUG_SD
+-- 
+2.31.1
+
 
