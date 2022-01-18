@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECD50492ED2
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 20:59:44 +0100 (CET)
-Received: from localhost ([::1]:42622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FF7B492EFF
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 21:09:02 +0100 (CET)
+Received: from localhost ([::1]:52000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9udr-0002Fj-Nu
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 14:59:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57306)
+	id 1n9umq-00016C-KH
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 15:09:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1n9uAm-0006xn-I3
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 14:29:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52961)
+ id 1n9uJs-0004B5-Md
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 14:39:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56901)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1n9uAi-0000XP-SS
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 14:29:39 -0500
+ id 1n9uJp-0001s4-Hp
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 14:39:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642534175;
+ s=mimecast20190719; t=1642534740;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=xiXnqXOZFTWBJ+nRk/RPjpQwg2uElhLAgaV4EQkffYo=;
- b=N0YYYsQkboOFLn++TTElEXZMN4TJshyZlkcgUzmSLq0+LaRZGMVXIEEzUCTViNMMa9Gd0h
- 8bzvmTjmtf9igoDGlja+x+vvvgOJe7Fm+lGfmI1C15GKOtQniXm6QQKkA/loNGlTBJgncl
- NjEaR3lSF+Cd9reW7rkOjQaHFuPsDbg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WUhnrf0+BP7tkkzufNADvo9CwuyCJlAQza+fOxWiYqM=;
+ b=HtstZNo2aNiFa7nT827/Y7TEMmUJjsEoSETVoM5Q4Y7pZ3FRFSPbyKeFXtucery7cH9HJg
+ 2FCZYUqabxt/v606CjAUs8BJploI6gdYhlGpHwh6dFHOo2XtLK7PMvfW/zZjfbnEZN30GZ
+ nTG1m7wourNj8zKJxcGW9kEs3iCPGRw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-434-f8QpTIUhP86L9OKkcshnnQ-1; Tue, 18 Jan 2022 14:29:34 -0500
-X-MC-Unique: f8QpTIUhP86L9OKkcshnnQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- v185-20020a1cacc2000000b0034906580813so2552591wme.1
- for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 11:29:34 -0800 (PST)
+ us-mta-522-LoSK3OW6OHaU124GZ3_VRw-1; Tue, 18 Jan 2022 14:38:59 -0500
+X-MC-Unique: LoSK3OW6OHaU124GZ3_VRw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ w5-20020a1cf605000000b0034b8cb1f55eso2580874wmc.0
+ for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 11:38:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=xiXnqXOZFTWBJ+nRk/RPjpQwg2uElhLAgaV4EQkffYo=;
- b=yh4odMonWy8r3xdT0iLjvauH5ODq4oIsx6ylNeOq/S0mrmgeem7dNhe78fCCfqRHfO
- pdqaAJeKojeqGLeC01L65BiuUQTPGH+E8r+yikA/kLkhQDzNQ4nOStsCNiUm00vRWZZ/
- ROK5DzHayyB2kC9iQuOE7XN+Bsyt8s8+QMpPp4/96BNDc2hvUo+XDKZ+gpDLPNPvqZe5
- IM2OgUkQZXPEr9Noq6J9mSM3hyJoh9fVSqorYzDLoc27Fjm3Hq/TMLBhztl7X2qvV76i
- bxJndqHj6tdM/silbLGxkoFYyTVmY/cOUfXvzhnYA7X50m2LNSHEizyW/IjrFU/omMuz
- OeCA==
-X-Gm-Message-State: AOAM531fPWp2pQl0CID8VXt3MaFL5F90Wdyyao1T/j+QJjCh0JNLndkT
- BfY52qT5YEKVgPJlWZlM10IUypnjZVnlT5djvWWILHoxvJzRrBzDwH2zkxbVFUdZNkFESm1V0xi
- Ym6dmZXSpUfY13Sg=
-X-Received: by 2002:adf:b60d:: with SMTP id f13mr15054143wre.225.1642534173197; 
- Tue, 18 Jan 2022 11:29:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxUpi9Jxkd7gtqY88t7vX0wLuE4GImeZtnzt8pcXjP8TSrw5rgHMEe2wS2zkU8wrNZxkM+ToQ==
-X-Received: by 2002:adf:b60d:: with SMTP id f13mr15054121wre.225.1642534172907; 
- Tue, 18 Jan 2022 11:29:32 -0800 (PST)
+ bh=WUhnrf0+BP7tkkzufNADvo9CwuyCJlAQza+fOxWiYqM=;
+ b=1mSm5sGVMmIBd+YPyWNXlwStLIOPRT3CZ9rm5TsVCFobi2n3Ch2idDsCxSy+gcLnYh
+ ner+ub3m2fNuvEp28VZHTGgLUJ/mU2xQ2tHZEzZqxm1ReR11szG4h1wYhiWpBmNtaDlj
+ slQiNK25ffhGEw7PnPYqm0yJRL3bk/2g3Vmj5Va8GoU52qZk098vXnbCmctqiFHuiNtN
+ qnfKZrwpBYZ2LAiGyCN2q2ouNhyQg4GK4ipv5tjFijH0eItrQdSI6TFZeYglszD+wCBW
+ H8WK7weR7Ec0kCkBsvpeIVSm2mA7P3obuvwvDBy+TIDNWrbz2bcZJr01E+3fjhSoVrqY
+ fgQA==
+X-Gm-Message-State: AOAM530jwUxDmgo7Gtvtb9r7VA9ujHmTBWDkQ5mtMjvqDgZd06gUiaaH
+ LRY0aPFFkbiDFkfpdcTuA3+xm8H3ztxYzE34/5HISAuct1gUflZOC00gUwN4HjWLdjQPlyluQA7
+ yGpa84PbMApxDgJg=
+X-Received: by 2002:adf:e3c5:: with SMTP id k5mr2994134wrm.571.1642534736827; 
+ Tue, 18 Jan 2022 11:38:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxhYGbJQKQq4q7YeWE53h0QcnI6UxdA71Az/9I1dWr5v7VPAFMxEv9zLBtFU3wsmFDNOM+p0A==
+X-Received: by 2002:adf:e3c5:: with SMTP id k5mr2994117wrm.571.1642534736562; 
+ Tue, 18 Jan 2022 11:38:56 -0800 (PST)
 Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
  [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id u13sm3286676wmq.41.2022.01.18.11.29.31
+ by smtp.gmail.com with ESMTPSA id m5sm3235693wmq.6.2022.01.18.11.38.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jan 2022 11:29:32 -0800 (PST)
-Date: Tue, 18 Jan 2022 19:29:29 +0000
+ Tue, 18 Jan 2022 11:38:56 -0800 (PST)
+Date: Tue, 18 Jan 2022 19:38:54 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v4 15/23] multifd: Use normal pages array on the recv side
-Message-ID: <YecVGSw0ZRvG+nTx@work-vm>
+Subject: Re: [PATCH v4 19/23] multifd: Add property to enable/disable zero_page
+Message-ID: <YecXTvrLY2K80DpG@work-vm>
 References: <20220111130024.5392-1-quintela@redhat.com>
- <20220111130024.5392-16-quintela@redhat.com>
+ <20220111130024.5392-20-quintela@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220111130024.5392-16-quintela@redhat.com>
+In-Reply-To: <20220111130024.5392-20-quintela@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
@@ -109,227 +109,77 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-> 
 > ---
+>  migration/migration.h |  3 +++
+>  hw/core/machine.c     |  4 +++-
+>  migration/migration.c | 11 +++++++++++
+>  3 files changed, 17 insertions(+), 1 deletion(-)
 > 
-> Rename num_normal_pages to total_normal_pages (peter)
-> ---
->  migration/multifd.h      |  8 +++++--
->  migration/multifd-zlib.c |  8 +++----
->  migration/multifd-zstd.c |  6 +++---
->  migration/multifd.c      | 45 ++++++++++++++++++----------------------
->  4 files changed, 33 insertions(+), 34 deletions(-)
-> 
-> diff --git a/migration/multifd.h b/migration/multifd.h
-> index 7823199dbe..850889c5d8 100644
-> --- a/migration/multifd.h
-> +++ b/migration/multifd.h
-> @@ -151,12 +151,16 @@ typedef struct {
->      uint32_t next_packet_size;
->      /* packets sent through this channel */
->      uint64_t num_packets;
-> -    /* pages sent through this channel */
-> -    uint64_t num_pages;
-> +    /* non zero pages recv through this channel */
-> +    uint64_t total_normal_pages;
->      /* syncs main thread and channels */
->      QemuSemaphore sem_sync;
->      /* buffers to recv */
->      struct iovec *iov;
-> +    /* Pages that are not zero */
-> +    ram_addr_t *normal;
-> +    /* num of non zero pages */
-> +    uint32_t normal_num;
->      /* used for de-compression methods */
->      void *data;
->  } MultiFDRecvParams;
-> diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
-> index 7f4fbef2c9..8239c840d3 100644
-> --- a/migration/multifd-zlib.c
-> +++ b/migration/multifd-zlib.c
-> @@ -225,7 +225,7 @@ static int zlib_recv_pages(MultiFDRecvParams *p, Error **errp)
->      uint32_t in_size = p->next_packet_size;
->      /* we measure the change of total_out */
->      uint32_t out_size = zs->total_out;
-> -    uint32_t expected_size = p->pages->num * qemu_target_page_size();
-> +    uint32_t expected_size = p->normal_num * page_size;
->      uint32_t flags = p->flags & MULTIFD_FLAG_COMPRESSION_MASK;
->      int ret;
->      int i;
-> @@ -244,16 +244,16 @@ static int zlib_recv_pages(MultiFDRecvParams *p, Error **errp)
->      zs->avail_in = in_size;
->      zs->next_in = z->zbuff;
->  
-> -    for (i = 0; i < p->pages->num; i++) {
-> +    for (i = 0; i < p->normal_num; i++) {
->          int flush = Z_NO_FLUSH;
->          unsigned long start = zs->total_out;
->  
-> -        if (i == p->pages->num - 1) {
-> +        if (i == p->normal_num - 1) {
->              flush = Z_SYNC_FLUSH;
->          }
->  
->          zs->avail_out = page_size;
-> -        zs->next_out = p->pages->block->host + p->pages->offset[i];
-> +        zs->next_out = p->pages->block->host + p->normal[i];
->  
->          /*
->           * Welcome to inflate semantics
-> diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
-> index 907d07805c..c5ed72ddcd 100644
-> --- a/migration/multifd-zstd.c
-> +++ b/migration/multifd-zstd.c
-> @@ -242,7 +242,7 @@ static int zstd_recv_pages(MultiFDRecvParams *p, Error **errp)
->      uint32_t in_size = p->next_packet_size;
->      uint32_t out_size = 0;
->      size_t page_size = qemu_target_page_size();
-> -    uint32_t expected_size = p->pages->num * page_size;
-> +    uint32_t expected_size = p->normal_num * page_size;
->      uint32_t flags = p->flags & MULTIFD_FLAG_COMPRESSION_MASK;
->      struct zstd_data *z = p->data;
->      int ret;
-> @@ -263,8 +263,8 @@ static int zstd_recv_pages(MultiFDRecvParams *p, Error **errp)
->      z->in.size = in_size;
->      z->in.pos = 0;
->  
-> -    for (i = 0; i < p->pages->num; i++) {
-> -        z->out.dst = p->pages->block->host + p->pages->offset[i];
-> +    for (i = 0; i < p->normal_num; i++) {
-> +        z->out.dst = p->pages->block->host + p->normal[i];
->          z->out.size = page_size;
->          z->out.pos = 0;
->  
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 7b804928a2..e362b1bb89 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -146,11 +146,11 @@ static int nocomp_recv_pages(MultiFDRecvParams *p, Error **errp)
->                     p->id, flags, MULTIFD_FLAG_NOCOMP);
->          return -1;
->      }
-> -    for (int i = 0; i < p->pages->num; i++) {
-> -        p->iov[i].iov_base = p->pages->block->host + p->pages->offset[i];
-> +    for (int i = 0; i < p->normal_num; i++) {
-> +        p->iov[i].iov_base = p->pages->block->host + p->normal[i];
->          p->iov[i].iov_len = page_size;
->      }
-> -    return qio_channel_readv_all(p->c, p->iov, p->pages->num, errp);
-> +    return qio_channel_readv_all(p->c, p->iov, p->normal_num, errp);
->  }
->  
->  static MultiFDMethods multifd_nocomp_ops = {
-> @@ -282,7 +282,7 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
->  {
->      MultiFDPacket_t *packet = p->packet;
->      size_t page_size = qemu_target_page_size();
-> -    uint32_t pages_max = MULTIFD_PACKET_SIZE / page_size;
-> +    uint32_t page_count = MULTIFD_PACKET_SIZE / page_size;
->      RAMBlock *block;
->      int i;
->  
-> @@ -309,33 +309,25 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
->       * If we received a packet that is 100 times bigger than expected
->       * just stop migration.  It is a magic number.
+> diff --git a/migration/migration.h b/migration/migration.h
+> index 8130b703eb..638cd89b6c 100644
+> --- a/migration/migration.h
+> +++ b/migration/migration.h
+> @@ -296,6 +296,8 @@ struct MigrationState {
+>       * This save hostname when out-going migration starts
 >       */
-> -    if (packet->pages_alloc > pages_max * 100) {
-> +    if (packet->pages_alloc > page_count) {
->          error_setg(errp, "multifd: received packet "
-> -                   "with size %u and expected a maximum size of %u",
-> -                   packet->pages_alloc, pages_max * 100) ;
-> +                   "with size %u and expected a size of %u",
-> +                   packet->pages_alloc, page_count) ;
->          return -1;
->      }
-> -    /*
-> -     * We received a packet that is bigger than expected but inside
-> -     * reasonable limits (see previous comment).  Just reallocate.
-> -     */
-> -    if (packet->pages_alloc > p->pages->allocated) {
-> -        multifd_pages_clear(p->pages);
-> -        p->pages = multifd_pages_init(packet->pages_alloc);
-> -    }
+>      char *hostname;
+> +    /* Use multifd channel to send zero pages */
+> +    bool multifd_zero_pages;
+>  };
 >  
-> -    p->pages->num = be32_to_cpu(packet->pages_used);
-> -    if (p->pages->num > packet->pages_alloc) {
-> +    p->normal_num = be32_to_cpu(packet->pages_used);
-> +    if (p->normal_num > packet->pages_alloc) {
->          error_setg(errp, "multifd: received packet "
->                     "with %u pages and expected maximum pages are %u",
-> -                   p->pages->num, packet->pages_alloc) ;
-> +                   p->normal_num, packet->pages_alloc) ;
->          return -1;
->      }
+>  void migrate_set_state(int *state, int old_state, int new_state);
+> @@ -338,6 +340,7 @@ int migrate_multifd_channels(void);
+>  MultiFDCompression migrate_multifd_compression(void);
+>  int migrate_multifd_zlib_level(void);
+>  int migrate_multifd_zstd_level(void);
+> +bool migrate_use_multifd_zero_page(void);
 >  
->      p->next_packet_size = be32_to_cpu(packet->next_packet_size);
->      p->packet_num = be64_to_cpu(packet->packet_num);
+>  int migrate_use_xbzrle(void);
+>  uint64_t migrate_xbzrle_cache_size(void);
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index debcdc0e70..fc303cb707 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -37,7 +37,9 @@
+>  #include "hw/virtio/virtio.h"
+>  #include "hw/virtio/virtio-pci.h"
 >  
-> -    if (p->pages->num == 0) {
-> +    if (p->normal_num == 0) {
->          return 0;
->      }
+> -GlobalProperty hw_compat_6_2[] = {};
+> +GlobalProperty hw_compat_6_2[] = {
+> +    { "migration", "multifd-zero-page", "false" },
+> +};
+>  const size_t hw_compat_6_2_len = G_N_ELEMENTS(hw_compat_6_2);
 >  
-> @@ -349,7 +341,7 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
->      }
->  
->      p->pages->block = block;
-> -    for (i = 0; i < p->pages->num; i++) {
-> +    for (i = 0; i < p->normal_num; i++) {
->          uint64_t offset = be64_to_cpu(packet->offset[i]);
->  
->          if (offset > (block->used_length - page_size)) {
-> @@ -358,7 +350,7 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
->                         offset, block->used_length);
->              return -1;
->          }
-> -        p->pages->offset[i] = offset;
-> +        p->normal[i] = offset;
->      }
->  
->      return 0;
-> @@ -1022,6 +1014,8 @@ int multifd_load_cleanup(Error **errp)
->          p->packet = NULL;
->          g_free(p->iov);
->          p->iov = NULL;
-> +        g_free(p->normal);
-> +        p->normal = NULL;
->          multifd_recv_state->ops->recv_cleanup(p);
->      }
->      qemu_sem_destroy(&multifd_recv_state->sem_sync);
-> @@ -1095,13 +1089,13 @@ static void *multifd_recv_thread(void *opaque)
->          flags = p->flags;
->          /* recv methods don't know how to handle the SYNC flag */
->          p->flags &= ~MULTIFD_FLAG_SYNC;
-> -        trace_multifd_recv(p->id, p->packet_num, p->pages->num, flags,
-> +        trace_multifd_recv(p->id, p->packet_num, p->normal_num, flags,
->                             p->next_packet_size);
->          p->num_packets++;
-> -        p->num_pages += p->pages->num;
-> +        p->total_normal_pages += p->normal_num;
->          qemu_mutex_unlock(&p->mutex);
->  
-> -        if (p->pages->num) {
-> +        if (p->normal_num) {
->              ret = multifd_recv_state->ops->recv_pages(p, &local_err);
->              if (ret != 0) {
->                  break;
-> @@ -1123,7 +1117,7 @@ static void *multifd_recv_thread(void *opaque)
->      qemu_mutex_unlock(&p->mutex);
->  
->      rcu_unregister_thread();
-> -    trace_multifd_recv_thread_end(p->id, p->num_packets, p->num_pages);
-> +    trace_multifd_recv_thread_end(p->id, p->num_packets, p->total_normal_pages);
->  
->      return NULL;
+>  GlobalProperty hw_compat_6_1[] = {
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 0652165610..ff39f07fc5 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -2502,6 +2502,15 @@ bool migrate_use_multifd(void)
+>      return s->enabled_capabilities[MIGRATION_CAPABILITY_MULTIFD];
 >  }
-> @@ -1161,6 +1155,7 @@ int multifd_load_setup(Error **errp)
->          p->packet = g_malloc0(p->packet_len);
->          p->name = g_strdup_printf("multifdrecv_%d", i);
->          p->iov = g_new0(struct iovec, page_count);
-> +        p->normal = g_new0(ram_addr_t, page_count);
->      }
 >  
->      for (i = 0; i < thread_count; i++) {
+> +bool migrate_use_multifd_zero_page(void)
+> +{
+> +    MigrationState *s;
+> +
+> +    s = migrate_get_current();
+> +
+> +    return s->multifd_zero_pages;
+> +}
+> +
+>  bool migrate_pause_before_switchover(void)
+>  {
+>      MigrationState *s;
+> @@ -4158,6 +4167,8 @@ static Property migration_properties[] = {
+>                        clear_bitmap_shift, CLEAR_BITMAP_SHIFT_DEFAULT),
+>  
+>      /* Migration parameters */
+> +    DEFINE_PROP_BOOL("multifd-zero-pages", MigrationState,
+> +                      multifd_zero_pages, true),
+>      DEFINE_PROP_UINT8("x-compress-level", MigrationState,
+>                        parameters.compress_level,
+>                        DEFAULT_MIGRATE_COMPRESS_LEVEL),
 > -- 
 > 2.34.1
 > 
