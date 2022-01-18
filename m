@@ -2,53 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 417FE49247E
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 12:18:06 +0100 (CET)
-Received: from localhost ([::1]:42374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA824924AC
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 12:22:48 +0100 (CET)
+Received: from localhost ([::1]:49390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9mV2-0000nY-SE
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 06:18:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41108)
+	id 1n9mZb-0005fN-K5
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 06:22:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1n9mR8-00089W-OO; Tue, 18 Jan 2022 06:14:02 -0500
-Received: from [201.28.113.2] (port=58302 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1n9mR7-0006UQ-1q; Tue, 18 Jan 2022 06:14:02 -0500
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 18 Jan 2022 08:13:56 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id F05208000A7;
- Tue, 18 Jan 2022 08:13:55 -0300 (-03)
-Subject: Re: [PATCH v2 1/2] target/ppc: Remove last user of .load_state_old
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220118104150.1899661-1-clg@kaod.org>
- <20220118104150.1899661-2-clg@kaod.org>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-Message-ID: <c9e94bfc-a648-7f3d-fefb-73ecdeb3c54e@eldorado.org.br>
-Date: Tue, 18 Jan 2022 08:13:55 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <guoren@kernel.org>)
+ id 1n9mSo-0000YD-8r; Tue, 18 Jan 2022 06:15:46 -0500
+Received: from [2604:1380:4641:c500::1] (port=59918 helo=dfw.source.kernel.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <guoren@kernel.org>)
+ id 1n9mSl-0006y8-J7; Tue, 18 Jan 2022 06:15:45 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 12ABC612BA;
+ Tue, 18 Jan 2022 11:15:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79569C340E1;
+ Tue, 18 Jan 2022 11:15:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1642504540;
+ bh=CwamJ4JhNKW8W3dwltChxy6z8jCNz8yyJVoM/8g8Ylw=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=DaJHU/ZLMV3UKkxsCSOgFE49CwupTtvyP4KQBS4BgUvY32A9E7F+oQx47KRZE0mR9
+ onaJLYxfja54bqjJPS3nKah0aD3gWwO2arS4Nb9bIsLfeFUWhEz9Ti6c1tgstPzFis
+ IxjBmBPVN4XKSrRxQW4fOnC1Y59gBVUF8VcT2jT8psuL418YUIXZxrVNS6MJDCJb2B
+ QlIlGlztcGrOf2dnN/7xGoSKdgmCT/4OXq3ppUZRv9Oqq4tV/eUbwMh1pVK1dTWBHI
+ 31h9H8EckLQWT8DUeW5W0GNGXPXO7ETfHOu1GA7iTyiAwGDbnwRfGZrx/kZM5tK7tl
+ dy1NsQv2679SQ==
+Received: by mail-ua1-f53.google.com with SMTP id p1so35747087uap.9;
+ Tue, 18 Jan 2022 03:15:40 -0800 (PST)
+X-Gm-Message-State: AOAM53017ML11yp2zV2BAO1Y6ifgvv++yUjyhiFs2FvNrmgQcCOQRP59
+ CrMIQPbTHpAr0kXsdX3iNGLaWvduiA4tcGDlzm0=
+X-Google-Smtp-Source: ABdhPJxW3Or/iZiKxZAu23ZMC7+10DIcq4Su8NzxbZd6yuEadKF4zBvYfQgycIQx3KGRgCvt3+UmCNaJ65A1RLSlg1Q=
+X-Received: by 2002:a67:fd64:: with SMTP id h4mr9177575vsa.8.1642504539505;
+ Tue, 18 Jan 2022 03:15:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220118104150.1899661-2-clg@kaod.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 18 Jan 2022 11:13:56.0299 (UTC)
- FILETIME=[7BEB91B0:01D80C5C]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20220118011711.7243-1-liweiwei@iscas.ac.cn>
+ <20220118011711.7243-2-liweiwei@iscas.ac.cn>
+ <CAAhSdy3zjeW-WkbiicTJfurQkhts4m9XwvmoS+Zr1XVMzhy+3w@mail.gmail.com>
+ <CAJF2gTSztdr_geRwQAU=Y3T14urwwpi8+K5uzjf8K_R5ecfLqQ@mail.gmail.com>
+ <CAK9=C2Wr1aci6Z3wAKh3Bh_BYyY86BZ_0SRF7pfvKak6HXNvsQ@mail.gmail.com>
+In-Reply-To: <CAK9=C2Wr1aci6Z3wAKh3Bh_BYyY86BZ_0SRF7pfvKak6HXNvsQ@mail.gmail.com>
+From: Guo Ren <guoren@kernel.org>
+Date: Tue, 18 Jan 2022 19:15:28 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTQp3RTbj51-5J4md_6UWT7qTYxXvvyZmSK5LN91h4fB0w@mail.gmail.com>
+Message-ID: <CAJF2gTQp3RTbj51-5J4md_6UWT7qTYxXvvyZmSK5LN91h4fB0w@mail.gmail.com>
+Subject: Re: [PATCH v5 1/5] target/riscv: Ignore reserved bits in PTE for RV64
+To: Anup Patel <apatel@ventanamicro.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2604:1380:4641:c500::1
+ (failed)
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=guoren@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,58 +78,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Weiwei Li <liweiwei@iscas.ac.cn>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <anup@brainfault.org>,
+ Wang Junqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>, Guo Ren <ren_guo@c-sky.com>,
+ =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/01/2022 07:41, Cédric Le Goater wrote:
-> This breaks migration compatibility from (very) old versions of
-> QEMU. This should not be a problem for the pseries machine for which
-> migration is only supported on recent QEMUs ( > 2.x). There is no
-> clear status on what is supported or not for the other machines. Let's
-> move forward and remove the .load_state_old handler.
-> 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->   target/ppc/machine.c | 112 -------------------------------------------
->   1 file changed, 112 deletions(-)
-> 
-> diff --git a/target/ppc/machine.c b/target/ppc/machine.c
-> index 756d8de5d8dd..df547385ff1e 100644
-> --- a/target/ppc/machine.c
-> +++ b/target/ppc/machine.c
-> @@ -23,117 +23,6 @@ static void post_load_update_msr(CPUPPCState *env)
->       pmu_update_summaries(env);
->   }
-> 
-> -static int cpu_load_old(QEMUFile *f, void *opaque, int version_id)
-> -{
-> -    PowerPCCPU *cpu = opaque;
+On Tue, Jan 18, 2022 at 4:51 PM Anup Patel <apatel@ventanamicro.com> wrote:
+>
+> On Tue, Jan 18, 2022 at 2:16 PM Guo Ren <guoren@kernel.org> wrote:
+> >
+> > On Tue, Jan 18, 2022 at 11:32 AM Anup Patel <anup@brainfault.org> wrote:
+> > >
+> > > On Tue, Jan 18, 2022 at 6:47 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+> > > >
+> > > > From: Guo Ren <ren_guo@c-sky.com>
+> > > >
+> > > > Highest bits of PTE has been used for svpbmt, ref: [1], [2], so we
+> > > > need to ignore them. They cannot be a part of ppn.
+> > > >
+> > > > 1: The RISC-V Instruction Set Manual, Volume II: Privileged Architecture
+> > > >    4.4 Sv39: Page-Based 39-bit Virtual-Memory System
+> > > >    4.5 Sv48: Page-Based 48-bit Virtual-Memory System
+> > > >
+> > > > 2: https://github.com/riscv/virtual-memory/blob/main/specs/663-Svpbmt-diff.pdf
+> > > >
+> > > > Signed-off-by: Guo Ren <ren_guo@c-sky.com>
+> > > > Tested-by: Bin Meng <bmeng.cn@gmail.com>
+> > > > Reviewed-by: Liu Zhiwei <zhiwei_liu@c-sky.com>
+> > > > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> > > > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> > > > ---
+> > > >  target/riscv/cpu_bits.h   | 7 +++++++
+> > > >  target/riscv/cpu_helper.c | 2 +-
+> > > >  2 files changed, 8 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> > > > index 5a6d49aa64..282cd8eecd 100644
+> > > > --- a/target/riscv/cpu_bits.h
+> > > > +++ b/target/riscv/cpu_bits.h
+> > > > @@ -490,6 +490,13 @@ typedef enum {
+> > > >  /* Page table PPN shift amount */
+> > > >  #define PTE_PPN_SHIFT       10
+> > > >
+> > > > +/* Page table PPN mask */
+> > > > +#if defined(TARGET_RISCV32)
+> > > > +#define PTE_PPN_MASK        0xffffffffUL
+> > > > +#elif defined(TARGET_RISCV64)
+> > > > +#define PTE_PPN_MASK        0x3fffffffffffffULL
+> > > > +#endif
+> > > > +
+> > >
+> > > Going forward we should avoid using target specific "#if"
+> > > so that we can use the same qemu-system-riscv64 for both
+> > > RV32 and RV64.
+> > >
+> > > >  /* Leaf page shift amount */
+> > > >  #define PGSHIFT             12
+> > > >
+> > > > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> > > > index 434a83e66a..26608ddf1c 100644
+> > > > --- a/target/riscv/cpu_helper.c
+> > > > +++ b/target/riscv/cpu_helper.c
+> > > > @@ -619,7 +619,7 @@ restart:
+> > > >              return TRANSLATE_FAIL;
+> > > >          }
+> > > >
+> > > > -        hwaddr ppn = pte >> PTE_PPN_SHIFT;
+> > > > +        hwaddr ppn = (pte & PTE_PPN_MASK) >> PTE_PPN_SHIFT;
+> > >
+> > > Rather than using "#if", please use "xlen" comparison to extract
+> > > PPN correctly from PTE.
+> > Do you mean?
+> >
+> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> > index 9fffaccffb..071b7ea4cf 100644
+> > --- a/target/riscv/cpu_helper.c
+> > +++ b/target/riscv/cpu_helper.c
+> > @@ -619,7 +619,11 @@ restart:
+> >              return TRANSLATE_FAIL;
+> >          }
+> >
+> > -        hwaddr ppn = (pte & PTE_PPN_MASK) >> PTE_PPN_SHIFT;
+> > +        if (riscv_cpu_mxl(env) == MXL_RV32) {
+> > +               hwaddr ppn = pte  >> PTE_PPN_SHIFT;
+> > +       } else {
+> > +               hwaddr ppn = (pte &  0x3fffffffffffffULL) >> PTE_PPN_SHIFT;
+> > +       }
+>
+> Yes, something like this but use a define for 0x3fffffffffffffULL
+Just as Alistair said: This will need to be dynamic based on get_xl()
 
-<snip>
+ I still prefer:
++#if defined(TARGET_RISCV32)
++#define PTE_PPN_MASK        0xffffffffUL
++#elif defined(TARGET_RISCV64)
++#define PTE_PPN_MASK        0x3fffffffffffffULL
++#endif
 
-> -
->   static int get_avr(QEMUFile *f, void *pv, size_t size,
->                      const VMStateField *field)
->   {
-> @@ -808,7 +697,6 @@ const VMStateDescription vmstate_ppc_cpu = {
->       .version_id = 5,
->       .minimum_version_id = 5,
->       .minimum_version_id_old = 4,
-> -    .load_state_old = cpu_load_old,
++        hwaddr ppn = (pte & PTE_PPN_MASK) >> PTE_PPN_SHIFT;
 
-According to docs/devel/migration.rst, .minimum_version_id_old is 
-ignored if no load_state_old handler is provided, I think we can drop it 
-too.
+>
+> Regards,
+> Anup
+>
+> >
+> >          RISCVCPU *cpu = env_archcpu(env);
+> >          if (!(pte & PTE_V)) {
+> >
+> > >
+> > > Regards,
+> > > Anup
+> > >
+> > > >
+> > > >          if (!(pte & PTE_V)) {
+> > > >              /* Invalid PTE */
+> > > > --
+> > > > 2.17.1
+> > > >
+> > >
+> >
+> >
+> > --
+> > Best Regards
+> >  Guo Ren
+> >
+> > ML: https://lore.kernel.org/linux-csky/
+> >
 
->       .pre_save = cpu_pre_save,
->       .post_load = cpu_post_load,
->       .fields = (VMStateField[]) {
-> --
-> 2.31.1
-Thanks,
-Matheus K. Ferst
-Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
-Analista de Software
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+
+
+-- 
+Best Regards
+ Guo Ren
+
+ML: https://lore.kernel.org/linux-csky/
 
