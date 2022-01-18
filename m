@@ -2,73 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59200492AFF
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 17:18:46 +0100 (CET)
-Received: from localhost ([::1]:49716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C03492B19
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 17:21:32 +0100 (CET)
+Received: from localhost ([::1]:56616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9rC0-0005c6-RH
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 11:18:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56664)
+	id 1n9rEg-0001nt-V3
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 11:21:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christophm30@gmail.com>)
- id 1n9r1q-0001bK-Q5; Tue, 18 Jan 2022 11:08:17 -0500
-Received: from mail-vk1-f179.google.com ([209.85.221.179]:38830)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <christophm30@gmail.com>)
- id 1n9r1o-0000HV-6R; Tue, 18 Jan 2022 11:08:14 -0500
-Received: by mail-vk1-f179.google.com with SMTP id h16so12584228vkp.5;
- Tue, 18 Jan 2022 08:08:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=sAjjxejaqSq/HtYhLJwM2clpnGt8/7CjejnXcBUMWFI=;
- b=cvSexapQZ6ugE/YFUUQnRpOySAPpj6ebghFYQG183XdYmL6cD+PffJ8XffAM9wm3Cl
- MYrODqa4Sda6+tOacI0ZOvesNK/cKBOzAVv/wpum8fO3IxBMqSbJ4wiffkym2Qz7Lwnf
- +FtjFk9RCDxZtYmKnXabqNHGjfEnZORz3nWNVQpjgrfBXAHVmOwMuXDbPI5ZVCvsNnBs
- 8n0uevMBw2E7cuZrRINdPDECne4OzSTozUVi2/7apT1s3XVeaEqSuTnWWCHCY6KhB4FC
- hKNRKReIF0GtJ5EUuvrO1Rs51KI4ejVbDXw3XJ6hhgnq2Nd3lN4BxEyxjXboX/bwAkb0
- C/vQ==
-X-Gm-Message-State: AOAM533IaeAwDi6NwOfzW2CxTW/PoBYVKNyDAqc8zpZLpHTF0Yee7zzm
- 2njIsv3sZHIwTJ8YnI1X+hwNWyqWcRZ7s+rx
-X-Google-Smtp-Source: ABdhPJxwnEczEtOlATT9JpE2K7Kng4qEY1uFa4RQUTymJztl5oBpPop9jxzSowL9SvL1iRBc+GyTGQ==
-X-Received: by 2002:a05:6122:218b:: with SMTP id
- j11mr6950117vkd.19.1642522086789; 
- Tue, 18 Jan 2022 08:08:06 -0800 (PST)
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com.
- [209.85.222.52])
- by smtp.gmail.com with ESMTPSA id j129sm3784059vkh.16.2022.01.18.08.08.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Jan 2022 08:08:06 -0800 (PST)
-Received: by mail-ua1-f52.google.com with SMTP id b16so3137840uaq.4;
- Tue, 18 Jan 2022 08:08:06 -0800 (PST)
-X-Received: by 2002:a05:6102:108c:: with SMTP id
- s12mr9924606vsr.20.1642522086069; 
- Tue, 18 Jan 2022 08:08:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1n9r35-0003P9-7C
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:09:31 -0500
+Received: from mail-eopbgr40114.outbound.protection.outlook.com
+ ([40.107.4.114]:1927 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1n9r32-0000Oj-JM
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:09:30 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=M/3WPi2S1INMRXwuJuo+M16E6SpiWXNiKV90penV046xuW0bIO0+eBskJ35/pNP2K+13u92HWsThkpFcurasLf9B4F6k9IDLcVcg3AVL+5foZdm46Ates/XefSvRURC9UKizpqpEC7D95m0TidKjTjsJCidYVpwNIbpRJRpZqVEXRfyjtO+eQLT9ynH3AQLAMFLauFN11zDWckZHP0colHVqi+/6DUFKceRdQ/LzS8K2qvGfEMZkxA2+aHrlLv0cZgr8P3hOnJ7+T6jzfwGAQ9K1TFmSxXXF/o6XHHOer89VFvg0HVpUNGn9ZtRLuUe6XOwETh7W1BxGqk98TNspQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lePoJ4+aOZF/JQDTCxH3HBAHufnsvvdD53N3Hu1GGI0=;
+ b=Gnk7FJ/oIYMmLHCS7Ifn0WkVswbDPaR6TDnWQF+9DFxaU6s0+49SzCudj88qZfFL/VmtMGo5NOY2Q8ZYFIXvHiQLhnrgrfJuBOB5wmgOiWHm+Fi2LIrKinyAxuKwvo+OMdJU6xdq5RfS/7OSPr2Z/IMHwj+uYquCTKH9cxCtmw8cSGJ6b3IOFj2l3yCxCSE4YQ6IXiYG3dg+mthctuYzKjhn6HtKKJR60vQev7FACYfwCTc/NFUY86peZF/whh8ajt7d+nFL8NnS4TKhQmQpvKnFd1/LFkeI5zlsTTVqM6QHw19a0Apmw2nPMkRgz8W2xV6Fy8gy9C6nrvijLfuqCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lePoJ4+aOZF/JQDTCxH3HBAHufnsvvdD53N3Hu1GGI0=;
+ b=URXg2R2sZKdiHcUyXXAkj8ISLdwWvE3c+TzSkY0Qh2VqPzPTCdGcmFw7tExZWz8hq4erDEfa/j/pJODK8Ckr2g0rV0x5o3kQgf5Q2JwxSr4Lb2WlWtsfMR3qeeEVUtp8uIXs6t/kl8VKeBwOW7Ukfv8p28UCUCiIJqAUP/cvAr0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
+ by AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.9; Tue, 18 Jan
+ 2022 16:09:25 +0000
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::b435:c0de:ef6b:5917]) by AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::b435:c0de:ef6b:5917%7]) with mapi id 15.20.4888.014; Tue, 18 Jan 2022
+ 16:09:25 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Cc: bleal@redhat.com, wainersm@redhat.com, f4bug@amsat.org, crosa@redhat.com,
+ eblake@redhat.com, armbru@redhat.com, kraxel@redhat.com,
+ berrange@redhat.com, vsementsov@virtuozzo.com, marcandre.lureau@redhat.com
+Subject: [PATCH v3 0/3] qapi/ui: change vnc addresses
+Date: Tue, 18 Jan 2022 17:09:06 +0100
+Message-Id: <20220118160909.2502374-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM7PR03CA0006.eurprd03.prod.outlook.com
+ (2603:10a6:20b:130::16) To AM9PR08MB6737.eurprd08.prod.outlook.com
+ (2603:10a6:20b:304::18)
 MIME-Version: 1.0
-References: <20220118151226.2565053-1-cmuellner@linux.com>
-In-Reply-To: <20220118151226.2565053-1-cmuellner@linux.com>
-From: =?UTF-8?Q?Christoph_M=C3=BCllner?= <cmuellner@gcc.gnu.org>
-Date: Tue, 18 Jan 2022 17:07:54 +0100
-X-Gmail-Original-Message-ID: <CAHB2gtRG9hfBm-VDmgW6bE2VY7vr+9DtRxektOsLFSzu5y93Cg@mail.gmail.com>
-Message-ID: <CAHB2gtRG9hfBm-VDmgW6bE2VY7vr+9DtRxektOsLFSzu5y93Cg@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: fix RV128 lq encoding
-To: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Philipp Tomsich <philipp.tomsich@vrull.eu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.221.179;
- envelope-from=christophm30@gmail.com; helo=mail-vk1-f179.google.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 584c068f-5da1-4741-afee-08d9da9ce583
+X-MS-TrafficTypeDiagnostic: AM9PR08MB6737:EE_
+X-Microsoft-Antispam-PRVS: <AM9PR08MB67374A9F1F97DECC37D7E3E8C1589@AM9PR08MB6737.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: N8Jqg/kxTUcGRFrKymYSg8nA484n98P//CVOtfbgw4ImhZgw/5/33uGmu0IwuVMQ4IdE36FVxk4nbkH0gv6N4Zk2dI46ErsHRC0y/DpKrAX13u9EJAcmVmuK7GJB3A/5FdaF3BzuEA08i13QY6X11FbYAf+EaNF1LmbWFzfTBQqS2u+hH1dMGnZSBZlw6uFOs/JTR7CAfWiKq5JOZT2X/iVzXPVUhY1GiBcfbfICaZNfpgnTz19nVZSxMaZWCvzye0bg9v5xMkuftSoBNb2dzvMcP3RYU8yfsUelPUV8lxTo9Md36CCNn4Ehl88HbjcgiPNMk9LOQ0qC6wF9T668ZhXaspRMpz5yzg0c/wYKBJPR6vaejg3lK/YOTp9x/K6QWVNMycqbQGyc+62oHzTmg7gIdre+iV5M1/4okB+S9jzyu16P29si5mM2pq64kOvK8N7KD8EEoDPv0h2XPTMPqI7ubjwO6zIr79iVfE3C4HZXWTLyYzQId9lyVIkN+WUIbBlhJQrGQSE8pM5gr8Dcja/gFVdz+jGYP0ew+IN7RL+Z7PiwBpkZViY541tYIb1Kx3ZDsO96XKhMeSu9SsbTcacKOwvSR0OqXoE9QhbK2YF5R4OID6ff5TogKeOeHVw54iZYoMgr74XWzc84ka3++kpuDA+ejJKA0HwxiTVj5zbczEBb7PtWGxY7idnButznQzoRf0f9otQh8xLJhfLaEQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(86362001)(38100700002)(508600001)(6666004)(6916009)(38350700002)(1076003)(2616005)(36756003)(26005)(2906002)(186003)(6486002)(6506007)(66556008)(66476007)(66946007)(8676002)(316002)(52116002)(83380400001)(7416002)(6512007)(8936002)(4326008)(5660300002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M2RRQXE2VmRGdmN4YkE2bGMwUC9RellBMWU5b2F5a1U4RjBtYmszd1pVMWZj?=
+ =?utf-8?B?VU5FWUJ4VDFjNXRkSkhEcXd1a2h1b2ZZdkplZlRjay9uUmpObFppdk5MRUdU?=
+ =?utf-8?B?VzJtMzk3Mno1QUJlRGIwT05HZm5pV1NXUE9KdjVhWmlOSHAyY2gxK0UzZERu?=
+ =?utf-8?B?cmRuOU4zTFBmY3FwZ0V5UG5Wa2trUFcxOWUzUmo1SlMwbzNnSHRlNytvZ1Fs?=
+ =?utf-8?B?ZkYwOWo0bWNUY0E2NWZlVFMraWFNbXNoeU9VNDAweWJrWFNlV3pBekJSSDAv?=
+ =?utf-8?B?K1pkZlh6cXR4czBPQmRnWkhKeU1PUFF2bUtPU0lQZ3ZFZzNWdnNGdXpJMGI1?=
+ =?utf-8?B?OXhCNitaTTZ3YXF6UmpTaFVTUEQ1WHpMU3VNbG5CNVZlYU5ZelhCSGJhMjlZ?=
+ =?utf-8?B?Zi9Dc3JjZkZLcWtqK3QzZFl1Y0RQRGNHekFOcS9seElWT3F2emtoR2xpZjZS?=
+ =?utf-8?B?QTllMHVXYzJ5OTFyUjN2Y2xzTFBVNjZVQk1MNHJ6QldJWC9zZCs4ZDAvR3JN?=
+ =?utf-8?B?dDlDRnlsNm94RFRYZk03OVUxL1UybGp3eDhQRHk4UnFuajMrdEJWUFBSVkIz?=
+ =?utf-8?B?N1V0VFZUTHByM283eC9PaVc5VWNJbmJyT2xlTzNmWE5tS0c1UFBRcVZJTDJv?=
+ =?utf-8?B?eUprVVVUaGhvMVZ4Vi9vbEwwRzhhZ0EyRnp1N1VNa1FOUVExZGk1QWVnSW9z?=
+ =?utf-8?B?amlNMmZXQy9QdlNyeDZMT05UTGJYYmgvZkppTXJhWFBsb0syZnBJSGNQd1dh?=
+ =?utf-8?B?TnpTOEhTR21ndVFUNEJHYld4MGkrSStFc3ZWZForS0x4ZGtJSzZCMzhsM2NZ?=
+ =?utf-8?B?VDhhL2diL1R0MS83SkRMeEU0VXBTcFRtbFAyTlppbStsdWxqdUlNOHBNVVN6?=
+ =?utf-8?B?OWw3ZEFYa1N4QjFxY1BpYSsrWG4xVmRha0k3WVd5YVNNcnZLTzA4MldPZDdF?=
+ =?utf-8?B?a1hCSGZqYnlKYUhqUk5yOTNYWU0yR2dJQTRkTDF3M0NPU2tmNXN4dTVDMmRQ?=
+ =?utf-8?B?WWhURS81VTVhNENreFNaNCtZZ2oxY0Nna215Nkw0ZlhFOWdhc2lEUzBIb0dl?=
+ =?utf-8?B?NmZYTWl5K0xnZUxCRGxLMjB0RGY0TmhueVpObkNWMWl4VWVydG51MkdmeHVp?=
+ =?utf-8?B?ays4YkF2UTJDeUthZVAxZVBsM1VPckZFZ3JHcDRpZUFzd2tUbzdaV1pnUFAv?=
+ =?utf-8?B?VEh0ZGhjNStFSExUbGI2dktHU0taSlJ6SXZ3bFlmWG82MjJHSnVId1NvVExD?=
+ =?utf-8?B?SDc2cGlKSFlQbGtLelpqd2ZGK3pwMDRsbTBiMDE5N2VMSEl1NDhYYlpyZlZp?=
+ =?utf-8?B?VkI3azZjbCtlVUl3QlVFUm50ZExNeDNhcW95VXpvVnVxQVR1eHdNdGVCdU9Q?=
+ =?utf-8?B?SXhPZnV6SnJUS3lhRkxja1ZCWXZhaG9MNENQT2ZQS1pmNkFPdU53emVOTFlo?=
+ =?utf-8?B?VUNkbDNqckRFQkdEWHdWUG41UmFibG5xRkY1NGtTNEdBNjMzSkt3dXViMVdD?=
+ =?utf-8?B?cDlpazUyc2VYSG56U2lnRGx0WnhnR1lSLzdkdVZtTy8yS05QT0NCdTVXT2tR?=
+ =?utf-8?B?Q0p6a09relR3UGV0SjlvUVB3T3lUMjBybWhDTkZib09TaFdUNWJ2M08xRFVY?=
+ =?utf-8?B?OUVyNEJNN1cxNnNHYmpFSkFKMFgyQ0hobk11dXNhRXJQb2dJRFZOMVJvcXJw?=
+ =?utf-8?B?YmEwZ2tKeU5hdFp5Q2lWYVN4bmhENjFkY1oydVVXblFNS3BHTjhZV2k2SVk1?=
+ =?utf-8?B?Wk9OSUFGbjRaeGNQcEV1VHl2aGhqR2FNMG9TanhVNkx4SFk3SW5ZdGFDTnVQ?=
+ =?utf-8?B?c2RwYy81bVJ3enN1MjNBWXE4bXVMNHJtWFhLcng3UnMwNktSeFhWV2wxYmE5?=
+ =?utf-8?B?Q3pBcDZDME9ocmIrUkMyMjREdGQvc1liandyVGZBajNyV1FSNjRNeW93NXp5?=
+ =?utf-8?B?a0pwdGFJdzk3dzBjaUNlSURvdmxUV3d6UTM3Zm4yNDhkTGZ2cTFYUWY4UWts?=
+ =?utf-8?B?OHBIUXFyWC9IMjJWVmtWRCtzK0ZvSi9rTy96WDlRUllyMlR5dmVmMHFoUkpu?=
+ =?utf-8?B?S0RheEhGOUNINFJlU0Z4dEQ2MExRZVp0T0VveE80bVZQSGVQWEMydjRTNjlF?=
+ =?utf-8?B?L1pmYkg2QjRCTmRQMTJhamFMZjE2WmdYeGZYMGxRN0lmeHF5ZkJTQ1pYRkN2?=
+ =?utf-8?B?cksvSWRwR0lNVkgyMnJjaFFEaWdyWEt5T0szRFMrZGxvTWJtVitDV0s5SXJN?=
+ =?utf-8?B?R0k1R2J5V3dWRGMycmJHZmM2TGVRPT0=?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 584c068f-5da1-4741-afee-08d9da9ce583
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2022 16:09:25.4703 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hdLt/14ZIn4HzyE1RbY+ztEA+J8lzlJn4nGQMY/BUbqXcCRg1xRpYQ8UtDkFXLRiByqI3TmQd1ZLIW1E9H2z0/u1i5zoNPLzi9QujIHHiR8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6737
+Received-SPF: pass client-ip=40.107.4.114;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR03-DB5-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,45 +148,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Resend from the correct email address to get accepted by Mailman.
+Hi all!
 
-On Tue, Jan 18, 2022 at 4:12 PM Christoph Muellner <cmuellner@linux.com> wrote:
->
-> If LQ has func3==010 and is located in the MISC-MEM opcodes,
-> then it conflicts with the CBO opcode space.
-> However, since LQ is specified as: "LQ is added to the MISC-MEM major
-> opcode", we have an implementation bug, because 'major opcode'
-> refers to func3, which must be 111.
->
-> This results in the following instruction encodings:
->
-> lq        ........ ........ .111.... .0001111
-> cbo_clean 00000000 0001.... .0100000 00001111
-> cbo_flush 00000000 0010.... .0100000 00001111
-> cbo_inval 00000000 0000.... .0100000 00001111
-> cbo_zero  00000000 0100.... .0100000 00001111
->                              ^^^-func3
->                                       ^^^^^^^-opcode
->
-> Signed-off-by: Christoph Muellner <cmuellner@linux.com>
-> ---
->  target/riscv/insn32.decode | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 5bbedc254c..d3f798ca10 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -168,7 +168,7 @@ sraw     0100000 .....  ..... 101 ..... 0111011 @r
->
->  # *** RV128I Base Instruction Set (in addition to RV64I) ***
->  ldu      ............   ..... 111 ..... 0000011 @i
-> -lq       ............   ..... 010 ..... 0001111 @i
-> +lq       ............   ..... 111 ..... 0001111 @i
->  sq       ............   ..... 100 ..... 0100011 @s
->  addid    ............  .....  000 ..... 1011011 @i
->  sllid    000000 ......  ..... 001 ..... 1011011 @sh6
-> --
-> 2.34.1
->
+v3: - instead of creating new qmp command add an argument to existing
+      display-reload
+    - also don't touch websockets for now. I'm not sure we need it.
+      Additional argument for changing websockets may be added later on
+      demand
+
+Recently our customer requested a possibility to change VNC listen port
+dynamically.
+
+Happily in Rhel7-based Qemu we already have this possibility: through
+deprecated "change" qmp command.
+
+But since 6.0 "change" qmp command was removed, with recommendation to
+use change-vnc-password or blockdev-change-medium instead. Of course,
+neither of them allow change VNC listen port.
+
+So, let's reimplement the possibility.
+
+Note: now, reconnecting may trigger existing deadlock, as I described
+in my message "Re: [PULL 09/11] ui/vnc: clipboard support":
+ <973ddebe-14a9-4ba7-c389-7a97d6017237@virtuozzo.com>
+
+Simple hack helps, but I'm not sure it's safe itself:
+
+    diff --git a/ui/vnc.c b/ui/vnc.c
+    index 69bbf3b6f6..8c6b378e2e 100644
+    --- a/ui/vnc.c
+    +++ b/ui/vnc.c
+    @@ -1354,12 +1354,12 @@ void vnc_disconnect_finish(VncState *vs)
+             /* last client gone */
+             vnc_update_server_surface(vs->vd);
+         }
+    +    vnc_unlock_output(vs);
+    +
+         if (vs->cbpeer.update.notify) {
+             qemu_clipboard_peer_unregister(&vs->cbpeer);
+         }
+     
+    -    vnc_unlock_output(vs);
+    -
+         qemu_mutex_destroy(&vs->output_mutex);
+         if (vs->bh != NULL) {
+             qemu_bh_delete(vs->bh);
+
+Vladimir Sementsov-Ogievskiy (3):
+  ui/vnc: refactor arrays of addresses to SocketAddressList
+  qapi/ui: display-reload: add possibility to change listen address
+  avocado/vnc: add test_change_listen
+
+ docs/about/removed-features.rst |   3 +-
+ qapi/ui.json                    |   6 +-
+ include/ui/console.h            |   2 +-
+ monitor/qmp-cmds.c              |   4 +-
+ ui/vnc.c                        | 166 ++++++++++++++++----------------
+ tests/avocado/vnc.py            |  10 ++
+ 6 files changed, 100 insertions(+), 91 deletions(-)
+
+-- 
+2.31.1
+
 
