@@ -2,90 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ED914913B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 02:42:24 +0100 (CET)
-Received: from localhost ([::1]:58298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADF094913C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 02:52:16 +0100 (CET)
+Received: from localhost ([::1]:37022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9dVu-0006fd-VT
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 20:42:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49458)
+	id 1n9dfT-0003yd-HF
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 20:52:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n9dSj-000541-2q
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 20:39:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58000)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n9dSf-0006Ra-TG
- for qemu-devel@nongnu.org; Mon, 17 Jan 2022 20:39:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642469940;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ESEC45lg+bEAqkpqEjD7UiEpyuxrC33lIbWYExDCJKM=;
- b=PLr9jhmGCZMaiwKT4HRPjk03vzvDbYsnCyjyHBt0XnzePbq7iVlhEQKUj/Kifm+kJH1qQH
- PG7PUnkpAC3g1DC0H/SPgO+zhG2zC7H121Ay0ys7zU8DPs4J5e0uNgikyMYdDfM8ofEwlV
- SDbkXpGNPYtGsv3EF/XcXgRRgd0oBQA=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-671-alJcE-JXPcuVvCrjl5g6cw-1; Mon, 17 Jan 2022 20:38:59 -0500
-X-MC-Unique: alJcE-JXPcuVvCrjl5g6cw-1
-Received: by mail-pf1-f199.google.com with SMTP id
- h196-20020a6283cd000000b004bed33745c9so7165500pfe.23
- for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 17:38:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1n9dYx-0008OE-Ax
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 20:45:32 -0500
+Received: from [2607:f8b0:4864:20::633] (port=43629
+ helo=mail-pl1-x633.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1n9dYu-0007QY-7d
+ for qemu-devel@nongnu.org; Mon, 17 Jan 2022 20:45:30 -0500
+Received: by mail-pl1-x633.google.com with SMTP id e19so22939999plc.10
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 17:45:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MXWHyw1k8cc83/1WC6rn+xN6Jea9Fck/Wg/8Tc/cBJE=;
+ b=jbLFzjXEJsR8TFETMc0QS6LtBtdEDZZ5QynliWX7bKqXAbPjmZ9ahHvwkrULs/CvgF
+ cMcKLf3b89FJg69rkxBhU2zJPbinvCJ3AP1x9w5fsyxfGaHO3dZqWROUh6Yj4f2doHEI
+ 8Luon7Bv/OamI4TklnGxTdAMSYJ6Jv/YpAKqNs42agKdCIQMulX5oP9OR7KhwSp66oyI
+ XG1lPcx0oosBCbaaITWpgYxIwoC6Aa+wbcWjgPro1jzx3tN7rt5qqXp9VJIQG548yZYt
+ ha/28ZlEM/myNNIiaZZLjFOC5iVR6Ztscu9rG5kwWjY9Wvx696+7oWz1vmAeN1GOAnvV
+ ecQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=ESEC45lg+bEAqkpqEjD7UiEpyuxrC33lIbWYExDCJKM=;
- b=GO8lfndNx1PEsbJq74TB9wtaZAXfx1fp3AdAvplS8FgXLlJqgGp8lb58NjdHPnSxbm
- cReFP2JqnRRSU7EopspueofG7MzF+s1cByqhJZnPPFIlcBi8I3QZC76meLo4xx2Paqy4
- B4QMyzxyQ/067ZmnOFtlLa0o1gr0+AAPvqY2gX5Jk76qziy+UlyI0zJp1aJjVAF0FCvv
- wblkHtb4yHRHhYtjeLgc7Ul+P43tXYE3W3XFrcZxWU5QTHgu8IkrR16/Te7e8RQud55K
- 0FCdDuFzrMBPYoid/dzzagTeOS6frLtpdOmTYZJ9j0Ad36ngDjwbwNSpyafYy1V+9Huw
- 4qqw==
-X-Gm-Message-State: AOAM533TM/uheTNEmsd/DmHExePe7ID2b0ZkXCeFSh0A/M1cZJmiGMgk
- 4edWcMjki7ZVn4ChBsUxbg608+H1ZNAFOp3+Q9T1k7N0r+Ean+7e4tbBCUiwSHZFcV1Vo22hobh
- 7PD4+wap7wCO486c=
-X-Received: by 2002:a17:90a:2e09:: with SMTP id
- q9mr26865337pjd.2.1642469937783; 
- Mon, 17 Jan 2022 17:38:57 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw+MCPGtXBOhFZkZGaONNfmNh0yZOKHELZFqaJBGHpfyocTru5XNWcJvA0HvKhBh5r/9d3rzQ==
-X-Received: by 2002:a17:90a:2e09:: with SMTP id
- q9mr26865314pjd.2.1642469937466; 
- Mon, 17 Jan 2022 17:38:57 -0800 (PST)
-Received: from xz-m1.local ([191.101.132.55])
- by smtp.gmail.com with ESMTPSA id x185sm2841750pfd.58.2022.01.17.17.38.53
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MXWHyw1k8cc83/1WC6rn+xN6Jea9Fck/Wg/8Tc/cBJE=;
+ b=rWrd9x6rXfJsAx8Jr3OMmmRfJGvf8geKLgmiMQkDpHnUPu58buUyNfTOVpAIKYgkij
+ PMLck/XIYZo5iYfs7CHIgUVHN9+4NulQOMvI2NkiyYj9yZbJQUz//zZlMopeLA5LviER
+ w1dLBRkIvB0UvpItk87mcLHWvMbsUgTfupZ84xqHxX0f77r9txef7Y2UkIUW88Z2zW24
+ OZNNCmz7L9f0Xr0YidCDZ3EwPNaPytj8piUWqq3lGUFoimbnJHCFcy+jd5v2zYrKZL3c
+ IfRJKjl5k0Y94c5S9WDHZNa0O5pl1D27NWBD41ju4eGEHplBff9B7aHdfrUktaDKNo2P
+ MJcA==
+X-Gm-Message-State: AOAM531t6NqXwaTJU1KSVfmsus3p4qra6HsaTYifw1nmO5KMOp8ocvoF
+ DuxXPX60tTOs2TMqmebiXDSWcfrsEmSk7bW3
+X-Google-Smtp-Source: ABdhPJxG3m7aU9o9kmW8MjTp0JKnB16tUaDL99nN890+XpPusuj3XSWmYhuin7TMq11W/eraR4L1Ng==
+X-Received: by 2002:a17:90b:3906:: with SMTP id
+ ob6mr37751975pjb.170.1642470326781; 
+ Mon, 17 Jan 2022 17:45:26 -0800 (PST)
+Received: from hsinchu16.internal.sifive.com
+ (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
+ by smtp.gmail.com with ESMTPSA id c12sm8286136pfm.113.2022.01.17.17.45.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Jan 2022 17:38:56 -0800 (PST)
-Date: Tue, 18 Jan 2022 09:38:51 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v3] hw/dma: Let dma_buf_read() / dma_buf_write()
- propagate MemTxResult
-Message-ID: <YeYaK8Aqu08DjYJv@xz-m1.local>
-References: <20220117125130.131828-1-f4bug@amsat.org>
+ Mon, 17 Jan 2022 17:45:26 -0800 (PST)
+From: frank.chang@sifive.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/17] Add RISC-V RVV Zve32f and Zve64f extensions
+Date: Tue, 18 Jan 2022 09:45:03 +0800
+Message-Id: <20220118014522.13613-1-frank.chang@sifive.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20220117125130.131828-1-f4bug@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::633
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,37 +85,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Klaus Jensen <its@irrelevant.dk>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 17, 2022 at 01:51:30PM +0100, Philippe Mathieu-Daudé wrote:
-> From: Philippe Mathieu-Daudé <philmd@redhat.com>
-> 
-> Since commit 292e13142d2, dma_buf_rw() returns a MemTxResult type.
-> Do not discard it, return it to the caller. Pass the previously
-> returned value (the QEMUSGList residual size, which was rarely used)
-> as an optional argument.
-> 
-> With this new API, SCSIRequest::residual might now be accessed via
-> a pointer. Since the size_t type does not have the same size on
-> 32 and 64-bit host architectures, convert it to a uint64_t, which
-> is big enough to hold the residual size, and the type is constant
-> on both 32/64-bit hosts.
-> 
-> Update the few dma_buf_read() / dma_buf_write() callers to the new
-> API.
-> 
-> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Frank Chang <frank.chang@sifive.com>
 
-Acked-by: Peter Xu <peterx@redhat.com>
+In RVV v1.0 spec, several Zve* vector extensions for embedded processors
+are defined in Chapter 18.2:
+https://github.com/riscv/riscv-v-spec/blob/v1.0/v-spec.adoc#zve-vector-extensions-for-embedded-processors
 
--- 
-Peter Xu
+This patchset implements Zve32f and Zve64f extensions.
+
+The port is available at:
+https://github.com/sifive/qemu/tree/rvv-zve32f-zve64f-upstream-v2
+
+Zve32f can be enabled with -cpu option: Zve32f=true and
+Zve64f can be enabled with -cpu option: Zve64f=true.
+V is not required to be enabled explicitly.
+
+Here's the inclusion diagram for the six standard vector extensions
+quoted from Nick Knight <nick.knight@sifive.com>:
+
+      V
+      |
+    Zve64d
+      |
+    Zve64f
+   /      \
+Zve64x   Zve32f
+   \      /
+    Zve32x
+
+Changelog:
+
+v2:
+  * Replace hardcoded TARGET_RISCV32 macro with get_xl().
+
+Frank Chang (17):
+  target/riscv: rvv-1.0: Add Zve64f extension into RISC-V
+  target/riscv: rvv-1.0: Add Zve64f support for configuration insns
+  target/riscv: rvv-1.0: Add Zve64f support for load and store insns
+  target/riscv: rvv-1.0: Add Zve64f support for vmulh variant insns
+  target/riscv: rvv-1.0: Add Zve64f support for vsmul.vv and vsmul.vx
+    insns
+  target/riscv: rvv-1.0: Add Zve64f support for scalar fp insns
+  target/riscv: rvv-1.0: Add Zve64f support for single-width fp
+    reduction insns
+  target/riscv: rvv-1.0: Add Zve64f support for widening type-convert
+    insns
+  target/riscv: rvv-1.0: Add Zve64f support for narrowing type-convert
+    insns
+  target/riscv: rvv-1.0: Allow Zve64f extension to be turned on
+  target/riscv: rvv-1.0: Add Zve32f extension into RISC-V
+  target/riscv: rvv-1.0: Add Zve32f support for configuration insns
+  target/riscv: rvv-1.0: Add Zve32f support for scalar fp insns
+  target/riscv: rvv-1.0: Add Zve32f support for single-width fp
+    reduction insns
+  target/riscv: rvv-1.0: Add Zve32f support for widening type-convert
+    insns
+  target/riscv: rvv-1.0: Add Zve32f support for narrowing type-convert
+    insns
+  target/riscv: rvv-1.0: Allow Zve32f extension to be turned on
+
+ target/riscv/cpu.c                      |   6 +
+ target/riscv/cpu.h                      |   2 +
+ target/riscv/cpu_helper.c               |   5 +-
+ target/riscv/csr.c                      |   6 +-
+ target/riscv/insn_trans/trans_rvv.c.inc | 219 ++++++++++++++++++++----
+ target/riscv/translate.c                |   4 +
+ 6 files changed, 205 insertions(+), 37 deletions(-)
+
+--
+2.31.1
 
 
