@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2AB6492900
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 15:58:40 +0100 (CET)
-Received: from localhost ([::1]:57452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF85492862
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 15:29:45 +0100 (CET)
+Received: from localhost ([::1]:35552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9pwV-0000cu-GM
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 09:58:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40300)
+	id 1n9pUW-0006Hr-8g
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 09:29:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1n9oRD-0000kX-1l
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 08:22:15 -0500
-Received: from mga02.intel.com ([134.134.136.20]:57197)
+ id 1n9oRT-0001Db-WE
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 08:22:32 -0500
+Received: from mga06.intel.com ([134.134.136.31]:48472)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1n9oR7-0003Ak-P8
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 08:22:11 -0500
+ id 1n9oRQ-0003G7-Uv
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 08:22:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642512129; x=1674048129;
+ t=1642512149; x=1674048149;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=4KNvuS2T6y3ZLkboDDDFll1RTzkK0ZIAxH/eOgdZ+S8=;
- b=Jnc+uvcKh/HKed+5WuEDRBJKqyNAI5e+x4EB2Yk/BcZqKYTgc1YSzKXk
- 2/ezM/ITYO6wJq2pkywKijmdczUtVLRbpkGkIN78R/TLaZ75z5qg6TCul
- JlsNQdBOxXGdMsMeDlcH8d5Gx7UzqqrHUw/UwjL71F11SUfPxJXVOBMEA
- umqhFo/4ASXPHZu1Ppkt9hpguakvP09oaRgv5FrH6uSVSXNSYHH9liksb
- xzHdxRIgk09x0TZ94/LlL+qI4EErYaqTMRY+tG69Sw68nRcvKq6mVNBHt
- jk21biaEsQwrSPiaXwvwV+CdvEVdBPrT35CcYMIGKwAqbRGXDOxfrBvr3 w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10230"; a="232171777"
-X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; d="scan'208";a="232171777"
+ bh=HZ8RoYPmQ6m9k6Lgoc+xE+GTQI3+IhGwWjUNoTgoWzo=;
+ b=ROoWUCb8HZMzILMU5r/gs0hCuS7ziciYkPS6/4OPDuqpTg4sg8rVUu1I
+ mUnYSz/Q03nTfqZ6EVuor5gzw7Mh87aOz5PdFTnJ0ZFCdfccwm4VmPgJB
+ lJckQYXdTnhxouh5qFHVUXCeJ9V45uB5x6DD5decsXw3FNEfZD52vDrsk
+ 6C92Z4lZPWqx9NdUxt2nM2IQNM9eK2y1XDpaeXfrNopgArQlcdnQk7CS2
+ 2pdAHWyCokhLxnYe3jPX9drE3CeyfiGTGQt6nUeBGRFMzGJkXc7CehB3b
+ p7m9sN3hqeskMaaQTd3GR//KilYjHcAmyejevAFe1evW3uQIzwCW+7rx4 g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10230"; a="305545793"
+X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; d="scan'208";a="305545793"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2022 05:22:06 -0800
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2022 05:22:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; d="scan'208";a="531791632"
+X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; d="scan'208";a="531791758"
 Received: from chaop.bj.intel.com ([10.240.192.101])
- by orsmga008.jf.intel.com with ESMTP; 18 Jan 2022 05:21:59 -0800
+ by orsmga008.jf.intel.com with ESMTP; 18 Jan 2022 05:22:20 -0800
 From: Chao Peng <chao.p.peng@linux.intel.com>
 To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
-Subject: [PATCH v4 01/12] mm/shmem: Introduce F_SEAL_INACCESSIBLE
-Date: Tue, 18 Jan 2022 21:21:10 +0800
-Message-Id: <20220118132121.31388-2-chao.p.peng@linux.intel.com>
+Subject: [PATCH v4 04/12] mm/shmem: Support memfile_notifier
+Date: Tue, 18 Jan 2022 21:21:13 +0800
+Message-Id: <20220118132121.31388-5-chao.p.peng@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
 References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
-Received-SPF: none client-ip=134.134.136.20;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga02.intel.com
+Received-SPF: none client-ip=134.134.136.31;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga06.intel.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
 X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,129 +83,200 @@ Cc: Wanpeng Li <wanpengli@tencent.com>, luto@kernel.org, david@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+It maintains a memfile_notifier list in shmem_inode_info structure and
+implements memfile_pfn_ops callbacks defined by memfile_notifier. It
+then exposes them to memfile_notifier via
+shmem_get_memfile_notifier_info.
 
-Introduce a new seal F_SEAL_INACCESSIBLE indicating the content of
-the file is inaccessible from userspace through ordinary MMU access
-(e.g., read/write/mmap). However, the file content can be accessed
-via a different mechanism (e.g. KVM MMU) indirectly.
-
-It provides semantics required for KVM guest private memory support
-that a file descriptor with this seal set is going to be used as the
-source of guest memory in confidential computing environments such
-as Intel TDX/AMD SEV but may not be accessible from host userspace.
-
-At this time only shmem implements this seal.
+We use SGP_NOALLOC in shmem_get_lock_pfn since the pages should be
+allocated by userspace for private memory. If there is no pages
+allocated at the offset then error should be returned so KVM knows that
+the memory is not private memory.
 
 Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 ---
- include/uapi/linux/fcntl.h |  1 +
- mm/shmem.c                 | 40 ++++++++++++++++++++++++++++++++++++--
- 2 files changed, 39 insertions(+), 2 deletions(-)
+ include/linux/shmem_fs.h |  4 ++
+ mm/memfile_notifier.c    | 12 +++++-
+ mm/shmem.c               | 81 ++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 96 insertions(+), 1 deletion(-)
 
-diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
-index 2f86b2ad6d7e..09ef34754dfa 100644
---- a/include/uapi/linux/fcntl.h
-+++ b/include/uapi/linux/fcntl.h
-@@ -43,6 +43,7 @@
- #define F_SEAL_GROW	0x0004	/* prevent file from growing */
- #define F_SEAL_WRITE	0x0008	/* prevent writes */
- #define F_SEAL_FUTURE_WRITE	0x0010  /* prevent future writes while mapped */
-+#define F_SEAL_INACCESSIBLE	0x0020  /* prevent ordinary MMU access (e.g. read/write/mmap) to file content */
- /* (1U << 31) is reserved for signed error codes */
+diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
+index 166158b6e917..461633587eaf 100644
+--- a/include/linux/shmem_fs.h
++++ b/include/linux/shmem_fs.h
+@@ -9,6 +9,7 @@
+ #include <linux/percpu_counter.h>
+ #include <linux/xattr.h>
+ #include <linux/fs_parser.h>
++#include <linux/memfile_notifier.h>
  
- /*
+ /* inode in-kernel data */
+ 
+@@ -24,6 +25,9 @@ struct shmem_inode_info {
+ 	struct shared_policy	policy;		/* NUMA memory alloc policy */
+ 	struct simple_xattrs	xattrs;		/* list of xattrs */
+ 	atomic_t		stop_eviction;	/* hold when working on inode */
++#ifdef CONFIG_MEMFILE_NOTIFIER
++	struct memfile_notifier_list memfile_notifiers;
++#endif
+ 	struct inode		vfs_inode;
+ };
+ 
+diff --git a/mm/memfile_notifier.c b/mm/memfile_notifier.c
+index 8171d4601a04..b4699cbf629e 100644
+--- a/mm/memfile_notifier.c
++++ b/mm/memfile_notifier.c
+@@ -41,11 +41,21 @@ void memfile_notifier_fallocate(struct memfile_notifier_list *list,
+ 	srcu_read_unlock(&srcu, id);
+ }
+ 
++#ifdef CONFIG_SHMEM
++extern int shmem_get_memfile_notifier_info(struct inode *inode,
++					struct memfile_notifier_list **list,
++					struct memfile_pfn_ops **ops);
++#endif
++
+ static int memfile_get_notifier_info(struct inode *inode,
+ 				     struct memfile_notifier_list **list,
+ 				     struct memfile_pfn_ops **ops)
+ {
+-	return -EOPNOTSUPP;
++	int ret = -EOPNOTSUPP;
++#ifdef CONFIG_SHMEM
++	ret = shmem_get_memfile_notifier_info(inode, list, ops);
++#endif
++	return ret;
+ }
+ 
+ int memfile_register_notifier(struct inode *inode,
 diff --git a/mm/shmem.c b/mm/shmem.c
-index 18f93c2d68f1..72185630e7c4 100644
+index 72185630e7c4..00af869d26ce 100644
 --- a/mm/shmem.c
 +++ b/mm/shmem.c
-@@ -1098,6 +1098,13 @@ static int shmem_setattr(struct user_namespace *mnt_userns,
- 		    (newsize > oldsize && (info->seals & F_SEAL_GROW)))
- 			return -EPERM;
+@@ -906,6 +906,28 @@ static bool shmem_punch_compound(struct page *page, pgoff_t start, pgoff_t end)
+ 	return split_huge_page(page) >= 0;
+ }
  
-+		if (info->seals & F_SEAL_INACCESSIBLE) {
-+			if(i_size_read(inode))
-+				return -EPERM;
-+			if (newsize & ~PAGE_MASK)
-+				return -EINVAL;
-+		}
++static void notify_fallocate(struct inode *inode, pgoff_t start, pgoff_t end)
++{
++#ifdef CONFIG_MEMFILE_NOTIFIER
++	struct shmem_inode_info *info = SHMEM_I(inode);
 +
- 		if (newsize != oldsize) {
- 			error = shmem_reacct_size(SHMEM_I(inode)->flags,
- 					oldsize, newsize);
-@@ -1364,6 +1371,8 @@ static int shmem_writepage(struct page *page, struct writeback_control *wbc)
- 		goto redirty;
- 	if (!total_swap_pages)
- 		goto redirty;
-+	if (info->seals & F_SEAL_INACCESSIBLE)
-+		goto redirty;
- 
- 	/*
- 	 * Our capabilities prevent regular writeback or sync from ever calling
-@@ -2262,6 +2271,9 @@ static int shmem_mmap(struct file *file, struct vm_area_struct *vma)
- 	if (ret)
- 		return ret;
- 
-+	if (info->seals & F_SEAL_INACCESSIBLE)
-+		return -EPERM;
++	memfile_notifier_fallocate(&info->memfile_notifiers, start, end);
++#endif
++}
 +
- 	/* arm64 - allow memory tagging on RAM-based files */
- 	vma->vm_flags |= VM_MTE_ALLOWED;
- 
-@@ -2459,12 +2471,15 @@ shmem_write_begin(struct file *file, struct address_space *mapping,
- 	pgoff_t index = pos >> PAGE_SHIFT;
- 
- 	/* i_rwsem is held by caller */
--	if (unlikely(info->seals & (F_SEAL_GROW |
--				   F_SEAL_WRITE | F_SEAL_FUTURE_WRITE))) {
-+	if (unlikely(info->seals & (F_SEAL_GROW | F_SEAL_WRITE |
-+				    F_SEAL_FUTURE_WRITE |
-+				    F_SEAL_INACCESSIBLE))) {
- 		if (info->seals & (F_SEAL_WRITE | F_SEAL_FUTURE_WRITE))
- 			return -EPERM;
- 		if ((info->seals & F_SEAL_GROW) && pos + len > inode->i_size)
- 			return -EPERM;
-+		if (info->seals & F_SEAL_INACCESSIBLE)
-+			return -EPERM;
- 	}
- 
- 	return shmem_getpage(inode, index, pagep, SGP_WRITE);
-@@ -2538,6 +2553,21 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
- 		end_index = i_size >> PAGE_SHIFT;
- 		if (index > end_index)
- 			break;
++static void notify_invalidate_page(struct inode *inode, struct page *page,
++				   pgoff_t start, pgoff_t end)
++{
++#ifdef CONFIG_MEMFILE_NOTIFIER
++	struct shmem_inode_info *info = SHMEM_I(inode);
 +
-+		/*
-+		 * inode_lock protects setting up seals as well as write to
-+		 * i_size. Setting F_SEAL_INACCESSIBLE only allowed with
-+		 * i_size == 0.
-+		 *
-+		 * Check F_SEAL_INACCESSIBLE after i_size. It effectively
-+		 * serialize read vs. setting F_SEAL_INACCESSIBLE without
-+		 * taking inode_lock in read path.
-+		 */
-+		if (SHMEM_I(inode)->seals & F_SEAL_INACCESSIBLE) {
-+			error = -EPERM;
-+			break;
-+		}
++	start = max(start, page->index);
++	end = min(end, page->index + thp_nr_pages(page));
 +
- 		if (index == end_index) {
- 			nr = i_size & ~PAGE_MASK;
- 			if (nr <= offset)
-@@ -2663,6 +2693,12 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
- 			goto out;
- 		}
++	memfile_notifier_invalidate(&info->memfile_notifiers, start, end);
++#endif
++}
++
+ /*
+  * Remove range of pages and swap entries from page cache, and free them.
+  * If !unfalloc, truncate or punch hole; if unfalloc, undo failed fallocate.
+@@ -949,6 +971,8 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, loff_t lend,
+ 			}
+ 			index += thp_nr_pages(page) - 1;
  
-+		if ((info->seals & F_SEAL_INACCESSIBLE) &&
-+		    (offset & ~PAGE_MASK || len & ~PAGE_MASK)) {
-+			error = -EINVAL;
-+			goto out;
-+		}
++			notify_invalidate_page(inode, page, start, end);
 +
- 		shmem_falloc.waitq = &shmem_falloc_waitq;
- 		shmem_falloc.start = (u64)unmap_start >> PAGE_SHIFT;
- 		shmem_falloc.next = (unmap_end + 1) >> PAGE_SHIFT;
+ 			if (!unfalloc || !PageUptodate(page))
+ 				truncate_inode_page(mapping, page);
+ 			unlock_page(page);
+@@ -1025,6 +1049,9 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, loff_t lend,
+ 					index--;
+ 					break;
+ 				}
++
++				notify_invalidate_page(inode, page, start, end);
++
+ 				VM_BUG_ON_PAGE(PageWriteback(page), page);
+ 				if (shmem_punch_compound(page, start, end))
+ 					truncate_inode_page(mapping, page);
+@@ -2313,6 +2340,9 @@ static struct inode *shmem_get_inode(struct super_block *sb, const struct inode
+ 		info->flags = flags & VM_NORESERVE;
+ 		INIT_LIST_HEAD(&info->shrinklist);
+ 		INIT_LIST_HEAD(&info->swaplist);
++#ifdef CONFIG_MEMFILE_NOTIFIER
++		memfile_notifier_list_init(&info->memfile_notifiers);
++#endif
+ 		simple_xattrs_init(&info->xattrs);
+ 		cache_no_acl(inode);
+ 		mapping_set_large_folios(inode->i_mapping);
+@@ -2818,6 +2848,7 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
+ 	if (!(mode & FALLOC_FL_KEEP_SIZE) && offset + len > inode->i_size)
+ 		i_size_write(inode, offset + len);
+ 	inode->i_ctime = current_time(inode);
++	notify_fallocate(inode, start, end);
+ undone:
+ 	spin_lock(&inode->i_lock);
+ 	inode->i_private = NULL;
+@@ -4002,6 +4033,56 @@ struct kobj_attribute shmem_enabled_attr =
+ 	__ATTR(shmem_enabled, 0644, shmem_enabled_show, shmem_enabled_store);
+ #endif /* CONFIG_TRANSPARENT_HUGEPAGE && CONFIG_SYSFS */
+ 
++#ifdef CONFIG_MEMFILE_NOTIFIER
++static long shmem_get_lock_pfn(struct inode *inode, pgoff_t offset, int *order)
++{
++	struct page *page;
++	int ret;
++
++	ret = shmem_getpage(inode, offset, &page, SGP_NOALLOC);
++	if (ret)
++		return ret;
++
++	*order = thp_order(compound_head(page));
++
++	return page_to_pfn(page);
++}
++
++static void shmem_put_unlock_pfn(unsigned long pfn)
++{
++	struct page *page = pfn_to_page(pfn);
++
++	VM_BUG_ON_PAGE(!PageLocked(page), page);
++
++	set_page_dirty(page);
++	unlock_page(page);
++	put_page(page);
++}
++
++static struct memfile_pfn_ops shmem_pfn_ops = {
++	.get_lock_pfn = shmem_get_lock_pfn,
++	.put_unlock_pfn = shmem_put_unlock_pfn,
++};
++
++int shmem_get_memfile_notifier_info(struct inode *inode,
++				    struct memfile_notifier_list **list,
++				    struct memfile_pfn_ops **ops)
++{
++	struct shmem_inode_info *info;
++
++	if (!shmem_mapping(inode->i_mapping))
++		return -EINVAL;
++
++	info = SHMEM_I(inode);
++	*list = &info->memfile_notifiers;
++	if (ops)
++		*ops = &shmem_pfn_ops;
++
++	return 0;
++}
++
++#endif /* CONFIG_MEMFILE_NOTIFIER */
++
+ #else /* !CONFIG_SHMEM */
+ 
+ /*
 -- 
 2.17.1
 
