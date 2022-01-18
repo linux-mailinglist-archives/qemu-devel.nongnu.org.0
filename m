@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CEE3492586
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 13:15:06 +0100 (CET)
-Received: from localhost ([::1]:37384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E46C14925B4
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 13:28:47 +0100 (CET)
+Received: from localhost ([::1]:37400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9nOD-00070G-DW
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 07:15:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51236)
+	id 1n9nbS-00020X-WB
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 07:28:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9nCC-0005zr-Hu; Tue, 18 Jan 2022 07:03:56 -0500
-Received: from [2a00:1450:4864:20::32b] (port=41933
+ id 1n9nDn-00065P-SF; Tue, 18 Jan 2022 07:04:25 -0500
+Received: from [2a00:1450:4864:20::32b] (port=55107
  helo=mail-wm1-x32b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9nCA-0005iw-4I; Tue, 18 Jan 2022 07:02:40 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- q141-20020a1ca793000000b00347b48dfb53so6872083wme.0; 
- Tue, 18 Jan 2022 04:02:36 -0800 (PST)
+ id 1n9nCK-0005jV-R5; Tue, 18 Jan 2022 07:02:53 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id p18so27133226wmg.4;
+ Tue, 18 Jan 2022 04:02:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MO1wiroHmEXR7v0/BicKh1zjhy8mrqOByKV8ImIX2R4=;
- b=OUMgJMPgkSEOHWnBB4CbNLg01dImnRR9b9K42JhRz+eTGmHFxiWDWsskLlVtxHDgvp
- J0Wga250YSCVVtJWGM32nBM4uUQoMRMi63R/20xnOvpTNADyUNyjzPmz+ZWLUFQ8R/Ys
- YzW4CFTMxcIabGDsk7pjeSUvFAROH4esLHD3ivaQGUeEtK1alDM/0EFMr0fNw6Cfe8Z7
- RTM7Ef5MhSVu0nvFg/QyK0bSdmgDiznaPq6eIdiyJBgkzfNMm64H4KbNWd/I/TS6MuDn
- lDZFF0UfaSKhvpi5L1DPLWNhGCSM4iaZm/LkMtt+HnLRFHEOMBXrYzofI1ZNkklHG0Jh
- v9iQ==
+ bh=DWxXs/yisq3shP3JsRPbu1icyNFhILJ+qdkOwqqhAt0=;
+ b=O5L7l8X7EPmelOOW+n4cyoT9OMiWkBqCqr2cyEDt2As2s5dz/GKyveZo4LdYIgReRL
+ JqXApVKoeFl/KorAES+Ebmg8Djy1bX8tcdHZ6appLtqTVBEtiyFjX4XUZTn2NKZ6+2Bf
+ 2kQUKi+Z/Dv2AMK1cU9btdBFC14zS4nQg0YBwJXapDrXVZe2Nzb7/ZgCeqOF3BejEXBl
+ WqRSkyYFPY1Tbb6MKAkhPOA2yftgme3qcp7WyY7KnpznTSTAJJ7+79rWVDk6jJMDxFbU
+ JcMbQWm8zs8iG1xnsNjwwznn1O0sPcUYyIw/yBXkXpcPMw/Tm0XCTaRtoKhjaKYqneb1
+ jgPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=MO1wiroHmEXR7v0/BicKh1zjhy8mrqOByKV8ImIX2R4=;
- b=BocffW8MH0/5qCM9v7ayECyU7CrB2/PTK5Ffyn3Er2cEelBCXOpMgoAU1y6uGIBu0Q
- Sfazq9wTo78f8AXbCcXBNmA5L8undNhWP8wBofRR5VlX6OYCgug9LuViNd7PEasm1YXE
- wJtpFMBq6MKkRhWh+OT0M6xomicFDdweSyKBeson6f9m7dOvxz+MEvFl2uxl5+ZZbzdl
- zpCd5JlCHmgBHFcGt53tdSAYqiFpWrb9CFWeY65vzdmp/rcnCHvjy6WdP7ItEMSp3j2F
- cdex/RiGu9359PZ2dLUcEAVf6/RDfB1Mx3xUogdLFc1l4uSqeHV+XCGXQZIlUk1oZoO1
- vDSw==
-X-Gm-Message-State: AOAM5307bjUET1TKlFaSmXNTabJGROJ4Qp+NY7MH9xPAW4n7I4jRgjRb
- EB8V3zTAy/9/yWSsvK4YrEjioTRjt9M=
-X-Google-Smtp-Source: ABdhPJwb/vOZRF796fJSHfl3DOOjh+TRAgBg+Flqdq2jhPZk8YCOzAN+8SdYy09AYCaPcJwitx6zEQ==
-X-Received: by 2002:adf:e949:: with SMTP id m9mr1670317wrn.401.1642507355493; 
- Tue, 18 Jan 2022 04:02:35 -0800 (PST)
+ bh=DWxXs/yisq3shP3JsRPbu1icyNFhILJ+qdkOwqqhAt0=;
+ b=vGia0nWQuLeLytXi5uo/dlN96+wYPv3ENa9aQiZSCTsoXvUIeMaBxrZNaMXEQ+/TLt
+ cgPqQ+UeXtlVFrM56iAt3CH6sAXrZ8YB+H9lfp7BzprX2Gzcg7xbeDsloD5Nz2wV4fPr
+ DHy89c82z5hs5XGtDXhM8qcp5kGPaTv8tWPsVFpjH5F3WS7upv+sCfpD74pPl5SDjgmI
+ 5eDiqb40J9yzntBKknYURIvQBIquxIElNeg2yIsM4NUFE2jtIlsIuAu3CDIMOoD6Ofi5
+ elWSG3VkyLxjLj9fbjVoufPJYV3xzRQBTjq8fc92Cs8wfUfs2Jbjz9dRKNpCHffjgj1H
+ eaWA==
+X-Gm-Message-State: AOAM531ekAerhum2/BpX6MclpG2UY5zf25mE8gy+tCi4VEnzXhhSVFtX
+ C7nGI2uy7Z8RgERzfSRJsF3SVTGLg2k=
+X-Google-Smtp-Source: ABdhPJzT3j/PZ1SIy36c3A1rH/4JTGLVogV14luxYuulCccOOXeALBnYPgMQ1O6MIBvl748/MP/OHw==
+X-Received: by 2002:a05:600c:35d0:: with SMTP id
+ r16mr17408118wmq.195.1642507360375; 
+ Tue, 18 Jan 2022 04:02:40 -0800 (PST)
 Received: from nuc.. (154.red-83-50-83.dynamicip.rima-tde.net. [83.50.83.154])
  by smtp.gmail.com with ESMTPSA id
- 8sm17047839wrz.60.2022.01.18.04.02.34
+ g17sm3089762wmq.9.2022.01.18.04.02.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jan 2022 04:02:35 -0800 (PST)
+ Tue, 18 Jan 2022 04:02:40 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 01/19] memory: Directly dispatch alias accesses on origin
- memory region
-Date: Tue, 18 Jan 2022 13:02:11 +0100
-Message-Id: <20220118120229.196337-2-f4bug@amsat.org>
+Subject: [PULL 02/19] memory: Split mtree_info() as mtree_info_flatview() +
+ mtree_info_as()
+Date: Tue, 18 Jan 2022 13:02:12 +0100
+Message-Id: <20220118120229.196337-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220118120229.196337-1-f4bug@amsat.org>
 References: <20220118120229.196337-1-f4bug@amsat.org>
@@ -95,102 +98,133 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Since commit 2cdfcf272d ("memory: assign MemoryRegionOps to all
-regions"), all newly created regions are assigned with
-unassigned_mem_ops (which might be then overwritten).
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-When using aliased container regions, and there is no region mapped
-at address 0 in the container, the memory_region_dispatch_read()
-and memory_region_dispatch_write() calls incorrectly return the
-container unassigned_mem_ops, because the alias offset is not used.
+While mtree_info() handles both ASes and flatviews cases,
+the two cases share basically no code. Split mtree_info()
+as mtree_info_flatview() + mtree_info_as() to simplify.
 
-Consider the following setup:
-
-    +--------------------+ < - - - - - - - - - - - +
-    |     Container      |  mr
-    |  (unassigned_mem)  |                         |
-    |                    |
-    |                    |                         |
-    |                    |  alias_offset
-    +                    + <- - - - - - +----------+---------+
-    | +----------------+ |              |                    |
-    | |  MemoryRegion0 | |              |                    |
-    | +----------------+ |              |       Alias        |  addr1
-    | |  MemoryRegion1 | | <~ ~  ~  ~ ~ |                    | <~~~~~~
-    | +----------------+ |              |                    |
-    |                    |              +--------------------+
-    |                    |
-    |                    |
-    |                    |
-    |                    |
-    | +----------------+ |
-    | |  MemoryRegionX | |
-    | +----------------+ |
-    | |  MemoryRegionY | |
-    | +----------------+ |
-    | |  MemoryRegionZ | |
-    | +----------------+ |
-    +--------------------+
-
-The memory_region_init_alias() flow is:
-
-  memory_region_init_alias()
-  -> memory_region_init()
-     -> object_initialize(TYPE_MEMORY_REGION)
-        -> memory_region_initfn()
-           -> mr->ops = &unassigned_mem_ops;
-
-Later when accessing offset=addr1 via the alias, we expect to hit
-MemoryRegion1. The memory_region_dispatch_read() flow is:
-
-  memory_region_dispatch_read(addr1)
-  -> memory_region_access_valid(mr)   <- addr1 offset is ignored
-     -> mr->ops->valid.accepts()
-        -> unassigned_mem_accepts()
-        <- false
-     <- false
-   <- MEMTX_DECODE_ERROR
-
-The caller gets a MEMTX_DECODE_ERROR while the access is OK.
-
-Fix by dispatching aliases recursively, accessing its origin region
-after adding the alias offset.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20210418055708.820980-1-f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210904231101.1071929-2-philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- softmmu/memory.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ softmmu/memory.c | 87 ++++++++++++++++++++++++++----------------------
+ 1 file changed, 48 insertions(+), 39 deletions(-)
 
 diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 7340e19ff5e..0c463e0fe53 100644
+index 0c463e0fe53..2cb823c642f 100644
 --- a/softmmu/memory.c
 +++ b/softmmu/memory.c
-@@ -1444,6 +1444,11 @@ MemTxResult memory_region_dispatch_read(MemoryRegion *mr,
-     unsigned size = memop_size(op);
-     MemTxResult r;
+@@ -3284,50 +3284,50 @@ static gboolean mtree_info_flatview_free(gpointer key, gpointer value,
+     return true;
+ }
  
-+    if (mr->alias) {
-+        return memory_region_dispatch_read(mr->alias,
-+                                           mr->alias_offset + addr,
-+                                           pval, op, attrs);
+-void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
++static void mtree_info_flatview(bool dispatch_tree, bool owner)
++{
++    struct FlatViewInfo fvi = {
++        .counter = 0,
++        .dispatch_tree = dispatch_tree,
++        .owner = owner,
++    };
++    AddressSpace *as;
++    FlatView *view;
++    GArray *fv_address_spaces;
++    GHashTable *views = g_hash_table_new(g_direct_hash, g_direct_equal);
++    AccelClass *ac = ACCEL_GET_CLASS(current_accel());
++
++    if (ac->has_memory) {
++        fvi.ac = ac;
 +    }
-     if (!memory_region_access_valid(mr, addr, size, false, attrs)) {
-         *pval = unassigned_mem_read(mr, addr, size);
-         return MEMTX_DECODE_ERROR;
-@@ -1488,6 +1493,11 @@ MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
++
++    /* Gather all FVs in one table */
++    QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
++        view = address_space_get_flatview(as);
++
++        fv_address_spaces = g_hash_table_lookup(views, view);
++        if (!fv_address_spaces) {
++            fv_address_spaces = g_array_new(false, false, sizeof(as));
++            g_hash_table_insert(views, view, fv_address_spaces);
++        }
++
++        g_array_append_val(fv_address_spaces, as);
++    }
++
++    /* Print */
++    g_hash_table_foreach(views, mtree_print_flatview, &fvi);
++
++    /* Free */
++    g_hash_table_foreach_remove(views, mtree_info_flatview_free, 0);
++    g_hash_table_unref(views);
++}
++
++static void mtree_info_as(bool dispatch_tree, bool owner, bool disabled)
  {
-     unsigned size = memop_size(op);
+     MemoryRegionListHead ml_head;
+     MemoryRegionList *ml, *ml2;
+     AddressSpace *as;
  
-+    if (mr->alias) {
-+        return memory_region_dispatch_write(mr->alias,
-+                                            mr->alias_offset + addr,
-+                                            data, op, attrs);
+-    if (flatview) {
+-        FlatView *view;
+-        struct FlatViewInfo fvi = {
+-            .counter = 0,
+-            .dispatch_tree = dispatch_tree,
+-            .owner = owner,
+-        };
+-        GArray *fv_address_spaces;
+-        GHashTable *views = g_hash_table_new(g_direct_hash, g_direct_equal);
+-        AccelClass *ac = ACCEL_GET_CLASS(current_accel());
+-
+-        if (ac->has_memory) {
+-            fvi.ac = ac;
+-        }
+-
+-        /* Gather all FVs in one table */
+-        QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
+-            view = address_space_get_flatview(as);
+-
+-            fv_address_spaces = g_hash_table_lookup(views, view);
+-            if (!fv_address_spaces) {
+-                fv_address_spaces = g_array_new(false, false, sizeof(as));
+-                g_hash_table_insert(views, view, fv_address_spaces);
+-            }
+-
+-            g_array_append_val(fv_address_spaces, as);
+-        }
+-
+-        /* Print */
+-        g_hash_table_foreach(views, mtree_print_flatview, &fvi);
+-
+-        /* Free */
+-        g_hash_table_foreach_remove(views, mtree_info_flatview_free, 0);
+-        g_hash_table_unref(views);
+-
+-        return;
+-    }
+-
+     QTAILQ_INIT(&ml_head);
+ 
+     QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
+@@ -3348,6 +3348,15 @@ void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
+     }
+ }
+ 
++void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
++{
++    if (flatview) {
++        mtree_info_flatview(dispatch_tree, owner);
++    } else {
++        mtree_info_as(dispatch_tree, owner, disabled);
 +    }
-     if (!memory_region_access_valid(mr, addr, size, true, attrs)) {
-         unassigned_mem_write(mr, addr, data, size);
-         return MEMTX_DECODE_ERROR;
++}
++
+ void memory_region_init_ram(MemoryRegion *mr,
+                             Object *owner,
+                             const char *name,
 -- 
 2.34.1
 
