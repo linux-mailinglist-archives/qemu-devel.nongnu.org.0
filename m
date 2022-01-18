@@ -2,76 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E79AF493160
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 00:24:53 +0100 (CET)
-Received: from localhost ([::1]:43904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2CFD49316C
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 00:35:16 +0100 (CET)
+Received: from localhost ([::1]:46526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9xqO-00026L-HU
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 18:24:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51356)
+	id 1n9y0R-0004nL-GL
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 18:35:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1n9xni-0001Gw-I7
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 18:22:07 -0500
-Received: from [2a00:1450:4864:20::32a] (port=46636
- helo=mail-wm1-x32a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1n9xnf-000261-VZ
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 18:22:06 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- az27-20020a05600c601b00b0034d2956eb04so1714507wmb.5
- for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 15:22:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=lbItkDUzDl3N9mFn9oMmLoa3vpB8Dv4nRbZ9vM3coho=;
- b=P/4UdzLyezxy1Qkc0Y3336Ib6opqJYLVCrGaIibL52yj07a5P0RFru5BRpzyduU+XP
- PH8MgHHoIlM1USoNJMrlc7btCQetFmFhHz9f5+p8lqpMbZ9icmTMgX98DVCbli7p3Xo7
- uUdTub7Iq/92+xS7LAcFlLXJEshnSY2NXpdMdhjD+O74DJTnqR8aaBMUZDXyEHZjbs2u
- PHWQrLuT+vez0vnUHvchDdDxdpNn2RC5wum4+nls5I8VsPmP46J2VJpboZ77wm0WNe51
- O3YjzkGEbuVIWiebkW6taU8KG70QSJbcM/cJt7NcvKqEqWsWBbtn3S2XOrBvJFobkCO2
- 4T0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=lbItkDUzDl3N9mFn9oMmLoa3vpB8Dv4nRbZ9vM3coho=;
- b=zeQzBvO/N0k6+kgU+COumd1zi4uTKyAxxlshZNYrVTjmxpC0/DS3kFIB70TmwiEkgs
- vFaLR1KVMKFT7+0oV7azeP8qM7Gziu8rglf2fTFgDJC2h+FGuKDgY1ueSxHDeHRVsKI/
- gsrqSM5UbgVa6Atp7JaALFgNgOTdTiUbpuJ6d4idtqeh4aI4tchnY5OpfjHVgMKKWFJB
- UM1YzzTlSBwZOopJCyrWAImAyobFgRk6HBouKMjBvvxyLdXBMyZtARHSSda5MkRxFmyl
- tY3DagD0nhGKgX09qv099JfSZJUhMRETZ0s+OJxtZtSjlV43hoVZLI5XFEsi+m5X7qOr
- 4zdw==
-X-Gm-Message-State: AOAM533n8Xz1aLVkl51JXA9y5DI/aHXt/erB7niR/0g1VvTxWAYTaNBh
- IQVAnk4lVOpXaPf0mJXa5k88VHURPsyOOTxFO4a6kQ==
-X-Google-Smtp-Source: ABdhPJwS8hBWbDLotD9/jbD/35B0/+5fUfF/+JPHe/RrTZGesxp59//jXgPkjJc2YnPuph94q8dyi6NgPuaNDHnmxhc=
-X-Received: by 2002:a5d:464b:: with SMTP id j11mr4043522wrs.120.1642548120293; 
- Tue, 18 Jan 2022 15:22:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <andre.przywara@arm.com>)
+ id 1n9xw8-0003j7-75; Tue, 18 Jan 2022 18:30:48 -0500
+Received: from foss.arm.com ([217.140.110.172]:34262)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <andre.przywara@arm.com>)
+ id 1n9xvz-0003Go-MK; Tue, 18 Jan 2022 18:30:46 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 86E1C1FB;
+ Tue, 18 Jan 2022 15:30:28 -0800 (PST)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 53BCC3F766;
+ Tue, 18 Jan 2022 15:30:27 -0800 (PST)
+Date: Tue, 18 Jan 2022 23:29:35 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2 00/13] arm gicv3 ITS: Various bug fixes and refactorings
+Message-ID: <20220118232935.50ae1b25@slackpad.fritz.box>
+In-Reply-To: <CAFEAcA-ncYCtpH2aCjd4GWuN9SLcxGMQUOutBWyNHByD6_gG0w@mail.gmail.com>
+References: <20220111171048.3545974-1-peter.maydell@linaro.org>
+ <87pmop7xfw.fsf@linaro.org>
+ <CAFEAcA-ncYCtpH2aCjd4GWuN9SLcxGMQUOutBWyNHByD6_gG0w@mail.gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
 MIME-Version: 1.0
-References: <20220113202033.3320854-1-philipp.tomsich@vrull.eu>
- <20220113202033.3320854-2-philipp.tomsich@vrull.eu>
- <CAKmqyKOzVi9MiXt+2ESEr28EQ7M6wEyTon+a=h4do9fy4KN=Pw@mail.gmail.com>
-In-Reply-To: <CAKmqyKOzVi9MiXt+2ESEr28EQ7M6wEyTon+a=h4do9fy4KN=Pw@mail.gmail.com>
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Date: Wed, 19 Jan 2022 00:21:47 +0100
-Message-ID: <CAAeLtUBJ4sSZaDqe1Z_431LMDtuQ996OLoE6t_Zh6TLH+_gPHg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] target/riscv: Add XVentanaCondOps custom extension
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=andre.przywara@arm.com; helo=foss.arm.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,296 +56,241 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Greg Favor <gfavor@ventanamicro.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Kito Cheng <kito.cheng@sifive.com>
+Cc: Andrew Jones <drjones@redhat.com>,
+ Shashi Mallela <shashi.mallela@linaro.org>, qemu-devel@nongnu.org,
+ Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org,
+ Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alistair,
+On Tue, 18 Jan 2022 19:41:56 +0000
+Peter Maydell <peter.maydell@linaro.org> wrote:
 
-Some of us (the merit almost exclusively goes to Kito) have been
-working towards a similar policy for GCC/binutils and LLVM.
-This currently lives in:
-   https://github.com/riscv-non-isa/riscv-toolchain-conventions/pull/17
+Hi Peter, Alex,
 
-A few comments & a question below.
+thanks for the heads up!
 
-Thanks,
-Philipp.
+> On Tue, 18 Jan 2022 at 17:42, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+> >
+> >
+> > Peter Maydell <peter.maydell@linaro.org> writes:
+> > =20
+> > > I've been working on the ITS to add support for the GICv4 functionali=
+ty.
+> > > In the course of that I found a handful of bugs in it and also some
+> > > places where the code benefited from refactoring to make it a better
+> > > base to put in the GICv4 parts. This patchset is just the bugfixes
+> > > and cleanups, because there are enough patches here that I figured it
+> > > made sense to send them out now rather than holding on to them.
+> > >
+> > > Most of these patches were in v1 and have been reviewed already. =20
+> >
+> > I've reviewed the patches and they look good to me. kvm-unit-tests is
+> > still failing some tests but the ones it fails hasn't changed from
+> > before this patch:
+> >
+> >   =E2=9C=97  env QEMU=3D$HOME/lsrc/qemu.git/builds/arm.all/qemu-system-=
+aarch64 ./run_tests.sh -g gic
+> >   PASS gicv2-ipi (3 tests)
+> >   PASS gicv2-mmio (17 tests, 1 skipped)
+> >   FAIL gicv2-mmio-up (17 tests, 2 unexpected failures)
+> >   FAIL gicv2-mmio-3p (17 tests, 3 unexpected failures)
+> >   PASS gicv3-ipi (3 tests)
+> >   PASS gicv2-active (1 tests)
+> >   PASS gicv3-active (1 tests)
+> >
+> > That said running with -d unimp,guest_errors there are some things that
+> > should probably be double checked, e.g.: =20
+>=20
+> Almost all of the logging seems to be where the test code is
+> doing stuff that the GIC spec says isn't valid.
 
-On Tue, 18 Jan 2022 at 23:53, Alistair Francis <alistair23@gmail.com> wrote=
-:
->
-> On Fri, Jan 14, 2022 at 6:22 AM Philipp Tomsich
-> <philipp.tomsich@vrull.eu> wrote:
-> >
-> > This adds the decoder and translation for the XVentanaCondOps custom
-> > extension (vendor-defined by Ventana Micro Systems), which is
-> > documented at https://github.com/ventanamicro/ventana-custom-extensions=
-/releases/download/v1.0.0/ventana-custom-extensions-v1.0.0.pdf
-> >
-> > This commit then also adds a guard-function (has_XVentanaCondOps_p)
-> > and the decoder function to the table of decoders, enabling the
-> > support for the XVentanaCondOps extension.
-> >
-> > Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
->
-> This looks reasonable to me.
->
-> I'm going to leave this for a bit in case there are any more comments.
->
-> I was a little worried that taking vendor extensions isn't the right
-> move, as we might get stuck with a large number of them. But this is
-> pretty self contained and I think with the growing RISC-V interest
-> it's something we will eventually need to support.
->
-> I'm going to update the QEMU RISC-V wiki page with this to make the
-> position clear (comments very welcome)
->
-> =3D=3D=3D RISC-V Extensions =3D=3D=3D
-> As RISC-V has a range of possible extensions, QEMU has guidelines for
-> supporting them all.
->
-> If an extension is frozen or ratified by the RISC-V foundation, it can
-> be supported in QEMU.
->
-> If an official RISC-V foundation extension is in a reasonable draft
-> state, that is not too many changes are still expected, it can be
-> supported experimentally by QEMU. Experimental support means it must
-> be disabled by default and marked with a "x-" in the properties. QEMU
-> will only support the latest version of patches submitted for a draft
-> extension. A draft extension can also be removed at any time if it
-> conflicts with other extensions.
->
-> QEMU will also support vendor extensions. Vendor extensions must be
-> disabled by default, but can be enabled for specific vendor CPUs and
-> boards. Vendor extensions must be maintained and tested by the vendor.
+That sounds like a plausible explanation for a unit test suite, but
+does not seem to be actually true in this case, see below.
 
-I guess I should create a v3 with appropriate paths in the MAINTAINERS file=
-?
+> Also, this
+> test is gicv2, which is unrelated to either the gicv3 code
+> or to the ITS...
 
-> Vendor extensions can not interfere with other extensions and can not
-> be obtrusive to the RISC-V target code.
+This is true.
 
-I know that there is some interest to have the XtheadV (the
-instructions previously known as vectors 0.7.1-draft) supported and we
-have the reality of a deployed base that implements it in hardware.
-This would conflict with the opcode space used by the standard RISC-V
-vectors, so it makes for an interesting test case (even if just to
-clarify our intent)...
-Personally, I would like to avoid precluding inclusion of something
-useful (of course, "Vendor extensions must be maintained and tested by
-the vendor." has to apply!), if a vendor was going to step up and also
-offers to maintain it.
+>=20
+> >   /home/alex/lsrc/qemu.git/builds/arm.all/qemu-system-aarch64 -nodefaul=
+ts -machine virt -accel tcg -cpu cortex-a57 -device virtio-serial-device -d=
+evice virtconsole,chardev=3D
+> >   ctd -chardev testdev,id=3Dctd -device pci-testdev -display none -seri=
+al stdio -kernel arm/gic.flat -machine gic-version=3D2 -smp 1 -append "mmio=
+" -d unimp,guest_errors
+> >   PASS: gicv2: mmio: all CPUs have interrupts
+> >   gic_dist_readb: Bad offset 8
+> >   gic_dist_readb: Bad offset 9
+> >   gic_dist_readb: Bad offset a
+> >   gic_dist_readb: Bad offset b =20
+>=20
+> This is GICD_IIDR, which is a 32-bit register. The test looks like it's
+> trying to read it as 4 separate bytes, which is out of spec, and
+> is why our implementation is warning about it.
 
-So let's assume such a (very significant) addition were factored out
-similarly, interfacing just through a hook in decode_op and
-argument-parsing logic that ensures that the conflicting
-standard-extension is turned off: would this still be acceptable under
-this policy =E2=80=94 or would it trip the "obtrusive" condition?
+Looking at k-u-t's arm/gic.c and QEMU's hw/intc/arm_gic.c I see two
+problems here: QEMU implements word accesses as four successive calls to
+gic_dist_readb() - which is probably fine if that helps code design,
+but it won't allow it to actually spot access size issues. I just
+remember that we spent some brain cells and CPP macros on getting the
+access size right in KVM - hence those tests in kvm-unit-tests.
+=20
+But more importantly it looks like GICD_IIDR is actually not
+implemented: There is a dubious "if (offset < 0x08) return 0;" line,
+but IIDR (offset 0x8) would actually fall through, and hit the bad_reg
+label, which would return 0 (and cause the message, if enabled).
+Also the name and how it's called suggests that this deals with bytes
+only, but returns uint32_t, and for instance deals with bit 10 in
+TYPER. I see how this eventually falls into place magically (the upper
+three bytes return 0, and get ORed into the >8 bit result of offset 8),
+but those messages are definitely false alarm then.
 
->
-> Alistair
->
-> >
-> > ---
-> >
-> > Changes in v2:
-> > - Split off decode table into XVentanaCondOps.decode
-> > - Wire up XVentanaCondOps in the decoder-table
-> >
-> >  target/riscv/XVentanaCondOps.decode           | 25 ++++++++++++
-> >  target/riscv/cpu.c                            |  3 ++
-> >  target/riscv/cpu.h                            |  3 ++
-> >  .../insn_trans/trans_xventanacondops.inc      | 39 +++++++++++++++++++
-> >  target/riscv/meson.build                      |  1 +
-> >  target/riscv/translate.c                      | 13 +++++++
-> >  6 files changed, 84 insertions(+)
-> >  create mode 100644 target/riscv/XVentanaCondOps.decode
-> >  create mode 100644 target/riscv/insn_trans/trans_xventanacondops.inc
-> >
-> > diff --git a/target/riscv/XVentanaCondOps.decode b/target/riscv/XVentan=
-aCondOps.decode
-> > new file mode 100644
-> > index 0000000000..5aef7c3d72
-> > --- /dev/null
-> > +++ b/target/riscv/XVentanaCondOps.decode
-> > @@ -0,0 +1,25 @@
-> > +#
-> > +# RISC-V translation routines for the XVentanaCondOps extension
-> > +#
-> > +# Copyright (c) 2022 Dr. Philipp Tomsich, philipp.tomsich@vrull.eu
-> > +#
-> > +# SPDX-License-Identifier: LGPL-2.1-or-later
-> > +#
-> > +# Reference: VTx-family custom instructions
-> > +#            Custom ISA extensions for Ventana Micro Systems RISC-V co=
-res
-> > +#            (https://github.com/ventanamicro/ventana-custom-extension=
-s/releases/download/v1.0.0/ventana-custom-extensions-v1.0.0.pdf)
-> > +
-> > +# Fields
-> > +%rs2  20:5
-> > +%rs1  15:5
-> > +%rd    7:5
-> > +
-> > +# Argument sets
-> > +&r    rd rs1 rs2  !extern
-> > +
-> > +# Formats
-> > +@r         .......  ..... ..... ... ..... ....... &r                %r=
-s2 %rs1 %rd
-> > +
-> > +# *** RV64 Custom-3 Extension ***
-> > +vt_maskc   0000000  ..... ..... 110 ..... 1111011 @r
-> > +vt_maskcn  0000000  ..... ..... 111 ..... 1111011 @r
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index 9bc25d3055..fc8ab1dc2b 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -673,6 +673,9 @@ static Property riscv_cpu_properties[] =3D {
-> >      DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
-> >      DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
-> >
-> > +    /* Vendor-specific custom extensions */
-> > +    DEFINE_PROP_BOOL("xventanacondops", RISCVCPU, cfg.ext_XVentanaCond=
-Ops, false),
-> > +
-> >      /* These are experimental so mark with 'x-' */
-> >      DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
-> >      /* ePMP 0.9.3 */
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index 4d63086765..ffde94fd1a 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -330,6 +330,9 @@ struct RISCVCPU {
-> >          bool ext_zfh;
-> >          bool ext_zfhmin;
-> >
-> > +        /* Vendor-specific custom extensions */
-> > +        bool ext_XVentanaCondOps;
-> > +
-> >          char *priv_spec;
-> >          char *user_spec;
-> >          char *bext_spec;
-> > diff --git a/target/riscv/insn_trans/trans_xventanacondops.inc b/target=
-/riscv/insn_trans/trans_xventanacondops.inc
-> > new file mode 100644
-> > index 0000000000..b8a5d031b5
-> > --- /dev/null
-> > +++ b/target/riscv/insn_trans/trans_xventanacondops.inc
-> > @@ -0,0 +1,39 @@
-> > +/*
-> > + * RISC-V translation routines for the XVentanaCondOps extension.
-> > + *
-> > + * Copyright (c) 2021-2022 VRULL GmbH.
-> > + *
-> > + * This program is free software; you can redistribute it and/or modif=
-y it
-> > + * under the terms and conditions of the GNU General Public License,
-> > + * version 2 or later, as published by the Free Software Foundation.
-> > + *
-> > + * This program is distributed in the hope it will be useful, but WITH=
-OUT
-> > + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY =
-or
-> > + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public Licen=
-se for
-> > + * more details.
-> > + *
-> > + * You should have received a copy of the GNU General Public License a=
-long with
-> > + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> > + */
-> > +
-> > +static bool gen_condmask(DisasContext *ctx, arg_r *a, TCGCond cond)
-> > +{
-> > +    TCGv dest =3D dest_gpr(ctx, a->rd);
-> > +    TCGv src1 =3D get_gpr(ctx, a->rs1, EXT_NONE);
-> > +    TCGv src2 =3D get_gpr(ctx, a->rs2, EXT_NONE);
-> > +
-> > +    tcg_gen_movcond_tl(cond, dest, src2, ctx->zero, src1, ctx->zero);
-> > +
-> > +    gen_set_gpr(ctx, a->rd, dest);
-> > +    return true;
-> > +}
-> > +
-> > +static bool trans_vt_maskc(DisasContext *ctx, arg_r *a)
-> > +{
-> > +    return gen_condmask(ctx, a, TCG_COND_NE);
-> > +}
-> > +
-> > +static bool trans_vt_maskcn(DisasContext *ctx, arg_r *a)
-> > +{
-> > +    return gen_condmask(ctx, a, TCG_COND_EQ);
-> > +}
-> > diff --git a/target/riscv/meson.build b/target/riscv/meson.build
-> > index a32158da93..1f3a15398b 100644
-> > --- a/target/riscv/meson.build
-> > +++ b/target/riscv/meson.build
-> > @@ -4,6 +4,7 @@ dir =3D meson.current_source_dir()
-> >  gen =3D [
-> >    decodetree.process('insn16.decode', extra_args: ['--static-decode=3D=
-decode_insn16', '--insnwidth=3D16']),
-> >    decodetree.process('insn32.decode', extra_args: '--static-decode=3Dd=
-ecode_insn32'),
-> > +  decodetree.process('XVentanaCondOps.decode', extra_args: '--static-d=
-ecode=3Ddecode_XVentanaCodeOps'),
-> >  ]
-> >
-> >  riscv_ss =3D ss.source_set()
-> > diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> > index 2cbf9cbb6f..efdf8a7bdb 100644
-> > --- a/target/riscv/translate.c
-> > +++ b/target/riscv/translate.c
-> > @@ -122,6 +122,15 @@ static inline bool always_true_p(CPURISCVState *en=
-v  __attribute__((__unused__))
-> >      return true;
-> >  }
-> >
-> > +#define MATERIALISE_EXT_PREDICATE(ext)  \
-> > +    static inline bool has_ ## ext ## _p(CPURISCVState *env, \
-> > +                                         DisasContext *ctx  __attribut=
-e__((__unused__)))  \
-> > +    { \
-> > +        return RISCV_CPU(ctx->cs)->cfg.ext_ ## ext ; \
-> > +    }
-> > +
-> > +MATERIALISE_EXT_PREDICATE(XVentanaCondOps);
-> > +
-> >  #ifdef TARGET_RISCV32
-> >  #define get_xl(ctx)    MXL_RV32
-> >  #elif defined(CONFIG_USER_ONLY)
-> > @@ -844,9 +853,12 @@ static uint32_t opcode_at(DisasContextBase *dcbase=
-, target_ulong pc)
-> >  #include "insn_trans/trans_rvb.c.inc"
-> >  #include "insn_trans/trans_rvzfh.c.inc"
-> >  #include "insn_trans/trans_privileged.c.inc"
-> > +#include "insn_trans/trans_xventanacondops.inc"
-> >
-> >  /* Include the auto-generated decoder for 16 bit insn */
-> >  #include "decode-insn16.c.inc"
-> > +/* Include decoders for factored-out extensions */
-> > +#include "decode-XVentanaCondOps.c.inc"
-> >
-> >  static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t=
- opcode)
-> >  {
-> > @@ -862,6 +874,7 @@ static void decode_opc(CPURISCVState *env, DisasCon=
-text *ctx, uint16_t opcode)
-> >          bool (*decode_func)(DisasContext *, uint32_t);
-> >      } decoders[] =3D {
-> >          { always_true_p,  decode_insn32 },
-> > +        { has_XVentanaCondOps_p,  decode_XVentanaCodeOps },
-> >      };
-> >
-> >      /* Check for compressed insn */
-> > --
-> > 2.33.1
-> >
-> >
+If that helps: from a GIC MMIO perspective 8-bit accesses are actually
+the exception rather than the norm (ARM IHI 0048B.b 4.1.4 GIC register
+access).
+
+> >   INFO: gicv2: mmio: IIDR: 0x00000000
+> >   gic_dist_writeb: Bad offset 4
+> >   gic_dist_writeb: Bad offset 5
+> >   gic_dist_writeb: Bad offset 6
+> >   gic_dist_writeb: Bad offset 7
+> >   gic_dist_writeb: Bad offset 4
+> >   gic_dist_writeb: Bad offset 5
+> >   gic_dist_writeb: Bad offset 6
+> >   gic_dist_writeb: Bad offset 7
+> >   gic_dist_writeb: Bad offset 4
+> >   gic_dist_writeb: Bad offset 5
+> >   gic_dist_writeb: Bad offset 6
+> >   gic_dist_writeb: Bad offset 7 =20
+>=20
+> These complaints are because the test is trying to write
+> to GICD_TYPER, which is not permitted.
+
+Writes are not permitted, yes, but k-u-t emits a proper str, so there
+should be only three lines, not twelve.
+
+> >   PASS: gicv2: mmio: GICD_TYPER is read-only
+> >   gic_dist_readb: Bad offset 8
+> >   gic_dist_readb: Bad offset 9
+> >   gic_dist_readb: Bad offset a
+> >   gic_dist_readb: Bad offset b =20
+>=20
+> More attempts to do byte accesses to a word-only register.
+
+The messages come actually again because IIDR is not handled at all,
+and there are only four of them because of the design of gic_dist_read().
+k-u-t issues a proper ldr here.
+I think we refrained from actually testing illegal access sizes,
+because that could trigger external aborts/SErrors on real hardware.
+
+> >   gic_dist_writeb: Bad offset 8
+> >   gic_dist_writeb: Bad offset 9
+> >   gic_dist_writeb: Bad offset a
+> >   gic_dist_writeb: Bad offset b
+> >   gic_dist_readb: Bad offset 8
+> >   gic_dist_readb: Bad offset 9
+> >   gic_dist_readb: Bad offset a
+> >   gic_dist_readb: Bad offset b
+> >   gic_dist_writeb: Bad offset 8
+> >   gic_dist_writeb: Bad offset 9
+> >   gic_dist_writeb: Bad offset a
+> >   gic_dist_writeb: Bad offset b
+> >   gic_dist_readb: Bad offset 8
+> >   gic_dist_readb: Bad offset 9
+> >   gic_dist_readb: Bad offset a
+> >   gic_dist_readb: Bad offset b
+> >   PASS: gicv2: mmio: GICD_IIDR is read-only
+> >   gic_dist_writeb: Bad offset fe8
+> >   gic_dist_writeb: Bad offset fe9
+> >   gic_dist_writeb: Bad offset fea
+> >   gic_dist_writeb: Bad offset feb
+> >   gic_dist_writeb: Bad offset fe8
+> >   gic_dist_writeb: Bad offset fe9
+> >   gic_dist_writeb: Bad offset fea
+> >   gic_dist_writeb: Bad offset feb
+> >   gic_dist_writeb: Bad offset fe8
+> >   gic_dist_writeb: Bad offset fe9
+> >   gic_dist_writeb: Bad offset fea
+> >   gic_dist_writeb: Bad offset feb =20
+>=20
+> Writing bytes to a register that is both read-only and also 32-bit only.
+
+Yes, the read-only violation is expected, but the code only does ldr.
+
+> >   PASS: gicv2: mmio: ICPIDR2 is read-only
+> >   INFO: gicv2: mmio: value of ICPIDR2: 0x0000002b
+> >   PASS: gicv2: mmio: IPRIORITYR: consistent priority masking
+> >   INFO: gicv2: mmio: IPRIORITYR: priority mask is 0xffffffff
+> >   PASS: gicv2: mmio: IPRIORITYR: implements at least 4 priority bits
+> >   INFO: gicv2: mmio: IPRIORITYR: 8 priority bits implemented
+> >   PASS: gicv2: mmio: IPRIORITYR: clearing priorities
+> >   gic_dist_readb: Bad offset 520
+> >   gic_dist_readb: Bad offset 521
+> >   gic_dist_readb: Bad offset 522
+> >   gic_dist_readb: Bad offset 523
+> >   gic_dist_writeb: Bad offset 520
+> >   gic_dist_writeb: Bad offset 521
+> >   gic_dist_writeb: Bad offset 522
+> >   gic_dist_writeb: Bad offset 523
+> >   gic_dist_readb: Bad offset 520
+> >   gic_dist_readb: Bad offset 521
+> >   gic_dist_readb: Bad offset 522
+> >   gic_dist_readb: Bad offset 523
+> >   gic_dist_writeb: Bad offset 520
+> >   gic_dist_writeb: Bad offset 521
+> >   gic_dist_writeb: Bad offset 522
+> >   gic_dist_writeb: Bad offset 523
+> >   gic_dist_readb: Bad offset 520
+> >   gic_dist_readb: Bad offset 521
+> >   gic_dist_readb: Bad offset 522
+> >   gic_dist_readb: Bad offset 523 =20
+>=20
+> I suspect from what the following test says that this is an
+> attempt to write beyond the end of the valid IPRIORITYR registers,
+> which isn't permitted.
+
+Trying to manipulate non-implemented SPIs is not really useful (and
+indeed typically points to guest bugs), but it is permitted by the
+GICv2 spec, which says: "A register field corresponding to an
+unimplemented interrupt is RAZ/WI." - which is actually what bad_reg
+implements - just minus the message.
+
+> >   PASS: gicv2: mmio: IPRIORITYR: accesses beyond limit RAZ/WI
+> >   PASS: gicv2: mmio: IPRIORITYR: accessing last SPIs
+> >   PASS: gicv2: mmio: IPRIORITYR: priorities are preserved
+> >   PASS: gicv2: mmio: IPRIORITYR: byte reads successful
+> >   PASS: gicv2: mmio: IPRIORITYR: byte writes successful
+> >   PASS: gicv2: mmio: ITARGETSR: bits for non-existent CPUs masked
+> >   INFO: gicv2: mmio: ITARGETSR: 7 non-existent CPUs
+> >   PASS: gicv2: mmio: ITARGETSR: accesses beyond limit RAZ/WI
+> >   FAIL: gicv2: mmio: ITARGETSR: register content preserved
+> >   INFO: gicv2: mmio: ITARGETSR: writing 01010001 reads back as 00000000
+> >   PASS: gicv2: mmio: ITARGETSR: byte reads successful
+> >   FAIL: gicv2: mmio: ITARGETSR: byte writes successful
+> >   INFO: gicv2: mmio: ITARGETSR: writing 0x1f into bytes 2 =3D> 0x000000=
+00
+> >   SUMMARY: 17 tests, 2 unexpected failures =20
+>=20
+> These ITARGETSR failures are not correct (or you're not running the
+> test case the way it's supposed to be). Your command line runs
+> only one CPU, and for a uniprocessor GIC the ITARGETRSn registers
+> are supposed to be RAZ/WI, whereas the test seems to be expecting
+> something else.
+
+Interesting, indeed the *whole* of GICD_ITARGETSRs are RAZ/WI on a
+uniprocessor implementation, where is also says that bits for
+non-implemented CPU interfaces as RAZ/WI, which would suggest that at
+least bit 0 is preserved (what this test checks).
+I will double check the spec again on what uniprocessor means
+precisely, and then send a kvm-unit-tests patch.
+
+But running with -smp [2..8] still reports issues - but we know of these
+for a while, I think, and they are not really critical.
+
+Cheers,
+Andre
 
