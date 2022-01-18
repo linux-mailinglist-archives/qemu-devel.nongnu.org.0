@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E1734930E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 23:37:48 +0100 (CET)
-Received: from localhost ([::1]:32852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 641A34930EE
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 23:39:49 +0100 (CET)
+Received: from localhost ([::1]:37174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9x6p-0000TE-0E
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 17:37:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44056)
+	id 1n9x8l-0003Lg-Ao
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 17:39:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n9x2m-0004Y6-Pq; Tue, 18 Jan 2022 17:33:38 -0500
-Received: from [2607:f8b0:4864:20::d2e] (port=38410
+ id 1n9x4R-0006YU-Ib; Tue, 18 Jan 2022 17:35:19 -0500
+Received: from [2607:f8b0:4864:20::d2e] (port=46887
  helo=mail-io1-xd2e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n9x2k-00049h-TZ; Tue, 18 Jan 2022 17:33:36 -0500
-Received: by mail-io1-xd2e.google.com with SMTP id w7so502718ioj.5;
- Tue, 18 Jan 2022 14:33:34 -0800 (PST)
+ id 1n9x4P-0004Rs-5d; Tue, 18 Jan 2022 17:35:18 -0500
+Received: by mail-io1-xd2e.google.com with SMTP id e79so457041iof.13;
+ Tue, 18 Jan 2022 14:35:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=REL2GoLMLYHd0jRnG0gZRdmfVPpmNcAKrbnHGMkVH1s=;
- b=B7ndPJjMPcYRftbTrS5B8jXKqG13BiESksM2vX8/QCiUPLLT/RFSdsoR0YzTMTpIn3
- zz54kHS1Jm+TnE/4aauiDJYPsjO6vu5M2tJumvNFfBjjcN7ZqZTgwR/IbAHWa9RrEDoc
- qnakcsf00gsNHyLRmgPLjRPJQ0+68RgNHOxRLhRKICFLDl+UOI6xklAcWIo5lmBIRDA2
- IZgUK1fs9yjoqdQzmguatUusaUd4vxCle/rl9jNwIzqqtP20jDWLE+cqdM0dkO4dXzIG
- U9H3CgcHvvrqqEcTnlzfhXc+f1hMKgvRthUYupkz4NZaWF980qurBsoTN1pR50H++eq4
- wjEw==
+ :cc; bh=aj58BZftjsOalvpIFoNMwHjw8L2LEe11sJbVpaEDUu4=;
+ b=kfBjnc6cDJwFcSNWeCE8+BknNVJBPJ3s0CDU2rV9fttyRJxqF+5hoZvhxGhfWQh/iM
+ 8jHYpzOAkUdgOOxFEOygVrVwm4mpogb6wynDvJAn/GL6I5rzLNbDkhR+YnMdDZ1I4OP4
+ idN7ZuhkZ+dc6stzOsDiKx7ZJt2c0N6Fmx04hqF3Sq/5T567V0B5qxF9Xc8LSJlJ8UZ2
+ MEx1HxauF5kCSJxn78fa+TiBpAotiJx8vQ3ykHNGZi6B4Zl0EbCVGWxL7FHZQhgUjTPZ
+ YVs5M4mZfuY5TtRLvAvGYRh7JBPYnUTSrDe9JdiNWs+0s75l4vxPSjtYtRb7NBT2eaGd
+ 8qHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=REL2GoLMLYHd0jRnG0gZRdmfVPpmNcAKrbnHGMkVH1s=;
- b=3IMIMo71uubBpVOQ6wDe+Rn4cG2WbJqdnKp0Gl7G7mSLvVarLpUYuLQJyGeIObBmaz
- j7HLxt9bkL6P17lr9yh71DN4Ze6eWecjaZXZM63/ZRteUiwkY24osi6oZ2bzhf6OksSI
- yN+IEiWlqk0PpAnTmxGTS66WP4sBGIrbB38UrhGyLqAmUPguWnWpxHY1waSCv1z7C8oN
- H/bY+HwMWzfohBM16qu6wSwV0Ch21UXLVxQqB6En5OW+GzetpzBXmNg0e4RHSYfUOuXB
- gYI7+Q1AIfqV/Lk0bgCvjm3+ao7hevBIp6MEZUbusWmRk865XmFMQ6zMeGCuLRfpvS+4
- Vq4w==
-X-Gm-Message-State: AOAM532uagtXcXVv4E/3pbl9mB+0+WBZz3A7ZuWst7JLief2CjbxlcOw
- 2P99ZOMszZXGmpHQBl9cJYo0eUVSdjKOH6HVNi0=
-X-Google-Smtp-Source: ABdhPJwxt5gDnTfSEgdfuCyfNP5l7Rq/53Y2yylzlRPqIxWk3NJbYNCBu3WBfkO95bZa9uCi7idN+GYJ2678e3o7zGA=
-X-Received: by 2002:a05:6602:140c:: with SMTP id
- t12mr13682662iov.187.1642545213501; 
- Tue, 18 Jan 2022 14:33:33 -0800 (PST)
+ bh=aj58BZftjsOalvpIFoNMwHjw8L2LEe11sJbVpaEDUu4=;
+ b=THePwuufjl0s5xdkL/zVrPkKsEtESwYw1WPqmNcKw04JHrLJn7z47UZgXmGHVe/NS6
+ cTGXhI8xFO5lCx5seV3BsnkEUx0jxZsS8Z2wqTJy6kEpgj+i2W3msJ/0RhvU+jOVc9XC
+ z0a6trggWvux158U2FZTYg7oWetS5DBwa8Rn2NhPqwEIPu9dCPfdiDD/RtOcZ/O8LToT
+ Hls+yIeeFuTghvdiL7wQy515T5rP44jk1SUq84DlWw3C3pOhjeUn2ykVhfqCgG4UAGJw
+ xaCvQBrc4K1VYGyKWfTWcLim5GGFUgCo2O+yxhWLVqqZFHmYlVT5MK2s7ju3dbfE0QsU
+ S7qA==
+X-Gm-Message-State: AOAM533Ry3aYnPI4hKRF4SFWm6OuhBQenu2cBBDLAa8qrztISzrImdYn
+ VynPfHnI1v8+NIXnhkmHNIMKW3UrLU7w/1dx9z4=
+X-Google-Smtp-Source: ABdhPJzIDDzRDJ5ZXYvR1b/twWZXIpP1yf355p0Ur3c48x2iI+s/3j4NGjwOkHZbKozXIyPgoQ+NghHnTjcqe0XVGRE=
+X-Received: by 2002:a02:6954:: with SMTP id e81mr12834453jac.63.1642545315693; 
+ Tue, 18 Jan 2022 14:35:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20220118111736.454150-1-apatel@ventanamicro.com>
- <20220118111736.454150-4-apatel@ventanamicro.com>
-In-Reply-To: <20220118111736.454150-4-apatel@ventanamicro.com>
+References: <20220118170548.97288-1-thuth@redhat.com>
+In-Reply-To: <20220118170548.97288-1-thuth@redhat.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 19 Jan 2022 08:33:07 +1000
-Message-ID: <CAKmqyKNUC10OxaZvWiBokdg5Yw8KajbM96V+4OtiqSiUmFvdew@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] roms/opensbi: Remove ELF images
-To: Anup Patel <apatel@ventanamicro.com>
+Date: Wed, 19 Jan 2022 08:34:49 +1000
+Message-ID: <CAKmqyKMFGynZXLtQMqodnbt4-JVf4HQwF+2Leac-VXF34vtJdQ@mail.gmail.com>
+Subject: Re: [PATCH] meson.build: Use a function from libfdt 1.5.1 for the
+ library check
+To: Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2e
  (failed)
@@ -80,50 +79,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Bin Meng <bmeng.cn@gmail.com>
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 18, 2022 at 9:22 PM Anup Patel <apatel@ventanamicro.com> wrote:
+On Wed, Jan 19, 2022 at 3:42 AM Thomas Huth <thuth@redhat.com> wrote:
 >
-> Now that all RISC-V machines can use OpenSBI BIN images, we remove
-> OpenSBI ELF images and also exclude these images from BIOS build.
+> The fdt version test in meson.build uses a function from libfdt v1.4.7,
+> but we require version 1.5.1 nowadays. Thus use a function that has
+> been introduced in that version instead.
 >
-> Signed-off-by: Anup Patel <anup@brainfault.org>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/822
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-In future it's best to not send a large binary blob:
-https://www.qemu.org/docs/master/devel/submitting-a-patch.html#avoid-posting-large-binary-blob
 
 Alistair
 
 > ---
->  pc-bios/meson.build                            |   2 --
->  pc-bios/opensbi-riscv32-generic-fw_dynamic.elf | Bin 838904 -> 0 bytes
->  pc-bios/opensbi-riscv64-generic-fw_dynamic.elf | Bin 934696 -> 0 bytes
->  roms/Makefile                                  |   2 --
->  4 files changed, 4 deletions(-)
->  delete mode 100644 pc-bios/opensbi-riscv32-generic-fw_dynamic.elf
->  delete mode 100644 pc-bios/opensbi-riscv64-generic-fw_dynamic.elf
+>  meson.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-> index 1812a4084f..4ac7a5509b 100644
-> --- a/pc-bios/meson.build
-> +++ b/pc-bios/meson.build
-> @@ -80,8 +80,6 @@ blobs = files(
->    'hppa-firmware.img',
->    'opensbi-riscv32-generic-fw_dynamic.bin',
->    'opensbi-riscv64-generic-fw_dynamic.bin',
-> -  'opensbi-riscv32-generic-fw_dynamic.elf',
-> -  'opensbi-riscv64-generic-fw_dynamic.elf',
->    'npcm7xx_bootrom.bin',
->  )
+> diff --git a/meson.build b/meson.build
+> index 762d7cee85..d1cc04c7a2 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2276,7 +2276,7 @@ if have_system
+>      if fdt.found() and cc.links('''
+>         #include <libfdt.h>
+>         #include <libfdt_env.h>
+> -       int main(void) { fdt_check_full(NULL, 0); return 0; }''',
+> +       int main(void) { fdt_find_max_phandle(NULL, NULL); return 0; }''',
+>           dependencies: fdt)
+>        fdt_opt = 'system'
+>      elif fdt_opt == 'system'
+> --
+> 2.27.0
+>
 >
 
