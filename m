@@ -2,74 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86A4A491EB7
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 05:56:41 +0100 (CET)
-Received: from localhost ([::1]:38044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D44E1491ECA
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 06:17:10 +0100 (CET)
+Received: from localhost ([::1]:47074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9gXw-0000qJ-Le
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jan 2022 23:56:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48698)
+	id 1n9grl-0008Po-DU
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 00:17:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n9gTj-00071D-6a; Mon, 17 Jan 2022 23:52:19 -0500
-Received: from [2607:f8b0:4864:20::134] (port=35508
- helo=mail-il1-x134.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n9gof-0007NG-FW
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 00:13:59 -0500
+Received: from [2607:f8b0:4864:20::102a] (port=52782
+ helo=mail-pj1-x102a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n9gTh-0007j9-Hv; Mon, 17 Jan 2022 23:52:18 -0500
-Received: by mail-il1-x134.google.com with SMTP id b1so16591414ilj.2;
- Mon, 17 Jan 2022 20:52:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n9god-00021O-PP
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 00:13:57 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id e13so118494pjl.2
+ for <qemu-devel@nongnu.org>; Mon, 17 Jan 2022 21:13:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=fMiT8Aq+6tj/ohNmIsWxJuK9Ib7GPcXccgEE4md1XF4=;
- b=BcSB0I8PswThKFgOVNs4M1E+XNeECXVkOEKEzIQ2SswKtpf4S/Fsa8y76Wl7d7m+9i
- QrSK3ST3W9N0EhM/ntQbTJxsxs9akiMeF0pt5IXJ5Hhj1vApKRCpxa2l75CFqULVSrO8
- rTINugdbBGdj1CBXGDZNfkXJdTdQViuF95+FyEgm4tsIRVuYy5iGGSbJLV65n8JER8sV
- s4glJ5sKPB+XAmVSdNjtYxvWPUy9Ol9YS+nfQWLbdegHxK4nicXISssP02iJSvR2XliO
- qDRFSkGQz9CpFR4fuLNYTHpLy3SeNFTKCLRKo+uP5uDTShv+AEOkdUI2TNzKLL8PIwmh
- Sofw==
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=DxT43eXMSnwkpBFZdpQ+eOs+Y7HjS9cHvbPwiok3JJ8=;
+ b=E7x2XmF3feKcQbWkoIHcCae7nynaIoWMcFj7fE8JqqKKvtLoEPkWoZNKisgNkckUmq
+ u1XfyVPlxa69E2dpvznF66/2Iiev9cYLiRNVk84+T6GxjHw5t/h5kd4KLItx2jlvOzhQ
+ pU+mfm8E/qeoKwCy2pCooXXZ0Kc4bkpBDGnHkMGLRBTnBYQBCwbo8NZRS686hELFShz6
+ gbaEhjInrvbda1q6LeGVqawQ54m46lGLK0Z1MsFtJmnBKR2VxsMTwXPzQtVTds5pIscd
+ g80T+UkjnexE4P198YmimOXSZsIkyRWFSZiMJPsmqW6Tzs8bjxF2Xaq5FPLFDIWSyB4G
+ yKJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=fMiT8Aq+6tj/ohNmIsWxJuK9Ib7GPcXccgEE4md1XF4=;
- b=LlG4AljoyIEVNZxZAVYtzDLO2SePrejhUp4Q0wJaKaq86Lg0ww69dEFqLCrzDJHJwr
- jWULjVFpNxO0noCb3QRd5F58tQJkUk820apFUaLW8DL1MZiU/mRf5cbSKaDta/ViVPk5
- 8vQ6h1qk9fLGAaAbZZ7E3/sMSIlaIQXBr9J77P3jqJ4e6fTl1BKqVu1HsTiVPDzuT+j+
- mcJ1oVXBbbdqqDJs2Qf9l9FQl99wasBCzr8RoW5z1tQc/8s7ZczylEIBxkS9i/1bkq9A
- PR0R5j2gZ+ca0NoJ9W9vXb/hcyyObjnG0Hw8i9dwEoIXMCNhl50cfGBqIC7YZM01NooW
- aATw==
-X-Gm-Message-State: AOAM5317bDgoVLmdhUVCepB4buGmRQxskOaSomYkeVB9U4mLaSF3hsBv
- RsU11tLU/I8Y9UUSVcx8VSjGhq4yvgcuoJgjffdXCbVHGU7azKoPHGs=
-X-Google-Smtp-Source: ABdhPJwpGGL9ixNlLeDMNn2A7psd3lLesCCzgyrBqFgOz4LuH+Sw0qjmPyLU6q+bbK1cHox3mw+/Z17iPbrriOsZ+6Y=
-X-Received: by 2002:a92:3012:: with SMTP id x18mr11983404ile.221.1642481534847; 
- Mon, 17 Jan 2022 20:52:14 -0800 (PST)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=DxT43eXMSnwkpBFZdpQ+eOs+Y7HjS9cHvbPwiok3JJ8=;
+ b=kc5+Sg2+/21BOy6ODszFHxUBuL4q7pEJfFVy4UEq76SoaROuEsS2iCkif01eWTzF+j
+ S21W5uddd/8qSUkIVCpY0DhHYqMzDT+s0DKc5uIpl7tBW7zkdVSCJE+KV7/WutmD/mj/
+ Whj6kr1EKfZejbs7pgfTUHuzI/6lp6egogu7525vX5hl2KUEwXZ/lEZieypW+897LGBd
+ WGT+hcaDcw1J+alMhmVbVZiDxPUHTI7l+qsIDZGdHD29KjVGJUNkBeDtu0qhiV1zkq6O
+ R//YDCNvx7q7HuBhL8CA43AaofuKDB+2vBFKQXfzvSNZDbsLc1sDe9lhaUe2jM39Aske
+ omVQ==
+X-Gm-Message-State: AOAM533XNF9Mvjergg4HfA+irhQ4bNXIzZkA7aOmkxH2FLbVFw+9BG31
+ cTfte5IQYTdr9BDjYt36g5U=
+X-Google-Smtp-Source: ABdhPJyno3SwWLnzHVouGNn5qVkmKnFj/BNmsfCaFur20urvPHorYtu6F+hYL9XxlVPYMRf1IAB9dQ==
+X-Received: by 2002:a17:90a:5d8d:: with SMTP id
+ t13mr29084302pji.47.1642482833837; 
+ Mon, 17 Jan 2022 21:13:53 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id om7sm1006002pjb.47.2022.01.17.21.13.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Jan 2022 21:13:53 -0800 (PST)
+Message-ID: <f2c56e2d-572a-09f9-8f46-6410275e347b@amsat.org>
+Date: Tue, 18 Jan 2022 06:13:48 +0100
 MIME-Version: 1.0
-References: <20220118011711.7243-1-liweiwei@iscas.ac.cn>
- <20220118011711.7243-2-liweiwei@iscas.ac.cn>
- <CAAhSdy3zjeW-WkbiicTJfurQkhts4m9XwvmoS+Zr1XVMzhy+3w@mail.gmail.com>
-In-Reply-To: <CAAhSdy3zjeW-WkbiicTJfurQkhts4m9XwvmoS+Zr1XVMzhy+3w@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 18 Jan 2022 14:51:48 +1000
-Message-ID: <CAKmqyKNajL8kJL4HExN8CDCYwrVcUx4dcnn77wY5zCZu9M6SGg@mail.gmail.com>
-Subject: Re: [PATCH v5 1/5] target/riscv: Ignore reserved bits in PTE for RV64
-To: Anup Patel <anup@brainfault.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::134
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.0
+Subject: Re: [PATCH 1/2] python: introduce qmp-shell-wrap convenience tool
+Content-Language: en-US
+To: John Snow <jsnow@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
+References: <20220117141103.157288-1-berrange@redhat.com>
+ <20220117141103.157288-2-berrange@redhat.com>
+ <CAFn=p-Z4sn94+i18JjEnXgPTJK1H0GBqjCA3kwxtHdrELcOc5g@mail.gmail.com>
+In-Reply-To: <CAFn=p-Z4sn94+i18JjEnXgPTJK1H0GBqjCA3kwxtHdrELcOc5g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::134;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x134.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,104 +97,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Weiwei Li <liweiwei@iscas.ac.cn>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, Guo Ren <ren_guo@c-sky.com>,
- =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Tue, Jan 18, 2022 at 1:31 PM Anup Patel <anup@brainfault.org> wrote:
->
-> On Tue, Jan 18, 2022 at 6:47 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
-> >
-> > From: Guo Ren <ren_guo@c-sky.com>
-> >
-> > Highest bits of PTE has been used for svpbmt, ref: [1], [2], so we
-> > need to ignore them. They cannot be a part of ppn.
-> >
-> > 1: The RISC-V Instruction Set Manual, Volume II: Privileged Architectur=
-e
-> >    4.4 Sv39: Page-Based 39-bit Virtual-Memory System
-> >    4.5 Sv48: Page-Based 48-bit Virtual-Memory System
-> >
-> > 2: https://github.com/riscv/virtual-memory/blob/main/specs/663-Svpbmt-d=
-iff.pdf
-> >
-> > Signed-off-by: Guo Ren <ren_guo@c-sky.com>
-> > Tested-by: Bin Meng <bmeng.cn@gmail.com>
-> > Reviewed-by: Liu Zhiwei <zhiwei_liu@c-sky.com>
-> > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  target/riscv/cpu_bits.h   | 7 +++++++
-> >  target/riscv/cpu_helper.c | 2 +-
-> >  2 files changed, 8 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> > index 5a6d49aa64..282cd8eecd 100644
-> > --- a/target/riscv/cpu_bits.h
-> > +++ b/target/riscv/cpu_bits.h
-> > @@ -490,6 +490,13 @@ typedef enum {
-> >  /* Page table PPN shift amount */
-> >  #define PTE_PPN_SHIFT       10
-> >
-> > +/* Page table PPN mask */
-> > +#if defined(TARGET_RISCV32)
-> > +#define PTE_PPN_MASK        0xffffffffUL
-> > +#elif defined(TARGET_RISCV64)
-> > +#define PTE_PPN_MASK        0x3fffffffffffffULL
-> > +#endif
-> > +
->
-> Going forward we should avoid using target specific "#if"
-> so that we can use the same qemu-system-riscv64 for both
-> RV32 and RV64.
->
-> >  /* Leaf page shift amount */
-> >  #define PGSHIFT             12
-> >
-> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> > index 434a83e66a..26608ddf1c 100644
-> > --- a/target/riscv/cpu_helper.c
-> > +++ b/target/riscv/cpu_helper.c
-> > @@ -619,7 +619,7 @@ restart:
-> >              return TRANSLATE_FAIL;
-> >          }
-> >
-> > -        hwaddr ppn =3D pte >> PTE_PPN_SHIFT;
-> > +        hwaddr ppn =3D (pte & PTE_PPN_MASK) >> PTE_PPN_SHIFT;
->
-> Rather than using "#if", please use "xlen" comparison to extract
-> PPN correctly from PTE.
+On 18/1/22 00:27, John Snow wrote:
+> On Mon, Jan 17, 2022 at 9:11 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
+>>
+>> With the current 'qmp-shell' tool developers must first spawn QEMU with
+>> a suitable -qmp arg and then spawn qmp-shell in a separate terminal
+>> pointing to the right socket.
+>>
+>> With 'qmp-shell-wrap' developers can ignore QMP sockets entirely and
+>> just pass the QEMU command and arguments they want. The program will
+>> listen on a UNIX socket and tell QEMU to connect QMP to that.
+>>
+>> For example, this:
+>>
+>>   # qmp-shell-wrap -- qemu-system-x86_64 -display none
+>>
+>> Is roughly equivalent of running:
+>>
+>>   # qemu-system-x86_64 -display none -qmp qmp-shell-1234 &
+>>   # qmp-shell qmp-shell-1234
+>>
+>> Except that 'qmp-shell-wrap' switches the socket peers around so that
+>> it is the UNIX socket server and QEMU is the socket client. This makes
+>> QEMU reliably go away when qmp-shell-wrap exits, closing the server
+>> socket.
+>>
+>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+>> ---
+>>   python/qemu/qmp/qmp_shell.py | 61 +++++++++++++++++++++++++++++++++---
+>>   scripts/qmp/qmp-shell-wrap   | 11 +++++++
+>>   2 files changed, 68 insertions(+), 4 deletions(-)
+>>   create mode 100755 scripts/qmp/qmp-shell-wrap
 
-This will need to be dynamic based on get_xl()
+>> diff --git a/scripts/qmp/qmp-shell-wrap b/scripts/qmp/qmp-shell-wrap
+>> new file mode 100755
+>> index 0000000000..9e94da114f
+>> --- /dev/null
+>> +++ b/scripts/qmp/qmp-shell-wrap
+>> @@ -0,0 +1,11 @@
+>> +#!/usr/bin/env python3
+>> +
+>> +import os
+>> +import sys
+>> +
+>> +sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+>> +from qemu.qmp import qmp_shell
+>> +
+>> +
+>> +if __name__ == '__main__':
+>> +    qmp_shell.main_wrap()
+>> --
+>> 2.33.1
+>>
+> 
+> Adds some new failures to the python linters; try "make check-dev" in
+> the python sub-dir.
+> 
+> ... Though, due to a bug in avocado, this helpfully doesn't actually
+> show you the failure output right now ...
+> 
+> making this little edit should fix that, sorry for the inconvenience here.
+> 
+> diff --git a/python/avocado.cfg b/python/avocado.cfg
+> index c7722e7ecd..a460420059 100644
+> --- a/python/avocado.cfg
+> +++ b/python/avocado.cfg
+> @@ -1,5 +1,5 @@
+>   [run]
+> -test_runner = runner
+> +test_runner = nrunner
 
-It does look like we should check the existence of the extensions though:
-
-"Bit 63 is reserved for use by the Svnapot extension in Chapter 5. If
-Svnapot is not implemented, bit 63 remains reserved and must be zeroed
-by software for forward compatibility, or else a page-fault exception
-is raised. Bits 62=E2=80=9361 are reserved for use by the Svpbmt extension =
-in
-Chapter 6. If Svpbmt is not implemented, bits 62=E2=80=9361 remain reserved
-and must be zeroed by software for forward compatibility, or else a
-page-fault exception is raised."
-
-Alistair
-
->
-> Regards,
-> Anup
->
-> >
-> >          if (!(pte & PTE_V)) {
-> >              /* Invalid PTE */
-> > --
-> > 2.17.1
-> >
->
+Cc'ing Beraldo, Willian once told me the nrunner switch was scheduled
+for QEMU next release.
 
