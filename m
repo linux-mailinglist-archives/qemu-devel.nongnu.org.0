@@ -2,72 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D97DC4925B6
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 13:30:35 +0100 (CET)
-Received: from localhost ([::1]:39560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD354925C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 13:37:26 +0100 (CET)
+Received: from localhost ([::1]:50286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9ndC-0003Ua-PH
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 07:30:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53006)
+	id 1n9njp-0002rb-Rw
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 07:37:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n9nMc-0007d7-WC
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 07:13:30 -0500
-Received: from [2a00:1450:4864:20::331] (port=42671
- helo=mail-wm1-x331.google.com)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1n9nUT-0003cD-IR
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 07:21:33 -0500
+Received: from [2a00:1450:4864:20::335] (port=46946
+ helo=mail-wm1-x335.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n9nMa-0008AL-7d
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 07:13:25 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- ay4-20020a05600c1e0400b0034a81a94607so6849246wmb.1
- for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 04:13:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EwZD6Seaa97WsKXlepEiyF1tKp012KupQuRJHlC7iPE=;
- b=qTX2A5g19XT2ciTqikamh5XVCqiQqvP4rZX/AlUeClE8frrUREDDFlsWg0YDTprRVk
- ZjgSv0Zv5P9odav6Pewvzvrm+mYZs8lXhxXhUzinFsA//NvZuC2cJNuSVx1erYyerM47
- CG9iL9PrBLMD/2bAAyHwPrjavIEHupt0CYj5eES3TkD08dCGm+1+EcQfjlepm127LYif
- 8DKaNtdP054Lu+03XE4hi5e4EpaajceKbz6kaEWEQTTVg1aob1+mfd1j40oBDfOJr27w
- 2WNT9vPXj5xcDQAV6I5xEWsjHxeI3ttebRE86QGRdxBXeSnGZLS5mGvVJXCZ6zAzkKRC
- Z5Kw==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1n9nUS-0000zB-27
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 07:21:33 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ az27-20020a05600c601b00b0034d2956eb04so4477366wmb.5
+ for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 04:21:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=pOvMYKKMfHa8SAPb2vw7jXCssnaN3IH3OrngcQPj3CI=;
+ b=hWSU/xrowX6jeSyDkSIKYH39bQTdP0F3hCyN4yrdPk7x0gxiGpTWeavEoOolWwhFeu
+ 3WNBTesZ5JIXsVL09VocLP9yxktqdxV63sGYYTDyW1LWOXkqOnT3mvXIQ3xg8hSRUcjT
+ B3htyxLnmuEFon0D4IcbH3kerUqOZrja2e8/aSM4y0Kxn8hHYudx+vbwDgCNSssr1ZFv
+ cPO6kps8ykGsQzg5d1ct1vxS7bLCHqVXvCDf3uNzgn2hOqzDpehuft0WTDh91Gxats8H
+ XKYUXF08dS4BdaUY68ziD2VhxwxRvHQlFDX+D/6Jjdj2prS7w007hPtKQCwr8ju5oUyE
+ 0hBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EwZD6Seaa97WsKXlepEiyF1tKp012KupQuRJHlC7iPE=;
- b=kNayqxwtSgqFp/RRWtz20/Z/BRtmusfZPcEJTBQAgZcQRq3pshr+k21IPAjU56CUCl
- YgyDyt4xufEJz4u4fhatyXYkteheucLeH40CNaSEGyFStMeJTxYC8+LNcrDWykCNWC0r
- RmWVWHeupkjwZt3TeCLGzoTwrNUePg/lR7DqDgyB9GAoh1OXdw7528g41qxP8JtBX0T/
- H/9ejlSrzpYkP0MPk7oYLc2pUDLyIxydz8Ou2xSslw6Qh5vzsGt5w/GV+SN+PB8qGkcf
- D9lSK8L4goqyl1H9NJN9Tvb28UEKefk8kwXSr5bek9z8U+XpOZDgy9fNoRiULISairun
- UP5A==
-X-Gm-Message-State: AOAM530jp3DWlDZu8L6W82Ux/UYiijJoVLgcJaEwdsIeyD6KUbxa8oJM
- kwNPR1oaJjnEMbsa95eZVKami0qIkHlTfGposf4HJw==
-X-Google-Smtp-Source: ABdhPJzpZgjdN47pj2hXJtHKWjPZNcXHLXXFzWZxsNoLYRyYqRE504++cR7rBnwEHJ1OJgIj5vdFKMHwm9vxE7uYOkI=
-X-Received: by 2002:a5d:52c4:: with SMTP id r4mr24761249wrv.521.1642507999918; 
- Tue, 18 Jan 2022 04:13:19 -0800 (PST)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=pOvMYKKMfHa8SAPb2vw7jXCssnaN3IH3OrngcQPj3CI=;
+ b=Yz+Pz+C1IdKU7b3Upi0nRZK5b4JazZ7ofGi/bP1R4zqPsyIyjLouenF3GpXVHIdhH9
+ Yk5TUZg+zawDUlOHBnUGkc8eKeQIbZljeN+861uly9E91HNqW47/cpai72LKdnfhFOtk
+ GTovbi3vdUpjjQhKtKW3iFCpn4FLcVay52QqpFLf/FfcYZRn5Ndf1zOIEI59+AGi+8uY
+ pdXTHNc3yMTUJZ+3p/cz9QE46iHOTlFDyvuSIcwXDAU2oWUovBct5tTKYdphqDD9b7l1
+ vfVCACwAChwvUDU/i0EXNGaG3G1hTzLuvcxVQ7G7DLDR0+sE7qRE1aqeZWNmsgCGrRWY
+ hj6A==
+X-Gm-Message-State: AOAM533zZTpZkaCRiG3J5KbzVPmcodGsPozqYuMaiezsOZ0nFMHzsqsd
+ oFXe0y+Lnt4KTJDkP6+jZ2w=
+X-Google-Smtp-Source: ABdhPJxJvbHgGEGmVC/J3Aku+lpvEJJsOS9AIFR/DMHmWKC6E/2+jbMoxwHHmFuaNHK5V0kmHeNF6g==
+X-Received: by 2002:adf:e846:: with SMTP id d6mr21694258wrn.370.1642508489815; 
+ Tue, 18 Jan 2022 04:21:29 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id r3sm8149658wrz.92.2022.01.18.04.21.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Jan 2022 04:21:29 -0800 (PST)
+Message-ID: <30f67e03-0c51-aaa0-3bc5-bb7d26493f93@redhat.com>
+Date: Tue, 18 Jan 2022 13:21:28 +0100
 MIME-Version: 1.0
-References: <CAFEAcA-UKdcTROB7e3jO1qe=WCbuHRuX5WN7HZF2CcdMsmAt=g@mail.gmail.com>
- <YeU/YCUI59f33PBh@redhat.com>
- <CAFn=p-YDo8tTQ1Y8HgtQuCDv3i5EdFEX8-2BAjs-7L5q_b4=Gg@mail.gmail.com>
-In-Reply-To: <CAFn=p-YDo8tTQ1Y8HgtQuCDv3i5EdFEX8-2BAjs-7L5q_b4=Gg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 Jan 2022 12:13:07 +0000
-Message-ID: <CAFEAcA__xayWZJWCmcPQqR40rKsNk0JxbAe7Hx8V65wSuXCfEg@mail.gmail.com>
-Subject: Re: iotest 040, 041, intermittent failure in netbsd VM
-To: John Snow <jsnow@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v3 3/3] meson: generate trace events for qmp commands
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+References: <20220117201845.2438382-1-vsementsov@virtuozzo.com>
+ <20220117201845.2438382-4-vsementsov@virtuozzo.com>
+ <871r15pc8p.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <871r15pc8p.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -82,210 +96,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: kwolf@redhat.com, michael.roth@amd.com, qemu-devel@nongnu.org,
+ hreitz@redhat.com, stefanha@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 17 Jan 2022 at 20:35, John Snow <jsnow@redhat.com> wrote:
-> I do expect this to print more information on failure than it
-> currently is, though (bug somewhere in machine.py, I think).
-> Can you please try applying this temporary patch and running `./check
-> -qcow2 040 041` until you see a breakage and show me the output from
-> that?
+On 1/18/22 11:30, Markus Armbruster wrote:
+>> +# Please keep ordering between 'qapi' and 'trace' subdirs:
+>> +# We should first handle 'qapi' subdir, so that all
+>> +# generated trace events be generated prior handling 'trace'
+>> +# subdir.
+> I naively expect explicit dependencies to be used for ordering, but I'm
+> a Meson noob.  I'd like an ACK from a non-noob on this one.
+> 
 
-Having fixed my setup to not use an ancient host QEMU, here's
-the relevant bit of the log:
+The Make-time dependencies are just fine, but still the Meson language 
+is imperative (with generally immutable objects in order to avoid 
+aliasing horrors) and variables in Meson are all of the ":=" kind; 
+there's no equivalent for Make's "=".  So you have to do
 
-  TEST   iotest-qcow2: 037
-  TEST   iotest-qcow2: 038 [not run]
-  TEST   iotest-qcow2: 039 [not run]
-  TEST   iotest-qcow2: 040 [fail]
-QEMU          --
-"/home/qemu/qemu-test.vdrI02/build/tests/qemu-iotests/../../qemu-system-aarch64"
--nodefaults -display none -accel qtest -machine virt
-QEMU_IMG      --
-"/home/qemu/qemu-test.vdrI02/build/tests/qemu-iotests/../../qemu-img"
-QEMU_IO       --
-"/home/qemu/qemu-test.vdrI02/build/tests/qemu-iotests/../../qemu-io"
---cache writeback --aio threads -f qcow2
-QEMU_NBD      --
-"/home/qemu/qemu-test.vdrI02/build/tests/qemu-iotests/../../qemu-nbd"
-IMGFMT        -- qcow2
-IMGPROTO      -- file
-PLATFORM      -- NetBSD/amd64 localhost 9.2
-TEST_DIR      -- /home/qemu/qemu-test.vdrI02/build/tests/qemu-iotests/scratch
-SOCK_DIR      -- /tmp/tmp1h12r7ev
-GDB_OPTIONS   --
-VALGRIND_QEMU --
-PRINT_QEMU_OUTPUT --
+	subdir('qapi')
+	subdir('trace')
 
---- /home/qemu/qemu-test.vdrI02/src/tests/qemu-iotests/040.out
-+++ 040.out.bad
-@@ -1,5 +1,95 @@
--.................................................................
-+.......ERROR:qemu.aqmp.qmp_client.qemu-12407:Failed to establish
-connection: concurrent.futures._base.CancelledError
-+ERROR:qemu.machine.machine:Error launching VM
-+ERROR:qemu.machine.machine:Process was forked, waiting on it
-+ERROR:qemu.machine.machine:Command:
-'/home/qemu/qemu-test.vdrI02/build/tests/qemu-iotests/../../qemu-system-aarch64
--display none -vga none -chardev
-socket,id=mon,path=/tmp/tmp1h12r7ev/qemu-12407-monitor.sock -mon
-chardev=mon,mode=control -qtest
-unix:path=/tmp/tmp1h12r7ev/qemu-12407-qtest.sock -accel qtest
--nodefaults -display none -accel qtest -machine virt -drive
-if=none,id=drive0,file=/home/qemu/qemu-test.vdrI02/build/tests/qemu-iotests/scratch/test.img,format=qcow2,cache=writeback,aio=threads,node-name=top,backing.node-name=mid,backing.backing.node-name=base
--device virtio-scsi -device scsi-hd,id=scsi0,drive=drive0'
-+ERROR:qemu.machine.machine:Output: "qemu-system-aarch64: -chardev
-socket,id=mon,path=/tmp/tmp1h12r7ev/qemu-12407-monitor.sock: Failed to
-connect to '/tmp/tmp1h12r7ev/qemu-12407-monitor.sock': No such file or
-directory\n"
-+ERROR:qemu.machine.machine:exitcode: 1
-+E..........................................ERROR:qemu.aqmp.qmp_client.qemu-12407:Failed
-to establish connection: concurrent.futures._base.CancelledError
-+ERROR:qemu.machine.machine:Error launching VM
-+ERROR:qemu.machine.machine:Process was forked, waiting on it
-+ERROR:qemu.machine.machine:Command:
-'/home/qemu/qemu-test.vdrI02/build/tests/qemu-iotests/../../qemu-system-aarch64
--display none -vga none -chardev
-socket,id=mon,path=/tmp/tmp1h12r7ev/qemu-12407-monitor.sock -mon
-chardev=mon,mode=control -qtest
-unix:path=/tmp/tmp1h12r7ev/qemu-12407-qtest.sock -accel qtest
--nodefaults -display none -accel qtest -machine virt -drive
-if=none,id=drive0,file=/home/qemu/qemu-test.vdrI02/build/tests/qemu-iotests/scratch/test.img,format=qcow2,cache=writeback,aio=threads,node-name=top,backing.node-name=mid,backing.backing.node-name=base
--device virtio-scsi -device scsi-hd,id=scsi0,drive=drive0'
-+ERROR:qemu.machine.machine:Output: "qemu-system-aarch64: -chardev
-socket,id=mon,path=/tmp/tmp1h12r7ev/qemu-12407-monitor.sock: Failed to
-connect to '/tmp/tmp1h12r7ev/qemu-12407-monitor.sock': No such file or
-directory\n"
-+ERROR:qemu.machine.machine:exitcode: 1
-+E....ERROR:qemu.aqmp.qmp_client.qemu-12407:Failed to establish
-connection: concurrent.futures._base.CancelledError
-+ERROR:qemu.machine.machine:Error launching VM
-+ERROR:qemu.machine.machine:Process was forked, waiting on it
-+ERROR:qemu.machine.machine:Command:
-'/home/qemu/qemu-test.vdrI02/build/tests/qemu-iotests/../../qemu-system-aarch64
--display none -vga none -chardev
-socket,id=mon,path=/tmp/tmp1h12r7ev/qemu-12407-monitor.sock -mon
-chardev=mon,mode=control -qtest
-unix:path=/tmp/tmp1h12r7ev/qemu-12407-qtest.sock -accel qtest
--nodefaults -display none -accel qtest -machine virt -drive
-if=none,id=drive0,file=/home/qemu/qemu-test.vdrI02/build/tests/qemu-iotests/scratch/test.img,format=qcow2,cache=writeback,aio=threads,node-name=top,backing.node-name=mid,backing.backing.node-name=base
--device virtio-scsi -device scsi-hd,id=scsi0,drive=drive0'
-+ERROR:qemu.machine.machine:Output: "qemu-system-aarch64: -chardev
-socket,id=mon,path=/tmp/tmp1h12r7ev/qemu-12407-monitor.sock: Failed to
-connect to '/tmp/tmp1h12r7ev/qemu-12407-monitor.sock': No such file or
-directory\n"
-+ERROR:qemu.machine.machine:exitcode: 1
-+E.........
-+======================================================================
-+ERROR: test_device_not_found (__main__.TestActiveZeroLengthImage)
-+----------------------------------------------------------------------
-+Traceback (most recent call last):
-+  File "/home/qemu/qemu-test.vdrI02/src/tests/qemu-iotests/040", line
-94, in setUp
-+    self.vm.launch()
-+  File "/home/qemu/qemu-test.vdrI02/src/python/qemu/machine/machine.py",
-line 399, in launch
-+    self._launch()
-+  File "/home/qemu/qemu-test.vdrI02/src/python/qemu/machine/machine.py",
-line 437, in _launch
-+    self._post_launch()
-+  File "/home/qemu/qemu-test.vdrI02/src/python/qemu/machine/qtest.py",
-line 147, in _post_launch
-+    super()._post_launch()
-+  File "/home/qemu/qemu-test.vdrI02/src/python/qemu/machine/machine.py",
-line 340, in _post_launch
-+    self._qmp.accept(self._qmp_timer)
-+  File "/home/qemu/qemu-test.vdrI02/src/python/qemu/aqmp/legacy.py",
-line 69, in accept
-+    timeout
-+  File "/home/qemu/qemu-test.vdrI02/src/python/qemu/aqmp/legacy.py",
-line 42, in _sync
-+    asyncio.wait_for(future, timeout=timeout)
-+  File "/usr/pkg/lib/python3.7/asyncio/base_events.py", line 587, in
-run_until_complete
-+    return future.result()
-+  File "/usr/pkg/lib/python3.7/asyncio/tasks.py", line 449, in wait_for
-+    raise futures.TimeoutError()
-+concurrent.futures._base.TimeoutError
-+
-+======================================================================
-+ERROR: test_commit_node (__main__.TestSingleDrive)
-+----------------------------------------------------------------------
-+Traceback (most recent call last):
-+  File "/home/qemu/qemu-test.vdrI02/src/tests/qemu-iotests/040", line
-94, in setUp
-+    self.vm.launch()
-+  File "/home/qemu/qemu-test.vdrI02/src/python/qemu/machine/machine.py",
-line 399, in launch
-+    self._launch()
-+  File "/home/qemu/qemu-test.vdrI02/src/python/qemu/machine/machine.py",
-line 437, in _launch
-+    self._post_launch()
-+  File "/home/qemu/qemu-test.vdrI02/src/python/qemu/machine/qtest.py",
-line 147, in _post_launch
-+    super()._post_launch()
-+  File "/home/qemu/qemu-test.vdrI02/src/python/qemu/machine/machine.py",
-line 340, in _post_launch
-+    self._qmp.accept(self._qmp_timer)
-+  File "/home/qemu/qemu-test.vdrI02/src/python/qemu/aqmp/legacy.py",
-line 69, in accept
-+    timeout
-+  File "/home/qemu/qemu-test.vdrI02/src/python/qemu/aqmp/legacy.py",
-line 42, in _sync
-+    asyncio.wait_for(future, timeout=timeout)
-+  File "/usr/pkg/lib/python3.7/asyncio/base_events.py", line 587, in
-run_until_complete
-+    return future.result()
-+  File "/usr/pkg/lib/python3.7/asyncio/tasks.py", line 449, in wait_for
-+    raise futures.TimeoutError()
-+concurrent.futures._base.TimeoutError
-+
-+======================================================================
-+ERROR: test_implicit_node (__main__.TestSingleDrive)
-+----------------------------------------------------------------------
-+Traceback (most recent call last):
-+  File "/home/qemu/qemu-test.vdrI02/src/tests/qemu-iotests/040", line
-94, in setUp
-+    self.vm.launch()
-+  File "/home/qemu/qemu-test.vdrI02/src/python/qemu/machine/machine.py",
-line 399, in launch
-+    self._launch()
-+  File "/home/qemu/qemu-test.vdrI02/src/python/qemu/machine/machine.py",
-line 437, in _launch
-+    self._post_launch()
-+  File "/home/qemu/qemu-test.vdrI02/src/python/qemu/machine/qtest.py",
-line 147, in _post_launch
-+    super()._post_launch()
-+  File "/home/qemu/qemu-test.vdrI02/src/python/qemu/machine/machine.py",
-line 340, in _post_launch
-+    self._qmp.accept(self._qmp_timer)
-+  File "/home/qemu/qemu-test.vdrI02/src/python/qemu/aqmp/legacy.py",
-line 69, in accept
-+    timeout
-+  File "/home/qemu/qemu-test.vdrI02/src/python/qemu/aqmp/legacy.py",
-line 42, in _sync
-+    asyncio.wait_for(future, timeout=timeout)
-+  File "/usr/pkg/lib/python3.7/asyncio/base_events.py", line 587, in
-run_until_complete
-+    return future.result()
-+  File "/usr/pkg/lib/python3.7/asyncio/tasks.py", line 449, in wait_for
-+    raise futures.TimeoutError()
-+concurrent.futures._base.TimeoutError
-+
- ----------------------------------------------------------------------
- Ran 65 tests
+in this order so that the variables defined by qapi/ are found in trace/.
 
--OK
-+FAILED (errors=3)
-  TEST   iotest-qcow2: 041
-  TEST   iotest-qcow2: 042
-  TEST   iotest-qcow2: 043
-(etc)
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 
+but I would replace the comment with:
 
-thanks
--- PMM
+# NOTE: the trace/ subdirectory needs the qapi_trace_events variable
+# that is filled in by qapi/.
+
+Paolo
 
