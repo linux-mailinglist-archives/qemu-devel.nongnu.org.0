@@ -2,71 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA740491F2E
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 06:58:17 +0100 (CET)
-Received: from localhost ([::1]:35010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43214492160
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 09:38:56 +0100 (CET)
+Received: from localhost ([::1]:52328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9hVY-0004AM-B7
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 00:58:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54666)
+	id 1n9k11-0004vp-9L
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 03:38:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n9hSJ-0003Cp-I1; Tue, 18 Jan 2022 00:54:55 -0500
-Received: from [2607:f8b0:4864:20::d2d] (port=33629
- helo=mail-io1-xd2d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n9hSH-00070E-II; Tue, 18 Jan 2022 00:54:55 -0500
-Received: by mail-io1-xd2d.google.com with SMTP id f24so18329112ioc.0;
- Mon, 17 Jan 2022 21:54:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wjgO6Lff9sjF4jzY5VIWwecsuehP7NqaFWjLhjzjsC8=;
- b=LzI26bmTgt+mgaeZIWrVYw3iY95bvb2BMUrwWlb/6Bj6I5OPyIOaDN/28WtycP5Q+O
- f8XKwv2z9kMykclaZXGHmV/20z9WmP1d9ws5RulGQMUaZJVYTExcE7sZkdaKWF1bXCf3
- i95hlLBiK9d2Tib9ejPqRsuKohyo0csV5/Cz01EIHoVVOGzrm74A6YJeOCtuY80sHZUD
- 4cP7NtwztSi+rA7jWOAwVtOAF7Y6hwp9aBX93RallI0vMXPB8uhDJsGXyctmka5fAuSK
- 1o1bsP0KR3r4/3DAsw2jub3l+5SXXKiu7nSlhqwcMPoqeBFeHsmz4wzNLZtrNi6cAGBg
- ++5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wjgO6Lff9sjF4jzY5VIWwecsuehP7NqaFWjLhjzjsC8=;
- b=W0wbnkG+YszqNWDOOQAo4Wu+51XR8OARKoCwlWXJKHfAnQlA/e7MGdygIPLtNffB8m
- qRJ44Zj+mtCeshK8QAAxxRWiFBxIyDV1r8VDMBLauYS2kH2SeKURUuNDcBIOTdH8HYrJ
- oylXfl2z2jrYi4y9ZiDVHZ9hnKcIR+YYkbVj27KA5YWnlvvXmT31P3CDxO7fsYpUiXSk
- AWxYswwRmKwwjdeuL5XMZZ7+YYL1wO+HmnEnri0baG7bYI1uT+DR6hkNYdf2H1TPmSoP
- CL7LwRPvEDgPFlC+IEuMhZ9+WYPv1R2+wuQxLJ5vFDF+BsBUCAR269VGKw8cz3NaMRPh
- /KdQ==
-X-Gm-Message-State: AOAM530HLSD3e02GxdWVbIbQV4eAf4uo+JuCnWlfI87Vya3+MntsLN7C
- CuksXO4Jd2CnZs9xq7dYPGpldb2hLdHQbskMU2s=
-X-Google-Smtp-Source: ABdhPJzWuty/di2Mt/0RiCaOwoYxPjv2yv+zO2i4OVGpYflZR/T4AZ1Vmv/xC1OdA32AE3r0RXOI9Cgd1My8o/912/Q=
-X-Received: by 2002:a02:7702:: with SMTP id g2mr11729736jac.206.1642485292005; 
- Mon, 17 Jan 2022 21:54:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1n9jdy-0006OT-RV; Tue, 18 Jan 2022 03:15:06 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:35987)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1n9jdv-0003JP-TU; Tue, 18 Jan 2022 03:15:06 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4JdM592Ch4z4y3V; Tue, 18 Jan 2022 19:14:53 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1642493693;
+ bh=YJGQmu5MLcgIzkmqmpCteQaKboxawYX5Pr5n7QrOkuQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NBCkBV4tdifdzyT+lyDQ3DAUZePF3LN83l4IcNAVSDYRdZ1DfdzwO9jL4Vqt6jhsW
+ qUzl8bc67epPmVRGSd9xBGmwVY+V85gQh1kYXY20P5ev7Brp6yjcL/bosVezwf6t3K
+ tc9DIKKl2y4MNUt/zygjweVJLHKSLkrNcXV+tkWU=
+Date: Tue, 18 Jan 2022 11:44:25 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH] target/ppc: Finish removal of 401/403 CPUs
+Message-ID: <YeYNaZCC+kj7b5iK@yekko.fritz.box>
+References: <20220117091541.1615807-1-clg@kaod.org>
 MIME-Version: 1.0
-References: <20220114160457.70134-1-apatel@ventanamicro.com>
- <CAKmqyKPVQL2EBq_A3NggsiaO-rCi2t_bVd44J3w=0ma5BHO2tQ@mail.gmail.com>
- <CAAhSdy08KwssGS-YcrGQcSSbchGsOerPvQo2kbSuR5WYNkKP+w@mail.gmail.com>
-In-Reply-To: <CAAhSdy08KwssGS-YcrGQcSSbchGsOerPvQo2kbSuR5WYNkKP+w@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 18 Jan 2022 15:54:25 +1000
-Message-ID: <CAKmqyKMdM1rT3qFm+5xLyAPkC3BH+w9arQKeFg1DACWBCivj=A@mail.gmail.com>
-Subject: Re: [PATCH] hw/riscv: spike: Allow using binary firmware as bios
-To: Anup Patel <anup@brainfault.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2d;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2d.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="AZgFY3PsVp5C/QNm"
+Content-Disposition: inline
+In-Reply-To: <20220117091541.1615807-1-clg@kaod.org>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_06_12=1.543,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,251 +58,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <apatel@ventanamicro.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 18, 2022 at 3:27 PM Anup Patel <anup@brainfault.org> wrote:
->
-> On Tue, Jan 18, 2022 at 10:50 AM Alistair Francis <alistair23@gmail.com> wrote:
-> >
-> > On Sat, Jan 15, 2022 at 2:18 AM Anup Patel <apatel@ventanamicro.com> wrote:
-> > >
-> > > Currently, we have to use OpenSBI firmware ELF as bios for the spike
-> > > machine because the HTIF console requires ELF for parsing "fromhost"
-> > > and "tohost" symbols.
-> > >
-> > > The latest OpenSBI can now optionally pick-up HTIF register address
-> > > from HTIF DT node so using this feature spike machine can now use
-> > > OpenSBI firmware BIN as bios.
-> >
-> > Cool!
-> >
-> > I think that means we can remove the elfs from QEMU.
->
-> Yes, we can definitely remove the ELFs from QEMU.
 
-Ha, I mostly meant can you do that? :P
+--AZgFY3PsVp5C/QNm
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Alistair
+On Mon, Jan 17, 2022 at 10:15:41AM +0100, C=E9dric le Goater wrote:
+> Commit c8f49e6b938e ("target/ppc: remove 401/403 CPUs") left a few
+> things behind.
+>=20
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
->
-> >
-> > >
-> > > Signed-off-by: Anup Patel <apatel@ventanamicro.com>
-> > > ---
-> > >  hw/char/riscv_htif.c         | 33 +++++++++++++++++++----------
-> > >  hw/riscv/spike.c             | 41 ++++++++++++++++++++++--------------
-> > >  include/hw/char/riscv_htif.h |  5 ++++-
-> > >  include/hw/riscv/spike.h     |  1 +
-> > >  4 files changed, 52 insertions(+), 28 deletions(-)
-> > >
-> > > diff --git a/hw/char/riscv_htif.c b/hw/char/riscv_htif.c
-> > > index ddae738d56..b59d321fb7 100644
-> > > --- a/hw/char/riscv_htif.c
-> > > +++ b/hw/char/riscv_htif.c
-> > > @@ -228,13 +228,25 @@ static const MemoryRegionOps htif_mm_ops = {
-> > >      .write = htif_mm_write,
-> > >  };
-> > >
-> > > +bool htif_uses_elf_symbols(void)
-> > > +{
-> > > +    return (address_symbol_set == 3) ? true : false;
-> > > +}
-> > > +
-> > >  HTIFState *htif_mm_init(MemoryRegion *address_space, MemoryRegion *main_mem,
-> > > -    CPURISCVState *env, Chardev *chr)
-> > > +    CPURISCVState *env, Chardev *chr, uint64_t nonelf_base)
-> > >  {
-> > > -    uint64_t base = MIN(tohost_addr, fromhost_addr);
-> > > -    uint64_t size = MAX(tohost_addr + 8, fromhost_addr + 8) - base;
-> > > -    uint64_t tohost_offset = tohost_addr - base;
-> > > -    uint64_t fromhost_offset = fromhost_addr - base;
-> > > +    uint64_t base, size, tohost_offset, fromhost_offset;
-> > > +
-> > > +    if (address_symbol_set != 3) {
-> >
-> > Why not use htif_uses_elf_symbols() ?
->
-> Ahh, yes.
->
-> I should have used htif_uses_elf_symbols() here. I will update
-> it in the next revision.
->
-> Regards,
-> Anup
->
-> >
-> > Alistair
-> >
-> > > +        fromhost_addr = nonelf_base;
-> > > +        tohost_addr = nonelf_base + 8;
-> > > +    }
-> > > +
-> > > +    base = MIN(tohost_addr, fromhost_addr);
-> > > +    size = MAX(tohost_addr + 8, fromhost_addr + 8) - base;
-> > > +    tohost_offset = tohost_addr - base;
-> > > +    fromhost_offset = fromhost_addr - base;
-> > >
-> > >      HTIFState *s = g_malloc0(sizeof(HTIFState));
-> > >      s->address_space = address_space;
-> > > @@ -249,12 +261,11 @@ HTIFState *htif_mm_init(MemoryRegion *address_space, MemoryRegion *main_mem,
-> > >      qemu_chr_fe_init(&s->chr, chr, &error_abort);
-> > >      qemu_chr_fe_set_handlers(&s->chr, htif_can_recv, htif_recv, htif_event,
-> > >          htif_be_change, s, NULL, true);
-> > > -    if (address_symbol_set == 3) {
-> > > -        memory_region_init_io(&s->mmio, NULL, &htif_mm_ops, s,
-> > > -                              TYPE_HTIF_UART, size);
-> > > -        memory_region_add_subregion_overlap(address_space, base,
-> > > -                                            &s->mmio, 1);
-> > > -    }
-> > > +
-> > > +    memory_region_init_io(&s->mmio, NULL, &htif_mm_ops, s,
-> > > +                          TYPE_HTIF_UART, size);
-> > > +    memory_region_add_subregion_overlap(address_space, base,
-> > > +                                        &s->mmio, 1);
-> > >
-> > >      return s;
-> > >  }
-> > > diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-> > > index 288d69cd9f..597df4c288 100644
-> > > --- a/hw/riscv/spike.c
-> > > +++ b/hw/riscv/spike.c
-> > > @@ -42,6 +42,7 @@
-> > >
-> > >  static const MemMapEntry spike_memmap[] = {
-> > >      [SPIKE_MROM] =     {     0x1000,     0xf000 },
-> > > +    [SPIKE_HTIF] =     {  0x1000000,     0x1000 },
-> > >      [SPIKE_CLINT] =    {  0x2000000,    0x10000 },
-> > >      [SPIKE_DRAM] =     { 0x80000000,        0x0 },
-> > >  };
-> > > @@ -75,6 +76,10 @@ static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
-> > >
-> > >      qemu_fdt_add_subnode(fdt, "/htif");
-> > >      qemu_fdt_setprop_string(fdt, "/htif", "compatible", "ucb,htif0");
-> > > +    if (!htif_uses_elf_symbols()) {
-> > > +        qemu_fdt_setprop_cells(fdt, "/htif", "reg",
-> > > +            0x0, memmap[SPIKE_HTIF].base, 0x0, memmap[SPIKE_HTIF].size);
-> > > +    }
-> > >
-> > >      qemu_fdt_add_subnode(fdt, "/soc");
-> > >      qemu_fdt_setprop(fdt, "/soc", "ranges", NULL, 0);
-> > > @@ -172,6 +177,7 @@ static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
-> > >      if (cmdline) {
-> > >          qemu_fdt_add_subnode(fdt, "/chosen");
-> > >          qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
-> > > +        qemu_fdt_setprop_string(fdt, "/chosen", "stdout-path", "/htif");
-> > >      }
-> > >  }
-> > >
-> > > @@ -241,10 +247,6 @@ static void spike_board_init(MachineState *machine)
-> > >      memory_region_add_subregion(system_memory, memmap[SPIKE_DRAM].base,
-> > >          machine->ram);
-> > >
-> > > -    /* create device tree */
-> > > -    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
-> > > -               riscv_is_32bit(&s->soc[0]));
-> > > -
-> > >      /* boot rom */
-> > >      memory_region_init_rom(mask_rom, NULL, "riscv.spike.mrom",
-> > >                             memmap[SPIKE_MROM].size, &error_fatal);
-> > > @@ -266,6 +268,7 @@ static void spike_board_init(MachineState *machine)
-> > >                                      htif_symbol_callback);
-> > >      }
-> > >
-> > > +    /* Load kernel */
-> > >      if (machine->kernel_filename) {
-> > >          kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc[0],
-> > >                                                           firmware_end_addr);
-> > > @@ -273,17 +276,6 @@ static void spike_board_init(MachineState *machine)
-> > >          kernel_entry = riscv_load_kernel(machine->kernel_filename,
-> > >                                           kernel_start_addr,
-> > >                                           htif_symbol_callback);
-> > > -
-> > > -        if (machine->initrd_filename) {
-> > > -            hwaddr start;
-> > > -            hwaddr end = riscv_load_initrd(machine->initrd_filename,
-> > > -                                           machine->ram_size, kernel_entry,
-> > > -                                           &start);
-> > > -            qemu_fdt_setprop_cell(s->fdt, "/chosen",
-> > > -                                  "linux,initrd-start", start);
-> > > -            qemu_fdt_setprop_cell(s->fdt, "/chosen", "linux,initrd-end",
-> > > -                                  end);
-> > > -        }
-> > >      } else {
-> > >         /*
-> > >          * If dynamic firmware is used, it doesn't know where is the next mode
-> > > @@ -292,6 +284,22 @@ static void spike_board_init(MachineState *machine)
-> > >          kernel_entry = 0;
-> > >      }
-> > >
-> > > +    /* Create device tree */
-> > > +    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
-> > > +               riscv_is_32bit(&s->soc[0]));
-> > > +
-> > > +    /* Load initrd */
-> > > +    if (machine->kernel_filename && machine->initrd_filename) {
-> > > +        hwaddr start;
-> > > +        hwaddr end = riscv_load_initrd(machine->initrd_filename,
-> > > +                                       machine->ram_size, kernel_entry,
-> > > +                                       &start);
-> > > +        qemu_fdt_setprop_cell(s->fdt, "/chosen",
-> > > +                              "linux,initrd-start", start);
-> > > +        qemu_fdt_setprop_cell(s->fdt, "/chosen", "linux,initrd-end",
-> > > +                              end);
-> > > +    }
-> > > +
-> > >      /* Compute the fdt load address in dram */
-> > >      fdt_load_addr = riscv_load_fdt(memmap[SPIKE_DRAM].base,
-> > >                                     machine->ram_size, s->fdt);
-> > > @@ -303,7 +311,8 @@ static void spike_board_init(MachineState *machine)
-> > >
-> > >      /* initialize HTIF using symbols found in load_kernel */
-> > >      htif_mm_init(system_memory, mask_rom,
-> > > -                 &s->soc[0].harts[0].env, serial_hd(0));
-> > > +                 &s->soc[0].harts[0].env, serial_hd(0),
-> > > +                 memmap[SPIKE_HTIF].base);
-> > >  }
-> > >
-> > >  static void spike_machine_instance_init(Object *obj)
-> > > diff --git a/include/hw/char/riscv_htif.h b/include/hw/char/riscv_htif.h
-> > > index fb9452cf51..f888ac1b30 100644
-> > > --- a/include/hw/char/riscv_htif.h
-> > > +++ b/include/hw/char/riscv_htif.h
-> > > @@ -52,8 +52,11 @@ extern const MemoryRegionOps htif_io_ops;
-> > >  void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
-> > >      uint64_t st_size);
-> > >
-> > > +/* Check if HTIF uses ELF symbols */
-> > > +bool htif_uses_elf_symbols(void);
-> > > +
-> > >  /* legacy pre qom */
-> > >  HTIFState *htif_mm_init(MemoryRegion *address_space, MemoryRegion *main_mem,
-> > > -    CPURISCVState *env, Chardev *chr);
-> > > +    CPURISCVState *env, Chardev *chr, uint64_t nonelf_base);
-> > >
-> > >  #endif
-> > > diff --git a/include/hw/riscv/spike.h b/include/hw/riscv/spike.h
-> > > index cdd1a13011..73d69234de 100644
-> > > --- a/include/hw/riscv/spike.h
-> > > +++ b/include/hw/riscv/spike.h
-> > > @@ -43,6 +43,7 @@ struct SpikeState {
-> > >
-> > >  enum {
-> > >      SPIKE_MROM,
-> > > +    SPIKE_HTIF,
-> > >      SPIKE_CLINT,
-> > >      SPIKE_DRAM
-> > >  };
-> > > --
-> > > 2.25.1
-> > >
-> > >
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
+=2E. although I'm not sure "finish" is totally accurate since env->pb is
+still there.
+
+> ---
+>  target/ppc/helper.h      |  1 -
+>  target/ppc/cpu-models.c  |  1 -
+>  target/ppc/machine.c     | 23 -----------------------
+>  target/ppc/misc_helper.c |  9 ---------
+>  target/ppc/translate.c   | 16 +---------------
+>  5 files changed, 1 insertion(+), 49 deletions(-)
+>=20
+> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+> index f9c72dcd504d..d318837ea5cc 100644
+> --- a/target/ppc/helper.h
+> +++ b/target/ppc/helper.h
+> @@ -703,7 +703,6 @@ DEF_HELPER_FLAGS_2(store_hdecr, TCG_CALL_NO_RWG, void=
+, env, tl)
+>  DEF_HELPER_FLAGS_2(store_vtb, TCG_CALL_NO_RWG, void, env, tl)
+>  DEF_HELPER_FLAGS_2(store_tbu40, TCG_CALL_NO_RWG, void, env, tl)
+>  DEF_HELPER_2(store_hid0_601, void, env, tl)
+> -DEF_HELPER_3(store_403_pbr, void, env, i32, tl)
+>  DEF_HELPER_FLAGS_1(load_40x_pit, TCG_CALL_NO_RWG, tl, env)
+>  DEF_HELPER_FLAGS_2(store_40x_pit, TCG_CALL_NO_RWG, void, env, tl)
+>  DEF_HELPER_FLAGS_2(store_40x_tcr, TCG_CALL_NO_RWG, void, env, tl)
+> diff --git a/target/ppc/cpu-models.c b/target/ppc/cpu-models.c
+> index c9fcb6119f40..96fec9c2e501 100644
+> --- a/target/ppc/cpu-models.c
+> +++ b/target/ppc/cpu-models.c
+> @@ -750,7 +750,6 @@
+>  /* PowerPC CPU aliases                                                  =
+   */
+> =20
+>  PowerPCCPUAlias ppc_cpu_aliases[] =3D {
+> -    { "403", "403gc" },
+>      { "405", "405d4" },
+>      { "405cr", "405crc" },
+>      { "405gp", "405gpd" },
+> diff --git a/target/ppc/machine.c b/target/ppc/machine.c
+> index 756d8de5d8dd..ea0a0d4e4c7a 100644
+> --- a/target/ppc/machine.c
+> +++ b/target/ppc/machine.c
+> @@ -709,25 +709,6 @@ static bool tlbemb_needed(void *opaque)
+>      return env->nb_tlb && (env->tlb_type =3D=3D TLB_EMB);
+>  }
+> =20
+> -static bool pbr403_needed(void *opaque)
+> -{
+> -    PowerPCCPU *cpu =3D opaque;
+> -    uint32_t pvr =3D cpu->env.spr[SPR_PVR];
+> -
+> -    return (pvr & 0xffff0000) =3D=3D 0x00200000;
+> -}
+> -
+> -static const VMStateDescription vmstate_pbr403 =3D {
+> -    .name =3D "cpu/pbr403",
+> -    .version_id =3D 1,
+> -    .minimum_version_id =3D 1,
+> -    .needed =3D pbr403_needed,
+> -    .fields =3D (VMStateField[]) {
+> -        VMSTATE_UINTTL_ARRAY(env.pb, PowerPCCPU, 4),
+> -        VMSTATE_END_OF_LIST()
+> -    },
+> -};
+> -
+>  static const VMStateDescription vmstate_tlbemb =3D {
+>      .name =3D "cpu/tlb6xx",
+>      .version_id =3D 1,
+> @@ -742,10 +723,6 @@ static const VMStateDescription vmstate_tlbemb =3D {
+>          /* 403 protection registers */
+>          VMSTATE_END_OF_LIST()
+>      },
+> -    .subsections =3D (const VMStateDescription*[]) {
+> -        &vmstate_pbr403,
+> -        NULL
+> -    }
+>  };
+> =20
+>  static const VMStateDescription vmstate_tlbmas_entry =3D {
+> diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
+> index c33f5f39b90b..1bcefa7c843c 100644
+> --- a/target/ppc/misc_helper.c
+> +++ b/target/ppc/misc_helper.c
+> @@ -226,15 +226,6 @@ void helper_store_hid0_601(CPUPPCState *env, target_=
+ulong val)
+>      }
+>  }
+> =20
+> -void helper_store_403_pbr(CPUPPCState *env, uint32_t num, target_ulong v=
+alue)
+> -{
+> -    if (likely(env->pb[num] !=3D value)) {
+> -        env->pb[num] =3D value;
+> -        /* Should be optimized */
+> -        tlb_flush(env_cpu(env));
+> -    }
+> -}
+> -
+>  void helper_store_40x_dbcr0(CPUPPCState *env, target_ulong val)
+>  {
+>      /* Bits 26 & 27 affect single-stepping. */
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index abbc3a5bb9f0..059956bc59b3 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -911,22 +911,8 @@ void spr_write_booke_tsr(DisasContext *ctx, int sprn=
+, int gprn)
+>  }
+>  #endif
+> =20
+> -/* PowerPC 403 specific registers */
+> -/* PBL1 / PBU1 / PBL2 / PBU2 */
+> +/* PIR */
+>  #if !defined(CONFIG_USER_ONLY)
+> -void spr_read_403_pbr(DisasContext *ctx, int gprn, int sprn)
+> -{
+> -    tcg_gen_ld_tl(cpu_gpr[gprn], cpu_env,
+> -                  offsetof(CPUPPCState, pb[sprn - SPR_403_PBL1]));
+> -}
+> -
+> -void spr_write_403_pbr(DisasContext *ctx, int sprn, int gprn)
+> -{
+> -    TCGv_i32 t0 =3D tcg_const_i32(sprn - SPR_403_PBL1);
+> -    gen_helper_store_403_pbr(cpu_env, t0, cpu_gpr[gprn]);
+> -    tcg_temp_free_i32(t0);
+> -}
+> -
+>  void spr_write_pir(DisasContext *ctx, int sprn, int gprn)
+>  {
+>      TCGv t0 =3D tcg_temp_new();
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--AZgFY3PsVp5C/QNm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmHmDUsACgkQgypY4gEw
+YSJB2g//XdLknjKP0sf5RpjK7RRVkcN/ylB8iSG9T2GabINXvzX1s8q36TpVMFS1
+WZnqfqh+YYZ1Cd16cLMkW/X56KrQVnfo7D8kLo5/R4Vgdv58+Db/1M0GGHvMf4jR
+tAT9n09xLsACvbGACk/9ix3Zt4tSlggvLPGM3b8iKtrZupWMh2ondEF89iaxQlMz
+Up+K9ecJ/CP2mXA7x9QdQJKHsslk5LXFsPGud6RfXoLET5t9rRbvpKuC1ua6XgSR
+OYRMXm/vaHX6MZZlmylW42XgBDom+2tBItxL8WLh+bxDs34uWXsMhyCthmhhzKHP
+/wb94HbOJXSoFwhXDx3JokGHySK4zFMEfET9wHKJJqWwc8/6mMYNwVEwNspMpsiI
+jNEvnrVua0QsAa328CTMcc49uWKWkFNhU3ZDCtTr130px2e0WH+efMyiqVhOZUEH
+oTwlXElWrDLp5ETisfxTNiLzsfbZpSu94/LQZeWxSodqalxzp/rIdfdLF8b3xoaH
+CbZpRhfN2kXgezpOpp4XfPRywxgl8bI5bkaUfmkTUR5V9IgStoKXKUG1uVXEI6VD
+QnlNY/1Lgtd4qfHPhiD/nQtHAYLw1I4yp/qm8NEeO9uPytBLF06l1ZjJ0Pikhmku
+s5H2HazDsoXSqreGZPAmWiJPggY1O99by+TiXtmNovjXVxtIomo=
+=eRDt
+-----END PGP SIGNATURE-----
+
+--AZgFY3PsVp5C/QNm--
 
