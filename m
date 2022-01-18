@@ -2,84 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 977E1492FBA
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 21:53:39 +0100 (CET)
-Received: from localhost ([::1]:49404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90C9149301F
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 22:48:34 +0100 (CET)
+Received: from localhost ([::1]:44664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9vU2-00064j-CM
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 15:53:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47356)
+	id 1n9wLB-0000eU-7O
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 16:48:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1n9vMS-00035t-93
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 15:45:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51630)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1n9wJN-0008Ib-B3
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 16:46:41 -0500
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:50212)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1n9vMP-0004Nv-He
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 15:45:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642538728;
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1n9wJK-0005kj-TR
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 16:46:41 -0500
+Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 2368DC60912;
+ Tue, 18 Jan 2022 22:46:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
+ t=1642542393;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=qAcmyJ7dDHapcGQZln70x9dUK0Z7lwL0SZ2yMQYEPAQ=;
- b=ZsQPgoEAR7DCe6mQb+CVkGISeirGDyK/KFvnV3QSodq6klUUSkOcVEZ37/AkG1tEpZRQxB
- qZYAGKIDX4EsA9hlT1c6tmBY765/V0rvFrhmyjTyMOzS1ZmB59O/27T74rcjUQjIRcG8jF
- 3xI7RrHKf01B/n/NX8+Yxbb1iPmB1yo=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-657-SZsHrLrSN--dGthjyUf7gA-1; Tue, 18 Jan 2022 15:45:22 -0500
-X-MC-Unique: SZsHrLrSN--dGthjyUf7gA-1
-Received: by mail-lf1-f69.google.com with SMTP id
- c7-20020ac24147000000b0042ac92336d1so62868lfi.2
- for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 12:45:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qAcmyJ7dDHapcGQZln70x9dUK0Z7lwL0SZ2yMQYEPAQ=;
- b=TOAhVlstf3JAOcorAAr2IeUNAxrr30hCbbjS3aUMYejdzby1ACvz3MgKw66Yds74I8
- bKEnX3fMJq/7wdPeisFUipMW6cfBKk5eQnXsnWZajzel89xIt2y+UIPoBbUEYwr5zCrA
- bNByG4O74TE3iaghPxXCQ76XfkWBityECFVd7Ad5Dy1HxklInCXrakMhB4iq3OimXd/Q
- 5FMkW9wA5OQQMCehHYdAjOVBkQvrRzTClHL6by4IzdsoJ7Sv9/ILYyAVs6vmJ1MEQQcQ
- cQEFc0fnjyMDO0BsvVyhWUMw5TtF8e5m+jgF4XvDMhQ2FErhVjHtPRL7Mmdi0H6Arsq7
- JQSA==
-X-Gm-Message-State: AOAM530ZSAa5I+V5V4wiqe7KLFH0GusQ45XIK107Kks2zvlWgnsB/Sm6
- RZJebibLUO4yFwovnKOSCdUa8lNDj/gxS83gbvD6dz0cSa/XxybpgfxPyui54KDd3gXcN8UENVj
- /u2OtvOd//0AiT9jDYXblcAZzGfiOesA=
-X-Received: by 2002:a19:ad41:: with SMTP id s1mr23523735lfd.169.1642538720692; 
- Tue, 18 Jan 2022 12:45:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJztYwokdzmqKzTd0DmPkS6dl4TR7PUcSXeG7pP95JcsDgTH4N0GXEAICfzc01qCdMnqRqPLw/np0S6x44Xk8Q0=
-X-Received: by 2002:a19:ad41:: with SMTP id s1mr23523714lfd.169.1642538720435; 
- Tue, 18 Jan 2022 12:45:20 -0800 (PST)
+ bh=nF5WeQX4EY/85aIO1rd0Gl3Mz9oBF/u164LrxPvEs5w=;
+ b=djZ8xwGp/SPsTg+RxwhB0TySMhk6Rx0On5gSu+gpWJMuHDBZi7VdyQfKTE/6S2Z5f/Np07
+ xREcJOmgeVUs+YASPBmCUhHjHd2GbYZU2VpORwrjI2MTke2rDfVfO5BSNWs/RtU6Y3kzu9
+ HReJVv7KASRz9am6btxjIeGwJSPgOPZO/SFPX3lRNBrhgvBjejEk8jF28WBcIDadJMYZmG
+ 0qu3OUKrhZSpiKj0kDDUrhyfenVAEbV9ojVRxJ61MF9ZXO1twhz82mtRqiq5JkwOaCe6z0
+ GFrAEDQiJkl38q9fwOw7obWahcfOXI/+522yevbMVqrPasZogl6beLHTNgveHQ==
+Date: Tue, 18 Jan 2022 22:46:32 +0100
+From: Luc Michel <luc@lmichel.fr>
+To: Francisco Iglesias <francisco.iglesias@xilinx.com>
+Subject: Re: [PATCH v6 07/12] hw/ssi: Add a model of Xilinx Versal's OSPI
+ flash memory controller
+Message-ID: <20220118214632.hhojvvcrj7ovrip7@sekoia-pc.home.lmichel.fr>
+References: <20220114152841.1740-1-francisco.iglesias@xilinx.com>
+ <20220114152841.1740-8-francisco.iglesias@xilinx.com>
 MIME-Version: 1.0
-References: <20220106221341.8779-1-leobras@redhat.com>
- <20220106221341.8779-2-leobras@redhat.com>
- <Yd/GhH1fExRgd4yA@xz-m1.local>
-In-Reply-To: <Yd/GhH1fExRgd4yA@xz-m1.local>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Tue, 18 Jan 2022 17:45:09 -0300
-Message-ID: <CAJ6HWG6_JEyH0dohWa=p9vePGb3f1jRaT_z6viDTQobXGW9oiA@mail.gmail.com>
-Subject: Re: [PATCH v7 1/5] QIOChannel: Add flags on io_writev and introduce
- io_flush callback
-To: Peter Xu <peterx@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lsoaresp@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220114152841.1740-8-francisco.iglesias@xilinx.com>
+Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
+ helo=pharaoh.lmichel.fr
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,83 +63,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org,
+ frasse.iglesias@gmail.com, alistair@alistair23.me, qemu-devel@nongnu.org,
+ alistair23@gmail.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Peter,
+Hi Francisco,
 
-On Thu, Jan 13, 2022 at 3:28 AM Peter Xu <peterx@redhat.com> wrote:
->
-> On Thu, Jan 06, 2022 at 07:13:38PM -0300, Leonardo Bras wrote:
-> > diff --git a/io/channel.c b/io/channel.c
-> > index e8b019dc36..904855e16e 100644
-> > --- a/io/channel.c
-> > +++ b/io/channel.c
-> > @@ -67,12 +67,13 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
-> >  }
-> >
-> >
-> > -ssize_t qio_channel_writev_full(QIOChannel *ioc,
-> > -                                const struct iovec *iov,
-> > -                                size_t niov,
-> > -                                int *fds,
-> > -                                size_t nfds,
-> > -                                Error **errp)
-> > +ssize_t qio_channel_writev_full_flags(QIOChannel *ioc,
-> > +                                      const struct iovec *iov,
-> > +                                      size_t niov,
-> > +                                      int *fds,
-> > +                                      size_t nfds,
-> > +                                      int flags,
-> > +                                      Error **errp)
-> >  {
-> >      QIOChannelClass *klass = QIO_CHANNEL_GET_CLASS(ioc);
-> >
-> > @@ -83,7 +84,7 @@ ssize_t qio_channel_writev_full(QIOChannel *ioc,
-> >          return -1;
-> >      }
->
-> Should we better also check QIO_CHANNEL_FEATURE_WRITE_ZERO_COPY here when
-> QIO_CHANNEL_WRITE_FLAG_ZERO_COPY is set?  Just like what we do with:
+Impressive beast :-) Nicely done. Maybe I would have split it in a
+couple of commits to ease review. Also, you can use 
 
-Yes, that's correct.
-I will also test for fds + zerocopy_flag , which should also fail here.
+[diff]
+    orderFile = scripts/git.orderfile
 
->
->     if ((fds || nfds) &&
->         !qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_FD_PASS)) {
->         error_setg_errno(errp, EINVAL,
->                          "Channel does not support file descriptor passing");
->         return -1;
->     }
->
-> I still think it's better to have the caller be crystal clear when to use
-> zero_copy feature because it has implication on buffer lifetime.
+as a local config in your QEMU git so that files are placed in a
+sensible order (.h files will come first), which ease a bit the
+reviewing process.
 
-I don't disagree with that suggestion.
+See my remarks below. My biggest concern is about the tx_sram fifo.
+The rest are small suggestions here and there.
 
-But the buffer lifetime limitation is something on the socket
-implementation, right?
-There could be some synchronous zerocopy implementation that does not
-require flush, and thus
-don't require the buffer to be treated any special. Or am I missing something?
+On 15:28 Fri 14 Jan     , Francisco Iglesias wrote:
+[snip]
+> +
+> +static int ospi_stig_membank_rd_bytes(XlnxVersalOspi *s)
+> +{
+> +    int rd_data_fld = ARRAY_FIELD_EX32(s->regs, FLASH_COMMAND_CTRL_MEM_REG,
+> +                                       NB_OF_STIG_READ_BYTES_FLD);
+> +    int sizes[6] = { 16, 32, 64, 128, 256, 512 };
 
->
-> I might have commented similar things before, but I have missed a few versions
-> so I could also have missed some previous discussions..
->
+static const int sizes[6]
 
-That's all great suggestions Peter!  Thanks for that!
+(or return (rd_data_fld < 6) ? (1 << (4 + rd_data_fld)) : 0; )
 
-Some of the previous suggestions may have been missed because a lot of
-code moved.
-Sorry about that.
+> +    return (rd_data_fld < 6) ? sizes[rd_data_fld] : 0;
+> +}
+> +
+[snip]
+> +
+> +static void ospi_ahb_decoder_enable_cs(XlnxVersalOspi *s, hwaddr addr)
+> +{
+> +    int cs = ospi_ahb_decoder_cs(s, addr);
+> +
+> +    if (cs >= 0) {
+> +        for (int i = 0; i < s->num_cs; i++) {
+> +            if (cs == i) {
+> +                qemu_set_irq(s->cs_lines[i], 0);
+> +            } else {
+> +                qemu_set_irq(s->cs_lines[i], 1);
+> +            }
 
-Best regards,
-Leo
+Maybe `qemu_set_irq(s->cs_lines[i], cs != i);` instead of the if/else?
 
+> +        }
+> +    }
+> +}
+> +
+[snip]
+> +
+> +static void ospi_stig_fill_membank(XlnxVersalOspi *s)
+> +{
+> +    int num_rd_bytes = ospi_stig_membank_rd_bytes(s);
+> +    int idx = num_rd_bytes - 8; /* first of last 8 */
+> +    int i;
+> +
+> +    for (i = 0; i < num_rd_bytes; i++) {
+> +        s->stig_membank[i] = fifo8_pop(&s->rx_fifo);
+> +    }
+> +
+
+Even though ospi_stig_membank_rd_bytes is safe, I would add a
+
+g_assert((idx + 4) < ARRAY_SIZE(s->stig_membank));
+
+here, to be future proof :-)
+
+> +    /* Fill in lower upper regs */
+> +    s->regs[R_FLASH_RD_DATA_LOWER_REG] = ldl_le_p(&s->stig_membank[idx]);
+> +    s->regs[R_FLASH_RD_DATA_UPPER_REG] = ldl_le_p(&s->stig_membank[idx + 4]);
+> +}
+> +
+[snip]
+> +
+> +static void ospi_tx_sram_write(XlnxVersalOspi *s, uint64_t value,
+> +                               unsigned int size)
+> +{
+> +    int i;
+> +    for (i = 0; i < size; i++) {
+> +        fifo8_push(&s->tx_sram, value >> 8 * i);
+
+By tracing the callers of this function, it seems that `size' is the
+size of an MMIO access. But you don't seem to check if the tx_sram fifo
+can accept `size' elements (the fifo8_push doc stats it is undefined
+behaviour to push on a full fifo).
+
+> +    }
+> +}
+> +
+> +
+> +static void ospi_indac_write(void *opaque, uint64_t value, unsigned int size)
+> +{
+> +    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(opaque);
+> +
+> +    if (s->ind_write_disabled) {
+> +        g_assert_not_reached();
+> +    }
+
+g_assert(!s->ind_write_disabled);
+
+> +
+> +    if (!ospi_ind_op_completed(s->wr_ind_op)) {
+> +        ospi_tx_sram_write(s, value, size);
+> +        ospi_do_indirect_write(s);
+> +    } else {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +            "OSPI wr into indac area while no ongoing indac wr\n");
+> +    }
+> +}
+> +
+[snip]
+> diff --git a/include/hw/ssi/xlnx-versal-ospi.h b/include/hw/ssi/xlnx-versal-ospi.h
+> new file mode 100644
+> index 0000000000..c454ff3016
+> --- /dev/null
+> +++ b/include/hw/ssi/xlnx-versal-ospi.h
+> @@ -0,0 +1,111 @@
+> +/*
+> + * Header file for the Xilinx Versal's OSPI controller
+> + *
+> + * Copyright (C) 2021 Xilinx Inc
+> + * Written by Francisco Iglesias <francisco.iglesias@xilinx.com>
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a copy
+> + * of this software and associated documentation files (the "Software"), to deal
+> + * in the Software without restriction, including without limitation the rights
+> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> + * copies of the Software, and to permit persons to whom the Software is
+> + * furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+> + * THE SOFTWARE.
+> + */
+> +
+> +/*
+> + * This is a model of Xilinx Versal's Octal SPI flash memory controller
+> + * documented in Versal's Technical Reference manual [1] and the Versal ACAP
+> + * Register reference [2].
+> + *
+> + * References:
+> + *
+> + * [1] Versal ACAP Technical Reference Manual,
+> + *     https://www.xilinx.com/support/documentation/architecture-manuals/am011-versal-acap-trm.pdf
+> + *
+> + * [2] Versal ACAP Register Reference,
+> + *     https://www.xilinx.com/html_docs/registers/am012/am012-versal-register-reference.html#mod___ospi.html
+> + *
+> + *
+> + * QEMU interface:
+> + * + sysbus MMIO region 0: MemoryRegion for the device's registers
+> + * + sysbus MMIO region 1: MemoryRegion for flash memory linear address space
+> + *   (data transfer).
+> + * + sysbus IRQ 0: Device interrupt.
+> + * + Named GPIO input "ospi-mux-sel": 0: enables indirect access mode
+> + *   and 1: enables direct access mode.
+> + * + Property "dac-with-indac": Allow both direct accesses and indirect
+> + *   accesses simultaneously.
+> + * + Property "indac-write-disabled": Disable indirect access writes.
+> + */
+> +
+> +#ifndef XILINX_VERSAL_OSPI_H
+> +#define XILINX_VERSAL_OSPI_H
+> +
+> +#include "hw/register.h"
+> +#include "hw/ssi/ssi.h"
+> +#include "qemu/fifo32.h"
+
+fifo8.h ?
+
+
+Thanks.
+
+-- 
+Luc
 
