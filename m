@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4969492BA8
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 17:54:18 +0100 (CET)
-Received: from localhost ([::1]:56394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8149492BB8
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 17:57:32 +0100 (CET)
+Received: from localhost ([::1]:37432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9rkP-0007H4-UC
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 11:54:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38652)
+	id 1n9rnX-0005WY-TM
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 11:57:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1n9rTq-0003sv-T7
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:37:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46839)
+ id 1n9rUr-0006Ig-J4
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:38:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57082)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1n9rTp-0005vQ-Ca
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:37:10 -0500
+ id 1n9rUo-00061L-OG
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:38:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642523827;
+ s=mimecast20190719; t=1642523883;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZQgl8oN+/Auu1+Z3PypozVm42DQuUmaIhnOqXTYhhQI=;
- b=WJJhfNHGomm1ufxkBQlTDjhvznzBi03pTkZvNRXnp97aiiX/f87OyPOxi9LHWRfGJvWgFS
- FCPq/oSugnpcBNZ0yQigwYroUOXMZrwkgw9Pg7R5kUWHfa9BvmiUSF4giHG/CkmJ6xuzPo
- HYLm5uZFf9fDuH4Tt8nbLQcEBQArNHo=
+ bh=uGKVVxmZwVjsknZwXqGVwij7wFLBfaxRdt9+qmwKoJU=;
+ b=JerFrF9FCrIoV27JZFCI5F1U53oh+1tIqy1aL+BnQT8/60VeJepVgQ2TNVhY4TAn69c6Je
+ S0dfTRvnlAeGBqpBqOZacP4n+Xy0Z5y5EYHIfnS+uY3ce6o7T2er/SHV4wrCimxvN2JLlV
+ xU6NfM9TGOQ5xtlpOdN1UGiTVUE5oYU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-511-2iXkCnDjNzaZxRoa82yVkg-1; Tue, 18 Jan 2022 11:36:53 -0500
-X-MC-Unique: 2iXkCnDjNzaZxRoa82yVkg-1
+ us-mta-467-GrrHE2WKNq6yR45vEVzsKA-1; Tue, 18 Jan 2022 11:37:55 -0500
+X-MC-Unique: GrrHE2WKNq6yR45vEVzsKA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7408886A8D3;
- Tue, 18 Jan 2022 16:28:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13FCA12CD92;
+ Tue, 18 Jan 2022 16:28:21 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7FB54348F8;
- Tue, 18 Jan 2022 16:28:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4B63E348F8;
+ Tue, 18 Jan 2022 16:28:20 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 01/12] introduce BDRV_POLL_WHILE_UNLOCKED
-Date: Tue, 18 Jan 2022 11:27:27 -0500
-Message-Id: <20220118162738.1366281-2-eesposit@redhat.com>
+Subject: [PATCH 03/12] block.c: bdrv_replace_child_noperm: first remove the
+ child, and then call ->detach()
+Date: Tue, 18 Jan 2022 11:27:29 -0500
+Message-Id: <20220118162738.1366281-4-eesposit@redhat.com>
 In-Reply-To: <20220118162738.1366281-1-eesposit@redhat.com>
 References: <20220118162738.1366281-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -88,29 +89,43 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Same as BDRV_POLL_WHILE, but uses AIO_WAIT_WHILE_UNLOCKED.
+Doing the opposite can make ->detach() (more precisely
+bdrv_unapply_subtree_drain() in bdrv_child_cb_detach) undo the subtree_drain
+just performed to protect the removal of the child from the graph,
+thus making the fully-enabled assert_bdrv_graph_writable fail.
+
+Note that assert_bdrv_graph_writable is not yet fully enabled.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- include/block/block-global-state.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ block.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/include/block/block-global-state.h b/include/block/block-global-state.h
-index 419fe8427f..7ad9496f56 100644
---- a/include/block/block-global-state.h
-+++ b/include/block/block-global-state.h
-@@ -158,6 +158,11 @@ void bdrv_drain_all(void);
-     AIO_WAIT_WHILE(bdrv_get_aio_context(bs_),              \
-                    cond); })
+diff --git a/block.c b/block.c
+index 08fde585f4..29de2b62b5 100644
+--- a/block.c
++++ b/block.c
+@@ -2861,14 +2861,16 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
+     }
  
-+#define BDRV_POLL_WHILE_UNLOCKED(bs, cond) ({              \
-+    BlockDriverState *bs_ = (bs);                          \
-+    AIO_WAIT_WHILE_UNLOCKED(bdrv_get_aio_context(bs_),     \
-+                            cond); })
-+
- int bdrv_has_zero_init_1(BlockDriverState *bs);
- int bdrv_has_zero_init(BlockDriverState *bs);
- int bdrv_can_set_read_only(BlockDriverState *bs, bool read_only,
+     if (old_bs) {
+-        /* Detach first so that the recursive drain sections coming from @child
++        assert_bdrv_graph_writable(old_bs);
++        QLIST_REMOVE(child, next_parent);
++        /*
++         * Detach first so that the recursive drain sections coming from @child
+          * are already gone and we only end the drain sections that came from
+-         * elsewhere. */
++         * elsewhere.
++         */
+         if (child->klass->detach) {
+             child->klass->detach(child);
+         }
+-        assert_bdrv_graph_writable(old_bs);
+-        QLIST_REMOVE(child, next_parent);
+     }
+ 
+     child->bs = new_bs;
 -- 
 2.31.1
 
