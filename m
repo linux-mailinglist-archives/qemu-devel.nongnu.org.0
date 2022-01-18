@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94AD9492BD3
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 18:02:57 +0100 (CET)
-Received: from localhost ([::1]:45354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0BE0492BE3
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 18:07:32 +0100 (CET)
+Received: from localhost ([::1]:52868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9rsm-0002P7-BI
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 12:02:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39168)
+	id 1n9rxD-0007ul-KS
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 12:07:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1n9rUt-0006PO-Jy
+ id 1n9rUt-0006Pd-MU
  for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:38:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54607)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40965)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1n9rUo-00061O-Q1
+ id 1n9rUo-000614-Qd
  for qemu-devel@nongnu.org; Tue, 18 Jan 2022 11:38:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642523884;
+ s=mimecast20190719; t=1642523882;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JUit603A3uNQkUhU7v54C81byKLM5MT2P7CEzhQOJII=;
- b=IQuH4YsaiFFWXpHw3EZr7bD9azmr/DC0vmt99YUSWL47FBA9bsogfk2w3/h6DaFK4jPycm
- 4eimRDeQzddj5rLgDmLDiveyPXJz3HTtJ01PoxO9BBgPsmtIOR8OtGY9PMs6Trm8eK+If8
- HokmrxdJGZn8GsKzHxk3VHxK/sI6PbI=
+ bh=57igYvlsN0D5JR36F1J5QcRbp3wZctA3qP6mPCCwrn8=;
+ b=i0jd7eR3Dak2p/73LH3Mh5QFYh34G7+uvLpKYJrmjlfsIsAPsdRa7q3zYoGb99DMDzs76F
+ sdnh64D08cBbusRf4kLfBYIKNhMXqnPngYb3GLbjfhA8fvLqBvj6QTdU9Axq98KkYJ3WW2
+ r1ZOSl6PumXwm7wpr0Ov6Q9kGgpj9Jk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-176-eRtUkNbtMjSOIhko0xO9RA-1; Tue, 18 Jan 2022 11:37:52 -0500
-X-MC-Unique: eRtUkNbtMjSOIhko0xO9RA-1
+ us-mta-60-g3buZYuNP-i67QEuNKxS5A-1; Tue, 18 Jan 2022 11:37:59 -0500
+X-MC-Unique: g3buZYuNP-i67QEuNKxS5A-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7451B134E91;
- Tue, 18 Jan 2022 16:28:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5426214453B;
+ Tue, 18 Jan 2022 16:28:30 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AC572348F8;
- Tue, 18 Jan 2022 16:28:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8D237348F8;
+ Tue, 18 Jan 2022 16:28:29 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 08/12] reopen: add a transaction to drain_end nodes picked in
- bdrv_reopen_parse_file_or_backing
-Date: Tue, 18 Jan 2022 11:27:34 -0500
-Message-Id: <20220118162738.1366281-9-eesposit@redhat.com>
+Subject: [PATCH 12/12] block.c: additional assert qemu in main tread
+Date: Tue, 18 Jan 2022 11:27:38 -0500
+Message-Id: <20220118162738.1366281-13-eesposit@redhat.com>
 In-Reply-To: <20220118162738.1366281-1-eesposit@redhat.com>
 References: <20220118162738.1366281-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -89,108 +88,48 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Depending on the options given to reopen_state,
-bdrv_reopen_parse_file_or_backing could pick another bs
-that could be from another graph, and thus not protected
-by subtree_drained_begin called by the callers of this
-function.
-
-We can't simply drain-undrain here, because of transactions.
-To simplify the logic, transactions always assume that they
-are run under drain, so the various subtree_drain introduced
-so far always take care of covering tran_commit().
-
-And since we cannot directly do it, as the transaction is
-created/committed higher above, we can just add a new
-transaction to the list that just executes subtree_drained_end
-to match the drained_begin done in this function.
+Add some missing assertion in static functions of block.c
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block.c | 25 ++++++++++++++++++++-----
- 1 file changed, 20 insertions(+), 5 deletions(-)
+ block.c               | 2 ++
+ block/block-backend.c | 3 +++
+ 2 files changed, 5 insertions(+)
 
 diff --git a/block.c b/block.c
-index fb5bc3077a..fcc44a49a0 100644
+index 6196c95aae..7961f5a984 100644
 --- a/block.c
 +++ b/block.c
-@@ -4522,6 +4522,10 @@ int bdrv_reopen_set_read_only(BlockDriverState *bs, bool read_only,
-     return bdrv_reopen(bs, opts, true, errp);
- }
+@@ -5227,6 +5227,7 @@ static int bdrv_replace_node_noperm(BlockDriverState *from,
+     BdrvChild *c, *next;
  
-+TransactionActionDrv bdrv_drv_subtree_end = {
-+    .clean = (void (*)(void *)) bdrv_subtree_drained_end_unlocked,
-+};
+     assert(to != NULL);
++    assert(qemu_in_main_thread());
+ 
+     QLIST_FOREACH_SAFE(c, &from->parents, next_parent, next) {
+         assert(c->bs == from);
+@@ -6767,6 +6768,7 @@ void bdrv_invalidate_cache_all(Error **errp)
+ static bool bdrv_has_bds_parent(BlockDriverState *bs, bool only_active)
+ {
+     BdrvChild *parent;
++    assert(qemu_in_main_thread());
+ 
+     QLIST_FOREACH(parent, &bs->parents, next_parent) {
+         if (parent->klass->parent_is_bds) {
+diff --git a/block/block-backend.c b/block/block-backend.c
+index 9229ff7ca7..048ba83f37 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -754,6 +754,9 @@ BlockDriverState *blk_bs(BlockBackend *blk)
+ static BlockBackend *bdrv_first_blk(BlockDriverState *bs)
+ {
+     BdrvChild *child;
 +
- /*
-  * Take a BDRVReopenState and check if the value of 'backing' in the
-  * reopen_state->options QDict is valid or not.
-@@ -4550,6 +4554,7 @@ static int bdrv_reopen_parse_file_or_backing(BDRVReopenState *reopen_state,
-     const char *child_name = is_backing ? "backing" : "file";
-     QObject *value;
-     const char *str;
-+    int ret = 0;
- 
-     assert(qemu_in_main_thread());
- 
-@@ -4573,6 +4578,8 @@ static int bdrv_reopen_parse_file_or_backing(BDRVReopenState *reopen_state,
-                        "cycle", str, child_name, bs->node_name);
-             return -EINVAL;
-         }
-+        /* This will be paired with a drained_end in tran_commit */
-+        bdrv_subtree_drained_begin_unlocked(new_child_bs);
-         break;
-     default:
-         /*
-@@ -4583,18 +4590,19 @@ static int bdrv_reopen_parse_file_or_backing(BDRVReopenState *reopen_state,
-     }
- 
-     if (old_child_bs == new_child_bs) {
--        return 0;
-+        goto end;
-     }
- 
-     if (old_child_bs) {
-         if (bdrv_skip_implicit_filters(old_child_bs) == new_child_bs) {
--            return 0;
-+            goto end;
-         }
- 
-         if (old_child_bs->implicit) {
-             error_setg(errp, "Cannot replace implicit %s child of %s",
-                        child_name, bs->node_name);
--            return -EPERM;
-+            ret = -EPERM;
-+            goto end;
-         }
-     }
- 
-@@ -4605,7 +4613,8 @@ static int bdrv_reopen_parse_file_or_backing(BDRVReopenState *reopen_state,
-          */
-         error_setg(errp, "'%s' is a %s filter node that does not support a "
-                    "%s child", bs->node_name, bs->drv->format_name, child_name);
--        return -EINVAL;
-+        ret = -EINVAL;
-+        goto end;
-     }
- 
-     if (is_backing) {
-@@ -4614,8 +4623,14 @@ static int bdrv_reopen_parse_file_or_backing(BDRVReopenState *reopen_state,
-         reopen_state->old_file_bs = old_child_bs;
-     }
- 
--    return bdrv_set_file_or_backing_noperm(bs, new_child_bs, is_backing,
-+    ret =  bdrv_set_file_or_backing_noperm(bs, new_child_bs, is_backing,
-                                            tran, errp);
++    assert(qemu_in_main_thread());
 +
-+end:
-+    if (new_child_bs) {
-+        tran_add(tran, &bdrv_drv_subtree_end, new_child_bs);
-+    }
-+    return ret;
- }
- 
- /*
+     QLIST_FOREACH(child, &bs->parents, next_parent) {
+         if (child->klass == &child_root) {
+             return child->opaque;
 -- 
 2.31.1
 
