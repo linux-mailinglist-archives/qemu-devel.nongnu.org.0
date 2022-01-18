@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31A1D492CF5
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 19:06:26 +0100 (CET)
-Received: from localhost ([::1]:60712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33982492D02
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 19:12:49 +0100 (CET)
+Received: from localhost ([::1]:42370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9ssC-00069o-TT
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 13:06:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37804)
+	id 1n9syO-0004tw-BD
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 13:12:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1n9sp7-0004Qa-Dd
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 13:03:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47969)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n9sqD-0005iW-6V
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 13:04:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1n9sp4-0004Nj-V5
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 13:03:12 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n9sqB-0004dM-54
+ for qemu-devel@nongnu.org; Tue, 18 Jan 2022 13:04:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642528990;
+ s=mimecast20190719; t=1642529058;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/W+jvV1R42VRScf0GKQ7ACWQqqbDZVb7VDb8WEwEsHw=;
- b=eeK6ZKZusm86Fxy4n5KYyHbedfK2CjTnE9/mKOwVFGCg4yucRBofdx8IGhtvDnijo9wiqh
- GoY4vp0tAa21t06BKpNLOy+7o0E+y0X8AYDyGWzhIEY0eY3C1KNv7f6Xvi6kEQiUqx8I7/
- gmVI3Acup4Jvhij7kw/bm8sCMCmcQ34=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=tISaqgH6LMizGcqN9ild5fLx+F/T5Cn9e1GtQc+7X3Y=;
+ b=JV/X+i1f0WJ6FSCc95qrV8Ki5BzZlek1fUxbXzdFUklk87UZ/Yb6Ff0UShg5A5Z98a2qOm
+ ENnVOXa8GX37Z7tnWihFONZ6guwaI5pjdm/Z5xYhPOFhPqjHZeHt+l4/aCRRiwxEoX5b47
+ R6t/ASBPsNCZ1JZTvwMBOHON7RIht/g=
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-659-1tS1h2z5N9mQDxUKeHulrg-1; Tue, 18 Jan 2022 13:03:06 -0500
-X-MC-Unique: 1tS1h2z5N9mQDxUKeHulrg-1
-Received: by mail-lf1-f69.google.com with SMTP id
- k11-20020a0565123d8b00b00432719f58dbso2126383lfv.22
- for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 10:03:06 -0800 (PST)
+ us-mta-657-iPwxq3FKOhq-Z7U_ikP4UQ-1; Tue, 18 Jan 2022 13:04:14 -0500
+X-MC-Unique: iPwxq3FKOhq-Z7U_ikP4UQ-1
+Received: by mail-vk1-f197.google.com with SMTP id
+ w65-20020a1f6244000000b00317041f0e4bso3240731vkb.16
+ for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 10:04:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/W+jvV1R42VRScf0GKQ7ACWQqqbDZVb7VDb8WEwEsHw=;
- b=BHUtxfhKJCWBbT1v4z2Fo0noyYZlCo9DnJ8XIzr/UsW9lew9JJETaRTwYemWGcNCNl
- OQzGVkKNx8X1rZyBl8v2Q0eaeFH4Vdvkn09gLc0fjYG42778yBfRVetTjxXbG1FONvwX
- TXIEjPs3OlU8Y0TdCkoOBrQj287fblaOlrKJMvRP6KUxghXoyj0c1pwUak+o4BvPjGxu
- i5s+MCTD//FTRXT3z7Sogi/eZ/5jODSVh4lzNhtX4ejMfPm7B6rjWuEkzlN1GLYqPQ5i
- bCqKdVgNRpS2EmQ4RrxJUDuo2No+xIRNYXtkdH0gSrTpmKok5fGKzMES96a0wF6VPQTH
- zK9A==
-X-Gm-Message-State: AOAM531URR2vgwwHVnrGytUgIwjUCXRd+Zc9HFCAOYw6pgFnPJ7slBIa
- lrgcRJ4kVtrdVtUpTSnr4U22HBYHgWGi/dbfEY375ppMXd9R4bY1pfwOci2X/DkXDWAaU8ZuK6N
- 0fBzo/1RBOuRS7f9one1ITCifxfajIpE=
-X-Received: by 2002:a2e:8e74:: with SMTP id t20mr2123833ljk.293.1642528984825; 
- Tue, 18 Jan 2022 10:03:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwINJcFqegV/bq0i2brE9ELAEIOleftDThxeSrXC67kZBcQcJHFX64KwfIhBLRVel+IhkSlNIOSoI2WW76rs4Y=
-X-Received: by 2002:a2e:8e74:: with SMTP id t20mr2123801ljk.293.1642528984362; 
- Tue, 18 Jan 2022 10:03:04 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=tISaqgH6LMizGcqN9ild5fLx+F/T5Cn9e1GtQc+7X3Y=;
+ b=4r3w9ccgbbecbHpicR/jcVl5WFTKVL5rB1CgURNZgSxTqFZ1vLFGTQCz/ztiHK5iiO
+ nlngBiBHYtYNZOrvMn6uiJvQLvbso/AkOJFqYvgGj02jGgDFV/K5dgs09XR54UnKnov1
+ xdp12irMCL8dE27QXVR5wUrulNHg8fE2W/jn8Wpv3ozvuPP9LfIedC7T+6xKMA9NlyJc
+ 7mU2dI+FqYyiH8pEcBSpzoz8UvRGFqDtAZ9kufg73hPb6CvSsZHkwvPUcTPt65X8z2LD
+ zYTxDxrsnGA97OYYmHalCYJSaf4FYdAtiLNmIGJopQGjBDpjWn5zZ4NChmkO893wwCYR
+ l7KA==
+X-Gm-Message-State: AOAM533uYub2go0iEM/mXsmYMe9vF9eHKUIXWHV/jyeK4SQQqF8b2V0t
+ vdAflXur6jufzlCBQdygIUwUdoP7QSBII8KbSIEyDlT/dQ/pqdDSBcFucKP3vMCq3a12QHvszDE
+ vYOqyCFFjlFH94ErE8/qWcLJmnWHwS7o=
+X-Received: by 2002:a05:6102:3714:: with SMTP id
+ s20mr10223004vst.61.1642529054154; 
+ Tue, 18 Jan 2022 10:04:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx6Nehlw9zfmc2iCrscwx/57FJyrGWbhTVQcttBmpOjaAq9OnWISONSW0wvJE7VsdFA2iEM4lz7llsOAYBBFLE=
+X-Received: by 2002:a05:6102:3714:: with SMTP id
+ s20mr10222975vst.61.1642529053744; 
+ Tue, 18 Jan 2022 10:04:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20220118170000.49423-1-hreitz@redhat.com>
- <20220118170000.49423-3-hreitz@redhat.com>
-In-Reply-To: <20220118170000.49423-3-hreitz@redhat.com>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Tue, 18 Jan 2022 20:02:48 +0200
-Message-ID: <CAMRbyys52dOnK6pw6spRd6SZ9bvWG4OGw6faG0KcSA=-HgsvYw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] iotests/block-status-cache: New test
-To: Hanna Reitz <hreitz@redhat.com>
+References: <20220117141103.157288-1-berrange@redhat.com>
+ <20220117141103.157288-2-berrange@redhat.com>
+ <CAFn=p-Z4sn94+i18JjEnXgPTJK1H0GBqjCA3kwxtHdrELcOc5g@mail.gmail.com>
+ <YeaRJF3tqMjipU3o@redhat.com>
+In-Reply-To: <YeaRJF3tqMjipU3o@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 18 Jan 2022 13:04:02 -0500
+Message-ID: <CAFn=p-ZS247FdLySHMcBTpqKzV=eTgsQQMAXyU5CwNEWdZQusQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] python: introduce qmp-shell-wrap convenience tool
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=nsoffer@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -77,7 +81,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,201 +94,236 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-block <qemu-block@nongnu.org>, qemu-stable@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>, Beraldo Leal <bleal@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 18, 2022 at 7:12 PM Hanna Reitz <hreitz@redhat.com> wrote:
+On Tue, Jan 18, 2022 at 5:06 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
 >
-> Add a new test to verify that want_zero=false block-status calls do not
-> pollute the block-status cache for want_zero=true calls.
+> On Mon, Jan 17, 2022 at 06:27:24PM -0500, John Snow wrote:
+> > On Mon, Jan 17, 2022 at 9:11 AM Daniel P. Berrang=C3=A9 <berrange@redha=
+t.com> wrote:
+> > >
+> > > With the current 'qmp-shell' tool developers must first spawn QEMU wi=
+th
+> > > a suitable -qmp arg and then spawn qmp-shell in a separate terminal
+> > > pointing to the right socket.
+> > >
+> > > With 'qmp-shell-wrap' developers can ignore QMP sockets entirely and
+> > > just pass the QEMU command and arguments they want. The program will
+> > > listen on a UNIX socket and tell QEMU to connect QMP to that.
+> > >
+> > > For example, this:
+> > >
+> > >  # qmp-shell-wrap -- qemu-system-x86_64 -display none
+> > >
+> > > Is roughly equivalent of running:
+> > >
+> > >  # qemu-system-x86_64 -display none -qmp qmp-shell-1234 &
+> > >  # qmp-shell qmp-shell-1234
+> > >
+> > > Except that 'qmp-shell-wrap' switches the socket peers around so that
+> > > it is the UNIX socket server and QEMU is the socket client. This make=
+s
+> > > QEMU reliably go away when qmp-shell-wrap exits, closing the server
+> > > socket.
+> > >
+> > > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> > > ---
+> > >  python/qemu/qmp/qmp_shell.py | 61 +++++++++++++++++++++++++++++++++-=
+--
+> > >  scripts/qmp/qmp-shell-wrap   | 11 +++++++
+> > >  2 files changed, 68 insertions(+), 4 deletions(-)
+> > >  create mode 100755 scripts/qmp/qmp-shell-wrap
+> > >
+> > > diff --git a/python/qemu/qmp/qmp_shell.py b/python/qemu/qmp/qmp_shell=
+.py
+> > > index e7d7eb18f1..12f7d28afc 100644
+> > > --- a/python/qemu/qmp/qmp_shell.py
+> > > +++ b/python/qemu/qmp/qmp_shell.py
+> > > @@ -86,6 +86,7 @@
+> > >  import os
+> > >  import re
+> > >  import readline
+> > > +from subprocess import Popen
+> > >  import sys
+> > >  from typing import (
+> > >      Iterator,
+> > > @@ -162,8 +163,10 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+> > >      :param verbose: Echo outgoing QMP messages to console.
+> > >      """
+> > >      def __init__(self, address: qmp.SocketAddrT,
+> > > -                 pretty: bool =3D False, verbose: bool =3D False):
+> > > -        super().__init__(address)
+> > > +                 pretty: bool =3D False,
+> > > +                 verbose: bool =3D False,
+> > > +                 server: bool =3D False):
+> > > +        super().__init__(address, server=3Dserver)
+> > >          self._greeting: Optional[QMPMessage] =3D None
+> > >          self._completer =3D QMPCompleter()
+> > >          self._transmode =3D False
+> > > @@ -404,8 +407,10 @@ class HMPShell(QMPShell):
+> > >      :param verbose: Echo outgoing QMP messages to console.
+> > >      """
+> > >      def __init__(self, address: qmp.SocketAddrT,
+> > > -                 pretty: bool =3D False, verbose: bool =3D False):
+> > > -        super().__init__(address, pretty, verbose)
+> > > +                 pretty: bool =3D False,
+> > > +                 verbose: bool =3D False,
+> > > +                 server: bool =3D False):
+> > > +        super().__init__(address, pretty, verbose, server)
+> > >          self._cpu_index =3D 0
+> > >
+> > >      def _cmd_completion(self) -> None:
+> > > @@ -529,6 +534,54 @@ def main() -> None:
+> > >          for _ in qemu.repl():
+> > >              pass
+> > >
+> > > +def main_wrap() -> None:
+> > > +    """
+> > > +    qmp-shell-wrap entry point: parse command line arguments and sta=
+rt the REPL.
+> > > +    """
+> > > +    parser =3D argparse.ArgumentParser()
+> > > +    parser.add_argument('-H', '--hmp', action=3D'store_true',
+> > > +                        help=3D'Use HMP interface')
+> > > +    parser.add_argument('-v', '--verbose', action=3D'store_true',
+> > > +                        help=3D'Verbose (echo commands sent and rece=
+ived)')
+> > > +    parser.add_argument('-p', '--pretty', action=3D'store_true',
+> > > +                        help=3D'Pretty-print JSON')
+> > > +
+> > > +    parser.add_argument('command', nargs=3Dargparse.REMAINDER,
+> > > +                        help=3D'QEMU command line to invoke')
+> > > +
+> > > +    args =3D parser.parse_args()
+> > > +
+> > > +    cmd =3D args.command
+> > > +    if len(cmd) !=3D 0 and cmd[0] =3D=3D '--':
+> > > +        cmd =3D cmd[1:]
+> > > +    if len(cmd) =3D=3D 0:
+> > > +        cmd =3D "qemu-system-x86_64"
+> > > +
+> > > +    sockpath =3D "qmp-shell-wrap-%d" % os.getpid()
+> > > +    cmd +=3D ["-qmp", "unix:%s" % sockpath]
+> > > +
+> > > +    shell_class =3D HMPShell if args.hmp else QMPShell
+> > > +
+> > > +    try:
+> > > +        address =3D shell_class.parse_address(sockpath)
+> > > +    except qmp.QMPBadPortError:
+> > > +        parser.error(f"Bad port number: {socketpath}")
+> > > +        return  # pycharm doesn't know error() is noreturn
+> > > +
+> > > +    with shell_class(address, args.pretty, args.verbose, True) as qe=
+mu:
+> > > +        qemuproc =3D Popen(cmd)
+> > > +
+> > > +        try:
+> > > +            qemu.accept()
+> > > +        except qmp.QMPConnectError:
+> > > +            die("Didn't get QMP greeting message")
+> > > +        except qmp.QMPCapabilitiesError:
+> > > +            die("Couldn't negotiate capabilities")
+> > > +        except OSError as err:
+> > > +            die(f"Couldn't connect to {sockpath}: {err!s}")
+> > > +
+> > > +        for _ in qemu.repl():
+> > > +            pass
+> > >
+> > >  if __name__ =3D=3D '__main__':
+> > >      main()
+> > > diff --git a/scripts/qmp/qmp-shell-wrap b/scripts/qmp/qmp-shell-wrap
+> > > new file mode 100755
+> > > index 0000000000..9e94da114f
+> > > --- /dev/null
+> > > +++ b/scripts/qmp/qmp-shell-wrap
+> > > @@ -0,0 +1,11 @@
+> > > +#!/usr/bin/env python3
+> > > +
+> > > +import os
+> > > +import sys
+> > > +
+> > > +sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', =
+'python'))
+> > > +from qemu.qmp import qmp_shell
+> > > +
+> > > +
+> > > +if __name__ =3D=3D '__main__':
+> > > +    qmp_shell.main_wrap()
+> > > --
+> > > 2.33.1
+> > >
+> >
+> > Adds some new failures to the python linters; try "make check-dev" in
+> > the python sub-dir.
 >
-> We check want_zero=true calls and their results using `qemu-img map`
-> (over NBD), and want_zero=false calls also using `qemu-img map` over
-> NBD, but using the qemu:allocation-depth context.
+> It would be nice to just have this integrated into 'make check' so we
+> don't need to remember to run a special command.
+
+The CI will run it, but 'make check' doesn't. To add it to make check,
+I need to figure out how to insert a venv-building step into 'make
+check' such that the venv gets deposited into the build dir instead of
+the source dir.
+I think I may also need yet another set of package dependencies that
+pin on precise dependencies for testing purposes to prevent random
+regressions during 'make check' when nobody has touched the Python
+code.
+
+Overall, I felt like maybe it was more hassle than it was worth if I
+can just nudge people touching the python to run a 'make check-dev'
+every so often.
+
+Patches welcome, etc. My overall strategy with the python tests so far has =
+been:
+
+(1) Keep python tests fully separate from the QEMU build system to
+allow them to be split out into new repositories easily.
+(2) Use the pipenv test to lock the very oldest dependencies the code
+and tests support, using the very oldest python we support (3.6) This
+test is used as the gating test in GitLab CI, as it is very repeatable
+and the GitLab CI setup ensures I can always have the exact Python
+packages it requires available.
+(3) Use the tox test to test against a wide variety of Python
+interpreters (3.6 through 3.10 inclusive) using the very latest python
+packages to detect regressions on cutting-edge environments
+(4) Use the widest possible range of versions for dependent packages
+in setup.cfg such that QEMU packages are unlikely to cause versioning
+conflicts in environments that decide to integrate our code.
+
+Overall, I test on 3.6 through 3.10, and against the "oldest" and
+"newest" dependencies. It's a good, wide matrix.
+
+However, It's #4 there that runs me into trouble with tests that are
+guaranteed to pass -- the linters update all the time and cause new
+problems. I use pipenv to lock to specific versions, but that tool
+wants to run against Python 3.6 *explicitly*, so it isn't suitable for
+a generic purpose 'make check' because not everyone will have a Python
+3.6 interpreter available. I need something kind of halfway between,
+where I can lock against specific versions but not against the Python
+interpreter version, and that's what could be used for a decent 'make
+check' test.
+
+Of course, I don't want to maintain like 10 versions of a dependent
+packages list, either.
+
+(I really, really wish pip had an --use-oldest flag for dependency
+resolution, but it doesn't.)
+
 >
-> (This test case cannot be integrated into nbd-qemu-allocation, because
-> that is a qcow2 test, and this is a raw test.)
+> > ... Though, due to a bug in avocado, this helpfully doesn't actually
+> > show you the failure output right now ...
 >
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-> ---
->  tests/qemu-iotests/tests/block-status-cache   | 139 ++++++++++++++++++
->  .../qemu-iotests/tests/block-status-cache.out |   5 +
->  2 files changed, 144 insertions(+)
->  create mode 100755 tests/qemu-iotests/tests/block-status-cache
->  create mode 100644 tests/qemu-iotests/tests/block-status-cache.out
->
-> diff --git a/tests/qemu-iotests/tests/block-status-cache b/tests/qemu-iotests/tests/block-status-cache
-> new file mode 100755
-> index 0000000000..6fa10bb8f8
-> --- /dev/null
-> +++ b/tests/qemu-iotests/tests/block-status-cache
-> @@ -0,0 +1,139 @@
-> +#!/usr/bin/env python3
-> +# group: rw quick
-> +#
-> +# Test cases for the block-status cache.
-> +#
-> +# Copyright (C) 2022 Red Hat, Inc.
-> +#
-> +# This program is free software; you can redistribute it and/or modify
-> +# it under the terms of the GNU General Public License as published by
-> +# the Free Software Foundation; either version 2 of the License, or
-> +# (at your option) any later version.
-> +#
-> +# This program is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +# GNU General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU General Public License
-> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-> +#
-> +
-> +import os
-> +import signal
-> +import iotests
-> +from iotests import qemu_img_create, qemu_img_pipe, qemu_nbd
-> +
-> +
-> +image_size = 1 * 1024 * 1024
-> +test_img = os.path.join(iotests.test_dir, 'test.img')
-> +
-> +nbd_pidfile = os.path.join(iotests.test_dir, 'nbd.pid')
-> +nbd_sock = os.path.join(iotests.sock_dir, 'nbd.sock')
-> +
-> +
-> +class TestBscWithNbd(iotests.QMPTestCase):
-> +    def setUp(self) -> None:
-> +        """Just create an empty image with a read-only NBD server on it"""
-> +        assert qemu_img_create('-f', iotests.imgfmt, test_img,
-> +                               str(image_size)) == 0
-> +
-> +        # Pass --allocation-depth to enable the qemu:allocation-depth context,
-> +        # which we are going to query to provoke a block-status inquiry with
-> +        # want_zero=false.
-> +        assert qemu_nbd(f'--socket={nbd_sock}',
-> +                        f'--format={iotests.imgfmt}',
-> +                        '--persistent',
-> +                        '--allocation-depth',
-> +                        '--read-only',
-> +                        f'--pid-file={nbd_pidfile}',
-> +                        test_img) \
-> +            == 0
-> +
-> +    def tearDown(self) -> None:
-> +        with open(nbd_pidfile, encoding='utf-8') as f:
-> +            pid = int(f.read())
-> +        os.kill(pid, signal.SIGTERM)
-> +        os.remove(nbd_pidfile)
-> +        os.remove(test_img)
-> +
-> +    def test_with_zero_bug(self) -> None:
-> +        """
-> +        Verify that the block-status cache is not corrupted by a
-> +        want_zero=false call.
-> +        We can provoke a want_zero=false call with `qemu-img map` over NBD with
-> +        x-dirty-bitmap=qemu:allocation-depth, so we first run a normal `map`
-> +        (which results in want_zero=true), then using said
-> +        qemu:allocation-depth context, and finally another normal `map` to
-> +        verify that the cache has not been corrupted.
-> +        """
-> +
-> +        nbd_img_opts = f'driver=nbd,server.type=unix,server.path={nbd_sock}'
-> +        nbd_img_opts_alloc_depth = nbd_img_opts + \
-> +            ',x-dirty-bitmap=qemu:allocation-depth'
-> +
-> +        # Normal map, results in want_zero=true.
-> +        # This will probably detect an allocated data sector first (qemu likes
-> +        # to allocate the first sector to facilitate alignment probing), and
-> +        # then the rest to be zero.  The BSC will thus contain (if anything)
-> +        # one range covering the first sector.
-> +        map_pre = qemu_img_pipe('map', '--output=json', '--image-opts',
-> +                                nbd_img_opts)
-> +
-> +        # qemu:allocation-depth maps for want_zero=false.
-> +        # want_zero=false should (with the file driver, which the server is
-> +        # using) report everything as data.  While this is sufficient for
-> +        # want_zero=false, this is nothing that should end up in the
-> +        # block-status cache.
-> +        # Due to a bug, this information did end up in the cache, though, and
-> +        # this would lead to wrong information being returned on subsequent
-> +        # want_zero=true calls.
-> +        #
-> +        # We need to run this map twice: On the first call, we probably still
-> +        # have the first sector in the cache, and so this will be served from
-> +        # the cache; and only the subsequent range will be queried from the
-> +        # block driver.  This subsequent range will then be entered into the
-> +        # cache.
-> +        # If we did a want_zero=true call at this point, we would thus get
-> +        # correct information: The first sector is not covered by the cache, so
-> +        # we would get fresh block-status information from the driver, which
-> +        # would return a data range, and this would then go into the cache,
-> +        # evicting the wrong range from the want_zero=false call before.
-> +        #
-> +        # Therefore, we need a second want_zero=false map to reproduce:
-> +        # Since the first sector is not in the cache, the query for its status
-> +        # will go to the driver, which will return a result that reports the
-> +        # whole image to be a single data area.  This result will then go into
-> +        # the cache, and so the cache will then report the whole image to
-> +        # contain data.
-> +        #
-> +        # Note that once the cache reports the whole image to contain data, any
-> +        # subsequent map operation will be served from the cache, and so we can
-> +        # never loop too many times here.
-> +        for _ in range(2):
-> +            # (Ignore the result, this is just to contaminate the cache)
-> +            qemu_img_pipe('map', '--output=json', '--image-opts',
-> +                          nbd_img_opts_alloc_depth)
-> +
-> +        # Now let's see whether the cache reports everything as data, or
-> +        # whether we get correct information (i.e. the same as we got on our
-> +        # first attempt).
-> +        map_post = qemu_img_pipe('map', '--output=json', '--image-opts',
-> +                                 nbd_img_opts)
-> +
-> +        if map_pre != map_post:
-> +            print('ERROR: Map information differs before and after querying ' +
-> +                  'qemu:allocation-depth')
-> +            print('Before:')
-> +            print(map_pre)
-> +            print('After:')
-> +            print(map_post)
-> +
-> +            self.fail("Map information differs")
-> +
-> +
-> +if __name__ == '__main__':
-> +    # The block-status cache only works on the protocol layer, so to test it,
-> +    # we can only use the raw format
-> +    iotests.main(supported_fmts=['raw'],
-> +                 supported_protocols=['file'])
-> diff --git a/tests/qemu-iotests/tests/block-status-cache.out b/tests/qemu-iotests/tests/block-status-cache.out
-> new file mode 100644
-> index 0000000000..ae1213e6f8
-> --- /dev/null
-> +++ b/tests/qemu-iotests/tests/block-status-cache.out
-> @@ -0,0 +1,5 @@
-> +.
-> +----------------------------------------------------------------------
-> +Ran 1 tests
-> +
-> +OK
-> --
-> 2.33.1
+> Urgh.
 >
 
-The out file is not very useful, and even fragile - if the test framework
-will change the output format, the test will fail. Ideally we depend only
-on the relevant output of our tools, and using a different version of the test
-framework on replacing it (e.g pytest) will not require modifying the out
-files.
+It regressed during winter vacation. I sent a small patch to enable
+the new runner [1], and I have been discussing with Beraldo how to
+re-enable the Coverage.py tests under the new Avocado.
 
-Regardless I would like to see this fix merged and this issue already
-exists in other tests. Some tests in tests/ do have useful output that can
-make debugging failures easier.
-
-Reviewed-by: Nir Soffer <nsoffer@redhat.com>
+[1] https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg03614.html
 
 
