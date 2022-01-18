@@ -2,77 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E074921AD
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 09:54:56 +0100 (CET)
-Received: from localhost ([::1]:45020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50BF349224C
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 10:11:54 +0100 (CET)
+Received: from localhost ([::1]:60060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9kGV-0002ng-WF
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 03:54:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35916)
+	id 1n9kWv-0005dA-BM
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 04:11:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1n9kDG-0000jN-8c
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 03:51:34 -0500
-Received: from [2607:f8b0:4864:20::102b] (port=37861
- helo=mail-pj1-x102b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1n9kD8-00013Y-H7
- for qemu-devel@nongnu.org; Tue, 18 Jan 2022 03:51:33 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- z17-20020a17090ab11100b001b4d8817e04so855719pjq.2
- for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 00:51:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1n9kFC-0003P6-LF; Tue, 18 Jan 2022 03:53:34 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:50493)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1n9kF9-0001Gs-It; Tue, 18 Jan 2022 03:53:34 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4JdMxf0fMDz4y3q; Tue, 18 Jan 2022 19:53:26 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=E15Gt2XLm8DjBYjlAIAwUgpja/zxHmz+mgVIKW7NL+g=;
- b=kmvYnz1M2w7DN9mp9jwir2BWaQp7C+ia2mQV+peqk8dWmmiTFf8g8XIw/p2nim3kep
- ZigZt1ZcuNo+2gowt21xOMJ6hzsi1PbccqDdGgQ2Sd+ey4sR4lhf6pYtGRi58OAmjJK0
- jAw5jY2DFnMbqrh+/v36SNtkZyI//eaITSiUDXivKBi0bnKX0+42qmOHhN/fRl8CGDdd
- EVFE258RHjbrDIx95vC0oHyam/5bvLkzoGpDVWRt1Zp13ZixK6sMuILGkuVDN8B97Pn5
- zYY12KHpGdAD6+8c8nhyUCsY0J2wnbNdL62/faxOLsduco8ZIqCIaVzwu64+K4cb+PbB
- VyTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=E15Gt2XLm8DjBYjlAIAwUgpja/zxHmz+mgVIKW7NL+g=;
- b=ISGhJ0KkyW/s4dJW+u71iTaM0RL6hHDR1q/ToIS8mKSCppeUhnO2vyunYOCOi3lZcl
- ExfW3jznkySlZ0cb9S5UkRSVphVAoPsD/B+XSDlRkuDoR2utugsM/1jt0QUu44MoK9Ok
- ZHGLZDOU8vphCNksXN/9K9Kniyd83emYrxdWmn3OK/MAG8CVDqeN3ZqsVG/Sy0Ripf50
- b3T3ePBhOFCd6D+BPBQbZxtkOBPJ4aeQIfFzCabjAAi2HPwfEjSDfTGltHtunzkxp0i1
- S1NTuBFIJxhh3cmVSBVPQw8n1yySCaTINZQnccmEoYdTi5mTLDtfTowtVuDqp+7LMeSv
- 2whA==
-X-Gm-Message-State: AOAM530rg7gkpseww2kqGrpRT6g6jJSGizbNuXHccqv7dQ/3g/iZufnR
- 8zfJjz3beGP3JyCsc/aFjHYWBN/rpMyeczUTxSZheg==
-X-Google-Smtp-Source: ABdhPJzVaUJKigUcUtMAsghv4XtgwjDPHHOS+hJ3G88Zqk+EdwZ3/RJn4ag4Uj7YrT324o8GXZ3RGHqf1IFpcHKHtWs=
-X-Received: by 2002:a17:902:bd94:b0:149:c926:7c26 with SMTP id
- q20-20020a170902bd9400b00149c9267c26mr26680849pls.64.1642495878056; Tue, 18
- Jan 2022 00:51:18 -0800 (PST)
+ d=gibson.dropbear.id.au; s=201602; t=1642496006;
+ bh=UdwYbaUdhTWzhL7nHo5L+wTTNfAFYJcR/In2DqLvWN0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bCpKhpMXuvaf3LU5TnpBXmd2pLDcFt6uOiFkG8gIWEZrTX/+WFFc3CO5tH9zJ0pq5
+ z3+HeQp8gT0a6L4ptULwCoZTkz9PfKy3v+FsEKIE+YZtbcIGvzTSRYnq+f0VgOZFf0
+ GzB7kuF1Q2F5Kt0oiBOCdOyPuHyPs1b033Gr7D7E=
+Date: Tue, 18 Jan 2022 19:40:16 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Fabiano Rosas <farosas@linux.ibm.com>
+Subject: Re: [PATCH 1/8] target/ppc: 405: Add missing MSR bits to msr_mask
+Message-ID: <YeZ88ETiPZz9SSfr@yekko.fritz.box>
+References: <20220110181546.4131853-1-farosas@linux.ibm.com>
+ <20220110181546.4131853-2-farosas@linux.ibm.com>
+ <87iluivzgr.fsf@linux.ibm.com>
 MIME-Version: 1.0
-References: <20220118011711.7243-1-liweiwei@iscas.ac.cn>
- <20220118011711.7243-2-liweiwei@iscas.ac.cn>
- <CAAhSdy3zjeW-WkbiicTJfurQkhts4m9XwvmoS+Zr1XVMzhy+3w@mail.gmail.com>
- <CAJF2gTSztdr_geRwQAU=Y3T14urwwpi8+K5uzjf8K_R5ecfLqQ@mail.gmail.com>
-In-Reply-To: <CAJF2gTSztdr_geRwQAU=Y3T14urwwpi8+K5uzjf8K_R5ecfLqQ@mail.gmail.com>
-From: Anup Patel <apatel@ventanamicro.com>
-Date: Tue, 18 Jan 2022 14:21:06 +0530
-Message-ID: <CAK9=C2Wr1aci6Z3wAKh3Bh_BYyY86BZ_0SRF7pfvKak6HXNvsQ@mail.gmail.com>
-Subject: Re: [PATCH v5 1/5] target/riscv: Ignore reserved bits in PTE for RV64
-To: Guo Ren <guoren@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=apatel@ventanamicro.com; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="f0RQhBKl7lOXnX02"
+Content-Disposition: inline
+In-Reply-To: <87iluivzgr.fsf@linux.ibm.com>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,122 +59,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Weiwei Li <liweiwei@iscas.ac.cn>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <anup@brainfault.org>,
- Wang Junqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, Guo Ren <ren_guo@c-sky.com>,
- =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 18, 2022 at 2:16 PM Guo Ren <guoren@kernel.org> wrote:
->
-> On Tue, Jan 18, 2022 at 11:32 AM Anup Patel <anup@brainfault.org> wrote:
-> >
-> > On Tue, Jan 18, 2022 at 6:47 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
-> > >
-> > > From: Guo Ren <ren_guo@c-sky.com>
-> > >
-> > > Highest bits of PTE has been used for svpbmt, ref: [1], [2], so we
-> > > need to ignore them. They cannot be a part of ppn.
-> > >
-> > > 1: The RISC-V Instruction Set Manual, Volume II: Privileged Architecture
-> > >    4.4 Sv39: Page-Based 39-bit Virtual-Memory System
-> > >    4.5 Sv48: Page-Based 48-bit Virtual-Memory System
-> > >
-> > > 2: https://github.com/riscv/virtual-memory/blob/main/specs/663-Svpbmt-diff.pdf
-> > >
-> > > Signed-off-by: Guo Ren <ren_guo@c-sky.com>
-> > > Tested-by: Bin Meng <bmeng.cn@gmail.com>
-> > > Reviewed-by: Liu Zhiwei <zhiwei_liu@c-sky.com>
-> > > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-> > > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > > ---
-> > >  target/riscv/cpu_bits.h   | 7 +++++++
-> > >  target/riscv/cpu_helper.c | 2 +-
-> > >  2 files changed, 8 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> > > index 5a6d49aa64..282cd8eecd 100644
-> > > --- a/target/riscv/cpu_bits.h
-> > > +++ b/target/riscv/cpu_bits.h
-> > > @@ -490,6 +490,13 @@ typedef enum {
-> > >  /* Page table PPN shift amount */
-> > >  #define PTE_PPN_SHIFT       10
-> > >
-> > > +/* Page table PPN mask */
-> > > +#if defined(TARGET_RISCV32)
-> > > +#define PTE_PPN_MASK        0xffffffffUL
-> > > +#elif defined(TARGET_RISCV64)
-> > > +#define PTE_PPN_MASK        0x3fffffffffffffULL
-> > > +#endif
-> > > +
-> >
-> > Going forward we should avoid using target specific "#if"
-> > so that we can use the same qemu-system-riscv64 for both
-> > RV32 and RV64.
-> >
-> > >  /* Leaf page shift amount */
-> > >  #define PGSHIFT             12
-> > >
-> > > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> > > index 434a83e66a..26608ddf1c 100644
-> > > --- a/target/riscv/cpu_helper.c
-> > > +++ b/target/riscv/cpu_helper.c
-> > > @@ -619,7 +619,7 @@ restart:
-> > >              return TRANSLATE_FAIL;
-> > >          }
-> > >
-> > > -        hwaddr ppn = pte >> PTE_PPN_SHIFT;
-> > > +        hwaddr ppn = (pte & PTE_PPN_MASK) >> PTE_PPN_SHIFT;
-> >
-> > Rather than using "#if", please use "xlen" comparison to extract
-> > PPN correctly from PTE.
-> Do you mean?
->
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 9fffaccffb..071b7ea4cf 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -619,7 +619,11 @@ restart:
->              return TRANSLATE_FAIL;
->          }
->
-> -        hwaddr ppn = (pte & PTE_PPN_MASK) >> PTE_PPN_SHIFT;
-> +        if (riscv_cpu_mxl(env) == MXL_RV32) {
-> +               hwaddr ppn = pte  >> PTE_PPN_SHIFT;
-> +       } else {
-> +               hwaddr ppn = (pte &  0x3fffffffffffffULL) >> PTE_PPN_SHIFT;
-> +       }
 
-Yes, something like this but use a define for 0x3fffffffffffffULL
+--f0RQhBKl7lOXnX02
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Regards,
-Anup
+On Mon, Jan 17, 2022 at 06:12:20PM -0300, Fabiano Rosas wrote:
+> Fabiano Rosas <farosas@linux.ibm.com> writes:
+>=20
+> > Some bits described in the user manual are missing from msr_mask. Add
+> > them.
+> >
+> > Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+> > ---
+> >  target/ppc/cpu_init.c | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+> > index e30e86fe9d..a50ddaeaae 100644
+> > --- a/target/ppc/cpu_init.c
+> > +++ b/target/ppc/cpu_init.c
+> > @@ -2535,15 +2535,19 @@ POWERPC_FAMILY(405)(ObjectClass *oc, void *data)
+> >                         PPC_MEM_SYNC | PPC_MEM_EIEIO |
+> >                         PPC_40x_TLB | PPC_MEM_TLBIA | PPC_MEM_TLBSYNC |
+> >                         PPC_4xx_COMMON | PPC_405_MAC | PPC_40x_EXCP;
+> > -    pcc->msr_mask =3D (1ull << MSR_POW) |
+> > +    pcc->msr_mask =3D (1ull << MSR_AP) |
+> > +                    (1ull << MSR_POW) |
+> >                      (1ull << MSR_CE) |
+> >                      (1ull << MSR_EE) |
+> >                      (1ull << MSR_PR) |
+> >                      (1ull << MSR_FP) |
+> > +                    (1ull << MSR_ME) |
+> >                      (1ull << MSR_DWE) |
+> >                      (1ull << MSR_DE) |
+> > +                    (1ull << MSR_FE1) |
+> >                      (1ull << MSR_IR) |
+> >                      (1ull << MSR_DR);
+>=20
+> This patch brings an unexpected complication:
+>=20
+> MSR_AP here is not correct, it is defined as:
+>=20
+> #define MSR_AP   23 /* Access privilege state on 602 */
+>=20
+> That is bit 8. While MSR_AP in the 405 is bit 6. So I would need to
 
->
->          RISCVCPU *cpu = env_archcpu(env);
->          if (!(pte & PTE_V)) {
->
-> >
-> > Regards,
-> > Anup
-> >
-> > >
-> > >          if (!(pte & PTE_V)) {
-> > >              /* Invalid PTE */
-> > > --
-> > > 2.17.1
-> > >
-> >
->
->
-> --
-> Best Regards
->  Guo Ren
->
-> ML: https://lore.kernel.org/linux-csky/
->
+Uh oh...
+
+> introduce a new MSR_AP_405 defined as:
+>=20
+> #define MSR_AP_405   25 /* Auxiliar processor available on 405 */
+>=20
+> But 25 is the same as MSR_SPE, so it triggers this code in
+> init_ppc_proc:
+>=20
+>     /* MSR bits & flags consistency checks */
+>     if (env->msr_mask & (1 << 25)) {
+>         switch (env->flags & (POWERPC_FLAG_SPE | POWERPC_FLAG_VRE)) {
+>         case POWERPC_FLAG_SPE:
+>         case POWERPC_FLAG_VRE:
+>             break;
+>         default:
+>             fprintf(stderr, "PowerPC MSR definition inconsistency\n"
+>                     "Should define POWERPC_FLAG_SPE or POWERPC_FLAG_VRE\n=
+");
+>             exit(1);
+>         }
+>      ...
+
+Ah.  Which suggests this section itself should probably be taken out
+of the common path and moved to code specific to the cpu families with
+SPE.
+
+> The commit that introduced that sanity check is 25ba3a6812 ("Remove
+> synonymous in PowerPC MSR bits definitions..."), which sort of assumes
+> that MSR bits will not have different purposes between any of the (now
+> 47) CPUs, while itself leaving other duplicated bits around.
+
+Ah, oops.  Even in 2007 I could have told you that wasn't a safe
+assumption.  Oh well.
+
+> So my idea is to drop this patch and only include the MSR_ME that is of
+> practical effect at patch 6. I think going into the rabbit hole of
+> disambiguating MSR bits falls out of the scope of the exception series.
+
+That seems fair for the time being.  I suspect splitting the exception
+paths will make cleaning up MSR collisions like this easier.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--f0RQhBKl7lOXnX02
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmHmfOgACgkQgypY4gEw
+YSJ9JxAAolBIgEp8kAVs3RQtkqC2hDcsZFLx96Jq+/R9FRFj4n02To0sJoOZHSQ2
+vcZRxAe/E7SRE9q01/xoCX+U60Bq3T0K2wo6RZ0Q8JK5R3ZrR4rXBzMI9UWHjVME
+evoo8bnWOojaOBqYGP5HtPzCvYVF8vHoRKkncmrJk8qoS6I1C4hx5xgJ6veSTU4k
+A550EAmL93IuRQNF2aB5m3ZURQBUhNT0p0cvYXTHWjZEX0Fczrh0CXYDHUW6e2Lf
+TlRDw32NdbJbWLeoZYYL0Mj6CJfK4ITksimVnmpOoAt/VdvtsmA0JP/HcQ1MHTPf
+KQSpgz6dMac2KHdFQV53ik9YezyWTBZb/z+CC9ZN17OnoOV1nlUOGqrkmcnKSCAS
+hZz3e8FCM1F+uvXZ50YwsFQO68hLldSKhRtTjJti+UJHK9rpeDY37ZC4t6+LIt8p
+nbQUE86Yhfk8F9L6z8RE8sjZU8CYBKhgPgOm2MzIxyB7b5BIuU9qZl50UCJ1UcdO
+BUSzRAD8XzOTv7NRj0IEWzfjXsjRtZL5CBXdn5TqQI5nyBKbARhm59RMuAZQa/E0
+XdOHuNdR1K1hzsaaxaj7NMHbkEdTcdLYZ+S2ICjVAeKc1anctSmOpy5Dgmnc5bPR
+XtZt0klivibmaJr/XOjoA6rYUGatveJeA6fEEnk/1JgW5wWunek=
+=h2cW
+-----END PGP SIGNATURE-----
+
+--f0RQhBKl7lOXnX02--
 
