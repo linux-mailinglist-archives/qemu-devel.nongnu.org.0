@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4233C4925A5
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 13:24:00 +0100 (CET)
-Received: from localhost ([::1]:58142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C144925BF
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jan 2022 13:33:13 +0100 (CET)
+Received: from localhost ([::1]:43688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n9nWp-0004jJ-5Q
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 07:23:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51648)
+	id 1n9nfk-0006dL-VG
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jan 2022 07:33:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9nEN-0006CO-D4; Tue, 18 Jan 2022 07:05:05 -0500
-Received: from [2a00:1450:4864:20::333] (port=40824
- helo=mail-wm1-x333.google.com)
+ id 1n9nEJ-0006C1-6l; Tue, 18 Jan 2022 07:05:00 -0500
+Received: from [2a00:1450:4864:20::32e] (port=40821
+ helo=mail-wm1-x32e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n9nEC-0005kt-Qt; Tue, 18 Jan 2022 07:04:49 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- 25-20020a05600c231900b003497473a9c4so5172047wmo.5; 
- Tue, 18 Jan 2022 04:02:56 -0800 (PST)
+ id 1n9nEB-0005qx-KX; Tue, 18 Jan 2022 07:04:45 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 25-20020a05600c231900b003497473a9c4so5172556wmo.5; 
+ Tue, 18 Jan 2022 04:03:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kmU4itPtJkI7ofMECtKgB5LQiZW9Htkdyqvn7BM7rHU=;
- b=KB9tZjAeXP8VnxbqkS2J07GiAei6mF0wylZg4jZXWAwNObpgyngsLQQzmPTepD+EY5
- xFyGlDH4HWs4PN2TTK5AFL+Dt56Tt9WCLrS6h29BKdwB2mtAJHam6TkD6ybxf+EPbU+M
- 9KgqVH7q7oO+Hr+0Yzrgzr+QNO72nK5OASSYO2ZjPdlXBzWqJxrvqbtkdBxJert8qwAz
- YuS93lus7z1sIoh9rpDM1elL4yKhBqy02OST0dKmJj/6VbEJvkFEqRBkSwIbs92cQh3k
- J3LjdNcldHjeOAsUiqj8r/Fqdmloh/MldMtiPoJZtYYm+2QN7jt1lTbnx8iWy1tFUdq+
- T6Hg==
+ bh=/8g3YUq2P+trQ4peexKIRwmbDVpKrAdGictXnf4Pf5U=;
+ b=m2Yjx5uceyZlVbgSqrLCnL9aP6tUNY2FiOGcVKdoEVVTHIoqX3NYHsI6hreYn6WStt
+ pKfKFcLXQgVLfeJMBkYGo+UNQSwQfQPJF4MASyJTq4FLR3PBQQusO9u8VyzvTA0kdMAl
+ laf9lTN3DJ+npOgh5/S5Qk5pUhAOwxUHpCXNs65axqrdN5++p9NDzoQ1NkKBoYcp7V1S
+ 8MYPfvHnm4kVmhrokvfaJ8kJfkYR8ddq18NDi0mTBHr9CDcZ8882wVkietVlMpsO2y9x
+ 8OZu0ndr+XQoiu80x3VGCKXIfFz3l/PTq6EbCEXaM35PxTQ8z+CNxPf1mg7fCeiQcqMY
+ Uh4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=kmU4itPtJkI7ofMECtKgB5LQiZW9Htkdyqvn7BM7rHU=;
- b=YGlTY7J3O2B6ss4Zkrr/WTMlga+8GLI7xAzAOkTpL1r0YbOh7+wHo8Qzc8TQpsDyjs
- pzioZPn3tEjr1DNQTA7B/k55MKqQEiiX1Pce4z/ThrOCcEvI4CqKKl+p7Yrip0WUbJnw
- g7kCaXRWXj0Magv9vpOVaWeoK7t/6CpHi0eTFeGq7oXiL92P39EL7nlYWe5GDs2e5eao
- VlHmhYgJrFIJMd/Q59WL402kk46YLbxH5d+Nk0KZQGzMAPTZbicUNQdirFAxFqFEy5EX
- OAteXRT+3dY4Ofx8obZMFJ4iRnlEWDxA3xL4I4OmXOD7u5mgFIIgWkB1UqW43IxgPRY/
- uE/A==
-X-Gm-Message-State: AOAM530wyyVB9ZmZ+BZNqZjBbAtDbV85v9ez35pMA69IUny3E+vO8BcD
- bjSHR+oyrGAUfPzdoqxXf68rsWwlHz0=
-X-Google-Smtp-Source: ABdhPJxHO8CKNqE4Z+vrvqjjrAf+bVQTJRlmTboKdpEOGFhsLQ9TZILKP4BWxC/ZJFkbZwZWZPiJiA==
-X-Received: by 2002:a7b:cd8b:: with SMTP id y11mr22842781wmj.76.1642507375058; 
- Tue, 18 Jan 2022 04:02:55 -0800 (PST)
+ bh=/8g3YUq2P+trQ4peexKIRwmbDVpKrAdGictXnf4Pf5U=;
+ b=3yGDWxOHSfRgy9O8CVy2mGsrczHcr2QDky///ojMc/wr4+ZfOkMkuOjTzRDtdFo2NQ
+ 63JSrg3HAP9NJbzxhrvizGpvmLqHSBW032dLgTflxyeD1uMtyzD++GWlryB0JHAKF487
+ VFPyC3UL4jITvtnE7Xsc58wS1RL88jUMPB3jeXVVoJY0fGpyWIz9hVXwuPUzLT32ExHN
+ 9Vnl8McYy6CTC4EUSaZ7oEh2cc7EitQ2aPWWv8JOMh8YY2gxRDIaYQOxOgygGF7ARPGb
+ TS4hYfcsWVgMp3DJOqaaTjUqNbW+zis1s4v6z6PcvggH9PwyAGOr6tUkBv9oMkktlPHG
+ 4ncA==
+X-Gm-Message-State: AOAM5311bmKcjH9FCnnsD2soY32fbuHWVKGVZlWpgYjWwLIbMetj9KYG
+ lv7YsIh1PVJbQnhp0C2ZkqWGg/2ns24=
+X-Google-Smtp-Source: ABdhPJxg/LwDRFD8x70gd6rBIXb7xzQ4+iCaEO9weAoZPlFd1K1jPWwuAPUroA3abhzPlv+Wxtz35Q==
+X-Received: by 2002:a05:600c:4e90:: with SMTP id
+ f16mr21586674wmq.147.1642507379993; 
+ Tue, 18 Jan 2022 04:02:59 -0800 (PST)
 Received: from nuc.. (154.red-83-50-83.dynamicip.rima-tde.net. [83.50.83.154])
  by smtp.gmail.com with ESMTPSA id
- g3sm7468614wri.110.2022.01.18.04.02.54
+ y2sm2196033wmj.13.2022.01.18.04.02.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jan 2022 04:02:54 -0800 (PST)
+ Tue, 18 Jan 2022 04:02:59 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 05/19] memory: Make memory_region_is_mapped() succeed when
- mapped via an alias
-Date: Tue, 18 Jan 2022 13:02:15 +0100
-Message-Id: <20220118120229.196337-6-f4bug@amsat.org>
+Subject: [PULL 06/19] memory: Update description of memory_region_is_mapped()
+Date: Tue, 18 Jan 2022 13:02:16 +0100
+Message-Id: <20220118120229.196337-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220118120229.196337-1-f4bug@amsat.org>
 References: <20220118120229.196337-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,85 +98,32 @@ From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-memory_region_is_mapped() currently does not return "true" when a memory
-region is mapped via an alias.
-
-Assuming we have:
-    alias (A0) -> alias (A1) -> region (R0)
-Mapping A0 would currently only make memory_region_is_mapped() succeed
-on A0, but not on A1 and R0.
-
-Let's fix that by adding a "mapped_via_alias" counter to memory regions and
-updating it accordingly when an alias gets (un)mapped.
-
-I am not aware of actual issues, this is rather a cleanup to make it
-consistent.
+Let's update the documentation, making it clearer what the semantics
+of memory_region_is_mapped() actually are.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20211102164317.45658-3-david@redhat.com>
+Message-Id: <20211102164317.45658-4-david@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/exec/memory.h |  1 +
- softmmu/memory.c      | 13 ++++++++++++-
- 2 files changed, 13 insertions(+), 1 deletion(-)
+ include/exec/memory.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 20f1b27377e..fea1a493b9c 100644
+index fea1a493b9c..63be794a067 100644
 --- a/include/exec/memory.h
 +++ b/include/exec/memory.h
-@@ -738,6 +738,7 @@ struct MemoryRegion {
-     const MemoryRegionOps *ops;
-     void *opaque;
-     MemoryRegion *container;
-+    int mapped_via_alias; /* Mapped via an alias, container might be NULL */
-     Int128 size;
-     hwaddr addr;
-     void (*destructor)(MemoryRegion *mr);
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 5e69624f7ff..e37a4b8ae39 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -2545,8 +2545,13 @@ static void memory_region_add_subregion_common(MemoryRegion *mr,
-                                                hwaddr offset,
-                                                MemoryRegion *subregion)
- {
-+    MemoryRegion *alias;
-+
-     assert(!subregion->container);
-     subregion->container = mr;
-+    for (alias = subregion->alias; alias; alias = alias->alias) {
-+        alias->mapped_via_alias++;
-+    }
-     subregion->addr = offset;
-     memory_region_update_container_subregions(subregion);
- }
-@@ -2571,9 +2576,15 @@ void memory_region_add_subregion_overlap(MemoryRegion *mr,
- void memory_region_del_subregion(MemoryRegion *mr,
-                                  MemoryRegion *subregion)
- {
-+    MemoryRegion *alias;
-+
-     memory_region_transaction_begin();
-     assert(subregion->container == mr);
-     subregion->container = NULL;
-+    for (alias = subregion->alias; alias; alias = alias->alias) {
-+        alias->mapped_via_alias--;
-+        assert(alias->mapped_via_alias >= 0);
-+    }
-     QTAILQ_REMOVE(&mr->subregions, subregion, subregions_link);
-     memory_region_unref(subregion);
-     memory_region_update_pending |= mr->enabled && subregion->enabled;
-@@ -2670,7 +2681,7 @@ static FlatRange *flatview_lookup(FlatView *view, AddrRange addr)
+@@ -2297,7 +2297,8 @@ bool memory_region_present(MemoryRegion *container, hwaddr addr);
  
- bool memory_region_is_mapped(MemoryRegion *mr)
- {
--    return mr->container ? true : false;
-+    return !!mr->container || mr->mapped_via_alias;
- }
- 
- /* Same as memory_region_find, but it does not add a reference to the
+ /**
+  * memory_region_is_mapped: returns true if #MemoryRegion is mapped
+- * into any address space.
++ * into another memory region, which does not necessarily imply that it is
++ * mapped into an address space.
+  *
+  * @mr: a #MemoryRegion which should be checked if it's mapped
+  */
 -- 
 2.34.1
 
