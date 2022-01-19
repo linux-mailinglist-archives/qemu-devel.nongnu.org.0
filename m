@@ -2,86 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A0E49398A
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 12:35:02 +0100 (CET)
-Received: from localhost ([::1]:49060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC1494939DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 12:48:18 +0100 (CET)
+Received: from localhost ([::1]:37528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA9Ez-0004Zk-Bz
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 06:35:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56032)
+	id 1nA9Rp-0007iV-RQ
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 06:48:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nA9Az-0001gz-4X; Wed, 19 Jan 2022 06:30:54 -0500
-Received: from [2607:f8b0:4864:20::52b] (port=35679
- helo=mail-pg1-x52b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nA9Au-0004Pp-SA; Wed, 19 Jan 2022 06:30:51 -0500
-Received: by mail-pg1-x52b.google.com with SMTP id p125so2154191pga.2;
- Wed, 19 Jan 2022 03:30:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Ej0vmGelmEU05/ZQCgcGrDZolvzUZdt1Pp06L/DdvOw=;
- b=Rh7MXDzVbgGF5UOD/M1m7nrbV9d9blU6V3kU/A7USGivs9rerIuMDQJDs5F/mi1jGW
- hcfueDDq9tjhqgIDKr5oBl85RGjPt2Tcb4BWz2QMRFHMe8P8jmhKEEyJzv1mN+eW8CYB
- h4kzm1zGeSGdZMC/fW5zbD1ClyKMRMS3ioNw3VR9TRR1BDXMYmqyOfmCmd70bliq5pqa
- ZNKCwcFnTKCSOHP+8q4ArBcsYH6YUhNll3gMaojtUiJ3ROsmpAXPdhiH2ea19+F5fhXT
- JKISsT1w6atovPKchHtgbPzAmwd8Kc3MF8MLBrXNaRNkXmRKHJbSF7lsWpcfuzcLSslU
- yH1A==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1nA9B1-0001ho-1i
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 06:30:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31600)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1nA9Aw-0004RY-V1
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 06:30:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642591850;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=eUOdMVP4x+JT0nUaxHTzmDc/LwQxzS9ywyA8HE+L9sM=;
+ b=brsA5TpZYwIXPdIQ+4aMcAV487tlCkBPpmDJX9Ot8V26v4Boe56O8gjBHe2Ix8eur4ix7q
+ dJzVcZ5vsCvShYe1EE8aRX1qOCT/il7HvhVouTzXhx0fcQabnMy2UcIbCNtRhVmswPasls
+ MJuSh5nmtRl61/Ixj4mBknqKeFo07iA=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-12-HkidDhmkNd2ZJMbIFWVghQ-1; Wed, 19 Jan 2022 06:30:49 -0500
+X-MC-Unique: HkidDhmkNd2ZJMbIFWVghQ-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ a14-20020aed278e000000b002c91399bf9eso1308256qtd.7
+ for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 03:30:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Ej0vmGelmEU05/ZQCgcGrDZolvzUZdt1Pp06L/DdvOw=;
- b=61upZoV4C3f7UcDMCDoE6etvMkOTGtam6sHW8ch3mdoYFkhPJrC7k8rRfobQdsNG6s
- HjkC0LLKNRQEAoEzNkJ7DP6ijF3MGwwFlwuUyQ2fwmR4oRLgbk+hFA3OFUY9VpqLLXHU
- xjLX5GN7YvLyrY80kKlQp8XloJt5rwx25HQvvT5STpn9DuEd0oP6c4f/XVvW6+eQfWRY
- Lv9vduEVSWh4MkAiqj2yEfmYwC/SUsTj4QSp351Hhcvj/Nl2/T+zkJPrltJ012VCKcG+
- DAJGZAmduvNzFtFjkUahaER0UAXYMx8JQ87pF29+cSP+xlDHT8vI26kfyoB3xRLC4uc/
- RfPw==
-X-Gm-Message-State: AOAM532qiZu6OEuwVpvg4YM8pHm8QUQQcadx995HDuJe/vepSGDmvXQI
- 510kRVxI1GOF6ZmZ6jAd1Ac=
-X-Google-Smtp-Source: ABdhPJy6VOEma+usakZT2PCFQGC4zs5uE4/W0d/ibVMj9X/2/ynaJOYHrhWLpVe7yIn1QQjEmuyy+Q==
-X-Received: by 2002:aa7:9543:0:b0:4bf:2a07:5bc7 with SMTP id
- w3-20020aa79543000000b004bf2a075bc7mr30344941pfq.73.1642591841152; 
- Wed, 19 Jan 2022 03:30:41 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id 14sm9232826pgp.86.2022.01.19.03.30.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Jan 2022 03:30:40 -0800 (PST)
-Message-ID: <aaf525e8-7dc5-f93d-0cc5-5ba560b5650f@amsat.org>
-Date: Wed, 19 Jan 2022 12:30:35 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=eUOdMVP4x+JT0nUaxHTzmDc/LwQxzS9ywyA8HE+L9sM=;
+ b=Lq7BQ0CRVxUFGfJynWywsCYSvTOlom24Vkhu7Xo9Aa1kY9NhX4NzpJEtco8nXO4rUw
+ 9mTSgcJQR0Lkm4dLgotZlNFv/3ONGj2lHH4ldwjn/giuN/HLlAZat7dp+hAG7Qd5JKkF
+ DE/Uc9yO2RsAJCKVKohXRRr0QyCKk3coEbGX9sI1gA9KjF5vUBSko07xDWwajnpm3jeX
+ wQFRTNMP4LBwjtVBpXwVMf5GqpJrVyGpImm/ywsWHNZ9Asq4LrQ3YPw7JlJgxM/XsAW2
+ LAf1w4ODgxAIeIJVetM0CxNtgs+JueunrPZ5Q4IR2UYgT0m2aXMoZZRulj+JdhqG14w5
+ q0jw==
+X-Gm-Message-State: AOAM5323yw+V1pZguPGmwJt6EKiUxTfKqWEwnt1lnEeSZmBoIoYFV3/9
+ pBUskAyxQdcMTUicnjLZsABYeR2r8X5D42rT4wK2WGH17yOkZtefF9amclfX1IQlUj70LVUkqx6
+ c2U7uY1ihMx6QwbA=
+X-Received: by 2002:a05:6214:20e3:: with SMTP id
+ 3mr13645677qvk.81.1642591848915; 
+ Wed, 19 Jan 2022 03:30:48 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxfRqqC7ZhVxhz8dahA1DoUg4n51zRp5Ep7cCIZQTlYMvKw66hBC21ZvXtO1tqKBvMomF8JPw==
+X-Received: by 2002:a05:6214:20e3:: with SMTP id
+ 3mr13645659qvk.81.1642591848736; 
+ Wed, 19 Jan 2022 03:30:48 -0800 (PST)
+Received: from steredhat (host-95-238-125-214.retail.telecomitalia.it.
+ [95.238.125.214])
+ by smtp.gmail.com with ESMTPSA id c20sm152264qtd.20.2022.01.19.03.30.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Jan 2022 03:30:48 -0800 (PST)
+Date: Wed, 19 Jan 2022 12:30:42 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: "Longpeng(Mike)" <longpeng2@huawei.com>
+Subject: Re: [PATCH v2 05/10] vdpa-dev: implement the realize interface
+Message-ID: <20220119113042.a4dmwe4tnfsabnmn@steredhat>
+References: <20220117124331.1642-1-longpeng2@huawei.com>
+ <20220117124331.1642-6-longpeng2@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH v2 1/2] target/riscv: iterate over a table of decoders
-Content-Language: en-US
-To: Philipp Tomsich <philipp.tomsich@vrull.eu>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, Bin Meng <bin.meng@windriver.com>,
- Greg Favor <gfavor@ventanamicro.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Kito Cheng <kito.cheng@sifive.com>
-References: <20220113202033.3320854-1-philipp.tomsich@vrull.eu>
-In-Reply-To: <20220113202033.3320854-1-philipp.tomsich@vrull.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52b
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52b.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20220117124331.1642-6-longpeng2@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,109 +98,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: mst@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
+ yechuan@huawei.com, arei.gonglei@huawei.com, huangzhichao@huawei.com,
+ stefanha@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 13/1/22 21:20, Philipp Tomsich wrote:
-> To split up the decoder into multiple functions (both to support
-> vendor-specific opcodes in separate files and to simplify maintenance
-> of orthogonal extensions), this changes decode_op to iterate over a
-> table of decoders predicated on guard functions.
-> 
-> This commit only adds the new structure and the table, allowing for
-> the easy addition of additional decoders in the future.
-> 
-> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-> ---
-> 
-> Changes in v2:
-> - (new patch) iterate over a table of guarded decoder functions
-> 
->   target/riscv/translate.c | 38 ++++++++++++++++++++++++++++++++------
->   1 file changed, 32 insertions(+), 6 deletions(-)
-> 
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 615048ec87..2cbf9cbb6f 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -116,6 +116,12 @@ static inline bool has_ext(DisasContext *ctx, uint32_t ext)
->       return ctx->misa_ext & ext;
->   }
->   
-> +static inline bool always_true_p(CPURISCVState *env  __attribute__((__unused__)),
-> +                                 DisasContext *ctx  __attribute__((__unused__)))
-> +{
-> +    return true;
-> +}
-> +
->   #ifdef TARGET_RISCV32
->   #define get_xl(ctx)    MXL_RV32
->   #elif defined(CONFIG_USER_ONLY)
-> @@ -844,16 +850,28 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
->   
->   static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
->   {
-> -    /* check for compressed insn */
-> +    /* If not handled, we'll raise an illegal instruction exception */
-> +    bool handled = false;
-> +
-> +    /*
-> +     * A table with predicate (i.e., guard) functions and decoder functions
-> +     * that are tested in-order until a decoder matches onto the opcode.
-> +     */
-> +    const struct {
-> +        bool (*guard_func)(CPURISCVState *, DisasContext *);
-> +        bool (*decode_func)(DisasContext *, uint32_t);
-> +    } decoders[] = {
-> +        { always_true_p,  decode_insn32 },
-> +    };
-> +
-> +    /* Check for compressed insn */
->       if (extract16(opcode, 0, 2) != 3) {
->           if (!has_ext(ctx, RVC)) {
->               gen_exception_illegal(ctx);
->           } else {
->               ctx->opcode = opcode;
->               ctx->pc_succ_insn = ctx->base.pc_next + 2;
-> -            if (!decode_insn16(ctx, opcode)) {
-> -                gen_exception_illegal(ctx);
-> -            }
-> +            handled = decode_insn16(ctx, opcode);
->           }
->       } else {
->           uint32_t opcode32 = opcode;
-> @@ -862,10 +880,18 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
->                                                ctx->base.pc_next + 2));
->           ctx->opcode = opcode32;
->           ctx->pc_succ_insn = ctx->base.pc_next + 4;
-> -        if (!decode_insn32(ctx, opcode32)) {
-> -            gen_exception_illegal(ctx);
-> +
-> +        for (size_t i = 0; i < ARRAY_SIZE(decoders); ++i) {
-> +            if (!decoders[i].guard_func(env, ctx))
-> +                continue;
-> +
-> +            if ((handled = decoders[i].decode_func(ctx, opcode32)))
-> +                break;
+On Mon, Jan 17, 2022 at 08:43:26PM +0800, Longpeng(Mike) via wrote:
+>From: Longpeng <longpeng2@huawei.com>
+>
+>Implements the .realize interface.
+>
+>Signed-off-by: Longpeng <longpeng2@huawei.com>
+>---
+> hw/virtio/vdpa-dev.c         | 101 +++++++++++++++++++++++++++++++++++
+> include/hw/virtio/vdpa-dev.h |   8 +++
+> 2 files changed, 109 insertions(+)
+>
+>diff --git a/hw/virtio/vdpa-dev.c b/hw/virtio/vdpa-dev.c
+>index b103768f33..bd28cf7a15 100644
+>--- a/hw/virtio/vdpa-dev.c
+>+++ b/hw/virtio/vdpa-dev.c
+>@@ -27,9 +27,109 @@ uint32_t vhost_vdpa_device_get_u32(int fd, unsigned long int cmd, Error **errp)
+>     return val;
+> }
+>
+>+static void
+>+vhost_vdpa_device_dummy_handle_output(VirtIODevice *vdev, VirtQueue *vq)
+>+{
+>+    /* Nothing to do */
+>+}
+>+
+> static void vhost_vdpa_device_realize(DeviceState *dev, Error **errp)
+> {
+>+    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+>+    VhostVdpaDevice *s = VHOST_VDPA_DEVICE(vdev);
+>+    uint32_t vdev_id, max_queue_size;
+>+    struct vhost_virtqueue *vqs;
+>+    int i, ret;
+>+
+>+    if (s->vdpa_dev_fd == -1) {
+>+        s->vdpa_dev_fd = qemu_open(s->vdpa_dev, O_RDWR, errp);
 
-Again, while we might check whether "Vendor Extensions" are enabled or
-not at runtime, they are specific to a (vendor) core model, so we know
-their availability  at instantiation time.
+So, here we are re-opening the `vdpa_dev` again (without checking if it 
+is NULL).
 
-I don't understand the need to iterate. You can check for vendor
-extensions in riscv_tr_init_disas_context() and set a vendor_decoder()
-handler in DisasContext, which ends calling the generic decode_opc()
-one.
+And we re-do the same ioctls already done in 
+vhost_vdpa_device_pci_realize(), so I think we should do them in a 
+single place, and that place should be here.
 
->           }
->       }
-> +
-> +    if (!handled)
-> +        gen_exception_illegal(ctx);
->   }
->   
->   static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+So, what about doing all the ioctls here, setting appropriate fields in 
+VhostVdpaDevice, then using that fields in 
+vhost_vdpa_device_pci_realize() after qdev_realize() to set 
+`class_code`, `trans_devid`, and `nvectors`?
+
+>+        if (*errp) {
+>+            return;
+>+        }
+>+    }
+>+    s->vdpa.device_fd = s->vdpa_dev_fd;
+>+
+>+    max_queue_size = vhost_vdpa_device_get_u32(s->vdpa_dev_fd,
+>+                                               VHOST_VDPA_GET_VRING_NUM, errp);
+>+    if (*errp) {
+>+        goto out;
+>+    }
+>+
+>+    if (s->queue_size > max_queue_size) {
+>+        error_setg(errp, "vhost-vdpa-device: invalid queue_size: %d (max:%d)",
+>+                   s->queue_size, max_queue_size);
+>+        goto out;
+>+    } else if (!s->queue_size) {
+>+        s->queue_size = max_queue_size;
+>+    }
+>+
+>+    s->num_queues = vhost_vdpa_device_get_u32(s->vdpa_dev_fd,
+>+                                              VHOST_VDPA_GET_VQS_NUM, errp);
+                                                 ^
+VHOST_VDPA_GET_VQS_COUNT
+
+>+    if (*errp) {
+>+        goto out;
+>+    }
+>+
+>+    if (!s->num_queues || s->num_queues > VIRTIO_QUEUE_MAX) {
+>+        error_setg(errp, "invalid number of virtqueues: %u (max:%u)",
+>+                   s->num_queues, VIRTIO_QUEUE_MAX);
+>+        goto out;
+>+    }
+>+
+>+    s->dev.nvqs = s->num_queues;
+>+    vqs = g_new0(struct vhost_virtqueue, s->dev.nvqs);
+>+    s->dev.vqs = vqs;
+>+    s->dev.vq_index = 0;
+>+    s->dev.vq_index_end = s->dev.nvqs;
+>+    s->dev.backend_features = 0;
+>+    s->started = false;
+>+
+>+    ret = vhost_dev_init(&s->dev, &s->vdpa, VHOST_BACKEND_TYPE_VDPA, 0, NULL);
+>+    if (ret < 0) {
+>+        error_setg(errp, "vhost-vdpa-device: vhost initialization failed: %s",
+>+                   strerror(-ret));
+>+        goto free_vqs;
+>+    }
+>+
+>+    vdev_id = vhost_vdpa_device_get_u32(s->vdpa_dev_fd,
+>+                                        VHOST_VDPA_GET_DEVICE_ID, errp);
+>+    if (ret < 0) {
+>+        error_setg(errp, "vhost-vdpa-device: vhost get device id failed: %s",
+>+                   strerror(-ret));
+>+        goto vhost_cleanup;
+>+    }
+>+
+>+    s->config_size = vhost_vdpa_device_get_u32(s->vdpa_dev_fd,
+>+                                               VHOST_VDPA_GET_CONFIG_SIZE, errp);
+>+    if (*errp) {
+>+        goto vhost_cleanup;
+>+    }
+>+    s->config = g_malloc0(s->config_size);
+>+
+>+    ret = vhost_dev_get_config(&s->dev, s->config, s->config_size, NULL);
+>+    if (ret < 0) {
+>+        error_setg(errp, "vhost-vdpa-device: get config failed");
+>+        goto free_config;
+>+    }
+>+
+>+    virtio_init(vdev, "vhost-vdpa", vdev_id, s->config_size);
+>+
+>+    s->virtqs = g_new0(VirtQueue *, s->dev.nvqs);
+>+    for (i = 0; i < s->dev.nvqs; i++) {
+>+        s->virtqs[i] = virtio_add_queue(vdev, s->queue_size,
+>+                                        vhost_vdpa_device_dummy_handle_output);
+>+    }
+>+
+>     return;
+>+
+>+free_config:
+>+    g_free(s->config);
+>+vhost_cleanup:
+>+    vhost_dev_cleanup(&s->dev);
+>+free_vqs:
+>+    g_free(vqs);
+>+out:
+>+    qemu_close(s->vdpa_dev_fd);
+>+    s->vdpa_dev_fd = -1;
+> }
+>
+> static void vhost_vdpa_device_unrealize(DeviceState *dev)
+>@@ -64,6 +164,7 @@ static void vhost_vdpa_device_set_status(VirtIODevice *vdev, uint8_t status)
+> static Property vhost_vdpa_device_properties[] = {
+>     DEFINE_PROP_STRING("vdpa-dev", VhostVdpaDevice, vdpa_dev),
+>     DEFINE_PROP_INT32("vdpa-dev-fd", VhostVdpaDevice, vdpa_dev_fd, -1),
+>+    DEFINE_PROP_UINT16("queue-size", VhostVdpaDevice, queue_size, 0),
+>     DEFINE_PROP_END_OF_LIST(),
+> };
+>
+>diff --git a/include/hw/virtio/vdpa-dev.h b/include/hw/virtio/vdpa-dev.h
+>index e7ad349113..e0482035cf 100644
+>--- a/include/hw/virtio/vdpa-dev.h
+>+++ b/include/hw/virtio/vdpa-dev.h
+>@@ -14,6 +14,14 @@ struct VhostVdpaDevice {
+>     char *vdpa_dev;
+>     int vdpa_dev_fd;
+>     int32_t bootindex;
+>+    struct vhost_dev dev;
+>+    struct vhost_vdpa vdpa;
+>+    VirtQueue **virtqs;
+>+    uint8_t *config;
+>+    int config_size;
+>+    uint32_t num_queues;
+>+    uint16_t queue_size;
+>+    bool started;
+> };
+>
+> uint32_t vhost_vdpa_device_get_u32(int fd, unsigned long int cmd, Error **errp);
+>-- 
+>2.23.0
+>
+>
 
 
