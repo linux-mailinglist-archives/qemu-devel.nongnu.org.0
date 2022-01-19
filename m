@@ -2,68 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86C804937FA
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 11:11:30 +0100 (CET)
-Received: from localhost ([::1]:38680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC9C4937E2
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 11:02:37 +0100 (CET)
+Received: from localhost ([::1]:54590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA7w9-0003R8-7O
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 05:11:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54098)
+	id 1nA7nY-00038t-C5
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 05:02:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1nA7kM-0002fw-Sm
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 04:59:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45688)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1nA7kF-0007OA-Sp
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 04:59:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642586341;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=8I57EkV/s3QS+3ZufSnPu4hZIBmUbZx+WdcGMKajzXA=;
- b=K9AFqYGN+t/VF6pF26errPR35//eCz7XmexfZYKgtsNxZRE5LIeAIjhsjHvpMxbMwWziXk
- DMDYROyCs3MWfAftcCoRMCsvItIF7Qt1qAHL8YS4UMamZBJvc6NkRmT+s59ulrkTs8vS7b
- GBCnte8DYJ7Sf7szvWqNZitjtfRbsiM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-450-4XHolJlKPJON0bnZ-iNOLw-1; Wed, 19 Jan 2022 04:57:02 -0500
-X-MC-Unique: 4XHolJlKPJON0bnZ-iNOLw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6F05B7D21;
- Wed, 19 Jan 2022 09:56:43 +0000 (UTC)
-Received: from wi2021.rezanina.moe.rezanina.moe (unknown [10.40.192.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DBD6716E51;
- Wed, 19 Jan 2022 09:56:42 +0000 (UTC)
-From: mrezanin@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH] configure: Use -mlittle-endian instead of -mlittle for ppc64
-Date: Wed, 19 Jan 2022 04:56:41 -0500
-Message-Id: <20220119095641.6729-1-mrezanin@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nA7j3-0000cY-OG; Wed, 19 Jan 2022 04:57:57 -0500
+Received: from [2a00:1450:4864:20::331] (port=51893
+ helo=mail-wm1-x331.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nA7j2-0007He-9P; Wed, 19 Jan 2022 04:57:57 -0500
+Received: by mail-wm1-x331.google.com with SMTP id c2so4250623wml.1;
+ Wed, 19 Jan 2022 01:57:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=FcwZDtAGdeLe6OLqP3pX06g5SbtO/KFgWK1e9ktvWwg=;
+ b=W5tQRMiwu1q9qrbDQyl0Nq/+GGyZqulEw7V565cUiibBxj2iPBT9Y+WTU1F4Qw9ZIV
+ bZGeMKQEZUTfWANTwttsUQlUxZ7Dk5t5XGH0kWawpU+tpeeUWyNrQ1HYaLwAtCnJSkMi
+ o3KBgZc4jPKk6WKaSvmLbFDxtj7cyzyXI5j+ObuEMeAvtRzKEh/GQyH2bOAnzXeFA1tc
+ Nb023kTv1jhLkT7F2tv146jo3iOj9yq8cyfYkwwwc8nVVB+U6gZ4pUMc8SsdrCx/8H5v
+ Tl5Vom6gKhhOsiJL36gr2p9E+CafWTDK16dy06BZi8QbcbHzTL22Ng65m2YTHvYmbKba
+ S/Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=FcwZDtAGdeLe6OLqP3pX06g5SbtO/KFgWK1e9ktvWwg=;
+ b=xaHeRiRDb93CJNJ6CQFtdxa0kSP1cdZJMPwiVMlNQlNyDcET9QOfCeQpGsKXgT0FbK
+ W13fRgLztnqz/Sm3T1JPwNqmrPL8BQopC+wawZJ7xdw5CYUpwzfky++8Amt7uzLHRg6S
+ roBLofwBugWfURW0ERKW2C9xpuy54NG5pvLaY9FZXoRwUaLskmv7NMv05vr5v/Z+/ah2
+ TWVXbVhcxx+joF5urs7Pl/M6wgP/RSGUQTyycMtwkjCTIQVx52xvaIWJrBRVROzBLQBc
+ Gr5Uo41gMWSKH1v0yUbuomBmr/Ih2HgxDEWeBzpcrwno8V13b08oPCz96YG7WdxtfTG0
+ CL9Q==
+X-Gm-Message-State: AOAM5320rllCSEjJVR7Hgom6RrzxytPLfGNkp02bJ0QM5wG/bSI8AS9U
+ ISHFW5//kwfshRgGHybNKWo=
+X-Google-Smtp-Source: ABdhPJyyrRkb1/97Myi7462PNXOMNFOsCG1pccmhVAsV/st3RVErRbR9ccI3dv+wRK/SxcFgVfDAFg==
+X-Received: by 2002:a1c:4d01:: with SMTP id o1mr1243021wmh.170.1642586274551; 
+ Wed, 19 Jan 2022 01:57:54 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id i13sm6200766wmq.45.2022.01.19.01.57.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Jan 2022 01:57:54 -0800 (PST)
+Message-ID: <e89189e7-515a-e231-d17b-076d5137ea33@redhat.com>
+Date: Wed, 19 Jan 2022 10:57:50 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mrezanin@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mrezanin@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v3 02/16] job.h: categorize fields in struct Job
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20220105140208.365608-1-eesposit@redhat.com>
+ <20220105140208.365608-3-eesposit@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220105140208.365608-3-eesposit@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,37 +91,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Miroslav Rezanina <mrezanin@redhat.com>
+On 1/5/22 15:01, Emanuele Giuseppe Esposito wrote:
+> +    /** Protected by job_mutex */
 
-GCC options -mlittle and -mlittle-endian are equivalent on ppc64
-architecture. However, clang supports only -mlittle-endian option.
+Technically not yet true.  You can add this in patch 15 and at the same 
+time remove this one:
 
-Use longer form in configure to properly support both GCC and clang
-compiler.
+>        * Set to false by the job while the coroutine has yielded and may be
+>        * re-entered by job_enter(). There may still be I/O or event loop activity
+> -     * pending. Accessed under block_job_mutex (in blockjob.c).
+> +     * pending. Accessed under job_mutex.
 
-Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
----
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/configure b/configure
-index e1a31fb332..e63c78ca67 100755
---- a/configure
-+++ b/configure
-@@ -658,7 +658,7 @@ case "$cpu" in
-     CPU_CFLAGS="-m64 -mbig" ;;
-   ppc64le)
-     cpu="ppc64"
--    CPU_CFLAGS="-m64 -mlittle" ;;
-+    CPU_CFLAGS="-m64 -mlittle-endian" ;;
- 
-   s390)
-     CPU_CFLAGS="-m31" ;;
--- 
-2.27.0
-
+Paolo
 
