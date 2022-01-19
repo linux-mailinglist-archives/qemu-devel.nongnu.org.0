@@ -2,87 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B255B493986
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 12:31:57 +0100 (CET)
-Received: from localhost ([::1]:43628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55E0F493972
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 12:24:34 +0100 (CET)
+Received: from localhost ([::1]:39822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA9C0-0000YB-6G
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 06:31:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52720)
+	id 1nA94r-0005m2-GD
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 06:24:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nA8ya-00015q-Fd; Wed, 19 Jan 2022 06:18:04 -0500
-Received: from [2607:f8b0:4864:20::62e] (port=38616
- helo=mail-pl1-x62e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nA8yU-00027f-Tj; Wed, 19 Jan 2022 06:18:00 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id c3so1843846pls.5;
- Wed, 19 Jan 2022 03:17:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=58J9h7WKd0SwNY013BhozY7oNdnjKjDnKp/3MOw1eFY=;
- b=pVzbGj3h346LJyOyck+LQ7ARlpxKCwEj7eyVCKm92AJGw4ggke2KU0S6tTr16l93xX
- 38WXGsC/BkCY0+Go11a3ZImyqLeGgkTTB1s3ki+YXyMWnIYgd/3cx1Jw+bdPDh8zvS3q
- 80+qKDolxXnHWLxQLfRlThyzCzHAN3c6vKu9GEUbv4EfW4joOCF3tO52bMhajgqFbMOk
- vFr2MUDkj5iacVDcBAlRVmYypou+XUeYz8RLpFGqZ4h6gbErOQQswCEHfxwklS3crwJ2
- eL6MqFxWUclI+rMdc009eXHhDnPnRnEXfKBYwg+HsFGZKtiTqe2o6o69sQjjIDMMuqcO
- hLag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=58J9h7WKd0SwNY013BhozY7oNdnjKjDnKp/3MOw1eFY=;
- b=11rtcXaWKjPtnzhJyFK5548jcIzbCYOhkc6/WjM96tbRFfQA/IcR8NE4WBEwfFwRjj
- Fk+QVc3xV2RyprtjnEipotIK8bkg38z1oKLNaX91JPl3RGHh4ZM629wANcm+WeCzgd+U
- 7aE/BmTqs9q6djfiilk3/HvfHocm1DzFF7rbXW1W2s1qL/2piMTWy1lBoXnFltZ0Upfp
- DL3/TfpGubUu8uB0i1QpP+V6790S4yFNtnYDvgYAYPrvtz4Zzzm0jV4kT6qKPbOAA8yC
- BI8Sj6JrDsJ3GebmXk5c3Rh2sClo96+yun51nzDR63jMmSSGET1ClV74Ngtd5wYh3dyt
- hCKA==
-X-Gm-Message-State: AOAM531pHMMDSk79MGVk6gAeI37az+X27YmGe7V9S7sO1zj71pazR8OK
- hkJJMBkAG0anOH/Zz9wg7wU=
-X-Google-Smtp-Source: ABdhPJy67H1zDj9S+eCdPrPruS0BcF5EHR1iOpli6o7hJrWOXyszlxZ+eoP8a5LmyFev97hv/lZ/uw==
-X-Received: by 2002:a17:90a:a40d:: with SMTP id
- y13mr3808756pjp.23.1642591074632; 
- Wed, 19 Jan 2022 03:17:54 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id s40sm21589782pfg.144.2022.01.19.03.17.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Jan 2022 03:17:54 -0800 (PST)
-Message-ID: <d237abed-fe8c-fb29-3ec0-27a0504eeffc@amsat.org>
-Date: Wed, 19 Jan 2022 12:17:49 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nA92J-0003gr-4a
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 06:21:55 -0500
+Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:36767)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nA92D-0002ug-Pv
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 06:21:53 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.136])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 2635321019;
+ Wed, 19 Jan 2022 11:21:45 +0000 (UTC)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Wed, 19 Jan
+ 2022 12:21:45 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R004ee135d2e-cf1a-4778-9b1c-5057be79dce1,
+ D7DF39B65A0956CFE557F682C3487E629228C0D9) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <d9800d4d-fcd4-e37c-1e35-ee9228a3b3ee@kaod.org>
+Date: Wed, 19 Jan 2022 12:21:44 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH v2 2/2] target/riscv: Add XVentanaCondOps custom extension
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v2 06/14] target/ppc: 405: Machine check exception cleanup
 Content-Language: en-US
-To: Philipp Tomsich <philipp.tomsich@vrull.eu>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, Bin Meng <bin.meng@windriver.com>,
- Greg Favor <gfavor@ventanamicro.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Kito Cheng <kito.cheng@sifive.com>
-References: <20220113202033.3320854-1-philipp.tomsich@vrull.eu>
- <20220113202033.3320854-2-philipp.tomsich@vrull.eu>
-In-Reply-To: <20220113202033.3320854-2-philipp.tomsich@vrull.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: David Gibson <david@gibson.dropbear.id.au>, Fabiano Rosas
+ <farosas@linux.ibm.com>
+References: <20220118184448.852996-1-farosas@linux.ibm.com>
+ <20220118184448.852996-7-farosas@linux.ibm.com> <Yeeqb5EVo3Up0jeU@yekko>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <Yeeqb5EVo3Up0jeU@yekko>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: fe946e32-b012-4d0a-bf3e-1ccba93b1ebf
+X-Ovh-Tracer-Id: 17602600621916392230
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudehgddvkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegsrghlrghtohhnsegvihhkrdgsmhgvrdhhuh
+Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
+ helo=5.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,43 +71,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 13/1/22 21:20, Philipp Tomsich wrote:
-> This adds the decoder and translation for the XVentanaCondOps custom
-> extension (vendor-defined by Ventana Micro Systems), which is
-> documented at https://github.com/ventanamicro/ventana-custom-extensions/releases/download/v1.0.0/ventana-custom-extensions-v1.0.0.pdf
+On 1/19/22 07:06, David Gibson wrote:
+> On Tue, Jan 18, 2022 at 03:44:40PM -0300, Fabiano Rosas wrote:
+>> powerpc_excp_40x applies only to the 405, so remove HV code and
+>> references to BookE.
+>>
+>> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+>> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+>> ---
+>>   target/ppc/excp_helper.c | 26 ++------------------------
+>>   1 file changed, 2 insertions(+), 24 deletions(-)
+>>
+>> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+>> index bddea702be..e98d783ecd 100644
+>> --- a/target/ppc/excp_helper.c
+>> +++ b/target/ppc/excp_helper.c
+>> @@ -457,34 +457,12 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
+>>               cs->halted = 1;
+>>               cpu_interrupt_exittb(cs);
+>>           }
+>> -        if (env->msr_mask & MSR_HVB) {
+>> -            /*
+>> -             * ISA specifies HV, but can be delivered to guest with HV
+>> -             * clear (e.g., see FWNMI in PAPR).
+>> -             */
+>> -            new_msr |= (target_ulong)MSR_HVB;
+>> -        }
+>>   
+>>           /* machine check exceptions don't have ME set */
+>>           new_msr &= ~((target_ulong)1 << MSR_ME);
+>>   
+>> -        /* XXX: should also have something loaded in DAR / DSISR */
 > 
-> This commit then also adds a guard-function (has_XVentanaCondOps_p)
-> and the decoder function to the table of decoders, enabling the
-> support for the XVentanaCondOps extension.
+> DAR and DSISR don't apply for 40x, but I wonder if we should be
+> loading something into DEAR or ESR for machine checks.
+
+the user manuals only refers to SRR2 and SRR3.
+
+Thanks,
+
+C.
+
 > 
-> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+>> -        switch (excp_model) {
+>> -        case POWERPC_EXCP_40x:
+>> -            srr0 = SPR_40x_SRR2;
+>> -            srr1 = SPR_40x_SRR3;
+>> -            break;
+>> -        case POWERPC_EXCP_BOOKE:
+>> -            /* FIXME: choose one or the other based on CPU type */
+>> -            srr0 = SPR_BOOKE_MCSRR0;
+>> -            srr1 = SPR_BOOKE_MCSRR1;
+>> -
+>> -            env->spr[SPR_BOOKE_CSRR0] = env->nip;
+>> -            env->spr[SPR_BOOKE_CSRR1] = msr;
+>> -            break;
+>> -        default:
+>> -            break;
+>> -        }
+>> +        srr0 = SPR_40x_SRR2;
+>> +        srr1 = SPR_40x_SRR3;
+>>           break;
+>>       case POWERPC_EXCP_DSI:       /* Data storage exception                   */
+>>           trace_ppc_excp_dsi(env->spr[SPR_DSISR], env->spr[SPR_DAR]);
 > 
-> ---
-> 
-> Changes in v2:
-> - Split off decode table into XVentanaCondOps.decode
-> - Wire up XVentanaCondOps in the decoder-table
-
->   static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
->   {
-> @@ -862,6 +874,7 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
->           bool (*decode_func)(DisasContext *, uint32_t);
->       } decoders[] = {
->           { always_true_p,  decode_insn32 },
-
-"always_true" is the first entry,
-
-> +        { has_XVentanaCondOps_p,  decode_XVentanaCodeOps },
-
-so is that ever called?
-
->       };
->   
->       /* Check for compressed insn */
 
 
