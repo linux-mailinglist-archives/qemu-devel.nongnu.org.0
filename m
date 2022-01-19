@@ -2,92 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A734939B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 12:40:16 +0100 (CET)
-Received: from localhost ([::1]:56894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A0E49398A
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 12:35:02 +0100 (CET)
+Received: from localhost ([::1]:49060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA9K3-0001RG-AT
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 06:40:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55810)
+	id 1nA9Ez-0004Zk-Bz
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 06:35:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nA9A2-0001Vs-ST
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 06:29:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60280)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nA9A0-0004As-2Z
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 06:29:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642591785;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9GZGwu+uoagPd2ruG5+1BLavrqWVPGoUt7enSH3lXE8=;
- b=aKmgMIcpa2Zu3udZIzuzJoIJjveiLOU0BsGKoHw89xMKAjB/Koh/OS2gq7jTjTsXGyni7u
- qH9TbVS+d5LqnpOc6J3tSaCCb2mDIWBJEjtvayY0u1YytHDoSgBYRE0m+3B8m1+Ozc6+bS
- 5hWZjHBfAuaCF5O3FBbjkhQ/6rjUr6c=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-2-rKx4lJ4QPcu_oO-GG6LZqA-1; Wed, 19 Jan 2022 06:29:43 -0500
-X-MC-Unique: rKx4lJ4QPcu_oO-GG6LZqA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- j6-20020a05600c1c0600b0034c02775da7so1106147wms.3
- for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 03:29:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nA9Az-0001gz-4X; Wed, 19 Jan 2022 06:30:54 -0500
+Received: from [2607:f8b0:4864:20::52b] (port=35679
+ helo=mail-pg1-x52b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nA9Au-0004Pp-SA; Wed, 19 Jan 2022 06:30:51 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id p125so2154191pga.2;
+ Wed, 19 Jan 2022 03:30:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=9GZGwu+uoagPd2ruG5+1BLavrqWVPGoUt7enSH3lXE8=;
- b=Gkk1vwHzqFcyaNjbgRf09VeXCen/IXWMHQTh7/uAvL2BQ0zD+jOfF0fUrbx/yUJYEA
- rs7NuZSuYKncVPh/Md7Jtf7qsX2LaQ4a5IOAmcgQuu52WAzRIpUNwqa7rLUU5I1sCrye
- zqp2tyzIK0bTTEGFSj6Z9HAviL6ShffKyDnVu92fZksqVSH8cXdQPtIIU82B/NYw4m2H
- 2bak3rzpBpoYxSpi6qQxSSuI7cKGYXiKcbgwY/yjQRRIZipe/Xu6oeQKMIiI2ZP9myow
- d163PaQqo6G42Xe0Q9Ihk3JtucX7zY+c6o5fs6Xeo8fqqbN8G6uqqiv4leCxjePtu7wO
- pCkQ==
-X-Gm-Message-State: AOAM532aNtL+gRKjdvu5V7nwEAXX+crUdi0LTdegaJGyz0YPsMpHm7nt
- HKwtXd2QE6A97rBGsLG8ZJGtZxOo1NkMXwPQY+3Jb4C1q0A7fDT1gQ1tYEcx6XC5kcsAmI/68Be
- eHgNH6ndaDjcNPGY=
-X-Received: by 2002:a5d:4301:: with SMTP id h1mr27267246wrq.511.1642591782768; 
- Wed, 19 Jan 2022 03:29:42 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyNmPcx3PUMJAYc/kgj9rOaeCqks7Iyr5wNfsZNivHaET+VK+h9FX3wRveNoYzOMm4RO4uI8A==
-X-Received: by 2002:a5d:4301:: with SMTP id h1mr27267229wrq.511.1642591782578; 
- Wed, 19 Jan 2022 03:29:42 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id bk17sm18580186wrb.105.2022.01.19.03.29.41
+ bh=Ej0vmGelmEU05/ZQCgcGrDZolvzUZdt1Pp06L/DdvOw=;
+ b=Rh7MXDzVbgGF5UOD/M1m7nrbV9d9blU6V3kU/A7USGivs9rerIuMDQJDs5F/mi1jGW
+ hcfueDDq9tjhqgIDKr5oBl85RGjPt2Tcb4BWz2QMRFHMe8P8jmhKEEyJzv1mN+eW8CYB
+ h4kzm1zGeSGdZMC/fW5zbD1ClyKMRMS3ioNw3VR9TRR1BDXMYmqyOfmCmd70bliq5pqa
+ ZNKCwcFnTKCSOHP+8q4ArBcsYH6YUhNll3gMaojtUiJ3ROsmpAXPdhiH2ea19+F5fhXT
+ JKISsT1w6atovPKchHtgbPzAmwd8Kc3MF8MLBrXNaRNkXmRKHJbSF7lsWpcfuzcLSslU
+ yH1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Ej0vmGelmEU05/ZQCgcGrDZolvzUZdt1Pp06L/DdvOw=;
+ b=61upZoV4C3f7UcDMCDoE6etvMkOTGtam6sHW8ch3mdoYFkhPJrC7k8rRfobQdsNG6s
+ HjkC0LLKNRQEAoEzNkJ7DP6ijF3MGwwFlwuUyQ2fwmR4oRLgbk+hFA3OFUY9VpqLLXHU
+ xjLX5GN7YvLyrY80kKlQp8XloJt5rwx25HQvvT5STpn9DuEd0oP6c4f/XVvW6+eQfWRY
+ Lv9vduEVSWh4MkAiqj2yEfmYwC/SUsTj4QSp351Hhcvj/Nl2/T+zkJPrltJ012VCKcG+
+ DAJGZAmduvNzFtFjkUahaER0UAXYMx8JQ87pF29+cSP+xlDHT8vI26kfyoB3xRLC4uc/
+ RfPw==
+X-Gm-Message-State: AOAM532qiZu6OEuwVpvg4YM8pHm8QUQQcadx995HDuJe/vepSGDmvXQI
+ 510kRVxI1GOF6ZmZ6jAd1Ac=
+X-Google-Smtp-Source: ABdhPJy6VOEma+usakZT2PCFQGC4zs5uE4/W0d/ibVMj9X/2/ynaJOYHrhWLpVe7yIn1QQjEmuyy+Q==
+X-Received: by 2002:aa7:9543:0:b0:4bf:2a07:5bc7 with SMTP id
+ w3-20020aa79543000000b004bf2a075bc7mr30344941pfq.73.1642591841152; 
+ Wed, 19 Jan 2022 03:30:41 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id 14sm9232826pgp.86.2022.01.19.03.30.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Jan 2022 03:29:42 -0800 (PST)
-Message-ID: <ac3505a8-9073-fd42-dd9c-cae41e730481@redhat.com>
-Date: Wed, 19 Jan 2022 12:29:41 +0100
+ Wed, 19 Jan 2022 03:30:40 -0800 (PST)
+Message-ID: <aaf525e8-7dc5-f93d-0cc5-5ba560b5650f@amsat.org>
+Date: Wed, 19 Jan 2022 12:30:35 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] ide: Explicitly poll for BHs on cancel
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org
-References: <20220105111337.10366-1-hreitz@redhat.com>
- <b09405a0-6968-1fb3-60ce-8d91e64c3673@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <b09405a0-6968-1fb3-60ce-8d91e64c3673@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.0
+Subject: Re: [PATCH v2 1/2] target/riscv: iterate over a table of decoders
 Content-Language: en-US
+To: Philipp Tomsich <philipp.tomsich@vrull.eu>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, Bin Meng <bin.meng@windriver.com>,
+ Greg Favor <gfavor@ventanamicro.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Kito Cheng <kito.cheng@sifive.com>
+References: <20220113202033.3320854-1-philipp.tomsich@vrull.eu>
+In-Reply-To: <20220113202033.3320854-1-philipp.tomsich@vrull.eu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52b
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,35 +94,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 19.01.22 12:11, Paolo Bonzini wrote:
-> On 1/5/22 12:13, Hanna Reitz wrote:
->> - assert(s->bus->dma->aiocb == NULL);
->> +
->> +        /*
->> +         * Wait for potentially still-scheduled BHs, like 
->> ide_trim_bh_cb()
->> +         * (blk_drain() will only poll if there are in-flight 
->> requests on the
->> +         * BlockBackend, which there may not necessarily be, e.g. 
->> when the
->> +         * guest has issued a zero-length TRIM request)
->> +         */
->> +        while (s->bus->dma->aiocb) {
->> +            bool progress = aio_poll(qemu_get_aio_context(), true);
->> +            assert(progress);
->> +        }
->
->
-> I think the right way to do this is to do  blk_inc_in_flight before 
-> scheduling the bottom half and blk_dec_in_flight in the BH callback. 
-> See virtio_blk_dma_restart_cb for an example.
+On 13/1/22 21:20, Philipp Tomsich wrote:
+> To split up the decoder into multiple functions (both to support
+> vendor-specific opcodes in separate files and to simplify maintenance
+> of orthogonal extensions), this changes decode_op to iterate over a
+> table of decoders predicated on guard functions.
+> 
+> This commit only adds the new structure and the table, allowing for
+> the easy addition of additional decoders in the future.
+> 
+> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+> ---
+> 
+> Changes in v2:
+> - (new patch) iterate over a table of guarded decoder functions
+> 
+>   target/riscv/translate.c | 38 ++++++++++++++++++++++++++++++++------
+>   1 file changed, 32 insertions(+), 6 deletions(-)
+> 
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 615048ec87..2cbf9cbb6f 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -116,6 +116,12 @@ static inline bool has_ext(DisasContext *ctx, uint32_t ext)
+>       return ctx->misa_ext & ext;
+>   }
+>   
+> +static inline bool always_true_p(CPURISCVState *env  __attribute__((__unused__)),
+> +                                 DisasContext *ctx  __attribute__((__unused__)))
+> +{
+> +    return true;
+> +}
+> +
+>   #ifdef TARGET_RISCV32
+>   #define get_xl(ctx)    MXL_RV32
+>   #elif defined(CONFIG_USER_ONLY)
+> @@ -844,16 +850,28 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
+>   
+>   static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+>   {
+> -    /* check for compressed insn */
+> +    /* If not handled, we'll raise an illegal instruction exception */
+> +    bool handled = false;
+> +
+> +    /*
+> +     * A table with predicate (i.e., guard) functions and decoder functions
+> +     * that are tested in-order until a decoder matches onto the opcode.
+> +     */
+> +    const struct {
+> +        bool (*guard_func)(CPURISCVState *, DisasContext *);
+> +        bool (*decode_func)(DisasContext *, uint32_t);
+> +    } decoders[] = {
+> +        { always_true_p,  decode_insn32 },
+> +    };
+> +
+> +    /* Check for compressed insn */
+>       if (extract16(opcode, 0, 2) != 3) {
+>           if (!has_ext(ctx, RVC)) {
+>               gen_exception_illegal(ctx);
+>           } else {
+>               ctx->opcode = opcode;
+>               ctx->pc_succ_insn = ctx->base.pc_next + 2;
+> -            if (!decode_insn16(ctx, opcode)) {
+> -                gen_exception_illegal(ctx);
+> -            }
+> +            handled = decode_insn16(ctx, opcode);
+>           }
+>       } else {
+>           uint32_t opcode32 = opcode;
+> @@ -862,10 +880,18 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+>                                                ctx->base.pc_next + 2));
+>           ctx->opcode = opcode32;
+>           ctx->pc_succ_insn = ctx->base.pc_next + 4;
+> -        if (!decode_insn32(ctx, opcode32)) {
+> -            gen_exception_illegal(ctx);
+> +
+> +        for (size_t i = 0; i < ARRAY_SIZE(decoders); ++i) {
+> +            if (!decoders[i].guard_func(env, ctx))
+> +                continue;
+> +
+> +            if ((handled = decoders[i].decode_func(ctx, opcode32)))
+> +                break;
 
-Oh, yes, that sounds better.  Thanks!
+Again, while we might check whether "Vendor Extensions" are enabled or
+not at runtime, they are specific to a (vendor) core model, so we know
+their availability  at instantiation time.
 
-Hanna
+I don't understand the need to iterate. You can check for vendor
+extensions in riscv_tr_init_disas_context() and set a vendor_decoder()
+handler in DisasContext, which ends calling the generic decode_opc()
+one.
+
+>           }
+>       }
+> +
+> +    if (!handled)
+> +        gen_exception_illegal(ctx);
+>   }
+>   
+>   static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
 
 
