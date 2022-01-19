@@ -2,92 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FF9E493AF1
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 14:18:11 +0100 (CET)
-Received: from localhost ([::1]:55632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA457493B65
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 14:48:58 +0100 (CET)
+Received: from localhost ([::1]:55026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAAqn-0006JL-NZ
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 08:18:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50394)
+	id 1nABKN-0002LS-8E
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 08:48:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nAAYA-0008A7-Iq
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 07:58:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42484)
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1nAB0X-000804-AJ
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 08:28:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27911)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nAAY6-0001Ga-BQ
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 07:58:53 -0500
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1nAB0L-0003Sl-TW
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 08:28:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642597125;
+ s=mimecast20190719; t=1642598880;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ovzGS4bDhx9QyphiHWpb/DWxBKA2OaVrq9/BJMqSlvw=;
- b=P4tESjjA2jAuOSd5WsAJcn81X3RnfS+LIKZHnFrPXP1y1iANfQ8yHQ6XwLxZGGjqVUCjn6
- c3D4JU2skFufm0BBSB3hdo3CCYo0T0OLboKT2ZNz/1KFUYrz4VyASU9VUKLQuTXkTU+aPM
- pXvZTEZlUowsL/i2C92FVBhbnhEexnI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=P96KsK8JBpK+GU9Geqb5icosHQlV0AGOtizo9vga+5Q=;
+ b=B+k6CUdERtsrw/j6iZCJEfXQHa46DggdjbwFbOk7J43bwBuoL6QbKRhJChWuhFrb7Ao1QJ
+ OIAzqfx4hHqaaKqFynXr0p2xoS9O6rIYySsBGjZma0P80hlv9n0EvTInBm/IbYYQkdUZMD
+ Uo2ZZepmXfWCvv2XZtz9ZUV3dZg58wY=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-x42gWhJON1aAJZqIXC6MTg-1; Wed, 19 Jan 2022 07:58:45 -0500
-X-MC-Unique: x42gWhJON1aAJZqIXC6MTg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- v185-20020a1cacc2000000b0034906580813so4302780wme.1
- for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 04:58:44 -0800 (PST)
+ us-mta-339-tusZ6h_OMD23kqPsmgmD0A-1; Wed, 19 Jan 2022 08:26:46 -0500
+X-MC-Unique: tusZ6h_OMD23kqPsmgmD0A-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ l14-20020aa7cace000000b003f7f8e1cbbdso2290693edt.20
+ for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 05:26:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ovzGS4bDhx9QyphiHWpb/DWxBKA2OaVrq9/BJMqSlvw=;
- b=E0DPPUIl8qgmPyPNhl8xh4oRv2J0nTcqcNK2NO2iqMhHxpvQqLf2YYPjDOrEhBwKaH
- 7Mfef3ymstGQGL+SUM9p3yXtWK40YRNEP18twZjBNRfh70E/1OxQyBmTan3hzH//tZvW
- nOmFO7cNkvT2H4zjYrFmsCATGjmg+lWngnJyJ/f2Ug2oicOc7edlhTDD9NW0KfHpRmz0
- 5o2rFHEIQGpfeBXGmXNvGEVnean3D+uik5iDAuFd0ZgtaePtvny97E9z3Q97RryhwcgB
- KqOiQj94yklQjOBvXim28e89J/jJMDIp6C4+5kRaYIf6RFgawUj+IFQyvAUcWTEjucRA
- YKvQ==
-X-Gm-Message-State: AOAM530EuqfP864Qc0DqzSPM10yxoUy0ZKJofIxCwPz4IZvf0fPraMsP
- CiiRWjB038iOuU123FOh6v2XfyqrlYzFOKNVRedWfMNXU9oSHv0qyRNdhyTFmR6xVQWCz9DqNhB
- 8a6kjULD11OVqMeA=
-X-Received: by 2002:a05:6000:1842:: with SMTP id
- c2mr28908723wri.482.1642597123572; 
- Wed, 19 Jan 2022 04:58:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzSJFxF93HHpQmEkWG0MnwX6d1GkLzi1xfSne37ncp5cHRn5ScQ3f/2fFzbqiokPC4MpKWBZw==
-X-Received: by 2002:a05:6000:1842:: with SMTP id
- c2mr28908705wri.482.1642597123336; 
- Wed, 19 Jan 2022 04:58:43 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id n15sm19344246wrf.79.2022.01.19.04.58.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jan 2022 04:58:42 -0800 (PST)
-Date: Wed, 19 Jan 2022 12:58:40 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH RFC 01/15] migration: No off-by-one for pss->page update
- in host page size
-Message-ID: <YegLADO94Zjhn1Gz@work-vm>
-References: <20220119080929.39485-1-peterx@redhat.com>
- <20220119080929.39485-2-peterx@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=P96KsK8JBpK+GU9Geqb5icosHQlV0AGOtizo9vga+5Q=;
+ b=gYjRYAQhEBX1uFTtKzXAIsxj1821HiOQ9nlgfsuAJ20geqh71fWn8pjKEzT+B7om9B
+ IVi7FFcRqwNM++KzTHqyP2KwVBa8DS6fH9YVKgAqsealnj1hOm/R4+4qk7bnnWewvq6q
+ y975agLtrKYmvKzShEwIpV9CL2z4KI2vhMN2kHyt2dxuCcrHyfxgpo6eR4A30ZAl/IXF
+ raECIjt5oqr726ivjNgryibdCobi5/4b7P6kT3bJOuKqZ9U+UhONqPazMWt7fRhjjHN9
+ PvLHSPrEx+IDqbdyY9JQkkpHZNevN8THXT16cBdmjPp1+2upDz91yLSbVQnlkC715oDx
+ z3Kg==
+X-Gm-Message-State: AOAM531wCKX7ybeGZ9IqdohMTwF4qWPMgaGGUK34DP7wnoBb8wiTBcqZ
+ 2eJpwA5OItfJtGu23OGoYqtaD1nmthNyTZegCCGHQJy4h20Rdf9BqHAsYxZysR7PBrtPGfzWvVX
+ z63kgjT8H7zet4Oc=
+X-Received: by 2002:a17:907:7b8e:: with SMTP id
+ ne14mr24433268ejc.259.1642598805202; 
+ Wed, 19 Jan 2022 05:26:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxkZEaClWPeypLcRc7vrBZHBYdosssCArP9CGTiw0TURMmCBl6UzgJwgiah7Ampw6PSyKEQXg==
+X-Received: by 2002:a17:907:7b8e:: with SMTP id
+ ne14mr24433257ejc.259.1642598805041; 
+ Wed, 19 Jan 2022 05:26:45 -0800 (PST)
+Received: from [10.43.2.56] (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id b15sm1243798edd.91.2022.01.19.05.26.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Jan 2022 05:26:44 -0800 (PST)
+Message-ID: <88fe6a24-40d5-0da6-14b1-3b62d9daf0a0@redhat.com>
+Date: Wed, 19 Jan 2022 14:26:43 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220119080929.39485-2-peterx@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v1 0/2] virtio-mem: Handle preallocation with migration
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20220118150712.139953-1-david@redhat.com>
+From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
+In-Reply-To: <20220118150712.139953-1-david@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mprivozn@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mprivozn@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,59 +102,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Kunkun Jiang <jiangkunkun@huawei.com>,
- qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Keqian Zhu <zhukeqian1@huawei.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> We used to do off-by-one fixup for pss->page when finished one host huge page
-> transfer.  That seems to be unnecesary at all.  Drop it.
+On 1/18/22 16:07, David Hildenbrand wrote:
+> While playing with migration of virtio-mem with an ordinary file backing,
+> I realized that migration and prealloc doesn't currently work as expected
+> for virtio-mem, especially when migrating zeropages or skipping migration
+> of some pages.
 > 
-> Cc: Keqian Zhu <zhukeqian1@huawei.com>
-> Cc: Kunkun Jiang <jiangkunkun@huawei.com>
-> Cc: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-
-Yes, I think so - I guess the -1 and +1 cancel so it works, and in
-practice ram_save_host_page then points to 1 page inside the hugepage
-which is then always clean (because it just sent it) so probably
-survives.
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> ---
->  migration/ram.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> In contrast to ordinary memory backend preallocation, virtio-mem
+> preallocates memory before plugging blocks to the guest. Consequently,
+> when migrating we are not actually preallocating on the destination but
+> "only" migrate pages. When migrating the zeropage, we might not end up
+> allocating actual backend memory.
 > 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 5234d1ece1..381ad56d26 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -1611,7 +1611,7 @@ static int ram_save_release_protection(RAMState *rs, PageSearchStatus *pss,
->      /* Check if page is from UFFD-managed region. */
->      if (pss->block->flags & RAM_UF_WRITEPROTECT) {
->          void *page_address = pss->block->host + (start_page << TARGET_PAGE_BITS);
-> -        uint64_t run_length = (pss->page - start_page + 1) << TARGET_PAGE_BITS;
-> +        uint64_t run_length = (pss->page - start_page) << TARGET_PAGE_BITS;
->  
->          /* Flush async buffers before un-protect. */
->          qemu_fflush(rs->f);
-> @@ -2230,7 +2230,7 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
->               offset_in_ramblock(pss->block,
->                                  ((ram_addr_t)pss->page) << TARGET_PAGE_BITS));
->      /* The offset we leave with is the min boundary of host page and block */
-> -    pss->page = MIN(pss->page, hostpage_boundary) - 1;
-> +    pss->page = MIN(pss->page, hostpage_boundary);
->  
->      res = ram_save_release_protection(rs, pss, start_page);
->      return (res < 0 ? res : pages);
-> -- 
-> 2.32.0
+> Postcopy needs some extra care, and I realized that prealloc+postcopy is
+> shaky in general. Let's at least try to mimic what ordinary
+> prealloc+postcopy does: temporarily allocate the memory, discard it, and
+> cross fingers that we'll still have sufficient memory when postcopy
+> actually tries placing pages.
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> For postcopy to work with prealloc=on, we need a matching "requested-size"
+> on source and destination, meaning we have to start QEMU on the destination
+> with the current "requested-size" on the source. Only that way, we can try
+> temporarily allocating the "requested-size" to see if there is a
+> fundamental issue. If we detect a mismatch, we don't start postcopy.
+> 
+> Cc: Juan Quintela <quintela@redhat.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Michal Privoznik <mprivozn@redhat.com>
+> 
+> David Hildenbrand (2):
+>   virtio-mem: Warn if a memory backend with "prealloc=on" is used
+>   virtio-mem: Handle preallocation with migration
+> 
+>  hw/virtio/virtio-mem.c         | 143 +++++++++++++++++++++++++++++++++
+>  include/hw/virtio/virtio-mem.h |   6 ++
+>  2 files changed, 149 insertions(+)
+> 
+
+I don't feel confident to review, but I feel confident enough to test:
+
+Tested-by: Michal Privoznik <mprivozn@redhat.com>
+
+Michal
 
 
