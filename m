@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E80493F29
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 18:38:14 +0100 (CET)
-Received: from localhost ([::1]:46422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA35C493F68
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 18:54:45 +0100 (CET)
+Received: from localhost ([::1]:46414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAEuS-0000go-NR
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 12:38:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45228)
+	id 1nAFAS-0003kT-Ir
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 12:54:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1nAEgv-0001ur-EQ
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 12:24:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57934)
+ id 1nAEhJ-0002R5-C3
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 12:24:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1nAEgt-0000x2-QN
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 12:24:13 -0500
+ id 1nAEhH-0000z3-M4
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 12:24:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642613051;
+ s=mimecast20190719; t=1642613075;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PR3Q85otsCupnAVVVWaQMLAFjJU9ZnAUaDplDk6xKb4=;
- b=hiYqsDVEBag3ER0JwO/PkkKRINVWq1qMUXGzF+9Cm90b0N4oETmQ4yc1Po9PtgHXJgfxRp
- oPGSAttZ//r1vlpEL6yHBjl+Nrm0d8Rx3aThiRJ2z2uIUdNiLTMPcD0/njEI/iNDjyjtwQ
- p+Vo0W7e6p1wwwldAhprZcB4NpRU+jI=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=83+l6brUGXIAwUs02nsKirR46uQgaVPyKFEQcy6z7I4=;
+ b=OTDbalF7cG6YjVYEAZ+H0HdOcLDMxbQ5likVe3mRpcGBeNiuBqsVUmDoWUPfPcO/+97GeK
+ 5nvnB9MXk0mnIviQcw5mHOVIkitkCrY0f3k1M0Jb0Zc+7UIy/R4NNuv2kRrTvjwy1Qcii/
+ YUpixm9OKk385JA2KHy09B6HeTa4ZxA=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-536-ZIazyNmePqGPlGia5ofwyw-1; Wed, 19 Jan 2022 12:24:05 -0500
-X-MC-Unique: ZIazyNmePqGPlGia5ofwyw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- s9-20020aa7d789000000b004021d03e2dfso3212527edq.18
- for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 09:24:04 -0800 (PST)
+ us-mta-32-zdY2WVVSOh6WDCxHxQ2GRw-1; Wed, 19 Jan 2022 12:24:25 -0500
+X-MC-Unique: zdY2WVVSOh6WDCxHxQ2GRw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ s9-20020aa7d789000000b004021d03e2dfso3214002edq.18
+ for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 09:24:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=PR3Q85otsCupnAVVVWaQMLAFjJU9ZnAUaDplDk6xKb4=;
- b=z0MAANT6tfv7ZcjKmiIggLj4qzPaEgGFuHxBy4OwDQd92uIiF2/IL5uN/Ro0xqVBT0
- kotURXFctQpO65Uaz6giWJg5YcTtJ6DCp0JqWgXQ3zgF33B4PtUQrPZP/5KHqbcw9KhJ
- S/EPCwMO28R8fnUaA/2+bbYbuPj58mRjOc5xpR0cz813CXcY/ZQQ6QMYrdM+lL8TmILV
- Qgyv8TgXS9+r2miUXjxLjnTUCzUX7nMXnvHYKRUUkiPJEAnrQTMXUAZPRT7N1WBYjmf9
- 61YUp+yX5JiF19TQdvffJZ4u6J8SjNIhYJsBiAOpigkuxV6cOpLCbPewyPovkHPKR58w
- CVkQ==
-X-Gm-Message-State: AOAM532FQdU7hmss6jQCHMy+E7xFRYLoeHyiajC++ylJEozZq8avE5dT
- BQG+7UxDc3lKRJwlAR2EUC+KZ22xqSoTe+49VPiKjdfDZ/iVjiaPzHroKLan3vDb/ErutOvmf/B
- r5ttxYcMgezRIuk5jtrvCuLLrFLEjDvA=
-X-Received: by 2002:a2e:885a:: with SMTP id z26mr16593995ljj.162.1642613043728; 
- Wed, 19 Jan 2022 09:24:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwFjPUD8EctaGFQ5nOuqRNnt0dK1pOkLN2tav3Sk6EwG/nUA/6Mwx9AqDkrJ/NOSgfr1nRZkMV2ThjDLM6bj+M=
-X-Received: by 2002:a2e:885a:: with SMTP id z26mr16593981ljj.162.1642613043550; 
- Wed, 19 Jan 2022 09:24:03 -0800 (PST)
+ bh=83+l6brUGXIAwUs02nsKirR46uQgaVPyKFEQcy6z7I4=;
+ b=VZjZsBNNcspkEcl79bx4q3k7LxMfxltI//+y2iteDEOZMW3Uv++SveKsWNlBvxYn7y
+ FbkoptOMQ4VqlKMHModOjPzLF3EfC7nD3uxp3Vxs2H69IBCCNmk7Lejaa3o1YbnHk/um
+ pq4HIbMHvb2nlBWXl+bQi28qVGjW8Dbi881QsJTE0YfZlApeCXuQUPmCXBl9BREP2xHV
+ Z6kFHMdHHeioHx7D/L3+npKkaSE8gLS0dFqsFPy2B4DhHvXLwTLp+kgQ0o9hhj5gjmR2
+ FLp+BknwWq5C++ntaFdwRXYTCoj3GPOlaggtht0jTs/LpMfXyMxRRLhZUcAraRpWUM5e
+ fr1g==
+X-Gm-Message-State: AOAM530DbDqwDZnbzPJJw6gRsSaaR/DMr04BxHTaof++rkvrtkU9xJV3
+ 3eoJeo1FlkU2k6VprEVtKLpz4jW20Ia/l1xzot9Y63CPiuZQEiOL9r77r92C0h/jYZr6U8lAc7H
+ jS4GuyeJLiFGLvfHD1X6FSRXs45zxG+w=
+X-Received: by 2002:a2e:594:: with SMTP id 142mr20365014ljf.116.1642613063837; 
+ Wed, 19 Jan 2022 09:24:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxMZIpGmecaalQSe+6hRA8J82vfq/R4rBYusvl3O3fFpgHVFc1cC59gPKNSZj0T88hR+05oEoUl5bF49jI95WQ=
+X-Received: by 2002:a2e:594:: with SMTP id 142mr20364999ljf.116.1642613063649; 
+ Wed, 19 Jan 2022 09:24:23 -0800 (PST)
 MIME-Version: 1.0
 References: <20220106221341.8779-1-leobras@redhat.com>
  <20220106221341.8779-3-leobras@redhat.com>
- <Yd/LLxNCItAIX3eN@xz-m1.local> <Yd/5lhcW6IHlVOBz@redhat.com>
- <YeAAJLYeImjPwW0f@xz-m1.local> <YeACHxbPt1SV9cx8@redhat.com>
- <YeAXGejEayv8V/b/@xz-m1.local>
-In-Reply-To: <YeAXGejEayv8V/b/@xz-m1.local>
-From: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
-Date: Wed, 19 Jan 2022 14:23:52 -0300
-Message-ID: <CAJ6HWG5XuXVLXZFoCQQnge2a2PBb=yHWJ1HdFiZcG7wuKUTNiw@mail.gmail.com>
+ <YeAjrIrdZfgh6m1B@redhat.com>
+In-Reply-To: <YeAjrIrdZfgh6m1B@redhat.com>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Wed, 19 Jan 2022 14:24:12 -0300
+Message-ID: <CAJ6HWG7-ptTfZ2PC25T81+kbAgXyVBHmACOSDsXB7iuUsdr8NQ@mail.gmail.com>
 Subject: Re: [PATCH v7 2/5] QIOChannelSocket: Implement io_writev zero copy
  flag & io_flush for CONFIG_LINUX
-To: Peter Xu <peterx@redhat.com>
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -96,105 +94,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 13, 2022 at 9:12 AM Peter Xu <peterx@redhat.com> wrote:
+On Thu, Jan 13, 2022 at 10:06 AM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
+om> wrote:
 >
-> On Thu, Jan 13, 2022 at 10:42:39AM +0000, Daniel P. Berrang=C3=A9 wrote:
-> > On Thu, Jan 13, 2022 at 06:34:12PM +0800, Peter Xu wrote:
-> > > On Thu, Jan 13, 2022 at 10:06:14AM +0000, Daniel P. Berrang=C3=A9 wro=
-te:
-> > > > On Thu, Jan 13, 2022 at 02:48:15PM +0800, Peter Xu wrote:
-> > > > > On Thu, Jan 06, 2022 at 07:13:39PM -0300, Leonardo Bras wrote:
-> > > > > > @@ -558,15 +575,26 @@ static ssize_t qio_channel_socket_writev(=
-QIOChannel *ioc,
-> > > > > >          memcpy(CMSG_DATA(cmsg), fds, fdsize);
-> > > > > >      }
-> > > > > >
-> > > > > > +    if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
-> > > > > > +        sflags =3D MSG_ZEROCOPY;
-> > > > > > +    }
-> > > > > > +
-> > > > > >   retry:
-> > > > > > -    ret =3D sendmsg(sioc->fd, &msg, 0);
-> > > > > > +    ret =3D sendmsg(sioc->fd, &msg, sflags);
-> > > > > >      if (ret <=3D 0) {
-> > > > > > -        if (errno =3D=3D EAGAIN) {
-> > > > > > +        switch (errno) {
-> > > > > > +        case EAGAIN:
-> > > > > >              return QIO_CHANNEL_ERR_BLOCK;
-> > > > > > -        }
-> > > > > > -        if (errno =3D=3D EINTR) {
-> > > > > > +        case EINTR:
-> > > > > >              goto retry;
-> > > > > > +        case ENOBUFS:
-> > > > > > +            if (sflags & MSG_ZEROCOPY) {
-> > > > > > +                error_setg_errno(errp, errno,
-> > > > > > +                                 "Process can't lock enough me=
-mory for using MSG_ZEROCOPY");
-> > > > > > +                return -1;
-> > > > > > +            }
-> > > > >
-> > > > > I have no idea whether it'll make a real differnece, but - should=
- we better add
-> > > > > a "break" here?  If you agree and with that fixed, feel free to a=
-dd:
-> > > > >
-> > > > > Reviewed-by: Peter Xu <peterx@redhat.com>
-> > > > >
-> > > > > I also wonder whether you hit ENOBUFS in any of the environments.=
-  On Fedora
-> > > > > here it's by default unlimited, but just curious when we should k=
-eep an eye.
-> > > >
-> > > > Fedora doesn't allow unlimited locked memory by default
-> > > >
-> > > > $ grep "locked memory" /proc/self/limits
-> > > > Max locked memory         65536                65536               =
- bytes
-> > > >
-> > > > And  regardless of Fedora defaults, libvirt will set a limit
-> > > > for the guest. It will only be unlimited if requiring certain
-> > > > things like VFIO.
-> > >
-> > > Thanks, I obviously checked up the wrong host..
-> > >
-> > > Leo, do you know how much locked memory will be needed by zero copy? =
- Will
-> > > there be a limit?  Is it linear to the number of sockets/channels?
+> On Thu, Jan 06, 2022 at 07:13:39PM -0300, Leonardo Bras wrote:
+> > For CONFIG_LINUX, implement the new zero copy flag and the optional cal=
+lback
+> > io_flush on QIOChannelSocket, but enables it only when MSG_ZEROCOPY
+> > feature is available in the host kernel, which is checked on
+> > qio_channel_socket_connect_sync()
 > >
-> > IIRC we decided it would be limited by the socket send buffer size, rat=
-her
-> > than guest RAM, because writes will block once the send buffer is full.
+> > qio_channel_socket_flush() was implemented by counting how many times
+> > sendmsg(...,MSG_ZEROCOPY) was successfully called, and then reading the
+> > socket's error queue, in order to find how many of them finished sendin=
+g.
+> > Flush will loop until those counters are the same, or until some error =
+occurs.
 > >
-> > This has a default global setting, with per-socket override. On one box=
- I
-> > have it is 200 Kb. With multifd you'll need  "num-sockets * send buffer=
-".
+> > Notes on using writev() with QIO_CHANNEL_WRITE_FLAG_ZERO_COPY:
+> > 1: Buffer
+> > - As MSG_ZEROCOPY tells the kernel to use the same user buffer to avoid=
+ copying,
+> > some caution is necessary to avoid overwriting any buffer before it's s=
+ent.
+> > If something like this happen, a newer version of the buffer may be sen=
+t instead.
+> > - If this is a problem, it's recommended to call qio_channel_flush() be=
+fore freeing
+> > or re-using the buffer.
 > >
-> > > It'll be better if we can fail at enabling the feature when we detect=
-ed that
-> > > the specified locked memory limit may not be suffice.
+> > 2: Locked memory
+> > - When using MSG_ZERCOCOPY, the buffer memory will be locked after queu=
+ed, and
+> > unlocked after it's sent.
+> > - Depending on the size of each buffer, and how often it's sent, it may=
+ require
+> > a larger amount of locked memory than usually available to non-root use=
+r.
+> > - If the required amount of locked memory is not available, writev_zero=
+_copy
+> > will return an error, which can abort an operation like migration,
+> > - Because of this, when an user code wants to add zero copy as a featur=
+e, it
+> > requires a mechanism to disable it, so it can still be accessible to le=
+ss
+> > privileged users.
 > >
-> > Checking this value against available locked memory though will always
-> > have an error margin because other things in QEMU can use locked memory
-> > too
+> > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> > ---
+> >  include/io/channel-socket.h |   2 +
+> >  io/channel-socket.c         | 107 ++++++++++++++++++++++++++++++++++--
+> >  2 files changed, 105 insertions(+), 4 deletions(-)
 >
-> We could always still allow false positive in this check, so we can fail =
-if we
-> have a solid clue to know we'll fail later (e.g. minimum locked_vm needed=
- is
-> already less than total).  But no strong opinion; we could have this merg=
-ed and
-> see whether that's needed in real life.  Thanks,
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>
 
-I agree, this is a good approach.
+Thanks!
 
-Leo
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
 
 
