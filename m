@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B43C44936B8
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 09:59:08 +0100 (CET)
-Received: from localhost ([::1]:40420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A071249361F
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 09:20:10 +0100 (CET)
+Received: from localhost ([::1]:34700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA6o7-0001a4-0G
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 03:59:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58788)
+	id 1nA6CP-0001dy-FD
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 03:20:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nA62i-00072W-3U
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 03:10:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24796)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nA62l-00076G-6t
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 03:10:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51345)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nA62f-0000zt-R3
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 03:10:07 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nA62j-0001BF-2l
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 03:10:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642579804;
+ s=mimecast20190719; t=1642579808;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZgXSsm4TobC9VeROQOkPev+2EEsMYK5pH9blVW1j0Ww=;
- b=c4mmYXlj8eB/jv/+qPIXWOOz1TyY8eK60W2UcC4In/Gn2DNFXmZVcmo3QAiuJviBITcycB
- xKMEhhg5BmdRzvLZy/Xl+rmC6ZIM/HHBo9eoL1n++LZWd+jpLBL5qtmN/0yyxbf79ZmXmr
- qZDyt55rt4Rh2fH2od09bSRbjh5VPnM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=o3RSjOQBlPTxLvQkAqgjPzeC1kjMjyIdJ01cEvje6X0=;
+ b=DhOLD8e/MmeV+oB7fi9IkXarSElYvAKOlcmLgeR89I7TRWXKs0hJ5I1zR89DxAGD8uTInM
+ DLgGUYaCqyUIZlAkbqdlMM35/TsKC3Dp2fN+fZNJAiQFdZMH9txXNWNObZj42dHINC0Pg6
+ +UcqPzn8sY901KO44hApejcOq/3dJGQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-247-1bKFoq8AO-mmyw_7Dh5MxA-1; Wed, 19 Jan 2022 03:10:03 -0500
-X-MC-Unique: 1bKFoq8AO-mmyw_7Dh5MxA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- f7-20020a1cc907000000b0034b63f314ccso1328196wmb.6
- for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 00:10:02 -0800 (PST)
+ us-mta-630-LjB4fwAmMzSMYfr28BXaUQ-1; Wed, 19 Jan 2022 03:10:07 -0500
+X-MC-Unique: LjB4fwAmMzSMYfr28BXaUQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ f187-20020a1c38c4000000b0034d5c66d8f5so1425079wma.5
+ for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 00:10:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZgXSsm4TobC9VeROQOkPev+2EEsMYK5pH9blVW1j0Ww=;
- b=jqjGAaoTS7SmSfXhxTRhc1lz+jR+aGT8T1f8NTmIIpWbZ/pvVDNRbQPZ+23hxgNjvP
- 4KF7wJpIPlqnHQie0Gc3LqWXxgngDeKZkgGL7N7ZReF7tZWxu/KkI2hFxl1m7CiGSqOW
- 5t5ur/Q8h6tWX7pjRcFJUcFQRafUmGZaoI0afGtOroNbr0ExNf62UOfb00r+fTNuAN1e
- xpMlraNNBIvMnl50LS+/cG+yxmX/V+qBV97qivan2nIppPaZUyOMmVffnjdHXYCZUQQz
- aN52Q7wkH0yrK6UFOH1aBA7/QcuJQrvQ9SgzsYiYgIWz9iyoMOgnpQzG+dDjXULpPqan
- FNdQ==
-X-Gm-Message-State: AOAM531ZeWHz1S24afYuL5lpvBfigFBJnXKDLBkYBgMNE81LOsu9kt6y
- tCocpjk1oIKY7B3OYQljxtYcJsEZJwG1/62NCJbz2O6FaXGn++eK8Iuv5DAHVONpys1VDiuqNBA
- cRiU3ANXA/t0B09aABIWVIyir4uIv1cqsWID8/Ubil7Jug5idmZuENec6yubeReis
-X-Received: by 2002:a5d:4ad2:: with SMTP id y18mr27753902wrs.141.1642579801528; 
- Wed, 19 Jan 2022 00:10:01 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz9HNYyGr7BYHOnFdIxA2U9phmfkzn7k9/TNtuzKUXOKkGo/c9ZyY6ZR0yQMzSpP2DjeCDm3w==
-X-Received: by 2002:a5d:4ad2:: with SMTP id y18mr27753882wrs.141.1642579801277; 
- Wed, 19 Jan 2022 00:10:01 -0800 (PST)
+ bh=o3RSjOQBlPTxLvQkAqgjPzeC1kjMjyIdJ01cEvje6X0=;
+ b=Ifj+SpMLGzoaRTd0aPB4d/iVXfMJ+b3BM8D2i4ApcEsvzU0k8acBmsj3ngwcjZYH1b
+ fAV+pLhsuHlwyQ7gyNiiMLFX4e+Yai4+qqXojRUGYKFJZQyNRl3cZiib1OQN8k5XApb4
+ 56fzL5uueNR/6ZhNzE9Sb6C7zL8JgDLLAZMD8LRm2I2pkhp8XoGFu2qEL3rKfgRxO+C9
+ qRrLld01hXWVeYMy5EX7rLBYhDBkaqohjLJvf36XYtaJioRX1kwrVhh7xyzGtWU8kmQE
+ Q44y6utmfslLKL5e7aGHOTYn20FzQW3pvULp+xgW1h8WG8Zw3/zc+cuirFzCoW9CYFXy
+ exAg==
+X-Gm-Message-State: AOAM532GPYjKdJxPNxkba/FFffMKdFBGqwuXkQb6F8si8oc/Amol5/Pc
+ 2h6OKlmK4aQhyxZdSZ6YveASYtXDMprustTj2FFRHvcBOqIH9+GA/dVZ0ulhJsmarIRvgWNik60
+ Vvme/WCc2z04oyYeTvxRMsnT5xz+V+DQVouVeNAdvwDTSkryumRMl8QLsXkVgR7Ig
+X-Received: by 2002:a5d:5143:: with SMTP id u3mr3254555wrt.714.1642579805685; 
+ Wed, 19 Jan 2022 00:10:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx0BWv1+BjcDLjXD2pV4No6wG4J/SDLyeHxIIOsf3BwzAzgUkleJdktSw/iqo6sbM3Ul3aawQ==
+X-Received: by 2002:a5d:5143:: with SMTP id u3mr3254519wrt.714.1642579805349; 
+ Wed, 19 Jan 2022 00:10:05 -0800 (PST)
 Received: from localhost.localdomain ([85.203.46.175])
- by smtp.gmail.com with ESMTPSA id a20sm4351606wmb.27.2022.01.19.00.09.57
+ by smtp.gmail.com with ESMTPSA id a20sm4351606wmb.27.2022.01.19.00.10.01
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 19 Jan 2022 00:10:00 -0800 (PST)
+ Wed, 19 Jan 2022 00:10:04 -0800 (PST)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 05/15] migration: Simplify unqueue_page()
-Date: Wed, 19 Jan 2022 16:09:19 +0800
-Message-Id: <20220119080929.39485-6-peterx@redhat.com>
+Subject: [PATCH RFC 06/15] migration: Move temp page setup and cleanup into
+ separate functions
+Date: Wed, 19 Jan 2022 16:09:20 +0800
+Message-Id: <20220119080929.39485-7-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220119080929.39485-1-peterx@redhat.com>
 References: <20220119080929.39485-1-peterx@redhat.com>
@@ -73,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -100,104 +101,135 @@ Cc: Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch simplifies unqueue_page() on both sides of it (itself, and caller).
+Temp pages will need to grow if we want to have multiple channels for postcopy,
+because each channel will need its own temp page to cache huge page data.
 
-Firstly, due to the fact that right after unqueue_page() returned true, we'll
-definitely send a huge page (see ram_save_huge_page() call - it will _never_
-exit before finish sending that huge page), so unqueue_page() does not need to
-jump in small page size if huge page is enabled on the ramblock.  IOW, it's
-destined that only the 1st 4K page will be valid, when unqueue the 2nd+ time
-we'll notice the whole huge page has already been sent anyway.  Switching to
-operating on huge page reduces a lot of the loops of redundant unqueue_page().
+Before doing that, cleanup the related code.  No functional change intended.
 
-Meanwhile, drop the dirty check.  It's not helpful to call test_bit() every
-time to jump over clean pages, as ram_save_host_page() has already done so,
-while in a faster way (see commit ba1b7c812c ("migration/ram: Optimize
-ram_save_host_page()", 2021-05-13)).  So that's not necessary too.
-
-Drop the two tracepoints along the way - based on above analysis it's very
-possible that no one is really using it..
+Since at it, touch up the errno handling a little bit on the setup side.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/ram.c        | 34 ++++++++--------------------------
- migration/trace-events |  2 --
- 2 files changed, 8 insertions(+), 28 deletions(-)
+ migration/postcopy-ram.c | 82 +++++++++++++++++++++++++---------------
+ 1 file changed, 51 insertions(+), 31 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index dc6ba041fa..0df15ff663 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1541,6 +1541,7 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
+diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+index 2176ed68a5..e662dd05cc 100644
+--- a/migration/postcopy-ram.c
++++ b/migration/postcopy-ram.c
+@@ -523,6 +523,19 @@ int postcopy_ram_incoming_init(MigrationIncomingState *mis)
+     return 0;
+ }
+ 
++static void postcopy_temp_pages_cleanup(MigrationIncomingState *mis)
++{
++    if (mis->postcopy_tmp_page) {
++        munmap(mis->postcopy_tmp_page, mis->largest_page_size);
++        mis->postcopy_tmp_page = NULL;
++    }
++
++    if (mis->postcopy_tmp_zero_page) {
++        munmap(mis->postcopy_tmp_zero_page, mis->largest_page_size);
++        mis->postcopy_tmp_zero_page = NULL;
++    }
++}
++
+ /*
+  * At the end of a migration where postcopy_ram_incoming_init was called.
+  */
+@@ -564,14 +577,8 @@ int postcopy_ram_incoming_cleanup(MigrationIncomingState *mis)
+         }
+     }
+ 
+-    if (mis->postcopy_tmp_page) {
+-        munmap(mis->postcopy_tmp_page, mis->largest_page_size);
+-        mis->postcopy_tmp_page = NULL;
+-    }
+-    if (mis->postcopy_tmp_zero_page) {
+-        munmap(mis->postcopy_tmp_zero_page, mis->largest_page_size);
+-        mis->postcopy_tmp_zero_page = NULL;
+-    }
++    postcopy_temp_pages_cleanup(mis);
++
+     trace_postcopy_ram_incoming_cleanup_blocktime(
+             get_postcopy_total_blocktime());
+ 
+@@ -1082,6 +1089,40 @@ retry:
+     return NULL;
+ }
+ 
++static int postcopy_temp_pages_setup(MigrationIncomingState *mis)
++{
++    int err;
++
++    mis->postcopy_tmp_page = mmap(NULL, mis->largest_page_size,
++                                  PROT_READ | PROT_WRITE,
++                                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++    if (mis->postcopy_tmp_page == MAP_FAILED) {
++        err = errno;
++        mis->postcopy_tmp_page = NULL;
++        error_report("%s: Failed to map postcopy_tmp_page %s",
++                     __func__, strerror(err));
++        return -err;
++    }
++
++    /*
++     * Map large zero page when kernel can't use UFFDIO_ZEROPAGE for hugepages
++     */
++    mis->postcopy_tmp_zero_page = mmap(NULL, mis->largest_page_size,
++                                       PROT_READ | PROT_WRITE,
++                                       MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++    if (mis->postcopy_tmp_zero_page == MAP_FAILED) {
++        err = errno;
++        mis->postcopy_tmp_zero_page = NULL;
++        error_report("%s: Failed to map large zero page %s",
++                     __func__, strerror(err));
++        return -err;
++    }
++
++    memset(mis->postcopy_tmp_zero_page, '\0', mis->largest_page_size);
++
++    return 0;
++}
++
+ int postcopy_ram_incoming_setup(MigrationIncomingState *mis)
  {
-     struct RAMSrcPageRequest *entry;
-     RAMBlock *block = NULL;
-+    size_t page_size;
+     /* Open the fd for the kernel to give us userfaults */
+@@ -1122,32 +1163,11 @@ int postcopy_ram_incoming_setup(MigrationIncomingState *mis)
+         return -1;
+     }
  
-     if (!postcopy_has_request(rs)) {
-         return NULL;
-@@ -1557,10 +1558,13 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
-     entry = QSIMPLEQ_FIRST(&rs->src_page_requests);
-     block = entry->rb;
-     *offset = entry->offset;
-+    page_size = qemu_ram_pagesize(block);
-+    /* Each page request should only be multiple page size of the ramblock */
-+    assert((entry->len % page_size) == 0);
+-    mis->postcopy_tmp_page = mmap(NULL, mis->largest_page_size,
+-                                  PROT_READ | PROT_WRITE, MAP_PRIVATE |
+-                                  MAP_ANONYMOUS, -1, 0);
+-    if (mis->postcopy_tmp_page == MAP_FAILED) {
+-        mis->postcopy_tmp_page = NULL;
+-        error_report("%s: Failed to map postcopy_tmp_page %s",
+-                     __func__, strerror(errno));
++    if (postcopy_temp_pages_setup(mis)) {
++        /* Error dumped in the sub-function */
+         return -1;
+     }
  
--    if (entry->len > TARGET_PAGE_SIZE) {
--        entry->len -= TARGET_PAGE_SIZE;
--        entry->offset += TARGET_PAGE_SIZE;
-+    if (entry->len > page_size) {
-+        entry->len -= page_size;
-+        entry->offset += page_size;
-     } else {
-         memory_region_unref(block->mr);
-         QSIMPLEQ_REMOVE_HEAD(&rs->src_page_requests, next_req);
-@@ -1942,30 +1946,8 @@ static bool get_queued_page(RAMState *rs, PageSearchStatus *pss)
- {
-     RAMBlock  *block;
-     ram_addr_t offset;
--    bool dirty;
- 
--    do {
--        block = unqueue_page(rs, &offset);
--        /*
--         * We're sending this page, and since it's postcopy nothing else
--         * will dirty it, and we must make sure it doesn't get sent again
--         * even if this queue request was received after the background
--         * search already sent it.
--         */
--        if (block) {
--            unsigned long page;
+-    /*
+-     * Map large zero page when kernel can't use UFFDIO_ZEROPAGE for hugepages
+-     */
+-    mis->postcopy_tmp_zero_page = mmap(NULL, mis->largest_page_size,
+-                                       PROT_READ | PROT_WRITE,
+-                                       MAP_PRIVATE | MAP_ANONYMOUS,
+-                                       -1, 0);
+-    if (mis->postcopy_tmp_zero_page == MAP_FAILED) {
+-        int e = errno;
+-        mis->postcopy_tmp_zero_page = NULL;
+-        error_report("%s: Failed to map large zero page %s",
+-                     __func__, strerror(e));
+-        return -e;
+-    }
+-    memset(mis->postcopy_tmp_zero_page, '\0', mis->largest_page_size);
 -
--            page = offset >> TARGET_PAGE_BITS;
--            dirty = test_bit(page, block->bmap);
--            if (!dirty) {
--                trace_get_queued_page_not_dirty(block->idstr, (uint64_t)offset,
--                                                page);
--            } else {
--                trace_get_queued_page(block->idstr, (uint64_t)offset, page);
--            }
--        }
--
--    } while (block && !dirty);
-+    block = unqueue_page(rs, &offset);
+     trace_postcopy_ram_enable_notify();
  
-     if (!block) {
-         /*
-diff --git a/migration/trace-events b/migration/trace-events
-index e165687af2..3a9b3567ae 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -85,8 +85,6 @@ put_qlist_end(const char *field_name, const char *vmsd_name) "%s(%s)"
- qemu_file_fclose(void) ""
- 
- # ram.c
--get_queued_page(const char *block_name, uint64_t tmp_offset, unsigned long page_abs) "%s/0x%" PRIx64 " page_abs=0x%lx"
--get_queued_page_not_dirty(const char *block_name, uint64_t tmp_offset, unsigned long page_abs) "%s/0x%" PRIx64 " page_abs=0x%lx"
- migration_bitmap_sync_start(void) ""
- migration_bitmap_sync_end(uint64_t dirty_pages) "dirty_pages %" PRIu64
- migration_bitmap_clear_dirty(char *str, uint64_t start, uint64_t size, unsigned long page) "rb %s start 0x%"PRIx64" size 0x%"PRIx64" page 0x%lx"
+     return 0;
 -- 
 2.32.0
 
