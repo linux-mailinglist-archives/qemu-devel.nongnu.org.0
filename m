@@ -2,48 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B4C54934BB
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 07:00:18 +0100 (CET)
-Received: from localhost ([::1]:52140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1B90493546
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 08:12:15 +0100 (CET)
+Received: from localhost ([::1]:37806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA413-0001Vs-JW
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 01:00:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59794)
+	id 1nA58g-00073M-Gz
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 02:12:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1nA3Xa-00021y-9q; Wed, 19 Jan 2022 00:29:50 -0500
-Received: from out28-125.mail.aliyun.com ([115.124.28.125]:36835)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1nA3XX-0002Sp-Tx; Wed, 19 Jan 2022 00:29:49 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1572608|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.0168965-1.0396e-05-0.983093;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047207; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=9; RT=8; SR=0; TI=SMTPD_---.MfCIIYH_1642570182; 
-Received: from roman-VirtualBox.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.MfCIIYH_1642570182)
- by smtp.aliyun-inc.com(10.147.41.137);
- Wed, 19 Jan 2022 13:29:43 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v7 22/22] target/riscv: Relax UXL field for debugging
-Date: Wed, 19 Jan 2022 13:18:24 +0800
-Message-Id: <20220119051824.17494-23-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220119051824.17494-1-zhiwei_liu@c-sky.com>
-References: <20220119051824.17494-1-zhiwei_liu@c-sky.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1nA4t8-0001Qu-ND; Wed, 19 Jan 2022 01:56:13 -0500
+Received: from [2607:f8b0:4864:20::b2b] (port=38717
+ helo=mail-yb1-xb2b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1nA4t7-0001xI-9f; Wed, 19 Jan 2022 01:56:10 -0500
+Received: by mail-yb1-xb2b.google.com with SMTP id m1so4504682ybo.5;
+ Tue, 18 Jan 2022 22:56:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=W+8Bk6eWp9N0WLWXcdfGML+kKrAYIDuodD0WoAvF6TA=;
+ b=fvblhBouBK5ckdfIGTbDjRG8JRYgS+x8Axu9aKHwb2mk1vx6kFJ28O6hJ3R/Pm8L7Y
+ 6A/qnF0XP2wCpe73zijFaZ3g6zdNKrI1HgstgtzXmozKBuPB43BeaqF57b8QsjgiDnqG
+ /OsS9nPs9zze10nCeV16sum+eXUmOe63/eTnB3gl5til3dCsFBGwHIR4fl4TB2vzcmLb
+ C5ozUAF19/pinPcirOlMgxgGT3hg3o7nsXw7GOuhp16fKAlrarK4iIIb5tvHM8cwEA7q
+ HBkvcM3axWAADE6xu7wKFjYX4SlXa5JbPewsiv86rg8z5BYXF2zlk1Kp9lwZCmC/kqOm
+ nqtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=W+8Bk6eWp9N0WLWXcdfGML+kKrAYIDuodD0WoAvF6TA=;
+ b=uU5jcpMDRF+sYaCDY39GVH7cmhq2bebqZlqcaSJ9ZFKfRhNczrtVbRE1opgXW1d1uQ
+ AMBF52aFp0VQRd2bnj1VvCsAXKDYDPBY0D1gfrGo3fVWbPyeF/Sp2V2qgRs/GFepgFc6
+ hMi6TcLsG3jbPYGk//Pswn5w2ls5nyNwUGTU7KeDHUT/ok45Gw4teF1LNrZJn0CNV9bJ
+ feSI5WAFQ6jSl7M/h2c1aBHDyd+OoRwQ+pm5BPZETPOhgSvThW9AjVmV/drjGjz+WmXi
+ N8xYV9Kz2eapRcKv9QFprsb9oCX/j1+ptPsKe3ZwbBQ22bHU8zZVtIm1tg4oZ+LpMDon
+ lrlw==
+X-Gm-Message-State: AOAM5333TMDASHdPCPY48i87lwDi7nng5dBmAU8B5y+n8moTjzLgXyVo
+ E0Rkd426NwY9asjBEs5tswt8h1cjwd/gfEVczKk=
+X-Google-Smtp-Source: ABdhPJyAyvP9RHH8A/5ZLx/26KWOTrv84/jfwSzP5AuZYAeZ826C/JqU4qOsaIwCt89y01cL/BFx2W5hZ62PSnc2fSQ=
+X-Received: by 2002:a05:6902:72b:: with SMTP id
+ l11mr14105743ybt.378.1642575367612; 
+ Tue, 18 Jan 2022 22:56:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=115.124.28.125; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-125.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20220118111736.454150-1-apatel@ventanamicro.com>
+ <20220118111736.454150-2-apatel@ventanamicro.com>
+In-Reply-To: <20220118111736.454150-2-apatel@ventanamicro.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 19 Jan 2022 14:55:54 +0800
+Message-ID: <CAEUhbmUynbceuD93_vT8QLayfna0L4D2gxjgqAbCJ3atgEOSww@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] hw/riscv: spike: Allow using binary firmware as
+ bios
+To: Anup Patel <apatel@ventanamicro.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2b
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2b.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,51 +80,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, bin.meng@windriver.com,
- richard.henderson@linaro.org, palmer@dabbelt.com,
- Alistair Francis <alistair.francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/csr.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+On Tue, Jan 18, 2022 at 7:18 PM Anup Patel <apatel@ventanamicro.com> wrote:
+>
+> Currently, we have to use OpenSBI firmware ELF as bios for the spike
+> machine because the HTIF console requires ELF for parsing "fromhost"
+> and "tohost" symbols.
+>
+> The latest OpenSBI can now optionally pick-up HTIF register address
+> from HTIF DT node so using this feature spike machine can now use
+> OpenSBI firmware BIN as bios.
+>
+> Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+> ---
+>  hw/char/riscv_htif.c         | 33 +++++++++++++++++++----------
+>  hw/riscv/spike.c             | 41 ++++++++++++++++++++++--------------
+>  include/hw/char/riscv_htif.h |  5 ++++-
+>  include/hw/riscv/spike.h     |  1 +
+>  4 files changed, 52 insertions(+), 28 deletions(-)
+>
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 90f78eca65..c6b2407a06 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -584,7 +584,7 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
-         MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
-         MSTATUS_TW | MSTATUS_VS;
- 
--    if (xl != MXL_RV32) {
-+    if (xl != MXL_RV32 || env->debugger) {
-         /*
-          * RV32: MPV and GVA are not in mstatus. The current plan is to
-          * add them to mstatush. For now, we just don't support it.
-@@ -909,7 +909,7 @@ static RISCVException read_sstatus(CPURISCVState *env, int csrno,
-                                    target_ulong *val)
- {
-     target_ulong mask = (sstatus_v1_10_mask);
--    if (env->xl != MXL_RV32) {
-+    if (env->xl != MXL_RV32 || env->debugger) {
-         mask |= SSTATUS64_UXL;
-     }
-     /* TODO: Use SXL not MXL. */
-@@ -921,7 +921,8 @@ static RISCVException write_sstatus(CPURISCVState *env, int csrno,
-                                     target_ulong val)
- {
-     target_ulong mask = (sstatus_v1_10_mask);
--    if (env->xl != MXL_RV32) {
-+
-+    if (env->xl != MXL_RV32 || env->debugger) {
-         mask |= SSTATUS64_UXL;
-     }
-     target_ulong newval = (env->mstatus & ~mask) | (val & mask);
--- 
-2.25.1
-
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
