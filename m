@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 959A6494341
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 23:49:11 +0100 (CET)
-Received: from localhost ([::1]:58070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC7B494381
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 00:08:19 +0100 (CET)
+Received: from localhost ([::1]:34706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAJlO-0000aU-E1
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 17:49:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44380)
+	id 1nAK3r-00062P-Ro
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 18:08:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAJkX-0008Ko-9o
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 17:48:17 -0500
-Received: from [2607:f8b0:4864:20::629] (port=33737
- helo=mail-pl1-x629.google.com)
+ (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
+ id 1nAK0n-0004a4-NS
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 18:05:05 -0500
+Received: from [2607:f8b0:4864:20::22a] (port=36392
+ helo=mail-oi1-x22a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAJkV-0002DP-Vd
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 17:48:17 -0500
-Received: by mail-pl1-x629.google.com with SMTP id f13so3626646plg.0
- for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 14:48:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
+ id 1nAK0l-0006Wu-LY
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 18:05:05 -0500
+Received: by mail-oi1-x22a.google.com with SMTP id r138so6761217oie.3
+ for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 15:05:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=izMjAQZXZf6mnayhnOJsB/LflbRNCYfJBx+ZxaNhU/E=;
- b=QqXU/w8M1c98548g7fo9K7ISoRg6rVq9D9/yzo2fP6q8HyGdw6nzB994uigWabUchg
- DPK+9lsY5dxP0r1PL5lUdoErIGgvMNWjElgKuUegQXWgPSIEmWdWew84YUxKseIbt13b
- izbQa38C2gJ/qBlmawwPwwJEAdWzLk7/5TQW889fXUgTIUrap+W/G9cN8kb4ev9E9k+O
- pcvxD5C59/dy/VjCxohFjd3dgNwX9+TwecsplXD9aIWAFg1rfA4dTCNdX+D5D2ccInPo
- hPVNoE9obF0oXR4MY2IBFBIBTIB94KazP2WLNk877kucOtKf3wQFL+0nqRqOG8gxvKHx
- C/Ow==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=A2KC0ZvqYQILAacx7KrT4trqGgaff5wn4tj/MmWfkS8=;
+ b=XZICIdmSCPiD0e07suR+LJUBtAHqFgt9627FAKbltFhnjRl9oWb6u5n2y0oojk6XGj
+ TXlx9cspHtNULHDnGwnI5DIuAv3Zu6JAJtKERaM4SRr8r8H8ijsLoq02Q4Da9Bt7DG1m
+ v7ZPiEYOft915FTcQyDffAveOtez+m1/JyUKEf8amtq+9WpNYKDaSenc+wiuGWQtbS8p
+ 52C9oThQfE7op8jfj/OD+MYmjvw1f/Ge8h62O+pxlYB4OyR2Ah3+fiXK30EhjjW/88ht
+ 9gknSvL7/Mxf+3AsgCICDWJ6JFGoIAmI3kxaaT5oUcb6YjhxGrz59JWOkuJVpwcJvgnq
+ Gcjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=izMjAQZXZf6mnayhnOJsB/LflbRNCYfJBx+ZxaNhU/E=;
- b=jwCAr5JmyctEKhVXJkYJL0DKAM8cpYB+z/LzF84dnzEX0/CJYbUh50Hsy9waABOICl
- oKtOz1bZb8wQLFCuLSe+bb5BSQc+6yvaiy8WUcin2oDUKIvqB0w2rsuG7A6Ln/IljTOy
- NRqlDkTkKbaYl+kxExblKpNOUM4Cac9yr/HburqgCosK8Dsu5775NUV9mTJEyqWN634v
- +pznx9PuqJL4YZw0A6nOSwqj5k9JcxFw7N32GlA+SRhb9mnuTJ4xFgNJgKx4HiVKW9gP
- +sRT+Wovg6kR4zI9RQ/BxOqczMYeMKIfuigoNBs3foG7TjgJo0RF6kIzQK+vxX7/jAsk
- QWRQ==
-X-Gm-Message-State: AOAM531gqaOxbM5D2YPBS6vyKSLhOk7fc9y4VIVxJuMhZ4J6lLWs+cYp
- S6E8vWvQVTqHNLzX+EuyNcM=
-X-Google-Smtp-Source: ABdhPJxkio/IF532p5J9kSkhOBchil7XGi4cJNyCAbqUHzYAqQdYd1178tVVcvozUqJon42TenWZlg==
-X-Received: by 2002:a17:90a:1c1:: with SMTP id 1mr6936096pjd.151.1642632494747; 
- Wed, 19 Jan 2022 14:48:14 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id h10sm662174pfh.49.2022.01.19.14.48.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Jan 2022 14:48:14 -0800 (PST)
-Message-ID: <235e4428-fd53-21ff-c7e3-9b3f5ba9a893@amsat.org>
-Date: Wed, 19 Jan 2022 23:48:11 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=A2KC0ZvqYQILAacx7KrT4trqGgaff5wn4tj/MmWfkS8=;
+ b=I1C1sU0nzyzEPuctHwnA2SQTEVoAPh6EDMkOLbMkjCgr8MFS0S+G3t2Vxgqrm8fl9j
+ 6SvVNv9Nr5AqWKSXlV7sxHDpCfFm0WaX9qsAImqjgPl0Uf9L9Rhe6C/TJW+BfDvVUZyB
+ 6vox4SwgObe8PNWP1wQBt88QOgvWQM5AImaudD5tk4EyI927YmyEOmMSp/ZeD0dIlmiN
+ 78L4syAXiJlyMyBHVn/SmvRxmexbpIwIOjNo9wJdE6AR9bVZx3waXhQVFV7RTPW1J+Ko
+ KWVTg5GqJsqDPrrbJT5qPxacmSsjtsXMrS7kIw8vbW79yP8gXyUINPTg5izUqZdtRU09
+ qbhg==
+X-Gm-Message-State: AOAM530PK8nHn2sCBSYmn5SxYuwKV0aQ0c/3H6e34wnVt2oIomYu4ZuZ
+ jhowPGxfl2O8XeKS8ep/fDtm1hBev4bEtk5H1U8=
+X-Google-Smtp-Source: ABdhPJyDy0X45gv4z6BvvdWR++R4WQfpO3LUSOyp1xZCSsO7OS9dtw+N0l/WZobxpYO5V/Gj3gFFS/WTSS8rSOccU5U=
+X-Received: by 2002:a05:6808:13d5:: with SMTP id
+ d21mr5239758oiw.111.1642633499215; 
+ Wed, 19 Jan 2022 15:04:59 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH] hw/nvram: use at24 macro
-Content-Language: en-US
-To: Patrick Venture <venture@google.com>, philmd@redhat.com
-Cc: qemu-devel@nongnu.org
-References: <20220119214329.2557049-1-venture@google.com>
-In-Reply-To: <20220119214329.2557049-1-venture@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
+References: <CAK7rcp9rnggAvaDxRV4m_KcR1afmquJsR+=khKw4B1UG1+V7yw@mail.gmail.com>
+ <87czkn8rzp.fsf@linaro.org>
+ <CAK7rcp84B0MXfeGsPnd9oM6cqxGUUSNL0GmLiWYwZzPhLkvfxw@mail.gmail.com>
+In-Reply-To: <CAK7rcp84B0MXfeGsPnd9oM6cqxGUUSNL0GmLiWYwZzPhLkvfxw@mail.gmail.com>
+From: Kenneth Adam Miller <kennethadammiller@gmail.com>
+Date: Wed, 19 Jan 2022 18:04:48 -0500
+Message-ID: <CAK7rcp-jCvvf2HdzOgsrkTEDM+x_nYi61Gz+K5At5MwKBZAdSg@mail.gmail.com>
+Subject: Re: Cross Architecture Kernel Modules?
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000378a3f05d5f76a01"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
+ envelope-from=kennethadammiller@gmail.com; helo=mail-oi1-x22a.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,18 +83,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 19/1/22 22:43, Patrick Venture wrote:
-> Use the macro for going from I2CSlave to EEPROMState.
-> 
-> Signed-off-by: Patrick Venture <venture@google.com>
-> ---
->   hw/nvram/eeprom_at24c.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+--000000000000378a3f05d5f76a01
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Would it be possible somehow to save the TCG cache, as with user binaries,
+but for a kernel module, before then loading that kernel module into memory
+the target architecture whether in or outside of QEMU?
+
+On Wed, Jan 19, 2022 at 2:42 PM Kenneth Adam Miller <
+kennethadammiller@gmail.com> wrote:
+
+> The source for it isn't available in order that it be compiled to the
+> desired architecture.
+>
+> What 3rd party forks take this approach?
+>
+> On Wed, Jan 19, 2022 at 2:06 PM Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> wrote:
+>
+>>
+>> Kenneth Adam Miller <kennethadammiller@gmail.com> writes:
+>>
+>> > Hello all,
+>> >
+>> > I just want to pose the following problem:
+>> >
+>> > There is a kernel module for a non-native architecture, say, arch 1.
+>> For performance reasons, the rest of all of the software needs to run
+>> > natively on a different arch, arch 2. Is there any way to perhaps run
+>> multiple QEMU instances for the different architectures in such a way
+>> > to minimize the cross architecture performance penalty? For example, I
+>> would like the kernel module in one (non-native) QEMU instance to
+>> > be made available, literally equivalently, in the second (native) QEMU
+>> instance. Would there be any API or way to map across the QEMU
+>> > instances so that the non native arch kernel module could be mapped to
+>> > the native QEMU instance?
+>>
+>> What you are describing sounds like heterogeneous system modelling which
+>> QEMU only supports in a very limited way (all vCPUs must be the same
+>> base architecture). You can link QEMU's together by way of shared memory
+>> but there is no other wiring together done in that case although some
+>> 3rd party forks take this approach.
+>>
+>> The kernel module sounds confusing - why would you have a kernel module
+>> that wasn't the same architecture as the kernel you are running?
+>>
+>> --
+>> Alex Benn=C3=A9e
+>>
+>
+
+--000000000000378a3f05d5f76a01
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Would it be possible somehow to save the TCG cache, as wit=
+h user binaries, but for a kernel module, before then loading that kernel m=
+odule into memory the target architecture whether in or outside of QEMU?</d=
+iv><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On =
+Wed, Jan 19, 2022 at 2:42 PM Kenneth Adam Miller &lt;<a href=3D"mailto:kenn=
+ethadammiller@gmail.com">kennethadammiller@gmail.com</a>&gt; wrote:<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">The so=
+urce for it isn&#39;t available in order that it be compiled to the desired=
+ architecture.<br><br>What 3rd party forks take this approach?</div><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jan 1=
+9, 2022 at 2:06 PM Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linar=
+o.org" target=3D"_blank">alex.bennee@linaro.org</a>&gt; wrote:<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex"><br>
+Kenneth Adam Miller &lt;<a href=3D"mailto:kennethadammiller@gmail.com" targ=
+et=3D"_blank">kennethadammiller@gmail.com</a>&gt; writes:<br>
+<br>
+&gt; Hello all,<br>
+&gt;<br>
+&gt; I just want to pose the following problem: <br>
+&gt;<br>
+&gt; There is a kernel module for a non-native architecture, say, arch 1. F=
+or performance reasons, the rest of all of the software needs to run<br>
+&gt; natively on a different arch, arch 2. Is there any way to perhaps run =
+multiple QEMU instances for the different architectures in such a way<br>
+&gt; to minimize the cross architecture performance penalty? For example, I=
+ would like the kernel module in one (non-native) QEMU instance to<br>
+&gt; be made available, literally equivalently, in the second (native) QEMU=
+ instance. Would there be any API or way to map across the QEMU<br>
+&gt; instances so that the non native arch kernel module could be mapped to=
+<br>
+&gt; the native QEMU instance?<br>
+<br>
+What you are describing sounds like heterogeneous system modelling which<br=
+>
+QEMU only supports in a very limited way (all vCPUs must be the same<br>
+base architecture). You can link QEMU&#39;s together by way of shared memor=
+y<br>
+but there is no other wiring together done in that case although some<br>
+3rd party forks take this approach.<br>
+<br>
+The kernel module sounds confusing - why would you have a kernel module<br>
+that wasn&#39;t the same architecture as the kernel you are running?<br>
+<br>
+-- <br>
+Alex Benn=C3=A9e<br>
+</blockquote></div>
+</blockquote></div>
+
+--000000000000378a3f05d5f76a01--
 
