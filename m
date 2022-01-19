@@ -2,96 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28ADA493962
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 12:19:07 +0100 (CET)
-Received: from localhost ([::1]:59676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DCCC493971
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 12:23:44 +0100 (CET)
+Received: from localhost ([::1]:36706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA8za-0008Kb-1u
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 06:19:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51742)
+	id 1nA943-0003cB-5K
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 06:23:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nA8ug-0005ck-63
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 06:14:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49184)
+ (Exim 4.90_1) (envelope-from <pisa@fel.cvut.cz>) id 1nA8vi-0007EL-Be
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 06:15:06 -0500
+Received: from mailgw.felk.cvut.cz ([147.32.82.15]:55610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nA8uc-0000kp-JO
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 06:14:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642590837;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3WPNgP+MaxDLrAi4lWJn+xY4Zps/8Q9NWhE+nukw7i4=;
- b=eUsrjG9MrL9fB52KXTIZLXb6qHSv7CGKGXuyQkc/H6Q8bZvAotlS+7iep2e4RYNsD3neqQ
- JXvkWsbPKOuUxrrU7l+UP//ozg8EQ2vBDrX7BPvxl2+9rs2BHXcm7PjpzLQPOremTlQg2/
- KPXxo6b7YEWVour2gISjeyVqkKXQPaw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-575-RxlCl6dhNnmYUm9JKsHdtQ-1; Wed, 19 Jan 2022 06:13:56 -0500
-X-MC-Unique: RxlCl6dhNnmYUm9JKsHdtQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- bg32-20020a05600c3ca000b00349f2aca1beso1658593wmb.9
- for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 03:13:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=3WPNgP+MaxDLrAi4lWJn+xY4Zps/8Q9NWhE+nukw7i4=;
- b=E1MPAr1T44pjP075zsGIWMIhcqWAfKUtNKo81sjFmHdvLrp5yPg3b1T/ZMf31PloyB
- iDS62TMvRZTGRYFRTgCWFYgMfIDBq6b9jwzF6EzC1PLc2Amj3r+e11qO1YF+HhfAVMb8
- geRjW+rTrqaatBHX+VJvgp1816uotmOMcs+5O0ltiKIsZeAZadXEZV8Q6QGCqV7iZciT
- 13W/f+SKgwMNzeQU5tzoqtUGR+CvfqwemzfaCuNGC38Ft9gMD0edz0/uUwSTopPVLZCk
- +c1l0hn4XB11PYAPDgSuhOJuXmLZUAaQV98YIC/QhaErH7i2G6s2Ro52TYmYZ9wkgYS7
- 0lkg==
-X-Gm-Message-State: AOAM532RQRqkRYti4GYyIkwVcDDQ4EhpOKXa4Em53GAVGk0jhjSqLPw1
- RMWuqwfxQHXClKr6L5tCEOyjJAJf8qyiyRprLyBCtGrfDcm2xbTCJ2LiebllCnMPev2LvygaPel
- HXlKYOiosSe3HZcA=
-X-Received: by 2002:a5d:588e:: with SMTP id n14mr10670679wrf.658.1642590835002; 
- Wed, 19 Jan 2022 03:13:55 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzZGapidMrsXetZuxoPQwiIzlu94f1YQ4nQ0ueoqMtK8i4oj812SOkmW7M1qnB9SiiX8QSfJg==
-X-Received: by 2002:a5d:588e:: with SMTP id n14mr10670665wrf.658.1642590834806; 
- Wed, 19 Jan 2022 03:13:54 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id g189sm6010805wme.18.2022.01.19.03.13.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Jan 2022 03:13:53 -0800 (PST)
-Message-ID: <fe510110-38b8-7caa-abfe-2b10d49baa26@redhat.com>
-Date: Wed, 19 Jan 2022 12:13:51 +0100
+ (Exim 4.90_1) (envelope-from <pisa@fel.cvut.cz>) id 1nA8vf-0000sB-L4
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 06:15:06 -0500
+Received: from mailgw.felk.cvut.cz (localhost.localdomain [127.0.0.1])
+ by mailgw.felk.cvut.cz (Proxmox) with ESMTP id B4EF530B035C;
+ Wed, 19 Jan 2022 12:14:55 +0100 (CET)
+Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
+ by mailgw.felk.cvut.cz (Proxmox) with ESMTPS id 9DCB330ADE4A;
+ Wed, 19 Jan 2022 12:14:54 +0100 (CET)
+Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
+ by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
+ 20JBEs2j015354; Wed, 19 Jan 2022 12:14:54 +0100
+Received: (from pisa@localhost)
+ by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 20JBEss6015353;
+ Wed, 19 Jan 2022 12:14:54 +0100
+X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to
+ pisa@fel.cvut.cz using -f
+From: Pavel Pisa <pisa@fel.cvut.cz>
+To: sukreet.pal@st.ovgu.de, QEMU Developers <qemu-devel@nongnu.org>,
+ linux-can@vger.kernel.org
+Subject: Re: QEMU CAN-FD emulation
+Date: Wed, 19 Jan 2022 12:14:53 +0100
+User-Agent: KMail/1.9.10
+References: <20220117143713.Horde.leGGFb7yZC3uaqrqolZYIBE@webmailer.ovgu.de>
+ <202201181142.49569.pisa@fel.cvut.cz>
+ <20220118114135.Horde.3Jm5PugNZVY8j2cNC8vRLl1@webmailer.ovgu.de>
+In-Reply-To: <20220118114135.Horde.3Jm5PugNZVY8j2cNC8vRLl1@webmailer.ovgu.de>
+X-KMail-QuotePrefix: > 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v3 01/16] job.c: make job_mutex and job_lock/unlock()
- public
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20220105140208.365608-1-eesposit@redhat.com>
- <20220105140208.365608-2-eesposit@redhat.com>
- <a353e5a5-2223-0bc6-325a-4c708dce24a9@redhat.com>
-In-Reply-To: <a353e5a5-2223-0bc6-325a-4c708dce24a9@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: Text/Plain;
+  charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Message-Id: <202201191214.53610.pisa@fel.cvut.cz>
+Received-SPF: none client-ip=147.32.82.15; envelope-from=pisa@fel.cvut.cz;
+ helo=mailgw.felk.cvut.cz
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,58 +67,221 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/19/22 10:56, Paolo Bonzini wrote:
-> On 1/5/22 15:01, Emanuele Giuseppe Esposito wrote:
->> job mutex will be used to protect the job struct elements and list,
->> replacing AioContext locks.
->>
->> Right now use a shared lock for all jobs, in order to keep things
->> simple. Once the AioContext lock is gone, we can introduce per-job
->> locks.
-> 
-> Not even needed in my opinion, this is not a fast path.  But we'll see.
-> 
->> To simplify the switch from aiocontext to job lock, introduce
->> *nop* lock/unlock functions and macros. Once everything is protected
->> by jobs, we can add the mutex and remove the aiocontext.
->>
->> Since job_mutex is already being used, add static
->> real_job_{lock/unlock}.
-> 
-> Out of curiosity, what breaks if the real job lock is used from the 
-> start?  (It probably should be mentioned in the commit message).
-> 
-> 
->> -static void job_lock(void)
->> +static void real_job_lock(void)
->>   {
->>       qemu_mutex_lock(&job_mutex);
->>   }
->> -static void job_unlock(void)
->> +static void real_job_unlock(void)
->>   {
->>       qemu_mutex_unlock(&job_mutex);
->>   }
-> 
-> Would it work to
-> 
-> #define job_lock real_job_lock
-> #define job_unlock real_job_unlock
-> 
-> instead of having to do the changes below?
+Dear Sukreet Pal,
 
-Ignore all this, please.
+On Tuesday 18 of January 2022 12:41:35 sukreet.pal@st.ovgu.de wrote:
+> Yes, we can push the conversation in qemu mailing list.
 
-Paolo
+Great, may be there is some other input from the list.
+
+Recapitulation:
+
+Sukreet Pal want to use CAN emulation included
+in QEMU to test some CAN related software build
+for ARM. At this moment, CAN emulation
+is available for systems which are equipped by PCI
+and for some platform devices on Xilinx
+
+  https://github.com/qemu/qemu/blob/stable-6.1/docs/can.txt
+
+For generic ARM system PCI and SJA1000 driver should
+be usable out of the box when appropriate kernel is used.
+When I have developed with my students and test and maintain
+CAN (SJA1000 and CTU CAN FD) emulation support I use
+combination of ARM1176 and VersatilePB for testing.
+
+This setup works for me
+
+Host side (laptop with Debian and without real CAN hardware)
+
+  modprobe can-raw
+  modprobe vcan
+  ip link add dev can0 type vcan
+  ip link set can0 up
+
+The QEMU invoked
+
+qemu-system-arm -cpu arm1176 -m 256 -M versatilepb \
+      -kernel kernel-qemu-arm1176-versatilepb \
+      -initrd ramdisk.cpio \
+      -hda rpi-wheezy-overlay \
+      -append "root=/dev/ram console=ttyAMA0" \
+      -object can-bus,id=canbus0 \
+      -object can-host-socketcan,if=can0,canbus=canbus0,id=canbus0-socketcan \
+      -device kvaser_pci,canbus=canbus0 \
+      -virtfs local,path=shareddir,security_model=none,mount_tag=shareddir \
+      -nographic \
+
+I have some own minimal busybox based initial ramdisk to test QEMU
+and kernel from it.
+
+On Monday 17 of January 2022 17:31:32 Pavel Pisa wrote:
+> If you can reach shell prompt in the target system
+> you should check that Kvaser CAN controller is seen
+> on PCI bus.
+>
+> Try
+>
+>   lspci -nn
+>
+> You should see there 10e8:8406. If you do not have lspci
+> availabel in the target system, then try
+>
+>   cat /proc/bus/pci/devices
+>
+> There should be line
+>
+>   00xx    10e88406        5e                  1401                    1481
+>
+> Check that your ARM kernel build includes kvaser_pci driver
+> as built in or as the module. I have it as a module.
+>
+> So my lsmod list
+>
+>   Module                  Size  Used by    Not tainted
+>   kvaser_pci              2332  0
+>   sja1000                 6023  1 kvaser_pci
+>   can_raw                 6112  0
+>   can_dev                 8289  1 sja1000
+>   can                    26342  1 can_raw
+>   ...
+
+On Tuesday 18 of January 2022 11:08:32 sukreet.pal@st.ovgu.de wrote:
+> # lspci -nn
+> 00:0c.0 Class 0100: 1000:0012
+>
+> / # cat /proc/bus/pci/devices
+> 0060	10000012	5d	            1001	        50002000	        50000000
+>              0	               0	               0	               0
+>          100	             400	            2000	               0
+>          0	               0	               0	sym53c8xx
+>
+
+So it seems that device is not visible on the PCI bus by the kernel.
+
+Suggestion to list QEMU PCI bus devices from QEMU monitor
+
+On Tuesday 18 of January 2022 11:42:49 Pavel Pisa wrote:
+> For QEMU monitor access see
+>  
+> 
+https://serverfault.com/questions/587189/how-to-list-all-devices-emulated-in-a-qemu-virtual-machine
+>
+> Use
+>
+>   info pci
+>
+> You should see in the list
+>
+>     Bus  0, device  XX, function 0:
+>     Class 65280: PCI device 10e8:8406
+>       PCI subsystem 1af4:1100
+>       IRQ 94, pin A
+>       BAR0: I/O at 0x1400 [0x147f].
+>       BAR1: I/O at 0x1480 [0x14ff].
+>       BAR2: I/O at 0x1820 [0x1827].
+>       id ""
+>
+> If this is not in the list then kernel cannot see the device either.
+
+On Tuesday 18 of January 2022 12:41:35 sukreet.pal@st.ovgu.de wrote:
+> (qemu) info pci
+>    Bus  0, device  11, function 0:
+>      Class 2880: PCI device 10ee:0300
+>        PCI subsystem 1af4:1100
+>        id ""
+>    Bus  0, device  12, function 0:
+>      SCSI controller: PCI device 1000:0012
+>        PCI subsystem 0000:1000
+>        IRQ 93.
+>        BAR0: I/O at 0x1000 [0x10ff].
+>        BAR1: 32 bit memory at 0x50002000 [0x500023ff].
+>        BAR2: 32 bit memory at 0x50000000 [0x50001fff].
+>        id ""
+>    Bus  0, device  13, function 0:
+>      Class 65280: PCI device 10e8:8406
+>        PCI subsystem 1af4:1100
+>        IRQ 94.
+>        BAR0: I/O at 0xffffffffffffffff [0x007e].
+>        BAR1: I/O at 0xffffffffffffffff [0x007e].
+>        BAR2: I/O at 0xffffffffffffffff [0x0006].
+>        id ""
+>
+> I think the kernal can see the devices.
+
+It seems that QEMU report device on the bus but
+the kernel does not list device in /proc/bus/pci/devices
+
+> > What is version of your QEMU?
+>
+> QEMU emulator version 4.2.1 (Debian 1:4.2-3ubuntu6.19)
+> Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project
+> developers (it's the default ubuntu 20.04 qemu version)
+
+In my development repo the last used is
+
+QEMU emulator version 6.0.91 (v6.1.0-rc1-3-g1560ab766e)
+Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
+
+But I have retested with Debian old stable distribution
+version
+
+QEMU emulator version 3.1.0 (Debian 1:3.1+dfsg-8+deb10u8)
+Copyright (c) 2003-2018 Fabrice Bellard and the QEMU Project developers
+
+and emulation works.
+
+On the report it is strange that device is not seen in the kernel
+proc list. It is independent of driver availability.
+
+The strange is even BAR report
+  BAR0: I/O at 0xffffffffffffffff [0x007e].  ...
+Mine
+  BAR0: I/O at 0x1400 [0x147f]. ...
+
+But I expect that BAR FFF value is caused by
+unconfigured address. Strange is that the last
+bit in the bracket is 0. The BAR fixed
+part should respect that it is IO device.
+
+I have seen some warning that PCI I/O devices
+mapping is not supported/emulated on VersatilePB.
+I have no problems with Kvaser emulation on that
+platform with all tested QEMU builds from I think
+2.x days.
+
+Test of the other actually supported SJA1000 devices
+would not help probably because mioe3680 and pcm3680
+are also I/O mapped.
+
+Option is to test our CTU CAN FD which is memory
+region mapped
+
+ -device ctucan_pci,canbus0=canbus0-bus,canbus1=canbus0-bus
+
+But t is necessary to build driver for given kernel.
+It is available in the repo and has been recently
+updated to the required style  
+
+  https://gitlab.fel.cvut.cz/canbus/ctucanfd_ip_core
+
+(I hope to find time and help for mainlining soon).
+
+Best wishes,
+
+                Pavel Pisa
+    phone:      +420 603531357
+    e-mail:     pisa@cmp.felk.cvut.cz
+    Department of Control Engineering FEE CVUT
+    Karlovo namesti 13, 121 35, Prague 2
+    university: http://dce.fel.cvut.cz/
+    personal:   http://cmp.felk.cvut.cz/~pisa
+    projects:   https://www.openhub.net/accounts/ppisa
+    CAN related:http://canbus.pages.fel.cvut.cz/
+    Open Technologies Research Education and Exchange Services
+    https://gitlab.fel.cvut.cz/otrees/org/-/wikis/home
 
 
