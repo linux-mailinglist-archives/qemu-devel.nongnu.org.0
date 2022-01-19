@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC516493893
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 11:33:16 +0100 (CET)
-Received: from localhost ([::1]:34688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67FBA4938B1
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 11:38:19 +0100 (CET)
+Received: from localhost ([::1]:39092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA8HE-0003tA-12
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 05:33:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59712)
+	id 1nA8M6-0006v0-2k
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 05:38:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nA86b-0003O6-5K; Wed, 19 Jan 2022 05:22:18 -0500
-Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=47259
+ id 1nA86e-0003PW-0K; Wed, 19 Jan 2022 05:22:20 -0500
+Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=54363
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nA86X-0007os-4G; Wed, 19 Jan 2022 05:22:16 -0500
+ id 1nA86c-0007qI-4F; Wed, 19 Jan 2022 05:22:19 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4Jf1sT1z6Fz4y4h; Wed, 19 Jan 2022 21:22:05 +1100 (AEDT)
+ id 4Jf1sT23p0z4y4j; Wed, 19 Jan 2022 21:22:05 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1642587725;
- bh=m8n1wsdo6B6M+AiwBZxqgp7+Q0rcNZxPQ/yZqxM6F6M=;
+ bh=+DPsVOa18yX9tnwZ15vWrletNfi8D11Kht2AqlnBK60=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Eo7m//3j/3lvdq8YlAFqi+pQAPG1gAnmavRSqvtgLYUpLZuAFD4RWeGwwW7PS3p2E
- PGqFqp0CpHAitDNXAku91iYvpcdJuhOvsBh1wY90hpOQ9f0oNRSUpIiAgCAs9nrG80
- kzuXM/mVLG7fMThznND99oLMHcp7l8PqIXAGtB3M=
-Date: Wed, 19 Jan 2022 17:12:17 +1100
+ b=cIkvZtQy85h+7LkfZlEvwI33vgxe3DvKZqpO/glIhINU7bRGxn/PV4adG2uD9vNxT
+ zTsLwB+4otr3R89j6p5bu070h11CQN5eobp75uYI6MJOqDYRSqD42jOpoHs4tHrUWf
+ S2fM1lf0hOJmHAXS0778DuxSq1efiRfa50A2E8yg=
+Date: Wed, 19 Jan 2022 17:13:31 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH v2 10/14] target/ppc: 405: Debug exception cleanup
-Message-ID: <YeerwTGODlSF9EQa@yekko>
+Subject: Re: [PATCH v2 11/14] target/ppc: 405: Data Storage exception cleanup
+Message-ID: <YeesC7891UZQS3v+@yekko>
 References: <20220118184448.852996-1-farosas@linux.ibm.com>
- <20220118184448.852996-11-farosas@linux.ibm.com>
+ <20220118184448.852996-12-farosas@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="YwMSdBen9XodHzOO"
+ protocol="application/pgp-signature"; boundary="KpfpE+KpqcFRe9YU"
 Content-Disposition: inline
-In-Reply-To: <20220118184448.852996-11-farosas@linux.ibm.com>
+In-Reply-To: <20220118184448.852996-12-farosas@linux.ibm.com>
 X-Host-Lookup-Failed: Reverse DNS lookup failed for
  2404:9400:2:0:216:3eff:fee2:21ea (failed)
 Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
@@ -69,71 +69,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---YwMSdBen9XodHzOO
+--KpfpE+KpqcFRe9YU
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 18, 2022 at 03:44:44PM -0300, Fabiano Rosas wrote:
-> The current Debug exception dispatch is the BookE one, so it is
-> different from the 405. We effectively don't support the 405 Debug
-> exception.
->=20
-> This patch removes the BookE code and moves the DEBUG into the "not
-> implemented" block.
->=20
-> Note that there is in theory a functional change here since we now
-> abort when a Debug exception happens. However, given how it was never
-> implemented, I don't believe this to have ever been dispatched for the
-> 405.
+On Tue, Jan 18, 2022 at 03:44:45PM -0300, Fabiano Rosas wrote:
+> The 405 has no DSISR or DAR, so convert the trace entry to
+> trace_ppc_excp_print.
+
+I think it would be preferable to show ESR and DEAR here, which are
+very loosely equivalent to DSISR and DAR on 40x.  Might want to create
+a new trace point explicitly for this so the terminology is clear as well.
+
 >=20
 > Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-
 > ---
->  target/ppc/excp_helper.c | 18 ++++--------------
->  1 file changed, 4 insertions(+), 14 deletions(-)
+>  target/ppc/excp_helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
 > diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index d263f20002..84ec7e094a 100644
+> index 84ec7e094a..e4e513322c 100644
 > --- a/target/ppc/excp_helper.c
 > +++ b/target/ppc/excp_helper.c
-> @@ -539,23 +539,13 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int e=
-xcp)
->      case POWERPC_EXCP_DTLB:      /* Data TLB error                      =
-     */
->      case POWERPC_EXCP_ITLB:      /* Instruction TLB error               =
-     */
+> @@ -465,7 +465,7 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int exc=
+p)
+>          srr1 =3D SPR_40x_SRR3;
 >          break;
-> -    case POWERPC_EXCP_DEBUG:     /* Debug interrupt                     =
+>      case POWERPC_EXCP_DSI:       /* Data storage exception              =
      */
-> -        if (env->flags & POWERPC_FLAG_DE) {
-> -            /* FIXME: choose one or the other based on CPU type */
-> -            srr0 =3D SPR_BOOKE_DSRR0;
-> -            srr1 =3D SPR_BOOKE_DSRR1;
-> -
-> -            env->spr[SPR_BOOKE_CSRR0] =3D env->nip;
-> -            env->spr[SPR_BOOKE_CSRR1] =3D msr;
-> -
-> -            /* DBSR already modified by caller */
-> -        } else {
-> -            cpu_abort(cs, "Debug exception triggered on unsupported mode=
-l\n");
-> -        }
-> -        break;
->      case POWERPC_EXCP_PIT:       /* Programmable interval timer interrup=
-t    */
->          trace_ppc_excp_print("PIT");
+> -        trace_ppc_excp_dsi(env->spr[SPR_DSISR], env->spr[SPR_DAR]);
+> +        trace_ppc_excp_print("DSI");
 >          break;
-> +    case POWERPC_EXCP_DEBUG:     /* Debug interrupt                     =
+>      case POWERPC_EXCP_ISI:       /* Instruction storage exception       =
      */
-> +        cpu_abort(cs, "%s exception not implemented\n",
-> +                  powerpc_excp_name(excp));
-> +        break;
->      default:
->          cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
->          break;
+>          trace_ppc_excp_isi(msr, env->nip);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -141,25 +111,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---YwMSdBen9XodHzOO
+--KpfpE+KpqcFRe9YU
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmHnq7oACgkQgypY4gEw
-YSKXvg/9Fo/tZMsGW5KNDfiIPvfolJNCdn71uJp/PXlfDwFzhAPu/t/h9Y30850g
-vA2BD514gGT4cpJylbH/vYTtwwXVsi5cggjkGeWRCb6dyFqC711VC6li+HSqj/n/
-GYzfkV21Lwdh4ha0a3nXKi8byFYj0GYTmHzKX5d8TPPYUsvY6LMP10JgVJgjXnDN
-TQ+ox735lfmYFSqUBRUMzS/UpakmJzWKtGXIA6DcGAnBwO49Yti+KBP3ZlEuEfdE
-lmCFdv44sFt3I7DrxhzbGbI5xpMwkP57K9xY7n7eU6WSqP+jbhjXGqSHVYb0GdTJ
-K5GgXnrJMwONN4SWHHCufCZwSiU6bDx/WK25jP/WStXKoQAUxyimMDqDwHKNtaPN
-22IGuwyWxO0wS2/eT3go9nhm7+Il5vizZT30dlQiQkDhnXmYdT3cvYo2GIi4JCrR
-VZasFcuBx9H8rwgu6GgEQxM+jDr33DYsLWTTSe2tu5Dy6vNWbNounSSHIuNJD29R
-HW2S8+Bjp89YIEL7cXa2sgH/UKWLslJJfW+8Ja5piFL6tf6ZjTXBUHlWOghuWUrq
-Y3Hv/dC+9JmGHXs1ggMWIpmAMHnZGAFahXueX+y01YPSVbJXuw56vQm2q0UNSa8l
-z4S4RFGf3bAO72x0PFYcx56H0kkQ0vGnWpnmwP6QoC/q8+xcyrQ=
-=WhgQ
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmHnrAMACgkQgypY4gEw
+YSKH2hAAu8WErMZsu3nWfbpQGQiKCq3aI7+Il2QV3k3pL+79e7soI5eKoRgTa4oG
+Kx77MWq0J3GRUBtfWQVAfGpATv9jQNuGStqv/CEUaxuNnror3QC4QueV82maAMme
+bgVUai45XJh8AHFi8hz/wFKsQ2cW7+/0Xx49/8LiKxY7IdPwNr5ZgzAwQANW7MbM
+/FNj73coXBN3Y4rfkPYY0OdTF3jSzZDdVUU3EhmIHbSFlr4xUnLrDEdWXg1AO0c9
+gvIdYRF/X2jAERVBSwfXCW/ANDKgqvhAdav+qQMxDo8O8aUO9LPazOiQKH1SBwVt
+Mc08PsBcjP9iYXQsmfjA1nQa5gYfSuy5pQ2rw0LzvnymlQcjIbpPjOJPA3sdGpfi
+uPIUELZm1u935G+cY5nFsjWK4rZhlFhLAC4SbihxKTuCjKMcvQnggN7qNktQWiQE
+AkD7lf9kvocMTuFc0RMq9pwwUxXrUnlvNYzmS8+9Gtw6056/NA+7dNLYk3yVAbda
+b5XVveLMsysfP80gYYAh9JWRxDogJbf3Yy3jm4NsA0Gc8ZY5qnnJZ89i1jbDXw1k
+7DmGq6ZDjqDMNmpg0zakmwSUfQ+i2fwvViRuXrEadBSDZZQZ89Vn7PNriETVXBUB
+6mKYtL3nh0TyhIE6dNzZa1erQ87uXZth667ilSYp22lPrsz8XOs=
+=ND8+
 -----END PGP SIGNATURE-----
 
---YwMSdBen9XodHzOO--
+--KpfpE+KpqcFRe9YU--
 
