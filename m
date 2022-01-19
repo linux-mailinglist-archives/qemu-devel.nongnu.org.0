@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E52C04937E5
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 11:03:14 +0100 (CET)
-Received: from localhost ([::1]:55610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C29A4937D6
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 10:58:21 +0100 (CET)
+Received: from localhost ([::1]:50616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA7oA-0003xn-1d
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 05:03:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52890)
+	id 1nA7jQ-0008Rg-Bl
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 04:58:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nA7eF-0004GL-Dj; Wed, 19 Jan 2022 04:52:59 -0500
-Received: from [2a00:1450:4864:20::32a] (port=38687
- helo=mail-wm1-x32a.google.com)
+ id 1nA7hW-0006dk-3i; Wed, 19 Jan 2022 04:56:22 -0500
+Received: from [2a00:1450:4864:20::32b] (port=41520
+ helo=mail-wm1-x32b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nA7eD-0006VO-J7; Wed, 19 Jan 2022 04:52:59 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- ay14-20020a05600c1e0e00b0034d7bef1b5dso6408680wmb.3; 
- Wed, 19 Jan 2022 01:52:56 -0800 (PST)
+ id 1nA7hU-0006w5-HS; Wed, 19 Jan 2022 04:56:21 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ q141-20020a1ca793000000b00347b48dfb53so4803166wme.0; 
+ Wed, 19 Jan 2022 01:56:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=q0Z3bXNJ8unZaWMz/3l04voneeLb4jk9/1Qubs/4FKs=;
- b=KkTx8v0sLlfqGyL45kJyr3AYx3fzv0rtcboUMEYgEITK2mzQtE+dtX4+FumY6lpCC0
- LWQ4QB5CRC/ylcqh+BlWjGsawPwNubHRhjdC/kR3j4b1SyMO93vW5o5UCWTOZ7/AOHkF
- wgdsDDyNFk+yCzZoEYothtoVXKWrfpGH5SEiM+ou2x1vX3qrdFm4h94qh8RTSxl5ktRS
- wgQ8w8yz4znjADsOltiQEujbmc5MZO8+moFr8kX9DHlyMrQwDl1ZB3fTkFM9CP/qFcel
- vhRNK0gpcmrCMgAg0mgOzcoUZ1wwCX3b+hrY+8jhpJy8rUb6lA3QfJBziENG9jp+EqJV
- kcyw==
+ bh=dxup2uXOX3IJVCwJheyBCw3DSkbcpCWfPH1L2aEl1JM=;
+ b=HYuJmvPgDvgC55tO8usvRnoOWOub0q0yM19iAm7PWXXYfLC+nu73tTKwzUpvi5JDZ9
+ EyLnG1fW0+HcxSSZrCPZJRq1gKDMIJ3YKgsI/Td4yGPK3akJOu5ZjQ9T0P7YweN+Iknh
+ LVTSZC8j7BOaF0W3o+HQRIzv6txNyr+CibeQD7TaG3xq9mB6qdzhT9uQzayHVlklI8LZ
+ rY/otvalFP84lEryRho36k49jG/WEng0ublJ7I1NQyAHpJMqw7kbUL/wqUe/4wkCUF+R
+ FdLMyrD0FlKi4/DnDpH6gG+JIaj67Lw4qKK+rUXR33rgwLAfX0zlV0QLwVsDh+aZFub5
+ ARhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=q0Z3bXNJ8unZaWMz/3l04voneeLb4jk9/1Qubs/4FKs=;
- b=EWJsyjnDeVJiCs1yVhLCm4KynzGJTmAF1I0gMaQX7grPue4fmthtt2gK6q/MMHzAvB
- eSkzo0KGY9ItwxY/qpxeai8U2Bll8EJ6qY2AkwLYtsLGvxKbEtH1AWEMHJzmiNrWpnW9
- AsNtFnZuMD2NzpPzMdOBQlia6itwaAUvJK/CyWREyPfP+a6ZYVcYSMOEY0pC19rs0+D4
- H4zkWexMVnrV1fj/pc2NdKncYjIawJnOPzRsh9u6hU6644PnyZatM7BulsvA9mHKMHVC
- 45gN5FV502uw/98OkzA73f5d5WkYiHafNX1hqJMhoWKaCHExJGA0Kcas7rePmZi6dY0G
- O4bA==
-X-Gm-Message-State: AOAM531YEDCf7L4Dod7OD4e1MNuyqSVKUbLLwIo0p7rzvkYR3hI0ptPD
- kzvcpfvzptDQI1N4wVEoFik=
-X-Google-Smtp-Source: ABdhPJyzw16aczUET8kobawq0UOZ/Gx20mZdEss83hCy4b508fGpm3mgJelldpiZMAF+Wya0oYRD3A==
-X-Received: by 2002:a5d:64e8:: with SMTP id g8mr24850057wri.286.1642585975526; 
- Wed, 19 Jan 2022 01:52:55 -0800 (PST)
+ bh=dxup2uXOX3IJVCwJheyBCw3DSkbcpCWfPH1L2aEl1JM=;
+ b=juuy8HKmNP2zVQtQP2LG8cI9kCbmyaLsA+V7wwWh+G9sLeW7TQOxesV5l6Janhsqho
+ sa7pEghB4GUJR21LFnI3gEVRzVSWCqb1F4FugXUYaacvnAo6GPVVU84tGbZeb9iDgySw
+ EkjXkIrSgchT4v1Nr5IBPB7diaTpyzW4x5vVhDEb0SEVSU0YyayCZiSbe2J/jLMcHues
+ ja3LTLHlnh3vQIl+cAOJhYQOlaLdbnUH1LkfxBk5cZhoPcnk9+KUyUmpDoG/u13hHGUQ
+ lywOCVs0w51pPWjlxmA2VJwSu8+ts9QBGzvd/v7l7kE3wnQBbvOmevw9wQKRPGFxcWcq
+ rzVg==
+X-Gm-Message-State: AOAM531jlS/2a18USL4aRnjqGEarJEi9aJAlR4ZKqOWdXPe5r7aFuBAI
+ M5buBJccJPdIzzwcXwjAXuw=
+X-Google-Smtp-Source: ABdhPJzg0UmdhjeVsfhlnYIWBGpkd1n8/NAQTN9hiqdbhkAzePLLPcuSDLIXpoKNyhli6a/2aH2JdA==
+X-Received: by 2002:a05:6000:1449:: with SMTP id
+ v9mr19913165wrx.240.1642586175468; 
+ Wed, 19 Jan 2022 01:56:15 -0800 (PST)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id z1sm16368203wrw.95.2022.01.19.01.52.54
+ by smtp.googlemail.com with ESMTPSA id f16sm5593982wmg.48.2022.01.19.01.56.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Jan 2022 01:52:55 -0800 (PST)
-Message-ID: <1bd90b22-c8c6-3201-e26e-17fdb305eb19@redhat.com>
-Date: Wed, 19 Jan 2022 10:52:54 +0100
+ Wed, 19 Jan 2022 01:56:15 -0800 (PST)
+Message-ID: <a353e5a5-2223-0bc6-325a-4c708dce24a9@redhat.com>
+Date: Wed, 19 Jan 2022 10:56:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH 07/12] block/io.c: introduce
- bdrv_subtree_drained_{begin/end}_unlocked
+Subject: Re: [PATCH v3 01/16] job.c: make job_mutex and job_lock/unlock()
+ public
 Content-Language: en-US
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20220118162738.1366281-1-eesposit@redhat.com>
- <20220118162738.1366281-8-eesposit@redhat.com>
+References: <20220105140208.365608-1-eesposit@redhat.com>
+ <20220105140208.365608-2-eesposit@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220118162738.1366281-8-eesposit@redhat.com>
+In-Reply-To: <20220105140208.365608-2-eesposit@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,206 +95,98 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
  Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/18/22 17:27, Emanuele Giuseppe Esposito wrote:
-> Same as the locked version, but use BDRV_POLL_UNLOCKED
+On 1/5/22 15:01, Emanuele Giuseppe Esposito wrote:
+> job mutex will be used to protect the job struct elements and list,
+> replacing AioContext locks.
+> 
+> Right now use a shared lock for all jobs, in order to keep things
+> simple. Once the AioContext lock is gone, we can introduce per-job
+> locks.
 
-... We are going to add drains to all graph modifications, and they are 
-generally performed without the AioContext lock taken.
+Not even needed in my opinion, this is not a fast path.  But we'll see.
+
+> To simplify the switch from aiocontext to job lock, introduce
+> *nop* lock/unlock functions and macros. Once everything is protected
+> by jobs, we can add the mutex and remove the aiocontext.
+> 
+> Since job_mutex is already being used, add static
+> real_job_{lock/unlock}.
+
+Out of curiosity, what breaks if the real job lock is used from the 
+start?  (It probably should be mentioned in the commit message).
+
+
+> -static void job_lock(void)
+> +static void real_job_lock(void)
+>   {
+>       qemu_mutex_lock(&job_mutex);
+>   }
+>   
+> -static void job_unlock(void)
+> +static void real_job_unlock(void)
+>   {
+>       qemu_mutex_unlock(&job_mutex);
+>   }
+
+Would it work to
+
+#define job_lock real_job_lock
+#define job_unlock real_job_unlock
+
+instead of having to do the changes below?
 
 Paolo
 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->   block/io.c               | 50 +++++++++++++++++++++++++++++-----------
->   include/block/block-io.h |  2 ++
->   2 files changed, 39 insertions(+), 13 deletions(-)
-> 
-> diff --git a/block/io.c b/block/io.c
-> index 5123b7b713..9d5167f64a 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-> @@ -244,6 +244,7 @@ typedef struct {
->       bool begin;
->       bool recursive;
->       bool poll;
-> +    bool unlock;
->       BdrvChild *parent;
->       bool ignore_bds_parents;
->       int *drained_end_counter;
-> @@ -334,7 +335,7 @@ static bool bdrv_drain_poll_top_level(BlockDriverState *bs, bool recursive,
->   
->   static void bdrv_do_drained_begin(BlockDriverState *bs, bool recursive,
->                                     BdrvChild *parent, bool ignore_bds_parents,
-> -                                  bool poll);
-> +                                  bool poll, bool unlock);
->   static void bdrv_do_drained_end(BlockDriverState *bs, bool recursive,
->                                   BdrvChild *parent, bool ignore_bds_parents,
->                                   int *drained_end_counter);
-> @@ -352,7 +353,8 @@ static void bdrv_co_drain_bh_cb(void *opaque)
->           if (data->begin) {
->               assert(!data->drained_end_counter);
->               bdrv_do_drained_begin(bs, data->recursive, data->parent,
-> -                                  data->ignore_bds_parents, data->poll);
-> +                                  data->ignore_bds_parents, data->poll,
-> +                                  data->unlock);
->           } else {
->               assert(!data->poll);
->               bdrv_do_drained_end(bs, data->recursive, data->parent,
-> @@ -374,6 +376,7 @@ static void coroutine_fn bdrv_co_yield_to_drain(BlockDriverState *bs,
->                                                   BdrvChild *parent,
->                                                   bool ignore_bds_parents,
->                                                   bool poll,
-> +                                                bool unlock,
->                                                   int *drained_end_counter)
->   {
->       BdrvCoDrainData data;
-> @@ -394,6 +397,7 @@ static void coroutine_fn bdrv_co_yield_to_drain(BlockDriverState *bs,
->           .parent = parent,
->           .ignore_bds_parents = ignore_bds_parents,
->           .poll = poll,
-> +        .unlock = unlock,
->           .drained_end_counter = drained_end_counter,
->       };
->   
-> @@ -441,13 +445,13 @@ static void bdrv_do_drained_begin_quiesce(BlockDriverState *bs,
->   
->   static void bdrv_do_drained_begin(BlockDriverState *bs, bool recursive,
->                                     BdrvChild *parent, bool ignore_bds_parents,
-> -                                  bool poll)
-> +                                  bool poll, bool unlock)
->   {
->       BdrvChild *child, *next;
->   
->       if (qemu_in_coroutine()) {
->           bdrv_co_yield_to_drain(bs, true, recursive, parent, ignore_bds_parents,
-> -                               poll, NULL);
-> +                               poll, unlock, NULL);
+> @@ -449,21 +460,21 @@ void job_enter_cond(Job *job, bool(*fn)(Job *job))
 >           return;
 >       }
 >   
-> @@ -458,7 +462,7 @@ static void bdrv_do_drained_begin(BlockDriverState *bs, bool recursive,
->           bs->recursive_quiesce_counter++;
->           QLIST_FOREACH_SAFE(child, &bs->children, next, next) {
->               bdrv_do_drained_begin(child->bs, true, child, ignore_bds_parents,
-> -                                  false);
-> +                                  false, false);
->           }
->       }
->   
-> @@ -473,23 +477,35 @@ static void bdrv_do_drained_begin(BlockDriverState *bs, bool recursive,
->        */
->       if (poll) {
->           assert(!ignore_bds_parents);
-> -        BDRV_POLL_WHILE(bs, bdrv_drain_poll_top_level(bs, recursive, parent));
-> +        if (unlock) {
-> +            BDRV_POLL_WHILE_UNLOCKED(bs,
-> +                                     bdrv_drain_poll_top_level(bs, recursive,
-> +                                                               parent));
-> +        } else {
-> +            BDRV_POLL_WHILE(bs,
-> +                            bdrv_drain_poll_top_level(bs, recursive, parent));
-> +        }
->       }
->   }
->   
->   void bdrv_drained_begin(BlockDriverState *bs)
->   {
-> -    bdrv_do_drained_begin(bs, false, NULL, false, true);
-> +    bdrv_do_drained_begin(bs, false, NULL, false, true, false);
->   }
->   
->   void bdrv_subtree_drained_begin(BlockDriverState *bs)
->   {
-> -    bdrv_do_drained_begin(bs, true, NULL, false, true);
-> +    bdrv_do_drained_begin(bs, true, NULL, false, true, false);
-> +}
-> +
-> +void bdrv_subtree_drained_begin_unlocked(BlockDriverState *bs)
-> +{
-> +    bdrv_do_drained_begin(bs, true, NULL, false, true, true);
->   }
->   
->   void bdrv_drained_begin_no_poll(BlockDriverState *bs)
->   {
-> -    bdrv_do_drained_begin(bs, false, NULL, false, false);
-> +    bdrv_do_drained_begin(bs, false, NULL, false, false, false);
->   }
->   
->   /**
-> @@ -517,7 +533,7 @@ static void bdrv_do_drained_end(BlockDriverState *bs, bool recursive,
->   
->       if (qemu_in_coroutine()) {
->           bdrv_co_yield_to_drain(bs, false, recursive, parent, ignore_bds_parents,
-> -                               false, drained_end_counter);
-> +                               false, false, drained_end_counter);
->           return;
->       }
->       assert(bs->quiesce_counter > 0);
-> @@ -561,12 +577,19 @@ void bdrv_subtree_drained_end(BlockDriverState *bs)
->       BDRV_POLL_WHILE(bs, qatomic_read(&drained_end_counter) > 0);
->   }
->   
-> +void bdrv_subtree_drained_end_unlocked(BlockDriverState *bs)
-> +{
-> +    int drained_end_counter = 0;
-> +    bdrv_do_drained_end(bs, true, NULL, false, &drained_end_counter);
-> +    BDRV_POLL_WHILE_UNLOCKED(bs, qatomic_read(&drained_end_counter) > 0);
-> +}
-> +
->   void bdrv_apply_subtree_drain(BdrvChild *child, BlockDriverState *new_parent)
->   {
->       int i;
->   
->       for (i = 0; i < new_parent->recursive_quiesce_counter; i++) {
-> -        bdrv_do_drained_begin(child->bs, true, child, false, true);
-> +        bdrv_do_drained_begin(child->bs, true, child, false, true, false);
->       }
->   }
->   
-> @@ -651,7 +674,8 @@ void bdrv_drain_all_begin(void)
->       assert(qemu_in_main_thread());
->   
->       if (qemu_in_coroutine()) {
-> -        bdrv_co_yield_to_drain(NULL, true, false, NULL, true, true, NULL);
-> +        bdrv_co_yield_to_drain(NULL, true, false, NULL, true, true, false,
-> +                               NULL);
+> -    job_lock();
+> +    real_job_lock();
+>       if (job->busy) {
+> -        job_unlock();
+> +        real_job_unlock();
 >           return;
 >       }
 >   
-> @@ -676,7 +700,7 @@ void bdrv_drain_all_begin(void)
->           AioContext *aio_context = bdrv_get_aio_context(bs);
->   
->           aio_context_acquire(aio_context);
-> -        bdrv_do_drained_begin(bs, false, NULL, true, false);
-> +        bdrv_do_drained_begin(bs, false, NULL, true, false, false);
->           aio_context_release(aio_context);
+>       if (fn && !fn(job)) {
+> -        job_unlock();
+> +        real_job_unlock();
+>           return;
 >       }
 >   
-> diff --git a/include/block/block-io.h b/include/block/block-io.h
-> index 34a991649c..a329ae24c1 100644
-> --- a/include/block/block-io.h
-> +++ b/include/block/block-io.h
-> @@ -253,6 +253,7 @@ void bdrv_drained_begin_no_poll(BlockDriverState *bs);
->    * exclusive access to all child nodes as well.
->    */
->   void bdrv_subtree_drained_begin(BlockDriverState *bs);
-> +void bdrv_subtree_drained_begin_unlocked(BlockDriverState *bs);
+>       assert(!job->deferred_to_main_loop);
+>       timer_del(&job->sleep_timer);
+>       job->busy = true;
+> -    job_unlock();
+> +    real_job_unlock();
+>       aio_co_enter(job->aio_context, job->co);
+>   }
 >   
->   /**
->    * bdrv_drained_end:
-> @@ -285,6 +286,7 @@ void bdrv_drained_end_no_poll(BlockDriverState *bs, int *drained_end_counter);
->    * End a quiescent section started by bdrv_subtree_drained_begin().
->    */
->   void bdrv_subtree_drained_end(BlockDriverState *bs);
-> +void bdrv_subtree_drained_end_unlocked(BlockDriverState *bs);
+> @@ -480,13 +491,13 @@ void job_enter(Job *job)
+>    * called explicitly. */
+>   static void coroutine_fn job_do_yield(Job *job, uint64_t ns)
+>   {
+> -    job_lock();
+> +    real_job_lock();
+>       if (ns != -1) {
+>           timer_mod(&job->sleep_timer, ns);
+>       }
+>       job->busy = false;
+>       job_event_idle(job);
+> -    job_unlock();
+> +    real_job_unlock();
+>       qemu_coroutine_yield();
 >   
->   bool bdrv_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
->                                        uint32_t granularity, Error **errp);
+>       /* Set by job_enter_cond() before re-entering the coroutine.  */
 
 
