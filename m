@@ -2,84 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A1E1493EE4
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 18:17:42 +0100 (CET)
-Received: from localhost ([::1]:39994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7316493F08
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 18:27:06 +0100 (CET)
+Received: from localhost ([::1]:56420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAEaI-0000dk-Gy
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 12:17:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37956)
+	id 1nAEji-0004UR-0V
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 12:27:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nAEIM-0004Ge-TM
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 11:58:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20006)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1nAELc-0005kC-RJ
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 12:02:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nAEII-00082E-0m
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 11:58:49 -0500
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1nAELa-0000QE-VW
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 12:02:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642611518;
+ s=mimecast20190719; t=1642611729;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=DAty5HP5h41Szy2f6C7rBsX4r5dnlhPmXLUFI8QR/PA=;
- b=XSGoG+y5DYarettQrhbAaxKRQUcEv6VWZwTaCpPR6rooURpegxyL7nBHl+oG2zyzAqUhWP
- LtPXiAvMz4/S1/gwegfkjX3rnBbz1fWsheaqH9c9L30gAVFioEAPfREKv17GuMx08Xrozb
- 5lGRDznNyPzfRnoLClb0hm+Pdwv6KmQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=513dqejFlKQ+O6dw9Qi3Q1Ms/ZM/Vp3IH403/92RSO8=;
+ b=QgWs70N3hlV23Od9G3Lidpt0RIYkWWeHTEz71XSeYiVwqgwFEpj4jrHLJKaaJQeiniqAov
+ NcGIGQ9CFi1P3tJWOfHBu/Y9Hzc/bGFOWW9mN2X0pE9TtB1V5VD4740vAYrMo0Wg/7oYBM
+ OhZ/cTQPOFuS/zQNi/GX3yFmm6JvfrE=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-416-riCKVuXMPNeRzGKciFKkiA-1; Wed, 19 Jan 2022 11:58:36 -0500
-X-MC-Unique: riCKVuXMPNeRzGKciFKkiA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 14-20020a05600c024e00b0034a83f7391aso2131780wmj.4
- for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 08:58:36 -0800 (PST)
+ us-mta-631-TmLdBR4HNHea-WQ9zG8c6A-1; Wed, 19 Jan 2022 12:02:08 -0500
+X-MC-Unique: TmLdBR4HNHea-WQ9zG8c6A-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ j10-20020a05640211ca00b003ff0e234fdfso3196521edw.0
+ for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 09:02:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=DAty5HP5h41Szy2f6C7rBsX4r5dnlhPmXLUFI8QR/PA=;
- b=m7LvjAdw4vXELQe1xCyMEf8PHXq7u2Ik+F0wqF1uUCCDNrmSf+N7N9BVSoKbHqg1m2
- v5JEoPTRk/4tci2TU6CiLU+zypcCEMEMxr3LFb2lzM3TVbSPS0H5QKGxfeN+gPTIvwD9
- g8fDaHkJ/LXtkTEKk5cyyFJLQXixef58BXlLJL5ZsmuQsVT4YiG69xId4wyjTVsvHVvl
- uzSaWeVQXLW6ihXm6M/G8ucXiQKDjtfHA8z7dMdRlCsXDECf3ZRJtytGAJnE2ml3fNR7
- VWYID88PmMIRKnxo+59AkBHwhMmHIh/OZVbu2BPnDFSQCOW5+00eCPDGSoSMx8vowslE
- qHBQ==
-X-Gm-Message-State: AOAM5323qefYxaE+nuNniEjWPWCzwTNa3J66am8NlbENUJ5r9muFbuuE
- 9d5uLBogCiC0QUP5zwIuAYg7kw2C+ng1g+iFjF/80u2kzm5ynr4Ki8IGbB10xbva5AAzs/jA8Pp
- zCmitJjrGflZKYkI=
-X-Received: by 2002:a05:600c:3502:: with SMTP id
- h2mr4457774wmq.143.1642611515563; 
- Wed, 19 Jan 2022 08:58:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzMtDhQFiC/pkdqtRzl7KqzSDrMcpei61heCCdV2d8b80vpx0FTBJONMG0TiVTRCJRvuLg8WA==
-X-Received: by 2002:a05:600c:3502:: with SMTP id
- h2mr4457755wmq.143.1642611515357; 
- Wed, 19 Jan 2022 08:58:35 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id m12sm443802wrp.55.2022.01.19.08.58.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jan 2022 08:58:34 -0800 (PST)
-Date: Wed, 19 Jan 2022 16:58:32 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH RFC 06/15] migration: Move temp page setup and cleanup
- into separate functions
-Message-ID: <YehDOBtwhyjBJRsC@work-vm>
-References: <20220119080929.39485-1-peterx@redhat.com>
- <20220119080929.39485-7-peterx@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=513dqejFlKQ+O6dw9Qi3Q1Ms/ZM/Vp3IH403/92RSO8=;
+ b=lrLdPw6GPcO6zmi3eiTOtTfJNdUsigO7CkhS0tB9b1fYMiTs5pseHeaT7Vgs64b+ZZ
+ 800/zBGa6Fx8fTTVVH+soBwxkb2lEO1jmEZDfdanBbQP72srAC9jJc13F3EGBdu/yxat
+ erSKY0+YPqgyfc+ppov+0Te4D3mUy4CsTwd2uuzj8AFVcXK6om53s9aLfcY0pdcV0h+f
+ 6jieKORTrWJGAn3qduUOOE42zwcHoibV1BbsVfz3uVLuMWvcvhCmM+zPGdhE/FB6TGW/
+ rRo6rwQNmtDJDUTpMbB5QTkQlXN9AHWKs3NCS2wXcZ1J7Hlz7kJjhHKYIb/YUsR07dQN
+ 7yEQ==
+X-Gm-Message-State: AOAM530Wn0Vs+dJakc8JyHTeglfTuNwUE0CeQ/PQiuZfpsC19KywZnwM
+ ZCGtWYrc8bJD6GuQSqZynWrIKPcog0bqY+oJZ9kr5eMe2aavrdYQkuhc0puy3LJ9YNHtbkZJEBs
+ dJzR1+S0h9cSPJXrf4wxq9zuzqbHr0sA=
+X-Received: by 2002:a05:651c:2106:: with SMTP id
+ a6mr11250068ljq.472.1642611727221; 
+ Wed, 19 Jan 2022 09:02:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzrBCYX8cUBrv9LwbxjpOOLU+cL9MmVOtF7+jnPK180y4Qil81pUYpJkk4AI4muuB4sGucIUw4X9Z5PNOcTz9U=
+X-Received: by 2002:a05:651c:2106:: with SMTP id
+ a6mr11250040ljq.472.1642611726987; 
+ Wed, 19 Jan 2022 09:02:06 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220119080929.39485-7-peterx@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
+References: <20220106221341.8779-1-leobras@redhat.com>
+ <20220106221341.8779-3-leobras@redhat.com>
+ <Yd/LLxNCItAIX3eN@xz-m1.local>
+In-Reply-To: <Yd/LLxNCItAIX3eN@xz-m1.local>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Wed, 19 Jan 2022 14:01:55 -0300
+Message-ID: <CAJ6HWG5WKfWGVvpF-ZseNKk9b+J3LxXMnUAWajCKKeR21v+JZw@mail.gmail.com>
+Subject: Re: [PATCH v7 2/5] QIOChannelSocket: Implement io_writev zero copy
+ flag & io_flush for CONFIG_LINUX
+To: Peter Xu <peterx@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lsoaresp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -100,149 +94,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> Temp pages will need to grow if we want to have multiple channels for postcopy,
-> because each channel will need its own temp page to cache huge page data.
-> 
-> Before doing that, cleanup the related code.  No functional change intended.
-> 
-> Since at it, touch up the errno handling a little bit on the setup side.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+Hello Peter,
 
+On Thu, Jan 13, 2022 at 3:48 AM Peter Xu <peterx@redhat.com> wrote:
+>
+> On Thu, Jan 06, 2022 at 07:13:39PM -0300, Leonardo Bras wrote:
+> > @@ -558,15 +575,26 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
+> >          memcpy(CMSG_DATA(cmsg), fds, fdsize);
+> >      }
+> >
+> > +    if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
+> > +        sflags = MSG_ZEROCOPY;
+> > +    }
+> > +
+> >   retry:
+> > -    ret = sendmsg(sioc->fd, &msg, 0);
+> > +    ret = sendmsg(sioc->fd, &msg, sflags);
+> >      if (ret <= 0) {
+> > -        if (errno == EAGAIN) {
+> > +        switch (errno) {
+> > +        case EAGAIN:
+> >              return QIO_CHANNEL_ERR_BLOCK;
+> > -        }
+> > -        if (errno == EINTR) {
+> > +        case EINTR:
+> >              goto retry;
+> > +        case ENOBUFS:
+> > +            if (sflags & MSG_ZEROCOPY) {
+> > +                error_setg_errno(errp, errno,
+> > +                                 "Process can't lock enough memory for using MSG_ZEROCOPY");
+> > +                return -1;
+> > +            }
+>
+> I have no idea whether it'll make a real differnece, but - should we better add
+> a "break" here?
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Here I followed the standard of the EAGAIN error, that's why I just returned -1.
 
-> ---
->  migration/postcopy-ram.c | 82 +++++++++++++++++++++++++---------------
->  1 file changed, 51 insertions(+), 31 deletions(-)
-> 
-> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-> index 2176ed68a5..e662dd05cc 100644
-> --- a/migration/postcopy-ram.c
-> +++ b/migration/postcopy-ram.c
-> @@ -523,6 +523,19 @@ int postcopy_ram_incoming_init(MigrationIncomingState *mis)
->      return 0;
->  }
->  
-> +static void postcopy_temp_pages_cleanup(MigrationIncomingState *mis)
-> +{
-> +    if (mis->postcopy_tmp_page) {
-> +        munmap(mis->postcopy_tmp_page, mis->largest_page_size);
-> +        mis->postcopy_tmp_page = NULL;
-> +    }
-> +
-> +    if (mis->postcopy_tmp_zero_page) {
-> +        munmap(mis->postcopy_tmp_zero_page, mis->largest_page_size);
-> +        mis->postcopy_tmp_zero_page = NULL;
-> +    }
-> +}
-> +
->  /*
->   * At the end of a migration where postcopy_ram_incoming_init was called.
->   */
-> @@ -564,14 +577,8 @@ int postcopy_ram_incoming_cleanup(MigrationIncomingState *mis)
->          }
->      }
->  
-> -    if (mis->postcopy_tmp_page) {
-> -        munmap(mis->postcopy_tmp_page, mis->largest_page_size);
-> -        mis->postcopy_tmp_page = NULL;
-> -    }
-> -    if (mis->postcopy_tmp_zero_page) {
-> -        munmap(mis->postcopy_tmp_zero_page, mis->largest_page_size);
-> -        mis->postcopy_tmp_zero_page = NULL;
-> -    }
-> +    postcopy_temp_pages_cleanup(mis);
-> +
->      trace_postcopy_ram_incoming_cleanup_blocktime(
->              get_postcopy_total_blocktime());
->  
-> @@ -1082,6 +1089,40 @@ retry:
->      return NULL;
->  }
->  
-> +static int postcopy_temp_pages_setup(MigrationIncomingState *mis)
-> +{
-> +    int err;
-> +
-> +    mis->postcopy_tmp_page = mmap(NULL, mis->largest_page_size,
-> +                                  PROT_READ | PROT_WRITE,
-> +                                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-> +    if (mis->postcopy_tmp_page == MAP_FAILED) {
-> +        err = errno;
-> +        mis->postcopy_tmp_page = NULL;
-> +        error_report("%s: Failed to map postcopy_tmp_page %s",
-> +                     __func__, strerror(err));
-> +        return -err;
-> +    }
-> +
-> +    /*
-> +     * Map large zero page when kernel can't use UFFDIO_ZEROPAGE for hugepages
-> +     */
-> +    mis->postcopy_tmp_zero_page = mmap(NULL, mis->largest_page_size,
-> +                                       PROT_READ | PROT_WRITE,
-> +                                       MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-> +    if (mis->postcopy_tmp_zero_page == MAP_FAILED) {
-> +        err = errno;
-> +        mis->postcopy_tmp_zero_page = NULL;
-> +        error_report("%s: Failed to map large zero page %s",
-> +                     __func__, strerror(err));
-> +        return -err;
-> +    }
-> +
-> +    memset(mis->postcopy_tmp_zero_page, '\0', mis->largest_page_size);
-> +
-> +    return 0;
-> +}
-> +
->  int postcopy_ram_incoming_setup(MigrationIncomingState *mis)
->  {
->      /* Open the fd for the kernel to give us userfaults */
-> @@ -1122,32 +1163,11 @@ int postcopy_ram_incoming_setup(MigrationIncomingState *mis)
->          return -1;
->      }
->  
-> -    mis->postcopy_tmp_page = mmap(NULL, mis->largest_page_size,
-> -                                  PROT_READ | PROT_WRITE, MAP_PRIVATE |
-> -                                  MAP_ANONYMOUS, -1, 0);
-> -    if (mis->postcopy_tmp_page == MAP_FAILED) {
-> -        mis->postcopy_tmp_page = NULL;
-> -        error_report("%s: Failed to map postcopy_tmp_page %s",
-> -                     __func__, strerror(errno));
-> +    if (postcopy_temp_pages_setup(mis)) {
-> +        /* Error dumped in the sub-function */
->          return -1;
->      }
->  
-> -    /*
-> -     * Map large zero page when kernel can't use UFFDIO_ZEROPAGE for hugepages
-> -     */
-> -    mis->postcopy_tmp_zero_page = mmap(NULL, mis->largest_page_size,
-> -                                       PROT_READ | PROT_WRITE,
-> -                                       MAP_PRIVATE | MAP_ANONYMOUS,
-> -                                       -1, 0);
-> -    if (mis->postcopy_tmp_zero_page == MAP_FAILED) {
-> -        int e = errno;
-> -        mis->postcopy_tmp_zero_page = NULL;
-> -        error_report("%s: Failed to map large zero page %s",
-> -                     __func__, strerror(e));
-> -        return -e;
-> -    }
-> -    memset(mis->postcopy_tmp_zero_page, '\0', mis->largest_page_size);
-> -
->      trace_postcopy_ram_enable_notify();
->  
->      return 0;
-> -- 
-> 2.32.0
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+IIUC A break here would cause the errp to be re-set to the default
+message, after the switch.
+Another option would be to add a 'default' clause, and move the
+default error msg there, and return the -1
+after the switch.
+
+In the end I thought the current way was simpler, but it's no issue
+to change if you think the 'default' idea would be better.
+
+>  If you agree and with that fixed, feel free to add:
+>
+> Reviewed-by: Peter Xu <peterx@redhat.com>
+>
+
+Thanks!
+
+> I also wonder whether you hit ENOBUFS in any of the environments.  On Fedora
+> here it's by default unlimited, but just curious when we should keep an eye.
+
+It's unlimited if you run as root IIRC.
+
+>
+> Thanks,
+>
+> --
+> Peter Xu
+>
 
 
