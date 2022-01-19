@@ -2,73 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F19A7494170
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 21:07:16 +0100 (CET)
-Received: from localhost ([::1]:36746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57503494198
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 21:16:25 +0100 (CET)
+Received: from localhost ([::1]:39872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAHEh-0007hk-KK
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 15:07:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57174)
+	id 1nAHNX-0001w5-W3
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 15:16:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1nAHBy-0006cm-7I
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 15:04:26 -0500
-Received: from [2a00:1450:4864:20::32d] (port=40566
- helo=mail-wm1-x32d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1nAHBv-0003bP-Ma
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 15:04:25 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- r132-20020a1c448a000000b0034e043aaac7so444399wma.5
- for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 12:04:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KAuHCVK0L/s4qYVEZgPJWaUAk24hkFooqDWACjnIeg0=;
- b=pyhATFflFmvUm3sp8GxYoob2sCvC9VTe9kw+YgCqmr5td1A/RCHlEjo3DYpTax/n9d
- /AARP0RC40xR6OU6a/fW/Fa+0z6gPpMyqafi9YrrbGlhqWpOewLd7oYq+nuA+nPr8KuS
- 8fjhV17V5AmI4Lu95TfiulYkxS+qf9jIq9qO1nHuw4zAqDtwSzZvcNh4iICkUxiE+hoK
- qFYauUSaEsl9N6/7LvK4Ggkd5ZOStmFGiwneatfn/ydU05hUse0WBWe5X4KltP9bO80M
- metOkbmIhNU8IXcsJ1S25XUM+jNjuNz6OOu4ztC3ruZCJOABswXI818Z4TeoQtdD7kZh
- H5XQ==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nAHLI-00018i-9L
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 15:14:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26857)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nAHLE-0001PS-Ue
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 15:14:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642623239;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Dx6iwoGJaaRX603GZ+c1L/FbhD1HkJ8r69z6JOrz8YI=;
+ b=QM1jVVt2oS8RE9/YCKlzXtNPjte6Kh1wYSAhKOeDFjFcgu3HMlx0RZSppV73nZcM+1lLJl
+ vRTJDJd9KQx3PmuCfv5q8UBXR2NnKNJAj9RKKOzX51bvBKunRUfgmwkHtl588TiVSe+Gbh
+ 77EybsnORTicFjYR3lYYTVR/+YOk5VU=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-339-zCS3kAfVNUGKEopAT60ucA-1; Wed, 19 Jan 2022 15:13:57 -0500
+X-MC-Unique: zCS3kAfVNUGKEopAT60ucA-1
+Received: by mail-oi1-f197.google.com with SMTP id
+ w8-20020aca6208000000b002c7da950057so2480601oib.5
+ for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 12:13:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KAuHCVK0L/s4qYVEZgPJWaUAk24hkFooqDWACjnIeg0=;
- b=Vhjj2du7fh9Wu2o5Xm1D3JeKVc4MX1X8yz6BEgDTXTssY7lwqDpmn3YYX60IGcchnL
- w/mYEbs82id5SMWAYEl5h3Eil7Z5GexnRkO5moXNfskHlnqWXLpW6yJJAh4/i2xqse5V
- +nEi1ykcTbKR+mJdLZTeSH6CrtT7XlKqtX/PUW1KbmhzJERGSRw5Ccnhhvdb9O3LL5wS
- KqOJLlK/ViFROnXIcPE3aRX8uKk+qW4kqykX/6R6zcMB6Gbn9CVbApHy7A8gQR/w6Xqw
- RXBO9jsdhRhqmU9dmDuS9fFfYA2jElqAWOIbZkyHqTrQNck3Bplfg+99otDjMnvcm/UX
- nfwg==
-X-Gm-Message-State: AOAM533d5zboV5m9ti5mEPnNOVFveXScsC5q560IWCsOUrvla0tFQjLI
- GwlsC3hu/Wo0bOeYpvwwxDkIR8C6HP4W2uWjoxgpIw==
-X-Google-Smtp-Source: ABdhPJxu+51eQNmvJ6/oLxdzT96kcIWSiID6RZ3YcX986iDY14F4Qi6GI99MQtVBCrrbq9JF7xSw1qtjJn8xjXu44Mg=
-X-Received: by 2002:a05:600c:1c15:: with SMTP id
- j21mr5150287wms.48.1642622661276; 
- Wed, 19 Jan 2022 12:04:21 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Dx6iwoGJaaRX603GZ+c1L/FbhD1HkJ8r69z6JOrz8YI=;
+ b=DIsb8PaX2eOEeWY2SLAkWDnWFiJGG+4iap1+Nul3BaEbKCtfc7+xPBkfb4j+fWSrW2
+ NnTKmouvnfRZ20PK6IfbTQONFexpcIKKWYzi5o6T2ZCmvH1Gs1qkQkfOITCESRslGDEv
+ uvB51Ydad/xobqICkuR0qGlmwZcAMjVxVSgE2dLsJE5Y+r1qAQ5i3LzF73pY3bl8vjpt
+ HMapvosHrk4CColKGJ60fhwyQaKTSfdIHHyql/IJ7McLrx028UMRmFgRlBv/Mz3cE2dT
+ WNtuzsMaS/vku9gT9T98Weq5E3QAQOUEhSs8+A7A6KiSp/PFnnGTeaMtnln/pmbsmHKt
+ 1ZRw==
+X-Gm-Message-State: AOAM532uE1V+2Z+/N8Dcp1dG+7C7lhP3wMRhmwf1k1HugxTTbsL0TpAl
+ MWw8sEB5b9YIu6wUsN04OXf3k7LSJWTyEJA3fWnrEyDflPjIp7ueGk2/l16/BlM7y/3CF70aaNA
+ n0+Nu7sziScyeQ9Y=
+X-Received: by 2002:aca:1a0e:: with SMTP id a14mr4581894oia.110.1642623237017; 
+ Wed, 19 Jan 2022 12:13:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJybZQO+Abov1/2XE9QFGkHX4apJ4HocptE6fzYESOqvVybGeBz7MtLTvutMD+aGGXDQYTUR4Q==
+X-Received: by 2002:aca:1a0e:: with SMTP id a14mr4581876oia.110.1642623236825; 
+ Wed, 19 Jan 2022 12:13:56 -0800 (PST)
+Received: from redhat.com ([38.15.36.239])
+ by smtp.gmail.com with ESMTPSA id i13sm365976otj.13.2022.01.19.12.13.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Jan 2022 12:13:56 -0800 (PST)
+Date: Wed, 19 Jan 2022 13:13:55 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v2 2/2] hw/vfio/common: Silence ram device offset
+ alignment error traces
+Message-ID: <20220119131355.47bafabd.alex.williamson@redhat.com>
+In-Reply-To: <20220118153306.282681-3-eric.auger@redhat.com>
+References: <20220118153306.282681-1-eric.auger@redhat.com>
+ <20220118153306.282681-3-eric.auger@redhat.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20220118163245.2596468-1-cmuellner@linux.com>
-In-Reply-To: <20220118163245.2596468-1-cmuellner@linux.com>
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Date: Wed, 19 Jan 2022 21:04:09 +0100
-Message-ID: <CAAeLtUBj4H=z42DFqQuX43ecFV41HUR0OjdY+t7+XkUD+tYw_w@mail.gmail.com>
-Subject: Re: [RESEND] target/riscv: fix RV128 lq encoding
-To: Christoph Muellner <cmuellner@linux.com>
-Content-Type: multipart/alternative; boundary="00000000000039cc2605d5f4e424"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,245 +99,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: cohuck@redhat.com, stefanb@linux.vnet.ibm.com, qemu-devel@nongnu.org,
+ david@gibson.dropbear.id.au, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000039cc2605d5f4e424
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue, 18 Jan 2022 16:33:06 +0100
+Eric Auger <eric.auger@redhat.com> wrote:
 
-The cbo.* mnemonics share their opcode space with lq for those cases where
-rd =3D=3D 0 ("brownfield" encodings).
-"Major opcode" refers to inst[6:0] according to chapter 26.
-
-In overlapping multi-group syntax, this would look like:
-
-> {
->
->   # *** RV32 Zicbom Standard Extension ***
->
->   cbo_clean  0000000 00001 ..... 010 00000 0001111 @sfence_vm
->
->   cbo_flush  0000000 00010 ..... 010 00000 0001111 @sfence_vm
->
->   cbo_inval  0000000 00000 ..... 010 00000 0001111 @sfence_vm
->
->
->   # *** RV32 Zicboz Standard Extension ***
->
->   cbo_zero   0000000 00100 ..... 010 00000 0001111 @sfence_vm
->
->
->   # *** RVI128 lq ***
->
->   lq       ............   ..... 010 ..... 0001111 @i
->
-> }
->
-
-Instead of using a multigroup here, I would recommend that you take a look
-at https://patchwork.kernel.org/project/qemu-devel/list/?series=3D605340
-where we have added a table of optional decoders =E2=80=94 this could be us=
-ed to
-split these off into separate decoders that are run before the regular
-decoder, if & only if Zicboc and/or Zicboz are enabled.
-
-Cheers,
-Philipp.
-
-
-On Tue, 18 Jan 2022 at 17:32, Christoph Muellner <cmuellner@linux.com>
-wrote:
-
-> If LQ has func3=3D=3D010 and is located in the MISC-MEM opcodes,
-> then it conflicts with the CBO opcode space.
-> However, since LQ is specified as: "LQ is added to the MISC-MEM major
-> opcode", we have an implementation bug, because 'major opcode'
-> refers to func3, which must be 111.
->
-> This results in the following instruction encodings:
->
-> lq        ........ ........ .111.... .0001111
-> cbo_clean 00000000 0001.... .0100000 00001111
-> cbo_flush 00000000 0010.... .0100000 00001111
-> cbo_inval 00000000 0000.... .0100000 00001111
-> cbo_zero  00000000 0100.... .0100000 00001111
->                              ^^^-func3
->                                       ^^^^^^^-opcode
->
-> Signed-off-by: Christoph Muellner <cmuellner@linux.com>
+> Failing to DMA MAP a ram_device should not cause an error message.
+> This is currently happening with the TPM CRB command region and
+> this is causing confusion.
+> 
+> We may want to keep the trace for debug purpose though.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Tested-by: Stefan Berger <stefanb@linux.ibm.com>
 > ---
->  target/riscv/insn32.decode | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 5bbedc254c..d3f798ca10 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -168,7 +168,7 @@ sraw     0100000 .....  ..... 101 ..... 0111011 @r
->
->  # *** RV128I Base Instruction Set (in addition to RV64I) ***
->  ldu      ............   ..... 111 ..... 0000011 @i
-> -lq       ............   ..... 010 ..... 0001111 @i
-> +lq       ............   ..... 111 ..... 0001111 @i
->  sq       ............   ..... 100 ..... 0100011 @s
->  addid    ............  .....  000 ..... 1011011 @i
->  sllid    000000 ......  ..... 001 ..... 1011011 @sh6
-> --
-> 2.34.1
->
->
+>  hw/vfio/common.c     | 15 ++++++++++++++-
+>  hw/vfio/trace-events |  1 +
+>  2 files changed, 15 insertions(+), 1 deletion(-)
 
---00000000000039cc2605d5f4e424
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thanks!  Looks good to me.
 
-<div dir=3D"ltr">The cbo.* mnemonics share their opcode space with lq for t=
-hose cases where rd =3D=3D 0 (&quot;brownfield&quot; encodings).<div>&quot;=
-Major opcode&quot; refers to inst[6:0] according to chapter 26.<br><div><di=
-v><br></div><div>In overlapping multi-group syntax, this would look like:</=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">
+Stefan, I can provide an ack here if you want to send a pull request
+for both or likewise I can send a pull request with your ack on the
+previous patch.  I suppose the patches themselves are technically
+independent if you want to split them.  Whichever you prefer.
 
+Acked-by: Alex Williamson <alex.williamson@redhat.com>
 
+> 
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 080046e3f5..9caa560b07 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -884,7 +884,20 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>      if (unlikely((section->offset_within_address_space &
+>                    ~qemu_real_host_page_mask) !=
+>                   (section->offset_within_region & ~qemu_real_host_page_mask))) {
+> -        error_report("%s received unaligned region", __func__);
+> +        if (memory_region_is_ram_device(section->mr)) { /* just debug purpose */
+> +            trace_vfio_listener_region_add_bad_offset_alignment(
+> +                memory_region_name(section->mr),
+> +                section->offset_within_address_space,
+> +                section->offset_within_region, qemu_real_host_page_size);
+> +        } else { /* error case we don't want to be fatal */
+> +            error_report("%s received unaligned region %s iova=0x%"PRIx64
+> +                         " offset_within_region=0x%"PRIx64
+> +                         " qemu_real_host_page_mask=0x%"PRIx64,
+> +                         __func__, memory_region_name(section->mr),
+> +                         section->offset_within_address_space,
+> +                         section->offset_within_region,
+> +                         qemu_real_host_page_mask);
+> +        }
+>          return;
+>      }
+>  
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index 0ef1b5f4a6..ccd9d7610d 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -100,6 +100,7 @@ vfio_listener_region_add_skip(uint64_t start, uint64_t end) "SKIPPING region_add
+>  vfio_spapr_group_attach(int groupfd, int tablefd) "Attached groupfd %d to liobn fd %d"
+>  vfio_listener_region_add_iommu(uint64_t start, uint64_t end) "region_add [iommu] 0x%"PRIx64" - 0x%"PRIx64
+>  vfio_listener_region_add_ram(uint64_t iova_start, uint64_t iova_end, void *vaddr) "region_add [ram] 0x%"PRIx64" - 0x%"PRIx64" [%p]"
+> +vfio_listener_region_add_bad_offset_alignment(const char *name, uint64_t iova, uint64_t offset_within_region, uint64_t page_size) "Region \"%s\" @0x%"PRIx64", offset_within_region=0x%"PRIx64", qemu_real_host_page_mask=0x%"PRIx64 " cannot be mapped for DMA"
+>  vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
+>  vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING region_del 0x%"PRIx64" - 0x%"PRIx64
+>  vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
 
-
-
-<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
-rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
-font-variant-ligatures:no-common-ligatures">{</span></p>
-<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
-rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
-font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-conv=
-erted-space">=C2=A0 </span># *** RV32 Zicbom Standard Extension ***</span><=
-/p>
-<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
-rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
-font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-conv=
-erted-space">=C2=A0 </span>cbo_clean<span class=3D"gmail-Apple-converted-sp=
-ace">=C2=A0 </span>0000000 00001 ..... 010 00000 0001111 @sfence_vm</span><=
-/p>
-<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
-rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
-font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-conv=
-erted-space">=C2=A0 </span>cbo_flush<span class=3D"gmail-Apple-converted-sp=
-ace">=C2=A0 </span>0000000 00010 ..... 010 00000 0001111 @sfence_vm</span><=
-/p>
-<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
-rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
-font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-conv=
-erted-space">=C2=A0 </span>cbo_inval<span class=3D"gmail-Apple-converted-sp=
-ace">=C2=A0 </span>0000000 00000 ..... 010 00000 0001111 @sfence_vm</span><=
-/p>
-<p class=3D"gmail-p2" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
-rmal;font-family:Menlo;color:rgb(0,0,0);min-height:13px"><span class=3D"gma=
-il-s1" style=3D"font-variant-ligatures:no-common-ligatures"></span><br></p>
-<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
-rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
-font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-conv=
-erted-space">=C2=A0 </span># *** RV32 Zicboz Standard Extension ***</span><=
-/p>
-<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
-rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
-font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-conv=
-erted-space">=C2=A0 </span>cbo_zero <span class=3D"gmail-Apple-converted-sp=
-ace">=C2=A0 </span>0000000 00100 ..... 010 00000 0001111 @sfence_vm</span><=
-/p>
-<p class=3D"gmail-p2" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
-rmal;font-family:Menlo;color:rgb(0,0,0);min-height:13px"><span class=3D"gma=
-il-s1" style=3D"font-variant-ligatures:no-common-ligatures"></span><br></p>
-<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
-rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
-font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-conv=
-erted-space">=C2=A0 </span># ***<span class=3D"gmail-Apple-tab-span" style=
-=3D"white-space:pre">	</span>RVI128 lq ***</span></p>
-<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
-rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
-font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-conv=
-erted-space">=C2=A0 </span>lq <span class=3D"gmail-Apple-converted-space">=
-=C2=A0 =C2=A0 =C2=A0 </span>............ <span class=3D"gmail-Apple-convert=
-ed-space">=C2=A0 </span>..... 010 ..... 0001111 @i</span></p>
-<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
-rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
-font-variant-ligatures:no-common-ligatures">}</span></p></blockquote><div><=
-br></div><div>Instead of using a multigroup here, I would recommend that yo=
-u take a look at=C2=A0<a href=3D"https://patchwork.kernel.org/project/qemu-=
-devel/list/?series=3D605340">https://patchwork.kernel.org/project/qemu-deve=
-l/list/?series=3D605340</a> where we have added a table of optional decoder=
-s =E2=80=94 this could be used to split these off into separate decoders th=
-at are run before the regular decoder, if &amp; only if Zicboc and/or Zicbo=
-z are enabled.=C2=A0<br></div><div><br></div><div>Cheers,</div><div>Philipp=
-.</div></div></div></div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr=
-" class=3D"gmail_attr">On Tue, 18 Jan 2022 at 17:32, Christoph Muellner &lt=
-;<a href=3D"mailto:cmuellner@linux.com">cmuellner@linux.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">If LQ has func3=
-=3D=3D010 and is located in the MISC-MEM opcodes,<br>
-then it conflicts with the CBO opcode space.<br>
-However, since LQ is specified as: &quot;LQ is added to the MISC-MEM major<=
-br>
-opcode&quot;, we have an implementation bug, because &#39;major opcode&#39;=
-<br>
-refers to func3, which must be 111.<br>
-<br>
-This results in the following instruction encodings:<br>
-<br>
-lq=C2=A0 =C2=A0 =C2=A0 =C2=A0 ........ ........ .111.... .0001111<br>
-cbo_clean 00000000 0001.... .0100000 00001111<br>
-cbo_flush 00000000 0010.... .0100000 00001111<br>
-cbo_inval 00000000 0000.... .0100000 00001111<br>
-cbo_zero=C2=A0 00000000 0100.... .0100000 00001111<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^^^-func3<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^^^^^^^-opcode<=
-br>
-<br>
-Signed-off-by: Christoph Muellner &lt;<a href=3D"mailto:cmuellner@linux.com=
-" target=3D"_blank">cmuellner@linux.com</a>&gt;<br>
----<br>
-=C2=A0target/riscv/insn32.decode | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode<br>
-index 5bbedc254c..d3f798ca10 100644<br>
---- a/target/riscv/insn32.decode<br>
-+++ b/target/riscv/insn32.decode<br>
-@@ -168,7 +168,7 @@ sraw=C2=A0 =C2=A0 =C2=A00100000 .....=C2=A0 ..... 101 .=
-.... 0111011 @r<br>
-<br>
-=C2=A0# *** RV128I Base Instruction Set (in addition to RV64I) ***<br>
-=C2=A0ldu=C2=A0 =C2=A0 =C2=A0 ............=C2=A0 =C2=A0..... 111 ..... 0000=
-011 @i<br>
--lq=C2=A0 =C2=A0 =C2=A0 =C2=A0............=C2=A0 =C2=A0..... 010 ..... 0001=
-111 @i<br>
-+lq=C2=A0 =C2=A0 =C2=A0 =C2=A0............=C2=A0 =C2=A0..... 111 ..... 0001=
-111 @i<br>
-=C2=A0sq=C2=A0 =C2=A0 =C2=A0 =C2=A0............=C2=A0 =C2=A0..... 100 .....=
- 0100011 @s<br>
-=C2=A0addid=C2=A0 =C2=A0 ............=C2=A0 .....=C2=A0 000 ..... 1011011 @=
-i<br>
-=C2=A0sllid=C2=A0 =C2=A0 000000 ......=C2=A0 ..... 001 ..... 1011011 @sh6<b=
-r>
--- <br>
-2.34.1<br>
-<br>
-</blockquote></div>
-
---00000000000039cc2605d5f4e424--
 
