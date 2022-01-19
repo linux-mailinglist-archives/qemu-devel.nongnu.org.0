@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6762493778
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 10:39:15 +0100 (CET)
-Received: from localhost ([::1]:50310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2096493754
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 10:31:17 +0100 (CET)
+Received: from localhost ([::1]:37960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA7Qw-0005TB-IR
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 04:39:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42962)
+	id 1nA7JE-0005FU-8l
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 04:31:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nA70a-0002Jc-FF
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 04:12:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21139)
+ id 1nA75T-0006vP-PP
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 04:17:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33464)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nA70X-0003UN-9C
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 04:11:59 -0500
+ id 1nA75Q-00042q-Ka
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 04:17:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642583515;
+ s=mimecast20190719; t=1642583815;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Pc1FohHd266GrsAd5kBKlKnRT6pD/5dCMrMR6erWev4=;
- b=gnakgICCtALi5DLdg9Wyv0i3bARZGqi21tI6BtBOukjiCdf9qIpL7xf62DTXwHw2SruoS9
- wBrrQxP9NMTVxqtUlrkcG17gjc3KTfOPzDtAFnLHzqId7iehwGoGgJfzsTfy21AMHmBvDv
- 7izd1PTauGJ8foOrCUR5QN4f+VHEjvk=
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9f29xMJHHlBM2PF7oMOBM9384f/0zoZHrhYGFGapfZg=;
+ b=aUiQ4m86g6L/mT/hD+lPShm9rSIkWe3TgmTyvyTLgzep6uNqNrIBe9murqxQrNXGRKFRcN
+ PjHzj/AwJJiq7+K9YXk5FMC39MFNozDUiGdxWBvcSDwOkMteYAMnKoDr1MKANGdd4/ETtT
+ UGNS4+w7tEP+NLMd7+A1G215gGBN7O0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-54-cajw6qjlPjiWdSm6tQY5vQ-1; Wed, 19 Jan 2022 04:11:42 -0500
-X-MC-Unique: cajw6qjlPjiWdSm6tQY5vQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-310-NydaXA9jM3m_KnQC6koMkQ-1; Wed, 19 Jan 2022 04:16:51 -0500
+X-MC-Unique: NydaXA9jM3m_KnQC6koMkQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB1242F26;
- Wed, 19 Jan 2022 09:11:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C03052F4B;
+ Wed, 19 Jan 2022 09:16:50 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.194.213])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5531F7B9D2;
- Wed, 19 Jan 2022 09:11:40 +0000 (UTC)
-Date: Wed, 19 Jan 2022 09:11:37 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F3E44F857;
+ Wed, 19 Jan 2022 09:16:49 +0000 (UTC)
+Date: Wed, 19 Jan 2022 09:16:46 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 1/3] qmp: Support for querying stats
-Message-ID: <YefVycBLB0oX+3eJ@redhat.com>
-References: <20211119195153.11815-1-mark.kanda@oracle.com>
- <20211119195153.11815-2-mark.kanda@oracle.com>
- <Ya+rLex1djU/1Wc1@redhat.com>
- <ee0d6990-06f3-9a1b-f7d5-7c379f0e9773@redhat.com>
- <5b2f4acf-29fb-34fd-eee0-341eec163da7@oracle.com>
- <a39efdf3-82f3-9042-8b53-86394d7aa90d@redhat.com>
- <Yea3+t4qtk4iB9jr@redhat.com> <20220118154731.159e4b23@redhat.com>
- <b0222e34-4b85-c909-3d7d-27536dbd5bf8@redhat.com>
+To: Yang Zhong <yang.zhong@intel.com>
+Subject: Re: [PATCH] qapi: Cleanup SGX related comments
+Message-ID: <YefW/sAB2SEKHU24@redhat.com>
+References: <20220119120014.342180-1-yang.zhong@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <b0222e34-4b85-c909-3d7d-27536dbd5bf8@redhat.com>
+In-Reply-To: <20220119120014.342180-1-yang.zhong@intel.com>
 User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -87,23 +83,98 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
- armbru@redhat.com
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 19, 2022 at 09:43:23AM +0100, Paolo Bonzini wrote:
-> On 1/18/22 15:47, Igor Mammedov wrote:
-> > and what exactly this CPU ID is,
-> > may QOM path pointing to VCPU instance would be better?
+On Wed, Jan 19, 2022 at 07:00:14AM -0500, Yang Zhong wrote:
+> The SGX NUMA patches were merged into Qemu 7.0 release, we need
+> clarify detailed version history information and also change
+> some related comments, which make SGX related comments clearer.
 > 
-> For x86 it would be the APIC ID but yes, having a QOM path is more future
-> proof.  Thanks Igor for noting this.
+> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> ---
+>  qapi/machine.json     |  4 ++--
+>  qapi/misc-target.json | 14 +++++++++-----
+>  2 files changed, 11 insertions(+), 7 deletions(-)
 
-Whatever format we use to describe a CPU in the results, should be the
-same as the format uses in the input parameters. I had suggested using
-a bitmap of CPU IDs, but if we're going to use QOM paths for results,
-we must use QOM paths to select CPUs too.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index b6a37e17c4..cf47cb63a9 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -1207,7 +1207,7 @@
+>  #
+>  # @memdev: memory backend linked with device
+>  #
+> -# @node: the numa node
+> +# @node: the numa node (Since: 7.0)
+>  #
+>  # Since: 6.2
+>  ##
+> @@ -1288,7 +1288,7 @@
+>  #
+>  # @memdev: memory backend linked with device
+>  #
+> -# @node: the numa node
+> +# @node: the numa node (Since: 7.0)
+>  #
+>  # Since: 6.2
+>  ##
+> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+> index 1022aa0184..558521bd39 100644
+> --- a/qapi/misc-target.json
+> +++ b/qapi/misc-target.json
+> @@ -344,9 +344,9 @@
+>  #
+>  # @node: the numa node
+>  #
+> -# @size: the size of epc section
+> +# @size: the size of EPC section
+>  #
+> -# Since: 6.2
+> +# Since: 7.0
+>  ##
+>  { 'struct': 'SGXEPCSection',
+>    'data': { 'node': 'int',
+> @@ -365,7 +365,7 @@
+>  #
+>  # @flc: true if FLC is supported
+>  #
+> -# @sections: The EPC sections info for guest
+> +# @sections: The EPC sections info for guest(Since: 7.0)
+
+Minor point - a space is needed before '('
+
+>  #
+>  # Since: 6.2
+>  ##
+> @@ -390,7 +390,9 @@
+>  #
+>  # -> { "execute": "query-sgx" }
+>  # <- { "return": { "sgx": true, "sgx1" : true, "sgx2" : true,
+> -#                  "flc": true, "section-size" : 0 } }
+> +#                  "flc": true,  "sections":
+> +#                  [{"node": 0, "size": 67108864},
+> +#                  {"node": 1, "size": 29360128}]} }
+>  #
+>  ##
+>  { 'command': 'query-sgx', 'returns': 'SGXInfo', 'if': 'TARGET_I386' }
+> @@ -408,7 +410,9 @@
+>  #
+>  # -> { "execute": "query-sgx-capabilities" }
+>  # <- { "return": { "sgx": true, "sgx1" : true, "sgx2" : true,
+> -#                  "flc": true, "section-size" : 0 } }
+> +#                  "flc": true, "section" :
+> +#                  [{"node": 0, "size": 67108864},
+> +#                  {"node": 1, "size": 29360128}]} }
+
+The 'section-size' shouldn't be removed here - we still need the
+command fixed to bring back the 'section-size' as it should not
+have been deleted.
+
+Adding the 'section' docs is ok though.
 
 Regards,
 Daniel
