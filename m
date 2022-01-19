@@ -2,91 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A96604939AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 12:38:15 +0100 (CET)
-Received: from localhost ([::1]:53106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E1B24939D0
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 12:44:02 +0100 (CET)
+Received: from localhost ([::1]:33564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA9I6-0007MN-QT
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 06:38:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54372)
+	id 1nA9Ng-0004wq-De
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 06:44:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1nA94U-0006PX-RL
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 06:24:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38905)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nA963-00080m-Rd
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 06:25:47 -0500
+Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231]:53231)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1nA94R-00039F-Ho
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 06:24:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642591446;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=l+WFm7gLJSifKWCG6y5qc9nMyPUVrc0q+yPxQ1W4/zU=;
- b=a4vccs62BHGxtY4hEn96tX4txZlUd5lCX/hQc+l1ZmBvKpeGiP7dPHFuAztFZ9L1B5R69p
- 3zeHoDvfNiEHzaRioObpQEitGJq/HJD7Gx61ycXVnxp0+fuBygBCvr3km40xAOMt4KVZrE
- H0JLWmxaVxYc67rnuA5JHmV7TGgHryI=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-648-kejrwqDKOU6F2I1dQnrlUQ-1; Wed, 19 Jan 2022 06:23:51 -0500
-X-MC-Unique: kejrwqDKOU6F2I1dQnrlUQ-1
-Received: by mail-qt1-f199.google.com with SMTP id
- e23-20020ac80117000000b002c92228f95eso1319947qtg.1
- for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 03:23:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=l+WFm7gLJSifKWCG6y5qc9nMyPUVrc0q+yPxQ1W4/zU=;
- b=JXoJNO9idDLmJSKR40yolDnvWnVMmMGIYEzyO22UOyPZC3odQyYybMFKPSVvd7U1SJ
- z0qIjC461mZpZSw8Fk9FBzcDoJrRDpZ7+9LdpBaoZWTSnu0x3bHlAK5f9wE2oBclq3EG
- iqF/aprQ6LDcjOAO9PjNIS6ivRYa4qQPPEyWNpWqBD86f6hfIz49Ggdzjbd/yp0m4R51
- hoQCT5c9J8iWQVSBinCb3nWDTzDNtii+vvWF1jQA5i4vb94WzgIbMbVKQ0R1zF3XfdiY
- Xu5hVb9uO5oh832Ut6ePeaGkXM3RmimUfiJJc6rx4vGNtOJ0zjErvlevZio8h+hh6cmC
- AQeA==
-X-Gm-Message-State: AOAM533HfnRInhFw5D0kmXbk9WDeGBPNmGT2TBoIN2hyXjoxpWwt+ALX
- okWWI7r7JvfvAY6ts0e7oWkBXgo8K4Y+MC1aVWDxUeT0pkYwy4vsZ86lsBPNxhQU2STs5l4F5xl
- mWvSFIu5C5KXIco4=
-X-Received: by 2002:a05:6214:1d22:: with SMTP id
- f2mr25759916qvd.54.1642591431472; 
- Wed, 19 Jan 2022 03:23:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxIsLMueQUT3bRjqgu7kkxxQEyMAhuMSga/KqkY68OlK4yR6E/tk8VRjCTXfGlNG17370n/rA==
-X-Received: by 2002:a05:6214:1d22:: with SMTP id
- f2mr25759900qvd.54.1642591431229; 
- Wed, 19 Jan 2022 03:23:51 -0800 (PST)
-Received: from steredhat (host-95-238-125-214.retail.telecomitalia.it.
- [95.238.125.214])
- by smtp.gmail.com with ESMTPSA id de38sm4937406qkb.5.2022.01.19.03.23.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jan 2022 03:23:50 -0800 (PST)
-Date: Wed, 19 Jan 2022 12:23:44 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: "Longpeng(Mike)" <longpeng2@huawei.com>
-Subject: Re: [PATCH v2 04/10] vdpa-dev: implement the
- instance_init/class_init interface
-Message-ID: <20220119112344.5tj3ccnoeotc5abb@steredhat>
-References: <20220117124331.1642-1-longpeng2@huawei.com>
- <20220117124331.1642-5-longpeng2@huawei.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nA960-0003V9-1j
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 06:25:46 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.123])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 6358B200FA;
+ Wed, 19 Jan 2022 11:25:38 +0000 (UTC)
+Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Wed, 19 Jan
+ 2022 12:25:37 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G006a0227d2c-e7eb-4174-afaa-35da665a5693,
+ D7DF39B65A0956CFE557F682C3487E629228C0D9) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <fb259979-04fe-8de7-89c7-c674908b31c4@kaod.org>
+Date: Wed, 19 Jan 2022 12:25:37 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220117124331.1642-5-longpeng2@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v2 11/14] target/ppc: 405: Data Storage exception cleanup
+Content-Language: en-US
+To: David Gibson <david@gibson.dropbear.id.au>, Fabiano Rosas
+ <farosas@linux.ibm.com>
+References: <20220118184448.852996-1-farosas@linux.ibm.com>
+ <20220118184448.852996-12-farosas@linux.ibm.com> <YeesC7891UZQS3v+@yekko>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <YeesC7891UZQS3v+@yekko>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 37e70fd4-9cfd-403b-a371-43bee2cebe94
+X-Ovh-Tracer-Id: 17668184290773535526
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudehgddvlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegsrghlrghtohhnsegvihhkrdgsmhgvrdhhuh
+Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
+ helo=8.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,219 +71,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
- yechuan@huawei.com, arei.gonglei@huawei.com, huangzhichao@huawei.com,
- stefanha@redhat.com, pbonzini@redhat.com
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 17, 2022 at 08:43:25PM +0800, Longpeng(Mike) via wrote:
->From: Longpeng <longpeng2@huawei.com>
->
->Implements the .instance_init and the .class_init interface.
->
->Signed-off-by: Longpeng <longpeng2@huawei.com>
->---
-> hw/virtio/vdpa-dev-pci.c     | 52 ++++++++++++++++++++++-
-> hw/virtio/vdpa-dev.c         | 81 +++++++++++++++++++++++++++++++++++-
-> include/hw/virtio/vdpa-dev.h |  5 +++
-> 3 files changed, 134 insertions(+), 4 deletions(-)
->
->diff --git a/hw/virtio/vdpa-dev-pci.c b/hw/virtio/vdpa-dev-pci.c
->index a5a7b528a9..257538dbdd 100644
->--- a/hw/virtio/vdpa-dev-pci.c
->+++ b/hw/virtio/vdpa-dev-pci.c
->@@ -25,12 +25,60 @@ struct VhostVdpaDevicePCI {
->
-> static void vhost_vdpa_device_pci_instance_init(Object *obj)
-> {
->-    return;
->+    VhostVdpaDevicePCI *dev = VHOST_VDPA_DEVICE_PCI(obj);
->+
->+    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
->+                                TYPE_VHOST_VDPA_DEVICE);
->+    object_property_add_alias(obj, "bootindex", OBJECT(&dev->vdev),
->+                              "bootindex");
->+}
->+
->+static Property vhost_vdpa_device_pci_properties[] = {
->+    DEFINE_PROP_END_OF_LIST(),
->+};
->+
->+static void
->+vhost_vdpa_device_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
->+{
->+    VhostVdpaDevicePCI *dev = VHOST_VDPA_DEVICE_PCI(vpci_dev);
->+    DeviceState *vdev = DEVICE(&dev->vdev);
->+    uint32_t vdev_id;
->+    uint32_t num_queues;
->+    int fd;
->+
->+    fd = qemu_open(dev->vdev.vdpa_dev, O_RDWR, errp);
+On 1/19/22 07:13, David Gibson wrote:
+> On Tue, Jan 18, 2022 at 03:44:45PM -0300, Fabiano Rosas wrote:
+>> The 405 has no DSISR or DAR, so convert the trace entry to
+>> trace_ppc_excp_print.
+> 
+> I think it would be preferable to show ESR and DEAR here, which are
+> very loosely equivalent to DSISR and DAR on 40x.  
 
-We should use `vdpa_dev_fd` if the user set it, and I think we should 
-also check that `vdpa_dev` is not null.
+yes.
 
->+    if (*errp) {
->+        return;
->+    }
->+
->+    vdev_id = vhost_vdpa_device_get_u32(fd, VHOST_VDPA_GET_DEVICE_ID, errp);
->+    if (*errp) {
->+        qemu_close(fd);
->+        return;
->+    }
->+
->+    num_queues = vhost_vdpa_device_get_u32(fd, VHOST_VDPA_GET_VQS_NUM, errp);
-                                                  ^
-The build fails here, I think this should be VHOST_VDPA_GET_VQS_COUNT
+> Might want to create
+> a new trace point explicitly for this so the terminology is clear as well.
 
->+    if (*errp) {
->+        qemu_close(fd);
->+        return;
->+    }
->+
->+    dev->vdev.vdpa_dev_fd = fd;
->+    vpci_dev->class_code = virtio_pci_get_class_id(vdev_id);
->+    vpci_dev->trans_devid = virtio_pci_get_trans_devid(vdev_id);
->+    /* one for config interrupt, one per vq */
->+    vpci_dev->nvectors = num_queues + 1;
->+    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
-> }
->
-> static void vhost_vdpa_device_pci_class_init(ObjectClass *klass, void 
-> *data)
-> {
->-    return;
->+    DeviceClass *dc = DEVICE_CLASS(klass);
->+    VirtioPCIClass *k = VIRTIO_PCI_CLASS(klass);
->+
->+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
->+    device_class_set_props(dc, vhost_vdpa_device_pci_properties);
->+    k->realize = vhost_vdpa_device_pci_realize;
-> }
->
-> static const VirtioPCIDeviceTypeInfo vhost_vdpa_device_pci_info = {
->diff --git a/hw/virtio/vdpa-dev.c b/hw/virtio/vdpa-dev.c
->index f4f92b90b0..b103768f33 100644
->--- a/hw/virtio/vdpa-dev.c
->+++ b/hw/virtio/vdpa-dev.c
->@@ -15,16 +15,93 @@
-> #include "sysemu/sysemu.h"
-> #include "sysemu/runstate.h"
->
->-static void vhost_vdpa_device_class_init(ObjectClass *klass, void *data)
->+uint32_t vhost_vdpa_device_get_u32(int fd, unsigned long int cmd, Error **errp)
->+{
->+    uint32_t val = (uint32_t)-1;
->+
->+    if (ioctl(fd, cmd, &val) < 0) {
->+        error_setg(errp, "vhost-vdpa-device: cmd 0x%lx failed: %s",
->+                   cmd, strerror(errno));
->+    }
->+
->+    return val;
->+}
->+
->+static void vhost_vdpa_device_realize(DeviceState *dev, Error **errp)
-> {
->     return;
-> }
->
->-static void vhost_vdpa_device_instance_init(Object *obj)
->+static void vhost_vdpa_device_unrealize(DeviceState *dev)
->+{
->+    return;
->+}
->+
->+static void
->+vhost_vdpa_device_get_config(VirtIODevice *vdev, uint8_t *config)
->+{
->+    return;
->+}
->+
->+static void
->+vhost_vdpa_device_set_config(VirtIODevice *vdev, const uint8_t *config)
->+{
->+    return;
->+}
->+
->+static uint64_t vhost_vdpa_device_get_features(VirtIODevice *vdev,
->+                                               uint64_t features,
->+                                               Error **errp)
->+{
->+    return (uint64_t)-1;
->+}
->+
->+static void vhost_vdpa_device_set_status(VirtIODevice *vdev, uint8_t status)
-> {
->     return;
-> }
->
->+static Property vhost_vdpa_device_properties[] = {
->+    DEFINE_PROP_STRING("vdpa-dev", VhostVdpaDevice, vdpa_dev),
->+    DEFINE_PROP_INT32("vdpa-dev-fd", VhostVdpaDevice, vdpa_dev_fd,
->-1),
->+    DEFINE_PROP_END_OF_LIST(),
->+};
->+
->+static const VMStateDescription vmstate_vhost_vdpa_device = {
->+    .name = "vhost-vdpa-device",
->+    .minimum_version_id = 1,
->+    .version_id = 1,
->+    .fields = (VMStateField[]) {
->+        VMSTATE_VIRTIO_DEVICE,
->+        VMSTATE_END_OF_LIST()
->+    },
->+};
->+
->+static void vhost_vdpa_device_class_init(ObjectClass *klass, void *data)
->+{
->+    DeviceClass *dc = DEVICE_CLASS(klass);
->+    VirtioDeviceClass *vdc = VIRTIO_DEVICE_CLASS(klass);
->+
->+    device_class_set_props(dc, vhost_vdpa_device_properties);
->+    dc->desc = "VDPA-based generic device assignment";
->+    dc->vmsd = &vmstate_vhost_vdpa_device;
->+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
->+    vdc->realize = vhost_vdpa_device_realize;
->+    vdc->unrealize = vhost_vdpa_device_unrealize;
->+    vdc->get_config = vhost_vdpa_device_get_config;
->+    vdc->set_config = vhost_vdpa_device_set_config;
->+    vdc->get_features = vhost_vdpa_device_get_features;
->+    vdc->set_status = vhost_vdpa_device_set_status;
->+}
->+
->+static void vhost_vdpa_device_instance_init(Object *obj)
->+{
->+    VhostVdpaDevice *s = VHOST_VDPA_DEVICE(obj);
->+
->+    device_add_bootindex_property(obj, &s->bootindex, "bootindex",
->+                                  NULL, DEVICE(obj));
->+}
->+
-> static const TypeInfo vhost_vdpa_device_info = {
->     .name = TYPE_VHOST_VDPA_DEVICE,
->     .parent = TYPE_VIRTIO_DEVICE,
->diff --git a/include/hw/virtio/vdpa-dev.h b/include/hw/virtio/vdpa-dev.h
->index dd94bd74a2..e7ad349113 100644
->--- a/include/hw/virtio/vdpa-dev.h
->+++ b/include/hw/virtio/vdpa-dev.h
->@@ -11,6 +11,11 @@ OBJECT_DECLARE_SIMPLE_TYPE(VhostVdpaDevice, VHOST_VDPA_DEVICE)
->
-> struct VhostVdpaDevice {
->     VirtIODevice parent_obj;
->+    char *vdpa_dev;
->+    int vdpa_dev_fd;
->+    int32_t bootindex;
-> };
->
->+uint32_t vhost_vdpa_device_get_u32(int fd, unsigned long int cmd, Error **errp);
->+
-> #endif
->-- 
->2.23.0
->
->
+trace_ppc_excp_print() s of my invention and not the best. I agree
+we should add extra traces.
+
+Thanks,
+
+C.
+
+  
+>>
+>> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+>> ---
+>>   target/ppc/excp_helper.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+>> index 84ec7e094a..e4e513322c 100644
+>> --- a/target/ppc/excp_helper.c
+>> +++ b/target/ppc/excp_helper.c
+>> @@ -465,7 +465,7 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
+>>           srr1 = SPR_40x_SRR3;
+>>           break;
+>>       case POWERPC_EXCP_DSI:       /* Data storage exception                   */
+>> -        trace_ppc_excp_dsi(env->spr[SPR_DSISR], env->spr[SPR_DAR]);
+>> +        trace_ppc_excp_print("DSI");
+>>           break;
+>>       case POWERPC_EXCP_ISI:       /* Instruction storage exception            */
+>>           trace_ppc_excp_isi(msr, env->nip);
+> 
 
 
