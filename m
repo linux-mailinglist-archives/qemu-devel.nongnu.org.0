@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6CE8493940
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 12:09:02 +0100 (CET)
-Received: from localhost ([::1]:48512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91547493951
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 12:13:30 +0100 (CET)
+Received: from localhost ([::1]:52186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA8pp-0000Rq-WE
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 06:09:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49390)
+	id 1nA8u9-00035i-4F
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 06:13:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nA8n9-0006wv-C3; Wed, 19 Jan 2022 06:06:15 -0500
-Received: from [2a00:1450:4864:20::334] (port=36816
- helo=mail-wm1-x334.google.com)
+ id 1nA8q2-0001ie-7T; Wed, 19 Jan 2022 06:09:19 -0500
+Received: from [2a00:1450:4864:20::336] (port=56070
+ helo=mail-wm1-x336.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nA8n6-0005ry-AN; Wed, 19 Jan 2022 06:06:15 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- i187-20020a1c3bc4000000b0034d2ed1be2aso12189381wma.1; 
- Wed, 19 Jan 2022 03:06:08 -0800 (PST)
+ id 1nA8pz-0006PD-Lb; Wed, 19 Jan 2022 06:09:13 -0500
+Received: by mail-wm1-x336.google.com with SMTP id c66so4636560wma.5;
+ Wed, 19 Jan 2022 03:09:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=rMyYWQwkFUxYlrBPtd4iKHGVhxP/X8FBqU2tSLs2XqE=;
- b=Nnea4GcrVqdy0SOHTCuLYOHzrQJclwTZKlsNy9Ty9QP6s3TjweV26yXUPXJg1qORhc
- jO9LyylBAqWQxWZDzcM5tuKDwXu6GhTF66ubAX6sfCEHONDB2tIwYj81SkHH277MV59+
- TqAI66au83MKyQhLjuuDg2dyhC9yiojwtMVWb8xOz2Gh3BDGFKVy6xCihHSJ+hB9Oc96
- 9OUzO04mbJhm+yLWjvCrA5N6B4ocRdmT/VK2oInlUPYHwiEBGxfrYxGXkj/oncS+vIe+
- 17zks1Veewl9Z3UagPzAgCCZhIDGLtcqJuMZrH4qpm7YiwQsIy1T/QxAnQKVmAlaDCS0
- ywWA==
+ bh=acG2kxGvIAZAVaUEg8N0rUPMrz8m+39nInkf7vkXviQ=;
+ b=SYEQiUfdduGxHtJSmmsy0oPUFvqeTvSihsqJBbBqEK5rVCH1TvRAN/nh4kbw0X2i4B
+ WSiGrf2y8pX+moP0kOK1JzcXD6OkmW1iCoAXmwITyz/PU+0zyshfEqAhpro8chGDaJsy
+ zcfO8rzVviJKX5743JAhAuVftX9deNYwDQTjy6QhWmUasXlL5NkdTkwoCpG50hbFVCSM
+ 1nKL1Y/ZbBnZUUrHFOHiAj36QqChrWACM7yMflkYbxzlIciV1Aqhz0qzOS1w78bfrgIF
+ NWEZ89PlODYB7/uDguB05GksJrWKoTsM+mueV4qFsPf3llQ/x10/6Bxg8ZY+A5krt+Rx
+ OXCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=rMyYWQwkFUxYlrBPtd4iKHGVhxP/X8FBqU2tSLs2XqE=;
- b=tMx2F20jsMih6NY3uB2aGrJeu0pmet9bXQNXibxV1d3alYg1qmaZfB3tNgHRmEr8Sf
- i+vz8ocs+Eor7y9O2TcPPZxKbz2Z61B5Uw9CrKVeM+zS+7AzgIaKZokbtwxg3dqolHwo
- gR+kuDUVvRQe0iZJtSa/KSS+6X0D5DYfzBcvqjctS/kL/8KxOrgyCskUgB5iQs39eQ0t
- 9mXZ4n3ZyGe+UGAIbPxzL6CoMiCgUdHra1Lh3/qDImFGu3+MqirOMhDjOx8M15Zoc8YE
- XTmuU8x/4DkJcf4NgKVoGxCNJ2D38ojct1lu7ESVE+nTSAp0NyEwnHW9T0k0QR7uQTfG
- kl6w==
-X-Gm-Message-State: AOAM530zEO7sDte//4rv8BJpVQXL+bKt3Mg6L5HBRhK4zyapgXwLPEK+
- WmDNJVk/C+psVcMWTJV038w=
-X-Google-Smtp-Source: ABdhPJzkLIQFiP43fYRTWavCbUpSRavKIBHEXHfzcb3ih80s3VTgmwkN4zizWzv5WX+9gnuSMV1P9g==
-X-Received: by 2002:a05:6000:1866:: with SMTP id
- d6mr10906236wri.265.1642590367926; 
- Wed, 19 Jan 2022 03:06:07 -0800 (PST)
+ bh=acG2kxGvIAZAVaUEg8N0rUPMrz8m+39nInkf7vkXviQ=;
+ b=CKNKJp10Nt2OYWSjdiZfShKZ02u/UZj9vyokYvYsoHC9P4Bb9o03VgUX2yuugvc/YN
+ yY7NsqjuZzbCoRB0l3n2JH83k2fFvUAiWEsrgfI8OjkgqkUKGrfvlrhRiOibrb8pK9FC
+ f88m67VTYCnkdJDf9HpnHV6DwNZfNfmeDcy2EiAFxcS1H5jCUnS9ol3L2Wa25vTgo/e9
+ v7IqxWOHgqqVqnJtIRRrpyNNsNrCc7+hWrQBHVzCj7CkBWvKzTjvIbhBImfnJjoodYLC
+ AOEd8lapXS0W+BSJ1LwLYWNwMqD0gKGEX93sC3S5iH/pPlo1uiuSIUc0fLXev3nlS2p7
+ o69w==
+X-Gm-Message-State: AOAM532kEaatXNDOgi8w89JKBiVFIKzmKJKiHs7jUj5XNImhxH0bwJaM
+ PuokZPY0B+Aiy1iJWB7n8TY=
+X-Google-Smtp-Source: ABdhPJzi7avPF6eu+qX01owUMTRinuarklKGr/l+R+IDQXbsuV+7BMTQwjiIEaiVtV8zNJ5VtP272g==
+X-Received: by 2002:a5d:660a:: with SMTP id n10mr5655407wru.40.1642590549098; 
+ Wed, 19 Jan 2022 03:09:09 -0800 (PST)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id m17sm4907207wmq.35.2022.01.19.03.06.04
+ by smtp.googlemail.com with ESMTPSA id f5sm4793492wmf.47.2022.01.19.03.09.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Jan 2022 03:06:07 -0800 (PST)
-Message-ID: <b40d10a8-c973-41e7-931f-fd6db76e8c9c@redhat.com>
-Date: Wed, 19 Jan 2022 12:06:03 +0100
+ Wed, 19 Jan 2022 03:09:08 -0800 (PST)
+Message-ID: <bd1bcce3-1a9b-dca6-7373-af2ca42e949b@redhat.com>
+Date: Wed, 19 Jan 2022 12:09:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH v3 05/16] block/mirror.c: use of job helpers in drivers to
- avoid TOC/TOU
+Subject: Re: [PATCH v3 09/16] jobs: remove aiocontext locks since the
+ functions are under BQL
 Content-Language: en-US
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
 References: <20220105140208.365608-1-eesposit@redhat.com>
- <20220105140208.365608-6-eesposit@redhat.com>
+ <20220105140208.365608-10-eesposit@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220105140208.365608-6-eesposit@redhat.com>
+In-Reply-To: <20220105140208.365608-10-eesposit@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -104,36 +102,63 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/5/22 15:01, Emanuele Giuseppe Esposito wrote:
+On 1/5/22 15:02, Emanuele Giuseppe Esposito wrote:
+> In preparation to the job_lock/unlock patch, remove these
+> aiocontext locks.
+> The main reason these two locks are removed here is because
+> they are inside a loop iterating on the jobs list. Once the
+> job_lock is added, it will have to protect the whole loop,
+> wrapping also the aiocontext acquire/release.
 > 
-> +    WITH_JOB_LOCK_GUARD() {
-> +        abort = job->ret < 0;
-> +    }
-> +
->      if (s->prepared) {
->          return 0;
->      }
+> We don't want this, as job_lock can only be *wrapped by*
+> the aiocontext lock, and not vice-versa, to avoid deadlocks.
 
-At this point I think job->ret is stable and can be accessed without 
-guard.  The question however is what serializes calls to job_prepare. 
-Is it the BQL?  Can we say that job->ret is only written under BQL, just 
-like job->aio_context.
+Better to avoid the passive: "must be taken inside the AioContext lock, 
+and taking it outside would cause deadlocks".  Also add a note about the 
+lock hierarchy to patch 1.
 
-> @@ -1161,8 +1165,10 @@ static void mirror_complete(Job *job, Error **errp)
->      s->should_complete = true;
->  
->      /* If the job is paused, it will be re-entered when it is resumed */
-> -    if (!job->paused) {
-> -        job_enter(job);
-> +    WITH_JOB_LOCK_GUARD() {
-> +        if (!job->paused) {
-> +            job_enter_cond_locked(job, NULL);
-> +        }
->      }
+> @@ -3707,15 +3707,11 @@ BlockJobInfoList *qmp_query_block_jobs(Error **errp)
+>   
+>       for (job = block_job_next(NULL); job; job = block_job_next(job)) {
+>           BlockJobInfo *value;
+> -        AioContext *aio_context;
+>   
+>           if (block_job_is_internal(job)) {
+>               continue;
+>           }
 
-I don't want to open a can of worms, but does it ever make sense to call 
-job_enter while the job is paused?  Should this condition be moved to 
-job_enter_cond_locked?
+block_job_next, block_job_query, etc. do not have the _locked suffix. 
+Is this because all block_job_ functions need the job_mutex held, or 
+just laziness? :)
 
 Paolo
+
+> -        aio_context = blk_get_aio_context(job->blk);
+> -        aio_context_acquire(aio_context);
+>           value = block_job_query(job, errp);
+> -        aio_context_release(aio_context);
+>           if (!value) {
+>               qapi_free_BlockJobInfoList(head);
+>               return NULL;
+> diff --git a/job-qmp.c b/job-qmp.c
+> index de4120a1d4..f6f9840436 100644
+> --- a/job-qmp.c
+> +++ b/job-qmp.c
+> @@ -173,15 +173,11 @@ JobInfoList *qmp_query_jobs(Error **errp)
+>   
+>       for (job = job_next_locked(NULL); job; job = job_next_locked(job)) {
+>           JobInfo *value;
+> -        AioContext *aio_context;
+>   
+>           if (job_is_internal(job)) {
+>               continue;
+>           }
+> -        aio_context = job->aio_context;
+> -        aio_context_acquire(aio_context);
+>           value = job_query_single(job, errp);
+> -        aio_context_release(aio_context);
+>           if (!value) {
+>               qapi_free_JobInfoList(head);
+>               return NULL;
+
 
