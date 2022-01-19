@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3571D493970
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 12:23:38 +0100 (CET)
-Received: from localhost ([::1]:36342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B255B493986
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 12:31:57 +0100 (CET)
+Received: from localhost ([::1]:43628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA93x-0003Mx-B5
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 06:23:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52414)
+	id 1nA9C0-0000YB-6G
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 06:31:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nA8wV-0007rW-BT; Wed, 19 Jan 2022 06:15:58 -0500
-Received: from [2a00:1450:4864:20::32d] (port=37648
- helo=mail-wm1-x32d.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nA8ya-00015q-Fd; Wed, 19 Jan 2022 06:18:04 -0500
+Received: from [2607:f8b0:4864:20::62e] (port=38616
+ helo=mail-pl1-x62e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nA8wT-0001TI-59; Wed, 19 Jan 2022 06:15:54 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- l12-20020a7bc34c000000b003467c58cbdfso13710037wmj.2; 
- Wed, 19 Jan 2022 03:15:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nA8yU-00027f-Tj; Wed, 19 Jan 2022 06:18:00 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id c3so1843846pls.5;
+ Wed, 19 Jan 2022 03:17:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=18JCcxc0XKF5xLe0RgtOMcUl5B0F0mo+Ct1DeR8i6fo=;
- b=QM6QqUbOrGJrFZI6KUsh+j6hV09giGMVWPrzLsQSAiLoeaI5ZrKDbtQLiaXgzK5Mh6
- olSq8lqXFpvkdfGBPMAJUjbJYIQyyUFC2+9KDpjepcoFx/JFpIjRaE5ByA86fKVO2Ekt
- EQxYzxDmj8Uoy2abTgXdUwI+xFV/qTA10O3of7XbY3kTIJGqmU3djfErTMDd63DAzrZN
- vTGg3c90d+tyXWVRr2Eo0veM46J2Z3l2qFYWmOKauuS8uulFPBjuhKGjOdd8JXm6CFQD
- R7POGf3+HLtJj5dXNNiXLEbbT0nvQhFF1U6PdYH6yMprR2UNIekQODh6lmN1S9sy28af
- a3Tg==
+ bh=58J9h7WKd0SwNY013BhozY7oNdnjKjDnKp/3MOw1eFY=;
+ b=pVzbGj3h346LJyOyck+LQ7ARlpxKCwEj7eyVCKm92AJGw4ggke2KU0S6tTr16l93xX
+ 38WXGsC/BkCY0+Go11a3ZImyqLeGgkTTB1s3ki+YXyMWnIYgd/3cx1Jw+bdPDh8zvS3q
+ 80+qKDolxXnHWLxQLfRlThyzCzHAN3c6vKu9GEUbv4EfW4joOCF3tO52bMhajgqFbMOk
+ vFr2MUDkj5iacVDcBAlRVmYypou+XUeYz8RLpFGqZ4h6gbErOQQswCEHfxwklS3crwJ2
+ eL6MqFxWUclI+rMdc009eXHhDnPnRnEXfKBYwg+HsFGZKtiTqe2o6o69sQjjIDMMuqcO
+ hLag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=18JCcxc0XKF5xLe0RgtOMcUl5B0F0mo+Ct1DeR8i6fo=;
- b=C/sGh7LbBMGRHrJ5KBek2JfTCyGGBajDv3pn1HrvhlTXyh0VS7KLSHAvh6u1Z17UsT
- yGLIhnMHA2uwclm48iNbrM+Mi1Dy5XvBxLsZKN7HxgobntvQnTMjo8Ih7sF6wQId6cNH
- LicXUuOPeyAECQNXYdpS0RzbYmdRrNen+/gsNcNB+QA+M9TxLasF1nnFniR5RguXBBwq
- PopCeDcpMSMOeh3lvM/eAS762hIV4cDTqFhzNE2bfRruFtARCjtyeGO0fJ/TVFWUrg1a
- 9gA2eOeHvZkT8eLwPHKKfsw1YOQra1gSz9u4WdKaGSKq+7+vYLSmU8QablOXhkWTxWa9
- t6Xg==
-X-Gm-Message-State: AOAM531ffC2J3HiXoRMK7WitdNk5okCmBBGt3ZABZfk8Mjcft4F4mPYD
- 6aIpaD04QxlEzTzdiSMhvDQ=
-X-Google-Smtp-Source: ABdhPJzbe73snd8ihh0LfJfbPhLDw/qwkuncbS8l+hpaZOvCTufjhEflCASvVdZwQJaHF31DO1HNpQ==
-X-Received: by 2002:adf:d1e1:: with SMTP id g1mr16065385wrd.616.1642590951099; 
- Wed, 19 Jan 2022 03:15:51 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id l20sm6622929wms.24.2022.01.19.03.15.47
+ bh=58J9h7WKd0SwNY013BhozY7oNdnjKjDnKp/3MOw1eFY=;
+ b=11rtcXaWKjPtnzhJyFK5548jcIzbCYOhkc6/WjM96tbRFfQA/IcR8NE4WBEwfFwRjj
+ Fk+QVc3xV2RyprtjnEipotIK8bkg38z1oKLNaX91JPl3RGHh4ZM629wANcm+WeCzgd+U
+ 7aE/BmTqs9q6djfiilk3/HvfHocm1DzFF7rbXW1W2s1qL/2piMTWy1lBoXnFltZ0Upfp
+ DL3/TfpGubUu8uB0i1QpP+V6790S4yFNtnYDvgYAYPrvtz4Zzzm0jV4kT6qKPbOAA8yC
+ BI8Sj6JrDsJ3GebmXk5c3Rh2sClo96+yun51nzDR63jMmSSGET1ClV74Ngtd5wYh3dyt
+ hCKA==
+X-Gm-Message-State: AOAM531pHMMDSk79MGVk6gAeI37az+X27YmGe7V9S7sO1zj71pazR8OK
+ hkJJMBkAG0anOH/Zz9wg7wU=
+X-Google-Smtp-Source: ABdhPJy67H1zDj9S+eCdPrPruS0BcF5EHR1iOpli6o7hJrWOXyszlxZ+eoP8a5LmyFev97hv/lZ/uw==
+X-Received: by 2002:a17:90a:a40d:: with SMTP id
+ y13mr3808756pjp.23.1642591074632; 
+ Wed, 19 Jan 2022 03:17:54 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id s40sm21589782pfg.144.2022.01.19.03.17.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Jan 2022 03:15:50 -0800 (PST)
-Message-ID: <11bd20ed-b875-8caf-8efe-45e2e75621ab@redhat.com>
-Date: Wed, 19 Jan 2022 12:15:46 +0100
+ Wed, 19 Jan 2022 03:17:54 -0800 (PST)
+Message-ID: <d237abed-fe8c-fb29-3ec0-27a0504eeffc@amsat.org>
+Date: Wed, 19 Jan 2022 12:17:49 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v3 00/16] job: replace AioContext lock with job_mutex
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.0
+Subject: Re: [PATCH v2 2/2] target/riscv: Add XVentanaCondOps custom extension
 Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20220105140208.365608-1-eesposit@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220105140208.365608-1-eesposit@redhat.com>
+To: Philipp Tomsich <philipp.tomsich@vrull.eu>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, Bin Meng <bin.meng@windriver.com>,
+ Greg Favor <gfavor@ventanamicro.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Kito Cheng <kito.cheng@sifive.com>
+References: <20220113202033.3320854-1-philipp.tomsich@vrull.eu>
+ <20220113202033.3320854-2-philipp.tomsich@vrull.eu>
+In-Reply-To: <20220113202033.3320854-2-philipp.tomsich@vrull.eu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -91,109 +95,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 1/5/22 15:01, Emanuele Giuseppe Esposito wrote:
-> In this series, we want to remove the AioContext lock and instead
-> use the already existent job_mutex to protect the job structures
-> and list. This is part of the work to get rid of AioContext lock
-> usage in favour of smaller granularity locks.
+On 13/1/22 21:20, Philipp Tomsich wrote:
+> This adds the decoder and translation for the XVentanaCondOps custom
+> extension (vendor-defined by Ventana Micro Systems), which is
+> documented at https://github.com/ventanamicro/ventana-custom-extensions/releases/download/v1.0.0/ventana-custom-extensions-v1.0.0.pdf
 > 
-> In order to simplify reviewer's job, job lock/unlock functions and
-> macros are added as empty prototypes (nop) in patch 1.
-> They are converted to use the actual job mutex only in the last
-> patch, 14. In this way we can freely create locking sections
-> without worrying about deadlocks with the aiocontext lock.
-
-Oops, sorry -- I missed this explanation when first reading the cover 
-letter.  Good job, though it needs another iteration; especially for 
-patch 14, and possibly to decide the right placement of patches 10-13.
-
-Thanks,
-
-Paolo
-
-> Patch 2 defines what fields in the job structure need protection,
-> and patches 3-4 categorize respectively locked and unlocked
-> functions in the job API.
+> This commit then also adds a guard-function (has_XVentanaCondOps_p)
+> and the decoder function to the table of decoders, enabling the
+> support for the XVentanaCondOps extension.
 > 
-> Patch 5-9 are in preparation to the job locks, they try to reduce
-> the aiocontext critical sections and other minor fixes.
+> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 > 
-> Patch 10-13 introduces the (nop) job lock into the job API and
-> its users, following the comments and categorizations done in
-> patch 2-3-4.
-> 
-> Patch 14 makes the prototypes in patch 1 use the job_mutex and
-> removes all aiocontext lock at the same time.
-> 
-> Tested this series by running unit tests, qemu-iotests and qtests
-> (x86_64).
-> 
-> This serie is based on my previous series "block layer: split
-> block APIs in global state and I/O".
-> 
-> Based-on: <20211124064418.3120601-1-eesposit@redhat.com>
 > ---
-> v3:
-> * add "_locked" suffix to the functions called under job_mutex lock
-> * rename _job_lock in real_job_lock
-> * job_mutex is now public, and drivers like monitor use it directly
-> * introduce and protect job_get_aio_context
-> * remove mirror-specific APIs and just use WITH_JOB_GUARD
-> * more extensive use of WITH_JOB_GUARD and JOB_LOCK_GUARD
 > 
-> RFC v2:
-> * use JOB_LOCK_GUARD and WITH_JOB_LOCK_GUARD
-> * mu(u)ltiple typos in commit messages
-> * job API split patches are sent separately in another series
-> * use of empty job_{lock/unlock} and JOB_LOCK_GUARD/WITH_JOB_LOCK_GUARD
->    to avoid deadlocks and simplify the reviewer job
-> * move patch 11 (block_job_query: remove atomic read) as last
-> 
-> Emanuele Giuseppe Esposito (16):
->    job.c: make job_mutex and job_lock/unlock() public
->    job.h: categorize fields in struct Job
->    job.h: define locked functions
->    job.h: define unlocked functions
->    block/mirror.c: use of job helpers in drivers to avoid TOC/TOU
->    job.c: make job_event_* functions static
->    job.c: move inner aiocontext lock in callbacks
->    aio-wait.h: introduce AIO_WAIT_WHILE_UNLOCKED
->    jobs: remove aiocontext locks since the functions are under BQL
->    jobs: protect jobs with job_lock/unlock
->    jobs: document all static functions and add _locked() suffix
->    jobs: use job locks and helpers also in the unit tests
->    jobs: add job lock in find_* functions
->    job.c: use job_get_aio_context()
->    job.c: enable job lock/unlock and remove Aiocontext locks
->    block_job_query: remove atomic read
-> 
->   block.c                          |  18 +-
->   block/commit.c                   |   4 +-
->   block/mirror.c                   |  21 +-
->   block/replication.c              |  10 +-
->   blockdev.c                       | 112 ++----
->   blockjob.c                       | 122 +++---
->   include/block/aio-wait.h         |  15 +-
->   include/qemu/job.h               | 317 +++++++++++----
->   job-qmp.c                        |  74 ++--
->   job.c                            | 656 +++++++++++++++++++------------
->   monitor/qmp-cmds.c               |   6 +-
->   qemu-img.c                       |  41 +-
->   tests/unit/test-bdrv-drain.c     |  46 +--
->   tests/unit/test-block-iothread.c |  14 +-
->   tests/unit/test-blockjob-txn.c   |  24 +-
->   tests/unit/test-blockjob.c       |  98 ++---
->   16 files changed, 947 insertions(+), 631 deletions(-)
-> 
+> Changes in v2:
+> - Split off decode table into XVentanaCondOps.decode
+> - Wire up XVentanaCondOps in the decoder-table
+
+>   static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+>   {
+> @@ -862,6 +874,7 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+>           bool (*decode_func)(DisasContext *, uint32_t);
+>       } decoders[] = {
+>           { always_true_p,  decode_insn32 },
+
+"always_true" is the first entry,
+
+> +        { has_XVentanaCondOps_p,  decode_XVentanaCodeOps },
+
+so is that ever called?
+
+>       };
+>   
+>       /* Check for compressed insn */
 
 
