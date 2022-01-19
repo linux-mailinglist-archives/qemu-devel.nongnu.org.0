@@ -2,69 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20DD4936D0
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 10:08:01 +0100 (CET)
-Received: from localhost ([::1]:53430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3665F493737
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 10:27:23 +0100 (CET)
+Received: from localhost ([::1]:60012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA6wj-0002T6-05
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 04:08:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34706)
+	id 1nA7FS-0000z1-BD
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 04:27:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nA6Qj-000812-KQ
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 03:34:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52327)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nA6Qi-00079P-2M
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 03:34:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642581295;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xy18YLpmzj0O4ArsnVfqMOMHNAj3Xk0C0yXAuzsUOv4=;
- b=TapN07092pg5LwK4Pvr7Y9uwTaWB1VLG5R1e4iFRKB52Uqb14MNn8zXqhwRkK7ZyiwKZJs
- qv9O8yuKeUhDweU00F5LWL0lJdqiG7ZNugaLQx/EE/u5oODxYMbhYvO5VNtvZ+j7ILYtkC
- uJfwJjVdVftF8Usj9vXKw2suuBK/AKM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-230-9R6m81HaNbSLa9_OumR_dQ-1; Wed, 19 Jan 2022 03:34:14 -0500
-X-MC-Unique: 9R6m81HaNbSLa9_OumR_dQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 491511083F65;
- Wed, 19 Jan 2022 08:34:13 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.124])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6A2CE4F873;
- Wed, 19 Jan 2022 08:33:41 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 10/10] s390x: sigp: Reorder the SIGP STOP code
-Date: Wed, 19 Jan 2022 09:32:15 +0100
-Message-Id: <20220119083215.120911-11-thuth@redhat.com>
-In-Reply-To: <20220119083215.120911-1-thuth@redhat.com>
-References: <20220119083215.120911-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nA6XK-0003Aa-VB
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 03:41:49 -0500
+Received: from [2a00:1450:4864:20::330] (port=53964
+ helo=mail-wm1-x330.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nA6XI-0002M2-SI
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 03:41:46 -0500
+Received: by mail-wm1-x330.google.com with SMTP id n8so3750380wmk.3
+ for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 00:41:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=pr0SJuJbIu9TCcjc1scSAGjQFmCj/kK5gai1/6RvXjY=;
+ b=cF4j0mEln6ZBQQuCH/ZHa+iLaBzG5vcswyOcMl/JxbA6mHR7A3nHXIfmd4r1SvZh6W
+ dLp9KS502yJt4B1pWOtV9awrpQFL9xtypVBUZ20nEOaDJG4I54gNG8waQrcggYp94NeA
+ kj0ADc5gWj9PGyZGjELXZVwjUB5LSlpsZDEgrULyj5ZRLW/dcfsAIx+Wb4FdQUqrV4Hy
+ GYdaf/MkRYs9O2aPhTT2VSH/TRwwc255Q9bdc5o8wfASzsy7JNShI1QhO+291JLu5y2Z
+ LfHlT2bY2Wa1z2eE58GZvNSAtSxaCS+pweNXQQ9P6UiBzY5kwwogfxXLOBaHUI7IKjQ/
+ +V1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=pr0SJuJbIu9TCcjc1scSAGjQFmCj/kK5gai1/6RvXjY=;
+ b=jtyMff61xaDZqn9HjJ76uVZt9V9bzmnaHX4Tbbxf3wQpzCaZWt1VCa2Xd2qGzyAp8U
+ 2GgoiC3nNi/5/YYZCKgUQVUXfpzVLEAHv2TckpfCTO0+TuRWyTE9yj89p0SLkFRKwH6g
+ bWMUZD286NQ25HdH80q8dCr+PolUT4Vq9jnHnDSkase+gzG7UTmNhfSel1p5/wfzpnm5
+ y2aYX3xZjFWJxgXWMfUIk+pxcuZQkhcdKCI5FVjmyRyywx17ZthCwoITAfeIWF6NzTxs
+ DXhRRBgCYM2CgULaO6zs10rQHmbDOa8xjxIab+TYsmsFRcVx9e+JIK199RshB75z8Z8b
+ gLiw==
+X-Gm-Message-State: AOAM531BwJmY2luFUNs1j38aieQAxN6IVJ5n1YPo7OVaBfXosTBlBkoE
+ djm3ipk2T3KUGESj1uvhlWs=
+X-Google-Smtp-Source: ABdhPJzmuCxX1Dg3Ieu/2uXzg5SQBav8ZlWCzJRItQqVcET0lgMzhzJZM5efJPRxS6iOCiMs3ks5fQ==
+X-Received: by 2002:a05:600c:206:: with SMTP id
+ 6mr2350830wmi.181.1642581702721; 
+ Wed, 19 Jan 2022 00:41:42 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id i8sm11472261wry.33.2022.01.19.00.41.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Jan 2022 00:41:42 -0800 (PST)
+Message-ID: <4938a29f-a4a2-2a2e-990c-90789a1e8090@redhat.com>
+Date: Wed, 19 Jan 2022 09:41:40 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v3 2/3] scripts/qapi-gen.py: add --add-trace-events option
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+References: <20220117201845.2438382-1-vsementsov@virtuozzo.com>
+ <20220117201845.2438382-3-vsementsov@virtuozzo.com>
+ <877daxpcdz.fsf@dusky.pond.sub.org>
+ <69e04ac6-8bfb-5d66-fa99-fcdf8340935a@virtuozzo.com>
+ <87zgnt86ow.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <87zgnt86ow.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,62 +98,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eric Farman <farman@linux.ibm.com>, David Hildenbrand <david@redhat.com>
+Cc: kwolf@redhat.com, michael.roth@amd.com, qemu-devel@nongnu.org,
+ hreitz@redhat.com, stefanha@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Farman <farman@linux.ibm.com>
+On 1/18/22 15:22, Markus Armbruster wrote:
+>> So, supporting auto-generated trace points for qga qmp commands requires some deeper refactoring.
+> Similar trouble with tests?
+> 
+> The normal case seems to be "generate trace code", with an exception for
+> cases where our build system defeats that.  Agree?
 
-Let's wait to mark the VCPU STOPPED until the possible
-STORE STATUS operation is completed, so that we know the
-CPU is fully stopped and done doing anything. (When we
-also clear the possible sigp_order field for STOP orders.)
+More specifically, it's the lack of "include" statements: the only kind 
+of include statement allowed by Meson is "include('foo/meson.build')" 
+which is actually spelled "subdir('foo')".
 
-Suggested-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: Eric Farman <farman@linux.ibm.com>
-Message-Id: <20211213210919.856693-2-farman@linux.ibm.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- target/s390x/sigp.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+What this would require is akin to
 
-diff --git a/target/s390x/sigp.c b/target/s390x/sigp.c
-index 51c727834c..9dd977349a 100644
---- a/target/s390x/sigp.c
-+++ b/target/s390x/sigp.c
-@@ -139,7 +139,7 @@ static void sigp_stop_and_store_status(CPUState *cs, run_on_cpu_data arg)
-     case S390_CPU_STATE_OPERATING:
-         cpu->env.sigp_order = SIGP_STOP_STORE_STATUS;
-         cpu_inject_stop(cpu);
--        /* store will be performed in do_stop_interrup() */
-+        /* store will be performed in do_stop_interrupt() */
-         break;
-     case S390_CPU_STATE_STOPPED:
-         /* already stopped, just store the status */
-@@ -479,13 +479,17 @@ void do_stop_interrupt(CPUS390XState *env)
- {
-     S390CPU *cpu = env_archcpu(env);
- 
--    if (s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu) == 0) {
--        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
--    }
-+    /*
-+     * Complete the STOP operation before exposing the CPU as
-+     * STOPPED to the system.
-+     */
-     if (cpu->env.sigp_order == SIGP_STOP_STORE_STATUS) {
-         s390_store_status(cpu, S390_STORE_STATUS_DEF_ADDR, true);
-     }
-     env->sigp_order = 0;
-+    if (s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu) == 0) {
-+        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-+    }
-     env->pending_int &= ~INTERRUPT_STOP;
- }
- 
--- 
-2.27.0
+	include('qga/meson.qapi.build')
+	include('tests/qapi/meson.qapi.build')
+	include('trace/meson.build')
+	...
+	include('qga/meson.build')
 
+There has been an issue open in Meson forever about this: 
+https://github.com/mesonbuild/meson/issues/375.  Some discussion can be 
+found in https://github.com/mesonbuild/meson/pull/5209.
+
+A somewhat ugly workaround would be something like
+
+	subdir('qga/qapi')
+	subdir('qapi')
+	subdir('trace')
+	...
+	subdir('qga')
+
+Or even, move the .json files for qemu-ga and tests to qapi/qga and 
+qapi/tests respectively.
+
+That said, given that there's no tracing support in either trace nor in 
+qemu-ga, I agree with Vladimir's assessment that there is no reason to 
+do it.
+
+Paolo
+
+
+
+> If yes, I'd prefer to default to "generate trace code", and have an
+> option to suppress it, with suitable TODO comment(s) explaining why.
 
