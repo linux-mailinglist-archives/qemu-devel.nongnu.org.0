@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A5F8493F6D
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 18:56:10 +0100 (CET)
-Received: from localhost ([::1]:47610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E28D493F73
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 18:59:27 +0100 (CET)
+Received: from localhost ([::1]:54012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAFBp-0004ho-I6
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 12:56:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53134)
+	id 1nAFF0-0000oM-6f
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 12:59:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nAF81-0002PF-RB
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 12:52:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25015)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1nAF9S-0003Yu-MT
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 12:53:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nAF7z-0002rJ-VP
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 12:52:13 -0500
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1nAF9R-0002zy-7d
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 12:53:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642614731;
+ s=mimecast20190719; t=1642614817;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=zQthGhNjJjK4YayX3G8tb3hGbF8eK/EqhmjCJMKALBk=;
- b=ekWttziCkOCAS8UEV/pjeNH2rFy7gpORgZRQw1NA4BHyMSbk5nXuzjHBJasvWfuQfxru9N
- gPm2lkocLJksbFKM0byZz9JHqzMS2XjIDrMb6llvaJR+7nRAdtXCHf5p0f6ZJGWsXV6BQI
- 9gZNfz9hRwQmjUtLw+SQljxf2EP5ETA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=v35bLi2ZFmq9uH1xf/kyHNNSeC+97nresOlLSQQFfNw=;
+ b=heu4ef73sWp/v61+ZbZihouyLc6V4GyzBy4g9Vl53i+2sN1dyJ9Ty3YIccdrEhG2iChrKg
+ Gw5CgQARgcIRyyv6sTp6ne8hn/nCDicQxWP+dNVb7LyQnkhGQSuTGbKJGx9ede9Ig0nygr
+ jZT/UOBliTwgmL0A2F87M1mrOepNZMg=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-382-oYx-jV6VMW29zo2rl8j8Kg-1; Wed, 19 Jan 2022 12:52:09 -0500
-X-MC-Unique: oYx-jV6VMW29zo2rl8j8Kg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- bg23-20020a05600c3c9700b0034bb19dfdc0so1557466wmb.1
- for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 09:52:09 -0800 (PST)
+ us-mta-382-8biSzv5UM-K658g_jasU9g-1; Wed, 19 Jan 2022 12:53:35 -0500
+X-MC-Unique: 8biSzv5UM-K658g_jasU9g-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ h21-20020aa7c955000000b0040390b2bfc5so3336058edt.15
+ for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 09:53:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=zQthGhNjJjK4YayX3G8tb3hGbF8eK/EqhmjCJMKALBk=;
- b=n/ETczGxY4VpJTXEBMS7i8D3J9oQhShxRVAYQZj01xG/K/8cN2ameTqlao10xYl7SK
- H6AQ6FP19BhkNP2i//0Gf7y1TZ9IWtScGfb8RHj3XeRSz5v2Pz+t6YMy/mK4nHqVV1Nw
- 2hzECUp41r+RUWoY6x+juxyrRer1ikAc3kRydqiA85wCrhMftqcOlqpnB5bJOT/6P0DL
- Zyq5BVFLbufYCmXZBIjWYA8AShqeQYb9//pQKocVGAvJiIDm8n7X1cim0ryrBFq2wYtd
- GEH+HN0Odgl3UCHFsMYKPZ9dP9USjsp0B5szNgNqjqDWOhkcgwRcwVORuRlO2dRt8QBb
- Ce5g==
-X-Gm-Message-State: AOAM533IA9nrSbCHq8Km2HTCXX1ejQ5YM2CSZDf4jsUsYDjiabAJpB/h
- mrGZFrF/TOlRyNtuSppqe64qgUBituY4YLt1y8QmcAOqkl+WivDXag+zVy2z45qpE5qyLNvaial
- XOB4wimQAnR4153g=
-X-Received: by 2002:a05:600c:1d28:: with SMTP id
- l40mr4617409wms.182.1642614728093; 
- Wed, 19 Jan 2022 09:52:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyFsIkptosaC9mOLr+qn1TneeR0mgcr9f6q0IjJ+G+RYvH4MbyhduOXjhxffxNUVJqZ1jLpuQ==
-X-Received: by 2002:a05:600c:1d28:: with SMTP id
- l40mr4617391wms.182.1642614727856; 
- Wed, 19 Jan 2022 09:52:07 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id bh26sm197570wmb.40.2022.01.19.09.52.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jan 2022 09:52:07 -0800 (PST)
-Date: Wed, 19 Jan 2022 17:52:05 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Zhang Chen <chen.zhang@intel.com>
-Subject: Re: [PATCH 1/3] migration/migration.c: Add missed default error
- handler for migration state
-Message-ID: <YehPxVQn8AuC0gut@work-vm>
-References: <20211231055935.1878503-1-chen.zhang@intel.com>
- <20211231055935.1878503-2-chen.zhang@intel.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=v35bLi2ZFmq9uH1xf/kyHNNSeC+97nresOlLSQQFfNw=;
+ b=3pIfbMy6b/LvTYrF8Z/jyMmlgzbVuGjr6IfGhYo2LNI9DbAvBzPL7bpgVb1KF94vPi
+ 0hP6iuKWEBXNAmIKa3SbHti9jD4y09krfn2grosrFl0/hYYyXIYt6Wkn/234PNbAmOef
+ 31HXxcw0qFeZYBeBeyuDyeL7Pq7c5azxS0747GhzhPXZuYkuJ4B5cSfKHqOOEhp45afZ
+ GjsjjBwx5re0xsd+B8OUTbIrsFCqYJXOnFaFqG+J/EK2sbJAACutAq5zTZwtvPviBK9e
+ 167qxs4E/HiXptTvkEYckwzrQlq/U9PaFV8DZdIlusC9Ow30dEYoAh1JagRhPSrNv42q
+ +Ppg==
+X-Gm-Message-State: AOAM5301fAKW5cJ5NeQmIaVMGyHz9AWtgnH+p/VhgziJ8MyU/joOLxLr
+ /ppa7TQF0SUTMeKobAH7Ya42N2owMuvzfH2yfZpn4ZxjMP0gTUpg7BLV6BG6jiiuylxW8Sog3j+
+ AioMktMrHvTd1G2vXRG+VDWOy46dhiEM=
+X-Received: by 2002:ac2:5b9e:: with SMTP id o30mr28158656lfn.473.1642614814656; 
+ Wed, 19 Jan 2022 09:53:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyk3gfMx1tKOW5Q6afnS5/tRUrGzeETBKo06q+dO5lW4f0X2v+OE82cZ/b1v7krtcjxnBmthh/Vpoz2xfeiPPs=
+X-Received: by 2002:ac2:5b9e:: with SMTP id o30mr28158635lfn.473.1642614814386; 
+ Wed, 19 Jan 2022 09:53:34 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211231055935.1878503-2-chen.zhang@intel.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
+References: <20220106221341.8779-1-leobras@redhat.com>
+ <20220106221341.8779-4-leobras@redhat.com>
+ <Yd/OAt8z35orDwOM@xz-m1.local>
+In-Reply-To: <Yd/OAt8z35orDwOM@xz-m1.local>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Wed, 19 Jan 2022 14:53:23 -0300
+Message-ID: <CAJ6HWG6+Sr1gfM9dvadLCK5Hv=3Gr0n1Na1ebXgPGaSUwcVJ1g@mail.gmail.com>
+Subject: Re: [PATCH v7 3/5] migration: Add zero-copy parameter for QMP/HMP for
+ Linux
+To: Peter Xu <peterx@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -100,44 +92,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-dev <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Zhang Chen (chen.zhang@intel.com) wrote:
-> In the migration_completion() no other status is expected, for
-> example MIGRATION_STATUS_CANCELLING, MIGRATION_STATUS_CANCELLED, etc.
-> 
-> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+Hello Peter,
 
-I think you're right;
+On Thu, Jan 13, 2022 at 4:00 AM Peter Xu <peterx@redhat.com> wrote:
+>
+> On Thu, Jan 06, 2022 at 07:13:40PM -0300, Leonardo Bras wrote:
+> > Add property that allows zero-copy migration of memory pages,
+> > and also includes a helper function migrate_use_zero_copy() to check
+> > if it's enabled.
+> >
+> > No code is introduced to actually do the migration, but it allow
+> > future implementations to enable/disable this feature.
+> >
+> > On non-Linux builds this parameter is compiled-out.
+>
+> I feel sad every time seeing a new parameter needs to be mostly duplicated 3
+> times in the code. :(
+>
+> > diff --git a/migration/socket.c b/migration/socket.c
+> > index 05705a32d8..f7a77aafd3 100644
+> > --- a/migration/socket.c
+> > +++ b/migration/socket.c
+> > @@ -77,6 +77,11 @@ static void socket_outgoing_migration(QIOTask *task,
+> >      } else {
+> >          trace_migration_socket_outgoing_connected(data->hostname);
+> >      }
+> > +
+> > +    if (migrate_use_zero_copy()) {
+> > +        error_setg(&err, "Zero copy not available in migration");
+> > +    }
+>
+> I got confused the 1st time looking at it..  I think this is not strongly
+> needed, but that's okay:
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+The idea is to avoid some future issues on testing migration while bisecting.
 
- however, did you actually see this trigger in a different state?
+>
+> Reviewed-by: Peter Xu <peterx@redhat.com>
 
-Dave
-> ---
->  migration/migration.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 0652165610..2afa77da03 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -3205,7 +3205,7 @@ static void migration_completion(MigrationState *s)
->          qemu_mutex_unlock_iothread();
->  
->          trace_migration_completion_postcopy_end_after_complete();
-> -    } else if (s->state == MIGRATION_STATUS_CANCELLING) {
-> +    } else {
->          goto fail;
->      }
->  
-> -- 
-> 2.25.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Thanks Peter!
+
+>
+> Thanks,
+>
+> --
+> Peter Xu
+>
 
 
