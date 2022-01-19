@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71803493543
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 08:09:59 +0100 (CET)
-Received: from localhost ([::1]:36058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 256DC493554
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 08:21:26 +0100 (CET)
+Received: from localhost ([::1]:42990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA56T-0005ma-VU
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 02:09:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44424)
+	id 1nA5HY-0002Ok-MR
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 02:21:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nA4tC-0001SP-7D; Wed, 19 Jan 2022 01:56:15 -0500
-Received: from [2607:f8b0:4864:20::b2d] (port=39591
+ id 1nA4tH-0001Ve-Fo; Wed, 19 Jan 2022 01:56:19 -0500
+Received: from [2607:f8b0:4864:20::b2d] (port=33600
  helo=mail-yb1-xb2d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nA4tA-0001xQ-SW; Wed, 19 Jan 2022 01:56:13 -0500
-Received: by mail-yb1-xb2d.google.com with SMTP id o80so4488702yba.6;
- Tue, 18 Jan 2022 22:56:10 -0800 (PST)
+ id 1nA4tG-0001xs-2I; Wed, 19 Jan 2022 01:56:19 -0500
+Received: by mail-yb1-xb2d.google.com with SMTP id l68so3930227ybl.0;
+ Tue, 18 Jan 2022 22:56:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=y1leCV4fprrunTPFLEjm1cVuCtn1dsX6ZDpcdcTtWXs=;
- b=IHWJdATm3YjQb1v6nUDg9+8NXYZatW5oejTXB0vqlGGGtO/tBgUQ4X8M7JlSRzcVeA
- /8j9IKRG3D0NxsPs8qUaTZDsBJ/AHfQtt6w6qonxPyr4NRSphmoqxkmP3ESVM3MWojCz
- jep4E0AEjnHucpL9i16st+BNl6OmF4TNMgLXlhsDO/jsb/VT1hDRlSDwInE1l7YXIzZR
- n0+1+Z5RDcxDIclH9kRpVCLahNMbG50WLEY4Urg5cR4m9cCnGwbJzpB2ofXqTpXTwXKx
- hptmIkYnE9bW/7XoGCT3aYac7Vw99WKtGDPIl6jZ1qEkYnadHCpndUS7IeiwD7WDB2oo
- 4h6Q==
+ :cc; bh=bpDx8+F25IGXcfTWD62LB2zicnuNRmE63fZAqJGZfTw=;
+ b=iCoam4wb/GrEDfIbatwL2/ip1VIQyuQlQp7pHz81zADeZma3pl51XqF0vPKAnze4SW
+ XbTo1mALT355r0jI36gRt0CE/r6p8NRi7ElOCRqOpxjHuMfWEgesHpYWECmiuWwtpQAA
+ SkN0dFe9mzoMgwf5dcU8KhUKPLO8J7b9VWm5aEqdzPEiLeynd7I7vgoPzGUre3xVCX2E
+ quRly7nZi52pZ9pMtUMhOF46WO2xFP4Vca3x9lQwnQtkm+MAWVeKy3MRphI6rCHgbS+A
+ oDeHnw7usHbz18IEkXJIZx4qbQFUY7oajHw8dioxQG4w/mAOHA6mZeLVBEdb3RSvpQIH
+ 7Mgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=y1leCV4fprrunTPFLEjm1cVuCtn1dsX6ZDpcdcTtWXs=;
- b=f482sHUojHAun8pjNE/MD8ld6mYFjizjjoWo5IJO+TuApB+Il+2UH6uc6gv+dYhF9v
- rGbY69QTUD2g89rzeWYS26KFWMb3/wM12YorqyE4zXnb3fUjVRWe3sklGM1WASRtElVr
- AxQeWl2JZFhFh9X8bm+B2hrLvqGzhRMO8bTcqzzdytangk4iRKCRTG3njzAZMxUxxhAS
- VwJXqnR5O+q91sUo1fJi/fE3RZ/bVHqOplyLTnRvj0nYMx+mNSbqDL37MtHtSzseH8hy
- +9MoyX+rweLn5wOaYkDWmrBmVgg2Gkq+aquky2VjUMPXmQ8hTramXWHQf+mQA+GkgnkG
- 8LKA==
-X-Gm-Message-State: AOAM532CIeC+Xl+xVUKjlRMHixzFt6BYFF2ruExuzommsav7WPD6F3Xs
- 5Ccy71fy1WzjjEnRVgDRNPp+V7xHi/qwIaZYo6OvTAp9Eow=
-X-Google-Smtp-Source: ABdhPJzKXcUrmLmj/31I1t20zRjlcKAFJYxhxXrLDbu9vpp1ynlldZVxb8VLNVhSJPAsFKiHHZ7sKTQFcnzt148kLm0=
-X-Received: by 2002:a25:9c45:: with SMTP id x5mr21722177ybo.91.1642575370228; 
- Tue, 18 Jan 2022 22:56:10 -0800 (PST)
+ bh=bpDx8+F25IGXcfTWD62LB2zicnuNRmE63fZAqJGZfTw=;
+ b=dZDuvuL325FjQJg4kOKNAeV4e8dGfs6N6ZWWATOBt2wWI20bSpag6x+YbAe2ha2kra
+ 0VA5HJkF9mg+fpoDUfzfj6tBfVnjJPx0XGok22HlhRrdUD7THi/SDbZOUsil/GtpwyhU
+ Je7Rz9ahVXTlp+sKGt/cvZSIt8JB9NAPpNiTmozQj41zdtYl6ueRk9ycXpcHm8yPgGvp
+ EZQaQjERfGw8Buh+Z2K5KjngCLWRkalTORdO7LJIQbxpPy7lmW27OJaSIDRWxWyd/AI2
+ h73HibPc/Ksxpk9VQWraNh/SgUdUCS0GU0xrxStcip4w/roELC041yMZZ+7sC6M17f0H
+ BT7w==
+X-Gm-Message-State: AOAM530YLFACBKdFFM1IhlokIjAHoR6+mSnYD8wD5mZiaHnOy1vpoXRM
+ 7j11WQ0rQsxr13LFolRZaZ02BdCTYT1euGFoTXQ=
+X-Google-Smtp-Source: ABdhPJxk+nvscw7vWm6z3Jn8GNwHf5SgPTZSGSLj/TEfUNoOFDEKL7Irg1jd9tkdr6ooLJosO6JoStrm7TaEuZYQHqQ=
+X-Received: by 2002:a25:2507:: with SMTP id l7mr8304814ybl.526.1642575376599; 
+ Tue, 18 Jan 2022 22:56:16 -0800 (PST)
 MIME-Version: 1.0
 References: <20220118111736.454150-1-apatel@ventanamicro.com>
- <20220118111736.454150-3-apatel@ventanamicro.com>
-In-Reply-To: <20220118111736.454150-3-apatel@ventanamicro.com>
+ <20220118111736.454150-4-apatel@ventanamicro.com>
+In-Reply-To: <20220118111736.454150-4-apatel@ventanamicro.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 19 Jan 2022 14:55:58 +0800
-Message-ID: <CAEUhbmWzS0qNpH6K-1gO+o3QraF7Z1FD0HJErO_DiGs-6fmF+Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] hw/riscv: Remove macros for ELF BIOS image names
+Date: Wed, 19 Jan 2022 14:56:04 +0800
+Message-ID: <CAEUhbmX-juU-a0D4sgnxR=Z+uRU=tBt2bNYAOjmfoW_7DD9JKA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] roms/opensbi: Remove ELF images
 To: Anup Patel <apatel@ventanamicro.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2d
@@ -89,15 +89,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, Jan 18, 2022 at 7:18 PM Anup Patel <apatel@ventanamicro.com> wrote:
 >
-> Now that RISC-V Spike machine can use BIN BIOS images, we remove
-> the macros used for ELF BIOS image names.
+> Now that all RISC-V machines can use OpenSBI BIN images, we remove
+> OpenSBI ELF images and also exclude these images from BIOS build.
 >
-> Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+> Signed-off-by: Anup Patel <anup@brainfault.org>
 > ---
->  hw/riscv/spike.c        | 4 ++--
->  include/hw/riscv/boot.h | 2 --
->  2 files changed, 2 insertions(+), 4 deletions(-)
+>  pc-bios/meson.build                            |   2 --
+>  pc-bios/opensbi-riscv32-generic-fw_dynamic.elf | Bin 838904 -> 0 bytes
+>  pc-bios/opensbi-riscv64-generic-fw_dynamic.elf | Bin 934696 -> 0 bytes
+>  roms/Makefile                                  |   2 --
+>  4 files changed, 4 deletions(-)
+>  delete mode 100644 pc-bios/opensbi-riscv32-generic-fw_dynamic.elf
+>  delete mode 100644 pc-bios/opensbi-riscv64-generic-fw_dynamic.elf
 >
 
+.gitlab-ci.d/opensbi.yml should also be updated to remove .elf build
+
+Otherwise,
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
