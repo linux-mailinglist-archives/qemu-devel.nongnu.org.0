@@ -2,61 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AFCD493ADE
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 14:11:35 +0100 (CET)
-Received: from localhost ([::1]:50404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA17D493B1A
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 14:31:01 +0100 (CET)
+Received: from localhost ([::1]:40160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAAkL-0002JM-QK
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 08:11:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58266)
+	id 1nAB39-0007as-Ro
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 08:30:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nA9Ij-00028T-DF; Wed, 19 Jan 2022 06:38:54 -0500
-Received: from smtp23.cstnet.cn ([159.226.251.23]:60488 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nA9Ig-0002LD-Fi; Wed, 19 Jan 2022 06:38:53 -0500
-Received: from localhost.localdomain (unknown [180.156.147.178])
- by APP-03 (Coremail) with SMTP id rQCowABnblof+Odh7EjABQ--.19898S16;
- Wed, 19 Jan 2022 19:38:24 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [RFC PATCH v5 14/14] target/riscv: rvk: expose zbk* and zk* properties
-Date: Wed, 19 Jan 2022 19:37:54 +0800
-Message-Id: <20220119113754.20323-15-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220119113754.20323-1-liweiwei@iscas.ac.cn>
-References: <20220119113754.20323-1-liweiwei@iscas.ac.cn>
-X-CM-TRANSID: rQCowABnblof+Odh7EjABQ--.19898S16
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFy7CF1kXFy3uryUZF4UXFb_yoW8WrW8pr
- y5JFZrKwsxJry3CayUtw1DJ395Ca1rC3sFq3yxXan7Ar4fGr43JF1kJanYkr42qr48Za1f
- uF13ur1F9390va7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUPI14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
- kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
- z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
- 4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
- 3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
- IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
- M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
- kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
- 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
- kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7CjxVAF
- wI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr
- 0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUQ
- SdkUUUUU=
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L4=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nA9rS-0008VQ-UP; Wed, 19 Jan 2022 07:14:49 -0500
+Received: from [2a00:1450:4864:20::336] (port=35462
+ helo=mail-wm1-x336.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nA9rQ-0005bj-84; Wed, 19 Jan 2022 07:14:46 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ q9-20020a7bce89000000b00349e697f2fbso14196996wmj.0; 
+ Wed, 19 Jan 2022 04:14:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Viquf70vnxMxZfgtgaQ76mrfFQLoYK9p8+ok5REEpqU=;
+ b=ZL7ymSx8upNjZ3Xjd4dSpDzDJsVMEkQoRUGW5SoPqU7RRAmbdqJ7f3rbEy0p29c6ie
+ PqHp05fzgZMvSbPXNWhvHAlMWR7awTDaJfRFCSzuDuSMiCniqeIarBPy3wpnFf+fJu6/
+ Q4iU8fuji8xIfI4Eu0f2hHcsYCeXl/zcFQkQwkjV/00yu97CtL/b+yDRBGnuT8mO8mcF
+ y0oTBNBJctLY/IlDOQz+51zDvT2q0p1m7htCt/51kh9GiCeoSqy8D7lppov54bMgnLVP
+ mzO/WwwZkWaETGowzKHlNzvMs+CGIsAQQkUbd1lKnOoXBIrm/scF895C24wMCR24cAmU
+ h8QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Viquf70vnxMxZfgtgaQ76mrfFQLoYK9p8+ok5REEpqU=;
+ b=12Gb0kUbOfMRTPjb8l8+LvjAxb5drg5CiQoXwvllisRA0MNlLTeRap5juA7wuvv/zY
+ brN8aZPwdXTNcOOG6P9e7xRKGqGdx4uMT4hkctwBER0qS55HOS+3U6KQ4Kyt7HQQkHQp
+ hP8hPMDbZMJ51VygbDTOY1WO/BKavH9Svru/3M/WtPMbooTS9Y+PI4H26/+DOY9RH9Uw
+ 9kYA8S210jdkTLCQSwRdzCWodCKoO/dyETiW97SuXpbvVc9+MoIWUSntz0JtJgz1lWZg
+ GuWxiuyf3hxwpryGJ0/E/gcHlB8QStm11vEBGIg+p/uF47l0UjfvN+JTQyLsJxA/V7eP
+ sdSQ==
+X-Gm-Message-State: AOAM531fJ+o577Op1veNzS7BNtbIoNeWNcCFoFCte0thAnkFymr1fpkN
+ PSnIkvmF28ry63VFTCWiaX3fX5LZy6A=
+X-Google-Smtp-Source: ABdhPJwXryYWHiHIgrlo5fOQP9EHoGOXx/rBsLs9b+1xE8XB4hMSDah9+M7BjpGZlER7+IjqH4JwgQ==
+X-Received: by 2002:a05:600c:587:: with SMTP id
+ o7mr3313188wmd.114.1642594481742; 
+ Wed, 19 Jan 2022 04:14:41 -0800 (PST)
+Received: from nuc.. (154.red-83-50-83.dynamicip.rima-tde.net. [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id
+ v16sm10535736wrn.104.2022.01.19.04.14.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Jan 2022 04:14:41 -0800 (PST)
+To: qemu-devel@nongnu.org
+Cc: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-trivial@nongnu.org,
+ Philippe Mathieu-Daude <f4bug@amsat.org>
+Subject: [PATCH] qapi/block: Cosmetic change in BlockExportType schema
+Date: Wed, 19 Jan 2022 13:14:39 +0100
+Message-Id: <20220119121439.214821-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,43 +88,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang@iscas.ac.cn, Weiwei Li <liweiwei@iscas.ac.cn>,
- lazyparser@gmail.com, luruibo2000@163.com, lustrew@foxmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+From: Philippe Mathieu-Daude <f4bug@amsat.org>
+
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Fix long line introduced in commit bb01ea73110 ("qapi/block:
+Restrict vhost-user-blk to CONFIG_VHOST_USER_BLK_SERVER").
+
+Suggested-by: Markus Armbruster <armbru@redhat.com>
+Acked-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/riscv/cpu.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ qapi/block-export.json | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index b487a8282c..04e8e8d3c6 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -694,7 +694,20 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
-     DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
-     DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
-+    DEFINE_PROP_BOOL("zbkb", RISCVCPU, cfg.ext_zbkb, false),
-+    DEFINE_PROP_BOOL("zbkc", RISCVCPU, cfg.ext_zbkc, false),
-+    DEFINE_PROP_BOOL("zbkx", RISCVCPU, cfg.ext_zbkx, false),
-     DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
-+    DEFINE_PROP_BOOL("zk", RISCVCPU, cfg.ext_zk, false),
-+    DEFINE_PROP_BOOL("zkn", RISCVCPU, cfg.ext_zkn, false),
-+    DEFINE_PROP_BOOL("zknd", RISCVCPU, cfg.ext_zknd, false),
-+    DEFINE_PROP_BOOL("zkne", RISCVCPU, cfg.ext_zkne, false),
-+    DEFINE_PROP_BOOL("zknh", RISCVCPU, cfg.ext_zknh, false),
-+    DEFINE_PROP_BOOL("zkr", RISCVCPU, cfg.ext_zkr, false),
-+    DEFINE_PROP_BOOL("zks", RISCVCPU, cfg.ext_zks, false),
-+    DEFINE_PROP_BOOL("zksed", RISCVCPU, cfg.ext_zksed, false),
-+    DEFINE_PROP_BOOL("zksh", RISCVCPU, cfg.ext_zksh, false),
-+    DEFINE_PROP_BOOL("zkt", RISCVCPU, cfg.ext_zkt, false),
+diff --git a/qapi/block-export.json b/qapi/block-export.json
+index f9ce79a974b..f183522d0d2 100644
+--- a/qapi/block-export.json
++++ b/qapi/block-export.json
+@@ -278,7 +278,8 @@
+ ##
+ { 'enum': 'BlockExportType',
+   'data': [ 'nbd',
+-            { 'name': 'vhost-user-blk', 'if': 'CONFIG_VHOST_USER_BLK_SERVER' },
++            { 'name': 'vhost-user-blk',
++              'if': 'CONFIG_VHOST_USER_BLK_SERVER' },
+             { 'name': 'fuse', 'if': 'CONFIG_FUSE' } ] }
  
-     /* These are experimental so mark with 'x-' */
-     DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+ ##
 -- 
-2.17.1
+2.34.1
 
 
