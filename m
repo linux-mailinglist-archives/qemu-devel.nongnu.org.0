@@ -2,97 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3EE8493E48
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 17:29:48 +0100 (CET)
-Received: from localhost ([::1]:39472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19C34493E59
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 17:33:43 +0100 (CET)
+Received: from localhost ([::1]:47446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nADqF-0001oY-GJ
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 11:29:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48182)
+	id 1nADu1-0007lO-DP
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 11:33:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nADLE-0000rK-ET
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 10:57:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60247)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nADLA-0002rL-Rx
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 10:57:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642607855;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kkK+0ajHzzh8oQXkPEUlRkp+jZ+twcMydEEaL3sPVRw=;
- b=MheHhXlrmEPZKp4Adt67FkAZX1mMtU3fvLeaigxuUQ74A8VAzBct19b6wVMFFR7v+hJuar
- 4i/XmBYzEZlpAUHu0YY3WCUqduEUXdoeL5cEK+kAgdoEKKWMXzhZYccABX3C95S4eJg5DE
- m0hdJOIezxIkcN/zxpM3WnGTA5rE9hE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-336-bMLqwYExO5-HBrDz9FQaqA-1; Wed, 19 Jan 2022 10:57:34 -0500
-X-MC-Unique: bMLqwYExO5-HBrDz9FQaqA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- f188-20020a1c1fc5000000b0034d79edde84so1360565wmf.0
- for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 07:57:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1nADit-00018S-Gb
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 11:22:11 -0500
+Received: from [2a00:1450:4864:20::335] (port=54114
+ helo=mail-wm1-x335.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1nADin-0004Ey-Jv
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 11:22:11 -0500
+Received: by mail-wm1-x335.google.com with SMTP id n8so6062580wmk.3
+ for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 08:20:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=kCkR9/lQsH50bm8Ihtw/yXOCo3rJMcTYFUmjzh99DXM=;
+ b=pMIvH0XBbfpmwXqx5CyR2n13wxWB0DbPnab8J1MlOyuiSdKo8VCZCIFPqHsZ6GF9DH
+ PUru/qkbQ2AxJzsRME6Se27OjaqEviGC4l7aMHB4dzvgOPp9NFCyLidyT0TBcE2kl68Z
+ xVW4xUxJd2I52NW789QjZVe01yLXs7zYIZkazWZiAakcxBj3KbpCZMtHJCYYeyQ+uFto
+ bv8++fA7uRAu31qzyzbTzHUP+sTZxalvs8DIeTslSUmv/46P7nbYGDD+iFG6j4+/sAQs
+ KJvb24kWMFFb3rr7qXfSmRxAqONIE5cbpo1vuaCakWrrDbG6qXXNaxadUlSvCY18zOTR
+ Pukg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=kkK+0ajHzzh8oQXkPEUlRkp+jZ+twcMydEEaL3sPVRw=;
- b=HbOj3uaDp2UGdhfHGxapt/0z/iw44c5xFFj9DBpqXvmbGMnZI6+449gtrDmt/QGAr0
- shyMJQyR1X/CSYkQiIBLrqt1HQ81H3xT3mKfhx4TZ5kpjd3nN4OEs+RjT1pYLbTkz8aA
- f5VqG2QGNbrj5Wn0K0vHHgnI8HXSSwObBDs1qvlK7hkswdjwUAhEGgHVYQ89a6QaoRvy
- WpQ5k93PRIWI3TuBX3LEOJsj4qtDtJanbV9TxfyUvhQP+wxzeWWZBGynwPlpu7p/WbPc
- cghebJtWwPN9MHT+N2QhYJTrkiv2jbESClRPiMJvrjg5RHRHZ27dX/4VZRkoBqIU/Uml
- 8Jog==
-X-Gm-Message-State: AOAM533dz3uafMQN5lWoc3jhBs3TxxH2SbVJqSQQhzKRDIP15pe09mGl
- iohPQ5Ynx/SLsJrshW44bROBvERF3bDI8x/hS0D4bgZoE2xRIeUIAaw/yYhBzxgCy2Ih7FUVy8w
- pGdRnm60JrcnVj8E=
-X-Received: by 2002:a5d:47c2:: with SMTP id o2mr30493728wrc.542.1642607853013; 
- Wed, 19 Jan 2022 07:57:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwlyqV1VhtPH184tpWd/ayancNqOIoBi/wK2zXeBld8ZedZQm/OB+E6dSyxT24bEE9lz89B5A==
-X-Received: by 2002:a5d:47c2:: with SMTP id o2mr30493694wrc.542.1642607852739; 
- Wed, 19 Jan 2022 07:57:32 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id u16sm40980wmq.24.2022.01.19.07.57.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Jan 2022 07:57:32 -0800 (PST)
-Message-ID: <9507e092-4e97-1e61-f790-caed8f44148f@redhat.com>
-Date: Wed, 19 Jan 2022 16:57:31 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=kCkR9/lQsH50bm8Ihtw/yXOCo3rJMcTYFUmjzh99DXM=;
+ b=147nuVhC6xAG2Ms/JryodwHmf0hNtvMJXpMBJ3RKRH9bRBBbla7UWAAKvH9k1+80cY
+ Ku9gkW5MkO3rGyz8Y3GonvQ3V5y7ughOvF+vTRtTumPhd4KhLxX78nUOAp0mhV9jTdQ3
+ +ZfQZ0E7+77wzRsqZUS3Y5Eoy860qqgdM85TYlJT7ypITb5gTUm41zxbzRouERZz4k/a
+ UACyU/RV/5oRjoGIQWzXyfa2F2bIuvl3PbMSKUSHlndsY/2blelEO8Bi9UiBIMUoOTZN
+ hgL4tTMUsuAxnxMYJq4ex3rsvvHyvgwdzs0qF3kjvvP2bSKuDB5NVFYsg6LIeVFDRWku
+ V01Q==
+X-Gm-Message-State: AOAM533tjXYubpQ49vchKCZ5mw5wpqFxiA1HnRce8rJWVrHN3kE9jRWR
+ vlp4czW6aO22/yIAe7zMzS2Wr5kM05ukrXyRCwDarA==
+X-Google-Smtp-Source: ABdhPJxdtPaoibRzhlMlhL6M9RsGrjVb2Xo7cOFDDCHFa/JNKMJ91/E7d7cWuW9w8yPHvbpgt0Td5cAEt+peJLmOSCw=
+X-Received: by 2002:a5d:584e:: with SMTP id i14mr15211906wrf.690.1642609217424; 
+ Wed, 19 Jan 2022 08:20:17 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v5 28/31] block.c: assert BQL lock held in
- bdrv_co_invalidate_cache
-From: Hanna Reitz <hreitz@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20211124064418.3120601-1-eesposit@redhat.com>
- <20211124064418.3120601-29-eesposit@redhat.com>
- <56deaef1-6a4e-c544-9916-42a20cc20c7a@redhat.com>
- <9ca5c434-ddf6-2ed3-08ae-92da5fc98013@redhat.com>
- <b1e190b3-7466-0d4e-554b-bd9d4ce5a43e@redhat.com>
- <1cfd3189-215f-6b91-f453-2fc87f64ce2a@redhat.com>
-In-Reply-To: <1cfd3189-215f-6b91-f453-2fc87f64ce2a@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220119152614.27548-1-anup@brainfault.org>
+ <20220119152614.27548-19-anup@brainfault.org>
+ <CAE_xrPhFzt5Ynd455kfziXrfpOYK2ZUxm8qGFMwyQjxwkR=mEA@mail.gmail.com>
+In-Reply-To: <CAE_xrPhFzt5Ynd455kfziXrfpOYK2ZUxm8qGFMwyQjxwkR=mEA@mail.gmail.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Wed, 19 Jan 2022 21:50:03 +0530
+Message-ID: <CAAhSdy0Tb+LQ1tGKj2GuvME_AcZcTrLqkuZdyZ4Q6WsvSX3zkg@mail.gmail.com>
+Subject: Re: [PATCH v8 18/23] hw/intc: Add RISC-V AIA APLIC device emulation
+To: Frank Chang <frank.chang@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::335;
+ envelope-from=anup@brainfault.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,232 +84,1263 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.12.21 18:11, Hanna Reitz wrote:
-> On 20.12.21 13:20, Emanuele Giuseppe Esposito wrote:
->>
->>
->> On 17/12/2021 17:38, Emanuele Giuseppe Esposito wrote:
->>>
->>>
->>> On 17/12/2021 12:04, Hanna Reitz wrote:
->>>> On 24.11.21 07:44, Emanuele Giuseppe Esposito wrote:
->>>>> bdrv_co_invalidate_cache is special: it is an I/O function,
->>>>
->>>> I still don’t believe it is, but well.
->>>>
->>>> (Yes, it is called by a test in an iothread, but I believe we’ve 
->>>> seen that the tests simply sometimes test things that shouldn’t be 
->>>> allowed.)
->>>>
->>>>> but uses the block layer permission API, which is GS.
->>>>>
->>>>> Because of this, we can assert that either the function is
->>>>> being called with BQL held, and thus can use the permission API,
->>>>> or make sure that the permission API is not used, by ensuring that
->>>>> bs (and parents) .open_flags does not contain BDRV_O_INACTIVE.
->>>>>
->>>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>>>> ---
->>>>>   block.c | 26 ++++++++++++++++++++++++++
->>>>>   1 file changed, 26 insertions(+)
->>>>>
->>>>> diff --git a/block.c b/block.c
->>>>> index a0309f827d..805974676b 100644
->>>>> --- a/block.c
->>>>> +++ b/block.c
->>>>> @@ -6574,6 +6574,26 @@ void bdrv_init_with_whitelist(void)
->>>>>       bdrv_init();
->>>>>   }
->>>>> +static bool bdrv_is_active(BlockDriverState *bs)
->>>>> +{
->>>>> +    BdrvChild *parent;
->>>>> +
->>>>> +    if (bs->open_flags & BDRV_O_INACTIVE) {
->>>>> +        return false;
->>>>> +    }
->>>>> +
->>>>> +    QLIST_FOREACH(parent, &bs->parents, next_parent) {
->>>>> +        if (parent->klass->parent_is_bds) {
->>>>> +            BlockDriverState *parent_bs = parent->opaque;
->>>>
->>>> This looks like a really bad hack to me.  We purposefully have made 
->>>> the parent link opaque so that a BDS cannot easily reach its 
->>>> parents.  All accesses should go through BdrvChildClass methods.
->>>>
->>>> I also don’t understand why we need to query parents at all. The 
->>>> only fact that determines whether the current BDS will have its 
->>>> permissions changed is whether the BDS itself is active or 
->>>> inactive.  Sure, we’ll invoke bdrv_co_invalidate_cache() on the 
->>>> parents, too, but then we could simply let the assertion fail there.
->>>>
->>>>> +            if (!bdrv_is_active(parent_bs)) {
->>>>> +                return false;
->>>>> +            }
->>>>> +        }
->>>>> +    }
->>>>> +
->>>>> +   return true;
->>>>> +}
->>>>> +
->>>>>   int coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, 
->>>>> Error **errp)
->>>>>   {
->>>>>       BdrvChild *child, *parent;
->>>>> @@ -6585,6 +6605,12 @@ int coroutine_fn 
->>>>> bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp)
->>>>>           return -ENOMEDIUM;
->>>>>       }
->>>>> +    /*
->>>>> +     * No need to muck with permissions if bs is active.
->>>>> +     * TODO: should activation be a separate function?
->>>>> +     */
->>>>> +    assert(qemu_in_main_thread() || bdrv_is_active(bs));
->>>>> +
->>>>
->>>> I don’t understand this, really.  It looks to me like “if you don’t 
->>>> call this in the main thread, this better be a no-op”, i.e., you 
->>>> must never call this function in an I/O thread if you really want 
->>>> to use it.  I.e. what I’d classify as a GS function.
->>>>
->>>> It sounds like this is just a special case for said test, and 
->>>> special-casing code for tests sounds like a bad idea.
->>>
->>> Ok, but trying to leave just the qemu_in_main_thread() assertion 
->>> makes test 307 (./check 307) fail.
->>> I am actually not sure on why it fails, but I am sure it is because 
->>> of the assertion, since without it it passes.
->>>
->>> I tried with gdb (./check -gdb 307 on one terminal and
->>> gdb -iex "target remote localhost:12345"
->>> in another) but it points me to this below, which I think is the ndb 
->>> server getting the socket closed (because on the other side it 
->>> crashed), and not the actual error.
->>>
->>>
->>> Thread 1 "qemu-system-x86" received signal SIGPIPE, Broken pipe.
->>> 0x00007ffff68af54d in sendmsg () from target:/lib64/libc.so.6
->>> (gdb) bt
->>> #0  0x00007ffff68af54d in sendmsg () from target:/lib64/libc.so.6
->>> #1  0x0000555555c13cc9 in qio_channel_socket_writev (ioc=<optimized 
->>> out>, iov=0x5555569a4870, niov=1, fds=0x0, nfds=<optimized out>, 
->>> errp=0x0)
->>>      at ../io/channel-socket.c:561
->>> #2  0x0000555555c19b18 in qio_channel_writev_full_all 
->>> (ioc=0x55555763b800, iov=iov@entry=0x7fffe8dffd80, 
->>> niov=niov@entry=1, fds=fds@entry=0x0,
->>>      nfds=nfds@entry=0, errp=errp@entry=0x0) at ../io/channel.c:240
->>> #3  0x0000555555c19bd2 in qio_channel_writev_all (errp=0x0, niov=1, 
->>> iov=0x7fffe8dffd80, ioc=<optimized out>) at ../io/channel.c:220
->>> #4  qio_channel_write_all (ioc=<optimized out>, 
->>> buf=buf@entry=0x7fffe8dffdd0 "", buflen=buflen@entry=20, 
->>> errp=errp@entry=0x0) at ../io/channel.c:330
->>> #5  0x0000555555c27e75 in nbd_write (errp=0x0, size=20, 
->>> buffer=0x7fffe8dffdd0, ioc=<optimized out>) at ../nbd/nbd-internal.h:71
->>> #6  nbd_negotiate_send_rep_len (client=client@entry=0x555556f60930, 
->>> type=type@entry=1, len=len@entry=0, errp=errp@entry=0x0) at 
->>> ../nbd/server.c:203
->>> #7  0x0000555555c29db1 in nbd_negotiate_send_rep (errp=0x0, type=1, 
->>> client=0x555556f60930) at ../nbd/server.c:211
->>> --Type <RET> for more, q to quit, c to continue without paging--
->>> #8  nbd_negotiate_options (errp=0x7fffe8dffe88, client=<optimized 
->>> out>) at ../nbd/server.c:1224
->>> #9  nbd_negotiate (errp=0x7fffe8dffe88, client=<optimized out>) at 
->>> ../nbd/server.c:1340
->>> #10 nbd_co_client_start (opaque=<optimized out>) at 
->>> ../nbd/server.c:2715
->>> #11 0x0000555555d70423 in coroutine_trampoline (i0=<optimized out>, 
->>> i1=<optimized out>) at ../util/coroutine-ucontext.c:173
->>> #12 0x00007ffff67f3820 in ?? () from target:/lib64/libc.so.6
->>> #13 0x00007fffffffca80 in ?? ()
->>>
->>
->> Ok the reason for this is line 89 of tests/qemu-iotests/307:
->>
->> # Should ignore the iothread conflict, but then fail because of the
->> # permission conflict (and not crash)
->> vm.qmp_log('block-export-add', id='export1', type='nbd', 
->> node_name='null',
->>                iothread='iothread1', fixed_iothread=False, 
->> writable=True)
->>
->> This calls qmp_block_export_add() and then blk_exp_add(), that calls 
->> bdrv_invalidate_cache().
->> Both functions are running in the main thread, but then 
->> bdrv_invalidate_cache invokes bdrv_co_invalidate_cache() as a 
->> coroutine in the AioContext of the given bs, so not the main loop.
->>
->> So Hanna, what should we do here? This seems very similar to the 
->> discussion in patch 22, ie run blockdev-create (in this case 
->> block-export-add, which seems similar?) involving nodes in I/O threads.
+Hi Frank,
+
+On Wed, Jan 19, 2022 at 9:07 PM Frank Chang <frank.chang@sifive.com> wrote:
 >
-> Honestly, I’m still thinking about this and haven’t come to a 
-> conclusion.  It doesn’t seem invalid to run bdrv_co_invalidate_cache() 
-> in the context of the BDS here, but then the assertion that the BDS is 
-> already active seems kind of just lucky to work.
+> On Wed, Jan 19, 2022 at 11:27 PM Anup Patel <anup@brainfault.org> wrote:
+>>
+>> From: Anup Patel <anup.patel@wdc.com>
+>>
+>> The RISC-V AIA (Advanced Interrupt Architecture) defines a new
+>> interrupt controller for wired interrupts called APLIC (Advanced
+>> Platform Level Interrupt Controller). The APLIC is capabable of
+>> forwarding wired interupts to RISC-V HARTs directly or as MSIs
+>> (Message Signaled Interupts).
+>>
+>> This patch adds device emulation for RISC-V AIA APLIC.
+>>
+>> Signed-off-by: Anup Patel <anup.patel@wdc.com>
+>> Signed-off-by: Anup Patel <anup@brainfault.org>
+>> Reviewed-by: Frank Chang <frank.chang@sifive.com>
+>> ---
+>>  hw/intc/Kconfig               |   3 +
+>>  hw/intc/meson.build           |   1 +
+>>  hw/intc/riscv_aplic.c         | 975 ++++++++++++++++++++++++++++++++++
+>>  include/hw/intc/riscv_aplic.h |  79 +++
+>>  4 files changed, 1058 insertions(+)
+>>  create mode 100644 hw/intc/riscv_aplic.c
+>>  create mode 100644 include/hw/intc/riscv_aplic.h
+>>
+>> diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+>> index 010ded7eae..528e77b4a6 100644
+>> --- a/hw/intc/Kconfig
+>> +++ b/hw/intc/Kconfig
+>> @@ -70,6 +70,9 @@ config LOONGSON_LIOINTC
+>>  config RISCV_ACLINT
+>>      bool
+>>
+>> +config RISCV_APLIC
+>> +    bool
+>> +
+>>  config SIFIVE_PLIC
+>>      bool
+>>
+>> diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+>> index 70080bc161..7466024402 100644
+>> --- a/hw/intc/meson.build
+>> +++ b/hw/intc/meson.build
+>> @@ -50,6 +50,7 @@ specific_ss.add(when: 'CONFIG_S390_FLIC', if_true: fil=
+es('s390_flic.c'))
+>>  specific_ss.add(when: 'CONFIG_S390_FLIC_KVM', if_true: files('s390_flic=
+_kvm.c'))
+>>  specific_ss.add(when: 'CONFIG_SH_INTC', if_true: files('sh_intc.c'))
+>>  specific_ss.add(when: 'CONFIG_RISCV_ACLINT', if_true: files('riscv_acli=
+nt.c'))
+>> +specific_ss.add(when: 'CONFIG_RISCV_APLIC', if_true: files('riscv_aplic=
+.c'))
+>>  specific_ss.add(when: 'CONFIG_SIFIVE_PLIC', if_true: files('sifive_plic=
+.c'))
+>>  specific_ss.add(when: 'CONFIG_XICS', if_true: files('xics.c'))
+>>  specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XICS'],
+>> diff --git a/hw/intc/riscv_aplic.c b/hw/intc/riscv_aplic.c
+>> new file mode 100644
+>> index 0000000000..885c1de2af
+>> --- /dev/null
+>> +++ b/hw/intc/riscv_aplic.c
+>> @@ -0,0 +1,975 @@
+>> +/*
+>> + * RISC-V APLIC (Advanced Platform Level Interrupt Controller)
+>> + *
+>> + * Copyright (c) 2021 Western Digital Corporation or its affiliates.
+>> + *
+>> + * This program is free software; you can redistribute it and/or modify=
+ it
+>> + * under the terms and conditions of the GNU General Public License,
+>> + * version 2 or later, as published by the Free Software Foundation.
+>> + *
+>> + * This program is distributed in the hope it will be useful, but WITHO=
+UT
+>> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY o=
+r
+>> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public Licens=
+e for
+>> + * more details.
+>> + *
+>> + * You should have received a copy of the GNU General Public License al=
+ong with
+>> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "qapi/error.h"
+>> +#include "qemu/log.h"
+>> +#include "qemu/module.h"
+>> +#include "qemu/error-report.h"
+>> +#include "qemu/bswap.h"
+>> +#include "exec/address-spaces.h"
+>> +#include "hw/sysbus.h"
+>> +#include "hw/pci/msi.h"
+>> +#include "hw/boards.h"
+>> +#include "hw/qdev-properties.h"
+>> +#include "hw/intc/riscv_aplic.h"
+>> +#include "hw/irq.h"
+>> +#include "target/riscv/cpu.h"
+>> +#include "sysemu/sysemu.h"
+>> +#include "migration/vmstate.h"
+>> +
+>> +#define APLIC_MAX_IDC                  (1UL << 14)
+>> +#define APLIC_MAX_SOURCE               1024
+>> +#define APLIC_MIN_IPRIO_BITS           1
+>> +#define APLIC_MAX_IPRIO_BITS           8
+>> +#define APLIC_MAX_CHILDREN             1024
+>> +
+>> +#define APLIC_DOMAINCFG                0x0000
+>> +#define APLIC_DOMAINCFG_RDONLY         0x80000000
+>> +#define APLIC_DOMAINCFG_IE             (1 << 8)
+>> +#define APLIC_DOMAINCFG_DM             (1 << 2)
+>> +#define APLIC_DOMAINCFG_BE             (1 << 0)
+>> +
+>> +#define APLIC_SOURCECFG_BASE           0x0004
+>> +#define APLIC_SOURCECFG_D              (1 << 10)
+>> +#define APLIC_SOURCECFG_CHILDIDX_MASK  0x000003ff
+>> +#define APLIC_SOURCECFG_SM_MASK        0x00000007
+>> +#define APLIC_SOURCECFG_SM_INACTIVE    0x0
+>> +#define APLIC_SOURCECFG_SM_DETACH      0x1
+>> +#define APLIC_SOURCECFG_SM_EDGE_RISE   0x4
+>> +#define APLIC_SOURCECFG_SM_EDGE_FALL   0x5
+>> +#define APLIC_SOURCECFG_SM_LEVEL_HIGH  0x6
+>> +#define APLIC_SOURCECFG_SM_LEVEL_LOW   0x7
+>> +
+>> +#define APLIC_MMSICFGADDR              0x1bc0
+>> +#define APLIC_MMSICFGADDRH             0x1bc4
+>> +#define APLIC_SMSICFGADDR              0x1bc8
+>> +#define APLIC_SMSICFGADDRH             0x1bcc
+>> +
+>> +#define APLIC_xMSICFGADDRH_L           (1UL << 31)
+>> +#define APLIC_xMSICFGADDRH_HHXS_MASK   0x1f
+>> +#define APLIC_xMSICFGADDRH_HHXS_SHIFT  24
+>> +#define APLIC_xMSICFGADDRH_LHXS_MASK   0x7
+>> +#define APLIC_xMSICFGADDRH_LHXS_SHIFT  20
+>> +#define APLIC_xMSICFGADDRH_HHXW_MASK   0x7
+>> +#define APLIC_xMSICFGADDRH_HHXW_SHIFT  16
+>> +#define APLIC_xMSICFGADDRH_LHXW_MASK   0xf
+>> +#define APLIC_xMSICFGADDRH_LHXW_SHIFT  12
+>> +#define APLIC_xMSICFGADDRH_BAPPN_MASK  0xfff
+>> +
+>> +#define APLIC_xMSICFGADDR_PPN_SHIFT    12
+>> +
+>> +#define APLIC_xMSICFGADDR_PPN_HART(__lhxs) \
+>> +    ((1UL << (__lhxs)) - 1)
+>> +
+>> +#define APLIC_xMSICFGADDR_PPN_LHX_MASK(__lhxw) \
+>> +    ((1UL << (__lhxw)) - 1)
+>> +#define APLIC_xMSICFGADDR_PPN_LHX_SHIFT(__lhxs) \
+>> +    ((__lhxs))
+>> +#define APLIC_xMSICFGADDR_PPN_LHX(__lhxw, __lhxs) \
+>> +    (APLIC_xMSICFGADDR_PPN_LHX_MASK(__lhxw) << \
+>> +     APLIC_xMSICFGADDR_PPN_LHX_SHIFT(__lhxs))
+>> +
+>> +#define APLIC_xMSICFGADDR_PPN_HHX_MASK(__hhxw) \
+>> +    ((1UL << (__hhxw)) - 1)
+>> +#define APLIC_xMSICFGADDR_PPN_HHX_SHIFT(__hhxs) \
+>> +    ((__hhxs) + APLIC_xMSICFGADDR_PPN_SHIFT)
+>> +#define APLIC_xMSICFGADDR_PPN_HHX(__hhxw, __hhxs) \
+>> +    (APLIC_xMSICFGADDR_PPN_HHX_MASK(__hhxw) << \
+>> +     APLIC_xMSICFGADDR_PPN_HHX_SHIFT(__hhxs))
+>> +
+>> +#define APLIC_xMSICFGADDRH_VALID_MASK   \
+>> +    (APLIC_xMSICFGADDRH_L | \
+>> +     (APLIC_xMSICFGADDRH_HHXS_MASK << APLIC_xMSICFGADDRH_HHXS_SHIFT) | =
+\
+>> +     (APLIC_xMSICFGADDRH_LHXS_MASK << APLIC_xMSICFGADDRH_LHXS_SHIFT) | =
+\
+>> +     (APLIC_xMSICFGADDRH_HHXW_MASK << APLIC_xMSICFGADDRH_HHXW_SHIFT) | =
+\
+>> +     (APLIC_xMSICFGADDRH_LHXW_MASK << APLIC_xMSICFGADDRH_LHXW_SHIFT) | =
+\
+>> +     APLIC_xMSICFGADDRH_BAPPN_MASK)
+>> +
+>> +#define APLIC_SETIP_BASE               0x1c00
+>> +#define APLIC_SETIPNUM                 0x1cdc
+>> +
+>> +#define APLIC_CLRIP_BASE               0x1d00
+>> +#define APLIC_CLRIPNUM                 0x1ddc
+>> +
+>> +#define APLIC_SETIE_BASE               0x1e00
+>> +#define APLIC_SETIENUM                 0x1edc
+>> +
+>> +#define APLIC_CLRIE_BASE               0x1f00
+>> +#define APLIC_CLRIENUM                 0x1fdc
+>> +
+>> +#define APLIC_SETIPNUM_LE              0x2000
+>> +#define APLIC_SETIPNUM_BE              0x2004
+>> +
+>> +#define APLIC_ISTATE_PENDING           (1U << 0)
+>> +#define APLIC_ISTATE_ENABLED           (1U << 1)
+>> +#define APLIC_ISTATE_ENPEND            (APLIC_ISTATE_ENABLED | \
+>> +                                        APLIC_ISTATE_PENDING)
+>> +#define APLIC_ISTATE_INPUT             (1U << 8)
+>> +
+>> +#define APLIC_GENMSI                   0x3000
+>> +
+>> +#define APLIC_TARGET_BASE              0x3004
+>> +#define APLIC_TARGET_HART_IDX_SHIFT    18
+>> +#define APLIC_TARGET_HART_IDX_MASK     0x3fff
+>> +#define APLIC_TARGET_GUEST_IDX_SHIFT   12
+>> +#define APLIC_TARGET_GUEST_IDX_MASK    0x3f
+>> +#define APLIC_TARGET_IPRIO_MASK        0xff
+>> +#define APLIC_TARGET_EIID_MASK         0x7ff
+>> +
+>> +#define APLIC_IDC_BASE                 0x4000
+>> +#define APLIC_IDC_SIZE                 32
+>> +
+>> +#define APLIC_IDC_IDELIVERY            0x00
+>> +
+>> +#define APLIC_IDC_IFORCE               0x04
+>> +
+>> +#define APLIC_IDC_ITHRESHOLD           0x08
+>> +
+>> +#define APLIC_IDC_TOPI                 0x18
+>> +#define APLIC_IDC_TOPI_ID_SHIFT        16
+>> +#define APLIC_IDC_TOPI_ID_MASK         0x3ff
+>> +#define APLIC_IDC_TOPI_PRIO_MASK       0xff
+>> +
+>> +#define APLIC_IDC_CLAIMI               0x1c
+>> +
+>> +static uint32_t riscv_aplic_read_input_word(RISCVAPLICState *aplic,
+>> +                                            uint32_t word)
+>> +{
+>> +    uint32_t i, irq, ret =3D 0;
+>> +
+>> +    for (i =3D 0; i < 32; i++) {
+>> +        irq =3D word * 32 + i;
+>> +        if (!irq || aplic->num_irqs <=3D irq) {
+>> +            continue;
+>> +        }
+>> +
+>> +        ret |=3D ((aplic->state[irq] & APLIC_ISTATE_INPUT) ? 1 : 0) << =
+i;
+>> +    }
+>> +
+>> +    return ret;
+>> +}
+>> +
+>> +static uint32_t riscv_aplic_read_pending_word(RISCVAPLICState *aplic,
+>> +                                              uint32_t word)
+>> +{
+>> +    uint32_t i, irq, ret =3D 0;
+>> +
+>> +    for (i =3D 0; i < 32; i++) {
+>> +        irq =3D word * 32 + i;
+>> +        if (!irq || aplic->num_irqs <=3D irq) {
+>> +            continue;
+>> +        }
+>> +
+>> +        ret |=3D ((aplic->state[irq] & APLIC_ISTATE_PENDING) ? 1 : 0) <=
+< i;
+>> +    }
+>> +
+>> +    return ret;
+>> +}
+>> +
+>> +static void riscv_aplic_set_pending_raw(RISCVAPLICState *aplic,
+>> +                                        uint32_t irq, bool pending)
+>> +{
+>> +    if (pending) {
+>> +        aplic->state[irq] |=3D APLIC_ISTATE_PENDING;
+>> +    } else {
+>> +        aplic->state[irq] &=3D ~APLIC_ISTATE_PENDING;
+>> +    }
+>> +}
+>> +
+>> +static void riscv_aplic_set_pending(RISCVAPLICState *aplic,
+>> +                                    uint32_t irq, bool pending)
+>> +{
+>> +    uint32_t sourcecfg, sm;
+>> +
+>> +    if ((irq <=3D 0) || (aplic->num_irqs <=3D irq)) {
+>> +        return;
+>> +    }
+>> +
+>> +    sourcecfg =3D aplic->sourcecfg[irq];
+>> +    if (sourcecfg & APLIC_SOURCECFG_D) {
+>> +        return;
+>> +    }
+>> +
+>> +    sm =3D sourcecfg & APLIC_SOURCECFG_SM_MASK;
+>> +    if ((sm =3D=3D APLIC_SOURCECFG_SM_INACTIVE) ||
+>> +        ((!aplic->msimode || (aplic->msimode && !pending)) &&
+>> +         ((sm =3D=3D APLIC_SOURCECFG_SM_LEVEL_HIGH) ||
+>> +          (sm =3D=3D APLIC_SOURCECFG_SM_LEVEL_LOW)))) {
+>> +        return;
+>> +    }
+>> +
+>> +    riscv_aplic_set_pending_raw(aplic, irq, pending);
+>> +}
+>> +
+>> +static void riscv_aplic_set_pending_word(RISCVAPLICState *aplic,
+>> +                                         uint32_t word, uint32_t value,
+>> +                                         bool pending)
+>> +{
+>> +    uint32_t i, irq;
+>> +
+>> +    for (i =3D 0; i < 32; i++) {
+>> +        irq =3D word * 32 + i;
+>> +        if (!irq || aplic->num_irqs <=3D irq) {
+>> +            continue;
+>> +        }
+>> +
+>> +        if (value & (1U << i)) {
+>> +            riscv_aplic_set_pending(aplic, irq, pending);
+>> +        }
+>> +    }
+>> +}
+>> +
+>> +static uint32_t riscv_aplic_read_enabled_word(RISCVAPLICState *aplic,
+>> +                                              int word)
+>> +{
+>> +    uint32_t i, irq, ret =3D 0;
+>> +
+>> +    for (i =3D 0; i < 32; i++) {
+>> +        irq =3D word * 32 + i;
+>> +        if (!irq || aplic->num_irqs <=3D irq) {
+>> +            continue;
+>> +        }
+>> +
+>> +        ret |=3D ((aplic->state[irq] & APLIC_ISTATE_ENABLED) ? 1 : 0) <=
+< i;
+>> +    }
+>> +
+>> +    return ret;
+>> +}
+>> +
+>> +static void riscv_aplic_set_enabled_raw(RISCVAPLICState *aplic,
+>> +                                        uint32_t irq, bool enabled)
+>> +{
+>> +    if (enabled) {
+>> +        aplic->state[irq] |=3D APLIC_ISTATE_ENABLED;
+>> +    } else {
+>> +        aplic->state[irq] &=3D ~APLIC_ISTATE_ENABLED;
+>> +    }
+>> +}
+>> +
+>> +static void riscv_aplic_set_enabled(RISCVAPLICState *aplic,
+>> +                                    uint32_t irq, bool enabled)
+>> +{
+>> +    uint32_t sourcecfg, sm;
+>> +
+>> +    if ((irq <=3D 0) || (aplic->num_irqs <=3D irq)) {
+>> +        return;
+>> +    }
+>> +
+>> +    sourcecfg =3D aplic->sourcecfg[irq];
+>> +    if (sourcecfg & APLIC_SOURCECFG_D) {
+>> +        return;
+>> +    }
+>> +
+>> +    sm =3D sourcecfg & APLIC_SOURCECFG_SM_MASK;
+>> +    if (sm =3D=3D APLIC_SOURCECFG_SM_INACTIVE) {
+>> +        return;
+>> +    }
+>> +
+>> +    riscv_aplic_set_enabled_raw(aplic, irq, enabled);
+>> +}
+>> +
+>> +static void riscv_aplic_set_enabled_word(RISCVAPLICState *aplic,
+>> +                                         uint32_t word, uint32_t value,
+>> +                                         bool enabled)
+>> +{
+>> +    uint32_t i, irq;
+>> +
+>> +    for (i =3D 0; i < 32; i++) {
+>> +        irq =3D word * 32 + i;
+>> +        if (!irq || aplic->num_irqs <=3D irq) {
+>> +            continue;
+>> +        }
+>> +
+>> +        if (value & (1U << i)) {
+>> +            riscv_aplic_set_enabled(aplic, irq, enabled);
+>> +        }
+>> +    }
+>> +}
+>> +
+>> +static void riscv_aplic_msi_send(RISCVAPLICState *aplic,
+>> +                                 uint32_t hart_idx, uint32_t guest_idx,
+>> +                                 uint32_t eiid)
+>> +{
+>> +    uint64_t addr;
+>> +    MemTxResult result;
+>> +    RISCVAPLICState *aplic_m;
+>> +    uint32_t lhxs, lhxw, hhxs, hhxw, group_idx, msicfgaddr, msicfgaddrH=
+;
+>> +
+>> +    aplic_m =3D aplic;
+>> +    while (aplic_m && !aplic_m->mmode) {
+>> +        aplic_m =3D aplic_m->parent;
+>> +    }
+>> +    if (!aplic_m) {
+>> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: m-level APLIC not found\n",
+>> +                      __func__);
+>> +        return;
+>> +    }
+>> +
+>> +    if (aplic->mmode) {
+>> +        msicfgaddr =3D aplic_m->mmsicfgaddr;
+>> +        msicfgaddrH =3D aplic_m->mmsicfgaddrH;
+>> +    } else {
+>> +        msicfgaddr =3D aplic_m->smsicfgaddr;
+>> +        msicfgaddrH =3D aplic_m->smsicfgaddrH;
+>> +    }
+>> +
+>> +    lhxs =3D (msicfgaddrH >> APLIC_xMSICFGADDRH_LHXS_SHIFT) &
+>> +            APLIC_xMSICFGADDRH_LHXS_MASK;
+>> +    lhxw =3D (msicfgaddrH >> APLIC_xMSICFGADDRH_LHXW_SHIFT) &
+>> +            APLIC_xMSICFGADDRH_LHXW_MASK;
+>> +    hhxs =3D (msicfgaddrH >> APLIC_xMSICFGADDRH_HHXS_SHIFT) &
+>> +            APLIC_xMSICFGADDRH_HHXS_MASK;
+>> +    hhxw =3D (msicfgaddrH >> APLIC_xMSICFGADDRH_HHXW_SHIFT) &
+>> +            APLIC_xMSICFGADDRH_HHXW_MASK;
+>> +
+>> +    group_idx =3D hart_idx >> lhxw;
+>> +    hart_idx &=3D APLIC_xMSICFGADDR_PPN_LHX_MASK(lhxw);
+>> +
+>> +    addr =3D msicfgaddr;
+>> +    addr |=3D ((uint64_t)(msicfgaddrH & APLIC_xMSICFGADDRH_BAPPN_MASK))=
+ << 32;
+>> +    addr |=3D ((uint64_t)(group_idx & APLIC_xMSICFGADDR_PPN_HHX_MASK(hh=
+xw))) <<
+>> +             APLIC_xMSICFGADDR_PPN_HHX_SHIFT(hhxs);
+>> +    addr |=3D ((uint64_t)(hart_idx & APLIC_xMSICFGADDR_PPN_LHX_MASK(lhx=
+w))) <<
+>> +             APLIC_xMSICFGADDR_PPN_LHX_SHIFT(lhxs);
+>> +    addr |=3D (uint64_t)(guest_idx & APLIC_xMSICFGADDR_PPN_HART(lhxs));
+>> +    addr <<=3D APLIC_xMSICFGADDR_PPN_SHIFT;
+>> +
+>> +    address_space_stl_le(&address_space_memory, addr,
+>> +                         eiid, MEMTXATTRS_UNSPECIFIED, &result);
+>> +    if (result !=3D MEMTX_OK) {
+>> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: MSI write failed for "
+>> +                      "hart_index=3D%d guest_index=3D%d eiid=3D%d\n",
+>> +                      __func__, hart_idx, guest_idx, eiid);
+>> +    }
+>> +}
+>> +
+>> +static void riscv_aplic_msi_irq_update(RISCVAPLICState *aplic, uint32_t=
+ irq)
+>> +{
+>> +    uint32_t hart_idx, guest_idx, eiid;
+>> +
+>> +    if (!aplic->msimode || (aplic->num_irqs <=3D irq) ||
+>> +        !(aplic->domaincfg & APLIC_DOMAINCFG_IE)) {
+>> +        return;
+>> +    }
+>> +
+>> +    if ((aplic->state[irq] & APLIC_ISTATE_ENPEND) !=3D APLIC_ISTATE_ENP=
+END) {
+>> +        return;
+>> +    }
+>> +
+>> +    riscv_aplic_set_pending_raw(aplic, irq, false);
+>> +
+>> +    hart_idx =3D aplic->target[irq] >> APLIC_TARGET_HART_IDX_SHIFT;
+>> +    hart_idx &=3D APLIC_TARGET_HART_IDX_MASK;
 >
-> I plan to look into whether I can reproduce some case where the 
-> assertion doesn’t hold (thinking of migration with a block device in 
-> an iothread), and then see what I learn from this. :/
+>
+> Hi Anup,
+>
+> I'm wondering does the hart_idx here has to use Machine-level hart index
+> for Supervisor-level interrupt domain?
+>
+> According to AIA spec for supervisor-level domin (Section 4.8.1):
+>   For a supervisor-level domain, "if" MSI target addresses are determined=
+ by the parent domain=E2=80=99s
+>   smsiaddrcfg and smsiaddrcfgh registers, then to construct the address f=
+or an outgoing MSI for
+>   interrupt source i, the Hart Index from register target[i] must first b=
+e converted into the index
+>   that the machine-level parent domain uses for the same hart. (Typically=
+, these numbers are the
+>   same, but they may not be.) The address for the MSI is then computed us=
+ing this "machine-level"
+>   hart index, the parent domain=E2=80=99s smsiaddrcfg and smsiaddrcfgh, a=
+nd the Guest Index value from
+>   target[i].
+>
+> The description of converting target[i] hart Index to machine-level hart =
+index in the spec
+> is quite vague to me.
 
-OK, so.  I nearly couldn’t reproduce a case where the assertion doesn’t 
-hold, and I was also very close to believing that your condition is 
-entirely correct; on migration, we generally inactivate block nodes 
-(BlockDriverStates) only after they have been detached from their 
-respective block devices, and so they’re in the main context.  On the 
-destination, it’s the other way around: We invalidate their caches 
-before attaching them to the respective block devices, so they are again 
-in the main context.
+The "Section 4.3 Hart index numbers" states the following:
 
-There are exceptions where we call bdrv_invalidate_cache() on error 
-paths and so on, basically just to be sure, while the guest devices are 
-connected to block nodes.  But in that case, we have never inactivated 
-them (or have already re-activated them), and that’s where the 
-`bdrv_is_active()` condition comes in.
+    The index number a domain associates with a hart may or may not
+have any relationship
+    to the unique hart identifier (=E2=80=9Chart ID=E2=80=9D) that the RISC=
+-V
+Privileged Architecture assigns to
+    the hart.
 
-But then I wanted to find out what happens when you don’t have a guest 
-device, but an NBD export on top of the block node, and this happens:
+For APLIC direct mode, if N harts are associated with a given domain
+then APLIC associates
+hart index from 0 to N-1 which are basically APLIC IDC numbers. In
+this case, the APLIC
+hart index is not related to "machine-level" hart index so software
+has to discover it from the
+"interrupt-extended" DT property (or similar for ACPI).
 
-$ ./qemu-system-x86_64 \
-     -incoming defer \
-     -qmp stdio \
-     -object iothread,id=iothr0 \
-     -blockdev null-co,node-name=node0 \
-     <<EOF
-{"execute": "qmp_capabilities"}
-{"execute":"nbd-server-start","arguments":{"addr":{"type":"unix","data":{"path":"/tmp/nbd.sock"}}}}
-{"execute":"block-export-add","arguments":{"type":"nbd","id":"exp0","iothread":"iothr0","node-name":"node0","name":"exp0"}}
-EOF
-{"QMP": {"version": {"qemu": {"micro": 91, "minor": 2, "major": 6}, 
-"package": "v6.2.0-rc1-47-g043ab68869"}, "capabilities": ["oob"]}}
-{"return": {}}
-{"return": {}}
-qemu-system-x86_64: ../block.c:6612: bdrv_co_invalidate_cache: Assertion 
-`qemu_in_main_thread() || bdrv_is_active(bs)' failed.
-[1]    155729 abort (core dumped)  ./qemu-system-x86_64 -incoming defer 
--qmp stdio -object iothread,id=iothr0
+For APLIC msi mode, the APLIC can basically target any HART using informati=
+on in
+[m|s]msiaddrcfg registers and interrupt target registers. In this
+case, the APLIC hart
+index in the APLIC target register is a combination of IMSIC group
+index (g) and IMSIC
+hart index (h) and the APLIC target register also provides IMSIC guest
+index. In other
+words, the APLIC hart index for msi mode is also not related to the
+"machine-level" hart
+index. The APLIC driver will figure-out/extract the IMSIC group index
+(g), IMSIC hart
+index (h), and IMSIC guest index from target MSI address when Linux
+tries to write
+target MSI address for a particular APLIC interrupt.
 
-The problem here is that blk_exp_add() invalidates the cache after 
-moving the node to the target context.  I think we can solve this 
-particular problem by simply moving its bdrv_invalidate_cache() call 
-before the `if (export->has_iothread)` block above it.
+Regards,
+Anup
 
-But it does mean the search isn’t over and I’ll need to look a bit 
-further still...  At least your assertion condition now makes more sense 
-to me.
-
-Hanna
-
+>
+> Regards,
+> Frank Chang
+>
+>>
+>> +    if (aplic->mmode) {
+>> +        /* M-level APLIC ignores guest_index */
+>> +        guest_idx =3D 0;
+>> +    } else {
+>> +        guest_idx =3D aplic->target[irq] >> APLIC_TARGET_GUEST_IDX_SHIF=
+T;
+>> +        guest_idx &=3D APLIC_TARGET_GUEST_IDX_MASK;
+>> +    }
+>> +    eiid =3D aplic->target[irq] & APLIC_TARGET_EIID_MASK;
+>> +    riscv_aplic_msi_send(aplic, hart_idx, guest_idx, eiid);
+>> +}
+>> +
+>> +static uint32_t riscv_aplic_idc_topi(RISCVAPLICState *aplic, uint32_t i=
+dc)
+>> +{
+>> +    uint32_t best_irq, best_iprio;
+>> +    uint32_t irq, iprio, ihartidx, ithres;
+>> +
+>> +    if (aplic->num_harts <=3D idc) {
+>> +        return 0;
+>> +    }
+>> +
+>> +    ithres =3D aplic->ithreshold[idc];
+>> +    best_irq =3D best_iprio =3D UINT32_MAX;
+>> +    for (irq =3D 1; irq < aplic->num_irqs; irq++) {
+>> +        if ((aplic->state[irq] & APLIC_ISTATE_ENPEND) !=3D
+>> +            APLIC_ISTATE_ENPEND) {
+>> +            continue;
+>> +        }
+>> +
+>> +        ihartidx =3D aplic->target[irq] >> APLIC_TARGET_HART_IDX_SHIFT;
+>> +        ihartidx &=3D APLIC_TARGET_HART_IDX_MASK;
+>> +        if (ihartidx !=3D idc) {
+>> +            continue;
+>> +        }
+>> +
+>> +        iprio =3D aplic->target[irq] & aplic->iprio_mask;
+>> +        if (ithres && iprio >=3D ithres) {
+>> +            continue;
+>> +        }
+>> +
+>> +        if (iprio < best_iprio) {
+>> +            best_irq =3D irq;
+>> +            best_iprio =3D iprio;
+>> +        }
+>> +    }
+>> +
+>> +    if (best_irq < aplic->num_irqs && best_iprio <=3D aplic->iprio_mask=
+) {
+>> +        return (best_irq << APLIC_IDC_TOPI_ID_SHIFT) | best_iprio;
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static void riscv_aplic_idc_update(RISCVAPLICState *aplic, uint32_t idc=
+)
+>> +{
+>> +    uint32_t topi;
+>> +
+>> +    if (aplic->msimode || aplic->num_harts <=3D idc) {
+>> +        return;
+>> +    }
+>> +
+>> +    topi =3D riscv_aplic_idc_topi(aplic, idc);
+>> +    if ((aplic->domaincfg & APLIC_DOMAINCFG_IE) &&
+>> +        aplic->idelivery[idc] &&
+>> +        (aplic->iforce[idc] || topi)) {
+>> +        qemu_irq_raise(aplic->external_irqs[idc]);
+>> +    } else {
+>> +        qemu_irq_lower(aplic->external_irqs[idc]);
+>> +    }
+>> +}
+>> +
+>> +static uint32_t riscv_aplic_idc_claimi(RISCVAPLICState *aplic, uint32_t=
+ idc)
+>> +{
+>> +    uint32_t irq, state, sm, topi =3D riscv_aplic_idc_topi(aplic, idc);
+>> +
+>> +    if (!topi) {
+>> +        aplic->iforce[idc] =3D 0;
+>> +        return 0;
+>> +    }
+>> +
+>> +    irq =3D (topi >> APLIC_IDC_TOPI_ID_SHIFT) & APLIC_IDC_TOPI_ID_MASK;
+>> +    sm =3D aplic->sourcecfg[irq] & APLIC_SOURCECFG_SM_MASK;
+>> +    state =3D aplic->state[irq];
+>> +    riscv_aplic_set_pending_raw(aplic, irq, false);
+>> +    if ((sm =3D=3D APLIC_SOURCECFG_SM_LEVEL_HIGH) &&
+>> +        (state & APLIC_ISTATE_INPUT)) {
+>> +        riscv_aplic_set_pending_raw(aplic, irq, true);
+>> +    } else if ((sm =3D=3D APLIC_SOURCECFG_SM_LEVEL_LOW) &&
+>> +               !(state & APLIC_ISTATE_INPUT)) {
+>> +        riscv_aplic_set_pending_raw(aplic, irq, true);
+>> +    }
+>> +    riscv_aplic_idc_update(aplic, idc);
+>> +
+>> +    return topi;
+>> +}
+>> +
+>> +static void riscv_aplic_request(void *opaque, int irq, int level)
+>> +{
+>> +    bool update =3D false;
+>> +    RISCVAPLICState *aplic =3D opaque;
+>> +    uint32_t sourcecfg, childidx, state, idc;
+>> +
+>> +    assert((0 < irq) && (irq < aplic->num_irqs));
+>> +
+>> +    sourcecfg =3D aplic->sourcecfg[irq];
+>> +    if (sourcecfg & APLIC_SOURCECFG_D) {
+>> +        childidx =3D sourcecfg & APLIC_SOURCECFG_CHILDIDX_MASK;
+>> +        if (childidx < aplic->num_children) {
+>> +            riscv_aplic_request(aplic->children[childidx], irq, level);
+>> +        }
+>> +        return;
+>> +    }
+>> +
+>> +    state =3D aplic->state[irq];
+>> +    switch (sourcecfg & APLIC_SOURCECFG_SM_MASK) {
+>> +    case APLIC_SOURCECFG_SM_EDGE_RISE:
+>> +        if ((level > 0) && !(state & APLIC_ISTATE_INPUT) &&
+>> +            !(state & APLIC_ISTATE_PENDING)) {
+>> +            riscv_aplic_set_pending_raw(aplic, irq, true);
+>> +            update =3D true;
+>> +        }
+>> +        break;
+>> +    case APLIC_SOURCECFG_SM_EDGE_FALL:
+>> +        if ((level <=3D 0) && (state & APLIC_ISTATE_INPUT) &&
+>> +            !(state & APLIC_ISTATE_PENDING)) {
+>> +            riscv_aplic_set_pending_raw(aplic, irq, true);
+>> +            update =3D true;
+>> +        }
+>> +        break;
+>> +    case APLIC_SOURCECFG_SM_LEVEL_HIGH:
+>> +        if ((level > 0) && !(state & APLIC_ISTATE_PENDING)) {
+>> +            riscv_aplic_set_pending_raw(aplic, irq, true);
+>> +            update =3D true;
+>> +        }
+>> +        break;
+>> +    case APLIC_SOURCECFG_SM_LEVEL_LOW:
+>> +        if ((level <=3D 0) && !(state & APLIC_ISTATE_PENDING)) {
+>> +            riscv_aplic_set_pending_raw(aplic, irq, true);
+>> +            update =3D true;
+>> +        }
+>> +        break;
+>> +    default:
+>> +        break;
+>> +    }
+>> +
+>> +    if (level <=3D 0) {
+>> +        aplic->state[irq] &=3D ~APLIC_ISTATE_INPUT;
+>> +    } else {
+>> +        aplic->state[irq] |=3D APLIC_ISTATE_INPUT;
+>> +    }
+>> +
+>> +    if (update) {
+>> +        if (aplic->msimode) {
+>> +            riscv_aplic_msi_irq_update(aplic, irq);
+>> +        } else {
+>> +            idc =3D aplic->target[irq] >> APLIC_TARGET_HART_IDX_SHIFT;
+>> +            idc &=3D APLIC_TARGET_HART_IDX_MASK;
+>> +            riscv_aplic_idc_update(aplic, idc);
+>> +        }
+>> +    }
+>> +}
+>> +
+>> +static uint64_t riscv_aplic_read(void *opaque, hwaddr addr, unsigned si=
+ze)
+>> +{
+>> +    uint32_t irq, word, idc;
+>> +    RISCVAPLICState *aplic =3D opaque;
+>> +
+>> +    /* Reads must be 4 byte words */
+>> +    if ((addr & 0x3) !=3D 0) {
+>> +        goto err;
+>> +    }
+>> +
+>> +    if (addr =3D=3D APLIC_DOMAINCFG) {
+>> +        return APLIC_DOMAINCFG_RDONLY | aplic->domaincfg |
+>> +               (aplic->msimode ? APLIC_DOMAINCFG_DM : 0);
+>> +    } else if ((APLIC_SOURCECFG_BASE <=3D addr) &&
+>> +            (addr < (APLIC_SOURCECFG_BASE + (aplic->num_irqs - 1) * 4))=
+) {
+>> +        irq  =3D ((addr - APLIC_SOURCECFG_BASE) >> 2) + 1;
+>> +        return aplic->sourcecfg[irq];
+>> +    } else if (aplic->mmode && aplic->msimode &&
+>> +               (addr =3D=3D APLIC_MMSICFGADDR)) {
+>> +        return aplic->mmsicfgaddr;
+>> +    } else if (aplic->mmode && aplic->msimode &&
+>> +               (addr =3D=3D APLIC_MMSICFGADDRH)) {
+>> +        return aplic->mmsicfgaddrH;
+>> +    } else if (aplic->mmode && aplic->msimode &&
+>> +               (addr =3D=3D APLIC_SMSICFGADDR)) {
+>> +        /* Registers SMSICFGADDR and SMSICFGADDRH are implemented only =
+if:
+>> +         * (a) the interrupt domain is at machine level
+>> +         * (b) the domain=E2=80=99s harts implement supervisor mode
+>> +         * (c) the domain has one or more child supervisor-level domain=
+s
+>> +         *     that support MSI delivery mode (domaincfg.DM is not read=
+-
+>> +         *     only zero in at least one of the supervisor-level child
+>> +         * domains).
+>> +         */
+>> +        return (aplic->num_children) ? aplic->smsicfgaddr : 0;
+>> +    } else if (aplic->mmode && aplic->msimode &&
+>> +               (addr =3D=3D APLIC_SMSICFGADDRH)) {
+>> +        return (aplic->num_children) ? aplic->smsicfgaddrH : 0;
+>> +    } else if ((APLIC_SETIP_BASE <=3D addr) &&
+>> +            (addr < (APLIC_SETIP_BASE + aplic->bitfield_words * 4))) {
+>> +        word =3D (addr - APLIC_SETIP_BASE) >> 2;
+>> +        return riscv_aplic_read_pending_word(aplic, word);
+>> +    } else if (addr =3D=3D APLIC_SETIPNUM) {
+>> +        return 0;
+>> +    } else if ((APLIC_CLRIP_BASE <=3D addr) &&
+>> +            (addr < (APLIC_CLRIP_BASE + aplic->bitfield_words * 4))) {
+>> +        word =3D (addr - APLIC_CLRIP_BASE) >> 2;
+>> +        return riscv_aplic_read_input_word(aplic, word);
+>> +    } else if (addr =3D=3D APLIC_CLRIPNUM) {
+>> +        return 0;
+>> +    } else if ((APLIC_SETIE_BASE <=3D addr) &&
+>> +            (addr < (APLIC_SETIE_BASE + aplic->bitfield_words * 4))) {
+>> +        word =3D (addr - APLIC_SETIE_BASE) >> 2;
+>> +        return riscv_aplic_read_enabled_word(aplic, word);
+>> +    } else if (addr =3D=3D APLIC_SETIENUM) {
+>> +        return 0;
+>> +    } else if ((APLIC_CLRIE_BASE <=3D addr) &&
+>> +            (addr < (APLIC_CLRIE_BASE + aplic->bitfield_words * 4))) {
+>> +        return 0;
+>> +    } else if (addr =3D=3D APLIC_CLRIENUM) {
+>> +        return 0;
+>> +    } else if (addr =3D=3D APLIC_SETIPNUM_LE) {
+>> +        return 0;
+>> +    } else if (addr =3D=3D APLIC_SETIPNUM_BE) {
+>> +        return 0;
+>> +    } else if (addr =3D=3D APLIC_GENMSI) {
+>> +        return (aplic->msimode) ? aplic->genmsi : 0;
+>> +    } else if ((APLIC_TARGET_BASE <=3D addr) &&
+>> +            (addr < (APLIC_TARGET_BASE + (aplic->num_irqs - 1) * 4))) {
+>> +        irq =3D ((addr - APLIC_TARGET_BASE) >> 2) + 1;
+>> +        return aplic->target[irq];
+>> +    } else if (!aplic->msimode && (APLIC_IDC_BASE <=3D addr) &&
+>> +            (addr < (APLIC_IDC_BASE + aplic->num_harts * APLIC_IDC_SIZE=
+))) {
+>> +        idc =3D (addr - APLIC_IDC_BASE) / APLIC_IDC_SIZE;
+>> +        switch (addr - (APLIC_IDC_BASE + idc * APLIC_IDC_SIZE)) {
+>> +        case APLIC_IDC_IDELIVERY:
+>> +            return aplic->idelivery[idc];
+>> +        case APLIC_IDC_IFORCE:
+>> +            return aplic->iforce[idc];
+>> +        case APLIC_IDC_ITHRESHOLD:
+>> +            return aplic->ithreshold[idc];
+>> +        case APLIC_IDC_TOPI:
+>> +            return riscv_aplic_idc_topi(aplic, idc);
+>> +        case APLIC_IDC_CLAIMI:
+>> +            return riscv_aplic_idc_claimi(aplic, idc);
+>> +        default:
+>> +            goto err;
+>> +        };
+>> +    }
+>> +
+>> +err:
+>> +    qemu_log_mask(LOG_GUEST_ERROR,
+>> +                  "%s: Invalid register read 0x%" HWADDR_PRIx "\n",
+>> +                  __func__, addr);
+>> +    return 0;
+>> +}
+>> +
+>> +static void riscv_aplic_write(void *opaque, hwaddr addr, uint64_t value=
+,
+>> +        unsigned size)
+>> +{
+>> +    RISCVAPLICState *aplic =3D opaque;
+>> +    uint32_t irq, word, idc =3D UINT32_MAX;
+>> +
+>> +    /* Writes must be 4 byte words */
+>> +    if ((addr & 0x3) !=3D 0) {
+>> +        goto err;
+>> +    }
+>> +
+>> +    if (addr =3D=3D APLIC_DOMAINCFG) {
+>> +        /* Only IE bit writeable at the moment */
+>> +        value &=3D APLIC_DOMAINCFG_IE;
+>> +        aplic->domaincfg =3D value;
+>> +    } else if ((APLIC_SOURCECFG_BASE <=3D addr) &&
+>> +            (addr < (APLIC_SOURCECFG_BASE + (aplic->num_irqs - 1) * 4))=
+) {
+>> +        irq  =3D ((addr - APLIC_SOURCECFG_BASE) >> 2) + 1;
+>> +        if (!aplic->num_children && (value & APLIC_SOURCECFG_D)) {
+>> +            value =3D 0;
+>> +        }
+>> +        if (value & APLIC_SOURCECFG_D) {
+>> +            value &=3D (APLIC_SOURCECFG_D | APLIC_SOURCECFG_CHILDIDX_MA=
+SK);
+>> +        } else {
+>> +            value &=3D (APLIC_SOURCECFG_D | APLIC_SOURCECFG_SM_MASK);
+>> +        }
+>> +        aplic->sourcecfg[irq] =3D value;
+>> +        if ((aplic->sourcecfg[irq] & APLIC_SOURCECFG_D) ||
+>> +            (aplic->sourcecfg[irq] =3D=3D 0)) {
+>> +            riscv_aplic_set_pending_raw(aplic, irq, false);
+>> +            riscv_aplic_set_enabled_raw(aplic, irq, false);
+>> +        }
+>> +    } else if (aplic->mmode && aplic->msimode &&
+>> +               (addr =3D=3D APLIC_MMSICFGADDR)) {
+>> +        if (!(aplic->mmsicfgaddrH & APLIC_xMSICFGADDRH_L)) {
+>> +            aplic->mmsicfgaddr =3D value;
+>> +        }
+>> +    } else if (aplic->mmode && aplic->msimode &&
+>> +               (addr =3D=3D APLIC_MMSICFGADDRH)) {
+>> +        if (!(aplic->mmsicfgaddrH & APLIC_xMSICFGADDRH_L)) {
+>> +            aplic->mmsicfgaddrH =3D value & APLIC_xMSICFGADDRH_VALID_MA=
+SK;
+>> +        }
+>> +    } else if (aplic->mmode && aplic->msimode &&
+>> +               (addr =3D=3D APLIC_SMSICFGADDR)) {
+>> +        /* Registers SMSICFGADDR and SMSICFGADDRH are implemented only =
+if:
+>> +         * (a) the interrupt domain is at machine level
+>> +         * (b) the domain=E2=80=99s harts implement supervisor mode
+>> +         * (c) the domain has one or more child supervisor-level domain=
+s
+>> +         *     that support MSI delivery mode (domaincfg.DM is not read=
+-
+>> +         *     only zero in at least one of the supervisor-level child
+>> +         * domains).
+>> +         */
+>> +        if (aplic->num_children &&
+>> +            !(aplic->smsicfgaddrH & APLIC_xMSICFGADDRH_L)) {
+>> +            aplic->smsicfgaddr =3D value;
+>> +        }
+>> +    } else if (aplic->mmode && aplic->msimode &&
+>> +               (addr =3D=3D APLIC_SMSICFGADDRH)) {
+>> +        if (aplic->num_children &&
+>> +            !(aplic->smsicfgaddrH & APLIC_xMSICFGADDRH_L)) {
+>> +            aplic->smsicfgaddrH =3D value & APLIC_xMSICFGADDRH_VALID_MA=
+SK;
+>> +        }
+>> +    } else if ((APLIC_SETIP_BASE <=3D addr) &&
+>> +            (addr < (APLIC_SETIP_BASE + aplic->bitfield_words * 4))) {
+>> +        word =3D (addr - APLIC_SETIP_BASE) >> 2;
+>> +        riscv_aplic_set_pending_word(aplic, word, value, true);
+>> +    } else if (addr =3D=3D APLIC_SETIPNUM) {
+>> +        riscv_aplic_set_pending(aplic, value, true);
+>> +    } else if ((APLIC_CLRIP_BASE <=3D addr) &&
+>> +            (addr < (APLIC_CLRIP_BASE + aplic->bitfield_words * 4))) {
+>> +        word =3D (addr - APLIC_CLRIP_BASE) >> 2;
+>> +        riscv_aplic_set_pending_word(aplic, word, value, false);
+>> +    } else if (addr =3D=3D APLIC_CLRIPNUM) {
+>> +        riscv_aplic_set_pending(aplic, value, false);
+>> +    } else if ((APLIC_SETIE_BASE <=3D addr) &&
+>> +            (addr < (APLIC_SETIE_BASE + aplic->bitfield_words * 4))) {
+>> +        word =3D (addr - APLIC_SETIE_BASE) >> 2;
+>> +        riscv_aplic_set_enabled_word(aplic, word, value, true);
+>> +    } else if (addr =3D=3D APLIC_SETIENUM) {
+>> +        riscv_aplic_set_enabled(aplic, value, true);
+>> +    } else if ((APLIC_CLRIE_BASE <=3D addr) &&
+>> +            (addr < (APLIC_CLRIE_BASE + aplic->bitfield_words * 4))) {
+>> +        word =3D (addr - APLIC_CLRIE_BASE) >> 2;
+>> +        riscv_aplic_set_enabled_word(aplic, word, value, false);
+>> +    } else if (addr =3D=3D APLIC_CLRIENUM) {
+>> +        riscv_aplic_set_enabled(aplic, value, false);
+>> +    } else if (addr =3D=3D APLIC_SETIPNUM_LE) {
+>> +        riscv_aplic_set_pending(aplic, value, true);
+>> +    } else if (addr =3D=3D APLIC_SETIPNUM_BE) {
+>> +        riscv_aplic_set_pending(aplic, bswap32(value), true);
+>> +    } else if (addr =3D=3D APLIC_GENMSI) {
+>> +        if (aplic->msimode) {
+>> +            aplic->genmsi =3D value & ~(APLIC_TARGET_GUEST_IDX_MASK <<
+>> +                                      APLIC_TARGET_GUEST_IDX_SHIFT);
+>> +            riscv_aplic_msi_send(aplic,
+>> +                                 value >> APLIC_TARGET_HART_IDX_SHIFT,
+>> +                                 0,
+>> +                                 value & APLIC_TARGET_EIID_MASK);
+>> +        }
+>> +    } else if ((APLIC_TARGET_BASE <=3D addr) &&
+>> +            (addr < (APLIC_TARGET_BASE + (aplic->num_irqs - 1) * 4))) {
+>> +        irq =3D ((addr - APLIC_TARGET_BASE) >> 2) + 1;
+>> +        if (aplic->msimode) {
+>> +            aplic->target[irq] =3D value;
+>> +        } else {
+>> +            aplic->target[irq] =3D (value & ~APLIC_TARGET_IPRIO_MASK) |
+>> +                                 ((value & aplic->iprio_mask) ?
+>> +                                  (value & aplic->iprio_mask) : 1);
+>> +        }
+>> +    } else if (!aplic->msimode && (APLIC_IDC_BASE <=3D addr) &&
+>> +            (addr < (APLIC_IDC_BASE + aplic->num_harts * APLIC_IDC_SIZE=
+))) {
+>> +        idc =3D (addr - APLIC_IDC_BASE) / APLIC_IDC_SIZE;
+>> +        switch (addr - (APLIC_IDC_BASE + idc * APLIC_IDC_SIZE)) {
+>> +        case APLIC_IDC_IDELIVERY:
+>> +            aplic->idelivery[idc] =3D value & 0x1;
+>> +            break;
+>> +        case APLIC_IDC_IFORCE:
+>> +            aplic->iforce[idc] =3D value & 0x1;
+>> +            break;
+>> +        case APLIC_IDC_ITHRESHOLD:
+>> +            aplic->ithreshold[idc] =3D value & aplic->iprio_mask;
+>> +            break;
+>> +        default:
+>> +            goto err;
+>> +        };
+>> +    } else {
+>> +        goto err;
+>> +    }
+>> +
+>> +    if (aplic->msimode) {
+>> +        for (irq =3D 1; irq < aplic->num_irqs; irq++) {
+>> +            riscv_aplic_msi_irq_update(aplic, irq);
+>> +        }
+>> +    } else {
+>> +        if (idc =3D=3D UINT32_MAX) {
+>> +            for (idc =3D 0; idc < aplic->num_harts; idc++) {
+>> +                riscv_aplic_idc_update(aplic, idc);
+>> +            }
+>> +        } else {
+>> +            riscv_aplic_idc_update(aplic, idc);
+>> +        }
+>> +    }
+>> +
+>> +    return;
+>> +
+>> +err:
+>> +    qemu_log_mask(LOG_GUEST_ERROR,
+>> +                  "%s: Invalid register write 0x%" HWADDR_PRIx "\n",
+>> +                  __func__, addr);
+>> +}
+>> +
+>> +static const MemoryRegionOps riscv_aplic_ops =3D {
+>> +    .read =3D riscv_aplic_read,
+>> +    .write =3D riscv_aplic_write,
+>> +    .endianness =3D DEVICE_LITTLE_ENDIAN,
+>> +    .valid =3D {
+>> +        .min_access_size =3D 4,
+>> +        .max_access_size =3D 4
+>> +    }
+>> +};
+>> +
+>> +static void riscv_aplic_realize(DeviceState *dev, Error **errp)
+>> +{
+>> +    uint32_t i;
+>> +    RISCVAPLICState *aplic =3D RISCV_APLIC(dev);
+>> +
+>> +    aplic->bitfield_words =3D (aplic->num_irqs + 31) >> 5;
+>> +    aplic->sourcecfg =3D g_new0(uint32_t, aplic->num_irqs);
+>> +    aplic->state =3D g_new(uint32_t, aplic->num_irqs);
+>> +    aplic->target =3D g_new0(uint32_t, aplic->num_irqs);
+>> +    if (!aplic->msimode) {
+>> +        for (i =3D 0; i < aplic->num_irqs; i++) {
+>> +            aplic->target[i] =3D 1;
+>> +        }
+>> +    }
+>> +    aplic->idelivery =3D g_new0(uint32_t, aplic->num_harts);
+>> +    aplic->iforce =3D g_new0(uint32_t, aplic->num_harts);
+>> +    aplic->ithreshold =3D g_new0(uint32_t, aplic->num_harts);
+>> +
+>> +    memory_region_init_io(&aplic->mmio, OBJECT(dev), &riscv_aplic_ops, =
+aplic,
+>> +                          TYPE_RISCV_APLIC, aplic->aperture_size);
+>> +    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &aplic->mmio);
+>> +
+>> +    /* Only root APLICs have hardware IRQ lines. All non-root APLICs
+>> +     * have IRQ lines delegated by their parent APLIC.
+>> +     */
+>> +    if (!aplic->parent) {
+>> +        qdev_init_gpio_in(dev, riscv_aplic_request, aplic->num_irqs);
+>> +    }
+>> +
+>> +    /* Create output IRQ lines for non-MSI mode */
+>> +    if (!aplic->msimode) {
+>> +        aplic->external_irqs =3D g_malloc(sizeof(qemu_irq) * aplic->num=
+_harts);
+>> +        qdev_init_gpio_out(dev, aplic->external_irqs, aplic->num_harts)=
+;
+>> +
+>> +        /* Claim the CPU interrupt to be triggered by this APLIC */
+>> +        for (i =3D 0; i < aplic->num_harts; i++) {
+>> +            RISCVCPU *cpu =3D RISCV_CPU(qemu_get_cpu(aplic->hartid_base=
+ + i));
+>> +            if (riscv_cpu_claim_interrupts(cpu,
+>> +                (aplic->mmode) ? MIP_MEIP : MIP_SEIP) < 0) {
+>> +                error_report("%s already claimed",
+>> +                             (aplic->mmode) ? "MEIP" : "SEIP");
+>> +                exit(1);
+>> +            }
+>> +        }
+>> +    }
+>> +
+>> +    msi_nonbroken =3D true;
+>> +}
+>> +
+>> +static Property riscv_aplic_properties[] =3D {
+>> +    DEFINE_PROP_UINT32("aperture-size", RISCVAPLICState, aperture_size,=
+ 0),
+>> +    DEFINE_PROP_UINT32("hartid-base", RISCVAPLICState, hartid_base, 0),
+>> +    DEFINE_PROP_UINT32("num-harts", RISCVAPLICState, num_harts, 0),
+>> +    DEFINE_PROP_UINT32("iprio-mask", RISCVAPLICState, iprio_mask, 0),
+>> +    DEFINE_PROP_UINT32("num-irqs", RISCVAPLICState, num_irqs, 0),
+>> +    DEFINE_PROP_BOOL("msimode", RISCVAPLICState, msimode, 0),
+>> +    DEFINE_PROP_BOOL("mmode", RISCVAPLICState, mmode, 0),
+>> +    DEFINE_PROP_END_OF_LIST(),
+>> +};
+>> +
+>> +static const VMStateDescription vmstate_riscv_aplic =3D {
+>> +    .name =3D "riscv_aplic",
+>> +    .version_id =3D 1,
+>> +    .minimum_version_id =3D 1,
+>> +    .fields =3D (VMStateField[]) {
+>> +            VMSTATE_UINT32(domaincfg, RISCVAPLICState),
+>> +            VMSTATE_UINT32(mmsicfgaddr, RISCVAPLICState),
+>> +            VMSTATE_UINT32(mmsicfgaddrH, RISCVAPLICState),
+>> +            VMSTATE_UINT32(smsicfgaddr, RISCVAPLICState),
+>> +            VMSTATE_UINT32(smsicfgaddrH, RISCVAPLICState),
+>> +            VMSTATE_UINT32(genmsi, RISCVAPLICState),
+>> +            VMSTATE_VARRAY_UINT32(sourcecfg, RISCVAPLICState,
+>> +                                  num_irqs, 0,
+>> +                                  vmstate_info_uint32, uint32_t),
+>> +            VMSTATE_VARRAY_UINT32(state, RISCVAPLICState,
+>> +                                  num_irqs, 0,
+>> +                                  vmstate_info_uint32, uint32_t),
+>> +            VMSTATE_VARRAY_UINT32(target, RISCVAPLICState,
+>> +                                  num_irqs, 0,
+>> +                                  vmstate_info_uint32, uint32_t),
+>> +            VMSTATE_VARRAY_UINT32(idelivery, RISCVAPLICState,
+>> +                                  num_harts, 0,
+>> +                                  vmstate_info_uint32, uint32_t),
+>> +            VMSTATE_VARRAY_UINT32(iforce, RISCVAPLICState,
+>> +                                  num_harts, 0,
+>> +                                  vmstate_info_uint32, uint32_t),
+>> +            VMSTATE_VARRAY_UINT32(ithreshold, RISCVAPLICState,
+>> +                                  num_harts, 0,
+>> +                                  vmstate_info_uint32, uint32_t),
+>> +            VMSTATE_END_OF_LIST()
+>> +        }
+>> +};
+>> +
+>> +static void riscv_aplic_class_init(ObjectClass *klass, void *data)
+>> +{
+>> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
+>> +
+>> +    device_class_set_props(dc, riscv_aplic_properties);
+>> +    dc->realize =3D riscv_aplic_realize;
+>> +    dc->vmsd =3D &vmstate_riscv_aplic;
+>> +}
+>> +
+>> +static const TypeInfo riscv_aplic_info =3D {
+>> +    .name          =3D TYPE_RISCV_APLIC,
+>> +    .parent        =3D TYPE_SYS_BUS_DEVICE,
+>> +    .instance_size =3D sizeof(RISCVAPLICState),
+>> +    .class_init    =3D riscv_aplic_class_init,
+>> +};
+>> +
+>> +static void riscv_aplic_register_types(void)
+>> +{
+>> +    type_register_static(&riscv_aplic_info);
+>> +}
+>> +
+>> +type_init(riscv_aplic_register_types)
+>> +
+>> +/*
+>> + * Add a APLIC device to another APLIC device as child for
+>> + * interrupt delegation.
+>> + */
+>> +void riscv_aplic_add_child(DeviceState *parent, DeviceState *child)
+>> +{
+>> +    RISCVAPLICState *caplic, *paplic;
+>> +
+>> +    assert(parent && child);
+>> +    caplic =3D RISCV_APLIC(child);
+>> +    paplic =3D RISCV_APLIC(parent);
+>> +
+>> +    assert(paplic->num_irqs =3D=3D caplic->num_irqs);
+>> +    assert(paplic->num_children <=3D QEMU_APLIC_MAX_CHILDREN);
+>> +
+>> +    caplic->parent =3D paplic;
+>> +    paplic->children[paplic->num_children] =3D caplic;
+>> +    paplic->num_children++;
+>> +}
+>> +
+>> +/*
+>> + * Create APLIC device.
+>> + */
+>> +DeviceState *riscv_aplic_create(hwaddr addr, hwaddr size,
+>> +    uint32_t hartid_base, uint32_t num_harts, uint32_t num_sources,
+>> +    uint32_t iprio_bits, bool msimode, bool mmode, DeviceState *parent)
+>> +{
+>> +    DeviceState *dev =3D qdev_new(TYPE_RISCV_APLIC);
+>> +    uint32_t i;
+>> +
+>> +    assert(num_harts < APLIC_MAX_IDC);
+>> +    assert((APLIC_IDC_BASE + (num_harts * APLIC_IDC_SIZE)) <=3D size);
+>> +    assert(num_sources < APLIC_MAX_SOURCE);
+>> +    assert(APLIC_MIN_IPRIO_BITS <=3D iprio_bits);
+>> +    assert(iprio_bits <=3D APLIC_MAX_IPRIO_BITS);
+>> +
+>> +    qdev_prop_set_uint32(dev, "aperture-size", size);
+>> +    qdev_prop_set_uint32(dev, "hartid-base", hartid_base);
+>> +    qdev_prop_set_uint32(dev, "num-harts", num_harts);
+>> +    qdev_prop_set_uint32(dev, "iprio-mask", ((1U << iprio_bits) - 1));
+>> +    qdev_prop_set_uint32(dev, "num-irqs", num_sources + 1);
+>> +    qdev_prop_set_bit(dev, "msimode", msimode);
+>> +    qdev_prop_set_bit(dev, "mmode", mmode);
+>> +
+>> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>> +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
+>> +
+>> +    if (parent) {
+>> +        riscv_aplic_add_child(parent, dev);
+>> +    }
+>> +
+>> +    if (!msimode) {
+>> +        for (i =3D 0; i < num_harts; i++) {
+>> +            CPUState *cpu =3D qemu_get_cpu(hartid_base + i);
+>> +
+>> +            qdev_connect_gpio_out_named(dev, NULL, i,
+>> +                                        qdev_get_gpio_in(DEVICE(cpu),
+>> +                                            (mmode) ? IRQ_M_EXT : IRQ_S=
+_EXT));
+>> +        }
+>> +    }
+>> +
+>> +    return dev;
+>> +}
+>> diff --git a/include/hw/intc/riscv_aplic.h b/include/hw/intc/riscv_aplic=
+.h
+>> new file mode 100644
+>> index 0000000000..de8532fbc3
+>> --- /dev/null
+>> +++ b/include/hw/intc/riscv_aplic.h
+>> @@ -0,0 +1,79 @@
+>> +/*
+>> + * RISC-V APLIC (Advanced Platform Level Interrupt Controller) interfac=
+e
+>> + *
+>> + * Copyright (c) 2021 Western Digital Corporation or its affiliates.
+>> + *
+>> + * This program is free software; you can redistribute it and/or modify=
+ it
+>> + * under the terms and conditions of the GNU General Public License,
+>> + * version 2 or later, as published by the Free Software Foundation.
+>> + *
+>> + * This program is distributed in the hope it will be useful, but WITHO=
+UT
+>> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY o=
+r
+>> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public Licens=
+e for
+>> + * more details.
+>> + *
+>> + * You should have received a copy of the GNU General Public License al=
+ong with
+>> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+>> + */
+>> +
+>> +#ifndef HW_RISCV_APLIC_H
+>> +#define HW_RISCV_APLIC_H
+>> +
+>> +#include "hw/sysbus.h"
+>> +#include "qom/object.h"
+>> +
+>> +#define TYPE_RISCV_APLIC "riscv.aplic"
+>> +
+>> +typedef struct RISCVAPLICState RISCVAPLICState;
+>> +DECLARE_INSTANCE_CHECKER(RISCVAPLICState, RISCV_APLIC, TYPE_RISCV_APLIC=
+)
+>> +
+>> +#define APLIC_MIN_SIZE            0x4000
+>> +#define APLIC_SIZE_ALIGN(__x)     (((__x) + (APLIC_MIN_SIZE - 1)) & \
+>> +                                   ~(APLIC_MIN_SIZE - 1))
+>> +#define APLIC_SIZE(__num_harts)   (APLIC_MIN_SIZE + \
+>> +                                   APLIC_SIZE_ALIGN(32 * (__num_harts))=
+)
+>> +
+>> +struct RISCVAPLICState {
+>> +    /*< private >*/
+>> +    SysBusDevice parent_obj;
+>> +    qemu_irq *external_irqs;
+>> +
+>> +    /*< public >*/
+>> +    MemoryRegion mmio;
+>> +    uint32_t bitfield_words;
+>> +    uint32_t domaincfg;
+>> +    uint32_t mmsicfgaddr;
+>> +    uint32_t mmsicfgaddrH;
+>> +    uint32_t smsicfgaddr;
+>> +    uint32_t smsicfgaddrH;
+>> +    uint32_t genmsi;
+>> +    uint32_t *sourcecfg;
+>> +    uint32_t *state;
+>> +    uint32_t *target;
+>> +    uint32_t *idelivery;
+>> +    uint32_t *iforce;
+>> +    uint32_t *ithreshold;
+>> +
+>> +    /* topology */
+>> +#define QEMU_APLIC_MAX_CHILDREN        16
+>> +    struct RISCVAPLICState *parent;
+>> +    struct RISCVAPLICState *children[QEMU_APLIC_MAX_CHILDREN];
+>> +    uint16_t num_children;
+>> +
+>> +    /* config */
+>> +    uint32_t aperture_size;
+>> +    uint32_t hartid_base;
+>> +    uint32_t num_harts;
+>> +    uint32_t iprio_mask;
+>> +    uint32_t num_irqs;
+>> +    bool msimode;
+>> +    bool mmode;
+>> +};
+>> +
+>> +void riscv_aplic_add_child(DeviceState *parent, DeviceState *child);
+>> +
+>> +DeviceState *riscv_aplic_create(hwaddr addr, hwaddr size,
+>> +    uint32_t hartid_base, uint32_t num_harts, uint32_t num_sources,
+>> +    uint32_t iprio_bits, bool msimode, bool mmode, DeviceState *parent)=
+;
+>> +
+>> +#endif
+>> --
+>> 2.25.1
+>>
 
