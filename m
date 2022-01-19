@@ -2,63 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99DF449393F
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 12:08:45 +0100 (CET)
-Received: from localhost ([::1]:47850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6CE8493940
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 12:09:02 +0100 (CET)
+Received: from localhost ([::1]:48512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA8pY-0008QR-9U
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 06:08:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49340)
+	id 1nA8pp-0000Rq-WE
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 06:09:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nA8n8-0006wd-6a
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 06:06:14 -0500
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:41261)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nA8n5-0005qj-W8
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 06:06:13 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.41])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id EE059D8AEBD4;
- Wed, 19 Jan 2022 12:05:57 +0100 (CET)
-Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Wed, 19 Jan
- 2022 12:05:57 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R0034a3c066e-66a6-48f4-8b91-d99d47761973,
- D7DF39B65A0956CFE557F682C3487E629228C0D9) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <423c655a-b87f-9d08-208a-2e73196adfbc@kaod.org>
-Date: Wed, 19 Jan 2022 12:05:52 +0100
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nA8n9-0006wv-C3; Wed, 19 Jan 2022 06:06:15 -0500
+Received: from [2a00:1450:4864:20::334] (port=36816
+ helo=mail-wm1-x334.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nA8n6-0005ry-AN; Wed, 19 Jan 2022 06:06:15 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ i187-20020a1c3bc4000000b0034d2ed1be2aso12189381wma.1; 
+ Wed, 19 Jan 2022 03:06:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=rMyYWQwkFUxYlrBPtd4iKHGVhxP/X8FBqU2tSLs2XqE=;
+ b=Nnea4GcrVqdy0SOHTCuLYOHzrQJclwTZKlsNy9Ty9QP6s3TjweV26yXUPXJg1qORhc
+ jO9LyylBAqWQxWZDzcM5tuKDwXu6GhTF66ubAX6sfCEHONDB2tIwYj81SkHH277MV59+
+ TqAI66au83MKyQhLjuuDg2dyhC9yiojwtMVWb8xOz2Gh3BDGFKVy6xCihHSJ+hB9Oc96
+ 9OUzO04mbJhm+yLWjvCrA5N6B4ocRdmT/VK2oInlUPYHwiEBGxfrYxGXkj/oncS+vIe+
+ 17zks1Veewl9Z3UagPzAgCCZhIDGLtcqJuMZrH4qpm7YiwQsIy1T/QxAnQKVmAlaDCS0
+ ywWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=rMyYWQwkFUxYlrBPtd4iKHGVhxP/X8FBqU2tSLs2XqE=;
+ b=tMx2F20jsMih6NY3uB2aGrJeu0pmet9bXQNXibxV1d3alYg1qmaZfB3tNgHRmEr8Sf
+ i+vz8ocs+Eor7y9O2TcPPZxKbz2Z61B5Uw9CrKVeM+zS+7AzgIaKZokbtwxg3dqolHwo
+ gR+kuDUVvRQe0iZJtSa/KSS+6X0D5DYfzBcvqjctS/kL/8KxOrgyCskUgB5iQs39eQ0t
+ 9mXZ4n3ZyGe+UGAIbPxzL6CoMiCgUdHra1Lh3/qDImFGu3+MqirOMhDjOx8M15Zoc8YE
+ XTmuU8x/4DkJcf4NgKVoGxCNJ2D38ojct1lu7ESVE+nTSAp0NyEwnHW9T0k0QR7uQTfG
+ kl6w==
+X-Gm-Message-State: AOAM530zEO7sDte//4rv8BJpVQXL+bKt3Mg6L5HBRhK4zyapgXwLPEK+
+ WmDNJVk/C+psVcMWTJV038w=
+X-Google-Smtp-Source: ABdhPJzkLIQFiP43fYRTWavCbUpSRavKIBHEXHfzcb3ih80s3VTgmwkN4zizWzv5WX+9gnuSMV1P9g==
+X-Received: by 2002:a05:6000:1866:: with SMTP id
+ d6mr10906236wri.265.1642590367926; 
+ Wed, 19 Jan 2022 03:06:07 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id m17sm4907207wmq.35.2022.01.19.03.06.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Jan 2022 03:06:07 -0800 (PST)
+Message-ID: <b40d10a8-c973-41e7-931f-fd6db76e8c9c@redhat.com>
+Date: Wed, 19 Jan 2022 12:06:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH qemu] spapr: Force 32bit when resetting a core
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v3 05/16] block/mirror.c: use of job helpers in drivers to
+ avoid TOC/TOU
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, Alexey Kardashevskiy
- <aik@ozlabs.ru>
-References: <20220107072423.2278113-1-aik@ozlabs.ru>
- <CAFEAcA9JS9SfN3LmGfd8T_icCUx8tJXC=tKDE6j1i1GQE2c-mg@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <CAFEAcA9JS9SfN3LmGfd8T_icCUx8tJXC=tKDE6j1i1GQE2c-mg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20220105140208.365608-1-eesposit@redhat.com>
+ <20220105140208.365608-6-eesposit@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220105140208.365608-6-eesposit@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: c481db28-2687-4a31-b728-0a5e8c3af1bb
-X-Ovh-Tracer-Id: 17335762342024612713
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudehgddvgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,51 +94,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
- Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/16/22 17:45, Peter Maydell wrote:
-> On Fri, 7 Jan 2022 at 07:29, Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
->>
->> "PowerPC Processor binding to IEEE 1275" says in
->> "8.2.1. Initial Register Values" that the initial state is defined as
->> 32bit so do it for both SLOF and VOF.
->>
->> This should not cause behavioral change as SLOF switches to 64bit very
->> early anyway. As nothing enforces LE anywhere, this drops it for VOF.
->>
->> The goal is to make VOF work with TCG as otherwise it barfs with
->> qemu: fatal: TCG hflags mismatch (current:0x6c000004 rebuilt:0x6c000000)
+On 1/5/22 15:01, Emanuele Giuseppe Esposito wrote:
 > 
-> If you get this assert it means that something is changing
-> the CPU state and not calling the function to recalculate
-> the hflags (which are basically caching part of the CPU state).
-> So I don't know whether this patch is correct or not in updating
-> MSR bits, but in any case I think it is only masking the
-> missing-hflags-update that is causing the assertion...
+> +    WITH_JOB_LOCK_GUARD() {
+> +        abort = job->ret < 0;
+> +    }
+> +
+>      if (s->prepared) {
+>          return 0;
+>      }
 
+At this point I think job->ret is stable and can be accessed without 
+guard.  The question however is what serializes calls to job_prepare. 
+Is it the BQL?  Can we say that job->ret is only written under BQL, just 
+like job->aio_context.
 
-yes. Currently, spapr_vof_reset() is called from the pseries
-machine reset handler and modifies brutally the MSR without
-calling hreg_compute_hflags()to update the hflags. Hence
-the warning.
+> @@ -1161,8 +1165,10 @@ static void mirror_complete(Job *job, Error **errp)
+>      s->should_complete = true;
+>  
+>      /* If the job is paused, it will be re-entered when it is resumed */
+> -    if (!job->paused) {
+> -        job_enter(job);
+> +    WITH_JOB_LOCK_GUARD() {
+> +        if (!job->paused) {
+> +            job_enter_cond_locked(job, NULL);
+> +        }
+>      }
 
-The proposal moves the MSR update under the pseries CPU reset
-handler: spapr_reset_vcpu() where it should be. spapr_reset_vcpu()
-also updates the LPCR register and calls hreg_compute_hflags()
-when done.
+I don't want to open a can of worms, but does it ever make sense to call 
+job_enter while the job is paused?  Should this condition be moved to 
+job_enter_cond_locked?
 
-The question we all had was why it was set to 64bit initially
-by commit 8b9f2118ca40 which seems to be in contradiction with
-the PAPR specs saying the CPUs should start in 32bit mode.
-It is not clear but I didn't see any regression on pseries or
-on the macbook machine using 970 CPUs. I think we are fine.
-
-
-Thanks,
-
-C.
+Paolo
 
