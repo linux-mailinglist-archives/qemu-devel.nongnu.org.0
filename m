@@ -2,99 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B286493B71
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 14:50:54 +0100 (CET)
-Received: from localhost ([::1]:58778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 496FC493B7D
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 14:55:37 +0100 (CET)
+Received: from localhost ([::1]:41774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nABMT-0005TI-2Z
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 08:50:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49854)
+	id 1nABR1-0004aF-SU
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 08:55:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nAAV4-0006Zk-Ah; Wed, 19 Jan 2022 07:55:57 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:7946)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nAAY1-00088p-MO
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 07:58:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60910)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nAAUe-0000eV-8V; Wed, 19 Jan 2022 07:55:18 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20JBT5fk006202; 
- Wed, 19 Jan 2022 12:54:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=N8YlwDDWY12lnu2XZ5Wmyo8R8WYPcZ3jdYFowkRG+N4=;
- b=B0KsifwlaqZl3WEXz0OLcsc70fuZuBeczC57wu0zYwP1aP6ox52pSrhESRjxzHQppLhH
- GUXqo1Kt/aPXIvom0epdOBr58lXoX6K9FOydsJ7m9s5jAc9m82HkXFp4d0Hf9vTTnGfv
- 10zWy1I8vuo0F89X4JG+OAlz0SkgPm2bo0wBL4wVImPO2twyq+tKyABi9f9PMyLPqGVy
- B5uXUb8T/vfsdF5lDZgASwsv8VRbvXMxFtMNFDMArRLyqYlsUmJSNT4LIXzKgMCTFm4a
- MKhaKZ3BtXuKHY71fsDTcBOWJcEoxeXo4bi7JzfLzMm3PgAN48Ga21XAroiOfwmWTy87 rA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dpht2hksn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Jan 2022 12:54:47 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20JCb1FU009752;
- Wed, 19 Jan 2022 12:54:46 GMT
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dpht2hksb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Jan 2022 12:54:46 +0000
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20JCr7kW018547;
- Wed, 19 Jan 2022 12:54:45 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma03wdc.us.ibm.com with ESMTP id 3dknwafcvy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Jan 2022 12:54:45 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20JCsi4L30147056
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 19 Jan 2022 12:54:44 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 033567805E;
- Wed, 19 Jan 2022 12:54:44 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 49A8178064;
- Wed, 19 Jan 2022 12:54:43 +0000 (GMT)
-Received: from localhost (unknown [9.211.99.176])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Wed, 19 Jan 2022 12:54:42 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v2 13/14] target/ppc: 405: Program exception cleanup
-In-Reply-To: <YeesfOoE9OYXBgUx@yekko>
-References: <20220118184448.852996-1-farosas@linux.ibm.com>
- <20220118184448.852996-14-farosas@linux.ibm.com> <YeesfOoE9OYXBgUx@yekko>
-Date: Wed, 19 Jan 2022 09:54:41 -0300
-Message-ID: <87fspjx4vi.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nAAXw-0001Fi-PD
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 07:58:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642597117;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tUI7+qPhqQyNxqavdKZ17Zbe+d8gxY/blZDChfbjuaw=;
+ b=MP1jLstOES+SWMnYnseH4VDYNYb5zsBrWlHTc6AL8QBmktsfDyDhhOXa2lbIzo4Sb4Mw7r
+ uIzkr1nGvoJUrDW9/N+5eB2AIxvl8LX4vsjlwjF2rbA2mqiYSGScV1tMs/9m9VIci23fKT
+ 3m+TU7lTDTzwXsWEVFSKIukVL5Nd7o8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-327-KUHOJ8GwPkWHoGMUOMDhRA-1; Wed, 19 Jan 2022 07:58:34 -0500
+X-MC-Unique: KUHOJ8GwPkWHoGMUOMDhRA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12EFC100C663;
+ Wed, 19 Jan 2022 12:58:33 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-16.ams2.redhat.com
+ [10.36.112.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DF0D52378E;
+ Wed, 19 Jan 2022 12:58:25 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 68AE9113865F; Wed, 19 Jan 2022 13:58:24 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH 1/3] qsd: Add pre-init argument parsing pass
+References: <20211222114153.67721-1-hreitz@redhat.com>
+ <20211222114153.67721-2-hreitz@redhat.com>
+Date: Wed, 19 Jan 2022 13:58:24 +0100
+In-Reply-To: <20211222114153.67721-2-hreitz@redhat.com> (Hanna Reitz's message
+ of "Wed, 22 Dec 2021 12:41:51 +0100")
+Message-ID: <87zgnrubkf.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: sEIYnfrOCtc_qUyra_6RO4mRY3XpEvcb
-X-Proofpoint-ORIG-GUID: HL8iNFCdaJhIQFITaTQVqozt_XQvS0s5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-19_07,2022-01-19_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- mlxlogscore=923 lowpriorityscore=0 suspectscore=0 adultscore=0
- clxscore=1015 phishscore=0 spamscore=0 mlxscore=0 impostorscore=0
- bulkscore=0 priorityscore=1501 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2110150000 definitions=main-2201190072
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,23 +81,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: clg@kaod.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-David Gibson <david@gibson.dropbear.id.au> writes:
+Hanna Reitz <hreitz@redhat.com> writes:
 
-> On Tue, Jan 18, 2022 at 03:44:47PM -0300, Fabiano Rosas wrote:
->> The 405 Program Interrupt does not set SRR1 with any diagnostic bits,
->> just a clean copy of the MSR.
->> 
->> We're using the BookE Exception Syndrome Register which is different
->> from the 405.
+> We want to add a --daemonize argument to QSD's command line.
+
+Why?
+
+>                                                               This will
+> require forking the process before we do any complex initialization
+> steps, like setting up the block layer or QMP.  Therefore, we must scan
+> the command line for it long before our current process_options() call.
+
+Can you explain in a bit more detail why early forking is required?
+
+I have a strong dislike for parsing more than once...
+
+> Instead of adding custom new code to do so, just reuse process_options()
+> and give it a @pre_init_pass argument to distinguish the two passes.  I
+> believe there are some other switches but --daemonize that deserve
+> parsing in the first pass:
 >
-> Hrm.  We really do want to set the 40x ESR bits here, though.
+> - --help and --version are supposed to only print some text and then
+>   immediately exit (so any initialization we do would be for naught).
+>   This changes behavior, because now "--blockdev inv-drv --help" will
+>   print a help text instead of complaining about the --blockdev
+>   argument.
+>   Note that this is similar in behavior to other tools, though: "--help"
+>   is generally immediately acted upon when finding it in the argument
+>   list, potentially before other arguments (even ones before it) are
+>   acted on.  For example, "ls /does-not-exist --help" prints a help text
+>   and does not complain about ENOENT.
+>
+> - --pidfile does not need initialization, and is already exempted from
+>   the sequential order that process_options() claims to strictly follow
+>   (the PID file is only created after all arguments are processed, not
+>   at the time the --pidfile argument appears), so it makes sense to
+>   include it in the same category as --daemonize.
+>
+> - Invalid arguments should always be reported as soon as possible.  (The
+>   same caveat with --help applies: That means that "--blockdev inv-drv
+>   --inv-arg" will now complain about --inv-arg, not inv-drv.)
+>
+> Note that we could decide to check only for --daemonize in the first
+> pass, and defer --help, --version, and checking for invalid arguments to
+> the second one, thus largely keeping our current behavior.  However,
+> this would break "--help --daemonize": The child would print the help
+> text to stdout, which is redirected to /dev/null, and so the text would
+> disappear.  We would need to have the text be printed to stderr instead,
+> and this would then make the parent process exit with EXIT_FAILURE,
+> which is probably not what we want for --help.
+>
+> This patch does make some references to --daemonize without having
+> implemented it yet, but that will happen in the next patch.
+>
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 
-Well I wrote the code and nothing changed so I dropped it. Not sure if
-we are even raising these properly in the translation code. I'll take
-another look.
 
