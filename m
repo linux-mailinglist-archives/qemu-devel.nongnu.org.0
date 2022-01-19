@@ -2,102 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 558F3493DF9
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 17:08:06 +0100 (CET)
-Received: from localhost ([::1]:51562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A776493DC8
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 16:57:14 +0100 (CET)
+Received: from localhost ([::1]:38836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nADVE-0005JE-CW
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 11:08:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35646)
+	id 1nADKj-00064l-0K
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 10:57:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frederic@fr.ibm.com>)
- id 1nACcw-0008Os-LY; Wed, 19 Jan 2022 10:12:00 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:9954
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frederic@fr.ibm.com>)
- id 1nACcb-0004su-Qt; Wed, 19 Jan 2022 10:11:40 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20JDXV9D014715; 
- Wed, 19 Jan 2022 15:11:13 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3dpkmsjgpa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Jan 2022 15:11:13 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20JEoq3H014159;
- Wed, 19 Jan 2022 15:11:12 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3dpkmsjgnk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Jan 2022 15:11:12 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20JF95G6026430;
- Wed, 19 Jan 2022 15:11:10 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma03fra.de.ibm.com with ESMTP id 3dknwanqju-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Jan 2022 15:11:10 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20JFB82S42402066
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 19 Jan 2022 15:11:08 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 68FAB52059;
- Wed, 19 Jan 2022 15:11:08 +0000 (GMT)
-Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 188655204E;
- Wed, 19 Jan 2022 15:11:08 +0000 (GMT)
-Received: from kin.tlslab.ibm.com (kin.tlslab.ibm.com [9.101.18.11])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id D5F362200E5;
- Wed, 19 Jan 2022 16:11:07 +0100 (CET)
-Received: by kin.tlslab.ibm.com (Postfix, from userid 1000)
- id BAE122C40F51; Wed, 19 Jan 2022 16:11:07 +0100 (CET)
-Date: Wed, 19 Jan 2022 16:10:55 +0100
-Message-ID: <20220119161055.GJ2065267@kin.tlslab.ibm.com>
-From: =?UTF-8?B?RnLDqWTDqXJpYw==?= Bonnard <frediz@debian.org>
-To: =?UTF-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH qemu] spapr: Force 32bit when resetting a core
-In-Reply-To: <aa2c9a5c-6832-f5f6-1af3-6a306ea90d4f@kaod.org>
-References: <20220107072423.2278113-1-aik@ozlabs.ru>
- <20220107125747.7ddfd3a0@bahia> <Ydgvt0VwFUP0MD5h@yekko>
- <20220107143910.4443af02@bahia>
- <4bad4da5-44b6-717c-7770-609ddd5256f0@ozlabs.ru>
- <989489c1-33f4-698c-01de-70f6f27cb51d@kaod.org>
- <89f6b051-2d7d-02cf-6de2-b1065bb5696b@ilande.co.uk>
- <8f70fc45-1f2f-ce23-f95e-cb4f8ac53ab9@kaod.org>
- <e5c47ed6-f197-548d-e55c-cb07a59d019d@ilande.co.uk>
- <aa2c9a5c-6832-f5f6-1af3-6a306ea90d4f@kaod.org>
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1nACqw-0005ds-Ut
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 10:26:26 -0500
+Received: from [2607:f8b0:4864:20::1033] (port=52100
+ helo=mail-pj1-x1033.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1nACqu-0000Em-OG
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 10:26:26 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id o3so2780175pjs.1
+ for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 07:26:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Uk1vw4qpYEeAcQkrOtxT0ev0mAQDmaTQb0R2kgh/lBQ=;
+ b=C+vrShbd7chVSl6CHkVQMR8ZF/zkfwMOdSfbsxexelT71JtZcrNN/SQf0J8jGbCqKC
+ 6cPIPzhdP6/cbracx/UpQxNzvYgU6M4StzthB0ouO4rZIiDG6Fbvt8oIMAdjkrbijLFl
+ gV152PuyZDNfBeyvoa6xjjUIfdx8puODcK+UDSE9cczS0fLRcruqsRJKC6wLroIuAHIC
+ fJFMsYifrGfC9fes47lcEpxld9aEoyIoNTpS6zWXIkors7gwgz5LRFzKgij389/BdGuq
+ cKXfcrMcDNoeNNkx7sqp04Xs+XNk0GtqhSlkqtCbaBJYTS43jAYpvTpxFEJbmh1qJmFY
+ 9IJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Uk1vw4qpYEeAcQkrOtxT0ev0mAQDmaTQb0R2kgh/lBQ=;
+ b=6HH9WpDdkfrnnKtWPBOlEfwtK1HtbwrJ0k99WmR664qVv7aYcy2wquTlO3gKho0Kna
+ iUBfT8WSRIbs86w+Pr0QPPA+TrsntweoShQY8XeYwcVJM9vpQ+P9yMCeB0ibHlp3S96Q
+ NstOzfFEaIcP7T59HBG9t+5N5WuuT/JuOA2AwEOHd6KMu+TobDKwRn6sJAPbWORak5f8
+ G9B0cS6Khoqb7JMV2ixgFDh3uykMFfFKZWalpMrXMcghHlavuqruGjq7XbjWF/3ACZs9
+ h2ZIFTQxfLJEsVWjTXuCXYA0SFD5UwG/KcI2lc7gYcT9xjIJwgjqNWpHasHkwWnTNs80
+ YkqQ==
+X-Gm-Message-State: AOAM532nxsNWtIjs1pEvGRWffYIJuVa8UWxJauXC8QRECwdrtkjuSDDP
+ U6hw7z9tV1iVzpXojpzR3/WwLA==
+X-Google-Smtp-Source: ABdhPJzwhjLWjPgQiEY6IjOwrtgfHfjeHJNSyidWD3qzozZuZfMVGwzEZcnBSrLOSyPoBpmdAabfgw==
+X-Received: by 2002:a17:902:aa4b:b0:14a:cff4:19ec with SMTP id
+ c11-20020a170902aa4b00b0014acff419ecmr10126995plr.60.1642605982657; 
+ Wed, 19 Jan 2022 07:26:22 -0800 (PST)
+Received: from localhost.localdomain ([122.179.40.245])
+ by smtp.gmail.com with ESMTPSA id 187sm26791pfv.157.2022.01.19.07.26.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Jan 2022 07:26:21 -0800 (PST)
+From: Anup Patel <anup@brainfault.org>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>
+Subject: [PATCH v8 00/23] QEMU RISC-V AIA support
+Date: Wed, 19 Jan 2022 20:55:51 +0530
+Message-Id: <20220119152614.27548-1-anup@brainfault.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="M3J6aqtKSQnaGEV1";
- micalg="pgp-sha512"; protocol="application/pgp-signature"
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: QgiYBCA3zvt2BQv9f0XDbDDkcjTpF9L_
-X-Proofpoint-ORIG-GUID: L8Z062nQXb6Ouzxoa4vcojYJGE7F4A7m
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-19_08,2022-01-19_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- priorityscore=1501 malwarescore=0 lowpriorityscore=0 bulkscore=0
- mlxlogscore=999 mlxscore=0 suspectscore=0 clxscore=1011 spamscore=0
- adultscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201190086
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=frederic@fr.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=anup@brainfault.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 19 Jan 2022 10:17:30 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,65 +88,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Anup Patel <anup@brainfault.org>, Bin Meng <bmeng.cn@gmail.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Atish Patra <atishp@atishpatra.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Anup Patel <anup.patel@wdc.com>
 
---M3J6aqtKSQnaGEV1
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: base64
+The advanced interrupt architecture (AIA) extends the per-HART local
+interrupt support. Along with this, it also adds IMSIC (MSI contrllor)
+and Advanced PLIC (wired interrupt controller).
 
-SGksCkkgbWFpbmx5IGZvY3VzIG9uICdwcGM2NGVsJyBvbiB3aGljaCBEZWJpYW4gMTEgaW5zdGFs
-bHMgd2VsbC4KSSdtIHByZXR0eSBzdXJlIEkndmUgbm90IHRyaWVkIERlYmlhbiAxMSBvbiAncHBj
-NjQnIChpLmUuIGJlKSB3aXRoIHFlbXUuCkV2ZW4gbGVzcyBvbiAncG93ZXJwYycgKGkuZS4gMzJi
-KS4KTm93IEkga25vdyB0aGF0IHBvd2VycGMgaGFzIGEgZGlmZmVyZW50IGJvb3Rsb2FkZXIgaW5z
-dGFsbGF0aW9uIHByb2Nlc3MKY29tcGFyZWQgdG8gcHBjNjQqIGluIERlYmlhbiwgYnV0IGl0J3Mg
-Y29udmVyZ2luZyByZWNlbnRseSBhdCB0aGUgRGViaWFuCmluc3RhbGxlciBsZXZlbC4KCkNvdWxk
-IHlvdSBndXlzIHNlbmQgZGV0YWlscyB0byBkZWJpYW4tcG93ZXJwY0BsaXN0cy5kZWJpYW4ub3Jn
-IHNvIHRoYXQKbWUgb3Igb3RoZXJzIChtb3JlICdwb3dlcnBjJyBhbmQgJ3BwYzY0JyBkZXYvdXNl
-cnMpIGNhbiBoYXZlIGEgbG9vayA/CgpGLgoKCk9uIFR1ZSwgMTggSmFuIDIwMjIgMTA6MTI6NDYg
-KzAxMDAgQ8OpZHJpYyBMZSBHb2F0ZXIgPGNsZ0BrYW9kLm9yZz4gd3JvdGU6Cj4gWyBBZGRpbmcg
-RnJlZCBdCj4gCj4gT24gMS8xOC8yMiAwOTozMCwgTWFyayBDYXZlLUF5bGFuZCB3cm90ZToKPiA+
-IE9uIDE3LzAxLzIwMjIgMTQ6NTIsIEPDqWRyaWMgTGUgR29hdGVyIHdyb3RlOgo+ID4gCj4gPj4g
-SW5pdGlhbGx5LCBJIGluc3RhbGxlZCBhIGRlYmlhbjExIHBwYzY0IG9uIGEgUUVNVSBtYWM5OS85
-NzAgbWFjaGluZS4KPiA+PiBTb21ldGhpbmcgd2VudCB3cm9uZyB3aXRoIHRoZSBib290bG9hZGVy
-IGF0IGluc3RhbGxhdGlvbiBhbmQgSSB3YXMKPiA+PiBzdHVjayB3aXRoIG1lbW9yeSBib290LiBJ
-IGRpZG4ndCBtYW5hZ2UgdG8gcmVzdG9yZSBhIGRlY2VudCBib290Cj4gPj4gc2V0dXAgZXZlbiBh
-ZnRlciB0aGF0Lgo+ID4gCj4gPiBJbnRlcmVzdGluZy4gSSBoYWQgYSBzaW1pbGFyIGlzc3VlIHVz
-aW5nIHRoZSBkZWJpYW4gcG9ydHMgaW1hZ2VzIG9uIG1hYzk5L3BwYzMyOiBldmVyeXRoaW5nIHdl
-bnQgd2VsbCBhbGwgdXAgdW50aWwgdGhlIGJvb3Rsb2FkZXIgaW5zdGFsbGF0aW9uIHdoaWNoIGZh
-aWxlZC4gV2hlbiBJIGxvb2tlZCBhdCB0aGUgaW5zdGFsbGVyIGxvZ3MgSUlSQyB0aGVyZSB3YXMg
-YSBrZXJuZWwgcGFuaWMgc29tZXdoZXJlIGluIHRoZSBoZnMgbW9kdWxlIHdoaWNoIEkgZmlndXJl
-ZCBpcyBsaWtlbHkgYW4gZW11bGF0aW9uIGJ1ZyBzb21ld2hlcmUuCj4gCj4gSXMgdGhhdCBhIGtu
-b3duIGlzc3VlID8gSSBndWVzcyB0aGVzZSBpbnN0YWxsIGNvbmZpZ3MgYXJlIG5vdCBvZnRlbgo+
-IHRlc3RlZC4KPiAKPiBUaGFua3MsCj4gCj4gQy4KPiAKPiAK
+The latest AIA draft specification can be found here:
+https://github.com/riscv/riscv-aia/releases/download/0.2-draft.28/riscv-interrupts-028.pdf
 
---M3J6aqtKSQnaGEV1
-Content-Type: application/pgp-signature; name="signature.asc"
+This series adds RISC-V AIA support in QEMU which includes emulating all
+AIA local CSRs, APLIC, and IMSIC. Only AIA local interrupt filtering is
+not implemented because we don't have any local interrupt greater than 12.
 
------BEGIN PGP SIGNATURE-----
+To enable AIA in QEMU, use one of the following:
+1) Only AIA local interrupt CSRs: Pass "x-aia=true" as CPU paramenter
+   in the QEMU command-line
+2) Only APLIC for virt machine: Pass "aia=aplic" as machine parameter
+   in the QEMU command-line
+3) Both APLIC and IMSIC for virt machine: Pass "aia=aplic-imsic" as
+   machine parameter in the QEMU command-line
+4) Both APLIC and IMSIC with 2 guest files for virt machine: Pass
+   "aia=aplic-imsic,aia-guests=2" as machine parameter in the QEMU
+   command-line
 
-iQIzBAABCgAdFiEEUcNLaNDnm9KixdycT/iCOjpV/RkFAmHoKf8ACgkQT/iCOjpV
-/RnyOg//eIRyFczHpPvvZ9bhaFl1vYzVRa9NRJ7014uu5hbL5mYMpPSHuJwe2wS6
-v2Q87W/96y24fEI2lc5L22vCQsCxdkpz1FeUIixYrc7/KQZxW430O7GrFVAh2Pqd
-xRWdFECZNNWCL180/SNEnLmzgm8RzqILOJMywrrBWEhpwK2tzdxAT1MjIsG7pG/U
-qOik16mSa2/GPhWzQMwp/OxxHXe658Bs0daPieoQu3FmAh8QfqFh5w2caBaCyprG
-wboQ0MfG+DFFAdfSBYLilcqbec8aAUcMIazKWhNiq8ySx8EebyBcxbLMRq6WaHCe
-OzWYpl80AqPe7YtUg5nKHcjkwUJMxy6R8SMt8oyu2aFH1RpGe4B28pdR4sKOYByu
-OKcF4vEMeuMyKuO8hcsglibjXf85n1mCWhD9yRgHMhMe94ugYghxh+UPZgNKpBwh
-kwj7vGkmf83ZTtuL2HqGbcl/u9yOFeVPibEVudZnQL+350or1615cRIeTVZGxrcK
-WU1a1Cz26ctJBCoSiaQEaK1ZLg0mVTez/gegsZGZrlGTCrkvcM8cijqLWXTWwC2f
-o/ZkYHXQOQs6WC1L9gMCjcsrzJSHkSasB7I6Kai9S5jbQOzFz21ZOGJ8RKeYgPYB
-TDT1io9Tkur5dmnpdJdcHhKi+BHutSphlJP3gfqnzVUnd4JsbDU=
-=yis0
------END PGP SIGNATURE-----
+To test series, we require OpenSBI and Linux with AIA support which can
+be found in:
+riscv_aia_v2 branch at https://github.com/avpatel/opensbi.git
+riscv_aia_v1 branch at https://github.com/avpatel/linux.git
 
---M3J6aqtKSQnaGEV1--
+This series can be found riscv_aia_v8 branch at:
+https://github.com/avpatel/qemu.git
+
+Changes since v7:
+ - Rebased on latest riscv-to-apply.next branch of Alistair's repo
+ - Improved default priority assignment in PATCH9
+
+Changes since v6:
+ - Fixed priority comparison in riscv_cpu_pending_to_irq() of PATCH9
+ - Fixed typos in comments added by PATCH11
+ - Added "pend = true;" for CSR_MSETEIPNUM case of rmw_xsetclreinum()
+   in PATCH15
+ - Handle ithreshold == 0 case in riscv_aplic_idc_topi() of PATCH18
+ - Allow setting pending bit for Level0 or Level1 interrupts in
+   riscv_aplic_set_pending() of PATCH18
+ - Force DOMAINCFG[31:24] bits to 0x80 in riscv_aplic_read() of PATCH18
+ - For APLIC direct mode, set target.iprio to 1 when zero is writtern
+   in PATCH18
+ - Handle eithreshold == 0 case in riscv_imsic_topei() of PATCH20
+
+Changes since v5:
+ - Moved VSTOPI_NUM_SRCS define to top of the file in PATCH13
+ - Fixed typo in PATCH16
+
+Changes since v4:
+ - Changed IRQ_LOCAL_MAX to 16 in PATCH2
+ - Fixed typo in PATCH10
+ - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH11
+ - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH14
+ - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH15
+ - Replaced TARGET_LONG_BITS with xlen passed via ireg callback in PATCH20
+ - Retrict maximum IMSIC guest files per-HART of virt machine to 7 in
+   PATCH21.
+ - Added separate PATCH23 to increase maximum number of allowed CPUs
+   for virt machine
+
+Changes since v3:
+ - Replaced "aplic,xyz" and "imsic,xyz" DT properties with "riscv,xyz"
+   DT properties because "aplic" and "imsic" are not valid vendor names
+   required by Linux DT schema checker.
+
+Changes since v2:
+ - Update PATCH4 to check and inject interrupt after V=1 when
+   transitioning from V=0 to V=1
+
+Changes since v1:
+ - Revamped whole series and created more granular patches
+ - Added HGEIE and HGEIP CSR emulation for H-extension
+ - Added APLIC emulation
+ - Added IMSIC emulation
+
+Anup Patel (23):
+  target/riscv: Fix trap cause for RV32 HS-mode CSR access from RV64
+    HS-mode
+  target/riscv: Implement SGEIP bit in hip and hie CSRs
+  target/riscv: Implement hgeie and hgeip CSRs
+  target/riscv: Improve delivery of guest external interrupts
+  target/riscv: Allow setting CPU feature from machine/device emulation
+  target/riscv: Add AIA cpu feature
+  target/riscv: Add defines for AIA CSRs
+  target/riscv: Allow AIA device emulation to set ireg rmw callback
+  target/riscv: Implement AIA local interrupt priorities
+  target/riscv: Implement AIA CSRs for 64 local interrupts on RV32
+  target/riscv: Implement AIA hvictl and hviprioX CSRs
+  target/riscv: Implement AIA interrupt filtering CSRs
+  target/riscv: Implement AIA mtopi, stopi, and vstopi CSRs
+  target/riscv: Implement AIA xiselect and xireg CSRs
+  target/riscv: Implement AIA IMSIC interface CSRs
+  hw/riscv: virt: Use AIA INTC compatible string when available
+  target/riscv: Allow users to force enable AIA CSRs in HART
+  hw/intc: Add RISC-V AIA APLIC device emulation
+  hw/riscv: virt: Add optional AIA APLIC support to virt machine
+  hw/intc: Add RISC-V AIA IMSIC device emulation
+  hw/riscv: virt: Add optional AIA IMSIC support to virt machine
+  docs/system: riscv: Document AIA options for virt machine
+  hw/riscv: virt: Increase maximum number of allowed CPUs
+
+ docs/system/riscv/virt.rst    |   16 +
+ hw/intc/Kconfig               |    6 +
+ hw/intc/meson.build           |    2 +
+ hw/intc/riscv_aplic.c         |  975 +++++++++++++++++++++++++
+ hw/intc/riscv_imsic.c         |  448 ++++++++++++
+ hw/riscv/Kconfig              |    2 +
+ hw/riscv/virt.c               |  706 +++++++++++++++---
+ include/hw/intc/riscv_aplic.h |   79 ++
+ include/hw/intc/riscv_imsic.h |   68 ++
+ include/hw/riscv/virt.h       |   41 +-
+ target/riscv/cpu.c            |  103 ++-
+ target/riscv/cpu.h            |   72 +-
+ target/riscv/cpu_bits.h       |  123 ++++
+ target/riscv/cpu_helper.c     |  343 ++++++++-
+ target/riscv/csr.c            | 1280 ++++++++++++++++++++++++++++++---
+ target/riscv/machine.c        |   24 +-
+ 16 files changed, 3988 insertions(+), 300 deletions(-)
+ create mode 100644 hw/intc/riscv_aplic.c
+ create mode 100644 hw/intc/riscv_imsic.c
+ create mode 100644 include/hw/intc/riscv_aplic.h
+ create mode 100644 include/hw/intc/riscv_imsic.h
+
+-- 
+2.25.1
 
 
