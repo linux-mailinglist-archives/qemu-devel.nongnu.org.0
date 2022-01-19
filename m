@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7CED493663
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 09:35:00 +0100 (CET)
-Received: from localhost ([::1]:51724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF09A493653
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 09:28:18 +0100 (CET)
+Received: from localhost ([::1]:43592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA6Ql-0005mP-FG
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 03:34:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58962)
+	id 1nA6KH-0008N0-K4
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 03:28:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nA631-0007KC-Mp
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 03:10:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46092)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nA63N-0007T6-ET
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 03:10:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31992)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nA62z-0001Lj-4k
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 03:10:27 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nA638-0001Oa-ST
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 03:10:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642579824;
+ s=mimecast20190719; t=1642579833;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OZVkrMSngFS5rGQULjw+Q25CAXqrhJkHW+x+P4pPtk0=;
- b=Fhh4oAeqJU5cvpgrz25zehVXOfVODu/ImiuOaMZTd1C5HQjDeJC2Re7H7pURizmvUo03yF
- cavyjQBt/BVXnQOv0Vijt5ZhABjVLo3VG7+OnqOA/w26xLNiQYJ1+yFbeEBBwXpr5Pip/X
- KaAfXNOwviAdy1JRp9JAaEfJVuNV118=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=m6oq1adDfhZSwTXz9bHotu+7SyhrS/0oPNY1GQjeZV4=;
+ b=OCVJzyjdiDiIiEtABGpELyDWv6a9N8S7GTcVt++eFCFfjFOczNAdbRrCfY3Oz8MAbgncZj
+ WGieqapjd2yK9pogzC2S0YreX6k772hINTD92cWy2vp5Xi+71kmI5myovO2qcAh7GQ9Pdl
+ b+krBENv0rdDPR3feQpngT7/DWO89ug=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-623-a4UfuOjcOnWTMSuVe3YjaQ-1; Wed, 19 Jan 2022 03:10:23 -0500
-X-MC-Unique: a4UfuOjcOnWTMSuVe3YjaQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o3-20020a05600c4fc300b0034aee9534bdso801356wmq.2
- for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 00:10:23 -0800 (PST)
+ us-mta-452-O5xeOtseOi6m668XGAuMvg-1; Wed, 19 Jan 2022 03:10:32 -0500
+X-MC-Unique: O5xeOtseOi6m668XGAuMvg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ f7-20020a1cc907000000b0034b63f314ccso1329038wmb.6
+ for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 00:10:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OZVkrMSngFS5rGQULjw+Q25CAXqrhJkHW+x+P4pPtk0=;
- b=2UyUGZjRb1fhK2z6HhNk3u0+wTt1OOB08JKqzQqv/oEfssCRtbyqEXFclZ6RdPbcR3
- 3CLiPdwAH1P5stcMCkq8HBTUoekEsK1d66Q23y3DtP17ewSH8LkyLCLklsKYNfGCwcu2
- GKysH4TJ2RIojmTO3KEbVmZOZcxcCxTm2VJR9I4dwnHMnrysPcx9t3Xnl06aLDPR5HLg
- BcjlBVluzqOeUgRJTIqtKPBAuKvnSH4Ljtg+HGDAULNQn9yH7uB/RDbXkNFIBB1CWGJf
- U1KMwBolASPwKA1B95cfEVZ2hBXorUTIjriDWfV/TVPN1h56cNX5Kxit820E1NYP9pfx
- dYQw==
-X-Gm-Message-State: AOAM531xTJjpTSHtM+zFJMDxG/p5LynM01p1Nw+g0jjZiPw/GSmvrFYl
- jowFdSuMq61CqnvP2kWO2+wLnO09RWHexT9OiEOvkI/OvCXE3W2MhqYlXNVa3f3dxMHN2GlD6wX
- 4ATsJtmj+k1Fq0W4RDJTCeojqeQSkIjWIlTd4+FKMygr/3X/9/A7pmAhf7Fh7f6Hr
-X-Received: by 2002:a5d:5253:: with SMTP id k19mr27827373wrc.228.1642579821921; 
- Wed, 19 Jan 2022 00:10:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyMp8cvXIhMIQDd/KIuJlaDjnGay3q0d5NZ2Zt3AGtPRSE6At12L5wzeY/1arKdEVMVti8Z2w==
-X-Received: by 2002:a5d:5253:: with SMTP id k19mr27827356wrc.228.1642579821638; 
- Wed, 19 Jan 2022 00:10:21 -0800 (PST)
+ bh=m6oq1adDfhZSwTXz9bHotu+7SyhrS/0oPNY1GQjeZV4=;
+ b=1a1HzawUTl1dMqJO727CrC4hoa6UYQoBJcyvfJmPAKNTAS4UeG+iPZlYGFiYuqbFdf
+ +0M1wpO6gzW1gm3qzpTPnVfUG2D1BjUDeDHIAjDQIMbdjYAKttOJWeiTLLmuqbAXgT7i
+ aOWCiSucYEmfZC2eWFB/wfcDczhBedKzVQmdKOM1x1I35vQmBF4v1R5uXI5ivoWib9XI
+ QjPe8Nl5YhVg6xLgTnFfNc5a63PmDAYUP89estTvHRMdgO5GB2A3R8EZ7w+Xa7P99dBb
+ EOjNOO9KPxl/ckICORKITyPccKzEmDA3OIo3laEiwwn0RoK1MaweoEUcP0L3DsrCfkYT
+ oEsw==
+X-Gm-Message-State: AOAM530kpSPGbOfkJB0/Tz4Kryz9JyjSDIGkzaV8q+HbbUOBdhoh5Wsa
+ xCpjB8c1CoWj/cXsJBENQWmR8zAjiJzX/MLZcTq+n8HCLLp1brMwMb0u6trhP0k4gqrlPX6vLmv
+ N9UvtLlIbCIQzxu6WIuU6NffOJT2v2oDS8iUWR4ZiWk8w8JX74Ga9nz5pNZ43rfmo
+X-Received: by 2002:a05:600c:28cc:: with SMTP id
+ h12mr2303618wmd.18.1642579830131; 
+ Wed, 19 Jan 2022 00:10:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzBuPn0xaYRF5x/f76lglgXVjY6Z7eL9CB/h4lLV85Zi1zgMs0Tq53xC5qUWw1NAsO+AaYrmw==
+X-Received: by 2002:a05:600c:28cc:: with SMTP id
+ h12mr2303594wmd.18.1642579829761; 
+ Wed, 19 Jan 2022 00:10:29 -0800 (PST)
 Received: from localhost.localdomain ([85.203.46.175])
- by smtp.gmail.com with ESMTPSA id a20sm4351606wmb.27.2022.01.19.00.10.17
+ by smtp.gmail.com with ESMTPSA id a20sm4351606wmb.27.2022.01.19.00.10.26
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 19 Jan 2022 00:10:21 -0800 (PST)
+ Wed, 19 Jan 2022 00:10:29 -0800 (PST)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 10/15] migration: Move static var in
- ram_block_from_stream() into global
-Date: Wed, 19 Jan 2022 16:09:24 +0800
-Message-Id: <20220119080929.39485-11-peterx@redhat.com>
+Subject: [PATCH RFC 12/15] migration: Move migrate_allow_multifd and helpers
+ into migration.c
+Date: Wed, 19 Jan 2022 16:09:26 +0800
+Message-Id: <20220119080929.39485-13-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220119080929.39485-1-peterx@redhat.com>
 References: <20220119080929.39485-1-peterx@redhat.com>
@@ -74,7 +76,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -101,88 +103,164 @@ Cc: Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Static variable is very unfriendly to threading of ram_block_from_stream().
-Move it into MigrationIncomingState.
-
-Make the incoming state pointer to be passed over to ram_block_from_stream() on
-both caller sites.
+This variable, along with its helpers, is used to detect whether multiple
+channel will be supported for migration.  In follow up patches, there'll be
+other capability that requires multi-channels.  Hence move it outside multifd
+specific code and make it public.  Meanwhile rename it from "multifd" to
+"multi_channels" to show its real meaning.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/migration.h |  3 ++-
- migration/ram.c       | 13 +++++++++----
- 2 files changed, 11 insertions(+), 5 deletions(-)
+ migration/migration.c | 22 +++++++++++++++++-----
+ migration/migration.h |  3 +++
+ migration/multifd.c   | 19 ++++---------------
+ migration/multifd.h   |  2 --
+ 4 files changed, 24 insertions(+), 22 deletions(-)
 
-diff --git a/migration/migration.h b/migration/migration.h
-index 35e7f7babe..34b79cb961 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -66,7 +66,8 @@ typedef struct {
- /* State for the incoming migration */
- struct MigrationIncomingState {
-     QEMUFile *from_src_file;
--
-+    /* Previously received RAM's RAMBlock pointer */
-+    RAMBlock *last_recv_block;
-     /* A hook to allow cleanup at the end of incoming migration */
-     void *transport_data;
-     void (*transport_cleanup)(void *data);
-diff --git a/migration/ram.c b/migration/ram.c
-index 3f823ffffc..3a7d943f9c 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3183,12 +3183,14 @@ static int load_xbzrle(QEMUFile *f, ram_addr_t addr, void *host)
-  *
-  * Returns a pointer from within the RCU-protected ram_list.
-  *
-+ * @mis: the migration incoming state pointer
-  * @f: QEMUFile where to read the data from
-  * @flags: Page flags (mostly to see if it's a continuation of previous block)
-  */
--static inline RAMBlock *ram_block_from_stream(QEMUFile *f, int flags)
-+static inline RAMBlock *ram_block_from_stream(MigrationIncomingState *mis,
-+                                              QEMUFile *f, int flags)
- {
--    static RAMBlock *block;
-+    RAMBlock *block = mis->last_recv_block;
-     char id[256];
-     uint8_t len;
+diff --git a/migration/migration.c b/migration/migration.c
+index 252ce1eaec..15a48b548a 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -180,6 +180,18 @@ static int migration_maybe_pause(MigrationState *s,
+                                  int new_state);
+ static void migrate_fd_cancel(MigrationState *s);
  
-@@ -3215,6 +3217,8 @@ static inline RAMBlock *ram_block_from_stream(QEMUFile *f, int flags)
-         return NULL;
++static bool migrate_allow_multi_channels = true;
++
++void migrate_protocol_allow_multi_channels(bool allow)
++{
++    migrate_allow_multi_channels = allow;
++}
++
++bool migrate_multi_channels_is_allowed(void)
++{
++    return migrate_allow_multi_channels;
++}
++
+ static gint page_request_addr_cmp(gconstpointer ap, gconstpointer bp)
+ {
+     uintptr_t a = (uintptr_t) ap, b = (uintptr_t) bp;
+@@ -463,12 +475,12 @@ static void qemu_start_incoming_migration(const char *uri, Error **errp)
+ {
+     const char *p = NULL;
+ 
+-    migrate_protocol_allow_multifd(false); /* reset it anyway */
++    migrate_protocol_allow_multi_channels(false); /* reset it anyway */
+     qapi_event_send_migration(MIGRATION_STATUS_SETUP);
+     if (strstart(uri, "tcp:", &p) ||
+         strstart(uri, "unix:", NULL) ||
+         strstart(uri, "vsock:", NULL)) {
+-        migrate_protocol_allow_multifd(true);
++        migrate_protocol_allow_multi_channels(true);
+         socket_start_incoming_migration(p ? p : uri, errp);
+ #ifdef CONFIG_RDMA
+     } else if (strstart(uri, "rdma:", &p)) {
+@@ -1252,7 +1264,7 @@ static bool migrate_caps_check(bool *cap_list,
+ 
+     /* incoming side only */
+     if (runstate_check(RUN_STATE_INMIGRATE) &&
+-        !migrate_multifd_is_allowed() &&
++        !migrate_multi_channels_is_allowed() &&
+         cap_list[MIGRATION_CAPABILITY_MULTIFD]) {
+         error_setg(errp, "multifd is not supported by current protocol");
+         return false;
+@@ -2310,11 +2322,11 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+         }
      }
  
-+    mis->last_recv_block = block;
+-    migrate_protocol_allow_multifd(false);
++    migrate_protocol_allow_multi_channels(false);
+     if (strstart(uri, "tcp:", &p) ||
+         strstart(uri, "unix:", NULL) ||
+         strstart(uri, "vsock:", NULL)) {
+-        migrate_protocol_allow_multifd(true);
++        migrate_protocol_allow_multi_channels(true);
+         socket_start_outgoing_migration(s, p ? p : uri, &local_err);
+ #ifdef CONFIG_RDMA
+     } else if (strstart(uri, "rdma:", &p)) {
+diff --git a/migration/migration.h b/migration/migration.h
+index 34b79cb961..d0c0902ec9 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -425,4 +425,7 @@ void migration_cancel(const Error *error);
+ 
+ void populate_vfio_info(MigrationInfo *info);
+ 
++bool migrate_multi_channels_is_allowed(void);
++void migrate_protocol_allow_multi_channels(bool allow);
 +
-     return block;
+ #endif
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 3242f688e5..64ca50de62 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -535,7 +535,7 @@ void multifd_save_cleanup(void)
+ {
+     int i;
+ 
+-    if (!migrate_use_multifd() || !migrate_multifd_is_allowed()) {
++    if (!migrate_use_multifd() || !migrate_multi_channels_is_allowed()) {
+         return;
+     }
+     multifd_send_terminate_threads(NULL);
+@@ -870,17 +870,6 @@ cleanup:
+     multifd_new_send_channel_cleanup(p, sioc, local_err);
  }
  
-@@ -3667,7 +3671,7 @@ static int ram_load_postcopy(QEMUFile *f)
-         trace_ram_load_postcopy_loop((uint64_t)addr, flags);
-         if (flags & (RAM_SAVE_FLAG_ZERO | RAM_SAVE_FLAG_PAGE |
-                      RAM_SAVE_FLAG_COMPRESS_PAGE)) {
--            block = ram_block_from_stream(f, flags);
-+            block = ram_block_from_stream(mis, f, flags);
-             if (!block) {
-                 ret = -EINVAL;
-                 break;
-@@ -3881,6 +3885,7 @@ void colo_flush_ram_cache(void)
-  */
- static int ram_load_precopy(QEMUFile *f)
+-static bool migrate_allow_multifd = true;
+-void migrate_protocol_allow_multifd(bool allow)
+-{
+-    migrate_allow_multifd = allow;
+-}
+-
+-bool migrate_multifd_is_allowed(void)
+-{
+-    return migrate_allow_multifd;
+-}
+-
+ int multifd_save_setup(Error **errp)
  {
-+    MigrationIncomingState *mis = migration_incoming_get_current();
-     int flags = 0, ret = 0, invalid_flags = 0, len = 0, i = 0;
-     /* ADVISE is earlier, it shows the source has the postcopy capability on */
-     bool postcopy_advised = postcopy_is_advised();
-@@ -3919,7 +3924,7 @@ static int ram_load_precopy(QEMUFile *f)
+     int thread_count;
+@@ -891,7 +880,7 @@ int multifd_save_setup(Error **errp)
+     if (!migrate_use_multifd()) {
+         return 0;
+     }
+-    if (!migrate_multifd_is_allowed()) {
++    if (!migrate_multi_channels_is_allowed()) {
+         error_setg(errp, "multifd is not supported by current protocol");
+         return -1;
+     }
+@@ -989,7 +978,7 @@ int multifd_load_cleanup(Error **errp)
+ {
+     int i;
  
-         if (flags & (RAM_SAVE_FLAG_ZERO | RAM_SAVE_FLAG_PAGE |
-                      RAM_SAVE_FLAG_COMPRESS_PAGE | RAM_SAVE_FLAG_XBZRLE)) {
--            RAMBlock *block = ram_block_from_stream(f, flags);
-+            RAMBlock *block = ram_block_from_stream(mis, f, flags);
+-    if (!migrate_use_multifd() || !migrate_multifd_is_allowed()) {
++    if (!migrate_use_multifd() || !migrate_multi_channels_is_allowed()) {
+         return 0;
+     }
+     multifd_recv_terminate_threads(NULL);
+@@ -1138,7 +1127,7 @@ int multifd_load_setup(Error **errp)
+     if (!migrate_use_multifd()) {
+         return 0;
+     }
+-    if (!migrate_multifd_is_allowed()) {
++    if (!migrate_multi_channels_is_allowed()) {
+         error_setg(errp, "multifd is not supported by current protocol");
+         return -1;
+     }
+diff --git a/migration/multifd.h b/migration/multifd.h
+index e57adc783b..0ed07794b6 100644
+--- a/migration/multifd.h
++++ b/migration/multifd.h
+@@ -13,8 +13,6 @@
+ #ifndef QEMU_MIGRATION_MULTIFD_H
+ #define QEMU_MIGRATION_MULTIFD_H
  
-             host = host_from_ram_block_offset(block, addr);
-             /*
+-bool migrate_multifd_is_allowed(void);
+-void migrate_protocol_allow_multifd(bool allow);
+ int multifd_save_setup(Error **errp);
+ void multifd_save_cleanup(void);
+ int multifd_load_setup(Error **errp);
 -- 
 2.32.0
 
