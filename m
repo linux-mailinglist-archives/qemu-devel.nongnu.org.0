@@ -2,50 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DE7449386B
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 11:29:28 +0100 (CET)
-Received: from localhost ([::1]:57868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC516493893
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 11:33:16 +0100 (CET)
+Received: from localhost ([::1]:34688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA8DW-0000FD-Ii
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 05:29:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59710)
+	id 1nA8HE-0003tA-12
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 05:33:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nA86b-0003O5-4y; Wed, 19 Jan 2022 05:22:18 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76]:38557)
+ id 1nA86b-0003O6-5K; Wed, 19 Jan 2022 05:22:18 -0500
+Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=47259
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nA86X-0007or-3Z; Wed, 19 Jan 2022 05:22:16 -0500
+ id 1nA86X-0007os-4G; Wed, 19 Jan 2022 05:22:16 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4Jf1sT1tHCz4y4g; Wed, 19 Jan 2022 21:22:05 +1100 (AEDT)
+ id 4Jf1sT1z6Fz4y4h; Wed, 19 Jan 2022 21:22:05 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1642587725;
- bh=KbHvoLTgS4iYBTQ9XD0ook+u+378dzYb6gIvAzpYaVU=;
+ bh=m8n1wsdo6B6M+AiwBZxqgp7+Q0rcNZxPQ/yZqxM6F6M=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=b9wr+AXrzg2IQ5UAGTseddYAB29INp4ySn9qWINDY3D81RFOa1bxHi8YuHeMmDFXT
- 3gWb5IIiuZD2apRG1Ka4j9sj5MrHd0vxgxhPwxmv/+FJKYxyKm55uy9ELrXe+AefJP
- NslQ/YZ/uHI2Rc6QX6HNBcGVzb8LPbVmGHgeYBno=
-Date: Wed, 19 Jan 2022 17:11:17 +1100
+ b=Eo7m//3j/3lvdq8YlAFqi+pQAPG1gAnmavRSqvtgLYUpLZuAFD4RWeGwwW7PS3p2E
+ PGqFqp0CpHAitDNXAku91iYvpcdJuhOvsBh1wY90hpOQ9f0oNRSUpIiAgCAs9nrG80
+ kzuXM/mVLG7fMThznND99oLMHcp7l8PqIXAGtB3M=
+Date: Wed, 19 Jan 2022 17:12:17 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH v2 09/14] target/ppc: 405: Alignment exception cleanup
-Message-ID: <YeerhckutNobPSY8@yekko>
+Subject: Re: [PATCH v2 10/14] target/ppc: 405: Debug exception cleanup
+Message-ID: <YeerwTGODlSF9EQa@yekko>
 References: <20220118184448.852996-1-farosas@linux.ibm.com>
- <20220118184448.852996-10-farosas@linux.ibm.com>
+ <20220118184448.852996-11-farosas@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="maHiS+J2lsPfFqIQ"
+ protocol="application/pgp-signature"; boundary="YwMSdBen9XodHzOO"
 Content-Disposition: inline
-In-Reply-To: <20220118184448.852996-10-farosas@linux.ibm.com>
-Received-SPF: pass client-ip=150.107.74.76;
+In-Reply-To: <20220118184448.852996-11-farosas@linux.ibm.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for
+ 2404:9400:2:0:216:3eff:fee2:21ea (failed)
+Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -1
-X-Spam_score: -0.2
+X-Spam_score_int: 6
+X-Spam_score: 0.6
 X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+X-Spam_report: (0.6 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, SPF_HELO_PASS=-0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,49 +69,71 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---maHiS+J2lsPfFqIQ
+--YwMSdBen9XodHzOO
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 18, 2022 at 03:44:43PM -0300, Fabiano Rosas wrote:
-> There is no DSISR in the 405. It uses DEAR which we already set
-> earlier at ppc_cpu_do_unaligned_access.
-
-Enabled specifically, I note, by env->mmu_model rather than
-env->excp_model, which doesn't make a lot of sense.  Another cleanup
-for later.
-
+On Tue, Jan 18, 2022 at 03:44:44PM -0300, Fabiano Rosas wrote:
+> The current Debug exception dispatch is the BookE one, so it is
+> different from the 405. We effectively don't support the 405 Debug
+> exception.
+>=20
+> This patch removes the BookE code and moves the DEBUG into the "not
+> implemented" block.
+>=20
+> Note that there is in theory a functional change here since we now
+> abort when a Debug exception happens. However, given how it was never
+> implemented, I don't believe this to have ever been dispatched for the
+> 405.
+>=20
 > Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  target/ppc/excp_helper.c | 7 -------
->  1 file changed, 7 deletions(-)
+>  target/ppc/excp_helper.c | 18 ++++--------------
+>  1 file changed, 4 insertions(+), 14 deletions(-)
 >=20
 > diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 9a6f8365d6..d263f20002 100644
+> index d263f20002..84ec7e094a 100644
 > --- a/target/ppc/excp_helper.c
 > +++ b/target/ppc/excp_helper.c
-> @@ -474,13 +474,6 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int ex=
-cp)
->      case POWERPC_EXCP_EXTERNAL:  /* External input                      =
+> @@ -539,23 +539,13 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int e=
+xcp)
+>      case POWERPC_EXCP_DTLB:      /* Data TLB error                      =
+     */
+>      case POWERPC_EXCP_ITLB:      /* Instruction TLB error               =
      */
 >          break;
->      case POWERPC_EXCP_ALIGN:     /* Alignment exception                 =
+> -    case POWERPC_EXCP_DEBUG:     /* Debug interrupt                     =
      */
-> -        /* Get rS/rD and rA from faulting opcode */
-> -        /*
-> -         * Note: the opcode fields will not be set properly for a
-> -         * direct store load/store, but nobody cares as nobody
-> -         * actually uses direct store segments.
-> -         */
-> -        env->spr[SPR_DSISR] |=3D (env->error_code & 0x03FF0000) >> 16;
+> -        if (env->flags & POWERPC_FLAG_DE) {
+> -            /* FIXME: choose one or the other based on CPU type */
+> -            srr0 =3D SPR_BOOKE_DSRR0;
+> -            srr1 =3D SPR_BOOKE_DSRR1;
+> -
+> -            env->spr[SPR_BOOKE_CSRR0] =3D env->nip;
+> -            env->spr[SPR_BOOKE_CSRR1] =3D msr;
+> -
+> -            /* DBSR already modified by caller */
+> -        } else {
+> -            cpu_abort(cs, "Debug exception triggered on unsupported mode=
+l\n");
+> -        }
+> -        break;
+>      case POWERPC_EXCP_PIT:       /* Programmable interval timer interrup=
+t    */
+>          trace_ppc_excp_print("PIT");
 >          break;
->      case POWERPC_EXCP_PROGRAM:   /* Program exception                   =
+> +    case POWERPC_EXCP_DEBUG:     /* Debug interrupt                     =
      */
->          switch (env->error_code & ~0xF) {
+> +        cpu_abort(cs, "%s exception not implemented\n",
+> +                  powerpc_excp_name(excp));
+> +        break;
+>      default:
+>          cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
+>          break;
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -115,25 +141,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---maHiS+J2lsPfFqIQ
+--YwMSdBen9XodHzOO
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmHnq30ACgkQgypY4gEw
-YSKxZg//RYmVyBaekfb0hSD9ZoZCOBsARqdpERUNuEGVRXBqaBTT+YuWLulYF1q2
-AXxw6LtOpRrrKGkSjJcooFAuZU9npqz8qr5A1y23sPb3zL8TOYxPH26Xx72DzD0j
-WnxNjaIzNABmqi3rBj3/l6E17NhYRpv9ZWbwaBDSCSlB1yQr1fm4oNjlqoZmiGpt
-WuvBgyOLK5tlEmOBDehC8RbmZk/s73rYhLzwOQpDxQnajwusNnPKAmnmbTynmdVb
-E4B975PuQIKxbvyTgbASSfMcl3L4uJCAKnKYnPwH0DuSui4rdDjbT2Ap1wzwpV25
-GCjYVZdo5P2zEkO0yE0LDlvBe3b4hoUdkQbY8n/FbMzJAgaE+vh/TLXtNlvUUzej
-1xmLBCMwDfxN7CzcNRRV+V/lDRcOY/Yw7Qc3nZkAioMfsYKT6jfEffZQYLspZCAQ
-E+oxVtbDEdX6crLgxZb9B60LU04ecuZGBolKYqeaPmpFAID8dbNE/FhB+JJPfcUM
-+0ryz57KJZXqwSyXvD0E7ldrUoX3GFzda+mQoCZE6spHRZYiVU6pmTcfEDVvXmIz
-tbJpekOoCSOPDP+1FxWDn9+DCfR0NGRdDBXPQizTGsFpWzRFU5haCNsnJJ4gCz9v
-XzPYuz2A0dCWH1nE6lQSYxpnbngr2vIPS+/zfiTSsx+IVhwh/Rc=
-=0iSu
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmHnq7oACgkQgypY4gEw
+YSKXvg/9Fo/tZMsGW5KNDfiIPvfolJNCdn71uJp/PXlfDwFzhAPu/t/h9Y30850g
+vA2BD514gGT4cpJylbH/vYTtwwXVsi5cggjkGeWRCb6dyFqC711VC6li+HSqj/n/
+GYzfkV21Lwdh4ha0a3nXKi8byFYj0GYTmHzKX5d8TPPYUsvY6LMP10JgVJgjXnDN
+TQ+ox735lfmYFSqUBRUMzS/UpakmJzWKtGXIA6DcGAnBwO49Yti+KBP3ZlEuEfdE
+lmCFdv44sFt3I7DrxhzbGbI5xpMwkP57K9xY7n7eU6WSqP+jbhjXGqSHVYb0GdTJ
+K5GgXnrJMwONN4SWHHCufCZwSiU6bDx/WK25jP/WStXKoQAUxyimMDqDwHKNtaPN
+22IGuwyWxO0wS2/eT3go9nhm7+Il5vizZT30dlQiQkDhnXmYdT3cvYo2GIi4JCrR
+VZasFcuBx9H8rwgu6GgEQxM+jDr33DYsLWTTSe2tu5Dy6vNWbNounSSHIuNJD29R
+HW2S8+Bjp89YIEL7cXa2sgH/UKWLslJJfW+8Ja5piFL6tf6ZjTXBUHlWOghuWUrq
+Y3Hv/dC+9JmGHXs1ggMWIpmAMHnZGAFahXueX+y01YPSVbJXuw56vQm2q0UNSa8l
+z4S4RFGf3bAO72x0PFYcx56H0kkQ0vGnWpnmwP6QoC/q8+xcyrQ=
+=WhgQ
 -----END PGP SIGNATURE-----
 
---maHiS+J2lsPfFqIQ--
+--YwMSdBen9XodHzOO--
 
