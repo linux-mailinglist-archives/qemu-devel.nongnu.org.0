@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B6524942C8
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 23:06:47 +0100 (CET)
-Received: from localhost ([::1]:34812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5481C4942CF
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 23:08:25 +0100 (CET)
+Received: from localhost ([::1]:40546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAJ6M-0006Ob-IV
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 17:06:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58482)
+	id 1nAJ7w-0002FE-DK
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 17:08:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1nAIjc-0008Kw-RM
+ id 1nAIjd-0008La-Ag
  for qemu-devel@nongnu.org; Wed, 19 Jan 2022 16:43:17 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:39700)
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:48162)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1nAIjY-0007Nb-Kt
+ id 1nAIjb-0007O7-8S
  for qemu-devel@nongnu.org; Wed, 19 Jan 2022 16:43:16 -0500
 Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20JJOXZ6031213; 
- Wed, 19 Jan 2022 21:43:08 GMT
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20JJSHhR031217; 
+ Wed, 19 Jan 2022 21:43:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version;
- s=corp-2021-07-09; bh=qyXgyu6ft4LhzYhUJcJExV6EPLFtpxSDTSE9Zfc4B0A=;
- b=AVQ5T/VF/8jTjnOi/GyABzsDqbkruOJMtzhbrr4MISkHA2XhDxGeWDQr/17Y/mTTpqIY
- U6bz1dWwe347HOfsyN7Xrkrh3nVakkR2ul+oK2fKSu44LCP1Qyoelka2C57kHXRkP88N
- 29vF9uenUzgbsllDpz8ib/wlOD6ARO1iiRMPcLisuhapQuvZYIDG6kD5qgxyr91Vkt0B
- wOu11MlSV6HTq1446OQQMFiWJkZrcwfFTHUB4X+iKryUV3n8qQ2lGb8+v2Kyk4Of/WyG
- 0QJBJcH9bJQotZOj2eshB5bBj9BSVgA0qXtvzA8+dFb/wXKnPEsrIVy9Z4JDcDEo1QqG Aw== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 3dnc4vpgq7-1
+ s=corp-2021-07-09; bh=Ujt5zfPtC5WHKvYVwzvfE/vdX+EEmzYTSrIyCNarMYM=;
+ b=WMma+F8fry0LNe2qe5m1NVM581F6ILtD8cGLbd+rFQFOAPSUigYRS2GEE7r6o3EHV0Sz
+ yo3/u3xwN/b95DafnR9hLQsE90ZPozGNjX+MmQPpgudmYakBH2arjAgOQXkRKIhaLwA2
+ 71LCLCe/Dxkjy6FL1rlfEkgIO1VHXdZGsC/6PZJg3tnNyEIaRSVQEfZg/nslaBd0Db7i
+ HpMC/z6WtaLR51/h0G7fxpiQ7V2CEqPFpAn+P9rnTc0EF/L5ZLYEuMZeP0QeF4xYmqPn
+ Il7sOhio43NpoxP7Orc/ahSK4rkoaXmxERtjIzEzkez/nHVPG4xw/HmNwShIijwht7bj CA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3dnc4vpgqb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 19 Jan 2022 21:43:08 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20JLauA8147048;
- Wed, 19 Jan 2022 21:43:08 GMT
+ Wed, 19 Jan 2022 21:43:13 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20JLa7GV131829;
+ Wed, 19 Jan 2022 21:43:12 GMT
 Received: from nam02-sn1-obe.outbound.protection.outlook.com
- (mail-sn1anam02lp2047.outbound.protection.outlook.com [104.47.57.47])
- by aserp3030.oracle.com with ESMTP id 3dkmaeb75r-1
+ (mail-sn1anam02lp2045.outbound.protection.outlook.com [104.47.57.45])
+ by userp3020.oracle.com with ESMTP id 3dkqqr65hc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 19 Jan 2022 21:43:07 +0000
+ Wed, 19 Jan 2022 21:43:11 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fRTWdUOwGbWh/WmyP/EzkBAEpw/BuUqC1rKaT+/qkuXwdD5yrjd4r0KCcofTEIl2XucaTgk9xKrUu6XlE7rLdqzVeg1HWD93i1kIOpcQQl3eaymYdKiYuem+Lk/yxemENuMez9yQgk2yAEQ0FyQAf43rgbTety9tf4A0zUZzeVFRtGnjT+F52ZvuCrOFp8vmNEKoE9TLwTd17kXNT+8uukJj96pJVr1dGKrhoIXv9i/gwe4NAXaJrsWURDaaQQvVBwHWev5E8lwsl2f1oB/ooWPvTQgGQC3GXiAYHbg8rpHLNQwdOwXo471vymxTCTf7/nUFHowQv25N9pYhaiEuRg==
+ b=bNBeC5bV/eGCDKvTVhmYq/vGlAooiKppkzzshQcEb6HjxydHRvw2ESooyK7c6Vf2McelgVt7sHwhlu8pkagrDTnlov1vviPXldPJhFB2AV9tPxx7kQhbe/2jnXzXK098ouPWosuj/7mjv5ShUDnbmH3giJxERuSaoWIB3Co+ER5fw7IphEZy+9BhMAh/1QDKr7qP9Hqki3lgpUHdvN224Bv8wVmPf3CkFPOp6IWTAePErRrpdiDGqiSLRCrdfzAgTYaJVyyG4NNnRkLdbNxvoO7NoT5twaoxA3AiIf6yfsl5vav21Rhkl5YLaxNm/TKwTP8feacqTBTnXKIj9aUTvA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qyXgyu6ft4LhzYhUJcJExV6EPLFtpxSDTSE9Zfc4B0A=;
- b=JBxKVQDErpZnABOc0uXKobwivSZKTjx1zSTOC54z8zf8lwXSr9EsDTIV4QgZWlcTwxOiRpZWQHmNq2CupNpZ5CIEoQpsLjfBp2grv6OSzfp4CF2pxJzXXzVzX1hL9apWBY7b9s9rdqcofyUQXmyvj8N5QO/vXITJ1x+8a2YNJoMGCB3yb5g2nBoj5UbAKXqFMRgpaPuA9n+yTzkKkfSyZEetOoroYUnS3VulMkMEjihmZNEIt9EP0VIO9hNs6F5HkQPSqJkGATU+5es6vudx+0Og8uJ8NatuUBQ0DlvneDkph6+Oy4IXHl8ZPpuL1M+eU9PiAqMCpRKa6YN/TbSaJw==
+ bh=Ujt5zfPtC5WHKvYVwzvfE/vdX+EEmzYTSrIyCNarMYM=;
+ b=fy2BEmo3W++hMLc/+o21N5Ji3vDjhpj+fQZRZfgAj/mOBgiK9VGpOzPBa/Uc1LxxZPqbU9X5rgPmj+Cz7RoRLZ6Bbx2jUiTBZN6yh/4Fdricc1LBabPMChTeRghJGxyvwYMsYGoINJpApWYG69P2yYyOo+QG7sIhmLucvveSfpGw2u58wa8breBoaI0m+0nUVlHbTTmsnEZ757gQiD4YaaVOV4pZzE5RUE0gVaVidrG5ciM/ozpgvV0LF1YedJomUbE1Ooi4aPFCem9cW1LzMpTOySrbFRMdn2d3QoMFM/HRFNZn91BRrMNgOWSAFvU/l0ULfU33fdTycu8pKCJ3yg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qyXgyu6ft4LhzYhUJcJExV6EPLFtpxSDTSE9Zfc4B0A=;
- b=jsnw3rR9HddtNHjvSztc4qKfzT/OLR+W0Or21nQeuqEkbTLt6mOO+WwD9qWRmDZ0UT/n2hx/tUxDawrsFbRzuvfbDTd+gAxzoIF0tsWpyoQaW4NH/l8J4waXEz9MWKSlnnj9W0+vfKyollPi8u4Bbn8inxcq/nsF6dP32mGBazs=
+ bh=Ujt5zfPtC5WHKvYVwzvfE/vdX+EEmzYTSrIyCNarMYM=;
+ b=nlR2iaR4tR8/ju/xYQaX/4epbfdnwiEAmgfywJuDXrFHxCA4hpvwjDtJgDjVQucFiW8dthRfFu/Rzg0O3N6gPMGOt+m2FJbglaKtGWG96siw2aaNyQ9RtnJWYAZvtGFteq7aaAO6gHWdnZ3tYrwqez0rabNGF6O+WT6A1L5DEXY=
 Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
  by DM5PR10MB1497.namprd10.prod.outlook.com (2603:10b6:3:13::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.12; Wed, 19 Jan
- 2022 21:43:06 +0000
+ 2022 21:43:09 +0000
 Received: from MN2PR10MB4013.namprd10.prod.outlook.com
  ([fe80::98b1:4348:5117:5fc]) by MN2PR10MB4013.namprd10.prod.outlook.com
  ([fe80::98b1:4348:5117:5fc%7]) with mapi id 15.20.4888.014; Wed, 19 Jan 2022
- 21:43:06 +0000
+ 21:43:09 +0000
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 14/18] vfio-user: handle DMA mappings
-Date: Wed, 19 Jan 2022 16:42:03 -0500
-Message-Id: <8d72691373f12887ce4ec3203e74ed0ce860d1c4.1642626515.git.jag.raman@oracle.com>
+Subject: [PATCH v5 15/18] vfio-user: handle PCI BAR accesses
+Date: Wed, 19 Jan 2022 16:42:04 -0500
+Message-Id: <b6c6e52314ad6df12634f3223bc509ed19cff011.1642626515.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1642626515.git.jag.raman@oracle.com>
 References: <cover.1642626515.git.jag.raman@oracle.com>
@@ -82,66 +82,66 @@ X-ClientProxiedBy: BYAPR08CA0043.namprd08.prod.outlook.com
  (2603:10b6:208:185::25)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a1e23e79-a114-40a8-dbe8-08d9db94ad3e
+X-MS-Office365-Filtering-Correlation-Id: e57d2423-ad21-42a6-42f1-08d9db94af57
 X-MS-TrafficTypeDiagnostic: DM5PR10MB1497:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR10MB149753787774E7D224427DC790599@DM5PR10MB1497.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:483;
+X-Microsoft-Antispam-PRVS: <DM5PR10MB1497B09B4151260231CC31EA90599@DM5PR10MB1497.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:390;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jpDig/YuKXVn/ikuZ4wSlDge703QviSpu8IxL6+qn5Qh/sBfRuasposBPDSCjb8BcoiWFdrTTPTz9+exZ68zMaznwMnjzc3nOOx+j+uy7WgINqm2c9DOsb40LQd992TQHdf3X3/vxxHHGI/Hqkj1ugdiBGUUdfM4V81V+12ZMwfjwsgX/6c8m2+GAkDqv3tMWN45xzJ1uUfH9r4ozy7WioD8kf1t6pN6aeEBokfFwBJytJlnVAwHBC4dRRgiiYXZQC0zXUG3OYTp+JHPmG5vWCW87SWkVrU83DqXsHmby0et+yK40Wnc+avakTSR4aw8m9Dbs+FqP0OAtZPebmV1j5AXBUQPDZ5vkeMPhLlW8xFH444k+EE3DEsGk2Hj3CEGrEZyNlwH0Bsu5pDmdEl100Y2gemShvhKQF3cFx7w10I2/4vUnVfquY15xKL6uMvuC1azVOOciwkCv8VpZl1BHSHS6L5tNqiOcTXGOKNOK+UjAJj4VNztCB0crAFa3p+Nm9FcvpS25zSWAhBVTo8DpsAr3IT/hqv9eZU3dTcntvPI9WTNdT59XgdmTcDNE3lF6dL4DHOPkkA4ELMVPs1ZS5Yt6i6R2mZsrACXWkiWVnoL5DmzvNDU4AISu3zRvz6mvvt2Kvb34luuxLXsP2vfPcE4jI/yvCahkwolNuUD4XsKXBGG9rKX/3exTaNKd/nQI88sP9cMY+E6swCWJvHYnw==
+X-Microsoft-Antispam-Message-Info: 6o4qQuFioa8mSIi/lwiu6LriP6Xl72mIQtiKQwnWaxgK14paMONoY99s6uJUnmXtahFNsjyTrTHxKHWFckpq5CUSKq5rau0vyKdDPFxzr8k9hyugwFUmlqYhOw5iqrJHQFfrgXtyEW20sfC3qzOqQ3kchluyPh6iEswk6788E6LKb5ZGgbIvJmircT1xCauIJN86LlAwBAoah2ftoTG+Ww4j3gYhImzv9seT4PtQcFSbzmFBllrsG4r1n1wcyjO9ZjO2wsRvKu8USO7HNZ7THrDfR06yyVD5djcDMhU33Tij626VA8bTS18ICim1sRnsyIDrSo7WKQJj+Bg0xblIwwR1HPRzQC97HCAh/1PUH7gVi/qhG+uw1jv1i5KIGI00M9qzawX94egoP0cMHbVEp5b7oeb6wEiB3OsHI8O6GWurTALx41nzmNC0DSrvIokYrHX4iB57knO/DbFytWZNd88UhszhnKPcOvqN15nEerQ8uahuNWJ3MAj6Qnli3ZEclCS0Me6n8eW03moQHkuN/QY3IdgyUOqf/gHIZC7YYrWm9edAODh1VvH+9KRLkBLMdfzKjzTq5xYkPWifYRsTuFD9yIhb6lVvwboyY9EqMFk1ni79D/pGvXTfkGBFB1aG/JmUP+lV+uW0pwGvU2JMYJW8rX0mTcyKt3BVmDvzWeea8Y2jBQCG5OG3kPUxDcL2M6B2JbnHoT+McgSg5J8WZQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(366004)(6506007)(26005)(5660300002)(2906002)(6916009)(8676002)(86362001)(4326008)(36756003)(508600001)(2616005)(6512007)(83380400001)(186003)(8936002)(107886003)(316002)(66556008)(66946007)(66476007)(38100700002)(7416002)(6486002)(52116002)(38350700002)(6666004);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nBVm70Nkce497AtL7z0FbDOriIBFZvWER0UleD/+VeVkDljTYmUr37bZAHex?=
- =?us-ascii?Q?3U/dFvrgKolSngIgnz/tb6m3Qv82hnift2j87UQyJ1KgFJ5+AcLtr6mBsNK+?=
- =?us-ascii?Q?0CbBC5e6zXrhmQRFt8STMC7R44Y7g5nZygWMkh4z92sBrX6ak602WyiP89yz?=
- =?us-ascii?Q?vHwulS09NT+vgcD7QTX4DfS8nHiJ4I//NwoqeM17Nm1fo8l6EQGdgny/8WtM?=
- =?us-ascii?Q?eCzzOsjVMUy3tvD36Irya9tRjaKgHmEr7qMkk+vM8Rao3kCCyuaERxOkQ+IV?=
- =?us-ascii?Q?bqsg6h7o2WVRvzrFzwZTkRQVg1XumlEDzPV+01f6W4oHGaoFb0HVn06y2r+9?=
- =?us-ascii?Q?MyDQvnU/hp7WLC2zRP6XRU5tzE+bRxROlvqFoS9J8TlHkwU6pubVrWWsQ/WT?=
- =?us-ascii?Q?5ozAywTiO3vUX+Hw6bg+5FXxz6cv3CTnrtZm6rTd5bqcp7xJt6cffzV9dx6f?=
- =?us-ascii?Q?VBDKrzl44zon/9EDfzLBpnb0Dy9Ku4qlNVHvePAoaaM9CBFCzEIB4/cMdIT5?=
- =?us-ascii?Q?BXALWsYavRsJYMI8lo3EyjahQuURBlRCwU7tUPXy5LLjiMN/ah0duq/ia0qB?=
- =?us-ascii?Q?l3GcQ4nUhhh1vSpMYHJcFOApMfUEVX3lumTT1a5KiI5gZlm1b5FjfkHZt2F3?=
- =?us-ascii?Q?+SK7uWBBJ4MZBfl4sy1U7z1WDE8JhFYRqx694eN99YYyWqBOvb+Kkb491/uo?=
- =?us-ascii?Q?0Sa+xTcdVpy2mHykOycxpAjeEuIXtZlAdviE1BmxEIZSnJltMZHW5FBiBg7+?=
- =?us-ascii?Q?x9gHzjL/xYeqnuJbqOyeDJhVcz6r4vcgs4o8MdW4HSAXlbBrmp1DjEIqOYx2?=
- =?us-ascii?Q?quHUS8evSHV5mC6666wkO8bI/MjA3i6VsgLbVxoPPydcwMPmyaAjX7ewI2xs?=
- =?us-ascii?Q?cQp4SSGnsIF/701nUcYzaCXBUVUBxtB8O2b1rPWJN4nCFBlHfBvOve65wL8U?=
- =?us-ascii?Q?GOUmgJOt5ErVVbPVSj0koSsq3f5t+wkPysI3bhRLzIyPWMooxEa6TGLfdQS+?=
- =?us-ascii?Q?Qs2MvB8U5lfB5iWPxok58idEaJz1yq7EzkJatyhbwsdrDdIrXTU9k34DXMmT?=
- =?us-ascii?Q?l3w/DAWce2QPKJZeQItynlCwW6+B0rEtXQVC93Jq7Ud6FIgXW9kuWe/UzQeb?=
- =?us-ascii?Q?L7y59wpN8a+YlF5OKIz7D8axRhofCEbTMQ8epld04OlHb7ffQdpNqoi3pXzV?=
- =?us-ascii?Q?sMhKK6Eyf/0jx8fpAE0y2RZNxeffoQq/he5Etu6ShWQLL90YzsLqh10NSegw?=
- =?us-ascii?Q?4pwrx5Ap4ZRYyZoqkWPw1y2ifVw8I4dJ8yNwR4X5GLWW+K9uDOphUErYj7XH?=
- =?us-ascii?Q?DkqQ29h9QVHkLwvZcTXbRVbCqQ3vcD78eTB47sWkMTD+JwKreKmA8QQPhydd?=
- =?us-ascii?Q?EcNUHfVnVy8yZuT1FfPfdXdz7vennP4mvrL9CIecr9gdcLDGQ6JS5XKh1Wvg?=
- =?us-ascii?Q?wbmwgZsoFsVDO17ie1qFCQ0uND6vGV/1Q3H/fSjkkAdqkKD9NzF8mWqZ/zQ6?=
- =?us-ascii?Q?p3EvSk0zuO7/eR8gyBnha/xY41dzBmGZDXGQ0++yHopwjaazB5+D3yp1DsI0?=
- =?us-ascii?Q?9msU/5LVlM9iQZn4Powm5dkW55CVXmn78xjxRGcwIovP5kxPnaI5PIEGei0f?=
- =?us-ascii?Q?S75RiLS+/c/OS4kFPgOc+34=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5YQ9AOlH4uq1NUz6kuCfmsfljDJhpTDf9c9Ue7cCNG/WlGSGXJapyB8wAiQe?=
+ =?us-ascii?Q?HIUiSkJJu6U1UlnxN5bfGP2ghOGgM1sFPmHxcEA4g1SdR0eWI9OFDA1p+HDg?=
+ =?us-ascii?Q?PKnhqLO7uMoGuThyAcQRBvnM3GMY54n29J+HVo71fDXocXghTqaDQiSQT2Ye?=
+ =?us-ascii?Q?dD0oFYoXiK1/oZdOEPXVKb3TLtzzizADwAla+xM1Hy87JVb/GkF1M+9/X/yu?=
+ =?us-ascii?Q?HLyoDRbDWT2PVJHKp+E7RxB2JbuBuc/5gfSzBGIjh5CQAOJZ15SKa90lRcNF?=
+ =?us-ascii?Q?n35ruQg7ygy95tcQQ6UUE3kqIk9cO5mfwp+aDR1VKJmt8ZjnKis9tCtqRQ0A?=
+ =?us-ascii?Q?ZvtezIAWSVEroZ4wbKnu1S+ppsF4SmRQzyyW7caGE6W25FWCouEz/HidCkAE?=
+ =?us-ascii?Q?FhCHTM9Y+lTo0QoB1NPOqfzRrVTJosVFFjFRYbuOj2eXlevRBNnBQaDdBLAs?=
+ =?us-ascii?Q?pwwVMO4XjHXw8wTXVVtxxzrPjcucPignrI7a1J8IZS++tVmKxC36ZZBo7VGq?=
+ =?us-ascii?Q?QpmOh73vCQFzI3ZDXevP3nRShE9GCF5MZDs8nlK4pDozLxzIyHK0HKLnLRxc?=
+ =?us-ascii?Q?Jn84orCpDqPrjW+kViUTOtKVg3+Z4WC5dijRHqaHKxk0ErwzgUbpgOjJcrvn?=
+ =?us-ascii?Q?JEJcwToI2OsgVsoWnc2qlXhUOOa7tpv51cCgSxDJCFr4qYPPbMNlm4qP99+d?=
+ =?us-ascii?Q?DL6Xlq9eDa8ZzrYcEz4j2JwTi6OOx1YfosQbMNgOLyGHog343B6Pds+W3Sne?=
+ =?us-ascii?Q?MKP+QHsbIFofAsSBWhst7mk50iaSVGfOQlXW3o6jfz9NCHdZPTReEBfbF7Ef?=
+ =?us-ascii?Q?AZEQSquK5DsXMX3GAEQSWe8Hq0LHqk2thhQvLaIFhRf8hR6NmRHS7xEFB+Ii?=
+ =?us-ascii?Q?wfBmGalU4hL2YAm5CSsLI3uppNSLI1VmX9SXQQllfvgSF2J2+bLHWruCFiEU?=
+ =?us-ascii?Q?Yyu31vYuDenwuNiFCpTfuegfgEUAXcx6DPbJs/+fJBnQi1N+m5dK37BgPDd8?=
+ =?us-ascii?Q?m1oSMRPwPYEvfzDKpfDvpf+Qf4wnZyY4DJ6ZmMV0y2sqgwDTklkbzB3udqXo?=
+ =?us-ascii?Q?ixeF5mTzF9HpBrNBdCDLI8Iu6yscvQWCPljLUEejY+g1BzyGQSSwywoFiAi2?=
+ =?us-ascii?Q?S/6+W1bUI3FWmC0lubsGXt6KyV1QFFt9DMoj7ID7hAb0pyls8a6kD6GNdI9S?=
+ =?us-ascii?Q?YFZyouQ7KI8n8nX3LKA7svu4NdltdvX46rPsyw8hqawSjAr8P+TXLFylcl6H?=
+ =?us-ascii?Q?Z9KsPv8mCGudghmjsY5AM61QeOcxjPAwkTJPticIrg9M+b1Th0WBq4TD023k?=
+ =?us-ascii?Q?mVHb6F84gliGT677WDdpTCM0YPVNsps/UOmct+L4NDmAFkPGvev+t/TAUl28?=
+ =?us-ascii?Q?xWvGooLiRIN7YA0yZ3YIQheAiO1DRdRkAJIbPFamZCY5/6fmV1N9iCxFZokN?=
+ =?us-ascii?Q?/S4zRecEFF6svoVQnw1wVTpcCMrEseiTuro4dQea5dS2bav8uYhfVnRvD9sS?=
+ =?us-ascii?Q?ELhKdcweFbZzoervzRnVgDnBrImwCRaUStjAOtt3bhLJtGqpjGAeamONvBQG?=
+ =?us-ascii?Q?lyI7LC9FeSxCs4WsbkcBGqxR2DaL9/IJ46cuwabBp2TdJuFfhQcQIqIV3J8e?=
+ =?us-ascii?Q?a+/vz/dF/BgSI/wg7AMkiBQ=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1e23e79-a114-40a8-dbe8-08d9db94ad3e
+X-MS-Exchange-CrossTenant-Network-Message-Id: e57d2423-ad21-42a6-42f1-08d9db94af57
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2022 21:43:05.9575 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2022 21:43:09.4416 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: v9yz3R+/C1RUVRTuuxkwoy0aEBLfsRUhzqJu0s/7bILVJKsOTB3GI/WsYsQzm4VvZLCWVcR16D23snK85B+XcA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: hrT6vEpVWI+Kf6YgaKOXFyY+3P4bHebvhRfnXbJIxwd80DqRvpSWPnBIdyjjkMmHWOwTHBKNQz0Z2dqI6GnX0g==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR10MB1497
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10232
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- mlxscore=0 suspectscore=0
- phishscore=0 malwarescore=0 mlxlogscore=999 spamscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2201190117
-X-Proofpoint-GUID: boXgJ5mBpJlZWCK0GI4oDtCN77v9eS89
-X-Proofpoint-ORIG-GUID: boXgJ5mBpJlZWCK0GI4oDtCN77v9eS89
+ phishscore=0
+ mlxlogscore=999 malwarescore=0 bulkscore=0 suspectscore=0 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201190117
+X-Proofpoint-GUID: _oRvupgVsGkm253HXhr5kQmw9IvyUztx
+X-Proofpoint-ORIG-GUID: _oRvupgVsGkm253HXhr5kQmw9IvyUztx
 Received-SPF: pass client-ip=205.220.177.32; envelope-from=jag.raman@oracle.com;
  helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -172,96 +172,139 @@ Cc: eduardo@habkost.net, elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Define and register callbacks to manage the RAM regions used for
-device DMA
+Determine the BARs used by the PCI device and register handlers to
+manage the access to the same.
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/remote/vfio-user-obj.c | 50 +++++++++++++++++++++++++++++++++++++++
- hw/remote/trace-events    |  2 ++
- 2 files changed, 52 insertions(+)
+ hw/remote/vfio-user-obj.c | 92 +++++++++++++++++++++++++++++++++++++++
+ hw/remote/trace-events    |  3 ++
+ 2 files changed, 95 insertions(+)
 
 diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
-index 8951617545..e690f1eaae 100644
+index e690f1eaae..bf88eac8f1 100644
 --- a/hw/remote/vfio-user-obj.c
 +++ b/hw/remote/vfio-user-obj.c
-@@ -248,6 +248,49 @@ static ssize_t vfu_object_cfg_access(vfu_ctx_t *vfu_ctx, char * const buf,
-     return count;
+@@ -291,6 +291,96 @@ static void dma_unregister(vfu_ctx_t *vfu_ctx, vfu_dma_info_t *info)
+     trace_vfu_dma_unregister((uint64_t)info->iova.iov_base);
  }
  
-+static void dma_register(vfu_ctx_t *vfu_ctx, vfu_dma_info_t *info)
++static ssize_t vfu_object_bar_rw(PCIDevice *pci_dev, hwaddr addr, size_t count,
++                                 char * const buf, const bool is_write,
++                                 bool is_io)
 +{
-+    VfuObject *o = vfu_get_private(vfu_ctx);
-+    MemoryRegion *subregion = NULL;
-+    g_autofree char *name = NULL;
-+    struct iovec *iov = &info->iova;
++    AddressSpace *as = NULL;
++    MemTxResult res;
 +
-+    if (!info->vaddr) {
-+        return;
++    if (is_io) {
++        as = pci_isol_as_io(pci_dev);
++        as = as ? as : &address_space_io;
++    } else {
++        as = pci_isol_as_mem(pci_dev);
++        as = as ? as : &address_space_memory;
 +    }
 +
-+    name = g_strdup_printf("mem-%s-%"PRIx64"", o->device,
-+                           (uint64_t)info->vaddr);
++    trace_vfu_bar_rw_enter(is_write ? "Write" : "Read", (uint64_t)addr);
 +
-+    subregion = g_new0(MemoryRegion, 1);
++    res = address_space_rw(as, addr, MEMTXATTRS_UNSPECIFIED, (void *)buf,
++                           (hwaddr)count, is_write);
++    if (res != MEMTX_OK) {
++        warn_report("vfu: failed to %s 0x%"PRIx64"",
++                    is_write ? "write to" : "read from",
++                    addr);
++        return -1;
++    }
 +
-+    memory_region_init_ram_ptr(subregion, NULL, name,
-+                               iov->iov_len, info->vaddr);
++    trace_vfu_bar_rw_exit(is_write ? "Write" : "Read", (uint64_t)addr);
 +
-+    memory_region_add_subregion(pci_address_space(o->pci_dev),
-+                                (hwaddr)iov->iov_base, subregion);
-+
-+    trace_vfu_dma_register((uint64_t)iov->iov_base, iov->iov_len);
++    return count;
 +}
 +
-+static void dma_unregister(vfu_ctx_t *vfu_ctx, vfu_dma_info_t *info)
++/**
++ * VFU_OBJECT_BAR_HANDLER - macro for defining handlers for PCI BARs.
++ *
++ * To create handler for BAR number 2, VFU_OBJECT_BAR_HANDLER(2) would
++ * define vfu_object_bar2_handler
++ */
++#define VFU_OBJECT_BAR_HANDLER(BAR_NO)                                         \
++    static ssize_t vfu_object_bar##BAR_NO##_handler(vfu_ctx_t *vfu_ctx,        \
++                                        char * const buf, size_t count,        \
++                                        loff_t offset, const bool is_write)    \
++    {                                                                          \
++        VfuObject *o = vfu_get_private(vfu_ctx);                               \
++        PCIDevice *pci_dev = o->pci_dev;                                       \
++        hwaddr addr = (hwaddr)(pci_get_bar_addr(pci_dev, BAR_NO) + offset);    \
++        bool is_io = !!(pci_dev->io_regions[BAR_NO].type &                     \
++                        PCI_BASE_ADDRESS_SPACE);                               \
++                                                                               \
++        return vfu_object_bar_rw(pci_dev, addr, count, buf, is_write, is_io);  \
++    }                                                                          \
++
++VFU_OBJECT_BAR_HANDLER(0)
++VFU_OBJECT_BAR_HANDLER(1)
++VFU_OBJECT_BAR_HANDLER(2)
++VFU_OBJECT_BAR_HANDLER(3)
++VFU_OBJECT_BAR_HANDLER(4)
++VFU_OBJECT_BAR_HANDLER(5)
++
++static vfu_region_access_cb_t *vfu_object_bar_handlers[PCI_NUM_REGIONS] = {
++    &vfu_object_bar0_handler,
++    &vfu_object_bar1_handler,
++    &vfu_object_bar2_handler,
++    &vfu_object_bar3_handler,
++    &vfu_object_bar4_handler,
++    &vfu_object_bar5_handler,
++};
++
++/**
++ * vfu_object_register_bars - Identify active BAR regions of pdev and setup
++ *                            callbacks to handle read/write accesses
++ */
++static void vfu_object_register_bars(vfu_ctx_t *vfu_ctx, PCIDevice *pdev)
 +{
-+    VfuObject *o = vfu_get_private(vfu_ctx);
-+    MemoryRegion *mr = NULL;
-+    ram_addr_t offset;
++    int i;
 +
-+    mr = memory_region_from_host(info->vaddr, &offset);
-+    if (!mr) {
-+        return;
++    for (i = 0; i < PCI_NUM_REGIONS; i++) {
++        if (!pdev->io_regions[i].size) {
++            continue;
++        }
++
++        vfu_setup_region(vfu_ctx, VFU_PCI_DEV_BAR0_REGION_IDX + i,
++                         (size_t)pdev->io_regions[i].size,
++                         vfu_object_bar_handlers[i],
++                         VFU_REGION_FLAG_RW, NULL, 0, -1, 0);
++
++        trace_vfu_bar_register(i, pdev->io_regions[i].addr,
++                               pdev->io_regions[i].size);
 +    }
-+
-+    memory_region_del_subregion(pci_address_space(o->pci_dev), mr);
-+
-+    object_unparent((OBJECT(mr)));
-+
-+    trace_vfu_dma_unregister((uint64_t)info->iova.iov_base);
 +}
 +
  /*
   * TYPE_VFU_OBJECT depends on the availability of the 'socket' and 'device'
   * properties. It also depends on devices instantiated in QEMU. These
-@@ -336,6 +379,13 @@ static void vfu_object_init_ctx(VfuObject *o, Error **errp)
+@@ -386,6 +476,8 @@ static void vfu_object_init_ctx(VfuObject *o, Error **errp)
          goto fail;
      }
  
-+    ret = vfu_setup_device_dma(o->vfu_ctx, &dma_register, &dma_unregister);
-+    if (ret < 0) {
-+        error_setg(errp, "vfu: Failed to setup DMA handlers for %s",
-+                   o->device);
-+        goto fail;
-+    }
++    vfu_object_register_bars(o->vfu_ctx, o->pci_dev);
 +
      ret = vfu_realize_ctx(o->vfu_ctx);
      if (ret < 0) {
          error_setg(errp, "vfu: Failed to realize device %s- %s",
 diff --git a/hw/remote/trace-events b/hw/remote/trace-events
-index 2ef7884346..f945c7e33b 100644
+index f945c7e33b..847d50d88f 100644
 --- a/hw/remote/trace-events
 +++ b/hw/remote/trace-events
-@@ -7,3 +7,5 @@ mpqemu_recv_io_error(int cmd, int size, int nfds) "failed to receive %d size %d,
- vfu_prop(const char *prop, const char *val) "vfu: setting %s as %s"
- vfu_cfg_read(uint32_t offset, uint32_t val) "vfu: cfg: 0x%u -> 0x%x"
+@@ -9,3 +9,6 @@ vfu_cfg_read(uint32_t offset, uint32_t val) "vfu: cfg: 0x%u -> 0x%x"
  vfu_cfg_write(uint32_t offset, uint32_t val) "vfu: cfg: 0x%u <- 0x%x"
-+vfu_dma_register(uint64_t gpa, size_t len) "vfu: registering GPA 0x%"PRIx64", %zu bytes"
-+vfu_dma_unregister(uint64_t gpa) "vfu: unregistering GPA 0x%"PRIx64""
+ vfu_dma_register(uint64_t gpa, size_t len) "vfu: registering GPA 0x%"PRIx64", %zu bytes"
+ vfu_dma_unregister(uint64_t gpa) "vfu: unregistering GPA 0x%"PRIx64""
++vfu_bar_register(int i, uint64_t addr, uint64_t size) "vfu: BAR %d: addr 0x%"PRIx64" size 0x%"PRIx64""
++vfu_bar_rw_enter(const char *op, uint64_t addr) "vfu: %s request for BAR address 0x%"PRIx64""
++vfu_bar_rw_exit(const char *op, uint64_t addr) "vfu: Finished %s of BAR address 0x%"PRIx64""
 -- 
 2.20.1
 
