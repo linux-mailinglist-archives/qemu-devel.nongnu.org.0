@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54E7D493FD9
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 19:26:42 +0100 (CET)
-Received: from localhost ([::1]:45036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3754B493FFB
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 19:32:11 +0100 (CET)
+Received: from localhost ([::1]:50042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAFfM-0007PK-Sa
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 13:26:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33036)
+	id 1nAFkf-0003KE-Qg
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 13:32:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1nAFcL-0006Tz-7W
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 13:23:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47793)
+ id 1nAFi6-0001jp-Rz
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 13:29:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1nAFcI-0005GY-SL
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 13:23:32 -0500
+ id 1nAFi3-00068O-7X
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 13:29:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642616603;
+ s=mimecast20190719; t=1642616966;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=eVOHpeMGKrGFrj+KwmMtOot9B3qupEuQG0hR/lpNFkY=;
- b=DjMwRth+SmuqhTyeYcL0OlHgnJVcQcD1RvQiB5sOuA77/LNhWU80Wls83pTsnzNwFiIE2d
- 8gibLLWO6nneN7oI4VV8vvS7/FtpZqlKZrR9wh6AXTs+Uw/3bLxNA0F64+NSIqjQ/gePud
- nJR9Qastip4EDflYv3OVZ8TNcVRXTac=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zR5p738ei4NLp6u5rbFc50vWB9XXj2+5CDLWGNycvuo=;
+ b=SDchvP+hj8c8KtLie6GcX/kDlsMRws0e96P7ko79VwiMV3OmoKDfF0uhgS6fjL+ppr5D1C
+ ucLp0sVRoNjZSMfWwWHwPDXEP/Suw8ZLpm4peWdS6tVoryVEl8lTagB1MvfnoL7dmp5gvU
+ erVKJkTyg8sxE7k/1jZocUuyMfGchv0=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-518-8o_Rt0L_PRiTb-prSTLNcQ-1; Wed, 19 Jan 2022 13:23:22 -0500
-X-MC-Unique: 8o_Rt0L_PRiTb-prSTLNcQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- el8-20020a056402360800b00403bbdcef64so3463066edb.14
- for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 10:23:21 -0800 (PST)
+ us-mta-625-rAEHXHnePyy8Pg3xQGmMyg-1; Wed, 19 Jan 2022 13:29:25 -0500
+X-MC-Unique: rAEHXHnePyy8Pg3xQGmMyg-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ h15-20020ac2596f000000b0042effa72823so1982991lfp.4
+ for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 10:29:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=eVOHpeMGKrGFrj+KwmMtOot9B3qupEuQG0hR/lpNFkY=;
- b=0+Uw2xRjTN8cTH/lk8Rq0MK0rIrW9qkwehamSZe09sr3utpE7KVwEsoeUBCULQfQZz
- NzzRjS5TDH2BgBW0N5esV85hXIqNFtMk8aRJZ6c8EeXg4tWg5Q/2/5cTLIgieNP/EtTv
- ndugmBjnexs++VRcrsL+9n//dfJ6Ll1Wu9TsoIFenKsksi2enoLM1+TRysayRGb4WXr+
- udvsgTuYUj6GmIl/eq5ByQBiiafgvYbJhrBCr5dHOLp1ksj6CuVfJyxjijsF3CbTbh1B
- qNTeyaBIuCNHa5Sokt0Q4EMtXZfUnc2X2xRqSNNKfHDV7TXDb3i77j0yOulszSYlApk/
- E+hA==
-X-Gm-Message-State: AOAM530NhjKwfNl1V/QZUr7yHxKrnDYJGjFGnv1hnveE/eYmptDvb8n1
- IQ1ukvdKm4MPSK7rW2oIR6BzxPnPostB9ubu83ptzsTRCUFCnvPDp8+EiYELk5wq1yqZVys4Su/
- ohKaxySDLUNREkgYGjQxk1+lP6a8rLJM=
-X-Received: by 2002:ac2:4e07:: with SMTP id e7mr17185415lfr.630.1642616600816; 
- Wed, 19 Jan 2022 10:23:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzFMFqUlOy7I78KNm9IKTKldPBmXJLfUUmNm35CvW9aSuo+M7S/uBcJA0G8Po8Mug2IvPoDFUZ1/lLhx8VY290=
-X-Received: by 2002:ac2:4e07:: with SMTP id e7mr17185392lfr.630.1642616600572; 
- Wed, 19 Jan 2022 10:23:20 -0800 (PST)
+ bh=zR5p738ei4NLp6u5rbFc50vWB9XXj2+5CDLWGNycvuo=;
+ b=ZhjJeMv3ZBYGnJJ4QQ5xG6vsgDdECZcpBBccEQOlAdikLJWkHej6p720ZwLe+t9NKH
+ dUfPoWIXIzs8x8tKyj04CjthE5BdGRjJ+WN3hnv9HhG71uitE85RIIywnjvIuumIPWMM
+ avGeBkUkxcxcaXXdaDtR1ZFjuzgFULXulM0ckX3Fd1J1rqb3Hy7GegRkO5jTqZdaMCvq
+ M/gnyqB5fC/Tpj0YuHC88r85lQvuvgf680aFhiqV2YtvKL/Ew/CYd5RDo8Y4ouZZxLJv
+ R6RKzBxbszgMGiBHfLUxLaaHrI+VhALywKAQXg6I7PuQSPyNyIQ2i4S2l7hIYA+7I8vc
+ 8AKw==
+X-Gm-Message-State: AOAM532XzNGCIuxveiJwUxk8fiQ+o3ZFOX7eEYqfFVvhL9HR/sqSkoiD
+ npLFCPl2wq4bsI/diVZLTJ0N1VB5cyFcU2f34FmsmAkmFZT3D6dRG0DntUOHaBC1UtXF7MmpLf4
+ 9WKxvH5w91h2aLuRkOpD906NXVvaCdUU=
+X-Received: by 2002:a2e:8053:: with SMTP id p19mr25548041ljg.318.1642616963550; 
+ Wed, 19 Jan 2022 10:29:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzQowPsCNJkGy4Ct0lscyQxGyix3Mnld4VGLHoACiqRSjgg0P8x6ZxeAgboi+u8rVUhJGPQDp5eGcW1JF4uWg0=
+X-Received: by 2002:a2e:8053:: with SMTP id p19mr25548015ljg.318.1642616963255; 
+ Wed, 19 Jan 2022 10:29:23 -0800 (PST)
 MIME-Version: 1.0
 References: <20220106221341.8779-1-leobras@redhat.com>
- <20220106221341.8779-6-leobras@redhat.com>
- <Yd/RkBTwMFxYBOiX@xz-m1.local>
-In-Reply-To: <Yd/RkBTwMFxYBOiX@xz-m1.local>
+ <20220106221341.8779-2-leobras@redhat.com>
+ <Yd/GhH1fExRgd4yA@xz-m1.local>
+ <CAJ6HWG6_JEyH0dohWa=p9vePGb3f1jRaT_z6viDTQobXGW9oiA@mail.gmail.com>
+ <YedwO5krFYGoDKCt@xz-m1.local>
+In-Reply-To: <YedwO5krFYGoDKCt@xz-m1.local>
 From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Wed, 19 Jan 2022 15:23:09 -0300
-Message-ID: <CAJ6HWG65oghwxjaxZ=Vh-LBMg2XH+nGL5wu+nL=NghekO+0_Fw@mail.gmail.com>
-Subject: Re: [PATCH v7 5/5] multifd: Implement zero copy write in multifd
- migration (multifd-zero-copy)
+Date: Wed, 19 Jan 2022 15:29:12 -0300
+Message-ID: <CAJ6HWG5okFSETnv6ipBqOaq34SgxZAvjUCEGkp_Z_tcjS1Rr+Q@mail.gmail.com>
+Subject: Re: [PATCH v7 1/5] QIOChannel: Add flags on io_writev and introduce
+ io_flush callback
 To: Peter Xu <peterx@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lsoaresp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -99,57 +101,117 @@ Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Peter,
-
-On Thu, Jan 13, 2022 at 4:15 AM Peter Xu <peterx@redhat.com> wrote:
+On Tue, Jan 18, 2022 at 10:58 PM Peter Xu <peterx@redhat.com> wrote:
 >
-> On Thu, Jan 06, 2022 at 07:13:42PM -0300, Leonardo Bras wrote:
-> > Implement zero copy on nocomp_send_write(), by making use of QIOChannel
-> > writev + flags & flush interface.
+> On Tue, Jan 18, 2022 at 05:45:09PM -0300, Leonardo Bras Soares Passos wrote:
+> > Hello Peter,
 > >
-> > Change multifd_send_sync_main() so it can distinguish each iteration sync from
-> > the setup and the completion, so a flush_zero_copy() can be called
-> > after each iteration in order to make sure all dirty pages are sent
-> > before a new iteration is started.
+> > On Thu, Jan 13, 2022 at 3:28 AM Peter Xu <peterx@redhat.com> wrote:
+> > >
+> > > On Thu, Jan 06, 2022 at 07:13:38PM -0300, Leonardo Bras wrote:
+> > > > diff --git a/io/channel.c b/io/channel.c
+> > > > index e8b019dc36..904855e16e 100644
+> > > > --- a/io/channel.c
+> > > > +++ b/io/channel.c
+> > > > @@ -67,12 +67,13 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
+> > > >  }
+> > > >
+> > > >
+> > > > -ssize_t qio_channel_writev_full(QIOChannel *ioc,
+> > > > -                                const struct iovec *iov,
+> > > > -                                size_t niov,
+> > > > -                                int *fds,
+> > > > -                                size_t nfds,
+> > > > -                                Error **errp)
+> > > > +ssize_t qio_channel_writev_full_flags(QIOChannel *ioc,
+> > > > +                                      const struct iovec *iov,
+> > > > +                                      size_t niov,
+> > > > +                                      int *fds,
+> > > > +                                      size_t nfds,
+> > > > +                                      int flags,
+> > > > +                                      Error **errp)
+> > > >  {
+> > > >      QIOChannelClass *klass = QIO_CHANNEL_GET_CLASS(ioc);
+> > > >
+> > > > @@ -83,7 +84,7 @@ ssize_t qio_channel_writev_full(QIOChannel *ioc,
+> > > >          return -1;
+> > > >      }
+> > >
+> > > Should we better also check QIO_CHANNEL_FEATURE_WRITE_ZERO_COPY here when
+> > > QIO_CHANNEL_WRITE_FLAG_ZERO_COPY is set?  Just like what we do with:
+> >
+> > Yes, that's correct.
+> > I will also test for fds + zerocopy_flag , which should also fail here.
+> >
+> > >
+> > >     if ((fds || nfds) &&
+> > >         !qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_FD_PASS)) {
+> > >         error_setg_errno(errp, EINVAL,
+> > >                          "Channel does not support file descriptor passing");
+> > >         return -1;
+> > >     }
+> > >
+> > > I still think it's better to have the caller be crystal clear when to use
+> > > zero_copy feature because it has implication on buffer lifetime.
+> >
+> > I don't disagree with that suggestion.
+> >
+> > But the buffer lifetime limitation is something on the socket
+> > implementation, right?
+> > There could be some synchronous zerocopy implementation that does not
+> > require flush, and thus
+> > don't require the buffer to be treated any special. Or am I missing something?
 >
-> Leo - could you remind me (since I remembered we've discussed something
-> similar) on why we can't simply do the sync() unconditionally for zero copy?
-
-On previous implementations, it would get stuck on the setup, since it
-was waiting for any movement on the error queue before even starting
-the sending process.
-At the time we would sync only at 'complete', so it would only need to
-run once. Running every iteration seemed a waste at the time.
-
-Then, after some talk with Juan, it was decided to sync after each
-migration, so on 'complete' it was unnecessary.
-But sure, now it would add just 2 syncs in the whole migration, and
-those should not even get to the syscall due to queued/sent counters.
-
->
-> I remember why we need the sync(), but I can't remember what's the matter if we
-> simply sync() too during setup and complete of migration.
->
-
-
-
-> Another trivial nit here:
->
-> > -void multifd_send_sync_main(QEMUFile *f)
-> > +int multifd_send_sync_main(QEMUFile *f, bool sync)
->
-> I'd name it "bool full" or anything not called "sync", because the function
-> already has a name that contains "sync", then it's werid to sync(sync==false).
->
+> Currently the flush() is required for zerocopy and not required for all the
+> existing non-zerocopy use cases, that's already an API difference so the caller
+> needs to identify it anyway.  Then I think it's simpler we expose all of it to
+> the user.
 
 Yeah, I agree.
-But if we will flush every time, then there is no need for such parameter :).
+Since one ZC implementation uses flush, all should use them. Even if
+it's a no-op.
+It was just an observation that not all ZC implementations have buffer
+limitations, but I agree the user should expect them anyway, since
+they will exist in some implementations.
 
-> The rest looks good to me.  Thanks.
+>
+> Not to mention IIUC if we don't fail here, it will just fail later when the
+> code will unconditionally convert the flags=ZEROCOPY into MSG_ZEROCOPY in your
+> next patch:
+>
+>     if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
+>         sflags = MSG_ZEROCOPY;
+>     }
 >
 
-Thanks!
+Correct.
 
+> So AFAIU it'll fail anyway, either here with the cap check I mentioned, or
+> later in sendmsg().
+>
+> IOW, I think it fails cleaner here, rather than reaching sendmsg().
+
+I Agree.
+
+>
+> >
+> > >
+> > > I might have commented similar things before, but I have missed a few versions
+> > > so I could also have missed some previous discussions..
+> > >
+> >
+> > That's all great suggestions Peter!  Thanks for that!
+> >
+> > Some of the previous suggestions may have been missed because a lot of
+> > code moved.
+> > Sorry about that.
+>
+> Not a problem at all, I just want to make sure my question still makes
+> sense. :)
+
+Thanks for asking them!
+
+>
 > --
 > Peter Xu
 >
