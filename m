@@ -2,88 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 228C9493F30
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 18:42:21 +0100 (CET)
-Received: from localhost ([::1]:54234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB0F9493F75
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 19:00:05 +0100 (CET)
+Received: from localhost ([::1]:55368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAEyS-0006Cm-6a
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 12:42:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49318)
+	id 1nAFFc-0001k3-Nr
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 13:00:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAEu8-0002JT-DH
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 12:37:52 -0500
-Received: from [2a00:1450:4864:20::330] (port=56195
- helo=mail-wm1-x330.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAEu3-0004IK-64
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 12:37:52 -0500
-Received: by mail-wm1-x330.google.com with SMTP id c66so6578090wma.5
- for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 09:37:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vq9LkofsOmu9ov9mAWdDInrzG+Hqb92pGFOH9eq7msM=;
- b=TC1OwBTCfgOpsfG/hIgkqBqQ1PIb++iGO/ue629y2DW3NxiIYI4x1jeH2W1IOogXyF
- BdN0hwBAj2GOO45A198qw+KqhFVvSZkd0dve5KxoffOcnwj+7inZ3iDC6FB/xp8DCkTW
- TWq1niI1wFzPN05myg0cv/EJRy9CcuDtKkI6U8jwilGyp++2vjgv2io8mOoZ0KG8uQDK
- Bl/iYMnqXcAmevbvSYRUtxpzUZqFuQ8YCTv++yFNprcbCcrVjz6tmyKpi0qzlxIPaQFy
- MrNGemwWw2KcClyU0VVRxFKrWygyj9H5bMo9AvGWEOgNDVZlun4kmXH+lXbs4ANs+TUG
- E6wQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vq9LkofsOmu9ov9mAWdDInrzG+Hqb92pGFOH9eq7msM=;
- b=lCYGIk51A45iooPTREKW5Xgo9/ldgkXts/0dTqp4EA534MponR4MybwTtSkSDTd25G
- 43AzCan4survKXdW6Xvcfsb5zd+j761dU3751YCa3lxkLVd1GyY8cQfBWtf6Go6qOGWK
- ZzH8Bgp2DiMpFCv//mmoCRJRXrovj7AG+GM09ckm43/V39ej6+JGafF6uzONAXtEJZeF
- 44w1Xs5X7MhDK086TOdNZaO19oaN9PoQR3VGEEJxSDpKsLgC5Ra3LAtbpEIsZvm3Gdu7
- m7D/W73P+q1stv68I5pB3FRi12xbnAGLSsi0CWNSyIg1yeEO64ut9pciUVy9XwM01NOq
- 2nQA==
-X-Gm-Message-State: AOAM532oUF4sAPLlcWGFZkkBwcczyBFAlDaI2c3kQHDgInIk5Y3BroXI
- V+MzM7STT6KprcSZlDvK6KPrKwSM72s=
-X-Google-Smtp-Source: ABdhPJwma2t69YG34RNK6EPLsvwgOHa9DtGVPVqpvHSslgwbbPPOi6NsEw+FewmFiG6bwZABzLjBtg==
-X-Received: by 2002:a5d:464e:: with SMTP id j14mr24015640wrs.252.1642613865426; 
- Wed, 19 Jan 2022 09:37:45 -0800 (PST)
-Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id z5sm7609079wmp.10.2022.01.19.09.37.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Jan 2022 09:37:45 -0800 (PST)
-Message-ID: <86a5e201-27fc-c649-fbde-4e4018bff9d3@amsat.org>
-Date: Wed, 19 Jan 2022 18:37:43 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nAEvB-0004BS-3o
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 12:38:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59462)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nAEv8-0004vE-GY
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 12:38:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642613933;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=/JWX3In9pN3S8MZpLIfFUalbpdlgaxjHkajTJhrO4cY=;
+ b=Dt2H5lUmMYqBC/f0wkuFR5WDAjQ6B6c/GxYQD2bB1hH0zst8yxg2XFRZz+Lld/tyVFA76V
+ Rgv98yMjiNMnE9r65ZSvetVdTUrTzaNkCvKFngqsdfJrbGjwbNUhC0ZcjljgB5nqxCjanG
+ NNE8wuRUhEN3WxLWZWIdzbrocGQ1YZA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-324-gJGwUyAYOz-SX21JxdtVKA-1; Wed, 19 Jan 2022 12:38:46 -0500
+X-MC-Unique: gJGwUyAYOz-SX21JxdtVKA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D76C085EE70;
+ Wed, 19 Jan 2022 17:38:45 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.213])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5DC252BCC5;
+ Wed, 19 Jan 2022 17:38:42 +0000 (UTC)
+Date: Wed, 19 Jan 2022 17:38:38 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Andrea Bolognani <abologna@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 0/3] meson: Don't pass 'method' to dependency()
+Message-ID: <YehMnmZp3z+Cr0Od@redhat.com>
+References: <20220119171800.491703-1-abologna@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 2/2] tests: Refresh lcitool submodule
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-References: <20220110124638.610145-1-f4bug@amsat.org>
- <20220110124638.610145-3-f4bug@amsat.org> <YehLgVvAW5SFIZli@redhat.com>
-In-Reply-To: <YehLgVvAW5SFIZli@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20220119171800.491703-1-abologna@redhat.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,47 +79,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 1/19/22 18:33, Daniel P. Berrangé wrote:
-> On Mon, Jan 10, 2022 at 01:46:38PM +0100, Philippe Mathieu-Daudé wrote:
->> Refresh lcitool submodule and the generated files by running:
->>
->>   $ make lcitool-refresh
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  tests/docker/dockerfiles/alpine.docker        | 3 ++-
->>  tests/docker/dockerfiles/centos8.docker       | 3 +--
->>  tests/docker/dockerfiles/fedora.docker        | 3 +--
->>  tests/docker/dockerfiles/opensuse-leap.docker | 2 +-
->>  tests/docker/dockerfiles/ubuntu1804.docker    | 2 +-
->>  tests/docker/dockerfiles/ubuntu2004.docker    | 2 +-
->>  tests/lcitool/libvirt-ci                      | 2 +-
->>  7 files changed, 8 insertions(+), 9 deletions(-)
-
->> diff --git a/tests/lcitool/libvirt-ci b/tests/lcitool/libvirt-ci
->> index 29cec2153b9..8f48e54238d 160000
->> --- a/tests/lcitool/libvirt-ci
->> +++ b/tests/lcitool/libvirt-ci
->> @@ -1 +1 @@
->> -Subproject commit 29cec2153b9a4dbb2e66f1cbc9866a4eff519cfd
->> +Subproject commit 8f48e54238d28d7a427a541d6dbe56432e3c4660
+On Wed, Jan 19, 2022 at 06:17:57PM +0100, Andrea Bolognani wrote:
+> See [1] for recent discussion about libgcrypt specifically, which the
+> first patch is about.
 > 
-> If you update that further you'll get the commit you added to
-> support macos-12.
+> After writing that one, I realized that there is no point in
+> explicitly passing 'method' to dependency() because Meson will do the
+> right thing by default - hence the next two patches.
 
-This in done in the "Add support for macOS 12 build on Cirrus-CI"
-patch:
+This whole series is effectively reverting
 
-https://lore.kernel.org/qemu-devel/20220110131001.614319-8-f4bug@amsat.org/
+  commit 1a94933fcc3d641bda9988244cde61769baae2e5
+  Author: Paolo Bonzini <pbonzini@redhat.com>
+  Date:   Mon Aug 31 06:27:00 2020 -0400
 
-> regardless
+    meson: use pkg-config method to find dependencies
+    
+    We do not need to ask cmake for the dependencies, so just use the
+    pkg-config mechanism.  Keep "auto" for SDL so that it tries using
+    sdl-config too.
+    
+    The documentation is adjusted to use SDL2_image as the example,
+    rather than SDL which does not use the "pkg-config" method.
+    
+    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+which IIRC was done to get rid of mesons' confusing/misleading
+attempts to probe for things via cmake when the pkg-config file
+is not present.
+
 > 
->   Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> [1] https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg01224.html
+> 
+> Andrea Bolognani (3):
+>   meson: Don't force use of libgcrypt-config
+>   meson: Don't pass 'method' to dependency()
+>   docs: Don't recommend passing 'method' to dependency()
+> 
+>  docs/devel/build-system.rst |  1 -
+>  meson.build                 | 75 +++++++++++++++----------------------
+>  tcg/meson.build             |  2 +-
+>  3 files changed, 31 insertions(+), 47 deletions(-)
+> 
+> -- 
+> 2.34.1
+> 
+> 
 
-Thanks!
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
