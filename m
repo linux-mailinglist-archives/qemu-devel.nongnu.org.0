@@ -2,90 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A2BF493AFB
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 14:20:01 +0100 (CET)
-Received: from localhost ([::1]:58228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B286493B71
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 14:50:54 +0100 (CET)
+Received: from localhost ([::1]:58778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAAsZ-0008CR-SI
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 08:19:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44810)
+	id 1nABMT-0005TI-2Z
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 08:50:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nAA9I-0006OZ-Gl
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 07:33:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37756)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nAAV4-0006Zk-Ah; Wed, 19 Jan 2022 07:55:57 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:7946)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nAA9E-0000w7-Rm
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 07:33:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642595587;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lXMVbllwOtpZdsRIablA7/MbPu6Cq8aeqTVOk2U1K7A=;
- b=h7YrXsgJtedCwLOGAM/z5ml9IqC7Icmgk4zwb6WZG83JzbiALsEZ8nl2kuGPEaGTNONJLi
- QeZHdHkqdxYAxj8dAf11loVIReScu5qQzfL+MWpq5xWQQlKE7tKSSPdDl/In4GHv2TiNKj
- Pf+9I7Eysnp4hktJRSV0KVogHgtDO84=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-4dnrgECgP9WV4UYj0Qyf5w-1; Wed, 19 Jan 2022 07:33:03 -0500
-X-MC-Unique: 4dnrgECgP9WV4UYj0Qyf5w-1
-Received: by mail-wm1-f72.google.com with SMTP id
- v190-20020a1cacc7000000b0034657bb6a66so1190477wme.6
- for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 04:33:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=lXMVbllwOtpZdsRIablA7/MbPu6Cq8aeqTVOk2U1K7A=;
- b=4OjRxSLjgy3+X1YotvxQD45p1ZSeNIcyX0ZyXfpxuuL5qewX+PO9qNcp+q6iEY1y1n
- 1Ks8RfKKtuLZgqik06cPAEMN6DQdXMGZfZK/x5Bb1CVwuU9U7iWO1qwPRSmvBBspzhH9
- ql+b31HTgCmqOVp7Uc6EWHESsiOKelAqPuBnk/rcGKTBADNzNtz7gMX29UawNPvXUFPT
- vEo/EPvs2tTZEpKyd0jiaLny8SChPyLXvALP4pZdw8MYThW1+gaaj/rXg3l0SA+SvwG1
- S53rz8kYA7F9492jDYtoXrA7V7YlsXEWevxpUtqbuHzJcx1TMMANrUlXFRlgxwPSy6xQ
- XndA==
-X-Gm-Message-State: AOAM532HWtisE8KWrmnlNMVWF7VgOYssfdzZWjwLoGNu8YUOMT8ujruf
- 4dBNbZVOpaTZVIQ064YsMnDqTCD5ER+Q0ydwf0fMvbE+fVkLW3GQ5cEx/Wau+h0IhJKYHRAc5ZF
- 2VWTSv4/GI/IVBcI=
-X-Received: by 2002:a05:600c:3797:: with SMTP id
- o23mr3282675wmr.158.1642595581696; 
- Wed, 19 Jan 2022 04:33:01 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyUjtL8ArbS2Y9tePo9Vf5PN5lnPqhyyaphSBFCc4PLGxvKfXi9L7eDoavOc9F7grJkO8vbxg==
-X-Received: by 2002:a05:600c:3797:: with SMTP id
- o23mr3282661wmr.158.1642595581433; 
- Wed, 19 Jan 2022 04:33:01 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id h11sm5051292wmb.12.2022.01.19.04.33.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jan 2022 04:33:00 -0800 (PST)
-Date: Wed, 19 Jan 2022 12:32:59 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH RFC 00/15] migration: Postcopy Preemption
-Message-ID: <YegE+5AQAttvmAGW@work-vm>
-References: <20220119080929.39485-1-peterx@redhat.com>
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nAAUe-0000eV-8V; Wed, 19 Jan 2022 07:55:18 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20JBT5fk006202; 
+ Wed, 19 Jan 2022 12:54:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=N8YlwDDWY12lnu2XZ5Wmyo8R8WYPcZ3jdYFowkRG+N4=;
+ b=B0KsifwlaqZl3WEXz0OLcsc70fuZuBeczC57wu0zYwP1aP6ox52pSrhESRjxzHQppLhH
+ GUXqo1Kt/aPXIvom0epdOBr58lXoX6K9FOydsJ7m9s5jAc9m82HkXFp4d0Hf9vTTnGfv
+ 10zWy1I8vuo0F89X4JG+OAlz0SkgPm2bo0wBL4wVImPO2twyq+tKyABi9f9PMyLPqGVy
+ B5uXUb8T/vfsdF5lDZgASwsv8VRbvXMxFtMNFDMArRLyqYlsUmJSNT4LIXzKgMCTFm4a
+ MKhaKZ3BtXuKHY71fsDTcBOWJcEoxeXo4bi7JzfLzMm3PgAN48Ga21XAroiOfwmWTy87 rA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dpht2hksn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Jan 2022 12:54:47 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20JCb1FU009752;
+ Wed, 19 Jan 2022 12:54:46 GMT
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dpht2hksb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Jan 2022 12:54:46 +0000
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20JCr7kW018547;
+ Wed, 19 Jan 2022 12:54:45 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma03wdc.us.ibm.com with ESMTP id 3dknwafcvy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Jan 2022 12:54:45 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20JCsi4L30147056
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 19 Jan 2022 12:54:44 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 033567805E;
+ Wed, 19 Jan 2022 12:54:44 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 49A8178064;
+ Wed, 19 Jan 2022 12:54:43 +0000 (GMT)
+Received: from localhost (unknown [9.211.99.176])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Wed, 19 Jan 2022 12:54:42 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v2 13/14] target/ppc: 405: Program exception cleanup
+In-Reply-To: <YeesfOoE9OYXBgUx@yekko>
+References: <20220118184448.852996-1-farosas@linux.ibm.com>
+ <20220118184448.852996-14-farosas@linux.ibm.com> <YeesfOoE9OYXBgUx@yekko>
+Date: Wed, 19 Jan 2022 09:54:41 -0300
+Message-ID: <87fspjx4vi.fsf@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20220119080929.39485-1-peterx@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: sEIYnfrOCtc_qUyra_6RO4mRY3XpEvcb
+X-Proofpoint-ORIG-GUID: HL8iNFCdaJhIQFITaTQVqozt_XQvS0s5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-19_07,2022-01-19_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ mlxlogscore=923 lowpriorityscore=0 suspectscore=0 adultscore=0
+ clxscore=1015 phishscore=0 spamscore=0 mlxscore=0 impostorscore=0
+ bulkscore=0 priorityscore=1501 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2201190072
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,284 +107,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: clg@kaod.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> Based-on: <20211224065000.97572-1-peterx@redhat.com>
-> 
-> Human version - This patchset is based on:
->   https://lore.kernel.org/qemu-devel/20211224065000.97572-1-peterx@redhat.com/
-> 
-> This series can also be found here:
->   https://github.com/xzpeter/qemu/tree/postcopy-preempt
-> 
-> Abstract
-> ========
-> 
-> This series added a new migration capability called "postcopy-preempt".  It can
-> be enabled when postcopy is enabled, and it'll simply (but greatly) speed up
-> postcopy page requests handling process.
-> 
-> Some quick tests below measuring postcopy page request latency:
-> 
->   - Guest config: 20G guest, 40 vcpus
->   - Host config: 10Gbps host NIC attached between src/dst
->   - Workload: one busy dirty thread, writting to 18G memory (pre-faulted).
->     (refers to "2M/4K huge page, 1 dirty thread" tests below)
->   - Script: see [1]
-> 
->   |----------------+--------------+-----------------------|
->   | Host page size | Vanilla (ms) | Postcopy Preempt (ms) |
->   |----------------+--------------+-----------------------|
->   | 2M             |        10.58 |                  4.96 |
->   | 4K             |        10.68 |                  0.57 |
->   |----------------+--------------+-----------------------|
-> 
-> For 2M page, we got 1x speedup.  For 4K page, 18x speedup.
-> 
-> For more information on the testing, please refer to "Test Results" below.
-> 
-> Design
-> ======
-> 
-> The postcopy-preempt feature contains two major reworks on postcopy page fault
-> handlings:
-> 
->     (1) Postcopy requests are now sent via a different socket from precopy
->         background migration stream, so as to be isolated from very high page
->         request delays
-> 
->     (2) For huge page enabled hosts: when there's postcopy requests, they can
->         now intercept a partial sending of huge host pages on src QEMU.
-> 
-> The design is relatively straightforward, however there're trivial
-> implementation details that the patchset needs to address.  Many of them are
-> addressed as separate patches.  The rest is handled majorly in the big patch to
-> enable the whole feature.
-> 
-> Postcopy recovery is not yet supported, it'll be done after some initial review
-> on the solution first.
-> 
-> Patch layout
-> ============
-> 
-> The initial 10 (out of 15) patches are mostly even suitable to be merged
-> without the new feature, so they can be looked at even earlier.
-> 
-> Patch 11-14 implements the new feature, in which patches 11-13 are mostly still
-> small and doing preparations, and the major change is done in patch 14.
-> 
-> Patch 15 is an unit test.
-> 
-> Tests Results
-> ==================
-> 
-> When measuring the page request latency, I did that via trapping userfaultfd
-> kernel faults using the bpf script [1]. I ignored kvm fast page faults, because
-> when it happened it means no major/real page fault is even needed, IOW, no
-> query to src QEMU.
-> 
-> The numbers (and histogram) I captured below are based on a whole procedure of
-> postcopy migration that I sampled with different configurations, and the
-> average page request latency was calculated.  I also captured the latency
-> distribution, it's also interesting too to look at them here.
-> 
-> One thing to mention is I didn't even test 1G pages.  It doesn't mean that this
-> series won't help 1G - actually it'll help no less than what I've tested I
-> believe, it's just that for 1G huge pages the latency will be >1sec on 10Gbps
-> nic so it's not really a usable scenario for any sensible customer.
-> 
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 2M huge page, 1 dirty thread
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> With vanilla postcopy:
-> 
-> Average: 10582 (us)
-> 
-> @delay_us:
-> [1K, 2K)               7 |                                                    |
-> [2K, 4K)               1 |                                                    |
-> [4K, 8K)               9 |                                                    |
-> [8K, 16K)           1983 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
-> 
-> With postcopy-preempt:
-> 
-> Average: 4960 (us)
-> 
-> @delay_us:
-> [1K, 2K)               5 |                                                    |
-> [2K, 4K)              44 |                                                    |
-> [4K, 8K)            3495 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
-> [8K, 16K)            154 |@@                                                  |
-> [16K, 32K)             1 |                                                    |
-> 
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 4K small page, 1 dirty thread
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> With vanilla postcopy:
-> 
-> Average: 10676 (us)
-> 
-> @delay_us:
-> [4, 8)                 1 |                                                    |
-> [8, 16)                3 |                                                    |
-> [16, 32)               5 |                                                    |
-> [32, 64)               3 |                                                    |
-> [64, 128)             12 |                                                    |
-> [128, 256)            10 |                                                    |
-> [256, 512)            27 |                                                    |
-> [512, 1K)              5 |                                                    |
-> [1K, 2K)              11 |                                                    |
-> [2K, 4K)              17 |                                                    |
-> [4K, 8K)              10 |                                                    |
-> [8K, 16K)           2681 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
-> [16K, 32K)             6 |                                                    |
-> 
-> With postcopy preempt:
-> 
-> Average: 570 (us)
-> 
-> @delay_us:
-> [16, 32)               5 |                                                    |
-> [32, 64)               6 |                                                    |
-> [64, 128)           8340 |@@@@@@@@@@@@@@@@@@                                  |
-> [128, 256)         23052 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
-> [256, 512)          8119 |@@@@@@@@@@@@@@@@@@                                  |
-> [512, 1K)            148 |                                                    |
-> [1K, 2K)             759 |@                                                   |
-> [2K, 4K)            6729 |@@@@@@@@@@@@@@@                                     |
-> [4K, 8K)              80 |                                                    |
-> [8K, 16K)            115 |                                                    |
-> [16K, 32K)            32 |                                                    |
+David Gibson <david@gibson.dropbear.id.au> writes:
 
-Nice speedups.
+> On Tue, Jan 18, 2022 at 03:44:47PM -0300, Fabiano Rosas wrote:
+>> The 405 Program Interrupt does not set SRR1 with any diagnostic bits,
+>> just a clean copy of the MSR.
+>> 
+>> We're using the BookE Exception Syndrome Register which is different
+>> from the 405.
+>
+> Hrm.  We really do want to set the 40x ESR bits here, though.
 
-> So one thing funny about 4K small pages is that with vanilla postcopy I didn't
-> even get a speedup comparing to 2M pages, probably because the major overhead
-> is not sending the page itself, but other things (e.g. waiting for precopy to
-> flush the existing pages).
-> 
-> The other thing is in postcopy preempt test, I can still see a bunch of 2ms-4ms
-> latency page requests.  That's probably what we would like to dig into next.
-> One possibility is since we shared the same sending thread on src QEMU, we
-> could have yield ourselves because precopy socket is full.  But that's TBD.
-
-I guess those could be pages queued behind others; or maybe something
-like one that starts getting sent on the main socket but then
-interrupted by another, but then the original page is wanted?
-
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 4K small page, 16 dirty threads
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> What I did test in extra was using 16 concurrent faulting threads, in this case
-> the postcopy queue can be relatively longer.  It's done via:
-> 
->   $ stress -m 16 --vm-bytes 1073741824 --vm-keep
-> 
-> With vanilla postcopy:
-> 
-> Average: 2244 (us)
-> 
-> @delay_us:
-> [0]                  556 |                                                    |
-> [1]                11251 |@@@@@@@@@@@@                                        |
-> [2, 4)             12094 |@@@@@@@@@@@@@                                       |
-> [4, 8)             12234 |@@@@@@@@@@@@@                                       |
-> [8, 16)            47144 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
-> [16, 32)           42281 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@      |
-> [32, 64)           17676 |@@@@@@@@@@@@@@@@@@@                                 |
-> [64, 128)            952 |@                                                   |
-> [128, 256)           405 |                                                    |
-> [256, 512)           779 |                                                    |
-> [512, 1K)           1003 |@                                                   |
-> [1K, 2K)            1976 |@@                                                  |
-> [2K, 4K)            4865 |@@@@@                                               |
-> [4K, 8K)            5892 |@@@@@@                                              |
-> [8K, 16K)          26941 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                       |
-> [16K, 32K)           844 |                                                    |
-> [32K, 64K)            17 |                                                    |
-> 
-> With postcopy preempt:
-> 
-> Average: 1064 (us)
-> 
-> @delay_us:
-> [0]                 1341 |                                                    |
-> [1]                30211 |@@@@@@@@@@@@                                        |
-> [2, 4)             32934 |@@@@@@@@@@@@@                                       |
-> [4, 8)             21295 |@@@@@@@@                                            |
-> [8, 16)           130774 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
-> [16, 32)           95128 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@               |
-> [32, 64)           49591 |@@@@@@@@@@@@@@@@@@@                                 |
-> [64, 128)           3921 |@                                                   |
-> [128, 256)          1066 |                                                    |
-> [256, 512)          2730 |@                                                   |
-> [512, 1K)           1849 |                                                    |
-> [1K, 2K)             512 |                                                    |
-> [2K, 4K)            2355 |                                                    |
-> [4K, 8K)           48812 |@@@@@@@@@@@@@@@@@@@                                 |
-> [8K, 16K)          10026 |@@@                                                 |
-> [16K, 32K)           810 |                                                    |
-> [32K, 64K)            68 |                                                    |
-> 
-> In this specific case, a funny thing is when there're tons of postcopy
-> requests, the vanilla postcopy page requests are handled even faster (2ms
-> average) than when there's only 1 dirty thread.  It's probably because
-> unqueue_page() will always hit anyway so precopy streaming has a less effect on
-> postcopy.  However that'll be still slower than having a standalone postcopy
-> stream as preempt version has (1ms).
-
-Curious.
-
-Dave
-
-> Any comment welcomed.
-> 
-> [1] https://github.com/xzpeter/small-stuffs/blob/master/tools/huge_vm/uffd-latency.bpf
-> 
-> Peter Xu (15):
->   migration: No off-by-one for pss->page update in host page size
->   migration: Allow pss->page jump over clean pages
->   migration: Enable UFFD_FEATURE_THREAD_ID even without blocktime feat
->   migration: Add postcopy_has_request()
->   migration: Simplify unqueue_page()
->   migration: Move temp page setup and cleanup into separate functions
->   migration: Introduce postcopy channels on dest node
->   migration: Dump ramblock and offset too when non-same-page detected
->   migration: Add postcopy_thread_create()
->   migration: Move static var in ram_block_from_stream() into global
->   migration: Add pss.postcopy_requested status
->   migration: Move migrate_allow_multifd and helpers into migration.c
->   migration: Add postcopy-preempt capability
->   migration: Postcopy preemption on separate channel
->   tests: Add postcopy preempt test
-> 
->  migration/migration.c        | 107 +++++++--
->  migration/migration.h        |  55 ++++-
->  migration/multifd.c          |  19 +-
->  migration/multifd.h          |   2 -
->  migration/postcopy-ram.c     | 192 ++++++++++++----
->  migration/postcopy-ram.h     |  14 ++
->  migration/ram.c              | 417 ++++++++++++++++++++++++++++-------
->  migration/ram.h              |   2 +
->  migration/savevm.c           |  12 +-
->  migration/socket.c           |  18 ++
->  migration/socket.h           |   1 +
->  migration/trace-events       |  12 +-
->  qapi/migration.json          |   8 +-
->  tests/qtest/migration-test.c |  21 ++
->  14 files changed, 716 insertions(+), 164 deletions(-)
-> 
-> -- 
-> 2.32.0
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+Well I wrote the code and nothing changed so I dropped it. Not sure if
+we are even raising these properly in the translation code. I'll take
+another look.
 
