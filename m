@@ -2,65 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEBBF493F15
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 18:32:13 +0100 (CET)
-Received: from localhost ([::1]:38510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DF96493F55
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 18:49:51 +0100 (CET)
+Received: from localhost ([::1]:41342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAEoe-0003ga-Kq
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 12:32:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44794)
+	id 1nAF5i-0008Sa-Ef
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 12:49:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nAEei-0006BW-Gv
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 12:21:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48924)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1nAEfy-0000AT-5V
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 12:23:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23264)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nAEef-0000mq-Vd
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 12:21:55 -0500
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1nAEfw-0000su-G3
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 12:23:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642612912;
+ s=mimecast20190719; t=1642612990;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7WrC41h0RxZcaua4ZVlSntGf0udnld9qur2yZub2B14=;
- b=XfDrD+alomagj0/Bfd5I85DrJwpEJ0q/6R8l16XzCyxv0Z7Ocvz9yuAsH4vVaTqlfV6cUx
- ztLcvYkqy6X4aXkhbVQ4Y8TCEYw/0LZA9HkGH3wf/BDsLxQ6JHTvCpFPyRu9VOrjv0QY36
- ywu//4Qb5eghpKdLo4DAxeEVyybr8ms=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=a98wIamrGk+5KGulG6tfgZ91Vs5wH6tcALvWbX1aPtY=;
+ b=KTDU3rCA3FdcVIpfWi3iI3txrIQhX4DGPcgAKXVGLrLUoyk5NyRdueko8kDgMh9mAzPhK/
+ iOLN9NlxZ+hRV62X8koa+TRNiYlRpTf6zeO7pPUxsb+i/yPD25l6a63nWdz3aLr6NpcnX1
+ x5+WUd9l2IB8zzk2SGot+ipisCBMnCs=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-422-N5fGinT0M4W8ujedFI-w_A-1; Wed, 19 Jan 2022 12:21:51 -0500
-X-MC-Unique: N5fGinT0M4W8ujedFI-w_A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 703CC84DA42;
- Wed, 19 Jan 2022 17:21:50 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C7977D3CA;
- Wed, 19 Jan 2022 17:21:39 +0000 (UTC)
-Date: Wed, 19 Jan 2022 18:21:38 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH 1/3] qsd: Add pre-init argument parsing pass
-Message-ID: <YehIosxuXCqsGBSW@redhat.com>
-References: <20211222114153.67721-1-hreitz@redhat.com>
- <20211222114153.67721-2-hreitz@redhat.com>
- <87zgnrubkf.fsf@dusky.pond.sub.org>
- <4a15fbad-b177-f35c-1468-ef14f7ab1887@redhat.com>
+ us-mta-154-5j5RgkVUPuCpy2L3UfEMag-1; Wed, 19 Jan 2022 12:23:09 -0500
+X-MC-Unique: 5j5RgkVUPuCpy2L3UfEMag-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ h11-20020a05640250cb00b003fa024f87c2so3244999edb.4
+ for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 09:23:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=a98wIamrGk+5KGulG6tfgZ91Vs5wH6tcALvWbX1aPtY=;
+ b=KlBbFu5m9nhfFjBUS6O2kZuaekjKJFCbGWncXHxpWFB6GxwRQ9O/ziGYtAP0xf6EW1
+ e8lbUDEO7LXAAPx6fsAxeCW2tLdGHe8P8U7yojSvw2fdnOPerbil5BX6rq8VFV7f+u10
+ Zr9okkXW6t03EoG4YSWLKX4o+MrKc29yAmxlDFw+b+rOMPhMtdyid6tTLNFp0UXCHS8s
+ Jsf/g/iMdgzB5kyzqUaBDXEHTEzq0OZayIh8oDgrIKRPtMBpGZh/MZiuPLeiKr26BIc7
+ GoDftxGSR9meS2MHNqSQT2ls+0fsjmbz/pgKZI0VmLi9K4QYTY0QH54uAoewL7uCWkcw
+ khlw==
+X-Gm-Message-State: AOAM5329F/lLxw7ot9RXy36Jsw7pUX9UEGh7cD3+HwwvhshpOkntrvU2
+ 3B1d1lEwJalAkqf/SJ7GNJz5+Ra8UuCXnt4BesiLpIncwoudkztVzeNKe4Z8sxVv4NISzj/fuuQ
+ HVFs/xX7aLidbrIF4MiosHrTZIblNwgE=
+X-Received: by 2002:a2e:601:: with SMTP id 1mr24937654ljg.442.1642612988143;
+ Wed, 19 Jan 2022 09:23:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz+WBCma2uIMW8nsxelzuFP/+w0tRC48aqCH9ddN9wRNy9EQwCv3Rb5qOB8r2W21rUkuV33+i/d2U6ZA4UCFKQ=
+X-Received: by 2002:a2e:601:: with SMTP id 1mr24937627ljg.442.1642612987834;
+ Wed, 19 Jan 2022 09:23:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <4a15fbad-b177-f35c-1468-ef14f7ab1887@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+References: <20220106221341.8779-1-leobras@redhat.com>
+ <20220106221341.8779-3-leobras@redhat.com>
+ <Yd/LLxNCItAIX3eN@xz-m1.local> <Yd/5lhcW6IHlVOBz@redhat.com>
+ <YeAAJLYeImjPwW0f@xz-m1.local> <YeACHxbPt1SV9cx8@redhat.com>
+In-Reply-To: <YeACHxbPt1SV9cx8@redhat.com>
+From: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Date: Wed, 19 Jan 2022 14:22:56 -0300
+Message-ID: <CAJ6HWG7R4F4RvsQR-FM5qYyPJL2bzJJ4oADGW0TxDjsATDwkoQ@mail.gmail.com>
+Subject: Re: [PATCH v7 2/5] QIOChannelSocket: Implement io_writev zero copy
+ flag & io_flush for CONFIG_LINUX
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -81,129 +95,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 19.01.2022 um 14:44 hat Hanna Reitz geschrieben:
-> On 19.01.22 13:58, Markus Armbruster wrote:
-> > Hanna Reitz <hreitz@redhat.com> writes:
-> > 
-> > > We want to add a --daemonize argument to QSD's command line.
-> > Why?
-> 
-> OK, s/we/I/.  I find it useful, because without such an option, I need to
-> have whoever invokes QSD loop until the PID file exists, before I can be
-> sure that all exports are set up.  I make use of it in the test cases added
-> in patch 3.
-> 
-> I suppose this could be worked around with a special character device, like
-> so:
-> 
-> ```
-> ncat --listen -U /tmp/qsd-done.sock </dev/null &
-> ncat_pid=$!
-> 
-> qemu-storage-daemon \
->     ... \
->     --chardev socket,id=signal_done,path=/tmp/qsd-done.sock \
->     --monitor signal_done \
->     --pidfile /tmp/qsd.pid &
-> 
-> wait $ncat_pid
-> ```
-> 
-> But having to use an extra tool for this is unergonomic.  I mean, if there’s
-> no other way...
+Hello Daniel,
 
-The other point is that the system emulator has it, qemu-nbd has it,
-so certainly qsd should have it as well. Not the least because it should
-be able to replace qemu-nbd (at least for the purpose of exporting NBD.
-not necessarily for attaching it to the host).
+On Thu, Jan 13, 2022 at 7:42 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Thu, Jan 13, 2022 at 06:34:12PM +0800, Peter Xu wrote:
+> > On Thu, Jan 13, 2022 at 10:06:14AM +0000, Daniel P. Berrang=C3=A9 wrote=
+:
+> > > On Thu, Jan 13, 2022 at 02:48:15PM +0800, Peter Xu wrote:
+> > > > On Thu, Jan 06, 2022 at 07:13:39PM -0300, Leonardo Bras wrote:
+> > > > > @@ -558,15 +575,26 @@ static ssize_t qio_channel_socket_writev(QI=
+OChannel *ioc,
+> > > > >          memcpy(CMSG_DATA(cmsg), fds, fdsize);
+> > > > >      }
+> > > > >
+> > > > > +    if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
+> > > > > +        sflags =3D MSG_ZEROCOPY;
+> > > > > +    }
+> > > > > +
+> > > > >   retry:
+> > > > > -    ret =3D sendmsg(sioc->fd, &msg, 0);
+> > > > > +    ret =3D sendmsg(sioc->fd, &msg, sflags);
+> > > > >      if (ret <=3D 0) {
+> > > > > -        if (errno =3D=3D EAGAIN) {
+> > > > > +        switch (errno) {
+> > > > > +        case EAGAIN:
+> > > > >              return QIO_CHANNEL_ERR_BLOCK;
+> > > > > -        }
+> > > > > -        if (errno =3D=3D EINTR) {
+> > > > > +        case EINTR:
+> > > > >              goto retry;
+> > > > > +        case ENOBUFS:
+> > > > > +            if (sflags & MSG_ZEROCOPY) {
+> > > > > +                error_setg_errno(errp, errno,
+> > > > > +                                 "Process can't lock enough memo=
+ry for using MSG_ZEROCOPY");
+> > > > > +                return -1;
+> > > > > +            }
+> > > >
+> > > > I have no idea whether it'll make a real differnece, but - should w=
+e better add
+> > > > a "break" here?  If you agree and with that fixed, feel free to add=
+:
+> > > >
+> > > > Reviewed-by: Peter Xu <peterx@redhat.com>
+> > > >
+> > > > I also wonder whether you hit ENOBUFS in any of the environments.  =
+On Fedora
+> > > > here it's by default unlimited, but just curious when we should kee=
+p an eye.
+> > >
+> > > Fedora doesn't allow unlimited locked memory by default
+> > >
+> > > $ grep "locked memory" /proc/self/limits
+> > > Max locked memory         65536                65536                b=
+ytes
+> > >
+> > > And  regardless of Fedora defaults, libvirt will set a limit
+> > > for the guest. It will only be unlimited if requiring certain
+> > > things like VFIO.
+> >
+> > Thanks, I obviously checked up the wrong host..
+> >
+> > Leo, do you know how much locked memory will be needed by zero copy?  W=
+ill
+> > there be a limit?  Is it linear to the number of sockets/channels?
+>
+> IIRC we decided it would be limited by the socket send buffer size, rathe=
+r
+> than guest RAM, because writes will block once the send buffer is full.
+>
+> This has a default global setting, with per-socket override. On one box I
+> have it is 200 Kb. With multifd you'll need  "num-sockets * send buffer".
 
-> > >                                                                This will
-> > > require forking the process before we do any complex initialization
-> > > steps, like setting up the block layer or QMP.  Therefore, we must scan
-> > > the command line for it long before our current process_options() call.
-> > Can you explain in a bit more detail why early forking is required?
-> > 
-> > I have a strong dislike for parsing more than once...
-> 
-> Because I don’t want to set up QMP and block devices, and then fork the
-> process into two.  That sounds like there’d be a lot of stuff to think
-> about, which just isn’t necessary, because we don’t need to set up any
-> of this in the parent.
+Oh, I was not aware there is a send buffer size (or maybe I am unable
+to recall).
+That sure makes things much easier.
 
-Here we can compare again: Both the system emulator and qemu-nbd behave
-the same, they fork before they do anything interesting.
+>
+> > It'll be better if we can fail at enabling the feature when we detected=
+ that
+> > the specified locked memory limit may not be suffice.
 
-The difference is that they still parse the command line only once
-because they don't immediately create things, but just store the options
-and later process them in their own magic order. I'd much rather parse
-the command line twice than copy that behaviour.
+sure
 
-Kevin
+>
+> Checking this value against available locked memory though will always
+> have an error margin because other things in QEMU can use locked memory
+> too
 
-> For example, if I set up a monitor on a Unix socket (server=true),
-> processing is delayed until the client connects.  Say I put --daemonize
-> afterwards.  I connect to the waiting server socket, the child is forked
-> off, and then... I’m not sure what happens, actually.  Do I have a
-> connection with both the parent and the child listening?  I know that in
-> practice, what happens is that once the parent exits, the connection is
-> closed, and I get a “qemu: qemu_thread_join: Invalid argument” warning/error
-> on the QSD side.
-> 
-> There’s a lot of stuff to think about if you allow forking after other
-> options, so it should be done first.  We could just require the user to put
-> --daemonize before all other options, and so have a single pass; but still,
-> before options are even parsed, we have already for example called
-> bdrv_init(), init_qmp_commands(), qemu_init_main_loop().  These are all
-> things that the parent of a daemonizing process doesn’t need to do, and
-> where I’d simply rather not think about what impact it has if we fork
-> afterwards.
-> 
-> Hanna
-> 
-> > > Instead of adding custom new code to do so, just reuse process_options()
-> > > and give it a @pre_init_pass argument to distinguish the two passes.  I
-> > > believe there are some other switches but --daemonize that deserve
-> > > parsing in the first pass:
-> > > 
-> > > - --help and --version are supposed to only print some text and then
-> > >    immediately exit (so any initialization we do would be for naught).
-> > >    This changes behavior, because now "--blockdev inv-drv --help" will
-> > >    print a help text instead of complaining about the --blockdev
-> > >    argument.
-> > >    Note that this is similar in behavior to other tools, though: "--help"
-> > >    is generally immediately acted upon when finding it in the argument
-> > >    list, potentially before other arguments (even ones before it) are
-> > >    acted on.  For example, "ls /does-not-exist --help" prints a help text
-> > >    and does not complain about ENOENT.
-> > > 
-> > > - --pidfile does not need initialization, and is already exempted from
-> > >    the sequential order that process_options() claims to strictly follow
-> > >    (the PID file is only created after all arguments are processed, not
-> > >    at the time the --pidfile argument appears), so it makes sense to
-> > >    include it in the same category as --daemonize.
-> > > 
-> > > - Invalid arguments should always be reported as soon as possible.  (The
-> > >    same caveat with --help applies: That means that "--blockdev inv-drv
-> > >    --inv-arg" will now complain about --inv-arg, not inv-drv.)
-> > > 
-> > > Note that we could decide to check only for --daemonize in the first
-> > > pass, and defer --help, --version, and checking for invalid arguments to
-> > > the second one, thus largely keeping our current behavior.  However,
-> > > this would break "--help --daemonize": The child would print the help
-> > > text to stdout, which is redirected to /dev/null, and so the text would
-> > > disappear.  We would need to have the text be printed to stderr instead,
-> > > and this would then make the parent process exit with EXIT_FAILURE,
-> > > which is probably not what we want for --help.
-> > > 
-> > > This patch does make some references to --daemonize without having
-> > > implemented it yet, but that will happen in the next patch.
-> > > 
-> > > Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-> 
+We can get the current limit (before zerocopy) as an error margin:
+req_lock_mem =3D num-sockets * send buffer + BASE_LOCKED
+
+Where BASE_LOCKED is the current libvirt value, or so on.
+
+What do you think?
+
+Best regards,
+Leo
 
 
