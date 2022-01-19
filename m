@@ -2,69 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AF9B4936C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 10:02:10 +0100 (CET)
-Received: from localhost ([::1]:44408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05DF9493899
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 11:34:04 +0100 (CET)
+Received: from localhost ([::1]:35670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA6r1-0004cC-Ox
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 04:02:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34298)
+	id 1nA8Hy-0004Yo-Tn
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 05:34:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nA6Oe-0006bp-Ka
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 03:32:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27512)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1nA86a-0003NL-0W; Wed, 19 Jan 2022 05:22:16 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:59693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nA6Oc-0004gV-II
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 03:32:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642581166;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wlru8De4VPQQW0NKdALwOKAs/qP6Gneuw6GtYDuHDDY=;
- b=P8EYyOKlcCowhksyBKdLSagVQA16Sn1WXMdBLNKb1hFGydvbLU5xMC90xhjVSWIjXvKFl3
- afYRkVtKCt+suysQWpT+nrnruRBhJziUrTQqOZl6NeTXaFKZTZCbLWLiadLD9SUyudSWDw
- v1lI9uinA3WrlxOntXT11ctjXuKOro4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-119-XjNfdH01OOaXIJdD87aqhA-1; Wed, 19 Jan 2022 03:32:44 -0500
-X-MC-Unique: XjNfdH01OOaXIJdD87aqhA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98AB61966321;
- Wed, 19 Jan 2022 08:32:43 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.124])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D2F8A4F858;
- Wed, 19 Jan 2022 08:32:41 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 06/10] tests/tcg/s390x: Test shift instructions
-Date: Wed, 19 Jan 2022 09:32:11 +0100
-Message-Id: <20220119083215.120911-7-thuth@redhat.com>
-In-Reply-To: <20220119083215.120911-1-thuth@redhat.com>
-References: <20220119083215.120911-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1nA86X-0007oo-41; Wed, 19 Jan 2022 05:22:15 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4Jf1sT1XN2z4y3t; Wed, 19 Jan 2022 21:22:05 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1642587725;
+ bh=6lfp6hMaEBr9J2YWg9gmYqzzKf61wDygx+d/b6/4Jr0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=IQbg+gW++BzE6parQlmh+03KLWyaaAr9GihmRByunA9mCtl8Nr5TXxwCfHPWRXSe4
+ C8C0+rxwfgZE6uoB02otfEqTSehBRRAFxhychUZJd6stzoUken5Hl9E9oL0xqRpXNY
+ 7dpH6SMoALCWxtIdfRKa9Iu3kX7diwYtP0YxyzUw=
+Date: Wed, 19 Jan 2022 17:04:46 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Fabiano Rosas <farosas@linux.ibm.com>
+Subject: Re: [PATCH v2 04/14] target/ppc: Simplify powerpc_excp_40x
+Message-ID: <Yeep/om7Nbc3SX5y@yekko>
+References: <20220118184448.852996-1-farosas@linux.ibm.com>
+ <20220118184448.852996-5-farosas@linux.ibm.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bVcjyxqCRuPtLzdB"
+Content-Disposition: inline
+In-Reply-To: <20220118184448.852996-5-farosas@linux.ibm.com>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,315 +59,389 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand <david@redhat.com>
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-Add a test for each shift instruction in order to to prevent
-regressions.
+--bVcjyxqCRuPtLzdB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Acked-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20220112165016.226996-6-iii@linux.ibm.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/tcg/s390x/Makefile.target |   1 +
- tests/tcg/s390x/shift.c         | 270 ++++++++++++++++++++++++++++++++
- 2 files changed, 271 insertions(+)
- create mode 100644 tests/tcg/s390x/shift.c
+On Tue, Jan 18, 2022 at 03:44:38PM -0300, Fabiano Rosas wrote:
+> Differences from the generic powerpc_excp code:
+>=20
+> - Not BookE, so some MSR bits are cleared at interrupt dispatch;
+> - No MSR_HV or MSR_LE;
+> - No power saving states;
+> - No Hypervisor Emulation Assistance;
+> - Not 64 bits;
+> - No System call vectored;
+> - No Interrupts Little Endian;
+> - No Alternate Interrupt Location.
+>=20
+> Exceptions used:
+>=20
+> POWERPC_EXCP_ALIGN
+> POWERPC_EXCP_CRITICAL
+> POWERPC_EXCP_DEBUG
+> POWERPC_EXCP_DSI
+> POWERPC_EXCP_DTLB
+> POWERPC_EXCP_EXTERNAL
+> POWERPC_EXCP_FIT
+> POWERPC_EXCP_ISI
+> POWERPC_EXCP_ITLB
+> POWERPC_EXCP_MCHECK
+> POWERPC_EXCP_PIT
+> POWERPC_EXCP_PROGRAM
+> POWERPC_EXCP_SYSCALL
+> POWERPC_EXCP_WDT
+>=20
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index cc64dd32d2..1a7238b4eb 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -9,6 +9,7 @@ TESTS+=exrl-trtr
- TESTS+=pack
- TESTS+=mvo
- TESTS+=mvc
-+TESTS+=shift
- TESTS+=trap
- TESTS+=signals-s390x
- 
-diff --git a/tests/tcg/s390x/shift.c b/tests/tcg/s390x/shift.c
-new file mode 100644
-index 0000000000..29594fec5c
---- /dev/null
-+++ b/tests/tcg/s390x/shift.c
-@@ -0,0 +1,270 @@
-+#include <inttypes.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+
-+#define DEFINE_SHIFT_SINGLE_COMMON(_name, _insn_str) \
-+    static uint64_t _name(uint64_t op1, uint64_t op2, uint64_t *cc) \
-+    { \
-+        asm("    sll %[cc],28\n" \
-+            "    spm %[cc]\n" \
-+            "    " _insn_str "\n" \
-+            "    ipm %[cc]\n" \
-+            "    srl %[cc],28" \
-+            : [op1] "+&r" (op1), \
-+              [cc] "+&r" (*cc) \
-+            : [op2] "r" (op2) \
-+            : "cc"); \
-+        return op1; \
-+    }
-+#define DEFINE_SHIFT_SINGLE_2(_insn, _offset) \
-+    DEFINE_SHIFT_SINGLE_COMMON(_insn ## _ ## _offset, \
-+                               #_insn " %[op1]," #_offset "(%[op2])")
-+#define DEFINE_SHIFT_SINGLE_3(_insn, _offset) \
-+    DEFINE_SHIFT_SINGLE_COMMON(_insn ## _ ## _offset, \
-+                               #_insn " %[op1],%[op1]," #_offset "(%[op2])")
-+#define DEFINE_SHIFT_DOUBLE(_insn, _offset) \
-+    static uint64_t _insn ## _ ## _offset(uint64_t op1, uint64_t op2, \
-+                                          uint64_t *cc) \
-+    { \
-+        uint32_t op1h = op1 >> 32; \
-+        uint32_t op1l = op1 & 0xffffffff; \
-+        register uint32_t r2 asm("2") = op1h; \
-+        register uint32_t r3 asm("3") = op1l; \
-+        \
-+        asm("    sll %[cc],28\n" \
-+            "    spm %[cc]\n" \
-+            "    " #_insn " %[r2]," #_offset "(%[op2])\n" \
-+            "    ipm %[cc]\n" \
-+            "    srl %[cc],28" \
-+            : [r2] "+&r" (r2), \
-+              [r3] "+&r" (r3), \
-+              [cc] "+&r" (*cc) \
-+            : [op2] "r" (op2) \
-+            : "cc"); \
-+        op1h = r2; \
-+        op1l = r3; \
-+        return (((uint64_t)op1h) << 32) | op1l; \
-+    }
-+
-+DEFINE_SHIFT_SINGLE_3(rll, 0x4cf3b);
-+DEFINE_SHIFT_SINGLE_3(rllg, 0x697c9);
-+DEFINE_SHIFT_SINGLE_2(sla, 0x4b0);
-+DEFINE_SHIFT_SINGLE_2(sla, 0xd54);
-+DEFINE_SHIFT_SINGLE_3(slak, 0x2832c);
-+DEFINE_SHIFT_SINGLE_3(slag, 0x66cc4);
-+DEFINE_SHIFT_SINGLE_3(slag, 0xd54);
-+DEFINE_SHIFT_SINGLE_2(sll, 0xd04);
-+DEFINE_SHIFT_SINGLE_3(sllk, 0x2699f);
-+DEFINE_SHIFT_SINGLE_3(sllg, 0x59df9);
-+DEFINE_SHIFT_SINGLE_2(sra, 0x67e);
-+DEFINE_SHIFT_SINGLE_3(srak, 0x60943);
-+DEFINE_SHIFT_SINGLE_3(srag, 0x6b048);
-+DEFINE_SHIFT_SINGLE_2(srl, 0x035);
-+DEFINE_SHIFT_SINGLE_3(srlk, 0x43dfc);
-+DEFINE_SHIFT_SINGLE_3(srlg, 0x27227);
-+DEFINE_SHIFT_DOUBLE(slda, 0x38b);
-+DEFINE_SHIFT_DOUBLE(sldl, 0x031);
-+DEFINE_SHIFT_DOUBLE(srda, 0x36f);
-+DEFINE_SHIFT_DOUBLE(srdl, 0x99a);
-+
-+struct shift_test {
-+    const char *name;
-+    uint64_t (*insn)(uint64_t, uint64_t, uint64_t *);
-+    uint64_t op1;
-+    uint64_t op2;
-+    uint64_t exp_result;
-+    uint64_t exp_cc;
-+};
-+
-+static const struct shift_test tests[] = {
-+    {
-+        .name = "rll",
-+        .insn = rll_0x4cf3b,
-+        .op1 = 0xecbd589a45c248f5ull,
-+        .op2 = 0x62e5508ccb4c99fdull,
-+        .exp_result = 0xecbd589af545c248ull,
-+        .exp_cc = 0,
-+    },
-+    {
-+        .name = "rllg",
-+        .insn = rllg_0x697c9,
-+        .op1 = 0xaa2d54c1b729f7f4ull,
-+        .op2 = 0x5ffcf7465f5cd71full,
-+        .exp_result = 0x29f7f4aa2d54c1b7ull,
-+        .exp_cc = 0,
-+    },
-+    {
-+        .name = "sla-1",
-+        .insn = sla_0x4b0,
-+        .op1 = 0x8bf21fb67cca0e96ull,
-+        .op2 = 0x3ddf2f53347d3030ull,
-+        .exp_result = 0x8bf21fb600000000ull,
-+        .exp_cc = 3,
-+    },
-+    {
-+        .name = "sla-2",
-+        .insn = sla_0xd54,
-+        .op1 = 0xe4faaed5def0e926ull,
-+        .op2 = 0x18d586fab239cbeeull,
-+        .exp_result = 0xe4faaed5fbc3a498ull,
-+        .exp_cc = 3,
-+    },
-+    {
-+        .name = "slak",
-+        .insn = slak_0x2832c,
-+        .op1 = 0x7300bf78707f09f9ull,
-+        .op2 = 0x4d193b85bb5cb39bull,
-+        .exp_result = 0x7300bf783f84fc80ull,
-+        .exp_cc = 3,
-+    },
-+    {
-+        .name = "slag-1",
-+        .insn = slag_0x66cc4,
-+        .op1 = 0xe805966de1a77762ull,
-+        .op2 = 0x0e92953f6aa91c6bull,
-+        .exp_result = 0xbbb1000000000000ull,
-+        .exp_cc = 3,
-+    },
-+    {
-+        .name = "slag-2",
-+        .insn = slag_0xd54,
-+        .op1 = 0xdef0e92600000000ull,
-+        .op2 = 0x18d586fab239cbeeull,
-+        .exp_result = 0xfbc3a49800000000ull,
-+        .exp_cc = 3,
-+    },
-+    {
-+        .name = "sll",
-+        .insn = sll_0xd04,
-+        .op1 = 0xb90281a3105939dfull,
-+        .op2 = 0xb5e4df7e082e4c5eull,
-+        .exp_result = 0xb90281a300000000ull,
-+        .exp_cc = 0,
-+    },
-+    {
-+        .name = "sllk",
-+        .insn = sllk_0x2699f,
-+        .op1 = 0x777c6cf116f99557ull,
-+        .op2 = 0xe0556cf112e5a458ull,
-+        .exp_result = 0x777c6cf100000000ull,
-+        .exp_cc = 0,
-+    },
-+    {
-+        .name = "sllg",
-+        .insn = sllg_0x59df9,
-+        .op1 = 0xcdf86cbfbc0f3557ull,
-+        .op2 = 0x325a45acf99c6d3dull,
-+        .exp_result = 0x55c0000000000000ull,
-+        .exp_cc = 0,
-+    },
-+    {
-+        .name = "sra",
-+        .insn = sra_0x67e,
-+        .op1 = 0xb878f048d5354183ull,
-+        .op2 = 0x9e27d13195931f79ull,
-+        .exp_result = 0xb878f048ffffffffull,
-+        .exp_cc = 1,
-+    },
-+    {
-+        .name = "srak",
-+        .insn = srak_0x60943,
-+        .op1 = 0xb6ceb5a429cedb35ull,
-+        .op2 = 0x352354900ae34d7aull,
-+        .exp_result = 0xb6ceb5a400000000ull,
-+        .exp_cc = 0,
-+    },
-+    {
-+        .name = "srag",
-+        .insn = srag_0x6b048,
-+        .op1 = 0xd54dd4468676c63bull,
-+        .op2 = 0x84d026db7b4dca28ull,
-+        .exp_result = 0xffffffffffffd54dull,
-+        .exp_cc = 1,
-+    },
-+    {
-+        .name = "srl",
-+        .insn = srl_0x035,
-+        .op1 = 0x09be503ef826815full,
-+        .op2 = 0xbba8d1a0e542d5c1ull,
-+        .exp_result = 0x9be503e00000000ull,
-+        .exp_cc = 0,
-+    },
-+    {
-+        .name = "srlk",
-+        .insn = srlk_0x43dfc,
-+        .op1 = 0x540d6c8de71aee2aull,
-+        .op2 = 0x0000000000000000ull,
-+        .exp_result = 0x540d6c8d00000000ull,
-+        .exp_cc = 0,
-+    },
-+    {
-+        .name = "srlg",
-+        .insn = srlg_0x27227,
-+        .op1 = 0x26f7123c1c447a34ull,
-+        .op2 = 0x0000000000000000ull,
-+        .exp_result = 0x00000000004dee24ull,
-+        .exp_cc = 0,
-+    },
-+    {
-+        .name = "slda",
-+        .insn = slda_0x38b,
-+        .op1 = 0x7988f722dd5bbe7cull,
-+        .op2 = 0x9aed3f95b4d78cc2ull,
-+        .exp_result = 0x1ee45bab77cf8000ull,
-+        .exp_cc = 3,
-+    },
-+    {
-+        .name = "sldl",
-+        .insn = sldl_0x031,
-+        .op1 = 0xaae2918dce2b049aull,
-+        .op2 = 0x0000000000000000ull,
-+        .exp_result = 0x0934000000000000ull,
-+        .exp_cc = 0,
-+    },
-+    {
-+        .name = "srda",
-+        .insn = srda_0x36f,
-+        .op1 = 0x0cd4ed9228a50978ull,
-+        .op2 = 0x72b046f0848b8cc9ull,
-+        .exp_result = 0x000000000000000cull,
-+        .exp_cc = 2,
-+    },
-+    {
-+        .name = "srdl",
-+        .insn = srdl_0x99a,
-+        .op1 = 0x1018611c41689a1dull,
-+        .op2 = 0x2907e150c50ba319ull,
-+        .exp_result = 0x0000000000000203ull,
-+        .exp_cc = 0,
-+    },
-+};
-+
-+int main(void)
-+{
-+    int ret = 0;
-+    size_t i;
-+
-+    for (i = 0; i < sizeof(tests) / sizeof(tests[0]); i++) {
-+        uint64_t result;
-+        uint64_t cc = 0;
-+
-+        result = tests[i].insn(tests[i].op1, tests[i].op2, &cc);
-+        if (result != tests[i].exp_result) {
-+            fprintf(stderr,
-+                    "bad %s result:\n"
-+                    "actual   = 0x%" PRIx64 "\n"
-+                    "expected = 0x%" PRIx64 "\n",
-+                    tests[i].name, result, tests[i].exp_result);
-+            ret = 1;
-+        }
-+        if (cc != tests[i].exp_cc) {
-+            fprintf(stderr,
-+                    "bad %s cc:\n"
-+                    "actual   = %" PRIu64 "\n"
-+                    "expected = %" PRIu64 "\n",
-+                    tests[i].name, cc, tests[i].exp_cc);
-+            ret = 1;
-+        }
-+    }
-+    return ret;
-+}
--- 
-2.27.0
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
+> ---
+>  target/ppc/excp_helper.c | 205 ++-------------------------------------
+>  1 file changed, 10 insertions(+), 195 deletions(-)
+>=20
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 12ab5e1b34..b5975dff3e 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -409,54 +409,26 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int e=
+xcp)
+>                    excp, env->error_code);
+> =20
+>      /* new srr1 value excluding must-be-zero bits */
+> -    if (excp_model =3D=3D POWERPC_EXCP_BOOKE) {
+> -        msr =3D env->msr;
+> -    } else {
+> -        msr =3D env->msr & ~0x783f0000ULL;
+> -    }
+> +    msr =3D env->msr & ~0x783f0000ULL;
+> =20
+>      /*
+> -     * new interrupt handler msr preserves existing HV and ME unless
+> -     * explicitly overriden
+> +     * new interrupt handler msr preserves existing ME unless
+> +     * explicitly overriden.
+>       */
+> -    new_msr =3D env->msr & (((target_ulong)1 << MSR_ME) | MSR_HVB);
+> +    new_msr =3D env->msr & (((target_ulong)1 << MSR_ME));
+> =20
+>      /* target registers */
+>      srr0 =3D SPR_SRR0;
+>      srr1 =3D SPR_SRR1;
+> =20
+> -    /*
+> -     * check for special resume at 0x100 from doze/nap/sleep/winkle on
+> -     * P7/P8/P9
+> -     */
+> -    if (env->resume_as_sreset) {
+> -        excp =3D powerpc_reset_wakeup(cs, env, excp, &msr);
+> -    }
+> -
+>      /*
+>       * Hypervisor emulation assistance interrupt only exists on server
+> -     * arch 2.05 server or later. We also don't want to generate it if
+> -     * we don't have HVB in msr_mask (PAPR mode).
+> +     * arch 2.05 server or later.
+>       */
+> -    if (excp =3D=3D POWERPC_EXCP_HV_EMU
+> -#if defined(TARGET_PPC64)
+> -        && !(mmu_is_64bit(env->mmu_model) && (env->msr_mask & MSR_HVB))
+> -#endif /* defined(TARGET_PPC64) */
+> -
+> -    ) {
+> +    if (excp =3D=3D POWERPC_EXCP_HV_EMU) {
+>          excp =3D POWERPC_EXCP_PROGRAM;
+>      }
+> =20
+> -#ifdef TARGET_PPC64
+> -    /*
+> -     * SPEU and VPU share the same IVOR but they exist in different
+> -     * processors. SPEU is e500v1/2 only and VPU is e6500 only.
+> -     */
+> -    if (excp_model =3D=3D POWERPC_EXCP_BOOKE && excp =3D=3D POWERPC_EXCP=
+_VPU) {
+> -        excp =3D POWERPC_EXCP_SPEU;
+> -    }
+> -#endif
+> -
+>      vector =3D env->excp_vectors[excp];
+>      if (vector =3D=3D (target_ulong)-1ULL) {
+>          cpu_abort(cs, "Raised an exception without defined vector %d\n",
+> @@ -645,24 +617,7 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int ex=
+cp)
+>              new_msr |=3D (target_ulong)MSR_HVB;
+>          }
+>          break;
+> -    case POWERPC_EXCP_SYSCALL_VECTORED: /* scv exception                =
+     */
+> -        lev =3D env->error_code;
+> -        dump_syscall(env);
+> -        env->nip +=3D 4;
+> -        new_msr |=3D env->msr & ((target_ulong)1 << MSR_EE);
+> -        new_msr |=3D env->msr & ((target_ulong)1 << MSR_RI);
+> -
+> -        vector +=3D lev * 0x20;
+> -
+> -        env->lr =3D env->nip;
+> -        env->ctr =3D msr;
+> -        break;
+> -    case POWERPC_EXCP_FPU:       /* Floating-point unavailable exception=
+     */
+> -    case POWERPC_EXCP_APU:       /* Auxiliary processor unavailable     =
+     */
+> -    case POWERPC_EXCP_DECR:      /* Decrementer exception               =
+     */
+> -        break;
+>      case POWERPC_EXCP_FIT:       /* Fixed-interval timer interrupt      =
+     */
+> -        /* FIT on 4xx */
+>          trace_ppc_excp_print("FIT");
+>          break;
+>      case POWERPC_EXCP_WDT:       /* Watchdog timer interrupt            =
+     */
+> @@ -693,119 +648,9 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int e=
+xcp)
+>              cpu_abort(cs, "Debug exception triggered on unsupported mode=
+l\n");
+>          }
+>          break;
+> -    case POWERPC_EXCP_SPEU:   /* SPE/embedded floating-point unavailable=
+/VPU  */
+> -        env->spr[SPR_BOOKE_ESR] =3D ESR_SPV;
+> -        break;
+> -    case POWERPC_EXCP_DOORI:     /* Embedded doorbell interrupt         =
+     */
+> -        break;
+> -    case POWERPC_EXCP_DOORCI:    /* Embedded doorbell critical interrupt=
+     */
+> -        srr0 =3D SPR_BOOKE_CSRR0;
+> -        srr1 =3D SPR_BOOKE_CSRR1;
+> -        break;
+> -    case POWERPC_EXCP_RESET:     /* System reset exception              =
+     */
+> -        /* A power-saving exception sets ME, otherwise it is unchanged */
+> -        if (msr_pow) {
+> -            /* indicate that we resumed from power save mode */
+> -            msr |=3D 0x10000;
+> -            new_msr |=3D ((target_ulong)1 << MSR_ME);
+> -        }
+> -        if (env->msr_mask & MSR_HVB) {
+> -            /*
+> -             * ISA specifies HV, but can be delivered to guest with HV
+> -             * clear (e.g., see FWNMI in PAPR, NMI injection in QEMU).
+> -             */
+> -            new_msr |=3D (target_ulong)MSR_HVB;
+> -        } else {
+> -            if (msr_pow) {
+> -                cpu_abort(cs, "Trying to deliver power-saving system res=
+et "
+> -                          "exception %d with no HV support\n", excp);
+> -            }
+> -        }
+> -        break;
+> -    case POWERPC_EXCP_DSEG:      /* Data segment exception              =
+     */
+> -    case POWERPC_EXCP_ISEG:      /* Instruction segment exception       =
+     */
+> -    case POWERPC_EXCP_TRACE:     /* Trace exception                     =
+     */
+> -        break;
+> -    case POWERPC_EXCP_HISI:      /* Hypervisor instruction storage excep=
+tion */
+> -        msr |=3D env->error_code;
+> -        /* fall through */
+> -    case POWERPC_EXCP_HDECR:     /* Hypervisor decrementer exception    =
+     */
+> -    case POWERPC_EXCP_HDSI:      /* Hypervisor data storage exception   =
+     */
+> -    case POWERPC_EXCP_HDSEG:     /* Hypervisor data segment exception   =
+     */
+> -    case POWERPC_EXCP_HISEG:     /* Hypervisor instruction segment excep=
+tion */
+> -    case POWERPC_EXCP_SDOOR_HV:  /* Hypervisor Doorbell interrupt       =
+     */
+> -    case POWERPC_EXCP_HV_EMU:
+> -    case POWERPC_EXCP_HVIRT:     /* Hypervisor virtualization           =
+     */
+> -        srr0 =3D SPR_HSRR0;
+> -        srr1 =3D SPR_HSRR1;
+> -        new_msr |=3D (target_ulong)MSR_HVB;
+> -        new_msr |=3D env->msr & ((target_ulong)1 << MSR_RI);
+> -        break;
+> -    case POWERPC_EXCP_VPU:       /* Vector unavailable exception        =
+     */
+> -    case POWERPC_EXCP_VSXU:       /* VSX unavailable exception          =
+     */
+> -    case POWERPC_EXCP_FU:         /* Facility unavailable exception     =
+     */
+> -#ifdef TARGET_PPC64
+> -        env->spr[SPR_FSCR] |=3D ((target_ulong)env->error_code << 56);
+> -#endif
+> -        break;
+> -    case POWERPC_EXCP_HV_FU:     /* Hypervisor Facility Unavailable Exce=
+ption */
+> -#ifdef TARGET_PPC64
+> -        env->spr[SPR_HFSCR] |=3D ((target_ulong)env->error_code << FSCR_=
+IC_POS);
+> -        srr0 =3D SPR_HSRR0;
+> -        srr1 =3D SPR_HSRR1;
+> -        new_msr |=3D (target_ulong)MSR_HVB;
+> -        new_msr |=3D env->msr & ((target_ulong)1 << MSR_RI);
+> -#endif
+> -        break;
+>      case POWERPC_EXCP_PIT:       /* Programmable interval timer interrup=
+t    */
+>          trace_ppc_excp_print("PIT");
+>          break;
+> -    case POWERPC_EXCP_IFTLB:     /* Instruction fetch TLB error         =
+     */
+> -    case POWERPC_EXCP_DLTLB:     /* Data load TLB miss                  =
+     */
+> -    case POWERPC_EXCP_DSTLB:     /* Data store TLB miss                 =
+     */
+> -        switch (excp_model) {
+> -        case POWERPC_EXCP_602:
+> -        case POWERPC_EXCP_603:
+> -        case POWERPC_EXCP_G2:
+> -            /* Swap temporary saved registers with GPRs */
+> -            if (!(new_msr & ((target_ulong)1 << MSR_TGPR))) {
+> -                new_msr |=3D (target_ulong)1 << MSR_TGPR;
+> -                hreg_swap_gpr_tgpr(env);
+> -            }
+> -            /* fall through */
+> -        case POWERPC_EXCP_7x5:
+> -            ppc_excp_debug_sw_tlb(env, excp);
+> -
+> -            msr |=3D env->crf[0] << 28;
+> -            msr |=3D env->error_code; /* key, D/I, S/L bits */
+> -            /* Set way using a LRU mechanism */
+> -            msr |=3D ((env->last_way + 1) & (env->nb_ways - 1)) << 17;
+> -            break;
+> -        default:
+> -            cpu_abort(cs, "Invalid TLB miss exception\n");
+> -            break;
+> -        }
+> -        break;
+> -    case POWERPC_EXCP_EFPDI:     /* Embedded floating-point data interru=
+pt   */
+> -    case POWERPC_EXCP_EFPRI:     /* Embedded floating-point round interr=
+upt  */
+> -    case POWERPC_EXCP_EPERFM:    /* Embedded performance monitor interru=
+pt   */
+> -    case POWERPC_EXCP_IO:        /* IO error exception                  =
+     */
+> -    case POWERPC_EXCP_RUNM:      /* Run mode exception                  =
+     */
+> -    case POWERPC_EXCP_EMUL:      /* Emulation trap exception            =
+     */
+> -    case POWERPC_EXCP_FPA:       /* Floating-point assist exception     =
+     */
+> -    case POWERPC_EXCP_DABR:      /* Data address breakpoint             =
+     */
+> -    case POWERPC_EXCP_IABR:      /* Instruction address breakpoint      =
+     */
+> -    case POWERPC_EXCP_SMI:       /* System management interrupt         =
+     */
+> -    case POWERPC_EXCP_THERM:     /* Thermal interrupt                   =
+     */
+> -    case POWERPC_EXCP_PERFM:     /* Embedded performance monitor interru=
+pt   */
+> -    case POWERPC_EXCP_VPUA:      /* Vector assist exception             =
+     */
+> -    case POWERPC_EXCP_SOFTP:     /* Soft patch exception                =
+     */
+> -    case POWERPC_EXCP_MAINT:     /* Maintenance exception               =
+     */
+> -    case POWERPC_EXCP_MEXTBR:    /* Maskable external breakpoint        =
+     */
+> -    case POWERPC_EXCP_NMEXTBR:   /* Non maskable external breakpoint    =
+     */
+> -        cpu_abort(cs, "%s exception not implemented\n",
+> -                  powerpc_excp_name(excp));
+> -        break;
+>      default:
+>      excp_invalid:
+>          cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
+> @@ -824,41 +669,11 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int e=
+xcp)
+>          }
+>      }
+> =20
+> -    /*
+> -     * Sort out endianness of interrupt, this differs depending on the
+> -     * CPU, the HV mode, etc...
+> -     */
+> -    if (ppc_interrupts_little_endian(cpu, !!(new_msr & MSR_HVB))) {
+> -        new_msr |=3D (target_ulong)1 << MSR_LE;
+> -    }
+> +    /* Save PC */
+> +    env->spr[srr0] =3D env->nip;
+> =20
+> -#if defined(TARGET_PPC64)
+> -    if (excp_model =3D=3D POWERPC_EXCP_BOOKE) {
+> -        if (env->spr[SPR_BOOKE_EPCR] & EPCR_ICM) {
+> -            /* Cat.64-bit: EPCR.ICM is copied to MSR.CM */
+> -            new_msr |=3D (target_ulong)1 << MSR_CM;
+> -        } else {
+> -            vector =3D (uint32_t)vector;
+> -        }
+> -    } else {
+> -        if (!msr_isf && !mmu_is_64bit(env->mmu_model)) {
+> -            vector =3D (uint32_t)vector;
+> -        } else {
+> -            new_msr |=3D (target_ulong)1 << MSR_SF;
+> -        }
+> -    }
+> -#endif
+> -
+> -    if (excp !=3D POWERPC_EXCP_SYSCALL_VECTORED) {
+> -        /* Save PC */
+> -        env->spr[srr0] =3D env->nip;
+> -
+> -        /* Save MSR */
+> -        env->spr[srr1] =3D msr;
+> -    }
+> -
+> -    /* This can update new_msr and vector if AIL applies */
+> -    ppc_excp_apply_ail(cpu, excp_model, excp, msr, &new_msr, &vector);
+> +    /* Save MSR */
+> +    env->spr[srr1] =3D msr;
+> =20
+>      powerpc_set_excp_state(cpu, vector, new_msr);
+>  }
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--bVcjyxqCRuPtLzdB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmHnqfcACgkQgypY4gEw
+YSLc/g//bumaqexXo+/WV3ABDXED1WBy4xiWUeWXPeHuq/JZ0a7XCLYMujKdeVYj
+OjMnx9qAXFSP6CO4OPDfaoJdKOU/qMqxKhKaOeliqqsh3KFQzj+P5eeo9Plw+6TK
+kQdyxz0DIzeWtURTGd2ywdhbpOLS2/T/MF2Mpsqz0o73UCieBEmZu2iuM38tiQF4
+KVzurqI96JrOmsJtgfY9WSmfoXq+eZf7Yu/gNxq8UKZRyqF67PT7aSFlaPI+wlyo
+kpekCPFTNO+H31JHHPEOXbBaSUEOta9ZAnjD7h2DnfbJQFzM/lOPwwXzb2/4grQQ
+Dp6Ccl8vB9klmlD3SVRrBGsMvSR7xeFN1I/Ydti4iUYkCyzDsWHAxO1PU9UqUJs3
+/HM+4WufhM8vAxSGIHw1ahdAqV0jMNbOv8YS+pcuNkMBWTKiRuw+rYA7vzeOMoHe
+qmuNt5gV4DOvvcDYO7kNoscK9aVmIDuChSQzNvU8pe4vXwrDudLUxIPxHEO/GRJ2
+ccscVp5pIFHjUNHp283DPThAPJOWX1I1FHyLlAFChz94Qu7kyXow1ncc4vClBIT1
+TRPDmzaTwPTiZRcgCUY4c5W4Al3PgAgJ2PVVmi17TUjkyka+f5cllO2VQEvtC/mI
+7mV2vr4DY+yUNaEwff4rw0npntYKzgSE86qZxMKt/75YdHaT6vY=
+=5n1w
+-----END PGP SIGNATURE-----
+
+--bVcjyxqCRuPtLzdB--
 
