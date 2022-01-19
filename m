@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 975474942BA
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 23:02:18 +0100 (CET)
-Received: from localhost ([::1]:54560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BCEA4942C6
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 23:05:03 +0100 (CET)
+Received: from localhost ([::1]:60538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAJ21-0000QW-ME
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 17:02:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58388)
+	id 1nAJ4g-0004ZW-Cc
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 17:05:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1nAIjY-0008AC-Tl
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 16:43:12 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:23386)
+ id 1nAIjd-0008L2-3N
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 16:43:17 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:32808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1nAIjO-0007Lo-Ta
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 16:43:05 -0500
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20JJSHhK031217; 
- Wed, 19 Jan 2022 21:42:59 GMT
+ id 1nAIjY-0007MJ-MI
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 16:43:16 -0500
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20JJPAPi032601; 
+ Wed, 19 Jan 2022 21:43:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version;
- s=corp-2021-07-09; bh=VvLaKghGHkfMRIeLcQO6s2fhXUFykfT/mytk88XfCks=;
- b=I+dou5EsfxXH5IfG/Rc0KkTPkwmgfeRF06mqTSWGd2zeeBft9vTL+7gc/oQODHnwNwOJ
- GADkdcbVzLtxKWSMvbUu81xISyE2pwaOK65Wbn+apzeF4z975ouKeL4iAD+J+LzS8lkw
- 9ywnbE+MWxRWSXLZYw2JM/AuOf37ihlvcyRONng8VkgGMPTc13ZhDr4klj1ouTGXcoql
- 8+LDDWodGWm/ihf3tYFZK9ywRO+Q5MtCObKHuRTCun+jwVKGwbWTxbN7VpBYUI8b8r9N
- vZK0ZJ1rhcuSA+gLmq1uzbv31wRvpd+vle2XHc4Bbj4wFiJERhdl3LzrKG6pgxp8imqF eA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3dnc4vpgpq-1
+ s=corp-2021-07-09; bh=myQFFWXBm1Jj9OwCK5BRkQ4acoQDUBpxg0VTdyAhmYg=;
+ b=d6xlA5VubXrfyVu6prDL06MYZVubGMLdJyIITvE4zAZ28b9Hc1qFIf/x2erlW5oNAbb2
+ MJOyplY/6TILchqcMDE9I9cIYkYTneTCIxRB0S6T8P4zBBkH1kv7ENJbPINklK3bQpRz
+ g/DbB7D5AwCjumffZWvqnw6Rl6a2ZCxB8tNPXF4zFbe3uVSMA9CAM2sMMwbbUOkeqLxa
+ aaHnnUyl4SOUjZkCGyPoc5ZW7VETNuo1stHZpZJ7WP1mDLwkFx+gtWwk388jnAIzknXT
+ xyQVpGmWJ288LNGz4K6aMPuihWnTawozPg7VztFqh+QYYoceQkKYhDHkcbexI2G+7vvK EA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3dnc4q6hy0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 19 Jan 2022 21:42:59 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20JLaTuO030985;
- Wed, 19 Jan 2022 21:42:58 GMT
+ Wed, 19 Jan 2022 21:43:02 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20JLa7pD131830;
+ Wed, 19 Jan 2022 21:43:01 GMT
 Received: from nam12-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2177.outbound.protection.outlook.com [104.47.59.177])
- by aserp3020.oracle.com with ESMTP id 3dkp36kfms-1
+ (mail-dm6nam12lp2170.outbound.protection.outlook.com [104.47.59.170])
+ by userp3020.oracle.com with ESMTP id 3dkqqr65a7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 19 Jan 2022 21:42:58 +0000
+ Wed, 19 Jan 2022 21:43:01 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gHV1cp8eZeJ2ObtsTst8Fbg4yapVKLhwDEFv2CXKlnTFED5P2vlZ6iq1qAmxUsDkUxqZsYEp1JdZE2xuqZrPsLMLzO/2Dc7FZT9/LDnFmKyaZw4Ytc+Lkt6hZ/pXOWXnPI17SNk/uLuwEtJiJS9X3OVR2Ss7nmiPgiFILcp2HxIOtCRj0mGWeB9k0O7Msd+4HxrvMVKJfvUOFkkTP9u8tvYodo3wjl2l/fcUYnarjPJqRGlVoDwV+l5dGQFDyQaKRelBBCVYn+MnNns5hBV0XLIKuqpsuSPGAXG+elOrgL6CgCSqAARxyTIqhd/U0bJreXQPedQ3UFhn4XxsmT4vTw==
+ b=jriNLL3YW5Zkbgf9jJ8OL7cgOyYvpIsGNXgZ1JeGy6BHq3gaW9zvuVxJu0IiDzgbNOyICM1vlO8SAAkCHjgB2wHMI1UmT3fjeZzwiukRgUNWwhoG5T0WKiPErWtStD0hORM7gn5fI08az/Tq2utulSwi+lp7GDGTn6RTpojoFmZgn1Am8JlE2MuYT6xoOwm1ORCePDvW+qkBu8L/lECjHQXHTYN78KkIn+LdH0O9UuGFR6G5bOWYQ4raIfjLj9Z9XVXVBkfOaf5j31aul94MDRadqec0sZYKyJNGjnj7gI8vAKL7DgL72JVFAfZ0Sb/YINPq3sM/GvF1EK5XrIyEkQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VvLaKghGHkfMRIeLcQO6s2fhXUFykfT/mytk88XfCks=;
- b=ISaR879GHXuLV9yCjMy+mLwIMBx+JX67bwDA0Lp3QUiOo4jiZ6fp8p4B6qGWlF+ftjMaiBYwcPf7n3fq8FQYPn1KOe5+1+DV049zkkOhmQsfHPM9cy0dv4R5A5L2w+wqCon9s+pTPHF59f9DPW0MVqEvyiG/9jUF53smLNbsGL1sZAgAYUWJLOpqQVHFlL4zNJR+diid7OgX059lAAeseVYKYTeHJSeIfKRmdtCfx+zgtdI7PlF+UdS0ScwmNY/e/BOfRcBKA3eB68nkJ0gJLsi1znTGarU99OrTuYWgA/4O8Y6530GlVfQy4mMz05BYvgK2JgSamXV1FFExlg2FjA==
+ bh=myQFFWXBm1Jj9OwCK5BRkQ4acoQDUBpxg0VTdyAhmYg=;
+ b=X+uDoqcMNhuag30NTfc3HOeWTCq52LXM12lnRlerWgXLTbbqhbqHaLZVSAfo/MR6aBSLzzKsWwMO4sSINDp7A7KZ37o3rCA3229eLi/m03BaXPRn/oLTlgPorfrLb0Zbtpwyr42UYRx0tKmu4DuwkJRrHGtwxGIGniGYjExo2K5WUSkWPsx5ah+rKtDlsMTvRZjrYhA0dLEgCvNqGKh0ygMjU2sCNQqyxNm4wJiMpvBiuZv5dXMaKkyImvhJK7p5D2CpGIsP13CRdsaOXAganPTXvhNQ9jUpbITpQ8kNoGW2/pkW3kd7aJUW0xsVOZuwsI6849FWN27hQirvkJAZaQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VvLaKghGHkfMRIeLcQO6s2fhXUFykfT/mytk88XfCks=;
- b=Bx/3n8CVtcbQjNZ4smNUVgodi3a0opIJeTjmUaoaLLk2ijmG7QKrrSi2cmWlERBzCGC5+Gb8YoGBc+WFG/cr6de6Uys+e7uYkhNpg+q6oQOFvV99f6NnYi3Tw8AyZER1C8gZt6aW7BJgx2hLCAfOV2s4KI1e8BaLbdPLmt+gqvo=
+ bh=myQFFWXBm1Jj9OwCK5BRkQ4acoQDUBpxg0VTdyAhmYg=;
+ b=cF9XY4dKJPwj2niR+lFk5TFMUH/x3zKO6A9ur1jHp9wyEhU8i0puZsV4B+y7ygzRfiWxJqEkervCJ3aZaRMcrAKuEDqGy5Ea9p5PXSxatihcAqEQfVNXZpGBwnUWa2XtxS0NXyakKHX9rDf/301+2Rh+7cwm0P4Z6giFoqvfJOk=
 Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
  by SA1PR10MB5887.namprd10.prod.outlook.com (2603:10b6:806:22b::15)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.7; Wed, 19 Jan
- 2022 21:42:55 +0000
+ 2022 21:42:59 +0000
 Received: from MN2PR10MB4013.namprd10.prod.outlook.com
  ([fe80::98b1:4348:5117:5fc]) by MN2PR10MB4013.namprd10.prod.outlook.com
  ([fe80::98b1:4348:5117:5fc%7]) with mapi id 15.20.4888.014; Wed, 19 Jan 2022
- 21:42:55 +0000
+ 21:42:59 +0000
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 11/18] vfio-user: find and init PCI device
-Date: Wed, 19 Jan 2022 16:42:00 -0500
-Message-Id: <01f4837eaa73d340542961cf36a6028f4a681a0e.1642626515.git.jag.raman@oracle.com>
+Subject: [PATCH v5 12/18] vfio-user: run vfio-user context
+Date: Wed, 19 Jan 2022 16:42:01 -0500
+Message-Id: <63ef44664629ffd07d3bffe60351e808965dd13e.1642626515.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1642626515.git.jag.raman@oracle.com>
 References: <cover.1642626515.git.jag.raman@oracle.com>
@@ -82,66 +82,66 @@ X-ClientProxiedBy: BYAPR08CA0043.namprd08.prod.outlook.com
  (2603:10b6:208:185::25)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 970b4684-aaa8-49d2-3004-08d9db94a6ff
+X-MS-Office365-Filtering-Correlation-Id: 77238885-8701-41ae-0dcf-08d9db94a90e
 X-MS-TrafficTypeDiagnostic: SA1PR10MB5887:EE_
-X-Microsoft-Antispam-PRVS: <SA1PR10MB5887C8FBC08369F1D2BE122C90599@SA1PR10MB5887.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:241;
+X-Microsoft-Antispam-PRVS: <SA1PR10MB58879F3BB33DB0C6FCE642C990599@SA1PR10MB5887.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:608;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Tqp9q2RTPxyFs00z702eLDZHziDZ5sErNsnyswkhcteLSip08fzCvvfoSq81o5qax1lwuADNBQeCwF03f/oO71rrPKBEUR44QmDcwOzWlPEhtD69C0hfLEU2Af7F1sRsrqLnRMJtGRwEofc/ECtgkCUfr4O7DWPxE6/r29Ub4Xprhlq1JiHD0jhp1ookGfAqkVB92AXVvW+6eKptIzmfNivWkP9Z8xxkcJRm8iShZJTerbKJ9YDeDDMBToO7SYhLpcpDEaFWMhCMp8D3YTMk0m25nuNnvFndtYfdUPhC7r8FefNPC8fRIfeQubCjp5uMYwUa+Hq9SH72rUbnAFdPKUD7UIwJmXnCnC99I+/JQ9rFGazDjcq8rOqtZSKjaKBiKlQQHNMQLr2bgagyS5aPKzXo1lmzU1dP/xCFO01FV08ywtjoWwY53aXhMFHmOpbZy0PxFHyleKgvGIrcgKPFWRGttsr3Vyb8FQcDUNYrbbqPfAjOlGRO0DUe4X3FmPF/DdupR0y8KQYbHwYGE6K/pyOYJNVMcE1y5m/VdEkvCq2C1Zwots8+l7jQK+WkAKHLrBmQq4yJbfgJMUPuHembVnnVu7ozjrqAhpxamV5unmiiqzbL/UhWaHk6bI2trVEAHEs95aM4leU43X7//U/v8d6K4BTuT4Ga7V4Op+SodAcH6kKXTpuKDPmjdGiL0KmON3TDl3BqmgJaWai2o96TgA==
+X-Microsoft-Antispam-Message-Info: xYK16RT1mFXuTCi+/s9YQwtAJTGnRNk2+IUS8EdZNTBoaL7hcAZSFBdIxgTwq0m4Eg9a8yerC/DUMNQYEGWCEmfHFzNRwZ8nIgvOnGPuWT5bTBUibYGmYpP2Lru6jpOYQAhGbdZcPYO8Q14KsNiirTwo1aS6LDTB3kjR+jAgNRGLEF9TbtGwVWDl6HTrb2HMnHCeaqNVpD8btm+U/W1f7FyiohSIrtspTEvPVKjH2OLrmAHF1Mp1iMg/cToNP0bkW6XmCoSHcl1vdOzPKwGKstdqB4RvNNbMMmZcfahM1QYoSM4+XPAatyLdM7/DcruqONxBwT6cFRPsxqjr8UkabQg3l50gkxNvtpPm6P2Qac3/ZnRvGsvDIF3esW7JkFCWRbe0XkOV+WRIy+jCrjLaf4YkldcShx+Y99UvGL8WW4EHLh0yBs07f7tI/AlLVvhTCtE8XX6MlPCp9w2PDwEPJWyh1228BioFH88LAyzarHC+2RL4AhYoNHaGmEg1rHoMyHCYM/stRe8GzLhApkRHB1G0xBmCnTg+/zMh6yg7A9iq+W9KOgOMQFIF5Ex97iT/u5Kc0FPI8KOQt1UX/p5kNc3Xr1b5gCGwuihtCINLcsqhJ8lKf3+EgbyHJO1pTpIfkIsTdLk0FQs1MFjS6i2ecTBndYeZJIIsjuEwXRJ279c165nX2WSRZbYNBnysY8UaqRiGg9uEXMOCfFu+nSM1Bg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(366004)(5660300002)(186003)(6666004)(6916009)(508600001)(66946007)(66556008)(26005)(7416002)(4326008)(66476007)(86362001)(107886003)(8936002)(38100700002)(38350700002)(8676002)(36756003)(83380400001)(6486002)(2616005)(6512007)(2906002)(6506007)(316002)(52116002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?k86dSUiialveHQ+kSMlJaIHLKMhUTf8UoB3Ow6G91pWO6JiLFNm41wl8ohK5?=
- =?us-ascii?Q?pRS73w8+KU+Oe1p8BWw2RHNHNSgIFo0/oi9iQ4reHFcNXUZQrIqQkWCl1wuu?=
- =?us-ascii?Q?N6gYhKKnM8oozAZs8FbsYfc+NYiS6Lws9we0yiDg252TSNfk2ZvQSLwsw0fO?=
- =?us-ascii?Q?W3zf7kBw3jnk+ubDnwhKZXpEI2UR8BFeen9iZbuGIqttMlONcTty5nH8IOVE?=
- =?us-ascii?Q?a2tz58TvBqZnLMKj4YsnyU8R/DTmIDSYEt4qh2/Efl9XSNclRKRaUj07E10h?=
- =?us-ascii?Q?Lnj4mpkHKY8AfgVXveoR2lWs9XzEjB0YXvSr5lGUGZt5N+Tn3/RQ7oM00RWV?=
- =?us-ascii?Q?Jlm4BaKABixoChEH8kL5iB3M9cmFm5oPFt4bdRxoGmcNKN9gFCkjjwo4zOa+?=
- =?us-ascii?Q?+/HAmCZgdiVpNxiPUk3HJ8HyccMQVCOk+Nz/dvLw6bEVFQRvOogrHX/CGUoe?=
- =?us-ascii?Q?CZ6uZQF4Vqpd5sHyWcnCPWZCGcSVQ/3j5qEZwm7t7/hPjKwA6ciHmbfHMnbE?=
- =?us-ascii?Q?4RoKGv+tUKp69OzragxgCYhIPKdH/+2wO5NPGHkCIPJrAyShUERk5x+FUL09?=
- =?us-ascii?Q?85MCf7Cw9ZaXxOKm/pJv9mZjn9fNZwOJjVP6kiol9w3aCdZYf04vhAB6Nm0g?=
- =?us-ascii?Q?WbPzIo5XFeFsCny1HA48xN1/SIyxGB5JbKJUUVd2zJO5gYfhPgzTIS5H1zce?=
- =?us-ascii?Q?P8CdSEpOkF6uYlJvgiSVohVJl61ATi9u1PQtzc74d9RzagQUIe+5Uhmy4Vrl?=
- =?us-ascii?Q?HxJ41epHWu931n307+HzrnTCL2+fTAG35/7xLHCE0W9Okfy5fQoEs+gL5zhF?=
- =?us-ascii?Q?KeC9F1AlRTQoL6i82u/3JqZjK0GsGPDm7F8SVS7VmT/OEoMpwfEvHA2v88Y/?=
- =?us-ascii?Q?M4nmI0H+lAANWlZRW+nMZhoKNP6FDPWu6dQECtRQ7ikUorfcxn2MiOtnkQqm?=
- =?us-ascii?Q?cdns6CAamZgVML8HybH40wF5HgFoeLM3CQ16VbowBtC1y50+W9KzsD2Jsd4k?=
- =?us-ascii?Q?+UlIMYX3pTjmAPiQvxE37CXf8x4uUKhm7F5hK74+17Phbbdukxyc2dXXYFkB?=
- =?us-ascii?Q?E/R7/AiCr3iHddz41ps6OJnWJi0cTVImt5gVactA4ITG0yf5Q+K00cyrE5GX?=
- =?us-ascii?Q?P+JY62wZIJQI+Mra16zEpxGz4zkY3jGgR5oKXziUoKSF56cjioWIc/gGKs2D?=
- =?us-ascii?Q?v9sx8cfn4zCPBu+EmkRAUYO4X7jnYIsLmgKpP+BxQCUgJ4Sy42ad1oBDLbZ/?=
- =?us-ascii?Q?WE7D8+9k+6TvZ9q5WAdzfNFeV1l+jp4C0gKArvD9W5qb1dXOmFBwx7eQDkh0?=
- =?us-ascii?Q?+01TkDSKVUg1jntRVNoq98VkmHcoRbXKLxADw5uRQtO/EEIhYZuGgUtiAwGD?=
- =?us-ascii?Q?C3adXdy0kAxmUt7YQDE3LU1LrYixTfwGlUnGqLmVMrHLxph1kXdc8Aw1Bkrk?=
- =?us-ascii?Q?Jo+ix/9Doj/EsuSlR8CEckrATdZgQHpw8QlA0xSdAJpSbrCv4sXZbtP0IXR7?=
- =?us-ascii?Q?GUrLMkpXfv+9tWMaZGXp1SoT9nHF933xtxFCXIU6VxQaNY+VSgYvZIh5Q8Ww?=
- =?us-ascii?Q?QHGsuxz5tcrrrkWZp+s01Wk4R2kTHjkqHG+MA3+GVqGIC3YznApHkD68iGTn?=
- =?us-ascii?Q?i9WCE2P7R66VUYd1xbyOeL8=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WczR1tEi77RJTAXgYkOSh35GHYTaKWerRDusAGgZUPu4yKLt8OTuvBEjN9Pj?=
+ =?us-ascii?Q?HpltrAHjP/IH/ifE6PuKPAuy/oDtkvuTXYTnoxuRiApWimTPW8wB/pj9C0Df?=
+ =?us-ascii?Q?cGgtCGdwLRGfaAGju/ixuqGsmy9cqlqI8dbb9fajBDPDxYUdu7pUrwRpSW2p?=
+ =?us-ascii?Q?4gScRy7BM1xKnM74ThtfIEGi/B4vDz7utCoR5BuCJb81Or32nyhzdLORAP6p?=
+ =?us-ascii?Q?e81PWOMrQfVcW+b6BREDE/UUll3j0av4nQGhwxLYumrwqOnuBX4okfEwza4X?=
+ =?us-ascii?Q?ZBeNd3zuMWcj3EjgKKehiP+8SEgfC/+zriO7lg6AGxCnXe3mCGyuJ+Afz3P2?=
+ =?us-ascii?Q?GkulaQBEpvMJwPgvW211mgXQuAf1oJOUSCTnIE+lKbfm36uQmngMIF6X/uwk?=
+ =?us-ascii?Q?R3Ptn4ygoo198d7NgOMRSrPOYyLgsn+jH1QIH3GGiNJC1B2Eo/N3g6O6IMgu?=
+ =?us-ascii?Q?1q9sSUP/0TqR7p61dFAQLtRo/OEER2NPELdER3aXBJM1iwGRylA5z70nfTnO?=
+ =?us-ascii?Q?IZ+L0lOjh+xK5ydi8krJwqJUKc3oJIfEF6GGVsC5ZPfGCdci3bE5hsjyspvQ?=
+ =?us-ascii?Q?tieATr1rNTZJPVo4YnFdEiacfGQS5tXgXi8HTqul5r4dsw+wVTrv8sfG47W3?=
+ =?us-ascii?Q?zeBz3V13/iqEHTp2l2k8Pq7nynnzyxlOAKNWLC9TNYd004qyeaYFtAdKT73t?=
+ =?us-ascii?Q?cIRKREMru1FOslDp+MH1XHVX6N+aMMH/8yYgNv4EhDYEhQX7LeAL9OVVOSyS?=
+ =?us-ascii?Q?KSEQOfeM1ljOi8GNuSR0V6KbEpu71KklDaCKXgMBDROfOKMiMSqm4LeWEdKt?=
+ =?us-ascii?Q?Ia0gshPCCyh0nAiqo7YEVNYOFkSiZPqRCY/DHt2pZlsN02sohEyStWBqndk7?=
+ =?us-ascii?Q?F538rJCCMfAfEwiS6Qh1IEtGxz250suF44eXNjuXb4t9co6V62KXFDu+4NQd?=
+ =?us-ascii?Q?JBn//5TqsnrCRYxrvBFCzBficl8I5FQuJZXghc0XQc0pUL5INDORw8yvZKUh?=
+ =?us-ascii?Q?HFmCeQVf3Dk2lU06jb8iVLIrpgsjE0zhXK52gWOsXSVIGrbzjixkSdaC7EA2?=
+ =?us-ascii?Q?LTz6njxn5MM7VzG3iTV9lEEyuodJHklBdYGbRChJMwuFCHJD9tSHXGOzQOoC?=
+ =?us-ascii?Q?7OFVCQ+EU3r+i1nngdym3XS1lNcLdqgp5l3Eiz2y0K/VL6pdQWlrJ7EJTw1E?=
+ =?us-ascii?Q?pffVWFTUsb3fHxE1NhtSC0xLeOF/GRMXE0I4oLitYIG2vAu383+pt8zM2h8R?=
+ =?us-ascii?Q?mCerLKLGAVZQqMgSCmxzcnqHY8tOVGZgqJHWK58kn+iXUztBV693HBYc5IEL?=
+ =?us-ascii?Q?6o0b+Dc+G3V8mTlFMpLT5U2dC4d6xJqOAk+I/HhW9x/6r784IsyZwNSDfQtn?=
+ =?us-ascii?Q?cyOekmBLdONC/Y1AYuSrRw2GCg3clLB92jGu4LxUcowpW0Jzn81020GhwgGl?=
+ =?us-ascii?Q?g/ukSluIhGxsZMVodSoAUElhIz5sqHh2vyC2bWglv5kHZIh6gGSj8MDvH1i4?=
+ =?us-ascii?Q?cjcMDsnRZylJLd+NvZHxIpvUWu3nKP58BVPqyoXTuHY8B+Sys6Uot+Q4KWAc?=
+ =?us-ascii?Q?S2DdSXLtWj04dczjaN7Ma6N6c71DeoXqxURo0xa9fxMOtLeo0XHoBYZUzMQs?=
+ =?us-ascii?Q?riYbOrWHh8RY7ufZ6uG6Jqw=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 970b4684-aaa8-49d2-3004-08d9db94a6ff
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77238885-8701-41ae-0dcf-08d9db94a90e
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2022 21:42:55.4426 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2022 21:42:58.9267 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sgyPHyJkgDVR1ElOTl0auI1+UgfJUFzZbwpYlcLVbn0PoiHUOZowv2Cu1tJL6xONpg4n4dA5QP57mlrOQ3hoGQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8rPYkwxV4KXFgERC/Xh5fY8RwZQ53u6VhX+z7ULW9ubxNmRpzWgHSpSPOuMz9OqMQ9ABeKrgpuKDHQXDgs52vA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB5887
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10232
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- bulkscore=0
- mlxlogscore=999 adultscore=0 suspectscore=0 malwarescore=0 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ phishscore=0
+ mlxlogscore=999 malwarescore=0 bulkscore=0 suspectscore=0 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2201190117
-X-Proofpoint-GUID: DGiaLAyKL0VnKhmcxJQhVOdtA8-WPfMl
-X-Proofpoint-ORIG-GUID: DGiaLAyKL0VnKhmcxJQhVOdtA8-WPfMl
+X-Proofpoint-GUID: IgUKsK3zdLxNnS-p5Cvq0QOUhKrM0jFX
+X-Proofpoint-ORIG-GUID: IgUKsK3zdLxNnS-p5Cvq0QOUhKrM0jFX
 Received-SPF: pass client-ip=205.220.177.32; envelope-from=jag.raman@oracle.com;
  helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -172,115 +172,197 @@ Cc: eduardo@habkost.net, elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Find the PCI device with specified id. Initialize the device context
-with the QEMU PCI device
+Setup a handler to run vfio-user context. The context is driven by
+messages to the file descriptor associated with it - get the fd for
+the context and hook up the handler with it
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- hw/remote/vfio-user-obj.c | 60 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 60 insertions(+)
+ qapi/misc.json            | 23 ++++++++++
+ hw/remote/vfio-user-obj.c | 90 ++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 112 insertions(+), 1 deletion(-)
 
+diff --git a/qapi/misc.json b/qapi/misc.json
+index e8054f415b..f0791d3311 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -527,3 +527,26 @@
+  'data': { '*option': 'str' },
+  'returns': ['CommandLineOptionInfo'],
+  'allow-preconfig': true }
++
++##
++# @VFU_CLIENT_HANGUP:
++#
++# Emitted when the client of a TYPE_VFIO_USER_SERVER closes the
++# communication channel
++#
++# @device: ID of attached PCI device
++#
++# @path: path of the socket
++#
++# Since: 6.3
++#
++# Example:
++#
++# <- { "event": "VFU_CLIENT_HANGUP",
++#      "data": { "device": "lsi1",
++#                "path": "/tmp/vfu1-sock" },
++#      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
++#
++##
++{ 'event': 'VFU_CLIENT_HANGUP',
++  'data': { 'device': 'str', 'path': 'str' } }
 diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
-index 810a7c3943..10db78eb8d 100644
+index 10db78eb8d..91d49a221f 100644
 --- a/hw/remote/vfio-user-obj.c
 +++ b/hw/remote/vfio-user-obj.c
-@@ -44,6 +44,8 @@
+@@ -27,6 +27,9 @@
+  *
+  * device - id of a device on the server, a required option. PCI devices
+  *          alone are supported presently.
++ *
++ * notes - x-vfio-user-server could block IO and monitor during the
++ *         initialization phase.
+  */
+ 
+ #include "qemu/osdep.h"
+@@ -41,11 +44,14 @@
+ #include "hw/remote/machine.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-visit-sockets.h"
++#include "qapi/qapi-events-misc.h"
  #include "qemu/notify.h"
++#include "qemu/thread.h"
  #include "sysemu/sysemu.h"
  #include "libvfio-user.h"
-+#include "hw/qdev-core.h"
-+#include "hw/pci/pci.h"
+ #include "hw/qdev-core.h"
+ #include "hw/pci/pci.h"
++#include "qemu/timer.h"
  
  #define TYPE_VFU_OBJECT "x-vfio-user-server"
  OBJECT_DECLARE_TYPE(VfuObject, VfuObjectClass, VFU_OBJECT)
-@@ -89,6 +91,10 @@ struct VfuObject {
-     Notifier machine_done;
+@@ -95,6 +101,8 @@ struct VfuObject {
+     PCIDevice *pci_dev;
  
-     vfu_ctx_t *vfu_ctx;
+     Error *unplug_blocker;
 +
-+    PCIDevice *pci_dev;
-+
-+    Error *unplug_blocker;
++    int vfu_poll_fd;
  };
  
  static void vfu_object_init_ctx(VfuObject *o, Error **errp);
-@@ -161,6 +167,9 @@ static void vfu_object_machine_done(Notifier *notifier, void *data)
- static void vfu_object_init_ctx(VfuObject *o, Error **errp)
- {
-     ERRP_GUARD();
-+    DeviceState *dev = NULL;
-+    vfu_pci_type_t pci_type = VFU_PCI_TYPE_CONVENTIONAL;
-+    int ret;
+@@ -144,6 +152,68 @@ static void vfu_object_set_device(Object *obj, const char *str, Error **errp)
+     vfu_object_init_ctx(o, errp);
+ }
  
-     if (o->vfu_ctx || !o->socket || !o->device ||
-             !phase_check(PHASE_MACHINE_READY)) {
-@@ -179,6 +188,49 @@ static void vfu_object_init_ctx(VfuObject *o, Error **errp)
-         error_setg(errp, "vfu: Failed to create context - %s", strerror(errno));
++static void vfu_object_ctx_run(void *opaque)
++{
++    VfuObject *o = opaque;
++    int ret = -1;
++
++    while (ret != 0) {
++        ret = vfu_run_ctx(o->vfu_ctx);
++        if (ret < 0) {
++            if (errno == EINTR) {
++                continue;
++            } else if (errno == ENOTCONN) {
++                qapi_event_send_vfu_client_hangup(o->device,
++                                                  o->socket->u.q_unix.path);
++                qemu_set_fd_handler(o->vfu_poll_fd, NULL, NULL, NULL);
++                o->vfu_poll_fd = -1;
++                object_unparent(OBJECT(o));
++                break;
++            } else {
++                VFU_OBJECT_ERROR(o, "vfu: Failed to run device %s - %s",
++                                 o->device, strerror(errno));
++                break;
++            }
++        }
++    }
++}
++
++static void vfu_object_attach_ctx(void *opaque)
++{
++    VfuObject *o = opaque;
++    GPollFD pfds[1];
++    int ret;
++
++    qemu_set_fd_handler(o->vfu_poll_fd, NULL, NULL, NULL);
++
++    pfds[0].fd = o->vfu_poll_fd;
++    pfds[0].events = G_IO_IN | G_IO_HUP | G_IO_ERR;
++
++retry_attach:
++    ret = vfu_attach_ctx(o->vfu_ctx);
++    if (ret < 0 && (errno == EAGAIN || errno == EWOULDBLOCK)) {
++        /**
++         * vfu_object_attach_ctx can block QEMU's main loop
++         * during attach - the monitor and other IO
++         * could be unresponsive during this time.
++         */
++        qemu_poll_ns(pfds, 1, 500 * (int64_t)SCALE_MS);
++        goto retry_attach;
++    } else if (ret < 0) {
++        VFU_OBJECT_ERROR(o, "vfu: Failed to attach device %s to context - %s",
++                         o->device, strerror(errno));
++        return;
++    }
++
++    o->vfu_poll_fd = vfu_get_poll_fd(o->vfu_ctx);
++    if (o->vfu_poll_fd < 0) {
++        VFU_OBJECT_ERROR(o, "vfu: Failed to get poll fd %s", o->device);
++        return;
++    }
++
++    qemu_set_fd_handler(o->vfu_poll_fd, vfu_object_ctx_run, NULL, o);
++}
++
+ /*
+  * TYPE_VFU_OBJECT depends on the availability of the 'socket' and 'device'
+  * properties. It also depends on devices instantiated in QEMU. These
+@@ -182,7 +252,8 @@ static void vfu_object_init_ctx(VfuObject *o, Error **errp)
          return;
      }
-+
-+    dev = qdev_find_recursive(sysbus_get_default(), o->device);
-+    if (dev == NULL) {
-+        error_setg(errp, "vfu: Device %s not found", o->device);
-+        goto fail;
-+    }
-+
-+    if (!object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
-+        error_setg(errp, "vfu: %s not a PCI device", o->device);
-+        goto fail;
-+    }
-+
-+    o->pci_dev = PCI_DEVICE(dev);
-+
-+    if (pci_is_express(o->pci_dev)) {
-+        pci_type = VFU_PCI_TYPE_EXPRESS;
-+    }
-+
-+    ret = vfu_pci_init(o->vfu_ctx, pci_type, PCI_HEADER_TYPE_NORMAL, 0);
+ 
+-    o->vfu_ctx = vfu_create_ctx(VFU_TRANS_SOCK, o->socket->u.q_unix.path, 0,
++    o->vfu_ctx = vfu_create_ctx(VFU_TRANS_SOCK, o->socket->u.q_unix.path,
++                                LIBVFIO_USER_FLAG_ATTACH_NB,
+                                 o, VFU_DEV_TYPE_PCI);
+     if (o->vfu_ctx == NULL) {
+         error_setg(errp, "vfu: Failed to create context - %s", strerror(errno));
+@@ -220,6 +291,21 @@ static void vfu_object_init_ctx(VfuObject *o, Error **errp)
+         goto fail;
+     }
+ 
++    ret = vfu_realize_ctx(o->vfu_ctx);
 +    if (ret < 0) {
-+        error_setg(errp,
-+                   "vfu: Failed to attach PCI device %s to context - %s",
++        error_setg(errp, "vfu: Failed to realize device %s- %s",
 +                   o->device, strerror(errno));
 +        goto fail;
 +    }
 +
-+    error_setg(&o->unplug_blocker, "%s is in use", o->device);
-+    qdev_add_unplug_blocker(DEVICE(o->pci_dev), o->unplug_blocker, errp);
-+    if (*errp) {
++    o->vfu_poll_fd = vfu_get_poll_fd(o->vfu_ctx);
++    if (o->vfu_poll_fd < 0) {
++        error_setg(errp, "vfu: Failed to get poll fd %s", o->device);
 +        goto fail;
 +    }
 +
-+    return;
++    qemu_set_fd_handler(o->vfu_poll_fd, vfu_object_attach_ctx, NULL, o);
 +
-+fail:
-+    vfu_destroy_ctx(o->vfu_ctx);
-+    if (o->unplug_blocker && o->pci_dev) {
-+        qdev_del_unplug_blocker(DEVICE(o->pci_dev), o->unplug_blocker);
-+        error_free(o->unplug_blocker);
-+        o->unplug_blocker = NULL;
-+    }
-+    o->vfu_ctx = NULL;
-+    o->pci_dev = NULL;
+     return;
+ 
+ fail:
+@@ -250,6 +336,8 @@ static void vfu_object_init(Object *obj)
+                    TYPE_VFU_OBJECT, TYPE_REMOTE_MACHINE);
+         return;
+     }
++
++    o->vfu_poll_fd = -1;
  }
  
- static void vfu_object_init(Object *obj)
-@@ -219,6 +271,14 @@ static void vfu_object_finalize(Object *obj)
- 
-     o->device = NULL;
- 
-+    if (o->unplug_blocker && o->pci_dev) {
-+        qdev_del_unplug_blocker(DEVICE(o->pci_dev), o->unplug_blocker);
-+        error_free(o->unplug_blocker);
-+        o->unplug_blocker = NULL;
-+    }
-+
-+    o->pci_dev = NULL;
-+
-     if (!k->nr_devs && k->auto_shutdown) {
-         qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-     }
+ static void vfu_object_finalize(Object *obj)
 -- 
 2.20.1
 
