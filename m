@@ -2,70 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 256DC493554
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 08:21:26 +0100 (CET)
-Received: from localhost ([::1]:42990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75B164935E9
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 08:55:12 +0100 (CET)
+Received: from localhost ([::1]:56324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA5HY-0002Ok-MR
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 02:21:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44438)
+	id 1nA5oE-00044o-T6
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 02:55:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nA4tH-0001Ve-Fo; Wed, 19 Jan 2022 01:56:19 -0500
-Received: from [2607:f8b0:4864:20::b2d] (port=33600
- helo=mail-yb1-xb2d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nA4tG-0001xs-2I; Wed, 19 Jan 2022 01:56:19 -0500
-Received: by mail-yb1-xb2d.google.com with SMTP id l68so3930227ybl.0;
- Tue, 18 Jan 2022 22:56:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bpDx8+F25IGXcfTWD62LB2zicnuNRmE63fZAqJGZfTw=;
- b=iCoam4wb/GrEDfIbatwL2/ip1VIQyuQlQp7pHz81zADeZma3pl51XqF0vPKAnze4SW
- XbTo1mALT355r0jI36gRt0CE/r6p8NRi7ElOCRqOpxjHuMfWEgesHpYWECmiuWwtpQAA
- SkN0dFe9mzoMgwf5dcU8KhUKPLO8J7b9VWm5aEqdzPEiLeynd7I7vgoPzGUre3xVCX2E
- quRly7nZi52pZ9pMtUMhOF46WO2xFP4Vca3x9lQwnQtkm+MAWVeKy3MRphI6rCHgbS+A
- oDeHnw7usHbz18IEkXJIZx4qbQFUY7oajHw8dioxQG4w/mAOHA6mZeLVBEdb3RSvpQIH
- 7Mgg==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nA5Ww-0006Ws-MQ
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 02:37:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54585)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nA5Wl-0004UT-MM
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 02:37:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642577825;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bBfGKAVjNReJbbJX6oY1AzNZjfQ5uO0hcUC9R++P40M=;
+ b=KT6Bq0hx7gqJzGbQMWQpOpgzejbivy/WRQaAdsfjxLu6slUHeVz7Mb5QFm2kQv2IgcpjKz
+ d+pIV2l4d++1CaiSErzTvm/Xg6FzYpZGZOVi3MD0vY/8j5YBtprLVkJ1ZaJbRV6pJbBRUe
+ chXAx+EDzMZQGL5OvxtgmIHCSWnRpUA=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-631-VhFMzq8uNvCQKUNA6_vQoQ-1; Wed, 19 Jan 2022 02:37:01 -0500
+X-MC-Unique: VhFMzq8uNvCQKUNA6_vQoQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ j1-20020aa7c341000000b0040417b84efeso1345323edr.21
+ for <qemu-devel@nongnu.org>; Tue, 18 Jan 2022 23:37:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bpDx8+F25IGXcfTWD62LB2zicnuNRmE63fZAqJGZfTw=;
- b=dZDuvuL325FjQJg4kOKNAeV4e8dGfs6N6ZWWATOBt2wWI20bSpag6x+YbAe2ha2kra
- 0VA5HJkF9mg+fpoDUfzfj6tBfVnjJPx0XGok22HlhRrdUD7THi/SDbZOUsil/GtpwyhU
- Je7Rz9ahVXTlp+sKGt/cvZSIt8JB9NAPpNiTmozQj41zdtYl6ueRk9ycXpcHm8yPgGvp
- EZQaQjERfGw8Buh+Z2K5KjngCLWRkalTORdO7LJIQbxpPy7lmW27OJaSIDRWxWyd/AI2
- h73HibPc/Ksxpk9VQWraNh/SgUdUCS0GU0xrxStcip4w/roELC041yMZZ+7sC6M17f0H
- BT7w==
-X-Gm-Message-State: AOAM530YLFACBKdFFM1IhlokIjAHoR6+mSnYD8wD5mZiaHnOy1vpoXRM
- 7j11WQ0rQsxr13LFolRZaZ02BdCTYT1euGFoTXQ=
-X-Google-Smtp-Source: ABdhPJxk+nvscw7vWm6z3Jn8GNwHf5SgPTZSGSLj/TEfUNoOFDEKL7Irg1jd9tkdr6ooLJosO6JoStrm7TaEuZYQHqQ=
-X-Received: by 2002:a25:2507:: with SMTP id l7mr8304814ybl.526.1642575376599; 
- Tue, 18 Jan 2022 22:56:16 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=bBfGKAVjNReJbbJX6oY1AzNZjfQ5uO0hcUC9R++P40M=;
+ b=12/5ey50WDG7s9iSCHLLHIura0X314RtmMi4dgXURVVayhG9CgbISlSBIQE3LWto5B
+ AJKKhJdCLAHasTb3f9Po2KeQSpI7NL5UU8vmprrCvBhfIHSyZAjztBsIorNMZP1MS3Zc
+ 9QxFN1hllXzbryWXWPeJK3qIQZwHVbDAMlFbEysoCUrYNTNsf27fJvNeJLBS+Qhs1fFg
+ GJiH/3a9+eeP4zi66Rg9np8v99ThmZ25nym0S0R7p3PJvSQgEr50IbMlKdP/4zZ3Euq6
+ jJQAi5FAWGZGNAWdsO9VRdEljptYhHc2m5bFdFbDAKbnosJzudpCy+NaPfGP7Nvy7CKH
+ BNXQ==
+X-Gm-Message-State: AOAM531atC+S+cYna439cVevrrcDXaYvD33D+1CpYsCnSzeZRRMOg7hB
+ JvEAdLSGS4PbOAq85Frzyv/CFx2oAGFuqjmteqgMRAISZeX5X0VUih/WM9HvNNrzafvSLFJKSBG
+ cfZLkJgi+0a4ptxU=
+X-Received: by 2002:aa7:d04f:: with SMTP id n15mr3411720edo.261.1642577820590; 
+ Tue, 18 Jan 2022 23:37:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy4BVHpuZ5yqDd/Zu2CCUNBYtSKY4ut2KsVJj0nyYzo1Bksv21Kp86FOsOzsU1Botvm6X/9KQ==
+X-Received: by 2002:aa7:d04f:: with SMTP id n15mr3411701edo.261.1642577820410; 
+ Tue, 18 Jan 2022 23:37:00 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id 4sm6097261ejc.160.2022.01.18.23.36.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Jan 2022 23:36:59 -0800 (PST)
+Date: Wed, 19 Jan 2022 08:36:58 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Patrick Venture <venture@google.com>
+Subject: Re: [PATCH] hw/smbios: Add table 4 parameter, "processor-id"
+Message-ID: <20220119083658.200bb541@redhat.com>
+In-Reply-To: <CAO=notxVi7-pGoJS9kXuEcC8nBdhEbW=+Wu6V5qP7UVvzubcNQ@mail.gmail.com>
+References: <20220106223316.3661625-1-venture@google.com>
+ <20220111141332.4e0de6af@redhat.com>
+ <CAO=notxVi7-pGoJS9kXuEcC8nBdhEbW=+Wu6V5qP7UVvzubcNQ@mail.gmail.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20220118111736.454150-1-apatel@ventanamicro.com>
- <20220118111736.454150-4-apatel@ventanamicro.com>
-In-Reply-To: <20220118111736.454150-4-apatel@ventanamicro.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 19 Jan 2022 14:56:04 +0800
-Message-ID: <CAEUhbmX-juU-a0D4sgnxR=Z+uRU=tBt2bNYAOjmfoW_7DD9JKA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] roms/opensbi: Remove ELF images
-To: Anup Patel <apatel@ventanamicro.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2d.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,33 +98,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: ani@anisinha.ca, Titus Rwantare <titusr@google.com>,
+ Peter Foley <pefoley@google.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 18, 2022 at 7:18 PM Anup Patel <apatel@ventanamicro.com> wrote:
->
-> Now that all RISC-V machines can use OpenSBI BIN images, we remove
-> OpenSBI ELF images and also exclude these images from BIOS build.
->
-> Signed-off-by: Anup Patel <anup@brainfault.org>
-> ---
->  pc-bios/meson.build                            |   2 --
->  pc-bios/opensbi-riscv32-generic-fw_dynamic.elf | Bin 838904 -> 0 bytes
->  pc-bios/opensbi-riscv64-generic-fw_dynamic.elf | Bin 934696 -> 0 bytes
->  roms/Makefile                                  |   2 --
->  4 files changed, 4 deletions(-)
->  delete mode 100644 pc-bios/opensbi-riscv32-generic-fw_dynamic.elf
->  delete mode 100644 pc-bios/opensbi-riscv64-generic-fw_dynamic.elf
->
+On Tue, 18 Jan 2022 09:15:42 -0800
+Patrick Venture <venture@google.com> wrote:
 
-.gitlab-ci.d/opensbi.yml should also be updated to remove .elf build
+> On Tue, Jan 11, 2022 at 5:13 AM Igor Mammedov <imammedo@redhat.com> wrote:
+> 
+> > On Thu,  6 Jan 2022 14:33:16 -0800
+> > Patrick Venture <venture@google.com> wrote:
+> >  
+[...]
+> > > diff --git a/qemu-options.hx b/qemu-options.hx
+> > > index ec90505d84..3c51b6cf8f 100644
+> > > --- a/qemu-options.hx
+> > > +++ b/qemu-options.hx
+> > > @@ -2527,6 +2527,7 @@ DEF("smbios", HAS_ARG, QEMU_OPTION_smbios,
+> > >      "                specify SMBIOS type 3 fields\n"
+> > >      "-smbios  
+> > type=4[,sock_pfx=str][,manufacturer=str][,version=str][,serial=str]\n"  
+> > >      "  
+> > [,asset=str][,part=str][,max-speed=%d][,current-speed=%d]\n"  
+> > > +    "              [,processor-id=%d]\n"
+> > >      "                specify SMBIOS type 4 fields\n"
+> > >      "-smbios type=11[,value=str][,path=filename]\n"
+> > >      "                specify SMBIOS type 11 fields\n"  
+> >
+> > missing update of SRST part
+> >  
+> 
+> I grepped for SRST, where is this that I need to update also?
 
-Otherwise,
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+option definition has 2 parts DEF() and SRST that follows right
+after it, the later is used as help text for the option
+SRST                                                                             
+``-smbios file=binary`` 
+...
+
+> 
+> Thanks!
+
 
