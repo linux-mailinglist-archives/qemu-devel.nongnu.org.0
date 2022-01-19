@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABFD0493E3E
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 17:23:20 +0100 (CET)
-Received: from localhost ([::1]:54812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67A78493E07
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 17:11:42 +0100 (CET)
+Received: from localhost ([::1]:35666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nADjz-0000kk-9E
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 11:23:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40508)
+	id 1nADYj-0004Jx-6P
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 11:11:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1nACrL-0006I9-8o
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 10:26:54 -0500
-Received: from [2607:f8b0:4864:20::102f] (port=36691
- helo=mail-pj1-x102f.google.com)
+ id 1nACrQ-0006Jc-5p
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 10:26:56 -0500
+Received: from [2607:f8b0:4864:20::530] (port=46862
+ helo=mail-pg1-x530.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1nACrJ-0000OG-El
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 10:26:50 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- i8-20020a17090a138800b001b3936fb375so6787357pja.1
- for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 07:26:48 -0800 (PST)
+ id 1nACrO-0000P3-TS
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 10:26:55 -0500
+Received: by mail-pg1-x530.google.com with SMTP id i8so2899363pgt.13
+ for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 07:26:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=brainfault-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JMYapyz35LyrwsEVB6cZ0wkMdm9XfLBWIUa3hy2aNGM=;
- b=135BrCfj3F7GV4Q5jEPMoizE3JMzNex+umZ47LK1X6+ArrRgs0/f3+L8ti3nkxUBRt
- R1ht5YzujaElX8qaLfcJmQkncF1gfm1n8V4HiMKCo89xtrIsXb5ieS8sqO1n3xuYu1P9
- jOzO2ivf/qSeibVbpkYCwJtMTkkM/k+ulFaev2KzbCbsyb2q4aUU9zETKWcGo7mehAok
- O+yrgGMlcz0nYvvm2ETjZUFn4Z6yfZPl1lZgr00z7n/mO5y8z9hforE9WXnPXONft0DR
- IcY3aSBzMWIk7Js2SzAgT+wdYa2uk6ZhuL5kFe2iQvrPtwwmmpFCo4/9F3LJVNcPApqt
- hgzQ==
+ bh=1GVP1+tizrJyU2/+6CbvcCVlYw+KyTfPxuHOE4U9bx8=;
+ b=WtdJo2P9G9DfNuVDwLK5TJjkOOmOe4NdN6WoNsO3Av5RmhRAnBVnlcYaD5oeszIXot
+ AX6whr433lECLJcGQdt2YLMI9lzsTookJ1AKD+McmpFdQVgxAwGmXQC4YSTu2cc0wMuT
+ KrJD7TpZCzv8WscSowUEi/2dpolwsc9ZYuxbkF6Yb+b/W/IjUV+mG1wq7bv/ZvZe5z3h
+ fxRiRCR2GHKboZMiDGB/Uo3PKjc4bSFdp4yQTXcXUSx3yVG+4Va7+F9WnKb1cWDGo+qm
+ pJBpCy0DVoTtyxLGwh1aC9mkBQB7ufa8Jb22ISLQQsr0FKmjmRxuOsryZtgysJtUver+
+ XsAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JMYapyz35LyrwsEVB6cZ0wkMdm9XfLBWIUa3hy2aNGM=;
- b=knQ6HpcY29ous/lAsG1pJUh6+KqdqdcKAWHEx05EPd5cg912vd8951MFv3OBrDF1aS
- SYsvc1gu8DocSItAhwDaAsVMXb7HDHi6yo2be5gru323RymdYOhLLTEcuChFPTXR6ErX
- HYZ17R0bmax6gMX1JPrXmEhqZUtLlkuF+L7VU8PMgaQu6GW3ygmCfSeD1oKOBhuG4LA+
- wl6txqjNRNnDb325XJ9V2O6t/6lJKG2vxVY12TXlmp8RGDHxFRfkK9RgZlCvp+WUeRaR
- Cb3AoQHx8l3zmf4Y0WwTb9HH+ATP4EjjAjVTiMnOlAlAQgIk9HFqtVPoXC6Nt7bhnb8c
- DkEg==
-X-Gm-Message-State: AOAM530Kw6536SqFJLeGf26WbV6eLMqAe3gAH7Hs96yYPNDqagH7czIA
- 9kcdZvxRHYNF4nT0OlCbnqEQPFKN1cTQMg==
-X-Google-Smtp-Source: ABdhPJzxpevEsANoX7edOhMa4phYXjZZm46NFz1yX+pBqB1okNrpoWzXJyvSHDkm8WaRWyzjjYOpkA==
-X-Received: by 2002:a17:902:b688:b0:149:a1d6:c731 with SMTP id
- c8-20020a170902b68800b00149a1d6c731mr33369783pls.145.1642606007347; 
- Wed, 19 Jan 2022 07:26:47 -0800 (PST)
+ bh=1GVP1+tizrJyU2/+6CbvcCVlYw+KyTfPxuHOE4U9bx8=;
+ b=RVnUvZ1LbUAJgqG7IXFsWi42UqnBg7Hsey4CCWX4GqVFwHMzn78fIAgNEh+gN3ZARP
+ ueFQwn4kok561Kb8tqrFkq1g7ycy5UsHoXTsssQgGCYgAAP7q+btI5Jq0qB6gYhs6rZr
+ u8rK/n/RZMy9ZlUP3Rx0cFRy0MvNhDnSjvo9TMpy9FTsbL2Az3YpTs3/zaEMEkQ7jIb+
+ oVdO23lJotEoe661oyVUi4V+rjdGBdDwZQKFD7H+MoK+GD29H8OGa48MfiGlhvjeCAiS
+ XE7MAXT2Lzw39Xia03G6CyLHLtaN9d6wBsXQX6dKtls3av2p8sHGk9CxQ6CjGooZ2bso
+ nUTA==
+X-Gm-Message-State: AOAM532LpccmKyuf5frMbZGnn6fVEQYP9x9NC7P7pNRNjiDZ3110kpX5
+ FZMJWz9ayWJj7uYrvtb9UjbnxQ==
+X-Google-Smtp-Source: ABdhPJxCdtMkkN1kSUzAnOSEqSRZbWxjIUOnqLlpILuvJEYyvCk9jJY+oxNifguyW9wE77+Wr/ol/Q==
+X-Received: by 2002:a63:3e02:: with SMTP id l2mr27516737pga.412.1642606012267; 
+ Wed, 19 Jan 2022 07:26:52 -0800 (PST)
 Received: from localhost.localdomain ([122.179.40.245])
- by smtp.gmail.com with ESMTPSA id 187sm26791pfv.157.2022.01.19.07.26.42
+ by smtp.gmail.com with ESMTPSA id 187sm26791pfv.157.2022.01.19.07.26.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jan 2022 07:26:46 -0800 (PST)
+ Wed, 19 Jan 2022 07:26:51 -0800 (PST)
 From: Anup Patel <anup@brainfault.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>
-Subject: [PATCH v8 05/23] target/riscv: Allow setting CPU feature from
- machine/device emulation
-Date: Wed, 19 Jan 2022 20:55:56 +0530
-Message-Id: <20220119152614.27548-6-anup@brainfault.org>
+Subject: [PATCH v8 06/23] target/riscv: Add AIA cpu feature
+Date: Wed, 19 Jan 2022 20:55:57 +0530
+Message-Id: <20220119152614.27548-7-anup@brainfault.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220119152614.27548-1-anup@brainfault.org>
 References: <20220119152614.27548-1-anup@brainfault.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::530
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::102f;
- envelope-from=anup@brainfault.org; helo=mail-pj1-x102f.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::530;
+ envelope-from=anup@brainfault.org; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -101,12 +98,9 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Anup Patel <anup.patel@wdc.com>
 
-The machine or device emulation should be able to force set certain
-CPU features because:
-1) We can have certain CPU features which are in-general optional
-   but implemented by RISC-V CPUs on the machine.
-2) We can have devices which require a certain CPU feature. For example,
-   AIA IMSIC devices expect AIA CSRs implemented by RISC-V CPUs.
+We define a CPU feature for AIA CSR support in RISC-V CPUs which
+can be set by machine/device emulation. The RISC-V CSR emulation
+will also check this feature for emulating AIA CSRs.
 
 Signed-off-by: Anup Patel <anup.patel@wdc.com>
 Signed-off-by: Anup Patel <anup@brainfault.org>
@@ -114,64 +108,23 @@ Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/cpu.c | 11 +++--------
- target/riscv/cpu.h |  5 +++++
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ target/riscv/cpu.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 0ce6cc7043..14cf9925a3 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -135,11 +135,6 @@ static void set_vext_version(CPURISCVState *env, int vext_ver)
-     env->vext_ver = vext_ver;
- }
- 
--static void set_feature(CPURISCVState *env, int feature)
--{
--    env->features |= (1ULL << feature);
--}
--
- static void set_resetvec(CPURISCVState *env, target_ulong resetvec)
- {
- #ifndef CONFIG_USER_ONLY
-@@ -479,18 +474,18 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     }
- 
-     if (cpu->cfg.mmu) {
--        set_feature(env, RISCV_FEATURE_MMU);
-+        riscv_set_feature(env, RISCV_FEATURE_MMU);
-     }
- 
-     if (cpu->cfg.pmp) {
--        set_feature(env, RISCV_FEATURE_PMP);
-+        riscv_set_feature(env, RISCV_FEATURE_PMP);
- 
-         /*
-          * Enhanced PMP should only be available
-          * on harts with PMP support
-          */
-         if (cpu->cfg.epmp) {
--            set_feature(env, RISCV_FEATURE_EPMP);
-+            riscv_set_feature(env, RISCV_FEATURE_EPMP);
-         }
-     }
- 
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 65bc2a1468..f24b6963b0 100644
+index f24b6963b0..070d741297 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -369,6 +369,11 @@ static inline bool riscv_feature(CPURISCVState *env, int feature)
-     return env->features & (1ULL << feature);
- }
+@@ -78,7 +78,8 @@ enum {
+     RISCV_FEATURE_MMU,
+     RISCV_FEATURE_PMP,
+     RISCV_FEATURE_EPMP,
+-    RISCV_FEATURE_MISA
++    RISCV_FEATURE_MISA,
++    RISCV_FEATURE_AIA
+ };
  
-+static inline void riscv_set_feature(CPURISCVState *env, int feature)
-+{
-+    env->features |= (1ULL << feature);
-+}
-+
- #include "cpu_user.h"
- 
- extern const char * const riscv_int_regnames[];
+ #define PRIV_VERSION_1_10_0 0x00011000
 -- 
 2.25.1
 
