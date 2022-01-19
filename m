@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D41F0493715
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 10:19:26 +0100 (CET)
-Received: from localhost ([::1]:45314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AE00493727
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jan 2022 10:23:08 +0100 (CET)
+Received: from localhost ([::1]:52512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nA77l-0007mE-8M
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 04:19:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34458)
+	id 1nA7BK-0004JM-KU
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 04:23:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nA6PC-0006rJ-P1
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 03:33:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56066)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nA6Px-0006wC-56
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 03:34:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nA6PA-0006M6-2w
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 03:33:21 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nA6PZ-00073N-Q1
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 03:33:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642581199;
+ s=mimecast20190719; t=1642581225;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cx9bq+4n5tPdK36ksYIUnTcdkcQ7lt3JScVomUqMMY8=;
- b=g8SEU5GJD7LJGOLLyFdwR3r4CoXJ1nETTzG2H+RwpOfc1ab/eNLQIKfaHifT4M3zuIRglv
- RMdHfj50vBjvMAw4vZYuiNG6eAtKzKMpMbVe8YVKNeOyfXsoaxUwgCn/KDwn5SMUsICSdE
- DrWRGtGZJAZgqD8GxKm9Bllnw6VQdJo=
+ bh=F2bbzNpojd/qoHnFGenWLoFCTAmJUAIIwchPZ9W0zLk=;
+ b=FrxAvpw3+txDvfLGFxe8FyyfFd1hyg2qBs/HkrriNrS+wM8+G26nRnDNrF8qyoFnWbrfVy
+ CQmqeuIWQcrLgmE91IZ7hbTl/mK17rIzNg2QMQav5Lnv57P/kTgKG3FKUNfISRidgPRTxI
+ W4A1lMDssdSVCM21mOXnUOuX+C08i4g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-411-LsNEhxy1NqqBjg6Yps9ANA-1; Wed, 19 Jan 2022 03:33:14 -0500
-X-MC-Unique: LsNEhxy1NqqBjg6Yps9ANA-1
+ us-mta-77-WeiieBCjPyKYyyDurA5-DQ-1; Wed, 19 Jan 2022 03:33:42 -0500
+X-MC-Unique: WeiieBCjPyKYyyDurA5-DQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD1C11966323;
- Wed, 19 Jan 2022 08:33:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0599C1F2DA;
+ Wed, 19 Jan 2022 08:33:41 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.124])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2339C4F858;
- Wed, 19 Jan 2022 08:33:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 286C84F858;
+ Wed, 19 Jan 2022 08:33:12 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/10] MAINTAINERS: Add myself to s390 I/O areas
-Date: Wed, 19 Jan 2022 09:32:13 +0100
-Message-Id: <20220119083215.120911-9-thuth@redhat.com>
+Subject: [PULL 09/10] s390x/ipl: support extended kernel command line size
+Date: Wed, 19 Jan 2022 09:32:14 +0100
+Message-Id: <20220119083215.120911-10-thuth@redhat.com>
 In-Reply-To: <20220119083215.120911-1-thuth@redhat.com>
 References: <20220119083215.120911-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -77,56 +77,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, Peter Maydell <peter.maydell@linaro.org>,
- Eric Farman <farman@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Viktor Mihajlovski <mihajlov@de.ibm.com>,
+ Marc Hartmayer <mhartmay@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Farman <farman@linux.ibm.com>
+From: Marc Hartmayer <mhartmay@linux.ibm.com>
 
-After the recent restructuring, I'd like to volunteer to help
-in some of the s390 I/O areas.
+In the past s390 used a fixed command line length of 896 bytes. This has changed
+with the Linux commit 5ecb2da660ab ("s390: support command lines longer than 896
+bytes"). There is now a parm area indicating the maximum command line size. This
+parm area has always been initialized to zero, so with older kernels this field
+would read zero and we must then assume that only 896 bytes are available.
 
-Built on "[PATCH RFC v2] MAINTAINERS: split out s390x sections"
-
-Signed-off-by: Eric Farman <farman@linux.ibm.com>
-Acked-by: Christian Borntraeger <borntraeger@linux.ibm.com>
-Acked-by: Halil Pasic <pasic@linux.ibm.com>
-Message-Id: <20220112164044.2210508-1-farman@linux.ibm.com>
+Signed-off-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Acked-by: Viktor Mihajlovski <mihajlov@de.ibm.com>
+Message-Id: <20211122112909.18138-1-mhartmay@linux.ibm.com>
+[thuth: Cosmetic fixes, and use PRIu64 instead of %lu]
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- MAINTAINERS | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/s390x/ipl.c | 27 +++++++++++++++++++++++----
+ 1 file changed, 23 insertions(+), 4 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 793d6edd2d..893a556710 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1525,6 +1525,7 @@ S390 Machines
- S390 Virtio-ccw
- M: Halil Pasic <pasic@linux.ibm.com>
- M: Christian Borntraeger <borntraeger@linux.ibm.com>
-+M: Eric Farman <farman@linux.ibm.com>
- S: Supported
- F: hw/s390x/
- F: include/hw/s390x/
-@@ -1555,6 +1556,7 @@ L: qemu-s390x@nongnu.org
- S390 channel subsystem
- M: Halil Pasic <pasic@linux.ibm.com>
- M: Christian Borntraeger <borntraeger@linux.ibm.com>
-+M: Eric Farman <farman@linux.ibm.com>
- S: Supported
- F: hw/s390x/ccw-device.[ch]
- F: hw/s390x/css.c
-@@ -1987,6 +1989,7 @@ T: git https://github.com/stefanha/qemu.git block
- virtio-ccw
- M: Cornelia Huck <cohuck@redhat.com>
- M: Halil Pasic <pasic@linux.ibm.com>
-+M: Eric Farman <farman@linux.ibm.com>
- S: Supported
- F: hw/s390x/virtio-ccw*.[hc]
- F: hw/s390x/vhost-vsock-ccw.c
+diff --git a/hw/s390x/ipl.c b/hw/s390x/ipl.c
+index 7ddca0127f..eb7fc4c4ae 100644
+--- a/hw/s390x/ipl.c
++++ b/hw/s390x/ipl.c
+@@ -37,8 +37,9 @@
+ 
+ #define KERN_IMAGE_START                0x010000UL
+ #define LINUX_MAGIC_ADDR                0x010008UL
++#define KERN_PARM_AREA_SIZE_ADDR        0x010430UL
+ #define KERN_PARM_AREA                  0x010480UL
+-#define KERN_PARM_AREA_SIZE             0x000380UL
++#define LEGACY_KERN_PARM_AREA_SIZE      0x000380UL
+ #define INITRD_START                    0x800000UL
+ #define INITRD_PARM_START               0x010408UL
+ #define PARMFILE_START                  0x001000UL
+@@ -110,6 +111,21 @@ static uint64_t bios_translate_addr(void *opaque, uint64_t srcaddr)
+     return srcaddr + dstaddr;
+ }
+ 
++static uint64_t get_max_kernel_cmdline_size(void)
++{
++    uint64_t *size_ptr = rom_ptr(KERN_PARM_AREA_SIZE_ADDR, sizeof(*size_ptr));
++
++    if (size_ptr) {
++        uint64_t size;
++
++        size = be64_to_cpu(*size_ptr);
++        if (size) {
++            return size;
++        }
++    }
++    return LEGACY_KERN_PARM_AREA_SIZE;
++}
++
+ static void s390_ipl_realize(DeviceState *dev, Error **errp)
+ {
+     MachineState *ms = MACHINE(qdev_get_machine());
+@@ -197,10 +213,13 @@ static void s390_ipl_realize(DeviceState *dev, Error **errp)
+             ipl->start_addr = KERN_IMAGE_START;
+             /* Overwrite parameters in the kernel image, which are "rom" */
+             if (parm_area) {
+-                if (cmdline_size > KERN_PARM_AREA_SIZE) {
++                uint64_t max_cmdline_size = get_max_kernel_cmdline_size();
++
++                if (cmdline_size > max_cmdline_size) {
+                     error_setg(errp,
+-                               "kernel command line exceeds maximum size: %zu > %lu",
+-                               cmdline_size, KERN_PARM_AREA_SIZE);
++                               "kernel command line exceeds maximum size:"
++                               " %zu > %" PRIu64,
++                               cmdline_size, max_cmdline_size);
+                     return;
+                 }
+ 
 -- 
 2.27.0
 
