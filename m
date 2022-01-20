@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6265F49534A
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 18:32:39 +0100 (CET)
-Received: from localhost ([::1]:57780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC2FD4953F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 19:16:15 +0100 (CET)
+Received: from localhost ([::1]:56570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAbIb-0003Ps-G4
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 12:32:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43200)
+	id 1nAbyo-0000LL-OT
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 13:16:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAWgy-0004bY-Pi
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:37:28 -0500
-Received: from [2a00:1450:4864:20::32c] (port=42952
- helo=mail-wm1-x32c.google.com)
+ id 1nAWqU-0006OD-Et
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:47:18 -0500
+Received: from [2a00:1450:4864:20::32d] (port=55279
+ helo=mail-wm1-x32d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAWgw-0003Sb-VE
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:37:28 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- f202-20020a1c1fd3000000b0034dd403f4fbso10087194wmf.1
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 04:37:26 -0800 (PST)
+ id 1nAWqS-0001hT-GW
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:47:17 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id p18so11818092wmg.4
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 04:47:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ h=from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=kLVawJbigFH+B5TCPH615H2cQHplZbBSOAUoIGl13ig=;
- b=JLJgovyUwGnVmfEP9ECOQCyZW2HfRdDrKSRim2uV39vMH7S2KecrVP4mBUcpO1T9F+
- De+AgajkukANLnP/76etLUEXbQENjFjvQ0MWuHcQD0Mctma9Bf7YK2sSquc731NsOQRz
- QMJtmr03vJ7nEgbd7ukvDheiz+7gFkQ4rBDt2hOQ+Q/twQkhYlcxbQ1mWewaPd5sEgK/
- /UoIt+JN8hBVFJ/VqX+2oKj1dVDGX/5Z6erhBco9I2duTLCIOCQUDtS8zB22j+qVYy6Y
- I4Ut3hxOE4QQWkjFKVETd0rgHSJ42JDZu+WBA09t8th9RrT/xTzHPnurPRmAC6OzINox
- L+oA==
+ bh=CoTkP8l+jcq19PG8CyNU7y23hcxr4xnihYbUsB0r8Ts=;
+ b=DSF40kVBV0nBYLq7zjpYmg2IfOPPGRiKbmE6ACB1NVn/FUUKCLy8KTR59BGFBn5/as
+ egmjpBALlbwgSJm4Wep6BgS+OK4LiXvs3ZAm892FSFAWH8g9acsXtcsXX647GfHKXZC3
+ DNGiOnj1bzLYS13PrcEW8fmde1q5E01b2nmow7lhpKpEGdhJXzo4OJXYiq26S0jl0CxV
+ Aa4Lb0EQAAStisgv0FK/1ilMB6tVd+SkKOSmHXhDK0+or8AyH3KVDaQzjZDdOWccOeAM
+ IUmEJcoPDgvEOd/A16NBh56dY6CJ1ukb6qoVqy3hCMKDddUwvEwoFShu688QVfOQW+0/
+ CNig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=kLVawJbigFH+B5TCPH615H2cQHplZbBSOAUoIGl13ig=;
- b=gq5QDHmn6QwAx3sCyk6L+JgmZo+hDjE85oLTih5wqhDdr0p36iTa3IqmrmqxvOyJnk
- P2/shRNA0JW/exVVMxk8P1Qm+c/qyNqr2c6I7xt8ZadqiiGxko8QDvFuldlYj/yDhwgZ
- Zrsns7+hmeuW7p/cVdWS587AR05y2UuNTvdwQnK/5WAKEMIC1tELgDmiNEe29GDj+oK+
- pur1TefP+3bXpBnpTM0gWPdHqjz4mwdWMXNz4KFa62kjeemyxNFkilfo7Nsxc+gHUQrn
- AH4izDf8SF5VJaokUv9XL7LqFuioQm664c+E5E3KGFqLyXO+UXqhd2i4KflQEJvZsXJR
- IfzA==
-X-Gm-Message-State: AOAM532bQr71rt6O0RELsTr08YYFS2sZ/KXjx5ar1/3BJd4UeaeZ+2fd
- KBwp4591ZjVAkWa/ZofWh5ELIIm4RYywWA==
-X-Google-Smtp-Source: ABdhPJw0pZKQGRNnc5VVBRQLJXYWZnB6lIxIe4zEI2JrB0fqi01b1yq3F9/gagQmYVwdjGHxNvBwtQ==
-X-Received: by 2002:a5d:598c:: with SMTP id n12mr20055337wri.386.1642682245756; 
- Thu, 20 Jan 2022 04:37:25 -0800 (PST)
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CoTkP8l+jcq19PG8CyNU7y23hcxr4xnihYbUsB0r8Ts=;
+ b=DxCLbia6ZXOI2OL/+5U2Z1BWdi3wRQzGjfm98f/HWJaY5hcOAoAV/j8zhTcgOlnqL2
+ M7TCGsKlYYX4/N8gN0mmHGfdvI5/wGLaXKn2c4bcoBr8YCMXqJOODIjPMVk/1+gZZpyI
+ PdczBDGrvlxyI6Sz1BDtttU/Bapcft2q7GhUvQ6vLvpmbT0jlZTMhiDSAfWRu+Lws6oc
+ pJqpUczNlRloQyWJDYEabWOP0Wy8xZSx80Ef7wXceWV4s4JE9MN9bxQDTsSh+FSfZUPQ
+ aZwREIXSU5IM02dVtgo7XG+pABd5XY1Lj5UXGpDxtR5U9OachSS2pmRXVhjEZi/b9O34
+ yxEg==
+X-Gm-Message-State: AOAM533hDKdYKaHH6YaG7fWKp6WuKyxdKUlB4H3Z7UuxeQYoQEqAv07S
+ KBA6/anljqiUMguywFBao7xIy7K5qM0rJw==
+X-Google-Smtp-Source: ABdhPJwdAzMz8e8hDMCohLW9/vSuG25mTQTduEBkllbhD2DIeAcsDxVUC27udGm4caTy+E1SRjugiw==
+X-Received: by 2002:a1c:21d6:: with SMTP id h205mr1215860wmh.164.1642682835146; 
+ Thu, 20 Jan 2022 04:47:15 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id t8sm7993324wmq.43.2022.01.20.04.37.25
+ by smtp.gmail.com with ESMTPSA id l20sm10929508wms.24.2022.01.20.04.47.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 04:37:25 -0800 (PST)
+ Thu, 20 Jan 2022 04:47:14 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 38/38] hw/intc/arm_gicv3: Check for !MEMTX_OK instead of
- MEMTX_ERROR
-Date: Thu, 20 Jan 2022 12:36:30 +0000
-Message-Id: <20220120123630.267975-39-peter.maydell@linaro.org>
+Subject: [PATCH] Update copyright dates to 2022
+Date: Thu, 20 Jan 2022 12:47:13 +0000
+Message-Id: <20220120124713.288303-1-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220120123630.267975-1-peter.maydell@linaro.org>
-References: <20220120123630.267975-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,51 +87,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+It's a new year; update the copyright strings for our
+help/version/about information and for our documentation.
 
-Quoting Peter Maydell:
-
- "These MEMTX_* aren't from the memory transaction
-  API functions; they're just being used by gicd_readl() and
-  friends as a way to indicate a success/failure so that the
-  actual MemoryRegionOps read/write fns like gicv3_dist_read()
-  can log a guest error."
-
-We are going to introduce more MemTxResult bits, so it is
-safer to check for !MEMTX_OK rather than MEMTX_ERROR.
-
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/arm_gicv3_redist.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+For once I remembered to do this in January :-)
 
-diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
-index c8ff3eca085..99b11ca5eee 100644
---- a/hw/intc/arm_gicv3_redist.c
-+++ b/hw/intc/arm_gicv3_redist.c
-@@ -462,7 +462,7 @@ MemTxResult gicv3_redist_read(void *opaque, hwaddr offset, uint64_t *data,
-         break;
-     }
+I suppose at some point we should try to arrange that Sphinx
+can pick up the copyright year from a common location so
+we don't need to change two places.
+
+ docs/conf.py          | 2 +-
+ include/qemu-common.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/docs/conf.py b/docs/conf.py
+index e79015975e6..49dab44cca5 100644
+--- a/docs/conf.py
++++ b/docs/conf.py
+@@ -98,7 +98,7 @@
  
--    if (r == MEMTX_ERROR) {
-+    if (r != MEMTX_OK) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: invalid guest read at offset " TARGET_FMT_plx
-                       " size %u\n", __func__, offset, size);
-@@ -521,7 +521,7 @@ MemTxResult gicv3_redist_write(void *opaque, hwaddr offset, uint64_t data,
-         break;
-     }
+ # General information about the project.
+ project = u'QEMU'
+-copyright = u'2021, The QEMU Project Developers'
++copyright = u'2022, The QEMU Project Developers'
+ author = u'The QEMU Project Developers'
  
--    if (r == MEMTX_ERROR) {
-+    if (r != MEMTX_OK) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: invalid guest write at offset " TARGET_FMT_plx
-                       " size %u\n", __func__, offset, size);
+ # The version info for the project you're documenting, acts as replacement for
+diff --git a/include/qemu-common.h b/include/qemu-common.h
+index 73bcf763ed8..0e7e7bab959 100644
+--- a/include/qemu-common.h
++++ b/include/qemu-common.h
+@@ -13,7 +13,7 @@
+ #define TFR(expr) do { if ((expr) != -1) break; } while (errno == EINTR)
+ 
+ /* Copyright string for -version arguments, About dialogs, etc */
+-#define QEMU_COPYRIGHT "Copyright (c) 2003-2021 " \
++#define QEMU_COPYRIGHT "Copyright (c) 2003-2022 " \
+     "Fabrice Bellard and the QEMU Project developers"
+ 
+ /* Bug reporting information for --help arguments, About dialogs, etc */
 -- 
 2.25.1
 
