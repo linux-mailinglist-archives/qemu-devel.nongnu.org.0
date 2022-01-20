@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABEA8494FE9
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 15:15:52 +0100 (CET)
-Received: from localhost ([::1]:51206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D0C3494EBC
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 14:17:51 +0100 (CET)
+Received: from localhost ([::1]:46036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAYEB-0007In-Id
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 09:15:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46460)
+	id 1nAXK2-0005Au-4g
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 08:17:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAVH2-0004Eb-FO; Thu, 20 Jan 2022 06:06:36 -0500
-Received: from [2a00:1450:4864:20::329] (port=41714
+ id 1nAVH3-0004Fl-5X; Thu, 20 Jan 2022 06:06:38 -0500
+Received: from [2a00:1450:4864:20::329] (port=55953
  helo=mail-wm1-x329.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAVGz-0001x2-2l; Thu, 20 Jan 2022 06:06:36 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- q141-20020a1ca793000000b00347b48dfb53so12927437wme.0; 
- Thu, 20 Jan 2022 03:06:09 -0800 (PST)
+ id 1nAVGz-0001xz-4X; Thu, 20 Jan 2022 06:06:36 -0500
+Received: by mail-wm1-x329.google.com with SMTP id c66so11231065wma.5;
+ Thu, 20 Jan 2022 03:06:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WxWriVE1ssSmHCuwjL9f/3A2/ZRCLxWRYTu0rGXBP3I=;
- b=EQcYSxVPiJADHJ7SzbuIwlYHW/eADHeGgdKsXKDqGuiqml4ByPutPzGbAmr4bVOvvQ
- kgCAawENgAt/AxOCc5vPWaYob+MXTbVuDQBtUzJKJaR4HCFxsYd5cvZze03Lo9EifOac
- MHZFx8VgmT4e2DgJXtd8lSeBCBnSXghWx3zcntpfN0RgaTS5pdtL/vALIPdlm/pcWgPF
- QSwP6sw2cmIITd+6GXK8Y6kcp4YqfM0fTcLyXneRe1qYwNxCedjNKuFFU5jrA3PJseqH
- KmMQd0KOYOVgFyCBih6o3O1XvsLOecKYzQqjMefdaocGuCInj75f9txkLhbOxJ0KwmtC
- 4N+Q==
+ bh=xPHUAsR02tGl97Ap5cxvHh0G/aTL5XzanhOn1Ca3aRY=;
+ b=QU5k8silBjaX21Obx1+veqdvqyIySO5RV2Hj6k3VgwGQwMutTi+I2kjsreq6jS5Kpc
+ 90xZNqtDZX/ueEP+o/It9UkjRubEwQH/ALHNoNPg/RO1KcdHsKOwwqueAuAw4LjkO7FW
+ xV1X4EK2v04wP7OU1UHY9rHERKnO3/rRBRA2SCBLz3+RVJIBn2ZmQ00N+2BDfJtlzCSo
+ Lcsoz3f74ftaLFQAe1zE+ZGHS1DggnxBBC5QhAT60ffHVkuF/1tTTmny3YZTlhIOiJns
+ zeAvrkL+Rm8NP8Olb+dGOJL18uJZbyvLdbk4byAM0aSzHjhOgd+Tt+vSPK1oWUm7EyYQ
+ AyZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=WxWriVE1ssSmHCuwjL9f/3A2/ZRCLxWRYTu0rGXBP3I=;
- b=JB8TsSRuiMmLu5A9cEksnr8dKGcjW6al+ea5P2Xn9hQIt5B6EyRR9EtZw4u2/jB5Ua
- eNpXc0azgexGH7l23s5OT6h4USo9H2Qr0QZqI2Koo62DSmsGHKDCQ7vN9S9Zg+ADe6y4
- BqBmX/mpq9nZ/LnZ8Z3vdEiDN4d8buj/1icEs9Cx8VjZrom+HlMj7lBP8JKy8nw7cAWM
- 5WX3zxb+EH5BM3uHZPJVXagUVxRqAJ0nXuJ3Jpgo6zOqOJn2L9/TKkf1BwZfVZ0jJs9f
- Sxl97zBN/HsYu83W16OfkpENiNhKmc5Mj8SHqBLyqbGTB+OwvwoZ7oUpE7t+haO33si/
- h6og==
-X-Gm-Message-State: AOAM530rfsvI3Y2X3b0koygqj95mwKNVAY714ADSuIuz5jjqlIAvilvs
- 79MgJyZWjlpnH4Cl+8UPHm1ktK0Tkzk=
-X-Google-Smtp-Source: ABdhPJztC9TY+hA3TpqE9dUtJG/pyiqDWHhSFIcNUx0EKePjlQ6LxRe3eLHby+nuPo2NpcP90d9cXA==
-X-Received: by 2002:a1c:c908:: with SMTP id f8mr8400204wmb.193.1642676767983; 
- Thu, 20 Jan 2022 03:06:07 -0800 (PST)
+ bh=xPHUAsR02tGl97Ap5cxvHh0G/aTL5XzanhOn1Ca3aRY=;
+ b=KzJM+g9tAaD/hUXJbdVQXG2XI9oZzCuAYOHO94rzEsVxvt40SQV5StwuW/+9iGg/Qh
+ /2XRdeRu6usX5U/lWMbzGNH5thGmT6eM4SDXW4N5hejU3c5UQ5c11rkrOsJd7u0dDKK3
+ cfs5TRZcJmx7VKH4X8NDljKnJ5xfiGY6R7ZGcdCQLO4zkXwB4WT9c2rJGxRs19EsUVSD
+ qXs3/iD02PZ8DhGObJoRgZ2mYmao98UYisaf9JPpOn+z4fn4eqGijRttU4hAPEq1xsTJ
+ Ya0jO4hRNB8udyO6MDpbX4QvAEsr0tqbPy8BK6uV59zKWXGJtF0k0rSfJwLAY6Q0bS1+
+ i3wQ==
+X-Gm-Message-State: AOAM531NFqfgvx9gKXWH23dP7+7nQjEqQrxELGOUHCFal4MWZS5lLpP8
+ 0XKCLOUooeF3Hi05KFJiTipZamjgArE=
+X-Google-Smtp-Source: ABdhPJw74IEEk7DQcm2AsJnFI4LunRFn9IYrMNRx8rzcOKrHNZQ9oazFKapXzK6jL773DfJZCSbi4w==
+X-Received: by 2002:a5d:47a8:: with SMTP id 8mr19868864wrb.675.1642676777644; 
+ Thu, 20 Jan 2022 03:06:17 -0800 (PST)
 Received: from nuc.. (154.red-83-50-83.dynamicip.rima-tde.net. [83.50.83.154])
  by smtp.gmail.com with ESMTPSA id
- h127sm8983005wmh.2.2022.01.20.03.06.06
+ f14sm2548821wmq.36.2022.01.20.03.06.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 03:06:07 -0800 (PST)
+ Thu, 20 Jan 2022 03:06:17 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Ed Maste <emaste@freebsd.org>, Michael Tokarev <mjt@tls.msk.ru>,
@@ -59,11 +58,10 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  qemu-block@nongnu.org, Thomas Huth <thuth@redhat.com>,
  Li-Wen Hsu <lwhsu@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>,
- Yonggang Luo <luoyonggang@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH v2 4/6] drop libxml2 checks since libxml is not actually used
- (for parallels)
-Date: Thu, 20 Jan 2022 12:05:43 +0100
-Message-Id: <20220120110545.263404-5-f4bug@amsat.org>
+ Yonggang Luo <luoyonggang@gmail.com>
+Subject: [PATCH v2 6/6] tests: Manually remove libxml2 on MSYS2 targets
+Date: Thu, 20 Jan 2022 12:05:45 +0100
+Message-Id: <20220120110545.263404-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220120110545.263404-1-f4bug@amsat.org>
 References: <20220120110545.263404-1-f4bug@amsat.org>
@@ -99,125 +97,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-From: Michael Tokarev <mjt@tls.msk.ru>
+lcitool doesn't support MSYS2 targets, so manually remove
+this now unnecessary library.
 
-For a long time, we assumed that libxml2 is neecessary for parallels
-block format support (block/parallels*). However, this format actually
-does not use libxml [*]. Since this is the only user of libxml2 in
-while qemu tree, we can drop all libxml2 checks and dependencies too.
-
-It is even more: --enable-parallels configure option was the only
-option which was silently ignored when it's (fake) dependency
-(libxml2) isn't installed.
-
-Drop all mentions of libxml2.
-
-[*] Actually the basis for libxml use were merged in commit 25bfd5a75
-    but the implementation was never merged:
-    https://lore.kernel.org/qemu-devel/70227bbd-a517-70e9-714f-e6e0ec431be9@openvz.org/
-
-Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20220119090423.149315-1-mjt@msgid.tls.msk.ru>
-[PMD: Updated description and adapted to use lcitool]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- meson.build                                     | 6 ------
- block/meson.build                               | 3 +--
- meson_options.txt                               | 2 --
- scripts/ci/org.centos/stream/8/x86_64/configure | 1 -
- scripts/coverity-scan/coverity-scan.docker      | 1 -
- scripts/coverity-scan/run-coverity-scan         | 2 +-
- 6 files changed, 2 insertions(+), 13 deletions(-)
+ .cirrus.yml              | 1 -
+ .gitlab-ci.d/windows.yml | 2 --
+ 2 files changed, 3 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 333c61deba7..64a146e1d06 100644
---- a/meson.build
-+++ b/meson.build
-@@ -449,11 +449,6 @@
-                               required: get_option('linux_io_uring'),
-                               method: 'pkg-config', kwargs: static_kwargs)
- endif
--libxml2 = not_found
--if not get_option('libxml2').auto() or have_block
--  libxml2 = dependency('libxml-2.0', required: get_option('libxml2'),
--                       method: 'pkg-config', kwargs: static_kwargs)
--endif
- libnfs = not_found
- if not get_option('libnfs').auto() or have_block
-   libnfs = dependency('libnfs', version: '>=1.9.3',
-@@ -3489,7 +3484,6 @@
- summary_info += {'lzfse support':     liblzfse}
- summary_info += {'zstd support':      zstd}
- summary_info += {'NUMA host support': config_host.has_key('CONFIG_NUMA')}
--summary_info += {'libxml2':           libxml2}
- summary_info += {'capstone':          capstone_opt == 'internal' ? capstone_opt : capstone}
- summary_info += {'libpmem support':   libpmem}
- summary_info += {'libdaxctl support': libdaxctl}
-diff --git a/block/meson.build b/block/meson.build
-index deb73ca389f..90dc9983e56 100644
---- a/block/meson.build
-+++ b/block/meson.build
-@@ -58,8 +58,7 @@
-   'qed-table.c',
-   'qed.c',
- ))
--block_ss.add(when: [libxml2, 'CONFIG_PARALLELS'],
--             if_true: files('parallels.c', 'parallels-ext.c'))
-+block_ss.add(when: 'CONFIG_PARALLELS', if_true: files('parallels.c', 'parallels-ext.c'))
- block_ss.add(when: 'CONFIG_WIN32', if_true: files('file-win32.c', 'win32-aio.c'))
- block_ss.add(when: 'CONFIG_POSIX', if_true: [files('file-posix.c'), coref, iokit])
- block_ss.add(when: libiscsi, if_true: files('iscsi-opts.c'))
-diff --git a/meson_options.txt b/meson_options.txt
-index 921967eddbb..95d527f7732 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -113,8 +113,6 @@ option('libudev', type : 'feature', value : 'auto',
-        description: 'Use libudev to enumerate host devices')
- option('libusb', type : 'feature', value : 'auto',
-        description: 'libusb support for USB passthrough')
--option('libxml2', type : 'feature', value : 'auto',
--       description: 'libxml2 support for Parallels image format')
- option('linux_aio', type : 'feature', value : 'auto',
-        description: 'Linux AIO support')
- option('linux_io_uring', type : 'feature', value : 'auto',
-diff --git a/scripts/ci/org.centos/stream/8/x86_64/configure b/scripts/ci/org.centos/stream/8/x86_64/configure
-index e05f2fddcc2..9850dd44444 100755
---- a/scripts/ci/org.centos/stream/8/x86_64/configure
-+++ b/scripts/ci/org.centos/stream/8/x86_64/configure
-@@ -81,7 +81,6 @@
- --disable-libssh \
- --disable-libudev \
- --disable-libusb \
----disable-libxml2 \
- --disable-linux-aio \
- --disable-linux-io-uring \
- --disable-linux-user \
-diff --git a/scripts/coverity-scan/coverity-scan.docker b/scripts/coverity-scan/coverity-scan.docker
-index ecff6ac5b4b..6f60a52d231 100644
---- a/scripts/coverity-scan/coverity-scan.docker
-+++ b/scripts/coverity-scan/coverity-scan.docker
-@@ -59,7 +59,6 @@ ENV PACKAGES \
-     libubsan \
-     libudev-devel \
-     libusbx-devel \
--    libxml2-devel \
-     libzstd-devel \
-     llvm \
-     lzo-devel \
-diff --git a/scripts/coverity-scan/run-coverity-scan b/scripts/coverity-scan/run-coverity-scan
-index 6d443250a9b..181bdcb2638 100755
---- a/scripts/coverity-scan/run-coverity-scan
-+++ b/scripts/coverity-scan/run-coverity-scan
-@@ -402,7 +402,7 @@ echo "Configuring..."
-     --enable-libiscsi --enable-libnfs --enable-seccomp \
-     --enable-tpm --enable-libssh --enable-lzo --enable-snappy --enable-bzip2 \
-     --enable-numa --enable-rdma --enable-smartcard --enable-virglrenderer \
--    --enable-mpath --enable-libxml2 --enable-glusterfs \
-+    --enable-mpath --enable-glusterfs \
-     --enable-virtfs --enable-zstd
- 
- echo "Running cov-build..."
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 02c43a074a1..7552d709745 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -32,7 +32,6 @@ windows_msys2_task:
+       mingw-w64-x86_64-libgcrypt
+       mingw-w64-x86_64-libpng
+       mingw-w64-x86_64-libssh
+-      mingw-w64-x86_64-libxml2
+       mingw-w64-x86_64-snappy
+       mingw-w64-x86_64-libusb
+       mingw-w64-x86_64-usbredir
+diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+index 62dd9ed8329..1df16303491 100644
+--- a/.gitlab-ci.d/windows.yml
++++ b/.gitlab-ci.d/windows.yml
+@@ -44,7 +44,6 @@ msys2-64bit:
+       mingw-w64-x86_64-libssh
+       mingw-w64-x86_64-libtasn1
+       mingw-w64-x86_64-libusb
+-      mingw-w64-x86_64-libxml2
+       mingw-w64-x86_64-nettle
+       mingw-w64-x86_64-ninja
+       mingw-w64-x86_64-pixman
+@@ -80,7 +79,6 @@ msys2-32bit:
+       mingw-w64-i686-libssh
+       mingw-w64-i686-libtasn1
+       mingw-w64-i686-libusb
+-      mingw-w64-i686-libxml2
+       mingw-w64-i686-lzo2
+       mingw-w64-i686-ninja
+       mingw-w64-i686-pixman
 -- 
 2.34.1
 
