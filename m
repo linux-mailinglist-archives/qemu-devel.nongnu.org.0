@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD65C49554D
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 21:16:31 +0100 (CET)
-Received: from localhost ([::1]:60710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 039234955AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 21:54:58 +0100 (CET)
+Received: from localhost ([::1]:45020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAdr9-0007w5-60
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 15:16:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57626)
+	id 1nAeSO-0002yT-B7
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 15:54:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1nAZVq-0001DU-5M
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:38:10 -0500
-Received: from [2a00:1450:4864:20::334] (port=39775
- helo=mail-wm1-x334.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1nAZVn-0005av-Hz
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:38:09 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- o1-20020a1c4d01000000b0034d95625e1fso8301036wmh.4
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 07:38:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=OZYHGtKfvJMX/pPtAOCBBrHQl7PzfcOe74x0Na749qM=;
- b=oIPfVmjFGA8W5kZ5hzphUSqYXw+fke4HuByzLLU6aeBxUML2aIy5HPJEhh54nQspLl
- A7Tjw6/PGx146NLyLUO+/ATDjA2bfF/0EnV3us1qK8T2J2pFVWDCj8rfphaP2EWuxJDH
- xsX6pmglyYuEn9JP7IGAEHz2ltJ63pnk9L5XTgwRNiUDVL22JhvuuaaNlgLo07qSAAGR
- 6rZpZ9as9O5WuItLNkJFKJAUAJblZmd24l/IpTYzdl6GDFxN8H3OBdeEs8yq7wtpUtX+
- sxx3yvCUfteknQbZ2G/BeoVa0DtbJ2DzSyjuKGHM9Yg9t7R52uHxdHW6D6mp5HZkFR+K
- 5lBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=OZYHGtKfvJMX/pPtAOCBBrHQl7PzfcOe74x0Na749qM=;
- b=AGxk9Ev2iqV4AhI3sJAicgMsNkANf59r2k8IdYgDeqSQie6zQq4b1vR0hTSonKpdJl
- pyAHWX00NjbtOrcURVWtZInhBiIzJg629LgufZhm2qRPLwYZc0icS8OSaILlEDUFM923
- EST33gIhxw4TnEW5WVY9/4k2e3d0/EVnxhGgRMfd7+w//SJF+Ucr+TzDlZ6kkV05xa2D
- RjegDdCmCAxA2p4icOo49Oa5kCiSRJts7Co1eqPQSjYMfZ/I7z1sDxZU9Hkh6ps9WkdR
- ML0Gkz1QfAoOh8SosWugfM0m2epRfurKZ/uC3OAJ7ZAmtc+5JTMsvIN5TsZu2rnaGowh
- xTWQ==
-X-Gm-Message-State: AOAM5310ZAGLuq4p4nwxerAfMm6jsJASq1R3bRNjCL5C0eUfhVnsPlel
- bxDMkaftX13kb2Nr/dSdbh7JES0EIJvWzVeXWk5HGQ==
-X-Google-Smtp-Source: ABdhPJwoJ+N4LutRUmS5hqQp0kjLd/k5/0zw6Kkod6SUO6Rk3ng864b1mSplaDVVpOvQcMEOpWodZY01cRuz9F3zXLA=
-X-Received: by 2002:a05:600c:2299:: with SMTP id
- 25mr9557051wmf.52.1642693085126; 
- Thu, 20 Jan 2022 07:38:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nAZYQ-0003Pf-ME
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:40:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50945)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nAZYN-0007Zr-HG
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:40:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642693237;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CQLFtZew9TllHfzTqYZQ8OIkKnxTXhmWhkI5AH1zZmE=;
+ b=IVvgqBvRiiPlqkIlkBJJX/wRcr3TG/c7rqLJP3OG4QIppDwvQU17pu9EL48uR6RzFT6lb6
+ 9v9jCrWaKC6Xjd5RyNuWIWHD7FgfArvJy57BakepmuVV0i0omZrNKBf1xWla9cRgaq2L6c
+ CTvNmpskyz0iqGD6ogxWw+xX7qnZlCI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-59-eDz1RyqJNdGTkqLfickEtQ-1; Thu, 20 Jan 2022 10:40:28 -0500
+X-MC-Unique: eDz1RyqJNdGTkqLfickEtQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B1E41018721;
+ Thu, 20 Jan 2022 15:40:27 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EB1287E64F;
+ Thu, 20 Jan 2022 15:40:25 +0000 (UTC)
+Date: Thu, 20 Jan 2022 15:40:23 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2] qapi: Cleanup SGX related comments and restore
+ @section-size
+Message-ID: <YemCZ6UHLX4P4m08@redhat.com>
+References: <20220119235720.371961-1-yang.zhong@intel.com>
+ <YeknCiBuMEaD3XP2@redhat.com>
+ <ec7654fd-5c2c-3d46-1151-6254c3c6951a@amsat.org>
 MIME-Version: 1.0
-References: <20220113202033.3320854-1-philipp.tomsich@vrull.eu>
- <20220113202033.3320854-2-philipp.tomsich@vrull.eu>
- <CAKmqyKOzVi9MiXt+2ESEr28EQ7M6wEyTon+a=h4do9fy4KN=Pw@mail.gmail.com>
- <CAAeLtUBJ4sSZaDqe1Z_431LMDtuQ996OLoE6t_Zh6TLH+_gPHg@mail.gmail.com>
- <CAKmqyKPcYBDJqQ88BZ3TDwiGz6=M3kfB2Bc8YXcQJ=+G0Og4gQ@mail.gmail.com>
- <CAKmqyKMvEft2RxbxB92D7F=dZz0nuEJQYHFvVBnQJrt6d80x6A@mail.gmail.com>
-In-Reply-To: <CAKmqyKMvEft2RxbxB92D7F=dZz0nuEJQYHFvVBnQJrt6d80x6A@mail.gmail.com>
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Date: Thu, 20 Jan 2022 16:37:53 +0100
-Message-ID: <CAAeLtUBTGGBdNwNNhJH+VO=Th4+ftz63ttgFvAo=G7m16Tz8CA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] target/riscv: Add XVentanaCondOps custom extension
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <ec7654fd-5c2c-3d46-1151-6254c3c6951a@amsat.org>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,231 +85,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Greg Favor <gfavor@ventanamicro.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Kito Cheng <kito.cheng@sifive.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Yang Zhong <yang.zhong@intel.com>, pbonzini@redhat.com,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for taking the time to write this up!
+On Thu, Jan 20, 2022 at 04:31:14PM +0100, Philippe Mathieu-Daudé wrote:
+> On 20/1/22 10:10, Daniel P. Berrangé wrote:
+> > On Wed, Jan 19, 2022 at 06:57:20PM -0500, Yang Zhong wrote:
+> > > The SGX NUMA patches were merged into Qemu 7.0 release, we need
+> > > clarify detailed version history information and also change
+> > > some related comments, which make SGX related comments clearer.
+> > > 
+> > > The QMP command schema promises backwards compatibility as standard.
+> > > We temporarily restore "@section-size", which can avoid incompatible
+> > > API breakage. The "@section-size" will be deprecated in 7.2 version.
+> > > 
+> > > Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+> > > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> > > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> > > ---
+> > >   qapi/machine.json     |  4 ++--
+> > >   qapi/misc-target.json | 17 ++++++++++++-----
+> > >   hw/i386/sgx.c         | 11 +++++++++--
+> > >   3 files changed, 23 insertions(+), 9 deletions(-)
+> 
+> > > diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+> > > index 1022aa0184..a87358ea44 100644
+> > > --- a/qapi/misc-target.json
+> > > +++ b/qapi/misc-target.json
+> > > @@ -344,9 +344,9 @@
+> > >   #
+> > >   # @node: the numa node
+> > >   #
+> > > -# @size: the size of epc section
+> > > +# @size: the size of EPC section
+> > >   #
+> > > -# Since: 6.2
+> > > +# Since: 7.0
+> > >   ##
+> > >   { 'struct': 'SGXEPCSection',
+> > >     'data': { 'node': 'int',
+> > > @@ -365,7 +365,9 @@
+> > >   #
+> > >   # @flc: true if FLC is supported
+> > >   #
+> > > -# @sections: The EPC sections info for guest
+> > > +# @section-size: The EPC section size for guest (Will be deprecated in 7.2)
+> > 
+> > I expected deprecation would start now (7.0, and it would be removed
+> > in 7.2.
+> > 
+> > Also needs to be documented in docs/about/deprecated.rst
+> 
+> Isn't docs/about/deprecated.rst for user-facing changes *only*?
+> 
+> Machine-facing changes are already described in the QAPI schema.
+> 
+> Please correct me.
 
-On Wed, 19 Jan 2022 at 02:30, Alistair Francis <alistair23@gmail.com> wrote=
-:
->
-> On Wed, Jan 19, 2022 at 11:19 AM Alistair Francis <alistair23@gmail.com> =
-wrote:
-> >
-> > On Wed, Jan 19, 2022 at 9:22 AM Philipp Tomsich
-> > <philipp.tomsich@vrull.eu> wrote:
-> > >
-> > > Alistair,
-> > >
-> > > Some of us (the merit almost exclusively goes to Kito) have been
-> > > working towards a similar policy for GCC/binutils and LLVM.
-> > > This currently lives in:
-> > >    https://github.com/riscv-non-isa/riscv-toolchain-conventions/pull/=
-17
-> >
-> > Ah cool! We can use that as a good starting point.
-> >
-> > >
-> > > A few comments & a question below.
-> > >
-> > > Thanks,
-> > > Philipp.
-> > >
-> > > On Tue, 18 Jan 2022 at 23:53, Alistair Francis <alistair23@gmail.com>=
- wrote:
-> > > >
-> > > > On Fri, Jan 14, 2022 at 6:22 AM Philipp Tomsich
-> > > > <philipp.tomsich@vrull.eu> wrote:
-> > > > >
-> > > > > This adds the decoder and translation for the XVentanaCondOps cus=
-tom
-> > > > > extension (vendor-defined by Ventana Micro Systems), which is
-> > > > > documented at https://github.com/ventanamicro/ventana-custom-exte=
-nsions/releases/download/v1.0.0/ventana-custom-extensions-v1.0.0.pdf
-> > > > >
-> > > > > This commit then also adds a guard-function (has_XVentanaCondOps_=
-p)
-> > > > > and the decoder function to the table of decoders, enabling the
-> > > > > support for the XVentanaCondOps extension.
-> > > > >
-> > > > > Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-> > > >
-> > > > This looks reasonable to me.
-> > > >
-> > > > I'm going to leave this for a bit in case there are any more commen=
-ts.
-> > > >
-> > > > I was a little worried that taking vendor extensions isn't the righ=
-t
-> > > > move, as we might get stuck with a large number of them. But this i=
-s
-> > > > pretty self contained and I think with the growing RISC-V interest
-> > > > it's something we will eventually need to support.
-> > > >
-> > > > I'm going to update the QEMU RISC-V wiki page with this to make the
-> > > > position clear (comments very welcome)
-> > > >
-> > > > =3D=3D=3D RISC-V Extensions =3D=3D=3D
-> > > > As RISC-V has a range of possible extensions, QEMU has guidelines f=
-or
-> > > > supporting them all.
-> > > >
-> > > > If an extension is frozen or ratified by the RISC-V foundation, it =
-can
-> > > > be supported in QEMU.
-> > > >
-> > > > If an official RISC-V foundation extension is in a reasonable draft
-> > > > state, that is not too many changes are still expected, it can be
-> > > > supported experimentally by QEMU. Experimental support means it mus=
-t
-> > > > be disabled by default and marked with a "x-" in the properties. QE=
-MU
-> > > > will only support the latest version of patches submitted for a dra=
-ft
-> > > > extension. A draft extension can also be removed at any time if it
-> > > > conflicts with other extensions.
-> > > >
-> > > > QEMU will also support vendor extensions. Vendor extensions must be
-> > > > disabled by default, but can be enabled for specific vendor CPUs an=
-d
-> > > > boards. Vendor extensions must be maintained and tested by the vend=
-or.
-> > >
-> > > I guess I should create a v3 with appropriate paths in the MAINTAINER=
-S file?
-> >
-> > Hmm... Good point. I don't think you have to if you don't want to.
-> >
-> > My point here was more to just make it clear that upstream QEMU is not
-> > a dumping ground for vendor extensions to get them maintained by
-> > someone else. Obviously we won't purposely break things just for fun.
-> > There is an expectation that the vendor tests their extensions and
-> > responds to bug reports and things like that.
-> >
-> > >
-> > > > Vendor extensions can not interfere with other extensions and can n=
-ot
-> > > > be obtrusive to the RISC-V target code.
-> > >
-> > > I know that there is some interest to have the XtheadV (the
-> > > instructions previously known as vectors 0.7.1-draft) supported and w=
-e
-> > > have the reality of a deployed base that implements it in hardware.
-> > > This would conflict with the opcode space used by the standard RISC-V
-> > > vectors, so it makes for an interesting test case (even if just to
-> > > clarify our intent)...
-> > > Personally, I would like to avoid precluding inclusion of something
-> > > useful (of course, "Vendor extensions must be maintained and tested b=
-y
-> > > the vendor." has to apply!), if a vendor was going to step up and als=
-o
-> > > offers to maintain it.
-> >
-> > Yeah... this is unfortunate. I agree that having the 0.7.1-draft
-> > extensions supported would be great. There is hardware that supports
-> > it.
-> >
-> > I think this point still stands though. IF the XtheadV implementation
-> > is self contained and doesn't interfere with the vector extensions,
-> > then that's great and we can support it. If instead it adds a large
-> > amount of conditionals to the released vector extension code then I
-> > don't think we can take it.
-> >
-> > There is some wiggle room, but the RISC-V tree already has enough
-> > going on and very little reviewers. If in the future we get more
-> > reviewers and testers we can re-evaulate what is acceptable, but for
-> > now I think we need to be a little strict. (Hint to any companies to
-> > give developers time to review)
-> >
-> > >
-> > > So let's assume such a (very significant) addition were factored out
-> > > similarly, interfacing just through a hook in decode_op and
-> > > argument-parsing logic that ensures that the conflicting
-> > > standard-extension is turned off: would this still be acceptable unde=
-r
-> > > this policy =E2=80=94 or would it trip the "obtrusive" condition?
-> >
-> > I think that would be acceptable, I wouldn't say that is obtrusive as
-> > it's self contained.
->
-> Ok, take two:
->
-> =3D=3D=3D RISC-V Foundation Extensions =3D=3D=3D
-> As RISC-V has a range of possible extensions, QEMU has guidelines for
-> supporting them all.
->
-> If an extension is frozen or ratified by the RISC-V foundation, it can
-> be supported in QEMU. Generally we will try to support as many versions
-> as feasible, following the usual QEMU deprecation policy to remove old
-> versions.
->
-> If an official RISC-V foundation extension is in a reasonable draft
-> state, that is not too many changes are still expected, it can be
-> supported experimentally by QEMU. Experimental support means it must
-> be disabled by default and marked with a "x-" in the CPU/board properties=
-.
-> Draft extensions can be enabled by specific CPUs or boards if the hardwar=
-e
-> supports that extension.
+Just because something is machine-facing, doesn't mean it isn't
+also user-facing, as users' write the machines that talk to QEMU.
 
-Should we include a version number on experimental versions?
+deprecated.rst documents *everything* that changes in one of our
+publically consumable interfaces, whether CLI args, QAPI schema,
+HMP commands, or device impls or more. There's a whole section
+there just for QMP command changes already.
 
-LLVM requires users to fully specify the version, when using
-experimental versions.
-This may be a useful stereotype also for QEmu, as it ensures that
-users are aware that the underlying specification version has changed
-(e.g., when someone requests x-zbb-0p92 and our implementation moves
-to x-zbb-0p93 (there was a difference in encoding of the
-minimum/maximum operations in-between)), an error will be raised early
-instead of having a computation go wrong later.
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-> QEMU will only support the latest version of patches submitted for a draf=
-t
-> extension. A draft extension can also be removed at any time and does not
-> follow QEMU's deprecation policy.
->
-> =3D=3D=3D RISC-V Custom Extensions/Instructions =3D=3D=3D
-> Support for custom instruction set extensions are an important part of RI=
-SC-V,
-> with large encoding spaces reserved of vendor extensions.
->
-> QEMU follows similar rules to the RISC-V toolchain convention, as describ=
-ed
-> here: https://github.com/riscv-non-isa/riscv-toolchain-conventions/pull/1=
-7
->
-> QEMU will support vendor extensions. Vendor extensions must be
-> disabled by default, but can be enabled for specific vendor CPUs and
-> boards. The vendor extensions should use prefixes and names as described =
-in
-> https://github.com/riscv-non-isa/riscv-toolchain-conventions
->
-> Vendor extensions must be maintained and tested by the vendor. Upstream w=
-ill
-> take efforts to not break extensions, but testing and bug fixes should be
-> done by the vendor. Patches to add support for open source toolchains are
-> unlikely to be accepted without specification documents being made availa=
-ble
-> publicly.
->
-> Vendor extensions can not interfere with other extensions and can not
-> be obtrusive to the core RISC-V target code.
->
-> If you are looking to add support for vendor extensions, it is recommende=
-d
-> that you get involved in the QEMU review process. It is also recommended =
-that
-> you send your patches as early as possible to get community feedback befo=
-re
-> they are fully implemented. This is especially important if you are modif=
-ying
-> core code.
->
-> Alistair
 
