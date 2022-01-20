@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E1D494F8C
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 14:49:51 +0100 (CET)
-Received: from localhost ([::1]:37510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D90F7495079
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 15:43:55 +0100 (CET)
+Received: from localhost ([::1]:49262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAXp1-00046B-32
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 08:49:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54044)
+	id 1nAYfK-0002gk-NW
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 09:43:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAVer-0005b5-SP; Thu, 20 Jan 2022 06:31:19 -0500
-Received: from [2a00:1450:4864:20::333] (port=39625
- helo=mail-wm1-x333.google.com)
+ id 1nAVeq-0005ao-TJ; Thu, 20 Jan 2022 06:31:13 -0500
+Received: from [2a00:1450:4864:20::32c] (port=44912
+ helo=mail-wm1-x32c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAVen-0006bf-Kd; Thu, 20 Jan 2022 06:31:13 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- o1-20020a1c4d01000000b0034d95625e1fso6666462wmh.4; 
- Thu, 20 Jan 2022 03:30:50 -0800 (PST)
+ id 1nAVen-0006bq-Kd; Thu, 20 Jan 2022 06:31:12 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ l35-20020a05600c1d2300b0034d477271c1so12935117wms.3; 
+ Thu, 20 Jan 2022 03:30:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6ZDD7tv5gBefrVCK9zzuNHZ2FxQhjAIX6a4cNo0keLE=;
- b=CEJKRYy7kTWNA0GQOuH4hw4zcU3gToUqghM0xe8502eK7wk8BVkEQBmYYBAY5P0Bw5
- r6ruQMmZ+MwUDMJf5XqqValvWjRovxr6QgtKIwu06gxfeHgHhnarnIZHbEZAiYTuMIVw
- gA4YnwRch38GhgZu0IU+yGX8QlOtJFLEYMd1ct1FP7XePgfMX64gr6iypl9rc1S7p/op
- wibFMXP8re5j/foo973gch6FrgbdWdUW2q/U788fHm4VTkKwXbtSaBr6lt5kYAhystu6
- EIOEH0zbqgSc6CaTeoHOZplATbKWPE6QGOf6/eixx6b2a/6N30cf0JKAypgmTt5lFIr3
- SLkg==
+ bh=vabZUgXCc8y6pgkTLFnvHt9OHIbqfyKMtptKUA3UOiA=;
+ b=qeZ+Kd0kz90xUXDc45o5XWWSg9iVSaJAzd/+z6vZ5LdRaY63noG4NwCNSlcqQ3+Tld
+ dIgAXF18877Hpqai7hJDWKRj+fsrvyvBuLjxGef9gmiKR1zITpPpQ9RQUcod2oJiurfV
+ iSNd7KHKBaeqHr9cNU9QzbRbtUWrarA4+JVzzXm89adz6hO4QBpNRi5QyzUyPuTRQQR2
+ L40B+xLZupTIQO07kfGS11Xs3a2j+HWtL1eSuKJr9WLtkQmg+UlkAPEnU63/RvB7+9XW
+ U3/YusF/6CJSq/LHlJPCk1DlBVHtVmOZcvrhBPg695u0/m43mMc/AYx7Z6j05RNdG4pk
+ lZfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=6ZDD7tv5gBefrVCK9zzuNHZ2FxQhjAIX6a4cNo0keLE=;
- b=UMLsfokDdNM/oYAVjD9aMgnGz9iW6NA6BbQ9empKXZGaLcNH4Dkgp/67Onxc89jI7C
- sx4KZ/d6L3FX8bf2owyXQLnkOmEy5Pre37akywJK6Ya+QH3bUwLCeM17awI03abGl8zB
- ZxH0XvNiBgi14qJdyqzF+9pT2eNy9t6CHr2uI9ZN/+zhwNjFWYFVxB6N5UvGpuiqHoRu
- t98fPhxVsmV3LJKlRGoz8wgwTHLv8HwxfQyrY3I/zFaGQjMtrKfU/XbTt0SuCSRxH5zL
- IT3TuCltzm3oWQLuAtnZGdhbvFZ5KhdRTp74Equjm/2z7W2bgVQSyAIqN85pPZqnSOt8
- gfnQ==
-X-Gm-Message-State: AOAM531jh4xBZiijpuXtWpAfjNlW+bhyux5YvVMGM2vSHxK6YAobhA3T
- QFSJvkRSe7V558dwx+JlHEx1w/fUdHs=
-X-Google-Smtp-Source: ABdhPJzT03IyqXgz6IzrjWUtsOqXGx7ilJJZoZxca3uOaMdqsywz814T/lMUuSLK6IUgip7779GqVg==
-X-Received: by 2002:adf:eb41:: with SMTP id u1mr33755825wrn.201.1642678249500; 
- Thu, 20 Jan 2022 03:30:49 -0800 (PST)
+ bh=vabZUgXCc8y6pgkTLFnvHt9OHIbqfyKMtptKUA3UOiA=;
+ b=6KmG872/ka4FiKU+NUgieg6wZWnDh4YY0cJLqc4uaz8gOcSw/eB6qJH9uAvocYHFTC
+ liQl4ygtVj2eM+N0SIq911DWTeOjoT2LJ0nsr0m5eZ/vh2ov8g8w7lG35MxbvCTZDBmd
+ HS7Z+GSR+M+I3U6qeUGDkkyDOIhyxWVdCKPC93mlS26oQ4kHg1nDfHmYx470xyganLaw
+ 6/lPBoIfmWuJSljyF8VT8BIma3WcNSiRa9gs31G3eU4sfdHT6NTawRsYDE5uCVeecghI
+ 8pGMYcUTD/GlN4TV8mnCJKHTt8Pg+StdwpOdFzIghwPkXvfUI/GD3GcUqH+IGmKAGr/Z
+ SorA==
+X-Gm-Message-State: AOAM531CLJjbIyHh21m1AwFkq0bqRY8gz2ytfNC/IVj+kTQZHqJVFeaM
+ lw3X8YBwaEbyYLTBAgkNLS8wqO1EP0I=
+X-Google-Smtp-Source: ABdhPJxxI4afl6FS1H2vRJEN+veUJBzkKmtZAek7DgGVf2yFczwJqRMa7tjsF23DU9aHIfGosHiGKQ==
+X-Received: by 2002:a5d:59a2:: with SMTP id p2mr22526109wrr.54.1642678254613; 
+ Thu, 20 Jan 2022 03:30:54 -0800 (PST)
 Received: from nuc.. (154.red-83-50-83.dynamicip.rima-tde.net. [83.50.83.154])
  by smtp.gmail.com with ESMTPSA id
- d11sm3227830wri.65.2022.01.20.03.30.47
+ o3sm2613248wrq.70.2022.01.20.03.30.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 03:30:48 -0800 (PST)
+ Thu, 20 Jan 2022 03:30:54 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Ed Maste <emaste@freebsd.org>,
@@ -61,19 +61,19 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Yonggang Luo <luoyonggang@gmail.com>, Thomas Huth <thuth@redhat.com>,
  Li-Wen Hsu <lwhsu@freebsd.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v3 6/7] tests/lcitool: Remove libxml2
-Date: Thu, 20 Jan 2022 12:30:15 +0100
-Message-Id: <20220120113016.268265-7-f4bug@amsat.org>
+Subject: [PATCH v3 7/7] tests: Manually remove libxml2 on MSYS2 runners
+Date: Thu, 20 Jan 2022 12:30:16 +0100
+Message-Id: <20220120113016.268265-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220120113016.268265-1-f4bug@amsat.org>
 References: <20220120113016.268265-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,146 +99,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-The previous commit removed all uses of libxml2.
+lcitool doesn't support MSYS2 targets, so manually remove
+this now unnecessary library.
 
-Update lcitool's qemu.yml and refresh the generated files by running:
-
-  $ make lcitool-refresh
-
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- .gitlab-ci.d/cirrus/freebsd-12.vars           | 2 +-
- .gitlab-ci.d/cirrus/freebsd-13.vars           | 2 +-
- .gitlab-ci.d/cirrus/macos-11.vars             | 2 +-
- tests/docker/dockerfiles/alpine.docker        | 1 -
- tests/docker/dockerfiles/centos8.docker       | 1 -
- tests/docker/dockerfiles/fedora.docker        | 1 -
- tests/docker/dockerfiles/opensuse-leap.docker | 1 -
- tests/docker/dockerfiles/ubuntu1804.docker    | 1 -
- tests/docker/dockerfiles/ubuntu2004.docker    | 1 -
- tests/lcitool/projects/qemu.yml               | 1 -
- 10 files changed, 3 insertions(+), 10 deletions(-)
+ .cirrus.yml              | 1 -
+ .gitlab-ci.d/windows.yml | 2 --
+ 2 files changed, 3 deletions(-)
 
-diff --git a/.gitlab-ci.d/cirrus/freebsd-12.vars b/.gitlab-ci.d/cirrus/freebsd-12.vars
-index bdcce578edf..79469deb4f7 100644
---- a/.gitlab-ci.d/cirrus/freebsd-12.vars
-+++ b/.gitlab-ci.d/cirrus/freebsd-12.vars
-@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
- NINJA='/usr/local/bin/ninja'
- PACKAGING_COMMAND='pkg'
- PIP3='/usr/local/bin/pip-3.8'
--PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
-+PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 llvm lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
- PYPI_PKGS=''
- PYTHON='/usr/local/bin/python3'
-diff --git a/.gitlab-ci.d/cirrus/freebsd-13.vars b/.gitlab-ci.d/cirrus/freebsd-13.vars
-index ee610c89fe1..331791103db 100644
---- a/.gitlab-ci.d/cirrus/freebsd-13.vars
-+++ b/.gitlab-ci.d/cirrus/freebsd-13.vars
-@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
- NINJA='/usr/local/bin/ninja'
- PACKAGING_COMMAND='pkg'
- PIP3='/usr/local/bin/pip-3.8'
--PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
-+PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 llvm lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
- PYPI_PKGS=''
- PYTHON='/usr/local/bin/python3'
-diff --git a/.gitlab-ci.d/cirrus/macos-11.vars b/.gitlab-ci.d/cirrus/macos-11.vars
-index 613d1373c23..08183f8793c 100644
---- a/.gitlab-ci.d/cirrus/macos-11.vars
-+++ b/.gitlab-ci.d/cirrus/macos-11.vars
-@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
- NINJA='/usr/local/bin/ninja'
- PACKAGING_COMMAND='brew'
- PIP3='/usr/local/bin/pip3'
--PKGS='bash bc bzip2 capstone ccache cpanminus ctags curl dbus diffutils dtc gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb libxml2 llvm lzo make meson ncurses nettle ninja perl pixman pkg-config python3 rpm2cpio sdl2 sdl2_image snappy sparse spice-protocol tesseract texinfo usbredir vde vte3 zlib zstd'
-+PKGS='bash bc bzip2 capstone ccache cpanminus ctags curl dbus diffutils dtc gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb llvm lzo make meson ncurses nettle ninja perl pixman pkg-config python3 rpm2cpio sdl2 sdl2_image snappy sparse spice-protocol tesseract texinfo usbredir vde vte3 zlib zstd'
- PYPI_PKGS='PyYAML numpy pillow sphinx sphinx-rtd-theme virtualenv'
- PYTHON='/usr/local/bin/python3'
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index 9d7f74fc51e..591af43d60e 100644
---- a/tests/docker/dockerfiles/alpine.docker
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -56,7 +56,6 @@ RUN apk update && \
-         libtasn1-dev \
-         liburing-dev \
-         libusb-dev \
--        libxml2-dev \
-         linux-pam-dev \
-         llvm11 \
-         lttng-ust-dev \
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index fde6a036263..3abac7a8b13 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -71,7 +71,6 @@ RUN dnf update -y && \
-         libubsan \
-         liburing-devel \
-         libusbx-devel \
--        libxml2-devel \
-         libzstd-devel \
-         llvm \
-         lttng-ust-devel \
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 82f504e40d6..1d01cd94405 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -79,7 +79,6 @@ exec "$@"' > /usr/bin/nosync && \
-         libubsan \
-         liburing-devel \
-         libusbx-devel \
--        libxml2-devel \
-         libzstd-devel \
-         llvm \
-         lttng-ust-devel \
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-index 30e7038148a..1b78d8369a7 100644
---- a/tests/docker/dockerfiles/opensuse-leap.docker
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -71,7 +71,6 @@ RUN zypper update -y && \
-            libudev-devel \
-            liburing-devel \
-            libusb-1_0-devel \
--           libxml2-devel \
-            libzstd-devel \
-            llvm \
-            lttng-ust-devel \
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index 7ebaab82b97..699f2dfc6a9 100644
---- a/tests/docker/dockerfiles/ubuntu1804.docker
-+++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -90,7 +90,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-             libvirglrenderer-dev \
-             libvte-2.91-dev \
-             libxen-dev \
--            libxml2-dev \
-             libzstd-dev \
-             llvm \
-             locales \
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index b93707b70d4..87513125b8e 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -92,7 +92,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-             libvirglrenderer-dev \
-             libvte-2.91-dev \
-             libxen-dev \
--            libxml2-dev \
-             libzstd-dev \
-             llvm \
-             locales \
-diff --git a/tests/lcitool/projects/qemu.yml b/tests/lcitool/projects/qemu.yml
-index 948b9912579..958868a6ee9 100644
---- a/tests/lcitool/projects/qemu.yml
-+++ b/tests/lcitool/projects/qemu.yml
-@@ -64,7 +64,6 @@ packages:
-  - liburing
-  - libusbx
-  - libvdeplug
-- - libxml2
-  - libzstd
-  - llvm
-  - lttng-ust
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 02c43a074a1..7552d709745 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -32,7 +32,6 @@ windows_msys2_task:
+       mingw-w64-x86_64-libgcrypt
+       mingw-w64-x86_64-libpng
+       mingw-w64-x86_64-libssh
+-      mingw-w64-x86_64-libxml2
+       mingw-w64-x86_64-snappy
+       mingw-w64-x86_64-libusb
+       mingw-w64-x86_64-usbredir
+diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+index 62dd9ed8329..1df16303491 100644
+--- a/.gitlab-ci.d/windows.yml
++++ b/.gitlab-ci.d/windows.yml
+@@ -44,7 +44,6 @@ msys2-64bit:
+       mingw-w64-x86_64-libssh
+       mingw-w64-x86_64-libtasn1
+       mingw-w64-x86_64-libusb
+-      mingw-w64-x86_64-libxml2
+       mingw-w64-x86_64-nettle
+       mingw-w64-x86_64-ninja
+       mingw-w64-x86_64-pixman
+@@ -80,7 +79,6 @@ msys2-32bit:
+       mingw-w64-i686-libssh
+       mingw-w64-i686-libtasn1
+       mingw-w64-i686-libusb
+-      mingw-w64-i686-libxml2
+       mingw-w64-i686-lzo2
+       mingw-w64-i686-ninja
+       mingw-w64-i686-pixman
 -- 
 2.34.1
 
