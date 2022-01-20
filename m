@@ -2,78 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A603749556D
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 21:29:01 +0100 (CET)
-Received: from localhost ([::1]:52068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A88C49551C
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 20:59:05 +0100 (CET)
+Received: from localhost ([::1]:42926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAe3I-0004Zr-5p
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 15:29:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34868)
+	id 1nAdaK-0003oa-6F
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 14:59:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nAZrs-00036V-JE
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 11:00:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34647)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nAXbq-0001Pb-T9
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 08:36:22 -0500
+Received: from mga09.intel.com ([134.134.136.24]:24570)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nAZrh-0002Na-LK
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 11:00:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642694434;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BbDyGBdzuZqMRouqRYpOBRFZFmIh+L6rjthM6djmquc=;
- b=CYAyZhFbaGJtXkr/BuEBmetLwuj08s2x/8i9HEXuRqxrlRpqqt3HqjVMwrfp2vX1UsBz39
- DGyHanBqGAHSSK+CD70T8d4AxqyDLT1+ndrO1wfjY1ghG7CboRHC7qiniZU+8xguMRNH5w
- Rv77y5qf5M9pc1oMnNPj2YYq3ARkGUk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-436-ULQH-lyCNHaahUzfS87Pdw-1; Thu, 20 Jan 2022 11:00:32 -0500
-X-MC-Unique: ULQH-lyCNHaahUzfS87Pdw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8B1F874985;
- Thu, 20 Jan 2022 16:00:31 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-16.ams2.redhat.com
- [10.36.112.16])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6842A7ED86;
- Thu, 20 Jan 2022 16:00:31 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DEF53113303B; Thu, 20 Jan 2022 17:00:29 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 1/3] qsd: Add pre-init argument parsing pass
-References: <20211222114153.67721-1-hreitz@redhat.com>
- <20211222114153.67721-2-hreitz@redhat.com>
- <87zgnrubkf.fsf@dusky.pond.sub.org>
- <4a15fbad-b177-f35c-1468-ef14f7ab1887@redhat.com>
- <YehIosxuXCqsGBSW@redhat.com>
-Date: Thu, 20 Jan 2022 17:00:29 +0100
-In-Reply-To: <YehIosxuXCqsGBSW@redhat.com> (Kevin Wolf's message of "Wed, 19
- Jan 2022 18:21:38 +0100")
-Message-ID: <87ee5275ya.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nAXbl-0006LJ-4T
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 08:36:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642685769; x=1674221769;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=sP7bAgFZYu3KJo687hgN53uV5rPfyRjsQKAqerXmyAE=;
+ b=RlygmDrOLqn1ikP2R33MbJaD0ro0qdKzyFEiRrNIk1iaRuDNKSGOphOH
+ Lh7We4DuV1dulICwGDqoFq7tmCsNZXMuiMycXEq4HbmfDi5VbLWsnUvkv
+ War6+Ko5v6+kxQFBpcahe0/AAewWlSItvmdbe/z48jLHLIWZgX1FY877V
+ HjlV86H0n3PMr3xz/Bye420/pUXISXsFIo8WiemCxVUAUR73n3ztximx0
+ 2SkHwUzovPBtxd1F5mE8UHsQEI8RK/LdaTzYHhqA5Inc9B4cPmdZdwGbb
+ 5eimAmXRv6ZstErdfQwJyer2/8qEU7nL8AsGsekv4J5FOZeBK5yLtEuW/ Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10232"; a="245142293"
+X-IronPort-AV: E=Sophos;i="5.88,302,1635231600"; d="scan'208";a="245142293"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 05:36:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,302,1635231600"; d="scan'208";a="622896520"
+Received: from icx.bj.intel.com ([10.240.192.117])
+ by fmsmga002.fm.intel.com with ESMTP; 20 Jan 2022 05:36:02 -0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: pbonzini@redhat.com,
+	berrange@redhat.com,
+	f4bug@amsat.org
+Subject: [PATCH v3] qapi: Cleanup SGX related comments and restore
+ @section-size
+Date: Thu, 20 Jan 2022 17:31:04 -0500
+Message-Id: <20220120223104.437161-1-yang.zhong@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=134.134.136.24; envelope-from=yang.zhong@intel.com;
+ helo=mga09.intel.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DATE_IN_FUTURE_06_12=1.947,
+ DKIMWL_WL_HIGH=-0.698, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,150 +74,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: yang.zhong@intel.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+The SGX NUMA patches were merged into Qemu 7.0 release, we need
+clarify detailed version history information and also change
+some related comments, which make SGX related comments clearer.
 
-> Am 19.01.2022 um 14:44 hat Hanna Reitz geschrieben:
->> On 19.01.22 13:58, Markus Armbruster wrote:
->> > Hanna Reitz <hreitz@redhat.com> writes:
->> >=20
->> > > We want to add a --daemonize argument to QSD's command line.
->> >=20
->> > Why?
->>=20
->> OK, s/we/I/.=C2=A0 I find it useful, because without such an option, I n=
-eed to
->> have whoever invokes QSD loop until the PID file exists, before I can be
->> sure that all exports are set up.=C2=A0 I make use of it in the test cas=
-es added
->> in patch 3.
->>=20
->> I suppose this could be worked around with a special character device, l=
-ike
->> so:
->>=20
->> ```
->> ncat --listen -U /tmp/qsd-done.sock </dev/null &
->> ncat_pid=3D$!
->>=20
->> qemu-storage-daemon \
->> =C2=A0=C2=A0=C2=A0 ... \
->> =C2=A0=C2=A0=C2=A0 --chardev socket,id=3Dsignal_done,path=3D/tmp/qsd-don=
-e.sock \
->> =C2=A0=C2=A0=C2=A0 --monitor signal_done \
->> =C2=A0=C2=A0=C2=A0 --pidfile /tmp/qsd.pid &
->>=20
->> wait $ncat_pid
->> ```
->>=20
->> But having to use an extra tool for this is unergonomic.=C2=A0 I mean, i=
-f there=E2=80=99s
->> no other way...
+The QMP command schema promises backwards compatibility as standard.
+We temporarily restore "@section-size", which can avoid incompatible
+API breakage. The "@section-size" will be deprecated in 7.2 version.
 
-I know duplicating this into every program that could server as a daemon
-is the Unix tradition.  Doesn't make it good.  Systemd[*] has tried to
-make it superfluous.
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ docs/about/deprecated.rst | 13 +++++++++++++
+ qapi/machine.json         |  4 ++--
+ qapi/misc-target.json     | 22 +++++++++++++++++-----
+ hw/i386/sgx.c             | 11 +++++++++--
+ 4 files changed, 41 insertions(+), 9 deletions(-)
 
-> The other point is that the system emulator has it, qemu-nbd has it,
-> so certainly qsd should have it as well. Not the least because it should
-> be able to replace qemu-nbd (at least for the purpose of exporting NBD.
-> not necessarily for attaching it to the host).
-
-Point taken, but I think it's a somewhat weak one.  qsd could certainly
-replace qemu-nbd even without --daemonize; we could use other means to
-run it in the background.
-
->> > >                                                                This =
-will
->> > > require forking the process before we do any complex initialization
->> > > steps, like setting up the block layer or QMP.  Therefore, we must s=
-can
->> > > the command line for it long before our current process_options() ca=
-ll.
->> >=20
->> > Can you explain in a bit more detail why early forking is required?
->> >=20
->> > I have a strong dislike for parsing more than once...
->>=20
->> Because I don=E2=80=99t want to set up QMP and block devices, and then f=
-ork the
->> process into two.=C2=A0 That sounds like there=E2=80=99d be a lot of stu=
-ff to think
->> about, which just isn=E2=80=99t necessary, because we don=E2=80=99t need=
- to set up any
->> of this in the parent.
-
-We must fork() before we create threads.  Other resources are easy
-enough to hand over to the child.  Still, having to think about less is
-good, I readily grant you that.
-
-The trouble is that forking early creates a new problem: any
-configuration errors detected in the child must be propagated to the
-parent somehow (output and exit status).  I peeked at your PATCH 2, and
-I'm not convinced, but that's detail here.
-
-> Here we can compare again: Both the system emulator and qemu-nbd behave
-> the same, they fork before they do anything interesting.
->
-> The difference is that they still parse the command line only once
-> because they don't immediately create things, but just store the options
-> and later process them in their own magic order. I'd much rather parse
-> the command line twice than copy that behaviour.
-
-The part I hate is "own magic order".  Without that, multiple passes are
-just fine with me.
-
-Parsing twice is a bit like having a two pass compiler run the first
-pass left to right, and then both passes intertwined left to right.  The
-pedestrian way to do it is running the first pass left to right, then
-the second pass left to right.
-
-We're clearly talking taste here.
-
->
-> Kevin
->
->> For example, if I set up a monitor on a Unix socket (server=3Dtrue),
->> processing is delayed until the client connects.=C2=A0 Say I put --daemo=
-nize
->> afterwards.=C2=A0 I connect to the waiting server socket, the child is f=
-orked
->> off, and then... I=E2=80=99m not sure what happens, actually.=C2=A0 Do I=
- have a
->> connection with both the parent and the child listening?=C2=A0 I know th=
-at in
->> practice, what happens is that once the parent exits, the connection is
->> closed, and I get a =E2=80=9Cqemu: qemu_thread_join: Invalid argument=E2=
-=80=9D warning/error
->> on the QSD side.
->>=20
->> There=E2=80=99s a lot of stuff to think about if you allow forking after=
- other
->> options, so it should be done first.=C2=A0 We could just require the use=
-r to put
->> --daemonize before all other options, and so have a single pass; but sti=
-ll,
->> before options are even parsed, we have already for example called
->> bdrv_init(), init_qmp_commands(), qemu_init_main_loop().=C2=A0 These are=
- all
->> things that the parent of a daemonizing process doesn=E2=80=99t need to =
-do, and
->> where I=E2=80=99d simply rather not think about what impact it has if we=
- fork
->> afterwards.
->>=20
->> Hanna
-
-Care to put a brief version of the rationale for --daemonize and for
-forking early in the commit message?
-
-[...]
-
-
-[*] Not everything systemd does is bad.  It's a big, mixed bag of ideas.
-
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index e21e07478f..47a594a3b6 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -264,6 +264,19 @@ accepted incorrect commands will return an error. Users should make sure that
+ all arguments passed to ``device_add`` are consistent with the documented
+ property types.
+ 
++``query-sgx`` return value member ``section-size`` (since 7.0)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Member ``section-size`` in return value elements with meta-type ``uint64`` is
++deprecated.  Use ``sections`` instead.
++
++
++``query-sgx-capabilities`` return value member ``section-size`` (since 7.0)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Member ``section-size`` in return value elements with meta-type ``uint64`` is
++deprecated.  Use ``sections`` instead.
++
+ System accelerators
+ -------------------
+ 
+diff --git a/qapi/machine.json b/qapi/machine.json
+index b6a37e17c4..cf47cb63a9 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -1207,7 +1207,7 @@
+ #
+ # @memdev: memory backend linked with device
+ #
+-# @node: the numa node
++# @node: the numa node (Since: 7.0)
+ #
+ # Since: 6.2
+ ##
+@@ -1288,7 +1288,7 @@
+ #
+ # @memdev: memory backend linked with device
+ #
+-# @node: the numa node
++# @node: the numa node (Since: 7.0)
+ #
+ # Since: 6.2
+ ##
+diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+index 1022aa0184..4bc45d2474 100644
+--- a/qapi/misc-target.json
++++ b/qapi/misc-target.json
+@@ -344,9 +344,9 @@
+ #
+ # @node: the numa node
+ #
+-# @size: the size of epc section
++# @size: the size of EPC section
+ #
+-# Since: 6.2
++# Since: 7.0
+ ##
+ { 'struct': 'SGXEPCSection',
+   'data': { 'node': 'int',
+@@ -365,7 +365,13 @@
+ #
+ # @flc: true if FLC is supported
+ #
+-# @sections: The EPC sections info for guest
++# @section-size: The EPC section size for guest
++#                Redundant with @sections.  Just for backward compatibility.
++#
++# @sections: The EPC sections info for guest (Since: 7.0)
++#
++# Features:
++# @deprecated: Member @section-size is deprecated.  Use @sections instead.
+ #
+ # Since: 6.2
+ ##
+@@ -374,6 +380,8 @@
+             'sgx1': 'bool',
+             'sgx2': 'bool',
+             'flc': 'bool',
++            'section-size': { 'type': 'uint64',
++                    'features': [ 'deprecated' ] },
+             'sections': ['SGXEPCSection']},
+    'if': 'TARGET_I386' }
+ 
+@@ -390,7 +398,9 @@
+ #
+ # -> { "execute": "query-sgx" }
+ # <- { "return": { "sgx": true, "sgx1" : true, "sgx2" : true,
+-#                  "flc": true, "section-size" : 0 } }
++#                  "flc": true,  "section-size" : 96468992,
++#                  "sections": [{"node": 0, "size": 67108864},
++#                  {"node": 1, "size": 29360128}]} }
+ #
+ ##
+ { 'command': 'query-sgx', 'returns': 'SGXInfo', 'if': 'TARGET_I386' }
+@@ -408,7 +418,9 @@
+ #
+ # -> { "execute": "query-sgx-capabilities" }
+ # <- { "return": { "sgx": true, "sgx1" : true, "sgx2" : true,
+-#                  "flc": true, "section-size" : 0 } }
++#                  "flc": true, "section-size" : 96468992,
++#                  "section" : [{"node": 0, "size": 67108864},
++#                  {"node": 1, "size": 29360128}]} }
+ #
+ ##
+ { 'command': 'query-sgx-capabilities', 'returns': 'SGXInfo', 'if': 'TARGET_I386' }
+diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
+index 5de5dd0893..a2b318dd93 100644
+--- a/hw/i386/sgx.c
++++ b/hw/i386/sgx.c
+@@ -83,7 +83,7 @@ static uint64_t sgx_calc_section_metric(uint64_t low, uint64_t high)
+            ((high & MAKE_64BIT_MASK(0, 20)) << 32);
+ }
+ 
+-static SGXEPCSectionList *sgx_calc_host_epc_sections(void)
++static SGXEPCSectionList *sgx_calc_host_epc_sections(uint64_t *size)
+ {
+     SGXEPCSectionList *head = NULL, **tail = &head;
+     SGXEPCSection *section;
+@@ -106,6 +106,7 @@ static SGXEPCSectionList *sgx_calc_host_epc_sections(void)
+         section = g_new0(SGXEPCSection, 1);
+         section->node = j++;
+         section->size = sgx_calc_section_metric(ecx, edx);
++        *size += section->size;
+         QAPI_LIST_APPEND(tail, section);
+     }
+ 
+@@ -156,6 +157,7 @@ SGXInfo *qmp_query_sgx_capabilities(Error **errp)
+ {
+     SGXInfo *info = NULL;
+     uint32_t eax, ebx, ecx, edx;
++    uint64_t size = 0;
+ 
+     int fd = qemu_open_old("/dev/sgx_vepc", O_RDWR);
+     if (fd < 0) {
+@@ -173,7 +175,8 @@ SGXInfo *qmp_query_sgx_capabilities(Error **errp)
+     info->sgx1 = eax & (1U << 0) ? true : false;
+     info->sgx2 = eax & (1U << 1) ? true : false;
+ 
+-    info->sections = sgx_calc_host_epc_sections();
++    info->sections = sgx_calc_host_epc_sections(&size);
++    info->section_size = size;
+ 
+     close(fd);
+ 
+@@ -220,12 +223,14 @@ SGXInfo *qmp_query_sgx(Error **errp)
+         return NULL;
+     }
+ 
++    SGXEPCState *sgx_epc = &pcms->sgx_epc;
+     info = g_new0(SGXInfo, 1);
+ 
+     info->sgx = true;
+     info->sgx1 = true;
+     info->sgx2 = true;
+     info->flc = true;
++    info->section_size = sgx_epc->size;
+     info->sections = sgx_get_epc_sections_list();
+ 
+     return info;
+@@ -249,6 +254,8 @@ void hmp_info_sgx(Monitor *mon, const QDict *qdict)
+                    info->sgx2 ? "enabled" : "disabled");
+     monitor_printf(mon, "FLC support: %s\n",
+                    info->flc ? "enabled" : "disabled");
++    monitor_printf(mon, "size: %" PRIu64 "\n",
++                   info->section_size);
+ 
+     section_list = info->sections;
+     for (section = section_list; section; section = section->next) {
 
