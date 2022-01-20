@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4921449529F
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 17:51:02 +0100 (CET)
-Received: from localhost ([::1]:41694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E67B4952C0
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 17:58:04 +0100 (CET)
+Received: from localhost ([::1]:50732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAaeK-0004u9-01
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 11:51:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43002)
+	id 1nAal9-00038B-Cl
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 11:58:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAWgi-0004JF-Lm
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:37:14 -0500
-Received: from [2a00:1450:4864:20::32f] (port=42949
- helo=mail-wm1-x32f.google.com)
+ id 1nAWgm-0004Jp-1L
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:37:16 -0500
+Received: from [2a00:1450:4864:20::331] (port=36531
+ helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAWgb-0003J8-Ie
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:37:06 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- f202-20020a1c1fd3000000b0034dd403f4fbso10085036wmf.1
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 04:37:05 -0800 (PST)
+ id 1nAWgi-0003Jt-IW
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:37:15 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ i187-20020a1c3bc4000000b0034d2ed1be2aso20157904wma.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 04:37:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=wdLUqpPXIVhIxJn/y0Ry8LmHLdVQEvWxzFrl/eWpdGs=;
- b=p0SLMOU0NDGYsPLinD0fQo5lKh5DfQsMqTLCy2OCuJF0mewuc38y6sihEm59kRxXbi
- 8NF7py5s9Ge40QwLRqyys7WAFABsQl54yLDorJFMiFSyVGxwCMpBh6bmY4nz8CP5Gx6U
- Mjc2xgfjArUx7VyCcV+Mn0xIa//u2oGiQZ+92E8h9lNRcvCNwMYxr2Loc/5JaH2yXxwM
- rdhOoihmYH3JMah7dQyMppSupSpO8Y5Vujkh4CF8pBDGTBXS43cvDQUbpLEV4C99WCqw
- cIj3bMxNjwE8pR6VHK7WWNifTC82OMO1PfWAFrElAPoXr5/iFNQHZQEspy61UYE8OabT
- Sz8w==
+ bh=NuKcYsldnG5fRvxxRFmykUGQrUQjSvORmUSdyYJpa6Y=;
+ b=RCvoP9vST4HDAcFKAPzIEPhKCL1JW0QrIoyL7rRrO2GaR5sxMy5kIKLqi/dCA/pv46
+ FxY+BrNkZHS6C0DkI+3cse00oTqjLu4nrvBzuGysGSZtnRQC93l6h7aVYcOFbZz6fBQ1
+ DHkisaLfVj08GeQdfRoQyqZEYs+/sgP2pV9S9Vyv13aYoeAjmF7+FMmb8xa2igTRsxto
+ EkmisYnrVwEyLohvxxfYrPLkJZEjelDoV3c2qnP0UrW2fw6GJccmkI7TV34SxiCCgdek
+ wNQWXuZnswWvxY18wNzvNvRLE78wQ3wP4ImPax8k64CLTA24vPXIFoSP1kU7vk0sL2nV
+ /qgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wdLUqpPXIVhIxJn/y0Ry8LmHLdVQEvWxzFrl/eWpdGs=;
- b=cGpf6OpRW9fmXHOdwKXhgUlCY3TG2r7eFq6IQ8YGGiRnApVUwxhKsE9UZ+is4gytb8
- XnLSOpNQzhVFmXYGQaE486lFVAFYiGPQHnFJk+wklBk9A2aCu9T9GgiNqmeAP3uFdU5P
- VeVPNnhJoSlB0YuMdyfRdLZEHfkc5+8LFUZKUen+R3xVQF+sL1s9kNUbZ+k65h5PlyLE
- gBL3iATwIR5Scr+4FHmqN1g2LOjR7R3FzbR17HgAxKcJUl6QMywX9aFg9ls/kJ6N6KJ6
- n0AMK+Bvg2bjEHp0RoqePeFL/c0tncyIdygGW0K09AUa8RPnpOidQs1TA7IWZY9IhlUb
- Sd5w==
-X-Gm-Message-State: AOAM532leHiahNXFcBtcoKhKsnKGNDFjH3c6kSLj5ZVSWHtVRsd2Lrfr
- PEWrkHICUZOWWLkw06GLQtztgxeMl1P3xQ==
-X-Google-Smtp-Source: ABdhPJwXi45MBkXjkZCFKrhx65k9/JfyiAMETsiM6JOJ4c5caOQBo3udIJxoVR1lj6ggKctF88igtQ==
-X-Received: by 2002:a5d:598c:: with SMTP id n12mr20053923wri.386.1642682223294; 
- Thu, 20 Jan 2022 04:37:03 -0800 (PST)
+ bh=NuKcYsldnG5fRvxxRFmykUGQrUQjSvORmUSdyYJpa6Y=;
+ b=0KiY1Da3pDJ+evwbC6HAQKFrwkD/2+p4nj2rpb29F+NE/iC2qk7uvuaEe7fjSBU990
+ eV7iozIDPbTGTZDUgEhWO379+4BnbpyCjwJuQ5GfSV9/WLCDWYzUz/8RHAV/jpQccOz3
+ EsQgcD70PTDI+TxH56rbhOsLnTugfdSwkTvdZob4+xJGUWtaCbSxajAVbgdXWlN3VpWm
+ G0FujpGNbDxiXKCO6a5EIzwG0dvjYhNLKPDv9X1avPYLoznBvh5eTvpWTZIzyrWbfRd/
+ eP0KlSGVKhb4cnxKTrLlAMHzfwAh66rHmHTKltfnsxGDanlVJGBsRIzsdkBoZTfDEvYv
+ LuCQ==
+X-Gm-Message-State: AOAM530IqeJfbSMmF7ryvYlAIjjj2mGQFNeGA5FM4OX5KN0Bd0vZF8YX
+ Zq7eXZCnts2hVq6hIji7UqvVHyoW707nuQ==
+X-Google-Smtp-Source: ABdhPJzWwXh27D5CVXsEkxMJw/+DGEzd9uj6qnhZqa0CtuL4hJAzG07fO74lNYW8m9qql3kEtxY2PA==
+X-Received: by 2002:a5d:4906:: with SMTP id x6mr4025998wrq.552.1642682229254; 
+ Thu, 20 Jan 2022 04:37:09 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id t8sm7993324wmq.43.2022.01.20.04.37.02
+ by smtp.gmail.com with ESMTPSA id t8sm7993324wmq.43.2022.01.20.04.37.07
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 04:37:02 -0800 (PST)
+ Thu, 20 Jan 2022 04:37:08 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/38] hw/intc/arm_gicv3_its: Fix handling of process_its_cmd()
- return value
-Date: Thu, 20 Jan 2022 12:36:19 +0000
-Message-Id: <20220120123630.267975-28-peter.maydell@linaro.org>
+Subject: [PULL 34/38] hw/intc/arm_gicv3_its: Fix return codes in process_mapd()
+Date: Thu, 20 Jan 2022 12:36:26 +0000
+Message-Id: <20220120123630.267975-35-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220120123630.267975-1-peter.maydell@linaro.org>
 References: <20220120123630.267975-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,37 +91,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-process_its_cmd() returns a bool, like all the other process_ functions.
-However we were putting its return value into 'res', not 'result',
-which meant we would ignore it when deciding whether to continue
-or stall the command queue. Fix the typo.
+Fix process_mapd() to consistently return CMD_STALL for memory
+errors and CMD_CONTINUE for parameter errors, as we claim in the
+comments that we do.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20220111171048.3545974-4-peter.maydell@linaro.org
+Message-id: 20220111171048.3545974-11-peter.maydell@linaro.org
 ---
- hw/intc/arm_gicv3_its.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/intc/arm_gicv3_its.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 5919b1a3b7f..a6c2299a091 100644
+index 80ef4dbcadf..917201c148f 100644
 --- a/hw/intc/arm_gicv3_its.c
 +++ b/hw/intc/arm_gicv3_its.c
-@@ -678,10 +678,10 @@ static void process_cmdq(GICv3ITSState *s)
+@@ -597,7 +597,6 @@ static ItsCmdResult process_mapd(GICv3ITSState *s, uint64_t value,
+     uint64_t itt_addr;
+     bool valid;
+     MemTxResult res = MEMTX_OK;
+-    ItsCmdResult result = CMD_STALL;
  
-         switch (cmd) {
-         case GITS_CMD_INT:
--            res = process_its_cmd(s, data, cq_offset, INTERRUPT);
-+            result = process_its_cmd(s, data, cq_offset, INTERRUPT);
-             break;
-         case GITS_CMD_CLEAR:
--            res = process_its_cmd(s, data, cq_offset, CLEAR);
-+            result = process_its_cmd(s, data, cq_offset, CLEAR);
-             break;
-         case GITS_CMD_SYNC:
-             /*
+     devid = ((value & DEVID_MASK) >> DEVID_SHIFT);
+ 
+@@ -606,7 +605,7 @@ static ItsCmdResult process_mapd(GICv3ITSState *s, uint64_t value,
+                                  MEMTXATTRS_UNSPECIFIED, &res);
+ 
+     if (res != MEMTX_OK) {
+-        return result;
++        return CMD_STALL;
+     }
+ 
+     size = (value & SIZE_MASK);
+@@ -616,7 +615,7 @@ static ItsCmdResult process_mapd(GICv3ITSState *s, uint64_t value,
+                                  MEMTXATTRS_UNSPECIFIED, &res);
+ 
+     if (res != MEMTX_OK) {
+-        return result;
++        return CMD_STALL;
+     }
+ 
+     itt_addr = (value & ITTADDR_MASK) >> ITTADDR_SHIFT;
+@@ -633,11 +632,10 @@ static ItsCmdResult process_mapd(GICv3ITSState *s, uint64_t value,
+          * we ignore this command and move onto the next
+          * command in the queue
+          */
+-    } else {
+-        result = update_dte(s, devid, valid, size, itt_addr) ? CMD_CONTINUE : CMD_STALL;
++        return CMD_CONTINUE;
+     }
+ 
+-    return result;
++    return update_dte(s, devid, valid, size, itt_addr) ? CMD_CONTINUE : CMD_STALL;
+ }
+ 
+ /*
 -- 
 2.25.1
 
