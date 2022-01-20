@@ -2,57 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2AEF494A5C
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 10:09:07 +0100 (CET)
-Received: from localhost ([::1]:34360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C0E0494A93
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 10:22:59 +0100 (CET)
+Received: from localhost ([::1]:41148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nATRJ-0001ZP-OV
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 04:09:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57072)
+	id 1nATei-0006yu-0z
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 04:22:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nASm8-0003bw-1N
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 03:26:32 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.226]:37534
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nASm2-0000JU-9B
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 03:26:31 -0500
-HMM_SOURCE_IP: 172.18.0.188:56026.1548232854
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-182.150.57.243 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id 9E27328012A;
- Thu, 20 Jan 2022 16:26:10 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.188])
- by app0023 with ESMTP id 3a4d3ac1e9a2489f840401e5b7eff939 for
- peterx@redhat.com; Thu, 20 Jan 2022 16:26:14 CST
-X-Transaction-ID: 3a4d3ac1e9a2489f840401e5b7eff939
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.188
-X-MEDUSA-Status: 0
-Message-ID: <d34dbb85-f8a9-cb21-a312-a4f4f3cafd07@chinatelecom.cn>
-Date: Thu, 20 Jan 2022 16:26:09 +0800
+ (Exim 4.90_1) (envelope-from <roman@roolebo.dev>) id 1nASs3-0005lg-13
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 03:32:40 -0500
+Received: from [2a00:1450:4864:20::136] (port=42528
+ helo=mail-lf1-x136.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <roman@roolebo.dev>) id 1nASrw-0001XL-Vi
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 03:32:34 -0500
+Received: by mail-lf1-x136.google.com with SMTP id y15so10447876lfa.9
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 00:32:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=roolebo.dev; s=mail;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=MxuAIAZr52PFftgHiGdvKoX42phdxK7N2V0qOcX/jxY=;
+ b=PAvTJDo3qs/O2dIDySL4cgHVsPOOVmMssF/5gEQLEYPTOM9X8MnI3UhgidXnIFD7zN
+ QY1ABKHlZ9F2G2nNY58nSDkpdebwvwC2uAM5enw6onCNWYtR4M1wSECJJ20eGdWhNeeS
+ om/yQFKdBCRa5ADqdNZoWjGDE5RNQSBOurOcV6CmpM/QW/vBcW584EYa6EyZeWuH6PY3
+ 24XN8EECSRHgsn2t97gvd4ZnPMTOX9r55Rqw3+SeBg+akcRUC+hvDkvg35ZxLeDIHzID
+ CliKYmW/zL6qliBtrZd37xkbjDK3XFbeVFncSU/uspK+MeFgoyEp+kcmxO6AHNavJNZd
+ 3z5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=MxuAIAZr52PFftgHiGdvKoX42phdxK7N2V0qOcX/jxY=;
+ b=d0Wqj3/LJT32Ps38Q0RJGFOZfYAaYNWEoRGtVEMyfbF6o1o5WXi6pIuAuGFqURYod3
+ PRKgnjRPoT2W60ITimyZQTGh4XciiUpLM6+BfqyLYaKWNs01zC8IJND93uuowNNw04vt
+ 0AjDStkw1mlNkq6PoO4RNKS5N6Sa5AImLc+Xrbsmq0ciz3eH8AC2Xwzm5JfneoukaN5l
+ 4sXqOUCVFlThUO9RCV2bjFLlbYa1dBIfJ+Tajlf8lHQ8NbWH7DDl/hrxSeR4iEyB2kcf
+ KvVyicKFy4lqtf4KzYuCtBV4Hb1YrCBqjQPLVrlzTF6Jnpp97TCO+82B5EV9GYaCTZbd
+ uokg==
+X-Gm-Message-State: AOAM533tvfrSWJ+4zYPNzq/qw27E5476a8O4ehMYfTnXBnY0w0eNapCJ
+ cJz3ZsTdb3dOf0QpO/rXwST4bA==
+X-Google-Smtp-Source: ABdhPJzNK6B9KUdrypX1Z1QWu1EAhhkc7Nsr652Ckv3BDSKRDBpOhNeWh7rcsW8KnwVrdMGQxX7UoA==
+X-Received: by 2002:a05:6512:2115:: with SMTP id
+ q21mr31932739lfr.57.1642667550726; 
+ Thu, 20 Jan 2022 00:32:30 -0800 (PST)
+Received: from localhost (ip-185-108-208-32.ip.asarta.ru. [185.108.208.32])
+ by smtp.gmail.com with ESMTPSA id v27sm253213lfo.243.2022.01.20.00.32.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Jan 2022 00:32:30 -0800 (PST)
+Date: Thu, 20 Jan 2022 11:32:29 +0300
+From: Roman Bolshakov <roman@roolebo.dev>
+To: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+Subject: Re: [PATCH v13 2/7] net/vmnet: add vmnet backends to qapi/net
+Message-ID: <YekeHW1GdrIZk3dO@roolebo.dev>
+References: <20220113172219.66372-1-yaroshchuk2000@gmail.com>
+ <20220113172219.66372-3-yaroshchuk2000@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v11 3/4] softmmu/dirtylimit: implement virtual CPU throttle
-To: Peter Xu <peterx@redhat.com>
-References: <cover.1641316375.git.huangy81@chinatelecom.cn>
- <0381e32c2cc70613613aaa284b8e8c9760d6932f.1641316375.git.huangy81@chinatelecom.cn>
- <YeUbhC7MG32K9pxu@xz-m1.local>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <YeUbhC7MG32K9pxu@xz-m1.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.226;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220113172219.66372-3-yaroshchuk2000@gmail.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::136
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::136;
+ envelope-from=roman@roolebo.dev; helo=mail-lf1-x136.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,515 +85,413 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: peter.maydell@linaro.org, kraxel@redhat.com, alex.bennee@linaro.org,
+ jasowang@redhat.com, phillip.ennen@gmail.com, qemu-devel@nongnu.org,
+ dirty@apple.com, armbru@redhat.com, r.bolshakov@yadro.com, agraf@csgraf.de,
+ phillip@axleos.com, akihiko.odaki@gmail.com, hsp.cat7@gmail.com, hello@adns.io,
+ qemu_oss@crudebyte.com, eblake@redhat.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-在 2022/1/17 15:32, Peter Xu 写道:
-> On Wed, Jan 05, 2022 at 01:14:08AM +0800, huangy81@chinatelecom.cn wrote:
->>   ##
->> +# @DirtyLimitInfo:
->> +#
->> +# Dirty page rate limit information of virtual CPU.
->> +#
->> +# @cpu-index: index of virtual CPU.
->> +#
->> +# @limit-rate: upper limit of dirty page rate for virtual CPU.
->> +#
->> +# @current-rate: current dirty page rate for virtual CPU.
-> 
-> Please consider spell out the unit too for all these dirty rate fields (MB/s).
-> 
->> +#
->> +# Since: 7.0
->> +#
->> +##
->> +{ 'struct': 'DirtyLimitInfo',
->> +  'data': { 'cpu-index': 'int',
->> +            'limit-rate': 'int64',
->> +            'current-rate': 'int64' } }
->> +
->> +##
->>   # @snapshot-save:
->>   #
->>   # Save a VM snapshot
->> diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
->> index a10ac6f..c9f5745 100644
->> --- a/softmmu/dirtylimit.c
->> +++ b/softmmu/dirtylimit.c
->> @@ -18,6 +18,26 @@
->>   #include "sysemu/dirtylimit.h"
->>   #include "exec/memory.h"
->>   #include "hw/boards.h"
->> +#include "sysemu/kvm.h"
->> +#include "trace.h"
->> +
->> +/*
->> + * Dirtylimit stop working if dirty page rate error
->> + * value less than DIRTYLIMIT_TOLERANCE_RANGE
->> + */
->> +#define DIRTYLIMIT_TOLERANCE_RANGE  25  /* MB/s */
->> +/*
->> + * Plus or minus vcpu sleep time linearly if dirty
->> + * page rate error value percentage over
->> + * DIRTYLIMIT_LINEAR_ADJUSTMENT_PCT.
->> + * Otherwise, plus or minus a fixed vcpu sleep time.
->> + */
->> +#define DIRTYLIMIT_LINEAR_ADJUSTMENT_PCT     50
->> +/*
->> + * Max vcpu sleep time percentage during a cycle
->> + * composed of dirty ring full and sleep time.
->> + */
->> +#define DIRTYLIMIT_THROTTLE_PCT_MAX 99
-> 
-> (Thanks for the enriched comments)
-> 
->> +static inline void dirtylimit_vcpu_set_quota(int cpu_index,
->> +                                             uint64_t quota,
->> +                                             bool on)
->> +{
->> +    dirtylimit_state->states[cpu_index].quota = quota;
-> 
-> To be clear, we could move this line into the "(on)" if condition, then in !on
-> case we reset it.
-> 
->> +    if (on) {
->> +        if (!dirtylimit_vcpu_get_state(cpu_index)->enabled) {
->> +            dirtylimit_state->limited_nvcpu++;
->> +        }
->> +    } else {
->> +        if (dirtylimit_state->states[cpu_index].enabled) {
->> +            dirtylimit_state->limited_nvcpu--;
->> +        }
->> +    }
->> +
->> +    dirtylimit_state->states[cpu_index].enabled = on;
->> +}
->> +
->> +static inline int64_t dirtylimit_dirty_ring_full_time(uint64_t dirtyrate)
->> +{
->> +    static uint64_t max_dirtyrate;
->> +    uint32_t dirty_ring_size = kvm_dirty_ring_size();
->> +    uint64_t dirty_ring_size_meory_MB =
->> +        dirty_ring_size * TARGET_PAGE_SIZE >> 20;
->> +
->> +    if (max_dirtyrate < dirtyrate) {
->> +        max_dirtyrate = dirtyrate;
->> +    }
->> +
->> +    return dirty_ring_size_meory_MB * 1000000 / max_dirtyrate;
->> +}
->> +
->> +static inline bool dirtylimit_done(uint64_t quota,
->> +                                   uint64_t current)
->> +{
->> +    uint64_t min, max;
->> +
->> +    min = MIN(quota, current);
->> +    max = MAX(quota, current);
->> +
->> +    return ((max - min) <= DIRTYLIMIT_TOLERANCE_RANGE) ? true : false;
->> +}
->> +
->> +static inline bool
->> +dirtylimit_need_linear_adjustment(uint64_t quota,
->> +                                  uint64_t current)
->> +{
->> +    uint64_t min, max, pct;
->> +
->> +    min = MIN(quota, current);
->> +    max = MAX(quota, current);
->> +
->> +    pct = (max - min) * 100 / max;
->> +
->> +    return pct > DIRTYLIMIT_LINEAR_ADJUSTMENT_PCT;
->> +}
->> +
->> +static void dirtylimit_set_throttle(CPUState *cpu,
->> +                                    uint64_t quota,
->> +                                    uint64_t current)
->> +{
->> +    int64_t ring_full_time_us = 0;
->> +    uint64_t sleep_pct = 0;
->> +    uint64_t throttle_us = 0;
->> +
->> +    ring_full_time_us = dirtylimit_dirty_ring_full_time(current);
->> +
->> +    if (dirtylimit_need_linear_adjustment(quota, current)) {
->> +        if (quota < current) {
->> +            sleep_pct = (current - quota) * 100 / current;
->> +            throttle_us =
->> +                ring_full_time_us * sleep_pct / (double)(100 - sleep_pct);
->> +            cpu->throttle_us_per_full += throttle_us;
->> +        } else {
->> +            sleep_pct = (quota - current) * 100 / quota;
->> +            throttle_us =
->> +                ring_full_time_us * sleep_pct / (double)(100 - sleep_pct);
->> +            cpu->throttle_us_per_full -= throttle_us;
->> +        }
->> +
->> +        trace_dirtylimit_throttle_pct(cpu->cpu_index,
->> +                                      sleep_pct,
->> +                                      throttle_us);
->> +    } else {
->> +        if (quota < current) {
->> +            cpu->throttle_us_per_full += ring_full_time_us / 10;
->> +        } else {
->> +            cpu->throttle_us_per_full -= ring_full_time_us / 10;
->> +        }
->> +    }
->> +
->> +    cpu->throttle_us_per_full = MIN(cpu->throttle_us_per_full,
->> +        ring_full_time_us * DIRTYLIMIT_THROTTLE_PCT_MAX);
->> +
->> +    cpu->throttle_us_per_full = MAX(cpu->throttle_us_per_full, 0);
->> +}
-> 
-> This algorithm seems works even worse than the previous version, could you have
-> a look on what's wrong?
-> 
-> See how it fluctuates when I set a throttle of 300MB/s:
-> 
-> (QMP) set-vcpu-dirty-limit dirty-rate=300
-> 
-> Dirty rate: 17622 (MB/s), duration: 1000 (ms), load: 100.00%
-> Dirty rate: 17617 (MB/s), duration: 1000 (ms), load: 100.00%
-> Dirty rate: 17611 (MB/s), duration: 1000 (ms), load: 100.00%
-> Dirty rate: 13023 (MB/s), duration: 1153 (ms), load: 100.00%
-> Dirty rate: 923 (MB/s), duration: 1000 (ms), load: 100.00%
-> Dirty rate: 2853 (MB/s), duration: 1000 (ms), load: 100.00%
-> Dirty rate: 1963 (MB/s), duration: 1040 (ms), load: 100.00%
-> Dirty rate: 180 (MB/s), duration: 1006 (ms), load: 100.00%
-> Dirty rate: 182 (MB/s), duration: 1007 (ms), load: 100.00%
-> Dirty rate: 177 (MB/s), duration: 1005 (ms), load: 100.00%
-> Dirty rate: 181 (MB/s), duration: 1007 (ms), load: 100.00%
-> Dirty rate: 179 (MB/s), duration: 1006 (ms), load: 100.00%
-> Dirty rate: 168 (MB/s), duration: 1005 (ms), load: 100.00%
-> Dirty rate: 169 (MB/s), duration: 1006 (ms), load: 100.00%
-> Dirty rate: 2717 (MB/s), duration: 1000 (ms), load: 100.00%
-> Dirty rate: 2851 (MB/s), duration: 1000 (ms), load: 100.00%
-> Dirty rate: 1773 (MB/s), duration: 1021 (ms), load: 100.00%
-> Dirty rate: 177 (MB/s), duration: 1006 (ms), load: 100.00%
-> Dirty rate: 179 (MB/s), duration: 1006 (ms), load: 100.00%
-> Dirty rate: 175 (MB/s), duration: 1005 (ms), load: 100.00%
-> Dirty rate: 1973 (MB/s), duration: 1000 (ms), load: 100.00%
-> Dirty rate: 2878 (MB/s), duration: 1000 (ms), load: 100.00%
-> Dirty rate: 1690 (MB/s), duration: 1022 (ms), load: 100.00%
-> Dirty rate: 174 (MB/s), duration: 1005 (ms), load: 100.00%
-> Dirty rate: 184 (MB/s), duration: 1006 (ms), load: 100.00%
-> 
-> This is the tool I'm using:
-> 
-> https://github.com/xzpeter/mig_mon#memory-dirty
-> 
-> Again, I won't ask for a good algorithm as the 1st version, but then I think
-> it's nicer we have the simplest algorithm merged first, which should be very
-> easy to verify.
-> 
-Hi，Peter. I'm working on this problem and found the reason is kind of 
-the same as i metioned in cover letter of v10, the following is what i 
-posted:
-
-   2. The new implementaion of throttle algo enlightened by Peter
-      responds faster and consume less cpu resource than the older,
-      we make a impressed progress.
-
-      And there is a viewpoint may be discussed, it is that the new
-      throttle logic is "passive", vcpu sleeps only after dirty ring,
-      is full, unlike the "auto-converge" which will kick vcpu instead
-      in a fixed slice time. If the vcpu is memory-write intensive
-      and the ring size is large, it will produce dirty memory during
-      the dirty ring full time and the throttle works not so good, it
-      means the throttle depends on the dirty ring size.
-
-      I actually tested the new algo in two case:
-
-      case 1: dirty-ring-size: 4096, dirtyrate: 1170MB/s
-      result: minimum quota dirtyrate is 25MB/s or even less
-              minimum vcpu util is 6%
-
-      case 2: dirty-ring-size: 65536, dirtyrate: 1170MB/s
-      result: minimum quota dirtyrate is 256MB/s
-              minimum vcpu util is 24%
-
-      I post this just for discussion, i think this is not a big deal
-      beacase if we set the dirty-ring-size to the maximum value(65536),
-      we assume the server's bandwidth is capable of handling it.
-
-Currently, Qemu handle the vcpu KVM_EXIT_DIRTY_RING_FULL exit as the 
-following:
-
-1. If one of the dirty-ring on a vcpu is full, vcpu thread returns to 
-user space and qemu handle it.
-
-2. Qemu get the kvm_slots_lock and reap dirty-ring of all vcpus once for 
-all by calling kvm_dirty_ring_reap, fill the dirty page bitmap of slot 
-and reset dirty ring. Release the kvm_slots_lock finally.
-
-The logic *reap and reset dirty ring of all vcpu after one vcpu's dirty 
-ring is full* works fine and efficiently.
-
-But this is not what dirtylimit want becasue some of the vcpu may loss 
-chance to sleep and could not be throttled, though vcpu's dirty ring was 
-full.
-
-The latest test environment of you used a larger guest(20G, 40 cores), 
-increasing the chances of missing sleep for vcpus and the throttle works 
-not good as before.
-
-I try a simple modification make the throttle works better as before:
-
-+static void kvm_dirty_ring_reset_one(KVMState *s, CPUState *cpu)
-+{
-+    int ret;
-+    uint64_t total = 0;
-+
-+    kvm_slots_lock();
-+    total = kvm_dirty_ring_reap_one(s, cpu);
-+
-+    if (total) {
-+        ret = kvm_vm_ioctl(s, KVM_RESET_DIRTY_RINGS);
-+        assert(ret == total);
-+    }
-+
-+    kvm_slots_unlock();
-+}
-+
-  static void do_kvm_cpu_synchronize_kick(CPUState *cpu, run_on_cpu_data 
-arg)
-  {
-      /* No need to do anything */
-@@ -2309,6 +2327,11 @@ bool kvm_dirty_ring_enabled(void)
-      return kvm_state->kvm_dirty_ring_size ? true : false;
-  }
-
-  static int kvm_init(MachineState *ms)
-  {
-      MachineClass *mc = MACHINE_GET_CLASS(ms);
-@@ -2955,9 +2978,8 @@ int kvm_cpu_exec(CPUState *cpu)
-               * still full.  Got kicked by KVM_RESET_DIRTY_RINGS.
-               */
-              trace_kvm_dirty_ring_full(cpu->cpu_index);
--            qemu_mutex_lock_iothread();
--            kvm_dirty_ring_reap(kvm_state);
--            qemu_mutex_unlock_iothread();
-+            kvm_dirty_ring_reset_one(kvm_state, cpu);
-+            dirtylimit_vcpu_execute(cpu);
-              ret = 0;
-              break;
-          case KVM_EXIT_SYSTEM_EVENT:
-
-I drop the BQL to reduce the overhead of KVM_EXIT_DIRTY_RING_FULL exit 
-handle. May be kvm_state could be protected by BQL, but i wonder if 
-there can be a finer granularity lock.
-
-How about this?
->> +
->> +static void dirtylimit_adjust_throttle(CPUState *cpu)
->> +{
->> +    uint64_t quota = 0;
->> +    uint64_t current = 0;
->> +    int cpu_index = cpu->cpu_index;
->> +
->> +    quota = dirtylimit_vcpu_get_state(cpu_index)->quota;
->> +    current = vcpu_dirty_rate_get(cpu_index);
->> +
->> +    if (current == 0 &&
->> +        dirtylimit_vcpu_get_state(cpu_index)->unmatched_cnt == 0) {
->> +        cpu->throttle_us_per_full = 0;
->> +        goto end;
->> +    } else if (++dirtylimit_vcpu_get_state(cpu_index)->unmatched_cnt
->> +               < 2) {
->> +        goto end;
->> +    } else if (dirtylimit_done(quota, current)) {
->> +        goto end;
->> +    } else {
->> +        dirtylimit_vcpu_get_state(cpu_index)->unmatched_cnt = 0;
->> +        dirtylimit_set_throttle(cpu, quota, current);
->> +    }
->> +end:
->> +    trace_dirtylimit_adjust_throttle(cpu_index,
->> +                                     quota, current,
->> +                                     cpu->throttle_us_per_full);
->> +    return;
->> +}
->> +
->> +static void *dirtylimit_thread(void *opaque)
->> +{
->> +    CPUState *cpu;
->> +
->> +    rcu_register_thread();
->> +
->> +    while (!qatomic_read(&dirtylimit_quit)) {
->> +        sleep(DIRTYLIMIT_CALC_TIME_MS / 1000);
-> 
-> Sorry to have not mentioned this: I think we probably don't even need this
-> dirtylimit thread.
-> 
-> It'll be hard to make the "sleep" right here.. you could read two identical
-> values from the dirty calc thread because the 1sec sleep is not accurate, so
-> even after this sleep() the calc thread may not have provided the latest number
-> yet.
-> 
-> It'll be much cleaner (and most importantly, accurate..) to me if we could make
-> this a hook function being passed over to the vcpu_dirty_rate_stat_thread()
-> thread, then after each vcpu_dirty_rate_stat_collect() we call the hook.
-> 
->> +
->> +        dirtylimit_state_lock();
->> +
->> +        if (!dirtylimit_in_service()) {
->> +            dirtylimit_state_unlock();
->> +            break;
->> +        }
->> +
->> +        CPU_FOREACH(cpu) {
->> +            if (!dirtylimit_vcpu_get_state(cpu->cpu_index)->enabled) {
->> +                continue;
->> +            }
->> +            dirtylimit_adjust_throttle(cpu);
->> +        }
->> +        dirtylimit_state_unlock();
->> +    }
->> +
->> +    rcu_unregister_thread();
->> +
->> +    return NULL;
->> +}
->> +
->> +static void dirtylimit_thread_start(void)
->> +{
->> +    qatomic_set(&dirtylimit_quit, 0);
->> +    qemu_thread_create(&dirtylimit_thr,
->> +                       "dirtylimit",
->> +                       dirtylimit_thread,
->> +                       NULL,
->> +                       QEMU_THREAD_JOINABLE);
->> +}
->> +
->> +static void dirtylimit_thread_stop(void)
->> +{
->> +    qatomic_set(&dirtylimit_quit, 1);
->> +    qemu_mutex_unlock_iothread();
->> +    qemu_thread_join(&dirtylimit_thr);
->> +    qemu_mutex_lock_iothread();
->> +}
->> +
->> +void dirtylimit_set_vcpu(int cpu_index,
->> +                         uint64_t quota,
->> +                         bool enable)
->> +{
->> +    trace_dirtylimit_set_vcpu(cpu_index, quota);
->> +
->> +    if (enable) {
->> +        if (dirtylimit_in_service()) {
->> +            /* only set the vcpu dirty page rate limit */
->> +            dirtylimit_vcpu_set_quota(cpu_index, quota, true);
->> +            return;
->> +        }
->> +
->> +        /* initialize state when set dirtylimit first time */
->> +        dirtylimit_state_lock();
->> +        dirtylimit_state_initialize();
->> +        dirtylimit_vcpu_set_quota(cpu_index, quota, true);
->> +        dirtylimit_state_unlock();
->> +
->> +        dirtylimit_thread_start();
-> 
-> Can we move dirtylimit global initializations out of dirtylimit_set_vcpu() too?
-> We should always keep init/cleanup of dirty_rate_calc and dirtylimit together,
-> because they should, imho.  We never enable one of them.
-> 
-> I commented similarly in previous version on this.
-> 
->> +    } else {
->> +        if (!dirtylimit_in_service()) {
->> +            return;
->> +        }
->> +
->> +        dirtylimit_state_lock();
->> +        /* dirty page rate limit is not enabled */
->> +        if (!dirtylimit_vcpu_get_state(cpu_index)->enabled) {
->> +            dirtylimit_state_unlock();
->> +            return;
->> +        }
->> +
->> +        /* switch off vcpu dirty page rate limit */
->> +        dirtylimit_vcpu_set_quota(cpu_index, 0, false);
->> +        dirtylimit_state_unlock();
->> +
->> +        if (!dirtylimit_state->limited_nvcpu) {
->> +            dirtylimit_thread_stop();
->> +
->> +            dirtylimit_state_lock();
->> +            dirtylimit_state_finalize();
->> +            dirtylimit_state_unlock();
-> 
-> We don't need such a fine control of locking, IMHO.. it can be a very big lock
-> just to serialize things..
-> 
-> IMHO it could be as simple as:
-> 
-> void dirtylimit_set_vcpu(int cpu_index,
->                           uint64_t quota,
->                           bool enable)
-> {
->      dirtylimit_vcpu_set_quota(cpu_index, quota, enable);
->      trace_dirtylimit_set_vcpu(cpu_index, quota);
-> }
-> 
-> void qmp_set_vcpu_dirty_limit(bool has_cpu_index,
->                                uint64_t cpu_index,
->                                uint64_t dirty_rate,
->                                Error **errp)
-> {
->      if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
->          error_setg(errp, "dirty page limit feature requires KVM with"
->                     " accelerator property 'dirty-ring-size' set'");
->          return;
->      }
-> 
->      if (has_cpu_index && !dirtylimit_vcpu_index_valid(cpu_index)) {
->          error_setg(errp, "incorrect cpu index specified");
->          return;
->      }
-> 
->      dirtylimit_state_lock();
-> 
->      if (!dirtylimit_in_service()) {
->          /* TODO: we could have one helper to initialize all of them */
->          vcpu_dirty_rate_stat_initialize();
->          vcpu_dirty_rate_stat_start();
->          dirtylimit_state_initialize();
->          dirtylimit_vcpu_set_quota(cpu_index, quota, true);
->      }
-> 
->      if (has_cpu_index) {
->          dirtylimit_set_vcpu(cpu_index, dirty_rate, true);
->      } else {
->          dirtylimit_set_all(dirty_rate, true);
->      }
-> 
->      dirtylimit_state_unlock();
-> }
-> 
-> I didn't write the cleanup path, but it's the same: we should only cleanup all
-> the global structs in cancel-vcpu-dirty-limit when we found there's zero vcpus
-> in track, and it should be done once there.
-> 
-> Thanks,
+On Thu, Jan 13, 2022 at 08:22:14PM +0300, Vladislav Yaroshchuk wrote:
+> Create separate netdevs for each vmnet operating mode:
+> - vmnet-host
+> - vmnet-shared
+> - vmnet-bridged
 > 
 
--- 
-Best regard
+Sure I'm late to the party but what if we add only one backend - vmnet
+with default mode set to shared and all parameters are added there?
 
-Hyman Huang(黄勇)
+The CLI would look more reasonable for the most typical use case:
+ -netdev vmnet,id=if1 -device virtio-net,netdev=if1
+
+That would remove duplication of options in QAPI schema (e.g. isolated
+is available in all backends now, altough I'm not sure if it makes sense
+for bridged mode):
+
+ -netdev vmnet,id=if1,isolated=yes
+
+start-address, end-address and subnet-mask are also used by both shared
+and host modes.
+
+Bridged netdev would lool like:
+
+ -netdev vmnet,id=if1,mode=bridged,ifname=en1
+
+Checksum offloading also seems to be available for all backends from
+Monterey.
+
+The approach might simplify integration of the changes to libvirt and
+discovery of upcoming vmnet features via qapi.
+
+Thanks,
+Roman
+
+> Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+> ---
+>  net/clients.h       |  11 ++++
+>  net/meson.build     |   7 +++
+>  net/net.c           |  10 ++++
+>  net/vmnet-bridged.m |  25 +++++++++
+>  net/vmnet-common.m  |  20 +++++++
+>  net/vmnet-host.c    |  24 ++++++++
+>  net/vmnet-shared.c  |  25 +++++++++
+>  net/vmnet_int.h     |  25 +++++++++
+>  qapi/net.json       | 133 +++++++++++++++++++++++++++++++++++++++++++-
+>  9 files changed, 278 insertions(+), 2 deletions(-)
+>  create mode 100644 net/vmnet-bridged.m
+>  create mode 100644 net/vmnet-common.m
+>  create mode 100644 net/vmnet-host.c
+>  create mode 100644 net/vmnet-shared.c
+>  create mode 100644 net/vmnet_int.h
+> 
+> diff --git a/net/net.c b/net/net.c
+> index f0d14dbfc1..1dbb64b935 100644
+> --- a/net/net.c
+> +++ b/net/net.c
+> @@ -1021,6 +1021,11 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
+>  #ifdef CONFIG_L2TPV3
+>          [NET_CLIENT_DRIVER_L2TPV3]    = net_init_l2tpv3,
+>  #endif
+> +#ifdef CONFIG_VMNET
+> +        [NET_CLIENT_DRIVER_VMNET_HOST] = net_init_vmnet_host,
+> +        [NET_CLIENT_DRIVER_VMNET_SHARED] = net_init_vmnet_shared,
+> +        [NET_CLIENT_DRIVER_VMNET_BRIDGED] = net_init_vmnet_bridged,
+> +#endif /* CONFIG_VMNET */
+>  };
+>  
+>  
+> @@ -1106,6 +1111,11 @@ void show_netdevs(void)
+>  #endif
+>  #ifdef CONFIG_VHOST_VDPA
+>          "vhost-vdpa",
+> +#endif
+> +#ifdef CONFIG_VMNET
+> +        "vmnet-host",
+> +        "vmnet-shared",
+> +        "vmnet-bridged",
+>  #endif
+>      };
+>  
+> diff --git a/net/vmnet-bridged.m b/net/vmnet-bridged.m
+> new file mode 100644
+> index 0000000000..4e42a90391
+> --- /dev/null
+> +++ b/net/vmnet-bridged.m
+> @@ -0,0 +1,25 @@
+> +/*
+> + * vmnet-bridged.m
+> + *
+> + * Copyright(c) 2021 Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/qapi-types-net.h"
+> +#include "vmnet_int.h"
+> +#include "clients.h"
+> +#include "qemu/error-report.h"
+> +#include "qapi/error.h"
+> +
+> +#include <vmnet/vmnet.h>
+> +
+> +int net_init_vmnet_bridged(const Netdev *netdev, const char *name,
+> +                           NetClientState *peer, Error **errp)
+> +{
+> +  error_setg(errp, "vmnet-bridged is not implemented yet");
+> +  return -1;
+> +}
+> diff --git a/net/vmnet-common.m b/net/vmnet-common.m
+> new file mode 100644
+> index 0000000000..532d152840
+> --- /dev/null
+> +++ b/net/vmnet-common.m
+> @@ -0,0 +1,20 @@
+> +/*
+> + * vmnet-common.m - network client wrapper for Apple vmnet.framework
+> + *
+> + * Copyright(c) 2021 Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+> + * Copyright(c) 2021 Phillip Tennen <phillip@axleos.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/qapi-types-net.h"
+> +#include "vmnet_int.h"
+> +#include "clients.h"
+> +#include "qemu/error-report.h"
+> +#include "qapi/error.h"
+> +
+> +#include <vmnet/vmnet.h>
+> +
+> diff --git a/net/vmnet-host.c b/net/vmnet-host.c
+> new file mode 100644
+> index 0000000000..4a5ef99dc7
+> --- /dev/null
+> +++ b/net/vmnet-host.c
+> @@ -0,0 +1,24 @@
+> +/*
+> + * vmnet-host.c
+> + *
+> + * Copyright(c) 2021 Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/qapi-types-net.h"
+> +#include "vmnet_int.h"
+> +#include "clients.h"
+> +#include "qemu/error-report.h"
+> +#include "qapi/error.h"
+> +
+> +#include <vmnet/vmnet.h>
+> +
+> +int net_init_vmnet_host(const Netdev *netdev, const char *name,
+> +                        NetClientState *peer, Error **errp) {
+> +  error_setg(errp, "vmnet-host is not implemented yet");
+> +  return -1;
+> +}
+> diff --git a/net/vmnet-shared.c b/net/vmnet-shared.c
+> new file mode 100644
+> index 0000000000..f8c4a4f3b8
+> --- /dev/null
+> +++ b/net/vmnet-shared.c
+> @@ -0,0 +1,25 @@
+> +/*
+> + * vmnet-shared.c
+> + *
+> + * Copyright(c) 2021 Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/qapi-types-net.h"
+> +#include "vmnet_int.h"
+> +#include "clients.h"
+> +#include "qemu/error-report.h"
+> +#include "qapi/error.h"
+> +
+> +#include <vmnet/vmnet.h>
+> +
+> +int net_init_vmnet_shared(const Netdev *netdev, const char *name,
+> +                          NetClientState *peer, Error **errp)
+> +{
+> +  error_setg(errp, "vmnet-shared is not implemented yet");
+> +  return -1;
+> +}
+> diff --git a/net/vmnet_int.h b/net/vmnet_int.h
+> new file mode 100644
+> index 0000000000..c5982259a4
+> --- /dev/null
+> +++ b/net/vmnet_int.h
+> @@ -0,0 +1,25 @@
+> +/*
+> + * vmnet_int.h
+> + *
+> + * Copyright(c) 2021 Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +#ifndef VMNET_INT_H
+> +#define VMNET_INT_H
+> +
+> +#include "qemu/osdep.h"
+> +#include "vmnet_int.h"
+> +#include "clients.h"
+> +
+> +#include <vmnet/vmnet.h>
+> +
+> +typedef struct VmnetCommonState {
+> +  NetClientState nc;
+> +
+> +} VmnetCommonState;
+> +
+> +
+> +#endif /* VMNET_INT_H */
+> diff --git a/qapi/net.json b/qapi/net.json
+> index 7fab2e7cd8..b922e2e34f 100644
+> --- a/qapi/net.json
+> +++ b/qapi/net.json
+> @@ -452,6 +452,120 @@
+>      '*vhostdev':     'str',
+>      '*queues':       'int' } }
+>  
+> +##
+> +# @NetdevVmnetHostOptions:
+> +#
+> +# vmnet (host mode) network backend.
+> +#
+> +# Allows the vmnet interface to communicate with other vmnet
+> +# interfaces that are in host mode and also with the host.
+> +#
+> +# @start-address: The starting IPv4 address to use for the interface.
+> +#                 Must be in the private IP range (RFC 1918). Must be
+> +#                 specified along with @end-address and @subnet-mask.
+> +#                 This address is used as the gateway address. The
+> +#                 subsequent address up to and including end-address are
+> +#                 placed in the DHCP pool.
+> +#
+> +# @end-address: The DHCP IPv4 range end address to use for the
+> +#               interface. Must be in the private IP range (RFC 1918).
+> +#               Must be specified along with @start-address and
+> +#               @subnet-mask.
+> +#
+> +# @subnet-mask: The IPv4 subnet mask to use on the interface. Must
+> +#               be specified along with @start-address and @subnet-mask.
+> +#
+> +# @isolated: Enable isolation for this interface. Interface isolation
+> +#            ensures that vmnet interface is not able to communicate
+> +#            with any other vmnet interfaces. Only communication with
+> +#            host is allowed. Available since macOS Big Sur 11.0.
+> +#
+> +# @net-uuid: The identifier (UUID) to uniquely identify the isolated
+> +#            network vmnet interface should be added to. If
+> +#            set, no DHCP service is provided for this interface and
+> +#            network communication is allowed only with other interfaces
+> +#            added to this network identified by the UUID. Available
+> +#            since macOS Big Sur 11.0.
+> +#
+> +# Since: 7.0
+> +##
+> +{ 'struct': 'NetdevVmnetHostOptions',
+> +  'data': {
+> +    '*start-address': 'str',
+> +    '*end-address':   'str',
+> +    '*subnet-mask':   'str',
+> +    '*isolated':      'bool',
+> +    '*net-uuid':      'str' },
+> +  'if': 'CONFIG_VMNET' }
+> +
+> +##
+> +# @NetdevVmnetSharedOptions:
+> +#
+> +# vmnet (shared mode) network backend.
+> +#
+> +# Allows traffic originating from the vmnet interface to reach the
+> +# Internet through a network address translator (NAT).
+> +# The vmnet interface can communicate with the host and with
+> +# other shared mode interfaces on the same subnet. If no DHCP
+> +# settings, subnet mask and IPv6 prefix specified, the interface can
+> +# communicate with any of other interfaces in shared mode.
+> +#
+> +# @start-address: The starting IPv4 address to use for the interface.
+> +#                 Must be in the private IP range (RFC 1918). Must be
+> +#                 specified along with @end-address and @subnet-mask.
+> +#                 This address is used as the gateway address. The
+> +#                 subsequent address up to and including end-address are
+> +#                 placed in the DHCP pool.
+> +#
+> +# @end-address: The DHCP IPv4 range end address to use for the
+> +#               interface. Must be in the private IP range (RFC 1918).
+> +#               Must be specified along with @start-address and @subnet-mask.
+> +#
+> +# @subnet-mask: The IPv4 subnet mask to use on the interface. Must
+> +#                be specified along with @start-address and @subnet-mask.
+> +#
+> +# @isolated: Enable isolation for this interface. Interface isolation
+> +#            ensures that vmnet interface is not able to communicate
+> +#            with any other vmnet interfaces. Only communication with
+> +#            host is allowed. Available since macOS Big Sur 11.0.
+> +#
+> +# @nat66-prefix: The IPv6 prefix to use into guest network. Must be a
+> +#                unique local address i.e. start with fd00::/8 and have
+> +#                length of 64.
+> +#
+> +# Since: 7.0
+> +##
+> +{ 'struct': 'NetdevVmnetSharedOptions',
+> +  'data': {
+> +    '*start-address': 'str',
+> +    '*end-address':   'str',
+> +    '*subnet-mask':   'str',
+> +    '*isolated':      'bool',
+> +    '*nat66-prefix':  'str' },
+> +  'if': 'CONFIG_VMNET' }
+> +
+> +##
+> +# @NetdevVmnetBridgedOptions:
+> +#
+> +# vmnet (bridged mode) network backend.
+> +#
+> +# Bridges the vmnet interface with a physical network interface.
+> +#
+> +# @ifname: The name of the physical interface to be bridged.
+> +#
+> +# @isolated: Enable isolation for this interface. Interface isolation
+> +#            ensures that vmnet interface is not able to communicate
+> +#            with any other vmnet interfaces. Only communication with
+> +#            host is allowed. Available since macOS Big Sur 11.0.
+> +#
+> +# Since: 7.0
+> +##
+> +{ 'struct': 'NetdevVmnetBridgedOptions',
+> +  'data': {
+> +    'ifname':     'str',
+> +    '*isolated':  'bool' },
+> +  'if': 'CONFIG_VMNET' }
+> +
+>  ##
+>  # @NetClientDriver:
+>  #
+> @@ -460,10 +574,16 @@
+>  # Since: 2.7
+>  #
+>  #        @vhost-vdpa since 5.1
+> +#        @vmnet-host since 7.0
+> +#        @vmnet-shared since 7.0
+> +#        @vmnet-bridged since 7.0
+>  ##
+>  { 'enum': 'NetClientDriver',
+>    'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
+> -            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
+> +            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa',
+> +            { 'name': 'vmnet-host', 'if': 'CONFIG_VMNET' },
+> +            { 'name': 'vmnet-shared', 'if': 'CONFIG_VMNET' },
+> +            { 'name': 'vmnet-bridged', 'if': 'CONFIG_VMNET' }] }
+>  
+>  ##
+>  # @Netdev:
+> @@ -477,6 +597,9 @@
+>  # Since: 1.2
+>  #
+>  #        'l2tpv3' - since 2.1
+> +#        'vmnet-host' - since 7.0
+> +#        'vmnet-shared' - since 7.0
+> +#        'vmnet-bridged' - since 7.0
+>  ##
+>  { 'union': 'Netdev',
+>    'base': { 'id': 'str', 'type': 'NetClientDriver' },
+> @@ -492,7 +615,13 @@
+>      'hubport':  'NetdevHubPortOptions',
+>      'netmap':   'NetdevNetmapOptions',
+>      'vhost-user': 'NetdevVhostUserOptions',
+> -    'vhost-vdpa': 'NetdevVhostVDPAOptions' } }
+> +    'vhost-vdpa': 'NetdevVhostVDPAOptions',
+> +    'vmnet-host': { 'type': 'NetdevVmnetHostOptions',
+> +                    'if': 'CONFIG_VMNET' },
+> +    'vmnet-shared': { 'type': 'NetdevVmnetSharedOptions',
+> +                      'if': 'CONFIG_VMNET' },
+> +    'vmnet-bridged': { 'type': 'NetdevVmnetBridgedOptions',
+> +                       'if': 'CONFIG_VMNET' } } }
+>  
+>  ##
+>  # @RxState:
+> -- 
+> 2.23.0
+> 
 
