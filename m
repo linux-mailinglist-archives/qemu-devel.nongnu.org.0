@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0F52494D1F
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 12:40:14 +0100 (CET)
-Received: from localhost ([::1]:43282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4011E494E28
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 13:47:50 +0100 (CET)
+Received: from localhost ([::1]:35156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAVnZ-0000Ry-HJ
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 06:40:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46234)
+	id 1nAWqy-0003Or-H8
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 07:47:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAVGY-0003z9-2j; Thu, 20 Jan 2022 06:06:06 -0500
-Received: from [2a00:1450:4864:20::332] (port=35445
- helo=mail-wm1-x332.google.com)
+ id 1nAVGW-0003z5-UC; Thu, 20 Jan 2022 06:06:06 -0500
+Received: from [2a00:1450:4864:20::32d] (port=35442
+ helo=mail-wm1-x32d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAVGT-0001tq-I0; Thu, 20 Jan 2022 06:06:05 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- q9-20020a7bce89000000b00349e697f2fbso21072691wmj.0; 
- Thu, 20 Jan 2022 03:05:54 -0800 (PST)
+ id 1nAVGT-0001uD-JM; Thu, 20 Jan 2022 06:06:04 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ q9-20020a7bce89000000b00349e697f2fbso21073229wmj.0; 
+ Thu, 20 Jan 2022 03:05:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HwwJK3Ic8vOiGmskKxf1h+aCakkNAUYqzvWmUqx2afA=;
- b=dCljKkxvjwIBd6xl/FszqYGN0+JCNJRbHXyAnkz34WNUlGBBdU0pYq4YVzlXPhTQqw
- kPA6dy+AXG91r3a0St0r5UDuUKgs9JC4r3Lbd++OKHhJsjASunWqtPvTZd+pNJHeokS4
- /TVM5N3Z3W7XnxNSK38Oy9nr3B7RP7jK9cccsyHi+tT7bvZRtOpdROkWRvExIS0B221T
- p8/F8BJ5zWAWjA8BnBLH3WT+XQX2k7e/DkBI6odTOPuhjnNHT2uHGcjbtaoJQOTr2cMR
- PowtUPWnQmWg3Pv+ftznWPdecRD/+JsIRHj+FVdPWB0KIqIKhgcQugXaCCn0CmRYSc5u
- 8WxA==
+ bh=4vjKx1I+N9K2I7ZZkgKBPbK0jQvXhaVoh5ziaAVd4fg=;
+ b=GQcrr4l1wGXr7z2PEZaElZd/WxIW03FW2Gc5o3BWf/0tnfXMUbTgJtC/hmNPlL+vck
+ 1kJmu++c+lvM/UW4W2fUwESp1KM4HVd79YEwVemm/myntaQKdnoywEurLyKkR2hZRDbE
+ WakKCs+qipqwUMuTnUlGb+8ANc7hYgtWoXH2F0zqDH/rQlRvQrxmD9+Hg7a2HDTct6Wr
+ MD53NY3YwPG44ntA8kJUTPGPI0ZyxdMVbDuogPDRhQWrgM9d3++a+h9opVV+PcimhzlF
+ FrxzDe4fq+g3Lmg0NoKDaxYSXvaHI2le9DUt3WnBqbMsbKIiTkyCNW4YxRUA3Q913Est
+ YHYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=HwwJK3Ic8vOiGmskKxf1h+aCakkNAUYqzvWmUqx2afA=;
- b=600MeiHNpcyqBj8Tdbz5DPiMBPlHZKw7xADdf6+5/AgKNEgsn+MQ4oZiuX5WIjBGs3
- K8yZm92ofVOwFlAWTN3QsY/Q6gtIJ6dKHsHAjkhAZfisYhzduYIBhJa3JdWtD3lZdzc1
- Al+6lnjd+jztCYgCLVx2437MQBD65jfnsAv6XrBKDj6ThyKsHSvcGKD5xt+xpEoJcD7y
- O8+CuorrJgvebOlvZ5gxJn4MpBipy63L/KU2njteuzRBJzXseUFXqYF4P7aoP1mO6vl+
- F2lLuiHXznkCCgvcMqGsbPEgF9ZCfAmJLxKtJk0f1vd50PTuITfm5JHQmwTmoVZbORTt
- aN9g==
-X-Gm-Message-State: AOAM5326qF6NZWTPnujI3T1kWn0gK4HGshBGqQkBUO/8km+quA8E8+Hy
- M5MC4pirrpq9hBqXnix4tLpOFAkUVqk=
-X-Google-Smtp-Source: ABdhPJy0hNH9Ym3YxvYNYS+p2rgoVqeeYISUvNsFvlZg2unmm9AoR4q0Zo8D89zZr1euLtN0bAuxsw==
-X-Received: by 2002:a5d:650f:: with SMTP id x15mr5858145wru.645.1642676753000; 
- Thu, 20 Jan 2022 03:05:53 -0800 (PST)
+ bh=4vjKx1I+N9K2I7ZZkgKBPbK0jQvXhaVoh5ziaAVd4fg=;
+ b=E3AOekvyszN1TcqHiFG891LUy3xpw6Jcdf3ekJAaetNU0/ojGovVE75fzz3EyNAjXv
+ 6GyfzyuySBTFdDP9stTbqF0z8VQbDMbbyfIa+0M0VMQkbtVgnnTUVD3aMljs8PE2jVhP
+ tMN33x9t1Kd87VNcyeEHocY5/Nj0Gh8n+e4MylXbkoqVtzu73fKKNWAEHC+G87tOZKn5
+ wnF1MbYSniKu6tbmuXwZ1UiXSpePIRmRlM9ME6Co/LpPFWhtYfmPqc/5norVJSVtcI18
+ tp4xV4km54bmI8hEjzXvi1gUBDRa7fCsdLcjEc4fp1amvW9LHiaS4nsOwubEkxg4lLZj
+ tAKQ==
+X-Gm-Message-State: AOAM531c+ZDifLk/5iOnWBtGsgNI/UnAi7xPcIG/g1b3pUs6GAoRtAkQ
+ CISPDYS5t3YHJ7bVKpELVKaalo/hzL8=
+X-Google-Smtp-Source: ABdhPJy474OHCqrqDR5HydFxEXCRZJtT8ZQCXu/Y5S1JVMmUr6iplED7zOY7BFgp1MRBbT38/CKtfQ==
+X-Received: by 2002:a05:6000:2ad:: with SMTP id
+ l13mr16035818wry.374.1642676758070; 
+ Thu, 20 Jan 2022 03:05:58 -0800 (PST)
 Received: from nuc.. (154.red-83-50-83.dynamicip.rima-tde.net. [83.50.83.154])
  by smtp.gmail.com with ESMTPSA id
- z5sm9996117wmp.10.2022.01.20.03.05.52
+ 1sm1997292wmo.37.2022.01.20.03.05.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 03:05:52 -0800 (PST)
+ Thu, 20 Jan 2022 03:05:57 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Ed Maste <emaste@freebsd.org>, Michael Tokarev <mjt@tls.msk.ru>,
@@ -60,20 +61,19 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  qemu-block@nongnu.org, Thomas Huth <thuth@redhat.com>,
  Li-Wen Hsu <lwhsu@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>,
  Yonggang Luo <luoyonggang@gmail.com>
-Subject: [PATCH v2 1/6] MAINTAINERS: Cover lcitool submodule with build test /
- automation
-Date: Thu, 20 Jan 2022 12:05:40 +0100
-Message-Id: <20220120110545.263404-2-f4bug@amsat.org>
+Subject: [PATCH v2 2/6] tests: Refresh lcitool submodule
+Date: Thu, 20 Jan 2022 12:05:41 +0100
+Message-Id: <20220120110545.263404-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220120110545.263404-1-f4bug@amsat.org>
 References: <20220120110545.263404-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,27 +99,125 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-lcitool is used by build test / automation, we want maintainers
-to get notified if the submodule is updated.
+Refresh lcitool submodule and the generated files by running:
+
+  $ make lcitool-refresh
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ tests/docker/dockerfiles/alpine.docker        | 3 ++-
+ tests/docker/dockerfiles/centos8.docker       | 3 +--
+ tests/docker/dockerfiles/fedora.docker        | 3 +--
+ tests/docker/dockerfiles/opensuse-leap.docker | 2 +-
+ tests/docker/dockerfiles/ubuntu1804.docker    | 2 +-
+ tests/docker/dockerfiles/ubuntu2004.docker    | 2 +-
+ tests/lcitool/libvirt-ci                      | 2 +-
+ 7 files changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 893a5567100..fb78499d6a0 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3577,6 +3577,7 @@ F: .travis.yml
- F: scripts/ci/
- F: tests/docker/
- F: tests/vm/
-+F: tests/lcitool/
- F: scripts/archive-source.sh
- W: https://gitlab.com/qemu-project/qemu/pipelines
- W: https://travis-ci.org/qemu/qemu
+diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
+index eb2251c81c8..9d7f74fc51e 100644
+--- a/tests/docker/dockerfiles/alpine.docker
++++ b/tests/docker/dockerfiles/alpine.docker
+@@ -1,6 +1,6 @@
+ # THIS FILE WAS AUTO-GENERATED
+ #
+-#  $ lcitool dockerfile alpine-edge qemu
++#  $ lcitool dockerfile --layers all alpine-edge qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
+ 
+@@ -109,6 +109,7 @@ RUN apk update && \
+         zlib-dev \
+         zlib-static \
+         zstd-dev && \
++    apk list | sort > /packages.txt && \
+     mkdir -p /usr/libexec/ccache-wrappers && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/c++ && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index cbb909d02b3..fde6a036263 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -1,6 +1,6 @@
+ # THIS FILE WAS AUTO-GENERATED
+ #
+-#  $ lcitool dockerfile centos-8 qemu
++#  $ lcitool dockerfile --layers all centos-8 qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
+ 
+@@ -69,7 +69,6 @@ RUN dnf update -y && \
+         libssh-devel \
+         libtasn1-devel \
+         libubsan \
+-        libudev-devel \
+         liburing-devel \
+         libusbx-devel \
+         libxml2-devel \
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 60207f3da38..82f504e40d6 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -1,6 +1,6 @@
+ # THIS FILE WAS AUTO-GENERATED
+ #
+-#  $ lcitool dockerfile fedora-35 qemu
++#  $ lcitool dockerfile --layers all fedora-35 qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
+ 
+@@ -77,7 +77,6 @@ exec "$@"' > /usr/bin/nosync && \
+         libssh-devel \
+         libtasn1-devel \
+         libubsan \
+-        libudev-devel \
+         liburing-devel \
+         libusbx-devel \
+         libxml2-devel \
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
+index f57d8cfb299..30e7038148a 100644
+--- a/tests/docker/dockerfiles/opensuse-leap.docker
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -1,6 +1,6 @@
+ # THIS FILE WAS AUTO-GENERATED
+ #
+-#  $ lcitool dockerfile opensuse-leap-152 qemu
++#  $ lcitool dockerfile --layers all opensuse-leap-152 qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
+ 
+diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+index 0ffa3c4d4b5..4ea272d143b 100644
+--- a/tests/docker/dockerfiles/ubuntu1804.docker
++++ b/tests/docker/dockerfiles/ubuntu1804.docker
+@@ -1,6 +1,6 @@
+ # THIS FILE WAS AUTO-GENERATED
+ #
+-#  $ lcitool dockerfile ubuntu-1804 qemu
++#  $ lcitool dockerfile --layers all ubuntu-1804 qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
+ 
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index 4e562dfdcd3..90988b2bc53 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -1,6 +1,6 @@
+ # THIS FILE WAS AUTO-GENERATED
+ #
+-#  $ lcitool dockerfile ubuntu-2004 qemu
++#  $ lcitool dockerfile --layers all ubuntu-2004 qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
+ 
+diff --git a/tests/lcitool/libvirt-ci b/tests/lcitool/libvirt-ci
+index 29cec2153b9..226c178a2a1 160000
+--- a/tests/lcitool/libvirt-ci
++++ b/tests/lcitool/libvirt-ci
+@@ -1 +1 @@
+-Subproject commit 29cec2153b9a4dbb2e66f1cbc9866a4eff519cfd
++Subproject commit 226c178a2a1f077d7ee371680cc649c1591b0457
 -- 
 2.34.1
 
