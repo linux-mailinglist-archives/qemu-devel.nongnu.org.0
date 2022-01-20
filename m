@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 924584954CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 20:17:28 +0100 (CET)
-Received: from localhost ([::1]:54676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E2D14954DE
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 20:28:14 +0100 (CET)
+Received: from localhost ([::1]:35242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAcw3-0005je-5t
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 14:17:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43008)
+	id 1nAd6T-0003jO-2T
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 14:28:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAWgi-0004JI-MY
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:37:14 -0500
-Received: from [2a00:1450:4864:20::32b] (port=40952
+ id 1nAWgr-0004OL-1R
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:37:21 -0500
+Received: from [2a00:1450:4864:20::32b] (port=39742
  helo=mail-wm1-x32b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAWgZ-0003IX-Ab
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:37:06 -0500
+ id 1nAWgp-0003Lg-4Y
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:37:20 -0500
 Received: by mail-wm1-x32b.google.com with SMTP id
- r9-20020a1c4409000000b0034e043aaac7so477796wma.5
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 04:37:02 -0800 (PST)
+ o1-20020a1c4d01000000b0034d95625e1fso7095139wmh.4
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 04:37:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=TVpyhUb/uqMHor++qPKwohsK4EfXn5eG3Z8q9ZVcGMk=;
- b=J9f/B6uRKTN4HtXgVYgvVmL6u4oGVSk6Zo6mMn/bRHq86zAOWp164JDJfrlaimI2m6
- JvhCS8dnYeT0jq2TSxAoYPKQ5HgHyBlIOWwb8A3tFzGSlEgyKzOG0wzReDwS2fdxltcG
- R6CR5iVoYe7dE/VtRL33Itb3obtybfPpi5dyVfS1CKuSAan2q4C+P4dsRDgWXmcQI3uA
- MOeR84ULbb0CHKAPIXDbBj29kPfKxvuyepTGUYNRmXMyqFteN4wiER3R7OJzyz7Ylo4R
- 4TNc68DdS49paOfggmYErFI6BrAF1gFtpkP65hNd7GHal1e3FDRq7hNclgQLvGgCrvIx
- UytA==
+ bh=Ja/e/QQhMRKCgDYJ7X1qYQSfnXtQJx0WGC51Wae/Efc=;
+ b=LKJ9m4KZnWeJNJ876466maCrRm9VvyTBxX5PEj/p6preshrd3kl4tzmUlLUaOuL0oY
+ WbZz8GTGexpn/H9w8AFPV7M0MVey0N7r77XOoMd/o/QPBsXJodMd/FAdC+PNACVSpb8d
+ v9RURKvkEDgkixIaYq8XnwiOeQ1703C1BhsL8pc5frgy0b3DIv1aL3mJ2b1UNH36Rmbq
+ hnspHHTz2iRgmQZhs23Pgv9mq/OWNczvlqCC/Srw/0zE1AcBBBz3ooUVi8KXq/mnA1CC
+ fpqgBGAWNI/nv4TXfNnwCTednOzoPuZNLicMY+Jg20d6vUbcV8NAY+do9lYMJZ/ObU1e
+ zdFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TVpyhUb/uqMHor++qPKwohsK4EfXn5eG3Z8q9ZVcGMk=;
- b=kezpMdHMqRsPWkkKFCKC+J911h8wXPo0CVrj8RySY/bUk+6i3e29HWW3o7Jostcl0B
- DagB/ocjA7Rpz4Qc+a+eS6c7QpJ4Ik/7NXXSvIPwbU0YTF9po8om7bXRiUH7EWTMrroJ
- P7y5KoRiH0aepZOugr/dQ6uE2h1XxZQA20X6vfGyiRj98cJwcKv61HjyGWgtqpjUcqmp
- A7XVOsLun/tEMVg62eOyP0LKM69zccDkoDVxRuIzBBBihUK8x+DV2gGot+VDyr6kobze
- c6ign2S8T/6oC26ZvsybQKDMadXmOeqDI3mNZHVqN6f8ZOpHGo8OlaqUltgaOR7JL069
- j1BQ==
-X-Gm-Message-State: AOAM531XdLP8LDa0qYn39ldanvFwa3VcX3VLa9Em3IL0m4gvQedIn6nl
- OEX4RXJ1OUSyTvOgZIJ/HA+ci7GABav39g==
-X-Google-Smtp-Source: ABdhPJwtmsuVBv4Cwuy1EzbI5Oc7qsg62PxNqqP2sjx6iihjuPyzCeeKF7UEAx3j8QSU9zWaKft9qw==
-X-Received: by 2002:a05:6000:1862:: with SMTP id
- d2mr32983476wri.211.1642682221131; 
- Thu, 20 Jan 2022 04:37:01 -0800 (PST)
+ bh=Ja/e/QQhMRKCgDYJ7X1qYQSfnXtQJx0WGC51Wae/Efc=;
+ b=OjxRkXC6uw+J3tJANydOzTDT6384wEGWSAHl5nKQhyzf68k2ckKzsAvBjwAhaB6RFN
+ 4y+2DMQ0t5x/Ei5ZIuIJu/uE8MKKKtrMf1rKy7ELM8KakiTlRS2D+bpUbZLLaeEiwRuB
+ N3PsIPIdow+Q39pAvvCCRsMJN7on1YNcV9pDKzVz7EFkkXLVX8TiSGHGSTRDOg98BeCM
+ v3Db104uuwPGZDyBlItps4XwK9dlYmot1wSwlE1P67wNFBM3a3ry0yXo6NGVZRZ00wO2
+ /X9hVSBUGaRkG+42Am5qpB/WVfYMdJnrOWzxcKE4A1nnJtAefLqUA1GHG1utgiCjLjKR
+ wu3g==
+X-Gm-Message-State: AOAM533ijRg2Hq02Qz9VkWZ/+/3hd6L9pcg1sRuFCk6Kqtwn74ZnpWIE
+ +3GZuoYa+UxFjNCbK5e7hpDwlwZrq4vVCg==
+X-Google-Smtp-Source: ABdhPJxoAL5b+wsChekRmKo1pgpQ0L1ROaPw7VIWBzBjmeCiTYfi0eV/vqJjFVWKY87Pt1ObezN2Rg==
+X-Received: by 2002:a5d:4b07:: with SMTP id v7mr9426329wrq.48.1642682237856;
+ Thu, 20 Jan 2022 04:37:17 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id t8sm7993324wmq.43.2022.01.20.04.37.00
+ by smtp.gmail.com with ESMTPSA id t8sm7993324wmq.43.2022.01.20.04.37.09
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 04:37:00 -0800 (PST)
+ Thu, 20 Jan 2022 04:37:11 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/38] hw/arm/aspeed: Add the i3c device to the AST2600 SoC
-Date: Thu, 20 Jan 2022 12:36:16 +0000
-Message-Id: <20220120123630.267975-25-peter.maydell@linaro.org>
+Subject: [PULL 35/38] hw/intc/arm_gicv3_its: Factor out "find address of table
+ entry" code
+Date: Thu, 20 Jan 2022 12:36:27 +0000
+Message-Id: <20220120123630.267975-36-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220120123630.267975-1-peter.maydell@linaro.org>
 References: <20220120123630.267975-1-peter.maydell@linaro.org>
@@ -92,98 +92,308 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Troy Lee <troy_lee@aspeedtech.com>
+The ITS has several tables which all share a similar format,
+described by the TableDesc struct: the guest may configure them
+to be a single-level table or a two-level table. Currently we
+open-code the process of finding the table entry in all the
+functions which read or write the device table or the collection
+table. Factor out the "get the address of the table entry"
+logic into a new function, so that the code which needs to
+read or write a table entry only needs to call table_entry_addr()
+and then perform a suitable load or store to that address.
 
-Add the new i3c device to the AST2600 SoC.
+Note that the error handling is slightly complicated because
+we want to handle two cases differently:
+ * failure to read the L1 table entry should end up causing
+   a command stall, like other kinds of DMA error
+ * an L1 table entry that says there is no L2 table for this
+   index (ie whose valid bit is 0) must result in us treating
+   the table entry as not-valid on read, and discarding
+   writes (this is mandated by the spec)
 
-Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
-Reviewed-by: Graeme Gregory <quic_ggregory@quicinc.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Tested-by: Graeme Gregory <quic_ggregory@quicinc.com>
-Message-id: 20220111084546.4145785-3-troy_lee@aspeedtech.com
-[PMM: tidied commit message]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-id: 20220111171048.3545974-12-peter.maydell@linaro.org
 ---
- include/hw/arm/aspeed_soc.h |  3 +++
- hw/arm/aspeed_ast2600.c     | 16 ++++++++++++++++
- 2 files changed, 19 insertions(+)
+ hw/intc/arm_gicv3_its.c | 212 +++++++++++++---------------------------
+ 1 file changed, 70 insertions(+), 142 deletions(-)
 
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index 18fb7eed461..cae9906684c 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -21,6 +21,7 @@
- #include "hw/timer/aspeed_timer.h"
- #include "hw/rtc/aspeed_rtc.h"
- #include "hw/i2c/aspeed_i2c.h"
-+#include "hw/misc/aspeed_i3c.h"
- #include "hw/ssi/aspeed_smc.h"
- #include "hw/misc/aspeed_hace.h"
- #include "hw/watchdog/wdt_aspeed.h"
-@@ -51,6 +52,7 @@ struct AspeedSoCState {
-     AspeedRtcState rtc;
-     AspeedTimerCtrlState timerctrl;
-     AspeedI2CState i2c;
-+    AspeedI3CState i3c;
-     AspeedSCUState scu;
-     AspeedHACEState hace;
-     AspeedXDMAState xdma;
-@@ -141,6 +143,7 @@ enum {
-     ASPEED_DEV_HACE,
-     ASPEED_DEV_DPMCU,
-     ASPEED_DEV_DP,
-+    ASPEED_DEV_I3C,
- };
+diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
+index 917201c148f..985e316eda9 100644
+--- a/hw/intc/arm_gicv3_its.c
++++ b/hw/intc/arm_gicv3_its.c
+@@ -83,44 +83,62 @@ static uint64_t baser_base_addr(uint64_t value, uint32_t page_sz)
+     return result;
+ }
  
- #endif /* ASPEED_SOC_H */
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index e33483fb5dd..8f37bdb1d87 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -61,6 +61,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
-     [ASPEED_DEV_UART1]     = 0x1E783000,
-     [ASPEED_DEV_UART5]     = 0x1E784000,
-     [ASPEED_DEV_VUART]     = 0x1E787000,
-+    [ASPEED_DEV_I3C]       = 0x1E7A0000,
-     [ASPEED_DEV_SDRAM]     = 0x80000000,
- };
- 
-@@ -108,6 +109,7 @@ static const int aspeed_soc_ast2600_irqmap[] = {
-     [ASPEED_DEV_ETH4]      = 33,
-     [ASPEED_DEV_KCS]       = 138,   /* 138 -> 142 */
-     [ASPEED_DEV_DP]        = 62,
-+    [ASPEED_DEV_I3C]       = 102,   /* 102 -> 107 */
- };
- 
- static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
-@@ -223,6 +225,8 @@ static void aspeed_soc_ast2600_init(Object *obj)
- 
-     snprintf(typename, sizeof(typename), "aspeed.hace-%s", socname);
-     object_initialize_child(obj, "hace", &s->hace, typename);
++static uint64_t table_entry_addr(GICv3ITSState *s, TableDesc *td,
++                                 uint32_t idx, MemTxResult *res)
++{
++    /*
++     * Given a TableDesc describing one of the ITS in-guest-memory
++     * tables and an index into it, return the guest address
++     * corresponding to that table entry.
++     * If there was a memory error reading the L1 table of an
++     * indirect table, *res is set accordingly, and we return -1.
++     * If the L1 table entry is marked not valid, we return -1 with
++     * *res set to MEMTX_OK.
++     *
++     * The specification defines the format of level 1 entries of a
++     * 2-level table, but the format of level 2 entries and the format
++     * of flat-mapped tables is IMPDEF.
++     */
++    AddressSpace *as = &s->gicv3->dma_as;
++    uint32_t l2idx;
++    uint64_t l2;
++    uint32_t num_l2_entries;
 +
-+    object_initialize_child(obj, "i3c", &s->i3c, TYPE_ASPEED_I3C);
++    *res = MEMTX_OK;
++
++    if (!td->indirect) {
++        /* Single level table */
++        return td->base_addr + idx * td->entry_sz;
++    }
++
++    /* Two level table */
++    l2idx = idx / (td->page_sz / L1TABLE_ENTRY_SIZE);
++
++    l2 = address_space_ldq_le(as,
++                              td->base_addr + (l2idx * L1TABLE_ENTRY_SIZE),
++                              MEMTXATTRS_UNSPECIFIED, res);
++    if (*res != MEMTX_OK) {
++        return -1;
++    }
++    if (!(l2 & L2_TABLE_VALID_MASK)) {
++        return -1;
++    }
++
++    num_l2_entries = td->page_sz / td->entry_sz;
++    return (l2 & ((1ULL << 51) - 1)) + (idx % num_l2_entries) * td->entry_sz;
++}
++
+ static bool get_cte(GICv3ITSState *s, uint16_t icid, uint64_t *cte,
+                     MemTxResult *res)
+ {
+     AddressSpace *as = &s->gicv3->dma_as;
+-    uint64_t l2t_addr;
+-    uint64_t value;
+-    bool valid_l2t;
+-    uint32_t l2t_id;
+-    uint32_t num_l2_entries;
++    uint64_t entry_addr = table_entry_addr(s, &s->ct, icid, res);
+ 
+-    if (s->ct.indirect) {
+-        l2t_id = icid / (s->ct.page_sz / L1TABLE_ENTRY_SIZE);
+-
+-        value = address_space_ldq_le(as,
+-                                     s->ct.base_addr +
+-                                     (l2t_id * L1TABLE_ENTRY_SIZE),
+-                                     MEMTXATTRS_UNSPECIFIED, res);
+-
+-        if (*res == MEMTX_OK) {
+-            valid_l2t = (value & L2_TABLE_VALID_MASK) != 0;
+-
+-            if (valid_l2t) {
+-                num_l2_entries = s->ct.page_sz / s->ct.entry_sz;
+-
+-                l2t_addr = value & ((1ULL << 51) - 1);
+-
+-                *cte =  address_space_ldq_le(as, l2t_addr +
+-                                    ((icid % num_l2_entries) * GITS_CTE_SIZE),
+-                                    MEMTXATTRS_UNSPECIFIED, res);
+-           }
+-       }
+-    } else {
+-        /* Flat level table */
+-        *cte =  address_space_ldq_le(as, s->ct.base_addr +
+-                                     (icid * GITS_CTE_SIZE),
+-                                      MEMTXATTRS_UNSPECIFIED, res);
++    if (entry_addr == -1) {
++        return false; /* not valid */
+     }
+ 
++    *cte = address_space_ldq_le(as, entry_addr, MEMTXATTRS_UNSPECIFIED, res);
+     return FIELD_EX64(*cte, CTE, VALID);
+ }
+ 
+@@ -189,41 +207,12 @@ static bool get_ite(GICv3ITSState *s, uint32_t eventid, uint64_t dte,
+ static uint64_t get_dte(GICv3ITSState *s, uint32_t devid, MemTxResult *res)
+ {
+     AddressSpace *as = &s->gicv3->dma_as;
+-    uint64_t l2t_addr;
+-    uint64_t value;
+-    bool valid_l2t;
+-    uint32_t l2t_id;
+-    uint32_t num_l2_entries;
++    uint64_t entry_addr = table_entry_addr(s, &s->dt, devid, res);
+ 
+-    if (s->dt.indirect) {
+-        l2t_id = devid / (s->dt.page_sz / L1TABLE_ENTRY_SIZE);
+-
+-        value = address_space_ldq_le(as,
+-                                     s->dt.base_addr +
+-                                     (l2t_id * L1TABLE_ENTRY_SIZE),
+-                                     MEMTXATTRS_UNSPECIFIED, res);
+-
+-        if (*res == MEMTX_OK) {
+-            valid_l2t = (value & L2_TABLE_VALID_MASK) != 0;
+-
+-            if (valid_l2t) {
+-                num_l2_entries = s->dt.page_sz / s->dt.entry_sz;
+-
+-                l2t_addr = value & ((1ULL << 51) - 1);
+-
+-                value =  address_space_ldq_le(as, l2t_addr +
+-                                   ((devid % num_l2_entries) * GITS_DTE_SIZE),
+-                                   MEMTXATTRS_UNSPECIFIED, res);
+-            }
+-        }
+-    } else {
+-        /* Flat level table */
+-        value = address_space_ldq_le(as, s->dt.base_addr +
+-                                     (devid * GITS_DTE_SIZE),
+-                                     MEMTXATTRS_UNSPECIFIED, res);
++    if (entry_addr == -1) {
++        return 0; /* a DTE entry with the Valid bit clear */
+     }
+-
+-    return value;
++    return address_space_ldq_le(as, entry_addr, MEMTXATTRS_UNSPECIFIED, res);
  }
  
  /*
-@@ -523,6 +527,18 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->hace), 0, sc->memmap[ASPEED_DEV_HACE]);
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->hace), 0,
-                        aspeed_soc_get_irq(s, ASPEED_DEV_HACE));
+@@ -426,11 +415,7 @@ static bool update_cte(GICv3ITSState *s, uint16_t icid, bool valid,
+                        uint64_t rdbase)
+ {
+     AddressSpace *as = &s->gicv3->dma_as;
+-    uint64_t value;
+-    uint64_t l2t_addr;
+-    bool valid_l2t;
+-    uint32_t l2t_id;
+-    uint32_t num_l2_entries;
++    uint64_t entry_addr;
+     uint64_t cte = 0;
+     MemTxResult res = MEMTX_OK;
+ 
+@@ -444,44 +429,18 @@ static bool update_cte(GICv3ITSState *s, uint16_t icid, bool valid,
+         cte = FIELD_DP64(cte, CTE, RDBASE, rdbase);
+     }
+ 
+-    /*
+-     * The specification defines the format of level 1 entries of a
+-     * 2-level table, but the format of level 2 entries and the format
+-     * of flat-mapped tables is IMPDEF.
+-     */
+-    if (s->ct.indirect) {
+-        l2t_id = icid / (s->ct.page_sz / L1TABLE_ENTRY_SIZE);
+-
+-        value = address_space_ldq_le(as,
+-                                     s->ct.base_addr +
+-                                     (l2t_id * L1TABLE_ENTRY_SIZE),
+-                                     MEMTXATTRS_UNSPECIFIED, &res);
+-
+-        if (res != MEMTX_OK) {
+-            return false;
+-        }
+-
+-        valid_l2t = (value & L2_TABLE_VALID_MASK) != 0;
+-
+-        if (valid_l2t) {
+-            num_l2_entries = s->ct.page_sz / s->ct.entry_sz;
+-
+-            l2t_addr = value & ((1ULL << 51) - 1);
+-
+-            address_space_stq_le(as, l2t_addr +
+-                                 ((icid % num_l2_entries) * GITS_CTE_SIZE),
+-                                 cte, MEMTXATTRS_UNSPECIFIED, &res);
+-        }
+-    } else {
+-        /* Flat level table */
+-        address_space_stq_le(as, s->ct.base_addr + (icid * GITS_CTE_SIZE),
+-                             cte, MEMTXATTRS_UNSPECIFIED, &res);
+-    }
++    entry_addr = table_entry_addr(s, &s->ct, icid, &res);
+     if (res != MEMTX_OK) {
++        /* memory access error: stall */
+         return false;
+-    } else {
++    }
++    if (entry_addr == -1) {
++        /* No L2 table for this index: discard write and continue */
+         return true;
+     }
 +
-+    /* I3C */
-+    if (!sysbus_realize(SYS_BUS_DEVICE(&s->i3c), errp)) {
-+        return;
-+    }
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i3c), 0, sc->memmap[ASPEED_DEV_I3C]);
-+    for (i = 0; i < ASPEED_I3C_NR_DEVICES; i++) {
-+        qemu_irq irq = qdev_get_gpio_in(DEVICE(&s->a7mpcore),
-+                                        sc->irqmap[ASPEED_DEV_I3C] + i);
-+        /* The AST2600 I3C controller has one IRQ per bus. */
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->i3c.devices[i]), 0, irq);
-+    }
++    address_space_stq_le(as, entry_addr, cte, MEMTXATTRS_UNSPECIFIED, &res);
++    return res == MEMTX_OK;
  }
  
- static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
+ static ItsCmdResult process_mapc(GICv3ITSState *s, uint32_t offset)
+@@ -529,11 +488,7 @@ static bool update_dte(GICv3ITSState *s, uint32_t devid, bool valid,
+                        uint8_t size, uint64_t itt_addr)
+ {
+     AddressSpace *as = &s->gicv3->dma_as;
+-    uint64_t value;
+-    uint64_t l2t_addr;
+-    bool valid_l2t;
+-    uint32_t l2t_id;
+-    uint32_t num_l2_entries;
++    uint64_t entry_addr;
+     uint64_t dte = 0;
+     MemTxResult res = MEMTX_OK;
+ 
+@@ -548,44 +503,17 @@ static bool update_dte(GICv3ITSState *s, uint32_t devid, bool valid,
+         return true;
+     }
+ 
+-    /*
+-     * The specification defines the format of level 1 entries of a
+-     * 2-level table, but the format of level 2 entries and the format
+-     * of flat-mapped tables is IMPDEF.
+-     */
+-    if (s->dt.indirect) {
+-        l2t_id = devid / (s->dt.page_sz / L1TABLE_ENTRY_SIZE);
+-
+-        value = address_space_ldq_le(as,
+-                                     s->dt.base_addr +
+-                                     (l2t_id * L1TABLE_ENTRY_SIZE),
+-                                     MEMTXATTRS_UNSPECIFIED, &res);
+-
+-        if (res != MEMTX_OK) {
+-            return false;
+-        }
+-
+-        valid_l2t = (value & L2_TABLE_VALID_MASK) != 0;
+-
+-        if (valid_l2t) {
+-            num_l2_entries = s->dt.page_sz / s->dt.entry_sz;
+-
+-            l2t_addr = value & ((1ULL << 51) - 1);
+-
+-            address_space_stq_le(as, l2t_addr +
+-                                 ((devid % num_l2_entries) * GITS_DTE_SIZE),
+-                                 dte, MEMTXATTRS_UNSPECIFIED, &res);
+-        }
+-    } else {
+-        /* Flat level table */
+-        address_space_stq_le(as, s->dt.base_addr + (devid * GITS_DTE_SIZE),
+-                             dte, MEMTXATTRS_UNSPECIFIED, &res);
+-    }
++    entry_addr = table_entry_addr(s, &s->dt, devid, &res);
+     if (res != MEMTX_OK) {
++        /* memory access error: stall */
+         return false;
+-    } else {
++    }
++    if (entry_addr == -1) {
++        /* No L2 table for this index: discard write and continue */
+         return true;
+     }
++    address_space_stq_le(as, entry_addr, dte, MEMTXATTRS_UNSPECIFIED, &res);
++    return res == MEMTX_OK;
+ }
+ 
+ static ItsCmdResult process_mapd(GICv3ITSState *s, uint64_t value,
 -- 
 2.25.1
 
