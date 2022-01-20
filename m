@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83C69494ABB
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 10:28:59 +0100 (CET)
-Received: from localhost ([::1]:44702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D80B4494B1C
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 10:52:49 +0100 (CET)
+Received: from localhost ([::1]:32976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nATkY-0001ET-4C
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 04:28:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59616)
+	id 1nAU7a-0005hA-R6
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 04:52:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nASvc-0006VA-SV
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nASve-0006VJ-9Z
  for qemu-devel@nongnu.org; Thu, 20 Jan 2022 03:36:22 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:43839)
+Received: from mout.kundenserver.de ([212.227.126.187]:34099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nASva-0001f0-Rw
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 03:36:20 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nASvb-0001eX-7M
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 03:36:21 -0500
 Received: from quad ([82.142.13.186]) by mrelayeu.kundenserver.de (mreue009
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MGi6k-1n6dA12Uqo-00DqdV; Thu, 20
- Jan 2022 09:36:11 +0100
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MBUuV-1n0rT90sUJ-00Czga; Thu, 20
+ Jan 2022 09:36:12 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/3] hw/elf_ops: clear uninitialized segment space
-Date: Thu, 20 Jan 2022 09:36:06 +0100
-Message-Id: <20220120083607.1672319-3-laurent@vivier.eu>
+Subject: [PULL 3/3] m68k: virt: correctly set the initial PC
+Date: Thu, 20 Jan 2022 09:36:07 +0100
+Message-Id: <20220120083607.1672319-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220120083607.1672319-1-laurent@vivier.eu>
 References: <20220120083607.1672319-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:oxSlAxUUbMOXEdTjbjigochLRZi6wOTFcGg0J6OPfGNKDwWnDop
- Y/23BdoF0iaQpCxFFNU30l3/TWxztDD3klOVvsxZrcP7hUv+671s8a4AuCC9p0loA60IEIN
- lnFw9t8NFB3tfXJfXqNsqCylBOfoO0gROdd4+lu+eCF+5KtrD+khvxZxF4hZ/+SB+zEdf9Q
- vPzEXjNh8VfMksM9BeYoQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9N9+Xl8nSiA=:/iXEumih70kVjKCtS+wSbJ
- w6K3ptZyA3SdPE3+cl4qRfxBjMDTT3t89p1z5kTmjZ4YtnxAM9cA5iyZ5OcZyPT43LOpzjn5h
- U3NuX+E93twD5X0IxYT4n7QFi708L96DMfgzFb+xa/94hUsLJEavbrvo5IameN/94SC2Ip0hM
- K9MOy/3H2jcUF8ZwCGVnbCy+lVmhcjhURrLzDPLtL2jmAuWZuzheH38a8bHMNVYBPCSQfZwHQ
- uWLjSe4XdD6VF3lQN3zzuVeZfB08J82ismZI3tokvlPyeXy0zfIGvx4zVoOTDxOExs5Zz64XR
- g36Hsu85kDSgxV76exSnbq42lgqRhf2P+WVnYp97WAQkV9qpC4mRLQk6Y0Xu+ikQe3nOw8pyr
- Quh+6sD6T0qhmuq1rQSc0d1kOC0LaTClrMibZsUhDH3/dGNhthDMRyfmv7u0BWQcsBauDkXFk
- 3XXmRPbADTNNCKRlEti/hk7LxJbyTP5kEs2ZSseQKW5RNTOBMheKzb/RkhRsSXsOF3F3Cz2iF
- hRrOxo7sjPOTFvsZCV+dpTtRFLi6e564f0kOJLrepYV5Ozz0MvYjV10c8x3rc2HGBfM3bYhwr
- uUW2eexXRCFifuN93Rs4Kve8T2okz1eUactnGRYJ01q+Y2NgrDLC8o1Ixci/7GBwuqwcBIxCA
- ZBxDPpkL7wWdYKlQ9G3KJMw3uU2IqjVeaQ4S2zvWyCO2BPTOas3hKpvHOWHYjkeu1rRA=
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:mpLr6PiZmsJlecnnqac9h4/jR0Hp12BnwW6zhRCSZId2tiu9idn
+ 48ZqxWgpUm5r30h+dK51XHOguz9ahShBGfKrud7YnajNLCvokLZwYarJ/pWYYZUV9Z5SH7d
+ FqTucM9zRtsonI0kY1vX9Y0lNInTohboQk/vlHKIn1E3vd8+JUigBC5auZYlQJMEPTLnkyh
+ whCEVCoxsJspdYCd1rqCQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:CGJ7NzeoXbE=:yGBWzN9Xxmfu0rVDiZlLg6
+ XUFHSIgCdY0LsxzI4YQ0cv0EycQN1DoSLgkzmGBvA7nm8LM5cYdwvroIOtyKEqAxJA28F2q7U
+ SO7RsGyW2C3e3MzGrDVwbMvZdoA5oxb5Nxd/AxoPGUo5pwiwBJ7y3qr07UwLtolG8zxPCw2jw
+ GCslYq4z8CIeob2jU5E7UIs3de3cIkGrhuw9y5lcve4tIneBMyWQASznhQp9XDauoWeK2H1UL
+ KuGgsaUkUbxvTVS1n2r/QxgbSANI0vlGjlqXJTBxIAWM0xR0WBcQN8GBmNixhp9oEjqi3uelm
+ Gr76dCnvvr37G5h589oR2IvGfK9V6Nyp6MOvnZX7J51FbHaco7VtSi9mEiAIiGPITdDGCNO4n
+ WZCjmc7y7+OE7aytK1RLHmAfWfn3XpjfsiH3alz+L9EhkSa26yOoG6yyHKLhDnOAbkhS+vwTT
+ OD/GCa6stgNf8kS+LCQ5OWdTYNfCbliRKK6MsF7L3upCOP5w/FoSdpTnhNJctjdomAV1Wt1Gy
+ Vp6bFv336+cF0MtL/U6Z77KQ3k06wjHZUYJ2uWBI4JyhqM7XyU9rs6gjIVbzxlYRRrEkL92jM
+ 5wLTJpXggk+ob97Eq10GyIB57Ro7+bZTM5zn5pEtU/nR1WE3C+SuxdGm3IE8US52tetyph5QC
+ yw0ZjlEtOSS54z73KQ0i74qFM3ljwYMeM28TFmr+JE9FDubzB/X2G2WWkyUYkLTOuBBE=
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,78 +65,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>, Peter Xu <peterx@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the mem_size of the segment is bigger than the file_size,
-and if this space doesn't overlap another segment, it needs
-to be cleared.
-
-This bug is very similar to the one we had for linux-user,
-22d113b52f41 ("linux-user: Fix loading of BSS segments"),
-where .bss section is encoded as an extension of the the data
-one by setting the segment p_memsz > p_filesz.
+According to QEMU parameter, set initial PC to the entry of
+the loaded kernel.
 
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-[PMD: Use recently added address_space_set()]
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220115203725.3834712-3-laurent@vivier.eu>
+Message-Id: <20220115203725.3834712-4-laurent@vivier.eu>
 ---
- include/hw/elf_ops.h | 13 +++++++++++++
- hw/core/loader.c     |  4 ++++
- 2 files changed, 17 insertions(+)
+ hw/m68k/virt.c | 22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
-index 995de8495c27..7c3b1d0f6cc5 100644
---- a/include/hw/elf_ops.h
-+++ b/include/hw/elf_ops.h
-@@ -555,6 +555,19 @@ static ssize_t glue(load_elf, SZ)(const char *name, int fd,
-                     if (res != MEMTX_OK) {
-                         goto fail;
-                     }
-+                    /*
-+                     * We need to zero'ify the space that is not copied
-+                     * from file
-+                     */
-+                    if (file_size < mem_size) {
-+                        res = address_space_set(as ? as : &address_space_memory,
-+                                                addr + file_size, 0,
-+                                                mem_size - file_size,
-+                                                MEMTXATTRS_UNSPECIFIED);
-+                        if (res != MEMTX_OK) {
-+                            goto fail;
-+                        }
-+                    }
-                 }
-             }
+diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+index 78e926a55457..bbaf630bbf20 100644
+--- a/hw/m68k/virt.c
++++ b/hw/m68k/virt.c
+@@ -85,14 +85,21 @@
+ #define VIRT_VIRTIO_MMIO_BASE 0xff010000     /* MMIO: 0xff010000 - 0xff01ffff */
+ #define VIRT_VIRTIO_IRQ_BASE  PIC_IRQ(2, 1)  /* PIC: 2, 3, 4, 5, IRQ: ALL */
  
-diff --git a/hw/core/loader.c b/hw/core/loader.c
-index 052a0fd7198b..19edb928e999 100644
---- a/hw/core/loader.c
-+++ b/hw/core/loader.c
-@@ -1164,9 +1164,13 @@ static void rom_reset(void *unused)
-         if (rom->mr) {
-             void *host = memory_region_get_ram_ptr(rom->mr);
-             memcpy(host, rom->data, rom->datasize);
-+            memset(host + rom->datasize, 0, rom->romsize - rom->datasize);
-         } else {
-             address_space_write_rom(rom->as, rom->addr, MEMTXATTRS_UNSPECIFIED,
-                                     rom->data, rom->datasize);
-+            address_space_set(rom->as, rom->addr + rom->datasize, 0,
-+                              rom->romsize - rom->datasize,
-+                              MEMTXATTRS_UNSPECIFIED);
++typedef struct {
++    M68kCPU *cpu;
++    hwaddr initial_pc;
++    hwaddr initial_stack;
++} ResetInfo;
++
+ static void main_cpu_reset(void *opaque)
+ {
+-    M68kCPU *cpu = opaque;
++    ResetInfo *reset_info = opaque;
++    M68kCPU *cpu = reset_info->cpu;
+     CPUState *cs = CPU(cpu);
+ 
+     cpu_reset(cs);
+-    cpu->env.aregs[7] = ldl_phys(cs->as, 0);
+-    cpu->env.pc = ldl_phys(cs->as, 4);
++    cpu->env.aregs[7] = reset_info->initial_stack;
++    cpu->env.pc = reset_info->initial_pc;
+ }
+ 
+ static void virt_init(MachineState *machine)
+@@ -113,6 +120,7 @@ static void virt_init(MachineState *machine)
+     SysBusDevice *sysbus;
+     hwaddr io_base;
+     int i;
++    ResetInfo *reset_info;
+ 
+     if (ram_size > 3399672 * KiB) {
+         /*
+@@ -124,9 +132,13 @@ static void virt_init(MachineState *machine)
+         exit(1);
+     }
+ 
++    reset_info = g_malloc0(sizeof(ResetInfo));
++
+     /* init CPUs */
+     cpu = M68K_CPU(cpu_create(machine->cpu_type));
+-    qemu_register_reset(main_cpu_reset, cpu);
++
++    reset_info->cpu = cpu;
++    qemu_register_reset(main_cpu_reset, reset_info);
+ 
+     /* RAM */
+     memory_region_add_subregion(get_system_memory(), 0, machine->ram);
+@@ -206,7 +218,7 @@ static void virt_init(MachineState *machine)
+             error_report("could not load kernel '%s'", kernel_filename);
+             exit(1);
          }
-         if (rom->isrom) {
-             /* rom needs to be written only once */
+-        stl_phys(cs->as, 4, elf_entry); /* reset initial PC */
++        reset_info->initial_pc = elf_entry;
+         parameters_base = (high + 1) & ~1;
+ 
+         BOOTINFO1(cs->as, parameters_base, BI_MACHTYPE, MACH_VIRT);
 -- 
 2.34.1
 
