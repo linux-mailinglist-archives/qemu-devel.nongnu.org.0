@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7A1849543E
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 19:34:50 +0100 (CET)
-Received: from localhost ([::1]:54100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CD7C49537F
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 18:46:47 +0100 (CET)
+Received: from localhost ([::1]:44838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAcGn-0001P9-AK
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 13:34:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43000)
+	id 1nAbWH-00067A-RU
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 12:46:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAWgi-0004JE-MO
+ id 1nAWgi-0004JH-M9
  for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:37:14 -0500
-Received: from [2a00:1450:4864:20::331] (port=39742
- helo=mail-wm1-x331.google.com)
+Received: from [2a00:1450:4864:20::334] (port=40449
+ helo=mail-wm1-x334.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAWgZ-0003If-Vf
+ id 1nAWga-0003Il-Ju
  for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:37:06 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- o1-20020a1c4d01000000b0034d95625e1fso7093441wmh.4
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 04:37:02 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id
+ r9-20020a1c4409000000b0034e043aaac7so477930wma.5
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 04:37:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=7ld23nK8ASvRkvHvhF0mF43an93w9LT5/+5RX+ASHV8=;
- b=UkCm0ouCWr1ircHMZxZt1SqEXs3CvnwnMiwtFBTjAUwkJcDIPhiqqT1o610KED6R63
- Zl4gXo6wW/2czneIOU1xEUBy5o/CKgFERY0cf4xyZrR5D9gDOZf9OEI86Evzy4v7f3Li
- 51bX2f6TXHYPZ8xtRit5apxYY5jep8MnQPp1ASkkZefKnV6sKAxq35iG4Tg7f4LW1cIp
- uJrVVm5GyQWfkfz6HKAmalSw4muKHvpXVj0L8glSahSS3WexVr5qOyT5fDPFWThaLbe+
- JLsUiu71NUcSOWVR0Uh7LbvysM2BJ5GDMtNYJiC6s3AIWEHlPTqqmQC4jpfDEwPJJzFZ
- O74Q==
+ bh=kfluiZ0u1w9XcLTmFHm1aya7StmZrmXWSd/9Nb9SfiY=;
+ b=AnwKOU7/KTCoE78/RqmC4FNCN1OzT/hJHB4pdBzoz3k/Ddl8JCrdKOxocsdnpNQlv2
+ /JtyafrjzUBSmr8rE6RIJcGyxo0JHmQ2kXYWTBoUbWKSuEN33yeZXxEBAK7NNNnU3tlT
+ K5RmlLxYhZ5xye3V/FS6w2Gbyx4QsxPya7uJmgph+EfhQMinAD2iFS3wUsklNfC9kZXL
+ 7ypOaMMgsDDL0U6gGqG9mUc/cOitxMdDi4HAtpoR9zlv9CKskr4kFUmAgn+upKN9yaun
+ KlyQA6yzNQvHSIdFiEEzq6KN1d8fSYtiPDbJw+iigj0gsoD3nJ+aAQwg6WPt6HjH/w1j
+ h/yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7ld23nK8ASvRkvHvhF0mF43an93w9LT5/+5RX+ASHV8=;
- b=1ta0FZD6VM4zzGfwlddzIA5LNuL2Kak5LoDPY/r1+BJh+ASqtYsV4xPKpGQHIhoxLK
- TcVDVMGVw3y7tpFq5TN6pi2R4ua6OqtkUkjrlaqbeXepVbsBhTGy7b8suraHl/Nfrmu2
- 6vbasKuLKt8ytU1Ug0vIXWN0q3/CpGacFjos4CwAlt46xtMB9P/zlvroMIfr6/3AXnI+
- Rjy+kBR1wziUpJSu5PO+Z2Ixx7CBbD0ZzaIkKWnZc2vCwFu0kI0MwQ3Ag+dT93IkYYQd
- 5lyzokG7lzRnhnvabAAHrAhx3/2ViY9+9OulLGwdl1WfqINRuL5Ev/hRgw/0r6a0FY1J
- WX3A==
-X-Gm-Message-State: AOAM531tuF78CW66Le6paKjPGv7sei6SgaVfcgozHF7y4e6S2fpNIcH+
- X3EwiH+iu1wRlEW51P4y6XXphi1zl5JeeQ==
-X-Google-Smtp-Source: ABdhPJxFJ4/jsKc1uxBaKS7helVkyhMZP/P69NeXdFbyOODNkpAuvy9ekO0V1f7SUwwr7dley5YXnA==
-X-Received: by 2002:adf:e2cc:: with SMTP id d12mr33056925wrj.107.1642682221896; 
- Thu, 20 Jan 2022 04:37:01 -0800 (PST)
+ bh=kfluiZ0u1w9XcLTmFHm1aya7StmZrmXWSd/9Nb9SfiY=;
+ b=xbmCcMctmWBRBXxPGow9oB27x4jNNvyPqeKXXkKgD7zu44hqvTHPQSG/jQePbSVpSh
+ XiC8OD9XlIHn4JkNnyFirz0/fmhjM/WbfSZOu2s0yCtxi/fa6y0ZIAykRD9lsxM6dCDm
+ licDeXPE+BYZYcD8GzOegMiqtqj2JpYZ6F8b3kRjfuYZJg9AQij0cIhEdO/f14GSX6XU
+ wTFSd8R/gSCkIna95o8KBJzRnRdvm7eecRMP/pVGGbmFfigg08ASqzDO/vexDIoZDhdG
+ WZpb8Ei5i3QLYmgwa+AqiBjuLMeDL2UQq0uiWMRMs/1JmOZ70RjFB51H346MtL7ZKohf
+ 5msg==
+X-Gm-Message-State: AOAM530CfFJCFnxn5GeasLzx9InAmnm7mLpAYLu0s3wx2FsRVw+q97A4
+ Pv25MnTzr539PrKiTVhDZSN8uMtp8CTtpg==
+X-Google-Smtp-Source: ABdhPJyWw7HypOb4hrUlqHbsjeHKf2ps0hTkZ37AldwGLjHV+5XYaBh3b3b1+apHAhePu5P6UH5Ohg==
+X-Received: by 2002:adf:d4cd:: with SMTP id w13mr6657766wrk.364.1642682222623; 
+ Thu, 20 Jan 2022 04:37:02 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id t8sm7993324wmq.43.2022.01.20.04.37.01
+ by smtp.gmail.com with ESMTPSA id t8sm7993324wmq.43.2022.01.20.04.37.02
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 04:37:01 -0800 (PST)
+ Thu, 20 Jan 2022 04:37:02 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/38] hw/intc/arm_gicv3_its: Fix event ID bounds checks
-Date: Thu, 20 Jan 2022 12:36:17 +0000
-Message-Id: <20220120123630.267975-26-peter.maydell@linaro.org>
+Subject: [PULL 26/38] hw/intc/arm_gicv3_its: Convert int ID check to
+ num_intids convention
+Date: Thu, 20 Jan 2022 12:36:18 +0000
+Message-Id: <20220120123630.267975-27-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220120123630.267975-1-peter.maydell@linaro.org>
 References: <20220120123630.267975-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,84 +92,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In process_its_cmd() and process_mapti() we must check the
-event ID against a limit defined by the size field in the DTE,
-which specifies the number of ID bits minus one. Convert
-this code to our num_foo convention:
- * change the variable names
- * use uint64_t and 1ULL when calculating the number
-   of valid event IDs, because DTE.SIZE is 5 bits and
-   so num_eventids may be up to 2^32
- * fix the off-by-one error in the comparison
+The bounds check on the number of interrupt IDs is correct, but
+doesn't match our convention; change the variable name, initialize it
+to the 2^n value rather than (2^n)-1, and use >= instead of > in the
+comparison.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20220111171048.3545974-2-peter.maydell@linaro.org
+Message-id: 20220111171048.3545974-3-peter.maydell@linaro.org
 ---
- hw/intc/arm_gicv3_its.c | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+ hw/intc/arm_gicv3_its.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index fa3cdb57554..6d11fa02040 100644
+index 6d11fa02040..5919b1a3b7f 100644
 --- a/hw/intc/arm_gicv3_its.c
 +++ b/hw/intc/arm_gicv3_its.c
-@@ -225,7 +225,7 @@ static bool process_its_cmd(GICv3ITSState *s, uint64_t value, uint32_t offset,
-     MemTxResult res = MEMTX_OK;
-     bool dte_valid;
-     uint64_t dte = 0;
--    uint32_t max_eventid;
-+    uint64_t num_eventids;
-     uint16_t icid = 0;
-     uint32_t pIntid = 0;
-     bool ite_valid = false;
-@@ -258,7 +258,7 @@ static bool process_its_cmd(GICv3ITSState *s, uint64_t value, uint32_t offset,
-     dte_valid = FIELD_EX64(dte, DTE, VALID);
- 
-     if (dte_valid) {
--        max_eventid = 1UL << (FIELD_EX64(dte, DTE, SIZE) + 1);
-+        num_eventids = 1ULL << (FIELD_EX64(dte, DTE, SIZE) + 1);
- 
-         ite_valid = get_ite(s, eventid, dte, &icid, &pIntid, &res);
- 
-@@ -299,10 +299,11 @@ static bool process_its_cmd(GICv3ITSState *s, uint64_t value, uint32_t offset,
-                       dte_valid ? "valid" : "invalid",
-                       ite_valid ? "valid" : "invalid",
-                       cte_valid ? "valid" : "invalid");
--    } else if (eventid > max_eventid) {
-+    } else if (eventid >= num_eventids) {
-         qemu_log_mask(LOG_GUEST_ERROR,
--                      "%s: invalid command attributes: eventid %d > %d\n",
--                      __func__, eventid, max_eventid);
-+                      "%s: invalid command attributes: eventid %d >= %"
-+                      PRId64 "\n",
-+                      __func__, eventid, num_eventids);
-     } else {
-         /*
-          * Current implementation only supports rdbase == procnum
-@@ -336,7 +337,8 @@ static bool process_mapti(GICv3ITSState *s, uint64_t value, uint32_t offset,
-     AddressSpace *as = &s->gicv3->dma_as;
+@@ -338,7 +338,7 @@ static bool process_mapti(GICv3ITSState *s, uint64_t value, uint32_t offset,
      uint32_t devid, eventid;
      uint32_t pIntid = 0;
--    uint32_t max_eventid, max_Intid;
-+    uint64_t num_eventids;
-+    uint32_t max_Intid;
+     uint64_t num_eventids;
+-    uint32_t max_Intid;
++    uint32_t num_intids;
      bool dte_valid;
      MemTxResult res = MEMTX_OK;
      uint16_t icid = 0;
-@@ -376,11 +378,11 @@ static bool process_mapti(GICv3ITSState *s, uint64_t value, uint32_t offset,
-         return result;
+@@ -379,11 +379,11 @@ static bool process_mapti(GICv3ITSState *s, uint64_t value, uint32_t offset,
      }
      dte_valid = FIELD_EX64(dte, DTE, VALID);
--    max_eventid = 1UL << (FIELD_EX64(dte, DTE, SIZE) + 1);
-+    num_eventids = 1ULL << (FIELD_EX64(dte, DTE, SIZE) + 1);
-     max_Intid = (1ULL << (GICD_TYPER_IDBITS + 1)) - 1;
+     num_eventids = 1ULL << (FIELD_EX64(dte, DTE, SIZE) + 1);
+-    max_Intid = (1ULL << (GICD_TYPER_IDBITS + 1)) - 1;
++    num_intids = 1ULL << (GICD_TYPER_IDBITS + 1);
  
      if ((devid >= s->dt.num_ids) || (icid >= s->ct.num_ids)
--            || !dte_valid || (eventid > max_eventid) ||
-+            || !dte_valid || (eventid >= num_eventids) ||
-             (((pIntid < GICV3_LPI_INTID_START) || (pIntid > max_Intid)) &&
+             || !dte_valid || (eventid >= num_eventids) ||
+-            (((pIntid < GICV3_LPI_INTID_START) || (pIntid > max_Intid)) &&
++            (((pIntid < GICV3_LPI_INTID_START) || (pIntid >= num_intids)) &&
               (pIntid != INTID_SPURIOUS))) {
          qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: invalid command attributes "
 -- 
 2.25.1
 
