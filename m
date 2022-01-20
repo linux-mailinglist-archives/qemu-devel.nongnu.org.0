@@ -2,83 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A88494424
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 01:18:36 +0100 (CET)
-Received: from localhost ([::1]:38784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6294E4944AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 01:33:04 +0100 (CET)
+Received: from localhost ([::1]:44990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAL9v-0001HX-N0
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 19:18:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60324)
+	id 1nALNu-0006NK-ST
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 19:33:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAL4T-0005ni-Jc
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 19:12:58 -0500
-Received: from [2a00:1450:4864:20::335] (port=39777
- helo=mail-wm1-x335.google.com)
+ id 1nALFM-0003yk-PD
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 19:24:16 -0500
+Received: from [2a00:1450:4864:20::32d] (port=52895
+ helo=mail-wm1-x32d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAL4R-0004eX-Ur
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 19:12:57 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- o1-20020a1c4d01000000b0034d95625e1fso3564873wmh.4
- for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 16:12:55 -0800 (PST)
+ id 1nALFL-0006FQ-6r
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 19:24:12 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id v123so8498498wme.2
+ for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 16:24:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=gEGYgTjbnr/i5w2mvdp+uG1/Mmv2kSr/Q4Dwa+03rII=;
- b=KZ/K9x1/YSFLYw+6mgLOE45htFg6sPlXemD24R+CnXoMA1KI9sOeqgx0FHy0OmSoTD
- uv8kmaeu/SLOsJsBMPXu2cofvR9f0Rt1zeLNHRUlBsY/teMpJXQcw9XUa2hDre+V/ysg
- uafUxqVbD90PN9iEMNikpCSpHtWA1T0nXWbCN0qYtJu6gcRu2E/GG45C2BB0S4m80Uuq
- Ih4HgX3fF025NZ/HsYU5E0TlacvGgBorC3W8kANmAUl6i8/kUOC+hnj4RFia4CEt11+l
- kjsABrekDzKi6b2TlL4Uedi796QoQQC33TBkamevqY4i6M/KgdX4qLTQNnS5KMzSK3rp
- D8hg==
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=C0fLc7yWwR5HPY/fKzObrV75Hdt2CC7qCclUQtSmJOQ=;
+ b=j/GJ6OlvpLz0NnebBpsaeiddPj15sHSw1yvAoKbj+H6Bhj2hHxj9/ZMdjfowCIxmau
+ KMkt8clu0oxtzPK5Ix9yNKemHSOWaiJPLiljlr4JYfWPspUqIN//cv6U31KBMClojItg
+ fCmjQ72fOOC7l8zGlgUUhVKP/wuwWADb/alrnpwagHR4tmvokv2F4wGFAWHUel7+aP3n
+ QYj60NpxNFhZMrcJmrUZeRNK+IcJ5CQgz1gA9HLnHup3w9fmHoIO+q4+4OFUMiG3MjJt
+ 5EBnGiZEbxyP0+VTqqbXPIPBk1Is15F9P4hGTM+jUVZdIawZmg8qoZjSiziEbGNeZST9
+ segA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=gEGYgTjbnr/i5w2mvdp+uG1/Mmv2kSr/Q4Dwa+03rII=;
- b=XOS6PpQtAs/MJ37mVfrtmndJCh3ZY+WBWI0/2duUW+Z7a4hJ5gn+dvDPe1AAKIlivi
- kgaUJnWMR/HGMt5Mukn5vySoIBlHoND/fDkEXlZblMwnqcTrjw3ele0v0rznAJ9zKMWh
- /Tc5YTCXPNAi0QkP4JR+ORhZHI4meyBQmMQHuSL5LV+ANEe+FsIAYKlSdcitZioZlsqp
- B/K83+87OJ9ZQptkJp9ltEsGIRdYin8DBQWtLfPS3x4OZC/k/ZD5bWYqO1VIBVQxIRlt
- WhAkHKCoHgm2wlEKGkoq1yZABHm1LHFonKmgtxPJffHBHuLZFPesLourT9sKjdL7brQC
- D9Vg==
-X-Gm-Message-State: AOAM533P7f+swQZRlXBGhdE8pVW15Ri3KBHAu5dRVZ8/BJLAoYxFihTr
- ap3ADprVO76zGPZPROK2vIpAbeMVXB8=
-X-Google-Smtp-Source: ABdhPJxhFY1GPaVywsmTrmLnPkPLA6uPhQ8jjneYJda1w5VFwXYy2AZglcUV9IT/hlWGtRQldY1bUQ==
-X-Received: by 2002:a5d:6d45:: with SMTP id k5mr29425232wri.397.1642637574410; 
- Wed, 19 Jan 2022 16:12:54 -0800 (PST)
-Received: from nuc.. (154.red-83-50-83.dynamicip.rima-tde.net. [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id
- p2sm838879wmc.33.2022.01.19.16.12.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jan 2022 16:12:53 -0800 (PST)
-To: qemu-devel@nongnu.org
-Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v3 2/2] hw/vfio/common: Silence ram device offset alignment
- error traces
-Date: Thu, 20 Jan 2022 01:12:42 +0100
-Message-Id: <20220120001242.230082-3-f4bug@amsat.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220120001242.230082-1-f4bug@amsat.org>
-References: <20220120001242.230082-1-f4bug@amsat.org>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=C0fLc7yWwR5HPY/fKzObrV75Hdt2CC7qCclUQtSmJOQ=;
+ b=h3oDDxBH8MG67s5pEH0T+jPaLsgY0gE0fWtwVYikNCGIn5JLfO3lP95rcSAW+9IZ4k
+ 1On2CaYFSZEb2VbKtKVgPjb4XT2Zse+HhXinuHluuigfGO6btTzepugJx7BGoBkApkCe
+ uZLUg8bFLTGbouvRGzSyRLUtPSvonSxU9o+8W8P6ATCH61jLvq6X+OdxCzJdt75PNiB/
+ S/eG5tDcHOdIkrVJgaOngv/wFrI6NRxxnMvoeoByHzP2h1WA5TvRXXhodLPvq+tSm7B0
+ NQ6Yd6LQn9+IOoKP2fgSpDa6XX9FW1ERBRwvV+CxKFLDD/NPhn2Fy1wy12qClckFNxeY
+ Bpzw==
+X-Gm-Message-State: AOAM533JnukobR5ht2O1c+8kOQBszVvvyeC0YMTrxJjMeogKzZ1kWB6E
+ My87fGr4f9w1cx/5NA9NzBU=
+X-Google-Smtp-Source: ABdhPJy44VaFuxZfdSnm+yfAJLSpwslOz6iUyaJdXxywJ3NuhgeEaVQPa9w9hIVP91I3wW59mODd+g==
+X-Received: by 2002:a05:6000:381:: with SMTP id
+ u1mr30619932wrf.451.1642638249664; 
+ Wed, 19 Jan 2022 16:24:09 -0800 (PST)
+Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id m5sm806388wms.4.2022.01.19.16.24.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Jan 2022 16:24:09 -0800 (PST)
+Message-ID: <25bab675-5977-c5ed-e9c5-b870a3445ecb@amsat.org>
+Date: Thu, 20 Jan 2022 01:24:07 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2] qapi: Cleanup SGX related comments and restore
+ @section-size
+Content-Language: en-US
+To: Yang Zhong <yang.zhong@intel.com>, berrange@redhat.com,
+ Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com
+References: <20220119235720.371961-1-yang.zhong@intel.com>
+In-Reply-To: <20220119235720.371961-1-yang.zhong@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -95,66 +97,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-From: Eric Auger <eric.auger@redhat.com>
++Markus for QAPI deprecation
 
-Failing to DMA MAP a ram_device should not cause an error message.
-This is currently happening with the TPM CRB command region and
-this is causing confusion.
+On 1/20/22 00:57, Yang Zhong wrote:
+> The SGX NUMA patches were merged into Qemu 7.0 release, we need
+> clarify detailed version history information and also change
+> some related comments, which make SGX related comments clearer.
+> 
+> The QMP command schema promises backwards compatibility as standard.
+> We temporarily restore "@section-size", which can avoid incompatible
+> API breakage. The "@section-size" will be deprecated in 7.2 version.
+> 
+> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  qapi/machine.json     |  4 ++--
+>  qapi/misc-target.json | 17 ++++++++++++-----
+>  hw/i386/sgx.c         | 11 +++++++++--
+>  3 files changed, 23 insertions(+), 9 deletions(-)
 
-We may want to keep the trace for debug purpose though.
+> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+> index 1022aa0184..a87358ea44 100644
+> --- a/qapi/misc-target.json
+> +++ b/qapi/misc-target.json
+> @@ -344,9 +344,9 @@
+>  #
+>  # @node: the numa node
+>  #
+> -# @size: the size of epc section
+> +# @size: the size of EPC section
+>  #
+> -# Since: 6.2
+> +# Since: 7.0
+>  ##
+>  { 'struct': 'SGXEPCSection',
+>    'data': { 'node': 'int',
+> @@ -365,7 +365,9 @@
+>  #
+>  # @flc: true if FLC is supported
+>  #
+> -# @sections: The EPC sections info for guest
+> +# @section-size: The EPC section size for guest (Will be deprecated in 7.2)
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Tested-by: Stefan Berger <stefanb@linux.ibm.com>
-Acked-by: Alex Williamson <alex.williamson@redhat.com>
-Acked-by: Stefan Berger <stefanb@linux.ibm.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/vfio/common.c     | 15 ++++++++++++++-
- hw/vfio/trace-events |  1 +
- 2 files changed, 15 insertions(+), 1 deletion(-)
+See commit 75ecee72625 ("qapi: Enable enum member introspection to show
+more than name"). I'd change as:
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 080046e3f51..9caa560b078 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -884,7 +884,20 @@ static void vfio_listener_region_add(MemoryListener *listener,
-     if (unlikely((section->offset_within_address_space &
-                   ~qemu_real_host_page_mask) !=
-                  (section->offset_within_region & ~qemu_real_host_page_mask))) {
--        error_report("%s received unaligned region", __func__);
-+        if (memory_region_is_ram_device(section->mr)) { /* just debug purpose */
-+            trace_vfio_listener_region_add_bad_offset_alignment(
-+                memory_region_name(section->mr),
-+                section->offset_within_address_space,
-+                section->offset_within_region, qemu_real_host_page_size);
-+        } else { /* error case we don't want to be fatal */
-+            error_report("%s received unaligned region %s iova=0x%"PRIx64
-+                         " offset_within_region=0x%"PRIx64
-+                         " qemu_real_host_page_mask=0x%"PRIx64,
-+                         __func__, memory_region_name(section->mr),
-+                         section->offset_within_address_space,
-+                         section->offset_within_region,
-+                         qemu_real_host_page_mask);
-+        }
-         return;
-     }
- 
-diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index 0ef1b5f4a65..ccd9d7610d6 100644
---- a/hw/vfio/trace-events
-+++ b/hw/vfio/trace-events
-@@ -100,6 +100,7 @@ vfio_listener_region_add_skip(uint64_t start, uint64_t end) "SKIPPING region_add
- vfio_spapr_group_attach(int groupfd, int tablefd) "Attached groupfd %d to liobn fd %d"
- vfio_listener_region_add_iommu(uint64_t start, uint64_t end) "region_add [iommu] 0x%"PRIx64" - 0x%"PRIx64
- vfio_listener_region_add_ram(uint64_t iova_start, uint64_t iova_end, void *vaddr) "region_add [ram] 0x%"PRIx64" - 0x%"PRIx64" [%p]"
-+vfio_listener_region_add_bad_offset_alignment(const char *name, uint64_t iova, uint64_t offset_within_region, uint64_t page_size) "Region \"%s\" @0x%"PRIx64", offset_within_region=0x%"PRIx64", qemu_real_host_page_mask=0x%"PRIx64 " cannot be mapped for DMA"
- vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
- vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING region_del 0x%"PRIx64" - 0x%"PRIx64
- vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
--- 
-2.34.1
+  # @section-size: The EPC section size for guest
+  #                 Redundant with @sections.  Just for backward
+compatibility.
 
+> +#
+> +# @sections: The EPC sections info for guest (Since: 7.0)
+
+and then add:
+
+
+  # Features:
+  # @deprecated: Member @section-size is deprecated.  Use @sections instead.
+
+>  #
+>  # Since: 6.2
+>  ##
+> @@ -374,6 +376,7 @@
+>              'sgx1': 'bool',
+>              'sgx2': 'bool',
+>              'flc': 'bool',
+> +            'section-size': 'uint64',
+>              'sections': ['SGXEPCSection']},
+>     'if': 'TARGET_I386' }
 
