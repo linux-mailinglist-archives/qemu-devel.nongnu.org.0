@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EC834952DC
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 18:06:10 +0100 (CET)
-Received: from localhost ([::1]:32914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AB9E4952F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 18:13:36 +0100 (CET)
+Received: from localhost ([::1]:41550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAasz-00024o-I4
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 12:06:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39248)
+	id 1nAb0B-0008CL-6g
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 12:13:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1nAWW4-00075Y-PE; Thu, 20 Jan 2022 07:26:14 -0500
-Received: from out28-123.mail.aliyun.com ([115.124.28.123]:46034)
+ id 1nAWZ1-0000TU-Oi; Thu, 20 Jan 2022 07:29:15 -0500
+Received: from out28-51.mail.aliyun.com ([115.124.28.51]:41987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1nAWW2-0008Ot-Hn; Thu, 20 Jan 2022 07:26:12 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436375|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.0231685-0.000144035-0.976687;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047213; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=9; RT=8; SR=0; TI=SMTPD_---.Mfx8ck2_1642681565; 
+ id 1nAWYy-0000LO-Ob; Thu, 20 Jan 2022 07:29:15 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07438365|-1; CH=green;
+ DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.00462344-3.32179e-05-0.995343;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047198; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=9; RT=8; SR=0; TI=SMTPD_---.MfxgUMJ_1642681748; 
 Received: from roman-VirtualBox.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.Mfx8ck2_1642681565)
- by smtp.aliyun-inc.com(10.147.41.178);
- Thu, 20 Jan 2022 20:26:05 +0800
+ fp:SMTPD_---.MfxgUMJ_1642681748)
+ by smtp.aliyun-inc.com(10.147.41.120);
+ Thu, 20 Jan 2022 20:29:08 +0800
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v8 08/23] target/riscv: Use gdb xml according to max mxlen
-Date: Thu, 20 Jan 2022 20:20:35 +0800
-Message-Id: <20220120122050.41546-9-zhiwei_liu@c-sky.com>
+Subject: [PATCH v8 14/23] target/riscv: Split pm_enabled into mask and base
+Date: Thu, 20 Jan 2022 20:20:41 +0800
+Message-Id: <20220120122050.41546-15-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220120122050.41546-1-zhiwei_liu@c-sky.com>
 References: <20220120122050.41546-1-zhiwei_liu@c-sky.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=115.124.28.123; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-123.mail.aliyun.com
+Received-SPF: none client-ip=115.124.28.51; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-51.mail.aliyun.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -63,153 +62,114 @@ Cc: guoren@linux.alibaba.com, bin.meng@windriver.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Use cached cur_pmmask and cur_pmbase to infer the
+current PM mode.
+
+This may decrease the TCG IR by one when pm_enabled
+is true and pm_base_enabled is false.
+
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.c     |  8 ++---
- target/riscv/gdbstub.c | 71 +++++++++++++++++++++++++++++++-----------
- 2 files changed, 55 insertions(+), 24 deletions(-)
+ target/riscv/cpu.h        |  3 ++-
+ target/riscv/cpu_helper.c | 24 ++++++------------------
+ target/riscv/translate.c  | 12 ++++++++----
+ 3 files changed, 16 insertions(+), 23 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index eac5f7bf03..690c879901 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -466,6 +466,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     RISCVCPU *cpu = RISCV_CPU(dev);
-     CPURISCVState *env = &cpu->env;
-     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
-+    CPUClass *cc = CPU_CLASS(mcc);
-     int priv_version = 0;
-     Error *local_err = NULL;
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 6fe842edfd..89621e1996 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -448,7 +448,8 @@ FIELD(TB_FLAGS, MSTATUS_HS_VS, 18, 2)
+ /* The combination of MXL/SXL/UXL that applies to the current cpu mode. */
+ FIELD(TB_FLAGS, XL, 20, 2)
+ /* If PointerMasking should be applied */
+-FIELD(TB_FLAGS, PM_ENABLED, 22, 1)
++FIELD(TB_FLAGS, PM_MASK_ENABLED, 22, 1)
++FIELD(TB_FLAGS, PM_BASE_ENABLED, 23, 1)
  
-@@ -516,11 +517,13 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     switch (env->misa_mxl_max) {
- #ifdef TARGET_RISCV64
-     case MXL_RV64:
-+        cc->gdb_core_xml_file = "riscv-64bit-cpu.xml";
-         break;
-     case MXL_RV128:
-         break;
+ #ifdef TARGET_RISCV32
+ #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index b239d721f4..502aee84ab 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -97,27 +97,15 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+         flags = FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_VS,
+                            get_field(env->mstatus_hs, MSTATUS_VS));
+     }
+-    if (riscv_has_ext(env, RVJ)) {
+-        int priv = flags & TB_FLAGS_PRIV_MMU_MASK;
+-        bool pm_enabled = false;
+-        switch (priv) {
+-        case PRV_U:
+-            pm_enabled = env->mmte & U_PM_ENABLE;
+-            break;
+-        case PRV_S:
+-            pm_enabled = env->mmte & S_PM_ENABLE;
+-            break;
+-        case PRV_M:
+-            pm_enabled = env->mmte & M_PM_ENABLE;
+-            break;
+-        default:
+-            g_assert_not_reached();
+-        }
+-        flags = FIELD_DP32(flags, TB_FLAGS, PM_ENABLED, pm_enabled);
+-    }
  #endif
-     case MXL_RV32:
-+        cc->gdb_core_xml_file = "riscv-32bit-cpu.xml";
-         break;
-     default:
-         g_assert_not_reached();
-@@ -802,11 +805,6 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-     cc->gdb_read_register = riscv_cpu_gdb_read_register;
-     cc->gdb_write_register = riscv_cpu_gdb_write_register;
-     cc->gdb_num_core_regs = 33;
--#if defined(TARGET_RISCV32)
--    cc->gdb_core_xml_file = "riscv-32bit-cpu.xml";
--#elif defined(TARGET_RISCV64)
--    cc->gdb_core_xml_file = "riscv-64bit-cpu.xml";
--#endif
-     cc->gdb_stop_before_watchpoint = true;
-     cc->disas_set_info = riscv_cpu_disas_set_info;
- #ifndef CONFIG_USER_ONLY
-diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-index a5429b92d4..f531a74c2f 100644
---- a/target/riscv/gdbstub.c
-+++ b/target/riscv/gdbstub.c
-@@ -50,11 +50,23 @@ int riscv_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
- {
-     RISCVCPU *cpu = RISCV_CPU(cs);
-     CPURISCVState *env = &cpu->env;
-+    target_ulong tmp;
  
-     if (n < 32) {
--        return gdb_get_regl(mem_buf, env->gpr[n]);
-+        tmp = env->gpr[n];
-     } else if (n == 32) {
--        return gdb_get_regl(mem_buf, env->pc);
-+        tmp = env->pc;
-+    } else {
-+        return 0;
+     flags = FIELD_DP32(flags, TB_FLAGS, XL, env->xl);
++    if (env->cur_pmmask < (env->xl == MXL_RV32 ? UINT32_MAX : UINT64_MAX)) {
++        flags = FIELD_DP32(flags, TB_FLAGS, PM_MASK_ENABLED, 1);
 +    }
-+
-+    switch (env->misa_mxl_max) {
-+    case MXL_RV32:
-+        return gdb_get_reg32(mem_buf, tmp);
-+    case MXL_RV64:
-+        return gdb_get_reg64(mem_buf, tmp);
-+    default:
-+        g_assert_not_reached();
-     }
-     return 0;
++    if (env->cur_pmbase != 0) {
++        flags = FIELD_DP32(flags, TB_FLAGS, PM_BASE_ENABLED, 1);
++    }
+ 
+     *pflags = flags;
  }
-@@ -63,18 +75,32 @@ int riscv_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
- {
-     RISCVCPU *cpu = RISCV_CPU(cs);
-     CPURISCVState *env = &cpu->env;
--
--    if (n == 0) {
--        /* discard writes to x0 */
--        return sizeof(target_ulong);
--    } else if (n < 32) {
--        env->gpr[n] = ldtul_p(mem_buf);
--        return sizeof(target_ulong);
-+    int length = 0;
-+    target_ulong tmp;
-+
-+    switch (env->misa_mxl_max) {
-+    case MXL_RV32:
-+        tmp = (int32_t)ldl_p(mem_buf);
-+        length = 4;
-+        break;
-+    case MXL_RV64:
-+        if (env->xl < MXL_RV64) {
-+            tmp = (int32_t)ldq_p(mem_buf);
-+        } else {
-+            tmp = ldq_p(mem_buf);
-+        }
-+        length = 8;
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+    if (n > 0 && n < 32) {
-+        env->gpr[n] = tmp;
-     } else if (n == 32) {
--        env->pc = ldtul_p(mem_buf);
--        return sizeof(target_ulong);
-+        env->pc = tmp;
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 33564d059d..f0bbe80875 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -108,7 +108,8 @@ typedef struct DisasContext {
+     /* Space for 3 operands plus 1 extra for address computation. */
+     TCGv temp[4];
+     /* PointerMasking extension */
+-    bool pm_enabled;
++    bool pm_mask_enabled;
++    bool pm_base_enabled;
+ } DisasContext;
+ 
+ static inline bool has_ext(DisasContext *ctx, uint32_t ext)
+@@ -397,12 +398,14 @@ static TCGv get_address(DisasContext *ctx, int rs1, int imm)
+     TCGv src1 = get_gpr(ctx, rs1, EXT_NONE);
+ 
+     tcg_gen_addi_tl(addr, src1, imm);
+-    if (ctx->pm_enabled) {
++    if (ctx->pm_mask_enabled) {
+         tcg_gen_and_tl(addr, addr, pm_mask);
+-        tcg_gen_or_tl(addr, addr, pm_base);
+     } else if (get_xl(ctx) == MXL_RV32) {
+         tcg_gen_ext32u_tl(addr, addr);
      }
--    return 0;
-+
-+    return length;
++    if (ctx->pm_base_enabled) {
++        tcg_gen_or_tl(addr, addr, pm_base);
++    }
+     return addr;
  }
  
- static int riscv_gdb_get_fpu(CPURISCVState *env, GByteArray *buf, int n)
-@@ -387,13 +413,20 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
-                                                               cs->gdb_num_regs),
-                                  "riscv-vector.xml", 0);
-     }
--#if defined(TARGET_RISCV32)
--    gdb_register_coprocessor(cs, riscv_gdb_get_virtual, riscv_gdb_set_virtual,
--                             1, "riscv-32bit-virtual.xml", 0);
--#elif defined(TARGET_RISCV64)
--    gdb_register_coprocessor(cs, riscv_gdb_get_virtual, riscv_gdb_set_virtual,
--                             1, "riscv-64bit-virtual.xml", 0);
--#endif
-+    switch (env->misa_mxl_max) {
-+    case MXL_RV32:
-+        gdb_register_coprocessor(cs, riscv_gdb_get_virtual,
-+                                 riscv_gdb_set_virtual,
-+                                 1, "riscv-32bit-virtual.xml", 0);
-+        break;
-+    case MXL_RV64:
-+        gdb_register_coprocessor(cs, riscv_gdb_get_virtual,
-+                                 riscv_gdb_set_virtual,
-+                                 1, "riscv-64bit-virtual.xml", 0);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
+@@ -925,7 +928,8 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->cs = cs;
+     ctx->ntemp = 0;
+     memset(ctx->temp, 0, sizeof(ctx->temp));
+-    ctx->pm_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_ENABLED);
++    ctx->pm_mask_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_MASK_ENABLED);
++    ctx->pm_base_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_BASE_ENABLED);
+     ctx->zero = tcg_constant_tl(0);
+ }
  
-     gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
-                              riscv_gen_dynamic_csr_xml(cs, cs->gdb_num_regs),
 -- 
 2.25.1
 
