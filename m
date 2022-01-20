@@ -2,81 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 991E849563E
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 23:08:31 +0100 (CET)
-Received: from localhost ([::1]:48464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4709495643
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 23:14:00 +0100 (CET)
+Received: from localhost ([::1]:56942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAfba-0006aO-2e
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 17:08:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55946)
+	id 1nAfgt-0004FT-6e
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 17:13:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAZPG-0004FA-UX
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:31:23 -0500
-Received: from [2607:f8b0:4864:20::436] (port=35504
- helo=mail-pf1-x436.google.com)
+ id 1nAZRQ-0005MX-SM
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:33:38 -0500
+Received: from [2607:f8b0:4864:20::62a] (port=34593
+ helo=mail-pl1-x62a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAZPF-0005t1-63
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:31:22 -0500
-Received: by mail-pf1-x436.google.com with SMTP id u130so1618172pfc.2
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 07:31:20 -0800 (PST)
+ id 1nAZRO-0007TG-4f
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:33:36 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id a7so5491999plh.1;
+ Thu, 20 Jan 2022 07:33:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=fcazGOMfAzIwqFljxqr734p7+zS3v7B76osDgt6/wIg=;
- b=Lkr/Tay87i1CbkOk2ADDG4ILpxjSI6JN4ILiTJS4vKHyF343G8UEwOfveLDlJrPHFE
- czAcggHmGgJ/8/netOV7BWgLPcTlhmPg6hC1u/tlaadEGvwnlTr30yN18mL/TYS4D/EE
- oPofG3/vwSKU8E1VnIB+nu4NvVEGjZ85TR2uS7jLDpWMXcihrvwdyrnYVbR0dTIIbcBs
- QkFVrJoFofnLxPTnSdl4V12cWSEAkKT3Oh7x7pnMlEM3z2xdBtbdamH6qWkb1RV0pWIe
- ntIvn6ofltai4a60Y7cHYmNBRPd/43w4YnJ4FezrAhyIfDZG3OxMWh1hPg4FIczkD1UW
- 3BXw==
+ bh=xVrUwaC5Da3NG7h7XaQHwYsDVPn1g1q3CH8quCRG2YY=;
+ b=I/LytIrvlPy7VQvbfihfwiBTvio3QFgREy9Hu0EwkBf553ccAGw4MXu3EGqkeA3D7Z
+ iL5J4lt9tjKJ8RaPgAE9gzjGPSV0tl4kYTX7K0KHbCLCsznxVgJqAxjaJ4Ek32ljL3+m
+ yIQCeO3DpizYBt5Y9fW0Hwx3vFiiP92Bb1tfi1IuIC08917NOl5ZmTS6AOyL+9/tIeNj
+ b2DpzJD/3JCUY3eFx4vWLk+WzykrwNfp6pyV/6uPYHo6rgKptpjdXfN4dpBtchVMsosT
+ x15Arl2S1UR0g34af+DlPxZMyvNunvT6MBCaycYqwSsqpQr3shjX/P5dK+Bq5HN7kYkn
+ J76A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=fcazGOMfAzIwqFljxqr734p7+zS3v7B76osDgt6/wIg=;
- b=e7DP1ONKzLQqSigw/0H6EfgDPjRbHqYQwXFOKoY77qfbLmzbKNoR9EWR/j7zVkSmR5
- f8wEIoHU6DXPUQPmecmA/byTUIEOgrY4QJpg5DzNjEgC/QJA8ooW0XRscNlilQwL1hXu
- tQQGPyKPXVi/DRA6SnCIi2c4mNJRf58AVMZGafPKUhIdR/KKHhwSHPaXYuGyQuuqHW66
- PddjxuF/KNQfp2s122LoDwcAzyev53cjmCmGl2bBsPRc6XMquLrSV3/9sTROoYCN8kja
- FdyJZpLkPGuzp6vkdzxzwVWvYHVHk4VSWpR7W7M1eGmNpW3PD9ybl13qk9GXxi2b8KDC
- 7rmQ==
-X-Gm-Message-State: AOAM5302XUiic9jQPMdqPBdGkkw3iB8ZI3jeiVxy9Xzrrycp65e/Cw6T
- 7Q5x9mahWVgL1SQbO44lpwU=
-X-Google-Smtp-Source: ABdhPJzWjsCikQD7kXEmadI9P+cKx05JjFtUrNsPqtHsAl4/Zh9yQrxIpJZ44HN0qaVyjzkPyQ+l2A==
-X-Received: by 2002:a05:6a00:1a0b:b0:4c6:ec84:4103 with SMTP id
- g11-20020a056a001a0b00b004c6ec844103mr1079592pfv.76.1642692679397; 
- Thu, 20 Jan 2022 07:31:19 -0800 (PST)
+ bh=xVrUwaC5Da3NG7h7XaQHwYsDVPn1g1q3CH8quCRG2YY=;
+ b=Zaubv68ZtQYKsWBzHJfIIbi6AFNTWHmuMA+g+aKdqUc2af0yEHzDfk7t7Ha6ogTwGy
+ jz7T2us3bVBiiNJMOihK5h2psyqNPtKYhDy7y5b7Y8SAu1keH0hCd5gH3qd1VGVArZ/B
+ 5N41hgsWFn/7toAc/oVul84DEHsscBiZzy5TdASHvOmBR1ow/JPBSUn8q7pE4wa9h6gD
+ tUUpQZwwv2mXOWj9xQtzE+EFRIgm7wdp2CrbSurpyagbAnfeQHyKUZlBUXXaMQXjW+34
+ Xg8XBhcmkejAqFtjCKK/Rgn702V3rdyTaz1NHWRdBlwdDnric9SDUj9H5Dg6PeliBNY1
+ QfJA==
+X-Gm-Message-State: AOAM531lktuOqdu5zNuby/WSbUzmlFXHqqFy8LUkO3q9OlJ5cAqKw9YS
+ R6KYSC9wAiIYYz7nfXuW02c=
+X-Google-Smtp-Source: ABdhPJxW49IKjFPRnYxNaYP3d8WIBU9xlmtbJ3mIMahh0Nqzk8N0MQ/0dvFzLGmYGMjsqW/n9+358A==
+X-Received: by 2002:a17:902:70c3:b0:149:a78f:54ea with SMTP id
+ l3-20020a17090270c300b00149a78f54eamr37967091plt.114.1642692810874; 
+ Thu, 20 Jan 2022 07:33:30 -0800 (PST)
 Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id 4sm2781582pgq.23.2022.01.20.07.31.17
+ by smtp.gmail.com with ESMTPSA id m17sm3905160pfk.62.2022.01.20.07.33.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Jan 2022 07:31:18 -0800 (PST)
-Message-ID: <ec7654fd-5c2c-3d46-1151-6254c3c6951a@amsat.org>
-Date: Thu, 20 Jan 2022 16:31:14 +0100
+ Thu, 20 Jan 2022 07:33:30 -0800 (PST)
+Message-ID: <90924276-9e15-64d3-450e-1a23e770e24d@amsat.org>
+Date: Thu, 20 Jan 2022 16:33:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH v2] qapi: Cleanup SGX related comments and restore
- @section-size
+Subject: Re: [PATCH v2 4/6] drop libxml2 checks since libxml is not actually
+ used (for parallels)
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Yang Zhong <yang.zhong@intel.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
-References: <20220119235720.371961-1-yang.zhong@intel.com>
- <YeknCiBuMEaD3XP2@redhat.com>
-In-Reply-To: <YeknCiBuMEaD3XP2@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Ed Maste <emaste@freebsd.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Li-Wen Hsu <lwhsu@freebsd.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Yonggang Luo <luoyonggang@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>
+References: <20220120110545.263404-1-f4bug@amsat.org>
+ <20220120110545.263404-5-f4bug@amsat.org>
+ <b00aee2c-2085-1849-f7d6-cb6d9d7926f6@redhat.com>
+In-Reply-To: <b00aee2c-2085-1849-f7d6-cb6d9d7926f6@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -102,60 +106,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 20/1/22 10:10, Daniel P. Berrangé wrote:
-> On Wed, Jan 19, 2022 at 06:57:20PM -0500, Yang Zhong wrote:
->> The SGX NUMA patches were merged into Qemu 7.0 release, we need
->> clarify detailed version history information and also change
->> some related comments, which make SGX related comments clearer.
+On 20/1/22 14:37, Thomas Huth wrote:
+> On 20/01/2022 12.05, Philippe Mathieu-Daudé wrote:
+>> From: Michael Tokarev <mjt@tls.msk.ru>
 >>
->> The QMP command schema promises backwards compatibility as standard.
->> We temporarily restore "@section-size", which can avoid incompatible
->> API breakage. The "@section-size" will be deprecated in 7.2 version.
+>> For a long time, we assumed that libxml2 is neecessary for parallels
+
+Also "necessary",
+
+>> block format support (block/parallels*). However, this format actually
+>> does not use libxml [*]. Since this is the only user of libxml2 in
+>> while qemu tree, we can drop all libxml2 checks and dependencies too.
+
+and eventually "QEMU".
+
+> s/while/whole/
+> 
+>> It is even more: --enable-parallels configure option was the only
+>> option which was silently ignored when it's (fake) dependency
+>> (libxml2) isn't installed.
 >>
->> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
->> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
->> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
->> ---
->>   qapi/machine.json     |  4 ++--
->>   qapi/misc-target.json | 17 ++++++++++++-----
->>   hw/i386/sgx.c         | 11 +++++++++--
->>   3 files changed, 23 insertions(+), 9 deletions(-)
-
->> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
->> index 1022aa0184..a87358ea44 100644
->> --- a/qapi/misc-target.json
->> +++ b/qapi/misc-target.json
->> @@ -344,9 +344,9 @@
->>   #
->>   # @node: the numa node
->>   #
->> -# @size: the size of epc section
->> +# @size: the size of EPC section
->>   #
->> -# Since: 6.2
->> +# Since: 7.0
->>   ##
->>   { 'struct': 'SGXEPCSection',
->>     'data': { 'node': 'int',
->> @@ -365,7 +365,9 @@
->>   #
->>   # @flc: true if FLC is supported
->>   #
->> -# @sections: The EPC sections info for guest
->> +# @section-size: The EPC section size for guest (Will be deprecated in 7.2)
+>> Drop all mentions of libxml2.
+>>
+>> [*] Actually the basis for libxml use were merged in commit 25bfd5a75
+>>      but the implementation was never merged:
+>>      
+>> https://lore.kernel.org/qemu-devel/70227bbd-a517-70e9-714f-e6e0ec431be9@openvz.org/ 
+>>
 > 
-> I expected deprecation would start now (7.0, and it would be removed
-> in 7.2.
-> 
-> Also needs to be documented in docs/about/deprecated.rst
+> Commit ed279a06c53784 also add a hunk to scripts/checkpatch.pl ... you 
+> might want to remove that now, too.
 
-Isn't docs/about/deprecated.rst for user-facing changes *only*?
+Good catch!
 
-Machine-facing changes are already described in the QAPI schema.
-
-Please correct me.
-
-Thanks,
-
-Phil.
 
