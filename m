@@ -2,84 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1BA5494B1A
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 10:51:50 +0100 (CET)
-Received: from localhost ([::1]:58780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A432494B6C
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 11:10:47 +0100 (CET)
+Received: from localhost ([::1]:49156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAU6e-0003xT-Gl
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 04:51:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38110)
+	id 1nAUOx-0000sC-9z
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 05:10:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nATHu-0000N2-Tq
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 03:59:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22752)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nATSz-00057s-JB
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 04:10:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35174)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nATHk-0005e1-Ax
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 03:59:21 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nATSw-0007Bu-6z
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 04:10:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642669065;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1642669845;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5/nTKKCCgUP2HgQL5PtIs50LjZfDufqwSCAc7P6wVx8=;
- b=I/HX5DE0K5R3KUMdLFEgIB2bFiwCCHP1E2NsYT/FgunZfYiVeZLUByMM8GQp5EeVvSq1EA
- b3A2oMazNhF8gooTxtcYxlpfXxOkv5PrBTpixnl+aSK7iKl23pq2W6G74v3IKVoExMwRNE
- bGDUVJLwq2Km40NuI80tTQ/nRmPXlUs=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Zm7ekI9ziVvC6tutjs0CnBPejRcYHLfTzQp85LFuj/k=;
+ b=B6IGAjYJouB99+OFHrb4IWyMCE71sktVF1s71nE59S5PNsfC5RT31qPoqXmI67o9Z3CwMP
+ MrVB1zpsz0m2vwJRjSLIcI6y8NTvknciuCSe7olEKHo0hNMpBpMJNPd9O/niG6LmN63uBx
+ Xj4ZqTi9axhv29dWa3tFiW1yOft6jOQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-335-N96lIxKsMl2uGPXBtfD82Q-1; Thu, 20 Jan 2022 03:57:42 -0500
-X-MC-Unique: N96lIxKsMl2uGPXBtfD82Q-1
-Received: by mail-ed1-f70.google.com with SMTP id
- bs4-20020a056402304400b004032af6b7ebso5263539edb.16
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 00:57:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=5/nTKKCCgUP2HgQL5PtIs50LjZfDufqwSCAc7P6wVx8=;
- b=HSdAXc8EfcOhWqnFXa3Q5qtRnvMUMtjDztCgdnc7n0nVbdZzK/HVTfc8cBk98RVU89
- IgngmDaEQfKBzd05jBeRAoViOIzdmhgva8m1rgMwkKesolz9H0zcB0tlVorQeMpS8FVX
- EdqVRgAjlC9McNUv5/qLz4tX4mAoYGULByS27j36F27Sw5lCTTkRUZO/nb9OcFlLRwX/
- sUDhhNpXq+VcflEgeu3ZBmhlDmUR3KEe5iJPnnl1zd5NWMCHIN+bSe9IX2xCRkfjK/nM
- ZhTB+o/229xSR/wsuu4Lid2n1Xo2E7T4K9hS59ILKcvc7EOzYzsgzFQAJ+XPxB/EatPk
- 8hBw==
-X-Gm-Message-State: AOAM530twRbjbrXeGvsaUE5ug4ABNYRYFAfQmVNCWJiOPpRw6gzNWfwD
- RO1EDyC+9Z4jKMUsh7ZD6z/zMylxeAVv4IWPNtZi3gIp87vb34+oQo8iu+XNnvyQpaxMXe/Eans
- WyBIGG+sMZ7NWKBQ=
-X-Received: by 2002:a17:906:4a4d:: with SMTP id
- a13mr5844212ejv.744.1642669061360; 
- Thu, 20 Jan 2022 00:57:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwrPg/KdFRQ/2KXYB+qWd0/aDP5h90G9OSq2frGD7NlPMqmJFhRikc1EgJU3nIl5IMcs230pQ==
-X-Received: by 2002:a17:906:4a4d:: with SMTP id
- a13mr5844193ejv.744.1642669061047; 
- Thu, 20 Jan 2022 00:57:41 -0800 (PST)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id p13sm707718ejo.6.2022.01.20.00.57.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 00:57:40 -0800 (PST)
-Date: Thu, 20 Jan 2022 09:57:39 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: MP tables do not report multiple CPUs in Qemu 6.2.0 on x86 when
- given -smp cpus=n flag
-Message-ID: <20220120095739.23930e8f@redhat.com>
-In-Reply-To: <CAFEAcA9tGnEOOhSbCJv2=JoU5C3cFB08mdaLRERgzPdatKQB=g@mail.gmail.com>
-References: <CAB4+JY+3N5qvC3p_e2DWWa=-QUtW+wH5ZdEJFPKTdSD5TVPXMA@mail.gmail.com>
- <CAFEAcA9tGnEOOhSbCJv2=JoU5C3cFB08mdaLRERgzPdatKQB=g@mail.gmail.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ us-mta-575-iACNiju4OGKTCGHQviPXWw-1; Thu, 20 Jan 2022 04:10:39 -0500
+X-MC-Unique: iACNiju4OGKTCGHQviPXWw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 692981091DA0;
+ Thu, 20 Jan 2022 09:10:38 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E6844EC9E;
+ Thu, 20 Jan 2022 09:10:36 +0000 (UTC)
+Date: Thu, 20 Jan 2022 09:10:34 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Yang Zhong <yang.zhong@intel.com>
+Subject: Re: [PATCH v2] qapi: Cleanup SGX related comments and restore
+ @section-size
+Message-ID: <YeknCiBuMEaD3XP2@redhat.com>
+References: <20220119235720.371961-1-yang.zhong@intel.com>
 MIME-Version: 1.0
+In-Reply-To: <20220119235720.371961-1-yang.zhong@intel.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -100,99 +83,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Godmar Back <gback@cs.vt.edu>, "Michael S.
- Tsirkin" <mst@redhat.com>, "seabios @ seabios
- . org" <seabios@seabios.org>, qemu-devel@nongnu.org, qemu-discuss@nongnu.org,
- Ani Sinha <ani@anisinha.ca>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 19 Jan 2022 15:48:20 +0000
-Peter Maydell <peter.maydell@linaro.org> wrote:
-
-> On Wed, 19 Jan 2022 at 14:44, Godmar Back <gback@cs.vt.edu> wrote:
-> > after upgrading to 6.2.0, I observed that code such as MIT's xv6 (see
-> > [1]) is no longer able to detect multiple CPUs.  Their code works in
-> > 6.1.1, however.  
+On Wed, Jan 19, 2022 at 06:57:20PM -0500, Yang Zhong wrote:
+> The SGX NUMA patches were merged into Qemu 7.0 release, we need
+> clarify detailed version history information and also change
+> some related comments, which make SGX related comments clearer.
 > 
-> Hi; this isn't a great place for reporting QEMU bugs, because
-> it's more of a user-to-user discussion list. Not all QEMU
-> developers read it. I've cc'd the ACPI maintainers, who
-> hopefully may have an idea about what's happening here.
-> You could also file a bug at
-> https://gitlab.com/qemu-project/qemu/-/issues
+> The QMP command schema promises backwards compatibility as standard.
+> We temporarily restore "@section-size", which can avoid incompatible
+> API breakage. The "@section-size" will be deprecated in 7.2 version.
 > 
-> > I built 6.1.1 from source and 6.2.0 from source and I have also tested
-> > with CentOS stream's 6.1.1 qemu-kvm and was able to pinpoint this
-> > change to these 2 versions of qemu. I am using qemu-system-i386
-> > specifically.
-> >
-> > I tried to go through the ChangeLog to see if the `-smp` option was
-> > deprecated or changed.  I found this note [2] about invalid topologies
-> > having been removed in 5.2. Here's what I found after long
-> > experimentation:
-> >
-> > The legacy MP tables appear to work only if you specify the longform
-> > `-smp cpus=4,cores=1,threads=1,sockets=4` in 6.2.0.  If you specify
-> > `-smp 4` or `-smp cpus=4` it will not work in 6.2.0 (it worked in
-> > 6.1.1). I am guessing that perhaps the MP tables add entries for each
-> > socket, but that perhaps the behavior of the shortcuts `-smp n` and
-> > `-smp cpus=n` was changed to influence the number of cores rather than
-> > sockets.
-> >
-> > In other words, `-smp cpus=n` now means `-smp
-> > cpus=n,cores=n,threads=1,sockets=1` whereas in 6.1.1 and before it
-> > meant `-smp cpus=n,cores=1,threads=1,sockets=n`. I note that
-> > specifying `-smp cpus=4,cores=4,threads=1,sockets=1` in 6.1.1 also
-> > does not create 4 entries in the legacy MP tables.
-
-
-
-Thanks for reporting issue in such a detailed way.
-
-QEMU doesn't generate legacy MP tables and as reported
-the above issue is still present in earlier versions when
-cores are used.
-Well seabios has a comment:
-         /* Only populate the MPS tables with the first logical CPU in            
-           each package */
-So I'd guess it has never worked for anything but sockets.
-With QEMU starting to prefer cores over sockets by default
-I'd suggest to either
-  * explicitly provide desired topology (i.e. sockets)
-  * use older machine type which still preffers sockets by default
-    (ex: up to 6.1 machine types)
-
-If anybody cares about legacy tables + cores/threads usecase,
-I suggest to investigate what can be done on SeaBIOS side which
-generates MP tables (assuming if anything could be done at all).
-CCing SeaBIOS mail-list.
-
-> > Can someone confirm/deny this?  If so, it's a breaking change that
-> > perhaps could be mentioned in the Changelog to save others the time
-> > when they upgrade. Affected educational OS include MIT's xv6 and
-> > Stanford's pintos OS.
-
-Legacy MP table is not actively maintained part of the code,
-hence it's configuration which is not tested.
-However if someone is interested in maintaining this, one
-should contribute at least a testcase that will warn developers
-early if usecase is broken. We can't promise not breaking it
-ever but at least we would be able to document any breaking
-changes in release notes.
-
-> > Thanks for all the work you do on qemu!
-> >
-> >  - Godmar
-> >
-> > [1] https://github.com/mit-pdos/xv6-public/blob/eeb7b415dbcb12cc362d0783e41c3d1f44066b17/mp.c
-> > [2] https://qemu-project.gitlab.io/qemu/about/removed-features.html#smp-invalid-topologies-removed-in-5-2
-> >
-> > (I'm typing this email in gmail using the plaintext setting, hopefully
-> > it'll preserve line breaks.)  
+> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  qapi/machine.json     |  4 ++--
+>  qapi/misc-target.json | 17 ++++++++++++-----
+>  hw/i386/sgx.c         | 11 +++++++++--
+>  3 files changed, 23 insertions(+), 9 deletions(-)
 > 
-> thanks
-> -- PMM
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index b6a37e17c4..cf47cb63a9 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -1207,7 +1207,7 @@
+>  #
+>  # @memdev: memory backend linked with device
+>  #
+> -# @node: the numa node
+> +# @node: the numa node (Since: 7.0)
+>  #
+>  # Since: 6.2
+>  ##
+> @@ -1288,7 +1288,7 @@
+>  #
+>  # @memdev: memory backend linked with device
+>  #
+> -# @node: the numa node
+> +# @node: the numa node (Since: 7.0)
+>  #
+>  # Since: 6.2
+>  ##
+> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+> index 1022aa0184..a87358ea44 100644
+> --- a/qapi/misc-target.json
+> +++ b/qapi/misc-target.json
+> @@ -344,9 +344,9 @@
+>  #
+>  # @node: the numa node
+>  #
+> -# @size: the size of epc section
+> +# @size: the size of EPC section
+>  #
+> -# Since: 6.2
+> +# Since: 7.0
+>  ##
+>  { 'struct': 'SGXEPCSection',
+>    'data': { 'node': 'int',
+> @@ -365,7 +365,9 @@
+>  #
+>  # @flc: true if FLC is supported
+>  #
+> -# @sections: The EPC sections info for guest
+> +# @section-size: The EPC section size for guest (Will be deprecated in 7.2)
+
+I expected deprecation would start now (7.0, and it would be removed
+in 7.2.
+
+Also needs to be documented in docs/about/deprecated.rst
+
+
+
+> +#
+> +# @sections: The EPC sections info for guest (Since: 7.0)
+>  #
+>  # Since: 6.2
+>  ##
+> @@ -374,6 +376,7 @@
+>              'sgx1': 'bool',
+>              'sgx2': 'bool',
+>              'flc': 'bool',
+> +            'section-size': 'uint64',
+>              'sections': ['SGXEPCSection']},
+>     'if': 'TARGET_I386' }
+>  
+> @@ -390,7 +393,9 @@
+>  #
+>  # -> { "execute": "query-sgx" }
+>  # <- { "return": { "sgx": true, "sgx1" : true, "sgx2" : true,
+> -#                  "flc": true, "section-size" : 0 } }
+> +#                  "flc": true,  "section-size" : 96468992,
+> +#                  "sections": [{"node": 0, "size": 67108864},
+> +#                  {"node": 1, "size": 29360128}]} }
+>  #
+>  ##
+>  { 'command': 'query-sgx', 'returns': 'SGXInfo', 'if': 'TARGET_I386' }
+> @@ -408,7 +413,9 @@
+>  #
+>  # -> { "execute": "query-sgx-capabilities" }
+>  # <- { "return": { "sgx": true, "sgx1" : true, "sgx2" : true,
+> -#                  "flc": true, "section-size" : 0 } }
+> +#                  "flc": true, "section-size" : 96468992,
+> +#                  "section" : [{"node": 0, "size": 67108864},
+> +#                  {"node": 1, "size": 29360128}]} }
+>  #
+>  ##
+>  { 'command': 'query-sgx-capabilities', 'returns': 'SGXInfo', 'if': 'TARGET_I386' }
+> diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
+> index 5de5dd0893..a2b318dd93 100644
+> --- a/hw/i386/sgx.c
+> +++ b/hw/i386/sgx.c
+> @@ -83,7 +83,7 @@ static uint64_t sgx_calc_section_metric(uint64_t low, uint64_t high)
+>             ((high & MAKE_64BIT_MASK(0, 20)) << 32);
+>  }
+>  
+> -static SGXEPCSectionList *sgx_calc_host_epc_sections(void)
+> +static SGXEPCSectionList *sgx_calc_host_epc_sections(uint64_t *size)
+>  {
+>      SGXEPCSectionList *head = NULL, **tail = &head;
+>      SGXEPCSection *section;
+> @@ -106,6 +106,7 @@ static SGXEPCSectionList *sgx_calc_host_epc_sections(void)
+>          section = g_new0(SGXEPCSection, 1);
+>          section->node = j++;
+>          section->size = sgx_calc_section_metric(ecx, edx);
+> +        *size += section->size;
+>          QAPI_LIST_APPEND(tail, section);
+>      }
+>  
+> @@ -156,6 +157,7 @@ SGXInfo *qmp_query_sgx_capabilities(Error **errp)
+>  {
+>      SGXInfo *info = NULL;
+>      uint32_t eax, ebx, ecx, edx;
+> +    uint64_t size = 0;
+>  
+>      int fd = qemu_open_old("/dev/sgx_vepc", O_RDWR);
+>      if (fd < 0) {
+> @@ -173,7 +175,8 @@ SGXInfo *qmp_query_sgx_capabilities(Error **errp)
+>      info->sgx1 = eax & (1U << 0) ? true : false;
+>      info->sgx2 = eax & (1U << 1) ? true : false;
+>  
+> -    info->sections = sgx_calc_host_epc_sections();
+> +    info->sections = sgx_calc_host_epc_sections(&size);
+> +    info->section_size = size;
+>  
+>      close(fd);
+>  
+> @@ -220,12 +223,14 @@ SGXInfo *qmp_query_sgx(Error **errp)
+>          return NULL;
+>      }
+>  
+> +    SGXEPCState *sgx_epc = &pcms->sgx_epc;
+>      info = g_new0(SGXInfo, 1);
+>  
+>      info->sgx = true;
+>      info->sgx1 = true;
+>      info->sgx2 = true;
+>      info->flc = true;
+> +    info->section_size = sgx_epc->size;
+>      info->sections = sgx_get_epc_sections_list();
+>  
+>      return info;
+> @@ -249,6 +254,8 @@ void hmp_info_sgx(Monitor *mon, const QDict *qdict)
+>                     info->sgx2 ? "enabled" : "disabled");
+>      monitor_printf(mon, "FLC support: %s\n",
+>                     info->flc ? "enabled" : "disabled");
+> +    monitor_printf(mon, "size: %" PRIu64 "\n",
+> +                   info->section_size);
+>  
+>      section_list = info->sections;
+>      for (section = section_list; section; section = section->next) {
 > 
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
