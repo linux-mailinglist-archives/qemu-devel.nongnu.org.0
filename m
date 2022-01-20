@@ -2,59 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B414494D82
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 12:59:22 +0100 (CET)
-Received: from localhost ([::1]:59142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9FB8494C8D
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 12:12:14 +0100 (CET)
+Received: from localhost ([::1]:47416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAW65-00037A-45
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 06:59:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53680)
+	id 1nAVMQ-0007aV-IJ
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 06:12:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nAUIj-0006j6-5l
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 05:04:20 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.226]:32934
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nAUIg-0002xH-EZ
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 05:04:16 -0500
-HMM_SOURCE_IP: 172.18.0.48:40214.1503667029
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-182.150.57.243 (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id DDD522800BB;
- Thu, 20 Jan 2022 18:03:46 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id 8c23bd836787411cb6b075650a79aa8b for
- peterx@redhat.com; Thu, 20 Jan 2022 18:04:03 CST
-X-Transaction-ID: 8c23bd836787411cb6b075650a79aa8b
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
-X-MEDUSA-Status: 0
-Message-ID: <53783d89-ee0c-0704-5bf2-a2552376bfec@chinatelecom.cn>
-Date: Thu, 20 Jan 2022 18:03:45 +0800
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nAUN2-0001nG-CE
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 05:08:48 -0500
+Received: from [2607:f8b0:4864:20::433] (port=43946
+ helo=mail-pf1-x433.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nAUMw-0007rl-Bh
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 05:08:42 -0500
+Received: by mail-pf1-x433.google.com with SMTP id u10so395643pfg.10
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 02:08:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=UVRoBgZNFuDIlDqqd+bVLqzD7laNZ7CWr38TzNhqjJc=;
+ b=lTcF7VjlNWXJUqoADNySKJ04ZjigzTNEt1W1FkAemysxS1UcivZKtnY4astU6PcN90
+ OVIsfdrC+lHiX0jEfuHNHwQAfoINoNx6YhvfkGNWmzXZxFmI1+MlrLxt4VdVRJ+bYZ1J
+ kkm6qOeADdeqwT8QnNYzyktvS+Go0wxG3zOWz7qhqYShwPylr50/QJAVOr5b27VfsMxG
+ GVjbaFShOEE2FkCgO1pdCX266SvYWKQSXgYU/jKJoGEEdZ4IyUwcPxSgS6FWqu3kOZWS
+ 9sr8oz6OIU9p3ecuVN/WqG1+UQDCDcogipAAKVNg6ErA9g6+zLrgwdljtwNo0euQ9W9v
+ Ehlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=UVRoBgZNFuDIlDqqd+bVLqzD7laNZ7CWr38TzNhqjJc=;
+ b=n3ebIroEFSn8Sem4HU2DQHDXDV5IYhuPzDL/TmOYQc8p6CBsuSpo6yROtkBv9uCpEf
+ lNMt6sZqN2mEkZJTIJ/gZCzGbEKHY9CEcBpnJPG2NDRaMj4k7jyXWPL1SJStECfB6IK+
+ CtdFasjGj9YCHeNllmxaSpqkld7MU1Ow1v9+bnHFIXdIIKdu4bOL2xONnks5GS3g2Vc6
+ SrqkoS8NCaiEZzUHsEKkpT7qUDfglZbsg7mjX+nCHv6lmRry6Gwznv+uMgMHxHjtPy2+
+ m2LM83GV0gijAPrZFeXI8WB7L2GHNdMd52wPXKcz+cZY+3A6C+w1l7ASTc9rK5hX7qWG
+ Wn8Q==
+X-Gm-Message-State: AOAM5335LirjaUCJngy79rykMX3mDlZ4rO9xUil2ya2n11zQrY6768NA
+ FbqLCmicBftz4wsGkTZEdDHtzg==
+X-Google-Smtp-Source: ABdhPJzT7g83RjWZxwWszJvUWuHtRpY4YNWLww8PrUX9IpadS6hHDJfbDwQxd6DRF5rz1BaVgX6Jfg==
+X-Received: by 2002:a63:6b89:: with SMTP id g131mr4118324pgc.221.1642673313017; 
+ Thu, 20 Jan 2022 02:08:33 -0800 (PST)
+Received: from [192.168.1.6] ([203.163.242.243])
+ by smtp.googlemail.com with ESMTPSA id l12sm8334736pjq.57.2022.01.20.02.08.30
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 20 Jan 2022 02:08:32 -0800 (PST)
+Date: Thu, 20 Jan 2022 15:38:26 +0530 (IST)
+From: Ani Sinha <ani@anisinha.ca>
+X-X-Sender: ani@athabasca.local
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: MP tables do not report multiple CPUs in Qemu 6.2.0 on x86 when
+ given -smp cpus=n flag
+In-Reply-To: <alpine.OSX.2.20.2201201527140.38065@athabasca.local>
+Message-ID: <alpine.OSX.2.20.2201201536020.38065@athabasca.local>
+References: <CAB4+JY+3N5qvC3p_e2DWWa=-QUtW+wH5ZdEJFPKTdSD5TVPXMA@mail.gmail.com>
+ <CAFEAcA9tGnEOOhSbCJv2=JoU5C3cFB08mdaLRERgzPdatKQB=g@mail.gmail.com>
+ <alpine.DEB.2.22.394.2201201305580.844042@anisinha-lenovo>
+ <alpine.OSX.2.20.2201201527140.38065@athabasca.local>
+User-Agent: Alpine 2.20 (OSX 67 2015-01-07)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v11 3/4] softmmu/dirtylimit: implement virtual CPU throttle
-To: Peter Xu <peterx@redhat.com>
-References: <cover.1641316375.git.huangy81@chinatelecom.cn>
- <0381e32c2cc70613613aaa284b8e8c9760d6932f.1641316375.git.huangy81@chinatelecom.cn>
- <YeUbhC7MG32K9pxu@xz-m1.local>
- <d34dbb85-f8a9-cb21-a312-a4f4f3cafd07@chinatelecom.cn>
- <Yekqn90HOtFMWupM@xz-m1.local>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <Yekqn90HOtFMWupM@xz-m1.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.226;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: multipart/mixed; BOUNDARY="0-986132721-1642673312=:38065"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::433
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::433;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x433.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,170 +89,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Godmar Back <gback@cs.vt.edu>,
+ qemu-discuss@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--0-986132721-1642673312=:38065
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
 
-在 2022/1/20 17:25, Peter Xu 写道:
-> On Thu, Jan 20, 2022 at 04:26:09PM +0800, Hyman Huang wrote:
->> Hi，Peter. I'm working on this problem and found the reason is kind of the
->> same as i metioned in cover letter of v10, the following is what i posted:
->>
->>    2. The new implementaion of throttle algo enlightened by Peter
->>       responds faster and consume less cpu resource than the older,
->>       we make a impressed progress.
->>
->>       And there is a viewpoint may be discussed, it is that the new
->>       throttle logic is "passive", vcpu sleeps only after dirty ring,
->>       is full, unlike the "auto-converge" which will kick vcpu instead
->>       in a fixed slice time. If the vcpu is memory-write intensive
->>       and the ring size is large, it will produce dirty memory during
->>       the dirty ring full time and the throttle works not so good, it
->>       means the throttle depends on the dirty ring size.
->>
->>       I actually tested the new algo in two case:
->>
->>       case 1: dirty-ring-size: 4096, dirtyrate: 1170MB/s
->>       result: minimum quota dirtyrate is 25MB/s or even less
->>               minimum vcpu util is 6%
->>
->>       case 2: dirty-ring-size: 65536, dirtyrate: 1170MB/s
->>       result: minimum quota dirtyrate is 256MB/s
->>               minimum vcpu util is 24%
->>
->>       I post this just for discussion, i think this is not a big deal
->>       beacase if we set the dirty-ring-size to the maximum value(65536),
->>       we assume the server's bandwidth is capable of handling it.
-> 
-> My memory is that I tested your v10 (which has this wait-at-ring-full logic)
-> already and at that time it worked well.
-> 
-> It's possible that I just got lucky with v10, so that can happen with some
-> random conditions and so far we still don't know how to hit it.
-Uh, sorry for not explaining the reason clearly. I think the reason of 
-failing to throttle is "vcpu loss chance to sleep", i trace the 
-kvm_dirty_ring_full event and found that when throttling a vcpu works 
-bad, the kvm_dirty_ring_full event do no arise and sleep never happens 
-correspondingly.
 
-Two case lead to this result:
-case 1: dirty-ring-size is large and the ring full time is long, not all 
-            dirty ring of vcpu get full at one time, so there must be 
-some vcpus that miss the chance to sleep.
+On Thu, 20 Jan 2022, Ani Sinha wrote:
 
-case 2: guest has many vcpus, not all dirty ring of vcpu get full at one 
-time. So miss the chance of sleeping too as above.
-> 
-> However..
-> 
->>
->> Currently, Qemu handle the vcpu KVM_EXIT_DIRTY_RING_FULL exit as the
->> following:
->>
->> 1. If one of the dirty-ring on a vcpu is full, vcpu thread returns to user
->> space and qemu handle it.
->>
->> 2. Qemu get the kvm_slots_lock and reap dirty-ring of all vcpus once for all
->> by calling kvm_dirty_ring_reap, fill the dirty page bitmap of slot and reset
->> dirty ring. Release the kvm_slots_lock finally.
->>
->> The logic *reap and reset dirty ring of all vcpu after one vcpu's dirty ring
->> is full* works fine and efficiently.
->>
->> But this is not what dirtylimit want becasue some of the vcpu may loss
->> chance to sleep and could not be throttled, though vcpu's dirty ring was
->> full.
->>
->> The latest test environment of you used a larger guest(20G, 40 cores),
->> increasing the chances of missing sleep for vcpus and the throttle works not
->> good as before.
->>
->> I try a simple modification make the throttle works better as before:
->>
->> +static void kvm_dirty_ring_reset_one(KVMState *s, CPUState *cpu)
->> +{
->> +    int ret;
->> +    uint64_t total = 0;
->> +
->> +    kvm_slots_lock();
->> +    total = kvm_dirty_ring_reap_one(s, cpu);
->> +
->> +    if (total) {
->> +        ret = kvm_vm_ioctl(s, KVM_RESET_DIRTY_RINGS);
->> +        assert(ret == total);
->> +    }
->> +
->> +    kvm_slots_unlock();
->> +}
->> +
->>   static void do_kvm_cpu_synchronize_kick(CPUState *cpu, run_on_cpu_data arg)
->>   {
->>       /* No need to do anything */
->> @@ -2309,6 +2327,11 @@ bool kvm_dirty_ring_enabled(void)
->>       return kvm_state->kvm_dirty_ring_size ? true : false;
->>   }
->>
->>   static int kvm_init(MachineState *ms)
->>   {
->>       MachineClass *mc = MACHINE_GET_CLASS(ms);
->> @@ -2955,9 +2978,8 @@ int kvm_cpu_exec(CPUState *cpu)
->>                * still full.  Got kicked by KVM_RESET_DIRTY_RINGS.
->>                */
->>               trace_kvm_dirty_ring_full(cpu->cpu_index);
->> -            qemu_mutex_lock_iothread();
->> -            kvm_dirty_ring_reap(kvm_state);
->> -            qemu_mutex_unlock_iothread();
->> +            kvm_dirty_ring_reset_one(kvm_state, cpu);
->> +            dirtylimit_vcpu_execute(cpu);
->>               ret = 0;
->>               break;
->>           case KVM_EXIT_SYSTEM_EVENT:
->>
->> I drop the BQL to reduce the overhead of KVM_EXIT_DIRTY_RING_FULL exit
->> handle. May be kvm_state could be protected by BQL, but i wonder if there
->> can be a finer granularity lock.
->>
->> How about this?
-> 
-> ... I think what you explained makes sense to me.
-> 
-> Note that there's also the reaper thread running in the background that can
-> reap all the cores too.
-> 
-> It only runs once per second so it shouldn't bring a lot of differences, but
-> I'm also wondering whether we should also turn that temporarily off too when
-> dirtylimit is enabled - we can simply let it keep sleeping if dirtylimit is in
-> service.
-> 
-> Dropping BQL may not be safe, as it serializes the reaping with other possible
-> kvm memslot updates.  I don't know whether it's a must in the future to use BQL
-> for reaping the rings, but so far I'd say we can still stick with it.
-> 
-> Note that even if you don't take BQL you'll still need the slots_lock and so
-> far that's also global, so I don't see how it can help on vcpu concurrency
-> anyway even if we dropped one of them.
-> 
-> If to do this, could you not introduce kvm_dirty_ring_reset_one() but just let
-> it take one more CPUState* parameter?  Most of the codes you added should be
-> similar to kvm_dirty_ring_reap_locked(), and I wanted to keep the trace point
-> there (trace_kvm_dirty_ring_reap, though that needs another parameter too).
-> 
-> And that patch can be done on top of this patch, so it can be reviewed easier
-> outside of dirtylimit details.
-> 
-> Thanks,
-> 
+> +qemu-devel
+>
+> On Thu, 20 Jan 2022, Ani Sinha wrote:
+>
+> >
+> >
+> > On Wed, 19 Jan 2022, Peter Maydell wrote:
+> >
+> > > On Wed, 19 Jan 2022 at 14:44, Godmar Back <gback@cs.vt.edu> wrote:
+> > > > after upgrading to 6.2.0, I observed that code such as MIT's xv6 (see
+> > > > [1]) is no longer able to detect multiple CPUs.  Their code works in
+> > > > 6.1.1, however.
+> > >
+> > > Hi; this isn't a great place for reporting QEMU bugs, because
+> > > it's more of a user-to-user discussion list. Not all QEMU
+> > > developers read it. I've cc'd the ACPI maintainers, who
+> > > hopefully may have an idea about what's happening here.
+> > > You could also file a bug at
+> > > https://gitlab.com/qemu-project/qemu/-/issues
+> > >
+> > > > I built 6.1.1 from source and 6.2.0 from source and I have also tested
+> > > > with CentOS stream's 6.1.1 qemu-kvm and was able to pinpoint this
+> > > > change to these 2 versions of qemu. I am using qemu-system-i386
+> > > > specifically.
+> > > >
+> > > > I tried to go through the ChangeLog to see if the `-smp` option was
+> > > > deprecated or changed.  I found this note [2] about invalid topologies
+> > > > having been removed in 5.2. Here's what I found after long
+> > > > experimentation:
+> > > >
+> > > > The legacy MP tables appear to work only if you specify the longform
+> > > > `-smp cpus=4,cores=1,threads=1,sockets=4` in 6.2.0.  If you specify
+> > > > `-smp 4` or `-smp cpus=4` it will not work in 6.2.0 (it worked in
+> > > > 6.1.1). I am guessing that perhaps the MP tables add entries for each
+> > > > socket, but that perhaps the behavior of the shortcuts `-smp n` and
+> > > > `-smp cpus=n` was changed to influence the number of cores rather than
+> > > > sockets.
+> > > >
+> > > > In other words, `-smp cpus=n` now means `-smp
+> > > > cpus=n,cores=n,threads=1,sockets=1` whereas in 6.1.1 and before it
+> > > > meant `-smp cpus=n,cores=1,threads=1,sockets=n`. I note that
+> > > > specifying `-smp cpus=4,cores=4,threads=1,sockets=1` in 6.1.1 also
+> > > > does not create 4 entries in the legacy MP tables.
+> > > >
+> >
+> > My suspicion is that the following commit might have introduced a
+> > regression:
+> >
+> > commit 86ce2d28fa09d15547b5cabdc264cadfb53a848c
+> > Author: Yanan Wang <wangyanan55@huawei.com>
+> > Date:   Tue Oct 26 11:46:58 2021 +0800
+> >
+> >     hw/core/machine: Split out the smp parsing code
+> >
+> >     We are going to introduce an unit test for the parser smp_parse()
+> >     in hw/core/machine.c, but now machine.c is only built in softmmu.
+> >
+> >     In order to solve the build dependency on the smp parsing code and
+> >     avoid building unrelated stuff for the unit tests, move the tested
+> >     code from machine.c into a separate file, i.e., machine-smp.c and
+> >     build it in common field.
+> >
+> >     Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> >     Reviewed-by: Andrew Jones <drjones@redhat.com>
+> >     Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> >     Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> >     Message-Id: <20211026034659.22040-2-wangyanan55@huawei.com>
+> >     Acked-by: Eduardo Habkost <ehabkost@redhat.com>
+> >     Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> >
+> > I am still checking.
+>
+> Yes this patch introduced the behavior of preferring cores over sockets
+> post 6.2. I think this is intentional. See the following hunk:
+>
+> +        if (mc->smp_props.prefer_sockets) {
+> +            /* prefer sockets over cores before 6.2 */
+> +            if (sockets == 0) {
+> +                cores = cores > 0 ? cores : 1;
+> +                threads = threads > 0 ? threads : 1;
+> +                sockets = maxcpus / (dies * cores * threads);
+> +            } else if (cores == 0) {
+> +                threads = threads > 0 ? threads : 1;
+> +                cores = maxcpus / (sockets * dies * threads);
+> +            }
+> +        } else {
+> +            /* prefer cores over sockets since 6.2 */
+> +            if (cores == 0) {
+> +                sockets = sockets > 0 ? sockets : 1;
+> +                threads = threads > 0 ? threads : 1;
+> +                cores = maxcpus / (sockets * dies * threads);
+> +            } else if (sockets == 0) {
+> +                threads = threads > 0 ? threads : 1;
+> +                sockets = maxcpus / (dies * cores * threads);
+> +            }
+> +        }
 
--- 
-Best regard
+Actually I am not quite right. This is the real change which changed the
+preference. The previous change was a code re-org that preserved the
+behavior:
 
-Hyman Huang(黄勇)
+commit 4a0af2930a4e4f64ce551152fdb4b9e7be106408
+Author: Yanan Wang <wangyanan55@huawei.com>
+Date:   Wed Sep 29 10:58:09 2021 +0800
+
+    machine: Prefer cores over sockets in smp parsing since 6.2
+
+    In the real SMP hardware topology world, it's much more likely that
+    we have high cores-per-socket counts and few sockets totally. While
+    the current preference of sockets over cores in smp parsing results
+    in a virtual cpu topology with low cores-per-sockets counts and a
+    large number of sockets, which is just contrary to the real world.
+
+    Given that it is better to make the virtual cpu topology be more
+    reflective of the real world and also for the sake of compatibility,
+    we start to prefer cores over sockets over threads in smp parsing
+    since machine type 6.2 for different arches.
+
+    In this patch, a boolean "smp_prefer_sockets" is added, and we only
+    enable the old preference on older machines and enable the new one
+    since type 6.2 for all arches by using the machine compat mechanism.
+
+    Suggested-by: Daniel P. Berrange <berrange@redhat.com>
+    Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+    Acked-by: David Gibson <david@gibson.dropbear.id.au>
+    Acked-by: Cornelia Huck <cohuck@redhat.com>
+    Reviewed-by: Andrew Jones <drjones@redhat.com>
+    Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+    Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+    Message-Id: <20210929025816.21076-10-wangyanan55@huawei.com>
+    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+In any case, the behavior change is intended because of the reasons the
+above commit outlines.
+--0-986132721-1642673312=:38065--
 
