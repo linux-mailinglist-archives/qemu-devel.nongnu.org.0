@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DD9B4951D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 16:54:20 +0100 (CET)
-Received: from localhost ([::1]:34504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99463495146
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 16:19:06 +0100 (CET)
+Received: from localhost ([::1]:50596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAZlT-0002MI-9H
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 10:54:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60980)
+	id 1nAZDN-0007Rz-9N
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 10:19:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1nAW44-0004pS-Ag
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:57:16 -0500
-Received: from [2607:f8b0:4864:20::102e] (port=41473
- helo=mail-pj1-x102e.google.com)
+ id 1nAW47-0004yS-Ej
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:57:19 -0500
+Received: from [2607:f8b0:4864:20::434] (port=41647
+ helo=mail-pf1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1nAW41-0002i7-Il
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:57:15 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id
- b1-20020a17090a990100b001b14bd47532so5616491pjp.0
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 03:57:10 -0800 (PST)
+ id 1nAW44-0002ig-08
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:57:19 -0500
+Received: by mail-pf1-x434.google.com with SMTP id x37so1362469pfh.8
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 03:57:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=o6XDr36NJxCliDxdkfqfDFTCD9b7LaaUZYEo0i4nSLU=;
- b=OXQxZ9+TruHnaYJcVhouMKsV6/jpT9t2FBy3rdqiMMa7ONmcw8P0NhqJoCWNhaYnwF
- UjDexzyzdx5dRBVCK3rAs++f06DCL7rxVfIzp4KAC9yo4zRvo77TbEp3ahrpw/2xnV4C
- 30QnXwlbK5bdArSBUDinzwOFvTjNyJceZz9q7mA96OxXFq0G2AlhBu6aQe/c6JEtY/he
- bGDhqjyZAt+nNyY9vULoU249tulWpTgIqmQ6EeFUXp3pYnH/5ZzKgRFyk/5tl9nMhgZb
- D6XCP4lt+1I6//KAaL51SPtlAR46m7dsi0vP/V7aQmi3LPFO8Dqzy39iR/Rx7R+RE2Io
- zdyw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=KEZ+jn1iKyvT0raRrC47lcGGz58ASxqecnos1HwVkJw=;
+ b=DW5ZV2RzqcPdnKYP58ZXH+cNq7uXsxR+tDhqwJTMBwQUqTBLAv2woVsn2jR6OwafEr
+ X+37ua1+nL2ryDxVEZVNP+Z5farg+Y3Yogux0k+I2nR/yQWDA2vKc4eLFjkH0fLlZaiw
+ bs8W62QCacb6fBXcpANfVXX9P7eauIpoK94sLd77ZLNIqwEqks2XPJRQWgYWAmplThwA
+ VFUPlNdQYXDTaNF2jleMFbpclFV5x9x7ZSrkt7VnngreYuZ5g1DB3JiqWRGlJ+NFKADQ
+ d+mAPiC6uaQXtKCZJfkV95AZD2zWIqr+v4ALuedzYCur1TTEIzrvm6N8RE7Z5q/2dbi9
+ icVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=o6XDr36NJxCliDxdkfqfDFTCD9b7LaaUZYEo0i4nSLU=;
- b=drXBBub0VBtwI2PWoYA2M0bHOVu1H9T6VggPyvRzYPjMHoOEOxEtoghT78zJjKEHfz
- 8ZVHLKaGO2yTSsNzckLvgUhhViikBjdcuOY6pP/I0g+l8J4PyYKk/Bw9PMw+QzrEN3W0
- BJjdVhy7IHIwDkuxD/ni1EQjNBOXkn9SB+eQS5MKmRH/dy7wjFvYsOYrp38D48jZS2S4
- JhICKtCoZJGYrt3vXmwt/k2v+FJNdnXddxeh69w1caWGWk6RZfwdkTZdHVw6ll/zZI2D
- P93Qmk8W5hbaPQ/cr9mGIZMuMhtw8wL4leQKnr60IWCEhn+qMFup5WxZmdUnjpAAbtU6
- 6iYA==
-X-Gm-Message-State: AOAM5332LEK3V9wyWo9YMFJ7SKnBee3ANnp1P/2gnZKoECZzULNA7h4m
- TdyAb0foQqaoFQjwG5g4WLp9Ww==
-X-Google-Smtp-Source: ABdhPJxcwbtN/Y5VfZ7rtg+lYZkKvO0w1Gq4Ipsk7eUWPCK7oLT5gHlbGg4Vx9ZnjXoiOF9S7E8+7A==
-X-Received: by 2002:a17:90b:180d:: with SMTP id
- lw13mr10335841pjb.215.1642679829616; 
- Thu, 20 Jan 2022 03:57:09 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=KEZ+jn1iKyvT0raRrC47lcGGz58ASxqecnos1HwVkJw=;
+ b=IE0aPU6Cd82zBt0XdsaIF7tFP0XE62AaifbaIwzDa4vFDFX7oCSGgNPBmMLDsXAQOF
+ IFTY+LeghI0iSwZQCmNaP8mOyICkq2TBPddoBVR4filpJ0RtVDlbgh+7/fILin37GYjT
+ J+LszqIWCxruT45eWRlGQVXCY6elQDxLRsaDDWjoqMhbOoa1MSjEN2kKZ8WKNJD7BmqF
+ MxHcnt7/5xG5iPgIq2jfdeHf2JkU6D3MfXcrElRexMnz5SY1TbUeMicBw8aDAtcFIrUp
+ nke9VwwPXVFjVHszn07MLmrL0TvWDrt/yr6hGJvrUToPM7VJVWNRG/yt4AlW+vvhOHSY
+ H1Lg==
+X-Gm-Message-State: AOAM5335U6VN8iWCPpvMqoKfqyYzunyI4yxjKGg7OhN7BbhyOXGBE8FX
+ SG/lZyb0qdkRs9FVL5ZctEOcuw==
+X-Google-Smtp-Source: ABdhPJwU9+omi5AA7NznIMgRv08HBTkrrm9Z2Ee6gbm1rFjlLS3q6YCucSwk3BtDMLUOVca/H8+60Q==
+X-Received: by 2002:a05:6a00:1944:b0:438:d002:6e35 with SMTP id
+ s4-20020a056a00194400b00438d0026e35mr35542496pfk.20.1642679834573; 
+ Thu, 20 Jan 2022 03:57:14 -0800 (PST)
 Received: from localhost.localdomain ([122.179.80.139])
- by smtp.gmail.com with ESMTPSA id c2sm3465694pfv.68.2022.01.20.03.57.05
+ by smtp.gmail.com with ESMTPSA id c2sm3465694pfv.68.2022.01.20.03.57.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 03:57:09 -0800 (PST)
+ Thu, 20 Jan 2022 03:57:14 -0800 (PST)
 From: Anup Patel <apatel@ventanamicro.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>
-Subject: [PATCH v3 0/3] Improve RISC-V spike machine bios support
-Date: Thu, 20 Jan 2022 17:26:53 +0530
-Message-Id: <20220120115656.31686-1-apatel@ventanamicro.com>
+Subject: [PATCH v3 1/3] hw/riscv: spike: Allow using binary firmware as bios
+Date: Thu, 20 Jan 2022 17:26:54 +0530
+Message-Id: <20220120115656.31686-2-apatel@ventanamicro.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220120115656.31686-1-apatel@ventanamicro.com>
+References: <20220120115656.31686-1-apatel@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=apatel@ventanamicro.com; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=apatel@ventanamicro.com; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,43 +92,212 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Anup Patel <apatel@ventanamicro.com>, qemu-riscv@nongnu.org,
  Anup Patel <anup@brainfault.org>, qemu-devel@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>,
  Atish Patra <atishp@atishpatra.org>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series aims at improving RISC-V spike machine BIOS support by allowing
-use of binary firmware as bios. Further, this also allows us to totally
-remove the ELF bios images shipped with QEMU RISC-V.
+Currently, we have to use OpenSBI firmware ELF as bios for the spike
+machine because the HTIF console requires ELF for parsing "fromhost"
+and "tohost" symbols.
 
-These patches can also be found in riscv_spike_imp_v3 branch at:
-https://github.com/avpatel/qemu.git
+The latest OpenSBI can now optionally pick-up HTIF register address
+from HTIF DT node so using this feature spike machine can now use
+OpenSBI firmware BIN as bios.
 
-Changes since v2:
- - Remove ELF file names from .gitlab-ci.d/opensbi.yml in PATCH3
+Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+---
+ hw/char/riscv_htif.c         | 33 +++++++++++++++++++----------
+ hw/riscv/spike.c             | 41 ++++++++++++++++++++++--------------
+ include/hw/char/riscv_htif.h |  5 ++++-
+ include/hw/riscv/spike.h     |  1 +
+ 4 files changed, 52 insertions(+), 28 deletions(-)
 
-Changes since v1:
- - Use htif_uses_elf_symbols() in htif_mm_init() for PATCH1
- - Added PATCH2 and PATCH3 to remove ELF bios images
-
-Anup Patel (3):
-  hw/riscv: spike: Allow using binary firmware as bios
-  hw/riscv: Remove macros for ELF BIOS image names
-  roms/opensbi: Remove ELF images
-
- .gitlab-ci.d/opensbi.yml                      |   2 -
- hw/char/riscv_htif.c                          |  33 ++++++++-----
- hw/riscv/spike.c                              |  45 +++++++++++-------
- include/hw/char/riscv_htif.h                  |   5 +-
- include/hw/riscv/boot.h                       |   2 -
- include/hw/riscv/spike.h                      |   1 +
- pc-bios/meson.build                           |   2 -
- .../opensbi-riscv32-generic-fw_dynamic.elf    | Bin 838904 -> 0 bytes
- .../opensbi-riscv64-generic-fw_dynamic.elf    | Bin 934696 -> 0 bytes
- roms/Makefile                                 |   2 -
- 10 files changed, 54 insertions(+), 38 deletions(-)
- delete mode 100644 pc-bios/opensbi-riscv32-generic-fw_dynamic.elf
- delete mode 100644 pc-bios/opensbi-riscv64-generic-fw_dynamic.elf
-
+diff --git a/hw/char/riscv_htif.c b/hw/char/riscv_htif.c
+index ddae738d56..729edbf968 100644
+--- a/hw/char/riscv_htif.c
++++ b/hw/char/riscv_htif.c
+@@ -228,13 +228,25 @@ static const MemoryRegionOps htif_mm_ops = {
+     .write = htif_mm_write,
+ };
+ 
++bool htif_uses_elf_symbols(void)
++{
++    return (address_symbol_set == 3) ? true : false;
++}
++
+ HTIFState *htif_mm_init(MemoryRegion *address_space, MemoryRegion *main_mem,
+-    CPURISCVState *env, Chardev *chr)
++    CPURISCVState *env, Chardev *chr, uint64_t nonelf_base)
+ {
+-    uint64_t base = MIN(tohost_addr, fromhost_addr);
+-    uint64_t size = MAX(tohost_addr + 8, fromhost_addr + 8) - base;
+-    uint64_t tohost_offset = tohost_addr - base;
+-    uint64_t fromhost_offset = fromhost_addr - base;
++    uint64_t base, size, tohost_offset, fromhost_offset;
++
++    if (!htif_uses_elf_symbols()) {
++        fromhost_addr = nonelf_base;
++        tohost_addr = nonelf_base + 8;
++    }
++
++    base = MIN(tohost_addr, fromhost_addr);
++    size = MAX(tohost_addr + 8, fromhost_addr + 8) - base;
++    tohost_offset = tohost_addr - base;
++    fromhost_offset = fromhost_addr - base;
+ 
+     HTIFState *s = g_malloc0(sizeof(HTIFState));
+     s->address_space = address_space;
+@@ -249,12 +261,11 @@ HTIFState *htif_mm_init(MemoryRegion *address_space, MemoryRegion *main_mem,
+     qemu_chr_fe_init(&s->chr, chr, &error_abort);
+     qemu_chr_fe_set_handlers(&s->chr, htif_can_recv, htif_recv, htif_event,
+         htif_be_change, s, NULL, true);
+-    if (address_symbol_set == 3) {
+-        memory_region_init_io(&s->mmio, NULL, &htif_mm_ops, s,
+-                              TYPE_HTIF_UART, size);
+-        memory_region_add_subregion_overlap(address_space, base,
+-                                            &s->mmio, 1);
+-    }
++
++    memory_region_init_io(&s->mmio, NULL, &htif_mm_ops, s,
++                          TYPE_HTIF_UART, size);
++    memory_region_add_subregion_overlap(address_space, base,
++                                        &s->mmio, 1);
+ 
+     return s;
+ }
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index 288d69cd9f..597df4c288 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -42,6 +42,7 @@
+ 
+ static const MemMapEntry spike_memmap[] = {
+     [SPIKE_MROM] =     {     0x1000,     0xf000 },
++    [SPIKE_HTIF] =     {  0x1000000,     0x1000 },
+     [SPIKE_CLINT] =    {  0x2000000,    0x10000 },
+     [SPIKE_DRAM] =     { 0x80000000,        0x0 },
+ };
+@@ -75,6 +76,10 @@ static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
+ 
+     qemu_fdt_add_subnode(fdt, "/htif");
+     qemu_fdt_setprop_string(fdt, "/htif", "compatible", "ucb,htif0");
++    if (!htif_uses_elf_symbols()) {
++        qemu_fdt_setprop_cells(fdt, "/htif", "reg",
++            0x0, memmap[SPIKE_HTIF].base, 0x0, memmap[SPIKE_HTIF].size);
++    }
+ 
+     qemu_fdt_add_subnode(fdt, "/soc");
+     qemu_fdt_setprop(fdt, "/soc", "ranges", NULL, 0);
+@@ -172,6 +177,7 @@ static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
+     if (cmdline) {
+         qemu_fdt_add_subnode(fdt, "/chosen");
+         qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
++        qemu_fdt_setprop_string(fdt, "/chosen", "stdout-path", "/htif");
+     }
+ }
+ 
+@@ -241,10 +247,6 @@ static void spike_board_init(MachineState *machine)
+     memory_region_add_subregion(system_memory, memmap[SPIKE_DRAM].base,
+         machine->ram);
+ 
+-    /* create device tree */
+-    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
+-               riscv_is_32bit(&s->soc[0]));
+-
+     /* boot rom */
+     memory_region_init_rom(mask_rom, NULL, "riscv.spike.mrom",
+                            memmap[SPIKE_MROM].size, &error_fatal);
+@@ -266,6 +268,7 @@ static void spike_board_init(MachineState *machine)
+                                     htif_symbol_callback);
+     }
+ 
++    /* Load kernel */
+     if (machine->kernel_filename) {
+         kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc[0],
+                                                          firmware_end_addr);
+@@ -273,17 +276,6 @@ static void spike_board_init(MachineState *machine)
+         kernel_entry = riscv_load_kernel(machine->kernel_filename,
+                                          kernel_start_addr,
+                                          htif_symbol_callback);
+-
+-        if (machine->initrd_filename) {
+-            hwaddr start;
+-            hwaddr end = riscv_load_initrd(machine->initrd_filename,
+-                                           machine->ram_size, kernel_entry,
+-                                           &start);
+-            qemu_fdt_setprop_cell(s->fdt, "/chosen",
+-                                  "linux,initrd-start", start);
+-            qemu_fdt_setprop_cell(s->fdt, "/chosen", "linux,initrd-end",
+-                                  end);
+-        }
+     } else {
+        /*
+         * If dynamic firmware is used, it doesn't know where is the next mode
+@@ -292,6 +284,22 @@ static void spike_board_init(MachineState *machine)
+         kernel_entry = 0;
+     }
+ 
++    /* Create device tree */
++    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
++               riscv_is_32bit(&s->soc[0]));
++
++    /* Load initrd */
++    if (machine->kernel_filename && machine->initrd_filename) {
++        hwaddr start;
++        hwaddr end = riscv_load_initrd(machine->initrd_filename,
++                                       machine->ram_size, kernel_entry,
++                                       &start);
++        qemu_fdt_setprop_cell(s->fdt, "/chosen",
++                              "linux,initrd-start", start);
++        qemu_fdt_setprop_cell(s->fdt, "/chosen", "linux,initrd-end",
++                              end);
++    }
++
+     /* Compute the fdt load address in dram */
+     fdt_load_addr = riscv_load_fdt(memmap[SPIKE_DRAM].base,
+                                    machine->ram_size, s->fdt);
+@@ -303,7 +311,8 @@ static void spike_board_init(MachineState *machine)
+ 
+     /* initialize HTIF using symbols found in load_kernel */
+     htif_mm_init(system_memory, mask_rom,
+-                 &s->soc[0].harts[0].env, serial_hd(0));
++                 &s->soc[0].harts[0].env, serial_hd(0),
++                 memmap[SPIKE_HTIF].base);
+ }
+ 
+ static void spike_machine_instance_init(Object *obj)
+diff --git a/include/hw/char/riscv_htif.h b/include/hw/char/riscv_htif.h
+index fb9452cf51..f888ac1b30 100644
+--- a/include/hw/char/riscv_htif.h
++++ b/include/hw/char/riscv_htif.h
+@@ -52,8 +52,11 @@ extern const MemoryRegionOps htif_io_ops;
+ void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
+     uint64_t st_size);
+ 
++/* Check if HTIF uses ELF symbols */
++bool htif_uses_elf_symbols(void);
++
+ /* legacy pre qom */
+ HTIFState *htif_mm_init(MemoryRegion *address_space, MemoryRegion *main_mem,
+-    CPURISCVState *env, Chardev *chr);
++    CPURISCVState *env, Chardev *chr, uint64_t nonelf_base);
+ 
+ #endif
+diff --git a/include/hw/riscv/spike.h b/include/hw/riscv/spike.h
+index cdd1a13011..73d69234de 100644
+--- a/include/hw/riscv/spike.h
++++ b/include/hw/riscv/spike.h
+@@ -43,6 +43,7 @@ struct SpikeState {
+ 
+ enum {
+     SPIKE_MROM,
++    SPIKE_HTIF,
+     SPIKE_CLINT,
+     SPIKE_DRAM
+ };
 -- 
 2.25.1
 
