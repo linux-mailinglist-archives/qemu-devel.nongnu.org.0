@@ -2,90 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E6E6495485
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 19:59:21 +0100 (CET)
-Received: from localhost ([::1]:41862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 924584954CE
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 20:17:28 +0100 (CET)
+Received: from localhost ([::1]:54676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAceV-00055q-DU
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 13:59:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56318)
+	id 1nAcw3-0005je-5t
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 14:17:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAXZY-0000Zz-Sv
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 08:33:58 -0500
-Received: from [2607:f8b0:4864:20::832] (port=36855
- helo=mail-qt1-x832.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nAWgi-0004JI-MY
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:37:14 -0500
+Received: from [2a00:1450:4864:20::32b] (port=40952
+ helo=mail-wm1-x32b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAXZX-0003mt-6K
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 08:33:52 -0500
-Received: by mail-qt1-x832.google.com with SMTP id c19so5897438qtx.3
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 05:33:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nAWgZ-0003IX-Ab
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:37:06 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ r9-20020a1c4409000000b0034e043aaac7so477796wma.5
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 04:37:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Z43JSH4hTIktjEmnW7ht59HKcOhxEzBoOUI91X3DPFE=;
- b=drugnLwx8AtkxARUqs4+yswExg1m0Zk4fBV7qHGSgKs4afXup/z7ikjzQxwf1/aDdX
- QZ75ZOcOFM53G0EiMn5u0cvelz37MqWGjRXNeckNasw6TbYMtowc3L8r1wsbLPTMqeJe
- vQbM4L99GIXQCaNirlhFcGL3LfaKKfLtYOn2E2BSmGundwA5SYdxxNoomGjTrmhJY5Re
- kuWhsDf5KfzxE2qbxrbus903mX8TC6NrYU7a3EQLAdGN3TX/vWE7XvVL6CfIlK+FrzQi
- oKppoAhpRYvUDU8ffOiYGajAVjpXUvPTlSuh9gwsrFQYdfaPXmTglcl2fjo2hXVnQo8U
- UEcA==
+ bh=TVpyhUb/uqMHor++qPKwohsK4EfXn5eG3Z8q9ZVcGMk=;
+ b=J9f/B6uRKTN4HtXgVYgvVmL6u4oGVSk6Zo6mMn/bRHq86zAOWp164JDJfrlaimI2m6
+ JvhCS8dnYeT0jq2TSxAoYPKQ5HgHyBlIOWwb8A3tFzGSlEgyKzOG0wzReDwS2fdxltcG
+ R6CR5iVoYe7dE/VtRL33Itb3obtybfPpi5dyVfS1CKuSAan2q4C+P4dsRDgWXmcQI3uA
+ MOeR84ULbb0CHKAPIXDbBj29kPfKxvuyepTGUYNRmXMyqFteN4wiER3R7OJzyz7Ylo4R
+ 4TNc68DdS49paOfggmYErFI6BrAF1gFtpkP65hNd7GHal1e3FDRq7hNclgQLvGgCrvIx
+ UytA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Z43JSH4hTIktjEmnW7ht59HKcOhxEzBoOUI91X3DPFE=;
- b=7Gvctp2udoj2uRdyG7rzfEWK83iWkYvopMn0D8YQqK+G7ux58QoHIYr1hynnPkO9xY
- meIislAOgUJDmS7ZTJ+lpfTV6Kr+omrELYAtok7Sfm7BqL1uaiBXoEINguqHZnBgX+Jc
- qJYZ8BVamHKqtdVxteqRS28wy1k52oXEuw9oq84TdPmmPWGBl3NVCSywu7QMU8Lr04px
- F0PKeigPhLMhCBtb7mCq36Y06eq9KzRADdOJRT6ryr3cPsVtofN32oPXsGEBt90lu/s5
- xxMPdU1e/l3867V2o7dPP5opgjhJ0VlHKzY3wTKNEzbItySLEa4l3y9JdxPEdAy3fXuy
- eN3A==
-X-Gm-Message-State: AOAM533MHlLsUTMObPjwLsCPEysz1UdQ4+XHtlS0Moou59oaL4FaHsmC
- ty0kpwStBm9WjAgqgr3+juI=
-X-Google-Smtp-Source: ABdhPJwPysrj3NXG/yDs4/fHP05udWZyszcU8lxdA4hwYTE+rjDkS/H1/kE7x6s1yWFFUJ54kRD1Jw==
-X-Received: by 2002:a05:622a:c7:: with SMTP id
- p7mr16066206qtw.270.1642685630149; 
- Thu, 20 Jan 2022 05:33:50 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id n9sm1374056qtx.85.2022.01.20.05.33.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Jan 2022 05:33:49 -0800 (PST)
-Message-ID: <a82daf05-24d0-f871-185e-3588e4c91dea@amsat.org>
-Date: Thu, 20 Jan 2022 14:33:46 +0100
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=TVpyhUb/uqMHor++qPKwohsK4EfXn5eG3Z8q9ZVcGMk=;
+ b=kezpMdHMqRsPWkkKFCKC+J911h8wXPo0CVrj8RySY/bUk+6i3e29HWW3o7Jostcl0B
+ DagB/ocjA7Rpz4Qc+a+eS6c7QpJ4Ik/7NXXSvIPwbU0YTF9po8om7bXRiUH7EWTMrroJ
+ P7y5KoRiH0aepZOugr/dQ6uE2h1XxZQA20X6vfGyiRj98cJwcKv61HjyGWgtqpjUcqmp
+ A7XVOsLun/tEMVg62eOyP0LKM69zccDkoDVxRuIzBBBihUK8x+DV2gGot+VDyr6kobze
+ c6ign2S8T/6oC26ZvsybQKDMadXmOeqDI3mNZHVqN6f8ZOpHGo8OlaqUltgaOR7JL069
+ j1BQ==
+X-Gm-Message-State: AOAM531XdLP8LDa0qYn39ldanvFwa3VcX3VLa9Em3IL0m4gvQedIn6nl
+ OEX4RXJ1OUSyTvOgZIJ/HA+ci7GABav39g==
+X-Google-Smtp-Source: ABdhPJwtmsuVBv4Cwuy1EzbI5Oc7qsg62PxNqqP2sjx6iihjuPyzCeeKF7UEAx3j8QSU9zWaKft9qw==
+X-Received: by 2002:a05:6000:1862:: with SMTP id
+ d2mr32983476wri.211.1642682221131; 
+ Thu, 20 Jan 2022 04:37:01 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id t8sm7993324wmq.43.2022.01.20.04.37.00
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Jan 2022 04:37:00 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 24/38] hw/arm/aspeed: Add the i3c device to the AST2600 SoC
+Date: Thu, 20 Jan 2022 12:36:16 +0000
+Message-Id: <20220120123630.267975-25-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220120123630.267975-1-peter.maydell@linaro.org>
+References: <20220120123630.267975-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH 1/2] python: introduce qmp-shell-wrap convenience tool
-Content-Language: en-US
-To: John Snow <jsnow@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Beraldo Leal <bleal@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
-References: <20220117141103.157288-1-berrange@redhat.com>
- <20220117141103.157288-2-berrange@redhat.com>
- <CAFn=p-Z4sn94+i18JjEnXgPTJK1H0GBqjCA3kwxtHdrELcOc5g@mail.gmail.com>
- <YeaRJF3tqMjipU3o@redhat.com>
- <CAFn=p-ZS247FdLySHMcBTpqKzV=eTgsQQMAXyU5CwNEWdZQusQ@mail.gmail.com>
-In-Reply-To: <CAFn=p-ZS247FdLySHMcBTpqKzV=eTgsQQMAXyU5CwNEWdZQusQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::832
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qt1-x832.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -102,65 +91,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 18/1/22 19:04, John Snow wrote:
-> On Tue, Jan 18, 2022 at 5:06 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
+From: Troy Lee <troy_lee@aspeedtech.com>
 
->> It would be nice to just have this integrated into 'make check' so we
->> don't need to remember to run a special command.
-> 
-> The CI will run it, but 'make check' doesn't. To add it to make check,
-> I need to figure out how to insert a venv-building step into 'make
-> check' such that the venv gets deposited into the build dir instead of
-> the source dir.
-> I think I may also need yet another set of package dependencies that
-> pin on precise dependencies for testing purposes to prevent random
-> regressions during 'make check' when nobody has touched the Python
-> code.
-> 
-> Overall, I felt like maybe it was more hassle than it was worth if I
-> can just nudge people touching the python to run a 'make check-dev'
-> every so often.
-> 
-> Patches welcome, etc. My overall strategy with the python tests so far has been:
-> 
-> (1) Keep python tests fully separate from the QEMU build system to
-> allow them to be split out into new repositories easily.
-> (2) Use the pipenv test to lock the very oldest dependencies the code
-> and tests support, using the very oldest python we support (3.6) This
-> test is used as the gating test in GitLab CI, as it is very repeatable
-> and the GitLab CI setup ensures I can always have the exact Python
-> packages it requires available.
-> (3) Use the tox test to test against a wide variety of Python
-> interpreters (3.6 through 3.10 inclusive) using the very latest python
-> packages to detect regressions on cutting-edge environments
-> (4) Use the widest possible range of versions for dependent packages
-> in setup.cfg such that QEMU packages are unlikely to cause versioning
-> conflicts in environments that decide to integrate our code.
-> 
-> Overall, I test on 3.6 through 3.10, and against the "oldest" and
-> "newest" dependencies. It's a good, wide matrix.
-> 
-> However, It's #4 there that runs me into trouble with tests that are
-> guaranteed to pass -- the linters update all the time and cause new
-> problems. I use pipenv to lock to specific versions, but that tool
-> wants to run against Python 3.6 *explicitly*, so it isn't suitable for
-> a generic purpose 'make check' because not everyone will have a Python
-> 3.6 interpreter available. I need something kind of halfway between,
-> where I can lock against specific versions but not against the Python
-> interpreter version, and that's what could be used for a decent 'make
-> check' test.
-> 
-> Of course, I don't want to maintain like 10 versions of a dependent
-> packages list, either.
-> 
-> (I really, really wish pip had an --use-oldest flag for dependency
-> resolution, but it doesn't.)
+Add the new i3c device to the AST2600 SoC.
 
-Could we simply use a virtualenv for all QEMU testing tasks (packages
-consumed by QEMU tests), and only deal with installed Python packages
-for regular non-testing QEMU uses (things exposed via pyqemu that we
-want stable)?
+Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
+Reviewed-by: Graeme Gregory <quic_ggregory@quicinc.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Tested-by: Graeme Gregory <quic_ggregory@quicinc.com>
+Message-id: 20220111084546.4145785-3-troy_lee@aspeedtech.com
+[PMM: tidied commit message]
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ include/hw/arm/aspeed_soc.h |  3 +++
+ hw/arm/aspeed_ast2600.c     | 16 ++++++++++++++++
+ 2 files changed, 19 insertions(+)
+
+diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+index 18fb7eed461..cae9906684c 100644
+--- a/include/hw/arm/aspeed_soc.h
++++ b/include/hw/arm/aspeed_soc.h
+@@ -21,6 +21,7 @@
+ #include "hw/timer/aspeed_timer.h"
+ #include "hw/rtc/aspeed_rtc.h"
+ #include "hw/i2c/aspeed_i2c.h"
++#include "hw/misc/aspeed_i3c.h"
+ #include "hw/ssi/aspeed_smc.h"
+ #include "hw/misc/aspeed_hace.h"
+ #include "hw/watchdog/wdt_aspeed.h"
+@@ -51,6 +52,7 @@ struct AspeedSoCState {
+     AspeedRtcState rtc;
+     AspeedTimerCtrlState timerctrl;
+     AspeedI2CState i2c;
++    AspeedI3CState i3c;
+     AspeedSCUState scu;
+     AspeedHACEState hace;
+     AspeedXDMAState xdma;
+@@ -141,6 +143,7 @@ enum {
+     ASPEED_DEV_HACE,
+     ASPEED_DEV_DPMCU,
+     ASPEED_DEV_DP,
++    ASPEED_DEV_I3C,
+ };
+ 
+ #endif /* ASPEED_SOC_H */
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index e33483fb5dd..8f37bdb1d87 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -61,6 +61,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
+     [ASPEED_DEV_UART1]     = 0x1E783000,
+     [ASPEED_DEV_UART5]     = 0x1E784000,
+     [ASPEED_DEV_VUART]     = 0x1E787000,
++    [ASPEED_DEV_I3C]       = 0x1E7A0000,
+     [ASPEED_DEV_SDRAM]     = 0x80000000,
+ };
+ 
+@@ -108,6 +109,7 @@ static const int aspeed_soc_ast2600_irqmap[] = {
+     [ASPEED_DEV_ETH4]      = 33,
+     [ASPEED_DEV_KCS]       = 138,   /* 138 -> 142 */
+     [ASPEED_DEV_DP]        = 62,
++    [ASPEED_DEV_I3C]       = 102,   /* 102 -> 107 */
+ };
+ 
+ static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
+@@ -223,6 +225,8 @@ static void aspeed_soc_ast2600_init(Object *obj)
+ 
+     snprintf(typename, sizeof(typename), "aspeed.hace-%s", socname);
+     object_initialize_child(obj, "hace", &s->hace, typename);
++
++    object_initialize_child(obj, "i3c", &s->i3c, TYPE_ASPEED_I3C);
+ }
+ 
+ /*
+@@ -523,6 +527,18 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->hace), 0, sc->memmap[ASPEED_DEV_HACE]);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->hace), 0,
+                        aspeed_soc_get_irq(s, ASPEED_DEV_HACE));
++
++    /* I3C */
++    if (!sysbus_realize(SYS_BUS_DEVICE(&s->i3c), errp)) {
++        return;
++    }
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i3c), 0, sc->memmap[ASPEED_DEV_I3C]);
++    for (i = 0; i < ASPEED_I3C_NR_DEVICES; i++) {
++        qemu_irq irq = qdev_get_gpio_in(DEVICE(&s->a7mpcore),
++                                        sc->irqmap[ASPEED_DEV_I3C] + i);
++        /* The AST2600 I3C controller has one IRQ per bus. */
++        sysbus_connect_irq(SYS_BUS_DEVICE(&s->i3c.devices[i]), 0, irq);
++    }
+ }
+ 
+ static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
+-- 
+2.25.1
+
 
