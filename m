@@ -2,87 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6EFD49541D
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 19:23:57 +0100 (CET)
-Received: from localhost ([::1]:42930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44139495459
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 19:44:47 +0100 (CET)
+Received: from localhost ([::1]:32964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAc6G-0001zw-Ra
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 13:23:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50126)
+	id 1nAcQQ-0006Fn-4O
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 13:44:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1nAXB9-0003lV-HZ
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 08:08:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55545)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nAXZF-0000NX-8x
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 08:33:36 -0500
+Received: from mga06.intel.com ([134.134.136.31]:54065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1nAXB5-0002uD-Pb
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 08:08:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642684115;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KxUYIvUo0EmOGbPqYISktlDHzRoE5z9DapEkn3Dhqgs=;
- b=ANGhF2RZGe6YXlEqNzU3/y15p2e+W87orXaLqqqbPtlYisL3bEb6NMm8BcV4pJwgxjqS1T
- Fq7s4/drNKAL+zbaeQpoQYbSw6Ct9kUHcde1FY93WB8DQpF2VspJlyZUkm9HSCwjzTFBNb
- Xv8bmzhhkAvMGOdS+JjBMTdV5XQh6nc=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-587-8gO6LtkjMC-fmqurX-1e-g-1; Thu, 20 Jan 2022 08:08:33 -0500
-X-MC-Unique: 8gO6LtkjMC-fmqurX-1e-g-1
-Received: by mail-ot1-f70.google.com with SMTP id
- a89-20020a9d2662000000b005909e4d9585so3650253otb.18
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 05:08:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=KxUYIvUo0EmOGbPqYISktlDHzRoE5z9DapEkn3Dhqgs=;
- b=fcpee6TglO4ZKYx6fT2gyRP7ZGbqnDgNsAfq6hzftb//OLj5mBElhjpxqpEBfZSxwx
- fDFvElx2daWgUiqe5Xah5spDSrl55++nn4Fl1xuhOocwUYOoUtk+4D6aZtnCdyCEdiAy
- c9Vb8slFkxnAxVbxzrLpi99FrUov6ax8Lb+jMkahFnFZcZogYM5AmB5IPbqiDqeuKqZ3
- 6ot2y2bY7jawyj3DC3dhM6XUsJoJSu1eYLbsp6arH0ybYNiJb3FjASCmyXe4kkPo76wT
- IGJ+0bPO7qwwiqPpqaN1ux8ErYI0cAyiDIvu9nXSTP/38t6Xnp1pdjb2aOnNy9di3XeD
- +vXw==
-X-Gm-Message-State: AOAM533EOTADyebtzltOiUqpFUVuk0LUV2d2Ja15dybvRXksIlwAcIkb
- VWt+MQ2wm+dpGyOtqdl7eizRPregMXmwy4KSFQ01BitQIUBYxcesMIl4zRMuTHbXgOUW0Sijk0U
- i3RVmvOdsYv89dnc=
-X-Received: by 2002:a05:6808:144a:: with SMTP id
- x10mr7501938oiv.79.1642684112308; 
- Thu, 20 Jan 2022 05:08:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwsJHBR61XVj7yJ2uRg8K/aa/u6B+Y38mRUORth5jsc14gwBZbeSXNlTuapPLHY+g2kUVbARw==
-X-Received: by 2002:a05:6808:144a:: with SMTP id
- x10mr7501922oiv.79.1642684112074; 
- Thu, 20 Jan 2022 05:08:32 -0800 (PST)
-Received: from localhost ([181.191.236.130])
- by smtp.gmail.com with ESMTPSA id o21sm1312858ote.4.2022.01.20.05.08.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 05:08:31 -0800 (PST)
-Date: Thu, 20 Jan 2022 10:06:17 -0300
-From: Beraldo Leal <bleal@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 2/5] python: use avocado's "new" runner
-Message-ID: <20220120130617.cmh7aiugzezy4yr3@laptop.redhat>
-References: <20220119193916.4138217-1-jsnow@redhat.com>
- <20220119193916.4138217-3-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nAXZ2-0003ET-ME
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 08:33:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642685600; x=1674221600;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=xIBAo0jnN5VKZaniLGZTzBzdnuHLe/OGisetX0JUBK0=;
+ b=lXebpnkziP3qPyMrVR5rxypLQQGIzxDVX/1rR2NuEy3r+cwdHfclAYWo
+ 6787E3Xj2ZI7OTQM+M7AsK1igUku4rrydhqFBuowvRpdEK3M98N5f22zB
+ Zzk598IOldSMaJVem0ea378M2NkaA3aSDuKFLVynarIY7AEB9sWK3ylgj
+ PTBpAB5v2G3oSx+bsLGPpb/ICvG7UWRZSAqHo2+2z5sFizSwD+u5pjX+e
+ 1EOTAnk1PX7vFq2qXnUDte2q/PUvjONHy6cpq15SetiYKk3Or2KN4XApS
+ XFOtYTM/DMNH3C4Gc+hlJ8EAypb74LkRNmtO1kNyfMz83ow9TXqjSKrXm A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10232"; a="306081513"
+X-IronPort-AV: E=Sophos;i="5.88,302,1635231600"; d="scan'208";a="306081513"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 05:32:38 -0800
+X-IronPort-AV: E=Sophos;i="5.88,302,1635231600"; d="scan'208";a="477787731"
+Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
+ ([10.238.145.56])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 20 Jan 2022 05:32:35 -0800
+Date: Thu, 20 Jan 2022 21:17:17 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ f4bug@amsat.org
+Subject: Re: [PATCH v2] qapi: Cleanup SGX related comments and restore
+ @section-size
+Message-ID: <20220120131717.GA28380@yangzhon-Virtual>
+References: <20220119235720.371961-1-yang.zhong@intel.com>
+ <YeknCiBuMEaD3XP2@redhat.com>
+ <20220120091601.GA27922@yangzhon-Virtual>
+ <YekvAuBUzcfSaHiT@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220119193916.4138217-3-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bleal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=bleal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YekvAuBUzcfSaHiT@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=yang.zhong@intel.com;
+ helo=mga06.intel.com
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,44 +79,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: yang.zhong@intel.com, pbonzini@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 19, 2022 at 02:39:13PM -0500, John Snow wrote:
-> The old legacy runner no longer seems to work with output logging, so we
-> can't see failure logs when a test case fails. The new runner doesn't
-> (seem to) support Coverage.py yet, but seeing error output is a more
-> important feature.
+On Thu, Jan 20, 2022 at 09:44:34AM +0000, Daniel P. Berrangé wrote:
+> On Thu, Jan 20, 2022 at 05:16:01PM +0800, Yang Zhong wrote:
+> > On Thu, Jan 20, 2022 at 09:10:34AM +0000, Daniel P. Berrangé wrote:
+> > > On Wed, Jan 19, 2022 at 06:57:20PM -0500, Yang Zhong wrote:
+> > > > The SGX NUMA patches were merged into Qemu 7.0 release, we need
+> > > > clarify detailed version history information and also change
+> > > > some related comments, which make SGX related comments clearer.
+> > > > 
+> > > > The QMP command schema promises backwards compatibility as standard.
+> > > > We temporarily restore "@section-size", which can avoid incompatible
+> > > > API breakage. The "@section-size" will be deprecated in 7.2 version.
+> > > > 
+> > > > Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+> > > > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> > > > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> > > > ---
+> > > >  qapi/machine.json     |  4 ++--
+> > > >  qapi/misc-target.json | 17 ++++++++++++-----
+> > > >  hw/i386/sgx.c         | 11 +++++++++--
+> > > >  3 files changed, 23 insertions(+), 9 deletions(-)
+> > > > 
+> > > > diff --git a/qapi/machine.json b/qapi/machine.json
+> > > > index b6a37e17c4..cf47cb63a9 100644
+> > > > --- a/qapi/machine.json
+> > > > +++ b/qapi/machine.json
+> > > > @@ -1207,7 +1207,7 @@
+> > > >  #
+> > > >  # @memdev: memory backend linked with device
+> > > >  #
+> > > > -# @node: the numa node
+> > > > +# @node: the numa node (Since: 7.0)
+> > > >  #
+> > > >  # Since: 6.2
+> > > >  ##
+> > > > @@ -1288,7 +1288,7 @@
+> > > >  #
+> > > >  # @memdev: memory backend linked with device
+> > > >  #
+> > > > -# @node: the numa node
+> > > > +# @node: the numa node (Since: 7.0)
+> > > >  #
+> > > >  # Since: 6.2
+> > > >  ##
+> > > > diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+> > > > index 1022aa0184..a87358ea44 100644
+> > > > --- a/qapi/misc-target.json
+> > > > +++ b/qapi/misc-target.json
+> > > > @@ -344,9 +344,9 @@
+> > > >  #
+> > > >  # @node: the numa node
+> > > >  #
+> > > > -# @size: the size of epc section
+> > > > +# @size: the size of EPC section
+> > > >  #
+> > > > -# Since: 6.2
+> > > > +# Since: 7.0
+> > > >  ##
+> > > >  { 'struct': 'SGXEPCSection',
+> > > >    'data': { 'node': 'int',
+> > > > @@ -365,7 +365,9 @@
+> > > >  #
+> > > >  # @flc: true if FLC is supported
+> > > >  #
+> > > > -# @sections: The EPC sections info for guest
+> > > > +# @section-size: The EPC section size for guest (Will be deprecated in 7.2)
+> > > 
+> > > I expected deprecation would start now (7.0, and it would be removed
+> > > in 7.2.
+> > > 
+> > > Also needs to be documented in docs/about/deprecated.rst
+> > > 
+> > > 
+> >   
+> >    Thanks Daniel, Please check if below comments are okay or not? If no
+> >    problem, I will send v3 today, thanks! 
+> >  
+> >    diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> >    index e21e07478f..810542427f 100644
+> >    --- a/docs/about/deprecated.rst
+> >    +++ b/docs/about/deprecated.rst
+> >    @@ -441,3 +441,13 @@ nanoMIPS ISA
+> > 
+> >    The ``nanoMIPS`` ISA has never been upstreamed to any compiler toolchain.
+> >    As it is hard to generate binaries for it, declare it deprecated.
+> >    +
+> >    +
+> >    +SGX backwards compatibility
+> >    +---------------------------
+> >    +
+> >    +@section-size (Since 7.0)
+> >    +''''''''''''''''''''''''
+> >    +
+> >    +The ``@section-size`` will be replaced with ``@sections`` struct and declare
+> >    +it deprecated.
 > 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  python/avocado.cfg | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> This needs to be higher up in the file - look at the section
+> with the heading 'QEMU Machine Protocol (QMP) commands' for
+> how we list QMP features we're removing.
+>   
+
+   Thanks, I will add this in v3.
+ 
 > 
-> diff --git a/python/avocado.cfg b/python/avocado.cfg
-> index c7722e7ecd..a460420059 100644
-> --- a/python/avocado.cfg
-> +++ b/python/avocado.cfg
-> @@ -1,5 +1,5 @@
->  [run]
-> -test_runner = runner
-> +test_runner = nrunner
->  
->  [simpletests]
->  # Don't show stdout/stderr in the test *summary*
+> >    diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+> >    index a87358ea44..c88fd0c2a2 100644
+> >    --- a/qapi/misc-target.json
+> >    +++ b/qapi/misc-target.json
+> >    @@ -365,7 +365,7 @@
+> >    #
+> >    # @flc: true if FLC is supported
+> >    #
+> >   -# @section-size: The EPC section size for guest (Will be deprecated in 7.2)
+> >   +# @section-size: The EPC section size for guest (7.0, and it would be removed in 7.2)
+> 
+> We don't need this comment - see the other reply in this thread
+> about using an '@deprecated' tag instead, which gets turned into
+> a comment in the auto-generated documentation. 
+> 
 
-Since Avocado 82, the new one is the default. So, you could remove the
-the "[run]" section.
+  Thanks Daniel, it is strange that my mail couldn't receive this mail. But I checked this
+  from link(https://lists.nongnu.org/archive/html/qemu-devel/2022-01/msg04247.html).
 
-In any case:
+  So here, I also thanks Philippe, who shared one helpful example for me. thanks again!
 
-Reviewed-by: Beraldo Leal <bleal@redhat.com>
+  Yang 
 
---
-Beraldo
 
+> 
+> Regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
