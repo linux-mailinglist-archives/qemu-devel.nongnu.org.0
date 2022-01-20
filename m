@@ -2,72 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75564944D8
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 01:37:41 +0100 (CET)
-Received: from localhost ([::1]:49766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5DD9494591
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 02:33:29 +0100 (CET)
+Received: from localhost ([::1]:36168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nALSO-0001Uf-BH
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 19:37:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35648)
+	id 1nAMKO-0007Gb-Dm
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 20:33:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nALQs-0008Kc-AG; Wed, 19 Jan 2022 19:36:06 -0500
-Received: from [2607:f8b0:4864:20::d29] (port=46929
- helo=mail-io1-xd29.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nALQq-0002Rn-NH; Wed, 19 Jan 2022 19:36:06 -0500
-Received: by mail-io1-xd29.google.com with SMTP id e79so5014198iof.13;
- Wed, 19 Jan 2022 16:36:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vAP56vjMi3hKn6zaTDfAHZ6swk0V9J3pxlDUJEyCEYE=;
- b=CjvH/jMm1577trCwion31DfWl9nkfhhuMqaNwSD6jgfGZvbQ1k1oPuYvbPzQBfCIcN
- VlMlU/GkFcTf0eLHFOjAXl3s5J+RxX5ZgBPg7zlggK9+CvjDH6sGyHB6zHyth+hZmGaX
- ZB5Utzk3l1nBty15akkJF7Q7gaDfcWnhrfle6Kjbox+9iUdvpWdCu9LTqDc6WI4AwBT8
- zRkOMGGQPbZn8vaoz7w+cExhZ3VHHGZgF5qsTlNXKwAzs/awwM1hBgjt8uFI/r1FLm7W
- C2M9/nCJ/psjH7GHST/qZXobmxFM3Zma5uUFaeFBUipJccaKtZDbSQtSv3WPVsCWuF6O
- tjPw==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nAMFy-0006Ga-3D
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 20:28:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33443)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nAMFu-0001MK-Jt
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 20:28:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642642128;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hJOTUnY80n6Z66s1Te9bV95iAmMQTy1h+EbxNUIXM2I=;
+ b=aHA7AvgnutDZuJDEEehajkxENcFu4+AYoVpb5i/K0h8/U9knWCsj0hIck2HXpsyoZY+Odr
+ 0eDmMXZPhOhWj/LCD9lAkb0eyxMT22KUBYNEnSidlhJQAWYiZhWQwWUjbAe2wPEDNEPjgn
+ 1ZhBMLbS7Ll9AB/dUO79DeLtfoy8RQA=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-61-lKyOGjXgMb68PzsmjdpRLA-1; Wed, 19 Jan 2022 20:28:47 -0500
+X-MC-Unique: lKyOGjXgMb68PzsmjdpRLA-1
+Received: by mail-pf1-f200.google.com with SMTP id
+ i16-20020aa78d90000000b004be3e88d746so2661087pfr.13
+ for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 17:28:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vAP56vjMi3hKn6zaTDfAHZ6swk0V9J3pxlDUJEyCEYE=;
- b=VHbUQWDOV/wUdJJUzvwXSNzWL1XSXfr4+5WVU5ah7AtqhFtiuBvTcQrha1HqtILJdA
- YkZYfLbxR9UYH3bf2FGvcthws5gL8g+6Gq5N0K09FPstsZX88nQhsXmVLkdG+m0X+MAf
- PB7cJ7043zlUqo9SqYcIo8gX5opmYf9FQz1uyrmbN2OIlWTfO0mKSpdohpO73WhmuCyE
- pEsAPb3q8h+XZJegR+vwJdmBmYfwQTeIVlJtgrq4gJvPWetI5xQDD++wna9fpFaAouSX
- bOgPai0YScpzLtBrcaC+3nIOWj57eixTMECvwYvwyeXZwlLn3euo7HyfHDV1vJ/k0de1
- A85A==
-X-Gm-Message-State: AOAM530hEmrkAXW6zgK4sRUghQSLZ5FhPMD08lKycgfdNCoFQYr7+9+i
- 0JhG4VY7wM+wE3Rev2tmZ3ZILelV0BFs76aw6oA=
-X-Google-Smtp-Source: ABdhPJwq2bDfTIIfKxo1iwIuBBmEGRc1qU5gNTMqEbMyiqoqqXUXw+OoA18+n6Lu+gyzElhQ3cKo2lpMvdNNfEP9NIk=
-X-Received: by 2002:a05:6602:14cd:: with SMTP id
- b13mr11396482iow.57.1642638962145; 
- Wed, 19 Jan 2022 16:36:02 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=hJOTUnY80n6Z66s1Te9bV95iAmMQTy1h+EbxNUIXM2I=;
+ b=RgfEMCrupaZqjPrSMnP/Vcsjyo/7oM+ONqnLz18RQHqQfAmx4RvnPKpYVUfe0r3XAC
+ MSYEIvBv7IIOWFMjP9QMiSajNApEPwjowQMEPhuQ2zut80Hm+bQnjfCQ45fMpZ90tYwl
+ dI3KXbpI9aOjqUGqhIj5t5GbPmVr4gyOu2FAJ38nK7oRveiwDgHCkjk9/sIlYjttvr9/
+ URhHe9w5/1pB9ibZ0f65PFv2A9HuZqG38MwKU5K0MK+ceimr8QX/g8nYLgu6sJK6US02
+ OW95VdNkmckVd4LMgKHnqRVaekg6NgYJXrpOoL28FLjX5K7PkZbu+V1lsDxQyqErHnJH
+ BzlA==
+X-Gm-Message-State: AOAM533wmK9mpSQcRute2pptGfycBbv+1Gjq4ru+PkAoC95aDU0eMLSH
+ VA2eqFYfRs8poEQsC8K40B6Y8oKG5dRKK+Wkh5SmP3z7eee0D9x6IBDgjcJePToJbeXmPwS4MGu
+ 9KXry0amZ/gA5p6E=
+X-Received: by 2002:a05:6a00:21c7:b0:4bc:1d4d:dfe with SMTP id
+ t7-20020a056a0021c700b004bc1d4d0dfemr33229371pfj.15.1642642126015; 
+ Wed, 19 Jan 2022 17:28:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzjIx/x7HmHFXEeUqwTAceP196ffDb9FxH6QMZgUpkA5XObbsxxC0QNS8PQEl6x6wJWd939wg==
+X-Received: by 2002:a05:6a00:21c7:b0:4bc:1d4d:dfe with SMTP id
+ t7-20020a056a0021c700b004bc1d4d0dfemr33229338pfj.15.1642642125572; 
+ Wed, 19 Jan 2022 17:28:45 -0800 (PST)
+Received: from xz-m1.local ([94.177.118.77])
+ by smtp.gmail.com with ESMTPSA id e14sm783988pfv.177.2022.01.19.17.28.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Jan 2022 17:28:44 -0800 (PST)
+Date: Thu, 20 Jan 2022 09:28:39 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Subject: Re: [PATCH v7 2/5] QIOChannelSocket: Implement io_writev zero copy
+ flag & io_flush for CONFIG_LINUX
+Message-ID: <Yei6tAN0nKfgalzd@xz-m1.local>
+References: <20220106221341.8779-1-leobras@redhat.com>
+ <20220106221341.8779-3-leobras@redhat.com>
+ <Yd/LLxNCItAIX3eN@xz-m1.local> <Yd/5lhcW6IHlVOBz@redhat.com>
+ <YeAAJLYeImjPwW0f@xz-m1.local> <YeACHxbPt1SV9cx8@redhat.com>
+ <CAJ6HWG7R4F4RvsQR-FM5qYyPJL2bzJJ4oADGW0TxDjsATDwkoQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220119051824.17494-1-zhiwei_liu@c-sky.com>
- <20220119051824.17494-22-zhiwei_liu@c-sky.com>
-In-Reply-To: <20220119051824.17494-22-zhiwei_liu@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 20 Jan 2022 10:35:36 +1000
-Message-ID: <CAKmqyKP=NNEVDDGrbSEeWLfLyX_+=Ao0yWJ9RtyazyycGHM3+w@mail.gmail.com>
-Subject: Re: [PATCH v7 21/22] target/riscv: Enable uxl field write
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d29
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd29.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CAJ6HWG7R4F4RvsQR-FM5qYyPJL2bzJJ4oADGW0TxDjsATDwkoQ@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,67 +102,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 19, 2022 at 3:34 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/csr.c | 17 ++++++++++++-----
->  1 file changed, 12 insertions(+), 5 deletions(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index b11d92b51b..90f78eca65 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -572,6 +572,7 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
->  {
->      uint64_t mstatus = env->mstatus;
->      uint64_t mask = 0;
-> +    RISCVMXL xl = riscv_cpu_mxl(env);
->
->      /* flush tlb on mstatus fields that affect VM */
->      if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
-> @@ -583,21 +584,22 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
->          MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
->          MSTATUS_TW | MSTATUS_VS;
->
-> -    if (riscv_cpu_mxl(env) != MXL_RV32) {
-> +    if (xl != MXL_RV32) {
->          /*
->           * RV32: MPV and GVA are not in mstatus. The current plan is to
->           * add them to mstatush. For now, we just don't support it.
->           */
->          mask |= MSTATUS_MPV | MSTATUS_GVA;
-> +        if ((val & MSTATUS64_UXL) != 0) {
-> +            mask |= MSTATUS64_UXL;
-> +        }
->      }
->
->      mstatus = (mstatus & ~mask) | (val & mask);
->
-> -    RISCVMXL xl = riscv_cpu_mxl(env);
->      if (xl > MXL_RV32) {
-> -        /* SXL and UXL fields are for now read only */
-> +        /* SXL field is for now read only */
->          mstatus = set_field(mstatus, MSTATUS64_SXL, xl);
-> -        mstatus = set_field(mstatus, MSTATUS64_UXL, xl);
+On Wed, Jan 19, 2022 at 02:22:56PM -0300, Leonardo Bras Soares Passos wrote:
+> Hello Daniel,
+> 
+> On Thu, Jan 13, 2022 at 7:42 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
+> >
+> > On Thu, Jan 13, 2022 at 06:34:12PM +0800, Peter Xu wrote:
+> > > On Thu, Jan 13, 2022 at 10:06:14AM +0000, Daniel P. Berrangé wrote:
+> > > > On Thu, Jan 13, 2022 at 02:48:15PM +0800, Peter Xu wrote:
+> > > > > On Thu, Jan 06, 2022 at 07:13:39PM -0300, Leonardo Bras wrote:
+> > > > > > @@ -558,15 +575,26 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
+> > > > > >          memcpy(CMSG_DATA(cmsg), fds, fdsize);
+> > > > > >      }
+> > > > > >
+> > > > > > +    if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
+> > > > > > +        sflags = MSG_ZEROCOPY;
+> > > > > > +    }
+> > > > > > +
+> > > > > >   retry:
+> > > > > > -    ret = sendmsg(sioc->fd, &msg, 0);
+> > > > > > +    ret = sendmsg(sioc->fd, &msg, sflags);
+> > > > > >      if (ret <= 0) {
+> > > > > > -        if (errno == EAGAIN) {
+> > > > > > +        switch (errno) {
+> > > > > > +        case EAGAIN:
+> > > > > >              return QIO_CHANNEL_ERR_BLOCK;
+> > > > > > -        }
+> > > > > > -        if (errno == EINTR) {
+> > > > > > +        case EINTR:
+> > > > > >              goto retry;
+> > > > > > +        case ENOBUFS:
+> > > > > > +            if (sflags & MSG_ZEROCOPY) {
+> > > > > > +                error_setg_errno(errp, errno,
+> > > > > > +                                 "Process can't lock enough memory for using MSG_ZEROCOPY");
+> > > > > > +                return -1;
+> > > > > > +            }
+> > > > >
+> > > > > I have no idea whether it'll make a real differnece, but - should we better add
+> > > > > a "break" here?  If you agree and with that fixed, feel free to add:
+> > > > >
+> > > > > Reviewed-by: Peter Xu <peterx@redhat.com>
+> > > > >
+> > > > > I also wonder whether you hit ENOBUFS in any of the environments.  On Fedora
+> > > > > here it's by default unlimited, but just curious when we should keep an eye.
+> > > >
+> > > > Fedora doesn't allow unlimited locked memory by default
+> > > >
+> > > > $ grep "locked memory" /proc/self/limits
+> > > > Max locked memory         65536                65536                bytes
+> > > >
+> > > > And  regardless of Fedora defaults, libvirt will set a limit
+> > > > for the guest. It will only be unlimited if requiring certain
+> > > > things like VFIO.
+> > >
+> > > Thanks, I obviously checked up the wrong host..
+> > >
+> > > Leo, do you know how much locked memory will be needed by zero copy?  Will
+> > > there be a limit?  Is it linear to the number of sockets/channels?
+> >
+> > IIRC we decided it would be limited by the socket send buffer size, rather
+> > than guest RAM, because writes will block once the send buffer is full.
+> >
+> > This has a default global setting, with per-socket override. On one box I
+> > have it is 200 Kb. With multifd you'll need  "num-sockets * send buffer".
+> 
+> Oh, I was not aware there is a send buffer size (or maybe I am unable
+> to recall).
+> That sure makes things much easier.
+> 
+> >
+> > > It'll be better if we can fail at enabling the feature when we detected that
+> > > the specified locked memory limit may not be suffice.
+> 
+> sure
+> 
+> >
+> > Checking this value against available locked memory though will always
+> > have an error margin because other things in QEMU can use locked memory
+> > too
+> 
+> We can get the current limit (before zerocopy) as an error margin:
+> req_lock_mem = num-sockets * send buffer + BASE_LOCKED
+> 
+> Where BASE_LOCKED is the current libvirt value, or so on.
 
-This change causes:
+Hmm.. not familiar with libvirt, so I'm curious whether libvirt is actually
+enlarging the allowed locked mem on Fedora since the default is 64KB?
 
-ERROR:../target/riscv/translate.c:295:get_gpr: code should not be reached
+I think it'll be great to capture the very major going-to-fail scenarios.  For
+example, I'm wondering whether a qemu (without libvirt) will simply fail
+directly on Fedora using non-root even with 1 channel due to the 64K limit, or
+the other extreme case is when the user does not allow locking mem at all in
+some container environment (when we see max locked mem is zero).
 
-to assert when running an Xvisor (Hypervisor extension) guest on the
-64-bit virt machine.
+It's not only about failing early, it's also about failing with a meaningful
+error so the user knows what to tune, while I'm not very sure that'll be easily
+understandable when we wait until the failure of io_writev().
 
-Alistair
+Thanks,
+
+-- 
+Peter Xu
+
 
