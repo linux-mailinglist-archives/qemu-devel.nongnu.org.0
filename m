@@ -2,68 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54C93494F86
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 14:47:12 +0100 (CET)
-Received: from localhost ([::1]:35698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49E32494FCB
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 15:05:43 +0100 (CET)
+Received: from localhost ([::1]:44416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAXmR-0002Za-3e
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 08:47:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47932)
+	id 1nAY4M-0001Cg-2D
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 09:05:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nAVN0-00022z-Ah
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:12:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44250)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nAVOL-000375-4t
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:14:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nAVMw-000376-OC
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:12:45 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nAVOI-0003Fk-52
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:14:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642677161;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1642677245;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=2wNvQpgsvsBo2ZwegJDYB33+JYYgA4eQx/dBBMBs6sU=;
- b=gbhi8ZtJhUNrMifL+OsnyHBorKyZCIjrXveXbFwcpynvcRA+jllsa6gMn97ajKW8Z+Tmdp
- /bSYdDp+STQJqirDC4FiIDwmu5H0G8n0eEjpxHeeOeMLJZQTbRqh+V0OherLzRZUw9MtZp
- +kTIjKBrZriY+7kJ7moBxfv/CXpHdzU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=okFmfeEz5l0QwH53KXJfvGRX+hOuRs6D18mu5hQhgjI=;
+ b=EiZYro5n5gBGCFh6Ep2C67AB3IrVnxY6aNG1IIBA/1c6OUn3wfIt0Qnij8MkbJsrATBQ6d
+ BvudYewyd7A2xQmCX7wtVU7NfbLfT5d+l5nTxl+nt8tNunO45v/HsLaPjw5F4pZTenFzd2
+ 0a5riUqgJM3rDx4VovFaA5PN7Njvrzo=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-537-kFjdJPoYOD-7-Hpjvp7ZoQ-1; Thu, 20 Jan 2022 06:12:38 -0500
-X-MC-Unique: kFjdJPoYOD-7-Hpjvp7ZoQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F96781F019;
- Thu, 20 Jan 2022 11:12:36 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.153])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 648B97AB62;
- Thu, 20 Jan 2022 11:12:34 +0000 (UTC)
-Date: Thu, 20 Jan 2022 11:12:31 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 3/6] tests/lcitool: Install libibumad to cover RDMA on
- Debian based distros
-Message-ID: <YelDnw8OHxCT+340@redhat.com>
-References: <20220120110545.263404-1-f4bug@amsat.org>
- <20220120110545.263404-4-f4bug@amsat.org>
+ us-mta-357-8yrz2AohM4qGFZAClxyGAg-1; Thu, 20 Jan 2022 06:14:04 -0500
+X-MC-Unique: 8yrz2AohM4qGFZAClxyGAg-1
+Received: by mail-pf1-f198.google.com with SMTP id
+ v6-20020aa799c6000000b004bd635ff848so3622450pfi.6
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 03:14:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=okFmfeEz5l0QwH53KXJfvGRX+hOuRs6D18mu5hQhgjI=;
+ b=lkp/OUZIyzPbXd5hM8ZkRtH4Bj6WFpTdQOqJfh5dtwV8Kldo4HglhQEMXEj11cy8tA
+ xalA8ecMmoxA/2NkWFLO7F/Y2Yz8IOVpst9pV0pUrohtEGPTg0c/9ubSlEOaDhjFuc7U
+ V8NnHLYF0kGAVvNhfGXDXHE8g912AoVvfPO3OdRY+Rcs+Mwp0sJWeDfQDRa7VD3Rvs2q
+ 58kdWjzqJ31+e8txfQ1fDSWUMeBNpCGiuCQSDpKyl93zbRXjlg2Lh6WSFNmjR08PJ12q
+ n2QPRXQskfhjhdic19ChaZSK34iBmqzjr+xkMc5ZNiJ+h12W7ud0S93aYhuSFDh3drrU
+ jJ0Q==
+X-Gm-Message-State: AOAM532N0o84vDHqZlo3jYwOEjHJZcoV17ouvFYhoOFgQtc0n86D47H1
+ tOvULAIfHXCWvViIMasxNaUWDMNDT0FjCCacfmrF5l6Ys039MEKkqWcz8NCBZ7lUyLeP2rt1DyA
+ ER5I5WFK/3f55sP8=
+X-Received: by 2002:a63:7c48:: with SMTP id l8mr30821400pgn.483.1642677243457; 
+ Thu, 20 Jan 2022 03:14:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxe7Pt8kwt6AUhea9r/03PQmC5PpNNG6/ras7Ga+hBlddU89KHdCaH3vqXKA2vgswawPM7pJw==
+X-Received: by 2002:a63:7c48:: with SMTP id l8mr30821373pgn.483.1642677243205; 
+ Thu, 20 Jan 2022 03:14:03 -0800 (PST)
+Received: from xz-m1.local ([94.177.118.145])
+ by smtp.gmail.com with ESMTPSA id nk11sm2155032pjb.55.2022.01.20.03.13.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Jan 2022 03:14:02 -0800 (PST)
+Date: Thu, 20 Jan 2022 19:13:55 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Hyman Huang <huangy81@chinatelecom.cn>
+Subject: Re: [PATCH v11 3/4] softmmu/dirtylimit: implement virtual CPU throttle
+Message-ID: <YelD88RHRjLURES9@xz-m1.local>
+References: <cover.1641316375.git.huangy81@chinatelecom.cn>
+ <0381e32c2cc70613613aaa284b8e8c9760d6932f.1641316375.git.huangy81@chinatelecom.cn>
+ <YeUbhC7MG32K9pxu@xz-m1.local>
+ <d34dbb85-f8a9-cb21-a312-a4f4f3cafd07@chinatelecom.cn>
+ <Yekqn90HOtFMWupM@xz-m1.local>
+ <c6086788-da45-d023-edaa-5fca9a602c5a@chinatelecom.cn>
+ <Yek/2BoqmYBM0PWt@xz-m1.local>
+ <a4d34697-d187-a8cd-e244-b6fc717db9cb@chinatelecom.cn>
 MIME-Version: 1.0
-In-Reply-To: <20220120110545.263404-4-f4bug@amsat.org>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <a4d34697-d187-a8cd-e244-b6fc717db9cb@chinatelecom.cn>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -84,44 +99,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Ed Maste <emaste@freebsd.org>, qemu-block@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
- Yonggang Luo <luoyonggang@gmail.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 20, 2022 at 12:05:42PM +0100, Philippe Mathieu-Daudé wrote:
-> On Debian we also need libibumad to enable RDMA:
-> 
->   $ ../configure --enable-rdma
-> 
->   ERROR:  OpenFabrics librdmacm/libibverbs/libibumad not present.
->           Your options:
->            (1) Fast: Install infiniband packages (devel) from your distro.
->            (2) Cleanest: Install libraries from www.openfabrics.org
->            (3) Also: Install softiwarp if you don't have RDMA hardware
-> 
-> Note, librdmacm and libibverbs are already listed in lcitool's qemu.yml.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  tests/docker/dockerfiles/ubuntu1804.docker | 1 +
->  tests/docker/dockerfiles/ubuntu2004.docker | 1 +
->  tests/lcitool/projects/qemu.yml            | 1 +
->  3 files changed, 3 insertions(+)
+On Thu, Jan 20, 2022 at 07:03:30PM +0800, Hyman Huang wrote:
+> Ok, i'll try this out.
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+You could even add a unit test if you want: see test_migrate_auto_converge() in
+migration-test.c.
 
-
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Peter Xu
 
 
