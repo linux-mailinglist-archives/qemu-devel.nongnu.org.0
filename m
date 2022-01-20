@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75227495280
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 17:39:39 +0100 (CET)
-Received: from localhost ([::1]:60976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4921449529F
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 17:51:02 +0100 (CET)
+Received: from localhost ([::1]:41694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAaTK-00076g-29
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 11:39:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42748)
+	id 1nAaeK-0004u9-01
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 11:51:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAWgM-0004A6-ET
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:36:50 -0500
-Received: from [2a00:1450:4864:20::32a] (port=46788
- helo=mail-wm1-x32a.google.com)
+ id 1nAWgi-0004JF-Lm
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:37:14 -0500
+Received: from [2a00:1450:4864:20::32f] (port=42949
+ helo=mail-wm1-x32f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAWgI-00039a-MP
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:36:49 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- az27-20020a05600c601b00b0034d2956eb04so13323420wmb.5
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 04:36:44 -0800 (PST)
+ id 1nAWgb-0003J8-Ie
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:37:06 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ f202-20020a1c1fd3000000b0034dd403f4fbso10085036wmf.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 04:37:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ab/dkLzwvDr7LhtwqKgUez1vfEeYaDijkxEPKSjd4oE=;
- b=j5mrp54wXs61mWEBROj/GLeextdY6YiiMpBvCHS58VBPFda4litJyjLOyscow2JX/K
- 2c8kIcgtdcVm8dykWzdYVg+TsLvDxF883keKRHcwDWPBtSHBtjgvdp2fnk4kgh94dOro
- vDSnhHVkLeojrKHTjjqhhXjfwRGpuIF0yV4sAKXRzCg9y8eyD4JYUBXillRqHVHv1h62
- 4fBbAXNCDNpPhPFk8gqj+uZW+k/e9OXkOOYA5M1cnUkuPK2AiGhWHg5qLMqPjUtwyADk
- UP1SkIzY84kRaCM/sNYaKmMR4Su7JMg9kMXxxihqEgi/TueAw2+Uf7hV4GdcTK8OnnvF
- zWuQ==
+ bh=wdLUqpPXIVhIxJn/y0Ry8LmHLdVQEvWxzFrl/eWpdGs=;
+ b=p0SLMOU0NDGYsPLinD0fQo5lKh5DfQsMqTLCy2OCuJF0mewuc38y6sihEm59kRxXbi
+ 8NF7py5s9Ge40QwLRqyys7WAFABsQl54yLDorJFMiFSyVGxwCMpBh6bmY4nz8CP5Gx6U
+ Mjc2xgfjArUx7VyCcV+Mn0xIa//u2oGiQZ+92E8h9lNRcvCNwMYxr2Loc/5JaH2yXxwM
+ rdhOoihmYH3JMah7dQyMppSupSpO8Y5Vujkh4CF8pBDGTBXS43cvDQUbpLEV4C99WCqw
+ cIj3bMxNjwE8pR6VHK7WWNifTC82OMO1PfWAFrElAPoXr5/iFNQHZQEspy61UYE8OabT
+ Sz8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ab/dkLzwvDr7LhtwqKgUez1vfEeYaDijkxEPKSjd4oE=;
- b=co7/k/Wl0Pit3HAslsF4uCagbGVrjm8COdavQmSadGVNCiCrg2qEOHldhsGJHZ0ZcE
- Uoa94W1heuZDl39i9HX7dZmk5axkE+NhcQxxOfHjQJ3FHezMnjvCAeBYIvzsPC5+eDl+
- c6i06FnA068P4++XLlF5IYeGoKJcNoLVcJnY1zuZ18QYLRSUDjPLuOQisCb0o0qq1Ug9
- RkSvI25MjPdTsjf3GfFK/XniPpJhiAOIxCKQpG80oEApjcghjuD2ljKjAE/+v6IjG/lq
- sYvQpE4rypc0GKUnG1vVISLTL+Sz/oTt+R8ozs50mOJy3SElcAqCkcRusWdGyn3uDyvz
- 7DVA==
-X-Gm-Message-State: AOAM532P46F/LfYU2MHjgbIIjuwKTKXuWa7c+4GUFfbAHQdMWCKir0Hy
- x4XDP5KculC2ff6kADKnlrw9w+03dpyaig==
-X-Google-Smtp-Source: ABdhPJx2JwCjcDEfj3ChL2GXQNIRHjvH9/X/e9clV/q5jd0jjZQOUYbldmT5eKHObc1a0V2dYrOt4A==
-X-Received: by 2002:a05:600c:4ed3:: with SMTP id
- g19mr8610265wmq.142.1642682203569; 
- Thu, 20 Jan 2022 04:36:43 -0800 (PST)
+ bh=wdLUqpPXIVhIxJn/y0Ry8LmHLdVQEvWxzFrl/eWpdGs=;
+ b=cGpf6OpRW9fmXHOdwKXhgUlCY3TG2r7eFq6IQ8YGGiRnApVUwxhKsE9UZ+is4gytb8
+ XnLSOpNQzhVFmXYGQaE486lFVAFYiGPQHnFJk+wklBk9A2aCu9T9GgiNqmeAP3uFdU5P
+ VeVPNnhJoSlB0YuMdyfRdLZEHfkc5+8LFUZKUen+R3xVQF+sL1s9kNUbZ+k65h5PlyLE
+ gBL3iATwIR5Scr+4FHmqN1g2LOjR7R3FzbR17HgAxKcJUl6QMywX9aFg9ls/kJ6N6KJ6
+ n0AMK+Bvg2bjEHp0RoqePeFL/c0tncyIdygGW0K09AUa8RPnpOidQs1TA7IWZY9IhlUb
+ Sd5w==
+X-Gm-Message-State: AOAM532leHiahNXFcBtcoKhKsnKGNDFjH3c6kSLj5ZVSWHtVRsd2Lrfr
+ PEWrkHICUZOWWLkw06GLQtztgxeMl1P3xQ==
+X-Google-Smtp-Source: ABdhPJwXi45MBkXjkZCFKrhx65k9/JfyiAMETsiM6JOJ4c5caOQBo3udIJxoVR1lj6ggKctF88igtQ==
+X-Received: by 2002:a5d:598c:: with SMTP id n12mr20053923wri.386.1642682223294; 
+ Thu, 20 Jan 2022 04:37:03 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id t8sm7993324wmq.43.2022.01.20.04.36.42
+ by smtp.gmail.com with ESMTPSA id t8sm7993324wmq.43.2022.01.20.04.37.02
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 04:36:43 -0800 (PST)
+ Thu, 20 Jan 2022 04:37:02 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/38] hw/arm/virt: Support for virtio-mem-pci
-Date: Thu, 20 Jan 2022 12:36:05 +0000
-Message-Id: <20220120123630.267975-14-peter.maydell@linaro.org>
+Subject: [PULL 27/38] hw/intc/arm_gicv3_its: Fix handling of process_its_cmd()
+ return value
+Date: Thu, 20 Jan 2022 12:36:19 +0000
+Message-Id: <20220120123630.267975-28-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220120123630.267975-1-peter.maydell@linaro.org>
 References: <20220120123630.267975-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,188 +92,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gavin Shan <gshan@redhat.com>
+process_its_cmd() returns a bool, like all the other process_ functions.
+However we were putting its return value into 'res', not 'result',
+which meant we would ignore it when deciding whether to continue
+or stall the command queue. Fix the typo.
 
-This supports virtio-mem-pci device on "virt" platform, by simply
-following the implementation on x86.
-
-   * This implements the hotplug handlers to support virtio-mem-pci
-     device hot-add, while the hot-remove isn't supported as we have
-     on x86.
-
-   * The block size is 512MB on ARM64 instead of 128MB on x86.
-
-   * It has been passing the tests with various combinations like 64KB
-     and 4KB page sizes on host and guest, different memory device
-     backends like normal, transparent huge page and HugeTLB, plus
-     migration.
-
-Co-developed-by: David Hildenbrand <david@redhat.com>
-Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: Gavin Shan <gshan@redhat.com>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-id: 20220111063329.74447-3-gshan@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20220111171048.3545974-4-peter.maydell@linaro.org
 ---
- hw/arm/virt.c          | 70 ++++++++++++++++++++++++++++++++++++++++++
- hw/virtio/virtio-mem.c |  4 ++-
- hw/arm/Kconfig         |  1 +
- 3 files changed, 74 insertions(+), 1 deletion(-)
+ hw/intc/arm_gicv3_its.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 177db1da12e..a76d86b5926 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -71,9 +71,11 @@
- #include "hw/arm/smmuv3.h"
- #include "hw/acpi/acpi.h"
- #include "target/arm/internals.h"
-+#include "hw/mem/memory-device.h"
- #include "hw/mem/pc-dimm.h"
- #include "hw/mem/nvdimm.h"
- #include "hw/acpi/generic_event_device.h"
-+#include "hw/virtio/virtio-mem-pci.h"
- #include "hw/virtio/virtio-iommu.h"
- #include "hw/char/pl011.h"
- #include "qemu/guest-random.h"
-@@ -2501,6 +2503,64 @@ static void virt_memory_plug(HotplugHandler *hotplug_dev,
-                          dev, &error_abort);
- }
+diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
+index 5919b1a3b7f..a6c2299a091 100644
+--- a/hw/intc/arm_gicv3_its.c
++++ b/hw/intc/arm_gicv3_its.c
+@@ -678,10 +678,10 @@ static void process_cmdq(GICv3ITSState *s)
  
-+static void virt_virtio_md_pci_pre_plug(HotplugHandler *hotplug_dev,
-+                                        DeviceState *dev, Error **errp)
-+{
-+    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
-+    Error *local_err = NULL;
-+
-+    if (!hotplug_dev2 && dev->hotplugged) {
-+        /*
-+         * Without a bus hotplug handler, we cannot control the plug/unplug
-+         * order. We should never reach this point when hotplugging on ARM.
-+         * However, it's nice to add a safety net, similar to what we have
-+         * on x86.
-+         */
-+        error_setg(errp, "hotplug of virtio based memory devices not supported"
-+                   " on this bus.");
-+        return;
-+    }
-+    /*
-+     * First, see if we can plug this memory device at all. If that
-+     * succeeds, branch of to the actual hotplug handler.
-+     */
-+    memory_device_pre_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev), NULL,
-+                           &local_err);
-+    if (!local_err && hotplug_dev2) {
-+        hotplug_handler_pre_plug(hotplug_dev2, dev, &local_err);
-+    }
-+    error_propagate(errp, local_err);
-+}
-+
-+static void virt_virtio_md_pci_plug(HotplugHandler *hotplug_dev,
-+                                    DeviceState *dev, Error **errp)
-+{
-+    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
-+    Error *local_err = NULL;
-+
-+    /*
-+     * Plug the memory device first and then branch off to the actual
-+     * hotplug handler. If that one fails, we can easily undo the memory
-+     * device bits.
-+     */
-+    memory_device_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
-+    if (hotplug_dev2) {
-+        hotplug_handler_plug(hotplug_dev2, dev, &local_err);
-+        if (local_err) {
-+            memory_device_unplug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
-+        }
-+    }
-+    error_propagate(errp, local_err);
-+}
-+
-+static void virt_virtio_md_pci_unplug_request(HotplugHandler *hotplug_dev,
-+                                              DeviceState *dev, Error **errp)
-+{
-+    /* We don't support hot unplug of virtio based memory devices */
-+    error_setg(errp, "virtio based memory devices cannot be unplugged.");
-+}
-+
-+
- static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-                                             DeviceState *dev, Error **errp)
- {
-@@ -2508,6 +2568,8 @@ static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
- 
-     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
-         virt_memory_pre_plug(hotplug_dev, dev, errp);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-+        virt_virtio_md_pci_pre_plug(hotplug_dev, dev, errp);
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
-         hwaddr db_start = 0, db_end = 0;
-         char *resv_prop_str;
-@@ -2559,6 +2621,11 @@ static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
-     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
-         virt_memory_plug(hotplug_dev, dev, errp);
-     }
-+
-+    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-+        virt_virtio_md_pci_plug(hotplug_dev, dev, errp);
-+    }
-+
-     if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
-         PCIDevice *pdev = PCI_DEVICE(dev);
- 
-@@ -2615,6 +2682,8 @@ static void virt_machine_device_unplug_request_cb(HotplugHandler *hotplug_dev,
- {
-     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
-         virt_dimm_unplug_request(hotplug_dev, dev, errp);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-+        virt_virtio_md_pci_unplug_request(hotplug_dev, dev, errp);
-     } else {
-         error_setg(errp, "device unplug request for unsupported device"
-                    " type: %s", object_get_typename(OBJECT(dev)));
-@@ -2639,6 +2708,7 @@ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
- 
-     if (device_is_dynamic_sysbus(mc, dev) ||
-         object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
-+        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI) ||
-         object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
-         return HOTPLUG_HANDLER(machine);
-     }
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 1ca45336dc2..f55dcf61f20 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -146,7 +146,7 @@ static bool virtio_mem_has_shared_zeropage(RAMBlock *rb)
-  * The memory block size corresponds mostly to the section size.
-  *
-  * This allows e.g., to add 20MB with a section size of 128MB on x86_64, and
-- * a section size of 1GB on arm64 (as long as the start address is properly
-+ * a section size of 512MB on arm64 (as long as the start address is properly
-  * aligned, similar to ordinary DIMMs).
-  *
-  * We can change this at any time and maybe even make it configurable if
-@@ -155,6 +155,8 @@ static bool virtio_mem_has_shared_zeropage(RAMBlock *rb)
-  */
- #if defined(TARGET_X86_64) || defined(TARGET_I386)
- #define VIRTIO_MEM_USABLE_EXTENT (2 * (128 * MiB))
-+#elif defined(TARGET_ARM)
-+#define VIRTIO_MEM_USABLE_EXTENT (2 * (512 * MiB))
- #else
- #error VIRTIO_MEM_USABLE_EXTENT not defined
- #endif
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index c459c897cc7..2e0049196d6 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -28,6 +28,7 @@ config ARM_VIRT
-     select ACPI_HW_REDUCED
-     select ACPI_APEI
-     select ACPI_VIOT
-+    select VIRTIO_MEM_SUPPORTED
- 
- config CHEETAH
-     bool
+         switch (cmd) {
+         case GITS_CMD_INT:
+-            res = process_its_cmd(s, data, cq_offset, INTERRUPT);
++            result = process_its_cmd(s, data, cq_offset, INTERRUPT);
+             break;
+         case GITS_CMD_CLEAR:
+-            res = process_its_cmd(s, data, cq_offset, CLEAR);
++            result = process_its_cmd(s, data, cq_offset, CLEAR);
+             break;
+         case GITS_CMD_SYNC:
+             /*
 -- 
 2.25.1
 
