@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DD534953D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 19:02:40 +0100 (CET)
-Received: from localhost ([::1]:38316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D555449540A
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 19:18:11 +0100 (CET)
+Received: from localhost ([::1]:58218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAble-0004V0-Uy
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 13:02:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42712)
+	id 1nAc0g-0001T4-Jo
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 13:18:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAWgL-00049N-HS
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:36:49 -0500
-Received: from [2a00:1450:4864:20::32b] (port=55112
- helo=mail-wm1-x32b.google.com)
+ id 1nAWgM-0004A2-Eg
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:36:50 -0500
+Received: from [2a00:1450:4864:20::333] (port=42948
+ helo=mail-wm1-x333.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAWgG-00039S-VY
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:36:48 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id p18so11757650wmg.4
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 04:36:43 -0800 (PST)
+ id 1nAWgI-00039f-TZ
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:36:49 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ f202-20020a1c1fd3000000b0034dd403f4fbso10083130wmf.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 04:36:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=/oscYornx9l41iZuVB3Pz+TVY1Yhhb7KSEf+uo+HW3I=;
- b=T8wKo8tWvkZ/iXTpVDWlTawFNQlajizhis3C6rZ0ltb+mRPu8+VOpOYCLfleZIB9Cu
- gAgYXKnYS60KOd4TmMyMVvKGZ1ExBK0K9Qap0OHKCa5UX4jvh0BE3+m7si8yPZSbaA3S
- 4HCbfv3M6smcwKFv+qMie66bF3mOnHbJwO1btUHOhmNhmKTwU/49vPQIL730KPmrqhO9
- wEriW92UxltyfSnpROZeKWnxyieCk1ELZKmnEokDLvZjwicHpEJ78S1kXrIWwAlUMdjw
- 7iHx4W13j3KJMkAo+W8Yndtg3tMW1T6mOS8SxcgF36suIsz3KF10PGszLdt3NPC2jzeg
- FSgg==
+ bh=Oso7/2buPYykc7UJ4gn65BTPj25X4xqzim5YNeB47XA=;
+ b=jjr0Zxp1+oLNhJjiCwad+tjahP384vQD9mfGVwwtWu3QCyAdU9W2TmG+7chupz/g7h
+ aGT+K0MHmCuCX9f564f4onAu0C+HaDjiiH1LiF5mrNQyS0Ahj3zNfJPHm8/3k5a8hwbl
+ Zfuv+7aBgpprWeesRVGl/NeyP9c2b4Zz0K40JN+TfGMuIRg2u/CNpQcT682aq6kv35XM
+ FPQkTPd1nd1pfGi+/R18aPoqNlu1+2JiLvS/sEzvlFuEMeRL3FtNTzBwAV8jbg9vw8QJ
+ 24cej7PwQ90dMalHI5iYA+1/3p21LsEEXut8moeKs+97H1DlDoVHw+5ihJjaxARLWfZh
+ tFWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/oscYornx9l41iZuVB3Pz+TVY1Yhhb7KSEf+uo+HW3I=;
- b=stjAsolNtHXpG4ziDrkzF19NPEBbIAN6rW6nTe4UzFFXDN8fEeJjFkr+35e7sqEgK3
- c0Neuz2Il/nGpCqbelw5qWg3sP86RHBkIhtXrFYM/21nMPTo4qV9O3rY33yAri90Ypv2
- yQtWZi1tNKVaqVwCSmMQqMgJlDHNFQMdL/PoDIQaXBu7+X8HitjJULBev5DX4jKS05qZ
- yQuSdYyYyqmWnL5E4UH+VTyaByd/C7sY82CTWBBcGFNzxS0LzGaMtWHaBx29D1NHvdo1
- TsVrVm0aVsypIPUSr1mKZkcQiu4C7UFv+OYu7xHVDYBrQJqhhaDpfGjtCYPLaRjVPBMs
- Xt+w==
-X-Gm-Message-State: AOAM530h3TCEK4LrxpeXZyaFhJ/xMSF9vDywltok92XclEZgeCdSZVQN
- 2H9EtzLKfKux81ChWaPgTj7BzQFmY55n1w==
-X-Google-Smtp-Source: ABdhPJyvNqVJmbCMCDHanFvQkrrDPxtTORfrPL/MXfapZ3Zh9rSSVckbeM9phbH7ebljattT8ojjjA==
-X-Received: by 2002:a5d:6d0d:: with SMTP id e13mr31898988wrq.634.1642682202794; 
- Thu, 20 Jan 2022 04:36:42 -0800 (PST)
+ bh=Oso7/2buPYykc7UJ4gn65BTPj25X4xqzim5YNeB47XA=;
+ b=EAgkBFu/D1gOVDMaGBBcw47j6/RUVqnS8DdFKYLOeqVRGUtfqRISqsQPk6V2H9yHOg
+ BMvcal0qyiT7Nfr7W0wlK7sh3YfP4zTFQ91+wqAAMZhqj5zdQbyeun0tekhm4FT3RLGF
+ a07eQcbiUNaAz1VSEMZWnOSOCN7fyDW1K0sJI2VWg1TjtFdNMwofrTAnJqqtmRlTUzwA
+ razUJ5iXArOaW1K9cDCKoOt9WZL8wj/d9pWzE1RPpQttGpM543FxAYajhFGPr+QHt+V8
+ +1V+ovIjdsWkIqg7K60dJRSJylRJkKgTSPvfPBX0ypGCEASm5PLwYqlvn47ClF+LlexX
+ SxNw==
+X-Gm-Message-State: AOAM533XLd/OI0cjtjInvLtqC/VSLbKbci4yZqdfubEz/I+hddjv/2Ox
+ BfCLNcPaj78SuE26fsDcpVkGiq8Q75b6bQ==
+X-Google-Smtp-Source: ABdhPJx/dhp6X4y0rR61TeVbMm2LZqMP/iXyCUqQtd+r+8kaIzjIvAqN36EAjoBcnFlgePQVhN0Z3g==
+X-Received: by 2002:a05:600c:4f85:: with SMTP id
+ n5mr8587869wmq.43.1642682204155; 
+ Thu, 20 Jan 2022 04:36:44 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id t8sm7993324wmq.43.2022.01.20.04.36.42
+ by smtp.gmail.com with ESMTPSA id t8sm7993324wmq.43.2022.01.20.04.36.43
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 04:36:42 -0800 (PST)
+ Thu, 20 Jan 2022 04:36:43 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/38] virtio-mem: Correct default THP size for ARM64
-Date: Thu, 20 Jan 2022 12:36:04 +0000
-Message-Id: <20220120123630.267975-13-peter.maydell@linaro.org>
+Subject: [PULL 14/38] hw/intc/arm_gic: Implement read of GICC_IIDR
+Date: Thu, 20 Jan 2022 12:36:06 +0000
+Message-Id: <20220120123630.267975-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220120123630.267975-1-peter.maydell@linaro.org>
 References: <20220120123630.267975-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -89,90 +91,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gavin Shan <gshan@redhat.com>
+From: Petr Pavlu <petr.pavlu@suse.com>
 
-The default block size is same as to the THP size, which is either
-retrieved from "/sys/kernel/mm/transparent_hugepage/hpage_pmd_size"
-or hardcoded to 2MB. There are flaws in both mechanisms and this
-intends to fix them up.
+Implement support for reading GICC_IIDR. This register is used by the
+Linux kernel to recognize that GICv2 with GICC_APRn is present.
 
-  * When "/sys/kernel/mm/transparent_hugepage/hpage_pmd_size" is
-    used to getting the THP size, 32MB and 512MB are valid values
-    when we have 16KB and 64KB page size on ARM64.
-
-  * When the hardcoded THP size is used, 2MB, 32MB and 512MB are
-    valid values when we have 4KB, 16KB and 64KB page sizes on
-    ARM64.
-
-Co-developed-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: Gavin Shan <gshan@redhat.com>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-id: 20220111063329.74447-2-gshan@redhat.com
+Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
+Message-id: 20220113151916.17978-2-ppavlu@suse.cz
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/virtio/virtio-mem.c | 32 ++++++++++++++++++++------------
- 1 file changed, 20 insertions(+), 12 deletions(-)
+ hw/intc/arm_gic.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 04c223b0c97..1ca45336dc2 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -46,14 +46,25 @@
-  */
- #define VIRTIO_MEM_MIN_BLOCK_SIZE ((uint32_t)(1 * MiB))
- 
--#if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
--    defined(__powerpc64__)
--#define VIRTIO_MEM_DEFAULT_THP_SIZE ((uint32_t)(2 * MiB))
--#else
--        /* fallback to 1 MiB (e.g., the THP size on s390x) */
--#define VIRTIO_MEM_DEFAULT_THP_SIZE VIRTIO_MEM_MIN_BLOCK_SIZE
-+static uint32_t virtio_mem_default_thp_size(void)
-+{
-+    uint32_t default_thp_size = VIRTIO_MEM_MIN_BLOCK_SIZE;
-+
-+#if defined(__x86_64__) || defined(__arm__) || defined(__powerpc64__)
-+    default_thp_size = 2 * MiB;
-+#elif defined(__aarch64__)
-+    if (qemu_real_host_page_size == 4 * KiB) {
-+        default_thp_size = 2 * MiB;
-+    } else if (qemu_real_host_page_size == 16 * KiB) {
-+        default_thp_size = 32 * MiB;
-+    } else if (qemu_real_host_page_size == 64 * KiB) {
-+        default_thp_size = 512 * MiB;
-+    }
- #endif
- 
-+    return default_thp_size;
-+}
-+
- /*
-  * We want to have a reasonable default block size such that
-  * 1. We avoid splitting THPs when unplugging memory, which degrades
-@@ -86,11 +97,8 @@ static uint32_t virtio_mem_thp_size(void)
-     if (g_file_get_contents(HPAGE_PMD_SIZE_PATH, &content, NULL, NULL) &&
-         !qemu_strtou64(content, &endptr, 0, &tmp) &&
-         (!endptr || *endptr == '\n')) {
--        /*
--         * Sanity-check the value, if it's too big (e.g., aarch64 with 64k base
--         * pages) or weird, fallback to something smaller.
--         */
--        if (!tmp || !is_power_of_2(tmp) || tmp > 16 * MiB) {
-+        /* Sanity-check the value and fallback to something reasonable. */
-+        if (!tmp || !is_power_of_2(tmp)) {
-             warn_report("Read unsupported THP size: %" PRIx64, tmp);
-         } else {
-             thp_size = tmp;
-@@ -98,7 +106,7 @@ static uint32_t virtio_mem_thp_size(void)
+diff --git a/hw/intc/arm_gic.c b/hw/intc/arm_gic.c
+index a994b1f0245..0cd9ceca8d1 100644
+--- a/hw/intc/arm_gic.c
++++ b/hw/intc/arm_gic.c
+@@ -1662,6 +1662,15 @@ static MemTxResult gic_cpu_read(GICState *s, int cpu, int offset,
+         }
+         break;
      }
- 
-     if (!thp_size) {
--        thp_size = VIRTIO_MEM_DEFAULT_THP_SIZE;
-+        thp_size = virtio_mem_default_thp_size();
-         warn_report("Could not detect THP size, falling back to %" PRIx64
-                     "  MiB.", thp_size / MiB);
-     }
++    case 0xfc:
++        if (s->revision == REV_11MPCORE) {
++            /* Reserved on 11MPCore */
++            *data = 0;
++        } else {
++            /* GICv1 or v2; Arm implementation */
++            *data = (s->revision << 16) | 0x43b;
++        }
++        break;
+     default:
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "gic_cpu_read: Bad offset %x\n", (int)offset);
 -- 
 2.25.1
 
