@@ -2,48 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DFE8495458
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 19:44:28 +0100 (CET)
-Received: from localhost ([::1]:32828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E6E6495485
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 19:59:21 +0100 (CET)
+Received: from localhost ([::1]:41862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAcQ7-0006Ag-BJ
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 13:44:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56018)
+	id 1nAceV-00055q-DU
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 13:59:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1nAXZK-0000OU-H3
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 08:33:41 -0500
-Received: from proxmox-new.maurer-it.com ([94.136.29.106]:4323)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1nAXZE-0003Et-C1
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 08:33:34 -0500
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 0F5F446CB3;
- Thu, 20 Jan 2022 14:32:47 +0100 (CET)
-Message-ID: <723a3dd4-a49a-9a97-9ec6-0c270a71e359@proxmox.com>
-Date: Thu, 20 Jan 2022 14:32:45 +0100
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nAXZY-0000Zz-Sv
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 08:33:58 -0500
+Received: from [2607:f8b0:4864:20::832] (port=36855
+ helo=mail-qt1-x832.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nAXZX-0003mt-6K
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 08:33:52 -0500
+Received: by mail-qt1-x832.google.com with SMTP id c19so5897438qtx.3
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 05:33:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Z43JSH4hTIktjEmnW7ht59HKcOhxEzBoOUI91X3DPFE=;
+ b=drugnLwx8AtkxARUqs4+yswExg1m0Zk4fBV7qHGSgKs4afXup/z7ikjzQxwf1/aDdX
+ QZ75ZOcOFM53G0EiMn5u0cvelz37MqWGjRXNeckNasw6TbYMtowc3L8r1wsbLPTMqeJe
+ vQbM4L99GIXQCaNirlhFcGL3LfaKKfLtYOn2E2BSmGundwA5SYdxxNoomGjTrmhJY5Re
+ kuWhsDf5KfzxE2qbxrbus903mX8TC6NrYU7a3EQLAdGN3TX/vWE7XvVL6CfIlK+FrzQi
+ oKppoAhpRYvUDU8ffOiYGajAVjpXUvPTlSuh9gwsrFQYdfaPXmTglcl2fjo2hXVnQo8U
+ UEcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Z43JSH4hTIktjEmnW7ht59HKcOhxEzBoOUI91X3DPFE=;
+ b=7Gvctp2udoj2uRdyG7rzfEWK83iWkYvopMn0D8YQqK+G7ux58QoHIYr1hynnPkO9xY
+ meIislAOgUJDmS7ZTJ+lpfTV6Kr+omrELYAtok7Sfm7BqL1uaiBXoEINguqHZnBgX+Jc
+ qJYZ8BVamHKqtdVxteqRS28wy1k52oXEuw9oq84TdPmmPWGBl3NVCSywu7QMU8Lr04px
+ F0PKeigPhLMhCBtb7mCq36Y06eq9KzRADdOJRT6ryr3cPsVtofN32oPXsGEBt90lu/s5
+ xxMPdU1e/l3867V2o7dPP5opgjhJ0VlHKzY3wTKNEzbItySLEa4l3y9JdxPEdAy3fXuy
+ eN3A==
+X-Gm-Message-State: AOAM533MHlLsUTMObPjwLsCPEysz1UdQ4+XHtlS0Moou59oaL4FaHsmC
+ ty0kpwStBm9WjAgqgr3+juI=
+X-Google-Smtp-Source: ABdhPJwPysrj3NXG/yDs4/fHP05udWZyszcU8lxdA4hwYTE+rjDkS/H1/kE7x6s1yWFFUJ54kRD1Jw==
+X-Received: by 2002:a05:622a:c7:: with SMTP id
+ p7mr16066206qtw.270.1642685630149; 
+ Thu, 20 Jan 2022 05:33:50 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id n9sm1374056qtx.85.2022.01.20.05.33.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Jan 2022 05:33:49 -0800 (PST)
+Message-ID: <a82daf05-24d0-f871-185e-3588e4c91dea@amsat.org>
+Date: Thu, 20 Jan 2022 14:33:46 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH v7 2/4] qapi/monitor: refactor set/expire_password with
- enums
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.0
+Subject: Re: [PATCH 1/2] python: introduce qmp-shell-wrap convenience tool
 Content-Language: en-US
-To: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-References: <20211021100135.4146766-1-s.reiter@proxmox.com>
- <20211021100135.4146766-3-s.reiter@proxmox.com>
-From: Fabian Ebner <f.ebner@proxmox.com>
-In-Reply-To: <20211021100135.4146766-3-s.reiter@proxmox.com>
+To: John Snow <jsnow@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Beraldo Leal <bleal@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20220117141103.157288-1-berrange@redhat.com>
+ <20220117141103.157288-2-berrange@redhat.com>
+ <CAFn=p-Z4sn94+i18JjEnXgPTJK1H0GBqjCA3kwxtHdrELcOc5g@mail.gmail.com>
+ <YeaRJF3tqMjipU3o@redhat.com>
+ <CAFn=p-ZS247FdLySHMcBTpqKzV=eTgsQQMAXyU5CwNEWdZQusQ@mail.gmail.com>
+In-Reply-To: <CAFn=p-ZS247FdLySHMcBTpqKzV=eTgsQQMAXyU5CwNEWdZQusQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
- helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::832
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qt1-x832.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,237 +100,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Am 21.10.21 um 12:01 schrieb Stefan Reiter:
-> 'protocol' and 'connected' are better suited as enums than as strings,
-> make use of that. No functional change intended.
+On 18/1/22 19:04, John Snow wrote:
+> On Tue, Jan 18, 2022 at 5:06 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
+
+>> It would be nice to just have this integrated into 'make check' so we
+>> don't need to remember to run a special command.
 > 
-> Suggested-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
-> ---
->   monitor/hmp-cmds.c | 29 +++++++++++++++++++++++++++--
->   monitor/qmp-cmds.c | 37 ++++++++++++-------------------------
->   qapi/ui.json       | 37 +++++++++++++++++++++++++++++++++++--
->   3 files changed, 74 insertions(+), 29 deletions(-)
+> The CI will run it, but 'make check' doesn't. To add it to make check,
+> I need to figure out how to insert a venv-building step into 'make
+> check' such that the venv gets deposited into the build dir instead of
+> the source dir.
+> I think I may also need yet another set of package dependencies that
+> pin on precise dependencies for testing purposes to prevent random
+> regressions during 'make check' when nobody has touched the Python
+> code.
 > 
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index bcaa41350e..b8abe69609 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -1453,8 +1453,24 @@ void hmp_set_password(Monitor *mon, const QDict *qdict)
->       const char *password  = qdict_get_str(qdict, "password");
->       const char *connected = qdict_get_try_str(qdict, "connected");
->       Error *err = NULL;
-> +    DisplayProtocol proto;
-> +    SetPasswordAction conn;
->   
-> -    qmp_set_password(protocol, password, !!connected, connected, &err);
-> +    proto = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
-> +                            DISPLAY_PROTOCOL_VNC, &err);
-> +    if (err) {
-> +        goto out;
-> +    }
-> +
-> +    conn = qapi_enum_parse(&SetPasswordAction_lookup, connected,
-> +                           SET_PASSWORD_ACTION_KEEP, &err);
-> +    if (err) {
-> +        goto out;
-> +    }
-> +
-> +    qmp_set_password(proto, password, !!connected, conn, &err);
-> +
-> +out:
->       hmp_handle_error(mon, err);
->   }
->   
-> @@ -1463,8 +1479,17 @@ void hmp_expire_password(Monitor *mon, const QDict *qdict)
->       const char *protocol  = qdict_get_str(qdict, "protocol");
->       const char *whenstr = qdict_get_str(qdict, "time");
->       Error *err = NULL;
-> +    DisplayProtocol proto;
->   
-> -    qmp_expire_password(protocol, whenstr, &err);
-> +    proto = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
-> +                            DISPLAY_PROTOCOL_VNC, &err);
-> +    if (err) {
-> +        goto out;
-> +    }
-> +
-> +    qmp_expire_password(proto, whenstr, &err);
-> +
-> +out:
->       hmp_handle_error(mon, err);
->   }
->   
-> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index 5c0d5e116b..0654d7289a 100644
-> --- a/monitor/qmp-cmds.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -163,33 +163,27 @@ void qmp_system_wakeup(Error **errp)
->       qemu_system_wakeup_request(QEMU_WAKEUP_REASON_OTHER, errp);
->   }
->   
-> -void qmp_set_password(const char *protocol, const char *password,
-> -                      bool has_connected, const char *connected, Error **errp)
-> +void qmp_set_password(DisplayProtocol protocol, const char *password,
-> +                      bool has_connected, SetPasswordAction connected,
-> +                      Error **errp)
->   {
->       int disconnect_if_connected = 0;
->       int fail_if_connected = 0;
->       int rc;
->   
->       if (has_connected) {
-> -        if (strcmp(connected, "fail") == 0) {
-> -            fail_if_connected = 1;
-> -        } else if (strcmp(connected, "disconnect") == 0) {
-> -            disconnect_if_connected = 1;
-> -        } else if (strcmp(connected, "keep") == 0) {
-> -            /* nothing */
-> -        } else {
-> -            error_setg(errp, QERR_INVALID_PARAMETER, "connected");
-> -            return;
-> -        }
-> +        fail_if_connected = connected == SET_PASSWORD_ACTION_FAIL;
-> +        disconnect_if_connected = connected == SET_PASSWORD_ACTION_DISCONNECT;
->       }
->   
-> -    if (strcmp(protocol, "spice") == 0) {
-> +    if (protocol == DISPLAY_PROTOCOL_SPICE) {
->           if (!qemu_using_spice(errp)) {
->               return;
->           }
->           rc = qemu_spice.set_passwd(password, fail_if_connected,
->                                      disconnect_if_connected);
-> -    } else if (strcmp(protocol, "vnc") == 0) {
-> +    } else {
-> +        assert(protocol == DISPLAY_PROTOCOL_VNC);
->           if (fail_if_connected || disconnect_if_connected) {
->               /* vnc supports "connected=keep" only */
->               error_setg(errp, QERR_INVALID_PARAMETER, "connected");
-> @@ -198,10 +192,6 @@ void qmp_set_password(const char *protocol, const char *password,
->           /* Note that setting an empty password will not disable login through
->            * this interface. */
->           rc = vnc_display_password(NULL, password);
-> -    } else {
-> -        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "protocol",
-> -                   "'vnc' or 'spice'");
-> -        return;
->       }
->   
->       if (rc != 0) {
-> @@ -209,7 +199,7 @@ void qmp_set_password(const char *protocol, const char *password,
->       }
->   }
->   
-> -void qmp_expire_password(const char *protocol, const char *whenstr,
-> +void qmp_expire_password(DisplayProtocol protocol, const char *whenstr,
->                            Error **errp)
->   {
->       time_t when;
-> @@ -225,17 +215,14 @@ void qmp_expire_password(const char *protocol, const char *whenstr,
->           when = strtoull(whenstr, NULL, 10);
->       }
->   
-> -    if (strcmp(protocol, "spice") == 0) {
-> +    if (protocol == DISPLAY_PROTOCOL_SPICE) {
->           if (!qemu_using_spice(errp)) {
->               return;
->           }
->           rc = qemu_spice.set_pw_expire(when);
-> -    } else if (strcmp(protocol, "vnc") == 0) {
-> -        rc = vnc_display_pw_expire(NULL, when);
->       } else {
-> -        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "protocol",
-> -                   "'vnc' or 'spice'");
-> -        return;
-> +        assert(protocol == DISPLAY_PROTOCOL_VNC);
-> +        rc = vnc_display_pw_expire(NULL, when);
->       }
->   
->       if (rc != 0) {
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index d7567ac866..15cc19dcc5 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -9,6 +9,35 @@
->   { 'include': 'common.json' }
->   { 'include': 'sockets.json' }
->   
-> +##
-> +# @DisplayProtocol:
-> +#
-> +# Display protocols which support changing password options.
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'enum': 'DisplayProtocol',
-> +  'data': [ { 'name': 'vnc', 'if': 'CONFIG_VNC' },
-> +            { 'name': 'spice', 'if': 'CONFIG_SPICE' } ] }
-> +
-> +##
-> +# @SetPasswordAction:
-> +#
-> +# An action to take on changing a password on a connection with active clients.
-> +#
-> +# @fail: fail the command if clients are connected
-> +#
-> +# @disconnect: disconnect existing clients
-> +#
-> +# @keep: maintain existing clients
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'enum': 'SetPasswordAction',
-> +  'data': [ 'fail', 'disconnect', 'keep' ] }
+> Overall, I felt like maybe it was more hassle than it was worth if I
+> can just nudge people touching the python to run a 'make check-dev'
+> every so often.
+> 
+> Patches welcome, etc. My overall strategy with the python tests so far has been:
+> 
+> (1) Keep python tests fully separate from the QEMU build system to
+> allow them to be split out into new repositories easily.
+> (2) Use the pipenv test to lock the very oldest dependencies the code
+> and tests support, using the very oldest python we support (3.6) This
+> test is used as the gating test in GitLab CI, as it is very repeatable
+> and the GitLab CI setup ensures I can always have the exact Python
+> packages it requires available.
+> (3) Use the tox test to test against a wide variety of Python
+> interpreters (3.6 through 3.10 inclusive) using the very latest python
+> packages to detect regressions on cutting-edge environments
+> (4) Use the widest possible range of versions for dependent packages
+> in setup.cfg such that QEMU packages are unlikely to cause versioning
+> conflicts in environments that decide to integrate our code.
+> 
+> Overall, I test on 3.6 through 3.10, and against the "oldest" and
+> "newest" dependencies. It's a good, wide matrix.
+> 
+> However, It's #4 there that runs me into trouble with tests that are
+> guaranteed to pass -- the linters update all the time and cause new
+> problems. I use pipenv to lock to specific versions, but that tool
+> wants to run against Python 3.6 *explicitly*, so it isn't suitable for
+> a generic purpose 'make check' because not everyone will have a Python
+> 3.6 interpreter available. I need something kind of halfway between,
+> where I can lock against specific versions but not against the Python
+> interpreter version, and that's what could be used for a decent 'make
+> check' test.
+> 
+> Of course, I don't want to maintain like 10 versions of a dependent
+> packages list, either.
+> 
+> (I really, really wish pip had an --use-oldest flag for dependency
+> resolution, but it doesn't.)
 
-Since 'keep' should be the default, shouldn't it come first? I didn't 
-find an explicit mention in the QAPI docs, but testing suggests that the 
-first member will be picked. Is that correct?
-
-qmp_set_password still relies on has_connected to guard its checks here, 
-but the next patch removes that, which AFAICT makes the default be 
-'fail' instead of keeping 'keep'. While it's only temporary breakage for 
-VNC as the final patch in the series allows only 'keep' (still, should 
-be avoided if possible), it does matter for SPICE.
-
-> +
->   ##
->   # @set_password:
->   #
-> @@ -38,7 +67,9 @@
->   #
->   ##
->   { 'command': 'set_password',
-> -  'data': {'protocol': 'str', 'password': 'str', '*connected': 'str'} }
-> +  'data': { 'protocol': 'DisplayProtocol',
-> +            'password': 'str',
-> +            '*connected': 'SetPasswordAction' } }
->   
->   ##
->   # @expire_password:
-> @@ -71,7 +102,9 @@
->   # <- { "return": {} }
->   #
->   ##
-> -{ 'command': 'expire_password', 'data': {'protocol': 'str', 'time': 'str'} }
-> +{ 'command': 'expire_password',
-> +  'data': { 'protocol': 'DisplayProtocol',
-> +            'time': 'str' } }
->   
->   ##
->   # @screendump:
-
+Could we simply use a virtualenv for all QEMU testing tasks (packages
+consumed by QEMU tests), and only deal with installed Python packages
+for regular non-testing QEMU uses (things exposed via pyqemu that we
+want stable)?
 
