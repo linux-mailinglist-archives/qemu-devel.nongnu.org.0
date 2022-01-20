@@ -2,59 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E28E949517F
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 16:32:37 +0100 (CET)
-Received: from localhost ([::1]:39338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A05024951D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 16:54:27 +0100 (CET)
+Received: from localhost ([::1]:35066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAZQS-0002ow-UF
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 10:32:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56292)
+	id 1nAZla-0002ju-OE
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 10:54:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nAVl8-0007rD-7l
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:37:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36529)
+ id 1nAVpR-0003sy-Ag
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:42:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36383)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nAVl2-0005aF-QP
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:37:41 -0500
+ id 1nAVpN-0000Go-TR
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:42:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642678649;
+ s=mimecast20190719; t=1642678924;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1RWlkUbiIAlpnX2lx0kRfyAaj0WNcocOPj3qPQtcGSA=;
- b=HZ25AVIVazg1PI4OOLxMEcMI7GfCz7ooQfzgzsLL5eWjHnw78IYiNA0NkVuDYHF0uMdanF
- DHHQOgprPCZhQj54s8i7Q7nT7gNY4b/mTKhaEdhhb1YS3lFPbBSF0mm8Zy3OaoOBApm2aM
- P2lpMwLpy8UEPSnctBACiChaZ6DeKZY=
+ bh=gqKT5QZ09jc3TqLrE12z+UjsDuUy/ROC+299ZTgEQFY=;
+ b=TY8pePWfJZsb3hqotycN35VA39atiNNNz4SSrh6G8Zx/Mc04h6vDzAWOuAtv5lNcESFD0y
+ 0OaJhTYYZkmV1BNNkBbwV5crOQA4bJV+JXiqkzzapCPZzkMdGn4s78SkvOiHCcPL6ue7GD
+ pT/vKTcltPaUiQce8cmV3orsEeW1uAA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-7lycijJPOker-RFBe_EFOg-1; Thu, 20 Jan 2022 06:37:26 -0500
-X-MC-Unique: 7lycijJPOker-RFBe_EFOg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-629-2uL82Sp0MmSU5yJXnsjPsQ-1; Thu, 20 Jan 2022 06:42:01 -0500
+X-MC-Unique: 2uL82Sp0MmSU5yJXnsjPsQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 140471091DA4;
- Thu, 20 Jan 2022 11:37:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4113210247A6;
+ Thu, 20 Jan 2022 11:42:00 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.153])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E64B17CD68;
- Thu, 20 Jan 2022 11:37:22 +0000 (UTC)
-Date: Thu, 20 Jan 2022 11:37:19 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 829D77D702;
+ Thu, 20 Jan 2022 11:41:58 +0000 (UTC)
+Date: Thu, 20 Jan 2022 11:41:55 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v3 6/7] tests/lcitool: Remove libxml2
-Message-ID: <YelJb1Vvb1JCLdzp@redhat.com>
-References: <20220120113016.268265-1-f4bug@amsat.org>
- <20220120113016.268265-7-f4bug@amsat.org>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: MP tables do not report multiple CPUs in Qemu 6.2.0 on x86 when
+ given -smp cpus=n flag
+Message-ID: <YelKgywMaiHXCR4n@redhat.com>
+References: <CAB4+JY+3N5qvC3p_e2DWWa=-QUtW+wH5ZdEJFPKTdSD5TVPXMA@mail.gmail.com>
+ <CAFEAcA9tGnEOOhSbCJv2=JoU5C3cFB08mdaLRERgzPdatKQB=g@mail.gmail.com>
+ <alpine.DEB.2.22.394.2201201305580.844042@anisinha-lenovo>
+ <alpine.OSX.2.20.2201201527140.38065@athabasca.local>
+ <alpine.OSX.2.20.2201201536020.38065@athabasca.local>
 MIME-Version: 1.0
-In-Reply-To: <20220120113016.268265-7-f4bug@amsat.org>
+In-Reply-To: <alpine.OSX.2.20.2201201536020.38065@athabasca.local>
 User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -62,7 +66,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -84,38 +88,57 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Ed Maste <emaste@freebsd.org>, qemu-block@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
- Yonggang Luo <luoyonggang@gmail.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Godmar Back <gback@cs.vt.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ qemu-discuss@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 20, 2022 at 12:30:15PM +0100, Philippe Mathieu-Daudé wrote:
-> The previous commit removed all uses of libxml2.
+On Thu, Jan 20, 2022 at 03:38:26PM +0530, Ani Sinha wrote:
+> Actually I am not quite right. This is the real change which changed the
+> preference. The previous change was a code re-org that preserved the
+> behavior:
 > 
-> Update lcitool's qemu.yml and refresh the generated files by running:
+> commit 4a0af2930a4e4f64ce551152fdb4b9e7be106408
+> Author: Yanan Wang <wangyanan55@huawei.com>
+> Date:   Wed Sep 29 10:58:09 2021 +0800
 > 
->   $ make lcitool-refresh
+>     machine: Prefer cores over sockets in smp parsing since 6.2
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  .gitlab-ci.d/cirrus/freebsd-12.vars           | 2 +-
->  .gitlab-ci.d/cirrus/freebsd-13.vars           | 2 +-
->  .gitlab-ci.d/cirrus/macos-11.vars             | 2 +-
->  tests/docker/dockerfiles/alpine.docker        | 1 -
->  tests/docker/dockerfiles/centos8.docker       | 1 -
->  tests/docker/dockerfiles/fedora.docker        | 1 -
->  tests/docker/dockerfiles/opensuse-leap.docker | 1 -
->  tests/docker/dockerfiles/ubuntu1804.docker    | 1 -
->  tests/docker/dockerfiles/ubuntu2004.docker    | 1 -
->  tests/lcitool/projects/qemu.yml               | 1 -
->  10 files changed, 3 insertions(+), 10 deletions(-)
+>     In the real SMP hardware topology world, it's much more likely that
+>     we have high cores-per-socket counts and few sockets totally. While
+>     the current preference of sockets over cores in smp parsing results
+>     in a virtual cpu topology with low cores-per-sockets counts and a
+>     large number of sockets, which is just contrary to the real world.
+> 
+>     Given that it is better to make the virtual cpu topology be more
+>     reflective of the real world and also for the sake of compatibility,
+>     we start to prefer cores over sockets over threads in smp parsing
+>     since machine type 6.2 for different arches.
+> 
+>     In this patch, a boolean "smp_prefer_sockets" is added, and we only
+>     enable the old preference on older machines and enable the new one
+>     since type 6.2 for all arches by using the machine compat mechanism.
+> 
+>     Suggested-by: Daniel P. Berrange <berrange@redhat.com>
+>     Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+>     Acked-by: David Gibson <david@gibson.dropbear.id.au>
+>     Acked-by: Cornelia Huck <cohuck@redhat.com>
+>     Reviewed-by: Andrew Jones <drjones@redhat.com>
+>     Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+>     Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+>     Message-Id: <20210929025816.21076-10-wangyanan55@huawei.com>
+>     Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> 
+> In any case, the behavior change is intended because of the reasons the
+> above commit outlines.
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
+Further compelling reason not mentioned there is that some OS will
+artifically restrict how many sockets they are willing to use, while
+happily using as many cores as they get. This is usually a licensing
+or billing restriction rather than some technical reason, and kinda
+silly since cores/sockets are basically interchangable, but that's
+life.
 
 Regards,
 Daniel
