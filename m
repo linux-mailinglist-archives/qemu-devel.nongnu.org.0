@@ -2,83 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF49E495550
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 21:17:57 +0100 (CET)
-Received: from localhost ([::1]:34130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7A99495508
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 20:43:33 +0100 (CET)
+Received: from localhost ([::1]:52816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAdsa-0000cc-8v
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 15:17:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38836)
+	id 1nAdLF-0007ov-VJ
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 14:43:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nAYND-0000PE-VT
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 09:25:12 -0500
-Received: from [2a00:1450:4864:20::335] (port=53999
- helo=mail-wm1-x335.google.com)
+ (Exim 4.90_1) (envelope-from <godmar@gmail.com>)
+ id 1nAYTb-0003XS-PV; Thu, 20 Jan 2022 09:31:53 -0500
+Received: from mail-lf1-f47.google.com ([209.85.167.47]:46869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nAYN5-0002oE-R7
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 09:25:11 -0500
-Received: by mail-wm1-x335.google.com with SMTP id n8so12415846wmk.3
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 06:23:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=gh+EHsDLbp6YSi3WO3UFEfeWrhSHyzXi6XmtvM+HbME=;
- b=EWFJuMEOwj9Jh9eJCoDS9SNH64sgMOaXMypzeelmAyEMHtFFfeGMQSzN8WdslH514R
- HQRCKkuxi0OKdtHt5Q46XTRvNC+5ZGNIhl+wRp/cVoxqL0wmHObMH9Ue+qpdf9qlmmXj
- pYn0BF4Mk7XEJEafkuU2cJ0tLpLrMspNjv1mbjkT9urb5ISSwVlRBrwCPgCnUyCWdQjd
- UvnQQNVLiGfC4qSLG6xRpouB21CWqj+3xbCfzHHGkYjj83JNO1l1Leq55lqKpniIfTYk
- d9iFylUCxANIqShEUPs3U0D9hn5VDjiM+MKwjbb3RKwb8fGG4ipMzdhWkwG1Gzv8boeR
- IZAA==
+ (Exim 4.90_1) (envelope-from <godmar@gmail.com>)
+ id 1nAYTZ-00045U-JJ; Thu, 20 Jan 2022 09:31:47 -0500
+Received: by mail-lf1-f47.google.com with SMTP id d3so22250729lfv.13;
+ Thu, 20 Jan 2022 06:31:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=gh+EHsDLbp6YSi3WO3UFEfeWrhSHyzXi6XmtvM+HbME=;
- b=SyGENLnoP336gV77RI7EiMKaTapeiZ0WFqaTuocMyJOCOnMVT2TTZfoHhtV/6UUjYk
- FnGEoM1VlmkT9XKf+IsXZS813Kq5KPeECIY00uZOcA0H7HUMt3ElENQ4E/249dhgylUK
- 4+2fi1WUCWzlN3niSRZUZUvx5QNIjOlWhhCfmW2bh3OTRdC4HFw0e5W4d8x/6Bft22kj
- IHQvO1qPiZEKzu2o30Ym5IbDrsd9M7uIH02Wz264DaQxRFyVlNfTittHN7p8B/vf0Jrm
- +6gCA6r5+UvEBUqGwpYODnbl5EohCx+swf89p+nQCQtTF0wY3XNBAk3+q/AHU+4mRI+U
- fqsw==
-X-Gm-Message-State: AOAM530KrCJHf3rje686b1tNfuOzQZ81yf3L83+lL1akPB4KXMC+g1vd
- v7Y1lN172gXIX6KjvSc2JcBo8Q==
-X-Google-Smtp-Source: ABdhPJzkqTAnsAlhAbzy20eIOsgemMu7Evw8VyWOb7dydkcBkLzfytcxcQqgdjU6NL1VfOfk4oNosg==
-X-Received: by 2002:a5d:6690:: with SMTP id l16mr4213371wru.468.1642688633675; 
- Thu, 20 Jan 2022 06:23:53 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m12sm3531455wrp.55.2022.01.20.06.23.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 06:23:52 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DC4C41FFB7;
- Thu, 20 Jan 2022 14:23:51 +0000 (GMT)
-References: <20220118203833.316741-1-eric.auger@redhat.com>
- <20220118203833.316741-2-eric.auger@redhat.com>
-User-agent: mu4e 1.7.5; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v2 1/6] tests/qtest/vhost-user-test.c: Use vhostforce=on
-Date: Thu, 20 Jan 2022 14:23:46 +0000
-In-reply-to: <20220118203833.316741-2-eric.auger@redhat.com>
-Message-ID: <87v8ye7afc.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bxMFGLiH1C/LYg4/0n9O1F0GhFyjbpUYP3Iu3Wqmj94=;
+ b=ztgqYeNF0get2u/xhAtRpNj0SZkdNG5pY8oVPsnrjPURNCOI5847+7Pj6VGQpJo/Rh
+ JbstqrqL2lq5APt2aG+I+31bh2bvcMdkQJ1rRLZ0C2apSgdj9qVasfiJ59iTfMGgyzwB
+ TLxyDlXR/o9CURobF2DqmiwSbm3BKdoMkXbEWGDZwHAzNUnyFNxFX86AVY9cO3Zg6zcm
+ NIwQ967LtHP2Oh19kBTrVpN8lH3Ppslcla9GQ2H3TX9Rn0vU24pbFVuMkDN2YFtmco65
+ yTQE+ohapYsyB7hrnbmBAA9wDnRBh501Y6CKtob7nQmLhyl2TDwBjsm7vOJDgzmJPggJ
+ 0HAA==
+X-Gm-Message-State: AOAM5331yZPYEbYepOOJpV+6PMgsjKYmx4gJzC6Hq9LR+J/nqIqrLSXt
+ mZV93Pvxl4Cgb9u7TNhHtnZVFQSbWInfBAtv63Y=
+X-Google-Smtp-Source: ABdhPJyeOfzi603m1n074Noo9CQceGsKck0QIBFvu4yX9n/LsKQHCjUWiSLWkJe8XTpDSboXNXP1tNLcR5/6XVYdKhw=
+X-Received: by 2002:a05:6512:21d1:: with SMTP id
+ d17mr21666482lft.452.1642689102651; 
+ Thu, 20 Jan 2022 06:31:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+References: <CAB4+JY+3N5qvC3p_e2DWWa=-QUtW+wH5ZdEJFPKTdSD5TVPXMA@mail.gmail.com>
+ <CAFEAcA9tGnEOOhSbCJv2=JoU5C3cFB08mdaLRERgzPdatKQB=g@mail.gmail.com>
+ <alpine.DEB.2.22.394.2201201305580.844042@anisinha-lenovo>
+ <alpine.OSX.2.20.2201201527140.38065@athabasca.local>
+ <alpine.OSX.2.20.2201201536020.38065@athabasca.local>
+ <YelKgywMaiHXCR4n@redhat.com>
+In-Reply-To: <YelKgywMaiHXCR4n@redhat.com>
+From: Godmar Back <gback@cs.vt.edu>
+Date: Thu, 20 Jan 2022 09:31:31 -0500
+Message-ID: <CAB4+JYKpsVhJhHs_Xv0Y5SArWtjngiACUuFqy1jsj5DaRgq44Q@mail.gmail.com>
+Subject: Re: MP tables do not report multiple CPUs in Qemu 6.2.0 on x86 when
+ given -smp cpus=n flag
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=209.85.167.47; envelope-from=godmar@gmail.com;
+ helo=mail-lf1-f47.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 20 Jan 2022 10:11:39 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,24 +74,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, peter.maydell@linaro.org, thuth@redhat.com,
- mst@redhat.com, eesposit@redhat.com, qemu-devel@nongnu.org,
- jean-philippe@linaro.org, qemu-arm@nongnu.org, clg@kaod.org,
- pbonzini@redhat.com, david@gibson.dropbear.id.au, eric.auger.pro@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ qemu-discuss@nongnu.org, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Thank you for the replies. I will note that I suspected SeaBIOS as
+well. However, testing 6.2.0 with SeaBIOS 14 (which is the version
+that shipped with 6.1.1) did not change the behavior, so I concluded
+it was a change in Qemu, despite the fact that SeaBIOS is setting up
+the tables.
 
-Eric Auger <eric.auger@redhat.com> writes:
+I was about to write a note that this information is hard to find, but
+I feel I need to apologize. When I go to the user manual [1] it
+explains the change in behavior:
 
-> -netdev vhost-user,vhostforce is deprecated and vhostforce=3Don
-> should be used instead.
->
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+"Historically preference was given to the coarsest topology parameters
+when computing missing values (ie sockets preferred over cores, which
+were preferred over threads), however, this behaviour is considered
+liable to change. Prior to 6.2 the preference was sockets over cores
+over threads. Since 6.2 the preference is cores over sockets over
+threads.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+For example, the following option defines a machine board with 2
+sockets of 1 core before 6.2 and 1 socket of 2 cores after 6.2:
 
---=20
-Alex Benn=C3=A9e
+-smp 2"
+
+I should have checked first.
+
+[1] https://www.qemu.org/docs/master/system/invocation.html
 
