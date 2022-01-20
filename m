@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A05024951D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 16:54:27 +0100 (CET)
-Received: from localhost ([::1]:35066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B9A94951E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 17:00:06 +0100 (CET)
+Received: from localhost ([::1]:44740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAZla-0002ju-OE
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 10:54:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57416)
+	id 1nAZr3-0000uc-Cd
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 11:00:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nAVpR-0003sy-Ag
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:42:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36383)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nAVpN-0000Go-TR
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:42:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642678924;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gqKT5QZ09jc3TqLrE12z+UjsDuUy/ROC+299ZTgEQFY=;
- b=TY8pePWfJZsb3hqotycN35VA39atiNNNz4SSrh6G8Zx/Mc04h6vDzAWOuAtv5lNcESFD0y
- 0OaJhTYYZkmV1BNNkBbwV5crOQA4bJV+JXiqkzzapCPZzkMdGn4s78SkvOiHCcPL6ue7GD
- pT/vKTcltPaUiQce8cmV3orsEeW1uAA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-629-2uL82Sp0MmSU5yJXnsjPsQ-1; Thu, 20 Jan 2022 06:42:01 -0500
-X-MC-Unique: 2uL82Sp0MmSU5yJXnsjPsQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4113210247A6;
- Thu, 20 Jan 2022 11:42:00 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.153])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 829D77D702;
- Thu, 20 Jan 2022 11:41:58 +0000 (UTC)
-Date: Thu, 20 Jan 2022 11:41:55 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: MP tables do not report multiple CPUs in Qemu 6.2.0 on x86 when
- given -smp cpus=n flag
-Message-ID: <YelKgywMaiHXCR4n@redhat.com>
-References: <CAB4+JY+3N5qvC3p_e2DWWa=-QUtW+wH5ZdEJFPKTdSD5TVPXMA@mail.gmail.com>
- <CAFEAcA9tGnEOOhSbCJv2=JoU5C3cFB08mdaLRERgzPdatKQB=g@mail.gmail.com>
- <alpine.DEB.2.22.394.2201201305580.844042@anisinha-lenovo>
- <alpine.OSX.2.20.2201201527140.38065@athabasca.local>
- <alpine.OSX.2.20.2201201536020.38065@athabasca.local>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nAVpY-0003x1-Pf
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:42:16 -0500
+Received: from [2a00:1450:4864:20::32b] (port=54805
+ helo=mail-wm1-x32b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nAVpX-0000Hh-7k
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:42:16 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id p18so11446159wmg.4
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 03:42:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PoFmUAe2U/9+Q8HlewAE973W1wbfT1HXpWq4wD7Fl4U=;
+ b=trAtQTtjGtKTSG8jkqio6A5N2u6l+MX2UEDq2kFLocVm6luoS2zu4WP/4W7SMygDhI
+ xpj4NPMshAGXrnet1U+yuHySGx+MOnJeJf2OkrVz5vL4SldsJT0SyW0RQIlu6MKM2DZp
+ U8zaRAXp6CREUV+Phaj1pwInYURYpC89F3PCwsJguhyPFkcks7AMGpAFbifOSRSKFj6M
+ gWJY8of6Tr3aukufCa7z/VI0srj4/IDcgHv11TRe6dfG15W2IarbetmU5RrzXEz1rG6z
+ PwHqO3brbSJTbiK5/F68zhPzIUpY7cS36ir42DHTK+EH2a0PRdECWbu8rQR06SoOVn60
+ kXEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PoFmUAe2U/9+Q8HlewAE973W1wbfT1HXpWq4wD7Fl4U=;
+ b=vH9b3j56081F5xOxt3O2YZBCYhsIxPAEgv39LL6Iv87orb9qfUHgkxuJCYjE8QcE1I
+ zyvhzuxCLKyhvnWDN5sTGbyGt3Tp9Ku2U9af2Vh0ni0p+0Hq6i/nO1Wy13OBR5xJ+Yeq
+ QSP3ShrW3jWouW9qk3tF70lisGRyPvOiHPyO6wGy+vexbRUxlaRIpY69/qL3i0yjA08D
+ f9Hs368v+u5TAfi43vvGPP3I02LjYUeCu42Xrh3TpZ4f8K+AH1Wb7PKbELWTzjZcZ+Xt
+ xyvqVPROGlw+1N8oNoMLlXjhcNgXst7i2cmuiYICp9mBXB2ijsSzUaIRr7clKqW80zF4
+ v+uA==
+X-Gm-Message-State: AOAM5321t64grr2wHjxRoe5INXPSysbD+8A3Z3m8183wwHmYIr6Bt49p
+ FAYYw8Azytvn94Pa+ky6SkXF/lZrg1cnbjunTvF7BQ==
+X-Google-Smtp-Source: ABdhPJzf0A0FDy9CFCDZu28XQUmz+bM6rd+VuP25PLHPRaD4TRsjWqUNAPKQaoVSsaKTYCnJmzAaV2IhDyPUe4h363w=
+X-Received: by 2002:a05:600c:d3:: with SMTP id
+ u19mr2826274wmm.37.1642678933707; 
+ Thu, 20 Jan 2022 03:42:13 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <alpine.OSX.2.20.2201201536020.38065@athabasca.local>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220114004033.295199-1-idan.horowitz@gmail.com>
+In-Reply-To: <20220114004033.295199-1-idan.horowitz@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 20 Jan 2022 11:42:02 +0000
+Message-ID: <CAFEAcA96gKH8r_a2aV0bfcOR418WnRkmEsV73Uss0kDEQ2Tx4w@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Allow only specific instructions based on the
+ SCTLR_EL1.UCI bit
+To: Idan Horowitz <idan.horowitz@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,64 +81,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Godmar Back <gback@cs.vt.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- qemu-discuss@nongnu.org, Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 20, 2022 at 03:38:26PM +0530, Ani Sinha wrote:
-> Actually I am not quite right. This is the real change which changed the
-> preference. The previous change was a code re-org that preserved the
-> behavior:
-> 
-> commit 4a0af2930a4e4f64ce551152fdb4b9e7be106408
-> Author: Yanan Wang <wangyanan55@huawei.com>
-> Date:   Wed Sep 29 10:58:09 2021 +0800
-> 
->     machine: Prefer cores over sockets in smp parsing since 6.2
-> 
->     In the real SMP hardware topology world, it's much more likely that
->     we have high cores-per-socket counts and few sockets totally. While
->     the current preference of sockets over cores in smp parsing results
->     in a virtual cpu topology with low cores-per-sockets counts and a
->     large number of sockets, which is just contrary to the real world.
-> 
->     Given that it is better to make the virtual cpu topology be more
->     reflective of the real world and also for the sake of compatibility,
->     we start to prefer cores over sockets over threads in smp parsing
->     since machine type 6.2 for different arches.
-> 
->     In this patch, a boolean "smp_prefer_sockets" is added, and we only
->     enable the old preference on older machines and enable the new one
->     since type 6.2 for all arches by using the machine compat mechanism.
-> 
->     Suggested-by: Daniel P. Berrange <berrange@redhat.com>
->     Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
->     Acked-by: David Gibson <david@gibson.dropbear.id.au>
->     Acked-by: Cornelia Huck <cohuck@redhat.com>
->     Reviewed-by: Andrew Jones <drjones@redhat.com>
->     Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
->     Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
->     Message-Id: <20210929025816.21076-10-wangyanan55@huawei.com>
->     Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> 
-> In any case, the behavior change is intended because of the reasons the
-> above commit outlines.
+On Fri, 14 Jan 2022 at 00:40, Idan Horowitz <idan.horowitz@gmail.com> wrote:
+>
+> The SCTLR_EL1.UCI bit only affects a subset of cache maintenance
+> instructions as specified by the specification. Any other cache
+> maintenance instructions must still be trapped from EL0.
 
-Further compelling reason not mentioned there is that some OS will
-artifically restrict how many sockets they are willing to use, while
-happily using as many cores as they get. This is usually a licensing
-or billing restriction rather than some technical reason, and kinda
-silly since cores/sockets are basically interchangable, but that's
-life.
+Hi; thanks for this patch. Do you have a test case which
+demonstrates this behaviour? From reading the patch I
+can't see any instructions where the patch changes the
+behaviour of the emulation.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+As far as I can see, the commit effectively changes the
+accessfn for the following instructions to one which does
+not check the UCI bit:
+AArch64
+ IC IALLUIS
+ IC IALLU
+ DC IVAC
+ DC IGVAC
+ DC IGDVAC
+AArch32
+ ICIALLUIS
+ ICIALLU
+ ICIMVAU
+ DCCMVAU
+ DCIMVAC
+ DCCMVAC
+ DCCIMVAC
 
+and it is true that the architecture says that UCI
+doesn't affect these instructions; they always UNDEF at EL0.
+
+But for all of these instructions the reginfo struct
+sets ".access = PL1_W". The .access field is always
+checked before the .accessfn, so for any of these instructions
+executed from EL0 I think we will always fail the .access
+check and UNDEF the insn without calling the .accessfn.
+So it doesn't matter that the .accessfn has "if EL0 then
+check SCTLR_EL1.UCI", because when running the accessfn
+for these insns we can never be in EL0.
+
+Am I missing something?
+
+thanks
+-- PMM
 
