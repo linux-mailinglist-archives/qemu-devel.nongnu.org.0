@@ -2,65 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A214495532
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 21:04:09 +0100 (CET)
-Received: from localhost ([::1]:46792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1AB649555C
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 21:22:37 +0100 (CET)
+Received: from localhost ([::1]:42198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAdfD-0006RO-KO
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 15:04:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51556)
+	id 1nAdx6-0006LC-VJ
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 15:22:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAZ8f-0005CO-Iz
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:14:13 -0500
-Received: from [2a00:1450:4864:20::32a] (port=47052
- helo=mail-wm1-x32a.google.com)
+ id 1nAZBF-0007pv-DU
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:16:53 -0500
+Received: from [2a00:1450:4864:20::32b] (port=53844
+ helo=mail-wm1-x32b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAZ8d-0002m3-F5
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:14:13 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- az27-20020a05600c601b00b0034d2956eb04so14434659wmb.5
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 07:14:08 -0800 (PST)
+ id 1nAZBD-0003T5-LR
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:16:53 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id n8so12757457wmk.3
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 07:16:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IogVwR0JEQ1aQS9gzhq8kcdl8IFdw2NlrDiATe7UQD8=;
- b=TvcpVIAL5JiRVCpLJDBwtxFbbzzkTCo+xRcAyneaLm3XvvpbXHm/3rPCMdeAJyWlAX
- 7dmsYdGQsqqBSN93EoxXVXrQVI9hMn6q31tCkdsc0Tw5blBfkGHKecCQ+hDKvz6Y3NVE
- PRz+KfHBYhglTfC0EyLdd+3yWHSvEUK0TytemjxZi6g/xMxzCLvGj9E0+lI34FMh7UhV
- cnMB5jRRDr01RUe0expt+lrWdx1fYGaj5slH6tv6h2wmwPKWCj+gvX07L20++yVzEM1R
- p4eq5aJGY2o6dD1tltWzYJ33++127MXB9MuWjvZB+nAJCl//D7q3waPsTo+k+sWif2tZ
- U6lg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dUP+xAeqwqhgnTkt7Pfw/iOMWfGPZPxV5IL8xzgDVz0=;
+ b=G/QDk7j6SK0aygeX0/NWPq6ZS48SZn2xdwx4jOzKKBc5NCaDU5qkiEhjzdcm3veGOb
+ X3cvNdDs8VuonPloXgUK6qPgIusJzBmW9XPPG7hSIMd+pydwSxGjtRreLN20Jqs3Q+7Z
+ opLv1Xl5FZH0LjdTiN9+qdAZzR0DViiL3PDi5OaisoBig/GEN3Bl09XtxUizCrC7QNiC
+ OLXiZWia/upq+B4iHHouApDPeAkJjOkQ9DZNmFn+hREaFN/usCtY+Qi/UqmSWStb9QmE
+ MWR6Xt/BPdoZbmziC2tS+F4DKT0MdvqP2bRHzGakxzNQedVAJL/GHskqd82QwROrwLIG
+ KHuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IogVwR0JEQ1aQS9gzhq8kcdl8IFdw2NlrDiATe7UQD8=;
- b=JfCn7vZVUaz2vjTgNp9tu+H4ZhMT98Tbsxjk4HqVtU+nIJWQGKrGwAwqj/tcBQZ6PC
- 1ESN/yd+JaHZxLFL/iC5eCWfYkpBPpyiOpgSFG0WoojWOAnxLZSUxQdfbIPo0tDR1rcE
- QsByRr4aDiYvVyx2/5Ps12bliZQZC8Gb1V/vCE/xJar6X6KzdcliiGTfrFZX8/QpdoIw
- HyyJ3RPX+dNuTFRfDMPRZRNdx1CoQUzeZy+wXS1KvszBa7hG+3znKdizocA8xPAOMRIf
- 4ZijaEpr7q/lUbE2HQUGxufi9lZHjeBCgZ+gGh/yEzR+/+8V+oPwKNQulWk3jNKtsJEz
- 70Vw==
-X-Gm-Message-State: AOAM5311UwUYH4P64fzEI+OahtCwgJZ+27tKo5xb3eMaR3aUAIOkuDjt
- yw+RAk+ZoQUOmO7QB+9k1MEKoa6iDHQG61CQfS1bYZja5uw=
-X-Google-Smtp-Source: ABdhPJwzzB150MYIZUJMVvI0D67pBKhiuLTmHQQT+vSmpCzj0SsyOH39ut82z+lfsfrlq8tcIAa5arFL9XXMkG7lcEo=
-X-Received: by 2002:a5d:52c4:: with SMTP id r4mr35650833wrv.521.1642691647185; 
- Thu, 20 Jan 2022 07:14:07 -0800 (PST)
-MIME-Version: 1.0
-References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dUP+xAeqwqhgnTkt7Pfw/iOMWfGPZPxV5IL8xzgDVz0=;
+ b=waDJfyr+aGNb0CypdwIK1T/IWswTUXDFE/Js0DBtnRAgIYHWnvQg6hEbziW1tQJKNy
+ TXCzTfjeAX43kJTgQchNQovdBLrfzOZF2xz45b8/YKwMt0+31GRIQjSMExZTgTTmMafg
+ qqzooDtijiK8AEKS2hB3zC4nHYvA2fEkdX6VH51Q3eT0XtAz9HX828cIfjZCW6UsBeiG
+ Z/kmHOIynb3L3+vCwFXgEPxovxTsO7+l/sc0uk2FldEwTICDzB2ED2s6ztUm/qr6LV4c
+ mfZRx1K3TYBmgijMDIhfhbE2So/28Ec4VVAgX0qF+vQqJ/AfzWwlfDulmj41/YF2VxW3
+ sHAg==
+X-Gm-Message-State: AOAM531oEbsnmuUru70V7h67Z73W7oot3EAM9d4QZiM90duYqmbR0N0Z
+ iblEyIlVs+flycLHP1lPxK5VXy988lGdig==
+X-Google-Smtp-Source: ABdhPJwnb1WoxliAuHa+UPtHmUUmDIpPc1wLro4+yJmXLgX4oQHsDVJANaiwlJ4RzYJVXZNelIYBqg==
+X-Received: by 2002:a05:600c:291:: with SMTP id
+ 17mr9291417wmk.123.1642691810003; 
+ Thu, 20 Jan 2022 07:16:50 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id w6sm1972079wmi.15.2022.01.20.07.16.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Jan 2022 07:16:49 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 20 Jan 2022 15:13:56 +0000
-Message-ID: <CAFEAcA9_d5jw5-HOrZA6dsG1vMqxzqmrfHA7Jo0KsDcaEXmB_Q@mail.gmail.com>
-Subject: Re: "make check-acceptance" takes way too long
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH] hw/char/exynos4210_uart: Fix crash on trying to load VM state
+Date: Thu, 20 Jan 2022 15:16:48 +0000
+Message-Id: <20220120151648.433736-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -80,29 +85,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Jul 2021 at 16:12, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> "make check-acceptance" takes way way too long. I just did a run
-> on an arm-and-aarch64-targets-only debug build and it took over
-> half an hour, and this despite it skipping or cancelling 26 out
-> of 58 tests!
->
-> I think that ~10 minutes runtime is reasonable. 30 is not;
-> ideally no individual test would take more than a minute or so.
->
-> Output saying where the time went. The first two tests take
-> more than 10 minutes *each*. I think a good start would be to find
-> a way of testing what they're testing that is less heavyweight.
+The exynos4210_uart_post_load() function assumes that it is passed
+the Exynos4210UartState, but it has been attached to the
+VMStateDescription for the Exynos4210UartFIFO type.  The result is a
+SIGSEGV when attempting to load VM state for any machine type
+including this device.
 
-Does anybody have some time to look at this? It makes
-'check-acceptance' almost unusable for testing fixes locally...
+Fix the bug by attaching the post-load function to the VMSD for the
+Exynos4210UartState.  This is the logical place for it, because the
+actions it does relate to the entire UART state, not just the FIFO.
 
--- PMM
+Thanks to the bug reporter @TrungNguyen1909 for the clear bug
+description and the suggested fix.
+
+Fixes: c9d3396d80fe7ece9b
+   ("hw/char/exynos4210_uart: Implement post_load function")
+Buglink: https://gitlab.com/qemu-project/qemu/-/issues/638
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/char/exynos4210_uart.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/char/exynos4210_uart.c b/hw/char/exynos4210_uart.c
+index 80d401a3795..addcd59b028 100644
+--- a/hw/char/exynos4210_uart.c
++++ b/hw/char/exynos4210_uart.c
+@@ -628,7 +628,6 @@ static const VMStateDescription vmstate_exynos4210_uart_fifo = {
+     .name = "exynos4210.uart.fifo",
+     .version_id = 1,
+     .minimum_version_id = 1,
+-    .post_load = exynos4210_uart_post_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT32(sp, Exynos4210UartFIFO),
+         VMSTATE_UINT32(rp, Exynos4210UartFIFO),
+@@ -641,6 +640,7 @@ static const VMStateDescription vmstate_exynos4210_uart = {
+     .name = "exynos4210.uart",
+     .version_id = 1,
+     .minimum_version_id = 1,
++    .post_load = exynos4210_uart_post_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_STRUCT(rx, Exynos4210UartState, 1,
+                        vmstate_exynos4210_uart_fifo, Exynos4210UartFIFO),
+-- 
+2.25.1
+
 
