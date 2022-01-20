@@ -2,83 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 271B1494647
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 05:04:36 +0100 (CET)
-Received: from localhost ([::1]:54426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1902D4946B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 06:18:27 +0100 (CET)
+Received: from localhost ([::1]:35598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAOgc-0001bn-OO
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 23:04:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42534)
+	id 1nAPq5-0005KK-KR
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 00:18:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
- id 1nAOen-0000Vb-PT
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 23:02:42 -0500
-Received: from [2607:f8b0:4864:20::62c] (port=44815
- helo=mail-pl1-x62c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
- id 1nAOel-0004Vc-Ki
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 23:02:41 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id c9so4100529plg.11
- for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 20:02:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=c/2GEwMyLhntaa1kTZFuJeaNUiwTpnxZmSoHuxlVnUo=;
- b=Dznnzni2gDyGLgFeSFHOrN5fQ3UaA9HNypjq2OdmbGrt30hqi25yQdpmf57wRRHcGb
- Dh3cyWxi/qM2fqlZWTwy7LTJP0+d94GpCslErlqYr2ILAS7G10cwj77Rv9pNeuiP/nAV
- +gtsToPBojmMVnClRScAKwv7xSUu+h1trBTS4m9q7vvs6l4cUT5qG8aESGGEem0CRMk9
- 5J1a3XyOg5nz/Sr9eHlPhTJkWIKVoZgbo0yT/NmgKyx9C7bxiW2PnkIHDcg3wpv5W+W1
- 9Nw+J6BV3dLK5l6hz0qUPBQK/u56gKVYH0GRsC96MSwvmyFy70Bj3Jdr1eHSUG5rfjW8
- e71g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=c/2GEwMyLhntaa1kTZFuJeaNUiwTpnxZmSoHuxlVnUo=;
- b=grCEyXHy18chJ+xquPOne0PfzSkDDjbVkpAOamH+Fwq/IVRHYcr5Dj8eBnrcwXZCMa
- PHpHxutbZ8cKMQyk1hCSF2+XhA+xfrwzduSMTW3NHTJnTc0rI1WNsmNmWgzyWUQYHII2
- nPZRNuprvw3qll/d2LXHughXBKHdNcdLiKKWVSm0CpOW+zZA8DuU+AQh+YUfFpQJdwPs
- O885NhRzTMcN5uTtnQDnup8posKeZhWwPuqCkithnQvvO5+/ozikOznNET1JnMRo2oPY
- 9ywCJ268++ZYbUw40bscWKeLohhOAMDLdbX0yxcjI+syXBaJccTEeypyPHnyZ/7wjc5J
- P7ow==
-X-Gm-Message-State: AOAM5323Besgohevw1O/ZUKtjKkDxIy9StEUmhMq0HqbAsdWyO53/4Zq
- m6mmvUQBEnHICfG8cmj9YWWTzQ==
-X-Google-Smtp-Source: ABdhPJyueAn5m8zZC4n/VX2IQGTYiOsy8DJuNZV2DZ+KJJKJQWjJeAGQmqAzM6U8GzD1F0m9cCGyTQ==
-X-Received: by 2002:a17:902:cecb:b0:14a:5668:2673 with SMTP id
- d11-20020a170902cecb00b0014a56682673mr36364576plg.26.1642651357420; 
- Wed, 19 Jan 2022 20:02:37 -0800 (PST)
-Received: from localhost ([122.173.184.146])
- by smtp.gmail.com with ESMTPSA id n22sm1042344pfu.193.2022.01.19.20.02.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jan 2022 20:02:36 -0800 (PST)
-Date: Thu, 20 Jan 2022 09:32:34 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH 0/2] virtio: Add vhost-user-gpio device's support
-Message-ID: <20220120040234.ehcjcdr6wrvlz3yc@vireshk-i7>
-References: <cover.1641987128.git.viresh.kumar@linaro.org>
- <20220117034606-mutt-send-email-mst@kernel.org>
- <871r16br9n.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1nAPn7-0004Sp-EO; Thu, 20 Jan 2022 00:15:21 -0500
+Received: from out28-73.mail.aliyun.com ([115.124.28.73]:33983)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1nAPn3-0007Hk-DH; Thu, 20 Jan 2022 00:15:20 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.06875585|-1; CH=green;
+ DM=|CONTINUE|false|; DS=CONTINUE|ham_news_journal|0.103039-0.00124655-0.895715;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047213; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=9; RT=9; SR=0; TI=SMTPD_---.Mfi16w6_1642655707; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.Mfi16w6_1642655707)
+ by smtp.aliyun-inc.com(10.147.41.121);
+ Thu, 20 Jan 2022 13:15:07 +0800
+Subject: Re: [PATCH v7 21/22] target/riscv: Enable uxl field write
+To: Alistair Francis <alistair23@gmail.com>, anup@brainfault.org
+References: <20220119051824.17494-1-zhiwei_liu@c-sky.com>
+ <20220119051824.17494-22-zhiwei_liu@c-sky.com>
+ <CAKmqyKP=NNEVDDGrbSEeWLfLyX_+=Ao0yWJ9RtyazyycGHM3+w@mail.gmail.com>
+ <508b3d54-0641-cab2-c153-8f2bb76c79ed@c-sky.com>
+ <CAKmqyKNMvkCX2=V0kRQXKV3_1B6Y61gFOWrpWJ1JPXYm_8a5uQ@mail.gmail.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <03d00d3e-528c-bb51-75b5-8fbf4ef1e529@c-sky.com>
+Date: Thu, 20 Jan 2022 13:15:07 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <871r16br9n.fsf@linaro.org>
-User-Agent: NeoMutt/20180716-391-311a52
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=viresh.kumar@linaro.org; helo=mail-pl1-x62c.google.com
-X-Spam_score_int: 2
-X-Spam_score: 0.2
-X-Spam_bar: /
-X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SORBS_WEB=1.5, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CAKmqyKNMvkCX2=V0kRQXKV3_1B6Y61gFOWrpWJ1JPXYm_8a5uQ@mail.gmail.com>
+Content-Type: multipart/alternative;
+ boundary="------------08211B6F381E325BF2B950E3"
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.73; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-73.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,59 +63,386 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stratos-dev@op-lists.linaro.org,
- Vincent Guittot <vincent.guittot@linaro.org>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: guoren@linux.alibaba.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17-01-22, 10:11, Alex Benn�e wrote:
-> 
-> "Michael S. Tsirkin" <mst@redhat.com> writes:
-> 
-> > On Wed, Jan 12, 2022 at 05:04:57PM +0530, Viresh Kumar wrote:
-> >> Hello,
-> >> 
-> >> This patchset adds vhost-user-gpio device's support in Qemu. The support for the
-> >> same has already been added to virtio specification and Linux Kernel.
-> >> 
-> >> A Rust based backend is also in progress and is tested against this patchset:
-> >> 
-> >> https://github.com/rust-vmm/vhost-device/pull/76
-> >
-> >
-> > I'm reluctant to add this with no tests in tree.
-> > Want to write a minimal libhost-user based backend?
+This is a multi-part message in MIME format.
+--------------08211B6F381E325BF2B950E3
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-I actually have one already, that I wrote before attempting the Rust
-counterpart, but never upstreamed as I am not sure if anyone is ever
-going to use it, as I am not. And I thought what's the point of
-merging code which I will never end up using.
+Hi Alistair,
 
-I am not sure what test I can add here to make sure this doesn't
-breaks in future though.
+Do you mind share you test method?
 
-> This is going to be a problem going forward as we have more out-of-tree
-> backends written as a first preference. While the first couple of vhost
-> devices have C implementations in contrib before we worked on the rust
-> version I think we are getting to the point of skipping a first C
-> version for future devices.
-> 
-> However I notice we have qtest/vhost-user-test.c so would that be enough
-> to ensure we can instantiate the device and a basic vhost-user
-> initialisation sequence doesn't cause it to crap out. This obviously
-> won't be exercising the virtq processing itself but does that really
-> exercise any of QEMU's boilerplate anyway?
-> 
-> > We also need some maintainers to step up.
-> 
-> You mean more reviewers for the vhost and virtio sections of QEMU's
-> maintainers?
+I follow the xvisor document on 
+https://github.com/xvisor/xvisor/blob/v0.3.1/docs/riscv/riscv64-qemu.txt. 
+But it can't run even on QEMU master branch.
+It blocks on OpenSBI.
 
-And I too was waiting for replies on these. I can surely write
-something up if you guys feel there is a need. I just want to
-understand it better.
+liuzw@b12e0231:/mnt/ssd/liuzw/git/xvisor$  qemu-system-riscv64 -cpu rv64,h=true -M virt -m 512M -nographic -bios ../opensbi/build/platform/generic/firmware/fw_jump.bin  -kernel ./build/vmm.bin -initrd ./build/disk.img -append 'vmm.bootcmd="vfs mount initrd /;vfs run /boot.xscript;vfs cat /system/banner.txt"'
 
--- 
-viresh
+OpenSBI v1.0-2-g6dde435
+
+    ____                    _____ ____ _____
+
+   / __ \                  / ____|  _ \_   _|
+
+  | |  | |_ __   ___ _ __ | (___ | |_) || |
+
+  | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
+
+  | |__| | |_) |  __/ | | |____) | |_) || |_
+
+   \____/| .__/ \___|_| |_|_____/|____/_____|
+
+         | |
+
+         |_|
+
+Platform Name             : riscv-virtio,qemu
+
+Platform Features         : medeleg
+
+Platform HART Count       : 1
+
+Platform IPI Device       : aclint-mswi
+
+Platform Timer Device     : aclint-mtimer @ 10000000Hz
+
+Platform Console Device   : uart8250
+
+Platform HSM Device       : ---
+
+Platform Reboot Device    : sifive_test
+
+Platform Shutdown Device  : sifive_test
+
+Firmware Base             : 0x80000000
+
+Firmware Size             : 252 KB
+
+Runtime SBI Version       : 0.3
+
+Domain0 Name              : root
+
+Domain0 Boot HART         : 0
+
+Domain0 HARTs             : 0*
+
+Domain0 Region00          : 0x0000000002000000-0x000000000200ffff (I)
+
+Domain0 Region01          : 0x0000000080000000-0x000000008003ffff ()
+
+Domain0 Region02          : 0x0000000000000000-0xffffffffffffffff (R,W,X)
+
+Domain0 Next Address      : 0x0000000080200000
+
+Domain0 Next Arg1         : 0x0000000082200000
+
+Domain0 Next Mode         : S-mode
+
+Domain0 SysReset          : yes
+
+Boot HART ID              : 0
+
+Boot HART Domain          : root
+
+Boot HART ISA             : rv64imafdcsuh
+
+Boot HART Features        : scounteren,mcounteren,time
+
+Boot HART PMP Count       : 16
+
+Boot HART PMP Granularity : 4
+
+Boot HART PMP Address Bits: 54
+
+Boot HART MHPM Count      : 0
+
+Boot HART MIDELEG         : 0x0000000000000666
+
+Boot HART MEDELEG         : 0x0000000000f0b509
+
+QEMU: Terminated
+
+
+Thanks,
+Zhiwei
+
+On 2022/1/20 上午11:29, Alistair Francis wrote:
+> On Thu, Jan 20, 2022 at 12:12 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>>
+>> On 2022/1/20 上午8:35, Alistair Francis wrote:
+>>> On Wed, Jan 19, 2022 at 3:34 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>>>> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+>>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>>>> ---
+>>>>    target/riscv/csr.c | 17 ++++++++++++-----
+>>>>    1 file changed, 12 insertions(+), 5 deletions(-)
+>>>>
+>>>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>>>> index b11d92b51b..90f78eca65 100644
+>>>> --- a/target/riscv/csr.c
+>>>> +++ b/target/riscv/csr.c
+>>>> @@ -572,6 +572,7 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
+>>>>    {
+>>>>        uint64_t mstatus = env->mstatus;
+>>>>        uint64_t mask = 0;
+>>>> +    RISCVMXL xl = riscv_cpu_mxl(env);
+>>>>
+>>>>        /* flush tlb on mstatus fields that affect VM */
+>>>>        if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
+>>>> @@ -583,21 +584,22 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
+>>>>            MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
+>>>>            MSTATUS_TW | MSTATUS_VS;
+>>>>
+>>>> -    if (riscv_cpu_mxl(env) != MXL_RV32) {
+>>>> +    if (xl != MXL_RV32) {
+>>>>            /*
+>>>>             * RV32: MPV and GVA are not in mstatus. The current plan is to
+>>>>             * add them to mstatush. For now, we just don't support it.
+>>>>             */
+>>>>            mask |= MSTATUS_MPV | MSTATUS_GVA;
+>>>> +        if ((val & MSTATUS64_UXL) != 0) {
+>>>> +            mask |= MSTATUS64_UXL;
+>>>> +        }
+>>>>        }
+>>>>
+>>>>        mstatus = (mstatus & ~mask) | (val & mask);
+>>>>
+>>>> -    RISCVMXL xl = riscv_cpu_mxl(env);
+>>>>        if (xl > MXL_RV32) {
+>>>> -        /* SXL and UXL fields are for now read only */
+>>>> +        /* SXL field is for now read only */
+>>>>            mstatus = set_field(mstatus, MSTATUS64_SXL, xl);
+>>>> -        mstatus = set_field(mstatus, MSTATUS64_UXL, xl);
+>>> This change causes:
+>>>
+>>> ERROR:../target/riscv/translate.c:295:get_gpr: code should not be reached
+>>>
+>>> to assert when running an Xvisor (Hypervisor extension) guest on the
+>>> 64-bit virt machine.
+>> Hi Alistair,
+>>
+>> I am  almost sure that there is an UXL  field write error in Xvisor.
+> You are probably right, but a guest bug like that shouldn't be able to
+> crash QEMU
+>
+>> I guess there is an write_sstatus instruction that  writes a 0 to
+>> SSTATUS64_UXL.
+>>
+>> We can fix it on Xvisor. But before that, we should also give more
+>> strict constraints on SSTATUS64_UXL write.
+>>
+>> +        if ((val & SSTATUS64_UXL) != 0) {
+>> +            mask |= SSTATUS64_UXL;
+>> +        }
+>> -        mask |= SSTATUS64_UXL;
+>>
+>>
+>> I will send v8 patch set later for you to test later.
+> Thanks!
+>
+> Alistair
+>
+>>
+>> Thanks,
+>> Zhiwei
+>>
+>>> Alistair
+
+--------------08211B6F381E325BF2B950E3
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hi Alistair,</p>
+    <p>Do you mind share you test method?</p>
+    <p> I follow the xvisor document on
+<a class="moz-txt-link-freetext" href="https://github.com/xvisor/xvisor/blob/v0.3.1/docs/riscv/riscv64-qemu.txt">https://github.com/xvisor/xvisor/blob/v0.3.1/docs/riscv/riscv64-qemu.txt</a>.
+      But it can't run even on QEMU master branch.<br>
+      It blocks on OpenSBI.</p>
+    <pre>liuzw@b12e0231:/mnt/ssd/liuzw/git/xvisor$  qemu-system-riscv64 -cpu rv64,h=true -M virt -m 512M -nographic -bios ../opensbi/build/platform/generic/firmware/fw_jump.bin  -kernel ./build/vmm.bin -initrd ./build/disk.img -append 'vmm.bootcmd="vfs mount initrd /;vfs run /boot.xscript;vfs cat /system/banner.txt"' </pre>
+    <pre>OpenSBI v1.0-2-g6dde435</pre>
+    <pre>   ____                    _____ ____ _____</pre>
+    <pre>  / __ \                  / ____|  _ \_   _|</pre>
+    <pre> | |  | |_ __   ___ _ __ | (___ | |_) || |</pre>
+    <pre> | |  | | '_ \ / _ \ '_ \ \___ \|  _ &lt; | |</pre>
+    <pre> | |__| | |_) |  __/ | | |____) | |_) || |_</pre>
+    <pre>  \____/| .__/ \___|_| |_|_____/|____/_____|</pre>
+    <pre>        | |</pre>
+    <pre>        |_|</pre>
+    <pre>
+Platform Name             : riscv-virtio,qemu</pre>
+    <pre>Platform Features         : medeleg</pre>
+    <pre>Platform HART Count       : 1</pre>
+    <pre>Platform IPI Device       : aclint-mswi</pre>
+    <pre>Platform Timer Device     : aclint-mtimer @ 10000000Hz</pre>
+    <pre>Platform Console Device   : uart8250</pre>
+    <pre>Platform HSM Device       : ---</pre>
+    <pre>Platform Reboot Device    : sifive_test</pre>
+    <pre>Platform Shutdown Device  : sifive_test</pre>
+    <pre>Firmware Base             : 0x80000000</pre>
+    <pre>Firmware Size             : 252 KB</pre>
+    <pre>Runtime SBI Version       : 0.3</pre>
+    <pre>
+Domain0 Name              : root</pre>
+    <pre>Domain0 Boot HART         : 0</pre>
+    <pre>Domain0 HARTs             : 0*</pre>
+    <pre>Domain0 Region00          : 0x0000000002000000-0x000000000200ffff (I)</pre>
+    <pre>Domain0 Region01          : 0x0000000080000000-0x000000008003ffff ()</pre>
+    <pre>Domain0 Region02          : 0x0000000000000000-0xffffffffffffffff (R,W,X)</pre>
+    <pre>Domain0 Next Address      : 0x0000000080200000</pre>
+    <pre>Domain0 Next Arg1         : 0x0000000082200000</pre>
+    <pre>Domain0 Next Mode         : S-mode</pre>
+    <pre>Domain0 SysReset          : yes</pre>
+    <pre>
+Boot HART ID              : 0</pre>
+    <pre>Boot HART Domain          : root</pre>
+    <pre>Boot HART ISA             : rv64imafdcsuh</pre>
+    <pre>Boot HART Features        : scounteren,mcounteren,time</pre>
+    <pre>Boot HART PMP Count       : 16</pre>
+    <pre>Boot HART PMP Granularity : 4</pre>
+    <pre>Boot HART PMP Address Bits: 54</pre>
+    <pre>Boot HART MHPM Count      : 0</pre>
+    <pre>Boot HART MIDELEG         : 0x0000000000000666</pre>
+    <pre>Boot HART MEDELEG         : 0x0000000000f0b509</pre>
+    <pre>QEMU: Terminated</pre>
+    <p><br>
+    </p>
+    <p>Thanks,<br>
+      Zhiwei<br>
+    </p>
+    <div class="moz-cite-prefix">On 2022/1/20 上午11:29, Alistair Francis
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAKmqyKNMvkCX2=V0kRQXKV3_1B6Y61gFOWrpWJ1JPXYm_8a5uQ@mail.gmail.com">
+      <pre class="moz-quote-pre" wrap="">On Thu, Jan 20, 2022 at 12:12 PM LIU Zhiwei <a class="moz-txt-link-rfc2396E" href="mailto:zhiwei_liu@c-sky.com">&lt;zhiwei_liu@c-sky.com&gt;</a> wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+
+On 2022/1/20 上午8:35, Alistair Francis wrote:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">On Wed, Jan 19, 2022 at 3:34 PM LIU Zhiwei <a class="moz-txt-link-rfc2396E" href="mailto:zhiwei_liu@c-sky.com">&lt;zhiwei_liu@c-sky.com&gt;</a> wrote:
+</pre>
+          <blockquote type="cite">
+            <pre class="moz-quote-pre" wrap="">Signed-off-by: LIU Zhiwei <a class="moz-txt-link-rfc2396E" href="mailto:zhiwei_liu@c-sky.com">&lt;zhiwei_liu@c-sky.com&gt;</a>
+Reviewed-by: Richard Henderson <a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a>
+Reviewed-by: Alistair Francis <a class="moz-txt-link-rfc2396E" href="mailto:alistair.francis@wdc.com">&lt;alistair.francis@wdc.com&gt;</a>
+---
+  target/riscv/csr.c | 17 ++++++++++++-----
+  1 file changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index b11d92b51b..90f78eca65 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -572,6 +572,7 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
+  {
+      uint64_t mstatus = env-&gt;mstatus;
+      uint64_t mask = 0;
++    RISCVMXL xl = riscv_cpu_mxl(env);
+
+      /* flush tlb on mstatus fields that affect VM */
+      if ((val ^ mstatus) &amp; (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
+@@ -583,21 +584,22 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
+          MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
+          MSTATUS_TW | MSTATUS_VS;
+
+-    if (riscv_cpu_mxl(env) != MXL_RV32) {
++    if (xl != MXL_RV32) {
+          /*
+           * RV32: MPV and GVA are not in mstatus. The current plan is to
+           * add them to mstatush. For now, we just don't support it.
+           */
+          mask |= MSTATUS_MPV | MSTATUS_GVA;
++        if ((val &amp; MSTATUS64_UXL) != 0) {
++            mask |= MSTATUS64_UXL;
++        }
+      }
+
+      mstatus = (mstatus &amp; ~mask) | (val &amp; mask);
+
+-    RISCVMXL xl = riscv_cpu_mxl(env);
+      if (xl &gt; MXL_RV32) {
+-        /* SXL and UXL fields are for now read only */
++        /* SXL field is for now read only */
+          mstatus = set_field(mstatus, MSTATUS64_SXL, xl);
+-        mstatus = set_field(mstatus, MSTATUS64_UXL, xl);
+</pre>
+          </blockquote>
+          <pre class="moz-quote-pre" wrap="">This change causes:
+
+ERROR:../target/riscv/translate.c:295:get_gpr: code should not be reached
+
+to assert when running an Xvisor (Hypervisor extension) guest on the
+64-bit virt machine.
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+Hi Alistair,
+
+I am  almost sure that there is an UXL  field write error in Xvisor.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+You are probably right, but a guest bug like that shouldn't be able to
+crash QEMU
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+I guess there is an write_sstatus instruction that  writes a 0 to
+SSTATUS64_UXL.
+
+We can fix it on Xvisor. But before that, we should also give more
+strict constraints on SSTATUS64_UXL write.
+
++        if ((val &amp; SSTATUS64_UXL) != 0) {
++            mask |= SSTATUS64_UXL;
++        }
+-        mask |= SSTATUS64_UXL;
+
+
+I will send v8 patch set later for you to test later.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Thanks!
+
+Alistair
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+
+Thanks,
+Zhiwei
+
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">Alistair
+</pre>
+        </blockquote>
+      </blockquote>
+    </blockquote>
+  </body>
+</html>
+
+--------------08211B6F381E325BF2B950E3--
 
