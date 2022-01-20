@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ACD549537B
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 18:43:56 +0100 (CET)
-Received: from localhost ([::1]:39818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C913A4953D5
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 19:03:23 +0100 (CET)
+Received: from localhost ([::1]:40290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAbTW-0002bM-Mh
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 12:43:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42506)
+	id 1nAbmM-0005rS-Tv
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 13:03:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAWgB-000451-8O
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:36:40 -0500
-Received: from [2a00:1450:4864:20::32c] (port=37552
- helo=mail-wm1-x32c.google.com)
+ id 1nAWgD-00045T-49
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:36:43 -0500
+Received: from [2a00:1450:4864:20::330] (port=53889
+ helo=mail-wm1-x330.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAWg6-00036F-RH
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:36:36 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- l12-20020a7bc34c000000b003467c58cbdfso21597349wmj.2
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 04:36:34 -0800 (PST)
+ id 1nAWgA-00036x-6o
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:36:40 -0500
+Received: by mail-wm1-x330.google.com with SMTP id n8so11772861wmk.3
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 04:36:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=yP7uL/J3E+G1iSjxZS2jRscQ7wrFAtxD33gMt+rUCoc=;
- b=CKMtDHmVBnu1kP4s3AGDFyx2K7dnRnM18P9Rb0Q3Ves+jTIjQ8gn2KulEojus4QUK5
- BuPft6be5WRnwsGFevenbFchdVKbep/66He/JNcrXd7FrEBaA/5/rB6olVELoIGkekvM
- 8jG7pJoiMAkFWSsQoEHdNAp/C5HkTfAKAOXStibqoC3gnC7lkaF39I66gLhikOP057l+
- pijOpxVbw0+WeQuITJz/o3TcJe+PjQgvqjp6ahwPNwrmRgZPRAdEEaWtTM7e218rY0NW
- 9CDauDTEKsZVhqY5psmGoFCH/IIbrbOKDF8S1KEOa2hd7Q8+dofr/4xn78h03+INsum3
- JaEw==
+ bh=UNg+/lW+5h0MGsa47O6k0t0qB785eeAWvlGLgRNXpvM=;
+ b=fLYn83uz9oO9Z3bBa6N6bTCdyiXGVWrHWfdsPIF/i8w26NvOzido8G0XoCpO0nfTNb
+ oGskTaS0bbC5Aj2Oz7pTUUB/B/ZRH1MR8H2eECDdGZ1At6dYOm/T3nGibOLt+vnOc+dZ
+ 4XRENfVJrM+8ozg2x84upDlNL73ceQfNvhEoLG359toDtG/ZtoTZEk09Tl+v+1yay3DC
+ lYK4wW610+rw8qAZ0dNrO5fLpAgzPxNNnjo9B1amttHtplhn+o6vEjtLBJcUsbBPKyS0
+ USitaxV9kMpEX0GoshTRiEVpcXCrUgy5LPgk7FEcuMMbPEJg/fT41nM7ceukKyFEhDsv
+ GqBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yP7uL/J3E+G1iSjxZS2jRscQ7wrFAtxD33gMt+rUCoc=;
- b=IsPZqXa1kvXYxT5XYfl21DbZodw0P3WqO9hTQVFY330rRqDVjYd61ifOapEWetNUva
- mlFUNuAnvlUFJ9BQ5A9YH/R9taf3ByTPHDG4ZqtNK3vnPSGWMscD5KU6i4hS8xLZUsA4
- tfl5pLi+kISv8JTLpIC3UPOv2Kb5ddwMwlyD7FJff4IXcWnyXPri/ONGujc/zRUvFLqU
- o1qoE23KqUZYKjO4OJqLsbExDyjFbolObZ6VKGxi1KBeF2RuMBDm3qWCBVZ/+JaHksuQ
- NRhQQ9BrJEDhtgOTaGCAtOESpgNJjrEk3C6GvDmbASq9Q02wHSuGW4FJv5ZdIEqU9Wd2
- AByQ==
-X-Gm-Message-State: AOAM530IX7B18ikk+9gGxWxQeFDeHLC1qhlIXw4GFJW538PyIJUORzeE
- vWUyNVkcudeaGVUaFDHTj0te/N4FF13TCw==
-X-Google-Smtp-Source: ABdhPJxY+ir1M71cMVgvbKlZCp2FRaMCWvnP508X6fjVDO6dxySqjviZxjtG+QANtbw8h4P12voofQ==
-X-Received: by 2002:a05:600c:4b95:: with SMTP id
- e21mr1648113wmp.106.1642682193604; 
- Thu, 20 Jan 2022 04:36:33 -0800 (PST)
+ bh=UNg+/lW+5h0MGsa47O6k0t0qB785eeAWvlGLgRNXpvM=;
+ b=glIxZYZE7qsDRgEKcwXKe/buvbDTX0zj7HlJxkls81lZAEuxIPjDG6MEzgPccPB/VS
+ lg/OvU09cdkLWzRPRq1VlGYitiwitHSIp4nQhQVCMdgb40h2K9QB8pk9fDaYEwUrNqo/
+ nGdyh7LSmHeAb+ncJ3vjLuxG23arvaRDKkqzSdyXDG9TrBVMp5N1mktVNFJJ7UU7JaTB
+ LirbBbvkHljxrXMf6cxim+z/h/OcO2QPUoe9Sw666SPPbKejDRSH8nGM+dPh74hvi/Lv
+ SGRAZhUm3WY9qN4afaeUmJSBvccgvsX1fcqajedgi7Tkow5ruXueWbiByxHg1zMmPRbM
+ i3lw==
+X-Gm-Message-State: AOAM532MvgRQSzZgSdzGnypjtjiNS3M/Yye1hUG6YFQBolktU0w6vAjf
+ ClpohBiCrOrLFHD5O+RywEKaEqwLRB6BLw==
+X-Google-Smtp-Source: ABdhPJyltj//iOKOjpkenYL/DJp5deuQUQIl79hVbKVQx5OT2KK74rQgf501tVcCDnYfEt/Pz0FjpA==
+X-Received: by 2002:a05:600c:6020:: with SMTP id
+ az32mr8527686wmb.149.1642682194495; 
+ Thu, 20 Jan 2022 04:36:34 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id t8sm7993324wmq.43.2022.01.20.04.36.32
+ by smtp.gmail.com with ESMTPSA id t8sm7993324wmq.43.2022.01.20.04.36.33
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 20 Jan 2022 04:36:33 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/38] hw/arm/virt: KVM: Enable PAuth when supported by the host
-Date: Thu, 20 Jan 2022 12:35:53 +0000
-Message-Id: <20220120123630.267975-2-peter.maydell@linaro.org>
+Subject: [PULL 02/38] hw: Move MARVELL_88W8618 Kconfig from audio/ to arm/
+Date: Thu, 20 Jan 2022 12:35:54 +0000
+Message-Id: <20220120123630.267975-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220120123630.267975-1-peter.maydell@linaro.org>
 References: <20220120123630.267975-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,202 +91,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc Zyngier <maz@kernel.org>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Add basic support for Pointer Authentication when running a KVM
-guest and that the host supports it, loosely based on the SVE
-support.
+The Marvell 88W8618 is a system-on-chip with an ARM core.
+We implement its audio codecs and network interface.
+Homogeneous SoC Kconfig are usually defined in the hw/$ARCH
+directory. Move it there.
 
-Although the feature is enabled by default when the host advertises
-it, it is possible to disable it by setting the 'pauth=off' CPU
-property. The 'pauth' comment is removed from cpu-features.rst,
-as it is now common to both TCG and KVM.
-
-Tested on an Apple M1 running 5.16-rc6.
-
-Cc: Eric Auger <eric.auger@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
-Signed-off-by: Marc Zyngier <maz@kernel.org>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220107150154.2490308-1-maz@kernel.org
-[PMM: fixed indentation]
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20220107184429.423572-2-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/system/arm/cpu-features.rst |  4 ----
- target/arm/cpu.h                 |  1 +
- target/arm/cpu.c                 | 16 +++++-----------
- target/arm/cpu64.c               | 31 +++++++++++++++++++++++++++----
- target/arm/kvm64.c               | 21 +++++++++++++++++++++
- 5 files changed, 54 insertions(+), 19 deletions(-)
+ hw/arm/Kconfig   | 3 +++
+ hw/audio/Kconfig | 3 ---
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/docs/system/arm/cpu-features.rst b/docs/system/arm/cpu-features.rst
-index 584eb170974..3e626c4b68a 100644
---- a/docs/system/arm/cpu-features.rst
-+++ b/docs/system/arm/cpu-features.rst
-@@ -217,10 +217,6 @@ TCG VCPU Features
- TCG VCPU features are CPU features that are specific to TCG.
- Below is the list of TCG VCPU features and their descriptions.
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index e6525909438..c459c897cc7 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -94,6 +94,9 @@ config MUSCA
+     select SPLIT_IRQ
+     select UNIMP
  
--  pauth                    Enable or disable ``FEAT_Pauth``, pointer
--                           authentication.  By default, the feature is
--                           enabled with ``-cpu max``.
++config MARVELL_88W8618
++    bool
++
+ config MUSICPAL
+     bool
+     select OR_IRQ
+diff --git a/hw/audio/Kconfig b/hw/audio/Kconfig
+index e9c6fed8261..e76c69ca7e7 100644
+--- a/hw/audio/Kconfig
++++ b/hw/audio/Kconfig
+@@ -47,6 +47,3 @@ config PL041
+ 
+ config CS4231
+     bool
 -
-   pauth-impdef             When ``FEAT_Pauth`` is enabled, either the
-                            *impdef* (Implementation Defined) algorithm
-                            is enabled or the *architected* QARMA algorithm
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index e33f37b70ad..c6a4d50e821 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1076,6 +1076,7 @@ void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq);
- void aarch64_sve_change_el(CPUARMState *env, int old_el,
-                            int new_el, bool el0_a64);
- void aarch64_add_sve_properties(Object *obj);
-+void aarch64_add_pauth_properties(Object *obj);
- 
- /*
-  * SVE registers are encoded in KVM's memory in an endianness-invariant format.
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index a211804fd3d..cdbc4cdd012 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1380,17 +1380,10 @@ void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
-             return;
-         }
- 
--        /*
--         * KVM does not support modifications to this feature.
--         * We have not registered the cpu properties when KVM
--         * is in use, so the user will not be able to set them.
--         */
--        if (!kvm_enabled()) {
--            arm_cpu_pauth_finalize(cpu, &local_err);
--            if (local_err != NULL) {
--                error_propagate(errp, local_err);
--                return;
--            }
-+        arm_cpu_pauth_finalize(cpu, &local_err);
-+        if (local_err != NULL) {
-+            error_propagate(errp, local_err);
-+            return;
-         }
-     }
- 
-@@ -2091,6 +2084,7 @@ static void arm_host_initfn(Object *obj)
-     kvm_arm_set_cpu_features_from_host(cpu);
-     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-         aarch64_add_sve_properties(obj);
-+        aarch64_add_pauth_properties(obj);
-     }
- #else
-     hvf_arm_set_cpu_features_from_host(cpu);
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 15245a60a8c..8786be7783e 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -630,6 +630,15 @@ void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp)
-     int arch_val = 0, impdef_val = 0;
-     uint64_t t;
- 
-+    /* Exit early if PAuth is enabled, and fall through to disable it */
-+    if (kvm_enabled() && cpu->prop_pauth) {
-+        if (!cpu_isar_feature(aa64_pauth, cpu)) {
-+            error_setg(errp, "'pauth' feature not supported by KVM on this host");
-+        }
-+
-+        return;
-+    }
-+
-     /* TODO: Handle HaveEnhancedPAC, HaveEnhancedPAC2, HaveFPAC. */
-     if (cpu->prop_pauth) {
-         if (cpu->prop_pauth_impdef) {
-@@ -655,6 +664,23 @@ static Property arm_cpu_pauth_property =
- static Property arm_cpu_pauth_impdef_property =
-     DEFINE_PROP_BOOL("pauth-impdef", ARMCPU, prop_pauth_impdef, false);
- 
-+void aarch64_add_pauth_properties(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    /* Default to PAUTH on, with the architected algorithm on TCG. */
-+    qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_property);
-+    if (kvm_enabled()) {
-+        /*
-+         * Mirror PAuth support from the probed sysregs back into the
-+         * property for KVM. Is it just a bit backward? Yes it is!
-+         */
-+        cpu->prop_pauth = cpu_isar_feature(aa64_pauth, cpu);
-+    } else {
-+        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_impdef_property);
-+    }
-+}
-+
- /* -cpu max: if KVM is enabled, like -cpu host (best possible with this host);
-  * otherwise, a CPU with as many features enabled as our emulation supports.
-  * The version of '-cpu max' for qemu-system-arm is defined in cpu.c;
-@@ -829,13 +855,10 @@ static void aarch64_max_initfn(Object *obj)
-         cpu->dcz_blocksize = 7; /*  512 bytes */
- #endif
- 
--        /* Default to PAUTH on, with the architected algorithm. */
--        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_property);
--        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_impdef_property);
--
-         bitmap_fill(cpu->sve_vq_supported, ARM_MAX_VQ);
-     }
- 
-+    aarch64_add_pauth_properties(obj);
-     aarch64_add_sve_properties(obj);
-     object_property_add(obj, "sve-max-vq", "uint32", cpu_max_get_sve_max_vq,
-                         cpu_max_set_sve_max_vq, NULL, NULL);
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index e790d6c9a57..71c3ca69717 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -491,6 +491,12 @@ static int read_sys_reg64(int fd, uint64_t *pret, uint64_t id)
-     return ioctl(fd, KVM_GET_ONE_REG, &idreg);
- }
- 
-+static bool kvm_arm_pauth_supported(void)
-+{
-+    return (kvm_check_extension(kvm_state, KVM_CAP_ARM_PTRAUTH_ADDRESS) &&
-+            kvm_check_extension(kvm_state, KVM_CAP_ARM_PTRAUTH_GENERIC));
-+}
-+
- bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
- {
-     /* Identify the feature bits corresponding to the host CPU, and
-@@ -521,6 +527,17 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
-      */
-     struct kvm_vcpu_init init = { .target = -1, };
- 
-+    /*
-+     * Ask for Pointer Authentication if supported. We can't play the
-+     * SVE trick of synthesising the ID reg as KVM won't tell us
-+     * whether we have the architected or IMPDEF version of PAuth, so
-+     * we have to use the actual ID regs.
-+     */
-+    if (kvm_arm_pauth_supported()) {
-+        init.features[0] |= (1 << KVM_ARM_VCPU_PTRAUTH_ADDRESS |
-+                             1 << KVM_ARM_VCPU_PTRAUTH_GENERIC);
-+    }
-+
-     if (!kvm_arm_create_scratch_host_vcpu(cpus_to_try, fdarray, &init)) {
-         return false;
-     }
-@@ -865,6 +882,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
-         assert(kvm_arm_sve_supported());
-         cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_SVE;
-     }
-+    if (cpu_isar_feature(aa64_pauth, cpu)) {
-+        cpu->kvm_init_features[0] |= (1 << KVM_ARM_VCPU_PTRAUTH_ADDRESS |
-+                                      1 << KVM_ARM_VCPU_PTRAUTH_GENERIC);
-+    }
- 
-     /* Do KVM_ARM_VCPU_INIT ioctl */
-     ret = kvm_arm_vcpu_init(cs);
+-config MARVELL_88W8618
+-    bool
 -- 
 2.25.1
 
