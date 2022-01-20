@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61C44495667
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 23:38:42 +0100 (CET)
-Received: from localhost ([::1]:56832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C55F4955CE
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 22:11:46 +0100 (CET)
+Received: from localhost ([::1]:35878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAg4m-0007TK-Vq
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 17:38:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34958)
+	id 1nAeie-0007sA-Sv
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 16:11:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAZsK-0003JW-FQ
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 11:01:24 -0500
-Received: from [2a00:1450:4864:20::32c] (port=43742
- helo=mail-wm1-x32c.google.com)
+ id 1nAa00-0007fp-3h
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 11:09:21 -0500
+Received: from [2a00:1450:4864:20::329] (port=56149
+ helo=mail-wm1-x329.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAZsG-0002XC-6i
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 11:01:23 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- e9-20020a05600c4e4900b0034d23cae3f0so14829229wmq.2
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 08:01:19 -0800 (PST)
+ id 1nAZzy-0001HA-6E
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 11:09:19 -0500
+Received: by mail-wm1-x329.google.com with SMTP id c66so13116013wma.5
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 08:09:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LHsZc0OIAsB+x7RT9WDlnUuxuaLdKPkOwM4GbPx5oR8=;
- b=bHX+iv1ldqTWNU/M8d7Skkf23XawKZjosywMS/RVouZBwSq4SlbYtWYZLEZGgvflpK
- JTt3jUq862cJfoa431ZMkGl0/XFGGkber+dap5dD8kgqeuGgti+8lGpOOTdAL+tearb0
- 4Hnko+eJMf/APwr2XrwSHJn3kEasCJVfA7BJOT9hXtZ286N2bmsVkmT1FGP3z358qBjR
- kEXfbinrFiLUl+KB9nWs97t7PmonVUYAE6SLqSfXmmJVPQLikEV6Z5wLp6wJV+wwLpmf
- 9GUvfrGZQpxlmBhmcSBPKU0kKeKdnE1UyUZ0tEws+6g06Pd/IBEP+9n5pmRwWASsJIH8
- IBMA==
+ :cc; bh=Q/WHEW5E36JKzLBACM6CkARXwV2yFCuV8es/XmMhl/Q=;
+ b=PyuuGfCyniSIzLadiQFnR6eF2oHtKh/T2tLuDVhv8akkZcJdWzww6y1nxlXT38z2gL
+ LkZFWxWyGJonvcKrqd6iMOsBssFAHFk4u38+g55SB7Tl7jobDlH0+O9CtU2ORjOdlm9n
+ ACh1SJI7Y5Ewl10cpXQsPS0nM1VASu1n3+3N6zTRbP4u/ZyEmZTneB83G2KgiCg71oDu
+ RBnZ4+57SCefs+YcrXv+S2vvEdXokaIGQlH4+0gsvauaG7S0rfUJY4M8DvQVpoNH1kJu
+ YflJAKFHO6qw++1HFgZZpOUwRJcshNE8764p2ZkoJ1KKi+M/ebwmCyJoP0Y0GuFYi/FY
+ Pa7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=LHsZc0OIAsB+x7RT9WDlnUuxuaLdKPkOwM4GbPx5oR8=;
- b=QdROZnsabUz9+KwxENnPKuXcH0sUBpNvNp/3YWMgVVRVp5xDxNIkPwIJIbh136G2zs
- ubtcZiL8/sQlh63t65J02HzuAJ06wJ4wjtTb6UF62XT34IdCDAl/sdwqPprVUBXSYZM6
- IzTFoWx8CkH2THJR19kWrv8gPYuhU2CXe9rz39ElRNoOJptM2xGqME0Fy3iE0PBfhewT
- 46swPoRtYedyy5aF2PPZjSArZqMDhbqYzIWsib/8I/CETR1QPVFkAkKd1IMVetxZ3NbX
- WnXoZ4Gvhdr+uDJRgwUFAMb/GZ+LwYTw6FaRdl5tHfXQ4vfVFidZuucJOV8l0WXJCleu
- rQTw==
-X-Gm-Message-State: AOAM533gh8Dm0k2eGt627L3gQXtnAV2bWqqrJ2cXD8rbU30n/rT1MHAC
- zLoiZ53zpSDDVVnpSYkIQW+iZIjZ9VMx8Joos7WMwQ==
-X-Google-Smtp-Source: ABdhPJzBa79h6m4GsRCdLd3l4mXJ+XCDPcI7K4IPTSWaacXQhXH8BaOB8ZQvNCLy3ZzcMC21o7XC5pty85gfAdztMKA=
-X-Received: by 2002:a5d:644a:: with SMTP id d10mr3624441wrw.295.1642694477967; 
- Thu, 20 Jan 2022 08:01:17 -0800 (PST)
+ bh=Q/WHEW5E36JKzLBACM6CkARXwV2yFCuV8es/XmMhl/Q=;
+ b=bM8RSz8NILjUx4bdTk4ULDk0nmdq0BKb+poz9Mx3286A4q1VCGWrKTB371T0EaVvkR
+ WKLcIfHuHxJfJ9wjW3OImpKTGZwejjdHwtLo5o9JTysEK30DOqRhjVHg54hfFKMPE8hX
+ NdMl1b3oy+BZoOXCenuPW1jnz7YMHuc0zXqEbggnvNa+1zH6Q1DBJhjnG0JmsygwoDU2
+ 1rYN0v35yID1qNilOIpkbfBzUIsC7Ww9IkKaHlW+2vXMRr8oG6oG58Wiz9FZHWNBRJ4H
+ k/bdK/HC9YUgKvMEDsB9P/GftEA7eQXQpn3jhvvtpJ7Zis4Swhu0Rc1hhDGlWr7XJZXR
+ rF8A==
+X-Gm-Message-State: AOAM533aX4lvUuqclM3FqvorhYuI47vay5aeEpYhEE4oWL/IkiGw2+Qf
+ 4rOci0p1zGwwYeZq9k6wqhwo4aEUg+/WiQ8hhGmjCg==
+X-Google-Smtp-Source: ABdhPJwRrLv/AlQDm8FsHR/lgqSoDnPJPG2YzakNKHo3tvff+7RzDMzbmU/PBknLuRZVsGxtGXeOyjYEwrRZRE0KF2M=
+X-Received: by 2002:a05:6000:1d87:: with SMTP id
+ bk7mr2326805wrb.2.1642694956001; 
+ Thu, 20 Jan 2022 08:09:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20220111084546.4145785-1-troy_lee@aspeedtech.com>
- <20220111084546.4145785-3-troy_lee@aspeedtech.com>
-In-Reply-To: <20220111084546.4145785-3-troy_lee@aspeedtech.com>
+References: <20211208231154.392029-1-richard.henderson@linaro.org>
+In-Reply-To: <20211208231154.392029-1-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 20 Jan 2022 16:01:06 +0000
-Message-ID: <CAFEAcA_AJumJSKEUoxSiu5n3a8cPwdG_Xqx+hVko8sE0WdsjrQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] This patch includes i3c instance in ast2600 soc.
-To: Troy Lee <troy_lee@aspeedtech.com>
+Date: Thu, 20 Jan 2022 16:09:05 +0000
+Message-ID: <CAFEAcA9_mkk0aswR_fUOO+k1+rKrNqrTMzo9PO=Sn6qpsZKmRQ@mail.gmail.com>
+Subject: Re: [PATCH for-7.0 0/6] target/arm: Implement LVA, LPA, LPA2 features
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -81,65 +80,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org,
- hailin.wu@aspeedtech.com, leetroy@gmail.com,
- "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 Jan 2022 at 08:46, Troy Lee <troy_lee@aspeedtech.com> wrote:
+On Wed, 8 Dec 2021 at 23:14, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> v3:
-> - Remove unrelated changes to SPI2 address
-> - Remove controller irq line
+> These features are all related and relatively small.
 >
-> v2: Rebase to mainline QEMU
+> Testing so far has been limited to booting a kernel
+> with 64k pages and VA and PA set to 52 bits, which
+> excercises LVA and LPA.
 >
-> Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
+> There is not yet upstream support for LPA2, probably
+> because it's an ARMv8.7 addition.
 
-This turns out not to build on macOS or on 32-bit hosts
-because of format string issues -- you can't portably
-use %lx to print uint64_t or hwaddr types. I have folded
-in the following fix:
 
-diff --git a/hw/misc/aspeed_i3c.c b/hw/misc/aspeed_i3c.c
-index 43771d768ad..f54f5da522b 100644
---- a/hw/misc/aspeed_i3c.c
-+++ b/hw/misc/aspeed_i3c.c
-@@ -150,7 +150,8 @@ static void aspeed_i3c_device_write(void *opaque,
-hwaddr offset,
-     case R_I3C_VER_TYPE:
-     case R_EXTENDED_CAPABILITY:
-         qemu_log_mask(LOG_GUEST_ERROR,
--                      "%s: write to readonly register[%02lx] = %08lx\n",
-+                      "%s: write to readonly register[0x%02" HWADDR_PRIx
-+                      "] = 0x%08" PRIx64 "\n",
-                       __func__, offset, value);
-         break;
-     case R_RX_TX_DATA_PORT:
-@@ -231,13 +232,15 @@ static void aspeed_i3c_write(void *opaque,
-     case R_I3C6_REG1:
-         if (data & R_I3C1_REG1_I2C_MODE_MASK) {
-             qemu_log_mask(LOG_UNIMP,
--                          "%s: Not support I2C mode [%08lx]=%08lx",
-+                          "%s: Unsupported I2C mode [0x%08" HWADDR_PRIx
-+                          "]=%08" PRIx64 "\n",
-                           __func__, addr << 2, data);
-             break;
-         }
-         if (data & R_I3C1_REG1_SA_EN_MASK) {
-             qemu_log_mask(LOG_UNIMP,
--                          "%s: Not support slave mode [%08lx]=%08lx",
-+                          "%s: Unsupported slave mode [%08" HWADDR_PRIx
-+                          "]=0x%08" PRIx64 "\n",
-                           __func__, addr << 2, data);
-             break;
-         }
 
-which also includes a small grammar fix, adds the missing
-trailing newlines, and includes the "0x" prefix to make it
-clearer to the user that the values printed are hex.
+>  target/arm/cpu-param.h |   4 +-
+>  target/arm/cpu.h       |  17 ++++
+>  target/arm/internals.h |  22 +----
+>  target/arm/cpu64.c     |   5 +-
+>  target/arm/helper.c    | 211 ++++++++++++++++++++++++++++++++++-------
+>  5 files changed, 204 insertions(+), 55 deletions(-)
+
+I'd forgotten about this document too until a conversation today
+brought it to mind, but when adding new feature support please
+also update the list of supported emulated features in
+docs/system/arm/emulation.rst
 
 thanks
 -- PMM
