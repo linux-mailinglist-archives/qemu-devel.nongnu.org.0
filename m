@@ -2,87 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8DEE49559D
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 21:46:17 +0100 (CET)
-Received: from localhost ([::1]:36106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD65C49554D
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 21:16:31 +0100 (CET)
+Received: from localhost ([::1]:60710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAeK0-00053e-8i
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 15:46:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56684)
+	id 1nAdr9-0007w5-60
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 15:16:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAZT1-0007b0-81
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:35:18 -0500
-Received: from [2607:f8b0:4864:20::42b] (port=37700
- helo=mail-pf1-x42b.google.com)
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1nAZVq-0001DU-5M
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:38:10 -0500
+Received: from [2a00:1450:4864:20::334] (port=39775
+ helo=mail-wm1-x334.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAZSx-0007nV-IY
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:35:14 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id p37so5923561pfh.4
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 07:35:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jm12RTx+XSLqEoFLdjJptJPrXUHHuBs97JI2XYhzibI=;
- b=MSPWYMq8HD9G01p1ljNAP8EXbppOR+CmIybSAv9geENDOZso5Rov5tixvcUVf+sQd0
- pfx8jqP03tbkgvIpZr4CCFU4hTA/8UFBLL8VbhJfF+i3/lCUkp3QLN1WcAdHZ7T416Ah
- jT3EKV/YIw144yEQanmqA0hcAI0ohoW1+qdUuWRLP6/nJL1TMXWEljbBE+7oBFV6cn/M
- vqdyVkUDZ+fpImqxzvmfkQOcJrjkdfOhmQmMy/fk52OahwEGT2BPVCHpiMs/z7sc/T5+
- OPtF1KiU57K5GtykBFVeDMGjwTHiQ04HaRhE9ysYNBWaujAtpcIX35ZWPexXuwPph7TK
- qLBg==
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1nAZVn-0005av-Hz
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:38:09 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ o1-20020a1c4d01000000b0034d95625e1fso8301036wmh.4
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 07:38:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=OZYHGtKfvJMX/pPtAOCBBrHQl7PzfcOe74x0Na749qM=;
+ b=oIPfVmjFGA8W5kZ5hzphUSqYXw+fke4HuByzLLU6aeBxUML2aIy5HPJEhh54nQspLl
+ A7Tjw6/PGx146NLyLUO+/ATDjA2bfF/0EnV3us1qK8T2J2pFVWDCj8rfphaP2EWuxJDH
+ xsX6pmglyYuEn9JP7IGAEHz2ltJ63pnk9L5XTgwRNiUDVL22JhvuuaaNlgLo07qSAAGR
+ 6rZpZ9as9O5WuItLNkJFKJAUAJblZmd24l/IpTYzdl6GDFxN8H3OBdeEs8yq7wtpUtX+
+ sxx3yvCUfteknQbZ2G/BeoVa0DtbJ2DzSyjuKGHM9Yg9t7R52uHxdHW6D6mp5HZkFR+K
+ 5lBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jm12RTx+XSLqEoFLdjJptJPrXUHHuBs97JI2XYhzibI=;
- b=rlFauD+JveSJkY0nnVE6f6Q0akRYZI3yu4l9exHsKIsACC/P4XiOXMUD/aWA47fmA5
- dAbVK91jsCEU6OwYfUX4wlO9wegtWM/X6VRvnMJoW/aWiwoqMR0PJ1dtfAkD6Jmqe4Ou
- fPJhfMFW5Ws7Cc69RO0pKo23YphhfPFaRJu98/0bzwnrdekr/DgMgVfsvKSaQZR0wihI
- rtfCQpwqud9ONIZgvSJ98ziH9XwbATaxouzFfkCFNxzSknwStcSp+BFd+wO4P0aSF0DP
- O22Mt9i3XypK5Oi9vENY0007oXMWCDsiWQhHzkQT8x6EEeqOmxZO06W8QDDo5XMuey5l
- hMEQ==
-X-Gm-Message-State: AOAM531VGJzKB34dzNgZDkBaU9exn52KIe4QlX/xkyJZF93j4qJBRb0z
- IfKGPWVvAs2UNobJLZKZVnU=
-X-Google-Smtp-Source: ABdhPJy2LHun5C7CF5PzKF479/ILWK81pG4x46fMAgRb2oSWzvL6PNrN1OKdkrZs7/ycfM0HMPXkUA==
-X-Received: by 2002:a05:6a00:130a:b0:4c5:9f7d:c607 with SMTP id
- j10-20020a056a00130a00b004c59f7dc607mr7209612pfu.30.1642692906405; 
- Thu, 20 Jan 2022 07:35:06 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id h9sm3820816pfi.124.2022.01.20.07.35.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Jan 2022 07:35:05 -0800 (PST)
-Message-ID: <99e6daaa-f214-4ef7-e909-e3d458428897@amsat.org>
-Date: Thu, 20 Jan 2022 16:35:02 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=OZYHGtKfvJMX/pPtAOCBBrHQl7PzfcOe74x0Na749qM=;
+ b=AGxk9Ev2iqV4AhI3sJAicgMsNkANf59r2k8IdYgDeqSQie6zQq4b1vR0hTSonKpdJl
+ pyAHWX00NjbtOrcURVWtZInhBiIzJg629LgufZhm2qRPLwYZc0icS8OSaILlEDUFM923
+ EST33gIhxw4TnEW5WVY9/4k2e3d0/EVnxhGgRMfd7+w//SJF+Ucr+TzDlZ6kkV05xa2D
+ RjegDdCmCAxA2p4icOo49Oa5kCiSRJts7Co1eqPQSjYMfZ/I7z1sDxZU9Hkh6ps9WkdR
+ ML0Gkz1QfAoOh8SosWugfM0m2epRfurKZ/uC3OAJ7ZAmtc+5JTMsvIN5TsZu2rnaGowh
+ xTWQ==
+X-Gm-Message-State: AOAM5310ZAGLuq4p4nwxerAfMm6jsJASq1R3bRNjCL5C0eUfhVnsPlel
+ bxDMkaftX13kb2Nr/dSdbh7JES0EIJvWzVeXWk5HGQ==
+X-Google-Smtp-Source: ABdhPJwoJ+N4LutRUmS5hqQp0kjLd/k5/0zw6Kkod6SUO6Rk3ng864b1mSplaDVVpOvQcMEOpWodZY01cRuz9F3zXLA=
+X-Received: by 2002:a05:600c:2299:: with SMTP id
+ 25mr9557051wmf.52.1642693085126; 
+ Thu, 20 Jan 2022 07:38:05 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: "make check-acceptance" takes way too long
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>, Cleber Rosa
- <crosa@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
-References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
- <CAFEAcA9_d5jw5-HOrZA6dsG1vMqxzqmrfHA7Jo0KsDcaEXmB_Q@mail.gmail.com>
-In-Reply-To: <CAFEAcA9_d5jw5-HOrZA6dsG1vMqxzqmrfHA7Jo0KsDcaEXmB_Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42b
+References: <20220113202033.3320854-1-philipp.tomsich@vrull.eu>
+ <20220113202033.3320854-2-philipp.tomsich@vrull.eu>
+ <CAKmqyKOzVi9MiXt+2ESEr28EQ7M6wEyTon+a=h4do9fy4KN=Pw@mail.gmail.com>
+ <CAAeLtUBJ4sSZaDqe1Z_431LMDtuQ996OLoE6t_Zh6TLH+_gPHg@mail.gmail.com>
+ <CAKmqyKPcYBDJqQ88BZ3TDwiGz6=M3kfB2Bc8YXcQJ=+G0Og4gQ@mail.gmail.com>
+ <CAKmqyKMvEft2RxbxB92D7F=dZz0nuEJQYHFvVBnQJrt6d80x6A@mail.gmail.com>
+In-Reply-To: <CAKmqyKMvEft2RxbxB92D7F=dZz0nuEJQYHFvVBnQJrt6d80x6A@mail.gmail.com>
+From: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Date: Thu, 20 Jan 2022 16:37:53 +0100
+Message-ID: <CAAeLtUBTGGBdNwNNhJH+VO=Th4+ftz63ttgFvAo=G7m16Tz8CA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] target/riscv: Add XVentanaCondOps custom extension
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -97,30 +88,231 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Greg Favor <gfavor@ventanamicro.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Kito Cheng <kito.cheng@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Cc'ing Beraldo
+Thanks for taking the time to write this up!
 
-On 20/1/22 16:13, Peter Maydell wrote:
-> On Fri, 30 Jul 2021 at 16:12, Peter Maydell <peter.maydell@linaro.org> wrote:
->>
->> "make check-acceptance" takes way way too long. I just did a run
->> on an arm-and-aarch64-targets-only debug build and it took over
->> half an hour, and this despite it skipping or cancelling 26 out
->> of 58 tests!
->>
->> I think that ~10 minutes runtime is reasonable. 30 is not;
->> ideally no individual test would take more than a minute or so.
->>
->> Output saying where the time went. The first two tests take
->> more than 10 minutes *each*. I think a good start would be to find
->> a way of testing what they're testing that is less heavyweight.
-> 
-> Does anybody have some time to look at this? It makes
-> 'check-acceptance' almost unusable for testing fixes locally...
-> 
-> -- PMM
+On Wed, 19 Jan 2022 at 02:30, Alistair Francis <alistair23@gmail.com> wrote=
+:
+>
+> On Wed, Jan 19, 2022 at 11:19 AM Alistair Francis <alistair23@gmail.com> =
+wrote:
+> >
+> > On Wed, Jan 19, 2022 at 9:22 AM Philipp Tomsich
+> > <philipp.tomsich@vrull.eu> wrote:
+> > >
+> > > Alistair,
+> > >
+> > > Some of us (the merit almost exclusively goes to Kito) have been
+> > > working towards a similar policy for GCC/binutils and LLVM.
+> > > This currently lives in:
+> > >    https://github.com/riscv-non-isa/riscv-toolchain-conventions/pull/=
+17
+> >
+> > Ah cool! We can use that as a good starting point.
+> >
+> > >
+> > > A few comments & a question below.
+> > >
+> > > Thanks,
+> > > Philipp.
+> > >
+> > > On Tue, 18 Jan 2022 at 23:53, Alistair Francis <alistair23@gmail.com>=
+ wrote:
+> > > >
+> > > > On Fri, Jan 14, 2022 at 6:22 AM Philipp Tomsich
+> > > > <philipp.tomsich@vrull.eu> wrote:
+> > > > >
+> > > > > This adds the decoder and translation for the XVentanaCondOps cus=
+tom
+> > > > > extension (vendor-defined by Ventana Micro Systems), which is
+> > > > > documented at https://github.com/ventanamicro/ventana-custom-exte=
+nsions/releases/download/v1.0.0/ventana-custom-extensions-v1.0.0.pdf
+> > > > >
+> > > > > This commit then also adds a guard-function (has_XVentanaCondOps_=
+p)
+> > > > > and the decoder function to the table of decoders, enabling the
+> > > > > support for the XVentanaCondOps extension.
+> > > > >
+> > > > > Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+> > > >
+> > > > This looks reasonable to me.
+> > > >
+> > > > I'm going to leave this for a bit in case there are any more commen=
+ts.
+> > > >
+> > > > I was a little worried that taking vendor extensions isn't the righ=
+t
+> > > > move, as we might get stuck with a large number of them. But this i=
+s
+> > > > pretty self contained and I think with the growing RISC-V interest
+> > > > it's something we will eventually need to support.
+> > > >
+> > > > I'm going to update the QEMU RISC-V wiki page with this to make the
+> > > > position clear (comments very welcome)
+> > > >
+> > > > =3D=3D=3D RISC-V Extensions =3D=3D=3D
+> > > > As RISC-V has a range of possible extensions, QEMU has guidelines f=
+or
+> > > > supporting them all.
+> > > >
+> > > > If an extension is frozen or ratified by the RISC-V foundation, it =
+can
+> > > > be supported in QEMU.
+> > > >
+> > > > If an official RISC-V foundation extension is in a reasonable draft
+> > > > state, that is not too many changes are still expected, it can be
+> > > > supported experimentally by QEMU. Experimental support means it mus=
+t
+> > > > be disabled by default and marked with a "x-" in the properties. QE=
+MU
+> > > > will only support the latest version of patches submitted for a dra=
+ft
+> > > > extension. A draft extension can also be removed at any time if it
+> > > > conflicts with other extensions.
+> > > >
+> > > > QEMU will also support vendor extensions. Vendor extensions must be
+> > > > disabled by default, but can be enabled for specific vendor CPUs an=
+d
+> > > > boards. Vendor extensions must be maintained and tested by the vend=
+or.
+> > >
+> > > I guess I should create a v3 with appropriate paths in the MAINTAINER=
+S file?
+> >
+> > Hmm... Good point. I don't think you have to if you don't want to.
+> >
+> > My point here was more to just make it clear that upstream QEMU is not
+> > a dumping ground for vendor extensions to get them maintained by
+> > someone else. Obviously we won't purposely break things just for fun.
+> > There is an expectation that the vendor tests their extensions and
+> > responds to bug reports and things like that.
+> >
+> > >
+> > > > Vendor extensions can not interfere with other extensions and can n=
+ot
+> > > > be obtrusive to the RISC-V target code.
+> > >
+> > > I know that there is some interest to have the XtheadV (the
+> > > instructions previously known as vectors 0.7.1-draft) supported and w=
+e
+> > > have the reality of a deployed base that implements it in hardware.
+> > > This would conflict with the opcode space used by the standard RISC-V
+> > > vectors, so it makes for an interesting test case (even if just to
+> > > clarify our intent)...
+> > > Personally, I would like to avoid precluding inclusion of something
+> > > useful (of course, "Vendor extensions must be maintained and tested b=
+y
+> > > the vendor." has to apply!), if a vendor was going to step up and als=
+o
+> > > offers to maintain it.
+> >
+> > Yeah... this is unfortunate. I agree that having the 0.7.1-draft
+> > extensions supported would be great. There is hardware that supports
+> > it.
+> >
+> > I think this point still stands though. IF the XtheadV implementation
+> > is self contained and doesn't interfere with the vector extensions,
+> > then that's great and we can support it. If instead it adds a large
+> > amount of conditionals to the released vector extension code then I
+> > don't think we can take it.
+> >
+> > There is some wiggle room, but the RISC-V tree already has enough
+> > going on and very little reviewers. If in the future we get more
+> > reviewers and testers we can re-evaulate what is acceptable, but for
+> > now I think we need to be a little strict. (Hint to any companies to
+> > give developers time to review)
+> >
+> > >
+> > > So let's assume such a (very significant) addition were factored out
+> > > similarly, interfacing just through a hook in decode_op and
+> > > argument-parsing logic that ensures that the conflicting
+> > > standard-extension is turned off: would this still be acceptable unde=
+r
+> > > this policy =E2=80=94 or would it trip the "obtrusive" condition?
+> >
+> > I think that would be acceptable, I wouldn't say that is obtrusive as
+> > it's self contained.
+>
+> Ok, take two:
+>
+> =3D=3D=3D RISC-V Foundation Extensions =3D=3D=3D
+> As RISC-V has a range of possible extensions, QEMU has guidelines for
+> supporting them all.
+>
+> If an extension is frozen or ratified by the RISC-V foundation, it can
+> be supported in QEMU. Generally we will try to support as many versions
+> as feasible, following the usual QEMU deprecation policy to remove old
+> versions.
+>
+> If an official RISC-V foundation extension is in a reasonable draft
+> state, that is not too many changes are still expected, it can be
+> supported experimentally by QEMU. Experimental support means it must
+> be disabled by default and marked with a "x-" in the CPU/board properties=
+.
+> Draft extensions can be enabled by specific CPUs or boards if the hardwar=
+e
+> supports that extension.
+
+Should we include a version number on experimental versions?
+
+LLVM requires users to fully specify the version, when using
+experimental versions.
+This may be a useful stereotype also for QEmu, as it ensures that
+users are aware that the underlying specification version has changed
+(e.g., when someone requests x-zbb-0p92 and our implementation moves
+to x-zbb-0p93 (there was a difference in encoding of the
+minimum/maximum operations in-between)), an error will be raised early
+instead of having a computation go wrong later.
+
+> QEMU will only support the latest version of patches submitted for a draf=
+t
+> extension. A draft extension can also be removed at any time and does not
+> follow QEMU's deprecation policy.
+>
+> =3D=3D=3D RISC-V Custom Extensions/Instructions =3D=3D=3D
+> Support for custom instruction set extensions are an important part of RI=
+SC-V,
+> with large encoding spaces reserved of vendor extensions.
+>
+> QEMU follows similar rules to the RISC-V toolchain convention, as describ=
+ed
+> here: https://github.com/riscv-non-isa/riscv-toolchain-conventions/pull/1=
+7
+>
+> QEMU will support vendor extensions. Vendor extensions must be
+> disabled by default, but can be enabled for specific vendor CPUs and
+> boards. The vendor extensions should use prefixes and names as described =
+in
+> https://github.com/riscv-non-isa/riscv-toolchain-conventions
+>
+> Vendor extensions must be maintained and tested by the vendor. Upstream w=
+ill
+> take efforts to not break extensions, but testing and bug fixes should be
+> done by the vendor. Patches to add support for open source toolchains are
+> unlikely to be accepted without specification documents being made availa=
+ble
+> publicly.
+>
+> Vendor extensions can not interfere with other extensions and can not
+> be obtrusive to the core RISC-V target code.
+>
+> If you are looking to add support for vendor extensions, it is recommende=
+d
+> that you get involved in the QEMU review process. It is also recommended =
+that
+> you send your patches as early as possible to get community feedback befo=
+re
+> they are fully implemented. This is especially important if you are modif=
+ying
+> core code.
+>
+> Alistair
 
