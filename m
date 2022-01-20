@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 965B649556F
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 21:33:18 +0100 (CET)
-Received: from localhost ([::1]:56084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 378594954DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 20:28:59 +0100 (CET)
+Received: from localhost ([::1]:37788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAe7R-0007Kt-BH
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 15:33:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59128)
+	id 1nAd7C-0005aP-0w
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 14:28:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <guoren@kernel.org>)
- id 1nAXo1-00067P-Qq; Thu, 20 Jan 2022 08:48:50 -0500
-Received: from [2604:1380:4601:e00::1] (port=47634 helo=ams.source.kernel.org)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nAXoH-0006Ht-33
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 08:49:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30123)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <guoren@kernel.org>)
- id 1nAXnT-0005fI-AG; Thu, 20 Jan 2022 08:48:19 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nAXoE-0005kR-KJ
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 08:49:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642686541;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fo0aMPnqCWwQxYMIrSWkSd6apcvKAamYa0SdV2kz7Ag=;
+ b=C/mwOOnqDQOKHaX1GzokTiePHhAL9i+nw4frCcV6JSazjunGf1d/6kTh1yhuPp+137WnJQ
+ kxhT8xg0MngEcQbVf2MFghXpzu58mouGFCdH5DrwLHbI4Q4//VccHOfh9kjyc1sy0mPpKq
+ eBvmvxiMbh7KvdDPfy23U/8C+LX9AYk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-78-alwhRj-7MfyK8UCIPBTrKQ-1; Thu, 20 Jan 2022 08:48:58 -0500
+X-MC-Unique: alwhRj-7MfyK8UCIPBTrKQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 1A3C7B81CEC;
- Thu, 20 Jan 2022 13:48:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BF7FC340E9;
- Thu, 20 Jan 2022 13:48:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642686481;
- bh=oK0CYQZnYcHey/+ETgqMPTGSVAOfiMBVqluGWfjrz7o=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=hWEf+8AlvChjyP9LLxFIkpeK8O8rzFMxbDo/DAjWQbKKnCeFEpyvuHgj8msf6Qnxz
- 0QFz76ePiLqa5Xk0O7jFeM5RXJIxSUXq16zgBZ1Am7VFKWHsLSFugBQ9o6Rf3MlmNm
- G/J3Ph9cmAHsYF7aHw3UH4uYSmTDC1PUDvsik9zeHodro+80aWo5aIIWzFXfm+nxTx
- hAcHPKTewA1FmgtzP/oU66i6vdruOVkN+vNIq8j6XMqL/Ria4hWVkp+XwOrfrkm/XF
- TwSBeTT/X2owO3CYWi0G+6m+hVlQ7meE8i0SG24mbH9npl0g5x3TxWd1K4sJBm9y0a
- 5nLzdcQScn2qQ==
-Received: by mail-ua1-f50.google.com with SMTP id c36so10851835uae.13;
- Thu, 20 Jan 2022 05:48:01 -0800 (PST)
-X-Gm-Message-State: AOAM531Bqd0pEK6N6icSzbudhRvm3hmlKhqaRkEIMWsZHI5FoGqWx7KZ
- marYKirfZwxuMhvc8SU4RTLYKPGajdUyrDXFqrY=
-X-Google-Smtp-Source: ABdhPJzYW6wciMIIpevCJuZQfn/tPCFpbVY9GmzzMdt15N15zOTbqxBJk9BigM5jdUDuNuYCGheK2WINOH9nRMThxQg=
-X-Received: by 2002:ab0:728c:: with SMTP id w12mr13901543uao.108.1642686480296; 
- Thu, 20 Jan 2022 05:48:00 -0800 (PST)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B63D38143EA;
+ Thu, 20 Jan 2022 13:48:57 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.213])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 754D754510;
+ Thu, 20 Jan 2022 13:48:54 +0000 (UTC)
+Date: Thu, 20 Jan 2022 14:48:52 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v5 28/31] block.c: assert BQL lock held in
+ bdrv_co_invalidate_cache
+Message-ID: <YeloRLeycEFvekFc@redhat.com>
+References: <20211124064418.3120601-1-eesposit@redhat.com>
+ <20211124064418.3120601-29-eesposit@redhat.com>
+ <56deaef1-6a4e-c544-9916-42a20cc20c7a@redhat.com>
+ <9ca5c434-ddf6-2ed3-08ae-92da5fc98013@redhat.com>
+ <b1e190b3-7466-0d4e-554b-bd9d4ce5a43e@redhat.com>
+ <YehZwkGVPK6phrc2@redhat.com>
+ <a32d2d69-7af4-3748-6de1-4367b51e4985@redhat.com>
 MIME-Version: 1.0
-References: <20220118011711.7243-1-liweiwei@iscas.ac.cn>
- <20220118011711.7243-2-liweiwei@iscas.ac.cn>
- <CAAhSdy3zjeW-WkbiicTJfurQkhts4m9XwvmoS+Zr1XVMzhy+3w@mail.gmail.com>
- <CAKmqyKNajL8kJL4HExN8CDCYwrVcUx4dcnn77wY5zCZu9M6SGg@mail.gmail.com>
-In-Reply-To: <CAKmqyKNajL8kJL4HExN8CDCYwrVcUx4dcnn77wY5zCZu9M6SGg@mail.gmail.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Thu, 20 Jan 2022 21:47:49 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTRV55B+9AaFHDXW9R7cvEXO+R3dFs6RVRGnkKwZX5fCLg@mail.gmail.com>
-Message-ID: <CAJF2gTRV55B+9AaFHDXW9R7cvEXO+R3dFs6RVRGnkKwZX5fCLg@mail.gmail.com>
-Subject: Re: [PATCH v5 1/5] target/riscv: Ignore reserved bits in PTE for RV64
-To: Alistair Francis <alistair23@gmail.com>, Anup Patel <anup@brainfault.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2604:1380:4601:e00::1
- (failed)
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=guoren@kernel.org; helo=ams.source.kernel.org
-X-Spam_score_int: -69
-X-Spam_score: -7.0
-X-Spam_bar: -------
-X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+In-Reply-To: <a32d2d69-7af4-3748-6de1-4367b51e4985@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,133 +83,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Weiwei Li <liweiwei@iscas.ac.cn>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, Guo Ren <ren_guo@c-sky.com>,
- =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alistair and Anup,
+Am 20.01.2022 um 14:22 hat Paolo Bonzini geschrieben:
+> On 1/19/22 19:34, Kevin Wolf wrote:
+> > So if we go back to a bdrv_invalidate_cache() that does all the graph
+> > manipulations (and asserts that we're in the main loop) and then have a
+> > much smaller bdrv_co_invalidate_cache() that basically just calls into
+> > the driver, would that solve the problem?
+> 
+> I was going to suggest something similar, and even name the former
+> bdrv_activate().  Then bdrv_activate() is a graph manipulation function,
+> while bdrv_co_invalidate_cache() is an I/O function.
 
-On Tue, Jan 18, 2022 at 12:56 PM Alistair Francis <alistair23@gmail.com> wr=
-ote:
->
-> On Tue, Jan 18, 2022 at 1:31 PM Anup Patel <anup@brainfault.org> wrote:
-> >
-> > On Tue, Jan 18, 2022 at 6:47 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
-> > >
-> > > From: Guo Ren <ren_guo@c-sky.com>
-> > >
-> > > Highest bits of PTE has been used for svpbmt, ref: [1], [2], so we
-> > > need to ignore them. They cannot be a part of ppn.
-> > >
-> > > 1: The RISC-V Instruction Set Manual, Volume II: Privileged Architect=
-ure
-> > >    4.4 Sv39: Page-Based 39-bit Virtual-Memory System
-> > >    4.5 Sv48: Page-Based 48-bit Virtual-Memory System
-> > >
-> > > 2: https://github.com/riscv/virtual-memory/blob/main/specs/663-Svpbmt=
--diff.pdf
-> > >
-> > > Signed-off-by: Guo Ren <ren_guo@c-sky.com>
-> > > Tested-by: Bin Meng <bmeng.cn@gmail.com>
-> > > Reviewed-by: Liu Zhiwei <zhiwei_liu@c-sky.com>
-> > > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-> > > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > > ---
-> > >  target/riscv/cpu_bits.h   | 7 +++++++
-> > >  target/riscv/cpu_helper.c | 2 +-
-> > >  2 files changed, 8 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> > > index 5a6d49aa64..282cd8eecd 100644
-> > > --- a/target/riscv/cpu_bits.h
-> > > +++ b/target/riscv/cpu_bits.h
-> > > @@ -490,6 +490,13 @@ typedef enum {
-> > >  /* Page table PPN shift amount */
-> > >  #define PTE_PPN_SHIFT       10
-> > >
-> > > +/* Page table PPN mask */
-> > > +#if defined(TARGET_RISCV32)
-> > > +#define PTE_PPN_MASK        0xffffffffUL
-> > > +#elif defined(TARGET_RISCV64)
-> > > +#define PTE_PPN_MASK        0x3fffffffffffffULL
-> > > +#endif
-> > > +
-> >
-> > Going forward we should avoid using target specific "#if"
-> > so that we can use the same qemu-system-riscv64 for both
-> > RV32 and RV64.
-> >
-> > >  /* Leaf page shift amount */
-> > >  #define PGSHIFT             12
-> > >
-> > > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> > > index 434a83e66a..26608ddf1c 100644
-> > > --- a/target/riscv/cpu_helper.c
-> > > +++ b/target/riscv/cpu_helper.c
-> > > @@ -619,7 +619,7 @@ restart:
-> > >              return TRANSLATE_FAIL;
-> > >          }
-> > >
-> > > -        hwaddr ppn =3D pte >> PTE_PPN_SHIFT;
-> > > +        hwaddr ppn =3D (pte & PTE_PPN_MASK) >> PTE_PPN_SHIFT;
-> >
-> > Rather than using "#if", please use "xlen" comparison to extract
-> > PPN correctly from PTE.
->
-> This will need to be dynamic based on get_xl()
->
-> It does look like we should check the existence of the extensions though:
->
-> "Bit 63 is reserved for use by the Svnapot extension in Chapter 5. If
-> Svnapot is not implemented, bit 63 remains reserved and must be zeroed
-> by software for forward compatibility, or else a page-fault exception
-> is raised. Bits 62=E2=80=9361 are reserved for use by the Svpbmt extensio=
-n in
-> Chapter 6. If Svpbmt is not implemented, bits 62=E2=80=9361 remain reserv=
-ed
-> and must be zeroed by software for forward compatibility, or else a
-> page-fault exception is raised."
-How about:
+I like this. The naming inconsistency between inactivate and
+invalidate_cache has always bothered me.
 
-+       RISCVCPU *cpu =3D env_archcpu(env);
-+       hwaddr ppn;
-+
-+       if (get_field(env->mstatus, MSTATUS64_SXL) =3D=3D MXL_RV32) {
-+               ppn =3D pte >> PTE_PPN_SHIFT;
-+       } else if (cpu->cfg.ext_svpbmt || cpu->cfg.ext_svnapot) {
-+               ppn =3D (pte & PTE_PPN_MASK) >> PTE_PPN_SHIFT;
-+       } else {
-+               ppn =3D pte >> PTE_PPN_SHIFT;
-+               if ((pte & ~PTE_PPN_MASK) >> PTE_PPN_SHIFT)
-+                       return TRANSLATE_FAIL;
-+       }
+Kevin
 
->
-> Alistair
->
-> >
-> > Regards,
-> > Anup
-> >
-> > >
-> > >          if (!(pte & PTE_V)) {
-> > >              /* Invalid PTE */
-> > > --
-> > > 2.17.1
-> > >
-> >
->
-
-
---=20
-Best Regards
- Guo Ren
-
-ML: https://lore.kernel.org/linux-csky/
 
