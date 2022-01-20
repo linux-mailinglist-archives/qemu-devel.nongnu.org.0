@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA8B749440A
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 01:14:53 +0100 (CET)
-Received: from localhost ([::1]:34452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB94649440D
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 01:16:13 +0100 (CET)
+Received: from localhost ([::1]:35280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAL6K-0006cq-CG
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 19:14:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60214)
+	id 1nAL7b-0007AT-Td
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jan 2022 19:16:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nAL3y-0005Sb-Rk
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 19:12:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41003)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nAL3v-0004ba-Vt
- for qemu-devel@nongnu.org; Wed, 19 Jan 2022 19:12:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642637543;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=D+NSsA18aGf/nzYHl6Pv5yHpk2qnhvaNZVtAthfoRpw=;
- b=f3iwSfqB+c3HMhNTjhvRYWk1eOJ5pLqeob1HTJAEsnznO1hri0e6OK+tBua3a3hySDJoHc
- UJGNW4uBpeJCLOG6/7fWEZaBebDVIfTuypy2q4F3UVigSefUa5Ky0gJ4pSaSzmhGT7/Yt4
- uC4PEeYEIbytjTP2vNK7STZCzPn54Ug=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-481-V-CILU9XPzCe3fCN_W6_4Q-1; Wed, 19 Jan 2022 19:12:22 -0500
-X-MC-Unique: V-CILU9XPzCe3fCN_W6_4Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- f7-20020a1cc907000000b0034b63f314ccso2784159wmb.6
- for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 16:12:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nAL4K-0005kq-LA
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 19:12:51 -0500
+Received: from [2a00:1450:4864:20::32f] (port=55092
+ helo=mail-wm1-x32f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nAL4I-0004dT-LM
+ for qemu-devel@nongnu.org; Wed, 19 Jan 2022 19:12:48 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id p18so8412217wmg.4
+ for <qemu-devel@nongnu.org>; Wed, 19 Jan 2022 16:12:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CbyD+c45d/ivXeKj0y9Zf11/liGTcZ9Tcg0XRqyvNfk=;
+ b=SFzH9LFMPWJ6y/8ZvJcb2rpeyxJWKHnMUQCVX4eJIs8nH2xZMJVDFPBfxWZpfkoi7u
+ 0JMtS67p5TIrAMFBTqwf3uNI4pCC/T88h3tsDZymuypTnqZmAtHowbrOqfDbliZPWzhr
+ W6SBnbXl1N0uH1uwZ5r4ypxmID3CfuycKhS6JJArDxvNPtBsUEmJDpVUSbeuAiHCgHv7
+ YMdTnNTG8z53i9h1SNJroZJ2IW6Sqs+7a+TlDZdNRkkluQYNy3oaYR3haS96eWRvV/jH
+ RgvMty4Pc4h7y9VOeay/z928DPB225K3Oyp43NZz0cmnzB1g1deQvs+/rvSHlZujqDPU
+ EuNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=D+NSsA18aGf/nzYHl6Pv5yHpk2qnhvaNZVtAthfoRpw=;
- b=jhYcsffer5bmCcSykCNDXN/XmPEjU2/hJLCHDf0ZaP/uCoonI8r0K+GRkwUR3SKwWk
- 271gf4L6HIhOKGskE5OmXgP7GNqyXGpDNivqpNwqFm/p18ewTdZaiS+lF0PZ6g4w0S6J
- pbjUgAAfWVE2e+K+DebjPFEvuma9dY9XjugnfcfBv5x4mnjRqKZDoH9OmYWU3qKSaHl2
- TUtJPVBci4+7hYZS0cS1HfQ4sOE1GN7dob9Y0Z0J5Swm5CAVAwzXLr6uUQPWbT9jMLof
- mVwLUO5C+Uf+I82TFsjYbyFprpttInqr32cM7ESntcN/I/RgKzqFLIFVs5cmnqk6DUpL
- xpLA==
-X-Gm-Message-State: AOAM531uGhFve4g3sNO8q7MUBLces0nGV1fxQz2s/07zjiOBHBCo4WDx
- gThWpHaydbsqZ2iaN/gLjvMH+SYKJFIFt8xCTaEI4QlqLbyIpuULucoe0DnZ54uti4ZMBAYzE5k
- yVGt74p+rAzKe5EA=
-X-Received: by 2002:a7b:c142:: with SMTP id z2mr5873043wmi.167.1642637539058; 
- Wed, 19 Jan 2022 16:12:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy8gMA0rChQSZ82tH2i5yB12hO9tSG82XwRoYSvLpRi/+xCIhHUkWjbapCCL9/SH0wrVwxY6w==
-X-Received: by 2002:a7b:c142:: with SMTP id z2mr5873017wmi.167.1642637538772; 
- Wed, 19 Jan 2022 16:12:18 -0800 (PST)
-Received: from redhat.com ([2.55.158.216])
- by smtp.gmail.com with ESMTPSA id e15sm1535299wrg.91.2022.01.19.16.12.15
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=CbyD+c45d/ivXeKj0y9Zf11/liGTcZ9Tcg0XRqyvNfk=;
+ b=HDvLGNA/3m2ff6S0hzsOg0R3AjWLkYQUJh9xFUbwGzoq8Qg03/iDSDgJGwggkrAbxJ
+ HJ0z4ijEZj6a9aGsm2pMFRd50QVo+sE4kU3+BR6S4B1iI1Y8byfzvApd7wr1gLOZpdt8
+ j0/KFytsxUZdPnC2o+3UUUwIQNowZrsmPr1CUi5ez9PYlI8ivhuvhiwBQuLWEME1p4J2
+ FxF6VF/k0pQWOtFSPxwSKYRvioS1/jVnVBBHJQcEswkrUcxIOOkiApfNUAW/HRjRCD5H
+ R7c33GzDR3nvU6/nWoK5BgjcmqKUshSN9SCPRServw8P91V8sk250r1OThNKLKZ2WnLR
+ 4I+Q==
+X-Gm-Message-State: AOAM531MuwXzBh3Qrx7DeNV63GPd6wtLG9azKX/FhgOahPPDX09m4Oxk
+ 8SKuSYlucu3BXo1SAUe12OyCgAfVpk8=
+X-Google-Smtp-Source: ABdhPJzhYTodaxMVXFKtjNC47NRME2jKxbpAEU9kBQtss5L+coU9+OphrD0EglKvrs0W0pPe/8YWtw==
+X-Received: by 2002:a5d:64ad:: with SMTP id m13mr30432394wrp.410.1642637564751; 
+ Wed, 19 Jan 2022 16:12:44 -0800 (PST)
+Received: from nuc.. (154.red-83-50-83.dynamicip.rima-tde.net. [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id
+ g7sm1013171wmq.28.2022.01.19.16.12.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jan 2022 16:12:18 -0800 (PST)
-Date: Wed, 19 Jan 2022 19:12:13 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v5 03/18] pci: isolated address space for PCI bus
-Message-ID: <20220119190742-mutt-send-email-mst@kernel.org>
-References: <cover.1642626515.git.jag.raman@oracle.com>
- <2971c1bec04acaac4eb3c1f2b104cbeabad01e22.1642626515.git.jag.raman@oracle.com>
+ Wed, 19 Jan 2022 16:12:44 -0800 (PST)
+To: qemu-devel@nongnu.org
+Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH v3 0/2] tpm: CRB: Use ram_device for "tpm-crb-cmd" region
+Date: Thu, 20 Jan 2022 01:12:40 +0100
+Message-Id: <20220120001242.230082-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-In-Reply-To: <2971c1bec04acaac4eb3c1f2b104cbeabad01e22.1642626515.git.jag.raman@oracle.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,157 +89,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
- berrange@redhat.com, bleal@redhat.com, quintela@redhat.com, armbru@redhat.com,
- john.levon@nutanix.com, qemu-devel@nongnu.org, f4bug@amsat.org,
- marcandre.lureau@gmail.com, dgilbert@redhat.com, stefanha@redhat.com,
- thanos.makatos@nutanix.com, pbonzini@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-On Wed, Jan 19, 2022 at 04:41:52PM -0500, Jagannathan Raman wrote:
-> Allow PCI buses to be part of isolated CPU address spaces. This has a
-> niche usage.
-> 
-> TYPE_REMOTE_MACHINE allows multiple VMs to house their PCI devices in
-> the same machine/server. This would cause address space collision as
-> well as be a security vulnerability. Having separate address spaces for
-> each PCI bus would solve this problem.
-
-Fascinating, but I am not sure I understand. any examples?
-
-I also wonder whether this special type could be modelled like a special
-kind of iommu internally.
-
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> ---
->  include/hw/pci/pci.h     |  2 ++
->  include/hw/pci/pci_bus.h | 17 +++++++++++++++++
->  hw/pci/pci.c             | 17 +++++++++++++++++
->  hw/pci/pci_bridge.c      |  5 +++++
->  4 files changed, 41 insertions(+)
-> 
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index 023abc0f79..9bb4472abc 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -387,6 +387,8 @@ void pci_device_save(PCIDevice *s, QEMUFile *f);
->  int pci_device_load(PCIDevice *s, QEMUFile *f);
->  MemoryRegion *pci_address_space(PCIDevice *dev);
->  MemoryRegion *pci_address_space_io(PCIDevice *dev);
-> +AddressSpace *pci_isol_as_mem(PCIDevice *dev);
-> +AddressSpace *pci_isol_as_io(PCIDevice *dev);
->  
->  /*
->   * Should not normally be used by devices. For use by sPAPR target
-> diff --git a/include/hw/pci/pci_bus.h b/include/hw/pci/pci_bus.h
-> index 347440d42c..d78258e79e 100644
-> --- a/include/hw/pci/pci_bus.h
-> +++ b/include/hw/pci/pci_bus.h
-> @@ -39,9 +39,26 @@ struct PCIBus {
->      void *irq_opaque;
->      PCIDevice *devices[PCI_SLOT_MAX * PCI_FUNC_MAX];
->      PCIDevice *parent_dev;
-> +
->      MemoryRegion *address_space_mem;
->      MemoryRegion *address_space_io;
->  
-> +    /**
-> +     * Isolated address spaces - these allow the PCI bus to be part
-> +     * of an isolated address space as opposed to the global
-> +     * address_space_memory & address_space_io.
-
-Are you sure address_space_memory & address_space_io are
-always global? even in the case of an iommu?
-
-> This allows the
-> +     * bus to be attached to CPUs from different machines. The
-> +     * following is not used used commonly.
-> +     *
-> +     * TYPE_REMOTE_MACHINE allows emulating devices from multiple
-> +     * VM clients,
-
-what are VM clients?
-
-> as such it needs the PCI buses in the same machine
-> +     * to be part of different CPU address spaces. The following is
-> +     * useful in that scenario.
-> +     *
-> +     */
-> +    AddressSpace *isol_as_mem;
-> +    AddressSpace *isol_as_io;
-> +
->      QLIST_HEAD(, PCIBus) child; /* this will be replaced by qdev later */
->      QLIST_ENTRY(PCIBus) sibling;/* this will be replaced by qdev later */
->  
-> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> index 5d30f9ca60..d5f1c6c421 100644
-> --- a/hw/pci/pci.c
-> +++ b/hw/pci/pci.c
-> @@ -442,6 +442,8 @@ static void pci_root_bus_internal_init(PCIBus *bus, DeviceState *parent,
->      bus->slot_reserved_mask = 0x0;
->      bus->address_space_mem = address_space_mem;
->      bus->address_space_io = address_space_io;
-> +    bus->isol_as_mem = NULL;
-> +    bus->isol_as_io = NULL;
->      bus->flags |= PCI_BUS_IS_ROOT;
->  
->      /* host bridge */
-> @@ -2676,6 +2678,16 @@ MemoryRegion *pci_address_space_io(PCIDevice *dev)
->      return pci_get_bus(dev)->address_space_io;
->  }
->  
-> +AddressSpace *pci_isol_as_mem(PCIDevice *dev)
-> +{
-> +    return pci_get_bus(dev)->isol_as_mem;
-> +}
-> +
-> +AddressSpace *pci_isol_as_io(PCIDevice *dev)
-> +{
-> +    return pci_get_bus(dev)->isol_as_io;
-> +}
-> +
->  static void pci_device_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *k = DEVICE_CLASS(klass);
-> @@ -2699,6 +2711,7 @@ static void pci_device_class_base_init(ObjectClass *klass, void *data)
->  
->  AddressSpace *pci_device_iommu_address_space(PCIDevice *dev)
->  {
-> +    AddressSpace *iommu_as = NULL;
->      PCIBus *bus = pci_get_bus(dev);
->      PCIBus *iommu_bus = bus;
->      uint8_t devfn = dev->devfn;
-> @@ -2745,6 +2758,10 @@ AddressSpace *pci_device_iommu_address_space(PCIDevice *dev)
->      if (!pci_bus_bypass_iommu(bus) && iommu_bus && iommu_bus->iommu_fn) {
->          return iommu_bus->iommu_fn(bus, iommu_bus->iommu_opaque, devfn);
->      }
-> +    iommu_as = pci_isol_as_mem(dev);
-> +    if (iommu_as) {
-> +        return iommu_as;
-> +    }
->      return &address_space_memory;
->  }
->  
-> diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
-> index da34c8ebcd..98366768d2 100644
-> --- a/hw/pci/pci_bridge.c
-> +++ b/hw/pci/pci_bridge.c
-> @@ -383,6 +383,11 @@ void pci_bridge_initfn(PCIDevice *dev, const char *typename)
->      sec_bus->address_space_io = &br->address_space_io;
->      memory_region_init(&br->address_space_io, OBJECT(br), "pci_bridge_io",
->                         4 * GiB);
-> +
-> +    /* This PCI bridge puts the sec_bus in its parent's address space */
-> +    sec_bus->isol_as_mem = pci_isol_as_mem(dev);
-> +    sec_bus->isol_as_io = pci_isol_as_io(dev);
-> +
->      br->windows = pci_bridge_region_init(br);
->      QLIST_INIT(&sec_bus->child);
->      QLIST_INSERT_HEAD(&parent->child, sec_bus, sibling);
-> -- 
-> 2.20.1
-
+This is a respin of Eric's work, but not making tpm_crb.c target=0D
+specific.=0D
+=0D
+Based-on: <20220120000836.229419-1-f4bug@amsat.org>=0D
+"exec/cpu: Make host pages variables / macros 'target agnostic'"=0D
+https://lore.kernel.org/qemu-devel/20220120000836.229419-1-f4bug@amsat.org/=
+=0D
+=0D
+--=0D
+=0D
+Eric's v2 cover:=0D
+=0D
+This series aims at removing a spurious error message we get when=0D
+launching a guest with a TPM-CRB device and VFIO-PCI devices.=0D
+=0D
+The CRB command buffer currently is a RAM MemoryRegion and given=0D
+its base address alignment, it causes an error report on=0D
+vfio_listener_region_add(). This series proposes to use a ram-device=0D
+region instead which helps in better assessing the dma map error=0D
+failure on VFIO side.=0D
+=0D
+Eric Auger (2):=0D
+  tpm: CRB: Use ram_device for "tpm-crb-cmd" region=0D
+  hw/vfio/common: Silence ram device offset alignment error traces=0D
+=0D
+ hw/tpm/tpm_crb.c     | 22 ++++++++++++++++++++--=0D
+ hw/vfio/common.c     | 15 ++++++++++++++-=0D
+ hw/vfio/trace-events |  1 +=0D
+ 3 files changed, 35 insertions(+), 3 deletions(-)=0D
+=0D
+-- =0D
+2.34.1=0D
+=0D
 
