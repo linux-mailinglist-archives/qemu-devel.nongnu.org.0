@@ -2,49 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C26EC495388
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 18:49:43 +0100 (CET)
-Received: from localhost ([::1]:49238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6B3495352
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 18:34:20 +0100 (CET)
+Received: from localhost ([::1]:59118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAbZ8-0000mY-Sl
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 12:49:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41598)
+	id 1nAbKF-0004Hu-8o
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 12:34:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1nAWde-00038U-4l; Thu, 20 Jan 2022 07:34:03 -0500
-Received: from out28-99.mail.aliyun.com ([115.124.28.99]:37280)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1nAWdP-0001xU-Kh; Thu, 20 Jan 2022 07:33:59 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07600669|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.070847-5.90399e-06-0.929147;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047188; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=9; RT=8; SR=0; TI=SMTPD_---.Mfx8eZi_1642681992; 
-Received: from roman-VirtualBox.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.Mfx8eZi_1642681992)
- by smtp.aliyun-inc.com(10.147.41.178);
- Thu, 20 Jan 2022 20:33:12 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v8 22/23] target/riscv: Enable uxl field write
-Date: Thu, 20 Jan 2022 20:20:49 +0800
-Message-Id: <20220120122050.41546-23-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220120122050.41546-1-zhiwei_liu@c-sky.com>
-References: <20220120122050.41546-1-zhiwei_liu@c-sky.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nAWdf-00038a-3f
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:34:03 -0500
+Received: from [2a00:1450:4864:20::333] (port=53831
+ helo=mail-wm1-x333.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nAWda-0001J9-Ib
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:34:01 -0500
+Received: by mail-wm1-x333.google.com with SMTP id n8so11751619wmk.3
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 04:32:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BLNlod0Z9IcYl6zl7EwGYDyiwNBP/JJpIw6rTP7cNV8=;
+ b=jOSQu5UjR3go5m8FGkCFR0ENf0IdxdbGiJRmTxevhLGItwnQSoOYppgfI8DW87I9dD
+ gxFnLHmExRfvWnl/27AGkaYkxqXlxuSE+OgxTjg+DPWcN2oQNXdK8VZXbQ3NAJu29MFN
+ ruXw48M4v8PQhEd3K+rVRz/VqmvxGP/XsQPblYWhIkTymNXBl349SMgS64J5XhIsAWKn
+ A39FyagE/i3WWlmM5awMkB1/44st+NwWDOJN+w3BV+ar28/LKD/NjbElMvDoCYSN/zuQ
+ l19xvvNH1i4STi+lS0fPCk4gcfmk64DkzMYU9mhHzNN4EZuH6Mlzby5zHaPc5t0JDUus
+ F/Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BLNlod0Z9IcYl6zl7EwGYDyiwNBP/JJpIw6rTP7cNV8=;
+ b=G3L7WW5Jiuu61Z80QQvsUcOoQR3uAa++WibE9juCv/JVATmKkAFckXBL3tFMI3CtSz
+ v7hG4ZxrpsiJR7p7HfFnnnLztNnkhaZ/DxHYRO8UKFsE8VMufMjETmnNRdAIjQOBCG7A
+ Q7vHahrEI/ZsPNDnYrSbYKs2onyKiI1EvF/1ZzkczkXXic0njxYFQhkMhSKwxFVo5vjX
+ ZWmIkKgGP5mSJ9qqU13iPbE1VPKr7li4LzeT+m6Pn1p3DxN4kapRpMjQDRNmTDxUgAAo
+ /G/U4WA0ML/mp2xJT2Wv3+TUCRgXd805/twxdja5b9hBaEaHNw448+3yJmrcM7r7jEVT
+ SkPA==
+X-Gm-Message-State: AOAM531yjK0JK9oNc6T88lhKNBC2K2TQEZS09WXEFFBQa/tSqPFU/8kb
+ lME/TOGJ/eI6aChQtgGOCJGcTaqxdgn4U+j5eGI2Aw==
+X-Google-Smtp-Source: ABdhPJxaHj+RWe4IwrA4TF23mi3Yap+RPJMiXpWWNp0UXKU5q2/IbLUEBJ6qYOP3SLNvjRwEDPlNB6IpZWuAfESUac4=
+X-Received: by 2002:adf:bb52:: with SMTP id x18mr3500604wrg.319.1642681969891; 
+ Thu, 20 Jan 2022 04:32:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=115.124.28.99; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-99.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20220114004033.295199-1-idan.horowitz@gmail.com>
+ <CAFEAcA96gKH8r_a2aV0bfcOR418WnRkmEsV73Uss0kDEQ2Tx4w@mail.gmail.com>
+ <CA+4MfE+nh4LRAbmT2GnNiZWTU=xfmkReNWWTgOhqWLddXdV_hQ@mail.gmail.com>
+In-Reply-To: <CA+4MfE+nh4LRAbmT2GnNiZWTU=xfmkReNWWTgOhqWLddXdV_hQ@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 20 Jan 2022 12:32:38 +0000
+Message-ID: <CAFEAcA-MnRazq5GNZSbK_a_LmF3F4dcaJWadR9ni6JeS9wPhug@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Allow only specific instructions based on the
+ SCTLR_EL1.UCI bit
+To: Idan Horowitz <idan.horowitz@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,127 +82,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, bin.meng@windriver.com,
- richard.henderson@linaro.org, palmer@dabbelt.com,
- Alistair Francis <alistair.francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu_bits.h |  3 +++
- target/riscv/csr.c      | 28 ++++++++++++++++++++++------
- 2 files changed, 25 insertions(+), 6 deletions(-)
+On Thu, 20 Jan 2022 at 12:00, Idan Horowitz <idan.horowitz@gmail.com> wrote:
+>
+> On Thu, 20 Jan 2022 at 13:42, Peter Maydell <peter.maydell@linaro.org> wrote:
+> >
+> >
+> > But for all of these instructions the reginfo struct
+> > sets ".access = PL1_W". The .access field is always
+> > checked before the .accessfn, so for any of these instructions
+> > executed from EL0 I think we will always fail the .access
+> > check and UNDEF the insn without calling the .accessfn.
+> > So it doesn't matter that the .accessfn has "if EL0 then
+> > check SCTLR_EL1.UCI", because when running the accessfn
+> > for these insns we can never be in EL0.
+> >
+> > Am I missing something?
+> >
+>
+> Hey, you are not missing anything, this patch indeed does not change
+> any external behaviour.
+> I should have specified, but the point of this patch is optimization:
+> during benchmarking of the various AArch64 instructions I found that
+> the cache flush instructions were quite slow, simply due to their
+> heavy access functions, so this is an attempt at simplifying them.
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 5a6d49aa64..7c87433645 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -449,6 +449,9 @@ typedef enum {
- #define COUNTEREN_IR         (1 << 2)
- #define COUNTEREN_HPM3       (1 << 3)
- 
-+/* vsstatus CSR bits */
-+#define VSSTATUS64_UXL       0x0000000300000000ULL
-+
- /* Privilege modes */
- #define PRV_U 0
- #define PRV_S 1
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index b11d92b51b..523d07a95e 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -496,7 +496,7 @@ static const target_ulong vs_delegable_excps = DELEGABLE_EXCPS &
-       (1ULL << (RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT)));
- static const target_ulong sstatus_v1_10_mask = SSTATUS_SIE | SSTATUS_SPIE |
-     SSTATUS_UIE | SSTATUS_UPIE | SSTATUS_SPP | SSTATUS_FS | SSTATUS_XS |
--    SSTATUS_SUM | SSTATUS_MXR | SSTATUS_VS | (target_ulong)SSTATUS64_UXL;
-+    SSTATUS_SUM | SSTATUS_MXR | SSTATUS_VS;
- static const target_ulong sip_writable_mask = SIP_SSIP | MIP_USIP | MIP_UEIP;
- static const target_ulong hip_writable_mask = MIP_VSSIP;
- static const target_ulong hvip_writable_mask = MIP_VSSIP | MIP_VSTIP | MIP_VSEIP;
-@@ -572,6 +572,7 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
- {
-     uint64_t mstatus = env->mstatus;
-     uint64_t mask = 0;
-+    RISCVMXL xl = riscv_cpu_mxl(env);
- 
-     /* flush tlb on mstatus fields that affect VM */
-     if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
-@@ -583,21 +584,22 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
-         MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
-         MSTATUS_TW | MSTATUS_VS;
- 
--    if (riscv_cpu_mxl(env) != MXL_RV32) {
-+    if (xl != MXL_RV32) {
-         /*
-          * RV32: MPV and GVA are not in mstatus. The current plan is to
-          * add them to mstatush. For now, we just don't support it.
-          */
-         mask |= MSTATUS_MPV | MSTATUS_GVA;
-+        if ((val & MSTATUS64_UXL) != 0) {
-+            mask |= MSTATUS64_UXL;
-+        }
-     }
- 
-     mstatus = (mstatus & ~mask) | (val & mask);
- 
--    RISCVMXL xl = riscv_cpu_mxl(env);
-     if (xl > MXL_RV32) {
--        /* SXL and UXL fields are for now read only */
-+        /* SXL field is for now read only */
-         mstatus = set_field(mstatus, MSTATUS64_SXL, xl);
--        mstatus = set_field(mstatus, MSTATUS64_UXL, xl);
-     }
-     env->mstatus = mstatus;
-     env->xl = cpu_recompute_xl(env);
-@@ -898,6 +900,9 @@ static RISCVException read_sstatus_i128(CPURISCVState *env, int csrno,
- {
-     uint64_t mask = sstatus_v1_10_mask;
-     uint64_t sstatus = env->mstatus & mask;
-+    if (env->xl != MXL_RV32) {
-+        mask |= SSTATUS64_UXL;
-+    }
- 
-     *val = int128_make128(sstatus, add_status_sd(MXL_RV128, sstatus));
-     return RISCV_EXCP_NONE;
-@@ -907,7 +912,9 @@ static RISCVException read_sstatus(CPURISCVState *env, int csrno,
-                                    target_ulong *val)
- {
-     target_ulong mask = (sstatus_v1_10_mask);
--
-+    if (env->xl != MXL_RV32) {
-+        mask |= SSTATUS64_UXL;
-+    }
-     /* TODO: Use SXL not MXL. */
-     *val = add_status_sd(riscv_cpu_mxl(env), env->mstatus & mask);
-     return RISCV_EXCP_NONE;
-@@ -917,6 +924,12 @@ static RISCVException write_sstatus(CPURISCVState *env, int csrno,
-                                     target_ulong val)
- {
-     target_ulong mask = (sstatus_v1_10_mask);
-+
-+    if (env->xl != MXL_RV32) {
-+        if ((val & SSTATUS64_UXL) != 0) {
-+            mask |= SSTATUS64_UXL;
-+        }
-+    }
-     target_ulong newval = (env->mstatus & ~mask) | (val & mask);
-     return write_mstatus(env, CSR_MSTATUS, newval);
- }
-@@ -1380,6 +1393,9 @@ static RISCVException write_vsstatus(CPURISCVState *env, int csrno,
-                                      target_ulong val)
- {
-     uint64_t mask = (target_ulong)-1;
-+    if ((val & VSSTATUS64_UXL) == 0) {
-+        mask &= ~VSSTATUS64_UXL;
-+    }
-     env->vsstatus = (env->vsstatus & ~mask) | (uint64_t)val;
-     return RISCV_EXCP_NONE;
- }
--- 
-2.25.1
+But the code you are effectively removing is never executed
+for the instructions where you're changing the access function.
+If you're proposing this as a performance improvement, can
+you provide before-and-after benchmarks demonstrating that
+improvement ?
 
+thanks
+-- PMM
 
