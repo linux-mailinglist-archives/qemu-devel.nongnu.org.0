@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDD48495309
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 18:18:12 +0100 (CET)
-Received: from localhost ([::1]:46354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E7674952DE
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 18:06:59 +0100 (CET)
+Received: from localhost ([::1]:34804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAb4d-0003LD-JT
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 12:18:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42770)
+	id 1nAatl-0003Np-U3
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 12:06:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAWgN-0004Bc-FC
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:36:52 -0500
-Received: from [2a00:1450:4864:20::32a] (port=43637
- helo=mail-wm1-x32a.google.com)
+ id 1nAWgM-0004A5-EC
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:36:50 -0500
+Received: from [2a00:1450:4864:20::336] (port=36530
+ helo=mail-wm1-x336.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAWgJ-00039p-52
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:36:50 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- e9-20020a05600c4e4900b0034d23cae3f0so13398904wmq.2
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 04:36:45 -0800 (PST)
+ id 1nAWgJ-00039u-4t
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:36:49 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ i187-20020a1c3bc4000000b0034d2ed1be2aso20155867wma.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 04:36:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=FZNzOyeGj4/sq8Srv8WNLvy4rb7thXkM78LTfwnMVmc=;
- b=tPiJtsp6J2VAAB1jEFZg62QZhuPg3UYg8bAcABT8OdUbwtsCaGCBGW/v/XvqS7Rclo
- iqhZiAj+h2dlDN2NCmqqKJl07yVH24a2baN7Ucu6kpEYsCugnr5rfZDbDgCp71NGNXDA
- 9TtjUTvH0Jd4XXfxBzIXYIkYSTehZTgT7pB2imC8jMQCoD3M2rn7PEKJBQhOosNNTfT/
- ScvBSeOxkvEpT99XfNOKenvEiTRDGP/Ks3tWE+ujas2s240yUoKTD0dGRqRFCdKQNAEp
- Zx++ihOxqIn0Ouo3CNiJf33hM7LXyWdJIyfZIiRZQwIGmIuPl4fApeVseiFhJ93xYWJn
- dr8Q==
+ bh=PmHXupL03JyCbpDAhPnTSUzNfKvyaSym3zPH6Rc5qOs=;
+ b=dk6uBIlGPpiuB5cf1k/dC9/WhSPlCCwUCdrrqVSkm3G1+PWLrX9+6lSo/+Y+wVVqid
+ Ef6ec3u6fW7aHC8V+bActdzCqkndPatUYsrKGTqqLq0eIEjxdzrj9uxNWRQv9x02Appq
+ euKtytsIwzaHNjlzLTgjM7+FKe9s7G7/vWC8C7atDNStQM9ZmtMiVknBLLLxdRGr+DO4
+ 6iYVlN4Nl+W/kgasNpBSteRL6UXErco/nFZeoNi/8LsKag790l5jKvrd4CwOa8YQQXRQ
+ iBoXbL1LKd3Cg8bIZmv18Yt6zEbjgSgmD2N9VjBR5KzUgYpAjGRmHNnN/9XlzBUtvhLD
+ VuIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FZNzOyeGj4/sq8Srv8WNLvy4rb7thXkM78LTfwnMVmc=;
- b=PMv57EUvLOdBzgCgOLXAijhu8IGnyZ+J1AS0r/iuxdbr1nRzCXiiMFV6WwLdGYQDov
- JBOUoXTZiq0ShCBG00mw0T7Xm+EjcGEtVlxVy623697z3umpZbswhZx2ittNA9mWkCN9
- uyEtYL10x0i8bzQdBtSNF4bchI5u8/ud//5jKIniQx3SG/G5bXVLUOQ+Y+FHr3w8acNm
- B7zfx+L+Uu0iLz3CDvu4l+TZalBPKubbAfjHt1Ul2gGKxbmI/ooLTuznx/dmpWXmaXIN
- znM74jKTEInuAcJoyt0OR/f073T9dS+9j1Vnxrw7QcFmzdmnXVWv3wJAdu4mQuI6+467
- pS9A==
-X-Gm-Message-State: AOAM5319Mi3uSchaLga7hzdYFPK1H8ZSGlvUWSe8+Xmoecd/fYDbsDTi
- 04+h4/PIG0LyXdtxc77bw5Q/cOCQv9NhLw==
-X-Google-Smtp-Source: ABdhPJz7oWxJYvt9QfxITy51R703MN31Jcdm4GaNNtC36MwNSbJBSjnLG/HV9yDDQMadCsmm+fKPDw==
-X-Received: by 2002:adf:fa91:: with SMTP id h17mr417582wrr.189.1642682204891; 
- Thu, 20 Jan 2022 04:36:44 -0800 (PST)
+ bh=PmHXupL03JyCbpDAhPnTSUzNfKvyaSym3zPH6Rc5qOs=;
+ b=auYVgJFoSNr1ergC52KBYoVMaQ1qSEWuH85XOavZmZ+W3xUzA5hzfkMScfWb1rCOt6
+ XbRLxPChOCusXF7DTJ5CT3faGEqpzrtDOqY1qNINTMlHl/bExYZUmzSAkLs/JGSafR8R
+ o5C9yOp1MXEHuecsVlNWKoSSrn2GFwQrvnTyijsXJ1JFhepZlVINtdUfnjtvDSt5GaXP
+ WcRZc3+MvhlqPf2HvZhsyZmcy7tHRqW+sxP9hGD1WNh+moykGQ0tTFgcVRSyyJE1vYCw
+ KVtnBOk+hjR5ujUhuH1WvTt6dpN/uFkUIEiB2KKKlbr2gWTSad0ZSo2G5TwKuzGKYjL2
+ ONrg==
+X-Gm-Message-State: AOAM532gStygJdXgYLG1ni/EVaXy/CoEm1euqxalCtUW/+Afwye6TFlJ
+ 9kNNCkS4vd/RSzIyhNnoQb/WwSs1LMR3pw==
+X-Google-Smtp-Source: ABdhPJxAy6H0SQJXE/ifP0H8KQ+Ng1TNyzXI58sPbxpMC8+c0jZ8bWfWD5NJLBDa86Gss2yL3Mp2pg==
+X-Received: by 2002:a5d:6488:: with SMTP id o8mr13184130wri.8.1642682205581;
+ Thu, 20 Jan 2022 04:36:45 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id t8sm7993324wmq.43.2022.01.20.04.36.44
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 04:36:44 -0800 (PST)
+ Thu, 20 Jan 2022 04:36:45 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/38] hw/intc/arm_gic: Allow reset of the running priority
-Date: Thu, 20 Jan 2022 12:36:07 +0000
-Message-Id: <20220120123630.267975-16-peter.maydell@linaro.org>
+Subject: [PULL 16/38] hw/arm/virt: Add a control for the the highmem PCIe MMIO
+Date: Thu, 20 Jan 2022 12:36:08 +0000
+Message-Id: <20220120123630.267975-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220120123630.267975-1-peter.maydell@linaro.org>
 References: <20220120123630.267975-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,60 +90,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Petr Pavlu <petr.pavlu@suse.com>
+From: Marc Zyngier <maz@kernel.org>
 
-When running Linux on a machine with GICv2, the kernel can crash while
-processing an interrupt and can subsequently start a kdump kernel from
-the active interrupt handler. In such a case, the crashed kernel might
-not gracefully signal the end of interrupt to the GICv2 hardware. The
-kdump kernel will however try to reset the GIC state on startup to get
-the controller into a sane state, in particular the kernel writes ones
-to GICD_ICACTIVERn and wipes out GICC_APRn to make sure that no
-interrupt is active.
+Just like we can control the enablement of the highmem PCIe ECAM
+region using highmem_ecam, let's add a control for the highmem
+PCIe MMIO  region.
 
-The patch adds a logic to recalculate the running priority when
-GICC_APRn/GICC_NSAPRn is written which makes sure that the mentioned
-reset works with the GICv2 emulation in QEMU too and the kdump kernel
-starts receiving interrupts.
+Similarily to highmem_ecam, this region is disabled when highmem
+is off.
 
-The described scenario can be reproduced on an AArch64 QEMU virt machine
-with a kdump-enabled Linux system by using the softdog module. The kdump
-kernel will hang at some point because QEMU still thinks the running
-priority is that of the timer interrupt and asserts no new interrupts to
-the system:
-$ modprobe softdog soft_margin=10 soft_panic=1
-$ cat > /dev/watchdog
-[Press Enter to start the watchdog, wait for its timeout and observe
-that the kdump kernel hangs on startup.]
-
-Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
-Message-id: 20220113151916.17978-3-ppavlu@suse.cz
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Marc Zyngier <maz@kernel.org>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Message-id: 20220114140741.1358263-2-maz@kernel.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/arm_gic.c | 2 ++
- 1 file changed, 2 insertions(+)
+ include/hw/arm/virt.h    |  1 +
+ hw/arm/virt-acpi-build.c | 10 ++++------
+ hw/arm/virt.c            |  7 +++++--
+ 3 files changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/hw/intc/arm_gic.c b/hw/intc/arm_gic.c
-index 0cd9ceca8d1..492b2421ab4 100644
---- a/hw/intc/arm_gic.c
-+++ b/hw/intc/arm_gic.c
-@@ -1736,6 +1736,7 @@ static MemTxResult gic_cpu_write(GICState *s, int cpu, int offset,
-         } else {
-             s->apr[regno][cpu] = value;
-         }
-+        s->running_priority[cpu] = gic_get_prio_from_apr_bits(s, cpu);
-         break;
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index be0534608f8..cf5d8b83ded 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -143,6 +143,7 @@ struct VirtMachineState {
+     bool secure;
+     bool highmem;
+     bool highmem_ecam;
++    bool highmem_mmio;
+     bool its;
+     bool tcg_its;
+     bool virt;
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index f2514ce77c0..449fab00805 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -158,10 +158,9 @@ static void acpi_dsdt_add_virtio(Aml *scope,
+ }
+ 
+ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+-                              uint32_t irq, bool use_highmem, bool highmem_ecam,
+-                              VirtMachineState *vms)
++                              uint32_t irq, VirtMachineState *vms)
+ {
+-    int ecam_id = VIRT_ECAM_ID(highmem_ecam);
++    int ecam_id = VIRT_ECAM_ID(vms->highmem_ecam);
+     struct GPEXConfig cfg = {
+         .mmio32 = memmap[VIRT_PCIE_MMIO],
+         .pio    = memmap[VIRT_PCIE_PIO],
+@@ -170,7 +169,7 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+         .bus    = vms->bus,
+     };
+ 
+-    if (use_highmem) {
++    if (vms->highmem_mmio) {
+         cfg.mmio64 = memmap[VIRT_HIGH_PCIE_MMIO];
      }
-     case 0xe0: case 0xe4: case 0xe8: case 0xec:
-@@ -1752,6 +1753,7 @@ static MemTxResult gic_cpu_write(GICState *s, int cpu, int offset,
-             return MEMTX_OK;
-         }
-         s->nsapr[regno][cpu] = value;
-+        s->running_priority[cpu] = gic_get_prio_from_apr_bits(s, cpu);
-         break;
-     }
-     case 0x1000:
+ 
+@@ -869,8 +868,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     acpi_dsdt_add_fw_cfg(scope, &memmap[VIRT_FW_CFG]);
+     acpi_dsdt_add_virtio(scope, &memmap[VIRT_MMIO],
+                     (irqmap[VIRT_MMIO] + ARM_SPI_BASE), NUM_VIRTIO_TRANSPORTS);
+-    acpi_dsdt_add_pci(scope, memmap, (irqmap[VIRT_PCIE] + ARM_SPI_BASE),
+-                      vms->highmem, vms->highmem_ecam, vms);
++    acpi_dsdt_add_pci(scope, memmap, irqmap[VIRT_PCIE] + ARM_SPI_BASE, vms);
+     if (vms->acpi_dev) {
+         build_ged_aml(scope, "\\_SB."GED_DEVICE,
+                       HOTPLUG_HANDLER(vms->acpi_dev),
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index a76d86b5926..16369ce10e4 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1419,7 +1419,7 @@ static void create_pcie(VirtMachineState *vms)
+                              mmio_reg, base_mmio, size_mmio);
+     memory_region_add_subregion(get_system_memory(), base_mmio, mmio_alias);
+ 
+-    if (vms->highmem) {
++    if (vms->highmem_mmio) {
+         /* Map high MMIO space */
+         MemoryRegion *high_mmio_alias = g_new0(MemoryRegion, 1);
+ 
+@@ -1473,7 +1473,7 @@ static void create_pcie(VirtMachineState *vms)
+     qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
+                                  2, base_ecam, 2, size_ecam);
+ 
+-    if (vms->highmem) {
++    if (vms->highmem_mmio) {
+         qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "ranges",
+                                      1, FDT_PCI_RANGE_IOPORT, 2, 0,
+                                      2, base_pio, 2, size_pio,
+@@ -2112,6 +2112,8 @@ static void machvirt_init(MachineState *machine)
+ 
+     virt_flash_fdt(vms, sysmem, secure_sysmem ?: sysmem);
+ 
++    vms->highmem_mmio &= vms->highmem;
++
+     create_gic(vms, sysmem);
+ 
+     virt_cpu_post_init(vms, sysmem);
+@@ -2899,6 +2901,7 @@ static void virt_instance_init(Object *obj)
+     vms->gic_version = VIRT_GIC_VERSION_NOSEL;
+ 
+     vms->highmem_ecam = !vmc->no_highmem_ecam;
++    vms->highmem_mmio = true;
+ 
+     if (vmc->no_its) {
+         vms->its = false;
 -- 
 2.25.1
 
