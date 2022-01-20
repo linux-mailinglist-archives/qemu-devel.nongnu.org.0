@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05B92495013
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 15:26:27 +0100 (CET)
-Received: from localhost ([::1]:34552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DCD949505E
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 15:38:31 +0100 (CET)
+Received: from localhost ([::1]:43498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAYOQ-0007sz-NA
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 09:26:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54482)
+	id 1nAYa6-00070D-Cc
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 09:38:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nAVg3-0006RW-CI
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:32:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54662)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nAVg1-000733-Ov
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:32:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642678345;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dvUMFSlUX+TNvP8JB1UoKbWUuFAKE3Db7X7w7K+gm6s=;
- b=K6Puy+80xbIaAqqEKh+XrtOesTuZaN9o8Tnp3KrL/LxkN2mXhoD1gNTdBJSKoAmaAC+TCs
- q+Fz2cOqlDLhV9Bhkj+m4djEtfCjG5saARgl6aZKAVY+GUOBAbnJq7mKpEFDSy3hVReLIp
- KM8SNj8yb7f+50mczrB7Ci5OBgmK3HU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-444-YoMl9-ToMUycfSC9lhg0Dg-1; Thu, 20 Jan 2022 06:32:21 -0500
-X-MC-Unique: YoMl9-ToMUycfSC9lhg0Dg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CC8618C8C00;
- Thu, 20 Jan 2022 11:32:20 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.153])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D577A752CE;
- Thu, 20 Jan 2022 11:32:06 +0000 (UTC)
-Date: Thu, 20 Jan 2022 11:32:03 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 5/6] tests/lcitool: Remove libxml2
-Message-ID: <YelIMyyJFKoMSqud@redhat.com>
-References: <20220120110545.263404-1-f4bug@amsat.org>
- <20220120110545.263404-6-f4bug@amsat.org>
- <YelELTScffI7Ln7R@redhat.com>
- <c38f570a-3fde-e5ae-a427-895e9841b52b@amsat.org>
- <67f7c8de-ea0a-0728-b3a4-38c7db0b9ae4@amsat.org>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nAVjq-0007ME-Rs; Thu, 20 Jan 2022 06:36:24 -0500
+Received: from [2a00:1450:4864:20::32c] (port=53978
+ helo=mail-wm1-x32c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nAVjo-0001rJ-2i; Thu, 20 Jan 2022 06:36:21 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id n8so11419381wmk.3;
+ Thu, 20 Jan 2022 03:36:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=gE7kVOUWYMuX83tWlO/qFxRTGfJ+gjxaeF9Ye1Re6So=;
+ b=VtFL2+7gedaLSXNStLSn6MJVbkfuSRF1G75KbVpeb6ddk/i16iNyUDBNKbCWrgXZMv
+ KiwS5bDKvByhGd87jl/buADhAtOU9obBLrnx9UcASFfw0h8UuFgYnDU6dNiZdhS//uJh
+ CTVdshMg8qcTRmQ8g1SslbOeS+xNxitUgGU8dywQLK/l48XjQvjVGlcdGmcuTVwwXPfi
+ maMgMZQ8nh7f/B9YJ1Ogjl7sU+cHTPbLssDpVQ7IJUzN21UvqlZtGxPUmJ8R2HW2X6GD
+ Ci777vc9fT/MzMMk0EKorUG5pzeO4FZZjZjgHGNRyNWfIG8Em2/wuxEAcwD6dVQPqzhH
+ AbZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=gE7kVOUWYMuX83tWlO/qFxRTGfJ+gjxaeF9Ye1Re6So=;
+ b=f43dhDR/nk0GZO+WIRQrEq7ptdLHUXVNCs590iQZ5MnaT0Ojcx3FW+ZcM/H7LRuqhE
+ kvaZA5l42yHugIKHc/Grh49kXKWC3Mzh4lJuy876DXOduMDgSOn+irsXpCjtVsQI0l7y
+ 4LRn6mUvgQrogXtcxBxpHYRrRFnkidizlMTkyfl9ipz/F1i2NmmsEmUMDK1q1lzLW4Pw
+ d7lRNtxKLJbPKeVHc7wn+6+mTuykN3HM1Mm3i4ozCGVJwzGKVdndGejdrUbs69fDQX/q
+ v4YiI8AuJzv/hYwDsFGkwTvxBg1AGcj7TO1nBptN8bmJZwh9BWmfCyifq1p0+NuItwf3
+ KV+w==
+X-Gm-Message-State: AOAM533mqfhj2rT9zylpQeh6xIT7kv5+MCJr89fXt8pRv0CY4ZJGXLSK
+ skgGbE5L5jT30J/ee0k1/qSIUP+JC2g=
+X-Google-Smtp-Source: ABdhPJx7Cg23fAC3eywv98yXin9Y8nyX8bJCcF7Vr6PL28c4RvcDB2gW1o07IkbQeBhYCuhCz72KBg==
+X-Received: by 2002:a05:600c:2690:: with SMTP id
+ 16mr8353057wmt.146.1642678570125; 
+ Thu, 20 Jan 2022 03:36:10 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id w8sm2653423wrq.3.2022.01.20.03.36.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Jan 2022 03:36:09 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 4/4] check-block: replace -makecheck with TAP output
+Date: Thu, 20 Jan 2022 12:36:03 +0100
+Message-Id: <20220120113603.276144-5-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20220120113603.276144-1-pbonzini@redhat.com>
+References: <20220120113603.276144-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <67f7c8de-ea0a-0728-b3a4-38c7db0b9ae4@amsat.org>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,44 +85,234 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Ed Maste <emaste@freebsd.org>, qemu-block@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
- Andrea Bolognani <abologna@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>
+Cc: thuth@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 20, 2022 at 12:21:01PM +0100, Philippe Mathieu-Daudé wrote:
-> (+Andrea)
-> 
-> On 1/20/22 12:18, Philippe Mathieu-Daudé wrote:
-> > On 1/20/22 12:14, Daniel P. Berrangé wrote:
-> >> On Thu, Jan 20, 2022 at 12:05:44PM +0100, Philippe Mathieu-Daudé wrote:
-> >>> The previous commit removed all uses of libxml2.
-> >>>
-> >>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> >>> ---
-> >>>  tests/docker/dockerfiles/alpine.docker        | 1 -
-> >>>  tests/docker/dockerfiles/centos8.docker       | 1 -
-> >>>  tests/docker/dockerfiles/fedora.docker        | 1 -
-> >>>  tests/docker/dockerfiles/opensuse-leap.docker | 1 -
-> >>>  tests/docker/dockerfiles/ubuntu1804.docker    | 1 -
-> >>>  tests/docker/dockerfiles/ubuntu2004.docker    | 1 -
-> >>>  tests/lcitool/projects/qemu.yml               | 1 -
-> 
-> BTW what is the difference between QEMU's qemu.yml and libvirt-ci's one?
+Let "meson test" take care of showing the results of the individual tests,
+consistently with other output from "make check V=1".
 
-The intention is to remove the one in libvirt-ci.git as it is not
-used now we maintain it directly in qemu.git
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ tests/check-block.sh             |  6 ++--
+ tests/qemu-iotests/check         |  6 ++--
+ tests/qemu-iotests/meson.build   |  1 +
+ tests/qemu-iotests/testenv.py    | 30 +++++++++----------
+ tests/qemu-iotests/testrunner.py | 49 +++++++++++++++++---------------
+ 5 files changed, 48 insertions(+), 44 deletions(-)
 
-Regards,
-Daniel
+diff --git a/tests/check-block.sh b/tests/check-block.sh
+index 88e02453d2..720a46bc36 100755
+--- a/tests/check-block.sh
++++ b/tests/check-block.sh
+@@ -14,8 +14,8 @@ else
+ fi
+ 
+ skip() {
+-    echo "$*"
+-    exit 77
++    echo "1..0 #SKIP $*"
++    exit 0
+ }
+ 
+ if grep -q "CONFIG_GPROF=y" config-host.mak 2>/dev/null ; then
+@@ -79,7 +79,7 @@ JOBS=$(echo "$MAKEFLAGS" | sed -n 's/\(^\|.* \)-j\([0-9]\+\)\( .*\|$\)/-j \2/p')
+ 
+ ret=0
+ for fmt in $format_list ; do
+-    ${PYTHON} ./check $JOBS -makecheck -$fmt $group || ret=1
++    ${PYTHON} ./check $JOBS -tap -$fmt $group || ret=1
+ done
+ 
+ exit $ret
+diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+index 0c27721a41..75de1b4691 100755
+--- a/tests/qemu-iotests/check
++++ b/tests/qemu-iotests/check
+@@ -32,8 +32,6 @@ def make_argparser() -> argparse.ArgumentParser:
+ 
+     p.add_argument('-n', '--dry-run', action='store_true',
+                    help='show me, do not run tests')
+-    p.add_argument('-makecheck', action='store_true',
+-                   help='pretty print output for make check')
+     p.add_argument('-j', dest='jobs', type=int, default=1,
+                    help='run tests in multiple parallel jobs')
+ 
+@@ -53,6 +51,8 @@ def make_argparser() -> argparse.ArgumentParser:
+     p.add_argument('--color', choices=['on', 'off', 'auto'],
+                    default='auto', help="use terminal colors. The default "
+                    "'auto' value means use colors if terminal stdout detected")
++    p.add_argument('-tap', action='store_true',
++                   help='produce TAP output')
+ 
+     g_env = p.add_argument_group('test environment options')
+     mg = g_env.add_mutually_exclusive_group()
+@@ -164,7 +164,7 @@ if __name__ == '__main__':
+     if args.dry_run:
+         print('\n'.join(tests))
+     else:
+-        with TestRunner(env, makecheck=args.makecheck,
++        with TestRunner(env, tap=args.tap,
+                         color=args.color) as tr:
+             paths = [os.path.join(env.source_iotests, t) for t in tests]
+             ok = tr.run_tests(paths, args.jobs)
+diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.build
+index 3a9425d15c..5be3c74127 100644
+--- a/tests/qemu-iotests/meson.build
++++ b/tests/qemu-iotests/meson.build
+@@ -22,6 +22,7 @@ if have_tools and targetos != 'windows'
+     endif
+     test('qemu-iotests ' + format, sh, args: [files('../check-block.sh'), format],
+          depends: qemu_iotests_binaries, env: qemu_iotests_env,
++         protocol: 'tap',
+          suite: suites,
+          timeout: 0,
+          is_parallel: false)
+diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
+index c33454fa68..0f32897fe8 100644
+--- a/tests/qemu-iotests/testenv.py
++++ b/tests/qemu-iotests/testenv.py
+@@ -287,21 +287,21 @@ def __enter__(self) -> 'TestEnv':
+     def __exit__(self, exc_type: Any, exc_value: Any, traceback: Any) -> None:
+         self.close()
+ 
+-    def print_env(self) -> None:
++    def print_env(self, prefix: str = '') -> None:
+         template = """\
+-QEMU          -- "{QEMU_PROG}" {QEMU_OPTIONS}
+-QEMU_IMG      -- "{QEMU_IMG_PROG}" {QEMU_IMG_OPTIONS}
+-QEMU_IO       -- "{QEMU_IO_PROG}" {QEMU_IO_OPTIONS}
+-QEMU_NBD      -- "{QEMU_NBD_PROG}" {QEMU_NBD_OPTIONS}
+-IMGFMT        -- {IMGFMT}{imgopts}
+-IMGPROTO      -- {IMGPROTO}
+-PLATFORM      -- {platform}
+-TEST_DIR      -- {TEST_DIR}
+-SOCK_DIR      -- {SOCK_DIR}
+-GDB_OPTIONS   -- {GDB_OPTIONS}
+-VALGRIND_QEMU -- {VALGRIND_QEMU}
+-PRINT_QEMU_OUTPUT -- {PRINT_QEMU}
+-"""
++{prefix}QEMU          -- "{QEMU_PROG}" {QEMU_OPTIONS}
++{prefix}QEMU_IMG      -- "{QEMU_IMG_PROG}" {QEMU_IMG_OPTIONS}
++{prefix}QEMU_IO       -- "{QEMU_IO_PROG}" {QEMU_IO_OPTIONS}
++{prefix}QEMU_NBD      -- "{QEMU_NBD_PROG}" {QEMU_NBD_OPTIONS}
++{prefix}IMGFMT        -- {IMGFMT}{imgopts}
++{prefix}IMGPROTO      -- {IMGPROTO}
++{prefix}PLATFORM      -- {platform}
++{prefix}TEST_DIR      -- {TEST_DIR}
++{prefix}SOCK_DIR      -- {SOCK_DIR}
++{prefix}GDB_OPTIONS   -- {GDB_OPTIONS}
++{prefix}VALGRIND_QEMU -- {VALGRIND_QEMU}
++{prefix}PRINT_QEMU_OUTPUT -- {PRINT_QEMU}
++{prefix}"""
+ 
+         args = collections.defaultdict(str, self.get_env())
+ 
+@@ -310,5 +310,5 @@ def print_env(self) -> None:
+ 
+         u = os.uname()
+         args['platform'] = f'{u.sysname}/{u.machine} {u.nodename} {u.release}'
+-
++        args['prefix'] = prefix
+         print(template.format_map(args))
+diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
+index 15788f919e..0eace147b8 100644
+--- a/tests/qemu-iotests/testrunner.py
++++ b/tests/qemu-iotests/testrunner.py
+@@ -152,10 +152,10 @@ def run_tests_pool(self, tests: List[str],
+ 
+         return results
+ 
+-    def __init__(self, env: TestEnv, makecheck: bool = False,
++    def __init__(self, env: TestEnv, tap: bool = False,
+                  color: str = 'auto') -> None:
+         self.env = env
+-        self.makecheck = makecheck
++        self.tap = tap
+         self.last_elapsed = LastElapsedTime('.last-elapsed-cache', env)
+ 
+         assert color in ('auto', 'on', 'off')
+@@ -185,13 +185,16 @@ def test_print_one_line(self, test: str,
+         """ Print short test info before/after test run """
+         test = os.path.basename(test)
+ 
+-        if self.makecheck and status != '...':
+-            if status and status != 'pass':
+-                status = f' [{status}]'
+-            else:
+-                status = ''
++        if test_field_width is None:
++            test_field_width = 8
+ 
+-            print(f'  TEST   iotest-{self.env.imgfmt}: {test}{status}')
++        if self.tap:
++            if status == 'pass':
++                print(f'ok {self.env.imgfmt} {test}')
++            elif status == 'fail':
++                print(f'not ok {self.env.imgfmt} {test}')
++            elif status == 'not run':
++                print(f'ok {self.env.imgfmt} {test} # SKIP')
+             return
+ 
+         if lasttime:
+@@ -343,7 +346,7 @@ def run_test(self, test: str,
+         last_el = self.last_elapsed.get(test)
+         start = datetime.datetime.now().strftime('%H:%M:%S')
+ 
+-        if not self.makecheck:
++        if not self.tap:
+             self.test_print_one_line(test=test,
+                                      test_field_width=test_field_width,
+                                      status = 'started' if mp else '...',
+@@ -372,7 +375,9 @@ def run_tests(self, tests: List[str], jobs: int = 1) -> bool:
+         notrun = []
+         casenotrun = []
+ 
+-        if not self.makecheck:
++        if self.tap:
++            self.env.print_env('# ')
++        else:
+             self.env.print_env()
+ 
+         test_field_width = max(len(os.path.basename(t)) for t in tests) + 2
+@@ -398,8 +403,6 @@ def run_tests(self, tests: List[str], jobs: int = 1) -> bool:
+ 
+             if res.status == 'fail':
+                 failed.append(name)
+-                if self.makecheck:
+-                    self.env.print_env()
+                 if res.diff:
+                     print('\n'.join(res.diff))
+             elif res.status == 'not run':
+@@ -412,16 +415,16 @@ def run_tests(self, tests: List[str], jobs: int = 1) -> bool:
+             if res.interrupted:
+                 break
+ 
+-        if notrun:
+-            print('Not run:', ' '.join(notrun))
++        if not self.tap:
++            if notrun:
++                print('Not run:', ' '.join(notrun))
+ 
+-        if casenotrun:
+-            print('Some cases not run in:', ' '.join(casenotrun))
++            if casenotrun:
++                print('Some cases not run in:', ' '.join(casenotrun))
+ 
+-        if failed:
+-            print('Failures:', ' '.join(failed))
+-            print(f'Failed {len(failed)} of {n_run} iotests')
+-            return False
+-        else:
+-            print(f'Passed all {n_run} iotests')
+-            return True
++            if failed:
++                print('Failures:', ' '.join(failed))
++                print(f'Failed {len(failed)} of {n_run} iotests')
++            else:
++                print(f'Passed all {n_run} iotests')
++        return not failed
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.33.1
 
 
