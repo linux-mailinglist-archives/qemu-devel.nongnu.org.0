@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1CE5495149
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 16:21:57 +0100 (CET)
-Received: from localhost ([::1]:54974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4184E495194
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 16:38:42 +0100 (CET)
+Received: from localhost ([::1]:46632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAZG8-0002Uc-VX
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 10:21:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55860)
+	id 1nAZWK-0007yh-Rj
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 10:38:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nAVjq-0007MI-S7; Thu, 20 Jan 2022 06:36:24 -0500
-Received: from [2a00:1450:4864:20::330] (port=55212
- helo=mail-wm1-x330.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nAVjo-0001pT-4W; Thu, 20 Jan 2022 06:36:22 -0500
-Received: by mail-wm1-x330.google.com with SMTP id p18so11404878wmg.4;
- Thu, 20 Jan 2022 03:36:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zv1lhOCKXyzc4kd1C1K+BkNsbC/ontSjAPSzGoTmLW8=;
- b=PA6SRyifsLdSrhwUgf+lRyOTdFCKiSUiwwPETKyBi/4y4Gtj/IAsocqsxqU0JMUwzW
- nnZKTFWWEitLzh443XJFwc5b7OPKuIwkRM4xSdnzp7KoC5CBmJnnEqZ3dVtIaKqgXF+n
- z0aGosfqQINRTfffumELr1WXX1dqG6uQ9OU9WecLH3JRWto9meH1Kzzqteeh+9311o76
- ZIsdnPDiwzVJgXN7rnRzJsaWwtdZf6hcYJzw22WzEfNS6yGVsqStammIqNiN07CExx6e
- vUgDXSJLCA1OokOlpnt0Eq2zapiOIwBIVCqXX3KOYab0A/OulaZHfqy1anp4iqXnV67J
- rHCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=zv1lhOCKXyzc4kd1C1K+BkNsbC/ontSjAPSzGoTmLW8=;
- b=q0OBL2hFZpRhOBM676LSp8BqCGiRA2LrtNFf/CIdnjKbGSlvLFyPAK0gtLWOOX7upR
- 8/2Gn231/52BO5uqdtC5iMsdm2QgyKLrYwyuKs3IX8oDjqPmjfQnSl1FcCEzR2zWsp0O
- 99q5f+kilLOWhecYtqIYBv7kpMEEjZLILGhZW9mDllkLdg6/T6c6LtH0EOCttCCplJHJ
- WGRl6si/i/GwxHdOjd4A4/FKbg7/8Pj5c22X0kjoxGk8A2xHwM0pnZcc9CSt82LO6isi
- LurvXgV9leYE1NXpZyjogZqRnvjFDZWdVG/cBWonE+xbVVn830SAwGR7KO11wYRsI0cC
- j0Cw==
-X-Gm-Message-State: AOAM533Gjot37bA7mmYEJobAoGF+r5Rm81WPHueYVHcWPVfDhQDGcyyo
- jMWFs4JZ/J7NZRhRmsG7XvpEB1mGbIQ=
-X-Google-Smtp-Source: ABdhPJz3cDQCTsw9SniLfHsQ/x6yt3u6o44ApBK9Bc5ZPIVPM9mQ77p/0mvJ1bpgZM/0qre1VAyQhg==
-X-Received: by 2002:adf:e445:: with SMTP id t5mr5384020wrm.537.1642678565268; 
- Thu, 20 Jan 2022 03:36:05 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id w8sm2653423wrq.3.2022.01.20.03.36.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 03:36:04 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/4] make check-block a meson test
-Date: Thu, 20 Jan 2022 12:35:59 +0100
-Message-Id: <20220120113603.276144-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.33.1
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nAVjw-0007P4-KP
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:36:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44421)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nAVjs-0002Dz-Sq
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:36:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642678584;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rjgFJogTejFX7nk8XjUDunKWc0aN7LDUWBOjxroge1g=;
+ b=ei8mq7ywjAFGauqzY4USqCwJavYJOVA3lXeNIr7PIiNyGlZkTCyRT43m211aop3+GMVSAA
+ HIGWQc81SrRL3XZXP2sVFwiUS681uTSQww5/atyclWC0LWgR89AjjECWtTUZnAS6Yo0COa
+ A1npgA2s9PHmnzxNz8XcGMQtdagEzrE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-245-xlKwfigQNmuHVuZHKy18_A-1; Thu, 20 Jan 2022 06:36:07 -0500
+X-MC-Unique: xlKwfigQNmuHVuZHKy18_A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DA8E899621;
+ Thu, 20 Jan 2022 11:36:05 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F3727CD6B;
+ Thu, 20 Jan 2022 11:36:02 +0000 (UTC)
+Date: Thu, 20 Jan 2022 11:35:59 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 5/6] tests/lcitool: Remove libxml2
+Message-ID: <YelJHzpbOZDd4+mQ@redhat.com>
+References: <20220120110545.263404-1-f4bug@amsat.org>
+ <20220120110545.263404-6-f4bug@amsat.org>
+ <YelELTScffI7Ln7R@redhat.com>
+ <c38f570a-3fde-e5ae-a427-895e9841b52b@amsat.org>
 MIME-Version: 1.0
+In-Reply-To: <c38f570a-3fde-e5ae-a427-895e9841b52b@amsat.org>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,36 +85,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, qemu-block@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Ed Maste <emaste@freebsd.org>, qemu-block@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
+ Yonggang Luo <luoyonggang@gmail.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series makes "meson test" run the block layer tests, reporting
-their outcome in the same way as the other TAP tests.
+On Thu, Jan 20, 2022 at 12:18:34PM +0100, Philippe Mathieu-Daudé wrote:
+> On 1/20/22 12:14, Daniel P. Berrangé wrote:
+> > On Thu, Jan 20, 2022 at 12:05:44PM +0100, Philippe Mathieu-Daudé wrote:
+> >> The previous commit removed all uses of libxml2.
+> >>
+> >> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> >> ---
+> >>  tests/docker/dockerfiles/alpine.docker        | 1 -
+> >>  tests/docker/dockerfiles/centos8.docker       | 1 -
+> >>  tests/docker/dockerfiles/fedora.docker        | 1 -
+> >>  tests/docker/dockerfiles/opensuse-leap.docker | 1 -
+> >>  tests/docker/dockerfiles/ubuntu1804.docker    | 1 -
+> >>  tests/docker/dockerfiles/ubuntu2004.docker    | 1 -
+> >>  tests/lcitool/projects/qemu.yml               | 1 -
+> >>  7 files changed, 7 deletions(-)
+> > 
+> > Did you change these dockerfiles manually ?
+> 
+> No.
+> 
+> > There is an 'make lcitool-refresh' target that does it automatically,
+> > and this should have refreshed the Cirrus CI config files too which
+> > are missed here.
+> 
+> Odd:
+> 
+> $ make lcitool-refresh
+>   GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3
+> tests/fp/berkeley-softfloat-3 dtc capstone slirp
+> Generate tests/docker/dockerfiles/centos8.docker
+> Generate tests/docker/dockerfiles/fedora.docker
+> Generate tests/docker/dockerfiles/ubuntu1804.docker
+> Generate tests/docker/dockerfiles/ubuntu2004.docker
+> Generate tests/docker/dockerfiles/opensuse-leap.docker
+> Generate tests/docker/dockerfiles/alpine.docker
+> Generate .gitlab-ci.d/cirrus/freebsd-12.vars
+> Generate .gitlab-ci.d/cirrus/freebsd-13.vars
+> Generate .gitlab-ci.d/cirrus/macos-11.vars
+> 
+> OK, this fixed it:
+> 
+> -- >8 --
+> diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
+> index 033120e223d..25301f2ef0b 100755
+> --- a/tests/lcitool/refresh
+> +++ b/tests/lcitool/refresh
+> @@ -62,7 +62,7 @@ def generate_dockerfile(host, target, cross=None,
+> trailer=None):
+> 
+>  def generate_cirrus(target, trailer=None):
+>     filename = Path(src_dir, ".gitlab-ci.d", "cirrus", target + ".vars")
+> -   cmd = [lcitool_path, "variables", target, "qemu"]
+> +   cmd = lcitool_cmd + ["variables", target, "qemu"]
+>     generate(filename, cmd, trailer)
 
-Based-on: <20211223183933.1497037-1-vsementsov@virtuozzo.com>
+Wierd, I wonder why that didn't result in an error. I must have screwed
+this up in a rebase at some point after i created the .vars files
+originally. Will you send this  as a fix too in a v3.
 
-v1->v2: make qcow2 the "quick" test, skip on Windows
 
-Paolo Bonzini (4):
-  scripts/mtest2make: add support for SPEED=thorough
-  build: make check-block a meson test
-  qemu-iotests: require at least an argument to check-block.sh
-  check-block: replace -makecheck with TAP output
-
- meson.build                      |  5 ++--
- scripts/mtest2make.py            | 20 ++++++++++---
- tests/Makefile.include           | 16 ++---------
- tests/check-block.sh             | 45 +++++++++++++----------------
- tests/meson.build                |  1 +
- tests/qemu-iotests/check         |  6 ++--
- tests/qemu-iotests/meson.build   | 30 +++++++++++++++++++
- tests/qemu-iotests/testenv.py    | 30 +++++++++----------
- tests/qemu-iotests/testrunner.py | 49 +++++++++++++++++---------------
- 9 files changed, 117 insertions(+), 85 deletions(-)
- create mode 100644 tests/qemu-iotests/meson.build
-
+Regards,
+Daniel
 -- 
-2.33.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
