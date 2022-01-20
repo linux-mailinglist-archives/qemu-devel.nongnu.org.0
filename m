@@ -2,88 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6FFA494E64
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 13:54:59 +0100 (CET)
-Received: from localhost ([::1]:38188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E33F9494EC4
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 14:18:31 +0100 (CET)
+Received: from localhost ([::1]:47340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAWxt-0006Iv-9d
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 07:54:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50980)
+	id 1nAXKe-0006Hx-Qe
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 08:18:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAVV5-0000Wp-Sd; Thu, 20 Jan 2022 06:21:08 -0500
-Received: from [2a00:1450:4864:20::336] (port=36759
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nAUhG-00008f-GU
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 05:29:38 -0500
+Received: from [2a00:1450:4864:20::336] (port=53962
  helo=mail-wm1-x336.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAVV4-0004qz-Ai; Thu, 20 Jan 2022 06:21:07 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- i187-20020a1c3bc4000000b0034d2ed1be2aso19665560wma.1; 
- Thu, 20 Jan 2022 03:21:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=T8P3wib2rSu6fLfxNTDaxBXakB1SCPtzZu5KEAFcdoE=;
- b=fBhm1LErcmJf6l3fZFJMLJF1RMVci/ITjjCphUYiclQjdg5c9P7RlE0AP4h2WRj+8h
- Pyl48FnoYkDKYDrjDw0pF1RkvxgaJs6tezmlMvvuR9+S4AmDGjgLiwA7vt/Iguv+iyO2
- 5k0BHj+fRN866sqEF8G0AIX3eRcrYyXYVek06WIhxIhMoT4/DE18vaS2Y4nLeeCYzPgE
- CBZ3wRAZAUu7dBMCkyj3y0lzQP7f1k1lnA1neWsP5eBnnP6zY94FACLtuyPIxYHYUcxw
- m9AW7tZo7PMcQjvPp78o8EjbG7UjPVIcpyGD8M9yk79te+YuRYLCcQx5R1JLqAZ+gg7T
- MncQ==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nAUhD-0003YD-Jd
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 05:29:37 -0500
+Received: by mail-wm1-x336.google.com with SMTP id n8so11017772wmk.3
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 02:29:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=g3jiygw/I9MgVOPUZaDvBjMZYb/oDMmXtIrgezjep+4=;
+ b=OEf+Yp6Omktftd3v0SwTBoXgMUkW84CrxrOisTiPvxlrNwPX+xv56sn5GGwa/H05ro
+ NKjxxA8NDULEGGhtmJFej1koTBfm1CKozxQFjOdS1ItCupoxqt42QUJ508brHh7fbOwf
+ bl9HZAbTmPChP8GqP+23GalRjqjbj0UuA9tdX8kNmd96CiDpRDk62dbRdby9oJu5Q/Tv
+ +GaVBHypjzKlI/nlCTx1IBKpJ7weHsD3hcAisyAp0yLnR8yLrfYKMugBpQ9grtzd0JvN
+ J9Mqen+/CO232FadpVJNPl/HtYZrbJF7Hu+FrCMam/pDgpMztOQ+XVvsyEMYE/zTUiqP
+ j38Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=T8P3wib2rSu6fLfxNTDaxBXakB1SCPtzZu5KEAFcdoE=;
- b=4NsSEdXP4zUQOA78AHuSMM3MQfhRs2lZ1BuihsqpNIHCdEH+aShGFdzL8Jjm/5HKG/
- HwF25Vpia5f0Dd4Wtoa8HkFX4+tP/eLkYpgk4p4aTpB2SHLHlFF6LFgcihHK4TDxOLw/
- CteRKKCaisHEixoIziUxTp9zxh21Qdz8E7gnyHc3VdwJ7nsEAWotqtLJTvFBOKt3ouLD
- Qc6kRPWtC/YAh/+2VJLpTtxHXcTEew8pe1Nu0tGbS10R/xIYvi+NT4VLGYbxzI8MvprR
- tLDT04hbyKX2etcLkhtcaUQ4YD3MlHrnmfZU23ORlwrqDWTmdSqT+UDuEF9cBo4rtG3/
- nzaA==
-X-Gm-Message-State: AOAM532pZwZamQl18FMpml047gqXOhIr/KDTeQbfTNC1seZulL78AD3Z
- UokrJIr5CQx9Jo83Ypezi24=
-X-Google-Smtp-Source: ABdhPJwmvlFYUuBBV2PRzS8w4+nGQh+HUrI2Q4Z68ChSUMFId/963kBZU+H7bDPNAuwgXEfWyQG3wA==
-X-Received: by 2002:a5d:4b07:: with SMTP id v7mr9124199wrq.48.1642677663820;
- Thu, 20 Jan 2022 03:21:03 -0800 (PST)
-Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id i94sm2511286wri.21.2022.01.20.03.21.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Jan 2022 03:21:02 -0800 (PST)
-Message-ID: <67f7c8de-ea0a-0728-b3a4-38c7db0b9ae4@amsat.org>
-Date: Thu, 20 Jan 2022 12:21:01 +0100
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=g3jiygw/I9MgVOPUZaDvBjMZYb/oDMmXtIrgezjep+4=;
+ b=hYM8HUFRvQ/wjsiIozA7lCg5ZxhKR+IuugX1g1VQ2UkGjdnWp0Mfl5kdBEzcucuBdG
+ dU6vLCIcDD8zoYufLnMWZqOoMyyBPl9t5pCrrarLhnto1GDP9TNJo+IXgG1h6M14uJOP
+ eeyDuJZpyYo7Dq5M786wgo1xunirmOr+jX/dGMr2uciXPTPkSVLO53yazbqJEpG7YHX1
+ jIOHt4viG11AxyZEbLd++joXd3AOHeW4PeoTbzCSPAe3DQ7CfnJH0315wDbPXZTCZ7Vo
+ mcyft3unB4v9Q1ZsI9rQS2/Q5gtxOt3y+xWPSgCvAz44bQpTFcxSBYManwmjhhzA7Z2b
+ bGRg==
+X-Gm-Message-State: AOAM533PIrfudaqLAl1NU+OaIi8XovcaStmDjxwSZNr0QprK4RxDgb4J
+ GHj3pyKtKqlI4kSL4dlXOHsR4Q==
+X-Google-Smtp-Source: ABdhPJwroy+AY2gVR9YHHjj8ePA52c+Nt999y2GA0I2fUWtRScPs0dHS64adfvgjsQsc8hX7L5k0uA==
+X-Received: by 2002:a5d:4343:: with SMTP id u3mr31630009wrr.504.1642674574035; 
+ Thu, 20 Jan 2022 02:29:34 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a18sm2593786wrw.5.2022.01.20.02.29.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Jan 2022 02:29:32 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 547601FFB7;
+ Thu, 20 Jan 2022 10:29:32 +0000 (GMT)
+References: <CAK7rcp9rnggAvaDxRV4m_KcR1afmquJsR+=khKw4B1UG1+V7yw@mail.gmail.com>
+ <87czkn8rzp.fsf@linaro.org>
+ <CAK7rcp84B0MXfeGsPnd9oM6cqxGUUSNL0GmLiWYwZzPhLkvfxw@mail.gmail.com>
+ <CAK7rcp-jCvvf2HdzOgsrkTEDM+x_nYi61Gz+K5At5MwKBZAdSg@mail.gmail.com>
+User-agent: mu4e 1.7.5; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Kenneth Adam Miller <kennethadammiller@gmail.com>
+Subject: Re: Cross Architecture Kernel Modules?
+Date: Thu, 20 Jan 2022 10:18:46 +0000
+In-reply-to: <CAK7rcp-jCvvf2HdzOgsrkTEDM+x_nYi61Gz+K5At5MwKBZAdSg@mail.gmail.com>
+Message-ID: <878rva8zub.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v2 5/6] tests/lcitool: Remove libxml2
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Ed Maste <emaste@freebsd.org>,
- Michael Tokarev <mjt@tls.msk.ru>, qemu-block@nongnu.org,
- Thomas Huth <thuth@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Yonggang Luo <luoyonggang@gmail.com>, Andrea Bolognani <abologna@redhat.com>
-References: <20220120110545.263404-1-f4bug@amsat.org>
- <20220120110545.263404-6-f4bug@amsat.org> <YelELTScffI7Ln7R@redhat.com>
- <c38f570a-3fde-e5ae-a427-895e9841b52b@amsat.org>
-In-Reply-To: <c38f570a-3fde-e5ae-a427-895e9841b52b@amsat.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
  (failed)
 Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -98,27 +92,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-(+Andrea)
 
-On 1/20/22 12:18, Philippe Mathieu-Daudé wrote:
-> On 1/20/22 12:14, Daniel P. Berrangé wrote:
->> On Thu, Jan 20, 2022 at 12:05:44PM +0100, Philippe Mathieu-Daudé wrote:
->>> The previous commit removed all uses of libxml2.
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>> ---
->>>  tests/docker/dockerfiles/alpine.docker        | 1 -
->>>  tests/docker/dockerfiles/centos8.docker       | 1 -
->>>  tests/docker/dockerfiles/fedora.docker        | 1 -
->>>  tests/docker/dockerfiles/opensuse-leap.docker | 1 -
->>>  tests/docker/dockerfiles/ubuntu1804.docker    | 1 -
->>>  tests/docker/dockerfiles/ubuntu2004.docker    | 1 -
->>>  tests/lcitool/projects/qemu.yml               | 1 -
+Kenneth Adam Miller <kennethadammiller@gmail.com> writes:
 
-BTW what is the difference between QEMU's qemu.yml and libvirt-ci's one?
+> Would it be possible somehow to save the TCG cache, as with user binaries=
+, but for a kernel module, before then loading that kernel
+> module into memory the target architecture whether in or outside of
+> QEMU?
+
+OK let me stop you right there - TCG generated code needs a bunch of
+runtime support from QEMU itself and is not designed to be run
+standalone. All the existing issues with binary kernel modules get
+multiplied once you have to account for architecture differences. Even
+on the same architecture you can run into problems if the modules use
+kernel structures that have changed between releases. Even if the kernel
+was compiled for the exact same kernel release you are trying to run it
+in changes in fields, padding and layout are going to be an issue.
+
+In short this is not the solution you are looking for. Your time would
+be better spent reverse engineering the proprietary module and writing a
+open source version of it than trying to get something like this to
+work.
+
+Sorry.
+
+
+>
+> On Wed, Jan 19, 2022 at 2:42 PM Kenneth Adam Miller <kennethadammiller@gm=
+ail.com> wrote:
+>
+>  The source for it isn't available in order that it be compiled to the de=
+sired architecture.
+>
+>  What 3rd party forks take this approach?
+>
+>  On Wed, Jan 19, 2022 at 2:06 PM Alex Benn=C3=A9e <alex.bennee@linaro.org=
+> wrote:
+>
+>  Kenneth Adam Miller <kennethadammiller@gmail.com> writes:
+>
+>  > Hello all,
+>  >
+>  > I just want to pose the following problem:=20
+>  >
+>  > There is a kernel module for a non-native architecture, say, arch 1. F=
+or performance reasons, the rest of all of the software
+>  needs to run
+>  > natively on a different arch, arch 2. Is there any way to perhaps run =
+multiple QEMU instances for the different architectures in
+>  such a way
+>  > to minimize the cross architecture performance penalty? For example, I=
+ would like the kernel module in one (non-native) QEMU
+>  instance to
+>  > be made available, literally equivalently, in the second (native) QEMU=
+ instance. Would there be any API or way to map across
+>  the QEMU
+>  > instances so that the non native arch kernel module could be mapped to
+>  > the native QEMU instance?
+>
+>  What you are describing sounds like heterogeneous system modelling which
+>  QEMU only supports in a very limited way (all vCPUs must be the same
+>  base architecture). You can link QEMU's together by way of shared memory
+>  but there is no other wiring together done in that case although some
+>  3rd party forks take this approach.
+>
+>  The kernel module sounds confusing - why would you have a kernel module
+>  that wasn't the same architecture as the kernel you are running?
+>
+>  --=20
+>  Alex Benn=C3=A9e
+
+
+--=20
+Alex Benn=C3=A9e
 
