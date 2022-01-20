@@ -2,76 +2,160 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A700E495536
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 21:05:45 +0100 (CET)
-Received: from localhost ([::1]:47720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2292495513
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 20:54:46 +0100 (CET)
+Received: from localhost ([::1]:36842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAdgm-00078v-ON
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 15:05:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45390)
+	id 1nAdW9-0007xz-GY
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 14:54:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pierre.libeau@ovhcloud.com>)
- id 1nAYlb-0001HW-SG
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 09:50:23 -0500
-Received: from 1.mo302.mail-out.ovh.net ([137.74.110.74]:40969)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1nAYoi-0003fx-4k
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 09:53:36 -0500
+Received: from mga17.intel.com ([192.55.52.151]:9851)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pierre.libeau@ovhcloud.com>)
- id 1nAYlY-0007DL-NS
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 09:50:23 -0500
-Received: from DAGFR10EX1.OVH.local (unknown [51.255.55.251])
- by mo302.mail-out.ovh.net (Postfix) with ESMTPS id 53A3E6A3F7;
- Thu, 20 Jan 2022 15:50:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ovhcloud.com;
- s=mailout; t=1642690218;
- bh=iceaYmrL0i3PvyaxtQMwk8VdgCD2euGjWgBm32k0daE=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=eSefvy5pHERSMEeSi2yS8fT9GiqxmQBrE1XkqPqV+j4jXbjJZ7IiWGE1obpqUvgyo
- 5KZ+iXX+Qvhoq6HNn/YtdJ6UL13p34OmBFsk/8zhk0AM4ywlTHZ8G5CQ1WueCYYE3G
- rgKCL6LkXTlqWmarxzZTf9SKRAAqHf8IcPd1HYeM=
-Received: from DAGFR10EX1.OVH.local (172.16.2.30) by DAGFR10EX1.OVH.local
- (172.16.2.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.15; Thu, 20 Jan
- 2022 15:50:17 +0100
-Received: from DAGFR10EX1.OVH.local ([fe80::55ae:9c6c:b5a5:457e]) by
- DAGFR10EX1.OVH.local ([fe80::55ae:9c6c:b5a5:457e%11]) with mapi id
- 15.02.0986.015; Thu, 20 Jan 2022 15:50:17 +0100
-From: Pierre Libeau <pierre.libeau@ovhcloud.com>
-To: "kwolf@redhat.com" <kwolf@redhat.com>
-Subject: RE: TR: Openstack NOVA - Improve the time of file system freeze
- during live-snapshot
-Thread-Topic: TR: Openstack NOVA - Improve the time of file system freeze
- during live-snapshot
-Thread-Index: AQHYC3Xsbvq9zEqNxUya2S6VGoqwq6xrkLDBgAAt8gCAACZ2kw==
-Date: Thu, 20 Jan 2022 14:50:17 +0000
-Message-ID: <2e76b0ee9db04c988719b7de220c92a0@ovhcloud.com>
-References: <f3e284b53a6e46f9a18c9117fd841cf7@ovhcloud.com>
- <aca7e9de0935423ba1d59b5472ab64a7@ovhcloud.com>, <YelLPjw7Qliknhhb@redhat.com>
-In-Reply-To: <YelLPjw7Qliknhhb@redhat.com>
-Accept-Language: fr-FR, en-US
-Content-Language: fr-FR
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1nAYoe-0007pM-VQ
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 09:53:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642690413; x=1674226413;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=n31Ewvh1wQAKq44PfrRjz4RHLsn+Wp+Iehw/imXaUxY=;
+ b=elWnbTzAiw9t0ZZr4Tb5MFFFii/9RwTC01Yjpr2eqoBpAxEm5yUifFGQ
+ g/nG5inuikgjmiWqrXFFz9aqEOmwDOqGUwSncjI85bN7P4ft0+vxdJVpE
+ HJO9/N4/WF1fSIbAvKMYTGFnrTAYp4ExibItVyGWyDIiJfEBjqkUWOX9m
+ RnxitnJaEVAj7NL9vhE4NBknZlzhB5D/wJi+f/VfvVVw9lxUj+cGGxPj3
+ VSJE3iv+a88sLPZSTEzU2tmIPxqFUbpVyybSjnBm7zZSIEQ7tpCw+uJlQ
+ B5sgMYkP5S6SYI+B7hBGoi2MLbkOxa1S3nQIOPvlxYRbBFboByaX9qbof A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10232"; a="226043082"
+X-IronPort-AV: E=Sophos;i="5.88,302,1635231600"; d="scan'208";a="226043082"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 06:53:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,302,1635231600"; d="scan'208";a="765326877"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+ by fmsmga006.fm.intel.com with ESMTP; 20 Jan 2022 06:53:27 -0800
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 20 Jan 2022 06:53:26 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20 via Frontend Transport; Thu, 20 Jan 2022 06:53:26 -0800
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.40) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.20; Thu, 20 Jan 2022 06:53:26 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SLHe7CnKLY8M3/DuFPbYIBIDEiCIqb4KNllenFFnAMfWwJcmn7ktJxE7+rVRj6XOmwVg30m6tL4/DQaNzHbQXFpyhEjxEX+hMynRY6y8Jdxo7npH+7gjQOy0kou0Msgt0eR+2wtMLNAOf7ydrCfkmYoDssa5lbuvYvGuFzNswJxf/vt68Tl+W6iF84HrmEomGMrpBBDSPkWjGnfzI/0Jy+CgEmT3wcQrSb17UAU/A/AsxhPAvvf5y0NTxCPlABz181QEUsXUYI0za+2D8AJu9yTX5eKQtEWC+Tqp/KqyBJJ001dVf648ZYavaWMLv/a6/H9AXsLREcz9DKuTl36xWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CI6/8058HBj2Rn1m9UeQxmoAyiL5Mp7zmrwDeUk4L2c=;
+ b=bCe0U/8m0nB3aH593HCq2h6xCz6Qofv/2/Yas6ASyPd4dHPEqo46vuj+ydUJ7cGsX0nBzhsAPdexN/RTxI6H+4ey+vn+/1I8iyeeKdY0tqcfKUE+MN7r+S/dA9JkBRAFowleA5f7LGqM3YDoHqhZv61//TUH89Vy/5TI2engTIeIjrXS325ufDlNGRh9SpORz8aLQjA8mC4hweS3ALMXw1yurg8/po41KH3jC70aGIvVWtKNul/YDnFCl6qqu7RnjVNYaXD19XaEBCj1par1nqSFEPgTl79U9oQmbhLdLBWKonEu8pdym95qfcxwVxndw4xXNZ18gJOuAwCOg9ccfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from MWHPR11MB0031.namprd11.prod.outlook.com (2603:10b6:301:69::37)
+ by BN9PR11MB5226.namprd11.prod.outlook.com (2603:10b6:408:133::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.7; Thu, 20 Jan
+ 2022 14:53:24 +0000
+Received: from MWHPR11MB0031.namprd11.prod.outlook.com
+ ([fe80::b5fb:a48b:9a19:5f4b]) by MWHPR11MB0031.namprd11.prod.outlook.com
+ ([fe80::b5fb:a48b:9a19:5f4b%6]) with mapi id 15.20.4888.014; Thu, 20 Jan 2022
+ 14:53:24 +0000
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: RE: [PATCH 2/3] migration/migration.c: Avoid COLO boot in postcopy
+ migration
+Thread-Topic: [PATCH 2/3] migration/migration.c: Avoid COLO boot in postcopy
+ migration
+Thread-Index: AQHX/g0hm2d0nN4+Mk6HH/FoS6mtm6xq3M6AgADg7jA=
+Date: Thu, 20 Jan 2022 14:53:24 +0000
+Message-ID: <MWHPR11MB00312C0E5400F5FE64C5CB739B5A9@MWHPR11MB0031.namprd11.prod.outlook.com>
+References: <20211231055935.1878503-1-chen.zhang@intel.com>
+ <20211231055935.1878503-3-chen.zhang@intel.com> <YehpP5C5LNvz59Km@work-vm>
+In-Reply-To: <YehpP5C5LNvz59Km@work-vm>
+Accept-Language: en-US
+Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [109.190.254.58]
-x-ovh-corplimit-skip: true
-Content-Type: multipart/alternative;
- boundary="_000_2e76b0ee9db04c988719b7de220c92a0ovhcloudcom_"
+dlp-product: dlpe-windows
+dlp-version: 11.6.200.16
+dlp-reaction: no-action
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 8fa98190-9a57-469f-4257-08d9dc249c3b
+x-ms-traffictypediagnostic: BN9PR11MB5226:EE_
+x-microsoft-antispam-prvs: <BN9PR11MB522622D55C034BA6A8B5F8599B5A9@BN9PR11MB5226.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:849;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 6WGpknxiL9a+Etm92ieqOdsF6sCiwjThJCey9Yq1mD3qFV8/xbVSriCXqZech2QIynBbXNSp7Olr7M/IXAzmidRZQoCSa6I3XSs8YWx2fGHqV2dayq5AXRf0iZ4tViJFj99/pSrpOkLUsTohGOa2/O1ODMHZyAWh5GEvZK7SBcPk5SXf/91o8bgolpsK2fxVEo/iYvOqwAR/qHtOSwy/UqNxmgk8nYDWh/KG5Kdc8DAb1ktkqNOR6SXxafe4p9jeuFH4hYMNqC1U1Iv/SRqBFIWEXhhKP+KJD5S/apv7DVs6ckq3vxIX+64wd7ldqmykxi/7C5zTiF6ZyXcQ4fyeELQWX9RtHcbZ1AOjX3xZJd0MQTTRWhaZV+rE176JQwlbtxRQlaFSumpBLychSUd01hvZDoNK4bGdCl8D17+cs0JCkOhvvL2bpN+wQ2NoNmIY05FGo4al0Lrg3LWEA7C7Zk6xCzY9onyx/16KimqlRll8BHmLc7JUmXk7imR08zWweaEFn8jbl473pRKpTqQdsanpZhj1X1YFnQNqVyzwjjln1N0U+WBZ87WkamnAtNuApu05JDjPJhlyrDCuSS1cOP0k99aTLyX12XN8nDiLPLvlJ3/QvP27LrmWU6yjx0TB9EMvhRPbFtDAPOSZsWsNmRLg09LNnaENtCXh5fzjIoQL+Pfwcx/uLQvWEj8ls4f43C4VC9OW9fLYeCj+KmgB8xIT13lNXou9Pd3i/kClV1CZHQQuWzRREPryhzri2ynykDi1A3UHs1JzPXoiOZFIL0rhS6cKfKRWZFa9qMohMBE=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR11MB0031.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(6506007)(6916009)(54906003)(966005)(53546011)(8676002)(122000001)(38100700002)(9686003)(33656002)(52536014)(66946007)(64756008)(66446008)(76116006)(8936002)(66476007)(2906002)(186003)(83380400001)(508600001)(26005)(55016003)(86362001)(5660300002)(7696005)(71200400001)(66556008)(4326008)(316002)(82960400001)(38070700005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?0jyDvrFa5AZwe2IOsgk25HgTNXunIRbYJ6Dzb1JAPoRoIUv5VXrIFVraVsoh?=
+ =?us-ascii?Q?qpoBVJmpN4bEvjD1YGP52xtwuc3ZMIik+O4r/zY+Cbn6pko3sQarLB/oSf0q?=
+ =?us-ascii?Q?caRUUg2lvstV5niTsbHy6EhYI9YlnVL+6KArE9xIVYKJxkXEjXs762gLPDh0?=
+ =?us-ascii?Q?v+OQMLNxjTgzIUJfZz1xo/YzXe/KD8CohmAIXowXQL57+1UVPV3eEkBasty2?=
+ =?us-ascii?Q?mzl5CKR4O2M7nWvMEdLUgix45wIwcTlK1LTy9NMeXvy/7V2h7L5SHsac0uWU?=
+ =?us-ascii?Q?8DPsiQoye0Ksm353u6fvYAveyFwLpQ1IeQW7bg12t+hdD4+Ofb45t+bR2aza?=
+ =?us-ascii?Q?w7aLbsPVQgdYgWQcDGHRU1mc58/iZ9Y+rK+LDl5WjEo1aJ5SjyWY0/OUxJOc?=
+ =?us-ascii?Q?MNm5fW8IfVUByU3OTJ3o26NiMgWOKvnwFZyT4nYiTuNHWYgwBBwanjwqb12d?=
+ =?us-ascii?Q?rHWdvdU+lrWF3IqkoK2ol7HIEq1z2emvJrKQZH0Q0ReHn5QGCGRKI+VvBUg/?=
+ =?us-ascii?Q?0t95fYkulKB5pwyCS68M45kj046h4JDWmr507pKOLLbQlTcXcqVRwrRJCHnp?=
+ =?us-ascii?Q?vxCgJbq8o4XjzD9HHeF7AO/KffzJlYP5wzLlLCpG+8TChOZRAjZTzrP6/FyA?=
+ =?us-ascii?Q?7GehMNLtc0vnS3bmxSKfHVKD7/VQ9qTj6u62IgbcX4qJhRjdHp3UWejpJO0u?=
+ =?us-ascii?Q?8Kbs+3XiDPmpUpKmSnN3UfxoMFx8Fhn3+1zcWDmBC3Y6GOrc1qdCRkHia27T?=
+ =?us-ascii?Q?7fXNaEG1gHxmdzufPR0BbCBDipp445M6ablygqdJPSvweXM5HGQfkJdOcdg7?=
+ =?us-ascii?Q?m9YvwqGKFKogjhg/aZfL2XLoLqVNtiL1rYFqEPy2rFwvefJidmGUXvCG622X?=
+ =?us-ascii?Q?hrO8NTqvWOooWE4zXY+rSL1cKoct+yUkWYYCQOBQPW3WyqDjd/JYdd0KNEDO?=
+ =?us-ascii?Q?BfaIeDZ/rCW0doAYlRe352Eu23EI//ndmaMtd5QolwFe6dzEgd49U3R7d3Wm?=
+ =?us-ascii?Q?Qq/v2N8PSzNmpRaJxflXbavUft/ZV1Dn59jhSGnijO+V2xjC6QCpoAK0fZu6?=
+ =?us-ascii?Q?v6WmvZzqtznaCLJDzzDQIc3fi7IOOLXni0UaMocjIlE5YHZgxbWyJdCbTDnn?=
+ =?us-ascii?Q?YWiLGy0ZS6WdHZ/QXxXaB7+ExcPfHckHoBlx4jQoX7g3MK5yaXHsef6z/Amj?=
+ =?us-ascii?Q?BWDRIaG9UeHsBriS0ULFGs08MLxJBOgWUNdApa+b1dAYGEJUVnG5KEeCLCRr?=
+ =?us-ascii?Q?1BF4qOv9AaD1eLp32D8h8WPZFjEPwWEmv/DUD5nXyARCKMCa3P5tT0U3bA1J?=
+ =?us-ascii?Q?z245jigABoHBBRmnw7l3sRsydo+9N9ud6wY4rQREjuktqAjeq3dtgKpyjRYA?=
+ =?us-ascii?Q?G1BQf8NNTF7ZjS6hv5ENAkT50CqWIFUc4MzQcIlnJi2dMmjVS5703gUZjvVW?=
+ =?us-ascii?Q?ixP3+na3ltruNn46WP+hvlf5TOaKaJtspWO5ZOqDYjkSnzpVOZe9wgDKFsAb?=
+ =?us-ascii?Q?pMe2qYf53s4bCtEcAgFNRWamLRoF6kpB7bJezCBXxh5kTVNEKa86LVVzhO9H?=
+ =?us-ascii?Q?5Xy1JOFSdeHGiGxSh7lP2Sp5aI4zVlbSjWqwHOPBqjjQehw1A/u5VJ1M9e+l?=
+ =?us-ascii?Q?3A=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Ovh-Tracer-Id: 8550646845889825772
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudekgdeijecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhephffvufhtfffkfhgjihgtggesrgdtjhertddtudenucfhrhhomheprfhivghrrhgvucfnihgsvggruhcuoehpihgvrhhrvgdrlhhisggvrghusehovhhhtghlohhuugdrtghomheqnecuggftrfgrthhtvghrnhepudekgfehueegtdehvdegteehheefgeettefhleettdeuueeitedvhedvueekieevnecukfhppedtrddtrddtrddtpddutdelrdduledtrddvheegrdehkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepffetiffhtfdutdfgigdurdfqggfjrdhlohgtrghlpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehpihgvrhhrvgdrlhhisggvrghusehovhhhtghlohhuugdrtghomhdpnhgspghrtghpthhtohepuddprhgtphhtthhopehkfiholhhfsehrvgguhhgrthdrtghomh
-Received-SPF: pass client-ip=137.74.110.74;
- envelope-from=pierre.libeau@ovhcloud.com; helo=1.mo302.mail-out.ovh.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB0031.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8fa98190-9a57-469f-4257-08d9dc249c3b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jan 2022 14:53:24.7229 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: g35YqbANEBzNIdUvI0sI0cn25NHETog2mz9FnXKGRGjD3h7Lp0vs8SRNwfUZbBndoP/Ya8r9jfhdt4VtP17tdg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5226
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=chen.zhang@intel.com;
+ helo=mga17.intel.com
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 20 Jan 2022 10:11:39 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,345 +167,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pkrempa@redhat.com" <pkrempa@redhat.com>,
- "eblake@redhat.com" <eblake@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "kchamart@redhat.com" <kchamart@redhat.com>
+Cc: qemu-dev <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_2e76b0ee9db04c988719b7de220c92a0ovhcloudcom_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-About the context:
-
-In my case the file format is raw but it's can be also qcow2.
 
 
-You have right in your explanation in nova it's not a "snapshot" but it's a=
-n image of the instance.
+> -----Original Message-----
+> From: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Sent: Thursday, January 20, 2022 3:41 AM
+> To: Zhang, Chen <chen.zhang@intel.com>
+> Cc: Juan Quintela <quintela@redhat.com>; qemu-dev <qemu-
+> devel@nongnu.org>
+> Subject: Re: [PATCH 2/3] migration/migration.c: Avoid COLO boot in postco=
+py
+> migration
+>=20
+> * Zhang Chen (chen.zhang@intel.com) wrote:
+> > COLO dose not support postcopy migration and remove the Fixme.
+>=20
+>=20
+> 'does' not 'dose'
+>=20
 
-The goal of this image is to put it in glance after to store this image and=
- create a new instance or rebuild an instance with this new image.
+Yes, typo.
 
+> > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> > ---
+> >  migration/migration.c | 10 +++++-----
+> >  1 file changed, 5 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/migration/migration.c b/migration/migration.c index
+> > 2afa77da03..3fac9c67ca 100644
+> > --- a/migration/migration.c
+> > +++ b/migration/migration.c
+> > @@ -3230,7 +3230,11 @@ static void migration_completion(MigrationState
+> *s)
+> >          goto fail_invalidate;
+> >      }
+> >
+> > -    if (!migrate_colo_enabled()) {
+> > +    if (migrate_colo_enabled() && s->state =3D=3D
+> MIGRATION_STATUS_ACTIVE) {
+> > +        /* COLO dose not support postcopy */
+> > +        migrate_set_state(&s->state, MIGRATION_STATUS_ACTIVE,
+> > +                          MIGRATION_STATUS_COLO);
+>=20
+> I'm a bit confused; where were we setting the source state to COLO before=
+ -
+> I can't find it!
 
-You have right, the result of "dev.rebase" is a mirror of the disk.
+Yes, please read this mail:
+https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg03525.html
 
+After that I found I missed something, so this patch disabled postcopy migr=
+ation and try to fix it.
 
-So my question is I break nothing when I'm moving the "Freeze guest filesys=
-tems" (step 2 in your process) just before "Cancel the mirror job" (step 3c=
- in your process). I have tested it and it's working but I prefer to have y=
-our opinion.
+Thanks
+Chen
 
+>=20
+> Dave
+>=20
+> > +    } else {
+> >          migrate_set_state(&s->state, current_active_state,
+> >                            MIGRATION_STATUS_COMPLETED);
+> >      }
+> > @@ -3621,10 +3625,6 @@ static void
+> migration_iteration_finish(MigrationState *s)
+> >                           "COLO enabled", __func__);
+> >          }
+> >          migrate_start_colo_process(s);
+> > -        /*
+> > -         * Fixme: we will run VM in COLO no matter its old running sta=
+te.
+> > -         * After exited COLO, we will keep running.
+> > -         */
+> >           /* Fallthrough */
+> >      case MIGRATION_STATUS_ACTIVE:
+> >          /*
+> > --
+> > 2.25.1
+> >
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-About your question on the reason to do it like that related to QEMU 1.3 I =
-will see with NOVA community. I'm a beginner at this part and your question=
- is very good from my point of view.
-
-
-Pierre
-
-Public Cloud - VPS
-
-
-________________________________
-De : Kevin Wolf <kwolf@redhat.com>
-Envoy=E9 : jeudi 20 janvier 2022 12:45
-=C0 : Pierre Libeau
-Cc : qemu-block@nongnu.org; qemu-devel@nongnu.org; kchamart@redhat.com; pkr=
-empa@redhat.com; eblake@redhat.com
-Objet : Re: TR: Openstack NOVA - Improve the time of file system freeze dur=
-ing live-snapshot
-
-Am 20.01.2022 um 09:02 hat Pierre Libeau geschrieben:
-> Hello
->
-> I'm forwarding to you my question because I have pushed on the wrong
-> mailing list at the beginning. Can you give me your opinion or forward
-> me to the right people who can help me.
->
-> Thx.
->
-> Pierre
->
->
-> ________________________________
-> De : Qemu-discuss <qemu-discuss-bounces+pierre.libeau=3Dcorp.ovh.com@nong=
-nu.org> de la part de Pierre Libeau <pierre.libeau@ovhcloud.com>
-> Envoy=E9 : lundi 17 janvier 2022 08:43
-> =C0 : qemu-discuss@nongnu.org
-> Objet : Openstack NOVA - Improve the time of file system freeze during li=
-ve-snapshot
->
->
-> Hello,
->
-> I'm working on a patch in nova to improve the time of file system
-> freeze during live-snapshot on an instance with a local disk and I
-> need your opinion about the solution I would propose.
->
-> My issue during the live migration is the duration of file system
-> freeze on an instance with a big local disk. [1]
->
-> In my case instance have locally a disk (400Go) and the
-> qemu-guest-agent is installed.
->
-> Nova process like that: [2]
-> dev =3D guest.get_block_device(disk_path)
->
-> 1. guest.freeze_filesystems()
-> 2. dev.rebase(disk_delta, copy=3DTrue, reuse_ext=3DTrue, shallow=3DTrue)
-> 3. while not dev.is_job_complete() #wait for the end of mirroring (the
->    issue is here, the waiting time depend on the size of the disk and
->    the IOPS)
-> 4. dev.abort_job()
-> 5. guest.thaw_filesystems()
-
-So first of all, I have to do some translation of terminology which
-seems to be different from what I am used to.
-
-dev.rebase with copy=3DTrue seems to result in a mirror block job in QEMU?
-
-So what you're calling a snapshot here doesn't seem to be a differential
-snapshot (e.g. by adding a COW overlay), but a full copy that results in
-two fully independent, standalone images. Is this right?
-
-Adding a bit more context, the whole process seems to be:
-
-1. Create a qcow2 for the copy of the top layer that shares the backing
-   file with the active image.
-
-2. Freeze guest filesystems
-
-3. Create a full copy of the active layer (into the new qcow2 file)
-    a. Start a mirror job
-    b. Wait for the mirror job to move to the READY state
-    c. Cancel the mirror job with force=3Dfalse, i.e. complete the mirror
-       job without changing the active image of the VM
-
-4. Thaw the guest filesystems
-
-5. qemu-img convert the copied top layer with its full backing chain
-   to a standalone raw image
-
-6. Delete the temporary qcow2 copy
-
-> My proposition is to move the freeze after the end of mirroring and
-> before the stop of mirroring. [3] I have tried on an instance and the
-> last written file on the fs corresponds to the end of the mirror.
-
-Yes, you only need the freeze around the mirror job completion, that is,
-step 3c above.
-
-However, the whole process seems very complicated for a rather simple
-operation. A comment mentions that the dance with the temporary qcow2
-file is because of a (not further specified) bug in QEMU 1.3. I believe,
-libvirt hasn't supported a QEMU version that old for a while, so is this
-really still a valid reason?
-
-But what I would actually have used is a backup block job, which makes
-sure that the copy will contain the disk content at the point of time
-when the block job was started rather than when it happened to complete.
-
-I'm adding a few more people to CC who may have additional comments on
-this.
-
-Kevin
-
-
---_000_2e76b0ee9db04c988719b7de220c92a0ovhcloudcom_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"><!-- P {margin-top:0;margi=
-n-bottom:0;} --></style>
-</head>
-<body dir=3D"ltr">
-<div id=3D"divtagdefaultwrapper" dir=3D"ltr" style=3D"font-size:12pt; color=
-:rgb(0,0,0); font-family:Calibri,Helvetica,sans-serif,&quot;EmojiFont&quot;=
-,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,NotoColorEmoji,&q=
-uot;Segoe UI Symbol&quot;,&quot;Android Emoji&quot;,EmojiSymbols">
-<p>About the context: <br>
-</p>
-<p>In my case the file format is raw but it's can be also qcow2. <br>
-</p>
-<p><br>
-</p>
-<p>You have right in your explanation in nova it's not a &quot;snapshot&quo=
-t; but it's an image of the instance.</p>
-<p>The goal of this image is to put it in glance after to store this image =
-and create a new instance or rebuild an instance with this new image.</p>
-<p><br>
-</p>
-<p><span>You have right, the result of &quot;dev.rebase&quot; is a mirror o=
-f the disk.</span></p>
-<p><br>
-</p>
-<p>So my question is I break nothing when I'm moving the &quot;<span>Freeze=
- guest filesystems</span>&quot; (step 2 in your process) just before
-<span>&quot;Cancel the mirror job&quot; <span>(step 3c in your process). I =
-have tested it and it's working but I prefer to have your opinion.</span></=
-span></p>
-<p><br>
-</p>
-<p>About your question on the reason to do it like that related to QEMU 1.3=
- I will see with NOVA community. I'm a beginner at this part and your quest=
-ion is very good from my point of view.<br>
-</p>
-<p><br>
-</p>
-<div id=3D"Signature">
-<div id=3D"divtagdefaultwrapper" dir=3D"ltr" style=3D"font-size:12pt; color=
-:rgb(0,0,0); background-color:rgb(255,255,255); font-family:Calibri,Arial,H=
-elvetica,sans-serif,&quot;EmojiFont&quot;,&quot;Apple Color Emoji&quot;,&qu=
-ot;Segoe UI Emoji&quot;,NotoColorEmoji,&quot;Segoe UI Symbol&quot;,&quot;An=
-droid Emoji&quot;,EmojiSymbols">
-<p>Pierre</p>
-Public Cloud - VPS</div>
-</div>
-<br>
-<br>
-<div style=3D"color:rgb(0,0,0)">
-<div>
-<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
-<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font style=3D"font-size:11pt" face=
-=3D"Calibri, sans-serif" color=3D"#000000"><b>De :</b> Kevin Wolf &lt;kwolf=
-@redhat.com&gt;<br>
-<b>Envoy=E9 :</b> jeudi 20 janvier 2022 12:45<br>
-<b>=C0 :</b> Pierre Libeau<br>
-<b>Cc&nbsp;:</b> qemu-block@nongnu.org; qemu-devel@nongnu.org; kchamart@red=
-hat.com; pkrempa@redhat.com; eblake@redhat.com<br>
-<b>Objet :</b> Re: TR: Openstack NOVA - Improve the time of file system fre=
-eze during live-snapshot</font>
-<div>&nbsp;</div>
-</div>
-</div>
-<font size=3D"2"><span style=3D"font-size:10pt">
-<div class=3D"PlainText">Am 20.01.2022 um 09:02 hat Pierre Libeau geschrieb=
-en:<br>
-&gt; Hello<br>
-&gt; <br>
-&gt; I'm forwarding to you my question because I have pushed on the wrong<b=
-r>
-&gt; mailing list at the beginning. Can you give me your opinion or forward=
-<br>
-&gt; me to the right people who can help me.<br>
-&gt; <br>
-&gt; Thx.<br>
-&gt; <br>
-&gt; Pierre<br>
-&gt; <br>
-&gt; <br>
-&gt; ________________________________<br>
-&gt; De : Qemu-discuss &lt;qemu-discuss-bounces&#43;pierre.libeau=3Dcorp.ov=
-h.com@nongnu.org&gt; de la part de Pierre Libeau &lt;pierre.libeau@ovhcloud=
-.com&gt;<br>
-&gt; Envoy=E9 : lundi 17 janvier 2022 08:43<br>
-&gt; =C0 : qemu-discuss@nongnu.org<br>
-&gt; Objet : Openstack NOVA - Improve the time of file system freeze during=
- live-snapshot<br>
-&gt; <br>
-&gt; <br>
-&gt; Hello,<br>
-&gt; <br>
-&gt; I'm working on a patch in nova to improve the time of file system<br>
-&gt; freeze during live-snapshot on an instance with a local disk and I<br>
-&gt; need your opinion about the solution I would propose.<br>
-&gt; <br>
-&gt; My issue during the live migration is the duration of file system<br>
-&gt; freeze on an instance with a big local disk. [1]<br>
-&gt;<br>
-&gt; In my case instance have locally a disk (400Go) and the<br>
-&gt; qemu-guest-agent is installed.<br>
-&gt;<br>
-&gt; Nova process like that: [2]<br>
-&gt; dev =3D guest.get_block_device(disk_path)<br>
-&gt; <br>
-&gt; 1. guest.freeze_filesystems()<br>
-&gt; 2. dev.rebase(disk_delta, copy=3DTrue, reuse_ext=3DTrue, shallow=3DTru=
-e)<br>
-&gt; 3. while not dev.is_job_complete() #wait for the end of mirroring (the=
-<br>
-&gt;&nbsp;&nbsp;&nbsp; issue is here, the waiting time depend on the size o=
-f the disk and<br>
-&gt;&nbsp;&nbsp;&nbsp; the IOPS)<br>
-&gt; 4. dev.abort_job()<br>
-&gt; 5. guest.thaw_filesystems()<br>
-<br>
-So first of all, I have to do some translation of terminology which<br>
-seems to be different from what I am used to.<br>
-<br>
-dev.rebase with copy=3DTrue seems to result in a mirror block job in QEMU?<=
-br>
-<br>
-So what you're calling a snapshot here doesn't seem to be a differential<br=
->
-snapshot (e.g. by adding a COW overlay), but a full copy that results in<br=
->
-two fully independent, standalone images. Is this right?<br>
-<br>
-Adding a bit more context, the whole process seems to be:<br>
-<br>
-1. Create a qcow2 for the copy of the top layer that shares the backing<br>
-&nbsp;&nbsp; file with the active image.<br>
-<br>
-2. Freeze guest filesystems<br>
-<br>
-3. Create a full copy of the active layer (into the new qcow2 file)<br>
-&nbsp;&nbsp;&nbsp; a. Start a mirror job<br>
-&nbsp;&nbsp;&nbsp; b. Wait for the mirror job to move to the READY state<br=
->
-&nbsp;&nbsp;&nbsp; c. Cancel the mirror job with force=3Dfalse, i.e. comple=
-te the mirror<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; job without changing the active image =
-of the VM<br>
-<br>
-4. Thaw the guest filesystems<br>
-<br>
-5. qemu-img convert the copied top layer with its full backing chain<br>
-&nbsp;&nbsp; to a standalone raw image<br>
-<br>
-6. Delete the temporary qcow2 copy<br>
-<br>
-&gt; My proposition is to move the freeze after the end of mirroring and<br=
->
-&gt; before the stop of mirroring. [3] I have tried on an instance and the<=
-br>
-&gt; last written file on the fs corresponds to the end of the mirror.<br>
-<br>
-Yes, you only need the freeze around the mirror job completion, that is,<br=
->
-step 3c above.<br>
-<br>
-However, the whole process seems very complicated for a rather simple<br>
-operation. A comment mentions that the dance with the temporary qcow2<br>
-file is because of a (not further specified) bug in QEMU 1.3. I believe,<br=
->
-libvirt hasn't supported a QEMU version that old for a while, so is this<br=
->
-really still a valid reason?<br>
-<br>
-But what I would actually have used is a backup block job, which makes<br>
-sure that the copy will contain the disk content at the point of time<br>
-when the block job was started rather than when it happened to complete.<br=
->
-<br>
-I'm adding a few more people to CC who may have additional comments on<br>
-this.<br>
-<br>
-Kevin<br>
-<br>
-</div>
-</span></font></div>
-</div>
-</body>
-</html>
-
---_000_2e76b0ee9db04c988719b7de220c92a0ovhcloudcom_--
 
