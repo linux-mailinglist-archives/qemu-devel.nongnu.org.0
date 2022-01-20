@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB8A49541B
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 19:21:53 +0100 (CET)
-Received: from localhost ([::1]:38774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DD534953D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 19:02:40 +0100 (CET)
+Received: from localhost ([::1]:38316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAc4G-0007au-JH
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 13:21:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42760)
+	id 1nAble-0004V0-Uy
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 13:02:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAWgM-0004AX-PB
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:36:51 -0500
-Received: from [2a00:1450:4864:20::32c] (port=55830
- helo=mail-wm1-x32c.google.com)
+ id 1nAWgL-00049N-HS
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:36:49 -0500
+Received: from [2a00:1450:4864:20::32b] (port=55112
+ helo=mail-wm1-x32b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAWgJ-00039Q-09
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:36:50 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id c66so11770263wma.5
+ id 1nAWgG-00039S-VY
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:36:48 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id p18so11757650wmg.4
  for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 04:36:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=XOnaXsBjznZRDORjhMkMS/eA+VHSJADV+QJk7ay91zM=;
- b=RMmv44cHK2Iok/V3e/sRG7L11Dnp3Nujbd+KQEFeCQIm0l21IeKqU+hv2IVy+9DRmb
- JOA4AMQUYsbkJReIvlOPEHuyb0IwGBw90oouECM/z0k1IEJS52XfvjoMNXOQIoMrdXMj
- jQpPkP911Ja8mQm2OfxhxSI10J7f5+WI5hY7ggk+zQOz6O12fAwbjnI1knNIPU/znRps
- YB/U7nNBILWW5s4lfa8XpyfMdKy1HWF8KL/2hXVcmxxbgRrVe/t2GqZGvU5WBeRrOCRV
- WigRNqKddNWlPmM9+A7qVXe53W9u6tTUMir3ktCHqCUIX7SG+zreR673io989azZOYr9
- pjvA==
+ bh=/oscYornx9l41iZuVB3Pz+TVY1Yhhb7KSEf+uo+HW3I=;
+ b=T8wKo8tWvkZ/iXTpVDWlTawFNQlajizhis3C6rZ0ltb+mRPu8+VOpOYCLfleZIB9Cu
+ gAgYXKnYS60KOd4TmMyMVvKGZ1ExBK0K9Qap0OHKCa5UX4jvh0BE3+m7si8yPZSbaA3S
+ 4HCbfv3M6smcwKFv+qMie66bF3mOnHbJwO1btUHOhmNhmKTwU/49vPQIL730KPmrqhO9
+ wEriW92UxltyfSnpROZeKWnxyieCk1ELZKmnEokDLvZjwicHpEJ78S1kXrIWwAlUMdjw
+ 7iHx4W13j3KJMkAo+W8Yndtg3tMW1T6mOS8SxcgF36suIsz3KF10PGszLdt3NPC2jzeg
+ FSgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XOnaXsBjznZRDORjhMkMS/eA+VHSJADV+QJk7ay91zM=;
- b=dILRrkrroyk+BxzoUDiBxOtwUoQucbCQbqRjOQ6IbkAlFAIwUh8CjeTrrk4P6f0/+k
- PJrgmtD9FgRo1eVH83f20yuCJgALvv/Z02PH+lCan3THhu3A7tqSJhHv1++zRPiBO1f8
- Gr4xTf+oVLgnuVVgYgA01hwiDHCdYvZp0y++OwiE+9g78BknK4ezmK+TrJK6iU2inGnC
- N4y2qHoK22duYqH7Dfm+Ag3zgQ7UUFGqTiFh99LrqTCW/AmAoIt7MOFVUu1H4UItCNRF
- oMfw9fDlgK0fmjMIHSLuzuN4PzDOzFchwVSWFZH23A+uQKgzIHlzOWARger2R2FyRQNg
- eWGg==
-X-Gm-Message-State: AOAM532De/9zaky3edE4/031RByGZkQjr+tjaVKU/BfhjqsLNduRFd/R
- 0yWV3aFqgJWsVSKUHuF4EvVmyi+ynNjSHg==
-X-Google-Smtp-Source: ABdhPJxw+fppVe+eezbo2LP3IK3sQMpaYY/N9XfCWQRroQvR9CpzU2u0I5EMT2oL5qYAb52rCjbXIw==
-X-Received: by 2002:a05:6000:170d:: with SMTP id
- n13mr2311716wrc.4.1642682202146; 
+ bh=/oscYornx9l41iZuVB3Pz+TVY1Yhhb7KSEf+uo+HW3I=;
+ b=stjAsolNtHXpG4ziDrkzF19NPEBbIAN6rW6nTe4UzFFXDN8fEeJjFkr+35e7sqEgK3
+ c0Neuz2Il/nGpCqbelw5qWg3sP86RHBkIhtXrFYM/21nMPTo4qV9O3rY33yAri90Ypv2
+ yQtWZi1tNKVaqVwCSmMQqMgJlDHNFQMdL/PoDIQaXBu7+X8HitjJULBev5DX4jKS05qZ
+ yQuSdYyYyqmWnL5E4UH+VTyaByd/C7sY82CTWBBcGFNzxS0LzGaMtWHaBx29D1NHvdo1
+ TsVrVm0aVsypIPUSr1mKZkcQiu4C7UFv+OYu7xHVDYBrQJqhhaDpfGjtCYPLaRjVPBMs
+ Xt+w==
+X-Gm-Message-State: AOAM530h3TCEK4LrxpeXZyaFhJ/xMSF9vDywltok92XclEZgeCdSZVQN
+ 2H9EtzLKfKux81ChWaPgTj7BzQFmY55n1w==
+X-Google-Smtp-Source: ABdhPJyvNqVJmbCMCDHanFvQkrrDPxtTORfrPL/MXfapZ3Zh9rSSVckbeM9phbH7ebljattT8ojjjA==
+X-Received: by 2002:a5d:6d0d:: with SMTP id e13mr31898988wrq.634.1642682202794; 
  Thu, 20 Jan 2022 04:36:42 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id t8sm7993324wmq.43.2022.01.20.04.36.41
+ by smtp.gmail.com with ESMTPSA id t8sm7993324wmq.43.2022.01.20.04.36.42
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 04:36:41 -0800 (PST)
+ Thu, 20 Jan 2022 04:36:42 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/38] docs/can: convert to restructuredText
-Date: Thu, 20 Jan 2022 12:36:03 +0000
-Message-Id: <20220120123630.267975-12-peter.maydell@linaro.org>
+Subject: [PULL 12/38] virtio-mem: Correct default THP size for ARM64
+Date: Thu, 20 Jan 2022 12:36:04 +0000
+Message-Id: <20220120123630.267975-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220120123630.267975-1-peter.maydell@linaro.org>
 References: <20220120123630.267975-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,221 +89,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lucas Ramage <lucas.ramage@infinite-omicron.com>
+From: Gavin Shan <gshan@redhat.com>
 
-Buglink: https://gitlab.com/qemu-project/qemu/-/issues/527
-Signed-off-by: Lucas Ramage <lucas.ramage@infinite-omicron.com>
-Message-id: 20220105205628.5491-1-oxr463@gmx.us
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-[PMM: Move to docs/system/devices/ rather than top-level;
- fix a pre-existing typo in passing]
+The default block size is same as to the THP size, which is either
+retrieved from "/sys/kernel/mm/transparent_hugepage/hpage_pmd_size"
+or hardcoded to 2MB. There are flaws in both mechanisms and this
+intends to fix them up.
+
+  * When "/sys/kernel/mm/transparent_hugepage/hpage_pmd_size" is
+    used to getting the THP size, 32MB and 512MB are valid values
+    when we have 16KB and 64KB page size on ARM64.
+
+  * When the hardcoded THP size is used, 2MB, 32MB and 512MB are
+    valid values when we have 4KB, 16KB and 64KB page sizes on
+    ARM64.
+
+Co-developed-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Gavin Shan <gshan@redhat.com>
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Message-id: 20220111063329.74447-2-gshan@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/system/device-emulation.rst         |  1 +
- docs/{can.txt => system/devices/can.rst} | 90 +++++++++++-------------
- 2 files changed, 41 insertions(+), 50 deletions(-)
- rename docs/{can.txt => system/devices/can.rst} (68%)
+ hw/virtio/virtio-mem.c | 32 ++++++++++++++++++++------------
+ 1 file changed, 20 insertions(+), 12 deletions(-)
 
-diff --git a/docs/system/device-emulation.rst b/docs/system/device-emulation.rst
-index 19944f526ce..0b3a3d73ad1 100644
---- a/docs/system/device-emulation.rst
-+++ b/docs/system/device-emulation.rst
-@@ -82,6 +82,7 @@ Emulated Devices
- .. toctree::
-    :maxdepth: 1
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index 04c223b0c97..1ca45336dc2 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -46,14 +46,25 @@
+  */
+ #define VIRTIO_MEM_MIN_BLOCK_SIZE ((uint32_t)(1 * MiB))
  
-+   devices/can.rst
-    devices/ivshmem.rst
-    devices/net.rst
-    devices/nvme.rst
-diff --git a/docs/can.txt b/docs/system/devices/can.rst
-similarity index 68%
-rename from docs/can.txt
-rename to docs/system/devices/can.rst
-index 0d310237dfa..16d72c3ac37 100644
---- a/docs/can.txt
-+++ b/docs/system/devices/can.rst
-@@ -1,6 +1,5 @@
--QEMU CAN bus emulation support
--==============================
--
-+CAN Bus Emulation Support
-+=========================
- The CAN bus emulation provides mechanism to connect multiple
- emulated CAN controller chips together by one or multiple CAN busses
- (the controller device "canbus"  parameter). The individual busses
-@@ -32,34 +31,39 @@ emulated environment for testing and RTEMS GSoC slot has been donated
- to work on CAN hardware emulation on QEMU.
- 
- Examples how to use CAN emulation for SJA1000 based boards
--==========================================================
--
-+----------------------------------------------------------
- When QEMU with CAN PCI support is compiled then one of the next
- CAN boards can be selected
- 
-- (1) CAN bus Kvaser PCI CAN-S (single SJA1000 channel) boad. QEMU startup options
-+(1) CAN bus Kvaser PCI CAN-S (single SJA1000 channel) board. QEMU startup options::
+-#if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
+-    defined(__powerpc64__)
+-#define VIRTIO_MEM_DEFAULT_THP_SIZE ((uint32_t)(2 * MiB))
+-#else
+-        /* fallback to 1 MiB (e.g., the THP size on s390x) */
+-#define VIRTIO_MEM_DEFAULT_THP_SIZE VIRTIO_MEM_MIN_BLOCK_SIZE
++static uint32_t virtio_mem_default_thp_size(void)
++{
++    uint32_t default_thp_size = VIRTIO_MEM_MIN_BLOCK_SIZE;
 +
-     -object can-bus,id=canbus0
-     -device kvaser_pci,canbus=canbus0
--    Add "can-host-socketcan" object to connect device to host system CAN bus
++#if defined(__x86_64__) || defined(__arm__) || defined(__powerpc64__)
++    default_thp_size = 2 * MiB;
++#elif defined(__aarch64__)
++    if (qemu_real_host_page_size == 4 * KiB) {
++        default_thp_size = 2 * MiB;
++    } else if (qemu_real_host_page_size == 16 * KiB) {
++        default_thp_size = 32 * MiB;
++    } else if (qemu_real_host_page_size == 64 * KiB) {
++        default_thp_size = 512 * MiB;
++    }
+ #endif
+ 
++    return default_thp_size;
++}
 +
-+Add "can-host-socketcan" object to connect device to host system CAN bus::
-+
-     -object can-host-socketcan,id=canhost0,if=can0,canbus=canbus0
+ /*
+  * We want to have a reasonable default block size such that
+  * 1. We avoid splitting THPs when unplugging memory, which degrades
+@@ -86,11 +97,8 @@ static uint32_t virtio_mem_thp_size(void)
+     if (g_file_get_contents(HPAGE_PMD_SIZE_PATH, &content, NULL, NULL) &&
+         !qemu_strtou64(content, &endptr, 0, &tmp) &&
+         (!endptr || *endptr == '\n')) {
+-        /*
+-         * Sanity-check the value, if it's too big (e.g., aarch64 with 64k base
+-         * pages) or weird, fallback to something smaller.
+-         */
+-        if (!tmp || !is_power_of_2(tmp) || tmp > 16 * MiB) {
++        /* Sanity-check the value and fallback to something reasonable. */
++        if (!tmp || !is_power_of_2(tmp)) {
+             warn_report("Read unsupported THP size: %" PRIx64, tmp);
+         } else {
+             thp_size = tmp;
+@@ -98,7 +106,7 @@ static uint32_t virtio_mem_thp_size(void)
+     }
  
-- (2) CAN bus PCM-3680I PCI (dual SJA1000 channel) emulation
-+(2) CAN bus PCM-3680I PCI (dual SJA1000 channel) emulation::
-+
-     -object can-bus,id=canbus0
-     -device pcm3680_pci,canbus0=canbus0,canbus1=canbus0
- 
-- another example:
-+Another example::
-+
-     -object can-bus,id=canbus0
-     -object can-bus,id=canbus1
-     -device pcm3680_pci,canbus0=canbus0,canbus1=canbus1
- 
-- (3) CAN bus MIOe-3680 PCI (dual SJA1000 channel) emulation
-+(3) CAN bus MIOe-3680 PCI (dual SJA1000 channel) emulation::
-+
-     -device mioe3680_pci,canbus0=canbus0
- 
--
- The ''kvaser_pci'' board/device model is compatible with and has been tested with
--''kvaser_pci'' driver included in mainline Linux kernel.
-+the ''kvaser_pci'' driver included in mainline Linux kernel.
- The tested setup was Linux 4.9 kernel on the host and guest side.
--Example for qemu-system-x86_64:
-+
-+Example for qemu-system-x86_64::
- 
-     qemu-system-x86_64 -accel kvm -kernel /boot/vmlinuz-4.9.0-4-amd64 \
-       -initrd ramdisk.cpio \
-@@ -69,7 +73,7 @@ Example for qemu-system-x86_64:
-       -device kvaser_pci,canbus=canbus0 \
-       -nographic -append "console=ttyS0"
- 
--Example for qemu-system-arm:
-+Example for qemu-system-arm::
- 
-     qemu-system-arm -cpu arm1176 -m 256 -M versatilepb \
-       -kernel kernel-qemu-arm1176-versatilepb \
-@@ -84,24 +88,23 @@ Example for qemu-system-arm:
- The CAN interface of the host system has to be configured for proper
- bitrate and set up. Configuration is not propagated from emulated
- devices through bus to the physical host device. Example configuration
--for 1 Mbit/s
-+for 1 Mbit/s::
- 
-   ip link set can0 type can bitrate 1000000
-   ip link set can0 up
- 
- Virtual (host local only) can interface can be used on the host
--side instead of physical interface
-+side instead of physical interface::
- 
-   ip link add dev can0 type vcan
- 
- The CAN interface on the host side can be used to analyze CAN
--traffic with "candump" command which is included in "can-utils".
-+traffic with "candump" command which is included in "can-utils"::
- 
-   candump can0
- 
- CTU CAN FD support examples
--===========================
--
-+---------------------------
- This open-source core provides CAN FD support. CAN FD drames are
- delivered even to the host systems when SocketCAN interface is found
- CAN FD capable.
-@@ -113,7 +116,7 @@ on the board.
- Example how to connect the canbus0-bus (virtual wire) to the host
- Linux system (SocketCAN used) and to both CTU CAN FD cores emulated
- on the corresponding PCI card expects that host system CAN bus
--is setup according to the previous SJA1000 section.
-+is setup according to the previous SJA1000 section::
- 
-   qemu-system-x86_64 -enable-kvm -kernel /boot/vmlinuz-4.19.52+ \
-       -initrd ramdisk.cpio \
-@@ -125,7 +128,7 @@ is setup according to the previous SJA1000 section.
-       -device ctucan_pci,canbus0=canbus0-bus,canbus1=canbus0-bus \
-       -nographic
- 
--Setup of CTU CAN FD controller in a guest Linux system
-+Setup of CTU CAN FD controller in a guest Linux system::
- 
-   insmod ctucanfd.ko || modprobe ctucanfd
-   insmod ctucanfd_pci.ko || modprobe ctucanfd_pci
-@@ -150,19 +153,19 @@ Setup of CTU CAN FD controller in a guest Linux system
-     /bin/ip link set $ifc up
-   done
- 
--The test can run for example
-+The test can run for example::
- 
-   candump can1
- 
--in the guest system and next commands in the host system for basic CAN
-+in the guest system and next commands in the host system for basic CAN::
- 
-   cangen can0
- 
--for CAN FD without bitrate switch
-+for CAN FD without bitrate switch::
- 
-   cangen can0 -f
- 
--and with bitrate switch
-+and with bitrate switch::
- 
-   cangen can0 -b
- 
-@@ -170,29 +173,16 @@ The test can be run viceversa, generate messages in the guest system and capture
- in the host one and much more combinations.
- 
- Links to other resources
--========================
-+------------------------
- 
-- (1) CAN related projects at Czech Technical University, Faculty of Electrical Engineering
--     http://canbus.pages.fel.cvut.cz/
-- (2) Repository with development can-pci branch at Czech Technical University
--     https://gitlab.fel.cvut.cz/canbus/qemu-canbus
-- (3) RTEMS page describing project
--     https://devel.rtems.org/wiki/Developer/Simulators/QEMU/CANEmulation
-- (4) RTLWS 2015 article about the project and its use with CANopen emulation
--     http://cmp.felk.cvut.cz/~pisa/can/doc/rtlws-17-pisa-qemu-can.pdf
-- (5) GNU/Linux, CAN and CANopen in Real-time Control Applications
--     Slides from LinuxDays 2017 (include updated RTLWS 2015 content)
--     https://www.linuxdays.cz/2017/video/Pavel_Pisa-CAN_canopen.pdf
-- (6) Linux SocketCAN utilities
--     https://github.com/linux-can/can-utils/
-- (7) CTU CAN FD project including core VHDL design, Linux driver,
--     test utilities etc.
--     https://gitlab.fel.cvut.cz/canbus/ctucanfd_ip_core
-- (8) CTU CAN FD Core Datasheet Documentation
--     http://canbus.pages.fel.cvut.cz/ctucanfd_ip_core/Progdokum.pdf
-- (9) CTU CAN FD Core System Architecture Documentation
--     http://canbus.pages.fel.cvut.cz/ctucanfd_ip_core/ctu_can_fd_architecture.pdf
-- (10) CTU CAN FD Driver Documentation
--     http://canbus.pages.fel.cvut.cz/ctucanfd_ip_core/driver_doc/ctucanfd-driver.html
-- (11) Integration with PCIe interfacing for Intel/Altera Cyclone IV based board
--     https://gitlab.fel.cvut.cz/canbus/pcie-ctu_can_fd
-+ (1) `CAN related projects at Czech Technical University, Faculty of Electrical Engineering <http://canbus.pages.fel.cvut.cz>`_
-+ (2) `Repository with development can-pci branch at Czech Technical University <https://gitlab.fel.cvut.cz/canbus/qemu-canbus>`_
-+ (3) `RTEMS page describing project <https://devel.rtems.org/wiki/Developer/Simulators/QEMU/CANEmulation>`_
-+ (4) `RTLWS 2015 article about the project and its use with CANopen emulation <http://cmp.felk.cvut.cz/~pisa/can/doc/rtlws-17-pisa-qemu-can.pdf>`_
-+ (5) `GNU/Linux, CAN and CANopen in Real-time Control Applications Slides from LinuxDays 2017 (include updated RTLWS 2015 content) <https://www.linuxdays.cz/2017/video/Pavel_Pisa-CAN_canopen.pdf>`_
-+ (6) `Linux SocketCAN utilities <https://github.com/linux-can/can-utils>`_
-+ (7) `CTU CAN FD project including core VHDL design, Linux driver, test utilities etc. <https://gitlab.fel.cvut.cz/canbus/ctucanfd_ip_core>`_
-+ (8) `CTU CAN FD Core Datasheet Documentation <http://canbus.pages.fel.cvut.cz/ctucanfd_ip_core/Progdokum.pdf>`_
-+ (9) `CTU CAN FD Core System Architecture Documentation <http://canbus.pages.fel.cvut.cz/ctucanfd_ip_core/ctu_can_fd_architecture.pdf>`_
-+ (10) `CTU CAN FD Driver Documentation <http://canbus.pages.fel.cvut.cz/ctucanfd_ip_core/driver_doc/ctucanfd-driver.html>`_
-+ (11) `Integration with PCIe interfacing for Intel/Altera Cyclone IV based board <https://gitlab.fel.cvut.cz/canbus/pcie-ctu_can_fd>`_
+     if (!thp_size) {
+-        thp_size = VIRTIO_MEM_DEFAULT_THP_SIZE;
++        thp_size = virtio_mem_default_thp_size();
+         warn_report("Could not detect THP size, falling back to %" PRIx64
+                     "  MiB.", thp_size / MiB);
+     }
 -- 
 2.25.1
 
