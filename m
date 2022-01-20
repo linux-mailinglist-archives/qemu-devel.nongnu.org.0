@@ -2,59 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A67494F8D
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 14:49:51 +0100 (CET)
-Received: from localhost ([::1]:37648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABEA8494FE9
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 15:15:52 +0100 (CET)
+Received: from localhost ([::1]:51206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAXp1-0004DM-2O
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 08:49:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37688)
+	id 1nAYEB-0007In-Id
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 09:15:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nAUqY-0006i8-La
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 05:39:15 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:34727
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nAUqW-00081i-Hy
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 05:39:14 -0500
-HMM_SOURCE_IP: 172.18.0.48:47984.2115731125
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-182.150.57.243 (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id 58CEB2800A8;
- Thu, 20 Jan 2022 18:39:02 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id 2a1a70e8628d4fb4a885d3abfd452ddc for
- peterx@redhat.com; Thu, 20 Jan 2022 18:39:05 CST
-X-Transaction-ID: 2a1a70e8628d4fb4a885d3abfd452ddc
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
-X-MEDUSA-Status: 0
-Message-ID: <c6086788-da45-d023-edaa-5fca9a602c5a@chinatelecom.cn>
-Date: Thu, 20 Jan 2022 18:39:01 +0800
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nAVH2-0004Eb-FO; Thu, 20 Jan 2022 06:06:36 -0500
+Received: from [2a00:1450:4864:20::329] (port=41714
+ helo=mail-wm1-x329.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nAVGz-0001x2-2l; Thu, 20 Jan 2022 06:06:36 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ q141-20020a1ca793000000b00347b48dfb53so12927437wme.0; 
+ Thu, 20 Jan 2022 03:06:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=WxWriVE1ssSmHCuwjL9f/3A2/ZRCLxWRYTu0rGXBP3I=;
+ b=EQcYSxVPiJADHJ7SzbuIwlYHW/eADHeGgdKsXKDqGuiqml4ByPutPzGbAmr4bVOvvQ
+ kgCAawENgAt/AxOCc5vPWaYob+MXTbVuDQBtUzJKJaR4HCFxsYd5cvZze03Lo9EifOac
+ MHZFx8VgmT4e2DgJXtd8lSeBCBnSXghWx3zcntpfN0RgaTS5pdtL/vALIPdlm/pcWgPF
+ QSwP6sw2cmIITd+6GXK8Y6kcp4YqfM0fTcLyXneRe1qYwNxCedjNKuFFU5jrA3PJseqH
+ KmMQd0KOYOVgFyCBih6o3O1XvsLOecKYzQqjMefdaocGuCInj75f9txkLhbOxJ0KwmtC
+ 4N+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=WxWriVE1ssSmHCuwjL9f/3A2/ZRCLxWRYTu0rGXBP3I=;
+ b=JB8TsSRuiMmLu5A9cEksnr8dKGcjW6al+ea5P2Xn9hQIt5B6EyRR9EtZw4u2/jB5Ua
+ eNpXc0azgexGH7l23s5OT6h4USo9H2Qr0QZqI2Koo62DSmsGHKDCQ7vN9S9Zg+ADe6y4
+ BqBmX/mpq9nZ/LnZ8Z3vdEiDN4d8buj/1icEs9Cx8VjZrom+HlMj7lBP8JKy8nw7cAWM
+ 5WX3zxb+EH5BM3uHZPJVXagUVxRqAJ0nXuJ3Jpgo6zOqOJn2L9/TKkf1BwZfVZ0jJs9f
+ Sxl97zBN/HsYu83W16OfkpENiNhKmc5Mj8SHqBLyqbGTB+OwvwoZ7oUpE7t+haO33si/
+ h6og==
+X-Gm-Message-State: AOAM530rfsvI3Y2X3b0koygqj95mwKNVAY714ADSuIuz5jjqlIAvilvs
+ 79MgJyZWjlpnH4Cl+8UPHm1ktK0Tkzk=
+X-Google-Smtp-Source: ABdhPJztC9TY+hA3TpqE9dUtJG/pyiqDWHhSFIcNUx0EKePjlQ6LxRe3eLHby+nuPo2NpcP90d9cXA==
+X-Received: by 2002:a1c:c908:: with SMTP id f8mr8400204wmb.193.1642676767983; 
+ Thu, 20 Jan 2022 03:06:07 -0800 (PST)
+Received: from nuc.. (154.red-83-50-83.dynamicip.rima-tde.net. [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id
+ h127sm8983005wmh.2.2022.01.20.03.06.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Jan 2022 03:06:07 -0800 (PST)
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Ed Maste <emaste@freebsd.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>,
+ Yonggang Luo <luoyonggang@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PATCH v2 4/6] drop libxml2 checks since libxml is not actually used
+ (for parallels)
+Date: Thu, 20 Jan 2022 12:05:43 +0100
+Message-Id: <20220120110545.263404-5-f4bug@amsat.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220120110545.263404-1-f4bug@amsat.org>
+References: <20220120110545.263404-1-f4bug@amsat.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v11 3/4] softmmu/dirtylimit: implement virtual CPU throttle
-To: Peter Xu <peterx@redhat.com>
-References: <cover.1641316375.git.huangy81@chinatelecom.cn>
- <0381e32c2cc70613613aaa284b8e8c9760d6932f.1641316375.git.huangy81@chinatelecom.cn>
- <YeUbhC7MG32K9pxu@xz-m1.local>
- <d34dbb85-f8a9-cb21-a312-a4f4f3cafd07@chinatelecom.cn>
- <Yekqn90HOtFMWupM@xz-m1.local>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <Yekqn90HOtFMWupM@xz-m1.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.219;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,56 +94,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
+From: Michael Tokarev <mjt@tls.msk.ru>
 
+For a long time, we assumed that libxml2 is neecessary for parallels
+block format support (block/parallels*). However, this format actually
+does not use libxml [*]. Since this is the only user of libxml2 in
+while qemu tree, we can drop all libxml2 checks and dependencies too.
 
-在 2022/1/20 17:25, Peter Xu 写道:
+It is even more: --enable-parallels configure option was the only
+option which was silently ignored when it's (fake) dependency
+(libxml2) isn't installed.
 
-> 
-> ... I think what you explained makes sense to me.
-> 
-> Note that there's also the reaper thread running in the background that can
-> reap all the cores too.
-> 
-> It only runs once per second so it shouldn't bring a lot of differences, but
-> I'm also wondering whether we should also turn that temporarily off too when
-> dirtylimit is enabled - we can simply let it keep sleeping if dirtylimit is in
-> service.
-Does this work ok when dirtylimit and migration happens concurrently?
-Migration may fetch the aged dirty bitmap info from slot if we turn 
-reaper thread off. As you metioned above, reaper thread only runs once 
-per second. Is it more suitable for not touching the reaper thread logic?
-> 
-> Dropping BQL may not be safe, as it serializes the reaping with other possible
-> kvm memslot updates.  I don't know whether it's a must in the future to use BQL
-> for reaping the rings, but so far I'd say we can still stick with it.
-> 
-> Note that even if you don't take BQL you'll still need the slots_lock and so
-> far that's also global, so I don't see how it can help on vcpu concurrency
-> anyway even if we dropped one of them.
-> 
-> If to do this, could you not introduce kvm_dirty_ring_reset_one() but just let
-> it take one more CPUState* parameter?  Most of the codes you added should be
-> similar to kvm_dirty_ring_reap_locked(), and I wanted to keep the trace point
-> there (trace_kvm_dirty_ring_reap, though that needs another parameter too).
-> 
-> And that patch can be done on top of this patch, so it can be reviewed easier
-> outside of dirtylimit details.
-> 
-> Thanks,
-> 
+Drop all mentions of libxml2.
 
+[*] Actually the basis for libxml use were merged in commit 25bfd5a75
+    but the implementation was never merged:
+    https://lore.kernel.org/qemu-devel/70227bbd-a517-70e9-714f-e6e0ec431be9@openvz.org/
+
+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20220119090423.149315-1-mjt@msgid.tls.msk.ru>
+[PMD: Updated description and adapted to use lcitool]
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ meson.build                                     | 6 ------
+ block/meson.build                               | 3 +--
+ meson_options.txt                               | 2 --
+ scripts/ci/org.centos/stream/8/x86_64/configure | 1 -
+ scripts/coverity-scan/coverity-scan.docker      | 1 -
+ scripts/coverity-scan/run-coverity-scan         | 2 +-
+ 6 files changed, 2 insertions(+), 13 deletions(-)
+
+diff --git a/meson.build b/meson.build
+index 333c61deba7..64a146e1d06 100644
+--- a/meson.build
++++ b/meson.build
+@@ -449,11 +449,6 @@
+                               required: get_option('linux_io_uring'),
+                               method: 'pkg-config', kwargs: static_kwargs)
+ endif
+-libxml2 = not_found
+-if not get_option('libxml2').auto() or have_block
+-  libxml2 = dependency('libxml-2.0', required: get_option('libxml2'),
+-                       method: 'pkg-config', kwargs: static_kwargs)
+-endif
+ libnfs = not_found
+ if not get_option('libnfs').auto() or have_block
+   libnfs = dependency('libnfs', version: '>=1.9.3',
+@@ -3489,7 +3484,6 @@
+ summary_info += {'lzfse support':     liblzfse}
+ summary_info += {'zstd support':      zstd}
+ summary_info += {'NUMA host support': config_host.has_key('CONFIG_NUMA')}
+-summary_info += {'libxml2':           libxml2}
+ summary_info += {'capstone':          capstone_opt == 'internal' ? capstone_opt : capstone}
+ summary_info += {'libpmem support':   libpmem}
+ summary_info += {'libdaxctl support': libdaxctl}
+diff --git a/block/meson.build b/block/meson.build
+index deb73ca389f..90dc9983e56 100644
+--- a/block/meson.build
++++ b/block/meson.build
+@@ -58,8 +58,7 @@
+   'qed-table.c',
+   'qed.c',
+ ))
+-block_ss.add(when: [libxml2, 'CONFIG_PARALLELS'],
+-             if_true: files('parallels.c', 'parallels-ext.c'))
++block_ss.add(when: 'CONFIG_PARALLELS', if_true: files('parallels.c', 'parallels-ext.c'))
+ block_ss.add(when: 'CONFIG_WIN32', if_true: files('file-win32.c', 'win32-aio.c'))
+ block_ss.add(when: 'CONFIG_POSIX', if_true: [files('file-posix.c'), coref, iokit])
+ block_ss.add(when: libiscsi, if_true: files('iscsi-opts.c'))
+diff --git a/meson_options.txt b/meson_options.txt
+index 921967eddbb..95d527f7732 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -113,8 +113,6 @@ option('libudev', type : 'feature', value : 'auto',
+        description: 'Use libudev to enumerate host devices')
+ option('libusb', type : 'feature', value : 'auto',
+        description: 'libusb support for USB passthrough')
+-option('libxml2', type : 'feature', value : 'auto',
+-       description: 'libxml2 support for Parallels image format')
+ option('linux_aio', type : 'feature', value : 'auto',
+        description: 'Linux AIO support')
+ option('linux_io_uring', type : 'feature', value : 'auto',
+diff --git a/scripts/ci/org.centos/stream/8/x86_64/configure b/scripts/ci/org.centos/stream/8/x86_64/configure
+index e05f2fddcc2..9850dd44444 100755
+--- a/scripts/ci/org.centos/stream/8/x86_64/configure
++++ b/scripts/ci/org.centos/stream/8/x86_64/configure
+@@ -81,7 +81,6 @@
+ --disable-libssh \
+ --disable-libudev \
+ --disable-libusb \
+---disable-libxml2 \
+ --disable-linux-aio \
+ --disable-linux-io-uring \
+ --disable-linux-user \
+diff --git a/scripts/coverity-scan/coverity-scan.docker b/scripts/coverity-scan/coverity-scan.docker
+index ecff6ac5b4b..6f60a52d231 100644
+--- a/scripts/coverity-scan/coverity-scan.docker
++++ b/scripts/coverity-scan/coverity-scan.docker
+@@ -59,7 +59,6 @@ ENV PACKAGES \
+     libubsan \
+     libudev-devel \
+     libusbx-devel \
+-    libxml2-devel \
+     libzstd-devel \
+     llvm \
+     lzo-devel \
+diff --git a/scripts/coverity-scan/run-coverity-scan b/scripts/coverity-scan/run-coverity-scan
+index 6d443250a9b..181bdcb2638 100755
+--- a/scripts/coverity-scan/run-coverity-scan
++++ b/scripts/coverity-scan/run-coverity-scan
+@@ -402,7 +402,7 @@ echo "Configuring..."
+     --enable-libiscsi --enable-libnfs --enable-seccomp \
+     --enable-tpm --enable-libssh --enable-lzo --enable-snappy --enable-bzip2 \
+     --enable-numa --enable-rdma --enable-smartcard --enable-virglrenderer \
+-    --enable-mpath --enable-libxml2 --enable-glusterfs \
++    --enable-mpath --enable-glusterfs \
+     --enable-virtfs --enable-zstd
+ 
+ echo "Running cov-build..."
 -- 
-Best regard
+2.34.1
 
-Hyman Huang(黄勇)
 
