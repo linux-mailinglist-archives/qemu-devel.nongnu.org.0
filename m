@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C186E495658
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 23:25:34 +0100 (CET)
-Received: from localhost ([::1]:42176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C58E549565B
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 23:29:04 +0100 (CET)
+Received: from localhost ([::1]:46866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAfs5-0005Ku-Hv
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 17:25:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52234)
+	id 1nAfvT-0000Gg-Bm
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 17:29:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nAazE-000125-LW
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 12:12:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59460)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nAaz9-0006Qs-Ah
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 12:12:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642698730;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pXGkivrRQGwnw35OJMAOIVi589Esv8jglmSYx+fD9gg=;
- b=NuRSW19k3sDAoTr15To42IjE28oj3jPvR8I/ZSYR/s3lHcz+LRVs01/GCJ2ZRD+z7F4jA8
- kdV/RqxGOxIwwWCkeA9oB3p4ZJW1SiQuGcLPmOfYE4YAcs74cCFOWwzxXpodKK2VufdqW4
- yXB60XeOtcBAArsIFtHf0fvB6gTrZsM=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-311-vrk_qIuoOTq4JGrmTRZ7xw-1; Thu, 20 Jan 2022 12:12:01 -0500
-X-MC-Unique: vrk_qIuoOTq4JGrmTRZ7xw-1
-Received: by mail-vk1-f197.google.com with SMTP id
- z84-20020a1f9757000000b0031ba7827bcaso1002017vkd.6
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 09:12:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1nAb4q-0005q6-0O; Thu, 20 Jan 2022 12:18:27 -0500
+Received: from [2607:f8b0:4864:20::32c] (port=44909
+ helo=mail-ot1-x32c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1nAb4n-0007Lf-Tm; Thu, 20 Jan 2022 12:18:23 -0500
+Received: by mail-ot1-x32c.google.com with SMTP id
+ a10-20020a9d260a000000b005991bd6ae3eso8389054otb.11; 
+ Thu, 20 Jan 2022 09:18:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=+waRMGV/oLKj/Il8NcsOSwfcLnF9csinsb50xMgkoFo=;
+ b=mev9g1IukbqC5L/SrYJ4V0b77qCOa/lVDWmLv51IwOo5AZnkmL3qtDl6RtPdl/VdYB
+ e9WxoLtv2Yx3k7d3RePYnaQnZiO0abuCiVcdwt3bDVk91vs+Bq+TWbaIsK3bMmnkCRGD
+ plArROkKqpD3QCxbN4S0mPg74k7UBIL3YhNqw9bvahQqHMW5b6hnq2fAmZLaXX1z6qxV
+ FLO9OayqrKy4TKqKh2a/Mnq2b39IFdgcp7S3/6a3rNNKVPjC014i4VLZVHziNAWkpD/8
+ BBw8Cl1ZPI+RcO7OyF1PedF8+2nkPnd4DQjbZQIxC7OxRqvzkekNTTjeoAzZ0JdJvD6w
+ mxFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pXGkivrRQGwnw35OJMAOIVi589Esv8jglmSYx+fD9gg=;
- b=ftN4AXq2rgOmKP+BbdGbquUaP2oRI4TNjdslr5WUguHq8SmtAyeJrT8CbEPzH1boU4
- QjMNOfQ5q8cq+Jo8aMDos5JzIIDj3uXF3XJALT3A7XthYtmGgft7/tjkmefyzDUD5C3s
- qgPUZLS0vFOzHBSnp/qvXSzw/GqZeugUOO/dNxcdsn1lI8qLJoeF0ruxd85m6w1QXHhG
- 5/y+i0dTI7sNTeFK/e3NWrOOKGy6uoJQAjMv/l2ht9nhykBsYGZE46RqHH2hXqJUMnGh
- 3VCTTATCT7p+uPY145Bxzni1TF0eVBhiUiYHcAvhLB46x3GKwiwGvP3IAJp6eRv7bMUp
- KgHg==
-X-Gm-Message-State: AOAM532aM4ZvSI5gDWm17RqD2LJ6CWOg2GLzbpRZOW3zncs/29xJajH0
- O4epdS6e+q7Rc7I6BKLV0/oWArl1ztRZGXCgUYwYR2F2GWywBn3qyb8EZgGq57JjuGPxqztol0Q
- 99DjmbCfuJBFT1fMlLZDKusyMBQieYEI=
-X-Received: by 2002:a05:6102:3019:: with SMTP id
- s25mr3177974vsa.38.1642698721141; 
- Thu, 20 Jan 2022 09:12:01 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzdZufix5ppNT8tErJHWW2CAFiSJ1vj2mpCmJ3qpFviJC2qfw10mz3VX/gAQsgOcGY85Lt81b5Jxp1C/udgZ20=
-X-Received: by 2002:a05:6102:3019:: with SMTP id
- s25mr3177946vsa.38.1642698720884; 
- Thu, 20 Jan 2022 09:12:00 -0800 (PST)
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+waRMGV/oLKj/Il8NcsOSwfcLnF9csinsb50xMgkoFo=;
+ b=ezYXRl30wVftjPITcIhd7SMazKxW14qaphwZq/dh1PmOzum3dLWdopTpPIjObMzhSH
+ QBKtLAV6wiXaQXpmFQR2pLUaqGXAqqMGUVKpqp94v2fajU/0t/2f6LGlgk9Cm7S2rpiZ
+ LpFk+k4LXoi62dPLJUhT3Dgg/6B3M6G/9ovp5saQebquhSFAw9ttA8SXl46KZZ//u8Y4
+ rVpV7T6EyP1gjxL0lxVGTRuPYRmSkiHJPvAHG2y+80UlDq7ffF408qHFTxPm1ifn66J4
+ Q1ED0Rh1AV3Fv0JyuhTwbKWtRZHmjTVLjBRN6Gge/AlTkeEQDd7p1RY5GbtWE6iLGvge
+ 4rjA==
+X-Gm-Message-State: AOAM532JpyvfI665iG3CnmVTirAWmPIRMPf6FQjLcZe2HXE790dvA5LD
+ c6/oPXtYJqd2j0gnHgO8bdp35LxN1cA=
+X-Google-Smtp-Source: ABdhPJzTHQmRZA6879k+m04XNLLJfl8R5Ha+aLEdyoSPX7ErclQCBiT9JaTxsTdDQSpTVCm+ChB8yg==
+X-Received: by 2002:a9d:2a82:: with SMTP id e2mr15087550otb.331.1642699099584; 
+ Thu, 20 Jan 2022 09:18:19 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ bp4sm1978646oib.49.2022.01.20.09.18.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Jan 2022 09:18:18 -0800 (PST)
+Subject: Re: [PATCH] hw/char/exynos4210_uart: Fix crash on trying to load VM
+ state
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220120151648.433736-1-peter.maydell@linaro.org>
+From: Guenter Roeck <linux@roeck-us.net>
+Message-ID: <a6a2cc91-6830-0453-062c-1e365428a8c6@roeck-us.net>
+Date: Thu, 20 Jan 2022 09:18:16 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20220119193916.4138217-1-jsnow@redhat.com>
- <20220119193916.4138217-6-jsnow@redhat.com>
- <Yeknr1ZvsyppLY0d@redhat.com>
-In-Reply-To: <Yeknr1ZvsyppLY0d@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 20 Jan 2022 12:11:50 -0500
-Message-ID: <CAFn=p-ZJ6u8rU8opwEhDib+Akb=H7pZTLvE9Mmh0cpsz+sTS5Q@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] python/aqmp: add socket bind step to legacy.py
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000bb503205d6069949"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20220120151648.433736-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32c
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
+ envelope-from=groeck7@gmail.com; helo=mail-ot1-x32c.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,167 +93,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Beraldo Leal <bleal@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000bb503205d6069949
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 1/20/22 7:16 AM, Peter Maydell wrote:
+> The exynos4210_uart_post_load() function assumes that it is passed
+> the Exynos4210UartState, but it has been attached to the
+> VMStateDescription for the Exynos4210UartFIFO type.  The result is a
+> SIGSEGV when attempting to load VM state for any machine type
+> including this device.
+> 
+> Fix the bug by attaching the post-load function to the VMSD for the
+> Exynos4210UartState.  This is the logical place for it, because the
+> actions it does relate to the entire UART state, not just the FIFO.
+> 
+> Thanks to the bug reporter @TrungNguyen1909 for the clear bug
+> description and the suggested fix.
+> 
+> Fixes: c9d3396d80fe7ece9b
+>     ("hw/char/exynos4210_uart: Implement post_load function")
+> Buglink: https://gitlab.com/qemu-project/qemu/-/issues/638
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-On Thu, Jan 20, 2022, 4:13 AM Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-wrote:
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-> On Wed, Jan 19, 2022 at 02:39:16PM -0500, John Snow wrote:
-> > The old QMP library would actually bind to the server address during
-> > __init__(). The new library delays this to the accept() call, because
-> > binding occurs inside of the call to start_[unix_]server(), which is an
-> > async method -- so it cannot happen during __init__ anymore.
-> >
-> > Python 3.7+ adds the ability to create the server (and thus the bind()
-> > call) and begin the active listening in separate steps, but we don't
-> > have that functionality in 3.6, our current minimum.
-> >
-> > Therefore ... Add a temporary workaround that allows the synchronous
-> > version of the client to bind the socket in advance, guaranteeing that
-> > there will be a UNIX socket in the filesystem ready for the QEMU client
-> > to connect to without a race condition.
-> >
-> > (Yes, it's ugly; fixing it more nicely will unfortunately have to wait
-> > until I can stipulate Python 3.7+ as our minimum version. Python 3.6 is
-> > EOL as of the beginning of this year, but I haven't checked if all of
-> > our supported build platforms have a properly modern Python available
-> > yet.)
->
-> RHEL-8 system python will remain 3.6 for the life of RHEL-8.
->
-> While you can bring in newer python versions in parallel,
-> IMHO it is highly desirable to remain compatible with the
-> system python as that's the one you can guarantee users
-> actually have available by default.
->
-
-I agree, but over time my hand will be forced. Libraries are beginning to
-drop support for Python 3.6 upstream, and it's only a matter of time before
-it becomes implausible to support an EOL python version.
-
-I actually go out of my way to ensure compatibility with the very oldest
-versions I possibly can - *extremely* out of my way - but there's only so
-much I can reasonably do. Supporting 3.6 and 3.11 simultaneously may prove
-challenging.
-
-Either way, I'm not bumping the version here in this series. I'm just
-stating that this hack is kind of the best I can (quickly and easily) do
-until 3.7.
-
-(3.7 adds start_server=3DFalse to start_unix_server which allows the
-separation of steps without needing to muck around with the socket object.)
-
-
->
->
-> Regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :
->
-
---000000000000bb503205d6069949
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Thu, Jan 20, 2022, 4:13 AM Daniel P. Berrang=C3=A9 =
-&lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex">On Wed, Jan 19, 2022 at 02:39:16=
-PM -0500, John Snow wrote:<br>
-&gt; The old QMP library would actually bind to the server address during<b=
-r>
-&gt; __init__(). The new library delays this to the accept() call, because<=
-br>
-&gt; binding occurs inside of the call to start_[unix_]server(), which is a=
-n<br>
-&gt; async method -- so it cannot happen during __init__ anymore.<br>
-&gt; <br>
-&gt; Python 3.7+ adds the ability to create the server (and thus the bind()=
-<br>
-&gt; call) and begin the active listening in separate steps, but we don&#39=
-;t<br>
-&gt; have that functionality in 3.6, our current minimum.<br>
-&gt; <br>
-&gt; Therefore ... Add a temporary workaround that allows the synchronous<b=
-r>
-&gt; version of the client to bind the socket in advance, guaranteeing that=
-<br>
-&gt; there will be a UNIX socket in the filesystem ready for the QEMU clien=
-t<br>
-&gt; to connect to without a race condition.<br>
-&gt; <br>
-&gt; (Yes, it&#39;s ugly; fixing it more nicely will unfortunately have to =
-wait<br>
-&gt; until I can stipulate Python 3.7+ as our minimum version. Python 3.6 i=
-s<br>
-&gt; EOL as of the beginning of this year, but I haven&#39;t checked if all=
- of<br>
-&gt; our supported build platforms have a properly modern Python available<=
-br>
-&gt; yet.)<br>
-<br>
-RHEL-8 system python will remain 3.6 for the life of RHEL-8.<br>
-<br>
-While you can bring in newer python versions in parallel,<br>
-IMHO it is highly desirable to remain compatible with the<br>
-system python as that&#39;s the one you can guarantee users<br>
-actually have available by default.<br></blockquote></div></div><div dir=3D=
-"auto"><br></div><div dir=3D"auto">I agree, but over time my hand will be f=
-orced. Libraries are beginning to drop support for Python 3.6 upstream, and=
- it&#39;s only a matter of time before it becomes implausible to support an=
- EOL python version.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I a=
-ctually go out of my way to ensure compatibility with the very oldest versi=
-ons I possibly can - *extremely* out of my way - but there&#39;s only so mu=
-ch I can reasonably do. Supporting 3.6 and 3.11 simultaneously may prove ch=
-allenging.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Either way, I=
-&#39;m not bumping the version here in this series. I&#39;m just stating th=
-at this hack is kind of the best I can (quickly and easily) do until 3.7.</=
-div><div dir=3D"auto"><br></div><div dir=3D"auto">(3.7 adds start_server=3D=
-False to start_unix_server which allows the separation of steps without nee=
-ding to muck around with the socket object.)=C2=A0</div><div dir=3D"auto"><=
-br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex">
-<br><br>
-<br>
-Regards,<br>
-Daniel<br>
--- <br>
-|: <a href=3D"https://berrange.com" rel=3D"noreferrer noreferrer" target=3D=
-"_blank">https://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a h=
-ref=3D"https://www.flickr.com/photos/dberrange" rel=3D"noreferrer noreferre=
-r" target=3D"_blank">https://www.flickr.com/photos/dberrange</a> :|<br>
-|: <a href=3D"https://libvirt.org" rel=3D"noreferrer noreferrer" target=3D"=
-_blank">https://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com=
-" rel=3D"noreferrer noreferrer" target=3D"_blank">https://fstop138.berrange=
-.com</a> :|<br>
-|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer noreferrer" tar=
-get=3D"_blank">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0=
- <a href=3D"https://www.instagram.com/dberrange" rel=3D"noreferrer noreferr=
-er" target=3D"_blank">https://www.instagram.com/dberrange</a> :<br></blockq=
-uote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=
-=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"></blockquote></div></div></=
-div>
-
---000000000000bb503205d6069949--
+> ---
+>   hw/char/exynos4210_uart.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/char/exynos4210_uart.c b/hw/char/exynos4210_uart.c
+> index 80d401a3795..addcd59b028 100644
+> --- a/hw/char/exynos4210_uart.c
+> +++ b/hw/char/exynos4210_uart.c
+> @@ -628,7 +628,6 @@ static const VMStateDescription vmstate_exynos4210_uart_fifo = {
+>       .name = "exynos4210.uart.fifo",
+>       .version_id = 1,
+>       .minimum_version_id = 1,
+> -    .post_load = exynos4210_uart_post_load,
+>       .fields = (VMStateField[]) {
+>           VMSTATE_UINT32(sp, Exynos4210UartFIFO),
+>           VMSTATE_UINT32(rp, Exynos4210UartFIFO),
+> @@ -641,6 +640,7 @@ static const VMStateDescription vmstate_exynos4210_uart = {
+>       .name = "exynos4210.uart",
+>       .version_id = 1,
+>       .minimum_version_id = 1,
+> +    .post_load = exynos4210_uart_post_load,
+>       .fields = (VMStateField[]) {
+>           VMSTATE_STRUCT(rx, Exynos4210UartState, 1,
+>                          vmstate_exynos4210_uart_fifo, Exynos4210UartFIFO),
+> 
 
 
