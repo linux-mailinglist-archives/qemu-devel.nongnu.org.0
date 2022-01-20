@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F2FB4955F3
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 22:28:29 +0100 (CET)
-Received: from localhost ([::1]:54416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2F8D4955FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 22:32:59 +0100 (CET)
+Received: from localhost ([::1]:35172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAeyp-0004eR-JI
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 16:28:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49310)
+	id 1nAf3C-0002TT-La
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 16:32:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nAYzy-0001mB-V6
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:06:05 -0500
-Received: from [2a00:1450:4864:20::32e] (port=39719
- helo=mail-wm1-x32e.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nAZB3-0007iH-TB
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:16:44 -0500
+Received: from [2a00:1450:4864:20::332] (port=43972
+ helo=mail-wm1-x332.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nAYzs-0001nl-Li
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:05:14 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- o1-20020a1c4d01000000b0034d95625e1fso8076280wmh.4
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 07:05:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nAZAz-0003OX-Nm
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:16:41 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ e9-20020a05600c4e4900b0034d23cae3f0so14515455wmq.2
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 07:16:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=mRD2pj5OzgauYVwhz3f4/rloNXXqRLicIwcFRO3vn7M=;
- b=i/Grc10Cj3/912MWfLEKbtfej2KqPBuESlYT3+3MSplH54czuDKoDSJ9XUfNVXcHaO
- Cy3UY+EpxezMMkAuPGSdrPh1b4B+VUqCtkkyvr41sJ8pUj4X6/GyOpMhfKqw1Aq8ROBh
- fToujbI5lRGY2xfCNoJJ0oALAAgBO9bL24xywgscb+p4MmRVGwm6J8CLFGQbm9+GUJVQ
- HM3iM11MI3BniIGWOMqxoTTnMxdi0OSOkEIV10dvkwgUqekr2QPCBRDMyoRQ5xbqx5Os
- 2saRSPz6nJUbMj6xLLuH+qQhlw59/kEdZZTGQwxc6xO8uSgZ9v6s9Q2bP8wLGxDCLUVR
- BuJA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FcNzRDDLqUXh8SKulDhEdj/nqpA2o3Dbwbq+sgN0vNg=;
+ b=ZewIxEA1BzNUxoMoJEmAuxr2QDpTFmGWoYpJhbBxjTHst0Z9BhlCyAEfmvybhhiPNW
+ pwBEMEGdRcRBjDWvAPsMG7GeZyv2Hx3FHcW8Z6bMH3LO2NpSzKL7oHCwHN9f8sZEQoIN
+ NBgjUzSj67EPZacOugUlRryQ45LqZ0xtoQivt7rWFUeF1KEzpJm1AftJA6r7vx4E20L4
+ xRNJ+74j5R1437gorGJX3I/NDNFiIUlPoDvE2zKa/8+GlI9fafHWu3787kIcXWz+UDn1
+ QePcpkpEAW+tsOHaCJC06ZRax3M1/CaiLJYVTyDn/PwxBWDjBvc6N7Uda9lwKV85Emy6
+ r8rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=mRD2pj5OzgauYVwhz3f4/rloNXXqRLicIwcFRO3vn7M=;
- b=xC1YZrNgUtSbh350cCj3gP8Ivjl0L3qnVqEiwn6udi0YDpnRafwpkH6AZd0c6Ozqg/
- WbTvolYLGJk3Bqp4UDlXcxUKKr/J4kQQlnT7JF8JaW5ylxdeokAuGxu4RU58hdLegLYi
- txBcTEC4EXyCBiE+5nv6iad7fr7SOzpUqC1XUH2vwDXwHG1WDquvFaBZNug6x/XWSXqD
- PhlX654oMbL9fzMY0Psp5H0rhdMvINiMoYvnOz3NcXv/r5f4xUDGF8/8xoKpIQ6NQytp
- s2L9Kj6We+fUa8nGMZAzq3AUCU/AdXXtq8GSh4XyV72TA3MaF143c/SnS060wV5I/Y/P
- 6ExQ==
-X-Gm-Message-State: AOAM5321jjQe0jD9vtBmXADQkidxEqZk7+tii6UwVP0W+7LpXVre3aOZ
- VfOa/BcmC5dqZKJpFrKEh9Bc/w==
-X-Google-Smtp-Source: ABdhPJzl458toJQmgnh17r+bCVvj9m4itbywUCEVwRmin/dcu0LHCqY80nclRXSDdCg/jRJoD53d/g==
-X-Received: by 2002:a05:600c:4e4e:: with SMTP id
- e14mr9276060wmq.98.1642691106485; 
- Thu, 20 Jan 2022 07:05:06 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o1sm3637733wri.19.2022.01.20.07.05.05
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FcNzRDDLqUXh8SKulDhEdj/nqpA2o3Dbwbq+sgN0vNg=;
+ b=SnyLUeqelsVuiV7dLxUuVOhS+84mor1WEDX+4zIIOkZPIMacu41qmo3oQq482uyCDF
+ x1Ya0U74WEhqCfu1DW9YiPW9yEH3XYogQwkTzeIEaxQnmFGRjJ5uZVf9FfR7bY5m7nr6
+ iqFB9jV20Q+VfHoFJ7nSehUi3MiVGZZ5vw+RtIRdIcOaqzhZWzf3iYF059qfUaPVnF00
+ xnuvjJbjlayXi7oJYOkZz7bql24r1+TIAjaqnk7pvkAj3OLfiPrs2K7E7sjv4cXmQi3p
+ EuAKtgUS+sMHHfbxinr7C/cWdJghAEeoWRpAzOZO77lpcWQhXP2vI6a3ay5X+rJS9Fne
+ KfOg==
+X-Gm-Message-State: AOAM531cpQWyNyqwucC8J2ALFl1ISRO78QvKXD3IBcudccBli+FMJa8t
+ 1EdL7n+NKjaMiOgagUbN4Zv0iw==
+X-Google-Smtp-Source: ABdhPJwtgHRJHm3m+H38klcu1PN7EV4BeZdtlNslPUOl3I4YiHvT9QIdgiLQshggLYpWTOSmRNbAgw==
+X-Received: by 2002:a1c:7316:: with SMTP id d22mr9331490wmb.5.1642691771507;
+ Thu, 20 Jan 2022 07:16:11 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id v5sm3984750wrx.114.2022.01.20.07.16.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 07:05:05 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 978901FFB7;
- Thu, 20 Jan 2022 15:05:04 +0000 (GMT)
-References: <20220118203833.316741-1-eric.auger@redhat.com>
- <20220118203833.316741-3-eric.auger@redhat.com>
-User-agent: mu4e 1.7.5; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v2 2/6] tests/qtest/libqos/pci: Introduce pio_limit
-Date: Thu, 20 Jan 2022 15:04:59 +0000
-In-reply-to: <20220118203833.316741-3-eric.auger@redhat.com>
-Message-ID: <87r19278in.fsf@linaro.org>
+ Thu, 20 Jan 2022 07:16:11 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH] hw/armv7m: Fix broken VMStateDescription
+Date: Thu, 20 Jan 2022 15:16:09 +0000
+Message-Id: <20220120151609.433555-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,35 +85,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, peter.maydell@linaro.org, thuth@redhat.com,
- mst@redhat.com, eesposit@redhat.com, qemu-devel@nongnu.org,
- jean-philippe@linaro.org, qemu-arm@nongnu.org, clg@kaod.org,
- pbonzini@redhat.com, david@gibson.dropbear.id.au, eric.auger.pro@gmail.com
+Cc: qemu-stable@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+In commit d5093d961585f02 we added a VMStateDescription to
+the TYPE_ARMV7M object, to handle migration of its Clocks.
+However a cut-and-paste error meant we used the wrong struct
+name in the VMSTATE_CLOCK() macro arguments. The result was
+that attempting a 'savevm' might result in an assertion
+failure.
 
-Eric Auger <eric.auger@redhat.com> writes:
+Cc: qemu-stable@nongnu.org
+Buglink: https://gitlab.com/qemu-project/qemu/-/issues/803
+Fixes: d5093d961585f02
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+It's a shame there's no way to type-check that the struct
+name used in the VMSTATE macros is correct...
+---
+ hw/arm/armv7m.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> At the moment the IO space limit is hardcoded to
-> QPCI_PIO_LIMIT =3D 0x10000. When accesses are performed to a bar,
-> the base address of this latter is compared against the limit
-> to decide whether we perform an IO or a memory access.
->
-> On ARM, we cannot keep this PIO limit as the arm-virt machine
-> uses [0x3eff0000, 0x3f000000 ] for the IO space map and we
-> are mandated to allocate at 0x0.
->
-> Add a new flag in QPCIBar indicating whether it is an IO bar
-> or a memory bar. This flag is set on QPCIBar allocation and
-> provisionned based on the BAR configuration. Then the new flag
-> is used in access functions and in iomap() function.
->
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
+index 8d08db80be8..ceb76df3cd4 100644
+--- a/hw/arm/armv7m.c
++++ b/hw/arm/armv7m.c
+@@ -520,8 +520,8 @@ static const VMStateDescription vmstate_armv7m = {
+     .version_id = 1,
+     .minimum_version_id = 1,
+     .fields = (VMStateField[]) {
+-        VMSTATE_CLOCK(refclk, SysTickState),
+-        VMSTATE_CLOCK(cpuclk, SysTickState),
++        VMSTATE_CLOCK(refclk, ARMv7MState),
++        VMSTATE_CLOCK(cpuclk, ARMv7MState),
+         VMSTATE_END_OF_LIST()
+     }
+ };
+-- 
+2.25.1
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
