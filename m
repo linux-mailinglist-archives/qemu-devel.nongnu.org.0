@@ -2,90 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5933A495028
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 15:32:16 +0100 (CET)
-Received: from localhost ([::1]:35416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDD47494EAD
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 14:12:57 +0100 (CET)
+Received: from localhost ([::1]:43754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAYU2-0008Ui-Lp
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 09:32:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50322)
+	id 1nAXFI-0003E4-C3
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 08:12:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAVSi-0006Wp-So; Thu, 20 Jan 2022 06:18:41 -0500
-Received: from [2a00:1450:4864:20::330] (port=44718
- helo=mail-wm1-x330.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAVSh-0004JR-6u; Thu, 20 Jan 2022 06:18:40 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- l35-20020a05600c1d2300b0034d477271c1so12858923wms.3; 
- Thu, 20 Jan 2022 03:18:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=FlWraR9JdPhicG9uCUvZR0EkpgcWVnHTLFaqJglOCWo=;
- b=FIIs1h5AlFU9Xj9dVz1uQZh4924CjUBWKCfEe4WaIH/8sd9wJGoZ0GvQX/wZEBJeCJ
- PD0u+PgvDZZpgrvu/8Oxjk1350YBgs09X9pADXPWBr7V1Cq5SNrJnDs5TmL15jD1ddks
- hiIE1P7x2zFdwxK1EeTW4WO3TJHGsQqXi4uYCYmyYa0Ln6iLF7Bit/aaoaXEm9YV9mh8
- Ju5DMpdqZuf3J5qKuLyuHaAIIC4L7r6HALbpLsup3ldfPXn3MlIPMSh/g3AN1AZdhVRX
- V81O75QLk8lNb88/J7XR7ZmDFtXOo9SG4hH7t0Vx8DLwoY7Y7gSwZmDDmuNiW4GrVcPc
- 9wIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=FlWraR9JdPhicG9uCUvZR0EkpgcWVnHTLFaqJglOCWo=;
- b=qmD44wrFKNMIaJwYlZyEh3QH2XEkk35aOQQzEPsZV61/d7egXQEeHTmYsO6xR6A4jQ
- o2e+IBTaldCGpwQC/Atlwm9khOdlY5Rog3SaCjWQX3dhI1vPZkUMfStFSW5YjhaZ6vFw
- dudBzeXM0HUL/jEMkMYjvklJkZXuyWY1b6d4ZlXxY/XY8jxNoCoCgXSaMWOmx90UDDHu
- XcBH9Bts+auDKPhc0IaOwR7DB8I5x7HCX7LzqQuHxt6cXi738ou/5Xbiz0bpFzk0nLjh
- na3RUVIHPI51SEzYDwFOwF6bWuGjPM1StI+Yna7Gn2JNNIkFqjR4aefFLKkXoLMZSLgE
- 1KzQ==
-X-Gm-Message-State: AOAM532i+BVhJ/dePin3tAM0aWn4VAg0iBj+GJlt4ZLCUkFrSL4ZPfGF
- rPk74I7zEFsIMr6kFZxHsic=
-X-Google-Smtp-Source: ABdhPJyG/Ga5yS+6fWWJA/8Teg3mkQfVnbWdA7FjCKW6Z9GrCogC3R9A2DOwP43wegWw1iTnCu352A==
-X-Received: by 2002:a05:6000:180c:: with SMTP id
- m12mr11179080wrh.581.1642677516168; 
- Thu, 20 Jan 2022 03:18:36 -0800 (PST)
-Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id o33sm14829927wms.3.2022.01.20.03.18.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Jan 2022 03:18:35 -0800 (PST)
-Message-ID: <c38f570a-3fde-e5ae-a427-895e9841b52b@amsat.org>
-Date: Thu, 20 Jan 2022 12:18:34 +0100
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1nAVWc-0001VJ-6S
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:22:43 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:48838
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1nAVWZ-00059F-Ir
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 06:22:41 -0500
+HMM_SOURCE_IP: 172.18.0.48:57454.1777942971
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-182.150.57.243 (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id AA4062800C5;
+ Thu, 20 Jan 2022 19:22:25 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by app0024 with ESMTP id 135595e857d8487dacfc9a2d4a7c3415 for
+ armbru@redhat.com; Thu, 20 Jan 2022 19:22:28 CST
+X-Transaction-ID: 135595e857d8487dacfc9a2d4a7c3415
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+Message-ID: <46330d62-e0c5-0780-781a-f2d571a49b27@chinatelecom.cn>
+Date: Thu, 20 Jan 2022 19:22:24 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v2 5/6] tests/lcitool: Remove libxml2
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Ed Maste <emaste@freebsd.org>,
- Michael Tokarev <mjt@tls.msk.ru>, qemu-block@nongnu.org,
- Thomas Huth <thuth@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Yonggang Luo <luoyonggang@gmail.com>
-References: <20220120110545.263404-1-f4bug@amsat.org>
- <20220120110545.263404-6-f4bug@amsat.org> <YelELTScffI7Ln7R@redhat.com>
-In-Reply-To: <YelELTScffI7Ln7R@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v11 3/4] softmmu/dirtylimit: implement virtual CPU throttle
+To: Markus Armbruster <armbru@redhat.com>
+References: <cover.1641315745.git.huangy81@chinatelecom.cn>
+ <cover.1641316375.git.huangy81@chinatelecom.cn>
+ <0381e32c2cc70613613aaa284b8e8c9760d6932f.1641316375.git.huangy81@chinatelecom.cn>
+ <878rvb3opl.fsf@dusky.pond.sub.org>
+From: Hyman Huang <huangy81@chinatelecom.cn>
+In-Reply-To: <878rvb3opl.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=42.123.76.228;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,64 +66,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 1/20/22 12:14, Daniel P. Berrangé wrote:
-> On Thu, Jan 20, 2022 at 12:05:44PM +0100, Philippe Mathieu-Daudé wrote:
->> The previous commit removed all uses of libxml2.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  tests/docker/dockerfiles/alpine.docker        | 1 -
->>  tests/docker/dockerfiles/centos8.docker       | 1 -
->>  tests/docker/dockerfiles/fedora.docker        | 1 -
->>  tests/docker/dockerfiles/opensuse-leap.docker | 1 -
->>  tests/docker/dockerfiles/ubuntu1804.docker    | 1 -
->>  tests/docker/dockerfiles/ubuntu2004.docker    | 1 -
->>  tests/lcitool/projects/qemu.yml               | 1 -
->>  7 files changed, 7 deletions(-)
+
+
+在 2022/1/19 20:16, Markus Armbruster 写道:
+> huangy81@chinatelecom.cn writes:
 > 
-> Did you change these dockerfiles manually ?
+>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>
+>> Setup a negative feedback system when vCPU thread
+>> handling KVM_EXIT_DIRTY_RING_FULL exit by introducing
+>> throttle_us_per_full field in struct CPUState. Sleep
+>> throttle_us_per_full microseconds to throttle vCPU
+>> if dirtylimit is enabled.
+>>
+>> Start a thread to track current dirty page rates and
+>> tune the throttle_us_per_full dynamically untill current
+>> dirty page rate reach the quota.
+>>
+>> Introduce the util function in the header for dirtylimit
+>> implementation.
+>>
+>> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+> 
+> [...]
+> 
+>> diff --git a/qapi/migration.json b/qapi/migration.json
+>> index bbfd48c..ac5fa56 100644
+>> --- a/qapi/migration.json
+>> +++ b/qapi/migration.json
+>> @@ -1850,6 +1850,25 @@
+>>   { 'command': 'query-dirty-rate', 'returns': 'DirtyRateInfo' }
+>>   
+>>   ##
+>> +# @DirtyLimitInfo:
+>> +#
+>> +# Dirty page rate limit information of virtual CPU.
+>> +#
+>> +# @cpu-index: index of virtual CPU.
+>> +#
+>> +# @limit-rate: upper limit of dirty page rate for virtual CPU.
+> 
+> Lacks a unit.  Is it bytes per second?  pages per second?
+> 
+> If I understand your code correctly, zero means unlimited.  This is
+> undocumented.  Please document it.  Something like "0 means unlimited"
+> should do.
+> 
+Ok.
+>> +#
+>> +# @current-rate: current dirty page rate for virtual CPU.
+>> +#
+>> +# Since: 7.0
+>> +#
+>> +##
+>> +{ 'struct': 'DirtyLimitInfo',
+>> +  'data': { 'cpu-index': 'int',
+>> +            'limit-rate': 'int64',
+>> +            'current-rate': 'int64' } }
+> 
+> The next patch uses 'uint64' for set-vcpu-dirty-limit argument
+> dirty-rate.  Why signed here?
+Yes, this is not consistent with next patch. I left this wrongly after 
+some modification, it should be moved in to next patch. I'll do that 
+next version :(
+> 
+>> +
+>> +##
+>>   # @snapshot-save:
+>>   #
+>>   # Save a VM snapshot
+> 
+> [...]
+> 
 
-No.
+-- 
+Best regard
 
-> There is an 'make lcitool-refresh' target that does it automatically,
-> and this should have refreshed the Cirrus CI config files too which
-> are missed here.
-
-Odd:
-
-$ make lcitool-refresh
-  GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3
-tests/fp/berkeley-softfloat-3 dtc capstone slirp
-Generate tests/docker/dockerfiles/centos8.docker
-Generate tests/docker/dockerfiles/fedora.docker
-Generate tests/docker/dockerfiles/ubuntu1804.docker
-Generate tests/docker/dockerfiles/ubuntu2004.docker
-Generate tests/docker/dockerfiles/opensuse-leap.docker
-Generate tests/docker/dockerfiles/alpine.docker
-Generate .gitlab-ci.d/cirrus/freebsd-12.vars
-Generate .gitlab-ci.d/cirrus/freebsd-13.vars
-Generate .gitlab-ci.d/cirrus/macos-11.vars
-
-OK, this fixed it:
-
--- >8 --
-diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index 033120e223d..25301f2ef0b 100755
---- a/tests/lcitool/refresh
-+++ b/tests/lcitool/refresh
-@@ -62,7 +62,7 @@ def generate_dockerfile(host, target, cross=None,
-trailer=None):
-
- def generate_cirrus(target, trailer=None):
-    filename = Path(src_dir, ".gitlab-ci.d", "cirrus", target + ".vars")
--   cmd = [lcitool_path, "variables", target, "qemu"]
-+   cmd = lcitool_cmd + ["variables", target, "qemu"]
-    generate(filename, cmd, trailer)
-
----
+Hyman Huang(黄勇)
 
