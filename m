@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 932A5494E66
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 13:55:06 +0100 (CET)
-Received: from localhost ([::1]:38238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B58D494D53
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 12:46:25 +0100 (CET)
+Received: from localhost ([::1]:48490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAWxv-0006LF-EY
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 07:55:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33276)
+	id 1nAVtV-00044z-W6
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 06:46:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAUe2-00061D-Uw
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 05:26:20 -0500
-Received: from [2a00:1450:4864:20::32c] (port=53901
- helo=mail-wm1-x32c.google.com)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1nAUqR-0006br-DA
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 05:39:07 -0500
+Received: from [2a00:1450:4864:20::336] (port=54826
+ helo=mail-wm1-x336.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAUdz-000334-Vw
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 05:26:18 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id n8so10998883wmk.3
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 02:26:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1nAUqP-00081S-Qt
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 05:39:07 -0500
+Received: by mail-wm1-x336.google.com with SMTP id p18so11062332wmg.4
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 02:39:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HHGfxDOrlY+qoX8WZmeurGgfb7cWclLD1s+YGsz7Tlc=;
- b=O1SaTGs7sBYj5qkCs+/fcgBN2Ch13gZ8HNs8ST9LBW9jIYKlFt26GiVxzPT8pz+Lxr
- 1QU0IGfSINv1Ao2onFduf3x/xlXMK3UvHg3Pc8xSnNoeVI7Qh7yYlyRi7BdbDjFHjO5i
- Rl8B8Y6h4hVjp7n7dZZ9XD2A9dXsvmjBbhKVKK9I9u+6X2DNuoHV3b8Pr/uopsz6I5ZY
- rA+W6wOmaYyI+WTN+YsaTytUqs1RF9CBEqT8yGZrViGOOdaPU/friGDVqh2KYoBvKPbW
- QVt1iiKeSO8oIycBfkgoXccH1QpoRnnAQjVhNpikAJLxRbG0H1gJiHgBc6OTMRmDnv6N
- 2fkQ==
+ :cc; bh=AEv4HLuO/whRkERcANbmPG5mjRMVaEol4VdJI9uSkCw=;
+ b=8BMiUNrD2ptZpHYlLh/mQFMoq5mazEOgYeO73PnHkEF+l6Gta2N9JMAEoBtQshmhV2
+ c14yx81BqeINGr/l7SJEccnES52Gon6tRdFdYS0XhEct+s44iEu4t2h1/aJmysZVkzla
+ Wi52J2B/uGtyo269WFhZYkX3SuQQx3fxEbneU8vU6HQqPIB/755GvZZ1M/zXeeY3mYlY
+ i5x8uhVc0heTmtGKnngOB+zHAR4kjwqFm1Rzgm37NIqxYdIa416aUWMQfe6uSYD4cl2w
+ AMQHVrX5Pvt+zigiktf366dCl7bYZj7Z2oKWktkGkcuad9oo9jzpcUJtGr8HL1/IB7pk
+ dP7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=HHGfxDOrlY+qoX8WZmeurGgfb7cWclLD1s+YGsz7Tlc=;
- b=MvCo+YdT1z79uzPETL2owTT7cCjQG+J1XLXl3xtpNS18cUKumXCkDlGUz30t/8qzN3
- 98V/SCVA2qLJzBKEKzU6ful661IkwLJDErtHjsjqNlJQ/+II8ImiepaHCaa1/weGIvn6
- 1+xDN8CIX4v3mIQqcI+Ro3vPDvu7xPgQ0o9065Dbw3xVLe0G33XR72JPuZdMS6/HcIvl
- 5cz3UinEVzeCaXyDGImxYpt0eqHfiC4eYiBVJyZwgxNle5FAEC8OPEMefQVe9X0fRcqR
- ZgYCS6AcXR5Jyq4bjlhooUb+t19nR3cgRyv1UsTsvsuP+XqCtelWJoj/4mTJElkhT3a7
- AsMQ==
-X-Gm-Message-State: AOAM530qLMw7nx/0NV0YcJ5jtooiQ6rH2B04D5JAxvBU/5UgdnS7XZPQ
- tuQSl6nDWWH0FzSwoDsGiXVjcYD8vdDRpNQtaxvEdg==
-X-Google-Smtp-Source: ABdhPJyWlJnveqAMxmuZF1RaPNasilWWuQn1SfBIELFn94T6b4HXb57GxVJIVOzS4I188WuPPa3127ZoQ5D1x5yiMxw=
-X-Received: by 2002:adf:fa0c:: with SMTP id m12mr6642837wrr.172.1642674374228; 
- Thu, 20 Jan 2022 02:26:14 -0800 (PST)
+ bh=AEv4HLuO/whRkERcANbmPG5mjRMVaEol4VdJI9uSkCw=;
+ b=qLIB2D6Tw4ARVd18b7JZsX+EkklDB5d49cJFsF/BaERNtwDPsy6Xekw8jr7ND6q4Lb
+ HKyYsZARMVlE7YdGz0iXJhaQaDv1gyEzuWmkJaSRDnWNxFTCrAwQ0B+xE0INT+9iLQk0
+ mETUEKsQbTSsL5Cflynocwp4/S1MeJd401cyy1Sncq1CC1dd7VEzMBZqplvYB2IVqrsH
+ QG+Tvnz2JluXLockcwHo49CCRrX2MKYs4rSfJ5HO7HREIoM27qIIzvwwU6Zne6aLYaYk
+ dPNCA4+wvSNQY1p9aeVyX9ZK1wRaXXZpaZrxcVSvO+ibRDEWL07cyLupnd9PS7VadLXQ
+ DUSA==
+X-Gm-Message-State: AOAM5306Ks/g2EDMi7/w44bmldIljFPDHiajELTr4B1/D8OnEhO70eRW
+ B+cq2aIRlTFHL9nDdWhhjPJit12CXs/+nAeTe3Lneg==
+X-Google-Smtp-Source: ABdhPJwokJ1A9Hk2+jM545Gi6N9vScWnCbKq5dHS6DnKnoqpLsisLj1o8dpWUMLF3lMTwMC5Fx5wE77lYQDZKNGC/dY=
+X-Received: by 2002:a5d:64c1:: with SMTP id f1mr22524534wri.214.1642675143859; 
+ Thu, 20 Jan 2022 02:39:03 -0800 (PST)
 MIME-Version: 1.0
-References: <CAK7rcp9rnggAvaDxRV4m_KcR1afmquJsR+=khKw4B1UG1+V7yw@mail.gmail.com>
- <87czkn8rzp.fsf@linaro.org>
- <CAK7rcp84B0MXfeGsPnd9oM6cqxGUUSNL0GmLiWYwZzPhLkvfxw@mail.gmail.com>
-In-Reply-To: <CAK7rcp84B0MXfeGsPnd9oM6cqxGUUSNL0GmLiWYwZzPhLkvfxw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 20 Jan 2022 10:26:03 +0000
-Message-ID: <CAFEAcA-9d3MnxdsmLeikruhVzCredV7wvRgSU=MOmz0quCWRew@mail.gmail.com>
-Subject: Re: Cross Architecture Kernel Modules?
-To: Kenneth Adam Miller <kennethadammiller@gmail.com>
+References: <20220118111736.454150-1-apatel@ventanamicro.com>
+ <20220118111736.454150-4-apatel@ventanamicro.com>
+ <CAEUhbmX-juU-a0D4sgnxR=Z+uRU=tBt2bNYAOjmfoW_7DD9JKA@mail.gmail.com>
+In-Reply-To: <CAEUhbmX-juU-a0D4sgnxR=Z+uRU=tBt2bNYAOjmfoW_7DD9JKA@mail.gmail.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Thu, 20 Jan 2022 16:08:50 +0530
+Message-ID: <CAAhSdy3+eiHwRx3ExNkb3To9OCF=2jenUFPSXp7cHxrOPhdA2Q@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] roms/opensbi: Remove ELF images
+To: Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: none client-ip=2a00:1450:4864:20::336;
+ envelope-from=anup@brainfault.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,28 +82,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Anup Patel <apatel@ventanamicro.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 19 Jan 2022 at 19:53, Kenneth Adam Miller
-<kennethadammiller@gmail.com> wrote:
+On Wed, Jan 19, 2022 at 12:26 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> The source for it isn't available in order that it be compiled to the desired architecture.
+> On Tue, Jan 18, 2022 at 7:18 PM Anup Patel <apatel@ventanamicro.com> wrote:
+> >
+> > Now that all RISC-V machines can use OpenSBI BIN images, we remove
+> > OpenSBI ELF images and also exclude these images from BIOS build.
+> >
+> > Signed-off-by: Anup Patel <anup@brainfault.org>
+> > ---
+> >  pc-bios/meson.build                            |   2 --
+> >  pc-bios/opensbi-riscv32-generic-fw_dynamic.elf | Bin 838904 -> 0 bytes
+> >  pc-bios/opensbi-riscv64-generic-fw_dynamic.elf | Bin 934696 -> 0 bytes
+> >  roms/Makefile                                  |   2 --
+> >  4 files changed, 4 deletions(-)
+> >  delete mode 100644 pc-bios/opensbi-riscv32-generic-fw_dynamic.elf
+> >  delete mode 100644 pc-bios/opensbi-riscv64-generic-fw_dynamic.elf
+> >
+>
+> .gitlab-ci.d/opensbi.yml should also be updated to remove .elf build
 
-In general kernel modules need to be built not just for the right architecture
-but even for the specific kernel version you're going to load them into.
+Okay, I will update this file in the next revision.
 
-In theory you could perhaps build QEMU into the native system kernel and
-have it act as a shim between non-native kernel modules (this has been done
-for UEFI modules before). But you would (unlike the UEFI case) run into
-incompatibilities in data structure layouts in memory. In general it would
-be a lot of work; it is certainly not something QEMU is anywhere near
-being able to do today. I doubt it's something that either the upstream
-kernel folks nor upstream QEMU would be interested in either.
+Thanks,
+Anup
 
-The best approach would be to get the source for the kernel module.
-
--- PMM
+>
+> Otherwise,
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
