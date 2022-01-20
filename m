@@ -2,97 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D6549563C
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 23:07:05 +0100 (CET)
-Received: from localhost ([::1]:47546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C186E495658
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 23:25:34 +0100 (CET)
+Received: from localhost ([::1]:42176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAfaC-0005yI-0a
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 17:07:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42622)
+	id 1nAfs5-0005Ku-Hv
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 17:25:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nAaLa-0003nm-TM
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 11:31:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30959)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nAazE-000125-LW
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 12:12:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59460)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nAaLR-0007Zv-AE
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 11:31:32 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nAaz9-0006Qs-Ah
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 12:12:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642696288;
+ s=mimecast20190719; t=1642698730;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PUDA68E9yFnuWqokHj2oWWUueC0ADum0TZ5TBX7WvYY=;
- b=KToAtDwa13ofSEqwrQ2tDi5bl0qF/0vXO1E/LhHm9b8YqiifMIiSFvcTS7d71urBqNFhUg
- ixjHCRDVdNAtrDfms+V+klW2hk22b9bq6q7pGCbj2VkH8IAQ4US89Yb3EFm6RzkbAwejRT
- eNX54502RfXMa+Wa4czCRVGtutfR3Qk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=pXGkivrRQGwnw35OJMAOIVi589Esv8jglmSYx+fD9gg=;
+ b=NuRSW19k3sDAoTr15To42IjE28oj3jPvR8I/ZSYR/s3lHcz+LRVs01/GCJ2ZRD+z7F4jA8
+ kdV/RqxGOxIwwWCkeA9oB3p4ZJW1SiQuGcLPmOfYE4YAcs74cCFOWwzxXpodKK2VufdqW4
+ yXB60XeOtcBAArsIFtHf0fvB6gTrZsM=
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-332-QmueABkKN_2S1Z_ioPu5NQ-1; Thu, 20 Jan 2022 11:31:26 -0500
-X-MC-Unique: QmueABkKN_2S1Z_ioPu5NQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- f187-20020a1c38c4000000b0034d5c66d8f5so4899234wma.5
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 08:31:25 -0800 (PST)
+ us-mta-311-vrk_qIuoOTq4JGrmTRZ7xw-1; Thu, 20 Jan 2022 12:12:01 -0500
+X-MC-Unique: vrk_qIuoOTq4JGrmTRZ7xw-1
+Received: by mail-vk1-f197.google.com with SMTP id
+ z84-20020a1f9757000000b0031ba7827bcaso1002017vkd.6
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 09:12:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=PUDA68E9yFnuWqokHj2oWWUueC0ADum0TZ5TBX7WvYY=;
- b=knItbzA4S2Gkpjh/eqPP13uPzxbfesWXXMbwOaCp2fVn0sb+HOzS0+5HBlnicjjmxX
- JE2M2Ub2ZgkdYn4ZNA4xWioclSLrBa9iePIzbcY5dSPx2ICVN+fUvKMEGJe4rnDkDgXM
- ePf7C37iaHBScINdDCQWIUdipUwdwWhUztvhqznUBuiipYToVPCkT0GNmP2gz7pGz8hO
- eYpQoXNciDBuywA9n6Qewc8OENhgVRMNd7YYqNak0ZZQaSwZJ8mxVtqhC0LSE8XREpAA
- tBhUB+fmCP5CTBNtrZTvskHaPZKo3GmreCRQg/Mvta4YbayTCRigo0EmL3YKnZwlJBSV
- 8A4w==
-X-Gm-Message-State: AOAM5304uzExPRp1hKy5ynnzBsnRipC3gbyOm44mmMXAZGjSoWYA9Coy
- OhJMoHVM5LxHWxq8/0VQS4UOXVZaKANjVvt99rMafras7O9ncXRXL66gxklCwwYCVNTURN2UNBb
- NESLyq6bzzud2i58=
-X-Received: by 2002:a05:600c:a45:: with SMTP id
- c5mr9490632wmq.127.1642696284864; 
- Thu, 20 Jan 2022 08:31:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzdF948b6UWA+4drXVX0RAbSFVU+BFPuw6hSxvrPOG5NeYGM14BF/m+vFXDBoMIrjH+dJp4EQ==
-X-Received: by 2002:a05:600c:a45:: with SMTP id
- c5mr9490603wmq.127.1642696284515; 
- Thu, 20 Jan 2022 08:31:24 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id a3sm4090090wri.89.2022.01.20.08.31.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Jan 2022 08:31:23 -0800 (PST)
-Message-ID: <ffaf9aee-56e9-c332-09ad-158a3e28758b@redhat.com>
-Date: Thu, 20 Jan 2022 17:31:22 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pXGkivrRQGwnw35OJMAOIVi589Esv8jglmSYx+fD9gg=;
+ b=ftN4AXq2rgOmKP+BbdGbquUaP2oRI4TNjdslr5WUguHq8SmtAyeJrT8CbEPzH1boU4
+ QjMNOfQ5q8cq+Jo8aMDos5JzIIDj3uXF3XJALT3A7XthYtmGgft7/tjkmefyzDUD5C3s
+ qgPUZLS0vFOzHBSnp/qvXSzw/GqZeugUOO/dNxcdsn1lI8qLJoeF0ruxd85m6w1QXHhG
+ 5/y+i0dTI7sNTeFK/e3NWrOOKGy6uoJQAjMv/l2ht9nhykBsYGZE46RqHH2hXqJUMnGh
+ 3VCTTATCT7p+uPY145Bxzni1TF0eVBhiUiYHcAvhLB46x3GKwiwGvP3IAJp6eRv7bMUp
+ KgHg==
+X-Gm-Message-State: AOAM532aM4ZvSI5gDWm17RqD2LJ6CWOg2GLzbpRZOW3zncs/29xJajH0
+ O4epdS6e+q7Rc7I6BKLV0/oWArl1ztRZGXCgUYwYR2F2GWywBn3qyb8EZgGq57JjuGPxqztol0Q
+ 99DjmbCfuJBFT1fMlLZDKusyMBQieYEI=
+X-Received: by 2002:a05:6102:3019:: with SMTP id
+ s25mr3177974vsa.38.1642698721141; 
+ Thu, 20 Jan 2022 09:12:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzdZufix5ppNT8tErJHWW2CAFiSJ1vj2mpCmJ3qpFviJC2qfw10mz3VX/gAQsgOcGY85Lt81b5Jxp1C/udgZ20=
+X-Received: by 2002:a05:6102:3019:: with SMTP id
+ s25mr3177946vsa.38.1642698720884; 
+ Thu, 20 Jan 2022 09:12:00 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 1/3] qsd: Add pre-init argument parsing pass
-To: Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-References: <20211222114153.67721-1-hreitz@redhat.com>
- <20211222114153.67721-2-hreitz@redhat.com>
- <87zgnrubkf.fsf@dusky.pond.sub.org>
- <4a15fbad-b177-f35c-1468-ef14f7ab1887@redhat.com>
- <YehIosxuXCqsGBSW@redhat.com> <87ee5275ya.fsf@dusky.pond.sub.org>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <87ee5275ya.fsf@dusky.pond.sub.org>
+References: <20220119193916.4138217-1-jsnow@redhat.com>
+ <20220119193916.4138217-6-jsnow@redhat.com>
+ <Yeknr1ZvsyppLY0d@redhat.com>
+In-Reply-To: <Yeknr1ZvsyppLY0d@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 20 Jan 2022 12:11:50 -0500
+Message-ID: <CAFn=p-ZJ6u8rU8opwEhDib+Akb=H7pZTLvE9Mmh0cpsz+sTS5Q@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] python/aqmp: add socket bind step to legacy.py
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Content-Type: multipart/alternative; boundary="000000000000bb503205d6069949"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,129 +92,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Beraldo Leal <bleal@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.01.22 17:00, Markus Armbruster wrote:
-> Kevin Wolf <kwolf@redhat.com> writes:
->
->> Am 19.01.2022 um 14:44 hat Hanna Reitz geschrieben:
->>> On 19.01.22 13:58, Markus Armbruster wrote:
->>>> Hanna Reitz <hreitz@redhat.com> writes:
->>>>
->>>>> We want to add a --daemonize argument to QSD's command line.
->>>> Why?
->>> OK, s/we/I/.  I find it useful, because without such an option, I need to
->>> have whoever invokes QSD loop until the PID file exists, before I can be
->>> sure that all exports are set up.  I make use of it in the test cases added
->>> in patch 3.
->>>
->>> I suppose this could be worked around with a special character device, like
->>> so:
->>>
->>> ```
->>> ncat --listen -U /tmp/qsd-done.sock </dev/null &
->>> ncat_pid=$!
->>>
->>> qemu-storage-daemon \
->>>      ... \
->>>      --chardev socket,id=signal_done,path=/tmp/qsd-done.sock \
->>>      --monitor signal_done \
->>>      --pidfile /tmp/qsd.pid &
->>>
->>> wait $ncat_pid
->>> ```
->>>
->>> But having to use an extra tool for this is unergonomic.  I mean, if there’s
->>> no other way...
-> I know duplicating this into every program that could server as a daemon
-> is the Unix tradition.  Doesn't make it good.  Systemd[*] has tried to
-> make it superfluous.
+--000000000000bb503205d6069949
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Well.  I have absolutely nothing against systemd.  Still, I will not use 
-it in an iotest, that’s for sure.
+On Thu, Jan 20, 2022, 4:13 AM Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+wrote:
 
->> The other point is that the system emulator has it, qemu-nbd has it,
->> so certainly qsd should have it as well. Not the least because it should
->> be able to replace qemu-nbd (at least for the purpose of exporting NBD.
->> not necessarily for attaching it to the host).
-> Point taken, but I think it's a somewhat weak one.  qsd could certainly
-> replace qemu-nbd even without --daemonize; we could use other means to
-> run it in the background.
+> On Wed, Jan 19, 2022 at 02:39:16PM -0500, John Snow wrote:
+> > The old QMP library would actually bind to the server address during
+> > __init__(). The new library delays this to the accept() call, because
+> > binding occurs inside of the call to start_[unix_]server(), which is an
+> > async method -- so it cannot happen during __init__ anymore.
+> >
+> > Python 3.7+ adds the ability to create the server (and thus the bind()
+> > call) and begin the active listening in separate steps, but we don't
+> > have that functionality in 3.6, our current minimum.
+> >
+> > Therefore ... Add a temporary workaround that allows the synchronous
+> > version of the client to bind the socket in advance, guaranteeing that
+> > there will be a UNIX socket in the filesystem ready for the QEMU client
+> > to connect to without a race condition.
+> >
+> > (Yes, it's ugly; fixing it more nicely will unfortunately have to wait
+> > until I can stipulate Python 3.7+ as our minimum version. Python 3.6 is
+> > EOL as of the beginning of this year, but I haven't checked if all of
+> > our supported build platforms have a properly modern Python available
+> > yet.)
 >
->>>>>                                                                 This will
->>>>> require forking the process before we do any complex initialization
->>>>> steps, like setting up the block layer or QMP.  Therefore, we must scan
->>>>> the command line for it long before our current process_options() call.
->>>> Can you explain in a bit more detail why early forking is required?
->>>>
->>>> I have a strong dislike for parsing more than once...
->>> Because I don’t want to set up QMP and block devices, and then fork the
->>> process into two.  That sounds like there’d be a lot of stuff to think
->>> about, which just isn’t necessary, because we don’t need to set up any
->>> of this in the parent.
-> We must fork() before we create threads.  Other resources are easy
-> enough to hand over to the child.  Still, having to think about less is
-> good, I readily grant you that.
+> RHEL-8 system python will remain 3.6 for the life of RHEL-8.
 >
-> The trouble is that forking early creates a new problem: any
-> configuration errors detected in the child must be propagated to the
-> parent somehow (output and exit status).  I peeked at your PATCH 2, and
-> I'm not convinced, but that's detail here.
+> While you can bring in newer python versions in parallel,
+> IMHO it is highly desirable to remain compatible with the
+> system python as that's the one you can guarantee users
+> actually have available by default.
 >
->> Here we can compare again: Both the system emulator and qemu-nbd behave
->> the same, they fork before they do anything interesting.
->>
->> The difference is that they still parse the command line only once
->> because they don't immediately create things, but just store the options
->> and later process them in their own magic order. I'd much rather parse
->> the command line twice than copy that behaviour.
-> The part I hate is "own magic order".  Without that, multiple passes are
-> just fine with me.
->
-> Parsing twice is a bit like having a two pass compiler run the first
-> pass left to right, and then both passes intertwined left to right.  The
-> pedestrian way to do it is running the first pass left to right, then
-> the second pass left to right.
->
-> We're clearly talking taste here.
->
->> Kevin
->>
->>> For example, if I set up a monitor on a Unix socket (server=true),
->>> processing is delayed until the client connects.  Say I put --daemonize
->>> afterwards.  I connect to the waiting server socket, the child is forked
->>> off, and then... I’m not sure what happens, actually.  Do I have a
->>> connection with both the parent and the child listening?  I know that in
->>> practice, what happens is that once the parent exits, the connection is
->>> closed, and I get a “qemu: qemu_thread_join: Invalid argument” warning/error
->>> on the QSD side.
->>>
->>> There’s a lot of stuff to think about if you allow forking after other
->>> options, so it should be done first.  We could just require the user to put
->>> --daemonize before all other options, and so have a single pass; but still,
->>> before options are even parsed, we have already for example called
->>> bdrv_init(), init_qmp_commands(), qemu_init_main_loop().  These are all
->>> things that the parent of a daemonizing process doesn’t need to do, and
->>> where I’d simply rather not think about what impact it has if we fork
->>> afterwards.
->>>
->>> Hanna
-> Care to put a brief version of the rationale for --daemonize and for
-> forking early in the commit message?
 
-Well, my rationale for adding the feature doesn’t really extend beyond 
-“I want it, I find it useful, and so I assume others will, too”.
+I agree, but over time my hand will be forced. Libraries are beginning to
+drop support for Python 3.6 upstream, and it's only a matter of time before
+it becomes implausible to support an EOL python version.
 
-I don’t really like putting “qemu-nbd has it” there, because... it was 
-again me who implemented it for qemu-nbd.  Because I found it useful.  
-But I can of course do that, if it counts as a reason.
+I actually go out of my way to ensure compatibility with the very oldest
+versions I possibly can - *extremely* out of my way - but there's only so
+much I can reasonably do. Supporting 3.6 and 3.11 simultaneously may prove
+challenging.
 
-I can certainly (and understand the need to, and will) elaborate on the 
-“This will require forking the process before we do any complex 
-initialization steps” part.
+Either way, I'm not bumping the version here in this series. I'm just
+stating that this hack is kind of the best I can (quickly and easily) do
+until 3.7.
 
-Hanna
+(3.7 adds start_server=3DFalse to start_unix_server which allows the
+separation of steps without needing to muck around with the socket object.)
+
+
+>
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-
+> https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-
+> https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-
+> https://www.instagram.com/dberrange :
+>
+
+--000000000000bb503205d6069949
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Thu, Jan 20, 2022, 4:13 AM Daniel P. Berrang=C3=A9 =
+&lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; wrot=
+e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex">On Wed, Jan 19, 2022 at 02:39:16=
+PM -0500, John Snow wrote:<br>
+&gt; The old QMP library would actually bind to the server address during<b=
+r>
+&gt; __init__(). The new library delays this to the accept() call, because<=
+br>
+&gt; binding occurs inside of the call to start_[unix_]server(), which is a=
+n<br>
+&gt; async method -- so it cannot happen during __init__ anymore.<br>
+&gt; <br>
+&gt; Python 3.7+ adds the ability to create the server (and thus the bind()=
+<br>
+&gt; call) and begin the active listening in separate steps, but we don&#39=
+;t<br>
+&gt; have that functionality in 3.6, our current minimum.<br>
+&gt; <br>
+&gt; Therefore ... Add a temporary workaround that allows the synchronous<b=
+r>
+&gt; version of the client to bind the socket in advance, guaranteeing that=
+<br>
+&gt; there will be a UNIX socket in the filesystem ready for the QEMU clien=
+t<br>
+&gt; to connect to without a race condition.<br>
+&gt; <br>
+&gt; (Yes, it&#39;s ugly; fixing it more nicely will unfortunately have to =
+wait<br>
+&gt; until I can stipulate Python 3.7+ as our minimum version. Python 3.6 i=
+s<br>
+&gt; EOL as of the beginning of this year, but I haven&#39;t checked if all=
+ of<br>
+&gt; our supported build platforms have a properly modern Python available<=
+br>
+&gt; yet.)<br>
+<br>
+RHEL-8 system python will remain 3.6 for the life of RHEL-8.<br>
+<br>
+While you can bring in newer python versions in parallel,<br>
+IMHO it is highly desirable to remain compatible with the<br>
+system python as that&#39;s the one you can guarantee users<br>
+actually have available by default.<br></blockquote></div></div><div dir=3D=
+"auto"><br></div><div dir=3D"auto">I agree, but over time my hand will be f=
+orced. Libraries are beginning to drop support for Python 3.6 upstream, and=
+ it&#39;s only a matter of time before it becomes implausible to support an=
+ EOL python version.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I a=
+ctually go out of my way to ensure compatibility with the very oldest versi=
+ons I possibly can - *extremely* out of my way - but there&#39;s only so mu=
+ch I can reasonably do. Supporting 3.6 and 3.11 simultaneously may prove ch=
+allenging.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Either way, I=
+&#39;m not bumping the version here in this series. I&#39;m just stating th=
+at this hack is kind of the best I can (quickly and easily) do until 3.7.</=
+div><div dir=3D"auto"><br></div><div dir=3D"auto">(3.7 adds start_server=3D=
+False to start_unix_server which allows the separation of steps without nee=
+ding to muck around with the socket object.)=C2=A0</div><div dir=3D"auto"><=
+br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex">
+<br><br>
+<br>
+Regards,<br>
+Daniel<br>
+-- <br>
+|: <a href=3D"https://berrange.com" rel=3D"noreferrer noreferrer" target=3D=
+"_blank">https://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a h=
+ref=3D"https://www.flickr.com/photos/dberrange" rel=3D"noreferrer noreferre=
+r" target=3D"_blank">https://www.flickr.com/photos/dberrange</a> :|<br>
+|: <a href=3D"https://libvirt.org" rel=3D"noreferrer noreferrer" target=3D"=
+_blank">https://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com=
+" rel=3D"noreferrer noreferrer" target=3D"_blank">https://fstop138.berrange=
+.com</a> :|<br>
+|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer noreferrer" tar=
+get=3D"_blank">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0=
+ <a href=3D"https://www.instagram.com/dberrange" rel=3D"noreferrer noreferr=
+er" target=3D"_blank">https://www.instagram.com/dberrange</a> :<br></blockq=
+uote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"></blockquote></div></div></=
+div>
+
+--000000000000bb503205d6069949--
 
 
