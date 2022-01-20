@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDFBE4956F9
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 00:29:56 +0100 (CET)
-Received: from localhost ([::1]:57456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 973CA495734
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 01:08:06 +0100 (CET)
+Received: from localhost ([::1]:36366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAgsN-0005dJ-Jv
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 18:29:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43976)
+	id 1nAhTJ-0005o9-Ci
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 19:08:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1nAdhs-0001Pj-9Z
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 15:06:58 -0500
-Received: from [2a00:1450:4864:20::32c] (port=44988
- helo=mail-wm1-x32c.google.com)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1nAdj5-0002jL-V5
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 15:08:08 -0500
+Received: from [2607:f8b0:4864:20::82c] (port=36553
+ helo=mail-qt1-x82c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1nAdhD-0004hH-G1
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 15:06:14 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- l35-20020a05600c1d2300b0034d477271c1so16397042wms.3
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 12:06:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=YCZqAe2PY9PJhJjuWjBJZ+aFAb0Y/qeT3gFttJtEWzI=;
- b=Y6tamb0UYgT423goR3o2nK6Ougp+ReWy/xNoXCcFFtvOqdCQbRyK0xnEDTczQXI52h
- P+cOddYQuKo2KhDxyRHwTmdFE0ubamVqgwSycjQTQcvNEH/P93SrkTbBSc47GyiGw9WN
- bA95NN6YPa6P+ELBVyiL7dqDzD7Hcjr3zaZwnLE/5C5tOTBa/gg2J/PPcRlX4Dv43rKO
- Zs1kRGMOejQAR1fNENMeKMObjlzMWeeOJES2mnYiN0LrYWBAeVu5LruBSRiHz/fUz+YB
- pr1g6oTpK9eMIMq5Vl1yMcnj3c/Sl4rdOgBxGUE5f8Iczvdf0WYvh7ARq7flfSB0Hqf3
- wILA==
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1nAdj3-0006W0-Lp
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 15:08:07 -0500
+Received: by mail-qt1-x82c.google.com with SMTP id c19so7639688qtx.3
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 12:08:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8qXVNgaYeIfFu3Ow7r38oZP5uUxirnl8ygQjSCeLRuM=;
+ b=mxch+Tg3BGjFyrqf/sl9mVfgkWSG1XKCgg6cTv+wjqwSMqwV5Hz5GbT2vWYYJW4qQn
+ 7SYZXQu9H8Zk7Naev67VVcrQQr0gVd4E6fCoh1vSqjfqNTIwTVvAoiB3XqNuv2uzPWKD
+ kSYfEzV/6h3vwQzfr4bxNDDhwS7EHTD6x24KMlk//XT+y/W+z0uX+2E7L+wDarDJhGZc
+ arnSvNiZbkNDcGP1ULrfU3I/DRREg+ARrNtOBbbq2kVeaQFXMlJO2MUzfFcgdBKrz7fI
+ MeRVe7iH3zG4tKu0F9b1Jfrmk/gMB6w8gFlpbHCg80YSCSensDvJQEG3zofqWllpYzN5
+ 9rew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=YCZqAe2PY9PJhJjuWjBJZ+aFAb0Y/qeT3gFttJtEWzI=;
- b=DL2wlcT0X6MSE9rEO5/JYh+Zk3M92D2EG3Id6ftrlAJ0ByNS4zwmDHgsHp45yvzaRG
- kG0f7iAmQMAgsQ5WVk5q/Tx/JySMfmPadTWXles8FzCoIbBvhmIwHqsE7Kh1Nj02RJc5
- SN1aEaCfPyI4kXwffYnn3vFkBzmrWs6I0jdD4zox64ELEbF13IZt337nJ/EEXFykLiDA
- CM9Beig/5YClun1DUR3j+O1gjW1fKwgaOywdTeUB69uKZ69W36ZzO6dwAtxPinY2CNaF
- GrLJ/s5Ijzp3qS3langbY5kFJwg/DiJ4KuMinVtUvS1MZSXyVDZsnfpXFbknEbrQFyeQ
- pl+Q==
-X-Gm-Message-State: AOAM530cJAAGp7xIUXxbLj86O1WUBg9NOcl+WQG8OIfpiHcoF0Gp2UwH
- CK2aAJC6Hl7RKcuYogs4fT3dXr+G5aIlPLkQxEJddQ==
-X-Google-Smtp-Source: ABdhPJyl0RkBGrayYcUPW6IxDjATY66PxSWhwYfPapb0wkMt/5mIAjfdfk83wBo+/q3Q8OMLonDKZkxp9oncBBAWgvQ=
-X-Received: by 2002:adf:f683:: with SMTP id v3mr655633wrp.306.1642709168562;
- Thu, 20 Jan 2022 12:06:08 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8qXVNgaYeIfFu3Ow7r38oZP5uUxirnl8ygQjSCeLRuM=;
+ b=cXy6KmoKeQoAFr0SQjd7dMkqVeUlxYD8DjFKW2LLkYed7PL7UYSs6URb4nOXLnyvWx
+ sAD0+TaNUv8Z1SI83RR8cyXVtcq3hayku06Tkz0QdW0VM+zpTx0QiEzNFGcUrc0JS/68
+ pZIULC/0WjsaZGFVAMW0/qLi18JSS5K1kPdWh/BXfhpGD5NUllCJQHbrufsO/rbUqyge
+ poVYj45TN13peyJ3OxHdon5bRtFVDBoFi4uudOoeaaqAU2+lsbSYUtXcGCbpg4N5UzYv
+ kZyMbKVmVxy9JNOnPSlakZ9xkxs6w5lyxL9eUe8/LaogrosSfh4N+Elmbzp+U3texKMr
+ 4feQ==
+X-Gm-Message-State: AOAM530niepEPp5DjBNj6/rwsJ92TL2OHyAE1OjeUJNaw3gwfPHh4V+c
+ O385HB2lPQQ0sBNJ1cfGXK/XTjrOF6hUcQ==
+X-Google-Smtp-Source: ABdhPJw5zpT5GYvfLTt170+JO3RmLOreE6Tybk03InBOs1rVSR0qoA1DsO8cOR0RAOBQgU0wGlMssg==
+X-Received: by 2002:ac8:5988:: with SMTP id e8mr586034qte.459.1642709283339;
+ Thu, 20 Jan 2022 12:08:03 -0800 (PST)
+Received: from rivos-atish.. (adsl-70-228-75-190.dsl.akrnoh.ameritech.net.
+ [70.228.75.190])
+ by smtp.gmail.com with ESMTPSA id a136sm1834160qkc.56.2022.01.20.12.08.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Jan 2022 12:08:02 -0800 (PST)
+From: Atish Patra <atishp@rivosinc.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC 0/5] Privilege version update
+Date: Thu, 20 Jan 2022 12:07:30 -0800
+Message-Id: <20220120200735.2739543-1-atishp@rivosinc.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220113202033.3320854-1-philipp.tomsich@vrull.eu>
- <aaf525e8-7dc5-f93d-0cc5-5ba560b5650f@amsat.org>
-In-Reply-To: <aaf525e8-7dc5-f93d-0cc5-5ba560b5650f@amsat.org>
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Date: Thu, 20 Jan 2022 21:05:57 +0100
-Message-ID: <CAAeLtUACeU3QZHbU7SnUNc5mgu2hQe9B0-9+zNsiLHhT0A8zRQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] target/riscv: iterate over a table of decoders
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=atishp@rivosinc.com; helo=mail-qt1-x82c.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,145 +85,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Bin Meng <bin.meng@windriver.com>,
- qemu-devel@nongnu.org, Greg Favor <gfavor@ventanamicro.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Kito Cheng <kito.cheng@sifive.com>
+Cc: qemu-riscv@nongnu.org, Anup Patel <anup@brainfault.org>,
+ Bin Meng <bin.meng@windriver.com>, Atish Patra <atishp@rivosinc.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 19 Jan 2022 at 12:30, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> On 13/1/22 21:20, Philipp Tomsich wrote:
-> > To split up the decoder into multiple functions (both to support
-> > vendor-specific opcodes in separate files and to simplify maintenance
-> > of orthogonal extensions), this changes decode_op to iterate over a
-> > table of decoders predicated on guard functions.
-> >
-> > This commit only adds the new structure and the table, allowing for
-> > the easy addition of additional decoders in the future.
-> >
-> > Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-> > ---
-> >
-> > Changes in v2:
-> > - (new patch) iterate over a table of guarded decoder functions
-> >
-> >   target/riscv/translate.c | 38 ++++++++++++++++++++++++++++++++------
-> >   1 file changed, 32 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> > index 615048ec87..2cbf9cbb6f 100644
-> > --- a/target/riscv/translate.c
-> > +++ b/target/riscv/translate.c
-> > @@ -116,6 +116,12 @@ static inline bool has_ext(DisasContext *ctx, uint=
-32_t ext)
-> >       return ctx->misa_ext & ext;
-> >   }
-> >
-> > +static inline bool always_true_p(CPURISCVState *env  __attribute__((__=
-unused__)),
-> > +                                 DisasContext *ctx  __attribute__((__u=
-nused__)))
-> > +{
-> > +    return true;
-> > +}
-> > +
-> >   #ifdef TARGET_RISCV32
-> >   #define get_xl(ctx)    MXL_RV32
-> >   #elif defined(CONFIG_USER_ONLY)
-> > @@ -844,16 +850,28 @@ static uint32_t opcode_at(DisasContextBase *dcbas=
-e, target_ulong pc)
-> >
-> >   static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_=
-t opcode)
-> >   {
-> > -    /* check for compressed insn */
-> > +    /* If not handled, we'll raise an illegal instruction exception */
-> > +    bool handled =3D false;
-> > +
-> > +    /*
-> > +     * A table with predicate (i.e., guard) functions and decoder func=
-tions
-> > +     * that are tested in-order until a decoder matches onto the opcod=
-e.
-> > +     */
-> > +    const struct {
-> > +        bool (*guard_func)(CPURISCVState *, DisasContext *);
-> > +        bool (*decode_func)(DisasContext *, uint32_t);
-> > +    } decoders[] =3D {
-> > +        { always_true_p,  decode_insn32 },
-> > +    };
-> > +
-> > +    /* Check for compressed insn */
-> >       if (extract16(opcode, 0, 2) !=3D 3) {
-> >           if (!has_ext(ctx, RVC)) {
-> >               gen_exception_illegal(ctx);
-> >           } else {
-> >               ctx->opcode =3D opcode;
-> >               ctx->pc_succ_insn =3D ctx->base.pc_next + 2;
-> > -            if (!decode_insn16(ctx, opcode)) {
-> > -                gen_exception_illegal(ctx);
-> > -            }
-> > +            handled =3D decode_insn16(ctx, opcode);
-> >           }
-> >       } else {
-> >           uint32_t opcode32 =3D opcode;
-> > @@ -862,10 +880,18 @@ static void decode_opc(CPURISCVState *env, DisasC=
-ontext *ctx, uint16_t opcode)
-> >                                                ctx->base.pc_next + 2));
-> >           ctx->opcode =3D opcode32;
-> >           ctx->pc_succ_insn =3D ctx->base.pc_next + 4;
-> > -        if (!decode_insn32(ctx, opcode32)) {
-> > -            gen_exception_illegal(ctx);
-> > +
-> > +        for (size_t i =3D 0; i < ARRAY_SIZE(decoders); ++i) {
-> > +            if (!decoders[i].guard_func(env, ctx))
-> > +                continue;
-> > +
-> > +            if ((handled =3D decoders[i].decode_func(ctx, opcode32)))
-> > +                break;
->
-> Again, while we might check whether "Vendor Extensions" are enabled or
-> not at runtime, they are specific to a (vendor) core model, so we know
-> their availability  at instantiation time.
->
-> I don't understand the need to iterate. You can check for vendor
-> extensions in riscv_tr_init_disas_context() and set a vendor_decoder()
-> handler in DisasContext, which ends calling the generic decode_opc()
-> one.
+RISC-V International (RVI) has ratified many RISC-V ISA extensions recently[1].
+The privileged specification version is also upgraded to v1.12. It means
+certain CSRs introduced in v1.12 should only be accessible only if the
+priv specification version supported is equal or greater than v1.12.
+Doing this check in predicate function is not scalable as there will be
+new CSRs introduced in the future versions of the privileged specification.
 
-While the design you propose is a valid variation that will achieve
-most of the functionality, I don't believe that this is the best way
-forward.
-A key issue is that it will interfere with using the command-line to
-enable/disable such vendor-defined extensions easily (i.e., "-cpu
-any,XVentanaCondOps=3Dtrue" will not work).
+This series tries to address this problem by adding a field in the csr_ops
+which can be checked in csrrw function before invoking the predicate function.
+To keep the code churn to minimum, it is assumed that the minimum version of
+the privilege version supported for any CSR is v1.10 unless specified
+explicitly in the csr_ops table. Any new CSRs introduced in v1.12 have been
+updated accordingly.
 
-It also looks like there is a misunderstanding of how vendor-defined
-extensions work: these will not be the same for every vendor core and
-may be implemented by multiple vendors (after all: these are
-vendor-defined, not vendor-specific). Trying to force the RISC-V
-vendors down the route of handling this via a specialized decoder
-function set up in riscv_tr_init_disas_context(), will eventually
-force them to have multiple decode functions for
-chip-families/generations =E2=80=94 this is not conducive to easy
-maintainability of the codebase.
+This will work fine for any ratified extensions. However, it is bit unclear
+what should be done for the stable draft extensions. My suggestion is not
+to update the priv field in the CSR ops table until the extension is
+marked experimental (i.e. not frozen/ratified). Once the extension is
+ratified and graduated from experimental to available stage, the privileged
+spec version should be updated in the csr table if required. I am open to
+other suggestions as well.
 
-Regards,
-Philipp.
+[1] https://wiki.riscv.org/display/TECH/Recently+Ratified+Extensions
 
->
-> >           }
-> >       }
-> > +
-> > +    if (!handled)
-> > +        gen_exception_illegal(ctx);
-> >   }
-> >
-> >   static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPU=
-State *cs)
->
+Atish Patra (5):
+target/riscv: Add the privileged spec version 1.12.0
+target/riscv: Introduce privilege version field in the CSR ops.
+target/riscv: Add support for mconfigptr
+target/riscv: Add *envcfg* CSRs support
+target/riscv: Enable privileged spec version 1.12
+
+target/riscv/cpu.c      |   8 +-
+target/riscv/cpu.h      |  10 ++
+target/riscv/cpu_bits.h |  32 +++++++
+target/riscv/csr.c      | 199 +++++++++++++++++++++++++++++++++-------
+target/riscv/machine.c  |  26 ++++++
+5 files changed, 237 insertions(+), 38 deletions(-)
+
+--
+2.30.2
+
 
