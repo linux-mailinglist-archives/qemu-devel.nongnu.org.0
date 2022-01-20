@@ -2,87 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F1094955C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 22:02:57 +0100 (CET)
-Received: from localhost ([::1]:54250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61C44495667
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 23:38:42 +0100 (CET)
+Received: from localhost ([::1]:56832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAea8-0000o9-0q
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 16:02:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34248)
+	id 1nAg4m-0007TK-Vq
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 17:38:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAZpa-0008Od-J3
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:58:35 -0500
-Received: from [2607:f8b0:4864:20::429] (port=33626
- helo=mail-pf1-x429.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nAZsK-0003JW-FQ
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 11:01:24 -0500
+Received: from [2a00:1450:4864:20::32c] (port=43742
+ helo=mail-wm1-x32c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAZpY-00020a-V6
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:58:34 -0500
-Received: by mail-pf1-x429.google.com with SMTP id y27so1838576pfa.0
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 07:58:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Q39ELXbeB23k/CoTp9kA1k4fj30FnRRIpxnZmhL4hmc=;
- b=ZO67IB9c+jva60j9e/kd51r/vXzayaS2IgR/QjdHVd2kjtnGlYpDnufqZFx2+3acWj
- 2CoVWnweP1fmmUERUfegiq8xLKUKmYex+wvl8Z6M3Z4VPBWkmhZZQ7UUBxcKyJzxma7X
- WucGyuUzj3ZYxA0rLgpTLGv4XxzRUlMbTbwEg5uqJb0OTVJtmh/xZt10FB3tVEcb+Fia
- m+UthNL+iZ/VWktxwVo7KwJe5fV+TbjbuHWmhNYA162tmDICW+MShOYQt6nduDBudsf4
- 4AgMviQcGdfAbAJwbmC05k+u7JaukwN566n5jaTHulax2a7CHhahIIBZpEdE8iqvNslk
- Q7XA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nAZsG-0002XC-6i
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 11:01:23 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ e9-20020a05600c4e4900b0034d23cae3f0so14829229wmq.2
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 08:01:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LHsZc0OIAsB+x7RT9WDlnUuxuaLdKPkOwM4GbPx5oR8=;
+ b=bHX+iv1ldqTWNU/M8d7Skkf23XawKZjosywMS/RVouZBwSq4SlbYtWYZLEZGgvflpK
+ JTt3jUq862cJfoa431ZMkGl0/XFGGkber+dap5dD8kgqeuGgti+8lGpOOTdAL+tearb0
+ 4Hnko+eJMf/APwr2XrwSHJn3kEasCJVfA7BJOT9hXtZ286N2bmsVkmT1FGP3z358qBjR
+ kEXfbinrFiLUl+KB9nWs97t7PmonVUYAE6SLqSfXmmJVPQLikEV6Z5wLp6wJV+wwLpmf
+ 9GUvfrGZQpxlmBhmcSBPKU0kKeKdnE1UyUZ0tEws+6g06Pd/IBEP+9n5pmRwWASsJIH8
+ IBMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Q39ELXbeB23k/CoTp9kA1k4fj30FnRRIpxnZmhL4hmc=;
- b=tRGiXxMEtH1VipW/5XGdjollbnqa6n98nwS4ikbmoOZ26zEIvKzbSbbyC2j248Rcxf
- OpA6j9tTB35o6Dy7liMltxwlb4PyC0TnIDVvVy8xXMPJIxpKVgP72n/fvtGkV+Ddbb1i
- AdMOMT8e3jLDN0uf1I7nsu9ayKIyTn3F6FEPswxpxZQ8jzxczjaf9RUpGvnawn7OWqzm
- BpAwZqjbYo7hY4s1CN2yegWqRtLIsgCvaQmGFe51/7VZuYnnBSkcepauepJQOmOqDpKn
- gkU6sa8sYpeuZZ5Tl+r6FFeDg3LT8YZ7wwjuOQX0h585jtAKbGMlgYEgN8RHdW2FHOaG
- Y3Qw==
-X-Gm-Message-State: AOAM530IH5wWIbT+aEjLXGowgrbRJVNq5ESvK5FWz28DicUjsidCexMb
- 5ddk20YtrowCkT5104bxwlk=
-X-Google-Smtp-Source: ABdhPJw81fOTSzqItt++gTrYiH4RO8/V+r8kBbB0m4SCe/5pqEbxa4swsN5Cywd/OeE0ll8HFKpQjA==
-X-Received: by 2002:a63:7202:: with SMTP id n2mr32558568pgc.254.1642694310622; 
- Thu, 20 Jan 2022 07:58:30 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id v11sm4679328pfu.3.2022.01.20.07.58.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Jan 2022 07:58:30 -0800 (PST)
-Message-ID: <22e10c58-84b8-ee09-eaf7-1d9ce513c032@amsat.org>
-Date: Thu, 20 Jan 2022 16:58:26 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LHsZc0OIAsB+x7RT9WDlnUuxuaLdKPkOwM4GbPx5oR8=;
+ b=QdROZnsabUz9+KwxENnPKuXcH0sUBpNvNp/3YWMgVVRVp5xDxNIkPwIJIbh136G2zs
+ ubtcZiL8/sQlh63t65J02HzuAJ06wJ4wjtTb6UF62XT34IdCDAl/sdwqPprVUBXSYZM6
+ IzTFoWx8CkH2THJR19kWrv8gPYuhU2CXe9rz39ElRNoOJptM2xGqME0Fy3iE0PBfhewT
+ 46swPoRtYedyy5aF2PPZjSArZqMDhbqYzIWsib/8I/CETR1QPVFkAkKd1IMVetxZ3NbX
+ WnXoZ4Gvhdr+uDJRgwUFAMb/GZ+LwYTw6FaRdl5tHfXQ4vfVFidZuucJOV8l0WXJCleu
+ rQTw==
+X-Gm-Message-State: AOAM533gh8Dm0k2eGt627L3gQXtnAV2bWqqrJ2cXD8rbU30n/rT1MHAC
+ zLoiZ53zpSDDVVnpSYkIQW+iZIjZ9VMx8Joos7WMwQ==
+X-Google-Smtp-Source: ABdhPJzBa79h6m4GsRCdLd3l4mXJ+XCDPcI7K4IPTSWaacXQhXH8BaOB8ZQvNCLy3ZzcMC21o7XC5pty85gfAdztMKA=
+X-Received: by 2002:a5d:644a:: with SMTP id d10mr3624441wrw.295.1642694477967; 
+ Thu, 20 Jan 2022 08:01:17 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH v2] qapi: Cleanup SGX related comments and restore
- @section-size
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: Yang Zhong <yang.zhong@intel.com>, pbonzini@redhat.com,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-References: <20220119235720.371961-1-yang.zhong@intel.com>
- <YeknCiBuMEaD3XP2@redhat.com>
- <ec7654fd-5c2c-3d46-1151-6254c3c6951a@amsat.org>
- <YemCZ6UHLX4P4m08@redhat.com>
-In-Reply-To: <YemCZ6UHLX4P4m08@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
+References: <20220111084546.4145785-1-troy_lee@aspeedtech.com>
+ <20220111084546.4145785-3-troy_lee@aspeedtech.com>
+In-Reply-To: <20220111084546.4145785-3-troy_lee@aspeedtech.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 20 Jan 2022 16:01:06 +0000
+Message-ID: <CAFEAcA_AJumJSKEUoxSiu5n3a8cPwdG_Xqx+hVko8sE0WdsjrQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] This patch includes i3c instance in ast2600 soc.
+To: Troy Lee <troy_lee@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x429.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -97,74 +81,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org,
+ hailin.wu@aspeedtech.com, leetroy@gmail.com,
+ "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 20/1/22 16:40, Daniel P. Berrangé wrote:
-> On Thu, Jan 20, 2022 at 04:31:14PM +0100, Philippe Mathieu-Daudé wrote:
->> On 20/1/22 10:10, Daniel P. Berrangé wrote:
->>> On Wed, Jan 19, 2022 at 06:57:20PM -0500, Yang Zhong wrote:
->>>> The SGX NUMA patches were merged into Qemu 7.0 release, we need
->>>> clarify detailed version history information and also change
->>>> some related comments, which make SGX related comments clearer.
->>>>
->>>> The QMP command schema promises backwards compatibility as standard.
->>>> We temporarily restore "@section-size", which can avoid incompatible
->>>> API breakage. The "@section-size" will be deprecated in 7.2 version.
->>>>
->>>> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
->>>> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
->>>> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
->>>> ---
->>>>    qapi/machine.json     |  4 ++--
->>>>    qapi/misc-target.json | 17 ++++++++++++-----
->>>>    hw/i386/sgx.c         | 11 +++++++++--
->>>>    3 files changed, 23 insertions(+), 9 deletions(-)
->>
->>>> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
->>>> index 1022aa0184..a87358ea44 100644
->>>> --- a/qapi/misc-target.json
->>>> +++ b/qapi/misc-target.json
->>>> @@ -344,9 +344,9 @@
->>>>    #
->>>>    # @node: the numa node
->>>>    #
->>>> -# @size: the size of epc section
->>>> +# @size: the size of EPC section
->>>>    #
->>>> -# Since: 6.2
->>>> +# Since: 7.0
->>>>    ##
->>>>    { 'struct': 'SGXEPCSection',
->>>>      'data': { 'node': 'int',
->>>> @@ -365,7 +365,9 @@
->>>>    #
->>>>    # @flc: true if FLC is supported
->>>>    #
->>>> -# @sections: The EPC sections info for guest
->>>> +# @section-size: The EPC section size for guest (Will be deprecated in 7.2)
->>>
->>> I expected deprecation would start now (7.0, and it would be removed
->>> in 7.2.
->>>
->>> Also needs to be documented in docs/about/deprecated.rst
->>
->> Isn't docs/about/deprecated.rst for user-facing changes *only*?
->>
->> Machine-facing changes are already described in the QAPI schema.
->>
->> Please correct me.
-> 
-> Just because something is machine-facing, doesn't mean it isn't
-> also user-facing, as users' write the machines that talk to QEMU.
-> 
-> deprecated.rst documents *everything* that changes in one of our
-> publically consumable interfaces, whether CLI args, QAPI schema,
-> HMP commands, or device impls or more. There's a whole section
-> there just for QMP command changes already.
+On Tue, 11 Jan 2022 at 08:46, Troy Lee <troy_lee@aspeedtech.com> wrote:
+>
+> v3:
+> - Remove unrelated changes to SPI2 address
+> - Remove controller irq line
+>
+> v2: Rebase to mainline QEMU
+>
+> Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
 
-OK got it, thanks!
+This turns out not to build on macOS or on 32-bit hosts
+because of format string issues -- you can't portably
+use %lx to print uint64_t or hwaddr types. I have folded
+in the following fix:
 
+diff --git a/hw/misc/aspeed_i3c.c b/hw/misc/aspeed_i3c.c
+index 43771d768ad..f54f5da522b 100644
+--- a/hw/misc/aspeed_i3c.c
++++ b/hw/misc/aspeed_i3c.c
+@@ -150,7 +150,8 @@ static void aspeed_i3c_device_write(void *opaque,
+hwaddr offset,
+     case R_I3C_VER_TYPE:
+     case R_EXTENDED_CAPABILITY:
+         qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: write to readonly register[%02lx] = %08lx\n",
++                      "%s: write to readonly register[0x%02" HWADDR_PRIx
++                      "] = 0x%08" PRIx64 "\n",
+                       __func__, offset, value);
+         break;
+     case R_RX_TX_DATA_PORT:
+@@ -231,13 +232,15 @@ static void aspeed_i3c_write(void *opaque,
+     case R_I3C6_REG1:
+         if (data & R_I3C1_REG1_I2C_MODE_MASK) {
+             qemu_log_mask(LOG_UNIMP,
+-                          "%s: Not support I2C mode [%08lx]=%08lx",
++                          "%s: Unsupported I2C mode [0x%08" HWADDR_PRIx
++                          "]=%08" PRIx64 "\n",
+                           __func__, addr << 2, data);
+             break;
+         }
+         if (data & R_I3C1_REG1_SA_EN_MASK) {
+             qemu_log_mask(LOG_UNIMP,
+-                          "%s: Not support slave mode [%08lx]=%08lx",
++                          "%s: Unsupported slave mode [%08" HWADDR_PRIx
++                          "]=0x%08" PRIx64 "\n",
+                           __func__, addr << 2, data);
+             break;
+         }
+
+which also includes a small grammar fix, adds the missing
+trailing newlines, and includes the "0x" prefix to make it
+clearer to the user that the values printed are hex.
+
+thanks
+-- PMM
 
