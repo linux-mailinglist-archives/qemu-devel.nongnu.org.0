@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B92B4495087
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 15:51:07 +0100 (CET)
-Received: from localhost ([::1]:57642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B457495084
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 15:50:21 +0100 (CET)
+Received: from localhost ([::1]:56000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAYmI-000088-Ii
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 09:51:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54028)
+	id 1nAYlY-0007Mw-J0
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 09:50:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAVer-0005aq-6y; Thu, 20 Jan 2022 06:31:19 -0500
-Received: from [2a00:1450:4864:20::333] (port=46727
- helo=mail-wm1-x333.google.com)
+ id 1nAVey-0005c5-Pm; Thu, 20 Jan 2022 06:31:23 -0500
+Received: from [2a00:1450:4864:20::330] (port=53891
+ helo=mail-wm1-x330.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAVen-0006ZZ-Lz; Thu, 20 Jan 2022 06:31:12 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- az27-20020a05600c601b00b0034d2956eb04so12904075wmb.5; 
- Thu, 20 Jan 2022 03:30:34 -0800 (PST)
+ id 1nAVep-0006ao-I0; Thu, 20 Jan 2022 06:31:16 -0500
+Received: by mail-wm1-x330.google.com with SMTP id n8so11384489wmk.3;
+ Thu, 20 Jan 2022 03:30:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oDbYCqQU1dkGaz37OaieH0ILazUkrWV4OQ7/olVfnlU=;
- b=PcwsRpnzk0ThDqs4j2HfXPcMsSPUHVWURXvGsl1aYFpG8dppw8FQWzj1I+BmGmkroA
- twRx/Hm7UeFpWQbtM7Y2l/KrYRtfcxpmHnfrC7CHItOtt1alannyMlUYx/ZAabSz67DX
- GSoermnZfVAD9jO6yXn9VG/ofNWd6L3ypEm98XFFIyZ1p7skQrmHxS5YIrN9inhahpVx
- AWTW5WGh1iXM3Qb+Pi6tyq2x6TjlG2r7ZMMg1/ILQE9X84QeyonnVm5oxWcvcRU4K8zP
- QwZYdO5x2UwJCdjauftGBNxMaz0TQ0rhYNPxn16imTL/NISS5I056pUVAgSbxTfkPjyg
- Zw/Q==
+ bh=4Tjd8wVbUrFFk0Vv7+6+0PlH5zCkrfjOZaloy1pivCI=;
+ b=DnnEpnBu/UCGE7O4FQ22zV4Vt0qNNXRrwRVTsn3yGTTTLKr4rt9vtRi/xPWdxfyJ+v
+ ab44jKtKGms39A1RhNpXaj6CAzfmgpPMXvL/4U5E2yOzhxbPyLt/qWGaAWZ+svCDJxk0
+ fSzBcgWt2qZkUSw36rVR+po/Xyw7zpX4Dteg2ZlDR0beUunhR8V2q/Np0hcWZ0TcB5uJ
+ j8mAomelVUyfzxnSqJSW94c19ojzY5X8/C4cKMHue+JavBI8kO0NqZStwzFZ2x8KS8cd
+ k1EVMUiXRN0HPy9rCM8BZAEPCKGZCsebkpOoWV4I65kxVWw6677j8ED2/885rgdjF1B5
+ w47A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=oDbYCqQU1dkGaz37OaieH0ILazUkrWV4OQ7/olVfnlU=;
- b=ILRw5082DsfrIWpixDeaobypqJUXg92o3mt+EoW4XaPCtXcrWWBl3CkzSHik5Cb6Ma
- CXhicka+UO8RhYkf3XyG0uv9Y5AnNpRrlnx5Wa0u5CSLk+KREX/AmtYuftLOd59ilpxe
- WCBl16PFxC/hbAmHdKBGIuqi7hLmioC+UEajP2SXu6GY6ek/Qh2zIXkrZ8CvoAGgnBez
- oIwNtxzWouMLHVTpFB4c0udJFH5xs2le4fOgfE3Z7pDpHitn57m8BpiC/dDr14dZvdTr
- BaZQ0fi8YnP3+b92DRbULoJQ/OHqR0C//gLJK2jtSxsgVpdB7rYn4OJuLfifkOGjUp4E
- cNmw==
-X-Gm-Message-State: AOAM531ZLksnKzCVkhZ/VAkAfX66fCu5cwvEq5xOOkGBsYfR4DVy+6wB
- HYtng6iE38YYdezNHI6mY2RoLOiBToo=
-X-Google-Smtp-Source: ABdhPJzP9NVAtQG6Fk+29Zz+/QlMToJ/qxD/Y2nGWkomOYxG6Od7hbjgoUrrI86shY6TRuR2Wdxqfw==
-X-Received: by 2002:a5d:6e83:: with SMTP id k3mr6795310wrz.506.1642678233822; 
- Thu, 20 Jan 2022 03:30:33 -0800 (PST)
+ bh=4Tjd8wVbUrFFk0Vv7+6+0PlH5zCkrfjOZaloy1pivCI=;
+ b=CAInc+lmNojnWCrZRMPY/7i8Xa2x4PJYlTQUF81ccxBpas8tug2Y+5Hb7amUa81uC1
+ iPapu0lJ+KqvZtONl8zvGWIOa95DTmDuXnLh6hX3NE/shbS8YW+yZhCeHPsd6MY32fFj
+ Iw9lomg4zIktylcTANA6TRMN3KD9WB7HOaghQxctPoY0TCxePcSZmHTAyJx1xnsnIBiJ
+ F/4jFMtn6RIRbeq60QZZpRPSmEfjNQ2IjluEMR1nQBNYLykIxI8I6AoxOxpVFd6Olxoe
+ 6wm8qCYOZm/NGO8OMfW+OjPzmqkPiYMGDyEjPFomTJzuD+gcyacmD1M8gP3OHH/ycyGQ
+ 19YA==
+X-Gm-Message-State: AOAM533GREsp/2uTk3osQThypRBUIcIu409wjhYMwA/tllEz0nmrEZWP
+ bXhCH532u8fbwOw8O9KGbCwVFJa1uK4=
+X-Google-Smtp-Source: ABdhPJwzJ/1PHf1uI+fR7TIi/ilHgXiUoFwuDLk91Z8nLGG+2zOweiZqxRS6ckJcjK+tnQIvizPtnA==
+X-Received: by 2002:adf:f2c5:: with SMTP id d5mr32392614wrp.90.1642678238732; 
+ Thu, 20 Jan 2022 03:30:38 -0800 (PST)
 Received: from nuc.. (154.red-83-50-83.dynamicip.rima-tde.net. [83.50.83.154])
  by smtp.gmail.com with ESMTPSA id
- p19sm2171334wmq.19.2022.01.20.03.30.32
+ k37sm8968471wms.0.2022.01.20.03.30.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 03:30:33 -0800 (PST)
+ Thu, 20 Jan 2022 03:30:38 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Ed Maste <emaste@freebsd.org>,
@@ -61,19 +60,20 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Yonggang Luo <luoyonggang@gmail.com>, Thomas Huth <thuth@redhat.com>,
  Li-Wen Hsu <lwhsu@freebsd.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v3 3/7] tests: Refresh lcitool submodule
-Date: Thu, 20 Jan 2022 12:30:12 +0100
-Message-Id: <20220120113016.268265-4-f4bug@amsat.org>
+Subject: [PATCH v3 4/7] tests/lcitool: Install libibumad to cover RDMA on
+ Debian based distros
+Date: Thu, 20 Jan 2022 12:30:13 +0100
+Message-Id: <20220120113016.268265-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220120113016.268265-1-f4bug@amsat.org>
 References: <20220120113016.268265-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,151 +99,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Refresh lcitool submodule and the generated files by running:
+On Debian we also need libibumad to enable RDMA:
 
-  $ make lcitool-refresh
+  $ ../configure --enable-rdma
+
+  ERROR:  OpenFabrics librdmacm/libibverbs/libibumad not present.
+          Your options:
+           (1) Fast: Install infiniband packages (devel) from your distro.
+           (2) Cleanest: Install libraries from www.openfabrics.org
+           (3) Also: Install softiwarp if you don't have RDMA hardware
+
+Note, librdmacm and libibverbs are already listed in lcitool's qemu.yml.
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- .gitlab-ci.d/cirrus/freebsd-12.vars           | 2 +-
- .gitlab-ci.d/cirrus/freebsd-13.vars           | 2 +-
- tests/docker/dockerfiles/alpine.docker        | 3 ++-
- tests/docker/dockerfiles/centos8.docker       | 3 +--
- tests/docker/dockerfiles/fedora.docker        | 3 +--
- tests/docker/dockerfiles/opensuse-leap.docker | 2 +-
- tests/docker/dockerfiles/ubuntu1804.docker    | 2 +-
- tests/docker/dockerfiles/ubuntu2004.docker    | 2 +-
- tests/lcitool/libvirt-ci                      | 2 +-
- 9 files changed, 10 insertions(+), 11 deletions(-)
+ tests/docker/dockerfiles/ubuntu1804.docker | 1 +
+ tests/docker/dockerfiles/ubuntu2004.docker | 1 +
+ tests/lcitool/projects/qemu.yml            | 1 +
+ 3 files changed, 3 insertions(+)
 
-diff --git a/.gitlab-ci.d/cirrus/freebsd-12.vars b/.gitlab-ci.d/cirrus/freebsd-12.vars
-index 9c52266811f..bdcce578edf 100644
---- a/.gitlab-ci.d/cirrus/freebsd-12.vars
-+++ b/.gitlab-ci.d/cirrus/freebsd-12.vars
-@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
- NINJA='/usr/local/bin/ninja'
- PACKAGING_COMMAND='pkg'
- PIP3='/usr/local/bin/pip-3.8'
--PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
-+PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
- PYPI_PKGS=''
- PYTHON='/usr/local/bin/python3'
-diff --git a/.gitlab-ci.d/cirrus/freebsd-13.vars b/.gitlab-ci.d/cirrus/freebsd-13.vars
-index 7b44dba324e..ee610c89fe1 100644
---- a/.gitlab-ci.d/cirrus/freebsd-13.vars
-+++ b/.gitlab-ci.d/cirrus/freebsd-13.vars
-@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
- NINJA='/usr/local/bin/ninja'
- PACKAGING_COMMAND='pkg'
- PIP3='/usr/local/bin/pip-3.8'
--PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
-+PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
- PYPI_PKGS=''
- PYTHON='/usr/local/bin/python3'
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index eb2251c81c8..9d7f74fc51e 100644
---- a/tests/docker/dockerfiles/alpine.docker
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -1,6 +1,6 @@
- # THIS FILE WAS AUTO-GENERATED
- #
--#  $ lcitool dockerfile alpine-edge qemu
-+#  $ lcitool dockerfile --layers all alpine-edge qemu
- #
- # https://gitlab.com/libvirt/libvirt-ci
- 
-@@ -109,6 +109,7 @@ RUN apk update && \
-         zlib-dev \
-         zlib-static \
-         zstd-dev && \
-+    apk list | sort > /packages.txt && \
-     mkdir -p /usr/libexec/ccache-wrappers && \
-     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/c++ && \
-     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index cbb909d02b3..fde6a036263 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -1,6 +1,6 @@
- # THIS FILE WAS AUTO-GENERATED
- #
--#  $ lcitool dockerfile centos-8 qemu
-+#  $ lcitool dockerfile --layers all centos-8 qemu
- #
- # https://gitlab.com/libvirt/libvirt-ci
- 
-@@ -69,7 +69,6 @@ RUN dnf update -y && \
-         libssh-devel \
-         libtasn1-devel \
-         libubsan \
--        libudev-devel \
-         liburing-devel \
-         libusbx-devel \
-         libxml2-devel \
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 60207f3da38..82f504e40d6 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -1,6 +1,6 @@
- # THIS FILE WAS AUTO-GENERATED
- #
--#  $ lcitool dockerfile fedora-35 qemu
-+#  $ lcitool dockerfile --layers all fedora-35 qemu
- #
- # https://gitlab.com/libvirt/libvirt-ci
- 
-@@ -77,7 +77,6 @@ exec "$@"' > /usr/bin/nosync && \
-         libssh-devel \
-         libtasn1-devel \
-         libubsan \
--        libudev-devel \
-         liburing-devel \
-         libusbx-devel \
-         libxml2-devel \
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-index f57d8cfb299..30e7038148a 100644
---- a/tests/docker/dockerfiles/opensuse-leap.docker
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -1,6 +1,6 @@
- # THIS FILE WAS AUTO-GENERATED
- #
--#  $ lcitool dockerfile opensuse-leap-152 qemu
-+#  $ lcitool dockerfile --layers all opensuse-leap-152 qemu
- #
- # https://gitlab.com/libvirt/libvirt-ci
- 
 diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index 0ffa3c4d4b5..4ea272d143b 100644
+index 4ea272d143b..7ebaab82b97 100644
 --- a/tests/docker/dockerfiles/ubuntu1804.docker
 +++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -1,6 +1,6 @@
- # THIS FILE WAS AUTO-GENERATED
- #
--#  $ lcitool dockerfile ubuntu-1804 qemu
-+#  $ lcitool dockerfile --layers all ubuntu-1804 qemu
- #
- # https://gitlab.com/libvirt/libvirt-ci
- 
+@@ -52,6 +52,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+             libglib2.0-dev \
+             libgnutls28-dev \
+             libgtk-3-dev \
++            libibumad-dev \
+             libibverbs-dev \
+             libiscsi-dev \
+             libjemalloc-dev \
 diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index 4e562dfdcd3..90988b2bc53 100644
+index 90988b2bc53..b93707b70d4 100644
 --- a/tests/docker/dockerfiles/ubuntu2004.docker
 +++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -1,6 +1,6 @@
- # THIS FILE WAS AUTO-GENERATED
- #
--#  $ lcitool dockerfile ubuntu-2004 qemu
-+#  $ lcitool dockerfile --layers all ubuntu-2004 qemu
- #
- # https://gitlab.com/libvirt/libvirt-ci
- 
-diff --git a/tests/lcitool/libvirt-ci b/tests/lcitool/libvirt-ci
-index 29cec2153b9..226c178a2a1 160000
---- a/tests/lcitool/libvirt-ci
-+++ b/tests/lcitool/libvirt-ci
-@@ -1 +1 @@
--Subproject commit 29cec2153b9a4dbb2e66f1cbc9866a4eff519cfd
-+Subproject commit 226c178a2a1f077d7ee371680cc649c1591b0457
+@@ -53,6 +53,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+             libglusterfs-dev \
+             libgnutls28-dev \
+             libgtk-3-dev \
++            libibumad-dev \
+             libibverbs-dev \
+             libiscsi-dev \
+             libjemalloc-dev \
+diff --git a/tests/lcitool/projects/qemu.yml b/tests/lcitool/projects/qemu.yml
+index ed5ab1407a9..948b9912579 100644
+--- a/tests/lcitool/projects/qemu.yml
++++ b/tests/lcitool/projects/qemu.yml
+@@ -43,6 +43,7 @@ packages:
+  - libfdt
+  - libffi
+  - libgcrypt
++ - libibumad
+  - libibverbs
+  - libiscsi
+  - libjemalloc
 -- 
 2.34.1
 
