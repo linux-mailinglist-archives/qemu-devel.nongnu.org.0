@@ -2,80 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E67B4952C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 17:58:04 +0100 (CET)
-Received: from localhost ([::1]:50732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EC834952DC
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 18:06:10 +0100 (CET)
+Received: from localhost ([::1]:32914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAal9-00038B-Cl
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 11:58:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43104)
+	id 1nAasz-00024o-I4
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 12:06:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAWgm-0004Jp-1L
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:37:16 -0500
-Received: from [2a00:1450:4864:20::331] (port=36531
- helo=mail-wm1-x331.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nAWgi-0003Jt-IW
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 07:37:15 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- i187-20020a1c3bc4000000b0034d2ed1be2aso20157904wma.1
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 04:37:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=NuKcYsldnG5fRvxxRFmykUGQrUQjSvORmUSdyYJpa6Y=;
- b=RCvoP9vST4HDAcFKAPzIEPhKCL1JW0QrIoyL7rRrO2GaR5sxMy5kIKLqi/dCA/pv46
- FxY+BrNkZHS6C0DkI+3cse00oTqjLu4nrvBzuGysGSZtnRQC93l6h7aVYcOFbZz6fBQ1
- DHkisaLfVj08GeQdfRoQyqZEYs+/sgP2pV9S9Vyv13aYoeAjmF7+FMmb8xa2igTRsxto
- EkmisYnrVwEyLohvxxfYrPLkJZEjelDoV3c2qnP0UrW2fw6GJccmkI7TV34SxiCCgdek
- wNQWXuZnswWvxY18wNzvNvRLE78wQ3wP4ImPax8k64CLTA24vPXIFoSP1kU7vk0sL2nV
- /qgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NuKcYsldnG5fRvxxRFmykUGQrUQjSvORmUSdyYJpa6Y=;
- b=0KiY1Da3pDJ+evwbC6HAQKFrwkD/2+p4nj2rpb29F+NE/iC2qk7uvuaEe7fjSBU990
- eV7iozIDPbTGTZDUgEhWO379+4BnbpyCjwJuQ5GfSV9/WLCDWYzUz/8RHAV/jpQccOz3
- EsQgcD70PTDI+TxH56rbhOsLnTugfdSwkTvdZob4+xJGUWtaCbSxajAVbgdXWlN3VpWm
- G0FujpGNbDxiXKCO6a5EIzwG0dvjYhNLKPDv9X1avPYLoznBvh5eTvpWTZIzyrWbfRd/
- eP0KlSGVKhb4cnxKTrLlAMHzfwAh66rHmHTKltfnsxGDanlVJGBsRIzsdkBoZTfDEvYv
- LuCQ==
-X-Gm-Message-State: AOAM530IqeJfbSMmF7ryvYlAIjjj2mGQFNeGA5FM4OX5KN0Bd0vZF8YX
- Zq7eXZCnts2hVq6hIji7UqvVHyoW707nuQ==
-X-Google-Smtp-Source: ABdhPJzWwXh27D5CVXsEkxMJw/+DGEzd9uj6qnhZqa0CtuL4hJAzG07fO74lNYW8m9qql3kEtxY2PA==
-X-Received: by 2002:a5d:4906:: with SMTP id x6mr4025998wrq.552.1642682229254; 
- Thu, 20 Jan 2022 04:37:09 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id t8sm7993324wmq.43.2022.01.20.04.37.07
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 04:37:08 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 34/38] hw/intc/arm_gicv3_its: Fix return codes in process_mapd()
-Date: Thu, 20 Jan 2022 12:36:26 +0000
-Message-Id: <20220120123630.267975-35-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1nAWW4-00075Y-PE; Thu, 20 Jan 2022 07:26:14 -0500
+Received: from out28-123.mail.aliyun.com ([115.124.28.123]:46034)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1nAWW2-0008Ot-Hn; Thu, 20 Jan 2022 07:26:12 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436375|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.0231685-0.000144035-0.976687;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047213; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=9; RT=8; SR=0; TI=SMTPD_---.Mfx8ck2_1642681565; 
+Received: from roman-VirtualBox.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.Mfx8ck2_1642681565)
+ by smtp.aliyun-inc.com(10.147.41.178);
+ Thu, 20 Jan 2022 20:26:05 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v8 08/23] target/riscv: Use gdb xml according to max mxlen
+Date: Thu, 20 Jan 2022 20:20:35 +0800
+Message-Id: <20220120122050.41546-9-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220120123630.267975-1-peter.maydell@linaro.org>
-References: <20220120123630.267975-1-peter.maydell@linaro.org>
+In-Reply-To: <20220120122050.41546-1-zhiwei_liu@c-sky.com>
+References: <20220120122050.41546-1-zhiwei_liu@c-sky.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: none client-ip=115.124.28.123; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-123.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,65 +57,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: guoren@linux.alibaba.com, bin.meng@windriver.com,
+ richard.henderson@linaro.org, palmer@dabbelt.com,
+ Alistair Francis <alistair.francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix process_mapd() to consistently return CMD_STALL for memory
-errors and CMD_CONTINUE for parameter errors, as we claim in the
-comments that we do.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220111171048.3545974-11-peter.maydell@linaro.org
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/intc/arm_gicv3_its.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ target/riscv/cpu.c     |  8 ++---
+ target/riscv/gdbstub.c | 71 +++++++++++++++++++++++++++++++-----------
+ 2 files changed, 55 insertions(+), 24 deletions(-)
 
-diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 80ef4dbcadf..917201c148f 100644
---- a/hw/intc/arm_gicv3_its.c
-+++ b/hw/intc/arm_gicv3_its.c
-@@ -597,7 +597,6 @@ static ItsCmdResult process_mapd(GICv3ITSState *s, uint64_t value,
-     uint64_t itt_addr;
-     bool valid;
-     MemTxResult res = MEMTX_OK;
--    ItsCmdResult result = CMD_STALL;
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index eac5f7bf03..690c879901 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -466,6 +466,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+     RISCVCPU *cpu = RISCV_CPU(dev);
+     CPURISCVState *env = &cpu->env;
+     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
++    CPUClass *cc = CPU_CLASS(mcc);
+     int priv_version = 0;
+     Error *local_err = NULL;
  
-     devid = ((value & DEVID_MASK) >> DEVID_SHIFT);
+@@ -516,11 +517,13 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+     switch (env->misa_mxl_max) {
+ #ifdef TARGET_RISCV64
+     case MXL_RV64:
++        cc->gdb_core_xml_file = "riscv-64bit-cpu.xml";
+         break;
+     case MXL_RV128:
+         break;
+ #endif
+     case MXL_RV32:
++        cc->gdb_core_xml_file = "riscv-32bit-cpu.xml";
+         break;
+     default:
+         g_assert_not_reached();
+@@ -802,11 +805,6 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+     cc->gdb_read_register = riscv_cpu_gdb_read_register;
+     cc->gdb_write_register = riscv_cpu_gdb_write_register;
+     cc->gdb_num_core_regs = 33;
+-#if defined(TARGET_RISCV32)
+-    cc->gdb_core_xml_file = "riscv-32bit-cpu.xml";
+-#elif defined(TARGET_RISCV64)
+-    cc->gdb_core_xml_file = "riscv-64bit-cpu.xml";
+-#endif
+     cc->gdb_stop_before_watchpoint = true;
+     cc->disas_set_info = riscv_cpu_disas_set_info;
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+index a5429b92d4..f531a74c2f 100644
+--- a/target/riscv/gdbstub.c
++++ b/target/riscv/gdbstub.c
+@@ -50,11 +50,23 @@ int riscv_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+ {
+     RISCVCPU *cpu = RISCV_CPU(cs);
+     CPURISCVState *env = &cpu->env;
++    target_ulong tmp;
  
-@@ -606,7 +605,7 @@ static ItsCmdResult process_mapd(GICv3ITSState *s, uint64_t value,
-                                  MEMTXATTRS_UNSPECIFIED, &res);
- 
-     if (res != MEMTX_OK) {
--        return result;
-+        return CMD_STALL;
+     if (n < 32) {
+-        return gdb_get_regl(mem_buf, env->gpr[n]);
++        tmp = env->gpr[n];
+     } else if (n == 32) {
+-        return gdb_get_regl(mem_buf, env->pc);
++        tmp = env->pc;
++    } else {
++        return 0;
++    }
++
++    switch (env->misa_mxl_max) {
++    case MXL_RV32:
++        return gdb_get_reg32(mem_buf, tmp);
++    case MXL_RV64:
++        return gdb_get_reg64(mem_buf, tmp);
++    default:
++        g_assert_not_reached();
      }
- 
-     size = (value & SIZE_MASK);
-@@ -616,7 +615,7 @@ static ItsCmdResult process_mapd(GICv3ITSState *s, uint64_t value,
-                                  MEMTXATTRS_UNSPECIFIED, &res);
- 
-     if (res != MEMTX_OK) {
--        return result;
-+        return CMD_STALL;
+     return 0;
+ }
+@@ -63,18 +75,32 @@ int riscv_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+ {
+     RISCVCPU *cpu = RISCV_CPU(cs);
+     CPURISCVState *env = &cpu->env;
+-
+-    if (n == 0) {
+-        /* discard writes to x0 */
+-        return sizeof(target_ulong);
+-    } else if (n < 32) {
+-        env->gpr[n] = ldtul_p(mem_buf);
+-        return sizeof(target_ulong);
++    int length = 0;
++    target_ulong tmp;
++
++    switch (env->misa_mxl_max) {
++    case MXL_RV32:
++        tmp = (int32_t)ldl_p(mem_buf);
++        length = 4;
++        break;
++    case MXL_RV64:
++        if (env->xl < MXL_RV64) {
++            tmp = (int32_t)ldq_p(mem_buf);
++        } else {
++            tmp = ldq_p(mem_buf);
++        }
++        length = 8;
++        break;
++    default:
++        g_assert_not_reached();
++    }
++    if (n > 0 && n < 32) {
++        env->gpr[n] = tmp;
+     } else if (n == 32) {
+-        env->pc = ldtul_p(mem_buf);
+-        return sizeof(target_ulong);
++        env->pc = tmp;
      }
- 
-     itt_addr = (value & ITTADDR_MASK) >> ITTADDR_SHIFT;
-@@ -633,11 +632,10 @@ static ItsCmdResult process_mapd(GICv3ITSState *s, uint64_t value,
-          * we ignore this command and move onto the next
-          * command in the queue
-          */
--    } else {
--        result = update_dte(s, devid, valid, size, itt_addr) ? CMD_CONTINUE : CMD_STALL;
-+        return CMD_CONTINUE;
-     }
- 
--    return result;
-+    return update_dte(s, devid, valid, size, itt_addr) ? CMD_CONTINUE : CMD_STALL;
+-    return 0;
++
++    return length;
  }
  
- /*
+ static int riscv_gdb_get_fpu(CPURISCVState *env, GByteArray *buf, int n)
+@@ -387,13 +413,20 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
+                                                               cs->gdb_num_regs),
+                                  "riscv-vector.xml", 0);
+     }
+-#if defined(TARGET_RISCV32)
+-    gdb_register_coprocessor(cs, riscv_gdb_get_virtual, riscv_gdb_set_virtual,
+-                             1, "riscv-32bit-virtual.xml", 0);
+-#elif defined(TARGET_RISCV64)
+-    gdb_register_coprocessor(cs, riscv_gdb_get_virtual, riscv_gdb_set_virtual,
+-                             1, "riscv-64bit-virtual.xml", 0);
+-#endif
++    switch (env->misa_mxl_max) {
++    case MXL_RV32:
++        gdb_register_coprocessor(cs, riscv_gdb_get_virtual,
++                                 riscv_gdb_set_virtual,
++                                 1, "riscv-32bit-virtual.xml", 0);
++        break;
++    case MXL_RV64:
++        gdb_register_coprocessor(cs, riscv_gdb_get_virtual,
++                                 riscv_gdb_set_virtual,
++                                 1, "riscv-64bit-virtual.xml", 0);
++        break;
++    default:
++        g_assert_not_reached();
++    }
+ 
+     gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
+                              riscv_gen_dynamic_csr_xml(cs, cs->gdb_num_regs),
 -- 
 2.25.1
 
