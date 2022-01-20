@@ -2,91 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4709495643
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 23:14:00 +0100 (CET)
-Received: from localhost ([::1]:56942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA168495652
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 23:23:13 +0100 (CET)
+Received: from localhost ([::1]:39274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAfgt-0004FT-6e
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 17:13:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56330)
+	id 1nAfpo-0003LC-Ql
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 17:23:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAZRQ-0005MX-SM
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:33:38 -0500
-Received: from [2607:f8b0:4864:20::62a] (port=34593
- helo=mail-pl1-x62a.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nAZVd-0000r1-Lj
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:37:59 -0500
+Received: from [2a00:1450:4864:20::334] (port=36514
+ helo=mail-wm1-x334.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAZRO-0007TG-4f
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:33:36 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id a7so5491999plh.1;
- Thu, 20 Jan 2022 07:33:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=xVrUwaC5Da3NG7h7XaQHwYsDVPn1g1q3CH8quCRG2YY=;
- b=I/LytIrvlPy7VQvbfihfwiBTvio3QFgREy9Hu0EwkBf553ccAGw4MXu3EGqkeA3D7Z
- iL5J4lt9tjKJ8RaPgAE9gzjGPSV0tl4kYTX7K0KHbCLCsznxVgJqAxjaJ4Ek32ljL3+m
- yIQCeO3DpizYBt5Y9fW0Hwx3vFiiP92Bb1tfi1IuIC08917NOl5ZmTS6AOyL+9/tIeNj
- b2DpzJD/3JCUY3eFx4vWLk+WzykrwNfp6pyV/6uPYHo6rgKptpjdXfN4dpBtchVMsosT
- x15Arl2S1UR0g34af+DlPxZMyvNunvT6MBCaycYqwSsqpQr3shjX/P5dK+Bq5HN7kYkn
- J76A==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nAZVb-0005Yq-PH
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 10:37:56 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ i187-20020a1c3bc4000000b0034d2ed1be2aso21365251wma.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 07:37:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=z2+rwXth+XGrQkzvlx9g2NPE1DouR2XLmgR1gBNCLB4=;
+ b=KOfWtrHh4vyLicNLrxBnWoCcmpYCVLY7RWAk3GCMLDMjfRZHMX8PfMIQadEnQYliQu
+ qUBsVcwgFKsbNdWlKbjqMZfzxcYK/qVe/HR54daZokg89WxHafq1heEItE0aIQ4GIFg+
+ ysfzDWWefH8FRMIF8RQnwoJhzgr4ZSIkTZ1PyP5L4rgQEOQSAUyWz+8AE34wB9RM5Tt+
+ 3aX02Lju1AxfU1Rv27sdvVtYpqTS2AAIeTP89C9d2ULdYANkVTDQHbUQe22PUrwnjl5r
+ 2RltbJOtuiiUx2mQsTtrFLzzJvv7ui5Ri0A20NJ/dYBb46xIkX5lSCBmbbZYyoZ2NglQ
+ dILA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=xVrUwaC5Da3NG7h7XaQHwYsDVPn1g1q3CH8quCRG2YY=;
- b=Zaubv68ZtQYKsWBzHJfIIbi6AFNTWHmuMA+g+aKdqUc2af0yEHzDfk7t7Ha6ogTwGy
- jz7T2us3bVBiiNJMOihK5h2psyqNPtKYhDy7y5b7Y8SAu1keH0hCd5gH3qd1VGVArZ/B
- 5N41hgsWFn/7toAc/oVul84DEHsscBiZzy5TdASHvOmBR1ow/JPBSUn8q7pE4wa9h6gD
- tUUpQZwwv2mXOWj9xQtzE+EFRIgm7wdp2CrbSurpyagbAnfeQHyKUZlBUXXaMQXjW+34
- Xg8XBhcmkejAqFtjCKK/Rgn702V3rdyTaz1NHWRdBlwdDnric9SDUj9H5Dg6PeliBNY1
- QfJA==
-X-Gm-Message-State: AOAM531lktuOqdu5zNuby/WSbUzmlFXHqqFy8LUkO3q9OlJ5cAqKw9YS
- R6KYSC9wAiIYYz7nfXuW02c=
-X-Google-Smtp-Source: ABdhPJxW49IKjFPRnYxNaYP3d8WIBU9xlmtbJ3mIMahh0Nqzk8N0MQ/0dvFzLGmYGMjsqW/n9+358A==
-X-Received: by 2002:a17:902:70c3:b0:149:a78f:54ea with SMTP id
- l3-20020a17090270c300b00149a78f54eamr37967091plt.114.1642692810874; 
- Thu, 20 Jan 2022 07:33:30 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id m17sm3905160pfk.62.2022.01.20.07.33.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Jan 2022 07:33:30 -0800 (PST)
-Message-ID: <90924276-9e15-64d3-450e-1a23e770e24d@amsat.org>
-Date: Thu, 20 Jan 2022 16:33:26 +0100
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=z2+rwXth+XGrQkzvlx9g2NPE1DouR2XLmgR1gBNCLB4=;
+ b=nJFqmQByzC/lfgUzCxLRxebZxymxrHKF2Y/lYqcYAHMPtofHM7rMl2Zrr6vuo7SHmq
+ aFfUJqim7Jbgpc3mIAG9uIghf6axFcQTNBzkyzFWzCCy5ThMk9P3b5qRWqOxuLRgum7F
+ d3srwsFh3XelPKY0EGqK9lQRH1fAlgP60cs7fXRuWZoHw7Nrh8l6076BKMLb+3J77c/n
+ 3Bp/fg3kppWRNqFX5BmLp1Pr3O5RJwMvzofBd+kVqCiwUDsXOK0F+TdPQXJ5LGhQit2w
+ fE2e2XOFYuiYuhatMc1QG2wGpHndLYIjdsw2Jd6UYL5SqMtmQuoM+nq7BDNak7H1pv8S
+ dCHA==
+X-Gm-Message-State: AOAM532FRwnKEyndT/QmgC9QwtIs7aLSfdSbOZp0Keewa0BzAstV2ouE
+ qz9XOq4FoueA5lyq54woV3QBxQ==
+X-Google-Smtp-Source: ABdhPJyWq8pgk9KipAksf5H8dFHzHKkSW2wg76muCZJI/pXuMpV347+fsoOU6GOZmfjeyg3PiAOjgA==
+X-Received: by 2002:a05:600c:383:: with SMTP id
+ w3mr4325109wmd.93.1642693071271; 
+ Thu, 20 Jan 2022 07:37:51 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a9sm2978893wmm.32.2022.01.20.07.37.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Jan 2022 07:37:50 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CC4E31FFB7;
+ Thu, 20 Jan 2022 15:37:49 +0000 (GMT)
+References: <20220118203833.316741-1-eric.auger@redhat.com>
+ <20220118203833.316741-4-eric.auger@redhat.com>
+User-agent: mu4e 1.7.5; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v2 3/6] tests/qtest/libqos: Skip hotplug tests if pci
+ root bus is not hotpluggable
+Date: Thu, 20 Jan 2022 15:37:45 +0000
+In-reply-to: <20220118203833.316741-4-eric.auger@redhat.com>
+Message-ID: <87mtjq7702.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH v2 4/6] drop libxml2 checks since libxml is not actually
- used (for parallels)
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Ed Maste <emaste@freebsd.org>, Michael Tokarev <mjt@tls.msk.ru>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Li-Wen Hsu <lwhsu@freebsd.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Yonggang Luo <luoyonggang@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>
-References: <20220120110545.263404-1-f4bug@amsat.org>
- <20220120110545.263404-5-f4bug@amsat.org>
- <b00aee2c-2085-1849-f7d6-cb6d9d7926f6@redhat.com>
-In-Reply-To: <b00aee2c-2085-1849-f7d6-cb6d9d7926f6@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62a.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -101,42 +93,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: lvivier@redhat.com, peter.maydell@linaro.org, thuth@redhat.com,
+ mst@redhat.com, eesposit@redhat.com, qemu-devel@nongnu.org,
+ jean-philippe@linaro.org, qemu-arm@nongnu.org, clg@kaod.org,
+ pbonzini@redhat.com, david@gibson.dropbear.id.au, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 20/1/22 14:37, Thomas Huth wrote:
-> On 20/01/2022 12.05, Philippe Mathieu-Daudé wrote:
->> From: Michael Tokarev <mjt@tls.msk.ru>
->>
->> For a long time, we assumed that libxml2 is neecessary for parallels
 
-Also "necessary",
+Eric Auger <eric.auger@redhat.com> writes:
 
->> block format support (block/parallels*). However, this format actually
->> does not use libxml [*]. Since this is the only user of libxml2 in
->> while qemu tree, we can drop all libxml2 checks and dependencies too.
+> ARM does not not support hotplug on pcie.0. Add a flag on the bus
+> which tells if devices can be hotplugged and skip hotplug tests
+> if the bus cannot be hotplugged. This is a temporary solution to
+> enable the other pci tests on aarch64.
+>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Acked-by: Thomas Huth <thuth@redhat.com>
 
-and eventually "QEMU".
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-> s/while/whole/
-> 
->> It is even more: --enable-parallels configure option was the only
->> option which was silently ignored when it's (fake) dependency
->> (libxml2) isn't installed.
->>
->> Drop all mentions of libxml2.
->>
->> [*] Actually the basis for libxml use were merged in commit 25bfd5a75
->>      but the implementation was never merged:
->>      
->> https://lore.kernel.org/qemu-devel/70227bbd-a517-70e9-714f-e6e0ec431be9@openvz.org/ 
->>
-> 
-> Commit ed279a06c53784 also add a hunk to scripts/checkpatch.pl ... you 
-> might want to remove that now, too.
-
-Good catch!
-
+--=20
+Alex Benn=C3=A9e
 
