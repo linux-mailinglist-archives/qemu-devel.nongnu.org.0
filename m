@@ -2,60 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B746E494A20
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 09:52:21 +0100 (CET)
-Received: from localhost ([::1]:54262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE86494A5D
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jan 2022 10:09:17 +0100 (CET)
+Received: from localhost ([::1]:59504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nATB6-0003cn-6D
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 03:52:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54180)
+	id 1nATRU-0007NJ-3W
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 04:09:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nASXs-0000uI-HC
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 03:11:57 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:44479)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nASOS-0006u0-Uc; Thu, 20 Jan 2022 03:02:05 -0500
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:50551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nASXl-0006Yj-2d
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 03:11:42 -0500
-Received: from [192.168.100.1] ([82.142.13.186]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MPK73-1mvvpT0eFR-00Pbz0; Thu, 20 Jan 2022 09:11:26 +0100
-Message-ID: <dd699955-c242-34f0-3b09-1b032305688b@vivier.eu>
-Date: Thu, 20 Jan 2022 09:11:24 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 0/3] m68k: virt: fix reboot
-Content-Language: fr
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nASOQ-0005yi-4j; Thu, 20 Jan 2022 03:02:04 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 072775C01A2;
+ Thu, 20 Jan 2022 03:01:59 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Thu, 20 Jan 2022 03:01:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-transfer-encoding:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm2; bh=jmxXWMkosC9fPeNhqid7040e3vc4JvyB6UTFYo
+ 1/DS4=; b=NI4ybHl8h5NYXuehypRCYWV+kIsGNhowcYsPW7pW3LcSsY8F7aFsRx
+ YdcsveI5bpYn6EnWdHL5G8qaJJBw/7e2SFoX9W/NecU1/NR1o9T/ECexEewIzBjn
+ sIw62UK4Jta4CKS/aRLLuPrhOZhc1uVplGSopyNipR7eEGnkV6jg2kU0zj3Cv08Q
+ 5Z8U5Jvz26ZHH/eI9iKzCiU9UWEZjPuU1qBESP72itJInE4ViSj1HX1NPk8sxtPA
+ 1Yj6Vo5HZ4cfqPoCfkBHBwBbM4wLml/mtpzdQcraLAtJ4zhZ2hhjxhvlCtiH5qks
+ ss7lqQBfeImS/3CZwjJrGgCAnw2AAIlg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :from:from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm1; bh=jmxXWMkosC9fPeNhqid7040e3vc4J
+ vyB6UTFYo1/DS4=; b=KVBXMpv+AiPKvFk/kL4j/T1+hvF5gbgDKu/JOFNcSTAZ8
+ //aVHroHzOcNC9bXVEe+PvpefBHPfpC6BhFJ2bFXhYSfJp1nqcwxLeIRqy86Bgoz
+ ZPvPVa6wvT/GfzjRgs40yF1TpitAEP79Th+MwgPhC1XKXiyyxZtt68aBVqp7lOo0
+ xCeHPd/MGn46lNePxw7F9ert8A8jCpjh54757Q9Afv1UXB3NBnG5eDbohMgWQS9/
+ v1DUdPfhCIAXGEmu/DWVjQk7V2O8+7BhIEPUMD+dvR50vXCTZzVi8CgF4wNrZ9mZ
+ aS9j6py9sSVBEmlIpVsTktpJiZtk71AYopP6JVuAw==
+X-ME-Sender: <xms:9hbpYV555h3qo8etT6oUco5F4w7doaMI3NwustTzubztfwGggjQm1g>
+ <xme:9hbpYS49ynpIjyWjJNCbbc3RhAdC8RAmZC7UL2Dj2tvQau3N_odp2YxZ7MBprL7t-
+ 7bfol7vyw2ryObxZCs>
+X-ME-Received: <xmr:9hbpYce42zy5UEMUU14mcgirrP5Kb75jUERDelTbkJa1HLZ8WdrsZxku79rAscOc6MDf7LT6OQAH0WJaBcD4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudejgdduudehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhsucfl
+ vghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtthgvrh
+ hnpeefveelvdeikeduueffteeggeefhedvffffjeeuueeludehvdegjeevjefhtdetheen
+ ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhsse
+ hirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:9hbpYeLi539ULIDPvD8dkI5aZkHW60SbKQxxpFG9FdfDx2YS1gCECQ>
+ <xmx:9hbpYZJqLiz3XfhGRbAEDJqbfwlwc1EV-rcl1nC8KUcRj76XmAKZPg>
+ <xmx:9hbpYXwoAd9ovaBZ8SlfAcE9Kk0is2z6nK0ZX5JumjNSvuXHO-TsfQ>
+ <xmx:9xbpYXh-we6bw3fcyNIXyl15zIOLfVasvMV0aFaQ7cZGiHxmsM42xw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 20 Jan 2022 03:01:57 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-References: <20220115203725.3834712-1-laurent@vivier.eu>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220115203725.3834712-1-laurent@vivier.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: [PATCH] hw/nvme: fix CVE-2021-3929
+Date: Thu, 20 Jan 2022 09:01:55 +0100
+Message-Id: <20220120080155.227246-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:XTF6nzbRhbGHfDJs0cY7LMcXcVOKslE1jNsRJ4M+IR53ixCf7Su
- OlHtGDP6tPeAe/2BamrcL9s7YvmUWKuWpU8PuEXIf8F9WPAJpTrN8zNonAAuZ+/3RvVIu5N
- HKHRjl9LGcCkGL4cFgPk6lDfEz8DrpXgfB+qLC2qUhfzEGBdlpXNEp9DwqPZah9YHcgBZMj
- cuhRk2zYJI4sqcdwMc3Ew==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zfLrk17/z/E=:0N/mxg8eMcBlqnPBDX7wOR
- zZ8xNB75kZfiMSQqeT3cLEUrq7920uySuNyurRpv2qXQnqVLkQSy//HHE/kwA0EA8jBYj1trJ
- O3c3vNuHcXhv4uxRWT8ORk7wqdpRuElzNz7LBqIgzBMOUXMjBs8uXRrdWXA5wplTAVNgGRlma
- A6lcTXcxVAvnrWPty81Wp7ipGUPhMspWpDo35/uRHfExPc8515qooU8rJSEf8odxw3KKXEB8W
- iOda/hVvFph0Cv8CY4+10Ug5VfU2YNCnMj8jQr42mU2J/F4C6DRso7nn9QX4O4GJqjx4pY9xk
- b23WmfCDr9Of3TFqNO8shZjd0pUv6cLhlOxUSJwK8nPy5bsVU9yixPaa2A1lPyVZ+WqWRaEFm
- 29cKzWBU8zpbcm31q/K8RQ38GdfiRA8WRm34+d5orny8jLHLP0ZbBwyBRe8wKSAcC8fTdVtCg
- eEEMcdRGN6T40Z6BwMSQbsAnXsshzqEUICyDzhhyIcotT9x30QPzB09S4wkR0NOyaLXbYkl2l
- lu/EmUyj5DO+qkn019ZykbBrwQhxui/M3XACJDP85teIyeyF2xcb47hu6645nwOs71FeF7EH2
- zl48pSb1SiKXgNMk/5ZjhEpiE+z1twsZtKeEsYiw6rvy+nsHRFgMIWwCYj54Nv+HD0TijCA9+
- OrGGPNrtif1g54kOsCK/upse/cZebI1sxPEBNVatUryFqFJpfiF9HMCL4i7r01gPF/2c=
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,44 +90,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>
+Cc: qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>, Klaus Jensen <its@irrelevant.dk>,
+ Keith Busch <kbusch@kernel.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 15/01/2022 à 21:37, Laurent Vivier a écrit :
-> This series fixes the reboot of the virt-m68k machine
-> by correctly initializing the start address and fixing
-> the ELF kernel image.
-> 
-> The two first patches were already sent last year and
-> never merged:
-> 
-> https://patchwork.kernel.org/project/qemu-devel/cover/20210429141326.69245-1-laurent@vivier.eu/
-> 
-> Thanks,
-> Laurent
-> 
-> Laurent Vivier (2):
->    hw/elf_ops: clear uninitialized segment space
->    m68k: virt: correctly set the initial PC
-> 
-> Philippe Mathieu-Daudé (1):
->    exec/memory: Extract address_space_set() from dma_memory_set()
-> 
->   include/exec/memory.h | 16 ++++++++++++++++
->   include/hw/elf_ops.h  | 13 +++++++++++++
->   hw/core/loader.c      |  4 ++++
->   hw/m68k/virt.c        | 22 +++++++++++++++++-----
->   softmmu/dma-helpers.c | 15 +--------------
->   softmmu/physmem.c     | 19 +++++++++++++++++++
->   6 files changed, 70 insertions(+), 19 deletions(-)
-> 
+From: Klaus Jensen <k.jensen@samsung.com>
 
+This fixes CVE-2021-3929 "locally" by denying DMA to the iomem of the
+device itself. This still allows DMA to MMIO regions of other devices
+(e.g. doing P2P DMA to the controller memory buffer of another NVMe
+device).
 
-Applied to my m68k-for-7.0 branch
+Fixes: CVE-2021-3929
+Reported-by: Qiuhao Li <Qiuhao.Li@outlook.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/nvme/ctrl.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Thanks,
-Laurent
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 5f573c417b3d..9a79f6728867 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -357,6 +357,16 @@ static inline void *nvme_addr_to_pmr(NvmeCtrl *n, hwaddr addr)
+     return memory_region_get_ram_ptr(&n->pmr.dev->mr) + (addr - n->pmr.cba);
+ }
+ 
++static inline bool nvme_addr_is_iomem(NvmeCtrl *n, hwaddr addr)
++{
++    hwaddr hi, lo;
++
++    lo = n->bar0.addr;
++    hi = lo + int128_get64(n->bar0.size);
++
++    return addr >= lo && addr < hi;
++}
++
+ static int nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size)
+ {
+     hwaddr hi = addr + size - 1;
+@@ -614,6 +624,10 @@ static uint16_t nvme_map_addr(NvmeCtrl *n, NvmeSg *sg, hwaddr addr, size_t len)
+ 
+     trace_pci_nvme_map_addr(addr, len);
+ 
++    if (nvme_addr_is_iomem(n, addr)) {
++        return NVME_DATA_TRAS_ERROR;
++    }
++
+     if (nvme_addr_is_cmb(n, addr)) {
+         cmb = true;
+     } else if (nvme_addr_is_pmr(n, addr)) {
+-- 
+2.34.1
+
 
