@@ -2,98 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFF2049622E
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 16:36:32 +0100 (CET)
-Received: from localhost ([::1]:55390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED470496233
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 16:39:41 +0100 (CET)
+Received: from localhost ([::1]:59122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAvxn-00040b-Um
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 10:36:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43856)
+	id 1nAw0r-0006Zq-2G
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 10:39:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1nAvll-00054t-L5; Fri, 21 Jan 2022 10:24:05 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:16132)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nAvoa-00069t-U0
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 10:27:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28609)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1nAvlj-0007zg-GB; Fri, 21 Jan 2022 10:24:05 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20LEoMHK018787; 
- Fri, 21 Jan 2022 15:23:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=z6HVkA612KP3A8Ibk6gvY9f3go74yrFrhyMxs4oE0uw=;
- b=CxJYPfJTICNXlTqqyJs3toeOG5VFSX5b1YYyQkmuxa8gS1Mkg761wV9bhFTwOzUXIirA
- VRHOBpqoj6itcybSdAJ71WAkw+A/W2ZkJ1GKeaOP3UPbbj6eHwhVwceXrgMYVArfxkUZ
- X6DS5OJlf9L5a7D8m345FO98HMz7M606BTkXGS/WTxqsZ6J4gdLJSmjxF9XENrjQCVSa
- 1j+D1jZ6syb0r8s7Az7F+Kh2VENBvIKvAr6YBOI0wBipZutxwTkirGfJY5nMsBEOj4UG
- gLbx0OiXonN7MJEQZIJWg+gPsRIV70gjd/K63Wix/H4vOe7GfXbGlhoQA6N7bVPEF9wO lw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dqxtg8x7r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Jan 2022 15:23:56 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20LEoKen016325;
- Fri, 21 Jan 2022 15:23:56 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dqxtg8x6x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Jan 2022 15:23:56 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20LFIGDa021417;
- Fri, 21 Jan 2022 15:23:54 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma03ams.nl.ibm.com with ESMTP id 3dqjdpnygt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Jan 2022 15:23:53 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20LFNpXd41419144
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 21 Jan 2022 15:23:51 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 46D89A4062;
- Fri, 21 Jan 2022 15:23:51 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0E460A4060;
- Fri, 21 Jan 2022 15:23:51 +0000 (GMT)
-Received: from localhost.localdomain.com (unknown [9.145.16.103])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 21 Jan 2022 15:23:50 +0000 (GMT)
-From: Frederic Barrat <fbarrat@linux.ibm.com>
-To: clg@kaod.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-Subject: [PATCH] ppc/pnv: Fail DMA access if page permissions are not correct
-Date: Fri, 21 Jan 2022 16:23:50 +0100
-Message-Id: <20220121152350.381685-1-fbarrat@linux.ibm.com>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nAvoU-00006L-60
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 10:27:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642778763;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yXK71wnvv6UUYGBXxH9aBE99gEo+NTy7GyGOuQk0t0U=;
+ b=QyWTsvY7aLryOc6X0OKLyQ63Plav7jHlijM2I/Fu56CJPvG2sBCvLwlFaG2GaZN6HzTYkI
+ 08iXuguHCfiCFTGZw/9QOZMXdpHn0PnvI94g5LOLcQYy1jK44bSwz2eAYlRkngTzjDjnmu
+ bCSkzPGbmnEatHZxScazlsEZx2PQJ8M=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-246-t2S5t3zAPsuH1462KXof7w-1; Fri, 21 Jan 2022 10:25:59 -0500
+X-MC-Unique: t2S5t3zAPsuH1462KXof7w-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ c23-20020a056402159700b00406aa42973eso2069273edv.2
+ for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 07:25:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=yXK71wnvv6UUYGBXxH9aBE99gEo+NTy7GyGOuQk0t0U=;
+ b=fHv21g9nldZ2ElaTQXBExrU7nZCf1q4IHo9iEgQXRIVCoOOHXk209MIKaWm31yacOo
+ BmWWmkBVXZzfclk1PsjelQdjVPyF3PmyTf0RPogvwSUBw4awjelo56pWVOraQEPMFNhY
+ Rk76f1yBnARnuwO2ESi7cjONHbRi6YXi+p8NXPs+WBvtGj1Pd/h0Vu1PRWCtM7UrKeeT
+ J0qM5Ry820e9SOJ9jrRVW0t1H1btAHe90K0y7c5bftO42ZnsAeVok2S6ysS7gRrLZdjQ
+ LCFIHgwglRV93/3TIZ6WsDBvh9Pl7y2YhdmEUyfO3Vg7NokfONPUwmcGPXtmmZL17wtD
+ uSqQ==
+X-Gm-Message-State: AOAM530uprQATq+XZhTvc7TEPYoRP6UwyovOjn+Ub6NiqqFHwrO1QzPT
+ SLMjNpHXkilDoHwiWmwo/q55SCIBZKak3ggOAWJHWDk2hGzENc1NUu6S/cAdZXAlBrP3GkWgYej
+ NfHG+er6eVY5lG40=
+X-Received: by 2002:a17:906:9b87:: with SMTP id
+ dd7mr3694642ejc.178.1642778758553; 
+ Fri, 21 Jan 2022 07:25:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzm8h1p2UgtibFj4bRYOMmHwWGzxL5VIGvay+tcXS9dYp10d8aK7aDfn2Zr2Q1mlJnoreEjiw==
+X-Received: by 2002:a17:906:9b87:: with SMTP id
+ dd7mr3694623ejc.178.1642778758359; 
+ Fri, 21 Jan 2022 07:25:58 -0800 (PST)
+Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
+ ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id gz12sm2153537ejc.124.2022.01.21.07.25.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Jan 2022 07:25:57 -0800 (PST)
+Message-ID: <93565619-bff8-9f64-50f0-3e9acd570777@redhat.com>
+Date: Fri, 21 Jan 2022 16:25:56 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v3 03/16] job.h: define locked functions
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org
+References: <20220105140208.365608-1-eesposit@redhat.com>
+ <20220105140208.365608-4-eesposit@redhat.com>
+ <6a9dafe7-b3e2-68e7-e727-2086c7ceca6d@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <6a9dafe7-b3e2-68e7-e727-2086c7ceca6d@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: oodHOdwiNmGH-_pEMZpl06OqFwRygLUY
-X-Proofpoint-ORIG-GUID: GS-u9pA2fkRw0n-n36-Q_2wysHusEOlM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-21_06,2022-01-21_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 clxscore=1015 suspectscore=0 spamscore=0 lowpriorityscore=0
- malwarescore=0 mlxlogscore=999 mlxscore=0 bulkscore=0 impostorscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2201210102
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=fbarrat@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,78 +105,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@ozlabs.ru
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If an iommu page has wrong permissions, an error message is displayed,
-but the access is allowed, which is odd. This patch fixes it.
 
-Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
----
- hw/pci-host/pnv_phb3.c | 11 ++++++-----
- hw/pci-host/pnv_phb4.c | 11 ++++++-----
- 2 files changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-index 7fb35dc031..a757f1a58e 100644
---- a/hw/pci-host/pnv_phb3.c
-+++ b/hw/pci-host/pnv_phb3.c
-@@ -816,18 +816,19 @@ static void pnv_phb3_translate_tve(PnvPhb3DMASpace *ds, hwaddr addr,
-         }
- 
-         /* We exit the loop with TCE being the final TCE */
--        tce_mask = ~((1ull << tce_shift) - 1);
--        tlb->iova = addr & tce_mask;
--        tlb->translated_addr = tce & tce_mask;
--        tlb->addr_mask = ~tce_mask;
--        tlb->perm = tce & 3;
-         if ((is_write & !(tce & 2)) || ((!is_write) && !(tce & 1))) {
-             phb3_error(phb, "TCE access fault at 0x%"PRIx64, taddr);
-             phb3_error(phb, " xlate %"PRIx64":%c TVE=%"PRIx64, addr,
-                        is_write ? 'W' : 'R', tve);
-             phb3_error(phb, " tta=%"PRIx64" lev=%d tts=%d tps=%d",
-                        tta, lev, tts, tps);
-+            return;
-         }
-+        tce_mask = ~((1ull << tce_shift) - 1);
-+        tlb->iova = addr & tce_mask;
-+        tlb->translated_addr = tce & tce_mask;
-+        tlb->addr_mask = ~tce_mask;
-+        tlb->perm = tce & 3;
-     }
- }
- 
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index a78add75b0..ee56377c02 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -1291,18 +1291,19 @@ static void pnv_phb4_translate_tve(PnvPhb4DMASpace *ds, hwaddr addr,
-         }
- 
-         /* We exit the loop with TCE being the final TCE */
--        tce_mask = ~((1ull << tce_shift) - 1);
--        tlb->iova = addr & tce_mask;
--        tlb->translated_addr = tce & tce_mask;
--        tlb->addr_mask = ~tce_mask;
--        tlb->perm = tce & 3;
-         if ((is_write & !(tce & 2)) || ((!is_write) && !(tce & 1))) {
-             phb_error(ds->phb, "TCE access fault at 0x%"PRIx64, taddr);
-             phb_error(ds->phb, " xlate %"PRIx64":%c TVE=%"PRIx64, addr,
-                        is_write ? 'W' : 'R', tve);
-             phb_error(ds->phb, " tta=%"PRIx64" lev=%d tts=%d tps=%d",
-                        tta, lev, tts, tps);
-+            return;
-         }
-+        tce_mask = ~((1ull << tce_shift) - 1);
-+        tlb->iova = addr & tce_mask;
-+        tlb->translated_addr = tce & tce_mask;
-+        tlb->addr_mask = ~tce_mask;
-+        tlb->perm = tce & 3;
-     }
- }
- 
--- 
-2.34.1
+On 19/01/2022 11:44, Paolo Bonzini wrote:
+> On 1/5/22 15:01, Emanuele Giuseppe Esposito wrote:
+>> These functions assume that the job lock is held by the
+>> caller, to avoid TOC/TOU conditions. Therefore, their
+>> name must end with _locked.
+>>
+>> Introduce also additional helpers that define _locked
+>> functions (useful when the job_mutex is globally applied).
+>>
+>> Note: at this stage, job_{lock/unlock} and job lock guard macros
+>> are*nop*.
+>>
+>> Signed-off-by: Emanuele Giuseppe Esposito<eesposit@redhat.com>
+> 
+> So, this is the only remaining issue: I am not sure about this rename.
+> The functions you are changing are
+> 
+> +void job_txn_unref_locked(JobTxn *txn);
+> +void job_txn_add_job_locked(JobTxn *txn, Job *job);
+> +void job_ref_locked(Job *job);
+> +void job_unref_locked(Job *job);
+> +void job_enter_cond_locked(Job *job, bool(*fn)(Job *job));
+> +bool job_is_completed_locked(Job *job);
+> +bool job_is_ready_locked(Job *job);
+> +void job_pause_locked(Job *job);
+> +void job_resume_locked(Job *job);
+> +void job_user_pause_locked(Job *job, Error **errp);
+> +bool job_user_paused_locked(Job *job);
+> +void job_user_resume_locked(Job *job, Error **errp);
+> +Job *job_next_locked(Job *job);
+> +Job *job_get_locked(const char *id);
+> +int job_apply_verb_locked(Job *job, JobVerb verb, Error **errp);
+> +void job_early_fail_locked(Job *job);
+> +void job_complete_locked(Job *job, Error **errp);
+> +void job_cancel_locked(Job *job, bool force);
+> +void job_user_cancel_locked(Job *job, bool force, Error **errp);
+> +int job_cancel_sync_locked(Job *job, bool force);
+> +int job_complete_sync_locked(Job *job, Error **errp);
+> +void job_finalize_locked(Job *job, Error **errp);
+> +void job_dismiss_locked(Job **job, Error **errp);
+> +int job_finish_sync_locked(Job *job, void (*finish)(Job *, Error **errp),
+> 
+> and most of them (if not all?) will never be called by the job driver, only
+> by the monitor.  The two APIs (for driver / for monitor) are quite separate
+> and have different locking policies: the monitor needs to take the lock to
+> avoid TOC/TOU races, the driver generally can let the API take the lock.
+> 
+> The rename makes the monitor code heavier, but if you don't do the 
+> rename the
+> functions in job.c are named very inconsistently.  So I'm inclined to say
+> this patch is fine---but I'd like to hear from others as well.
+> 
+> I think the two APIs should be in two different header files, similar
+> to how you did the graph/IO split.
+
+The split was proposed in previous versions, but Vladimir did not really 
+like it and suggested to send it as a separate series:
+
+https://patchew.org/QEMU/20211104153121.1362449-1-eesposit@redhat.com/
+
+
+Vladimir's comment:
+https://patchew.org/QEMU/20211104153121.1362449-1-eesposit@redhat.com/
+
+Thank you,
+Emanuele
+
+> 
+> Paolo
+> 
 
 
