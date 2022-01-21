@@ -2,97 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED470496233
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 16:39:41 +0100 (CET)
-Received: from localhost ([::1]:59122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9906149623B
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 16:42:03 +0100 (CET)
+Received: from localhost ([::1]:33656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAw0r-0006Zq-2G
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 10:39:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44310)
+	id 1nAw38-0000FN-Fp
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 10:42:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nAvoa-00069t-U0
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 10:27:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28609)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nAvwF-0003bb-3r
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 10:34:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47238)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nAvoU-00006L-60
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 10:27:00 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nAvwB-0004KI-SB
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 10:34:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642778763;
+ s=mimecast20190719; t=1642779290;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yXK71wnvv6UUYGBXxH9aBE99gEo+NTy7GyGOuQk0t0U=;
- b=QyWTsvY7aLryOc6X0OKLyQ63Plav7jHlijM2I/Fu56CJPvG2sBCvLwlFaG2GaZN6HzTYkI
- 08iXuguHCfiCFTGZw/9QOZMXdpHn0PnvI94g5LOLcQYy1jK44bSwz2eAYlRkngTzjDjnmu
- bCSkzPGbmnEatHZxScazlsEZx2PQJ8M=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dRhQROg/fsOVhrPfUOvfpUUEr37BjZEBQpRvg44+z00=;
+ b=AlyP9IDYLkBjnV1qc+tyRby4AtWKf9qvCmMVvBw1WwQg5oBo6qxRIQHGiJtPdUu6mECxyD
+ EFWWl+JNg1IB0r0nBnzKS7CcK8obJeCEFIFPms18eHEzrt1uszTzmvQxn2egy8AdMMZgzs
+ s79HtiwdfPDVIStfOm8s4hvyWYDfj4g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-246-t2S5t3zAPsuH1462KXof7w-1; Fri, 21 Jan 2022 10:25:59 -0500
-X-MC-Unique: t2S5t3zAPsuH1462KXof7w-1
-Received: by mail-ed1-f69.google.com with SMTP id
- c23-20020a056402159700b00406aa42973eso2069273edv.2
- for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 07:25:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=yXK71wnvv6UUYGBXxH9aBE99gEo+NTy7GyGOuQk0t0U=;
- b=fHv21g9nldZ2ElaTQXBExrU7nZCf1q4IHo9iEgQXRIVCoOOHXk209MIKaWm31yacOo
- BmWWmkBVXZzfclk1PsjelQdjVPyF3PmyTf0RPogvwSUBw4awjelo56pWVOraQEPMFNhY
- Rk76f1yBnARnuwO2ESi7cjONHbRi6YXi+p8NXPs+WBvtGj1Pd/h0Vu1PRWCtM7UrKeeT
- J0qM5Ry820e9SOJ9jrRVW0t1H1btAHe90K0y7c5bftO42ZnsAeVok2S6ysS7gRrLZdjQ
- LCFIHgwglRV93/3TIZ6WsDBvh9Pl7y2YhdmEUyfO3Vg7NokfONPUwmcGPXtmmZL17wtD
- uSqQ==
-X-Gm-Message-State: AOAM530uprQATq+XZhTvc7TEPYoRP6UwyovOjn+Ub6NiqqFHwrO1QzPT
- SLMjNpHXkilDoHwiWmwo/q55SCIBZKak3ggOAWJHWDk2hGzENc1NUu6S/cAdZXAlBrP3GkWgYej
- NfHG+er6eVY5lG40=
-X-Received: by 2002:a17:906:9b87:: with SMTP id
- dd7mr3694642ejc.178.1642778758553; 
- Fri, 21 Jan 2022 07:25:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzm8h1p2UgtibFj4bRYOMmHwWGzxL5VIGvay+tcXS9dYp10d8aK7aDfn2Zr2Q1mlJnoreEjiw==
-X-Received: by 2002:a17:906:9b87:: with SMTP id
- dd7mr3694623ejc.178.1642778758359; 
- Fri, 21 Jan 2022 07:25:58 -0800 (PST)
-Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
- ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id gz12sm2153537ejc.124.2022.01.21.07.25.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Jan 2022 07:25:57 -0800 (PST)
-Message-ID: <93565619-bff8-9f64-50f0-3e9acd570777@redhat.com>
-Date: Fri, 21 Jan 2022 16:25:56 +0100
+ us-mta-496-DfJZ8WShNTW0ZKKW5bYxNw-1; Fri, 21 Jan 2022 10:34:48 -0500
+X-MC-Unique: DfJZ8WShNTW0ZKKW5bYxNw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 995EE8519E2;
+ Fri, 21 Jan 2022 15:34:47 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.33.36.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 85F0510A3BC2;
+ Fri, 21 Jan 2022 15:34:46 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] docs: expand firmware descriptor to allow flash without NVRAM
+Date: Fri, 21 Jan 2022 15:34:44 +0000
+Message-Id: <20220121153444.527707-1-berrange@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v3 03/16] job.h: define locked functions
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org
-References: <20220105140208.365608-1-eesposit@redhat.com>
- <20220105140208.365608-4-eesposit@redhat.com>
- <6a9dafe7-b3e2-68e7-e727-2086c7ceca6d@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <6a9dafe7-b3e2-68e7-e727-2086c7ceca6d@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,87 +76,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Kashyap Chamarthy <kchamart@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The current firmware descriptor schema for flash requires that both the
+executable to NVRAM template paths be provided. This is fine for the
+most common usage of EDK2 builds in virtualization where the separate
+_CODE and _VARS files are provided.
 
+With confidential computing technology like AMD SEV, persistent storage
+of variables may be completely disabled because the firmware requires a
+known clean state on every cold boot. There is no way to express this
+in the firmware descriptor today.
 
-On 19/01/2022 11:44, Paolo Bonzini wrote:
-> On 1/5/22 15:01, Emanuele Giuseppe Esposito wrote:
->> These functions assume that the job lock is held by the
->> caller, to avoid TOC/TOU conditions. Therefore, their
->> name must end with _locked.
->>
->> Introduce also additional helpers that define _locked
->> functions (useful when the job_mutex is globally applied).
->>
->> Note: at this stage, job_{lock/unlock} and job lock guard macros
->> are*nop*.
->>
->> Signed-off-by: Emanuele Giuseppe Esposito<eesposit@redhat.com>
-> 
-> So, this is the only remaining issue: I am not sure about this rename.
-> The functions you are changing are
-> 
-> +void job_txn_unref_locked(JobTxn *txn);
-> +void job_txn_add_job_locked(JobTxn *txn, Job *job);
-> +void job_ref_locked(Job *job);
-> +void job_unref_locked(Job *job);
-> +void job_enter_cond_locked(Job *job, bool(*fn)(Job *job));
-> +bool job_is_completed_locked(Job *job);
-> +bool job_is_ready_locked(Job *job);
-> +void job_pause_locked(Job *job);
-> +void job_resume_locked(Job *job);
-> +void job_user_pause_locked(Job *job, Error **errp);
-> +bool job_user_paused_locked(Job *job);
-> +void job_user_resume_locked(Job *job, Error **errp);
-> +Job *job_next_locked(Job *job);
-> +Job *job_get_locked(const char *id);
-> +int job_apply_verb_locked(Job *job, JobVerb verb, Error **errp);
-> +void job_early_fail_locked(Job *job);
-> +void job_complete_locked(Job *job, Error **errp);
-> +void job_cancel_locked(Job *job, bool force);
-> +void job_user_cancel_locked(Job *job, bool force, Error **errp);
-> +int job_cancel_sync_locked(Job *job, bool force);
-> +int job_complete_sync_locked(Job *job, Error **errp);
-> +void job_finalize_locked(Job *job, Error **errp);
-> +void job_dismiss_locked(Job **job, Error **errp);
-> +int job_finish_sync_locked(Job *job, void (*finish)(Job *, Error **errp),
-> 
-> and most of them (if not all?) will never be called by the job driver, only
-> by the monitor.  The two APIs (for driver / for monitor) are quite separate
-> and have different locking policies: the monitor needs to take the lock to
-> avoid TOC/TOU races, the driver generally can let the API take the lock.
-> 
-> The rename makes the monitor code heavier, but if you don't do the 
-> rename the
-> functions in job.c are named very inconsistently.  So I'm inclined to say
-> this patch is fine---but I'd like to hear from others as well.
-> 
-> I think the two APIs should be in two different header files, similar
-> to how you did the graph/IO split.
+Even with regular EDK2 builds it is possible to create a firmware that
+has both executable code and variable persistence in a single file. This
+hasn't been commonly used, since it would mean every guest bootup would
+need to clone the full firmware file, leading to redundant duplicate
+storage of the code portion. In some scenarios this may not matter and
+might even be beneficial. For example if a public cloud allows users to
+bring their own firmware, such that the user can pre-enroll their own
+secure boot keys, you're going to have this copied on disk for each
+tenant already. At this point the it can be simpler to just deal with
+a single file rather than split builds. The firmware descriptor ought
+to be able to express this combined firmware model too.
 
-The split was proposed in previous versions, but Vladimir did not really 
-like it and suggested to send it as a separate series:
+This all points towards expanding the schema for flash with a 'mode'
+concept
 
-https://patchew.org/QEMU/20211104153121.1362449-1-eesposit@redhat.com/
+ - "split" - the current implicit behaviour with separate files
+   for code and variables.
 
+ - "combined" - the alternate behaviour where a single file contains
+   both code and variables.
 
-Vladimir's comment:
-https://patchew.org/QEMU/20211104153121.1362449-1-eesposit@redhat.com/
+ - "stateless" - the confidential computing use case where storage
+   of variables is completely disable, leaving only the code.
 
-Thank you,
-Emanuele
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ docs/interop/firmware.json | 54 ++++++++++++++++++++++++++++++++------
+ 1 file changed, 46 insertions(+), 8 deletions(-)
 
-> 
-> Paolo
-> 
+diff --git a/docs/interop/firmware.json b/docs/interop/firmware.json
+index 8d8b0be030..884e99864b 100644
+--- a/docs/interop/firmware.json
++++ b/docs/interop/firmware.json
+@@ -210,24 +210,61 @@
+   'data'   : { 'filename' : 'str',
+                'format'   : 'BlockdevDriver' } }
+ 
++
++##
++# @FirmwareFlashType:
++#
++# Describes how the firmware build handles code versus variable
++# persistence.
++#
++# @split: the executable file contains code while the nvram
++#         template provides variable storage. The executable
++#         must be configured read-only and can be shared between
++#         multiple guests. The nvram template must be cloned
++#         for each new guest and configured read-write.
++#
++# @combined: the executable file contains both code and
++#            variable storage. The executable must be cloned
++#            for each new guest and configured read-write.
++#            No nvram template will be specified.
++#
++# @stateless: the executable file contains code and variable
++#             storage is not persisted. The executed must
++#             be configured read-only and can be shared
++#             between multiple guests. No nvram template
++#             willbe specified.
++#
++# Since: 7.0.0
++##
++{ 'enum': 'FirmwareFlashMode',
++  'data': [ 'split', 'combined', 'stateless' ] }
++
+ ##
+ # @FirmwareMappingFlash:
+ #
+ # Describes loading and mapping properties for the firmware executable
+ # and its accompanying NVRAM file, when @FirmwareDevice is @flash.
+ #
+-# @executable: Identifies the firmware executable. The firmware
+-#              executable may be shared by multiple virtual machine
+-#              definitions. The preferred corresponding QEMU command
+-#              line options are
++# @mode: describes how the firmware build handles code versus variable
++#        storage. If not present, it must be treated as if it was
++#        configured with value ``split``. Since: 7.0.0
++#
++# @executable: Identifies the firmware executable. The @mode
++#              indicates whether there will be an associated
++#              NVRAM template present. The preferred
++#              corresponding QEMU command line options are
+ #                  -drive if=none,id=pflash0,readonly=on,file=@executable.@filename,format=@executable.@format
+ #                  -machine pflash0=pflash0
+-#              or equivalent -blockdev instead of -drive.
++#              or equivalent -blockdev instead of -drive. When
++#              @mode is ``combined`` the executable must be
++#              cloned before use and configured with readonly=off.
+ #              With QEMU versions older than 4.0, you have to use
+ #                  -drive if=pflash,unit=0,readonly=on,file=@executable.@filename,format=@executable.@format
+ #
+ # @nvram-template: Identifies the NVRAM template compatible with
+-#                  @executable. Management software instantiates an
++#                  @executable, when @mode is set to ``split``,
++#                  otherwise it should not be present.
++#                  Management software instantiates an
+ #                  individual copy -- a specific NVRAM file -- from
+ #                  @nvram-template.@filename for each new virtual
+ #                  machine definition created. @nvram-template.@filename
+@@ -246,8 +283,9 @@
+ # Since: 3.0
+ ##
+ { 'struct' : 'FirmwareMappingFlash',
+-  'data'   : { 'executable'     : 'FirmwareFlashFile',
+-               'nvram-template' : 'FirmwareFlashFile' } }
++  'data'   : { 'mode': 'FirmwareFlashMode',
++               'executable'     : 'FirmwareFlashFile',
++               '*nvram-template' : 'FirmwareFlashFile' } }
+ 
+ ##
+ # @FirmwareMappingKernel:
+-- 
+2.33.1
 
 
