@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B99A3495CFE
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 10:41:16 +0100 (CET)
-Received: from localhost ([::1]:43350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23D92495D05
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 10:44:24 +0100 (CET)
+Received: from localhost ([::1]:50896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAqPz-0005dR-AG
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 04:41:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39274)
+	id 1nAqT1-0002RU-88
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 04:44:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nAoQP-0000pr-LQ
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 02:33:37 -0500
-Received: from mga02.intel.com ([134.134.136.20]:54674)
+ id 1nAoTz-0001gp-VY
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 02:37:21 -0500
+Received: from mga02.intel.com ([134.134.136.20]:54948)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nAoQN-0002Pl-C7
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 02:33:32 -0500
+ id 1nAoTv-000491-NY
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 02:37:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642750411; x=1674286411;
+ t=1642750631; x=1674286631;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=t/LMOmGNj51QHSx3F4yOV0skCSb0gs41w7Z769780i8=;
- b=FlDG5vEKiRJLNM8uSbAlJXUZ172Yx/w+VArtKdq3zN1oVL2m4PaZ7HVB
- CVnBVRL4OE5X1fNqkS9zGk3oGjf5EjlLYpY/F7LAwIDJY9KhYkDbPIT9J
- K92rjxO76kxL5sdUXoMkMb4Z/FK9BABbDKdI6TC3B2YKR7DBq/2UCWfIp
- /FM9Q5dQoT6UU+WrPQ7uc1c7mO62hnw7nwfNjcK5O+3jsn5jyxp0vwEsk
- bZhFXnF7oRHWjpdeUiNkdbTga0eccHvWdGDdQh/R3pNjE8iCuhip303YN
- smWmGVrxAstEDFh9R+qqXpDys3NM0LtOS2OXYpmxxnLXNOM3gWCxE/ISI g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="232948493"
-X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="232948493"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=gJgQOiSfx63z8tJT0PWxrnBJtH2EyLOPk9yGiwBgrdc=;
+ b=FW6617zXpnjvsoZs/IMDXDQbw/Md2rhv41Tl2atGrq2fG8nqQ6DSsBFe
+ 4ePGGefxBWmHKyWlIJlTRzpWIrETl3y5a0QFQCqkdpdQiIQj/xQ4I/I8M
+ 7ScFElxt7GryqAiH02yXa6OVLP7zw7iigM43HSHQRRNoPrXTPaj3y7qlF
+ 7CvCl6OoSkSu3KLaCCr+RxZZOCgdUlIWVgBmhNaxMw+0uGn+u8MztQt57
+ f9Gfd0Cv1pNNhLYebb82zOwH+3d2pTXhtlarrsXH5LRYvtjHS3tmobFCK
+ GEc9t2Pd1i/Tpxt4QsRNL+IHrtItGWzn2pGHCptmykWVoKUzZTE1PShMr A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="232949454"
+X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="232949454"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 23:33:28 -0800
-X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="478151386"
+ 20 Jan 2022 23:37:08 -0800
+X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="561775507"
 Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
  ([10.238.145.56])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 20 Jan 2022 23:33:26 -0800
-Date: Fri, 21 Jan 2022 15:18:07 +0800
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 20 Jan 2022 23:37:06 -0800
+Date: Fri, 21 Jan 2022 15:21:47 +0800
 From: Yang Zhong <yang.zhong@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC PATCH 4/7] x86: Add XFD faulting bit for state components
-Message-ID: <20220121071807.GC29921@yangzhon-Virtual>
+Subject: Re: [RFC PATCH 3/7] x86: Grant AMX permission for guest
+Message-ID: <20220121072147.GD29921@yangzhon-Virtual>
 References: <20220107093134.136441-1-yang.zhong@intel.com>
- <20220107093134.136441-5-yang.zhong@intel.com>
- <c494456b-42a7-d591-02e0-dbdeecf2c36b@redhat.com>
+ <20220107093134.136441-4-yang.zhong@intel.com>
+ <29573e51-aa21-dbf3-b626-facf72e5b9c6@redhat.com>
+ <0ad4f708-f338-0742-dc69-af08e908cff5@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <c494456b-42a7-d591-02e0-dbdeecf2c36b@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0ad4f708-f338-0742-dc69-af08e908cff5@redhat.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Received-SPF: pass client-ip=134.134.136.20; envelope-from=yang.zhong@intel.com;
  helo=mga02.intel.com
@@ -81,23 +83,67 @@ Cc: yang.zhong@intel.com, kevin.tian@intel.com, seanjc@google.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 18, 2022 at 01:52:51PM +0100, Paolo Bonzini wrote:
-> On 1/7/22 10:31, Yang Zhong wrote:
-> >-    uint32_t need_align;
-> >+    uint32_t need_align, support_xfd;
+On Tue, Jan 18, 2022 at 02:06:55PM +0100, Paolo Bonzini wrote:
+> Sorry, hit send on the wrong window.  This is the only patch that
+> will require a bit more work.
 > 
-> These can be replaced by a single field "uint32_t ecx".
+> On 1/18/22 13:52, Paolo Bonzini wrote:
+> >>@@ -124,6 +150,8 @@ void x86_cpus_init(X86MachineState *x86ms,
+> >>int default_cpu_version)
+> >>      MachineState *ms = MACHINE(x86ms);
+> >>      MachineClass *mc = MACHINE_GET_CLASS(x86ms);
+> >>+    /* Request AMX pemission for guest */
+> >>+    x86_xsave_req_perm();
+> >>      x86_cpu_set_default_version(default_cpu_version);
+> >
+> >This should be done before creating a CPU with support for state
+> >component 18.  It happens in kvm_init_vcpu, with the following
+> >call stack:
+> >
+> >     kvm_init_vcpu
+> >     kvm_vcpu_thread_fn
+> >     kvm_start_vcpu_thread
+> >     qemu_init_vcpu
+> >     x86_cpu_realizefn
+> >
+> >The issue however is that this has to be done before
+> >KVM_GET_SUPPORTED_CPUID and KVM_CHECK_EXTENSION(KVM_CAP_XSAVE2).
+> >
+> >For the former, you can assume that anything returned by
+> >ARCH_GET_XCOMP_GUEST_PERM will be returned by
+> >KVM_GET_SUPPORTED_CPUID in CPUID[0xD].EDX:EAX, so you can:
+> >
+> >- add it to kvm_arch_get_supported_cpuid
 > 
-> You can add also macros like
+> ... together with the other special cases (otherwise
+> x86_cpu_get_supported_feature_word complains that XTILEDATA is not
+> available)
 > 
-> #define ESA_FEATURE_ALIGN64_BIT	(1)
-> #define ESA_FEATURE_XFD_BIT	(2)
+> - change kvm_cpu_xsave_init to use host_cpuid instead of
+> kvm_arch_get_supported_cpuid.
 > 
-> to simplify access.
+> - call ARCH_REQ_XCOMP_GUEST_PERM from
+> x86_cpu_enable_xsave_components, with a conditional like
+> 
+>     if (kvm_enabled()) {
+>         kvm_request_xsave_components(cpu, mask);
+>     }
+> 
+> KVM_CHECK_EXTENSION(KVM_CAP_XSAVE2) is actually not a problem; the
+> ioctl is only called from kvm_arch_init_vcpu and therefore after
+> x86_cpu_enable_xsave_components.
+>
   
-  Thanks Paolo, this is a more simplified solution, thanks!
+  Paolo, thanks too much for those detailed steps!
+  I have completed the new patch according to those steps, and work well.
 
-  Yang
+  Since this is only big change patch, the next version will be removed RFC.
+
+  Thanks!
+  Yang  
+  
  
+> Thanks,
+> 
 > Paolo
 
