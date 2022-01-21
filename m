@@ -2,71 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 642E2495BBD
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 09:19:12 +0100 (CET)
-Received: from localhost ([::1]:40574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B97B5495C8C
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 10:09:57 +0100 (CET)
+Received: from localhost ([::1]:55970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAp8Z-0002Ca-9P
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 03:19:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56126)
+	id 1nApvg-0000Of-9W
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 04:09:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nAnDI-00084T-Hl; Fri, 21 Jan 2022 01:15:56 -0500
-Received: from [2607:f8b0:4864:20::d2f] (port=41693
- helo=mail-io1-xd2f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nAnDG-0007cr-S6; Fri, 21 Jan 2022 01:15:56 -0500
-Received: by mail-io1-xd2f.google.com with SMTP id i82so9671688ioa.8;
- Thu, 20 Jan 2022 22:15:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sS8bxuVr9vyDJQYr4KLcl3tCSilbVPxiulOdmrS0so0=;
- b=H1KdhbdjRtZZJvkO8w9sIeocqVhs3mknHcLSOLlKZx4bOF6l28JeCEvfsgwfDMCNoD
- H/0TIl5XxPEKbYgjucNb5WC61CpArZqt/39Py0t3FToYmFKZfsGRMkAUzmrsIDq57gSv
- Nk59M6guAOUG3y8XFe4s/QYoBv1HjS3iYz1xnP7cO7AD8yyHf0aCYZJ3XAoMFRmDqud+
- 1FHYEOWX8OrUxeH+5pmeSbPO1bkAs5wsMGwiZuWuuYkyC8Y1T5S8ejgIESNzPobMtAgN
- Nbtnzd/nXJGEh5r0C1kYWuzMBkj795nJjZJdZJg5KAAwzcWZcPwSdflEJ1fJKcYdsglc
- CS0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sS8bxuVr9vyDJQYr4KLcl3tCSilbVPxiulOdmrS0so0=;
- b=P8d5zaD/5h5hU+PzZ5QMiKD79wk8tXaqCCaYj9lXrDpGBBW+RbG9o/9X3ngM/T1sBw
- m5gEI9OZ4eaDxYHPzbW/2tckQtlhEO/kjXcyIBD7i0+2PZ2IBvP780jTDuX20DS9kqo7
- N3ZW6E7rX/eL+6bsjv2rcXmwb77p+7UZmVQKxySXauwspN1hdm9z3VPGU8lo7oy8EHGw
- qS8H/cwy6xmU+hSekahjgqLgrW8jMjrfu6FTuGWtLwFMcpjH4EHBVEmN+L3NuqcQBr6B
- x+Z1n+sbDNnaEVURgiaWCR0vKnu70ICJsxiMxd9dAaAaVjuuHNpa84HucyPBOjlZimWs
- EL6A==
-X-Gm-Message-State: AOAM533peU0aOA1sdTrqCAskRIMIq11LyciOauWtGxs3CfDHp2Fr67kD
- sqdFY45vi/Jlrx/DDX6h1n/qlGkZZ8GxIHYlQjw=
-X-Google-Smtp-Source: ABdhPJzYLY2FhCQHfWO6LEMFldiSYPaWNjyWWv/Riviuu+6LAscADBgC/K68IE3USl4CFnJSqajXaaUkYVf3J4aQQLU=
-X-Received: by 2002:a05:6602:14cd:: with SMTP id
- b13mr1236094iow.57.1642745753274; 
- Thu, 20 Jan 2022 22:15:53 -0800 (PST)
+ (Exim 4.90_1)
+ (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
+ id 1nAn0Y-0008GL-P7
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:02:47 -0500
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:60345)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
+ id 1nAn0W-0004B6-IC
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:02:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1642744964; x=1674280964;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=TKBKT/lup5hc/at0bly7ZZuFETEagyAi3iVW1VXJx8I=;
+ b=V21/qSjZLjATjbhUX09toOd/fHBYNMTknmMgNC+z1HVuOhgq+Q4M7NDB
+ SCC4m4qcpHzYbm3u/M4F2X2gmrFg2yWaUtLhE+1WPdEJNNYnnJvV7q7x3
+ 66X37/jp040ZRy3Sx9m1wB/WJxeMgvnIRSttVpITNC4pS/2+MvK/0lw1H
+ Kli8dLqtN6vtfBr47N/Q3nJJ36s25qDfy11n8JZzRbTU7gnvShuAynkf6
+ JWFZyc+usSS599D47D0pWM/ot1TbHqIHOTURmilOizo5jy9BoJy/AeyFD
+ rilkfZcsW5CxoVz8co9dgjwUTwyItq9JhoUJocgBblZTMoB9LrLh9yrRZ g==;
+X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="295083054"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 14:01:33 +0800
+IronPort-SDR: 52lsbi39bTMVyWZgIPz8F9HnXRyEpW2cUBQh7QOOxB/GUapSa6L3cR0kMHfHZBlMk1UYvxVdi8
+ CfjeGQqGTu8N7iSjhsT6/3OurXgD0Y9sOHlbY1NuEoCGwico+V7IEOmocI/BJaHTVnvTs+gmPK
+ LejPwd/On7ii/mxe9qY2SFavuo5L5ipuMIWbuZ7pE5yQAcohJ7mziqbQ5pHII+kzCbC1LfqRGu
+ 6nXG61nJWFdhYC+rg4XKsmCvAe2UVbu4fAjvh21xsop6DRErgQT2rXd8wfBoDMb3j33xf13mgf
+ P8grVKbNsx2wugzGg3FjMa6M
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 21:35:00 -0800
+IronPort-SDR: XVX52CDEYW8M7QsYdYugGySTjbYn9ZqPqmAHQf92iG73B4gp49rYpf3gMmAk5pL/v5KIPq2XoL
+ kpFA4ej8H3Z6JKn4atgMHpURvP/VWvsf7yEPUoyoYV7MS/AN8qHXKolZeXmI6HjJg8QKO0JRAe
+ 3u4oeAZz1NQiE9v6cq63bglLuTGHMHDnsqfjROBK7HCbeC6k+ZoJzjaliF/bEoUJe8+5ET4vc5
+ XwTITQhD/t3VkySJBO0jh/cdgZm764BmBFnISso3YAy2Ws8v0lCtvCQMtXn1vUfqNTqwffr32B
+ 3UU=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 22:01:33 -0800
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg7zx1NG1z1SVp1
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 22:01:33 -0800 (PST)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :references:in-reply-to:x-mailer:message-id:date:subject:to
+ :from; s=dkim; t=1642744892; x=1645336893; bh=TKBKT/lup5hc/at0bl
+ y7ZZuFETEagyAi3iVW1VXJx8I=; b=RSAt3j5IE9Yl6U4qOhQ3g6IOjkSgPFn3t8
+ 7GU11WOeFACf7m3FgT1RIlNpjtor9EvMM0NosCtNB7D1pgoWePgSAZ8HQOH46GcS
+ +kSjJzd3yIF5hoIswJeR/DvDNnWQmz5rQq55OG3ZIn1LXJYZDLOVk2B/Py76t2Zk
+ 2lM6wP/r1OMU6NWZZqJ1/uZSjHFBxXPADpO+k+MhP+eIzONtxSTeikItoucmlpxG
+ UfxMr+4cLlM1tZ17e6+JyGsi8LThKQSQSip1eJ3+G2MX68kLOiJXTYtcNa+gcXq4
+ u7G8EtjlQShnNR3M5sGt85yHVO1Nhutpz6qFKA9+0Fe35jf6teqQ==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id jtXtcecu8qVg for <qemu-devel@nongnu.org>;
+ Thu, 20 Jan 2022 22:01:32 -0800 (PST)
+Received: from toolbox.alistair23.me (unknown [10.225.165.80])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg7zs6qztz1RvlN;
+ Thu, 20 Jan 2022 22:01:29 -0800 (PST)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-devel@nongnu.org
+Cc: alistair23@gmail.com, LIU Zhiwei <zhiwei_liu@c-sky.com>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 41/61] target/riscv: Sign extend link reg for jal and jalr
+Date: Fri, 21 Jan 2022 15:58:10 +1000
+Message-Id: <20220121055830.3164408-42-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
+References: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
-References: <20220121055005.3159846-1-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20220121055005.3159846-1-alistair.francis@opensource.wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 21 Jan 2022 16:15:27 +1000
-Message-ID: <CAKmqyKM9yx0x_XiA0WVkMXHstg-ePxe1c8tuNWtbHjYaNV0JRg@mail.gmail.com>
-Subject: Re: [PATCH v1] include: hw: remove ibex_plic.h
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2f.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=68.232.143.124;
+ envelope-from=prvs=0135fdaf6=alistair.francis@opensource.wdc.com;
+ helo=esa2.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,108 +112,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, wilfred.mallawa@wdc.com,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 21, 2022 at 3:50 PM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
->
-> This patch removes the left-over/unused `ibex_plic.h` file. Previously
-> used by opentitan, which now follows the RISC-V standard and uses the
-> SiFivePlicState.
->
-> Fixes: 434e7e021 ("hw/intc: Remove the Ibex PLIC")
-> Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20220120122050.41546-4-zhiwei_liu@c-sky.com
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/translate.c                | 4 +---
+ target/riscv/insn_trans/trans_rvi.c.inc | 4 +---
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-Alistair
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 330904265e..30c0e28778 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -369,10 +369,8 @@ static void gen_jal(DisasContext *ctx, int rd, targe=
+t_ulong imm)
+             return;
+         }
+     }
+-    if (rd !=3D 0) {
+-        tcg_gen_movi_tl(cpu_gpr[rd], ctx->pc_succ_insn);
+-    }
+=20
++    gen_set_gpri(ctx, rd, ctx->pc_succ_insn);
+     gen_goto_tb(ctx, 0, ctx->base.pc_next + imm); /* must use this for s=
+afety */
+     ctx->base.is_jmp =3D DISAS_NORETURN;
+ }
+diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_=
+trans/trans_rvi.c.inc
+index 3a0ae28fef..b9ba57f266 100644
+--- a/target/riscv/insn_trans/trans_rvi.c.inc
++++ b/target/riscv/insn_trans/trans_rvi.c.inc
+@@ -68,9 +68,7 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
+         tcg_temp_free(t0);
+     }
+=20
+-    if (a->rd !=3D 0) {
+-        tcg_gen_movi_tl(cpu_gpr[a->rd], ctx->pc_succ_insn);
+-    }
++    gen_set_gpri(ctx, a->rd, ctx->pc_succ_insn);
+     tcg_gen_lookup_and_goto_ptr();
+=20
+     if (misaligned) {
+--=20
+2.31.1
 
-> ---
->  include/hw/intc/ibex_plic.h | 67 -------------------------------------
->  1 file changed, 67 deletions(-)
->  delete mode 100644 include/hw/intc/ibex_plic.h
->
-> diff --git a/include/hw/intc/ibex_plic.h b/include/hw/intc/ibex_plic.h
-> deleted file mode 100644
-> index d596436e06..0000000000
-> --- a/include/hw/intc/ibex_plic.h
-> +++ /dev/null
-> @@ -1,67 +0,0 @@
-> -/*
-> - * QEMU RISC-V lowRISC Ibex PLIC
-> - *
-> - * Copyright (c) 2020 Western Digital
-> - *
-> - * This program is free software; you can redistribute it and/or modify it
-> - * under the terms and conditions of the GNU General Public License,
-> - * version 2 or later, as published by the Free Software Foundation.
-> - *
-> - * This program is distributed in the hope it will be useful, but WITHOUT
-> - * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> - * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> - * more details.
-> - *
-> - * You should have received a copy of the GNU General Public License along with
-> - * this program.  If not, see <http://www.gnu.org/licenses/>.
-> - */
-> -
-> -#ifndef HW_IBEX_PLIC_H
-> -#define HW_IBEX_PLIC_H
-> -
-> -#include "hw/sysbus.h"
-> -#include "qom/object.h"
-> -
-> -#define TYPE_IBEX_PLIC "ibex-plic"
-> -OBJECT_DECLARE_SIMPLE_TYPE(IbexPlicState, IBEX_PLIC)
-> -
-> -struct IbexPlicState {
-> -    /*< private >*/
-> -    SysBusDevice parent_obj;
-> -
-> -    /*< public >*/
-> -    MemoryRegion mmio;
-> -
-> -    uint32_t *pending;
-> -    uint32_t *hidden_pending;
-> -    uint32_t *claimed;
-> -    uint32_t *source;
-> -    uint32_t *priority;
-> -    uint32_t *enable;
-> -    uint32_t threshold;
-> -    uint32_t claim;
-> -
-> -    /* config */
-> -    uint32_t num_cpus;
-> -    uint32_t num_sources;
-> -
-> -    uint32_t pending_base;
-> -    uint32_t pending_num;
-> -
-> -    uint32_t source_base;
-> -    uint32_t source_num;
-> -
-> -    uint32_t priority_base;
-> -    uint32_t priority_num;
-> -
-> -    uint32_t enable_base;
-> -    uint32_t enable_num;
-> -
-> -    uint32_t threshold_base;
-> -
-> -    uint32_t claim_base;
-> -
-> -    qemu_irq *external_irqs;
-> -};
-> -
-> -#endif /* HW_IBEX_PLIC_H */
-> --
-> 2.34.1
->
 
