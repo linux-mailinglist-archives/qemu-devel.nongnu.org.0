@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5D64496241
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 16:45:01 +0100 (CET)
-Received: from localhost ([::1]:38806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DDEC496256
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 16:51:15 +0100 (CET)
+Received: from localhost ([::1]:47086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAw60-0003si-O4
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 10:45:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48166)
+	id 1nAwC1-0001T8-Nl
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 10:51:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAw2q-0001A9-OQ
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 10:41:46 -0500
-Received: from [2a00:1450:4864:20::335] (port=54901
- helo=mail-wm1-x335.google.com)
+ id 1nAw2y-0001Hw-Vk
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 10:41:52 -0500
+Received: from [2a00:1450:4864:20::32f] (port=43905
+ helo=mail-wm1-x32f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAw2p-0007fl-3G
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 10:41:44 -0500
-Received: by mail-wm1-x335.google.com with SMTP id p18so18423611wmg.4
- for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 07:41:42 -0800 (PST)
+ id 1nAw2t-0007h8-Pg
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 10:41:52 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ e9-20020a05600c4e4900b0034d23cae3f0so22974668wmq.2
+ for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 07:41:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qHVrZYilprbADKL6sDkzZ5rkDTLaol2IUVJ3O0h2GR0=;
- b=NJikODvwK+s3FfOKIBhzVEryyZtVsTdZv1sYEICrKQf2TFqr8kvnJxekabx3FoIYd5
- SBwsRVe4jZMkUQ3JkfsSPKNaIYj/Cx+GyrD1I2nOy0IjVc4Le1YXMwZhUw3DJS+lJrf2
- uH5I3zJsvrE2whEGMJ5rNbZOjuhdDxGptFR/+s58BFO/TvXsKnCPzq0MCPNSY0hU/E5h
- bnQg3qD+ZJrnxXa0/vDhSL+R++Yt3f+A4sMw886ep4JXv9BNbm4BA0aR0swKSOQYy6RZ
- PvGsD4ESrMvQ9uw+v1JBdkimAvWqbOEkx5nlroxvvntMBt6T2KyXZZRjfWM2Fqr2bhLs
- v40Q==
+ bh=QHeqOg1fCgtx7ni/iHjS3u5wy+2uDfP4jJvs5BysbmY=;
+ b=OwV1gvBqTdwAkPS2IgqWxE9JZPC7ke30HVEslbT8y2OzSMkM59vvcXQRwLwX+QsHUc
+ kdJEdJ+oys65VhQSfHdcd2Vcyej8saJADtT4gxf6yiEZ4MD2JZk8djsbJGbjFgFG1Q5D
+ DBKWdANgOQIXid2MQQtDJSzwkBlKpUf1LL+uubC5siEnhAU3Pg/8g9ZHOUbW7SdGF9YZ
+ Mn6Pcmb/ZfVEnjxuUTp6lL+Dq0xAW09b4K7IOF41byARq73ruD2Vw+4Q50N7/xSiFTHQ
+ hOUyFlyuL95gxfB8Q+j339Of8LkNE6I3T0fD15AUfSyT7TF48JglGWQXBZcUojX4liD2
+ s5UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=qHVrZYilprbADKL6sDkzZ5rkDTLaol2IUVJ3O0h2GR0=;
- b=U6mRaKvSHrVjGS8Eo8N7akAAjoYJ4GNBCqwzIZF0GydVttTqFvpIK9m6utCvn2SMM1
- D21WmhwDbCZLq1Yr5tfcP3DJEs85CtvGAy8voDiifyjz+NO5Jx2h5nWLkZiNdh13XFhB
- VRYZJtSIfL25qwxoGDwyGwgZO5dqWtqW5lABNRsuX1BMKxwIsdkHkSlgc3j2lE8ShIMi
- jetH0DxVYZjFTFpXGqLBktt17dOl2x9nvjuaCRHIZGJ07iTVvCN1ADDfwYgGbhxakAEm
- 2XxLY3cQ1m+syD4OxsntxBmlYZ5UYjKlPw97wA7pqqhFosVCmiMXOQbM5rEVcerVZSLi
- rPqg==
-X-Gm-Message-State: AOAM532k6dhdkseafs/fN4vipOvVhLB8g5q+wWQ6jQqMU4j4oygGcyC0
- d9Sg1mxGBq2H7YXc+13PA+HFGBLBKKo=
-X-Google-Smtp-Source: ABdhPJzH365UhrzFIFDzweZ6bvAFcLAGOAmrOhv0hWf+YSXZY3yBZv03HXHreD0EEz/qXb7rvz/x8Q==
-X-Received: by 2002:a7b:c747:: with SMTP id w7mr1295858wmk.54.1642779701641;
- Fri, 21 Jan 2022 07:41:41 -0800 (PST)
+ bh=QHeqOg1fCgtx7ni/iHjS3u5wy+2uDfP4jJvs5BysbmY=;
+ b=KwbrEHHlAlBCCKYzIvZxybizHCkZCxQ8GcG+VHgkJHy2S7qrkhxyAbOhtCu6vAwFcY
+ lAIf1lD9t+xeAAbL3Ta5QOlUCH7fg2GDmWj9sxTxAhpxdXL0XBB/rVJCS7mVyy9GY7m/
+ uqviUR8TdePKxdfBNUzY3gmrRVaUZiKrGgJRZAgqmKGLcPbu44j9V6sxzkEdjJ7Wc6RW
+ WPmscDmEX9UsHwmN2SXXsiOHft5Iqj24+r7m5MuNDATIfl9iWAg/GX4XtHDt6gufxbgL
+ TuKzCu4sgbgJRZ4WDmg9rwCa+JLggOc6udzQgTSmEX6KWyn1k0ecMMJqi5iZePWJskB8
+ iWnQ==
+X-Gm-Message-State: AOAM530RhJ9ZW4p4cGGfe5++iu6wxC2ixJArskcwEoXk0uV3sIKof8zr
+ V1yW91qEtC9suHKKat9gBbQU3uhL+zU=
+X-Google-Smtp-Source: ABdhPJy3hW/VwXx/6LQAOytNOO1qE/9r58vKYekqJKKfCEjI/zQFG1PilcPuQsmh6X3u5TL16MV+hA==
+X-Received: by 2002:a1c:544d:: with SMTP id p13mr1231723wmi.97.1642779706370; 
+ Fri, 21 Jan 2022 07:41:46 -0800 (PST)
 Received: from nuc.. (154.red-83-50-83.dynamicip.rima-tde.net. [83.50.83.154])
  by smtp.gmail.com with ESMTPSA id
- f10sm6607140wri.50.2022.01.21.07.41.40
+ y6sm4980371wma.48.2022.01.21.07.41.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Jan 2022 07:41:41 -0800 (PST)
+ Fri, 21 Jan 2022 07:41:46 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Ed Maste <emaste@freebsd.org>, Thomas Huth <thuth@redhat.com>,
  Michael Tokarev <mjt@tls.msk.ru>,
@@ -60,20 +61,19 @@ Cc: Ed Maste <emaste@freebsd.org>, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Li-Wen Hsu <lwhsu@freebsd.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v6 1/7] MAINTAINERS: Cover lcitool submodule with build test /
- automation
-Date: Fri, 21 Jan 2022 16:41:28 +0100
-Message-Id: <20220121154134.315047-2-f4bug@amsat.org>
+Subject: [PATCH v6 2/7] gitmodules: Correct libvirt-ci submodule URL
+Date: Fri, 21 Jan 2022 16:41:29 +0100
+Message-Id: <20220121154134.315047-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220121154134.315047-1-f4bug@amsat.org>
 References: <20220121154134.315047-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,28 +99,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-lcitool is used by build test / automation, we want maintainers
-to get notified if the submodule is updated.
+Correct the libvirt-ci repository URL to avoid this warning when
+cloning / refreshing the submodule:
 
+  warning: redirecting to https://gitlab.com/libvirt/libvirt-ci.git/
+
+Fixes: 4ebb040f1fd ("tests: integrate lcitool for generating build env manifests")
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ .gitmodules | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e4b3a4bcdf4..6d5539d46f1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3579,6 +3579,7 @@ F: .travis.yml
- F: scripts/ci/
- F: tests/docker/
- F: tests/vm/
-+F: tests/lcitool/
- F: scripts/archive-source.sh
- W: https://gitlab.com/qemu-project/qemu/pipelines
- W: https://travis-ci.org/qemu/qemu
+diff --git a/.gitmodules b/.gitmodules
+index 84425d87e28..f4b6a9b4012 100644
+--- a/.gitmodules
++++ b/.gitmodules
+@@ -66,4 +66,4 @@
+ 	url = https://gitlab.com/qemu-project/vbootrom.git
+ [submodule "tests/lcitool/libvirt-ci"]
+ 	path = tests/lcitool/libvirt-ci
+-	url = http://gitlab.com/libvirt/libvirt-ci
++	url = https://gitlab.com/libvirt/libvirt-ci.git
 -- 
 2.34.1
 
