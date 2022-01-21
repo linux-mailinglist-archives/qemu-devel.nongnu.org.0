@@ -2,96 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B7E84959C3
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 07:10:44 +0100 (CET)
-Received: from localhost ([::1]:60714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C7CE4959C0
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 07:10:43 +0100 (CET)
+Received: from localhost ([::1]:60766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAn8D-0001ze-CM
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 01:10:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49316)
+	id 1nAn8E-00021M-06
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 01:10:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAmwh-0006iR-N2
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 00:58:48 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:39366)
+ id 1nAmwr-0006jA-Lc
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 00:58:58 -0500
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:8927)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAmwc-0003zj-P7
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 00:58:44 -0500
+ id 1nAmwh-00040G-Ti
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 00:58:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1642744723; x=1674280723;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=5MapX0QCYFnXAHavQr90sM8eKhnbCSbOHFiK3mzXSKQ=;
- b=lV0nuKMdcmBlJsd1e7rtwIFKomWWsHrcjxpG4bGx3f4QUH7TceaXFkvL
- q7jcLH/N3GUZYwvzNXJaHO0a0yrUx/E3HGi7cm8quvZnkhGWyYNt6Xv8e
- ZCb2d4wlNSixCcZAV7w3YN7easDXnoh2l5PTnsTEZ4QTgFC0mEqI8xOZ5
- 1PFPK4Q790XrO7JrnA/4uWdtkdFMbTJ1Ux+WcwwO6nkeeVnXnxLW8QhC+
- QB04oxCOfwi+Jr3FkM5iw3KvvE7YZE2AomrdyL/n2igChJDMJ8jGj51uH
- lMnZoVoKlc3OaCUdKhAjPWzJ90Uhmz1FK2VfWPawxW7TpgnTwp3lre0Zk g==;
-X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="192026067"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ t=1642744727; x=1674280727;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=uTUeuDOPS8TLMYomzQ7t+tG/Y8qjZkpTXIbQk5JIizA=;
+ b=OQ4okP01rm94bt1jZKn1enq6vzIiL6nVJzw6SgsfbP1l5WnAxotoeISi
+ c8J3JesxuBl3y98EcS+LsqtqN8g1XTtJSbXeSOSBpZtVrw/qc1v13LC07
+ YZ/puyyCvU/ErUGRpKlN6AmKzbi/7joXm2mhAuTZpDulIWrO7Sz/TgFwB
+ ueUSXgEEDKHDvnqu3Pqqb+Xpn4GY2X6hd1aokbUE1olqF1bilMwFpMUrN
+ 8Uo4KR+w70X1qZTUoMsV1aTPC93tzMSUyKkAkV43cjlRD9crLO83wDgRP
+ 8T9GaeLVxTqJm5XagW+zFystIsTLRecM3R7zrzODaGnztpoY7cuJgKnrI A==;
+X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="189976469"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 13:58:41 +0800
-IronPort-SDR: JoqmY+2TqudKqTPbADq3rXww+SXkVE61IqO+/JU7i/jU51eZXRcx0T0x2+TzBYfCk7Mjo8prEj
- MfrjC7lmLHWn31sNYO7tM/ifo6i7OWYCCymiOCKeZOB1Ga7Or1dYEwaihdjs/H56JpGVe95FL2
- ewM+QPqfZAhSuvcVWqRQmI7k90qk0+WWYGKxWiNDkoJbIZ0sB/0rjHWb+6Ukw47/fnJQjHGjy8
- GVaBAKURtPI9SegOMCfJw0OP/NgVQt5ckN8mBz20eKsP2e3GPWTGO/C7fH+AfCZ+Z1aPNht8jP
- NdVemb382RJO1bPXLZtD3mc1
+ by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 13:58:46 +0800
+IronPort-SDR: GZKZEXCV5k7ZI48RrevjLJUB7nZGV6qTVkV6XD6ArSRXmdkcVzyqm5IXsnyPhHHGfDLjhMiE+s
+ XjXL//fDKyfBTrEiYL3qiHQGbZuyL3AgvD3WljPsFNKD5CR6EFTRlrDzDEz10AoId+tk6/Vg2g
+ NpPWYOjJbw5oauGzPNm4CBoCDX+4UAxXzUdAsrw0w3xWqpYyGfmrjTv2IBf82rqe8tWic8vDjp
+ CNINm0ETOYaM2T7baiV381G/1Be9P5WnHIHFk9BtLEBuimJitbdLUGSEqKvrSfthZhXPA9zuxq
+ jr+b+bW63QbofV4EocKaqwDv
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 21:30:51 -0800
-IronPort-SDR: rSzHBeS0jQ1VoeWGil0muIvAWDtJ0469iNaKqBgw0P0syEvpAtxLNTB8KPEzUCgNySUP/NbPtC
- 5TzQgqIxuUOh2UCUkazYYLpNlpHRSp4cEzPj0nQJU61Z9y5TUSYqIVIfbjSzzzXjlBwY9Yd6xx
- irP+B2U2xFIfPvEP4NXN7IzvDRMXpl5PVdoVOzIKykAguXJRBpvfWj/kqehhAEM6Tm07sIjbUa
- Fv0xCMR4/0aHmSuJoJnyEuZbUp9UQM95PgJGokPrWO/n5K0QFAOfmcmXcBTTG8h5m9l+ZLgOLA
- BhI=
+ 20 Jan 2022 21:30:57 -0800
+IronPort-SDR: Cmm7MVb8lk2z5iEwnZlTpEs0ZfjsJh7edax8PyYcivlW0YF3DvvFdNzZWnTSQ0C7c/0yIWZXay
+ 4OTy6s+xrBIQLAUUO/o+bVURSGkZC+5cyyqB/Ri0Iw/embrMcRnGlxQm5ll6jUeONXIFAr/SzX
+ aAgjhCIWJ5suWxusO8ktUkE8C2TZYclqsHGKs2Sai4OlL0OY4iDkSdNcHObGnFI8lUkNeOoPbm
+ fR/DIckUczTLSF8iaG8opsHbJKXhGAR0Uo6OZJufIg0toqb9SU0SNiX/4Q/g0R7P+H570MNUh9
+ 234=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 21:58:40 -0800
+ 20 Jan 2022 21:58:46 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg7wc2sg8z1SVnx
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 21:58:40 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg7wj62CWz1Rwrw
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 21:58:45 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:content-type
- :mime-version:x-mailer:message-id:date:subject:to:from; s=dkim;
- t=1642744719; x=1645336720; bh=5MapX0QCYFnXAHavQr90sM8eKhnbCSbO
- HFiK3mzXSKQ=; b=L9m5+wu3Gkr9cDR6qks/FOVIpzxzbobO3PswDw1CjcqWjABV
- 4bD2YzBz91STSc4nx0ii19oZTarP9qXLwMYoT3CdTVKUI1Pyi76fUhUHnED9nSDQ
- V9Xz5hgPabO42WC050RfDq+8s/13hw3wOSQntS8EW2ZpzvZagY5vKm6RDK5dpIHg
- UKHZfxAry2GL2UIScgg2QD2Sd+IN5DXRIvHMIAwRwcXNRNOlsCL9a5KAicYSCnAb
- YIEz4lMKvS40GLw0XM8T1Grdj+dtUvHPDwbnKBpfq4w/BXVGwl8vOvM6mN/KAQl8
- VMbxVSWGYIsaRvu7lryz3ZRz6jKK+Ph5xvNMOw==
+ :mime-version:references:in-reply-to:x-mailer:message-id:date
+ :subject:to:from; s=dkim; t=1642744725; x=1645336726; bh=uTUeuDO
+ PS8TLMYomzQ7t+tG/Y8qjZkpTXIbQk5JIizA=; b=O1YdTcQJbktg2TcL5XD+pjf
+ lhGkfdtFPX+gOZThLDVbP2xzfUq5+OZljUpUBYO/m02JvNHHMvaJzGHDXzFdZprh
+ 2IXl867O/zD2b1aA4zvvaJD/Go9BEEFBrnQSl7IUpaLfgr7tiROmnGai+f84Tvph
+ +ZmeKy1PxuJ9LjP27Soj7CKJvdfqYfYzyTVz0m9Y/FzdX3K2ReprT6NeWjgWYIWf
+ u6/IKB/VPGSSpnqhhr6hcZtXUMR3sA59UW7wbeZCvWqHJAgrXJIF4KwebHffQ8jp
+ gvKrjmYM4TM0auHOBnBP10ChqNuYhXSz5S9P0qssKlgsWaKcGYv/q4Kk2wN+HXw=
+ =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id wUE6RUd5Cc0o for <qemu-devel@nongnu.org>;
- Thu, 20 Jan 2022 21:58:39 -0800 (PST)
+ port 10026) with ESMTP id 2EVTQpzFCNmt for <qemu-devel@nongnu.org>;
+ Thu, 20 Jan 2022 21:58:45 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.80])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg7wY3Rf6z1RvlN;
- Thu, 20 Jan 2022 21:58:36 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg7wc50psz1RvlN;
+ Thu, 20 Jan 2022 21:58:40 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 00/61] riscv-to-apply queue
-Date: Fri, 21 Jan 2022 15:57:29 +1000
-Message-Id: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Wilfred Mallawa <wilfred.mallawa@wdc.com>,
+ Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PULL 01/61] hw: timer: ibex_timer: Fixup reading w/o register
+Date: Fri, 21 Jan 2022 15:57:30 +1000
+Message-Id: <20220121055830.3164408-2-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
+References: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.154.45;
+Received-SPF: pass client-ip=216.71.154.42;
  envelope-from=prvs=0135fdaf6=alistair.francis@opensource.wdc.com;
- helo=esa6.hgst.iphmx.com
+ helo=esa4.hgst.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -114,169 +118,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
+From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-The following changes since commit 2c89b5af5e72ab8c9d544c6e30399528b22388=
-27:
+This change fixes a bug where a write only register is read.
+As per https://docs.opentitan.org/hw/ip/rv_timer/doc/#register-table
+the 'INTR_TEST0' register is write only.
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-202=
-20120-1' into staging (2022-01-20 16:13:17 +0000)
+Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Message-id: 20220110051606.4031241-1-alistair.francis@opensource.wdc.com
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ include/hw/timer/ibex_timer.h |  1 -
+ hw/timer/ibex_timer.c         | 14 +++++---------
+ 2 files changed, 5 insertions(+), 10 deletions(-)
 
-are available in the Git repository at:
+diff --git a/include/hw/timer/ibex_timer.h b/include/hw/timer/ibex_timer.=
+h
+index b6f69b38ee..1a0a28d5fa 100644
+--- a/include/hw/timer/ibex_timer.h
++++ b/include/hw/timer/ibex_timer.h
+@@ -43,7 +43,6 @@ struct IbexTimerState {
+     uint32_t timer_compare_upper0;
+     uint32_t timer_intr_enable;
+     uint32_t timer_intr_state;
+-    uint32_t timer_intr_test;
+=20
+     uint32_t timebase_freq;
+=20
+diff --git a/hw/timer/ibex_timer.c b/hw/timer/ibex_timer.c
+index 66e1f8e48c..826c38b653 100644
+--- a/hw/timer/ibex_timer.c
++++ b/hw/timer/ibex_timer.c
+@@ -130,7 +130,6 @@ static void ibex_timer_reset(DeviceState *dev)
+     s->timer_compare_upper0 =3D 0xFFFFFFFF;
+     s->timer_intr_enable =3D 0x00000000;
+     s->timer_intr_state =3D 0x00000000;
+-    s->timer_intr_test =3D 0x00000000;
+=20
+     ibex_timer_update_irqs(s);
+ }
+@@ -168,7 +167,8 @@ static uint64_t ibex_timer_read(void *opaque, hwaddr =
+addr,
+         retvalue =3D s->timer_intr_state;
+         break;
+     case R_INTR_TEST:
+-        retvalue =3D s->timer_intr_test;
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "Attempted to read INTR_TEST, a write only registe=
+r");
+         break;
+     default:
+         qemu_log_mask(LOG_GUEST_ERROR,
+@@ -215,10 +215,7 @@ static void ibex_timer_write(void *opaque, hwaddr ad=
+dr,
+         s->timer_intr_state &=3D ~val;
+         break;
+     case R_INTR_TEST:
+-        s->timer_intr_test =3D val;
+-        if (s->timer_intr_enable &
+-            s->timer_intr_test &
+-            R_INTR_ENABLE_IE_0_MASK) {
++        if (s->timer_intr_enable & val & R_INTR_ENABLE_IE_0_MASK) {
+             s->timer_intr_state |=3D R_INTR_STATE_IS_0_MASK;
+             qemu_set_irq(s->irq, true);
+         }
+@@ -247,8 +244,8 @@ static int ibex_timer_post_load(void *opaque, int ver=
+sion_id)
+=20
+ static const VMStateDescription vmstate_ibex_timer =3D {
+     .name =3D TYPE_IBEX_TIMER,
+-    .version_id =3D 1,
+-    .minimum_version_id =3D 1,
++    .version_id =3D 2,
++    .minimum_version_id =3D 2,
+     .post_load =3D ibex_timer_post_load,
+     .fields =3D (VMStateField[]) {
+         VMSTATE_UINT32(timer_ctrl, IbexTimerState),
+@@ -257,7 +254,6 @@ static const VMStateDescription vmstate_ibex_timer =3D=
+ {
+         VMSTATE_UINT32(timer_compare_upper0, IbexTimerState),
+         VMSTATE_UINT32(timer_intr_enable, IbexTimerState),
+         VMSTATE_UINT32(timer_intr_state, IbexTimerState),
+-        VMSTATE_UINT32(timer_intr_test, IbexTimerState),
+         VMSTATE_END_OF_LIST()
+     }
+ };
+--=20
+2.31.1
 
-  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20220121-1
-
-for you to fetch changes up to f297245f6a780f496fb171af6fcd21ff3e6783c3:
-
-  target/riscv: Relax UXL field for debugging (2022-01-21 15:52:57 +1000)
-
-----------------------------------------------------------------
-Third RISC-V PR for QEMU 7.0
-
- * Fixes for OpenTitan timer
- * Correction of OpenTitan PLIC stride length
- * RISC-V KVM support
- * Device tree code cleanup
- * Support for the Zve64f and Zve32f extensions
- * OpenSBI binary loading support for the Spike machine
- * Removal of OpenSBI ELFs
- * Support for the UXL field in xstatus
-
-----------------------------------------------------------------
-Anup Patel (3):
-      hw/riscv: spike: Allow using binary firmware as bios
-      hw/riscv: Remove macros for ELF BIOS image names
-      roms/opensbi: Remove ELF images
-
-Frank Chang (17):
-      target/riscv: rvv-1.0: Add Zve64f extension into RISC-V
-      target/riscv: rvv-1.0: Add Zve64f support for configuration insns
-      target/riscv: rvv-1.0: Add Zve64f support for load and store insns
-      target/riscv: rvv-1.0: Add Zve64f support for vmulh variant insns
-      target/riscv: rvv-1.0: Add Zve64f support for vsmul.vv and vsmul.vx=
- insns
-      target/riscv: rvv-1.0: Add Zve64f support for scalar fp insns
-      target/riscv: rvv-1.0: Add Zve64f support for single-width fp reduc=
-tion insns
-      target/riscv: rvv-1.0: Add Zve64f support for widening type-convert=
- insns
-      target/riscv: rvv-1.0: Add Zve64f support for narrowing type-conver=
-t insns
-      target/riscv: rvv-1.0: Allow Zve64f extension to be turned on
-      target/riscv: rvv-1.0: Add Zve32f extension into RISC-V
-      target/riscv: rvv-1.0: Add Zve32f support for configuration insns
-      target/riscv: rvv-1.0: Add Zve32f support for scalar fp insns
-      target/riscv: rvv-1.0: Add Zve32f support for single-width fp reduc=
-tion insns
-      target/riscv: rvv-1.0: Add Zve32f support for widening type-convert=
- insns
-      target/riscv: rvv-1.0: Add Zve32f support for narrowing type-conver=
-t insns
-      target/riscv: rvv-1.0: Allow Zve32f extension to be turned on
-
-LIU Zhiwei (23):
-      target/riscv: Adjust pmpcfg access with mxl
-      target/riscv: Don't save pc when exception return
-      target/riscv: Sign extend link reg for jal and jalr
-      target/riscv: Sign extend pc for different XLEN
-      target/riscv: Create xl field in env
-      target/riscv: Ignore the pc bits above XLEN
-      target/riscv: Extend pc for runtime pc write
-      target/riscv: Use gdb xml according to max mxlen
-      target/riscv: Relax debug check for pm write
-      target/riscv: Adjust csr write mask with XLEN
-      target/riscv: Create current pm fields in env
-      target/riscv: Alloc tcg global for cur_pm[mask|base]
-      target/riscv: Calculate address according to XLEN
-      target/riscv: Split pm_enabled into mask and base
-      target/riscv: Split out the vill from vtype
-      target/riscv: Adjust vsetvl according to XLEN
-      target/riscv: Remove VILL field in VTYPE
-      target/riscv: Fix check range for first fault only
-      target/riscv: Adjust vector address with mask
-      target/riscv: Adjust scalar reg in vector with XLEN
-      target/riscv: Set default XLEN for hypervisor
-      target/riscv: Enable uxl field write
-      target/riscv: Relax UXL field for debugging
-
-Thomas Huth (1):
-      softmmu/device_tree: Silence compiler warning with --enable-sanitiz=
-ers
-
-Wilfred Mallawa (3):
-      hw: timer: ibex_timer: Fixup reading w/o register
-      riscv: opentitan: fixup plic stride len
-      hw: timer: ibex_timer: update/add reg address
-
-Yanan Wang (1):
-      softmmu/device_tree: Remove redundant pointer assignment
-
-Yifei Jiang (13):
-      update-linux-headers: Add asm-riscv/kvm.h
-      target/riscv: Add target/riscv/kvm.c to place the public kvm interf=
-ace
-      target/riscv: Implement function kvm_arch_init_vcpu
-      target/riscv: Implement kvm_arch_get_registers
-      target/riscv: Implement kvm_arch_put_registers
-      target/riscv: Support start kernel directly by KVM
-      target/riscv: Support setting external interrupt by KVM
-      target/riscv: Handle KVM_EXIT_RISCV_SBI exit
-      target/riscv: Add host cpu type
-      target/riscv: Add kvm_riscv_get/put_regs_timer
-      target/riscv: Implement virtual time adjusting with vm state changi=
-ng
-      target/riscv: Support virtual time context synchronization
-      target/riscv: enable riscv kvm accel
-
- meson.build                                    |   2 +
- include/hw/char/riscv_htif.h                   |   5 +-
- include/hw/riscv/boot.h                        |   3 +-
- include/hw/riscv/spike.h                       |   1 +
- include/hw/timer/ibex_timer.h                  |   1 -
- linux-headers/asm-riscv/kvm.h                  | 128 ++++++
- target/riscv/cpu.h                             |  58 ++-
- target/riscv/cpu_bits.h                        |   3 +
- target/riscv/helper.h                          |   4 +-
- target/riscv/kvm_riscv.h                       |  25 ++
- target/riscv/sbi_ecall_interface.h             |  72 ++++
- hw/char/riscv_htif.c                           |  33 +-
- hw/intc/sifive_plic.c                          |  20 +-
- hw/riscv/boot.c                                |  16 +-
- hw/riscv/opentitan.c                           |   2 +-
- hw/riscv/spike.c                               |  45 ++-
- hw/riscv/virt.c                                |  83 ++--
- hw/timer/ibex_timer.c                          |  25 +-
- softmmu/device_tree.c                          |  11 +-
- target/riscv/cpu.c                             |  77 +++-
- target/riscv/cpu_helper.c                      |  99 ++---
- target/riscv/csr.c                             |  90 ++++-
- target/riscv/gdbstub.c                         |  71 +++-
- target/riscv/kvm-stub.c                        |  30 ++
- target/riscv/kvm.c                             | 535 +++++++++++++++++++=
-++++++
- target/riscv/machine.c                         |  46 ++-
- target/riscv/op_helper.c                       |   7 +-
- target/riscv/pmp.c                             |  12 +-
- target/riscv/translate.c                       |  94 +++--
- target/riscv/vector_helper.c                   |  39 +-
- target/riscv/insn_trans/trans_privileged.c.inc |   9 +-
- target/riscv/insn_trans/trans_rva.c.inc        |   9 +-
- target/riscv/insn_trans/trans_rvd.c.inc        |  19 +-
- target/riscv/insn_trans/trans_rvf.c.inc        |  19 +-
- target/riscv/insn_trans/trans_rvi.c.inc        |  39 +-
- target/riscv/insn_trans/trans_rvv.c.inc        | 225 +++++++++--
- .gitlab-ci.d/opensbi.yml                       |   2 -
- pc-bios/meson.build                            |   2 -
- pc-bios/opensbi-riscv32-generic-fw_dynamic.elf | Bin 838904 -> 0 bytes
- pc-bios/opensbi-riscv64-generic-fw_dynamic.elf | Bin 934696 -> 0 bytes
- roms/Makefile                                  |   2 -
- target/riscv/meson.build                       |   1 +
- 42 files changed, 1608 insertions(+), 356 deletions(-)
- create mode 100644 linux-headers/asm-riscv/kvm.h
- create mode 100644 target/riscv/kvm_riscv.h
- create mode 100644 target/riscv/sbi_ecall_interface.h
- create mode 100644 target/riscv/kvm-stub.c
- create mode 100644 target/riscv/kvm.c
- delete mode 100644 pc-bios/opensbi-riscv32-generic-fw_dynamic.elf
- delete mode 100644 pc-bios/opensbi-riscv64-generic-fw_dynamic.elf
 
