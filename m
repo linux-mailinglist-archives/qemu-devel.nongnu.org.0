@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF7894964D2
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 19:11:00 +0100 (CET)
-Received: from localhost ([::1]:58652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B285349655B
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 20:00:48 +0100 (CET)
+Received: from localhost ([::1]:47870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAyNH-0002yK-OZ
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 13:10:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52622)
+	id 1nAz9N-0001ZO-Nv
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 14:00:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nAyEJ-0004qr-Hc
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 13:01:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21379)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nAywe-00079e-2I
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 13:47:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28237)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nAyEG-0003tG-Mo
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 13:01:42 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nAywa-0000xn-MU
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 13:47:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642788060;
+ s=mimecast20190719; t=1642790847;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N8jKXXcSMAiZp9EXwXtk3P1etmtiPu8I9qjKOZAmwCs=;
- b=eN6E09UiveEnuNfNV0EQa1Dy2Q2XI2YpTlQp6u2s0HE9onOgZmJiJXXuLJnW3o50TR6HBk
- JtzavX5ZnLbIn+w+mxm4cXuCu9tz2wPjpadrceXAnzm6a9UJhHBqpLuhPBCte8E/IBVQTB
- My4lq4CMbsUZxHJh044+rA9av1tOBZ0=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Pz9GlZYonsns6RGqlX+9+r8W6lrdPCQBCF+IcWKNs8E=;
+ b=SDKYvBm3b+qeRuOgFdIkJjIKtKkekgDVFZpfxRtplZv47aMawe6BGau3PWWo5lXND8Yant
+ IbZFbaGaq4M2H1+r9rIPOkC3dOJJQMwIl2k7HwyQLAdqDXgZHSSzCiF6I2WfHfyhzKyNb+
+ TFTd5JTGlHRaWOXjqNFbz9lIOvbtWwY=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-517-1RAAVtvUOiSZ0t5zpM6Gbw-1; Fri, 21 Jan 2022 13:00:58 -0500
-X-MC-Unique: 1RAAVtvUOiSZ0t5zpM6Gbw-1
-Received: by mail-vk1-f197.google.com with SMTP id
- f189-20020a1f38c6000000b003192acc4f88so1636057vka.14
- for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 10:00:58 -0800 (PST)
+ us-mta-512-At3c0zH9P7eyuOuADAnLDQ-1; Fri, 21 Jan 2022 13:47:23 -0500
+X-MC-Unique: At3c0zH9P7eyuOuADAnLDQ-1
+Received: by mail-ua1-f69.google.com with SMTP id
+ v10-20020ab036ca000000b003068cf1e17bso6103078uau.4
+ for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 10:47:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=N8jKXXcSMAiZp9EXwXtk3P1etmtiPu8I9qjKOZAmwCs=;
- b=R5lPKrAEDxVU3C/IFHQLcnQUqcueveplc9r50uLTra7kdrw+6vnlfertziTkWt3Fb9
- OBsayvn9K45wB3NgUTH2RUnCB6Qdi51B2/obEIghuQZw8/9+ytq/uT8jJSk7STrhact1
- WdRQIujjCXK9B4v88MRXgXiJIOxxqpsCbwbnosO6huwwocZ+qEv2QoVyBSXlunnqV2DH
- 07NB8ehUvmQBKA6x/cq362W/tYLLa8/i59z/LNAwE05g4eJs9dFyT0OtwzfsdAKl1dYr
- 0ryNKRGKLW2AnAqP/8uoB0DO3at1AYr7wDTBGDMviVaprf4ssY1bHJZaQ+d6jpG6snK5
- e0/g==
-X-Gm-Message-State: AOAM532rXCfKU/2Jr7yJY/A7RlvmmNKdXMvVb+HxNKzbpqL+SpaVumsJ
- xK0WgUr8dkz1IsCvaRnGWj6BmEiezwiXpBrNbIXGbujeUbPT4WTUlyG1zWmiEQzSk8c8n2TDEDF
- tSTSpvfcgQa+oPGo37N8xigeu1Hv6xFc=
-X-Received: by 2002:a67:6587:: with SMTP id z129mr2077162vsb.61.1642788057567; 
- Fri, 21 Jan 2022 10:00:57 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwp0qP3EYGfMLNQpnrfKuxZ6+ofSz9HoY800fBoxEtF/emfIzu20g4qfH8kCYjILopsPd/BJkipxX3b/vOr7q8=
-X-Received: by 2002:a67:6587:: with SMTP id z129mr2077151vsb.61.1642788057317; 
- Fri, 21 Jan 2022 10:00:57 -0800 (PST)
+ bh=Pz9GlZYonsns6RGqlX+9+r8W6lrdPCQBCF+IcWKNs8E=;
+ b=6QLGo/48W/54kJ/C5juzZOlSFikQigUvP7XhBNz7rczS9dHVUBr/lTrEOahO6jTxfE
+ yY7Aok4mhfeFjw1TK2u/5vFJT6Q55U/tWvJ4fidgW3K7ICQvmw0LRBVr5dJjuVd64uYM
+ k8DLvpW9tXuPvgQS8grhJHEB3oFpWO+Iuyc2PPyB/VFnYaj0BGj0i2KU+lZrNt4q10aM
+ +MqrMWjzSepNZUbY/7eP9vzy9PhG+6CisGLRRNC5krtRoEFy0dLHhZGGzBtH9vMRxjNI
+ fx79M+0Rk74E6V+2YTWhPp9a5upXbE/qP/UD928onpGpxANcVlVQGh2I8ysO7QDuONrt
+ c1yg==
+X-Gm-Message-State: AOAM530FH8p64MUwVOxhEChmYe67YzNes3rTXXEO4Xdg7w42S9LqNpbx
+ DLVZqz7OjCqpy2yAP96+Gezj9mHNQI4oSA85uXtBW+AlIl6hd1Z2ZGt82G39pGNI/09ZvT2s5yx
+ 51kJlxi/Koo4lSwkRwHdDQxaidZbCeiY=
+X-Received: by 2002:a05:6102:3714:: with SMTP id
+ s20mr2433582vst.61.1642790843186; 
+ Fri, 21 Jan 2022 10:47:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzqD/gelOkgr2AYvBX/+pNod7CU0hwVdfmV7deAruki0hCatdULPCAS12kILOxGon2rW/Cj7VQbHoaiqHfI648=
+X-Received: by 2002:a05:6102:3714:: with SMTP id
+ s20mr2433574vst.61.1642790842904; 
+ Fri, 21 Jan 2022 10:47:22 -0800 (PST)
 MIME-Version: 1.0
-References: <20220121120635.220644-1-thuth@redhat.com>
-In-Reply-To: <20220121120635.220644-1-thuth@redhat.com>
+References: <20220120142259.120189-1-hreitz@redhat.com>
+In-Reply-To: <20220120142259.120189-1-hreitz@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Date: Fri, 21 Jan 2022 13:00:46 -0500
-Message-ID: <CAFn=p-b7Fveafs8mC-bzEG937vvdfV_PLzzpK-_T=ujLWhENnA@mail.gmail.com>
-Subject: Re: [PATCH] tests/qtest/ide-test: Remove bad retry_isa test
-To: Thomas Huth <thuth@redhat.com>
+Date: Fri, 21 Jan 2022 13:47:12 -0500
+Message-ID: <CAFn=p-YKMREeM4PxhiTQFfiovt=WN7cW-CdiVSVfbRbkvH+aog@mail.gmail.com>
+Subject: Re: [PATCH v2] ide: Increment BB in-flight counter for TRIM BH
+To: Hanna Reitz <hreitz@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -76,7 +78,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,74 +91,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 21, 2022 at 7:06 AM Thomas Huth <thuth@redhat.com> wrote:
+On Thu, Jan 20, 2022 at 9:23 AM Hanna Reitz <hreitz@redhat.com> wrote:
 >
-> The retry_isa test is not doing what it was intended for: The
-> test_retry_flush() function ignores the machine parameter completely
-> and thus this test does not get run with the "isapc" machine.
-> Moreover, in the course of time, the test_retry_flush() has been
-> changed to depend on PCI-related functions, so this also cannot
-> be fixed by simply using the machine parameter now. The correct
-> fix would be to switch the whole test to libqos, but until someone
-> has time to do this, let's simply drop the retry_isa test for now.
+> When we still have an AIOCB registered for DMA operations, we try to
+> settle the respective operation by draining the BlockBackend associated
+> with the IDE device.
 >
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> However, this assumes that every DMA operation is associated with an
+> increment of the BlockBackend=E2=80=99s in-flight counter (e.g. through s=
+ome
+> ongoing I/O operation), so that draining the BB until its in-flight
+> counter reaches 0 will settle all DMA operations.  That is not the case:
+> For TRIM, the guest can issue a zero-length operation that will not
+> result in any I/O operation forwarded to the BlockBackend, and also not
+> increment the in-flight counter in any other way.  In such a case,
+> blk_drain() will be a no-op if no other operations are in flight.
+>
+> It is clear that if blk_drain() is a no-op, the value of
+> s->bus->dma->aiocb will not change between checking it in the `if`
+> condition and asserting that it is NULL after blk_drain().
+>
+> The particular problem is that ide_issue_trim() creates a BH
+> (ide_trim_bh_cb()) to settle the TRIM request: iocb->common.cb() is
+> ide_dma_cb(), which will either create a new request, or find the
+> transfer to be done and call ide_set_inactive(), which clears
+> s->bus->dma->aiocb.  Therefore, the blk_drain() must wait for
+> ide_trim_bh_cb() to run, which currently it will not always do.
+>
+> To fix this issue, we increment the BlockBackend's in-flight counter
+> when the TRIM operation begins (in ide_issue_trim(), when the
+> ide_trim_bh_cb() BH is created) and decrement it when ide_trim_bh_cb()
+> is done.
+>
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D2029980
+> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> ---
+> v1:
+> https://lists.nongnu.org/archive/html/qemu-block/2022-01/msg00024.html
+>
+> v2:
+> - Increment BB=E2=80=99s in-flight counter while the BH is active so that
+>   blk_drain() will poll until the BH is done, as suggested by Paolo
+>
+> (No git-backport-diff, because this patch was basically completely
+> rewritten, so it wouldn=E2=80=99t be worth it.)
+> ---
+>  hw/ide/core.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/hw/ide/core.c b/hw/ide/core.c
+> index e28f8aad61..15138225be 100644
+> --- a/hw/ide/core.c
+> +++ b/hw/ide/core.c
+> @@ -433,12 +433,16 @@ static const AIOCBInfo trim_aiocb_info =3D {
+>  static void ide_trim_bh_cb(void *opaque)
+>  {
+>      TrimAIOCB *iocb =3D opaque;
+> +    BlockBackend *blk =3D iocb->s->blk;
+>
+>      iocb->common.cb(iocb->common.opaque, iocb->ret);
+>
+>      qemu_bh_delete(iocb->bh);
+>      iocb->bh =3D NULL;
+>      qemu_aio_unref(iocb);
+> +
+> +    /* Paired with an increment in ide_issue_trim() */
+> +    blk_dec_in_flight(blk);
+>  }
+>
+>  static void ide_issue_trim_cb(void *opaque, int ret)
+> @@ -508,6 +512,9 @@ BlockAIOCB *ide_issue_trim(
+>      IDEState *s =3D opaque;
+>      TrimAIOCB *iocb;
+>
+> +    /* Paired with a decrement in ide_trim_bh_cb() */
+> +    blk_inc_in_flight(s->blk);
+> +
+>      iocb =3D blk_aio_get(&trim_aiocb_info, s->blk, cb, cb_opaque);
+>      iocb->s =3D s;
+>      iocb->bh =3D qemu_bh_new(ide_trim_bh_cb, iocb);
+> --
+> 2.34.1
+>
 
-I assume I had patches to make this make sense at some point, but
-they're probably long lost to time by now. Please pardon my dust. =F0=9F=99=
-=87
+Oh, this *wasn't* the same bug I thought it was.
+
+There's no regression test, but I will trust you (and Paolo) that this
+solves the bug you were seeing. It makes sense.
 
 Reviewed-by: John Snow <jsnow@redhat.com>
-
-> ---
->  tests/qtest/ide-test.c | 13 +------------
->  1 file changed, 1 insertion(+), 12 deletions(-)
->
-> diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
-> index 3f8081e77d..5f9d084052 100644
-> --- a/tests/qtest/ide-test.c
-> +++ b/tests/qtest/ide-test.c
-> @@ -701,7 +701,7 @@ static void test_flush(void)
->      free_pci_device(dev);
->  }
->
-> -static void test_retry_flush(const char *machine)
-> +static void test_pci_retry_flush(void)
->  {
->      QTestState *qts;
->      QPCIDevice *dev;
-> @@ -790,16 +790,6 @@ static void test_flush_empty_drive(void)
->      ide_test_quit(qts);
->  }
->
-> -static void test_pci_retry_flush(void)
-> -{
-> -    test_retry_flush("pc");
-> -}
-> -
-> -static void test_isa_retry_flush(void)
-> -{
-> -    test_retry_flush("isapc");
-> -}
-> -
->  typedef struct Read10CDB {
->      uint8_t opcode;
->      uint8_t flags;
-> @@ -1050,7 +1040,6 @@ int main(int argc, char **argv)
->      qtest_add_func("/ide/flush/nodev", test_flush_nodev);
->      qtest_add_func("/ide/flush/empty_drive", test_flush_empty_drive);
->      qtest_add_func("/ide/flush/retry_pci", test_pci_retry_flush);
-> -    qtest_add_func("/ide/flush/retry_isa", test_isa_retry_flush);
->
->      qtest_add_func("/ide/cdrom/pio", test_cdrom_pio);
->      qtest_add_func("/ide/cdrom/pio_large", test_cdrom_pio_large);
-> --
-> 2.27.0
->
+Tested-by: John Snow <jsnow@redhat.com>
 
 
