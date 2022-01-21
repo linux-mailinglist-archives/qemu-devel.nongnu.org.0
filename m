@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB61495C13
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 09:39:24 +0100 (CET)
-Received: from localhost ([::1]:58958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D3C495BF8
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 09:33:22 +0100 (CET)
+Received: from localhost ([::1]:50114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nApS7-00077C-EB
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 03:39:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53772)
+	id 1nApMH-0000p7-F2
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 03:33:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAn0T-00083N-GR
+ id 1nAn0T-00082p-7R
  for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:02:41 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:60345)
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:60338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAn03-0004B6-81
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:02:41 -0500
+ id 1nAn03-0004AK-5k
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:02:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1642744935; x=1674280935;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=hWEN4sC0pqSX1eg+ExD7OHzG6ssU2OOASQgEHYHSkJ8=;
- b=G59nHhTHO1R7lfZMt5nGca3W9eDVOGLrcZUQNtifOByD9Pqfs85uqaFJ
- 0Z2iAC9N5DiQlRDUmCTsqthjs7PsIA1zNSFF4jvuHUfOFf03GgF8RMxOF
- Kmg/mNb9ocqnT+TlS/cTY/XDvjT9tZVhEoirL5f/3LLy7azRccHjMJWY6
- 6Wjx5FYYQNZwPUdUreJM0pMin6Fq9ib+vdjnJEn1mZdAZHP2mUyrXbG5O
- cGuLnGS2LatT8Ss/JBMDeoh2waAyIFZq1JBUnAhIWaJdA5kj8GMmVQwaH
- f/uDB6Z1G41e+IWLLwuUZrlHbFTQt3+GJUpgNPZjiW+Jjh2s7LoIrHUjA A==;
-X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="295083000"
+ bh=g61FRhgwubVdApbJjnjVPGeYZMaZEBNpPxb+6LxcFGo=;
+ b=l09lZYN4DUEI+ipo7mdJ5Rp1m3TUf5aEfDS//26HNO9/2yMhh4+o/54M
+ I6I79OCSDUbz9fZ24SARm2n2qcmhdlH+22GXpYBFCpkq+GkQYklBQaFrl
+ 4CoBWu31nhjXd4HYPonjYiNHhj2esk8HepPZhCzgylxxQDtBUsfBOYU16
+ EkwG+tuBXIsiGJulD1sfMruLpn5vtbKWk+HuXBCMBFztUX+ahQAokAs2P
+ Q/bzskWBXfBxs9u/u9DeYvRpROy7mQZ24dTljxEqk8Rmk7+srUGyJAvUZ
+ T1I3nuamovaktcJl+zN5jvdOwSKAceKQ+iPt+5RL/UbW+t5sk7pHI6WkM w==;
+X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="295083007"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 14:00:59 +0800
-IronPort-SDR: /oXp3puZRn471+g1UG5pC9AYtkytjQRcCwbaEjttMaiMUOTsPYPNQ0Vf0KI/tCLXFG/cOIlLeX
- WfHC08i9w4xkqWj9M+5ya3Txa808EUQNP717Ho1cqU3kjjdSXn5mOV2hC17AkF1yiKUjt0/shR
- AwWXc90rmmM5mQv0pJYh8PpmK+Ka+KavKFRP+BKvKj0aMwLfSswCKET0RC2Q1JlNplroBdngT8
- BIuotJ8fMif+or2FF4FFPeyB3N1uMXyiHDm693oUHLgBsVdMVVqtx9JVlg7K6+7C1hrLyFpANz
- 0krKMfAFJuoyiUYcbmcRbkXd
+ by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 14:01:03 +0800
+IronPort-SDR: ANJh385/MRjvhrEgkEDUSW4OSzwUXSAdekAp5VqmjsQfuPrilvMqgXI/fkzo6mEKUPBlCaZNhj
+ W/KCu63yfKAnIZ1/hF3S4rOIN2JdET1jz+5uv19i81dugHS6Sy3SQGKBuKYX1VJHDTdz/LxU+J
+ +JbImm38QOxb7A/zs7+rc8MWjP6NS2AOzaq2d99fzJa8QD+nbuG5fKtGu1dCpg1TCuawjjZdid
+ LGiYEFSxK12vMx7brfTNqzGe53po+jTjyOEYS6Sq82YJbio5SWMUSBakrZ/2kmMiHVk8R+LwkQ
+ Yi/1Imethf0WavMO4E/F49ND
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 21:34:27 -0800
-IronPort-SDR: dQOFOVuxYJvTZAkeRH+AXs5iBMxsYzP9XSVGqcnkUXq/TxXEirhfLWg5mYy3kfcm5eEt0AIA7q
- Xulk03x5Jp1x4ppHGImpLHvRG608XT/iDWpD6LsFoM9ZETMeU0fiUSZUIdEbL/9bqre2Hw2zz5
- V3/DRRVSvKa4fiv/gurfjjs0eImc1mqLlrpGdsTQR0Ya/z9HxNBWgBU8dMXCFJ779ZiIIlVgt5
- getz8wSdUNygPo/fjRB6T6pNUe4sOozs34Kpmn8LEwFD3X+M6OItX86ZoSOTkdSzFCtwfV+8nv
- IPo=
+ 20 Jan 2022 21:34:31 -0800
+IronPort-SDR: i4FWiz09r4t2tOnCcqIqHD9Qgk2fyNmrJQv3rpRpobtdlE/1YqD0ewa/zJCFhR+3w1CEBHPaI4
+ FHng/9m9ABsd+eeFCJHDr2dsoke0YCQeSaxgn4abGNvmD35IdPgRZT+1Xt2cpdmJp56tLJES2V
+ ubgfLsmaTwey6F/v43vUuo2xKEOhaPZfTqJ9xAyV/QPowtnkyAguE6Ki5CoV8S6wBafKQlHWEC
+ jltGLl2B9MqTSPhRLLbmRX08fYq9kuk/WRKYW9E+ctFXJlxVwEmDnCMA6c94hxp3kC93mDRfci
+ mCI=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 22:00:59 -0800
+ 20 Jan 2022 22:01:03 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg7zH2M3sz1SVny
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 22:00:59 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg7zM3VdKz1SVny
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 22:01:03 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1642744858; x=1645336859; bh=hWEN4sC0pqSX1eg+Ex
- D7OHzG6ssU2OOASQgEHYHSkJ8=; b=t8sojie2YTIr5374cDADiao65hmPOKtQNg
- LunGWnpXFoAfHk5acTs/sz+vbG87u6iDzU/4PWB3+Ol71vIyj54A4KxvInE1EMfT
- 0N41hLUwxKd9lJbxFt2bg2siMX/RP86cbCHpElatWWXNKgN2vCwEiclbUMINABk1
- U4qx+rVTivBxOXGvNFVW2bKpyXmEAZyDcKp7WAYMb8pbj/6bbF32l8CWJskkbyna
- PeqOmM7qWnQ52OrdwWGej5+dqDnElFZ2UNb5I0v9KvyNFeV1r6VqaztA1kPF/wIJ
- 6YxSRccPDs45DdEMLIOjFvWDUFafyppv6QdgA9aGILN705GfS3WA==
+ :from; s=dkim; t=1642744863; x=1645336864; bh=g61FRhgwubVdApbJjn
+ jVPGeYZMaZEBNpPxb+6LxcFGo=; b=IzuhDQDL+8ntBylSS1+V9x7UYDYivRV+FF
+ PzsQPUznquaTlzjOmlaoRU4VC9rKvJb5XJZYCEWT6Ye6rdc+5u3InwmQGTPlkAnT
+ ByH0jzL+vjnCl2LTpkggFXzvwTiei1kBHZDCta9+vy74D0wlQYL+5Y366rPWNs9h
+ p6ZGWZOyyh+CPotEM43TeljNHrk6kVZFHXwxUsUAN86EbhGWtLG13VQdjcoDXAsI
+ JmRQ6Vnx+RomWcFwpzEIRUAW1jx/4e+KEGajoRNHpiK0PncA5TCdvQFPv1Mgg/oy
+ f0MgohaeBXFqjM9UeOm3i7/667XoYo0OCwyf8XSBixkKZ+0YfKzw==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id fQOhyYQAWuY3 for <qemu-devel@nongnu.org>;
- Thu, 20 Jan 2022 22:00:58 -0800 (PST)
+ port 10026) with ESMTP id L_eCa49bKcYx for <qemu-devel@nongnu.org>;
+ Thu, 20 Jan 2022 22:01:03 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.80])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg7zD24mkz1RvlN;
- Thu, 20 Jan 2022 22:00:55 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg7zJ1H0Tz1RvlN;
+ Thu, 20 Jan 2022 22:00:59 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Frank Chang <frank.chang@sifive.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 33/61] target/riscv: rvv-1.0: Add Zve32f support for widening
+Subject: [PULL 34/61] target/riscv: rvv-1.0: Add Zve32f support for narrowing
  type-convert insns
-Date: Fri, 21 Jan 2022 15:58:02 +1000
-Message-Id: <20220121055830.3164408-34-alistair.francis@opensource.wdc.com>
+Date: Fri, 21 Jan 2022 15:58:03 +1000
+Message-Id: <20220121055830.3164408-35-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
 References: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
@@ -118,99 +118,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-Vector widening conversion instructions are provided to and from all
+Vector narrowing conversion instructions are provided to and from all
 supported integer EEWs for Zve32f extension.
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20220118014522.13613-16-frank.chang@sifive.com
+Message-id: 20220118014522.13613-17-frank.chang@sifive.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn_trans/trans_rvv.c.inc | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ target/riscv/insn_trans/trans_rvv.c.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_=
 trans/trans_rvv.c.inc
-index b02bb555a6..f2d3c9e8b9 100644
+index f2d3c9e8b9..7a040b3089 100644
 --- a/target/riscv/insn_trans/trans_rvv.c.inc
 +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -77,6 +77,17 @@ static bool require_zve32f(DisasContext *s)
-     return s->ext_zve32f ? s->sew <=3D MO_32 : true;
- }
-=20
-+static bool require_scale_zve32f(DisasContext *s)
-+{
-+    /* RVV + Zve32f =3D RVV. */
-+    if (has_ext(s, RVV)) {
-+        return true;
-+    }
-+
-+    /* Zve32f doesn't support FP64. (Section 18.2) */
-+    return s->ext_zve64f ? s->sew <=3D MO_16 : true;
-+}
-+
- static bool require_zve64f(DisasContext *s)
- {
-     /* RVV + Zve64f =3D RVV. */
-@@ -2358,6 +2369,7 @@ static bool opfvv_widen_check(DisasContext *s, arg_=
-rmrr *a)
-            (s->sew !=3D MO_8) &&
-            vext_check_isa_ill(s) &&
-            vext_check_dss(s, a->rd, a->rs1, a->rs2, a->vm) &&
-+           require_scale_zve32f(s) &&
-            require_scale_zve64f(s);
- }
-=20
-@@ -2398,6 +2410,7 @@ static bool opfvf_widen_check(DisasContext *s, arg_=
-rmrr *a)
-            (s->sew !=3D MO_8) &&
-            vext_check_isa_ill(s) &&
-            vext_check_ds(s, a->rd, a->rs2, a->vm) &&
-+           require_scale_zve32f(s) &&
-            require_scale_zve64f(s);
- }
-=20
-@@ -2429,6 +2442,7 @@ static bool opfwv_widen_check(DisasContext *s, arg_=
-rmrr *a)
-            (s->sew !=3D MO_8) &&
-            vext_check_isa_ill(s) &&
-            vext_check_dds(s, a->rd, a->rs1, a->rs2, a->vm) &&
-+           require_scale_zve32f(s) &&
-            require_scale_zve64f(s);
- }
-=20
-@@ -2469,6 +2483,7 @@ static bool opfwf_widen_check(DisasContext *s, arg_=
-rmrr *a)
-            (s->sew !=3D MO_8) &&
-            vext_check_isa_ill(s) &&
-            vext_check_dd(s, a->rd, a->rs2, a->vm) &&
-+           require_scale_zve32f(s) &&
-            require_scale_zve64f(s);
- }
-=20
-@@ -2733,6 +2748,7 @@ static bool opxfv_widen_check(DisasContext *s, arg_=
-rmr *a)
- {
-     return opfv_widen_check(s, a) &&
+@@ -2862,6 +2862,7 @@ static bool opfxv_narrow_check(DisasContext *s, arg=
+_rmr *a)
+     return opfv_narrow_check(s, a) &&
             require_rvf(s) &&
+            (s->sew !=3D MO_64) &&
 +           require_zve32f(s) &&
             require_zve64f(s);
  }
 =20
-@@ -2741,6 +2757,7 @@ static bool opffv_widen_check(DisasContext *s, arg_=
-rmr *a)
-     return opfv_widen_check(s, a) &&
+@@ -2870,6 +2871,7 @@ static bool opffv_narrow_check(DisasContext *s, arg=
+_rmr *a)
+     return opfv_narrow_check(s, a) &&
             require_scale_rvf(s) &&
             (s->sew !=3D MO_8) &&
 +           require_scale_zve32f(s) &&
             require_scale_zve64f(s);
  }
 =20
-@@ -2793,6 +2810,7 @@ static bool opfxv_widen_check(DisasContext *s, arg_=
-rmr *a)
+@@ -2920,6 +2922,7 @@ static bool opxfv_narrow_check(DisasContext *s, arg=
+_rmr *a)
             vext_check_isa_ill(s) &&
-            /* OPFV widening instructions ignore vs1 check */
-            vext_check_ds(s, a->rd, a->rs2, a->vm) &&
+            /* OPFV narrowing instructions ignore vs1 check */
+            vext_check_sd(s, a->rd, a->rs2, a->vm) &&
 +           require_scale_zve32f(s) &&
             require_scale_zve64f(s);
  }
