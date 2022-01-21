@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 064234966BC
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 22:03:09 +0100 (CET)
-Received: from localhost ([::1]:46262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B269949672B
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 22:14:36 +0100 (CET)
+Received: from localhost ([::1]:43900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB13r-00062L-LP
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 16:03:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59480)
+	id 1nB1Ex-0006ev-RB
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 16:14:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nB0cQ-0000NN-UG
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:34:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46889)
+ id 1nB0ca-0000Qh-Do
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:34:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nB0cO-00056N-VD
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:34:46 -0500
+ id 1nB0cY-00057M-P2
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:34:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642797284;
+ s=mimecast20190719; t=1642797294;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QVcCjMEA5sXXHxOLlAezD5eoMZnDS2qYR31Nbhq9Sns=;
- b=SMI4hPBvi1ku+yKc/YJa4IB2dRlD5ykXGlduBdedGCHCcOOvZikOgE0Ff/bpIdq7EoZmXh
- haUPviVLbvbyCMWKA7ufuPzT/BqeNWphErsZxuCvNETn2OJh9ygDdjqIEG8pjSISQhQshb
- 36/UnAfVJg+ZF6QXTRJt6JGGV/CIMXw=
+ bh=Peb2qYMHqs1yxVoiu5MR4UQKXcEu0CdYaTPh6BniDB4=;
+ b=UXja6QQZe2VSyuafW2GpC0Lug7Dn9+du4XbmVQ7X+5lhjzYb8fbtfdG/77bypinb5V5t+c
+ qWstD/i1dupx/Bg2R4JzH463VYJX8VpPdXaGvtvpJ2D2CN0roE7fundmY3Nxg+8Jvkdc8A
+ LAKHpJ9EUTxOFNagD4yOvZVJczBX5U4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-85-4F9Qnma4PGKTPtd6TFfZ9g-1; Fri, 21 Jan 2022 15:34:41 -0500
-X-MC-Unique: 4F9Qnma4PGKTPtd6TFfZ9g-1
+ us-mta-345-gB1H9M0HPpKd2edPQWtq4w-1; Fri, 21 Jan 2022 15:34:52 -0500
+X-MC-Unique: gB1H9M0HPpKd2edPQWtq4w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 347E646861;
- Fri, 21 Jan 2022 20:34:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B7B7193F560;
+ Fri, 21 Jan 2022 20:34:51 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.193.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 413F916A31;
- Fri, 21 Jan 2022 20:34:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1DD0116A31;
+ Fri, 21 Jan 2022 20:34:45 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 22/31] vhost: Add VhostIOVATree
-Date: Fri, 21 Jan 2022 21:27:24 +0100
-Message-Id: <20220121202733.404989-23-eperezma@redhat.com>
+Subject: [PATCH 24/31] vhost: Add vhost_svq_get_last_used_idx
+Date: Fri, 21 Jan 2022 21:27:26 +0100
+Message-Id: <20220121202733.404989-25-eperezma@redhat.com>
 In-Reply-To: <20220121202733.404989-1-eperezma@redhat.com>
 References: <20220121202733.404989-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -94,239 +94,45 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This tree is able to look for a translated address from an IOVA address.
-
-At first glance it is similar to util/iova-tree. However, SVQ working on
-devices with limited IOVA space need more capabilities, like allocating
-IOVA chunks or performing reverse translations (qemu addresses to iova).
-
-The allocation capability, as "assign a free IOVA address to this chunk
-of memory in qemu's address space" allows shadow virtqueue to create a
-new address space that is not restricted by guest's addressable one, so
-we can allocate shadow vqs vrings outside of it.
-
-It duplicates the tree so it can search efficiently both directions,
-and it will signal overlap if iova or the translated address is
-present in any tree.
+This way SVQ queues can be migrated.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-iova-tree.h |  27 +++++++
- hw/virtio/vhost-iova-tree.c | 157 ++++++++++++++++++++++++++++++++++++
- hw/virtio/meson.build       |   2 +-
- 3 files changed, 185 insertions(+), 1 deletion(-)
- create mode 100644 hw/virtio/vhost-iova-tree.h
- create mode 100644 hw/virtio/vhost-iova-tree.c
+ hw/virtio/vhost-shadow-virtqueue.h | 1 +
+ hw/virtio/vhost-shadow-virtqueue.c | 8 ++++++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/hw/virtio/vhost-iova-tree.h b/hw/virtio/vhost-iova-tree.h
-new file mode 100644
-index 0000000000..610394eaf1
---- /dev/null
-+++ b/hw/virtio/vhost-iova-tree.h
-@@ -0,0 +1,27 @@
-+/*
-+ * vhost software live migration ring
-+ *
-+ * SPDX-FileCopyrightText: Red Hat, Inc. 2021
-+ * SPDX-FileContributor: Author: Eugenio Pérez <eperezma@redhat.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#ifndef HW_VIRTIO_VHOST_IOVA_TREE_H
-+#define HW_VIRTIO_VHOST_IOVA_TREE_H
-+
-+#include "qemu/iova-tree.h"
-+#include "exec/memory.h"
-+
-+typedef struct VhostIOVATree VhostIOVATree;
-+
-+VhostIOVATree *vhost_iova_tree_new(uint64_t iova_first, uint64_t iova_last);
-+void vhost_iova_tree_delete(VhostIOVATree *iova_tree);
-+G_DEFINE_AUTOPTR_CLEANUP_FUNC(VhostIOVATree, vhost_iova_tree_delete);
-+
-+const DMAMap *vhost_iova_tree_find_iova(const VhostIOVATree *iova_tree,
-+                                        const DMAMap *map);
-+int vhost_iova_tree_map_alloc(VhostIOVATree *iova_tree, DMAMap *map);
-+void vhost_iova_tree_remove(VhostIOVATree *iova_tree, const DMAMap *map);
-+
-+#endif
-diff --git a/hw/virtio/vhost-iova-tree.c b/hw/virtio/vhost-iova-tree.c
-new file mode 100644
-index 0000000000..0021dbaf54
---- /dev/null
-+++ b/hw/virtio/vhost-iova-tree.c
-@@ -0,0 +1,157 @@
-+/*
-+ * vhost software live migration ring
-+ *
-+ * SPDX-FileCopyrightText: Red Hat, Inc. 2021
-+ * SPDX-FileContributor: Author: Eugenio Pérez <eperezma@redhat.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/iova-tree.h"
-+#include "vhost-iova-tree.h"
-+
-+#define iova_min_addr qemu_real_host_page_size
-+
-+/**
-+ * VhostIOVATree, able to:
-+ * - Translate iova address
-+ * - Reverse translate iova address (from translated to iova)
-+ * - Allocate IOVA regions for translated range (potentially slow operation)
-+ *
-+ * Note that it cannot remove nodes.
-+ */
-+struct VhostIOVATree {
-+    /* First addresable iova address in the device */
-+    uint64_t iova_first;
-+
-+    /* Last addressable iova address in the device */
-+    uint64_t iova_last;
-+
-+    /* IOVA address to qemu memory maps. */
-+    IOVATree *iova_taddr_map;
-+
-+    /* QEMU virtual memory address to iova maps */
-+    GTree *taddr_iova_map;
-+};
-+
-+static gint vhost_iova_tree_cmp_taddr(gconstpointer a, gconstpointer b,
-+                                      gpointer data)
-+{
-+    const DMAMap *m1 = a, *m2 = b;
-+
-+    if (m1->translated_addr > m2->translated_addr + m2->size) {
-+        return 1;
-+    }
-+
-+    if (m1->translated_addr + m1->size < m2->translated_addr) {
-+        return -1;
-+    }
-+
-+    /* Overlapped */
-+    return 0;
-+}
-+
-+/**
-+ * Create a new IOVA tree
-+ *
-+ * Returns the new IOVA tree
-+ */
-+VhostIOVATree *vhost_iova_tree_new(hwaddr iova_first, hwaddr iova_last)
-+{
-+    VhostIOVATree *tree = g_new(VhostIOVATree, 1);
-+
-+    /* Some devices does not like 0 addresses */
-+    tree->iova_first = MAX(iova_first, iova_min_addr);
-+    tree->iova_last = iova_last;
-+
-+    tree->iova_taddr_map = iova_tree_new();
-+    tree->taddr_iova_map = g_tree_new_full(vhost_iova_tree_cmp_taddr, NULL,
-+                                           NULL, g_free);
-+    return tree;
-+}
-+
-+/**
-+ * Delete an iova tree
-+ */
-+void vhost_iova_tree_delete(VhostIOVATree *iova_tree)
-+{
-+    iova_tree_destroy(iova_tree->iova_taddr_map);
-+    g_tree_unref(iova_tree->taddr_iova_map);
-+    g_free(iova_tree);
-+}
-+
-+/**
-+ * Find the IOVA address stored from a memory address
-+ *
-+ * @tree     The iova tree
-+ * @map      The map with the memory address
-+ *
-+ * Return the stored mapping, or NULL if not found.
-+ */
-+const DMAMap *vhost_iova_tree_find_iova(const VhostIOVATree *tree,
-+                                        const DMAMap *map)
-+{
-+    return g_tree_lookup(tree->taddr_iova_map, map);
-+}
-+
-+/**
-+ * Allocate a new mapping
-+ *
-+ * @tree  The iova tree
-+ * @map   The iova map
-+ *
-+ * Returns:
-+ * - IOVA_OK if the map fits in the container
-+ * - IOVA_ERR_INVALID if the map does not make sense (like size overflow)
-+ * - IOVA_ERR_OVERLAP if the tree already contains that map
-+ * - IOVA_ERR_NOMEM if tree cannot allocate more space.
-+ *
-+ * It returns assignated iova in map->iova if return value is VHOST_DMA_MAP_OK.
-+ */
-+int vhost_iova_tree_map_alloc(VhostIOVATree *tree, DMAMap *map)
-+{
-+    /* Some vhost devices does not like addr 0. Skip first page */
-+    hwaddr iova_first = tree->iova_first ?: qemu_real_host_page_size;
-+    DMAMap *new;
-+    int r;
-+
-+    if (map->translated_addr + map->size < map->translated_addr ||
-+        map->perm == IOMMU_NONE) {
-+        return IOVA_ERR_INVALID;
-+    }
-+
-+    /* Check for collisions in translated addresses */
-+    if (vhost_iova_tree_find_iova(tree, map)) {
-+        return IOVA_ERR_OVERLAP;
-+    }
-+
-+    /* Allocate a node in IOVA address */
-+    r = iova_tree_alloc(tree->iova_taddr_map, map, iova_first,
-+                        tree->iova_last);
-+    if (r != IOVA_OK) {
-+        return r;
-+    }
-+
-+    /* Allocate node in qemu -> iova translations */
-+    new = g_malloc(sizeof(*new));
-+    memcpy(new, map, sizeof(*new));
-+    g_tree_insert(tree->taddr_iova_map, new, new);
-+    return IOVA_OK;
-+}
-+
-+/**
-+ * Remove existing mappings from iova tree
-+ *
-+ * @param  iova_tree  The vhost iova tree
-+ * @param  map        The map to remove
-+ */
-+void vhost_iova_tree_remove(VhostIOVATree *iova_tree, const DMAMap *map)
-+{
-+    const DMAMap *overlap;
-+
-+    iova_tree_remove(iova_tree->iova_taddr_map, map);
-+    while ((overlap = vhost_iova_tree_find_iova(iova_tree, map))) {
-+        g_tree_remove(iova_tree->taddr_iova_map, overlap);
-+    }
-+}
-diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-index 2dc87613bc..6047670804 100644
---- a/hw/virtio/meson.build
-+++ b/hw/virtio/meson.build
-@@ -11,7 +11,7 @@ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-stub.c'))
+diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
+index c6f67d6f76..a2b0c6434d 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.h
++++ b/hw/virtio/vhost-shadow-virtqueue.h
+@@ -30,6 +30,7 @@ const EventNotifier *vhost_svq_get_svq_call_notifier(
+                                               const VhostShadowVirtqueue *svq);
+ void vhost_svq_get_vring_addr(const VhostShadowVirtqueue *svq,
+                               struct vhost_vring_addr *addr);
++uint16_t vhost_svq_get_last_used_idx(const VhostShadowVirtqueue *svq);
+ uint16_t vhost_svq_get_num(const VhostShadowVirtqueue *svq);
+ size_t vhost_svq_driver_area_size(const VhostShadowVirtqueue *svq);
+ size_t vhost_svq_device_area_size(const VhostShadowVirtqueue *svq);
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+index c7888eb8cf..eb0a3fcb80 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.c
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -574,6 +574,14 @@ void vhost_svq_get_vring_addr(const VhostShadowVirtqueue *svq,
+     addr->used_user_addr = (uint64_t)svq->vring.used;
+ }
  
- virtio_ss = ss.source_set()
- virtio_ss.add(files('virtio.c'))
--virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-backend.c', 'vhost-shadow-virtqueue.c'))
-+virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-backend.c', 'vhost-shadow-virtqueue.c', 'vhost-iova-tree.c'))
- virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user.c'))
- virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-vdpa.c'))
- virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-balloon.c'))
++/**
++ * Get the next index that SVQ is going to consume from SVQ used ring.
++ */
++uint16_t vhost_svq_get_last_used_idx(const VhostShadowVirtqueue *svq)
++{
++    return svq->last_used_idx;
++}
++
+ uint16_t vhost_svq_get_num(const VhostShadowVirtqueue *svq)
+ {
+     return svq->vring.num;
 -- 
 2.27.0
 
