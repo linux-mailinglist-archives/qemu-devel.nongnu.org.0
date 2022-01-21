@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05DCC4963E0
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 18:26:10 +0100 (CET)
-Received: from localhost ([::1]:35070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64B504964C7
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 19:06:58 +0100 (CET)
+Received: from localhost ([::1]:51436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAxfs-0006d0-Nr
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 12:26:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40570)
+	id 1nAyJN-0006Rt-G7
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 13:06:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nAxN7-0007kn-E2
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:06:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35738)
+ id 1nAxNE-0007on-3Z
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:06:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30062)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nAxN1-0000Kv-5a
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:06:42 -0500
+ id 1nAxN7-0000O7-RB
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:06:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642784798;
+ s=mimecast20190719; t=1642784805;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aVUhdFpQe2xu5bQwAqRpgnYHWE6j/3TLH0+BvrTp3no=;
- b=EhYpcxLLho5jhFqGujc0+UapMSYvZtmRadOBKZ5QaVYEj7dXA4aJNGObuxV2xRbaa7BYka
- 2jQHkQmKOKpefKX8zqJDOjfyRnZ+h03C/GuPXrnJgjmuDYAN7NPNa/B62a2Yn81GCySLD5
- bsX58+WdIoluit1QDLIBchfQjWMKN2Q=
+ bh=AvH8SiKti33pgKtdQo38ad5Qy1Im9fFdA08Ak7GS1y4=;
+ b=U15xgaho0bJOsARqdHb9PIKqCGWGDUhiPYn8cP2Fcy4gniYrR9MbKDcaxnkDOVKIg9GCHo
+ c7Pe0+rXxw3dzAFmuKMM9s15KDAA+NKAwz5FCejzWevWW+d0LfgR8QJw48O+MGJIyq8oRc
+ nUTqZFeKFyrIYwd+RmnxhcBYylDKQEk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-473-VH_g_XSvNZm5THVUzh08yw-1; Fri, 21 Jan 2022 12:06:35 -0500
-X-MC-Unique: VH_g_XSvNZm5THVUzh08yw-1
+ us-mta-564-3TB4YfGdOC6pau9lIYWlsA-1; Fri, 21 Jan 2022 12:06:36 -0500
+X-MC-Unique: 3TB4YfGdOC6pau9lIYWlsA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 417E8190B2A0;
- Fri, 21 Jan 2022 17:06:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2D0C874983;
+ Fri, 21 Jan 2022 17:06:34 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9EFAB7EBCA;
- Fri, 21 Jan 2022 17:06:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5BF317EBE8;
+ Fri, 21 Jan 2022 17:06:33 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 19/33] block: introduce bdrv_activate
-Date: Fri, 21 Jan 2022 12:05:30 -0500
-Message-Id: <20220121170544.2049944-20-eesposit@redhat.com>
+Subject: [PATCH v6 20/33] block: rename bdrv_invalidate_cache_all,
+ blk_invalidate_cache and test_sync_op_invalidate_cache
+Date: Fri, 21 Jan 2022 12:05:31 -0500
+Message-Id: <20220121170544.2049944-21-eesposit@redhat.com>
 In-Reply-To: <20220121170544.2049944-1-eesposit@redhat.com>
 References: <20220121170544.2049944-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +60,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -67,7 +68,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,113 +100,228 @@ Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function is currently just a wrapper for bdrv_invalidate_cache(),
-but in future will contain the code of bdrv_co_invalidate_cache() that
-has to always be protected by BQL, and leave the rest in the I/O
-coroutine.
+Following the bdrv_activate renaming, change also the name
+of the respective callers.
 
-Replace all bdrv_invalidate_cache() invokations with bdrv_activate().
+bdrv_invalidate_cache_all -> bdrv_activate_all
+blk_invalidate_cache -> blk_activate
+test_sync_op_invalidate_cache -> test_sync_op_activate
+
+No functional change intended.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block.c                            | 7 ++++++-
- block/block-backend.c              | 2 +-
- block/export/export.c              | 2 +-
- block/parallels.c                  | 2 +-
- include/block/block-global-state.h | 2 +-
- tests/unit/test-block-iothread.c   | 2 +-
- 6 files changed, 11 insertions(+), 6 deletions(-)
+ block.c                            |  2 +-
+ block/block-backend.c              |  2 +-
+ hw/block/pflash_cfi01.c            |  2 +-
+ hw/nvram/spapr_nvram.c             |  2 +-
+ include/block/block-global-state.h |  2 +-
+ include/sysemu/block-backend-io.h  |  2 +-
+ migration/block.c                  |  2 +-
+ migration/migration.c              | 10 +++++-----
+ migration/savevm.c                 |  4 ++--
+ monitor/qmp-cmds.c                 |  2 +-
+ tests/unit/test-block-iothread.c   |  6 +++---
+ 11 files changed, 18 insertions(+), 18 deletions(-)
 
 diff --git a/block.c b/block.c
-index 0e119a0860..73c4e0a5a5 100644
+index 73c4e0a5a5..7ab5031027 100644
 --- a/block.c
 +++ b/block.c
-@@ -6549,6 +6549,11 @@ void bdrv_init_with_whitelist(void)
-     bdrv_init();
+@@ -6629,7 +6629,7 @@ int coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp)
+     return 0;
  }
  
-+int bdrv_activate(BlockDriverState *bs, Error **errp)
-+{
-+    return bdrv_invalidate_cache(bs, errp);
-+}
-+
- int coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp)
+-void bdrv_invalidate_cache_all(Error **errp)
++void bdrv_activate_all(Error **errp)
  {
-     BdrvChild *child, *parent;
-@@ -6636,7 +6641,7 @@ void bdrv_invalidate_cache_all(Error **errp)
-         int ret;
- 
-         aio_context_acquire(aio_context);
--        ret = bdrv_invalidate_cache(bs, errp);
-+        ret = bdrv_activate(bs, errp);
-         aio_context_release(aio_context);
-         if (ret < 0) {
-             bdrv_next_cleanup(&it);
+     BlockDriverState *bs;
+     BdrvNextIterator it;
 diff --git a/block/block-backend.c b/block/block-backend.c
-index 048ba83f37..a962fc407a 100644
+index a962fc407a..eb2433d9cb 100644
 --- a/block/block-backend.c
 +++ b/block/block-backend.c
-@@ -1940,7 +1940,7 @@ void blk_invalidate_cache(BlockBackend *blk, Error **errp)
-         return;
-     }
- 
--    bdrv_invalidate_cache(bs, errp);
-+    bdrv_activate(bs, errp);
+@@ -1931,7 +1931,7 @@ void blk_set_enable_write_cache(BlockBackend *blk, bool wce)
+     blk->enable_write_cache = wce;
  }
  
- bool blk_is_inserted(BlockBackend *blk)
-diff --git a/block/export/export.c b/block/export/export.c
-index 6d3b9964c8..7253af3bc3 100644
---- a/block/export/export.c
-+++ b/block/export/export.c
-@@ -139,7 +139,7 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
-      * access since the export could be available before migration handover.
-      * ctx was acquired in the caller.
-      */
--    bdrv_invalidate_cache(bs, NULL);
-+    bdrv_activate(bs, NULL);
+-void blk_invalidate_cache(BlockBackend *blk, Error **errp)
++void blk_activate(BlockBackend *blk, Error **errp)
+ {
+     BlockDriverState *bs = blk_bs(blk);
  
-     perm = BLK_PERM_CONSISTENT_READ;
-     if (export->writable) {
-diff --git a/block/parallels.c b/block/parallels.c
-index 6ebad2a2bb..e58c828422 100644
---- a/block/parallels.c
-+++ b/block/parallels.c
-@@ -873,7 +873,7 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
-     s->bat_dirty_bmap =
-         bitmap_new(DIV_ROUND_UP(s->header_size, s->bat_dirty_block));
+diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+index 81f9f971d8..74c7190302 100644
+--- a/hw/block/pflash_cfi01.c
++++ b/hw/block/pflash_cfi01.c
+@@ -1023,7 +1023,7 @@ static void postload_update_cb(void *opaque, bool running, RunState state)
+ {
+     PFlashCFI01 *pfl = opaque;
  
--    /* Disable migration until bdrv_invalidate_cache method is added */
-+    /* Disable migration until bdrv_activate method is added */
-     error_setg(&s->migration_blocker, "The Parallels format used by node '%s' "
-                "does not support live migration",
-                bdrv_get_device_or_node_name(bs));
+-    /* This is called after bdrv_invalidate_cache_all.  */
++    /* This is called after bdrv_activate_all.  */
+     qemu_del_vm_change_state_handler(pfl->vmstate);
+     pfl->vmstate = NULL;
+ 
+diff --git a/hw/nvram/spapr_nvram.c b/hw/nvram/spapr_nvram.c
+index fbfdf47e26..18b43be7f6 100644
+--- a/hw/nvram/spapr_nvram.c
++++ b/hw/nvram/spapr_nvram.c
+@@ -219,7 +219,7 @@ static void postload_update_cb(void *opaque, bool running, RunState state)
+ {
+     SpaprNvram *nvram = opaque;
+ 
+-    /* This is called after bdrv_invalidate_cache_all.  */
++    /* This is called after bdrv_activate_all.  */
+ 
+     qemu_del_vm_change_state_handler(nvram->vmstate);
+     nvram->vmstate = NULL;
 diff --git a/include/block/block-global-state.h b/include/block/block-global-state.h
-index 419fe8427f..a98113189e 100644
+index a98113189e..dcf0ebcade 100644
 --- a/include/block/block-global-state.h
 +++ b/include/block/block-global-state.h
-@@ -143,8 +143,8 @@ BlockDriverState *check_to_replace_node(BlockDriverState *parent_bs,
- 
+@@ -144,7 +144,7 @@ BlockDriverState *check_to_replace_node(BlockDriverState *parent_bs,
  /* async block I/O */
  void bdrv_aio_cancel(BlockAIOCB *acb);
-+int bdrv_activate(BlockDriverState *bs, Error **errp);
- void bdrv_invalidate_cache_all(Error **errp);
--
+ int bdrv_activate(BlockDriverState *bs, Error **errp);
+-void bdrv_invalidate_cache_all(Error **errp);
++void bdrv_activate_all(Error **errp);
  int bdrv_inactivate_all(void);
  
  int bdrv_flush_all(void);
+diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-backend-io.h
+index 178cf197fb..83f58f66dd 100644
+--- a/include/sysemu/block-backend-io.h
++++ b/include/sysemu/block-backend-io.h
+@@ -112,7 +112,7 @@ int blk_get_max_iov(BlockBackend *blk);
+ int blk_get_max_hw_iov(BlockBackend *blk);
+ void blk_set_guest_block_size(BlockBackend *blk, int align);
+ 
+-void blk_invalidate_cache(BlockBackend *blk, Error **errp);
++void blk_activate(BlockBackend *blk, Error **errp);
+ 
+ void blk_io_plug(BlockBackend *blk);
+ void blk_io_unplug(BlockBackend *blk);
+diff --git a/migration/block.c b/migration/block.c
+index a950977855..077a413325 100644
+--- a/migration/block.c
++++ b/migration/block.c
+@@ -932,7 +932,7 @@ static int block_load(QEMUFile *f, void *opaque, int version_id)
+                     return -EINVAL;
+                 }
+ 
+-                blk_invalidate_cache(blk, &local_err);
++                blk_activate(blk, &local_err);
+                 if (local_err) {
+                     error_report_err(local_err);
+                     return -EINVAL;
+diff --git a/migration/migration.c b/migration/migration.c
+index 0652165610..1f06fd2d18 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -499,7 +499,7 @@ static void process_incoming_migration_bh(void *opaque)
+             global_state_get_runstate() == RUN_STATE_RUNNING))) {
+         /* Make sure all file formats flush their mutable metadata.
+          * If we get an error here, just don't restart the VM yet. */
+-        bdrv_invalidate_cache_all(&local_err);
++        bdrv_activate_all(&local_err);
+         if (local_err) {
+             error_report_err(local_err);
+             local_err = NULL;
+@@ -586,7 +586,7 @@ static void process_incoming_migration_co(void *opaque)
+     /* we get COLO info, and know if we are in COLO mode */
+     if (!ret && migration_incoming_colo_enabled()) {
+         /* Make sure all file formats flush their mutable metadata */
+-        bdrv_invalidate_cache_all(&local_err);
++        bdrv_activate_all(&local_err);
+         if (local_err) {
+             error_report_err(local_err);
+             goto fail;
+@@ -1923,7 +1923,7 @@ static void migrate_fd_cancel(MigrationState *s)
+     if (s->state == MIGRATION_STATUS_CANCELLING && s->block_inactive) {
+         Error *local_err = NULL;
+ 
+-        bdrv_invalidate_cache_all(&local_err);
++        bdrv_activate_all(&local_err);
+         if (local_err) {
+             error_report_err(local_err);
+         } else {
+@@ -3105,7 +3105,7 @@ fail:
+          */
+         Error *local_err = NULL;
+ 
+-        bdrv_invalidate_cache_all(&local_err);
++        bdrv_activate_all(&local_err);
+         if (local_err) {
+             error_report_err(local_err);
+         }
+@@ -3246,7 +3246,7 @@ fail_invalidate:
+         Error *local_err = NULL;
+ 
+         qemu_mutex_lock_iothread();
+-        bdrv_invalidate_cache_all(&local_err);
++        bdrv_activate_all(&local_err);
+         if (local_err) {
+             error_report_err(local_err);
+         } else {
+diff --git a/migration/savevm.c b/migration/savevm.c
+index adb5fae9f1..3f4f924093 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1437,7 +1437,7 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
+ 
+     if (inactivate_disks) {
+         /* Inactivate before sending QEMU_VM_EOF so that the
+-         * bdrv_invalidate_cache_all() on the other end won't fail. */
++         * bdrv_activate_all() on the other end won't fail. */
+         ret = bdrv_inactivate_all();
+         if (ret) {
+             error_report("%s: bdrv_inactivate_all() failed (%d)",
+@@ -2007,7 +2007,7 @@ static void loadvm_postcopy_handle_run_bh(void *opaque)
+ 
+     /* Make sure all file formats flush their mutable metadata.
+      * If we get an error here, just don't restart the VM yet. */
+-    bdrv_invalidate_cache_all(&local_err);
++    bdrv_activate_all(&local_err);
+     if (local_err) {
+         error_report_err(local_err);
+         local_err = NULL;
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index 14e3beeaaf..f97bf7ca77 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -144,7 +144,7 @@ void qmp_cont(Error **errp)
+      * If there are no inactive block nodes (e.g. because the VM was just
+      * paused rather than completing a migration), bdrv_inactivate_all() simply
+      * doesn't do anything. */
+-    bdrv_invalidate_cache_all(&local_err);
++    bdrv_activate_all(&local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         return;
 diff --git a/tests/unit/test-block-iothread.c b/tests/unit/test-block-iothread.c
-index aea660aeed..378a7b7869 100644
+index 378a7b7869..94718c9319 100644
 --- a/tests/unit/test-block-iothread.c
 +++ b/tests/unit/test-block-iothread.c
-@@ -282,7 +282,7 @@ static void test_sync_op_check(BdrvChild *c)
- static void test_sync_op_invalidate_cache(BdrvChild *c)
- {
-     /* Early success: Image is not inactive */
--    bdrv_invalidate_cache(c->bs, NULL);
-+    bdrv_activate(c->bs, NULL);
+@@ -279,7 +279,7 @@ static void test_sync_op_check(BdrvChild *c)
+     g_assert_cmpint(ret, ==, -ENOTSUP);
  }
  
+-static void test_sync_op_invalidate_cache(BdrvChild *c)
++static void test_sync_op_activate(BdrvChild *c)
+ {
+     /* Early success: Image is not inactive */
+     bdrv_activate(c->bs, NULL);
+@@ -325,8 +325,8 @@ const SyncOpTest sync_op_tests[] = {
+         .name   = "/sync-op/check",
+         .fn     = test_sync_op_check,
+     }, {
+-        .name   = "/sync-op/invalidate_cache",
+-        .fn     = test_sync_op_invalidate_cache,
++        .name   = "/sync-op/activate",
++        .fn     = test_sync_op_activate,
+     },
+ };
  
 -- 
 2.31.1
