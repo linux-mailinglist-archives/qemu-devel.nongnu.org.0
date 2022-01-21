@@ -2,81 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8948E495D82
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 11:13:23 +0100 (CET)
-Received: from localhost ([::1]:39224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9DD4495CCE
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 10:26:49 +0100 (CET)
+Received: from localhost ([::1]:48602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAqv4-0008PK-IU
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 05:13:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53568)
+	id 1nAqC0-0006UD-S9
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 04:26:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1nApc1-0007W6-Gz
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 03:49:38 -0500
-Received: from [2607:f8b0:4864:20::1036] (port=38649
- helo=mail-pj1-x1036.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1nApbz-0005Br-Vx
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 03:49:37 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- d12-20020a17090a628c00b001b4f47e2f51so10000125pjj.3
- for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 00:49:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=A8kK7gzUbOpUqj0i1vLS2wElksbx0Z1HbijnD3p4R4I=;
- b=wuTzCAutKHeOvVaNeAtKb86RNH5wb7PlW+q80mW+ksF2U3NEuX0TGpM2UV1epEzvjF
- K8f8eGscqhXEn9BK2y9duDt/JOOdtrOL+41j5PJuTTfGGdYkswzJZueoPRoNqfu3a52m
- MKzZN25SkHvi2uJVEBeHJTWla4hZWl/713IIlSrZoRQCo28SPKGB25eEqPy9B5aixYUW
- EbkTHPAkvwO+xDaDnV5YKoOnpZg4+o/tQo600/CFiv2Io/t10Ts47A70Xq4iJs7GqGNZ
- a4n6j+euKahoWTxX9iLbEEx0HoegZWi2w50Lqp1E3XaHtWzlTYohdP8iKtdPj5MKS9NT
- T9RA==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nAq5q-0001Kh-Pt
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 04:20:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25244)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nAq5W-0001be-6Z
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 04:20:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642756803;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=on9sLU6tsbdr6i5LM+2E8l/GaI8ehU9R3zhz6Af1VW4=;
+ b=WCNCKPnJeBBUtjg+KwDXfVgwVdMuj+2DCsTTK5EGqh9NF3jm9FIh7G2H4gpbqvKubJLc7Q
+ pfpY0yjW9YqaO5XFMjpmDKmEhS3QMXIYgoOc+CU16bzntU9X/PVfkVInHFP5dh8uz53OBG
+ GawLuPNcmE2twtn4U4j4is9VbxGugLg=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-540-nhYw00YGOWOxhY6z0kjqWg-1; Fri, 21 Jan 2022 04:20:01 -0500
+X-MC-Unique: nhYw00YGOWOxhY6z0kjqWg-1
+Received: by mail-pl1-f199.google.com with SMTP id
+ a14-20020a170902710e00b0014ad8395c0dso1499950pll.21
+ for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 01:20:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=A8kK7gzUbOpUqj0i1vLS2wElksbx0Z1HbijnD3p4R4I=;
- b=gtxWOzP1ieQ1/ateaykASxJ4IYX3zKvO4u4d3FD1malV7b9ZYC1Ix1S+JU+AF2ETxr
- w9WlK8TSl8rrdY3U8fx2APnsnluW2hd1WkMmQBtwLzz7rV7v+vln0Cwkk3oPaNz3bW32
- yQWFEkE38OwAdgeMLtg1EoguZvpl18+85zGxZifhJmZj4ton4ulBOkkP2s02bzeryHEg
- iCJOvpUFTdqDXrkfQyNOjTiTGERZVX2vTT8F2q5hktFlsbTNEhqRNN5R9g3c8sSqqXDO
- 8oLEWPkTdeP9quQ3negohy93CMtVkZhGVZqgKXwdsKbrx28h5Cmbawu5h0pRkykfXsUe
- 3Elw==
-X-Gm-Message-State: AOAM531K78jyolDrpunmfLTFv5H5kF4xG8TN8XxSmOKVpzzlYG5ogdFO
- 7Qvyod3iZ7Edc3V6mcxoPuN9
-X-Google-Smtp-Source: ABdhPJy1F8NqnaIQ/qOeyX9AnduKbWUm0YHsQJo1PXkx7DiT226yYUEk0zmlu9FKkmrX9cRXx8RQYg==
-X-Received: by 2002:a17:90b:1e06:: with SMTP id
- pg6mr3600126pjb.178.1642754974778; 
- Fri, 21 Jan 2022 00:49:34 -0800 (PST)
-Received: from localhost ([139.177.225.237])
- by smtp.gmail.com with ESMTPSA id b9sm5939869pfm.154.2022.01.21.00.49.33
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=on9sLU6tsbdr6i5LM+2E8l/GaI8ehU9R3zhz6Af1VW4=;
+ b=6udHAuZpbHs7v1nFVzsP/tcUJTQiTkHeKQ++f8ZLx4JeHfKkSx4DPNVMNZkFMdJl9p
+ CSgV224G3ULNsHLzk4GjbPKllkdmz5/hOPWoeYHY1liFzQBiN2iCpH3Tq3pucDJclMEy
+ yGoN5hf3scKQdsZRXEtr7UoB0jK17MK3i8FgszAcMkBaPSzLV9oGEuDnN8grF1i0r8kb
+ iMUOt0cEee4NGMMzDEObX2jPWJl41FCMoiW0GMteccpjh8W9lvi7MhnU9gVr4HEYtvO9
+ pRCTCoqG+xfGJaiBbwkvGt5OdWFXtGL4P7HrTr7Af/lW5Vj2Az+cCiee1XEJiHSvh6NG
+ XkrQ==
+X-Gm-Message-State: AOAM532UelS/j7WbGz/WU3xGQKW8vkzzSwJji/wCbirKbhN/gR3iVgDG
+ WfFwIER94kVT4hUXNvD278YmkoI79ow/ah17JonbpVCnErlOoN8I54MWnatbuBWvuzyvhJGWzKB
+ vBRQXEaaUBdgiocI=
+X-Received: by 2002:a63:6c01:: with SMTP id h1mr2350565pgc.233.1642756800786; 
+ Fri, 21 Jan 2022 01:20:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwpRx9SAVk27MZg7VAHLPSgrWPpfQqrY0SHQ4/J4Q/5ROTtcLGRfLpTiqeHiHttxO8Zr2fU4A==
+X-Received: by 2002:a63:6c01:: with SMTP id h1mr2350541pgc.233.1642756800531; 
+ Fri, 21 Jan 2022 01:20:00 -0800 (PST)
+Received: from xz-m1.local ([94.177.118.81])
+ by smtp.gmail.com with ESMTPSA id f12sm1566131pfe.204.2022.01.21.01.19.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Jan 2022 00:49:34 -0800 (PST)
-From: Xie Yongji <xieyongji@bytedance.com>
-To: Coiby.Xu@gmail.com, stefanha@redhat.com, marcandre.lureau@redhat.com,
- kwolf@redhat.com, mreitz@redhat.com
-Subject: [PATCH 2/2] block/export: Add vhost-user-blk resize support
-Date: Fri, 21 Jan 2022 16:46:44 +0800
-Message-Id: <20220121084644.217-2-xieyongji@bytedance.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220121084644.217-1-xieyongji@bytedance.com>
-References: <20220121084644.217-1-xieyongji@bytedance.com>
+ Fri, 21 Jan 2022 01:20:00 -0800 (PST)
+Date: Fri, 21 Jan 2022 17:19:52 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Hyman Huang <huangy81@chinatelecom.cn>
+Subject: Re: [PATCH v11 3/4] softmmu/dirtylimit: implement virtual CPU throttle
+Message-ID: <Yep6uDy+vq/8hzmi@xz-m1.local>
+References: <cover.1641316375.git.huangy81@chinatelecom.cn>
+ <0381e32c2cc70613613aaa284b8e8c9760d6932f.1641316375.git.huangy81@chinatelecom.cn>
+ <YeUbhC7MG32K9pxu@xz-m1.local>
+ <f6d0b94c-3357-71dc-f992-b6d3d41fa6a7@chinatelecom.cn>
 MIME-Version: 1.0
+In-Reply-To: <f6d0b94c-3357-71dc-f992-b6d3d41fa6a7@chinatelecom.cn>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=xieyongji@bytedance.com; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,54 +98,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To support block resize, this updates the capacity field
-in configuration space and use vu_notify_config_change()
-to notify the vhost-user master on the block resize callback.
+On Fri, Jan 21, 2022 at 04:07:24PM +0800, Hyman Huang wrote:
+> Hi, Peter, i'm working on simplifying the algorithm.
+> Current throttle logic is like the following:
+> 
+> 1. If error value(|quota - current|) less than 25MB/s, we assert throttle
+> already done and do nothing.
+> 
+> 2. Start to throttle if "error value greater than 25MB/s" scenario detected
+> twice.
+> 
+> 3. Speed up throttle via plus and minus linearly if "error value" be found
+> too large.
+> 
+> 4. Throttle normally via plus and minus a fixed time slice.
+> 
+> I think 1、4 are basic logic and shoul not be dropped, and 2 could be
+> removed(i take this from auto-converg algo),
 
-Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
----
- block/export/vhost-user-blk-server.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+Agreed.
 
-diff --git a/block/export/vhost-user-blk-server.c b/block/export/vhost-user-blk-server.c
-index 1862563336..929a0bd007 100644
---- a/block/export/vhost-user-blk-server.c
-+++ b/block/export/vhost-user-blk-server.c
-@@ -435,6 +435,20 @@ static void blk_aio_detach(void *opaque)
-     vexp->export.ctx = NULL;
- }
- 
-+static void vu_blk_resize(void *opaque)
-+{
-+    BlockExport *exp = opaque;
-+    VuBlkExport *vexp = container_of(exp, VuBlkExport, export);
-+
-+    vexp->blkcfg.capacity =
-+        cpu_to_le64(blk_getlength(exp->blk) >> VIRTIO_BLK_SECTOR_BITS);
-+    vu_notify_config_change(&vexp->vu_server.vu_dev);
-+}
-+
-+static const BlockDevOps vu_block_ops = {
-+    .resize_cb = vu_blk_resize,
-+};
-+
- static void
- vu_blk_initialize_config(BlockDriverState *bs,
-                          struct virtio_blk_config *config,
-@@ -513,6 +527,8 @@ static int vu_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-         return -EADDRNOTAVAIL;
-     }
- 
-+    blk_set_dev_ops(exp->blk, &vu_block_ops, exp);
-+
-     return 0;
- }
- 
+> i prefer to reserve 3 so that the throttle can response fast.
+> 
+> How about this?
+> 
+> Could it be possible that i add some comments in dirtylimit_adjust_throttle
+> and not touch the logic? I test the result of v12 and it seems working fine.
+
+I only worry that the differential part (step 3) makes it oscillate, and that's
+what I hit.  Maybe it can be tuned so it'll not happen with general use cases
+then I think it's perfectly fine at least to me.
+
 -- 
-2.20.1
+Peter Xu
 
 
