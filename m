@@ -2,63 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F0C7496524
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 19:34:47 +0100 (CET)
-Received: from localhost ([::1]:38086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CC52496530
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 19:38:14 +0100 (CET)
+Received: from localhost ([::1]:40276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAykH-0002ee-Hg
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 13:34:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51852)
+	id 1nAync-0004Ia-QW
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 13:38:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nAyAO-0007YD-Lz
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:57:40 -0500
-Received: from 5.mo552.mail-out.ovh.net ([188.165.45.220]:36239)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nAyAz-00005f-61
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:58:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56761)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nAyAL-0003L7-RT
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:57:40 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.27])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 82D42227F2;
- Fri, 21 Jan 2022 17:57:35 +0000 (UTC)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Fri, 21 Jan
- 2022 18:57:35 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003514f822e-297e-4e75-8e73-6aea91ab2239,
- 0868046A3D5FFD4A19DAA1F3199B5438DDC438D4) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <f7fc4a74-2f20-451e-6a4f-d89c395c24ff@kaod.org>
-Date: Fri, 21 Jan 2022 18:57:32 +0100
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nAyAx-0003Og-D8
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:58:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642787894;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+qOnJs6dqWHm3E7gbuhFXdkDzTWT6NFwujhp/bbMRI8=;
+ b=DyUNkRgVJwHv3onfGHXbsv0OUt7Nq0ihtnX+M7lB/X205nmH0Q2hPm6l3umx3vvN9jSZi5
+ Gwd9WWDSQIZx5MOw2E8XSSL8NiR3RIWBGUOc3OGli16xggss/wd5x7h4jvZUvvTNxfrvTV
+ nbVtWzJd7kPpop1ZiRtDYUVwr/IOkGE=
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-640-ZB3XDeiRPcOukXfqScPLNA-1; Fri, 21 Jan 2022 12:58:08 -0500
+X-MC-Unique: ZB3XDeiRPcOukXfqScPLNA-1
+Received: by mail-vk1-f197.google.com with SMTP id
+ m79-20020a1fa352000000b0031e4e8688bdso523141vke.22
+ for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 09:58:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+qOnJs6dqWHm3E7gbuhFXdkDzTWT6NFwujhp/bbMRI8=;
+ b=tzaplO9d96x+NNwdgtIQI6ug6zZzcjVqKonuNOStjGMxw7tw7mNeO2yDshWjFOKEyZ
+ M6WeI33GQ0oRce4LsSNnEDa7T5+JXEjJ5HWHsAyXkO37gu4j8OYNIjViUuLo+2cXCBRC
+ eMOlRXeTFmuLWPLm1f96/T/cQg0j5K5qcIg/VwtHl7XAJseueaYFC4qweXk8WM9ua83v
+ LetOU2PoylDATNvzqSAenmTCvMAGX6JfQnkhmgAXojlhsITuNjRTTf6bM3t45ysGnM6S
+ +6DWLv4r347q4ThirkTNlGZHqqajH1QITayMmOnCwnltc1LhYj2puIqsQM05sOWLfsbv
+ zDJQ==
+X-Gm-Message-State: AOAM531MXkH8RdSs6Dd3PdBv87kN4bnZ2yag6wWy4Ln+49M0ahlM9VK9
+ Q8Yf+/j2K0/F6VC827sCapvCP1i/8HoRnZuIpOwAnROEZLaHmvTcDMsI5FpOYfxYoKjjIpDICKR
+ JofE5a3UJrmyYmBkM8vGRPyjDcBeLTHs=
+X-Received: by 2002:a05:6102:3566:: with SMTP id
+ bh6mr2011784vsb.11.1642787887762; 
+ Fri, 21 Jan 2022 09:58:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwbrl4Ik7fwTKeX//AmsYU0hnaYfEBwdLkdAYPXU49iZnv8+iislVa7Na1YJptvQbYCEnEW/IUQW5ZPCbpDF1Y=
+X-Received: by 2002:a05:6102:3566:: with SMTP id
+ bh6mr2011773vsb.11.1642787887505; 
+ Fri, 21 Jan 2022 09:58:07 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: Help with ppc e500 tlb usage
-Content-Language: en-US
-To: Jesse Millwood <jmillwood@masten.aero>
-References: <PH1P110MB12849EB7B10C757A6B9FEA4FB0589@PH1P110MB1284.NAMP110.PROD.OUTLOOK.COM>
- <a05a8a93-3d82-2703-f509-c0e047e6b00d@kaod.org>
- <SA1P110MB1293AF07B83EE30F41B8DD58B05B9@SA1P110MB1293.NAMP110.PROD.OUTLOOK.COM>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <SA1P110MB1293AF07B83EE30F41B8DD58B05B9@SA1P110MB1293.NAMP110.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 3d25dd5d-9722-4ebd-aff9-55366481199c
-X-Ovh-Tracer-Id: 17586275070933633955
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrvddtgddutdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=188.165.45.220; envelope-from=clg@kaod.org;
- helo=5.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20220121005221.142236-1-jsnow@redhat.com>
+ <20220121175417.rgaldqoqzdcw2igp@laptop.redhat>
+In-Reply-To: <20220121175417.rgaldqoqzdcw2igp@laptop.redhat>
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 21 Jan 2022 12:57:56 -0500
+Message-ID: <CAFn=p-YKo6tOLT0mFcsLm7_tjRgFwg46NG=eF1fKsAo+v12Jmg@mail.gmail.com>
+Subject: Re: [PATCH] python: pin setuptools below v60.0.0
+To: Beraldo Leal <bleal@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,38 +90,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <dgibson@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-devel <qemu-devel@nongnu.org>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Thanks for the background info Cédric, I wasn't aware of the MMUv2. I see now that in target/ppc/cpu_init.c the e500v2 and e5500 have the same mmu_model, the POWREPC_MMU_BOOKE206.
-> I'd like to be able to set the initial tlb entry size from the platform definition by indicating the size in kib. I'll just use the 2^TSIZE then.
+On Fri, Jan 21, 2022 at 12:54 PM Beraldo Leal <bleal@redhat.com> wrote:
+>
+> On Thu, Jan 20, 2022 at 07:52:21PM -0500, John Snow wrote:
+> > setuptools is a package that replaces the python stdlib 'distutils'. It
+> > is generally installed by all venv-creating tools "by default". It isn't
+> > actually needed at runtime for the qemu package, so our own setup.cfg
+> > does not mention it as a dependency.
+> >
+> > However, tox will create virtual environments that include it, and will
+> > upgrade it to the very latest version. the 'venv' tool will also include
+> > whichever version your host system happens to have.
+> >
+> > Unfortunately, setuptools version 60.0.0 and above include a hack to
+> > forcibly overwrite python's built-in distutils. The pylint tool that we
+> > use to run code analysis checks on this package relies on distutils and
+> > suffers regressions when setuptools >= 60.0.0 is present at all, see
+> > https://github.com/PyCQA/pylint/issues/5704
+> >
+> > Instruct tox and the 'check-dev' targets to avoid setuptools packages
+> > that are too new, for now. Pipenv is unaffected, because setuptools 60
+> > does not offer Python 3.6 support, and our pipenv config is pinned
+> > against Python 3.6.
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >  python/Makefile  | 2 ++
+> >  python/setup.cfg | 1 +
+> >  2 files changed, 3 insertions(+)
+> >
+> > diff --git a/python/Makefile b/python/Makefile
+> > index 3334311362..949c472624 100644
+> > --- a/python/Makefile
+> > +++ b/python/Makefile
+> > @@ -68,6 +68,8 @@ $(QEMU_VENV_DIR) $(QEMU_VENV_DIR)/bin/activate: setup.cfg
+> >               echo "ACTIVATE $(QEMU_VENV_DIR)";               \
+> >               . $(QEMU_VENV_DIR)/bin/activate;                \
+> >               echo "INSTALL qemu[devel] $(QEMU_VENV_DIR)";    \
+> > +             pip install --disable-pip-version-check         \
+> > +                     "setuptools<60.0.0" 1>/dev/null;        \
+> >               make develop 1>/dev/null;                       \
+> >       )
+> >       @touch $(QEMU_VENV_DIR)
+> > diff --git a/python/setup.cfg b/python/setup.cfg
+> > index 417e937839..aa238d8bc9 100644
+> > --- a/python/setup.cfg
+> > +++ b/python/setup.cfg
+> > @@ -163,6 +163,7 @@ deps =
+> >      .[devel]
+> >      .[fuse]  # Workaround to trigger tox venv rebuild
+> >      .[tui]   # Workaround to trigger tox venv rebuild
+> > +    setuptools < 60  # Workaround, please see commit msg.
+> >  commands =
+> >      make check
+> >
+>
+> Reviewed-by: Beraldo Leal <bleal@redhat.com>
+>
+> --
+> Beraldo
+>
 
-Well, the approach of adding a class attribute and for a new machine
-is the right one.
->> The e500 only supports the following page sizes:
->>
->>              0b0001 4KB
->>              0b0010 16KB
->>              0b0011 64KB
->>              0b0100 256KB
->>              0b1011 4GB
->>              0b0101 1MB
->>              0b0110 4MB
->>              0b0111 16MB
->>              0b1000 64MB
->>              0b1001 256MB
->>              0b1010 1GB
->>
-> 
-> Is that how much the emulated e500 supports? The E500 Core Reference manual states that it supports up to 4GiB.
+Thanks a million. I'm staging this right away.
 
-Yes the list is out of order ! :)
+--js
 
-Thanks,
-
-C.
 
