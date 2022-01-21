@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCCBA496680
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 21:43:23 +0100 (CET)
-Received: from localhost ([::1]:45892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D588D49665E
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 21:36:40 +0100 (CET)
+Received: from localhost ([::1]:57150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB0kk-0002s1-Ti
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 15:43:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58552)
+	id 1nB0eF-0007uy-Fg
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 15:36:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nB0Z3-0005Qw-G9
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:31:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45365)
+ id 1nB0Z1-0005Pq-Ih
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:31:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54682)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nB0Yz-0003O0-BI
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:31:16 -0500
+ id 1nB0Yw-00038c-Nt
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:31:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642797045;
+ s=mimecast20190719; t=1642797010;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j67t6TpSga7nlGJsFIRGFk0h9tdDgayDDsYv/VIxliQ=;
- b=P3r7RbeF7H2DeH32+dAdmbeSb8dx28gZlfSSAs6TWU9wCySXk07wm52cpF0Ko3quzYT32B
- /OU687y+5hnoTnmUJvWGUSIuj+ZG9KQ7GgAfnZnoX1uGUWsjbT5jYG0vRHAbdmdeTQt2lg
- 7aEIcCCz4qUY9ylr6OUmAgd90YvPuwg=
+ bh=iZfKQhsB/ktrhenT9moP6VzJa8291iIlZQu2980rWAM=;
+ b=MJOnPjF+Oxm+o0PKKX+OjGcGpYYKEOEb6sLN8qLVWfpsoLJ7SZu5wKZ0cuBfLHgq6rypRH
+ q1jpYmNXf5ADFLHTOAYEMO+SrRStFYueJ7gP3OH+K+7CSiaIhWzIUxqnD9fwjPYDZVjF2Q
+ WH2qFIumWulon8oiqJG029VmH5Be/hg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-313-QxYGyxqYP52AXUDqK_tzCw-1; Fri, 21 Jan 2022 15:29:36 -0500
-X-MC-Unique: QxYGyxqYP52AXUDqK_tzCw-1
+ us-mta-574--oFOokyKPkmDoW8ZvSPWVw-1; Fri, 21 Jan 2022 15:30:08 -0500
+X-MC-Unique: -oFOokyKPkmDoW8ZvSPWVw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AFA3193578C;
- Fri, 21 Jan 2022 20:29:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B51E84BA1A;
+ Fri, 21 Jan 2022 20:30:07 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.193.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D9E3116A31;
- Fri, 21 Jan 2022 20:28:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 86A083D7E;
+ Fri, 21 Jan 2022 20:29:35 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/31] vdpa: Reorder virtio/vhost-vdpa.c functions
-Date: Fri, 21 Jan 2022 21:27:03 +0100
-Message-Id: <20220121202733.404989-2-eperezma@redhat.com>
+Subject: [PATCH 02/31] vhost: Add VhostShadowVirtqueue
+Date: Fri, 21 Jan 2022 21:27:04 +0100
+Message-Id: <20220121202733.404989-3-eperezma@redhat.com>
 In-Reply-To: <20220121202733.404989-1-eperezma@redhat.com>
 References: <20220121202733.404989-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -94,230 +94,134 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vhost_vdpa_set_features and vhost_vdpa_init need to use
-vhost_vdpa_get_features in svq mode.
+Vhost shadow virtqueue (SVQ) is an intermediate jump for virtqueue
+notifications and buffers, allowing qemu to track them. While qemu is
+forwarding the buffers and virtqueue changes, it is able to commit the
+memory it's being dirtied, the same way regular qemu's VirtIO devices
+do.
 
-vhost_vdpa_dev_start needs to use almost all _set_ functions:
-vhost_vdpa_set_vring_dev_kick, vhost_vdpa_set_vring_dev_call,
-vhost_vdpa_set_dev_vring_base and vhost_vdpa_set_dev_vring_num.
-
-No functional change intended.
+This commit only exposes basic SVQ allocation and free. Next patches of
+the series add functionality like notifications and buffers forwarding.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 164 ++++++++++++++++++++---------------------
- 1 file changed, 82 insertions(+), 82 deletions(-)
+ hw/virtio/vhost-shadow-virtqueue.h | 21 ++++++++++
+ hw/virtio/vhost-shadow-virtqueue.c | 64 ++++++++++++++++++++++++++++++
+ hw/virtio/meson.build              |  2 +-
+ 3 files changed, 86 insertions(+), 1 deletion(-)
+ create mode 100644 hw/virtio/vhost-shadow-virtqueue.h
+ create mode 100644 hw/virtio/vhost-shadow-virtqueue.c
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 04ea43704f..6c10a7f05f 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -342,41 +342,6 @@ static bool vhost_vdpa_one_time_request(struct vhost_dev *dev)
-     return v->index != 0;
- }
- 
--static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
--{
--    struct vhost_vdpa *v;
--    assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
--    trace_vhost_vdpa_init(dev, opaque);
--    int ret;
--
--    /*
--     * Similar to VFIO, we end up pinning all guest memory and have to
--     * disable discarding of RAM.
--     */
--    ret = ram_block_discard_disable(true);
--    if (ret) {
--        error_report("Cannot set discarding of RAM broken");
--        return ret;
--    }
--
--    v = opaque;
--    v->dev = dev;
--    dev->opaque =  opaque ;
--    v->listener = vhost_vdpa_memory_listener;
--    v->msg_type = VHOST_IOTLB_MSG_V2;
--
--    vhost_vdpa_get_iova_range(v);
--
--    if (vhost_vdpa_one_time_request(dev)) {
--        return 0;
--    }
--
--    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
--                               VIRTIO_CONFIG_S_DRIVER);
--
--    return 0;
--}
--
- static void vhost_vdpa_host_notifier_uninit(struct vhost_dev *dev,
-                                             int queue_index)
- {
-@@ -506,24 +471,6 @@ static int vhost_vdpa_set_mem_table(struct vhost_dev *dev,
-     return 0;
- }
- 
--static int vhost_vdpa_set_features(struct vhost_dev *dev,
--                                   uint64_t features)
--{
--    int ret;
--
--    if (vhost_vdpa_one_time_request(dev)) {
--        return 0;
--    }
--
--    trace_vhost_vdpa_set_features(dev, features);
--    ret = vhost_vdpa_call(dev, VHOST_SET_FEATURES, &features);
--    if (ret) {
--        return ret;
--    }
--
--    return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_FEATURES_OK);
--}
--
- static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
- {
-     uint64_t features;
-@@ -646,35 +593,6 @@ static int vhost_vdpa_get_config(struct vhost_dev *dev, uint8_t *config,
-     return ret;
-  }
- 
--static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
--{
--    struct vhost_vdpa *v = dev->opaque;
--    trace_vhost_vdpa_dev_start(dev, started);
--
--    if (started) {
--        vhost_vdpa_host_notifiers_init(dev);
--        vhost_vdpa_set_vring_ready(dev);
--    } else {
--        vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
--    }
--
--    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
--        return 0;
--    }
--
--    if (started) {
--        memory_listener_register(&v->listener, &address_space_memory);
--        return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
--    } else {
--        vhost_vdpa_reset_device(dev);
--        vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
--                                   VIRTIO_CONFIG_S_DRIVER);
--        memory_listener_unregister(&v->listener);
--
--        return 0;
--    }
--}
--
- static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t base,
-                                      struct vhost_log *log)
- {
-@@ -735,6 +653,35 @@ static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
-     return vhost_vdpa_call(dev, VHOST_SET_VRING_CALL, file);
- }
- 
-+static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
+new file mode 100644
+index 0000000000..61ea112002
+--- /dev/null
++++ b/hw/virtio/vhost-shadow-virtqueue.h
+@@ -0,0 +1,21 @@
++/*
++ * vhost shadow virtqueue
++ *
++ * SPDX-FileCopyrightText: Red Hat, Inc. 2021
++ * SPDX-FileContributor: Author: Eugenio Pérez <eperezma@redhat.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#ifndef VHOST_SHADOW_VIRTQUEUE_H
++#define VHOST_SHADOW_VIRTQUEUE_H
++
++#include "hw/virtio/vhost.h"
++
++typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
++
++VhostShadowVirtqueue *vhost_svq_new(void);
++
++void vhost_svq_free(VhostShadowVirtqueue *vq);
++
++#endif
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+new file mode 100644
+index 0000000000..5ee7b401cb
+--- /dev/null
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -0,0 +1,64 @@
++/*
++ * vhost shadow virtqueue
++ *
++ * SPDX-FileCopyrightText: Red Hat, Inc. 2021
++ * SPDX-FileContributor: Author: Eugenio Pérez <eperezma@redhat.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "hw/virtio/vhost-shadow-virtqueue.h"
++
++#include "qemu/error-report.h"
++#include "qemu/event_notifier.h"
++
++/* Shadow virtqueue to relay notifications */
++typedef struct VhostShadowVirtqueue {
++    /* Shadow kick notifier, sent to vhost */
++    EventNotifier hdev_kick;
++    /* Shadow call notifier, sent to vhost */
++    EventNotifier hdev_call;
++} VhostShadowVirtqueue;
++
++/**
++ * Creates vhost shadow virtqueue, and instruct vhost device to use the shadow
++ * methods and file descriptors.
++ */
++VhostShadowVirtqueue *vhost_svq_new(void)
 +{
-+    struct vhost_vdpa *v = dev->opaque;
-+    trace_vhost_vdpa_dev_start(dev, started);
++    g_autofree VhostShadowVirtqueue *svq = g_new0(VhostShadowVirtqueue, 1);
++    int r;
 +
-+    if (started) {
-+        vhost_vdpa_host_notifiers_init(dev);
-+        vhost_vdpa_set_vring_ready(dev);
-+    } else {
-+        vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
++    r = event_notifier_init(&svq->hdev_kick, 0);
++    if (r != 0) {
++        error_report("Couldn't create kick event notifier: %s",
++                     strerror(errno));
++        goto err_init_hdev_kick;
 +    }
 +
-+    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
-+        return 0;
++    r = event_notifier_init(&svq->hdev_call, 0);
++    if (r != 0) {
++        error_report("Couldn't create call event notifier: %s",
++                     strerror(errno));
++        goto err_init_hdev_call;
 +    }
 +
-+    if (started) {
-+        memory_listener_register(&v->listener, &address_space_memory);
-+        return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
-+    } else {
-+        vhost_vdpa_reset_device(dev);
-+        vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-+                                   VIRTIO_CONFIG_S_DRIVER);
-+        memory_listener_unregister(&v->listener);
++    return g_steal_pointer(&svq);
 +
-+        return 0;
-+    }
++err_init_hdev_call:
++    event_notifier_cleanup(&svq->hdev_kick);
++
++err_init_hdev_kick:
++    return NULL;
 +}
 +
- static int vhost_vdpa_get_features(struct vhost_dev *dev,
-                                      uint64_t *features)
- {
-@@ -745,6 +692,24 @@ static int vhost_vdpa_get_features(struct vhost_dev *dev,
-     return ret;
- }
- 
-+static int vhost_vdpa_set_features(struct vhost_dev *dev,
-+                                   uint64_t features)
++/**
++ * Free the resources of the shadow virtqueue.
++ */
++void vhost_svq_free(VhostShadowVirtqueue *vq)
 +{
-+    int ret;
-+
-+    if (vhost_vdpa_one_time_request(dev)) {
-+        return 0;
-+    }
-+
-+    trace_vhost_vdpa_set_features(dev, features);
-+    ret = vhost_vdpa_call(dev, VHOST_SET_FEATURES, &features);
-+    if (ret) {
-+        return ret;
-+    }
-+
-+    return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_FEATURES_OK);
++    event_notifier_cleanup(&vq->hdev_kick);
++    event_notifier_cleanup(&vq->hdev_call);
++    g_free(vq);
 +}
-+
- static int vhost_vdpa_set_owner(struct vhost_dev *dev)
- {
-     if (vhost_vdpa_one_time_request(dev)) {
-@@ -772,6 +737,41 @@ static bool  vhost_vdpa_force_iommu(struct vhost_dev *dev)
-     return true;
- }
+diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+index 521f7d64a8..2dc87613bc 100644
+--- a/hw/virtio/meson.build
++++ b/hw/virtio/meson.build
+@@ -11,7 +11,7 @@ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-stub.c'))
  
-+static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
-+{
-+    struct vhost_vdpa *v;
-+    assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
-+    trace_vhost_vdpa_init(dev, opaque);
-+    int ret;
-+
-+    /*
-+     * Similar to VFIO, we end up pinning all guest memory and have to
-+     * disable discarding of RAM.
-+     */
-+    ret = ram_block_discard_disable(true);
-+    if (ret) {
-+        error_report("Cannot set discarding of RAM broken");
-+        return ret;
-+    }
-+
-+    v = opaque;
-+    v->dev = dev;
-+    dev->opaque =  opaque ;
-+    v->listener = vhost_vdpa_memory_listener;
-+    v->msg_type = VHOST_IOTLB_MSG_V2;
-+
-+    vhost_vdpa_get_iova_range(v);
-+
-+    if (vhost_vdpa_one_time_request(dev)) {
-+        return 0;
-+    }
-+
-+    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-+                               VIRTIO_CONFIG_S_DRIVER);
-+
-+    return 0;
-+}
-+
- const VhostOps vdpa_ops = {
-         .backend_type = VHOST_BACKEND_TYPE_VDPA,
-         .vhost_backend_init = vhost_vdpa_init,
+ virtio_ss = ss.source_set()
+ virtio_ss.add(files('virtio.c'))
+-virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-backend.c'))
++virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-backend.c', 'vhost-shadow-virtqueue.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-vdpa.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-balloon.c'))
 -- 
 2.27.0
 
