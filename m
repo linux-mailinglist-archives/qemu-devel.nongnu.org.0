@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60FB64964CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 19:09:41 +0100 (CET)
-Received: from localhost ([::1]:57930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B43C14964DB
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 19:14:16 +0100 (CET)
+Received: from localhost ([::1]:36052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAyM0-0002V1-D4
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 13:09:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41296)
+	id 1nAyQR-0006vP-SW
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 13:14:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nAxNy-000157-QD
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:07:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52701)
+ id 1nAxO7-00018X-Rt
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:07:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31050)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nAxNw-0000Y4-MX
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:07:38 -0500
+ id 1nAxO4-0000Z5-9U
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:07:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642784852;
+ s=mimecast20190719; t=1642784862;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2VPdiWwDoDupGovD5wObv4qoWDsvbLWyekhiXgKX8tA=;
- b=HRBDusZ/aNCz0Rwu3L0Zq56DM3ETkzOiMD1QxTmmVR/VQxA5AVWmHP1k8b7/kw8M65eWUJ
- tFlGFztcFDJaqXg++wuIPdHJsq4rlDSB7u51Qlu86nLLZHWmUnKiuSByjh+3Xg+qXBEZYp
- 9bmIo1c9lg6nfgx9b96NnFOu0clb/vM=
+ bh=U0/9h+ojJJD5VsAceZBm++9ONBxtrl2G08T5QKb0dZ4=;
+ b=EylEzqtUrjYWmgu/nTCs8GUVoAhaQ5weq4DxGcFUhn/znowRz+tY3J93+2ilWJcyaz7QjI
+ QLoVFvxxlu1KEC4PhUvme7WcwcUpsd5piyOKanIjd59XYILknqJdCYWrsycu9+0mO+QIr0
+ RwxjZoInlyttBDzSQFno+B+nS2wfwgY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-37-6Tb7win9P0KAK-gA1rjt3A-1; Fri, 21 Jan 2022 12:07:30 -0500
-X-MC-Unique: 6Tb7win9P0KAK-gA1rjt3A-1
+ us-mta-561-CZlOsoCdNaK2I5NZcq7OEw-1; Fri, 21 Jan 2022 12:07:39 -0500
+X-MC-Unique: CZlOsoCdNaK2I5NZcq7OEw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9541100C666;
- Fri, 21 Jan 2022 17:07:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 768BC874980;
+ Fri, 21 Jan 2022 17:07:37 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5A8AA7EBCA;
- Fri, 21 Jan 2022 17:06:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D31CC7ED83;
+ Fri, 21 Jan 2022 17:07:27 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 32/33] crypto: delegate permission functions to JobDriver
- .pre_run
-Date: Fri, 21 Jan 2022 12:05:43 -0500
-Message-Id: <20220121170544.2049944-33-eesposit@redhat.com>
+Subject: [PATCH v6 33/33] block.c: assertions to the block layer permissions
+ API
+Date: Fri, 21 Jan 2022 12:05:44 -0500
+Message-Id: <20220121170544.2049944-34-eesposit@redhat.com>
 In-Reply-To: <20220121170544.2049944-1-eesposit@redhat.com>
 References: <20220121170544.2049944-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -68,7 +68,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,156 +100,109 @@ Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-block_crypto_amend_options_generic_luks uses the block layer
-permission API, therefore it should be called with the BQL held.
-
-However, the same function is being called by two BlockDriver
-callbacks: bdrv_amend_options (under BQL) and bdrv_co_amend (I/O).
-
-The latter is I/O because it is invoked by block/amend.c's
-blockdev_amend_run(), a .run callback of the amend JobDriver
-
-Therefore we want to 1) change block_crypto driver
-to use the permission API only when the BQL is held, and
-2) use the .pre_run JobDriver callback to check for
-permissions before switching to the job aiocontext. This has also
-the benefit of applying the same permission operation to all
-amend implementations, not only luks.
-
-Remove the permission check in block_crypto_amend_options_generic_luks()
-and:
-- Add helper functions block_crypto_amend_options_{prepare/cleanup}
-  that take care of checking permissions in
-  block_crypto_amend_options_luks(), so when it is under BQL, and
-
-- Use job->pre_run() and job->clean() to do the same thing when
-  we are in an iothread, by performing these checks before the
-  job runs in its aiocontext. So far job->pre_run() is only defined
-  but not called in job_start(), now it is the moment to use it.
+Now that we "covered" the three main cases where the
+permission API was being used under BQL (fuse,
+amend and invalidate_cache), we can safely assert for
+the permission functions implemented in block.c
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block/crypto.c | 57 ++++++++++++++++++++++++++++++++------------------
- job.c          | 13 ++++++++++++
- 2 files changed, 50 insertions(+), 20 deletions(-)
+ block.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/block/crypto.c b/block/crypto.c
-index f5e0c7b7c0..bdb4ba5664 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -791,6 +791,28 @@ block_crypto_amend_cleanup(BlockDriverState *bs)
-     crypto->updating_keys = false;
- }
+diff --git a/block.c b/block.c
+index ca16d90627..afa18653d1 100644
+--- a/block.c
++++ b/block.c
+@@ -2138,6 +2138,7 @@ static bool bdrv_a_allow_b(BdrvChild *a, BdrvChild *b, Error **errp)
  
-+static int
-+block_crypto_amend_options_prepare(BlockDriverState *bs,
-+                                   Error **errp)
-+{
-+    BlockCrypto *crypto = bs->opaque;
-+
-+    /* apply for exclusive read/write permissions to the underlying file*/
-+    crypto->updating_keys = true;
-+    return bdrv_child_refresh_perms(bs, bs->file, errp);
-+}
-+
-+static int
-+block_crypto_amend_options_cleanup(BlockDriverState *bs,
-+                                   Error **errp)
-+{
-+    BlockCrypto *crypto = bs->opaque;
-+
-+    /* release exclusive read/write permissions to the underlying file*/
-+    crypto->updating_keys = false;
-+    return bdrv_child_refresh_perms(bs, bs->file, errp);
-+}
-+
- static int
- block_crypto_amend_options_generic_luks(BlockDriverState *bs,
-                                         QCryptoBlockAmendOptions *amend_options,
-@@ -798,30 +820,17 @@ block_crypto_amend_options_generic_luks(BlockDriverState *bs,
-                                         Error **errp)
- {
-     BlockCrypto *crypto = bs->opaque;
--    int ret;
- 
-     assert(crypto);
-     assert(crypto->block);
- 
--    /* apply for exclusive read/write permissions to the underlying file*/
--    crypto->updating_keys = true;
--    ret = bdrv_child_refresh_perms(bs, bs->file, errp);
--    if (ret) {
--        goto cleanup;
--    }
--
--    ret = qcrypto_block_amend_options(crypto->block,
--                                      block_crypto_read_func,
--                                      block_crypto_write_func,
--                                      bs,
--                                      amend_options,
--                                      force,
--                                      errp);
--cleanup:
--    /* release exclusive read/write permissions to the underlying file*/
--    crypto->updating_keys = false;
--    bdrv_child_refresh_perms(bs, bs->file, errp);
--    return ret;
-+    return qcrypto_block_amend_options(crypto->block,
-+                                       block_crypto_read_func,
-+                                       block_crypto_write_func,
-+                                       bs,
-+                                       amend_options,
-+                                       force,
-+                                       errp);
- }
- 
- static int
-@@ -847,8 +856,16 @@ block_crypto_amend_options_luks(BlockDriverState *bs,
-     if (!amend_options) {
-         goto cleanup;
-     }
-+
-+    ret = block_crypto_amend_options_prepare(bs, errp);
-+    if (ret) {
-+        goto perm_cleanup;
-+    }
-     ret = block_crypto_amend_options_generic_luks(bs, amend_options,
-                                                   force, errp);
-+
-+perm_cleanup:
-+    block_crypto_amend_options_cleanup(bs, errp);
- cleanup:
-     qapi_free_QCryptoBlockAmendOptions(amend_options);
-     return ret;
-diff --git a/job.c b/job.c
-index 39bf511949..cf0dc9325a 100644
---- a/job.c
-+++ b/job.c
-@@ -967,11 +967,24 @@ static void coroutine_fn job_co_entry(void *opaque)
-     aio_bh_schedule_oneshot(qemu_get_aio_context(), job_exit, job);
- }
- 
-+static int job_pre_run(Job *job)
-+{
+     assert(a->bs);
+     assert(a->bs == b->bs);
 +    assert(qemu_in_main_thread());
-+    if (job->driver->pre_run) {
-+        return job->driver->pre_run(job, &job->err);
-+    }
-+
-+    return 0;
-+}
-+
- void job_start(Job *job)
+ 
+     if ((b->perm & a->shared_perm) == b->perm) {
+         return true;
+@@ -2161,6 +2162,7 @@ static bool bdrv_a_allow_b(BdrvChild *a, BdrvChild *b, Error **errp)
+ static bool bdrv_parent_perms_conflict(BlockDriverState *bs, Error **errp)
  {
-     assert(job && !job_started(job) && job->paused &&
-            job->driver && job->driver->run);
-     job->co = qemu_coroutine_create(job_co_entry, job);
-+    if (job_pre_run(job)) {
-+        return;
-+    }
-     job->pause_count--;
-     job->busy = true;
-     job->paused = false;
+     BdrvChild *a, *b;
++    assert(qemu_in_main_thread());
+ 
+     /*
+      * During the loop we'll look at each pair twice. That's correct because
+@@ -2245,6 +2247,8 @@ static void bdrv_child_set_perm_abort(void *opaque)
+ {
+     BdrvChildSetPermState *s = opaque;
+ 
++    assert(qemu_in_main_thread());
++
+     s->child->perm = s->old_perm;
+     s->child->shared_perm = s->old_shared_perm;
+ }
+@@ -2258,6 +2262,7 @@ static void bdrv_child_set_perm(BdrvChild *c, uint64_t perm,
+                                 uint64_t shared, Transaction *tran)
+ {
+     BdrvChildSetPermState *s = g_new(BdrvChildSetPermState, 1);
++    assert(qemu_in_main_thread());
+ 
+     *s = (BdrvChildSetPermState) {
+         .child = c,
+@@ -2442,6 +2447,7 @@ static int bdrv_node_refresh_perm(BlockDriverState *bs, BlockReopenQueue *q,
+     BdrvChild *c;
+     int ret;
+     uint64_t cumulative_perms, cumulative_shared_perms;
++    assert(qemu_in_main_thread());
+ 
+     bdrv_get_cumulative_perm(bs, &cumulative_perms, &cumulative_shared_perms);
+ 
+@@ -2510,6 +2516,7 @@ static int bdrv_list_refresh_perms(GSList *list, BlockReopenQueue *q,
+ {
+     int ret;
+     BlockDriverState *bs;
++    assert(qemu_in_main_thread());
+ 
+     for ( ; list; list = list->next) {
+         bs = list->data;
+@@ -2581,6 +2588,7 @@ static int bdrv_refresh_perms(BlockDriverState *bs, Error **errp)
+     int ret;
+     Transaction *tran = tran_new();
+     g_autoptr(GSList) list = bdrv_topological_dfs(NULL, NULL, bs);
++    assert(qemu_in_main_thread());
+ 
+     ret = bdrv_list_refresh_perms(list, NULL, tran, errp);
+     tran_finalize(tran, ret);
+@@ -2647,6 +2655,7 @@ static void bdrv_filter_default_perms(BlockDriverState *bs, BdrvChild *c,
+                                       uint64_t perm, uint64_t shared,
+                                       uint64_t *nperm, uint64_t *nshared)
+ {
++    assert(qemu_in_main_thread());
+     *nperm = perm & DEFAULT_PERM_PASSTHROUGH;
+     *nshared = (shared & DEFAULT_PERM_PASSTHROUGH) | DEFAULT_PERM_UNCHANGED;
+ }
+@@ -2658,6 +2667,7 @@ static void bdrv_default_perms_for_cow(BlockDriverState *bs, BdrvChild *c,
+                                        uint64_t *nperm, uint64_t *nshared)
+ {
+     assert(role & BDRV_CHILD_COW);
++    assert(qemu_in_main_thread());
+ 
+     /*
+      * We want consistent read from backing files if the parent needs it.
+@@ -2694,6 +2704,7 @@ static void bdrv_default_perms_for_storage(BlockDriverState *bs, BdrvChild *c,
+ {
+     int flags;
+ 
++    assert(qemu_in_main_thread());
+     assert(role & (BDRV_CHILD_METADATA | BDRV_CHILD_DATA));
+ 
+     flags = bdrv_reopen_get_flags(reopen_queue, bs);
+@@ -6090,6 +6101,7 @@ static void xdbg_graph_add_edge(XDbgBlockGraphConstructor *gr, void *parent,
+ {
+     BlockPermission qapi_perm;
+     XDbgBlockGraphEdge *edge;
++    assert(qemu_in_main_thread());
+ 
+     edge = g_new0(XDbgBlockGraphEdge, 1);
+ 
 -- 
 2.31.1
 
