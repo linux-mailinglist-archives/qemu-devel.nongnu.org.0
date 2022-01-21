@@ -2,67 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A93495EEF
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 13:23:22 +0100 (CET)
-Received: from localhost ([::1]:48682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90DBE495F4B
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 13:53:12 +0100 (CET)
+Received: from localhost ([::1]:35920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAswr-0008Lv-4H
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 07:23:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47182)
+	id 1nAtPj-0002uD-9l
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 07:53:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nAsgm-0005I8-Jh
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 07:06:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59881)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nAsqx-0005aX-So
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 07:17:16 -0500
+Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156]:47963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nAsgk-0004rY-TG
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 07:06:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642766802;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=HjDEPdTh+ZNU7qLjzI2Lk2ht0UVsLNKKbM/C7Tx0xH4=;
- b=OmVzFcDH8LswRuNUCw8nfO6sq2aau1DGYGTAtzu+KrjTwNFOTax6p2oKOfP2mstTJA7pXw
- TbJm72DQpNAeIZA5YccomlSZKaj4I4KM37PAHQXEyHWXzrhb/UXo6rEE2um2UD/jtku8df
- RGv9ooRkyEXxHk1nh+UcYXyw/uQolps=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-532-SjQM1HolNhaut9WS99Fp5A-1; Fri, 21 Jan 2022 07:06:38 -0500
-X-MC-Unique: SjQM1HolNhaut9WS99Fp5A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B881814245;
- Fri, 21 Jan 2022 12:06:38 +0000 (UTC)
-Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C6F10753F6;
- Fri, 21 Jan 2022 12:06:36 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	John Snow <jsnow@redhat.com>
-Subject: [PATCH] tests/qtest/ide-test: Remove bad retry_isa test
-Date: Fri, 21 Jan 2022 13:06:35 +0100
-Message-Id: <20220121120635.220644-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nAsqn-0000Kj-Nd
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 07:17:08 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.128])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id C57FF21124;
+ Fri, 21 Jan 2022 12:17:02 +0000 (UTC)
+Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Fri, 21 Jan
+ 2022 13:17:01 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G002526d7bb0-542f-41ca-9619-357314d77049,
+ 0868046A3D5FFD4A19DAA1F3199B5438DDC438D4) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <a05a8a93-3d82-2703-f509-c0e047e6b00d@kaod.org>
+Date: Fri, 21 Jan 2022 13:17:01 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: Help with ppc e500 tlb usage
+Content-Language: en-US
+To: Jesse Millwood <jmillwood@masten.aero>
+References: <PH1P110MB12849EB7B10C757A6B9FEA4FB0589@PH1P110MB1284.NAMP110.PROD.OUTLOOK.COM>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <PH1P110MB12849EB7B10C757A6B9FEA4FB0589@PH1P110MB1284.NAMP110.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 3eb9dff0-fe14-48db-9f22-3eaf0769f124
+X-Ovh-Tracer-Id: 11834896872441285539
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrvddtgdefkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeekfeehfedvfeehgfejleevkeehieelheduveekfedvhfelteeivdfftddukeenucffohhmrghinhepghhithhlrggsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegughhisghsohhnsehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
+ helo=3.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,63 +69,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-block@nongnu.org
+Cc: David Gibson <dgibson@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The retry_isa test is not doing what it was intended for: The
-test_retry_flush() function ignores the machine parameter completely
-and thus this test does not get run with the "isapc" machine.
-Moreover, in the course of time, the test_retry_flush() has been
-changed to depend on PCI-related functions, so this also cannot
-be fixed by simply using the machine parameter now. The correct
-fix would be to switch the whole test to libqos, but until someone
-has time to do this, let's simply drop the retry_isa test for now.
+Hello Jesse,
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/qtest/ide-test.c | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+( For some reason, your email never reached my mailbox. In the future,
+   could please also Cc: qemu-devel@nongnu.org. )
 
-diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
-index 3f8081e77d..5f9d084052 100644
---- a/tests/qtest/ide-test.c
-+++ b/tests/qtest/ide-test.c
-@@ -701,7 +701,7 @@ static void test_flush(void)
-     free_pci_device(dev);
- }
- 
--static void test_retry_flush(const char *machine)
-+static void test_pci_retry_flush(void)
- {
-     QTestState *qts;
-     QPCIDevice *dev;
-@@ -790,16 +790,6 @@ static void test_flush_empty_drive(void)
-     ide_test_quit(qts);
- }
- 
--static void test_pci_retry_flush(void)
--{
--    test_retry_flush("pc");
--}
--
--static void test_isa_retry_flush(void)
--{
--    test_retry_flush("isapc");
--}
--
- typedef struct Read10CDB {
-     uint8_t opcode;
-     uint8_t flags;
-@@ -1050,7 +1040,6 @@ int main(int argc, char **argv)
-     qtest_add_func("/ide/flush/nodev", test_flush_nodev);
-     qtest_add_func("/ide/flush/empty_drive", test_flush_empty_drive);
-     qtest_add_func("/ide/flush/retry_pci", test_pci_retry_flush);
--    qtest_add_func("/ide/flush/retry_isa", test_isa_retry_flush);
- 
-     qtest_add_func("/ide/cdrom/pio", test_cdrom_pio);
-     qtest_add_func("/ide/cdrom/pio_large", test_cdrom_pio_large);
--- 
-2.27.0
+On 1/18/22 20:40, Jesse Millwood wrote:
+> Hello,
+> 
+> I'm trying to get the e500 to set the initial tlb entry to mirror what the platform expects. I have made some changes that seem to follow the e500 Core Reference Manual better, but they do not seem to work at runtime. I am wondering if someone can point me to where the tlb is actually used to reserve memory.
+> 
+> Currently, the page size is set relative to the device tree size from the boot info[0]. However, different platforms that use the e500 have different default settings.
+> 
+> I have added a new field to the PPCE500MachineClass and the CPUPPCState, allowing the platform author to set the initial_tlb_size_kib from the platform's machine class init function. The value then can be accessed in the booke206_initial_map_tsize function that sets returns the page size for the TSIZE field of the MAS1 register. I have kept the original functionality in case the platform doesn't set the field. My new method for computing the TSIZE field from a requested page size takes advantage of the page size being defined as 4^TSIZE KiB and being equal to 2^(2*TSIZE) KiB. So with the page size requested, you can find the bit index that is set with clz64 and then divide by 2. This will give the bit field as defined in the e500 core reference manual.
 
+A new MMU V2 was architected when e5500 was introduced and the TSIZE field
+was extended (addition of bit 56) for v2 :
+
+(MMU V1)
+52–55 TSIZE Translation size. Defines the page size of the TLB
+       	    entry. For TLB arrays that contain fixed-sized TLB
+       	    entries, TSIZE is ignored. For variable page-size TLB
+       	    arrays, the page size is 4 TSIZE Kbytes.  TSIZE must be
+       	    between TLBnCFG[MINSIZE] and TLBnCFG[MAXSIZE]. Valid TSIZE
+       	    values for TLB page sizes are described in Section
+       	    7.5.3.2, “TLB Entry Page Size.”
+
+(MMU V2)
+52–56 TSIZE Translation size. Defines the page size of the TLB
+       	    entry. (or the LRAT entry <E.HV.LRAT>) For TLB arrays that
+       	    contain fixed-sized TLB entries, TSIZE is ignored. For
+       	    variable page-size TLB arrays, the page size is 2 TSIZE
+       	    Kbytes. Bit 63 - TSIZE of TLBnPS (or LRATPS <E.HV.LRAT>)
+       	    is set if the page size is allowed for the given TLB array
+       	    n (or the LRAT <E.HV.LRAT>). Valid TSIZE values for TLB
+       	    (or LRAT <E.HV.LRAT>) page sizes are described in Section
+       	    7.5.3.2, “TLB Entry Page Size.”
+	
+The e500 only supports the following page sizes:
+
+	    0b0001 4KB
+	    0b0010 16KB
+	    0b0011 64KB
+	    0b0100 256KB
+	    0b1011 4GB
+	    0b0101 1MB
+	    0b0110 4MB
+	    0b0111 16MB
+	    0b1000 64MB
+	    0b1001 256MB
+	    0b1010 1GB
+
+and MMU v2 as found on some e5500 and e6500, these :
+
+	    0b00010 4KB
+	    0b00011 8KB
+	    0b00100 16KB
+	    0b00101 32KB
+	    0b00110 64KB
+	    0b00111 128KB
+	    0b01000 256KB
+	    0b01001 512KB
+	    0b01010 1MB
+	    0b01011 2MB
+	    0b01100 4MB
+	    0b01101 8MB
+	    0b01110 16MB
+	    0b01111 32MB
+	    0b10000 64MB
+	    0b10001 128MB
+	    0b10010 256MB
+	    0b10011 512MB
+	    0b10100 1GB
+	    0b10101 2GB
+
+but the values are compatible for both TSIZE field definitions.
+
+Thanks,
+
+C.
+
+
+> Using my method of setting the TSIZE bits in booke206_initial_map_tsize, mmubooke_create_initial_mapping shifts the returned value and uses it to set the initial MAS1 register.
+> 
+> I found one other issue that doesn't match up with the e500 Core Reference Manual [1]:
+> 
+> The shift for the TSIZE is off by 1 [2]. The TSIZE field is bits 52-55 with a reserved field taking up 56-63. The reserved space should be 8 bits not 7.
+> 
+> My issue comes at runtime. If I compile qemu with my changes and tell it to have a 4GiB initial tlb map size, the monitor command "info tlb" only reports a 2MiB entry. This also makes it so my binary can't run because the window isn't big enough.
+>
+> I can see that the tlb mas regsiters get set in the mmubooke_create_initial_mapping[3] but I am having trouble finding where that tlb struct is used afterwards. If anyone has any pointers, I'd appreciate it.
+>
+> I have attached my patches in case anyone is interested in what I've done.
+>
+> 
+> Thanks,
+> Jesse
+> 
+> 0: https://gitlab.com/qemu-project/qemu/-/blob/master/hw/ppc/e500.c#L662
+> 1: E500 CORE REFERENCE MANUAL: 2.12.5.2 MAS Register 1 (MAS1) (also attached)
+> 2: https://gitlab.com/qemu-project/qemu/-/blob/master/target/ppc/cpu.h#L847
+> 3: https://gitlab.com/qemu-project/qemu/-/blob/master/hw/ppc/e500.c#L687
+> 
+>  From 899aa05a05d4b0598c2637e08c31167e61c8db32 Mon Sep 17 00:00:00 2001
+> From: Jesse Millwood <jmillwood@masten.aero>
+> Date: Tue, 18 Jan 2022 11:44:20 -0500
+> Subject: [PATCH 1/4] e500: Fix TSIZE shift constant
+> 
+> ---
+>   target/ppc/cpu.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index f20d4ffa6d..ecf0279d08 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -844,7 +844,7 @@ enum {
+>   #define MAS0_ATSEL_TLB     0
+>   #define MAS0_ATSEL_LRAT    MAS0_ATSEL
+>   
+> -#define MAS1_TSIZE_SHIFT   7
+> +#define MAS1_TSIZE_SHIFT   8
+>   #define MAS1_TSIZE_MASK    (0x1f << MAS1_TSIZE_SHIFT)
+>   
+>   #define MAS1_TS_SHIFT      12
+> 
 
