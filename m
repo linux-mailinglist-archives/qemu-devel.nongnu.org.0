@@ -2,91 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21EA84959EA
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 07:26:28 +0100 (CET)
-Received: from localhost ([::1]:49870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E03D4959F1
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 07:31:12 +0100 (CET)
+Received: from localhost ([::1]:58622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAnNT-0005pm-62
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 01:26:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49692)
+	id 1nAnS3-0003N4-E0
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 01:31:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAmxh-0006q6-Uy
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 00:59:54 -0500
+ id 1nAmxl-0006qe-8W
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 00:59:56 -0500
 Received: from esa4.hgst.iphmx.com ([216.71.154.42]:9014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAmxe-00045v-Fp
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 00:59:48 -0500
+ id 1nAmxi-00045v-K4
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 00:59:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1642744786; x=1674280786;
+ t=1642744790; x=1674280790;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=MWAnr9MuS2FDQIY1PgCeYFbKV/fQuIp/tlMSrQcRBvQ=;
- b=QNnpbs6VTquDEITP7SPiXDex9eqUpE24PwGZ+cPDz7HLgzp5KiYSzCrE
- /UB/Cn5A4csCCu4hnm79JT3YrEpHP9O+l17f5enKAZeD9m3bNwMy7oYAo
- WWyrY3EHvO79U6RMRTjgh/syoXXIhCx7dOcE8QuvGHQx06TXDurTikQct
- ODeYZJ5cZEbGu8EW4ppv5M7479KSfPWdXeAC5X/OwM7oNUxc/DeHuk6UB
- vZuF4kIqbtJcBN3E1Z8v58oz6Hi7wpksqL9Es2fIwjmVyri9q8pFxeA3w
- OlLp+h+J3kAbXgid1G4TOLLV4pBXlZIy4p62mx3LKHwZNPGlQt1OTU7/P g==;
-X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="189976533"
+ bh=2UhdumAafk0zqHBDS9WXcmpaS5RFtVLeSKQ+NzTffnE=;
+ b=nBerR3AcIeMDS+ZhQ61AhGQ1c2myRieo0JZjyYNnJCez0izBB9b4n+IK
+ 41d7YuBai7+n1iMJ5nEAX5a05D0a7G1TJysQbGQjyTJgC9p5z/FUCYMjY
+ ODXMvtbqgQCQuo9JO5JPTFVDTvNbxwGbbR3bwvlVWo91vlqs9K+3MCUwa
+ vQ/ZmzNi6Z9IuGg9eVDlMYmhSS+MvW5XwD3ORZikN21RoDFkpCr2TbpsH
+ ZxBTi2J71xc9SOlgobLj7Zz7D6JCqkprpA9dzyug/i4dx+nMqG1nN5Efj
+ Uujt8nyTSnBkmrezVI4Ei5Ummn0lUzfB3vhRPvpMZPrnU7Rn+Gw2HbPo+ w==;
+X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="189976535"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 13:59:45 +0800
-IronPort-SDR: YY1tUoZTXI7r6o2rUjZyc9+g/kwDj1o1u5KaDjfVPP6TAMB3t8dxbtPXu2+3q5F0FimShMXpg6
- 5+4+XyvrPyR1Hd0ancz7PXTrGHBygCJweDstKNkITohcBj5OX0+H7weirKAgwnLNzmXX/N1Co9
- dLVM9YXnmd6Wtcrk/dfXxgj1D2clhndjE51+obYAsHxYqod+TLC7ZpDrwFyXf8fRzna3DUarKx
- Uf8q1kFnwd2T6PeywynNhEP74iXcK0JnjetyW55HpCxmPM81fDLi78CujTdBmWauD9Q8wQ4mW9
- WLM1FtRnU51WaRyE1jUgSBfp
+ by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 13:59:49 +0800
+IronPort-SDR: Q0IfZGLobU3lSNVLCFCbRupnAhlGs3n+uNNW2Y4AiYsKGHSxzirX8WR1iGQn0oE8f6ruDKuZ3l
+ qDxpmp+tgNIhuHHA8VVk3yR2mKvvOYnMqJaCMYxYidc8shcOabISzCIMXVil8IYDVTG3rJvaEl
+ s40+M50k3kIOhooARS3TioIsbETRKsSTJJ0rUJ23Bx//dVXJLHFvGr1FGkL4+q3EevZ18w53or
+ mLresxEBv/Z1h0T10Xc1OVuu9c48n0pJZ/1Cq/MEKUkpn+6rqTeZt1C7lUi7NLv5eW3FaeNGk5
+ xtMX/vTWCcvh/BZ4vwEywCTt
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 21:31:56 -0800
-IronPort-SDR: dAydg9etHaobabBHb/0xPSgnlZyUA5KJ1ZkKgxmAIgWLF2sjyBP8/EP03Zs8dD8ZnSDpBpoQpR
- ADnIDMnxWVJbkGTUu4Yls92D2bAmRjv4pt50UIq71otwiZZ9OM5kNJ+zSQ+Ng72TPeFSY6bEeq
- zrjsVuPVKCaFdodUWoQ/keLLgzrVXFlEz5v1SKk+/+ODEHDATqixJ1ioBfpmkHYSgvA/BI/AJH
- c9tukUjD3jcgsUkC9vVMWKdeRjvBZUoeUClckS1AgXCawKHGH/UFWnk6LEUTBcxbNLirXNeGhU
- 2gE=
+ 20 Jan 2022 21:32:00 -0800
+IronPort-SDR: gwQ3r5epcj7n5dWcUCT3E2MGuZkgvHCA7Q8pPX5GK1Hy+ftdpCxRjX8ak3BUw9hBSn3ArMrFqd
+ 7FErd44EAshkA4eFlm0aZ8S+BGjCr4HN674Chq8Uf2JRIUw0CvY0NixSkKriMplRf6E3kgO/33
+ ZRRW+xea2d++wY4ok9zsCEd7xdk6Z2yvxcd0JaK/LeSE1GzBFO8+u9byyePvja+sH4tY/keqRm
+ ltx54j/O2QZhFBEq72Up/ukc6S/YzeBL21LA/VZ3rlQ1GiusPSx61ye9iaJpmAoNJRUjxjDfjf
+ 87g=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 21:59:44 -0800
+ 20 Jan 2022 21:59:49 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg7xr55hCz1SVp2
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 21:59:44 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg7xx0VXXz1SVny
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 21:59:49 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1642744784; x=1645336785; bh=MWAnr9MuS2FDQIY1Pg
- CeYFbKV/fQuIp/tlMSrQcRBvQ=; b=iMXvmu26u/usDFh9BVcNvK/r95/v0eRqAS
- kXwsE+a0cbwrpj19oF9NxGl2HCrSKN6MfQf+H4ys+8Ygy8oyspetypkqBlnVy2vT
- cdPKX3zUGMjonADOOx2w2ypJd9S0BXM8gSh9nuvv0hdKBqOnOeXkukZgiRGZsU8Z
- pqi8KqLn5YlGutXuM1HDI5B/LXtsEVXwhSs5TM7XMjES9cz7Wyi+W/MoJ4+N09E4
- vCPj/erHxKavuN2fGvVcj4dNTh9gIe1i+x6AdMhxCxiGHJeJPPJXVEQ12HgVR9l0
- Tb8RzVnV1mMBN8wrkdvCScpw1o5EYrVynWRFJ08FCojBR3ZvQXjg==
+ :from; s=dkim; t=1642744788; x=1645336789; bh=2UhdumAafk0zqHBDS9
+ WXcmpaS5RFtVLeSKQ+NzTffnE=; b=moA1w1tNjPJACVFVLvWW0lmwjhbAV3z5Ry
+ gXYUoqG1KVF0ngeQHd49ob1lh6XeCmi1lcMT0HUZfHXglKYV6dMjWuyLg5xaiusB
+ g7k0P78q42nU1M+MDeFI0+bXHmwtp9n3RD5Bf//n4UUmiuMbv4HcaydGp9eJX1l4
+ AEdTe0FeM0iRTls3iQYM+Al6NGncue+txcIbuO1lGv6h3v6e4+VOjmHP9igsM/e6
+ 222CW/hn53WODsXVvYSquMsARTscKaYo48vEwKoFfOLy3fGfJtVFfQze+f+Q83PZ
+ 7p/KtkdergbiyW+AP0nxbL/IiVxP/IfOyZFhFK5YPqwVqjsAf4Wg==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id goIKBvBgb0P2 for <qemu-devel@nongnu.org>;
- Thu, 20 Jan 2022 21:59:44 -0800 (PST)
+ port 10026) with ESMTP id T5btxHxnKIaG for <qemu-devel@nongnu.org>;
+ Thu, 20 Jan 2022 21:59:48 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.80])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg7xm5pCxz1RvlN;
- Thu, 20 Jan 2022 21:59:40 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg7xs0vZfz1RvlN;
+ Thu, 20 Jan 2022 21:59:44 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Yifei Jiang <jiangyifei@huawei.com>,
  Mingwang Li <limingwang@huawei.com>, Anup Patel <anup.patel@wdc.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 14/61] target/riscv: Implement virtual time adjusting with vm
- state changing
-Date: Fri, 21 Jan 2022 15:57:43 +1000
-Message-Id: <20220121055830.3164408-15-alistair.francis@opensource.wdc.com>
+Subject: [PULL 15/61] target/riscv: Support virtual time context
+ synchronization
+Date: Fri, 21 Jan 2022 15:57:44 +1000
+Message-Id: <20220121055830.3164408-16-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
 References: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
@@ -119,61 +119,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yifei Jiang <jiangyifei@huawei.com>
 
-We hope that virtual time adjusts with vm state changing. When a vm
-is stopped, guest virtual time should stop counting and kvm_timer
-should be stopped. When the vm is resumed, guest virtual time should
-continue to count and kvm_timer should be restored.
+Add virtual time context description to vmstate_kvmtimer. After cpu being
+loaded, virtual time context is updated to KVM.
 
 Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
 Signed-off-by: Mingwang Li <limingwang@huawei.com>
 Reviewed-by: Anup Patel <anup.patel@wdc.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20220112081329.1835-12-jiangyifei@huawei.com
+Message-id: 20220112081329.1835-13-jiangyifei@huawei.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/kvm.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ target/riscv/machine.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
-index a43d5a2988..e6b7cb6d4d 100644
---- a/target/riscv/kvm.c
-+++ b/target/riscv/kvm.c
-@@ -41,6 +41,7 @@
- #include "sbi_ecall_interface.h"
- #include "chardev/char-fe.h"
- #include "migration/migration.h"
-+#include "sysemu/runstate.h"
+diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+index 13b9ab375b..098670e680 100644
+--- a/target/riscv/machine.c
++++ b/target/riscv/machine.c
+@@ -185,6 +185,35 @@ static const VMStateDescription vmstate_rv128 =3D {
+     }
+ };
 =20
- static uint64_t kvm_riscv_reg_id(CPURISCVState *env, uint64_t type,
-                                  uint64_t idx)
-@@ -378,6 +379,18 @@ unsigned long kvm_arch_vcpu_id(CPUState *cpu)
-     return cpu->cpu_index;
- }
-=20
-+static void kvm_riscv_vm_state_change(void *opaque, bool running,
-+                                      RunState state)
++static bool kvmtimer_needed(void *opaque)
 +{
-+    CPUState *cs =3D opaque;
-+
-+    if (running) {
-+        kvm_riscv_put_regs_timer(cs);
-+    } else {
-+        kvm_riscv_get_regs_timer(cs);
-+    }
++    return kvm_enabled();
 +}
 +
- void kvm_arch_init_irq_routing(KVMState *s)
- {
- }
-@@ -390,6 +403,8 @@ int kvm_arch_init_vcpu(CPUState *cs)
-     CPURISCVState *env =3D &cpu->env;
-     uint64_t id;
-=20
-+    qemu_add_vm_change_state_handler(kvm_riscv_vm_state_change, cs);
++static int cpu_post_load(void *opaque, int version_id)
++{
++    RISCVCPU *cpu =3D opaque;
++    CPURISCVState *env =3D &cpu->env;
 +
-     id =3D kvm_riscv_reg_id(env, KVM_REG_RISCV_CONFIG,
-                           KVM_REG_RISCV_CONFIG_REG(isa));
-     ret =3D kvm_get_one_reg(cs, id, &isa);
++    env->kvm_timer_dirty =3D true;
++    return 0;
++}
++
++static const VMStateDescription vmstate_kvmtimer =3D {
++    .name =3D "cpu/kvmtimer",
++    .version_id =3D 1,
++    .minimum_version_id =3D 1,
++    .needed =3D kvmtimer_needed,
++    .post_load =3D cpu_post_load,
++    .fields =3D (VMStateField[]) {
++        VMSTATE_UINT64(env.kvm_timer_time, RISCVCPU),
++        VMSTATE_UINT64(env.kvm_timer_compare, RISCVCPU),
++        VMSTATE_UINT64(env.kvm_timer_state, RISCVCPU),
++
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ const VMStateDescription vmstate_riscv_cpu =3D {
+     .name =3D "cpu",
+     .version_id =3D 3,
+@@ -240,6 +269,7 @@ const VMStateDescription vmstate_riscv_cpu =3D {
+         &vmstate_vector,
+         &vmstate_pointermasking,
+         &vmstate_rv128,
++        &vmstate_kvmtimer,
+         NULL
+     }
+ };
 --=20
 2.31.1
 
