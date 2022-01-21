@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87D64496721
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 22:09:48 +0100 (CET)
-Received: from localhost ([::1]:35274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FD5A496738
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 22:18:03 +0100 (CET)
+Received: from localhost ([::1]:47734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB1AJ-0000kC-Kt
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 16:09:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59414)
+	id 1nB1II-0000wt-9G
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 16:18:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nB0cJ-0000Hz-AU
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:34:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26473)
+ id 1nB0cM-0000Jz-6m
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:34:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nB0cG-00055c-HH
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:34:37 -0500
+ id 1nB0cK-00055m-3S
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:34:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642797276;
+ s=mimecast20190719; t=1642797279;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UXY13WrHKMeplYTVHN85eP6jeQoSwtEprvNFJ53nnMc=;
- b=BZDqleeV6MRPObVmikoOeAA+Ux7309nhLJc0pcsDz/N8giSLYIqKrP20h4wrgu3qVb8gkz
- iHaPNhlu2QVjhXM72RoqB0TCiYfgWLtTiiPWYnVl3fwayucgHNLMZ0JVTD80XYgJe9VAJ/
- 5GM+Zd34Dpch/sEC0RcPJRY1l+RmvW0=
+ bh=VST6ydIDvy47Cx3pY2zc2TwGKNyubrTXRobXtdkSSmI=;
+ b=ihkqz0I7SOYe3H46rTp8JFIYGPMPMfqWopsCOnStREu5poU4ofApLicpLsfKIjG1sh1/or
+ BrRaQIVtFjlfnjelm1g35RhP2tRHuE5qZaUNIS+clVn6Yjqqv9ZQLmuGowEvh4wT8bMIv0
+ mBj2iTTjXWlkKmEyFvgeAm+ggfTutVU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-572-Swp8W-6ZMpKdbnnsEdbOeg-1; Fri, 21 Jan 2022 15:34:31 -0500
-X-MC-Unique: Swp8W-6ZMpKdbnnsEdbOeg-1
+ us-mta-612-sbXyCH0cNxCJKFcaDvQ9kA-1; Fri, 21 Jan 2022 15:34:36 -0500
+X-MC-Unique: sbXyCH0cNxCJKFcaDvQ9kA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A2E446860;
- Fri, 21 Jan 2022 20:34:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4ED946862;
+ Fri, 21 Jan 2022 20:34:34 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.193.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 970B2167A8;
- Fri, 21 Jan 2022 20:34:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E4FE916A33;
+ Fri, 21 Jan 2022 20:34:29 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 20/31] util: Store DMA entries in a list
-Date: Fri, 21 Jan 2022 21:27:22 +0100
-Message-Id: <20220121202733.404989-21-eperezma@redhat.com>
+Subject: [PATCH 21/31] util: Add iova_tree_alloc
+Date: Fri, 21 Jan 2022 21:27:23 +0100
+Message-Id: <20220121202733.404989-22-eperezma@redhat.com>
 In-Reply-To: <20220121202733.404989-1-eperezma@redhat.com>
 References: <20220121202733.404989-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -94,108 +94,159 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SVQ need to allocate iova entries, traversing the list looking for
-holes.
+This iova tree function allows it to look for a hole in allocated
+regions and return a totally new translation for a given translated
+address.
 
-GLib offers methods to both transverse the list and look for entries
-upper than a key since version 2.68. However qemu may need to compile
-with earlier versions, so we replicate both methods here.
+It's usage is mainly to allow devices to access qemu address space,
+remapping guest's one into a new iova space where qemu can add chunks of
+addresses.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- util/iova-tree.c | 42 +++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 41 insertions(+), 1 deletion(-)
+ include/qemu/iova-tree.h | 17 ++++++++
+ util/iova-tree.c         | 86 +++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 102 insertions(+), 1 deletion(-)
 
-diff --git a/util/iova-tree.c b/util/iova-tree.c
-index ac089101c4..5063a256dd 100644
---- a/util/iova-tree.c
-+++ b/util/iova-tree.c
-@@ -11,15 +11,44 @@
+diff --git a/include/qemu/iova-tree.h b/include/qemu/iova-tree.h
+index 8249edd764..33f9b2e13f 100644
+--- a/include/qemu/iova-tree.h
++++ b/include/qemu/iova-tree.h
+@@ -29,6 +29,7 @@
+ #define  IOVA_OK           (0)
+ #define  IOVA_ERR_INVALID  (-1) /* Invalid parameters */
+ #define  IOVA_ERR_OVERLAP  (-2) /* IOVA range overlapped */
++#define  IOVA_ERR_NOMEM    (-3) /* Cannot allocate */
  
- #include "qemu/osdep.h"
- #include "qemu/iova-tree.h"
-+#include "qemu/queue.h"
- 
- typedef struct DMAMapInternal {
-     DMAMap map;
-+    QTAILQ_ENTRY(DMAMapInternal) entry;
- } DMAMapInternal;
- 
- struct IOVATree {
-     GTree *tree;
-+    QTAILQ_HEAD(, DMAMapInternal) list;
- };
+ typedef struct IOVATree IOVATree;
+ typedef struct DMAMap {
+@@ -119,6 +120,22 @@ const DMAMap *iova_tree_find_address(const IOVATree *tree, hwaddr iova);
+  */
+ void iova_tree_foreach(IOVATree *tree, iova_tree_iterator iterator);
  
 +/**
-+ * Search function for the upper bound of a given needle.
++ * iova_tree_alloc:
 + *
-+ * The upper bound is the first node that has its key strictly greater than the
-+ * searched key.
++ * @tree: the iova tree to allocate from
++ * @map: the new map (as translated addr & size) to allocate in iova region
++ * @iova_begin: the minimum address of the allocation
++ * @iova_end: the maximum addressable direction of the allocation
 + *
-+ * TODO: A specialized function is available in GTree since Glib 2.68. Replace
-+ * when Glib minimal version is raised.
++ * Allocates a new region of a given size, between iova_min and iova_max.
++ *
++ * Return: Same as iova_tree_insert, but cannot overlap and can be out of
++ * free contiguous range. Caller can get the assigned iova in map->iova.
 + */
-+static int iova_tree_compare_upper_bound(gconstpointer a, gconstpointer b)
-+{
-+    const DMAMapInternal *haystack = a, *needle = b, *prev;
++int iova_tree_alloc(IOVATree *tree, DMAMap *map, hwaddr iova_begin,
++                    hwaddr iova_end);
 +
-+    if (needle->map.iova >= haystack->map.iova) {
-+        return 1;
-+    }
-+
-+    prev = QTAILQ_PREV(haystack, entry);
-+    if (!prev || prev->map.iova < needle->map.iova) {
-+        return 0;
-+    }
-+
-+    /* More data to the left or end of data */
-+    return -1;
-+}
-+
- static int iova_tree_compare(gconstpointer a, gconstpointer b, gpointer data)
+ /**
+  * iova_tree_destroy:
+  *
+diff --git a/util/iova-tree.c b/util/iova-tree.c
+index 5063a256dd..1439fc9fe2 100644
+--- a/util/iova-tree.c
++++ b/util/iova-tree.c
+@@ -88,7 +88,7 @@ static DMAMapInternal *iova_tree_find_internal(const IOVATree *tree,
+ const DMAMap *iova_tree_find(const IOVATree *tree, const DMAMap *map)
  {
-     const DMAMapInternal *i1 = a, *i2 = b;
-@@ -43,6 +72,7 @@ IOVATree *iova_tree_new(void)
- 
-     /* We don't have values actually, no need to free */
-     iova_tree->tree = g_tree_new_full(iova_tree_compare, NULL, g_free, NULL);
-+    QTAILQ_INIT(&iova_tree->list);
- 
-     return iova_tree;
+     const DMAMapInternal *ret = iova_tree_find_internal(tree, map);
+-    return &ret->map;
++    return ret ? &ret->map : NULL;
  }
-@@ -77,7 +107,7 @@ static inline void iova_tree_insert_internal(GTree *gtree,
  
- int iova_tree_insert(IOVATree *tree, const DMAMap *map)
- {
--    DMAMapInternal *new;
-+    DMAMapInternal *new, *right;
- 
-     if (map->iova + map->size < map->iova || map->perm == IOMMU_NONE) {
-         return IOVA_ERR_INVALID;
-@@ -92,6 +122,15 @@ int iova_tree_insert(IOVATree *tree, const DMAMap *map)
-     memcpy(&new->map, map, sizeof(new->map));
-     iova_tree_insert_internal(tree->tree, new);
- 
-+    /* Ordered insertion */
-+    right = g_tree_search(tree->tree, iova_tree_compare_upper_bound, new);
-+    if (!right) {
-+        /* Empty or bigger than any other entry */
-+        QTAILQ_INSERT_TAIL(&tree->list, new, entry);
-+    } else {
-+        QTAILQ_INSERT_BEFORE(right, new, entry);
-+    }
-+
+ const DMAMap *iova_tree_find_address(const IOVATree *tree, hwaddr iova)
+@@ -162,6 +162,90 @@ int iova_tree_remove(IOVATree *tree, const DMAMap *map)
      return IOVA_OK;
  }
  
-@@ -116,6 +155,7 @@ int iova_tree_remove(IOVATree *tree, const DMAMap *map)
-     DMAMapInternal *overlap_internal;
- 
-     while ((overlap_internal = iova_tree_find_internal(tree, map))) {
-+        QTAILQ_REMOVE(&tree->list, overlap_internal, entry);
-         g_tree_remove(tree->tree, overlap_internal);
-     }
- 
++/**
++ * Check if there is at minimum "size" iova space between the end of "left" and
++ * the start of "right". If some of them is NULL, iova_begin and iova_end will
++ * be used.
++ */
++static bool iova_tree_alloc_map_in_hole(const DMAMapInternal *l,
++                                        const DMAMapInternal *r,
++                                        hwaddr iova_begin, hwaddr iova_last,
++                                        size_t size)
++{
++    const DMAMap *left = l ? &l->map : NULL;
++    const DMAMap *right = r ? &r->map : NULL;
++    uint64_t hole_start, hole_last;
++
++    if (right && right->iova + right->size < iova_begin) {
++        return false;
++    }
++
++    if (left && left->iova > iova_last) {
++        return false;
++    }
++
++    hole_start = MAX(left ? left->iova + left->size + 1 : 0, iova_begin);
++    hole_last = MIN(right ? right->iova : HWADDR_MAX, iova_last);
++
++    if (hole_last - hole_start > size) {
++        /* We found a valid hole. */
++        return true;
++    }
++
++    /* Keep iterating */
++    return false;
++}
++
++/**
++ * Allocates a new entry in the tree
++ *
++ * The caller specifies the size of the new entry with map->size. The new iova
++ * address is returned in map->iova if allocation success. The map ownership is
++ * always of the caller as in iova_tree_insert.
++ *
++ * More contrains can be specified with iova_begin and iova_last.
++ *
++ * Returns the same as iova_tree_insert, but it can return IOVA_ERR_NOMEM if
++ * cannot find a hole in iova range big enough.
++ */
++int iova_tree_alloc(IOVATree *tree, DMAMap *map, hwaddr iova_begin,
++                    hwaddr iova_last)
++{
++    const DMAMapInternal *last, *i;
++
++    assert(iova_begin < iova_last);
++
++    /*
++     * Find a valid hole for the mapping
++     *
++     * TODO: Replace all this with g_tree_node_first/next/last when available
++     * (from glib since 2.68). Using a sepparated QTAILQ complicates code.
++     *
++     * Try to allocate first at the end of the list.
++     */
++    last = QTAILQ_LAST(&tree->list);
++    if (iova_tree_alloc_map_in_hole(last, NULL, iova_begin, iova_last,
++                                    map->size)) {
++        goto alloc;
++    }
++
++    /* Look for inner hole */
++    last = NULL;
++    for (i = QTAILQ_FIRST(&tree->list); i;
++         last = i, i = QTAILQ_NEXT(i, entry)) {
++        if (iova_tree_alloc_map_in_hole(last, i, iova_begin, iova_last,
++                                        map->size)) {
++            goto alloc;
++        }
++    }
++
++    return IOVA_ERR_NOMEM;
++
++alloc:
++    map->iova = last ? last->map.iova + last->map.size + 1 : iova_begin;
++    return iova_tree_insert(tree, map);
++}
++
+ void iova_tree_destroy(IOVATree *tree)
+ {
+     g_tree_destroy(tree->tree);
 -- 
 2.27.0
 
