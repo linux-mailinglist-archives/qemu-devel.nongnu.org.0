@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DE38495BDB
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 09:24:59 +0100 (CET)
-Received: from localhost ([::1]:44658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A98B495B79
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 09:00:07 +0100 (CET)
+Received: from localhost ([::1]:57836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nApEA-0005Kl-Bo
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 03:24:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53864)
+	id 1nAoq6-0002Wm-5r
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 03:00:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAn0V-00089K-VR
+ id 1nAn0W-0008AP-9b
  for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:02:44 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:60359)
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:60345)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAn0T-0004KU-ID
+ id 1nAn0T-0004B6-MA
  for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:02:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1642744961; x=1674280961;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=JoSHtMShyGQPRyscEFgCR6aqZqbwnh9BL+qXQLCZYsE=;
- b=iPMtPB3cwUopcOFcdsmd4SIaWh5BRR2YYNbwIBK64XUNpEmARQPvt3ku
- UxnHf0YNgIhQcBX5FH3G51S8PEiomiBs6wrAWFREadkbC9MCsniRmY5lg
- opv+TlJByLH1fPtkTluL39qvHJ8Ti3S2nTbJQuz5DnpoGTLouxJirsQpN
- 2DodgsuS25Ek72XkQTcqajdsQ7VcElObITzJoJzai81CO8lNqV3oY4o9T
- Bh6f94gQ3py7RqA+pYqiWBt14wIzvAg0/OSHJpMyqV4K0aeL/22pnuxwI
- loZUaLB8nybD8FyPz0cfw121y7vOnujGYPl4/n3AO/a48mgApkYih6fjr g==;
-X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="295083028"
+ bh=/zgfZghHBu3+q1V/LGLsyQeLxybtBrIXMA8OF4Db8Mw=;
+ b=B2kDt6pR9oOFnopOrKyppeky0bdJBcQFErV9ORTpN++zBtNg9CiJS0bU
+ UF0dwD+fHjdaIuNtO7ax+OoBglHojWoCoxmkR6mvGh3QR4VoYiupkM8Kl
+ z4Rn1bw5UlS65dSrAy3leADd9sZ5LAg28SKInJbJq48l+Se5qQ2kGpEUX
+ x1TDW59bIqebNZzzdDEFWemsubssN7cNLUes60KYXO6l+vcEBJKcwIWCq
+ mskElApIhrOW2vV+aNO/f9qrebY4mR5pT5EcZYuYAMffwhaI1tujjvuho
+ bYE0HiClZ4jTZ34kpWgFR7UbbmDJ+NkqddmNAwL+CFE8Y2rEKpEplkmGO w==;
+X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="295083033"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 14:01:16 +0800
-IronPort-SDR: NuPebrCVpR+IxdDQ0Z257W1WJ0gH3dold7rmWBo/tbZ//cr/d9VjOg2U8nZLJBSozhC4A5v6TB
- sZtBuxhtRkGqYOoEir09KqApFuf140SoOUcCYDsrcO262+VXyVzCdVEVO3AHHjKP5y4GpMZgYv
- hbhp5XjVljYn6eGF8gE+R4x0+vsDys1WmaMUbCGop2rQo4xnSgWInNuteR9/KoFZB68pfyI3Os
- 7TYfm4+7GuMQXNz2fdvFESdHTcNRM65GviXnhzaX9AX59Fa96hbJ/IsndF1+ewW7HS9ShEzf7Q
- /qWMI6cJnCxhaql8fd4FZYa3
+ by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 14:01:20 +0800
+IronPort-SDR: uODkHnJ8+K0sf1ZBsU0URPBG6I1SwxcQAkXYtQQZEI5SkBO2P6TWENMsNRUzTch6IrEzRs8XaK
+ Bqj793+DR9Y7n2fcG1vgxi8OXkSI4s6kUclbGy5gTHlVw4QRq4+ovFbUV6img+84D1v6e96cKB
+ Xsfx0QqYKqcUzP7TKfvctbmri3ApVszM/3/9e4A+wE3nHVClY0B/5Qp5DYZ6IcWfe6rrwZsCjF
+ S05HgEQxFqdf/V8YlV9qIBVANDWojT/8eEu8V+3atWDQP/BMZSc4j+pZn+3EMu9p6Tir7JZtAb
+ tMkJrWRFHvwSzNlTtJ3LKjAP
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 21:34:44 -0800
-IronPort-SDR: Www/BBvQQ8kCh4m/jdXYo/GZlMFmYm3O5GSm9zpzPHJmb38UDDCqjq0kEnnbugfhup8tUCBhKY
- /M+xuDgXMezg1xI7V0BtNa5it9zDgGu+Qrs+Plf8pkIgOdqhQTV1Z7RBy+K1QyALdZWRZ97jMq
- zyQSDOgQrcetyg+zRb2M6aHhFYJGqP0errTqbqDnaLKWkaFOdoKCWcFV2w/2w3gxF1iedWytnY
- MJ3LDGVOJjCWOxPFClWcG3DCXo5D0fIFBeOBYafc15OU0Si9t20TTORAM1FY6kbwhjANQVHXmN
- Vsg=
+ 20 Jan 2022 21:34:48 -0800
+IronPort-SDR: t32kWVkOVqxzrqK6N5Rb0hauKQcraV2+j3MVxlO9z+Ji+LHVFpmelzVgwKgUxaBr8zDWpk77ew
+ tKPkgcS9focUAuMUIGyeaP2kBd5kKK3Blj7dJasUqaSmbMObJZhZ7g92eb7qfJIP8geJrQZNnq
+ DWIstOg3WbKLCq9nH//63iJsTcADqlqNfJ2tqbUddq817B6K4y8/mVPuWBsdZWT6ysLn6nWNHa
+ NOQoQNHVdj+jI1/gF6FdhuMAVhsDzetc5MAzgruuiVthImwxsgKOv29tnx44YJZ8hkDNXwkrDk
+ cH4=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 22:01:16 -0800
+ 20 Jan 2022 22:01:20 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg7zc3F9Sz1SVny
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 22:01:16 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg7zh37wDz1Rwrw
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 22:01:20 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1642744876; x=1645336877; bh=JoSHtMShyGQPRyscEF
- gCR6aqZqbwnh9BL+qXQLCZYsE=; b=hVfZx/2IrOhkgL5EHUMS+4R72W6/6UGl1O
- KfSTwNdDDGqmIgfbyQUrfZnuUsQZbxMn0j2TiquN2p/Y1GLytRA3FVIUgqSl1+Zs
- trmgB0hldEsR4X+r0MLnLZXdDnW/YFU+23AEp5jwxLKB/gMTCfVZKBNwIZxyw43P
- vM/cJwsVSsobTnloSaxVCNu3QlnCLLiHFmxiSc/4oqBfts+nmv1sTppkPGOJXzi4
- gDx+PXskoxAftooG2m9at5APW0SVhUwkUBRQ3KCGyCMR3aK+/t+ByrduL00oGlxh
- /EdhfTAxijtsJJJkL7GLYCjF2W3frkRlDqdMQ2nEYanvU52vAEJw==
+ :from; s=dkim; t=1642744879; x=1645336880; bh=/zgfZghHBu3+q1V/LG
+ LsyQeLxybtBrIXMA8OF4Db8Mw=; b=RhjkY6f9sUWA/MY7TAobQJt5vtXqg7XCFl
+ ROtDAXcCceoGlWCK3nd+9YQn3U6jI2KojRQATFkwLOwuipZogBdYpZM8EQN3QZyg
+ pmxg2jR5JJWnp8u4R0WPoPtCjOmO0WoSnNszXwkaY6/ajQZkTK794w4VeWQwKMjC
+ IGF1FsV1bweeqInUm5sfEcqpDLJCWHFlz0Bk/5nAMBPCI7H0AcUVbeI+b1ULDL1L
+ W5dJ5skmUXdbwgBnyHj1a71eyklQnZmBpWnJZd414H/8cejZNOiOCArIfPN3cWnB
+ ega0UVnumk0QTkI+9sKj+nusifJXlQOASXwlVPD4ARksQjUBmOjA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id YXww3FCt6zZ9 for <qemu-devel@nongnu.org>;
- Thu, 20 Jan 2022 22:01:16 -0800 (PST)
+ port 10026) with ESMTP id t9LvGBxXuDdd for <qemu-devel@nongnu.org>;
+ Thu, 20 Jan 2022 22:01:19 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.80])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg7zX3R8Tz1RvlN;
- Thu, 20 Jan 2022 22:01:12 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg7zc6msJz1RvlN;
+ Thu, 20 Jan 2022 22:01:16 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Anup Patel <apatel@ventanamicro.com>,
  Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
-Subject: [PULL 37/61] hw/riscv: Remove macros for ELF BIOS image names
-Date: Fri, 21 Jan 2022 15:58:06 +1000
-Message-Id: <20220121055830.3164408-38-alistair.francis@opensource.wdc.com>
+Subject: [PULL 38/61] roms/opensbi: Remove ELF images
+Date: Fri, 21 Jan 2022 15:58:07 +1000
+Message-Id: <20220121055830.3164408-39-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
 References: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
@@ -117,54 +117,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Anup Patel <apatel@ventanamicro.com>
 
-Now that RISC-V Spike machine can use BIN BIOS images, we remove
-the macros used for ELF BIOS image names.
+Now that all RISC-V machines can use OpenSBI BIN images, we remove
+OpenSBI ELF images and also exclude these images from BIOS build.
 
 Signed-off-by: Anup Patel <apatel@ventanamicro.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/boot.h | 2 --
- hw/riscv/spike.c        | 4 ++--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ .gitlab-ci.d/opensbi.yml                       |   2 --
+ pc-bios/meson.build                            |   2 --
+ pc-bios/opensbi-riscv32-generic-fw_dynamic.elf | Bin 838904 -> 0 bytes
+ pc-bios/opensbi-riscv64-generic-fw_dynamic.elf | Bin 934696 -> 0 bytes
+ roms/Makefile                                  |   2 --
+ 5 files changed, 6 deletions(-)
+ delete mode 100644 pc-bios/opensbi-riscv32-generic-fw_dynamic.elf
+ delete mode 100644 pc-bios/opensbi-riscv64-generic-fw_dynamic.elf
 
-diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index 5834c234aa..d937c5c224 100644
---- a/include/hw/riscv/boot.h
-+++ b/include/hw/riscv/boot.h
-@@ -25,9 +25,7 @@
- #include "hw/riscv/riscv_hart.h"
+diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
+index 5e0a2477c5..29a22930d1 100644
+--- a/.gitlab-ci.d/opensbi.yml
++++ b/.gitlab-ci.d/opensbi.yml
+@@ -43,9 +43,7 @@ build-opensbi:
+  artifacts:
+    paths: # 'artifacts.zip' will contains the following files:
+    - pc-bios/opensbi-riscv32-generic-fw_dynamic.bin
+-   - pc-bios/opensbi-riscv32-generic-fw_dynamic.elf
+    - pc-bios/opensbi-riscv64-generic-fw_dynamic.bin
+-   - pc-bios/opensbi-riscv64-generic-fw_dynamic.elf
+    - opensbi32-generic-stdout.log
+    - opensbi32-generic-stderr.log
+    - opensbi64-generic-stdout.log
+diff --git a/pc-bios/meson.build b/pc-bios/meson.build
+index 1812a4084f..4ac7a5509b 100644
+--- a/pc-bios/meson.build
++++ b/pc-bios/meson.build
+@@ -80,8 +80,6 @@ blobs =3D files(
+   'hppa-firmware.img',
+   'opensbi-riscv32-generic-fw_dynamic.bin',
+   'opensbi-riscv64-generic-fw_dynamic.bin',
+-  'opensbi-riscv32-generic-fw_dynamic.elf',
+-  'opensbi-riscv64-generic-fw_dynamic.elf',
+   'npcm7xx_bootrom.bin',
+ )
 =20
- #define RISCV32_BIOS_BIN    "opensbi-riscv32-generic-fw_dynamic.bin"
--#define RISCV32_BIOS_ELF    "opensbi-riscv32-generic-fw_dynamic.elf"
- #define RISCV64_BIOS_BIN    "opensbi-riscv64-generic-fw_dynamic.bin"
--#define RISCV64_BIOS_ELF    "opensbi-riscv64-generic-fw_dynamic.elf"
+diff --git a/pc-bios/opensbi-riscv32-generic-fw_dynamic.elf b/pc-bios/ope=
+nsbi-riscv32-generic-fw_dynamic.elf
+deleted file mode 100644
+index a19363e27c..0000000000
+Binary files a/pc-bios/opensbi-riscv32-generic-fw_dynamic.elf and /dev/nu=
+ll differ
+diff --git a/pc-bios/opensbi-riscv64-generic-fw_dynamic.elf b/pc-bios/ope=
+nsbi-riscv64-generic-fw_dynamic.elf
+deleted file mode 100644
+index c59573d026..0000000000
+Binary files a/pc-bios/opensbi-riscv64-generic-fw_dynamic.elf and /dev/nu=
+ll differ
+diff --git a/roms/Makefile b/roms/Makefile
+index b967b53bb7..5e44d97890 100644
+--- a/roms/Makefile
++++ b/roms/Makefile
+@@ -178,14 +178,12 @@ opensbi32-generic:
+ 		CROSS_COMPILE=3D$(riscv32_cross_prefix) \
+ 		PLATFORM=3D"generic"
+ 	cp opensbi/build/platform/generic/firmware/fw_dynamic.bin ../pc-bios/op=
+ensbi-riscv32-generic-fw_dynamic.bin
+-	cp opensbi/build/platform/generic/firmware/fw_dynamic.elf ../pc-bios/op=
+ensbi-riscv32-generic-fw_dynamic.elf
 =20
- bool riscv_is_32bit(RISCVHartArrayState *harts);
+ opensbi64-generic:
+ 	$(MAKE) -C opensbi \
+ 		CROSS_COMPILE=3D$(riscv64_cross_prefix) \
+ 		PLATFORM=3D"generic"
+ 	cp opensbi/build/platform/generic/firmware/fw_dynamic.bin ../pc-bios/op=
+ensbi-riscv64-generic-fw_dynamic.bin
+-	cp opensbi/build/platform/generic/firmware/fw_dynamic.elf ../pc-bios/op=
+ensbi-riscv64-generic-fw_dynamic.elf
 =20
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index 597df4c288..d059a67f9b 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -260,11 +260,11 @@ static void spike_board_init(MachineState *machine)
-      */
-     if (riscv_is_32bit(&s->soc[0])) {
-         firmware_end_addr =3D riscv_find_and_load_firmware(machine,
--                                    RISCV32_BIOS_ELF, memmap[SPIKE_DRAM]=
-.base,
-+                                    RISCV32_BIOS_BIN, memmap[SPIKE_DRAM]=
-.base,
-                                     htif_symbol_callback);
-     } else {
-         firmware_end_addr =3D riscv_find_and_load_firmware(machine,
--                                    RISCV64_BIOS_ELF, memmap[SPIKE_DRAM]=
-.base,
-+                                    RISCV64_BIOS_BIN, memmap[SPIKE_DRAM]=
-.base,
-                                     htif_symbol_callback);
-     }
-=20
+ MESON =3D meson
+ NINJA =3D ninja
 --=20
 2.31.1
 
