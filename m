@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE340495CE7
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 10:34:59 +0100 (CET)
-Received: from localhost ([::1]:35902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B99A3495CFE
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 10:41:16 +0100 (CET)
+Received: from localhost ([::1]:43350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAqJu-0000RZ-F2
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 04:34:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38940)
+	id 1nAqPz-0005dR-AG
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 04:41:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nAoOM-0000QG-BG
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 02:31:29 -0500
-Received: from mga02.intel.com ([134.134.136.20]:54522)
+ id 1nAoQP-0000pr-LQ
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 02:33:37 -0500
+Received: from mga02.intel.com ([134.134.136.20]:54674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nAoOF-0001p7-TD
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 02:31:25 -0500
+ id 1nAoQN-0002Pl-C7
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 02:33:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642750279; x=1674286279;
+ t=1642750411; x=1674286411;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=EN+vHdqdMk+B5zlKqQjm4A28vsXK2zdU6wW6ORx/3zU=;
- b=kYsb4EseU829PmOFAJ3bhrAH2vToieK1acZNlT3vaBEjTTuNWQKD6ymj
- jCBeosVuBGMVHeodv7pGIfYDSeBlHsdTm4jTM91MFjfdffVd1wL1Lxyz2
- JFHCv32sJkNP/W+M4pUOU845uWfWXK3xI2wPto+gE49pIgjgDDe54hGfL
- gYGdecYN5QOpq06FsV8b3CVaqkL9rLUZdhIxvRV+IRXlrUqylalgZHLk+
- XCgJsB4NoKnnR3mshW3sbUw9ChlMt/YI4jPr5AZMsAb7vjKwfQZar/ubV
- ZK0Lf7xYaS3rlndtC7JOiKJRqq9IPgSoJIOVCdfF/ff/QT/XA9Q4zGXaW Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="232948021"
-X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="232948021"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ bh=t/LMOmGNj51QHSx3F4yOV0skCSb0gs41w7Z769780i8=;
+ b=FlDG5vEKiRJLNM8uSbAlJXUZ172Yx/w+VArtKdq3zN1oVL2m4PaZ7HVB
+ CVnBVRL4OE5X1fNqkS9zGk3oGjf5EjlLYpY/F7LAwIDJY9KhYkDbPIT9J
+ K92rjxO76kxL5sdUXoMkMb4Z/FK9BABbDKdI6TC3B2YKR7DBq/2UCWfIp
+ /FM9Q5dQoT6UU+WrPQ7uc1c7mO62hnw7nwfNjcK5O+3jsn5jyxp0vwEsk
+ bZhFXnF7oRHWjpdeUiNkdbTga0eccHvWdGDdQh/R3pNjE8iCuhip303YN
+ smWmGVrxAstEDFh9R+qqXpDys3NM0LtOS2OXYpmxxnLXNOM3gWCxE/ISI g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="232948493"
+X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="232948493"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 23:31:09 -0800
-X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="533167565"
+ 20 Jan 2022 23:33:28 -0800
+X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="478151386"
 Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
  ([10.238.145.56])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 20 Jan 2022 23:31:07 -0800
-Date: Fri, 21 Jan 2022 15:15:48 +0800
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 20 Jan 2022 23:33:26 -0800
+Date: Fri, 21 Jan 2022 15:18:07 +0800
 From: Yang Zhong <yang.zhong@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC PATCH 2/7] x86: Add AMX XTILECFG and XTILEDATA components
-Message-ID: <20220121071548.GB29921@yangzhon-Virtual>
+Subject: Re: [RFC PATCH 4/7] x86: Add XFD faulting bit for state components
+Message-ID: <20220121071807.GC29921@yangzhon-Virtual>
 References: <20220107093134.136441-1-yang.zhong@intel.com>
- <20220107093134.136441-3-yang.zhong@intel.com>
- <BN9PR11MB5276EA0D1E39DDA511B0A9B38C509@BN9PR11MB5276.namprd11.prod.outlook.com>
- <6941a519-3a26-e57c-5582-7238da90d263@redhat.com>
+ <20220107093134.136441-5-yang.zhong@intel.com>
+ <c494456b-42a7-d591-02e0-dbdeecf2c36b@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6941a519-3a26-e57c-5582-7238da90d263@redhat.com>
+In-Reply-To: <c494456b-42a7-d591-02e0-dbdeecf2c36b@redhat.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Received-SPF: pass client-ip=134.134.136.20; envelope-from=yang.zhong@intel.com;
  helo=mga02.intel.com
@@ -76,34 +75,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, "Tian, Kevin" <kevin.tian@intel.com>, "Christopherson,
- , Sean" <seanjc@google.com>,
- "jing2.liu@linux.intel.com" <jing2.liu@linux.intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Wang,
- Wei W" <wei.w.wang@intel.com>, "Zeng, Guang" <guang.zeng@intel.com>
+Cc: yang.zhong@intel.com, kevin.tian@intel.com, seanjc@google.com,
+ jing2.liu@linux.intel.com, qemu-devel@nongnu.org, wei.w.wang@intel.com,
+ guang.zeng@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 18, 2022 at 01:39:59PM +0100, Paolo Bonzini wrote:
-> On 1/10/22 09:23, Tian, Kevin wrote:
-> >>
-> >>AMX XTILECFG and XTILEDATA are managed by XSAVE feature
-> >>set. State component 17 is used for 64-byte TILECFG register
-> >>(XTILECFG state) and component 18 is used for 8192 bytes
-> >>of tile data (XTILEDATA state).
-> >to be consistent, "tile data" -> "TILEDATA"
-> >
+On Tue, Jan 18, 2022 at 01:52:51PM +0100, Paolo Bonzini wrote:
+> On 1/7/22 10:31, Yang Zhong wrote:
+> >-    uint32_t need_align;
+> >+    uint32_t need_align, support_xfd;
 > 
-> Previous sentences use "XTILECFG" / "XTILEDATA", not "TILEDATA".
+> These can be replaced by a single field "uint32_t ecx".
 > 
-> So I would say:
+> You can add also macros like
 > 
-> The AMX TILECFG register and the TMMx tile data registers are
-> saved/restored via XSAVE, respectively in state component 17 (64
-> bytes) and state component 18 (8192 bytes).
->
+> #define ESA_FEATURE_ALIGN64_BIT	(1)
+> #define ESA_FEATURE_XFD_BIT	(2)
+> 
+> to simplify access.
+  
+  Thanks Paolo, this is a more simplified solution, thanks!
 
-  Thanks Paolo, I will update this in new version.
   Yang
  
 > Paolo
