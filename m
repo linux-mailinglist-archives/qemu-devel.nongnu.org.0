@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A5D495F3D
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 13:46:33 +0100 (CET)
-Received: from localhost ([::1]:35094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBF6D495FB9
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 14:22:39 +0100 (CET)
+Received: from localhost ([::1]:42910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAtJI-0002Ia-KC
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 07:46:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52702)
+	id 1nAtsE-0002uT-B7
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 08:22:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nAt5F-0008Ru-CI
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 07:32:01 -0500
-Received: from [2a00:1450:4864:20::536] (port=36831
- helo=mail-ed1-x536.google.com)
+ id 1nAstf-0007Ww-Cj
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 07:20:05 -0500
+Received: from [2a00:1450:4864:20::529] (port=35837
+ helo=mail-ed1-x529.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nAt5D-000311-Q0
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 07:32:01 -0500
-Received: by mail-ed1-x536.google.com with SMTP id l5so25408020edv.3
- for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 04:31:59 -0800 (PST)
+ id 1nAstd-0000dz-IO
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 07:20:02 -0500
+Received: by mail-ed1-x529.google.com with SMTP id n10so26707525edv.2
+ for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 04:19:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=rlrJyIUph5K8nGQ9T1Kx6ayq1XpqZ1lkmb62qPl+Ogc=;
- b=R4Ghodbvz9jz5S0r3gkrCG/mqH7q6aSLj9f/1FB3Pa9lh4M5Kfo9RfGnpeqeI9Smb1
- GlIl/fw0gvu7vLttlZdPOM8A/KAi2rjb6or2NqIYOhoV/FI88Fzoxg9DPFjA+I8LQ5sr
- gQoWPdmEkdDRHK/5q0bPjceORcB1nit2ToX2WEBZFxVTwLbUpei9vPetu+ewqeChD8b7
- tPpOXZhpLCh+kaUVJTGJTFIkLZyo3lqHiIysNy+7a8ZyGM9ZqCXYMPJd22cf3jWX8hG0
- UwudrUwd/vdHV20KNK9zjswZ5qF4A/76+0i8/iRmRykVcRHipBX1AsfjG6cYjcDWoKGQ
- 8dww==
+ bh=mDgzD4KOVb6EEJ/o1sE/UCdZZ0DjjcM5yypl4GTRkpE=;
+ b=AuG4rXGOJVJI3JLuxkM4v04G6fM7TXNl0oUXn1Zn/lBCWB9NIhu73hjP0eE1GmJ5C4
+ GPZrIpneKFgj2nOOt3DB++9F/cM+ncV3eg/96KlbJzDtDUAPWfIym5XcCSo+ahMHtAjw
+ 6l4g5o8mSubME5wNBiV231airyh/aSSqRS8U+VLqvYn7E/dUWrkmQlnBPPUiIN5lhuOg
+ Hfp/+THkqUPy0I3T1/X0yA4EWnrKCn+sxv4tEJ8TR+Dk9GMibXwc135vx0ZgxTFlQD9E
+ Z4UJaQEBDvRe4H53sem2GEUguG/pPK0y2yc/mJwenEOY/cp69O94rCFwReWEXxmeC2uM
+ zNyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=rlrJyIUph5K8nGQ9T1Kx6ayq1XpqZ1lkmb62qPl+Ogc=;
- b=EytCbvweDYXCofxofo0GhEpLgwf4yBofF8Ip/z3CSLykQoGBK0ge4daFduYlnjW09f
- S8HU3iH+7EgavmqI2H7RlMjfg3DfUFA4TyFLR60ot17DGCuQ2UelzXSUojJBFhYPaCCQ
- 92t6Gpf8Ual/+ElkMGKNhQLl6klOmlE8BxeiAb1fo6NgOeATBCsTw7XzS+jVFbb/qvK4
- f9J9AU3LYRwnhzUVOev0sjfssP3UwrUICAytfHZwaw5l29rla+tUAIsr1dZmWD1qdoaw
- QrqIaVCYGssXaZJaQDGa4epGi+3m4r43XpcmOcgjcfm8sTOlurVgmYe6QBFsCWqnJWtT
- xmjw==
-X-Gm-Message-State: AOAM53152ulLBhKiIMnMY/hT3H1TgD3KCmEETbX1Y6trwV1JPMsNA0li
- 3VhkhchlqgdsO1SEHPKQJg97Sw==
-X-Google-Smtp-Source: ABdhPJxE1uq6nC5IvCeiGvDxaO4VgxIhgZAouPxTdDrWhyhK9euw1VhiQvfyBj7YQZ4FujUZN8AyBA==
-X-Received: by 2002:a05:6402:1347:: with SMTP id
- y7mr4050610edw.208.1642768318295; 
- Fri, 21 Jan 2022 04:31:58 -0800 (PST)
+ bh=mDgzD4KOVb6EEJ/o1sE/UCdZZ0DjjcM5yypl4GTRkpE=;
+ b=XVpfTlCRd0lEg4tU+8TK7Klk24AI3mtjRfYJLCcHBjQtOIb+aA5Iy8HSL6dLtv4r6D
+ gVLpuNVHPvv4vK4UdF5OGtJgeh7RbOWR2ZyC/tHR7JvzAcykFk8tILHuocRxlEDvQYGq
+ tM59jfts4nnpBNPUfC8PD5mSAOspg8BGZyUSav70X1SkYJJ8FWL4KEzUUvbxgUPt2Xum
+ E2zqFW17TBPLr7mk2yp5ZqTILy9f69tvV2ZfM1BFQ+3N2bHW5wrPOWKGzTGpsymlQ9OC
+ iTn//hs0gP6VBOnzyUeNU+lQCd+Ixi+PpSkDT+2f2U6pwmTm30XzstQl0nw7PvqWAbqL
+ jW/w==
+X-Gm-Message-State: AOAM532/ceTVixgW3AXFTgVke83yIuT0l8PuwJUECNnwn0SkgUY0tjC+
+ NfJlaIUMwpBuUj2vq5/89SHrdQ==
+X-Google-Smtp-Source: ABdhPJzg6lu23dTuciPMNuTpQgi3IxQZ8ppNR3a+XDfazQLnM69k047vZBZUp8gTGPf4khtMBVVnNw==
+X-Received: by 2002:aa7:d546:: with SMTP id u6mr3953527edr.311.1642767594442; 
+ Fri, 21 Jan 2022 04:19:54 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u9sm2001102ejo.119.2022.01.21.04.31.56
+ by smtp.gmail.com with ESMTPSA id z24sm827912ejn.101.2022.01.21.04.19.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Jan 2022 04:31:57 -0800 (PST)
+ Fri, 21 Jan 2022 04:19:53 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 72EA21FFB7;
- Fri, 21 Jan 2022 12:31:56 +0000 (GMT)
-References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
- <CAFEAcA9_d5jw5-HOrZA6dsG1vMqxzqmrfHA7Jo0KsDcaEXmB_Q@mail.gmail.com>
- <6c90ca3d-eaec-d7e8-5941-4deb83b58fd0@redhat.com>
- <87zgnp4b32.fsf@dusky.pond.sub.org>
- <CAFEAcA_kxrCgyxWPFLw6VZ-rKx-res0C8L2BWRvfB81cR+keLg@mail.gmail.com>
+ by zen.linaroharston (Postfix) with ESMTP id 8AA3D1FFB7;
+ Fri, 21 Jan 2022 12:19:52 +0000 (GMT)
+References: <20220120151609.433555-1-peter.maydell@linaro.org>
 User-agent: mu4e 1.7.5; emacs 28.0.91
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: "make check-acceptance" takes way too long
-Date: Fri, 21 Jan 2022 12:23:23 +0000
-In-reply-to: <CAFEAcA_kxrCgyxWPFLw6VZ-rKx-res0C8L2BWRvfB81cR+keLg@mail.gmail.com>
-Message-ID: <875yqd6zib.fsf@linaro.org>
+Subject: Re: [PATCH] hw/armv7m: Fix broken VMStateDescription
+Date: Fri, 21 Jan 2022 12:19:46 +0000
+In-reply-to: <20220120151609.433555-1-peter.maydell@linaro.org>
+Message-ID: <87a6fp702f.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::529
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -94,41 +89,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Cleber Rosa <crosa@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 Peter Maydell <peter.maydell@linaro.org> writes:
 
-> On Fri, 21 Jan 2022 at 10:50, Markus Armbruster <armbru@redhat.com> wrote:
->> No objection, but it's no replacement for looking into why these tests
->> are so slow.
->>
->> The #1 reason for things being slow is not giving a damn :)
+> In commit d5093d961585f02 we added a VMStateDescription to
+> the TYPE_ARMV7M object, to handle migration of its Clocks.
+> However a cut-and-paste error meant we used the wrong struct
+> name in the VMSTATE_CLOCK() macro arguments. The result was
+> that attempting a 'savevm' might result in an assertion
+> failure.
 >
-> See previous messages in the thread -- the test starts a
-> full-fat guest OS including UEFI boot, and it takes forever to
-> get to the login prompt because systemd is starting everything
-> including the kitchen sink.
+> Cc: qemu-stable@nongnu.org
+> Buglink: https://gitlab.com/qemu-project/qemu/-/issues/803
+> Fixes: d5093d961585f02
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-There has to be a half-way house between booting a kernel until it fails
-to find a rootfs and running a full Ubuntu distro. Maybe just asking
-systemd to reach "rescue.target" would be enough to show the disks are
-up and userspace works.
-
-Running the EFI firmware is probably useful coverage but I'm not sure
-how one passes command line args to the guest in that approach? Do we
-need to set a magic EFI variable?
-
->
-> -- PMM
-
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 --=20
 Alex Benn=C3=A9e
