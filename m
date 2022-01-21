@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 768B0495A71
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 08:14:23 +0100 (CET)
-Received: from localhost ([::1]:57162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A16D5495B1E
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 08:46:39 +0100 (CET)
+Received: from localhost ([::1]:49136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAo7q-0006LC-Aq
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 02:14:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53800)
+	id 1nAod4-0004OM-LO
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 02:46:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAn0T-00084H-Vd
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:02:42 -0500
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:53953)
+ id 1nAn0V-00086o-2H
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:02:43 -0500
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:53939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAn05-0005Cw-D2
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:02:41 -0500
+ id 1nAn0R-0005AO-4D
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:02:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1642744936; x=1674280936;
+ t=1642744958; x=1674280958;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=VmOAzI2znzzQW/1LVSA8m7fnCBErlOCcnDBlzT/cH60=;
- b=fyzFhJQLtCtTmQOczAfgaXU7nYBrRjt3WX8To/Y6LOYbxMzZosU9ik8n
- Wd7hXVMQT50qZCM8HTkXDB+MV5Nv3ETr6U7xXdtkN+37KJiy53d0MUl2i
- 9ZH2ctijVXC77Xb531QEHcKPh+QqnWxwHH6/QYyQwqS6WMCQSi0EhfNT6
- sbrjvfGrR6qOyHI8gi1yWLorEIpkgMBeyjMZPe1cdxwb7tgBrMriGPMJk
- 4GFBgEJZKqEsa9KrxsmNpYhaSVUFG9egXWnLmdaoTs0tOR2A4Qbn/r/UE
- R9zZnmoRh/+K4sZJ+X2UOB/OmiB7Go61TdAUAiRpfk0U3d+Icy8yER7L1 w==;
-X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="195814217"
+ bh=oMicRhehYOvRTi0WCkCo69lWkvqmFDL8RhgCLn31WRg=;
+ b=L88++z2DaVamzsuzIr89JQW/hUYAYBl4NtbagqW1OU+YJUTaUwEhqo06
+ EsEAVR9jcDFI8PmXsIpCBFTIkUaGxVxMCopdz4YgxgNnsdiQjHhR/FAKa
+ ygIpMk9BEr9MmU9+k8SxTZKwbJdZHlIlIaFxd3c53iOVOV9iYWB8m6bxS
+ jrKGw3Tw31upeK2bU52QSmb0Gz2E9oO68ABWkusaSNOhij12ekXrOovtI
+ arMVOeShM7bWe5xh7NnsNDHj835MK34MCv3inGTkSbPs/gKgp3+RgASmU
+ q4JAWYgTNOVHzzIr8BZZqDV/G9fWTmUUAM/4hRXnI3Y7+v5T4O9ITdm9f A==;
+X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="195814222"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 14:02:15 +0800
-IronPort-SDR: xi6eEPcpmehA0iTG8MqISu+tw0IsMpk2LqPq1p7c55jUn36LiIdEVZHdKT1yKVBIdvFFbJgyek
- 1YrF7Vx/ehcJWa234kjyXQKGcbzrIT8z+8yy5qszgqZWTY/d6D1NJ7kQc94Kn46qefujIr4Ocm
- NmBPCA0DzGsEOafjBpjxNeOtTrgcIb+Wev52RTMakvb8B0crXqXcso0zkmayhHMtM8YwMZvdEp
- PH5K+IrRtuRcY1IC/8kal7QFWKcsp1r0lJE6mEMJOA7sSHeAtLamvLT+Afhvj6WQu+EiphFYnR
- YErEHM9xowNrsdKtC3HKQ8I3
+ by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 14:02:19 +0800
+IronPort-SDR: jRoMhJc5pz8SAjyzKL+3Q5lR0ENyEsO+iqs+w0PrWU3075JNmLMqyZ/9+sIh3avfOk1Q7uLvGC
+ keUJQ1NTS4LtoERqyMbDTT6ylUxzBwcPvxlfRJhdscMKl0hUJpg95sPGe9Y1n6N+kPtTKN/96K
+ mKVPOYbHE1tVO1TXuqgPp9MlBFJuxKa0nj9ZNV1DQJquMZTCcYL6PiEaYiGvWYSW3ZA+VvzP3l
+ WgGhKUkjQj83iY7Og5KiRLcJL1zfdJ801823hRbUSWvG8z7OHswUKAnAGL2LtXzSU7sjvn04Q+
+ PzJki+wUyYcl3oLGzr/I1fUW
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 21:35:43 -0800
-IronPort-SDR: 8WM1YQHChdXIeCv/TcEVrDgGi05Ir5gwu5H2q4DA17WBbxvxEAhuaLr50I37zYEOeww6jwEyT7
- AUxM7Q3P4oiY8+oWZb4Y/lSs81Ugr4jlgnzuoWfUe/bNYAT8L82UvWqixu2TptDXqPJQ16Bu1F
- shyi9qkmWhJs7Ac3F2Y7wvhtz8DMsV49KR5IEo3lRBIhLAhtOv2o9OvfPtAdv3NNWYi6MO70/D
- B0q+s/BYtq6uU9FtEOAxIiXthKj3AgkVeZyE4dNGWRhozYguIsTi4L9v0LfsxNt5JKbm8vYXq0
- kb0=
+ 20 Jan 2022 21:35:47 -0800
+IronPort-SDR: YiGO44dCHBcU+Vvst7yXfnha2vFE++Pl989AUnqeMB/Ff3wPMK7xEZ5H38IqqS3pih0/DBK0DU
+ uGxKQoWqACALfHBpt+2SqtFARIJEUtgFbmQDzqViUSiU60EYDEoDjhl+VLz0OzzaZOpbdC3cnM
+ K4IXzY+qdw+RL1R+Nd12DbK3Dt4j4vLlJ6YEkLKOhf+oZB2L+w0/jo0D19/98LBKDjuK2ByleJ
+ qWmByNgpiamAYHqETti7T86X7Id4RiJXe3O6ylHwHrtfC0HGLdPhCaHCKBfGo9/rrMB4/wyzL+
+ 98A=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 22:02:15 -0800
+ 20 Jan 2022 22:02:20 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg80l53s2z1SVp3
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 22:02:15 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg80q6Vv9z1SVp1
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 22:02:19 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1642744935; x=1645336936; bh=VmOAzI2znzzQW/1LVS
- A8m7fnCBErlOCcnDBlzT/cH60=; b=I68HS4J8mhgRXmQ/AODJAh7pFWNZDSK1mx
- AwPI6qBBaiNl8i8kDtWn6OVDtFA1yda7JniDSqcNcACAUo4QSs0J78eAuJjEiavI
- Kz4tB/A2M3NrFGBjwvMpJIDXXnsu8kP8slY95EBvOLDsyla3LuNp6FVwciiSLk0G
- /Raqak/skm9NK/HZ4iPR8ivWuMrf85qtvLvW93vFUS45gbjDsW2WJpbTE3+IbeVA
- rE9cZAwOBglGWtvamk8WS0DcTPeR4DJCsBIHtRUXWsHQVTTpiu12KwINvNEqnzr+
- 2C1Hp10sNufFfljt4Y/kPnMzDgQ6cYzUMeExEXTTg9bwHmqHQFxg==
+ :from; s=dkim; t=1642744939; x=1645336940; bh=oMicRhehYOvRTi0WCk
+ Co69lWkvqmFDL8RhgCLn31WRg=; b=FZ3ORCljnqCMpdvULcRT1Op+RD7cLudOrZ
+ Eb+xdp61YBfjIP3mTaZ+MTsN5fHKdiE94d/ww79/IjCeql/IBI+WbP+stJiuni7v
+ 2zMUqu5OORDZtqhBGafaCzfoHrjacjmtaosQNYq7Qt1/SUZqUrhcofO88k0wLTVO
+ Q1RmzZaopibVh1o9GmwW/c/CEqO4cPhwlBC/zkbJ/S88c1JkQLJG/54Q5emBESRQ
+ HBpWHY31oub1BNv7Vi9DOA4tim8AzC+CJWtNDMR09GTod4MbzlMXDvcI58S8FQlt
+ TRusQg8jLJLML8Wz7RH2gPGqY7JGU+yFLWknFi1rhzuL/PEGnnmw==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 15-NU9BHayW1 for <qemu-devel@nongnu.org>;
- Thu, 20 Jan 2022 22:02:15 -0800 (PST)
+ port 10026) with ESMTP id jAgSKZn7jYxY for <qemu-devel@nongnu.org>;
+ Thu, 20 Jan 2022 22:02:19 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.80])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg80g3XwJz1RvlN;
- Thu, 20 Jan 2022 22:02:11 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg80m0kKqz1RvlN;
+ Thu, 20 Jan 2022 22:02:15 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, LIU Zhiwei <zhiwei_liu@c-sky.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 51/61] target/riscv: Calculate address according to XLEN
-Date: Fri, 21 Jan 2022 15:58:20 +1000
-Message-Id: <20220121055830.3164408-52-alistair.francis@opensource.wdc.com>
+Subject: [PULL 52/61] target/riscv: Split pm_enabled into mask and base
+Date: Fri, 21 Jan 2022 15:58:21 +1000
+Message-Id: <20220121055830.3164408-53-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
 References: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
@@ -118,221 +118,123 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-Define one common function to compute a canonical address from a register
-plus offset. Merge gen_pm_adjust_address into this function.
+Use cached cur_pmmask and cur_pmbase to infer the
+current PM mode.
+
+This may decrease the TCG IR by one when pm_enabled
+is true and pm_base_enabled is false.
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20220120122050.41546-14-zhiwei_liu@c-sky.com
+Message-id: 20220120122050.41546-15-zhiwei_liu@c-sky.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/translate.c                | 25 ++++++++++++-------------
- target/riscv/insn_trans/trans_rva.c.inc |  9 +++------
- target/riscv/insn_trans/trans_rvd.c.inc | 19 ++-----------------
- target/riscv/insn_trans/trans_rvf.c.inc | 19 ++-----------------
- target/riscv/insn_trans/trans_rvi.c.inc | 18 ++----------------
- 5 files changed, 21 insertions(+), 69 deletions(-)
+ target/riscv/cpu.h        |  3 ++-
+ target/riscv/cpu_helper.c | 24 ++++++------------------
+ target/riscv/translate.c  | 12 ++++++++----
+ 3 files changed, 16 insertions(+), 23 deletions(-)
 
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 6fe842edfd..89621e1996 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -448,7 +448,8 @@ FIELD(TB_FLAGS, MSTATUS_HS_VS, 18, 2)
+ /* The combination of MXL/SXL/UXL that applies to the current cpu mode. =
+*/
+ FIELD(TB_FLAGS, XL, 20, 2)
+ /* If PointerMasking should be applied */
+-FIELD(TB_FLAGS, PM_ENABLED, 22, 1)
++FIELD(TB_FLAGS, PM_MASK_ENABLED, 22, 1)
++FIELD(TB_FLAGS, PM_BASE_ENABLED, 23, 1)
+=20
+ #ifdef TARGET_RISCV32
+ #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index b239d721f4..502aee84ab 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -97,27 +97,15 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_=
+ulong *pc,
+         flags =3D FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_VS,
+                            get_field(env->mstatus_hs, MSTATUS_VS));
+     }
+-    if (riscv_has_ext(env, RVJ)) {
+-        int priv =3D flags & TB_FLAGS_PRIV_MMU_MASK;
+-        bool pm_enabled =3D false;
+-        switch (priv) {
+-        case PRV_U:
+-            pm_enabled =3D env->mmte & U_PM_ENABLE;
+-            break;
+-        case PRV_S:
+-            pm_enabled =3D env->mmte & S_PM_ENABLE;
+-            break;
+-        case PRV_M:
+-            pm_enabled =3D env->mmte & M_PM_ENABLE;
+-            break;
+-        default:
+-            g_assert_not_reached();
+-        }
+-        flags =3D FIELD_DP32(flags, TB_FLAGS, PM_ENABLED, pm_enabled);
+-    }
+ #endif
+=20
+     flags =3D FIELD_DP32(flags, TB_FLAGS, XL, env->xl);
++    if (env->cur_pmmask < (env->xl =3D=3D MXL_RV32 ? UINT32_MAX : UINT64=
+_MAX)) {
++        flags =3D FIELD_DP32(flags, TB_FLAGS, PM_MASK_ENABLED, 1);
++    }
++    if (env->cur_pmbase !=3D 0) {
++        flags =3D FIELD_DP32(flags, TB_FLAGS, PM_BASE_ENABLED, 1);
++    }
+=20
+     *pflags =3D flags;
+ }
 diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 43e2ec6dce..33564d059d 100644
+index 33564d059d..f0bbe80875 100644
 --- a/target/riscv/translate.c
 +++ b/target/riscv/translate.c
-@@ -390,21 +390,20 @@ static void gen_jal(DisasContext *ctx, int rd, targ=
-et_ulong imm)
-     ctx->base.is_jmp =3D DISAS_NORETURN;
- }
+@@ -108,7 +108,8 @@ typedef struct DisasContext {
+     /* Space for 3 operands plus 1 extra for address computation. */
+     TCGv temp[4];
+     /* PointerMasking extension */
+-    bool pm_enabled;
++    bool pm_mask_enabled;
++    bool pm_base_enabled;
+ } DisasContext;
 =20
--/*
-- * Generates address adjustment for PointerMasking
-- */
--static TCGv gen_pm_adjust_address(DisasContext *s, TCGv src)
-+/* Compute a canonical address from a register plus offset. */
-+static TCGv get_address(DisasContext *ctx, int rs1, int imm)
- {
--    TCGv temp;
--    if (!s->pm_enabled) {
--        /* Load unmodified address */
--        return src;
--    } else {
--        temp =3D temp_new(s);
--        tcg_gen_andc_tl(temp, src, pm_mask);
--        tcg_gen_or_tl(temp, temp, pm_base);
--        return temp;
-+    TCGv addr =3D temp_new(ctx);
-+    TCGv src1 =3D get_gpr(ctx, rs1, EXT_NONE);
-+
-+    tcg_gen_addi_tl(addr, src1, imm);
-+    if (ctx->pm_enabled) {
-+        tcg_gen_and_tl(addr, addr, pm_mask);
+ static inline bool has_ext(DisasContext *ctx, uint32_t ext)
+@@ -397,12 +398,14 @@ static TCGv get_address(DisasContext *ctx, int rs1,=
+ int imm)
+     TCGv src1 =3D get_gpr(ctx, rs1, EXT_NONE);
+=20
+     tcg_gen_addi_tl(addr, src1, imm);
+-    if (ctx->pm_enabled) {
++    if (ctx->pm_mask_enabled) {
+         tcg_gen_and_tl(addr, addr, pm_mask);
+-        tcg_gen_or_tl(addr, addr, pm_base);
+     } else if (get_xl(ctx) =3D=3D MXL_RV32) {
+         tcg_gen_ext32u_tl(addr, addr);
+     }
++    if (ctx->pm_base_enabled) {
 +        tcg_gen_or_tl(addr, addr, pm_base);
-+    } else if (get_xl(ctx) =3D=3D MXL_RV32) {
-+        tcg_gen_ext32u_tl(addr, addr);
-     }
-+    return addr;
++    }
+     return addr;
  }
 =20
- #ifndef CONFIG_USER_ONLY
-diff --git a/target/riscv/insn_trans/trans_rva.c.inc b/target/riscv/insn_=
-trans/trans_rva.c.inc
-index 86032fa9a7..45db82c9be 100644
---- a/target/riscv/insn_trans/trans_rva.c.inc
-+++ b/target/riscv/insn_trans/trans_rva.c.inc
-@@ -20,12 +20,11 @@
-=20
- static bool gen_lr(DisasContext *ctx, arg_atomic *a, MemOp mop)
- {
--    TCGv src1 =3D get_gpr(ctx, a->rs1, EXT_ZERO);
-+    TCGv src1 =3D get_address(ctx, a->rs1, 0);
-=20
-     if (a->rl) {
-         tcg_gen_mb(TCG_MO_ALL | TCG_BAR_STRL);
-     }
--    src1 =3D gen_pm_adjust_address(ctx, src1);
-     tcg_gen_qemu_ld_tl(load_val, src1, ctx->mem_idx, mop);
-     if (a->aq) {
-         tcg_gen_mb(TCG_MO_ALL | TCG_BAR_LDAQ);
-@@ -44,8 +43,7 @@ static bool gen_sc(DisasContext *ctx, arg_atomic *a, Me=
-mOp mop)
-     TCGLabel *l1 =3D gen_new_label();
-     TCGLabel *l2 =3D gen_new_label();
-=20
--    src1 =3D get_gpr(ctx, a->rs1, EXT_ZERO);
--    src1 =3D gen_pm_adjust_address(ctx, src1);
-+    src1 =3D get_address(ctx, a->rs1, 0);
-     tcg_gen_brcond_tl(TCG_COND_NE, load_res, src1, l1);
-=20
-     /*
-@@ -83,10 +81,9 @@ static bool gen_amo(DisasContext *ctx, arg_atomic *a,
-                     MemOp mop)
- {
-     TCGv dest =3D dest_gpr(ctx, a->rd);
--    TCGv src1 =3D get_gpr(ctx, a->rs1, EXT_NONE);
-+    TCGv src1 =3D get_address(ctx, a->rs1, 0);
-     TCGv src2 =3D get_gpr(ctx, a->rs2, EXT_NONE);
-=20
--    src1 =3D gen_pm_adjust_address(ctx, src1);
-     func(dest, src1, src2, ctx->mem_idx, mop);
-=20
-     gen_set_gpr(ctx, a->rd, dest);
-diff --git a/target/riscv/insn_trans/trans_rvd.c.inc b/target/riscv/insn_=
-trans/trans_rvd.c.inc
-index ed444b042a..091ed3a8ad 100644
---- a/target/riscv/insn_trans/trans_rvd.c.inc
-+++ b/target/riscv/insn_trans/trans_rvd.c.inc
-@@ -25,14 +25,7 @@ static bool trans_fld(DisasContext *ctx, arg_fld *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
-=20
--    addr =3D get_gpr(ctx, a->rs1, EXT_NONE);
--    if (a->imm) {
--        TCGv temp =3D temp_new(ctx);
--        tcg_gen_addi_tl(temp, addr, a->imm);
--        addr =3D temp;
--    }
--    addr =3D gen_pm_adjust_address(ctx, addr);
--
-+    addr =3D get_address(ctx, a->rs1, a->imm);
-     tcg_gen_qemu_ld_i64(cpu_fpr[a->rd], addr, ctx->mem_idx, MO_TEUQ);
-=20
-     mark_fs_dirty(ctx);
-@@ -46,16 +39,8 @@ static bool trans_fsd(DisasContext *ctx, arg_fsd *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
-=20
--    addr =3D get_gpr(ctx, a->rs1, EXT_NONE);
--    if (a->imm) {
--        TCGv temp =3D temp_new(ctx);
--        tcg_gen_addi_tl(temp, addr, a->imm);
--        addr =3D temp;
--    }
--    addr =3D gen_pm_adjust_address(ctx, addr);
--
-+    addr =3D get_address(ctx, a->rs1, a->imm);
-     tcg_gen_qemu_st_i64(cpu_fpr[a->rs2], addr, ctx->mem_idx, MO_TEUQ);
--
-     return true;
+@@ -925,7 +928,8 @@ static void riscv_tr_init_disas_context(DisasContextB=
+ase *dcbase, CPUState *cs)
+     ctx->cs =3D cs;
+     ctx->ntemp =3D 0;
+     memset(ctx->temp, 0, sizeof(ctx->temp));
+-    ctx->pm_enabled =3D FIELD_EX32(tb_flags, TB_FLAGS, PM_ENABLED);
++    ctx->pm_mask_enabled =3D FIELD_EX32(tb_flags, TB_FLAGS, PM_MASK_ENAB=
+LED);
++    ctx->pm_base_enabled =3D FIELD_EX32(tb_flags, TB_FLAGS, PM_BASE_ENAB=
+LED);
+     ctx->zero =3D tcg_constant_tl(0);
  }
 =20
-diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_=
-trans/trans_rvf.c.inc
-index b5459249c4..0aac87f7db 100644
---- a/target/riscv/insn_trans/trans_rvf.c.inc
-+++ b/target/riscv/insn_trans/trans_rvf.c.inc
-@@ -31,14 +31,7 @@ static bool trans_flw(DisasContext *ctx, arg_flw *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVF);
-=20
--    addr =3D get_gpr(ctx, a->rs1, EXT_NONE);
--    if (a->imm) {
--        TCGv temp =3D temp_new(ctx);
--        tcg_gen_addi_tl(temp, addr, a->imm);
--        addr =3D temp;
--    }
--    addr =3D gen_pm_adjust_address(ctx, addr);
--
-+    addr =3D get_address(ctx, a->rs1, a->imm);
-     dest =3D cpu_fpr[a->rd];
-     tcg_gen_qemu_ld_i64(dest, addr, ctx->mem_idx, MO_TEUL);
-     gen_nanbox_s(dest, dest);
-@@ -54,16 +47,8 @@ static bool trans_fsw(DisasContext *ctx, arg_fsw *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVF);
-=20
--    addr =3D get_gpr(ctx, a->rs1, EXT_NONE);
--    if (a->imm) {
--        TCGv temp =3D tcg_temp_new();
--        tcg_gen_addi_tl(temp, addr, a->imm);
--        addr =3D temp;
--    }
--    addr =3D gen_pm_adjust_address(ctx, addr);
--
-+    addr =3D get_address(ctx, a->rs1, a->imm);
-     tcg_gen_qemu_st_i64(cpu_fpr[a->rs2], addr, ctx->mem_idx, MO_TEUL);
--
-     return true;
- }
-=20
-diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_=
-trans/trans_rvi.c.inc
-index 631bc1f09e..3cd1b3f877 100644
---- a/target/riscv/insn_trans/trans_rvi.c.inc
-+++ b/target/riscv/insn_trans/trans_rvi.c.inc
-@@ -226,14 +226,7 @@ static bool trans_bgeu(DisasContext *ctx, arg_bgeu *=
-a)
- static bool gen_load_tl(DisasContext *ctx, arg_lb *a, MemOp memop)
- {
-     TCGv dest =3D dest_gpr(ctx, a->rd);
--    TCGv addr =3D get_gpr(ctx, a->rs1, EXT_NONE);
--
--    if (a->imm) {
--        TCGv temp =3D temp_new(ctx);
--        tcg_gen_addi_tl(temp, addr, a->imm);
--        addr =3D temp;
--    }
--    addr =3D gen_pm_adjust_address(ctx, addr);
-+    TCGv addr =3D get_address(ctx, a->rs1, a->imm);
-=20
-     tcg_gen_qemu_ld_tl(dest, addr, ctx->mem_idx, memop);
-     gen_set_gpr(ctx, a->rd, dest);
-@@ -330,16 +323,9 @@ static bool trans_ldu(DisasContext *ctx, arg_ldu *a)
-=20
- static bool gen_store_tl(DisasContext *ctx, arg_sb *a, MemOp memop)
- {
--    TCGv addr =3D get_gpr(ctx, a->rs1, EXT_NONE);
-+    TCGv addr =3D get_address(ctx, a->rs1, a->imm);
-     TCGv data =3D get_gpr(ctx, a->rs2, EXT_NONE);
-=20
--    if (a->imm) {
--        TCGv temp =3D temp_new(ctx);
--        tcg_gen_addi_tl(temp, addr, a->imm);
--        addr =3D temp;
--    }
--    addr =3D gen_pm_adjust_address(ctx, addr);
--
-     tcg_gen_qemu_st_tl(data, addr, ctx->mem_idx, memop);
-     return true;
- }
 --=20
 2.31.1
 
