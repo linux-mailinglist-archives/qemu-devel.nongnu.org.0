@@ -2,89 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24DDC495A9F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 08:27:39 +0100 (CET)
-Received: from localhost ([::1]:37364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC413495B37
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 08:53:50 +0100 (CET)
+Received: from localhost ([::1]:51842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAoKf-00045O-To
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 02:27:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51800)
+	id 1nAok1-0006N3-RE
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 02:53:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAmzH-0007Dc-Ut
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:01:28 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:60338)
+ id 1nAn02-0007UP-TT
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:02:17 -0500
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:60359)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAmyx-0004AK-Sz
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:01:27 -0500
+ id 1nAmzo-0004KU-VR
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:02:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1642744867; x=1674280867;
+ t=1642744921; x=1674280921;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ggoBLKSLTPQzTdQI6Vw7EvyAhdqKFm3uWOomLdg+1XY=;
- b=nveKBwxQKvnttAShaIQnA4u9j4M596fEow9LEH2xzbjJIA1dc8EwSywQ
- gCRhxRGEPkZpET73ppEdNU/wwZ7la01HZLQIKWTcEhlQVJTM2qfJSKQaK
- 4Fk48IW/NzeUpYY2HI6vMHqFlYV7RUb4RLvavAaqTLAtqZ82g92mzd0as
- 9EnxdQ9XPm8osVK7a0+URdVBOpT/4dXweDwB5Nk/2NF8YUy/xM3+DnODO
- or/vjVKv8PP0lABcvDV6wVBJ8BCM5NQw8Gbkc7pQMuFIe7PEeOGjEgTiE
- peVOE6AIW4HoTZMW7IESLbDG31II84vsZheigXJFIQZmQK/4V7tnedk5y A==;
-X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="295082969"
+ bh=y+5u59Ng5aXuSfhsc6LCexaztL1VPg+1H4mkATgL70I=;
+ b=q/MnNTnZ3xCABg/fttmT+XDOGLJB2DysU2hd+cezZlVCaG//qcJPYwEl
+ KODDR92km3ecrBlWAH7toI+UDpx9gGVQrLF7SkhdiTCjajC6WQuDgea9i
+ nj4nH1kzVn2AuVG6oeUssJObZAbo3k/UGURXCDhM5ilpozl6rLBCItllK
+ FbQ3Fqw5xhCYwKNLWFSz6g/8dYx7Iiaf7iG3R0NOy6h5YQegO9Sgmwz9u
+ 2fUrKxYK0oGqyee24NaguZIWBt9s2DPMJK/ivbM/a6RjDnuvAK31UPyK8
+ Bl2Tyyv20dgjFz2FC7ZG53A39w7hd9dt0MNuRXF7rAYbAcjNhVNocltbt w==;
+X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="295082979"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 14:00:45 +0800
-IronPort-SDR: neP0X3XEt1TYKRRiCGM3Uzivqoo8toUwaCmOavPIu//pEOaV+SJcNcpvIjt2n61ebXsEzrvEam
- 4PepDr6Ga2KAjRWDWpl7dyZryjmxNENK3DwYxtuKRcYA8005cWKw5cWke8rL0bJodhYPuKZ8J5
- EplWDzTVYwYjjy4GFrtP8VCIQKsKFyNERG+/Jo6Q/Xmx854XDCZX4h4tGsm8Ii0hWLdGcJQ5xn
- hrZrFda/nwwMnxvYw0nUlhRKSl0Q5BEVYTil+Ejk8QV5NcG13WyV5BAffkQ+RmqTe33Zwbw6Rj
- 5StkO1yUXRZdJT4RS+dL+JBp
+ by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 14:00:48 +0800
+IronPort-SDR: /DsQH5FLSVXndaqR4wiNF/1MNQG3OubVzSjJc3wHgGA0xs5HY+h5ffGQz1paKe5PdChYhIeSCa
+ 7DDZTjjF7jrbGpsk5M4KWaaYScjsFwQdxPCH8h9pckGAPLX1iUdeENT/2nmjVBkE/X5tmAfLXn
+ Yb1X+awIrFQr5bUZshWEwNAk72FNFUpu77aaOTrJGGDKfspxIBbbZpDya4T0Gfm0f2C98s5Fzc
+ MerKp8jvq2WkosYhyYCUgHi1j5zYg8C71xHGj4iQPb1hptw0zViBLEQm43wIfZX/YZgCTI1JA1
+ Wsg4ZcWX6BRub3Qo2V+axIa7
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 21:34:12 -0800
-IronPort-SDR: BigU+5iIDM+G0NBnVZ7EIrQA8ZzyghpZuXtPcBf5UVMDD8pI282wTIBpgpKCb+7N1E0N77dh0w
- 4qlm5efOsPKgyUxujnLF3qaZUvfFVVZwOVIkYt4YxrwCmTxf6ubS++qTO/93ish1Hvj3uc9Icl
- Yj0JTkNt1fpq7T/GqlawKfgsNkLpILeYRqARWNndPykJzhIfaSwR7mAGJ6GOmSMkD8H+UIQuRa
- D+H0iupYRaAQfqmWyXCvuMHO2ruoq9uxd4IrPnJ5SAyN2eljs7Cj7c4XwW8G/5tEu7hrldn1lG
- 4ro=
+ 20 Jan 2022 21:34:16 -0800
+IronPort-SDR: t87nX0gvKv+GcqQl90WG1pE5ow314/XKO25aE6PR+MjPwsdyG0YNpPc3pdMSU/n7YPUdXus3nS
+ QHMxexmGOdgal0FCJp6aW6CP13L2zXTFKKO1hvNllud9V4er79yEw1KWXq6WwSqBd0Ct/ZFnNn
+ klcrbD8EfNt8UmjpxHLszzSNSsvoP5c82nC8+SxISq+Yr7LjQXAfT5yoXmgG/npZSGo6stFYRU
+ pFggrj/0fe7S1umW6drJukgCzfE4GD7YORZvCoLCmgzAXMtpoQd+FReqh9z5ZmymfgCbXWbDQs
+ qsk=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 22:00:45 -0800
+ 20 Jan 2022 22:00:48 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg7z06c00z1Rwrw
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 22:00:44 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg7z420Vjz1SVnx
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 22:00:48 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1642744844; x=1645336845; bh=ggoBLKSLTPQzTdQI6V
- w7EvyAhdqKFm3uWOomLdg+1XY=; b=PDEOmfZPOC5wW/eoLfCTOC3uzccXxWK0we
- iPK2SNod2z+2CAFUomTxR/Y0Jmb8PQwjEDe4zHVMrmjnC5lpe9ZcTB8iwa9NZ0Lr
- cr4+gHO9budiGosi5YaiFZv9az4a2F7vfjk7RPrrJzq2B+/5/OHuUy1XV1iAOjlx
- FJ6qTAu3Irmn/prII1Cn4MHCIaKES9dptE9Sz94UXumaaF0r1pLKpXA0OYYmL7x0
- CJ5dKUf7Q8DOJixRbt2yyNbtYr/9KPLVmDuN8vLnBdmK6A9NFCrkhxkuyZy0J+zB
- C7LR6lqyKqiCjpcUMxBjGEEiGu3q2x73LDXALtu1DloET8CrvtZw==
+ :from; s=dkim; t=1642744847; x=1645336848; bh=y+5u59Ng5aXuSfhsc6
+ LCexaztL1VPg+1H4mkATgL70I=; b=YYleumBf9wugwpPYzI6R7SZkXOLFXOlbyY
+ INVUzf3FF9/gmEB0+s6xPDsbyrxmRbHFxaU7jzAOdm6C0Ek0aWFcAFx3XqkOvJ5G
+ gS6jhXoyhakawjbr7Uqgfze91wghodxhixMSxd4rqYIjvjca+ZBqrmVxDPpFCMlI
+ /J2jr2XkP6BkXLnMkTjAXI67L0ZrF5QCB/J/ns8cSeRTT3qm5EZFrK2lRHLXnAi+
+ 8oCFgHJWBUUdCWTlJiRaNgb822iA7DWoP7P6BnAwHEZC24E5BrXX+otUjM9Xh9SW
+ CSDibG5WYJz3jpE7Jfpae2clEANdpd3ZfSWIkfG2U8dEF8iCaPbA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 6Hx1VD82xRwO for <qemu-devel@nongnu.org>;
- Thu, 20 Jan 2022 22:00:44 -0800 (PST)
+ port 10026) with ESMTP id hgrncKzzVwtE for <qemu-devel@nongnu.org>;
+ Thu, 20 Jan 2022 22:00:47 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.80])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg7yx4V2Dz1RvlN;
- Thu, 20 Jan 2022 22:00:41 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg7z12ftmz1RvlN;
+ Thu, 20 Jan 2022 22:00:44 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Frank Chang <frank.chang@sifive.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 29/61] target/riscv: rvv-1.0: Add Zve32f extension into RISC-V
-Date: Fri, 21 Jan 2022 15:57:58 +1000
-Message-Id: <20220121055830.3164408-30-alistair.francis@opensource.wdc.com>
+Subject: [PULL 30/61] target/riscv: rvv-1.0: Add Zve32f support for
+ configuration insns
+Date: Fri, 21 Jan 2022 15:57:59 +1000
+Message-Id: <20220121055830.3164408-31-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
 References: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
@@ -117,98 +118,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
+All Zve* extensions support the vector configuration instructions.
+
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20220118014522.13613-12-frank.chang@sifive.com
+Message-id: 20220118014522.13613-13-frank.chang@sifive.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h        | 1 +
- target/riscv/cpu.c        | 4 ++--
- target/riscv/cpu_helper.c | 2 +-
- target/riscv/csr.c        | 2 +-
- target/riscv/translate.c  | 2 ++
- 5 files changed, 7 insertions(+), 4 deletions(-)
+ target/riscv/insn_trans/trans_rvv.c.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 424bdcc7fa..03552f4aaa 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -340,6 +340,7 @@ struct RISCVCPU {
-         bool ext_icsr;
-         bool ext_zfh;
-         bool ext_zfhmin;
-+        bool ext_zve32f;
-         bool ext_zve64f;
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_=
+trans/trans_rvv.c.inc
+index 9fa3862620..fd6e74c232 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -152,7 +152,7 @@ static bool do_vsetvl(DisasContext *s, int rd, int rs=
+1, TCGv s2)
+     TCGv s1, dst;
 =20
-         char *priv_spec;
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 4f3d733db4..ef269378de 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -609,8 +609,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error=
- **errp)
-             }
-             set_vext_version(env, vext_version);
-         }
--        if (cpu->cfg.ext_zve64f && !cpu->cfg.ext_f) {
--            error_setg(errp, "Zve64f extension depends upon RVF.");
-+        if ((cpu->cfg.ext_zve32f || cpu->cfg.ext_zve64f) && !cpu->cfg.ex=
-t_f) {
-+            error_setg(errp, "Zve32f/Zve64f extension depends upon RVF."=
-);
-             return;
-         }
-         if (cpu->cfg.ext_j) {
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 43d498aae1..afee770951 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -77,7 +77,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ul=
-ong *pc,
-     *pc =3D env->pc;
-     *cs_base =3D 0;
+     if (!require_rvv(s) ||
+-        !(has_ext(s, RVV) || s->ext_zve64f)) {
++        !(has_ext(s, RVV) || s->ext_zve32f || s->ext_zve64f)) {
+         return false;
+     }
 =20
--    if (riscv_has_ext(env, RVV) || cpu->cfg.ext_zve64f) {
-+    if (riscv_has_ext(env, RVV) || cpu->cfg.ext_zve32f || cpu->cfg.ext_z=
-ve64f) {
-         /*
-          * If env->vl equals to VLMAX, we can use generic vector operati=
-on
-          * expanders (GVEC) to accerlate the vector operations.
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index e9311cfd9d..a9e7ac903b 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -51,7 +51,7 @@ static RISCVException vs(CPURISCVState *env, int csrno)
-     RISCVCPU *cpu =3D RISCV_CPU(cs);
+@@ -188,7 +188,7 @@ static bool do_vsetivli(DisasContext *s, int rd, TCGv=
+ s1, TCGv s2)
+     TCGv dst;
 =20
-     if (env->misa_ext & RVV ||
--        cpu->cfg.ext_zve64f) {
-+        cpu->cfg.ext_zve32f || cpu->cfg.ext_zve64f) {
- #if !defined(CONFIG_USER_ONLY)
-         if (!env->debugger && !riscv_cpu_vector_enabled(env)) {
-             return RISCV_EXCP_ILLEGAL_INST;
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index d3c0d44e2e..330904265e 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -79,6 +79,7 @@ typedef struct DisasContext {
-     bool ext_ifencei;
-     bool ext_zfh;
-     bool ext_zfhmin;
-+    bool ext_zve32f;
-     bool ext_zve64f;
-     bool hlsx;
-     /* vector extension */
-@@ -895,6 +896,7 @@ static void riscv_tr_init_disas_context(DisasContextB=
-ase *dcbase, CPUState *cs)
-     ctx->ext_ifencei =3D cpu->cfg.ext_ifencei;
-     ctx->ext_zfh =3D cpu->cfg.ext_zfh;
-     ctx->ext_zfhmin =3D cpu->cfg.ext_zfhmin;
-+    ctx->ext_zve32f =3D cpu->cfg.ext_zve32f;
-     ctx->ext_zve64f =3D cpu->cfg.ext_zve64f;
-     ctx->vlen =3D cpu->cfg.vlen;
-     ctx->elen =3D cpu->cfg.elen;
+     if (!require_rvv(s) ||
+-        !(has_ext(s, RVV) || s->ext_zve64f)) {
++        !(has_ext(s, RVV) || s->ext_zve32f || s->ext_zve64f)) {
+         return false;
+     }
+=20
 --=20
 2.31.1
 
