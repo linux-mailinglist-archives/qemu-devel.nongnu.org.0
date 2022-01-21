@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7400C496715
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 22:07:05 +0100 (CET)
-Received: from localhost ([::1]:56012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 904FC496750
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 22:33:39 +0100 (CET)
+Received: from localhost ([::1]:40788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB17g-0004DF-Gd
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 16:07:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34578)
+	id 1nB1XO-0007Nc-5c
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 16:33:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nB0wB-0001VK-Lm
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:55:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38195)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nB147-0000eS-Sp
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 16:03:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26203)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nB0w5-0007ii-9b
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:55:08 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nB145-0000Ya-LM
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 16:03:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642798504;
+ s=mimecast20190719; t=1642799001;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3oKFoov2wK5u3W2x9wII/xsh9vNITZSJSHQUUIbzJJQ=;
- b=axJBLEyOd2C4Kq+fSVNki+bovLjscbp1O64EPaYJp2qBqW/8e1VHXVunZ/GIbL6cS2iP3K
- 1INvkuL/yDuZi7YGlD7nd2Yp9rwdX6eW/j7kIHksRdPXQLZs7xnfQ92/2/pmsskFVWd406
- 7znNL4xaGGFnEsxEOM9C7n+8MlS4HQs=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zaD8wwAK2PHHn4ubYfTWM9OzHvY1rzbTtKhQaUd+bSE=;
+ b=cQT8wbrWLbo2Bm0GdQ3mbQMhRK//ySOzAz0Age9z+Yx2F7WvA9c+mjI7WnLZz0zYeUXD8c
+ OnHSrBpizZOztfWGoxPbrg5bCqXmi86/u1IJ6WHf2RZDwrLq/hFAcJ9mCguGXY3oMSBTUf
+ /Rozuqe3KcZviywpVNvR2P9BMkmnwCQ=
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
+ [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-635-YHUHYkEVNz-BdZHqOsn0jQ-1; Fri, 21 Jan 2022 15:55:03 -0500
-X-MC-Unique: YHUHYkEVNz-BdZHqOsn0jQ-1
-Received: by mail-ua1-f70.google.com with SMTP id
- a11-20020ab0080b000000b002feae8ac89aso6270663uaf.23
- for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 12:55:03 -0800 (PST)
+ us-mta-524-YrzdXttyP9ymedosyKktKw-1; Fri, 21 Jan 2022 16:03:17 -0500
+X-MC-Unique: YrzdXttyP9ymedosyKktKw-1
+Received: by mail-vk1-f199.google.com with SMTP id
+ r127-20020a1fc185000000b00316ae4a27efso1785001vkf.2
+ for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 13:03:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=3oKFoov2wK5u3W2x9wII/xsh9vNITZSJSHQUUIbzJJQ=;
- b=TZTumC/x9B53OWF/80QrltNWe2DjafkXUwEV3w5hMiaUBzybAZI7e4l7unSCG2HnS+
- N/T5ClKzdu/6PO7qWeZH79GCbWU5eVGE2JIZIMBChkWgGbd8PE2RW8zLQrdmtCrxvGnU
- tJCSgctr1RPb6Gxl27frUNGoKmcrpx8Q0l/HiihUmiGXZqC4wie8czEJ8nURSP/E/Da5
- ROZDdMKOxVyZJ6HoZtgH9gdIXB028VhLW/KOWGLpLLB0lCzNYda2vcGmMGh35ESnejAr
- ORDmlIlOC6mlnbseIjJwIbCDDW6kSWomUihSe4znL/0FxnF0FCu38Nh5ZQ2kBEpJF9oB
- wGaA==
-X-Gm-Message-State: AOAM530ZRj1TX6io/JHic/Tznqau94cZQwHdtzAWEl6rUcJW5POxpiyh
- GtvHGxmvYpy7R0QrlmVvVED+engmUQjFgAlmH7i0qdHEUdVFZuBPyDmtGbmdnNFgzhZYJ6b83et
- 1bu+1oDPGpwtKCapGQfCGLR+n5egE96w=
-X-Received: by 2002:a67:c117:: with SMTP id d23mr2575115vsj.35.1642798502361; 
- Fri, 21 Jan 2022 12:55:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw9bKR+yZOdExGqCQ4ui2A0ZVgW6xUX9YLdTEzScVlBwgmQ6rDWGWXrC46COEy1pEtxYFlEvA6XJGFW0h+ZUa4=
-X-Received: by 2002:a67:c117:: with SMTP id d23mr2575111vsj.35.1642798502154; 
- Fri, 21 Jan 2022 12:55:02 -0800 (PST)
+ bh=zaD8wwAK2PHHn4ubYfTWM9OzHvY1rzbTtKhQaUd+bSE=;
+ b=0uDoU0mNBx1XiVfC9Ik6KEAaxvcsqZ6q4Bzn7fDWcPnFescpusOo0XHf2tTzexhMfN
+ uHBYuWmNwVFAlwm3BHufsEErq4xTD5ey3+OFIn46eJO+FrZJ2BtgBOE5vXYwJjN3CmZi
+ 7VvvK8ZgVh0UvRjQB/NsSk4nQTuQzL6xW6DsXK7HHr1goaygQSGmKdEdLpCf3Drqwzx/
+ 5cYS1S5Y2qDpLUtudA/PjFcX8329wJQFJNfTksk/Hd2mmbQKBHLyBLKIblaCGiTpvzVk
+ ZVQVljahOIPC/JPFhv63Ba3YSNW+ztk1v6URKOhpsVQouq6QalcOHnDvYofdx6Q+RmF7
+ eYow==
+X-Gm-Message-State: AOAM532a4eV0AeG0Mv/8veNR1m+axLN3YmR9mmHoK4lfNn3epfNstg2D
+ Y+E2A6htO/UgOxai6R/fgIEWByUD1c8MS+hxEWPqQewr4srlopupJVq13ZVkGyraiwwbpO/LCj3
+ 1VPTYsnNjZ23Kp4wMACWh8SWCy3+lOxY=
+X-Received: by 2002:a05:6122:130a:: with SMTP id
+ e10mr2587168vkp.24.1642798997132; 
+ Fri, 21 Jan 2022 13:03:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzZWz1B6Tt9kQkAFP/PpL/Yrtvy0F2MVqQ5Y35isp/1i+Bd1iA2ia/aUM/F5StlrNlYbnGwyO6gZtudrjr3h08=
+X-Received: by 2002:a05:6122:130a:: with SMTP id
+ e10mr2587156vkp.24.1642798996829; 
+ Fri, 21 Jan 2022 13:03:16 -0800 (PST)
 MIME-Version: 1.0
-References: <CAFn=p-boicm8NU6-jimC8qyJVfA3BymcK8687ddBWoQ5LFu6HQ@mail.gmail.com>
-In-Reply-To: <CAFn=p-boicm8NU6-jimC8qyJVfA3BymcK8687ddBWoQ5LFu6HQ@mail.gmail.com>
+References: <20220121005221.142236-1-jsnow@redhat.com>
+ <87ee50vr11.fsf@p50.localhost.localdomain>
+In-Reply-To: <87ee50vr11.fsf@p50.localhost.localdomain>
 From: John Snow <jsnow@redhat.com>
-Date: Fri, 21 Jan 2022 15:54:51 -0500
-Message-ID: <CAFn=p-a1p3zF=HgREUhhREn1H0LVcKXJCUFV1CNsKXXfGWqZtw@mail.gmail.com>
-Subject: Re: tests/tcg/multiarch/threadcount failing on GitLab
-To: qemu-devel <qemu-devel@nongnu.org>
+Date: Fri, 21 Jan 2022 16:03:06 -0500
+Message-ID: <CAFn=p-aFqt-CoWPUcgTh+QkcMMyit3gBf_Bgqk9+s7GBuf70Hw@mail.gmail.com>
+Subject: Re: [PATCH] python: pin setuptools below v60.0.0
+To: Cleber Rosa <crosa@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -87,40 +90,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-devel <qemu-devel@nongnu.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 21, 2022 at 3:53 PM John Snow <jsnow@redhat.com> wrote:
+On Fri, Jan 21, 2022 at 2:15 PM Cleber Rosa <crosa@redhat.com> wrote:
 >
-> lately, I've been seeing this test fail under the clang-user job; see
-> https://gitlab.com/jsnow/qemu/-/jobs/2002782042
 >
-> make[2]: *** [../Makefile.target:156: run-threadcount] Error 124
-> make[1]: *** [/builds/jsnow/qemu/tests/tcg/Makefile.qemu:102:
-> run-guest-tests] Error 2
-> make: *** [/builds/jsnow/qemu/tests/Makefile.include:63:
-> run-tcg-tests-sh4-linux-user] Error 2
+> John Snow <jsnow@redhat.com> writes:
 >
-> (In this branch I've staged some Python code changes, but I would hope
-> that's not related to this.)
+> > setuptools is a package that replaces the python stdlib 'distutils'. It
+> > is generally installed by all venv-creating tools "by default". It isn't
+> > actually needed at runtime for the qemu package, so our own setup.cfg
+> > does not mention it as a dependency.
+> >
+> > However, tox will create virtual environments that include it, and will
+> > upgrade it to the very latest version. the 'venv' tool will also include
+> > whichever version your host system happens to have.
+> >
+> > Unfortunately, setuptools version 60.0.0 and above include a hack to
+> > forcibly overwrite python's built-in distutils. The pylint tool that we
+> > use to run code analysis checks on this package relies on distutils and
+> > suffers regressions when setuptools >= 60.0.0 is present at all, see
+> > https://github.com/PyCQA/pylint/issues/5704
+> >
+> > Instruct tox and the 'check-dev' targets to avoid setuptools packages
+> > that are too new, for now. Pipenv is unaffected, because setuptools 60
+> > does not offer Python 3.6 support, and our pipenv config is pinned
+> > against Python 3.6.
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >  python/Makefile  | 2 ++
+> >  python/setup.cfg | 1 +
+> >  2 files changed, 3 insertions(+)
+> >
+>
+> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+> Tested-by: Cleber Rosa <crosa@redhat.com>
 >
 
-Oh, and this one:
+Infinite gratitude. I've staged this patch and will send a PR shortly
+(Assuming I can determine that the failures I'm seeing on GitLab right
+now are not my fault.)
 
-make[2]: *** [../Makefile.target:159:
-run-plugin-threadcount-with-libbb.so] Error 124
-make[1]: *** [/builds/jsnow/qemu/tests/tcg/Makefile.qemu:102:
-run-guest-tests] Error 2
-make: *** [/builds/jsnow/qemu/tests/Makefile.include:63:
-run-tcg-tests-sh4-linux-user] Error 2
-make: *** Waiting for unfinished jobs....
-
-from https://gitlab.com/jsnow/qemu/-/jobs/2002782036 under the
-'build-user' tests.
-
-Something you already know about?
-
-> --js
+Thanks,
+--js
 
 
