@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5778495732
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 01:07:09 +0100 (CET)
-Received: from localhost ([::1]:35364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC276495756
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 01:27:09 +0100 (CET)
+Received: from localhost ([::1]:34562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAhSO-00052L-Fy
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 19:07:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39276)
+	id 1nAhlj-0007mC-IB
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 19:27:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nAhL9-0002fO-KF; Thu, 20 Jan 2022 18:59:39 -0500
-Received: from [2607:f8b0:4864:20::133] (port=42634
- helo=mail-il1-x133.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nAhL7-0005tl-Bc; Thu, 20 Jan 2022 18:59:39 -0500
-Received: by mail-il1-x133.google.com with SMTP id u5so6343379ilq.9;
- Thu, 20 Jan 2022 15:59:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EhjzVjs1Jp79YEAy51JghEC6x5Ox2ek5v0xoOw/Q0ww=;
- b=ipj81tTvxUjvVh2/HjZFcNUMzdPDElRqh0sdtV9y4bDTnCuHa9Hcqs9l11QS4DzqpW
- Ptn7JXc7hk/18JTxgd9LiZXth5tHe6PNsI/k9eHWQ8D7JLO06jfDzzdMZD5bm2g8pQMN
- LRX1iupEM079/45kUoFVwzvwPq7Qzoy9e8DPTeDC3EEDsSmpaw2yxEdUThFJb8YsL0xc
- qYRI22LUA4CPqCszJzmIwSkQwiKRd4by5wganGZfAvhdj3FsjgFQFoeay7IbP88ELjuy
- 3cvsYDk6jdhNS2xVKGaCTgySqBU3bCDBd1lx0hugjgu5pmu2aYIAc9w3OsFxVT2ClNK1
- pbRA==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nAhcx-00088z-J8
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 19:18:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49041)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nAhct-00023l-Vn
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 19:18:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642724278;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tRuchy//nIFDL1IRei96ygVg05GpRiq6w+C8MwZIT8E=;
+ b=AYFE7JGojCkdvgKlLWItjgX2uFovZj6XgR2r2h3PBUKYVN3yRMWd0LHAqFmCcNhbo7F/pe
+ JozWGGJfrt7i44COG8JBCCReUA2RPLMlZBgJvJcSUVNm9Zv/wjRpGnrg62JCF2XUCOs0Wa
+ akdlaYOVKDMitEqw3TiIXxmngWZkz1o=
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
+ [209.85.221.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-275-lbRzCdZoNQ-1C8Oi4vn_6A-1; Thu, 20 Jan 2022 19:17:57 -0500
+X-MC-Unique: lbRzCdZoNQ-1C8Oi4vn_6A-1
+Received: by mail-vk1-f198.google.com with SMTP id
+ q19-20020a056122117300b0031da4c7a0c0so584313vko.18
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 16:17:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=EhjzVjs1Jp79YEAy51JghEC6x5Ox2ek5v0xoOw/Q0ww=;
- b=FCZCbAV2gSfiu5YLy0HOjfXpWpOTJE+f2A+dC73Eor9QIW9KV5zWGEDgbsfjq8sg4L
- GzOYbr4A7ziOTn1F/izbLqgMQZDsHznRpeKCihNDUrYen67ibc9ouYG/+zDMEL1M+1XY
- XpuKkMGHaaHJEiW+1oO+NgiVe5drpjZ0Ozbc1S5F5Vepr9h3KyxvoviVnOEM/i6AlWtv
- Z5bR8AjiIo2PrfWvux4htnSQu5IW8teC6qhrrro1eVj7K3CQDowhbRFVh1Gd9hMiUx8u
- vJD7KUWFbJ8HlxsywE78gWzBr6jyP7/oRgL2fy2osEPk8xQzCVO3LDDx+8541hPVKDCU
- YMvw==
-X-Gm-Message-State: AOAM533+kpsLQ5Y5jcExWOedmQplaStoaRBcVeTrhNEf4XiTo4VQgvEK
- v+lDobbmPMaacl7+HuW+r7RbCqhsAVp1ZJg/FrQ=
-X-Google-Smtp-Source: ABdhPJwrhMGPHhshFH/mSlFBAKx301iqkhc33D+sXMgLBvxkfCtMy0SZu8f15qf1zymzmLX4MzAN3WCevj6GPjEaorc=
-X-Received: by 2002:a92:3012:: with SMTP id x18mr741260ile.221.1642723173681; 
- Thu, 20 Jan 2022 15:59:33 -0800 (PST)
+ bh=tRuchy//nIFDL1IRei96ygVg05GpRiq6w+C8MwZIT8E=;
+ b=2lrzb7xmh9bZ3KUcDf+y1y2Nyb6PAoCuQDqxJVetpSBFJ1YEWwbflQSF3Qii4qg039
+ z2p1IpOcL2uE26Fre4ir84XC5buoWsUpUl6J0YZDV8ZdLznRjqF5cqF5ivrwcAxnSFw2
+ kQX4I3QV4xL1jYRgf+WQRid1WVQPKVn/kHUj9k1jLJN5EXW9P6K3Xy0qbMfs2AK0qpyB
+ o0VYS0LOCX4pm8CZCE3d4K2ck2Tl8mTD3j1zZfTPgWftaa9UFwjpoRZQ44lgu7DZgQff
+ m+TvnvysTY8CBhqxf9nyNZuuWp3hqBEgvGsN8s6mQ9GHvhSMFqAiMz/jgsJom0Kk8089
+ O/DA==
+X-Gm-Message-State: AOAM532Vh8UU9R17qVwzXgtZ+sh2QGkvcPLXmX74oqV3Xd+Tmj9C/MQm
+ MRE06VWcyhdrWONGqifQXDNoK+rxpxb5PEekRMhqmYWjbuzGr6lS5UHHP5XSGR4y8LCp+tzr9uF
+ eb29IU6W2xnkkkVmM9Y9A/IyFQQUN4SE=
+X-Received: by 2002:a1f:2d8a:: with SMTP id t132mr755961vkt.3.1642724277119;
+ Thu, 20 Jan 2022 16:17:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyeufWoeozj/KJWM1nN9mEMqs//XbpX/WWHdXk8Rb/FjxrOafw6ki6YPxYlWZ0xD9y/8YY1JkAg36t6/rBczng=
+X-Received: by 2002:a1f:2d8a:: with SMTP id t132mr755942vkt.3.1642724276754;
+ Thu, 20 Jan 2022 16:17:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20220119152614.27548-1-anup@brainfault.org>
- <20220119152614.27548-15-anup@brainfault.org>
-In-Reply-To: <20220119152614.27548-15-anup@brainfault.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 21 Jan 2022 09:59:07 +1000
-Message-ID: <CAKmqyKNBnRxkFRBBSdS0oeSwNU_uw1hW29Eo7VVT=3og=gT-dw@mail.gmail.com>
-Subject: Re: [PATCH v8 14/23] target/riscv: Implement AIA xiselect and xireg
- CSRs
-To: Anup Patel <anup@brainfault.org>
+References: <20220110232910.1923864-1-jsnow@redhat.com>
+In-Reply-To: <20220110232910.1923864-1-jsnow@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 20 Jan 2022 19:17:46 -0500
+Message-ID: <CAFn=p-ZVeHr_=T4krkRagXGisL+ta7YFB5gxA=Lfcg9TrNBr0Q@mail.gmail.com>
+Subject: Re: [PATCH v3 00/31] Python: delete synchronous qemu.qmp package
+To: qemu-devel <qemu-devel@nongnu.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::133
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::133;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x133.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,294 +87,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Frank Chang <frank.chang@sifive.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Wainer Moschetta <wainersm@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 20, 2022 at 2:32 AM Anup Patel <anup@brainfault.org> wrote:
+On Mon, Jan 10, 2022 at 6:29 PM John Snow <jsnow@redhat.com> wrote:
 >
-> From: Anup Patel <anup.patel@wdc.com>
+> Based-on: <20220110232521.1922962-1-jsnow@redhat.com>
+>           (jsnow/python staging branch)
+> GitLab: https://gitlab.com/jsnow/qemu/-/commits/python-qmp-legacy-switch
+> CI: https://gitlab.com/jsnow/qemu/-/pipelines/445163212
 >
-> The AIA specification defines [m|s|vs]iselect and [m|s|vs]ireg CSRs
-> which allow indirect access to interrupt priority arrays and per-HART
-> IMSIC registers. This patch implements AIA xiselect and xireg CSRs.
+> Hi, this series is part of an effort to publish the qemu.qmp package on
+> PyPI. It is the first of three series to complete this work:
 >
-> Signed-off-by: Anup Patel <anup.patel@wdc.com>
-> Signed-off-by: Anup Patel <anup@brainfault.org>
-> Reviewed-by: Frank Chang <frank.chang@sifive.com>
+> --> (1) Switch the new Async QMP library in to python/qemu/qmp
+>     (2) Fork python/qemu/qmp out into its own repository,
+>         with updated GitLab CI/CD targets to build packages.
+>     (3) Update qemu.git to install qemu.qmp from PyPI,
+>         and then delete python/qemu/qmp.
+>
+> This series swaps out qemu.qmp for qemu.aqmp permanently, instead of
+> hiding it behind an environment variable toggle. This leaves us with
+> just one QMP library to worry about. It also implements the rename of
+> "qemu.aqmp" to "qemu.qmp".
+>
+> I suspect the most potential disruption to iotest and avocado
+> maintainers, as those two subsystems rely on the QMP features the
+> most. Would appreciate at least an ACK from each of those camps if
+> you're willing to give benefit-of-the-doubt on the actual Python code.
+>
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Patches 1-4 were already merged.
+I'm staging patches 5-16, and 18-20.
 
-Alistair
+I'm leaving behind patches 17 and 21-23 for further review;
+patches 24-31 can be staged separately after 17, 21-23 go ahead.
 
-> ---
->  target/riscv/cpu.h     |   7 ++
->  target/riscv/csr.c     | 175 +++++++++++++++++++++++++++++++++++++++++
->  target/riscv/machine.c |   3 +
->  3 files changed, 185 insertions(+)
+--js
+
+> V3:
+>  - Rebased on top of jsnow/python (For GitLab CI fixes)
+>  - Added a new patch 001 to fix a typo Vladimir found.
+>  - Tiny change in 006 due to the new patch 001
+>  - Reworded subject of patch 007
+>  - Changed import statement in patch 013 (Vladimir)
+>  - Rebase-related changes in patch 021
+>  - Removed 'aqmp' from internal variable names in 026
+>  - Added new patch to rename aqmp-tui to qmp-tui in 027
 >
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 65ffd31801..058ea9ce99 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -195,6 +195,10 @@ struct CPURISCVState {
->      uint8_t miprio[64];
->      uint8_t siprio[64];
+> V2:
+>  - Integrate the renaming of qemu.aqmp to qemu.qmp in this series
+>  - Minor bits and pieces.
 >
-> +    /* AIA CSRs */
-> +    target_ulong miselect;
-> +    target_ulong siselect;
-> +
->      /* Hypervisor CSRs */
->      target_ulong hstatus;
->      target_ulong hedeleg;
-> @@ -228,6 +232,9 @@ struct CPURISCVState {
->      target_ulong vstval;
->      target_ulong vsatp;
+> John Snow (30):
+>   python/aqmp: use absolute import statement
+>   Python/aqmp: fix type definitions for mypy 0.920
+>   python: update type hints for mypy 0.930
+>   python/aqmp: fix docstring typo
+>   python/aqmp: add __del__ method to legacy interface
+>   python/aqmp: handle asyncio.TimeoutError on execute()
+>   python/aqmp: copy type definitions from qmp
+>   python/aqmp: add SocketAddrT to package root
+>   python/aqmp: rename AQMPError to QMPError
+>   python/qemu-ga-client: don't use deprecated CLI syntax in usage
+>     comment
+>   python/qmp: switch qemu-ga-client to AQMP
+>   python/qmp: switch qom tools to AQMP
+>   python/qmp: switch qmp-shell to AQMP
+>   python: move qmp utilities to python/qemu/utils
+>   python: move qmp-shell under the AQMP package
+>   python/machine: permanently switch to AQMP
+>   scripts/cpu-x86-uarch-abi: fix CLI parsing
+>   scripts/cpu-x86-uarch-abi: switch to AQMP
+>   scripts/render-block-graph: switch to AQMP
+>   scripts/bench-block-job: switch to AQMP
+>   iotests/mirror-top-perms: switch to AQMP
+>   iotests: switch to AQMP
+>   python: temporarily silence pylint duplicate-code warnings
+>   python/aqmp: take QMPBadPortError and parse_address from qemu.qmp
+>   python/aqmp: fully separate from qmp.QEMUMonitorProtocol
+>   python/aqmp: copy qmp docstrings to qemu.aqmp.legacy
+>   python: remove the old QMP package
+>   python: re-enable pylint duplicate-code warnings
+>   python: rename qemu.aqmp to qemu.qmp
+>   python: rename 'aqmp-tui' to 'qmp-tui'
 >
-> +    /* AIA VS-mode CSRs */
-> +    target_ulong vsiselect;
-> +
->      target_ulong mtval2;
->      target_ulong mtinst;
+> Stefan Weil (1):
+>   simplebench: Fix Python syntax error (reported by LGTM)
 >
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index f7904c003f..e40620f455 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -916,6 +916,169 @@ static int read_mtopi(CPURISCVState *env, int csrno, target_ulong *val)
->      return RISCV_EXCP_NONE;
->  }
+>  python/qemu/qmp/README.rst                    |   9 -
+>  python/qemu/aqmp/__init__.py                  |  51 --
+>  python/qemu/aqmp/legacy.py                    | 138 ------
+>  python/qemu/aqmp/py.typed                     |   0
+>  python/qemu/machine/machine.py                |  18 +-
+>  python/qemu/machine/qtest.py                  |   2 +-
+>  python/qemu/qmp/__init__.py                   | 441 ++----------------
+>  python/qemu/{aqmp => qmp}/error.py            |  12 +-
+>  python/qemu/{aqmp => qmp}/events.py           |   6 +-
+>  python/qemu/qmp/legacy.py                     | 319 +++++++++++++
+>  python/qemu/{aqmp => qmp}/message.py          |   0
+>  python/qemu/{aqmp => qmp}/models.py           |   0
+>  python/qemu/{aqmp => qmp}/protocol.py         |  33 +-
+>  python/qemu/{aqmp => qmp}/qmp_client.py       |  32 +-
+>  python/qemu/qmp/qmp_shell.py                  |  31 +-
+>  .../qemu/{aqmp/aqmp_tui.py => qmp/qmp_tui.py} |  14 +-
+>  python/qemu/{aqmp => qmp}/util.py             |   0
+>  python/qemu/{qmp => utils}/qemu_ga_client.py  |  24 +-
+>  python/qemu/{qmp => utils}/qom.py             |   5 +-
+>  python/qemu/{qmp => utils}/qom_common.py      |   9 +-
+>  python/qemu/{qmp => utils}/qom_fuse.py        |  11 +-
+>  python/setup.cfg                              |  23 +-
+>  python/tests/protocol.py                      |  14 +-
+>  scripts/cpu-x86-uarch-abi.py                  |   7 +-
+>  scripts/device-crash-test                     |   4 +-
+>  scripts/qmp/qemu-ga-client                    |   2 +-
+>  scripts/qmp/qom-fuse                          |   2 +-
+>  scripts/qmp/qom-get                           |   2 +-
+>  scripts/qmp/qom-list                          |   2 +-
+>  scripts/qmp/qom-set                           |   2 +-
+>  scripts/qmp/qom-tree                          |   2 +-
+>  scripts/render_block_graph.py                 |   8 +-
+>  scripts/simplebench/bench-example.py          |   2 +-
+>  scripts/simplebench/bench_block_job.py        |   5 +-
+>  tests/qemu-iotests/iotests.py                 |   2 +-
+>  tests/qemu-iotests/tests/mirror-top-perms     |  13 +-
+>  36 files changed, 502 insertions(+), 743 deletions(-)
+>  delete mode 100644 python/qemu/qmp/README.rst
+>  delete mode 100644 python/qemu/aqmp/__init__.py
+>  delete mode 100644 python/qemu/aqmp/legacy.py
+>  delete mode 100644 python/qemu/aqmp/py.typed
+>  rename python/qemu/{aqmp => qmp}/error.py (87%)
+>  rename python/qemu/{aqmp => qmp}/events.py (99%)
+>  create mode 100644 python/qemu/qmp/legacy.py
+>  rename python/qemu/{aqmp => qmp}/message.py (100%)
+>  rename python/qemu/{aqmp => qmp}/models.py (100%)
+>  rename python/qemu/{aqmp => qmp}/protocol.py (97%)
+>  rename python/qemu/{aqmp => qmp}/qmp_client.py (96%)
+>  rename python/qemu/{aqmp/aqmp_tui.py => qmp/qmp_tui.py} (98%)
+>  rename python/qemu/{aqmp => qmp}/util.py (100%)
+>  rename python/qemu/{qmp => utils}/qemu_ga_client.py (94%)
+>  rename python/qemu/{qmp => utils}/qom.py (99%)
+>  rename python/qemu/{qmp => utils}/qom_common.py (95%)
+>  rename python/qemu/{qmp => utils}/qom_fuse.py (97%)
 >
-> +static int aia_xlate_vs_csrno(CPURISCVState *env, int csrno)
-> +{
-> +    if (!riscv_cpu_virt_enabled(env)) {
-> +        return csrno;
-> +    }
-> +
-> +    switch (csrno) {
-> +    case CSR_SISELECT:
-> +        return CSR_VSISELECT;
-> +    case CSR_SIREG:
-> +        return CSR_VSIREG;
-> +    default:
-> +        return csrno;
-> +    };
-> +}
-> +
-> +static int rmw_xiselect(CPURISCVState *env, int csrno, target_ulong *val,
-> +                        target_ulong new_val, target_ulong wr_mask)
-> +{
-> +    target_ulong *iselect;
-> +
-> +    /* Translate CSR number for VS-mode */
-> +    csrno = aia_xlate_vs_csrno(env, csrno);
-> +
-> +    /* Find the iselect CSR based on CSR number */
-> +    switch (csrno) {
-> +    case CSR_MISELECT:
-> +        iselect = &env->miselect;
-> +        break;
-> +    case CSR_SISELECT:
-> +        iselect = &env->siselect;
-> +        break;
-> +    case CSR_VSISELECT:
-> +        iselect = &env->vsiselect;
-> +        break;
-> +    default:
-> +         return RISCV_EXCP_ILLEGAL_INST;
-> +    };
-> +
-> +    if (val) {
-> +        *val = *iselect;
-> +    }
-> +
-> +    wr_mask &= ISELECT_MASK;
-> +    if (wr_mask) {
-> +        *iselect = (*iselect & ~wr_mask) | (new_val & wr_mask);
-> +    }
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static int rmw_iprio(target_ulong xlen,
-> +                     target_ulong iselect, uint8_t *iprio,
-> +                     target_ulong *val, target_ulong new_val,
-> +                     target_ulong wr_mask, int ext_irq_no)
-> +{
-> +    int i, firq, nirqs;
-> +    target_ulong old_val;
-> +
-> +    if (iselect < ISELECT_IPRIO0 || ISELECT_IPRIO15 < iselect) {
-> +        return -EINVAL;
-> +    }
-> +    if (xlen != 32 && iselect & 0x1) {
-> +        return -EINVAL;
-> +    }
-> +
-> +    nirqs = 4 * (xlen / 32);
-> +    firq = ((iselect - ISELECT_IPRIO0) / (xlen / 32)) * (nirqs);
-> +
-> +    old_val = 0;
-> +    for (i = 0; i < nirqs; i++) {
-> +        old_val |= ((target_ulong)iprio[firq + i]) << (IPRIO_IRQ_BITS * i);
-> +    }
-> +
-> +    if (val) {
-> +        *val = old_val;
-> +    }
-> +
-> +    if (wr_mask) {
-> +        new_val = (old_val & ~wr_mask) | (new_val & wr_mask);
-> +        for (i = 0; i < nirqs; i++) {
-> +            /*
-> +             * M-level and S-level external IRQ priority always read-only
-> +             * zero. This means default priority order is always preferred
-> +             * for M-level and S-level external IRQs.
-> +             */
-> +            if ((firq + i) == ext_irq_no) {
-> +                continue;
-> +            }
-> +            iprio[firq + i] = (new_val >> (IPRIO_IRQ_BITS * i)) & 0xff;
-> +        }
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +static int rmw_xireg(CPURISCVState *env, int csrno, target_ulong *val,
-> +                     target_ulong new_val, target_ulong wr_mask)
-> +{
-> +    bool virt;
-> +    uint8_t *iprio;
-> +    int ret = -EINVAL;
-> +    target_ulong priv, isel, vgein;
-> +
-> +    /* Translate CSR number for VS-mode */
-> +    csrno = aia_xlate_vs_csrno(env, csrno);
-> +
-> +    /* Decode register details from CSR number */
-> +    virt = false;
-> +    switch (csrno) {
-> +    case CSR_MIREG:
-> +        iprio = env->miprio;
-> +        isel = env->miselect;
-> +        priv = PRV_M;
-> +        break;
-> +    case CSR_SIREG:
-> +        iprio = env->siprio;
-> +        isel = env->siselect;
-> +        priv = PRV_S;
-> +        break;
-> +    case CSR_VSIREG:
-> +        iprio = env->hviprio;
-> +        isel = env->vsiselect;
-> +        priv = PRV_S;
-> +        virt = true;
-> +        break;
-> +    default:
-> +         goto done;
-> +    };
-> +
-> +    /* Find the selected guest interrupt file */
-> +    vgein = (virt) ? get_field(env->hstatus, HSTATUS_VGEIN) : 0;
-> +
-> +    if (ISELECT_IPRIO0 <= isel && isel <= ISELECT_IPRIO15) {
-> +        /* Local interrupt priority registers not available for VS-mode */
-> +        if (!virt) {
-> +            ret = rmw_iprio(riscv_cpu_mxl_bits(env),
-> +                            isel, iprio, val, new_val, wr_mask,
-> +                            (priv == PRV_M) ? IRQ_M_EXT : IRQ_S_EXT);
-> +        }
-> +    } else if (ISELECT_IMSIC_FIRST <= isel && isel <= ISELECT_IMSIC_LAST) {
-> +        /* IMSIC registers only available when machine implements it. */
-> +        if (env->aia_ireg_rmw_fn[priv]) {
-> +            /* Selected guest interrupt file should not be zero */
-> +            if (virt && (!vgein || env->geilen < vgein)) {
-> +                goto done;
-> +            }
-> +            /* Call machine specific IMSIC register emulation */
-> +            ret = env->aia_ireg_rmw_fn[priv](env->aia_ireg_rmw_fn_arg[priv],
-> +                                    AIA_MAKE_IREG(isel, priv, virt, vgein,
-> +                                                  riscv_cpu_mxl_bits(env)),
-> +                                    val, new_val, wr_mask);
-> +        }
-> +    }
-> +
-> +done:
-> +    if (ret) {
-> +        return (riscv_cpu_virt_enabled(env) && virt) ?
-> +               RISCV_EXCP_VIRT_INSTRUCTION_FAULT : RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
->  static RISCVException read_mtvec(CPURISCVState *env, int csrno,
->                                   target_ulong *val)
->  {
-> @@ -2690,6 +2853,10 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->      [CSR_MTVAL]    = { "mtval",    any,  read_mtval,    write_mtval    },
->      [CSR_MIP]      = { "mip",      any,  NULL,    NULL, rmw_mip        },
->
-> +    /* Machine-Level Window to Indirectly Accessed Registers (AIA) */
-> +    [CSR_MISELECT] = { "miselect", aia_any,   NULL, NULL,    rmw_xiselect },
-> +    [CSR_MIREG]    = { "mireg",    aia_any,   NULL, NULL,    rmw_xireg },
-> +
->      /* Machine-Level Interrupts (AIA) */
->      [CSR_MTOPI]    = { "mtopi",    aia_any,   read_mtopi },
->
-> @@ -2722,6 +2889,10 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->      /* Supervisor Protection and Translation */
->      [CSR_SATP]     = { "satp",     smode, read_satp,    write_satp      },
->
-> +    /* Supervisor-Level Window to Indirectly Accessed Registers (AIA) */
-> +    [CSR_SISELECT]   = { "siselect",   aia_smode, NULL, NULL, rmw_xiselect },
-> +    [CSR_SIREG]      = { "sireg",      aia_smode, NULL, NULL, rmw_xireg },
-> +
->      /* Supervisor-Level Interrupts (AIA) */
->      [CSR_STOPI]      = { "stopi",      aia_smode, read_stopi },
->
-> @@ -2763,6 +2934,10 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->      [CSR_HVIPRIO1]    = { "hviprio1",    aia_hmode, read_hviprio1,   write_hviprio1 },
->      [CSR_HVIPRIO2]    = { "hviprio2",    aia_hmode, read_hviprio2,   write_hviprio2 },
->
-> +    /* VS-Level Window to Indirectly Accessed Registers (H-extension with AIA) */
-> +    [CSR_VSISELECT]   = { "vsiselect",   aia_hmode, NULL, NULL,      rmw_xiselect },
-> +    [CSR_VSIREG]      = { "vsireg",      aia_hmode, NULL, NULL,      rmw_xireg },
-> +
->      /* VS-Level Interrupts (H-extension with AIA) */
->      [CSR_VSTOPI]      = { "vstopi",      aia_hmode, read_vstopi },
->
-> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-> index c6a01ba953..9895930b29 100644
-> --- a/target/riscv/machine.c
-> +++ b/target/riscv/machine.c
-> @@ -103,6 +103,7 @@ static const VMStateDescription vmstate_hyper = {
->          VMSTATE_UINTTL(env.vscause, RISCVCPU),
->          VMSTATE_UINTTL(env.vstval, RISCVCPU),
->          VMSTATE_UINTTL(env.vsatp, RISCVCPU),
-> +        VMSTATE_UINTTL(env.vsiselect, RISCVCPU),
->
->          VMSTATE_UINTTL(env.mtval2, RISCVCPU),
->          VMSTATE_UINTTL(env.mtinst, RISCVCPU),
-> @@ -260,6 +261,8 @@ const VMStateDescription vmstate_riscv_cpu = {
->          VMSTATE_UINTTL(env.mepc, RISCVCPU),
->          VMSTATE_UINTTL(env.mcause, RISCVCPU),
->          VMSTATE_UINTTL(env.mtval, RISCVCPU),
-> +        VMSTATE_UINTTL(env.miselect, RISCVCPU),
-> +        VMSTATE_UINTTL(env.siselect, RISCVCPU),
->          VMSTATE_UINTTL(env.scounteren, RISCVCPU),
->          VMSTATE_UINTTL(env.mcounteren, RISCVCPU),
->          VMSTATE_UINTTL(env.sscratch, RISCVCPU),
 > --
-> 2.25.1
+> 2.31.1
 >
->
+
 
