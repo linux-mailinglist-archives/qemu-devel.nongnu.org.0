@@ -2,59 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614E24957B0
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 02:26:06 +0100 (CET)
-Received: from localhost ([::1]:50820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A964957B5
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 02:29:23 +0100 (CET)
+Received: from localhost ([::1]:56484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAigm-0006l8-VE
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 20:26:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39960)
+	id 1nAijy-0002CP-L6
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 20:29:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nAhNP-00041N-IX
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 19:01:59 -0500
-Received: from mail-io1-f46.google.com ([209.85.166.46]:44700)
+ id 1nAhPR-0005cV-5F; Thu, 20 Jan 2022 19:04:05 -0500
+Received: from [2607:f8b0:4864:20::d30] (port=35331
+ helo=mail-io1-xd30.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nAhNN-0006Uu-KW
- for qemu-devel@nongnu.org; Thu, 20 Jan 2022 19:01:59 -0500
-Received: by mail-io1-f46.google.com with SMTP id h23so8887996iol.11
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 16:01:57 -0800 (PST)
+ id 1nAhPO-00012P-SO; Thu, 20 Jan 2022 19:04:04 -0500
+Received: by mail-io1-xd30.google.com with SMTP id p7so8983641iod.2;
+ Thu, 20 Jan 2022 16:04:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cybhzHD7y3vE4+KzdrnmjtyKsz8VQiCYwtF3PshR8j8=;
+ b=n4KEudS/4WR+/w3oxda9/6VwSCmrl49S8jg2Qct5SNj0jGX6yTZkGYYaO8unAHV5ch
+ K40kkBOC1V0+6NZGIvKZ4loMAWhBPykKXb2WFsRNMigYRZnFQZr/UbaKKuypwTsqxW4D
+ oi1qHyV3qqeVBvHQwY6XL5iFJfrIAzczjs0HRtoMS8EkgMW/ZKZxt2l0qIlGmdgI3dKS
+ xaYw/FR+0JHSz5hTEPR/DaLFEBwqePLHGY65gH3eyrEghHbs1LiH7F1RKRx6YEtOHOoX
+ MF7lO5wR7co1oogNj+y5f03ly4jqW7L5e7hOHoZvMnRWaT7Igabtg7UV3CydscKhrc8f
+ AHYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=G6v/b/MRjMRdrFC8BdxiFC7eN0m0kKtsi0UpFXILxnE=;
- b=6IYsNAJQyVakLQUfAIT+wL3+uNAQANiI/167S+tN07eY8H/oBLy3QArE5Lxr39ievF
- FKE1+nDrNVLjOOY4U68NRrCQ9goz/ApmD602FkYfu0rI+6jTx5ZGMTvVoJeBP8ExTxKB
- DTGz6bQzmiEp5mrXjQ1+fNT8ghCUaC+rotHncQNqjybQ+9w29IKAL3QCVFoSlPbnWJhB
- KliziBAj0BWieouLFPbNs8t9Vnh3jonpoQilkIjjAlRi0LJ/RrxmTKp1s9CpFOxvPx8d
- 1KEklphRS7R1pui8ZbmorYp6b8IAIal0zXXY37bJ72LrL5Tu31HQ8RNKwJnEqYAKKDUo
- OUFQ==
-X-Gm-Message-State: AOAM531vPtWjSWnOb0DAFFv5RQXnGCEEm6+I5Odq7uYvgzAxecg0ZrSp
- hTnkaNTXGeECYUQ89L6ErCRYEAmhI8cHNACrXzk=
-X-Google-Smtp-Source: ABdhPJzSRg9Pc+F5BmatIth0Hj1mmYV29bFrWbU5JjrD1ybWg0Lt6KyFae4v1dlJ151PzJBs/YNcZQdpOu/+AcyVGnQ=
-X-Received: by 2002:a02:a818:: with SMTP id f24mr583097jaj.125.1642723316688; 
- Thu, 20 Jan 2022 16:01:56 -0800 (PST)
+ bh=cybhzHD7y3vE4+KzdrnmjtyKsz8VQiCYwtF3PshR8j8=;
+ b=nL5vG2qd2fFZynOs/tEk/+PGiCGfpQOLDNbqfbJpG308JW7YUtdO5vORQR7rHFelnM
+ SJagRdosMExM0pWNhhZAT/d67YV0OUaIvDMoagI/fXNgwusN+RTX8oiV9Zb5TUI/UHi5
+ iwCBNczI0SMsRa1ywm90P5QXRgLcEdq9uYlfBPHmafjLzFw/1BzXjD4nUPVHgkVPDEdA
+ tLu0pytwd/LqyjbgGArgFfYTzS/aj01lyhL4xKUmO0dY0vaoz5gGUL/Hc7ePqoQt/z7B
+ w1hRF65K+AAYC1fxgW5oVuuDAuJUrdDMkEhBgV66AjwKa+yvXQP5gHv0X5Sk4Rp++iAx
+ Z3vQ==
+X-Gm-Message-State: AOAM533iL1IGf1KeflRARqN0uP/TY1TSNVBqnYT7//RsGBFTWnwSXbrJ
+ Opo2QiSbEdMPtuGUcYvzR3xlwP0eX05mIUR4iUw=
+X-Google-Smtp-Source: ABdhPJzfYBqmdjNJJTO0h1TTbMSwA7IMMV6o9nS2j9RqCZ5fuI4ji1HRRl0tzhDH9jpq4PRbG5LZbYhkjXFn31NE5VA=
+X-Received: by 2002:a02:a403:: with SMTP id c3mr593991jal.318.1642723441187;
+ Thu, 20 Jan 2022 16:04:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20220120092715.7805-1-ptesarik@suse.com>
-In-Reply-To: <20220120092715.7805-1-ptesarik@suse.com>
-From: Alistair Francis <alistair.francis@xilinx.com>
-Date: Fri, 21 Jan 2022 10:01:30 +1000
-Message-ID: <CAKmqyKPrbrzdmNZ0g4ANZz-zPT=LZpjxPKAu+RoUPsXabiZG4Q@mail.gmail.com>
-Subject: Re: [PATCH 1/1] Allow setting up to 8 bytes with the generic loader
-To: Petr Tesarik <ptesarik@suse.com>
+References: <20220120122050.41546-1-zhiwei_liu@c-sky.com>
+In-Reply-To: <20220120122050.41546-1-zhiwei_liu@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 21 Jan 2022 10:03:34 +1000
+Message-ID: <CAKmqyKN-QptM5sxdm6bDuBCEPKDh2OyS9x3pqqjYiM4deayh8Q@mail.gmail.com>
+Subject: Re: [PATCH v8 00/23] Support UXL filed in xstatus
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.166.46; envelope-from=alistair23@gmail.com;
- helo=mail-io1-f46.google.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d30
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd30.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,49 +78,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>,
+Cc: guoren@linux.alibaba.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@xilinx.com>
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 20, 2022 at 7:57 PM Petr Tesarik <ptesarik@suse.com> wrote:
+On Fri, Jan 21, 2022 at 1:51 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
 >
-> The documentation for the generic loader says that "the maximum size of
-> the data is 8 bytes". However, attempts to set data-len=8 trigger the
-> following assertion failure:
+> In this patch set, we process the pc reigsters writes,
+> gdb reads and writes, and address calculation under
+> different UXLEN settings.
 >
-> ../hw/core/generic-loader.c:59: generic_loader_reset: Assertion `s->data_len < sizeof(s->data)' failed.
+> The patch set v8 has been tested by running rv64 Linux with
+> rv32 rootfs in compat mode. You can almost follow the test [1]
+> given by GuoRen, except using the branch riscv-upstream-uxl-v8
+> on my QEMU repo [2].
 >
-> The type of s->data is uint64_t (i.e. 8 bytes long), so I believe this
-> assert should use <= instead of <.
+> [1] https://lore.kernel.org/linux-arm-kernel/20211228143958.3409187-17-guoren@kernel.org/t/
+> [2] https://github.com/romanheros/qemu.git
 >
-> Fixes: e481a1f63c93 ("generic-loader: Add a generic loader")
-> Signed-off-by: Petr Tesarik <ptesarik@suse.com>
+> Except patch 22 is new, the other patches have been reviewed or acked.
+>
+> v8:
+>   Set default XLEN for hypervisor vsstatus and mstatus_hs
+>
+> v7:
+>   Rebase to Alistair riscv_to_apply.next branch
+>   Add commit message for create xl field in CPURISCVState
+>
+> v6:
+>   Pass boot 32bit rootfs on compat Linux
+>   Pass test cases on compat OpenTee
+>   Fix csr write mask
+>   Fix WARL for uxl
+>   Fix sstatus read for uxl
+>   Relax UXL field for debugging
+>   Don't bump machine state version for xl
+>   Rename cpu_get_xl to cpu_recompute_xl
+>   Rebase to vector v1.0
+>   Rebase to 128 bit cpu
+>
+> v5:
+>   Add xl field in env to clear up redundant riscv_cpu_xl
+>   Adjust pmpcfg access with mxl
+>   Select gdb core xml according to mxl
+>
+> v4:
+>   Support SSTATUS64_UXL write
+>   Bump vmstate version for vill split
+>
+> v3:
+>   Merge gen_pm_adjust_address into a canonical address function
+>   Adjust address for RVA with XLEN
+>   Split pm_enabled into pm_mask_enabled and pm_base_enabled
+>   Replace array of pm tcg globals with one scalar tcg global
+>   Split and change patch sequence
+>
+> v2:
+>   Split out vill from vtype
+>   Remove context switch when xlen changes at exception
+>   Use XL instead of OL in many places
+>   Use pointer masking and XLEN for vector address
+>   Define an common fuction to calculate address for ld
+>
+> LIU Zhiwei (23):
+>   target/riscv: Adjust pmpcfg access with mxl
+>   target/riscv: Don't save pc when exception return
+>   target/riscv: Sign extend link reg for jal and jalr
+>   target/riscv: Sign extend pc for different XLEN
+>   target/riscv: Create xl field in env
+>   target/riscv: Ignore the pc bits above XLEN
+>   target/riscv: Extend pc for runtime pc write
+>   target/riscv: Use gdb xml according to max mxlen
+>   target/riscv: Relax debug check for pm write
+>   target/riscv: Adjust csr write mask with XLEN
+>   target/riscv: Create current pm fields in env
+>   target/riscv: Alloc tcg global for cur_pm[mask|base]
+>   target/riscv: Calculate address according to XLEN
+>   target/riscv: Split pm_enabled into mask and base
+>   target/riscv: Split out the vill from vtype
+>   target/riscv: Adjust vsetvl according to XLEN
+>   target/riscv: Remove VILL field in VTYPE
+>   target/riscv: Fix check range for first fault only
+>   target/riscv: Adjust vector address with mask
+>   target/riscv: Adjust scalar reg in vector with XLEN
+>   target/riscv: Set default XLEN for hypervisor
+>   target/riscv: Enable uxl field write
+>   target/riscv: Relax UXL field for debugging
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Thanks!
+
+Applied to riscv-to-apply.next
 
 Alistair
 
-> ---
->  hw/core/generic-loader.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/hw/core/generic-loader.c b/hw/core/generic-loader.c
-> index 9a24ffb880..504ed7ca72 100644
-> --- a/hw/core/generic-loader.c
-> +++ b/hw/core/generic-loader.c
-> @@ -56,7 +56,7 @@ static void generic_loader_reset(void *opaque)
->      }
+>  target/riscv/cpu.c                            | 42 +++++++--
+>  target/riscv/cpu.h                            | 45 ++++++++-
+>  target/riscv/cpu_bits.h                       |  3 +
+>  target/riscv/cpu_helper.c                     | 94 +++++++++----------
+>  target/riscv/csr.c                            | 84 +++++++++++++++--
+>  target/riscv/gdbstub.c                        | 71 ++++++++++----
+>  target/riscv/helper.h                         |  4 +-
+>  .../riscv/insn_trans/trans_privileged.c.inc   |  9 +-
+>  target/riscv/insn_trans/trans_rva.c.inc       |  9 +-
+>  target/riscv/insn_trans/trans_rvd.c.inc       | 19 +---
+>  target/riscv/insn_trans/trans_rvf.c.inc       | 19 +---
+>  target/riscv/insn_trans/trans_rvi.c.inc       | 39 +++-----
+>  target/riscv/insn_trans/trans_rvv.c.inc       |  6 +-
+>  target/riscv/machine.c                        | 16 +++-
+>  target/riscv/op_helper.c                      |  7 +-
+>  target/riscv/pmp.c                            | 12 +--
+>  target/riscv/translate.c                      | 90 +++++++++---------
+>  target/riscv/vector_helper.c                  | 39 +++++---
+>  18 files changed, 377 insertions(+), 231 deletions(-)
 >
->      if (s->data_len) {
-> -        assert(s->data_len < sizeof(s->data));
-> +        assert(s->data_len <= sizeof(s->data));
->          dma_memory_write(s->cpu->as, s->addr, &s->data, s->data_len,
->                           MEMTXATTRS_UNSPECIFIED);
->      }
 > --
-> 2.31.1
+> 2.25.1
 >
 >
 
