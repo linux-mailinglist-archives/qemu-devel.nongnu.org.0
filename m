@@ -2,55 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D0D2495827
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 03:14:52 +0100 (CET)
-Received: from localhost ([::1]:45284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C2A495850
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 03:32:36 +0100 (CET)
+Received: from localhost ([::1]:54822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAjRy-0000YD-Oi
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 21:14:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38984)
+	id 1nAjj9-0007q3-7S
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 21:32:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1nAjMd-0005k7-9N; Thu, 20 Jan 2022 21:09:19 -0500
-Received: from out28-49.mail.aliyun.com ([115.124.28.49]:47681)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1nAjMZ-0004Wd-Fb; Thu, 20 Jan 2022 21:09:19 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07438843|-1; BR=01201311R131ec; CH=green;
- DM=|CONTINUE|false|; DS=SPAM|spam_education_ad|0.826393-0.000902873-0.172704;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047207; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=12; RT=12; SR=0; TI=SMTPD_---.Mg8wJ3L_1642730935; 
-Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.Mg8wJ3L_1642730935)
- by smtp.aliyun-inc.com(10.147.40.44); Fri, 21 Jan 2022 10:08:56 +0800
-Subject: Re: [PATCH v5 1/5] target/riscv: Ignore reserved bits in PTE for RV64
-To: Guo Ren <guoren@kernel.org>
-References: <20220118011711.7243-1-liweiwei@iscas.ac.cn>
- <20220118011711.7243-2-liweiwei@iscas.ac.cn>
- <CAAhSdy3zjeW-WkbiicTJfurQkhts4m9XwvmoS+Zr1XVMzhy+3w@mail.gmail.com>
- <CAKmqyKNajL8kJL4HExN8CDCYwrVcUx4dcnn77wY5zCZu9M6SGg@mail.gmail.com>
- <CAJF2gTRV55B+9AaFHDXW9R7cvEXO+R3dFs6RVRGnkKwZX5fCLg@mail.gmail.com>
- <4f22be6c-98ae-34fa-f334-8778ef703964@c-sky.com>
- <CAJF2gTTthdmLhv0nafxFnfakAxwEAWMe7_sbmjtGPMSAZTiY_Q@mail.gmail.com>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <158802c9-98f6-53dd-1c62-0ee63d999a92@c-sky.com>
-Date: Fri, 21 Jan 2022 10:08:55 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1nAjf1-0005C3-Dl
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 21:28:19 -0500
+Received: from [2607:f8b0:4864:20::102e] (port=50930
+ helo=mail-pj1-x102e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1nAjew-0002As-SV
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 21:28:17 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id pf13so8131922pjb.0
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 18:28:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wCjPxRn3fHoWfz/m/BnyYjG6XbQIS4YMEsA+jJCQ6mU=;
+ b=EZxDNT6EnDXujgc8AsKXXHti9YlTcXskLkosxNbJ8XJ3JRYy3aoReRCj8MoHDEuf47
+ 9IawY6RQBRYXIhx887Uv3cuSpcuBsVCFVVJsGDugZWryYCKvPA5axwDkKUYUa04UBD5J
+ d+0xvqKuR+jon1hGNV2qyyQim3/kv8GKTdidFFXEz2Yb+ua7FMIxoijqDd11q4eSqOJ9
+ 8o1RNNKAeWaO6Cb7sY5hdd0KZc3S8+dadNamsq/6Ty7IJGhkmmYwXMZtgmFFF/KhC4v8
+ z2eXWVsB8br3Jrr5UszGjgxEh9UvvjgQqk3UDE9zHw4Q4nYOAOrw6bsRIA55X0myE/Gl
+ nimQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wCjPxRn3fHoWfz/m/BnyYjG6XbQIS4YMEsA+jJCQ6mU=;
+ b=0XSEvK30jUhqjx/274I1V7fIAGK1OdnqzyP+cX+WQseMDMyvAMQ/EDDoVZQjk7eP+w
+ LVfD0tU4ITyKXVRm8EHydkqTQ52YOBOQIvhpYpjx+uXwIwpYR7EsE0S/bqQu3MfaP/gk
+ z5bjz2k52MzvaRAxmyvBSraBFn+mTMrElZ+QrznhHpFEk/ocYikv1Fd+6j0k37/U5LIF
+ Y0pbTyXq4Ut+w0QN22vvNxMUvVnPqOs05x98iw72eA3A5oF/qKbEtJwhMilDI7Fhcuu9
+ bC32ibfX7dtgMT4s9atl1TIclZtbIsx96pAuJgEPzUyjves1SSCgBQh6iFDA+ytxZm+V
+ NqAQ==
+X-Gm-Message-State: AOAM533vk6zRGUcMyRNB2ksOHYZLDisKRDEwmFgCO7pSFmzeDXkw4lts
+ mKEWzF/37gIjovFOB3tVzPahMg==
+X-Google-Smtp-Source: ABdhPJwKtlF24ZY6oQKPmoZJY/5g7HsYvVA1+Ve6eXrsuc+xE0UAMhyHZgjYn48sgyTtgz4jt47EAg==
+X-Received: by 2002:a17:902:f545:b0:14a:725f:74a5 with SMTP id
+ h5-20020a170902f54500b0014a725f74a5mr1744893plf.2.1642732091862; 
+ Thu, 20 Jan 2022 18:28:11 -0800 (PST)
+Received: from libai.bytedance.net ([61.120.150.72])
+ by smtp.gmail.com with ESMTPSA id d1sm4825404pfj.179.2022.01.20.18.28.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Jan 2022 18:28:11 -0800 (PST)
+From: zhenwei pi <pizhenwei@bytedance.com>
+To: arei.gonglei@huawei.com,
+	mst@redhat.com,
+	berrange@redhat.com
+Subject: [PATCH 0/3] Support akcipher for virtio-crypto
+Date: Fri, 21 Jan 2022 10:26:57 +0800
+Message-Id: <20220121022700.1042649-1-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAJF2gTTthdmLhv0nafxFnfakAxwEAWMe7_sbmjtGPMSAZTiY_Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.49; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-49.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,131 +87,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
- Weiwei Li <liweiwei@iscas.ac.cn>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Anup Patel <anup@brainfault.org>, wangjunqiang <wangjunqiang@iscas.ac.cn>,
- Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, Guo Ren <ren_guo@c-sky.com>,
- Alistair Francis <alistair23@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: qemu-devel@nongnu.org, zhenwei pi <pizhenwei@bytedance.com>,
+ helei.sig11@bytedance.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+- Support akcipher for virtio-crypto.
+- Introduce akcipher class.
+- Introduce ASN1 decoder into QEMU.
+- Implement RSA backend by nettle/hogweed.
 
-On 2022/1/21 上午9:50, Guo Ren wrote:
-> On Fri, Jan 21, 2022 at 6:48 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->>
->> On 2022/1/20 下午9:47, Guo Ren wrote:
->>> Hi Alistair and Anup,
->>>
->>> On Tue, Jan 18, 2022 at 12:56 PM Alistair Francis <alistair23@gmail.com> wrote:
->>>> On Tue, Jan 18, 2022 at 1:31 PM Anup Patel <anup@brainfault.org> wrote:
->>>>> On Tue, Jan 18, 2022 at 6:47 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->>>>>> From: Guo Ren <ren_guo@c-sky.com>
->>>>>>
->>>>>> Highest bits of PTE has been used for svpbmt, ref: [1], [2], so we
->>>>>> need to ignore them. They cannot be a part of ppn.
->>>>>>
->>>>>> 1: The RISC-V Instruction Set Manual, Volume II: Privileged Architecture
->>>>>>      4.4 Sv39: Page-Based 39-bit Virtual-Memory System
->>>>>>      4.5 Sv48: Page-Based 48-bit Virtual-Memory System
->>>>>>
->>>>>> 2: https://github.com/riscv/virtual-memory/blob/main/specs/663-Svpbmt-diff.pdf
->>>>>>
->>>>>> Signed-off-by: Guo Ren <ren_guo@c-sky.com>
->>>>>> Tested-by: Bin Meng <bmeng.cn@gmail.com>
->>>>>> Reviewed-by: Liu Zhiwei <zhiwei_liu@c-sky.com>
->>>>>> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
->>>>>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->>>>>> ---
->>>>>>    target/riscv/cpu_bits.h   | 7 +++++++
->>>>>>    target/riscv/cpu_helper.c | 2 +-
->>>>>>    2 files changed, 8 insertions(+), 1 deletion(-)
->>>>>>
->>>>>> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
->>>>>> index 5a6d49aa64..282cd8eecd 100644
->>>>>> --- a/target/riscv/cpu_bits.h
->>>>>> +++ b/target/riscv/cpu_bits.h
->>>>>> @@ -490,6 +490,13 @@ typedef enum {
->>>>>>    /* Page table PPN shift amount */
->>>>>>    #define PTE_PPN_SHIFT       10
->>>>>>
->>>>>> +/* Page table PPN mask */
->>>>>> +#if defined(TARGET_RISCV32)
->>>>>> +#define PTE_PPN_MASK        0xffffffffUL
->>>>>> +#elif defined(TARGET_RISCV64)
->>>>>> +#define PTE_PPN_MASK        0x3fffffffffffffULL
->>>>>> +#endif
->>>>>> +
->>>>> Going forward we should avoid using target specific "#if"
->>>>> so that we can use the same qemu-system-riscv64 for both
->>>>> RV32 and RV64.
->>>>>
->>>>>>    /* Leaf page shift amount */
->>>>>>    #define PGSHIFT             12
->>>>>>
->>>>>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
->>>>>> index 434a83e66a..26608ddf1c 100644
->>>>>> --- a/target/riscv/cpu_helper.c
->>>>>> +++ b/target/riscv/cpu_helper.c
->>>>>> @@ -619,7 +619,7 @@ restart:
->>>>>>                return TRANSLATE_FAIL;
->>>>>>            }
->>>>>>
->>>>>> -        hwaddr ppn = pte >> PTE_PPN_SHIFT;
->>>>>> +        hwaddr ppn = (pte & PTE_PPN_MASK) >> PTE_PPN_SHIFT;
->>>>> Rather than using "#if", please use "xlen" comparison to extract
->>>>> PPN correctly from PTE.
->>>> This will need to be dynamic based on get_xl()
->>>>
->>>> It does look like we should check the existence of the extensions though:
->>>>
->>>> "Bit 63 is reserved for use by the Svnapot extension in Chapter 5. If
->>>> Svnapot is not implemented, bit 63 remains reserved and must be zeroed
->>>> by software for forward compatibility, or else a page-fault exception
->>>> is raised. Bits 62–61 are reserved for use by the Svpbmt extension in
->>>> Chapter 6. If Svpbmt is not implemented, bits 62–61 remain reserved
->>>> and must be zeroed by software for forward compatibility, or else a
->>>> page-fault exception is raised."
->>> How about:
->>>
->>> +       RISCVCPU *cpu = env_archcpu(env);
->>> +       hwaddr ppn;
->>> +
->>> +       if (get_field(env->mstatus, MSTATUS64_SXL) == MXL_RV32) {
->> Use riscv_cpu_mxl currently. Or define a new function riscv_cpu_sxl in cpu.h
-> I perfer riscv_cpu_sxl.
-That's better. Thanks.
->
->>> +               ppn = pte >> PTE_PPN_SHIFT;
->>> +       } else if (cpu->cfg.ext_svpbmt || cpu->cfg.ext_svnapot) {
->>> +               ppn = (pte & PTE_PPN_MASK) >> PTE_PPN_SHIFT;
->>> +       } else {
->>> +               ppn = pte >> PTE_PPN_SHIFT;
->>> +               if ((pte & ~PTE_PPN_MASK) >> PTE_PPN_SHIFT)
->> Just if (pte & ~PTE_PPN_MASK)
-> Why? low bits in pte is correct. R W X A D
+Lei He (1):
+  crypto: Introduce RSA algorithm
 
-Oops, I forget about the lower bits.
+Zhenwei Pi (2):
+  virtio-crypto: header update
+  virtio_crypto: Support virtio crypto asym operation
 
-Zhiwei
+ backends/cryptodev-builtin.c                  | 201 ++++++--
+ backends/cryptodev-vhost-user.c               |  34 +-
+ backends/cryptodev.c                          |  32 +-
+ crypto/akcipher-nettle.c                      | 486 ++++++++++++++++++
+ crypto/akcipher.c                             |  91 ++++
+ crypto/asn1_decoder.c                         | 185 +++++++
+ crypto/asn1_decoder.h                         |  42 ++
+ crypto/meson.build                            |   4 +
+ hw/virtio/virtio-crypto.c                     | 328 +++++++++---
+ include/crypto/akcipher.h                     |  77 +++
+ include/hw/virtio/virtio-crypto.h             |   5 +-
+ .../standard-headers/linux/virtio_crypto.h    |  98 +++-
+ include/sysemu/cryptodev.h                    |  88 +++-
+ meson.build                                   |  11 +
+ 14 files changed, 1526 insertions(+), 156 deletions(-)
+ create mode 100644 crypto/akcipher-nettle.c
+ create mode 100644 crypto/akcipher.c
+ create mode 100644 crypto/asn1_decoder.c
+ create mode 100644 crypto/asn1_decoder.h
+ create mode 100644 include/crypto/akcipher.h
 
->>> +                       return TRANSLATE_FAIL;
->>> +       }
->> Otherwise looks good to me.
->>
->> Thanks,
->> Zhiwei
->>
->>>> Alistair
->>>>
->>>>> Regards,
->>>>> Anup
->>>>>
->>>>>>            if (!(pte & PTE_V)) {
->>>>>>                /* Invalid PTE */
->>>>>> --
->>>>>> 2.17.1
->>>>>>
->
->
+-- 
+2.25.1
+
 
