@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943F049671D
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 22:08:11 +0100 (CET)
-Received: from localhost ([::1]:57844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D996D496725
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 22:12:24 +0100 (CET)
+Received: from localhost ([::1]:38318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB18j-0005Pt-Q8
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 16:08:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60022)
+	id 1nB1Cp-0002mi-B5
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 16:12:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nB0fN-0003Uc-OW
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:37:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32411)
+ id 1nB0g6-0003tS-86
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:38:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37190)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nB0fL-0006a2-O6
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:37:49 -0500
+ id 1nB0g3-00078s-VM
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:38:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642797467;
+ s=mimecast20190719; t=1642797510;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TIMMZNZ/3FgLlCdpxCiJ5q46jj5saAuhvAUSPRz+8U0=;
- b=huxpWX1+QY5c0r9gMHMWCbMZtD+YJUqDUu4+5uMA2OlGlPoug/17dtAvDSWcQxwW3sfD2Q
- uo8Uc6nluj4Nlr6isz658TOWEUMBKQs4TJGnKHmgmhqL+p+9+msHvvFVnCiW8G+L5t4MIi
- 54dTxwbkTBXoJSIBGpEIOmVBY1BCv2k=
+ bh=4LGql8TZY0s6ZwIZaFQtscJKDocmuPbrDn2lBnqG4fU=;
+ b=PoZ14edl49IFX+cq6gbHWB0fPpz16G8L9KQn0uezrjBABMzLdXY1lPbEE5e0sJaVTQESA7
+ VTAXtie9nwM9pLQJSBvypRKNMpVah53ru6SUXhLZy2f6RwUiSlcyh88HcE6mSSsSmqWbpY
+ M4AKf1ka49IkJQTdw9vhISgewexqoao=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-402-KNv-7i2COu-QdJVZMNg_-w-1; Fri, 21 Jan 2022 15:37:46 -0500
-X-MC-Unique: KNv-7i2COu-QdJVZMNg_-w-1
+ us-mta-496-Ftd5LJo0Mpm09sDyIJm2Dw-1; Fri, 21 Jan 2022 15:38:27 -0500
+X-MC-Unique: Ftd5LJo0Mpm09sDyIJm2Dw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D3978145E1;
- Fri, 21 Jan 2022 20:37:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB1238145E0;
+ Fri, 21 Jan 2022 20:38:25 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.193.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AAADFE2D3;
- Fri, 21 Jan 2022 20:36:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A3C07E2D3;
+ Fri, 21 Jan 2022 20:37:44 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 30/31] vdpa: Move vhost_vdpa_get_iova_range to net/vhost-vdpa.c
-Date: Fri, 21 Jan 2022 21:27:32 +0100
-Message-Id: <20220121202733.404989-31-eperezma@redhat.com>
+Subject: [PATCH 31/31] vdpa: Add x-svq to NetdevVhostVDPAOptions
+Date: Fri, 21 Jan 2022 21:27:33 +0100
+Message-Id: <20220121202733.404989-32-eperezma@redhat.com>
 In-Reply-To: <20220121202733.404989-1-eperezma@redhat.com>
 References: <20220121202733.404989-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -94,132 +94,123 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since it's a device property, it can be done in net/. This helps SVQ to
-allocate the rings in vdpa device initialization, rather than delay
-that.
+Finally offering the possibility to enable SVQ from the command line.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 15 ---------------
- net/vhost-vdpa.c       | 32 ++++++++++++++++++++++++--------
- 2 files changed, 24 insertions(+), 23 deletions(-)
+ qapi/net.json    |  5 ++++-
+ net/vhost-vdpa.c | 27 ++++++++++++++++++++++++---
+ 2 files changed, 28 insertions(+), 4 deletions(-)
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 75090d65e8..2491c05d29 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -350,19 +350,6 @@ static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
-     return 0;
- }
+diff --git a/qapi/net.json b/qapi/net.json
+index 7fab2e7cd8..d243701527 100644
+--- a/qapi/net.json
++++ b/qapi/net.json
+@@ -445,12 +445,15 @@
+ # @queues: number of queues to be created for multiqueue vhost-vdpa
+ #          (default: 1)
+ #
++# @x-svq: Start device with (experimental) shadow virtqueue. (Since 7.0)
++#
+ # Since: 5.1
+ ##
+ { 'struct': 'NetdevVhostVDPAOptions',
+   'data': {
+     '*vhostdev':     'str',
+-    '*queues':       'int' } }
++    '*queues':       'int',
++    '*x-svq':        'bool' } }
  
--static void vhost_vdpa_get_iova_range(struct vhost_vdpa *v)
--{
--    int ret = vhost_vdpa_call(v->dev, VHOST_VDPA_GET_IOVA_RANGE,
--                              &v->iova_range);
--    if (ret != 0) {
--        v->iova_range.first = 0;
--        v->iova_range.last = UINT64_MAX;
--    }
--
--    trace_vhost_vdpa_get_iova_range(v->dev, v->iova_range.first,
--                                    v->iova_range.last);
--}
--
- static bool vhost_vdpa_one_time_request(struct vhost_dev *dev)
- {
-     struct vhost_vdpa *v = dev->opaque;
-@@ -1295,8 +1282,6 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
-         goto err;
-     }
- 
--    vhost_vdpa_get_iova_range(v);
--
-     if (vhost_vdpa_one_time_request(dev)) {
-         return 0;
-     }
+ ##
+ # @NetClientDriver:
 diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 4befba5cc7..cc9cecf8d1 100644
+index cc9cecf8d1..9e443fa715 100644
 --- a/net/vhost-vdpa.c
 +++ b/net/vhost-vdpa.c
-@@ -22,6 +22,7 @@
- #include <sys/ioctl.h>
- #include <err.h>
- #include "standard-headers/linux/virtio_net.h"
-+#include "standard-headers/linux/vhost_types.h"
- #include "monitor/monitor.h"
- #include "hw/virtio/vhost.h"
+@@ -128,7 +128,11 @@ err_init:
+ static void vhost_vdpa_cleanup(NetClientState *nc)
+ {
+     VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
++    struct vhost_dev *dev = s->vhost_vdpa.dev;
  
-@@ -187,13 +188,25 @@ static NetClientInfo net_vhost_vdpa_info = {
-         .check_peer_type = vhost_vdpa_check_peer_type,
- };
- 
-+static void vhost_vdpa_get_iova_range(int fd,
-+                                      struct vhost_vdpa_iova_range *iova_range)
-+{
-+    int ret = ioctl(fd, VHOST_VDPA_GET_IOVA_RANGE, iova_range);
-+
-+    if (ret < 0) {
-+        iova_range->first = 0;
-+        iova_range->last = UINT64_MAX;
++    if (dev && dev->vq_index + dev->nvqs == dev->vq_index_end) {
++        g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_delete);
 +    }
-+}
-+
- static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
--                                           const char *device,
--                                           const char *name,
--                                           int vdpa_device_fd,
--                                           int queue_pair_index,
--                                           int nvqs,
--                                           bool is_datapath)
-+                                       const char *device,
-+                                       const char *name,
-+                                       int vdpa_device_fd,
-+                                       int queue_pair_index,
-+                                       int nvqs,
-+                                       bool is_datapath,
-+                                       struct vhost_vdpa_iova_range iova_range)
+     if (s->vhost_net) {
+         vhost_net_cleanup(s->vhost_net);
+         g_free(s->vhost_net);
+@@ -206,7 +210,9 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+                                        int queue_pair_index,
+                                        int nvqs,
+                                        bool is_datapath,
+-                                       struct vhost_vdpa_iova_range iova_range)
++                                       bool svq,
++                                       struct vhost_vdpa_iova_range iova_range,
++                                       VhostIOVATree *iova_tree)
  {
      NetClientState *nc = NULL;
      VhostVDPAState *s;
-@@ -211,6 +224,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
- 
+@@ -225,6 +231,8 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
      s->vhost_vdpa.device_fd = vdpa_device_fd;
      s->vhost_vdpa.index = queue_pair_index;
-+    s->vhost_vdpa.iova_range = iova_range;
+     s->vhost_vdpa.iova_range = iova_range;
++    s->vhost_vdpa.shadow_vqs_enabled = svq;
++    s->vhost_vdpa.iova_tree = iova_tree;
      ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa, queue_pair_index, nvqs);
      if (ret) {
          qemu_del_net_client(nc);
-@@ -267,6 +281,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+@@ -281,6 +289,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
      g_autofree NetClientState **ncs = NULL;
      NetClientState *nc;
      int queue_pairs, i, has_cvq = 0;
-+    struct vhost_vdpa_iova_range iova_range;
++    g_autoptr(VhostIOVATree) iova_tree = NULL;
+     struct vhost_vdpa_iova_range iova_range;
  
      assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-     opts = &netdev->u.vhost_vdpa;
-@@ -286,19 +301,20 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-         qemu_close(vdpa_device_fd);
+@@ -302,29 +311,41 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
          return queue_pairs;
      }
-+    vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
+     vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
++    if (opts->x_svq) {
++        if (has_cvq) {
++            error_setg(errp, "vdpa svq does not work with cvq");
++            goto err_svq;
++        }
++        iova_tree = vhost_iova_tree_new(iova_range.first, iova_range.last);
++    }
  
      ncs = g_malloc0(sizeof(*ncs) * queue_pairs);
  
      for (i = 0; i < queue_pairs; i++) {
          ncs[i] = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
--                                     vdpa_device_fd, i, 2, true);
-+                                     vdpa_device_fd, i, 2, true, iova_range);
+-                                     vdpa_device_fd, i, 2, true, iova_range);
++                                     vdpa_device_fd, i, 2, true, opts->x_svq,
++                                     iova_range, iova_tree);
          if (!ncs[i])
              goto err;
      }
  
      if (has_cvq) {
          nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
--                                 vdpa_device_fd, i, 1, false);
-+                                 vdpa_device_fd, i, 1, false, iova_range);
+-                                 vdpa_device_fd, i, 1, false, iova_range);
++                                 vdpa_device_fd, i, 1, false, opts->x_svq,
++                                 iova_range, iova_tree);
          if (!nc)
              goto err;
      }
+ 
++    iova_tree = NULL;
+     return 0;
+ 
+ err:
+     if (i) {
+         qemu_del_net_client(ncs[0]);
+     }
++
++err_svq:
+     qemu_close(vdpa_device_fd);
+ 
+     return -1;
 -- 
 2.27.0
 
