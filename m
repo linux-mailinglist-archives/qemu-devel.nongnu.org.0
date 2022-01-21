@@ -2,69 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D784495DC6
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 11:31:28 +0100 (CET)
-Received: from localhost ([::1]:38654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E1A3495DEC
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 11:47:38 +0100 (CET)
+Received: from localhost ([::1]:38918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nArCX-0002Fi-0r
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 05:31:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40774)
+	id 1nArSD-0005L8-5G
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 05:47:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christophm30@gmail.com>)
- id 1nAqdn-0006sS-5n; Fri, 21 Jan 2022 04:55:31 -0500
-Received: from mail-ua1-f42.google.com ([209.85.222.42]:45589)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <christophm30@gmail.com>)
- id 1nAqdk-0007o6-4B; Fri, 21 Jan 2022 04:55:30 -0500
-Received: by mail-ua1-f42.google.com with SMTP id x33so15830457uad.12;
- Fri, 21 Jan 2022 01:55:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nAr44-0002vy-UX
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 05:22:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40794)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nAr3x-0004WQ-CK
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 05:22:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642760543;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uwrJRSUiJ5O3HV6D+Q3PRC/MBy33u+EPEvzo620SRew=;
+ b=DPZe4TdSx45AKAxJEu6+tGFVQPIRUCGVrGkE3oadBfx14FzD6nW/rRDugfRWdMClmAqWz7
+ NVuqTN8p9ifsUcCOrH94VVjWlkjEX9VWy0hpK444Ub7bLNYq8Kn+OCU1Db6m00qSFHQ0CC
+ +7ofFS2VFedWawXTOCZlzZ57XdPuSOc=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-631-dzY12VyLNPK92T03MqIh0w-1; Fri, 21 Jan 2022 05:22:22 -0500
+X-MC-Unique: dzY12VyLNPK92T03MqIh0w-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ o25-20020a056402039900b0040631c2a67dso2462214edv.19
+ for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 02:22:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kkzhXInC9ZnI9AMndCgkV4FhEdYQjvKqQKvS0W2DeZo=;
- b=ZIQXORXOg9gl9/fGhoYbByAqXxfD+/zkHnlibS8pdXzp4zXV5tZ53ZPRyEMhYwTkCk
- 3LHfs4v6N77lzXtGtFgFRTzpJomTZlMQXSmzHkSwPDKHrKHA2tp/ivdn/+7CGS0N0C0t
- 77gAiy09rXBxa0aZCfdAaVeSp77/Rrw20mGC+rJGFMZG7/FfmlIoehMXEZWU2uyvm9nZ
- C7gW7/ytvwOyrLZzDz1ghCInO7MjhlR7GAeTgrjISlyKLAO+mENJesshLvZnr7qebPxa
- Elk9mdkPHuc02EIr985irxGPmf4JcWE+gDo7dJXFGI3ctFCAkMU8HDClTn3/oN0+x03P
- 8Qqw==
-X-Gm-Message-State: AOAM531M1gMctn+b9Kdxkr13OrXDXnu8zhvidTSSY1PUYBO0tJM78baI
- ap58hDovL+q7ntwyKFaKMGkQtY56hgeB+SFs
-X-Google-Smtp-Source: ABdhPJzzFS50Xa97aeACs9aQO4dRw3Gc8kjs/0+ee/mZ/FVK8SyKW32Fkc+fMTgODDDhCKP6iwv3rw==
-X-Received: by 2002:ab0:388e:: with SMTP id z14mr1375457uav.138.1642758926630; 
- Fri, 21 Jan 2022 01:55:26 -0800 (PST)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com.
- [209.85.222.41])
- by smtp.gmail.com with ESMTPSA id q6sm128487vkd.50.2022.01.21.01.55.26
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=uwrJRSUiJ5O3HV6D+Q3PRC/MBy33u+EPEvzo620SRew=;
+ b=5vP7ogt+li+wfvhX0FCSySLU8BfpCMG6av3Z1pfh1noxwklLapmngqcW6RbmEm2jox
+ D8PnMZgVySS5UrcWKwwH4pEb4F/anVFv7jgBvb94e+na9E+bt2LDxuWxQ2Dz11f6/53X
+ d39NcTjNZwHb2uKNW0TwsPOPjic1wLQShUkYecNSI7g9wxFr4Y5LIdDRLwedueb9sfVA
+ SZhRTtwbsk64SW1xxxstEDubRWCmQFsjRgCojR0GqFETKfWNKS+gAdxBTdgPLhCSS+gk
+ plNi0KWV6k0TA+kHxPZeKUGvLoU/SL/2wYjyZegBYIpxGgOQNwiLQZwTDg4qL94ntJd3
+ Ag7A==
+X-Gm-Message-State: AOAM530zqEt/bF6Tgsw0Ln1uNWCxznqZ1rKX7YnurmlaaXtaQqEUC6Pu
+ 35Y22Qnl5CgLkNgOe3MKSlHIYzZXKpx+/BHE0kDRWPMErE0rghCPbafQQbn66gIrfVRhx2zvNBI
+ dNvp1ZosvVAFXQxI=
+X-Received: by 2002:a05:6402:13c6:: with SMTP id
+ a6mr3629813edx.222.1642760541159; 
+ Fri, 21 Jan 2022 02:22:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy1n8A+v+TcUY6IvbZPIAnjLEoqs4oPmcNBgvPqM47kqvgJlEXRkhkCquWXZE0OCtPYNFDDew==
+X-Received: by 2002:a05:6402:13c6:: with SMTP id
+ a6mr3629785edx.222.1642760540879; 
+ Fri, 21 Jan 2022 02:22:20 -0800 (PST)
+Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
+ ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id i3sm2415598edb.13.2022.01.21.02.22.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Jan 2022 01:55:26 -0800 (PST)
-Received: by mail-ua1-f41.google.com with SMTP id f24so15826602uab.11;
- Fri, 21 Jan 2022 01:55:26 -0800 (PST)
-X-Received: by 2002:a67:e148:: with SMTP id o8mr1416611vsl.27.1642758925355;
- Fri, 21 Jan 2022 01:55:25 -0800 (PST)
+ Fri, 21 Jan 2022 02:22:20 -0800 (PST)
+Message-ID: <827ae9c0-054b-7929-c683-b5e3159d4f83@redhat.com>
+Date: Fri, 21 Jan 2022 11:22:18 +0100
 MIME-Version: 1.0
-References: <20220118163250.2596615-1-cmuellner@linux.com>
- <CAOnJCUJbk+2uGvL5oWHqLLjV_gpo8Yv1+u+1s0DieqrN5N2knA@mail.gmail.com>
-In-Reply-To: <CAOnJCUJbk+2uGvL5oWHqLLjV_gpo8Yv1+u+1s0DieqrN5N2knA@mail.gmail.com>
-From: =?UTF-8?Q?Christoph_M=C3=BCllner?= <cmuellner@linux.com>
-Date: Fri, 21 Jan 2022 10:55:12 +0100
-X-Gmail-Original-Message-ID: <CAHB2gtTMjzdfOvCNNwa1KfOhQ0RQdVKSoKmafuwot6PWNihWJA@mail.gmail.com>
-Message-ID: <CAHB2gtTMjzdfOvCNNwa1KfOhQ0RQdVKSoKmafuwot6PWNihWJA@mail.gmail.com>
-Subject: Re: [RESEND] target/riscv: Enable bitmanip Zicbo[m,z,p] instructions
-To: Atish Patra <atishp@atishpatra.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.222.42;
- envelope-from=christophm30@gmail.com; helo=mail-ua1-f42.google.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v5 28/31] block.c: assert BQL lock held in
+ bdrv_co_invalidate_cache
+To: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
+References: <20211124064418.3120601-1-eesposit@redhat.com>
+ <20211124064418.3120601-29-eesposit@redhat.com>
+ <56deaef1-6a4e-c544-9916-42a20cc20c7a@redhat.com>
+ <9ca5c434-ddf6-2ed3-08ae-92da5fc98013@redhat.com>
+ <b1e190b3-7466-0d4e-554b-bd9d4ce5a43e@redhat.com>
+ <YehZwkGVPK6phrc2@redhat.com>
+ <a32d2d69-7af4-3748-6de1-4367b51e4985@redhat.com>
+ <YeloRLeycEFvekFc@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <YeloRLeycEFvekFc@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,486 +112,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ John Snow <jsnow@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 18, 2022 at 9:31 PM Atish Patra <atishp@atishpatra.org> wrote:
->
-> On Tue, Jan 18, 2022 at 8:48 AM Christoph Muellner <cmuellner@linux.com> wrote:
-> >
-> > The RISC-V base cache management operation ISA extension has been
-> > ratified [1]. This patch adds support for the defined instructions
-> > and CSRs.
-> >
-> > [1] https://wiki.riscv.org/display/TECH/Recently+Ratified+Extensions
-> >
-> > Co-developed-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-> > Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-> > Signed-off-by: Christoph Muellner <cmuellner@linux.com>
-> > ---
-> >  target/riscv/cpu.c                        |  4 +
-> >  target/riscv/cpu.h                        |  9 +++
-> >  target/riscv/cpu_bits.h                   | 10 +++
-> >  target/riscv/csr.c                        | 47 ++++++++++++
-> >  target/riscv/helper.h                     |  5 ++
-> >  target/riscv/insn32.decode                | 20 ++++-
-> >  target/riscv/insn_trans/trans_zicbo.c.inc | 72 ++++++++++++++++++
-> >  target/riscv/op_helper.c                  | 89 +++++++++++++++++++++++
-> >  target/riscv/translate.c                  |  1 +
-> >  9 files changed, 256 insertions(+), 1 deletion(-)
-> >  create mode 100644 target/riscv/insn_trans/trans_zicbo.c.inc
-> >
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index 9bc25d3055..b4a87cfcdc 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -660,6 +660,10 @@ static Property riscv_cpu_properties[] = {
-> >      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-> >      DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
-> >      DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
-> > +    DEFINE_PROP_BOOL("Zicbom", RISCVCPU, cfg.ext_zicbom, false),
-> > +    DEFINE_PROP_BOOL("Zicbop", RISCVCPU, cfg.ext_zicbop, false),
-> > +    DEFINE_PROP_BOOL("Zicboz", RISCVCPU, cfg.ext_zicboz, false),
-> > +    DEFINE_PROP_UINT16("cbolen", RISCVCPU, cfg.cbolen, 64),
-> >      DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-> >      DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-> >
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index 4d63086765..acfe21cb75 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -263,6 +263,11 @@ struct CPURISCVState {
-> >      target_ulong spmbase;
-> >      target_ulong upmmask;
-> >      target_ulong upmbase;
-> > +
-> > +    /* [mhs]envcfg CSRs */
-> > +    target_ulong menvcfg;
-> > +    target_ulong henvcfg;
-> > +    target_ulong senvcfg;
-> >  #endif
-> >
-> >      float_status fp_status;
-> > @@ -329,6 +334,9 @@ struct RISCVCPU {
-> >          bool ext_icsr;
-> >          bool ext_zfh;
-> >          bool ext_zfhmin;
-> > +        bool ext_zicbom;
-> > +        bool ext_zicbop;
-> > +        bool ext_zicboz;
-> >
-> >          char *priv_spec;
-> >          char *user_spec;
-> > @@ -336,6 +344,7 @@ struct RISCVCPU {
-> >          char *vext_spec;
-> >          uint16_t vlen;
-> >          uint16_t elen;
-> > +        uint16_t cbolen;
-> >          bool mmu;
-> >          bool pmp;
-> >          bool epmp;
-> > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> > index 5a6d49aa64..38c529b493 100644
-> > --- a/target/riscv/cpu_bits.h
-> > +++ b/target/riscv/cpu_bits.h
-> > @@ -217,6 +217,11 @@
-> >  #define CSR_MTINST          0x34a
-> >  #define CSR_MTVAL2          0x34b
-> >
-> > +/* Environment configuration */
-> > +#define CSR_SENVCFG         0x10a
-> > +#define CSR_MENVCFG         0x30a
-> > +#define CSR_HENVCFG         0x60a
-> > +
-> >  /* Enhanced Physical Memory Protection (ePMP) */
-> >  #define CSR_MSECCFG         0x747
-> >  #define CSR_MSECCFGH        0x757
-> > @@ -449,6 +454,11 @@ typedef enum {
-> >  #define COUNTEREN_IR         (1 << 2)
-> >  #define COUNTEREN_HPM3       (1 << 3)
-> >
-> > +/* [msh]envcfg CSR bits */
-> > +#define ENVCFG_CBIE          (0b11 << 4)
-> > +#define ENVCFG_CBCFE         (1 << 6)
-> > +#define ENVCFG_CBZE          (1 << 7)
-> > +
-> >  /* Privilege modes */
-> >  #define PRV_U 0
-> >  #define PRV_S 1
-> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > index adb3d4381d..6693f695e4 100644
-> > --- a/target/riscv/csr.c
-> > +++ b/target/riscv/csr.c
-> > @@ -1478,6 +1478,48 @@ static RISCVException write_mtinst(CPURISCVState *env, int csrno,
-> >      return RISCV_EXCP_NONE;
-> >  }
-> >
-> > +static RISCVException read_menvcfg(CPURISCVState *env, int csrno,
-> > +                                   target_ulong *val)
-> > +{
-> > +    *val = env->menvcfg;
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException write_menvcfg(CPURISCVState *env, int csrno,
-> > +                                    target_ulong val)
-> > +{
-> > +    env->menvcfg = val;
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException read_henvcfg(CPURISCVState *env, int csrno,
-> > +                                   target_ulong *val)
-> > +{
-> > +    *val = env->henvcfg;
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException write_henvcfg(CPURISCVState *env, int csrno,
-> > +                                    target_ulong val)
-> > +{
-> > +    env->henvcfg = val;
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException read_senvcfg(CPURISCVState *env, int csrno,
-> > +                                   target_ulong *val)
-> > +{
-> > +    *val = env->senvcfg;
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException write_senvcfg(CPURISCVState *env, int csrno,
-> > +                                    target_ulong val)
-> > +{
-> > +    env->senvcfg = val;
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> >  /* Physical Memory Protection */
-> >  static RISCVException read_mseccfg(CPURISCVState *env, int csrno,
-> >                                     target_ulong *val)
-> > @@ -2091,6 +2133,11 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-> >      [CSR_MTVAL2]      = { "mtval2",      hmode,   read_mtval2,      write_mtval2      },
-> >      [CSR_MTINST]      = { "mtinst",      hmode,   read_mtinst,      write_mtinst      },
-> >
-> > +    /* Environment configuration */
-> > +    [CSR_MENVCFG]     = { "menvcfg",     any,     read_menvcfg,     write_menvcfg     },
-> > +    [CSR_HENVCFG]     = { "henvcfg",     hmode,   read_henvcfg,     write_henvcfg     },
-> > +    [CSR_SENVCFG]     = { "senvcfg",     smode,   read_senvcfg,     write_senvcfg     },
->
->
-> I was also adding support for these as a part of sstc implementaion :)
-> Here are the patches
->
-> https://github.com/atishp04/qemu/commits/sstc_dev
->
-> Few missing things in this patch:
->
-> 1. It would be good to separate envcfg csr support from the CBO
 
-I'll put the introduction of them into an earlier patch.
 
-> 2. All these CSrs are added priv 1.12. Thus, priv version should be
-> updated and checked
-> before accessing these CSRs.
+On 20/01/2022 14:48, Kevin Wolf wrote:
+> Am 20.01.2022 um 14:22 hat Paolo Bonzini geschrieben:
+>> On 1/19/22 19:34, Kevin Wolf wrote:
+>>> So if we go back to a bdrv_invalidate_cache() that does all the graph
+>>> manipulations (and asserts that we're in the main loop) and then have a
+>>> much smaller bdrv_co_invalidate_cache() that basically just calls into
+>>> the driver, would that solve the problem?
+>>
+>> I was going to suggest something similar, and even name the former
+>> bdrv_activate().  Then bdrv_activate() is a graph manipulation function,
+>> while bdrv_co_invalidate_cache() is an I/O function.
+> 
+> I like this. The naming inconsistency between inactivate and
+> invalidate_cache has always bothered me.
+> 
 
-Ok.
+Ok, I am going to apply this. Thank you for the suggestion!
 
-> 3. Priv 1.12 also adds menvcfgh & henvcfgh. These are missing in this patch
+> Did look further, couldn’t find anything else interesting.
+> So I think(TM) that this blk_exp_add() is the only thing that needs fixing.
 
-Ok.
+When splitting the logic between bdrv_activate and 
+bdrv_co_invalidate_cache, there is no need anymore to fix blk_exp_add :)
 
-> I can send a separate series for basic infa support priv 1.12 (by
-> dropping 1st patch in sstc_dev branch) or you can use use my patches
-> from the github.
-> I am fine with either way. Let me know how should we proceed with these changes.
+I am going to send v6 by the end of today.
 
-I'll prepare a series including your patches.
+Thank you,
+Emanuele
 
->
-> > +
-> >      /* Physical Memory Protection */
-> >      [CSR_MSECCFG]    = { "mseccfg",  epmp, read_mseccfg, write_mseccfg },
-> >      [CSR_PMPCFG0]    = { "pmpcfg0",   pmp, read_pmpcfg,  write_pmpcfg  },
-> > diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-> > index 6cf6d6ce98..4a2ebdabbd 100644
-> > --- a/target/riscv/helper.h
-> > +++ b/target/riscv/helper.h
-> > @@ -92,6 +92,11 @@ DEF_HELPER_FLAGS_2(fcvt_h_l, TCG_CALL_NO_RWG, i64, env, tl)
-> >  DEF_HELPER_FLAGS_2(fcvt_h_lu, TCG_CALL_NO_RWG, i64, env, tl)
-> >  DEF_HELPER_FLAGS_1(fclass_h, TCG_CALL_NO_RWG_SE, tl, i64)
-> >
-> > +/* Cache-block operations */
-> > +DEF_HELPER_2(cbo_inval, void, env, tl)
-> > +DEF_HELPER_2(cbo_clean, void, env, tl)
-> > +DEF_HELPER_2(cbo_zero, void, env, tl)
-> > +
-> >  /* Special functions */
-> >  DEF_HELPER_2(csrr, tl, env, int)
-> >  DEF_HELPER_3(csrw, void, env, int, tl)
-> > diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> > index d3f798ca10..1dca5bf346 100644
-> > --- a/target/riscv/insn32.decode
-> > +++ b/target/riscv/insn32.decode
-> > @@ -89,6 +89,8 @@
-> >  @sfence_vma ....... ..... .....   ... ..... ....... %rs2 %rs1
-> >  @sfence_vm  ....... ..... .....   ... ..... ....... %rs1
-> >
-> > +@cbo_pref   simm:7 ..... .....   ... ..... ....... %rs1
-> > +
-> >  # Formats 64:
-> >  @sh5     .......  ..... .....  ... ..... ....... &shift  shamt=%sh5      %rs1 %rd
-> >
-> > @@ -128,7 +130,15 @@ addi     ............     ..... 000 ..... 0010011 @i
-> >  slti     ............     ..... 010 ..... 0010011 @i
-> >  sltiu    ............     ..... 011 ..... 0010011 @i
-> >  xori     ............     ..... 100 ..... 0010011 @i
-> > -ori      ............     ..... 110 ..... 0010011 @i
-> > +{
-> > +  {
-> > +    # *** RV32 Zicbop Sandard Extension (hints in the ori-space) ***
-> > +    prefetch_i  ....... 00000 ..... 110 00000 0010011 @cbo_pref
-> > +    prefetch_r  ....... 00001 ..... 110 00000 0010011 @cbo_pref
-> > +    prefetch_w  ....... 00011 ..... 110 00000 0010011 @cbo_pref
-> > +  }
-> > +  ori      ............     ..... 110 ..... 0010011 @i
-> > +}
-> >  andi     ............     ..... 111 ..... 0010011 @i
-> >  slli     00000. ......    ..... 001 ..... 0010011 @sh
-> >  srli     00000. ......    ..... 101 ..... 0010011 @sh
-> > @@ -804,6 +814,14 @@ fcvt_h_w   1101010  00000 ..... ... ..... 1010011 @r2_rm
-> >  fcvt_h_wu  1101010  00001 ..... ... ..... 1010011 @r2_rm
-> >  fmv_h_x    1111010  00000 ..... 000 ..... 1010011 @r2
-> >
-> > +# *** RV32 Zicbom Standard Extension ***
-> > +cbo_clean  0000000 00001 ..... 010 00000 0001111 @sfence_vm
-> > +cbo_flush  0000000 00010 ..... 010 00000 0001111 @sfence_vm
-> > +cbo_inval  0000000 00000 ..... 010 00000 0001111 @sfence_vm
-> > +
-> > +# *** RV32 Zicboz Standard Extension ***
-> > +cbo_zero   0000000 00100 ..... 010 00000 0001111 @sfence_vm
-> > +
-> >  # *** RV64 Zfh Extension (in addition to RV32 Zfh) ***
-> >  fcvt_l_h   1100010  00010 ..... ... ..... 1010011 @r2_rm
-> >  fcvt_lu_h  1100010  00011 ..... ... ..... 1010011 @r2_rm
-> > diff --git a/target/riscv/insn_trans/trans_zicbo.c.inc b/target/riscv/insn_trans/trans_zicbo.c.inc
-> > new file mode 100644
-> > index 0000000000..e75f7d99e3
-> > --- /dev/null
-> > +++ b/target/riscv/insn_trans/trans_zicbo.c.inc
-> > @@ -0,0 +1,72 @@
-> > +/*
-> > + * RISC-V translation routines for the RISC-V CBO Extension.
-> > + *
-> > + * Copyright (c) 2021 Philipp Tomsich, philipp.tomsich@vrull.eu
-> > + *
-> > + * This program is free software; you can redistribute it and/or modify it
-> > + * under the terms and conditions of the GNU General Public License,
-> > + * version 2 or later, as published by the Free Software Foundation.
-> > + *
-> > + * This program is distributed in the hope it will be useful, but WITHOUT
-> > + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> > + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> > + * more details.
-> > + *
-> > + * You should have received a copy of the GNU General Public License along with
-> > + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> > + */
-> > +
-> > +#define REQUIRE_ZICBOM(ctx) do {                 \
-> > +    if (!RISCV_CPU(ctx->cs)->cfg.ext_zicbom) {   \
-> > +        return false;                            \
-> > +    }                                            \
-> > +} while (0)
-> > +
-> > +#define REQUIRE_ZICBOZ(ctx) do {                 \
-> > +    if (!RISCV_CPU(ctx->cs)->cfg.ext_zicboz) {   \
-> > +        return false;                            \
-> > +    }                                            \
-> > +} while (0)
-> > +
-> > +static bool trans_cbo_clean(DisasContext *ctx, arg_cbo_clean *a)
-> > +{
-> > +    REQUIRE_ZICBOM(ctx);
-> > +    gen_helper_cbo_clean(cpu_env, cpu_gpr[a->rs1]);
-> > +    return true;
-> > +}
-> > +
-> > +static bool trans_cbo_flush(DisasContext *ctx, arg_cbo_flush *a)
-> > +{
-> > +    REQUIRE_ZICBOM(ctx);
-> > +    gen_helper_cbo_clean(cpu_env, cpu_gpr[a->rs1]);
-> > +    return true;
-> > +}
-> > +
-> > +static bool trans_cbo_inval(DisasContext *ctx, arg_cbo_inval *a)
-> > +{
-> > +    REQUIRE_ZICBOM(ctx);
-> > +    gen_helper_cbo_inval(cpu_env, cpu_gpr[a->rs1]);
-> > +    return true;
-> > +}
-> > +
-> > +static bool trans_cbo_zero(DisasContext *ctx, arg_cbo_zero *a)
-> > +{
-> > +    REQUIRE_ZICBOZ(ctx);
-> > +    gen_helper_cbo_zero(cpu_env, cpu_gpr[a->rs1]);
-> > +    return true;
-> > +}
-> > +
-> > +static bool trans_prefetch_i(DisasContext *ctx, arg_prefetch_i *a)
-> > +{
-> > +    return true;
-> > +}
-> > +
-> > +static bool trans_prefetch_r(DisasContext *ctx, arg_prefetch_i *a)
-> > +{
-> > +    return true;
-> > +}
-> > +
-> > +static bool trans_prefetch_w(DisasContext *ctx, arg_prefetch_i *a)
-> > +{
-> > +    return true;
-> > +}
-> > diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> > index 6f040f2fb9..06919abd49 100644
-> > --- a/target/riscv/op_helper.c
-> > +++ b/target/riscv/op_helper.c
-> > @@ -3,6 +3,7 @@
-> >   *
-> >   * Copyright (c) 2016-2017 Sagar Karandikar, sagark@eecs.berkeley.edu
-> >   * Copyright (c) 2017-2018 SiFive, Inc.
-> > + * Copyright (c) 2021      VRULL GmbH
-> >   *
-> >   * This program is free software; you can redistribute it and/or modify it
-> >   * under the terms and conditions of the GNU General Public License,
-> > @@ -69,6 +70,33 @@ target_ulong helper_csrrw(CPURISCVState *env, int csr,
-> >      return val;
-> >  }
-> >
-> > +/* helper_zicbo_envcfg
-> > + *
-> > + * Raise virtual exceptions and illegal instruction exceptions for
-> > + * Zicbo[mz] instructions based on the settings of [mhs]envcfg.
-> > + */
-> > +static void helper_zicbo_envcfg(CPURISCVState *env, target_ulong envbits)
-> > +{
-> > +#ifndef CONFIG_USER_ONLY
-> > +    target_ulong ra = GETPC();
-> > +
-> > +    /* Check for virtual instruction exceptions first, as we don't see
-> > +     * VU and VS reflected in env->priv (these are just the translated
-> > +     * U and S stated with virtualisation enabled.
-> > +     */
-> > +    if (riscv_cpu_virt_enabled(env) &&
-> > +        (((env->priv < PRV_H) && !get_field(env->henvcfg, envbits)) ||
-> > +         ((env->priv < PRV_S) && !get_field(env->senvcfg, envbits)))) {
-> > +        riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, ra);
-> > +    }
-> > +
-> > +    if (((env->priv < PRV_M) && !get_field(env->menvcfg, envbits)) ||
-> > +        ((env->priv < PRV_S) && !get_field(env->senvcfg, envbits))) {
-> > +        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, ra);
-> > +    }
-> > +#endif
-> > +}
-> > +
-> >  target_ulong helper_csrr_i128(CPURISCVState *env, int csr)
-> >  {
-> >      Int128 rv = int128_zero();
-> > @@ -113,6 +141,67 @@ target_ulong helper_csrrw_i128(CPURISCVState *env, int csr,
-> >      return int128_getlo(rv);
-> >  }
-> >
-> > +/* helper_zicbom_access
-> > + *
-> > + * Check access permissions (LOAD or STORE or FETCH) for Zicbom,
-> > + * raising either store page-fault (non-virtualised) or store
-> > + * guest-page fault (virtualised).
-> > + */
-> > +static void helper_zicbom_access(CPURISCVState *env, target_ulong address)
-> > +{
-> > +    void* phost;
-> > +    int ret = TLB_INVALID_MASK;
-> > +    MMUAccessType access_type = MMU_DATA_LOAD;
-> > +    target_ulong ra = GETPC();
-> > +
-> > +    while (ret == TLB_INVALID_MASK && access_type <= MMU_INST_FETCH) {
-> > +        ret = probe_access_flags(env, address, access_type++,
-> > +                                 cpu_mmu_index(env, false),
-> > +                                 true, &phost, ra);
-> > +    }
-> > +
-> > +    if (ret == TLB_INVALID_MASK) {
-> > +        uint32_t exc = RISCV_EXCP_STORE_PAGE_FAULT;
-> > +
-> > +#ifndef CONFIG_USER_ONLY
-> > +        /* User-mode emulation does not have virtualisation... */
-> > +        if (riscv_cpu_virt_enabled(env)) {
-> > +            exc = RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT;
-> > +        }
-> > +#endif
-> > +        riscv_raise_exception(env, exc, ra);
-> > +    }
-> > +}
-> > +
-> > +void helper_cbo_inval(CPURISCVState *env, target_ulong address)
-> > +{
-> > +    helper_zicbo_envcfg(env, ENVCFG_CBIE);
-> > +    helper_zicbom_access(env, address);
-> > +
-> > +    /* We don't emulate the cache-hierarchy, so we're done. */
-> > +}
-> > +
-> > +void helper_cbo_clean(CPURISCVState *env, target_ulong address)
-> > +{
-> > +    helper_zicbo_envcfg(env, ENVCFG_CBCFE);
-> > +    helper_zicbom_access(env, address);
-> > +
-> > +    /* We don't emulate the cache-hierarchy, so we're done. */
-> > +}
-> > +
-> > +void helper_cbo_zero(CPURISCVState *env, target_ulong address)
-> > +{
-> > +    helper_zicbo_envcfg(env, ENVCFG_CBZE);
-> > +
-> > +    /* mask off low-bits to align-down to the cache-block */
-> > +    address &= ~(RISCV_CPU(env)->cfg.cbolen - 1);
-> > +    void* mem = probe_access(env, address, 4, MMU_DATA_STORE,
-> > +                             cpu_mmu_index(env, false), GETPC());
-> > +
-> > +    /* Zeroize the block */
-> > +    memset(mem, 0, RISCV_CPU(env)->cfg.cbolen);
-> > +}
-> > +
-> >  #ifndef CONFIG_USER_ONLY
-> >
-> >  target_ulong helper_sret(CPURISCVState *env, target_ulong cpu_pc_deb)
-> > diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> > index 615048ec87..d3203a1f2f 100644
-> > --- a/target/riscv/translate.c
-> > +++ b/target/riscv/translate.c
-> > @@ -837,6 +837,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
-> >  #include "insn_trans/trans_rvv.c.inc"
-> >  #include "insn_trans/trans_rvb.c.inc"
-> >  #include "insn_trans/trans_rvzfh.c.inc"
-> > +#include "insn_trans/trans_zicbo.c.inc"
-> >  #include "insn_trans/trans_privileged.c.inc"
-> >
-> >  /* Include the auto-generated decoder for 16 bit insn */
-> > --
-> > 2.34.1
-> >
-> >
->
->
-> --
-> Regards,
-> Atish
 
