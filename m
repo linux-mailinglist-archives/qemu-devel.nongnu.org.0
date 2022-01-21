@@ -2,73 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B43C14964DB
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 19:14:16 +0100 (CET)
-Received: from localhost ([::1]:36052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AE31496456
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 18:43:45 +0100 (CET)
+Received: from localhost ([::1]:41836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAyQR-0006vP-SW
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 13:14:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41414)
+	id 1nAxwt-0005SW-1K
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 12:43:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nAxO7-00018X-Rt
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:07:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31050)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nAxn2-0002wQ-6h
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:33:32 -0500
+Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:38757)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nAxO4-0000Z5-9U
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:07:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642784862;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=U0/9h+ojJJD5VsAceZBm++9ONBxtrl2G08T5QKb0dZ4=;
- b=EylEzqtUrjYWmgu/nTCs8GUVoAhaQ5weq4DxGcFUhn/znowRz+tY3J93+2ilWJcyaz7QjI
- QLoVFvxxlu1KEC4PhUvme7WcwcUpsd5piyOKanIjd59XYILknqJdCYWrsycu9+0mO+QIr0
- RwxjZoInlyttBDzSQFno+B+nS2wfwgY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-561-CZlOsoCdNaK2I5NZcq7OEw-1; Fri, 21 Jan 2022 12:07:39 -0500
-X-MC-Unique: CZlOsoCdNaK2I5NZcq7OEw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 768BC874980;
- Fri, 21 Jan 2022 17:07:37 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D31CC7ED83;
- Fri, 21 Jan 2022 17:07:27 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v6 33/33] block.c: assertions to the block layer permissions
- API
-Date: Fri, 21 Jan 2022 12:05:44 -0500
-Message-Id: <20220121170544.2049944-34-eesposit@redhat.com>
-In-Reply-To: <20220121170544.2049944-1-eesposit@redhat.com>
-References: <20220121170544.2049944-1-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nAxmz-0001PV-F6
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:33:31 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.141])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 94CD3D93F511;
+ Fri, 21 Jan 2022 18:33:18 +0100 (CET)
+Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Fri, 21 Jan
+ 2022 18:33:17 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G004dc0303b5-6da9-473e-bd1c-a6a167dbf019,
+ 0868046A3D5FFD4A19DAA1F3199B5438DDC438D4) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <c51426a6-d655-0ba1-2ea9-3d84070520ed@kaod.org>
+Date: Fri, 21 Jan 2022 18:33:16 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] target/ppc/mmu_common: Fix SRR1/MSR error code on Book-E
+Content-Language: en-US
+To: Vitaly Cheptsov <cheptsov@ispras.ru>
+References: <BE5775C6-A54F-4443-9752-DBB6587E1F46@ispras.ru>
+ <9717e63d-b72a-81f6-e9b9-052294f560f1@kaod.org>
+ <979A28AD-F229-498E-89CD-1D475EC6C94E@ispras.ru>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <979A28AD-F229-498E-89CD-1D475EC6C94E@ispras.ru>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: bff46234-0cc5-407f-a912-ce17c2c927e4
+X-Ovh-Tracer-Id: 17176166032193850220
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrvddtgddutddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepvdeufeffkeffueetiefhfeetveegvdefhffhvedugffgjeefiefggfefgeelkeeinecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpqhgvmhhurdhorhhgpdhngihprdgtohhmpdhophgvnhhpohifvghrfhhouhhnuggrthhiohhnrdhorhhgpdhgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
+ helo=smtpout4.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,129 +71,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
- "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
+Cc: Kurban Mallachiev <mallachiev@ispras.ru>,
+ "mario@locati.it" <mario@locati.it>,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we "covered" the three main cases where the
-permission API was being used under BQL (fuse,
-amend and invalidate_cache), we can safely assert for
-the permission functions implemented in block.c
+Hello Vitaly,
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- block.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+On 1/21/22 10:33, Vitaly Cheptsov wrote:
+> Hi Cédric,
+> 
+>> This looks correct and even fixing an issue that Mario reported
+>> on the TCG e6500 CPU with a kernel + KVM compiled in :
+>>
+>>   https://lore.kernel.org/all/R5JFVM$911E343FF81933B99D53FD0992D8848F@locati.it/
+>>
+>> KVM has some issues also with the e6500 but that's another problem
+>> I think.
+> 
+> Glad to hear that. Could you schedule the inclusion of the patch in 6.2.1 or 6.3 please?
 
-diff --git a/block.c b/block.c
-index ca16d90627..afa18653d1 100644
---- a/block.c
-+++ b/block.c
-@@ -2138,6 +2138,7 @@ static bool bdrv_a_allow_b(BdrvChild *a, BdrvChild *b, Error **errp)
- 
-     assert(a->bs);
-     assert(a->bs == b->bs);
-+    assert(qemu_in_main_thread());
- 
-     if ((b->perm & a->shared_perm) == b->perm) {
-         return true;
-@@ -2161,6 +2162,7 @@ static bool bdrv_a_allow_b(BdrvChild *a, BdrvChild *b, Error **errp)
- static bool bdrv_parent_perms_conflict(BlockDriverState *bs, Error **errp)
- {
-     BdrvChild *a, *b;
-+    assert(qemu_in_main_thread());
- 
-     /*
-      * During the loop we'll look at each pair twice. That's correct because
-@@ -2245,6 +2247,8 @@ static void bdrv_child_set_perm_abort(void *opaque)
- {
-     BdrvChildSetPermState *s = opaque;
- 
-+    assert(qemu_in_main_thread());
-+
-     s->child->perm = s->old_perm;
-     s->child->shared_perm = s->old_shared_perm;
- }
-@@ -2258,6 +2262,7 @@ static void bdrv_child_set_perm(BdrvChild *c, uint64_t perm,
-                                 uint64_t shared, Transaction *tran)
- {
-     BdrvChildSetPermState *s = g_new(BdrvChildSetPermState, 1);
-+    assert(qemu_in_main_thread());
- 
-     *s = (BdrvChildSetPermState) {
-         .child = c,
-@@ -2442,6 +2447,7 @@ static int bdrv_node_refresh_perm(BlockDriverState *bs, BlockReopenQueue *q,
-     BdrvChild *c;
-     int ret;
-     uint64_t cumulative_perms, cumulative_shared_perms;
-+    assert(qemu_in_main_thread());
- 
-     bdrv_get_cumulative_perm(bs, &cumulative_perms, &cumulative_shared_perms);
- 
-@@ -2510,6 +2516,7 @@ static int bdrv_list_refresh_perms(GSList *list, BlockReopenQueue *q,
- {
-     int ret;
-     BlockDriverState *bs;
-+    assert(qemu_in_main_thread());
- 
-     for ( ; list; list = list->next) {
-         bs = list->data;
-@@ -2581,6 +2588,7 @@ static int bdrv_refresh_perms(BlockDriverState *bs, Error **errp)
-     int ret;
-     Transaction *tran = tran_new();
-     g_autoptr(GSList) list = bdrv_topological_dfs(NULL, NULL, bs);
-+    assert(qemu_in_main_thread());
- 
-     ret = bdrv_list_refresh_perms(list, NULL, tran, errp);
-     tran_finalize(tran, ret);
-@@ -2647,6 +2655,7 @@ static void bdrv_filter_default_perms(BlockDriverState *bs, BdrvChild *c,
-                                       uint64_t perm, uint64_t shared,
-                                       uint64_t *nperm, uint64_t *nshared)
- {
-+    assert(qemu_in_main_thread());
-     *nperm = perm & DEFAULT_PERM_PASSTHROUGH;
-     *nshared = (shared & DEFAULT_PERM_PASSTHROUGH) | DEFAULT_PERM_UNCHANGED;
- }
-@@ -2658,6 +2667,7 @@ static void bdrv_default_perms_for_cow(BlockDriverState *bs, BdrvChild *c,
-                                        uint64_t *nperm, uint64_t *nshared)
- {
-     assert(role & BDRV_CHILD_COW);
-+    assert(qemu_in_main_thread());
- 
-     /*
-      * We want consistent read from backing files if the parent needs it.
-@@ -2694,6 +2704,7 @@ static void bdrv_default_perms_for_storage(BlockDriverState *bs, BdrvChild *c,
- {
-     int flags;
- 
-+    assert(qemu_in_main_thread());
-     assert(role & (BDRV_CHILD_METADATA | BDRV_CHILD_DATA));
- 
-     flags = bdrv_reopen_get_flags(reopen_queue, bs);
-@@ -6090,6 +6101,7 @@ static void xdbg_graph_add_edge(XDbgBlockGraphConstructor *gr, void *parent,
- {
-     BlockPermission qapi_perm;
-     XDbgBlockGraphEdge *edge;
-+    assert(qemu_in_main_thread());
- 
-     edge = g_new0(XDbgBlockGraphEdge, 1);
- 
--- 
-2.31.1
+7.0 it should be.
+
+>> What is your environment ? Which QEMU machine ? Can you provide a
+>> command line ?
+> 
+> We have an in-house RTOS at ISP RAS, which we use to run some environmental tests on QEMU.
+
+not a Linux. Diversity is good for the models.
+
+> The target hardware in this particular example is a QorIQ P3041-based board. 
+
+and the default ppce500 machine has enough devices for the purpose ?
+
+Thanks,
+
+C.
+
+> The command line approximately looks like this:
+> qemu-system-ppc -cpu e500mc -M ppce500 -m 128M -icount 1 -kernel /path/to/kernel.elf -serial tcp::1111,server,nodelay
+> 
+>> Could you please resend the patch in a non attached way ?  See :
+>>
+>>   https://www.qemu.org/docs/master/devel/submitting-a-patch.html
+>>
+>> and copy qemu-devel.
+> 
+> Yes, sure. Have just done that.
+> 
+> Best regards,
+> Vitaly
+> 
+>> On 21 Jan 2022, at 11:17, Cédric Le Goater <clg@kaod.org> wrote:
+>>
+>> Hello Vitaly
+>>
+>> On 1/21/22 01:02, Vitaly Cheptsov wrote:
+>>> Hello,
+>>> PowerPC e500mc defines MSR bit 35 differently from most other PowerPC variants. In particular, for e500mc this is GS (Guest Supervisor) bit[1], while for others it is NOEXEC GUARD bit[2].
+>>> QEMU ignores this architectural difference when handling the exceptions of attempting to run not executable code on e500mc, and mistakenly sets the GS bit[3][4].
+>>> Setting this bit eventually leads to crashes, because although QEMU does not support Guest Supervisor mode on e500mc, it still requires it to be disabled[5].
+>>
+>> This looks correct and even fixing an issue that Mario reported
+>> on the TCG e6500 CPU with a kernel + KVM compiled in :
+>>
+>>   https://lore.kernel.org/all/R5JFVM$911E343FF81933B99D53FD0992D8848F@locati.it/
+>>
+>> KVM has some issues also with the e6500 but that's another problem
+>> I think.
+>>
+>>
+>> What is your environment ? Which QEMU machine ? Can you provide a
+>> command line ?
+>>
+>> Could you please resend the patch in a non attached way ?  See :
+>>
+>>   https://www.qemu.org/docs/master/devel/submitting-a-patch.html
+>>
+>> and copy qemu-devel.
+>>
+>> Thanks,
+>>
+>> C.
+>>
+>>
+>>> Best regards,
+>>> Vitaly
+>>> [1] https://www.nxp.com/docs/en/reference-manual/E500MCRM.pdf, 2.7.1 MSR
+>>> [2] https://openpowerfoundation.org/?resource_lib=power-isa-version-3-0, 6.5.5 Instruction Storage Interrupt
+>>> [3] https://github.com/qemu/qemu/blob/v6.2.0/target/ppc/mmu_common.c#L1426
+>>> [4] https://github.com/qemu/qemu/blob/v6.2.0/target/ppc/excp_helper.c#L414-L416
+>>> [5] https://github.com/qemu/qemu/blob/v6.2.0/target/ppc/mmu_helper.c#L1078-L1080
+>>
+> 
 
 
