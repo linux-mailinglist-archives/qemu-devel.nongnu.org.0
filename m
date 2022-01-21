@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F9D54966F9
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 22:06:01 +0100 (CET)
-Received: from localhost ([::1]:52046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9108549671E
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 22:08:55 +0100 (CET)
+Received: from localhost ([::1]:60734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB16f-0001RT-13
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 16:06:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59000)
+	id 1nB19S-0007L1-Ld
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 16:08:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nB0aX-0007LV-TC
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:32:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29102)
+ id 1nB0ab-0007N9-NS
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:32:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nB0aT-0003rQ-Rs
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:32:48 -0500
+ id 1nB0aY-00044k-Kw
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:32:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642797164;
+ s=mimecast20190719; t=1642797170;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VT1x29yAk/vSXBIlwiZrSP2wvJcODXkHOut70Uo/oQA=;
- b=ViMDwMi97t6Z9bwQyFpWMfy484Udgx6VeiGYT0MZYhN4GREAC74WLIy9zhN3/kekbDRBaV
- ObPNPcQ/W175GeEnN6ZnwuVqXheiaVwLI9kzvzObWKfxloRH/7UyyfUXns89kfC7g2f437
- M9dD4kOKtUEGEFp99n1/wrHaP0GEcdg=
+ bh=8brTVOPh41D9JIYPtyJmyj23Qq54zpyRadZPX14hoHI=;
+ b=MotHynt6UO92/DHWNGfh3bmviMJ84sljvJ5sZ3ZFoK+Yy4NHRQ0H/1q3Dq34ocTJGKJZyJ
+ C+9Mf8aRRsoqd/GNJoterJJbrPBTZvs7Op19sxSO2PJ9efgDqdVIqxxz32P2slWBaUQpFv
+ AQqku4Ut/m8rNscTgOpfDVpzMByQEvk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-156-Q9pCp2_VP6qSBKq2CI6ocg-1; Fri, 21 Jan 2022 15:32:40 -0500
-X-MC-Unique: Q9pCp2_VP6qSBKq2CI6ocg-1
+ us-mta-323-tmR_tWvQOvOZKJ0gjpW7jA-1; Fri, 21 Jan 2022 15:32:46 -0500
+X-MC-Unique: tmR_tWvQOvOZKJ0gjpW7jA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FD1B814249;
- Fri, 21 Jan 2022 20:32:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B12E193F561;
+ Fri, 21 Jan 2022 20:32:44 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.193.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E6F3EE2C8;
- Fri, 21 Jan 2022 20:32:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 87A1716A31;
+ Fri, 21 Jan 2022 20:32:39 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/31] vhost: Add vhost_svq_valid_guest_features to shadow vq
-Date: Fri, 21 Jan 2022 21:27:14 +0100
-Message-Id: <20220121202733.404989-13-eperezma@redhat.com>
+Subject: [PATCH 13/31] vhost: Add vhost_svq_ack_guest_features to shadow vq
+Date: Fri, 21 Jan 2022 21:27:15 +0100
+Message-Id: <20220121202733.404989-14-eperezma@redhat.com>
 In-Reply-To: <20220121202733.404989-1-eperezma@redhat.com>
 References: <20220121202733.404989-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -94,62 +94,67 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows it to test if the guest has acknowledged an invalid
-transport feature for SVQ. This will include packed vq layout or
-event_idx, where the VirtIO device needs help from SVQ.
-
-It is not needed at this moment, but since SVQ will not re-negotiate
-features again with the guest, a failure to acknowledge them is fatal
-for SVQ.
+This combines the previous two feature functions, forwarding the guest
+ones to the device and setting the transport ones that the SVQ supports
+with the device.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.h |  1 +
- hw/virtio/vhost-shadow-virtqueue.c | 24 ++++++++++++++++++++++++
- 2 files changed, 25 insertions(+)
+ hw/virtio/vhost-shadow-virtqueue.h |  3 +++
+ hw/virtio/vhost-shadow-virtqueue.c | 31 ++++++++++++++++++++++++++++++
+ 2 files changed, 34 insertions(+)
 
 diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
-index d963867a04..1aae6a2297 100644
+index 1aae6a2297..af8f8264c0 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.h
 +++ b/hw/virtio/vhost-shadow-virtqueue.h
-@@ -16,6 +16,7 @@
- typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
+@@ -17,6 +17,9 @@ typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
  
  bool vhost_svq_valid_device_features(uint64_t *features);
-+bool vhost_svq_valid_guest_features(uint64_t *features);
+ bool vhost_svq_valid_guest_features(uint64_t *features);
++bool vhost_svq_ack_guest_features(uint64_t dev_features,
++                                  uint64_t guest_features,
++                                  uint64_t *acked_features);
  
  void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kick_fd);
  void vhost_svq_set_guest_call_notifier(VhostShadowVirtqueue *svq, int call_fd);
 diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 51442b3dbf..f70160d7ca 100644
+index f70160d7ca..a6fb7e3c8f 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.c
 +++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -89,6 +89,30 @@ bool vhost_svq_valid_device_features(uint64_t *dev_features)
-     return r;
+@@ -113,6 +113,37 @@ bool vhost_svq_valid_guest_features(uint64_t *guest_features)
+     return !(guest_transport_features & (transport ^ valid));
  }
  
 +/**
-+ * Offers SVQ valid transport features to the guest.
++ * VirtIO features that SVQ must acknowledge to device.
 + *
-+ * @guest_features  The device's supported features. Return SVQ's if success.
++ * It combines the SVQ transport compatible features with the guest's device
++ * features.
 + *
-+ * Returns true if SVQ can handle them, false otherwise.
++ * @dev_features    The device offered features
++ * @guest_features  The guest acknowledge features
++ * @acked_features  The guest acknowledge features in the device side plus SVQ
++ *                  transport ones.
++ *
++ * Returns true if SVQ can work with this features, false otherwise
 + */
-+bool vhost_svq_valid_guest_features(uint64_t *guest_features)
++bool vhost_svq_ack_guest_features(uint64_t dev_features,
++                                  uint64_t guest_features,
++                                  uint64_t *acked_features)
 +{
 +    static const uint64_t transport = MAKE_64BIT_MASK(VIRTIO_TRANSPORT_F_START,
 +                            VIRTIO_TRANSPORT_F_END - VIRTIO_TRANSPORT_F_START);
 +
-+    /* These transport features are handled by VirtQueue */
-+    static const uint64_t valid = BIT_ULL(VIRTIO_RING_F_INDIRECT_DESC) |
-+                                  BIT_ULL(VIRTIO_F_VERSION_1) |
-+                                  BIT_ULL(VIRTIO_F_IOMMU_PLATFORM);
++    bool ok = vhost_svq_valid_device_features(&dev_features) &&
++              vhost_svq_valid_guest_features(&guest_features);
++    if (unlikely(!ok)) {
++        return false;
++    }
 +
-+    /* We are only interested in transport-related feature bits */
-+    uint64_t guest_transport_features = (*guest_features) & transport;
-+
-+    *guest_features &= (valid | ~transport);
-+    return !(guest_transport_features & (transport ^ valid));
++    *acked_features = (dev_features & transport) |
++                      (guest_features & ~transport);
++    return true;
 +}
 +
  /* Forward guest notifications */
