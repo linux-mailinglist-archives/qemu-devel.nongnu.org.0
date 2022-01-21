@@ -2,74 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B5D495E56
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 12:23:09 +0100 (CET)
-Received: from localhost ([::1]:60254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E169495E76
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 12:39:46 +0100 (CET)
+Received: from localhost ([::1]:45794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAs0a-0006B1-Pm
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 06:23:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57358)
+	id 1nAsGd-0007ti-Cm
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 06:39:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nArVL-0002s4-JQ
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 05:50:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55374)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nAru5-0007wU-QZ
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 06:16:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nArVG-0001Cs-RC
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 05:50:51 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nAru1-0005jg-Uo
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 06:16:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642762218;
+ s=mimecast20190719; t=1642763780;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UXMVjuKtY2JPmZ5StNrD7R63S6goleChyvP/lIK3mdM=;
- b=Fc2SYkCdyzjegQ6cPG/8oYhH4ezx58P6MBNs9nKGruXMRvWV865UJI5dMKBxqfJOZLZqsH
- EJ7yEyqHzfeiMkYcSMkdFLppwHCvRSzbvSTGoWJiRYJx3iQTEm46yq25NFQ3RpjoY6KJnu
- Wuz4LVW14UwYCQ+zUIxQRAO1yeAjmJ0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=lVq0XP/I9uo83Ozn6jmX4TsNpNte6YdiO4V5mthu7vo=;
+ b=cDH5gy1nz+RFLsAOSuNePDap27i8Gt0cTzgKZMux9UA7BU5glvRZdMg8ZX52BUOipv9D2r
+ /IR2xR6TXhhBO8BEqTbOGqEeYDVjrZkTOoTVaFufCi22+BFDoSXYZXcM5z5RnQo3pm06Eu
+ 9u+IeJnXsFoWLTzKYxlEa+vCcTKqYdw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-528-_I232YoSPY2LRhDHwZaBzw-1; Fri, 21 Jan 2022 05:50:17 -0500
-X-MC-Unique: _I232YoSPY2LRhDHwZaBzw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDFD4100C660;
- Fri, 21 Jan 2022 10:50:15 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
- [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 79B90752A9;
- Fri, 21 Jan 2022 10:50:11 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E9DAE1136421; Fri, 21 Jan 2022 11:50:09 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: "make check-acceptance" takes way too long
-References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
- <CAFEAcA9_d5jw5-HOrZA6dsG1vMqxzqmrfHA7Jo0KsDcaEXmB_Q@mail.gmail.com>
- <6c90ca3d-eaec-d7e8-5941-4deb83b58fd0@redhat.com>
-Date: Fri, 21 Jan 2022 11:50:09 +0100
-In-Reply-To: <6c90ca3d-eaec-d7e8-5941-4deb83b58fd0@redhat.com> (Thomas Huth's
- message of "Fri, 21 Jan 2022 08:56:41 +0100")
-Message-ID: <87zgnp4b32.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-578-f9PBd_1BPR-7ylHPjDgkEw-1; Fri, 21 Jan 2022 06:16:17 -0500
+X-MC-Unique: f9PBd_1BPR-7ylHPjDgkEw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ n19-20020a05600c501300b0034d7b01ae4dso3669994wmr.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 03:16:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=lVq0XP/I9uo83Ozn6jmX4TsNpNte6YdiO4V5mthu7vo=;
+ b=vQIiRgolttWqra/jDn/gHpcPf4SThiGN7mXLB88T1nULmBVOsXQnItR0r5PT5xOlL0
+ m/qfQA6jAqDR9t4WLoKfK7+Dp/blXqGC7WBLN64mVXSjfw8e25rCzgj8UTTqVCw1Yh4+
+ S3OFCrsDXU+ueZuIY5SchFD4CUiBWlc0PO8j5H/WAUdgzWJK4XoKI3U6cEePzNxXhto3
+ 5XYRfD/wzK1bdnv341P6RQs9/yVpNTEPJLAnQ+7suA5T0c2VjZaj5yiO2Nlo54HSKNNU
+ IWz/C10c5i9suUB4BegNIUpEesBxpHnLMgmcprNCaLHSOsTLrXmzbJLJeykJTqLRltvD
+ lLxQ==
+X-Gm-Message-State: AOAM533m4fdY66xHzIPOj+Xm5J+bJ1L7dbvTxGRxNglAfEJG3oDENjex
+ HUauAjOffNcmXzE0OFdA5Zq36bHeOcOfRHPEMQu4tipM3V9rv7OB7anDUV+cx2J8LKKOwAD1Egm
+ 1ZSF9joH3XOueODM=
+X-Received: by 2002:a5d:59ae:: with SMTP id p14mr3269761wrr.559.1642763776237; 
+ Fri, 21 Jan 2022 03:16:16 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyhMG0J0zla7JOsdE+MNhY7DLuoZb2tkkLFdvqGkiR8IMkfnJ0dtTN90bsYznEJPkZHRUdbSA==
+X-Received: by 2002:a5d:59ae:: with SMTP id p14mr3269723wrr.559.1642763775774; 
+ Fri, 21 Jan 2022 03:16:15 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id f13sm5883160wri.49.2022.01.21.03.16.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Jan 2022 03:16:15 -0800 (PST)
+Message-ID: <b2e955f3-2696-5ee3-e8fb-be336e0811c6@redhat.com>
+Date: Fri, 21 Jan 2022 12:16:14 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 1/3] qsd: Add pre-init argument parsing pass
+To: Markus Armbruster <armbru@redhat.com>
+References: <20211222114153.67721-1-hreitz@redhat.com>
+ <20211222114153.67721-2-hreitz@redhat.com>
+ <87zgnrubkf.fsf@dusky.pond.sub.org>
+ <4a15fbad-b177-f35c-1468-ef14f7ab1887@redhat.com>
+ <YehIosxuXCqsGBSW@redhat.com> <87ee5275ya.fsf@dusky.pond.sub.org>
+ <ffaf9aee-56e9-c332-09ad-158a3e28758b@redhat.com>
+ <87pmol62kv.fsf@dusky.pond.sub.org>
+ <f7b6d0e0-ee5f-f7ed-795b-27b13ff816c7@redhat.com>
+ <87tudx4c4p.fsf@dusky.pond.sub.org>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <87tudx4c4p.fsf@dusky.pond.sub.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,42 +107,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thomas Huth <thuth@redhat.com> writes:
-
-> On 20/01/2022 16.13, Peter Maydell wrote:
->> On Fri, 30 Jul 2021 at 16:12, Peter Maydell <peter.maydell@linaro.org> wrote:
->>>
->>> "make check-acceptance" takes way way too long. I just did a run
->>> on an arm-and-aarch64-targets-only debug build and it took over
->>> half an hour, and this despite it skipping or cancelling 26 out
->>> of 58 tests!
->>>
->>> I think that ~10 minutes runtime is reasonable. 30 is not;
->>> ideally no individual test would take more than a minute or so.
->>>
->>> Output saying where the time went. The first two tests take
->>> more than 10 minutes *each*. I think a good start would be to find
->>> a way of testing what they're testing that is less heavyweight.
->>
->> Does anybody have some time to look at this? It makes
->> 'check-acceptance' almost unusable for testing fixes locally...
+On 21.01.22 11:27, Markus Armbruster wrote:
+> Hanna Reitz <hreitz@redhat.com> writes:
 >
-> We could start using the "SPEED" environment variable there, too, just
-> like we already do it in the qtests, so that slow tests only get
-> executed with SPEED=slow or SPEED=thorough ...?
+>> On 21.01.22 07:10, Markus Armbruster wrote:
+>>> Hanna Reitz <hreitz@redhat.com> writes:
+>>>
+>>>> On 20.01.22 17:00, Markus Armbruster wrote:
+>>>>> Kevin Wolf <kwolf@redhat.com> writes:
+>>>>>
+>>>>>> Am 19.01.2022 um 14:44 hat Hanna Reitz geschrieben:
+>>>>>>> On 19.01.22 13:58, Markus Armbruster wrote:
+>>>>>>>> Hanna Reitz <hreitz@redhat.com> writes:
+>>>>>>>>
+>>>>>>>>> We want to add a --daemonize argument to QSD's command line.
+>>>>>>>> Why?
+>>>>>>> OK, s/we/I/.  I find it useful, because without such an option, I need to
+>>>>>>> have whoever invokes QSD loop until the PID file exists, before I can be
+>>>>>>> sure that all exports are set up.  I make use of it in the test cases added
+>>>>>>> in patch 3.
+>>>>>>>
+>>>>>>> I suppose this could be worked around with a special character device, like
+>>>>>>> so:
+>>>>>>>
+>>>>>>> ```
+>>>>>>> ncat --listen -U /tmp/qsd-done.sock </dev/null &
+>>>>>>> ncat_pid=$!
+>>>>>>>
+>>>>>>> qemu-storage-daemon \
+>>>>>>>        ... \
+>>>>>>>        --chardev socket,id=signal_done,path=/tmp/qsd-done.sock \
+>>>>>>>        --monitor signal_done \
+>>>>>>>        --pidfile /tmp/qsd.pid &
+>>>>>>>
+>>>>>>> wait $ncat_pid
+>>>>>>> ```
+>>>>>>>
+>>>>>>> But having to use an extra tool for this is unergonomic.  I mean, if there’s
+>>>>>>> no other way...
+>>>>> I know duplicating this into every program that could server as a daemon
+>>>>> is the Unix tradition.  Doesn't make it good.  Systemd[*] has tried to
+>>>>> make it superfluous.
+>>>> Well.  I have absolutely nothing against systemd.  Still, I will not
+>>>> use it in an iotest, that’s for sure.
+>>> My point isn't "use systemd in iotests".  It's "consider doing it like
+>>> systemd", i.e. do the daemonization work in a utility program.  For what
+>>> it's worth, Linux has daemonize(1).
+>> The problem I face is that currently there is no ergonomic way to wait
+>> until the QSD is up and running (besides looping until the PID file
+>> exists), and I don’t think a utility program that doesn’t know the QSD
+>> could provide this.  (For example, it looks like daemonize(1) will
+>> have the parent exit immediately, regardless of whether the child is
+>> set up or not.)
+> Why do you need to wait for QSD to be ready?
+>
+> I'm asking because with common daemons, I don't wait, I just connect to
+> their socket and start talking.  They'll reply only when ready.
 
-No objection, but it's no replacement for looking into why these tests
-are so slow.
+That only applies when you want to talk to a socket, which I often don’t 
+do.  Most of the time I use the storage daemon, I pass all --blockdev 
+and --export options through the command line and don’t create any 
+socket at all.  When I use the QSD just to export some block device, I 
+generally don’t need QMP.
 
-The #1 reason for things being slow is not giving a damn :)
+Of course, I could just not do that, and instead only set up QMP and 
+then do all the configuration through that (where, as you say, QSD will 
+only reply once it can); but that’s much more complicated than running a 
+single command.
+
+(Or I could do a mix of both, which I described above, where I’d create 
+and have the QSD connect to a Unix socket just to see that configuration 
+is done and all exports are up.  I’d prefer not to, because it still 
+means using an extra tool (ncat) to create the socket.)
 
 
