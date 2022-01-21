@@ -2,115 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 460AA4962AB
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 17:16:28 +0100 (CET)
-Received: from localhost ([::1]:52466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 428F5496331
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 17:55:06 +0100 (CET)
+Received: from localhost ([::1]:42320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAwaR-0000MY-2L
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 11:16:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55492)
+	id 1nAxBo-00066G-Hc
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 11:55:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
- id 1nAwWr-00064f-IH
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 11:12:45 -0500
-Received: from mail-bn8nam11on2073.outbound.protection.outlook.com
- ([40.107.236.73]:24608 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
- id 1nAwWp-0006Ad-4i
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 11:12:45 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bqdFDfUeAmv64IZir6eo+7fNQdeyvKPrJzBuFuaj2Ho3P3VYwc5LzKQvEDs5HWg+8hf2MIGTt2pGl/ZPLX3b/DlXPzfevMwzb0V4ZTjeGBbSaJ8L4v/YBl6YOWiQmBg/6kYPazQNBkZO3jfesZ3OSRFBF+wceR9Bk/lTWf4vdmxZoS4zeGYL6P2Ye8y2QE6tpAd3EWcfS51Zc51JsSausDtTeq5wP6woMsHliKnVVf3CaokSviOowIKZwmFcqv1md+jPm1+Z+mnEmpETLn4wWGKpYVGb5d2B7Q8C9vRuFJoTkuHLbX36Jn2LZFy8RuOQ8LyfKn5hsnmz9cQJbsBAjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sgBZZmHiI+gh9qnUiX4TjNCl/hNY4K4uVyberFDnN5g=;
- b=NOoysYWSbiqQ3EwXzqkvQNtJYaSBZlQKCk8c05eG3kqDnrMyEiF1Z/bLNdQt/HeuIq7dsI9VCr/ckOhr7/eG65hEHth1Niy3SSqlW8RhYAbUCx1P0huqVlx+TwZNh2DwFDWOWOW7bcaI4zAiv9d5e+zsMsKoCY4DtwD9nnjS/+oA9pvrEJLzKxiIHhTSXLtJXeRkieXCQNgIcdOFJTuAYez+7y40xwsf2ceoqn8hUs3EteRvWPrGICNK0QTD879SSe4c8m9zCqg1ysRt66I1XMe7waG51OmdQHxO8X1EEhXlkJfcazJMsRHoXb4fBnPKWLFcoo8xys/1JXW3OgtEdg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sgBZZmHiI+gh9qnUiX4TjNCl/hNY4K4uVyberFDnN5g=;
- b=k0SAerh9XRbjCDUBenkkX45kEYTRAWHwiD0AYi/b/RlGIGlXN2ygga7hrQttJUY13Iqv/RQpju2yjdgJqCktz70PoU5YTkX/BykFDXnUvbLQ7t+SA7Ey3DEs0T0mMCCO15+1L0FnNTxpQ/Fh4j8FrSkcQGGE5OfzxBSbhPsrX0w=
-Received: from DS7P222CA0021.NAMP222.PROD.OUTLOOK.COM (2603:10b6:8:2e::20) by
- PH0PR02MB7176.namprd02.prod.outlook.com (2603:10b6:510:1d::16) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4909.7; Fri, 21 Jan 2022 16:12:41 +0000
-Received: from DM3NAM02FT027.eop-nam02.prod.protection.outlook.com
- (2603:10b6:8:2e:cafe::d3) by DS7P222CA0021.outlook.office365.com
- (2603:10b6:8:2e::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.7 via Frontend
- Transport; Fri, 21 Jan 2022 16:12:40 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
-Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
- DM3NAM02FT027.mail.protection.outlook.com (10.13.5.130) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4909.8 via Frontend Transport; Fri, 21 Jan 2022 16:12:40 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Fri, 21 Jan 2022 08:12:11 -0800
-Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Fri, 21 Jan 2022 08:12:11 -0800
-Received: from [10.23.121.133] (port=62231 helo=debian.xilinx.com)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <francisco.iglesias@xilinx.com>)
- id 1nAwWC-0002nH-Lw; Fri, 21 Jan 2022 08:12:05 -0800
-From: Francisco Iglesias <francisco.iglesias@xilinx.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v7 10/10] MAINTAINERS: Add an entry for Xilinx Versal OSPI
-Date: Fri, 21 Jan 2022 16:11:41 +0000
-Message-ID: <20220121161141.14389-11-francisco.iglesias@xilinx.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20220121161141.14389-1-francisco.iglesias@xilinx.com>
-References: <20220121161141.14389-1-francisco.iglesias@xilinx.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nAwej-0007Im-JK; Fri, 21 Jan 2022 11:20:55 -0500
+Received: from [2607:f8b0:4864:20::335] (port=39506
+ helo=mail-ot1-x335.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nAwei-0007Y9-1b; Fri, 21 Jan 2022 11:20:53 -0500
+Received: by mail-ot1-x335.google.com with SMTP id
+ c3-20020a9d6c83000000b00590b9c8819aso12379872otr.6; 
+ Fri, 21 Jan 2022 08:20:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=nqwLTsKIGxCXsSJ+7+b/VRK6R1kLrwUnVV5H/JHQoC0=;
+ b=V26sKUHbkMXbBV8mGs/b/CFXqi/YbU7lEnzBj+CC5FQToyACFScW+vow2+6pHazL2u
+ uSRik0x5E55X/Rn580k+5ik3Pe/cWgBhEZ8AY+kYaNIDTAwDWt/oQWFo1361dEOZFGj1
+ AodduVXkFr/ZSWK5qoz9kd/eLoKfRcoVDeIaKJ41kYrg7vvlOxsZHt00VAKaKijPhcWx
+ 91jdFvdOT9jqQVEYHurpAM/dhA+O3+T3EgfAy3U+DvUxXdq+j22nXGq9zyAWUiHHiYOA
+ lEcUdNLY9H9YasZyrw4rXwGGmKR6taqp1FNtZKGTkPAVlWZnBdyBM3L9+oKdh3Vc3X/8
+ qZPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=nqwLTsKIGxCXsSJ+7+b/VRK6R1kLrwUnVV5H/JHQoC0=;
+ b=qTWX5viqnsS7rSHeIvQe1UulOYbg9BamnAUid9ARwKuiWJxX3o/1e9CMRvv3kX2gJC
+ MV/6QtN8BVog/fBz2O58YzssshShbsUw4FjWH6bUpS8Ug4Guso9U7hWJA5Wt/wQ1ayUA
+ 2dtfWY9UaaWV5ldiKQ+y9Bt9jL65UzabXOYLf+iuI/2XT6gkb9Rb8JKeMkd8pvNFEkAQ
+ /QgpRpRS7SAd6imUy6eTe1lylyxsxfKyOPJj7Vl1jhpMSEDZhp+8I3ub/BNhjkfMp2d3
+ s1ruCQ7qRWQ16iZJey7+wxVyoEXlY3Y7nOX2Xe0mNAgWtwc1QrqydS3nT9/bveyCo4J+
+ jucg==
+X-Gm-Message-State: AOAM530Hrv/CDtYEBXbC4thYWNi9yL3sCTBCJ8I7iEuF5SM8gLFalTIV
+ 6RQNEgttxPqKlapM2JI8dGM=
+X-Google-Smtp-Source: ABdhPJzr7rV1WxuGfQsAAMTxvrpxBiK2iGKw9fNVIxaPf5ltC0YAv1xHpdNmfeDF0H3+GFvdWOj6qA==
+X-Received: by 2002:a9d:57ca:: with SMTP id q10mr3361525oti.180.1642782050558; 
+ Fri, 21 Jan 2022 08:20:50 -0800 (PST)
+Received: from [192.168.10.222] ([191.8.61.226])
+ by smtp.gmail.com with ESMTPSA id g4sm1137726otl.1.2022.01.21.08.20.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Jan 2022 08:20:50 -0800 (PST)
+Message-ID: <fcced002-83fc-14e8-8b81-4296dfc855b8@gmail.com>
+Date: Fri, 21 Jan 2022 13:20:47 -0300
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a7e55428-1b54-48a8-0515-08d9dcf8d95a
-X-MS-TrafficTypeDiagnostic: PH0PR02MB7176:EE_
-X-Microsoft-Antispam-PRVS: <PH0PR02MB71767C89917AB8BE82FB8DCEAD5B9@PH0PR02MB7176.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mjJdLn+y8xX2KrFESPr2RgR2k0lp+IbE3bD09VpDjyRUUUMYbDp7QsDbNCdjFI8VUCTt9u+f9/rtqg79mH/FaXYfLUIc0pqICB57A97JIYFn8Ue/FIZMbrilw/pxJAwxK1RMxulKS3VmdPqRhwwfsxl438ZQLz3mGA3fMEoOqFNOlZ8acWSsEJ118moTtcnuzLRyrUUN7SNyFlJ6RhRURyyPfL3gvi/DtbbkWRYa2H2XboGt4OTTO/7BGuYtZI7apozd4CN+0dYeAYAXdCeaTxvdD1uUdbf/3+Nyr47f7oXopp3IIynQrHfNd0gWvipUhSr/L8xOOWv4C/TdEEDDfTG3zPMIxgWyiiETWTVzeoRP/GI7XtuZGhi4sAA7ND7pJhgr193vruMFSu49utco26fXWi5fa3bnIICW4qg5cdaa0Ccmj3t1lLDXQgGNPR7JAebWUuKk0FwnYSx77YNhzfbau6FMqC3E0p5u93NqlX59EPNlnhE/wN3uUW57OzfhkDnIchKGMtQs8KtjWPdvPwJkKNuSN4aGIX5aN87P7gAroGWkrOt51GgPDy+iR45QlbJmnAEU0r3Jr9ohRV+IyySeE6XnvRgq0ylEwCKfen5IHd38TGKL8m4YRlZnARuqSysoAtJ/gWnsiopNsjiqRMlUoA5PofGeA+b6l7XOnFhqYhHnxHGF/7lRoAUSMu1tx+6k5br/i6yjEPzqVPZN/+xa9aU1EeBoVj1oRYBce28=
-X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
- PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(47076005)(316002)(7696005)(356005)(4744005)(6916009)(4326008)(336012)(54906003)(36756003)(82310400004)(36860700001)(2906002)(9786002)(508600001)(8936002)(1076003)(8676002)(44832011)(5660300002)(26005)(426003)(70586007)(2616005)(186003)(70206006)(6666004)(7636003)(102446001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2022 16:12:40.5410 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a7e55428-1b54-48a8-0515-08d9dcf8d95a
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM3NAM02FT027.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB7176
-Received-SPF: pass client-ip=40.107.236.73; envelope-from=figlesia@xilinx.com;
- helo=NAM11-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] ppc/pnv: Fail DMA access if page permissions are not
+ correct
+Content-Language: en-US
+To: Frederic Barrat <fbarrat@linux.ibm.com>, clg@kaod.org,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+References: <20220121152350.381685-1-fbarrat@linux.ibm.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220121152350.381685-1-fbarrat@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::335
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x335.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -123,39 +91,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org, luc@lmichel.fr,
- frasse.iglesias@gmail.com, alistair@alistair23.me, alistair23@gmail.com,
- philmd@redhat.com
+Cc: aik@ozlabs.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-List myself as maintainer for the Xilinx Versal OSPI controller.
 
-Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
----
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e4b3a4bcdf..6797a270e4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -958,6 +958,12 @@ F: hw/display/dpcd.c
- F: include/hw/display/dpcd.h
- F: docs/system/arm/xlnx-versal-virt.rst
- 
-+Xilinx Versal OSPI
-+M: Francisco Iglesias <francisco.iglesias@xilinx.com>
-+S: Maintained
-+F: hw/ssi/xlnx-versal-ospi.c
-+F: include/hw/ssi/xlnx-versal-ospi.h
-+
- ARM ACPI Subsystem
- M: Shannon Zhao <shannon.zhaosl@gmail.com>
- L: qemu-arm@nongnu.org
--- 
-2.11.0
+On 1/21/22 12:23, Frederic Barrat wrote:
+> If an iommu page has wrong permissions, an error message is displayed,
+> but the access is allowed, which is odd. This patch fixes it.
+> 
+> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
+> ---
 
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+>   hw/pci-host/pnv_phb3.c | 11 ++++++-----
+>   hw/pci-host/pnv_phb4.c | 11 ++++++-----
+>   2 files changed, 12 insertions(+), 10 deletions(-)
+> 
+> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+> index 7fb35dc031..a757f1a58e 100644
+> --- a/hw/pci-host/pnv_phb3.c
+> +++ b/hw/pci-host/pnv_phb3.c
+> @@ -816,18 +816,19 @@ static void pnv_phb3_translate_tve(PnvPhb3DMASpace *ds, hwaddr addr,
+>           }
+>   
+>           /* We exit the loop with TCE being the final TCE */
+> -        tce_mask = ~((1ull << tce_shift) - 1);
+> -        tlb->iova = addr & tce_mask;
+> -        tlb->translated_addr = tce & tce_mask;
+> -        tlb->addr_mask = ~tce_mask;
+> -        tlb->perm = tce & 3;
+>           if ((is_write & !(tce & 2)) || ((!is_write) && !(tce & 1))) {
+>               phb3_error(phb, "TCE access fault at 0x%"PRIx64, taddr);
+>               phb3_error(phb, " xlate %"PRIx64":%c TVE=%"PRIx64, addr,
+>                          is_write ? 'W' : 'R', tve);
+>               phb3_error(phb, " tta=%"PRIx64" lev=%d tts=%d tps=%d",
+>                          tta, lev, tts, tps);
+> +            return;
+>           }
+> +        tce_mask = ~((1ull << tce_shift) - 1);
+> +        tlb->iova = addr & tce_mask;
+> +        tlb->translated_addr = tce & tce_mask;
+> +        tlb->addr_mask = ~tce_mask;
+> +        tlb->perm = tce & 3;
+>       }
+>   }
+>   
+> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+> index a78add75b0..ee56377c02 100644
+> --- a/hw/pci-host/pnv_phb4.c
+> +++ b/hw/pci-host/pnv_phb4.c
+> @@ -1291,18 +1291,19 @@ static void pnv_phb4_translate_tve(PnvPhb4DMASpace *ds, hwaddr addr,
+>           }
+>   
+>           /* We exit the loop with TCE being the final TCE */
+> -        tce_mask = ~((1ull << tce_shift) - 1);
+> -        tlb->iova = addr & tce_mask;
+> -        tlb->translated_addr = tce & tce_mask;
+> -        tlb->addr_mask = ~tce_mask;
+> -        tlb->perm = tce & 3;
+>           if ((is_write & !(tce & 2)) || ((!is_write) && !(tce & 1))) {
+>               phb_error(ds->phb, "TCE access fault at 0x%"PRIx64, taddr);
+>               phb_error(ds->phb, " xlate %"PRIx64":%c TVE=%"PRIx64, addr,
+>                          is_write ? 'W' : 'R', tve);
+>               phb_error(ds->phb, " tta=%"PRIx64" lev=%d tts=%d tps=%d",
+>                          tta, lev, tts, tps);
+> +            return;
+>           }
+> +        tce_mask = ~((1ull << tce_shift) - 1);
+> +        tlb->iova = addr & tce_mask;
+> +        tlb->translated_addr = tce & tce_mask;
+> +        tlb->addr_mask = ~tce_mask;
+> +        tlb->perm = tce & 3;
+>       }
+>   }
+>   
 
