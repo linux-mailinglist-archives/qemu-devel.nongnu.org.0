@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92D83495E4C
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 12:22:14 +0100 (CET)
-Received: from localhost ([::1]:57288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B5D495E56
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 12:23:09 +0100 (CET)
+Received: from localhost ([::1]:60254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nArzh-00042l-LK
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 06:22:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56608)
+	id 1nAs0a-0006B1-Pm
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 06:23:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nArSS-0008FJ-Ee
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 05:47:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47040)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nArVL-0002s4-JQ
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 05:50:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nArSO-0000tY-Qs
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 05:47:50 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nArVG-0001Cs-RC
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 05:50:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642762067;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1642762218;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=+gszmb9AbwAdd+bjq58sTmXTbldDIe0cLJIa4qt/DiE=;
- b=Vmb8kbLyC6jzjy/Zu0g4+kzp/R9LlIwBRAJ+CIX6yAMCqY6oCrIMXlv5RDCPHMGZD3Hkp9
- 3aQMXI4p0sUjoEby0mZAsn026P4K4VUDqb7YjhDmVPUqsIVWTA2ttcSYpbs0OzaqlVNNth
- RI1qeC3nJJzkHe5aS73LOPL1k4M5W+o=
+ bh=UXMVjuKtY2JPmZ5StNrD7R63S6goleChyvP/lIK3mdM=;
+ b=Fc2SYkCdyzjegQ6cPG/8oYhH4ezx58P6MBNs9nKGruXMRvWV865UJI5dMKBxqfJOZLZqsH
+ EJ7yEyqHzfeiMkYcSMkdFLppwHCvRSzbvSTGoWJiRYJx3iQTEm46yq25NFQ3RpjoY6KJnu
+ Wuz4LVW14UwYCQ+zUIxQRAO1yeAjmJ0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-16-XziKkW8mNA-z0BBe68wq9w-1; Fri, 21 Jan 2022 05:47:36 -0500
-X-MC-Unique: XziKkW8mNA-z0BBe68wq9w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-528-_I232YoSPY2LRhDHwZaBzw-1; Fri, 21 Jan 2022 05:50:17 -0500
+X-MC-Unique: _I232YoSPY2LRhDHwZaBzw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1753C1006AA4;
- Fri, 21 Jan 2022 10:47:35 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9607B6D03D;
- Fri, 21 Jan 2022 10:47:32 +0000 (UTC)
-Date: Fri, 21 Jan 2022 10:47:28 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v4 2/8] gitmodules: Correct libvirt-ci URL
-Message-ID: <YeqPQIiFx+KYrTDz@redhat.com>
-References: <20220121103623.288054-1-f4bug@amsat.org>
- <20220121103623.288054-3-f4bug@amsat.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDFD4100C660;
+ Fri, 21 Jan 2022 10:50:15 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
+ [10.36.112.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 79B90752A9;
+ Fri, 21 Jan 2022 10:50:11 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E9DAE1136421; Fri, 21 Jan 2022 11:50:09 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: "make check-acceptance" takes way too long
+References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
+ <CAFEAcA9_d5jw5-HOrZA6dsG1vMqxzqmrfHA7Jo0KsDcaEXmB_Q@mail.gmail.com>
+ <6c90ca3d-eaec-d7e8-5941-4deb83b58fd0@redhat.com>
+Date: Fri, 21 Jan 2022 11:50:09 +0100
+In-Reply-To: <6c90ca3d-eaec-d7e8-5941-4deb83b58fd0@redhat.com> (Thomas Huth's
+ message of "Fri, 21 Jan 2022 08:56:41 +0100")
+Message-ID: <87zgnp4b32.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20220121103623.288054-3-f4bug@amsat.org>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -83,45 +82,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
- Yonggang Luo <luoyonggang@gmail.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 21, 2022 at 11:36:17AM +0100, Philippe Mathieu-Daudé wrote:
-> Correct the libvirt-ci repository URL to avoid this warning when
-> cloning / refreshing the submodule:
-> 
->   warning: redirecting to https://gitlab.com/libvirt/libvirt-ci.git/
-> 
-> Fixes: 4ebb040f1fd ("tests: integrate lcitool for generating build env manifests")
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  .gitmodules | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/.gitmodules b/.gitmodules
-> index 84425d87e28..f4b6a9b4012 100644
-> --- a/.gitmodules
-> +++ b/.gitmodules
-> @@ -66,4 +66,4 @@
->  	url = https://gitlab.com/qemu-project/vbootrom.git
->  [submodule "tests/lcitool/libvirt-ci"]
->  	path = tests/lcitool/libvirt-ci
-> -	url = http://gitlab.com/libvirt/libvirt-ci
-> +	url = https://gitlab.com/libvirt/libvirt-ci.git
+Thomas Huth <thuth@redhat.com> writes:
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> On 20/01/2022 16.13, Peter Maydell wrote:
+>> On Fri, 30 Jul 2021 at 16:12, Peter Maydell <peter.maydell@linaro.org> wrote:
+>>>
+>>> "make check-acceptance" takes way way too long. I just did a run
+>>> on an arm-and-aarch64-targets-only debug build and it took over
+>>> half an hour, and this despite it skipping or cancelling 26 out
+>>> of 58 tests!
+>>>
+>>> I think that ~10 minutes runtime is reasonable. 30 is not;
+>>> ideally no individual test would take more than a minute or so.
+>>>
+>>> Output saying where the time went. The first two tests take
+>>> more than 10 minutes *each*. I think a good start would be to find
+>>> a way of testing what they're testing that is less heavyweight.
+>>
+>> Does anybody have some time to look at this? It makes
+>> 'check-acceptance' almost unusable for testing fixes locally...
+>
+> We could start using the "SPEED" environment variable there, too, just
+> like we already do it in the qtests, so that slow tests only get
+> executed with SPEED=slow or SPEED=thorough ...?
 
+No objection, but it's no replacement for looking into why these tests
+are so slow.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+The #1 reason for things being slow is not giving a damn :)
 
 
