@@ -2,75 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 846EA496787
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 22:47:22 +0100 (CET)
-Received: from localhost ([::1]:54748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBB314967C8
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 23:21:40 +0100 (CET)
+Received: from localhost ([::1]:39402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB1ke-0000kI-Mb
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 16:47:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43882)
+	id 1nB2Hs-0002Vi-0S
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 17:21:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nB1cn-0004LR-4T; Fri, 21 Jan 2022 16:39:14 -0500
-Received: from [2607:f8b0:4864:20::333] (port=38868
- helo=mail-ot1-x333.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nB1cc-0003MQ-SD; Fri, 21 Jan 2022 16:39:04 -0500
-Received: by mail-ot1-x333.google.com with SMTP id
- k13-20020a056830150d00b0059c6afb8627so11200662otp.5; 
- Fri, 21 Jan 2022 13:39:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=e/uJC9/bYCxhu6D/1sgpkQOihdP7dQbwa96H4PVeAg0=;
- b=YsW4yNTUJBPfqojpjQCjVqUW9D9ixxcMJ5MWu9FaiFJBRgrbB5jwb89w+exvvniqPI
- AahYc67CGymHbDDittanOwwGCSwS+ZBgywqUPoDpBXiFImGtgQjvI9DRZY8i5quF2eAE
- gbM7Ci+i005p+fU4OFvr281Cwsy3TYwaMfAOYcKgK0FHtqOs+ksHYusnDnZlpKlSd4VP
- irOMwcxrNlrjf9Fkuyq/V3gdhfnhxIZQ9tv0sDcLRD3O6ZzNbnOtavSc9ib3lp+F3BKN
- o27WCymH/QUeprSJCVGF+p4TyyzJR1kEOXU/jwg6rPh1/3qGyWsa9dRJkPHtw30Bj7iI
- 1Vig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=e/uJC9/bYCxhu6D/1sgpkQOihdP7dQbwa96H4PVeAg0=;
- b=CMv1nMLjMosHZiNx2VXGKzrWqfJYbiMR7vmyv0AGH8loG8Aa8qsnbWJcJ5f4eJ6c0w
- FamPIEZggOigzu1q/jPYbt8vXe+MDoD5dQcoRASfM1TImarXzH+MQaslp8JHhs/NNV2S
- exYGdVuQfYpPtClcNhnUOQ5EjFklzXhhQUxWsIRgyIJxLsIahxl15HHSkKBeXpczJFKK
- 4rgPiGNSFx0G74x7ekL5CbbVGzS8knQWW5FnL6t6YYcchioZtovwn62XJro257/NsfYg
- d95yTXv8uFN21oi/fN3aqXNGJ7anlMRPirtoDC7Yq1ARVr1ecSiWKebxxZcTYk579Kri
- X4sg==
-X-Gm-Message-State: AOAM531JDIoDEjq2kRrOVcwVvLGYv5Jnwd5yDkVbY5IpMWMwHYzzg5wp
- ztVPmFiBmq9bPoHznWH/kICgw+6gyKQ=
-X-Google-Smtp-Source: ABdhPJx035x4sFzwfJgAIOux4o5+zN2YwvH253EBIx1j38KIdOwgFLjL2w0U2XSnwTD39IXQYNFbjA==
-X-Received: by 2002:a9d:6a47:: with SMTP id h7mr4048488otn.65.1642801141215;
- Fri, 21 Jan 2022 13:39:01 -0800 (PST)
-Received: from rekt.ibmuc.com ([191.8.61.226])
- by smtp.gmail.com with ESMTPSA id u4sm1514402ots.37.2022.01.21.13.38.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Jan 2022 13:39:00 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] spapr.c: check bus != NULL in spapr_get_fw_dev_path()
-Date: Fri, 21 Jan 2022 18:38:52 -0300
-Message-Id: <20220121213852.30243-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <svens@stackframe.org>)
+ id 1nB2D0-0000Qa-HJ
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 17:16:38 -0500
+Received: from outbound5c.eu.mailhop.org ([3.125.148.246]:57007)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <svens@stackframe.org>)
+ id 1nB2Cy-0005t2-PT
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 17:16:38 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1642803392; cv=none;
+ d=outbound.mailhop.org; s=arc-outbound20181012;
+ b=jiJ81D4UPKU8wrLiNz6FEpUitzH/5B5XTsaO8jit/j6uZ6B29nLcVbgNF6u34N6vOT/oEJ9t1wx9N
+ 31tzsNYDSqZaYm8OBm014NJof2QTTdU/K9uw0VZqgWCoKUF9q1kGFx3Xj95HDU3KzWx6VY3n8ghXEm
+ torg2dqfLUhKwyiwPG4SodvAyUfrukY0ak3IjrpaBAAbe4fnnqDjldDkd2jmWx2ZqJK+vhTSjZ9Qc7
+ un3LvuskyTAVvVzJ+xegETY/hdkJErNlwWBMDUKPqGehJZMsPwoxKOd0yhek53XeRyyT9vJb0UKwLC
+ BdGUbBaCbX8Yreq7G5Rc50pNQP3USuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=outbound.mailhop.org; s=arc-outbound20181012;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+ dkim-signature:dkim-signature:from;
+ bh=HgZEuC89rl0MDJmXPI8+VfE9o8W+5KsLSSTg09HCF7o=;
+ b=rcmrDbpi6drUxtE6Mxd8P/0sOGvgPzpX+NiHmXmQShSgZPKDXxmeCMKksRLWyV+NpXmpgcik0WrWZ
+ 9qB7WsHo+lj0TvCTfEAhUahaBBtJgsikzL/UXl9tJqejqcMmqLHvcw28bDZWr2bM89kgWGJrj53iZ7
+ hbng8qMW8MVqzcNVK0gPUk0YtRo/GPSC72wkcre5aZq8X5hhdeikoVOVRT79a72TjjKetbARAdb6N0
+ +hseJFzS90qa6aCC15FIDI9BMCg2vm2J5DyDfrCcniyYyEHDeoZOWPdJ3PI5j9Wz/19Cd5vACfqCJT
+ amuBr0AWm3aJPIjK5Iq8QMlCQrrKoKA==
+ARC-Authentication-Results: i=1; outbound3.eu.mailhop.org;
+ spf=pass smtp.mailfrom=stackframe.org smtp.remote-ip=91.207.61.48;
+ dmarc=none header.from=stackframe.org;
+ arc=none header.oldest-pass=0;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=stackframe.org; s=duo-1634547266507-560c42ae;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+ from; bh=HgZEuC89rl0MDJmXPI8+VfE9o8W+5KsLSSTg09HCF7o=;
+ b=VTgK2Y2VOZsTATuS90WVRWg4+9qh4OMF1wIROH9nN5cpju198HpaM0ohK0YOhNHh38gqjXeLv3wVK
+ gAOFQ+7LGnu0h7/7pPkPp0/CYdU/HWeMHCKnmMFLYnkdhAuRTHQe/5kpbGtIO90roDNwVU2hoiQouI
+ n4HAeD9KT3xp2dao=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=outbound.mailhop.org; s=dkim-high;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+ from; bh=HgZEuC89rl0MDJmXPI8+VfE9o8W+5KsLSSTg09HCF7o=;
+ b=cmYi2FiRLTAaE5hMOeXAz/6BFfliH+GiZhy0iCybIqQj+ByMNJxHRM3665v8tnDHxvwEPNWTcrrqW
+ EB7kSifj0tSqyXsDP7FUINtG1i6PLaFPxy3Gl1GqlQnOXc/ERloxmX2S8nbU6x5K+2scvvi2jU7Y5t
+ WcgeImsJHW2gSPuCXZTExQOiQsoW/0K8DwVNAdAH0kiZmCvBi4bs9sJvvrqbiWBBAIwu2BOY0ZEmxf
+ b25SfiymR30dMQtkNOj/9gEHCmaihToy+i37LeFFe9eFgohNmgVpiA7iPC/FZ1oeTyAIUj6UYJkmh2
+ hcVviy258zy3AUL13YdDUc6Es0gUxOQ==
+X-Originating-IP: 91.207.61.48
+X-MHO-RoutePath: dG9ta2lzdG5lcm51
+X-MHO-User: c78d5e15-7b07-11ec-98b0-95b64d6800c5
+X-Report-Abuse-To: https://support.duocircle.com/support/solutions/articles/5000540958-duocircle-standard-smtp-abuse-information
+X-Mail-Handler: DuoCircle Outbound SMTP
+Received: from mail.duncanthrax.net (propper.duncanthrax.net [91.207.61.48])
+ by outbound3.eu.mailhop.org (Halon) with ESMTPSA
+ id c78d5e15-7b07-11ec-98b0-95b64d6800c5;
+ Fri, 21 Jan 2022 22:16:29 +0000 (UTC)
+Received: from hsi-kbw-109-193-149-228.hsi7.kabel-badenwuerttemberg.de
+ ([109.193.149.228] helo=x1.stackframe.org)
+ by mail.duncanthrax.net with esmtpa (Exim 4.93)
+ (envelope-from <svens@stackframe.org>)
+ id 1nB2Cp-005WLL-Ou; Sat, 22 Jan 2022 00:16:27 +0200
+From: Sven Schnelle <svens@stackframe.org>
+To: Helge Deller <deller@gmx.de>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH 0/3] hw/display/artist: cursor & buffer mode fixes
+Date: Fri, 21 Jan 2022 23:16:16 +0100
+Message-Id: <20220121221619.1069447-1-svens@stackframe.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::333
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x333.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=3.125.148.246; envelope-from=svens@stackframe.org;
+ helo=outbound5c.eu.mailhop.org
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,56 +100,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-spapr_get_fw_dev_path() is an impl of
-FWPathProviderClass::get_dev_path(). This interface is used by
-hw/core/qdev-fw.c via fw_path_provider_try_get_dev_path() in two
-functions:
+Hi List,
 
-- static char *qdev_get_fw_dev_path_from_handler(), which is used only in
-qdev_get_fw_dev_path_helper() and it's guarded by "if (dev &&
-dev->parent_bus)";
+this set contains two fixes too make the cursor work with HP-UX' X-server,
+and one large rewrite to make the Linux framebuffer work with artist on hppa.
 
-- char *qdev_get_own_fw_dev_path_from_handler(), which is used in
-softmmu/bootdevice.c in get_boot_device_path() like this:
+Sven Schnelle (3):
+  hw/display/artist: fix cursor position
+  hw/display/artist: allow to disable/enable cursor
+  hw/display/artist: rewrite vram access mode handling
 
-    if (dev) {
-        d = qdev_get_own_fw_dev_path_from_handler(dev->parent_bus, dev);
+ hw/display/artist.c     | 449 ++++++++++++++++------------------------
+ hw/display/trace-events |   8 +-
+ 2 files changed, 184 insertions(+), 273 deletions(-)
 
-This means that, when called via softmmu/bootdevice.c, there's no check
-of 'dev->parent_bus' being not NULL. The result is that the "BusState
-*bus" arg of spapr_get_fw_dev_path() can potentially be NULL and if, at
-the same time, "SCSIDevice *d" is not NULL, we'll hit this line:
-
-    void *spapr = CAST(void, bus->parent, "spapr-vscsi");
-
-And we'll SIGINT because 'bus' is NULL and we're accessing bus->parent.
-
-Adding a simple 'bus != NULL' check to guard the instances where we
-access 'bus->parent' can avoid this altogether.
-
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/ppc/spapr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 72f5dce751..3d6ec309dd 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -3053,7 +3053,7 @@ static char *spapr_get_fw_dev_path(FWPathProvider *p, BusState *bus,
-     VHostSCSICommon *vsc = CAST(VHostSCSICommon, dev, TYPE_VHOST_SCSI_COMMON);
-     PCIDevice *pcidev = CAST(PCIDevice, dev, TYPE_PCI_DEVICE);
- 
--    if (d) {
-+    if (d && bus) {
-         void *spapr = CAST(void, bus->parent, "spapr-vscsi");
-         VirtIOSCSI *virtio = CAST(VirtIOSCSI, bus->parent, TYPE_VIRTIO_SCSI);
-         USBDevice *usb = CAST(USBDevice, bus->parent, TYPE_USB_DEVICE);
 -- 
 2.34.1
 
