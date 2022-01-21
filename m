@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6CC04957C7
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 02:37:25 +0100 (CET)
-Received: from localhost ([::1]:39174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 659494957E8
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 02:48:02 +0100 (CET)
+Received: from localhost ([::1]:48788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAirk-0001Dy-9t
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 20:37:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49236)
+	id 1nAj20-0008BO-TS
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jan 2022 20:48:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nAhui-0007WH-Vx; Thu, 20 Jan 2022 19:36:25 -0500
-Received: from [2607:f8b0:4864:20::d35] (port=40953
- helo=mail-io1-xd35.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nAhuS-0000dd-73; Thu, 20 Jan 2022 19:36:13 -0500
-Received: by mail-io1-xd35.google.com with SMTP id y22so9033172iof.7;
- Thu, 20 Jan 2022 16:35:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dJzYJBKxaH3jse+NNY/Wn7tGNaLcOG8hc1vU2e4pX24=;
- b=WPikDWuXLhK4czUSo5rIuuc2SijATWPsrvZ9d53LSa0BrjVvf+xond6SLmeCY6Zp09
- W052JHVunzHRQFLWh+hbu0LhADNuk5mq/GiJ4PmWlVmGdIo4rpvMgeIMMyMJe384QhyU
- ZVBM4czhKS/An5UfLHx51FNP8JD5sfq+KuM9YvjGJ4AtOcXR9MUQyO9kGl8CnQAZw0xs
- gvfhU5vt8D1TniV7JFceXDYuBJEhxvlRbJj8sgpE7Q479XOkX3g+DnVA4bFUzixjE8yz
- 1h6kLerZG5aF7Hh5MZLVP4jYWBrnMXyD64OqFwpDmH2AzghALsj4Rc0dgbPjvLvAjHpA
- ZYKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dJzYJBKxaH3jse+NNY/Wn7tGNaLcOG8hc1vU2e4pX24=;
- b=7UaZZVLZ6v20kAZqfAY6yJ9k32HsJ8cb4ikQ6WovjzmpsnnfHw0mNBT2r0FEypZKmo
- TCqOjxaieXxrbqUIcNRjKux+wh4BDUeGZHhxEEa2x5b9Tp3owCoeVTXwgGmdOr5MZ9+d
- j9liAL79VduOKJqd7I71hSkGmzW2uO9B6wZJD7gQsbJ8q3zZgfpiP4y0AWU97bV5p1I7
- LuYdYs1C+nF9MZGJpGgjI2JHQFC038m+Un3aESTCbUYDv5Gs1tHZmOrt4JiZId7fDdIf
- qQpPV680ozotKGBBow+46MNWpE8c50ZoJ/pI8RgUrrJr/oc0ROW0dIsH28XFVcj4ZKXF
- RMkA==
-X-Gm-Message-State: AOAM530tVWLtpNyUd18RBIUD4+VEv/50536nBEEq1bXh8Kpzus066JFF
- j/R8Ssq+MN1+kkfUp9Qv58fY89Z0WDhOa1aLMf4=
-X-Google-Smtp-Source: ABdhPJzjkWIgjzCzLhewpisZp+i0kZJ/jTmfDvnknlRunZvd9aAH8xXqTaeMeekD/7guzToSmLGgqYRd/h8W9+47srw=
-X-Received: by 2002:a05:6602:1548:: with SMTP id
- h8mr729311iow.91.1642725351686; 
- Thu, 20 Jan 2022 16:35:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nAiBF-0005bv-F9
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 19:53:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24043)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nAiBC-0000b4-7f
+ for qemu-devel@nongnu.org; Thu, 20 Jan 2022 19:53:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642726355;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+fGuhpGciM783SJoVliNyPORu0o20oUlGoh+Jn4JF00=;
+ b=GlHKsLQeLQy6QfY4XrA4YtrstUj6LgAurkpJY/whjMrkp6Ahwk9thgje2nYACejksxr8+l
+ pv5aT5RSNkaxTkVqXdgUeM0RWhsyYSWT3KWXEAlCNVkf8r38VxNe0TM5lfp+IDy1Ul/Jct
+ aiCjR1xRRboAYRyD+TGiOPD+WWrlLPE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-456-HnlhKSZ3P7uzURmwYKGZfA-1; Thu, 20 Jan 2022 19:52:32 -0500
+X-MC-Unique: HnlhKSZ3P7uzURmwYKGZfA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 726151083F61;
+ Fri, 21 Jan 2022 00:52:31 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.19.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4C9B8108D9;
+ Fri, 21 Jan 2022 00:52:21 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] python: pin setuptools below v60.0.0
+Date: Thu, 20 Jan 2022 19:52:21 -0500
+Message-Id: <20220121005221.142236-1-jsnow@redhat.com>
 MIME-Version: 1.0
-References: <20220119113754.20323-1-liweiwei@iscas.ac.cn>
- <20220119113754.20323-15-liweiwei@iscas.ac.cn>
-In-Reply-To: <20220119113754.20323-15-liweiwei@iscas.ac.cn>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 21 Jan 2022 10:35:25 +1000
-Message-ID: <CAKmqyKM_rj9N4O2057KxApMymApRC7wtiFCaunJkj3n3bqZmhg@mail.gmail.com>
-Subject: Re: [RFC PATCH v5 14/14] target/riscv: rvk: expose zbk* and zk*
- properties
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d35
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,56 +74,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, lustrew@foxmail.com,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, luruibo2000@163.com,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 19, 2022 at 11:09 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+setuptools is a package that replaces the python stdlib 'distutils'. It
+is generally installed by all venv-creating tools "by default". It isn't
+actually needed at runtime for the qemu package, so our own setup.cfg
+does not mention it as a dependency.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+However, tox will create virtual environments that include it, and will
+upgrade it to the very latest version. the 'venv' tool will also include
+whichever version your host system happens to have.
 
-Alistair
+Unfortunately, setuptools version 60.0.0 and above include a hack to
+forcibly overwrite python's built-in distutils. The pylint tool that we
+use to run code analysis checks on this package relies on distutils and
+suffers regressions when setuptools >= 60.0.0 is present at all, see
+https://github.com/PyCQA/pylint/issues/5704
 
-> ---
->  target/riscv/cpu.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index b487a8282c..04e8e8d3c6 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -694,7 +694,20 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
->      DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
->      DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
-> +    DEFINE_PROP_BOOL("zbkb", RISCVCPU, cfg.ext_zbkb, false),
-> +    DEFINE_PROP_BOOL("zbkc", RISCVCPU, cfg.ext_zbkc, false),
-> +    DEFINE_PROP_BOOL("zbkx", RISCVCPU, cfg.ext_zbkx, false),
->      DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
-> +    DEFINE_PROP_BOOL("zk", RISCVCPU, cfg.ext_zk, false),
-> +    DEFINE_PROP_BOOL("zkn", RISCVCPU, cfg.ext_zkn, false),
-> +    DEFINE_PROP_BOOL("zknd", RISCVCPU, cfg.ext_zknd, false),
-> +    DEFINE_PROP_BOOL("zkne", RISCVCPU, cfg.ext_zkne, false),
-> +    DEFINE_PROP_BOOL("zknh", RISCVCPU, cfg.ext_zknh, false),
-> +    DEFINE_PROP_BOOL("zkr", RISCVCPU, cfg.ext_zkr, false),
-> +    DEFINE_PROP_BOOL("zks", RISCVCPU, cfg.ext_zks, false),
-> +    DEFINE_PROP_BOOL("zksed", RISCVCPU, cfg.ext_zksed, false),
-> +    DEFINE_PROP_BOOL("zksh", RISCVCPU, cfg.ext_zksh, false),
-> +    DEFINE_PROP_BOOL("zkt", RISCVCPU, cfg.ext_zkt, false),
->
->      /* These are experimental so mark with 'x-' */
->      DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
-> --
-> 2.17.1
->
->
+Instruct tox and the 'check-dev' targets to avoid setuptools packages
+that are too new, for now. Pipenv is unaffected, because setuptools 60
+does not offer Python 3.6 support, and our pipenv config is pinned
+against Python 3.6.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ python/Makefile  | 2 ++
+ python/setup.cfg | 1 +
+ 2 files changed, 3 insertions(+)
+
+diff --git a/python/Makefile b/python/Makefile
+index 3334311362..949c472624 100644
+--- a/python/Makefile
++++ b/python/Makefile
+@@ -68,6 +68,8 @@ $(QEMU_VENV_DIR) $(QEMU_VENV_DIR)/bin/activate: setup.cfg
+ 		echo "ACTIVATE $(QEMU_VENV_DIR)";		\
+ 		. $(QEMU_VENV_DIR)/bin/activate;		\
+ 		echo "INSTALL qemu[devel] $(QEMU_VENV_DIR)";	\
++		pip install --disable-pip-version-check		\
++			"setuptools<60.0.0" 1>/dev/null;	\
+ 		make develop 1>/dev/null;			\
+ 	)
+ 	@touch $(QEMU_VENV_DIR)
+diff --git a/python/setup.cfg b/python/setup.cfg
+index 417e937839..aa238d8bc9 100644
+--- a/python/setup.cfg
++++ b/python/setup.cfg
+@@ -163,6 +163,7 @@ deps =
+     .[devel]
+     .[fuse]  # Workaround to trigger tox venv rebuild
+     .[tui]   # Workaround to trigger tox venv rebuild
++    setuptools < 60  # Workaround, please see commit msg.
+ commands =
+     make check
+ 
+-- 
+2.31.1
+
 
