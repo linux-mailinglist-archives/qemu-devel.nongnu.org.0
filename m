@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13EC7495C92
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 10:14:12 +0100 (CET)
-Received: from localhost ([::1]:55148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE7B495CD6
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 10:29:16 +0100 (CET)
+Received: from localhost ([::1]:56624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nApzm-0008H1-9X
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 04:14:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57982)
+	id 1nAqEN-0003ZX-79
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 04:29:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nAnTQ-0007hD-DC; Fri, 21 Jan 2022 01:32:36 -0500
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:53897)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nAoN5-0008Md-TN
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 02:30:12 -0500
+Received: from mga09.intel.com ([134.134.136.24]:13810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nAnTK-0001Tb-LM; Fri, 21 Jan 2022 01:32:35 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 7254D5C00A2;
- Fri, 21 Jan 2022 01:32:28 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Fri, 21 Jan 2022 01:32:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=ZtxJdkTPYVR4wsDP2enc0ACEPiBROQO8tatFvc
- EbkW0=; b=YWyMjX/ZROTAddFutUgMC+wW4zw3Gm2a7bh8C+HxEi7bP3WqmHBEZf
- 39+aKmxoDJErvV3hJpbUPy/GKBwRwmWFEM3RkQ0+xSPr7psEiSTguEK54oNsBr0Q
- 4carqo4ldoR9thvEvmvSlA7ID9XamKuusEZ8R1Qf7yJKcEB/i6K6TVgQbgVN1kyR
- q7kvErAuOh3PUg/fsolQLf9anHnSL+R1VG2XxCqxhERiIBD7MRamamtgYxQvogeV
- Ep4iH+0qGPJHmQ1j5GJuusozOzEC7OxQLa9pI+0uqIXSUmmcBmGt1o3PNSS/VYvK
- /6eIBeh0lfxF1W/4OiPFXhuOgrk7dUsQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :from:from:in-reply-to:message-id:mime-version:reply-to:sender
- :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm1; bh=ZtxJdkTPYVR4wsDP2enc0ACEPiBRO
- QO8tatFvcEbkW0=; b=lJRVuAVF+2VYDs1yDgvYmeRfAjRt/WyRvgdjIL/aOi4aC
- x02Z4ISSK10GMrizjZ3uNHF6jbXVJIrv6IOriYoO/oEvZpazCdt6nj9LaXer3qlK
- 4MDg9EOYS+7BHlZHwlW2cpReFdww8o0ZKnLZMh63E42K9v4o0DN3Ad1/Sfo+5OMf
- oLHH7Yu/Px6MxQXggbQDT5E+0fSIfLnyKxW6NJhV0GsNYJMX83Ce2n/gQIv9ZYYM
- u63DXItLnDzVv59dxYzxKtxbj1yzMRxhjYHBRRFAHLGpCI6Y9SRCHP3+gCeu9Svg
- gyTtGxupAKihFBI/wM5Xfr6w1L0dKU6Nx7HlPemfQ==
-X-ME-Sender: <xms:e1PqYYusqAB7cVXK3csuZtnGlHr4mfVCzTrMnBk4ypjQD8mjmkqz4A>
- <xme:e1PqYVd18LRvqHwqWmXbQfn5OKRvbLYRUr9B0xDsCtA12hGGYXyYGYlPothciy8Hj
- 8bgcV3JEvydyxnu2WM>
-X-ME-Received: <xmr:e1PqYTx4Yqm4zbRNAn4haLEAJ-gN17B-9sR2YJGEO-SCY0wEvTdmSJomH7uPoRhV-IClWRjqNgjfPc8ZeobFRA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudelgdeliecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepmfhlrghushculfgv
- nhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvghrnh
- epfeevledvieekudeuffetgeegfeehvdffffejueeuleduhedvgeejveejhfdtteehnecu
- vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtshesih
- hrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:e1PqYbOFJru1B6s9979Dgo5IjXcgoTc5c78cLpLR0HUmKuSBzzCbCg>
- <xmx:e1PqYY-DzQJItQJQ8b28rwSRd8nc6jzy8vFB9Q8be-RVCmqTO2Kcxw>
- <xmx:e1PqYTUabqBpXifuTVUDiMb34piFWis8cKUXzwu2zY18d9evaJF6vQ>
- <xmx:fFPqYXl4wH_fdQj0uV8X3ybtVSTL05yc-854hG6tFDyLvYuz_zIU_g>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 21 Jan 2022 01:32:26 -0500 (EST)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] hw/nvme: fix CVE-2021-3929
-Date: Fri, 21 Jan 2022 07:32:25 +0100
-Message-Id: <20220121063225.312603-1-its@irrelevant.dk>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nAoN1-0001QW-Ud
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 02:30:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642750204; x=1674286204;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=+f+qRx8fx+QH5zxLFRUdC3tmuRIqHG9zmlo0a3QixKo=;
+ b=G5e0e2MKTDF/Jaiv3xoTQE4yBLiAMzLdQh2KpRiPPgIlTQEPZJcIjGnZ
+ AEQhghw6wkYAS4yk5Bk8ziX2nMJjHXZWC54pbo9H1u97cydaC9ZDCMMRW
+ AEBbKox2ldhBreh06Cel0kDd1UrpXFLng1hSCLHu99uEuk3i/KhtSTPEf
+ cBjgSvjhVkGXlGzy7sis+AgJb85b8QG9QuuEZuD/xGjmPojTOorXWa5rU
+ 3rA4ViZ6+afhw+1GpdrykoKI+N/AFp6AVr+E+FcVxpzTe5lh+iDrX0N1h
+ nod2bwvC/dOaSeQ3bkgpYKAEQBZsRij37snb1YVxzNgzj7VwVDgsHN6Vl w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="245374299"
+X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="245374299"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 23:30:00 -0800
+X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="478150352"
+Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
+ ([10.238.145.56])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 20 Jan 2022 23:29:57 -0800
+Date: Fri, 21 Jan 2022 15:14:38 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC PATCH 1/7] x86: Fix the 64-byte boundary enumeration for
+ extended state
+Message-ID: <20220121071438.GA29921@yangzhon-Virtual>
+References: <20220107093134.136441-1-yang.zhong@intel.com>
+ <20220107093134.136441-2-yang.zhong@intel.com>
+ <BN9PR11MB5276BFF130081C9ED21F89238C509@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <20220111022218.GA10706@yangzhon-Virtual>
+ <3aaa1a42-e3b0-2d55-78fd-368c925af4af@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
- helo=out2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3aaa1a42-e3b0-2d55-78fd-368c925af4af@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=134.134.136.24; envelope-from=yang.zhong@intel.com;
+ helo=mga09.intel.com
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,69 +78,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
+Cc: yang.zhong@intel.com, "Tian, Kevin" <kevin.tian@intel.com>, "Christopherson,
+ , Sean" <seanjc@google.com>,
+ "jing2.liu@linux.intel.com" <jing2.liu@linux.intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Wang,
+ Wei W" <wei.w.wang@intel.com>, "Zeng, Guang" <guang.zeng@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+On Tue, Jan 18, 2022 at 01:37:20PM +0100, Paolo Bonzini wrote:
+> On 1/11/22 03:22, Yang Zhong wrote:
+> >   Thanks Kevin, I will update this in next version.
+> 
+> Also:
+> 
+>     The extended state subleaves (EAX=0Dh, ECX=n, n>1).ECX[1]
+>     indicate whether the extended state component locates
+>     on the next 64-byte boundary following the preceding state
+>     component when the compacted format of an XSAVE area is
+>     used.
+> 
+>     Right now, they are all zero because no supported component
+>     needed the bit to be set, but the upcoming AMX feature will
+>     use it.  Fix the subleaves value according to KVM's supported
+>     cpuid.
+>
+      Thanks Paolo, I will update this in new version.
 
-This fixes CVE-2021-3929 "locally" by denying DMA to the iomem of the
-device itself. This still allows DMA to MMIO regions of other devices
-(e.g. doing P2P DMA to the controller memory buffer of another NVMe
-device).
-
-Fixes: CVE-2021-3929
-Reported-by: Qiuhao Li <Qiuhao.Li@outlook.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/nvme/ctrl.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
-
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 5f573c417b3d..eda52c6ac74b 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -357,6 +357,24 @@ static inline void *nvme_addr_to_pmr(NvmeCtrl *n, hwaddr addr)
-     return memory_region_get_ram_ptr(&n->pmr.dev->mr) + (addr - n->pmr.cba);
- }
- 
-+static inline bool nvme_addr_is_iomem(NvmeCtrl *n, hwaddr addr)
-+{
-+    hwaddr hi, lo;
-+
-+    /*
-+     * The purpose of this check is to guard against invalid "local" access to
-+     * the iomem (i.e. controller registers). Thus, we check against the range
-+     * covered by the 'bar0' MemoryRegion since that is currently composed of
-+     * two subregions (the NVMe "MBAR" and the MSI-X table/pba). Note, however,
-+     * that if the device model is ever changed to allow the CMB to be located
-+     * in BAR0 as well, then this must be changed.
-+     */
-+    lo = n->bar0.addr;
-+    hi = lo + int128_get64(n->bar0.size);
-+
-+    return addr >= lo && addr < hi;
-+}
-+
- static int nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size)
- {
-     hwaddr hi = addr + size - 1;
-@@ -614,6 +632,10 @@ static uint16_t nvme_map_addr(NvmeCtrl *n, NvmeSg *sg, hwaddr addr, size_t len)
- 
-     trace_pci_nvme_map_addr(addr, len);
- 
-+    if (nvme_addr_is_iomem(n, addr)) {
-+        return NVME_DATA_TRAS_ERROR;
-+    }
-+
-     if (nvme_addr_is_cmb(n, addr)) {
-         cmb = true;
-     } else if (nvme_addr_is_pmr(n, addr)) {
--- 
-2.34.1
-
+      Yang
+      
+> Paolo
 
