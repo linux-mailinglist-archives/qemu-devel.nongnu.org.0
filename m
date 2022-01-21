@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E58C7496681
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 21:43:23 +0100 (CET)
-Received: from localhost ([::1]:45844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94C549665F
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 21:36:40 +0100 (CET)
+Received: from localhost ([::1]:57180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB0kl-0002pn-1I
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 15:43:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58546)
+	id 1nB0eF-0007vp-Iw
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 15:36:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nB0Z3-0005Qu-Fs
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:31:17 -0500
-Received: from [2607:f8b0:4864:20::32f] (port=41732
- helo=mail-ot1-x32f.google.com)
+ id 1nB0Z1-0005Pa-4L
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:31:15 -0500
+Received: from [2607:f8b0:4864:20::c30] (port=35683
+ helo=mail-oo1-xc30.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nB0Yz-00032A-Az
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:31:15 -0500
-Received: by mail-ot1-x32f.google.com with SMTP id
- a12-20020a0568301dcc00b005919e149b4cso13194396otj.8
- for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 12:30:07 -0800 (PST)
+ id 1nB0Yl-00036N-V2
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:31:14 -0500
+Received: by mail-oo1-xc30.google.com with SMTP id
+ p4-20020a4a8e84000000b002e598a51d60so353743ook.2
+ for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 12:30:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3E5T1VQZ1y2cOpTFR+QSucALBSqalIPwzErmKXLL174=;
- b=DcltQbVU4ZRW+D+L9SuZmEC+9Rczq2yHDwfcrCSAWQcKJ+v+OTu0OyskHBdbaEPcoe
- 89/N79zrKd60DgReExFH5f2PeUqbDfSYZpFuQS8SPHavU1JrnaT++AmBlPN1dqL3Tnpe
- JoNyAIK/vLkTq8jeK1SEz2ZRfJAthhtd7NsIc+TwP+2dBYSWXWcInd+0TVFACVNNqQrU
- lTGoGgWZPwEc9sKSAFQUytpi9AYUW+7t83xjhF/nCcqCqR1oADHKIbPl9H2OAnbtYYxJ
- MkBwdymU6vwAbe77Pzw7dm55d0JLkUJ4C2Tx3GoIA1XXlck6b/86X+5A4i7NzXVES3c9
- vq/Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=45sOJG5NRyboqAdKNRFrVL0uJSO9Dgn0h/Fh85ePAmk=;
+ b=oQYZmxxTwa925icorEtVk67JlZQZsyN7cXl+IgITtD4HUkoT+BJuJhenxPU4RBV72D
+ sFH6YLjB8qaVg3n0L12my/z4Jg3+JPj2XRD1fDbdSAJ2d/M9xUVw5dhmzQJxHMEo4PTs
+ JACrPad63LLtHgTHUX7F6PBOFWCK2y/HSh3jft0jotyyqCiJSr+v7b+oNI3cScqh+ppz
+ +7H7iS7B2WnuyJd4P20dKQAAGn284ledMCAk2EE8+7P5lmHlD8Y1T2nbsYlugpp9hpxd
+ 8jd0aR6tlMjF2J4+4fkwU9mONc1W3FNL33U5y0BrG0oKv9cnDfzaKiISFihdv/kFlHb1
+ Nlfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3E5T1VQZ1y2cOpTFR+QSucALBSqalIPwzErmKXLL174=;
- b=yI4SdY+0INWvnja8HADWsiLIfpoWj2k/+xUTnOk7u5F18vfKjj+r3qA8j8/kBmB1ND
- aSd/ZXC93VOU4lU8mIXUa0sTHy6MqfCRPKMSWJGbiL6E1eerevHE/Ya9QzQBG1H7f+ry
- W2P14gzlsyTm3syqOJsnBc/JTLFZ5Zro8hIAD9NJrE+kAXDTsxEL3jEdi8V8Z61X9TWx
- frVWaVe6O/9iXfBPoLXpT+fiWZ281RQldaJnmZuZwEq3Prc8HrRirUaCTMvYNPUe+0rR
- FhKg/HbIrzMGaUTgxG3ETIOEqfnKBQsJcPNe9B3/W8O3kmkSD2QzHZDk0WCUP5Oc5m4M
- gaKw==
-X-Gm-Message-State: AOAM530Yu72GfPYfgXEda+rEyx08PNQoiZphBEtqwhYIq4YMtmxLCNAl
- WMI13MYNMRKYgzqJD+YcBOZriQlh0lk=
-X-Google-Smtp-Source: ABdhPJyh58dbvGmSoc+VEqtijZ3OcqcACxqEXRxJ+nCkYWz0vsuYHO6PYjrDAxP1uxVudJ8fQU3U9A==
-X-Received: by 2002:a9d:60b:: with SMTP id 11mr3916899otn.384.1642797007030;
- Fri, 21 Jan 2022 12:30:07 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=45sOJG5NRyboqAdKNRFrVL0uJSO9Dgn0h/Fh85ePAmk=;
+ b=hUnZMulA1Kxegnq+GhprH8B8CdjuMV5QG8MANQglh8TFni/RedxNUOOrxhMpuzcJG4
+ qMAGkh7rbzn5tjKsq8Zy3786vtQjSfEzwXh7fvKnJDT9Z/dk6sL4nImhJJEsKDDdye6X
+ cWlISLlHqCkhmiydjvwV29ePmQkdiBsPEs5gdGUk8IlHoKGMBF9Q2ECQDX/PBpZ6Ggdi
+ slDW8+z0ooaaDpiAwT/aw7mG9seDu5rcEBqsf1bGcYbKqv/KPZe5eCX+EAjLEG/xQy4B
+ kjd4LAGRn38RmCjws+4EGtu3ytTUSrl6ncoTKB3OO2c8EEJqr2R4ocaFAVYoDJ3kCkZx
+ iTIQ==
+X-Gm-Message-State: AOAM532ABi2c4NIsO36s+9diwx58Ntr4l5tegiWloQzE9oIproUBwFkZ
+ jcxYpn/WLOMA2UsO0OGwKgxyhkxZMd4=
+X-Google-Smtp-Source: ABdhPJwiTZIaih/2n3SBfkYZ7jGc+4f3jbTjndUSy7qmX0HCsH69K0TX5G/UVv92EWP1jP0iHGUmoQ==
+X-Received: by 2002:a4a:ad05:: with SMTP id r5mr3672783oon.40.1642797009062;
+ Fri, 21 Jan 2022 12:30:09 -0800 (PST)
 Received: from rekt.ibmuc.com ([191.8.61.226])
- by smtp.gmail.com with ESMTPSA id ay14sm1908822oib.5.2022.01.21.12.30.04
+ by smtp.gmail.com with ESMTPSA id ay14sm1908822oib.5.2022.01.21.12.30.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Jan 2022 12:30:06 -0800 (PST)
+ Fri, 21 Jan 2022 12:30:08 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] some simplifications in hw/core/fw-path-provider.c
-Date: Fri, 21 Jan 2022 17:29:50 -0300
-Message-Id: <20220121202952.24763-1-danielhb413@gmail.com>
+Subject: [PATCH 1/2] hw/core/fw-path-provider: turn
+ fw_path_provider_get_dev_path() static
+Date: Fri, 21 Jan 2022 17:29:51 -0300
+Message-Id: <20220121202952.24763-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220121202952.24763-1-danielhb413@gmail.com>
+References: <20220121202952.24763-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c30
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c30;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc30.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -90,23 +93,43 @@ Cc: eduardo@habkost.net, pbonzini@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+This function is used only by fw_path_provider_try_get_dev_path() in the
+same file.
 
-These are somes simplifications I found interesting to make while I was
-investigating Gitlab #720.
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/core/fw-path-provider.c    | 4 ++--
+ include/hw/fw-path-provider.h | 2 --
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-It isn't clear in the MAINTAINERS file who is responsible for this file,
-so I'm ccing the QOM maintainers since it's the closest match.
-
-
-Daniel Henrique Barboza (2):
-  hw/core/fw-path-provider: turn fw_path_provider_get_dev_path() static
-  hw/core/fw-path-provider.c: open code fw_path_provider_get_dev_path()
-
- hw/core/fw-path-provider.c    | 14 +++-----------
- include/hw/fw-path-provider.h |  2 --
- 2 files changed, 3 insertions(+), 13 deletions(-)
-
+diff --git a/hw/core/fw-path-provider.c b/hw/core/fw-path-provider.c
+index 4840faefd1..4bcf4e7e34 100644
+--- a/hw/core/fw-path-provider.c
++++ b/hw/core/fw-path-provider.c
+@@ -19,8 +19,8 @@
+ #include "hw/fw-path-provider.h"
+ #include "qemu/module.h"
+ 
+-char *fw_path_provider_get_dev_path(FWPathProvider *p, BusState *bus,
+-                                    DeviceState *dev)
++static char *fw_path_provider_get_dev_path(FWPathProvider *p, BusState *bus,
++                                           DeviceState *dev)
+ {
+     FWPathProviderClass *k = FW_PATH_PROVIDER_GET_CLASS(p);
+ 
+diff --git a/include/hw/fw-path-provider.h b/include/hw/fw-path-provider.h
+index 8e1d45651c..9ef50ebe4a 100644
+--- a/include/hw/fw-path-provider.h
++++ b/include/hw/fw-path-provider.h
+@@ -36,8 +36,6 @@ struct FWPathProviderClass {
+     char *(*get_dev_path)(FWPathProvider *p, BusState *bus, DeviceState *dev);
+ };
+ 
+-char *fw_path_provider_get_dev_path(FWPathProvider *p, BusState *bus,
+-                                    DeviceState *dev);
+ char *fw_path_provider_try_get_dev_path(Object *o, BusState *bus,
+                                         DeviceState *dev);
+ 
 -- 
 2.34.1
 
