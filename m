@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE709495FFF
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 14:53:44 +0100 (CET)
-Received: from localhost ([::1]:51978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA4049604A
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 15:03:36 +0100 (CET)
+Received: from localhost ([::1]:60728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAuMK-0003rr-0S
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 08:53:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60658)
+	id 1nAuVq-0001vO-VW
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 09:03:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAtZG-0008Q1-Sn
+ id 1nAtZJ-0008QF-Bf
  for qemu-devel@nongnu.org; Fri, 21 Jan 2022 08:03:11 -0500
-Received: from [2a00:1450:4864:20::330] (port=45661
- helo=mail-wm1-x330.google.com)
+Received: from [2a00:1450:4864:20::32a] (port=37804
+ helo=mail-wm1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAtZD-0000ly-2q
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 08:03:00 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- j5-20020a05600c1c0500b0034d2e956aadso22201656wms.4
- for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 05:02:56 -0800 (PST)
+ id 1nAtZG-0000xy-J3
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 08:03:03 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ l12-20020a7bc34c000000b003467c58cbdfso28866189wmj.2
+ for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 05:03:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jmhL/OO2/CergPGLZmyF9NCYKTuS6CMx+Lqk/P5jTQc=;
- b=mndCJDuhhu0qYDXJBYqSnD+T1R17xsOe3e1DGcsS7JAB1wrgP5oylx4J8x0r3k6kuD
- 6M+YrwVEhLxS/7sJeffrgai/GTnR5ddtPKUOk5wa7VZ9GhtKgHI23iQ2bhEY7KJteOnG
- jjWZkYeN9HjnTXhr1sFGpXsFIloqMF0LC4IKW/ABnI71ak+DtSGBA3wq9ngqjF1oVGhV
- kEhfYdzvhUifGzzhlXxyAPgSkOwLsCbFLwSOL5jLeht7TmMCcS6QHuNHTCaXxDQ9RZLb
- e83l1Jmw7q500n5fOwKnbLrJvR6qX2ZREcU44Dzm8cAhexpkoO4hR8DneK0EE904FLhJ
- uNbA==
+ bh=BSvX07XSbcj+uZJduxG3G9nv8iqDtt86eLgBT/T23uA=;
+ b=LsVyVpARggJnq4Ych+rYkhIjSEmyvj2Q7Cld425/GY8OizCSz4aB9g0rtin+1RR52r
+ C0IC08hfC2u+fHQk/CSuJp1rRtJQ26VtlsGcB53QXlF8PWswNuUY4CcKacqP4PKQbQFr
+ JLE5Y94TgSfYMKwj1j3a1LYHzVySz3MfGaKEt+9YfI0UNcj5qCHXdab/mWHnBEr4313X
+ iCSTOc9XP1/vJd3fV5R1SQVXq9+6kt00Jp1YIUFrjxOKpfT63UNdtZ0y0lidyuRe1cst
+ 2Q8tSQtHPFxX0GXC9odti0nyT3Ky12eD1UYyvrdxAm55aYXNH9fbahJdrD29M40CJ6tb
+ vtWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jmhL/OO2/CergPGLZmyF9NCYKTuS6CMx+Lqk/P5jTQc=;
- b=evkZgpR+TqI0hLIAjMyKgjBmHFlvm6wWZiw4LDuN4wMkXYBvTQCYI+x6L0qDrhVPUf
- c6UUrLQPVynenSevpYvqUoN3j0K3jSu6XoC4d80pYbZJENgcrPt39qhI9UdtSv/ZgRkr
- onwBcCfev4sDQFLP1U7AzoVbbY+wLmpuX9Dg/SqoPpsaG9X/SdldkZ0ZoXVTe7lPtvNM
- AbpmVkyOgkgA4Soo9UTNVV/jCfEeCusEyFymaj1eC6+NMKFpJbVk+oubECXJOy4wI5lF
- qsodgz4lapSIqTyCEJ+nyRrma4+xeNN/qcPEIlcasqNVu9fpiMqyWUZe8YnG+dQUbeZJ
- E13w==
-X-Gm-Message-State: AOAM531vQmlo9m4Y+GQqK57602bk9fwNKEsQrXMZjUYsAQCXP9bn02NQ
- 16bvI6+kt7Dh+HNlL6KE51MIhaUwBDY=
-X-Google-Smtp-Source: ABdhPJzLi4kgwKFMXEhHB4lEQ5+FWStB0kaVnTD5iDFRwa7N1S3IiOlBEwxDYXk/SnUPShlAWATbdA==
-X-Received: by 2002:a5d:4605:: with SMTP id t5mr3917615wrq.517.1642770175280; 
- Fri, 21 Jan 2022 05:02:55 -0800 (PST)
+ bh=BSvX07XSbcj+uZJduxG3G9nv8iqDtt86eLgBT/T23uA=;
+ b=r3Sp+uecCbf1kTiFK2qWtU644rOTzOdnoKe/uiCdsUtrXWZRPKUdl5CQNRVmPeH/qp
+ VOAzf/rvqaqFefYJ4cT0CVBIr4Z25JhZo4KO7UsMxKlXx7cIcaWcf/PRMb+7EraDnwQZ
+ HVojC4w5HLAJiLslgyVeXBzSmYgQYfXcrTByqm9yz46Mj9SYTaRDkVH8vOEagD6PcLDj
+ wlLa3dC4wb5Mac8+VlCnp6dMJtkOOqy0vfFbKnGIfisv1v4VDWaEvzs+hPSM97KvNg8h
+ jlVdgi6ga+UcuZc+q7Kac0EotVQIPfzNHyjmxTORHGW4Pt27kT6Q8cowpYQvhhiVjueb
+ qW4g==
+X-Gm-Message-State: AOAM530SVNr8QCdEg+NQPJBBPExJy9W1mTI+iamaCPl/rXPts+hwtKuE
+ Fz29oXQ7FCWd5pUoa+YCmn6pYluF8Y8=
+X-Google-Smtp-Source: ABdhPJxV1ewJntTVOCHnNHc9reDOxoHKn2PvSu3I3vQr+Vv0ptqsYHeHfAwErP2SF6Ko8CajYhtTfw==
+X-Received: by 2002:a05:600c:3c92:: with SMTP id
+ bg18mr700952wmb.106.1642770180277; 
+ Fri, 21 Jan 2022 05:03:00 -0800 (PST)
 Received: from nuc.. (154.red-83-50-83.dynamicip.rima-tde.net. [83.50.83.154])
  by smtp.gmail.com with ESMTPSA id
- l6sm7346022wry.75.2022.01.21.05.02.54
+ g30sm6059436wrb.29.2022.01.21.05.02.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Jan 2022 05:02:54 -0800 (PST)
+ Fri, 21 Jan 2022 05:02:59 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Michael Tokarev <mjt@tls.msk.ru>, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v5 6/7] tests: Manually remove libxml2 on MSYS2 runners
-Date: Fri, 21 Jan 2022 14:02:21 +0100
-Message-Id: <20220121130222.302540-7-f4bug@amsat.org>
+Subject: [PATCH v5 7/7] tests/lcitool: Install libibumad to cover RDMA on
+ Debian based distros
+Date: Fri, 21 Jan 2022 14:02:22 +0100
+Message-Id: <20220121130222.302540-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220121130222.302540-1-f4bug@amsat.org>
 References: <20220121130222.302540-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -97,49 +99,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-lcitool doesn't support MSYS2 targets, so manually remove
-this now unnecessary library.
+On Debian we also need libibumad to enable RDMA:
+
+  $ ../configure --enable-rdma
+
+  ERROR:  OpenFabrics librdmacm/libibverbs/libibumad not present.
+          Your options:
+           (1) Fast: Install infiniband packages (devel) from your distro.
+           (2) Cleanest: Install libraries from www.openfabrics.org
+           (3) Also: Install softiwarp if you don't have RDMA hardware
+
+Add the dependency to lcitool's qemu.yml (where librdmacm and
+libibverbs are already listed) and refresh the generated files
+by running:
+
+      $ make lcitool-refresh
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- .cirrus.yml              | 1 -
- .gitlab-ci.d/windows.yml | 2 --
- 2 files changed, 3 deletions(-)
+ tests/docker/dockerfiles/ubuntu1804.docker | 1 +
+ tests/docker/dockerfiles/ubuntu2004.docker | 1 +
+ tests/lcitool/projects/qemu.yml            | 1 +
+ 3 files changed, 3 insertions(+)
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 02c43a074a1..7552d709745 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -32,7 +32,6 @@ windows_msys2_task:
-       mingw-w64-x86_64-libgcrypt
-       mingw-w64-x86_64-libpng
-       mingw-w64-x86_64-libssh
--      mingw-w64-x86_64-libxml2
-       mingw-w64-x86_64-snappy
-       mingw-w64-x86_64-libusb
-       mingw-w64-x86_64-usbredir
-diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-index 62dd9ed8329..1df16303491 100644
---- a/.gitlab-ci.d/windows.yml
-+++ b/.gitlab-ci.d/windows.yml
-@@ -44,7 +44,6 @@ msys2-64bit:
-       mingw-w64-x86_64-libssh
-       mingw-w64-x86_64-libtasn1
-       mingw-w64-x86_64-libusb
--      mingw-w64-x86_64-libxml2
-       mingw-w64-x86_64-nettle
-       mingw-w64-x86_64-ninja
-       mingw-w64-x86_64-pixman
-@@ -80,7 +79,6 @@ msys2-32bit:
-       mingw-w64-i686-libssh
-       mingw-w64-i686-libtasn1
-       mingw-w64-i686-libusb
--      mingw-w64-i686-libxml2
-       mingw-w64-i686-lzo2
-       mingw-w64-i686-ninja
-       mingw-w64-i686-pixman
+diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+index 003ee2cfedd..699f2dfc6a9 100644
+--- a/tests/docker/dockerfiles/ubuntu1804.docker
++++ b/tests/docker/dockerfiles/ubuntu1804.docker
+@@ -52,6 +52,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+             libglib2.0-dev \
+             libgnutls28-dev \
+             libgtk-3-dev \
++            libibumad-dev \
+             libibverbs-dev \
+             libiscsi-dev \
+             libjemalloc-dev \
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index 8993d2d9e05..87513125b8e 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -53,6 +53,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+             libglusterfs-dev \
+             libgnutls28-dev \
+             libgtk-3-dev \
++            libibumad-dev \
+             libibverbs-dev \
+             libiscsi-dev \
+             libjemalloc-dev \
+diff --git a/tests/lcitool/projects/qemu.yml b/tests/lcitool/projects/qemu.yml
+index de51a2f1dd4..958868a6ee9 100644
+--- a/tests/lcitool/projects/qemu.yml
++++ b/tests/lcitool/projects/qemu.yml
+@@ -43,6 +43,7 @@ packages:
+  - libfdt
+  - libffi
+  - libgcrypt
++ - libibumad
+  - libibverbs
+  - libiscsi
+  - libjemalloc
 -- 
 2.34.1
 
