@@ -2,91 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CCEF4959CD
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 07:19:16 +0100 (CET)
-Received: from localhost ([::1]:41354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5F94959E9
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 07:26:26 +0100 (CET)
+Received: from localhost ([::1]:49796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAnGV-0008Ge-3u
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 01:19:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49472)
+	id 1nAnNR-0005mq-AB
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 01:26:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAmx6-0006ml-Ht
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 00:59:15 -0500
+ id 1nAmxO-0006nn-9g
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 00:59:39 -0500
 Received: from esa4.hgst.iphmx.com ([216.71.154.42]:8927)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAmx2-00040G-1g
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 00:59:09 -0500
+ id 1nAmxA-00040G-2f
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 00:59:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1642744748; x=1674280748;
+ t=1642744756; x=1674280756;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=pIeG3ufrkiPsI31qkW5RFpYT7Trsq1rH9/UfpLv99dw=;
- b=bd1ZxrUXDh6vCbvmaZ3tWAwO+3gV4nHDOMj/1Hch2PJjvI7VCjehOaLZ
- rxx3WDIVnnkRk1OJ6azpD1rr9vrHxmy6IieaU3iayPIJbygVEt3zEFDs7
- a/jZ85Hk1Q0oyXVOLdfNLp+R92sSyR3/9FC3bs0zXR0tUMYxOv8++LZKq
- 2owtkCQrocaGps84t9PeWChwXz2NvwoCn7fMGuUhxQM+I9bKNdRghHhNQ
- NrSwvXXDyqz6dZDyjVD9SUj2T/oMPsENlW++S6kUnFKxk1TwBZhcvllHk
- m/V4aDlTyWQ5xT66/JtaLmyh0NTDRPrppVqoAvMUAS7DU1EKu/L4PMNnQ g==;
-X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="189976486"
+ bh=wdupn2UY8EgzlJsRELG+w0FJCCDOY4Vi5+ZQ17CXibY=;
+ b=WFGg1EJ/oIevnh+ECmpVTmIi07YBJLlZGn20VE3p41xDXl/4q73NldUj
+ lzwUg1h9iiI3YveTva0COht6yqDkBMQGb3IhEHPawPW0cFS+5PxanPDrR
+ 6iwBRU43UZ/j7moPixNcFZBNDf/fC65hZHEAb8CRoVfsfZoMCpdVOtkVH
+ L0Oi3v1peX7bt8ZP7W7qdlsOGNFGCYSHAAsfgWaSKTDK//rJnme1tMU1L
+ R8UzZX45kl3j02JCoOBcLUiA9Z/QJyvBW5N4i9lk3gkrQlqQcAowq1MDa
+ ZnDex6yT26BAPql2eTLA+x/5qyD3pCG6oBnoPO+FmIgWL/6DDfzELEIET w==;
+X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="189976491"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 13:59:07 +0800
-IronPort-SDR: atU/imKWKeh1r76EL+nn9I3KYLdKMrgmXHg5fwk0VbN73vMGXyxQzd7zTPbDRQ2byMXPil6TWl
- UMPC97yhqTOUAIzzhmaNRGnRZTSq7tUfSE+R/P3mQpFYyFqm0QxOPvFgZ2Vn/IEzDpYISFCzSr
- DQ52rMMz6EQepBr1vC4MhWteQ3DFIkCaHjtd7pYPqmPA0xdU5qqIU7stGo+KQqWW47tokPS23n
- eUlgZI6GnYFfCHE0TNyYAvZ0KTU15fK6K0jw/EzmuzeiKU9wQ0bCI23/LzUa2405pZptZ2vq8I
- bTMsp2C3Ai9QYhW3DP9TgvbF
+ by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 13:59:11 +0800
+IronPort-SDR: wtwXJD4LVkYaCRiMVVG9Ul5ToJCGtZ2NvWxUVWZa3IGyACJAk8/SKNOoDVdv8ZdkT8FUHnpG3P
+ /gQXbBz+tJFO+aUs+oapZT5bJCqRgq1lQAXY/Eg2sy52tA5qpWmBYwWb073x2A0zrSq+Rgw/JO
+ X7/eEXLDS6Szdadb43Ye5l7QrcnaHtslwDoyM4w7YpxzdjyrJubF7nM/X08WBC14B5zNI8JdfJ
+ /R/wGaisYKH0u4c1JM8jumyI2xXFmAzVLnyRLW8VSFirIdBm2Qup2tsoM4NX/Y8HcXLQstySCi
+ aRM6z6f6pxW6el7jlHP93ZEc
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 21:31:18 -0800
-IronPort-SDR: 1E/eKJtisgVP1tTxAZMF1e0h27IpkSskYHidLxt3hdrNeBy21HiVkGj1fLMpfSvo+D62fsjMX5
- Fs9CKcNT7NcE7OV4kFaYyvw+QZKdGL0UgTLWKdjfKMsI+l9Kln2ohPNOpJU+/tci5l+qFylPG4
- 6gUOmk35oS8b3RiDXeKknJlwilx2TMoTEWClHSdC2k+53vsf5x4UtPQ13sqXl5bhgikMdMSlxi
- vQXb+V+TC5bMRp0gPFdxx9ot0SryIORYgqSWW/AuW8OOi4bp4kYHBOiG92Lu5GnBO20+4jNCL5
- G0g=
+ 20 Jan 2022 21:31:23 -0800
+IronPort-SDR: SdrPbb02EZ23Ho4a6EvQdVLMz/SkSWWFlMKcetBaAYRDtUerCQTZLMZTrssHQ4y9m9W2cR3aYY
+ jvN9g6KA8poKwQ21uT8kB6dWHcs1DuJZY1eMUESNllU694iOQQuawoahhYoIEYqpJHYZWPI8Tw
+ Q4LjLyiSg5qQOJi5LVoNEWND5mcy5XApiIqkDkmfRpIZ8i4mJxcYBwaWmhUay9+5VG4evk++/b
+ /Zz9Z3FDb8InZcmGdQV4gEsvLLxiE301HZDCXKPjPWQMsss02jXqFk71ZT0gmoaifM4H64wJy3
+ cLk=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 21:59:07 -0800
+ 20 Jan 2022 21:59:11 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg7x7112Jz1SVnx
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 21:59:07 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg7xC4wsjz1SHwl
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 21:59:11 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1642744746; x=1645336747; bh=pIeG3ufrkiPsI31qkW
- 5RFpYT7Trsq1rH9/UfpLv99dw=; b=V1yW5tNv8uHwO3397FzCufFm+H17KTEcTv
- UvBqW+9BrJpWhaJTEEG0WJZRaqH0XXTDiECI53Ggji+EkPSse6Pw9wgu4DL3DtGF
- o3GJkvH4W1KhnarjhqsdyQZ6Fi6WPAx9nLm9Qn41MnXVkpxXUeepObXPaFsb83Hz
- tX78uOIvtCfKEshW4ZS+BzpZvkoXhjFlI45BC/+Zo9eUAqv4HmqluA54qySl2k3m
- W6fv8hTXK8NZwQDezm17i5l4gvZwQ+A6gfdrtxpiCfAo+RxwfYhlxE2mDNb8p8wM
- 1PhsVIijtnx6wmJ0Q6dibkMU6RF5EvDZOnSjPISfARt5lCMMz80w==
+ :from; s=dkim; t=1642744751; x=1645336752; bh=wdupn2UY8EgzlJsREL
+ G+w0FJCCDOY4Vi5+ZQ17CXibY=; b=Bs7aIxIuKqXiFcABx/1KXVKDdgyzgVQM+7
+ Qrw7GeZUCKrl5D9xNJY5AKMJFDNpGTlOO9indnH+6ZLikvswq2pv0BqbJv1kC54L
+ wxjoAWiXhOPoywh4jBmN4kbCFO1fKTEzszK7mjJQQKjaKNXZ5YUhtxBRY7IWhgQG
+ 1Qdl+V+Qdr9ygtM9o4r3Va5kgC7tkCjx3rDCTFfSnN4EBK/E1B95cLDJ8BXtYasn
+ DU47KG7BoHhhhgVYuypZn/BJasOQ9VrIeWjDy/cxxneLnNggazq+XQyPU88Ihhxw
+ 9mrcJgNiPh1DTj3HFk33PJgT9iw08l2fXf2gB8YjAYoJ2e0TTACQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id yg8blW3onqFH for <qemu-devel@nongnu.org>;
- Thu, 20 Jan 2022 21:59:06 -0800 (PST)
+ port 10026) with ESMTP id JtR_eMaxr3Kl for <qemu-devel@nongnu.org>;
+ Thu, 20 Jan 2022 21:59:11 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.80])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg7x319drz1SVp2;
- Thu, 20 Jan 2022 21:59:02 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg7x742WYz1RvlN;
+ Thu, 20 Jan 2022 21:59:07 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Yifei Jiang <jiangyifei@huawei.com>,
  Mingwang Li <limingwang@huawei.com>,
  Alistair Francis <alistair.francis@wdc.com>,
  Anup Patel <anup.patel@wdc.com>
-Subject: [PULL 06/61] target/riscv: Implement function kvm_arch_init_vcpu
-Date: Fri, 21 Jan 2022 15:57:35 +1000
-Message-Id: <20220121055830.3164408-7-alistair.francis@opensource.wdc.com>
+Subject: [PULL 07/61] target/riscv: Implement kvm_arch_get_registers
+Date: Fri, 21 Jan 2022 15:57:36 +1000
+Message-Id: <20220121055830.3164408-8-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
 References: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
@@ -119,70 +119,153 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yifei Jiang <jiangyifei@huawei.com>
 
-Get isa info from kvm while kvm init.
+Get GPR CSR and FP registers from kvm by KVM_GET_ONE_REG ioctl.
 
 Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
 Signed-off-by: Mingwang Li <limingwang@huawei.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Anup Patel <anup.patel@wdc.com>
-Message-id: 20220112081329.1835-4-jiangyifei@huawei.com
+Message-id: 20220112081329.1835-5-jiangyifei@huawei.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/kvm.c | 34 +++++++++++++++++++++++++++++++++-
- 1 file changed, 33 insertions(+), 1 deletion(-)
+ target/riscv/kvm.c | 112 ++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 111 insertions(+), 1 deletion(-)
 
 diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
-index 687dd4b621..9e66b4a97f 100644
+index 9e66b4a97f..039af22125 100644
 --- a/target/riscv/kvm.c
 +++ b/target/riscv/kvm.c
-@@ -38,6 +38,24 @@
- #include "qemu/log.h"
- #include "hw/loader.h"
+@@ -56,13 +56,123 @@ static uint64_t kvm_riscv_reg_id(CPURISCVState *env,=
+ uint64_t type,
+     return id;
+ }
 =20
-+static uint64_t kvm_riscv_reg_id(CPURISCVState *env, uint64_t type,
-+                                 uint64_t idx)
-+{
-+    uint64_t id =3D KVM_REG_RISCV | type | idx;
++#define RISCV_CORE_REG(env, name)  kvm_riscv_reg_id(env, KVM_REG_RISCV_C=
+ORE, \
++                 KVM_REG_RISCV_CORE_REG(name))
 +
-+    switch (riscv_cpu_mxl(env)) {
-+    case MXL_RV32:
-+        id |=3D KVM_REG_SIZE_U32;
-+        break;
-+    case MXL_RV64:
-+        id |=3D KVM_REG_SIZE_U64;
-+        break;
-+    default:
-+        g_assert_not_reached();
++#define RISCV_CSR_REG(env, name)  kvm_riscv_reg_id(env, KVM_REG_RISCV_CS=
+R, \
++                 KVM_REG_RISCV_CSR_REG(name))
++
++#define RISCV_FP_F_REG(env, idx)  kvm_riscv_reg_id(env, KVM_REG_RISCV_FP=
+_F, idx)
++
++#define RISCV_FP_D_REG(env, idx)  kvm_riscv_reg_id(env, KVM_REG_RISCV_FP=
+_D, idx)
++
++#define KVM_RISCV_GET_CSR(cs, env, csr, reg) \
++    do { \
++        int ret =3D kvm_get_one_reg(cs, RISCV_CSR_REG(env, csr), &reg); =
+\
++        if (ret) { \
++            return ret; \
++        } \
++    } while (0)
++
++static int kvm_riscv_get_regs_core(CPUState *cs)
++{
++    int ret =3D 0;
++    int i;
++    target_ulong reg;
++    CPURISCVState *env =3D &RISCV_CPU(cs)->env;
++
++    ret =3D kvm_get_one_reg(cs, RISCV_CORE_REG(env, regs.pc), &reg);
++    if (ret) {
++        return ret;
 +    }
-+    return id;
++    env->pc =3D reg;
++
++    for (i =3D 1; i < 32; i++) {
++        uint64_t id =3D kvm_riscv_reg_id(env, KVM_REG_RISCV_CORE, i);
++        ret =3D kvm_get_one_reg(cs, id, &reg);
++        if (ret) {
++            return ret;
++        }
++        env->gpr[i] =3D reg;
++    }
++
++    return ret;
++}
++
++static int kvm_riscv_get_regs_csr(CPUState *cs)
++{
++    int ret =3D 0;
++    CPURISCVState *env =3D &RISCV_CPU(cs)->env;
++
++    KVM_RISCV_GET_CSR(cs, env, sstatus, env->mstatus);
++    KVM_RISCV_GET_CSR(cs, env, sie, env->mie);
++    KVM_RISCV_GET_CSR(cs, env, stvec, env->stvec);
++    KVM_RISCV_GET_CSR(cs, env, sscratch, env->sscratch);
++    KVM_RISCV_GET_CSR(cs, env, sepc, env->sepc);
++    KVM_RISCV_GET_CSR(cs, env, scause, env->scause);
++    KVM_RISCV_GET_CSR(cs, env, stval, env->stval);
++    KVM_RISCV_GET_CSR(cs, env, sip, env->mip);
++    KVM_RISCV_GET_CSR(cs, env, satp, env->satp);
++    return ret;
++}
++
++static int kvm_riscv_get_regs_fp(CPUState *cs)
++{
++    int ret =3D 0;
++    int i;
++    CPURISCVState *env =3D &RISCV_CPU(cs)->env;
++
++    if (riscv_has_ext(env, RVD)) {
++        uint64_t reg;
++        for (i =3D 0; i < 32; i++) {
++            ret =3D kvm_get_one_reg(cs, RISCV_FP_D_REG(env, i), &reg);
++            if (ret) {
++                return ret;
++            }
++            env->fpr[i] =3D reg;
++        }
++        return ret;
++    }
++
++    if (riscv_has_ext(env, RVF)) {
++        uint32_t reg;
++        for (i =3D 0; i < 32; i++) {
++            ret =3D kvm_get_one_reg(cs, RISCV_FP_F_REG(env, i), &reg);
++            if (ret) {
++                return ret;
++            }
++            env->fpr[i] =3D reg;
++        }
++        return ret;
++    }
++
++    return ret;
 +}
 +
  const KVMCapabilityInfo kvm_arch_required_capabilities[] =3D {
      KVM_CAP_LAST_INFO
  };
-@@ -79,7 +97,21 @@ void kvm_arch_init_irq_routing(KVMState *s)
 =20
- int kvm_arch_init_vcpu(CPUState *cs)
+ int kvm_arch_get_registers(CPUState *cs)
  {
 -    return 0;
 +    int ret =3D 0;
-+    target_ulong isa;
-+    RISCVCPU *cpu =3D RISCV_CPU(cs);
-+    CPURISCVState *env =3D &cpu->env;
-+    uint64_t id;
 +
-+    id =3D kvm_riscv_reg_id(env, KVM_REG_RISCV_CONFIG,
-+                          KVM_REG_RISCV_CONFIG_REG(isa));
-+    ret =3D kvm_get_one_reg(cs, id, &isa);
++    ret =3D kvm_riscv_get_regs_core(cs);
 +    if (ret) {
 +        return ret;
 +    }
-+    env->misa_ext =3D isa;
++
++    ret =3D kvm_riscv_get_regs_csr(cs);
++    if (ret) {
++        return ret;
++    }
++
++    ret =3D kvm_riscv_get_regs_fp(cs);
++    if (ret) {
++        return ret;
++    }
 +
 +    return ret;
  }
 =20
- int kvm_arch_msi_data_to_gsi(uint32_t data)
+ int kvm_arch_put_registers(CPUState *cs, int level)
 --=20
 2.31.1
 
