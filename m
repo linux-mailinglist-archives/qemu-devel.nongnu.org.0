@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE7B495CD6
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 10:29:16 +0100 (CET)
-Received: from localhost ([::1]:56624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE340495CE7
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 10:34:59 +0100 (CET)
+Received: from localhost ([::1]:35902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAqEN-0003ZX-79
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 04:29:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38746)
+	id 1nAqJu-0000RZ-F2
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 04:34:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nAoN5-0008Md-TN
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 02:30:12 -0500
-Received: from mga09.intel.com ([134.134.136.24]:13810)
+ id 1nAoOM-0000QG-BG
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 02:31:29 -0500
+Received: from mga02.intel.com ([134.134.136.20]:54522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nAoN1-0001QW-Ud
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 02:30:07 -0500
+ id 1nAoOF-0001p7-TD
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 02:31:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642750204; x=1674286204;
+ t=1642750279; x=1674286279;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=+f+qRx8fx+QH5zxLFRUdC3tmuRIqHG9zmlo0a3QixKo=;
- b=G5e0e2MKTDF/Jaiv3xoTQE4yBLiAMzLdQh2KpRiPPgIlTQEPZJcIjGnZ
- AEQhghw6wkYAS4yk5Bk8ziX2nMJjHXZWC54pbo9H1u97cydaC9ZDCMMRW
- AEBbKox2ldhBreh06Cel0kDd1UrpXFLng1hSCLHu99uEuk3i/KhtSTPEf
- cBjgSvjhVkGXlGzy7sis+AgJb85b8QG9QuuEZuD/xGjmPojTOorXWa5rU
- 3rA4ViZ6+afhw+1GpdrykoKI+N/AFp6AVr+E+FcVxpzTe5lh+iDrX0N1h
- nod2bwvC/dOaSeQ3bkgpYKAEQBZsRij37snb1YVxzNgzj7VwVDgsHN6Vl w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="245374299"
-X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="245374299"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 23:30:00 -0800
-X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="478150352"
+ bh=EN+vHdqdMk+B5zlKqQjm4A28vsXK2zdU6wW6ORx/3zU=;
+ b=kYsb4EseU829PmOFAJ3bhrAH2vToieK1acZNlT3vaBEjTTuNWQKD6ymj
+ jCBeosVuBGMVHeodv7pGIfYDSeBlHsdTm4jTM91MFjfdffVd1wL1Lxyz2
+ JFHCv32sJkNP/W+M4pUOU845uWfWXK3xI2wPto+gE49pIgjgDDe54hGfL
+ gYGdecYN5QOpq06FsV8b3CVaqkL9rLUZdhIxvRV+IRXlrUqylalgZHLk+
+ XCgJsB4NoKnnR3mshW3sbUw9ChlMt/YI4jPr5AZMsAb7vjKwfQZar/ubV
+ ZK0Lf7xYaS3rlndtC7JOiKJRqq9IPgSoJIOVCdfF/ff/QT/XA9Q4zGXaW Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="232948021"
+X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="232948021"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 23:31:09 -0800
+X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="533167565"
 Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
  ([10.238.145.56])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 20 Jan 2022 23:29:57 -0800
-Date: Fri, 21 Jan 2022 15:14:38 +0800
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 20 Jan 2022 23:31:07 -0800
+Date: Fri, 21 Jan 2022 15:15:48 +0800
 From: Yang Zhong <yang.zhong@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC PATCH 1/7] x86: Fix the 64-byte boundary enumeration for
- extended state
-Message-ID: <20220121071438.GA29921@yangzhon-Virtual>
+Subject: Re: [RFC PATCH 2/7] x86: Add AMX XTILECFG and XTILEDATA components
+Message-ID: <20220121071548.GB29921@yangzhon-Virtual>
 References: <20220107093134.136441-1-yang.zhong@intel.com>
- <20220107093134.136441-2-yang.zhong@intel.com>
- <BN9PR11MB5276BFF130081C9ED21F89238C509@BN9PR11MB5276.namprd11.prod.outlook.com>
- <20220111022218.GA10706@yangzhon-Virtual>
- <3aaa1a42-e3b0-2d55-78fd-368c925af4af@redhat.com>
+ <20220107093134.136441-3-yang.zhong@intel.com>
+ <BN9PR11MB5276EA0D1E39DDA511B0A9B38C509@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <6941a519-3a26-e57c-5582-7238da90d263@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3aaa1a42-e3b0-2d55-78fd-368c925af4af@redhat.com>
+In-Reply-To: <6941a519-3a26-e57c-5582-7238da90d263@redhat.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=134.134.136.24; envelope-from=yang.zhong@intel.com;
- helo=mga09.intel.com
+Received-SPF: pass client-ip=134.134.136.20; envelope-from=yang.zhong@intel.com;
+ helo=mga02.intel.com
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
@@ -86,26 +84,27 @@ Cc: yang.zhong@intel.com, "Tian, Kevin" <kevin.tian@intel.com>, "Christopherson,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 18, 2022 at 01:37:20PM +0100, Paolo Bonzini wrote:
-> On 1/11/22 03:22, Yang Zhong wrote:
-> >   Thanks Kevin, I will update this in next version.
+On Tue, Jan 18, 2022 at 01:39:59PM +0100, Paolo Bonzini wrote:
+> On 1/10/22 09:23, Tian, Kevin wrote:
+> >>
+> >>AMX XTILECFG and XTILEDATA are managed by XSAVE feature
+> >>set. State component 17 is used for 64-byte TILECFG register
+> >>(XTILECFG state) and component 18 is used for 8192 bytes
+> >>of tile data (XTILEDATA state).
+> >to be consistent, "tile data" -> "TILEDATA"
+> >
 > 
-> Also:
+> Previous sentences use "XTILECFG" / "XTILEDATA", not "TILEDATA".
 > 
->     The extended state subleaves (EAX=0Dh, ECX=n, n>1).ECX[1]
->     indicate whether the extended state component locates
->     on the next 64-byte boundary following the preceding state
->     component when the compacted format of an XSAVE area is
->     used.
+> So I would say:
 > 
->     Right now, they are all zero because no supported component
->     needed the bit to be set, but the upcoming AMX feature will
->     use it.  Fix the subleaves value according to KVM's supported
->     cpuid.
+> The AMX TILECFG register and the TMMx tile data registers are
+> saved/restored via XSAVE, respectively in state component 17 (64
+> bytes) and state component 18 (8192 bytes).
 >
-      Thanks Paolo, I will update this in new version.
 
-      Yang
-      
+  Thanks Paolo, I will update this in new version.
+  Yang
+ 
 > Paolo
 
