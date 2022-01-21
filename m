@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4B6C496742
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 22:22:00 +0100 (CET)
-Received: from localhost ([::1]:51980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A10496739
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 22:18:39 +0100 (CET)
+Received: from localhost ([::1]:49062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB1M7-0003td-Ra
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 16:21:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59560)
+	id 1nB1Is-0001sa-75
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 16:18:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nB0ci-0000V8-9t
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:35:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21946)
+ id 1nB0dJ-0000ar-92
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:35:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31525)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nB0cg-00058v-LE
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:35:03 -0500
+ id 1nB0dF-0005tV-7d
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:35:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642797301;
+ s=mimecast20190719; t=1642797321;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XLW2vuPxrcLhBXtl8ugt4z/aPwC32xSyVJfwdFddz+s=;
- b=T8PNwogTEvCmsGrNjUmTWOiJHca4XDRkttDpD+tcMpX0WJsGgmUmNwuCpIOFqGdOuz3ycl
- VG8idFThf/xXbNlri3NKkg+rMnYNwnJCtqjKOMIBbzvTdH/cBfW8uD//ZsM9AalBpJ4oMu
- zTV7WE2uE3iQ4fb/r6GWD655EpQebkY=
+ bh=KqKu9gV12BSP7bp/DmZuehYWhm/L06WrJinEvvM6P9c=;
+ b=TDhZ9+qzRZIdrHBp0lw8c99rdpet+NTJZPmSfNSeDg0hh6mTyua0qvjAo8SNzr6aPMc4KH
+ A721StLkR7P7+2m7/+OhgySciMXzsK+3Zu4PufNzfDd4+v7Tg01EZq5yuSzTwx7z8Yulzm
+ 8uKvz4x2rbmmsRB3gaWUYIzwOzscbLk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-524-wqf65r4CMjGgXrsHl8P5jg-1; Fri, 21 Jan 2022 15:34:58 -0500
-X-MC-Unique: wqf65r4CMjGgXrsHl8P5jg-1
+ us-mta-68-Ytj1KbFdOYG7ug1COfmKpQ-1; Fri, 21 Jan 2022 15:35:18 -0500
+X-MC-Unique: Ytj1KbFdOYG7ug1COfmKpQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0D9D46860;
- Fri, 21 Jan 2022 20:34:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDA998189CC;
+ Fri, 21 Jan 2022 20:35:16 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.193.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 69A5F16A31;
- Fri, 21 Jan 2022 20:34:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 82221194B9;
+ Fri, 21 Jan 2022 20:35:07 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 25/31] vdpa: Adapt vhost_vdpa_get_vring_base to SVQ
-Date: Fri, 21 Jan 2022 21:27:27 +0100
-Message-Id: <20220121202733.404989-26-eperezma@redhat.com>
+Subject: [PATCH 28/31] vdpa: Expose VHOST_F_LOG_ALL on SVQ
+Date: Fri, 21 Jan 2022 21:27:30 +0100
+Message-Id: <20220121202733.404989-29-eperezma@redhat.com>
 In-Reply-To: <20220121202733.404989-1-eperezma@redhat.com>
 References: <20220121202733.404989-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -94,36 +94,61 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is needed to achieve migration, so destination can restore its
-index.
+SVQ is able to log the dirty bits by itself, so let's use it to not
+block migration.
+
+Also, ignore set and clear of VHOST_F_LOG_ALL on set_features if SVQ is
+enabled. Even if the device supports it, the reports would be nonsense
+because SVQ memory is in the qemu region.
+
+The log region is still allocated. Future changes might skip that, but
+this series is already long enough.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ hw/virtio/vhost-vdpa.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
 diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 276a559649..887857c177 100644
+index fb0a338baa..75090d65e8 100644
 --- a/hw/virtio/vhost-vdpa.c
 +++ b/hw/virtio/vhost-vdpa.c
-@@ -716,8 +716,17 @@ static int vhost_vdpa_set_vring_base(struct vhost_dev *dev,
- static int vhost_vdpa_get_vring_base(struct vhost_dev *dev,
-                                        struct vhost_vring_state *ring)
- {
-+    struct vhost_vdpa *v = dev->opaque;
-     int ret;
+@@ -1022,6 +1022,9 @@ static int vhost_vdpa_get_features(struct vhost_dev *dev, uint64_t *features)
+     if (ret == 0 && v->shadow_vqs_enabled) {
+         /* Filter only features that SVQ can offer to guest */
+         vhost_svq_valid_guest_features(features);
++
++        /* Add SVQ logging capabilities */
++        *features |= BIT_ULL(VHOST_F_LOG_ALL);
+     }
  
-+    if (v->shadow_vqs_enabled) {
-+        VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs,
-+                                                      ring->index);
-+
-+        ring->num = vhost_svq_get_last_used_idx(svq);
-+        return 0;
-+    }
-+
-     ret = vhost_vdpa_call(dev, VHOST_GET_VRING_BASE, ring);
-     trace_vhost_vdpa_get_vring_base(dev, ring->index, ring->num);
      return ret;
+@@ -1039,8 +1042,25 @@ static int vhost_vdpa_set_features(struct vhost_dev *dev,
+ 
+     if (v->shadow_vqs_enabled) {
+         uint64_t dev_features, svq_features, acked_features;
++        uint8_t status = 0;
+         bool ok;
+ 
++        ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
++        if (unlikely(ret)) {
++            return ret;
++        }
++
++        if (status & VIRTIO_CONFIG_S_DRIVER_OK) {
++            /*
++             * vhost is trying to enable or disable _F_LOG, and the device
++             * would report wrong dirty pages. SVQ handles it.
++             */
++            return 0;
++        }
++
++        /* We must not ack _F_LOG if SVQ is enabled */
++        features &= ~BIT_ULL(VHOST_F_LOG_ALL);
++
+         ret = vhost_vdpa_get_dev_features(dev, &dev_features);
+         if (ret != 0) {
+             error_report("Can't get vdpa device features, got (%d)", ret);
 -- 
 2.27.0
 
