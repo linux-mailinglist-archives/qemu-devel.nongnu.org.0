@@ -2,63 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AE31496456
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 18:43:45 +0100 (CET)
-Received: from localhost ([::1]:41836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8588B496471
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 18:49:41 +0100 (CET)
+Received: from localhost ([::1]:54876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAxwt-0005SW-1K
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 12:43:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46844)
+	id 1nAy2e-0005yw-L6
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 12:49:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nAxn2-0002wQ-6h
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:33:32 -0500
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:38757)
+ (Exim 4.90_1) (envelope-from <ross.lagerwall@citrix.com>)
+ id 1nAxna-0003rc-C9
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:34:06 -0500
+Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175]:13438)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nAxmz-0001PV-F6
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:33:31 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.141])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 94CD3D93F511;
- Fri, 21 Jan 2022 18:33:18 +0100 (CET)
-Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Fri, 21 Jan
- 2022 18:33:17 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G004dc0303b5-6da9-473e-bd1c-a6a167dbf019,
- 0868046A3D5FFD4A19DAA1F3199B5438DDC438D4) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <c51426a6-d655-0ba1-2ea9-3d84070520ed@kaod.org>
-Date: Fri, 21 Jan 2022 18:33:16 +0100
+ (Exim 4.90_1) (envelope-from <ross.lagerwall@citrix.com>)
+ id 1nAxnX-0001tz-3u
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:34:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1642786442;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=VK65MgBu7gmYcHaFkcDzpB2RbWKXetKgRtqoFIU1Xuw=;
+ b=N+c6PPpxYUv6JqNBnjgeao0SUTtUQ3fQzrbItqy+PJMZIitj1kENu+4n
+ 9POSyM6Vaf56mKDGSxSMruZC+rnekGKOiALrDJA953dHIL+m+L0OD8igr
+ X+EznvUl4BfIBCZ7sLBrJEhNzZRSL25eOq9g/f7DKDZSpFMVvYQQjtCQ2 k=;
+Authentication-Results: esa6.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+IronPort-SDR: ZdUT1Vt8SDVBdm94CQgH4nqp5IN/JiNbkDS23hYvWvzbKOvrdVcQMo7fbmgemrt1WjIKLSLBHo
+ s2HWUKF/awO+vj1o+MYhA7iObF0bBcIlSzMg3+m/88uVtTBRWkd1ErpdUZh9yDB9zh5zQMh9yH
+ SvhWpVT0kACtnz0Lh1ueS7E0UKnftTWqfO0rfYMKxRwJM2YyzW4R9HmLts4hc7iGMJRnszkCsH
+ s+Q9OaW9Ds4ay1P9F2JAlITuSQ+8tHowtkxcUbQ43Sf+ms/TgiYHeZooMx1dKAASwhnraWCSI3
+ FEPW93dbalg/LwzrxDS18sPf
+X-SBRS: 5.2
+X-MesageID: 62429039
+X-Ironport-Server: esa6.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.156.83
+X-Policy: $RELAYED
+IronPort-Data: A9a23:WKMM3qPe7UBLZ2HvrR3EkcFynXyQoLVcMsEvi/4bfWQNrUp2gTZVz
+ GoaD22BO/fYYjHxKd9ybd6/80xT65aDmNdgQAto+SlhQUwRpJueD7x1DKtR0wB+jCHnZBg6h
+ ynLQoCYdKjYdpJYz/uUGuCJQUNUjMlkfZKhTr6UUsxNbVU8En150Eg6w7VRbrNA2rBVPSvc4
+ bsenOWHULOV82Yc3rU8sv/rRLtH5ZweiRtA1rAMTakjUGz2zhH5OKk3N6CpR0YUd6EPdgKMq
+ 0Qv+5nilo/R109F5tpICd8XeGVSKlLZFVDmZna7x8FOK/WNz8A/+v9TCRYSVatYowi5rvRN7
+ tBIjrKLVT1xJ/Hcg8sCdBYNRkmSPYUekFPGCX22sMjVxEzaaXr8hf5pCSnaP6VBpLwxWzsXs
+ 6VFdnZdNXhvhMrvqF6/YvNrnd9lKMDkMZkAs3Vk5TrYEewnUdbIRKCiCdpwgm1s3JEWRqe2i
+ 8wxYis+dxfSOU10HHA0EpgbsMXrr13kSmgNwL6SjfVuuDWCpOBr65DoOcDed9jMTN1bk0KSr
+ 3/D12v8CxAecteYzFKt92mwrvXCkSPyRMQZE7jQ3udnhUDWymENBRk+U1y9rv+kzEmkVLp3O
+ 0ESvyYjs6U23EiqVcXmGQ21pmaeuRwRUMYWFPc1gCmVwK3S8QefB0AeQzJBYcBgv8gzLRQy3
+ 0KNt8PkA3poqrL9YWmG6r6eoDe2OC4UBWwPfykJSU0C+daLiIw/kxvVQtFLEKe/jdruBXf2z
+ izihDI/jLUal8JN16i98V3dmDWqjpzISAcv4UPQRG3N0+9iTNf7PcryswGdtKseatbCJrWcg
+ JQas/Wu3cQyK5SIrwK2XN9VBe25/NmaFzKJ1DaDAKId3ziq/neie6VZ7zd/OFplP644RNP5X
+ KPAkVgPvcEOZRNGeYcyOtvsUJpykcAMAPy8DqiMBueidKSdY+NuEMtGQUeLl17gn0E3+U3UE
+ cfKKJ38ZZr25EkO8dZXewv/+eJzrszd7TmKLXwe8/hB+eDPDJJyYe1UWGZilshjsMu5TPz9q
+ r6zzfeixRRFS/HZaSLK64MVJl1iBSFlWcqp85cGJ7fffFIO9IQd5xn5mutJl2tNxPw9qws11
+ ivlBh8wJKTX2BUr1jlmmlg8MeiyDP6TXFowPDA2PEbA5pTQSd3H0UvrTLNuJeNP3LU6lZZcF
+ qBZE+3dXKgnYmmZqlw1MMmsxKQ/JU/DrV/fYEKYjM0XIsQIq/rhoIG0J2MCNUAmU0KKiCfJi
+ +Twj1yAGctaGV0K4QS/QKvH8m5ddEM1wIpaN3Yk6PEKEKk12IQ1eSH3kNEtJMQAdUfKyjeAj
+ l7EChYEv+jd5YQy9YCR16yDqo6oFcp4H1ZbQDaHverna3GC8zrx25JEXcaJYSvZCDH+9pK9a
+ LgH1Pr7KvAGwgpH6tIuD7ZxwKsizNLzvLsGnB98FXDGYg3zWLNtK3WLx+dVsahJyuMLsAe6Q
+ BvXqNJbJa+IKIXuF1tIfFgpaeGK1Pc1nDjO7KtqfBWmtXEvpLfeCBdcJRiBjiBZPYBZCoJ9z
+ LdzotMS5iy+lgEuboSMgBdL+jneNXcHSagm6M0XWde5lgoxx1heSpXAESuqsoqXYtBBP0R2c
+ D+ZgK3O2+ZVykbYKidhEHHM2axWhIgUuQAMx1gHfgzblt3Aj/4x/RtQ7TVoEVgFkkQZi7p+a
+ jpxKkl4BaSS5DM51sFMUlelFxxFGBDEqFf6zEEElTGBQkSlPoAXwLbR5QpZEJglzl9h
+IronPort-HdrOrdr: A9a23:GeJ3dqhqPSrGz1Ny24JPKQjF+3BQXtYji2hC6mlwRA09TySZ//
+ rBoB19726RtN9xYgBHpTnuAsm9qB/nmaKdgrNhWItKPjOW21dARbsKheCJrgEIcxeOkdK1vp
+ 0AT0ERMrLN5CBB/KTH3DU=
+X-IronPort-AV: E=Sophos;i="5.88,306,1635220800"; d="scan'208";a="62429039"
+To: Stefano Stabellini <sstabellini@kernel.org>, Anthony Perard
+ <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
+CC: Ross Lagerwall <ross.lagerwall@citrix.com>, Igor Druzhinin
+ <igor.druzhinin@citrix.com>, Paolo Bonzini <pbonzini@redhat.com>, "Richard
+ Henderson" <richard.henderson@linaro.org>, Eduardo Habkost
+ <eduardo@habkost.net>, "Michael S. Tsirkin" <mst@redhat.com>, "Marcel
+ Apfelbaum" <marcel.apfelbaum@gmail.com>, <xen-devel@lists.xenproject.org>,
+ <qemu-devel@nongnu.org>
+Subject: [PATCH] xen-mapcache: Avoid entry->lock overflow
+Date: Fri, 21 Jan 2022 17:33:29 +0000
+Message-ID: <20220121173329.904412-1-ross.lagerwall@citrix.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] target/ppc/mmu_common: Fix SRR1/MSR error code on Book-E
-Content-Language: en-US
-To: Vitaly Cheptsov <cheptsov@ispras.ru>
-References: <BE5775C6-A54F-4443-9752-DBB6587E1F46@ispras.ru>
- <9717e63d-b72a-81f6-e9b9-052294f560f1@kaod.org>
- <979A28AD-F229-498E-89CD-1D475EC6C94E@ispras.ru>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <979A28AD-F229-498E-89CD-1D475EC6C94E@ispras.ru>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: bff46234-0cc5-407f-a912-ce17c2c927e4
-X-Ovh-Tracer-Id: 17176166032193850220
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrvddtgddutddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepvdeufeffkeffueetiefhfeetveegvdefhffhvedugffgjeefiefggfefgeelkeeinecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpqhgvmhhurdhorhhgpdhngihprdgtohhmpdhophgvnhhpohifvghrfhhouhhnuggrthhiohhnrdhorhhgpdhgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.71.155.175;
+ envelope-from=ross.lagerwall@citrix.com; helo=esa6.hc3370-68.iphmx.com
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,101 +104,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kurban Mallachiev <mallachiev@ispras.ru>,
- "mario@locati.it" <mario@locati.it>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Ross Lagerwall <ross.lagerwall@citrix.com>
+From:  Ross Lagerwall via <qemu-devel@nongnu.org>
 
-Hello Vitaly,
+In some cases, a particular mapcache entry may be mapped 256 times
+causing the lock field to wrap to 0. For example, this may happen when
+using emulated NVME and the guest submits a large scatter-gather write.
+At this point, the entry map be remapped causing QEMU to write the wrong
+data or crash (since remap is not atomic).
 
-On 1/21/22 10:33, Vitaly Cheptsov wrote:
-> Hi Cédric,
-> 
->> This looks correct and even fixing an issue that Mario reported
->> on the TCG e6500 CPU with a kernel + KVM compiled in :
->>
->>   https://lore.kernel.org/all/R5JFVM$911E343FF81933B99D53FD0992D8848F@locati.it/
->>
->> KVM has some issues also with the e6500 but that's another problem
->> I think.
-> 
-> Glad to hear that. Could you schedule the inclusion of the patch in 6.2.1 or 6.3 please?
+Avoid this overflow by increasing the lock field to a uint16_t and also
+detect it and abort rather than continuing regardless.
 
-7.0 it should be.
+Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
+---
+ hw/i386/xen/xen-mapcache.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
->> What is your environment ? Which QEMU machine ? Can you provide a
->> command line ?
-> 
-> We have an in-house RTOS at ISP RAS, which we use to run some environmental tests on QEMU.
-
-not a Linux. Diversity is good for the models.
-
-> The target hardware in this particular example is a QorIQ P3041-based board. 
-
-and the default ppce500 machine has enough devices for the purpose ?
-
-Thanks,
-
-C.
-
-> The command line approximately looks like this:
-> qemu-system-ppc -cpu e500mc -M ppce500 -m 128M -icount 1 -kernel /path/to/kernel.elf -serial tcp::1111,server,nodelay
-> 
->> Could you please resend the patch in a non attached way ?  See :
->>
->>   https://www.qemu.org/docs/master/devel/submitting-a-patch.html
->>
->> and copy qemu-devel.
-> 
-> Yes, sure. Have just done that.
-> 
-> Best regards,
-> Vitaly
-> 
->> On 21 Jan 2022, at 11:17, Cédric Le Goater <clg@kaod.org> wrote:
->>
->> Hello Vitaly
->>
->> On 1/21/22 01:02, Vitaly Cheptsov wrote:
->>> Hello,
->>> PowerPC e500mc defines MSR bit 35 differently from most other PowerPC variants. In particular, for e500mc this is GS (Guest Supervisor) bit[1], while for others it is NOEXEC GUARD bit[2].
->>> QEMU ignores this architectural difference when handling the exceptions of attempting to run not executable code on e500mc, and mistakenly sets the GS bit[3][4].
->>> Setting this bit eventually leads to crashes, because although QEMU does not support Guest Supervisor mode on e500mc, it still requires it to be disabled[5].
->>
->> This looks correct and even fixing an issue that Mario reported
->> on the TCG e6500 CPU with a kernel + KVM compiled in :
->>
->>   https://lore.kernel.org/all/R5JFVM$911E343FF81933B99D53FD0992D8848F@locati.it/
->>
->> KVM has some issues also with the e6500 but that's another problem
->> I think.
->>
->>
->> What is your environment ? Which QEMU machine ? Can you provide a
->> command line ?
->>
->> Could you please resend the patch in a non attached way ?  See :
->>
->>   https://www.qemu.org/docs/master/devel/submitting-a-patch.html
->>
->> and copy qemu-devel.
->>
->> Thanks,
->>
->> C.
->>
->>
->>> Best regards,
->>> Vitaly
->>> [1] https://www.nxp.com/docs/en/reference-manual/E500MCRM.pdf, 2.7.1 MSR
->>> [2] https://openpowerfoundation.org/?resource_lib=power-isa-version-3-0, 6.5.5 Instruction Storage Interrupt
->>> [3] https://github.com/qemu/qemu/blob/v6.2.0/target/ppc/mmu_common.c#L1426
->>> [4] https://github.com/qemu/qemu/blob/v6.2.0/target/ppc/excp_helper.c#L414-L416
->>> [5] https://github.com/qemu/qemu/blob/v6.2.0/target/ppc/mmu_helper.c#L1078-L1080
->>
-> 
+diff --git a/hw/i386/xen/xen-mapcache.c b/hw/i386/xen/xen-mapcache.c
+index bd47c3d672..82dc495a60 100644
+--- a/hw/i386/xen/xen-mapcache.c
++++ b/hw/i386/xen/xen-mapcache.c
+@@ -52,7 +52,7 @@ typedef struct MapCacheEntry {
+     hwaddr paddr_index;
+     uint8_t *vaddr_base;
+     unsigned long *valid_mapping;
+-    uint8_t lock;
++    uint16_t lock;
+ #define XEN_MAPCACHE_ENTRY_DUMMY (1 << 0)
+     uint8_t flags;
+     hwaddr size;
+@@ -355,6 +355,12 @@ tryagain:
+     if (lock) {
+         MapCacheRev *reventry = g_malloc0(sizeof(MapCacheRev));
+         entry->lock++;
++        if (entry->lock == 0) {
++            fprintf(stderr,
++                    "mapcache entry lock overflow: "TARGET_FMT_plx" -> %p\n",
++                    entry->paddr_index, entry->vaddr_base);
++            abort();
++        }
+         reventry->dma = dma;
+         reventry->vaddr_req = mapcache->last_entry->vaddr_base + address_offset;
+         reventry->paddr_index = mapcache->last_entry->paddr_index;
+-- 
+2.27.0
 
 
