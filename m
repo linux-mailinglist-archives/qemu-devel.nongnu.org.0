@@ -2,91 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 900D24959F0
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 07:31:11 +0100 (CET)
-Received: from localhost ([::1]:58608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B8A495A3C
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 08:00:06 +0100 (CET)
+Received: from localhost ([::1]:48064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAnS2-0003MN-IU
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 01:31:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49920)
+	id 1nAnu0-0007r6-W7
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 02:00:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAmy5-0006ta-D6
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:00:19 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:60338)
+ id 1nAmy9-0006ti-4G
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:00:20 -0500
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:60345)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAmxz-0004AK-K3
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:00:10 -0500
+ id 1nAmy3-0004B6-Gk
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:00:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1642744807; x=1674280807;
+ t=1642744811; x=1674280811;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=fsIWfG/YhDiWb+NY861jhKV1cgP13eIxnm24Vc1+lTo=;
- b=P1hp4LTd+BZ/XL+nAAiTUz0pWSf8tI/Ieum6tj7/VOUqxJ1LIEkfZFLo
- 0oBzRfOPhGaV9kQtYidQ3uxFDCQSlNNED22DeKVrWH2DoAMIT9G6+SJ7t
- 6EceN9cr+IHoC6u6QFiKSYnNtjRuiYOYsNKNRIBkrHuOTg/Kss/e6xNVk
- ghGE8pnnvULQajVYEf6kU+A4hHk6WbTlNUS93lLf+1GLnVihcuivo5J1w
- JreYOzYMczt5G1vep8UQk72xlk1iaotNu0hWUk6S0vMLknjPgU8Wo9Bzd
- 47D2EcEkecVw521dxuzQF4fwzK6kEkUfowM1rbbvFagFTqex87wV8Yfs+ Q==;
-X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="295082884"
+ bh=GMLbD5ayFkoErB/IZay1cQB3pe5/0mX/reC7P+tfqJI=;
+ b=BixTvZJX//TAUc8oB1dRA/S37OGt7KCZfecucsP0OGTPx1fAdNugXIux
+ paOoDeHI/9yiNP8QNvHqnAYkntylBuFpQJZP1e+IaezneNjuJpOylK8uJ
+ 1wGnOMCPSMR7eY+FIGqg4pNfrgsp71oPanflkRtWVcUCRO/ckGyiMexKu
+ XD8t8ElXn3OxmtqNEyeocrtPj8wa2Y1BwjDL9pdXaUFUryBlDjCvDEQRT
+ 0zy1YbJZg/eACRMulfW4L0vnjsieMcqMFKrsGeBFj8cUaR8I+KXC+7Hof
+ ChbzYBAouL2c7nKEv1/D5kPhPkIe4kD9e432vSfSgfarmR4AEKOBfQK5T A==;
+X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="295082892"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 14:00:05 +0800
-IronPort-SDR: phzUCQA0d+0SpTqR4PQ2Jm0oeV1fURIKIp7BvY1rgR2E45V6sqtmyONPmc6XIYQRMx+M0B4g9U
- lttu0BvFrYRtflneBazFIQ/WhL1ALIHtvQdVmdJhxfjnS8sOSrx99uQTsKErX2K6nLopHDcZKC
- 0a9YgjZhw+fOdqftJF35s8nv1pzhr0gCknOUKXHHaK8bPfiWP9xunkqD7p0jvg8zIUSjg3CxAA
- PQpUQolEnHzQAiQHLrRgEVewYN04H44s3zAzHWBg32+V/Kjcs1dIUx34VJPju6kV5wOVS8kPL3
- ilFxSR/hmsFo3FMx0TNZ0u5R
+ by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 14:00:09 +0800
+IronPort-SDR: c7+C9cQwN1iGVOJuUionIfWhK69UzFQZjm1CWJC31h4Xvrp1p58ec0feJdFfBG+h1YL0sdIouI
+ ky5SGK6Ci/FyrSmjeFAOsAo98uQe/JOp/yCxWcIPMJ8F6o5G0c2kAo2kuGV5yzOoB57ma4A92H
+ dED/6Vn54aUowar7JxYCI3ClI9DJSMntVBsUtO9/U3BgM2OUvPGSIv+651JwvrOfXQIW6MSD6b
+ gB3uqvBUyeaAL34GiQUpHkbZ8OUwbJwbj61jS7uNo3xa+FaVZocogAOHXsuJNv17pULiFIndET
+ 63SfjKzEPUppprL/ocEhIf1d
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 21:33:32 -0800
-IronPort-SDR: CNwFq99qf+LG3pq41dfJYYq/52q4stJMKIoSRlVYK67dgF6rb8STpmUls6M1XM7APx5C+rgZMJ
- jNJCIp9X4JUMDFpdqjNYTMTUm3WCcZwII5iQYwHhbK9bTF1Nj+1k26nPqd6ArkR5Kt2/3oZOj3
- c8b5N2QcywZ1wIxnkM7abrVGZrNYyt6rdJ7nm0Vrc7ZsrRzKEaga7iZ06swua94NV6m6EKZqny
- y66ure2Ny5OSalT7KbNoNyJLHB4WppDlbd/BWkPUAmr4NMIEjBvj74KPOxqIXkGPp2CSuewONc
- 0Ks=
+ 20 Jan 2022 21:33:36 -0800
+IronPort-SDR: iU7t9/oNx18I71llRViXCHG4uXrYO1nSpAzfuStpeMX59hexx/EvL1HD/nRt9RlKyidwpRcCP+
+ 9uZZUrR6bWmz/ctNzlyg68zBc78YjL3LG0soU8kW3AdnLd5Lzus0hSguMQLPDKNekrSxcj1ugB
+ DrYW4y/I3b6GLayT/69HGknAd58M+5W8NRW9SPYkhFOMtImtPVCmpEV1/LRwmHeu7m60H2+dlV
+ 7LWSktW2o3J4zmwEl0yflWrENsF4/KNae7qxuqrSJJ090z8twfk80rf3e/dUDWQejckZCctXmL
+ 3tU=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 22:00:05 -0800
+ 20 Jan 2022 22:00:08 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg7yD6yPwz1SVp1
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 22:00:04 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg7yJ54Yrz1Rwrw
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 22:00:08 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1642744804; x=1645336805; bh=fsIWfG/YhDiWb+NY86
- 1jhKV1cgP13eIxnm24Vc1+lTo=; b=KkhvUnL2mZswS29ZXd/CQQEOAPyYmQsVy7
- Q4HaoE2ZRd321R3slHzU7zVoam/+AGXwRRckGhO6OYnlDJO22dlKtYCiq0ydwjhK
- sMNjekETwlB+SscQleFYl2jgzBRy+wgogyi8aLPf+nJZ+uQfK8M7+IzCWqmGV572
- M+1ZIvF35Llgz83+vUMgEjC3PcO9DToV8DxryOqrM3XGvxBB1Nmo4RCjUGglDiWO
- CRSYdOCHTGmFvpDXmzK7upcWMaAgrLuIvbWVY9GVZ4MyRKx2rMtkxRmP1oS9jsox
- EIYK0eEpoRKBPbpiTZWbck66nbB9xZ6rb/uhrh1Mnfk7hEZGFiJw==
+ :from; s=dkim; t=1642744808; x=1645336809; bh=GMLbD5ayFkoErB/IZa
+ y1cQB3pe5/0mX/reC7P+tfqJI=; b=gLJy4GU0NOqwOhaSyb/PwfNY/mj7NPsxwa
+ 1bUh4lF5E9T6f5lQqcYzivHiBjrQkM2Ccu84nFkcgFxKHS0xMOTvyO0V8YTb4GxE
+ YshN67HXdWIe79bb+AWh+/U3yhWDpzoelbjRlRl6F2rjpK9IF/hzUanqy/wrEMur
+ ZUyvJlGhxBiD83AI4ct0lkLdXAaSWl6WmSiBuOSXQIU6eTUHfn5fajX5IeyDzYFp
+ huRyHOSGjWIlDshCBK91SWAO9Wkf7eWQbqr/VjWtE5rqta8cNOn/pFKi3ElU8bTD
+ 2uESMN8vTvNlKjPwXiXINZ+9KjN4qp1DKRqof1MHMPjWusm9+AHA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 32Ek_ojmHSFc for <qemu-devel@nongnu.org>;
- Thu, 20 Jan 2022 22:00:04 -0800 (PST)
+ port 10026) with ESMTP id fb4NDF_OMFmE for <qemu-devel@nongnu.org>;
+ Thu, 20 Jan 2022 22:00:08 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.80])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg7y76CjRz1RvlN;
- Thu, 20 Jan 2022 21:59:59 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg7yF2LmNz1RvlN;
+ Thu, 20 Jan 2022 22:00:04 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Yanan Wang <wangyanan55@huawei.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Andrew Jones <drjones@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PULL 18/61] softmmu/device_tree: Remove redundant pointer assignment
-Date: Fri, 21 Jan 2022 15:57:47 +1000
-Message-Id: <20220121055830.3164408-19-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Frank Chang <frank.chang@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 19/61] target/riscv: rvv-1.0: Add Zve64f extension into RISC-V
+Date: Fri, 21 Jan 2022 15:57:48 +1000
+Message-Id: <20220121055830.3164408-20-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
 References: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
@@ -117,58 +115,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yanan Wang <wangyanan55@huawei.com>
+From: Frank Chang <frank.chang@sifive.com>
 
-The pointer assignment "const char *p =3D path;" in function
-qemu_fdt_add_path is unnecessary. Let's remove it and just
-use the "path" passed in. No functional change.
-
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-id: 20220111032758.27804-1-wangyanan55@huawei.com
+Message-id: 20220118014522.13613-2-frank.chang@sifive.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- softmmu/device_tree.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ target/riscv/cpu.h        | 1 +
+ target/riscv/cpu.c        | 4 ++++
+ target/riscv/cpu_helper.c | 5 ++++-
+ target/riscv/csr.c        | 6 +++++-
+ target/riscv/translate.c  | 2 ++
+ 5 files changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-index 0a433c98e2..6ca3fad285 100644
---- a/softmmu/device_tree.c
-+++ b/softmmu/device_tree.c
-@@ -558,7 +558,6 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
- int qemu_fdt_add_path(void *fdt, const char *path)
- {
-     const char *name;
--    const char *p =3D path;
-     int namelen, retval;
-     int parent =3D 0;
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 22c94d3c57..424bdcc7fa 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -340,6 +340,7 @@ struct RISCVCPU {
+         bool ext_icsr;
+         bool ext_zfh;
+         bool ext_zfhmin;
++        bool ext_zve64f;
 =20
-@@ -567,9 +566,9 @@ int qemu_fdt_add_path(void *fdt, const char *path)
-     }
-=20
-     do {
--        name =3D p + 1;
--        p =3D strchr(name, '/');
--        namelen =3D p !=3D NULL ? p - name : strlen(name);
-+        name =3D path + 1;
-+        path =3D strchr(name, '/');
-+        namelen =3D path !=3D NULL ? path - name : strlen(name);
-=20
-         retval =3D fdt_subnode_offset_namelen(fdt, parent, name, namelen=
-);
-         if (retval < 0 && retval !=3D -FDT_ERR_NOTFOUND) {
-@@ -586,7 +585,7 @@ int qemu_fdt_add_path(void *fdt, const char *path)
+         char *priv_spec;
+         char *user_spec;
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 32879f1403..cdb893d601 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -609,6 +609,10 @@ static void riscv_cpu_realize(DeviceState *dev, Erro=
+r **errp)
+             }
+             set_vext_version(env, vext_version);
          }
++        if (cpu->cfg.ext_zve64f && !cpu->cfg.ext_f) {
++            error_setg(errp, "Zve64f extension depends upon RVF.");
++            return;
++        }
+         if (cpu->cfg.ext_j) {
+             ext |=3D RVJ;
+         }
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 434a83e66a..43d498aae1 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -69,12 +69,15 @@ static RISCVMXL cpu_get_xl(CPURISCVState *env)
+ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+                           target_ulong *cs_base, uint32_t *pflags)
+ {
++    CPUState *cs =3D env_cpu(env);
++    RISCVCPU *cpu =3D RISCV_CPU(cs);
++
+     uint32_t flags =3D 0;
 =20
-         parent =3D retval;
--    } while (p);
-+    } while (path);
+     *pc =3D env->pc;
+     *cs_base =3D 0;
 =20
-     return retval;
- }
+-    if (riscv_has_ext(env, RVV)) {
++    if (riscv_has_ext(env, RVV) || cpu->cfg.ext_zve64f) {
+         /*
+          * If env->vl equals to VLMAX, we can use generic vector operati=
+on
+          * expanders (GVEC) to accerlate the vector operations.
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index adb3d4381d..e9311cfd9d 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -47,7 +47,11 @@ static RISCVException fs(CPURISCVState *env, int csrno=
+)
+=20
+ static RISCVException vs(CPURISCVState *env, int csrno)
+ {
+-    if (env->misa_ext & RVV) {
++    CPUState *cs =3D env_cpu(env);
++    RISCVCPU *cpu =3D RISCV_CPU(cs);
++
++    if (env->misa_ext & RVV ||
++        cpu->cfg.ext_zve64f) {
+ #if !defined(CONFIG_USER_ONLY)
+         if (!env->debugger && !riscv_cpu_vector_enabled(env)) {
+             return RISCV_EXCP_ILLEGAL_INST;
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 615048ec87..d3c0d44e2e 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -79,6 +79,7 @@ typedef struct DisasContext {
+     bool ext_ifencei;
+     bool ext_zfh;
+     bool ext_zfhmin;
++    bool ext_zve64f;
+     bool hlsx;
+     /* vector extension */
+     bool vill;
+@@ -894,6 +895,7 @@ static void riscv_tr_init_disas_context(DisasContextB=
+ase *dcbase, CPUState *cs)
+     ctx->ext_ifencei =3D cpu->cfg.ext_ifencei;
+     ctx->ext_zfh =3D cpu->cfg.ext_zfh;
+     ctx->ext_zfhmin =3D cpu->cfg.ext_zfhmin;
++    ctx->ext_zve64f =3D cpu->cfg.ext_zve64f;
+     ctx->vlen =3D cpu->cfg.vlen;
+     ctx->elen =3D cpu->cfg.elen;
+     ctx->mstatus_hs_fs =3D FIELD_EX32(tb_flags, TB_FLAGS, MSTATUS_HS_FS)=
+;
 --=20
 2.31.1
 
