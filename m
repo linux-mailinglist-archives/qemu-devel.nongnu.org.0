@@ -2,63 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCAE94964FE
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 19:26:49 +0100 (CET)
-Received: from localhost ([::1]:53790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C15496505
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 19:29:27 +0100 (CET)
+Received: from localhost ([::1]:58734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAyca-0002Oo-Dm
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 13:26:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47322)
+	id 1nAyf8-0005s7-Ae
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 13:29:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nAxp0-0005wH-Sw
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:35:34 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:33787)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nAxwf-0007Dm-Qn
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:43:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nAxoy-0002HN-ME
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:35:34 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.243])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 002DCD93F641;
- Fri, 21 Jan 2022 18:35:29 +0100 (CET)
-Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Fri, 21 Jan
- 2022 18:35:29 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002a8ad68f7-91bf-4c32-ab9c-0d15dca61a4d,
- 0868046A3D5FFD4A19DAA1F3199B5438DDC438D4) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <ae1f4df9-ff4e-e49b-4365-711c6476b90c@kaod.org>
-Date: Fri, 21 Jan 2022 18:35:28 +0100
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nAxwb-000792-Ju
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:43:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642787004;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uSr8sOKmQH0o2YNvCmsI786ibhkLqUl+Ji0a37l/+lE=;
+ b=aKm9YwZQalPkxuPJxJUNh9LNdYcD//txiJZUE1dYKzuAQwRoAXWf1VKbK4ErnoXU7XgpuQ
+ BM21poK/EgnOaduZN3rg3rP5LD9sJi+cQE8jgJyXiak1fPUwxcmBBxi3mNbVRIn2eUdpgJ
+ 7AAQutisiJ306Dw4FJ5/28sO3QGcrJo=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-501-bCaJAWGJPaW9C3H2SKhBIQ-1; Fri, 21 Jan 2022 12:43:22 -0500
+X-MC-Unique: bCaJAWGJPaW9C3H2SKhBIQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ w3-20020a50c443000000b0040696821132so2340400edf.22
+ for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 09:43:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=uSr8sOKmQH0o2YNvCmsI786ibhkLqUl+Ji0a37l/+lE=;
+ b=pvQh0p1ABNUz6kHN0PHpRJptEQgVkyPr1B5T7RwRlk/vjEbS5qE3r5r1YVbu478pRr
+ G/fLqS40h3K65LOf7Yf1e6ktiNtTep1rkoGmGi6WkfH2Du3dPWj8VNnVAawdVnKgytJL
+ WdfSVARXCM+KK4APiXx9ItDEQjlWrYUSQfJB4UgzhLH0rTH7XIfv0lYhZOvdyVygpDuy
+ Ol1Cj52J0QV0NL39wxamsfBfktjbCfoJPy4mO/1TshIQ8OeZXA7rFTP3/0Ec5kqKU3Pj
+ 5SZR1ZTOD4qO5+bGIMll0wMX4yXZD7QUmHESbqiuAiTFVKW1jBT8noxMrRQGnr/6RmFU
+ hjGA==
+X-Gm-Message-State: AOAM5314gc8qp3hCinOowzzLxtWsyTzZYauFS08+UiRWJO5ZVRDUfXsF
+ Juc119+Y8Zr4UG9v1zOigF1SRZRoQum3oyJGW0XRP6bkzdg3UUM/ZsDPgl9bqSyt0pJW9lC5xCQ
+ V18yCsuc7tzs76nw=
+X-Received: by 2002:a05:6402:1d54:: with SMTP id
+ dz20mr5165997edb.395.1642787001604; 
+ Fri, 21 Jan 2022 09:43:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwvChIXoweednUo0VZi9nvgBSGALWIbefvw1yD5SSLGFU4wbPgkPh8UKAchbjZbNJp8OKOSsg==
+X-Received: by 2002:a05:6402:1d54:: with SMTP id
+ dz20mr5165961edb.395.1642787001295; 
+ Fri, 21 Jan 2022 09:43:21 -0800 (PST)
+Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
+ ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id gz12sm2248650ejc.124.2022.01.21.09.43.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Jan 2022 09:43:20 -0800 (PST)
+Message-ID: <89193ddf-2c1a-d6ca-12a1-9b1e4d255c30@redhat.com>
+Date: Fri, 21 Jan 2022 18:43:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] ppc/pnv: Fail DMA access if page permissions are not
- correct
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v3 14/16] job.c: use job_get_aio_context()
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org
+References: <20220105140208.365608-1-eesposit@redhat.com>
+ <20220105140208.365608-15-eesposit@redhat.com>
+ <19305447-1ba0-0646-1c81-83b83c56ba79@redhat.com>
+ <bfbffe7e-88b6-353e-9cdd-e78106ed1867@redhat.com>
+In-Reply-To: <bfbffe7e-88b6-353e-9cdd-e78106ed1867@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Frederic Barrat <fbarrat@linux.ibm.com>, <danielhb413@gmail.com>,
- <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
-References: <20220121152350.381685-1-fbarrat@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220121152350.381685-1-fbarrat@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: b662c9f8-a382-407b-b4e6-6dfb13cc59bf
-X-Ovh-Tracer-Id: 17213039253289208739
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrvddtgddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegrihhksehoiihlrggsshdrrhhu
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,88 +106,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@ozlabs.ru
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/21/22 16:23, Frederic Barrat wrote:
-> If an iommu page has wrong permissions, an error message is displayed,
-> but the access is allowed, which is odd. This patch fixes it.
 
 
-Being curious. How do you generate such errors ? could we have the
-output ?
-
-Thanks,
-
-C.
-
-
+On 21/01/2022 13:33, Emanuele Giuseppe Esposito wrote:
 > 
-> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
-> ---
->   hw/pci-host/pnv_phb3.c | 11 ++++++-----
->   hw/pci-host/pnv_phb4.c | 11 ++++++-----
->   2 files changed, 12 insertions(+), 10 deletions(-)
 > 
-> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-> index 7fb35dc031..a757f1a58e 100644
-> --- a/hw/pci-host/pnv_phb3.c
-> +++ b/hw/pci-host/pnv_phb3.c
-> @@ -816,18 +816,19 @@ static void pnv_phb3_translate_tve(PnvPhb3DMASpace *ds, hwaddr addr,
->           }
->   
->           /* We exit the loop with TCE being the final TCE */
-> -        tce_mask = ~((1ull << tce_shift) - 1);
-> -        tlb->iova = addr & tce_mask;
-> -        tlb->translated_addr = tce & tce_mask;
-> -        tlb->addr_mask = ~tce_mask;
-> -        tlb->perm = tce & 3;
->           if ((is_write & !(tce & 2)) || ((!is_write) && !(tce & 1))) {
->               phb3_error(phb, "TCE access fault at 0x%"PRIx64, taddr);
->               phb3_error(phb, " xlate %"PRIx64":%c TVE=%"PRIx64, addr,
->                          is_write ? 'W' : 'R', tve);
->               phb3_error(phb, " tta=%"PRIx64" lev=%d tts=%d tps=%d",
->                          tta, lev, tts, tps);
-> +            return;
->           }
-> +        tce_mask = ~((1ull << tce_shift) - 1);
-> +        tlb->iova = addr & tce_mask;
-> +        tlb->translated_addr = tce & tce_mask;
-> +        tlb->addr_mask = ~tce_mask;
-> +        tlb->perm = tce & 3;
->       }
->   }
->   
-> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-> index a78add75b0..ee56377c02 100644
-> --- a/hw/pci-host/pnv_phb4.c
-> +++ b/hw/pci-host/pnv_phb4.c
-> @@ -1291,18 +1291,19 @@ static void pnv_phb4_translate_tve(PnvPhb4DMASpace *ds, hwaddr addr,
->           }
->   
->           /* We exit the loop with TCE being the final TCE */
-> -        tce_mask = ~((1ull << tce_shift) - 1);
-> -        tlb->iova = addr & tce_mask;
-> -        tlb->translated_addr = tce & tce_mask;
-> -        tlb->addr_mask = ~tce_mask;
-> -        tlb->perm = tce & 3;
->           if ((is_write & !(tce & 2)) || ((!is_write) && !(tce & 1))) {
->               phb_error(ds->phb, "TCE access fault at 0x%"PRIx64, taddr);
->               phb_error(ds->phb, " xlate %"PRIx64":%c TVE=%"PRIx64, addr,
->                          is_write ? 'W' : 'R', tve);
->               phb_error(ds->phb, " tta=%"PRIx64" lev=%d tts=%d tps=%d",
->                          tta, lev, tts, tps);
-> +            return;
->           }
-> +        tce_mask = ~((1ull << tce_shift) - 1);
-> +        tlb->iova = addr & tce_mask;
-> +        tlb->translated_addr = tce & tce_mask;
-> +        tlb->addr_mask = ~tce_mask;
-> +        tlb->perm = tce & 3;
->       }
->   }
->   
+> On 19/01/2022 11:31, Paolo Bonzini wrote:
+>>> diff --git a/blockjob.c b/blockjob.c
+>>> index cf1f49f6c2..468ba735c5 100644
+>>> --- a/blockjob.c
+>>> +++ b/blockjob.c
+>>> @@ -155,14 +155,16 @@ static void child_job_set_aio_ctx(BdrvChild *c, 
+>>> AioContext *ctx,
+>>>           bdrv_set_aio_context_ignore(sibling->bs, ctx, ignore);
+>>>       }
+>>> -    job->job.aio_context = ctx;
+>>> +    WITH_JOB_LOCK_GUARD() {
+>>> +        job->job.aio_context = ctx;
+>>> +    }
+>>>   }
+>>>   static AioContext *child_job_get_parent_aio_context(BdrvChild *c)
+>>>   {
+>>>       BlockJob *job = c->opaque;
+>>> -    return job->job.aio_context;
+>>> +    return job_get_aio_context(&job->job);
+>>>   }
+>>>   static const BdrvChildClass child_job = {
+>>
+>> Both called with BQL held, I think.
 > 
+> Yes, as their callbacks .get_parent_aio_context and .set_aio_context are 
+> defined as GS functions in block_int-common.h
+>>
+>>> @@ -218,19 +220,21 @@ int block_job_add_bdrv(BlockJob *job, const 
+>>> char *name, BlockDriverState *bs,
+>>>   {
+>>>       BdrvChild *c;
+>>>       bool need_context_ops;
+>>> +    AioContext *job_aiocontext;
+>>>       assert(qemu_in_main_thread());
+>>>       bdrv_ref(bs);
+>>> -    need_context_ops = bdrv_get_aio_context(bs) != 
+>>> job->job.aio_context;
+>>> +    job_aiocontext = job_get_aio_context(&job->job);
+>>> +    need_context_ops = bdrv_get_aio_context(bs) != job_aiocontext;
+>>> -    if (need_context_ops && job->job.aio_context != 
+>>> qemu_get_aio_context()) {
+>>> -        aio_context_release(job->job.aio_context);
+>>> +    if (need_context_ops && job_aiocontext != qemu_get_aio_context()) {
+>>> +        aio_context_release(job_aiocontext);
+>>>       }
+>>>       c = bdrv_root_attach_child(bs, name, &child_job, 0, perm, 
+>>> shared_perm, job,
+>>>                                  errp);
+>>> -    if (need_context_ops && job->job.aio_context != 
+>>> qemu_get_aio_context()) {
+>>> -        aio_context_acquire(job->job.aio_context);
+>>> +    if (need_context_ops && job_aiocontext != qemu_get_aio_context()) {
+>>> +        aio_context_acquire(job_aiocontext);
+>>>       }
+>>>       if (c == NULL) {
+>>>           return -EPERM;
+>>
+>> BQL held, too.
+> 
+> Wouldn't it be better to keep job_get_aio_context and implement like this:
+> 
+> AioContext *job_get_aio_context(Job *job)
+> {
+>      /*
+>       * Job AioContext can be written under BQL+job_mutex,
+>       * but can be read with just the BQL held.
+>       */
+>      assert(qemu_in_main_thread());
+>      return job->aio_context;
+> }
+
+Uhm ok this one doesn't really work, because it's ok to read it under 
+either BQL or job lock. So I will get rid of job_get_aio_context, but 
+add job_set_aio_context (and use it in child_job_set_aio_ctx).
+
+Emanuele
+> 
+> and instead job_set_aio_context:
+> 
+> void job_set_aio_context(Job *job, AioContext *ctx)
+> {
+>      JOB_LOCK_GUARD();
+>      assert(qemu_in_main_thread());
+>      job->aio_context = ctx;
+> }
+> 
+> (obviously implement also _locked version, if needed, and probably move 
+> the comment in get_aio_context in job.h).
+> 
+> Thank you,
+> Emanuele
 
 
