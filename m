@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2E29496662
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 21:38:17 +0100 (CET)
-Received: from localhost ([::1]:60134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B82C649669A
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 21:49:42 +0100 (CET)
+Received: from localhost ([::1]:54292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB0fp-0001eT-3J
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 15:38:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58714)
+	id 1nB0qr-0000MB-J3
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 15:49:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nB0Ze-0005sl-Ig
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:31:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22550)
+ id 1nB0Zk-00064S-1Q
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:32:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nB0Zc-0003er-Tt
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:31:54 -0500
+ id 1nB0Zi-0003fG-16
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:31:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642797112;
+ s=mimecast20190719; t=1642797117;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XQR7/zXXZ1qr/kaP+WOypxUDZe+kG+bCuBCwWqVNujo=;
- b=OikDs3dRQ4sm9MdfLfXK79bQaaa3gG4v0JSeoEfy3qn4ptQ8EzEy4UQSuDsADSUqJ+Sh96
- XtPOzEZIY4ouIQFykYUMaP1iEbb1gwRyikp36yn1Vuo9okUJllzChxboiOuzVNj/plfZkx
- PYR283B0y8kAS57ece3DnY+CPbewVbA=
+ bh=4uUEthkLuffyBdIe45nACcX3HfetQ/LiHwxlBekizvI=;
+ b=WY3Z51qsiRoobCOhlZdUu/5LpR1VaeeE8xqsA4M2XXFkujt5x16QvK5xfk95rm8b7PJ6Rt
+ jnr0iBT8cB9J5dB1z1HTZQwvDhxneXnZQ8df+XwGUlwe14dOmsyKaTo9DfQS+R49ia85X2
+ pVvHsKk0+mmmQBsmwoqZL3O7zdpW+Kc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-660-77-PdLpNMp2fDOmOxU4nvQ-1; Fri, 21 Jan 2022 15:31:51 -0500
-X-MC-Unique: 77-PdLpNMp2fDOmOxU4nvQ-1
+ us-mta-556-wQrbwDZDMhysgNMaWnkXvw-1; Fri, 21 Jan 2022 15:31:56 -0500
+X-MC-Unique: wQrbwDZDMhysgNMaWnkXvw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 749FC814243;
- Fri, 21 Jan 2022 20:31:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB80394EE0;
+ Fri, 21 Jan 2022 20:31:54 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.193.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 89607E2CB;
- Fri, 21 Jan 2022 20:30:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C046416A31;
+ Fri, 21 Jan 2022 20:31:49 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/31] vdpa: Add vhost_svq_get_dev_kick_notifier
-Date: Fri, 21 Jan 2022 21:27:05 +0100
-Message-Id: <20220121202733.404989-4-eperezma@redhat.com>
+Subject: [PATCH 04/31] vdpa: Add vhost_svq_set_svq_kick_fd
+Date: Fri, 21 Jan 2022 21:27:06 +0100
+Message-Id: <20220121202733.404989-5-eperezma@redhat.com>
 In-Reply-To: <20220121202733.404989-1-eperezma@redhat.com>
 References: <20220121202733.404989-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -94,60 +94,105 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Is needed so vhost-vdpa knows the device's kick event fd.
+This function allows the vhost-vdpa backend to override kick_fd.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.h |  4 ++++
- hw/virtio/vhost-shadow-virtqueue.c | 10 +++++++++-
- 2 files changed, 13 insertions(+), 1 deletion(-)
+ hw/virtio/vhost-shadow-virtqueue.h |  1 +
+ hw/virtio/vhost-shadow-virtqueue.c | 45 ++++++++++++++++++++++++++++++
+ 2 files changed, 46 insertions(+)
 
 diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
-index 61ea112002..400effd9f2 100644
+index 400effd9f2..a56ecfc09d 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.h
 +++ b/hw/virtio/vhost-shadow-virtqueue.h
-@@ -11,9 +11,13 @@
- #define VHOST_SHADOW_VIRTQUEUE_H
- 
- #include "hw/virtio/vhost.h"
-+#include "qemu/event_notifier.h"
+@@ -15,6 +15,7 @@
  
  typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
  
-+const EventNotifier *vhost_svq_get_dev_kick_notifier(
-+                                              const VhostShadowVirtqueue *svq);
-+
- VhostShadowVirtqueue *vhost_svq_new(void);
++void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kick_fd);
+ const EventNotifier *vhost_svq_get_dev_kick_notifier(
+                                               const VhostShadowVirtqueue *svq);
  
- void vhost_svq_free(VhostShadowVirtqueue *vq);
 diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 5ee7b401cb..bd87110073 100644
+index bd87110073..21534bc94d 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.c
 +++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -11,7 +11,6 @@
+@@ -11,6 +11,7 @@
  #include "hw/virtio/vhost-shadow-virtqueue.h"
  
  #include "qemu/error-report.h"
--#include "qemu/event_notifier.h"
++#include "qemu/main-loop.h"
  
  /* Shadow virtqueue to relay notifications */
  typedef struct VhostShadowVirtqueue {
-@@ -21,6 +20,15 @@ typedef struct VhostShadowVirtqueue {
+@@ -18,8 +19,20 @@ typedef struct VhostShadowVirtqueue {
+     EventNotifier hdev_kick;
+     /* Shadow call notifier, sent to vhost */
      EventNotifier hdev_call;
++
++    /*
++     * Borrowed virtqueue's guest to host notifier.
++     * To borrow it in this event notifier allows to register on the event
++     * loop and access the associated shadow virtqueue easily. If we use the
++     * VirtQueue, we don't have an easy way to retrieve it.
++     *
++     * So shadow virtqueue must not clean it, or we would lose VirtQueue one.
++     */
++    EventNotifier svq_kick;
  } VhostShadowVirtqueue;
  
++#define INVALID_SVQ_KICK_FD -1
++
+ /**
+  * The notifier that SVQ will use to notify the device.
+  */
+@@ -29,6 +42,35 @@ const EventNotifier *vhost_svq_get_dev_kick_notifier(
+     return &svq->hdev_kick;
+ }
+ 
 +/**
-+ * The notifier that SVQ will use to notify the device.
++ * Set a new file descriptor for the guest to kick SVQ and notify for avail
++ *
++ * @svq          The svq
++ * @svq_kick_fd  The new svq kick fd
 + */
-+const EventNotifier *vhost_svq_get_dev_kick_notifier(
-+                                               const VhostShadowVirtqueue *svq)
++void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kick_fd)
 +{
-+    return &svq->hdev_kick;
++    EventNotifier tmp;
++    bool check_old = INVALID_SVQ_KICK_FD !=
++                     event_notifier_get_fd(&svq->svq_kick);
++
++    if (check_old) {
++        event_notifier_set_handler(&svq->svq_kick, NULL);
++        event_notifier_init_fd(&tmp, event_notifier_get_fd(&svq->svq_kick));
++    }
++
++    /*
++     * event_notifier_set_handler already checks for guest's notifications if
++     * they arrive to the new file descriptor in the switch, so there is no
++     * need to explicitely check for them.
++     */
++    event_notifier_init_fd(&svq->svq_kick, svq_kick_fd);
++
++    if (!check_old || event_notifier_test_and_clear(&tmp)) {
++        event_notifier_set(&svq->hdev_kick);
++    }
 +}
 +
  /**
   * Creates vhost shadow virtqueue, and instruct vhost device to use the shadow
   * methods and file descriptors.
+@@ -52,6 +94,9 @@ VhostShadowVirtqueue *vhost_svq_new(void)
+         goto err_init_hdev_call;
+     }
+ 
++    /* Placeholder descriptor, it should be deleted at set_kick_fd */
++    event_notifier_init_fd(&svq->svq_kick, INVALID_SVQ_KICK_FD);
++
+     return g_steal_pointer(&svq);
+ 
+ err_init_hdev_call:
 -- 
 2.27.0
 
