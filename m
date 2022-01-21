@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 844CB49648F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 18:54:33 +0100 (CET)
-Received: from localhost ([::1]:36708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1A6C4964E5
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 19:18:20 +0100 (CET)
+Received: from localhost ([::1]:40966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAy7M-0004Qa-Lo
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 12:54:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41002)
+	id 1nAyUN-0001tt-OX
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 13:18:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nAxNK-00088G-9H
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:06:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25873)
+ id 1nAxNL-0008BW-FR
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:06:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nAxNG-0000SU-Ha
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:06:57 -0500
+ id 1nAxNI-0000TU-NP
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:06:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642784813;
+ s=mimecast20190719; t=1642784815;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sYEfRwr8JyuqSXsykGshfwdHep6egBDp7FLiwT4O8Eg=;
- b=FYDM1+yvy/cVCBeFmj9jWhvGQKruIAMM4nueXYiFpoXqxDbkLGMuzc2xAZFNlhp8u4qOBG
- zY7leDQwjnrfwI72mn1xl7cffI13IECzhXC5WHmup95gy4dDdmLKZ2u2dEfJh2mx34W52U
- zQAMj7v2z1V4F+5RiXBmNGgL058wYi0=
+ bh=+AwrhQuxVjOGc7jCEZ5S/bTsQEmYjMm1qSAIwO9knnM=;
+ b=Lac+ZIj5HP8KVP6QU+JR1YG/CTFHPPIe3bspYFD7zl85kGQxQXHyvUr+XNgn/CUVxN1weh
+ ZbeDI9TtwXa29jLtxn7t+kLXyzcOuSt+b2IuvE1x2N7uQQfwiUBF47AnceFRmLoQ/63/X8
+ v9kPXKM2ey57cCIJzJYgY+U9GMG+V5c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-316-xPjmfcyjMpSCOO7rQWY-HA-1; Fri, 21 Jan 2022 12:06:50 -0500
-X-MC-Unique: xPjmfcyjMpSCOO7rQWY-HA-1
+ us-mta-616-wIqxX9uuO5iYQhot6o4bDg-1; Fri, 21 Jan 2022 12:06:52 -0500
+X-MC-Unique: wIqxX9uuO5iYQhot6o4bDg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F783190B2A7;
- Fri, 21 Jan 2022 17:06:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC9181091DA0;
+ Fri, 21 Jan 2022 17:06:50 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6F1257E918;
- Fri, 21 Jan 2022 17:06:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2A11C7EBCA;
+ Fri, 21 Jan 2022 17:06:49 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 28/33] job.h: split function pointers in JobDriver
-Date: Fri, 21 Jan 2022 12:05:39 -0500
-Message-Id: <20220121170544.2049944-29-eesposit@redhat.com>
+Subject: [PATCH v6 29/33] job.h: assertions in the callers of JobDriver
+ funcion pointers
+Date: Fri, 21 Jan 2022 12:05:40 -0500
+Message-Id: <20220121170544.2049944-30-eesposit@redhat.com>
 In-Reply-To: <20220121170544.2049944-1-eesposit@redhat.com>
 References: <20220121170544.2049944-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -67,7 +68,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,63 +100,80 @@ Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The job API will be handled separately in another serie.
-
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- include/qemu/job.h | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ job.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/include/qemu/job.h b/include/qemu/job.h
-index 6e67b6977f..4ea7a4a0cd 100644
---- a/include/qemu/job.h
-+++ b/include/qemu/job.h
-@@ -169,6 +169,12 @@ typedef struct Job {
-  * Callbacks and other information about a Job driver.
-  */
- struct JobDriver {
-+
-+    /*
-+     * These fields are initialized when this object is created,
-+     * and are never changed afterwards
-+     */
-+
-     /** Derived Job struct size */
-     size_t instance_size;
+diff --git a/job.c b/job.c
+index 54db80df66..39bf511949 100644
+--- a/job.c
++++ b/job.c
+@@ -381,6 +381,8 @@ void job_ref(Job *job)
  
-@@ -184,9 +190,18 @@ struct JobDriver {
-      * aborted. If it returns zero, the job moves into the WAITING state. If it
-      * is the last job to complete in its transaction, all jobs in the
-      * transaction move from WAITING to PENDING.
-+     *
-+     * This callback must be run in the job's context.
-      */
-     int coroutine_fn (*run)(Job *job, Error **errp);
- 
-+    /*
-+     * Functions run without regard to the BQL that may run in any
-+     * arbitrary thread. These functions do not need to be thread-safe
-+     * because the caller ensures that they are invoked from one
-+     * thread at time.
-+     */
+ void job_unref(Job *job)
+ {
++    assert(qemu_in_main_thread());
 +
-     /**
-      * If the callback is not NULL, it will be invoked when the job transitions
-      * into the paused state.  Paused jobs must not perform any asynchronous
-@@ -201,6 +216,13 @@ struct JobDriver {
-      */
-     void coroutine_fn (*resume)(Job *job);
+     if (--job->refcnt == 0) {
+         assert(job->status == JOB_STATUS_NULL);
+         assert(!timer_pending(&job->sleep_timer));
+@@ -602,6 +604,7 @@ bool job_user_paused(Job *job)
+ void job_user_resume(Job *job, Error **errp)
+ {
+     assert(job);
++    assert(qemu_in_main_thread());
+     if (!job->user_paused || job->pause_count <= 0) {
+         error_setg(errp, "Can't resume a job that was not paused");
+         return;
+@@ -672,6 +675,7 @@ static void job_update_rc(Job *job)
+ static void job_commit(Job *job)
+ {
+     assert(!job->ret);
++    assert(qemu_in_main_thread());
+     if (job->driver->commit) {
+         job->driver->commit(job);
+     }
+@@ -680,6 +684,7 @@ static void job_commit(Job *job)
+ static void job_abort(Job *job)
+ {
+     assert(job->ret);
++    assert(qemu_in_main_thread());
+     if (job->driver->abort) {
+         job->driver->abort(job);
+     }
+@@ -687,6 +692,7 @@ static void job_abort(Job *job)
  
-+    /*
-+     * Global state (GS) API. These functions run under the BQL lock.
-+     *
-+     * See include/block/block-global-state.h for more information about
-+     * the GS API.
-+     */
-+
-     /**
-      * Called when the job is resumed by the user (i.e. user_paused becomes
-      * false). .user_resume is called before .resume.
+ static void job_clean(Job *job)
+ {
++    assert(qemu_in_main_thread());
+     if (job->driver->clean) {
+         job->driver->clean(job);
+     }
+@@ -726,6 +732,7 @@ static int job_finalize_single(Job *job)
+ 
+ static void job_cancel_async(Job *job, bool force)
+ {
++    assert(qemu_in_main_thread());
+     if (job->driver->cancel) {
+         force = job->driver->cancel(job, force);
+     } else {
+@@ -825,6 +832,7 @@ static void job_completed_txn_abort(Job *job)
+ 
+ static int job_prepare(Job *job)
+ {
++    assert(qemu_in_main_thread());
+     if (job->ret == 0 && job->driver->prepare) {
+         job->ret = job->driver->prepare(job);
+         job_update_rc(job);
+@@ -1054,6 +1062,7 @@ void job_complete(Job *job, Error **errp)
+ {
+     /* Should not be reachable via external interface for internal jobs */
+     assert(job->id);
++    assert(qemu_in_main_thread());
+     if (job_apply_verb(job, JOB_VERB_COMPLETE, errp)) {
+         return;
+     }
 -- 
 2.31.1
 
