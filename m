@@ -2,90 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD03E495CD0
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 10:27:35 +0100 (CET)
-Received: from localhost ([::1]:51628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACBA7495CD8
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 10:32:42 +0100 (CET)
+Received: from localhost ([::1]:59996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAqCk-0000Ay-UR
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 04:27:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54260)
+	id 1nAqHh-0005s0-O0
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 04:32:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAn1L-0000Ee-O0
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:03:37 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:60345)
+ id 1nAn1j-0000Zs-9k
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:03:59 -0500
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:60338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAn1G-0004B6-K0
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:03:34 -0500
+ id 1nAn1h-0004AK-Jc
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:03:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1642745010; x=1674281010;
+ t=1642745037; x=1674281037;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=8GLgidKFmTM0na/tvygKsEkZ/UYLfAM6RbzY3orjP+k=;
- b=TnjUN5VEuyXCcwwXQw/KaWpIdUZ8S6r4UEiZpOOaiVWylRdMgT+FIJFg
- kJ+cD9TupH5MX1OlImFcNbqNPIXj8MrKNYSmkLqv0cG8l/fYhmN3U4W/d
- pCV5IVZDtzLrtDvDbJQM/l2/vkzeYaqZ3YaSM6HiOTTcih8/94rsh2SG0
- L5w/7Epehn1QrSQ3ytAl9Hgyh/kCFKb+uqofZB0o7Th3tLICOiEK4FiJO
- s4DY7QPOJNkUzu1m0xRn70cJ9y9CugoV397nHB8lt4o0OwxEKqk5mWrga
- LsXoS7sh8hDC6hgEhpB74YzX/O0F6Agaq9hkQ9bb0BoUUlB5GqzmKbaar g==;
-X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="295083161"
+ bh=kTpQPSuY1qtuTV+1mq+AHYohvMuxfstaDsnFnRDkH6U=;
+ b=Mi+hqSCMDpCkPypT7CUrgQ4d0eUSzKphKBnb9rLKGhbkyYqb4k97eINO
+ UN4izKSfuuQ9x71rvRbm9xraV/eACm2I9qSgfwZf7+N4i9/sogET1OxBa
+ 7855K/XHw6J4SqIWk3nEfkhRwGCeuARxPXbYZVuhS387oLdxNGtlvopmK
+ Uwf+jGyYY82XVw5Hx54s4Nib11UNon2S2LlvQX8AFoY775NIBOnO/3rAD
+ eQ3I/jsmEA1eyY1K61d9vpiQWXSYVikI/iBvXftldzazeL3Sc+lUxwB/G
+ VWrIML1Zdtr059TpmO+/VQdrldZ7gXE429r4ES/x3bjdKK0EjpiZSJE6l Q==;
+X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="295083178"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 14:02:36 +0800
-IronPort-SDR: zOFTLOCgr/DMU7grj4cBsQM4knaVrUQ1y4hjm0P+iBKlU2UQ9LKgcuaIxVcVqwlLwORDLR1mFn
- 2F4PuQMeO0i+Xi5kLRXA6uP7s+APGB1KOTaUJOA0ykhDauk9oFFMzLZWahdzhlj4xy5dB6ZYRX
- 0QMHfBBbFTW2ReogN1DFbtU8hxtUgT2eHdAHje9YssUrr8uDRT0/LtLv3JMmOu9w+vR4sshN3t
- AaOcc8UkQUgc7ZkDcNRk4YX5xKFrNGwiRzp0M0xbb98gMUHHhcbB3/8l0Al+3RsSyL1VBKcz8h
- q+Wi6zXwIwG+rFW0tiFgHBpv
+ by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 14:02:56 +0800
+IronPort-SDR: e+XzDLdTn3QjImg6UIvXq+tkPQOLFWku/fOdKpO2HFudht2H4e0fdt9jweOM3gLh7Vs+O8Ly4U
+ z7cqppDR9W/yfeQr6cxmDN/NsLleQ4w+XlS3+HiUfjB/kRFAjVOIx+iKAQWUWEi52kAdFUkuUS
+ Z/PKZol4xqynhtLSJ2FeH6CpqkqMe++ynqSIeskDfSDGMONc2QCPphj16gTShdLhbEXxzHehy+
+ iHDtPZ21i4VTl+NwHopRvvQQLkNx8Q0SsK5yhGgVJZUbR/29PLQ6pT2hqsCNE9Q9vA30Yj31a/
+ eklrs+DNbxm3KchABX3ISFrY
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 21:36:04 -0800
-IronPort-SDR: 3cXTo8+tdkL1zxD2ieYR8n804dCVE8MUGzB8GJ9LbY2+VnY1hdiqKjxmO/3evcpOxcK5mqr/sR
- z5txD9JiOmyLft8t97q48yb5yY8THfzjlXEOOXqVNnoAMb6mBXmWjDjrs0Z5a+k1DVVPMvKea/
- 4lvehHtSIMA7MZHZFaf2VZznh9X9OFxaTWyeTzgLmrm3DyP4/sl6XZpwBV+IIWAdCCWhFDDDiX
- 6wMYgaiw2lbxI6sr80vLjOsGN3cUmh2yS4GP1d+0jY6CpKGXX8xZbGKka76gHtUFW+l43UnMAd
- v18=
+ 20 Jan 2022 21:36:23 -0800
+IronPort-SDR: 2jtElZCECDwv+G1EhsjtmxgIyGmsjJo3+JLEhM9jvJZHaA5OlShYCu4V90pdKMWYRUTi/N0Dyq
+ yK7l8mOUWVgUB6boXVeClx8CucSrkw5TcOXosIxo9qVT9cBM7ZbzUF92moU45N5pNWLOvpWRQD
+ I9wX36I3xlYYZpvGLXJ8lZA7e2ovlj/SJ4KMGHQDK66KludXu1t4AmmCdT2HP+PNHrJlZBoWie
+ GyFztG4Vlh7hIIseVVW8pORxnu72/5sSSxRGIsT1lr7INucAQ+DTho/SKBLJHkpMXt4Revvvqd
+ LYI=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 22:02:36 -0800
+ 20 Jan 2022 22:02:56 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg81831JVz1SVp1
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 22:02:36 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg81X03n6z1SVp1
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 22:02:56 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1642744956; x=1645336957; bh=8GLgidKFmTM0na/tvy
- gKsEkZ/UYLfAM6RbzY3orjP+k=; b=LrqM1J7kRxJqg2pGPeFkEwC+Cu1QvjaKHF
- py626t0+Gt25fPX+UXr3eJov4oWfhh2kJcbhBRKxeJ1TmEPaAhFfAzbW1uZjtmzz
- PXVb2FXr3KTUGAjFsFBTfRY9N1sHz20Cnt5wVbLLUIEg5DsPnx1hYpvh2PIU7tLC
- wx35v+2GcJqcFShKjTR+XcEf4Is78Ymi098WjXoalSNEnMnO6oBbOsiGiyhW3cH9
- ExIYxD4JVMsCj3lkmKs+1RDEu+4+/qJLYwZe/AzJUayQS6O+GdCumaJjnus0D7c2
- q/hB+eXFOiSk6tdVSX7NQDZFBFYCKUv0p0jlbJLgfDBYQJjnESag==
+ :from; s=dkim; t=1642744975; x=1645336976; bh=kTpQPSuY1qtuTV+1mq
+ +AHYohvMuxfstaDsnFnRDkH6U=; b=dT5TshaUuImWqoS9X1OrzodXoVUUaMJgzz
+ 0gRSs8DyTHZIcLQ0W4NxxAIhaM2ohWZtD1ub4bzAwX2+Y7LCF/7IXRsdyYLy0mM0
+ SOzh4h5T7i8B+/z8+/qB+XVYkvgxePohhMl4I+NJtZsm1CyDKWPNjjbLcSLYSMtH
+ M21Y5qcByS94GKCrTt9tqJV0FP99mDQTVjMypR9mXMvxhBFlajOoleMtTeJ8lE/I
+ kVbITi2g5SSlbVW720yQaS6bYVIDP4iDUBhePak6WCuWcuLDQGWwcaZB5u5bzk13
+ 6YdXDuphF7lcf7wllL8xWoFx41yNZ4QXMgwi4BgQPWjosxccNl9A==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id KMI6urYlwk9d for <qemu-devel@nongnu.org>;
- Thu, 20 Jan 2022 22:02:36 -0800 (PST)
+ port 10026) with ESMTP id KDIRQ0rDE8qy for <qemu-devel@nongnu.org>;
+ Thu, 20 Jan 2022 22:02:55 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.80])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg81500cpz1RvlN;
- Thu, 20 Jan 2022 22:02:32 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg81T0JRcz1RvlN;
+ Thu, 20 Jan 2022 22:02:52 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, LIU Zhiwei <zhiwei_liu@c-sky.com>,
- Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 56/61] target/riscv: Fix check range for first fault only
-Date: Fri, 21 Jan 2022 15:58:25 +1000
-Message-Id: <20220121055830.3164408-57-alistair.francis@opensource.wdc.com>
+Subject: [PULL 61/61] target/riscv: Relax UXL field for debugging
+Date: Fri, 21 Jan 2022 15:58:30 +1000
+Message-Id: <20220121055830.3164408-62-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
 References: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
@@ -118,38 +117,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-Only check the range that has passed the address translation.
-
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20220120122050.41546-19-zhiwei_liu@c-sky.com
+Message-id: 20220120122050.41546-24-zhiwei_liu@c-sky.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/vector_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/riscv/csr.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 8b7c9ec890..efb3129532 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -500,12 +500,12 @@ vext_ldff(void *vd, void *v0, target_ulong base,
-                                          cpu_mmu_index(env, false));
-                 if (host) {
- #ifdef CONFIG_USER_ONLY
--                    if (page_check_range(addr, nf << esz, PAGE_READ) < 0=
-) {
-+                    if (page_check_range(addr, offset, PAGE_READ) < 0) {
-                         vl =3D i;
-                         goto ProbeSuccess;
-                     }
- #else
--                    probe_pages(env, addr, nf << esz, ra, MMU_DATA_LOAD)=
-;
-+                    probe_pages(env, addr, offset, ra, MMU_DATA_LOAD);
- #endif
-                 } else {
-                     vl =3D i;
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 523d07a95e..e5f9d4ef93 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -584,7 +584,7 @@ static RISCVException write_mstatus(CPURISCVState *en=
+v, int csrno,
+         MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
+         MSTATUS_TW | MSTATUS_VS;
+=20
+-    if (xl !=3D MXL_RV32) {
++    if (xl !=3D MXL_RV32 || env->debugger) {
+         /*
+          * RV32: MPV and GVA are not in mstatus. The current plan is to
+          * add them to mstatush. For now, we just don't support it.
+@@ -900,7 +900,7 @@ static RISCVException read_sstatus_i128(CPURISCVState=
+ *env, int csrno,
+ {
+     uint64_t mask =3D sstatus_v1_10_mask;
+     uint64_t sstatus =3D env->mstatus & mask;
+-    if (env->xl !=3D MXL_RV32) {
++    if (env->xl !=3D MXL_RV32 || env->debugger) {
+         mask |=3D SSTATUS64_UXL;
+     }
+=20
+@@ -912,7 +912,7 @@ static RISCVException read_sstatus(CPURISCVState *env=
+, int csrno,
+                                    target_ulong *val)
+ {
+     target_ulong mask =3D (sstatus_v1_10_mask);
+-    if (env->xl !=3D MXL_RV32) {
++    if (env->xl !=3D MXL_RV32 || env->debugger) {
+         mask |=3D SSTATUS64_UXL;
+     }
+     /* TODO: Use SXL not MXL. */
+@@ -925,7 +925,7 @@ static RISCVException write_sstatus(CPURISCVState *en=
+v, int csrno,
+ {
+     target_ulong mask =3D (sstatus_v1_10_mask);
+=20
+-    if (env->xl !=3D MXL_RV32) {
++    if (env->xl !=3D MXL_RV32 || env->debugger) {
+         if ((val & SSTATUS64_UXL) !=3D 0) {
+             mask |=3D SSTATUS64_UXL;
+         }
 --=20
 2.31.1
 
