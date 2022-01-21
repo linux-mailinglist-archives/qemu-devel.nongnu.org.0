@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 703EB4967C6
+	by mail.lfdr.de (Postfix) with ESMTPS id A803E4967C7
 	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 23:21:40 +0100 (CET)
-Received: from localhost ([::1]:39412 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:39486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB2Hr-0002W2-1I
+	id 1nB2Hr-0002Yl-NG
 	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 17:21:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51104)
+Received: from eggs.gnu.org ([209.51.188.92]:51112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <svens@stackframe.org>)
- id 1nB2D0-0000Qh-Oa
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 17:16:38 -0500
-Received: from outbound5i.eu.mailhop.org ([35.156.234.212]:55838)
+ id 1nB2D2-0000Qq-5V
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 17:16:41 -0500
+Received: from outbound5e.eu.mailhop.org ([52.28.168.19]:55995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <svens@stackframe.org>)
- id 1nB2Cy-0005tz-Rg
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 17:16:38 -0500
+ id 1nB2Cz-0005u6-Qg
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 17:16:39 -0500
 ARC-Seal: i=1; a=rsa-sha256; t=1642803395; cv=none;
  d=outbound.mailhop.org; s=arc-outbound20181012;
- b=TKpv3DABgGUOiCBnem+06K1DCfhBdnbHDzA5v3xklYCV4Aix9qY9w0BNfyGC+OpbC5R4Tako1fMun
- uKshYhz5IbZIZOresEGBlyEvmS7G1l96mf3uZXevQaOA4K3+6u6k985SV0DbXoiRABukxcTdqWXWDX
- HxH0ff2SGTy8PHtkPBo8m6tSIv1TsX/MnugT4z2cALli1fsCzkfVtF78ZPvRN7WxDi1OqgRSxwYiBl
- 9LL4r/oKfNbGrFiP8C/S3oIxKya1JjRJLuGRAlbYsktQgxeyKMb4gpPpIokYGyrr8ebEj9VWwYwUPM
- LEAuj8AqtWiPl7pRHpzL4X2trCrHVfg==
+ b=aFIRkaBBoeATAM4cUVc9wHW/OAYQjnlbLg6XPGHY//turUSDVn3mySQ1uErjeY7GQME/H5hmTrh5K
+ pOq4GkIdIi6Mf2vWz97AWflD94cgnkSXS2xzA5E9m8NEkzpP8fMxI85nnbq+2zyDAfysIMNBHW5Ril
+ Bz+sqBDtXC0bFUxz693Yftpl1ggr85I5ZtBKGQfpO09FA8bsxH1i80tHGn7AVaJgISrR9f63nbW8p0
+ KQECjkLPItzpYOAtPjLmX3jBYDX9qcjhODTExW6o4vFjdFVjEz50H/15okUweekUgoX0DpADzD97o+
+ xVglXn5zlfWvfQJ657B5ICCRA3kYh7w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
  d=outbound.mailhop.org; s=arc-outbound20181012;
  h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
  subject:cc:to:from:dkim-signature:dkim-signature:from;
- bh=+TFtKvGbpFMj5aBwp88gHv/RtxEy+AzLV1ymRJ96KAs=;
- b=HEaxpA+diwmZjqoGTv5MPxixKoEbW3qN4cm0HJwlAsfrHozkK/dEfLIhEy+T9wMwuiX0PEstIfMQN
- bDbXPpmFDqYed+8OXKRgLlbbIJg1UjJDYWq0Qy9ms2UxpZsum9beWnrkFG4cE0ZDisVJ8N9FXTAXCj
- qjE+9uN7qR873PyGErKP2/j75r9HJ5sONDJsvjsj5nOlWxaXvqVRvOTnN1YAuXq2y4iDWRAJIYlcTd
- fg5MMVUdH2rVa/Nujgjms5giXYxRloSWKl+KAmONt5EaODobVxhLCXWgFH1HB8FpkCO5SI7WxZggPl
- ydwcy6aQPSUnHcFtCmFiy8bKlNSZWAA==
+ bh=6PEyNXfGvwTXvuk8p2qZS05e470CbGdR7y1iKL/ViJs=;
+ b=M7GP1YYFmUZXeVyAG/GVfR47G3r3EVICrlNA2CrqTzhJ0FCPcskNPHEHBuTINbceBUb7+VhR89oll
+ BhX6O5WdmH/X6ev11TZx+fYwhVJKpHS/KsDMlfxxemeRtvzsBibPol5CB/T7wpM2vxUx6amaU+GEYr
+ hRQw5M42m+v67pJaew7knpIS4Nim0GNRbInLhNjpmNWzpYC1H+SUaMd8QvdXjj2wowQ7il+AW951YI
+ xKQrnMxc3F5pUYvrL5XRa5T+QoO8CalcUs1jrpdiKrS/K8riAXCkq20/dWZJCjRxs8+lVONTUtkItm
+ rhxrXNz9Hmw4zqgxgW+XQLvlYrUaduw==
 ARC-Authentication-Results: i=1; outbound2.eu.mailhop.org;
  spf=pass smtp.mailfrom=stackframe.org smtp.remote-ip=91.207.61.48;
  dmarc=none header.from=stackframe.org;
@@ -44,47 +44,47 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=stackframe.org; s=duo-1634547266507-560c42ae;
  h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
  subject:cc:to:from:from;
- bh=+TFtKvGbpFMj5aBwp88gHv/RtxEy+AzLV1ymRJ96KAs=;
- b=ZqBZdDIEFEYb5OW5UtyBNYvdM+EBOqzQoW8SDoYawKDi3bxWj0HNTmJSIAMMGdzmEXxARkH8CToyH
- /dytDKtTZPxItnflxVii1VSQ+m/UQminn3nOJKYiHYFLVtZER32HAJPWOmm/DBSAonmGtis0Z9C/V1
- iXF1zSdfSup6peDI=
+ bh=6PEyNXfGvwTXvuk8p2qZS05e470CbGdR7y1iKL/ViJs=;
+ b=UGGvn4AyT8zA6ud7/LRrA5sXWoqaX1xnB6aNqr+EY0KnRafhn7XOkZw8q3WYwvtaACuRdu1bKiJ5p
+ WnIa/ZUGm+NwwmTKF2+0V76ofhsdQee6yvqZjFqeNoEyROIwweb2JoLh2NXxzSm403mLPGcTZsx5ZC
+ mkyI7inXVR0SbybQ=
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=outbound.mailhop.org; s=dkim-high;
  h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
  subject:cc:to:from:from;
- bh=+TFtKvGbpFMj5aBwp88gHv/RtxEy+AzLV1ymRJ96KAs=;
- b=IOsMYKPPJ9UYFdrw5hWUEe1kVlEtfXz6aAAC3nHqB60p9m0liGmRWmnq2Ws1OEv0zPXnOmGFz4i9S
- Xna5Uw1dj2H2pqr6Lbcv34YrwayscJCH5eacfDYKVS5fMutdbzkgXN524WC3fsohyDgYvNcPnhOVzv
- yc00zfGjVH59ikl3PGv+KDQNu/giUPZkr+SNeBYe+n6ScjV0mfqxOWFLQS0GsxYCsO1bYljTjEKrGW
- hlLRxjnbXovLI9O88bhPWD0VM7IvKvQMdwR6oNrLftX0h585Xqi6MRplWhJ7MdQZLGSLW6EXBxnQYZ
- yL2MkOP8uk2WWGGByEzBofeps58ac/w==
+ bh=6PEyNXfGvwTXvuk8p2qZS05e470CbGdR7y1iKL/ViJs=;
+ b=o37ryuJ2s7Zmk9NZEUYA3OkL1lLHTLZ3z2Ucg3+O4nIpl9Un2m+CvWU8EyyoTWRMvV5D3YtY2gUy+
+ 6fcCKuYD9gvktFHBiYvRW0EnNHIhParCCmF886Y/HvHF1f8TFgCzwVuaehK0DUlZMxdmK/CUXfXWF8
+ bn/kshXNB4P4o9izRKtVshRwpJPncDxnCuB/17uq9Nbzq+QF6UH7qy2t1BRAo3OnRpHV5kcLfz853x
+ hMl+SMC+CoAIsAUMsOlBXqzAFpylaU9sS3xU/a3aXLOwx/EQDJPZkJHZDTGBd3KKRr3c5nHyYvYi6y
+ Ii8gLdoYen+eHyyS1oWbG3d7oBwWYdg==
 X-Originating-IP: 91.207.61.48
 X-MHO-RoutePath: dG9ta2lzdG5lcm51
-X-MHO-User: c8ee0656-7b07-11ec-a077-973b52397bcb
+X-MHO-User: c9d01154-7b07-11ec-a077-973b52397bcb
 X-Report-Abuse-To: https://support.duocircle.com/support/solutions/articles/5000540958-duocircle-standard-smtp-abuse-information
 X-Mail-Handler: DuoCircle Outbound SMTP
 Received: from mail.duncanthrax.net (propper.duncanthrax.net [91.207.61.48])
  by outbound2.eu.mailhop.org (Halon) with ESMTPSA
- id c8ee0656-7b07-11ec-a077-973b52397bcb;
- Fri, 21 Jan 2022 22:16:31 +0000 (UTC)
+ id c9d01154-7b07-11ec-a077-973b52397bcb;
+ Fri, 21 Jan 2022 22:16:32 +0000 (UTC)
 Received: from hsi-kbw-109-193-149-228.hsi7.kabel-badenwuerttemberg.de
  ([109.193.149.228] helo=x1.stackframe.org)
  by mail.duncanthrax.net with esmtpa (Exim 4.93)
  (envelope-from <svens@stackframe.org>)
- id 1nB2Cs-005WLL-38; Sat, 22 Jan 2022 00:16:30 +0200
+ id 1nB2Ct-005WLL-Jf; Sat, 22 Jan 2022 00:16:31 +0200
 From: Sven Schnelle <svens@stackframe.org>
 To: Helge Deller <deller@gmx.de>, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH 1/3] hw/display/artist: fix cursor position
-Date: Fri, 21 Jan 2022 23:16:17 +0100
-Message-Id: <20220121221619.1069447-2-svens@stackframe.org>
+Subject: [PATCH 2/3] hw/display/artist: allow to disable/enable cursor
+Date: Fri, 21 Jan 2022 23:16:18 +0100
+Message-Id: <20220121221619.1069447-3-svens@stackframe.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220121221619.1069447-1-svens@stackframe.org>
 References: <20220121221619.1069447-1-svens@stackframe.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=35.156.234.212; envelope-from=svens@stackframe.org;
- helo=outbound5i.eu.mailhop.org
+Received-SPF: pass client-ip=52.28.168.19; envelope-from=svens@stackframe.org;
+ helo=outbound5e.eu.mailhop.org
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -108,60 +108,63 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Register 0x300200 and 0x300208 seems to be used as scratch register
-by HP-UX for cursor offset data. It writes a calculated value on X
-startup, and later reads it back and uses this as offset for all
-cursor movements. I couldn't figure how this number is calculated,
-but forcing it to a fixed value fixes the cursor position problems
-for all HP-UX versions.
+Allow to disable/enable the cursor via the cursor control
+register.
 
 Signed-off-by: Sven Schnelle <svens@stackframe.org>
 ---
- hw/display/artist.c | 23 ++++++++++-------------
- 1 file changed, 10 insertions(+), 13 deletions(-)
+ hw/display/artist.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/hw/display/artist.c b/hw/display/artist.c
-index 21b7fd1b44..7956a1a5c3 100644
+index 7956a1a5c3..cfae92d3e8 100644
 --- a/hw/display/artist.c
 +++ b/hw/display/artist.c
-@@ -326,15 +326,8 @@ static void artist_rop8(ARTISTState *s, struct vram_buffer *buf,
+@@ -80,6 +80,7 @@ struct ARTISTState {
+     uint32_t line_pattern_skip;
  
- static void artist_get_cursor_pos(ARTISTState *s, int *x, int *y)
- {
--    /*
--     * Don't know whether these magic offset values are configurable via
--     * some register. They are the same for all resolutions, so don't
--     * bother about it.
--     */
--
--    *y = 0x47a - artist_get_y(s->cursor_pos);
--    *x = ((artist_get_x(s->cursor_pos) - 338) / 2);
--
-+    *y = 0x400 - artist_get_y(s->cursor_pos);
-+    *x = (artist_get_x(s->cursor_pos) + 16) / 2;
-     if (*x > s->width) {
-         *x = 0;
-     }
-@@ -1122,11 +1115,15 @@ static uint64_t artist_reg_read(void *opaque, hwaddr addr, unsigned size)
+     uint32_t cursor_pos;
++    uint32_t cursor_cntl;
+ 
+     uint32_t cursor_height;
+     uint32_t cursor_width;
+@@ -1027,6 +1028,8 @@ static void artist_reg_write(void *opaque, hwaddr addr, uint64_t val,
          break;
  
-     case 0x300200:
--        val = s->reg_300200;
--        break;
--
-     case 0x300208:
--        val = s->reg_300208;
-+        /*
-+         * Seems to be relevant to cursor position, likely a scratch register.
-+         * HP-UX initializes this with different values depending on version.
-+         * Best guess is that this number is generated from STI data or other
-+         * registers. I couldn't figure out how this number is generated. For
-+         * now hardcode it to a number generating a zero cursor offset.
-+         */
-+        val = 0x00f01000;
+     case CURSOR_CTRL:
++        combine_write_reg(addr, val, size, &s->cursor_cntl);
++        artist_invalidate_cursor(s);
          break;
  
-     case 0x300218:
+     case IMAGE_BITMAP_OP:
+@@ -1320,7 +1323,9 @@ static void artist_update_display(void *opaque)
+                                s->width, s->width * 4, 0, 0, artist_draw_line,
+                                s, &first, &last);
+ 
+-    artist_draw_cursor(s);
++    if (s->cursor_cntl & 0x80) {
++        artist_draw_cursor(s);
++    }
+ 
+     dpy_gfx_update(s->con, 0, 0, s->width, s->height);
+ }
+@@ -1419,7 +1424,7 @@ static int vmstate_artist_post_load(void *opaque, int version_id)
+ 
+ static const VMStateDescription vmstate_artist = {
+     .name = "artist",
+-    .version_id = 1,
++    .version_id = 2,
+     .minimum_version_id = 1,
+     .post_load = vmstate_artist_post_load,
+     .fields = (VMStateField[]) {
+@@ -1440,6 +1445,7 @@ static const VMStateDescription vmstate_artist = {
+         VMSTATE_UINT32(line_end, ARTISTState),
+         VMSTATE_UINT32(line_xy, ARTISTState),
+         VMSTATE_UINT32(cursor_pos, ARTISTState),
++        VMSTATE_UINT32(cursor_cntl, ARTISTState),
+         VMSTATE_UINT32(cursor_height, ARTISTState),
+         VMSTATE_UINT32(cursor_width, ARTISTState),
+         VMSTATE_UINT32(plane_mask, ARTISTState),
 -- 
 2.34.1
 
