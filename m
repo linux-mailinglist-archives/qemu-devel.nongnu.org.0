@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1A6C4964E5
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 19:18:20 +0100 (CET)
-Received: from localhost ([::1]:40966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 022724964AC
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 18:58:44 +0100 (CET)
+Received: from localhost ([::1]:41798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAyUN-0001tt-OX
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 13:18:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41056)
+	id 1nAyBP-0008CT-46
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 12:58:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nAxNL-0008BW-FR
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:06:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21457)
+ id 1nAxNM-0008GX-U6
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:07:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22206)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nAxNI-0000TU-NP
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:06:59 -0500
+ id 1nAxNK-0000Up-MO
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:07:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642784815;
+ s=mimecast20190719; t=1642784818;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+AwrhQuxVjOGc7jCEZ5S/bTsQEmYjMm1qSAIwO9knnM=;
- b=Lac+ZIj5HP8KVP6QU+JR1YG/CTFHPPIe3bspYFD7zl85kGQxQXHyvUr+XNgn/CUVxN1weh
- ZbeDI9TtwXa29jLtxn7t+kLXyzcOuSt+b2IuvE1x2N7uQQfwiUBF47AnceFRmLoQ/63/X8
- v9kPXKM2ey57cCIJzJYgY+U9GMG+V5c=
+ bh=3Zu0le7ww2is+iI+MZm0kwCNFz8yC2guzWVhSaHUvLk=;
+ b=Hnuu4Gg+pzb1RK2HoXbpd0CizUzPy1FvBbi7YOEXtgb0NcvS+SjVNbuG7q7RFEt/M1q9W1
+ aBgyXB3vViObvxLKlSBMjoBwkiZ5CCiiy3ruN4zpxwcXpbVm/UlB9PRNj7VKsCIqgNjL4d
+ kIrHL9lpiQcvd3gJVq90yfQ0eGflEKs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-616-wIqxX9uuO5iYQhot6o4bDg-1; Fri, 21 Jan 2022 12:06:52 -0500
-X-MC-Unique: wIqxX9uuO5iYQhot6o4bDg-1
+ us-mta-55-cOKGrxYuPn25n2sK_-PR-w-1; Fri, 21 Jan 2022 12:06:54 -0500
+X-MC-Unique: cOKGrxYuPn25n2sK_-PR-w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC9181091DA0;
- Fri, 21 Jan 2022 17:06:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 849BF363A7;
+ Fri, 21 Jan 2022 17:06:52 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2A11C7EBCA;
- Fri, 21 Jan 2022 17:06:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E5D1C7EBE8;
+ Fri, 21 Jan 2022 17:06:50 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 29/33] job.h: assertions in the callers of JobDriver
- funcion pointers
-Date: Fri, 21 Jan 2022 12:05:40 -0500
-Message-Id: <20220121170544.2049944-30-eesposit@redhat.com>
+Subject: [PATCH v6 30/33] include/block/block_int-common.h: introduce
+ bdrv_amend_pre_run and bdrv_amend_clean
+Date: Fri, 21 Jan 2022 12:05:41 -0500
+Message-Id: <20220121170544.2049944-31-eesposit@redhat.com>
 In-Reply-To: <20220121170544.2049944-1-eesposit@redhat.com>
 References: <20220121170544.2049944-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -60,7 +60,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -100,80 +100,87 @@ Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+These two callbacks will be invoked by job callbacks to execute
+driver-specific code while still being in BQL.
+In this example, we want the amend JobDriver to execute the
+permission check (bdrv_child_refresh_perms) currently only
+done in block/crypto.c block_crypto_amend_options_generic_luks()
+to all its bdrv.
+This is achieved by introducing callbacks in the JobDriver, but
+we also need to make sure that crypto->updating_keys is true
+before refreshing the permissions the first time, so that
+WRITE perm is temporarly given to qcrypto_block_amend_options(),
+and set it to false when permissions are restored.
+
+Therefore bdrv_amend_pre_run() and bdrv_amend_clean() will take care of
+just temporarly setting the crypto-specific updating_keys flag.
+
+Note that at this stage, they are not yet invoked.
+
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- job.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ block/crypto.c                   | 16 ++++++++++++++++
+ include/block/block_int-common.h | 13 +++++++++++++
+ 2 files changed, 29 insertions(+)
 
-diff --git a/job.c b/job.c
-index 54db80df66..39bf511949 100644
---- a/job.c
-+++ b/job.c
-@@ -381,6 +381,8 @@ void job_ref(Job *job)
+diff --git a/block/crypto.c b/block/crypto.c
+index c8ba4681e2..f5e0c7b7c0 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -777,6 +777,20 @@ block_crypto_get_specific_info_luks(BlockDriverState *bs, Error **errp)
+     return spec_info;
+ }
  
- void job_unref(Job *job)
- {
-+    assert(qemu_in_main_thread());
++static void
++block_crypto_amend_pre_run(BlockDriverState *bs)
++{
++    BlockCrypto *crypto = bs->opaque;
++    crypto->updating_keys = true;
++}
 +
-     if (--job->refcnt == 0) {
-         assert(job->status == JOB_STATUS_NULL);
-         assert(!timer_pending(&job->sleep_timer));
-@@ -602,6 +604,7 @@ bool job_user_paused(Job *job)
- void job_user_resume(Job *job, Error **errp)
- {
-     assert(job);
-+    assert(qemu_in_main_thread());
-     if (!job->user_paused || job->pause_count <= 0) {
-         error_setg(errp, "Can't resume a job that was not paused");
-         return;
-@@ -672,6 +675,7 @@ static void job_update_rc(Job *job)
- static void job_commit(Job *job)
- {
-     assert(!job->ret);
-+    assert(qemu_in_main_thread());
-     if (job->driver->commit) {
-         job->driver->commit(job);
-     }
-@@ -680,6 +684,7 @@ static void job_commit(Job *job)
- static void job_abort(Job *job)
- {
-     assert(job->ret);
-+    assert(qemu_in_main_thread());
-     if (job->driver->abort) {
-         job->driver->abort(job);
-     }
-@@ -687,6 +692,7 @@ static void job_abort(Job *job)
++static void
++block_crypto_amend_cleanup(BlockDriverState *bs)
++{
++    BlockCrypto *crypto = bs->opaque;
++    crypto->updating_keys = false;
++}
++
+ static int
+ block_crypto_amend_options_generic_luks(BlockDriverState *bs,
+                                         QCryptoBlockAmendOptions *amend_options,
+@@ -931,6 +945,8 @@ static BlockDriver bdrv_crypto_luks = {
+     .bdrv_get_specific_info = block_crypto_get_specific_info_luks,
+     .bdrv_amend_options = block_crypto_amend_options_luks,
+     .bdrv_co_amend      = block_crypto_co_amend_luks,
++    .bdrv_amend_pre_run       = block_crypto_amend_pre_run,
++    .bdrv_amend_clean         = block_crypto_amend_cleanup,
  
- static void job_clean(Job *job)
- {
-+    assert(qemu_in_main_thread());
-     if (job->driver->clean) {
-         job->driver->clean(job);
-     }
-@@ -726,6 +732,7 @@ static int job_finalize_single(Job *job)
+     .is_format          = true,
  
- static void job_cancel_async(Job *job, bool force)
- {
-+    assert(qemu_in_main_thread());
-     if (job->driver->cancel) {
-         force = job->driver->cancel(job, force);
-     } else {
-@@ -825,6 +832,7 @@ static void job_completed_txn_abort(Job *job)
+diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+index cc8c8835ba..9d28396978 100644
+--- a/include/block/block_int-common.h
++++ b/include/block/block_int-common.h
+@@ -189,6 +189,19 @@ struct BlockDriver {
+      * the GS API.
+      */
  
- static int job_prepare(Job *job)
- {
-+    assert(qemu_in_main_thread());
-     if (job->ret == 0 && job->driver->prepare) {
-         job->ret = job->driver->prepare(job);
-         job_update_rc(job);
-@@ -1054,6 +1062,7 @@ void job_complete(Job *job, Error **errp)
- {
-     /* Should not be reachable via external interface for internal jobs */
-     assert(job->id);
-+    assert(qemu_in_main_thread());
-     if (job_apply_verb(job, JOB_VERB_COMPLETE, errp)) {
-         return;
-     }
++    /*
++     * Called inside job->pre_run() callback, it is useful
++     * to perform driver-specific initialization code under
++     * BQL, like setting up specific permission flags.
++     */
++    void (*bdrv_amend_pre_run)(BlockDriverState *bs);
++    /*
++     * Called inside job->clean() callback, it undoes
++     * the driver-specific initialization code done in amend_pre_run.
++     * Also this function is under BQL.
++     */
++    void (*bdrv_amend_clean)(BlockDriverState *bs);
++
+     /*
+      * Return true if @to_replace can be replaced by a BDS with the
+      * same data as @bs without it affecting @bs's behavior (that is,
 -- 
 2.31.1
 
