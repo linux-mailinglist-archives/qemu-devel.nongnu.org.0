@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B31AD495D51
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 11:10:53 +0100 (CET)
-Received: from localhost ([::1]:60478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8948E495D82
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 11:13:23 +0100 (CET)
+Received: from localhost ([::1]:39224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAqsd-0003b4-Ll
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 05:10:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53550)
+	id 1nAqv4-0008PK-IU
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 05:13:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1nApc1-0007W5-DD
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 03:49:37 -0500
-Received: from [2607:f8b0:4864:20::533] (port=37632
- helo=mail-pg1-x533.google.com)
+ id 1nApc1-0007W6-Gz
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 03:49:38 -0500
+Received: from [2607:f8b0:4864:20::1036] (port=38649
+ helo=mail-pj1-x1036.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1nApbx-0005BI-9M
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 03:49:35 -0500
-Received: by mail-pg1-x533.google.com with SMTP id e9so4084795pgn.4
- for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 00:49:32 -0800 (PST)
+ id 1nApbz-0005Br-Vx
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 03:49:37 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ d12-20020a17090a628c00b001b4f47e2f51so10000125pjj.3
+ for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 00:49:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=EE/lsINW1r+Q3Q2LVVyGEEM3pfR635LiwaCBWKJdX1w=;
- b=3RsqwQiwXKH4a4CSuJXN/1eMuzMzrNIrQibvL9Mc2Hs8ym+/vK0ZjAadGIR1HiHF6B
- o9FirPJvSOwQof4/42zdbiUoNjQTZndiWJRU439d0+whWV/qC1gv+aP+Wshbr42ifKgJ
- 8wJpM7191BmKjFJ1O8V4FTMIw7T9JAgREfQ93RCZiCShnODp8FUmkUDXFzmajXXBYNoa
- TWDdTY6k+AWcV/gRF1IgfNriVqWrQqLAmoaF/1WBizdmxVYximCVq+MAzaGzLUNfna1d
- vSBHPRCAhSn3BiP0lzzp6LtI9hCVheqj+8F3hxflm93LNIkGT9Q+xHOFhg0mZ7su8Pu/
- wArw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=A8kK7gzUbOpUqj0i1vLS2wElksbx0Z1HbijnD3p4R4I=;
+ b=wuTzCAutKHeOvVaNeAtKb86RNH5wb7PlW+q80mW+ksF2U3NEuX0TGpM2UV1epEzvjF
+ K8f8eGscqhXEn9BK2y9duDt/JOOdtrOL+41j5PJuTTfGGdYkswzJZueoPRoNqfu3a52m
+ MKzZN25SkHvi2uJVEBeHJTWla4hZWl/713IIlSrZoRQCo28SPKGB25eEqPy9B5aixYUW
+ EbkTHPAkvwO+xDaDnV5YKoOnpZg4+o/tQo600/CFiv2Io/t10Ts47A70Xq4iJs7GqGNZ
+ a4n6j+euKahoWTxX9iLbEEx0HoegZWi2w50Lqp1E3XaHtWzlTYohdP8iKtdPj5MKS9NT
+ T9RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=EE/lsINW1r+Q3Q2LVVyGEEM3pfR635LiwaCBWKJdX1w=;
- b=kp28jklIzSBkwLgwU2aeoZME5rdvSPJUZsPRRyS7T4NaSQ5rZpbgZPLRJ6bUMPz2MZ
- FtGj/lLjdI6Bn8KDIBGkk5s0fD45JOuDWJ6YDtarEq60hpfGoyAXvvkFW8fjOs+Ctsas
- V0I2wDTGA06MCquYFiiICA6vgb4sJZYgvowK9B/+HdY/hx8jqVEq8gmKynUp5PsCyiQw
- MqxjU5J+ulVRXE3yiMiJWInZDNc6/bpnCht/EjiM3UcN0gqB56s3C7eb8JH5PEIgcWrc
- c6cuwb28d1bkPeqLH+cmlfAK8fwxk+qRxiMEFRk/4G8UqWI+HO2KZXBz4oecR3ly9tGG
- Oc2g==
-X-Gm-Message-State: AOAM532h/4NHCdVEurB9KnmlAmiREN1S4GkZfHHpKmes2m2BY9TnFqsv
- oClKijECerDrH4gijeBJY3PY
-X-Google-Smtp-Source: ABdhPJwGyXvL5n54jqB+9XrLPiYUhTgBvs0Wa+bH3P+/4JXJ/vIdnfOH170JvbWcLgP88vC9fa2PjQ==
-X-Received: by 2002:a05:6a00:23c8:b0:4c2:6a7:95c5 with SMTP id
- g8-20020a056a0023c800b004c206a795c5mr2951718pfc.53.1642754971138; 
- Fri, 21 Jan 2022 00:49:31 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=A8kK7gzUbOpUqj0i1vLS2wElksbx0Z1HbijnD3p4R4I=;
+ b=gtxWOzP1ieQ1/ateaykASxJ4IYX3zKvO4u4d3FD1malV7b9ZYC1Ix1S+JU+AF2ETxr
+ w9WlK8TSl8rrdY3U8fx2APnsnluW2hd1WkMmQBtwLzz7rV7v+vln0Cwkk3oPaNz3bW32
+ yQWFEkE38OwAdgeMLtg1EoguZvpl18+85zGxZifhJmZj4ton4ulBOkkP2s02bzeryHEg
+ iCJOvpUFTdqDXrkfQyNOjTiTGERZVX2vTT8F2q5hktFlsbTNEhqRNN5R9g3c8sSqqXDO
+ 8oLEWPkTdeP9quQ3negohy93CMtVkZhGVZqgKXwdsKbrx28h5Cmbawu5h0pRkykfXsUe
+ 3Elw==
+X-Gm-Message-State: AOAM531K78jyolDrpunmfLTFv5H5kF4xG8TN8XxSmOKVpzzlYG5ogdFO
+ 7Qvyod3iZ7Edc3V6mcxoPuN9
+X-Google-Smtp-Source: ABdhPJy1F8NqnaIQ/qOeyX9AnduKbWUm0YHsQJo1PXkx7DiT226yYUEk0zmlu9FKkmrX9cRXx8RQYg==
+X-Received: by 2002:a17:90b:1e06:: with SMTP id
+ pg6mr3600126pjb.178.1642754974778; 
+ Fri, 21 Jan 2022 00:49:34 -0800 (PST)
 Received: from localhost ([139.177.225.237])
- by smtp.gmail.com with ESMTPSA id u9sm6413097pfi.14.2022.01.21.00.49.29
+ by smtp.gmail.com with ESMTPSA id b9sm5939869pfm.154.2022.01.21.00.49.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Jan 2022 00:49:30 -0800 (PST)
+ Fri, 21 Jan 2022 00:49:34 -0800 (PST)
 From: Xie Yongji <xieyongji@bytedance.com>
 To: Coiby.Xu@gmail.com, stefanha@redhat.com, marcandre.lureau@redhat.com,
  kwolf@redhat.com, mreitz@redhat.com
-Subject: [PATCH 1/2] libvhost-user: Add vu_notify_config_change() to support
- config change notify
-Date: Fri, 21 Jan 2022 16:46:43 +0800
-Message-Id: <20220121084644.217-1-xieyongji@bytedance.com>
+Subject: [PATCH 2/2] block/export: Add vhost-user-blk resize support
+Date: Fri, 21 Jan 2022 16:46:44 +0800
+Message-Id: <20220121084644.217-2-xieyongji@bytedance.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220121084644.217-1-xieyongji@bytedance.com>
+References: <20220121084644.217-1-xieyongji@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::533
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=xieyongji@bytedance.com; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=xieyongji@bytedance.com; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -91,66 +93,49 @@ Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds a new API vu_notify_config_change() to support
-sending VHOST_USER_SLAVE_CONFIG_CHANGE_MSG message to notify
-that the configuration space has changed.
+To support block resize, this updates the capacity field
+in configuration space and use vu_notify_config_change()
+to notify the vhost-user master on the block resize callback.
 
 Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
 ---
- subprojects/libvhost-user/libvhost-user.c | 20 ++++++++++++++++++++
- subprojects/libvhost-user/libvhost-user.h |  8 ++++++++
- 2 files changed, 28 insertions(+)
+ block/export/vhost-user-blk-server.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
-index 787f4d2d4f..ff95ccd6f3 100644
---- a/subprojects/libvhost-user/libvhost-user.c
-+++ b/subprojects/libvhost-user/libvhost-user.c
-@@ -1545,6 +1545,26 @@ vu_set_config(VuDev *dev, VhostUserMsg *vmsg)
-     return false;
+diff --git a/block/export/vhost-user-blk-server.c b/block/export/vhost-user-blk-server.c
+index 1862563336..929a0bd007 100644
+--- a/block/export/vhost-user-blk-server.c
++++ b/block/export/vhost-user-blk-server.c
+@@ -435,6 +435,20 @@ static void blk_aio_detach(void *opaque)
+     vexp->export.ctx = NULL;
  }
  
-+bool vu_notify_config_change(VuDev *dev)
++static void vu_blk_resize(void *opaque)
 +{
-+    bool ret;
-+    VhostUserMsg vmsg = {
-+        .request = VHOST_USER_SLAVE_CONFIG_CHANGE_MSG,
-+        .flags = VHOST_USER_VERSION,
-+        .size = 0,
-+    };
++    BlockExport *exp = opaque;
++    VuBlkExport *vexp = container_of(exp, VuBlkExport, export);
 +
-+    if (!vu_has_protocol_feature(dev, VHOST_USER_PROTOCOL_F_CONFIG)) {
-+        return false;
-+    }
-+
-+    pthread_mutex_lock(&dev->slave_mutex);
-+    ret = !vu_message_write(dev, dev->slave_fd, &vmsg);
-+    pthread_mutex_unlock(&dev->slave_mutex);
-+
-+    return ret;
++    vexp->blkcfg.capacity =
++        cpu_to_le64(blk_getlength(exp->blk) >> VIRTIO_BLK_SECTOR_BITS);
++    vu_notify_config_change(&vexp->vu_server.vu_dev);
 +}
 +
- static bool
- vu_set_postcopy_advise(VuDev *dev, VhostUserMsg *vmsg)
- {
-diff --git a/subprojects/libvhost-user/libvhost-user.h b/subprojects/libvhost-user/libvhost-user.h
-index 3d13dfadde..dd14242a7b 100644
---- a/subprojects/libvhost-user/libvhost-user.h
-+++ b/subprojects/libvhost-user/libvhost-user.h
-@@ -491,6 +491,14 @@ bool vu_dispatch(VuDev *dev);
-  */
- void *vu_gpa_to_va(VuDev *dev, uint64_t *plen, uint64_t guest_addr);
- 
-+/**
-+ * vu_notify_config_change:
-+ * @dev: a VuDev context
-+ *
-+ * Notify that the configuration space has changed. Returns FALSE on failure.
-+ */
-+bool vu_notify_config_change(VuDev *dev);
++static const BlockDevOps vu_block_ops = {
++    .resize_cb = vu_blk_resize,
++};
 +
- /**
-  * vu_get_queue:
-  * @dev: a VuDev context
+ static void
+ vu_blk_initialize_config(BlockDriverState *bs,
+                          struct virtio_blk_config *config,
+@@ -513,6 +527,8 @@ static int vu_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
+         return -EADDRNOTAVAIL;
+     }
+ 
++    blk_set_dev_ops(exp->blk, &vu_block_ops, exp);
++
+     return 0;
+ }
+ 
 -- 
 2.20.1
 
