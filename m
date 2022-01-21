@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEBEE49684D
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 00:48:31 +0100 (CET)
-Received: from localhost ([::1]:48214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D926849684E
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 00:52:20 +0100 (CET)
+Received: from localhost ([::1]:51134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB3du-0003JE-Jf
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 18:48:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35994)
+	id 1nB3hb-0005Nj-Vq
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 18:52:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nB3d2-0002dX-G7
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 18:47:36 -0500
-Received: from [2607:f8b0:4864:20::1030] (port=53791
- helo=mail-pj1-x1030.google.com)
+ id 1nB3gT-0004F4-H0
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 18:51:09 -0500
+Received: from [2607:f8b0:4864:20::1029] (port=41972
+ helo=mail-pj1-x1029.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nB3d1-0007ZZ-1Z
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 18:47:36 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id h12so10477112pjq.3
- for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 15:47:34 -0800 (PST)
+ id 1nB3gR-0007x6-Si
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 18:51:09 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ b1-20020a17090a990100b001b14bd47532so10402328pjp.0
+ for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 15:51:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=WnxKA1moSKIyeKasap2YEvD2c5Ddiwl7opXvZG3tci0=;
- b=SJ9MkvMDPwRR9ZMCg9jO8UtE7KZ5qg93jU2vE/R7ccTdvUC8qP/1PEiIeij7iz9Te8
- l67yMT7yo5T7VdRJbAOp43uGn4yuZT/ZpyIJgQS3oDj7mxGKPeJgpGWPJ4JFO2v+k9xJ
- CoS1k5fIZG42OjrkZfv4/YFYjmzyMYgjaetFq8yyJaAb5z4rSEHE+azxtnwMrbe+gPGL
- 1YreB0cMbucgKHpZt2JPsjXpgTU7m8vV9GZg0L1M3qNgVx6YGgl1qdnX0srAmWdKatAO
- IpMopAFnpnU1T23iiOLhzxsVhgHGM98cbtdFxZMHfh5Sqg2tualpbGBtd6CIWL8xwC2M
- NrQA==
+ bh=RKu7mgAW4KQ9FbNFRgIekdtPBSM/dJO/MFgIKDRthig=;
+ b=WZPliLl8Hu9/WkNjMgKpC70ZBmRx22acP+QfW6lC/yOz6TpNKn2XohpB2GCsNngLFz
+ zf+wnTQQPbS3a1cELWjYJOPXOZNNqqmTV5NFqvNRyXiL4JMRws6q2tqPLM7Sz+I39m9U
+ YfVvxsXRKrZjuBn0DeAZ7ubocaEJ/M0jTltg6sSr8wGImfEFxpM+oTmqUV3/usrqZAwj
+ JDpQNbIUZyAMItW8qJ0jKnuSEIsgKHkP+UFjGpO+Tgx0tQsJhFoEPgjTbCOQALxZAqSJ
+ hs55bTfWCgJEXJvtVva2ckznylWSDLJ8KRtUQ7oNVFIpG1+81ChEl1uhEF3stU4B1K8k
+ khLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=WnxKA1moSKIyeKasap2YEvD2c5Ddiwl7opXvZG3tci0=;
- b=3LIexKwf3TGsx0YZqEJ3fCbr6CRqy4rEzXeiRHJGe/5xgOvVXr6Pm9znK8W8ZikgO0
- 5TgBe9SlRYVCsdy787zt5TCc0tLoJh7nOVZGCMJ0vQ1IBR+SCttKZwx/MLmRBr0HTwXN
- J6UwIJQ3wWVqg7c6PQRu9Gx9vftwXNn5/9ZEi8Jx2Ukcq7SC/9kHmE/qjX66NxvHdTWf
- +P7Fke8wDvxLgdX4E98+Kgy009xw9xYZP8PitpEkiCqp7GQ9dcMsEVtwABRKUPTahN8u
- SDmXY558a4+wbV07Vu0XGdzHh4yJ5DBeyQ0ftm4N4vsvojs+zIvkQju7Y0woeBonEKSR
- OOPg==
-X-Gm-Message-State: AOAM531TVhvQsdZl7TMTAJ3IDVVxpEQknnXxnE7i31xngVRtFDxwc7Qv
- gDYP/x+JH4jSSJF+tJFvnBM=
-X-Google-Smtp-Source: ABdhPJyZ0HTT9PN2egLV0aFnkXwTi+iYcfY3Tnz6h0631bl2ptleLlUWNq1VrFX0gHzu9DRkP36zng==
-X-Received: by 2002:a17:902:7046:b0:14b:20ad:3411 with SMTP id
- h6-20020a170902704600b0014b20ad3411mr3648973plt.40.1642808853665; 
- Fri, 21 Jan 2022 15:47:33 -0800 (PST)
+ bh=RKu7mgAW4KQ9FbNFRgIekdtPBSM/dJO/MFgIKDRthig=;
+ b=dl9AhysJetoy7qhDQgRa+w9JIfpBN1OWYAL9zsDh9omTqKG0miUCGqiD50Fmq4dwW0
+ YwSLTV4EBd8juhrZSEo3DJOpcdmzvFY+d76a9g3cD0IVoVP4ieUySFqLknFxnNkX+4W0
+ nWhnuhd0CyJi1od5bcY4L0YtdQ91SqMhY/N37S5KlrqiosqrkRZfMslr/OXBKGSRb8mO
+ /vxz81N9XXexYD/uLUGDsEnpee1mhwUpD/nN37uGMjxEB/sKcDg1BTZ8m1Fsed3zG7Y1
+ KZeFxExA07v6MzOYygfxTA5hsTI9ot9N5n3EWUYX3Pkg8otJjb8DlHj1gNU2UaoJPxFq
+ pI4w==
+X-Gm-Message-State: AOAM533UdTipERYQP+bM2rdCcoYaD6IXAsjqXx/uTklrfXHrevxUvB2H
+ vjPZwoT0aRFd9+uKvfrjKz4DmQL0cZk=
+X-Google-Smtp-Source: ABdhPJyVJRnY/Tm45JVpsj8bxZuCkyjAZD0/4fILFPKbDXO48Ot1e9GLq/WVNCCEiLdxcyHX4WBeBw==
+X-Received: by 2002:a17:90a:e454:: with SMTP id
+ jp20mr2986426pjb.53.1642809066500; 
+ Fri, 21 Jan 2022 15:51:06 -0800 (PST)
 Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id p4sm6915069pfw.214.2022.01.21.15.47.31
+ by smtp.gmail.com with ESMTPSA id t2sm8414094pfj.170.2022.01.21.15.51.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Jan 2022 15:47:33 -0800 (PST)
-Message-ID: <a068a4b4-7ed7-7689-fd0b-a94a8b537d1f@amsat.org>
-Date: Sat, 22 Jan 2022 00:47:30 +0100
+ Fri, 21 Jan 2022 15:51:05 -0800 (PST)
+Message-ID: <58ba4eae-1785-a656-e4c2-f73b1a2f7a0b@amsat.org>
+Date: Sat, 22 Jan 2022 00:51:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH 0/2] some simplifications in hw/core/fw-path-provider.c
+Subject: Re: tests/tcg/multiarch/threadcount failing on GitLab
 Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: eduardo@habkost.net, pbonzini@redhat.com, berrange@redhat.com
-References: <20220121202952.24763-1-danielhb413@gmail.com>
-In-Reply-To: <20220121202952.24763-1-danielhb413@gmail.com>
+To: John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <CAFn=p-boicm8NU6-jimC8qyJVfA3BymcK8687ddBWoQ5LFu6HQ@mail.gmail.com>
+ <CAFn=p-a1p3zF=HgREUhhREn1H0LVcKXJCUFV1CNsKXXfGWqZtw@mail.gmail.com>
+In-Reply-To: <CAFn=p-a1p3zF=HgREUhhREn1H0LVcKXJCUFV1CNsKXXfGWqZtw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,19 +101,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 21/1/22 21:29, Daniel Henrique Barboza wrote:
-> Hi,
+On 21/1/22 21:54, John Snow wrote:
+> On Fri, Jan 21, 2022 at 3:53 PM John Snow <jsnow@redhat.com> wrote:
+>>
+>> lately, I've been seeing this test fail under the clang-user job; see
+>> https://gitlab.com/jsnow/qemu/-/jobs/2002782042
+>>
+>> make[2]: *** [../Makefile.target:156: run-threadcount] Error 124
+>> make[1]: *** [/builds/jsnow/qemu/tests/tcg/Makefile.qemu:102:
+>> run-guest-tests] Error 2
+>> make: *** [/builds/jsnow/qemu/tests/Makefile.include:63:
+>> run-tcg-tests-sh4-linux-user] Error 2
+>>
+>> (In this branch I've staged some Python code changes, but I would hope
+>> that's not related to this.)
+>>
 > 
-> These are somes simplifications I found interesting to make while I was
-> investigating Gitlab #720.
+> Oh, and this one:
 > 
-> It isn't clear in the MAINTAINERS file who is responsible for this file,
-> so I'm ccing the QOM maintainers since it's the closest match.
+> make[2]: *** [../Makefile.target:159:
+> run-plugin-threadcount-with-libbb.so] Error 124
+> make[1]: *** [/builds/jsnow/qemu/tests/tcg/Makefile.qemu:102:
+> run-guest-tests] Error 2
+> make: *** [/builds/jsnow/qemu/tests/Makefile.include:63:
+> run-tcg-tests-sh4-linux-user] Error 2
+> make: *** Waiting for unfinished jobs....
 > 
+> from https://gitlab.com/jsnow/qemu/-/jobs/2002782036 under the
+> 'build-user' tests.
 > 
-> Daniel Henrique Barboza (2):
->    hw/core/fw-path-provider: turn fw_path_provider_get_dev_path() static
->    hw/core/fw-path-provider.c: open code fw_path_provider_get_dev_path()
+> Something you already know about?
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Maybe similar to this one?
+https://lore.kernel.org/qemu-devel/e27941cc-2622-cb01-4c93-b9ff344bdddb@amsat.org/
 
