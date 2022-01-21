@@ -2,78 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03842495916
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 06:17:48 +0100 (CET)
-Received: from localhost ([::1]:43416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D7C649599D
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 06:55:21 +0100 (CET)
+Received: from localhost ([::1]:55054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAmJ1-0004D9-It
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 00:17:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43414)
+	id 1nAmtM-0005Z0-1t
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 00:55:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nAmGl-00031B-Sk
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 00:15:28 -0500
-Received: from [2607:f8b0:4864:20::434] (port=40689
- helo=mail-pf1-x434.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nAmGj-0005xN-UZ
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 00:15:27 -0500
-Received: by mail-pf1-x434.google.com with SMTP id w190so1684671pfw.7
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 21:15:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=waInaIGAbto31AX/imfXOQT7MNMtN8ZiXY+dt3u/lLw=;
- b=B3rh92+Wzeh/RPD8JAKc8++jFkWwFcca3etwnSmtjtvOatyFK89mwOCV4WH6TiH0sD
- nZN0Tqq7c0TikBL/Uwu3dEqa2nlOCKbBzrahokaDwFC9+XBgztOjQulsSWY6PX7pDazj
- g79S4G07lov5mHLzfGlXo9ZKl+eS1TAV9Cq5W+mpakH8fM2h4eALKml1sw8R664c5fpy
- +fGQFovFXYvlsAq5BnQT5i4NRW1U15hQ2+rumDV+TNug32e+TOuwjiZvdSy60iNlvAcj
- FPePfqy7whXbP+vw+UtlnIlfasTEZBGdIC9hxSwu+DleUOJdXyZ2o35dkrxmdjwFnomo
- wzGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=waInaIGAbto31AX/imfXOQT7MNMtN8ZiXY+dt3u/lLw=;
- b=5J4ddKQMtkTRt5pOQu5hE6iBRUEt165Dw+WhOrS9xyB7uFTjD8wPTIFjErq257BvFn
- rdL/m1sdR1n9htdvBCJA34kxIBhdQuw5WJslXrU27Wa647EOi6kk7kt8tOiu4iWAXrWU
- 5iihV7Zp1mHTzBe1gZHG+W34SFs9WmLOQwS/hFr+y06c4+Wb0ktLWJEjiYVrJxSGQiFn
- Kbr37WVC03owVxpGSBjR4KSABR8h8PqdZE4vki6qZteBdJBAphEpMECoWI7QS6iPy8Vf
- dvXck+DUU5FJNIjeCM4XlZ6atFAdORIa2Hi+yw7dfxWXX+JL8QJIlRfokUmllNvMEBLm
- pVJw==
-X-Gm-Message-State: AOAM530szdJXNYcHsGCDwLbKDhfgsiKuTJ7/ihNQ+Vlee+xYiIQCl9VD
- YHvEpTsfLRSgf04k9j5u0IRbww==
-X-Google-Smtp-Source: ABdhPJzX1JIkUpxyX5xXBA6yYl6WKrz2Vy98DBwDpn6qpPRKgkFYW2RqCCTkEVabWOtokTbZU/KKIw==
-X-Received: by 2002:a63:e448:: with SMTP id i8mr1844643pgk.206.1642742124204; 
- Thu, 20 Jan 2022 21:15:24 -0800 (PST)
-Received: from anisinha-lenovo ([203.163.243.216])
- by smtp.googlemail.com with ESMTPSA id o2sm3723625pga.57.2022.01.20.21.15.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 21:15:23 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Fri, 21 Jan 2022 10:45:17 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] hw/armv7m: Fix broken VMStateDescription
-In-Reply-To: <20220120151609.433555-1-peter.maydell@linaro.org>
-Message-ID: <alpine.DEB.2.22.394.2201211041540.889046@anisinha-lenovo>
-References: <20220120151609.433555-1-peter.maydell@linaro.org>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1)
+ (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
+ id 1nAmok-0003wQ-W3
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 00:50:35 -0500
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:3055)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
+ id 1nAmoj-0002y2-2k
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 00:50:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1642744231; x=1674280231;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=2fiKB7AiovahqdgGWdgGUtQNgpKwORZqUtPOp2735So=;
+ b=rAOeLD8sVZQ/p/f+3ZlW4nytkt24lK0JuypWtVCB4UkX15a09cEUG9jT
+ o3aTQnk+mvMrHd6bqJ0LQNjveyzMmEVQDW0jH6w2dlUKrt7W7mccUvETt
+ pOzpFo1UzweCcOuumyvEhw29ih92pkbpL0oLT0/5ouVjSvf5RNCrcKIIL
+ d83PHISbPH82g7kb3vutV0YO2fdiMIiLqx5r/Xn9UA0l2vF1JLpp1yFRD
+ Wn8c1ZzSA1dtrLbEwTve0WpeQiGa7SxobIRdCn0DE3M/NVHOyd+ZmPauq
+ zgSBwcrU4GFLCsDlc4OM4lJehDlwCuCSlx0k4zY8b4i1qpQn2cPUkRXqs g==;
+X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="191016259"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 13:50:23 +0800
+IronPort-SDR: Bynalq/5yZHIjThiatV2E/iHm5vaLXlaP8nZTA0q1BToaWLDPPGiTpglVbv8DmGbP/rFj6D7Tw
+ 956KJ6+0Hih6NECRyY8w38Fjg6jGS8ZjWTKMTGXN0yC9/Haf+74iVSOBz+7ZvDT6F1hEvYn+Pz
+ rN/Ls6WIS8lE7JIhv4gG3mPRnUV9pMFzjZ7UXGGR1LGtresYt958acxDQNrUGs0bWGQCNQemJ+
+ yRHqF9Jx2RTguYwL0HJI/z393MopiOEdZMVTOiDt/1WtHEnUD2xbJSbv+aGmfAYhz841kIWiqp
+ vAWt5dYvEZTfHdE3KpDF+7Up
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 21:22:36 -0800
+IronPort-SDR: R+dpVIQv300MLl3xa6ORobQQPmhEbaNmXEOYXa/dHXrPYCeFYPzIY6Q6qvoibA21QJhR2j8crS
+ z70ufusfu2hlaAvCrZPf7BTUjhT/qPQqKp+T174ZoieZ+0NDB542811cV/PgYYg7OCHJhYFmKa
+ +WyNobsw960XzE7ppDB5F728wSRItiGzISGpr+j8ocHWlbe0GxTks8iX6Q/piye0cZzksSS4hY
+ d4Vc2k2qC2z+giYXxMEsUQt7T644BpL1SrRhukCBRJ0ZTMbPlXhNmKQndunUNbLDWfiLGf1ezz
+ LTs=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 21:50:25 -0800
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg7l3727dz1SVp3
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 21:50:23 -0800 (PST)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:subject:to:from; s=dkim; t=1642744222;
+ x=1645336223; bh=2fiKB7AiovahqdgGWdgGUtQNgpKwORZqUtPOp2735So=; b=
+ H3T2A3piOLvD2HrOjHUWbQ2wqv4HZdVvZSx54TE5t47mPB3lwVGN6bFDpyLRTR5r
+ ptIlYkZzVZ3RF3RPJ1c82jHu3TnwZw+sz7P+JZeLaU8wBggkccPdhRHYLz2bEjWW
+ XGj0VJFB9E36AiXcHDP4jMNUZ3GXFZ+K31lqLQ4dlmcqzaZKfiKC/RWLOoXdSeTF
+ 3AVDszSOOVl3es2ftzy0sTVolBzFNAg5t27hd1z6pD6Jvyg2Et3nzmdWAwYu2TjS
+ 3wcFmy0mfaoXfc8vQSMFoYxaOZ2R81AvLO8P3E8S4ZLlXeFEitv78SUc0vTzJA+n
+ ke0QuDTeViuFYzQwTKNevA==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id jxi1kSiEgupH for <qemu-devel@nongnu.org>;
+ Thu, 20 Jan 2022 21:50:22 -0800 (PST)
+Received: from toolbox.alistair23.me (unknown [10.225.165.80])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg7ky5kv4z1RvlN;
+ Thu, 20 Jan 2022 21:50:18 -0800 (PST)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Cc: bmeng.cn@gmail.com, palmer@dabbelt.com, alistair.francis@wdc.com,
+ alistair23@gmail.com, wilfred.mallawa@wdc.com
+Subject: [PATCH v1] include: hw: remove ibex_plic.h
+Date: Fri, 21 Jan 2022 15:50:05 +1000
+Message-Id: <20220121055005.3159846-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::434
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::434;
- envelope-from=ani@anisinha.ca; helo=mail-pf1-x434.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=0135fdaf6=alistair.francis@opensource.wdc.com;
+ helo=esa5.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,54 +111,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
+This patch removes the left-over/unused `ibex_plic.h` file. Previously
+used by opentitan, which now follows the RISC-V standard and uses the
+SiFivePlicState.
 
-On Thu, 20 Jan 2022, Peter Maydell wrote:
+Fixes: 434e7e021 ("hw/intc: Remove the Ibex PLIC")
+Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+---
+ include/hw/intc/ibex_plic.h | 67 -------------------------------------
+ 1 file changed, 67 deletions(-)
+ delete mode 100644 include/hw/intc/ibex_plic.h
 
-> In commit d5093d961585f02 we added a VMStateDescription to
-> the TYPE_ARMV7M object, to handle migration of its Clocks.
-> However a cut-and-paste error meant we used the wrong struct
-> name in the VMSTATE_CLOCK() macro arguments. The result was
-> that attempting a 'savevm' might result in an assertion
-> failure.
->
-> Cc: qemu-stable@nongnu.org
-> Buglink: https://gitlab.com/qemu-project/qemu/-/issues/803
-> Fixes: d5093d961585f02
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+diff --git a/include/hw/intc/ibex_plic.h b/include/hw/intc/ibex_plic.h
+deleted file mode 100644
+index d596436e06..0000000000
+--- a/include/hw/intc/ibex_plic.h
++++ /dev/null
+@@ -1,67 +0,0 @@
+-/*
+- * QEMU RISC-V lowRISC Ibex PLIC
+- *
+- * Copyright (c) 2020 Western Digital
+- *
+- * This program is free software; you can redistribute it and/or modify =
+it
+- * under the terms and conditions of the GNU General Public License,
+- * version 2 or later, as published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope it will be useful, but WITHOU=
+T
+- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
+ for
+- * more details.
+- *
+- * You should have received a copy of the GNU General Public License alo=
+ng with
+- * this program.  If not, see <http://www.gnu.org/licenses/>.
+- */
+-
+-#ifndef HW_IBEX_PLIC_H
+-#define HW_IBEX_PLIC_H
+-
+-#include "hw/sysbus.h"
+-#include "qom/object.h"
+-
+-#define TYPE_IBEX_PLIC "ibex-plic"
+-OBJECT_DECLARE_SIMPLE_TYPE(IbexPlicState, IBEX_PLIC)
+-
+-struct IbexPlicState {
+-    /*< private >*/
+-    SysBusDevice parent_obj;
+-
+-    /*< public >*/
+-    MemoryRegion mmio;
+-
+-    uint32_t *pending;
+-    uint32_t *hidden_pending;
+-    uint32_t *claimed;
+-    uint32_t *source;
+-    uint32_t *priority;
+-    uint32_t *enable;
+-    uint32_t threshold;
+-    uint32_t claim;
+-
+-    /* config */
+-    uint32_t num_cpus;
+-    uint32_t num_sources;
+-
+-    uint32_t pending_base;
+-    uint32_t pending_num;
+-
+-    uint32_t source_base;
+-    uint32_t source_num;
+-
+-    uint32_t priority_base;
+-    uint32_t priority_num;
+-
+-    uint32_t enable_base;
+-    uint32_t enable_num;
+-
+-    uint32_t threshold_base;
+-
+-    uint32_t claim_base;
+-
+-    qemu_irq *external_irqs;
+-};
+-
+-#endif /* HW_IBEX_PLIC_H */
+--=20
+2.34.1
 
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
-
-> ---
-> It's a shame there's no way to type-check that the struct
-> name used in the VMSTATE macros is correct...
-> ---
->  hw/arm/armv7m.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-> index 8d08db80be8..ceb76df3cd4 100644
-> --- a/hw/arm/armv7m.c
-> +++ b/hw/arm/armv7m.c
-> @@ -520,8 +520,8 @@ static const VMStateDescription vmstate_armv7m = {
->      .version_id = 1,
->      .minimum_version_id = 1,
->      .fields = (VMStateField[]) {
-> -        VMSTATE_CLOCK(refclk, SysTickState),
-> -        VMSTATE_CLOCK(cpuclk, SysTickState),
-> +        VMSTATE_CLOCK(refclk, ARMv7MState),
-> +        VMSTATE_CLOCK(cpuclk, ARMv7MState),
->          VMSTATE_END_OF_LIST()
->      }
->  };
-> --
-> 2.25.1
->
->
->
 
