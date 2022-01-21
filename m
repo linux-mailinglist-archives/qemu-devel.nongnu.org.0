@@ -2,90 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90697495BF6
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 09:33:06 +0100 (CET)
-Received: from localhost ([::1]:49978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2555B495BFE
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 09:34:38 +0100 (CET)
+Received: from localhost ([::1]:53584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nApM0-0000jc-N7
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 03:33:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54020)
+	id 1nApNV-0003M9-7S
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 03:34:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAn0k-0008VI-76
+ id 1nAn0k-0008Vj-FQ
  for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:02:58 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:60338)
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:60359)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAn0i-0004AK-1s
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:02:57 -0500
+ id 1nAn0i-0004KU-9X
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:02:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1642744976; x=1674280976;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=N07AWP0wS69Tj0dLOFghNA6awyxx5Kz0GBENA1qs9bg=;
- b=qRVdGMbMlp/Q08+w7Cgg+9zG5zp4v+AqlFzVKeAdhDvvTZkDwHq4frtr
- SeMJvu5cZriPHKtxhngrr8TliPd1x2xVIka7oCCdwmQRn1NS86bM9y3wj
- MF9W1wh83CLEyJOO9fwuYnnZ7TYLl17CW3gjQ7v+6IAZ5c+MqXFRGqIwG
- jrXmvGC7bTALpQwGEUDslaWLYEfKXRLCynahg9a3Ckb7ag8/3ezVoCj0H
- tBQerp7ZIW5RXcEVXQpmEihzFdsZjjG477IpIp4zOCpoIPPB3dpRAi9+v
- HjalHl6VQGZt6aAqMijqjEfJwrzNp3OlfeTPGiWVvmczi9AoscMh9otlu Q==;
-X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="295083058"
+ bh=sPb+HetLwrLjaLC9HyGtURERyDVL+93C/QX0fIBuGpw=;
+ b=Bsj20WcUhXD9/OXXJ7WxUbfMN2DoLYtw9fKB3zaiR4/GduCaQJDPpWBz
+ sLEVFtRoF4xQD4CRglOboyb1nLXbEKqPdcY1kzCVKsExkRae78O6uYJnU
+ /oqk4A2wKHNJi023fCfOTpMFxCGK84qZRrYKG0CxtRHpTRBiuri16JIjz
+ gRSs19trI+3oz0G6lSAnvF9V09IFqX+doTDw0RcqShxei95/GTSlyAMMi
+ 775G4Fn3XF0AwkLT9a7350A+a0nOwC4oCf/e0KjzrCh9W8qnrbBCsKi8X
+ EkfGzZ1VF6hD9Au9abkQ2sU3Z9rkeD5HKU/5ylWSu+v4cpzRXyG/Ymc+V g==;
+X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="295083063"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 14:01:37 +0800
-IronPort-SDR: zI7UcqB+vtOULPYlzaP3vkNTKGZlmMZlG/OBQsYpeNF6LYKNP5q2TGGapgE70i1zlgFCasz5WI
- nc6aIF33ed/lDRCAPCZiu4aUqSOyVO8t5Ys13zQYs9OI0pWGc3ukY3JEIIhJ/qgVfqge3oE9Cy
- AZM5flvoTxHtJc4x5WprshVLc+0zeena5KFNqzCOkzw2WCC4llpJ+99/DLl4TWm4GXeFcMjkNV
- c3TDeWOYq4jRe9RjilTVnQh+iknuEKTl4NkNc8MF/o4klLCOHZrLi5ayMh4yKwQ1bdpWc/E558
- XXypAE1+z1O3LQNB6B+vJ3jY
+ by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 14:01:41 +0800
+IronPort-SDR: yD20GH3M28gCJFFNH2p+BtEJDFlpvW7dN2H0Y4aQJd7QndH+QyLwf6ZH1sCRoT9lDeTVJWJUap
+ mv8iISLbC5He34E+vsAMAoE4qU1ube/wBP8/HMaxyMb6tWYG69Ta6Mty0ABTO6xiUgqyeD8LhO
+ Qh8DYrwSXacGUkunXvXlSd1uSeYId1IBTW+MZncAp+JSL5wapAp+geFA/GH01VV5laX/jj1kLH
+ TFPLzMF71qaxiarcvEJEUtSZClwxt5Mx1Zo2wffzXnZs1Ev4Ejgh4s6zsUPpFwrjWt4cJQXfYH
+ ceHefGkmXmGukdgynNSn87/U
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 21:35:05 -0800
-IronPort-SDR: 6uygw3xQsP6OndpyU4yrMrloYmBgscuhwCL0+IjfL8aGxsP9iq1JjDSYRut3s/2cq25TKwVMNY
- 1JxETkx2n1QpMP1fMg15LSQ9dd8LN457m78K2ojYSoDBQJIPLZg1jPL+fDEczZAw8FE/zmzapI
- MTFPizVtgasuxJ3TeYp4F/dHH+xNQ1htkXIJ4C46cQtaP+ro2E2Nx0AN4BpJeSwSMahhsBO3gt
- 1p9TOMJ/MWOeYIhv10nkC4IqST8KAuFIj2PipWDY+GlQLg9h6gnxDCwXhxH1HosPxp8UgjBwh8
- PG4=
+ 20 Jan 2022 21:35:08 -0800
+IronPort-SDR: hQBkLilTXlB3aumEDe5s0AbCdu6bXtvlLci1jMppvehZ24DafRKwXuLMiucNAvx7fl3tt3pNxj
+ Y2Z20RaUtSWBjKkNWZSEciYOc+awGGO/TuIjKZr2vpi0Z8LqPU3ys3cy9mRLtjrHLgEuodH0mY
+ jpUFzagAnLsrd2LJ1GS9Q2KJjTYXSqojQpb90ooHlG21xkE9/gL8dz/oxiKt2v2sl6RbTIaSqu
+ xjzoaGzuTXDewMDTAMfV5PViUcZpt7GF83YVYwuSJXNUtaA7WDiJXMErFEKLW2y+clbr7NpyjG
+ Kh0=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 22:01:37 -0800
+ 20 Jan 2022 22:01:40 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg801391bz1SVny
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 22:01:37 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg8046BJTz1SVny
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 22:01:40 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1642744896; x=1645336897; bh=N07AWP0wS69Tj0dLOF
- ghNA6awyxx5Kz0GBENA1qs9bg=; b=biWknnm54kQTjFyGZs53YLGUrdzTN9cdC6
- aOfcK6EDIDHgujQUyyOgM3ZhWkzUf/OhDAhL9nA67LqW2e3tq0Rh+0ShBScMPdF3
- BYXODAsM6tGsIQsy/z06HE2IxZ0/iAPEUQYCNvG6btnV5KmArzhbc61BXLMNK6eX
- Q2EREHQ+b0uoUjBFUC1g64b9eRm+5Mztyw3oOy0X8j/LE97OHOvcl/PGyFe50jIn
- 1kSyiNfVy2dVDdi0GWsLjZUpXO5bNRIlOxSrsrSf0ruaeJb5cLnO5BEF4kkSCizC
- Zvf8C+f15flWjdqg1GT1aTFwaSuZz8R0KwrY4Deqeo4HZMgeACaw==
+ :from; s=dkim; t=1642744900; x=1645336901; bh=sPb+HetLwrLjaLC9Hy
+ GtURERyDVL+93C/QX0fIBuGpw=; b=koptQnfXKTFZUG0r8TUGawIvdajDQ3YZCH
+ CIGNGZ+Cm30mu3fdPhdWt8FvxmJ9t5jhtZfJy8thUsb2dcOavSl4/PE7FhdrtLjY
+ O2KJTENfNGve1eqKbBCixwhEkonyxhW3+8Ja2blm68ETE+U9mGn6Tojyo7cRUxaO
+ N8Hcd8yy/fkzwbcLocPjR4vCT4hK6MLhKiaZl2SVtcMYhiaNKgg6Uykbdhe3tnuJ
+ ZboOuFl7GovGvmuXa171bLuqfo9pouo3yhMoyCdZEmoYYELH4aOrSzFfFXRWAJVs
+ fYHpFXZNL1N6EcRdlxXW7BkHBcXdRpgZvxteLF5rEW0E0q4KfTRA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id UrlXZkkKdIKe for <qemu-devel@nongnu.org>;
- Thu, 20 Jan 2022 22:01:36 -0800 (PST)
+ port 10026) with ESMTP id FLmqosDI-v9H for <qemu-devel@nongnu.org>;
+ Thu, 20 Jan 2022 22:01:40 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.80])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg7zx5LN7z1RvlN;
- Thu, 20 Jan 2022 22:01:33 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg8015J05z1RvlN;
+ Thu, 20 Jan 2022 22:01:37 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, LIU Zhiwei <zhiwei_liu@c-sky.com>,
- Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 42/61] target/riscv: Sign extend pc for different XLEN
-Date: Fri, 21 Jan 2022 15:58:11 +1000
-Message-Id: <20220121055830.3164408-43-alistair.francis@opensource.wdc.com>
+Subject: [PULL 43/61] target/riscv: Create xl field in env
+Date: Fri, 21 Jan 2022 15:58:12 +1000
+Message-Id: <20220121055830.3164408-44-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
 References: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
@@ -118,149 +117,199 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-When pc is written, it is sign-extended to fill the widest supported XLEN=
-.
+Current xlen has been used in helper functions and many other places.
+The computation of current xlen is not so trivial, so that we should
+recompute it as little as possible.
+
+Fortunately, xlen only changes in very seldom cases, such as exception,
+misa write, mstatus write, cpu reset, migration load. So that we can only
+recompute xlen in this places and cache it into CPURISCVState.
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20220120122050.41546-5-zhiwei_liu@c-sky.com
+Message-id: 20220120122050.41546-6-zhiwei_liu@c-sky.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/translate.c                      | 25 ++++++++++++++++---
- .../riscv/insn_trans/trans_privileged.c.inc   |  2 +-
- target/riscv/insn_trans/trans_rvi.c.inc       |  5 ++--
- target/riscv/insn_trans/trans_rvv.c.inc       |  4 +--
- 4 files changed, 27 insertions(+), 9 deletions(-)
+ target/riscv/cpu.h        | 31 +++++++++++++++++++++++++++++++
+ target/riscv/cpu.c        |  1 +
+ target/riscv/cpu_helper.c | 34 ++--------------------------------
+ target/riscv/csr.c        |  2 ++
+ target/riscv/machine.c    | 10 ++++++++++
+ 5 files changed, 46 insertions(+), 32 deletions(-)
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 30c0e28778..2a88bd99dc 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -193,16 +193,33 @@ static void gen_check_nanbox_s(TCGv_i64 out, TCGv_i=
-64 in)
-     tcg_gen_movcond_i64(TCG_COND_GEU, out, in, t_max, in, t_nan);
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 03552f4aaa..7657e22a56 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -146,6 +146,7 @@ struct CPURISCVState {
+     uint32_t misa_mxl_max;  /* max mxl for this cpu */
+     uint32_t misa_ext;      /* current extensions */
+     uint32_t misa_ext_mask; /* max ext for this cpu */
++    uint32_t xl;            /* current xlen */
+=20
+     /* 128-bit helpers upper part return value */
+     target_ulong retxh;
+@@ -456,6 +457,36 @@ static inline RISCVMXL riscv_cpu_mxl(CPURISCVState *=
+env)
+ }
+ #endif
+=20
++#if defined(TARGET_RISCV32)
++#define cpu_recompute_xl(env)  ((void)(env), MXL_RV32)
++#else
++static inline RISCVMXL cpu_recompute_xl(CPURISCVState *env)
++{
++    RISCVMXL xl =3D env->misa_mxl;
++#if !defined(CONFIG_USER_ONLY)
++    /*
++     * When emulating a 32-bit-only cpu, use RV32.
++     * When emulating a 64-bit cpu, and MXL has been reduced to RV32,
++     * MSTATUSH doesn't have UXL/SXL, therefore XLEN cannot be widened
++     * back to RV64 for lower privs.
++     */
++    if (xl !=3D MXL_RV32) {
++        switch (env->priv) {
++        case PRV_M:
++            break;
++        case PRV_U:
++            xl =3D get_field(env->mstatus, MSTATUS64_UXL);
++            break;
++        default: /* PRV_S | PRV_H */
++            xl =3D get_field(env->mstatus, MSTATUS64_SXL);
++            break;
++        }
++    }
++#endif
++    return xl;
++}
++#endif
++
+ /*
+  * Encode LMUL to lmul as follows:
+  *     LMUL    vlmul    lmul
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index c2b570e904..736cf1d4e7 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -413,6 +413,7 @@ static void riscv_cpu_reset(DeviceState *dev)
+     /* mmte is supposed to have pm.current hardwired to 1 */
+     env->mmte |=3D (PM_EXT_INITIAL | MMTE_M_PM_CURRENT);
+ #endif
++    env->xl =3D riscv_cpu_mxl(env);
+     cs->exception_index =3D RISCV_EXCP_NONE;
+     env->load_res =3D -1;
+     set_default_nan_mode(1, &env->fp_status);
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index afee770951..8ebcd57af0 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -35,37 +35,6 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetc=
+h)
+ #endif
  }
 =20
-+static void gen_set_pc_imm(DisasContext *ctx, target_ulong dest)
-+{
-+    if (get_xl(ctx) =3D=3D MXL_RV32) {
-+        dest =3D (int32_t)dest;
-+    }
-+    tcg_gen_movi_tl(cpu_pc, dest);
-+}
-+
-+static void gen_set_pc(DisasContext *ctx, TCGv dest)
-+{
-+    if (get_xl(ctx) =3D=3D MXL_RV32) {
-+        tcg_gen_ext32s_tl(cpu_pc, dest);
-+    } else {
-+        tcg_gen_mov_tl(cpu_pc, dest);
-+    }
-+}
-+
- static void generate_exception(DisasContext *ctx, int excp)
+-static RISCVMXL cpu_get_xl(CPURISCVState *env)
+-{
+-#if defined(TARGET_RISCV32)
+-    return MXL_RV32;
+-#elif defined(CONFIG_USER_ONLY)
+-    return MXL_RV64;
+-#else
+-    RISCVMXL xl =3D riscv_cpu_mxl(env);
+-
+-    /*
+-     * When emulating a 32-bit-only cpu, use RV32.
+-     * When emulating a 64-bit cpu, and MXL has been reduced to RV32,
+-     * MSTATUSH doesn't have UXL/SXL, therefore XLEN cannot be widened
+-     * back to RV64 for lower privs.
+-     */
+-    if (xl !=3D MXL_RV32) {
+-        switch (env->priv) {
+-        case PRV_M:
+-            break;
+-        case PRV_U:
+-            xl =3D get_field(env->mstatus, MSTATUS64_UXL);
+-            break;
+-        default: /* PRV_S | PRV_H */
+-            xl =3D get_field(env->mstatus, MSTATUS64_SXL);
+-            break;
+-        }
+-    }
+-    return xl;
+-#endif
+-}
+-
+ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+                           target_ulong *cs_base, uint32_t *pflags)
  {
--    tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
-+    gen_set_pc_imm(ctx, ctx->base.pc_next);
-     gen_helper_raise_exception(cpu_env, tcg_constant_i32(excp));
-     ctx->base.is_jmp =3D DISAS_NORETURN;
- }
-=20
- static void generate_exception_mtval(DisasContext *ctx, int excp)
- {
--    tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
-+    gen_set_pc_imm(ctx, ctx->base.pc_next);
-     tcg_gen_st_tl(cpu_pc, cpu_env, offsetof(CPURISCVState, badaddr));
-     gen_helper_raise_exception(cpu_env, tcg_constant_i32(excp));
-     ctx->base.is_jmp =3D DISAS_NORETURN;
-@@ -225,10 +242,10 @@ static void gen_goto_tb(DisasContext *ctx, int n, t=
-arget_ulong dest)
- {
-     if (translator_use_goto_tb(&ctx->base, dest)) {
-         tcg_gen_goto_tb(n);
--        tcg_gen_movi_tl(cpu_pc, dest);
-+        gen_set_pc_imm(ctx, dest);
-         tcg_gen_exit_tb(ctx->base.tb, n);
-     } else {
--        tcg_gen_movi_tl(cpu_pc, dest);
-+        gen_set_pc_imm(ctx, dest);
-         tcg_gen_lookup_and_goto_ptr();
+@@ -148,7 +117,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_=
+ulong *pc,
      }
+ #endif
+=20
+-    flags =3D FIELD_DP32(flags, TB_FLAGS, XL, cpu_get_xl(env));
++    flags =3D FIELD_DP32(flags, TB_FLAGS, XL, env->xl);
+=20
+     *pflags =3D flags;
  }
-diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/risc=
-v/insn_trans/trans_privileged.c.inc
-index 6077bbbf11..53613682e8 100644
---- a/target/riscv/insn_trans/trans_privileged.c.inc
-+++ b/target/riscv/insn_trans/trans_privileged.c.inc
-@@ -102,7 +102,7 @@ static bool trans_mret(DisasContext *ctx, arg_mret *a=
-)
- static bool trans_wfi(DisasContext *ctx, arg_wfi *a)
+@@ -364,6 +333,7 @@ void riscv_cpu_set_mode(CPURISCVState *env, target_ul=
+ong newpriv)
+     }
+     /* tlb_flush is unnecessary as mode is contained in mmu_idx */
+     env->priv =3D newpriv;
++    env->xl =3D cpu_recompute_xl(env);
+=20
+     /*
+      * Clear the load reservation - otherwise a reservation placed in on=
+e
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 6bc7ee780c..9be2820d2b 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -589,6 +589,7 @@ static RISCVException write_mstatus(CPURISCVState *en=
+v, int csrno,
+         mstatus =3D set_field(mstatus, MSTATUS64_UXL, xl);
+     }
+     env->mstatus =3D mstatus;
++    env->xl =3D cpu_recompute_xl(env);
+=20
+     return RISCV_EXCP_NONE;
+ }
+@@ -704,6 +705,7 @@ static RISCVException write_misa(CPURISCVState *env, =
+int csrno,
+     /* flush translation cache */
+     tb_flush(env_cpu(env));
+     env->misa_ext =3D val;
++    env->xl =3D riscv_cpu_mxl(env);
+     return RISCV_EXCP_NONE;
+ }
+=20
+diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+index 098670e680..b76e4db99c 100644
+--- a/target/riscv/machine.c
++++ b/target/riscv/machine.c
+@@ -214,10 +214,20 @@ static const VMStateDescription vmstate_kvmtimer =3D=
  {
- #ifndef CONFIG_USER_ONLY
--    tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn);
-+    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-     gen_helper_wfi(cpu_env);
-     return true;
- #else
-diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_=
-trans/trans_rvi.c.inc
-index b9ba57f266..04d3ea237f 100644
---- a/target/riscv/insn_trans/trans_rvi.c.inc
-+++ b/target/riscv/insn_trans/trans_rvi.c.inc
-@@ -59,6 +59,7 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
-     tcg_gen_addi_tl(cpu_pc, get_gpr(ctx, a->rs1, EXT_NONE), a->imm);
-     tcg_gen_andi_tl(cpu_pc, cpu_pc, (target_ulong)-2);
+     }
+ };
 =20
-+    gen_set_pc(ctx, cpu_pc);
-     if (!has_ext(ctx, RVC)) {
-         TCGv t0 =3D tcg_temp_new();
-=20
-@@ -827,7 +828,7 @@ static bool trans_fence_i(DisasContext *ctx, arg_fenc=
-e_i *a)
-      * FENCE_I is a no-op in QEMU,
-      * however we need to end the translation block
-      */
--    tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn);
-+    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-     tcg_gen_exit_tb(NULL, 0);
-     ctx->base.is_jmp =3D DISAS_NORETURN;
-     return true;
-@@ -836,7 +837,7 @@ static bool trans_fence_i(DisasContext *ctx, arg_fenc=
-e_i *a)
- static bool do_csr_post(DisasContext *ctx)
- {
-     /* We may have changed important cpu state -- exit to main loop. */
--    tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn);
-+    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-     tcg_gen_exit_tb(NULL, 0);
-     ctx->base.is_jmp =3D DISAS_NORETURN;
-     return true;
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_=
-trans/trans_rvv.c.inc
-index 7a040b3089..e03959c46f 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -194,7 +194,7 @@ static bool do_vsetvl(DisasContext *s, int rd, int rs=
-1, TCGv s2)
-     gen_set_gpr(s, rd, dst);
-     mark_vs_dirty(s);
-=20
--    tcg_gen_movi_tl(cpu_pc, s->pc_succ_insn);
-+    gen_set_pc_imm(s, s->pc_succ_insn);
-     tcg_gen_lookup_and_goto_ptr();
-     s->base.is_jmp =3D DISAS_NORETURN;
-=20
-@@ -219,7 +219,7 @@ static bool do_vsetivli(DisasContext *s, int rd, TCGv=
- s1, TCGv s2)
-     gen_helper_vsetvl(dst, cpu_env, s1, s2);
-     gen_set_gpr(s, rd, dst);
-     mark_vs_dirty(s);
--    tcg_gen_movi_tl(cpu_pc, s->pc_succ_insn);
-+    gen_set_pc_imm(s, s->pc_succ_insn);
-     tcg_gen_lookup_and_goto_ptr();
-     s->base.is_jmp =3D DISAS_NORETURN;
-=20
++static int riscv_cpu_post_load(void *opaque, int version_id)
++{
++    RISCVCPU *cpu =3D opaque;
++    CPURISCVState *env =3D &cpu->env;
++
++    env->xl =3D cpu_recompute_xl(env);
++    return 0;
++}
++
+ const VMStateDescription vmstate_riscv_cpu =3D {
+     .name =3D "cpu",
+     .version_id =3D 3,
+     .minimum_version_id =3D 3,
++    .post_load =3D riscv_cpu_post_load,
+     .fields =3D (VMStateField[]) {
+         VMSTATE_UINTTL_ARRAY(env.gpr, RISCVCPU, 32),
+         VMSTATE_UINT64_ARRAY(env.fpr, RISCVCPU, 32),
 --=20
 2.31.1
 
