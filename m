@@ -2,77 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DDBD4961AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 16:02:23 +0100 (CET)
-Received: from localhost ([::1]:47854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 722D449620B
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 16:28:13 +0100 (CET)
+Received: from localhost ([::1]:45338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAvQk-0003Ev-Cs
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 10:02:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58392)
+	id 1nAvpj-0005BX-EZ
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 10:28:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nAv3i-0002Qf-0B
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 09:38:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36579)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nAv3g-00087V-DT
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 09:38:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642775912;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iEkkoGeah9eazI7KZ4JpCQw0Oq5wXabCYzluIMpj2AY=;
- b=jAGAcrn/OziSj5sT0FnTe3YONz1cbLHiew9kUPe5gOKxHGAs+ceJOFSnO92fNPOHrDbtMU
- jG54Zize+19CvP29qhitZgvnRrha9z/FVc8fpnDX3FzKjJErNH5FLro7CMaseOObdnyhuC
- +se9HtJEfZ/aJoAgwqtcjmLoiTgQtmY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-115-HR8jMEk8Pt-hym_ePPX0fQ-1; Fri, 21 Jan 2022 09:38:23 -0500
-X-MC-Unique: HR8jMEk8Pt-hym_ePPX0fQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADBEB8144E1;
- Fri, 21 Jan 2022 14:38:22 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
- [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B2741091EEA;
- Fri, 21 Jan 2022 14:38:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A9B991136421; Fri, 21 Jan 2022 15:38:20 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: MkfsSion <mkfssion@mkfssion.com>
-Subject: Re: [PATCH v2] vl: Add support to set properties when using JSON
- syntax for -device via -set option
-References: <20211224072511.63894-1-mkfssion@mkfssion.com>
- <87iluflsxg.fsf@dusky.pond.sub.org>
- <45fba3c2-11b8-7710-95ee-859f09aea332@mkfssion.com>
-Date: Fri, 21 Jan 2022 15:38:20 +0100
-In-Reply-To: <45fba3c2-11b8-7710-95ee-859f09aea332@mkfssion.com>
- (mkfssion@mkfssion.com's message of "Fri, 21 Jan 2022 20:59:20 +0800")
-Message-ID: <8735lh40ir.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nAvew-00075V-Sd
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 10:17:02 -0500
+Received: from [2a00:1450:4864:20::634] (port=39547
+ helo=mail-ej1-x634.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nAveq-0006LQ-Hn
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 10:17:02 -0500
+Received: by mail-ej1-x634.google.com with SMTP id j2so967561ejk.6
+ for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 07:15:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=BucITeSyyjZi0hZHmrRnUdsDXe24bFhXp917kQA5h3U=;
+ b=kZvuIVUcktxl2pne/87/86u3P3J9TvqVVCTfU0BCOuGBb5o3hoRUDLk0uXRhPKD+MF
+ 3T9jS305WFXOOexdwoS3hDN+qYX5qhjs69Z0NHosvOmSxuq0rFlngEf/YAiUVUfzRKQg
+ ZnqF9VB5EoMNxU2ltyesvV+CihmWXKShRGnmxqT+8Vi5AExqHBqtU1/2mV871uvDpwaB
+ NcuRM/laGWLwdi9dAjR87bCD7b7TLYeiXvCVHk0ESZRpNpHI09y06kGxWcl51WRWRGyh
+ nWrq+9iSqVOaGIBQQ5x/ehtNo144DjWGC4BpmXyIAekQUFz9l4JOfW+mHbJU/kfpbm27
+ /CFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=BucITeSyyjZi0hZHmrRnUdsDXe24bFhXp917kQA5h3U=;
+ b=o/HVdOjwj5LiX3zoKN63GP4avKxaA6UOhO7s9GnrEqZ/fnAJ8WdFc9FCwgzfgFQ+Eg
+ PWEIHwx68oY5yfQKBuTt6Lv3jBRm+9ltBMsnZIzwcF3f/ArVnOPsC73cnf5AnUWPczaw
+ r8suUOGwQVuqIlpCymeOi1Cw3yv/cLda33GzNQqH7+N3Y2btuB1F1mOyxnbEEom74zHW
+ Zo7x4Wyo8fPAeACYiUvH2qJqDw5R8VHIGJPrCGEQj3+qjRJLM9P13wF+HzRX74W8winq
+ 1k52CYkbcxCyV7shWwCL24fMPzkm+FgFSznUq49D/4YaMOMaC0wCeKqWW7pDcoZsnzpV
+ UQGA==
+X-Gm-Message-State: AOAM532fk9Pxnncp+4aWHd8Kz4AD/T3apjHF+QjV94moa3jqXVDoVrTL
+ AkrOFf50O8A5BLUPDf6Ix2JpSg==
+X-Google-Smtp-Source: ABdhPJxVVAUg7raBQFg1DfFGqdMUwmiWvDWb2qrwnp2rHVFU9LhMToorMIpU9SHJwVCQzV1TN/2ufQ==
+X-Received: by 2002:a17:907:3d8e:: with SMTP id
+ he14mr3647912ejc.472.1642778141090; 
+ Fri, 21 Jan 2022 07:15:41 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a27sm2715631edj.17.2022.01.21.07.15.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Jan 2022 07:15:38 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 554A71FFB7;
+ Fri, 21 Jan 2022 15:15:37 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] tests/qtest: attempt to enable tests for virtio-gpio
+ (!working)
+Date: Fri, 21 Jan 2022 15:15:34 +0000
+Message-Id: <20220121151534.3654562-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220120040234.ehcjcdr6wrvlz3yc@vireshk-i7>
+References: <20220120040234.ehcjcdr6wrvlz3yc@vireshk-i7>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::634
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,49 +91,258 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MkfsSion <mkfssion@mkfssion.com> writes:
+We don't have a virtio-gpio implementation in QEMU and only
+support a vhost-user backend. The QEMU side of the code is minimal so
+it should be enough to instantiate the device and pass some vhost-user
+messages over the control socket. To do this we hook into the existing
+vhost-user-test code and just add the bits required for gpio.
 
-> On 2022/1/19 22:08, Markus Armbruster wrote:
+Based-on: 20220118203833.316741-1-eric.auger@redhat.com
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 
-[...]
+---
 
->> I don't think we should try to make -set work when using JSON arguments.
->>=20
-> Thanks for your detailed review.
+This goes as far as to add things to the QOS tree but so far it's
+failing to properly start QEMU with the chardev socket needed to
+communicate between the mock vhost-user daemon and QEMU itself.
+---
+ tests/qtest/libqos/virtio-gpio.h | 34 +++++++++++
+ tests/qtest/libqos/virtio-gpio.c | 98 ++++++++++++++++++++++++++++++++
+ tests/qtest/vhost-user-test.c    | 34 +++++++++++
+ tests/qtest/libqos/meson.build   |  1 +
+ 4 files changed, 167 insertions(+)
+ create mode 100644 tests/qtest/libqos/virtio-gpio.h
+ create mode 100644 tests/qtest/libqos/virtio-gpio.c
 
-You're welcome!
-
-> The following is my opinion towards implementing -set option for JSON arg=
-uments.
-> Having -set option worked for JSON argument improved compatability with l=
-ibvirt (libvirt has switched to use JSON arguments for device by default). =
--set option is useful for libvirt user as libvirt doesn't support all funct=
-ionality that QEMU provides.
-
-I understand you'd like to tweak how libvirt configures things.  -set
-used to work, but doesn't anymore.
-
-> I have another idea for implementing this feature which seems addressed t=
-he above issue. We can implement this feature by add new parameter that ref=
-ers to options provided by -set option to qdev_device_add_from_qdict() (Thi=
-s api seems is not widely used in QEMU tree) function and use old qobject_i=
-nput_visitor_new() visitor for setting them.
-> Do you think is OK to implement this feature in that way?
-
-I'm afraid I don't understand what you're proposing.
-
-Daniel Berrang=C3=A9 suggested to provide the means to tweak in libvirt:
-
-    Message-ID: <YdRIOC4XbSOLDpMj@redhat.com>
-    https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg00289.html
-
-Would that work for you?
-
-[...]
+diff --git a/tests/qtest/libqos/virtio-gpio.h b/tests/qtest/libqos/virtio-gpio.h
+new file mode 100644
+index 0000000000..abe6967ae9
+--- /dev/null
++++ b/tests/qtest/libqos/virtio-gpio.h
+@@ -0,0 +1,34 @@
++/*
++ * virtio-gpio structures
++ *
++ * Copyright (c) 2022 Linaro Ltd
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#ifndef TESTS_LIBQOS_VIRTIO_GPIO_H
++#define TESTS_LIBQOS_VIRTIO_GPIO_H
++
++#include "qgraph.h"
++#include "virtio.h"
++#include "virtio-pci.h"
++
++typedef struct QVhostUserGPIO QVhostUserGPIO;
++typedef struct QVhostUserGPIOPCI QVhostUserGPIOPCI;
++typedef struct QVhostUserGPIODevice QVhostUserGPIODevice;
++
++struct QVhostUserGPIO {
++    QVirtioDevice *vdev;
++};
++
++struct QVhostUserGPIOPCI {
++    QVirtioPCIDevice pci_vdev;
++    QVhostUserGPIO gpio;
++};
++
++struct QVhostUserGPIODevice {
++    QOSGraphObject obj;
++    QVhostUserGPIO gpio;
++};
++
++#endif
+diff --git a/tests/qtest/libqos/virtio-gpio.c b/tests/qtest/libqos/virtio-gpio.c
+new file mode 100644
+index 0000000000..62c8074777
+--- /dev/null
++++ b/tests/qtest/libqos/virtio-gpio.c
+@@ -0,0 +1,98 @@
++/*
++ * virtio-gpio nodes for testing
++ *
++ * Copyright (c) 2022 Linaro Ltd
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "libqtest.h"
++#include "qemu/module.h"
++#include "qgraph.h"
++#include "virtio-gpio.h"
++
++static void *qvirtio_gpio_get_driver(QVhostUserGPIO *v_gpio,
++                                       const char *interface)
++{
++    if (!g_strcmp0(interface, "vhost-user-gpio")) {
++        return v_gpio;
++    }
++    if (!g_strcmp0(interface, "virtio")) {
++        return v_gpio->vdev;
++    }
++
++    fprintf(stderr, "%s not present in virtio-gpio-device\n", interface);
++    g_assert_not_reached();
++}
++
++static void *qvirtio_gpio_device_get_driver(void *object,
++                                              const char *interface)
++{
++    QVhostUserGPIODevice *v_gpio = object;
++    return qvirtio_gpio_get_driver(&v_gpio->gpio, interface);
++}
++
++static void *virtio_gpio_device_create(void *virtio_dev,
++                                         QGuestAllocator *t_alloc,
++                                         void *addr)
++{
++    QVhostUserGPIODevice *virtio_device = g_new0(QVhostUserGPIODevice, 1);
++    QVhostUserGPIO *interface = &virtio_device->gpio;
++
++    interface->vdev = virtio_dev;
++
++    virtio_device->obj.get_driver = qvirtio_gpio_device_get_driver;
++
++    return &virtio_device->obj;
++}
++
++/* virtio-gpio-pci */
++static void *qvirtio_gpio_pci_get_driver(void *object, const char *interface)
++{
++    QVhostUserGPIOPCI *v_gpio = object;
++    if (!g_strcmp0(interface, "pci-device")) {
++        return v_gpio->pci_vdev.pdev;
++    }
++    return qvirtio_gpio_get_driver(&v_gpio->gpio, interface);
++}
++
++static void *virtio_gpio_pci_create(void *pci_bus, QGuestAllocator *t_alloc,
++                                      void *addr)
++{
++    QVhostUserGPIOPCI *virtio_spci = g_new0(QVhostUserGPIOPCI, 1);
++    QVhostUserGPIO *interface = &virtio_spci->gpio;
++    QOSGraphObject *obj = &virtio_spci->pci_vdev.obj;
++
++    virtio_pci_init(&virtio_spci->pci_vdev, pci_bus, addr);
++    interface->vdev = &virtio_spci->pci_vdev.vdev;
++
++    obj->get_driver = qvirtio_gpio_pci_get_driver;
++
++    return obj;
++}
++
++static void virtio_gpio_register_nodes(void)
++{
++    QPCIAddress addr = {
++        .devfn = QPCI_DEVFN(4, 0),
++    };
++
++    QOSGraphEdgeOptions edge_opts = { };
++
++    /* vhost-user-gpio-device */
++    edge_opts.extra_device_opts = "id=gpio0,chardev=vhgpio0";
++    qos_node_create_driver("vhost-user-gpio-device",
++                            virtio_gpio_device_create);
++    qos_node_consumes("vhost-user-gpio-device", "virtio-bus", &edge_opts);
++    qos_node_produces("vhost-user-gpio-device", "vhost-user-gpio");
++
++    /* virtio-gpio-pci */
++    edge_opts.extra_device_opts = "id=gpio0,addr=04.0,chardev=vhgpio0";
++    add_qpci_address(&edge_opts, &addr);
++    qos_node_create_driver("vhost-user-gpio-pci", virtio_gpio_pci_create);
++    qos_node_consumes("vhost-user-gpio-pci", "pci-bus", &edge_opts);
++    qos_node_produces("vhost-user-gpio-pci", "vhost-user-gpio");
++}
++
++libqos_init(virtio_gpio_register_nodes);
+diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
+index ee30f54796..4f8789424b 100644
+--- a/tests/qtest/vhost-user-test.c
++++ b/tests/qtest/vhost-user-test.c
+@@ -43,6 +43,7 @@
+                         " -numa node,memdev=mem"
+ #define QEMU_CMD_CHR    " -chardev socket,id=%s,path=%s%s"
+ #define QEMU_CMD_NETDEV " -netdev vhost-user,id=hs0,chardev=%s,vhostforce=on"
++#define QEMU_CMD_GPIO   " -device vhost-user-gpio-pci,id=gpio0,chardev=%s,vhostforce=on"
+ 
+ #define HUGETLBFS_MAGIC       0x958458f6
+ 
+@@ -137,6 +138,7 @@ enum {
+ 
+ enum {
+     VHOST_USER_NET,
++    VHOST_USER_GPIO,
+ };
+ 
+ typedef struct TestServer {
+@@ -194,6 +196,14 @@ static void append_vhost_net_opts(TestServer *s, GString *cmd_line,
+                            chr_opts, s->chr_name);
+ }
+ 
++static void append_vhost_gpio_opts(TestServer *s, GString *cmd_line,
++                             const char *chr_opts)
++{
++    g_string_append_printf(cmd_line, QEMU_CMD_CHR QEMU_CMD_GPIO,
++                           s->chr_name, s->socket_path,
++                           chr_opts, s->chr_name);
++}
++
+ static void append_mem_opts(TestServer *server, GString *cmd_line,
+                             int size, enum test_memfd memfd)
+ {
+@@ -1014,3 +1024,27 @@ static void register_vhost_user_test(void)
+                  test_multiqueue, &opts);
+ }
+ libqos_init(register_vhost_user_test);
++
++static struct vhost_user_ops g_vu_gpio_ops = {
++    .type = VHOST_USER_GPIO,
++
++    .append_opts = append_vhost_gpio_opts,
++
++    .set_features = vu_net_set_features,
++    .get_protocol_features = vu_net_get_protocol_features,
++};
++
++static void register_vhost_gpio_test(void)
++{
++    QOSGraphTestOptions opts = {
++        .before = vhost_user_test_setup,
++        .subprocess = true,
++        .arg = &g_vu_gpio_ops,
++    };
++
++    qemu_add_opts(&qemu_chardev_opts);
++
++    qos_add_test("read-guest-mem/memfile",
++                 "vhost-user-gpio", test_read_guest_mem, &opts);
++}
++libqos_init(register_vhost_gpio_test);
+diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
+index 8c8ee15553..f581330d8b 100644
+--- a/tests/qtest/libqos/meson.build
++++ b/tests/qtest/libqos/meson.build
+@@ -42,6 +42,7 @@ libqos_srcs = files('../libqtest.c',
+         'virtio-scsi.c',
+         'virtio-serial.c',
+         'virtio-iommu.c',
++        'virtio-gpio.c',
+         'generic-pcihost.c',
+ 
+         # qgraph machines:
+-- 
+2.30.2
 
 
