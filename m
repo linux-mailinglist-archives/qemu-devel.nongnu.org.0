@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D588D49665E
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 21:36:40 +0100 (CET)
-Received: from localhost ([::1]:57150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2E29496662
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 21:38:17 +0100 (CET)
+Received: from localhost ([::1]:60134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB0eF-0007uy-Fg
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 15:36:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58496)
+	id 1nB0fp-0001eT-3J
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 15:38:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nB0Z1-0005Pq-Ih
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:31:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54682)
+ id 1nB0Ze-0005sl-Ig
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:31:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22550)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nB0Yw-00038c-Nt
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:31:15 -0500
+ id 1nB0Zc-0003er-Tt
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:31:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642797010;
+ s=mimecast20190719; t=1642797112;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iZfKQhsB/ktrhenT9moP6VzJa8291iIlZQu2980rWAM=;
- b=MJOnPjF+Oxm+o0PKKX+OjGcGpYYKEOEb6sLN8qLVWfpsoLJ7SZu5wKZ0cuBfLHgq6rypRH
- q1jpYmNXf5ADFLHTOAYEMO+SrRStFYueJ7gP3OH+K+7CSiaIhWzIUxqnD9fwjPYDZVjF2Q
- WH2qFIumWulon8oiqJG029VmH5Be/hg=
+ bh=XQR7/zXXZ1qr/kaP+WOypxUDZe+kG+bCuBCwWqVNujo=;
+ b=OikDs3dRQ4sm9MdfLfXK79bQaaa3gG4v0JSeoEfy3qn4ptQ8EzEy4UQSuDsADSUqJ+Sh96
+ XtPOzEZIY4ouIQFykYUMaP1iEbb1gwRyikp36yn1Vuo9okUJllzChxboiOuzVNj/plfZkx
+ PYR283B0y8kAS57ece3DnY+CPbewVbA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-574--oFOokyKPkmDoW8ZvSPWVw-1; Fri, 21 Jan 2022 15:30:08 -0500
-X-MC-Unique: -oFOokyKPkmDoW8ZvSPWVw-1
+ us-mta-660-77-PdLpNMp2fDOmOxU4nvQ-1; Fri, 21 Jan 2022 15:31:51 -0500
+X-MC-Unique: 77-PdLpNMp2fDOmOxU4nvQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B51E84BA1A;
- Fri, 21 Jan 2022 20:30:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 749FC814243;
+ Fri, 21 Jan 2022 20:31:49 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.193.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 86A083D7E;
- Fri, 21 Jan 2022 20:29:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 89607E2CB;
+ Fri, 21 Jan 2022 20:30:07 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/31] vhost: Add VhostShadowVirtqueue
-Date: Fri, 21 Jan 2022 21:27:04 +0100
-Message-Id: <20220121202733.404989-3-eperezma@redhat.com>
+Subject: [PATCH 03/31] vdpa: Add vhost_svq_get_dev_kick_notifier
+Date: Fri, 21 Jan 2022 21:27:05 +0100
+Message-Id: <20220121202733.404989-4-eperezma@redhat.com>
 In-Reply-To: <20220121202733.404989-1-eperezma@redhat.com>
 References: <20220121202733.404989-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -94,134 +94,60 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vhost shadow virtqueue (SVQ) is an intermediate jump for virtqueue
-notifications and buffers, allowing qemu to track them. While qemu is
-forwarding the buffers and virtqueue changes, it is able to commit the
-memory it's being dirtied, the same way regular qemu's VirtIO devices
-do.
-
-This commit only exposes basic SVQ allocation and free. Next patches of
-the series add functionality like notifications and buffers forwarding.
+Is needed so vhost-vdpa knows the device's kick event fd.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.h | 21 ++++++++++
- hw/virtio/vhost-shadow-virtqueue.c | 64 ++++++++++++++++++++++++++++++
- hw/virtio/meson.build              |  2 +-
- 3 files changed, 86 insertions(+), 1 deletion(-)
- create mode 100644 hw/virtio/vhost-shadow-virtqueue.h
- create mode 100644 hw/virtio/vhost-shadow-virtqueue.c
+ hw/virtio/vhost-shadow-virtqueue.h |  4 ++++
+ hw/virtio/vhost-shadow-virtqueue.c | 10 +++++++++-
+ 2 files changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
-new file mode 100644
-index 0000000000..61ea112002
---- /dev/null
+index 61ea112002..400effd9f2 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.h
 +++ b/hw/virtio/vhost-shadow-virtqueue.h
-@@ -0,0 +1,21 @@
-+/*
-+ * vhost shadow virtqueue
-+ *
-+ * SPDX-FileCopyrightText: Red Hat, Inc. 2021
-+ * SPDX-FileContributor: Author: Eugenio Pérez <eperezma@redhat.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#ifndef VHOST_SHADOW_VIRTQUEUE_H
-+#define VHOST_SHADOW_VIRTQUEUE_H
-+
-+#include "hw/virtio/vhost.h"
-+
-+typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
-+
-+VhostShadowVirtqueue *vhost_svq_new(void);
-+
-+void vhost_svq_free(VhostShadowVirtqueue *vq);
-+
-+#endif
-diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-new file mode 100644
-index 0000000000..5ee7b401cb
---- /dev/null
-+++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -0,0 +1,64 @@
-+/*
-+ * vhost shadow virtqueue
-+ *
-+ * SPDX-FileCopyrightText: Red Hat, Inc. 2021
-+ * SPDX-FileContributor: Author: Eugenio Pérez <eperezma@redhat.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/virtio/vhost-shadow-virtqueue.h"
-+
-+#include "qemu/error-report.h"
-+#include "qemu/event_notifier.h"
-+
-+/* Shadow virtqueue to relay notifications */
-+typedef struct VhostShadowVirtqueue {
-+    /* Shadow kick notifier, sent to vhost */
-+    EventNotifier hdev_kick;
-+    /* Shadow call notifier, sent to vhost */
-+    EventNotifier hdev_call;
-+} VhostShadowVirtqueue;
-+
-+/**
-+ * Creates vhost shadow virtqueue, and instruct vhost device to use the shadow
-+ * methods and file descriptors.
-+ */
-+VhostShadowVirtqueue *vhost_svq_new(void)
-+{
-+    g_autofree VhostShadowVirtqueue *svq = g_new0(VhostShadowVirtqueue, 1);
-+    int r;
-+
-+    r = event_notifier_init(&svq->hdev_kick, 0);
-+    if (r != 0) {
-+        error_report("Couldn't create kick event notifier: %s",
-+                     strerror(errno));
-+        goto err_init_hdev_kick;
-+    }
-+
-+    r = event_notifier_init(&svq->hdev_call, 0);
-+    if (r != 0) {
-+        error_report("Couldn't create call event notifier: %s",
-+                     strerror(errno));
-+        goto err_init_hdev_call;
-+    }
-+
-+    return g_steal_pointer(&svq);
-+
-+err_init_hdev_call:
-+    event_notifier_cleanup(&svq->hdev_kick);
-+
-+err_init_hdev_kick:
-+    return NULL;
-+}
-+
-+/**
-+ * Free the resources of the shadow virtqueue.
-+ */
-+void vhost_svq_free(VhostShadowVirtqueue *vq)
-+{
-+    event_notifier_cleanup(&vq->hdev_kick);
-+    event_notifier_cleanup(&vq->hdev_call);
-+    g_free(vq);
-+}
-diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-index 521f7d64a8..2dc87613bc 100644
---- a/hw/virtio/meson.build
-+++ b/hw/virtio/meson.build
-@@ -11,7 +11,7 @@ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-stub.c'))
+@@ -11,9 +11,13 @@
+ #define VHOST_SHADOW_VIRTQUEUE_H
  
- virtio_ss = ss.source_set()
- virtio_ss.add(files('virtio.c'))
--virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-backend.c'))
-+virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-backend.c', 'vhost-shadow-virtqueue.c'))
- virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user.c'))
- virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-vdpa.c'))
- virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-balloon.c'))
+ #include "hw/virtio/vhost.h"
++#include "qemu/event_notifier.h"
+ 
+ typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
+ 
++const EventNotifier *vhost_svq_get_dev_kick_notifier(
++                                              const VhostShadowVirtqueue *svq);
++
+ VhostShadowVirtqueue *vhost_svq_new(void);
+ 
+ void vhost_svq_free(VhostShadowVirtqueue *vq);
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+index 5ee7b401cb..bd87110073 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.c
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -11,7 +11,6 @@
+ #include "hw/virtio/vhost-shadow-virtqueue.h"
+ 
+ #include "qemu/error-report.h"
+-#include "qemu/event_notifier.h"
+ 
+ /* Shadow virtqueue to relay notifications */
+ typedef struct VhostShadowVirtqueue {
+@@ -21,6 +20,15 @@ typedef struct VhostShadowVirtqueue {
+     EventNotifier hdev_call;
+ } VhostShadowVirtqueue;
+ 
++/**
++ * The notifier that SVQ will use to notify the device.
++ */
++const EventNotifier *vhost_svq_get_dev_kick_notifier(
++                                               const VhostShadowVirtqueue *svq)
++{
++    return &svq->hdev_kick;
++}
++
+ /**
+  * Creates vhost shadow virtqueue, and instruct vhost device to use the shadow
+  * methods and file descriptors.
 -- 
 2.27.0
 
