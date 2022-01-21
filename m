@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A505B495C80
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 10:04:26 +0100 (CET)
-Received: from localhost ([::1]:50822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD03E495CD0
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 10:27:35 +0100 (CET)
+Received: from localhost ([::1]:51628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nApqL-0004jr-CE
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 04:04:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54210)
+	id 1nAqCk-0000Ay-UR
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 04:27:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAn1C-0000Dn-Tg
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:03:34 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:60338)
+ id 1nAn1L-0000Ee-O0
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:03:37 -0500
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:60345)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0135fdaf6=alistair.francis@opensource.wdc.com>)
- id 1nAn18-0004AK-NY
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:03:24 -0500
+ id 1nAn1G-0004B6-K0
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 01:03:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1642745002; x=1674281002;
+ t=1642745010; x=1674281010;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Fm47EllRl2wXvlxAZ/r1Y8qu9vascqutym+Rvh5sLy8=;
- b=mJataqURzNTK6Tk60YE5JOgRbRekbJTi4jPVsdV83EX+RuJDm9jfZBxB
- FQFjHrBhHN1hHCAorXElrBTS57M/gJeyH0emQ8IDxHL4JhXknW+84KeFW
- PDrKuwATV466t7OkOUCQDwQ6cH0z2FK0DqPJ+aL5SEbPD2iTmPyOc2zZo
- 9KIer8fHdMXxTrCz+S5FgzQd51Z/lqrzoAHvty3nHeECCGwx49SqY2rlI
- qWZXJU9DzZcDq0vO46y9wVQd25FL7LB5buCgpgpzoWVLVwcKE4r0SAOPM
- V9cNeUj4s05M9zkwC24tbnortTuYXARj3TAIzU0T5hqQXdkJz9nx54tZ+ w==;
-X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="295083151"
+ bh=8GLgidKFmTM0na/tvygKsEkZ/UYLfAM6RbzY3orjP+k=;
+ b=TnjUN5VEuyXCcwwXQw/KaWpIdUZ8S6r4UEiZpOOaiVWylRdMgT+FIJFg
+ kJ+cD9TupH5MX1OlImFcNbqNPIXj8MrKNYSmkLqv0cG8l/fYhmN3U4W/d
+ pCV5IVZDtzLrtDvDbJQM/l2/vkzeYaqZ3YaSM6HiOTTcih8/94rsh2SG0
+ L5w/7Epehn1QrSQ3ytAl9Hgyh/kCFKb+uqofZB0o7Th3tLICOiEK4FiJO
+ s4DY7QPOJNkUzu1m0xRn70cJ9y9CugoV397nHB8lt4o0OwxEKqk5mWrga
+ LsXoS7sh8hDC6hgEhpB74YzX/O0F6Agaq9hkQ9bb0BoUUlB5GqzmKbaar g==;
+X-IronPort-AV: E=Sophos;i="5.88,304,1635177600"; d="scan'208";a="295083161"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 14:02:28 +0800
-IronPort-SDR: RqKLKK1on/H/4pMKYO7eXd75SMvXf7NWrpHksqm48QDxMtlGXbASzC5bOd31q8aFOh7TyH/XXg
- Ugf/jP5Ei+jBbi57Ay+Tq2YpeMiqRssSnSMRIrY56RbZlnx0L8WElJy/EFPE+Bd4bWNFYr3gdc
- QiY+/ev/OJlsJkRu2jzp7R1gd5qQt7SDTrZFgepU4qC7zZBlSbro0x4rfbg38s+E8nHB2Cw/k9
- /uVf5EfdjPQB2cvdTr10TfOxUGG+Gy5VzifaanyGgIAQb8spE743xN2NOQlvG0XEu8FT4qMSyU
- g//UFUaMvrgtDxsBBzSltqQA
+ by ob1.hgst.iphmx.com with ESMTP; 21 Jan 2022 14:02:36 +0800
+IronPort-SDR: zOFTLOCgr/DMU7grj4cBsQM4knaVrUQ1y4hjm0P+iBKlU2UQ9LKgcuaIxVcVqwlLwORDLR1mFn
+ 2F4PuQMeO0i+Xi5kLRXA6uP7s+APGB1KOTaUJOA0ykhDauk9oFFMzLZWahdzhlj4xy5dB6ZYRX
+ 0QMHfBBbFTW2ReogN1DFbtU8hxtUgT2eHdAHje9YssUrr8uDRT0/LtLv3JMmOu9w+vR4sshN3t
+ AaOcc8UkQUgc7ZkDcNRk4YX5xKFrNGwiRzp0M0xbb98gMUHHhcbB3/8l0Al+3RsSyL1VBKcz8h
+ q+Wi6zXwIwG+rFW0tiFgHBpv
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 21:35:55 -0800
-IronPort-SDR: q6dcgaoiGFN4+MMg9XjtuNkI7CHDFV4BGzN45w5GXqhbQvLpV2W31XbXw/2CudnhnvbbmXuehV
- NM9G8GhdvATTkY89+1js2arYKqzo9eykdxDHeQ/Y3BL3kTRX8HxPCYNWhQGk8gtXY1VmK3rEml
- u26S9ATtRKcuWXiXqOsuCI/eKPEwK1eRbfWXN9UivqZPVrM4Jw3V2UcTSTw3ZQLy9w1e4o+5zE
- fzHMspbfLaPu1jTuk3Fd8gMDH0hm+DhfovFJB3xtcI74p5dNIGSq7cXhwOCh/hOEsZZs7Lys6J
- iMc=
+ 20 Jan 2022 21:36:04 -0800
+IronPort-SDR: 3cXTo8+tdkL1zxD2ieYR8n804dCVE8MUGzB8GJ9LbY2+VnY1hdiqKjxmO/3evcpOxcK5mqr/sR
+ z5txD9JiOmyLft8t97q48yb5yY8THfzjlXEOOXqVNnoAMb6mBXmWjDjrs0Z5a+k1DVVPMvKea/
+ 4lvehHtSIMA7MZHZFaf2VZznh9X9OFxaTWyeTzgLmrm3DyP4/sl6XZpwBV+IIWAdCCWhFDDDiX
+ 6wMYgaiw2lbxI6sr80vLjOsGN3cUmh2yS4GP1d+0jY6CpKGXX8xZbGKka76gHtUFW+l43UnMAd
+ v18=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 22:02:28 -0800
+ 20 Jan 2022 22:02:36 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg80z74Stz1SVp4
- for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 22:02:27 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jg81831JVz1SVp1
+ for <qemu-devel@nongnu.org>; Thu, 20 Jan 2022 22:02:36 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1642744947; x=1645336948; bh=Fm47EllRl2wXvlxAZ/
- r1Y8qu9vascqutym+Rvh5sLy8=; b=BlR1NTW/mGILsttZNvRRqvLvIS7jgr0g1l
- /v1JNCTiJQUe214qffFhYm9LiiCY9XO4PGqet6hYwrfoz5nqDG+xtlBA2DUPtrLg
- L6pU9ossbQMW0WycUrxcJx9QMdxMvZ+H7e2/X7wowU6Lvkx6ih7m7Ipns9Qpae9U
- sfp8ojgb+d8+5ptxU/UEHzbdHbmZ2d0FBnxfMagQnf8nAHmCfcp31XDg/G3bLvGi
- DBguXV2hPeR6B5fpPXFYBSWrEL0amQPOrTCVQLUuLBoNRrcL2BoxfKwVm32b3cO9
- VwjL2HVgJBqJR1dEOcSVazNcGeX7qTWTCRpuBzcJt0kShJ2wQCSw==
+ :from; s=dkim; t=1642744956; x=1645336957; bh=8GLgidKFmTM0na/tvy
+ gKsEkZ/UYLfAM6RbzY3orjP+k=; b=LrqM1J7kRxJqg2pGPeFkEwC+Cu1QvjaKHF
+ py626t0+Gt25fPX+UXr3eJov4oWfhh2kJcbhBRKxeJ1TmEPaAhFfAzbW1uZjtmzz
+ PXVb2FXr3KTUGAjFsFBTfRY9N1sHz20Cnt5wVbLLUIEg5DsPnx1hYpvh2PIU7tLC
+ wx35v+2GcJqcFShKjTR+XcEf4Is78Ymi098WjXoalSNEnMnO6oBbOsiGiyhW3cH9
+ ExIYxD4JVMsCj3lkmKs+1RDEu+4+/qJLYwZe/AzJUayQS6O+GdCumaJjnus0D7c2
+ q/hB+eXFOiSk6tdVSX7NQDZFBFYCKUv0p0jlbJLgfDBYQJjnESag==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id d_NdNhMpa5V3 for <qemu-devel@nongnu.org>;
- Thu, 20 Jan 2022 22:02:27 -0800 (PST)
+ port 10026) with ESMTP id KMI6urYlwk9d for <qemu-devel@nongnu.org>;
+ Thu, 20 Jan 2022 22:02:36 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.80])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg80w3NWzz1RvlN;
- Thu, 20 Jan 2022 22:02:23 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jg81500cpz1RvlN;
+ Thu, 20 Jan 2022 22:02:32 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, LIU Zhiwei <zhiwei_liu@c-sky.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 54/61] target/riscv: Adjust vsetvl according to XLEN
-Date: Fri, 21 Jan 2022 15:58:23 +1000
-Message-Id: <20220121055830.3164408-55-alistair.francis@opensource.wdc.com>
+Subject: [PULL 56/61] target/riscv: Fix check range for first fault only
+Date: Fri, 21 Jan 2022 15:58:25 +1000
+Message-Id: <20220121055830.3164408-57-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
 References: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
@@ -118,53 +118,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
+Only check the range that has passed the address translation.
+
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20220120122050.41546-17-zhiwei_liu@c-sky.com
+Message-id: 20220120122050.41546-19-zhiwei_liu@c-sky.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h           | 5 +++++
- target/riscv/vector_helper.c | 7 +++++--
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ target/riscv/vector_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 6c740b92c1..fe58ccaeae 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -491,6 +491,11 @@ static inline RISCVMXL cpu_recompute_xl(CPURISCVStat=
-e *env)
- }
- #endif
-=20
-+static inline int riscv_cpu_xlen(CPURISCVState *env)
-+{
-+    return 16 << env->xl;
-+}
-+
- /*
-  * Encode LMUL to lmul as follows:
-  *     LMUL    vlmul    lmul
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index a9484c22ea..8b7c9ec890 100644
+index 8b7c9ec890..efb3129532 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -36,8 +36,11 @@ target_ulong HELPER(vsetvl)(CPURISCVState *env, target=
-_ulong s1,
-     uint64_t lmul =3D FIELD_EX64(s2, VTYPE, VLMUL);
-     uint16_t sew =3D 8 << FIELD_EX64(s2, VTYPE, VSEW);
-     uint8_t ediv =3D FIELD_EX64(s2, VTYPE, VEDIV);
--    bool vill =3D FIELD_EX64(s2, VTYPE, VILL);
--    target_ulong reserved =3D FIELD_EX64(s2, VTYPE, RESERVED);
-+    int xlen =3D riscv_cpu_xlen(env);
-+    bool vill =3D (s2 >> (xlen - 1)) & 0x1;
-+    target_ulong reserved =3D s2 &
-+                            MAKE_64BIT_MASK(R_VTYPE_RESERVED_SHIFT,
-+                                            xlen - 1 - R_VTYPE_RESERVED_=
-SHIFT);
-=20
-     if (lmul & 4) {
-         /* Fractional LMUL. */
+@@ -500,12 +500,12 @@ vext_ldff(void *vd, void *v0, target_ulong base,
+                                          cpu_mmu_index(env, false));
+                 if (host) {
+ #ifdef CONFIG_USER_ONLY
+-                    if (page_check_range(addr, nf << esz, PAGE_READ) < 0=
+) {
++                    if (page_check_range(addr, offset, PAGE_READ) < 0) {
+                         vl =3D i;
+                         goto ProbeSuccess;
+                     }
+ #else
+-                    probe_pages(env, addr, nf << esz, ra, MMU_DATA_LOAD)=
+;
++                    probe_pages(env, addr, offset, ra, MMU_DATA_LOAD);
+ #endif
+                 } else {
+                     vl =3D i;
 --=20
 2.31.1
 
