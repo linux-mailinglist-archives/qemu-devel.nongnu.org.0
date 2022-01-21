@@ -2,56 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89419495D30
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 11:02:40 +0100 (CET)
-Received: from localhost ([::1]:49486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 816CF495D49
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 11:09:07 +0100 (CET)
+Received: from localhost ([::1]:58446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAqkh-0004Kx-6o
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 05:02:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44912)
+	id 1nAqqv-0002Cg-Gy
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 05:09:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nAoyH-0007yD-3O
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 03:08:37 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:58887
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nAoxa-0007Gx-Gz
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 03:08:11 -0500
-HMM_SOURCE_IP: 172.18.0.218:33332.658219723
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-182.150.57.243 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 54C75280113;
- Fri, 21 Jan 2022 16:07:27 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by app0025 with ESMTP id 21411c8d4ab147c8b544cd94ea87760c for
- peterx@redhat.com; Fri, 21 Jan 2022 16:07:30 CST
-X-Transaction-ID: 21411c8d4ab147c8b544cd94ea87760c
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-Message-ID: <f6d0b94c-3357-71dc-f992-b6d3d41fa6a7@chinatelecom.cn>
-Date: Fri, 21 Jan 2022 16:07:24 +0800
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nAp4q-000216-3D; Fri, 21 Jan 2022 03:15:20 -0500
+Received: from smtp23.cstnet.cn ([159.226.251.23]:56584 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nAp4n-00087Z-3m; Fri, 21 Jan 2022 03:15:19 -0500
+Received: from [192.168.0.104] (unknown [180.156.147.178])
+ by APP-03 (Coremail) with SMTP id rQCowAAnLy+Ga+phfDXSBQ--.65147S2;
+ Fri, 21 Jan 2022 16:15:03 +0800 (CST)
+Subject: Re: [RFC PATCH v5 14/14] target/riscv: rvk: expose zbk* and zk*
+ properties
+To: Alistair Francis <alistair23@gmail.com>
+References: <20220119113754.20323-1-liweiwei@iscas.ac.cn>
+ <20220119113754.20323-15-liweiwei@iscas.ac.cn>
+ <CAKmqyKM_rj9N4O2057KxApMymApRC7wtiFCaunJkj3n3bqZmhg@mail.gmail.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <992cab6e-2538-f5eb-7880-a190fde8233c@iscas.ac.cn>
+Date: Fri, 21 Jan 2022 16:15:02 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v11 3/4] softmmu/dirtylimit: implement virtual CPU throttle
-To: Peter Xu <peterx@redhat.com>
-References: <cover.1641316375.git.huangy81@chinatelecom.cn>
- <0381e32c2cc70613613aaa284b8e8c9760d6932f.1641316375.git.huangy81@chinatelecom.cn>
- <YeUbhC7MG32K9pxu@xz-m1.local>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <YeUbhC7MG32K9pxu@xz-m1.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <CAKmqyKM_rj9N4O2057KxApMymApRC7wtiFCaunJkj3n3bqZmhg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.222;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+Content-Language: en-US
+X-CM-TRANSID: rQCowAAnLy+Ga+phfDXSBQ--.65147S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uw17uFyxCryDGry7KF1DAwb_yoW8Zr48pr
+ 15JFW7K3Z7JrySk3yUtw1DtrW8G3WrC39Fq34Iv3ZrAr4fGrsxGF1DKa1vkr47Ar48ZF4I
+ 9F43ur1FvrZ0va7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBa14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+ 0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0264kExVAvwVAq07x20xyl42xK82IYc2
+ Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
+ 6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0x
+ vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
+ 42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2js
+ IEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU2fOwUUUUU=
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L3=0.001,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,245 +75,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
+Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, lustrew@foxmail.com,
+ wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, luruibo2000@163.com,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+在 2022/1/21 上午8:35, Alistair Francis 写道:
+> On Wed, Jan 19, 2022 at 11:09 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>
+> Alistair
+>
+Thanks for your comments.
 
-> 
-> Again, I won't ask for a good algorithm as the 1st version, but then I think
-> it's nicer we have the simplest algorithm merged first, which should be very
-> easy to verify.
-> 
-Hi, Peter, i'm working on simplifying the algorithm.
-Current throttle logic is like the following:
+Regards,
 
-1. If error value(|quota - current|) less than 25MB/s, we assert 
-throttle already done and do nothing.
+Weiwei Li
 
-2. Start to throttle if "error value greater than 25MB/s" scenario 
-detected twice.
+>> ---
+>>   target/riscv/cpu.c | 13 +++++++++++++
+>>   1 file changed, 13 insertions(+)
+>>
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index b487a8282c..04e8e8d3c6 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -694,7 +694,20 @@ static Property riscv_cpu_properties[] = {
+>>       DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
+>>       DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
+>>       DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
+>> +    DEFINE_PROP_BOOL("zbkb", RISCVCPU, cfg.ext_zbkb, false),
+>> +    DEFINE_PROP_BOOL("zbkc", RISCVCPU, cfg.ext_zbkc, false),
+>> +    DEFINE_PROP_BOOL("zbkx", RISCVCPU, cfg.ext_zbkx, false),
+>>       DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
+>> +    DEFINE_PROP_BOOL("zk", RISCVCPU, cfg.ext_zk, false),
+>> +    DEFINE_PROP_BOOL("zkn", RISCVCPU, cfg.ext_zkn, false),
+>> +    DEFINE_PROP_BOOL("zknd", RISCVCPU, cfg.ext_zknd, false),
+>> +    DEFINE_PROP_BOOL("zkne", RISCVCPU, cfg.ext_zkne, false),
+>> +    DEFINE_PROP_BOOL("zknh", RISCVCPU, cfg.ext_zknh, false),
+>> +    DEFINE_PROP_BOOL("zkr", RISCVCPU, cfg.ext_zkr, false),
+>> +    DEFINE_PROP_BOOL("zks", RISCVCPU, cfg.ext_zks, false),
+>> +    DEFINE_PROP_BOOL("zksed", RISCVCPU, cfg.ext_zksed, false),
+>> +    DEFINE_PROP_BOOL("zksh", RISCVCPU, cfg.ext_zksh, false),
+>> +    DEFINE_PROP_BOOL("zkt", RISCVCPU, cfg.ext_zkt, false),
+>>
+>>       /* These are experimental so mark with 'x-' */
+>>       DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+>> --
+>> 2.17.1
+>>
+>>
 
-3. Speed up throttle via plus and minus linearly if "error value" be 
-found too large.
-
-4. Throttle normally via plus and minus a fixed time slice.
-
-I think 1、4 are basic logic and shoul not be dropped, and 2 could be 
-removed(i take this from auto-converg algo), i prefer to reserve 3 so 
-that the throttle can response fast.
-
-How about this?
-
-Could it be possible that i add some comments in 
-dirtylimit_adjust_throttle and not touch the logic? I test the result of 
-v12 and it seems working fine.
-
->> +
->> +static void dirtylimit_adjust_throttle(CPUState *cpu)
->> +{
->> +    uint64_t quota = 0;
->> +    uint64_t current = 0;
->> +    int cpu_index = cpu->cpu_index;
->> +
->> +    quota = dirtylimit_vcpu_get_state(cpu_index)->quota;
->> +    current = vcpu_dirty_rate_get(cpu_index);
->> +
->> +    if (current == 0 &&
->> +        dirtylimit_vcpu_get_state(cpu_index)->unmatched_cnt == 0) {
->> +        cpu->throttle_us_per_full = 0;
->> +        goto end;
->> +    } else if (++dirtylimit_vcpu_get_state(cpu_index)->unmatched_cnt
->> +               < 2) {
->> +        goto end;
->> +    } else if (dirtylimit_done(quota, current)) {
->> +        goto end;
->> +    } else {
->> +        dirtylimit_vcpu_get_state(cpu_index)->unmatched_cnt = 0;
->> +        dirtylimit_set_throttle(cpu, quota, current);
->> +    }
->> +end:
->> +    trace_dirtylimit_adjust_throttle(cpu_index,
->> +                                     quota, current,
->> +                                     cpu->throttle_us_per_full);
->> +    return;
->> +}
->> +
->> +static void *dirtylimit_thread(void *opaque)
->> +{
->> +    CPUState *cpu;
->> +
->> +    rcu_register_thread();
->> +
->> +    while (!qatomic_read(&dirtylimit_quit)) {
->> +        sleep(DIRTYLIMIT_CALC_TIME_MS / 1000);
-> 
-> Sorry to have not mentioned this: I think we probably don't even need this
-> dirtylimit thread.
-> 
-> It'll be hard to make the "sleep" right here.. you could read two identical
-> values from the dirty calc thread because the 1sec sleep is not accurate, so
-> even after this sleep() the calc thread may not have provided the latest number
-> yet.
-> 
-> It'll be much cleaner (and most importantly, accurate..) to me if we could make
-> this a hook function being passed over to the vcpu_dirty_rate_stat_thread()
-> thread, then after each vcpu_dirty_rate_stat_collect() we call the hook.
-> 
->> +
->> +        dirtylimit_state_lock();
->> +
->> +        if (!dirtylimit_in_service()) {
->> +            dirtylimit_state_unlock();
->> +            break;
->> +        }
->> +
->> +        CPU_FOREACH(cpu) {
->> +            if (!dirtylimit_vcpu_get_state(cpu->cpu_index)->enabled) {
->> +                continue;
->> +            }
->> +            dirtylimit_adjust_throttle(cpu);
->> +        }
->> +        dirtylimit_state_unlock();
->> +    }
->> +
->> +    rcu_unregister_thread();
->> +
->> +    return NULL;
->> +}
->> +
->> +static void dirtylimit_thread_start(void)
->> +{
->> +    qatomic_set(&dirtylimit_quit, 0);
->> +    qemu_thread_create(&dirtylimit_thr,
->> +                       "dirtylimit",
->> +                       dirtylimit_thread,
->> +                       NULL,
->> +                       QEMU_THREAD_JOINABLE);
->> +}
->> +
->> +static void dirtylimit_thread_stop(void)
->> +{
->> +    qatomic_set(&dirtylimit_quit, 1);
->> +    qemu_mutex_unlock_iothread();
->> +    qemu_thread_join(&dirtylimit_thr);
->> +    qemu_mutex_lock_iothread();
->> +}
->> +
->> +void dirtylimit_set_vcpu(int cpu_index,
->> +                         uint64_t quota,
->> +                         bool enable)
->> +{
->> +    trace_dirtylimit_set_vcpu(cpu_index, quota);
->> +
->> +    if (enable) {
->> +        if (dirtylimit_in_service()) {
->> +            /* only set the vcpu dirty page rate limit */
->> +            dirtylimit_vcpu_set_quota(cpu_index, quota, true);
->> +            return;
->> +        }
->> +
->> +        /* initialize state when set dirtylimit first time */
->> +        dirtylimit_state_lock();
->> +        dirtylimit_state_initialize();
->> +        dirtylimit_vcpu_set_quota(cpu_index, quota, true);
->> +        dirtylimit_state_unlock();
->> +
->> +        dirtylimit_thread_start();
-> 
-> Can we move dirtylimit global initializations out of dirtylimit_set_vcpu() too?
-> We should always keep init/cleanup of dirty_rate_calc and dirtylimit together,
-> because they should, imho.  We never enable one of them.
-> 
-> I commented similarly in previous version on this.
-> 
->> +    } else {
->> +        if (!dirtylimit_in_service()) {
->> +            return;
->> +        }
->> +
->> +        dirtylimit_state_lock();
->> +        /* dirty page rate limit is not enabled */
->> +        if (!dirtylimit_vcpu_get_state(cpu_index)->enabled) {
->> +            dirtylimit_state_unlock();
->> +            return;
->> +        }
->> +
->> +        /* switch off vcpu dirty page rate limit */
->> +        dirtylimit_vcpu_set_quota(cpu_index, 0, false);
->> +        dirtylimit_state_unlock();
->> +
->> +        if (!dirtylimit_state->limited_nvcpu) {
->> +            dirtylimit_thread_stop();
->> +
->> +            dirtylimit_state_lock();
->> +            dirtylimit_state_finalize();
->> +            dirtylimit_state_unlock();
-> 
-> We don't need such a fine control of locking, IMHO.. it can be a very big lock
-> just to serialize things..
-> 
-> IMHO it could be as simple as:
-> 
-> void dirtylimit_set_vcpu(int cpu_index,
->                           uint64_t quota,
->                           bool enable)
-> {
->      dirtylimit_vcpu_set_quota(cpu_index, quota, enable);
->      trace_dirtylimit_set_vcpu(cpu_index, quota);
-> }
-> 
-> void qmp_set_vcpu_dirty_limit(bool has_cpu_index,
->                                uint64_t cpu_index,
->                                uint64_t dirty_rate,
->                                Error **errp)
-> {
->      if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
->          error_setg(errp, "dirty page limit feature requires KVM with"
->                     " accelerator property 'dirty-ring-size' set'");
->          return;
->      }
-> 
->      if (has_cpu_index && !dirtylimit_vcpu_index_valid(cpu_index)) {
->          error_setg(errp, "incorrect cpu index specified");
->          return;
->      }
-> 
->      dirtylimit_state_lock();
-> 
->      if (!dirtylimit_in_service()) {
->          /* TODO: we could have one helper to initialize all of them */
->          vcpu_dirty_rate_stat_initialize();
->          vcpu_dirty_rate_stat_start();
->          dirtylimit_state_initialize();
->          dirtylimit_vcpu_set_quota(cpu_index, quota, true);
->      }
-> 
->      if (has_cpu_index) {
->          dirtylimit_set_vcpu(cpu_index, dirty_rate, true);
->      } else {
->          dirtylimit_set_all(dirty_rate, true);
->      }
-> 
->      dirtylimit_state_unlock();
-> }
-> 
-> I didn't write the cleanup path, but it's the same: we should only cleanup all
-> the global structs in cancel-vcpu-dirty-limit when we found there's zero vcpus
-> in track, and it should be done once there.
-> 
-> Thanks,
-> 
-
--- 
-Best regard
-
-Hyman Huang(黄勇)
 
