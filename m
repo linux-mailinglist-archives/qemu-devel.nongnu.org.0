@@ -2,87 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13914495FD3
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 14:32:36 +0100 (CET)
-Received: from localhost ([::1]:53966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C1B496067
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 15:05:38 +0100 (CET)
+Received: from localhost ([::1]:33648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAu1q-0001rC-HO
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 08:32:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57794)
+	id 1nAuXn-0002xb-ND
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 09:05:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAtP3-0006TZ-D3; Fri, 21 Jan 2022 07:52:30 -0500
-Received: from [2a00:1450:4864:20::32f] (port=46940
- helo=mail-wm1-x32f.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nAtUe-0007Xp-RU
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 07:58:16 -0500
+Received: from [2a00:1450:4864:20::32c] (port=38858
+ helo=mail-wm1-x32c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nAtOu-0006iM-Fg; Fri, 21 Jan 2022 07:52:28 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- az27-20020a05600c601b00b0034d2956eb04so22131317wmb.5; 
- Fri, 21 Jan 2022 04:50:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=g+t6yiII3ah8Q6XGmUCcugyOHujFlgRMuCSsV8m7gwQ=;
- b=h1TTCTwg92R2ssC4l26L02y5swa58F+a2O3X6Iutm1jsv+Xv44e0+sZ3WFVH8VzBom
- U1uAbevATiUPaeA5kNFYLgn0VlE0FBnNrUv6MFSezRZHYwxgKsq7XaEs72h36zRUEcLF
- DXs7ure75MtyVl7jd3fEAxFit4CsD6DqJ5DhRhSLJkNI0ClexFOxRek5ckEQjriaigG5
- LVhKnbfdp1dlgb5ZWRKZahZYgqDvb03fMGbrBqfPYOUvMZsy4iLrlkWLGCRR5BhLt3n1
- elmxq6rZGOPz+Kr4s+3il1XE0ysb6sOz702Z84jmlODLONalWI5FeI6c9fBUoVq695Qs
- gJSA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nAtUc-0007rw-PY
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 07:58:16 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ ay14-20020a05600c1e0e00b0034d7bef1b5dso22147730wmb.3
+ for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 04:58:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+jBb7HOs1aITVHop9zO2I+O5MkZzCicjZ5m1waVFueY=;
+ b=a+bKkq0TyA0suQz2dNV4heiXR3NAe3M5+2GQkIJMNqEoav3lLeDikK3LNLNJMpltAO
+ 3/3XU4bFUsZUIxUYFxb/Vn7KTuLKYftk5moYXv7Fjc7B50AjpO5lm1HwWfs/1itb5ZH6
+ wgdnbQ1DEN8IsT6LPxzrJt76Txd4VYG3AtoAsyISg5qPRCb8lNBZ+pG0sId+iCM44Jb0
+ 2DXcUd6YQlXeGWQv69+U0lMah1lWqQucV/e6/2v3Wbzv6KT0IzSSrAVyy4uZ5MmBjPGK
+ Ls5CBTJgxoloXZ/7oeor/fQ6PWPWw114S6bT3EHRvvDBEVKKDxU2za/3ws27HsY2x+po
+ bCbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=g+t6yiII3ah8Q6XGmUCcugyOHujFlgRMuCSsV8m7gwQ=;
- b=EEJmHH56VnO6Vm3fUeEsNAPNA47ElUE5xldfhzxRkTPB61/a9jTRMrZrgkWhQqzvV0
- +o46qkcHxCIPzfRkhkxhWXpsOW9S0h0cl9pK90bRC4gFhrTRqeOgdjkUzMNDos5wm9Oe
- w1bo2DOtf+UuA/CMfPl6JM+7o2ghTSoR9eO/wUFgsdnrw0GDLR7uRbggWKbHVvjsMtNi
- fF8KToG41EBFTRHWSErIXT6EZ5mosxImJ3Aa4cDMZPgvjdorjKINxHlB0CAZ/+x1Gw5W
- 8fdGpo+nHESc1nYoUFlt4Tyf6yXh/xLj2vh7El+ON7IetiLuX9CIvvV/76xlvYfdBzzd
- sZsw==
-X-Gm-Message-State: AOAM532Z2QSS/lXdqH9hOvxLYfuT0RBTHSnFVvr+7gn+4TQ0BQJpd0MW
- +5IataEcIC49ETX2e4naEqo=
-X-Google-Smtp-Source: ABdhPJy8hwHwMHl3mSHE+zejtgLi+cQ0UU0/E8ZcXmLUZRql7xzkqKtf7MM88x4KfW/tR0QJs50Qxg==
-X-Received: by 2002:a5d:4c45:: with SMTP id n5mr3703198wrt.141.1642769455810; 
- Fri, 21 Jan 2022 04:50:55 -0800 (PST)
-Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id p17sm5448704wrf.111.2022.01.21.04.50.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Jan 2022 04:50:55 -0800 (PST)
-Message-ID: <3465d159-d1f8-fac2-a012-16102670c541@amsat.org>
-Date: Fri, 21 Jan 2022 13:50:52 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+jBb7HOs1aITVHop9zO2I+O5MkZzCicjZ5m1waVFueY=;
+ b=cyzbly9BHSIRdKEr8+ICHlD69M4nKyvawHhPNPXn1LO4gC1eRya9Ldv4+RrfNkdB+a
+ NsSUIYgu9WqPzQ/RMUzRVnO2aFQZ8SFAgJBF9FCA7P1jvs74iMWeCN2mVDJJAhOh/kH0
+ qLQYY8eQk1WhO6Nucc3+uyxQ0WC8vpdSu9R/j/0fVYwlcF8meKoMa5IGoaq2KLGPmWQN
+ Et26XH+4EgSp9FcYPdUWxZhg2p8eXdLEc3YVs1TpP7eIsLCzPY3UUrPog9mDI4o86qcx
+ wzWYRNHQTU2nJqoWCgknG8jMIqfVNzNspYkpixd1aoorRdBV8TQWbJlrNrG45zVv6s1e
+ aCzg==
+X-Gm-Message-State: AOAM532Ye2ATNsiNMIlIZOsateiagC5eCBCZTsBFQzApXxHby9RdTh48
+ J06z/D0hJMPU5Wv7jgrcaTTq+xoJxvXeBtwJN0FjWA==
+X-Google-Smtp-Source: ABdhPJx0bjw72ao9r1yIwzbss+dJjWLpPS9uxP8Xmk8Z2AGNSlGKEGgbsSuueMKFj5mta9N6cg1hS0jalZIWEjZno80=
+X-Received: by 2002:a5d:52c4:: with SMTP id r4mr3915989wrv.521.1642769892350; 
+ Fri, 21 Jan 2022 04:58:12 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v4 7/8] tests/lcitool: Remove libxml2
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Michael Tokarev <mjt@tls.msk.ru>, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, qemu-block@nongnu.org,
- Yonggang Luo <luoyonggang@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20220121103623.288054-1-f4bug@amsat.org>
- <20220121103623.288054-8-f4bug@amsat.org>
- <8e4fd7fd-52aa-6039-c242-38d3b93b5130@redhat.com>
-In-Reply-To: <8e4fd7fd-52aa-6039-c242-38d3b93b5130@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
+References: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
+In-Reply-To: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 21 Jan 2022 12:58:01 +0000
+Message-ID: <CAFEAcA8stCZy1md4vdofxRErygj5VYZWfrto4QdbMkNb-4CLCw@mail.gmail.com>
+Subject: Re: [PULL 00/61] riscv-to-apply queue
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -97,22 +80,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 1/21/22 12:47, Thomas Huth wrote:
-> On 21/01/2022 11.36, Philippe Mathieu-Daudé wrote:
->> The previous commit removed all uses of libxml2.
->>
->> Update lcitool's qemu.yml and refresh the generated files by running:
->>
->>    $ make lcitool-refresh
-> 
-> Could you merge patch 4/8 and 7/8 so that there is only one refreshment
-> patch in your series? ... it's a lot of churn otherwise...
+On Fri, 21 Jan 2022 at 06:11, Alistair Francis
+<alistair.francis@opensource.wdc.com> wrote:
+>
+> From: Alistair Francis <alistair.francis@wdc.com>
+>
+> The following changes since commit 2c89b5af5e72ab8c9d544c6e30399528b2238827:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20220120-1' into staging (2022-01-20 16:13:17 +0000)
+>
+> are available in the Git repository at:
+>
+>   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20220121-1
+>
+> for you to fetch changes up to f297245f6a780f496fb171af6fcd21ff3e6783c3:
+>
+>   target/riscv: Relax UXL field for debugging (2022-01-21 15:52:57 +1000)
+>
+> ----------------------------------------------------------------
+> Third RISC-V PR for QEMU 7.0
+>
+>  * Fixes for OpenTitan timer
+>  * Correction of OpenTitan PLIC stride length
+>  * RISC-V KVM support
+>  * Device tree code cleanup
+>  * Support for the Zve64f and Zve32f extensions
+>  * OpenSBI binary loading support for the Spike machine
+>  * Removal of OpenSBI ELFs
+>  * Support for the UXL field in xstatus
+>
+> ----------------------------------------------------------------
 
-Well I'd rather not because mixing the libudev removal with libxml2
-seems confusing, but I can.
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
+for any user-visible changes.
+
+-- PMM
 
