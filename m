@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F18194966A5
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 21:52:10 +0100 (CET)
-Received: from localhost ([::1]:56530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC9B4966AC
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 21:55:06 +0100 (CET)
+Received: from localhost ([::1]:36758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB0tG-0001tj-2x
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 15:52:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59602)
+	id 1nB0w5-0007lj-2x
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 15:55:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nB0co-0000Vh-4N
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:35:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23109)
+ id 1nB0dF-0000Yg-Bl
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:35:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42235)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nB0cl-0005bk-Ji
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:35:09 -0500
+ id 1nB0cq-0005t6-Me
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 15:35:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642797306;
+ s=mimecast20190719; t=1642797312;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XmCwl6Nz8JRbyOedP3rUAJKjLtNcb8z/YRVGc+oGDNY=;
- b=Ym5BsZ3ZaIDjoZTc0N3EIhur3cp9woeCOueBpXelBGBpBpY+iVvR0XGwGGRpKVmzB9bwlG
- EX91IYNwPaOGNQSgdNV2C/cj+AK8N1Tm+gK6IcV1djYDiyIIf/iC+rMtFG1Wtr92XeY+H2
- 05K5zwjvI1xQZaRV/RzaBHiSVXGxLQA=
+ bh=cmdxcA6W425ma8qs8Zilfh3tlyUiY7XWyQL5X5ASM2k=;
+ b=YYkhr5q3pKdD1iE6H/jHxyQO4zx/BE18N/HmE6ab9LsbGFplxKBWcPEuTtmNdRJIBGbXsX
+ YssZC7XbXZCKVbyADDPNYRf29oIcZD0+kiDIx7AlPH4METGCH415tqrRsyOw4EyMigo6rq
+ JRFL3JvYR9NeW1CBw5eIximyCIS9OfE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-46-yEC3F6q6P7S6lT-YMENfmA-1; Fri, 21 Jan 2022 15:35:03 -0500
-X-MC-Unique: yEC3F6q6P7S6lT-YMENfmA-1
+ us-mta-628-c5TJ-PHPMbi7MNkCAJUILg-1; Fri, 21 Jan 2022 15:35:08 -0500
+X-MC-Unique: c5TJ-PHPMbi7MNkCAJUILg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D055A46861;
- Fri, 21 Jan 2022 20:35:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B8DB101999D;
+ Fri, 21 Jan 2022 20:35:07 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.193.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E98C0E2C1;
- Fri, 21 Jan 2022 20:34:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A64EE2C1;
+ Fri, 21 Jan 2022 20:35:02 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 26/31] vdpa: Clear VHOST_VRING_F_LOG at
- vhost_vdpa_set_vring_addr in SVQ
-Date: Fri, 21 Jan 2022 21:27:28 +0100
-Message-Id: <20220121202733.404989-27-eperezma@redhat.com>
+Subject: [PATCH 27/31] vdpa: Never set log_base addr if SVQ is enabled
+Date: Fri, 21 Jan 2022 21:27:29 +0100
+Message-Id: <20220121202733.404989-28-eperezma@redhat.com>
 In-Reply-To: <20220121202733.404989-1-eperezma@redhat.com>
 References: <20220121202733.404989-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -95,38 +94,27 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Doing so would cause the device to export writes to SVQ addresses, which
-are not part of the guest's IOVA.
-
-Like the previous patch, this is currently not possible since SVQ does
-not run if the device exports VHOST_VRING_F_LOG. But it's needed to
-enable migration with SVQ.
+Setting the log address would make the device start reporting invalid
+dirty memory because the SVQ vrings are located in qemu's memory.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/virtio/vhost-vdpa.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 887857c177..ab729b3371 100644
+index ab729b3371..fb0a338baa 100644
 --- a/hw/virtio/vhost-vdpa.c
 +++ b/hw/virtio/vhost-vdpa.c
-@@ -660,10 +660,16 @@ static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t base,
- static int vhost_vdpa_set_vring_addr(struct vhost_dev *dev,
-                                        struct vhost_vring_addr *addr)
+@@ -648,7 +648,8 @@ static int vhost_vdpa_get_config(struct vhost_dev *dev, uint8_t *config,
+ static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t base,
+                                      struct vhost_log *log)
  {
+-    if (vhost_vdpa_one_time_request(dev)) {
 +    struct vhost_vdpa *v = dev->opaque;
-+
-     trace_vhost_vdpa_set_vring_addr(dev, addr->index, addr->flags,
-                                     addr->desc_user_addr, addr->used_user_addr,
-                                     addr->avail_user_addr,
-                                     addr->log_guest_addr);
-+
-+    if (v->shadow_vqs_enabled) {
-+        addr->flags &= ~BIT_ULL(VHOST_VRING_F_LOG);
-+    }
-     return vhost_vdpa_call(dev, VHOST_SET_VRING_ADDR, addr);
- }
++    if (v->shadow_vqs_enabled || vhost_vdpa_one_time_request(dev)) {
+         return 0;
+     }
  
 -- 
 2.27.0
