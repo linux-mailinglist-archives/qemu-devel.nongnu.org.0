@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34485496274
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 16:57:47 +0100 (CET)
-Received: from localhost ([::1]:59362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43470496275
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 16:57:55 +0100 (CET)
+Received: from localhost ([::1]:59962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAwIM-0002A0-0p
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 10:57:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49098)
+	id 1nAwIT-0002Yf-9w
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 10:57:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1nAw6Z-0006Bo-9x
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 10:45:35 -0500
-Received: from [2a00:1450:4864:20::22a] (port=37501
- helo=mail-lj1-x22a.google.com)
+ id 1nAw7Z-0007e6-HT
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 10:46:37 -0500
+Received: from [2a00:1450:4864:20::134] (port=44786
+ helo=mail-lf1-x134.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1nAw6W-0002Ee-Tm
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 10:45:34 -0500
-Received: by mail-lj1-x22a.google.com with SMTP id x26so761872ljd.4
- for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 07:45:31 -0800 (PST)
+ id 1nAw7X-0002l1-Db
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 10:46:37 -0500
+Received: by mail-lf1-x134.google.com with SMTP id u14so3702211lfo.11
+ for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 07:46:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=StfdDZ/t9t4HrGzIblXTu+m//w9rOknX3oqLSI2awcE=;
- b=js3bbIF5Gby16SLAF3qjpxA2AFE+7PLJhZRNXByQe9mI+LNLtnFkL9a+3hnRCmejPA
- q1zU9vHh6zxWFdF76mlPwCfT6UYsIEdqUIipyzhFYB24ig/Nykm+/xx7FzmnXB6YbUly
- p8ZMMhBH37jjJLiUDgZRBv0TYlZTGVHlNLNQt1DpmLmiOIRKyHwbAkiRqB+3ipHenhGk
- 0Ipdi14xfjUMbFFRaqZa2WP7hG8w+9Qk6BJLanpx++7EKDgyrjj4fjPxwLTtop0B0B12
- TGvPE3bngTx3vU8bVzTahgcAheAVcYxc6WrwIoVxcgb6FhuRc/NoyTEtkAonJOfpmk9y
- 5msg==
+ bh=hBam2gtyICQaQvHHZW2GR3O2UJomPg6ddEafl/3e0qc=;
+ b=bKfifnBycET5M4hEYCAqwcYO0kVQh7EFSjYgb/ea2lK+PSFJhNOmkrPgahx75BtmSD
+ nFBTva1U0GMSkN54N4MI/jp7jGtXAJf6Jg76LF/j9R0HsCmLOPZmqOFW1mbvoFLpDgvL
+ bT3QrjL1viEuV0SF2/1yX7LODcYgnL+0ciRT1x3TU3EIrwhm+3y7PxepPv3j0jXjhrrl
+ RWurd8tr973pFM9Ok7lv2OfbI7mlEEwuGVo/QvQRYQeyr8SejmmzxUE+h5SZMOmIPbux
+ a0A25Iok7gI0Yt/+iLRJGH/ULoY0N/AvEEGqmCaFVsFmgIb0F4lVBMhF9g+IFECUaxFp
+ iQRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=StfdDZ/t9t4HrGzIblXTu+m//w9rOknX3oqLSI2awcE=;
- b=U//IbW8dIopjXyWEQQZHNJi+LyzTvTK8d1R/fV9OtmO+McPfl2u/wrRsw1skWHejrh
- S+M22xZS0PCMmzJfBtHtN/3Hi60CLxBAniugNpiqGvIslR4cSzmTnIMujYbU/ZrBxdw9
- HDyt+HsrvJQ7CMkcQI78+J6kwzfTzrGIK9cP5GlSrfyvC8hFwZ9PJbbWJGUqjbt3G4ID
- zqD7/4iDL+HPfAlYZ/HQHnRcIoIgakxozkgbY6Hlw0WI07I/hgpvR+biAMGbTIDZQbfP
- D3616dY8Ey11ufwqKBPFiRHNV0QMjfELKY3tclO8B8kCco144e7lblznt3eHKXcYU4QV
- R2Gw==
-X-Gm-Message-State: AOAM530zNcMfp767c1kiH11muySmNk7YDs0bHrbKAJ/YZJT4IZiDLXGv
- oLBCMRXGqSC/nOz3xpFp5aM=
-X-Google-Smtp-Source: ABdhPJwMfKEJ36Hy+ApmxgKXm7wslTYKb8pqrPjLfVak6kR6r+A/DnqEd4pNMVrK5ZyxV2gMfw5/7g==
-X-Received: by 2002:a2e:988d:: with SMTP id b13mr2392914ljj.413.1642779930269; 
- Fri, 21 Jan 2022 07:45:30 -0800 (PST)
+ bh=hBam2gtyICQaQvHHZW2GR3O2UJomPg6ddEafl/3e0qc=;
+ b=w3kBj0ShSj1eh6KSKgqJdh95NNtzVE2Pqj5K8VEDQ653lJvJbJ+5Stu9ApOZr1tXWg
+ 8FW6Sa8S0wWI9wDSFUAG7r8RbvDhii4EzMjBS1kB9D7qo+McY9ntevQj7RxsnAVcp4Bz
+ p+7ScZTx0dOZ4702Gi3wjP81MIyRbseq+ZZ8kKQ6OvAAn6o5CUeqLScgy2zg01cVZKk3
+ 7xbihnSgkysB5guDmB0VJYuy91iUx5HuiUrVBOTd9AZHzNu8W4fwOl4JAW9BZtEI76zf
+ 9wRDgaN0JsZkOOFfzUX/3ASaVXpMBVAsOq7OyYksA5WrG8HRC/I8KNlx72GJRTbI3RTM
+ TLEA==
+X-Gm-Message-State: AOAM533J8TbpNifadS5+Y9Q8vzvkvdoLC4gMR2rgRe/u9ggexq+OHcLz
+ 8bxgQiDNN8+oSSrYrYHL8Bc=
+X-Google-Smtp-Source: ABdhPJyq62P4u6FupY2qZ9oMRV4+hAvBgaUEAA9Hf+atp4sXonMkcAJOHH1k1s5h3npHpFF6/kHcPg==
+X-Received: by 2002:ac2:5a0b:: with SMTP id q11mr4053701lfn.394.1642779993588; 
+ Fri, 21 Jan 2022 07:46:33 -0800 (PST)
 Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
  by smtp.gmail.com with ESMTPSA id
- w16sm290076lfk.89.2022.01.21.07.45.29
+ b39sm225226ljr.88.2022.01.21.07.46.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Jan 2022 07:45:29 -0800 (PST)
-Date: Fri, 21 Jan 2022 16:45:28 +0100
+ Fri, 21 Jan 2022 07:46:33 -0800 (PST)
+Date: Fri, 21 Jan 2022 16:46:31 +0100
 From: Francisco Iglesias <frasse.iglesias@gmail.com>
 To: Luc Michel <luc@lmichel.fr>
-Subject: Re: [PATCH v6 07/12] hw/ssi: Add a model of Xilinx Versal's OSPI
- flash memory controller
-Message-ID: <20220121154527.GA19503@fralle-msi>
+Subject: Re: [PATCH v6 05/12] hw/dma: Add the DMA control interface
+Message-ID: <20220121154631.GB19503@fralle-msi>
 References: <20220114152841.1740-1-francisco.iglesias@xilinx.com>
- <20220114152841.1740-8-francisco.iglesias@xilinx.com>
- <20220118214632.hhojvvcrj7ovrip7@sekoia-pc.home.lmichel.fr>
+ <20220114152841.1740-6-francisco.iglesias@xilinx.com>
+ <20220118220142.mqtbrqht2de773zm@sekoia-pc.home.lmichel.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220118214632.hhojvvcrj7ovrip7@sekoia-pc.home.lmichel.fr>
+In-Reply-To: <20220118220142.mqtbrqht2de773zm@sekoia-pc.home.lmichel.fr>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::134
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x22a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::134;
+ envelope-from=frasse.iglesias@gmail.com; helo=mail-lf1-x134.google.com
 X-Spam_score_int: -1012
 X-Spam_score: -101.3
 X-Spam_bar: ---------------------------------------------------
@@ -97,201 +96,197 @@ Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org, alistair@alistair23.me,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On [2022 Jan 18] Tue 23:01:42, Luc Michel wrote:
+> Hi Francisco!
+> 
+> On 15:28 Fri 14 Jan     , Francisco Iglesias wrote:
+> > An option on real hardware when embedding a DMA engine into a peripheral
+> > is to make the peripheral control the engine through a custom DMA control
+> > (hardware) interface between the two. Software drivers in this scenario
+> > configure and trigger DMA operations through the controlling peripheral's
+> > register API (for example, writing a specific bit in a register could
+> > propagate down to a transfer start signal on the DMA control interface).
+> > At the same time the status, results and interrupts for the transfer might
+> > still be intended to be read and caught through the DMA engine's register
+> > API (and signals).
+> 
+> I understand the goal you trying to achieve here. Having a generic
+> interface between a peripheral and the internal DMA it's using for its
+> memory transfers.
+> 
+> I wonder however how much this scenario can be generalized. I see that
+> you have only one method in this interface, which is basically "perform
+> a DMA transaction". Given the method's parameters, the peripheral can
+> indicate what address/length it wants to read.
+> 
+> IIUC this is well suited to your case (the OSPI controller), because
+> other DMA parameters are configured by other means (DMA or OSPI
+> registers I guess).
+> 
+> But how much this will suite the next use case for this interface? Will
+> the embedded DMA be configured the same way? Maybe the method will also
+> require e.g., the destination buffer address?
+> 
+> My feeling is that this interface is quite ad-hoc for your case. It is
+> either going to stay really simple as it is now, and won't necessarily
+> fit the next similar use case, or is going to get pretty complicated to
+> cover all cases. For an added value I'm not sure I can see because the
+> pair "peripheral - DMA" seems tightly coupled to me. Do you foresee a
+> case where you want to be able to e.g., instantiate DMA B instead of DMA
+> A for the same controller?
+> 
+> I think you could have basically the same code by having a pointer to
+> your XlnxCSUDMA object (instead of the iface) in the OSPI struct, and a
+> function like xlnx_csu_dma_start_transfer declared in xlnx_csu_dma.h,
+> having the same behaviour as dma_ctrl_if_read.
+> 
+
 Hi Luc,
 
-All the suggestions and corrections look good to me so brought them in in
-v7!
+> Maybe I'm wrong and you actually foresee cases where the genericity this
+> interface gives is what you want? What do you think?
 
-Thank you very much reviewing!
+I see your point! Lets go with what you proposed above instead then! v7 will
+have taken that direction!
+
+Thank you again for reviewing!
 
 Best regards,
 Francisco Iglesias
 
-
-On [2022 Jan 18] Tue 22:46:32, Luc Michel wrote:
-> Hi Francisco,
 > 
-> Impressive beast :-) Nicely done. Maybe I would have split it in a
-> couple of commits to ease review. Also, you can use 
+> Luc
 > 
-> [diff]
->     orderFile = scripts/git.orderfile
-> 
-> as a local config in your QEMU git so that files are placed in a
-> sensible order (.h files will come first), which ease a bit the
-> reviewing process.
-> 
-> See my remarks below. My biggest concern is about the tx_sram fifo.
-> The rest are small suggestions here and there.
-> 
-> On 15:28 Fri 14 Jan     , Francisco Iglesias wrote:
-> [snip]
-> > +
-> > +static int ospi_stig_membank_rd_bytes(XlnxVersalOspi *s)
-> > +{
-> > +    int rd_data_fld = ARRAY_FIELD_EX32(s->regs, FLASH_COMMAND_CTRL_MEM_REG,
-> > +                                       NB_OF_STIG_READ_BYTES_FLD);
-> > +    int sizes[6] = { 16, 32, 64, 128, 256, 512 };
-> 
-> static const int sizes[6]
-> 
-> (or return (rd_data_fld < 6) ? (1 << (4 + rd_data_fld)) : 0; )
-> 
-> > +    return (rd_data_fld < 6) ? sizes[rd_data_fld] : 0;
-> > +}
-> > +
-> [snip]
-> > +
-> > +static void ospi_ahb_decoder_enable_cs(XlnxVersalOspi *s, hwaddr addr)
-> > +{
-> > +    int cs = ospi_ahb_decoder_cs(s, addr);
-> > +
-> > +    if (cs >= 0) {
-> > +        for (int i = 0; i < s->num_cs; i++) {
-> > +            if (cs == i) {
-> > +                qemu_set_irq(s->cs_lines[i], 0);
-> > +            } else {
-> > +                qemu_set_irq(s->cs_lines[i], 1);
-> > +            }
-> 
-> Maybe `qemu_set_irq(s->cs_lines[i], cs != i);` instead of the if/else?
-> 
-> > +        }
-> > +    }
-> > +}
-> > +
-> [snip]
-> > +
-> > +static void ospi_stig_fill_membank(XlnxVersalOspi *s)
-> > +{
-> > +    int num_rd_bytes = ospi_stig_membank_rd_bytes(s);
-> > +    int idx = num_rd_bytes - 8; /* first of last 8 */
-> > +    int i;
-> > +
-> > +    for (i = 0; i < num_rd_bytes; i++) {
-> > +        s->stig_membank[i] = fifo8_pop(&s->rx_fifo);
-> > +    }
-> > +
-> 
-> Even though ospi_stig_membank_rd_bytes is safe, I would add a
-> 
-> g_assert((idx + 4) < ARRAY_SIZE(s->stig_membank));
-> 
-> here, to be future proof :-)
-> 
-> > +    /* Fill in lower upper regs */
-> > +    s->regs[R_FLASH_RD_DATA_LOWER_REG] = ldl_le_p(&s->stig_membank[idx]);
-> > +    s->regs[R_FLASH_RD_DATA_UPPER_REG] = ldl_le_p(&s->stig_membank[idx + 4]);
-> > +}
-> > +
-> [snip]
-> > +
-> > +static void ospi_tx_sram_write(XlnxVersalOspi *s, uint64_t value,
-> > +                               unsigned int size)
-> > +{
-> > +    int i;
-> > +    for (i = 0; i < size; i++) {
-> > +        fifo8_push(&s->tx_sram, value >> 8 * i);
-> 
-> By tracing the callers of this function, it seems that `size' is the
-> size of an MMIO access. But you don't seem to check if the tx_sram fifo
-> can accept `size' elements (the fifo8_push doc stats it is undefined
-> behaviour to push on a full fifo).
-> 
-> > +    }
-> > +}
-> > +
-> > +
-> > +static void ospi_indac_write(void *opaque, uint64_t value, unsigned int size)
-> > +{
-> > +    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(opaque);
-> > +
-> > +    if (s->ind_write_disabled) {
-> > +        g_assert_not_reached();
-> > +    }
-> 
-> g_assert(!s->ind_write_disabled);
-> 
-> > +
-> > +    if (!ospi_ind_op_completed(s->wr_ind_op)) {
-> > +        ospi_tx_sram_write(s, value, size);
-> > +        ospi_do_indirect_write(s);
-> > +    } else {
-> > +        qemu_log_mask(LOG_GUEST_ERROR,
-> > +            "OSPI wr into indac area while no ongoing indac wr\n");
-> > +    }
-> > +}
-> > +
-> [snip]
-> > diff --git a/include/hw/ssi/xlnx-versal-ospi.h b/include/hw/ssi/xlnx-versal-ospi.h
+> > 
+> > This patch adds a QEMU DMA control interface that can be used for
+> > modelling above scenario. Through this new interface a peripheral model
+> > embedding a DMA engine model will be able to directly initiate transfers
+> > through the DMA. At the same time the transfer state, result and
+> > completion signaling will be read and caught through the DMA engine
+> > model's register API and signaling.
+> > 
+> > Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
+> > ---
+> >  hw/dma/dma-ctrl-if.c         | 30 +++++++++++++++++++++++
+> >  hw/dma/meson.build           |  1 +
+> >  include/hw/dma/dma-ctrl-if.h | 58 ++++++++++++++++++++++++++++++++++++++++++++
+> >  3 files changed, 89 insertions(+)
+> >  create mode 100644 hw/dma/dma-ctrl-if.c
+> >  create mode 100644 include/hw/dma/dma-ctrl-if.h
+> > 
+> > diff --git a/hw/dma/dma-ctrl-if.c b/hw/dma/dma-ctrl-if.c
 > > new file mode 100644
-> > index 0000000000..c454ff3016
+> > index 0000000000..895edac277
 > > --- /dev/null
-> > +++ b/include/hw/ssi/xlnx-versal-ospi.h
-> > @@ -0,0 +1,111 @@
+> > +++ b/hw/dma/dma-ctrl-if.c
+> > @@ -0,0 +1,30 @@
 > > +/*
-> > + * Header file for the Xilinx Versal's OSPI controller
+> > + * DMA control interface.
 > > + *
-> > + * Copyright (C) 2021 Xilinx Inc
+> > + * Copyright (c) 2021 Xilinx Inc.
 > > + * Written by Francisco Iglesias <francisco.iglesias@xilinx.com>
 > > + *
-> > + * Permission is hereby granted, free of charge, to any person obtaining a copy
-> > + * of this software and associated documentation files (the "Software"), to deal
-> > + * in the Software without restriction, including without limitation the rights
-> > + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-> > + * copies of the Software, and to permit persons to whom the Software is
-> > + * furnished to do so, subject to the following conditions:
-> > + *
-> > + * The above copyright notice and this permission notice shall be included in
-> > + * all copies or substantial portions of the Software.
-> > + *
-> > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-> > + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> > + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-> > + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-> > + * THE SOFTWARE.
+> > + * SPDX-License-Identifier: GPL-2.0-or-later
 > > + */
+> > +#include "qemu/osdep.h"
+> > +#include "exec/hwaddr.h"
+> > +#include "hw/dma/dma-ctrl-if.h"
+> > +
+> > +MemTxResult dma_ctrl_if_read(DmaCtrlIf *dma, hwaddr addr, uint32_t len)
+> > +{
+> > +    DmaCtrlIfClass *dcic =  DMA_CTRL_IF_GET_CLASS(dma);
+> > +    return dcic->read(dma, addr, len);
+> > +}
+> > +
+> > +static const TypeInfo dma_ctrl_if_info = {
+> > +    .name          = TYPE_DMA_CTRL_IF,
+> > +    .parent        = TYPE_INTERFACE,
+> > +    .class_size = sizeof(DmaCtrlIfClass),
+> > +};
+> > +
+> > +static void dma_ctrl_if_register_types(void)
+> > +{
+> > +    type_register_static(&dma_ctrl_if_info);
+> > +}
+> > +
+> > +type_init(dma_ctrl_if_register_types)
+> > diff --git a/hw/dma/meson.build b/hw/dma/meson.build
+> > index f3f0661bc3..c43c067856 100644
+> > --- a/hw/dma/meson.build
+> > +++ b/hw/dma/meson.build
+> > @@ -14,3 +14,4 @@ softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_dma.c'))
+> >  softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_dma.c'))
+> >  softmmu_ss.add(when: 'CONFIG_SIFIVE_PDMA', if_true: files('sifive_pdma.c'))
+> >  softmmu_ss.add(when: 'CONFIG_XLNX_CSU_DMA', if_true: files('xlnx_csu_dma.c'))
+> > +common_ss.add(when: 'CONFIG_XILINX_AXI', if_true: files('dma-ctrl-if.c'))
+> > diff --git a/include/hw/dma/dma-ctrl-if.h b/include/hw/dma/dma-ctrl-if.h
+> > new file mode 100644
+> > index 0000000000..0662149e14
+> > --- /dev/null
+> > +++ b/include/hw/dma/dma-ctrl-if.h
+> > @@ -0,0 +1,58 @@
+> > +/*
+> > + * DMA control interface.
+> > + *
+> > + * Copyright (c) 2021 Xilinx Inc.
+> > + * Written by Francisco Iglesias <francisco.iglesias@xilinx.com>
+> > + *
+> > + * SPDX-License-Identifier: GPL-2.0-or-later
+> > + */
+> > +#ifndef HW_DMA_CTRL_IF_H
+> > +#define HW_DMA_CTRL_IF_H
+> > +
+> > +#include "hw/hw.h"
+> > +#include "exec/memory.h"
+> > +#include "qom/object.h"
+> > +
+> > +#define TYPE_DMA_CTRL_IF "dma-ctrl-if"
+> > +typedef struct DmaCtrlIfClass DmaCtrlIfClass;
+> > +DECLARE_CLASS_CHECKERS(DmaCtrlIfClass, DMA_CTRL_IF,
+> > +                       TYPE_DMA_CTRL_IF)
+> > +
+> > +#define DMA_CTRL_IF(obj) \
+> > +     INTERFACE_CHECK(DmaCtrlIf, (obj), TYPE_DMA_CTRL_IF)
+> > +
+> > +typedef struct DmaCtrlIf {
+> > +    Object Parent;
+> > +} DmaCtrlIf;
+> > +
+> > +typedef struct DmaCtrlIfClass {
+> > +    InterfaceClass parent;
+> > +
+> > +    /*
+> > +     * read: Start a read transfer on the DMA engine implementing the DMA
+> > +     * control interface
+> > +     *
+> > +     * @dma_ctrl: the DMA engine implementing this interface
+> > +     * @addr: the address to read
+> > +     * @len: the number of bytes to read at 'addr'
+> > +     *
+> > +     * @return a MemTxResult indicating whether the operation succeeded ('len'
+> > +     * bytes were read) or failed.
+> > +     */
+> > +    MemTxResult (*read)(DmaCtrlIf *dma, hwaddr addr, uint32_t len);
+> > +} DmaCtrlIfClass;
 > > +
 > > +/*
-> > + * This is a model of Xilinx Versal's Octal SPI flash memory controller
-> > + * documented in Versal's Technical Reference manual [1] and the Versal ACAP
-> > + * Register reference [2].
+> > + * Start a read transfer on a DMA engine implementing the DMA control
+> > + * interface.
 > > + *
-> > + * References:
+> > + * @dma_ctrl: the DMA engine implementing this interface
+> > + * @addr: the address to read
+> > + * @len: the number of bytes to read at 'addr'
 > > + *
-> > + * [1] Versal ACAP Technical Reference Manual,
-> > + *     https://www.xilinx.com/support/documentation/architecture-manuals/am011-versal-acap-trm.pdf
-> > + *
-> > + * [2] Versal ACAP Register Reference,
-> > + *     https://www.xilinx.com/html_docs/registers/am012/am012-versal-register-reference.html#mod___ospi.html
-> > + *
-> > + *
-> > + * QEMU interface:
-> > + * + sysbus MMIO region 0: MemoryRegion for the device's registers
-> > + * + sysbus MMIO region 1: MemoryRegion for flash memory linear address space
-> > + *   (data transfer).
-> > + * + sysbus IRQ 0: Device interrupt.
-> > + * + Named GPIO input "ospi-mux-sel": 0: enables indirect access mode
-> > + *   and 1: enables direct access mode.
-> > + * + Property "dac-with-indac": Allow both direct accesses and indirect
-> > + *   accesses simultaneously.
-> > + * + Property "indac-write-disabled": Disable indirect access writes.
+> > + * @return a MemTxResult indicating whether the operation succeeded ('len'
+> > + * bytes were read) or failed.
 > > + */
+> > +MemTxResult dma_ctrl_if_read(DmaCtrlIf *dma, hwaddr addr, uint32_t len);
 > > +
-> > +#ifndef XILINX_VERSAL_OSPI_H
-> > +#define XILINX_VERSAL_OSPI_H
-> > +
-> > +#include "hw/register.h"
-> > +#include "hw/ssi/ssi.h"
-> > +#include "qemu/fifo32.h"
-> 
-> fifo8.h ?
-> 
-> 
-> Thanks.
+> > +#endif /* HW_DMA_CTRL_IF_H */
+> > -- 
+> > 2.11.0
+> > 
+> > 
 > 
 > -- 
-> Luc
 
