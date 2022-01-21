@@ -2,130 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA8FC49639B
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 18:14:30 +0100 (CET)
-Received: from localhost ([::1]:39894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BF194963A4
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 18:16:32 +0100 (CET)
+Received: from localhost ([::1]:40764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nAxUb-0007VR-Nl
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 12:14:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33538)
+	id 1nAxWZ-00085n-A6
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 12:16:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nAwxF-0006qH-FN
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 11:40:01 -0500
-Received: from mail-eopbgr130127.outbound.protection.outlook.com
- ([40.107.13.127]:29034 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nAxMc-0007Fj-EM
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:06:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24827)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nAwxC-0003yE-Cf
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 11:40:00 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MNmxwc6A7iDn/ndQ+i/8nnSBsH66tnx6K5P+8Aq5hXqjFLSz8REZFIHAAhrStY9e1MezxI100psyGn2Digr6wEgPqtKR+3Ue2HJz+fNDpI/KQ4aVNOpMlCziDKlpCpXYioscxHkQku/Q0nrgt9z8+SDiSrc7Go3vEwlbcG6wruWsAJEmUr/04bH7iPwERH4zqcW9zRddx09p0dCsRZHUAQpvf2qWC7mvB5QLH5YvFLoc0w4krM5Wvcw5CCAq4ideRkljWBqEkL+23ZjtuuVFgkwETPw5kXYktczzy2ihQBtmIVVYfKWmnTpJw/cNFObIYVtrLVgIvkvEdlbb6cmvWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CqLzZHN0H995YMchR5QYAKCR7gF5miTDNwenQEef+4Y=;
- b=iKP4aG+ewKZnL/lTo321rHE+rAgTajnYdMaA1Ns5ZyQgS7G8eOuYq7afBOQLzq7eQeBk+A1/vMRoY781F3sGCu1cdGvmMzGfbI7VzjNTsYb4oUwGA1YVnfLST02KfrdFzwvgbMS4PxUf/Dgjw9UgCkzBXfcj1o+qVwKSWvWgmWl2PmNzasUMZDcs/3b85jvGEIxZqtTwExaM9Wyd/NfVs8ud64a2o/N5TI1Qoo2Cdg9Ug/sEEOM9FfjlGM0B1jQ5vgrirclK65A9v6HVMrLW8RHCl0us2M4VgyeM+Wx7T9FgjwVNBC7bYnP7qC2Ueg/Djl3nUq9c8i37zsUVvkhCQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CqLzZHN0H995YMchR5QYAKCR7gF5miTDNwenQEef+4Y=;
- b=Vr+fo4Q/X/JF2vl6I7gqfN/TVdbER150UXSL+cZJV5qlMaS3jrLUUT4ZyLMZWkqZhuZjgkzF5tUEiYVf6n0UQsxzNi8zY5j/YT9OXeZA003hRrcVq2rK5yCnVGjiS7T1e+jqSkhAaPyosDTIJAdxNKfBOwcQd57EXjSps3a5kFI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by AM0PR08MB3348.eurprd08.prod.outlook.com (2603:10a6:208:65::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.7; Fri, 21 Jan
- 2022 16:39:54 +0000
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::4def:4b08:dfe6:b4bd]) by AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::4def:4b08:dfe6:b4bd%3]) with mapi id 15.20.4909.012; Fri, 21 Jan 2022
- 16:39:53 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Cc: kvm@vger.kernel.org, lvivier@redhat.com, thuth@redhat.com,
- mtosatti@redhat.com, richard.henderson@linaro.org, pbonzini@redhat.com,
- armbru@redhat.com, eblake@redhat.com, wangyanan55@huawei.com,
- f4bug@amsat.org, marcel.apfelbaum@gmail.com, eduardo@habkost.net,
- vsementsov@virtuozzo.com, valery.vdovin.s@gmail.com, den@openvz.org,
- Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
-Subject: [PATCH v17] qapi: introduce 'x-query-x86-cpuid' QMP command.
-Date: Fri, 21 Jan 2022 17:39:43 +0100
-Message-Id: <20220121163943.2720015-1-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.31.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM6PR10CA0097.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:209:8c::38) To AM9PR08MB6737.eurprd08.prod.outlook.com
- (2603:10a6:20b:304::18)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nAxMW-0007i7-0T
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 12:06:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642784764;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=EQwNjGVqKMtfeOKElvVJIswPRgPgpaCXWznhS50SiB4=;
+ b=KV8GefKm13HjYe0TD9nTXMI835zk0TiayHts6BDSamuWVFhxHNOnXSeQWM9zlNulAvlgsh
+ 82np0umb3Pq3eGOm3ePmh3XoQlvZ3ZOxtHgbvmmu3h34FfEoZZd0vw0weq1aLRsNImA4lA
+ wydpqC/a7dqvPlQNhHzu5KXiO35444c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-195-bb09pSIlOxS8aBrd962MQw-1; Fri, 21 Jan 2022 12:06:01 -0500
+X-MC-Unique: bb09pSIlOxS8aBrd962MQw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D41651091DA4;
+ Fri, 21 Jan 2022 17:05:58 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BC76D7E918;
+ Fri, 21 Jan 2022 17:05:56 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v6 00/33] block layer: split block APIs in global state and I/O
+Date: Fri, 21 Jan 2022 12:05:11 -0500
+Message-Id: <20220121170544.2049944-1-eesposit@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6e5edb4d-a475-4939-9754-08d9dcfca697
-X-MS-TrafficTypeDiagnostic: AM0PR08MB3348:EE_
-X-Microsoft-Antispam-PRVS: <AM0PR08MB33486D775D362D413E080E43C15B9@AM0PR08MB3348.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wKwj5a4V0JL9trXUYSHIVKLTrNogxAFFiCDsFVQ9elb7UtaYTrBx9NGMaW9Y07JfQFBvaB6e720JK4Ano2xkELd38asluHpsqUdPniE6pyupssoFDiErmW01/mKxmaAJqngLBSV+Jga4/ROnhs8wi+TbBxvQC7SyNIilBn79xg6tKe/7IjtuaXQCSK7zcL3nM8LmcXDSTlCo9WnoBH1/R5ESO6m1eCLQPvJO2MajoeCGOgbIHec+I4fNWHH1OMhXPpoUWpSFx7WFUjPft8+Zb1wjskZutSJGYoC4X9N27zPBBYPpjXLasL2D6OORYZWYECGeVxx87T5bFOdsH8cihtpV/Q7SdyRI7kVAxAdSXGhE0WQas5r+Tzn2MhzPpWKtHes3OB0qosPLAh8chWDvF1AjkUVvGeBFUV26HeMWlmsXFnekUiOM/7WxeZs0K/1Qojhj7Xikq+B7lGDlcwW+VdWzDi0NxHJxgSg6zQGiEahMx0Aw+rt6JzGYR3aXgwvyHEwHOyuoCrVZ3/3TZotTkGYB7KG35Z4S/tVZvXluWLgrtwwCm8mU3ljZH8+Ox7j3vRE7xtYrp63bbG2eYInqn6HWpSiWs+jqoBctBeReLS5XY2wAZ4nZnQodXUMdxlcDMnZbRGXRFEgKyDmfHPob1jvWSKuDmBF2BRyTI9HTI6KR4SKNNgxPVnhoBmMdcST6bhicstX6FO3BUFbWmg7cVQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(66476007)(66556008)(5660300002)(38100700002)(36756003)(26005)(508600001)(66946007)(6506007)(6486002)(38350700002)(6666004)(4326008)(107886003)(1076003)(186003)(316002)(83380400001)(2616005)(2906002)(52116002)(6512007)(8676002)(86362001)(8936002)(7416002)(6916009);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?049K0OPxFNbB/GRz9+PDUjA/V6cmr1cKmBpyZwjTXHRh3RMTbdmmLjaCfuMx?=
- =?us-ascii?Q?O8wcWJ8xanY81BXsscpxeM/fW+I8XwG4kMR3CN2oQIbLz0Cw/X6l1Eor1oHk?=
- =?us-ascii?Q?nVLJfQWa1H1rXzXQtfm3fyZENUhUKpqe3PDOpv5cSWegyBAhvJqMwv75fdi1?=
- =?us-ascii?Q?g3IsSMZqS9wCsxQA3JT7AuKqkysHKL2mPbhNu6/WX2u8AFvlsNH1z67lAXhQ?=
- =?us-ascii?Q?+/e6XdzXWtqsBysKFioDQNWXWKeWpnLmtp4zRTxcHuHBjn5J39cD78xU6Jmg?=
- =?us-ascii?Q?NPcPXrYbvz5iH5+XLoIEtwor6qvOY7XPdIT+OPHis6kw6AKnYB2LBbMFH7eY?=
- =?us-ascii?Q?Ty8wALIVFFKrjN8irC0ybjYgFBF/vfVIwm2HnsCiMvUN1o3jFaLl5ratltwq?=
- =?us-ascii?Q?AMWl8ZMKrli6LDZ6ySFYQgfjesxxdSfCru6BjgzfpBBOnAihD6mnc2gCqx9/?=
- =?us-ascii?Q?sm8evf0sdAI2rdXVrggz5xfdJbKD0zxUe1lbdB6Z/8F/P6nNJk6cI30NVAn8?=
- =?us-ascii?Q?EYxy9ugtTQuSfRVuZWm4sUtf2gl7X5CG6WeOCeUDrGPpz70uZ7ZeqFYipdBw?=
- =?us-ascii?Q?MJglIUygxHUyiHusQdzaEdi3WUF9ezRIMpAcnHfRyxXjILjgBbi3Tc4vTLS9?=
- =?us-ascii?Q?a9U5W7gDIe2XTUQ4jqbdHciNsJ/9DTpp6NmRcMVqDAV/I5/zUzmVGg6zSL/x?=
- =?us-ascii?Q?iO9F6qO+xK6IQP0cHMWWP1Qu0ICRXWWazF+v8kqftMf1+HkWGymfsbD4SMHh?=
- =?us-ascii?Q?bbChq3aWtt9P/8UKzZb/ZV9Husa5IfPOyRDBpjyYcsPXofRcOVc7Ut1cR0OZ?=
- =?us-ascii?Q?dFNiNnPkXcOyGHyx1z7uw6gEkHMWzwfmz+HZIUwf0sKgOXwSkerZ1iWbOlnE?=
- =?us-ascii?Q?UGOgr1IecD1vCh/dmv+Bqz2qf0m9SDHf23BIWQmw4mVGvTzgNa+3q8RQIVC0?=
- =?us-ascii?Q?n3Yi6L2HFgRy+SP6rmVgV2QpPTMT3msUhhWmWkSnv5W+f9Ji9eX4NSCpDnli?=
- =?us-ascii?Q?U4b2W3tGmIggC40+3dvrAuhs8dxM85Qu+6J995EvG2qYSV+J3kPn+9aKV0Ii?=
- =?us-ascii?Q?hiVdInpu21E8BqdRI8E6djc51qz2/GVRuk0zcQ3DZEqmlO8y7HDKOTqwEKP/?=
- =?us-ascii?Q?gvUddCPF3EGnOynhtnTz5xts2m6FApztqcvIeFiXgB4DXYfO6/FRNjHiASpW?=
- =?us-ascii?Q?KxjL4ecoDH+4SbGcBchh73XUaW/3x3ZrY7W2O4m2amgTIrIPvZhDFJJgePwe?=
- =?us-ascii?Q?FMgqPnDbqsguHOqTlIO+Kx6D25t5inQ+0dFOL4JOv+XyUNMFAT0eNY8MhQ3F?=
- =?us-ascii?Q?qFZh0GDspumFJ+dhiV22A2MTQTSlDAbVUifQ0wpUF+OWPYOSvWnVt384UNj2?=
- =?us-ascii?Q?ffJVDZOPI2VFlFCDOMGuDm/atP9y7FY4xaN+cDh4pifnweSAUggcMP9PFwpF?=
- =?us-ascii?Q?r8RY+pJRvOpJKEPRf/eLsmVOcWye6q0M/L7aE0mMhl842ccLYnZ4yFBlBkLJ?=
- =?us-ascii?Q?nCcjrwvwZ8TcfCJczJsg/ZQ0IJI5yCnsZ1vB4H7MnTp2t6PDaR8C5ebWvVp+?=
- =?us-ascii?Q?pJ4+ZbXk9LWb4q5qOx6/WLw5O3wea6R8JJ70pVoVUoNFilHFKQy3sMRYuEB8?=
- =?us-ascii?Q?wa4MlWGplTvQ3YorEoC0VhTahnHZ2hm8mmittboYjTXbNKdQ2048B1e3FbUR?=
- =?us-ascii?Q?tPozwQ=3D=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e5edb4d-a475-4939-9754-08d9dcfca697
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2022 16:39:53.9312 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eaNHJdhqdHhU7MCPBqA+keiD3Gcx6+0j87tSUVNu9ZLVS+vVA3IADB6qd0PIAb4x4vmN7yJF7RZ6dg6k6SUyOkhM4We4yS3LTHAK7M8ajH8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3348
-Received-SPF: pass client-ip=40.107.13.127;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -138,286 +77,329 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
+ "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
+Currently, block layer APIs like block.h contain a mix of
+functions that are either running in the main loop and under the
+BQL, or are thread-safe functions and run in iothreads performing I/O.
+The functions running under BQL also take care of modifying the
+block graph, by using drain and/or aio_context_acquire/release.
+This makes it very confusing to understand where each function
+runs, and what assumptions it provided with regards to thread
+safety.
 
-Introducing new QMP command 'query-x86-cpuid'. This command can be
-used to get virtualized cpu model info generated by QEMU during VM
-initialization in the form of cpuid representation.
+We call the functions running under BQL "global state (GS) API", and
+distinguish them from the thread-safe "I/O API".
 
-Diving into more details about virtual CPU generation: QEMU first
-parses '-cpu' command line option. From there it takes the name of the
-model as the basis for feature set of the new virtual CPU. After that
-it uses trailing '-cpu' options, that state if additional cpu features
-should be present on the virtual CPU or excluded from it (tokens
-'+'/'-' or '=on'/'=off').
-After that QEMU checks if the host's cpu can actually support the
-derived feature set and applies host limitations to it.
-After this initialization procedure, virtual CPU has it's model and
-vendor names, and a working feature set and is ready for
-identification instructions such as CPUID.
+The aim of this series is to split the relevant block headers in
+global state and I/O sub-headers. The division will be done in
+this way:
+header.h will be split in header-global-state.h, header-io.h and
+header-common.h. The latter will just contain the data structures
+needed by header-global-state and header-io, and common helpers
+that are neither in GS nor in I/O. header.h will remain for
+legacy and to avoid changing all includes in all QEMU c files,
+but will only include the two new headers. No function shall be
+added in header.c .
+Once we split all relevant headers, it will be much easier to see what
+uses the AioContext lock and remove it, which is the overall main
+goal of this and other series that I posted/will post.
 
-To learn exactly how virtual CPU is presented to the guest machine via
-CPUID instruction, new QMP command can be used. By calling
-'query-x86-cpuid' command, one can get a full listing of all CPUID
-leaves with subleaves which are supported by the initialized virtual
-CPU.
+In addition to splitting the relevant headers shown in this series,
+it is also very helpful splitting the function pointers in some
+block structures, to understand what runs under AioContext lock and
+what doesn't. This is what patches 21-27 do.
 
-Other than debug, the command is useful in cases when we would like to
-utilize QEMU's virtual CPU initialization routines and put the
-retrieved values into kernel CPUID overriding mechanics for more
-precise control over how various processes perceive its underlying
-hardware with container processes as a good example.
+Each function in the GS API will have an assertion, checking
+that it is always running under BQL.
+I/O functions are instead thread safe (or so should be), meaning
+that they *can* run under BQL, but also in an iothread in another
+AioContext. Therefore they do not provide any assertion, and
+need to be audited manually to verify the correctness.
 
-The command is specific to x86. It is currenly only implemented for
-KVM acceleator.
+Adding assetions has helped finding 2 bugs already, as shown in
+my series "Migration: fix missing iothread locking".
 
-Output format:
-The output is a plain list of leaf/subleaf argument combinations, that
-return 4 words in registers EAX, EBX, ECX, EDX.
+Tested this series by running unit tests, qemu-iotests and qtests
+(x86_64).
+Some functions in the GS API are used everywhere but not
+properly tested. Therefore their assertion is never actually run in
+the tests, so despite my very careful auditing, it is not impossible
+to exclude that some will trigger while actually using QEMU.
 
-Use example:
-qmp_request: {
-  "execute": "x-query-x86-cpuid"
-}
+Patch 1 introduces qemu_in_main_thread(), the function used in
+all assertions. This had to be introduced otherwise all unit tests
+would fail, since they run in the main loop but use the code in
+stubs/iothread.c
+Patches 2-27 (with the exception of patch 9-10, that are an additional
+assert) are all structured in the same way: first we split the header
+and in the next (or same, if small) patch we add assertions.
+Patch 28-31 take care instead of the block layer permission API,
+fixing some bugs where they are used in I/O functions.
 
-qmp_response: {
-  "return": [
-    {
-      "eax": 1073741825,
-      "edx": 77,
-      "in-eax": 1073741824,
-      "ecx": 1447775574,
-      "ebx": 1263359563
-    },
-    {
-      "eax": 16777339,
-      "edx": 0,
-      "in-eax": 1073741825,
-      "ecx": 0,
-      "ebx": 0
-    },
-    {
-      "eax": 13,
-      "edx": 1231384169,
-      "in-eax": 0,
-      "ecx": 1818588270,
-      "ebx": 1970169159
-    },
-    {
-      "eax": 198354,
-      "edx": 126614527,
-      "in-eax": 1,
-      "ecx": 2176328193,
-      "ebx": 2048
-    },
-    ....
-    {
-      "eax": 12328,
-      "edx": 0,
-      "in-eax": 2147483656,
-      "ecx": 0,
-      "ebx": 0
-    }
-  ]
-}
+Next steps once this get reviewed:
+1) audit the GS API and replace the AioContext lock with drains,
+or remove them when not necessary (requires further discussion).
+2) [optional as it should be already the case] audit the I/O API
+and check that thread safety is guaranteed
 
-Signed-off-by: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+In order to keep this series a little bit smaller, move some
+refactoring patches in another series already merged,
+"block: minor refactoring in preparation to the block layer API split".
+
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
+v6:
+* Additional assertions in "block.c: add assertions to static functions"
+* bdrv_co_invalidate_cache: create a new GS function bdrv_activate, and move
+  all GS logic of bdrv_co_invalidate_cache there, so that the
+  coroutine only runs I/O code. Move the resulting 3 patches before
+  "block/coroutines: I/O API"
+* crypto (patch 30): introduce bdrv_amend_pre_run and bdrv_clean, along with
+  job_pre_run and job_clean to be sure of setting the permissions in GS
+* remove TODO in blk_{get/set}_perm, and handle the RESIZE permission in patch 6
+* in I/O:
+    blk_ioctl
+    blk_get_attached_dev_id
+    blk_enable_write_cache
+    blk_set_guest_block_size
+    blk_lock_medium
+    bdrv_lock_medium
+    (*bdrv_lock_medium)
+    blk_eject
+    bdrv_eject
+    (*bdrv_eject)
+    bdrv_probe_all
+* patch 13 just move an assertion before the variable assignment,
+  and not after.
+* remove patch 10 (block.c: modify .attach and .detach callbacks of
+  child_of_bds), as it is not necessary.
 
-v17: wrap long lines, add QAPI feature 'unstable' [Markus]
+v5:
+* In short, apply all Hanna's comments. More in details,
+  the following functions in the following headers have been moved:
+  block-backend:
+    blk_replace_bs (to gs)
+    blk_nb_sectors (to io)
+    blk_name (to io)
+    blk_set_perm (to io)
+    blk_get_perm (to io)
+    blk_drain (to io)
+    blk_abort_aio_request (to io)
+    blk_make_empty (to gs)
+    blk_invalidate_cache (was in io, but had GS assertion)
+    blk_aio_cancel (to gs)
+  block:
+    bdrv_replace_child_bs (to gs)
+    bdrv_get_device_name (to io)
+    bdrv_get_device_or_node_name (to io)
+    bdrv_drained_end_no_poll (to io)
+    bdrv_block_status (was in io, but had GS assertion)
+    bdrv_drain (to io)
+    bdrv_co_drain (to io)
+    bdrv_make_zero (was in GS, but did not have the assertion)
+    bdrv_save_vmstate (to io)
+    bdrv_load_vmstate (to io)
+    bdrv_aio_cancel_async (to io)
+  block_int:
+    bdrv_get_parent_name (to io)
+    bdrv_apply_subtree_drain (to io)
+    bdrv_unapply_subtree_drain (to io)
+    bdrv_co_copy_range_from (was in io, but had GS assertion)
+    bdrv_co_copy_range_to (was in io, but had GS assertion)
+    ->bdrv_save_vmstate (to io)
+    ->bdrv_load_vmstate (to io)
 
- qapi/machine-target.json   | 50 ++++++++++++++++++++++++++++++++++++++
- softmmu/cpus.c             |  2 +-
- target/i386/kvm/kvm-stub.c |  9 +++++++
- target/i386/kvm/kvm.c      | 44 +++++++++++++++++++++++++++++++++
- tests/qtest/qmp-cmd-test.c |  1 +
- 5 files changed, 105 insertions(+), 1 deletion(-)
+  coding style (assertion after definitions):
+    bdrv_save_vmstate
+    bdrv_load_vmstate
+    block_job_next
+    block_job_get
 
-diff --git a/qapi/machine-target.json b/qapi/machine-target.json
-index f5ec4bc172..1568e17e74 100644
---- a/qapi/machine-target.json
-+++ b/qapi/machine-target.json
-@@ -341,3 +341,53 @@
-                    'TARGET_I386',
-                    'TARGET_S390X',
-                    'TARGET_MIPS' ] } }
-+
-+##
-+# @CpuidEntry:
-+#
-+# A single entry of a CPUID response.
-+#
-+# One entry holds full set of information (leaf) returned to the guest
-+# in response to it calling a CPUID instruction with eax, ecx used as
-+# the arguments to that instruction. ecx is an optional argument as
-+# not all of the leaves support it.
-+#
-+# @in-eax: CPUID argument in eax
-+# @in-ecx: CPUID argument in ecx
-+# @eax: CPUID result in eax
-+# @ebx: CPUID result in ebx
-+# @ecx: CPUID result in ecx
-+# @edx: CPUID result in edx
-+#
-+# Since: 7.0
-+##
-+{ 'struct': 'CpuidEntry',
-+  'data': { 'in-eax' : 'uint32',
-+            '*in-ecx' : 'uint32',
-+            'eax' : 'uint32',
-+            'ebx' : 'uint32',
-+            'ecx' : 'uint32',
-+            'edx' : 'uint32'
-+          },
-+  'if': 'TARGET_I386' }
-+
-+##
-+# @x-query-x86-cpuid:
-+#
-+# Returns raw data from the emulated CPUID table for the first VCPU.
-+# The emulated CPUID table defines the response to the CPUID
-+# instruction when executed by the guest operating system.
-+#
-+# Features:
-+# @unstable: This command is experimental.
-+#
-+# Returns: a list of CpuidEntry. Returns error when qemu is configured
-+#          with --disable-kvm flag or if qemu is run with any other
-+#          accelerator than KVM.
-+#
-+# Since: 7.0
-+##
-+{ 'command': 'x-query-x86-cpuid',
-+  'returns': [ 'CpuidEntry' ],
-+  'if': 'TARGET_I386',
-+  'features': [ 'unstable' ] }
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 23bca46b07..33045bf45c 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -129,7 +129,7 @@ void hw_error(const char *fmt, ...)
- /*
-  * The chosen accelerator is supposed to register this.
-  */
--static const AccelOpsClass *cpus_accel;
-+const AccelOpsClass *cpus_accel;
- 
- void cpu_synchronize_all_states(void)
- {
-diff --git a/target/i386/kvm/kvm-stub.c b/target/i386/kvm/kvm-stub.c
-index f6e7e4466e..71631e560d 100644
---- a/target/i386/kvm/kvm-stub.c
-+++ b/target/i386/kvm/kvm-stub.c
-@@ -12,6 +12,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "kvm_i386.h"
-+#include "qapi/error.h"
- 
- #ifndef __OPTIMIZE__
- bool kvm_has_smm(void)
-@@ -44,3 +45,11 @@ bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
- {
-     abort();
- }
-+
-+CpuidEntryList *qmp_x_query_x86_cpuid(Error **errp);
-+
-+CpuidEntryList *qmp_x_query_x86_cpuid(Error **errp)
-+{
-+    error_setg(errp, "Not implemented in --disable-kvm configuration");
-+    return NULL;
-+}
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 2c8feb4a6f..eb73869039 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -20,11 +20,13 @@
- 
- #include <linux/kvm.h>
- #include "standard-headers/asm-x86/kvm_para.h"
-+#include "qapi/qapi-commands-machine-target.h"
- 
- #include "cpu.h"
- #include "host-cpu.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/hw_accel.h"
-+#include "sysemu/accel-ops.h"
- #include "sysemu/kvm_int.h"
- #include "sysemu/runstate.h"
- #include "kvm_i386.h"
-@@ -1565,6 +1567,44 @@ static Error *invtsc_mig_blocker;
- 
- #define KVM_MAX_CPUID_ENTRIES  100
- 
-+struct kvm_cpuid2 *cpuid_data_cached;
-+
-+
-+CpuidEntryList *qmp_x_query_x86_cpuid(Error **errp)
-+{
-+    int i;
-+    struct kvm_cpuid_entry2 *kvm_entry;
-+    CpuidEntryList *head = NULL, **tail = &head;
-+    CpuidEntry *entry;
-+
-+    if (!kvm_enabled()) {
-+        error_setg(errp, "Not implemented for non-kvm accel");
-+        return NULL;
-+    }
-+
-+    if (!cpuid_data_cached) {
-+        error_setg(errp, "VCPU was not initialized yet");
-+        return NULL;
-+    }
-+
-+    for (i = 0; i < cpuid_data_cached->nent; ++i) {
-+        kvm_entry = &cpuid_data_cached->entries[i];
-+        entry = g_malloc0(sizeof(*entry));
-+        entry->in_eax = kvm_entry->function;
-+        if (kvm_entry->flags & KVM_CPUID_FLAG_SIGNIFCANT_INDEX) {
-+            entry->in_ecx = kvm_entry->index;
-+            entry->has_in_ecx = true;
-+        }
-+        entry->eax = kvm_entry->eax;
-+        entry->ebx = kvm_entry->ebx;
-+        entry->ecx = kvm_entry->ecx;
-+        entry->edx = kvm_entry->edx;
-+        QAPI_LIST_APPEND(tail, entry);
-+    }
-+
-+    return head;
-+}
-+
- int kvm_arch_init_vcpu(CPUState *cs)
- {
-     struct {
-@@ -1981,6 +2021,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
-     if (r) {
-         goto fail;
-     }
-+    if (!cpuid_data_cached) {
-+        cpuid_data_cached = g_malloc0(sizeof(cpuid_data));
-+        memcpy(cpuid_data_cached, &cpuid_data, sizeof(cpuid_data));
-+    }
- 
-     if (has_xsave) {
-         env->xsave_buf_len = sizeof(struct kvm_xsave);
-diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-index 7f103ea3fd..94d9184a84 100644
---- a/tests/qtest/qmp-cmd-test.c
-+++ b/tests/qtest/qmp-cmd-test.c
-@@ -54,6 +54,7 @@ static int query_error_class(const char *cmd)
-         /* Only valid with accel=tcg */
-         { "x-query-jit", ERROR_CLASS_GENERIC_ERROR },
-         { "x-query-opcount", ERROR_CLASS_GENERIC_ERROR },
-+        { "x-query-x86-cpuid", ERROR_CLASS_GENERIC_ERROR },
-         { NULL, -1 }
-     };
-     int i;
+  new patches:
+    block.c: modify .attach and .detach callbacks of child_of_bds
+    introduce pre_run as JobDriver callback to handle
+      bdrv_co_amend usage of permission function
+    leave blk_set/get_perm as a TODO in fuse.c
+    make sure bdrv_co_invalidate_cache does not use permissions
+      if BQL is not held
+
+  minor changes:
+    put back TODO for include block/block.h in block-backend-common.h
+    rebase on kwolf/block branch
+    modify where are used assert_bdrv_graph_writable, due to rebase
+
+v4:
+* Moved the following functions from block-io to
+  block-global-state (+ assertion):
+  - bdrv_apply_auto_read_only
+  - bdrv_can_set_read_only
+* Moved the following functions from block-backend-io to
+  block-backend-global-state (+ assertion):
+  - blk_ioctl
+* added patch 4 to distinguish assertions added to static functions
+  in block.c
+* block/coroutines: it seems that blk_co_do_ioctl and
+  blk_do_ioctl are global state too
+
+v3:
+* blockdev.h (patch 14): blockdev_mark_auto_del, blockdev_auto_del
+  and blk_legacy_dinfo as GS API.
+* add copyright header to block.h, block-io.h and block-global-state.h
+* rebase on current master (c5b2f55981)
+
+v2:
+* rename "graph API" into "global state API"
+* change order of patches, block.h comes before block-backend.h
+* change GS and I/O comment headers to avoid redundancy, all other
+  headers refer to block-global-state.h and block-io.h
+* fix typo on GS and I/O headers
+* use assert instead of g_assert
+* move bdrv_pwrite_sync, bdrv_block_status and bdrv_co_copy_range_{from/to}
+  to the I/O API
+* change assert_bdrv_graph_writable implementation, since we need
+  to introduce additional drains
+* remove transactions API split
+* add preparation patch for blockdev.h (patch 13)
+* backup-top -> copy-on-write
+* change I/O comment in job.h into a better meaningful explanation
+* fix all warnings given by checkpatch, mostly due to /* */ to be
+  split in separate lines
+* rebase on current master (c09124dcb8), and split the following new functions:
+	blk_replace_bs (I/O)
+	bdrv_bsc_is_data (I/O)
+	bdrv_bsc_invalidate_range (I/O)
+	bdrv_bsc_fill (I/O)
+	bdrv_new_open_driver_opts (GS)
+	blk_get_max_hw_iov (I/O)
+  they are all added in patches 4 and 6.
+
+v1:
+* remove the iothread locking bug fix, and send it as separate patch
+* rename graph API -> global state API
+* better documented patch 1 (qemu_in_main_thread)
+* add and split all other block layer headers
+* fix warnings given by checkpatch on multiline comments
+
+Emanuele Giuseppe Esposito (33):
+  main-loop.h: introduce qemu_in_main_thread()
+  include/block/block: split header into I/O and global state API
+  assertions for block global state API
+  block/export/fuse.c: allow writable exports to take RESIZE permission
+  include/sysemu/block-backend: split header into I/O and global state
+    (GS) API
+  block/block-backend.c: assertions for block-backend
+  include/block/block_int: split header into I/O and global state API
+  assertions for block_int global state API
+  block: introduce assert_bdrv_graph_writable
+  include/block/blockjob_int.h: split header into I/O and GS API
+  assertions for blockjob_int.h
+  block.c: add assertions to static functions
+  include/block/blockjob.h: global state API
+  assertions for blockjob.h global state API
+  include/sysemu/blockdev.h: global state API
+  assertions for blockdev.h global state API
+  include/block/snapshot: global state API + assertions
+  block/copy-before-write.h: global state API + assertions
+  block: introduce bdrv_activate
+  block: rename bdrv_invalidate_cache_all, blk_invalidate_cache and
+    test_sync_op_invalidate_cache
+  block: move BQL logic of bdrv_co_invalidate_cache in bdrv_activate
+  block/coroutines: I/O API
+  block_int-common.h: split function pointers in BlockDriver
+  block_int-common.h: assertions in the callers of BlockDriver function
+    pointers
+  block_int-common.h: split function pointers in BdrvChildClass
+  block_int-common.h: assertions in the callers of BdrvChildClass
+    function pointers
+  block-backend-common.h: split function pointers in BlockDevOps
+  job.h: split function pointers in JobDriver
+  job.h: assertions in the callers of JobDriver funcion pointers
+  include/block/block_int-common.h: introduce bdrv_amend_pre_run and
+    bdrv_amend_clean
+  include/qemu/job.h: introduce job->pre_run() and use it in amend
+  crypto: delegate permission functions to JobDriver .pre_run
+  block.c: assertions to the block layer permissions API
+
+ block.c                                     |  278 +++-
+ block/amend.c                               |   33 +
+ block/backup.c                              |    1 +
+ block/block-backend.c                       |  101 +-
+ block/commit.c                              |    4 +
+ block/copy-before-write.c                   |    2 +
+ block/copy-before-write.h                   |    7 +
+ block/coroutines.h                          |    6 +
+ block/create.c                              |    2 +
+ block/crypto.c                              |   73 +-
+ block/dirty-bitmap.c                        |    1 +
+ block/export/export.c                       |    2 +-
+ block/export/fuse.c                         |   25 +-
+ block/io.c                                  |   26 +
+ block/meson.build                           |    7 +-
+ block/mirror.c                              |    4 +
+ block/monitor/bitmap-qmp-cmds.c             |    6 +
+ block/parallels.c                           |    2 +-
+ block/snapshot.c                            |   28 +
+ block/stream.c                              |    2 +
+ blockdev.c                                  |   29 +
+ blockjob.c                                  |   14 +
+ hw/block/pflash_cfi01.c                     |    2 +-
+ hw/nvram/spapr_nvram.c                      |    2 +-
+ include/block/block-common.h                |  381 +++++
+ include/block/block-global-state.h          |  269 ++++
+ include/block/block-io.h                    |  324 ++++
+ include/block/block.h                       |  879 +----------
+ include/block/block_int-common.h            | 1215 +++++++++++++++
+ include/block/block_int-global-state.h      |  320 ++++
+ include/block/block_int-io.h                |  170 +++
+ include/block/block_int.h                   | 1475 +------------------
+ include/block/blockjob.h                    |    9 +
+ include/block/blockjob_int.h                |   28 +
+ include/block/snapshot.h                    |   13 +-
+ include/qemu/job.h                          |   31 +
+ include/qemu/main-loop.h                    |   13 +
+ include/sysemu/block-backend-common.h       |  102 ++
+ include/sysemu/block-backend-global-state.h |  115 ++
+ include/sysemu/block-backend-io.h           |  145 ++
+ include/sysemu/block-backend.h              |  269 +---
+ include/sysemu/blockdev.h                   |   13 +-
+ job.c                                       |   22 +
+ migration/block.c                           |    2 +-
+ migration/migration.c                       |   10 +-
+ migration/savevm.c                          |    6 +-
+ monitor/qmp-cmds.c                          |    2 +-
+ softmmu/cpus.c                              |    5 +
+ softmmu/qdev-monitor.c                      |    2 +
+ stubs/iothread-lock.c                       |    5 +
+ tests/unit/test-block-iothread.c            |    8 +-
+ 51 files changed, 3824 insertions(+), 2666 deletions(-)
+ create mode 100644 include/block/block-common.h
+ create mode 100644 include/block/block-global-state.h
+ create mode 100644 include/block/block-io.h
+ create mode 100644 include/block/block_int-common.h
+ create mode 100644 include/block/block_int-global-state.h
+ create mode 100644 include/block/block_int-io.h
+ create mode 100644 include/sysemu/block-backend-common.h
+ create mode 100644 include/sysemu/block-backend-global-state.h
+ create mode 100644 include/sysemu/block-backend-io.h
+
 -- 
 2.31.1
 
