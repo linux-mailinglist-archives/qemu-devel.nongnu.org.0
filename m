@@ -2,81 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D927495DF6
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 11:54:43 +0100 (CET)
-Received: from localhost ([::1]:47854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7599495DFF
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jan 2022 11:58:09 +0100 (CET)
+Received: from localhost ([::1]:51718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nArZ3-00034H-Tw
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 05:54:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50294)
+	id 1nArcO-0005m8-Uk
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 05:58:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nAr8x-0000BK-KV
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 05:27:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29960)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nAr8t-0005bN-U5
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 05:27:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642760858;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tMyhQs3f/ynhuNonkh6U/xr/0qzCMdctK8GSJn6zJAE=;
- b=g9tzTn30ECHuY1JSkO7kWHCe7JChjBFTv+aKQKsvURZWerqlHiZ8TC4g2c97EcByiqFHmk
- e7652jg/LV7OudPA67Dtw4d+ng0QEkJdM5WqwGzH9+mz+UiSmPJ52YV3EqC9TDB2DmaxqA
- oc7GcerrQhu4MeRW5//oAyzWPeMghoc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-396-rBa7RWQPNzeWQlYZfdwd1A-1; Fri, 21 Jan 2022 05:27:37 -0500
-X-MC-Unique: rBa7RWQPNzeWQlYZfdwd1A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54DFC835B47;
- Fri, 21 Jan 2022 10:27:36 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-16.ams2.redhat.com
- [10.36.112.16])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 00AB76F95D;
- Fri, 21 Jan 2022 10:27:36 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 85750113303B; Fri, 21 Jan 2022 11:27:34 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH 1/3] qsd: Add pre-init argument parsing pass
-References: <20211222114153.67721-1-hreitz@redhat.com>
- <20211222114153.67721-2-hreitz@redhat.com>
- <87zgnrubkf.fsf@dusky.pond.sub.org>
- <4a15fbad-b177-f35c-1468-ef14f7ab1887@redhat.com>
- <YehIosxuXCqsGBSW@redhat.com> <87ee5275ya.fsf@dusky.pond.sub.org>
- <ffaf9aee-56e9-c332-09ad-158a3e28758b@redhat.com>
- <87pmol62kv.fsf@dusky.pond.sub.org>
- <f7b6d0e0-ee5f-f7ed-795b-27b13ff816c7@redhat.com>
-Date: Fri, 21 Jan 2022 11:27:34 +0100
-In-Reply-To: <f7b6d0e0-ee5f-f7ed-795b-27b13ff816c7@redhat.com> (Hanna Reitz's
- message of "Fri, 21 Jan 2022 09:43:10 +0100")
-Message-ID: <87tudx4c4p.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nArAy-0003Dq-IO; Fri, 21 Jan 2022 05:29:48 -0500
+Received: from [2a00:1450:4864:20::331] (port=54240
+ helo=mail-wm1-x331.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nArAv-0005v4-U5; Fri, 21 Jan 2022 05:29:48 -0500
+Received: by mail-wm1-x331.google.com with SMTP id n8so17015884wmk.3;
+ Fri, 21 Jan 2022 02:29:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=N914xUFBOra5Rvb9NzOSNLfwXs1xt8qQ4KEvml0EXtY=;
+ b=c/QFQunQRKNxcAJqvhZkTZNTRvQJi5dtASfHtWZu5VenCxo7qSKwfZjtplj2jVTuSU
+ XVo0vIF0dAZDgG5XA5DurCJ1qUjb7XGBtEUuTq7okKxo9I7xLGENBfH/DHl7dWOqId4h
+ oH8YMxhMy97BSY4peeue7MYpTEfRxvFqCQQJJ8LGsoeCEKLbRtRNR+12378WZ3CQNmZq
+ sGXWCr4KtJ4ZJ9UMmhpE//MDN1mX0tQfjuc59kKQeqNkfh4JMddCPiJJuzomeMheoAFi
+ 0/MtjAO/CwCvkVhMdrZTtxMgyUVZyHd4wyZ/GaKk5KWvgeP0n4B3H3ON+x1bK3L2OHcJ
+ HxtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=N914xUFBOra5Rvb9NzOSNLfwXs1xt8qQ4KEvml0EXtY=;
+ b=EI0h43NkGReU8pM2xuSPtxbl6H15M86og0twKDMTg127lRpqC2hq2zfNQeQzCa5n2D
+ Xkjk9aZi9RBXibEihTsNt6sc0ZpzuVNFlk1Kr/12EiRo0fhxalK+iuss/ng0XsgISgZR
+ BJEMYrdNGesiUzKNXzSAUQDuZDmN/ODPkvsLJOLQU1RhyG4WsHrsgh8MO51tAwypLkoV
+ EcDQPMu5GACYhYmwKkUVgDVOqyLld8C73eMKN/bWF8o+6fwUn7nVvBlN1/ajqOSWUcCJ
+ jjtntPTvGUPzo0zxDP71K9FG4Bp3csyIi8BGg4ortcZciP7eivSqrZPpa/hJ5qbwkoiR
+ aIxw==
+X-Gm-Message-State: AOAM533ceSRWqxJLMDLRqfIEPnIH+m416s9YaWHaYuUpCA89Ahju9qu3
+ YPFvV371s3Z6AOKJdDWkFlZ9/dJGnp8=
+X-Google-Smtp-Source: ABdhPJwbi9C+kzSDnMkiK0KVW/8FSq0XKVVY+NmjDZGHOVkUy7T3scda76Nmt7gRRpf737+J/j7JWA==
+X-Received: by 2002:a05:6000:184c:: with SMTP id
+ c12mr3290089wri.7.1642760983108; 
+ Fri, 21 Jan 2022 02:29:43 -0800 (PST)
+Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id t8sm4793849wmq.21.2022.01.21.02.29.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Jan 2022 02:29:42 -0800 (PST)
+Message-ID: <75e442c1-a61c-f0e0-425c-34047cb284b7@amsat.org>
+Date: Fri, 21 Jan 2022 11:29:40 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v3 5/7] drop libxml2 checks since libxml is not actually
+ used (for parallels)
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+Cc: Ed Maste <emaste@freebsd.org>, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Yonggang Luo <luoyonggang@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Stefan Hajnoczi <stefanha@redhat.com>
+References: <20220120113016.268265-1-f4bug@amsat.org>
+ <20220120113016.268265-6-f4bug@amsat.org>
+In-Reply-To: <20220120113016.268265-6-f4bug@amsat.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,120 +98,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Hanna Reitz <hreitz@redhat.com> writes:
+On 1/20/22 12:30, Philippe Mathieu-Daudé wrote:
+> From: Michael Tokarev <mjt@tls.msk.ru>
+> 
+> For a long time, we assumed that libxml2 is neecessary for parallels
+> block format support (block/parallels*). However, this format actually
+> does not use libxml [*]. Since this is the only user of libxml2 in
+> while qemu tree, we can drop all libxml2 checks and dependencies too.
+> 
+> It is even more: --enable-parallels configure option was the only
+> option which was silently ignored when it's (fake) dependency
+> (libxml2) isn't installed.
+> 
+> Drop all mentions of libxml2.
+> 
+> [*] Actually the basis for libxml use were merged in commit 25bfd5a75
+>     but the implementation was never merged:
+>     https://lore.kernel.org/qemu-devel/70227bbd-a517-70e9-714f-e6e0ec431be9@openvz.org/
+> 
+> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Message-Id: <20220119090423.149315-1-mjt@msgid.tls.msk.ru>
+> [PMD: Updated description and adapted to use lcitool]
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  meson.build                                     | 6 ------
+>  block/meson.build                               | 3 +--
+>  meson_options.txt                               | 2 --
+>  scripts/ci/org.centos/stream/8/x86_64/configure | 1 -
+>  scripts/coverity-scan/coverity-scan.docker      | 1 -
+>  scripts/coverity-scan/run-coverity-scan         | 2 +-
+>  6 files changed, 2 insertions(+), 13 deletions(-)
 
-> On 21.01.22 07:10, Markus Armbruster wrote:
->> Hanna Reitz <hreitz@redhat.com> writes:
->>
->>> On 20.01.22 17:00, Markus Armbruster wrote:
->>>> Kevin Wolf <kwolf@redhat.com> writes:
->>>>
->>>>> Am 19.01.2022 um 14:44 hat Hanna Reitz geschrieben:
->>>>>> On 19.01.22 13:58, Markus Armbruster wrote:
->>>>>>> Hanna Reitz <hreitz@redhat.com> writes:
->>>>>>>
->>>>>>>> We want to add a --daemonize argument to QSD's command line.
->>>>>>> Why?
->>>>>> OK, s/we/I/.=C2=A0 I find it useful, because without such an option,=
- I need to
->>>>>> have whoever invokes QSD loop until the PID file exists, before I ca=
-n be
->>>>>> sure that all exports are set up.=C2=A0 I make use of it in the test=
- cases added
->>>>>> in patch 3.
->>>>>>
->>>>>> I suppose this could be worked around with a special character devic=
-e, like
->>>>>> so:
->>>>>>
->>>>>> ```
->>>>>> ncat --listen -U /tmp/qsd-done.sock </dev/null &
->>>>>> ncat_pid=3D$!
->>>>>>
->>>>>> qemu-storage-daemon \
->>>>>>   =C2=A0=C2=A0=C2=A0 ... \
->>>>>>   =C2=A0=C2=A0=C2=A0 --chardev socket,id=3Dsignal_done,path=3D/tmp/q=
-sd-done.sock \
->>>>>>   =C2=A0=C2=A0=C2=A0 --monitor signal_done \
->>>>>>   =C2=A0=C2=A0=C2=A0 --pidfile /tmp/qsd.pid &
->>>>>>
->>>>>> wait $ncat_pid
->>>>>> ```
->>>>>>
->>>>>> But having to use an extra tool for this is unergonomic.=C2=A0 I mea=
-n, if there=E2=80=99s
->>>>>> no other way...
->>>> I know duplicating this into every program that could server as a daem=
-on
->>>> is the Unix tradition.  Doesn't make it good.  Systemd[*] has tried to
->>>> make it superfluous.
->>>
->>> Well.=C2=A0 I have absolutely nothing against systemd.=C2=A0 Still, I w=
-ill not
->>> use it in an iotest, that=E2=80=99s for sure.
->
->> My point isn't "use systemd in iotests".  It's "consider doing it like
->> systemd", i.e. do the daemonization work in a utility program.  For what
->> it's worth, Linux has daemonize(1).
->
-> The problem I face is that currently there is no ergonomic way to wait
-> until the QSD is up and running (besides looping until the PID file=20
-> exists), and I don=E2=80=99t think a utility program that doesn=E2=80=99t=
- know the QSD
-> could provide this.=C2=A0 (For example, it looks like daemonize(1) will
-> have the parent exit immediately, regardless of whether the child is
-> set up or not.)
-
-Why do you need to wait for QSD to be ready?
-
-I'm asking because with common daemons, I don't wait, I just connect to
-their socket and start talking.  They'll reply only when ready.
-
->> [...]
->>
->>>> Care to put a brief version of the rationale for --daemonize and for
->>>> forking early in the commit message?
->>>
->>> Well, my rationale for adding the feature doesn=E2=80=99t really extend=
- beyond
->>> =E2=80=9CI want it, I find it useful, and so I assume others will, too=
-=E2=80=9D.
->>>
->> Don't pretend to be obtuse, it's not credible :)  You mentioned iotests,
->> which makes me guess your rationale is "I want this for iotests, and
->> there may well be other uses."
->
-> Oh, I also want it for other things, like the script I have to use the
-> QSD to make disk images accessible as raw files.=C2=A0 Thing is, the stre=
-ss=20
-> is on =E2=80=9Cwant=E2=80=9D in contrast to =E2=80=9Cneed=E2=80=9D.=C2=A0=
- I can do without --daemonize, I
-> have already done so, even before there was --pidfile (I just queried=20
-> the block exports through QMP until they were all there).=C2=A0 It=E2=80=
-=99s just
-> that it=E2=80=99s kind of a pain.
->
-> Same with the iotests, it=E2=80=99s absolutely possible to get away witho=
-ut
-> --daemonize.=C2=A0 It=E2=80=99s just that I wrote the test, wanted to use=
- some form=20
-> of --daemonize option, noticed there wasn=E2=80=99t any yet, and thought =
-=E2=80=9COh,
-> that=E2=80=99d be nice to have=E2=80=9D.
->
-> I would love a --daemonize option, but I can=E2=80=99t say it=E2=80=99s n=
-ecessary. If
-> the way it=E2=80=99d need to be implemented isn=E2=80=99t acceptable, the=
-n I won=E2=80=99t
-> force it into the code.
-
-Rationale doesn't have to be "we must have this because".  It can also
-be "I want this because".  What it can't be is "I want this".
-
-[...]
-
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
