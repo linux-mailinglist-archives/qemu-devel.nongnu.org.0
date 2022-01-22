@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 792AD496889
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 01:15:17 +0100 (CET)
-Received: from localhost ([::1]:58798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0619F496898
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 01:17:35 +0100 (CET)
+Received: from localhost ([::1]:39068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB43o-00039i-JU
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 19:15:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38918)
+	id 1nB462-0000aH-50
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 19:17:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nB3yY-0000Hf-QT
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 19:09:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38506)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nB3yZ-0000HX-Fw
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 19:09:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nB3yW-0005Ak-1Q
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nB3yV-0005Am-Ui
  for qemu-devel@nongnu.org; Fri, 21 Jan 2022 19:09:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1642810186;
@@ -23,29 +23,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+LZja7wr5Qp/mNqNqQrKIU/8qKvH3N52gynm1UFhqEM=;
- b=bXHOHejcnTNokU3LTfhGpqaVjn+biJFpi+q9NpPr5gKSjkOpjYX0GOrJAcVN5uWAWR8rdL
- b2EDNyXui1gFIuAO/K2MC/QgUU+qDPqKL+vvmVHycwJnwin3CXx+zyb4OhDc4JGXMnGU7p
- IQpM9AGLJLYQ8p4Icfo+5u/C6ETeD5Y=
+ bh=TqrUwrZCzAHjq29PwyfAh0VNX9QK4TDT66xeiit3jt4=;
+ b=Kf7dsBaf1ODT4ahfbkDc6Fc0Fp4NwVPXwmF7c/aA+P7/0U9i4LKRMt+13ITRv6cLeFJYDi
+ VOC/RwAaiq3rfL2bBA33PJpwM5df03iENeNvKxnJDzn0L45EX2bIrW3mnVqjtXuzyUD5lq
+ nLGKHNu0NOdgOihmAtqFwS+I4Rh7GRU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-150-I5nuQMDYPIme7XvZ36hP3A-1; Fri, 21 Jan 2022 19:09:43 -0500
-X-MC-Unique: I5nuQMDYPIme7XvZ36hP3A-1
+ us-mta-317-OGPvifbhNHaa-gDcycfMEA-1; Fri, 21 Jan 2022 19:09:44 -0500
+X-MC-Unique: OGPvifbhNHaa-gDcycfMEA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41A39802924;
- Sat, 22 Jan 2022 00:09:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5ACEA1083F61;
+ Sat, 22 Jan 2022 00:09:43 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.19.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6DB1E66E1B;
- Sat, 22 Jan 2022 00:09:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6972D66E1B;
+ Sat, 22 Jan 2022 00:09:42 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/17] python: use avocado's "new" runner
-Date: Fri, 21 Jan 2022 19:09:16 -0500
-Message-Id: <20220122000931.536322-3-jsnow@redhat.com>
+Subject: [PULL 03/17] python/aqmp: fix docstring typo
+Date: Fri, 21 Jan 2022 19:09:17 -0500
+Message-Id: <20220122000931.536322-4-jsnow@redhat.com>
 In-Reply-To: <20220122000931.536322-1-jsnow@redhat.com>
 References: <20220122000931.536322-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -78,36 +78,33 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>
+ Peter Maydell <peter.maydell@linaro.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Beraldo Leal <bleal@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The old legacy runner no longer seems to work with output logging, so we
-can't see failure logs when a test case fails. The new runner doesn't
-(seem to) support Coverage.py yet, but seeing error output is a more
-important feature.
-
+Reported-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Beraldo Leal <bleal@redhat.com>
-Message-id: 20220119193916.4138217-3-jsnow@redhat.com
-Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/avocado.cfg | 2 +-
+ python/qemu/aqmp/__init__.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/python/avocado.cfg b/python/avocado.cfg
-index c7722e7ecd..a460420059 100644
---- a/python/avocado.cfg
-+++ b/python/avocado.cfg
-@@ -1,5 +1,5 @@
- [run]
--test_runner = runner
-+test_runner = nrunner
+diff --git a/python/qemu/aqmp/__init__.py b/python/qemu/aqmp/__init__.py
+index 880d5b6fa7..173556404d 100644
+--- a/python/qemu/aqmp/__init__.py
++++ b/python/qemu/aqmp/__init__.py
+@@ -6,7 +6,7 @@
+ QEMU Guest Agent, and the QEMU Storage Daemon.
  
- [simpletests]
- # Don't show stdout/stderr in the test *summary*
+ `QMPClient` provides the main functionality of this package. All errors
+-raised by this library dervive from `AQMPError`, see `aqmp.error` for
++raised by this library derive from `AQMPError`, see `aqmp.error` for
+ additional detail. See `aqmp.events` for an in-depth tutorial on
+ managing QMP events.
+ """
 -- 
 2.31.1
 
