@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 549AC49688A
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 01:15:33 +0100 (CET)
-Received: from localhost ([::1]:59000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 792AD496889
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 01:15:17 +0100 (CET)
+Received: from localhost ([::1]:58798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB442-0003I6-1O
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 19:15:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38948)
+	id 1nB43o-00039i-JU
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 19:15:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nB3ya-0000Ks-I4
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 19:09:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26746)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nB3yY-0000Hf-QT
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 19:09:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nB3yW-0005At-GL
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 19:09:52 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nB3yW-0005Ak-1Q
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 19:09:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642810187;
+ s=mimecast20190719; t=1642810186;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rr4rDjBadgBcz9wR0rV1Q8VVt3wP3dLw7J4Zgs8eT+M=;
- b=Vzb5gU4MthQhrsSaDO4uGDOrlMvAJjXjF/gJcROoCzC3MVXXpuy90o4BG3ktIrRX0GwzkD
- x8EwS3Bg3BFsUnSw0kkUpO+VYsSfGhJorukoqX46AZHu3tHrSb0GM1rYupN6Mz9wIyAvUI
- 8Wjroa1IbRPVmPLmBcxsL5AId2louok=
+ bh=+LZja7wr5Qp/mNqNqQrKIU/8qKvH3N52gynm1UFhqEM=;
+ b=bXHOHejcnTNokU3LTfhGpqaVjn+biJFpi+q9NpPr5gKSjkOpjYX0GOrJAcVN5uWAWR8rdL
+ b2EDNyXui1gFIuAO/K2MC/QgUU+qDPqKL+vvmVHycwJnwin3CXx+zyb4OhDc4JGXMnGU7p
+ IQpM9AGLJLYQ8p4Icfo+5u/C6ETeD5Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-130-Dxnq4Fp2OPGPeqgnCSEZeg-1; Fri, 21 Jan 2022 19:09:42 -0500
-X-MC-Unique: Dxnq4Fp2OPGPeqgnCSEZeg-1
+ us-mta-150-I5nuQMDYPIme7XvZ36hP3A-1; Fri, 21 Jan 2022 19:09:43 -0500
+X-MC-Unique: I5nuQMDYPIme7XvZ36hP3A-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47452807907;
- Sat, 22 Jan 2022 00:09:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41A39802924;
+ Sat, 22 Jan 2022 00:09:42 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.19.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7174266E1B;
- Sat, 22 Jan 2022 00:09:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6DB1E66E1B;
+ Sat, 22 Jan 2022 00:09:41 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/17] python: pin setuptools below v60.0.0
-Date: Fri, 21 Jan 2022 19:09:15 -0500
-Message-Id: <20220122000931.536322-2-jsnow@redhat.com>
+Subject: [PULL 02/17] python: use avocado's "new" runner
+Date: Fri, 21 Jan 2022 19:09:16 -0500
+Message-Id: <20220122000931.536322-3-jsnow@redhat.com>
 In-Reply-To: <20220122000931.536322-1-jsnow@redhat.com>
 References: <20220122000931.536322-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,62 +84,30 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-setuptools is a package that replaces the python stdlib 'distutils'. It
-is generally installed by all venv-creating tools "by default". It isn't
-actually needed at runtime for the qemu package, so our own setup.cfg
-does not mention it as a dependency.
-
-However, tox will create virtual environments that include it, and will
-upgrade it to the very latest version. the 'venv' tool will also include
-whichever version your host system happens to have.
-
-Unfortunately, setuptools version 60.0.0 and above include a hack to
-forcibly overwrite python's built-in distutils. The pylint tool that we
-use to run code analysis checks on this package relies on distutils and
-suffers regressions when setuptools >= 60.0.0 is present at all, see
-https://github.com/PyCQA/pylint/issues/5704
-
-Instruct tox and the 'check-dev' targets to avoid setuptools packages
-that are too new, for now. Pipenv is unaffected, because setuptools 60
-does not offer Python 3.6 support, and our pipenv config is pinned
-against Python 3.6.
+The old legacy runner no longer seems to work with output logging, so we
+can't see failure logs when a test case fails. The new runner doesn't
+(seem to) support Coverage.py yet, but seeing error output is a more
+important feature.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Beraldo Leal <bleal@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
-Message-id: 20220121005221.142236-1-jsnow@redhat.com
+Message-id: 20220119193916.4138217-3-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/Makefile  | 2 ++
- python/setup.cfg | 1 +
- 2 files changed, 3 insertions(+)
+ python/avocado.cfg | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/python/Makefile b/python/Makefile
-index 3334311362..949c472624 100644
---- a/python/Makefile
-+++ b/python/Makefile
-@@ -68,6 +68,8 @@ $(QEMU_VENV_DIR) $(QEMU_VENV_DIR)/bin/activate: setup.cfg
- 		echo "ACTIVATE $(QEMU_VENV_DIR)";		\
- 		. $(QEMU_VENV_DIR)/bin/activate;		\
- 		echo "INSTALL qemu[devel] $(QEMU_VENV_DIR)";	\
-+		pip install --disable-pip-version-check		\
-+			"setuptools<60.0.0" 1>/dev/null;	\
- 		make develop 1>/dev/null;			\
- 	)
- 	@touch $(QEMU_VENV_DIR)
-diff --git a/python/setup.cfg b/python/setup.cfg
-index 417e937839..aa238d8bc9 100644
---- a/python/setup.cfg
-+++ b/python/setup.cfg
-@@ -163,6 +163,7 @@ deps =
-     .[devel]
-     .[fuse]  # Workaround to trigger tox venv rebuild
-     .[tui]   # Workaround to trigger tox venv rebuild
-+    setuptools < 60  # Workaround, please see commit msg.
- commands =
-     make check
+diff --git a/python/avocado.cfg b/python/avocado.cfg
+index c7722e7ecd..a460420059 100644
+--- a/python/avocado.cfg
++++ b/python/avocado.cfg
+@@ -1,5 +1,5 @@
+ [run]
+-test_runner = runner
++test_runner = nrunner
  
+ [simpletests]
+ # Don't show stdout/stderr in the test *summary*
 -- 
 2.31.1
 
