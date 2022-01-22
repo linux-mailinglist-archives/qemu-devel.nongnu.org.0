@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6677496D50
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 19:32:18 +0100 (CET)
-Received: from localhost ([::1]:53112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F4C5496D4A
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 19:30:36 +0100 (CET)
+Received: from localhost ([::1]:52096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBLBR-0000z8-Oc
-	for lists+qemu-devel@lfdr.de; Sat, 22 Jan 2022 13:32:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34222)
+	id 1nBL9l-0000IW-Gw
+	for lists+qemu-devel@lfdr.de; Sat, 22 Jan 2022 13:30:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nBL4V-0005ht-Ph
- for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:16 -0500
-Received: from [2a00:1450:4864:20::433] (port=41670
- helo=mail-wr1-x433.google.com)
+ id 1nBL4V-0005hr-NT
+ for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:14 -0500
+Received: from [2a00:1450:4864:20::32e] (port=56251
+ helo=mail-wm1-x32e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nBL4N-0007gA-Hy
+ id 1nBL4N-0007gL-Hb
  for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:02 -0500
-Received: by mail-wr1-x433.google.com with SMTP id v6so5901226wra.8
- for <qemu-devel@nongnu.org>; Sat, 22 Jan 2022 10:24:48 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id c66so20199246wma.5
+ for <qemu-devel@nongnu.org>; Sat, 22 Jan 2022 10:24:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Zh5iADESENSAPofEn1J+i6o1QEpzQBPyUBojzWQHFvY=;
- b=BNFyUlsdZtICX3qNu/OFMR4H3TWGMjxBYjymkrm+M01/5kL5XdbSRJWn3k0mnmKZNP
- oswBqIBc7l7kyjoZEtBq+hIuoYhC5rjSCMWcZ1nMKLpFpnL5cbKz32NW8sxoWjg8DGZI
- zwiuENM5JRzp2h1xmQAIf4il7n6wmeiGEWQj5KLdeAy5AUpFcz/nCpbtp2M6mPRqoBdO
- qPvhtx0QakcWYrI8DLtjq0U0v6DLhSytfJ+rZFGMpaPlPNc6XuAMYloppDOK39pw5K39
- geswZUZmypqiUOW+Twn8zJ1+KgK72ishXAeolOAvgyK30YY3764fLw2GCg7s8UG5xmp1
- 4Lqg==
+ bh=B8JHQV9Rxu6y5Kq3DIwbkwHmKbpxctF1sxkGjMJbHmw=;
+ b=ePem3qcNADxccA6TrK7qqEZNXQY/UIXXaSvT+S11T+ltaOwP0uSn3P48ciswyTWDhk
+ EjhQIByp5abFpx4f1JzJZaXCm3MTxChQOlbeGSOhmhzi+b/qakdrs93RbnOh4az5YRR5
+ IeKuFqsd+3jd/FYTy8rODnczwGvHG0dW8iGnE6pg3t7yH+YFQ+fkbXB9zT9e6qu/Ybv7
+ UVwVucPlBKYMQE7HLkB6V13NO9ZdtgREes7wZcTl12LZeONmM0zJqtOrezLgEM46AuGR
+ VRF9l4dx0g3fEsdYrLJJs7nGI6h1CT/Vi0ZMFork0Jkn/zCGPsTUuPlIomSmstyHPx65
+ 1GAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Zh5iADESENSAPofEn1J+i6o1QEpzQBPyUBojzWQHFvY=;
- b=GsUf/UQWqn4NGtbr+ZKuhAREyfs3Cka5RbJyvbxrc0ed9a/20+Rp/nVL82kAUQfeD9
- 3oUOMyUkqNXt13NOZn9mjjPHqZtTth4ucI6dhmHjcAR5UDpPGxfmxvikgPOzBsCh2o3y
- auaMyZujmL9HcJnGHDnVZnBlOX7ZrXCn5vqPEbRprmEQoyriCxEIQNurO98jQEjJQagw
- /oaiBFU7KkFGzufNsiziKCCNRMHFeXZ3xW6WQnWdN4eam8AftsUMivrBrJziOK9U0Y8l
- nzhFyj9fJPcTXCH7z7OzniDjQo08T0I6/+i7HJAjbEFgJa/jRIM2bTpr2nOXIj6geR5C
- le6w==
-X-Gm-Message-State: AOAM531fFUE9+7U47rcuXazQ9vhfSxd8rbBwuqv0M89TPxvzenzg4YHU
- ZXpV+igy+ubhk7frl4ie6Z0YHQ==
-X-Google-Smtp-Source: ABdhPJw5Wa4eX6hnmBccyiVU+CbnB1Nx/DnUEijXJaMwQDewdt0cuymOeYburhnV1+/AMINqyd9ftQ==
-X-Received: by 2002:adf:fa8d:: with SMTP id h13mr8309558wrr.154.1642875887701; 
- Sat, 22 Jan 2022 10:24:47 -0800 (PST)
+ bh=B8JHQV9Rxu6y5Kq3DIwbkwHmKbpxctF1sxkGjMJbHmw=;
+ b=zSoz2NWFmtYB+B7XB9p/vOg/5OL0u0tIJEV2JdyFmQprRAlwtpRGeoVq4gWU99CYxW
+ SUT/R/DkqQKoYjMQo0pVnUdVOJIo8N3iygIkT4vUP2508HgJExz3qam10UzBR/YNSQ0D
+ FyMWn8S1OGiSXLu7QJF+mgEBMJBd1pG3B3+/osrFMZiej8Uk5KxngF1s+WTQHQboM+Gj
+ g0yIYe7p40CGeWMytiXW9BoB7tYclk4TGDTvi/i18i0VOlDnko0bnFtyOMoeD16WvwgT
+ FA2i8sVnqWkoB9Jed4TWgH68KWAUY2QLeDHqH7d5XLWxy1YmzvBeQkYIJ97aYxGfyLe0
+ CLCw==
+X-Gm-Message-State: AOAM532jCFCudv++xFaQiwdsv4i4gVqf62clfPsYGKlbqJbvCeC9m3Xq
+ 1SqVGkp5L1eVb9jsLof39vJ6sg==
+X-Google-Smtp-Source: ABdhPJzuU4vHBLMLf8ckvtJYW7efh51THXD8c+sVd4BRBpBwR4L3xx4q922A7OPuv0Xqy501RduOPQ==
+X-Received: by 2002:a05:600c:4e05:: with SMTP id
+ b5mr5355919wmq.51.1642875888339; 
+ Sat, 22 Jan 2022 10:24:48 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id 21sm8870774wmk.45.2022.01.22.10.24.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Jan 2022 10:24:47 -0800 (PST)
+ Sat, 22 Jan 2022 10:24:48 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 02/14] hw/intc/arm_gicv3_its: Add tracepoints
-Date: Sat, 22 Jan 2022 18:24:32 +0000
-Message-Id: <20220122182444.724087-3-peter.maydell@linaro.org>
+Subject: [PATCH 03/14] hw/intc/arm_gicv3: Initialise dma_as in GIC, not ITS
+Date: Sat, 22 Jan 2022 18:24:33 +0000
+Message-Id: <20220122182444.724087-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220122182444.724087-1-peter.maydell@linaro.org>
 References: <20220122182444.724087-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,98 +92,56 @@ Cc: Shashi Mallela <shashi.mallela@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ITS currently has no tracepoints; add a minimal set
-that allows basic monitoring of guest register accesses and
-reading of commands from the command queue.
+In our implementation, all ITSes connected to a GIC share a single
+AddressSpace, which we keep in the GICv3State::dma_as field and
+initialized based on the GIC's 'sysmem' property. The right place
+to set it up by calling address_space_init() is therefore in the
+GIC's realize method, not the ITS's realize.
+
+This fixes a theoretical bug where QEMU hangs on startup if the board
+model creates two ITSes connected to the same GIC -- we would call
+address_space_init() twice on the same AddressSpace*, which creates
+an infinite loop in the QTAILQ that softmmu/memory.c uses to store
+its list of AddressSpaces and causes any subsequent attempt to
+iterate through that list to loop forever.  There aren't any board
+models like that in the tree at the moment, though.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/arm_gicv3_its.c | 11 +++++++++++
- hw/intc/trace-events    |  8 ++++++++
- 2 files changed, 19 insertions(+)
+ hw/intc/arm_gicv3_common.c | 5 +++++
+ hw/intc/arm_gicv3_its.c    | 3 ---
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
+diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
+index 9884d2e39b9..579aa0cb9ed 100644
+--- a/hw/intc/arm_gicv3_common.c
++++ b/hw/intc/arm_gicv3_common.c
+@@ -357,6 +357,11 @@ static void arm_gicv3_common_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
++    if (s->lpi_enable) {
++        address_space_init(&s->dma_as, s->dma,
++                           "gicv3-its-sysmem");
++    }
++
+     s->cpu = g_new0(GICv3CPUState, s->num_cpu);
+ 
+     for (i = 0; i < s->num_cpu; i++) {
 diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index b2f6a8c7f00..6d2549e64b1 100644
+index 6d2549e64b1..67f12d98af3 100644
 --- a/hw/intc/arm_gicv3_its.c
 +++ b/hw/intc/arm_gicv3_its.c
-@@ -13,6 +13,7 @@
+@@ -1194,9 +1194,6 @@ static void gicv3_arm_its_realize(DeviceState *dev, Error **errp)
  
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "trace.h"
- #include "hw/qdev-properties.h"
- #include "hw/intc/arm_gicv3_its_common.h"
- #include "gicv3_internal.h"
-@@ -634,6 +635,8 @@ static void process_cmdq(GICv3ITSState *s)
+     gicv3_its_init_mmio(s, &gicv3_its_control_ops, &gicv3_its_translation_ops);
  
-         cmd = (data & CMD_MASK);
- 
-+        trace_gicv3_its_process_command(rd_offset, cmd);
-+
-         switch (cmd) {
-         case GITS_CMD_INT:
-             result = process_its_cmd(s, data, cq_offset, INTERRUPT);
-@@ -818,6 +821,8 @@ static MemTxResult gicv3_its_translation_write(void *opaque, hwaddr offset,
-     bool result = true;
-     uint32_t devid = 0;
- 
-+    trace_gicv3_its_translation_write(offset, data, size, attrs.requester_id);
-+
-     switch (offset) {
-     case GITS_TRANSLATER:
-         if (s->ctlr & R_GITS_CTLR_ENABLED_MASK) {
-@@ -1107,6 +1112,7 @@ static MemTxResult gicv3_its_read(void *opaque, hwaddr offset, uint64_t *data,
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: invalid guest read at offset " TARGET_FMT_plx
-                       "size %u\n", __func__, offset, size);
-+        trace_gicv3_its_badread(offset, size);
-         /*
-          * The spec requires that reserved registers are RAZ/WI;
-          * so use false returns from leaf functions as a way to
-@@ -1114,6 +1120,8 @@ static MemTxResult gicv3_its_read(void *opaque, hwaddr offset, uint64_t *data,
-          * the caller, or we'll cause a spurious guest data abort.
-          */
-         *data = 0;
-+    } else {
-+        trace_gicv3_its_read(offset, *data, size);
-     }
-     return MEMTX_OK;
- }
-@@ -1140,12 +1148,15 @@ static MemTxResult gicv3_its_write(void *opaque, hwaddr offset, uint64_t data,
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: invalid guest write at offset " TARGET_FMT_plx
-                       "size %u\n", __func__, offset, size);
-+        trace_gicv3_its_badwrite(offset, data, size);
-         /*
-          * The spec requires that reserved registers are RAZ/WI;
-          * so use false returns from leaf functions as a way to
-          * trigger the guest-error logging but don't return it to
-          * the caller, or we'll cause a spurious guest data abort.
-          */
-+    } else {
-+        trace_gicv3_its_write(offset, data, size);
-     }
-     return MEMTX_OK;
- }
-diff --git a/hw/intc/trace-events b/hw/intc/trace-events
-index 9aba7e3a7a4..b28cda4e08e 100644
---- a/hw/intc/trace-events
-+++ b/hw/intc/trace-events
-@@ -169,6 +169,14 @@ gicv3_redist_badwrite(uint32_t cpu, uint64_t offset, uint64_t data, unsigned siz
- gicv3_redist_set_irq(uint32_t cpu, int irq, int level) "GICv3 redistributor 0x%x interrupt %d level changed to %d"
- gicv3_redist_send_sgi(uint32_t cpu, int irq) "GICv3 redistributor 0x%x pending SGI %d"
- 
-+# arm_gicv3_its.c
-+gicv3_its_read(uint64_t offset, uint64_t data, unsigned size) "GICv3 ITS read: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
-+gicv3_its_badread(uint64_t offset, unsigned size) "GICv3 ITS read: offset 0x%" PRIx64 " size %u: error"
-+gicv3_its_write(uint64_t offset, uint64_t data, unsigned size) "GICv3 ITS write: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
-+gicv3_its_badwrite(uint64_t offset, uint64_t data, unsigned size) "GICv3 ITS write: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u: error"
-+gicv3_its_translation_write(uint64_t offset, uint64_t data, unsigned size, uint32_t requester_id) "GICv3 ITS TRANSLATER write: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u requester_id 0x%x"
-+gicv3_its_process_command(uint32_t rd_offset, uint8_t cmd) "GICv3 ITS: processing command at offset 0x%x: 0x%x"
-+
- # armv7m_nvic.c
- nvic_recompute_state(int vectpending, int vectpending_prio, int exception_prio) "NVIC state recomputed: vectpending %d vectpending_prio %d exception_prio %d"
- nvic_recompute_state_secure(int vectpending, bool vectpending_is_s_banked, int vectpending_prio, int exception_prio) "NVIC state recomputed: vectpending %d is_s_banked %d vectpending_prio %d exception_prio %d"
+-    address_space_init(&s->gicv3->dma_as, s->gicv3->dma,
+-                       "gicv3-its-sysmem");
+-
+     /* set the ITS default features supported */
+     s->typer = FIELD_DP64(s->typer, GITS_TYPER, PHYSICAL, 1);
+     s->typer = FIELD_DP64(s->typer, GITS_TYPER, ITT_ENTRY_SIZE,
 -- 
 2.25.1
 
