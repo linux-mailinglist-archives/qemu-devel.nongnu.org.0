@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A78D496882
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 01:09:38 +0100 (CET)
-Received: from localhost ([::1]:53670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C90EC496888
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 01:15:15 +0100 (CET)
+Received: from localhost ([::1]:58686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB3yL-0007v6-4m
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 19:09:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38616)
+	id 1nB43m-00035D-Te
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 19:15:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nB3wG-0007EI-SI
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 19:07:28 -0500
-Received: from [2607:f8b0:4864:20::534] (port=40762
- helo=mail-pg1-x534.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nB3wF-0003Pb-4N
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 19:07:28 -0500
-Received: by mail-pg1-x534.google.com with SMTP id t32so9400942pgm.7
- for <qemu-devel@nongnu.org>; Fri, 21 Jan 2022 16:07:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7zsgauEZ32kimBeuHOU6pnq4QzuP3oIGVNzLUXDw4N0=;
- b=ljS6CaFByu9pN9adLGKY8bZmDgk3M0Lj2fqsoYoZqLbiZ9S5BZUiJG9d4F9dgBc4+k
- pILHJ7M7glKfMaJ4Jfxo0zlGfqppBB8VlhU0KaFR4hjHEK58FFs/6ebwsFoq2bIZeyFB
- xpw9NxMBcZEBZeytjXn+WxTUKDitHOtUyc47A/HRTTKBebxrPQy3zbRVKvJuHTQcukPb
- FG8LjS7bnaLbbBrvbCx+RD89aerBtMOp0dhuakS4ema0Lkwram/jJr3PTAM4519ag9s8
- 1Kle8hcBOWHd863O4ZyA/NF/j2hZkS/Dmfmmtlp4E/Xnj4++WhSZHuJIpbztu3/qaePY
- 7Geg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=7zsgauEZ32kimBeuHOU6pnq4QzuP3oIGVNzLUXDw4N0=;
- b=algHhAj/pyZZWwXC8VuLCb9O5uDXPIRCtS/2W/8XM12eZZYXePmPZiSuwagDlm6Luf
- P6ZHP2D0UH3ubyufRuphAIC5Fm6pqXbLoDNAIZmW3HwOugRbv+QUEAWoH7t7vcouq6MI
- 4dzQLTm8l9ao/QzvalzQA2cFD22WesX6r37YFn18O7KrzopOIxjR9Z87YGv3Kfir9rpk
- i0fpqhZOUsTAvxnH8pMq94l9qt8a9Cq40EPhfurZDtx4wRlFNHXwKUdKcY0lLCngNBJ5
- 8iz9Ia7KCgIw3eX8EavHQzbVHs2OErOQd4c5vljVNGS5ZmHjE4rnwDicSXnNs3K/zwFC
- lR8g==
-X-Gm-Message-State: AOAM532P4lu1ArCor++FiXYkWkSRype2fEfUwbUo5qGjwW3kWMZ4Cb1L
- +RhhGhGJPX6DcjJaryOD5H9hiUc6mPM=
-X-Google-Smtp-Source: ABdhPJzXLyByT31rXC1C1ew35Fd3HZZS3VmLmE8+Qh0RmvDzte8UjV97FVDx7yVmPro4ElmnKCMxXg==
-X-Received: by 2002:aa7:95b1:0:b0:4bf:ed5a:55d3 with SMTP id
- a17-20020aa795b1000000b004bfed5a55d3mr5894027pfk.64.1642810033149; 
- Fri, 21 Jan 2022 16:07:13 -0800 (PST)
-Received: from localhost.localdomain (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id z6sm5820667pgh.1.2022.01.21.16.07.11
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 21 Jan 2022 16:07:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nB3yY-0000Bw-4I
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 19:09:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46850)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nB3yR-0005AS-P3
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 19:09:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642810182;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=l+RAbLKTVuflfT17AyNwNf+U09fVPrxuk5NR2AgUlCs=;
+ b=MrmqRnZCfwBNXnugmFa6m6kC0bnFXktCIKHl2Eo1teLYNVjqz6ANRDuSZn45s2UI0KZ9z4
+ D+a21h+ruihflqDI22YvL92PYq7h/2GJBN4Gkgra8ORsEfvIkqmlZcsu0RWv8hnsJCwWsa
+ Ee7EVcENuq1sMqkHRk9xaEVisjFEcs8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-389-75Qe24g8Oje0TpXb-CZOpA-1; Fri, 21 Jan 2022 19:09:41 -0500
+X-MC-Unique: 75Qe24g8Oje0TpXb-CZOpA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4895318397A7;
+ Sat, 22 Jan 2022 00:09:40 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.19.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C99AE66E1B;
+ Sat, 22 Jan 2022 00:09:31 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Gerd Hoffmann <kraxel@redhat.com>, Andreas Gustafsson <gson@gson.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH] hw/display/tcx: Avoid clearing dirty bitmap in DeviceReset()
-Date: Sat, 22 Jan 2022 01:07:07 +0100
-Message-Id: <20220122000707.82918-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.34.1
+Subject: [PULL 00/17] Python patches
+Date: Fri, 21 Jan 2022 19:09:14 -0500
+Message-Id: <20220122000931.536322-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::534
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x534.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,38 +74,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Commit 2dd285b5f3 ("tcx: make display updates thread safe")
-converted this model to use the DirtyBitmapSnapshot API,
-resetting the dirty bitmap in tcx_update_display(). There
-is no need to do it again in the DeviceReset handler.
-
-See more details in commit fec5e8c92b ("vga: make display
-updates thread safe.").
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/display/tcx.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/hw/display/tcx.c b/hw/display/tcx.c
-index d4d09d0df8..22b0ae4761 100644
---- a/hw/display/tcx.c
-+++ b/hw/display/tcx.c
-@@ -371,8 +371,6 @@ static void tcx_reset(DeviceState *d)
-     s->r[258] = s->g[258] = s->b[258] = 255;
-     update_palette_entries(s, 0, 260);
-     memset(s->vram, 0, MAXX*MAXY);
--    memory_region_reset_dirty(&s->vram_mem, 0, MAXX * MAXY * (1 + 4 + 4),
--                              DIRTY_MEMORY_VGA);
-     s->dac_index = 0;
-     s->dac_state = 0;
-     s->cursx = 0xf000; /* Put cursor off screen */
--- 
-2.34.1
+The following changes since commit 5e9d14f2bea6df89c0675df953f9c839560d2266=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-2=
+0220121-1' into staging (2022-01-21 10:31:25 +0000)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://gitlab.com/jsnow/qemu.git tags/python-pull-request=0D
+=0D
+for you to fetch changes up to 05908602429cf9d6fce9b60704b8395f6d295441:=0D
+=0D
+  scripts/render-block-graph: switch to AQMP (2022-01-21 16:01:31 -0500)=0D
+=0D
+----------------------------------------------------------------=0D
+Python patches=0D
+=0D
+A few fixes to the Python CI tests, a few fixes to the (async) QMP=0D
+library, and a set of patches that begin to shift us towards using the=0D
+new qmp lib.=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+John Snow (17):=0D
+  python: pin setuptools below v60.0.0=0D
+  python: use avocado's "new" runner=0D
+  python/aqmp: fix docstring typo=0D
+  python/aqmp: add __del__ method to legacy interface=0D
+  python/aqmp: handle asyncio.TimeoutError on execute()=0D
+  python/aqmp: copy type definitions from qmp=0D
+  python/aqmp: add SocketAddrT to package root=0D
+  python/aqmp: rename AQMPError to QMPError=0D
+  python/qemu-ga-client: don't use deprecated CLI syntax in usage=0D
+    comment=0D
+  python/qmp: switch qemu-ga-client to AQMP=0D
+  python/qmp: switch qom tools to AQMP=0D
+  python/qmp: switch qmp-shell to AQMP=0D
+  python: move qmp utilities to python/qemu/utils=0D
+  python: move qmp-shell under the AQMP package=0D
+  scripts/cpu-x86-uarch-abi: fix CLI parsing=0D
+  scripts/cpu-x86-uarch-abi: switch to AQMP=0D
+  scripts/render-block-graph: switch to AQMP=0D
+=0D
+ python/README.rst                            |  2 +-=0D
+ python/Makefile                              |  2 +=0D
+ python/avocado.cfg                           |  2 +-=0D
+ python/qemu/aqmp/__init__.py                 | 16 ++++++--=0D
+ python/qemu/aqmp/error.py                    | 12 +++---=0D
+ python/qemu/aqmp/events.py                   |  4 +-=0D
+ python/qemu/aqmp/legacy.py                   | 41 +++++++++++++++++++-=0D
+ python/qemu/aqmp/protocol.py                 | 24 +++++++-----=0D
+ python/qemu/aqmp/qmp_client.py               | 16 +++++---=0D
+ python/qemu/{qmp =3D> aqmp}/qmp_shell.py       | 31 ++++++++-------=0D
+ python/qemu/{qmp =3D> utils}/qemu_ga_client.py | 24 ++++++------=0D
+ python/qemu/{qmp =3D> utils}/qom.py            |  5 ++-=0D
+ python/qemu/{qmp =3D> utils}/qom_common.py     |  3 +-=0D
+ python/qemu/{qmp =3D> utils}/qom_fuse.py       | 11 +++---=0D
+ python/setup.cfg                             | 19 ++++-----=0D
+ scripts/cpu-x86-uarch-abi.py                 |  7 ++--=0D
+ scripts/qmp/qemu-ga-client                   |  2 +-=0D
+ scripts/qmp/qmp-shell                        |  2 +-=0D
+ scripts/qmp/qom-fuse                         |  2 +-=0D
+ scripts/qmp/qom-get                          |  2 +-=0D
+ scripts/qmp/qom-list                         |  2 +-=0D
+ scripts/qmp/qom-set                          |  2 +-=0D
+ scripts/qmp/qom-tree                         |  2 +-=0D
+ scripts/render_block_graph.py                |  8 ++--=0D
+ 24 files changed, 151 insertions(+), 90 deletions(-)=0D
+ rename python/qemu/{qmp =3D> aqmp}/qmp_shell.py (96%)=0D
+ rename python/qemu/{qmp =3D> utils}/qemu_ga_client.py (94%)=0D
+ rename python/qemu/{qmp =3D> utils}/qom.py (98%)=0D
+ rename python/qemu/{qmp =3D> utils}/qom_common.py (98%)=0D
+ rename python/qemu/{qmp =3D> utils}/qom_fuse.py (97%)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
