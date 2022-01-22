@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F5624968C9
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 01:33:35 +0100 (CET)
-Received: from localhost ([::1]:44010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 908A54968CD
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 01:35:06 +0100 (CET)
+Received: from localhost ([::1]:48522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB4LW-0006qY-94
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 19:33:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41612)
+	id 1nB4Mz-0001SQ-MB
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 19:35:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nB4JG-0004ZO-Aa; Fri, 21 Jan 2022 19:31:17 -0500
-Received: from [2607:f8b0:4864:20::429] (port=44892
- helo=mail-pf1-x429.google.com)
+ id 1nB4Lr-0000OR-OW; Fri, 21 Jan 2022 19:33:55 -0500
+Received: from [2607:f8b0:4864:20::62c] (port=45592
+ helo=mail-pl1-x62c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nB4JE-0003XL-KJ; Fri, 21 Jan 2022 19:31:13 -0500
-Received: by mail-pf1-x429.google.com with SMTP id n32so1208438pfv.11;
- Fri, 21 Jan 2022 16:31:11 -0800 (PST)
+ id 1nB4Lq-0006Kk-B3; Fri, 21 Jan 2022 19:33:55 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id d7so10144521plr.12;
+ Fri, 21 Jan 2022 16:33:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=vNuO5GZol6MdM/lHTeInmnNUIgtKaFNI/AUp6Px479I=;
- b=fDJigeJbWEa9HiZkPN3IQ4Tm9bmOO5fyLamoXtTlRtRu4rCWwchiD2Es/zS+92Zj6J
- FeVgu0li0wj3C3pAmU1leetcd+Q8xzUDIiyvTM0mSmq8Tgg04joDFX0b89NwNhDJheJe
- khJnk6QL+ZAp5wXyXqvNY0rXkTbHn85bdGXiBM7BSvDW3v2581aZr82mTSyUXhhT4VMp
- ShwlNo6u918fUyM1IqQhn80agUmUH7ieJVGXyjVWUUgVxsWx7zfbA5ILTc30wBMW4BZA
- pEGLxfYuFFXs6SBMn8AVKG8/xy2Vst+BcIgh60eHQSVUuAe0LLuXT/pxTj7tLKeYnuHQ
- 4sGQ==
+ bh=Cc6IjahI2sgKwlvBITvToMCZaNnslADDopvO2JmTQxs=;
+ b=VSonq31IkogXhlP8OjQ2v0O3MG1AP+MzCUqYyplXl7UJLsUMT7goF3uSuyiFfpFoM3
+ KGAs9WlC78hbGnh7rQymmk90517GChkd0Y9NlRycc2CVUnYI+/NQfKr65pTqsXaaG/fd
+ t/Mf+kmEJtdGvcnB791EDIzC02EdiplNcrj9DDJM8huSi74Y2suQYBe0LDnOSk4Its2B
+ a1WwgQN1pmBQAIgMwAN+597TMexaDy422LAgI7Gh19l/b4E6mHQ8lNG+2604mcIIH129
+ raF+I23ieXpHuCoab0mnRN8rq5YmQDvhv8k6GGQqKR8DWDPrFUG1tBgac65T4HKjQSAT
+ e26w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :mime-version:content-transfer-encoding;
- bh=vNuO5GZol6MdM/lHTeInmnNUIgtKaFNI/AUp6Px479I=;
- b=d8rvbVNAw/VIEibAsEXoFltxHfCG1srflVJQfDQtBYhsas6aBHAGL8VWUddwJ1U7Ys
- 18ySrFwJJdY/S/ihwjE6+0o9Jod3mstOFW/SSDeyJyrfdLhAdNZ83Pk991xKVuon1F6W
- LF1shCVS7a/54Koh+31Zai4yMgvPAPRYLmTct35Trq5Z1Dw9oULsWTaHLTVENARKnxdP
- N7DZLwTgo+/gCNXIpztY5zg25gDfG5p1uEL+iOYw86YwtKciZNXFsTsVFQ+h3VSnTVSv
- EtBfk9nNgN833lUZG/1C4V3At16ldsbuvAWiA0xCF262PJUkr8bbz3z22noczoXf6q1g
- MT1w==
-X-Gm-Message-State: AOAM533IMGMsS/eA3TwZs7gU1izyU4/M71kigBEp1l60rUxB3J08nVrm
- PGC5s32lprYEPHwotITN7NN+JdJtwJM=
-X-Google-Smtp-Source: ABdhPJzWLF5dZPCyPGl4OC95+69S+uNH4/WYXgGZRbnk6VLRNq/2fK/UFkIZ5W9Frz0EJ/WR2eJXDQ==
-X-Received: by 2002:a05:6a00:ace:b0:4c5:35c:db8 with SMTP id
- c14-20020a056a000ace00b004c5035c0db8mr5805836pfl.51.1642811470937; 
- Fri, 21 Jan 2022 16:31:10 -0800 (PST)
+ bh=Cc6IjahI2sgKwlvBITvToMCZaNnslADDopvO2JmTQxs=;
+ b=mjMlDzeHU3VpiWbRWivbLAn/GXCWoMgYk4y2Ru+tuChriMCPn1E9cFfXGH8my9JmIU
+ 1Lidx8Eh01lprYk37tc3fA7TD2NxTvf2KaF7wKjrL5esDe7Q39BtWUJpNVwEd75km/c4
+ MO8rSW2YnNhGjl05+sMIE936XseswU4jD/NApHbWGQc8la4IaIaBtvABFsxpUSmZwd4I
+ qHw+EAUxKrmxgT6SkOiXqRvJjZOh0KPxDm0dHXPmNd+6b4Lw2eegGGJPeHBtza85VlIL
+ UYcPFmAILYXxdcRBa60uLQs0LfLI88yThI3KbnH0EXgXjvygK6vDTYtD/QQPkVALoKRO
+ VIDg==
+X-Gm-Message-State: AOAM531yXvNERFuM6R8nj0BJhD0hBOnkJjnZCNq3qvDn1bt0BOhuD1FP
+ cWbk8PS2fXbXcY6GVn3edl2c1jKadwU=
+X-Google-Smtp-Source: ABdhPJw8la6I5xw+D43LEGU6Qq8mYAfQjch6TCpa4Cv1wHpDEcb+LhCZKvJUB9/MyVQC6NBTicThoA==
+X-Received: by 2002:a17:90b:1b0b:: with SMTP id
+ nu11mr3011865pjb.143.1642811631580; 
+ Fri, 21 Jan 2022 16:33:51 -0800 (PST)
 Received: from localhost.localdomain (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id nk11sm6302660pjb.55.2022.01.21.16.31.08
+ by smtp.gmail.com with ESMTPSA id p4sm6963273pfw.214.2022.01.21.16.33.48
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 21 Jan 2022 16:31:10 -0800 (PST)
+ Fri, 21 Jan 2022 16:33:51 -0800 (PST)
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>,
- Alexey Kardashevskiy <aik@ozlabs.ru>,
+Cc: John G Johnson <john.g.johnson@oracle.com>, qemu-trivial@nongnu.org,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH] hw/ppc/vof: Add missing includes
-Date: Sat, 22 Jan 2022 01:31:04 +0100
-Message-Id: <20220122003104.84391-1-f4bug@amsat.org>
+Subject: [PATCH] hw/remote: Add missing include
+Date: Sat, 22 Jan 2022 01:33:45 +0100
+Message-Id: <20220122003345.84522-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,47 +93,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-vof.h requires "qom/object.h" for DECLARE_CLASS_CHECKERS(),
-"exec/memory.h" for address_space_read/write(),
-"exec/address-spaces.h" for address_space_memory
-and more importantly "cpu.h" for target_ulong.
+Currently "qemu/error-report.h" is implicitly included, however
+if headers in include/ get refactored, we get:
 
-vof.c doesn't need "exec/ram_addr.h".
+  hw/remote/proxy-memory-listener.c: In function ‘proxy_memory_listener_commit’:
+  hw/remote/proxy-memory-listener.c:183:9: error: implicit declaration of function ‘error_report’; did you mean ‘error_report_err’? [-Werror=implicit-function-declaration]
+    183 |         error_report("Number of fds is more than %d", REMOTE_MAX_FDS);
+        |         ^~~~~~~~~~~~
+        |         error_report_err
+
+Add the missing "qemu/error-report.h" header to avoid that.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/ppc/vof.c         | 1 -
- include/hw/ppc/vof.h | 5 +++++
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ hw/remote/proxy-memory-listener.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
-index 73adc44ec2..2b63a62875 100644
---- a/hw/ppc/vof.c
-+++ b/hw/ppc/vof.c
-@@ -16,7 +16,6 @@
- #include "qemu/units.h"
- #include "qemu/log.h"
+diff --git a/hw/remote/proxy-memory-listener.c b/hw/remote/proxy-memory-listener.c
+index 882c9b4854..0e893f3189 100644
+--- a/hw/remote/proxy-memory-listener.c
++++ b/hw/remote/proxy-memory-listener.c
+@@ -16,6 +16,7 @@
+ #include "exec/cpu-common.h"
+ #include "exec/ram_addr.h"
  #include "qapi/error.h"
--#include "exec/ram_addr.h"
- #include "exec/address-spaces.h"
- #include "hw/ppc/vof.h"
- #include "hw/ppc/fdt.h"
-diff --git a/include/hw/ppc/vof.h b/include/hw/ppc/vof.h
-index 97fdef758b..f8c0effcaf 100644
---- a/include/hw/ppc/vof.h
-+++ b/include/hw/ppc/vof.h
-@@ -6,6 +6,11 @@
- #ifndef HW_VOF_H
- #define HW_VOF_H
++#include "qemu/error-report.h"
+ #include "hw/remote/mpqemu-link.h"
+ #include "hw/remote/proxy-memory-listener.h"
  
-+#include "qom/object.h"
-+#include "exec/address-spaces.h"
-+#include "exec/memory.h"
-+#include "cpu.h"
-+
- typedef struct Vof {
-     uint64_t top_addr; /* copied from rma_size */
-     GArray *claimed; /* array of SpaprOfClaimed */
 -- 
 2.34.1
 
