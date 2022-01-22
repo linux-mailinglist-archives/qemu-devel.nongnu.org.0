@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E3B496D76
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 19:57:24 +0100 (CET)
-Received: from localhost ([::1]:52796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 780C4496D57
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 19:37:04 +0100 (CET)
+Received: from localhost ([::1]:34976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBLZi-0003h5-JL
-	for lists+qemu-devel@lfdr.de; Sat, 22 Jan 2022 13:57:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34580)
+	id 1nBLG3-0007td-Ar
+	for lists+qemu-devel@lfdr.de; Sat, 22 Jan 2022 13:37:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nBL4x-0005m2-Eh
- for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:36 -0500
-Received: from [2a00:1450:4864:20::336] (port=45902
- helo=mail-wm1-x336.google.com)
+ id 1nBL4p-0005k3-9a
+ for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:29 -0500
+Received: from [2a00:1450:4864:20::434] (port=43902
+ helo=mail-wr1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nBL4u-0007hX-Kq
- for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:34 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- j5-20020a05600c1c0500b0034d2e956aadso24812052wms.4
- for <qemu-devel@nongnu.org>; Sat, 22 Jan 2022 10:24:54 -0800 (PST)
+ id 1nBL4U-0007hw-U4
+ for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:08 -0500
+Received: by mail-wr1-x434.google.com with SMTP id v13so5892277wrv.10
+ for <qemu-devel@nongnu.org>; Sat, 22 Jan 2022 10:24:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=43IFxuU/YGBMpyeQtij+KdO9QDh+O+m1Z7AVC7ByFvI=;
- b=F676+Ro+KqESj+RvAEUztwiT0ZOh+NPLC29tSx0aYAElia9/8fUcbN9erhEyNtLpLy
- oaMQK9bvwt6+b3vhl+XkZbHEtN4IpEncdUeVzfrq9R4UOKOlWwzw3Y8uG7gbCeJjfL3l
- 4Eg/Nbqr6dSSaZlxozaHyn+Q/GYSAYPifuTdcDF3o4iPq946Q5G7aSHsWH7SvnpnRjjl
- n2X+KhgHfq+jTy2GbfLWcuzUuH8ZWOpoUWqGejA9fpeEfgOQNO/uZOLf4B0XOmR43KdB
- ppVAqwVpYi1zfOEgi96l/IHS9+rgGLnB+/oylGmo1T2rc7SgbsUQOqcr2UPo3Z1C+/On
- kAzg==
+ bh=NmW5MPyGTPGnJ2dZTLAZgefhA7dKwEY4XGRobcyVNv4=;
+ b=OhiD1L+VGbQ4RSRi6COzwbz4HHxAVFKiOZGbGE3GqSgyIHsMAgl2eglEDFD6JeL/fo
+ YHIcwsMYRyHBKliWJPP16G54/xSmHvBgToYjdf18hZTuANzmPbZc6NabGpia7yyg+6y0
+ EbacIfDl46N/Sn0Ppn46C6zPli6pSGksys3S1u5L76aYgF9e7sMRlylhHMTR0iaFTKbB
+ FKu99/gXj42hzXIsA58HygBt74uU8yWsUt/dJ7r50pRQKfz4FXS6ep6Qm8I86n+vC9/w
+ yPzcqSNz4ibpJU5gQR6ZS71kJ+Iu/5BXfPAvMAQkrNpVYfwzYLI/G015NYd3Dp8EZoHh
+ wkqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=43IFxuU/YGBMpyeQtij+KdO9QDh+O+m1Z7AVC7ByFvI=;
- b=Ye5rz8CDJwcDoPxtW62TwQqDsFF0Ddd1VoCw7xl5g+wslsCkAf7eNS5gnmz2/6bf6/
- DXMUUEr7POLrPTqiXZcvG2gvr9l/dI5hxVHoaJwOeN9k5H9H40KqFtdqtsaicgbz++VE
- 3UE02jBGlL8OVsRPSSEgTzhnDmPvHvHwqd5hEXXoTaaEZFkQWEr+XXh0nUJtYfuE6LE/
- pntI0yqACC1CG7slAuq1dZZ1F7RQAIycVAdnqo4pFyLNncyOLAlE40LPVYRve7L9FICG
- 3eLeTYrflvDeviT8TjUbLorVSQi6YX04bi44WWYj4Ix6w8y2qFhud8wKBE1zxkY2Tj/f
- nxSg==
-X-Gm-Message-State: AOAM533Hi/0e7ts1lMyWeTA/OooF4mOsTebrWaEYcB/2Jl9Fn8Rbkzbw
- 77ykxBTNJvEpuZMtpZxS3HILkg==
-X-Google-Smtp-Source: ABdhPJzOeBuh4M+E89YNgUfkjiGjIKUfxbu28J1vwIt+EdWbDUiAFuQKDAf4XFeBVrjDxvVgbhuZuQ==
-X-Received: by 2002:a7b:c7d4:: with SMTP id z20mr5445178wmk.114.1642875894073; 
- Sat, 22 Jan 2022 10:24:54 -0800 (PST)
+ bh=NmW5MPyGTPGnJ2dZTLAZgefhA7dKwEY4XGRobcyVNv4=;
+ b=wf6NYrES44oau/70i38lyhWVy1OOaedBATDI3PtRH24Bs85lW9l1xrI8DOvfx894vK
+ 173joa7LJ21sK4eZXdZ4FhD5fByaxy6S8AOPGhI0lrMkf+AIUTYRs2tL2uqa4QNXjz7k
+ EO8+DxgrgEVVFqLMGqqRAJgE9fP+5owCP9pE4ntgCD338/2lLc16kWNYBDY6RDTmZ582
+ kQYNXZPT3FnacgJV9wGodNoeI5vcPXSz7dhOIu0Z1OZNh+B4SCPpMh4W361BX5ieVQkp
+ E8Ho6VtE/lMaITws8b9yivwkQRJnW1GRNFOoRWp6zt73qeDQ2jzhhN+uGkDaE4ScNC2O
+ tqew==
+X-Gm-Message-State: AOAM532oBnm0bDbCOMFw8mpLQVPrSco6k+YLeL+jwL+rjupdWkP58qg9
+ VDwjdFpAZMSi08BAGXam4pGINA==
+X-Google-Smtp-Source: ABdhPJxjAN6FESHu6I4j+pVoTh1XL/GPcWBQGlrBht1GGQcmLT1D2fImGk+F960iZ0U4vB1TQd5uVw==
+X-Received: by 2002:a05:6000:156b:: with SMTP id
+ 11mr8303386wrz.558.1642875895683; 
+ Sat, 22 Jan 2022 10:24:55 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id 21sm8870774wmk.45.2022.01.22.10.24.53
+ by smtp.gmail.com with ESMTPSA id 21sm8870774wmk.45.2022.01.22.10.24.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Jan 2022 10:24:53 -0800 (PST)
+ Sat, 22 Jan 2022 10:24:55 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 11/14] hw/intc/arm_gicv3_its: Make GITS_BASER<n> RAZ/WI for
- unimplemented registers
-Date: Sat, 22 Jan 2022 18:24:41 +0000
-Message-Id: <20220122182444.724087-12-peter.maydell@linaro.org>
+Subject: [PATCH 13/14] hw/intc/arm_gicv3_its: Implement MOVALL
+Date: Sat, 22 Jan 2022 18:24:43 +0000
+Message-Id: <20220122182444.724087-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220122182444.724087-1-peter.maydell@linaro.org>
 References: <20220122182444.724087-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -93,54 +92,199 @@ Cc: Shashi Mallela <shashi.mallela@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ITS has a bank of 8 GITS_BASER<n> registers, which allow the
-guest to specify the base address of various data tables.  Each
-register has a read-only type field indicating which table it is for
-and a read-write field where the guest can write in the base address
-(among other things).  We currently allow the guest to write the
-writeable fields for all eight registers, even if the type field is 0
-indicating "Unimplemented".  This means the guest can provoke QEMU
-into asserting by writing an address into one of these unimplemented
-base registers, which bypasses the "if (!value) continue" check in
-extract_table_params() and lets us hit the assertion that the type
-field is one of the permitted table types.
+Implement the ITS MOVALL command, which takes all the pending
+interrupts on a source redistributor and makes the not-pending on
+that source redistributor and pending on a destination redistributor.
 
-Prevent the assertion by not allowing the guest to write to the
-unimplemented base registers. This means their value will remain 0
-and extract_table_params() will ignore them.
-
+This is a GICv3 ITS command which we forgot to implement. (It is
+not used by Linux guests.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/arm_gicv3_its.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/intc/gicv3_internal.h   | 16 +++++++++++
+ hw/intc/arm_gicv3_its.c    | 55 ++++++++++++++++++++++++++++++++++++++
+ hw/intc/arm_gicv3_redist.c | 54 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 125 insertions(+)
 
+diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
+index a316f6c58a5..da45975d92b 100644
+--- a/hw/intc/gicv3_internal.h
++++ b/hw/intc/gicv3_internal.h
+@@ -324,6 +324,7 @@ FIELD(GITS_TYPER, CIL, 36, 1)
+ #define GITS_CMD_MAPI             0x0B
+ #define GITS_CMD_INV              0x0C
+ #define GITS_CMD_INVALL           0x0D
++#define GITS_CMD_MOVALL           0x0E
+ #define GITS_CMD_DISCARD          0x0F
+ 
+ /* MAPC command fields */
+@@ -355,6 +356,10 @@ FIELD(MAPC, RDBASE, 16, 32)
+ #define L2_TABLE_VALID_MASK       CMD_FIELD_VALID_MASK
+ #define TABLE_ENTRY_VALID_MASK    (1ULL << 0)
+ 
++/* MOVALL command fields */
++FIELD(MOVALL_2, RDBASE1, 16, 36)
++FIELD(MOVALL_3, RDBASE2, 16, 36)
++
+ /*
+  * 12 bytes Interrupt translation Table Entry size
+  * as per Table 5.3 in GICv3 spec
+@@ -497,6 +502,17 @@ void gicv3_redist_update_lpi(GICv3CPUState *cs);
+  * an incoming migration has loaded new state.
+  */
+ void gicv3_redist_update_lpi_only(GICv3CPUState *cs);
++/**
++ * gicv3_redist_movall_lpis:
++ * @src: source redistributor
++ * @dest: destination redistributor
++ *
++ * Scan the LPI pending table for @src, and for each pending LPI there
++ * mark it as not-pending for @src and pending for @dest, as required
++ * by the ITS MOVALL command.
++ */
++void gicv3_redist_movall_lpis(GICv3CPUState *src, GICv3CPUState *dest);
++
+ void gicv3_redist_send_sgi(GICv3CPUState *cs, int grp, int irq, bool ns);
+ void gicv3_init_cpuif(GICv3State *s);
+ 
 diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index b17f2631269..237198845d7 100644
+index 3f2ead45369..ebc0403b3c7 100644
 --- a/hw/intc/arm_gicv3_its.c
 +++ b/hw/intc/arm_gicv3_its.c
-@@ -929,6 +929,10 @@ static bool its_writel(GICv3ITSState *s, hwaddr offset,
-         if (!(s->ctlr & R_GITS_CTLR_ENABLED_MASK)) {
-             index = (offset - GITS_BASER) / 8;
+@@ -582,6 +582,58 @@ static ItsCmdResult process_mapd(GICv3ITSState *s, uint64_t value,
+     return update_dte(s, devid, valid, size, itt_addr) ? CMD_CONTINUE : CMD_STALL;
+ }
  
-+            if (s->baser[index] == 0) {
-+                /* Unimplemented GITS_BASERn: RAZ/WI */
-+                break;
-+            }
-             if (offset & 7) {
-                 value <<= 32;
-                 value &= ~GITS_BASER_RO_MASK;
-@@ -1025,6 +1029,10 @@ static bool its_writell(GICv3ITSState *s, hwaddr offset,
-          */
-         if (!(s->ctlr & R_GITS_CTLR_ENABLED_MASK)) {
-             index = (offset - GITS_BASER) / 8;
-+            if (s->baser[index] == 0) {
-+                /* Unimplemented GITS_BASERn: RAZ/WI */
-+                break;
-+            }
-             s->baser[index] &= GITS_BASER_RO_MASK;
-             s->baser[index] |= (value & ~GITS_BASER_RO_MASK);
++static ItsCmdResult process_movall(GICv3ITSState *s, uint64_t value,
++                                   uint32_t offset)
++{
++    AddressSpace *as = &s->gicv3->dma_as;
++    MemTxResult res = MEMTX_OK;
++    uint64_t rd1, rd2;
++
++    /* No fields in dwords 0 or 1 */
++    offset += NUM_BYTES_IN_DW;
++    offset += NUM_BYTES_IN_DW;
++    value = address_space_ldq_le(as, s->cq.base_addr + offset,
++                                 MEMTXATTRS_UNSPECIFIED, &res);
++    if (res != MEMTX_OK) {
++        return CMD_STALL;
++    }
++
++    rd1 = FIELD_EX64(value, MOVALL_2, RDBASE1);
++    if (rd1 >= s->gicv3->num_cpu) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: RDBASE1 %" PRId64
++                      " out of range (must be less than %d)\n",
++                      __func__, rd1, s->gicv3->num_cpu);
++        return CMD_CONTINUE;
++    }
++
++    offset += NUM_BYTES_IN_DW;
++    value = address_space_ldq_le(as, s->cq.base_addr + offset,
++                                 MEMTXATTRS_UNSPECIFIED, &res);
++    if (res != MEMTX_OK) {
++        return CMD_STALL;
++    }
++
++    rd2 = FIELD_EX64(value, MOVALL_3, RDBASE2);
++    if (rd2 >= s->gicv3->num_cpu) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: RDBASE2 %" PRId64
++                      " out of range (must be less than %d)\n",
++                      __func__, rd2, s->gicv3->num_cpu);
++        return CMD_CONTINUE;
++    }
++
++    if (rd1 == rd2) {
++        /* Move to same target must succeed as a no-op */
++        return CMD_CONTINUE;
++    }
++
++    /* Move all pending LPIs from redistributor 1 to redistributor 2 */
++    gicv3_redist_movall_lpis(&s->gicv3->cpu[rd1], &s->gicv3->cpu[rd2]);
++
++    return CMD_CONTINUE;
++}
++
+ /*
+  * Current implementation blocks until all
+  * commands are processed
+@@ -679,6 +731,9 @@ static void process_cmdq(GICv3ITSState *s)
+                 gicv3_redist_update_lpi(&s->gicv3->cpu[i]);
+             }
+             break;
++        case GITS_CMD_MOVALL:
++            result = process_movall(s, data, cq_offset);
++            break;
+         default:
+             break;
          }
+diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
+index d81d8e5f076..d1645ba22c6 100644
+--- a/hw/intc/arm_gicv3_redist.c
++++ b/hw/intc/arm_gicv3_redist.c
+@@ -681,6 +681,60 @@ void gicv3_redist_process_lpi(GICv3CPUState *cs, int irq, int level)
+     gicv3_redist_lpi_pending(cs, irq, level);
+ }
+ 
++void gicv3_redist_movall_lpis(GICv3CPUState *src, GICv3CPUState *dest)
++{
++    /*
++     * We must move all pending LPIs from the source redistributor
++     * to the destination. That is, for every pending LPI X on
++     * src, we must set it not-pending on src and pending on dest.
++     * LPIs that are already pending on dest are not cleared.
++     *
++     * If LPIs are disabled on dest this is CONSTRAINED UNPREDICTABLE:
++     * we choose to NOP. If LPIs are disabled on source there's nothing
++     * to be transferred anyway.
++     */
++    AddressSpace *as = &src->gic->dma_as;
++    uint64_t idbits;
++    uint32_t pendt_size;
++    uint64_t src_baddr, dest_baddr;
++    int i;
++
++    if (!(src->gicr_ctlr & GICR_CTLR_ENABLE_LPIS) ||
++        !(dest->gicr_ctlr & GICR_CTLR_ENABLE_LPIS)) {
++        return;
++    }
++
++    idbits = MIN(FIELD_EX64(src->gicr_propbaser, GICR_PROPBASER, IDBITS),
++                 GICD_TYPER_IDBITS);
++    idbits = MIN(FIELD_EX64(dest->gicr_propbaser, GICR_PROPBASER, IDBITS),
++                 idbits);
++
++    pendt_size = 1ULL << (idbits + 1);
++    src_baddr = src->gicr_pendbaser & R_GICR_PENDBASER_PHYADDR_MASK;
++    dest_baddr = dest->gicr_pendbaser & R_GICR_PENDBASER_PHYADDR_MASK;
++
++    for (i = GICV3_LPI_INTID_START / 8; i < pendt_size / 8; i++) {
++        uint8_t src_pend, dest_pend;
++
++        address_space_read(as, src_baddr + i, MEMTXATTRS_UNSPECIFIED,
++                           &src_pend, sizeof(src_pend));
++        if (!src_pend) {
++            continue;
++        }
++        address_space_read(as, dest_baddr + i, MEMTXATTRS_UNSPECIFIED,
++                           &dest_pend, sizeof(dest_pend));
++        dest_pend |= src_pend;
++        src_pend = 0;
++        address_space_write(as, src_baddr + i, MEMTXATTRS_UNSPECIFIED,
++                            &src_pend, sizeof(src_pend));
++        address_space_write(as, dest_baddr + i, MEMTXATTRS_UNSPECIFIED,
++                            &dest_pend, sizeof(dest_pend));
++    }
++
++    gicv3_redist_update_lpi(src);
++    gicv3_redist_update_lpi(dest);
++}
++
+ void gicv3_redist_set_irq(GICv3CPUState *cs, int irq, int level)
+ {
+     /* Update redistributor state for a change in an external PPI input line */
 -- 
 2.25.1
 
