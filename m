@@ -2,73 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10ED8496D28
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 18:59:06 +0100 (CET)
-Received: from localhost ([::1]:53788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E999496D3F
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 19:12:25 +0100 (CET)
+Received: from localhost ([::1]:33700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBKfI-0000kU-N5
-	for lists+qemu-devel@lfdr.de; Sat, 22 Jan 2022 12:59:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56826)
+	id 1nBKsA-0005LR-G3
+	for lists+qemu-devel@lfdr.de; Sat, 22 Jan 2022 13:12:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nBKdN-0007Mi-3l
- for qemu-devel@nongnu.org; Sat, 22 Jan 2022 12:57:05 -0500
-Received: from [2a00:1450:4864:20::430] (port=46906
- helo=mail-wr1-x430.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nBKdL-000779-Ap
- for qemu-devel@nongnu.org; Sat, 22 Jan 2022 12:57:04 -0500
-Received: by mail-wr1-x430.google.com with SMTP id l25so5813902wrb.13
- for <qemu-devel@nongnu.org>; Sat, 22 Jan 2022 09:57:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UYtphRDLrlJMGoOMbU+8RgOnQKcBl50/pHy7FLIhsg4=;
- b=KjKUgYXQz0COWn30dRlS7weAjKgMNe6TFeYDnk4l7g6fuzWgbQhSO3vlRM/wuzS04a
- tTY4ep1Lrdh6C9xNY2MPiabx3ogXUN03f6fvl5wx5R8eaIDKfTZFqXq1EnuAiFted+Pv
- VWVjArQo6izEJNkS26L7GEp3W9QZ9f/eICq1JcA+oM80vqocC0VD5WAV/b1JUJG2UC4C
- ccj+cDMHbQCfHmxfQWwuU1WKDK1X23w/jKn5eEDJYXyGcI2K4luP7G7uIS3yYGh8FHNq
- xJJxndDZPVUCM5sQUoHCWz0d27wmu26xT0xq0KxXZ6avdym3MBRzgQ1lXMTY9lfmcZ6v
- SdFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UYtphRDLrlJMGoOMbU+8RgOnQKcBl50/pHy7FLIhsg4=;
- b=hPot0+5o5Lh/EGBVWFB9+J8cIkQYpGaKw9eAjCPrD2oSib0VYy3mDILjRr63ESk76H
- Cy0LT9IaLS2k6J0GQDeU+hNWl332HzMensfxtCZwjYvStmmPH513MzkvQAaFJSImgQEN
- CktLJSAOcAeZgH9gk+ZXijjrAaVXYLTtMMbWSpuOuB0ZTAdaLHA+S7Q9oV1I+n/QvehL
- JC5cf4fqsBSp+yRwAluSYIULvw3sw0US9dQ+CcScECLp1N8kWJk+OD68ZkvnXo3z3HgD
- HakUsSxxKDZCMkwAhrhFv6V+rJ2AKEO2ETK15mhPulM2MuaAJzgTnBxod0OH4IimOFs+
- isEQ==
-X-Gm-Message-State: AOAM533lCLH+vrZjfYROjG95TnyLsRKbRxY4VVle3IFixfBPkO38uTJN
- 7ElndhSguaIKDoFfVnfYVzSDGyl9WxCE54Cdyw/oMw==
-X-Google-Smtp-Source: ABdhPJwUajwaFM15Vb8ogYu766wiZXs2I8MgxlBn6ut+TWGatJOJLZy6TU01W4ffiozfpSzPUFf8l4J4NRqC0w6hsmI=
-X-Received: by 2002:adf:e949:: with SMTP id m9mr8342821wrn.172.1642874221845; 
- Sat, 22 Jan 2022 09:57:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
+ id 1nBKi5-0002gt-58
+ for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:01:57 -0500
+Received: from mx2.freebsd.org ([96.47.72.81]:65040)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
+ id 1nBKhe-0007lL-MB
+ for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:01:54 -0500
+Received: from mx1.freebsd.org (mx1.freebsd.org [IPv6:2610:1c1:1:606c::19:1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits)
+ client-signature RSA-PSS (4096 bits))
+ (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
+ by mx2.freebsd.org (Postfix) with ESMTPS id AC77181A27
+ for <qemu-devel@nongnu.org>; Sat, 22 Jan 2022 18:00:52 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+Received: from smtp.freebsd.org (smtp.freebsd.org
+ [IPv6:2610:1c1:1:606c::24b:4])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+ client-signature RSA-PSS (4096 bits) client-digest SHA256)
+ (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
+ by mx1.freebsd.org (Postfix) with ESMTPS id 4Jh3vS442Dz4YXw
+ for <qemu-devel@nongnu.org>; Sat, 22 Jan 2022 18:00:52 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org; s=dkim;
+ t=1642874452;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=45g9YnQvv1jJFFsM7dtlkKSxKYrGPeZULx15g+eWsvw=;
+ b=IRfpHysD+PzJiOA4HsxAoI18V9vPo9kyVqmozWftHHKCMCQF521q9fZn+ygpK8vRZQ3J3R
+ cpPlWEnvfOiWxuPK7FMOianvlsk6ZxszGhTCd+oaXtKVQDAn2ZQ0Plvsq+n+tAk9q33edC
+ VROGFtp1GpvUzVbOFTAg4sb9W5EYUe8KFaqpEszYakASdJCVmVTlkfBnN0Zao4dbKSK/iL
+ pr+JygYUX1AXND3/TQimKDFkpvaGST1uKnJkQ3UsT3mvqTFgrZun4al2LC2oR5+gstsv3m
+ KsDa9liA07/n8ElojGjHBd0vAgoooU3WkkmlZ9R7TABYNVzZSDzDWMvNKME9vw==
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
+ [209.85.160.174])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client CN "smtp.gmail.com", Issuer "GTS CA 1D4" (verified OK))
+ (Authenticated sender: kevans)
+ by smtp.freebsd.org (Postfix) with ESMTPSA id 66CC18C53
+ for <qemu-devel@nongnu.org>; Sat, 22 Jan 2022 18:00:52 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+Received: by mail-qt1-f174.google.com with SMTP id h15so14122748qtx.0
+ for <qemu-devel@nongnu.org>; Sat, 22 Jan 2022 10:00:52 -0800 (PST)
+X-Gm-Message-State: AOAM533s4M3wL7kxRpHgpt/JElPuOT0ikUgM4CZiIATvPfNQ0yr7cJW/
+ ooWdwN1dwpVE1eZBy+zGegm/aXL8qHtnfvH8fbM=
+X-Google-Smtp-Source: ABdhPJxzKDkx0wC+NQ/gLef1icSopgI9vx3O8EVntRazmDQjHb6IeeMrP2ikhSFXA4wzOO+s9Goi8svfzdN6bXSW2bs=
+X-Received: by 2002:ac8:7fd0:: with SMTP id b16mr7412400qtk.123.1642874451893; 
+ Sat, 22 Jan 2022 10:00:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20220122000931.536322-1-jsnow@redhat.com>
- <CAFEAcA8h++yFCYhx7Fecaz3AnSXA3HmmaRbUWeGkg8zWG9VptA@mail.gmail.com>
- <CAFn=p-bx+=GQGeKTXOBKdQ+8KKUL5g0u9_ryQ1X6D5pTBTA_LQ@mail.gmail.com>
-In-Reply-To: <CAFn=p-bx+=GQGeKTXOBKdQ+8KKUL5g0u9_ryQ1X6D5pTBTA_LQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 22 Jan 2022 17:56:50 +0000
-Message-ID: <CAFEAcA-2DxXogQP=D31jbvObStTqDgyD8zv53_KLs_g4iiF5mw@mail.gmail.com>
-Subject: Re: [PULL 00/17] Python patches
-To: John Snow <jsnow@redhat.com>
+References: <20220109161923.85683-1-imp@bsdimp.com>
+ <20220109161923.85683-24-imp@bsdimp.com>
+ <CAFEAcA_fc_-qXoY07uZuMpT6kAUT+oT8RD_G=8vGgSQqDmH-WA@mail.gmail.com>
+ <CANCZdfrOaptXXb7myYHJ5oVzcczoz48rretVaGZy5FT2rCgk0w@mail.gmail.com>
+In-Reply-To: <CANCZdfrOaptXXb7myYHJ5oVzcczoz48rretVaGZy5FT2rCgk0w@mail.gmail.com>
+From: Kyle Evans <kevans@freebsd.org>
+Date: Sat, 22 Jan 2022 12:00:39 -0600
+X-Gmail-Original-Message-ID: <CACNAnaGfsbat5E4eYsP28cAd5gy+TCsNuoVDBx3xhD7FAxWCxQ@mail.gmail.com>
+Message-ID: <CACNAnaGfsbat5E4eYsP28cAd5gy+TCsNuoVDBx3xhD7FAxWCxQ@mail.gmail.com>
+Subject: Re: [PATCH 23/30] bsd-user/signal.c: sigset manipulation routines.
+To: Warner Losh <imp@bsdimp.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org;
+ s=dkim; t=1642874452;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=45g9YnQvv1jJFFsM7dtlkKSxKYrGPeZULx15g+eWsvw=;
+ b=wScgqChGYcQ92Qj1swSRpXoN9RhOQF1Jv9F8jsiAunIvgmOG6v91ofJMCS3d3ES/Vo+S4G
+ NSjQuVjEY7l6LoWV/xlbHb+eOlXcHhbREIhlQ51HD8MlqztYR1peD1TRPKl90DceGLcA+e
+ BeyVn7zD/emHvjRJ6oHk7XopUlOyKSun62pqb3IBKk/YXruMjEigZ4cjN9TEdSz2hRpqTt
+ EZeFQrdRZ+AgzcFIxedSE0o3TjqjZSKZdX4lp1id90HVItAY4QSBA54vBSMvFSCEWputct
+ UCqEXJ319Cy60siYycJJ4GL6usxOoEcIe9PI4pMnDPm3RgGurxBLpm3uS8BiRw==
+ARC-Seal: i=1; s=dkim; d=freebsd.org; t=1642874452; a=rsa-sha256; cv=none;
+ b=DaiPQ3L/tEoHyE7TK56Lp7lTROTMXkvw5WOAyTvmChFqmOg6G97n6umXZOUrEnthlC4YoP
+ 4IQ81nkDM8nCVA1SdK/M/BqNj0pVR0zoBmJPtV+DdzYch7ZeXBo/F5OluOmj+nhl9p0PiU
+ JXv9MQrVxwmFXRLEyxPa4GQ5ZWCAkFOadYx7hgHP8PQsL6BJhwb/+/ExY+OYfeLR3V6wuw
+ 1MP8P+8HMExXkkO4sBApwDjoJaWZ/cBJyDhqvYOff5+QGsXwJiMcZ4qEPjIDwWOigRPAt/
+ qKORPBIlzKSufCHAfA45II80kBpHRHWMdPon33X2MzGxMwqLASBAQUO6oxOZ2Q==
+ARC-Authentication-Results: i=1;
+	mx1.freebsd.org;
+	none
+Received-SPF: pass client-ip=96.47.72.81; envelope-from=kevans@freebsd.org;
+ helo=mx2.freebsd.org
+X-Spam_score_int: -77
+X-Spam_score: -7.8
+X-Spam_bar: -------
+X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,58 +116,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Stacey Son <sson@freebsd.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 22 Jan 2022 at 17:06, John Snow <jsnow@redhat.com> wrote:
+On Sat, Jan 22, 2022 at 10:44 AM Warner Losh <imp@bsdimp.com> wrote:
 >
 >
 >
-> On Sat, Jan 22, 2022, 8:58 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+> On Fri, Jan 14, 2022 at 4:14 AM Peter Maydell <peter.maydell@linaro.org> wrote:
 >>
->> On Sat, 22 Jan 2022 at 00:09, John Snow <jsnow@redhat.com> wrote:
+>> On Sun, 9 Jan 2022 at 16:53, Warner Losh <imp@bsdimp.com> wrote:
 >> >
->> > The following changes since commit 5e9d14f2bea6df89c0675df953f9c839560d2266:
+>> > target_sigemptyset: resets a set to having no bits set
+>> > qemu_sigorset:      computes the or of two sets
+>> > target_sigaddset:   adds a signal to a set
+>> > target_sigismember: returns true when signal is a member
+>> > host_to_target_sigset_internal: convert host sigset to target
+>> > host_to_target_sigset: convert host sigset to target
+>> > target_to_host_sigset_internal: convert target sigset to host
+>> > target_to_host_sigset: convert target sigset to host
 >> >
->> >   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20220121-1' into staging (2022-01-21 10:31:25 +0000)
+>> > Signed-off-by: Stacey Son <sson@FreeBSD.org>
+>> > Signed-off-by: Kyle Evans <kevans@freebsd.org>
+>> > Signed-off-by: Warner Losh <imp@bsdimp.com>
+>> > ---
+>> >  bsd-user/qemu.h   |  3 ++
+>> >  bsd-user/signal.c | 89 +++++++++++++++++++++++++++++++++++++++++++++++
+>> >  2 files changed, 92 insertions(+)
 >> >
->> > are available in the Git repository at:
+>> > diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+>> > index e12617f5d69..e8c417c7c33 100644
+>> > --- a/bsd-user/qemu.h
+>> > +++ b/bsd-user/qemu.h
+>> > @@ -223,7 +223,10 @@ void queue_signal(CPUArchState *env, int sig, target_siginfo_t *info);
+>> >  abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp);
+>> >  int target_to_host_signal(int sig);
+>> >  int host_to_target_signal(int sig);
+>> > +void host_to_target_sigset(target_sigset_t *d, const sigset_t *s);
+>> > +void target_to_host_sigset(sigset_t *d, const target_sigset_t *s);
+>> >  void QEMU_NORETURN force_sig(int target_sig);
+>> > +int qemu_sigorset(sigset_t *dest, const sigset_t *left, const sigset_t *right);
 >> >
->> >   https://gitlab.com/jsnow/qemu.git tags/python-pull-request
+>> >  /* mmap.c */
+>> >  int target_mprotect(abi_ulong start, abi_ulong len, int prot);
+>> > diff --git a/bsd-user/signal.c b/bsd-user/signal.c
+>> > index 93c3b3c5033..8dadc9a39a7 100644
+>> > --- a/bsd-user/signal.c
+>> > +++ b/bsd-user/signal.c
+>> > @@ -32,6 +32,9 @@
 >> >
->> > for you to fetch changes up to 05908602429cf9d6fce9b60704b8395f6d295441:
+>> >  static struct target_sigaction sigact_table[TARGET_NSIG];
+>> >  static void host_signal_handler(int host_sig, siginfo_t *info, void *puc);
+>> > +static void target_to_host_sigset_internal(sigset_t *d,
+>> > +        const target_sigset_t *s);
+>> > +
 >> >
->> >   scripts/render-block-graph: switch to AQMP (2022-01-21 16:01:31 -0500)
+>> >  int host_to_target_signal(int sig)
+>> >  {
+>> > @@ -43,6 +46,44 @@ int target_to_host_signal(int sig)
+>> >      return sig;
+>> >  }
 >> >
->> > ----------------------------------------------------------------
->> > Python patches
->> >
->> > A few fixes to the Python CI tests, a few fixes to the (async) QMP
->> > library, and a set of patches that begin to shift us towards using the
->> > new qmp lib.
->> >
->> > ----------------------------------------------------------------
+>> > +static inline void target_sigemptyset(target_sigset_t *set)
+>> > +{
+>> > +    memset(set, 0, sizeof(*set));
+>> > +}
+>> > +
+>> > +#include <signal.h>
 >>
->> Was this set of patches supposed to fix the NetBSD VM intermittents?
+>> Don't include system headers halfway through the file like this,
+>> please : put the #include at the top of the file with the others.
 >
 >
-> No, nobody reviewed or tested that series yet, so I didn't pull it.
+> Yea, this isn't even needed, so I just removed it.
 >
-> (Is that too conservative ...?)
+>>
+>> > +
+>> > +int
+>> > +qemu_sigorset(sigset_t *dest, const sigset_t *left, const sigset_t *right)
+>> > +{
+>> > +    sigset_t work;
+>> > +    int i;
+>> > +
+>> > +    sigemptyset(&work);
+>> > +    for (i = 1; i < NSIG; ++i) {
+>> > +        if (sigismember(left, i) || sigismember(right, i)) {
+>> > +            sigaddset(&work, i);
+>> > +        }
+>> > +    }
+>> > +
+>> > +    *dest = work;
+>> > +    return 0;
+>> > +}
+>>
+>> FreeBSD's manpage says it has a native sigorset() --
+>> https://www.freebsd.org/cgi/man.cgi?query=sigemptyset&sektion=3&apropos=0&manpath=freebsd
+>> can you just use that ?
 >
-> If you'd like, I can include them anyway in a v2 pull here and you can test it as part of your merge.
+>
+> Yes.
+>
 
-No, that's fine -- I just hadn't been keeping track of which patches
-were intended as the fix.
+For some added context, I added sigorset() to libc after 11.3/12.1 in
+response to bsd-user using it, then forgot to remove the transition
+aide after they went EoL.
 
+Thanks,
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
-
--- PMM
+Kyle Evans
 
