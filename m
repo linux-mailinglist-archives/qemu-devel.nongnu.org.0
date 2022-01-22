@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73068496D6D
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 19:47:29 +0100 (CET)
-Received: from localhost ([::1]:44222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D3E6496D58
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 19:38:06 +0100 (CET)
+Received: from localhost ([::1]:37078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBLQ8-00060i-Ji
-	for lists+qemu-devel@lfdr.de; Sat, 22 Jan 2022 13:47:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34226)
+	id 1nBLH3-0000uI-Kt
+	for lists+qemu-devel@lfdr.de; Sat, 22 Jan 2022 13:38:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nBL4V-0005hv-Mb
- for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:14 -0500
-Received: from [2a00:1450:4864:20::329] (port=54152
- helo=mail-wm1-x329.google.com)
+ id 1nBL4x-0005m4-Fv
+ for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:36 -0500
+Received: from [2a00:1450:4864:20::429] (port=41661
+ helo=mail-wr1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nBL4N-0007gX-I0
- for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:02 -0500
-Received: by mail-wm1-x329.google.com with SMTP id n8so20194417wmk.3
- for <qemu-devel@nongnu.org>; Sat, 22 Jan 2022 10:24:50 -0800 (PST)
+ id 1nBL4u-0007gt-LD
+ for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:34 -0500
+Received: by mail-wr1-x429.google.com with SMTP id v6so5901400wra.8
+ for <qemu-devel@nongnu.org>; Sat, 22 Jan 2022 10:24:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TWOwtfSkXv+Z1HhHrk1F8pisir4TdF801Jm4JXQ/boc=;
- b=cRHKJGXD4fHJzlCpIfCtSr96Me07yuTweLrRuVelmSCXVT8bHgR5tkGHmjUPyXV2Eu
- uFFfUC8T7z21/56+NKW/MSno1/Qq/IXpw+Q/QKdhuhN6zs0Hs+a3sA3NsRMPo7Cpt8qN
- LnyNPjWOKG0xLW524dRfFimLOms1FzHJjWfYqdqk9BadRgTw8pFNmG+iTrbw9k6n6jbV
- FmW4h5Us6l5tCr2zlkduLrZSrytGdhN7loh7+VDwcO1i5Kp/PO5M0udoDbnqpXa17ilc
- PHb8JYOHDP54tGB96p5uosrk1fMbdQL8MrfWLSaZxnpYr/IRqiq6UsDANzTOXMyt9lMk
- FACw==
+ bh=tHMZxZiFQJbI+EMs2+qLPMDXg/8YQrzz1SenT8sExVE=;
+ b=xMa3V+Rmm47QybMRBrPrmrlxD2xIIicBVnqccGP5RwO1DZAizp/jDKC2KV2EClJDKl
+ ZZpya2BAKYdVHJ67tj3TtGfHy2zusIS0IUeabrHwTMXLq4xABSqszuZYLEGf5WI6cpLm
+ iANAw45AzUVhV5VyPe0SdhLUgrtyaMZdDLtSX9gJmP0Mrly5zp49yNNSFlpFTPgX6uXv
+ ev04MYzUhXtppq4qh42G6Qcu4KpzzyuEMgFbhvZy5cOoOsZzx06aNckRK6xBgM9698g0
+ J0s8KQa5zX/czx8NLtX6S0IIaBvs1ihzyRHSFf/AFbg1/R1h6g47YU8e/TLkSQS2nO8e
+ T2gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TWOwtfSkXv+Z1HhHrk1F8pisir4TdF801Jm4JXQ/boc=;
- b=T2RXvUsLq6lvYeYiRRJSmZyzMu5CLsEf3JXXdDWBWDnXibUa3e1M45NKbDM+gBj8ud
- 85LMEUkwO3j83rDWEY4F2wdaIuClAPVdvyG5wsnBShqYBvANpAJDiILGYbSK8Kj9i9Fa
- /bdta95F2G1lVNXwnGedQbNTbhbWGOPx8KcV2Y2JdSCjqBL8yGnkIXHvTxHduQUwogJc
- 506FsRpawk1A4Y4gMUgu9AivEIEpaKAdNnQ7icd/NAzEsE3F0oSYmzIZm0jxo4kf0KbR
- HQrLnL/2bv6TzchETp/pSaFTKOfZm6BIJjGYZHFFXXKHEyp9vwQUYAukzP7dY/rjT9UZ
- GBEg==
-X-Gm-Message-State: AOAM532ls7EQoF+dhHSm/w38HVqbfa4GPPC+xOZGZ5ElgGnzW8c6nSjW
- D/UdQ8UMaOpBYSgAVbY/JtKXJA==
-X-Google-Smtp-Source: ABdhPJyepEexigSfnvjBCQfTS59a6SSj6pU5p7L7YpiVOralDKBcgfkGbvM/cdph0n4K660Ol6peJQ==
-X-Received: by 2002:a05:600c:1e2a:: with SMTP id
- ay42mr2469743wmb.131.1642875889860; 
- Sat, 22 Jan 2022 10:24:49 -0800 (PST)
+ bh=tHMZxZiFQJbI+EMs2+qLPMDXg/8YQrzz1SenT8sExVE=;
+ b=sCshvyBrGLzf9rUug4QoS/YPMCq+TC1L+uRxCUiwAbuCtecKFe2rlXZOOakVg+GFwu
+ beUd9H3X4m8t18/riAnp+tr5pVSNrX33tobELvwua1vwv2Iz4JxAg1RsZHGq+9lUWTGr
+ WsaohmiYrvxS+kotXF58d4LdGiCOSawSP/j1uEtHNTNZCN/l+CLwvwbmD6DdS4j0UsEU
+ 4VKVhf08NBXiJSP6hwoczXriQgXBCieZ78H786yQDQhypFOrtP0f0TO6nCYBHGBG8AvB
+ hxUkKkeDsnBwWkGLqLK52CsLjXX2B4UjZUE4Imh3MW+ZToQ+om3HwkL2xruYkJeicOuv
+ 9tAQ==
+X-Gm-Message-State: AOAM533577GGGRgYB2jw/UXl9tfRzfGZ09BzXPStq81Sh4CKEj6oCxxS
+ 0s4SdsU3YJq2BNbUrP1iyFccRQ==
+X-Google-Smtp-Source: ABdhPJzB5qVOGymwJpQo/6zRMiZFGRAXIV/oIhAcVXasi3jFeRlxtHdG1O9tvPjvLzkVVAPLWTvpAQ==
+X-Received: by 2002:a5d:5585:: with SMTP id i5mr8139341wrv.174.1642875891175; 
+ Sat, 22 Jan 2022 10:24:51 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id 21sm8870774wmk.45.2022.01.22.10.24.49
+ by smtp.gmail.com with ESMTPSA id 21sm8870774wmk.45.2022.01.22.10.24.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Jan 2022 10:24:49 -0800 (PST)
+ Sat, 22 Jan 2022 10:24:50 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 05/14] hw/intc/arm_gicv3_its: Don't clear GITS_CWRITER on
- writes to GITS_CBASER
-Date: Sat, 22 Jan 2022 18:24:35 +0000
-Message-Id: <20220122182444.724087-6-peter.maydell@linaro.org>
+Subject: [PATCH 07/14] hw/intc/arm_gicv3_its: Sort ITS command list into
+ numeric order
+Date: Sat, 22 Jan 2022 18:24:37 +0000
+Message-Id: <20220122182444.724087-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220122182444.724087-1-peter.maydell@linaro.org>
 References: <20220122182444.724087-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -93,45 +92,40 @@ Cc: Shashi Mallela <shashi.mallela@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ITS specification says that when the guest writes to GITS_CBASER
-this causes GITS_CREADR to be cleared.  However it does not have an
-equivalent clause for GITS_CWRITER.  (This is because GITS_CREADR is
-read-only, but GITS_CWRITER is writable and the guest can initialize
-it.) Remove the code that clears GITS_CWRITER on GITS_CBASER writes.
+The list of #defines for the ITS command packet numbers is neither
+in alphabetical nor numeric order. Sort it into numeric order.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/arm_gicv3_its.c | 3 ---
- 1 file changed, 3 deletions(-)
+ hw/intc/gicv3_internal.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 1763ba4a671..d9ff7b88492 100644
---- a/hw/intc/arm_gicv3_its.c
-+++ b/hw/intc/arm_gicv3_its.c
-@@ -866,7 +866,6 @@ static bool its_writel(GICv3ITSState *s, hwaddr offset,
-         if (!(s->ctlr & R_GITS_CTLR_ENABLED_MASK)) {
-             s->cbaser = deposit64(s->cbaser, 0, 32, value);
-             s->creadr = 0;
--            s->cwriter = s->creadr;
-         }
-         break;
-     case GITS_CBASER + 4:
-@@ -877,7 +876,6 @@ static bool its_writel(GICv3ITSState *s, hwaddr offset,
-         if (!(s->ctlr & R_GITS_CTLR_ENABLED_MASK)) {
-             s->cbaser = deposit64(s->cbaser, 32, 32, value);
-             s->creadr = 0;
--            s->cwriter = s->creadr;
-         }
-         break;
-     case GITS_CWRITER:
-@@ -1027,7 +1025,6 @@ static bool its_writell(GICv3ITSState *s, hwaddr offset,
-         if (!(s->ctlr & R_GITS_CTLR_ENABLED_MASK)) {
-             s->cbaser = value;
-             s->creadr = 0;
--            s->cwriter = s->creadr;
-         }
-         break;
-     case GITS_CWRITER:
+diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
+index 1eeb99035da..5394266aaf4 100644
+--- a/hw/intc/gicv3_internal.h
++++ b/hw/intc/gicv3_internal.h
+@@ -314,16 +314,16 @@ FIELD(GITS_TYPER, CIL, 36, 1)
+ #define CMD_MASK                  0xff
+ 
+ /* ITS Commands */
+-#define GITS_CMD_CLEAR            0x04
+-#define GITS_CMD_DISCARD          0x0F
+ #define GITS_CMD_INT              0x03
+-#define GITS_CMD_MAPC             0x09
++#define GITS_CMD_CLEAR            0x04
++#define GITS_CMD_SYNC             0x05
+ #define GITS_CMD_MAPD             0x08
+-#define GITS_CMD_MAPI             0x0B
++#define GITS_CMD_MAPC             0x09
+ #define GITS_CMD_MAPTI            0x0A
++#define GITS_CMD_MAPI             0x0B
+ #define GITS_CMD_INV              0x0C
+ #define GITS_CMD_INVALL           0x0D
+-#define GITS_CMD_SYNC             0x05
++#define GITS_CMD_DISCARD          0x0F
+ 
+ /* MAPC command fields */
+ #define ICID_LENGTH                  16
 -- 
 2.25.1
 
