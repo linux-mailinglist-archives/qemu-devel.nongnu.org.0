@@ -2,57 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2DED4969F0
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 04:56:11 +0100 (CET)
-Received: from localhost ([::1]:54818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC2E496B0B
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 09:39:09 +0100 (CET)
+Received: from localhost ([::1]:53544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB7Va-0001ux-7w
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 22:56:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40070)
+	id 1nBBvQ-0002Lc-Fa
+	for lists+qemu-devel@lfdr.de; Sat, 22 Jan 2022 03:39:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nB7Tz-0001C1-Sx
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 22:54:31 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:34486
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nB7Tp-0003Na-3P
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 22:54:23 -0500
-HMM_SOURCE_IP: 172.18.0.48:57344.1866282846
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-171.223.99.59 (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id BB12F280029;
- Sat, 22 Jan 2022 11:54:08 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id 9b80e71bd6c84c63bcb62715168597b8 for
- peterx@redhat.com; Sat, 22 Jan 2022 11:54:11 CST
-X-Transaction-ID: 9b80e71bd6c84c63bcb62715168597b8
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
-X-MEDUSA-Status: 0
-Message-ID: <1a7103b2-a070-6e08-cd03-f4186caca9c1@chinatelecom.cn>
-Date: Sat, 22 Jan 2022 11:54:07 +0800
+ (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
+ id 1nBBuD-0000ST-90
+ for qemu-devel@nongnu.org; Sat, 22 Jan 2022 03:37:53 -0500
+Received: from mga17.intel.com ([192.55.52.151]:14296)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
+ id 1nBBuA-0006dF-Qg
+ for qemu-devel@nongnu.org; Sat, 22 Jan 2022 03:37:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642840670; x=1674376670;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=+EvRpqARg086TBgvq2dE04fcyG0zdE9UY5zo/dAjX6Y=;
+ b=Zc75x8BRuXBmj4l4H4z3QRFl7qFIB/mzVux1cpBACd7CHZ1Hnku00iGo
+ kgMPmiyKmvGFurokVcaFxYHv6+qgGy+Z97ppE7Go8lgaBOrnqW4t8LXPA
+ QY3qxfy9C6+oc3KcbNYZPEZY0n4r7Ge79yo6znz+58lH0cTSQW4Ld76MK
+ DGjwfg4RO63W8+P7dMTUa8/UplNGRLhmeowifWHx8OLdSL7oHVO+K3jor
+ Ph6xv5y23lXnpkgjvs6j8gmXpaERbxXgp+eF40lGZDkGJlb31rJnVP4+H
+ G5reQ4j0vl+gqFOEQYL8zic3Xr8xLf9eLfcgskk3rT8E38KzKxqMuD5HC Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10234"; a="226481871"
+X-IronPort-AV: E=Sophos;i="5.88,307,1635231600"; d="scan'208";a="226481871"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jan 2022 00:37:44 -0800
+X-IronPort-AV: E=Sophos;i="5.88,307,1635231600"; d="scan'208";a="765937357"
+Received: from sqa-gate.sh.intel.com (HELO michael.clx.dev.tsp.org)
+ ([10.239.48.212])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jan 2022 00:37:41 -0800
+From: Yang Weijiang <weijiang.yang@intel.com>
+To: pbonzini@redhat.com, ehabkost@redhat.com, mtosatti@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, kvm@vger.kernel.org,
+ likexu@tencent.com, wei.w.wang@intel.com
+Subject: [PATCH v5 0/2] Enable legacy LBR support for guest
+Date: Sun, 23 Jan 2022 00:11:59 +0800
+Message-Id: <20220122161201.73528-1-weijiang.yang@intel.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v11 3/4] softmmu/dirtylimit: implement virtual CPU throttle
-To: Peter Xu <peterx@redhat.com>
-References: <cover.1641316375.git.huangy81@chinatelecom.cn>
- <0381e32c2cc70613613aaa284b8e8c9760d6932f.1641316375.git.huangy81@chinatelecom.cn>
- <YeUbhC7MG32K9pxu@xz-m1.local>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <YeUbhC7MG32K9pxu@xz-m1.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.222;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=192.55.52.151;
+ envelope-from=weijiang.yang@intel.com; helo=mga17.intel.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_FUTURE_06_12=1.947,
+ DKIMWL_WL_HIGH=-0.699, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,68 +72,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: weijiang.yang@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+KVM legacy LBR patches have been merged in kernel 5.12, this patchset
+is to expose the feature to guest from the perf capability MSR. Qemu can
+add LBR format in cpu option to achieve it, e.g., -cpu host,lbr-fmt=0x5,
+the format should match host value in IA32_PERF_CAPABILITIES.
 
->> +static void *dirtylimit_thread(void *opaque)
->> +{
->> +    CPUState *cpu;
->> +
->> +    rcu_register_thread();
->> +
->> +    while (!qatomic_read(&dirtylimit_quit)) {
->> +        sleep(DIRTYLIMIT_CALC_TIME_MS / 1000);
-> 
-> Sorry to have not mentioned this: I think we probably don't even need this
-> dirtylimit thread.
-> 
-> It'll be hard to make the "sleep" right here.. you could read two identical
-> values from the dirty calc thread because the 1sec sleep is not accurate, so
-> even after this sleep() the calc thread may not have provided the latest number
-> yet.
-> 
-> It'll be much cleaner (and most importantly, accurate..) to me if we could make
-> this a hook function being passed over to the vcpu_dirty_rate_stat_thread()
-> thread, then after each vcpu_dirty_rate_stat_collect() we call the hook.
-> 
-Ok, i remove the dirtylimit_thread and implemtment throttle in bottom 
-half instead, indeed, it become more accurate. Anyway, how do you think 
-of it?
->> +
->> +        dirtylimit_state_lock();
->> +
->> +        if (!dirtylimit_in_service()) {
->> +            dirtylimit_state_unlock();
->> +            break;
->> +        }
->> +
->> +        CPU_FOREACH(cpu) {
->> +            if (!dirtylimit_vcpu_get_state(cpu->cpu_index)->enabled) {
->> +                continue;
->> +            }
->> +            dirtylimit_adjust_throttle(cpu);
->> +        }
->> +        dirtylimit_state_unlock();
->> +    }
->> +
->> +    rcu_unregister_thread();
->> +
->> +    return NULL;
->> +}
->> +
+Note, KVM legacy LBR solution accelerates guest perf performace by LBR MSR
+passthrough so it requires guest cpu model matches that of host's, i.e.,
+only -cpu host is supported.
+
+Change in v5:
+	1. This patchset is rebased on tip : 6621441db5
+	2. No functional change since v4.
 
 
+Yang Weijiang (2):
+  qdev-properties: Add a new macro with bitmask check for uint64_t
+    property
+  target/i386: Add lbr-fmt vPMU option to support guest LBR
+
+ hw/core/qdev-properties.c    | 19 +++++++++++++++++
+ include/hw/qdev-properties.h | 12 +++++++++++
+ target/i386/cpu.c            | 40 ++++++++++++++++++++++++++++++++++++
+ target/i386/cpu.h            | 10 +++++++++
+ 4 files changed, 81 insertions(+)
 
 -- 
-Best regard
+2.27.0
 
-Hyman Huang(黄勇)
 
