@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38976496D52
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 19:34:52 +0100 (CET)
-Received: from localhost ([::1]:60828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7FB2496D6E
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 19:49:24 +0100 (CET)
+Received: from localhost ([::1]:46424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBLDv-0006J8-8J
-	for lists+qemu-devel@lfdr.de; Sat, 22 Jan 2022 13:34:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34238)
+	id 1nBLRy-0007ez-WC
+	for lists+qemu-devel@lfdr.de; Sat, 22 Jan 2022 13:49:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nBL4W-0005hz-89
- for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:16 -0500
-Received: from [2a00:1450:4864:20::42a] (port=37630
- helo=mail-wr1-x42a.google.com)
+ id 1nBL57-0005qW-4m
+ for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:46 -0500
+Received: from [2a00:1450:4864:20::431] (port=36822
+ helo=mail-wr1-x431.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nBL4M-0007fv-Bc
- for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:00 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id ba4so5894957wrb.4
+ id 1nBL4u-0007g0-PM
+ for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:37 -0500
+Received: by mail-wr1-x431.google.com with SMTP id u15so5890035wrt.3
  for <qemu-devel@nongnu.org>; Sat, 22 Jan 2022 10:24:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oio/6hQtxU+ak5mBC4OE0O9hK4DvVfj15JxHsC1mIdI=;
- b=D+5BRtnhiOOliUfLNP4O6XoCj+XizSg2q9MaO9a6gcjhF2jVTjYrMFjuinpqxPK4Q2
- NixPheBwfdzRozt7GXUzZys2bQOH4WPMfNKJNg59nDFuoSwBaeSGBEQdCYqHA7NzFi+Q
- eucZKJzsgD9ZXoxXxM1ommDDNpWH/AspKs8EyM2DzirNRIqGhhrXTN2OJoG3OLmAjqhk
- eUmgZh5BKm2QFRn5+921yfpuO/RrhIk73o9oM0EOYqs8irHK3YFul/dX0AZcwFtOMX+f
- qKPYJitLPb/fdVgi0Vh7bJGFAJ75GCO/IUi8GUkkR/hbbqEXMvmgEi2Nq69Wju0yGHU8
- PzGQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=SCrj7rNy2XEjALr0o1+JBZ5xuS0aEYwNUaRqVuv6c+Y=;
+ b=p90Z/PKgAG2Ho6gU2HaBmCXKaLi2mbclp3rXSdOtHjljyoODr7eJGSLqMZmab3pYGQ
+ Oy1SC9AYR/GBiNucTdm0/QVW4DJWM5ufT3Zy8BPw1f4/XkTkq6otLx9P47ftLg3SlC8Y
+ 4mJSOdoxB/ayWpSABFPRsIhtBM5zqKvuF+g+vZVTE8OYvDUk8Ka3SQZAfAfXcUy73PoL
+ +E92GJn6kBTcHzBwHnzb1S8mvUx+MvwQ+bU1YMPkkd+utTBWeKBTZscFkZG22kL8e+Ad
+ 88wbcfEOiG/HyphbTlLZEYwZJi07W+BAPGMxErD8X6yBgz0AeiAtszXls3wTRHYuJ5rr
+ 0p4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oio/6hQtxU+ak5mBC4OE0O9hK4DvVfj15JxHsC1mIdI=;
- b=TNolleAN3D8PaarAZ09gvZm0H8Zo0LFCVVe/xZ6aMjSfC+/vV604IrcRzIY6G5bFbf
- H2C6DTKivpmspXPKrBRjvcQi6IQcPJYaZBIb7belVcgulChmfL685pkC8lT8ti/ZQVgm
- B4XLGw8kUB/TkAq9uPDl+pY8UY4GbCO+bAv1VEQT6EqVPpe9rk0yManYg3HnaeJUEcUQ
- WMQ1GX/ENg5sAp/b1urCzPeHMGWp+csW+joy6FTBdFUVNlGsIRZ1wFrFvFP0efH4mvBU
- nNUyzlQ17yRH5+ZV3h3ajYR4P7MxNpNIk9x3I9K/f4VqAE0d4iNOOsuoAvjyoAppX/YC
- O+YA==
-X-Gm-Message-State: AOAM533KFqNMPeLtPKbjTKWTCXTnqi5IfziAQtMD/Y4ZMnjoHZP3JAkj
- VNN+lgnnFfYe9YehwmmHUXTHZA==
-X-Google-Smtp-Source: ABdhPJzdF0rSDCi/lqElQPQDejk2PaVTeQU1T1KFzNYwWKIU3uTEhhMGC3uSGv3ovdmg/zCQGal7wQ==
-X-Received: by 2002:a05:6000:1869:: with SMTP id
- d9mr8118810wri.398.1642875886232; 
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=SCrj7rNy2XEjALr0o1+JBZ5xuS0aEYwNUaRqVuv6c+Y=;
+ b=6CUnZNC39DEHL2YT2bRzqX2I/1EIP9xbbw7GaXyzn0EpqXXJDAahXjx/JufU/pEM+p
+ 9UZ9khG5U0BMKgdQLc5P6OTXADRmcUWcyhe6SoAUwzkGpcPNt1OzGkQ3JQTynxKxZsIW
+ Ew4YHc+8n/bFrR1k6IXz0XoDke6pcGNtHTVm70Y2A1+ZjFUO5iR5JMLmHvlKG9IzYUvX
+ MqIj05szenpaEDp+N1BnUjG3rFWXrmtu/FfgKkNF7L8EIeNw6CxBwL10PlQN+NNYphY+
+ zG4OCS91PDw+J7t9QdLlcNG7NsMOEe+Z32Pymc5o/WnJd4C29nAPmH2th856vLE9sW7N
+ QEPQ==
+X-Gm-Message-State: AOAM530RBmf787R0X51Fd8e1ZbmTjq18R6WslvhSpgV7AMqbTUs3neVk
+ VQsg5JNufPH1OdkLMv7Dt947WQ==
+X-Google-Smtp-Source: ABdhPJwQtm0NeE3oYJPBCWBy5upvnbKIwYNs4lZpMwn1Bg1KjHGiJ3U4i/uyZ/zJVco7n0yPCCDpSQ==
+X-Received: by 2002:a5d:52c4:: with SMTP id r4mr8613731wrv.521.1642875886981; 
  Sat, 22 Jan 2022 10:24:46 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id 21sm8870774wmk.45.2022.01.22.10.24.45
+ by smtp.gmail.com with ESMTPSA id 21sm8870774wmk.45.2022.01.22.10.24.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Jan 2022 10:24:45 -0800 (PST)
+ Sat, 22 Jan 2022 10:24:46 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 00/14] arm_gicv3_its: Implement MOVI and MOVALL commands
-Date: Sat, 22 Jan 2022 18:24:30 +0000
-Message-Id: <20220122182444.724087-1-peter.maydell@linaro.org>
+Subject: [PATCH 01/14] target/arm: Log CPU index in 'Taking exception' log
+Date: Sat, 22 Jan 2022 18:24:31 +0000
+Message-Id: <20220122182444.724087-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220122182444.724087-1-peter.maydell@linaro.org>
+References: <20220122182444.724087-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,54 +91,78 @@ Cc: Shashi Mallela <shashi.mallela@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I noticed while working on the new-in-GICv4 ITS commands
-that we'd forgotten to implement the GICv3 MOVI and MOVALL
-commands. These move interrupts from one redistributor to
-another; Linux doesn't use MOVALL but does use MOVI if
-it wants to power down a CPU (when it needs to migrate
-interrupts formerly targeting that CPU to a different one).
+In an SMP system it can be unclear which CPU is taking an exception;
+add the CPU index (which is the same value used in the TCG 'Trace
+%d:' logging) to the "Taking exception" log line to clarify it.
 
-This patchseries starts with a couple of patches that I
-found useful to improve the debug logging when I was
-writing this. It then has a collection of fixes for various
-minor bugs that I noticed while I was in the code (including
-yet another fix to the table lookup bounds checking...).
-Finally the last two patches implement the two new commands.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/internals.h | 2 +-
+ target/arm/helper.c    | 9 ++++++---
+ target/arm/m_helper.c  | 2 +-
+ 3 files changed, 8 insertions(+), 5 deletions(-)
 
-thanks
--- PMM
-
-Peter Maydell (14):
-  target/arm: Log CPU index in 'Taking exception' log
-  hw/intc/arm_gicv3_its: Add tracepoints
-  hw/intc/arm_gicv3: Initialise dma_as in GIC, not ITS
-  hw/intc/arm_gicv3_its: Don't clear GITS_CREADR when GITS_CTLR.ENABLED
-    is set
-  hw/intc/arm_gicv3_its: Don't clear GITS_CWRITER on writes to
-    GITS_CBASER
-  hw/intc/arm_gicv3: Honour GICD_CTLR.EnableGrp1NS for LPIs
-  hw/intc/arm_gicv3_its: Sort ITS command list into numeric order
-  hw/intc/arm_gicv3_redist: Remove unnecessary zero checks
-  hw/intc/arm_gicv3: Set GICR_CTLR.CES if LPIs are supported
-  hw/intc/arm_gicv3_its: Provide read accessor for translation_ops
-  hw/intc/arm_gicv3_its: Make GITS_BASER<n> RAZ/WI for unimplemented
-    registers
-  hw/intc/arm_gicv3_its: Check table bounds against correct limit
-  hw/intc/arm_gicv3_its: Implement MOVALL
-  hw/intc/arm_gicv3_its: Implement MOVI
-
- hw/intc/gicv3_internal.h               |  43 ++++-
- include/hw/intc/arm_gicv3_its_common.h |   1 -
- target/arm/internals.h                 |   2 +-
- hw/intc/arm_gicv3.c                    |   1 +
- hw/intc/arm_gicv3_common.c             |   9 +
- hw/intc/arm_gicv3_its.c                | 258 +++++++++++++++++++++++--
- hw/intc/arm_gicv3_redist.c             | 115 ++++++++++-
- target/arm/helper.c                    |   9 +-
- target/arm/m_helper.c                  |   2 +-
- hw/intc/trace-events                   |   8 +
- 10 files changed, 416 insertions(+), 32 deletions(-)
-
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 89f7610ebc5..3f05748ea47 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -1130,7 +1130,7 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+                    ARMMMUFaultInfo *fi, ARMCacheAttrs *cacheattrs)
+     __attribute__((nonnull));
+ 
+-void arm_log_exception(int idx);
++void arm_log_exception(CPUState *cs);
+ 
+ #endif /* !CONFIG_USER_ONLY */
+ 
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index cfca0f5ba6d..4df12394021 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -9317,8 +9317,10 @@ uint32_t arm_phys_excp_target_el(CPUState *cs, uint32_t excp_idx,
+     return target_el;
+ }
+ 
+-void arm_log_exception(int idx)
++void arm_log_exception(CPUState *cs)
+ {
++    int idx = cs->exception_index;
++
+     if (qemu_loglevel_mask(CPU_LOG_INT)) {
+         const char *exc = NULL;
+         static const char * const excnames[] = {
+@@ -9352,7 +9354,8 @@ void arm_log_exception(int idx)
+         if (!exc) {
+             exc = "unknown";
+         }
+-        qemu_log_mask(CPU_LOG_INT, "Taking exception %d [%s]\n", idx, exc);
++        qemu_log_mask(CPU_LOG_INT, "Taking exception %d [%s] on CPU %d\n",
++                      idx, exc, cs->cpu_index);
+     }
+ }
+ 
+@@ -10185,7 +10188,7 @@ void arm_cpu_do_interrupt(CPUState *cs)
+ 
+     assert(!arm_feature(env, ARM_FEATURE_M));
+ 
+-    arm_log_exception(cs->exception_index);
++    arm_log_exception(cs);
+     qemu_log_mask(CPU_LOG_INT, "...from EL%d to EL%d\n", arm_current_el(env),
+                   new_el);
+     if (qemu_loglevel_mask(CPU_LOG_INT)
+diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
+index 2c9922dc292..b11e927df1d 100644
+--- a/target/arm/m_helper.c
++++ b/target/arm/m_helper.c
+@@ -2206,7 +2206,7 @@ void arm_v7m_cpu_do_interrupt(CPUState *cs)
+     uint32_t lr;
+     bool ignore_stackfaults;
+ 
+-    arm_log_exception(cs->exception_index);
++    arm_log_exception(cs);
+ 
+     /*
+      * For exceptions we just mark as pending on the NVIC, and let that
 -- 
 2.25.1
 
