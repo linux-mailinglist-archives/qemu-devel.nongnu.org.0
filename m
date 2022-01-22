@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A23B496D6C
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 19:47:25 +0100 (CET)
-Received: from localhost ([::1]:44008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3FC7496D51
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 19:32:21 +0100 (CET)
+Received: from localhost ([::1]:53280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBLQ4-0005t5-6X
-	for lists+qemu-devel@lfdr.de; Sat, 22 Jan 2022 13:47:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34396)
+	id 1nBLBU-000160-T7
+	for lists+qemu-devel@lfdr.de; Sat, 22 Jan 2022 13:32:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nBL4o-0005k1-Vd
+ id 1nBL4o-0005jz-VK
  for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:29 -0500
-Received: from [2a00:1450:4864:20::429] (port=36815
- helo=mail-wr1-x429.google.com)
+Received: from [2a00:1450:4864:20::433] (port=35723
+ helo=mail-wr1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nBL4V-0007hA-9q
- for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:09 -0500
-Received: by mail-wr1-x429.google.com with SMTP id u15so5890306wrt.3
- for <qemu-devel@nongnu.org>; Sat, 22 Jan 2022 10:24:53 -0800 (PST)
+ id 1nBL4V-0007hP-Ap
+ for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:10 -0500
+Received: by mail-wr1-x433.google.com with SMTP id r14so5908929wrp.2
+ for <qemu-devel@nongnu.org>; Sat, 22 Jan 2022 10:24:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2LzeMToaOEGCiel3HQIJUA2eQNzHpTQ/lZbs+RZvo48=;
- b=F9FABkkn2BchsatkG3FrRyqG73hQL/0/SsZYGCR/MLdt2U09yRUHlvqJVKcWeYhlJ/
- IADCV6+PnJB4pvuoVrqecVb6SMCt8Sh6cGk0znGnMSNtuLWY7Mvt2kc1QrTk4EkCVD7O
- umUxqCKyeKBLzsmITftezRFYu3UTh7W2nPkxcAY2M8k5A2Wb6eLjwDvOkFUtm4tmyWjm
- oJEV7EGVMB+zXHNDM9v4EjDnRHZ6oMxkOGLkfRqkqWs8aVnu51O9oG5xWTP8u5bT3MPI
- p0tJEJmkOXI4VlblxrW0g+hJJlQgLJgWEiMTRgCNtueSJqryrLDrDPxM1xMf9mCIRr88
- 3aQQ==
+ bh=A9W2sZCF9TsA92jrnmPwe+qydShQXcLUoRlpZNsydLs=;
+ b=hY9qBsqe5YW6mXtX8cv2chdwQrP/T27eaRN2GA+0H0NFbezHCuoMHcBbmEg/ggFIm3
+ apsTcKZPhWoC9Yx6h2tvc2SNzasDPjfDbPTS1rmARjqo2dmIcmyUdQ30O05+mmbixrvw
+ 4/pvmcxdY8P+IjiJq2eFD7BfDyRIe3vOpjsHo8x4C9hQ707OnrNgTpQ7y8OFcVybtaYk
+ OoiW3m/65A62L6CfxOUVu/4QD4ysKfAW2LoVFn7dlOUY9u3rdCpRPUD9sIIuZAWh9MQG
+ f6ABcPJGtURGVrFcg45tGUhA3VMg6fzcg9LOlw9qPPLcpC977LGw/Qw6oPdNG47R/fe5
+ MyPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2LzeMToaOEGCiel3HQIJUA2eQNzHpTQ/lZbs+RZvo48=;
- b=1tuTtI/GIC9vWZ8lbPW+5fgBsneNXOeGQwr0pZjKARr/DDmoUxEvmkqGvT5e+Dz684
- aJUdduMdOQFpbOvYi2n13v1+YrrZSeJ40OBfYYePHyMHw7wm4UCNkmKk5ktO3Rd9uHEM
- Laaqeaons3ciudwwd+30by5N1EXwy5wStpLu78pf0clUQSBoBir95ELQpuzbkM2lEZGQ
- msp2F2OCeGNWQR0tW5D8ahsInCvjknbvLFV19YZxjjKuh/9oTE4i+8CdPhyB/CshO60G
- P07d2+SbnAO+WITxZhxiyBoQBvFY8+i18xbTA74bxuEW0hs7MdjPkhYi1HAapLjxtBNJ
- OX8A==
-X-Gm-Message-State: AOAM530RQYhFQeEH3049kQCxk5b2asTPyfjCv4n0YEP9zbZku5H3Z40f
- pFe2vucjv/oOQnmMDlSSmFelNKEQZkW6Ng==
-X-Google-Smtp-Source: ABdhPJyXVYQ+xT/Hd75htYRxGm4MnCRqXoxHsR4ahmKHPdSA/KO0Hmv+0C8i7vFXmhaAjCYZrLAfWQ==
-X-Received: by 2002:adf:e90e:: with SMTP id f14mr8184908wrm.311.1642875892581; 
- Sat, 22 Jan 2022 10:24:52 -0800 (PST)
+ bh=A9W2sZCF9TsA92jrnmPwe+qydShQXcLUoRlpZNsydLs=;
+ b=Q46BxaQYQ8ENgJapl5fimBziZyC0hpxhZTnZYHWvNM+DZhthwczO+22rxVW4XH6uQ3
+ cVqKQlCXZMKxMvKh5mlE2ZhSElRuhMHRryq+ErgC0srZvsvJr/51pMiWK7bz6atzjzuO
+ BuEPDxqg1C7zElZ9cbPyyKP2dO+6MXWFr8s6MT1BPsjLZdekLwo5zjnwdrVbYVkgme9M
+ mIdVXcDeMp6LV7AT6IE9E7I5KbiitJVOh8JtGSLIby5fPx7xNw32w443Mr0cZ+XoCgl7
+ 50i+6QpG5BFt37SY4169Yxp68Cdg6MYKuwQDyn2C8JxATMRGEgYTwMoCzW5YhblVZHJN
+ ZA+w==
+X-Gm-Message-State: AOAM533V/c+zMdofyRte6ZBzgQq8Vqr7L8mbJ4oDW9AMVC2IOMfrxAvc
+ NnpWfZxefc3qc0xDZC03p5Ljrb6UhsJN4A==
+X-Google-Smtp-Source: ABdhPJzrB873bmslKntesPqWvrfWddSqFHwBk2gylyHQ2MXAOWI0MDsPJLsOd9+BSaKkKML454gsjA==
+X-Received: by 2002:adf:f7c8:: with SMTP id a8mr8433490wrq.603.1642875893344; 
+ Sat, 22 Jan 2022 10:24:53 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id 21sm8870774wmk.45.2022.01.22.10.24.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
@@ -55,19 +55,19 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 09/14] hw/intc/arm_gicv3: Set GICR_CTLR.CES if LPIs are
- supported
-Date: Sat, 22 Jan 2022 18:24:39 +0000
-Message-Id: <20220122182444.724087-10-peter.maydell@linaro.org>
+Subject: [PATCH 10/14] hw/intc/arm_gicv3_its: Provide read accessor for
+ translation_ops
+Date: Sat, 22 Jan 2022 18:24:40 +0000
+Message-Id: <20220122182444.724087-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220122182444.724087-1-peter.maydell@linaro.org>
 References: <20220122182444.724087-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,45 +92,53 @@ Cc: Shashi Mallela <shashi.mallela@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The GICR_CTLR.CES bit is a read-only bit which is set to 1 to indicate
-that the GICR_CTLR.EnableLPIs bit can be written to 0 to disable
-LPIs (as opposed to allowing LPIs to be enabled but not subsequently
-disabled). Our implementation permits this, so advertise it
-by setting CES to 1.
+The MemoryRegionOps gicv3_its_translation_ops currently provides only
+a .write_with_attrs function, because the only register in this
+region is the write-only GITS_TRANSLATER.  However, if you don't
+provide a read function and the guest tries reading from this memory
+region, QEMU will crash because
+memory_region_read_with_attrs_accessor() calls a NULL pointer.
+
+Add a read function which always returns 0, to cover both bogus
+attempts to read GITS_TRANSLATER and also reads from the rest of the
+region, which is documented to be reserved, RES0.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/gicv3_internal.h   | 1 +
- hw/intc/arm_gicv3_common.c | 4 ++++
- 2 files changed, 5 insertions(+)
+ hw/intc/arm_gicv3_its.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
-index 5394266aaf4..a316f6c58a5 100644
---- a/hw/intc/gicv3_internal.h
-+++ b/hw/intc/gicv3_internal.h
-@@ -110,6 +110,7 @@
- #define GICR_NSACR            (GICR_SGI_OFFSET + 0x0E00)
+diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
+index d9ff7b88492..b17f2631269 100644
+--- a/hw/intc/arm_gicv3_its.c
++++ b/hw/intc/arm_gicv3_its.c
+@@ -813,6 +813,18 @@ static void extract_cmdq_params(GICv3ITSState *s)
+     }
+ }
  
- #define GICR_CTLR_ENABLE_LPIS        (1U << 0)
-+#define GICR_CTLR_CES                (1U << 1)
- #define GICR_CTLR_RWP                (1U << 3)
- #define GICR_CTLR_DPG0               (1U << 24)
- #define GICR_CTLR_DPG1NS             (1U << 25)
-diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
-index 579aa0cb9ed..4ca5ae9bc56 100644
---- a/hw/intc/arm_gicv3_common.c
-+++ b/hw/intc/arm_gicv3_common.c
-@@ -429,6 +429,10 @@ static void arm_gicv3_common_reset(DeviceState *dev)
++static MemTxResult gicv3_its_translation_read(void *opaque, hwaddr offset,
++                                              uint64_t *data, unsigned size,
++                                              MemTxAttrs attrs)
++{
++    /*
++     * GITS_TRANSLATER is write-only, and all other addresses
++     * in the interrupt translation space frame are RES0.
++     */
++    *data = 0;
++    return MEMTX_OK;
++}
++
+ static MemTxResult gicv3_its_translation_write(void *opaque, hwaddr offset,
+                                                uint64_t data, unsigned size,
+                                                MemTxAttrs attrs)
+@@ -1168,6 +1180,7 @@ static const MemoryRegionOps gicv3_its_control_ops = {
+ };
  
-         cs->level = 0;
-         cs->gicr_ctlr = 0;
-+        if (s->lpi_enable) {
-+            /* Our implementation supports clearing GICR_CTLR.EnableLPIs */
-+            cs->gicr_ctlr |= GICR_CTLR_CES;
-+        }
-         cs->gicr_statusr[GICV3_S] = 0;
-         cs->gicr_statusr[GICV3_NS] = 0;
-         cs->gicr_waker = GICR_WAKER_ProcessorSleep | GICR_WAKER_ChildrenAsleep;
+ static const MemoryRegionOps gicv3_its_translation_ops = {
++    .read_with_attrs = gicv3_its_translation_read,
+     .write_with_attrs = gicv3_its_translation_write,
+     .valid.min_access_size = 2,
+     .valid.max_access_size = 4,
 -- 
 2.25.1
 
