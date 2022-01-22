@@ -2,79 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6FB8496D87
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 20:08:02 +0100 (CET)
-Received: from localhost ([::1]:38232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E15C4496DE7
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 21:14:53 +0100 (CET)
+Received: from localhost ([::1]:41158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBLk1-0004mp-Vn
-	for lists+qemu-devel@lfdr.de; Sat, 22 Jan 2022 14:08:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34670)
+	id 1nBMmi-0003mz-Gc
+	for lists+qemu-devel@lfdr.de; Sat, 22 Jan 2022 15:14:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nBL4z-0005nA-NH
- for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:39 -0500
-Received: from [2a00:1450:4864:20::431] (port=40723
- helo=mail-wr1-x431.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nBL4u-0007hj-O3
- for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:37 -0500
-Received: by mail-wr1-x431.google.com with SMTP id s18so5903541wrv.7
- for <qemu-devel@nongnu.org>; Sat, 22 Jan 2022 10:24:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=MVgp6Ydys3b4ZUYTxQ7NMxi3s2REQ8l+tqo9NG4Dx+g=;
- b=WEWtf1prF/r0AoWHJ50DAOT1HyPSZWocu/NqtlB+sKgw96e2GmeHnQz462C7nShxyF
- NzyqG5H/la+WTvVtBwL6nXg3dIdeNffsNpFTfJQTONeUtNNtX5NkwNU8ImaIhY2lTDR7
- kEezG3Z5Q9gZcId5+suVJOKa9NrsTW/OpGuPRcFedmeriy2n4OdZ6j0sc6IaZ5+et5+Z
- mhlbePPOfa/poK0PT64UEF7TPUVO1pO75ykF9OGA6p6uuWi7CGrhj8fwB+5lXApPQ+V0
- EnUtHiYy3S/Ec9mzF+pff/8aRjD4pEIVT3HJzuNGpjP+tmOqppvRbK+rB8P0Y1LI0Ma2
- 4AqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=MVgp6Ydys3b4ZUYTxQ7NMxi3s2REQ8l+tqo9NG4Dx+g=;
- b=eC88E6biAaZl2gupjZw7ieNvmQBsrofZlkgn/fJLXg2khT7xhE6ti7LT77GXTGjnfv
- aFppVyy+GFbedtLPwRnLB7bDSt4SeWx4/vhC270z16JBcD8wBNulyQ2eiglsO3uz9Agv
- YvvSOhuL/fctEwFQVodqt1b0jF0J19EYw1TiIc0nHkHDQFEuSnBTOaLJzXMO7FPeKzjy
- 51lTxzrpbDfWMrDGnLFhINwJv6QGvAOxQi6UtIV4ODBdh+y05h/UXv+ZspYLkScpnpda
- 3kMRB1sNDFaGZyg9jM56Y4TWwNJnlFa1wQbdDeBJgWGeW2uj9QGiCTS5S8KAeU2RsWIm
- YOjQ==
-X-Gm-Message-State: AOAM530Rcd8dNTs4DWF0ZC7I6Uogj23lbkFqRbLtvY2O1DO13oVKBdq7
- ffNSaL8oXvLurSsRTv2TcxeVUA==
-X-Google-Smtp-Source: ABdhPJyCIp6F5YifLPMjl8licT+rBw27eKwXgqyIOxNR9V4AdVPTFoEM+TXk2cNTMIaIkw7hGxYEGQ==
-X-Received: by 2002:a5d:6da1:: with SMTP id u1mr8235096wrs.592.1642875894841; 
- Sat, 22 Jan 2022 10:24:54 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id 21sm8870774wmk.45.2022.01.22.10.24.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Jan 2022 10:24:54 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 12/14] hw/intc/arm_gicv3_its: Check table bounds against
- correct limit
-Date: Sat, 22 Jan 2022 18:24:42 +0000
-Message-Id: <20220122182444.724087-13-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220122182444.724087-1-peter.maydell@linaro.org>
-References: <20220122182444.724087-1-peter.maydell@linaro.org>
+ (Exim 4.90_1)
+ (envelope-from <f6602123c6f7d0d593466231b04fba087817abbd@lizzy.crudebyte.com>)
+ id 1nBMl9-00036y-Md
+ for qemu-devel@nongnu.org; Sat, 22 Jan 2022 15:13:16 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:34973)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <f6602123c6f7d0d593466231b04fba087817abbd@lizzy.crudebyte.com>)
+ id 1nBMl7-00083n-Rt
+ for qemu-devel@nongnu.org; Sat, 22 Jan 2022 15:13:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Subject:Date:From:Message-Id:References:In-Reply-To:Content-ID:
+ Content-Description; bh=1rxteShGbGr0HytmhaIkOB+CBuQvAnTZiOrMYDBSLf0=; b=T7E+h
+ lUK1lYOrLiMAFiUdDnGKyaDNVLQWVBdQ+zIB2qDMnNIG9qisnkqvO6M/wBzgFh3W1Mdr6Plf0xYTG
+ snA3RM0sIr2AsclycMl2LhpTV0WwZiBSSMjXYr20lIQ8ByeBB+DdqYZv99v9noL9jpntpg7EyD63g
+ F9R07/H69/N0bqXiN1ojERs7krreumuhhetsKC0ewLCFCfxLBqBljHG7uaZU/iwzWofc+a8jNMga+
+ OQP2Qv0WtJl6w0bsjoSUQdhhX6nnpyaIRFRs92hBiwl5yPhhVJWExX8vXZX3v/5D0O5qrLZgGFmB0
+ e67uDy+eWh5LqdcOqJtp8vi3tRbjQ==;
+Message-Id: <f6602123c6f7d0d593466231b04fba087817abbd.1642879848.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Sat, 22 Jan 2022 20:12:16 +0100
+Subject: [PATCH] tests/9pfs: fix mkdir() being called twice
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>,
+    "Daniel P. Berrangé" <berrange@redhat.com>,
+    Thomas Huth <thuth@redhat.com>,
+    Alex Bennée <alex.bennee@linaro.org>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=f6602123c6f7d0d593466231b04fba087817abbd@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,121 +63,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shashi Mallela <shashi.mallela@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently when we fill in a TableDesc based on the value the guest
-has written to the GITS_BASER<n> register, we calculate both:
- * num_entries : the number of entries in the table, constrained
-   by the amount of memory the guest has given it
- * num_ids : the number of IDs we support for this table,
-   constrained by the implementation choices and the architecture
-   (eg DeviceIDs are 16 bits, so num_ids is 1 << 16)
+The 9p test cases use mkdtemp() to create a temporary directory for
+running the 'local' 9p tests with real files/dirs. Unlike mktemp()
+which only generates a unique file name, mkdtemp() also creates the
+directory, therefore the subsequent mkdir() was wrong and caused
+errors on some systems.
 
-When validating ITS commands, however, we check only num_ids,
-thus allowing a broken guest to specify table entries that
-index off the end of it. This will only corrupt guest memory,
-but the ITS is supposed to reject such commands as invalid.
-
-Instead of calculating both num_entries and num_ids, set
-num_entries to the minimum of the two limits, and check that.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Fixes: 136b7af2 (tests/9pfs: fix test dir for parallel tests)
+Reported-by: Daniel P. Berrangé <berrange@redhat.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/832
 ---
- include/hw/intc/arm_gicv3_its_common.h |  1 -
- hw/intc/arm_gicv3_its.c                | 18 +++++++++---------
- 2 files changed, 9 insertions(+), 10 deletions(-)
+ tests/qtest/libqos/virtio-9p.c | 18 +++---------------
+ 1 file changed, 3 insertions(+), 15 deletions(-)
 
-diff --git a/include/hw/intc/arm_gicv3_its_common.h b/include/hw/intc/arm_gicv3_its_common.h
-index b32c697207f..3e2ad2dff60 100644
---- a/include/hw/intc/arm_gicv3_its_common.h
-+++ b/include/hw/intc/arm_gicv3_its_common.h
-@@ -47,7 +47,6 @@ typedef struct {
-     uint16_t entry_sz;
-     uint32_t page_sz;
-     uint32_t num_entries;
--    uint32_t num_ids;
-     uint64_t base_addr;
- } TableDesc;
- 
-diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 237198845d7..3f2ead45369 100644
---- a/hw/intc/arm_gicv3_its.c
-+++ b/hw/intc/arm_gicv3_its.c
-@@ -256,10 +256,10 @@ static ItsCmdResult process_its_cmd(GICv3ITSState *s, uint64_t value,
- 
-     eventid = (value & EVENTID_MASK);
- 
--    if (devid >= s->dt.num_ids) {
-+    if (devid >= s->dt.num_entries) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: invalid command attributes: devid %d>=%d",
--                      __func__, devid, s->dt.num_ids);
-+                      __func__, devid, s->dt.num_entries);
-         return CMD_CONTINUE;
-     }
- 
-@@ -300,7 +300,7 @@ static ItsCmdResult process_its_cmd(GICv3ITSState *s, uint64_t value,
-         return CMD_CONTINUE;
-     }
- 
--    if (icid >= s->ct.num_ids) {
-+    if (icid >= s->ct.num_entries) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: invalid ICID 0x%x in ITE (table corrupted?)\n",
-                       __func__, icid);
-@@ -384,10 +384,10 @@ static ItsCmdResult process_mapti(GICv3ITSState *s, uint64_t value,
- 
-     icid = value & ICID_MASK;
- 
--    if (devid >= s->dt.num_ids) {
-+    if (devid >= s->dt.num_entries) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: invalid command attributes: devid %d>=%d",
--                      __func__, devid, s->dt.num_ids);
-+                      __func__, devid, s->dt.num_entries);
-         return CMD_CONTINUE;
-     }
- 
-@@ -400,7 +400,7 @@ static ItsCmdResult process_mapti(GICv3ITSState *s, uint64_t value,
-     num_eventids = 1ULL << (FIELD_EX64(dte, DTE, SIZE) + 1);
-     num_intids = 1ULL << (GICD_TYPER_IDBITS + 1);
- 
--    if ((icid >= s->ct.num_ids)
-+    if ((icid >= s->ct.num_entries)
-             || !dte_valid || (eventid >= num_eventids) ||
-             (((pIntid < GICV3_LPI_INTID_START) || (pIntid >= num_intids)) &&
-              (pIntid != INTID_SPURIOUS))) {
-@@ -485,7 +485,7 @@ static ItsCmdResult process_mapc(GICv3ITSState *s, uint32_t offset)
- 
-     valid = (value & CMD_FIELD_VALID_MASK);
- 
--    if ((icid >= s->ct.num_ids) || (rdbase >= s->gicv3->num_cpu)) {
-+    if ((icid >= s->ct.num_entries) || (rdbase >= s->gicv3->num_cpu)) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "ITS MAPC: invalid collection table attributes "
-                       "icid %d rdbase %" PRIu64 "\n",  icid, rdbase);
-@@ -566,7 +566,7 @@ static ItsCmdResult process_mapd(GICv3ITSState *s, uint64_t value,
- 
-     valid = (value & CMD_FIELD_VALID_MASK);
- 
--    if ((devid >= s->dt.num_ids) ||
-+    if ((devid >= s->dt.num_entries) ||
-         (size > FIELD_EX64(s->typer, GITS_TYPER, IDBITS))) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "ITS MAPD: invalid device table attributes "
-@@ -791,7 +791,7 @@ static void extract_table_params(GICv3ITSState *s)
-                                   L1TABLE_ENTRY_SIZE) *
-                                  (page_sz / td->entry_sz));
-         }
--        td->num_ids = 1ULL << idbits;
-+        td->num_entries = MIN(td->num_entries, 1ULL << idbits);
-     }
+diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
+index b4e1143288..ef96ef006a 100644
+--- a/tests/qtest/libqos/virtio-9p.c
++++ b/tests/qtest/libqos/virtio-9p.c
+@@ -37,31 +37,19 @@ static char *concat_path(const char* a, const char* b)
+     return g_build_filename(a, b, NULL);
  }
  
+-static void init_local_test_path(void)
++void virtio_9p_create_local_test_dir(void)
+ {
++    struct stat st;
+     char *pwd = g_get_current_dir();
+     char *template = concat_path(pwd, "qtest-9p-local-XXXXXX");
++
+     local_test_path = mkdtemp(template);
+     if (!local_test_path) {
+         g_test_message("mkdtemp('%s') failed: %s", template, strerror(errno));
+     }
+-    g_assert(local_test_path);
+     g_free(pwd);
+-}
+-
+-void virtio_9p_create_local_test_dir(void)
+-{
+-    struct stat st;
+-    int res;
+-
+-    init_local_test_path();
+ 
+     g_assert(local_test_path != NULL);
+-    res = mkdir(local_test_path, 0777);
+-    if (res < 0) {
+-        g_test_message("mkdir('%s') failed: %s", local_test_path,
+-                       strerror(errno));
+-    }
+ 
+     /* ensure test directory exists now ... */
+     g_assert(stat(local_test_path, &st) == 0);
 -- 
-2.25.1
+2.30.2
 
 
