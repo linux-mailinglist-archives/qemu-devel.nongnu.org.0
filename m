@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8D524968AC
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 01:24:35 +0100 (CET)
-Received: from localhost ([::1]:56028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33AFF4968C3
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 01:32:54 +0100 (CET)
+Received: from localhost ([::1]:41576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB4Cp-0003uN-2o
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 19:24:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39174)
+	id 1nB4Kq-0005Ef-Py
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 19:32:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nB3yu-0000xY-VU
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 19:10:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39077)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nB3yt-0005Qw-Cz
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 19:10:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642810210;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G3Si8WcTdAO8B3/OIKqcvxSkiZilPW9PdfSrSFPyr+A=;
- b=TdXOgUmNkhnYRUcWh5V2zRJt0ni+0G6hArMIw5YfnWv+Y0aZgmbSYNfoqi0F7HX7mIRmqP
- 5ADzuOcPQs8aUxVNbndrI4bmFGTPqx6NnuZ/JIel/SX6Yqu7XjMMXgg/tOs4ZNidfLDfiw
- 02Wh6G9Z1qzXj9HwGDVZPHrGzbYqJDU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-260-y7uo-hiRPLGikqfaF8sa2A-1; Fri, 21 Jan 2022 19:10:07 -0500
-X-MC-Unique: y7uo-hiRPLGikqfaF8sa2A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6E3A802925;
- Sat, 22 Jan 2022 00:10:06 +0000 (UTC)
-Received: from scv.redhat.com (unknown [10.22.19.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD9B066E1B;
- Sat, 22 Jan 2022 00:10:00 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nB3zV-0001F1-QY; Fri, 21 Jan 2022 19:10:50 -0500
+Received: from [2607:f8b0:4864:20::42a] (port=36766
+ helo=mail-pf1-x42a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nB3zQ-0005Sj-Pa; Fri, 21 Jan 2022 19:10:46 -0500
+Received: by mail-pf1-x42a.google.com with SMTP id 192so6822286pfz.3;
+ Fri, 21 Jan 2022 16:10:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lBwqqZ2garQXfPWLDcYKHOJoYITMa+22nAeYQNLrJQQ=;
+ b=iBzn00AMFGKvIIEXFKXuxOeliA8mtScmtKhJVAfiiodK7G4bBwYKpQNfMojPCWnHaR
+ 20zbIl43+2e0AHgg8DYjlGvuBiTWmmi1J/7vuSD6u1+UoYmERR5AggIB6LsMR5FX9Lzz
+ 7GgKzav3vQhGQ9E+pqLgirJlK93ZRpai4SSOv4Fnba/d1T4VH/L8TgiKHZWDsMknbnua
+ XtOZ+EC/wX6TdMx58NZC5Dm/ssa8hXxJHovWVcgRpwik0MtZ3eM4HKWe7pkxUljgp4OY
+ 1z0JYB0VSYA2BOFdj0JoITXwBcxAxHwrv8aIL4ryb0KVdCgkPnPLL84XXgZQU4rNNdpi
+ lqRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=lBwqqZ2garQXfPWLDcYKHOJoYITMa+22nAeYQNLrJQQ=;
+ b=H2Nq+HhwbhRyP26/soJibulUVdmNdFy6tNShbwlV9CfUiOHsMO8yWxdwaVhBbvzOg+
+ +Ewhr9a1dKqG3J1xavMLAeumjQWHuymx/CPPpz0uThF4Iab/C8ckFeu6bzh2h+98Rlkg
+ 9gy2hhDiQEyeHd1JkXzid43K7/mmG9mF8zD1txxypOYLCdL5FyvY2WFWu2f7IZaH5aYs
+ lJimfExOpG8qU6EnwXa+aa3xM/fDKtx4woXh55mztt3K4XYHnj0+z8RAioEjb25nAgGU
+ 30T6Hz7h9KDROgJShY+MdfFXHq0bBMfEcvWRZkX8EezYFqyYVA61eFh2hYpN0RhdBVAW
+ ZYNg==
+X-Gm-Message-State: AOAM532ZQ14eYwio/bw/pSXoqrOO45Na/rNPGeY7q+87OX6fl7TWBbzQ
+ /cdKsvTUIW2o+EKnSd4U0fZ0edAK22c=
+X-Google-Smtp-Source: ABdhPJzjXRWD5uRxkqok4tEatYo4wKzmNJnJVNKqGmlmR4WyJgsw9TOdaqVVCfQfDj0ICChGu6rEbg==
+X-Received: by 2002:a63:e448:: with SMTP id i8mr4578118pgk.206.1642810241399; 
+ Fri, 21 Jan 2022 16:10:41 -0800 (PST)
+Received: from localhost.localdomain (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id p4sm8472923pfo.100.2022.01.21.16.10.39
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 21 Jan 2022 16:10:41 -0800 (PST)
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/17] scripts/render-block-graph: switch to AQMP
-Date: Fri, 21 Jan 2022 19:09:31 -0500
-Message-Id: <20220122000931.536322-18-jsnow@redhat.com>
-In-Reply-To: <20220122000931.536322-1-jsnow@redhat.com>
-References: <20220122000931.536322-1-jsnow@redhat.com>
+Cc: Joaquin de Andres <me@xcancerberox.com.ar>,
+ Michael Rolnik <mrolnik@gmail.com>, qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH] target/avr: Correct AVRCPUClass docstring
+Date: Sat, 22 Jan 2022 01:10:36 +0100
+Message-Id: <20220122001036.83267-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,51 +86,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Beraldo Leal <bleal@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Creating an instance of qemu.aqmp.ExecuteError is too involved here, so
-just drop the specificity down to a generic QMPError.
+There is no 'vr' field in AVRCPUClass.
 
-Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Beraldo Leal <bleal@redhat.com>
+Likely a copy/paste typo from CRISCPUClass ;)
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- scripts/render_block_graph.py | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ target/avr/cpu-qom.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/scripts/render_block_graph.py b/scripts/render_block_graph.py
-index 42288a3cfb..b33fb70d5e 100755
---- a/scripts/render_block_graph.py
-+++ b/scripts/render_block_graph.py
-@@ -25,10 +25,8 @@
- from graphviz import Digraph
- 
- sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'python'))
--from qemu.qmp import (
--    QEMUMonitorProtocol,
--    QMPResponseError,
--)
-+from qemu.aqmp import QMPError
-+from qemu.aqmp.legacy import QEMUMonitorProtocol
- 
- 
- def perm(arr):
-@@ -104,7 +102,7 @@ def command(self, cmd):
-         reply = json.loads(subprocess.check_output(ar))
- 
-         if 'error' in reply:
--            raise QMPResponseError(reply)
-+            raise QMPError(reply)
- 
-         return reply['return']
- 
+diff --git a/target/avr/cpu-qom.h b/target/avr/cpu-qom.h
+index 9fa6989c18..14e5b3ce72 100644
+--- a/target/avr/cpu-qom.h
++++ b/target/avr/cpu-qom.h
+@@ -33,7 +33,6 @@ OBJECT_DECLARE_TYPE(AVRCPU, AVRCPUClass,
+  *  AVRCPUClass:
+  *  @parent_realize: The parent class' realize handler.
+  *  @parent_reset: The parent class' reset handler.
+- *  @vr: Version Register value.
+  *
+  *  A AVR CPU model.
+  */
 -- 
-2.31.1
+2.34.1
 
 
