@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90EC496888
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 01:15:15 +0100 (CET)
-Received: from localhost ([::1]:58686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 549AC49688A
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 01:15:33 +0100 (CET)
+Received: from localhost ([::1]:59000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nB43m-00035D-Te
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 19:15:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38886)
+	id 1nB442-0003I6-1O
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jan 2022 19:15:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nB3yY-0000Bw-4I
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 19:09:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46850)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nB3ya-0000Ks-I4
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 19:09:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26746)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nB3yR-0005AS-P3
- for qemu-devel@nongnu.org; Fri, 21 Jan 2022 19:09:45 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nB3yW-0005At-GL
+ for qemu-devel@nongnu.org; Fri, 21 Jan 2022 19:09:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642810182;
+ s=mimecast20190719; t=1642810187;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=l+RAbLKTVuflfT17AyNwNf+U09fVPrxuk5NR2AgUlCs=;
- b=MrmqRnZCfwBNXnugmFa6m6kC0bnFXktCIKHl2Eo1teLYNVjqz6ANRDuSZn45s2UI0KZ9z4
- D+a21h+ruihflqDI22YvL92PYq7h/2GJBN4Gkgra8ORsEfvIkqmlZcsu0RWv8hnsJCwWsa
- Ee7EVcENuq1sMqkHRk9xaEVisjFEcs8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rr4rDjBadgBcz9wR0rV1Q8VVt3wP3dLw7J4Zgs8eT+M=;
+ b=Vzb5gU4MthQhrsSaDO4uGDOrlMvAJjXjF/gJcROoCzC3MVXXpuy90o4BG3ktIrRX0GwzkD
+ x8EwS3Bg3BFsUnSw0kkUpO+VYsSfGhJorukoqX46AZHu3tHrSb0GM1rYupN6Mz9wIyAvUI
+ 8Wjroa1IbRPVmPLmBcxsL5AId2louok=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-389-75Qe24g8Oje0TpXb-CZOpA-1; Fri, 21 Jan 2022 19:09:41 -0500
-X-MC-Unique: 75Qe24g8Oje0TpXb-CZOpA-1
+ us-mta-130-Dxnq4Fp2OPGPeqgnCSEZeg-1; Fri, 21 Jan 2022 19:09:42 -0500
+X-MC-Unique: Dxnq4Fp2OPGPeqgnCSEZeg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4895318397A7;
- Sat, 22 Jan 2022 00:09:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47452807907;
+ Sat, 22 Jan 2022 00:09:41 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.19.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C99AE66E1B;
- Sat, 22 Jan 2022 00:09:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7174266E1B;
+ Sat, 22 Jan 2022 00:09:40 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/17] Python patches
-Date: Fri, 21 Jan 2022 19:09:14 -0500
-Message-Id: <20220122000931.536322-1-jsnow@redhat.com>
+Subject: [PULL 01/17] python: pin setuptools below v60.0.0
+Date: Fri, 21 Jan 2022 19:09:15 -0500
+Message-Id: <20220122000931.536322-2-jsnow@redhat.com>
+In-Reply-To: <20220122000931.536322-1-jsnow@redhat.com>
+References: <20220122000931.536322-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -75,87 +78,69 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>
+ Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 5e9d14f2bea6df89c0675df953f9c839560d2266=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-2=
-0220121-1' into staging (2022-01-21 10:31:25 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  https://gitlab.com/jsnow/qemu.git tags/python-pull-request=0D
-=0D
-for you to fetch changes up to 05908602429cf9d6fce9b60704b8395f6d295441:=0D
-=0D
-  scripts/render-block-graph: switch to AQMP (2022-01-21 16:01:31 -0500)=0D
-=0D
-----------------------------------------------------------------=0D
-Python patches=0D
-=0D
-A few fixes to the Python CI tests, a few fixes to the (async) QMP=0D
-library, and a set of patches that begin to shift us towards using the=0D
-new qmp lib.=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-John Snow (17):=0D
-  python: pin setuptools below v60.0.0=0D
-  python: use avocado's "new" runner=0D
-  python/aqmp: fix docstring typo=0D
-  python/aqmp: add __del__ method to legacy interface=0D
-  python/aqmp: handle asyncio.TimeoutError on execute()=0D
-  python/aqmp: copy type definitions from qmp=0D
-  python/aqmp: add SocketAddrT to package root=0D
-  python/aqmp: rename AQMPError to QMPError=0D
-  python/qemu-ga-client: don't use deprecated CLI syntax in usage=0D
-    comment=0D
-  python/qmp: switch qemu-ga-client to AQMP=0D
-  python/qmp: switch qom tools to AQMP=0D
-  python/qmp: switch qmp-shell to AQMP=0D
-  python: move qmp utilities to python/qemu/utils=0D
-  python: move qmp-shell under the AQMP package=0D
-  scripts/cpu-x86-uarch-abi: fix CLI parsing=0D
-  scripts/cpu-x86-uarch-abi: switch to AQMP=0D
-  scripts/render-block-graph: switch to AQMP=0D
-=0D
- python/README.rst                            |  2 +-=0D
- python/Makefile                              |  2 +=0D
- python/avocado.cfg                           |  2 +-=0D
- python/qemu/aqmp/__init__.py                 | 16 ++++++--=0D
- python/qemu/aqmp/error.py                    | 12 +++---=0D
- python/qemu/aqmp/events.py                   |  4 +-=0D
- python/qemu/aqmp/legacy.py                   | 41 +++++++++++++++++++-=0D
- python/qemu/aqmp/protocol.py                 | 24 +++++++-----=0D
- python/qemu/aqmp/qmp_client.py               | 16 +++++---=0D
- python/qemu/{qmp =3D> aqmp}/qmp_shell.py       | 31 ++++++++-------=0D
- python/qemu/{qmp =3D> utils}/qemu_ga_client.py | 24 ++++++------=0D
- python/qemu/{qmp =3D> utils}/qom.py            |  5 ++-=0D
- python/qemu/{qmp =3D> utils}/qom_common.py     |  3 +-=0D
- python/qemu/{qmp =3D> utils}/qom_fuse.py       | 11 +++---=0D
- python/setup.cfg                             | 19 ++++-----=0D
- scripts/cpu-x86-uarch-abi.py                 |  7 ++--=0D
- scripts/qmp/qemu-ga-client                   |  2 +-=0D
- scripts/qmp/qmp-shell                        |  2 +-=0D
- scripts/qmp/qom-fuse                         |  2 +-=0D
- scripts/qmp/qom-get                          |  2 +-=0D
- scripts/qmp/qom-list                         |  2 +-=0D
- scripts/qmp/qom-set                          |  2 +-=0D
- scripts/qmp/qom-tree                         |  2 +-=0D
- scripts/render_block_graph.py                |  8 ++--=0D
- 24 files changed, 151 insertions(+), 90 deletions(-)=0D
- rename python/qemu/{qmp =3D> aqmp}/qmp_shell.py (96%)=0D
- rename python/qemu/{qmp =3D> utils}/qemu_ga_client.py (94%)=0D
- rename python/qemu/{qmp =3D> utils}/qom.py (98%)=0D
- rename python/qemu/{qmp =3D> utils}/qom_common.py (98%)=0D
- rename python/qemu/{qmp =3D> utils}/qom_fuse.py (97%)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+setuptools is a package that replaces the python stdlib 'distutils'. It
+is generally installed by all venv-creating tools "by default". It isn't
+actually needed at runtime for the qemu package, so our own setup.cfg
+does not mention it as a dependency.
+
+However, tox will create virtual environments that include it, and will
+upgrade it to the very latest version. the 'venv' tool will also include
+whichever version your host system happens to have.
+
+Unfortunately, setuptools version 60.0.0 and above include a hack to
+forcibly overwrite python's built-in distutils. The pylint tool that we
+use to run code analysis checks on this package relies on distutils and
+suffers regressions when setuptools >= 60.0.0 is present at all, see
+https://github.com/PyCQA/pylint/issues/5704
+
+Instruct tox and the 'check-dev' targets to avoid setuptools packages
+that are too new, for now. Pipenv is unaffected, because setuptools 60
+does not offer Python 3.6 support, and our pipenv config is pinned
+against Python 3.6.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Beraldo Leal <bleal@redhat.com>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
+Message-id: 20220121005221.142236-1-jsnow@redhat.com
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ python/Makefile  | 2 ++
+ python/setup.cfg | 1 +
+ 2 files changed, 3 insertions(+)
+
+diff --git a/python/Makefile b/python/Makefile
+index 3334311362..949c472624 100644
+--- a/python/Makefile
++++ b/python/Makefile
+@@ -68,6 +68,8 @@ $(QEMU_VENV_DIR) $(QEMU_VENV_DIR)/bin/activate: setup.cfg
+ 		echo "ACTIVATE $(QEMU_VENV_DIR)";		\
+ 		. $(QEMU_VENV_DIR)/bin/activate;		\
+ 		echo "INSTALL qemu[devel] $(QEMU_VENV_DIR)";	\
++		pip install --disable-pip-version-check		\
++			"setuptools<60.0.0" 1>/dev/null;	\
+ 		make develop 1>/dev/null;			\
+ 	)
+ 	@touch $(QEMU_VENV_DIR)
+diff --git a/python/setup.cfg b/python/setup.cfg
+index 417e937839..aa238d8bc9 100644
+--- a/python/setup.cfg
++++ b/python/setup.cfg
+@@ -163,6 +163,7 @@ deps =
+     .[devel]
+     .[fuse]  # Workaround to trigger tox venv rebuild
+     .[tui]   # Workaround to trigger tox venv rebuild
++    setuptools < 60  # Workaround, please see commit msg.
+ commands =
+     make check
+ 
+-- 
+2.31.1
 
 
