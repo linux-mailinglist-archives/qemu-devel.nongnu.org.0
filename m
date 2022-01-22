@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9DE8496D79
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 19:58:41 +0100 (CET)
-Received: from localhost ([::1]:56202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A23B496D6C
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jan 2022 19:47:25 +0100 (CET)
+Received: from localhost ([::1]:44008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBLay-000697-Np
-	for lists+qemu-devel@lfdr.de; Sat, 22 Jan 2022 13:58:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34652)
+	id 1nBLQ4-0005t5-6X
+	for lists+qemu-devel@lfdr.de; Sat, 22 Jan 2022 13:47:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nBL4z-0005n9-Al
- for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:37 -0500
-Received: from [2a00:1450:4864:20::42f] (port=42928
- helo=mail-wr1-x42f.google.com)
+ id 1nBL4o-0005k1-Vd
+ for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:29 -0500
+Received: from [2a00:1450:4864:20::429] (port=36815
+ helo=mail-wr1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nBL4u-0007h2-O5
- for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:36 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id a13so5907545wrh.9
- for <qemu-devel@nongnu.org>; Sat, 22 Jan 2022 10:24:52 -0800 (PST)
+ id 1nBL4V-0007hA-9q
+ for qemu-devel@nongnu.org; Sat, 22 Jan 2022 13:25:09 -0500
+Received: by mail-wr1-x429.google.com with SMTP id u15so5890306wrt.3
+ for <qemu-devel@nongnu.org>; Sat, 22 Jan 2022 10:24:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Lp1oJ9HFOvv8JUdUv/7QWvh4BnxCy5Ok7f/8j3T6Vxg=;
- b=Eu37rzdVMdIcpRW57Yo+pjUs+MZ7R8s8kyVcjaG14s8mW8ihQRHuMgbYAOgaEA+LIG
- olYmx6aS6TH2amumu3AlOhpD1qPK5Y2oJGfojKQiEle1v1CZcJbqUlh4iC3o1rQ8cMhi
- 5BdYlJhdH2m1RoqPMHbooiMZi7cbWsnyXAsXJ3u5yZ5owzD/nTQeXgkpc5HeMqzcwo56
- hqv1PS4ulbuDfYpPOhbFt52k2z7K+jpad2JNpqf7KdPtqUPwNUd6Hb5r4pDBn3irC/9w
- wl6D08Dq2YkRyH/Xb4eSGAxUjw8UB66bIqimgok0fwLs5WeDEudGPkxOMWCIPAqNAJN4
- kZUg==
+ bh=2LzeMToaOEGCiel3HQIJUA2eQNzHpTQ/lZbs+RZvo48=;
+ b=F9FABkkn2BchsatkG3FrRyqG73hQL/0/SsZYGCR/MLdt2U09yRUHlvqJVKcWeYhlJ/
+ IADCV6+PnJB4pvuoVrqecVb6SMCt8Sh6cGk0znGnMSNtuLWY7Mvt2kc1QrTk4EkCVD7O
+ umUxqCKyeKBLzsmITftezRFYu3UTh7W2nPkxcAY2M8k5A2Wb6eLjwDvOkFUtm4tmyWjm
+ oJEV7EGVMB+zXHNDM9v4EjDnRHZ6oMxkOGLkfRqkqWs8aVnu51O9oG5xWTP8u5bT3MPI
+ p0tJEJmkOXI4VlblxrW0g+hJJlQgLJgWEiMTRgCNtueSJqryrLDrDPxM1xMf9mCIRr88
+ 3aQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Lp1oJ9HFOvv8JUdUv/7QWvh4BnxCy5Ok7f/8j3T6Vxg=;
- b=dkP4N0mfnlNlABLxQtixEZBMxNl3FXgJMc8ALRDa1zhjyWgv31EWwZj+IDztfoGOrL
- tNcUmYHaYJU7of6oXupsJdsBdyBN02HKqwKfpE7+iQK5wwyey9oe2WS0Va+fYVimfAPG
- M2zZqsZlw/k7l46JzIzbR+e+umdL2VGmGbS2PvYlNj61tmgHIJ+isOFz5CouwdTnzUZ5
- igBRC6yvDjrbDWh6YmStgoRvn6XnfRmIEEG7Bf7PTNYT6N21kqiBOJJC1pz2OoWzoO84
- l4sx8b6MTOwd00pfBippRrdKjgMcvv6rfBF2btx6ekYzI9knXr5VYY8VHsiYbxqtJqaQ
- n4Qg==
-X-Gm-Message-State: AOAM530SHu1cTuvCFSiUIBO804FzxXK4u5Q4uNazWAIGPu8ThbMjFA9+
- Cm+Q+bJiFsvvrwSXPTjf+CFzKFgI3Z+rJg==
-X-Google-Smtp-Source: ABdhPJymlfT3enirToNyVsbxWsTQoWh3gHnSbQWHXzQwRUihGy7WZ4waWDF8Lr4sPxVwnU6ZW8WKZQ==
-X-Received: by 2002:a05:6000:16c9:: with SMTP id
- h9mr8452070wrf.508.1642875891902; 
- Sat, 22 Jan 2022 10:24:51 -0800 (PST)
+ bh=2LzeMToaOEGCiel3HQIJUA2eQNzHpTQ/lZbs+RZvo48=;
+ b=1tuTtI/GIC9vWZ8lbPW+5fgBsneNXOeGQwr0pZjKARr/DDmoUxEvmkqGvT5e+Dz684
+ aJUdduMdOQFpbOvYi2n13v1+YrrZSeJ40OBfYYePHyMHw7wm4UCNkmKk5ktO3Rd9uHEM
+ Laaqeaons3ciudwwd+30by5N1EXwy5wStpLu78pf0clUQSBoBir95ELQpuzbkM2lEZGQ
+ msp2F2OCeGNWQR0tW5D8ahsInCvjknbvLFV19YZxjjKuh/9oTE4i+8CdPhyB/CshO60G
+ P07d2+SbnAO+WITxZhxiyBoQBvFY8+i18xbTA74bxuEW0hs7MdjPkhYi1HAapLjxtBNJ
+ OX8A==
+X-Gm-Message-State: AOAM530RQYhFQeEH3049kQCxk5b2asTPyfjCv4n0YEP9zbZku5H3Z40f
+ pFe2vucjv/oOQnmMDlSSmFelNKEQZkW6Ng==
+X-Google-Smtp-Source: ABdhPJyXVYQ+xT/Hd75htYRxGm4MnCRqXoxHsR4ahmKHPdSA/KO0Hmv+0C8i7vFXmhaAjCYZrLAfWQ==
+X-Received: by 2002:adf:e90e:: with SMTP id f14mr8184908wrm.311.1642875892581; 
+ Sat, 22 Jan 2022 10:24:52 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id 21sm8870774wmk.45.2022.01.22.10.24.51
+ by smtp.gmail.com with ESMTPSA id 21sm8870774wmk.45.2022.01.22.10.24.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Jan 2022 10:24:51 -0800 (PST)
+ Sat, 22 Jan 2022 10:24:52 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 08/14] hw/intc/arm_gicv3_redist: Remove unnecessary zero checks
-Date: Sat, 22 Jan 2022 18:24:38 +0000
-Message-Id: <20220122182444.724087-9-peter.maydell@linaro.org>
+Subject: [PATCH 09/14] hw/intc/arm_gicv3: Set GICR_CTLR.CES if LPIs are
+ supported
+Date: Sat, 22 Jan 2022 18:24:39 +0000
+Message-Id: <20220122182444.724087-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220122182444.724087-1-peter.maydell@linaro.org>
 References: <20220122182444.724087-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,49 +92,45 @@ Cc: Shashi Mallela <shashi.mallela@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ITS-related parts of the redistributor code make some checks for
-whether registers like GICR_PROPBASER and GICR_PENDBASER are zero.
-There is no requirement in the specification for treating zeroes in
-these address registers specially -- they contain guest physical
-addresses and it is entirely valid (if unusual) for the guest to
-choose to put the tables they address at guest physical address zero.
-We use these values only to calculate guest addresses, and attempts
-by the guest to use a bad address will be handled by the
-address_space_* functions which we use to do the loads and stores.
-
-Remove the unnecessary checks.
+The GICR_CTLR.CES bit is a read-only bit which is set to 1 to indicate
+that the GICR_CTLR.EnableLPIs bit can be written to 0 to disable
+LPIs (as opposed to allowing LPIs to be enabled but not subsequently
+disabled). Our implementation permits this, so advertise it
+by setting CES to 1.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/arm_gicv3_redist.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ hw/intc/gicv3_internal.h   | 1 +
+ hw/intc/arm_gicv3_common.c | 4 ++++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
-index 99b11ca5eee..d81d8e5f076 100644
---- a/hw/intc/arm_gicv3_redist.c
-+++ b/hw/intc/arm_gicv3_redist.c
-@@ -591,8 +591,7 @@ void gicv3_redist_update_lpi_only(GICv3CPUState *cs)
-     idbits = MIN(FIELD_EX64(cs->gicr_propbaser, GICR_PROPBASER, IDBITS),
-                  GICD_TYPER_IDBITS);
+diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
+index 5394266aaf4..a316f6c58a5 100644
+--- a/hw/intc/gicv3_internal.h
++++ b/hw/intc/gicv3_internal.h
+@@ -110,6 +110,7 @@
+ #define GICR_NSACR            (GICR_SGI_OFFSET + 0x0E00)
  
--    if (!(cs->gicr_ctlr & GICR_CTLR_ENABLE_LPIS) || !cs->gicr_propbaser ||
--        !cs->gicr_pendbaser) {
-+    if (!(cs->gicr_ctlr & GICR_CTLR_ENABLE_LPIS)) {
-         return;
-     }
+ #define GICR_CTLR_ENABLE_LPIS        (1U << 0)
++#define GICR_CTLR_CES                (1U << 1)
+ #define GICR_CTLR_RWP                (1U << 3)
+ #define GICR_CTLR_DPG0               (1U << 24)
+ #define GICR_CTLR_DPG1NS             (1U << 25)
+diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
+index 579aa0cb9ed..4ca5ae9bc56 100644
+--- a/hw/intc/arm_gicv3_common.c
++++ b/hw/intc/arm_gicv3_common.c
+@@ -429,6 +429,10 @@ static void arm_gicv3_common_reset(DeviceState *dev)
  
-@@ -673,9 +672,8 @@ void gicv3_redist_process_lpi(GICv3CPUState *cs, int irq, int level)
-     idbits = MIN(FIELD_EX64(cs->gicr_propbaser, GICR_PROPBASER, IDBITS),
-                  GICD_TYPER_IDBITS);
- 
--    if (!(cs->gicr_ctlr & GICR_CTLR_ENABLE_LPIS) || !cs->gicr_propbaser ||
--         !cs->gicr_pendbaser || (irq > (1ULL << (idbits + 1)) - 1) ||
--         irq < GICV3_LPI_INTID_START) {
-+    if (!(cs->gicr_ctlr & GICR_CTLR_ENABLE_LPIS) ||
-+        (irq > (1ULL << (idbits + 1)) - 1) || irq < GICV3_LPI_INTID_START) {
-         return;
-     }
- 
+         cs->level = 0;
+         cs->gicr_ctlr = 0;
++        if (s->lpi_enable) {
++            /* Our implementation supports clearing GICR_CTLR.EnableLPIs */
++            cs->gicr_ctlr |= GICR_CTLR_CES;
++        }
+         cs->gicr_statusr[GICV3_S] = 0;
+         cs->gicr_statusr[GICV3_NS] = 0;
+         cs->gicr_waker = GICR_WAKER_ProcessorSleep | GICR_WAKER_ChildrenAsleep;
 -- 
 2.25.1
 
