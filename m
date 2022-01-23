@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34C8249719E
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Jan 2022 14:19:20 +0100 (CET)
-Received: from localhost ([::1]:59260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 193B8497225
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Jan 2022 15:32:19 +0100 (CET)
+Received: from localhost ([::1]:52138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBcm6-0005I7-RB
-	for lists+qemu-devel@lfdr.de; Sun, 23 Jan 2022 08:19:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43698)
+	id 1nBduh-0006RT-IY
+	for lists+qemu-devel@lfdr.de; Sun, 23 Jan 2022 09:32:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nBcbA-00089R-IN
- for qemu-devel@nongnu.org; Sun, 23 Jan 2022 08:08:00 -0500
-Received: from mga06.intel.com ([134.134.136.31]:23362)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nBcb7-0003oZ-M3
- for qemu-devel@nongnu.org; Sun, 23 Jan 2022 08:07:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642943277; x=1674479277;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=LwFU8+K6q6NPl68+t508T+6vvLBCleycfGzOK2z5sx4=;
- b=FBfnKTdBRTczwlFZLw4osQeR7cjGH2HqrHEqw6lBU+/nwp1ywLy4lbak
- GpoOt3DUp0Eq58vaB+GVe7ProFttkMFc7rIwS9PKhJA/AiqlQnU54uC1y
- HGMOV/dmqYsIaBxgiz7H50UMvfEFzLCJt7jfWUOoGHRvbeX9mLSbhMdrX
- WJiTx6jezDX9duqDizKaqUTtFznOQyjG/qWydt/hAl9olOu4hMqbxf0M2
- BD8WoIcgLdQWfzjcvmDFc6gBkoi27VPH2G5zwXL8x5+/fOk6SkVFcCt5o
- RrBRVGepZa5Wy5GVA7tvm4nZM46+qjVvkoDFqWUmA11hNAedYzCgjDWUJ g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10235"; a="306611308"
-X-IronPort-AV: E=Sophos;i="5.88,310,1635231600"; d="scan'208";a="306611308"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2022 05:07:53 -0800
-X-IronPort-AV: E=Sophos;i="5.88,310,1635231600"; d="scan'208";a="478760909"
-Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
- ([10.238.145.56])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 23 Jan 2022 05:07:50 -0800
-Date: Sun, 23 Jan 2022 20:52:30 +0800
-From: Yang Zhong <yang.zhong@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH 2/2] hw/i386/sgx: Attach SGX-EPC to its memory backend
-Message-ID: <20220123125230.GA981@yangzhon-Virtual>
-References: <20220116235331.103977-1-f4bug@amsat.org>
- <20220116235331.103977-3-f4bug@amsat.org>
- <c1a8eba5-b1a1-bbcf-c237-23e16ce88475@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nBdsS-0005e4-2M
+ for qemu-devel@nongnu.org; Sun, 23 Jan 2022 09:29:56 -0500
+Received: from [2a00:1450:4864:20::434] (port=35748
+ helo=mail-wr1-x434.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nBdsP-000403-Sm
+ for qemu-devel@nongnu.org; Sun, 23 Jan 2022 09:29:55 -0500
+Received: by mail-wr1-x434.google.com with SMTP id r14so8888994wrp.2
+ for <qemu-devel@nongnu.org>; Sun, 23 Jan 2022 06:29:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=omvBzsMv51c477y9gifxmZja+pqlUmV7f0/dfZm54Eo=;
+ b=Jklbj2CfWsGQYdjGai659vG/jgW9afrM2hjKknc77XkFdozqRin2vrRuOMKLII1P/z
+ vZ5WPkGBpNIEM9Wu7nfqUnIS7je+7TA+YxNfv/Grc36Go/ddQ/IcLafqTTnZgqRr64ld
+ hk7GZBj+D6C7YPbl/mDCH1fj9S6Vc0NseZ7IK5IzC/PvEpvwL0pDrzyAqXtPWKdDwGMp
+ QmPlPxZy9VLZaJ+YubBAOrFQ0uceoR+czTNXGDWVIz3a/9LNk9e/qFCanb7eHkTQcaLt
+ 5zcBxmDSCH/PswtbSUOBeISIfJ2gG1TDku9jfJaA586/xIp/MCAoOkl0TA5VW1UPwJwp
+ t5dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=omvBzsMv51c477y9gifxmZja+pqlUmV7f0/dfZm54Eo=;
+ b=n7h2PiMmVs5Zs7iBtw5IeBjGWm08ua6LN3+qzVbCQuZ348AzQMyi9L88rOMZo/uUx/
+ EuOvKyFgvO8C+H0n1kPqaq7yGdk4voYUHrTsYWa9yBUUU7jqQaA2z2iLRHB/kJ46Njzr
+ RmaiE4t3s5ZT1PPABCRqTO0+YoAsXm09KgPiFrY8rtnNwTOPYXa2SMAAzldA/aw2gGVZ
+ URrTL2PP8M8FqzhTqMArwDHHuWoOMDEfDxBrKdtiXwRbMkjIA+CMHrMiC2iE96352DKN
+ rJ8F1GYODMPCEHUUkQrPBpVn2e9DtknUkvFbvhSbgzUElhqpvlZJew6YWjyMsvsQAfJA
+ /Naw==
+X-Gm-Message-State: AOAM533vN3rqjecJCJs8KKPvuphBZtTyM5MfeomvRCn5hXs0n18cmPJ2
+ IzY5IhoOrv2SNgsmyKz+0iUzT2ZtTXMkxDOZ2iDS5g==
+X-Google-Smtp-Source: ABdhPJyXUsvVFuueD2iWIyhVE0XE6Km9Ruk8pWwmCJVbAR/uCrzUlYluc14E1I2asrh/1u3ZLD7esz9RB4pTjU3WwDM=
+X-Received: by 2002:a5d:644a:: with SMTP id d10mr10677134wrw.295.1642948191767; 
+ Sun, 23 Jan 2022 06:29:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c1a8eba5-b1a1-bbcf-c237-23e16ce88475@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=134.134.136.31; envelope-from=yang.zhong@intel.com;
- helo=mga06.intel.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <d1bd9dcf-514b-44bb-a848-8026b524fad1@www.fastmail.com>
+In-Reply-To: <d1bd9dcf-514b-44bb-a848-8026b524fad1@www.fastmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 23 Jan 2022 14:29:40 +0000
+Message-ID: <CAFEAcA96b+vVtbq4maMCwLAN0jdeG6EDp3Nz_h_s4HKQHSqfCQ@mail.gmail.com>
+Subject: Re: Cross compiling 6.2.0 aarch64-softmmu for aarch64 host with musl, 
+ struct redefiniton errors
+To: Adam Baxter <voltagex@voltagex.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,95 +80,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, yang.zhong@intel.com,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 17, 2022 at 12:48:10PM +0100, Paolo Bonzini wrote:
-> On 1/17/22 00:53, Philippe Mathieu-Daudé via wrote:
-> >We have one SGX-EPC address/size/node per memory backend,
-> >make it child of the backend in the QOM composition tree.
-> >
-> >Cc: Yang Zhong <yang.zhong@intel.com>
-> >Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> >---
-> >  hw/i386/sgx.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> >diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
-> >index 5de5dd08936..6362e5e9d02 100644
-> >--- a/hw/i386/sgx.c
-> >+++ b/hw/i386/sgx.c
-> >@@ -300,6 +300,9 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
-> >          /* set the memdev link with memory backend */
-> >          object_property_parse(obj, SGX_EPC_MEMDEV_PROP, list->value->memdev,
-> >                                &error_fatal);
-> >+        object_property_add_child(OBJECT(list->value->memdev), "sgx-epc",
-> >+                                  OBJECT(obj));
-> >+
-> >          /* set the numa node property for sgx epc object */
-> >          object_property_set_uint(obj, SGX_EPC_NUMA_NODE_PROP, list->value->node,
-> >                               &error_fatal);
-> 
-> I don't think this is a good idea; only list->value->memdev should
-> add something below itself in the tree.
-> 
-> However, I think obj can be added under the machine itself as
-> /machine/sgx-epc-device[*].
-> 
+On Sun, 23 Jan 2022 at 08:58, Adam Baxter <voltagex@voltagex.org> wrote:
+> I'm trying to compile qemu 6.2.0 using musl-cross.
+>
+> I am getting the following errors on make:
+>
+> /output/aarch64-linux-musl/include/asm/sigcontext.h:83:8: error: redefinition of 'struct esr_context'
+> /output/aarch64-linux-musl/include/asm/sigcontext.h:116:8: error: redefinition of 'struct extra_context'
+> /output/aarch64-linux-musl/include/asm/sigcontext.h:125:8: error: redefinition of 'struct sve_context'
 
-  Philippe, Sorry I can't receive all Qemu mails from my mutt tool.
+I think this must be a musl problem. Quoting the full error
+message:
 
-  https://lists.nongnu.org/archive/html/qemu-devel/2022-01/msg03535.html
-  I verified this patch, and the issue was reported as below:
-
-  Unexpected error in object_property_try_add() at ../qom/object.c:1224:
-  qemu-system-x86_64: attempt to add duplicate property 'sgx-epc' to object (type 'pc-q35-7.0-machine')
-  Aborted (core dumped)
-
-  Even I changed it to another name, which still reported same kind of issue.
-
-  I tried below patch as my previous patch, and it can work
-  diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
-  index d60485fc422..66444745b47 100644
-  --- a/hw/i386/sgx.c
-  +++ b/hw/i386/sgx.c
-  @@ -281,6 +281,7 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
-       SGXEPCState *sgx_epc = &pcms->sgx_epc;
-       X86MachineState *x86ms = X86_MACHINE(pcms);
-       SgxEPCList *list = NULL;
-  +    int sgx_count = 0;
-       Object *obj;
-
-       memset(sgx_epc, 0, sizeof(SGXEPCState));
-  @@ -297,7 +298,9 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
-       for (list = x86ms->sgx_epc_list; list; list = list->next) {
-           obj = object_new("sgx-epc");
-
-  -        object_property_add_child(OBJECT(pcms), "sgx-epc", OBJECT(obj));
-  +        gchar *name = g_strdup_printf("device[%d]", sgx_count++);
-  +        object_property_add_child(container_get(qdev_get_machine(), "/sgx-epc-device"),
-  +                                      name, obj);
-  
-           /* set the memdev link with memory backend */
-           object_property_parse(obj, SGX_EPC_MEMDEV_PROP, list->value->memdev,
+In file included from /output/aarch64-linux-musl/include/asm/ptrace.h:26,
+                 from linux-headers/asm/kvm.h:37,
+                 from /src/qemu/linux-headers/linux/kvm.h:15,
+                 from /src/qemu/include/sysemu/kvm.h:25,
+                 from ../hw/arm/boot.c:18:
+/output/aarch64-linux-musl/include/asm/sigcontext.h:28:8: error:
+redefinition of 'struct sigcontext'
+   28 | struct sigcontext {
+      |        ^~~~~~~~~~
+In file included from /output/aarch64-linux-musl/include/signal.h:48,
+                 from /src/qemu/include/qemu/osdep.h:105,
+                 from ../hw/arm/boot.c:10:
+/output/aarch64-linux-musl/include/bits/signal.h:18:16: note:
+originally defined here
+   18 | typedef struct sigcontext {
+      |                ^~~~~~~~~~
+In file included from /output/aarch64-linux-musl/include/asm/ptrace.h:26,
+                 from linux-headers/asm/kvm.h:37,
+                 from /src/qemu/linux-headers/linux/kvm.h:15,
+                 from /src/qemu/include/sysemu/kvm.h:25,
+                 from ../hw/arm/boot.c:18:
+/output/aarch64-linux-musl/include/asm/sigcontext.h:66:8: error:
+redefinition of 'struct _aarch64_ctx'
+   66 | struct _aarch64_ctx {
+      |        ^~~~~~~~~~~~
+In file included from /output/aarch64-linux-musl/include/signal.h:48,
+                 from /src/qemu/include/qemu/osdep.h:105,
+                 from ../hw/arm/boot.c:10:
+/output/aarch64-linux-musl/include/bits/signal.h:29:8: note:
+originally defined here
+   29 | struct _aarch64_ctx {
+      |        ^~~~~~~~~~~~
 
 
-  From the monitor, 
-  (qemu) qom-list /machine/sgx-epc-device
-  type (string)
-  device[0] (child<sgx-epc>)
-  device[1] (child<sgx-epc>)
-  
-  This can normally show two sgx epc section devices.
-  
-  If you have new patch, I can help verify, thanks!
+The compiler is complaining because the system headers (provided by
+musl) are defining these structs both in asm/sigcontext.h and
+in signal.h, which means those headers can't both be included
+at once. This isn't QEMU related: musl's headers just seem to
+be broken here. glibc doesn't have this bug.
 
-  Yang
-
-> Paolo
+-- PMM
 
