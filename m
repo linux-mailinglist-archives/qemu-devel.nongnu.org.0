@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E12434975CB
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Jan 2022 22:46:40 +0100 (CET)
-Received: from localhost ([::1]:36358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 483F34975DF
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Jan 2022 23:02:05 +0100 (CET)
+Received: from localhost ([::1]:43948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBkh5-0004hH-FN
-	for lists+qemu-devel@lfdr.de; Sun, 23 Jan 2022 16:46:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41710)
+	id 1nBkvz-00028A-Ub
+	for lists+qemu-devel@lfdr.de; Sun, 23 Jan 2022 17:02:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nBkdn-0002eF-7X
- for qemu-devel@nongnu.org; Sun, 23 Jan 2022 16:43:15 -0500
-Received: from [2607:f8b0:4864:20::102e] (port=40833
- helo=mail-pj1-x102e.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nBkuA-00017A-AE; Sun, 23 Jan 2022 17:00:11 -0500
+Received: from [2a00:1450:4864:20::32a] (port=36648
+ helo=mail-wm1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nBkdl-0001DP-GW
- for qemu-devel@nongnu.org; Sun, 23 Jan 2022 16:43:14 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id
- z10-20020a17090acb0a00b001b520826011so10166067pjt.5
- for <qemu-devel@nongnu.org>; Sun, 23 Jan 2022 13:43:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wwqMazUeowcZ8Wein1p8Y8b56eD1h/rcbQjsrLmUmNo=;
- b=MpyHkKCXG57dAFOJ4JVCNYuvNcXeTHyGzha2FjZiRDqeREQkwO8iZHAP8rQvbvZr66
- QCwFFyA7OYn2HvnlO0tsCaHoD7RqB2xOIA2WW5N2dHCkHZYONNYdR1oWwIGI2MqHRA+U
- HfjPgqqxY0IwX/5eha91H7JqGr3Xx2DqiTr9hRt5tRDjKecLnZuW5J+FRffv3c69/tse
- 5qfHHNSRa6F/a18/SFrwv+79UhJPHJ7Mei9NuILpp1qYZd+/bNdSNy4lS7ETD2qFfr25
- T2MC2eRLghfVmBwr/aPyAFaYFrMPb3N6EoM6+Wcfd9wNWxodDn3idnfYw0addqAjuPm5
- tbbw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nBku7-0004cY-JR; Sun, 23 Jan 2022 17:00:09 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ i187-20020a1c3bc4000000b0034d2ed1be2aso31497070wma.1; 
+ Sun, 23 Jan 2022 14:00:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=vyQdglQQf6LQxfFims00DuSWDalXayUBNTv9fkJDSGM=;
+ b=n1LeeyGSqvBwGb3AuZao2ZbL8tBnB4rh5zL/4G1gTWmO5sxJDuKVLcqQVxeb72WZk3
+ bg/8d3YTYkg62XhKnp16kZRiSPGnWglDyZSeigcR2yoE83QghXltpxGIG7AydpMWAWOX
+ WUNgeU4jyLTrD231sATzPc2WCxui43SuM4cebT5CthsPORROWVwcFMk8rg00NDOlr/Nk
+ hiehoX6N0A/HiLjkRRVgP5loy9VWxx6wwZBwKl6fRY6o4Uk2XWYjt4vMz6gu/UdaBZyv
+ rcHn08NwwMRB8wcaMpcBgwQGSF5T4buCaD00Ly4Lz17VGRERpCOqfc++lwCh9PGlWTPJ
+ 9xJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=wwqMazUeowcZ8Wein1p8Y8b56eD1h/rcbQjsrLmUmNo=;
- b=XPyatIUX7nLwGfikUVVqKcoY4Cc96M5FRP+TD4fwicQP/Em8GSn/oMlXKp3TYooua8
- 4hp5bVo+mcvAThrsMyC+OgatUNbZ6Z0vxeKl7bjmr5yp2zTnzxjl1kVliGTxwtSr76qc
- U4nSwI3sfakZuU0xGTx4xbf9ZnBz1y2ybaoue6oOzumSN7tv01xPqeZZdQFJS+hFdTSj
- RVFNRpmuzYgJRr3o81YXvsDanyzZHcLNDotVwXBI44eLA8FIER64YHR0ofG0YMIEuQr9
- LAFUX+3e2J864L9j41Z760yon1kyoaFdG77iEEe5VI1835MPInkVRoNpFUlmzk36ieep
- KbSA==
-X-Gm-Message-State: AOAM530ErCfhaTtGsFHuo6QG0c5/ITzn3b57jf2hnYb49jTdndPkOebQ
- JimIBTOxyBaT4qLaYsrk/GC/9XxWHRBBCrH4
-X-Google-Smtp-Source: ABdhPJzIWSJWYbS2OFkgfZvKvkjSL7VTTz0m9LqOq5rmwu+9E4sDdfm9RA36Tl6eVH8ExWRU7mpv2A==
-X-Received: by 2002:a17:902:f681:b0:14a:2a1e:4692 with SMTP id
- l1-20020a170902f68100b0014a2a1e4692mr11816794plg.99.1642974190713; 
- Sun, 23 Jan 2022 13:43:10 -0800 (PST)
-Received: from [192.168.15.44] (alanje.lnk.telstra.net. [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id q12sm4001484pfk.199.2022.01.23.13.43.08
+ bh=vyQdglQQf6LQxfFims00DuSWDalXayUBNTv9fkJDSGM=;
+ b=5xLIFnu2K+SPPUbtSWgildtR+h3qIr+jv6DH7+ESns53KNCrb7yEtmOMEtVh/W19rl
+ 9PfXwi0rVRJmq07lg+6pDbL6CpbCrpC3+52/R6KBqjPSfDJed659j/OfioRt3QnLC8Nl
+ M+6hiKtaAUxssaOjIwyz5GGaxhs8LFf0wUbxLeedMhckYvi93+NQ9cGi/1+O32Py+Em+
+ ePtYFCKbg9r2z519cf+fmjmrNR9F0EFhSH/E2qoCC6liQGKmoAWFl5+bOEne2UZpFk8r
+ QnAD05Y0lKS/xaWWSEThLPDAAqhe/DAqwm/fc2JIOOXvTs2sfbZKdhQehXGE9lvY7rb3
+ Xktg==
+X-Gm-Message-State: AOAM530Abzq874z2ZjMEj9quo8Ou09zZuCKSYEMn1AgDLR8VjDDl5Qx9
+ SvI3F+KnbJkwxkdAjQBMTdk=
+X-Google-Smtp-Source: ABdhPJyO7e0iwdouWKxoq6gL2+SO8ZxVUfTNrvSFkIZDB/Je+5yRY+g/vqyXfo10Qv8BLsBD4CZeHg==
+X-Received: by 2002:a1c:f402:: with SMTP id z2mr8962678wma.28.1642975204921;
+ Sun, 23 Jan 2022 14:00:04 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id x6sm14641681wrn.18.2022.01.23.14.00.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 23 Jan 2022 13:43:10 -0800 (PST)
-Subject: Re: [PATCH 06/30] bsd-user/arm/target_arch_cpu.h: Correct code pointer
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-References: <20220109161923.85683-1-imp@bsdimp.com>
- <20220109161923.85683-7-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4a5a450a-7e42-4cc7-fd49-ed8ba0b24edd@linaro.org>
-Date: Mon, 24 Jan 2022 08:43:06 +1100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Sun, 23 Jan 2022 14:00:04 -0800 (PST)
+Message-ID: <ebb8d96d-d413-70d9-4293-c17970a32ca1@amsat.org>
+Date: Sun, 23 Jan 2022 23:00:03 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220109161923.85683-7-imp@bsdimp.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.0
+Subject: Re: [PATCH 01/14] target/arm: Log CPU index in 'Taking exception' log
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: Shashi Mallela <shashi.mallela@linaro.org>
+References: <20220122182444.724087-1-peter.maydell@linaro.org>
+ <20220122182444.724087-2-peter.maydell@linaro.org>
+In-Reply-To: <20220122182444.724087-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -92,22 +93,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 1/10/22 3:18 AM, Warner Losh wrote:
-> The code has moved in FreeBSD since the emulator was started, update the
-> comment to reflect that change. Remove now-redundant comment saying the
-> same thing (but incorrectly).
+On 22/1/22 19:24, Peter Maydell wrote:
+> In an SMP system it can be unclear which CPU is taking an exception;
+> add the CPU index (which is the same value used in the TCG 'Trace
+> %d:' logging) to the "Taking exception" log line to clarify it.
 > 
-> Signed-off-by: Warner Losh<imp@bsdimp.com>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   bsd-user/arm/target_arch_cpu.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   target/arm/internals.h | 2 +-
+>   target/arm/helper.c    | 9 ++++++---
+>   target/arm/m_helper.c  | 2 +-
+>   3 files changed, 8 insertions(+), 5 deletions(-)
 
-With commit message updated, as discussed upthread,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
