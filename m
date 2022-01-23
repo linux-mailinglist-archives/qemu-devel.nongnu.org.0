@@ -2,43 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B004749722C
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Jan 2022 15:42:02 +0100 (CET)
-Received: from localhost ([::1]:58070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C8249719E
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Jan 2022 14:19:20 +0100 (CET)
+Received: from localhost ([::1]:59260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBe49-0002WX-Ql
-	for lists+qemu-devel@lfdr.de; Sun, 23 Jan 2022 09:42:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44584)
+	id 1nBcm6-0005I7-RB
+	for lists+qemu-devel@lfdr.de; Sun, 23 Jan 2022 08:19:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <belyshev@depni.sinp.msu.ru>)
- id 1nBZto-0002wG-4U; Sun, 23 Jan 2022 05:15:04 -0500
-Received: from depni-mx.sinp.msu.ru ([213.131.7.21]:39483)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <belyshev@depni.sinp.msu.ru>)
- id 1nBZtm-0003q9-9A; Sun, 23 Jan 2022 05:15:03 -0500
-Received: from spider (unknown [176.195.59.180])
- by depni-mx.sinp.msu.ru (Postfix) with ESMTPSA id 392321BF45A;
- Sun, 23 Jan 2022 13:15:14 +0300 (MSK)
-From: Serge Belyshev <belyshev@depni.sinp.msu.ru>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] linux-user/alpha: Fix target rlimits for alpha and
- rearrange for clarity
-Date: Sat, 15 Jan 2022 14:32:35 +0300
-Message-ID: <87y236lpwb.fsf@depni.sinp.msu.ru>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/29.0.50 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nBcbA-00089R-IN
+ for qemu-devel@nongnu.org; Sun, 23 Jan 2022 08:08:00 -0500
+Received: from mga06.intel.com ([134.134.136.31]:23362)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nBcb7-0003oZ-M3
+ for qemu-devel@nongnu.org; Sun, 23 Jan 2022 08:07:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642943277; x=1674479277;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=LwFU8+K6q6NPl68+t508T+6vvLBCleycfGzOK2z5sx4=;
+ b=FBfnKTdBRTczwlFZLw4osQeR7cjGH2HqrHEqw6lBU+/nwp1ywLy4lbak
+ GpoOt3DUp0Eq58vaB+GVe7ProFttkMFc7rIwS9PKhJA/AiqlQnU54uC1y
+ HGMOV/dmqYsIaBxgiz7H50UMvfEFzLCJt7jfWUOoGHRvbeX9mLSbhMdrX
+ WJiTx6jezDX9duqDizKaqUTtFznOQyjG/qWydt/hAl9olOu4hMqbxf0M2
+ BD8WoIcgLdQWfzjcvmDFc6gBkoi27VPH2G5zwXL8x5+/fOk6SkVFcCt5o
+ RrBRVGepZa5Wy5GVA7tvm4nZM46+qjVvkoDFqWUmA11hNAedYzCgjDWUJ g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10235"; a="306611308"
+X-IronPort-AV: E=Sophos;i="5.88,310,1635231600"; d="scan'208";a="306611308"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2022 05:07:53 -0800
+X-IronPort-AV: E=Sophos;i="5.88,310,1635231600"; d="scan'208";a="478760909"
+Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
+ ([10.238.145.56])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 23 Jan 2022 05:07:50 -0800
+Date: Sun, 23 Jan 2022 20:52:30 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [RFC PATCH 2/2] hw/i386/sgx: Attach SGX-EPC to its memory backend
+Message-ID: <20220123125230.GA981@yangzhon-Virtual>
+References: <20220116235331.103977-1-f4bug@amsat.org>
+ <20220116235331.103977-3-f4bug@amsat.org>
+ <c1a8eba5-b1a1-bbcf-c237-23e16ce88475@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: none client-ip=213.131.7.21;
- envelope-from=belyshev@depni.sinp.msu.ru; helo=depni-mx.sinp.msu.ru
-X-Spam_score_int: -7
-X-Spam_score: -0.8
-X-Spam_bar: /
-X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c1a8eba5-b1a1-bbcf-c237-23e16ce88475@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=yang.zhong@intel.com;
+ helo=mga06.intel.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sun, 23 Jan 2022 09:38:32 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,84 +77,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>
+Cc: Eduardo Habkost <eduardo@habkost.net>, yang.zhong@intel.com,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alpha uses different values of some TARGET_RLIMIT_* constants, which were
-missing and caused bugs like #577, fixed thus.  Also rearranged all three
-(alpha, mips and sparc) that differ from everyone else for clarity.
+On Mon, Jan 17, 2022 at 12:48:10PM +0100, Paolo Bonzini wrote:
+> On 1/17/22 00:53, Philippe Mathieu-Daudé via wrote:
+> >We have one SGX-EPC address/size/node per memory backend,
+> >make it child of the backend in the QOM composition tree.
+> >
+> >Cc: Yang Zhong <yang.zhong@intel.com>
+> >Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> >---
+> >  hw/i386/sgx.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> >diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
+> >index 5de5dd08936..6362e5e9d02 100644
+> >--- a/hw/i386/sgx.c
+> >+++ b/hw/i386/sgx.c
+> >@@ -300,6 +300,9 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
+> >          /* set the memdev link with memory backend */
+> >          object_property_parse(obj, SGX_EPC_MEMDEV_PROP, list->value->memdev,
+> >                                &error_fatal);
+> >+        object_property_add_child(OBJECT(list->value->memdev), "sgx-epc",
+> >+                                  OBJECT(obj));
+> >+
+> >          /* set the numa node property for sgx epc object */
+> >          object_property_set_uint(obj, SGX_EPC_NUMA_NODE_PROP, list->value->node,
+> >                               &error_fatal);
+> 
+> I don't think this is a good idea; only list->value->memdev should
+> add something below itself in the tree.
+> 
+> However, I think obj can be added under the machine itself as
+> /machine/sgx-epc-device[*].
+> 
 
-Signed-off-by: Serge Belyshev <belyshev@depni.sinp.msu.ru>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/577
----
- linux-user/syscall_defs.h | 31 ++++++++++++++-----------------
- 1 file changed, 14 insertions(+), 17 deletions(-)
+  Philippe, Sorry I can't receive all Qemu mails from my mutt tool.
 
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index f23f0a2178..3fcabaeae3 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -730,44 +730,41 @@ struct target_rlimit {
- #define TARGET_RLIM_INFINITY	((abi_ulong)-1)
- #endif
- 
--#if defined(TARGET_MIPS)
- #define TARGET_RLIMIT_CPU		0
- #define TARGET_RLIMIT_FSIZE		1
- #define TARGET_RLIMIT_DATA		2
- #define TARGET_RLIMIT_STACK		3
- #define TARGET_RLIMIT_CORE		4
-+#if defined(TARGET_MIPS)
-+#define TARGET_RLIMIT_NOFILE		5
-+#define TARGET_RLIMIT_AS		6
- #define TARGET_RLIMIT_RSS		7
- #define TARGET_RLIMIT_NPROC		8
--#define TARGET_RLIMIT_NOFILE		5
- #define TARGET_RLIMIT_MEMLOCK		9
--#define TARGET_RLIMIT_AS		6
--#define TARGET_RLIMIT_LOCKS		10
--#define TARGET_RLIMIT_SIGPENDING	11
--#define TARGET_RLIMIT_MSGQUEUE		12
--#define TARGET_RLIMIT_NICE		13
--#define TARGET_RLIMIT_RTPRIO		14
--#else
--#define TARGET_RLIMIT_CPU		0
--#define TARGET_RLIMIT_FSIZE		1
--#define TARGET_RLIMIT_DATA		2
--#define TARGET_RLIMIT_STACK		3
--#define TARGET_RLIMIT_CORE		4
-+#elif defined(TARGET_ALPHA)
-+#define TARGET_RLIMIT_RSS		5
-+#define TARGET_RLIMIT_NOFILE		6
-+#define TARGET_RLIMIT_AS		7
-+#define TARGET_RLIMIT_NPROC		8
-+#define TARGET_RLIMIT_MEMLOCK		9
-+#elif defined(TARGET_SPARC)
- #define TARGET_RLIMIT_RSS		5
--#if defined(TARGET_SPARC)
- #define TARGET_RLIMIT_NOFILE		6
- #define TARGET_RLIMIT_NPROC		7
-+#define TARGET_RLIMIT_MEMLOCK		8
-+#define TARGET_RLIMIT_AS		9
- #else
-+#define TARGET_RLIMIT_RSS		5
- #define TARGET_RLIMIT_NPROC		6
- #define TARGET_RLIMIT_NOFILE		7
--#endif
- #define TARGET_RLIMIT_MEMLOCK		8
- #define TARGET_RLIMIT_AS		9
-+#endif
- #define TARGET_RLIMIT_LOCKS		10
- #define TARGET_RLIMIT_SIGPENDING	11
- #define TARGET_RLIMIT_MSGQUEUE		12
- #define TARGET_RLIMIT_NICE		13
- #define TARGET_RLIMIT_RTPRIO		14
--#endif
- 
- struct target_pollfd {
-     int fd;           /* file descriptor */
--- 
-2.34.1
+  https://lists.nongnu.org/archive/html/qemu-devel/2022-01/msg03535.html
+  I verified this patch, and the issue was reported as below:
 
+  Unexpected error in object_property_try_add() at ../qom/object.c:1224:
+  qemu-system-x86_64: attempt to add duplicate property 'sgx-epc' to object (type 'pc-q35-7.0-machine')
+  Aborted (core dumped)
+
+  Even I changed it to another name, which still reported same kind of issue.
+
+  I tried below patch as my previous patch, and it can work
+  diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
+  index d60485fc422..66444745b47 100644
+  --- a/hw/i386/sgx.c
+  +++ b/hw/i386/sgx.c
+  @@ -281,6 +281,7 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
+       SGXEPCState *sgx_epc = &pcms->sgx_epc;
+       X86MachineState *x86ms = X86_MACHINE(pcms);
+       SgxEPCList *list = NULL;
+  +    int sgx_count = 0;
+       Object *obj;
+
+       memset(sgx_epc, 0, sizeof(SGXEPCState));
+  @@ -297,7 +298,9 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
+       for (list = x86ms->sgx_epc_list; list; list = list->next) {
+           obj = object_new("sgx-epc");
+
+  -        object_property_add_child(OBJECT(pcms), "sgx-epc", OBJECT(obj));
+  +        gchar *name = g_strdup_printf("device[%d]", sgx_count++);
+  +        object_property_add_child(container_get(qdev_get_machine(), "/sgx-epc-device"),
+  +                                      name, obj);
+  
+           /* set the memdev link with memory backend */
+           object_property_parse(obj, SGX_EPC_MEMDEV_PROP, list->value->memdev,
+
+
+  From the monitor, 
+  (qemu) qom-list /machine/sgx-epc-device
+  type (string)
+  device[0] (child<sgx-epc>)
+  device[1] (child<sgx-epc>)
+  
+  This can normally show two sgx epc section devices.
+  
+  If you have new patch, I can help verify, thanks!
+
+  Yang
+
+> Paolo
 
