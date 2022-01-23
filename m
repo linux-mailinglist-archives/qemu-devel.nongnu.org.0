@@ -2,70 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D87C6497654
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 00:29:47 +0100 (CET)
-Received: from localhost ([::1]:49126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39B3E497656
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 00:31:48 +0100 (CET)
+Received: from localhost ([::1]:51292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBmIs-0003KF-GF
-	for lists+qemu-devel@lfdr.de; Sun, 23 Jan 2022 18:29:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57872)
+	id 1nBmKp-0004sw-3O
+	for lists+qemu-devel@lfdr.de; Sun, 23 Jan 2022 18:31:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nBmHo-0002Y7-Nq; Sun, 23 Jan 2022 18:28:40 -0500
-Received: from [2607:f8b0:4864:20::12a] (port=35353
- helo=mail-il1-x12a.google.com)
+ id 1nBmJc-00044l-IO
+ for qemu-devel@nongnu.org; Sun, 23 Jan 2022 18:30:35 -0500
+Received: from mail-io1-f50.google.com ([209.85.166.50]:45772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nBmHl-0004gB-Oj; Sun, 23 Jan 2022 18:28:39 -0500
-Received: by mail-il1-x12a.google.com with SMTP id w5so8174358ilo.2;
- Sun, 23 Jan 2022 15:28:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=u3QVWb/PAPOpCoV7ZlSrhGJQo1DHob3bPVqW3ZRTT4E=;
- b=DVRR3PyTc56hOWuX8RDPN2YQ8LWmB1epYkix6sg4QErqNoYc0iwhu3V1vIN1Y8Tk0N
- i63yoBYL/DbydvNDLbp23h143A49rgAMMMwkcxsHaNAwy8AVFqbRbOQxOkxeN0yRWkJ6
- PlTzchrECNe57UJKHKMr8GFoMkT2rqJ+ANBcVyZXBh94OgVihpodvacifZkrvIm8nHzV
- 2x8MsnrTyASHPOj7lj0ojmxipYqCLTOOnTTVORk0PxEVqIxynnA2B/9nwNI0aaGRkBgi
- j8AIfGSnWARAm+dBuLfZxyROa4raIlyw0v8R02K1MrmYnRJjKU7UfWARMtqBJE20LIpZ
- 41Zg==
+ id 1nBmJZ-00051E-OM
+ for qemu-devel@nongnu.org; Sun, 23 Jan 2022 18:30:31 -0500
+Received: by mail-io1-f50.google.com with SMTP id s18so936752ioa.12
+ for <qemu-devel@nongnu.org>; Sun, 23 Jan 2022 15:30:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=u3QVWb/PAPOpCoV7ZlSrhGJQo1DHob3bPVqW3ZRTT4E=;
- b=8L3J01Sid0YTz3XnoBpcYWnUfqF0RH7wf3OeOz881xIZzhj1x4pDXW4n2ie6KC4b3i
- jCHvCV44gcboz2l09ZpDORJnIE8OH+N1FqihD+oZjnQCLZH9B/BPuVAoO/mR6a4Axr2B
- EFt7daYgWghNY+wukBnkMporw52lQsiJ+/yAmEHLJ3EQMao7/l97LFj9mPgzZ+gjeZ4E
- A6WpWrUCIz0q/OW1iEuUA8e4lCYC6Ac//7j5/5F8880U9olfdZoBjZYajotkqNr3D3aL
- CbG0rA9QbbyOK88Lwulg5Dn731SqUDHXYfXcsI/g/FBC42LTe7IE/pYledFXtPUy2i3K
- JD2g==
-X-Gm-Message-State: AOAM5300icYyHsrqvTPZ5lbXndehwN0QRIvsG09tO/Xq4StNG60tYf6R
- J+fqXdO1ADHDmIxm2aP7h8lDVlS5yiiZ10FhiiA=
-X-Google-Smtp-Source: ABdhPJy+cVLUqf4zM61Ep0Y7E2dK3pamgGfZG8k8chetRAjl0ni1JhixG1M4rWUXvh9CfFMC3PmlCIRPITsIlluApn8=
-X-Received: by 2002:a05:6e02:148b:: with SMTP id
- n11mr7255131ilk.208.1642980515772; 
- Sun, 23 Jan 2022 15:28:35 -0800 (PST)
+ bh=D/FixJ+ZZpfIz4HCqvot5omn5HVb89i7GbDyJvjx4l8=;
+ b=g+nsqup9oEnwd2WWBQ+nV1H8aZ8smftHgLMcrGaLdAiOpxGNp36rfmWH4c6eoFsVXZ
+ oxHofUz+oexydd8qHDxLDqJ5CK9pesfRWLXd/PNRaBW+gXeaSaCxRSgr2aOdnX4Tuwa/
+ mRcrJinYcWepmAYuOzfe9d9EJOthTURRXWdFcGFTrX5wr103uOnT8SLwZIzG0uGj7kHi
+ qz+2bRKPYo7VGJepSIm33mna+fU0zBhLefjpC04jIgN5SqtVw0qdUCqrRLulJkitQMe/
+ WEI/eib/03JypTVgx8M0BMto2zj7kX6uFL22OY5He3ERCxrbBGdw/8+ra3uth5k6xVwR
+ ZTAw==
+X-Gm-Message-State: AOAM531jHJSn/DkDkpJk73Ky7lsMS+gHLA6WIYscqLm9vybqcXDkYKzB
+ hXvWNyXHfmrA9HtuxLU3U2AL83fHb//ZU0k1FFA=
+X-Google-Smtp-Source: ABdhPJwW7RgAED+A5Ut5W9kDB1asGPZy+GCG0g1g0jZ5wkWLGJGc1vdBy/15udq8M88kqw4vskRV/HJNdvhkFws/LrY=
+X-Received: by 2002:a02:5b0a:: with SMTP id g10mr5449809jab.169.1642980628780; 
+ Sun, 23 Jan 2022 15:30:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20220121055005.3159846-1-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20220121055005.3159846-1-alistair.francis@opensource.wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 24 Jan 2022 09:28:10 +1000
-Message-ID: <CAKmqyKNiPyLAmL1X2e+WEq8MJ+Mb89hoxsCpiQaZj_Rm6nr-0w@mail.gmail.com>
-Subject: Re: [PATCH v1] include: hw: remove ibex_plic.h
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
+References: <20220120092715.7805-1-ptesarik@suse.com>
+In-Reply-To: <20220120092715.7805-1-ptesarik@suse.com>
+From: Alistair Francis <alistair.francis@xilinx.com>
+Date: Mon, 24 Jan 2022 09:30:03 +1000
+Message-ID: <CAKmqyKM4pAx421K70GNHAAo+_+=Fxdx1fT30PPEM_rgZbKhEwg@mail.gmail.com>
+Subject: Re: [PATCH 1/1] Allow setting up to 8 bytes with the generic loader
+To: Petr Tesarik <ptesarik@suse.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12a
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12a;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12a.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=209.85.166.50; envelope-from=alistair23@gmail.com;
+ helo=mail-io1-f50.google.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,24 +68,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, wilfred.mallawa@wdc.com,
+Cc: Alistair Francis <alistair@alistair23.me>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
+ Alistair Francis <alistair.francis@xilinx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 21, 2022 at 3:50 PM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
+On Thu, Jan 20, 2022 at 7:57 PM Petr Tesarik <ptesarik@suse.com> wrote:
 >
-> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+> The documentation for the generic loader says that "the maximum size of
+> the data is 8 bytes". However, attempts to set data-len=8 trigger the
+> following assertion failure:
 >
-> This patch removes the left-over/unused `ibex_plic.h` file. Previously
-> used by opentitan, which now follows the RISC-V standard and uses the
-> SiFivePlicState.
+> ../hw/core/generic-loader.c:59: generic_loader_reset: Assertion `s->data_len < sizeof(s->data)' failed.
 >
-> Fixes: 434e7e021 ("hw/intc: Remove the Ibex PLIC")
-> Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+> The type of s->data is uint64_t (i.e. 8 bytes long), so I believe this
+> assert should use <= instead of <.
+>
+> Fixes: e481a1f63c93 ("generic-loader: Add a generic loader")
+> Signed-off-by: Petr Tesarik <ptesarik@suse.com>
 
 Thanks!
 
@@ -105,84 +95,24 @@ Applied to riscv-to-apply.next
 Alistair
 
 > ---
->  include/hw/intc/ibex_plic.h | 67 -------------------------------------
->  1 file changed, 67 deletions(-)
->  delete mode 100644 include/hw/intc/ibex_plic.h
+>  hw/core/generic-loader.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/include/hw/intc/ibex_plic.h b/include/hw/intc/ibex_plic.h
-> deleted file mode 100644
-> index d596436e06..0000000000
-> --- a/include/hw/intc/ibex_plic.h
-> +++ /dev/null
-> @@ -1,67 +0,0 @@
-> -/*
-> - * QEMU RISC-V lowRISC Ibex PLIC
-> - *
-> - * Copyright (c) 2020 Western Digital
-> - *
-> - * This program is free software; you can redistribute it and/or modify it
-> - * under the terms and conditions of the GNU General Public License,
-> - * version 2 or later, as published by the Free Software Foundation.
-> - *
-> - * This program is distributed in the hope it will be useful, but WITHOUT
-> - * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> - * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> - * more details.
-> - *
-> - * You should have received a copy of the GNU General Public License along with
-> - * this program.  If not, see <http://www.gnu.org/licenses/>.
-> - */
-> -
-> -#ifndef HW_IBEX_PLIC_H
-> -#define HW_IBEX_PLIC_H
-> -
-> -#include "hw/sysbus.h"
-> -#include "qom/object.h"
-> -
-> -#define TYPE_IBEX_PLIC "ibex-plic"
-> -OBJECT_DECLARE_SIMPLE_TYPE(IbexPlicState, IBEX_PLIC)
-> -
-> -struct IbexPlicState {
-> -    /*< private >*/
-> -    SysBusDevice parent_obj;
-> -
-> -    /*< public >*/
-> -    MemoryRegion mmio;
-> -
-> -    uint32_t *pending;
-> -    uint32_t *hidden_pending;
-> -    uint32_t *claimed;
-> -    uint32_t *source;
-> -    uint32_t *priority;
-> -    uint32_t *enable;
-> -    uint32_t threshold;
-> -    uint32_t claim;
-> -
-> -    /* config */
-> -    uint32_t num_cpus;
-> -    uint32_t num_sources;
-> -
-> -    uint32_t pending_base;
-> -    uint32_t pending_num;
-> -
-> -    uint32_t source_base;
-> -    uint32_t source_num;
-> -
-> -    uint32_t priority_base;
-> -    uint32_t priority_num;
-> -
-> -    uint32_t enable_base;
-> -    uint32_t enable_num;
-> -
-> -    uint32_t threshold_base;
-> -
-> -    uint32_t claim_base;
-> -
-> -    qemu_irq *external_irqs;
-> -};
-> -
-> -#endif /* HW_IBEX_PLIC_H */
+> diff --git a/hw/core/generic-loader.c b/hw/core/generic-loader.c
+> index 9a24ffb880..504ed7ca72 100644
+> --- a/hw/core/generic-loader.c
+> +++ b/hw/core/generic-loader.c
+> @@ -56,7 +56,7 @@ static void generic_loader_reset(void *opaque)
+>      }
+>
+>      if (s->data_len) {
+> -        assert(s->data_len < sizeof(s->data));
+> +        assert(s->data_len <= sizeof(s->data));
+>          dma_memory_write(s->cpu->as, s->addr, &s->data, s->data_len,
+>                           MEMTXATTRS_UNSPECIFIED);
+>      }
 > --
-> 2.34.1
+> 2.31.1
+>
 >
 
