@@ -2,50 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A9E4979F2
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 09:05:43 +0100 (CET)
-Received: from localhost ([::1]:45326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA304979F5
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 09:06:05 +0100 (CET)
+Received: from localhost ([::1]:46438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBuMA-00018a-Df
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 03:05:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44088)
+	id 1nBuMW-0001tB-3W
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 03:06:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nBuCH-0004Tn-9G
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 02:55:29 -0500
+ id 1nBuCJ-0004Xf-B1
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 02:55:31 -0500
 Received: from mga07.intel.com ([134.134.136.100]:15222)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nBuCD-0001Wn-RD
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 02:55:28 -0500
+ id 1nBuCH-0001Wn-Hv
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 02:55:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643010925; x=1674546925;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=XPbDKe4rIR3RnaoQS0CyOFcu32AW4BYLmRgEoXsQIDI=;
- b=PHFi5TIEQTO2kRSHE53zOc18KgoK+/b7KBdTSk/X7AqSnS03bC1sIwOB
- 4JhlOP0yEHBWm5QdqlTaEa1/srrsuUJvzGwMO3/MbOWQ2PrJwfU/72G58
- ceY29Mm4Slm/ov92LdI8olt72i/01UNA32HRNmnO76ivfSIAPmEiurp4z
- mb6HQbtzjdQjBLLZOCsGVR4HjExRgRpDe/2BewXnn9YiN4kvc1ADJUJF9
- /7MPE0tVG6DVo7lz4rtv43S7gz+V0yxzj6kX2RwzhxQhZ+0bEWTQTVN/L
- ZQThSpegCPvuPNnela8vlNGS4Irwza16xRX52jjzxrj0GDs4KEcR/g2d+ A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="309310862"
-X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="309310862"
+ t=1643010929; x=1674546929;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=w4mxV/YlshNQdk4MjRHzFwV7Beww//SikNavDKC7IKM=;
+ b=Etg42v04QmHT9ijsEaLl6TYAsyAqSckYQLht+fAaVp57OtJiJzEnfh6j
+ CLc39nkL4lZzbbD8o3mnxM9pDNZCYYcbUgqqQJE4luSXYTKoxQULXd9NX
+ TC/gVElfn179WZWpGFheZGR3CSihgZsx77kjvTLmL4tnnf7RrwoD+DxWy
+ Oq6GRuoq1A1rd84rmBruEBXKLeeqw+uUhKOq8WVZll4LJXMVwJSDMpzmd
+ 008I767DwcxN6z7LZ5vIKKh3RHbbbe2fxgTKZxhlRroz6lMwvfxXg2Sv5
+ lylEVYVWwpz7H9ViCBXdBkv7O4NG1XzeyxPkJzyWcGypXF+QWk8aAy8Wv w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="309310863"
+X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="309310863"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Jan 2022 23:55:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="494530968"
+X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="494530972"
 Received: from 984fee00bf64.jf.intel.com ([10.165.54.77])
  by orsmga002.jf.intel.com with ESMTP; 23 Jan 2022 23:55:23 -0800
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/7] AMX support in Qemu
-Date: Sun, 23 Jan 2022 23:55:16 -0800
-Message-Id: <20220124075523.108875-1-yang.zhong@intel.com>
+Subject: [PATCH 1/7] x86: Fix the 64-byte boundary enumeration for extended
+ state
+Date: Sun, 23 Jan 2022 23:55:17 -0800
+Message-Id: <20220124075523.108875-2-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220124075523.108875-1-yang.zhong@intel.com>
+References: <20220124075523.108875-1-yang.zhong@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=134.134.136.100;
@@ -75,80 +78,74 @@ Cc: yang.zhong@intel.com, kevin.tian@intel.com, seanjc@google.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Intel introduces Advanced Matrix Extensions (AMX) [1] feature that
-consists of configurable two-dimensional "TILE" registers and new
-accelerator instructions that operate on them. TMUL (Tile matrix
-MULtiply) is the first accelerator instruction set to use the new
-registers.
+From: Jing Liu <jing2.liu@intel.com>
 
-Since AMX KVM patches have been merged into Linux release, this series
-is based on latest Linux release.
+The extended state subleaves (EAX=0Dh, ECX=n, n>1).ECX[1]
+indicate whether the extended state component locates
+on the next 64-byte boundary following the preceding state
+component when the compacted format of an XSAVE area is
+used.
 
-According to the KVM design, the userspace VMM (e.g. Qemu) is expected
-to request guest permission for the dynamically-enabled XSAVE features
-only once when the first vCPU is created, and KVM checks guest permission
-in KVM_SET_CPUID2.
+Right now, they are all zero because no supported component
+needed the bit to be set, but the upcoming AMX feature will
+use it.  Fix the subleaves value according to KVM's supported
+cpuid.
 
-Intel AMX is XSAVE supported and XSAVE enabled. Those extended features
-has large state while current kvm_xsave only allows 4KB. The AMX KVM has
-extended struct kvm_xsave to meet this requirenment and added one extra
-KVM_GET_XSAVE2 ioctl to handle extended features. From our test, the AMX
-live migration work well.
+Signed-off-by: Jing Liu <jing2.liu@intel.com>
+Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+---
+ target/i386/cpu.h         | 6 ++++++
+ target/i386/cpu.c         | 1 +
+ target/i386/kvm/kvm-cpu.c | 2 ++
+ 3 files changed, 9 insertions(+)
 
-Notice: This version still includes some definitions in the linux-headers,
-once Qemu sync those linux-headers, I will remove those definitions. So
-please ignore those changes.
-
-[1] Intel Architecture Instruction Set Extension Programming Reference
-    https://software.intel.com/content/dam/develop/external/us/en/documents/\
-    architecture-instruction-set-extensions-programming-reference.pdf
-
-Thanks,
-Yang
-----
-
-change history
---------------
-rfc v1->v1:
-   - Patch 1 changed commit message(Kevin and Paolo).
-   - Patch 2 changed commit message(Kevin and Paolo).
-   - Patch 3, below requirements from Paolo,
-     - Called ARCH_REQ_XCOMP_GUEST_PERM from x86_cpu_enable_xsave_components.
-       Used kvm_request_xsave_components() to replace x86_xsave_req_perm().
-       Replaced syscall(ARCH_GET_XCOMP_GUEST_PERM) with kvm_arch_get_supported_cpuid()
-       in kvm_request_xsave_components().
-     - Changed kvm_cpu_xsave_init() to use host_cpuid() instead of
-       kvm_arch_get_supported_cpuid().
-     - Added the "function == 0xd" handle in kvm_arch_get_supported_cpuid().   
-   - Patch 4, used "uint32_t ecx" to replace "uint32_t need_align, support_xfd".
-   - Patch 6, below changes,
-     - Changed the commit message(Kevin) and Used the new function
-     - kvm_init_xsave() to replace some pieces of code(Wei).
-     - Moved KVM_CAP_XSAVE2 extension check to kvm_arch_init_vcpu() to
-       make the request permission before KVM_CAP_XSAVE2 extension check(Paolo).
-   - Removed RFC prefix.
-
-Jing Liu (5):
-  x86: Fix the 64-byte boundary enumeration for extended state
-  x86: Add AMX XTILECFG and XTILEDATA components
-  x86: Add XFD faulting bit for state components
-  x86: Add AMX CPUIDs enumeration
-  x86: add support for KVM_CAP_XSAVE2 and AMX state migration
-
-Yang Zhong (1):
-  x86: Grant AMX permission for guest
-
-Zeng Guang (1):
-  x86: Support XFD and AMX xsave data migration
-
- linux-headers/asm-x86/kvm.h | 14 ++++++
- linux-headers/linux/kvm.h   |  2 +
- target/i386/cpu.h           | 46 +++++++++++++++++-
- target/i386/cpu.c           | 96 +++++++++++++++++++++++++++++++++++--
- target/i386/kvm/kvm-cpu.c   | 12 +++--
- target/i386/kvm/kvm.c       | 69 +++++++++++++++++++-------
- target/i386/machine.c       | 42 ++++++++++++++++
- target/i386/xsave_helper.c  | 35 ++++++++++++++
- 8 files changed, 291 insertions(+), 25 deletions(-)
-
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 9911d7c871..de1dc124ab 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -548,6 +548,11 @@ typedef enum X86Seg {
+ #define XSTATE_Hi16_ZMM_MASK            (1ULL << XSTATE_Hi16_ZMM_BIT)
+ #define XSTATE_PKRU_MASK                (1ULL << XSTATE_PKRU_BIT)
+ 
++#define ESA_FEATURE_ALIGN64_BIT         1
++
++#define ESA_FEATURE_ALIGN64_MASK        (1U << ESA_FEATURE_ALIGN64_BIT)
++
++
+ /* CPUID feature words */
+ typedef enum FeatureWord {
+     FEAT_1_EDX,         /* CPUID[1].EDX */
+@@ -1354,6 +1359,7 @@ QEMU_BUILD_BUG_ON(sizeof(XSavePKRU) != 0x8);
+ typedef struct ExtSaveArea {
+     uint32_t feature, bits;
+     uint32_t offset, size;
++    uint32_t ecx;
+ } ExtSaveArea;
+ 
+ #define XSAVE_STATE_AREA_COUNT (XSTATE_PKRU_BIT + 1)
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index aa9e636800..37f06b0b1a 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5487,6 +5487,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+                 const ExtSaveArea *esa = &x86_ext_save_areas[count];
+                 *eax = esa->size;
+                 *ebx = esa->offset;
++                *ecx = esa->ecx & ESA_FEATURE_ALIGN64_MASK;
+             }
+         }
+         break;
+diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
+index d95028018e..033ca011ea 100644
+--- a/target/i386/kvm/kvm-cpu.c
++++ b/target/i386/kvm/kvm-cpu.c
+@@ -105,6 +105,8 @@ static void kvm_cpu_xsave_init(void)
+                 assert(esa->size == sz);
+                 esa->offset = kvm_arch_get_supported_cpuid(s, 0xd, i, R_EBX);
+             }
++
++            esa->ecx = kvm_arch_get_supported_cpuid(s, 0xd, i, R_ECX);
+         }
+     }
+ }
 
