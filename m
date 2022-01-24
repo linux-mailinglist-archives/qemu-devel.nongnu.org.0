@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34B3249867D
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 18:22:14 +0100 (CET)
-Received: from localhost ([::1]:36328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5877A4986EE
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 18:34:19 +0100 (CET)
+Received: from localhost ([::1]:60582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nC32j-00015A-9Y
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 12:22:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55468)
+	id 1nC3EQ-0000yF-Aj
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 12:34:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1nC2yK-0005kS-4b
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 12:17:40 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:65336)
+ id 1nC2yI-0005eA-96
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 12:17:38 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:35780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1nC2yE-0007lh-Kn
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 12:17:39 -0500
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20OFvXKV019284; 
- Mon, 24 Jan 2022 17:17:30 GMT
+ id 1nC2yE-0007lc-Cx
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 12:17:37 -0500
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20OFptrA022861; 
+ Mon, 24 Jan 2022 17:17:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=TT4tb+FKWv2PAwxiQdEwMAt5XD8HqI8lAEczAlMG6sc=;
- b=LJVY3Qxca1sfSlFPkmZK3Dvb9gukaiZnAjtZOzUkPmAmIORpC4aUR/omO+Hfdnfk+PIu
- yHIuR98lGaLyE9PQ9HglaCkaMqnmlvjHtMKIq8Hxeha8dbazktF/onSdqS23C8qLlve4
- qKcUec4hlFxcPTLAatHCeeLa8Xc186adAyk9Q0V5Gf2FYqXxcQCIEa1kxqVMqLjRwQjF
- zfdWY1Zj97mgJvoCi/G46dips1p+kUJB0Eccnvq9xkJYorO4N8D/Oi9d7UplGbvjq3Y9
- iXRPEYQ6qOuaag9EdxmRddgVaZ4LPfHXDFaDvm8L5FOtznn7Qa+9E4RQxEujH3pSb3i/ PA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 3dsy7arbga-1
+ bh=t4WojR4pPgZM7ReGPbmzFpfQeLKcgV8YM5y77IDNGc8=;
+ b=PrWkRivDcI/ENN/kEK6v7mLrr/WEfMpFpocWqQ6w03ynU0mo+urAGcdjnhHAGF9xwjZI
+ zjWPvGrj3wuwoWEMq00ksnChh5Pp2WkiXNvdzw7uzDPrqXv3jsQz9nx3WXPZ9CLf6Mx/
+ uH6mq0N8II/v0hKRQjmKat9huB2zGFy5KWabH6SgTRmss6gwD6qV1/0rn8eZybC8bvL+
+ 2AnsfD98M9ZA97NdkzwEedcDPu1AhjN/20FC1aRFOxaZJIVJA2VEKQey3b606/6zNHh+
+ aRHpR8j/m9IELxO3yFKEk8vjpkVBV4x/Tz/ef4ZS+J5v4QjsyEsaZ32jBdI+EKPZjCBL 5Q== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3dsvmj8uhf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Jan 2022 17:17:29 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20OHBEg7142709;
- Mon, 24 Jan 2022 17:17:28 GMT
+ Mon, 24 Jan 2022 17:17:31 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20OHAiYr051685;
+ Mon, 24 Jan 2022 17:17:30 GMT
 Received: from nam11-co1-obe.outbound.protection.outlook.com
- (mail-co1nam11lp2175.outbound.protection.outlook.com [104.47.56.175])
- by aserp3030.oracle.com with ESMTP id 3dr7ye6qyj-2
+ (mail-co1nam11lp2176.outbound.protection.outlook.com [104.47.56.176])
+ by aserp3020.oracle.com with ESMTP id 3dr9r4djpd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Jan 2022 17:17:28 +0000
+ Mon, 24 Jan 2022 17:17:30 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CAZapL1xXTS2foY/C5Eccevz8gGWwXj68nrgFFqR4+YS7/t8Z3weVbOgvf+gqbIeBgj2b3Nvek9o4EgGdD6+jmA4h8Ze6/koOBXDdadLfIWTwMemn6Nfzg81Qsvkn4ZLrfGI45ZbIfVNfS+/PjavSj26Eu2y7tC7R9QSk5ewoVXd9u9FWUM2AgfW2nARj6kuY7eaRiVI1LrvpFW+65Br8SB1pbvi/gaPAejL5BWXX9XQCzrcP9/QqHYs3SOU3lyOT2QyZFwBg99rdD3UbTCq3yjo7AEWwp6WAm8ZIW6m6BadVWVND7h096KJi2jrDOHUY68z03wMkpjQXaLeno2PJg==
+ b=DBFw1RDM7tL1u672i5FguRmP6oJKLG61F59+I9qez+BW1nALDvz5dUSv+GcyZsIU9D/WNk68EzR+YDQVfD7fINFCSGSpKhSM1Uxe53383BLsyyiv52/O2+3xnVcb3z81twnKFgbpwNBE+fgBbBW7mXCr6hGvpLOQsSHWFVEi3aC6J2X0dVNMie45TLtzbdzgHm08R8BA4XJHm38C3lJ0x2RD9qKEomEXptYKHVvB+8O4zeGfiez4lnglALGG0SDjn2WRwnkG4iEj74nb11LDSE3rgo/xMzhcQBzEOE8jlLy13uT0BhwT7g4YpeGyiAD3IIWlcs8q28uZjV4g4kYhAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TT4tb+FKWv2PAwxiQdEwMAt5XD8HqI8lAEczAlMG6sc=;
- b=cbBINe/Hv3KS5jUv+g6meNRWhXw/v7+0Ucmqim7tmAAEo+NQp+YJZlcNbt21Y1QfHj12kNkBU5JcBiUrZ/pJVk9x+6f0LdIQe/WN7EGvCsfC9Hgv+EXRA9qzzkM3n7Hu2J5AzZT/KH0eihq+tJcHWaCMPw+u/zcZAaQirmrhSsIfHurDLlF10soVSY1+DziFBlQgQubClqHtQWdZ+BSb8JOmq9w3pWrt/WzRZSm1Zx61u7Zr1FoKM8CvtSxqWucFGjfgyAtPJi37F8qgjEEML3gkQJFLFanSRCTmRBoSNXVyRl2v83hC2z0hqYxAwWnZ2gDx4uHyEvXXGh5BPwSi8g==
+ bh=t4WojR4pPgZM7ReGPbmzFpfQeLKcgV8YM5y77IDNGc8=;
+ b=KFFZGRxav6iWIqcc/k+y+JKtzkydECxfd2ToCWAPtFoH0yftT5DwAyuMIPAHNYUysq5c7UiVZfXYLLIm6xLzeXrfRxl7NfLGEovQkjYwsDzaTKBRAhbKV2OeHrSxr7fKrK8M0R9cYleY+tQBVkO/ThB6eUaI0ugTScQJoKN+cDrqLXzVpDgibM5IKnPtahaMfTw8UBH0tx5ynTYgWHEuEs/ttZAPOktzOkbclmdu0M25rxsG97UwsfefKcyP6Mujx4RHL7kxWDDl2hODVis+KI3TqRauJQ0BNui9JRmHgk/jdkNB2nCfbUePAZRstIOgjjECvlTu0azzafb3AEgHkw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TT4tb+FKWv2PAwxiQdEwMAt5XD8HqI8lAEczAlMG6sc=;
- b=dnWnHth35N8En/f6K+UJgT1NrLht6lrXQvXFg/EQi1B5quJm9M3RLjekqLCVtq/AG0HX0wA/ivxBC6ze8xd6W3jV8B8f6iRR1ovO0M4gguAj7lg8TyXNqLTu9fHHFFVjjBLqrNYR8kVcYIj0hpFyppB1+QeVUBmFqXGDcLJCNvo=
+ bh=t4WojR4pPgZM7ReGPbmzFpfQeLKcgV8YM5y77IDNGc8=;
+ b=JiBkBirZ9dD32U1INl2naDK3yyhQ623musQtFKt0v4XXGOi0Rw46HhsVU0Zm8F81GLgzYsqaAJ5KyLecMSJRC0Rk4LCdT9prIRGZ48A2k3vg6e5+3pU20u6CptXd11eYlbO+wHJQibdeiW7dvPtaFFTJdisXoDlHYgS+CPLsWW8=
 Received: from CO1PR10MB4531.namprd10.prod.outlook.com (2603:10b6:303:6c::22)
  by DM5PR1001MB2265.namprd10.prod.outlook.com (2603:10b6:4:30::12)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.10; Mon, 24 Jan
- 2022 17:17:24 +0000
+ 2022 17:17:28 +0000
 Received: from CO1PR10MB4531.namprd10.prod.outlook.com
  ([fe80::ac06:be4:5723:771c]) by CO1PR10MB4531.namprd10.prod.outlook.com
  ([fe80::ac06:be4:5723:771c%4]) with mapi id 15.20.4909.017; Mon, 24 Jan 2022
- 17:17:24 +0000
+ 17:17:26 +0000
 From: Eric DeVolder <eric.devolder@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v13 06/10] ACPI ERST: build the ACPI ERST table
-Date: Mon, 24 Jan 2022 12:16:57 -0500
-Message-Id: <1643044621-15892-7-git-send-email-eric.devolder@oracle.com>
+Subject: [PATCH v13 07/10] ACPI ERST: create ACPI ERST table for pc/x86
+ machines
+Date: Mon, 24 Jan 2022 12:16:58 -0500
+Message-Id: <1643044621-15892-8-git-send-email-eric.devolder@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1643044621-15892-1-git-send-email-eric.devolder@oracle.com>
 References: <1643044621-15892-1-git-send-email-eric.devolder@oracle.com>
@@ -81,76 +82,76 @@ X-ClientProxiedBy: SN7PR04CA0055.namprd04.prod.outlook.com
  (2603:10b6:303:6c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fb2abdd0-fce0-4c49-38e7-08d9df5d6395
+X-MS-Office365-Filtering-Correlation-Id: 9e33598d-c69b-4eb0-52b3-08d9df5d6494
 X-MS-TrafficTypeDiagnostic: DM5PR1001MB2265:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR1001MB2265F4F2DA25E58704EDDA28975E9@DM5PR1001MB2265.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-Microsoft-Antispam-PRVS: <DM5PR1001MB2265A301A6F55053DDC78403975E9@DM5PR1001MB2265.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: X5af/tZGV8obAIM6q9tVMdbMRFOcBUlyEzy5IyJA9rN3aJvUhxN/vqmqT3ZjqW2VkVvIdDDZcqnMNEtejyvf9gI9IDF3BQf3jZAlo9kD09syoLxTkDdLotejqgGy+1nLcBArNR1C1H8ldlXP9udJjDrUGNsjggnIg8HVnM5kCJMz6Q0Cn1zKP+ken4tbaVsVXxi4d/scLpS7eaphUZpIODuLl9JCxsEhMsqydQUCgeE1XcZNopHuSzzWYnQt3j+fAc9EJsHfe4Kvjwjg9Vb6T1ruycjcWQ1XUTD9+wEbVlkbSB5QwUEUZoQJh3UIDGPtyYiNhJpr18ok+L/6Ees5DHjgRaUna9t4Db9EdfSL4eLO83b0vJyhCXnhd5ygvUYQwaBQzbJzWPUMKr8CzmH3SNgW9UZr2twHLhUAm4gwIGlxBI7BTqmaWPmEXxPDuOXNk+V83WBmluYEMfWvXf3OfF92jr1tjAGIMhbY3l2gRXU197ipy+uHX/FR+9O+ECBD3CeTOy7xwALIdNLmECGGpmQS61N2J6XZEtV1ZBcunNNRMpmc90CJLppTB1QZ0tdAOSGPU5Uf5HH7X1Z+smRr6ffCyunXQ+ca76xrcg9HxTLeLPjSa0YIFUmDwG7W8Lvdvan5grjGdzyUrq4nSVJskLYlSnfxOMiG7mldPa3nbZ3ESJVBOb3ZsFtRU8iAvmOfilXFkEhQQbDKA/lEyPzNRg==
+X-Microsoft-Antispam-Message-Info: 6qteDEE3Au3TrC00wXf70ktPYAvKDB78d88QwUQu6iDG0OJJtz5IygHorWdKBUQ0KZzr6dS/M1VmATwGVxZz03llxW17c/R0nzT9PsXFpS8Eo9EQxQYGgcxNZETt5w89oFg2ZCzDm9owYfyH6lh5VMw7A7EvdeSWg4c2NEzOJxxm5tqXKLQ707FYp1MQhtmBQm3fqHPIlVLVZxxC764aiLfPch/mcoP1FcxCbCVDyB4aX8vq25JqTQ3JDASZYoH8vVDMWZ+z1ekhFaZJmztdSCg86EmbICpxYPn+quP/kL/txIG069AqF/fetrfpOVCF3pjbHWrDlu1BA72ih5jEJmz1vqgp17ey9WDx4xtaUaBXagwQezErc1/DTNmLndPH1K5DTbHXy50Zujk2eTX4MyjfT1szwfGUj9GTBEte8KML/7t6L5Z5W7nsRM4dJYI7+HY7DrgGGyWvvSasg7cH3cT8umkqn43Lb6qto9d/6phaVCqbc1fQFuYOfoqfm38SQ3fEVRS51mVoZJltgCaNOPtOOfhu7UlJcn5AK9O/eIGociva6ZB7Ha0XvY4Vo30pimKUFRcL2C16OO8ooTqNOJz/O0+hWTLiWyMjeucQvVxaVcEYo4pI7qaW4CyVBdU3DfyD7UDp4aSSBxTEjJK9lzTZejqJEtC0f6Vo7Q9lUhao+tDVsI+QSin5o7vgrhsue1qDCTKPfC606aCQUxOOdA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CO1PR10MB4531.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(66556008)(5660300002)(508600001)(83380400001)(6486002)(316002)(6916009)(66476007)(186003)(2906002)(38350700002)(38100700002)(36756003)(52116002)(4326008)(66946007)(6666004)(8936002)(6506007)(8676002)(26005)(2616005)(107886003)(86362001)(6512007);
+ SFS:(366004)(66556008)(5660300002)(508600001)(6486002)(316002)(6916009)(66476007)(186003)(2906002)(38350700002)(38100700002)(36756003)(52116002)(4326008)(66946007)(6666004)(8936002)(6506007)(8676002)(26005)(2616005)(107886003)(86362001)(6512007);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?oZCRwsArERY2japX6gObuA24nU7XqY2f/3IzeLVPqWyaHpIdTNfcxepq1lWT?=
- =?us-ascii?Q?hiXmHAe1WIAnEmGrNQ2W7jm/LuCJf5/lt2e9j5r1CGEA0+JFWKahaP1sDnEo?=
- =?us-ascii?Q?sI331basKLb82EaCfFN/p8ATbrf5vwk8v+2nqwTM80dTwrGbMk/5TuDfB0J8?=
- =?us-ascii?Q?Peysmfd3qNHxwctO7MzfGuJ7KjqxoAvUIi7AsdTA69+8E5pnREOhwfds6zmK?=
- =?us-ascii?Q?4x+hzdN5cuE7CrZaMGDajTP6KUBQoQnXkGY13NjzsBPWxHrJNE4NgNka1fWc?=
- =?us-ascii?Q?q6c2mfdEupDU5ufoW2seXtIKhcxU9VezniEZ2X/38Wsve0aNr7nIBfKNLtgw?=
- =?us-ascii?Q?eeHK+87Tx4ak8trK8+aI6sVUyY6j3OP9qx/yitNmdix+AnNVWqp/1l4W8fPL?=
- =?us-ascii?Q?tbf8YPfqAYnALQwqUB/LRGlwoFQiDt+q3xsXhXo5KleAOBdw6CRrL52+pG0z?=
- =?us-ascii?Q?XKVfl3C2RGs77ENS5cP1Z07wKNDGLpUomzAEjly2Le9YJxm4WJKfzq9Z5g6Z?=
- =?us-ascii?Q?SIDKjSHUVNbgjGkZbob8tM81q4OiuhhD7hAxRaPgskROWVnLOR1CYCaPmtm1?=
- =?us-ascii?Q?+YmO1Vke2AMnRrWHQV9b7DLYwnSco0Y0y8GzMKUUUkoL43KhTv5SK4kkiDrw?=
- =?us-ascii?Q?Dcrk5ObkeTaRAWB58XoUbYIKGbNO9IQDydbDRbCpI2CP+CujyMd77WG8pCoc?=
- =?us-ascii?Q?02yumLDTQ2tz/NHNpMXeKC28A5dhEpMcJ6qYVfeH/ctlYlcVkCLgUpwBDvnw?=
- =?us-ascii?Q?OQDv7TeK0CdZwzNGfBEmxJopnhqOOsmzzq5+IVul4DhfoOOtH3JR2SjP7jwn?=
- =?us-ascii?Q?xOnQNsc5wB9XxomldlksvySrSrZ1bsQGJN4dygsPwXimhYTmRaVRejao7opq?=
- =?us-ascii?Q?AaSkOhCcdD+bZ8WmBeHt5hRz5+TRIZ23BzVkibfd7LBWBsbm14Id7v6qGsNr?=
- =?us-ascii?Q?XV+G91STyMx6KvbPezGBqD0vgjIpouYLMQsYzUO+/JD6gMtcT91sPoX00tn3?=
- =?us-ascii?Q?doXzl7e8k8kLbLJVTLckec5lx1V+xk1rS+vm2gMjAHzVhgo2kGavWf9WmKP8?=
- =?us-ascii?Q?zcAuGRfGm5gPSoTCeVLaNJZjiPvJXUbE0wNzgx1KQi0hRz2D4mlCaGG6Ouhw?=
- =?us-ascii?Q?tSTbW5Cbv+kwn8ClZrlIshvVUMeXTrUyDucvxpGnP+fIY/pWupF/V8pYSgtY?=
- =?us-ascii?Q?7kihkasQolEuCgl1rrbxwNYOVSeQdoV4j+dmE92kG0+6BuPXK87jOTWa/J39?=
- =?us-ascii?Q?MEeaNLiXwjSrJoW14Wt9+Ynjt6hc2Em88AB8gvpZchibTX0lz+AT8but17No?=
- =?us-ascii?Q?4l/b8jZ/J3/w6qkkoFWXpj8C5nxQOBIoOM7WFvJbaRa2TqDhpUYaDL3JsnT/?=
- =?us-ascii?Q?Q7gJfcot+XMuGPI0PP0EHNDZubmPap5WlYZxfkC6TUcxQ80l6vuKGT7qe0Ld?=
- =?us-ascii?Q?1HBUz0uRN/tXzKg9/fEXj/pjBzzT+Tb7bNWKckyiqMPvHm5T7ZadhJ7F825V?=
- =?us-ascii?Q?Qghvy/3YCAV6Mw667+no/IgBqdiF7cMgfnhG8GthERM7PY7E7BWTY1kO5nao?=
- =?us-ascii?Q?3X6/QmKZJymuX1MZQaNbiLWrtIiVEV085KeATgf6BwPaU/Wao21XXHn1eE6W?=
- =?us-ascii?Q?P1xz0YDWGcUCZKBfpT3jSTMoUentI/gymr/3oclEjEd6TN1Aj3O2CvUv9u1M?=
- =?us-ascii?Q?12FeRA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9jHk6YwAnYubopFbSsSWE7otFw955US2kJHqLcFLbKD55f0zfGp3BLIiMl7v?=
+ =?us-ascii?Q?3xXYWfATROSxZsGwsbXmcNaSTWNOX3MzSbo6GYsAofzYdQJXWfku7i82Zv4H?=
+ =?us-ascii?Q?AHEFXPvLcLMu28r2VvUTSl2AJuGUWCmGp/Ho7ZWci5sbavyY4frixRp8A4VS?=
+ =?us-ascii?Q?+Fs3JhlT5EPd1N8wquiWFHTwQn4SXSxPN9kEqCZm6C5qzxciUfuaOKOcBoby?=
+ =?us-ascii?Q?XxZUzwll33KKfyV8rz8NB7CV0etC07Vdi+OEPkwfzU6mSMRMmgCXeysWZFXJ?=
+ =?us-ascii?Q?+1ZMxKbJMnQRzF/Rb2shfj4MYccArlU3FyUkyMNdnT8AHZf8NB2+xW+tJ2ZS?=
+ =?us-ascii?Q?oM7hICWhyoREgm9zED29ROBYr9xGTwHULkviHQToklIGqvXPsGMnNNTFQm7O?=
+ =?us-ascii?Q?KucV9JwUHkNxgY62ZKRf8Eh0URV7Hot53xRZBuvleEaU7JJFnNjJDnNvnpZI?=
+ =?us-ascii?Q?+FEDezvulehzlsSpN3Z0T95PR0VSTzzJ3ddCLtAewTt7o5RotevPZnThtsol?=
+ =?us-ascii?Q?LGQop/tz65MCE4kdizjaoCdayKaIPq5oD89MjrtM0UQjwKtKeZhxVTvaXrhd?=
+ =?us-ascii?Q?M336WTTIk6AMsVmUF4rWs4eP+KI1WBZZ2SQKBT0P7l9WLUfLI+XlMeo6N+Mf?=
+ =?us-ascii?Q?Cpq6233qvvTaoctLKYsIW8R7fKwkKwAQ86stIgaVR4DvDrq9jOTI+4RsRJDd?=
+ =?us-ascii?Q?U8AYj+zQz9zAwM1J9h8alPjqu1OadJXrNJnbFruFG1CUj5Pl/xTT5m2GIY+d?=
+ =?us-ascii?Q?k/nMfSc5bOIsCg8dNw13cM0qF9Cc4kJKC2pb37AJNu2W7ifaQjLhEON4HCH0?=
+ =?us-ascii?Q?ZPl5dLTakMgboT7yL6jfsVsPlhsy2yW2pDmTOK/msIDDblroT55D9lSx3klg?=
+ =?us-ascii?Q?cDfBgZO1IdeZ7MyCK78w456P08iNZYlUHPdJ0Tinvf31XS1RTfT8r83qBxyE?=
+ =?us-ascii?Q?WtA4iCs15SOkqR3Z8dNFBgO5lr2Qo344kT+tkXLf3UC32CU7cNjzJ4wgq2nv?=
+ =?us-ascii?Q?hwYG2iTeEHo8AAk0+aZQlyVMjeJrj/CF0ACwpEhk/75kYb4rJR1MEs3Jdj5l?=
+ =?us-ascii?Q?Y0XoAoBsRPtz3C75o+3hFYbBWCJtqPaLnai1ZGYr7waRYTmbdo19xkuw5eCi?=
+ =?us-ascii?Q?f80oAuxAduGk7ED/nuF/w94weEjuH+6yVqHqYfTrf9spE5YN5r877FRr47ew?=
+ =?us-ascii?Q?O2a4NeFC3XrwgI3MRal9n5QXh63LRjA8zSdnosQAJDPYCqHqv3c3D6KVKKUJ?=
+ =?us-ascii?Q?rOAj2AY3cWEjreoai5s13p4Q1lskD6769anq1AAjA4HJGmOmc00+Um0DzgED?=
+ =?us-ascii?Q?TZFdXjCOjw1jcK7bAdvyyKaFAZ/tfxCx7/0wgVYBNauCCRixy9ZW1g5D70wZ?=
+ =?us-ascii?Q?Ma6m8UHaV2nMPuAFRxdk38XUgcBkP4A5h98KDbZvMq6HQgnNoblVyKr9fKhE?=
+ =?us-ascii?Q?EuGL2yMYxhAaShxbVyaURbczweVDD8lpseuDxP3WSm5dikR6xIBEssWuVBD2?=
+ =?us-ascii?Q?HcjnF97lkrx/AHGx9KXhjHIE5zlwPBjc1hN3n/QyjH3hW5OEnUwg49NmkmAb?=
+ =?us-ascii?Q?waYH6z2r4tBgtRECV0pp5uPw9wm0gh+XymHVFIMM4AFXsMQZyCb0TjMxqirG?=
+ =?us-ascii?Q?vdQjXA9p7Ur+uKUbfrN10m5vWcPR4kro8L9+6I8pO+m7KY41Ly/90KteQqDQ?=
+ =?us-ascii?Q?S+IzSg=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb2abdd0-fce0-4c49-38e7-08d9df5d6395
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e33598d-c69b-4eb0-52b3-08d9df5d6494
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4531.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2022 17:17:24.7645 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2022 17:17:26.3748 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cbredJ5cLoElTsGm753EUILE5A++8Oc6Dj3c7g/XFBlkT7hWJgRWLxQRSMPCD+++a99HU1W5iJG1wvHAtwM2T0He1GXsBX05SNeVWI9kXTU=
+X-MS-Exchange-CrossTenant-UserPrincipalName: wlxX0gtuJ84jM8zzjykBSpDL9RDDUDAmSUSzu6Z9CliZfcp7miXxq30JvFJ6vraaUfRkbYqFAulEatlQaU7T381LBe9BSsoQB9ApZilMbw8=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1001MB2265
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10237
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- phishscore=0 bulkscore=0
- suspectscore=0 malwarescore=0 adultscore=0 mlxlogscore=898 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2201240115
-X-Proofpoint-GUID: oVYhujGCjVk6OTF3pUpT_zfg-T9iuUGz
-X-Proofpoint-ORIG-GUID: oVYhujGCjVk6OTF3pUpT_zfg-T9iuUGz
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=eric.devolder@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ mlxlogscore=999
+ suspectscore=0 spamscore=0 adultscore=0 phishscore=0 malwarescore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2201240115
+X-Proofpoint-GUID: H2WMUI_RnUqi-rZDpXCacxN-mkPMYSnf
+X-Proofpoint-ORIG-GUID: H2WMUI_RnUqi-rZDpXCacxN-mkPMYSnf
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=eric.devolder@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -169,220 +170,110 @@ Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This builds the ACPI ERST table to inform OSPM how to communicate
-with the acpi-erst device.
+This change exposes ACPI ERST support for x86 guests.
 
 Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
 ---
- hw/acpi/erst.c | 188 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 188 insertions(+)
+ hw/i386/acpi-build.c   | 15 +++++++++++++++
+ hw/i386/acpi-microvm.c | 15 +++++++++++++++
+ include/hw/acpi/erst.h |  5 +++++
+ 3 files changed, 35 insertions(+)
 
-diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
-index fe9ba51..b0c7539 100644
---- a/hw/acpi/erst.c
-+++ b/hw/acpi/erst.c
-@@ -59,6 +59,27 @@
- #define STATUS_RECORD_STORE_EMPTY     0x04
- #define STATUS_RECORD_NOT_FOUND       0x05
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index ce823e8..ebd47aa 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -43,6 +43,7 @@
+ #include "sysemu/tpm.h"
+ #include "hw/acpi/tpm.h"
+ #include "hw/acpi/vmgenid.h"
++#include "hw/acpi/erst.h"
+ #include "sysemu/tpm_backend.h"
+ #include "hw/rtc/mc146818rtc_regs.h"
+ #include "migration/vmstate.h"
+@@ -74,6 +75,8 @@
+ #include "hw/acpi/hmat.h"
+ #include "hw/acpi/viot.h"
  
-+/* ACPI 4.0: Table 17-19 Serialization Instructions */
-+#define INST_READ_REGISTER                 0x00
-+#define INST_READ_REGISTER_VALUE           0x01
-+#define INST_WRITE_REGISTER                0x02
-+#define INST_WRITE_REGISTER_VALUE          0x03
-+#define INST_NOOP                          0x04
-+#define INST_LOAD_VAR1                     0x05
-+#define INST_LOAD_VAR2                     0x06
-+#define INST_STORE_VAR1                    0x07
-+#define INST_ADD                           0x08
-+#define INST_SUBTRACT                      0x09
-+#define INST_ADD_VALUE                     0x0A
-+#define INST_SUBTRACT_VALUE                0x0B
-+#define INST_STALL                         0x0C
-+#define INST_STALL_WHILE_TRUE              0x0D
-+#define INST_SKIP_NEXT_INSTRUCTION_IF_TRUE 0x0E
-+#define INST_GOTO                          0x0F
-+#define INST_SET_SRC_ADDRESS_BASE          0x10
-+#define INST_SET_DST_ADDRESS_BASE          0x11
-+#define INST_MOVE_DATA                     0x12
++#include CONFIG_DEVICES
 +
- /* UEFI 2.1: Appendix N Common Platform Error Record */
- #define UEFI_CPER_RECORD_MIN_SIZE 128U
- #define UEFI_CPER_RECORD_LENGTH_OFFSET 20U
-@@ -172,6 +193,173 @@ typedef struct {
+ /* These are used to size the ACPI tables for -M pc-i440fx-1.7 and
+  * -M pc-i440fx-2.0.  Even if the actual amount of AML generated grows
+  * a little bit, there should be plenty of free space since the DSDT
+@@ -2575,6 +2578,18 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+                     ACPI_DEVICE_IF(x86ms->acpi_dev), x86ms->oem_id,
+                     x86ms->oem_table_id);
  
- /*******************************************************************/
- /*******************************************************************/
++#ifdef CONFIG_ACPI_ERST
++    {
++        Object *erst_dev;
++        erst_dev = find_erst_dev();
++        if (erst_dev) {
++            acpi_add_table(table_offsets, tables_blob);
++            build_erst(tables_blob, tables->linker, erst_dev,
++                       x86ms->oem_id, x86ms->oem_table_id);
++        }
++    }
++#endif
 +
-+/* ACPI 4.0: 17.4.1.2 Serialization Instruction Entries */
-+static void build_serialization_instruction_entry(GArray *table_data,
-+    uint8_t serialization_action,
-+    uint8_t instruction,
-+    uint8_t flags,
-+    uint8_t register_bit_width,
-+    uint64_t register_address,
-+    uint64_t value)
-+{
-+    /* ACPI 4.0: Table 17-18 Serialization Instruction Entry */
-+    struct AcpiGenericAddress gas;
-+    uint64_t mask;
+     vmgenid_dev = find_vmgenid_dev();
+     if (vmgenid_dev) {
+         acpi_add_table(table_offsets, tables_blob);
+diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
+index 196d318..68ca7e7 100644
+--- a/hw/i386/acpi-microvm.c
++++ b/hw/i386/acpi-microvm.c
+@@ -30,6 +30,7 @@
+ #include "hw/acpi/bios-linker-loader.h"
+ #include "hw/acpi/generic_event_device.h"
+ #include "hw/acpi/utils.h"
++#include "hw/acpi/erst.h"
+ #include "hw/i386/fw_cfg.h"
+ #include "hw/i386/microvm.h"
+ #include "hw/pci/pci.h"
+@@ -40,6 +41,8 @@
+ #include "acpi-common.h"
+ #include "acpi-microvm.h"
+ 
++#include CONFIG_DEVICES
 +
-+    /* Serialization Action */
-+    build_append_int_noprefix(table_data, serialization_action, 1);
-+    /* Instruction */
-+    build_append_int_noprefix(table_data, instruction         , 1);
-+    /* Flags */
-+    build_append_int_noprefix(table_data, flags               , 1);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data, 0                   , 1);
-+    /* Register Region */
-+    gas.space_id = AML_SYSTEM_MEMORY;
-+    gas.bit_width = register_bit_width;
-+    gas.bit_offset = 0;
-+    gas.access_width = ctz32(register_bit_width) - 2;
-+    gas.address = register_address;
-+    build_append_gas_from_struct(table_data, &gas);
-+    /* Value */
-+    build_append_int_noprefix(table_data, value  , 8);
-+    /* Mask */
-+    mask = (1ULL << (register_bit_width - 1) << 1) - 1;
-+    build_append_int_noprefix(table_data, mask  , 8);
-+}
-+
-+/* ACPI 4.0: 17.4.1 Serialization Action Table */
-+void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
-+    const char *oem_id, const char *oem_table_id)
-+{
-+    GArray *table_instruction_data;
-+    unsigned action;
-+    pcibus_t bar0 = pci_get_bar_addr(PCI_DEVICE(erst_dev), 0);
-+    AcpiTable table = { .sig = "ERST", .rev = 1, .oem_id = oem_id,
-+                        .oem_table_id = oem_table_id };
-+
-+    trace_acpi_erst_pci_bar_0(bar0);
-+
-+    /*
-+     * Serialization Action Table
-+     * The serialization action table must be generated first
-+     * so that its size can be known in order to populate the
-+     * Instruction Entry Count field.
-+     */
-+    table_instruction_data = g_array_new(FALSE, FALSE, sizeof(char));
-+
-+    /*
-+     * Macros for use with construction of the action instructions
-+     */
-+#define BUILD_READ_REGISTER(width_in_bits, reg) \
-+    build_serialization_instruction_entry(table_instruction_data, \
-+        action, INST_READ_REGISTER, 0, width_in_bits, \
-+        bar0 + reg, 0)
-+
-+#define BUILD_READ_REGISTER_VALUE(width_in_bits, reg, value) \
-+    build_serialization_instruction_entry(table_instruction_data, \
-+        action, INST_READ_REGISTER_VALUE, 0, width_in_bits, \
-+        bar0 + reg, value)
-+
-+#define BUILD_WRITE_REGISTER(width_in_bits, reg, value) \
-+    build_serialization_instruction_entry(table_instruction_data, \
-+        action, INST_WRITE_REGISTER, 0, width_in_bits, \
-+        bar0 + reg, value)
-+
-+#define BUILD_WRITE_REGISTER_VALUE(width_in_bits, reg, value) \
-+    build_serialization_instruction_entry(table_instruction_data, \
-+        action, INST_WRITE_REGISTER_VALUE, 0, width_in_bits, \
-+        bar0 + reg, value)
-+
-+    /* Serialization Instruction Entries */
-+    action = ACTION_BEGIN_WRITE_OPERATION;
-+    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-+
-+    action = ACTION_BEGIN_READ_OPERATION;
-+    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-+
-+    action = ACTION_BEGIN_CLEAR_OPERATION;
-+    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-+
-+    action = ACTION_END_OPERATION;
-+    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-+
-+    action = ACTION_SET_RECORD_OFFSET;
-+    BUILD_WRITE_REGISTER(32, ERST_VALUE_OFFSET, 0);
-+    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-+
-+    action = ACTION_EXECUTE_OPERATION;
-+    BUILD_WRITE_REGISTER_VALUE(32, ERST_VALUE_OFFSET,
-+        ERST_EXECUTE_OPERATION_MAGIC);
-+    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-+
-+    action = ACTION_CHECK_BUSY_STATUS;
-+    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-+    BUILD_READ_REGISTER_VALUE(32, ERST_VALUE_OFFSET, 0x01);
-+
-+    action = ACTION_GET_COMMAND_STATUS;
-+    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-+    BUILD_READ_REGISTER(32, ERST_VALUE_OFFSET);
-+
-+    action = ACTION_GET_RECORD_IDENTIFIER;
-+    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-+    BUILD_READ_REGISTER(64, ERST_VALUE_OFFSET);
-+
-+    action = ACTION_SET_RECORD_IDENTIFIER;
-+    BUILD_WRITE_REGISTER(64, ERST_VALUE_OFFSET, 0);
-+    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-+
-+    action = ACTION_GET_RECORD_COUNT;
-+    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-+    BUILD_READ_REGISTER(32, ERST_VALUE_OFFSET);
-+
-+    action = ACTION_BEGIN_DUMMY_WRITE_OPERATION;
-+    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-+
-+    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE;
-+    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-+    BUILD_READ_REGISTER(64, ERST_VALUE_OFFSET);
-+
-+    action = ACTION_GET_ERROR_LOG_ADDRESS_LENGTH;
-+    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-+    BUILD_READ_REGISTER(64, ERST_VALUE_OFFSET);
-+
-+    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES;
-+    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-+    BUILD_READ_REGISTER(32, ERST_VALUE_OFFSET);
-+
-+    action = ACTION_GET_EXECUTE_OPERATION_TIMINGS;
-+    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-+    BUILD_READ_REGISTER(64, ERST_VALUE_OFFSET);
-+
-+    /* Serialization Header */
-+    acpi_table_begin(&table, table_data);
-+
-+    /* Serialization Header Size */
-+    build_append_int_noprefix(table_data, 48, 4);
-+
-+    /* Reserved */
-+    build_append_int_noprefix(table_data,  0, 4);
-+
-+    /*
-+     * Instruction Entry Count
-+     * Each instruction entry is 32 bytes
-+     */
-+    g_assert((table_instruction_data->len) % 32 == 0);
-+    build_append_int_noprefix(table_data,
-+        (table_instruction_data->len / 32), 4);
-+
-+    /* Serialization Instruction Entries */
-+    g_array_append_vals(table_data, table_instruction_data->data,
-+        table_instruction_data->len);
-+    g_array_free(table_instruction_data, TRUE);
-+
-+    acpi_table_end(linker, &table);
-+}
-+
-+/*******************************************************************/
-+/*******************************************************************/
- static uint8_t *get_nvram_ptr_by_index(ERSTDeviceState *s, unsigned index)
+ static void acpi_dsdt_add_virtio(Aml *scope,
+                                  MicrovmMachineState *mms)
  {
-     uint8_t *rc = NULL;
+@@ -207,6 +210,18 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
+                     ACPI_DEVICE_IF(x86ms->acpi_dev), x86ms->oem_id,
+                     x86ms->oem_table_id);
+ 
++#ifdef CONFIG_ACPI_ERST
++    {
++        Object *erst_dev;
++        erst_dev = find_erst_dev();
++        if (erst_dev) {
++            acpi_add_table(table_offsets, tables_blob);
++            build_erst(tables_blob, tables->linker, erst_dev,
++                       x86ms->oem_id, x86ms->oem_table_id);
++        }
++    }
++#endif
++
+     xsdt = tables_blob->len;
+     build_xsdt(tables_blob, tables->linker, table_offsets, x86ms->oem_id,
+                x86ms->oem_table_id);
+diff --git a/include/hw/acpi/erst.h b/include/hw/acpi/erst.h
+index 9d63717..b747fe7 100644
+--- a/include/hw/acpi/erst.h
++++ b/include/hw/acpi/erst.h
+@@ -16,4 +16,9 @@ void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
+ 
+ #define TYPE_ACPI_ERST "acpi-erst"
+ 
++/* returns NULL unless there is exactly one device */
++static inline Object *find_erst_dev(void)
++{
++    return object_resolve_path_type("", TYPE_ACPI_ERST, NULL);
++}
+ #endif
 -- 
 1.8.3.1
 
