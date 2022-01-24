@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075DD497A75
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 09:42:54 +0100 (CET)
-Received: from localhost ([::1]:51548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF77B497A92
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 09:46:49 +0100 (CET)
+Received: from localhost ([::1]:56454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBuw8-0000QS-J8
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 03:42:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47860)
+	id 1nBuzw-0003nq-SG
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 03:46:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nBuWf-0004Sd-Re
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 03:16:34 -0500
-Received: from [2607:f8b0:4864:20::62f] (port=41759
- helo=mail-pl1-x62f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nBuWd-0004gO-9c
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 03:16:32 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id z5so846768plg.8
- for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 00:16:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=h/itlCl8riAsYoX+wyL8G+DbZDAQG7AphHsbod/oxJ0=;
- b=pa4pU2LO9ZRW5yxWixnYOsuj2iCwoaE2WId0/8rj+QTm7iEN0/ORblj4W8ea+33vrZ
- fjGbJN7+/SlNHsWgi5CEk2lErI+6OAkrjaD2xoBfL45RTu5yrqxbTtE9J4uNmWvCXfw/
- 3B/d/DmJbxHbhYPH59G8SW0A2Uu7SCgi1ayM3iJ3KDb4+q05yjlORQRJtP1/JOv4JIBt
- RhyUC8qASyVzn3j+ZpC0pfkMjhDWghtS4G2Jbx1m0PPo3Hb2k7DN5pKg7BhcM2dJwYIg
- WYLgy/+XdLAva2D136XIz9LqJwDkKndpTEvEqbUrYxrwe6PIkiqsLiyXxK7SuC02+nb2
- xk2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=h/itlCl8riAsYoX+wyL8G+DbZDAQG7AphHsbod/oxJ0=;
- b=X40868sZTSqr6eptgbT+Plg8do6Q/GExm0LuUEBlJf52lqBtJ5jxk7VTgACWESjbYx
- 0edk5Wn4YcyXGiv/EFSfGLYHm74PuS4W+NyymbHrUNkTBlB+jHdsYQUIk4yy9poBEttn
- 4XMksbGcWur5twH0OB96eFc7bQCKy6W4hhK+QGBy8TrH86eePdb+pyBftcwN8ZxOdKa0
- dd22mjfcCtGHZhi8oMYsfn18OYn+10B7E9RAI6juPmR1NP4zlUUqlQ2JGLal57rmuLxS
- AVJytHC6d+9qvKrwKsxr7P7gvMflZPsb4nSEIirk9vBeluFFKEMTH0zJ7x52rUKZSVt/
- XsRA==
-X-Gm-Message-State: AOAM533SJX8DcZH1Qr9x64Ut1HchR5eXptNvtG3aobIY5rB+bqbUpZnz
- Vy0iPnd71ojxUg8GAJTI/Q0rtQ==
-X-Google-Smtp-Source: ABdhPJwmRfjc78IGBsua+SvimUV1F5gUerJ6S9EokSdUN6NZeF+F0b9An92ne9KS5vK6/nRc0qp7PQ==
-X-Received: by 2002:a17:902:a5c6:b0:149:c926:7c31 with SMTP id
- t6-20020a170902a5c600b00149c9267c31mr13576663plq.141.1643012183154; 
- Mon, 24 Jan 2022 00:16:23 -0800 (PST)
-Received: from [192.168.15.44] (alanje.lnk.telstra.net. [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id r11sm15471819pff.81.2022.01.24.00.16.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jan 2022 00:16:22 -0800 (PST)
-Subject: Re: [PATCH] meson: Use find_program() to resolve the entitlement.sh
- script
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20220122002052.83745-1-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b7c904ac-5246-79b8-bcc7-5b7a377e0d52@linaro.org>
-Date: Mon, 24 Jan 2022 19:16:18 +1100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nBuY1-0004Zi-Vk; Mon, 24 Jan 2022 03:17:59 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:43398)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nBuXy-0004iW-Il; Mon, 24 Jan 2022 03:17:57 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20O7fuJx020678; 
+ Mon, 24 Jan 2022 08:16:42 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dsmggkxfv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Jan 2022 08:16:42 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20O87w9w028929;
+ Mon, 24 Jan 2022 08:16:40 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma05fra.de.ibm.com with ESMTP id 3dr9j8h4y9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Jan 2022 08:16:39 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20O8GbG545482388
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 24 Jan 2022 08:16:37 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5D9EF4203F;
+ Mon, 24 Jan 2022 08:16:37 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3509142049;
+ Mon, 24 Jan 2022 08:16:37 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Mon, 24 Jan 2022 08:16:37 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.77.38])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 999942201BB;
+ Mon, 24 Jan 2022 09:16:36 +0100 (CET)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH] ppc/xive: check return value of ldq_be_dma()
+Date: Mon, 24 Jan 2022 09:16:35 +0100
+Message-Id: <20220124081635.3672439-1-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20220122002052.83745-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: B5k93IRzyWLCVSgeqhOSuE8mI1n2fgqB
+X-Proofpoint-ORIG-GUID: B5k93IRzyWLCVSgeqhOSuE8mI1n2fgqB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-24_06,2022-01-21_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 bulkscore=0
+ lowpriorityscore=0 suspectscore=0 priorityscore=1501 mlxlogscore=863
+ spamscore=0 phishscore=0 clxscore=1034 adultscore=0 impostorscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2201240053
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,60 +90,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/22/22 11:20 AM, Philippe Mathieu-Daudé via wrote:
-> Using ../configure without any particular option generates 31 targets
-> on Darwin, and meson search for the entitlement.sh script 31 times:
-> 
->    Program nm found: YES
->    Program scripts/undefsym.py found: YES (/opt/homebrew/opt/python@3.9/bin/python3.9 /Code/qemu/scripts/undefsym.py)
->    Program scripts/feature_to_c.sh found: YES (/bin/sh /Code/qemu/scripts/feature_to_c.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
->    Configuring 50-edk2-i386-secure.json using configuration
->    Configuring 50-edk2-x86_64-secure.json using configuration
-> 
-> Use find_program() which seems to cache the script path once found.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
->   meson.build | 9 +++------
->   1 file changed, 3 insertions(+), 6 deletions(-)
+The ldq_be_dma() routine was recently changed to return a result of
+the transaction. Use it when loading the virtual structure descriptors
+in the XIVE PowerNV model.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ hw/intc/pnv_xive.c | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
 
-r~
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index bb207514f2dd..621b20a03f5f 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -172,7 +172,12 @@ static uint64_t pnv_xive_vst_addr_indirect(PnvXive *=
+xive, uint32_t type,
+=20
+     /* Get the page size of the indirect table. */
+     vsd_addr =3D vsd & VSD_ADDRESS_MASK;
+-    ldq_be_dma(&address_space_memory, vsd_addr, &vsd, MEMTXATTRS_UNSPECI=
+FIED);
++    if (ldq_be_dma(&address_space_memory, vsd_addr, &vsd,
++                    MEMTXATTRS_UNSPECIFIED)) {
++        xive_error(xive, "VST: failed to access %s entry %x @0x%" PRIx64=
+,
++                   info->name, idx, vsd_addr);
++        return 0;
++    }
+=20
+     if (!(vsd & VSD_ADDRESS_MASK)) {
+ #ifdef XIVE_DEBUG
+@@ -195,8 +200,12 @@ static uint64_t pnv_xive_vst_addr_indirect(PnvXive *=
+xive, uint32_t type,
+     /* Load the VSD we are looking for, if not already done */
+     if (vsd_idx) {
+         vsd_addr =3D vsd_addr + vsd_idx * XIVE_VSD_SIZE;
+-        ldq_be_dma(&address_space_memory, vsd_addr, &vsd,
+-                   MEMTXATTRS_UNSPECIFIED);
++        if (ldq_be_dma(&address_space_memory, vsd_addr, &vsd,
++                       MEMTXATTRS_UNSPECIFIED)) {
++            xive_error(xive, "VST: failed to access %s entry %x @0x%"
++                       PRIx64, info->name, vsd_idx, vsd_addr);
++            return 0;
++        }
+=20
+         if (!(vsd & VSD_ADDRESS_MASK)) {
+ #ifdef XIVE_DEBUG
+@@ -543,7 +552,12 @@ static uint64_t pnv_xive_vst_per_subpage(PnvXive *xi=
+ve, uint32_t type)
+=20
+     /* Get the page size of the indirect table. */
+     vsd_addr =3D vsd & VSD_ADDRESS_MASK;
+-    ldq_be_dma(&address_space_memory, vsd_addr, &vsd, MEMTXATTRS_UNSPECI=
+FIED);
++    if (ldq_be_dma(&address_space_memory, vsd_addr, &vsd,
++                   MEMTXATTRS_UNSPECIFIED)) {
++        xive_error(xive, "VST: failed to access %s entry @0x%" PRIx64,
++                   info->name, vsd_addr);
++        return 0;
++    }
+=20
+     if (!(vsd & VSD_ADDRESS_MASK)) {
+ #ifdef XIVE_DEBUG
+--=20
+2.31.1
+
 
