@@ -2,88 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54F954994C2
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 22:06:19 +0100 (CET)
-Received: from localhost ([::1]:45784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0C14997C9
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 22:32:22 +0100 (CET)
+Received: from localhost ([::1]:40408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nC6Xa-0006Gb-Eg
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 16:06:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44392)
+	id 1nC6wn-0005ai-VG
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 16:32:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nC677-0006kb-Dt
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 15:38:57 -0500
-Received: from [2a00:1450:4864:20::42c] (port=46623
- helo=mail-wr1-x42c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nC675-0006Y2-9r
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 15:38:56 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id l25so15829562wrb.13
- for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 12:38:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=4UMp6GCxIpsQCPvNCwro6ntkEAgtyccbiE04RS4oK+M=;
- b=QgMblzlU6RXKzukTyR9FaKz4cdu3FYxPfKjBkpLJbcBvIf0S5BFscMhZxq5Nde3qUe
- UpKyV9+Es2YAUUmM+YY81SUSil2aDl9j7K/pod02pWgd/JtbcFu+zf+f/UkmBNIxIP/9
- h8pW6fyFLxnvB1Qbuq+Vr5vjWDJqQj86lcYTL/QH4jbWbOxlVGcRNPP4E1vIC5oBq/Jx
- ce5qQuzahIk2k6pkNRYdzdDbQaeTAyMRNif3Ao8WcsJCHZO3RPmf3cabuIn+YSmVXBaV
- KCO/zMt5jEASpqmHlS3gvrcrLWceUpRCwDAbEC3ppoSZ00q1fLA+5c7mxDva9hKArQ77
- zRRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=4UMp6GCxIpsQCPvNCwro6ntkEAgtyccbiE04RS4oK+M=;
- b=MLvau18CGWtQ1GkwqB2cj5BZN8OfmaYtlTQsDFOzW+gYSZHYlUr+NSnOmuoyXAI/2n
- eif8ShcVbKsuQ265NeAeEJDTURyr8FacQJzghNKCgGGtY8aLO2CK4NeTWeWNoY3y/OMo
- ZlNT4HLUfdhfv41HNrL9tgFRgPGVwLksjxWV4UYu1wLPBVgVcsEN4+IIeDIrm4Zp9xDG
- u4hXKY//ODNqUlcvXa2cNhsCN48zdnMeXO63BH4/p4sCvND3CIPQB3tcSZVcMMBc4gle
- PVicGt07ytxfFtagAHwLmBmzCKksS19ZU8PLk9XlRhF0VjVWZD5vSRw/2IfTv7v8swtj
- LUww==
-X-Gm-Message-State: AOAM533SsXOUEPl95WitDx0hSfxhKxsngvggw1lktXpCifD6UB0oEQga
- nAF4WqB5Gk2cNbU45HOIoTo=
-X-Google-Smtp-Source: ABdhPJwl/jLI1zUOpi89SKeMTU3SMhZ/xKfmH1HrbEAItaym4HAAyVLP5EDuq6BhC2xEVCiPXwSvGw==
-X-Received: by 2002:a5d:628c:: with SMTP id k12mr10646481wru.572.1643056733623; 
- Mon, 24 Jan 2022 12:38:53 -0800 (PST)
-Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id w8sm15117308wre.83.2022.01.24.12.38.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jan 2022 12:38:53 -0800 (PST)
-Message-ID: <d6503936-a4fb-e8ff-7e8d-5470b73af38a@amsat.org>
-Date: Mon, 24 Jan 2022 21:38:51 +0100
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nC6q6-0004Fh-Ml
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 16:25:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21719)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nC6pz-0005Hd-Il
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 16:25:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643059517;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=eelLdMlQOXC6w2GByGwfUsaYBqXPHngG1GLx/rlV1Y8=;
+ b=VJyLLcc7rAECuT/9sHq7N9igZMgnIPvFFjOhsJSmndwmoqQ1WD7sa6IhfRYchzXLrGiu+W
+ b8HEar3r4jklWI+CCJbaU+UbTFOcbEVDD4j8Il1QbkewdccTQp8gM5ZqV8dqKaGtJ3eX+L
+ hzTbUtzknOb465xxziFgIliHBXXOdZw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-127-V227CYjWMA2OlGeFt1Z7tg-1; Mon, 24 Jan 2022 16:25:15 -0500
+X-MC-Unique: V227CYjWMA2OlGeFt1Z7tg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64404801B1C
+ for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 21:25:14 +0000 (UTC)
+Received: from horse.redhat.com (unknown [10.22.16.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F0774D738;
+ Mon, 24 Jan 2022 21:25:14 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id AF321220370; Mon, 24 Jan 2022 16:25:13 -0500 (EST)
+From: Vivek Goyal <vgoyal@redhat.com>
+To: qemu-devel@nongnu.org,
+	virtio-fs@redhat.com
+Subject: [PATCH v4 0/9] virtiofsd: Add support for file security context at
+ creation
+Date: Mon, 24 Jan 2022 16:24:46 -0500
+Message-Id: <20220124212455.83968-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v1 04/22] .gitignore: add .gcov pattern
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: aaron@os.amperecomputing.com, robhenry@microsoft.com,
- mahmoudabdalghany@outlook.com, minyihh@uci.edu, cota@braap.org,
- Luke.Craig@ll.mit.edu, kuhn.chenqun@huawei.com, ma.mandourr@gmail.com
-References: <20220124201608.604599-1-alex.bennee@linaro.org>
- <20220124201608.604599-5-alex.bennee@linaro.org>
-In-Reply-To: <20220124201608.604599-5-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,20 +78,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: mszeredi@redhat.com, stefanha@redhat.com, dgilbert@redhat.com,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 1/24/22 21:15, Alex Bennée wrote:
-> The gcovr tool is very messy and can leave a lot of crap in the source
-> tree even when using build directories.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  .gitignore | 1 +
->  1 file changed, 1 insertion(+)
+Hi,
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+This is V4 of the patches. I posted V3 here.
+
+https://listman.redhat.com/archives/virtio-fs/2021-November/msg00058.html
+
+Now corresponding kernel patches have been merged in 5.17-rc1. So I am
+requesting for inclusion of these patches.
+
+These will allow us to support SELinux with virtiofs. This will send
+SELinux context at file creation to server and server can set it on
+file.
+
+Please have a look and consider for inclusion.
+
+Thanks
+Vivek
+
+Vivek Goyal (9):
+  linux-headers: Update headers to v5.17-rc1
+  virtiofsd: Fix breakage due to fuse_init_in size change
+  virtiofsd: Parse extended "struct fuse_init_in"
+  virtiofsd: Extend size of fuse_conn_info->capable and ->want fields
+  virtiofsd, fuse_lowlevel.c: Add capability to parse security context
+  virtiofsd: Move core file creation code in separate function
+  virtiofsd: Create new file with fscreate set
+  virtiofsd: Create new file using O_TMPFILE and set security context
+  virtiofsd: Add an option to enable/disable security label
+
+ docs/tools/virtiofsd.rst                      |   7 +
+ include/standard-headers/asm-x86/kvm_para.h   |   1 +
+ include/standard-headers/drm/drm_fourcc.h     |  11 +
+ include/standard-headers/linux/ethtool.h      |   1 +
+ include/standard-headers/linux/fuse.h         |  60 ++-
+ include/standard-headers/linux/pci_regs.h     | 142 +++---
+ include/standard-headers/linux/virtio_gpio.h  |  72 +++
+ include/standard-headers/linux/virtio_i2c.h   |  47 ++
+ include/standard-headers/linux/virtio_iommu.h |   8 +-
+ .../standard-headers/linux/virtio_pcidev.h    |  65 +++
+ include/standard-headers/linux/virtio_scmi.h  |  24 +
+ linux-headers/asm-generic/unistd.h            |   5 +-
+ linux-headers/asm-mips/unistd_n32.h           |   2 +
+ linux-headers/asm-mips/unistd_n64.h           |   2 +
+ linux-headers/asm-mips/unistd_o32.h           |   2 +
+ linux-headers/asm-powerpc/unistd_32.h         |   2 +
+ linux-headers/asm-powerpc/unistd_64.h         |   2 +
+ linux-headers/asm-riscv/bitsperlong.h         |  14 +
+ linux-headers/asm-riscv/mman.h                |   1 +
+ linux-headers/asm-riscv/unistd.h              |  44 ++
+ linux-headers/asm-s390/unistd_32.h            |   2 +
+ linux-headers/asm-s390/unistd_64.h            |   2 +
+ linux-headers/asm-x86/kvm.h                   |  16 +-
+ linux-headers/asm-x86/unistd_32.h             |   1 +
+ linux-headers/asm-x86/unistd_64.h             |   1 +
+ linux-headers/asm-x86/unistd_x32.h            |   1 +
+ linux-headers/linux/kvm.h                     |  17 +
+ tools/virtiofsd/fuse_common.h                 |   9 +-
+ tools/virtiofsd/fuse_i.h                      |   7 +
+ tools/virtiofsd/fuse_lowlevel.c               | 155 +++++--
+ tools/virtiofsd/helper.c                      |   1 +
+ tools/virtiofsd/passthrough_ll.c              | 414 ++++++++++++++++--
+ 32 files changed, 1006 insertions(+), 132 deletions(-)
+ create mode 100644 include/standard-headers/linux/virtio_gpio.h
+ create mode 100644 include/standard-headers/linux/virtio_i2c.h
+ create mode 100644 include/standard-headers/linux/virtio_pcidev.h
+ create mode 100644 include/standard-headers/linux/virtio_scmi.h
+ create mode 100644 linux-headers/asm-riscv/bitsperlong.h
+ create mode 100644 linux-headers/asm-riscv/mman.h
+ create mode 100644 linux-headers/asm-riscv/unistd.h
+
+-- 
+2.31.1
 
 
