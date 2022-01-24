@@ -2,81 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF85497D82
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 11:59:10 +0100 (CET)
-Received: from localhost ([::1]:52924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DE54497D97
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 12:06:49 +0100 (CET)
+Received: from localhost ([::1]:58404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBx41-0006ke-De
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 05:59:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52540)
+	id 1nBxBP-0002Xw-RG
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 06:06:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nBx1V-0005SW-2h
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 05:56:34 -0500
-Received: from [2a00:1450:4864:20::431] (port=39812
- helo=mail-wr1-x431.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nBx1T-0004gk-Dj
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 05:56:32 -0500
-Received: by mail-wr1-x431.google.com with SMTP id r14so2197929wrc.6
- for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 02:56:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=CPELNrshwCAU/KT3/pQM0on9CTBjMsA8P0rzuesNCsA=;
- b=OXNHngVDLJFhUpupHhW2Dy5lbiaZwod2zPEvTHndJEu/YvipZHeW5N7cxJp1S62Zar
- erqPSgXjq3WfXgxJ6DsWZ4H9VENpZ9/c0KA3roziRaEBOrQIspWvE1awcryRZkVVu0z1
- Wu6XMB3C12mP4eLiX4IncgzeUcBNj4WebD4hcyjTv92DjA1vF8tTwBB4D70rQ8DyZzJB
- txvM4HgvKVS9BaclMA8w8235EYj5WCLjuqe/ZmW6rNfDTO9L5jDNnSNWRqZSCCWsm2+x
- 9zJCDzdkPo9anqgjYPudGPedYp8ep/JrYuOG6YEnD8v8cWUBxLx1ltAZn5gQez6pxKEh
- RCJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=CPELNrshwCAU/KT3/pQM0on9CTBjMsA8P0rzuesNCsA=;
- b=aQEnBhWy7Iz/lED/41YT9agxyzrkgmP9W99UHIVfXFHvK6ipWrufIjnKoCt5wG4TZ8
- gN7OrdJR+f4WvrMhjJZ1JzMm2xCX9vbpFz9OaSZmUTocajty2Flk3o1nAl/KRs+9Y2En
- Ytlg+xqoMjYS0TXAP/NVm4UEoDwlq+sZBcADHwpaRJ0SQKGI3Z/d6wfuaqxba7y3t94Q
- 8zv4Rh1z/6u5mUBylt+b3l74xdWk3+O2QWnglbZpgUJhmOE4BMQJSjj9WmPRuOHws8yN
- g7AuH4FeRpfD1Oh9J78fmu/aM/KrTy/ocy++3pltMTx8PaTLCQ+hy+VZ9Rg1mWBa5WxH
- kTgg==
-X-Gm-Message-State: AOAM531eoa7QRxV53SB/QfX21bLvozXD3F5l4n7QHbyvbo94/rFOCgi7
- kcg8DMmEh27WJ1fi3gQRoWWfiQ==
-X-Google-Smtp-Source: ABdhPJyff0Mai/AQRAafgUvVas3CKqbMFBHsNdYjCKjgUpFxfAt7Fb3X0nyVxvGBhrGe0NM8sRbK2w==
-X-Received: by 2002:a5d:4307:: with SMTP id h7mr2030068wrq.146.1643021789056; 
- Mon, 24 Jan 2022 02:56:29 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 8sm3833410wmg.0.2022.01.24.02.56.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Jan 2022 02:56:27 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3C4E61FFB7;
- Mon, 24 Jan 2022 10:56:27 +0000 (GMT)
-References: <20220121154134.315047-1-f4bug@amsat.org>
-User-agent: mu4e 1.7.6; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v6 0/7] tests: Refresh lcitool submodule & remove libxml2
-Date: Mon, 24 Jan 2022 10:55:12 +0000
-In-reply-to: <20220121154134.315047-1-f4bug@amsat.org>
-Message-ID: <87mtjle71g.fsf@linaro.org>
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1nBx9l-00016Q-2E; Mon, 24 Jan 2022 06:05:05 -0500
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:51606)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1nBx9i-0005xr-LL; Mon, 24 Jan 2022 06:05:04 -0500
+Received: from mailhub.u-ga.fr (mailhub-1.u-ga.fr [129.88.178.98])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 4F80240287;
+ Mon, 24 Jan 2022 12:04:59 +0100 (CET)
+Received: from mailhost.u-ga.fr (mailhost1.u-ga.fr [152.77.1.10])
+ by mailhub.u-ga.fr (Postfix) with ESMTP id 4CBA810006E;
+ Mon, 24 Jan 2022 12:04:59 +0100 (CET)
+Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
+ by mailhost.u-ga.fr (Postfix) with ESMTP id 36CEB60067;
+ Mon, 24 Jan 2022 12:04:59 +0100 (CET)
+Received: from [147.171.165.10] (pers-165-10.vpn.u-ga.fr [147.171.165.10])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 6F42414005C;
+ Mon, 24 Jan 2022 12:04:58 +0100 (CET)
+Message-ID: <f71dafee-e836-6949-050a-0fe17662957d@univ-grenoble-alpes.fr>
+Date: Mon, 24 Jan 2022 12:04:57 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Content-Language: en-US
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20220124074940.363064-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <dcab99a5-4c85-0434-d094-90c7429ba479@c-sky.com>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+Subject: Re: [PATCH] target/riscv: correct "code should not be reached" for
+ x-rv128
+In-Reply-To: <dcab99a5-4c85-0434-d094-90c7429ba479@c-sky.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
+ via submission-587 ACL (42)
+X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 152.77.18.2
+Received-SPF: pass client-ip=152.77.200.56;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=zm-mta-out-3.u-ga.fr
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,29 +75,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
- =?utf-8?Q?Daniel_P?= =?utf-8?Q?_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>
+Cc: palmer@dabbelt.com, bin.meng@windriver.com, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Le 24/01/2022 à 09:47, LIU Zhiwei a écrit :
+> 
+> On 2022/1/24 下午3:49, Frédéric Pétrot wrote:
+>> The addition of uxl support in gdbstub adds a few checks on the maximum
+>> register length, but omitted MXL_RV128, leading to the occurence of
+>> "code should not be reached" in a few places.
+>> This patch makes rv128 react as rv64 for gdb, as previously.
+> 
+> If that is case for rv128, you should also add
+> 
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 1cb0436187..5ada71e5bf 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -528,9 +528,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>       switch (env->misa_mxl_max) {
+>   #ifdef TARGET_RISCV64
+>       case MXL_RV64:
+> -        cc->gdb_core_xml_file = "riscv-64bit-cpu.xml";
+> -        break;
+>       case MXL_RV128:
+> +        cc->gdb_core_xml_file = "riscv-64bit-cpu.xml";
+>           break;
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+   Thanks Zhiwei for pointing that out, I resend a patch with that too.
+   Strangely enough, I didn't bump into that case.
 
-> This is my last respin on this series which is fully reviewed.
->
-<snip>
+> Still I don't know why we should make rv128 react as rv64 for gdb?
 
-Just to note the "b4" application of this broke the From addresses. If
-you see the lore copy:
+   Well, I should surely do what is necessary to have a working 128-bit
+   connection to gdb, but it has a bit of influence on other stuff than qemu,
+   e.g. when I configure the gdb-xml file with bitsize 128, gdb tests the
+   xlens and returns "bfd requires xlen 8, but target has xlen 16", and
+   after that no register can be queried.
+   Gdb checks what is called "arch features" and knows only about ELFCLASS32
+   and ELFCLASS64, so we are stuck for now.
 
-  https://lore.kernel.org/qemu-devel/20220121154134.315047-1-f4bug@amsat.or=
-g/
+   Thanks,
+   Frédéric
 
-all your From's are via qemu-devel. Have you changed anything about your
-submission process?
+> 
+> Thanks,
+> Zhiwei
+> 
+>>
+>> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
+>> ---
+>>   target/riscv/gdbstub.c | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+>> index f531a74c2f..9ed049c29e 100644
+>> --- a/target/riscv/gdbstub.c
+>> +++ b/target/riscv/gdbstub.c
+>> @@ -64,6 +64,7 @@ int riscv_cpu_gdb_read_register(CPUState *cs, GByteArray 
+>> *mem_buf, int n)
+>>       case MXL_RV32:
+>>           return gdb_get_reg32(mem_buf, tmp);
+>>       case MXL_RV64:
+>> +    case MXL_RV128:
+>>           return gdb_get_reg64(mem_buf, tmp);
+>>       default:
+>>           g_assert_not_reached();
+>> @@ -84,6 +85,7 @@ int riscv_cpu_gdb_write_register(CPUState *cs, uint8_t 
+>> *mem_buf, int n)
+>>           length = 4;
+>>           break;
+>>       case MXL_RV64:
+>> +    case MXL_RV128:
+>>           if (env->xl < MXL_RV64) {
+>>               tmp = (int32_t)ldq_p(mem_buf);
+>>           } else {
+>> @@ -420,6 +422,7 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
+>>                                    1, "riscv-32bit-virtual.xml", 0);
+>>           break;
+>>       case MXL_RV64:
+>> +    case MXL_RV128:
+>>           gdb_register_coprocessor(cs, riscv_gdb_get_virtual,
+>>                                    riscv_gdb_set_virtual,
+>>                                    1, "riscv-64bit-virtual.xml", 0);
 
---=20
-Alex Benn=C3=A9e
+-- 
++---------------------------------------------------------------------------+
+| Frédéric Pétrot, Pr. Grenoble INP-Ensimag/TIMA,   Ensimag deputy director |
+| Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
+| http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
++---------------------------------------------------------------------------+
 
