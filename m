@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B8DD4979E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 09:02:12 +0100 (CET)
-Received: from localhost ([::1]:40934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A9E4979F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 09:05:43 +0100 (CET)
+Received: from localhost ([::1]:45326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBuIk-0006Mh-Lp
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 03:02:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43034)
+	id 1nBuMA-00018a-Df
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 03:05:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1nBu7V-0003A6-Gt; Mon, 24 Jan 2022 02:50:35 -0500
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:47456)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nBuCH-0004Tn-9G
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 02:55:29 -0500
+Received: from mga07.intel.com ([134.134.136.100]:15222)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1nBu7S-0000lr-B2; Mon, 24 Jan 2022 02:50:32 -0500
-Received: from mailhub.u-ga.fr (mailhub-1.u-ga.fr [129.88.178.98])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id F0C0F403AD;
- Mon, 24 Jan 2022 08:50:24 +0100 (CET)
-Received: from mailhost.u-ga.fr (mailhost1.u-ga.fr [152.77.1.10])
- by mailhub.u-ga.fr (Postfix) with ESMTP id EE26B100085;
- Mon, 24 Jan 2022 08:50:24 +0100 (CET)
-Received: from smtps.univ-grenoble-alpes.fr (smtps3.u-ga.fr [195.83.24.62])
- by mailhost.u-ga.fr (Postfix) with ESMTP id E139760067;
- Mon, 24 Jan 2022 08:50:24 +0100 (CET)
-Received: from palmier.vpn.u-ga.fr (pers-165-10.vpn.u-ga.fr [147.171.165.10])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 5031C40069;
- Mon, 24 Jan 2022 08:50:24 +0100 (CET)
-From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
- <frederic.petrot@univ-grenoble-alpes.fr>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH] target/riscv: correct "code should not be reached" for x-rv128
-Date: Mon, 24 Jan 2022 08:49:40 +0100
-Message-Id: <20220124074940.363064-1-frederic.petrot@univ-grenoble-alpes.fr>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nBuCD-0001Wn-RD
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 02:55:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643010925; x=1674546925;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=XPbDKe4rIR3RnaoQS0CyOFcu32AW4BYLmRgEoXsQIDI=;
+ b=PHFi5TIEQTO2kRSHE53zOc18KgoK+/b7KBdTSk/X7AqSnS03bC1sIwOB
+ 4JhlOP0yEHBWm5QdqlTaEa1/srrsuUJvzGwMO3/MbOWQ2PrJwfU/72G58
+ ceY29Mm4Slm/ov92LdI8olt72i/01UNA32HRNmnO76ivfSIAPmEiurp4z
+ mb6HQbtzjdQjBLLZOCsGVR4HjExRgRpDe/2BewXnn9YiN4kvc1ADJUJF9
+ /7MPE0tVG6DVo7lz4rtv43S7gz+V0yxzj6kX2RwzhxQhZ+0bEWTQTVN/L
+ ZQThSpegCPvuPNnela8vlNGS4Irwza16xRX52jjzxrj0GDs4KEcR/g2d+ A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="309310862"
+X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="309310862"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2022 23:55:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="494530968"
+Received: from 984fee00bf64.jf.intel.com ([10.165.54.77])
+ by orsmga002.jf.intel.com with ESMTP; 23 Jan 2022 23:55:23 -0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/7] AMX support in Qemu
+Date: Sun, 23 Jan 2022 23:55:16 -0800
+Message-Id: <20220124075523.108875-1-yang.zhong@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
- via submission-587 ACL (41)
-X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 195.83.24.62
-Received-SPF: pass client-ip=152.77.200.56;
- envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
- helo=zm-mta-out-3.u-ga.fr
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=134.134.136.100;
+ envelope-from=yang.zhong@intel.com; helo=mga07.intel.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,51 +69,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com,
- =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
- <frederic.petrot@univ-grenoble-alpes.fr>
+Cc: yang.zhong@intel.com, kevin.tian@intel.com, seanjc@google.com,
+ jing2.liu@linux.intel.com, wei.w.wang@intel.com, guang.zeng@intel.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The addition of uxl support in gdbstub adds a few checks on the maximum
-register length, but omitted MXL_RV128, leading to the occurence of
-"code should not be reached" in a few places.
-This patch makes rv128 react as rv64 for gdb, as previously.
+Intel introduces Advanced Matrix Extensions (AMX) [1] feature that
+consists of configurable two-dimensional "TILE" registers and new
+accelerator instructions that operate on them. TMUL (Tile matrix
+MULtiply) is the first accelerator instruction set to use the new
+registers.
 
-Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
----
- target/riscv/gdbstub.c | 3 +++
- 1 file changed, 3 insertions(+)
+Since AMX KVM patches have been merged into Linux release, this series
+is based on latest Linux release.
 
-diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-index f531a74c2f..9ed049c29e 100644
---- a/target/riscv/gdbstub.c
-+++ b/target/riscv/gdbstub.c
-@@ -64,6 +64,7 @@ int riscv_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
-     case MXL_RV32:
-         return gdb_get_reg32(mem_buf, tmp);
-     case MXL_RV64:
-+    case MXL_RV128:
-         return gdb_get_reg64(mem_buf, tmp);
-     default:
-         g_assert_not_reached();
-@@ -84,6 +85,7 @@ int riscv_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-         length = 4;
-         break;
-     case MXL_RV64:
-+    case MXL_RV128:
-         if (env->xl < MXL_RV64) {
-             tmp = (int32_t)ldq_p(mem_buf);
-         } else {
-@@ -420,6 +422,7 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
-                                  1, "riscv-32bit-virtual.xml", 0);
-         break;
-     case MXL_RV64:
-+    case MXL_RV128:
-         gdb_register_coprocessor(cs, riscv_gdb_get_virtual,
-                                  riscv_gdb_set_virtual,
-                                  1, "riscv-64bit-virtual.xml", 0);
--- 
-2.34.1
+According to the KVM design, the userspace VMM (e.g. Qemu) is expected
+to request guest permission for the dynamically-enabled XSAVE features
+only once when the first vCPU is created, and KVM checks guest permission
+in KVM_SET_CPUID2.
+
+Intel AMX is XSAVE supported and XSAVE enabled. Those extended features
+has large state while current kvm_xsave only allows 4KB. The AMX KVM has
+extended struct kvm_xsave to meet this requirenment and added one extra
+KVM_GET_XSAVE2 ioctl to handle extended features. From our test, the AMX
+live migration work well.
+
+Notice: This version still includes some definitions in the linux-headers,
+once Qemu sync those linux-headers, I will remove those definitions. So
+please ignore those changes.
+
+[1] Intel Architecture Instruction Set Extension Programming Reference
+    https://software.intel.com/content/dam/develop/external/us/en/documents/\
+    architecture-instruction-set-extensions-programming-reference.pdf
+
+Thanks,
+Yang
+----
+
+change history
+--------------
+rfc v1->v1:
+   - Patch 1 changed commit message(Kevin and Paolo).
+   - Patch 2 changed commit message(Kevin and Paolo).
+   - Patch 3, below requirements from Paolo,
+     - Called ARCH_REQ_XCOMP_GUEST_PERM from x86_cpu_enable_xsave_components.
+       Used kvm_request_xsave_components() to replace x86_xsave_req_perm().
+       Replaced syscall(ARCH_GET_XCOMP_GUEST_PERM) with kvm_arch_get_supported_cpuid()
+       in kvm_request_xsave_components().
+     - Changed kvm_cpu_xsave_init() to use host_cpuid() instead of
+       kvm_arch_get_supported_cpuid().
+     - Added the "function == 0xd" handle in kvm_arch_get_supported_cpuid().   
+   - Patch 4, used "uint32_t ecx" to replace "uint32_t need_align, support_xfd".
+   - Patch 6, below changes,
+     - Changed the commit message(Kevin) and Used the new function
+     - kvm_init_xsave() to replace some pieces of code(Wei).
+     - Moved KVM_CAP_XSAVE2 extension check to kvm_arch_init_vcpu() to
+       make the request permission before KVM_CAP_XSAVE2 extension check(Paolo).
+   - Removed RFC prefix.
+
+Jing Liu (5):
+  x86: Fix the 64-byte boundary enumeration for extended state
+  x86: Add AMX XTILECFG and XTILEDATA components
+  x86: Add XFD faulting bit for state components
+  x86: Add AMX CPUIDs enumeration
+  x86: add support for KVM_CAP_XSAVE2 and AMX state migration
+
+Yang Zhong (1):
+  x86: Grant AMX permission for guest
+
+Zeng Guang (1):
+  x86: Support XFD and AMX xsave data migration
+
+ linux-headers/asm-x86/kvm.h | 14 ++++++
+ linux-headers/linux/kvm.h   |  2 +
+ target/i386/cpu.h           | 46 +++++++++++++++++-
+ target/i386/cpu.c           | 96 +++++++++++++++++++++++++++++++++++--
+ target/i386/kvm/kvm-cpu.c   | 12 +++--
+ target/i386/kvm/kvm.c       | 69 +++++++++++++++++++-------
+ target/i386/machine.c       | 42 ++++++++++++++++
+ target/i386/xsave_helper.c  | 35 ++++++++++++++
+ 8 files changed, 291 insertions(+), 25 deletions(-)
 
 
