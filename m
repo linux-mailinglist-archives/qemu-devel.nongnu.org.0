@@ -2,91 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23211499D23
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 23:17:00 +0100 (CET)
-Received: from localhost ([::1]:56104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A7E5499DCF
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 00:03:35 +0100 (CET)
+Received: from localhost ([::1]:42850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nC7dz-0002uT-9I
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 17:16:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36072)
+	id 1nC8N4-00072Z-FR
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 18:03:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nC7bL-0001Tl-0Z
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 17:14:15 -0500
-Received: from [2a00:1450:4864:20::42b] (port=41727
- helo=mail-wr1-x42b.google.com)
+ (Exim 4.90_1) (envelope-from <roman@roolebo.dev>) id 1nC8KC-0005QL-IZ
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 18:00:36 -0500
+Received: from [2a00:1450:4864:20::131] (port=34336
+ helo=mail-lf1-x131.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nC7bH-00047l-Lh
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 17:14:14 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id r22so8627699wra.8
- for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 14:14:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fwaMDH8cSmbbSS0xpGdhd/no6vCAej8bHfnZpxUaZRA=;
- b=jCVjBDbJK8QM68KQjUARnJH7gB0MHwtbp654j4NmwfVeX9lVLqyXBsYGDtv/hEGqmS
- pMo+Fkhd7f0FPtk4dddvtnfHjuz5lO6GmiVQj/xrPA0B0/IUUHs1vYlIW9uZ7nI+poKS
- vPvQHydouUEy8DfOyYE6i9Ild1wM8nghp/6SsRRA3PoZgtayENJiH7iC1sdSJu00vL39
- s2uY5+1vI+cVa9zSD7z5Y2UdocYMnZ2rM6oyqxBvOfsJX15arMgSD/jSIcjnkfIQvU4U
- nvtl4mJFKrN6vE9VfaF3tgF0QcN0z1+0smhZPX7ymztKksLpQeZFfYv3hr1eW5aN+hFk
- DHOA==
+ (Exim 4.90_1) (envelope-from <roman@roolebo.dev>) id 1nC8KA-00038v-N3
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 18:00:36 -0500
+Received: by mail-lf1-x131.google.com with SMTP id p27so53180078lfa.1
+ for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 15:00:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=roolebo.dev; s=mail;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=NRmtHhvm2vNKMSKuUS2hIErML7045mknXGyMcWgf9ww=;
+ b=XzJrGfULvxePvYf+vlXiCW+1+jeJz+yamKHDsbl+P5gb2ZAxgd7uxA7nYC/jIgAY/j
+ O7fVyqRzFjIwwZS98bxRitsdjVqddr2DLsKFA1PzD7IRxtLlCqeTXYOy4Mjkym5kFsZb
+ KS/91toLtnK6bK65AJzahk/wqMkpN+Y34yYWs8cs7FkDSsvG3SRJLbCpDqOTlzVOVuK0
+ 5nvzMzQFSNnF4PK/sjE7Gd2Z8HOGkSTWwIU32EUbY/LuqnNs1nAIkL7n7cE0W5ZqmI5K
+ OiH5u9Nk/wivIRPZKUnadNaSxsRcpBATnvm981Qg3PMQHJOz5UFzs9dOnxjO5gqnx7wg
+ ozdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fwaMDH8cSmbbSS0xpGdhd/no6vCAej8bHfnZpxUaZRA=;
- b=3oZKTd8L0S7KdquA9+sfA+VMEDVwVeoWgwD3kWq+sbTvYnqCEHxI8XU0Elhq1fd/xl
- 0XWVWtzIwt5ttNbYAb9mWILPkmM+iXP6ObD9NujQtflPqnaMkDtxtE1MLGHcCC7EBDfc
- D3N0SYI6KoPJFs9hdjzYQ0RKODJYGuwbr7FT5dTscpFCGTIEp6qCz6TcCvVyQghWzwXV
- BVMULP1JXe8qRR+H+FzqkybCOh8fnhHpc1f0vfAlB9Cfkc0mZUW7KKooka2cZcCeLDNR
- FPJd0PZ2Ndlw9XU/s9/+G0506ljsZK+VTqxIJPzzFbxvRdyj3BjBRABNcf6gAjRDfvcR
- j0SA==
-X-Gm-Message-State: AOAM533vSbDxmuHgm+eziXLWvnbaApeFJF7MCQSm7LnCWJI+2ojnxf6i
- 63vMYUxosS9AOshNYjwVq+M=
-X-Google-Smtp-Source: ABdhPJw1/VMpWEUAv6c7BuB2We0jbtLHwb8KhnIYHjQRo2tep4YSlKORFLeqzPtrZ2MC05mMl0ND2w==
-X-Received: by 2002:a5d:6486:: with SMTP id o6mr15624512wri.609.1643062450520; 
- Mon, 24 Jan 2022 14:14:10 -0800 (PST)
-Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id o12sm528297wmq.41.2022.01.24.14.14.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jan 2022 14:14:10 -0800 (PST)
-Message-ID: <399c4c73-f629-cefc-f2ac-6d3488d37bf6@amsat.org>
-Date: Mon, 24 Jan 2022 23:14:07 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=NRmtHhvm2vNKMSKuUS2hIErML7045mknXGyMcWgf9ww=;
+ b=WPypuIEyn7C8MGGnoVeiK2HgRWedmOXVuDuN/96Z03Mgk9Ym37nj4GzVnFkEAm4QRk
+ isf/v3W4qY0kygUfTFS1lTR3E+VRcOPuGikq4/Ch42CE6HuuC+6jfd3XV9NB3p4OUCdS
+ 4dUMjjtpud+Fw6Wq6CubuAQLeqKf+2UkszueL3O+vH6aIMaR8/5l6OLe1zki5xz40srT
+ +RurdVsewDUXkG71FvJxE4tDqW7HuJ/tGAFcX/LG1ShkohPUnLIbOKYmXAfhM+nIoPMz
+ ct7N9mBnib6MWZMZ4CxwqRmozI9bP0q0mZ5RXDP64FVZBk60hitCfJiQksfmnd+BuiOo
+ fwnw==
+X-Gm-Message-State: AOAM530R5XyX2VBeYKUEGo4toOU0WAVwPmTtAZSczw57TH4jUcc6hC5A
+ yznK0SB2FmBC6LT2x2riB65RhQ==
+X-Google-Smtp-Source: ABdhPJyQqv8ubAvBjrQei7YvppTvPQugnfU85XWdHo6ghIU8CDR58r+dK1rjxraeDAjraxcxltUzpA==
+X-Received: by 2002:a05:6512:339a:: with SMTP id
+ h26mr9262561lfg.625.1643065231806; 
+ Mon, 24 Jan 2022 15:00:31 -0800 (PST)
+Received: from localhost (ip-185-108-208-32.ip.asarta.ru. [185.108.208.32])
+ by smtp.gmail.com with ESMTPSA id j14sm1299204lfe.289.2022.01.24.15.00.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Jan 2022 15:00:31 -0800 (PST)
+Date: Tue, 25 Jan 2022 02:00:30 +0300
+From: Roman Bolshakov <roman@roolebo.dev>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v13 2/7] net/vmnet: add vmnet backends to qapi/net
+Message-ID: <Ye8vjmFFRLPrhE1Z@roolebo.dev>
+References: <20220113172219.66372-1-yaroshchuk2000@gmail.com>
+ <20220113172219.66372-3-yaroshchuk2000@gmail.com>
+ <Ye53sOJekvKrM8iT@roolebo.dev> <7053351.4JHWUSIRgT@silver>
+ <Ye7mwcl/rB714vgl@roolebo.dev>
+ <CAFEAcA-UE5MmkESRrxdedkzYkc9jp81jzni=-xmivK88gkr6Rw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v1 21/22] target/i386: use CPU_LOG_INT for IRQ servicing
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- aaron@os.amperecomputing.com, robhenry@microsoft.com,
- mahmoudabdalghany@outlook.com, minyihh@uci.edu, cota@braap.org,
- Luke.Craig@ll.mit.edu, Paolo Bonzini <pbonzini@redhat.com>,
- kuhn.chenqun@huawei.com, ma.mandourr@gmail.com
-References: <20220124201608.604599-1-alex.bennee@linaro.org>
- <20220124201608.604599-22-alex.bennee@linaro.org>
-In-Reply-To: <20220124201608.604599-22-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA-UE5MmkESRrxdedkzYkc9jp81jzni=-xmivK88gkr6Rw@mail.gmail.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::131
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Received-SPF: none client-ip=2a00:1450:4864:20::131;
+ envelope-from=roman@roolebo.dev; helo=mail-lf1-x131.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,21 +88,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: f4bug@amsat.org, Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>,
+ phillip.ennen@gmail.com, jasowang@redhat.com,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ dirty@apple.com, armbru@redhat.com, r.bolshakov@yadro.com, agraf@csgraf.de,
+ kraxel@redhat.com, akihiko.odaki@gmail.com, hsp.cat7@gmail.com, hello@adns.io,
+ alex.bennee@linaro.org, eblake@redhat.com, phillip@axleos.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 1/24/22 21:16, Alex Bennée wrote:
-> I think these have been wrong since f193c7979c (do not depend on
-> thunk.h - more log items). Fix them so as not to confuse other
-> debugging.
+On Mon, Jan 24, 2022 at 08:14:31PM +0000, Peter Maydell wrote:
+> On Mon, 24 Jan 2022 at 17:49, Roman Bolshakov <roman@roolebo.dev> wrote:
+> > I'm not sure why blocks are Objective-C specific. All the data I have
+> > shows the opposite [3][4][5]. They're just extensively used in Apple APIs.
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  target/i386/tcg/sysemu/seg_helper.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> This is true, but for the purposes of our build machinery it is
+> simpler to have three types of source files that it deals
+> with (C, C++, ObjC) rather than four (C, C++, ObjC, C-that-uses-blocks).
+> So unless there's a clear benefit from adding the extra category
+> I think we should do the simple thing and keep these files named
+> with a ".m" extension.
+> 
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Fine by me as long as majority finds it's simpler :) Perhaps it's just a
+matter of personal preference.
 
+I've used to the fact that platform-specific code uses platform-specific
+extensions or some sort of weird "GCC attributes". Therefore C with an
+extension is easier to reason for me than Objective-C with ARC and other
+kinds of implicit behaviour without an actual Objective-C code.
+
+Thanks,
+Roman
 
