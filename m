@@ -2,54 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E6B0497AC2
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 09:54:35 +0100 (CET)
-Received: from localhost ([::1]:36470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6169F497ACB
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 09:55:57 +0100 (CET)
+Received: from localhost ([::1]:38742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBv7S-00015p-Ao
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 03:54:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53854)
+	id 1nBv8m-0002cc-Hq
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 03:55:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1nBv0p-0004sP-0p; Mon, 24 Jan 2022 03:47:43 -0500
-Received: from out28-145.mail.aliyun.com ([115.124.28.145]:53286)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nBv59-0000E0-6w
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 03:52:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1nBv0k-0000lA-7b; Mon, 24 Jan 2022 03:47:42 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1099965|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.0215965-0.00446824-0.973935;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047201; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.MhaohZg_1643014052; 
-Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.MhaohZg_1643014052)
- by smtp.aliyun-inc.com(10.147.42.198);
- Mon, 24 Jan 2022 16:47:32 +0800
-Subject: Re: [PATCH] target/riscv: correct "code should not be reached" for
- x-rv128
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20220124074940.363064-1-frederic.petrot@univ-grenoble-alpes.fr>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <dcab99a5-4c85-0434-d094-90c7429ba479@c-sky.com>
-Date: Mon, 24 Jan 2022 16:47:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nBv55-0001Vb-Ax
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 03:52:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643014324;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type; bh=LXRVvwoiwZzifxDn36r5XLBHH/133EA03m6HU6kUIs8=;
+ b=Sa97mxXwyhSib/xb8wzhPzaKqvvtqJyNqZqt1NH64dGKAlVHHDrBbtgR+/KFIvQvX+C9yE
+ Da/NMzuzbAhiWbKduQHnYHu33tI8nM43x1gbYPzFzehJVRGemzUoF+HaLl15Aqr7ZyzWEY
+ TqMR3PrA14KoEAONRs9899LpULoCGkQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-10-FxkW9IxWP2G8kLsyXyyX6w-1; Mon, 24 Jan 2022 03:52:02 -0500
+X-MC-Unique: FxkW9IxWP2G8kLsyXyyX6w-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ d140-20020a1c1d92000000b0034edefd55caso4325090wmd.4
+ for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 00:52:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:user-agent:reply-to:date
+ :message-id:mime-version;
+ bh=LXRVvwoiwZzifxDn36r5XLBHH/133EA03m6HU6kUIs8=;
+ b=z1Xa8vtQEXlnVeK8P7nMNzElWWT+OxKhgMks42vBtAb+tm8Er9YbEnBIaVlXB8rqIV
+ dies9IsJM/EmZ5iAG7chTs7BAMUgENUDsz0QfxQc9DVUXV3Pxzn9cJ1VN9bjn8RIxDYk
+ 6hHz1CVXRIpZBVtWJoJ8oejyKpuUNGvibBmUpIqKqNuPHgj6keehhsYNFHsoL7/NSYh6
+ IuNkcJzNRCMyBQBGKae1G008Btz+Lqc+25aJH6+EEbQiGa6ivbzBQLJKAfuA2/DjY9Hb
+ xcmUdwX+noIlLkifhazxJnV5oRVazt9AAzPuKflHuxOH/5dDHSoZTPnw6Wp1iJ3HifBp
+ zJOA==
+X-Gm-Message-State: AOAM532e/5XjeOdLCx6AFjis9j6ojFkJzbKte4Tcq4Fyxm3Ycp/GXnnU
+ GDRUvO7uHdn9QWaqn/7xsH5KX0RQx9/ZMmtXfRdz0EeZTykiY53Tj9LeDtg3kHW+ZGUWMEWWygn
+ B1vvRBxe+5HF0kHk=
+X-Received: by 2002:a05:600c:4e4e:: with SMTP id
+ e14mr857521wmq.98.1643014320905; 
+ Mon, 24 Jan 2022 00:52:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJweugE/T1AI2/YI2Cq1E8ZAzZqGnBoCZEb6UCIovSBN7a7OQuU0OFTQ77CISW3JTub+9knOTA==
+X-Received: by 2002:a05:600c:4e4e:: with SMTP id
+ e14mr857511wmq.98.1643014320687; 
+ Mon, 24 Jan 2022 00:52:00 -0800 (PST)
+Received: from localhost ([47.61.17.76])
+ by smtp.gmail.com with ESMTPSA id l4sm540392wrs.6.2022.01.24.00.51.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Jan 2022 00:52:00 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org
+Subject: KVM call for agenda for 2022-01-25
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Mon, 24 Jan 2022 09:51:59 +0100
+Message-ID: <87y2355xe8.fsf@secure.mitica>
 MIME-Version: 1.0
-In-Reply-To: <20220124074940.363064-1-frederic.petrot@univ-grenoble-alpes.fr>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.145; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-145.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,71 +93,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, bin.meng@windriver.com, alistair.francis@wdc.com
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2022/1/24 下午3:49, Frédéric Pétrot wrote:
-> The addition of uxl support in gdbstub adds a few checks on the maximum
-> register length, but omitted MXL_RV128, leading to the occurence of
-> "code should not be reached" in a few places.
-> This patch makes rv128 react as rv64 for gdb, as previously.
 
-If that is case for rv128, you should also add
+Hi
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 1cb0436187..5ada71e5bf 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -528,9 +528,8 @@ static void riscv_cpu_realize(DeviceState *dev, 
-Error **errp)
-      switch (env->misa_mxl_max) {
-  #ifdef TARGET_RISCV64
-      case MXL_RV64:
--        cc->gdb_core_xml_file = "riscv-64bit-cpu.xml";
--        break;
-      case MXL_RV128:
-+        cc->gdb_core_xml_file = "riscv-64bit-cpu.xml";
-          break;
+Please, send any topic that you are interested in covering.
 
-Still I don't know why we should make rv128 react as rv64 for gdb?
+This week we have a continuation of 2 weeks ago call to discuss how to
+enable creation of machines from QMP sooner on the boot.
 
-Thanks,
-Zhiwei
+There was already a call about this 2 weeks ago where we didn't finished
+everything.
+I have been on vacation last week and I haven't been able to send a
+"kind of resume" of the call.
 
->
-> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
-> ---
->   target/riscv/gdbstub.c | 3 +++
->   1 file changed, 3 insertions(+)
->
-> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-> index f531a74c2f..9ed049c29e 100644
-> --- a/target/riscv/gdbstub.c
-> +++ b/target/riscv/gdbstub.c
-> @@ -64,6 +64,7 @@ int riscv_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
->       case MXL_RV32:
->           return gdb_get_reg32(mem_buf, tmp);
->       case MXL_RV64:
-> +    case MXL_RV128:
->           return gdb_get_reg64(mem_buf, tmp);
->       default:
->           g_assert_not_reached();
-> @@ -84,6 +85,7 @@ int riscv_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
->           length = 4;
->           break;
->       case MXL_RV64:
-> +    case MXL_RV128:
->           if (env->xl < MXL_RV64) {
->               tmp = (int32_t)ldq_p(mem_buf);
->           } else {
-> @@ -420,6 +422,7 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
->                                    1, "riscv-32bit-virtual.xml", 0);
->           break;
->       case MXL_RV64:
-> +    case MXL_RV128:
->           gdb_register_coprocessor(cs, riscv_gdb_get_virtual,
->                                    riscv_gdb_set_virtual,
->                                    1, "riscv-64bit-virtual.xml", 0);
+Basically what we need is:
+- being able to create machines sooner that we are today
+- being able to change the devices that are in the boards, in
+  particular, we need to be able to create a board deciding what devices
+  it has and how they are connected without recompiling qemu.
+  This means to launch QMP sooner that we do today.
+- Several options was proposed:
+  - create a new binary that only allows QMP machine creation.
+    and continue having the old command line
+  - create a new binary, and change current HMP/command line to just
+    call this new binary.  This way we make sure that everything can be
+    done through QMP.
+  - stay with only one binary but change it so we can call QMP sooner.
+- There is agreement that we need to be able to call QMP sooner.
+- There is NO agreement about how the best way to proceed:
+  * We don't want this to be a multiyear effort, i.e. we want something
+    that can be used relatively soon (this means that using only one
+    binary can be tricky).
+  * If we start with a new binary that only allows qmp and we wait until
+    everything has been ported to QMP, it can take forever, and during
+    that time we have to maintain two binaries.
+  * Getting a new binary lets us to be more agreessive about what we can
+    remove/change. i.e. easier experimentation.
+  * Management Apps will only use QMP, not the command line, or they
+    even use libvirt and don't care at all about qemu.  So it appears
+    that HMP is only used for developers, so we can be loose about
+    backwards compatibility. I.e. if we allow the same functionality,
+    but the syntax is different, we don't care.
+
+Discussion was longer, but it was difficult to take notes and as I said,
+the only thing that appears that everybody agrees is that we need an
+agreement about what is the plan to go there.
+
+After discussions on the QEMU Summit, we are going to have always open a
+KVM call where you can add topics.
+
+ Call details:
+
+By popular demand, a google calendar public entry with it
+
+  https://www.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
+
+(Let me know if you have any problems with the calendar entry.  I just
+gave up about getting right at the same time CEST, CET, EDT and DST).
+
+If you need phone number details,  contact me privately
+
+Thanks, Juan.
+
 
