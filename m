@@ -2,78 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42D10499F1E
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 00:17:29 +0100 (CET)
-Received: from localhost ([::1]:52110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D9C49A208
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 02:23:57 +0100 (CET)
+Received: from localhost ([::1]:40724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nC8aW-0005Xd-CW
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 18:17:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47798)
+	id 1nCAYt-0000Jb-2F
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 20:23:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nC8XF-0004JR-F7; Mon, 24 Jan 2022 18:14:05 -0500
-Received: from [2607:f8b0:4864:20::432] (port=43912
- helo=mail-pf1-x432.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nC8XD-0004wp-FB; Mon, 24 Jan 2022 18:14:04 -0500
-Received: by mail-pf1-x432.google.com with SMTP id u10so13024626pfg.10;
- Mon, 24 Jan 2022 15:14:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=imo7Wy5hgWMnz1KgDMaD90e9iwmwMmg1CP8nFgO71sM=;
- b=FuvamHsIC1GdHiKK8+bJJahkruREU1hfUrxa0Q+sPX4GEFGd41GNvyIMyhrIvrNwoR
- 5bNys2aHka9ZFVVA/ExNs6fY8BhmxdZHTk3IgVozFgJVEn2GIprt7M+aLRMJVN4xjiI/
- 51OEd4Nz8hUk7f80G6Z0UOHtykCfeamus8Dg4TMphgB5+TKvfgmU2NpKUs47EHpDhaOi
- zXWV8NH3xBafwPBpEKofjnhJ5i+kzZs7o3HguVdk5VxffVB2rp1ylk9bLbxNyoecRBvk
- gpj9JGxAB9FhkcYAxxRavUUtnN3qGE1PUXv672us1++a0vHx2SZWdaoBbokifKprr7Ry
- Q7dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=imo7Wy5hgWMnz1KgDMaD90e9iwmwMmg1CP8nFgO71sM=;
- b=HAy5m+KWj7Ljt6ebYkPYHLOk9F0LgMw7k9mjE+y71lSt2C2aGDYxibosYGkjcWa/J5
- 4n8Og3pYDyUziC73t9ahwYKkX277VRl9EK60uV++jnBAMr0KxcS/76tz5IK2WlNFgpyq
- G1uGQr2JEWibT5uhjuiUSqUYQP+/GgWDWqotZE2NpGLLvDSTa+FsuarURI4q1vt2aZtU
- RMXbzowRVU08DxlTnJhzSD/yoE3kgJVjWG/vIpTSHAwBhNVfj1TCz30sRu6MriOGk9zz
- ibL0cXxUopU8tuNVDv+KXZ349tzx0k2Ffb+1MfGNohfQ9TaTZjTyxz3OkrMgqMYsD44A
- /ZUg==
-X-Gm-Message-State: AOAM532PkPTvfcimG7qvRNo/a9J7hAe8D1HIZrNYrvyOeNjC2vsoSgji
- wIM/W1My739tHxEXCAOPf6QWdAYsYe0=
-X-Google-Smtp-Source: ABdhPJyIX7N4OVLmDuqSd1o3NqhKPCjEPkh1tsyvvmZE1souNot1f5et9zSzD6/GX5UpZap1byFW5g==
-X-Received: by 2002:a63:5a51:: with SMTP id k17mr13045506pgm.129.1643066041248; 
- Mon, 24 Jan 2022 15:14:01 -0800 (PST)
-Received: from localhost.localdomain (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id f15sm11965981pfn.19.2022.01.24.15.13.59
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 24 Jan 2022 15:14:00 -0800 (PST)
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, qemu-trivial@nongnu.org,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH] hw/misc/macio/cuda: Simplify using the ldst API
-Date: Tue, 25 Jan 2022 00:13:55 +0100
-Message-Id: <20220124231355.48210-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1nCAT6-0007jg-BU; Mon, 24 Jan 2022 20:17:56 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:58259)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1nCASm-0008FT-Uz; Mon, 24 Jan 2022 20:17:54 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4JjTV31TnCz4xmk; Tue, 25 Jan 2022 12:17:15 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1643073435;
+ bh=GcPmjTN++CNOsKTb+reuh1otfl0LJ36dD9rpDdxrxtA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XVPsMCXM2tsUkIGsn6LUey1nOgz4meJEng5Nd+1GLZvFdVrM9wK5XrzLIHs1fcRSA
+ 5y3mlo583locqlX2QgFQsIui0qozArv08IY4FDd8Ot2Rmm8YyNIKvtM6wK+Q9fGDvg
+ QMrZsYxYNv5YJ8lyslnDrtsrav7jYWKqkVCNuHtU=
+Date: Mon, 24 Jan 2022 20:47:38 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH] target/ppc: Fix test on mmu_model in
+ hreg_compute_hflags_value()
+Message-ID: <Ye51unqn7kGQTMzE@yekko>
+References: <20220124081609.3672341-1-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::432
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x432.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Hx6N+XfXEr5o1h1B"
+Content-Disposition: inline
+In-Reply-To: <20220124081609.3672341-1-clg@kaod.org>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,53 +59,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-This code is easier to review using the load/store API.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/misc/macio/cuda.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+--Hx6N+XfXEr5o1h1B
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
-index e917a6a095..f1186671bf 100644
---- a/hw/misc/macio/cuda.c
-+++ b/hw/misc/macio/cuda.c
-@@ -36,6 +36,7 @@
- #include "sysemu/runstate.h"
- #include "qapi/error.h"
- #include "qemu/cutils.h"
-+#include "qemu/bswap.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
- #include "trace.h"
-@@ -345,10 +346,7 @@ static bool cuda_cmd_get_time(CUDAState *s,
- 
-     ti = s->tick_offset + (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL)
-                            / NANOSECONDS_PER_SECOND);
--    out_data[0] = ti >> 24;
--    out_data[1] = ti >> 16;
--    out_data[2] = ti >> 8;
--    out_data[3] = ti;
-+    stl_be_p(out_data, ti);
-     *out_len = 4;
-     return true;
- }
-@@ -363,8 +361,7 @@ static bool cuda_cmd_set_time(CUDAState *s,
-         return false;
-     }
- 
--    ti = (((uint32_t)in_data[0]) << 24) + (((uint32_t)in_data[1]) << 16)
--         + (((uint32_t)in_data[2]) << 8) + in_data[3];
-+    ti = ldl_be_p(in_data);
-     s->tick_offset = ti - (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL)
-                            / NANOSECONDS_PER_SECOND);
-     return true;
--- 
-2.34.1
+On Mon, Jan 24, 2022 at 09:16:09AM +0100, C=E9dric le Goater wrote:
+> POWERPC_MMU_BOOKE is not a mask and should not be tested with a
+> bitwise AND operator.
+>=20
+> It went unnoticed because it only impacts the 601 CPU implementation
+> for which we don't have a known firmware image.
+>=20
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
+The longer term fix, of course, is to entirely get rid of the unholy
+mix of enum and bitmask that is mmu_model.
+
+> ---
+>  target/ppc/helper_regs.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+> index 7dca585dddeb..5b12cb03c961 100644
+> --- a/target/ppc/helper_regs.c
+> +++ b/target/ppc/helper_regs.c
+> @@ -156,7 +156,8 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState=
+ *env)
+>       */
+>      unsigned immu_idx, dmmu_idx;
+>      dmmu_idx =3D msr & (1 << MSR_PR) ? 0 : 1;
+> -    if (env->mmu_model & POWERPC_MMU_BOOKE) {
+> +    if (env->mmu_model =3D=3D POWERPC_MMU_BOOKE ||
+> +        env->mmu_model =3D=3D POWERPC_MMU_BOOKE206) {
+>          dmmu_idx |=3D msr & (1 << MSR_GS) ? 4 : 0;
+>          immu_idx =3D dmmu_idx;
+>          immu_idx |=3D msr & (1 << MSR_IS) ? 2 : 0;
+> @@ -237,7 +238,8 @@ int hreg_store_msr(CPUPPCState *env, target_ulong val=
+ue, int alter_hv)
+>          ((value >> MSR_DR) & 1) !=3D msr_dr) {
+>          cpu_interrupt_exittb(cs);
+>      }
+> -    if ((env->mmu_model & POWERPC_MMU_BOOKE) &&
+> +    if ((env->mmu_model =3D=3D POWERPC_MMU_BOOKE ||
+> +         env->mmu_model =3D=3D POWERPC_MMU_BOOKE206) &&
+>          ((value >> MSR_GS) & 1) !=3D msr_gs) {
+>          cpu_interrupt_exittb(cs);
+>      }
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--Hx6N+XfXEr5o1h1B
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmHudY4ACgkQgypY4gEw
+YSI6qQ//Tpavp+UVLJ080c6wuuYElslb1pytEPEpY4lKSJgv+pSFpWClGiG3GJNW
+iDul/MY+UKkjQ6EPED3w+ZI97EvaZZJ6QozF8KRMOseh6c9EanW0o178zuDxGqxk
+UzQOReDWVWX3bcj/RK/sZJf1cJazLMHXA7ZeIRJ6W51Z6DR9sRRZ20cz1RHqg3+X
+Vqqvupep1k0Xx204YRsLQSUsoYlny29TUtlA41ttY3Hjw5I872dALeUZOUPR9upD
+/VYHFDl+6cku6Grp1/lzR3C/4LC2Bkg5O1YzOa2iv8R2k6zpuGX9dbCcWmX34CGn
+YfUvEC41/OQk5uHqgy271ddV7uFZ45bG6suWTNtio9e4di3GsJ8Mjy+3ddbIP5hg
++s6jaIpINj40lAcqNbshbdwyt/3rYmFGdKQHO9CNiFdFCPsR7HbI831kbXxju0Mt
+h9bPfYekDMIgycDpuVgsNbkMy/b8O9OhWtp2/BPJTUPmYbCDVrMPzXkY2UWJ6LQT
+/RduwTq0jhCmq2xtiTfLNduyX7oXe9vb9K7vTtf5sEGR/9W5R6mVheD7EmhTcMv2
+8iH6+mU9Cv65gCXiFsuc9KDpwxYAPbfd8FOGjnJTfEfUXUIYrFmdzk7hDupABAOV
+wAGClMVOIQZHXQ9NLCsUSPbtSAv48rz4ioX1WxqzMmZdALT5/QQ=
+=B/1/
+-----END PGP SIGNATURE-----
+
+--Hx6N+XfXEr5o1h1B--
 
