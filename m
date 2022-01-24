@@ -2,85 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D91C8497D34
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 11:31:15 +0100 (CET)
-Received: from localhost ([::1]:57118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F487497CE9
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 11:24:13 +0100 (CET)
+Received: from localhost ([::1]:49706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBwd0-0006Ew-Er
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 05:31:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45024)
+	id 1nBwWA-00012e-Ea
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 05:24:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nBwZE-0004Lp-Ua
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 05:27:20 -0500
-Received: from [2a00:1450:4864:20::134] (port=36472
- helo=mail-lf1-x134.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nBwZB-0007yj-Cd
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 05:27:20 -0500
-Received: by mail-lf1-x134.google.com with SMTP id b14so48252266lff.3
- for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 02:26:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=DOXx9LW6IaT7QMjmOcFntVFmSjHWgHT3Wtxq27ct8Ao=;
- b=YtSIovT4rwFmhL4BGXZWhrrVOvqi5uDi1O7R6hcqKnyvXedx+RnSRagc5qlJLAKdp+
- NsjRlrZLK2HxH9II73d6natJD/TsbbcO82vcwDEqW77bsHqkfL6ectLYk/yuVA2sXYdi
- CB+7WWjw0qbhqkAW/Mii7AfQcF0FAMvPd3B7stsFYq+x0YSkL9sfz5ejjcUO/RJmVA2I
- lttszKKKY32ftGRHoCYQtrNSpqYaucSNZFxK0EjJ7OwueYhRGCIuHVgwH5rJ/KGbDAeC
- 454XRWjAWKFZNiXizPDp4gGnPjMhBYl15BfGwjM99Xx5GZIjcpzc/HmJwNVpPN9FJED9
- TM4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=DOXx9LW6IaT7QMjmOcFntVFmSjHWgHT3Wtxq27ct8Ao=;
- b=n5WuVXOFgpFoWh2dce3K4GB7LLnM7fJXeKP3zjhtjMCLneFiSmX8hYjXwW4/dqGVM2
- qRiSqhVmnHWfgp50laadKPc2nfekVqw1WtnpvMa2dc2B9WhvQveg0FwJOEldOJYzCc7u
- wzifv+yTrt48AvkLwdne+gLglteJRE6BpcgRfAP5l+Sx4Rq061bd6o7FalhF01sovuv4
- aQwiGwsRvz7dsSI68a8RBh90DR+bLB5Y+5+fzET+Vn0L+wkzKrOyHlgrAZ0UXCW5bML0
- uy18gup3O+rnMY3+p7t2bl1x1yxJ863Y1mZl800N6EQeVCmO8oVQAZuBhrr3DmDGEc7v
- 7DPQ==
-X-Gm-Message-State: AOAM532rvKJAWGojaVmoFqOCmsS5M/5dHgBwEq8iWe0nbu2VLuJXG99I
- emxo1M7EqMOX3oO3AvUbhGhoUmI07VA=
-X-Google-Smtp-Source: ABdhPJzPuXekJBGtF6R/hwRw53EttHQ0TOY8UGR3J2TlKO0fniULY+90dj4mqBB3VhbDucCTOZBOdA==
-X-Received: by 2002:a17:907:72c1:: with SMTP id
- du1mr3716425ejc.32.1643019480186; 
- Mon, 24 Jan 2022 02:18:00 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id g15sm6354497edy.77.2022.01.24.02.17.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jan 2022 02:17:59 -0800 (PST)
-Message-ID: <9ecc915b-17d8-ec58-819b-371ce4244d0a@redhat.com>
-Date: Mon, 24 Jan 2022 11:17:59 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nBwSN-0007KC-Aw
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 05:20:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23906)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nBwSI-0006yd-Rj
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 05:20:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643019608;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=3+0md9az7qVGOq6ns7hMrPL1YC84U2kkSoagCUhx+1Y=;
+ b=PG2yKYDUXqPE09HugVx1UMDwyJTLqIJuJGMU7+sSd9BkmwtczSZbi7IPiZQt/4X1RKBO+G
+ 7YLs3+7+Kh5tsnP8z8ZBqczcHxwWiXe6id71nPP+bW+rKrPVDnF8YKJXkM4Py+oETci5/m
+ sGmvWpsshPacKf5V5QrBGz5FKbCZFUc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-496-2d-iaW0IMW-zhLFusz10Nw-1; Mon, 24 Jan 2022 05:20:06 -0500
+X-MC-Unique: 2d-iaW0IMW-zhLFusz10Nw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E6691018726;
+ Mon, 24 Jan 2022 10:20:05 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.193.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E125F73177;
+ Mon, 24 Jan 2022 10:20:03 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] scripts: Remove the old switch-timer-api script
+Date: Mon, 24 Jan 2022 11:20:01 +0100
+Message-Id: <20220124102001.35930-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 0/7] AMX support in Qemu
-Content-Language: en-US
-To: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org
-References: <20220124075523.108875-1-yang.zhong@intel.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220124075523.108875-1-yang.zhong@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::134
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::134;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-lf1-x134.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,46 +74,204 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: seanjc@google.com, kevin.tian@intel.com, jing2.liu@linux.intel.com,
- wei.w.wang@intel.com, guang.zeng@intel.com
+Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/24/22 08:55, Yang Zhong wrote:
-> Intel introduces Advanced Matrix Extensions (AMX) [1] feature that
-> consists of configurable two-dimensional "TILE" registers and new
-> accelerator instructions that operate on them. TMUL (Tile matrix
-> MULtiply) is the first accelerator instruction set to use the new
-> registers.
-> 
-> Since AMX KVM patches have been merged into Linux release, this series
-> is based on latest Linux release.
-> 
-> According to the KVM design, the userspace VMM (e.g. Qemu) is expected
-> to request guest permission for the dynamically-enabled XSAVE features
-> only once when the first vCPU is created, and KVM checks guest permission
-> in KVM_SET_CPUID2.
-> 
-> Intel AMX is XSAVE supported and XSAVE enabled. Those extended features
-> has large state while current kvm_xsave only allows 4KB. The AMX KVM has
-> extended struct kvm_xsave to meet this requirenment and added one extra
-> KVM_GET_XSAVE2 ioctl to handle extended features. From our test, the AMX
-> live migration work well.
-> 
-> Notice: This version still includes some definitions in the linux-headers,
-> once Qemu sync those linux-headers, I will remove those definitions. So
-> please ignore those changes.
+This script has been useful for the timer API rewrite in 2013, but
+it is of no use anymore today. Let's remove it now.
 
-Yes, no problem with that.
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ scripts/switch-timer-api | 178 ---------------------------------------
+ 1 file changed, 178 deletions(-)
+ delete mode 100755 scripts/switch-timer-api
 
-I think the KVM API is insufficient and needs a small but important 
-extra feature, equivalent to ARCH_GET_XCOMP_SUPP.  We can implement that 
-easily in 5.17 though.
-
-Paolo
-
-> [1] Intel Architecture Instruction Set Extension Programming Reference
->      https://software.intel.com/content/dam/develop/external/us/en/documents/\
->      architecture-instruction-set-extensions-programming-reference.pdf
+diff --git a/scripts/switch-timer-api b/scripts/switch-timer-api
+deleted file mode 100755
+index 41736d11dd..0000000000
+--- a/scripts/switch-timer-api
++++ /dev/null
+@@ -1,178 +0,0 @@
+-#!/usr/bin/env perl
+-
+-use strict;
+-use warnings;
+-use Getopt::Long;
+-use FindBin;
+-
+-my @legacy = qw(qemu_clock_ptr qemu_get_clock_ns qemu_get_clock_ms qemu_register_clock_reset_notifier qemu_unregister_clock_reset_notifier qemu_new_timer qemu_free_timer qemu_del_timer qemu_mod_timer_ns qemu_mod_timer qemu_run_timers qemu_new_timer_ns qemu_new_timer_us qemu_new_timer_ms);
+-my $legacyre = '\b('.join('|', @legacy).')\b';
+-my $option_git;
+-my $option_dryrun;
+-my $option_quiet;
+-my $option_rtc;
+-my $suffix=".tmp.$$";
+-my @files;
+-my $getfiles = 'git grep -l -E \'\b((host|rt|vm|rtc)_clock\b|qemu_\w*timer)\' | egrep \'\.[ch]$\' | egrep -v \'qemu-timer\.c$|include/qemu/timer\.h$\'';
+-
+-sub Syntax
+-{
+-    print STDERR <<STOP;
+-Usage: $FindBin::Script [options] FILE ...
+-
+-Translate each FILE to the new QEMU timer API. If no files
+-are passed, a reasonable guess is taken.
+-
+-Options:
+-  -q, --quiet     Do not show warnings etc
+-  -d, --dry-run   Do a dry run
+-  -g, --git       Generate a git commit for each change
+-  -r, --rtc       Only fix up rtc usage
+-  -h, --help      Print this message
+-
+-STOP
+-return;
+-}
+-
+-sub ParseOptions
+-{
+-    if (!GetOptions (
+-	     "dry-run|d" => \$option_dryrun,
+-             "git|g" => \$option_git,
+-	     "quiet|q" => \$option_quiet,
+-	     "rtc|r" => \$option_rtc,
+-             "help|h" => sub { Syntax(); exit(0); }
+-        ))
+-    {
+-        Syntax();
+-        die "Bad options";
+-    }
+-
+-    if ($#ARGV >=0)
+-    {
+-	@files = @ARGV;
+-    }
+-    else
+-    {
+-	@files = split(/\s+/, `$getfiles`);
+-    }
+-
+-    foreach my $file (@files)
+-    {
+-	die "Cannot find $file" unless (-f $file && -r $file);
+-    }
+-}
+-
+-sub DoWarn
+-{
+-    my $text = shift @_;
+-    my $line = shift @_;
+-    return if ($option_quiet);
+-    chomp ($line);
+-    print STDERR "$text\n";
+-    print STDERR "$line\n\n";
+-}
+-
+-sub Process
+-{
+-    my $ifn = shift @_;
+-    my $ofn = $ifn.$suffix;
+-
+-    my $intext;
+-    my $outtext;
+-    my $linenum = 0;
+-
+-    open my $input, "<", $ifn || die "Cannot open $ifn for read: $!";
+-
+-    while (<$input>)
+-    {
+-	my $line = $_;
+-	$intext .= $line;
+-	$linenum++;
+-
+-	# fix the specific uses
+-	unless ($option_rtc)
+-	{
+-	    $line =~ s/\bqemu_new_timer(_[num]s)\s*\((vm_|rt_|host_)clock\b/timer_new$1(XXX_$2clock/g;
+-	    $line =~ s/\bqemu_new_timer\s*\((vm_|rt_|host_)clock\b/timer_new(XXX_$1clock/g;
+-	    $line =~ s/\bqemu_get_clock(_[num]s)\s*\((vm_|rt_|host_)clock\b/qemu_clock_get$1(XXX_$2clock/g;
+-	}
+-
+-	# rtc is different
+-	$line =~ s/\bqemu_new_timer(_[num]s)\s*\(rtc_clock\b/timer_new$1(rtc_clock/g;
+-	$line =~ s/\bqemu_new_timer\s*\(rtc_clock\b/timer_new(rtc_clock/g;
+-	$line =~ s/\bqemu_get_clock(_[num]s)\s*\(rtc_clock\b/qemu_clock_get$1(rtc_clock/g;
+-	$line =~ s/\bqemu_register_clock_reset_notifier\s*\(rtc_clock\b/qemu_register_clock_reset_notifier(qemu_clock_ptr(rtc_clock)/g;
+-
+-	unless ($option_rtc)
+-	{
+-	    # fix up comments
+-	    $line =~ s/\b(vm_|rt_|host_)clock\b/XXX_$1clock/g if ($line =~ m,^[/ ]+\*,);
+-
+-	    # spurious fprintf error reporting
+-	    $line =~ s/: qemu_new_timer_ns failed/: timer_new_ns failed/g;
+-
+-	    # these have just changed name
+-	    $line =~ s/\bqemu_mod_timer\b/timer_mod/g;
+-	    $line =~ s/\bqemu_mod_timer_(ns|us|ms)\b/timer_mod_$1/g;
+-	    $line =~ s/\bqemu_free_timer\b/timer_free/g;
+-	    $line =~ s/\bqemu_del_timer\b/timer_del/g;
+-	}
+-
+-	# fix up rtc_clock
+-	$line =~ s/QEMUClock \*rtc_clock;/QEMUClockType rtc_clock;/g;
+-	$line =~ s/\brtc_clock = (vm_|rt_|host_)clock\b/rtc_clock = XXX_$1clock/g;
+-
+-	unless ($option_rtc)
+-	{
+-	    # replace any more general uses
+-	    $line =~ s/\b(vm_|rt_|host_)clock\b/qemu_clock_ptr(XXX_$1clock)/g;
+-	}
+-
+-	# fix up the place holders
+-	$line =~ s/\bXXX_vm_clock\b/QEMU_CLOCK_VIRTUAL/g;
+-	$line =~ s/\bXXX_rt_clock\b/QEMU_CLOCK_REALTIME/g;
+-	$line =~ s/\bXXX_host_clock\b/QEMU_CLOCK_HOST/g;
+-
+-	unless ($option_rtc)
+-	{
+-	    DoWarn("$ifn:$linenum WARNING: timer $1 not fixed up", $line) if ($line =~ /\b((vm_|rt_|host_)clock)\b/);
+-	    DoWarn("$ifn:$linenum WARNING: function $1 not fixed up", $line) if ($line =~ /\b(qemu_new_timer\w+)\b/);
+-	    DoWarn("$ifn:$linenum WARNING: legacy function $1 remains", $line) if ($line =~ /$legacyre/o);
+-	}
+-
+-	$outtext .= $line;
+-    }
+-
+-    close $input;
+-
+-    if ($intext ne $outtext)
+-    {
+-	print STDERR "Patching $ifn\n" unless ($option_quiet);
+-	unless ($option_dryrun)
+-	{
+-	    open my $output, ">", $ofn || die "Cannot open $ofn for write: $!";
+-	    print $output $outtext;
+-	    close $output;
+-	    rename ($ofn, $ifn) || die "Cannot rename temp file to $ifn: $!";
+-	    return 1;
+-	}
+-    }
+-    return 0;
+-}
+-
+-sub DoCommit
+-{
+-    my $file = shift @_;
+-    open (my $git, "| git commit -F - $file") || die "Cannot run git commit on $file: $!";
+-    print $git "timers api: use new timer api in $file\n\nConvert $file to use new timer API.\nThis is an automated commit made by scripts/switch-timer-api\n";
+-    close ($git);
+-}
+-
+-ParseOptions;
+-
+-foreach my $file (@files)
+-{
+-    my $changed = Process ($file);
+-    DoCommit($file) if ($changed && $option_git);
+-}
+-- 
+2.27.0
 
 
