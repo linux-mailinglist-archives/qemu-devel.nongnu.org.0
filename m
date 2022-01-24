@@ -2,83 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6BC1497ABA
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 09:51:55 +0100 (CET)
-Received: from localhost ([::1]:33970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E6B0497AC2
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 09:54:35 +0100 (CET)
+Received: from localhost ([::1]:36470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBv4s-0007rM-RT
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 03:51:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49266)
+	id 1nBv7S-00015p-Ao
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 03:54:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nBuei-0000Ir-3P
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 03:24:54 -0500
-Received: from [2607:f8b0:4864:20::536] (port=37675
- helo=mail-pg1-x536.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nBueg-0005j8-Kg
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 03:24:51 -0500
-Received: by mail-pg1-x536.google.com with SMTP id e16so5387834pgn.4
- for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 00:24:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FrqiAYvVb60I0lurg+7juXBsIWokkKE9C1yvMv98Qr0=;
- b=j9CiAHL3p7axi5UiRA8dk1dXiAqOBk735AgdzZAih4xqMXODz+5NiAHjbUbb8T7Omv
- KbYUhcvIz3GI8HKCExlhXs0P7LHhJ5o8NtAASty7aUUpaW2E6TSzCQQFrXLq69PagkFC
- VFHJPXB8IBrF88c8lXFeQW8rDKmlBXl/qU5p56gsB+EVKAnMHkFKjufnDyUGcVTu+4xc
- 1lycmnlaqQ0Bbw+nikkNWKGkGb7EyhM+Wy+mpYa4iM+EcV4aPFyV77jAaECyjcf+c3z8
- XZoEGBDhpl0hVezoeOHC7cwzRyIEZMAGK28EerH4Cp1DZtVo7xG0LU3eE6ni0Wh3T8Iy
- 3FmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FrqiAYvVb60I0lurg+7juXBsIWokkKE9C1yvMv98Qr0=;
- b=UFirxqZWi77uY6cr3UYinfyJiAOYjpW2cIMO38Vb5q1lcm7YW735qF2nQujuBUj6vy
- vJPaGTcP3XoY7gLMUOZZCDljuE/sFEowDyKE/0ija6+v36CYbAsJo0+c1uAEE0HRQlW9
- x1Dt9lWNJf0SbgdlVZGQOHV1k7jkTwy3eshxlgaW8jq8FTE0WgNccfm0MCf4rAeO5f03
- 24kNyroSuLVIw+E/OgSkMVIt3xHuYMxjaDl2A9QshS98dU4FxoWAeHLSVWuVjrGkmO9Q
- 8uKcxN8GBe3UxPyYmeeclPG1cVzGf+Y5itjcjPPTAKVqhcrR0xpxsKKlnxLs5fNDqwiZ
- f5bA==
-X-Gm-Message-State: AOAM533p+ETcM9i/TgZYdc6ERIao6lKjuf507SKe8ZAObOk4TNKeswwR
- 5T+PVKPQt50e2rDUg3sBfRbdLQ==
-X-Google-Smtp-Source: ABdhPJw5zxzWv1zYSQV8rQ6M20IqWhnaMnIZpmigUs+9uyziLRuUWYJYRtdsNU1CSn/hCwpHRyu+6Q==
-X-Received: by 2002:a05:6a00:987:b0:4c7:ac09:5430 with SMTP id
- u7-20020a056a00098700b004c7ac095430mr10068393pfg.67.1643012689019; 
- Mon, 24 Jan 2022 00:24:49 -0800 (PST)
-Received: from [192.168.15.44] (alanje.lnk.telstra.net. [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id h10sm15330858pfc.103.2022.01.24.00.24.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jan 2022 00:24:48 -0800 (PST)
-Subject: Re: [PATCH] target/rx: Remove unused ENV_OFFSET definition
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20220122002304.84016-1-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f33b39a6-1ed9-273e-a1eb-023729893ef2@linaro.org>
-Date: Mon, 24 Jan 2022 19:24:43 +1100
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1nBv0p-0004sP-0p; Mon, 24 Jan 2022 03:47:43 -0500
+Received: from out28-145.mail.aliyun.com ([115.124.28.145]:53286)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1nBv0k-0000lA-7b; Mon, 24 Jan 2022 03:47:42 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1099965|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.0215965-0.00446824-0.973935;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047201; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.MhaohZg_1643014052; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.MhaohZg_1643014052)
+ by smtp.aliyun-inc.com(10.147.42.198);
+ Mon, 24 Jan 2022 16:47:32 +0800
+Subject: Re: [PATCH] target/riscv: correct "code should not be reached" for
+ x-rv128
+To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20220124074940.363064-1-frederic.petrot@univ-grenoble-alpes.fr>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <dcab99a5-4c85-0434-d094-90c7429ba479@c-sky.com>
+Date: Mon, 24 Jan 2022 16:47:32 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20220122002304.84016-1-f4bug@amsat.org>
+In-Reply-To: <20220124074940.363064-1-frederic.petrot@univ-grenoble-alpes.fr>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::536
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.145; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-145.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,36 +62,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: palmer@dabbelt.com, bin.meng@windriver.com, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/22/22 11:23 AM, Philippe Mathieu-Daudé via wrote:
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+On 2022/1/24 下午3:49, Frédéric Pétrot wrote:
+> The addition of uxl support in gdbstub adds a few checks on the maximum
+> register length, but omitted MXL_RV128, leading to the occurence of
+> "code should not be reached" in a few places.
+> This patch makes rv128 react as rv64 for gdb, as previously.
+
+If that is case for rv128, you should also add
+
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 1cb0436187..5ada71e5bf 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -528,9 +528,8 @@ static void riscv_cpu_realize(DeviceState *dev, 
+Error **errp)
+      switch (env->misa_mxl_max) {
+  #ifdef TARGET_RISCV64
+      case MXL_RV64:
+-        cc->gdb_core_xml_file = "riscv-64bit-cpu.xml";
+-        break;
+      case MXL_RV128:
++        cc->gdb_core_xml_file = "riscv-64bit-cpu.xml";
+          break;
+
+Still I don't know why we should make rv128 react as rv64 for gdb?
+
+Thanks,
+Zhiwei
+
+>
+> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
 > ---
->   target/rx/cpu.h | 2 --
->   1 file changed, 2 deletions(-)
-> 
-> diff --git a/target/rx/cpu.h b/target/rx/cpu.h
-> index 657db84ef0..58adf9edf6 100644
-> --- a/target/rx/cpu.h
-> +++ b/target/rx/cpu.h
-> @@ -116,8 +116,6 @@ struct RXCPU {
->   
->   typedef RXCPU ArchCPU;
->   
-> -#define ENV_OFFSET offsetof(RXCPU, env)
-> -
->   #define RX_CPU_TYPE_SUFFIX "-" TYPE_RX_CPU
->   #define RX_CPU_TYPE_NAME(model) model RX_CPU_TYPE_SUFFIX
->   #define CPU_RESOLVING_TYPE TYPE_RX_CPU
-> 
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-For the viewers at home, the last use of ENV_OFFSET was removed in 
-5e1401969b25f676fee6b1c564441759cf967a43; the commit of target/rx came in just afterward.
-
-
-r~
+>   target/riscv/gdbstub.c | 3 +++
+>   1 file changed, 3 insertions(+)
+>
+> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+> index f531a74c2f..9ed049c29e 100644
+> --- a/target/riscv/gdbstub.c
+> +++ b/target/riscv/gdbstub.c
+> @@ -64,6 +64,7 @@ int riscv_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+>       case MXL_RV32:
+>           return gdb_get_reg32(mem_buf, tmp);
+>       case MXL_RV64:
+> +    case MXL_RV128:
+>           return gdb_get_reg64(mem_buf, tmp);
+>       default:
+>           g_assert_not_reached();
+> @@ -84,6 +85,7 @@ int riscv_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+>           length = 4;
+>           break;
+>       case MXL_RV64:
+> +    case MXL_RV128:
+>           if (env->xl < MXL_RV64) {
+>               tmp = (int32_t)ldq_p(mem_buf);
+>           } else {
+> @@ -420,6 +422,7 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
+>                                    1, "riscv-32bit-virtual.xml", 0);
+>           break;
+>       case MXL_RV64:
+> +    case MXL_RV128:
+>           gdb_register_coprocessor(cs, riscv_gdb_get_virtual,
+>                                    riscv_gdb_set_virtual,
+>                                    1, "riscv-64bit-virtual.xml", 0);
 
