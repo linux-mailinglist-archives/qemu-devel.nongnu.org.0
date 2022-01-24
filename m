@@ -2,66 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F06E7498855
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 19:29:16 +0100 (CET)
-Received: from localhost ([::1]:37608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E120849886C
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 19:34:37 +0100 (CET)
+Received: from localhost ([::1]:46514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nC45c-0005n6-3H
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 13:29:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39954)
+	id 1nC4Am-0003PU-VI
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 13:34:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nC3on-00028q-B4
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 13:11:53 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2211)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nC3ok-0007us-6p
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 13:11:52 -0500
-Received: from fraeml741-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JjHzD1HH3z67M4k;
- Tue, 25 Jan 2022 02:08:24 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml741-chm.china.huawei.com (10.206.15.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 24 Jan 2022 19:11:47 +0100
-Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Mon, 24 Jan
- 2022 18:11:46 +0000
-Date: Mon, 24 Jan 2022 18:11:44 +0000
-To: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, Alex
- =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, Peter Maydell
- <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali Kolothum
- Thodi" <shameerali.kolothum.thodi@huawei.com>, Philippe =?ISO-8859-1?Q?Mat?=
- =?ISO-8859-1?Q?hieu-Daud=E9?= <f4bug@amsat.org>, Saransh Gupta1
- <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
- <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
- Williams" <dan.j.williams@intel.com>
-Subject: Re: [PATCH v4 00/42] CXl 2.0 emulation Support
-Message-ID: <20220124181144.00006d92@huawei.com>
-In-Reply-To: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
-References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nC3v5-0005YU-Mn
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 13:18:23 -0500
+Received: from [2a00:1450:4864:20::331] (port=56025
+ helo=mail-wm1-x331.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nC3v3-0000Rj-Tp
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 13:18:23 -0500
+Received: by mail-wm1-x331.google.com with SMTP id c66so23495239wma.5
+ for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 10:18:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=A+1TOmyS5yfQmck03Oc35rRfRKnhdmGczYlan+uH6m4=;
+ b=mO4HK1mODG4rPBbmQsDrOUkJ+7xt2mpv33PlBWBCx8dYvxoN8o1KjD/SBl18HlIwq7
+ tS22gSZgZE6sb0tQrTj0nb1eO2o4NMUPMhUyL+Rmx/enklg4EV2auU2fgtlcdOCPoAwy
+ YPh2IgiB4EnKO5kVQV1mfJCtt0+hprOP1CknEm77egHg3HCj2rCVb5TnjVj/ZWBAUmaA
+ YVrn7BawhHJt/7HMWkeCmiSTDzskLZoQqru3tHeLu8lcYKYGuXEN2YqlNieVp/X+TGec
+ wEU+wxWVd+sAA5bFJpHFSQfq6M0Uj6O//rb3NKVhuwt+fJp8bucX5G0XLbie5FNJQlzJ
+ JS7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=A+1TOmyS5yfQmck03Oc35rRfRKnhdmGczYlan+uH6m4=;
+ b=a5hcYqGNsj3xEB17nEav+KJgUQZzklF4ks4I3jxdj1rG/U2L+F37gspk9dtZnlKQvr
+ 249xtwTKw0qNoNmMe5nph1v6GfccnvDmW2HF3Zjk0dijAw0chD7/2mOtgDklcrOKDLcF
+ 7JFNaNjkPIn3LGBB79DgAY34oT8LvJjvx3Z1txKrUNNYElpHF+bpfrSUyvnIqx9Gz3EB
+ 0tYQRUTTLZzpoGF4KTRrEifxUL8BKSwmL4E+zQSOJZ9wzp+FE/i0+e7r1FtXZyFm8RGP
+ bmzB3tEZ8T+WvTlXgCChVfgLFBrDBYOSpuDYwGBYgRcz0lwzj0JRotMuoGpsfoUUbc2H
+ e8Lw==
+X-Gm-Message-State: AOAM533b+hUYmRpXQWXkYa+VSuW4soIdHKnpgXxkfTffnRecSJ8TBzOp
+ 0Xq5iwShicfFt6u4nfw5+q0=
+X-Google-Smtp-Source: ABdhPJzCxR0VTlO6vtXcyQDwfjlqWU1O2hJtbqkOLThwt2Q0Qo+1cvNbhSywIfMQQIrYxU/wscxBmQ==
+X-Received: by 2002:a7b:c00d:: with SMTP id c13mr2873611wmb.99.1643048291066; 
+ Mon, 24 Jan 2022 10:18:11 -0800 (PST)
+Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id f13sm14519787wrp.105.2022.01.24.10.18.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Jan 2022 10:18:10 -0800 (PST)
+Message-ID: <8867abae-b03e-d32c-7ace-ba74206d8d52@amsat.org>
+Date: Mon, 24 Jan 2022 19:18:08 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhreml740-chm.china.huawei.com (10.201.108.190) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2] configure: fix parameter expansion of
+ --cross-cc-cflags options
+Content-Language: en-US
+To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, thuth@redhat.com, richard.henderson@linaro.org,
+ alex.bennee@linaro.org
+References: <20220124172314.2974833-1-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20220124172314.2974833-1-matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,157 +96,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Mon, 24 Jan 2022 17:16:23 +0000
-Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
-
+On 1/24/22 18:23, matheus.ferst@eldorado.org.br wrote:
+> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 > 
-> I'll post a git tree shortly for any who prefer that to lots
-> of emails ;)
-
-
-https://github.com/hisilicon/qemu.git  cxl-v4
-
-I've included the pci swizzle fix on the tree as it
-avoids some really annoying waits for interrupts to get
-masked when testing on ARM.
-
-I've also put the basic DOE patch set on top (CDAT + compliance)
-and the ARM GIC ITS support patch for virt as who wouldn't
-want that?
-
-Thanks,
-
-Jonathan
- 
+> Without this fix, any use of --cross-cc-cflags-* causes a message like:
+> $ ../configure --cross-cc-ppc64le=clang --cross-cc-cflags-ppc64le="-target powerpc64le-unknown-linux-gnu -sysroot ..."
+> ../configure: 1: eval: cross_cc_cflags_--cross-cc-cflags-ppc64le=-target: not found
+> ../configure: 3816: export: cross_cc_cflags_--cross-cc-cflags-ppc64le: bad variable name
 > 
-> Thanks,
+> Also, update the documentation to reflect the option being parsed by
+> configure.
 > 
-> Jonathan
-> 
-> Ben Widawsky (26):
->   hw/pci/cxl: Add a CXL component type (interface)
->   hw/cxl/component: Introduce CXL components (8.1.x, 8.2.5)
->   hw/cxl/device: Introduce a CXL device (8.2.8)
->   hw/cxl/device: Implement the CAP array (8.2.8.1-2)
->   hw/cxl/device: Implement basic mailbox (8.2.8.4)
->   hw/cxl/device: Add memory device utilities
->   hw/cxl/device: Add cheap EVENTS implementation (8.2.9.1)
->   hw/cxl/device: Timestamp implementation (8.2.9.3)
->   hw/cxl/device: Add log commands (8.2.9.4) + CEL
->   hw/pxb: Use a type for realizing expanders
->   hw/pci/cxl: Create a CXL bus type
->   hw/pxb: Allow creation of a CXL PXB (host bridge)
->   acpi/pci: Consolidate host bridge setup
->   hw/cxl/component: Implement host bridge MMIO (8.2.5, table 142)
->   hw/cxl/rp: Add a root port
->   hw/cxl/device: Add a memory device (8.2.8.5)
->   hw/cxl/device: Implement MMIO HDM decoding (8.2.5.12)
->   acpi/cxl: Add _OSC implementation (9.14.2)
->   tests/acpi: allow CEDT table addition
->   acpi/cxl: Create the CEDT (9.14.1)
->   hw/cxl/device: Add some trivial commands
->   hw/cxl/device: Plumb real Label Storage Area (LSA) sizing
->   hw/cxl/device: Implement get/set Label Storage Area (LSA)
->   acpi/cxl: Introduce CFMWS structures in CEDT
->   hw/cxl/component Add a dumb HDM decoder handler
->   qtest/cxl: Add very basic sanity tests
-> 
-> Jonathan Cameron (16):
->   MAINTAINERS: Add entry for Compute Express Link Emulation
->   tests/acpi: allow DSDT.viot table changes.
->   tests/acpi: Add update DSDT.viot
->   cxl: Machine level control on whether CXL support is enabled
->   hw/cxl/component: Add utils for interleave parameter encoding/decoding
->   hw/cxl/host: Add support for CXL Fixed Memory Windows.
->   hw/pci-host/gpex-acpi: Add support for dsdt construction for pxb-cxl
->   pci/pcie_port: Add pci_find_port_by_pn()
->   CXL/cxl_component: Add cxl_get_hb_cstate()
->   mem/cxl_type3: Add read and write functions for associated hostmem.
->   cxl/cxl-host: Add memops for CFMWS region.
->   arm/virt: Allow virt/CEDT creation
->   hw/arm/virt: Basic CXL enablement on pci_expander_bridge instances
->     pxb-cxl
->   RFC: softmmu/memory: Add ops to memory_region_ram_init_from_file
->   i386/pc: Enable CXL fixed memory windows
->   qtest/acpi: Add reference CEDT tables.
-> 
->  MAINTAINERS                         |   7 +
->  hw/Kconfig                          |   1 +
->  hw/acpi/Kconfig                     |   5 +
->  hw/acpi/cxl.c                       | 232 +++++++++++++
->  hw/acpi/meson.build                 |   1 +
->  hw/arm/Kconfig                      |   1 +
->  hw/arm/virt-acpi-build.c            |  30 ++
->  hw/arm/virt.c                       |  40 ++-
->  hw/core/machine.c                   |  26 ++
->  hw/cxl/Kconfig                      |   3 +
->  hw/cxl/cxl-component-utils.c        | 277 +++++++++++++++
->  hw/cxl/cxl-device-utils.c           | 268 +++++++++++++++
->  hw/cxl/cxl-host-stubs.c             |  22 ++
->  hw/cxl/cxl-host.c                   | 263 ++++++++++++++
->  hw/cxl/cxl-mailbox-utils.c          | 509 ++++++++++++++++++++++++++++
->  hw/cxl/meson.build                  |   9 +
->  hw/i386/acpi-build.c                |  97 +++++-
->  hw/i386/microvm.c                   |   1 +
->  hw/i386/pc.c                        |  57 +++-
->  hw/mem/Kconfig                      |   5 +
->  hw/mem/cxl_type3.c                  | 353 +++++++++++++++++++
->  hw/mem/meson.build                  |   1 +
->  hw/meson.build                      |   1 +
->  hw/pci-bridge/Kconfig               |   5 +
->  hw/pci-bridge/cxl_root_port.c       | 231 +++++++++++++
->  hw/pci-bridge/meson.build           |   1 +
->  hw/pci-bridge/pci_expander_bridge.c | 179 +++++++++-
->  hw/pci-bridge/pcie_root_port.c      |   6 +-
->  hw/pci-host/gpex-acpi.c             |  22 +-
->  hw/pci/pci.c                        |  21 +-
->  hw/pci/pcie_port.c                  |  25 ++
->  hw/ppc/spapr.c                      |   1 +
->  include/hw/acpi/cxl.h               |  28 ++
->  include/hw/arm/virt.h               |   1 +
->  include/hw/boards.h                 |   2 +
->  include/hw/cxl/cxl.h                |  51 +++
->  include/hw/cxl/cxl_component.h      | 206 +++++++++++
->  include/hw/cxl/cxl_device.h         | 266 +++++++++++++++
->  include/hw/cxl/cxl_pci.h            | 160 +++++++++
->  include/hw/pci/pci.h                |  14 +
->  include/hw/pci/pci_bridge.h         |  20 ++
->  include/hw/pci/pci_bus.h            |   7 +
->  include/hw/pci/pci_ids.h            |   1 +
->  include/hw/pci/pcie_port.h          |   2 +
->  qapi/machine.json                   |  15 +
->  qemu-options.hx                     |  37 ++
->  softmmu/memory.c                    |   9 +
->  softmmu/vl.c                        |  11 +
->  tests/data/acpi/pc/CEDT             | Bin 0 -> 36 bytes
->  tests/data/acpi/q35/CEDT            | Bin 0 -> 36 bytes
->  tests/data/acpi/q35/DSDT.viot       | Bin 9398 -> 9416 bytes
->  tests/data/acpi/virt/CEDT           | Bin 0 -> 36 bytes
->  tests/qtest/cxl-test.c              | 151 +++++++++
->  tests/qtest/meson.build             |   4 +
->  54 files changed, 3645 insertions(+), 40 deletions(-)
->  create mode 100644 hw/acpi/cxl.c
->  create mode 100644 hw/cxl/Kconfig
->  create mode 100644 hw/cxl/cxl-component-utils.c
->  create mode 100644 hw/cxl/cxl-device-utils.c
->  create mode 100644 hw/cxl/cxl-host-stubs.c
->  create mode 100644 hw/cxl/cxl-host.c
->  create mode 100644 hw/cxl/cxl-mailbox-utils.c
->  create mode 100644 hw/cxl/meson.build
->  create mode 100644 hw/mem/cxl_type3.c
->  create mode 100644 hw/pci-bridge/cxl_root_port.c
->  create mode 100644 include/hw/acpi/cxl.h
->  create mode 100644 include/hw/cxl/cxl.h
->  create mode 100644 include/hw/cxl/cxl_component.h
->  create mode 100644 include/hw/cxl/cxl_device.h
->  create mode 100644 include/hw/cxl/cxl_pci.h
->  create mode 100644 tests/data/acpi/pc/CEDT
->  create mode 100644 tests/data/acpi/q35/CEDT
->  create mode 100644 tests/data/acpi/virt/CEDT
->  create mode 100644 tests/qtest/cxl-test.c
-> 
+> Fixes: d422b2bc23 ("configure: allow user to specify --cross-cc-cflags-foo=")
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> ---
+>  configure              | 4 ++--
+>  docs/devel/testing.rst | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
