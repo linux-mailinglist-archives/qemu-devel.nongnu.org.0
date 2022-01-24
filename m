@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD45E4978ED
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 07:29:06 +0100 (CET)
-Received: from localhost ([::1]:51234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E53154979C4
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 08:47:43 +0100 (CET)
+Received: from localhost ([::1]:60356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBsqe-0006gl-U2
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 01:29:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60180)
+	id 1nBu4k-0007t4-Dg
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 02:47:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nBskx-0004zA-UQ
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 01:23:13 -0500
-Received: from mga03.intel.com ([134.134.136.65]:7054)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nBsku-00060C-WA
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 01:23:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643005389; x=1674541389;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=jSstmPNCf3s4Q1fhHwsv1snaaS9fbX221w264WxTtl0=;
- b=UzrpyBiGDA+DJY7oBEpSMEbbRcrlMtdAb1St8KdcaTMS0UmHR28Fickn
- 6aDSvfyDJdPHYtl7wWajLJLT68eCsWpg2B6cvOxg8eR5QMgQz5ALD/C/h
- ipUhrcsWmtN1U326ykk6iBumPG0Igp/NvoF5pY67eTa3/fCgvpY8VWXA+
- EckI/iaPk4+wZLRwtAY7vihIV0PB27qPXZiBvuqmCa76X8E/Ae1b8KUCo
- sxGnr3G1zSMFM8q2EAbmF6SpDgBd/CjcZNWwu+npr7Q/42kXBmCmXpieN
- l5SdlzBt6dVNoHIaur5DHnz8md4eXQ4KK+T0jlYOtMln59KnYTki9CjH9 g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="245918391"
-X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="245918391"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2022 22:22:58 -0800
-X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="695306846"
-Received: from xiaoyaol-mobl.ccr.corp.intel.com (HELO [10.249.168.250])
- ([10.249.168.250])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2022 22:22:51 -0800
-Message-ID: <8793aa69-3416-d48e-d690-9f70b1784b46@intel.com>
-Date: Mon, 24 Jan 2022 14:22:49 +0800
+ (Exim 4.90_1) (envelope-from <zongyuan.li@smartx.com>)
+ id 1nBt59-0001Gw-Tu
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 01:44:04 -0500
+Received: from [2607:f8b0:4864:20::441] (port=45850
+ helo=mail-pf1-x441.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <zongyuan.li@smartx.com>)
+ id 1nBt57-0000fJ-6M
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 01:44:03 -0500
+Received: by mail-pf1-x441.google.com with SMTP id 128so14975478pfe.12
+ for <qemu-devel@nongnu.org>; Sun, 23 Jan 2022 22:43:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=smartx-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+Hs8nolBsMYaHP3sft5wWhNTI+A3tOi5VfSzy+f2cZw=;
+ b=ssdUOzpsEsI3NOGsffninsyLq0AbtBEffZ7lZLnxZiWNsGozNwf0WVxTvxyYpINEUY
+ DCW52gDILqGuUZZZQIsq/kPAO/oEz1jV41p5nTDsv3TRof9dfci5vUeBZ/9fzWuvXciY
+ Avq8Xp/fbmo7bMa99tH6o3cyqYN/yDOmDThdfihq3gT1XwvZdXpPgP8g5k46JEwsWXbz
+ fFiASUhb4meLUuOA7dzfOLoze6BUYWqdoLZNohqLu8OtLW0YScgbd4EXnCEntum2atte
+ F0Oa4EysxRAxG2Jqucv/3dMYfjc+TR6g96QsSFXMhr/7HGQA9Veh864wXEgLMCcyIKPq
+ vU2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+Hs8nolBsMYaHP3sft5wWhNTI+A3tOi5VfSzy+f2cZw=;
+ b=vnluU3it3DWhYqpiFzUwpFbhMR3UQukTv10wN4K74KcoIhlLpd4HLEubUcw9yMK0WF
+ qre04y5jFUhqtXh9hlGlvo7yEo613SFC/fvIt2vuRxBmGaU+V9IwZkHP0zK+7ih7W4Xv
+ NEXG5ThLfGlj+Nf8XAnMf5o2/Q4wqKnUNArkQWyO19YsW4mFAmFvVRyb+wNpifTCVaVr
+ 5kt2t7fzg7jLUZURkLkQxO7IiCbMaWUmM8yNyJBxO2k3VJ30Ip1uWee1wzx4PSc2JbqN
+ 7jX22p5xboDD98xyHYawiSMhsBAWZBaLQTw81mUJqP4FaSlAxc/IC6JS2XLtAqu7+iZA
+ 6ohQ==
+X-Gm-Message-State: AOAM530XA5uAPhWhC3GWTLuO200djAhs4RzyUPg9lz+jdxhPecKz9Lif
+ gcC/rW7kVBbY22VxxyYyLY5LPGeHiUFVT9I4lSLadA==
+X-Google-Smtp-Source: ABdhPJwj+H4II1XPyunaKXVGAyOE5KS5NV4y5gy/5+Q3RcuCe8W68fKDbfnEk4FunkBNvuH5xIOojw==
+X-Received: by 2002:a63:5752:: with SMTP id h18mr11090395pgm.520.1643006634948; 
+ Sun, 23 Jan 2022 22:43:54 -0800 (PST)
+Received: from fedora.zelin.local ([103.177.44.9])
+ by smtp.gmail.com with ESMTPSA id na5sm6671387pjb.23.2022.01.23.22.43.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 23 Jan 2022 22:43:54 -0800 (PST)
+From: Zongyuan Li <zongyuan.li@smartx.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/hexagon: remove unused variable
+Date: Mon, 24 Jan 2022 14:43:39 +0800
+Message-Id: <20220124064339.56027-1-zongyuan.li@smartx.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.5.0
-Subject: Re: [RFC PATCH v2 20/44] i386/tdx: Parse tdx metadata and store the
- result into TdxGuestState
-Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>, Laszlo Ersek <lersek@redhat.com>
-References: <cover.1625704980.git.isaku.yamahata@intel.com>
- <acaf651389c3f407a9d6d0a2e943daf0a85bb5fc.1625704981.git.isaku.yamahata@intel.com>
- <20210826111838.fgbp6v6gd5wzbnho@sirius.home.kraxel.org>
- <a97a75ad-9d1c-a09f-281b-d6b0a7652e78@intel.com>
- <4eb6a628-0af6-409b-7e42-52787ee3e69d@redhat.com>
- <e74fcb88-3add-4bb7-4508-742db44fa3c8@intel.com>
- <20220110110120.ldjekirdzgmgex4z@sirius.home.kraxel.org>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220110110120.ldjekirdzgmgex4z@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.65; envelope-from=xiaoyao.li@intel.com;
- helo=mga03.intel.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.56, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::441
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::441;
+ envelope-from=zongyuan.li@smartx.com; helo=mail-pf1-x441.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 24 Jan 2022 02:29:42 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,66 +85,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com, cohuck@redhat.com, ehabkost@redhat.com,
- kvm@vger.kernel.org, mst@redhat.com, seanjc@google.com, alistair@alistair23.me,
- qemu-devel@nongnu.org, mtosatti@redhat.com, "Min M . Xu" <min.m.xu@intel.com>,
- erdemaktas@google.com, pbonzini@redhat.com, isaku.yamahata@gmail.com
+Cc: Taylor Simpson <tsimpson@quicinc.com>, Zongyuan Li <zongyuan.li@smartx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/10/2022 7:01 PM, Gerd Hoffmann wrote:
->>> Regarding pflash itself, the read-only KVM memslot is required for it.
->>> Otherwise pflash cannot work as a "ROMD device" (= you can't flip it
->>> back and forth between ROM mode and programming (MMIO) mode).
->>
->> We don't need Read-only mode for TDVF so far. If for this purpose, is it
->> acceptable that allowing a pflash without KVM readonly memslot support if
->> read-only is not required for the specific pflash device?
-> 
-> In case you don't want/need persistent VARS (which strictly speaking is
-> a UEFI spec violation) you should be able to go for a simple "-bios
-> OVMF.fd".
-> 
+When building with clang version 13.0.0 (eg. Fedora 13.0.0-3.fc35),
+two unused variables introduced by macro GATHER_FUNCTION and
+SCATTER_FUNCTION will cause building process failure due to
+[-Werror -Wunused-variable].
 
-Gerd and Laszlo,
+Signed-off-by: Zongyuan Li <zongyuan.li@smartx.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/831
+---
+ target/hexagon/mmvec/macros.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
-First, thank you for your patient explanation of how pflash works in 
-QEMU and the clarification of usage of pflash with OVMF.
+diff --git a/target/hexagon/mmvec/macros.h b/target/hexagon/mmvec/macros.h
+index 10f4630364..44781cfb4a 100644
+--- a/target/hexagon/mmvec/macros.h
++++ b/target/hexagon/mmvec/macros.h
+@@ -164,11 +164,9 @@
+         target_ulong va = EA; \
+         target_ulong va_high = EA + LEN; \
+         uintptr_t ra = GETPC(); \
+-        int log_bank = 0; \
+         int log_byte = 0; \
+         for (i0 = 0; i0 < ELEMENT_SIZE; i0++) { \
+             log_byte = ((va + i0) <= va_high) && QVAL; \
+-            log_bank |= (log_byte << i0); \
+             uint8_t B; \
+             B = cpu_ldub_data_ra(env, EA + i0, ra); \
+             env->tmp_VRegs[0].ub[ELEMENT_SIZE * IDX + i0] = B; \
+@@ -243,11 +241,9 @@
+         int i0; \
+         target_ulong va = EA; \
+         target_ulong va_high = EA + LEN; \
+-        int log_bank = 0; \
+         int log_byte = 0; \
+         for (i0 = 0; i0 < ELEM_SIZE; i0++) { \
+             log_byte = ((va + i0) <= va_high) && QVAL; \
+-            log_bank |= (log_byte << i0); \
+             LOG_VTCM_BYTE(va + i0, log_byte, IN.ub[ELEM_SIZE * IDX + i0], \
+                           ELEM_SIZE * IDX + i0); \
+         } \
+-- 
+2.34.1
 
-Below I want to share current situation of loading TDVF.
-
-Restrictions from TDX architecture:
-- Current TDX doesn't support read-only memory, i.e., cannot trap write.
-
-- Current TDVF spec states that "In order to simplify the design, TDVF 
-does not support non-volatile variables" in chapter 8.3.3
-
-
-Regarding what interface should be used to load TDVF, there are three 
-options:
-
-   1) pflash: the same as how we load OVMF.
-
-   Suppose TDVF support will finally get into OVMF, using this
-   interface, it's full compatible with normal VMs. No change required
-   to QEMU command line and TDVF binary is mapped to the GPA address
-   right below 4G, but they are actually mapped as RAM.
-
-   Of course, we need several hacks (special handling) in QEMU.
-
-   Of course, they don't work as flash, the change made to it doesn't
-   persist.
-
-   2) -bios
-
-   exploit "-bios" parameter to load TDVF. But again, read-only is not
-   supported. TDVF is mapped as RAM.
-
-   3) generic loader
-
-   Just like what this series does. Implement specific parser in generic
-   loader to load and parse TDVF as private RAM.
-
-I'm nor sure if 1) is acceptable from your side. If not, we will go with 
-option 3, since 2) doesn't make too much sense.
 
