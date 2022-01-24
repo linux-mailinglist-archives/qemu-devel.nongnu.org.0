@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37FC54987FD
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 19:14:00 +0100 (CET)
-Received: from localhost ([::1]:53164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CBEA4987D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 19:07:53 +0100 (CET)
+Received: from localhost ([::1]:37612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nC3qp-0003HG-31
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 13:13:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59220)
+	id 1nC3ku-0001G4-4H
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 13:07:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nC3De-0001Qu-MV
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 12:33:30 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2200)
+ id 1nC3EB-0002IP-Qo
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 12:34:03 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2201)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nC3Dc-0001kS-TN
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 12:33:30 -0500
-Received: from fraeml702-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JjHBV11F4z6867c;
- Tue, 25 Jan 2022 01:33:06 +0800 (CST)
+ id 1nC3EA-0001s9-8o
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 12:34:03 -0500
+Received: from fraeml701-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JjHC46ZMlz687SM;
+ Tue, 25 Jan 2022 01:33:36 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml702-chm.china.huawei.com (10.206.15.51) with Microsoft SMTP Server
+ fraeml701-chm.china.huawei.com (10.206.15.50) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.21; Mon, 24 Jan 2022 18:33:26 +0100
+ 15.1.2308.21; Mon, 24 Jan 2022 18:33:57 +0100
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 24 Jan 2022 17:33:26 +0000
+ 15.1.2308.21; Mon, 24 Jan 2022 17:33:57 +0000
 To: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
  . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>,
@@ -40,9 +40,9 @@ CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>,
  <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
  <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
  Williams" <dan.j.williams@intel.com>
-Subject: [PATCH v4 32/42] pci/pcie_port: Add pci_find_port_by_pn()
-Date: Mon, 24 Jan 2022 17:16:55 +0000
-Message-ID: <20220124171705.10432-33-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v4 33/42] CXL/cxl_component: Add cxl_get_hb_cstate()
+Date: Mon, 24 Jan 2022 17:16:56 +0000
+Message-ID: <20220124171705.10432-34-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
 References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
@@ -80,68 +80,44 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
 From: Jonathan Cameron <jonathan.cameron@huawei.com>
 
-Simple function to search a PCIBus to find a port by
-it's port number.
-
-CXL interleave decoding uses the port number as a target
-so it is necessary to locate the port when doing interleave
-decoding.
+Accessor to get hold of the cxl state for a CXL host bridge
+without exposing the internals of the implementation.
 
 Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 ---
- hw/pci/pcie_port.c         | 25 +++++++++++++++++++++++++
- include/hw/pci/pcie_port.h |  2 ++
- 2 files changed, 27 insertions(+)
+ hw/pci-bridge/pci_expander_bridge.c | 7 +++++++
+ include/hw/cxl/cxl_component.h      | 2 ++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/hw/pci/pcie_port.c b/hw/pci/pcie_port.c
-index e95c1e5519..687e4e763a 100644
---- a/hw/pci/pcie_port.c
-+++ b/hw/pci/pcie_port.c
-@@ -136,6 +136,31 @@ static void pcie_port_class_init(ObjectClass *oc, void *data)
-     device_class_set_props(dc, pcie_port_props);
- }
+diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
+index 206e5412d3..e87651d13e 100644
+--- a/hw/pci-bridge/pci_expander_bridge.c
++++ b/hw/pci-bridge/pci_expander_bridge.c
+@@ -81,6 +81,13 @@ static GList *pxb_dev_list;
+ #define TYPE_PXB_CXL_HOST "pxb-cxl-host"
+ #define PXB_CXL_HOST(obj) OBJECT_CHECK(CXLHost, (obj), TYPE_PXB_CXL_HOST)
  
-+PCIDevice *pcie_find_port_by_pn(PCIBus *bus, uint8_t pn)
++CXLComponentState *cxl_get_hb_cstate(PCIHostState *hb)
 +{
-+    int devfn;
++    CXLHost *host = PXB_CXL_HOST(hb);
 +
-+    for (devfn = 0; devfn < ARRAY_SIZE(bus->devices); devfn++) {
-+        PCIDevice *d = bus->devices[devfn];
-+        PCIEPort *port;
-+
-+        if (!d || !pci_is_express(d) || !d->exp.exp_cap) {
-+            continue;
-+        }
-+
-+        if (!object_dynamic_cast(OBJECT(d), TYPE_PCIE_PORT)) {
-+            continue;
-+        }
-+
-+        port = PCIE_PORT(d);
-+        if (port->port == pn) {
-+            return d;
-+        }
-+    }
-+
-+    return NULL;
++    return &host->cxl_cstate;
 +}
 +
- static const TypeInfo pcie_port_type_info = {
-     .name = TYPE_PCIE_PORT,
-     .parent = TYPE_PCI_BRIDGE,
-diff --git a/include/hw/pci/pcie_port.h b/include/hw/pci/pcie_port.h
-index e25b289ce8..7b8193061a 100644
---- a/include/hw/pci/pcie_port.h
-+++ b/include/hw/pci/pcie_port.h
-@@ -39,6 +39,8 @@ struct PCIEPort {
+ static int pxb_bus_num(PCIBus *bus)
+ {
+     PXBDev *pxb = convert_to_pxb(bus->parent_dev);
+diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
+index d30c3f4716..8ca141afd4 100644
+--- a/include/hw/cxl/cxl_component.h
++++ b/include/hw/cxl/cxl_component.h
+@@ -201,4 +201,6 @@ static inline hwaddr cxl_decode_ig(int ig)
+     return 1 << (ig + 8);
+ }
  
- void pcie_port_init_reg(PCIDevice *d);
- 
-+PCIDevice *pcie_find_port_by_pn(PCIBus *bus, uint8_t pn);
++CXLComponentState *cxl_get_hb_cstate(PCIHostState *hb);
 +
- #define TYPE_PCIE_SLOT "pcie-slot"
- OBJECT_DECLARE_SIMPLE_TYPE(PCIESlot, PCIE_SLOT)
- 
+ #endif
 -- 
 2.32.0
 
