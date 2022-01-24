@@ -2,95 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8288C497D63
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 11:49:00 +0100 (CET)
-Received: from localhost ([::1]:41628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC8DF497D77
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 11:54:25 +0100 (CET)
+Received: from localhost ([::1]:49156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBwuB-0007FT-AQ
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 05:48:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49656)
+	id 1nBwzQ-00041k-Jg
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 05:54:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ross.lagerwall@citrix.com>)
- id 1nBwqx-0005ig-BU
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 05:45:39 -0500
-Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175]:63039)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nBwy1-0002kJ-6l
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 05:52:57 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2167)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ross.lagerwall@citrix.com>)
- id 1nBwqf-0002mq-6O
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 05:45:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1643021121;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=zaufoJxtLeaLv6fsm/av7h5s3Ob9S1OA40u/CizUiV0=;
- b=cRlGsPLXN2HZtadlXNg2i1/5zaEhHUpyv43GmfQSvk9uM2ok9N93ysoq
- ePWWGebqpyoVgzDivDQFpVziAMSD3vfDZH2/U4puO6qKShh3eoiBnAYl8
- Qh6Rd1zJh379YNVRCJdk/EBGw/jrO/AYiQJc5HomUTclrcYuOz1r8XLp1 s=;
-Authentication-Results: esa6.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-IronPort-SDR: agwjQFoBElyj729aO7SRYdm4ddjcICK/Vbt5KsA6VxElZCZZFARe6RSkz7N0D+mZwn2VpTke4X
- ZxYh8659465PhyN/rchPhKXvwlXP3hJKc3o15VAkvQVKdphHjgXUuFRSiE8u45uhtXPELLqyX0
- GeVeBWs49f0NIvOp3Bt7iG0GF4PzsHh+OVSm/deAb2NzMWlugdKh9PK+KE1Ag7ghEdFgSDwVOB
- VBO4bw1cwt7AE6av2mhBKmb63ZBiDU+7sjhZxiQhZb45iifpEYPzFtwItGhscV2E1iPZXBZbtJ
- cEx6M96gSkXeWz41hEUAI7F6
-X-SBRS: 5.2
-X-MesageID: 62529907
-X-Ironport-Server: esa6.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.156.83
-X-Policy: $RELAYED
-IronPort-Data: A9a23:8U7q7qPU716TpJbvrR33kcFynXyQoLVcMsEvi/4bfWQNrUoq0mcDz
- TFJWzrUMvmLY2r8eNwgbo2280xQ6J6EndU1GQto+SlhQUwRpJueD7x1DKtR0wB+jCHnZBg6h
- ynLQoCYdKjYdpJYz/uUGuCJQUNUjMlkfZKhTr6UUsxNbVU8En150Eg4w7RRbrNA2rBVPSvc4
- bsenOWHULOV82Yc3rU8sv/rRLtH5ZweiRtA1rAMTakjUGz2zhH5OKk3N6CpR0YUd6EPdgKMq
- 0Qv+5nilo/R109F5tpICd8XeGVSKlLZFVDmZna7x8FOK/WNz8A/+v9TCRYSVatYo2yJmNwo6
- eRoiYyfZFwvBZPQs+1GawYNRkmSPYUekFPGCX22sMjVxEzaaXr8hf5pCSnaP6VBpLwxWzsXs
- 6VFdnZdNXhvhMrvqF6/YvNrnd9lKMDkMZkAs3Vk5TrYEewnUdbIRKCiCdpwgm1t3JEfRam2i
- 8wxYBFWXVPMQwJ0HGwNDoxlmsXwlHbDWmgNwL6SjfVuuDWCpOBr65DoOcDed9jMTN1bk0KSr
- 3/D12v8CxAecteYzFKt92mwrvXCkSPyRMQZE7jQ3udnhUDWymENBRk+U1y9rv+kzEmkVLp3O
- 0ESvyYjs6U23EiqVcXmGQ21pmaeuRwRUMYWFPc1gCmVwK3S8QefB0AeQzJBYcBgv8gzLRQy3
- 0KNt8PkA3poqrL9YWmG6r6eoDe2OC4UBWwPfykJSU0C+daLiIw/kxvVQtFLEKe/jdruBXf2z
- izihDI/jLUal8JN16i98V3dmDWqjpzISAcv4UPQRG3N0+9iTNf7PcryswGdtKseatbCJrWcg
- JQas5Ge6+xXLKCoqDyibb4LJ4+1zP/eCCKJ1DaDAKId3ziq/neie6VZ7zd/OFplP644RNP5X
- KPAkVgPvcEOZRNGeYcyOtvsUJpykcAMAPy4Dqi8UzZYXnRmmOZrFglKbFXY4W3imVNEfUoXa
- cbCKpbE4Zr35M1aINuKqwU1jOVDKsMWnzq7qXXHI/OPiuL2WZJtYe1ZWGZil8hghE9+nC3b8
- sxEK+yBwAhFXev1b0H/qNBPdwFUdiNmVMGo8qS7k9JvxSI9QAkc5wL5m+t9K+SJYYwL/gs3w
- p1NchABkweu7ZE2AQ6LdmpieNvSsWVX9hoG0dgXFQ/wgRALON/3hI9GLsdfVeR5qIRLkKAlJ
- 9FYK5ToKqkeEVzvpmVCBaQRWaQ/LnxHcyrUYXr8CNX+FrY9LzH0FijMJ1u2q3JWX3Pp7KPTY
- dSIj2vmfHbKfCw6ZO6+VR5l5wrZUaE1lL0gUk3WDMNUfUmwooFmJzao1q08It0WKAWFzTyfj
- l7EDRAdrOjLgok07NiW2vzU89b3S7NzThhAAm3WzbeqLi2GrGCt9pBNDbSTdjfHWWKqpKj7P
- bdJz+vxOeEslUpRt9YuCK5iyK8zvoO9p7JTwgl+Mm/MalCnVuFpLnWchJEdvaxR3L5J/wCxX
- xvXqNVdPLyIPuLjEUIQe1V5PrjSi6lMl2CLv/ovIUj86Ctmx5a9UB1fb0uWlShQDLppK4d5k
- +0vj9Ebtl6kgR0wP9fY0i0NrzaQLmYNWrkMv40BBNO5kRIiz1xPbMCOCiLy553TOdxAPlNzf
- 22RjavGwb9d2lDDYzw4En2UhbhRgpEHuRZryl4eJgvWxoqZ16FvhBABoy4qSgl1zwlc17MhM
- 2dmAER5OKGS8mo6n8NERW2tR1lMCRDxFpYdELfVeLk1l3WVa1E=
-IronPort-HdrOrdr: A9a23:XxqP0qot8ckHyIRabizh0UEaV5oleYIsimQD101hICG8cqSj9v
- xG+85rsiMc6QxhIU3I9urwW5VoLUmyyXcX2/h0AV7BZniFhILAFugLhuGOrwEIcxeOkNK1vp
- 0BT0ERMrPN5CBB/KPH3DU=
-X-IronPort-AV: E=Sophos;i="5.88,311,1635220800"; d="scan'208";a="62529907"
-To: Stefano Stabellini <sstabellini@kernel.org>, Anthony Perard
- <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
-CC: Ross Lagerwall <ross.lagerwall@citrix.com>, Igor Druzhinin
- <igor.druzhinin@citrix.com>, Paolo Bonzini <pbonzini@redhat.com>, "Richard
- Henderson" <richard.henderson@linaro.org>, Eduardo Habkost
- <eduardo@habkost.net>, "Michael S. Tsirkin" <mst@redhat.com>, "Marcel
- Apfelbaum" <marcel.apfelbaum@gmail.com>, <xen-devel@lists.xenproject.org>,
- <qemu-devel@nongnu.org>
-Subject: [PATCH v2] xen-mapcache: Avoid entry->lock overflow
-Date: Mon, 24 Jan 2022 10:44:50 +0000
-Message-ID: <20220124104450.152481-1-ross.lagerwall@citrix.com>
-X-Mailer: git-send-email 2.27.0
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nBwxy-0003tl-Jj
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 05:52:56 -0500
+Received: from fraeml708-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Jj6Ck41MCz689yj;
+ Mon, 24 Jan 2022 18:48:34 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml708-chm.china.huawei.com (10.206.15.36) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Mon, 24 Jan 2022 11:52:47 +0100
+Received: from localhost (10.47.74.148) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Mon, 24 Jan
+ 2022 10:52:46 +0000
+Date: Mon, 24 Jan 2022 10:52:45 +0000
+To: Samarth Saxena <samarths@cadence.com>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Re: [CXL HDM DECODER PROGRAMMING] - Question: Does Qemu program HDM
+ decoder register of the CXL endpoint?
+Message-ID: <20220124105245.00006aa1@Huawei.com>
+In-Reply-To: <DM8PR07MB8920E2DE0A0435025B4C0E2FDD5D9@DM8PR07MB8920.namprd07.prod.outlook.com>
+References: <DM8PR07MB8920E2DE0A0435025B4C0E2FDD5D9@DM8PR07MB8920.namprd07.prod.outlook.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.71.155.175;
- envelope-from=ross.lagerwall@citrix.com; helo=esa6.hc3370-68.iphmx.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.47.74.148]
+X-ClientProxiedBy: lhreml739-chm.china.huawei.com (10.201.108.189) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,53 +69,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Ross Lagerwall <ross.lagerwall@citrix.com>
-From:  Ross Lagerwall via <qemu-devel@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-In some cases, a particular mapcache entry may be mapped 256 times
-causing the lock field to wrap to 0. For example, this may happen when
-using emulated NVME and the guest submits a large scatter-gather write.
-At this point, the entry map be remapped causing QEMU to write the wrong
-data or crash (since remap is not atomic).
+On Sun, 23 Jan 2022 16:13:29 +0000
+Samarth Saxena <samarths@cadence.com> wrote:
 
-Avoid this overflow by increasing the lock field to a uint32_t and also
-detect it and abort rather than continuing regardless.
+> Hi All,
+> 
+> I had a question about the CXL HDM Decoder register programming.
+> Is there any part of Qemu, that automatically programs the enable bit
+> of the HDM decoder register in the Component registers of the CXL
+> endpoint? The CDR (component registers) are hosted inside the memory
+> of the CXL endpoint.
 
-Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
----
-Changes in v2: Change type to uint32_t since there is a hole there
-anyway. The struct size remains at 48 bytes on x86_64.
+Hi Samarth,
 
- hw/i386/xen/xen-mapcache.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Given upstream QEMU doesn't support any CXL emulation at all currently
+the answer to that is a no :)
 
-diff --git a/hw/i386/xen/xen-mapcache.c b/hw/i386/xen/xen-mapcache.c
-index bd47c3d672..f2ef977963 100644
---- a/hw/i386/xen/xen-mapcache.c
-+++ b/hw/i386/xen/xen-mapcache.c
-@@ -52,7 +52,7 @@ typedef struct MapCacheEntry {
-     hwaddr paddr_index;
-     uint8_t *vaddr_base;
-     unsigned long *valid_mapping;
--    uint8_t lock;
-+    uint32_t lock;
- #define XEN_MAPCACHE_ENTRY_DUMMY (1 << 0)
-     uint8_t flags;
-     hwaddr size;
-@@ -355,6 +355,12 @@ tryagain:
-     if (lock) {
-         MapCacheRev *reventry = g_malloc0(sizeof(MapCacheRev));
-         entry->lock++;
-+        if (entry->lock == 0) {
-+            fprintf(stderr,
-+                    "mapcache entry lock overflow: "TARGET_FMT_plx" -> %p\n",
-+                    entry->paddr_index, entry->vaddr_base);
-+            abort();
-+        }
-         reventry->dma = dma;
-         reventry->vaddr_req = mapcache->last_entry->vaddr_base + address_offset;
-         reventry->paddr_index = mapcache->last_entry->paddr_index;
--- 
-2.27.0
+I hope to post a v4 patch series for CXL support later this week.
+
+Once that's out perhaps we can pick up this question again.
+
+Thanks,
+
+Jonathan
+
+
+> 
+> Regards,
+> [CadenceLogoRed185Regcopy1583174817new51584636989.png]<https://www.cadence.com/en_US/home.html>
+> Samarth Saxena
+> Sr Principal Software Engineer
+> T: 911204308300
+> [UIcorrectsize1583179003.png]<https://www.cadence.com/en_US/home.html>
+> [16066EmailSignatureFortune100Best2021White92x1271617625037.png]<https://www.cadence.com/en_US/home/company/careers.html>
+> 
+> 
+> 
+> 
+> 
 
 
