@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 990FC498F5A
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 20:54:02 +0100 (CET)
-Received: from localhost ([::1]:49642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F4054498CA4
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 20:24:21 +0100 (CET)
+Received: from localhost ([::1]:46124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nC5Pd-0006nL-EQ
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 14:54:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49858)
+	id 1nC4wu-0001I9-MA
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 14:24:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nC4WW-0001Ys-8P
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 13:57:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60693)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nC4Wb-0001cH-Mg
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 13:57:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22243)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nC4WT-000704-Cv
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 13:57:02 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nC4WW-00070P-40
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 13:57:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643050620;
+ s=mimecast20190719; t=1643050623;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kUrOj9xZzIljSPbzU9kbPZiGwn9tVJQi2XWwxnb3tvA=;
- b=fmmT6RtXFRZ1DLT+fny7eT/LAsX0rnUghxfjmv5p0E/loe844fBZiP5bS5Yv/6SfBf7TPl
- eUzcI7rVav4ZdDJ7BDZchxzd4qvBTfHysln834B5nBrhAV7djecE4rsJe6TX2KXT/8sAPf
- 5Z8e9B9/MSENKRvPCliieXOuNVuIwtw=
+ bh=rQTbeWTBd9MpkpHW009DOfP8dCMmrsP++iNu4ZTvNjw=;
+ b=RSC9MAvjiN7Y5hkEnLAUVzNEj57ByBYG5iRsZon5B5F+9fPEB9O4FQaY9u9vs5OD7vOwwu
+ appxfFNkZukBM1l5famApBrNnBfoljZpIK/gkwKftw061AOimxtrhlZ2ukCXt+ykdcQXXw
+ 0aiAh/nosE3dKf+ekFmyL2L+UVgS+3c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-661-1RfDdw-zOI6HSIdDQD3ryQ-1; Mon, 24 Jan 2022 13:56:57 -0500
-X-MC-Unique: 1RfDdw-zOI6HSIdDQD3ryQ-1
+ us-mta-19-SeV39GcDOturCpeLKzjNog-1; Mon, 24 Jan 2022 13:57:00 -0500
+X-MC-Unique: SeV39GcDOturCpeLKzjNog-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED25E760C4;
- Mon, 24 Jan 2022 18:56:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 257D283DD21;
+ Mon, 24 Jan 2022 18:56:59 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.170])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B51034D42;
- Mon, 24 Jan 2022 18:56:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0839F348F6;
+ Mon, 24 Jan 2022 18:56:56 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] Python: setuptools v60.0 workaround
-Date: Mon, 24 Jan 2022 13:56:42 -0500
-Message-Id: <20220124185643.641848-2-jsnow@redhat.com>
+Subject: [PATCH 2/2] Revert "python: pin setuptools below v60.0.0"
+Date: Mon, 24 Jan 2022 13:56:43 -0500
+Message-Id: <20220124185643.641848-3-jsnow@redhat.com>
 In-Reply-To: <20220124185643.641848-1-jsnow@redhat.com>
 References: <20220124185643.641848-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -58,13 +58,13 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,62 +82,39 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Setuptools v60 and later include a bundled version of distutils, a
-deprecated standard library scheduled for removal in future versions of
-Python. Setuptools v60 is only possible to install for Python 3.7 and later.
-
-Python has a distutils.sysconfig.get_python_lib() function that returns
-'/usr/lib/pythonX.Y' on posix systems. RPM-based systems actually use
-'/usr/lib64/pythonX.Y' instead, so Fedora patches stdlib distutils for
-Python 3.7 and Python 3.8 to return the correct value.
-
-Python 3.9 and later introduce a sys.platlibdir property, which returns
-the correct value on RPM-based systems.
-
-The change to a distutils package not provided by Fedora on Python 3.7
-and 3.8 causes a regression in distutils.sysconfig.get_python_lib() that
-ultimately causes false positives to be emitted by pylint, because it
-can no longer find the system source libraries.
-
-Many Python tools are fairly aggressive about updating setuptools
-packages, and so even though this package is a fair bit newer than
-Python 3.7/3.8, it's not entirely unreasonable for a given user to have
-such a modern package with a fairly old Python interpreter.
-
-We can force the loading of the platform-provided distutils when running
-the pylint test; this is the least-invasive yet most comprehensive fix
-until the dust settles upstream and the picture becomes more clear.
-
-References: https://github.com/pypa/setuptools/pull/2896
- https://github.com/PyCQA/pylint/issues/5704
- https://github.com/pypa/distutils/issues/110
+This reverts commit 1e4d8b31be35e54b6429fea54f5ecaa0083f91e7.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/tests/iotests-pylint.sh | 3 ++-
- python/tests/pylint.sh         | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ python/Makefile  | 2 --
+ python/setup.cfg | 1 -
+ 2 files changed, 3 deletions(-)
 
-diff --git a/python/tests/iotests-pylint.sh b/python/tests/iotests-pylint.sh
-index 4cae03424b..33c5ae900a 100755
---- a/python/tests/iotests-pylint.sh
-+++ b/python/tests/iotests-pylint.sh
-@@ -1,4 +1,5 @@
- #!/bin/sh -e
+diff --git a/python/Makefile b/python/Makefile
+index 949c472624..3334311362 100644
+--- a/python/Makefile
++++ b/python/Makefile
+@@ -68,8 +68,6 @@ $(QEMU_VENV_DIR) $(QEMU_VENV_DIR)/bin/activate: setup.cfg
+ 		echo "ACTIVATE $(QEMU_VENV_DIR)";		\
+ 		. $(QEMU_VENV_DIR)/bin/activate;		\
+ 		echo "INSTALL qemu[devel] $(QEMU_VENV_DIR)";	\
+-		pip install --disable-pip-version-check		\
+-			"setuptools<60.0.0" 1>/dev/null;	\
+ 		make develop 1>/dev/null;			\
+ 	)
+ 	@touch $(QEMU_VENV_DIR)
+diff --git a/python/setup.cfg b/python/setup.cfg
+index 3fb18f845d..168a79c867 100644
+--- a/python/setup.cfg
++++ b/python/setup.cfg
+@@ -163,7 +163,6 @@ deps =
+     .[devel]
+     .[fuse]  # Workaround to trigger tox venv rebuild
+     .[tui]   # Workaround to trigger tox venv rebuild
+-    setuptools < 60  # Workaround, please see commit msg.
+ commands =
+     make check
  
- cd ../tests/qemu-iotests/
--python3 -m linters --pylint
-+# See commit message for environment variable explainer.
-+SETUPTOOLS_USE_DISTUTILS=stdlib python3 -m linters --pylint
-diff --git a/python/tests/pylint.sh b/python/tests/pylint.sh
-index 4b10b34db7..03d64705a1 100755
---- a/python/tests/pylint.sh
-+++ b/python/tests/pylint.sh
-@@ -1,2 +1,3 @@
- #!/bin/sh -e
--python3 -m pylint qemu/
-+# See commit message for environment variable explainer.
-+SETUPTOOLS_USE_DISTUTILS=stdlib python3 -m pylint qemu/
 -- 
 2.31.1
 
