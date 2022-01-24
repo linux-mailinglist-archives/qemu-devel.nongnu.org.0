@@ -2,97 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5022498A14
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 20:02:08 +0100 (CET)
-Received: from localhost ([::1]:45162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3332498BBA
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 20:16:36 +0100 (CET)
+Received: from localhost ([::1]:34284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nC4bP-0005wj-SQ
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 14:02:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47470)
+	id 1nC4pN-0001LX-8C
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 14:16:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nC4MR-0003cr-5X; Mon, 24 Jan 2022 13:46:39 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:47718)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nC3lL-0003m8-2K
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 13:08:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29333)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nC4MP-0005Kj-CZ; Mon, 24 Jan 2022 13:46:38 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20OI1opT015859; 
- Mon, 24 Jan 2022 18:46:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=or3/ci/+kjI9/GIK8/kNoNq8Ri/RHAOwZ8MWrv+AIhE=;
- b=JgK/z63FMiNG5qnZHmmmcc9kbZdZ7V9z0TRxesJRgpwIR22zOwU3289NYU3D3ke7s87y
- xgcjDRMTnCKYsvmtN33WsH7cQNVwdzZYg2yjI238ynVlv/na5EYvjQ6Z6nfbu6oEXDH6
- k66zTynNsiDGQvfKW9qRaRUSibHN8RGJUuVOP3PkiA6fWxNf5IvIgGV2A5vu7Q71m/AO
- RzgcyVZigXA1gdsT1e+aL1h+6yYnpX5GQ09pA7MANF7yl+o/wOyKsk2bYr4JqdyqdchS
- 6KUgxHEJh+wp5e7MfuxUr1cXD45yHJUVs6aZSKcqd8rq27rBM9bZb+gY8xlciEPEyrEu 2g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dsxnxn0hq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Jan 2022 18:46:26 +0000
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20OI0Dio016173;
- Mon, 24 Jan 2022 18:46:25 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dsxnxn0ha-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Jan 2022 18:46:25 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20OIbKpf005759;
- Mon, 24 Jan 2022 18:46:24 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma04wdc.us.ibm.com with ESMTP id 3dr9j9vnjd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Jan 2022 18:46:24 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20OIkNAP34537920
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Jan 2022 18:46:23 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 62BBAAE063;
- Mon, 24 Jan 2022 18:46:23 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 59E34AE05C;
- Mon, 24 Jan 2022 18:46:21 +0000 (GMT)
-Received: from farosas.linux.ibm.com.com (unknown [9.163.24.67])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon, 24 Jan 2022 18:46:21 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nC3lA-00074x-Db
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 13:08:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643047681;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kyoRlLPOD1w5OZZS/I5Y/5mwJ+F8Lz40x5dSE6urtqo=;
+ b=JeXlxE/XkOTQPSk7ZMNBuJQBtXHUTRi966yUwvOnPnCBi5QMmnte0s+LKy+74e7LuaRBFw
+ yPQZa+1Pify8L9zPXXQUUA7A3Rm3bhP6rPFyCtkPU8dNqc/EtYE9hi/O6YqYYm8Bv7iJ7s
+ PbEMkcahcrH+6g+WaztrLWnxAEkHWe8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-536-8oNlczPjNeyfy0C29QdVGw-1; Mon, 24 Jan 2022 13:08:00 -0500
+X-MC-Unique: 8oNlczPjNeyfy0C29QdVGw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 745351018721;
+ Mon, 24 Jan 2022 18:07:59 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.35.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1BE8D798D3;
+ Mon, 24 Jan 2022 18:07:14 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] target/ppc: books: External interrupt cleanup
-Date: Mon, 24 Jan 2022 15:46:04 -0300
-Message-Id: <20220124184605.999353-5-farosas@linux.ibm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220124184605.999353-1-farosas@linux.ibm.com>
-References: <20220124184605.999353-1-farosas@linux.ibm.com>
+Subject: [PATCH v3 4/4] python/aqmp: add socket bind step to legacy.py
+Date: Mon, 24 Jan 2022 13:06:26 -0500
+Message-Id: <20220124180626.627718-5-jsnow@redhat.com>
+In-Reply-To: <20220124180626.627718-1-jsnow@redhat.com>
+References: <20220124180626.627718-1-jsnow@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: rWYJZ0tVolamT1gbrBnBOddICVT0B2u9
-X-Proofpoint-GUID: NUhmwzmTrahcDqXHvjcBxD_aL8S1TR6X
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-24_09,2022-01-24_02,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- priorityscore=1501 impostorscore=0 phishscore=0 mlxscore=0 malwarescore=0
- mlxlogscore=999 spamscore=0 bulkscore=0 lowpriorityscore=0 clxscore=1015
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2201240121
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,75 +77,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
- david@gibson.dropbear.id.au
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since this is now BookS only, we can simplify the code a bit and check
-has_hv_mode instead of enumerating the exception models. LPES0 does
-not make sense if there is no MSR_HV.
+The synchronous QMP library would bind to the server address during
+__init__(). The new library delays this to the accept() call, because
+binding occurs inside of the call to start_[unix_]server(), which is an
+async method -- so it cannot happen during __init__ anymore.
 
-Note that QEMU does not support HV mode on 970 and POWER5+ so we don't
-set MSR_HV in msr_mask.
+Python 3.7+ adds the ability to create the server (and thus the bind()
+call) and begin the active listening in separate steps, but we don't
+have that functionality in 3.6, our current minimum.
 
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+Therefore ... Add a temporary workaround that allows the synchronous
+version of the client to bind the socket in advance, guaranteeing that
+there will be a UNIX socket in the filesystem ready for the QEMU client
+to connect to without a race condition.
+
+(Yes, it's a bit ugly. Fixing it more nicely will have to wait until our
+minimum Python version is 3.7+.)
+
+Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- target/ppc/excp_helper.c | 30 +++++++-----------------------
- 1 file changed, 7 insertions(+), 23 deletions(-)
+ python/qemu/aqmp/legacy.py   |  3 +++
+ python/qemu/aqmp/protocol.py | 41 +++++++++++++++++++++++++++++++++---
+ 2 files changed, 41 insertions(+), 3 deletions(-)
 
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index e5f09e1984..67faec3775 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -644,39 +644,23 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
-     {
-         bool lpes0;
+diff --git a/python/qemu/aqmp/legacy.py b/python/qemu/aqmp/legacy.py
+index 0890f95b16..6baa5f3409 100644
+--- a/python/qemu/aqmp/legacy.py
++++ b/python/qemu/aqmp/legacy.py
+@@ -56,6 +56,9 @@ def __init__(self, address: SocketAddrT,
+         self._address = address
+         self._timeout: Optional[float] = None
  
--        cs = CPU(cpu);
--
-         /*
--         * Exception targeting modifiers
--         *
--         * LPES0 is supported on POWER7/8/9
--         * LPES1 is not supported (old iSeries mode)
--         *
--         * On anything else, we behave as if LPES0 is 1
--         * (externals don't alter MSR:HV)
-+         * LPES0 is only taken into consideration if we support HV
-+         * mode for this CPU.
-          */
--#if defined(TARGET_PPC64)
--        if (excp_model == POWERPC_EXCP_POWER7 ||
--            excp_model == POWERPC_EXCP_POWER8 ||
--            excp_model == POWERPC_EXCP_POWER9 ||
--            excp_model == POWERPC_EXCP_POWER10) {
--            lpes0 = !!(env->spr[SPR_LPCR] & LPCR_LPES0);
--        } else
--#endif /* defined(TARGET_PPC64) */
--        {
--            lpes0 = true;
-+        if (!env->has_hv_mode) {
-+            break;
-         }
++        if server:
++            self._aqmp._bind_hack(address)  # pylint: disable=protected-access
++
+     _T = TypeVar('_T')
  
-+        lpes0 = !!(env->spr[SPR_LPCR] & LPCR_LPES0);
+     def _sync(
+diff --git a/python/qemu/aqmp/protocol.py b/python/qemu/aqmp/protocol.py
+index 50e973c2f2..33358f5cd7 100644
+--- a/python/qemu/aqmp/protocol.py
++++ b/python/qemu/aqmp/protocol.py
+@@ -15,6 +15,7 @@
+ from enum import Enum
+ from functools import wraps
+ import logging
++import socket
+ from ssl import SSLContext
+ from typing import (
+     Any,
+@@ -238,6 +239,9 @@ def __init__(self, name: Optional[str] = None) -> None:
+         self._runstate = Runstate.IDLE
+         self._runstate_changed: Optional[asyncio.Event] = None
+ 
++        # Workaround for bind()
++        self._sock: Optional[socket.socket] = None
 +
-         if (!lpes0) {
-             new_msr |= (target_ulong)MSR_HVB;
-             new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
-             srr0 = SPR_HSRR0;
-             srr1 = SPR_HSRR1;
-         }
--        if (env->mpic_proxy) {
--            /* IACK the IRQ on delivery */
--            env->spr[SPR_BOOKE_EPR] = ldl_phys(cs->as, env->mpic_iack);
--        }
+     def __repr__(self) -> str:
+         cls_name = type(self).__name__
+         tokens = []
+@@ -427,6 +431,34 @@ async def _establish_connection(
+         else:
+             await self._do_connect(address, ssl)
+ 
++    def _bind_hack(self, address: Union[str, Tuple[str, int]]) -> None:
++        """
++        Used to create a socket in advance of accept().
 +
-         break;
-     }
-     case POWERPC_EXCP_ALIGN:     /* Alignment exception                      */
++        This is a workaround to ensure that we can guarantee timing of
++        precisely when a socket exists to avoid a connection attempt
++        bouncing off of nothing.
++
++        Python 3.7+ adds a feature to separate the server creation and
++        listening phases instead, and should be used instead of this
++        hack.
++        """
++        if isinstance(address, tuple):
++            family = socket.AF_INET
++        else:
++            family = socket.AF_UNIX
++
++        sock = socket.socket(family, socket.SOCK_STREAM)
++        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
++
++        try:
++            sock.bind(address)
++        except:
++            sock.close()
++            raise
++
++        self._sock = sock
++
+     @upper_half
+     async def _do_accept(self, address: SocketAddrT,
+                          ssl: Optional[SSLContext] = None) -> None:
+@@ -464,24 +496,27 @@ async def _client_connected_cb(reader: asyncio.StreamReader,
+         if isinstance(address, tuple):
+             coro = asyncio.start_server(
+                 _client_connected_cb,
+-                host=address[0],
+-                port=address[1],
++                host=None if self._sock else address[0],
++                port=None if self._sock else address[1],
+                 ssl=ssl,
+                 backlog=1,
+                 limit=self._limit,
++                sock=self._sock,
+             )
+         else:
+             coro = asyncio.start_unix_server(
+                 _client_connected_cb,
+-                path=address,
++                path=None if self._sock else address,
+                 ssl=ssl,
+                 backlog=1,
+                 limit=self._limit,
++                sock=self._sock,
+             )
+ 
+         server = await coro     # Starts listening
+         await connected.wait()  # Waits for the callback to fire (and finish)
+         assert server is None
++        self._sock = None
+ 
+         self.logger.debug("Connection accepted.")
+ 
 -- 
-2.34.1
+2.31.1
 
 
