@@ -2,66 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DE54497D97
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 12:06:49 +0100 (CET)
-Received: from localhost ([::1]:58404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C705497D9F
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 12:11:08 +0100 (CET)
+Received: from localhost ([::1]:33330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBxBP-0002Xw-RG
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 06:06:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54560)
+	id 1nBxFa-0004mT-WA
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 06:11:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1nBx9l-00016Q-2E; Mon, 24 Jan 2022 06:05:05 -0500
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:51606)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nBxCg-0003XD-Ni
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 06:08:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44286)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1nBx9i-0005xr-LL; Mon, 24 Jan 2022 06:05:04 -0500
-Received: from mailhub.u-ga.fr (mailhub-1.u-ga.fr [129.88.178.98])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 4F80240287;
- Mon, 24 Jan 2022 12:04:59 +0100 (CET)
-Received: from mailhost.u-ga.fr (mailhost1.u-ga.fr [152.77.1.10])
- by mailhub.u-ga.fr (Postfix) with ESMTP id 4CBA810006E;
- Mon, 24 Jan 2022 12:04:59 +0100 (CET)
-Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
- by mailhost.u-ga.fr (Postfix) with ESMTP id 36CEB60067;
- Mon, 24 Jan 2022 12:04:59 +0100 (CET)
-Received: from [147.171.165.10] (pers-165-10.vpn.u-ga.fr [147.171.165.10])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 6F42414005C;
- Mon, 24 Jan 2022 12:04:58 +0100 (CET)
-Message-ID: <f71dafee-e836-6949-050a-0fe17662957d@univ-grenoble-alpes.fr>
-Date: Mon, 24 Jan 2022 12:04:57 +0100
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nBxCd-0006ge-4f
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 06:08:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643022481;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3OfjbybQhhjg38hxkb3LOYjXJwz/mjLMPdefaFIE4qY=;
+ b=RTq3pvyToNkkFEpPoVLvGSrdxnbd7XjIe0osSdDBOy2p8MuTxYy3loOoNyLGp0idbsW2Qr
+ KKhQ3b57Sa0fGLp/wtv60EqMsdo4FCoBjBvYWklso5AVIGvbOhH69aODhHy8812ZkmIutv
+ FZM5OrzF4SmXX496j/Jq4CYKrvKMm1g=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-299-hjQtgJw5PbSXEAoNCzggag-1; Mon, 24 Jan 2022 06:08:00 -0500
+X-MC-Unique: hjQtgJw5PbSXEAoNCzggag-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ x1-20020a17090ab00100b001b380b8ed35so11765318pjq.7
+ for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 03:08:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=3OfjbybQhhjg38hxkb3LOYjXJwz/mjLMPdefaFIE4qY=;
+ b=aitSt+RuZkH/gmgtFAFag15VWP6At6eW7kmHGU1KSCVHkxV9YBdvS5Injj9dkmBNBn
+ EHrsYEwVmn1CcZwWz64y3Hzlukv1G/lKmvTfleWfIdcDkkppIwa/c5J4+/q9K2WpQ0al
+ Rz7KVDRmp8tMdnWmgKMrBePk6etWPffdQGfCJS2D8WaAr4Fk31cwndX7A5bCp+HcyNVw
+ uTPXk0Bid06eVStWypBSDGbtHFQbt9DtiAcIn8bfbSKtrudxEr9hUQvzsOER0CbKG9VV
+ zJW+t+m3zJwknh1qHVP67Y7znGTAcxN/n8gZZD+Nw/Bg76WEr1MCOMZ9bcUyS/GMXwlf
+ E5aQ==
+X-Gm-Message-State: AOAM530ddXicxefK1EUIVYMhv0msAXl/ullcO3z95TKxq2uxevTR7+en
+ wretc+S4kNzNba4Py74eA+1Av8UGcNJilTScbnMpRdQJXt7gG677YbL1zPEACAZYhkRke2u5LWV
+ gGctGbJXIASswtUE=
+X-Received: by 2002:a17:902:dac9:b0:14a:52d1:a266 with SMTP id
+ q9-20020a170902dac900b0014a52d1a266mr13446892plx.161.1643022479190; 
+ Mon, 24 Jan 2022 03:07:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy9+7YNHi/g2m7Mhl9qkD+p0twt4AoQ/T+tqXBDwszEC6eVuSyIg54W0jPFZ/lBNL4HefQQZg==
+X-Received: by 2002:a17:902:dac9:b0:14a:52d1:a266 with SMTP id
+ q9-20020a170902dac900b0014a52d1a266mr13446851plx.161.1643022478883; 
+ Mon, 24 Jan 2022 03:07:58 -0800 (PST)
+Received: from xz-m1.local ([94.177.118.73])
+ by smtp.gmail.com with ESMTPSA id x25sm15388443pfu.91.2022.01.24.03.07.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Jan 2022 03:07:58 -0800 (PST)
+Date: Mon, 24 Jan 2022 19:07:48 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Subject: Re: [PATCH 21/31] util: Add iova_tree_alloc
+Message-ID: <Ye6IhLCe6NDKO6+E@xz-m1.local>
+References: <20220121202733.404989-1-eperezma@redhat.com>
+ <20220121202733.404989-22-eperezma@redhat.com>
+ <Ye4r7tKFhP9VaT5/@xz-m1.local>
+ <CAJaqyWf--wbNZz5ZzbpixD9op_fO5fV01kbYXzG097c_NkqYrw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Content-Language: en-US
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20220124074940.363064-1-frederic.petrot@univ-grenoble-alpes.fr>
- <dcab99a5-4c85-0434-d094-90c7429ba479@c-sky.com>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>
-Subject: Re: [PATCH] target/riscv: correct "code should not be reached" for
- x-rv128
-In-Reply-To: <dcab99a5-4c85-0434-d094-90c7429ba479@c-sky.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <CAJaqyWf--wbNZz5ZzbpixD9op_fO5fV01kbYXzG097c_NkqYrw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
- via submission-587 ACL (42)
-X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 152.77.18.2
-Received-SPF: pass client-ip=152.77.200.56;
- envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
- helo=zm-mta-out-3.u-ga.fr
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,95 +100,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, bin.meng@windriver.com, alistair.francis@wdc.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 24/01/2022 à 09:47, LIU Zhiwei a écrit :
+On Mon, Jan 24, 2022 at 10:20:55AM +0100, Eugenio Perez Martin wrote:
+> On Mon, Jan 24, 2022 at 5:33 AM Peter Xu <peterx@redhat.com> wrote:
+> >
+> > On Fri, Jan 21, 2022 at 09:27:23PM +0100, Eugenio Pérez wrote:
+> > > +int iova_tree_alloc(IOVATree *tree, DMAMap *map, hwaddr iova_begin,
 > 
-> On 2022/1/24 下午3:49, Frédéric Pétrot wrote:
->> The addition of uxl support in gdbstub adds a few checks on the maximum
->> register length, but omitted MXL_RV128, leading to the occurence of
->> "code should not be reached" in a few places.
->> This patch makes rv128 react as rv64 for gdb, as previously.
+> I forgot to s/iova_tree_alloc/iova_tree_alloc_map/ here.
 > 
-> If that is case for rv128, you should also add
+> > > +                    hwaddr iova_last)
+> > > +{
+> > > +    const DMAMapInternal *last, *i;
+> > > +
+> > > +    assert(iova_begin < iova_last);
+> > > +
+> > > +    /*
+> > > +     * Find a valid hole for the mapping
+> > > +     *
+> > > +     * TODO: Replace all this with g_tree_node_first/next/last when available
+> > > +     * (from glib since 2.68). Using a sepparated QTAILQ complicates code.
+> > > +     *
+> > > +     * Try to allocate first at the end of the list.
+> > > +     */
+> > > +    last = QTAILQ_LAST(&tree->list);
+> > > +    if (iova_tree_alloc_map_in_hole(last, NULL, iova_begin, iova_last,
+> > > +                                    map->size)) {
+> > > +        goto alloc;
+> > > +    }
+> > > +
+> > > +    /* Look for inner hole */
+> > > +    last = NULL;
+> > > +    for (i = QTAILQ_FIRST(&tree->list); i;
+> > > +         last = i, i = QTAILQ_NEXT(i, entry)) {
+> > > +        if (iova_tree_alloc_map_in_hole(last, i, iova_begin, iova_last,
+> > > +                                        map->size)) {
+> > > +            goto alloc;
+> > > +        }
+> > > +    }
+> > > +
+> > > +    return IOVA_ERR_NOMEM;
+> > > +
+> > > +alloc:
+> > > +    map->iova = last ? last->map.iova + last->map.size + 1 : iova_begin;
+> > > +    return iova_tree_insert(tree, map);
+> > > +}
+> >
+> > Hi, Eugenio,
+> >
+> > Have you tried with what Jason suggested previously?
+> >
+> >   https://lore.kernel.org/qemu-devel/CACGkMEtZAPd9xQTP_R4w296N_Qz7VuV1FLnb544fEVoYO0of+g@mail.gmail.com/
+> >
+> > That solution still sounds very sensible to me even without the newly
+> > introduced list in previous two patches.
+> >
+> > IMHO we could move "DMAMap *previous, *this" into the IOVATreeAllocArgs*
+> > stucture that was passed into the traverse func though, so it'll naturally work
+> > with threading.
+> >
+> > Or is there any blocker for it?
+> >
 > 
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 1cb0436187..5ada71e5bf 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -528,9 +528,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->       switch (env->misa_mxl_max) {
->   #ifdef TARGET_RISCV64
->       case MXL_RV64:
-> -        cc->gdb_core_xml_file = "riscv-64bit-cpu.xml";
-> -        break;
->       case MXL_RV128:
-> +        cc->gdb_core_xml_file = "riscv-64bit-cpu.xml";
->           break;
+> Hi Peter,
+> 
+> I can try that solution again, but the main problem was the special
+> cases of the beginning and ending.
+> 
+> For the function to locate a hole, DMAMap first = {.iova = 0, .size =
+> 0} means that it cannot account 0 for the hole.
+> 
+> In other words, with that algorithm, if the only valid hole is [0, N)
+> and we try to allocate a block of size N, it would fail.
+> 
+> Same happens with iova_end, although in practice it seems that IOMMU
+> hardware iova upper limit is never UINT64_MAX.
+> 
+> Maybe we could treat .size = 0 as a special case? I see cleaner either
+> to build the list (but insert needs to take the list into account) or
+> to explicitly tell that prev == NULL means to use iova_first.
 
-   Thanks Zhiwei for pointing that out, I resend a patch with that too.
-   Strangely enough, I didn't bump into that case.
-
-> Still I don't know why we should make rv128 react as rv64 for gdb?
-
-   Well, I should surely do what is necessary to have a working 128-bit
-   connection to gdb, but it has a bit of influence on other stuff than qemu,
-   e.g. when I configure the gdb-xml file with bitsize 128, gdb tests the
-   xlens and returns "bfd requires xlen 8, but target has xlen 16", and
-   after that no register can be queried.
-   Gdb checks what is called "arch features" and knows only about ELFCLASS32
-   and ELFCLASS64, so we are stuck for now.
-
-   Thanks,
-   Frédéric
+Sounds good to me.  I didn't mean to copy-paste Jason's code, but IMHO what
+Jason wanted to show is the general concept - IOW, the fundamental idea (to me)
+is that the tree will be traversed in order, hence maintaining another list
+structure is redundant.
 
 > 
-> Thanks,
-> Zhiwei
+> Another solution that comes to my mind: to add both exceptions outside
+> of transverse function, and skip the first iteration with something
+> like:
 > 
->>
->> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
->> ---
->>   target/riscv/gdbstub.c | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
->> index f531a74c2f..9ed049c29e 100644
->> --- a/target/riscv/gdbstub.c
->> +++ b/target/riscv/gdbstub.c
->> @@ -64,6 +64,7 @@ int riscv_cpu_gdb_read_register(CPUState *cs, GByteArray 
->> *mem_buf, int n)
->>       case MXL_RV32:
->>           return gdb_get_reg32(mem_buf, tmp);
->>       case MXL_RV64:
->> +    case MXL_RV128:
->>           return gdb_get_reg64(mem_buf, tmp);
->>       default:
->>           g_assert_not_reached();
->> @@ -84,6 +85,7 @@ int riscv_cpu_gdb_write_register(CPUState *cs, uint8_t 
->> *mem_buf, int n)
->>           length = 4;
->>           break;
->>       case MXL_RV64:
->> +    case MXL_RV128:
->>           if (env->xl < MXL_RV64) {
->>               tmp = (int32_t)ldq_p(mem_buf);
->>           } else {
->> @@ -420,6 +422,7 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
->>                                    1, "riscv-32bit-virtual.xml", 0);
->>           break;
->>       case MXL_RV64:
->> +    case MXL_RV128:
->>           gdb_register_coprocessor(cs, riscv_gdb_get_virtual,
->>                                    riscv_gdb_set_virtual,
->>                                    1, "riscv-64bit-virtual.xml", 0);
+> if (prev == NULL) {
+>   prev = this;
+>   return false /* continue */
+> }
+> 
+> So the transverse callback has way less code paths. Would it work for
+> you if I send a separate RFC from SVQ only to validate this?
+
+Sure. :-)
+
+If you want, imho you can also attach the patch when reply, then the discussion
+context won't be lost too.
 
 -- 
-+---------------------------------------------------------------------------+
-| Frédéric Pétrot, Pr. Grenoble INP-Ensimag/TIMA,   Ensimag deputy director |
-| Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
-| http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
-+---------------------------------------------------------------------------+
+Peter Xu
+
 
