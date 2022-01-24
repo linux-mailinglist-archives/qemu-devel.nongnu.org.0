@@ -2,82 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96A2C49935B
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 21:34:43 +0100 (CET)
-Received: from localhost ([::1]:55004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FA2349937A
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 21:36:48 +0100 (CET)
+Received: from localhost ([::1]:33348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nC630-0006qH-KS
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 15:34:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41242)
+	id 1nC651-0002qh-Ny
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 15:36:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nC5rs-0005It-Em
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 15:23:12 -0500
-Received: from [2a00:1450:4864:20::536] (port=39613
- helo=mail-ed1-x536.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nC5rq-0004K5-IZ
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 15:23:11 -0500
-Received: by mail-ed1-x536.google.com with SMTP id u18so44385689edt.6
- for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 12:23:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=MRNIvDYLPOqN3WM8XDKQNxj/+D1kLnUW2Ll6/NI+3fM=;
- b=QRFR7hTp3ynUvvtF4cEGPxHNn3k3pueplETmOTePGSolhCEq7ksTAiZv2u/uafb+au
- 0nhs+II+0tsOSMQJAsHpizqIxN91BM94p3UXH4tC+QACnIWnPNnmhK7qJyuDwDmrn+Fa
- JeO9VvimZSHnJxVODc2sTkF8LcqFkkI54jNR7pWKjp1y95rUe28QkH2eLdy7kN9g/4ym
- f8QofCdLpLgi30M3YqUINpsyzPiJstdf5dwlMQCnRMs16wVf1I5sceSkibxYv1z5jiVE
- flb2bCCF8Bkt8rsMAMcQFKfv8zBIhkGxlvjyagopBIvImc1kh+/O0rVRE9GYoR+E+4se
- XHtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=MRNIvDYLPOqN3WM8XDKQNxj/+D1kLnUW2Ll6/NI+3fM=;
- b=OPA3vXnPVBgFphsxuEtsGrzu2zNVUA3pXRszywNIix/olBLo3dHkXSyJ4PzOxLG63p
- Mc05pRyoHEeD8s1XurTWfbEnr+JJ6jljGuAoKSwb4eUvFx4LeRCofSdvZUuG7RxX8HJU
- 52tSWZbSeaDBFIDjkNUSecT/SDmEGKUAMTnuhfAEXoleBRSLFOKjrjMDx7QIUYOGTJsj
- pCd8iu3UohTuKi9rEKNnPFv+lWbTVW4Blu6YqpfTfzKAf2qR8n+k/iVgceA27WIl65g4
- syVwCbsTySzL2pzQo72DwWN55uxwvL5AxY11wyA5ehjNtHqdzsSGwD5mZGiBn2hQCI+u
- 6OeQ==
-X-Gm-Message-State: AOAM530x0pj7dWkPYIfUoFPdAgmf5tSeQzheG38PEtm+yp89DHLRzC7c
- gaF+nlszx807Gf0WvyUzzlc4zQ==
-X-Google-Smtp-Source: ABdhPJyppBA3AU+t1rwRJbKGUAPJPiZyhlsqUdLxxHx7iWYAHC+zLQ1ifhWqQw45SgidI0YV7RTFuw==
-X-Received: by 2002:a05:6402:4383:: with SMTP id
- o3mr5045113edc.353.1643055789055; 
- Mon, 24 Jan 2022 12:23:09 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w22sm5279874ejj.64.2022.01.24.12.23.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Jan 2022 12:23:07 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C62831FFCD;
- Mon, 24 Jan 2022 20:16:10 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 22/22] plugins: move reset of plugin data to tb_start
-Date: Mon, 24 Jan 2022 20:16:08 +0000
-Message-Id: <20220124201608.604599-23-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220124201608.604599-1-alex.bennee@linaro.org>
-References: <20220124201608.604599-1-alex.bennee@linaro.org>
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1nC5tl-0008VS-V3; Mon, 24 Jan 2022 15:25:10 -0500
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:43782)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1nC5tj-0004d0-Mi; Mon, 24 Jan 2022 15:25:09 -0500
+Received: from mailhub.u-ga.fr (mailhub-1.u-ga.fr [129.88.178.98])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 68379402B1;
+ Mon, 24 Jan 2022 21:25:04 +0100 (CET)
+Received: from mailhost.u-ga.fr (mailhost1.u-ga.fr [152.77.1.10])
+ by mailhub.u-ga.fr (Postfix) with ESMTP id 64F9210005A;
+ Mon, 24 Jan 2022 21:25:04 +0100 (CET)
+Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
+ by mailhost.u-ga.fr (Postfix) with ESMTP id 56BD160067;
+ Mon, 24 Jan 2022 21:25:04 +0100 (CET)
+Received: from palmier.vpn.u-ga.fr (pers-165-10.vpn.u-ga.fr [147.171.165.10])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id A615914005C;
+ Mon, 24 Jan 2022 21:25:03 +0100 (CET)
+From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v2] target/riscv: correct "code should not be reached" for
+ x-rv128
+Date: Mon, 24 Jan 2022 21:24:56 +0100
+Message-Id: <20220124202456.420258-1-frederic.petrot@univ-grenoble-alpes.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
+ via submission-587 ACL (42)
+X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 152.77.18.2
+Received-SPF: pass client-ip=152.77.200.56;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=zm-mta-out-3.u-ga.fr
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,89 +70,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- aaron@os.amperecomputing.com, robhenry@microsoft.com,
- mahmoudabdalghany@outlook.com, minyihh@uci.edu, cota@braap.org,
- Luke.Craig@ll.mit.edu, Paolo Bonzini <pbonzini@redhat.com>,
- kuhn.chenqun@huawei.com, ma.mandourr@gmail.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: alistair.francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com,
+ =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can't always guarantee we get to the end of a translator loop.
-Although this can happen for a variety of reasons it does happen more
-often on x86 system emulation when an instruction spans across to an
-un-faulted page. This caused confusion of the instruction tracking
-data resulting in apparent reverse execution (at least from the
-plugins point of view).
+The addition of uxl support in gdbstub adds a few checks on the maximum
+register length, but omitted MXL_RV128, an experimental feature.
+This patch makes rv128 react as rv64, as previously.
 
-Fix this by moving the reset code to plugin_gen_tb_start so we always
-start with a clean slate.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/824
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
 ---
- accel/tcg/plugin-gen.c | 29 ++++++++++++++++++-----------
- 1 file changed, 18 insertions(+), 11 deletions(-)
+ target/riscv/cpu.c     | 3 +--
+ target/riscv/gdbstub.c | 3 +++
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
-index 22d95fe1c3..ae70e4a5b0 100644
---- a/accel/tcg/plugin-gen.c
-+++ b/accel/tcg/plugin-gen.c
-@@ -854,10 +854,21 @@ static void plugin_gen_inject(const struct qemu_plugin_tb *plugin_tb)
- 
- bool plugin_gen_tb_start(CPUState *cpu, const TranslationBlock *tb, bool mem_only)
- {
--    struct qemu_plugin_tb *ptb = tcg_ctx->plugin_tb;
-     bool ret = false;
- 
-     if (test_bit(QEMU_PLUGIN_EV_VCPU_TB_TRANS, cpu->plugin_mask)) {
-+        struct qemu_plugin_tb *ptb = tcg_ctx->plugin_tb;
-+        int i;
-+
-+        /* reset callbacks */
-+        for (i = 0; i < PLUGIN_N_CB_SUBTYPES; i++) {
-+            if (ptb->cbs[i]) {
-+                g_array_set_size(ptb->cbs[i], 0);
-+            }
-+        }
-+        ptb->n = 0;
-+        tcg_ctx->plugin_insn = NULL;
-+
-         ret = true;
- 
-         ptb->vaddr = tb->pc;
-@@ -904,23 +915,19 @@ void plugin_gen_insn_end(void)
-     plugin_gen_empty_callback(PLUGIN_GEN_AFTER_INSN);
- }
- 
-+/*
-+ * There are cases where we never get to finalise a translation - for
-+ * example a page fault during translation. As a result we shouldn't
-+ * do any clean-up here and make sure things are reset in
-+ * plugin_gen_tb_start.
-+ */
- void plugin_gen_tb_end(CPUState *cpu)
- {
-     struct qemu_plugin_tb *ptb = tcg_ctx->plugin_tb;
--    int i;
- 
-     /* collect instrumentation requests */
-     qemu_plugin_tb_trans_cb(cpu, ptb);
- 
-     /* inject the instrumentation at the appropriate places */
-     plugin_gen_inject(ptb);
--
--    /* clean up */
--    for (i = 0; i < PLUGIN_N_CB_SUBTYPES; i++) {
--        if (ptb->cbs[i]) {
--            g_array_set_size(ptb->cbs[i], 0);
--        }
--    }
--    ptb->n = 0;
--    tcg_ctx->plugin_insn = NULL;
- }
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 1cb0436187..5ada71e5bf 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -528,10 +528,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+     switch (env->misa_mxl_max) {
+ #ifdef TARGET_RISCV64
+     case MXL_RV64:
++    case MXL_RV128:
+         cc->gdb_core_xml_file = "riscv-64bit-cpu.xml";
+         break;
+-    case MXL_RV128:
+-        break;
+ #endif
+     case MXL_RV32:
+         cc->gdb_core_xml_file = "riscv-32bit-cpu.xml";
+diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+index f531a74c2f..9ed049c29e 100644
+--- a/target/riscv/gdbstub.c
++++ b/target/riscv/gdbstub.c
+@@ -64,6 +64,7 @@ int riscv_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+     case MXL_RV32:
+         return gdb_get_reg32(mem_buf, tmp);
+     case MXL_RV64:
++    case MXL_RV128:
+         return gdb_get_reg64(mem_buf, tmp);
+     default:
+         g_assert_not_reached();
+@@ -84,6 +85,7 @@ int riscv_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+         length = 4;
+         break;
+     case MXL_RV64:
++    case MXL_RV128:
+         if (env->xl < MXL_RV64) {
+             tmp = (int32_t)ldq_p(mem_buf);
+         } else {
+@@ -420,6 +422,7 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
+                                  1, "riscv-32bit-virtual.xml", 0);
+         break;
+     case MXL_RV64:
++    case MXL_RV128:
+         gdb_register_coprocessor(cs, riscv_gdb_get_virtual,
+                                  riscv_gdb_set_virtual,
+                                  1, "riscv-64bit-virtual.xml", 0);
 -- 
-2.30.2
+2.34.1
 
 
