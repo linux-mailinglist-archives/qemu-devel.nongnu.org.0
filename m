@@ -2,85 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6169F497ACB
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 09:55:57 +0100 (CET)
-Received: from localhost ([::1]:38742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C74C1497B01
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 10:06:50 +0100 (CET)
+Received: from localhost ([::1]:43168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBv8m-0002cc-Hq
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 03:55:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55010)
+	id 1nBvJJ-00061r-Gj
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 04:06:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nBv59-0000E0-6w
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 03:52:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60976)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nBv55-0001Vb-Ax
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 03:52:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643014324;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type; bh=LXRVvwoiwZzifxDn36r5XLBHH/133EA03m6HU6kUIs8=;
- b=Sa97mxXwyhSib/xb8wzhPzaKqvvtqJyNqZqt1NH64dGKAlVHHDrBbtgR+/KFIvQvX+C9yE
- Da/NMzuzbAhiWbKduQHnYHu33tI8nM43x1gbYPzFzehJVRGemzUoF+HaLl15Aqr7ZyzWEY
- TqMR3PrA14KoEAONRs9899LpULoCGkQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-10-FxkW9IxWP2G8kLsyXyyX6w-1; Mon, 24 Jan 2022 03:52:02 -0500
-X-MC-Unique: FxkW9IxWP2G8kLsyXyyX6w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- d140-20020a1c1d92000000b0034edefd55caso4325090wmd.4
- for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 00:52:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nBvHh-00055C-Pq
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 04:05:09 -0500
+Received: from [2607:f8b0:4864:20::331] (port=33670
+ helo=mail-ot1-x331.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nBvHe-0003L1-US
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 04:05:09 -0500
+Received: by mail-ot1-x331.google.com with SMTP id
+ y11-20020a0568302a0b00b0059a54d66106so21389163otu.0
+ for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 01:05:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=PX2+CBMnBO9K6NBfRL4k8Jd4vPd9DnNTdCjOO3A4b34=;
+ b=TYaMpmu5CZcaUFsMgYMZTAFrct+nW13tVLdWcTMYAPJbY0nmwn7eWG4e2X2UZkr1OE
+ eS+J20myjsIwnku1AjCYj97qF5q+dm9PlCmrD2yUFHRQCbG4eYZvUsTSkacx9x6mA9P2
+ 76RCO6piMQ+TN6MuQBfKTRnA5oKiYQZ0mIQoO3lA8Xm44MvadLZCgtCc3Ibv4UapblaQ
+ 5RJ0oNoPNI6DfihHFU6potJ09f+WFJHy+zL+/7u5FZhUKLC0v1C5VqUy9JphPkekhpjw
+ e7TSTskWNfW3iT+Cvqfy/I1NhEylLsWo94I4mFM1hX8zg8LSVGznt4xvqefCE8wLAI2c
+ 2emA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:user-agent:reply-to:date
- :message-id:mime-version;
- bh=LXRVvwoiwZzifxDn36r5XLBHH/133EA03m6HU6kUIs8=;
- b=z1Xa8vtQEXlnVeK8P7nMNzElWWT+OxKhgMks42vBtAb+tm8Er9YbEnBIaVlXB8rqIV
- dies9IsJM/EmZ5iAG7chTs7BAMUgENUDsz0QfxQc9DVUXV3Pxzn9cJ1VN9bjn8RIxDYk
- 6hHz1CVXRIpZBVtWJoJ8oejyKpuUNGvibBmUpIqKqNuPHgj6keehhsYNFHsoL7/NSYh6
- IuNkcJzNRCMyBQBGKae1G008Btz+Lqc+25aJH6+EEbQiGa6ivbzBQLJKAfuA2/DjY9Hb
- xcmUdwX+noIlLkifhazxJnV5oRVazt9AAzPuKflHuxOH/5dDHSoZTPnw6Wp1iJ3HifBp
- zJOA==
-X-Gm-Message-State: AOAM532e/5XjeOdLCx6AFjis9j6ojFkJzbKte4Tcq4Fyxm3Ycp/GXnnU
- GDRUvO7uHdn9QWaqn/7xsH5KX0RQx9/ZMmtXfRdz0EeZTykiY53Tj9LeDtg3kHW+ZGUWMEWWygn
- B1vvRBxe+5HF0kHk=
-X-Received: by 2002:a05:600c:4e4e:: with SMTP id
- e14mr857521wmq.98.1643014320905; 
- Mon, 24 Jan 2022 00:52:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJweugE/T1AI2/YI2Cq1E8ZAzZqGnBoCZEb6UCIovSBN7a7OQuU0OFTQ77CISW3JTub+9knOTA==
-X-Received: by 2002:a05:600c:4e4e:: with SMTP id
- e14mr857511wmq.98.1643014320687; 
- Mon, 24 Jan 2022 00:52:00 -0800 (PST)
-Received: from localhost ([47.61.17.76])
- by smtp.gmail.com with ESMTPSA id l4sm540392wrs.6.2022.01.24.00.51.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Jan 2022 00:52:00 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org
-Subject: KVM call for agenda for 2022-01-25
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Mon, 24 Jan 2022 09:51:59 +0100
-Message-ID: <87y2355xe8.fsf@secure.mitica>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=PX2+CBMnBO9K6NBfRL4k8Jd4vPd9DnNTdCjOO3A4b34=;
+ b=AsJAJw7TgkpTZ/GiCGRdb1nwVY604Q/VBK5ZdZzmXf2R+9vyz/fJTazm8LYb8/jSDz
+ STV7T91ni0ipe7UMfhl1TM2Xdrby++0mY+S42Jg+oyKXmKZpb83e4lDjmX1N46C0j/1B
+ RxW6foHTQjkHh1lbt8ES3Z36YUAi9sm8XM0ArpiRf0DDhfrrHEOh7iyntv9MQ4mjEZzm
+ ypn7F01WK7pUQB6vCHFuWBJHixr4AEdPiwoPwXkpzo+Iu5yofk+LGYGAx7dfgFQ9mwEK
+ wmQZayflKvYOXsVGKRm2sgpZ2TITd3nzYe7EJQYyEmo4j3m5kKMosDahdtD/Yc9RCoUj
+ hgIg==
+X-Gm-Message-State: AOAM530tcguWJdnue3a+xzuA58SkmaUE1SppyW8B6B67rcKUAOUBaWvt
+ pNurCtuzEpqPjsG1VBTSbOKTHQ8B4dCxbdoWmhA=
+X-Google-Smtp-Source: ABdhPJzm8uf0JlfdX0NUyw8njAnc//sif6llXjGWqS2buwNwfRnr0X59pajYUI2W1pucxj3vYjToWvD+W6Ziep9ZsfU=
+X-Received: by 2002:a9d:5908:: with SMTP id t8mr10756958oth.186.1643015105371; 
+ Mon, 24 Jan 2022 01:05:05 -0800 (PST)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220122002052.83745-1-f4bug@amsat.org>
+ <b7c904ac-5246-79b8-bcc7-5b7a377e0d52@linaro.org>
+In-Reply-To: <b7c904ac-5246-79b8-bcc7-5b7a377e0d52@linaro.org>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+Date: Mon, 24 Jan 2022 18:04:54 +0900
+Message-ID: <CAMVc7JXYAPLpiCO1CCKAcsSi7p9tj8nQJOB=usaMOvELUX31AA@mail.gmail.com>
+Subject: Re: [PATCH] meson: Use find_program() to resolve the entitlement.sh
+ script
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::331
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-ot1-x331.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,71 +84,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Jan 24, 2022 at 5:16 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 1/22/22 11:20 AM, Philippe Mathieu-Daud=C3=A9 via wrote:
+> > Using ../configure without any particular option generates 31 targets
+> > on Darwin, and meson search for the entitlement.sh script 31 times:
+> >
+> >    Program nm found: YES
+> >    Program scripts/undefsym.py found: YES (/opt/homebrew/opt/python@3.9=
+/bin/python3.9 /Code/qemu/scripts/undefsym.py)
+> >    Program scripts/feature_to_c.sh found: YES (/bin/sh /Code/qemu/scrip=
+ts/feature_to_c.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitl=
+ement.sh)
+> >    Configuring 50-edk2-i386-secure.json using configuration
+> >    Configuring 50-edk2-x86_64-secure.json using configuration
+> >
+> > Use find_program() which seems to cache the script path once found.
+> >
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9<f4bug@amsat.org>
+> > ---
+> >   meson.build | 9 +++------
+> >   1 file changed, 3 insertions(+), 6 deletions(-)
+>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
+> r~
 
-
-Hi
-
-Please, send any topic that you are interested in covering.
-
-This week we have a continuation of 2 weeks ago call to discuss how to
-enable creation of machines from QMP sooner on the boot.
-
-There was already a call about this 2 weeks ago where we didn't finished
-everything.
-I have been on vacation last week and I haven't been able to send a
-"kind of resume" of the call.
-
-Basically what we need is:
-- being able to create machines sooner that we are today
-- being able to change the devices that are in the boards, in
-  particular, we need to be able to create a board deciding what devices
-  it has and how they are connected without recompiling qemu.
-  This means to launch QMP sooner that we do today.
-- Several options was proposed:
-  - create a new binary that only allows QMP machine creation.
-    and continue having the old command line
-  - create a new binary, and change current HMP/command line to just
-    call this new binary.  This way we make sure that everything can be
-    done through QMP.
-  - stay with only one binary but change it so we can call QMP sooner.
-- There is agreement that we need to be able to call QMP sooner.
-- There is NO agreement about how the best way to proceed:
-  * We don't want this to be a multiyear effort, i.e. we want something
-    that can be used relatively soon (this means that using only one
-    binary can be tricky).
-  * If we start with a new binary that only allows qmp and we wait until
-    everything has been ported to QMP, it can take forever, and during
-    that time we have to maintain two binaries.
-  * Getting a new binary lets us to be more agreessive about what we can
-    remove/change. i.e. easier experimentation.
-  * Management Apps will only use QMP, not the command line, or they
-    even use libvirt and don't care at all about qemu.  So it appears
-    that HMP is only used for developers, so we can be loose about
-    backwards compatibility. I.e. if we allow the same functionality,
-    but the syntax is different, we don't care.
-
-Discussion was longer, but it was difficult to take notes and as I said,
-the only thing that appears that everybody agrees is that we need an
-agreement about what is the plan to go there.
-
-After discussions on the QEMU Summit, we are going to have always open a
-KVM call where you can add topics.
-
- Call details:
-
-By popular demand, a google calendar public entry with it
-
-  https://www.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
-
-(Let me know if you have any problems with the calendar entry.  I just
-gave up about getting right at the same time CEST, CET, EDT and DST).
-
-If you need phone number details,  contact me privately
-
-Thanks, Juan.
-
+Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 
