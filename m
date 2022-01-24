@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41D124992A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 21:23:35 +0100 (CET)
-Received: from localhost ([::1]:53640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71C0A4992C2
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 21:26:53 +0100 (CET)
+Received: from localhost ([::1]:34136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nC5sE-0003jg-BO
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 15:23:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39092)
+	id 1nC5vQ-0001Nf-9F
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 15:26:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nC5lA-0006ZS-5m
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 15:16:21 -0500
-Received: from [2a00:1450:4864:20::52e] (port=40701
- helo=mail-ed1-x52e.google.com)
+ id 1nC5l9-0006Z6-1f
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 15:16:18 -0500
+Received: from [2a00:1450:4864:20::62e] (port=44951
+ helo=mail-ej1-x62e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nC5l7-000386-5v
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 15:16:15 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id a18so58492468edj.7
+ id 1nC5l7-00038b-A0
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 15:16:14 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id ka4so24628653ejc.11
  for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 12:16:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2JKLnYKPM+EQcQ5BAumwl8ZRfWG1GUNMSMDRrhS3n0Y=;
- b=CfwSh7tsecuebpy3FVrlZglL5FeFYi3HTXT2Hqzh75pEIuv6EHQ+Vw4zVdGfVkWWd8
- PQQDh7EudT8cbWIFzUuKFwRw3aEIT+PwuCvLHTlvQIyCL3UBE+uXQ3ooVgXJoFo04xZS
- bLEPMsqiMB/k8nW4+yKgVQOSTVKFC3Bs85PEZ0J3NDmZiWFBR6YSlrHAzVR5n/hdaZyu
- 6VG7fZRpcfZXWfZZKXnBCzMA13IEeiNZ+2Pb9rUgpImx20T0d5Mw5967R1azxk2Z+dm1
- XK+qNRbBGrbVip+xh0iJPgus4rtyyijv+ftAIrme2ZohjTDR/hdsUNvpATqelwxYa2SA
- IMOA==
+ bh=B+PFdg49CjIqjo/3MH2m0xFVDRDgDWrE13p/nEuIP+Q=;
+ b=g173QchYTjNVtaTut5anqOUPlLFZEMJJKXi5kS/JYUrnqr0x1lMOn7+HZ5QFJrgRpE
+ 3LMQueNtR8FSx2/fUqpFAesNNKuWYxIeI7ptnCdSS1dP5ca0mfYuRccWMbLISmiDiXiY
+ Lc5MfH3VV0paUigq1Oruv2tQsGnA5LDzqyLSDiNoBEyA8CTpVtV6i3qbEBSzz3O3ka6M
+ T61pMUZng6rAtdLPrgEl4S8d/eAGpYgaefYl4SY0s0y5Hx3fMFeOdsk0PO+tBF8aPNcR
+ 6l9WcogvAbk3whFw2LLIEvEHC39KPqUkuhbcydwHnPnhKCkXgrPJPBYoeGHghRFdAATA
+ QgGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2JKLnYKPM+EQcQ5BAumwl8ZRfWG1GUNMSMDRrhS3n0Y=;
- b=sHCPgaNbfEWhtse2IpEMZZ/ef8ZHQGGZ+4XAxJ+psZTV/Cg0yBYEoUbSHwmhGcnRYu
- SlThiS9Wthq79X00GiwqOMFfqahwMAAndhHBDih1F/PSP6lEZ/F2SS9hPNaUCA3zV3LP
- cnTGS7RC9P7gESCw6NvrzCGBFY1eOdWjK2xaPiULqsOIvyOf1eAapVywcgwyjiAY8f+j
- fbINwVrCmozWhelSiXyz+WDCvb+Dhp9icr8/rfPAYTf89rmscDlBXBlrrfwQPKNQ9YzC
- U7sWiApsgsyOarOTU/MjMG/Q0a1ZnBP8cskmJqDMN4TcnarSZjMaJwk75TM2gZFe2BAI
- FWVw==
-X-Gm-Message-State: AOAM533Uqfxp75FOvAh6iih4uYg8VxFhhRO/Ue0tFPE72987DZhO92pI
- ySas7CJGQx4lsPuAlMEvgC5PXg==
-X-Google-Smtp-Source: ABdhPJxyX1OtV7yWh/m9ao6r7VDqI8WZq7Tyj7YO91b0Rn/EDdXWPavFH/xEyxHXMWmilx+5aJ+FsA==
-X-Received: by 2002:aa7:d3c2:: with SMTP id o2mr17699363edr.207.1643055370306; 
- Mon, 24 Jan 2022 12:16:10 -0800 (PST)
+ bh=B+PFdg49CjIqjo/3MH2m0xFVDRDgDWrE13p/nEuIP+Q=;
+ b=PHShJ6SoN2CauOeDqQgwBh/O3YtpzymrQr9rezwN/z/WVHX0j5pALsAZK3xG0tLSF/
+ CzvqnSFaDb1YdymW+U92MHCRQDFMaKl+4D/L4LqB7ozQE9gtKVLc9tMLUzEJS6AIbCa2
+ XXUt6p0DYJEFhoTkuIHZt2RrIjf9iFxdogV6Vq1UVgJ4TNRrWowB6+hUJkLf0z6jkoL8
+ H8UOyh/VeaIQDU3pTxu32FIr73rn30Bd60lhCGaz8RPyr5nMx2rWRAUI7gUUhSEqIOaj
+ dzYW0BfSQTk8qoFC4EkJ9lmVSrZy1NoTEn8vUHX+Myg1evskizw7hLzM+C/I1hces/m+
+ cJLw==
+X-Gm-Message-State: AOAM5324VJsCKz589jrsQCVqEoR9Yz70ftOUWkydCxVfzgh7dk40YYsS
+ SWXU44+NkP6MboU0RyOiP6hDmg==
+X-Google-Smtp-Source: ABdhPJzWyLXrflc9yi1nHNIiFIgVbxrULtve0PA5xaP25/uz2s+k7m/UdbF/0z2KlrrRuyWCreMsNg==
+X-Received: by 2002:a17:907:9722:: with SMTP id
+ jg34mr5046853ejc.757.1643055371288; 
+ Mon, 24 Jan 2022 12:16:11 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id gg14sm5297191ejb.159.2022.01.24.12.16.09
+ by smtp.gmail.com with ESMTPSA id p29sm7155958edi.11.2022.01.24.12.16.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 24 Jan 2022 12:16:09 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7ECAE1FFB8;
+ by zen.linaroharston (Postfix) with ESMTP id 964001FFBA;
  Mon, 24 Jan 2022 20:16:08 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 01/22] tests/Makefile.include: clean-up old code
-Date: Mon, 24 Jan 2022 20:15:47 +0000
-Message-Id: <20220124201608.604599-2-alex.bennee@linaro.org>
+Subject: [PATCH v1 02/22] tests/qtest: enable more vhost-user tests by default
+Date: Mon, 24 Jan 2022 20:15:48 +0000
+Message-Id: <20220124201608.604599-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220124201608.604599-1-alex.bennee@linaro.org>
 References: <20220124201608.604599-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -89,36 +90,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aaron@os.amperecomputing.com, robhenry@microsoft.com,
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ aaron@os.amperecomputing.com, robhenry@microsoft.com,
  mahmoudabdalghany@outlook.com, minyihh@uci.edu, cota@braap.org,
- Luke.Craig@ll.mit.edu, kuhn.chenqun@huawei.com, ma.mandourr@gmail.com,
+ Luke.Craig@ll.mit.edu, Paolo Bonzini <pbonzini@redhat.com>,
+ kuhn.chenqun@huawei.com, ma.mandourr@gmail.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is no longer needed since 5516623020 ("meson: convert migration
-directory to Meson")
+If this starts causing failures again we should probably fix that.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/Makefile.include | 4 ----
- 1 file changed, 4 deletions(-)
+ tests/qtest/vhost-user-test.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 3aba622400..47cc7bc40c 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -34,10 +34,6 @@ endif
- ifneq ($(wildcard config-host.mak),)
- export SRC_PATH
+diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
+index 3d6337fb5c..2a4568cd7d 100644
+--- a/tests/qtest/vhost-user-test.c
++++ b/tests/qtest/vhost-user-test.c
+@@ -995,20 +995,17 @@ static void register_vhost_user_test(void)
+                  "virtio-net",
+                  test_migrate, &opts);
  
--# Get the list of all supported sysemu targets
--SYSEMU_TARGET_LIST := $(subst -softmmu.mak,,$(notdir \
--   $(wildcard $(SRC_PATH)/configs/*-softmmu.mak)))
--
- SPEED = quick
+-    /* keeps failing on build-system since Aug 15 2017 */
+-    if (getenv("QTEST_VHOST_USER_FIXME")) {
+-        opts.before = vhost_user_test_setup_reconnect;
+-        qos_add_test("vhost-user/reconnect", "virtio-net",
+-                     test_reconnect, &opts);
++    opts.before = vhost_user_test_setup_reconnect;
++    qos_add_test("vhost-user/reconnect", "virtio-net",
++                 test_reconnect, &opts);
  
- # Build up our target list from the filtered list of ninja targets
+-        opts.before = vhost_user_test_setup_connect_fail;
+-        qos_add_test("vhost-user/connect-fail", "virtio-net",
+-                     test_vhost_user_started, &opts);
++    opts.before = vhost_user_test_setup_connect_fail;
++    qos_add_test("vhost-user/connect-fail", "virtio-net",
++                 test_vhost_user_started, &opts);
+ 
+-        opts.before = vhost_user_test_setup_flags_mismatch;
+-        qos_add_test("vhost-user/flags-mismatch", "virtio-net",
+-                     test_vhost_user_started, &opts);
+-    }
++    opts.before = vhost_user_test_setup_flags_mismatch;
++    qos_add_test("vhost-user/flags-mismatch", "virtio-net",
++                 test_vhost_user_started, &opts);
+ 
+     opts.before = vhost_user_test_setup_multiqueue;
+     opts.edge.extra_device_opts = "mq=on";
 -- 
 2.30.2
 
