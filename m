@@ -2,98 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D11498AAB
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 20:07:06 +0100 (CET)
-Received: from localhost ([::1]:54056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C18F8498E8F
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 20:46:46 +0100 (CET)
+Received: from localhost ([::1]:43606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nC4gC-0003cC-VW
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 14:07:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47592)
+	id 1nC5Ib-0002Np-7y
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 14:46:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nC4My-0003p3-6C; Mon, 24 Jan 2022 13:47:12 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1158
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nC4WV-0001Xp-Bq
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 13:57:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39841)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nC4Mw-0005N1-K6; Mon, 24 Jan 2022 13:47:11 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20OHBaEx017549; 
- Mon, 24 Jan 2022 18:46:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=UaHG7bJqwR8qgEWlUt1GpwPVoW/oERyCrbb/TwYm1sY=;
- b=tMbzx8pvxGttZQYU1RILJL1LahlUdb+HAqdH65iOD35k38V1ERpE5NrUlgomr8pP/Bp9
- d8L//64c8dkg1mMcQEj0OMmA8DlNZuEnak1NASqZ7TSBktv4YCGAYd0cqopbvIM1+805
- udvz5ksN+O+KGjyTPqxFxHz8a2Q9tS+tVHA0FQUVoxPg2UYe3W9E5hfqv7mDiYi5ybtk
- U7XYMHWOAiVeJ9aCT2rqn79uhiuKolSFz3o3YN2XBthBvlVKkdsORUw58Yk2BHrWCRhU
- 2afEG2MSVnrDXicsVJrMY50ZOm89l60aG077O8X6ILTHKfrn528mUw+NqCRwBLQCIt2L Og== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3dt09w22wr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Jan 2022 18:46:59 +0000
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20OIUt9a003613;
- Mon, 24 Jan 2022 18:46:58 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3dt09w22wg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Jan 2022 18:46:58 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20OIbV9O031820;
- Mon, 24 Jan 2022 18:46:27 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma03dal.us.ibm.com with ESMTP id 3dr9ja5j4c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Jan 2022 18:46:27 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20OIkQDr46727486
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Jan 2022 18:46:26 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1A378AE063;
- Mon, 24 Jan 2022 18:46:26 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 07530AE05C;
- Mon, 24 Jan 2022 18:46:24 +0000 (GMT)
-Received: from farosas.linux.ibm.com.com (unknown [9.163.24.67])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon, 24 Jan 2022 18:46:23 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nC4WS-0006zx-1n
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 13:57:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643050618;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iOLCkNgTkyT6o/n1Q+81esh1O9MIW3Fj+KmMqO7c03c=;
+ b=Ne3ZRb42mBYSga80cFbGKjpiZE39manoaO5+RqO5RzG35lAaLtuF6KDS7xOtey4pKKeaWH
+ 4j3tgU63bKcrgdVT4kW8PJAkIFKXF4zE1vNBv6miZaL2jCcrfuMoAU88t3yBkkrlTEHt9v
+ 4RKNoZTj0tCDzLohb7rIBeYOldrRwO8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-368-kH7roSjsPaaFzOSQGYRGMA-1; Mon, 24 Jan 2022 13:56:55 -0500
+X-MC-Unique: kH7roSjsPaaFzOSQGYRGMA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F76310168C0;
+ Mon, 24 Jan 2022 18:56:54 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.11.170])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C4C2E348F6;
+ Mon, 24 Jan 2022 18:56:44 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] target/ppc: books: Program exception cleanup
-Date: Mon, 24 Jan 2022 15:46:05 -0300
-Message-Id: <20220124184605.999353-6-farosas@linux.ibm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220124184605.999353-1-farosas@linux.ibm.com>
-References: <20220124184605.999353-1-farosas@linux.ibm.com>
+Subject: [PATCH 0/2] Python: setuptools v60+ workaround
+Date: Mon, 24 Jan 2022 13:56:41 -0500
+Message-Id: <20220124185643.641848-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: kClcYpxNgV8Ib7oPR7OleefLvIjw8zSQ
-X-Proofpoint-ORIG-GUID: 8LwVYMgzCWMyVjCif9mXNOuavnZv8oCJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-24_09,2022-01-24_02,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- suspectscore=0 spamscore=0 impostorscore=0 malwarescore=0
- lowpriorityscore=0 clxscore=1015 mlxscore=0 phishscore=0 adultscore=0
- bulkscore=0 priorityscore=1501 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2201110000 definitions=main-2201240121
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,44 +74,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
- david@gibson.dropbear.id.au
+Cc: Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove setting of BookE registers.
-
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
----
- target/ppc/excp_helper.c | 4 ----
- 1 file changed, 4 deletions(-)
-
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 67faec3775..d1cce76e75 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -688,20 +688,16 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
-              * precise in the MSR.
-              */
-             msr |= 0x00100000;
--            env->spr[SPR_BOOKE_ESR] = ESR_FP;
-             break;
-         case POWERPC_EXCP_INVAL:
-             trace_ppc_excp_inval(env->nip);
-             msr |= 0x00080000;
--            env->spr[SPR_BOOKE_ESR] = ESR_PIL;
-             break;
-         case POWERPC_EXCP_PRIV:
-             msr |= 0x00040000;
--            env->spr[SPR_BOOKE_ESR] = ESR_PPR;
-             break;
-         case POWERPC_EXCP_TRAP:
-             msr |= 0x00020000;
--            env->spr[SPR_BOOKE_ESR] = ESR_PTR;
-             break;
-         default:
-             /* Should never occur */
--- 
-2.34.1
+Long story short: Python 3.7/3.8 on Fedora with setuptools v60.0.0+=0D
+together create a bug that ultimately causes pylint to fail. See the=0D
+first commit message for more detail.=0D
+=0D
+I sent out a hotfix last week to fix this behavior on our CI, but this=0D
+series offers a more comprehensive fix and reverts the hotfix.=0D
+=0D
+John Snow (2):=0D
+  Python: setuptools v60.0 workaround=0D
+  Revert "python: pin setuptools below v60.0.0"=0D
+=0D
+ python/Makefile                | 2 --=0D
+ python/setup.cfg               | 1 -=0D
+ python/tests/iotests-pylint.sh | 3 ++-=0D
+ python/tests/pylint.sh         | 3 ++-=0D
+ 4 files changed, 4 insertions(+), 5 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
