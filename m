@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB69A499D1D
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 23:16:49 +0100 (CET)
-Received: from localhost ([::1]:55688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23211499D23
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 23:17:00 +0100 (CET)
+Received: from localhost ([::1]:56104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nC7do-0002aM-Uq
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 17:16:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35992)
+	id 1nC7dz-0002uT-9I
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 17:16:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nC7aq-0001NL-HG
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 17:13:44 -0500
-Received: from [2a00:1450:4864:20::32e] (port=38462
- helo=mail-wm1-x32e.google.com)
+ id 1nC7bL-0001Tl-0Z
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 17:14:15 -0500
+Received: from [2a00:1450:4864:20::42b] (port=41727
+ helo=mail-wr1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nC7ao-00046X-IQ
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 17:13:43 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- o30-20020a05600c511e00b0034f4c3186f4so310687wms.3
- for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 14:13:36 -0800 (PST)
+ id 1nC7bH-00047l-Lh
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 17:14:14 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id r22so8627699wra.8
+ for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 14:14:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=o4U1PtcaNv3+tlA+CpAUSi7vjDOnpo8DG1iWvqJV9O0=;
- b=ZiehhM/O4UgoUPSsW7sFiSZwVarccH6koLoZ6SlS53c2A40HtWCRc7Ub0IYyJil95T
- 1uDQxPvls1YJo8tr9E9zojZewMm3cCrx5ne1L3WZQhsEEskHn4q0rJc2fdMbcmv0Xv90
- wxZwWrefJCBZHaDD8NZmhetko5iy6N6UGJ5XEeW0+Y8200cH7aS8Weh9bAgcydkq4kh+
- xcbGVH3cahMeJg4faVAxZROzKE+jePaM2VIkgGBukJnhKecQ53ruZuR7mpX834omL9AE
- vQToxAMZggoSsDTJa7iTxWZBGitw+Ob90vnI5bgTbaclkovv1vSbOZcjvB5wMbP8zDrQ
- dXZg==
+ bh=fwaMDH8cSmbbSS0xpGdhd/no6vCAej8bHfnZpxUaZRA=;
+ b=jCVjBDbJK8QM68KQjUARnJH7gB0MHwtbp654j4NmwfVeX9lVLqyXBsYGDtv/hEGqmS
+ pMo+Fkhd7f0FPtk4dddvtnfHjuz5lO6GmiVQj/xrPA0B0/IUUHs1vYlIW9uZ7nI+poKS
+ vPvQHydouUEy8DfOyYE6i9Ild1wM8nghp/6SsRRA3PoZgtayENJiH7iC1sdSJu00vL39
+ s2uY5+1vI+cVa9zSD7z5Y2UdocYMnZ2rM6oyqxBvOfsJX15arMgSD/jSIcjnkfIQvU4U
+ nvtl4mJFKrN6vE9VfaF3tgF0QcN0z1+0smhZPX7ymztKksLpQeZFfYv3hr1eW5aN+hFk
+ DHOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=o4U1PtcaNv3+tlA+CpAUSi7vjDOnpo8DG1iWvqJV9O0=;
- b=aLVGlEav0kt/c0ft+qtxjeP/Fp960VqFRaChfweBvbkh0ZyNOrrk4wKUSj52BuTK9A
- Q7B27nDCle15yEl+S0/osEG29rDJVxOKnfUN60URn5jJJYyI1OVkHxYHM7wbDGZj2XHV
- cn5qzAzvvMinGH1UAzpvP98NxddRx3oIll2SupihUY+XJuSLn99ZCMjoKZQvmS7dFx2d
- mmwDQXUffZTKG5Tmi+awbh8LlzGi4LJ7OSjvyCw0firaoWFdRxuNY5PimF291yRhP7o6
- KwjIDWiejnCcalgH1g8BJKs6Osbf5EMcf3V5gPqul+AGSny383VMbh/PXiFeeQ/KaTtd
- IA9w==
-X-Gm-Message-State: AOAM532oRZmPUel62VQ2gBTLRS5PtbeSMCiFK0dcljQfv1P879/6POLq
- kDQN6OwDF5tcZ3bYcnx6rTI=
-X-Google-Smtp-Source: ABdhPJwVamTBBu6BqOEltS6tK7JrL6a+1jVdKl/KHuxqXHr8XnH5BN9d5sayog1yfqq56iqaPIgeTw==
-X-Received: by 2002:a05:600c:3592:: with SMTP id
- p18mr296284wmq.71.1643062415109; 
- Mon, 24 Jan 2022 14:13:35 -0800 (PST)
+ bh=fwaMDH8cSmbbSS0xpGdhd/no6vCAej8bHfnZpxUaZRA=;
+ b=3oZKTd8L0S7KdquA9+sfA+VMEDVwVeoWgwD3kWq+sbTvYnqCEHxI8XU0Elhq1fd/xl
+ 0XWVWtzIwt5ttNbYAb9mWILPkmM+iXP6ObD9NujQtflPqnaMkDtxtE1MLGHcCC7EBDfc
+ D3N0SYI6KoPJFs9hdjzYQ0RKODJYGuwbr7FT5dTscpFCGTIEp6qCz6TcCvVyQghWzwXV
+ BVMULP1JXe8qRR+H+FzqkybCOh8fnhHpc1f0vfAlB9Cfkc0mZUW7KKooka2cZcCeLDNR
+ FPJd0PZ2Ndlw9XU/s9/+G0506ljsZK+VTqxIJPzzFbxvRdyj3BjBRABNcf6gAjRDfvcR
+ j0SA==
+X-Gm-Message-State: AOAM533vSbDxmuHgm+eziXLWvnbaApeFJF7MCQSm7LnCWJI+2ojnxf6i
+ 63vMYUxosS9AOshNYjwVq+M=
+X-Google-Smtp-Source: ABdhPJw1/VMpWEUAv6c7BuB2We0jbtLHwb8KhnIYHjQRo2tep4YSlKORFLeqzPtrZ2MC05mMl0ND2w==
+X-Received: by 2002:a5d:6486:: with SMTP id o6mr15624512wri.609.1643062450520; 
+ Mon, 24 Jan 2022 14:14:10 -0800 (PST)
 Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id y15sm17999313wry.36.2022.01.24.14.13.33
+ by smtp.gmail.com with ESMTPSA id o12sm528297wmq.41.2022.01.24.14.14.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jan 2022 14:13:34 -0800 (PST)
-Message-ID: <a020602f-a2b7-fb32-3ca8-9a076d98fe5e@amsat.org>
-Date: Mon, 24 Jan 2022 23:13:32 +0100
+ Mon, 24 Jan 2022 14:14:10 -0800 (PST)
+Message-ID: <399c4c73-f629-cefc-f2ac-6d3488d37bf6@amsat.org>
+Date: Mon, 24 Jan 2022 23:14:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v1 20/22] tests/plugins: add instruction matching to
- libinsn.so
+Subject: Re: [PATCH v1 21/22] target/i386: use CPU_LOG_INT for IRQ servicing
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-Cc: Vasilev Oleg <vasilev.oleg@huawei.com>,
+Cc: Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
  aaron@os.amperecomputing.com, robhenry@microsoft.com,
  mahmoudabdalghany@outlook.com, minyihh@uci.edu, cota@braap.org,
- Luke.Craig@ll.mit.edu, Alexandre Iooss <erdnaxe@crans.org>,
+ Luke.Craig@ll.mit.edu, Paolo Bonzini <pbonzini@redhat.com>,
  kuhn.chenqun@huawei.com, ma.mandourr@gmail.com
 References: <20220124201608.604599-1-alex.bennee@linaro.org>
- <20220124201608.604599-21-alex.bennee@linaro.org>
-In-Reply-To: <20220124201608.604599-21-alex.bennee@linaro.org>
+ <20220124201608.604599-22-alex.bennee@linaro.org>
+In-Reply-To: <20220124201608.604599-22-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -108,69 +105,15 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 1/24/22 21:16, Alex Bennée wrote:
-> This adds simple instruction matching to the libinsn.so plugin which
-> is useful for examining the execution distance between instructions.
-> For example to track how often we flush in ARM due to TLB updates:
+> I think these have been wrong since f193c7979c (do not depend on
+> thunk.h - more log items). Fix them so as not to confuse other
+> debugging.
 > 
->   -plugin ./tests/plugin/libinsn.so,match=tlbi
-> 
-> which leads to output like this:
-> 
->   0xffffffc01018fa00, tlbi aside1is, x0,  339, 32774 match hits, 23822 since last, avg 47279
->   0xffffffc01018fa00, tlbi aside1is, x0,  340, 32775 match hits, 565051 since last, avg 47295
->   0xffffffc0101915a4, tlbi vae1is, x0,  155, 32776 match hits, 151135 since last, avg 47298
->   0xffffffc01018fc60, tlbi vae1is, x4,  224, 32777 match hits, 814 since last, avg 47297
->   0xffffffc010194a44, tlbi vale1is, x1,  8835, 32778 match hits, 52027 since last, avg 47297
->   0xffffffc010194a44, tlbi vale1is, x1,  8836, 32779 match hits, 8347 since last, avg 47296
->   0xffffffc010194a44, tlbi vale1is, x1,  8837, 32780 match hits, 33677 since last, avg 47295
-
-Just nitpicking the output below.
-
-> showing we do some sort of TLBI invalidation every 47 thousand
-> instructions.
-> 
-> Cc: Vasilev Oleg <vasilev.oleg@huawei.com>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Cc: Emilio Cota <cota@braap.org>
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  tests/plugin/insn.c | 88 ++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 87 insertions(+), 1 deletion(-)
+>  target/i386/tcg/sysemu/seg_helper.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-> +static void vcpu_insn_matched_exec_before(unsigned int cpu_index, void *udata)
-> +{
-> +    unsigned int i = cpu_index % MAX_CPUS;
-> +    Instruction *insn = (Instruction *) udata;
-> +    Match *match = insn->match;
-> +    g_autoptr(GString) ts = g_string_new("");
-> +
-> +    insn->hits++;
-> +    g_string_append_printf(ts, "0x%" PRIx64 ", %s, % "PRId64,
-> +                           insn->vaddr, insn->disas, insn->hits);
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Maybe use something else the ',' to split last arg (hits)? \t or --?
-Otherwise it seems part of the decoded instr.
-
-> +
-> +    uint64_t icount = counts[i].insn_count;
-> +    uint64_t delta = icount - match->last_hit[i];
-> +
-> +    match->hits[i]++;
-> +    match->total_delta[i] += delta;
-> +
-> +    g_string_append_printf(ts,
-> +                           ", %"PRId64" match hits, %"PRId64
-
-Maybe prefix delta with '+'.
-
-> +                           " since last, avg %"PRId64"\n",
-> +                           match->hits[i], delta,
-> +                           match->total_delta[i] / match->hits[i]);
-> +
-> +    match->last_hit[i] = icount;
-> +
-> +    qemu_plugin_outs(ts->str);
-> +
-> +    g_ptr_array_add(match->history[i], insn);
-> +}
 
