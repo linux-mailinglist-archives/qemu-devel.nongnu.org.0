@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 049D7498135
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 14:34:50 +0100 (CET)
-Received: from localhost ([::1]:51384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74CF9498136
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 14:36:13 +0100 (CET)
+Received: from localhost ([::1]:52946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBzUe-0002sY-NV
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 08:34:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58472)
+	id 1nBzW0-0003xP-Az
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 08:36:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nBzQN-0001br-Hy
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 08:30:30 -0500
-Received: from mga03.intel.com ([134.134.136.65]:59327)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nBzQK-0005j8-5G
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 08:30:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643031020; x=1674567020;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=s3MS9jlacq/GjKUc1J7BgRzARDrYpUsH/uofSxi2lpg=;
- b=PKiSghyHHSMBD2Ikv/GZTc6xV1dkUpPItAc+EvGEEpA9gTXuSg46K+5p
- KqdyEmNgXtw70rKrM2D/khwAXEDpHs1k4YFfX4a+uI0sSPej4lEWAQvtc
- KlF/4Lr6eceXyAfo4+drzVXE6EnAZSgug0IiQ4zNZ1N+tBR3DeyE4B+SS
- Ua6gA1Se3KjAPQVtwzZ0vmuqwH2oezstz6Z3vx+C/wTrbX7ClUpk4r9y1
- aCx9i2QITbl22pLVC9xgiUhXp2tB/sYZws7KgxoV2Kps2E9rgx05GVQsq
- pk6wK/w6R8QB2uJKii34s8El/bRBvTqQR3Ilh60KEkl0KkEuGWdslqgkI Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="245988833"
-X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="245988833"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jan 2022 05:30:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="532077916"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
- by fmsmga007.fm.intel.com with ESMTP; 24 Jan 2022 05:30:05 -0800
-Date: Mon, 24 Jan 2022 21:29:36 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v4 02/12] mm/memfd: Introduce MFD_INACCESSIBLE flag
-Message-ID: <20220124132936.GA55051@chaop.bj.intel.com>
-References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
- <20220118132121.31388-3-chao.p.peng@linux.intel.com>
- <8f1eba03-e5e9-e9fc-084d-0ef683093d65@arm.com>
+ (Exim 4.90_1) (envelope-from <christophm30@gmail.com>)
+ id 1nBzST-0002DJ-DX; Mon, 24 Jan 2022 08:32:33 -0500
+Received: from mail-ua1-f51.google.com ([209.85.222.51]:43773)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <christophm30@gmail.com>)
+ id 1nBzSR-000679-Ja; Mon, 24 Jan 2022 08:32:33 -0500
+Received: by mail-ua1-f51.google.com with SMTP id 2so30982493uax.10;
+ Mon, 24 Jan 2022 05:32:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AS7DMLXhYyb9l2U/N7ez5nzYK9IGA/8ZG2W5/wB/wUI=;
+ b=MfRSAEGugcAIdNdmI46+XK2met41b41OQXzZqHLJZoaGwxe8vlVcKrbpXGS3jCBqvT
+ TDaABZK3HJYP3zNxqrUc8nMYbvKQ4Os9Nb/HLe0WirTeCGA2BF8jfPBfICY89ptWgQE4
+ 5rr7NzGivnCf32LytuLR+vCWFc2eZIBMTHtXQ+HT6gWHR2g13ZkUrJkOPTJX5//yUIuu
+ aKM1aaslsqu+qkAftXJxKnRYbyk/ccE2MJDht5MSWFPL+VWxDuiX/WR6sfjfTYzqVM6Z
+ +djNnfUHeINsS8lzLsm8ZGKT8r5uCcvzIOtAl7js42N316BX5aDIJdjrbXE9nRmFEBTC
+ eK6w==
+X-Gm-Message-State: AOAM530KX2VtcdKgtYneyTmCiBH1Azwzo7Cgx+nVNlxyZPbqwdEUoJ8X
+ InnWANxFvTWaNvuzSnO+3cyirPhNjqi+inMqDbg=
+X-Google-Smtp-Source: ABdhPJz9BakWplEIPuVeAS1bLziI3r4pAgQi3dOrQFW4gpuJsAK/ZWmdezf7rOW7thcSzB5QFbelzg==
+X-Received: by 2002:a9f:2e18:: with SMTP id t24mr5348385uaj.21.1643031149778; 
+ Mon, 24 Jan 2022 05:32:29 -0800 (PST)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com.
+ [209.85.222.49])
+ by smtp.gmail.com with ESMTPSA id e13sm2775545ual.17.2022.01.24.05.32.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Jan 2022 05:32:29 -0800 (PST)
+Received: by mail-ua1-f49.google.com with SMTP id c36so30916262uae.13;
+ Mon, 24 Jan 2022 05:32:29 -0800 (PST)
+X-Received: by 2002:a05:6102:7a3:: with SMTP id x3mr3749279vsg.4.1643031148847; 
+ Mon, 24 Jan 2022 05:32:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8f1eba03-e5e9-e9fc-084d-0ef683093d65@arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: none client-ip=134.134.136.65;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga03.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20220120200735.2739543-1-atishp@rivosinc.com>
+ <20220120200735.2739543-6-atishp@rivosinc.com>
+In-Reply-To: <20220120200735.2739543-6-atishp@rivosinc.com>
+From: =?UTF-8?Q?Christoph_M=C3=BCllner?= <cmuellner@linux.com>
+Date: Mon, 24 Jan 2022 14:32:17 +0100
+X-Gmail-Original-Message-ID: <CAHB2gtQxLo=UuGnGtJPaNqA-Tc19vJCHnyqUmjNV6mAU6hPZ3w@mail.gmail.com>
+Message-ID: <CAHB2gtQxLo=UuGnGtJPaNqA-Tc19vJCHnyqUmjNV6mAU6hPZ3w@mail.gmail.com>
+Subject: Re: [RFC 5/5] target/riscv: Enable privileged spec version 1.12
+To: Atish Patra <atishp@rivosinc.com>
+Content-Type: multipart/alternative; boundary="000000000000fb665805d653ffd3"
+Received-SPF: pass client-ip=209.85.222.51;
+ envelope-from=christophm30@gmail.com; helo=mail-ua1-f51.google.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,119 +77,207 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Anup Patel <anup@brainfault.org>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 21, 2022 at 03:50:55PM +0000, Steven Price wrote:
-> On 18/01/2022 13:21, Chao Peng wrote:
-> > Introduce a new memfd_create() flag indicating the content of the
-> > created memfd is inaccessible from userspace. It does this by force
-> > setting F_SEAL_INACCESSIBLE seal when the file is created. It also set
-> > F_SEAL_SEAL to prevent future sealing, which means, it can not coexist
-> > with MFD_ALLOW_SEALING.
-> > 
-> > The pages backed by such memfd will be used as guest private memory in
-> > confidential computing environments such as Intel TDX/AMD SEV. Since
-> > page migration/swapping is not yet supported for such usages so these
-> > pages are currently marked as UNMOVABLE and UNEVICTABLE which makes
-> > them behave like long-term pinned pages.
-> > 
-> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > ---
-> >  include/uapi/linux/memfd.h |  1 +
-> >  mm/memfd.c                 | 20 +++++++++++++++++++-
-> >  2 files changed, 20 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/include/uapi/linux/memfd.h b/include/uapi/linux/memfd.h
-> > index 7a8a26751c23..48750474b904 100644
-> > --- a/include/uapi/linux/memfd.h
-> > +++ b/include/uapi/linux/memfd.h
-> > @@ -8,6 +8,7 @@
-> >  #define MFD_CLOEXEC		0x0001U
-> >  #define MFD_ALLOW_SEALING	0x0002U
-> >  #define MFD_HUGETLB		0x0004U
-> > +#define MFD_INACCESSIBLE	0x0008U
-> >  
-> >  /*
-> >   * Huge page size encoding when MFD_HUGETLB is specified, and a huge page
-> > diff --git a/mm/memfd.c b/mm/memfd.c
-> > index 9f80f162791a..26998d96dc11 100644
-> > --- a/mm/memfd.c
-> > +++ b/mm/memfd.c
-> > @@ -245,16 +245,19 @@ long memfd_fcntl(struct file *file, unsigned int cmd, unsigned long arg)
-> >  #define MFD_NAME_PREFIX_LEN (sizeof(MFD_NAME_PREFIX) - 1)
-> >  #define MFD_NAME_MAX_LEN (NAME_MAX - MFD_NAME_PREFIX_LEN)
-> >  
-> > -#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB)
-> > +#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB | \
-> > +		       MFD_INACCESSIBLE)
-> >  
-> >  SYSCALL_DEFINE2(memfd_create,
-> >  		const char __user *, uname,
-> >  		unsigned int, flags)
-> >  {
-> > +	struct address_space *mapping;
-> >  	unsigned int *file_seals;
-> >  	struct file *file;
-> >  	int fd, error;
-> >  	char *name;
-> > +	gfp_t gfp;
-> >  	long len;
-> >  
-> >  	if (!(flags & MFD_HUGETLB)) {
-> > @@ -267,6 +270,10 @@ SYSCALL_DEFINE2(memfd_create,
-> >  			return -EINVAL;
-> >  	}
-> >  
-> > +	/* Disallow sealing when MFD_INACCESSIBLE is set. */
-> > +	if (flags & MFD_INACCESSIBLE && flags & MFD_ALLOW_SEALING)
-> > +		return -EINVAL;
-> > +
-> >  	/* length includes terminating zero */
-> >  	len = strnlen_user(uname, MFD_NAME_MAX_LEN + 1);
-> >  	if (len <= 0)
-> > @@ -315,6 +322,17 @@ SYSCALL_DEFINE2(memfd_create,
-> >  		*file_seals &= ~F_SEAL_SEAL;
-> >  	}
-> >  
-> > +	if (flags & MFD_INACCESSIBLE) {
-> > +		mapping = file_inode(file)->i_mapping;
-> > +		gfp = mapping_gfp_mask(mapping);
-> > +		gfp &= ~__GFP_MOVABLE;
-> > +		mapping_set_gfp_mask(mapping, gfp);
-> > +		mapping_set_unevictable(mapping);
-> > +
-> > +		file_seals = memfd_file_seals_ptr(file);
-> > +		*file_seals &= F_SEAL_SEAL | F_SEAL_INACCESSIBLE;
-> 
-> This looks backwards - the flags should be set on *file_seals, but here
-> you are unsetting all other flags.
+--000000000000fb665805d653ffd3
+Content-Type: text/plain; charset="UTF-8"
 
-Thanks Steve. '|=' actually should be used here.
+On Fri, Jan 21, 2022 at 12:16 AM Atish Patra <atishp@rivosinc.com> wrote:
 
-Chao
-> 
-> Steve
-> 
-> > +	}
-> > +
-> >  	fd_install(fd, file);
-> >  	kfree(name);
-> >  	return fd;
-> > 
+> Virt machine uses privileged specification version 1.12 now.
+> All other machine continue to use the default one defined for that
+> machine unless changed to 1.12 by the user explicitly.
+>
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> ---
+>  target/riscv/cpu.c |  8 +++++---
+>  target/riscv/csr.c | 10 ++++++++++
+>  2 files changed, 15 insertions(+), 3 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 9bc25d3055d4..cec5791151e7 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -153,7 +153,7 @@ static void riscv_any_cpu_init(Object *obj)
+>  #elif defined(TARGET_RISCV64)
+>      set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+>  #endif
+> -    set_priv_version(env, PRIV_VERSION_1_11_0);
+> +    set_priv_version(env, PRIV_VERSION_1_12_0);
+>  }
+>
+>  #if defined(TARGET_RISCV64)
+> @@ -439,7 +439,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error
+> **errp)
+>      }
+>
+>      if (cpu->cfg.priv_spec) {
+> -        if (!g_strcmp0(cpu->cfg.priv_spec, "v1.11.0")) {
+> +        if (!g_strcmp0(cpu->cfg.priv_spec, "v1.12.0")) {
+> +            priv_version = PRIV_VERSION_1_12_0;
+> +        } else if (!g_strcmp0(cpu->cfg.priv_spec, "v1.11.0")) {
+>              priv_version = PRIV_VERSION_1_11_0;
+>          } else if (!g_strcmp0(cpu->cfg.priv_spec, "v1.10.0")) {
+>              priv_version = PRIV_VERSION_1_10_0;
+> @@ -454,7 +456,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error
+> **errp)
+>      if (priv_version) {
+>          set_priv_version(env, priv_version);
+>      } else if (!env->priv_ver) {
+> -        set_priv_version(env, PRIV_VERSION_1_11_0);
+> +        set_priv_version(env, PRIV_VERSION_1_12_0);
+>      }
+>
+>      if (cpu->cfg.mmu) {
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index a4bbae7a1bbd..62d429cc3f17 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -1874,6 +1874,12 @@ static inline RISCVException
+> riscv_csrrw_check(CPURISCVState *env,
+>      int read_only = get_field(csrno, 0xC00) == 3;
+>  #if !defined(CONFIG_USER_ONLY)
+>      int effective_priv = env->priv;
+> +    int csr_min_priv = csr_ops[csrno].min_priv_ver;
+> +
+> +    /* The default privilege specification version supported is 1.10 */
+> +    if (!csr_min_priv) {
+> +        csr_min_priv = PRIV_VERSION_1_10_0;
+> +    }
+>
+>      if (riscv_has_ext(env, RVH) &&
+>          env->priv == PRV_S &&
+> @@ -1904,6 +1910,10 @@ static inline RISCVException
+> riscv_csrrw_check(CPURISCVState *env,
+>          return RISCV_EXCP_ILLEGAL_INST;
+>      }
+>
+> +    if (env->priv_ver < csr_min_priv) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+>
+
+This does not compile if CONFIG_USER_ONLY is defined.
+
+
+> +
+>      return csr_ops[csrno].predicate(env, csrno);
+>  }
+>
+> --
+> 2.30.2
+>
+>
+
+--000000000000fb665805d653ffd3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jan 21, 2022 at 12:16 AM Atis=
+h Patra &lt;<a href=3D"mailto:atishp@rivosinc.com">atishp@rivosinc.com</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Virt =
+machine uses privileged specification version 1.12 now.<br>
+All other machine continue to use the default one defined for that<br>
+machine unless changed to 1.12 by the user explicitly.<br>
+<br>
+Signed-off-by: Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.com" targe=
+t=3D"_blank">atishp@rivosinc.com</a>&gt;<br>
+---<br>
+=C2=A0target/riscv/cpu.c |=C2=A0 8 +++++---<br>
+=C2=A0target/riscv/csr.c | 10 ++++++++++<br>
+=C2=A02 files changed, 15 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
+index 9bc25d3055d4..cec5791151e7 100644<br>
+--- a/target/riscv/cpu.c<br>
++++ b/target/riscv/cpu.c<br>
+@@ -153,7 +153,7 @@ static void riscv_any_cpu_init(Object *obj)<br>
+=C2=A0#elif defined(TARGET_RISCV64)<br>
+=C2=A0 =C2=A0 =C2=A0set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | R=
+VC | RVU);<br>
+=C2=A0#endif<br>
+-=C2=A0 =C2=A0 set_priv_version(env, PRIV_VERSION_1_11_0);<br>
++=C2=A0 =C2=A0 set_priv_version(env, PRIV_VERSION_1_12_0);<br>
+=C2=A0}<br>
+<br>
+=C2=A0#if defined(TARGET_RISCV64)<br>
+@@ -439,7 +439,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error *=
+*errp)<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (cpu-&gt;cfg.priv_spec) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!g_strcmp0(cpu-&gt;cfg.priv_spec, &quot;v1=
+.11.0&quot;)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!g_strcmp0(cpu-&gt;cfg.priv_spec, &quot;v1=
+.12.0&quot;)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 priv_version =3D PRIV_VERSION_1_=
+12_0;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (!g_strcmp0(cpu-&gt;cfg.priv_spec, &=
+quot;v1.11.0&quot;)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0priv_version =3D PRIV_VERSI=
+ON_1_11_0;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (!g_strcmp0(cpu-&gt;cfg.priv_sp=
+ec, &quot;v1.10.0&quot;)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0priv_version =3D PRIV_VERSI=
+ON_1_10_0;<br>
+@@ -454,7 +456,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error *=
+*errp)<br>
+=C2=A0 =C2=A0 =C2=A0if (priv_version) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0set_priv_version(env, priv_version);<br>
+=C2=A0 =C2=A0 =C2=A0} else if (!env-&gt;priv_ver) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 set_priv_version(env, PRIV_VERSION_1_11_0);<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 set_priv_version(env, PRIV_VERSION_1_12_0);<br=
+>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (cpu-&gt;cfg.mmu) {<br>
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c<br>
+index a4bbae7a1bbd..62d429cc3f17 100644<br>
+--- a/target/riscv/csr.c<br>
++++ b/target/riscv/csr.c<br>
+@@ -1874,6 +1874,12 @@ static inline RISCVException riscv_csrrw_check(CPURI=
+SCVState *env,<br>
+=C2=A0 =C2=A0 =C2=A0int read_only =3D get_field(csrno, 0xC00) =3D=3D 3;<br>
+=C2=A0#if !defined(CONFIG_USER_ONLY)<br>
+=C2=A0 =C2=A0 =C2=A0int effective_priv =3D env-&gt;priv;<br>
++=C2=A0 =C2=A0 int csr_min_priv =3D csr_ops[csrno].min_priv_ver;<br>
++<br>
++=C2=A0 =C2=A0 /* The default privilege specification version supported is =
+1.10 */<br>
++=C2=A0 =C2=A0 if (!csr_min_priv) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 csr_min_priv =3D PRIV_VERSION_1_10_0;<br>
++=C2=A0 =C2=A0 }<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (riscv_has_ext(env, RVH) &amp;&amp;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;priv =3D=3D PRV_S &amp;&amp;<br>
+@@ -1904,6 +1910,10 @@ static inline RISCVException riscv_csrrw_check(CPURI=
+SCVState *env,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return RISCV_EXCP_ILLEGAL_INST;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
++=C2=A0 =C2=A0 if (env-&gt;priv_ver &lt; csr_min_priv) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_EXCP_ILLEGAL_INST;<br>
++=C2=A0 =C2=A0 }<br></blockquote><div><br></div><div>This does not compile =
+if CONFIG_USER_ONLY is defined.</div><div>=C2=A0</div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">
++<br>
+=C2=A0 =C2=A0 =C2=A0return csr_ops[csrno].predicate(env, csrno);<br>
+=C2=A0}<br>
+<br>
+-- <br>
+2.30.2<br>
+<br>
+</blockquote></div></div>
+
+--000000000000fb665805d653ffd3--
 
