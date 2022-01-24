@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DA304979F5
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 09:06:05 +0100 (CET)
-Received: from localhost ([::1]:46438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA4D4979F7
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 09:06:22 +0100 (CET)
+Received: from localhost ([::1]:46916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBuMW-0001tB-3W
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 03:06:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44116)
+	id 1nBuMn-0002DF-5C
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 03:06:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nBuCJ-0004Xf-B1
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 02:55:31 -0500
+ id 1nBuCL-0004c5-HX
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 02:55:33 -0500
 Received: from mga07.intel.com ([134.134.136.100]:15222)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nBuCH-0001Wn-Hv
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 02:55:30 -0500
+ id 1nBuCJ-0001Wn-JX
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 02:55:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643010929; x=1674546929;
+ t=1643010931; x=1674546931;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=w4mxV/YlshNQdk4MjRHzFwV7Beww//SikNavDKC7IKM=;
- b=Etg42v04QmHT9ijsEaLl6TYAsyAqSckYQLht+fAaVp57OtJiJzEnfh6j
- CLc39nkL4lZzbbD8o3mnxM9pDNZCYYcbUgqqQJE4luSXYTKoxQULXd9NX
- TC/gVElfn179WZWpGFheZGR3CSihgZsx77kjvTLmL4tnnf7RrwoD+DxWy
- Oq6GRuoq1A1rd84rmBruEBXKLeeqw+uUhKOq8WVZll4LJXMVwJSDMpzmd
- 008I767DwcxN6z7LZ5vIKKh3RHbbbe2fxgTKZxhlRroz6lMwvfxXg2Sv5
- lylEVYVWwpz7H9ViCBXdBkv7O4NG1XzeyxPkJzyWcGypXF+QWk8aAy8Wv w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="309310863"
-X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="309310863"
+ bh=mmm/+5saobvWvpN28F+InAEJcEjM064s12yrFmQox7Y=;
+ b=fpVctbikyE1odrn0E3R3WfMGQVca5o4yJKcEg+UIvKnCXo1uVi7/I6xu
+ 5/zZxw204T8BUt5cvAsIwuXHnFkE/KiJuwnbOxiYSTIFALGPjktUFsSu7
+ mH9jZnItPsnETDEfEVp2LaTYRSJAuxzBNZFMDoGouFPS720gGddbqnzs/
+ MAUVyEkx/OoeOWY/pJ/fNNww+URgS2JkW3cQlbO8VIvpN90WaoxhZEElQ
+ wsxQZk0dUV6qkMyIKyE792SmwBatn5Wue2MqfhqthWXOVk2f3xlhEmsF9
+ hGjnJPCc7c9sqPCMZF2BGm3UrMP/zKs2T0TGH8m1D0TFuTGX3ofsLg8cd A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="309310864"
+X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="309310864"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Jan 2022 23:55:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="494530972"
+X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="494530980"
 Received: from 984fee00bf64.jf.intel.com ([10.165.54.77])
  by orsmga002.jf.intel.com with ESMTP; 23 Jan 2022 23:55:23 -0800
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/7] x86: Fix the 64-byte boundary enumeration for extended
- state
-Date: Sun, 23 Jan 2022 23:55:17 -0800
-Message-Id: <20220124075523.108875-2-yang.zhong@intel.com>
+Subject: [PATCH 2/7] x86: Add AMX XTILECFG and XTILEDATA components
+Date: Sun, 23 Jan 2022 23:55:18 -0800
+Message-Id: <20220124075523.108875-3-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220124075523.108875-1-yang.zhong@intel.com>
 References: <20220124075523.108875-1-yang.zhong@intel.com>
@@ -80,72 +79,96 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jing Liu <jing2.liu@intel.com>
 
-The extended state subleaves (EAX=0Dh, ECX=n, n>1).ECX[1]
-indicate whether the extended state component locates
-on the next 64-byte boundary following the preceding state
-component when the compacted format of an XSAVE area is
-used.
+The AMX TILECFG register and the TMMx tile data registers are
+saved/restored via XSAVE, respectively in state component 17
+(64 bytes) and state component 18 (8192 bytes).
 
-Right now, they are all zero because no supported component
-needed the bit to be set, but the upcoming AMX feature will
-use it.  Fix the subleaves value according to KVM's supported
-cpuid.
+Add AMX feature bits to x86_ext_save_areas array to set
+up AMX components. Add structs that define the layout of
+AMX XSAVE areas and use QEMU_BUILD_BUG_ON to validate the
+structs sizes.
 
 Signed-off-by: Jing Liu <jing2.liu@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- target/i386/cpu.h         | 6 ++++++
- target/i386/cpu.c         | 1 +
- target/i386/kvm/kvm-cpu.c | 2 ++
- 3 files changed, 9 insertions(+)
+ target/i386/cpu.h | 18 +++++++++++++++++-
+ target/i386/cpu.c |  8 ++++++++
+ 2 files changed, 25 insertions(+), 1 deletion(-)
 
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 9911d7c871..de1dc124ab 100644
+index de1dc124ab..06d2d6bccf 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -548,6 +548,11 @@ typedef enum X86Seg {
- #define XSTATE_Hi16_ZMM_MASK            (1ULL << XSTATE_Hi16_ZMM_BIT)
- #define XSTATE_PKRU_MASK                (1ULL << XSTATE_PKRU_BIT)
+@@ -537,6 +537,8 @@ typedef enum X86Seg {
+ #define XSTATE_ZMM_Hi256_BIT            6
+ #define XSTATE_Hi16_ZMM_BIT             7
+ #define XSTATE_PKRU_BIT                 9
++#define XSTATE_XTILE_CFG_BIT            17
++#define XSTATE_XTILE_DATA_BIT           18
  
-+#define ESA_FEATURE_ALIGN64_BIT         1
+ #define XSTATE_FP_MASK                  (1ULL << XSTATE_FP_BIT)
+ #define XSTATE_SSE_MASK                 (1ULL << XSTATE_SSE_BIT)
+@@ -845,6 +847,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+ #define CPUID_7_0_EDX_TSX_LDTRK         (1U << 16)
+ /* AVX512_FP16 instruction */
+ #define CPUID_7_0_EDX_AVX512_FP16       (1U << 23)
++/* AMX tile (two-dimensional register) */
++#define CPUID_7_0_EDX_AMX_TILE          (1U << 24)
+ /* Speculation Control */
+ #define CPUID_7_0_EDX_SPEC_CTRL         (1U << 26)
+ /* Single Thread Indirect Branch Predictors */
+@@ -1348,6 +1352,16 @@ typedef struct XSavePKRU {
+     uint32_t padding;
+ } XSavePKRU;
+ 
++/* Ext. save area 17: AMX XTILECFG state */
++typedef struct XSaveXTILECFG {
++    uint8_t xtilecfg[64];
++} XSaveXTILECFG;
 +
-+#define ESA_FEATURE_ALIGN64_MASK        (1U << ESA_FEATURE_ALIGN64_BIT)
++/* Ext. save area 18: AMX XTILEDATA state */
++typedef struct XSaveXTILEDATA {
++    uint8_t xtiledata[8][1024];
++} XSaveXTILEDATA;
 +
-+
- /* CPUID feature words */
- typedef enum FeatureWord {
-     FEAT_1_EDX,         /* CPUID[1].EDX */
-@@ -1354,6 +1359,7 @@ QEMU_BUILD_BUG_ON(sizeof(XSavePKRU) != 0x8);
+ QEMU_BUILD_BUG_ON(sizeof(XSaveAVX) != 0x100);
+ QEMU_BUILD_BUG_ON(sizeof(XSaveBNDREG) != 0x40);
+ QEMU_BUILD_BUG_ON(sizeof(XSaveBNDCSR) != 0x40);
+@@ -1355,6 +1369,8 @@ QEMU_BUILD_BUG_ON(sizeof(XSaveOpmask) != 0x40);
+ QEMU_BUILD_BUG_ON(sizeof(XSaveZMM_Hi256) != 0x200);
+ QEMU_BUILD_BUG_ON(sizeof(XSaveHi16_ZMM) != 0x400);
+ QEMU_BUILD_BUG_ON(sizeof(XSavePKRU) != 0x8);
++QEMU_BUILD_BUG_ON(sizeof(XSaveXTILECFG) != 0x40);
++QEMU_BUILD_BUG_ON(sizeof(XSaveXTILEDATA) != 0x2000);
+ 
  typedef struct ExtSaveArea {
      uint32_t feature, bits;
-     uint32_t offset, size;
-+    uint32_t ecx;
+@@ -1362,7 +1378,7 @@ typedef struct ExtSaveArea {
+     uint32_t ecx;
  } ExtSaveArea;
  
- #define XSAVE_STATE_AREA_COUNT (XSTATE_PKRU_BIT + 1)
+-#define XSAVE_STATE_AREA_COUNT (XSTATE_PKRU_BIT + 1)
++#define XSAVE_STATE_AREA_COUNT (XSTATE_XTILE_DATA_BIT + 1)
+ 
+ extern ExtSaveArea x86_ext_save_areas[XSAVE_STATE_AREA_COUNT];
+ 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index aa9e636800..37f06b0b1a 100644
+index 37f06b0b1a..3390820745 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -5487,6 +5487,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-                 const ExtSaveArea *esa = &x86_ext_save_areas[count];
-                 *eax = esa->size;
-                 *ebx = esa->offset;
-+                *ecx = esa->ecx & ESA_FEATURE_ALIGN64_MASK;
-             }
-         }
-         break;
-diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
-index d95028018e..033ca011ea 100644
---- a/target/i386/kvm/kvm-cpu.c
-+++ b/target/i386/kvm/kvm-cpu.c
-@@ -105,6 +105,8 @@ static void kvm_cpu_xsave_init(void)
-                 assert(esa->size == sz);
-                 esa->offset = kvm_arch_get_supported_cpuid(s, 0xd, i, R_EBX);
-             }
-+
-+            esa->ecx = kvm_arch_get_supported_cpuid(s, 0xd, i, R_ECX);
-         }
-     }
- }
+@@ -1401,6 +1401,14 @@ ExtSaveArea x86_ext_save_areas[XSAVE_STATE_AREA_COUNT] = {
+     [XSTATE_PKRU_BIT] =
+           { .feature = FEAT_7_0_ECX, .bits = CPUID_7_0_ECX_PKU,
+             .size = sizeof(XSavePKRU) },
++    [XSTATE_XTILE_CFG_BIT] = {
++        .feature = FEAT_7_0_EDX, .bits = CPUID_7_0_EDX_AMX_TILE,
++        .size = sizeof(XSaveXTILECFG),
++    },
++    [XSTATE_XTILE_DATA_BIT] = {
++        .feature = FEAT_7_0_EDX, .bits = CPUID_7_0_EDX_AMX_TILE,
++        .size = sizeof(XSaveXTILEDATA),
++    },
+ };
+ 
+ static uint32_t xsave_area_size(uint64_t mask)
 
