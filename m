@@ -2,103 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C74497C18
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 10:36:40 +0100 (CET)
-Received: from localhost ([::1]:39220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47674497C21
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 10:39:18 +0100 (CET)
+Received: from localhost ([::1]:42880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBvm2-0006fD-7g
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 04:36:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34850)
+	id 1nBvoj-0000u1-4O
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 04:39:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nBvk5-00058Q-7k
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 04:34:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31981)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nBvjx-0007xb-T4
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 04:34:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643016860;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UP5ymjNHfQ3/9tF7FRgFlJ7VLcnSQkjuDQc9CZBwk8E=;
- b=EnrD5sbt4kXpRZMNoeMlblaiiYlqQZ8dpajohOPpr1FDVmqxJTnAVS8obwZoP9f06J1i9y
- Ktv5cleUKGnK/ShljbjjUj0hiyDNcd5q/k+NV4luQEKruU8zI67UsZNaWPdlu2OID2oCc+
- 789ASPv9Ynnvv/w/qthKBnEkey0G6s4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-657-FwjEPByuOWaP7q-63cVVMA-1; Mon, 24 Jan 2022 04:34:19 -0500
-X-MC-Unique: FwjEPByuOWaP7q-63cVVMA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- s15-20020adf978f000000b001d776502735so1615748wrb.21
- for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 01:34:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=UP5ymjNHfQ3/9tF7FRgFlJ7VLcnSQkjuDQc9CZBwk8E=;
- b=AR0busoSaqNalodv75OabIR/cAzv+2PvxU89AGOyTcWj3iFxBMFHRUzm+hOIojcAFp
- 1WtlM37fLOiy9yIM2uHGps2uYMUp6y5kDLOjb2Uro17mboXRDZamqIFJvuMTcHRSmGAF
- /sEkKL+pJ4LGzEIHfWVb1Ianq/3G43XtVzIFQW0tYnSu97MiHo0gwskzCm/AD+xD7c1/
- tpA5xHqCOXVnQRmlKfFkHQ1lbr7ODN/v1DV/g2WGy5CZ6/rN/OmRsQRwitqjUr1vLYdA
- b3RD7yqIRu3m6SdTcsXLDJeN9H+xUpK7WgB8r3u2u2SSpy5u/jijWSmm1LijgQFGG9KW
- iIvQ==
-X-Gm-Message-State: AOAM532nI6aqfXSfDLzG0g5rJbVMV4o/hH+IpYndOzpsK3ecAbXbT6pu
- Jg0UkzQvXNVxXRiImjFeX30joIHMrJkJpt3PtB+dQIUCNDlvWfCC91JvP241E064Gl825I1klJy
- 7LLRyUZ5IFRBSyuc=
-X-Received: by 2002:a1c:256:: with SMTP id 83mr1020075wmc.166.1643016858261;
- Mon, 24 Jan 2022 01:34:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzubn6oHtc3vIOF7xXKTThXhtMCv1X/3pgnJYnQ5zZDztXUsIbn7jArgjUSLOhusG8OZaZGNQ==
-X-Received: by 2002:a1c:256:: with SMTP id 83mr1020057wmc.166.1643016858022;
- Mon, 24 Jan 2022 01:34:18 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id l10sm13290128wrz.20.2022.01.24.01.34.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jan 2022 01:34:17 -0800 (PST)
-Message-ID: <ed24c3d0-7964-9820-26c7-712b9317cbcd@redhat.com>
-Date: Mon, 24 Jan 2022 10:34:17 +0100
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1nBvmt-0007zB-RT
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 04:37:24 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:39623
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1nBvmj-00007I-CE
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 04:37:23 -0500
+HMM_SOURCE_IP: 172.18.0.188:40476.641325321
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-182.150.57.243 (unknown [172.18.0.188])
+ by chinatelecom.cn (HERMES) with SMTP id 9FDD92800DA;
+ Mon, 24 Jan 2022 17:36:48 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.188])
+ by app0023 with ESMTP id 3e450e5aced340ff832ca8412bec42af for
+ peterx@redhat.com; Mon, 24 Jan 2022 17:36:52 CST
+X-Transaction-ID: 3e450e5aced340ff832ca8412bec42af
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.188
+X-MEDUSA-Status: 0
+Message-ID: <df5ecc84-546e-aee9-fd8e-9265a3130c96@chinatelecom.cn>
+Date: Mon, 24 Jan 2022 17:36:47 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 1/3] qsd: Add pre-init argument parsing pass
-To: Markus Armbruster <armbru@redhat.com>
-References: <20211222114153.67721-1-hreitz@redhat.com>
- <20211222114153.67721-2-hreitz@redhat.com>
- <87zgnrubkf.fsf@dusky.pond.sub.org>
- <4a15fbad-b177-f35c-1468-ef14f7ab1887@redhat.com>
- <YehIosxuXCqsGBSW@redhat.com> <87ee5275ya.fsf@dusky.pond.sub.org>
- <ffaf9aee-56e9-c332-09ad-158a3e28758b@redhat.com>
- <87pmol62kv.fsf@dusky.pond.sub.org>
- <f7b6d0e0-ee5f-f7ed-795b-27b13ff816c7@redhat.com>
- <87tudx4c4p.fsf@dusky.pond.sub.org>
- <b2e955f3-2696-5ee3-e8fb-be336e0811c6@redhat.com>
- <87a6fp4138.fsf@dusky.pond.sub.org>
- <87ab613d-3113-a6e2-fd1e-ad2cb861f041@redhat.com>
- <871r0xij2a.fsf@dusky.pond.sub.org>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <871r0xij2a.fsf@dusky.pond.sub.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v11 1/4] migration/dirtyrate: refactor dirty page rate
+ calculation
+To: Peter Xu <peterx@redhat.com>
+References: <cover.1641316375.git.huangy81@chinatelecom.cn>
+ <7cc032ae98e29471de57c00d3c0bd0fc5129ae23.1641316375.git.huangy81@chinatelecom.cn>
+ <YeTSIh2Osx7Yrjle@xz-m1.local>
+ <bbfa9f72-c673-255c-73b6-d17406d54374@chinatelecom.cn>
+ <Ye4YRsXDfvjuoPsh@xz-m1.local>
+From: Hyman Huang <huangy81@chinatelecom.cn>
+In-Reply-To: <Ye4YRsXDfvjuoPsh@xz-m1.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=42.123.76.219;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,55 +68,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.01.22 10:23, Markus Armbruster wrote:
-> Hanna Reitz <hreitz@redhat.com> writes:
->
->> On 21.01.22 15:26, Markus Armbruster wrote:
->>> Hanna Reitz <hreitz@redhat.com> writes:
+
+
+在 2022/1/24 11:08, Peter Xu 写道:
+> On Sat, Jan 22, 2022 at 11:22:37AM +0800, Hyman Huang wrote:
+>>
+>>
+>> 在 2022/1/17 10:19, Peter Xu 写道:
+>>> On Wed, Jan 05, 2022 at 01:14:06AM +0800, huangy81@chinatelecom.cn wrote:
+>>>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>>>
+>>>> +
+>>>> +static void vcpu_dirty_stat_collect(VcpuStat *stat,
+>>>> +                                    DirtyPageRecord *records,
+>>>> +                                    bool start)
+>>>> +{
+>>>> +    CPUState *cpu;
+>>>> +
+>>>> +    CPU_FOREACH(cpu) {
+>>>> +        if (!start && cpu->cpu_index >= stat->nvcpu) {
+>>>> +            /*
+>>>> +             * Never go there unless cpu is hot-plugged,
+>>>> +             * just ignore in this case.
+>>>> +             */
+>>>> +            continue;
+>>>> +        }
 >>>
->>>> On 21.01.22 11:27, Markus Armbruster wrote:
->>>>> Hanna Reitz <hreitz@redhat.com> writes:
->>>>>> The problem I face is that currently there is no ergonomic way to wait
->>>>>> until the QSD is up and running (besides looping until the PID file
->>>>>> exists), and I don’t think a utility program that doesn’t know the QSD
->>>>>> could provide this.  (For example, it looks like daemonize(1) will
->>>>>> have the parent exit immediately, regardless of whether the child is
->>>>>> set up or not.)
->>>>> Why do you need to wait for QSD to be ready?
->>>>>
->>>>> I'm asking because with common daemons, I don't wait, I just connect to
->>>>> their socket and start talking.  They'll reply only when ready.
->>>>>
->>>> That only applies when you want to talk to a socket, which I often
->>>> don’t do.  Most of the time I use the storage daemon, I pass all
->>>> --blockdev and --export options through the command line and don’t
->>>>    create any socket at all.  When I use the QSD just to export some
->>>> block device, I generally don’t need QMP.
->>> If you export via NBD, why can't you just connect to NBD socket?
->> I’m not sure what exactly you mean by this, because the socket doesn’t
->> exist before the QSD is launched.  If I launch the QSD in the
->> background and have it create an NBD server on a Unix socket, then
->> this socket will not exist until the respective --nbd-server option is
->> parsed.  Trying to connect to it immediately after the QSD has been
->> launched may work (if the QSD was quicker to parse the option and
->> create the server than me trying to connect) or may yield ECONNREFUSED
->> or ENOENT, depending on whether the socket file existed before or not.
-> This is similar to "with common daemons, [...] I just connect to their
-> socket and start talking."
->
->> Also, outside of the iotests, I personally generally usually use FUSE
->> exports instead of NBD exports.
-> You could wait for the mount to appear with stat -f.
+>>> As commented before, I think the only way to do it right is does not allow cpu
+>>> plug/unplug during measurement..
+>>>
+>>> Say, even if index didn't get out of range, an unplug even should generate very
+>>> stange output of the unplugged cpu.  Please see more below.
+>>>
+>>>> +        record_dirtypages(records, cpu, start);
+>>>> +    }
+>>>> +}
+>>>> +
+>>>> +int64_t vcpu_calculate_dirtyrate(int64_t calc_time_ms,
+>>>> +                                 int64_t init_time_ms,
+>>>> +                                 VcpuStat *stat,
+>>>> +                                 unsigned int flag,
+>>>> +                                 bool one_shot)
+>>>> +{
+>>>> +    DirtyPageRecord *records;
+>>>> +    int64_t duration;
+>>>> +    int64_t dirtyrate;
+>>>> +    int i = 0;
+>>>> +
+>>>> +    cpu_list_lock();
+>>>> +    records = vcpu_dirty_stat_alloc(stat);
+>>>> +    vcpu_dirty_stat_collect(stat, records, true);
+>>>> +    cpu_list_unlock();
+>>>
+>>> Continue with above - then I'm wondering whether we should just keep taking the
+>>> lock until vcpu_dirty_stat_collect().
+>>>
+>>> Yes we could be taking the lock for a long time because of the sleep, but the
+>>> main thread plug thread will just wait for it to complete and it is at least
+>>> not a e.g. deadlock.
+>>>
+>>> The other solution is we do cpu_list_unlock() like this, but introduce another
+>>> cpu_list_generation_id and boost it after any plug/unplug of cpu, aka, when cpu
+>>> list changes.
+>>>
+>>> Then we record cpu generation ID at the entry of this function and retry the
+>>> whole measurement if at some point we found generation ID changed (we need to
+>>> fetch the gen ID after having the lock, of course).  That could avoid us taking
+>>> the cpu list lock during dirty_stat_wait(), but it'll start to complicate cpu
+>>> list locking rules.
+>>>
+>>> The simpler way is still just to take the lock, imho.
+>>>
+>> Hi, Peter, i'm working on this as you suggetion, and keep taking the
+>> cpu_list_lock during dirty page rate calculation. I found the deadlock when
+>> testing hotplug scenario, the logic is as the following:
+>>
+>> calc thread				qemu main thread
+>> 1. take qemu_cpu_list_lock
+>> 					1. take the BQL
+>> 2. collect dirty page and wait		2. cpu hotplug
+>> 					3. take qemu_cpu_list_lock
+>> 3. take the BQL
+>>
+>> 4. sync dirty log			
+>>
+>> 5. release the BQL
+>>
+>> I just recall that is one of the reasons why i handle the plug/unplug
+>> scenario(another is cpu plug may wait a little bit long time when dirtylimit
+>> in service).
+> 
+> Ah I should have noticed the bql dependency with cpu list lock before..
+> 
+> I think having the cpu plug waiting for one sec is fine, because the mgmt app
+> should be aware of both so it shouldn't even happen in practise (not good
+> timing to plug during pre-migration).  However bql is definitely another
+> story..  which I agree.
+> 
+>>
+>> It seems that we have two strategies, one is just keep this logic untouched
+>> in v12 and add "cpu_list_generation_id" implementaion in TODO list(once this
+>> patchset been merged, i'll try that out)， another is introducing the
+>> "cpu_list_generation_id" right now.
+>>
+>> What strategy do you prefer to?
+> 
+> I prefer having the gen_id patch.  The thing is it should be less than 10 lines
+> and the logic should be fairly straightforward.  While if without it, it seems
+> always on risk to use this new feature.
+> 
+> I hope I didn't overlook any existing mechanism to block cpu plug/unplug for
+> some period, though, or we should use it.
+> 
+>>
+>> Uh... I think the "unmatched_cnt" also kind of like this too, becauce once
+>> we remove the "unmatched count" logic, the throttle algo is more likely to
+>> oscillate and i prefer to add the "unmatched_cnt" in TODO list as above.
+> 
+> Could we tune the differential factor to make it less possible to oscillate?
+> Uh... From certain angles, yes. When current dirty pate rate is nearly 
+close to quota when dirtylimit in service, throttle achieve balance. 
+Once the current dirty page rate arise a slight fluctuation(not much
+oscillation), sleep time be adjusted which actually can be ignored.
+> I still can't say I like "unmatched cnt" idea a lot..  From a PID pov (partial,
+> integral, differential) you've already got partial + differential, and IMHO
+> that "unmatched cnt" solution was trying to mimic an "integral" delta.  Instead
+> of doing an mean value calculation (as in most integral system does) the
+> "unmatched cnt" solution literally made it an array of 2 and it dropped the 1st
+> element..  Hence a decision was made only from the 2nd data you collected.
+> 
+>  From that POV I think it's cleaner you add a real (but simple) integral algo
+> into it?  It can be e.g. an array of 3, then when you do the math you use the
+> average of the three dirty rates.  Would that work (and also look a bit
+> cleaner)?
+Yes, IMHO this is a more complete algo and we can try it out. So, let's 
+see the v12 test result and decide whether above work should added to 
+TODO list. :)
+> 
+> Thanks,
+> 
 
-As I’ve said from my very first reply on this thread, I could also 
-simply use --pidfile and wait for the PID file to appear.
+-- 
+Best regard
 
-I simply thought “Oh, that doesn’t feel nice, it would be very nice if I 
-could simply have an option for QSD to launch it such that it would put 
-itself in the background once its done.”
-
+Hyman Huang(黄勇)
 
