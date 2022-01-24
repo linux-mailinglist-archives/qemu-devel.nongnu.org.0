@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16D094978D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 07:14:44 +0100 (CET)
-Received: from localhost ([::1]:46580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD45E4978ED
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 07:29:06 +0100 (CET)
+Received: from localhost ([::1]:51234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBsck-00037i-TL
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 01:14:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58510)
+	id 1nBsqe-0006gl-U2
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 01:29:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nBsYx-0001Zu-Cu
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 01:10:50 -0500
-Received: from [2a00:1450:4864:20::52b] (port=38766
- helo=mail-ed1-x52b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nBsYt-00043E-Bh
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 01:10:45 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id j23so49486679edp.5
- for <qemu-devel@nongnu.org>; Sun, 23 Jan 2022 22:10:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XqwPeC3+L6e/l57BkM99D6ID4gis7Lscsu7xgYamWK0=;
- b=Pz4MfluNIyHsAHluMkhjYP7wcUu4/9tCJ4J6AFChbiZOl4F/1YWcIbFgWfTTTQ1B5G
- CwH7/AKWxGM9odTdgV6f0BlLK5yThnM1xmibrGQbhQ+H37rqqZ1UoyukQ0pA+Y5cKi0h
- w7uMgdPV7Ep3XMZZmDsebO2wtxvPniqV7B3ae8WYsf+kkdQDxk8L5fBI3lPD4x2mVZ7U
- tuSMXAGBfstfi9F2L2+8trnFiInTPAVVO0O4JPiCDqqPCfsLZgNcgnXMoFg1TFVUiPEP
- 1Ugrxq9TFgoYdYydBKhC5BcT0iSUNtGUBevdDol18CN2i5PyiBH0L+RuxGeb/K3RCvX+
- KpzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XqwPeC3+L6e/l57BkM99D6ID4gis7Lscsu7xgYamWK0=;
- b=fRutDeeupCqNw6ChzmxQLHyrREOzVoKRYo7k/QRB3KyZgqrWwbXe8aNc/8NWcO9Jvr
- cVR8Pkt5gPZjqBQppkQPbkSL+pWe9LiBpBWtRD+G7dE9gcJp16+yEnAB1ikfzyhasanv
- N+npb0HixPR/WU2mo4oab7jOvC+JHgvFTmyTGuHrfHFvTWV6yOSeVSIV0wwqwQuoBkwM
- +VcVWV0Ij7J+GtR4C/tpIoA7dcexBkeVqLdjMfkh9ggy4GnPV2nknZ27f0HKhvJwZ+ws
- Q4/LjQp1uZDOFoe3WmrFWuSnz2KBf01lTmoLmfZLmlYoc8SaSDABH4EAOeWTW8l6e7ns
- cohQ==
-X-Gm-Message-State: AOAM533byzGuHAbyzlGuEdDkEEZjtYK2oxG42syQT9VACxf/6W0GIq27
- y/LEXw0nbgl6uaqTlYmKU06/ZIHUyWirBGrg6dNiqZgHxkyYwQ==
-X-Google-Smtp-Source: ABdhPJzITJI6PdvsJxrvDtsGej6r1768lTz37fqPzoZ7xgsrjnghEZa+bsqxUK5DEP3AocJmsQu+Vh8Kv3ZWFyeID/s=
-X-Received: by 2002:a05:6402:518a:: with SMTP id
- q10mr14423392edd.167.1643004635265; 
- Sun, 23 Jan 2022 22:10:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1nBskx-0004zA-UQ
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 01:23:13 -0500
+Received: from mga03.intel.com ([134.134.136.65]:7054)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1nBsku-00060C-WA
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 01:23:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643005389; x=1674541389;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=jSstmPNCf3s4Q1fhHwsv1snaaS9fbX221w264WxTtl0=;
+ b=UzrpyBiGDA+DJY7oBEpSMEbbRcrlMtdAb1St8KdcaTMS0UmHR28Fickn
+ 6aDSvfyDJdPHYtl7wWajLJLT68eCsWpg2B6cvOxg8eR5QMgQz5ALD/C/h
+ ipUhrcsWmtN1U326ykk6iBumPG0Igp/NvoF5pY67eTa3/fCgvpY8VWXA+
+ EckI/iaPk4+wZLRwtAY7vihIV0PB27qPXZiBvuqmCa76X8E/Ae1b8KUCo
+ sxGnr3G1zSMFM8q2EAbmF6SpDgBd/CjcZNWwu+npr7Q/42kXBmCmXpieN
+ l5SdlzBt6dVNoHIaur5DHnz8md4eXQ4KK+T0jlYOtMln59KnYTki9CjH9 g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="245918391"
+X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="245918391"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2022 22:22:58 -0800
+X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="695306846"
+Received: from xiaoyaol-mobl.ccr.corp.intel.com (HELO [10.249.168.250])
+ ([10.249.168.250])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2022 22:22:51 -0800
+Message-ID: <8793aa69-3416-d48e-d690-9f70b1784b46@intel.com>
+Date: Mon, 24 Jan 2022 14:22:49 +0800
 MIME-Version: 1.0
-References: <20220118023509.14496-1-frank.chang@sifive.com>
-In-Reply-To: <20220118023509.14496-1-frank.chang@sifive.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Mon, 24 Jan 2022 14:10:24 +0800
-Message-ID: <CAE_xrPjxO4NFG=tLsSRHwUMCTrDaLqyt4f2Mw0U599VnA2m+0A@mail.gmail.com>
-Subject: Re: [PATCH] hw/sd: Correct the CURRENT_STATE bits in SPI-mode response
-To: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000a6577005d64dd342"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52b
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=frank.chang@sifive.com; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.5.0
+Subject: Re: [RFC PATCH v2 20/44] i386/tdx: Parse tdx metadata and store the
+ result into TdxGuestState
+Content-Language: en-US
+To: Gerd Hoffmann <kraxel@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+References: <cover.1625704980.git.isaku.yamahata@intel.com>
+ <acaf651389c3f407a9d6d0a2e943daf0a85bb5fc.1625704981.git.isaku.yamahata@intel.com>
+ <20210826111838.fgbp6v6gd5wzbnho@sirius.home.kraxel.org>
+ <a97a75ad-9d1c-a09f-281b-d6b0a7652e78@intel.com>
+ <4eb6a628-0af6-409b-7e42-52787ee3e69d@redhat.com>
+ <e74fcb88-3add-4bb7-4508-742db44fa3c8@intel.com>
+ <20220110110120.ldjekirdzgmgex4z@sirius.home.kraxel.org>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20220110110120.ldjekirdzgmgex4z@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=134.134.136.65; envelope-from=xiaoyao.li@intel.com;
+ helo=mga03.intel.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.56, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,194 +83,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Alexander Bulekov <alxndr@bu.edu>, Alistair Francis <alistair.francis@wdc.com>
+Cc: isaku.yamahata@intel.com, cohuck@redhat.com, ehabkost@redhat.com,
+ kvm@vger.kernel.org, mst@redhat.com, seanjc@google.com, alistair@alistair23.me,
+ qemu-devel@nongnu.org, mtosatti@redhat.com, "Min M . Xu" <min.m.xu@intel.com>,
+ erdemaktas@google.com, pbonzini@redhat.com, isaku.yamahata@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a6577005d64dd342
-Content-Type: text/plain; charset="UTF-8"
+On 1/10/2022 7:01 PM, Gerd Hoffmann wrote:
+>>> Regarding pflash itself, the read-only KVM memslot is required for it.
+>>> Otherwise pflash cannot work as a "ROMD device" (= you can't flip it
+>>> back and forth between ROM mode and programming (MMIO) mode).
+>>
+>> We don't need Read-only mode for TDVF so far. If for this purpose, is it
+>> acceptable that allowing a pflash without KVM readonly memslot support if
+>> read-only is not required for the specific pflash device?
+> 
+> In case you don't want/need persistent VARS (which strictly speaking is
+> a UEFI spec violation) you should be able to go for a simple "-bios
+> OVMF.fd".
+> 
 
-On Tue, Jan 18, 2022 at 10:35 AM <frank.chang@sifive.com> wrote:
+Gerd and Laszlo,
 
-> From: Frank Chang <frank.chang@sifive.com>
->
-> In SPI-mode, type B ("cleared on valid command") clear condition is not
-> supported, and as the "In idle state" bit in SPI-mode has type A
-> ("according to current state") clear condition, the CURRENT_STATE bits
-> in an SPI-mode response should be the SD card's state after the command
-> is executed, instead of the state when it received the preceding
-> command.
->
-> Also, we don't need to clear the type B ("clear on valid command")
-> status bits after the response is updated in SPI-mode.
->
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
-> ---
->  hw/sd/sd.c | 26 ++++++++++++++++++--------
->  1 file changed, 18 insertions(+), 8 deletions(-)
->
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index cd67a7bac8..9736b8912d 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -1757,12 +1757,20 @@ int sd_do_command(SDState *sd, SDRequest *req,
->      if (rtype == sd_illegal) {
->          sd->card_status |= ILLEGAL_COMMAND;
->      } else {
-> -        /* Valid command, we can update the 'state before command' bits.
-> -         * (Do this now so they appear in r1 responses.)
-> -         */
->          sd->current_cmd = req->cmd;
->          sd->card_status &= ~CURRENT_STATE;
-> -        sd->card_status |= (last_state << 9);
-> +
-> +        if (!sd->spi) {
-> +            /* Valid command, we can update the 'state before command'
-> bits.
-> +             * (Do this now so they appear in r1 responses.)
-> +             */
-> +            sd->card_status |= (last_state << 9);
-> +        } else {
-> +            /* Type B ("clear on valid command") is not supported
-> +             * in SPI-mode.
-> +             */
-> +            sd->card_status |= (sd->state << 9);
-> +        }
->      }
->
->  send_response:
-> @@ -1808,10 +1816,12 @@ send_response:
->      trace_sdcard_response(sd_response_name(rtype), rsplen);
->
->      if (rtype != sd_illegal) {
-> -        /* Clear the "clear on valid command" status bits now we've
-> -         * sent any response
-> -         */
-> -        sd->card_status &= ~CARD_STATUS_B;
-> +        if (!sd->spi) {
-> +            /* Clear the "clear on valid command" status bits now we've
-> +             * sent any response
-> +             */
-> +            sd->card_status &= ~CARD_STATUS_B;
-> +        }
->      }
->
->  #ifdef DEBUG_SD
-> --
-> 2.31.1
->
->
-This patch is replaced with more proper SPI clear conditions fix patch:
-https://patchew.org/QEMU/20220124060449.22498-1-frank.chang@sifive.com/
-Please ignore this one, sorry for the confusion.
+First, thank you for your patient explanation of how pflash works in 
+QEMU and the clarification of usage of pflash with OVMF.
 
-Regards,
-Frank Chang
+Below I want to share current situation of loading TDVF.
 
---000000000000a6577005d64dd342
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Restrictions from TDX architecture:
+- Current TDX doesn't support read-only memory, i.e., cannot trap write.
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, Jan 18, 2022 at 10:35 AM &lt;<a h=
-ref=3D"mailto:frank.chang@sifive.com">frank.chang@sifive.com</a>&gt; wrote:=
-<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">From: Frank Chang &lt;<a href=3D"mailto:frank.chang@sifive.com"=
- target=3D"_blank">frank.chang@sifive.com</a>&gt;<br>
-<br>
-In SPI-mode, type B (&quot;cleared on valid command&quot;) clear condition =
-is not<br>
-supported, and as the &quot;In idle state&quot; bit in SPI-mode has type A<=
-br>
-(&quot;according to current state&quot;) clear condition, the CURRENT_STATE=
- bits<br>
-in an SPI-mode response should be the SD card&#39;s state after the command=
-<br>
-is executed, instead of the state when it received the preceding<br>
-command.<br>
-<br>
-Also, we don&#39;t need to clear the type B (&quot;clear on valid command&q=
-uot;)<br>
-status bits after the response is updated in SPI-mode.<br>
-<br>
-Signed-off-by: Frank Chang &lt;<a href=3D"mailto:frank.chang@sifive.com" ta=
-rget=3D"_blank">frank.chang@sifive.com</a>&gt;<br>
----<br>
-=C2=A0hw/sd/sd.c | 26 ++++++++++++++++++--------<br>
-=C2=A01 file changed, 18 insertions(+), 8 deletions(-)<br>
-<br>
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c<br>
-index cd67a7bac8..9736b8912d 100644<br>
---- a/hw/sd/sd.c<br>
-+++ b/hw/sd/sd.c<br>
-@@ -1757,12 +1757,20 @@ int sd_do_command(SDState *sd, SDRequest *req,<br>
-=C2=A0 =C2=A0 =C2=A0if (rtype =3D=3D sd_illegal) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sd-&gt;card_status |=3D ILLEGAL_COMMAND;<=
-br>
-=C2=A0 =C2=A0 =C2=A0} else {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Valid command, we can update the &#39;state=
- before command&#39; bits.<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* (Do this now so they appear in r1 resp=
-onses.)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sd-&gt;current_cmd =3D req-&gt;cmd;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sd-&gt;card_status &amp;=3D ~CURRENT_STAT=
-E;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 sd-&gt;card_status |=3D (last_state &lt;&lt; 9=
-);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!sd-&gt;spi) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Valid command, we can update =
-the &#39;state before command&#39; bits.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* (Do this now so they app=
-ear in r1 responses.)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sd-&gt;card_status |=3D (last_st=
-ate &lt;&lt; 9);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Type B (&quot;clear on valid =
-command&quot;) is not supported<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* in SPI-mode.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sd-&gt;card_status |=3D (sd-&gt;=
-state &lt;&lt; 9);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0send_response:<br>
-@@ -1808,10 +1816,12 @@ send_response:<br>
-=C2=A0 =C2=A0 =C2=A0trace_sdcard_response(sd_response_name(rtype), rsplen);=
-<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if (rtype !=3D sd_illegal) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Clear the &quot;clear on valid command&quot=
-; status bits now we&#39;ve<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* sent any response<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 sd-&gt;card_status &amp;=3D ~CARD_STATUS_B;<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!sd-&gt;spi) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Clear the &quot;clear on vali=
-d command&quot; status bits now we&#39;ve<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* sent any response<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sd-&gt;card_status &amp;=3D ~CAR=
-D_STATUS_B;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0#ifdef DEBUG_SD<br>
--- <br>
-2.31.1<br>
-<br></blockquote><div><br></div><div>This patch is replaced with more prope=
-r SPI clear conditions fix patch:</div><div><a href=3D"https://patchew.org/=
-QEMU/20220124060449.22498-1-frank.chang@sifive.com/">https://patchew.org/QE=
-MU/20220124060449.22498-1-frank.chang@sifive.com/</a><br></div><div>Please =
-ignore this one, sorry for the confusion.</div><div><br></div><div>Regards,=
-</div><div>Frank Chang</div></div></div>
+- Current TDVF spec states that "In order to simplify the design, TDVF 
+does not support non-volatile variables" in chapter 8.3.3
 
---000000000000a6577005d64dd342--
+
+Regarding what interface should be used to load TDVF, there are three 
+options:
+
+   1) pflash: the same as how we load OVMF.
+
+   Suppose TDVF support will finally get into OVMF, using this
+   interface, it's full compatible with normal VMs. No change required
+   to QEMU command line and TDVF binary is mapped to the GPA address
+   right below 4G, but they are actually mapped as RAM.
+
+   Of course, we need several hacks (special handling) in QEMU.
+
+   Of course, they don't work as flash, the change made to it doesn't
+   persist.
+
+   2) -bios
+
+   exploit "-bios" parameter to load TDVF. But again, read-only is not
+   supported. TDVF is mapped as RAM.
+
+   3) generic loader
+
+   Just like what this series does. Implement specific parser in generic
+   loader to load and parse TDVF as private RAM.
+
+I'm nor sure if 1) is acceptable from your side. If not, we will go with 
+option 3, since 2) doesn't make too much sense.
 
