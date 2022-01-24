@@ -2,58 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F487497CE9
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 11:24:13 +0100 (CET)
-Received: from localhost ([::1]:49706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3A1C497D60
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 11:48:15 +0100 (CET)
+Received: from localhost ([::1]:39964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBwWA-00012e-Ea
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 05:24:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43698)
+	id 1nBwtS-000679-D4
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 05:48:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nBwSN-0007KC-Aw
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 05:20:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23906)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nBwpp-0004qB-Bg
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 05:44:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56172)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nBwSI-0006yd-Rj
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 05:20:13 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nBwpn-0002Tp-BO
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 05:44:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643019608;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=3+0md9az7qVGOq6ns7hMrPL1YC84U2kkSoagCUhx+1Y=;
- b=PG2yKYDUXqPE09HugVx1UMDwyJTLqIJuJGMU7+sSd9BkmwtczSZbi7IPiZQt/4X1RKBO+G
- 7YLs3+7+Kh5tsnP8z8ZBqczcHxwWiXe6id71nPP+bW+rKrPVDnF8YKJXkM4Py+oETci5/m
- sGmvWpsshPacKf5V5QrBGz5FKbCZFUc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1643021066;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=Y2deAZlK28VL311lL1EODbmbCKyN5uHsnw68K38SHMk=;
+ b=RErvEJU8iI5QplFUyP3OfFojk/lm1e2HCxuMC50hB1OoFaP3aH/+Ge7fWOm3fQ1TB5tqv5
+ y7zIbFwVKSormLuK5UPOXKkD4Lc3xsQr/mD4pxIZ1X2A1UWWjnyMMaTjn3Bj7+7Yce1vvh
+ v7/DHzJCQT3HX70jLKoNpHF0puGUwdE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-496-2d-iaW0IMW-zhLFusz10Nw-1; Mon, 24 Jan 2022 05:20:06 -0500
-X-MC-Unique: 2d-iaW0IMW-zhLFusz10Nw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E6691018726;
- Mon, 24 Jan 2022 10:20:05 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E125F73177;
- Mon, 24 Jan 2022 10:20:03 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] scripts: Remove the old switch-timer-api script
-Date: Mon, 24 Jan 2022 11:20:01 +0100
-Message-Id: <20220124102001.35930-1-thuth@redhat.com>
+ us-mta-99-8YfMc3a1MfmIErSTqPc6TA-1; Mon, 24 Jan 2022 05:44:23 -0500
+X-MC-Unique: 8YfMc3a1MfmIErSTqPc6TA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ s25-20020adfa299000000b001d8d032255fso1687098wra.14
+ for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 02:44:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=Y2deAZlK28VL311lL1EODbmbCKyN5uHsnw68K38SHMk=;
+ b=md+j1KYoXr1C1dTOvvPYAdDPqRDIUhMZC7LbBtw0AqWvSu9LnKsQqe5Nafcg+QIilO
+ NPcatt+k94pMOr/HVyC1liVQbiCl/pJnpRrVDblkNKn6Y2HRA9hmiLyTGH3KWRLuG4yC
+ +23aetaD8SicYOg8FL3NPWWEkpOihJT+ZE0gYD3LHGxdUU2JZVsuHEiwIrtQfsxxH4TM
+ r7R0bMlM8v1qrY6kKNbkMlqI8zvXbVMnuEn7ZJmlXmqBaKKREfSyEfJ2Qihx3/cAVZvv
+ T5MrwwrfeI5CgyYLjZQD8Tcx8+oTVv5D1/TgxeRALYIj4x7aCqvgXgItbtsjWeEzYbSX
+ R4VQ==
+X-Gm-Message-State: AOAM53363ktFduyBITEr1u5NRKKZBSELbammv7SiMzx8cz2u6MfrinQR
+ ZcxyIFLAI6/qIDgNhH5GBmPfG0xEUFGYBDkZw1DanGQrrnyQuL71pz6TZnpN/MkLljuCDH270AD
+ U+ZSH3kV2s7932J4=
+X-Received: by 2002:a05:600c:1e83:: with SMTP id
+ be3mr1241458wmb.83.1643021060744; 
+ Mon, 24 Jan 2022 02:44:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwKWZFM4Pkdjg8GDBA9WSbCkV8km0xtL0kWoTgbgMIjFLuTfl0YFLQ8XsBGKrbKqL1y0kEWtA==
+X-Received: by 2002:a05:600c:1e83:: with SMTP id
+ be3mr1241440wmb.83.1643021060504; 
+ Mon, 24 Jan 2022 02:44:20 -0800 (PST)
+Received: from localhost ([47.61.17.76])
+ by smtp.gmail.com with ESMTPSA id 14sm8290342wrz.100.2022.01.24.02.44.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Jan 2022 02:44:19 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH v6 20/33] block: rename bdrv_invalidate_cache_all,
+ blk_invalidate_cache and test_sync_op_invalidate_cache
+In-Reply-To: <20220121170544.2049944-21-eesposit@redhat.com> (Emanuele
+ Giuseppe Esposito's message of "Fri, 21 Jan 2022 12:05:31 -0500")
+References: <20220121170544.2049944-1-eesposit@redhat.com>
+ <20220121170544.2049944-21-eesposit@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Mon, 24 Jan 2022 11:44:19 +0100
+Message-ID: <87r18x5s70.fsf@secure.mitica>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -61,7 +86,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,204 +99,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Reply-To: quintela@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
+ "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ qemu-block@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This script has been useful for the timer API rewrite in 2013, but
-it is of no use anymore today. Let's remove it now.
+Emanuele Giuseppe Esposito <eesposit@redhat.com> wrote:
+> Following the bdrv_activate renaming, change also the name
+> of the respective callers.
+>
+> bdrv_invalidate_cache_all -> bdrv_activate_all
+> blk_invalidate_cache -> blk_activate
+> test_sync_op_invalidate_cache -> test_sync_op_activate
+>
+> No functional change intended.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- scripts/switch-timer-api | 178 ---------------------------------------
- 1 file changed, 178 deletions(-)
- delete mode 100755 scripts/switch-timer-api
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-diff --git a/scripts/switch-timer-api b/scripts/switch-timer-api
-deleted file mode 100755
-index 41736d11dd..0000000000
---- a/scripts/switch-timer-api
-+++ /dev/null
-@@ -1,178 +0,0 @@
--#!/usr/bin/env perl
--
--use strict;
--use warnings;
--use Getopt::Long;
--use FindBin;
--
--my @legacy = qw(qemu_clock_ptr qemu_get_clock_ns qemu_get_clock_ms qemu_register_clock_reset_notifier qemu_unregister_clock_reset_notifier qemu_new_timer qemu_free_timer qemu_del_timer qemu_mod_timer_ns qemu_mod_timer qemu_run_timers qemu_new_timer_ns qemu_new_timer_us qemu_new_timer_ms);
--my $legacyre = '\b('.join('|', @legacy).')\b';
--my $option_git;
--my $option_dryrun;
--my $option_quiet;
--my $option_rtc;
--my $suffix=".tmp.$$";
--my @files;
--my $getfiles = 'git grep -l -E \'\b((host|rt|vm|rtc)_clock\b|qemu_\w*timer)\' | egrep \'\.[ch]$\' | egrep -v \'qemu-timer\.c$|include/qemu/timer\.h$\'';
--
--sub Syntax
--{
--    print STDERR <<STOP;
--Usage: $FindBin::Script [options] FILE ...
--
--Translate each FILE to the new QEMU timer API. If no files
--are passed, a reasonable guess is taken.
--
--Options:
--  -q, --quiet     Do not show warnings etc
--  -d, --dry-run   Do a dry run
--  -g, --git       Generate a git commit for each change
--  -r, --rtc       Only fix up rtc usage
--  -h, --help      Print this message
--
--STOP
--return;
--}
--
--sub ParseOptions
--{
--    if (!GetOptions (
--	     "dry-run|d" => \$option_dryrun,
--             "git|g" => \$option_git,
--	     "quiet|q" => \$option_quiet,
--	     "rtc|r" => \$option_rtc,
--             "help|h" => sub { Syntax(); exit(0); }
--        ))
--    {
--        Syntax();
--        die "Bad options";
--    }
--
--    if ($#ARGV >=0)
--    {
--	@files = @ARGV;
--    }
--    else
--    {
--	@files = split(/\s+/, `$getfiles`);
--    }
--
--    foreach my $file (@files)
--    {
--	die "Cannot find $file" unless (-f $file && -r $file);
--    }
--}
--
--sub DoWarn
--{
--    my $text = shift @_;
--    my $line = shift @_;
--    return if ($option_quiet);
--    chomp ($line);
--    print STDERR "$text\n";
--    print STDERR "$line\n\n";
--}
--
--sub Process
--{
--    my $ifn = shift @_;
--    my $ofn = $ifn.$suffix;
--
--    my $intext;
--    my $outtext;
--    my $linenum = 0;
--
--    open my $input, "<", $ifn || die "Cannot open $ifn for read: $!";
--
--    while (<$input>)
--    {
--	my $line = $_;
--	$intext .= $line;
--	$linenum++;
--
--	# fix the specific uses
--	unless ($option_rtc)
--	{
--	    $line =~ s/\bqemu_new_timer(_[num]s)\s*\((vm_|rt_|host_)clock\b/timer_new$1(XXX_$2clock/g;
--	    $line =~ s/\bqemu_new_timer\s*\((vm_|rt_|host_)clock\b/timer_new(XXX_$1clock/g;
--	    $line =~ s/\bqemu_get_clock(_[num]s)\s*\((vm_|rt_|host_)clock\b/qemu_clock_get$1(XXX_$2clock/g;
--	}
--
--	# rtc is different
--	$line =~ s/\bqemu_new_timer(_[num]s)\s*\(rtc_clock\b/timer_new$1(rtc_clock/g;
--	$line =~ s/\bqemu_new_timer\s*\(rtc_clock\b/timer_new(rtc_clock/g;
--	$line =~ s/\bqemu_get_clock(_[num]s)\s*\(rtc_clock\b/qemu_clock_get$1(rtc_clock/g;
--	$line =~ s/\bqemu_register_clock_reset_notifier\s*\(rtc_clock\b/qemu_register_clock_reset_notifier(qemu_clock_ptr(rtc_clock)/g;
--
--	unless ($option_rtc)
--	{
--	    # fix up comments
--	    $line =~ s/\b(vm_|rt_|host_)clock\b/XXX_$1clock/g if ($line =~ m,^[/ ]+\*,);
--
--	    # spurious fprintf error reporting
--	    $line =~ s/: qemu_new_timer_ns failed/: timer_new_ns failed/g;
--
--	    # these have just changed name
--	    $line =~ s/\bqemu_mod_timer\b/timer_mod/g;
--	    $line =~ s/\bqemu_mod_timer_(ns|us|ms)\b/timer_mod_$1/g;
--	    $line =~ s/\bqemu_free_timer\b/timer_free/g;
--	    $line =~ s/\bqemu_del_timer\b/timer_del/g;
--	}
--
--	# fix up rtc_clock
--	$line =~ s/QEMUClock \*rtc_clock;/QEMUClockType rtc_clock;/g;
--	$line =~ s/\brtc_clock = (vm_|rt_|host_)clock\b/rtc_clock = XXX_$1clock/g;
--
--	unless ($option_rtc)
--	{
--	    # replace any more general uses
--	    $line =~ s/\b(vm_|rt_|host_)clock\b/qemu_clock_ptr(XXX_$1clock)/g;
--	}
--
--	# fix up the place holders
--	$line =~ s/\bXXX_vm_clock\b/QEMU_CLOCK_VIRTUAL/g;
--	$line =~ s/\bXXX_rt_clock\b/QEMU_CLOCK_REALTIME/g;
--	$line =~ s/\bXXX_host_clock\b/QEMU_CLOCK_HOST/g;
--
--	unless ($option_rtc)
--	{
--	    DoWarn("$ifn:$linenum WARNING: timer $1 not fixed up", $line) if ($line =~ /\b((vm_|rt_|host_)clock)\b/);
--	    DoWarn("$ifn:$linenum WARNING: function $1 not fixed up", $line) if ($line =~ /\b(qemu_new_timer\w+)\b/);
--	    DoWarn("$ifn:$linenum WARNING: legacy function $1 remains", $line) if ($line =~ /$legacyre/o);
--	}
--
--	$outtext .= $line;
--    }
--
--    close $input;
--
--    if ($intext ne $outtext)
--    {
--	print STDERR "Patching $ifn\n" unless ($option_quiet);
--	unless ($option_dryrun)
--	{
--	    open my $output, ">", $ofn || die "Cannot open $ofn for write: $!";
--	    print $output $outtext;
--	    close $output;
--	    rename ($ofn, $ifn) || die "Cannot rename temp file to $ifn: $!";
--	    return 1;
--	}
--    }
--    return 0;
--}
--
--sub DoCommit
--{
--    my $file = shift @_;
--    open (my $git, "| git commit -F - $file") || die "Cannot run git commit on $file: $!";
--    print $git "timers api: use new timer api in $file\n\nConvert $file to use new timer API.\nThis is an automated commit made by scripts/switch-timer-api\n";
--    close ($git);
--}
--
--ParseOptions;
--
--foreach my $file (@files)
--{
--    my $changed = Process ($file);
--    DoCommit($file) if ($changed && $option_git);
--}
--- 
-2.27.0
+In the sense that makes sense for this series.
+
+But if you have to respin.
+
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 0652165610..1f06fd2d18 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -499,7 +499,7 @@ static void process_incoming_migration_bh(void *opaque)
+>              global_state_get_runstate() == RUN_STATE_RUNNING))) {
+>          /* Make sure all file formats flush their mutable metadata.
+>           * If we get an error here, just don't restart the VM yet. */
+> -        bdrv_invalidate_cache_all(&local_err);
+> +        bdrv_activate_all(&local_err);
+
+I guess that we can change the comment here, it just looks weird the
+comment saying flush() and the function nawed _activate()
+
+> @@ -586,7 +586,7 @@ static void process_incoming_migration_co(void *opaque)
+>      /* we get COLO info, and know if we are in COLO mode */
+>      if (!ret && migration_incoming_colo_enabled()) {
+>          /* Make sure all file formats flush their mutable metadata */
+> -        bdrv_invalidate_cache_all(&local_err);
+> +        bdrv_activate_all(&local_err);
+>          if (local_err) {
+>              error_report_err(local_err);
+>              goto fail;
+
+
+same here.
+
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index adb5fae9f1..3f4f924093 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -1437,7 +1437,7 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
+>  
+>      if (inactivate_disks) {
+>          /* Inactivate before sending QEMU_VM_EOF so that the
+> -         * bdrv_invalidate_cache_all() on the other end won't fail. */
+> +         * bdrv_activate_all() on the other end won't fail. */
+>          ret = bdrv_inactivate_all();
+>          if (ret) {
+>              error_report("%s: bdrv_inactivate_all() failed (%d)",
+
+Here the comment makes sense.
+
+> @@ -2007,7 +2007,7 @@ static void loadvm_postcopy_handle_run_bh(void *opaque)
+>  
+>      /* Make sure all file formats flush their mutable metadata.
+>       * If we get an error here, just don't restart the VM yet. */
+> -    bdrv_invalidate_cache_all(&local_err);
+> +    bdrv_activate_all(&local_err);
+>      if (local_err) {
+>          error_report_err(local_err);
+>          local_err = NULL;
+
+Comment here is bad.
+
+> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+> index 14e3beeaaf..f97bf7ca77 100644
+> --- a/monitor/qmp-cmds.c
+> +++ b/monitor/qmp-cmds.c
+> @@ -144,7 +144,7 @@ void qmp_cont(Error **errp)
+>       * If there are no inactive block nodes (e.g. because the VM was just
+>       * paused rather than completing a migration), bdrv_inactivate_all() simply
+>       * doesn't do anything. */
+> -    bdrv_invalidate_cache_all(&local_err);
+> +    bdrv_activate_all(&local_err);
+>      if (local_err) {
+>          error_propagate(errp, local_err);
+>          return;
+
+I don't understand the comment here.  And yes, I know, this was here before your change.
+
+
+Thanks, Juan.
 
 
