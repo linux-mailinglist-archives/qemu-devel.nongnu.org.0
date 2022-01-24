@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A86649817B
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 14:53:57 +0100 (CET)
-Received: from localhost ([::1]:46858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F5AA4981BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 15:06:15 +0100 (CET)
+Received: from localhost ([::1]:52100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nBznA-000387-0t
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 08:53:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34992)
+	id 1nBzz3-0007AI-NK
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 09:06:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nBzkS-0000mc-28
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 08:51:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36683)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nBzkQ-0000pX-4p
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 08:51:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643032263;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3r2qUJpVCke1mdfVzHlxAcIoHKa0pdNHz9WcWunE+hY=;
- b=SoTX3hlJ4oBhjJkDbpEnjMhiZWEpK1DcOp+l90ZlF6WPTVYfSa910x4hDWo+Xrvm1rNoQM
- lukBNIbo/VkSlHzLVuE11P1EjSLhYKNzHW2tAjXB8v3mMYT7P5KBBPMcLzktX49V9p7Ro0
- JxZpEhAZRNF0QlIS0BGn0pvgzhcUtB4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-463-M6LyNHn2MKubVsK7tuMr-Q-1; Mon, 24 Jan 2022 08:51:00 -0500
-X-MC-Unique: M6LyNHn2MKubVsK7tuMr-Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B85683DB79;
- Mon, 24 Jan 2022 13:50:59 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-3.ams2.redhat.com [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1CF4A7E213;
- Mon, 24 Jan 2022 13:50:59 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C54591138640; Mon, 24 Jan 2022 14:50:57 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Fabian Ebner <f.ebner@proxmox.com>
-Subject: Re: [PATCH v7 0/4] VNC-related HMP/QMP fixes
-References: <20211021100135.4146766-1-s.reiter@proxmox.com>
- <87fssl3emb.fsf@dusky.pond.sub.org>
- <87r1c5lz4s.fsf@dusky.pond.sub.org>
- <17e5677f-b20d-7b48-5946-54297ebf9780@proxmox.com>
- <87y2392ig5.fsf@dusky.pond.sub.org>
-Date: Mon, 24 Jan 2022 14:50:57 +0100
-In-Reply-To: <87y2392ig5.fsf@dusky.pond.sub.org> (Markus Armbruster's message
- of "Fri, 21 Jan 2022 16:54:02 +0100")
-Message-ID: <87czkh8cou.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <christophm30@gmail.com>)
+ id 1nBztd-00068v-4d; Mon, 24 Jan 2022 09:00:41 -0500
+Received: from mail-wm1-f50.google.com ([209.85.128.50]:43689)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <christophm30@gmail.com>)
+ id 1nBztV-0002Ft-RK; Mon, 24 Jan 2022 09:00:32 -0500
+Received: by mail-wm1-f50.google.com with SMTP id
+ r2-20020a1c2b02000000b0034f7b261169so2586705wmr.2; 
+ Mon, 24 Jan 2022 06:00:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+hJsOWIlXq8TaPESz5SISBnaVsroCtzW+wi4EyCZUuw=;
+ b=A+A/WStGy2NyQwCvnoip5AM6+KFgPK37BnZpCSNhg2u8RjvuRo5jmEVfbTXiYe7fCu
+ mc1j8mwQeOmDSJaCXmGC2cilIinG+jAqhFM0w716/hFVtSMrlPppe4M0iG0+yr9zKEeP
+ J/08PukSc462Ul3TCGxtxUx+BjxIPob9nAwKgpOjv95hXizPkIzg6qJ/4cTG4bAv9XvH
+ D8FA9kLjcydWx7TiXAD/jKv50Trq3MtXsTcU/aVR2P1oWxxl1k7Mx+E72XDPZNoajqGp
+ WPdTCD0nmzpBPbWH0uD1sb/sD4n8aP+F+6DcMEWhU95pbNzHpdmanJplVmVjLcE+Cspi
+ 5VfQ==
+X-Gm-Message-State: AOAM530v1LFC1tlgIgp37hz78JDSBcNhYVgzybJ6soMETR7fKxC1atWF
+ tzMu7TsQay4a7NncfQOhl3U=
+X-Google-Smtp-Source: ABdhPJyBIhEK2KvUnwRvl8RNBpF1dElscA28MYfCixcBAeWaswW1TFh9U8sVDumYsgm6vGApjHjq+Q==
+X-Received: by 2002:a05:600c:21d6:: with SMTP id
+ x22mr1962353wmj.65.1643032827170; 
+ Mon, 24 Jan 2022 06:00:27 -0800 (PST)
+Received: from beast.fritz.box (62-178-148-172.cable.dynamic.surfer.at.
+ [62.178.148.172])
+ by smtp.gmail.com with ESMTPSA id t17sm14282392wrs.10.2022.01.24.06.00.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Jan 2022 06:00:26 -0800 (PST)
+From: Christoph Muellner <cmuellner@linux.com>
+To: Atish Patra <atishp@rivosinc.com>, Anup Patel <anup@brainfault.org>,
+ =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Philipp Tomsich <philipp.tomsich@vrull.eu>
+Subject: [PATCH v2] target/riscv: Enable bitmanip Zicbo[m,z,p] instructions
+Date: Mon, 24 Jan 2022 15:00:23 +0100
+Message-Id: <20220124140023.1165850-1-cmuellner@linux.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=209.85.128.50;
+ envelope-from=christophm30@gmail.com; helo=mail-wm1-f50.google.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,140 +78,369 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>,
- =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
+Cc: Christoph Muellner <cmuellner@linux.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
+The RISC-V base cache management operation ISA extension has been
+ratified [1]. This patch adds support for the defined instructions.
+Overlap groups are used to resolve the overlapping patterns
+of the prefetch*/ori and cbo_*/lq instructions.
 
-> Fabian Ebner <f.ebner@proxmox.com> writes:
->
->> Am 28.10.21 um 21:37 schrieb Markus Armbruster:
->>> Markus Armbruster <armbru@redhat.com> writes:
->>> 
->>
->> ----8<----
->>
->>> diff --git a/qapi/ui.json b/qapi/ui.json
->>> index 5292617b44..39ca0b5ead 100644
->>> --- a/qapi/ui.json
->>> +++ b/qapi/ui.json
->>> @@ -69,8 +69,10 @@
->>>     'base': { 'protocol': 'DisplayProtocol',
->>>               'password': 'str' },
->>>     'discriminator': 'protocol',
->>> -  'data': { 'vnc': 'SetPasswordOptionsVnc',
->>> -            'spice': 'SetPasswordOptionsSpice' } }
->>> +  'data': { 'vnc': { 'type': 'SetPasswordOptionsVnc',
->>> +                     'if': 'CONFIG_VNC' },
->>> +            'spice': { 'type': 'SetPasswordOptionsSpice',
->>> +                       'if': 'CONFIG_SPICE' } } }
->>>     ##
->>>   # @SetPasswordOptionsSpice:
->>> @@ -155,7 +157,8 @@
->>>     'base': { 'protocol': 'DisplayProtocol',
->>>               'time': 'str' },
->>>     'discriminator': 'protocol',
->>> -  'data': { 'vnc': 'ExpirePasswordOptionsVnc' } }
->>> +  'data': { 'vnc': { 'type': 'ExpirePasswordOptionsVnc',
->>> +                     'if': 'CONFIG_VNC' } } }
->>>   
->>
->> So I decided to give the #ifdef approach a go, but if I configure with
->> --disable-spice --disable-vnc, even with the above conditionals, it is 
->> still be possible to issue a set_password qmp command, which will then
->> lead to an abort() in the generated code (and the patched 
->> qmp_set_password below would do the same if it could be reached):
->>
->> Thread 1 (Thread 0x7f4a86701ec0 (LWP 40487) "qemu-system-x86"):
->> #0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
->> #1  0x00007f4a90d72537 in __GI_abort () at abort.c:79
->> #2  0x00005583ca03cef3 in visit_type_SetPasswordOptions_members
->>  (v=v@entry=0x5583cc6cccc0, obj=obj@entry=0x7ffe5bfc3ee0, 
->> errp=errp@entry=0x0) at qapi/qapi-visit-ui.c:71
->> #3  0x00005583ca5df72f in qmp_marshal_set_password (args=<optimized
->>  out>, ret=<optimized out>, errp=0x7f4a85d96ea0) at 
->> qapi/qapi-commands-ui.c:49
->> #4  0x00005583ca5e89e9 in do_qmp_dispatch_bh (opaque=0x7f4a85d96eb0)
->>  at ../qapi/qmp-dispatch.c:129
->> #5  0x00005583ca605494 in aio_bh_call (bh=0x7f4a78009270) at
->>  ../util/async.c:141
->>
->> Is that expected? Should I add a conditional for {set,expire}_password
->> in the schema too, and add an
->> #if defined(CONFIG_SPICE) || defined(CONFIG_VNC)
->> around the whole {hmp,qmp}_{set,expire}_password
->> functions/declarations in C?
->
-> I can have a closer look.  To make it easy, tell me how I can pull your
-> patches, or, if that's inconvenient for you, send them to me.
+This patch depends on a patchset that introduces the Priv 1.12 CSRs:
+https://lists.nongnu.org/archive/html/qemu-devel/2022-01/msg04478.html
 
-I got them by e-mail, thanks!
+[1] https://wiki.riscv.org/display/TECH/Recently+Ratified+Extensions
 
-The dealloc visitor for unions (here: SetPasswordOptions) falls apart
-when the tag enum (here: DisplayProtocol) is effectively empty.
+v2:
+- Fix overlapping instruction encoding with LQ instructions
+- Drop CSR related changes and rebase on Priv 1.12 patchset
 
-The dealloc visitor's job is to recursively free a QAPI object.  Unlike
-the other visitors, the dealloc visitor needs to work on
-half-constructed objects where parts are still zero.  Easy, because
-freeing null pointers does nothing.
+https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg04213.html
 
-Complication: for a union, the common visitor core still needs to decide
-which branch to enter.  If we never constructed the union's tag value,
-it's zero, and so is the branch corresponding to the zero tag value.
-The visitor core happily goes down that branch, and the dealloc visitor
-happily does nothing for it.  Not exactly the cleanest solution ever,
-but it works.
+Co-developed-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Signed-off-by: Christoph Muellner <cmuellner@linux.com>
+---
+ target/riscv/cpu.c                        |  4 +
+ target/riscv/cpu.h                        |  4 +
+ target/riscv/cpu_bits.h                   |  5 ++
+ target/riscv/helper.h                     |  5 ++
+ target/riscv/insn32.decode                | 29 +++++++-
+ target/riscv/insn_trans/trans_zicbo.c.inc | 72 ++++++++++++++++++
+ target/riscv/op_helper.c                  | 89 +++++++++++++++++++++++
+ target/riscv/translate.c                  |  1 +
+ 8 files changed, 207 insertions(+), 2 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_zicbo.c.inc
 
-*Except* when the tag enum is empty.  Then we run into the abort() here:
-
-    bool visit_type_SetPasswordOptions_members(Visitor *v, SetPasswordOptions *obj, Error **errp)
-    {
-        if (!visit_type_q_obj_SetPasswordOptions_base_members(v, (q_obj_SetPasswordOptions_base *)obj, errp)) {
-            return false;
-        }
-        switch (obj->protocol) {
-    #if defined(CONFIG_VNC)
-        case DISPLAY_PROTOCOL_VNC:
-            return visit_type_SetPasswordOptionsVnc_members(v, &obj->u.vnc, errp);
-    #endif /* defined(CONFIG_VNC) */
-    #if defined(CONFIG_SPICE)
-        case DISPLAY_PROTOCOL_SPICE:
-            return visit_type_SetPasswordOptionsSpice_members(v, &obj->u.spice, errp);
-    #endif /* defined(CONFIG_SPICE) */
-        default:
-            abort();
-        }
-        return true;
-    }
-
-This is actually why the QAPI generator rejects a union with an empty
-tag enum (test case tests/qapi-schema/union-empty.json): it's a
-restriction to protect the dealloc visitor.
-
-The QAPI generator doesn't reject a union with a tag enum where all
-members are conditional.  Hole in the restriction.
-
-We can either plug the hole in the restriction, or lift the restriction.
-
->> Or maybe that's a good indication that it's really not worth it ;)?
->
-> Possibly.
-
-Let's drop the 'if' conditionals in the interest of decoupling this
-series from the QAPI infrastructure fixes needed to make them work.
-
-But first see my question about display-reload upthread.
-
->> P.S. Thank you for the QAPI-related explanation in the other mail!
->
-> You're welcome!
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 3cba82e560..0deed67497 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -721,6 +721,10 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+     DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
+     DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
++    DEFINE_PROP_BOOL("Zicbom", RISCVCPU, cfg.ext_zicbom, false),
++    DEFINE_PROP_BOOL("Zicbop", RISCVCPU, cfg.ext_zicbop, false),
++    DEFINE_PROP_BOOL("Zicboz", RISCVCPU, cfg.ext_zicboz, false),
++    DEFINE_PROP_UINT16("cbolen", RISCVCPU, cfg.cbolen, 64),
+     DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
+     DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
+     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 2f678e6c4f..7612a59161 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -354,6 +354,9 @@ struct RISCVCPU {
+         bool ext_zfhmin;
+         bool ext_zve32f;
+         bool ext_zve64f;
++        bool ext_zicbom;
++        bool ext_zicbop;
++        bool ext_zicboz;
+ 
+         char *priv_spec;
+         char *user_spec;
+@@ -361,6 +364,7 @@ struct RISCVCPU {
+         char *vext_spec;
+         uint16_t vlen;
+         uint16_t elen;
++        uint16_t cbolen;
+         bool mmu;
+         bool pmp;
+         bool epmp;
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 47ed4d6cab..62c38595d7 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -464,6 +464,11 @@ typedef enum {
+ /* vsstatus CSR bits */
+ #define VSSTATUS64_UXL       0x0000000300000000ULL
+ 
++/* [msh]envcfg CSR bits */
++#define ENVCFG_CBIE          (0b11 << 4)
++#define ENVCFG_CBCFE         (1 << 6)
++#define ENVCFG_CBZE          (1 << 7)
++
+ /* Privilege modes */
+ #define PRV_U 0
+ #define PRV_S 1
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index 72cc2582f4..0e068ac6cd 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -92,6 +92,11 @@ DEF_HELPER_FLAGS_2(fcvt_h_l, TCG_CALL_NO_RWG, i64, env, tl)
+ DEF_HELPER_FLAGS_2(fcvt_h_lu, TCG_CALL_NO_RWG, i64, env, tl)
+ DEF_HELPER_FLAGS_1(fclass_h, TCG_CALL_NO_RWG_SE, tl, i64)
+ 
++/* Cache-block operations */
++DEF_HELPER_2(cbo_inval, void, env, tl)
++DEF_HELPER_2(cbo_clean, void, env, tl)
++DEF_HELPER_2(cbo_zero, void, env, tl)
++
+ /* Special functions */
+ DEF_HELPER_2(csrr, tl, env, int)
+ DEF_HELPER_3(csrw, void, env, int, tl)
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index 5bbedc254c..8d86628784 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -89,6 +89,8 @@
+ @sfence_vma ....... ..... .....   ... ..... ....... %rs2 %rs1
+ @sfence_vm  ....... ..... .....   ... ..... ....... %rs1
+ 
++@cbo_pref   simm:7 ..... .....   ... ..... ....... %rs1
++
+ # Formats 64:
+ @sh5     .......  ..... .....  ... ..... ....... &shift  shamt=%sh5      %rs1 %rd
+ 
+@@ -128,7 +130,17 @@ addi     ............     ..... 000 ..... 0010011 @i
+ slti     ............     ..... 010 ..... 0010011 @i
+ sltiu    ............     ..... 011 ..... 0010011 @i
+ xori     ............     ..... 100 ..... 0010011 @i
+-ori      ............     ..... 110 ..... 0010011 @i
++{
++  [
++    # *** RV32 Zicbop Sandard Extension (hints in the ori-space) ***
++    prefetch_i  ....... 00000 ..... 110 00000 0010011 @cbo_pref
++    prefetch_r  ....... 00001 ..... 110 00000 0010011 @cbo_pref
++    prefetch_w  ....... 00011 ..... 110 00000 0010011 @cbo_pref
++  ]
++
++  # *** RV32I ori ***
++  ori      ............     ..... 110 ..... 0010011 @i
++}
+ andi     ............     ..... 111 ..... 0010011 @i
+ slli     00000. ......    ..... 001 ..... 0010011 @sh
+ srli     00000. ......    ..... 101 ..... 0010011 @sh
+@@ -168,7 +180,20 @@ sraw     0100000 .....  ..... 101 ..... 0111011 @r
+ 
+ # *** RV128I Base Instruction Set (in addition to RV64I) ***
+ ldu      ............   ..... 111 ..... 0000011 @i
+-lq       ............   ..... 010 ..... 0001111 @i
++{
++  [
++    # *** RV32 Zicbom Standard Extension ***
++    cbo_clean  0000000 00001 ..... 010 00000 0001111 @sfence_vm
++    cbo_flush  0000000 00010 ..... 010 00000 0001111 @sfence_vm
++    cbo_inval  0000000 00000 ..... 010 00000 0001111 @sfence_vm
++
++    # *** RV32 Zicboz Standard Extension ***
++    cbo_zero   0000000 00100 ..... 010 00000 0001111 @sfence_vm
++  ]
++
++  # *** RVI128 lq ***
++  lq       ............   ..... 010 ..... 0001111 @i
++}
+ sq       ............   ..... 100 ..... 0100011 @s
+ addid    ............  .....  000 ..... 1011011 @i
+ sllid    000000 ......  ..... 001 ..... 1011011 @sh6
+diff --git a/target/riscv/insn_trans/trans_zicbo.c.inc b/target/riscv/insn_trans/trans_zicbo.c.inc
+new file mode 100644
+index 0000000000..e75f7d99e3
+--- /dev/null
++++ b/target/riscv/insn_trans/trans_zicbo.c.inc
+@@ -0,0 +1,72 @@
++/*
++ * RISC-V translation routines for the RISC-V CBO Extension.
++ *
++ * Copyright (c) 2021 Philipp Tomsich, philipp.tomsich@vrull.eu
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#define REQUIRE_ZICBOM(ctx) do {                 \
++    if (!RISCV_CPU(ctx->cs)->cfg.ext_zicbom) {   \
++        return false;                            \
++    }                                            \
++} while (0)
++
++#define REQUIRE_ZICBOZ(ctx) do {                 \
++    if (!RISCV_CPU(ctx->cs)->cfg.ext_zicboz) {   \
++        return false;                            \
++    }                                            \
++} while (0)
++
++static bool trans_cbo_clean(DisasContext *ctx, arg_cbo_clean *a)
++{
++    REQUIRE_ZICBOM(ctx);
++    gen_helper_cbo_clean(cpu_env, cpu_gpr[a->rs1]);
++    return true;
++}
++
++static bool trans_cbo_flush(DisasContext *ctx, arg_cbo_flush *a)
++{
++    REQUIRE_ZICBOM(ctx);
++    gen_helper_cbo_clean(cpu_env, cpu_gpr[a->rs1]);
++    return true;
++}
++
++static bool trans_cbo_inval(DisasContext *ctx, arg_cbo_inval *a)
++{
++    REQUIRE_ZICBOM(ctx);
++    gen_helper_cbo_inval(cpu_env, cpu_gpr[a->rs1]);
++    return true;
++}
++
++static bool trans_cbo_zero(DisasContext *ctx, arg_cbo_zero *a)
++{
++    REQUIRE_ZICBOZ(ctx);
++    gen_helper_cbo_zero(cpu_env, cpu_gpr[a->rs1]);
++    return true;
++}
++
++static bool trans_prefetch_i(DisasContext *ctx, arg_prefetch_i *a)
++{
++    return true;
++}
++
++static bool trans_prefetch_r(DisasContext *ctx, arg_prefetch_i *a)
++{
++    return true;
++}
++
++static bool trans_prefetch_w(DisasContext *ctx, arg_prefetch_i *a)
++{
++    return true;
++}
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index 1a75ba11e6..3c410358d4 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -3,6 +3,7 @@
+  *
+  * Copyright (c) 2016-2017 Sagar Karandikar, sagark@eecs.berkeley.edu
+  * Copyright (c) 2017-2018 SiFive, Inc.
++ * Copyright (c) 2021      VRULL GmbH
+  *
+  * This program is free software; you can redistribute it and/or modify it
+  * under the terms and conditions of the GNU General Public License,
+@@ -70,6 +71,33 @@ target_ulong helper_csrrw(CPURISCVState *env, int csr,
+     return val;
+ }
+ 
++/* helper_zicbo_envcfg
++ *
++ * Raise virtual exceptions and illegal instruction exceptions for
++ * Zicbo[mz] instructions based on the settings of [mhs]envcfg.
++ */
++static void helper_zicbo_envcfg(CPURISCVState *env, target_ulong envbits)
++{
++#ifndef CONFIG_USER_ONLY
++    target_ulong ra = GETPC();
++
++    /* Check for virtual instruction exceptions first, as we don't see
++     * VU and VS reflected in env->priv (these are just the translated
++     * U and S stated with virtualisation enabled.
++     */
++    if (riscv_cpu_virt_enabled(env) &&
++        (((env->priv < PRV_H) && !get_field(env->henvcfg, envbits)) ||
++         ((env->priv < PRV_S) && !get_field(env->senvcfg, envbits)))) {
++        riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, ra);
++    }
++
++    if (((env->priv < PRV_M) && !get_field(env->menvcfg, envbits)) ||
++        ((env->priv < PRV_S) && !get_field(env->senvcfg, envbits))) {
++        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, ra);
++    }
++#endif
++}
++
+ target_ulong helper_csrr_i128(CPURISCVState *env, int csr)
+ {
+     Int128 rv = int128_zero();
+@@ -114,6 +142,67 @@ target_ulong helper_csrrw_i128(CPURISCVState *env, int csr,
+     return int128_getlo(rv);
+ }
+ 
++/* helper_zicbom_access
++ *
++ * Check access permissions (LOAD or STORE or FETCH) for Zicbom,
++ * raising either store page-fault (non-virtualised) or store
++ * guest-page fault (virtualised).
++ */
++static void helper_zicbom_access(CPURISCVState *env, target_ulong address)
++{
++    void* phost;
++    int ret = TLB_INVALID_MASK;
++    MMUAccessType access_type = MMU_DATA_LOAD;
++    target_ulong ra = GETPC();
++
++    while (ret == TLB_INVALID_MASK && access_type <= MMU_INST_FETCH) {
++        ret = probe_access_flags(env, address, access_type++,
++                                 cpu_mmu_index(env, false),
++                                 true, &phost, ra);
++    }
++
++    if (ret == TLB_INVALID_MASK) {
++        uint32_t exc = RISCV_EXCP_STORE_PAGE_FAULT;
++
++#ifndef CONFIG_USER_ONLY
++        /* User-mode emulation does not have virtualisation... */
++        if (riscv_cpu_virt_enabled(env)) {
++            exc = RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT;
++        }
++#endif
++        riscv_raise_exception(env, exc, ra);
++    }
++}
++
++void helper_cbo_inval(CPURISCVState *env, target_ulong address)
++{
++    helper_zicbo_envcfg(env, ENVCFG_CBIE);
++    helper_zicbom_access(env, address);
++
++    /* We don't emulate the cache-hierarchy, so we're done. */
++}
++
++void helper_cbo_clean(CPURISCVState *env, target_ulong address)
++{
++    helper_zicbo_envcfg(env, ENVCFG_CBCFE);
++    helper_zicbom_access(env, address);
++
++    /* We don't emulate the cache-hierarchy, so we're done. */
++}
++
++void helper_cbo_zero(CPURISCVState *env, target_ulong address)
++{
++    helper_zicbo_envcfg(env, ENVCFG_CBZE);
++
++    /* mask off low-bits to align-down to the cache-block */
++    address &= ~(RISCV_CPU(env)->cfg.cbolen - 1);
++    void* mem = probe_access(env, address, 4, MMU_DATA_STORE,
++                             cpu_mmu_index(env, false), GETPC());
++
++    /* Zeroize the block */
++    memset(mem, 0, RISCV_CPU(env)->cfg.cbolen);
++}
++
+ #ifndef CONFIG_USER_ONLY
+ 
+ target_ulong helper_sret(CPURISCVState *env)
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index f0bbe80875..8f25a6d02f 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -854,6 +854,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
+ #include "insn_trans/trans_rvv.c.inc"
+ #include "insn_trans/trans_rvb.c.inc"
+ #include "insn_trans/trans_rvzfh.c.inc"
++#include "insn_trans/trans_zicbo.c.inc"
+ #include "insn_trans/trans_privileged.c.inc"
+ 
+ /* Include the auto-generated decoder for 16 bit insn */
+-- 
+2.34.1
 
 
