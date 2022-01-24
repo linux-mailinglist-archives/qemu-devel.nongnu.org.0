@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AA80498739
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 18:49:36 +0100 (CET)
-Received: from localhost ([::1]:59474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B331D49873E
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 18:50:52 +0100 (CET)
+Received: from localhost ([::1]:33524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nC3TB-0002jm-NH
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 12:49:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57054)
+	id 1nC3UR-0004IE-R8
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 12:50:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nC33M-0004fT-Tz
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 12:22:52 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2179)
+ id 1nC33p-0005Ls-SH
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 12:23:22 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2180)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nC33D-0000Dy-1c
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 12:22:46 -0500
-Received: from fraeml702-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JjGtZ1qZwz67bS4;
- Tue, 25 Jan 2022 01:19:18 +0800 (CST)
+ id 1nC33n-0000GJ-01
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 12:23:21 -0500
+Received: from fraeml701-chm.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JjGtB3fpPz67ws7;
+ Tue, 25 Jan 2022 01:18:58 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml702-chm.china.huawei.com (10.206.15.51) with Microsoft SMTP Server
+ fraeml701-chm.china.huawei.com (10.206.15.50) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.21; Mon, 24 Jan 2022 18:22:41 +0100
+ 15.1.2308.21; Mon, 24 Jan 2022 18:23:11 +0100
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 24 Jan 2022 17:22:40 +0000
+ 15.1.2308.21; Mon, 24 Jan 2022 17:23:11 +0000
 To: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
  . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>,
@@ -40,9 +40,9 @@ CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>,
  <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
  <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
  Williams" <dan.j.williams@intel.com>
-Subject: [PATCH v4 11/42] hw/pxb: Use a type for realizing expanders
-Date: Mon, 24 Jan 2022 17:16:34 +0000
-Message-ID: <20220124171705.10432-12-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v4 12/42] hw/pci/cxl: Create a CXL bus type
+Date: Mon, 24 Jan 2022 17:16:35 +0000
+Message-ID: <20220124171705.10432-13-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
 References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
@@ -80,65 +80,81 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
 From: Ben Widawsky <ben.widawsky@intel.com>
 
-This opens up the possibility for more types of expanders (other than
-PCI and PCIe). We'll need this to create a CXL expander.
+The easiest way to differentiate a CXL bus, and a PCIE bus is using a
+flag. A CXL bus, in hardware, is backward compatible with PCIE, and
+therefore the code tries pretty hard to keep them in sync as much as
+possible.
+
+The other way to implement this would be to try to cast the bus to the
+correct type. This is less code and useful for debugging via simply
+looking at the flags.
 
 Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- hw/pci-bridge/pci_expander_bridge.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ hw/pci-bridge/pci_expander_bridge.c | 9 ++++++++-
+ include/hw/pci/pci_bus.h            | 7 +++++++
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-index de932286b5..d4514227a8 100644
+index d4514227a8..a6caa1e7b5 100644
 --- a/hw/pci-bridge/pci_expander_bridge.c
 +++ b/hw/pci-bridge/pci_expander_bridge.c
-@@ -24,6 +24,8 @@
+@@ -24,7 +24,7 @@
  #include "hw/boards.h"
  #include "qom/object.h"
  
-+enum BusType { PCI, PCIE };
-+
+-enum BusType { PCI, PCIE };
++enum BusType { PCI, PCIE, CXL };
+ 
  #define TYPE_PXB_BUS "pxb-bus"
  typedef struct PXBBus PXBBus;
- DECLARE_INSTANCE_CHECKER(PXBBus, PXB_BUS,
-@@ -221,7 +223,8 @@ static gint pxb_compare(gconstpointer a, gconstpointer b)
-            0;
- }
+@@ -35,6 +35,10 @@ DECLARE_INSTANCE_CHECKER(PXBBus, PXB_BUS,
+ DECLARE_INSTANCE_CHECKER(PXBBus, PXB_PCIE_BUS,
+                          TYPE_PXB_PCIE_BUS)
  
--static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
-+static void pxb_dev_realize_common(PCIDevice *dev, enum BusType type,
-+                                   Error **errp)
- {
-     PXBDev *pxb = convert_to_pxb(dev);
-     DeviceState *ds, *bds = NULL;
-@@ -246,7 +249,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
-     }
- 
++#define TYPE_PXB_CXL_BUS "pxb-cxl-bus"
++DECLARE_INSTANCE_CHECKER(PXBBus, PXB_CXL_BUS,
++                         TYPE_PXB_CXL_BUS)
++
+ struct PXBBus {
+     /*< private >*/
+     PCIBus parent_obj;
+@@ -251,6 +255,9 @@ static void pxb_dev_realize_common(PCIDevice *dev, enum BusType type,
      ds = qdev_new(TYPE_PXB_HOST);
--    if (pcie) {
-+    if (type == PCIE) {
+     if (type == PCIE) {
          bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_PCIE_BUS);
++    } else if (type == CXL) {
++        bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_CXL_BUS);
++        bus->flags |= PCI_BUS_CXL;
      } else {
          bus = pci_root_bus_new(ds, "pxb-internal", NULL, NULL, 0, TYPE_PXB_BUS);
-@@ -295,7 +298,7 @@ static void pxb_dev_realize(PCIDevice *dev, Error **errp)
-         return;
-     }
+         bds = qdev_new("pci-bridge");
+diff --git a/include/hw/pci/pci_bus.h b/include/hw/pci/pci_bus.h
+index 347440d42c..eb94e7e85c 100644
+--- a/include/hw/pci/pci_bus.h
++++ b/include/hw/pci/pci_bus.h
+@@ -24,6 +24,8 @@ enum PCIBusFlags {
+     PCI_BUS_IS_ROOT                                         = 0x0001,
+     /* PCIe extended configuration space is accessible on this bus */
+     PCI_BUS_EXTENDED_CONFIG_SPACE                           = 0x0002,
++    /* This is a CXL Type BUS */
++    PCI_BUS_CXL                                             = 0x0004,
+ };
  
--    pxb_dev_realize_common(dev, false, errp);
-+    pxb_dev_realize_common(dev, PCI, errp);
- }
+ struct PCIBus {
+@@ -53,6 +55,11 @@ struct PCIBus {
+     Notifier machine_done;
+ };
  
- static void pxb_dev_exitfn(PCIDevice *pci_dev)
-@@ -348,7 +351,7 @@ static void pxb_pcie_dev_realize(PCIDevice *dev, Error **errp)
-         return;
-     }
- 
--    pxb_dev_realize_common(dev, true, errp);
-+    pxb_dev_realize_common(dev, PCIE, errp);
- }
- 
- static void pxb_pcie_dev_class_init(ObjectClass *klass, void *data)
++static inline bool pci_bus_is_cxl(PCIBus *bus)
++{
++    return !!(bus->flags & PCI_BUS_CXL);
++}
++
+ static inline bool pci_bus_is_root(PCIBus *bus)
+ {
+     return !!(bus->flags & PCI_BUS_IS_ROOT);
 -- 
 2.32.0
 
