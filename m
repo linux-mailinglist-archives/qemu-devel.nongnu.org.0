@@ -2,154 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 940D14986F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 18:34:27 +0100 (CET)
-Received: from localhost ([::1]:33026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C5DC4988E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jan 2022 19:51:31 +0100 (CET)
+Received: from localhost ([::1]:58680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nC3EY-0001R7-Ep
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 12:34:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55352)
+	id 1nC4R6-0003yj-G6
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 13:51:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1nC2yG-0005YU-Ir
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 12:17:36 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:35928)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nC3Go-0005LL-AX
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 12:36:46 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1nC2yE-0007le-C8
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 12:17:36 -0500
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20OG2mlw001332; 
- Mon, 24 Jan 2022 17:17:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : content-type :
- mime-version; s=corp-2021-07-09;
- bh=yNjDVR8eJHn+lKawALImTWMalVxYrm0AX21gFo67b7c=;
- b=K4Fq5Uq7O6cE0VxxkojLfneNXlS0IRAxDLugINl+fa89pIdywKFBuoD9LiWyqeNGVIoo
- XF5tXYfeqOsSWXNmtk8WRvXFTm79qxJcaK5QZS25JPL6osvtmaJvSn1xsBu/PlhbAI/4
- ELZbC+joJfkfgtW+ikV/H3NUdtPituBRhTYgEJlfn5D6XdgAqE0tR/V5uGgfix0DnZSr
- vsbnzG5G/ebL9/kaKTN7lRYwiktnP4you6EWV4mqwybVbrfDZnct9rIem6Xc8TbZF0IV
- L71/Lgt/szJy3n7EVIg+betsb8kWP7QAu/VyHZYEzAoFL3Wl2rUuKvf2C1Gc3+KFooxl Aw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3dsy9s0am5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Jan 2022 17:17:32 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20OHAiYs051685;
- Mon, 24 Jan 2022 17:17:31 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com
- (mail-co1nam11lp2176.outbound.protection.outlook.com [104.47.56.176])
- by aserp3020.oracle.com with ESMTP id 3dr9r4djpd-2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Jan 2022 17:17:31 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LSV6QAnicu3bESTfksu1BgaYamo6NCxrtMttY5ip3cCNMOF0SNQDmxkgGRZYj4C5CGO0I3LbyXCjvQ88XJPYIPkJY0WC2qROaMO7Ja44/fp69YJmV14aSlCnoa2K6LmAFRTI9M9mZ509+NZyYWQoN5UOWi87u3HB+18hV5YC8ITegay+myE8EIuoT38HFQYLxjvrSy05M09Kotwyq2+179e43zVaUq8kK5X1u7ryRtbGUdSJaAZ2BB8qZQL3ksixDMLZv+/sQbppEJiIwpf+mAAt4xBcUxaaenuz77VL691/7ddzuDmoeWN3j2yg+qgJ5zy4FyEkjcFaOU/emzk9aQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yNjDVR8eJHn+lKawALImTWMalVxYrm0AX21gFo67b7c=;
- b=jDolSizvXDuviuFhRIu9WpSC4EEfpur++nFMRuutnpntqM8aH2PmzGGY2vMw4RmDhB5P7jT+Zz1HzsgHFvUCEPKtEzARGTjuFu8ORLhcBVek08tIb8zOgDTH7fgL6MxsX6d2WdglI0IAZhqmgCD44qieKe9Q+em8dbkbcyxWFxlJSjF+WvT8E30zjLw5OXadYrjg8tQhkYfy/lM5HTiEXCTOjFXpNyvGf/0kZuf0dGMI9oKF88ucco8oV/gDk/hexUWHGFFXsllelgD7Y+tPVAA4U0YG/oYOImAwU1SF889Ai2AuwJBPkmfnBWQ4Wsuh96Zq1uqZrovGTyOmc0+FvA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yNjDVR8eJHn+lKawALImTWMalVxYrm0AX21gFo67b7c=;
- b=QFp3JSbw4cjbmHFM3tVwXXxmTLKI3KqDVaV895QB0k3A43nAmm6dtCrMw0Tifg/u2LwNBS44iwTfJM69dWgLRnit/ZAka6gV+Ml6VGUo6NdejcZXPDYKexAlAxkg7iTxg8UXoDy0lVqR7Bq9wGLTqJcjD8nYWNIx1nWITs8/+40=
-Received: from CO1PR10MB4531.namprd10.prod.outlook.com (2603:10b6:303:6c::22)
- by DM5PR1001MB2265.namprd10.prod.outlook.com (2603:10b6:4:30::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.10; Mon, 24 Jan
- 2022 17:17:28 +0000
-Received: from CO1PR10MB4531.namprd10.prod.outlook.com
- ([fe80::ac06:be4:5723:771c]) by CO1PR10MB4531.namprd10.prod.outlook.com
- ([fe80::ac06:be4:5723:771c%4]) with mapi id 15.20.4909.017; Mon, 24 Jan 2022
- 17:17:28 +0000
-From: Eric DeVolder <eric.devolder@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v13 08/10] ACPI ERST: qtest for ERST
-Date: Mon, 24 Jan 2022 12:16:59 -0500
-Message-Id: <1643044621-15892-9-git-send-email-eric.devolder@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1643044621-15892-1-git-send-email-eric.devolder@oracle.com>
-References: <1643044621-15892-1-git-send-email-eric.devolder@oracle.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SN7PR04CA0055.namprd04.prod.outlook.com
- (2603:10b6:806:120::30) To CO1PR10MB4531.namprd10.prod.outlook.com
- (2603:10b6:303:6c::22)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nC3Gj-0002Jz-64
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 12:36:45 -0500
+Received: from fraeml739-chm.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JjH9y18hHz684Xd;
+ Tue, 25 Jan 2022 01:32:38 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml739-chm.china.huawei.com (10.206.15.220) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Mon, 24 Jan 2022 18:36:00 +0100
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Mon, 24 Jan 2022 17:35:59 +0000
+To: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, Peter Maydell
+ <peter.maydell@linaro.org>, <linuxarm@huawei.com>, Shameerali Kolothum Thodi
+ <shameerali.kolothum.thodi@huawei.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, Saransh Gupta1
+ <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
+ <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
+ Williams" <dan.j.williams@intel.com>
+Subject: [PATCH v4 37/42] hw/arm/virt: Basic CXL enablement on
+ pci_expander_bridge instances pxb-cxl
+Date: Mon, 24 Jan 2022 17:17:00 +0000
+Message-ID: <20220124171705.10432-38-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
+References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7ad0b0d5-9fa0-4fac-42a6-08d9df5d658a
-X-MS-TrafficTypeDiagnostic: DM5PR1001MB2265:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR1001MB2265B520AB81003451B0EDF8975E9@DM5PR1001MB2265.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:644;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0vLVwqXb6Eet3pAYjviM1b0mUt8D5ky9LJILedDOv9/6TxTFnFAUYh1pz1dcNdgmTl4VQamCO6gbjxhFddBIZhjV4km88Mm2FaT2WzmR/15L4ftAvkJRnR2wlaumk8raPkWyZI3k3r9197oKNArLKnUe3/rsPiPjgnD6mezFVeH2qjWoDiL9N07uBXZQtLmCbsSLErey3kpmMjROH8Mdp33ueERSD83hhv1LwlXs5M63ciAvtGairH7wXl7G4p653fd8tAVb/PXFn8K9xc0viRFsNalzGk6j3psy6kvRutjU7kqozKqiOtsswAQMd2P/Hu9e6L9lrPiMwvL1YMp+MWnLmyp7vzcv2VzufmEmJx8P77czUhFSYrXox/ddg9s8aVJxj8IEIgKBtBdF2gzdIVnCbAkd72XXoImbiaiUHS30KQ+oideHCnwBBCylgJm/xDod5PayYXzdfnkSgHVQiHIPo7o4D0+SNhs4OM+KHXIqAVkfNff3TVQBBJBxLVyRg2cl2cM873WK06vkH4MBADgoiJfKG/h30IM8MwIMLoG7YiGmgIZ0zpPYxncVP8csUkUzeRwGXsB3DprBuIbX/vdwrgfNneVlmhLEvwPjAe7UMSGrXFGgXJpO91XNjk0bAYWj4486E9Y5jcSLWrYchgOKU7k7XUg6Djl3tDm8wkHKy8YhutnbFcZfgQ8UHHJSOEGJgSosgBqXK6I0FnnMFA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO1PR10MB4531.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(66556008)(5660300002)(508600001)(83380400001)(6486002)(316002)(6916009)(66476007)(186003)(2906002)(38350700002)(38100700002)(36756003)(52116002)(4326008)(66946007)(6666004)(8936002)(6506007)(8676002)(26005)(2616005)(107886003)(86362001)(6512007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Lb9tUPEi6kaJToGZk/429qOBJExodoSpS5J6E3hfbQ2q/Dyk74TvnijzDnOR?=
- =?us-ascii?Q?WJLTXq85v2QueMC0wAVsW3Ztk29wPEjdCA/naTPX9HWVYP4bN7UhA5yQv8nX?=
- =?us-ascii?Q?gCKCzc3mrVGu6GXVSY3dEzaRl+fNHvTjp6dEvQKBMUdpdASpRKSX+Iy+bG7W?=
- =?us-ascii?Q?il3qncQDlVlq8xn7tfKEhMOpkEzMOBpz0FtY9Uegrdowo1EYy1W+bEy9Kh/4?=
- =?us-ascii?Q?U7ifSXhD7vkjOlixXMhyGmCJzcX+V67rMFrXllrN09mEin4jDBu3mV9Ht0+P?=
- =?us-ascii?Q?XyrgRs2G4NJEoRW1gnWdUzNLg8MyFhSBCrabRv32AsLXVkUsi90yyrAF8YlD?=
- =?us-ascii?Q?3vBlyZCHRWCHl7LBW0osUSlZdk37tX9VDU8mJ9kVZX9dyQTEh1WQXZpdvfLv?=
- =?us-ascii?Q?gvrrA/1NVpIqJ195gnQ+6WsfvWwsOOzeZSSsgmBzdSlcY1RBZqfeFPZClC5Y?=
- =?us-ascii?Q?KVzrWH5F5you/I0ogEjxbwgh4mkNgw1aoZV61Ur7l6gxawwnfdvQapMbBHUp?=
- =?us-ascii?Q?fsB+hWBtwGuu6Ub3sw5bTEklyc/5b0IcHmn6COyIDEhYPXQRVZh5WbW1SUsn?=
- =?us-ascii?Q?VuFZID2t9/2kZ2I53/Kuz5oaLbYHeXrLPpBLnCfB+lpN4pGY2RkAIYtrx89N?=
- =?us-ascii?Q?KAIALGChtNRIyoZ0nWdi/5El7+5bAxJMHvaUhPQoywyJnhGvrjF+6LKWL8yy?=
- =?us-ascii?Q?dNxDglVOK1sHJ3Sc97+C1LufumB9QRKsP7jJkUqiNMnSkN18UPLIPygoH31Y?=
- =?us-ascii?Q?eKRg96eYT9X/zFhCJHYK0/PG5HoQbO45jmTCMMyunrPxql1x3Sr6TumTCPcZ?=
- =?us-ascii?Q?6WqCNzoGYGbP0SPrIMncxebyNa2ES5aJ3jb6LtoB9sfp29SzLxeBnKkV4MTl?=
- =?us-ascii?Q?8bvcqVqFqXIZGx3kfT7z37vdIquKXLu7OTUieBl36kPKpFn4S2OZhUTAm8A8?=
- =?us-ascii?Q?XGCzob0Fon7TeD2Z7XXJGFGQl3RwZo9moAYXT1ly2OLPy+QkUQIEeF0VOGSx?=
- =?us-ascii?Q?u9mkcCZ2xLz5i+y36NZFE0s4EV0VKSTzAeXM0jt60PQDn87w6Q2zK25pYe73?=
- =?us-ascii?Q?QVRh76gSjArUhXoTtXHnwNfkJ3pnSRNcV9/7TaYaYUUQoHqxBuNBFTN5e62t?=
- =?us-ascii?Q?FU9zw2rnZj8lOQbMLgnwG6yFoJvFAcArKXtlLuMvyyr+3J4fBVPiZK0Haz0p?=
- =?us-ascii?Q?TFEznM8Fe+8kTgW0kokR92rWb081nhpUtbCejeNCApP7/VxFEZ8UH+5iFVmi?=
- =?us-ascii?Q?vAqzWN/OcoD8OP+A+3ygBZcUQb8De77goEzBkBEjMA8Ql6Q3BwJWGsEyZQrs?=
- =?us-ascii?Q?TSjMDfcsAw669rY8lqc19PlbgDR4Jh2AbeJqGd24K8kJ3hS9n0mAqwXG/5tu?=
- =?us-ascii?Q?2bTR/wEjWGPvSCn4AY1C45P9152s/lj5Twk3+PL7Y+fw/A2erPwNWEGkgSxQ?=
- =?us-ascii?Q?YUADaeCYBjk0E2tcoCzf8mXiS6MD2kqaQ4SZLDZl7kiHEKHviHZ+hixU77ZN?=
- =?us-ascii?Q?BVyN4W8KSrMJ6fbmEaBzlj2j5Ojqw4hmp8x6kHuY0T65PlVtDveu2qqB4WsX?=
- =?us-ascii?Q?YYg3bKn/YqHhnikWx8T8gGCyTAe/5nW76gVBuqLxLhXqcNAGLxHt83N0puj+?=
- =?us-ascii?Q?NOXnFHB1ej6zn4vI1wUvccWrHac81bZkIPbWgiPWZb/65QePGBnlK3wZqSZS?=
- =?us-ascii?Q?8Gc4gg=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7ad0b0d5-9fa0-4fac-42a6-08d9df5d658a
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4531.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2022 17:17:27.9554 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FO3lWNlrXe9kCOCqO19/uox7THlWRtEx7dxY6WvSKUK/b5VyqFwD7Ecv0ViJegXmnuJlyLtayymQ8Kri79WRuua9yUn3IoNIMq6xxkw+bOk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1001MB2265
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10237
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- mlxlogscore=999
- suspectscore=0 spamscore=0 adultscore=0 phishscore=0 malwarescore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2201240115
-X-Proofpoint-GUID: VDFE8F0yslpoBefWaOfRROs7ztJQ6ulx
-X-Proofpoint-ORIG-GUID: VDFE8F0yslpoBefWaOfRROs7ztJQ6ulx
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=eric.devolder@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhreml740-chm.china.huawei.com (10.201.108.190) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -163,222 +74,204 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
- konrad.wilk@oracle.com, pbonzini@redhat.com, ani@anisinha.ca,
- imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-This change provides a qtest that locates and then does a simple
-interrogation of the ERST feature within the guest.
+Code based on i386/pc enablement.
+The memory layout places space for 16 host bridge register regions after
+the GIC_REDIST2 in the extended memmap.
+The CFMWs are placed above the extended memmap.
 
-Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 ---
- tests/qtest/erst-test.c | 172 ++++++++++++++++++++++++++++++++++++++++++++++++
- tests/qtest/meson.build |   2 +
- 2 files changed, 174 insertions(+)
- create mode 100644 tests/qtest/erst-test.c
+ hw/arm/virt-acpi-build.c | 30 +++++++++++++++++++++++++++++
+ hw/arm/virt.c            | 41 ++++++++++++++++++++++++++++++++++++++--
+ include/hw/arm/virt.h    |  1 +
+ 3 files changed, 70 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/erst-test.c b/tests/qtest/erst-test.c
-new file mode 100644
-index 0000000..f9ad3c9
---- /dev/null
-+++ b/tests/qtest/erst-test.c
-@@ -0,0 +1,172 @@
-+/*
-+ * QTest testcase for acpi-erst
-+ *
-+ * Copyright (c) 2021 Oracle
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include <glib/gstdio.h>
-+#include "libqos/libqos-pc.h"
-+#include "libqos/libqtest.h"
-+#include "qemu-common.h"
-+
-+#include "hw/pci/pci.h"
-+
-+static void save_fn(QPCIDevice *dev, int devfn, void *data)
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 449fab0080..865709156a 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -39,6 +39,7 @@
+ #include "hw/acpi/aml-build.h"
+ #include "hw/acpi/utils.h"
+ #include "hw/acpi/pci.h"
++#include "hw/acpi/cxl.h"
+ #include "hw/acpi/memory_hotplug.h"
+ #include "hw/acpi/generic_event_device.h"
+ #include "hw/acpi/tpm.h"
+@@ -157,10 +158,29 @@ static void acpi_dsdt_add_virtio(Aml *scope,
+     }
+ }
+ 
++/* Uses local definition of AcpiBuildState so can't easily be common code */
++static void build_acpi0017(Aml *table)
 +{
-+    QPCIDevice **pdev = (QPCIDevice **) data;
++    Aml *dev, *scope, *method;
 +
-+    *pdev = dev;
++    scope =  aml_scope("_SB");
++    dev = aml_device("CXLM");
++    aml_append(dev, aml_name_decl("_HID", aml_string("ACPI0017")));
++
++    method = aml_method("_STA", 0, AML_NOTSERIALIZED);
++    aml_append(method, aml_return(aml_int(0x01)));
++    aml_append(dev, method);
++
++    aml_append(scope, dev);
++    aml_append(table, scope);
 +}
 +
-+static QPCIDevice *get_erst_device(QPCIBus *pcibus)
-+{
-+    QPCIDevice *dev;
-+
-+    dev = NULL;
-+    qpci_device_foreach(pcibus,
-+        PCI_VENDOR_ID_REDHAT,
-+        PCI_DEVICE_ID_REDHAT_ACPI_ERST,
-+        save_fn, &dev);
-+    g_assert(dev != NULL);
-+
-+    return dev;
-+}
-+
-+typedef struct _ERSTState {
-+    QOSState *qs;
-+    QPCIBar reg_bar, mem_bar;
-+    uint64_t reg_barsize, mem_barsize;
-+    QPCIDevice *dev;
-+} ERSTState;
-+
-+#define ACTION 0
-+#define VALUE 8
-+
-+static const char *reg2str(unsigned reg)
-+{
-+    switch (reg) {
-+    case 0:
-+        return "ACTION";
-+    case 8:
-+        return "VALUE";
-+    default:
-+        return NULL;
+ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+                               uint32_t irq, VirtMachineState *vms)
+ {
+     int ecam_id = VIRT_ECAM_ID(vms->highmem_ecam);
++    bool cxl_present = false;
++    PCIBus *bus = vms->bus;
+     struct GPEXConfig cfg = {
+         .mmio32 = memmap[VIRT_PCIE_MMIO],
+         .pio    = memmap[VIRT_PCIE_PIO],
+@@ -174,6 +194,14 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+     }
+ 
+     acpi_dsdt_add_gpex(scope, &cfg);
++    QLIST_FOREACH(bus, &vms->bus->child, sibling) {
++        if (pci_bus_is_cxl(bus)) {
++            cxl_present = true;
++        }
 +    }
-+}
-+
-+static inline uint32_t in_reg32(ERSTState *s, unsigned reg)
-+{
-+    const char *name = reg2str(reg);
-+    uint32_t res;
-+
-+    res = qpci_io_readl(s->dev, s->reg_bar, reg);
-+    g_test_message("*%s -> %08x", name, res);
-+
-+    return res;
-+}
-+
-+static inline uint64_t in_reg64(ERSTState *s, unsigned reg)
-+{
-+    const char *name = reg2str(reg);
-+    uint64_t res;
-+
-+    res = qpci_io_readq(s->dev, s->reg_bar, reg);
-+    g_test_message("*%s -> %016llx", name, (unsigned long long)res);
-+
-+    return res;
-+}
-+
-+static inline void out_reg32(ERSTState *s, unsigned reg, uint32_t v)
-+{
-+    const char *name = reg2str(reg);
-+
-+    g_test_message("%08x -> *%s", v, name);
-+    qpci_io_writel(s->dev, s->reg_bar, reg, v);
-+}
-+
-+static inline void out_reg64(ERSTState *s, unsigned reg, uint64_t v)
-+{
-+    const char *name = reg2str(reg);
-+
-+    g_test_message("%016llx -> *%s", (unsigned long long)v, name);
-+    qpci_io_writeq(s->dev, s->reg_bar, reg, v);
-+}
-+
-+static void cleanup_vm(ERSTState *s)
-+{
-+    g_free(s->dev);
-+    qtest_shutdown(s->qs);
-+}
-+
-+static void setup_vm_cmd(ERSTState *s, const char *cmd)
-+{
-+    const char *arch = qtest_get_arch();
-+
-+    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-+        s->qs = qtest_pc_boot(cmd);
-+    } else {
-+        g_printerr("erst-test tests are only available on x86\n");
-+        exit(EXIT_FAILURE);
++    if (cxl_present) {
++        build_acpi0017(scope);
 +    }
-+    s->dev = get_erst_device(s->qs->pcibus);
-+
-+    s->reg_bar = qpci_iomap(s->dev, 0, &s->reg_barsize);
-+    g_assert_cmpuint(s->reg_barsize, ==, 16);
-+
-+    s->mem_bar = qpci_iomap(s->dev, 1, &s->mem_barsize);
-+    g_assert_cmpuint(s->mem_barsize, ==, 0x2000);
-+
-+    qpci_device_enable(s->dev);
-+}
-+
-+static void test_acpi_erst_basic(void)
+ }
+ 
+ static void acpi_dsdt_add_gpio(Aml *scope, const MemMapEntry *gpio_memmap,
+@@ -991,6 +1019,8 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+                        vms->oem_table_id);
+         }
+     }
++    cxl_build_cedt(ms, table_offsets, tables_blob, tables->linker,
++                   vms->oem_id, vms->oem_table_id);
+ 
+     if (ms->nvdimms_state->is_enabled) {
+         nvdimm_build_acpi(table_offsets, tables_blob, tables->linker,
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index cbb18dcba6..b59e470ae4 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -78,6 +78,7 @@
+ #include "hw/virtio/virtio-mem-pci.h"
+ #include "hw/virtio/virtio-iommu.h"
+ #include "hw/char/pl011.h"
++#include "hw/cxl/cxl.h"
+ #include "qemu/guest-random.h"
+ 
+ #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
+@@ -178,6 +179,7 @@ static const MemMapEntry base_memmap[] = {
+ static MemMapEntry extended_memmap[] = {
+     /* Additional 64 MB redist region (can contain up to 512 redistributors) */
+     [VIRT_HIGH_GIC_REDIST2] =   { 0x0, 64 * MiB },
++    [VIRT_CXL_HOST] =           { 0x0, 64 * KiB * 16 }, /* 16 UID */
+     [VIRT_HIGH_PCIE_ECAM] =     { 0x0, 256 * MiB },
+     /* Second PCIe window */
+     [VIRT_HIGH_PCIE_MMIO] =     { 0x0, 512 * GiB },
+@@ -1508,6 +1510,17 @@ static void create_pcie(VirtMachineState *vms)
+     }
+ }
+ 
++static void create_cxl_host_reg_region(VirtMachineState *vms)
 +{
-+    ERSTState state;
-+    uint64_t log_address_range;
-+    uint64_t log_address_length;
-+    uint32_t log_address_attr;
++    MemoryRegion *sysmem = get_system_memory();
++    MachineState *ms = MACHINE(vms);
++    MemoryRegion *mr = &ms->cxl_devices_state->host_mr;
 +
-+    setup_vm_cmd(&state,
-+        "-object memory-backend-file,"
-+            "mem-path=acpi-erst.XXXXXX,"
-+            "size=64K,"
-+            "share=on,"
-+            "id=nvram "
-+        "-device acpi-erst,"
-+            "memdev=nvram");
-+
-+    out_reg32(&state, ACTION, 0xD);
-+    log_address_range = in_reg64(&state, VALUE);
-+    out_reg32(&state, ACTION, 0xE);
-+    log_address_length = in_reg64(&state, VALUE);
-+    out_reg32(&state, ACTION, 0xF);
-+    log_address_attr = in_reg32(&state, VALUE);
-+
-+    /* Check log_address_range is not 0, ~0 or base */
-+    g_assert_cmpuint(log_address_range, !=,  0ULL);
-+    g_assert_cmpuint(log_address_range, !=, ~0ULL);
-+    g_assert_cmpuint(log_address_range, !=, state.reg_bar.addr);
-+    g_assert_cmpuint(log_address_range, ==, state.mem_bar.addr);
-+
-+    /* Check log_address_length is bar1_size */
-+    g_assert_cmpuint(log_address_length, ==, state.mem_barsize);
-+
-+    /* Check log_address_attr is 0 */
-+    g_assert_cmpuint(log_address_attr, ==, 0);
-+
-+    cleanup_vm(&state);
++    memory_region_init(mr, OBJECT(ms), "cxl_host_reg",
++                       vms->memmap[VIRT_CXL_HOST].size);
++    memory_region_add_subregion(sysmem, vms->memmap[VIRT_CXL_HOST].base, mr);
 +}
 +
-+int main(int argc, char **argv)
-+{
-+    int ret;
+ static void create_platform_bus(VirtMachineState *vms)
+ {
+     DeviceState *dev;
+@@ -1670,7 +1683,7 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
+ static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
+ {
+     MachineState *ms = MACHINE(vms);
+-    hwaddr base, device_memory_base, device_memory_size, memtop;
++    hwaddr base, device_memory_base, device_memory_size, memtop, cxl_fmw_base;
+     int i;
+ 
+     vms->memmap = extended_memmap;
+@@ -1762,6 +1775,20 @@ static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
+         memory_region_init(&ms->device_memory->mr, OBJECT(vms),
+                            "device-memory", device_memory_size);
+     }
 +
-+    g_test_init(&argc, &argv, NULL);
-+    qtest_add_func("/acpi-erst/basic", test_acpi_erst_basic);
-+    ret = g_test_run();
-+    return ret;
-+}
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 26937de..581d217 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -68,6 +68,7 @@ qtests_i386 = \
-   (config_all_devices.has_key('CONFIG_RTL8139_PCI') ? ['rtl8139-test'] : []) +              \
-   (config_all_devices.has_key('CONFIG_E1000E_PCI_EXPRESS') ? ['fuzz-e1000e-test'] : []) +   \
-   (config_all_devices.has_key('CONFIG_ESP_PCI') ? ['am53c974-test'] : []) +                 \
-+  (config_all_devices.has_key('CONFIG_ACPI_ERST') ? ['erst-test'] : []) +                        \
-   (config_all_devices.has_key('CONFIG_VIRTIO_NET') and                                      \
-    config_all_devices.has_key('CONFIG_Q35') and                                             \
-    config_all_devices.has_key('CONFIG_VIRTIO_PCI') and                                      \
-@@ -278,6 +279,7 @@ qtests = {
-   'bios-tables-test': [io, 'boot-sector.c', 'acpi-utils.c', 'tpm-emu.c'],
-   'cdrom-test': files('boot-sector.c'),
-   'dbus-vmstate-test': files('migration-helpers.c') + dbus_vmstate1,
-+  'erst-test': files('erst-test.c'),
-   'ivshmem-test': [rt, '../../contrib/ivshmem-server/ivshmem-server.c'],
-   'migration-test': files('migration-helpers.c'),
-   'pxe-test': files('boot-sector.c'),
++    if (ms->cxl_devices_state->fixed_windows) {
++        GList *it;
++
++        cxl_fmw_base = ROUND_UP(base, 256 * MiB);
++        for (it = ms->cxl_devices_state->fixed_windows; it; it = it->next) {
++            CXLFixedWindow *fw = it->data;
++
++            fw->base = cxl_fmw_base;
++            memory_region_init_io(&fw->mr, OBJECT(vms), &cfmws_ops, fw,
++                                  "cxl-fixed-memory-region", fw->size);
++            cxl_fmw_base += fw->size;
++        }
++    }
+ }
+ 
+ /*
+@@ -2175,6 +2202,15 @@ static void machvirt_init(MachineState *machine)
+         memory_region_add_subregion(sysmem, machine->device_memory->base,
+                                     &machine->device_memory->mr);
+     }
++    if (machine->cxl_devices_state->fixed_windows) {
++        GList *it;
++        for (it = machine->cxl_devices_state->fixed_windows; it;
++             it = it->next) {
++            CXLFixedWindow *fw = it->data;
++
++            memory_region_add_subregion(sysmem, fw->base, &fw->mr);
++        }
++    }
+ 
+     virt_flash_fdt(vms, sysmem, secure_sysmem ?: sysmem);
+ 
+@@ -2201,6 +2237,7 @@ static void machvirt_init(MachineState *machine)
+     create_rtc(vms);
+ 
+     create_pcie(vms);
++    create_cxl_host_reg_region(vms);
+ 
+     if (has_ged && aarch64 && firmware_loaded && virt_is_acpi_enabled(vms)) {
+         vms->acpi_dev = create_acpi_ged(vms);
+@@ -2856,7 +2893,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+     hc->unplug = virt_machine_device_unplug_cb;
+     mc->nvdimm_supported = true;
+     mc->smp_props.clusters_supported = true;
+-    mc->cxl_supported = false;
++    mc->cxl_supported = true;
+     mc->auto_enable_numa_with_memhp = true;
+     mc->auto_enable_numa_with_memdev = true;
+     mc->default_ram_id = "mach-virt.ram";
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index c1ea17d0de..097e1f0c36 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -92,6 +92,7 @@ enum {
+ /* indices of IO regions located after the RAM */
+ enum {
+     VIRT_HIGH_GIC_REDIST2 =  VIRT_LOWMEMMAP_LAST,
++    VIRT_CXL_HOST,
+     VIRT_HIGH_PCIE_ECAM,
+     VIRT_HIGH_PCIE_MMIO,
+ };
 -- 
-1.8.3.1
+2.32.0
 
 
