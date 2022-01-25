@@ -2,61 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C19549B2C9
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 12:18:14 +0100 (CET)
-Received: from localhost ([::1]:44052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE8749B2D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 12:23:50 +0100 (CET)
+Received: from localhost ([::1]:50830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCJq1-0001We-K7
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 06:18:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39566)
+	id 1nCJvR-0006Bs-BU
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 06:23:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nCJmC-0006Tk-4V
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:14:16 -0500
-Received: from 6.mo548.mail-out.ovh.net ([188.165.58.48]:41129)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nCJrP-00053Y-Ho
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:19:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nCJm8-0007Pk-Fx
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:14:15 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.240])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 8B6DB21015;
- Tue, 25 Jan 2022 11:14:08 +0000 (UTC)
-Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 25 Jan
- 2022 12:14:07 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R006480be186-772f-44d0-adc8-367c46db1b7a,
- 81DEFC5675B4A2B0B4575F732D37872089199EF9) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <b51d7529-8cf2-3cd8-2689-d60cc2c22aab@kaod.org>
-Date: Tue, 25 Jan 2022 12:14:06 +0100
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nCJrM-0008Sw-8F
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:19:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643109574;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=y7P1yF6o1OHPqp7hOoSyAalTu2Iup6/EEkMk+iLMMvU=;
+ b=aBfPIQbfa8dsqJnBPxIS+bK/KeiOHxBuqYRTIlSWmOLAIa34iYUE9+j/IOEPfQVcNC9Mei
+ +7Sbcoxc2+K7APfMWAgSLu5UzLamF376KqUtRG2dDDnKaqQNblEAqH0vK5Em6PcBoPTWPQ
+ 238ZT9oNXAeRMo7CUomn5Utvgl99efI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-55-waWIfD-NNJ2JiLqdwcidiw-1; Tue, 25 Jan 2022 06:19:33 -0500
+X-MC-Unique: waWIfD-NNJ2JiLqdwcidiw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ w7-20020adfbac7000000b001d6f75e4faeso2924823wrg.7
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 03:19:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=y7P1yF6o1OHPqp7hOoSyAalTu2Iup6/EEkMk+iLMMvU=;
+ b=UoTB1M09WjxTfHitk5zZy5ouUeVr/j05A2/NYAZzc17/9o3/vFIhj6WCbxNDS/mzt6
+ WfhzkflSTedvrzJ/1MOLuWyU+Vcsfibt0n6A0Tdt3ApFvfa9VKsvKg+xJpSu1koyTsPI
+ gLPWf1Gi+Bh/Cxewr7MWZtX8JHNMhCIIH4kFv3ezh7KS2O5N92SD0MELQwrKF8lWNHpx
+ +UfG9jOcdVYRx4kB2rOBI47szvAV80gYQ/R7bf5cc+CDmq4V1Q1xZacY0y8hSEZox8Sq
+ Fuo/NGoUSc6M/wLF9AYmZR7GSuJlmRl1yamZm9FamBF3NsgYZsbUULhyx/v2hyKhj02V
+ jhig==
+X-Gm-Message-State: AOAM5319UB2c2JA1NyP2YAdlAX18xiHTYwcARIBbtquFR+xkgo/PCopi
+ yIDfp2ruKsLHwO9vPZ72YDHvHE/d/aDWHR7KpW9/i/Es1UawZ1nK8rBcO0hHljL+GhfLI2K4/1E
+ bf+8cFkcQ87EIR6U=
+X-Received: by 2002:a1c:1f84:: with SMTP id f126mr2498571wmf.54.1643109572165; 
+ Tue, 25 Jan 2022 03:19:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwFDp4YZNk4fl7pCmfbEJ5EHz3C8prLtjVau8eJb/ZuIsi2yS/OIDSKz2epfcDSu8dSb5cnyg==
+X-Received: by 2002:a1c:1f84:: with SMTP id f126mr2498559wmf.54.1643109571973; 
+ Tue, 25 Jan 2022 03:19:31 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id o14sm5775711wry.104.2022.01.25.03.19.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Jan 2022 03:19:31 -0800 (PST)
+Date: Tue, 25 Jan 2022 11:19:29 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v1 1/2] virtio-mem: Warn if a memory backend with
+ "prealloc=on" is used
+Message-ID: <Ye/cwauVLyq3RSq7@work-vm>
+References: <20220118150712.139953-1-david@redhat.com>
+ <20220118150712.139953-2-david@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] target/ppc/mmu_common: Fix SRR1/MSR error code on Book-E
-Content-Language: en-US
-To: Vitaly Cheptsov <cheptsov@ispras.ru>, <qemu-devel@nongnu.org>
-References: <20220121093107.15478-1-cheptsov@ispras.ru>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220121093107.15478-1-cheptsov@ispras.ru>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: c82a2fb7-0613-4219-b91c-e26fbd417b08
-X-Ovh-Tracer-Id: 15816641895350766441
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrvdelgddvhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=188.165.58.48; envelope-from=clg@kaod.org;
- helo=6.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20220118150712.139953-2-david@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,83 +98,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Michal Privoznik <mprivozn@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/21/22 10:31, Vitaly Cheptsov wrote:
-> Book-E architecture does not set the error code in 31:27 bits
-> of SRR1, but instead uses these bits for custom fields such
-> as GS (Guest Supervisor).
+* David Hildenbrand (david@redhat.com) wrote:
+> "prealloc=on" for the memory backend does not work as expected, as
+> virtio-mem will simply discard all preallocated memory immediately again.
+> In the best case, it's an expensive NOP. In the worst case, it's an
+> unexpected allocation error.
 > 
-> Wrongly setting these fields will result in QEMU crashes
-> when attempting to execute not executable code due to the attempts
-> to use Guest Supervisor mode.
+> Instead, "prealloc=on" should be specified for the virtio-mem device only,
+> such that virtio-mem will try preallocating memory before plugging
+> memory dynamically to the guest.
 > 
-> Cc: "Cédric Le Goater" <clg@kaod.org>
-> Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Cc: Greg Kurz <groug@kaod.org>
-> Cc: qemu-ppc@nongnu.org
-> Cc: qemu-devel@nongnu.org
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Vitaly Cheptsov <cheptsov@ispras.ru>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Why is this a warning rather than an error that stops creation of the
+device?
 
-Thanks,
-
-C.
-
+Dave
 
 > ---
->   target/ppc/mmu_common.c | 18 +++++++++++++++---
->   1 file changed, 15 insertions(+), 3 deletions(-)
+>  hw/virtio/virtio-mem.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-> diff --git a/target/ppc/mmu_common.c b/target/ppc/mmu_common.c
-> index 91270c1f17..6512ee031c 100644
-> --- a/target/ppc/mmu_common.c
-> +++ b/target/ppc/mmu_common.c
-> @@ -1367,22 +1367,34 @@ static bool ppc_jumbo_xlate(PowerPCCPU *cpu, vaddr eaddr,
->               case -2:
->                   /* Access rights violation */
->                   cs->exception_index = POWERPC_EXCP_ISI;
-> -                env->error_code = 0x08000000;
-> +                if ((env->mmu_model == POWERPC_MMU_BOOKE) ||
-> +                    (env->mmu_model == POWERPC_MMU_BOOKE206)) {
-> +                    env->error_code = 0;
-> +                } else {
-> +                    env->error_code = 0x08000000;
-> +                }
->                   break;
->               case -3:
->                   /* No execute protection violation */
->                   if ((env->mmu_model == POWERPC_MMU_BOOKE) ||
->                       (env->mmu_model == POWERPC_MMU_BOOKE206)) {
->                       env->spr[SPR_BOOKE_ESR] = 0x00000000;
-> +                    env->error_code = 0;
-> +                } else {
-> +                    env->error_code = 0x10000000;
->                   }
->                   cs->exception_index = POWERPC_EXCP_ISI;
-> -                env->error_code = 0x10000000;
->                   break;
->               case -4:
->                   /* Direct store exception */
->                   /* No code fetch is allowed in direct-store areas */
->                   cs->exception_index = POWERPC_EXCP_ISI;
-> -                env->error_code = 0x10000000;
-> +                if ((env->mmu_model == POWERPC_MMU_BOOKE) ||
-> +                    (env->mmu_model == POWERPC_MMU_BOOKE206)) {
-> +                    env->error_code = 0;
-> +                } else {
-> +                    env->error_code = 0x10000000;
-> +                }
->                   break;
->               }
->           } else {
+> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+> index 04c223b0c9..6c337db0a7 100644
+> --- a/hw/virtio/virtio-mem.c
+> +++ b/hw/virtio/virtio-mem.c
+> @@ -765,6 +765,13 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
+>          return;
+>      }
+>  
+> +    if (vmem->memdev->prealloc) {
+> +        warn_report("'%s' property specifies a memdev with preallocation"
+> +                    " enabled: %s. Instead, specify 'prealloc=on' for the"
+> +                    " virtio-mem device. ", VIRTIO_MEM_MEMDEV_PROP,
+> +                    object_get_canonical_path_component(OBJECT(vmem->memdev)));
+> +    }
+> +
+>      if ((nb_numa_nodes && vmem->node >= nb_numa_nodes) ||
+>          (!nb_numa_nodes && vmem->node)) {
+>          error_setg(errp, "'%s' property has value '%" PRIu32 "', which exceeds"
+> -- 
+> 2.34.1
 > 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
