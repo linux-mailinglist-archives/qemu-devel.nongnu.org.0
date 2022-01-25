@@ -2,99 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B0F49B1B3
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 11:29:51 +0100 (CET)
-Received: from localhost ([::1]:53912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B0249B1B9
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 11:33:42 +0100 (CET)
+Received: from localhost ([::1]:60554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCJ5B-0008Ck-NG
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 05:29:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42390)
+	id 1nCJ8v-0004PK-DD
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 05:33:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nCIxG-000559-8B; Tue, 25 Jan 2022 05:21:39 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:29718)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nCJ0K-0006F4-0f
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:24:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45053)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nCIxB-0004I1-TP; Tue, 25 Jan 2022 05:21:36 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20PADb7U024665; 
- Tue, 25 Jan 2022 10:21:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=ArCra1fQ8T+J7Ab+fTdca6KALLIXb3h0mQaNiQojm5g=;
- b=it1EWQOFcv8/z3axIyZ9H0BFvSvkPXp6DjtCzrWxT/GD0+R7RJEgrLd72snEvYWv9E+I
- VZo/zxH7nCJg0N6dtIsBNOECzNw1kHR/y0AcuMV1BIdQr30ivJFZMHxanD0ccFTaX5SC
- qDPQ1x9rnv/xEqzupZbX6As157M2P4hK9LAj+eIC0wIb34Du6x4sLlKnQ4jCpWYWsbYr
- kRGqlDEpmZgy1cEIDyDiizXQ1CPatOyI7D8tqVrByk5nj1X0nWZcdLKFwxU4J9nxio8l
- YVrCXQpeFYUCcoYGrXFlCeUk+K/YrL4BW/k1RIRXjvkrQNKMfVGWzlhln7r6QhiQDmlr 7g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dtf92g410-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Jan 2022 10:21:20 +0000
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20PAFSUc029675;
- Tue, 25 Jan 2022 10:21:20 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dtf92g406-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Jan 2022 10:21:19 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20PADO6d016833;
- Tue, 25 Jan 2022 10:21:17 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma01fra.de.ibm.com with ESMTP id 3dr9j9bfvc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Jan 2022 10:21:17 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20PALF6M7537064
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 Jan 2022 10:21:15 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EBCE352059;
- Tue, 25 Jan 2022 10:21:14 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.54.57])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 88CF652051; 
- Tue, 25 Jan 2022 10:21:14 +0000 (GMT)
-Date: Tue, 25 Jan 2022 11:21:12 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 1/1] virtio: fix the condition for iommu_platform not
- supported
-Message-ID: <20220125112112.44957075.pasic@linux.ibm.com>
-In-Reply-To: <20220117120238.2519239-1-pasic@linux.ibm.com>
-References: <20220117120238.2519239-1-pasic@linux.ibm.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nCJ0E-0004f8-E4
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:24:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643106226;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fKmRQGJ3Az1ePxP0DdygxtWNE2BbFYBTFDWYXr/iEXE=;
+ b=WSDGfQlKj0Y/++5AvMvmKtJ6Q36qiKloA0BdTbFSaecCt+cGDobPPsxrsOEjRjARy+GEa+
+ Bj/JCMl4080O+6NgUSxXDERO77mp0xulIrcnXlc9fboqBjjxdD2bfS8WF5z3EUQe2SSzPn
+ DHppoF/1Dc5PJHnDqV9db+c23cc6CYo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-266-mpsB_RxqNS2_lui3OcSmBA-1; Tue, 25 Jan 2022 05:23:43 -0500
+X-MC-Unique: mpsB_RxqNS2_lui3OcSmBA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ a11-20020adffb8b000000b001a0b0f4afe9so2837881wrr.13
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 02:23:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fKmRQGJ3Az1ePxP0DdygxtWNE2BbFYBTFDWYXr/iEXE=;
+ b=ZmVrUtRMS1TXzS1uYw3ifnx7W7UD/9kqj0a91HDnalvL5IFVH3wWdPoQhA+Tw5loE+
+ 8pk/ea+VLj0Rf2cBybS09TofNGzvRIotff8kX/onesVVW3LLX/5l2mP7/sq7VjxBW91D
+ MRIsifJm2n/IEt0XV8Uuh+Wb3IsRZ3vI64fmrkTbRji/v4HRZYKB51cYG74MXbt6MaWI
+ 3FpaMHxt30geBzP96UQ0Rm4DTsAO8oT6t3NFkVuXyA/bTMlUDlJhZww/jyue7Ygz4s+E
+ Gvq9GFpii8UrbAJ4jmbEB3BQAs+fxlzX2DcT98dWGLuXVSvbUAzrX4B+FeKDYI/42B3b
+ Nn6A==
+X-Gm-Message-State: AOAM531x5QziQ2Viie0t6vCXZh+1ai8tDL8PoIaxPzqigQojM3k28ZsI
+ tEsuiRmWpl8XuF1s913+c1yixilo6PgYnGa7PjtCEL+p6AjwK0l0cSEforDTIlho2bJQsm0mlba
+ 0UcZESrgLzwlk3ao=
+X-Received: by 2002:a05:6000:1a8c:: with SMTP id
+ f12mr5914900wry.486.1643106221945; 
+ Tue, 25 Jan 2022 02:23:41 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwhx5Ur7d1nTBFsWG2Squ5DtgiZw4WW6XXBsBGM43a6hQDIdEu9plp6lqko1IlvKfjPgyuuWQ==
+X-Received: by 2002:a05:6000:1a8c:: with SMTP id
+ f12mr5914883wry.486.1643106221749; 
+ Tue, 25 Jan 2022 02:23:41 -0800 (PST)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id y15sm20107789wry.36.2022.01.25.02.23.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Jan 2022 02:23:41 -0800 (PST)
+Message-ID: <bc4a5a11-ad31-0e63-072e-39b49628c77d@redhat.com>
+Date: Tue, 25 Jan 2022 11:23:40 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v1 09/22] tests/lcitool: Refresh submodule and remove
+ libxml2
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, Qemu-block <qemu-block@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20220124201608.604599-1-alex.bennee@linaro.org>
+ <20220124201608.604599-10-alex.bennee@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220124201608.604599-10-alex.bennee@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: D7JEeiz7WS8pZ1XAeAeJVo8iTi5y8_Lx
-X-Proofpoint-ORIG-GUID: X_KNKLS7V44Lj6PNlbI26sGPPLhpBsGC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-25_02,2022-01-25_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- mlxlogscore=999 phishscore=0 spamscore=0 mlxscore=0 priorityscore=1501
- malwarescore=0 clxscore=1015 adultscore=0 lowpriorityscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2201250063
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,99 +104,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, Jakob Naucke <Jakob.Naucke@ibm.com>,
- qemu-stable@nongnu.org
+Cc: Ed Maste <emaste@freebsd.org>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, aaron@os.amperecomputing.com,
+ robhenry@microsoft.com, mahmoudabdalghany@outlook.com, minyihh@uci.edu,
+ cota@braap.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Luke.Craig@ll.mit.edu, kuhn.chenqun@huawei.com, ma.mandourr@gmail.com,
+ Warner Losh <imp@freebsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping
-
-On Mon, 17 Jan 2022 13:02:38 +0100
-Halil Pasic <pasic@linux.ibm.com> wrote:
-
-> The commit 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
-> unsupported") claims to fail the device hotplug when iommu_platform
-> is requested, but not supported by the (vhost) device. On the first
-> glance the condition for detecting that situation looks perfect, but
-> because a certain peculiarity of virtio_platform it ain't.
+On 24/01/2022 21.15, Alex Bennée wrote:
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > 
-> In fact the aforementioned commit introduces a regression. It breaks
-> virtio-fs support for Secure Execution, and most likely also for AMD SEV
-> or any other confidential guest scenario that relies encrypted guest
-> memory.  The same also applies to any other vhost device that does not
-> support _F_ACCESS_PLATFORM.
+> The previous commit removed all uses of libxml2.
 > 
-> The peculiarity is that iommu_platform and _F_ACCESS_PLATFORM collates
-> "device can not access all of the guest RAM" and "iova != gpa, thus
-> device needs to translate iova".
+> Refresh lcitool submodule, update qemu.yml and refresh the generated
+> files by running:
 > 
-> Confidential guest technologies currently rely on the device/hypervisor
-> offering _F_ACCESS_PLATFORM, so that, after the feature has been
-> negotiated, the guest  grants access to the portions of memory the
-> device needs to see. So in for confidential guests, generally,
-> _F_ACCESS_PLATFORM is about the restricted access to memory, but not
-> about the addresses used being something else than guest physical
-> addresses.
+>    $ make lcitool-refresh
 > 
-> This is the very reason for which commit f7ef7e6e3b ("vhost: correctly
-> turn on VIRTIO_F_IOMMU_PLATFORM") for, which fences _F_ACCESS_PLATFORM
-> form the vhost device that does not need it, because on the vhost
-> interface it only means "I/O address translation is needed".
+> Note: This refreshment also removes libudev dependency on Fedora
+> and CentOS due to libvirt-ci commit 18bfaee ("mappings: Improve
+> mapping for libudev"), since "The udev project has been absorbed
+> by the systemd project", and lttng-ust on FreeBSD runners due to
+> libvirt-ci commit 6dd9b6f ("guests: drop lttng-ust from FreeBSD
+> platform").
 > 
-> This patch takes inspiration from f7ef7e6e3b ("vhost: correctly turn on
-> VIRTIO_F_IOMMU_PLATFORM"), and uses the same condition for detecting the
-> situation when _F_ACCESS_PLATFORM is requested, but no I/O translation
-> by the device, and thus no device capability is needed. In this
-> situation claiming that the device does not support iommu_plattform=on
-> is counter-productive. So let us stop doing that!
-> 
-> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-> Reported-by: Jakob Naucke <Jakob.Naucke@ibm.com>
-> Fixes: 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
-> unsupported")
-> Cc: Kevin Wolf <kwolf@redhat.com>
-> Cc: qemu-stable@nongnu.org
-> 
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Message-Id: <20220121154134.315047-6-f4bug@amsat.org>
 > ---
+>   .gitlab-ci.d/cirrus/freebsd-12.vars           | 2 +-
+>   .gitlab-ci.d/cirrus/freebsd-13.vars           | 2 +-
+>   .gitlab-ci.d/cirrus/macos-11.vars             | 2 +-
+>   tests/docker/dockerfiles/alpine.docker        | 4 ++--
+>   tests/docker/dockerfiles/centos8.docker       | 4 +---
+>   tests/docker/dockerfiles/fedora.docker        | 4 +---
+>   tests/docker/dockerfiles/opensuse-leap.docker | 3 +--
+>   tests/docker/dockerfiles/ubuntu1804.docker    | 3 +--
+>   tests/docker/dockerfiles/ubuntu2004.docker    | 3 +--
+>   tests/lcitool/libvirt-ci                      | 2 +-
+>   tests/lcitool/projects/qemu.yml               | 1 -
+>   11 files changed, 11 insertions(+), 19 deletions(-)
 > 
-> v1->v2: 
-> * Commit message tweaks. Most notably fixed commit SHA (Michael)
-> 
-> ---
->  hw/virtio/virtio-bus.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
-> index d23db98c56..c1578f3de2 100644
-> --- a/hw/virtio/virtio-bus.c
-> +++ b/hw/virtio/virtio-bus.c
-> @@ -69,11 +69,6 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
->          return;
->      }
->  
-> -    if (has_iommu && !virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
-> -        error_setg(errp, "iommu_platform=true is not supported by the device");
-> -        return;
-> -    }
-> -
->      if (klass->device_plugged != NULL) {
->          klass->device_plugged(qbus->parent, &local_err);
->      }
-> @@ -88,6 +83,12 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
->      } else {
->          vdev->dma_as = &address_space_memory;
->      }
-> +
-> +    if (has_iommu && vdev->dma_as != &address_space_memory
-> +                  && !virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
-> +        error_setg(errp, "iommu_platform=true is not supported by the device");
-> +        return;
-> +    }
->  }
->  
->  /* Reset the virtio_bus */
-> 
-> base-commit: 6621441db50d5bae7e34dbd04bf3c57a27a71b32
+> diff --git a/.gitlab-ci.d/cirrus/freebsd-12.vars b/.gitlab-ci.d/cirrus/freebsd-12.vars
+> index 9c52266811..07f313aa3a 100644
+> --- a/.gitlab-ci.d/cirrus/freebsd-12.vars
+> +++ b/.gitlab-ci.d/cirrus/freebsd-12.vars
+> @@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
+>   NINJA='/usr/local/bin/ninja'
+>   PACKAGING_COMMAND='pkg'
+>   PIP3='/usr/local/bin/pip-3.8'
+> -PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
+> +PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
+>   PYPI_PKGS=''
+>   PYTHON='/usr/local/bin/python3'
+> diff --git a/.gitlab-ci.d/cirrus/freebsd-13.vars b/.gitlab-ci.d/cirrus/freebsd-13.vars
+> index 7b44dba324..8a648dda1e 100644
+> --- a/.gitlab-ci.d/cirrus/freebsd-13.vars
+> +++ b/.gitlab-ci.d/cirrus/freebsd-13.vars
+> @@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
+>   NINJA='/usr/local/bin/ninja'
+>   PACKAGING_COMMAND='pkg'
+>   PIP3='/usr/local/bin/pip-3.8'
+> -PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
+> +PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
+
+Seems like this now also added fusefs-libs3 on FreeBSD which causes the 
+build to break:
+
+  https://gitlab.com/thuth/qemu/-/jobs/2012083924#L3454
+
+Any ideas how to best fix this?
+
+  Thomas
 
 
