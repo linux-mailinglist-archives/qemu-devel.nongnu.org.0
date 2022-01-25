@@ -2,64 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B143949B2EF
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 12:31:14 +0100 (CET)
-Received: from localhost ([::1]:58908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A3D549B2F4
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 12:33:07 +0100 (CET)
+Received: from localhost ([::1]:34342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCK2b-0003V0-C1
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 06:31:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44220)
+	id 1nCK4Q-00063z-Kc
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 06:33:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nCJzL-0000ca-6s
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:27:52 -0500
-Received: from 10.mo552.mail-out.ovh.net ([87.98.187.244]:54821)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nCK0L-00024w-QX
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:28:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55325)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nCJzI-0001oD-Qu
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:27:50 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.33])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 9A950216FB;
- Tue, 25 Jan 2022 11:27:43 +0000 (UTC)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 25 Jan
- 2022 12:27:42 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002909bcf92-430b-4d05-9bcb-6aa17c564d31,
- B12793B896D1C92594B08C8AD2B724DCB3CD44CA) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <5ae843bb-eb36-5ce8-4ba1-7cc7580c49a3@kaod.org>
-Date: Tue, 25 Jan 2022 12:27:42 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nCK0J-0001ua-9R
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:28:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643110130;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9Q/7Xgjit8KVaacouDJHy8xVZhWz/gzb4TD4M/xZnew=;
+ b=DbeCJRD4zrwRrudNpOVdwKXPwAvhV3Jz5wRFezc2E+8d895Av/O6TBy1jPBgO/142ha0w2
+ dVgQbNqCJvIlUrHqDJ3NqFKXJnqUig9Qx8W5JePXz+cCTKuEzzMYthHtt5fWQrdODB2rtd
+ /LO8MWGlRmMz/qMo0Lbj6a/BXr2RSsM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-66-uEDjPf9aPmmqaNCALH6E8g-1; Tue, 25 Jan 2022 06:28:43 -0500
+X-MC-Unique: uEDjPf9aPmmqaNCALH6E8g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ z2-20020a05600c220200b0034d2eb95f27so1315706wml.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 03:28:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9Q/7Xgjit8KVaacouDJHy8xVZhWz/gzb4TD4M/xZnew=;
+ b=k8n2gY+k0meDKC3zfqEzxYyuxyxgb+AwEowbYdsA36h/r1FjrLLeN8dkLMnYU4QKsY
+ kTRyuhRVwvEnrJsBK9cP86KzNVQkW3W+82K0Hn02jFBGQ2UvmPhxw3JLFs9wIWjBOuSW
+ mYip5MYTL6or+L+E0igp57Co2fhFa+KFzC5Bagk64v5s2pfHeIWNvroiRkwLHJvh6uOV
+ scYpoMDHXlqcqLGhFMyyoIqYVAaOTto8nYBTRsH1FP0WfvFenJKdFDbTEikN+Ae3r/dO
+ aji/EDWfG4FsIoAehtd5V7iBABhXndcAu94VyDcLFOKuG+8cqWg/eA+LnazxtgELebaQ
+ 3Nnw==
+X-Gm-Message-State: AOAM53257acZLEtPPrHfmNOlyQJha9k2ogrIzhy43rGqQkVFzVGL67MT
+ 3DI3gBaeTrWNP/GlPqRlvWUWhU1d4qOcO9eutJlD/QQglAMB3dgZ3BNC1Vz/mV70y4367ySvvqi
+ 2VmFxsf1WeLncuwk=
+X-Received: by 2002:a05:600c:1d06:: with SMTP id
+ l6mr2509075wms.136.1643110122514; 
+ Tue, 25 Jan 2022 03:28:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwas3aSy9X9w0mpT1BL6vmOwhr30CNhvVB4B8NFqg6KFYBziXRsXEhurWkdTqRKlBDh4c+2PA==
+X-Received: by 2002:a05:600c:1d06:: with SMTP id
+ l6mr2509061wms.136.1643110122253; 
+ Tue, 25 Jan 2022 03:28:42 -0800 (PST)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id m5sm110485wms.4.2022.01.25.03.28.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Jan 2022 03:28:41 -0800 (PST)
+Message-ID: <b54be5b8-29e9-ca08-553a-a0635f0ebb83@redhat.com>
+Date: Tue, 25 Jan 2022 12:28:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v2 08/14] target/ppc: 405: System call exception cleanup
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2 2/3] block/export/fuse: Extract
+ fuse_fallocate_zero_range()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20220124220357.74017-1-f4bug@amsat.org>
+ <20220124220357.74017-3-f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220124220357.74017-3-f4bug@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>, Fabiano Rosas
- <farosas@linux.ibm.com>
-References: <20220118184448.852996-1-farosas@linux.ibm.com>
- <20220118184448.852996-9-farosas@linux.ibm.com> <YeerEWyGu5j+Akeb@yekko>
- <7e2e4d56-4cdf-4f9f-65e4-359453ba20fb@kaod.org>
-In-Reply-To: <7e2e4d56-4cdf-4f9f-65e4-359453ba20fb@kaod.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 05e2c173-a4e0-40f9-9777-cad8c662b1f1
-X-Ovh-Tracer-Id: 16046043998229924646
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrvdelgddvjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuhffvfhgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeihfefffffgedtkeegtdekffevudeggfegffethfffhefhhfevhfdtudejhfdvieenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepsggrlhgrthhonhesvghikhdrsghmvgdrhhhu
-Received-SPF: pass client-ip=87.98.187.244; envelope-from=clg@kaod.org;
- helo=10.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,38 +103,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Kyle Evans <kevans@freebsd.org>, Ed Maste <emaste@freebsd.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, qemu-block@nongnu.org,
+ Fabrice Fontaine <fontaine.fabrice@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/25/22 09:18, Cédric Le Goater wrote:
-> On 1/19/22 07:09, David Gibson wrote:
->> On Tue, Jan 18, 2022 at 03:44:42PM -0300, Fabiano Rosas wrote:
->>> There's no sc 1.
->>
->> No... but what exactly should and will happen if you attempt to
->> execute an "sc 1" on 40x.  Will it be treated as an "sc 0", or will it
->> cause a 0x700?  If it's a 0x700, better double check that that is
->> generated at translation time, if you're removing the check on level
->> here.
+On 24/01/2022 23.03, Philippe Mathieu-Daudé via wrote:
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   block/export/fuse.c | 48 +++++++++++++++++++++++++++++----------------
+>   1 file changed, 31 insertions(+), 17 deletions(-)
 > 
-> A Program Interrupt with the illegal instruction error code should be
-> generated at translation time but it is not the case today. It never
-> was correctly implemented AFAICT :
-> 
->    /* Top bit of opc2 corresponds with low bit of LEV, so use two handlers */
->    GEN_HANDLER(sc, 0x11, 0x11, 0xFF, 0x03FFF01D, PPC_FLOW),
->    GEN_HANDLER(sc, 0x11, 0x01, 0xFF, 0x03FFF01D, PPC_FLOW),
-> 
-> We would need a simple 'sc' instruction for the PPC405 and other
-> processors. Let's add that to the TODO list.
+> diff --git a/block/export/fuse.c b/block/export/fuse.c
+> index 31cb0503adc..3a158342c75 100644
+> --- a/block/export/fuse.c
+> +++ b/block/export/fuse.c
+> @@ -603,6 +603,35 @@ static void fuse_write(fuse_req_t req, fuse_ino_t inode, const char *buf,
+>       }
+>   }
+>   
+> +static bool fuse_fallocate_punch_hole(fuse_req_t req, fuse_ino_t inode,
+> +                                      int mode, int64_t blk_len,
+> +                                      off_t offset, off_t *length)
+> +{
+> +    FuseExport *exp = fuse_req_userdata(req);
+> +
+> +    if (mode & FALLOC_FL_KEEP_SIZE) {
+> +        *length = MIN(*length, blk_len - offset);
+> +    }
+> +
+> +    if (mode & FALLOC_FL_PUNCH_HOLE) {
+> +        int ret;
+> +
+> +        if (!(mode & FALLOC_FL_KEEP_SIZE)) {
+> +            fuse_reply_err(req, EINVAL);
+> +            return false;
+> +        }
+> +
+> +        do {
+> +            int size = MIN(*length, BDRV_REQUEST_MAX_BYTES);
+> +
+> +            ret = blk_pdiscard(exp->common.blk, offset, size);
+> +            offset += size;
+> +            *length -= size;
+> +        } while (ret == 0 && *length > 0);
+> +    }
+> +    return true;
+> +}
+> +
+>   static bool fuse_fallocate_zero_range(fuse_req_t req, fuse_ino_t inode,
+>                                         int mode, int64_t blk_len,
+>                                         off_t offset, off_t *length)
+> @@ -657,23 +686,8 @@ static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
+>           return;
+>       }
+>   
+> -    if (mode & FALLOC_FL_KEEP_SIZE) {
+> -        length = MIN(length, blk_len - offset);
+> -    }
+> -
+> -    if (mode & FALLOC_FL_PUNCH_HOLE) {
+> -        if (!(mode & FALLOC_FL_KEEP_SIZE)) {
+> -            fuse_reply_err(req, EINVAL);
+> -            return;
+> -        }
+> -
+> -        do {
+> -            int size = MIN(length, BDRV_REQUEST_MAX_BYTES);
+> -
+> -            ret = blk_pdiscard(exp->common.blk, offset, size);
+> -            offset += size;
+> -            length -= size;
+> -        } while (ret == 0 && length > 0);
+> +    if (!fuse_fallocate_punch_hole(req, inode, mode, blk_len, offset, &length)) {
+> +        return;
 
-The ref405ep machine now boots a mainline Linux with a buildroot user space.
-Let's get this series merged first.
+Same issue as with the previous patch? If the do-while loop has been 
+executed, the else branches below should not be called...
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+  Thomas
 
-Thanks,
+>       } else if (!fuse_fallocate_zero_range(req, inode, blk_len, mode, offset, &length)) {
+>           return;
+>       } else if (!mode) {
 
-C.
 
