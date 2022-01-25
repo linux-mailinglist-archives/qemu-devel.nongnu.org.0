@@ -2,69 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A5449B2F5
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 12:33:32 +0100 (CET)
-Received: from localhost ([::1]:35934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 036F949B304
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 12:38:36 +0100 (CET)
+Received: from localhost ([::1]:39050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCK4p-00078G-FK
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 06:33:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45320)
+	id 1nCK9i-00010l-PK
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 06:38:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nCK2p-00055s-Hk
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:31:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22463)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nCK7e-0000G8-VE
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:36:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33190)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nCK2n-0002Qv-FD
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:31:27 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nCK7a-0003Wk-NW
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:36:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643110277;
+ s=mimecast20190719; t=1643110574;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2gsdoXteg5dJdfzMkwUMaQPsXS9PFyIHlEabsR91v3k=;
- b=HB8II3lF74vuwh+cN1MqksdJublmM3jRNO95ngIbD5kxkmU6aGyO/NAZONUmc0FbAtkaPK
- EunzMe9lhxh5fOG8Z29Mw/+Joq8/hpGeQ/QOXkarVPz32fBtn6aYOq4EVuV4MAeEba35Zr
- RK8k0RZGrDnhjiSu+lngjjFgK7LXbGg=
+ bh=HdAh07n39LkLkBs/H9oheuevBjaeT4FvPn+TzmQfVY8=;
+ b=WkbYV/+UAmEzUHyYomfMXQEMpKadE154C5V9Qs2q/G6IBfUlUBFAkDBBm1xMG0sZjgbe15
+ cPmJez09yIivhtyJ30MD9RoOow6TVrkWrxWHXtIX5WHkOFVeyzEq8fIMQ64/UAmT2d+5ot
+ 38IIEZkfjIEnSmvymhM+HpX6huvoVKA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-316-uB_fWsmLO8iq6F9gSZgVoQ-1; Tue, 25 Jan 2022 06:31:13 -0500
-X-MC-Unique: uB_fWsmLO8iq6F9gSZgVoQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-508-A4R6AmTLN2yXGDSH9ZebpQ-1; Tue, 25 Jan 2022 06:36:10 -0500
+X-MC-Unique: A4R6AmTLN2yXGDSH9ZebpQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6CBE1083F60;
- Tue, 25 Jan 2022 11:31:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D27D100C661;
+ Tue, 25 Jan 2022 11:36:09 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-10.ams2.redhat.com
  [10.36.112.10])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 84616752B0;
- Tue, 25 Jan 2022 11:31:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FB34106C064;
+ Tue, 25 Jan 2022 11:36:09 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EDADF113864A; Tue, 25 Jan 2022 12:31:10 +0100 (CET)
+ id F3A9E113864A; Tue, 25 Jan 2022 12:36:07 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v4 3/3] meson: generate trace events for qmp commands
-References: <20220121162234.2707906-1-vsementsov@virtuozzo.com>
- <20220121162234.2707906-4-vsementsov@virtuozzo.com>
- <87ilu82jtk.fsf@dusky.pond.sub.org>
- <fd9a18be-1add-89c2-3da3-fa72c5419d44@virtuozzo.com>
- <87cfc19e-5eaf-4c1b-59c0-29870c063939@virtuozzo.com>
-Date: Tue, 25 Jan 2022 12:31:10 +0100
-In-Reply-To: <87cfc19e-5eaf-4c1b-59c0-29870c063939@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Tue, 25 Jan 2022 14:13:40 +0300")
-Message-ID: <87tuds2gsh.fsf@dusky.pond.sub.org>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: KVM call for agenda for 2022-01-25
+References: <87y2355xe8.fsf@secure.mitica>
+Date: Tue, 25 Jan 2022 12:36:07 +0100
+In-Reply-To: <87y2355xe8.fsf@secure.mitica> (Juan Quintela's message of "Mon, 
+ 24 Jan 2022 09:51:59 +0100")
+Message-ID: <87mtjk2gk8.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -86,72 +76,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, michael.roth@amd.com, qemu-devel@nongnu.org,
- hreitz@redhat.com, stefanha@redhat.com, pbonzini@redhat.com, jsnow@redhat.com
+Cc: qemu-devel@nongnu.org, kvm-devel <kvm@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+Juan Quintela <quintela@redhat.com> writes:
 
-> 25.01.2022 14:03, Vladimir Sementsov-Ogievskiy wrote:
->> 25.01.2022 13:25, Markus Armbruster wrote:
->>> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
->>>
->>>> 1. Add --no-trace-events to suppress trace events generation in some
->>>> =C2=A0=C2=A0=C2=A0 cases, and make trace events be generated by defaul=
-t.
->>>> 2. Add corresponding .trace-events files as outputs in qapi_files
->>>> =C2=A0=C2=A0=C2=A0 custom target
->>>> 3. Define global qapi_trace_events list of .trace-events file targets,
->>>> =C2=A0=C2=A0=C2=A0 to fill in trace/qapi.build and to use in trace/mes=
-on.build
->>>> 4. In trace/meson.build use the new array as an additional source of
->>>> =C2=A0=C2=A0=C2=A0 .trace_events files to be processed
->>>>
->>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>>> ---
->>>> =C2=A0 docs/devel/qapi-code-gen.rst | 23 +++++++++++++++++++++--
->>>
->>> The doc update isn't mentioned in the commit message.
->>>
->>>> =C2=A0 meson.build=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 +++
->>>> =C2=A0 qapi/meson.build=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 7 +++++++
->>>> =C2=A0 qga/meson.build=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 11 ++++++++++-
->>>> =C2=A0 scripts/qapi/main.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 10 +++++++---
->>>> =C2=A0 tests/meson.build=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 11 ++++++++++-
->>>> =C2=A0 trace/meson.build=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 11 ++++++++---
->>>> =C2=A0 7 files changed, 66 insertions(+), 10 deletions(-)
->>>
->>> This commit consists of a small QAPI code generator change, build syste=
-m
->>> work to put it to use, and QAPI documentation update for the series'
->>> feature.
->>>
->>> I'd reshuffle as follows:
->>>
->>> * Squash the main.py change into the previous commit.
->>>
->>> * Split off the doc update into its own commit.
->>>
->>> This way, build system experts can provide an R-by in good conscience
->>> without reviewing the doc update, and vice versa.
->>>
->> But I think this way build will fail on previous commit. Or we
->> should still keep trace-generation disabled in previous commit, and
->> enable it only together with meson changes.
->>=20
+> Hi
 >
-> May be keep positive option --gen-trace-events in previous commit, like i=
-n my previous version? This way meson-changing commit becomes self-sufficie=
-nt. And then in additional commit change the default and drop --gen-trace-e=
-vents option and add --no-trace-events instead.
+> Please, send any topic that you are interested in covering.
+>
+> This week we have a continuation of 2 weeks ago call to discuss how to
+> enable creation of machines from QMP sooner on the boot.
+>
+> There was already a call about this 2 weeks ago where we didn't finished
+> everything.
+> I have been on vacation last week and I haven't been able to send a
+> "kind of resume" of the call.
+>
+> Basically what we need is:
+> - being able to create machines sooner that we are today
+> - being able to change the devices that are in the boards, in
+>   particular, we need to be able to create a board deciding what devices
+>   it has and how they are connected without recompiling qemu.
+>   This means to launch QMP sooner that we do today.
+> - Several options was proposed:
+>   - create a new binary that only allows QMP machine creation.
+>     and continue having the old command line
+>   - create a new binary, and change current HMP/command line to just
+>     call this new binary.  This way we make sure that everything can be
+>     done through QMP.
+>   - stay with only one binary but change it so we can call QMP sooner.
+> - There is agreement that we need to be able to call QMP sooner.
+> - There is NO agreement about how the best way to proceed:
+>   * We don't want this to be a multiyear effort, i.e. we want something
+>     that can be used relatively soon (this means that using only one
+>     binary can be tricky).
+>   * If we start with a new binary that only allows qmp and we wait until
+>     everything has been ported to QMP, it can take forever, and during
+>     that time we have to maintain two binaries.
+>   * Getting a new binary lets us to be more agreessive about what we can
+>     remove/change. i.e. easier experimentation.
+>   * Management Apps will only use QMP, not the command line, or they
+>     even use libvirt and don't care at all about qemu.  So it appears
+>     that HMP is only used for developers, so we can be loose about
+>     backwards compatibility. I.e. if we allow the same functionality,
+>     but the syntax is different, we don't care.
+>
+> Discussion was longer, but it was difficult to take notes and as I said,
+> the only thing that appears that everybody agrees is that we need an
+> agreement about what is the plan to go there.
+>
+> After discussions on the QEMU Summit, we are going to have always open a
+> KVM call where you can add topics.
+>
+>  Call details:
+>
+> By popular demand, a google calendar public entry with it
+>
+>   https://www.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
+>
+> (Let me know if you have any problems with the calendar entry.  I just
+> gave up about getting right at the same time CEST, CET, EDT and DST).
 
-You choose.  But I'd spell it --gen-trace.
+https://wiki.qemu.org/Contribute claims the call is at
+
+    $ date -d 'TZ="America/New_York" Tuesday 10:00 am'
+    Tue Jan 25 16:00:00 CET 2022
+
+Is that correct?
+
+> If you need phone number details,  contact me privately
+>
+> Thanks, Juan.
 
 
