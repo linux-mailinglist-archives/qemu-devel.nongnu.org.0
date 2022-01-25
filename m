@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BF0D49C1B4
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 04:06:48 +0100 (CET)
-Received: from localhost ([::1]:50438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17A0849C1AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 04:02:59 +0100 (CET)
+Received: from localhost ([::1]:43510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCYdz-0005iK-P8
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 22:06:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60458)
+	id 1nCYaG-0000w0-1O
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 22:02:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nCYWD-0006i0-S8; Tue, 25 Jan 2022 21:58:45 -0500
+ id 1nCYWA-0006cq-RS; Tue, 25 Jan 2022 21:58:42 -0500
 Received: from [187.72.171.209] (port=56550 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nCYWC-0004u9-04; Tue, 25 Jan 2022 21:58:45 -0500
+ id 1nCYW9-0004u9-95; Tue, 25 Jan 2022 21:58:42 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 25 Jan 2022 09:20:42 -0300
+ Tue, 25 Jan 2022 09:20:44 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 56A288009AB;
- Tue, 25 Jan 2022 09:20:42 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 826BD8009AB;
+ Tue, 25 Jan 2022 09:20:44 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 24/38] tcg/tcg-op-gvec.c: Introduce tcg_gen_gvec_4i
-Date: Tue, 25 Jan 2022 09:19:29 -0300
-Message-Id: <20220125121943.3269077-25-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v2 30/38] target/ppc: Remove xscmpnedp instruction
+Date: Tue, 25 Jan 2022 09:19:35 -0300
+Message-Id: <20220125121943.3269077-31-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220125121943.3269077-1-matheus.ferst@eldorado.org.br>
 References: <20220125121943.3269077-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 25 Jan 2022 12:20:42.0715 (UTC)
- FILETIME=[F8D262B0:01D811E5]
+X-OriginalArrivalTime: 25 Jan 2022 12:20:44.0919 (UTC)
+ FILETIME=[FA22B070:01D811E5]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, OBFU_UNSUB_UL=1,
- PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,240 +59,77 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
+ =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>,
  clg@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
  david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+From: Víctor Colombo <victor.colombo@eldorado.org.br>
 
-Following the implementation of tcg_gen_gvec_3i, add a four-vector and
-immediate operand expansion method.
+xscmpnedp was added in ISA v3.0 but removed in v3.0B. This patch
+removes this instruction as it was not in the final version of v3.0.
 
+Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+Acked-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- include/tcg/tcg-op-gvec.h |  22 ++++++
- tcg/tcg-op-gvec.c         | 146 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 168 insertions(+)
+ target/ppc/fpu_helper.c             | 1 -
+ target/ppc/helper.h                 | 1 -
+ target/ppc/translate/vsx-impl.c.inc | 1 -
+ target/ppc/translate/vsx-ops.c.inc  | 1 -
+ 4 files changed, 4 deletions(-)
 
-diff --git a/include/tcg/tcg-op-gvec.h b/include/tcg/tcg-op-gvec.h
-index da55fed870..28cafbcc5c 100644
---- a/include/tcg/tcg-op-gvec.h
-+++ b/include/tcg/tcg-op-gvec.h
-@@ -218,6 +218,25 @@ typedef struct {
-     bool write_aofs;
- } GVecGen4;
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index cd4e07ed5b..6b0296525b 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -2313,7 +2313,6 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                             \
+ VSX_SCALAR_CMP_DP(xscmpeqdp, eq, 1, 0)
+ VSX_SCALAR_CMP_DP(xscmpgedp, le, 1, 1)
+ VSX_SCALAR_CMP_DP(xscmpgtdp, lt, 1, 1)
+-VSX_SCALAR_CMP_DP(xscmpnedp, eq, 0, 0)
  
-+typedef struct {
-+    /*
-+     * Expand inline as a 64-bit or 32-bit integer. Only one of these will be
-+     * non-NULL.
-+     */
-+    void (*fni8)(TCGv_i64, TCGv_i64, TCGv_i64, TCGv_i64, int64_t);
-+    void (*fni4)(TCGv_i32, TCGv_i32, TCGv_i32, TCGv_i32, int32_t);
-+    /* Expand inline with a host vector type.  */
-+    void (*fniv)(unsigned, TCGv_vec, TCGv_vec, TCGv_vec, TCGv_vec, int64_t);
-+    /* Expand out-of-line helper w/descriptor, data in descriptor.  */
-+    gen_helper_gvec_4 *fno;
-+    /* The optional opcodes, if any, utilized by .fniv.  */
-+    const TCGOpcode *opt_opc;
-+    /* The vector element size, if applicable.  */
-+    uint8_t vece;
-+    /* Prefer i64 to v64.  */
-+    bool prefer_i64;
-+} GVecGen4i;
-+
- void tcg_gen_gvec_2(uint32_t dofs, uint32_t aofs,
-                     uint32_t oprsz, uint32_t maxsz, const GVecGen2 *);
- void tcg_gen_gvec_2i(uint32_t dofs, uint32_t aofs, uint32_t oprsz,
-@@ -231,6 +250,9 @@ void tcg_gen_gvec_3i(uint32_t dofs, uint32_t aofs, uint32_t bofs,
-                      const GVecGen3i *);
- void tcg_gen_gvec_4(uint32_t dofs, uint32_t aofs, uint32_t bofs, uint32_t cofs,
-                     uint32_t oprsz, uint32_t maxsz, const GVecGen4 *);
-+void tcg_gen_gvec_4i(uint32_t dofs, uint32_t aofs, uint32_t bofs, uint32_t cofs,
-+                     uint32_t oprsz, uint32_t maxsz, int64_t c,
-+                     const GVecGen4i *);
- 
- /* Expand a specific vector operation.  */
- 
-diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
-index ffe55e908f..079a761b04 100644
---- a/tcg/tcg-op-gvec.c
-+++ b/tcg/tcg-op-gvec.c
-@@ -836,6 +836,30 @@ static void expand_4_i32(uint32_t dofs, uint32_t aofs, uint32_t bofs,
-     tcg_temp_free_i32(t0);
- }
- 
-+static void expand_4i_i32(uint32_t dofs, uint32_t aofs, uint32_t bofs,
-+                          uint32_t cofs, uint32_t oprsz, int32_t c,
-+                          void (*fni)(TCGv_i32, TCGv_i32, TCGv_i32, TCGv_i32,
-+                                      int32_t))
-+{
-+    TCGv_i32 t0 = tcg_temp_new_i32();
-+    TCGv_i32 t1 = tcg_temp_new_i32();
-+    TCGv_i32 t2 = tcg_temp_new_i32();
-+    TCGv_i32 t3 = tcg_temp_new_i32();
-+    uint32_t i;
-+
-+    for (i = 0; i < oprsz; i += 4) {
-+        tcg_gen_ld_i32(t1, cpu_env, aofs + i);
-+        tcg_gen_ld_i32(t2, cpu_env, bofs + i);
-+        tcg_gen_ld_i32(t3, cpu_env, cofs + i);
-+        fni(t0, t1, t2, t3, c);
-+        tcg_gen_st_i32(t0, cpu_env, dofs + i);
-+    }
-+    tcg_temp_free_i32(t3);
-+    tcg_temp_free_i32(t2);
-+    tcg_temp_free_i32(t1);
-+    tcg_temp_free_i32(t0);
-+}
-+
- /* Expand OPSZ bytes worth of two-operand operations using i64 elements.  */
- static void expand_2_i64(uint32_t dofs, uint32_t aofs, uint32_t oprsz,
-                          bool load_dest, void (*fni)(TCGv_i64, TCGv_i64))
-@@ -971,6 +995,30 @@ static void expand_4_i64(uint32_t dofs, uint32_t aofs, uint32_t bofs,
-     tcg_temp_free_i64(t0);
- }
- 
-+static void expand_4i_i64(uint32_t dofs, uint32_t aofs, uint32_t bofs,
-+                          uint32_t cofs, uint32_t oprsz, int64_t c,
-+                          void (*fni)(TCGv_i64, TCGv_i64, TCGv_i64, TCGv_i64,
-+                                      int64_t))
-+{
-+    TCGv_i64 t0 = tcg_temp_new_i64();
-+    TCGv_i64 t1 = tcg_temp_new_i64();
-+    TCGv_i64 t2 = tcg_temp_new_i64();
-+    TCGv_i64 t3 = tcg_temp_new_i64();
-+    uint32_t i;
-+
-+    for (i = 0; i < oprsz; i += 8) {
-+        tcg_gen_ld_i64(t1, cpu_env, aofs + i);
-+        tcg_gen_ld_i64(t2, cpu_env, bofs + i);
-+        tcg_gen_ld_i64(t3, cpu_env, cofs + i);
-+        fni(t0, t1, t2, t3, c);
-+        tcg_gen_st_i64(t0, cpu_env, dofs + i);
-+    }
-+    tcg_temp_free_i64(t3);
-+    tcg_temp_free_i64(t2);
-+    tcg_temp_free_i64(t1);
-+    tcg_temp_free_i64(t0);
-+}
-+
- /* Expand OPSZ bytes worth of two-operand operations using host vectors.  */
- static void expand_2_vec(unsigned vece, uint32_t dofs, uint32_t aofs,
-                          uint32_t oprsz, uint32_t tysz, TCGType type,
-@@ -1121,6 +1169,35 @@ static void expand_4_vec(unsigned vece, uint32_t dofs, uint32_t aofs,
-     tcg_temp_free_vec(t0);
- }
- 
-+/*
-+ * Expand OPSZ bytes worth of four-vector operands and an immediate operand
-+ * using host vectors.
-+ */
-+static void expand_4i_vec(unsigned vece, uint32_t dofs, uint32_t aofs,
-+                          uint32_t bofs, uint32_t cofs, uint32_t oprsz,
-+                          uint32_t tysz, TCGType type, int64_t c,
-+                          void (*fni)(unsigned, TCGv_vec, TCGv_vec,
-+                                     TCGv_vec, TCGv_vec, int64_t))
-+{
-+    TCGv_vec t0 = tcg_temp_new_vec(type);
-+    TCGv_vec t1 = tcg_temp_new_vec(type);
-+    TCGv_vec t2 = tcg_temp_new_vec(type);
-+    TCGv_vec t3 = tcg_temp_new_vec(type);
-+    uint32_t i;
-+
-+    for (i = 0; i < oprsz; i += tysz) {
-+        tcg_gen_ld_vec(t1, cpu_env, aofs + i);
-+        tcg_gen_ld_vec(t2, cpu_env, bofs + i);
-+        tcg_gen_ld_vec(t3, cpu_env, cofs + i);
-+        fni(vece, t0, t1, t2, t3, c);
-+        tcg_gen_st_vec(t0, cpu_env, dofs + i);
-+    }
-+    tcg_temp_free_vec(t3);
-+    tcg_temp_free_vec(t2);
-+    tcg_temp_free_vec(t1);
-+    tcg_temp_free_vec(t0);
-+}
-+
- /* Expand a vector two-operand operation.  */
- void tcg_gen_gvec_2(uint32_t dofs, uint32_t aofs,
-                     uint32_t oprsz, uint32_t maxsz, const GVecGen2 *g)
-@@ -1533,6 +1610,75 @@ void tcg_gen_gvec_4(uint32_t dofs, uint32_t aofs, uint32_t bofs, uint32_t cofs,
-     }
- }
- 
-+/* Expand a vector four-operand operation.  */
-+void tcg_gen_gvec_4i(uint32_t dofs, uint32_t aofs, uint32_t bofs, uint32_t cofs,
-+                     uint32_t oprsz, uint32_t maxsz, int64_t c,
-+                     const GVecGen4i *g)
-+{
-+    const TCGOpcode *this_list = g->opt_opc ? : vecop_list_empty;
-+    const TCGOpcode *hold_list = tcg_swap_vecop_list(this_list);
-+    TCGType type;
-+    uint32_t some;
-+
-+    check_size_align(oprsz, maxsz, dofs | aofs | bofs | cofs);
-+    check_overlap_4(dofs, aofs, bofs, cofs, maxsz);
-+
-+    type = 0;
-+    if (g->fniv) {
-+        type = choose_vector_type(g->opt_opc, g->vece, oprsz, g->prefer_i64);
-+    }
-+    switch (type) {
-+    case TCG_TYPE_V256:
-+        /*
-+         * Recall that ARM SVE allows vector sizes that are not a
-+         * power of 2, but always a multiple of 16.  The intent is
-+         * that e.g. size == 80 would be expanded with 2x32 + 1x16.
-+         */
-+        some = QEMU_ALIGN_DOWN(oprsz, 32);
-+        expand_4i_vec(g->vece, dofs, aofs, bofs, cofs, some,
-+                      32, TCG_TYPE_V256, c, g->fniv);
-+        if (some == oprsz) {
-+            break;
-+        }
-+        dofs += some;
-+        aofs += some;
-+        bofs += some;
-+        cofs += some;
-+        oprsz -= some;
-+        maxsz -= some;
-+        /* fallthru */
-+    case TCG_TYPE_V128:
-+        expand_4i_vec(g->vece, dofs, aofs, bofs, cofs, oprsz,
-+                       16, TCG_TYPE_V128, c, g->fniv);
-+        break;
-+    case TCG_TYPE_V64:
-+        expand_4i_vec(g->vece, dofs, aofs, bofs, cofs, oprsz,
-+                      8, TCG_TYPE_V64, c, g->fniv);
-+        break;
-+
-+    case 0:
-+        if (g->fni8 && check_size_impl(oprsz, 8)) {
-+            expand_4i_i64(dofs, aofs, bofs, cofs, oprsz, c, g->fni8);
-+        } else if (g->fni4 && check_size_impl(oprsz, 4)) {
-+            expand_4i_i32(dofs, aofs, bofs, cofs, oprsz, c, g->fni4);
-+        } else {
-+            assert(g->fno != NULL);
-+            tcg_gen_gvec_4_ool(dofs, aofs, bofs, cofs,
-+                               oprsz, maxsz, c, g->fno);
-+            oprsz = maxsz;
-+        }
-+        break;
-+
-+    default:
-+        g_assert_not_reached();
-+    }
-+    tcg_swap_vecop_list(hold_list);
-+
-+    if (oprsz < maxsz) {
-+        expand_clr(dofs + oprsz, maxsz - oprsz);
-+    }
-+}
-+
- /*
-  * Expand specific vector operations.
-  */
+ void helper_xscmpexpdp(CPUPPCState *env, uint32_t opcode,
+                        ppc_vsr_t *xa, ppc_vsr_t *xb)
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index c2c9cff175..ca13d9b3d9 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -369,7 +369,6 @@ DEF_HELPER_5(XSNMSUBDP, void, env, vsr, vsr, vsr, vsr)
+ DEF_HELPER_4(xscmpeqdp, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(xscmpgtdp, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(xscmpgedp, void, env, vsr, vsr, vsr)
+-DEF_HELPER_4(xscmpnedp, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(xscmpexpdp, void, env, i32, vsr, vsr)
+ DEF_HELPER_4(xscmpexpqp, void, env, i32, vsr, vsr)
+ DEF_HELPER_4(xscmpodp, void, env, i32, vsr, vsr)
+diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+index 5a0ec8e828..9be7bf0ffd 100644
+--- a/target/ppc/translate/vsx-impl.c.inc
++++ b/target/ppc/translate/vsx-impl.c.inc
+@@ -1053,7 +1053,6 @@ GEN_VSX_HELPER_X1(xstsqrtdp, 0x14, 0x06, 0, PPC2_VSX)
+ GEN_VSX_HELPER_X3(xscmpeqdp, 0x0C, 0x00, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_X3(xscmpgtdp, 0x0C, 0x01, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_X3(xscmpgedp, 0x0C, 0x02, 0, PPC2_ISA300)
+-GEN_VSX_HELPER_X3(xscmpnedp, 0x0C, 0x03, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_X2_AB(xscmpexpdp, 0x0C, 0x07, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_R2_AB(xscmpexpqp, 0x04, 0x05, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_X2_AB(xscmpodp, 0x0C, 0x05, 0, PPC2_VSX)
+diff --git a/target/ppc/translate/vsx-ops.c.inc b/target/ppc/translate/vsx-ops.c.inc
+index 9cfec53df0..34310c1fb5 100644
+--- a/target/ppc/translate/vsx-ops.c.inc
++++ b/target/ppc/translate/vsx-ops.c.inc
+@@ -189,7 +189,6 @@ GEN_XX2FORM(xstsqrtdp,  0x14, 0x06, PPC2_VSX),
+ GEN_XX3FORM(xscmpeqdp, 0x0C, 0x00, PPC2_ISA300),
+ GEN_XX3FORM(xscmpgtdp, 0x0C, 0x01, PPC2_ISA300),
+ GEN_XX3FORM(xscmpgedp, 0x0C, 0x02, PPC2_ISA300),
+-GEN_XX3FORM(xscmpnedp, 0x0C, 0x03, PPC2_ISA300),
+ GEN_XX3FORM(xscmpexpdp, 0x0C, 0x07, PPC2_ISA300),
+ GEN_VSX_XFORM_300(xscmpexpqp, 0x04, 0x05, 0x00600001),
+ GEN_XX2IFORM(xscmpodp,  0x0C, 0x05, PPC2_VSX),
 -- 
 2.25.1
 
