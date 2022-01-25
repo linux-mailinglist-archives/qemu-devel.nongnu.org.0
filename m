@@ -2,90 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1B9F49BA74
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 18:35:47 +0100 (CET)
-Received: from localhost ([::1]:51866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F5249BA7C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 18:37:53 +0100 (CET)
+Received: from localhost ([::1]:56170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCPj8-0003sS-QA
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 12:35:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43828)
+	id 1nCPlQ-00066P-CK
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 12:37:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nCPdB-00085N-Kl
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 12:29:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33638)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nCPfr-0000rD-GM
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 12:32:08 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:44203)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nCPd3-0007lC-Io
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 12:29:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643131752;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dVt/rcCoZReWs+Q618Sxm77QjN6535brF66Te2gXuwU=;
- b=DwR1Z0DfXc/+0cLiCoGmLKdasPkm3mqbXqBifVYOTvoqo/U8vLMwCc2+KPJrDe4xMO69WS
- qVhrVsxP+vKu3lYRTBRRy19y7j4QW9LWltgoF72Z0o0MevA3y9CA4pAVRzcJY7KBcZGGUc
- zBVGzIG8Gu8fO24cQg61uMuNk0VxF8I=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-232-R91O3wy8OzeUdLyuS-jfDg-1; Tue, 25 Jan 2022 12:29:09 -0500
-X-MC-Unique: R91O3wy8OzeUdLyuS-jfDg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- m17-20020adfa3d1000000b001dd66c10c0cso844803wrb.19
- for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 09:29:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=dVt/rcCoZReWs+Q618Sxm77QjN6535brF66Te2gXuwU=;
- b=dTL3Fsr2kU3f/aZ3sVPc9/qvwUVGSFU68lHJ81saESzGy+fpj5PUrY7Q/hTIZrnftj
- A09pcRYSmhlKuI6MY48RoGPrcPzqGoTzqyP/VcLb/wuzwhEN+B0YliYQQmon2nXgF44i
- GUrQp+4+BD99E3e3BJjhrcDvnYqjQX5K55pFmFppaoy2L8WSdHT5iULCvBsS3ePL281L
- Z3WE85G3+uwNv//5d9ywzCn2jla2TfaWiiQc8ymw26jlyNgztHHCp6Tr9tOMgsA+AhLm
- 88wcFctg8nc1aT+0eN3U/6BxXhNp/AUVo5rx4lD4+HCv/Bw5GSp56I2EALyVu3F38+wm
- pV3w==
-X-Gm-Message-State: AOAM530TFqTetzRx6VT1fGrkx0zSvHwjgaJCh69gL4JbMQ9BL2Zb4zcF
- 6SqrVjAFm2aT4RT+GVUv6TdO/rYPoSvlny4Dw5nORsJBOg7v3byJ39CW0nb2yla+zZSYF3eJ9BS
- YfdRx/Kd+LnmAVbY=
-X-Received: by 2002:a05:600c:298:: with SMTP id
- 24mr3820393wmk.100.1643131746817; 
- Tue, 25 Jan 2022 09:29:06 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwKpqhh5kQn+m0967/5EOEFLjVnkbDdOZDO9ArrsjDariZM9NCrl7sArQPjfp9e2DiQy8Cd8A==
-X-Received: by 2002:a05:600c:298:: with SMTP id
- 24mr3820364wmk.100.1643131746437; 
- Tue, 25 Jan 2022 09:29:06 -0800 (PST)
-Received: from redhat.com ([2.55.22.56])
- by smtp.gmail.com with ESMTPSA id g20sm1291515wmq.9.2022.01.25.09.29.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jan 2022 09:29:05 -0800 (PST)
-Date: Tue, 25 Jan 2022 12:29:01 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eric DeVolder <eric.devolder@oracle.com>
-Subject: Re: [PATCH v13 06/10] ACPI ERST: build the ACPI ERST table
-Message-ID: <20220125115903-mutt-send-email-mst@kernel.org>
-References: <1643044621-15892-1-git-send-email-eric.devolder@oracle.com>
- <1643044621-15892-7-git-send-email-eric.devolder@oracle.com>
- <alpine.DEB.2.22.394.2201251600060.1134355@anisinha-lenovo>
- <20220125070221-mutt-send-email-mst@kernel.org>
- <1d1fefae-8e00-6e0a-7e07-58863e860214@oracle.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nCPfD-0008Af-Oj
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 12:31:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=qgx/D3b9fIoksonCw+XchQFV8rizuEtE9VlIKaA+VRA=; b=kf1NlWlfvBU5TZg8tLltWHt0Y2
+ v78eIzCUVw8vZZ78MhR7WY2yIBDoEn2Py85kfKakJIv4zTFfJ6O2gRYrnmtepx8xEVz7b4EKsoTDK
+ BcHNZy7C/jUAq0BiFS/HOIAmh+HrwCd/5LciHWbiVM/wTWOEG/ayxJNrkvnBMbMHI0VHj9h0whaZO
+ DCly3V31z6sbh3sATYgRsj6xM7f0KtArEOlwfsRg7vzS7beqvpIhaS7eIxa0MgVio/qKV1TPMhHnB
+ 2vFYgvLQpUFJe6XIUxbXkdUhHzjcYK/+IbTtUQG2Bm5ugKlhugMdicY6SM4L7LqlWq0WPChYRKTJB
+ rmFFntdv292gaTlvj4yU3Q3kRstzoNoGJ7EPTe636hPs8u5JRbI+pYK4fAfVCxaseU5FLvXQfTcvt
+ qlyaYTDvR8qn18AkfFxM7T5G+OaokKATdl2WKgeMlx2noN5ZmqwCPg5DsyyjcRl8z8ygr/qRLVdUA
+ 5v2eMXwUbWMiRvMsJe97In+DERoMXaQ6Y1ngwbZo6nJex9/wYfzil8+kGkMTeinnM4Vl5R4azyWh+
+ fYeVO0npSqd2ZCWaWVai2PxnrQtcqUlOkvuP8AFAXiHTeLShOq40ufEvYBTnft/ntq88T84zSLL2e
+ YLrMWFz7NKKkBV2TLDfmPsXVcYJy4Iv6AGkbZzDw4=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
+ Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>, phillip.ennen@gmail.com,
+ Jason Wang <jasowang@redhat.com>, Cameron Esfahani <dirty@apple.com>,
+ Markus Armbruster <armbru@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Alexander Graf <agraf@csgraf.de>, Gerd Hoffmann <kraxel@redhat.com>,
+ Howard Spoelstra <hsp.cat7@gmail.com>, Roman Bolshakov <roman@roolebo.dev>,
+ Alessio Dionisi <hello@adns.io>,
+ Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Eric Blake <eblake@redhat.com>, Phillip Tennen <phillip@axleos.com>
+Subject: Re: [PATCH v13 2/7] net/vmnet: add vmnet backends to qapi/net
+Date: Tue, 25 Jan 2022 18:30:35 +0100
+Message-ID: <11994994.S7o1fDX3Xt@silver>
+In-Reply-To: <CAMVc7JVShGiPvwc4fWHfG2JjTX0QGOcs3ua3k58WFdo4fOLS6A@mail.gmail.com>
+References: <20220113172219.66372-1-yaroshchuk2000@gmail.com>
+ <CAFEAcA_CT6AJx_ns4zjw1_udq-Ab3YdM2mzPcKKZberUPOqhPA@mail.gmail.com>
+ <CAMVc7JVShGiPvwc4fWHfG2JjTX0QGOcs3ua3k58WFdo4fOLS6A@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1d1fefae-8e00-6e0a-7e07-58863e860214@oracle.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,295 +76,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com, Ani Sinha <ani@anisinha.ca>,
- imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 25, 2022 at 10:32:45AM -0600, Eric DeVolder wrote:
-> Hi Michael,
-> Thanks for examining this! Inline response below.
-> eric
+On Dienstag, 25. Januar 2022 12:08:21 CET Akihiko Odaki wrote:
+> On Tue, Jan 25, 2022 at 7:32 PM Peter Maydell <peter.maydell@linaro.org> 
+wrote:
+> > On Tue, 25 Jan 2022 at 04:14, Akihiko Odaki <akihiko.odaki@gmail.com> 
+wrote:
+> > > I'm neutral about the decision. I think QEMU should avoid using
+> > > Objective-C code except for interactions with Apple's APIs, and .c is
+> > > superior in terms of that as it would prevent accidental introduction
+> > > of Objective-C code. On the other hand, naming them .m will allow the
+> > > introduction of Automatic Reference Counting to manage dispatch queue
+> > > objects. In fact, I have found a few memory leaks in vmnet in the last
+> > > review and ui/cocoa.m has a suspicious construction of the object
+> > > management (Particularly it has asynchronous dispatches wrapped with
+> > > NSAutoreleasePool, which does not make sense).
+> > 
+> > I think those are probably my fault -- in commit 6e657e64cd (in 2013)
+> > we added NSAutoReleasePools to fix leaks that happened because
+> > we were calling into Cocoa APIs from threads other than the UI
+> > thread that didn't have their own automatically created autorelease
+> > pool. Much later in commit 5588840ff778 (in 2019) we put in the
+> > dispatch_async stuff because newer macOS was stricter about
+> > requiring Cocoa API calls to be only on the UI thread. So
+> > I think that means the requirement for the autorelease pools
+> > has now gone away in those functions and we could simply delete
+> > them -- does that sound right? (I freely admit that I'm not a macOS
+> > expert -- I just look stuff up in the documentation; historically
+> > we haven't really had many expert macOS people around to work on
+> > cocoa.m...)
 > 
-> On 1/25/22 06:05, Michael S. Tsirkin wrote:
-> > On Tue, Jan 25, 2022 at 04:23:49PM +0530, Ani Sinha wrote:
-> > > 
-> > > 
-> > > On Mon, 24 Jan 2022, Eric DeVolder wrote:
-> > > 
-> > > > This builds the ACPI ERST table to inform OSPM how to communicate
-> > > > with the acpi-erst device.
-> > > > 
-> > > > Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
-> > > > ---
-> > > >   hw/acpi/erst.c | 188 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-> > > >   1 file changed, 188 insertions(+)
-> > > > 
-> > > > diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
-> > > > index fe9ba51..b0c7539 100644
-> > > > --- a/hw/acpi/erst.c
-> > > > +++ b/hw/acpi/erst.c
-> > > > @@ -59,6 +59,27 @@
-> > > >   #define STATUS_RECORD_STORE_EMPTY     0x04
-> > > >   #define STATUS_RECORD_NOT_FOUND       0x05
-> > > > 
-> > > > +/* ACPI 4.0: Table 17-19 Serialization Instructions */
-> > > > +#define INST_READ_REGISTER                 0x00
-> > > > +#define INST_READ_REGISTER_VALUE           0x01
-> > > > +#define INST_WRITE_REGISTER                0x02
-> > > > +#define INST_WRITE_REGISTER_VALUE          0x03
-> > > > +#define INST_NOOP                          0x04
-> > > > +#define INST_LOAD_VAR1                     0x05
-> > > > +#define INST_LOAD_VAR2                     0x06
-> > > > +#define INST_STORE_VAR1                    0x07
-> > > > +#define INST_ADD                           0x08
-> > > > +#define INST_SUBTRACT                      0x09
-> > > > +#define INST_ADD_VALUE                     0x0A
-> > > > +#define INST_SUBTRACT_VALUE                0x0B
-> > > > +#define INST_STALL                         0x0C
-> > > > +#define INST_STALL_WHILE_TRUE              0x0D
-> > > > +#define INST_SKIP_NEXT_INSTRUCTION_IF_TRUE 0x0E
-> > > > +#define INST_GOTO                          0x0F
-> > > > +#define INST_SET_SRC_ADDRESS_BASE          0x10
-> > > > +#define INST_SET_DST_ADDRESS_BASE          0x11
-> > > > +#define INST_MOVE_DATA                     0x12
-> > > > +
-> > > >   /* UEFI 2.1: Appendix N Common Platform Error Record */
-> > > >   #define UEFI_CPER_RECORD_MIN_SIZE 128U
-> > > >   #define UEFI_CPER_RECORD_LENGTH_OFFSET 20U
-> > > > @@ -172,6 +193,173 @@ typedef struct {
-> > > > 
-> > > >   /*******************************************************************/
-> > > >   /*******************************************************************/
-> > > > +
-> > > > +/* ACPI 4.0: 17.4.1.2 Serialization Instruction Entries */
-> > > > +static void build_serialization_instruction_entry(GArray *table_data,
-> > > > +    uint8_t serialization_action,
-> > > > +    uint8_t instruction,
-> > > > +    uint8_t flags,
-> > > > +    uint8_t register_bit_width,
-> > > > +    uint64_t register_address,
-> > > > +    uint64_t value)
-> > > > +{
-> > > > +    /* ACPI 4.0: Table 17-18 Serialization Instruction Entry */
-> > > > +    struct AcpiGenericAddress gas;
-> > > > +    uint64_t mask;
-> > > > +
-> > > > +    /* Serialization Action */
-> > > > +    build_append_int_noprefix(table_data, serialization_action, 1);
-> > > > +    /* Instruction */
-> > > > +    build_append_int_noprefix(table_data, instruction         , 1);
-> > > > +    /* Flags */
-> > > > +    build_append_int_noprefix(table_data, flags               , 1);
-> > > > +    /* Reserved */
-> > > > +    build_append_int_noprefix(table_data, 0                   , 1);
-> > > > +    /* Register Region */
-> > > > +    gas.space_id = AML_SYSTEM_MEMORY;
-> > > > +    gas.bit_width = register_bit_width;
-> > > > +    gas.bit_offset = 0;
-> > > > +    gas.access_width = ctz32(register_bit_width) - 2;
-> > > > +    gas.address = register_address;
-> > > > +    build_append_gas_from_struct(table_data, &gas);
-> > > > +    /* Value */
-> > > > +    build_append_int_noprefix(table_data, value  , 8);
-> > > > +    /* Mask */
-> > > > +    mask = (1ULL << (register_bit_width - 1) << 1) - 1;
-> > > > +    build_append_int_noprefix(table_data, mask  , 8);
-> > > > +}
-> > > > +
-> > > > +/* ACPI 4.0: 17.4.1 Serialization Action Table */
-> > > > +void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
-> > > > +    const char *oem_id, const char *oem_table_id)
-> > > > +{
-> > > > +    GArray *table_instruction_data;
-> > > > +    unsigned action;
-> > > > +    pcibus_t bar0 = pci_get_bar_addr(PCI_DEVICE(erst_dev), 0);
-> > > > +    AcpiTable table = { .sig = "ERST", .rev = 1, .oem_id = oem_id,
-> > > > +                        .oem_table_id = oem_table_id };
-> > > > +
-> > > > +    trace_acpi_erst_pci_bar_0(bar0);
-> > > > +
-> > > > +    /*
-> > > > +     * Serialization Action Table
-> > > > +     * The serialization action table must be generated first
-> > > > +     * so that its size can be known in order to populate the
-> > > > +     * Instruction Entry Count field.
-> > > > +     */
-> > > > +    table_instruction_data = g_array_new(FALSE, FALSE, sizeof(char));
-> > > > +
-> > > > +    /*
-> > > > +     * Macros for use with construction of the action instructions
-> > > > +     */
-> > > > +#define BUILD_READ_REGISTER(width_in_bits, reg) \
-> > > > +    build_serialization_instruction_entry(table_instruction_data, \
-> > > > +        action, INST_READ_REGISTER, 0, width_in_bits, \
-> > > > +        bar0 + reg, 0)
-> > > > +
-> > > > +#define BUILD_READ_REGISTER_VALUE(width_in_bits, reg, value) \
-> > > > +    build_serialization_instruction_entry(table_instruction_data, \
-> > > > +        action, INST_READ_REGISTER_VALUE, 0, width_in_bits, \
-> > > > +        bar0 + reg, value)
-> > > > +
-> > > > +#define BUILD_WRITE_REGISTER(width_in_bits, reg, value) \
-> > > > +    build_serialization_instruction_entry(table_instruction_data, \
-> > > > +        action, INST_WRITE_REGISTER, 0, width_in_bits, \
-> > > > +        bar0 + reg, value)
-> > > > +
-> > > > +#define BUILD_WRITE_REGISTER_VALUE(width_in_bits, reg, value) \
-> > > > +    build_serialization_instruction_entry(table_instruction_data, \
-> > > > +        action, INST_WRITE_REGISTER_VALUE, 0, width_in_bits, \
-> > > > +        bar0 + reg, value)
-> > 
-> > 
-> > I think these macros which in a hidden way use the bar0 variable really
-> > should be replaced with inline functions, improving type safety.
+> Removing them would be an improvement. 
+
+Yes, AFAICS those NSAutoReleasePools in ui/cocoa.m can safely be removed, as 
+they were apparently just fighting the symptoms of having called cocoa APIs 
+from non-main thread(s) in the past, which is not allowed.
+
+There is actually a "main thread checker" for that. In Xcode it's just a 
+checkbox away, but I don't see a corresponding clang parameter. Maybe it's in 
+a separate toolchain by Apple.
+
+However I don't think the NSAutoReleasePools were the cause of the memory leak 
+you saw.
+
+> Enabling ARC is a long-term
+> solution and would allow clang to analyze object management code and
+> answer such a question semi-automatically.
+
+Yeah, that's not trivial and would be a long way. Personally I would say, for 
+new targets, sure use ARC. But for already existing, large projects like QEMU, 
+I would not switch to ARC. Because it is not just refactoring, you have to 
+understand each component and make proper decisions for references (weak, 
+strong, copy, bridge transfers, adjust blocks, ... ) and avoid cyclic 
+references, otherwise you just replace existing issues with new ones, 
+including new leaks.
+
+> Regards,
+> Akihiko Odaki
 > 
-> I had not stated this previously, but my choice for using macros over functions
-> was the use three local variables: table_instruction_data, bar0, and action.
-
-Oh, didn't notice the others too.
-
-> Any function would then automatically require these three as parameters, or I'm
-> stuffing these temporary items into local globals (to avoid passing as parameters).
-
-Please, no globals.
-
-
-> As for the type safety of bar0, I don't quite understand what I should do differently
-> (regardless of macro vs function). Ultimately these call build_serialization_instruction_entry()
-> with the 'uint64_t register address' accepting the bar0+offset value. Bar0 is pcibar_t
-> and the compiler happily implicitly typecasts to uint64_t.
-
-The other way could warn though - maybe we should build with
--Wconversion. That's going to require quite a bit of work though.
-
-> What would an acceptable function prototype look like?
-
-Well, that's a limitation of C. We can pass a
-structure if you really need to save some code lines but that's really
-all we can do.
-
-> 
+> > On the subject of cocoa.m, while we have various macOS-interested
+> > people in this thread, can I ask if anybody would like to
+> > review a couple of patches that came in at the beginning of the
+> > year?
 > > 
+> > https://patchew.org/QEMU/20220102174153.70043-1-carwynellis@gmail.com/
+> > ("ui/cocoa: Add option to disable left command and hide cursor on click")
+> > and
+> > https://patchew.org/QEMU/20220103114515.24020-1-carwynellis@gmail.com/
+> > ("Show/hide the menu bar in fullscreen on mouse")
+
+I didn't spot anything negative, but I can't test those patches ATM.
+
+> > either from the point of view of "is this a sensible change to
+> > the macOS UI experience" or for the actual code changes, or both.
 > > 
-> > 
-> > 
-> > > > +
-> > > > +    /* Serialization Instruction Entries */
-> > > > +    action = ACTION_BEGIN_WRITE_OPERATION;
-> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-> > > > +
-> > > > +    action = ACTION_BEGIN_READ_OPERATION;
-> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-> > > > +
-> > > > +    action = ACTION_BEGIN_CLEAR_OPERATION;
-> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-> > > > +
-> > > > +    action = ACTION_END_OPERATION;
-> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-> > > > +
-> > > > +    action = ACTION_SET_RECORD_OFFSET;
-> > > > +    BUILD_WRITE_REGISTER(32, ERST_VALUE_OFFSET, 0);
-> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-> > > > +
-> > > > +    action = ACTION_EXECUTE_OPERATION;
-> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_VALUE_OFFSET,
-> > > > +        ERST_EXECUTE_OPERATION_MAGIC);
-> > > 
-> > > except here, on all cases we have
-> > > BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-> > > 
-> > > We should treat the above as special case and simplify the rest of the
-> > > calls (eliminate repeated common arguments).
-> > > 
-> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-> > > > +
-> > > > +    action = ACTION_CHECK_BUSY_STATUS;
-> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-> > > > +    BUILD_READ_REGISTER_VALUE(32, ERST_VALUE_OFFSET, 0x01);
-> > > > +
-> > > > +    action = ACTION_GET_COMMAND_STATUS;
-> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-> > > > +    BUILD_READ_REGISTER(32, ERST_VALUE_OFFSET);
-> > > > +
-> > > > +    action = ACTION_GET_RECORD_IDENTIFIER;
-> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-> > > > +    BUILD_READ_REGISTER(64, ERST_VALUE_OFFSET);
-> > > > +
-> > > > +    action = ACTION_SET_RECORD_IDENTIFIER;
-> > > > +    BUILD_WRITE_REGISTER(64, ERST_VALUE_OFFSET, 0);
-> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-> > > 
-> > > This one seems reverted. Should this be
-> > > BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-> > > BUILD_WRITE_REGISTER(64, ERST_VALUE_OFFSET, 0);
-> > > 
-> > > like others?
-> > > 
-> > > > +
-> > > > +    action = ACTION_GET_RECORD_COUNT;
-> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-> > > > +    BUILD_READ_REGISTER(32, ERST_VALUE_OFFSET);
-> > > > +
-> > > > +    action = ACTION_BEGIN_DUMMY_WRITE_OPERATION;
-> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-> > > > +
-> > > > +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE;
-> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-> > > > +    BUILD_READ_REGISTER(64, ERST_VALUE_OFFSET);
-> > > > +
-> > > > +    action = ACTION_GET_ERROR_LOG_ADDRESS_LENGTH;
-> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-> > > > +    BUILD_READ_REGISTER(64, ERST_VALUE_OFFSET);
-> > > > +
-> > > > +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES;
-> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-> > > > +    BUILD_READ_REGISTER(32, ERST_VALUE_OFFSET);
-> > > > +
-> > > > +    action = ACTION_GET_EXECUTE_OPERATION_TIMINGS;
-> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
-> > > > +    BUILD_READ_REGISTER(64, ERST_VALUE_OFFSET);
-> > > > +
-> > > 
-> > > BUILD_READ_REGISTER() is always called with ERST_VALUE_OFFSET as second
-> > > argument. WE should eliminate this repeated passing of same argument.
-> > > 
-> > > 
-> > > > +    /* Serialization Header */
-> > > > +    acpi_table_begin(&table, table_data);
-> > > > +
-> > > > +    /* Serialization Header Size */
-> > > > +    build_append_int_noprefix(table_data, 48, 4);
-> > > > +
-> > > > +    /* Reserved */
-> > > > +    build_append_int_noprefix(table_data,  0, 4);
-> > > > +
-> > > > +    /*
-> > > > +     * Instruction Entry Count
-> > > > +     * Each instruction entry is 32 bytes
-> > > > +     */
-> > > > +    g_assert((table_instruction_data->len) % 32 == 0);
-> > > > +    build_append_int_noprefix(table_data,
-> > > > +        (table_instruction_data->len / 32), 4);
-> > > > +
-> > > > +    /* Serialization Instruction Entries */
-> > > > +    g_array_append_vals(table_data, table_instruction_data->data,
-> > > > +        table_instruction_data->len);
-> > > > +    g_array_free(table_instruction_data, TRUE);
-> > > > +
-> > > > +    acpi_table_end(linker, &table);
-> > > > +}
-> > > > +
-> > > > +/*******************************************************************/
-> > > > +/*******************************************************************/
-> > > >   static uint8_t *get_nvram_ptr_by_index(ERSTDeviceState *s, unsigned index)
-> > > >   {
-> > > >       uint8_t *rc = NULL;
-> > > > --
-> > > > 1.8.3.1
-> > > > 
-> > > > 
-> > 
+> > We've been very short on upstream macOS code reviewers so if people
+> > interested in that host platform are able to chip in by
+> > reviewing each others' code that helps a lot.
+
+Which reminds me of the automated Xcode project discussion for QEMU. I still 
+think if there was a simple way to work on QEMU with Xcode there were plenty 
+of macOS reviewers and contributors, and I think it can be done with Meson.
+
+Best regards,
+Christian Schoenebeck
+
 
 
