@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4414549C173
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 03:50:03 +0100 (CET)
-Received: from localhost ([::1]:37588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E93D49C16E
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 03:46:35 +0100 (CET)
+Received: from localhost ([::1]:32896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCYNm-0004Xc-2p
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 21:50:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57894)
+	id 1nCYKM-0001E0-Pn
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 21:46:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nCYFR-00072B-Eq; Tue, 25 Jan 2022 21:41:28 -0500
+ id 1nCYFN-000712-Bc; Tue, 25 Jan 2022 21:41:22 -0500
 Received: from [187.72.171.209] (port=15999 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nCYFO-0002IA-RU; Tue, 25 Jan 2022 21:41:25 -0500
+ id 1nCYFE-0002IA-38; Tue, 25 Jan 2022 21:41:13 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Tue, 25 Jan 2022 09:20:47 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id B95468009AB;
- Tue, 25 Jan 2022 09:20:46 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 1DAB580001E;
+ Tue, 25 Jan 2022 09:20:47 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 36/38] target/ppc: Refactor VSX_MAX_MINC helper
-Date: Tue, 25 Jan 2022 09:19:41 -0300
-Message-Id: <20220125121943.3269077-37-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v2 37/38] target/ppc: Implement xs{max,min}cqp
+Date: Tue, 25 Jan 2022 09:19:42 -0300
+Message-Id: <20220125121943.3269077-38-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220125121943.3269077-1-matheus.ferst@eldorado.org.br>
 References: <20220125121943.3269077-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 25 Jan 2022 12:20:47.0082 (UTC)
- FILETIME=[FB6CBCA0:01D811E5]
+X-OriginalArrivalTime: 25 Jan 2022 12:20:47.0520 (UTC)
+ FILETIME=[FBAF9200:01D811E5]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,65 +67,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Víctor Colombo <victor.colombo@eldorado.org.br>
 
-Refactor xs{max,min}cdp VSX_MAX_MINC helper to prepare for
-xs{max,min}cqp implementation.
-
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/fpu_helper.c | 23 +++++++++--------------
- 1 file changed, 9 insertions(+), 14 deletions(-)
+ target/ppc/fpu_helper.c             | 2 ++
+ target/ppc/helper.h                 | 2 ++
+ target/ppc/insn32.decode            | 3 +++
+ target/ppc/translate/vsx-impl.c.inc | 2 ++
+ 4 files changed, 9 insertions(+)
 
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 41f5748074..6ff5273269 100644
+index 6ff5273269..c724fa8a8d 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -2536,27 +2536,22 @@ VSX_MAX_MIN(xsmindp, minnum, 1, float64, VsrD(0))
- VSX_MAX_MIN(xvmindp, minnum, 2, float64, VsrD(i))
- VSX_MAX_MIN(xvminsp, minnum, 4, float32, VsrW(i))
+@@ -2565,6 +2565,8 @@ void helper_##name(CPUPPCState *env,                                          \
  
--#define VSX_MAX_MINC(name, max)                                               \
-+#define VSX_MAX_MINC(name, op, tp, fld)                                       \
- void helper_##name(CPUPPCState *env,                                          \
-                    ppc_vsr_t *xt, ppc_vsr_t *xa, ppc_vsr_t *xb)               \
- {                                                                             \
-     ppc_vsr_t t = *xt;                                                        \
-     bool vxsnan_flag = false, vex_flag = false;                               \
-                                                                               \
--    if (unlikely(float64_is_any_nan(xa->VsrD(0)) ||                           \
--                 float64_is_any_nan(xb->VsrD(0)))) {                          \
--        if (float64_is_signaling_nan(xa->VsrD(0), &env->fp_status) ||         \
--            float64_is_signaling_nan(xb->VsrD(0), &env->fp_status)) {         \
-+    if (unlikely(tp##_is_any_nan(xa->fld) ||                                  \
-+                 tp##_is_any_nan(xb->fld))) {                                 \
-+        if (tp##_is_signaling_nan(xa->fld, &env->fp_status) ||                \
-+            tp##_is_signaling_nan(xb->fld, &env->fp_status)) {                \
-             vxsnan_flag = true;                                               \
-         }                                                                     \
--        t.VsrD(0) = xb->VsrD(0);                                              \
--    } else if ((max &&                                                        \
--               !float64_lt(xa->VsrD(0), xb->VsrD(0), &env->fp_status)) ||     \
--               (!max &&                                                       \
--               float64_lt(xa->VsrD(0), xb->VsrD(0), &env->fp_status))) {      \
--        t.VsrD(0) = xa->VsrD(0);                                              \
-+        t.fld = xb->fld;                                                      \
-     } else {                                                                  \
--        t.VsrD(0) = xb->VsrD(0);                                              \
-+        t.fld = tp##_##op(xa->fld, xb->fld, &env->fp_status);                 \
-     }                                                                         \
-                                                                               \
-     vex_flag = fpscr_ve & vxsnan_flag;                                        \
-@@ -2568,8 +2563,8 @@ void helper_##name(CPUPPCState *env,                                          \
-     }                                                                         \
- }                                                                             \
- 
--VSX_MAX_MINC(XSMAXCDP, 1);
--VSX_MAX_MINC(XSMINCDP, 0);
-+VSX_MAX_MINC(XSMAXCDP, maxnum, float64, VsrD(0));
-+VSX_MAX_MINC(XSMINCDP, minnum, float64, VsrD(0));
+ VSX_MAX_MINC(XSMAXCDP, maxnum, float64, VsrD(0));
+ VSX_MAX_MINC(XSMINCDP, minnum, float64, VsrD(0));
++VSX_MAX_MINC(XSMAXCQP, maxnum, float128, f128);
++VSX_MAX_MINC(XSMINCQP, minnum, float128, f128);
  
  #define VSX_MAX_MINJ(name, max)                                               \
  void helper_##name(CPUPPCState *env,                                          \
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 0e39f5d129..81e5f968fd 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -384,6 +384,8 @@ DEF_HELPER_4(XSMAXCDP, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(XSMINCDP, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(XSMAXJDP, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(XSMINJDP, void, env, vsr, vsr, vsr)
++DEF_HELPER_4(XSMAXCQP, void, env, vsr, vsr, vsr)
++DEF_HELPER_4(XSMINCQP, void, env, vsr, vsr, vsr)
+ DEF_HELPER_3(xscvdphp, void, env, vsr, vsr)
+ DEF_HELPER_4(xscvdpqp, void, env, i32, vsr, vsr)
+ DEF_HELPER_3(xscvdpsp, void, env, vsr, vsr)
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index 69aa80ba84..0dd54d60c3 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -602,6 +602,9 @@ XSMAXCDP        111100 ..... ..... ..... 10000000 ...   @XX3
+ XSMINCDP        111100 ..... ..... ..... 10001000 ...   @XX3
+ XSMAXJDP        111100 ..... ..... ..... 10010000 ...   @XX3
+ XSMINJDP        111100 ..... ..... ..... 10011000 ...   @XX3
++XSMAXCQP        111111 ..... ..... ..... 1010100100 -   @X
++XSMINCQP        111111 ..... ..... ..... 1011100100 -   @X
++
+ XSCMPEQDP       111100 ..... ..... ..... 00000011 ...   @XX3
+ XSCMPGEDP       111100 ..... ..... ..... 00010011 ...   @XX3
+ XSCMPGTDP       111100 ..... ..... ..... 00001011 ...   @XX3
+diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+index 25814b5b57..d84b385e75 100644
+--- a/target/ppc/translate/vsx-impl.c.inc
++++ b/target/ppc/translate/vsx-impl.c.inc
+@@ -2489,6 +2489,8 @@ static bool do_xscmpqp(DisasContext *ctx, arg_X *a,
+ TRANS(XSCMPEQQP, do_xscmpqp, gen_helper_XSCMPEQQP)
+ TRANS(XSCMPGEQP, do_xscmpqp, gen_helper_XSCMPGEQP)
+ TRANS(XSCMPGTQP, do_xscmpqp, gen_helper_XSCMPGTQP)
++TRANS(XSMAXCQP, do_xscmpqp, gen_helper_XSMAXCQP)
++TRANS(XSMINCQP, do_xscmpqp, gen_helper_XSMINCQP)
+ 
+ #undef GEN_XX2FORM
+ #undef GEN_XX3FORM
 -- 
 2.25.1
 
