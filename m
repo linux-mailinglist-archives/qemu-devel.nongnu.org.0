@@ -2,64 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99AB149B9BC
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 18:09:52 +0100 (CET)
-Received: from localhost ([::1]:48998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A528249B9E7
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 18:16:08 +0100 (CET)
+Received: from localhost ([::1]:53588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCPKJ-00075J-6J
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 12:09:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34618)
+	id 1nCPQN-0001wC-7k
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 12:16:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCPIA-0005fP-RU
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 12:07:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31148)
+ id 1nCPIO-0005sz-KN
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 12:07:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCPI7-0004Kw-Ds
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 12:07:37 -0500
+ id 1nCPIL-0004MO-8M
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 12:07:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643130454;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i3vZEJPyCIXRIwrjv/vH+KgXa5LXIVDKVoDJ9vJcXJ8=;
- b=LAjdDWop78acfTERrS+Gpc4huR5EYST8LLyKowe2lKroAgJHqR7dAHxGHAmY1CKz1cSdHl
- noPBdunao1PJCT9TF4RuRUmT10Qh23JtEAOmi1AieRGEIfJXzz4gDNcE3OJn7gqtmV+AFV
- HsjEk2HZZTLrEgyh446rswQJr45/dbs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1643130468;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=S0Dlq2QlfbDpy0ebdUM3JOZYv/f7sucWh/K09bC/NLE=;
+ b=VK6BPR7iNTHatGgnmZEvDYmhsIj5HYMHvDllaWEvXzKRHIwZXiILSLRoyqfwf1oaWcW3ye
+ jILFiRxm3UM+NHEHhbIPRB8wfiI1j5i5vAE5Talq7CjSvWEFkcM57It/qtcWS+R98xsqNx
+ MNAbMfURxfBhOybKdmd7Tmn/T68m4gY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-9-D8daUbBGOC-ogwf1nrYJrQ-1; Tue, 25 Jan 2022 12:07:33 -0500
-X-MC-Unique: D8daUbBGOC-ogwf1nrYJrQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 999588143E5
- for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 17:07:32 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.194.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9D99079A19;
- Tue, 25 Jan 2022 17:07:31 +0000 (UTC)
+ us-mta-532-tITUsjQAMimq0VvALhRzeg-1; Tue, 25 Jan 2022 12:07:47 -0500
+X-MC-Unique: tITUsjQAMimq0VvALhRzeg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ n7-20020a1c7207000000b0034ec3d8ce0aso1769506wmc.8
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 09:07:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=S0Dlq2QlfbDpy0ebdUM3JOZYv/f7sucWh/K09bC/NLE=;
+ b=FXG7V4sLgZj6/1/iTNNtcE3Lxmcw5wFbazYcv2BF4kZYaxzBdB2f5TCI/+hkkEwnIy
+ ZwK5/iVaXU6ya+IuMXeP0nhNXffGxnEhOxNxciZgZg5Cq99JOQogxX82wVgnPKXA/aMy
+ zxPDwqslAQjD8tFD0AA9+/6IJKsDO6HpqTCPp6eSLr4QP4RNY2XxJsaCk7HHqD99TBzg
+ Q+WRzCxkiDVcIlfTVBV+RnnOCunboNhafSAleG9DKOghK3QCxCK9tHQq8UQt+Up6TXD3
+ QyH3x+I4d3axes2kuFuXzKFdJagGxBxsnxoXS8AEvfZVK3dzJZSf1IYA2EFS94KLvGnn
+ pxtw==
+X-Gm-Message-State: AOAM530hgtuC9GMi/IgGaN0nU3OhRXz/h9zmU1G7nfsq09Z0PVGvw0MW
+ UQpbHssAL/3HlpON3Fg7M85xgFK1r6cC/XU0ZYj0jAngg+o7TeliKIDMPjf93NVckoYD/dqwmxa
+ zKq+XE7CF1FXSjbI=
+X-Received: by 2002:adf:f14a:: with SMTP id y10mr18440995wro.145.1643130466274; 
+ Tue, 25 Jan 2022 09:07:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxsKaM2WE7TscaGiVxfk20ujjIJXMhVRfshcyjxvJyMGxktJ/DonfthgOtIvGFjP1KNLeRxwA==
+X-Received: by 2002:adf:f14a:: with SMTP id y10mr18440977wro.145.1643130466071; 
+ Tue, 25 Jan 2022 09:07:46 -0800 (PST)
+Received: from localhost ([47.61.17.76])
+ by smtp.gmail.com with ESMTPSA id a24sm837960wmm.31.2022.01.25.09.07.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Jan 2022 09:07:44 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] migration: Remove unused minimum_version_id_old and
- load_state_old
-Date: Tue, 25 Jan 2022 18:07:16 +0100
-Message-Id: <20220125170716.7903-2-quintela@redhat.com>
-In-Reply-To: <20220125170716.7903-1-quintela@redhat.com>
-References: <20220125170716.7903-1-quintela@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] Remove unnecessary minimum_version_id_old fields
+In-Reply-To: <20220118104434.4117879-1-peter.maydell@linaro.org> (Peter
+ Maydell's message of "Tue, 18 Jan 2022 10:44:34 +0000")
+References: <20220118104434.4117879-1-peter.maydell@linaro.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Tue, 25 Jan 2022 18:07:44 +0100
+Message-ID: <87wninpwv3.fsf@secure.mitica>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -80,73 +95,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Xu <peterx@redhat.com>, Juan Quintela <quintela@redhat.com>
+Reply-To: quintela@redhat.com
+Cc: qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-They were already deprecated and after ppc removal no users on the
-tree. RIP.
+Peter Maydell <peter.maydell@linaro.org> wrote:
+> The migration code will not look at a VMStateDescription's
+> minimum_version_id_old field unless that VMSD has set the
+> load_state_old field to something non-NULL.  (The purpose of
+> minimum_version_id_old is to specify what migration version is needed
+> for the code in the function pointed to by load_state_old to be able
+> to handle it on incoming migration.)
+>
+> We have exactly one VMSD which still has a load_state_old,
+> in the PPC CPU; every other VMSD which sets minimum_version_id_old
+> is doing so unnecessarily. Delete all the unnecessary ones.
+>
+> Commit created with:
+>   sed -i '/\.minimum_version_id_old/d' $(git grep -l '\.minimum_version_id_old')
+> with the one legitimate use then hand-edited back in.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- docs/devel/migration.rst    | 7 +------
- include/migration/vmstate.h | 2 --
- migration/vmstate.c         | 6 ------
- 3 files changed, 1 insertion(+), 14 deletions(-)
-
-diff --git a/docs/devel/migration.rst b/docs/devel/migration.rst
-index 2401253482..98c5e4a13f 100644
---- a/docs/devel/migration.rst
-+++ b/docs/devel/migration.rst
-@@ -394,14 +394,9 @@ You can see that there are several version fields:
- - ``version_id``: the maximum version_id supported by VMState for that device.
- - ``minimum_version_id``: the minimum version_id that VMState is able to understand
-   for that device.
--- ``minimum_version_id_old``: For devices that were not able to port to vmstate, we can
--  assign a function that knows how to read this old state. This field is
--  ignored if there is no ``load_state_old`` handler.
- 
- VMState is able to read versions from minimum_version_id to
--version_id.  And the function ``load_state_old()`` (if present) is able to
--load state from minimum_version_id_old to minimum_version_id.  This
--function is deprecated and will be removed when no more users are left.
-+version_id.
- 
- There are *_V* forms of many ``VMSTATE_`` macros to load fields for version dependent fields,
- e.g.
-diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-index 017c03675c..ad24aa1934 100644
---- a/include/migration/vmstate.h
-+++ b/include/migration/vmstate.h
-@@ -181,9 +181,7 @@ struct VMStateDescription {
-     int unmigratable;
-     int version_id;
-     int minimum_version_id;
--    int minimum_version_id_old;
-     MigrationPriority priority;
--    LoadStateHandler *load_state_old;
-     int (*pre_load)(void *opaque);
-     int (*post_load)(void *opaque, int version_id);
-     int (*pre_save)(void *opaque);
-diff --git a/migration/vmstate.c b/migration/vmstate.c
-index 05f87cdddc..36ae8b9e19 100644
---- a/migration/vmstate.c
-+++ b/migration/vmstate.c
-@@ -90,12 +90,6 @@ int vmstate_load_state(QEMUFile *f, const VMStateDescription *vmsd,
-         return -EINVAL;
-     }
-     if  (version_id < vmsd->minimum_version_id) {
--        if (vmsd->load_state_old &&
--            version_id >= vmsd->minimum_version_id_old) {
--            ret = vmsd->load_state_old(f, opaque, version_id);
--            trace_vmstate_load_state_end(vmsd->name, "old path", ret);
--            return ret;
--        }
-         error_report("%s: incoming version_id %d is too old "
-                      "for local minimum version_id  %d",
-                      vmsd->name, version_id, vmsd->minimum_version_id);
--- 
-2.34.1
+queued.
 
 
