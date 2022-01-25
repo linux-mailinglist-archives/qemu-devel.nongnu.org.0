@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9440549A216
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 02:42:22 +0100 (CET)
-Received: from localhost ([::1]:55028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2DAE49A219
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 02:44:42 +0100 (CET)
+Received: from localhost ([::1]:57668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCAqj-0002L8-D4
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 20:42:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54334)
+	id 1nCAsz-00045l-O9
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 20:44:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nCAek-0001iE-KW
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nCAek-0001j0-S2
  for qemu-devel@nongnu.org; Mon, 24 Jan 2022 20:29:58 -0500
-Received: from [2607:f8b0:4864:20::d2d] (port=46735
- helo=mail-io1-xd2d.google.com)
+Received: from [2607:f8b0:4864:20::134] (port=44595
+ helo=mail-il1-x134.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nCAei-0001KT-9k
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nCAej-0001KX-1a
  for qemu-devel@nongnu.org; Mon, 24 Jan 2022 20:29:58 -0500
-Received: by mail-io1-xd2d.google.com with SMTP id e79so21848863iof.13
+Received: by mail-il1-x134.google.com with SMTP id i14so15512199ila.11
  for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 17:29:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eLMMLGn5PlEMmATCOZX5ewFX0bdTWxFb8sG6Cl9Zh90=;
- b=fyZp1PcQdFyP0fwjRM4b1lnL46PH6FqfifOva+maIyvxdD8VD4U5M06RMqhjJNIwzA
- t60KtmXlD91EzSpo9ClvxjX8Z0d7fgHWJfBgJdi835MD5LMWQ7NW/mgb38MTnUiPN89Y
- txqFItbadCZBX8WBPNhF3obqzhu5bXiYPFs+aNUyrco4I1O4p2CcOcRA8k1EW5v/UUcm
- UnF5lXacTKq2KxpjYT/0R1+AI1snhZVNOukGgUSCVR2KYa7FBTWDaMRXsy43ASNuU/Q0
- WdrKcscl7g0EvaKPVnRLBkeiP+FQQLLtqDS6XhVLCF0vbly88xSSLx+dqtvSQUXuTlyc
- PUgg==
+ bh=QLlVji/Hrm3v4RO/pA+fXtXBOTfzZIpOWxrvHKyxFYs=;
+ b=eWTcYnuDCqy1gf040EQWZK2UtWelRb0uOXJ7TwH+wYyC1h3Khla9QAK0vpMUphse4E
+ KwxdjOo4mmEV2xC1cbAcKuunBAVKhuJN2LCY4SWbwhdh6zqHsbOGOgbJ6Mztzz1oQ2a8
+ zAFu5b+TEI/OVLVF7yF/pU5bB41AuB4wdEuC6h+BfMwUj9dx4dxQz0GKDAcR33+CK8BR
+ HxGRRm/kxMqeAGs5rVZRHYUsfjyaLZgZPtiIyu+R8+HKzFQdvjztkI7x3yiFegcaUEcY
+ G8cRljRf/0n2jsssuiKO4gtAjACmvB51CGvJx2ytg5HrWWIPKQRi9sUY4dpaUEjT2oFm
+ bUww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eLMMLGn5PlEMmATCOZX5ewFX0bdTWxFb8sG6Cl9Zh90=;
- b=Wap5OsZMdbr3JetUgBu/dKwUpFWvKuSVAbrZ9UBQumOKbR4i0IYOOwmRxjR7cAkZdy
- g/waMWl+Lds0VI+YghplNZnAdLOCXcM2rW2XL/9JQnnQ0vN488BlyQe5Ylg0MXHervIR
- JgEymNKLM7d6mG5YxZjgXhkPUE4Gc705Uawmkn7xki2WohHndb3ZFN43RwMxYASRAVZf
- ZWVSk6z0XvgPeMkqVYNBxJqHdmqsrr2M2bv0SaFYeZ7EWobbTMwUGdtl1GXyTpsP4E4u
- L1I5Pz6AF/QFIop/JhXOu2YuFSMdjfwl01dFzQSSqg6WD9xpAlTAH/Ml6c1txQ9RVQag
- 6o7Q==
-X-Gm-Message-State: AOAM533heeFY+B6BVFXglKWzZu6TgDNKBRpd3FhQ7n22T2v5ZvGp7u8v
- KnRgt2RlSRtLLt2VjxBTiZ47GqucoqP2EQ==
-X-Google-Smtp-Source: ABdhPJyUim9Mw7erIwl6+IQaOA3YtyPNxUEC0lfFT2dA6fQ2XoqTRcdEtAjgy91KPa3FFgJF1lY5xw==
-X-Received: by 2002:a02:1d07:: with SMTP id 7mr1779385jaj.154.1643074195067;
+ bh=QLlVji/Hrm3v4RO/pA+fXtXBOTfzZIpOWxrvHKyxFYs=;
+ b=HbBev5s8qmZPJO/IXlovU8y1g9vLGIZPfZYr+voOIrsPYCHQSU3gPXBoDlI9B+5ND0
+ von2fLwFeRA3U2NJ1Zf9ROfMuul7e0UNbUmaUnOwf4y9dGlkAtf9H7wK6et/Z7sQmaQ5
+ nAaJfshjLXRyKrsh+X0xU24P0uw1id17Ed/qT/8uYxDKsEcIHkQcCT3tNmVgcCMcrwys
+ hYBZ1JNIO8Vn13xW1w8FZ4WwgDikmeOi1+HYrQltDJ60L1kjeRIL8ZzI/d0Wz7OT9NlH
+ ZM3D/smz/zMgyw7TsYXHtvJs/y7HGxVhiPBd25L7Hm5wB/MHe2DJGsozvRkKu0hFDd/e
+ m2xw==
+X-Gm-Message-State: AOAM531FAuFbP/LBbtv7cx+g94PxJy+AUKgPJz/jzGMnqN4c5V4bTkR9
+ GpKULwmOYScSD/xNcxlLixZlOKs1oHsYdw==
+X-Google-Smtp-Source: ABdhPJyxkaicv9Kfh+SL74lhwmCc3+z/2cyhmjJ/8bFKr7IyIQv4ncQGWv1hnJ3ZxD1kMnWViuSVUw==
+X-Received: by 2002:a05:6e02:20ee:: with SMTP id
+ q14mr10203513ilv.44.1643074195799; 
  Mon, 24 Jan 2022 17:29:55 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id q14sm2061687ilo.63.2022.01.24.17.29.54
+ by smtp.gmail.com with ESMTPSA id q14sm2061687ilo.63.2022.01.24.17.29.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Jan 2022 17:29:54 -0800 (PST)
+ Mon, 24 Jan 2022 17:29:55 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/40] bsd-user: Create setup_sigframe_arch to setup
- sigframe context
-Date: Mon, 24 Jan 2022 18:29:09 -0700
-Message-Id: <20220125012947.14974-3-imp@bsdimp.com>
+Subject: [PATCH v2 03/40] bsd-user/arm/signal.c: Implement setup_sigframe_arch
+ for arm
+Date: Mon, 24 Jan 2022 18:29:10 -0700
+Message-Id: <20220125012947.14974-4-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220125012947.14974-1-imp@bsdimp.com>
 References: <20220125012947.14974-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::134
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2d;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2d.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::134;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x134.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -92,78 +93,106 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Kyle Evans <kevans@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Define setup_sigframe_arch whose job it is to setup the mcontext for the
-sigframe. Implement for x86 to just call mcontext.
+Fix the broken context setting for arm. FreeBSD's get_mcontext does not
+fill in the vfp info. It's filled in in sigframe(). This corresponds to
+the new setup_sigframe_arch which fills in mcontext, then adjusts it to
+point to the vfp context in the sigframe and fills in that context as
+well. Add pointer to where this code is done.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/freebsd/target_os_signal.h |  3 +++
- bsd-user/i386/signal.c              | 13 +++++++++++++
- bsd-user/x86_64/signal.c            | 13 +++++++++++++
- 3 files changed, 29 insertions(+)
+ bsd-user/arm/signal.c               | 50 +++++++++++++++++++----------
+ bsd-user/freebsd/target_os_signal.h |  2 +-
+ 2 files changed, 34 insertions(+), 18 deletions(-)
 
+diff --git a/bsd-user/arm/signal.c b/bsd-user/arm/signal.c
+index 1478f008d13..9026343b478 100644
+--- a/bsd-user/arm/signal.c
++++ b/bsd-user/arm/signal.c
+@@ -59,19 +59,31 @@ abi_long set_sigtramp_args(CPUARMState *env, int sig,
+     return 0;
+ }
+ 
++static abi_long get_vfpcontext(CPUARMState *env, abi_ulong frame_addr,
++                               struct target_sigframe *frame)
++{
++    /* see sendsig and get_vfpcontext in sys/arm/arm/exec_machdep.c */
++    target_mcontext_vfp_t *vfp = &frame->sf_vfp;
++    target_mcontext_t *mcp = &frame->sf_uc.uc_mcontext;
++
++    /* Assumes that mcp and vfp are locked */
++    for (int i = 0; i < 32; i++) {
++        vfp->mcv_reg[i] = tswap64(*aa32_vfp_dreg(env, i));
++    }
++    vfp->mcv_fpscr = tswap32(vfp_get_fpscr(env));
++    mcp->mc_vfp_size = tswap32(sizeof(*vfp));
++    mcp->mc_vfp_ptr = tswap32(frame_addr + ((uintptr_t)vfp - (uintptr_t)frame));
++    return 0;
++}
++
+ /*
+- * Compare to arm/arm/machdep.c get_mcontext()
++ * Compare to arm/arm/exec_machdep.c get_mcontext()
+  * Assumes that the memory is locked if mcp points to user memory.
+  */
+ abi_long get_mcontext(CPUARMState *env, target_mcontext_t *mcp, int flags)
+ {
+-    int err = 0;
+     uint32_t *gr = mcp->__gregs;
+ 
+-    if (mcp->mc_vfp_size != 0 && mcp->mc_vfp_size != sizeof(target_mcontext_vfp_t)) {
+-        return -TARGET_EINVAL;
+-    }
+-
+     gr[TARGET_REG_CPSR] = tswap32(cpsr_read(env));
+     if (flags & TARGET_MC_GET_CLEAR_RET) {
+         gr[TARGET_REG_R0] = 0;
+@@ -97,17 +109,21 @@ abi_long get_mcontext(CPUARMState *env, target_mcontext_t *mcp, int flags)
+     gr[TARGET_REG_LR] = tswap32(env->regs[14]);
+     gr[TARGET_REG_PC] = tswap32(env->regs[15]);
+ 
+-    if (mcp->mc_vfp_size != 0 && mcp->mc_vfp_ptr != 0) {
+-        /* see get_vfpcontext in sys/arm/arm/exec_machdep.c */
+-        target_mcontext_vfp_t *vfp;
+-        vfp = lock_user(VERIFY_WRITE, mcp->mc_vfp_ptr, sizeof(*vfp), 0);
+-        for (int i = 0; i < 32; i++) {
+-            vfp->mcv_reg[i] = tswap64(*aa32_vfp_dreg(env, i));
+-        }
+-        vfp->mcv_fpscr = tswap32(vfp_get_fpscr(env));
+-        unlock_user(vfp, mcp->mc_vfp_ptr, sizeof(*vfp));
+-    }
+-    return err;
++    return 0;
++}
++
++/*
++ * Compare to arm/arm/exec_machdep.c sendsig()
++ * Assumes that the memory is locked if frame points to user memory.
++ */
++abi_long setup_sigframe_arch(CPUARMState *env, abi_ulong frame_addr,
++                             struct target_sigframe *frame, int flags)
++{
++    target_mcontext_t *mcp = &frame->sf_uc.uc_mcontext;
++
++    get_mcontext(env, mcp, flags);
++    get_vfpcontext(env, frame_addr, frame);
++    return 0;
+ }
+ 
+ /* Compare to arm/arm/exec_machdep.c set_mcontext() */
 diff --git a/bsd-user/freebsd/target_os_signal.h b/bsd-user/freebsd/target_os_signal.h
-index 3ed454e086d..7491629477a 100644
+index 7491629477a..43700d08f71 100644
 --- a/bsd-user/freebsd/target_os_signal.h
 +++ b/bsd-user/freebsd/target_os_signal.h
-@@ -4,6 +4,9 @@
+@@ -4,7 +4,7 @@
  #include "target_os_siginfo.h"
  #include "target_arch_signal.h"
  
-+abi_long setup_sigframe_arch(CPUArchState *regs, abi_ulong frame_addr,
-+                             struct target_sigframe *frame, int flags);
-+
+-abi_long setup_sigframe_arch(CPUArchState *regs, abi_ulong frame_addr,
++abi_long setup_sigframe_arch(CPUArchState *env, abi_ulong frame_addr,
+                              struct target_sigframe *frame, int flags);
+ 
  /* Compare to sys/signal.h */
- #define TARGET_SIGHUP  1       /* hangup */
- #define TARGET_SIGINT  2       /* interrupt */
-diff --git a/bsd-user/i386/signal.c b/bsd-user/i386/signal.c
-index 2939d32400c..5dd975ce56a 100644
---- a/bsd-user/i386/signal.c
-+++ b/bsd-user/i386/signal.c
-@@ -32,6 +32,19 @@ abi_long set_sigtramp_args(CPUX86State *env, int sig,
-     return 0;
- }
- 
-+/*
-+ * Compare to i386/i386/exec_machdep.c sendsig()
-+ * Assumes that the memory is locked if frame points to user memory.
-+ */
-+abi_long setup_sigframe_arch(CPUX86State *env, abi_ulong frame_addr,
-+                             struct target_sigframe *frame, int flags)
-+{
-+    target_mcontext_t *mcp = &frame->sf_uc.uc_mcontext;
-+
-+    get_mcontext(env, mcp, flags);
-+    return 0;
-+}
-+
- /* Compare to i386/i386/machdep.c get_mcontext() */
- abi_long get_mcontext(CPUX86State *regs, target_mcontext_t *mcp, int flags)
- {
-diff --git a/bsd-user/x86_64/signal.c b/bsd-user/x86_64/signal.c
-index 8885152a7da..c3875bc4c6a 100644
---- a/bsd-user/x86_64/signal.c
-+++ b/bsd-user/x86_64/signal.c
-@@ -30,6 +30,19 @@ abi_long set_sigtramp_args(CPUX86State *regs,
-     return 0;
- }
- 
-+/*
-+ * Compare to amd64/amd64/exec_machdep.c sendsig()
-+ * Assumes that the memory is locked if frame points to user memory.
-+ */
-+abi_long setup_sigframe_arch(CPUX86State *env, abi_ulong frame_addr,
-+                             struct target_sigframe *frame, int flags)
-+{
-+    target_mcontext_t *mcp = &frame->sf_uc.uc_mcontext;
-+
-+    get_mcontext(env, mcp, flags);
-+    return 0;
-+}
-+
- /* Compare to amd64/amd64/machdep.c get_mcontext() */
- abi_long get_mcontext(CPUX86State *regs,
-                 target_mcontext_t *mcp, int flags)
 -- 
 2.33.1
 
