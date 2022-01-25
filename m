@@ -2,81 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC05E49B0B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 10:49:35 +0100 (CET)
-Received: from localhost ([::1]:56278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D58449B0C5
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 10:55:37 +0100 (CET)
+Received: from localhost ([::1]:37066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCISE-00049P-PR
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 04:49:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33608)
+	id 1nCIY4-00022k-9N
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 04:55:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nCILg-00084A-S5
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nCILg-00083U-Rl
  for qemu-devel@nongnu.org; Tue, 25 Jan 2022 04:42:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33576)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nCILZ-0006Ji-Sb
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 04:42:46 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nCILZ-0006K2-Sf
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 04:42:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643103642;
+ s=mimecast20190719; t=1643103657;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=awyd3SPyAPD9/QLQqYdhP/ugO9iwBADgjN1euMY4dxE=;
- b=FWU5KNOJ4NRXPEChJ1rS8rtEq+VHI9RTcXIX57Y1om3EJPQ7TuH+2znVxwlkQvhm6mwGlN
- X3b0f4rd0BDVWtxTwxNTq5v0k+onvVkUMbkAisOkQVTGsgsfaGGGeUHGFRJyfdSbqXDGCa
- htwDsWmNfRmkezgG0rzhhAmhbfGFTJ0=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/4TFFGBMDIIKg7qNHX2kJ6MVrW7E+V5J6mt7FYY8uSY=;
+ b=QKM77XwrDVN/QAS4BU+vOMNAODFqwasvswM3NW6d1q1uXKcZHJmix5Z//MJd6SPHavxTWS
+ aSuO0aEMwkukJN009+v4iT1JIXhuqNQZ77lkVw5qj90dPN4siB744uRqU62EXiqF689Q6d
+ +rGoBGiCPGJwRcErXWLFUoZS1FUnugw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-232-HfmkadJ8OvOFBiCCGCgnbw-1; Tue, 25 Jan 2022 04:40:38 -0500
-X-MC-Unique: HfmkadJ8OvOFBiCCGCgnbw-1
-Received: by mail-qk1-f197.google.com with SMTP id
- g3-20020a05620a108300b0047e16fc0d6cso3648905qkk.3
- for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 01:40:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=awyd3SPyAPD9/QLQqYdhP/ugO9iwBADgjN1euMY4dxE=;
- b=o0x91RUkh886kWvRE4F7KQimIT7VnqklQ0Jby47spepWV5yBUh+KuZgnmIMKNXTbo3
- JFtoN4DpkRHTf5OVBzDpXmlPARINks39fEG10Yvt3HwNwwTKwETOmOc1TFKW+60QqjNn
- 1I6lFB+9TYeEZ1L0q8GaNqr12vEw+D8wIm1q8aMZF+9Z60iS0wW891jk0n6A7rxc5jpy
- FblaUw8ZphX5MEi4GfkoY+z7FilIbaWeREhWcp0uaRV+8Z+L1K4vLHNdovFzjScPpHcC
- RDhen3XCI+p9m5YOziU0t7eiyl64e3YS/BM9zejao4dKt/qG+ZpsINKy7OXyuT77WAqM
- SUUQ==
-X-Gm-Message-State: AOAM533mWHPzxmMjbjpbqzb8DW68TMq2b/FLYygu9vaZWL4+ZFFgssqp
- MQdaJDdAGWw7K73ehoHvg2Txzj/ZJJNS7IIn03OhJWGuA6n7WQP8vtBTI04lXi/N1rWKSqNhPsk
- 0UhgYSSf0L332F6A2BMPB2fvUYKZFKTI=
-X-Received: by 2002:a05:620a:24cd:: with SMTP id
- m13mr13969038qkn.308.1643103638224; 
- Tue, 25 Jan 2022 01:40:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyWIyjb0WfbDgLcbYpXdRojlUU9HKWUChfS1T00NeCV0JuqOhrIfDA0Zf86x/O3qM0S+qV9yTTwEtivcXjKaQ8=
-X-Received: by 2002:a05:620a:24cd:: with SMTP id
- m13mr13969010qkn.308.1643103637947; 
- Tue, 25 Jan 2022 01:40:37 -0800 (PST)
+ us-mta-655-r2UPA86zP5aoc2Gx83RJEA-1; Tue, 25 Jan 2022 04:40:53 -0500
+X-MC-Unique: r2UPA86zP5aoc2Gx83RJEA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0E851853022;
+ Tue, 25 Jan 2022 09:40:51 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9813F7B9E1;
+ Tue, 25 Jan 2022 09:40:50 +0000 (UTC)
+Date: Tue, 25 Jan 2022 09:40:49 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v5 02/18] tests/avocado: Specify target VM argument to
+ helper routines
+Message-ID: <Ye/FoYAKD4gW2AwJ@stefanha-x1.localdomain>
+References: <cover.1642626515.git.jag.raman@oracle.com>
+ <5ae7da5979b3f83bcf2ec620f5bbd7d4c15b5d80.1642626515.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-References: <20220121202733.404989-1-eperezma@redhat.com>
- <20220121202733.404989-22-eperezma@redhat.com>
- <Ye4r7tKFhP9VaT5/@xz-m1.local>
- <CAJaqyWf--wbNZz5ZzbpixD9op_fO5fV01kbYXzG097c_NkqYrw@mail.gmail.com>
- <Ye6IhLCe6NDKO6+E@xz-m1.local>
-In-Reply-To: <Ye6IhLCe6NDKO6+E@xz-m1.local>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 25 Jan 2022 10:40:01 +0100
-Message-ID: <CAJaqyWcdpTr2X4VuAN2NLmpviCjDoAaY269+VQGZ7-F6myOhSw@mail.gmail.com>
-Subject: Re: [PATCH 21/31] util: Add iova_tree_alloc
-To: Peter Xu <peterx@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="VnNT7/o9LJ2mQBnt"
+Content-Disposition: inline
+In-Reply-To: <5ae7da5979b3f83bcf2ec620f5bbd7d4c15b5d80.1642626515.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -97,174 +77,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
+Cc: eduardo@habkost.net, elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
+ berrange@redhat.com, bleal@redhat.com, john.levon@nutanix.com, mst@redhat.com,
+ armbru@redhat.com, quintela@redhat.com, qemu-devel@nongnu.org, f4bug@amsat.org,
+ marcandre.lureau@gmail.com, thanos.makatos@nutanix.com, pbonzini@redhat.com,
+ eblake@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 24, 2022 at 12:08 PM Peter Xu <peterx@redhat.com> wrote:
->
-> On Mon, Jan 24, 2022 at 10:20:55AM +0100, Eugenio Perez Martin wrote:
-> > On Mon, Jan 24, 2022 at 5:33 AM Peter Xu <peterx@redhat.com> wrote:
-> > >
-> > > On Fri, Jan 21, 2022 at 09:27:23PM +0100, Eugenio P=C3=A9rez wrote:
-> > > > +int iova_tree_alloc(IOVATree *tree, DMAMap *map, hwaddr iova_begin=
-,
-> >
-> > I forgot to s/iova_tree_alloc/iova_tree_alloc_map/ here.
-> >
-> > > > +                    hwaddr iova_last)
-> > > > +{
-> > > > +    const DMAMapInternal *last, *i;
-> > > > +
-> > > > +    assert(iova_begin < iova_last);
-> > > > +
-> > > > +    /*
-> > > > +     * Find a valid hole for the mapping
-> > > > +     *
-> > > > +     * TODO: Replace all this with g_tree_node_first/next/last whe=
-n available
-> > > > +     * (from glib since 2.68). Using a sepparated QTAILQ complicat=
-es code.
-> > > > +     *
-> > > > +     * Try to allocate first at the end of the list.
-> > > > +     */
-> > > > +    last =3D QTAILQ_LAST(&tree->list);
-> > > > +    if (iova_tree_alloc_map_in_hole(last, NULL, iova_begin, iova_l=
-ast,
-> > > > +                                    map->size)) {
-> > > > +        goto alloc;
-> > > > +    }
-> > > > +
-> > > > +    /* Look for inner hole */
-> > > > +    last =3D NULL;
-> > > > +    for (i =3D QTAILQ_FIRST(&tree->list); i;
-> > > > +         last =3D i, i =3D QTAILQ_NEXT(i, entry)) {
-> > > > +        if (iova_tree_alloc_map_in_hole(last, i, iova_begin, iova_=
-last,
-> > > > +                                        map->size)) {
-> > > > +            goto alloc;
-> > > > +        }
-> > > > +    }
-> > > > +
-> > > > +    return IOVA_ERR_NOMEM;
-> > > > +
-> > > > +alloc:
-> > > > +    map->iova =3D last ? last->map.iova + last->map.size + 1 : iov=
-a_begin;
-> > > > +    return iova_tree_insert(tree, map);
-> > > > +}
-> > >
-> > > Hi, Eugenio,
-> > >
-> > > Have you tried with what Jason suggested previously?
-> > >
-> > >   https://lore.kernel.org/qemu-devel/CACGkMEtZAPd9xQTP_R4w296N_Qz7VuV=
-1FLnb544fEVoYO0of+g@mail.gmail.com/
-> > >
-> > > That solution still sounds very sensible to me even without the newly
-> > > introduced list in previous two patches.
-> > >
-> > > IMHO we could move "DMAMap *previous, *this" into the IOVATreeAllocAr=
-gs*
-> > > stucture that was passed into the traverse func though, so it'll natu=
-rally work
-> > > with threading.
-> > >
-> > > Or is there any blocker for it?
-> > >
-> >
-> > Hi Peter,
-> >
-> > I can try that solution again, but the main problem was the special
-> > cases of the beginning and ending.
-> >
-> > For the function to locate a hole, DMAMap first =3D {.iova =3D 0, .size=
- =3D
-> > 0} means that it cannot account 0 for the hole.
-> >
-> > In other words, with that algorithm, if the only valid hole is [0, N)
-> > and we try to allocate a block of size N, it would fail.
-> >
-> > Same happens with iova_end, although in practice it seems that IOMMU
-> > hardware iova upper limit is never UINT64_MAX.
-> >
-> > Maybe we could treat .size =3D 0 as a special case? I see cleaner eithe=
-r
-> > to build the list (but insert needs to take the list into account) or
-> > to explicitly tell that prev =3D=3D NULL means to use iova_first.
->
-> Sounds good to me.  I didn't mean to copy-paste Jason's code, but IMHO wh=
-at
-> Jason wanted to show is the general concept - IOW, the fundamental idea (=
-to me)
-> is that the tree will be traversed in order, hence maintaining another li=
-st
-> structure is redundant.
->
 
-I agree.
+--VnNT7/o9LJ2mQBnt
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-My idea with this version was to easily delete all the custom code
-once we have GTree with proper first/next/last, or _node functions.
-That's why it's simply reimplementing GTree functions in the current
-Glib version. I find old code way too complicated, and this one easier
-to handle although way more verbose, but let's see if we can improve
-the old one.
+On Wed, Jan 19, 2022 at 04:41:51PM -0500, Jagannathan Raman wrote:
+> Specify target VM for exec_command and
+> exec_command_and_wait_for_pattern routines
+>=20
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> Reviewed-by: Beraldo Leal <bleal@redhat.com>
+> ---
+>  tests/avocado/avocado_qemu/__init__.py | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
 
-> >
-> > Another solution that comes to my mind: to add both exceptions outside
-> > of transverse function, and skip the first iteration with something
-> > like:
-> >
-> > if (prev =3D=3D NULL) {
-> >   prev =3D this;
-> >   return false /* continue */
-> > }
-> >
-> > So the transverse callback has way less code paths. Would it work for
-> > you if I send a separate RFC from SVQ only to validate this?
->
-> Sure. :-)
->
-> If you want, imho you can also attach the patch when reply, then the disc=
-ussion
-> context won't be lost too.
->
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Sure,
+--VnNT7/o9LJ2mQBnt
+Content-Type: application/pgp-signature; name="signature.asc"
 
-So I think that the first step to remove complexity from the old one
-is to remove iova_begin and iova_end.
+-----BEGIN PGP SIGNATURE-----
 
-As Jason points out, removing iova_end is easier. It has the drawback
-of having to traverse all the list beyond iova_end, but a well formed
-iova tree should contain none. If the guest can manipulate it, it's
-only hurting itself adding nodes to it.
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHvxaEACgkQnKSrs4Gr
+c8il4wf/dDip7xQtjQQAb0xv2XXeHWtW6Z2ko8NutgbgYofluKQZr4cxexCP7mpt
+4ZAyDG7YAJBPhD3+6eaMWed512ZVEvm2fWOLlAAtCaKKK/GIz8e4yabnRi7X3Yzy
+8GTbwdIZhnh/LvIrwpbShFQ5Y0l8bdciw4k8IvXlyqLsi9EscHHqMcVaxTmMSUJI
+2jKaiPwprp4QhlWvBvBLSCDfu/2Rl1BVKhFE0lCBLKzU/xY1Yxkxj/WamINKd5s2
+SzE16FYP2ZvL50/6ptKlmkVO0Me3cGNND6HqPEwoDAN4xmz5t7zZl+VzuHnTbQx8
+Dgj5UaiDA/dXOYYcUQRlpb2A0Cyu8w==
+=yxjD
+-----END PGP SIGNATURE-----
 
-It's possible to extract the check for hole_right (or this in Jason's
-proposal) as a special case too.
-
-But removing the iova_begin parameter is more complicated. We cannot
-know if it's a valid hole without knowing iova_begin, and we cannot
-resume traversing. Could we assume iova_begin will always be 0? I
-think not, the vdpa device can return anything through syscall.
-
-Thanks!
-
-
-
-> --
-> Peter Xu
->
+--VnNT7/o9LJ2mQBnt--
 
 
