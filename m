@@ -2,57 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4656349AEDD
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 10:06:43 +0100 (CET)
-Received: from localhost ([::1]:43840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BF5649AEDF
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 10:07:26 +0100 (CET)
+Received: from localhost ([::1]:45554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCHmk-0000Ro-Dn
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 04:06:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50334)
+	id 1nCHnR-0001hA-IO
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 04:07:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <guoren@kernel.org>)
- id 1nCHPL-0005N4-FL; Tue, 25 Jan 2022 03:42:32 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:58776)
+ id 1nCHhD-0005Rv-9Y; Tue, 25 Jan 2022 04:01:00 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:42750)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <guoren@kernel.org>)
- id 1nCHPJ-00060d-Hx; Tue, 25 Jan 2022 03:42:31 -0500
+ id 1nCHhA-00009x-3j; Tue, 25 Jan 2022 04:00:58 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 367FB61291;
- Tue, 25 Jan 2022 08:42:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DC0BC340ED;
- Tue, 25 Jan 2022 08:42:26 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id E3BA6B81733;
+ Tue, 25 Jan 2022 09:00:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D97CFC340EE;
+ Tue, 25 Jan 2022 09:00:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1643100146;
- bh=HeNRO6gDaqmqdAPTAYOJawDCCrPdQRB6iWVAuYH0y64=;
+ s=k20201202; t=1643101247;
+ bh=YLSpItSMzlMHxuFp6avk268vMRAlcypR1aeanasiWdI=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=ZzsPlTmaP3AEj323tt0CFl6kv18l8Vv/X1Aknie5sD2sMebLvhqOiBFyHzxBdQG2R
- +OuGL6Fo42+h3emQ3rosWQGVCtbzPwvAy98LKQOdFR+g8DKD9YN4gQrp2khA1JuYUe
- 1OnugjvecIWSZeZhEXMRffAD9/XH3a+u0fQ4LsDP/XNTHFFIDAXrr1OxKjiKLHcZwV
- p2GDMvai09IwIUYYCREnFVAc2ER+3rfPQ8UtPNVyRI99YOntiUVZqkG/nkVJrYf8m0
- o9qWhU1V7J+BQE+raV04BO7Dd+xR3hcpPYRGmjQngczne6FWqX7I9ywa0XJ50W7oiU
- rNe16EayMlDoQ==
-Received: by mail-ua1-f48.google.com with SMTP id u6so36115367uaq.0;
- Tue, 25 Jan 2022 00:42:26 -0800 (PST)
-X-Gm-Message-State: AOAM533K0CqVAovP24IM5eX6XPbrHCXltpVCe3wL5JfTr1+4JBTr53iJ
- dhaOHrpA3mi2sIQv530HpNdNkq5BaplNiaQULJ0=
-X-Google-Smtp-Source: ABdhPJxnVUnPO0fJOqkgJVqNCw6qtsH4Ny8t+HnTwyHQsfjLgWRXw/EPmtbvrlX4+2Lfp4/AZti5ZJbYdzGB2uohA8c=
-X-Received: by 2002:a67:f6c8:: with SMTP id v8mr338566vso.51.1643100145334;
- Tue, 25 Jan 2022 00:42:25 -0800 (PST)
+ b=dkEYGnX/K3PNcEkj8WVN82ZkUG/Vx2o8vzkr+r0x8Kz4vSQ8lbwUdW4bjdHgFq+Fh
+ iV3GEc+D3ScD6pYyoYKnr7JJwzBNfuZyB7XT7Q5ukEWa+0AKZWFibKzU+K0fHl2DHY
+ MhZqmHGV3PapW7fxEq6hWth3qjqvp+jdo2kQXQIDyPRvNSSWQzZRAgZdy1RmTQTEWy
+ MLtLdfDAttz6k1XK1OTyOV8jkY4X3W65nEbayjdi9Zfq/xppp3rhNlKTPk5ZCRDRfG
+ gI9EdGAyb03V5DlT/sfG0oW7gzAj4mKpPNbutokN+q2QgfQHEpuOrVvvgy3KvIj0X8
+ D8yAcyBgWSmwg==
+Received: by mail-ua1-f51.google.com with SMTP id l1so34232782uap.8;
+ Tue, 25 Jan 2022 01:00:47 -0800 (PST)
+X-Gm-Message-State: AOAM531qZBYUSCeblGwoiIAoFmW24zYBprx+S341HnsLY5DX4nmU7md/
+ /BXptToAR0DXh2TL4PRotN8ga3lHyTkgT4Gv2Yc=
+X-Google-Smtp-Source: ABdhPJz9wcIixmS/Eci42CRyayVb3bwzzJxj+0hZx63Gnpp0aQQUjx7VT4hvmW2tcSno0II7f/zsNh3lg5GoMuYqJEs=
+X-Received: by 2002:a67:e1c2:: with SMTP id p2mr2027779vsl.51.1643101246818;
+ Tue, 25 Jan 2022 01:00:46 -0800 (PST)
 MIME-Version: 1.0
 References: <20220125064536.7869-1-liweiwei@iscas.ac.cn>
-In-Reply-To: <20220125064536.7869-1-liweiwei@iscas.ac.cn>
+ <20220125064536.7869-2-liweiwei@iscas.ac.cn>
+ <0a70c29c-0d59-24bb-73a8-652e26761d48@c-sky.com>
+ <CAJF2gTQT619yKoeFdH8-qaCmuQxSn9qar02SUTLO44gi=QmSsA@mail.gmail.com>
+ <ef4bf292-d77b-7b59-feaf-c1760c2520af@c-sky.com>
+In-Reply-To: <ef4bf292-d77b-7b59-feaf-c1760c2520af@c-sky.com>
 From: Guo Ren <guoren@kernel.org>
-Date: Tue, 25 Jan 2022 16:42:14 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTSeWowyfM-aZW9S153=kOFYrQ4vai-Qth8Lb3vPH9kQJw@mail.gmail.com>
-Message-ID: <CAJF2gTSeWowyfM-aZW9S153=kOFYrQ4vai-Qth8Lb3vPH9kQJw@mail.gmail.com>
-Subject: Re: [PATCH v6 0/5] support subsets of virtual memory extension
-To: Weiwei Li <liweiwei@iscas.ac.cn>
+Date: Tue, 25 Jan 2022 17:00:35 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTRaLbFUnOK6v4PLa0OrsvO=a3wov+QOdSR3W4PmPGjMBQ@mail.gmail.com>
+Message-ID: <CAJF2gTRaLbFUnOK6v4PLa0OrsvO=a3wov+QOdSR3W4PmPGjMBQ@mail.gmail.com>
+Subject: Re: [PATCH v6 1/5] target/riscv: Ignore reserved bits in PTE for RV64
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=139.178.84.217; envelope-from=guoren@kernel.org;
- helo=dfw.source.kernel.org
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=guoren@kernel.org;
+ helo=ams.source.kernel.org
 X-Spam_score_int: -72
 X-Spam_score: -7.3
 X-Spam_bar: -------
@@ -73,71 +77,180 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <anup@brainfault.org>,
- Wang Junqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
+ Weiwei Li <liweiwei@iscas.ac.cn>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Anup Patel <anup@brainfault.org>, Wang Junqiang <wangjunqiang@iscas.ac.cn>,
+ Bin Meng <bin.meng@windriver.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Alistair Francis <alistair.francis@wdc.com>, Ren Guo <ren_guo@c-sky.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 25, 2022 at 3:33 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->
-> This patchset implements virtual memory related RISC-V extensions: Svnapot version 1.0, Svinval vesion 1.0, Svpbmt version 1.0.
->
-> Specification:
-> https://github.com/riscv/virtual-memory/tree/main/specs
->
-> The port is available here:
-> https://github.com/plctlab/plct-qemu/tree/plct-virtmem-upstream-v6
->
-> To test this implementation, specify cpu argument with 'svinval=true,svnapot=true,svpbmt=true'.
->
-> This implementation can pass the riscv-tests for rv64ssvnapot.
->
-> v6:
-> * select ppn mask base on sxl
->
-> v5:
-> * merge patch https://lore.kernel.org/qemu-devel/1569456861-8502-1-git-send-email-guoren@kernel.org/
-> * relax pte attribute check
->
-> v4:
-> * fix encodings for hinval_vvma and hinval_gvma
-> * partition inner PTE check into several steps
-> * improve commit messages to describe changes
->
-> v3:
-> * drop "x-" in exposed properties
->
-> v2:
-> * add extension check for svnapot and svpbmt
->
-> Guo Ren (1):
->   target/riscv: Ignore reserved bits in PTE for RV64
->
-> Weiwei Li (4):
->   target/riscv: add PTE_A/PTE_D/PTE_U bits check for inner PTE
->   target/riscv: add support for svnapot extension
->   target/riscv: add support for svinval extension
->   target/riscv: add support for svpbmt extension
->
->  target/riscv/cpu.c                          |  4 ++
->  target/riscv/cpu.h                          | 14 ++++
->  target/riscv/cpu_bits.h                     | 10 +++
->  target/riscv/cpu_helper.c                   | 34 +++++++++-
->  target/riscv/insn32.decode                  |  7 ++
->  target/riscv/insn_trans/trans_svinval.c.inc | 75 +++++++++++++++++++++
->  target/riscv/translate.c                    |  1 +
->  7 files changed, 142 insertions(+), 3 deletions(-)
->  create mode 100644 target/riscv/insn_trans/trans_svinval.c.inc
->
-> --
-> 2.17.1
+On Tue, Jan 25, 2022 at 4:54 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
 >
 >
+> On 2022/1/25 16:40, Guo Ren wrote:
+> > On Tue, Jan 25, 2022 at 4:34 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+> >>
+> >> On 2022/1/25 14:45, Weiwei Li wrote:
+> >>> From: Guo Ren <ren_guo@c-sky.com>
+> >>>
+> >>> Highest bits of PTE has been used for svpbmt, ref: [1], [2], so we
+> >>> need to ignore them. They cannot be a part of ppn.
+> >>>
+> >>> 1: The RISC-V Instruction Set Manual, Volume II: Privileged Architecture
+> >>>      4.4 Sv39: Page-Based 39-bit Virtual-Memory System
+> >>>      4.5 Sv48: Page-Based 48-bit Virtual-Memory System
+> >>>
+> >>> 2: https://github.com/riscv/virtual-memory/blob/main/specs/663-Svpbmt-diff.pdf
+> >>>
+> >>> Signed-off-by: Guo Ren <ren_guo@c-sky.com>
+> >>> Cc: Liu Zhiwei <zhiwei_liu@c-sky.com>
+> >>> Cc: Bin Meng <bmeng.cn@gmail.com>
+> >>> Cc: Alistair Francis <alistair.francis@wdc.com>
+> >>> ---
+> >>>    target/riscv/cpu.h        | 13 +++++++++++++
+> >>>    target/riscv/cpu_bits.h   |  7 +++++++
+> >>>    target/riscv/cpu_helper.c | 14 +++++++++++++-
+> >>>    3 files changed, 33 insertions(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> >>> index 55635d68d5..45de8faaca 100644
+> >>> --- a/target/riscv/cpu.h
+> >>> +++ b/target/riscv/cpu.h
+> >>> @@ -341,6 +341,8 @@ struct RISCVCPU {
+> >>>            bool ext_counters;
+> >>>            bool ext_ifencei;
+> >>>            bool ext_icsr;
+> >>> +        bool ext_svnapot;
+> >>> +        bool ext_svpbmt;
+> >>>            bool ext_zfh;
+> >>>            bool ext_zfhmin;
+> >>>            bool ext_zve32f;
+> >>> @@ -495,6 +497,17 @@ static inline int riscv_cpu_xlen(CPURISCVState *env)
+> >>>        return 16 << env->xl;
+> >>>    }
+> >>>
+> >>> +#ifndef CONFIG_USER_ONLY
+> >>> +#ifdef TARGET_RISCV32
+> >>> +#define riscv_cpu_sxl(env)  ((void)(env), MXL_RV32)
+> >>> +#else
+> >>> +static inline RISCVMXL riscv_cpu_sxl(CPURISCVState *env)
+> >>> +{
+> >>> +    return get_field(env->mstatus, MSTATUS64_SXL);
+> >>> +}
+> >>> +#endif
+> >>> +#endif
+> >>> +
+> >> Perhaps an interface also works for user mode is better.
+> >>
+> >> +#ifdef TARGET_RISCV32
+> >> +#define riscv_cpu_sxl(env)  ((void)(env), MXL_RV32)
+> >> +#else
+> >> +static inline RISCVMXL riscv_cpu_sxl(CPURISCVState *env)
+> >> +{
+> >> +#ifdef CONFIG_USER_ONLY
+> >> +    return env->misa_mxl;
+> >> +#else
+> >> +    return get_field(env->mstatus, MSTATUS64_SXL);
+> >> +#endif
+> >> +}
+> >> +#endif
+> >> +
+> >>
+> >>>    /*
+> >>>     * Encode LMUL to lmul as follows:
+> >>>     *     LMUL    vlmul    lmul
+> >>> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> >>> index 7c87433645..37b622fbfa 100644
+> >>> --- a/target/riscv/cpu_bits.h
+> >>> +++ b/target/riscv/cpu_bits.h
+> >>> @@ -493,6 +493,13 @@ typedef enum {
+> >>>    /* Page table PPN shift amount */
+> >>>    #define PTE_PPN_SHIFT       10
+> >>>
+> >>> +/* Page table PPN mask */
+> >>> +#if defined(TARGET_RISCV32)
+> >>> +#define PTE_PPN_MASK        0xFFFFFC00UL
+> >>> +#elif defined(TARGET_RISCV64)
+> >>> +#define PTE_PPN_MASK        0x3FFFFFFFFFFC00ULL
+> >>> +#endif
+> >>> +
+> >> No need to define PTE_PPN_MASK for TARGET_RISCV32.
+> > ppn = (pte & PTE_PPN_MASK) >> PTE_PPN_SHIFT;
+> >
+> > pte is target_ulong, so types are different.
+> >
+> > TARGET_RISCV32: is 32bit.
+> > TARGET_RISCV64: is 64bit.
+> >
+> I should make it more clear.  You will not use PTE_PPN_MASK on
+> TARGET_RISCV32.
+> >>>    /* Leaf page shift amount */
+> >>>    #define PGSHIFT             12
+> >>>
+> >>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> >>> index 327a2c4f1d..2a921bedfd 100644
+> >>> --- a/target/riscv/cpu_helper.c
+> >>> +++ b/target/riscv/cpu_helper.c
+> >>> @@ -622,7 +622,19 @@ restart:
+> >>>                return TRANSLATE_FAIL;
+> >>>            }
+> >>>
+> >>> -        hwaddr ppn = pte >> PTE_PPN_SHIFT;
+> >>> +        hwaddr ppn;
+> >>> +        RISCVCPU *cpu = env_archcpu(env);
+> >>> +
+> >>> +        if (riscv_cpu_sxl(env) == MXL_RV32) {
+> >>> +            ppn = pte >> PTE_PPN_SHIFT;
+>
+> TARGET_RISCV32 will always come here. So no need to define PTE_PPN_MASK
+> for TARGET_RISCV32.
+Oops, maybe we should use TARGET_LONG_SIZE == 4
 
-Tested-by: Guo Ren <guoren@kernel.org>
+#if TARGET_LONG_SIZE == 4
+typedef int32_t target_long;
+typedef uint32_t target_ulong;
+#define TARGET_FMT_lx "%08x"
+#define TARGET_FMT_ld "%d"
+#define TARGET_FMT_lu "%u"
+#elif TARGET_LONG_SIZE == 8
+typedef int64_t target_long;
+typedef uint64_t target_ulong;
+#define TARGET_FMT_lx "%016" PRIx64
+#define TARGET_FMT_ld "%" PRId64
+#define TARGET_FMT_lu "%" PRIu64
+#else
+#error TARGET_LONG_SIZE undefined
+#endif
+
+>
+> Thanks,
+> Zhiwei
+>
+> >>> +        } else if (cpu->cfg.ext_svpbmt || cpu->cfg.ext_svnapot) {
+> >>> +            ppn = (pte & PTE_PPN_MASK) >> PTE_PPN_SHIFT;
+> >>> +        } else {
+> >>> +            ppn = pte >> PTE_PPN_SHIFT;
+> >>> +            if ((pte & ~PTE_PPN_MASK) >> PTE_PPN_SHIFT) {
+> >>> +                return TRANSLATE_FAIL;
+> >>> +            }
+> >>> +        }
+> >>>
+> >>>            if (!(pte & PTE_V)) {
+> >>>                /* Invalid PTE */
+> >> Otherwise,
+> >>
+> >> Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> >>
+> >> Thanks,
+> >> Zhiwei
+> >>
+> >>
+> >>
+> >
+
+
 
 -- 
 Best Regards
