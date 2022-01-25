@@ -2,64 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9241A49B1B7
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 11:32:20 +0100 (CET)
-Received: from localhost ([::1]:57120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E5CB49B1BA
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 11:34:19 +0100 (CET)
+Received: from localhost ([::1]:33908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCJ7a-0001z4-Jb
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 05:32:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43566)
+	id 1nCJ9W-0005TX-BJ
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 05:34:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nCJ2I-0006ku-Q6
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:26:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59982)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1nCJ2J-0006lc-C8
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:26:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nCJ2G-00057W-LO
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1nCJ2G-00057n-LT
  for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:26:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643106356;
+ s=mimecast20190719; t=1643106370;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=GgMGo+SetTByGe4SdAJorHXMagjMg9aKx8oiHFn19t4=;
- b=JOF2PnNxpUDI7kyNTvSIHlrPlqbnURchbNfNC7LMpYKr3E2Ua9nG/RlL6pYHQfTr8Qdn8E
- /gSTWruaRgldQacX99t8bSdl2DjH5pwLsWhaOcaOWsJ17QrACew8gGOZnciEl02LvxX6vF
- +B3zawDB6WqieHjIH1FZa48t1KnvCOw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QcZjo/a+B5zu1NVmxX4irODAmEHNtjNwudA/raoQZm8=;
+ b=In4mQ/ZOwSz1ZFT543FGWq/hz54oj99BpxoJGOBy2hPdptjt7SwUziQqfY/9rgbcmnvqaN
+ Dutjz6HAl7E8NzBmQDMFRz/5cmdyB9WS6Mk0qjgyC7xJKm/FRRhLCBV9OgQv9sdMSucMNa
+ g7+mD3FZ6SZ0iwbiWVCrtv99c1iSrzQ=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-632-dF5Lb2WEN92XOHr_aTDOOA-1; Tue, 25 Jan 2022 05:25:52 -0500
-X-MC-Unique: dF5Lb2WEN92XOHr_aTDOOA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 315431091DA1;
- Tue, 25 Jan 2022 10:25:51 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-3.ams2.redhat.com [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C81387AB59;
- Tue, 25 Jan 2022 10:25:44 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 477B51138640; Tue, 25 Jan 2022 11:25:43 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v4 3/3] meson: generate trace events for qmp commands
-References: <20220121162234.2707906-1-vsementsov@virtuozzo.com>
- <20220121162234.2707906-4-vsementsov@virtuozzo.com>
-Date: Tue, 25 Jan 2022 11:25:43 +0100
-In-Reply-To: <20220121162234.2707906-4-vsementsov@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Fri, 21 Jan 2022 17:22:34 +0100")
-Message-ID: <87ilu82jtk.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-474-Gw-TgdieOlyRjEvVwSXmtw-1; Tue, 25 Jan 2022 05:26:09 -0500
+X-MC-Unique: Gw-TgdieOlyRjEvVwSXmtw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ c8-20020a05640227c800b003fdc1684cdeso14729896ede.12
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 02:26:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=QcZjo/a+B5zu1NVmxX4irODAmEHNtjNwudA/raoQZm8=;
+ b=7o4MXiqG1La/cQopXBWvB8GP6PzkTh3fbdbHZtn2wRJy9DoCyOD0kYfx05QukgXVxx
+ 0jkM8uuHpdafe4GaqvegtOLNnlKFtq5JBwv3HIZ1OlS/AfZ/GAAVZx+fY7Cr6rlU1LY1
+ oVm/72TLHszazCDUJ/U9w/eySdfFOXAG5Pkc8aChLqHNitLNEHSCGF1M7mk0NsAYtD9W
+ 9iBhPX/+VmyFSvbB9vUVYJw0sfFofgcN7m2pUogxOLrVXnqLTfwUHmSDIpw7M8Kwp39J
+ MUoxdF3pFkom1V1T0rAPdZQ7GTcXU/f5HxUHXJCVaadtZd/A/OHKAWAAuWhWayhYRr5L
+ fnOA==
+X-Gm-Message-State: AOAM532nJU3qzO2G7bCrf9uVdG2q59TLKwiLHBFZQ1+WYWNg0wOJ3W5s
+ ztmagV0KIORSw5WIiO02DBMJPQQdfSFxe98vH3bSHRAEcge2LMoNjmMPqZbMSEEJHpwjlgtHWm5
+ KZKx1wDNynkZ9OIOiQhTxBtnRxUiRpfkwIk8pJV65vx13u6hTGg0THKni+U+YuVOfjQ==
+X-Received: by 2002:a17:906:e282:: with SMTP id
+ gg2mr16200843ejb.607.1643106366817; 
+ Tue, 25 Jan 2022 02:26:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJywwxwZ4YY4iWIlFNaYip0Wa4dEeAoVhozEIa/pQlPEkwWy9x2YAsU6Xt11ylx+Tj+ikUTJSQ==
+X-Received: by 2002:a17:906:e282:: with SMTP id
+ gg2mr16200818ejb.607.1643106366410; 
+ Tue, 25 Jan 2022 02:26:06 -0800 (PST)
+Received: from gator (cst2-173-70.cust.vodafone.cz. [31.30.173.70])
+ by smtp.gmail.com with ESMTPSA id qp13sm5994017ejb.52.2022.01.25.02.26.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Jan 2022 02:26:05 -0800 (PST)
+Date: Tue, 25 Jan 2022 11:26:03 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: chenxiang via <qemu-devel@nongnu.org>
+Subject: Re: [PATCH] hw/arm/virt: Enable HMAT on arm virt machine
+Message-ID: <20220125102603.3ssiffsqcyt7tlwr@gator>
+References: <1643102134-15506-1-git-send-email-chenxiang66@hisilicon.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <1643102134-15506-1-git-send-email-chenxiang66@hisilicon.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -80,47 +96,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, michael.roth@amd.com, qemu-devel@nongnu.org,
- hreitz@redhat.com, stefanha@redhat.com, pbonzini@redhat.com, jsnow@redhat.com
+Cc: peter.maydell@linaro.org, Xiang Chen <chenxiang66@hisilicon.com>,
+ linuxarm@huawei.com, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
+ imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+On Tue, Jan 25, 2022 at 05:15:34PM +0800, chenxiang via wrote:
+> From: Xiang Chen <chenxiang66@hisilicon.com>
+> 
+> Since the patchset ("Build ACPI Heterogeneous Memory Attribute Table (HMAT)"),
+> HMAT is supported, but only x86 is enabled. Enable HMAT on arm virt machine.
 
-> 1. Add --no-trace-events to suppress trace events generation in some
->    cases, and make trace events be generated by default.
-> 2. Add corresponding .trace-events files as outputs in qapi_files
->    custom target
-> 3. Define global qapi_trace_events list of .trace-events file targets,
->    to fill in trace/qapi.build and to use in trace/meson.build
-> 4. In trace/meson.build use the new array as an additional source of
->    .trace_events files to be processed
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Hi Xiang,
+
+What QEMU commands lines have you tested with which Linux guest kernels?
+
+Thanks,
+drew
+
+> 
+> Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
 > ---
->  docs/devel/qapi-code-gen.rst | 23 +++++++++++++++++++++--
-
-The doc update isn't mentioned in the commit message.
-
->  meson.build                  |  3 +++
->  qapi/meson.build             |  7 +++++++
->  qga/meson.build              | 11 ++++++++++-
->  scripts/qapi/main.py         | 10 +++++++---
->  tests/meson.build            | 11 ++++++++++-
->  trace/meson.build            | 11 ++++++++---
->  7 files changed, 66 insertions(+), 10 deletions(-)
-
-This commit consists of a small QAPI code generator change, build system
-work to put it to use, and QAPI documentation update for the series'
-feature.
-
-I'd reshuffle as follows:
-
-* Squash the main.py change into the previous commit.
-
-* Split off the doc update into its own commit.
-
-This way, build system experts can provide an R-by in good conscience
-without reviewing the doc update, and vice versa.
+>  hw/arm/Kconfig           | 1 +
+>  hw/arm/virt-acpi-build.c | 7 +++++++
+>  2 files changed, 8 insertions(+)
+> 
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 2e0049196d..a3c6099829 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -29,6 +29,7 @@ config ARM_VIRT
+>      select ACPI_APEI
+>      select ACPI_VIOT
+>      select VIRTIO_MEM_SUPPORTED
+> +    select ACPI_HMAT
+>  
+>  config CHEETAH
+>      bool
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 449fab0080..f19b55e486 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -42,6 +42,7 @@
+>  #include "hw/acpi/memory_hotplug.h"
+>  #include "hw/acpi/generic_event_device.h"
+>  #include "hw/acpi/tpm.h"
+> +#include "hw/acpi/hmat.h"
+>  #include "hw/pci/pcie_host.h"
+>  #include "hw/pci/pci.h"
+>  #include "hw/pci/pci_bus.h"
+> @@ -990,6 +991,12 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+>              build_slit(tables_blob, tables->linker, ms, vms->oem_id,
+>                         vms->oem_table_id);
+>          }
+> +
+> +        if (ms->numa_state->hmat_enabled) {
+> +            acpi_add_table(table_offsets, tables_blob);
+> +            build_hmat(tables_blob, tables->linker, ms->numa_state,
+> +                       vms->oem_id, vms->oem_table_id);
+> +        }
+>      }
+>  
+>      if (ms->nvdimms_state->is_enabled) {
+> -- 
+> 2.33.0
+> 
+> 
 
 
