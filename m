@@ -2,78 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3624449A8C3
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 05:16:03 +0100 (CET)
-Received: from localhost ([::1]:48392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88AC449ABD3
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 06:41:00 +0100 (CET)
+Received: from localhost ([::1]:46334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCDFR-0004PH-PG
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 23:16:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51974)
+	id 1nCEZf-0001BO-4y
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 00:40:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nCDE9-0003kT-3D
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 23:14:41 -0500
-Received: from [2607:f8b0:4864:20::32b] (port=35641
- helo=mail-ot1-x32b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nCDE7-00077x-GK
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 23:14:40 -0500
-Received: by mail-ot1-x32b.google.com with SMTP id
- o9-20020a9d7189000000b0059ee49b4f0fso8006891otj.2
- for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 20:14:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oWti/9WlMj0sOM2r0kDQDpMhiMEorMR9lxQ5Thtpatc=;
- b=PvdYsgedsoS0BblUkioKpz9GIkJQBI1jQbssWuGHZODeWEqu8XiWor/yB2XWbsfsZ3
- TNB+q1HTIfvrJDW1miFcjdhAmmnfumLxh5IEDTOLJ20XQ922bxeGJNVrWVBkIA0PpfxA
- tGa9OgIrHG3B20VnJlPno5QpKVHB41uqz/QkyTLLtSDDAcsHQMg0iByvweXqpoL/cBjt
- LhmKu50B+/ZNk7EwSvuTVsSCG5bUJJvfWxX/nQyJ9y/SeZsrkJTsRGl/vD+urra/owga
- KDsvUBPYXD5OIt0ekW1UCP33Y0wcyNW+iHI0dPm19jb66iVD1iJOuZMv88OvkO/+VNMn
- Fi9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oWti/9WlMj0sOM2r0kDQDpMhiMEorMR9lxQ5Thtpatc=;
- b=cNC7oBGQWS1CprPEOL9qvxjTmRkXYqdw5cWHS0JenwqyXqxWc0apAsDzm4kkf9xv3a
- XUqA05X3Tq0mZJxbSHyVQilHlDRvjKw3hrhZ40/ZaMH6srpFYF1n61JB1/7z9NsmLxdF
- RMKtRfUfaMzRjRQ9VJEZCLSCnDir3hyJ03AO8rOuyOq8HkLFvNWmKq/mV8Wo3bUHd5eN
- 8kIGuXUkY8Zw5cMqAzQB4BCRHIs+KH6oNdFjAMrWYF3B3tPJvP8IUcG0kQG2ELi8wVkt
- yTD97rTG8PGi9ug5f29a/D1yeTmvRmhTMrsXtMFzAMeovBb1ROh74OY0ccaE4cX/dLHX
- ZBOw==
-X-Gm-Message-State: AOAM5336vbDhJnLEMdcLrjy1UCWhvOABP0TQ17BPoxBndtorAs3jOLzn
- /LGrkqTFp1x8Z85w8MGCnImb2TrIHjccI2recHk=
-X-Google-Smtp-Source: ABdhPJxilzARdG2i6OMhK6Wz3sA2gHCbeDYu6B6mC9rY0sB5EZC9idg5+Xr5Apu6uZ2bsrlBKPsv7UU2tUK3ALbd2MI=
-X-Received: by 2002:a05:6830:440b:: with SMTP id
- q11mr14433742otv.270.1643084078211; 
- Mon, 24 Jan 2022 20:14:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1nCEVg-000095-WA; Tue, 25 Jan 2022 00:36:53 -0500
+Received: from out28-51.mail.aliyun.com ([115.124.28.51]:60381)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1nCEVd-0003Y8-Pc; Tue, 25 Jan 2022 00:36:52 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.08798142|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.0215965-0.00446824-0.973935;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047201; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.Mi.p7Vn_1643088997; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.Mi.p7Vn_1643088997)
+ by smtp.aliyun-inc.com(10.147.42.241);
+ Tue, 25 Jan 2022 13:36:37 +0800
+Message-ID: <a7090083-a729-76d9-eede-f34af6615ec8@c-sky.com>
+Date: Tue, 25 Jan 2022 13:36:37 +0800
 MIME-Version: 1.0
-References: <20220113172219.66372-1-yaroshchuk2000@gmail.com>
- <20220113172219.66372-3-yaroshchuk2000@gmail.com>
- <Ye53sOJekvKrM8iT@roolebo.dev>
- <7053351.4JHWUSIRgT@silver> <Ye7mwcl/rB714vgl@roolebo.dev>
- <CAFEAcA-UE5MmkESRrxdedkzYkc9jp81jzni=-xmivK88gkr6Rw@mail.gmail.com>
- <Ye8vjmFFRLPrhE1Z@roolebo.dev>
-In-Reply-To: <Ye8vjmFFRLPrhE1Z@roolebo.dev>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Date: Tue, 25 Jan 2022 13:14:27 +0900
-Message-ID: <CAMVc7JXyFoUCkrGLKhCct_DatwU6Xu+L2XSK5y0YMV8xDHZC+g@mail.gmail.com>
-Subject: Re: [PATCH v13 2/7] net/vmnet: add vmnet backends to qapi/net
-To: Roman Bolshakov <roman@roolebo.dev>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32b
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-ot1-x32b.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2] target/riscv: correct "code should not be reached" for
+ x-rv128
+Content-Language: en-US
+To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20220124202456.420258-1-frederic.petrot@univ-grenoble-alpes.fr>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+In-Reply-To: <20220124202456.420258-1-frederic.petrot@univ-grenoble-alpes.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=115.124.28.51; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-51.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,69 +62,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>, phillip.ennen@gmail.com,
- Jason Wang <jasowang@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- qemu Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Markus Armbruster <armbru@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alexander Graf <agraf@csgraf.de>, Gerd Hoffmann <kraxel@redhat.com>,
- Howard Spoelstra <hsp.cat7@gmail.com>, Alessio Dionisi <hello@adns.io>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Eric Blake <eblake@redhat.com>, Phillip Tennen <phillip@axleos.com>
+Cc: palmer@dabbelt.com, bin.meng@windriver.com, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 25, 2022 at 8:00 AM Roman Bolshakov <roman@roolebo.dev> wrote:
->
-> On Mon, Jan 24, 2022 at 08:14:31PM +0000, Peter Maydell wrote:
-> > On Mon, 24 Jan 2022 at 17:49, Roman Bolshakov <roman@roolebo.dev> wrote:
-> > > I'm not sure why blocks are Objective-C specific. All the data I have
-> > > shows the opposite [3][4][5]. They're just extensively used in Apple APIs.
-> >
-> > This is true, but for the purposes of our build machinery it is
-> > simpler to have three types of source files that it deals
-> > with (C, C++, ObjC) rather than four (C, C++, ObjC, C-that-uses-blocks).
-> > So unless there's a clear benefit from adding the extra category
-> > I think we should do the simple thing and keep these files named
-> > with a ".m" extension.
-> >
->
-> Fine by me as long as majority finds it's simpler :) Perhaps it's just a
-> matter of personal preference.
->
-> I've used to the fact that platform-specific code uses platform-specific
-> extensions or some sort of weird "GCC attributes". Therefore C with an
-> extension is easier to reason for me than Objective-C with ARC and other
-> kinds of implicit behaviour without an actual Objective-C code.
->
-> Thanks,
-> Roman
+On 2022/1/25 04:24, Frédéric Pétrot wrote:
 
-Being technically pedantic, actually this vmnet implementation uses
-Objective-C and there is a file with .c which uses blocks.
-If a file is named .m, dispatch_retain(o) will be redefined as [o
-retain], and effectively makes it Objective-C code. Therefore, vmnet
-involves Objective-C as long as its files are named .m. It will be C
-with blocks if they are named .c.
-Speaking of use of blocks, actually audio/coreaudio.c involves blocks
-in header files; Core Audio has functions which accept blocks.
+> The addition of uxl support in gdbstub adds a few checks on the maximum
+> register length, but omitted MXL_RV128, an experimental feature.
+> This patch makes rv128 react as rv64, as previously.
+>
+> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
+Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-I'm neutral about the decision. I think QEMU should avoid using
-Objective-C code except for interactions with Apple's APIs, and .c is
-superior in terms of that as it would prevent accidental introduction
-of Objective-C code. On the other hand, naming them .m will allow the
-introduction of Automatic Reference Counting to manage dispatch queue
-objects. In fact, I have found a few memory leaks in vmnet in the last
-review and ui/cocoa.m has a suspicious construction of the object
-management (Particularly it has asynchronous dispatches wrapped with
-NSAutoreleasePool, which does not make sense). Introduction of
-Automatic Reference Counting would greatly help addressing those
-issues, but that would require significant rewriting of ui/cocoa.m.
-Personally I'm concerned with ui/cocoa.m and do want to do that
-rewriting, but I'm being busy so it would not happen anytime soon.
+Thanks,
+Zhiwei
 
-Regards,
-Akihiko Odaki
+> ---
+>   target/riscv/cpu.c     | 3 +--
+>   target/riscv/gdbstub.c | 3 +++
+>   2 files changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 1cb0436187..5ada71e5bf 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -528,10 +528,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>       switch (env->misa_mxl_max) {
+>   #ifdef TARGET_RISCV64
+>       case MXL_RV64:
+> +    case MXL_RV128:
+>           cc->gdb_core_xml_file = "riscv-64bit-cpu.xml";
+>           break;
+> -    case MXL_RV128:
+> -        break;
+>   #endif
+>       case MXL_RV32:
+>           cc->gdb_core_xml_file = "riscv-32bit-cpu.xml";
+> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+> index f531a74c2f..9ed049c29e 100644
+> --- a/target/riscv/gdbstub.c
+> +++ b/target/riscv/gdbstub.c
+> @@ -64,6 +64,7 @@ int riscv_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+>       case MXL_RV32:
+>           return gdb_get_reg32(mem_buf, tmp);
+>       case MXL_RV64:
+> +    case MXL_RV128:
+>           return gdb_get_reg64(mem_buf, tmp);
+>       default:
+>           g_assert_not_reached();
+> @@ -84,6 +85,7 @@ int riscv_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+>           length = 4;
+>           break;
+>       case MXL_RV64:
+> +    case MXL_RV128:
+>           if (env->xl < MXL_RV64) {
+>               tmp = (int32_t)ldq_p(mem_buf);
+>           } else {
+> @@ -420,6 +422,7 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
+>                                    1, "riscv-32bit-virtual.xml", 0);
+>           break;
+>       case MXL_RV64:
+> +    case MXL_RV128:
+>           gdb_register_coprocessor(cs, riscv_gdb_get_virtual,
+>                                    riscv_gdb_set_virtual,
+>                                    1, "riscv-64bit-virtual.xml", 0);
 
