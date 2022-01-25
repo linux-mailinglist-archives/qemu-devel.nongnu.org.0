@@ -2,101 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E9BA49AE98
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 09:54:06 +0100 (CET)
-Received: from localhost ([::1]:58022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A2F49AEBB
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 09:59:06 +0100 (CET)
+Received: from localhost ([::1]:34738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCHaX-0007Rj-FI
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 03:54:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51814)
+	id 1nCHfM-0002Yx-SU
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 03:59:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCHXj-0005yp-HG
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 03:51:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36019)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1nCHb4-0000zf-Vk; Tue, 25 Jan 2022 03:54:39 -0500
+Received: from out28-149.mail.aliyun.com ([115.124.28.149]:32942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCHXe-0007MY-U0
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 03:51:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643100665;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7jlHzmF33820k/THzTTywIQDKjzQH4pmKS1BpZDTYLs=;
- b=Bprf9DM9hZ7pkVr8U+f3aDTtNO0MmK6KZ/35dN+m+Nk9I1jba9oNWckHNVCydV6TLqeDGh
- 6R56cp+EwxlUx83F/mJRoRqvjsdaGEx00ATwTQs6lPeJa5jaiVmGICUdJBn/plGsG8fudf
- fn5Hd9hpXGqcqyPldRPESJmJH2mc2wo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-q-uw8kjmOdKCqOUN91H8EQ-1; Tue, 25 Jan 2022 03:51:04 -0500
-X-MC-Unique: q-uw8kjmOdKCqOUN91H8EQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- q71-20020a1ca74a000000b003507f38e330so844839wme.9
- for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 00:51:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7jlHzmF33820k/THzTTywIQDKjzQH4pmKS1BpZDTYLs=;
- b=t3D+518Bh8r4M2yA2jz0IWERzUpfcuT3KMXV/wjgwt4ffkzXB/bZSgD11lUHFjnIc/
- b8QE+it9kryDDZl3T5Iaq6ZSQX/KS38BTM7ymcSujKBn+7fipeGhrLbo9yHxEeasu2yp
- Qvz1MM97EmndxIw5WZa2pAwh4CJN/HrT1uwecsSyMuEWsOVaezUhSKe5heXAeNDIPWE/
- 9/sdBnZZ76LtijIOYeAMdBNIyJVT72JNIHGnMa92UrQa8XOIR95Lih6vTE7UN7SA/kWw
- T0t+KJl+9nCvYG9p9rA6p7luINrqhu7f57yNsIaTYrI2fXCtkMRAR9U8sVAjNZPuZp1O
- sc0A==
-X-Gm-Message-State: AOAM5316OOwa3AsKs1tYYWFhtJANCWfCNroVGob0c5s/ithNTA8fXvD6
- SULSdQwmVAJ4HMkp7oAhm8fA6EZyXRJiuKXUM65426Dsw1n02AXzDbZ3vlxio9Vv2RrdojViePb
- 1/WSBOQOAXbhXiws=
-X-Received: by 2002:a7b:c00d:: with SMTP id c13mr1913045wmb.128.1643100661359; 
- Tue, 25 Jan 2022 00:51:01 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzyXx9d3m913ilqShLQN6L/JWv7T/Qz4iYROLdgJWH2empUQ3Vwys60UaJnlOmy0CNfSl+Dfg==
-X-Received: by 2002:a7b:c00d:: with SMTP id c13mr1913011wmb.128.1643100661040; 
- Tue, 25 Jan 2022 00:51:01 -0800 (PST)
-Received: from localhost ([47.61.17.76])
- by smtp.gmail.com with ESMTPSA id t18sm1707763wmq.43.2022.01.25.00.51.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jan 2022 00:51:00 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Mark Burton <mark.burton@greensocs.com>
-Subject: Re: "Startup" meeting (was Re: Meeting today?)
-In-Reply-To: <D36E42AD-05A6-4139-8647-07C9CEF3D659@greensocs.com> (Mark
- Burton's message of "Sun, 23 Jan 2022 21:49:19 +0100")
-References: <YbeWxAn6Zw7rH+5K@redhat.com>
- <CC132B60-3F08-4F03-B328-4C33407BB944@greensocs.com>
- <87lf0nto1k.fsf@dusky.pond.sub.org> <YbiS8Zc7fcoeoSyC@redhat.com>
- <87bl1jqm1a.fsf@dusky.pond.sub.org>
- <CAJy5ezofpy09ZOtVHFofGTzt3U8MEA_ddpBHifuF50sVDFXULA@mail.gmail.com>
- <73955990-9FD1-42CD-B476-F2AD95C219E9@greensocs.com>
- <YdbRShE01esANc5h@redhat.com>
- <fb519eb4-c0c6-a0b6-585d-e708b04ed207@amsat.org>
- <BC0208B2-5ECE-4F74-9DFF-FB8959642C48@greensocs.com>
- <YeWjtxEcbb6jcbi8@redhat.com>
- <D36E42AD-05A6-4139-8647-07C9CEF3D659@greensocs.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Tue, 25 Jan 2022 09:50:58 +0100
-Message-ID: <87h79sw64t.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1nCHb1-0007fn-FL; Tue, 25 Jan 2022 03:54:38 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.0743631|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.0818051-0.000734364-0.917461;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047211; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=12; RT=12; SR=0; TI=SMTPD_---.Mi7COBB_1643100869; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.Mi7COBB_1643100869)
+ by smtp.aliyun-inc.com(10.147.40.44); Tue, 25 Jan 2022 16:54:29 +0800
+Message-ID: <ef4bf292-d77b-7b59-feaf-c1760c2520af@c-sky.com>
+Date: Tue, 25 Jan 2022 16:54:29 +0800
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v6 1/5] target/riscv: Ignore reserved bits in PTE for RV64
+Content-Language: en-US
+To: Guo Ren <guoren@kernel.org>
+References: <20220125064536.7869-1-liweiwei@iscas.ac.cn>
+ <20220125064536.7869-2-liweiwei@iscas.ac.cn>
+ <0a70c29c-0d59-24bb-73a8-652e26761d48@c-sky.com>
+ <CAJF2gTQT619yKoeFdH8-qaCmuQxSn9qar02SUTLO44gi=QmSsA@mail.gmail.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+In-Reply-To: <CAJF2gTQT619yKoeFdH8-qaCmuQxSn9qar02SUTLO44gi=QmSsA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=115.124.28.149; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-149.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,36 +61,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Kevin Wolf <kwolf@redhat.com>, Damien Hedde <damien.hedde@greensocs.com>,
- =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
+ Weiwei Li <liweiwei@iscas.ac.cn>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Anup Patel <anup@brainfault.org>, Wang Junqiang <wangjunqiang@iscas.ac.cn>,
+ Bin Meng <bin.meng@windriver.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Mirela Grujic <mirela.grujic@greensocs.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+ Alistair Francis <alistair.francis@wdc.com>, Ren Guo <ren_guo@c-sky.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mark Burton <mark.burton@greensocs.com> wrote:
-> All, I believe we will have a followup meeting this coming Tuesday
-> 25th January, at 15:00 (presumably using the same link:
-> https://redhat.bluejeans.com/5402697718).
+
+On 2022/1/25 16:40, Guo Ren wrote:
+> On Tue, Jan 25, 2022 at 4:34 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>>
+>> On 2022/1/25 14:45, Weiwei Li wrote:
+>>> From: Guo Ren <ren_guo@c-sky.com>
+>>>
+>>> Highest bits of PTE has been used for svpbmt, ref: [1], [2], so we
+>>> need to ignore them. They cannot be a part of ppn.
+>>>
+>>> 1: The RISC-V Instruction Set Manual, Volume II: Privileged Architecture
+>>>      4.4 Sv39: Page-Based 39-bit Virtual-Memory System
+>>>      4.5 Sv48: Page-Based 48-bit Virtual-Memory System
+>>>
+>>> 2: https://github.com/riscv/virtual-memory/blob/main/specs/663-Svpbmt-diff.pdf
+>>>
+>>> Signed-off-by: Guo Ren <ren_guo@c-sky.com>
+>>> Cc: Liu Zhiwei <zhiwei_liu@c-sky.com>
+>>> Cc: Bin Meng <bmeng.cn@gmail.com>
+>>> Cc: Alistair Francis <alistair.francis@wdc.com>
+>>> ---
+>>>    target/riscv/cpu.h        | 13 +++++++++++++
+>>>    target/riscv/cpu_bits.h   |  7 +++++++
+>>>    target/riscv/cpu_helper.c | 14 +++++++++++++-
+>>>    3 files changed, 33 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>>> index 55635d68d5..45de8faaca 100644
+>>> --- a/target/riscv/cpu.h
+>>> +++ b/target/riscv/cpu.h
+>>> @@ -341,6 +341,8 @@ struct RISCVCPU {
+>>>            bool ext_counters;
+>>>            bool ext_ifencei;
+>>>            bool ext_icsr;
+>>> +        bool ext_svnapot;
+>>> +        bool ext_svpbmt;
+>>>            bool ext_zfh;
+>>>            bool ext_zfhmin;
+>>>            bool ext_zve32f;
+>>> @@ -495,6 +497,17 @@ static inline int riscv_cpu_xlen(CPURISCVState *env)
+>>>        return 16 << env->xl;
+>>>    }
+>>>
+>>> +#ifndef CONFIG_USER_ONLY
+>>> +#ifdef TARGET_RISCV32
+>>> +#define riscv_cpu_sxl(env)  ((void)(env), MXL_RV32)
+>>> +#else
+>>> +static inline RISCVMXL riscv_cpu_sxl(CPURISCVState *env)
+>>> +{
+>>> +    return get_field(env->mstatus, MSTATUS64_SXL);
+>>> +}
+>>> +#endif
+>>> +#endif
+>>> +
+>> Perhaps an interface also works for user mode is better.
+>>
+>> +#ifdef TARGET_RISCV32
+>> +#define riscv_cpu_sxl(env)  ((void)(env), MXL_RV32)
+>> +#else
+>> +static inline RISCVMXL riscv_cpu_sxl(CPURISCVState *env)
+>> +{
+>> +#ifdef CONFIG_USER_ONLY
+>> +    return env->misa_mxl;
+>> +#else
+>> +    return get_field(env->mstatus, MSTATUS64_SXL);
+>> +#endif
+>> +}
+>> +#endif
+>> +
+>>
+>>>    /*
+>>>     * Encode LMUL to lmul as follows:
+>>>     *     LMUL    vlmul    lmul
+>>> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+>>> index 7c87433645..37b622fbfa 100644
+>>> --- a/target/riscv/cpu_bits.h
+>>> +++ b/target/riscv/cpu_bits.h
+>>> @@ -493,6 +493,13 @@ typedef enum {
+>>>    /* Page table PPN shift amount */
+>>>    #define PTE_PPN_SHIFT       10
+>>>
+>>> +/* Page table PPN mask */
+>>> +#if defined(TARGET_RISCV32)
+>>> +#define PTE_PPN_MASK        0xFFFFFC00UL
+>>> +#elif defined(TARGET_RISCV64)
+>>> +#define PTE_PPN_MASK        0x3FFFFFFFFFFC00ULL
+>>> +#endif
+>>> +
+>> No need to define PTE_PPN_MASK for TARGET_RISCV32.
+> ppn = (pte & PTE_PPN_MASK) >> PTE_PPN_SHIFT;
 >
-> We (GreenSocs/Xilinx) would like to quickly show what now =E2=80=98works=
-=E2=80=99, and to give an update on the patches.
+> pte is target_ulong, so types are different.
+>
+> TARGET_RISCV32: is 32bit.
+> TARGET_RISCV64: is 64bit.
+>
+I should make it more clear.  You will not use PTE_PPN_MASK on 
+TARGET_RISCV32.
+>>>    /* Leaf page shift amount */
+>>>    #define PGSHIFT             12
+>>>
+>>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+>>> index 327a2c4f1d..2a921bedfd 100644
+>>> --- a/target/riscv/cpu_helper.c
+>>> +++ b/target/riscv/cpu_helper.c
+>>> @@ -622,7 +622,19 @@ restart:
+>>>                return TRANSLATE_FAIL;
+>>>            }
+>>>
+>>> -        hwaddr ppn = pte >> PTE_PPN_SHIFT;
+>>> +        hwaddr ppn;
+>>> +        RISCVCPU *cpu = env_archcpu(env);
+>>> +
+>>> +        if (riscv_cpu_sxl(env) == MXL_RV32) {
+>>> +            ppn = pte >> PTE_PPN_SHIFT;
 
-I send the call for agenda already.
+TARGET_RISCV32 will always come here. So no need to define PTE_PPN_MASK 
+for TARGET_RISCV32.
 
-We are having the meeting.
+Thanks,
+Zhiwei
 
-If you can add anything to my [very] incomplete minutes for last meeting
-that I sent with the new invite, it would be great.
-
-Later, Juan.
-
+>>> +        } else if (cpu->cfg.ext_svpbmt || cpu->cfg.ext_svnapot) {
+>>> +            ppn = (pte & PTE_PPN_MASK) >> PTE_PPN_SHIFT;
+>>> +        } else {
+>>> +            ppn = pte >> PTE_PPN_SHIFT;
+>>> +            if ((pte & ~PTE_PPN_MASK) >> PTE_PPN_SHIFT) {
+>>> +                return TRANSLATE_FAIL;
+>>> +            }
+>>> +        }
+>>>
+>>>            if (!(pte & PTE_V)) {
+>>>                /* Invalid PTE */
+>> Otherwise,
+>>
+>> Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+>>
+>> Thanks,
+>> Zhiwei
+>>
+>>
+>>
+>
 
