@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521B349B61F
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 15:25:18 +0100 (CET)
-Received: from localhost ([::1]:52456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8FBC49B634
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 15:27:45 +0100 (CET)
+Received: from localhost ([::1]:58584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCMl3-0005TP-BO
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 09:25:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42356)
+	id 1nCMnQ-0001Bq-Ou
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 09:27:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1nCLie-0007SX-8q
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 08:18:44 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=51096
- helo=mail-pj1-x1035.google.com)
+ id 1nCLij-0007di-N0
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 08:18:49 -0500
+Received: from [2607:f8b0:4864:20::633] (port=40484
+ helo=mail-pl1-x633.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1nCLia-0004yD-0r
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 08:18:42 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id o11so2752208pjf.0
- for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 05:18:38 -0800 (PST)
+ id 1nCLif-0004zK-Vn
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 08:18:49 -0500
+Received: by mail-pl1-x633.google.com with SMTP id y17so8903925plg.7
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 05:18:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BmtGQA5DpO0+f6kPv+xipJRYB/H3tEHgZCOeDu1ZZok=;
- b=pAC5zWnwDMXv+wLQiLiuO5vR71AaVjhhtIEQZUCm85mQEV//V414U7MMnxHaNlnDS7
- 9elObsqjtBy3zZobkzwXv8Oi4MwI2uMei6TzjZ3nPyx0oQDK9NIv4beo/bv/Py2BrUQu
- /08pDNDb/AC8nEsXqGivGgqACiYricNAN39CejFlPQtBXeGJ3hITyqY00JAMtNRqOxzn
- NNDxoujhE2HWHXueJQqOjfIpKMjoB97EteWEQ+K4XhxuMzc20uYXklNb3vDM4yBQ1YdN
- Vynp3egLY4HF0sJN+vBVDcj1bCIzen77Qldp5pfEW2FoltNli1jSMTahPeLPR+a6so5Q
- LDhw==
+ bh=zApYLsB1i3ZwQTH/fWStN7FoAHvHQ3HnkL85Dpu2yYE=;
+ b=hbCLsaC/qyzsaqNVEMa6LCjbE9P1lbL1aI2rClsTB9qI1UAQHUPzfwCWwqU8d/qGlj
+ uUXLsP6tJc98Phdf+s0Soz3grnVdp+6vtEROqdoknoaz/nl905F1ZOpDfCo1hk2YXL7Z
+ WwxmbW3f1rlVHLunOlC+vWa00eB0ACmwPB+//inS9FOBYJUw9085bGsG8O6dqNkszU75
+ N9381OQmPTtoSZP+aPUU4fNuOPBm4fybgAT9FdHiHzgtkUYJmdlwST066chCx46lWmFs
+ 1bGuYGR0ZjM3WWWB4t/8fp0wtKMlrqb4FgiITYo1TwoAsjq35bje2bBrd4GZ62Xq1mdZ
+ 3cjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BmtGQA5DpO0+f6kPv+xipJRYB/H3tEHgZCOeDu1ZZok=;
- b=SNE8JF6uqZVIh6fYsyXujd8A7Q8YGnEtOVyGZuoFXqo7Q3yPHMt1zvGKib0k8huBm/
- 9W4rI+foIIBS/GWr+LMshlhKjNSBpHEL0YNq5TFQDQ6mpPbjaPmptSURdqQOtMBe9KUg
- xBPSvmFdPsiDCglVffOd1nUzXPYTALMLj+GSBfoXrZdbA5IL9zGSDDBqP2EFryF8OVPr
- YIA2vh5ehqqlfBTkrpPEMZ83cxHJsTMA/0yRz8JgtgADePrfUxrVVSoz3kZ3IRjGPkvO
- 8s6Bf7kVWzrxwL55r//kJBQQOO2+5UBiAQCbnogq9/dcYfGFO19vGdSKh08jnJoId5A4
- lPKQ==
-X-Gm-Message-State: AOAM5308AUEA//t+9wu7iY5MXsemjUnTqL+Ef3aATrMn1Z2b+q6QuDkh
- ujMeUCmOWPKcD/mgvNzEqABV
-X-Google-Smtp-Source: ABdhPJxTvzKUVhGH4oidubWWySWvI4f0jtLAuesidDCBIdDigN7cRkmpkbgTeTcJbifvxi1kCvF/jA==
-X-Received: by 2002:a17:902:720b:b0:14b:81e8:e9ce with SMTP id
- ba11-20020a170902720b00b0014b81e8e9cemr787966plb.155.1643116717127; 
- Tue, 25 Jan 2022 05:18:37 -0800 (PST)
+ bh=zApYLsB1i3ZwQTH/fWStN7FoAHvHQ3HnkL85Dpu2yYE=;
+ b=A+yrwcoYBjBVHp7sqOXQ+rlM7ug8QNSQAcLEqzehzlsLhMu80+xsHqLJ/nLqhBLxwN
+ jJa9eDA+PF9MGw3geHI1ZnKiH+dtMQOKZB/+1j8iBR+DLCdfNhEqwDa3DXZV31U+beU+
+ D8MBcksDnaX39Bj8rvxHYlIurQc9znD4oDBVmwMbSzXSSxH8p5u2DfXfEU+T51feFPwM
+ jYmhGIawgKML3PlzU+HAMSQZ/Yl3uJFHJDSFKPdvE8wmkwkUowQCsh6F5yBEO5+WobDS
+ /cbg4iI4sP2+Re37hLxbQArh808xkZ/fyZeHsM/lKGvXtkD+u5ARBqG3BNaAvQibJE2q
+ /XWQ==
+X-Gm-Message-State: AOAM531Fnw6Mlaaey5ch9ho9mPQK1VMGbDedNFwGmjZfZtfePyju5y8M
+ y9UYEJdyEQfWInALBPf9JECm
+X-Google-Smtp-Source: ABdhPJynu8e0f6XKbxb23K8Qp2VJAaxkBbJhL4a+3sy+fA5Cq7WXxD4vUO8yrSYXVI2ZBwscqMQFJw==
+X-Received: by 2002:a17:90b:1806:: with SMTP id
+ lw6mr3502897pjb.82.1643116724762; 
+ Tue, 25 Jan 2022 05:18:44 -0800 (PST)
 Received: from localhost ([139.177.225.253])
- by smtp.gmail.com with ESMTPSA id x7sm14701622pgr.87.2022.01.25.05.18.35
+ by smtp.gmail.com with ESMTPSA id p42sm18916544pfw.71.2022.01.25.05.18.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jan 2022 05:18:36 -0800 (PST)
+ Tue, 25 Jan 2022 05:18:44 -0800 (PST)
 From: Xie Yongji <xieyongji@bytedance.com>
 To: mst@redhat.com, jasowang@redhat.com, stefanha@redhat.com,
  sgarzare@redhat.com, kwolf@redhat.com, mreitz@redhat.com,
  mlureau@redhat.com
-Subject: [PATCH 3/5] vduse-blk: implements vduse-blk export
-Date: Tue, 25 Jan 2022 21:17:58 +0800
-Message-Id: <20220125131800.91-4-xieyongji@bytedance.com>
+Subject: [PATCH 5/5] libvduse: Add support for reconnecting
+Date: Tue, 25 Jan 2022 21:18:00 +0800
+Message-Id: <20220125131800.91-6-xieyongji@bytedance.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220125131800.91-1-xieyongji@bytedance.com>
 References: <20220125131800.91-1-xieyongji@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::633
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=xieyongji@bytedance.com; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=xieyongji@bytedance.com; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -93,662 +93,458 @@ Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This implements a VDUSE block backends based on
-the libvduse library. We can use it to export the BDSs
-for both VM and container (host) usage.
-
-The new command-line syntax is:
-
-$ qemu-storage-daemon \
-    --blockdev file,node-name=drive0,filename=test.img \
-    --export vduse-blk,node-name=drive0,id=vduse-export0,writable=on
-
-After the qemu-storage-daemon started, we need to use
-the "vdpa" command to attach the device to vDPA bus:
-
-$ vdpa dev add name vduse-export0 mgmtdev vduse
-
-Also the device must be removed via the "vdpa" command
-before we stop the qemu-storage-daemon.
+To support reconnecting after restart or crash, VDUSE backend
+might need to resubmit inflight I/Os. This stores the metadata
+such as the index of inflight I/O's descriptors to a shm file so
+that VDUSE backend can restore them during reconnecting.
 
 Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
 ---
- block/export/export.c         |   6 +
- block/export/meson.build      |   5 +
- block/export/vduse-blk.c      | 427 ++++++++++++++++++++++++++++++++++
- block/export/vduse-blk.h      |  20 ++
- meson.build                   |  13 ++
- meson_options.txt             |   2 +
- qapi/block-export.json        |  24 +-
- scripts/meson-buildoptions.sh |   4 +
- 8 files changed, 499 insertions(+), 2 deletions(-)
- create mode 100644 block/export/vduse-blk.c
- create mode 100644 block/export/vduse-blk.h
+ block/export/vduse-blk.c        |   4 +-
+ subprojects/libvduse/libvduse.c | 254 +++++++++++++++++++++++++++++++-
+ subprojects/libvduse/libvduse.h |   4 +-
+ 3 files changed, 254 insertions(+), 8 deletions(-)
 
-diff --git a/block/export/export.c b/block/export/export.c
-index 6d3b9964c8..00dd505540 100644
---- a/block/export/export.c
-+++ b/block/export/export.c
-@@ -26,6 +26,9 @@
- #ifdef CONFIG_VHOST_USER_BLK_SERVER
- #include "vhost-user-blk-server.h"
- #endif
-+#ifdef CONFIG_VDUSE_BLK_EXPORT
-+#include "vduse-blk.h"
-+#endif
+diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
+index 83845e9a9a..bc14fd798b 100644
+--- a/block/export/vduse-blk.c
++++ b/block/export/vduse-blk.c
+@@ -232,6 +232,8 @@ static void vduse_blk_enable_queue(VduseDev *dev, VduseVirtq *vq)
  
- static const BlockExportDriver *blk_exp_drivers[] = {
-     &blk_exp_nbd,
-@@ -35,6 +38,9 @@ static const BlockExportDriver *blk_exp_drivers[] = {
- #ifdef CONFIG_FUSE
-     &blk_exp_fuse,
+     aio_set_fd_handler(vblk_exp->export.ctx, vduse_queue_get_fd(vq),
+                        true, on_vduse_vq_kick, NULL, NULL, NULL, vq);
++    /* Make sure we don't miss any kick afer reconnecting */
++    eventfd_write(vduse_queue_get_fd(vq), 1);
+ }
+ 
+ static void vduse_blk_disable_queue(VduseDev *dev, VduseVirtq *vq)
+@@ -388,7 +390,7 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
+                                      features, num_queues,
+                                      sizeof(struct virtio_blk_config),
+                                      (char *)&config, &vduse_blk_ops,
+-                                     vblk_exp);
++                                     g_get_tmp_dir(), vblk_exp);
+     if (!vblk_exp->dev) {
+         error_setg(errp, "failed to create vduse device");
+         return -ENOMEM;
+diff --git a/subprojects/libvduse/libvduse.c b/subprojects/libvduse/libvduse.c
+index 7671864bca..ce2f6c7949 100644
+--- a/subprojects/libvduse/libvduse.c
++++ b/subprojects/libvduse/libvduse.c
+@@ -41,6 +41,8 @@
+ #define VDUSE_VQ_ALIGN 4096
+ #define MAX_IOVA_REGIONS 256
+ 
++#define LOG_ALIGNMENT 64
++
+ /* Round number down to multiple */
+ #define ALIGN_DOWN(n, m) ((n) / (m) * (m))
+ 
+@@ -51,6 +53,31 @@
+ #define unlikely(x)   __builtin_expect(!!(x), 0)
  #endif
-+#ifdef CONFIG_VDUSE_BLK_EXPORT
-+    &blk_exp_vduse_blk,
-+#endif
+ 
++typedef struct VduseDescStateSplit {
++    uint8_t inflight;
++    uint8_t padding[5];
++    uint16_t next;
++    uint64_t counter;
++} VduseDescStateSplit;
++
++typedef struct VduseVirtqLogInflight {
++    uint64_t features;
++    uint16_t version;
++    uint16_t desc_num;
++    uint16_t last_batch_head;
++    uint16_t used_idx;
++    VduseDescStateSplit desc[];
++} VduseVirtqLogInflight;
++
++typedef struct VduseVirtqLog {
++    VduseVirtqLogInflight inflight;
++} VduseVirtqLog;
++
++typedef struct VduseVirtqInflightDesc {
++    uint16_t index;
++    uint64_t counter;
++} VduseVirtqInflightDesc;
++
+ typedef struct VduseRing {
+     unsigned int num;
+     uint64_t desc_addr;
+@@ -73,6 +100,10 @@ struct VduseVirtq {
+     bool ready;
+     int fd;
+     VduseDev *dev;
++    VduseVirtqInflightDesc *resubmit_list;
++    uint16_t resubmit_num;
++    uint64_t counter;
++    VduseVirtqLog *log;
  };
  
- /* Only accessed from the main thread */
-diff --git a/block/export/meson.build b/block/export/meson.build
-index 0a08e384c7..cf311d2b1b 100644
---- a/block/export/meson.build
-+++ b/block/export/meson.build
-@@ -5,3 +5,8 @@ if have_vhost_user_blk_server
- endif
+ typedef struct VduseIovaRegion {
+@@ -96,8 +127,67 @@ struct VduseDev {
+     int fd;
+     int ctrl_fd;
+     void *priv;
++    char *shm_log_dir;
++    void *log;
++    bool reconnect;
+ };
  
- blockdev_ss.add(when: fuse, if_true: files('fuse.c'))
-+
-+if have_vduse_blk_export
-+    blockdev_ss.add(files('vduse-blk.c'))
-+    blockdev_ss.add(libvduse)
-+endif
-diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
-new file mode 100644
-index 0000000000..5a8d289685
---- /dev/null
-+++ b/block/export/vduse-blk.c
-@@ -0,0 +1,427 @@
-+/*
-+ * Export QEMU block device via VDUSE
-+ *
-+ * Copyright (C) 2022 Bytedance Inc. and/or its affiliates. All rights reserved.
-+ *   Portions of codes and concepts borrowed from vhost-user-blk-server.c, so:
-+ *     Copyright (c) 2020 Red Hat, Inc.
-+ *
-+ * Author:
-+ *   Xie Yongji <xieyongji@bytedance.com>
-+ *   Coiby Xu <coiby.xu@gmail.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * later.  See the COPYING file in the top-level directory.
-+ */
-+
-+#include <sys/eventfd.h>
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "sysemu/block-backend.h"
-+#include "block/export.h"
-+#include "qemu/error-report.h"
-+#include "util/block-helpers.h"
-+#include "subprojects/libvduse/libvduse.h"
-+
-+#include "standard-headers/linux/virtio_ring.h"
-+#include "standard-headers/linux/virtio_blk.h"
-+
-+#define VIRTIO_BLK_SECTOR_BITS 9
-+#define VIRTIO_BLK_SECTOR_SIZE (1ULL << VIRTIO_BLK_SECTOR_BITS)
-+
-+#define VDUSE_DEFAULT_NUM_QUEUE 1
-+#define VDUSE_DEFAULT_QUEUE_SIZE 128
-+
-+typedef struct VduseBlkExport {
-+    BlockExport export;
-+    VduseDev *dev;
-+    uint16_t num_queues;
-+    uint32_t blk_size;
-+    bool writable;
-+} VduseBlkExport;
-+
-+struct virtio_blk_inhdr {
-+    unsigned char status;
-+};
-+
-+typedef struct VduseBlkReq {
-+    VduseVirtqElement elem;
-+    int64_t sector_num;
-+    size_t in_len;
-+    struct virtio_blk_inhdr *in;
-+    struct virtio_blk_outhdr out;
-+    VduseVirtq *vq;
-+} VduseBlkReq;
-+
-+static void vduse_blk_req_complete(VduseBlkReq *req)
++static inline size_t vduse_vq_log_size(uint16_t queue_size)
 +{
-+    vduse_queue_push(req->vq, &req->elem, req->in_len);
-+    vduse_queue_notify(req->vq);
-+
-+    free(req);
++    return ALIGN_UP(sizeof(VduseDescStateSplit) * queue_size +
++                    sizeof(VduseVirtqLogInflight), LOG_ALIGNMENT);
 +}
 +
-+static bool vduse_blk_sect_range_ok(VduseBlkExport *vblk_exp,
-+                                    uint64_t sector, size_t size)
++static void *vduse_log_get(const char *dir, const char *name, size_t size)
 +{
-+    uint64_t nb_sectors;
-+    uint64_t total_sectors;
++    void *ptr = MAP_FAILED;
++    char *path;
++    int fd;
 +
-+    if (size % VIRTIO_BLK_SECTOR_SIZE) {
-+        return false;
++    path = (char *)malloc(strlen(dir) + strlen(name) +
++                          strlen("/vduse-log-") + 1);
++    if (!path) {
++        return ptr;
++    }
++    sprintf(path, "%s/vduse-log-%s", dir, name);
++
++    fd = open(path, O_RDWR | O_CREAT, 0600);
++    if (fd == -1) {
++        goto out;
 +    }
 +
-+    nb_sectors = size >> VIRTIO_BLK_SECTOR_BITS;
++    if (ftruncate(fd, size) == -1) {
++        goto out;
++    }
 +
-+    QEMU_BUILD_BUG_ON(BDRV_SECTOR_SIZE != VIRTIO_BLK_SECTOR_SIZE);
-+    if (nb_sectors > BDRV_REQUEST_MAX_SECTORS) {
-+        return false;
++    ptr = mmap(0, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
++    if (ptr == MAP_FAILED) {
++        goto out;
 +    }
-+    if ((sector << VIRTIO_BLK_SECTOR_BITS) % vblk_exp->blk_size) {
-+        return false;
++out:
++    if (fd > 0) {
++        close(fd);
 +    }
-+    blk_get_geometry(vblk_exp->export.blk, &total_sectors);
-+    if (sector > total_sectors || nb_sectors > total_sectors - sector) {
-+        return false;
-+    }
-+    return true;
++    free(path);
++
++    return ptr;
 +}
 +
-+static void coroutine_fn vduse_blk_virtio_process_req(void *opaque)
++static void vduse_log_destroy(const char *dir, const char *name)
 +{
-+    VduseBlkReq *req = opaque;
-+    VduseVirtq *vq = req->vq;
-+    VduseDev *dev = vduse_queue_get_dev(vq);
-+    VduseBlkExport *vblk_exp = vduse_dev_get_priv(dev);
-+    BlockBackend *blk = vblk_exp->export.blk;
-+    VduseVirtqElement *elem = &req->elem;
-+    struct iovec *in_iov = elem->in_sg;
-+    struct iovec *out_iov = elem->out_sg;
-+    unsigned in_num = elem->in_num;
-+    unsigned out_num = elem->out_num;
-+    uint32_t type;
++    char *path;
 +
-+    if (elem->out_num < 1 || elem->in_num < 1) {
-+        error_report("virtio-blk request missing headers");
-+        goto err;
-+    }
-+
-+    if (unlikely(iov_to_buf(out_iov, out_num, 0, &req->out,
-+                            sizeof(req->out)) != sizeof(req->out))) {
-+        error_report("virtio-blk request outhdr too short");
-+        goto err;
-+    }
-+
-+    iov_discard_front(&out_iov, &out_num, sizeof(req->out));
-+
-+    if (in_iov[in_num - 1].iov_len < sizeof(struct virtio_blk_inhdr)) {
-+        error_report("virtio-blk request inhdr too short");
-+        goto err;
-+    }
-+
-+    /* We always touch the last byte, so just see how big in_iov is. */
-+    req->in_len = iov_size(in_iov, in_num);
-+    req->in = (void *)in_iov[in_num - 1].iov_base
-+              + in_iov[in_num - 1].iov_len
-+              - sizeof(struct virtio_blk_inhdr);
-+    iov_discard_back(in_iov, &in_num, sizeof(struct virtio_blk_inhdr));
-+
-+    type = le32_to_cpu(req->out.type);
-+    switch (type & ~VIRTIO_BLK_T_BARRIER) {
-+    case VIRTIO_BLK_T_IN:
-+    case VIRTIO_BLK_T_OUT: {
-+        QEMUIOVector qiov;
-+        int64_t offset;
-+        ssize_t ret = 0;
-+        bool is_write = type & VIRTIO_BLK_T_OUT;
-+        req->sector_num = le64_to_cpu(req->out.sector);
-+
-+        if (is_write && !vblk_exp->writable) {
-+            req->in->status = VIRTIO_BLK_S_IOERR;
-+            break;
-+        }
-+
-+        if (is_write) {
-+            qemu_iovec_init_external(&qiov, out_iov, out_num);
-+        } else {
-+            qemu_iovec_init_external(&qiov, in_iov, in_num);
-+        }
-+
-+        if (unlikely(!vduse_blk_sect_range_ok(vblk_exp,
-+                                              req->sector_num,
-+                                              qiov.size))) {
-+            req->in->status = VIRTIO_BLK_S_IOERR;
-+            break;
-+        }
-+
-+        offset = req->sector_num << VIRTIO_BLK_SECTOR_BITS;
-+
-+        if (is_write) {
-+            ret = blk_co_pwritev(blk, offset, qiov.size, &qiov, 0);
-+        } else {
-+            ret = blk_co_preadv(blk, offset, qiov.size, &qiov, 0);
-+        }
-+        if (ret >= 0) {
-+            req->in->status = VIRTIO_BLK_S_OK;
-+        } else {
-+            req->in->status = VIRTIO_BLK_S_IOERR;
-+        }
-+        break;
-+    }
-+    case VIRTIO_BLK_T_FLUSH:
-+        if (blk_co_flush(blk) == 0) {
-+            req->in->status = VIRTIO_BLK_S_OK;
-+        } else {
-+            req->in->status = VIRTIO_BLK_S_IOERR;
-+        }
-+        break;
-+    case VIRTIO_BLK_T_GET_ID: {
-+        size_t size = MIN(iov_size(&elem->in_sg[0], in_num),
-+                          VIRTIO_BLK_ID_BYTES);
-+        snprintf(elem->in_sg[0].iov_base, size, "%s", vblk_exp->export.id);
-+        req->in->status = VIRTIO_BLK_S_OK;
-+        break;
-+    }
-+    default:
-+        req->in->status = VIRTIO_BLK_S_UNSUPP;
-+        break;
-+    }
-+
-+    vduse_blk_req_complete(req);
-+    return;
-+
-+err:
-+    free(req);
-+}
-+
-+static void vduse_blk_vq_handler(VduseDev *dev, VduseVirtq *vq)
-+{
-+    while (1) {
-+        VduseBlkReq *req;
-+
-+        req = vduse_queue_pop(vq, sizeof(VduseBlkReq));
-+        if (!req) {
-+            break;
-+        }
-+        req->vq = vq;
-+
-+        Coroutine *co =
-+            qemu_coroutine_create(vduse_blk_virtio_process_req, req);
-+        qemu_coroutine_enter(co);
-+    }
-+}
-+
-+static void on_vduse_vq_kick(void *opaque)
-+{
-+    VduseVirtq *vq = opaque;
-+    VduseDev *dev = vduse_queue_get_dev(vq);
-+    int fd = vduse_queue_get_fd(vq);
-+    eventfd_t kick_data;
-+
-+    if (eventfd_read(fd, &kick_data) == -1) {
-+        error_report("failed to read data from eventfd");
++    path = (char *)malloc(strlen(dir) + strlen(name) +
++                          strlen("/vduse-log-") + 1);
++    if (!path) {
 +        return;
 +    }
++    sprintf(path, "%s/vduse-log-%s", dir, name);
 +
-+    vduse_blk_vq_handler(dev, vq);
++    unlink(path);
++    free(path);
 +}
 +
-+static void vduse_blk_enable_queue(VduseDev *dev, VduseVirtq *vq)
+ static inline bool has_feature(uint64_t features, unsigned int fbit)
+ {
+     assert(fbit < 64);
+@@ -139,6 +229,98 @@ static int vduse_inject_irq(VduseDev *dev, int index)
+     return ioctl(dev->fd, VDUSE_VQ_INJECT_IRQ, &index);
+ }
+ 
++static int inflight_desc_compare(const void *a, const void *b)
 +{
-+    VduseBlkExport *vblk_exp = vduse_dev_get_priv(dev);
++    VduseVirtqInflightDesc *desc0 = (VduseVirtqInflightDesc *)a,
++                           *desc1 = (VduseVirtqInflightDesc *)b;
 +
-+    aio_set_fd_handler(vblk_exp->export.ctx, vduse_queue_get_fd(vq),
-+                       true, on_vduse_vq_kick, NULL, NULL, NULL, vq);
-+}
-+
-+static void vduse_blk_disable_queue(VduseDev *dev, VduseVirtq *vq)
-+{
-+    VduseBlkExport *vblk_exp = vduse_dev_get_priv(dev);
-+
-+    aio_set_fd_handler(vblk_exp->export.ctx, vduse_queue_get_fd(vq),
-+                       true, NULL, NULL, NULL, NULL, NULL);
-+}
-+
-+static const VduseOps vduse_blk_ops = {
-+    .enable_queue = vduse_blk_enable_queue,
-+    .disable_queue = vduse_blk_disable_queue,
-+};
-+
-+static void on_vduse_dev_kick(void *opaque)
-+{
-+    VduseDev *dev = opaque;
-+
-+    vduse_dev_handler(dev);
-+}
-+
-+static void blk_aio_attached(AioContext *ctx, void *opaque)
-+{
-+    VduseBlkExport *vblk_exp = opaque;
-+    int i;
-+
-+    vblk_exp->export.ctx = ctx;
-+
-+    aio_set_fd_handler(vblk_exp->export.ctx, vduse_dev_get_fd(vblk_exp->dev),
-+                       true, on_vduse_dev_kick, NULL, NULL, NULL,
-+                       vblk_exp->dev);
-+
-+    for (i = 0; i < vblk_exp->num_queues; i++) {
-+        VduseVirtq *vq = vduse_dev_get_queue(vblk_exp->dev, i);
-+        int fd = vduse_queue_get_fd(vq);
-+
-+        if (fd < 0) {
-+            continue;
-+        }
-+        aio_set_fd_handler(vblk_exp->export.ctx, fd, true,
-+                           on_vduse_vq_kick, NULL, NULL, NULL, vq);
++    if (desc1->counter > desc0->counter &&
++        (desc1->counter - desc0->counter) < VIRTQUEUE_MAX_SIZE * 2) {
++        return 1;
 +    }
++
++    return -1;
 +}
 +
-+static void blk_aio_detach(void *opaque)
++static int vduse_queue_check_inflights(VduseVirtq *vq)
 +{
-+    VduseBlkExport *vblk_exp = opaque;
-+    int i;
++    int i = 0;
++    VduseDev *dev = vq->dev;
 +
-+    for (i = 0; i < vblk_exp->num_queues; i++) {
-+        VduseVirtq *vq = vduse_dev_get_queue(vblk_exp->dev, i);
-+        int fd = vduse_queue_get_fd(vq);
++    vq->used_idx = vq->vring.used->idx;
++    vq->resubmit_num = 0;
++    vq->resubmit_list = NULL;
++    vq->counter = 0;
 +
-+        if (fd < 0) {
-+            continue;
-+        }
-+        aio_set_fd_handler(vblk_exp->export.ctx, fd,
-+                           true, NULL, NULL, NULL, NULL, NULL);
++    if (unlikely(vq->log->inflight.used_idx != vq->used_idx)) {
++        vq->log->inflight.desc[vq->log->inflight.last_batch_head].inflight = 0;
++
++        barrier();
++
++        vq->log->inflight.used_idx = vq->used_idx;
 +    }
-+    aio_set_fd_handler(vblk_exp->export.ctx, vduse_dev_get_fd(vblk_exp->dev),
-+                       true, NULL, NULL, NULL, NULL, NULL);
-+    vblk_exp->export.ctx = NULL;
-+}
 +
-+static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-+                                Error **errp)
-+{
-+    VduseBlkExport *vblk_exp = container_of(exp, VduseBlkExport, export);
-+    BlockExportOptionsVduseBlk *vblk_opts = &opts->u.vduse_blk;
-+    uint64_t logical_block_size = VIRTIO_BLK_SECTOR_SIZE;
-+    uint16_t num_queues = VDUSE_DEFAULT_NUM_QUEUE;
-+    uint16_t queue_size = VDUSE_DEFAULT_QUEUE_SIZE;
-+    Error *local_err = NULL;
-+    struct virtio_blk_config config;
-+    uint64_t features;
-+    int i;
-+
-+    if (vblk_opts->has_num_queues) {
-+        num_queues = vblk_opts->num_queues;
-+        if (num_queues == 0) {
-+            error_setg(errp, "num-queues must be greater than 0");
-+            return -EINVAL;
++    for (i = 0; i < vq->log->inflight.desc_num; i++) {
++        if (vq->log->inflight.desc[i].inflight == 1) {
++            vq->inuse++;
 +        }
 +    }
 +
-+    if (vblk_opts->has_queue_size) {
-+        queue_size = vblk_opts->queue_size;
-+        if (queue_size == 0) {
-+            error_setg(errp, "queue-size must be greater than 0");
-+            return -EINVAL;
++    vq->shadow_avail_idx = vq->last_avail_idx = vq->inuse + vq->used_idx;
++
++    if (vq->inuse) {
++        vq->resubmit_list = calloc(vq->inuse, sizeof(VduseVirtqInflightDesc));
++        if (!vq->resubmit_list) {
++            return -1;
 +        }
-+    }
 +
-+    if (vblk_opts->has_logical_block_size) {
-+        logical_block_size = vblk_opts->logical_block_size;
-+        check_block_size(exp->id, "logical-block-size", logical_block_size,
-+                         &local_err);
-+        if (local_err) {
-+            error_propagate(errp, local_err);
-+            return -EINVAL;
++        for (i = 0; i < vq->log->inflight.desc_num; i++) {
++            if (vq->log->inflight.desc[i].inflight) {
++                vq->resubmit_list[vq->resubmit_num].index = i;
++                vq->resubmit_list[vq->resubmit_num].counter =
++                                        vq->log->inflight.desc[i].counter;
++                vq->resubmit_num++;
++            }
 +        }
-+    }
-+    blk_set_guest_block_size(exp->blk, logical_block_size);
 +
-+    vblk_exp->blk_size = logical_block_size;
-+    vblk_exp->writable = opts->writable;
-+    vblk_exp->num_queues = num_queues;
-+
-+    config.capacity =
-+            cpu_to_le64(blk_getlength(exp->blk) >> VIRTIO_BLK_SECTOR_BITS);
-+    config.seg_max = cpu_to_le32(queue_size - 2);
-+    config.size_max = cpu_to_le32(0);
-+    config.min_io_size = cpu_to_le16(1);
-+    config.opt_io_size = cpu_to_le32(1);
-+    config.num_queues = cpu_to_le16(num_queues);
-+    config.blk_size = cpu_to_le32(logical_block_size);
-+
-+    features = (1ULL << VIRTIO_F_IOMMU_PLATFORM) |
-+               (1ULL << VIRTIO_F_VERSION_1) |
-+               (1ULL << VIRTIO_RING_F_EVENT_IDX) |
-+               (1ULL << VIRTIO_F_NOTIFY_ON_EMPTY) |
-+               (1ULL << VIRTIO_RING_F_INDIRECT_DESC) |
-+               (1ULL << VIRTIO_BLK_F_SIZE_MAX) |
-+               (1ULL << VIRTIO_BLK_F_SEG_MAX) |
-+               (1ULL << VIRTIO_BLK_F_TOPOLOGY) |
-+               (1ULL << VIRTIO_BLK_F_BLK_SIZE);
-+
-+    if (num_queues > 1) {
-+        features |= 1ULL << VIRTIO_BLK_F_MQ;
-+    }
-+    if (!vblk_exp->writable) {
-+        features |= 1ULL << VIRTIO_BLK_F_RO;
++        if (vq->resubmit_num > 1) {
++            qsort(vq->resubmit_list, vq->resubmit_num,
++                  sizeof(VduseVirtqInflightDesc), inflight_desc_compare);
++        }
++        vq->counter = vq->resubmit_list[0].counter + 1;
 +    }
 +
-+    vblk_exp->dev = vduse_dev_create(exp->id, VIRTIO_ID_BLOCK, 0,
-+                                     features, num_queues,
-+                                     sizeof(struct virtio_blk_config),
-+                                     (char *)&config, &vduse_blk_ops,
-+                                     vblk_exp);
-+    if (!vblk_exp->dev) {
-+        error_setg(errp, "failed to create vduse device");
-+        return -ENOMEM;
-+    }
-+
-+    for (i = 0; i < num_queues; i++) {
-+        vduse_dev_setup_queue(vblk_exp->dev, i, queue_size);
-+    }
-+
-+    aio_set_fd_handler(exp->ctx, vduse_dev_get_fd(vblk_exp->dev), true,
-+                       on_vduse_dev_kick, NULL, NULL, NULL, vblk_exp->dev);
-+
-+    blk_add_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_detach,
-+                                 vblk_exp);
++    vduse_inject_irq(dev, vq->index);
 +
 +    return 0;
 +}
 +
-+static void vduse_blk_exp_delete(BlockExport *exp)
++static int vduse_queue_inflight_get(VduseVirtq *vq, int desc_idx)
 +{
-+    VduseBlkExport *vblk_exp = container_of(exp, VduseBlkExport, export);
++    vq->log->inflight.desc[desc_idx].counter = vq->counter++;
++    vq->log->inflight.desc[desc_idx].inflight = 1;
 +
-+    vduse_dev_destroy(vblk_exp->dev);
++    return 0;
 +}
 +
-+static void vduse_blk_exp_request_shutdown(BlockExport *exp)
++static int vduse_queue_inflight_pre_put(VduseVirtq *vq, int desc_idx)
 +{
-+    VduseBlkExport *vblk_exp = container_of(exp, VduseBlkExport, export);
++    vq->log->inflight.last_batch_head = desc_idx;
++
++    return 0;
++}
++
++static int vduse_queue_inflight_post_put(VduseVirtq *vq, int desc_idx)
++{
++    vq->log->inflight.desc[desc_idx].inflight = 0;
++
++    barrier();
++
++    vq->log->inflight.used_idx = vq->used_idx;
++
++    return 0;
++}
++
+ static void vduse_iova_remove_region(VduseDev *dev, uint64_t start,
+                                      uint64_t last)
+ {
+@@ -578,11 +760,24 @@ void *vduse_queue_pop(VduseVirtq *vq, size_t sz)
+     unsigned int head;
+     VduseVirtqElement *elem;
+     VduseDev *dev = vq->dev;
 +    int i;
+ 
+     if (unlikely(!vq->vring.avail)) {
+         return NULL;
+     }
+ 
++    if (unlikely(vq->resubmit_list && vq->resubmit_num > 0)) {
++        i = (--vq->resubmit_num);
++        elem = vduse_queue_map_desc(vq, vq->resubmit_list[i].index, sz);
 +
-+    blk_remove_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_detach,
-+                                    vblk_exp);
-+
-+    for (i = 0; i < vblk_exp->num_queues; i++) {
-+        VduseVirtq *vq = vduse_dev_get_queue(vblk_exp->dev, i);
-+        int fd = vduse_queue_get_fd(vq);
-+
-+        if (fd < 0) {
-+            continue;
++        if (!vq->resubmit_num) {
++            free(vq->resubmit_list);
++            vq->resubmit_list = NULL;
 +        }
-+        aio_set_fd_handler(exp->ctx, fd, true, NULL, NULL, NULL, NULL, NULL);
++
++        return elem;
 +    }
-+    aio_set_fd_handler(exp->ctx, vduse_dev_get_fd(vblk_exp->dev),
-+                       true, NULL, NULL, NULL, NULL, NULL);
-+}
 +
-+const BlockExportDriver blk_exp_vduse_blk = {
-+    .type               = BLOCK_EXPORT_TYPE_VDUSE_BLK,
-+    .instance_size      = sizeof(VduseBlkExport),
-+    .create             = vduse_blk_exp_create,
-+    .delete             = vduse_blk_exp_delete,
-+    .request_shutdown   = vduse_blk_exp_request_shutdown,
-+};
-diff --git a/block/export/vduse-blk.h b/block/export/vduse-blk.h
-new file mode 100644
-index 0000000000..c4eeb1b70e
---- /dev/null
-+++ b/block/export/vduse-blk.h
-@@ -0,0 +1,20 @@
-+/*
-+ * Export QEMU block device via VDUSE
-+ *
-+ * Copyright (C) 2022 Bytedance Inc. and/or its affiliates. All rights reserved.
-+ *
-+ * Author:
-+ *   Xie Yongji <xieyongji@bytedance.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * later.  See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef VDUSE_BLK_H
-+#define VDUSE_BLK_H
-+
-+#include "block/export.h"
-+
-+extern const BlockExportDriver blk_exp_vduse_blk;
-+
-+#endif /* VDUSE_BLK_H */
-diff --git a/meson.build b/meson.build
-index 864fb50ade..472e3947c6 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1320,6 +1320,17 @@ if have_libvduse
-   libvduse = libvduse_proj.get_variable('libvduse_dep')
- endif
+     if (vduse_queue_empty(vq)) {
+         return NULL;
+     }
+@@ -610,6 +805,8 @@ void *vduse_queue_pop(VduseVirtq *vq, size_t sz)
  
-+have_vduse_blk_export = (have_libvduse and targetos == 'linux')
-+if get_option('vduse_blk_export').enabled()
-+    if targetos != 'linux'
-+        error('vduse_blk_export requires linux')
-+    elif have_libvduse
-+        error('vduse_blk_export requires libvduse support')
-+    endif
-+elif get_option('vduse_blk_export').disabled()
-+    have_vduse_blk_export = false
-+endif
+     vq->inuse++;
+ 
++    vduse_queue_inflight_get(vq, head);
 +
- # libbpf
- libbpf = dependency('libbpf', required: get_option('bpf'), method: 'pkg-config')
- if libbpf.found() and not cc.links('''
-@@ -1514,6 +1525,7 @@ config_host_data.set('CONFIG_SNAPPY', snappy.found())
- config_host_data.set('CONFIG_USB_LIBUSB', libusb.found())
- config_host_data.set('CONFIG_VDE', vde.found())
- config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
-+config_host_data.set('CONFIG_VDUSE_BLK_EXPORT', have_vduse_blk_export)
- config_host_data.set('CONFIG_VNC', vnc.found())
- config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
- config_host_data.set('CONFIG_VNC_PNG', png.found())
-@@ -3407,6 +3419,7 @@ if have_block
-   summary_info += {'qed support':       config_host.has_key('CONFIG_QED')}
-   summary_info += {'parallels support': config_host.has_key('CONFIG_PARALLELS')}
-   summary_info += {'FUSE exports':      fuse}
-+  summary_info += {'VDUSE block exports': have_vduse_blk_export}
- endif
- summary(summary_info, bool_yn: true, section: 'Block layer support')
+     return elem;
+ }
  
-diff --git a/meson_options.txt b/meson_options.txt
-index 16790d1814..be1682c4d2 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -197,6 +197,8 @@ option('virtiofsd', type: 'feature', value: 'auto',
-        description: 'build virtiofs daemon (virtiofsd)')
- option('libvduse', type: 'feature', value: 'auto',
-        description: 'build VDUSE Library')
-+option('vduse_blk_export', type: 'feature', value: 'auto',
-+       description: 'VDUSE block export support')
+@@ -667,7 +864,9 @@ void vduse_queue_push(VduseVirtq *vq, const VduseVirtqElement *elem,
+                       unsigned int len)
+ {
+     vduse_queue_fill(vq, elem, len, 0);
++    vduse_queue_inflight_pre_put(vq, elem->index);
+     vduse_queue_flush(vq, 1);
++    vduse_queue_inflight_post_put(vq, elem->index);
+ }
  
- option('capstone', type: 'combo', value: 'auto',
-        choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
-diff --git a/qapi/block-export.json b/qapi/block-export.json
-index f9ce79a974..f88e90baab 100644
---- a/qapi/block-export.json
-+++ b/qapi/block-export.json
-@@ -170,6 +170,22 @@
-             '*allow-other': 'FuseExportAllowOther' },
-   'if': 'CONFIG_FUSE' }
+ static int vduse_queue_update_vring(VduseVirtq *vq, uint64_t desc_addr,
+@@ -740,12 +939,11 @@ static void vduse_queue_enable(VduseVirtq *vq)
+     }
  
-+##
-+# @BlockExportOptionsVduseBlk:
-+#
-+# A vduse-blk block export.
-+#
-+# @num-queues: the number of virtqueues. Defaults to 1.
-+# @queue-size: the size of virtqueue. Defaults to 128.
-+# @logical-block-size: Logical block size in bytes. Defaults to 512 bytes.
-+#
-+# Since: 7.0
-+##
-+{ 'struct': 'BlockExportOptionsVduseBlk',
-+  'data': { '*num-queues': 'uint16',
-+            '*queue-size': 'uint16',
-+            '*logical-block-size': 'size'} }
+     vq->fd = fd;
+-    vq->shadow_avail_idx = vq->last_avail_idx = vq_info.split.avail_index;
+-    vq->inuse = 0;
+-    vq->used_idx = 0;
+     vq->signalled_used_valid = false;
+     vq->ready = true;
+ 
++    vduse_queue_check_inflights(vq);
 +
- ##
- # @NbdServerAddOptions:
- #
-@@ -273,13 +289,15 @@
- # @nbd: NBD export
- # @vhost-user-blk: vhost-user-blk export (since 5.2)
- # @fuse: FUSE export (since: 6.0)
-+# @vduse-blk: vduse-blk export (since 7.0)
- #
- # Since: 4.2
- ##
- { 'enum': 'BlockExportType',
-   'data': [ 'nbd',
-             { 'name': 'vhost-user-blk', 'if': 'CONFIG_VHOST_USER_BLK_SERVER' },
--            { 'name': 'fuse', 'if': 'CONFIG_FUSE' } ] }
-+            { 'name': 'fuse', 'if': 'CONFIG_FUSE' },
-+            { 'name': 'vduse-blk', 'if': 'CONFIG_VDUSE_BLK_EXPORT' } ] }
+     dev->ops->enable_queue(dev, vq);
+ }
  
- ##
- # @BlockExportOptions:
-@@ -323,7 +341,9 @@
-       'vhost-user-blk': { 'type': 'BlockExportOptionsVhostUserBlk',
-                           'if': 'CONFIG_VHOST_USER_BLK_SERVER' },
-       'fuse': { 'type': 'BlockExportOptionsFuse',
--                'if': 'CONFIG_FUSE' }
-+                'if': 'CONFIG_FUSE' },
-+      'vduse-blk': { 'type': 'BlockExportOptionsVduseBlk',
-+                     'if': 'CONFIG_VDUSE_BLK_EXPORT' }
-    } }
+@@ -903,13 +1101,18 @@ int vduse_dev_setup_queue(VduseDev *dev, int index, int max_size)
+         return -errno;
+     }
  
- ##
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index af5c75d758..615fc17ec3 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -86,6 +86,8 @@ meson_options_help() {
-   printf "%s\n" '  u2f             U2F emulation support'
-   printf "%s\n" '  usb-redir       libusbredir support'
-   printf "%s\n" '  vde             vde network backend support'
-+  printf "%s\n" '  vduse-blk-export'
-+  printf "%s\n" '                  VDUSE block export support'
-   printf "%s\n" '  vhost-user-blk-server'
-   printf "%s\n" '                  build vhost-user-blk server'
-   printf "%s\n" '  virglrenderer   virgl rendering support'
-@@ -254,6 +256,8 @@ _meson_option_parse() {
-     --disable-usb-redir) printf "%s" -Dusb_redir=disabled ;;
-     --enable-vde) printf "%s" -Dvde=enabled ;;
-     --disable-vde) printf "%s" -Dvde=disabled ;;
-+    --enable-vduse-blk-export) printf "%s" -Dvduse_blk_export=enabled ;;
-+    --disable-vduse-blk-export) printf "%s" -Dvduse_blk_export=disabled ;;
-     --enable-vhost-user-blk-server) printf "%s" -Dvhost_user_blk_server=enabled ;;
-     --disable-vhost-user-blk-server) printf "%s" -Dvhost_user_blk_server=disabled ;;
-     --enable-virglrenderer) printf "%s" -Dvirglrenderer=enabled ;;
++    if (dev->reconnect) {
++        vduse_queue_enable(vq);
++    }
++
+     return 0;
+ }
+ 
+ VduseDev *vduse_dev_create(const char *name, uint32_t device_id,
+                            uint32_t vendor_id, uint64_t features,
+                            uint16_t num_queues, uint32_t config_size,
+-                           char *config, const VduseOps *ops, void *priv)
++                           char *config, const VduseOps *ops,
++                           const char *shm_log_dir, void *priv)
+ {
+     VduseDev *dev;
+     int i, ret, ctrl_fd, fd = -1;
+@@ -918,6 +1121,8 @@ VduseDev *vduse_dev_create(const char *name, uint32_t device_id,
+     VduseVirtq *vqs = NULL;
+     struct vduse_dev_config *dev_config = NULL;
+     size_t size = offsetof(struct vduse_dev_config, config);
++    size_t log_size = num_queues * vduse_vq_log_size(VIRTQUEUE_MAX_SIZE);
++    void *log = NULL;
+ 
+     if (!name || strlen(name) > VDUSE_NAME_MAX || !config ||
+         !config_size || !ops || !ops->enable_queue || !ops->disable_queue) {
+@@ -932,6 +1137,15 @@ VduseDev *vduse_dev_create(const char *name, uint32_t device_id,
+     }
+     memset(dev, 0, sizeof(VduseDev));
+ 
++    if (shm_log_dir) {
++        dev->log = log = vduse_log_get(shm_log_dir, name, log_size);
++        if (!log) {
++            fprintf(stderr, "Failed to get vduse log\n");
++            goto err_ctrl;
++        }
++        dev->shm_log_dir = strdup(shm_log_dir);
++    }
++
+     ctrl_fd = open("/dev/vduse/control", O_RDWR);
+     if (ctrl_fd < 0) {
+         fprintf(stderr, "Failed to open /dev/vduse/control: %s\n",
+@@ -964,7 +1178,11 @@ VduseDev *vduse_dev_create(const char *name, uint32_t device_id,
+ 
+     ret = ioctl(ctrl_fd, VDUSE_CREATE_DEV, dev_config);
+     free(dev_config);
+-    if (ret < 0) {
++    if (!ret && log) {
++        memset(log, 0, log_size);
++    } else if (errno == EEXIST && log) {
++        dev->reconnect = true;
++    } else {
+         fprintf(stderr, "Failed to create vduse dev %s: %s\n",
+                 name, strerror(errno));
+         goto err_dev;
+@@ -978,6 +1196,12 @@ VduseDev *vduse_dev_create(const char *name, uint32_t device_id,
+         goto err;
+     }
+ 
++    if (dev->reconnect &&
++        ioctl(fd, VDUSE_DEV_GET_FEATURES, &dev->features)) {
++        fprintf(stderr, "Failed to get features: %s\n", strerror(errno));
++        goto err;
++    }
++
+     vqs = calloc(sizeof(VduseVirtq), num_queues);
+     if (!vqs) {
+         fprintf(stderr, "Failed to allocate virtqueues\n");
+@@ -988,6 +1212,12 @@ VduseDev *vduse_dev_create(const char *name, uint32_t device_id,
+         vqs[i].index = i;
+         vqs[i].dev = dev;
+         vqs[i].fd = -1;
++        if (log) {
++            vqs[i].log = log;
++            vqs[i].log->inflight.desc_num = VIRTQUEUE_MAX_SIZE;
++            log = (void *)((char *)log +
++                  vduse_vq_log_size(VIRTQUEUE_MAX_SIZE));
++        }
+     }
+ 
+     dev->vqs = vqs;
+@@ -1008,16 +1238,28 @@ err_dev:
+     close(ctrl_fd);
+ err_ctrl:
+     free(dev);
++    if (log) {
++        munmap(log, log_size);
++    }
+ 
+     return NULL;
+ }
+ 
+ void vduse_dev_destroy(VduseDev *dev)
+ {
++    size_t log_size = dev->num_queues * vduse_vq_log_size(VIRTQUEUE_MAX_SIZE);
++
++    if (dev->log) {
++        munmap(dev->log, log_size);
++    }
+     free(dev->vqs);
+     close(dev->fd);
+     dev->fd = -1;
+-    ioctl(dev->ctrl_fd, VDUSE_DESTROY_DEV, dev->name);
++    if (!ioctl(dev->ctrl_fd, VDUSE_DESTROY_DEV, dev->name) &&
++        dev->shm_log_dir) {
++        vduse_log_destroy(dev->shm_log_dir, dev->name);
++    }
++    free(dev->shm_log_dir);
+     free(dev->name);
+     close(dev->ctrl_fd);
+     dev->ctrl_fd = -1;
+diff --git a/subprojects/libvduse/libvduse.h b/subprojects/libvduse/libvduse.h
+index f6bcb51b5a..a46e71e0c2 100644
+--- a/subprojects/libvduse/libvduse.h
++++ b/subprojects/libvduse/libvduse.h
+@@ -171,6 +171,7 @@ int vduse_dev_setup_queue(VduseDev *dev, int index, int max_size);
+  * @config_size: the size of the configuration space
+  * @config: the buffer of the configuration space
+  * @ops: the operation of VDUSE backend
++ * @shm_log_dir: directory to store the metadata file for reconnect
+  * @priv: private pointer
+  *
+  * Create VDUSE device.
+@@ -180,7 +181,8 @@ int vduse_dev_setup_queue(VduseDev *dev, int index, int max_size);
+ VduseDev *vduse_dev_create(const char *name, uint32_t device_id,
+                            uint32_t vendor_id, uint64_t features,
+                            uint16_t num_queues, uint32_t config_size,
+-                           char *config, const VduseOps *ops, void *priv);
++                           char *config, const VduseOps *ops,
++                           const char *shm_log_dir, void *priv);
+ 
+ /**
+  * vduse_dev_destroy:
 -- 
 2.20.1
 
