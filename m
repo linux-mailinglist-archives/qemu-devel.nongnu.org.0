@@ -2,52 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C2A649AE0F
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 09:34:27 +0100 (CET)
-Received: from localhost ([::1]:60682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C56249AE76
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 09:52:14 +0100 (CET)
+Received: from localhost ([::1]:55480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCHHW-0006Pv-L3
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 03:34:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42700)
+	id 1nCHYj-0005fQ-0x
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 03:52:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1nCGxI-0008JS-19; Tue, 25 Jan 2022 03:13:32 -0500
-Received: from out28-217.mail.aliyun.com ([115.124.28.217]:46497)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nCH0q-0002gN-8N
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 03:17:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52387)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1nCGx4-0000g6-Ai; Tue, 25 Jan 2022 03:13:31 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436455|-1; CH=green;
- DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.0738999-0.000484023-0.925616;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047205; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=11; RT=11; SR=0; TI=SMTPD_---.Mi4TR7h_1643098388; 
-Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.Mi4TR7h_1643098388)
- by smtp.aliyun-inc.com(10.147.42.22); Tue, 25 Jan 2022 16:13:08 +0800
-Message-ID: <0a70c29c-0d59-24bb-73a8-652e26761d48@c-sky.com>
-Date: Tue, 25 Jan 2022 16:13:07 +0800
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nCH0n-0001gu-PL
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 03:17:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643098628;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QowzXW3+zgILZlg+DAjYJz1IvhbppaLPnBfYtM/T8Js=;
+ b=XOI5dSgT25WL5a5T1xxNunC4bnSTh/egPb5c3clEK8Mk7obVOZwnggzsX2rnzM2Lxu/Ubh
+ pcYnSnXCayT4A2bHPHpM+ITO61nsavwVNeYVWk2G03BaLE8/G/8iSZCUbwKQjfvcjjPInB
+ EcmMDmJXFNiMKnkI69ZyjpwUmk1v0zA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-52-FtQvQ7JTMsKa9MBKciZn6Q-1; Tue, 25 Jan 2022 03:17:07 -0500
+X-MC-Unique: FtQvQ7JTMsKa9MBKciZn6Q-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ i16-20020adfa510000000b001d7f57750a6so2651988wrb.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 00:17:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=QowzXW3+zgILZlg+DAjYJz1IvhbppaLPnBfYtM/T8Js=;
+ b=JoG2XbrR0fW9xSMav+1j7vs6w6wHRP+G5hcVuRwpOI1gj5lU01cCL+6ZLTaGIPqiX0
+ pu8LJKoVukGi72TGGPmrm0is+O443DXf+q381Smsl1+gnwZbxd2EdUwyzOMpH2I3+JRf
+ vg0fqEU7cOnkr9QYSVNV65uRF7NFvajiLGGNLEbWd0e8+6p/4RXGtHnK21KrqxsFnGLY
+ aL5qgr8jTpWOf7jr9BRtASztoPRcSUiPGBlpov3wBxNW5egyHpplamAiUGzI0xmdEHdL
+ oyglIgLxz6bl4EAHNW6cARRsYxy7mbNJLuLc4Gh00TqaL68sCWPnzzzapc9s6phX7g6t
+ ryrQ==
+X-Gm-Message-State: AOAM532Eou3qXBaKsC265fEaMcEfCQH2ju/0oHzz4Y6tPY/sU8bfVDkw
+ 5hmwyu+/sAjsibn3GzqQMjneoQD0XFMVmk4792ErRdR+WCSJ2fqNvi/DnYuZfjiZikBRpYFJvet
+ m9HThjnmX51U7294=
+X-Received: by 2002:a1c:4407:: with SMTP id r7mr1794586wma.112.1643098626596; 
+ Tue, 25 Jan 2022 00:17:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxY3TrGBm6O9md4aZQ0yCgfKisZIPixjV07ZaGeCTYDBxpIO+nNSR/4g49X/ypZ7eEJEcY/fw==
+X-Received: by 2002:a1c:4407:: with SMTP id r7mr1794573wma.112.1643098626396; 
+ Tue, 25 Jan 2022 00:17:06 -0800 (PST)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id d9sm17060642wrp.14.2022.01.25.00.17.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Jan 2022 00:17:05 -0800 (PST)
+Message-ID: <9e8b013c-5340-0cd4-0bee-7b48ba4dc525@redhat.com>
+Date: Tue, 25 Jan 2022 09:17:04 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v6 1/5] target/riscv: Ignore reserved bits in PTE for RV64
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v1 12/22] plugins: stxp test case from Aaron (!upstream)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20220124201608.604599-1-alex.bennee@linaro.org>
+ <20220124201608.604599-13-alex.bennee@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220124201608.604599-13-alex.bennee@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, anup@brainfault.org,
- palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-References: <20220125064536.7869-1-liweiwei@iscas.ac.cn>
- <20220125064536.7869-2-liweiwei@iscas.ac.cn>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-In-Reply-To: <20220125064536.7869-2-liweiwei@iscas.ac.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=115.124.28.217; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-217.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,135 +100,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang@iscas.ac.cn, Bin Meng <bmeng.cn@gmail.com>,
- lazyparser@gmail.com, ren_guo@c-sky.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, minyihh@uci.edu,
+ robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
+ aaron@os.amperecomputing.com, cota@braap.org, Luke.Craig@ll.mit.edu,
+ kuhn.chenqun@huawei.com, Alexandre Iooss <erdnaxe@crans.org>,
+ ma.mandourr@gmail.com, "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2022/1/25 14:45, Weiwei Li wrote:
-> From: Guo Ren <ren_guo@c-sky.com>
->
-> Highest bits of PTE has been used for svpbmt, ref: [1], [2], so we
-> need to ignore them. They cannot be a part of ppn.
->
-> 1: The RISC-V Instruction Set Manual, Volume II: Privileged Architecture
->     4.4 Sv39: Page-Based 39-bit Virtual-Memory System
->     4.5 Sv48: Page-Based 48-bit Virtual-Memory System
->
-> 2: https://github.com/riscv/virtual-memory/blob/main/specs/663-Svpbmt-diff.pdf
->
-> Signed-off-by: Guo Ren <ren_guo@c-sky.com>
-> Cc: Liu Zhiwei <zhiwei_liu@c-sky.com>
-> Cc: Bin Meng <bmeng.cn@gmail.com>
-> Cc: Alistair Francis <alistair.francis@wdc.com>
+On 24/01/2022 21.15, Alex Bennée wrote:
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Aaron Lindsay <aaron@os.amperecomputing.com>
+> Message-ID: <YXCA62xdRDeueQR6@strawberry.localdomain>
+> 
 > ---
->   target/riscv/cpu.h        | 13 +++++++++++++
->   target/riscv/cpu_bits.h   |  7 +++++++
->   target/riscv/cpu_helper.c | 14 +++++++++++++-
->   3 files changed, 33 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 55635d68d5..45de8faaca 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -341,6 +341,8 @@ struct RISCVCPU {
->           bool ext_counters;
->           bool ext_ifencei;
->           bool ext_icsr;
-> +        bool ext_svnapot;
-> +        bool ext_svpbmt;
->           bool ext_zfh;
->           bool ext_zfhmin;
->           bool ext_zve32f;
-> @@ -495,6 +497,17 @@ static inline int riscv_cpu_xlen(CPURISCVState *env)
->       return 16 << env->xl;
->   }
->   
-> +#ifndef CONFIG_USER_ONLY
-> +#ifdef TARGET_RISCV32
-> +#define riscv_cpu_sxl(env)  ((void)(env), MXL_RV32)
-> +#else
-> +static inline RISCVMXL riscv_cpu_sxl(CPURISCVState *env)
+> [AJB] this was for testing, I think you can show the same stuff with
+> the much more complete execlog now.
+> ---
+>   contrib/plugins/stxp-plugin.c     | 50 +++++++++++++++++++++++++++++++
+>   tests/tcg/aarch64/stxp.c          | 28 +++++++++++++++++
+>   contrib/plugins/Makefile          |  1 +
+>   tests/tcg/aarch64/Makefile.target |  3 ++
+>   4 files changed, 82 insertions(+)
+>   create mode 100644 contrib/plugins/stxp-plugin.c
+>   create mode 100644 tests/tcg/aarch64/stxp.c
+> 
+> diff --git a/contrib/plugins/stxp-plugin.c b/contrib/plugins/stxp-plugin.c
+> new file mode 100644
+> index 0000000000..432cf8c1ed
+> --- /dev/null
+> +++ b/contrib/plugins/stxp-plugin.c
+> @@ -0,0 +1,50 @@
+> +#include <stdio.h>
+> +#include <stdarg.h>
+> +#include <qemu-plugin.h>
+> +
+> +QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
+> +
+> +void qemu_logf(const char *str, ...)
 > +{
-> +    return get_field(env->mstatus, MSTATUS64_SXL);
+> +    char message[1024];
+> +    va_list args;
+> +    va_start(args, str);
+> +    vsnprintf(message, 1023, str, args);
+> +
+> +    qemu_plugin_outs(message);
+> +
+> +    va_end(args);
 > +}
-> +#endif
-> +#endif
 > +
-
-Perhaps an interface also works for user mode is better.
-
-+#ifdef TARGET_RISCV32
-+#define riscv_cpu_sxl(env)  ((void)(env), MXL_RV32)
-+#else
-+static inline RISCVMXL riscv_cpu_sxl(CPURISCVState *env)
-+{
-+#ifdef CONFIG_USER_ONLY
-+    return env->misa_mxl;
-+#else
-+    return get_field(env->mstatus, MSTATUS64_SXL);
-+#endif
-+}
-+#endif
-+
-
->   /*
->    * Encode LMUL to lmul as follows:
->    *     LMUL    vlmul    lmul
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 7c87433645..37b622fbfa 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -493,6 +493,13 @@ typedef enum {
->   /* Page table PPN shift amount */
->   #define PTE_PPN_SHIFT       10
->   
-> +/* Page table PPN mask */
-> +#if defined(TARGET_RISCV32)
-> +#define PTE_PPN_MASK        0xFFFFFC00UL
-> +#elif defined(TARGET_RISCV64)
-> +#define PTE_PPN_MASK        0x3FFFFFFFFFFC00ULL
-> +#endif
+> +void before_insn_cb(unsigned int cpu_index, void *udata)
+> +{
+> +    uint64_t pc = (uint64_t)udata;
+> +    qemu_logf("Executing PC: 0x%" PRIx64 "\n", pc);
+> +}
 > +
+> +static void mem_cb(unsigned int cpu_index, qemu_plugin_meminfo_t meminfo, uint64_t va, void *udata)
 
-No need to define PTE_PPN_MASK for TARGET_RISCV32.
+Could you please break the line to avoid checkpatch errors:
 
->   /* Leaf page shift amount */
->   #define PGSHIFT             12
->   
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 327a2c4f1d..2a921bedfd 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -622,7 +622,19 @@ restart:
->               return TRANSLATE_FAIL;
->           }
->   
-> -        hwaddr ppn = pte >> PTE_PPN_SHIFT;
-> +        hwaddr ppn;
-> +        RISCVCPU *cpu = env_archcpu(env);
-> +
-> +        if (riscv_cpu_sxl(env) == MXL_RV32) {
-> +            ppn = pte >> PTE_PPN_SHIFT;
-> +        } else if (cpu->cfg.ext_svpbmt || cpu->cfg.ext_svnapot) {
-> +            ppn = (pte & PTE_PPN_MASK) >> PTE_PPN_SHIFT;
-> +        } else {
-> +            ppn = pte >> PTE_PPN_SHIFT;
-> +            if ((pte & ~PTE_PPN_MASK) >> PTE_PPN_SHIFT) {
-> +                return TRANSLATE_FAIL;
-> +            }
-> +        }
->   
->           if (!(pte & PTE_V)) {
->               /* Invalid PTE */
+ERROR: line over 90 characters
+#63: FILE: contrib/plugins/stxp-plugin.c:25:
++static void mem_cb(unsigned int cpu_index, qemu_plugin_meminfo_t meminfo, 
+uint64_t va, void *udata)
 
-Otherwise,
+ERROR: line over 90 characters
+#77: FILE: contrib/plugins/stxp-plugin.c:39:
++        qemu_plugin_register_vcpu_insn_exec_cb(insn, before_insn_cb, 
+QEMU_PLUGIN_CB_R_REGS, (void *)pc);
 
-Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+ERROR: line over 90 characters
+#78: FILE: contrib/plugins/stxp-plugin.c:40:
++        qemu_plugin_register_vcpu_mem_cb(insn, mem_cb, 
+QEMU_PLUGIN_CB_NO_REGS, QEMU_PLUGIN_MEM_RW, (void*)pc);
 
-Thanks,
-Zhiwei
+ERROR: "(foo*)" should be "(foo *)"
+#78: FILE: contrib/plugins/stxp-plugin.c:40:
++        qemu_plugin_register_vcpu_mem_cb(insn, mem_cb, 
+QEMU_PLUGIN_CB_NO_REGS, QEMU_PLUGIN_MEM_RW, (void*)pc);
 
+total: 4 errors, 1 warnings, 92 lines checked
+
+  Thanks,
+   Thomas
 
 
