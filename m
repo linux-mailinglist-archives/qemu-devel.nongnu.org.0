@@ -2,62 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7BC249B3F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 13:28:32 +0100 (CET)
-Received: from localhost ([::1]:59340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B5A49B3F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 13:29:41 +0100 (CET)
+Received: from localhost ([::1]:33992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCKw3-0002bC-9M
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 07:28:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56322)
+	id 1nCKxA-0004iH-RC
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 07:29:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nCKgb-00063k-Tg
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 07:12:39 -0500
-Received: from 2.mo552.mail-out.ovh.net ([178.33.105.233]:38579)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nCKgY-0002AP-8o
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 07:12:31 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.177])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 377AE22064;
- Tue, 25 Jan 2022 12:12:07 +0000 (UTC)
-Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 25 Jan
- 2022 13:12:06 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R0013bf0c745-07b4-48dd-b580-2af31eec6438,
- B12793B896D1C92594B08C8AD2B724DCB3CD44CA) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <30facc0c-a9c9-04b7-c220-d3755f87e176@kaod.org>
-Date: Tue, 25 Jan 2022 13:11:53 +0100
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nCKp0-0005kA-Tq
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 07:21:15 -0500
+Received: from [2607:f8b0:4864:20::52f] (port=33685
+ helo=mail-pg1-x52f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nCKoy-0003YY-U3
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 07:21:14 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id 133so18166314pgb.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 04:21:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=oIEue83d/DFF1fUpwIguBgLBzRnMfoVU10V6aMhADbg=;
+ b=NLYeUvsNIutxdK1DfnMgpf8bTaKUDNP+B5ETiNAZSJ0E8T+4D0MnQPrNP9Sy71LYGb
+ FjYkyKHTfsR1fxyFF3W0gRuQ1/nzZLjLh3Rw5B9KtIh2Z78RkrROVYJR7R5EUoKnv/x9
+ X7ZL2kShTrlSaaiZlph6Sguhik5Quko8tZDxj0rcc5a4qLUaLMzoNMThAx/XZZONa9X4
+ 7XD5EcCNw8YVrkt92NXHY6e3p94ZqJwa8Rj6SVzxVNNkSyv5AKUn32/6kTmh4wJEtbok
+ LnOg9bwt+YJckJ6gKUYmx8kQ6FP/RZB9oikCZTPLWUxnz5EMAHZCY7aBkBfmNbyfmrdx
+ tYdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=oIEue83d/DFF1fUpwIguBgLBzRnMfoVU10V6aMhADbg=;
+ b=r0J9Cf0kJ6Cv+sNYo48UYkCn/KlAV3tOw5e2CfapKKw0j47sK6fhhWxcgi2CVyCIDO
+ 5CEsVvqo3y0pQbmPMu5DGqMtkzJ3lD+t0/IpZXIlKwZiBfX0vVmxO48lx9Pf8aUYZeic
+ TfPZuf1yfq+GZqrjXmDJil6GFuBYWy4H7gaURduzMwODfMLEdusAVASTlsRJGYT1W23S
+ 5lqulO8hq3UCJCC1xWlbitrOjCeSJRsJmsm9kG/uoU5Hw8yOqRPkwD3TaUDgtjF0ojsq
+ 9bPpmat/ikvSvYBGWtH+xJztRVyq76RJihlvGVXwvJ8QUgJT8iEyNoIZSCTPQe64lt4o
+ GKQQ==
+X-Gm-Message-State: AOAM532Y15MZrLN73AEdXuWGY+G0xzMVDPMLUkGR43JxW9koS3ttLpH6
+ n+h95GlbS3Mp4Ge2D0LOV6Fc2Q==
+X-Google-Smtp-Source: ABdhPJwlBZTddh6i3lCIlCPNzdhzU71bQeAaVU09dpLgCRZxW4ON1juJzivqOwSfxv7mfyIrfTkYcA==
+X-Received: by 2002:a05:6a00:88f:b0:4bc:3b4e:255a with SMTP id
+ q15-20020a056a00088f00b004bc3b4e255amr18415917pfj.79.1643113271315; 
+ Tue, 25 Jan 2022 04:21:11 -0800 (PST)
+Received: from [10.11.18.6] ([91.219.213.27])
+ by smtp.googlemail.com with ESMTPSA id q13sm15409357pfj.63.2022.01.25.04.21.07
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 25 Jan 2022 04:21:10 -0800 (PST)
+Date: Tue, 25 Jan 2022 17:51:04 +0530 (IST)
+From: Ani Sinha <ani@anisinha.ca>
+X-X-Sender: ani@athabasca.local
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v13 06/10] ACPI ERST: build the ACPI ERST table
+In-Reply-To: <20220125070221-mutt-send-email-mst@kernel.org>
+Message-ID: <alpine.OSX.2.20.2201251750300.42000@athabasca.local>
+References: <1643044621-15892-1-git-send-email-eric.devolder@oracle.com>
+ <1643044621-15892-7-git-send-email-eric.devolder@oracle.com>
+ <alpine.DEB.2.22.394.2201251600060.1134355@anisinha-lenovo>
+ <20220125070221-mutt-send-email-mst@kernel.org>
+User-Agent: Alpine 2.20 (OSX 67 2015-01-07)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 5/5] target/ppc: books: Program exception cleanup
-Content-Language: en-US
-To: Fabiano Rosas <farosas@linux.ibm.com>, <qemu-devel@nongnu.org>
-References: <20220124184605.999353-1-farosas@linux.ibm.com>
- <20220124184605.999353-6-farosas@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220124184605.999353-6-farosas@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: a65fd486-59ac-4df8-a2ad-416d9ef967b0
-X-Ovh-Tracer-Id: 16795893337106385827
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrvdelgdefiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepuggrnhhivghlhhgsgedufeesghhmrghilhdrtghomh
-Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
- helo=2.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset=US-ASCII
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52f
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=ani@anisinha.ca; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,50 +89,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: berrange@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, imammedo@redhat.com,
+ boris.ostrovsky@oracle.com, Eric DeVolder <eric.devolder@oracle.com>,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/24/22 19:46, Fabiano Rosas wrote:
-> Remove setting of BookE registers.
-> 
-> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+>
+> I think these macros which in a hidden way use the bar0 variable really
+> should be replaced with inline functions, improving type safety.
+>
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
-
-> ---
->   target/ppc/excp_helper.c | 4 ----
->   1 file changed, 4 deletions(-)
-> 
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 67faec3775..d1cce76e75 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -688,20 +688,16 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
->                * precise in the MSR.
->                */
->               msr |= 0x00100000;
-> -            env->spr[SPR_BOOKE_ESR] = ESR_FP;
->               break;
->           case POWERPC_EXCP_INVAL:
->               trace_ppc_excp_inval(env->nip);
->               msr |= 0x00080000;
-> -            env->spr[SPR_BOOKE_ESR] = ESR_PIL;
->               break;
->           case POWERPC_EXCP_PRIV:
->               msr |= 0x00040000;
-> -            env->spr[SPR_BOOKE_ESR] = ESR_PPR;
->               break;
->           case POWERPC_EXCP_TRAP:
->               msr |= 0x00020000;
-> -            env->spr[SPR_BOOKE_ESR] = ESR_PTR;
->               break;
->           default:
->               /* Should never occur */
-> 
-
+I second that.
 
