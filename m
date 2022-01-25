@@ -2,61 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7FE449B0C1
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 10:54:31 +0100 (CET)
-Received: from localhost ([::1]:35588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DFC449B0B8
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 10:49:18 +0100 (CET)
+Received: from localhost ([::1]:55260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCIX0-00014h-NJ
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 04:54:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33656)
+	id 1nCIRx-0003RY-3S
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 04:49:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nCILh-00085q-Bu
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nCILh-000843-H2
  for qemu-devel@nongnu.org; Tue, 25 Jan 2022 04:42:49 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:53877)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23007)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nCILb-0006SE-AA
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 04:42:48 -0500
-Received: from [192.168.100.1] ([82.142.25.174]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MBDWo-1mzgbs1H3u-00Ch0a; Tue, 25 Jan 2022 10:41:54 +0100
-Message-ID: <c36b5e78-7633-8546-d697-3e66a7569b69@vivier.eu>
-Date: Tue, 25 Jan 2022 10:41:53 +0100
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nCILa-0006ey-2f
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 04:42:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643103760;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=zeAtsBnu/IOsJWsxQrxQQtnnQXW9k7w0lTnaVzj8Mys=;
+ b=XfQE+aPDfT8lId7TH5qi6TBJr79POt8vvuNCrpHifwJLT1tPFJMO4ccfadkHWH8TOv8vsI
+ DScLcnFqVnsAEIC2OSpAc+BrWUNIXtK1ljgAn+A6EwFVEc2Rck2njqWB+6OHDIuBWW76HJ
+ YIWDmdeky5tgPZn3k0maN2/WTI3oWQM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-486-nm1wLnhMNeCaqiCM1U2ycg-1; Tue, 25 Jan 2022 04:42:38 -0500
+X-MC-Unique: nm1wLnhMNeCaqiCM1U2ycg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ q4-20020adfbb84000000b001dd3cfddb2dso305601wrg.11
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 01:42:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=zeAtsBnu/IOsJWsxQrxQQtnnQXW9k7w0lTnaVzj8Mys=;
+ b=4IwMU7f1Sd8sL+c34fSeFtlW/InagSkjvXIahJggca2vzDVdtriqBXCNijHW9c8GPX
+ nSjdYTdyfxVHaG5h/9VuRJPo+Iyr30y/tpG/bstWIhAR2t6GDbIz1OyLvJK4ha1yvDSe
+ FTuol7Kk59K0o2WfxMa850rINWBKV7GeCxYjA/twohP1VQCh45zFoUrByPMIiDqLaCty
+ az9/GRWI/SqTtVTcyf/l61UHwZNyYqQgxUCs1SCBI57X1qsIfU1olqIoxzYaEe8S5c0U
+ F7uDdKFcZlGdIWOTRdQxcsEpNgW2Cfv+vNAl6ktypaHhlclpZKVyvhEPpbFsMhwBhHlr
+ Y7xQ==
+X-Gm-Message-State: AOAM532FMr2f0WVhp53sqUekYAk7ddNwrH+CMkGiiOyYrowKBl1wz2tO
+ 9InAxE7sF4hz9jHInCmFip9JvSHH2JpYpE5AhJdNxIPERMPCSQvJufUUJa6e2g15cY6x5ye8cU0
+ AwIWOk6FrStfCkX0=
+X-Received: by 2002:a05:600c:d7:: with SMTP id
+ u23mr2130664wmm.16.1643103757631; 
+ Tue, 25 Jan 2022 01:42:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw3PCg7AgsQSscQkFfPybAHkUSpblZKTPzWTOElG1V3kk6DsZXeTDVytbm7z/dqQt8ZEmL1wA==
+X-Received: by 2002:a05:600c:d7:: with SMTP id
+ u23mr2130643wmm.16.1643103757445; 
+ Tue, 25 Jan 2022 01:42:37 -0800 (PST)
+Received: from localhost ([47.61.17.76])
+ by smtp.gmail.com with ESMTPSA id u15sm4649810wrs.17.2022.01.25.01.42.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Jan 2022 01:42:37 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v4 21/23] multifd: Zero pages transmission
+In-Reply-To: <YecbN5MbUvL3oVKm@work-vm> (David Alan Gilbert's message of "Tue, 
+ 18 Jan 2022 19:55:35 +0000")
+References: <20220111130024.5392-1-quintela@redhat.com>
+ <20220111130024.5392-22-quintela@redhat.com>
+ <YecbN5MbUvL3oVKm@work-vm>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Tue, 25 Jan 2022 10:42:36 +0100
+Message-ID: <87h79srw1f.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Content-Language: fr
-To: Cameron Esfahani <dirty@apple.com>, qemu-devel@nongnu.org
-References: <20220125024712.6626-1-dirty@apple.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH] linux-user: Implement starttime field in self stat
- emulation
-In-Reply-To: <20220125024712.6626-1-dirty@apple.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:kRAXFwhCieDVVN0I452lcdcAfwP9wZjw96URbzd4HhOHFHSLJhl
- Q4ZGo7NDxM3LvMZ7OMMaI0zc28+JqMBYa7lsarZYNvJ4cE2FpDincMuuk2erQVTUfcPNVnT
- EsgWgYMY/1YqAkBFQxr7qRRRoQT2r07H9BsLg5u7GgOVYLZMG1Q4i5wbnxjHZA7gizV2JxW
- unbMc95GRcmEr5Ne7cuRA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:let7evdxeNU=:1nlaNHb2XT90laDF1EWaPI
- G8m3N29SIdptcW86xUKxGveNREVmoPhvY5nLiH95XhUCSyIfKP6LhEIKw4fcrXJP/jmbuHVlP
- X3pc2MbjsAtSGk6vahcB4BZIUL7zioobXZi8QVNuWRRohhSEr1m2JDXgCkv5opV+xiH2qx9NN
- XmKZ5JTHX6ID1IxCWN6R2zxO6TSlNNY2lLEtqR3X8frBMzjcGJ/gIQjLxTF7sqPJBd5F8V21H
- P4tlg/s0hb9+r08XZJK7FO0myE3Q8HGmAegKkfHHqvNzkSAJuDQjAbcSVeqiW8rtw2cZ6abR1
- tFcmfm9FzOPSpY/yKnHcoAApbqCWr8Gpl9Q3viroxiezSq85ulSod7wq1JSGVkdrJ9GVsLjpE
- TXfjLoxilwGkflttQWAytACsZ0Cvsd3tnFE10u+BlNEfATx4JUynRx0D24Csqat+2SIdVJ2HR
- +LPz4L/n3mlFpSQGY0BzTaSaZBVVE2QZayZHK2aaetInCqa80EOLo9j0hW2m+K6+RBxMNJ56/
- 97okOmwdhFwMmMq9wkUVgNNp4P6064gPs2dG9hbyDS4WcW1ydEb0TbgGPU2X+I2VUwQeMMG+W
- wCnalXfavViR6vS80Og0HVBIe59zaPX6Bu1L6MrLYgNpeDfDiFRNsp4yeSQ+9OxqmanqU05CA
- f0mJzmFAYI68gmU1yjDiXg4zyKCp6yLlDJaJuURm0SbXn+JAnOaWiL7Iz24KHjZhQ/O8=
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,110 +99,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
+Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Leonardo Bras <leobras@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 25/01/2022 à 03:47, Cameron Esfahani a écrit :
-> Instead of always returning 0, return actual starttime.
-> 
-> Signed-off-by: Cameron Esfahani <dirty@apple.com>
-> ---
->   linux-user/syscall.c | 28 ++++++++++++++++++++++++++++
->   1 file changed, 28 insertions(+)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 5950222a77..59265ab986 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -8107,6 +8107,34 @@ static int open_self_stat(void *cpu_env, int fd)
->           } else if (i == 3) {
->               /* ppid */
->               g_string_printf(buf, FMT_pid " ", getppid());
-> +        } else if (i == 21) { > +            /* starttime */
-> +            FILE *fp = NULL;
-> +            char *line = NULL;
-> +            char *skipped_comm = NULL;
-> +            size_t n = 0;
-> +            unsigned long long starttime = 0;
-> +
-> +            fp = fopen("/proc/self/stat", "r");
-> +            if (fp) {
-> +                if (getdelim(&line, &n, '\0', fp) != -1) {
-> +                    /* Find end of comm field */
-> +                    skipped_comm = strrchr(line, ')');
-> +                    if (skipped_comm != NULL) {
-> +                        /* Skip over parenthesis and space */
-> +                        skipped_comm += 2;
-> +                        /* Scan starttime (field 20 after pid and comm) */
-> +                        (void) sscanf(skipped_comm, "%*c %*d %*d %*d %*d %*d "
-> +                                            "%*u %*u %*u %*u %*u %*u %*u %*d "
-> +                                            "%*d %*d %*d %*d %*d %llu",
-> +                                            &starttime);
-> +                    }
-> +                    free(line);
-> +                }
-> +                fclose(fp);
-> +            }
-> +
-> +            g_string_printf(buf, "%llu ", starttime);
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> * Juan Quintela (quintela@redhat.com) wrote:
+>> This implements the zero page dection and handling.
+>> 
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>> 
+>> ---
+>> 
+>> Add comment for offset (dave)
+>>              }
+>>          }
+>>  
+>> +        for (int i = 0; i < p->zero_num; i++) {
+>> +            memset(p->host + p->zero[i], 0, qemu_target_page_size());
+>> +        }
+>> +
+>
+> On the existing code, it tries to avoid doing the memset if the target
+> page size matches; that avoids allocating the zero pages on the
+> destination host; should we try and do the same here?
+>
+> Dave
 
-According to the kernel code:
+Hi Dave
 
-   start_time = nsec_to_clock_t(timens_add_boottime_ns(task->start_boottime));
+That only happens on postcopy.
+With precopy we have to do the memset, because we can have:
 
-(timens_add_boottime_ns() is to adjust time offset according to the namespace)
-(nsec_to_clock_t() is "div_u64(x, NSEC_PER_SEC / USER_HZ);")
+write non zero to page 50
+migrate page 50
+write zeros to page 50
+Another migration pass
+If we don't write here, we have garbage on the page.
 
-and
+Or I am missing something?
 
-   p->start_boottime = ktime_get_boottime_ns();
-...
-   static inline u64 ktime_get_boottime_ns(void)
-   {
-           return ktime_to_ns(ktime_get_boottime());
-   }
-...
-   /**
-    * ktime_get_boottime - Returns monotonic time since boot in ktime_t format
-    *
-    * This is similar to CLOCK_MONTONIC/ktime_get, but also includes the
-    * time spent in suspend.
-    */
-   static inline ktime_t ktime_get_boottime(void)
-   {
-           return ktime_get_with_offset(TK_OFFS_BOOT);
-   }
+Later, Juan.
 
-So I think rather than scanning /proc/self/stat you could use clock_gettime(CLOCK_BOOTTIME, ...) to 
-get the value.
-
-https://linux.die.net/man/2/clock_gettime
-
-CLOCK_BOOTTIME (since Linux 2.6.39; Linux-specific)
-
-	Identical to CLOCK_MONOTONIC, except it also includes any time that the system is suspended.
-	This allows applications to get a suspend-aware monotonic clock without having to deal with
-	the complications of CLOCK_REALTIME, which may have discontinuities if the time is changed
-	using settimeofday(2).
-
-https://man7.org/linux/man-pages/man5/proc.5.html
-
-    /proc/[pid]/stat
-...
-	(22) starttime  %llu
-
-		The time the process started after system boot.  In
-                 kernels before Linux 2.6, this value was expressed
-                 in jiffies.  Since Linux 2.6, the value is
-                 expressed in clock ticks (divide by
-                 sysconf(_SC_CLK_TCK)).
-
-                 The format for this field was %lu before Linux 2.6.
-
->           } else if (i == 27) {
->               /* stack bottom */
->               g_string_printf(buf, TARGET_ABI_FMT_ld " ", ts->info->start_stack);
-
-Thanks,
-Laurent
 
