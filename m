@@ -2,94 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D239F49B264
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 11:55:08 +0100 (CET)
-Received: from localhost ([::1]:36738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F97949B28B
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 12:05:12 +0100 (CET)
+Received: from localhost ([::1]:48028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCJTf-0001tO-Fq
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 05:55:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51716)
+	id 1nCJdP-0001S3-B7
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 06:05:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nCJNR-0004js-LL; Tue, 25 Jan 2022 05:48:41 -0500
-Received: from [2a00:1450:4864:20::32f] (port=52048
- helo=mail-wm1-x32f.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nCJSe-0001sy-08
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:54:06 -0500
+Received: from [2607:f8b0:4864:20::62a] (port=44792
+ helo=mail-pl1-x62a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nCJN3-0000cZ-4c; Tue, 25 Jan 2022 05:48:41 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id c2so25017710wml.1;
- Tue, 25 Jan 2022 02:48:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=KUi7NhKHb6ZwwVDoJwOMPEtqd8GWR/Fm60RHvrn/m94=;
- b=EWfidj9fa19RmfVEgaFvJOZMp3ZVSX6eu4i2tQXEWBeJ2yf+9qw1+a/yFGOkJAfGPE
- BEKJFE/hHLPibBfQxnh3xBl0sJpt+lUryQ7Te1kJQPOdy/YmostQOI3ZLd1RU0iPY+gk
- HEYHPZ8p3qHg/iAERL5WOvpYdarjkeKHlk1sCr8xky2X/5+Vp4eYdVjsLunofepAPn1+
- 08C9cDIYcFhV1VyZ1JPPo4R8GjlfDy6JPGG+UGgpQKYpuNpNvTu96gPi87ONr3kKYiq8
- JDC2BQarIM8g/+E81rSLqfLPQW2UbKtrXw4JSeIWdt9m5byU21PBaDzM5/lzUsavCSN1
- NgNw==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nCJSa-00021v-Sl
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:54:03 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id c9so18886303plg.11
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 02:53:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=grB040HWijdZ4ohE0KQ3r0IT5ZGWHqP0xwYk0pzTg58=;
+ b=oFNvspUhuxJFr78V7aGTiQOWVTfnMbxuCDP2gjpoZELrHqh8tSfCYwPmIfZUEIhq9P
+ pxN0PfSb4fl5bJzmM/7yBcx0QM8ClxxW9B4oLaLwOXjedI8nZBsEEaqfuoKFyO7SMMDq
+ 6qt/f39Ax7Jb8NaRUYBCPJo1zlieMxhrb02Vab9Q+/MJUUVet0pRpKPwgUlOrL4EUcMW
+ P35H9IoSHvbj5/MHfNXhtVeDdVLBogNMeXiozPfme6Ul8B/wc6EpIfcDoJHafxx1Ao6k
+ ckxWHpEp8PG19evZbvh0quM6tgvtoTKwoPDOLONTPRXoEwKU2RnojudomjjhGOLik2vb
+ kYDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=KUi7NhKHb6ZwwVDoJwOMPEtqd8GWR/Fm60RHvrn/m94=;
- b=bIKM7tocRf0nwagR1OzMvaaTE1wC+gUryvxZDXEVSR+1ldh0osj6OXzFDHm4LLUsC1
- cQi0X4RB734HnC5pmhJ08EA9D2FZeyfEfNipcFe92zmAs33ifsIrV5OEmP7NWie1w62j
- w4efpB8vTj0/SV6fCr8of06JpdK5Vj7F1xWVcYE+PdytuKna99hst31/wDqh0uR7/7o6
- r4+Kza4g4gezEKHttBZthOHHhmPkeYlI2qfexm8v7bTmyV/5xZQ1U6yNRAu+noKaDr+K
- 1fNMB1Ps750JI+7N1qDaCXHR++qnwRff52iYHPwuONanPPNalUKLkZw+uWRaHDvJ0FLX
- ykIw==
-X-Gm-Message-State: AOAM532on/tuLL82rxuYDzmU1G4G25Xvf7OCYgouttgGiCsjsjVdPtxB
- 3ACvqxoEa2TYWG+UZFX0aOg=
-X-Google-Smtp-Source: ABdhPJyjouyeNRyty9fLyHhyzABeX2br64vl4QnGedWm8112ugFLjvJI9F9DSzzJY3nYYNLGrnh6Ew==
-X-Received: by 2002:a05:600c:2906:: with SMTP id
- i6mr2384941wmd.14.1643107694645; 
- Tue, 25 Jan 2022 02:48:14 -0800 (PST)
-Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id o14sm5668392wry.104.2022.01.25.02.48.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Jan 2022 02:48:14 -0800 (PST)
-Message-ID: <637210a2-cd00-211f-7835-13915e984472@amsat.org>
-Date: Tue, 25 Jan 2022 11:48:12 +0100
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=grB040HWijdZ4ohE0KQ3r0IT5ZGWHqP0xwYk0pzTg58=;
+ b=ljzbDRqA2Mle/WBF13aLZtAe92tqrhpHBKIsoX7M228/kA6lGMZOtnCGMKSNapDdWd
+ ZyqHS+XWbrbcahJAyiH/DHDI12ozjNZgrrdYYcZQRNo621hBj/st0fDCqf/0NeOp6i6K
+ y1ezU7sQZeStLIbdXUr2lS3i2MjgMMrbLchpESnI3zUXLp4giYyUNRZe5va93e5o0DF7
+ QKXSjrhpjM4n1KeSr8b6+N4arPllvgdeMyZEgDrjrs+GVxIqhnPUEv9Jguenj7+41xvj
+ EHD/57Rt058v2be32kBEBJsvStyCjHBPVmbnpYH55R6ecT9Vne/KvmCkaizOELOhLc0z
+ 6WBA==
+X-Gm-Message-State: AOAM531NLdJ9wW91BS6NczzXOuWgef+wo2WES6E6eu+O10Ob826zsMh/
+ ZrtPMsjXWECup5Lp9bbj2jeRzQ==
+X-Google-Smtp-Source: ABdhPJxwJX3OKZKymcIsSbPecdf81BUUdJzvX6PY9Y+apcjGCARDCkCqiOcik3uo1pbNxQVYNZT6Ag==
+X-Received: by 2002:a17:90a:2b85:: with SMTP id
+ u5mr2798598pjd.197.1643108036710; 
+ Tue, 25 Jan 2022 02:53:56 -0800 (PST)
+Received: from anisinha-lenovo ([203.212.247.250])
+ by smtp.googlemail.com with ESMTPSA id y12sm3786952pfa.132.2022.01.25.02.53.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Jan 2022 02:53:56 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Tue, 25 Jan 2022 16:23:49 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Eric DeVolder <eric.devolder@oracle.com>
+Subject: Re: [PATCH v13 06/10] ACPI ERST: build the ACPI ERST table
+In-Reply-To: <1643044621-15892-7-git-send-email-eric.devolder@oracle.com>
+Message-ID: <alpine.DEB.2.22.394.2201251600060.1134355@anisinha-lenovo>
+References: <1643044621-15892-1-git-send-email-eric.devolder@oracle.com>
+ <1643044621-15892-7-git-send-email-eric.devolder@oracle.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v1 09/22] tests/lcitool: Refresh submodule and remove
- libxml2
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Qemu-block <qemu-block@nongnu.org>
-Cc: minyihh@uci.edu, ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu,
- cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
- robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Warner Losh <imp@freebsd.org>,
- Ed Maste <emaste@freebsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>
-References: <20220124201608.604599-1-alex.bennee@linaro.org>
- <20220124201608.604599-10-alex.bennee@linaro.org>
- <bc4a5a11-ad31-0e63-072e-39b49628c77d@redhat.com>
-In-Reply-To: <bc4a5a11-ad31-0e63-072e-39b49628c77d@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
+Content-Type: text/plain; charset=US-ASCII
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: none client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,111 +88,252 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
+ konrad.wilk@oracle.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
+ ani@anisinha.ca, imammedo@redhat.com, boris.ostrovsky@oracle.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 1/25/22 11:23, Thomas Huth wrote:
-> On 24/01/2022 21.15, Alex Bennée wrote:
->> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>
->> The previous commit removed all uses of libxml2.
->>
->> Refresh lcitool submodule, update qemu.yml and refresh the generated
->> files by running:
->>
->>    $ make lcitool-refresh
->>
->> Note: This refreshment also removes libudev dependency on Fedora
->> and CentOS due to libvirt-ci commit 18bfaee ("mappings: Improve
->> mapping for libudev"), since "The udev project has been absorbed
->> by the systemd project", and lttng-ust on FreeBSD runners due to
->> libvirt-ci commit 6dd9b6f ("guests: drop lttng-ust from FreeBSD
->> platform").
->>
->> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->> Message-Id: <20220121154134.315047-6-f4bug@amsat.org>
->> ---
->>   .gitlab-ci.d/cirrus/freebsd-12.vars           | 2 +-
->>   .gitlab-ci.d/cirrus/freebsd-13.vars           | 2 +-
->>   .gitlab-ci.d/cirrus/macos-11.vars             | 2 +-
->>   tests/docker/dockerfiles/alpine.docker        | 4 ++--
->>   tests/docker/dockerfiles/centos8.docker       | 4 +---
->>   tests/docker/dockerfiles/fedora.docker        | 4 +---
->>   tests/docker/dockerfiles/opensuse-leap.docker | 3 +--
->>   tests/docker/dockerfiles/ubuntu1804.docker    | 3 +--
->>   tests/docker/dockerfiles/ubuntu2004.docker    | 3 +--
->>   tests/lcitool/libvirt-ci                      | 2 +-
->>   tests/lcitool/projects/qemu.yml               | 1 -
->>   11 files changed, 11 insertions(+), 19 deletions(-)
->>
->> diff --git a/.gitlab-ci.d/cirrus/freebsd-12.vars
->> b/.gitlab-ci.d/cirrus/freebsd-12.vars
->> index 9c52266811..07f313aa3a 100644
->> --- a/.gitlab-ci.d/cirrus/freebsd-12.vars
->> +++ b/.gitlab-ci.d/cirrus/freebsd-12.vars
->> @@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
->>   NINJA='/usr/local/bin/ninja'
->>   PACKAGING_COMMAND='pkg'
->>   PIP3='/usr/local/bin/pip-3.8'
->> -PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache
->> cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc gettext
->> git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt
->> libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm
->> lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5
->> pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx
->> py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2
->> sdl2_image snappy spice-protocol tesseract texinfo usbredir
->> virglrenderer vte3 zstd'
->> +PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache
->> cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc
->> fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 libepoxy libffi
->> libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 llvm
->> lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman
->> pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx
->> py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2
->> sdl2_image snappy spice-protocol tesseract texinfo usbredir
->> virglrenderer vte3 zstd'
->>   PYPI_PKGS=''
->>   PYTHON='/usr/local/bin/python3'
->> diff --git a/.gitlab-ci.d/cirrus/freebsd-13.vars
->> b/.gitlab-ci.d/cirrus/freebsd-13.vars
->> index 7b44dba324..8a648dda1e 100644
->> --- a/.gitlab-ci.d/cirrus/freebsd-13.vars
->> +++ b/.gitlab-ci.d/cirrus/freebsd-13.vars
->> @@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
->>   NINJA='/usr/local/bin/ninja'
->>   PACKAGING_COMMAND='pkg'
->>   PIP3='/usr/local/bin/pip-3.8'
->> -PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache
->> cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc gettext
->> git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt
->> libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm
->> lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5
->> pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx
->> py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2
->> sdl2_image snappy spice-protocol tesseract texinfo usbredir
->> virglrenderer vte3 zstd'
->> +PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache
->> cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc
->> fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 libepoxy libffi
->> libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 llvm
->> lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman
->> pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx
->> py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2
->> sdl2_image snappy spice-protocol tesseract texinfo usbredir
->> virglrenderer vte3 zstd'
-> 
-> Seems like this now also added fusefs-libs3 on FreeBSD which causes the
-> build to break:
-> 
->  https://gitlab.com/thuth/qemu/-/jobs/2012083924#L3454
-> 
-> Any ideas how to best fix this?
 
-Candidate patch:
-https://lore.kernel.org/qemu-devel/20220124220357.74017-1-f4bug@amsat.org/
+
+On Mon, 24 Jan 2022, Eric DeVolder wrote:
+
+> This builds the ACPI ERST table to inform OSPM how to communicate
+> with the acpi-erst device.
+>
+> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+> ---
+>  hw/acpi/erst.c | 188 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 188 insertions(+)
+>
+> diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
+> index fe9ba51..b0c7539 100644
+> --- a/hw/acpi/erst.c
+> +++ b/hw/acpi/erst.c
+> @@ -59,6 +59,27 @@
+>  #define STATUS_RECORD_STORE_EMPTY     0x04
+>  #define STATUS_RECORD_NOT_FOUND       0x05
+>
+> +/* ACPI 4.0: Table 17-19 Serialization Instructions */
+> +#define INST_READ_REGISTER                 0x00
+> +#define INST_READ_REGISTER_VALUE           0x01
+> +#define INST_WRITE_REGISTER                0x02
+> +#define INST_WRITE_REGISTER_VALUE          0x03
+> +#define INST_NOOP                          0x04
+> +#define INST_LOAD_VAR1                     0x05
+> +#define INST_LOAD_VAR2                     0x06
+> +#define INST_STORE_VAR1                    0x07
+> +#define INST_ADD                           0x08
+> +#define INST_SUBTRACT                      0x09
+> +#define INST_ADD_VALUE                     0x0A
+> +#define INST_SUBTRACT_VALUE                0x0B
+> +#define INST_STALL                         0x0C
+> +#define INST_STALL_WHILE_TRUE              0x0D
+> +#define INST_SKIP_NEXT_INSTRUCTION_IF_TRUE 0x0E
+> +#define INST_GOTO                          0x0F
+> +#define INST_SET_SRC_ADDRESS_BASE          0x10
+> +#define INST_SET_DST_ADDRESS_BASE          0x11
+> +#define INST_MOVE_DATA                     0x12
+> +
+>  /* UEFI 2.1: Appendix N Common Platform Error Record */
+>  #define UEFI_CPER_RECORD_MIN_SIZE 128U
+>  #define UEFI_CPER_RECORD_LENGTH_OFFSET 20U
+> @@ -172,6 +193,173 @@ typedef struct {
+>
+>  /*******************************************************************/
+>  /*******************************************************************/
+> +
+> +/* ACPI 4.0: 17.4.1.2 Serialization Instruction Entries */
+> +static void build_serialization_instruction_entry(GArray *table_data,
+> +    uint8_t serialization_action,
+> +    uint8_t instruction,
+> +    uint8_t flags,
+> +    uint8_t register_bit_width,
+> +    uint64_t register_address,
+> +    uint64_t value)
+> +{
+> +    /* ACPI 4.0: Table 17-18 Serialization Instruction Entry */
+> +    struct AcpiGenericAddress gas;
+> +    uint64_t mask;
+> +
+> +    /* Serialization Action */
+> +    build_append_int_noprefix(table_data, serialization_action, 1);
+> +    /* Instruction */
+> +    build_append_int_noprefix(table_data, instruction         , 1);
+> +    /* Flags */
+> +    build_append_int_noprefix(table_data, flags               , 1);
+> +    /* Reserved */
+> +    build_append_int_noprefix(table_data, 0                   , 1);
+> +    /* Register Region */
+> +    gas.space_id = AML_SYSTEM_MEMORY;
+> +    gas.bit_width = register_bit_width;
+> +    gas.bit_offset = 0;
+> +    gas.access_width = ctz32(register_bit_width) - 2;
+> +    gas.address = register_address;
+> +    build_append_gas_from_struct(table_data, &gas);
+> +    /* Value */
+> +    build_append_int_noprefix(table_data, value  , 8);
+> +    /* Mask */
+> +    mask = (1ULL << (register_bit_width - 1) << 1) - 1;
+> +    build_append_int_noprefix(table_data, mask  , 8);
+> +}
+> +
+> +/* ACPI 4.0: 17.4.1 Serialization Action Table */
+> +void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
+> +    const char *oem_id, const char *oem_table_id)
+> +{
+> +    GArray *table_instruction_data;
+> +    unsigned action;
+> +    pcibus_t bar0 = pci_get_bar_addr(PCI_DEVICE(erst_dev), 0);
+> +    AcpiTable table = { .sig = "ERST", .rev = 1, .oem_id = oem_id,
+> +                        .oem_table_id = oem_table_id };
+> +
+> +    trace_acpi_erst_pci_bar_0(bar0);
+> +
+> +    /*
+> +     * Serialization Action Table
+> +     * The serialization action table must be generated first
+> +     * so that its size can be known in order to populate the
+> +     * Instruction Entry Count field.
+> +     */
+> +    table_instruction_data = g_array_new(FALSE, FALSE, sizeof(char));
+> +
+> +    /*
+> +     * Macros for use with construction of the action instructions
+> +     */
+> +#define BUILD_READ_REGISTER(width_in_bits, reg) \
+> +    build_serialization_instruction_entry(table_instruction_data, \
+> +        action, INST_READ_REGISTER, 0, width_in_bits, \
+> +        bar0 + reg, 0)
+> +
+> +#define BUILD_READ_REGISTER_VALUE(width_in_bits, reg, value) \
+> +    build_serialization_instruction_entry(table_instruction_data, \
+> +        action, INST_READ_REGISTER_VALUE, 0, width_in_bits, \
+> +        bar0 + reg, value)
+> +
+> +#define BUILD_WRITE_REGISTER(width_in_bits, reg, value) \
+> +    build_serialization_instruction_entry(table_instruction_data, \
+> +        action, INST_WRITE_REGISTER, 0, width_in_bits, \
+> +        bar0 + reg, value)
+> +
+> +#define BUILD_WRITE_REGISTER_VALUE(width_in_bits, reg, value) \
+> +    build_serialization_instruction_entry(table_instruction_data, \
+> +        action, INST_WRITE_REGISTER_VALUE, 0, width_in_bits, \
+> +        bar0 + reg, value)
+> +
+> +    /* Serialization Instruction Entries */
+> +    action = ACTION_BEGIN_WRITE_OPERATION;
+> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> +
+> +    action = ACTION_BEGIN_READ_OPERATION;
+> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> +
+> +    action = ACTION_BEGIN_CLEAR_OPERATION;
+> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> +
+> +    action = ACTION_END_OPERATION;
+> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> +
+> +    action = ACTION_SET_RECORD_OFFSET;
+> +    BUILD_WRITE_REGISTER(32, ERST_VALUE_OFFSET, 0);
+> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> +
+> +    action = ACTION_EXECUTE_OPERATION;
+> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_VALUE_OFFSET,
+> +        ERST_EXECUTE_OPERATION_MAGIC);
+
+except here, on all cases we have
+BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+
+We should treat the above as special case and simplify the rest of the
+calls (eliminate repeated common arguments).
+
+> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> +
+> +    action = ACTION_CHECK_BUSY_STATUS;
+> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> +    BUILD_READ_REGISTER_VALUE(32, ERST_VALUE_OFFSET, 0x01);
+> +
+> +    action = ACTION_GET_COMMAND_STATUS;
+> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> +    BUILD_READ_REGISTER(32, ERST_VALUE_OFFSET);
+> +
+> +    action = ACTION_GET_RECORD_IDENTIFIER;
+> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> +    BUILD_READ_REGISTER(64, ERST_VALUE_OFFSET);
+> +
+> +    action = ACTION_SET_RECORD_IDENTIFIER;
+> +    BUILD_WRITE_REGISTER(64, ERST_VALUE_OFFSET, 0);
+> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+
+This one seems reverted. Should this be
+BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+BUILD_WRITE_REGISTER(64, ERST_VALUE_OFFSET, 0);
+
+like others?
+
+> +
+> +    action = ACTION_GET_RECORD_COUNT;
+> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> +    BUILD_READ_REGISTER(32, ERST_VALUE_OFFSET);
+> +
+> +    action = ACTION_BEGIN_DUMMY_WRITE_OPERATION;
+> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> +
+> +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE;
+> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> +    BUILD_READ_REGISTER(64, ERST_VALUE_OFFSET);
+> +
+> +    action = ACTION_GET_ERROR_LOG_ADDRESS_LENGTH;
+> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> +    BUILD_READ_REGISTER(64, ERST_VALUE_OFFSET);
+> +
+> +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES;
+> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> +    BUILD_READ_REGISTER(32, ERST_VALUE_OFFSET);
+> +
+> +    action = ACTION_GET_EXECUTE_OPERATION_TIMINGS;
+> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> +    BUILD_READ_REGISTER(64, ERST_VALUE_OFFSET);
+> +
+
+BUILD_READ_REGISTER() is always called with ERST_VALUE_OFFSET as second
+argument. WE should eliminate this repeated passing of same argument.
+
+
+> +    /* Serialization Header */
+> +    acpi_table_begin(&table, table_data);
+> +
+> +    /* Serialization Header Size */
+> +    build_append_int_noprefix(table_data, 48, 4);
+> +
+> +    /* Reserved */
+> +    build_append_int_noprefix(table_data,  0, 4);
+> +
+> +    /*
+> +     * Instruction Entry Count
+> +     * Each instruction entry is 32 bytes
+> +     */
+> +    g_assert((table_instruction_data->len) % 32 == 0);
+> +    build_append_int_noprefix(table_data,
+> +        (table_instruction_data->len / 32), 4);
+> +
+> +    /* Serialization Instruction Entries */
+> +    g_array_append_vals(table_data, table_instruction_data->data,
+> +        table_instruction_data->len);
+> +    g_array_free(table_instruction_data, TRUE);
+> +
+> +    acpi_table_end(linker, &table);
+> +}
+> +
+> +/*******************************************************************/
+> +/*******************************************************************/
+>  static uint8_t *get_nvram_ptr_by_index(ERSTDeviceState *s, unsigned index)
+>  {
+>      uint8_t *rc = NULL;
+> --
+> 1.8.3.1
+>
+>
 
