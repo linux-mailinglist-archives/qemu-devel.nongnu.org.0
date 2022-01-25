@@ -2,63 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CA3B49AE0E
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 09:33:29 +0100 (CET)
-Received: from localhost ([::1]:58760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D743C49AE4D
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 09:46:57 +0100 (CET)
+Received: from localhost ([::1]:48570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCHGa-0004yh-5N
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 03:33:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47144)
+	id 1nCHTc-0000pH-VW
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 03:46:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nCH9Z-00020R-3f
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 03:26:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60995)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nCHAm-00038V-8I
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 03:27:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27276)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nCH9Q-0003PW-9u
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 03:26:08 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nCHAk-0003XP-Ad
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 03:27:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643099162;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KH+aoVZxmMeXzWKrbqpQbkwBJT6cYJkDQqYKeFtWK00=;
- b=T6bgFO5ncgPRhzQxs48OsJtzAkIOx1+n41zRM6ev7umuVrGzV6uR/YEIjd5oo6j4CwiLun
- nWQSnR4dDP2quU7j/3NEOVDN0c6nPRM/RXdsjZkE6KyNNsdMREU2G12Gg2p3vwK0ZJDknM
- Kub0tyRS6lOR1Qy6amSiSDmJjWSBh10=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1643099245;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=TO8nFmLKD7iih4yIIFmQ3Tl/KUAlsQnNSK7/URMX3fU=;
+ b=Ij+GMpbrX3IB2/4rBWPbU0CkwQT/b4UKxPZlyxhzaGrKItRuyS7GK6LyF3V3Asdq5XpTsN
+ qQS9m9RpPMAXq608WKxfwjKGEHQaQA40Xa/2romFufs8JqNjrz8nlc2Y21yAsIOewYSXjg
+ m5xtSrlYAbCQRsZb7LDOAgMo1IQKfnM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-77-Yat8xYjLPeyiKeqqZVrL1g-1; Tue, 25 Jan 2022 03:25:56 -0500
-X-MC-Unique: Yat8xYjLPeyiKeqqZVrL1g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE18084BA40;
- Tue, 25 Jan 2022 08:25:54 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.193.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7879D78DD9;
- Tue, 25 Jan 2022 08:25:54 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id CD15218003A0; Tue, 25 Jan 2022 09:25:52 +0100 (CET)
-Date: Tue, 25 Jan 2022 09:25:52 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Sven Schnelle <svens@stackframe.org>
-Subject: Re: [PATCH 3/3] hw/display/artist: rewrite vram access mode handling
-Message-ID: <20220125082552.uupa7yyqdnpxgopw@sirius.home.kraxel.org>
-References: <20220121221619.1069447-1-svens@stackframe.org>
- <20220121221619.1069447-4-svens@stackframe.org>
+ us-mta-449-2CWEEV6eN5aaczHNva02ag-1; Tue, 25 Jan 2022 03:27:24 -0500
+X-MC-Unique: 2CWEEV6eN5aaczHNva02ag-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ w5-20020a1cf605000000b0034b8cb1f55eso912414wmc.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 00:27:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=TO8nFmLKD7iih4yIIFmQ3Tl/KUAlsQnNSK7/URMX3fU=;
+ b=WtDHcUhUOFFzO7U8lTD/29KRAFTWFDwR1xKaYCTFmsx0Sv/HtarQPwhpaueNFCNZ9/
+ ajL279DSMlPK4+J+BbVO+Ogb/3EqVJX3vWPZaLh2LrgFUkdiaOlJutt/lV6c21QzIJj2
+ jPshKgnryPghUUH9J8PwF5Pa7wmzMGHrdiu3qnO91u6WZjMEk8ypz2b4UPXIiUV+VGG4
+ J8NCPT/bHJD4DwLDhIaCkKJgBYIFQuFt7Ukg/8Rv3RsruU97jA16NKAThat2vA5FAwDL
+ nkCleCCxowliWw+dyrSmsowvVj5WTmbzQVR5O8lQTSqD33weoovfLdMEvm8u+bwB3ut8
+ drsg==
+X-Gm-Message-State: AOAM530BXK4fqH5kFXOCdl9+5Gwmk1XTa7Ifd7TC66DxuCnhgwTrx1e3
+ 0tP08AUDKCMH/1oxV+Ltf+yiOQ8fyQI7Z6qDwX2635Y2NnekPdPv7r4piwEC6kz1bkbDojocYhy
+ p3bbMWMOLRdniZ68=
+X-Received: by 2002:adf:e189:: with SMTP id az9mr17606213wrb.624.1643099243346; 
+ Tue, 25 Jan 2022 00:27:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJySkHkeNcMIDhPrK4vA/0alCYEB30szt6X9B2qTUxhT9ciFdL4ZinCLmXLLJe3LZJ4uSvP9Jw==
+X-Received: by 2002:adf:e189:: with SMTP id az9mr17606194wrb.624.1643099243099; 
+ Tue, 25 Jan 2022 00:27:23 -0800 (PST)
+Received: from localhost ([47.61.17.76])
+ by smtp.gmail.com with ESMTPSA id w22sm2814148wra.59.2022.01.25.00.27.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Jan 2022 00:27:22 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] Remove unnecessary minimum_version_id_old fields
+In-Reply-To: <20220118104434.4117879-1-peter.maydell@linaro.org> (Peter
+ Maydell's message of "Tue, 18 Jan 2022 10:44:34 +0000")
+References: <20220118104434.4117879-1-peter.maydell@linaro.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Tue, 25 Jan 2022 09:27:20 +0100
+Message-ID: <87lez4w787.fsf@secure.mitica>
 MIME-Version: 1.0
-In-Reply-To: <20220121221619.1069447-4-svens@stackframe.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -79,36 +95,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+Reply-To: quintela@redhat.com
+Cc: qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+Peter Maydell <peter.maydell@linaro.org> wrote:
+> The migration code will not look at a VMStateDescription's
+> minimum_version_id_old field unless that VMSD has set the
+> load_state_old field to something non-NULL.  (The purpose of
+> minimum_version_id_old is to specify what migration version is needed
+> for the code in the function pointed to by load_state_old to be able
+> to handle it on incoming migration.)
+>
+> We have exactly one VMSD which still has a load_state_old,
+> in the PPC CPU; every other VMSD which sets minimum_version_id_old
+> is doing so unnecessarily. Delete all the unnecessary ones.
+>
+> Commit created with:
+>   sed -i '/\.minimum_version_id_old/d' $(git grep -l '\.minimum_version_id_old')
+> with the one legitimate use then hand-edited back in.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-> +static void artist_vram_write4(ARTISTState *s, struct vram_buffer *buf,
-> +                               uint32_t offset, uint32_t data)
+Hi
 
-> +static int get_vram_offset(ARTISTState *s, struct vram_buffer *buf,
-> +                           int pos, int posy)
+Should this came through the migration tree?
 
-> +    case 0x13a0:
-> +        artist_vram_write4(s, buf, get_vram_offset(s, buf, pos >> 2, posy),
-> +                           data);
 
-That is asking for trouble.
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-You should pass around offsets not pointers.  An offset can trivially be
-checked whenever it is within the valid range (i.e. smaller than vram
-size), or it can be masked to strip off high bits when accessing virtual
-vram.  You need that for robustness and security reasons (i.e. make sure
-the guest can't write to host memory by tricking your get_vram_offset
-calculations).
-
-grep cirrus for 'cirrus_addr_mask' to see sample code.
-
-take care,
-  Gerd
+Later, Juan.
 
 
