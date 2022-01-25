@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B9549A229
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 02:53:20 +0100 (CET)
-Received: from localhost ([::1]:54854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EBB649A227
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 02:52:56 +0100 (CET)
+Received: from localhost ([::1]:52506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCB1L-0004hC-60
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 20:53:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54660)
+	id 1nCB0x-000386-56
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 20:52:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nCAfB-0002FR-4a
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 20:30:25 -0500
-Received: from [2607:f8b0:4864:20::136] (port=40796
- helo=mail-il1-x136.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nCAf2-0001ZY-Bt
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nCAf4-000292-6z
  for qemu-devel@nongnu.org; Mon, 24 Jan 2022 20:30:19 -0500
-Received: by mail-il1-x136.google.com with SMTP id s1so273397ilj.7
- for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 17:30:11 -0800 (PST)
+Received: from [2607:f8b0:4864:20::12d] (port=41932
+ helo=mail-il1-x12d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nCAf0-0001Zi-Br
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 20:30:17 -0500
+Received: by mail-il1-x12d.google.com with SMTP id 15so1248350ilg.8
+ for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 17:30:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l8RA7yWCAX4kkKStNQOwlFxMIKNeQ5iUFxaPSVvYcxY=;
- b=f28uQQM3t1aj2vr6JigcbOa8nTSfYhX9O2kZXSvUf6fqdXGhb2jjWj200fy4X/9oKE
- nMDO1Hk9kjjinAkBMIYwKleSMJpHmZhx+/8YlCFOk0usDpgrLx0l0kSgBoys2OkBxJ2U
- NCr5VBZUBu7qhjXz4W74OAJv+/AZaO+GxXjI7VW+zLXXGro411WMJf4ltt5ThbSCdQjm
- PlURyFTggGCqQZNAdbW9kaqwbK3wHy+GpFqHLiOU4x1+HQe9S9zRBJYvWYuDcTAMDwHY
- xN0WyN799IOQa7N0/R6icOZe89CMUxFzowSGTphMWDpMyvUPG6n8htRpzgtXAdeNTbx8
- 366A==
+ bh=GIrKzMc5jPXfhdAYwt0g5AuLCXCZz7PvOJlt6bMXYhA=;
+ b=0YcQbTJTpfzQ+GUYYecg5AY2a2P4xfABKSwLMMCF2hitFsqzqNvYPelQen1E4ZhOv/
+ ky8CQDjS3wzjYhH/xCGH3jlR8372pvpScNM0Hb8zl8PsgLNRvHmZ26fR8Q9NT6LrkAOg
+ Bi4VsalhKAbzHCDzWqUSJT3yIRRIsJontqMwuPe3Lg96wtcv/LncuJwsaYMav9FRxKJL
+ ejgZCbRWqaU0rj3kffxAh4uHiO78rDggOlo276NgPhwBm8VQof7GYsFxXIHETb9fWsTn
+ YXKtsWS5VpH+firm/0pcEAopCF36q/ciNeE7SpTLU7gCIkGPoNqxTw59vq1ZQht6du5/
+ bzxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l8RA7yWCAX4kkKStNQOwlFxMIKNeQ5iUFxaPSVvYcxY=;
- b=ii4qpvjOpnj4ac9vAO2bcSQkD+NNBICoBO6xAk/87NCr5/XwWFbHOVD98ATql+rKqB
- 7CsNaVDaNwVpcvMuJXPTxoPAe3xKjo/LdydSMoHx2fT2Vg3GEbmQsVFQ3xdXKLbQE0q7
- z4Y5P6VVFGyobbC9byRej4hPMJYc+VnSvXFnlO6lgkRFpXhfOonb5Wr4nisuh+eMHhQU
- lb8OIlmawtYE1Ury6Ec7UkyReGOTeEhSNoooaOwafM9hZs1VYBtmLWMcVFjMZt2xEKfh
- fQd/UqotS+gP1hrEAMj4imQnNhlTfe9hGRxpCpnSwWKSR8EpZQM/PEJvVoXq6MfcK8Z2
- 1hHA==
-X-Gm-Message-State: AOAM531oi5vdEDhhQpHdEdpdPGpYwR296EeJrAWS3xRSjOt4sXemPhKB
- rH2E6ftp/Q76xpFIxHxSSCgmE31nbWfpHg==
-X-Google-Smtp-Source: ABdhPJznwLwnRuumOVSoKcSl6PT4c5d4FahGKIHya4oUJTrtvWpzFzt6vdTc/cKwU3rxGclchi4ubQ==
-X-Received: by 2002:a05:6e02:152b:: with SMTP id
- i11mr10426016ilu.188.1643074210568; 
- Mon, 24 Jan 2022 17:30:10 -0800 (PST)
+ bh=GIrKzMc5jPXfhdAYwt0g5AuLCXCZz7PvOJlt6bMXYhA=;
+ b=bVtrTHsvnzuI9bGAhIfYSVDU7HYCSAON4Jsv9fljATZljuEH/zsvMZhEJl7zfK/NaY
+ QEJ4Lp1myxOwlmMHz6KnOpX80zg8OBqYaLOsh/4WPRXZhHEddwlQ/yS3BsRKF7sSvaJ6
+ Prl0qKUuu6kj8+Xmqs2wEuqYP5JLLZncBRkyVgkhiNzdlW6eQpJHEnyuXDojIlie6IjI
+ wXbsg5FniAZsW9peyqkiIeb5Ny7G5aCXGlNMcCMK432f7ALHCzH5Gm5cWN9bnaWacGvn
+ On50eoiPIEJoySEkNWD71V3iQQP+erWx/A7Ql7LEeTXLgqAKTOjr9s0TkpZ1+hw8Bd0D
+ +7Yw==
+X-Gm-Message-State: AOAM530Cb+YAnHglGmRRUwi/80X6mXvp5zskeMpryj0CG41eA5VLicrf
+ c+iW1cXksRclaouc0N3XbnaeIc8ZDmqhgg==
+X-Google-Smtp-Source: ABdhPJx9B+4gc9/+AdvSyYZfsoBnXUsiA/O01MMRPmbiH/7cXvoF8/SgiPA/bZzwuFqQJOwpiyT/dQ==
+X-Received: by 2002:a92:d7cf:: with SMTP id g15mr10540549ilq.46.1643074211345; 
+ Mon, 24 Jan 2022 17:30:11 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id q14sm2061687ilo.63.2022.01.24.17.30.09
+ by smtp.gmail.com with ESMTPSA id q14sm2061687ilo.63.2022.01.24.17.30.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 24 Jan 2022 17:30:10 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 17/40] bsd-user/signal.c: Implement signal_init()
-Date: Mon, 24 Jan 2022 18:29:24 -0700
-Message-Id: <20220125012947.14974-18-imp@bsdimp.com>
+Subject: [PATCH v2 18/40] bsd-user/signal.c: Add si_type argument to
+ queue_signal
+Date: Mon, 24 Jan 2022 18:29:25 -0700
+Message-Id: <20220125012947.14974-19-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220125012947.14974-1-imp@bsdimp.com>
 References: <20220125012947.14974-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::136
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12d
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::136;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x136.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12d;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12d.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -86,140 +86,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Stacey Son <sson@FreeBSD.org>,
- Kyle Evans <kevans@freebsd.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Kyle Evans <kevans@freebsd.org>,
  Richard Henderson <richard.henderson@linaro.org>, def@FreeBSD.org,
  jrtc27@FreeBSD.org, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Initialize the signal state for the emulator. Setup a set of sane
-default signal handlers, mirroring the host's signals. For fatal signals
-(those that exit by default), establish our own set of signal
-handlers. Stub out the actual signal handler we use for the moment.
+Mirror the linux-user practice and add a si_type argument to queue
+signal. This will be transported as the upper 8 bits in the si_type
+element of siginfo so that we know what bits of the structure are valid
+and so we can properly implement host_to_target_siginfo_noswap and
+tswap_siginfo. Adapt the one caller of queue_signal to the new
+interface.  Use all the same names as Linux (except _RT which we don't
+treat differently, unlike Linux), though some are unused. Place this
+into signal-common.h since that's a better place given bsd-user's
+structure. Move prototype of queue_signal to signal-common.h to mirror
+linux-user's location.
 
-Signed-off-by: Stacey Son <sson@FreeBSD.org>
-Signed-off-by: Kyle Evans <kevans@freebsd.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org> XXX SIGPROF PENDING
 ---
- bsd-user/qemu.h   |  7 +++++
- bsd-user/signal.c | 67 +++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 74 insertions(+)
+ bsd-user/signal-common.h | 26 +++++++++++++++++++++++++-
+ bsd-user/signal.c        |  5 +++--
+ 2 files changed, 28 insertions(+), 3 deletions(-)
 
-diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index 99c37fc9942..49f01932a53 100644
---- a/bsd-user/qemu.h
-+++ b/bsd-user/qemu.h
-@@ -94,6 +94,13 @@ typedef struct TaskState {
-      * from multiple threads.)
-      */
-     int signal_pending;
-+    /*
-+     * This thread's signal mask, as requested by the guest program.
-+     * The actual signal mask of this thread may differ:
-+     *  + we don't let SIGSEGV and SIGBUS be blocked while running guest code
-+     *  + sometimes we block all signals to avoid races
-+     */
-+    sigset_t signal_mask;
+diff --git a/bsd-user/signal-common.h b/bsd-user/signal-common.h
+index efed23d9efb..80e9503238a 100644
+--- a/bsd-user/signal-common.h
++++ b/bsd-user/signal-common.h
+@@ -15,8 +15,32 @@ long do_sigreturn(CPUArchState *env);
+ void force_sig_fault(int sig, int code, abi_ulong addr);
+ int host_to_target_signal(int sig);
+ void process_pending_signals(CPUArchState *env);
+-void queue_signal(CPUArchState *env, int sig, target_siginfo_t *info);
++void queue_signal(CPUArchState *env, int sig, int si_type,
++                  target_siginfo_t *info);
+ void signal_init(void);
+ int target_to_host_signal(int sig);
  
-     uint8_t stack[];
- } __attribute__((aligned(16))) TaskState;
++/*
++ * Within QEMU the top 8 bits of si_code indicate which of the parts of the
++ * union in target_siginfo is valid. This only applies between
++ * host_to_target_siginfo_noswap() and tswap_siginfo(); it does not appear
++ * either within host siginfo_t or in target_siginfo structures which we get
++ * from the guest userspace program. Linux kenrels use this internally, but BSD
++ * kernels don't do this, but its a useful abstraction.
++ *
++ * The linux-user version of this uses the top 16 bits, but FreeBSD's SI_USER
++ * and other signal indepenent SI_ codes have bit 16 set, so we only use the top
++ * byte instead.
++ *
++ * For FreeBSD, we have si_pid, si_uid, si_status, and si_addr always. Linux and
++ * {Open,Net}BSD have a different approach (where their reason field is larger,
++ * but whose siginfo has fewer fields always).
++ */
++#define QEMU_SI_NOINFO   0      /* nothing other than si_signo valid */
++#define QEMU_SI_FAULT    1      /* _fault is valid in _reason */
++#define QEMU_SI_TIMER    2      /* _timer is valid in _reason */
++#define QEMU_SI_MESGQ    3      /* _mesgq is valid in _reason */
++#define QEMU_SI_POLL     4      /* _poll is valid in _reason */
++#define QEMU_SI_CAPSICUM 5      /* _capsicum is valid in _reason */
++
+ #endif
 diff --git a/bsd-user/signal.c b/bsd-user/signal.c
-index 1313baec96a..3ef7cf5e23c 100644
+index 3ef7cf5e23c..ad8437a8bfb 100644
 --- a/bsd-user/signal.c
 +++ b/bsd-user/signal.c
-@@ -28,6 +28,9 @@
-  * fork.
+@@ -50,7 +50,8 @@ int target_to_host_signal(int sig)
+  * Queue a signal so that it will be send to the virtual CPU as soon as
+  * possible.
   */
- 
-+static struct target_sigaction sigact_table[TARGET_NSIG];
-+static void host_signal_handler(int host_sig, siginfo_t *info, void *puc);
-+
- /*
-  * The BSD ABIs use the same singal numbers across all the CPU architectures, so
-  * (unlike Linux) these functions are just the identity mapping. This might not
-@@ -52,6 +55,28 @@ void queue_signal(CPUArchState *env, int sig, target_siginfo_t *info)
+-void queue_signal(CPUArchState *env, int sig, target_siginfo_t *info)
++void queue_signal(CPUArchState *env, int sig, int si_type,
++                  target_siginfo_t *info)
+ {
      qemu_log_mask(LOG_UNIMP, "No signal queueing, dropping signal %d\n", sig);
  }
- 
-+static int fatal_signal(int sig)
-+{
-+
-+    switch (sig) {
-+    case TARGET_SIGCHLD:
-+    case TARGET_SIGURG:
-+    case TARGET_SIGWINCH:
-+    case TARGET_SIGINFO:
-+        /* Ignored by default. */
-+        return 0;
-+    case TARGET_SIGCONT:
-+    case TARGET_SIGSTOP:
-+    case TARGET_SIGTSTP:
-+    case TARGET_SIGTTIN:
-+    case TARGET_SIGTTOU:
-+        /* Job control signals.  */
-+        return 0;
-+    default:
-+        return 1;
-+    }
-+}
-+
- /*
-  * Force a synchronously taken QEMU_SI_FAULT signal. For QEMU the
-  * 'force' part is handled in process_pending_signals().
-@@ -69,8 +94,50 @@ void force_sig_fault(int sig, int code, abi_ulong addr)
-     queue_signal(env, sig, &info);
+@@ -91,7 +92,7 @@ void force_sig_fault(int sig, int code, abi_ulong addr)
+     info.si_errno = 0;
+     info.si_code = code;
+     info.si_addr = addr;
+-    queue_signal(env, sig, &info);
++    queue_signal(env, sig, QEMU_SI_FAULT, &info);
  }
  
-+static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
-+{
-+}
-+
- void signal_init(void)
- {
-+    TaskState *ts = (TaskState *)thread_cpu->opaque;
-+    struct sigaction act;
-+    struct sigaction oact;
-+    int i;
-+    int host_sig;
-+
-+    /* Set the signal mask from the host mask. */
-+    sigprocmask(0, 0, &ts->signal_mask);
-+
-+    sigfillset(&act.sa_mask);
-+    act.sa_sigaction = host_signal_handler;
-+    act.sa_flags = SA_SIGINFO;
-+
-+    for (i = 1; i <= TARGET_NSIG; i++) {
-+#ifdef CONFIG_GPROF
-+        if (i == TARGET_SIGPROF) {
-+            continue;
-+        }
-+#endif
-+        host_sig = target_to_host_signal(i);
-+        sigaction(host_sig, NULL, &oact);
-+        if (oact.sa_sigaction == (void *)SIG_IGN) {
-+            sigact_table[i - 1]._sa_handler = TARGET_SIG_IGN;
-+        } else if (oact.sa_sigaction == (void *)SIG_DFL) {
-+            sigact_table[i - 1]._sa_handler = TARGET_SIG_DFL;
-+        }
-+        /*
-+         * If there's already a handler installed then something has
-+         * gone horribly wrong, so don't even try to handle that case.
-+         * Install some handlers for our own use.  We need at least
-+         * SIGSEGV and SIGBUS, to detect exceptions.  We can not just
-+         * trap all signals because it affects syscall interrupt
-+         * behavior.  But do trap all default-fatal signals.
-+         */
-+        if (fatal_signal(i)) {
-+            sigaction(host_sig, &act, NULL);
-+        }
-+    }
- }
- 
- void process_pending_signals(CPUArchState *cpu_env)
+ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
 -- 
 2.33.1
 
