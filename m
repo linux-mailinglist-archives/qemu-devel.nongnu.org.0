@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D588049B84B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 17:13:04 +0100 (CET)
-Received: from localhost ([::1]:49408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7536C49B869
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 17:18:20 +0100 (CET)
+Received: from localhost ([::1]:58652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCORL-0006Dr-OL
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 11:13:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51328)
+	id 1nCOWR-0004Og-BZ
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 11:18:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nCNQA-0001uX-AR
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 10:07:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56847)
+ id 1nCNSF-0006u6-JV
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 10:09:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nCNQ7-00060m-9B
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 10:07:45 -0500
+ id 1nCNSC-0006Gv-As
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 10:09:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643123260;
+ s=mimecast20190719; t=1643123390;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=w77O1A87KqEsfSIcpSBr8YYZ20cWynooLLjMozzB1jE=;
- b=gb5vC8n8cxWm2wXCIBbKgvsVczw1B7zjZgvYlk0S5eTS5sbc+9XjqS5Gav2CHgo+97VEcb
- 2bi7fZz6mlTa9kRDZipZ9iRQc7+KsuIR6xQwqSlHiFymbp2bQSed+vFYteZDhSuZ1D67K9
- ufk1TeZh8Ey1W80dhYYrKSU3oM7EVHk=
+ bh=Vb+x5zgMizsyPz09imfgqiE8GW/Si6w0n+slkjJFdrM=;
+ b=YaXcl4Qjzr2DBej4CgdgEvGp8Bao7L0FIAn0IlVrylQqt9qZnzhiMGkGEoC++Ttlapbw+q
+ 2heFCQVV640Y3H6DgrxhXH+Lj+A3UCyMvYrCBqVfPhTCyLEL6pfOHz824klgmqq97s1+3M
+ cxcoZa8jFPtVE0lRGmm9ihoRMnAIKIg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-648-FCVHiWt4N36gym_qZC8jxg-1; Tue, 25 Jan 2022 10:07:28 -0500
-X-MC-Unique: FCVHiWt4N36gym_qZC8jxg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-312-xZWhA6SaMyqvxNKZIcd3HQ-1; Tue, 25 Jan 2022 10:09:48 -0500
+X-MC-Unique: xZWhA6SaMyqvxNKZIcd3HQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D51283DD20;
- Tue, 25 Jan 2022 15:07:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A64A01006AA5;
+ Tue, 25 Jan 2022 15:09:47 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.37.89])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 886FB1091EF1;
- Tue, 25 Jan 2022 15:07:02 +0000 (UTC)
-Date: Tue, 25 Jan 2022 15:06:59 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4202C7E2F9;
+ Tue, 25 Jan 2022 15:09:46 +0000 (UTC)
+Date: Tue, 25 Jan 2022 15:09:40 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v7 0/4] VNC-related HMP/QMP fixes
-Message-ID: <YfASE9EieKWM7fEt@redhat.com>
-References: <20211021100135.4146766-1-s.reiter@proxmox.com>
- <87ee4x8cpc.fsf@dusky.pond.sub.org>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH] docs: expand firmware descriptor to allow flash without
+ NVRAM
+Message-ID: <YfAStHc/JGDsomC+@redhat.com>
+References: <20220121153444.527707-1-berrange@redhat.com>
+ <aa00dae7-e092-573a-a6ce-f7cf347f294c@amsat.org>
+ <20220125075054.dnlnr4pliw3bio2k@sirius.home.kraxel.org>
 MIME-Version: 1.0
-In-Reply-To: <87ee4x8cpc.fsf@dusky.pond.sub.org>
+In-Reply-To: <20220125075054.dnlnr4pliw3bio2k@sirius.home.kraxel.org>
 User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,43 +83,31 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Fabian Ebner <f.ebner@proxmox.com>, Eric Blake <eblake@redhat.com>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
+Cc: David Edmondson <david.edmondson@oracle.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 24, 2022 at 02:50:39PM +0100, Markus Armbruster wrote:
-> Stefan Reiter <s.reiter@proxmox.com> writes:
+On Tue, Jan 25, 2022 at 08:50:54AM +0100, Gerd Hoffmann wrote:
+>   Hi,
 > 
-> > Since the removal of the generic 'qmp_change' command, one can no longer replace
-> > the 'default' VNC display listen address at runtime (AFAIK). For our users who
-> > need to set up a secondary VNC access port, this means configuring a second VNC
-> > display (in addition to our standard one for web-access), but it turns out one
-> > cannot set a password on this second display at the moment, as the
-> > 'set_password' call only operates on the 'default' display.
-> >
-> > Additionally, using secret objects, the password is only read once at startup.
-> > This could be considered a bug too, but is not touched in this series and left
-> > for a later date.
+> > >   { 'struct' : 'FirmwareMappingFlash',
+> > > -  'data'   : { 'executable'     : 'FirmwareFlashFile',
+> > > -               'nvram-template' : 'FirmwareFlashFile' } }
+> > > +  'data'   : { 'mode': 'FirmwareFlashMode',
+> > > +               'executable'     : 'FirmwareFlashFile',
+> > > +               '*nvram-template' : 'FirmwareFlashFile' } }
 > 
-> Related: Vladimir recently posted a patch to add a new command for
-> changing VNC server listening addresses.  Daniel asked him to work it
-> into display-reload instead[1].  Vladimir complied[2].
+> I think for backward compatibility reasons we want 'mode' be optional,
+> with 'mode' = 'split' being assumed in case it is not present.
 > 
-> Daniel, what do you think about this one?  Should it also use
-> display-reload?
+> otherwise looks sane to me.
 
-I'd ultimately intend to deprecate & remove the direct setting of
-passwords on the CLI, and exclusively rely on the 'secret' object
-for passing in passwords. With this in mind, I'd not be enthusiastic
-about adding new commands for changing passwords in QMP directly,
-rather I think we should have a way to change the 'secret' object
-in use.
+Opps, yes, I even documented that it was optional but then failed
+to mark it optional.
+
 
 Regards,
 Daniel
