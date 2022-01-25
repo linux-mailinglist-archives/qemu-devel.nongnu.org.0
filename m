@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B4F149AE43
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 09:43:54 +0100 (CET)
-Received: from localhost ([::1]:40942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CA3B49AE0E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 09:33:29 +0100 (CET)
+Received: from localhost ([::1]:58760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCHQf-00043h-5S
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 03:43:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46418)
+	id 1nCHGa-0004yh-5N
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 03:33:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nCH6O-0007ao-1J
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 03:22:57 -0500
-Received: from mga17.intel.com ([192.55.52.151]:19290)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nCH9Z-00020R-3f
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 03:26:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nCH6I-0002sj-IR
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 03:22:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643098970; x=1674634970;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=nQhmw9tqKel7ByAdCmGlBqrn9SP/aEAWIm/Z2cqpZcs=;
- b=jrGW4rEenJDIIg4Uukx2l6fIBivtsML0JbQK5rxRLhyCgbXwSyb9h8Bd
- oIXb/n2MNQHZTLWZFIYbGY5s7G6sl5OKJR75o7jWc7sTwxd0lFLG2Zsfq
- vBrDqX2SXJVFJnS8n0hMYBHrv9qWcbkixOZGhc/xsAIim3Jm1e4LIxG3f
- e4EiVG/Xw998scfT/q/oJjH9X3lbxVAbZNTRXfPc72MQQBcKOFoQqsfEM
- OML7pyTQd4D7lQvEmMbq6+2XSWlf2KKM0qPyGlvfh2AWqWoT4ryFYLDh2
- SsCLAqOUmZ7dx6YNdwq7VaeQ64GLN+IfIc1RQQqk4K1VwUuaSQPfbsmWe Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="226922314"
-X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; d="scan'208";a="226922314"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2022 00:22:46 -0800
-X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; d="scan'208";a="534628975"
-Received: from xiaoyaol-mobl.ccr.corp.intel.com (HELO [10.255.30.216])
- ([10.255.30.216])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2022 00:22:40 -0800
-Message-ID: <21af8d43-75dd-6b32-5362-f8a9575cba8f@intel.com>
-Date: Tue, 25 Jan 2022 16:22:38 +0800
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nCH9Q-0003PW-9u
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 03:26:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643099162;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KH+aoVZxmMeXzWKrbqpQbkwBJT6cYJkDQqYKeFtWK00=;
+ b=T6bgFO5ncgPRhzQxs48OsJtzAkIOx1+n41zRM6ev7umuVrGzV6uR/YEIjd5oo6j4CwiLun
+ nWQSnR4dDP2quU7j/3NEOVDN0c6nPRM/RXdsjZkE6KyNNsdMREU2G12Gg2p3vwK0ZJDknM
+ Kub0tyRS6lOR1Qy6amSiSDmJjWSBh10=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-77-Yat8xYjLPeyiKeqqZVrL1g-1; Tue, 25 Jan 2022 03:25:56 -0500
+X-MC-Unique: Yat8xYjLPeyiKeqqZVrL1g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE18084BA40;
+ Tue, 25 Jan 2022 08:25:54 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.193.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7879D78DD9;
+ Tue, 25 Jan 2022 08:25:54 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id CD15218003A0; Tue, 25 Jan 2022 09:25:52 +0100 (CET)
+Date: Tue, 25 Jan 2022 09:25:52 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Sven Schnelle <svens@stackframe.org>
+Subject: Re: [PATCH 3/3] hw/display/artist: rewrite vram access mode handling
+Message-ID: <20220125082552.uupa7yyqdnpxgopw@sirius.home.kraxel.org>
+References: <20220121221619.1069447-1-svens@stackframe.org>
+ <20220121221619.1069447-4-svens@stackframe.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.5.0
-Subject: Re: [RFC PATCH v2 20/44] i386/tdx: Parse tdx metadata and store the
- result into TdxGuestState
-Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <cover.1625704980.git.isaku.yamahata@intel.com>
- <acaf651389c3f407a9d6d0a2e943daf0a85bb5fc.1625704981.git.isaku.yamahata@intel.com>
- <20210826111838.fgbp6v6gd5wzbnho@sirius.home.kraxel.org>
- <a97a75ad-9d1c-a09f-281b-d6b0a7652e78@intel.com>
- <4eb6a628-0af6-409b-7e42-52787ee3e69d@redhat.com>
- <e74fcb88-3add-4bb7-4508-742db44fa3c8@intel.com>
- <20220110110120.ldjekirdzgmgex4z@sirius.home.kraxel.org>
- <8793aa69-3416-d48e-d690-9f70b1784b46@intel.com>
- <20220125074225.sqxukflp3vat7ilu@sirius.home.kraxel.org>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220125074225.sqxukflp3vat7ilu@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.151; envelope-from=xiaoyao.li@intel.com;
- helo=mga17.intel.com
+In-Reply-To: <20220121221619.1069447-4-svens@stackframe.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.56, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,71 +79,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com, cohuck@redhat.com,
- "Daniel P. Berrange" <berrange@redhat.com>, ehabkost@redhat.com,
- kvm@vger.kernel.org, mst@redhat.com, seanjc@google.com, alistair@alistair23.me,
- qemu-devel@nongnu.org, mtosatti@redhat.com, "Min M . Xu" <min.m.xu@intel.com>,
- erdemaktas@google.com, pbonzini@redhat.com, Laszlo Ersek <lersek@redhat.com>,
- isaku.yamahata@gmail.com
+Cc: Helge Deller <deller@gmx.de>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/25/2022 3:42 PM, Gerd Hoffmann wrote:
->> Regarding what interface should be used to load TDVF, there are three
->> options:
->>
->>    1) pflash: the same as how we load OVMF.
->>
->>    Suppose TDVF support will finally get into OVMF, using this
->>    interface, it's full compatible with normal VMs. No change required
->>    to QEMU command line and TDVF binary is mapped to the GPA address
->>    right below 4G, but they are actually mapped as RAM.
->>
->>    Of course, we need several hacks (special handling) in QEMU.
-> 
-> What kind if "hack"?
+  Hi,
 
-For example, several pflash codes require the support of read-only 
-memslot from KVM. We need to absolve it for TDX guest.
+> +static void artist_vram_write4(ARTISTState *s, struct vram_buffer *buf,
+> +                               uint32_t offset, uint32_t data)
 
-And the pflash won't work as a flash device that no write induced 
-KVM_EXIT_MMIO will go to its callback.
+> +static int get_vram_offset(ARTISTState *s, struct vram_buffer *buf,
+> +                           int pos, int posy)
 
->>    Of course, they don't work as flash, the change made to it doesn't
->>    persist.
->>
->>    2) -bios
->>
->>    exploit "-bios" parameter to load TDVF. But again, read-only is not
->>    supported. TDVF is mapped as RAM.
->>
->>    3) generic loader
->>
->>    Just like what this series does. Implement specific parser in generic
->>    loader to load and parse TDVF as private RAM.
->>
->> I'm nor sure if 1) is acceptable from your side. If not, we will go with
->> option 3, since 2) doesn't make too much sense.
-> 
-> Yep, Daniel (Cc'ed) tried (2) recently for SEV.  Didn't work due to
-> differences in -bios and -pflash reset handling.  So that option is
-> out I guess.
-> 
-> SEV uses (1), and there is some support code which you should be able to
-> reuse (walker for the list of guid-sections with meta-data in the ovmf
-> reset vector for example).
-> 
-> So TDX going for (1) too is probably the best option.
+> +    case 0x13a0:
+> +        artist_vram_write4(s, buf, get_vram_offset(s, buf, pos >> 2, posy),
+> +                           data);
 
-Yes. With option 1), it's friendly to user that no command change.
-And also compatible for future TDX/TDVF when non-volatile variable is 
-supported.
+That is asking for trouble.
 
-Next version of this series will go with option 1). Let's wait and see 
-if the real implementation is acceptable or not.
+You should pass around offsets not pointers.  An offset can trivially be
+checked whenever it is within the valid range (i.e. smaller than vram
+size), or it can be masked to strip off high bits when accessing virtual
+vram.  You need that for robustness and security reasons (i.e. make sure
+the guest can't write to host memory by tricking your get_vram_offset
+calculations).
 
-> take care,
->    Gerd
-> 
+grep cirrus for 'cirrus_addr_mask' to see sample code.
+
+take care,
+  Gerd
 
 
