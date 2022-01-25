@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521E349B212
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 11:46:06 +0100 (CET)
-Received: from localhost ([::1]:50304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77E6149B1CB
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 11:43:07 +0100 (CET)
+Received: from localhost ([::1]:46162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCJKv-0008Sm-C3
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 05:46:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45644)
+	id 1nCJI2-0005d4-H3
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 05:43:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nCJ8K-0004tJ-2B
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:33:04 -0500
-Received: from [2a00:1450:4864:20::434] (port=45045
- helo=mail-wr1-x434.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nCJ8G-0006E7-NB
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:33:03 -0500
-Received: by mail-wr1-x434.google.com with SMTP id k18so18956338wrg.11
- for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 02:32:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PHFtLE9rLmpj4OseBk/Pn49d4Xqx8fH9tGzgo/lrVRg=;
- b=lc4kyK2WTrNJvEecc9YiJOhsKWIy/P5bxBB5I9QlUpZLsrntMHckW4VABGHEZPBDsj
- WEQK+oJfW4qeodNnoZCCsjqwLnysJ8NWbieMY8RHPnZI3u4otyohjdTtXWdk8xODLeBm
- kBJRhbrLDr867hphDtHSX9qEHtgqxxldHraqES/uRZrRR4g8ktTMpjGSDiHmaL7uM/st
- DuhvC+iblrevg7jXZRqRbZ/z9bdzWlLUvDCZ3F1Cg810UeUpgI3aCFPYp6O88sJT3a+M
- XURxJ3YOfZ32YQYa5EChBOvnzV+AOuqvgEuZH3HQiRyiD0vcbwYmeTC4uh0muQAYeVs2
- imrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PHFtLE9rLmpj4OseBk/Pn49d4Xqx8fH9tGzgo/lrVRg=;
- b=ko5GSN/QovcX02x07tegOYIwSc+JOUoj6YK0l6oBeZBRsXBcR2+xLefOsbYHGTO9YC
- VgJ3EtjNDbDxMf9UHBSArQE0yMOJ+PyJk0+t6NFFJenwjl2ATOcc/UZ5I+UZKcj/pLXd
- 6N/T9+DQ2LWomjYMT0b8IGoRhPJestgxYhTSV+RPH7BAVmM749zv+4twp3g/V9fJ/fbL
- gt9PiZ83okGdi37pNDHCJdcPrNxLk6lOxNR09hki8oxTf4LUOzje/42ilvRY09YSDlrr
- jOzPAYG2+q9BbBh4QjvQ6Ln5pKAHC+Ei3J2vzIqLxPoiYPadQV7KkyOqojjhrTgFQDmI
- EurQ==
-X-Gm-Message-State: AOAM531StsHQCZUepjIU3C7NGcKSmcE/szRzM9WbmXarYmZXVCbMHYUY
- 6CvjGTizlcIivADWF2rBvsOe/vbOE7umELyiLzbI+Q==
-X-Google-Smtp-Source: ABdhPJxV5wj7D7ixtoZXboh2kSUQ2rFZJh39eWVs9NJ00HLzKMDMIUQwwQMkqZQSVPbpUtCYoxfp9lOFjd8HamhIFn0=
-X-Received: by 2002:a5d:52c4:: with SMTP id r4mr18383335wrv.521.1643106777821; 
- Tue, 25 Jan 2022 02:32:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nCJ8W-0005PM-5w
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:33:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51693)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nCJ8U-0006NB-J1
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:33:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643106794;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vf6isb1+bE1bcYq1vmTNgvFCfzeeOZBSLO1mr3b8fmg=;
+ b=eUP8jzU2zNaq01zCqaiyTMZZB6ohEy/zAe07QtWMEGPTdvQU9li87IO8NooAtUp7OnBlxl
+ xMB2AJLbgoSKmWxwOTn6N9C/NQzF7Tye4sQ04J28oocIi0LgiwXAV2Ahc5j/KaVEnOWFES
+ JRkkIqePc506lJdcH5JSI3/085bNGgo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-102-RWTvSIn2MpKJwEywRaLIlQ-1; Tue, 25 Jan 2022 05:33:09 -0500
+X-MC-Unique: RWTvSIn2MpKJwEywRaLIlQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68A158143EB;
+ Tue, 25 Jan 2022 10:33:07 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 53D05105B1EC;
+ Tue, 25 Jan 2022 10:32:48 +0000 (UTC)
+Date: Tue, 25 Jan 2022 10:32:47 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v5 06/18] vfio-user: add HotplugHandler for remote machine
+Message-ID: <Ye/Rz1bHJN2m9vCo@stefanha-x1.localdomain>
+References: <cover.1642626515.git.jag.raman@oracle.com>
+ <fa3282607f7fed7736bfdf3c1ae9f7fce466ed44.1642626515.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-References: <20220113172219.66372-1-yaroshchuk2000@gmail.com>
- <20220113172219.66372-3-yaroshchuk2000@gmail.com>
- <Ye53sOJekvKrM8iT@roolebo.dev>
- <7053351.4JHWUSIRgT@silver> <Ye7mwcl/rB714vgl@roolebo.dev>
- <CAFEAcA-UE5MmkESRrxdedkzYkc9jp81jzni=-xmivK88gkr6Rw@mail.gmail.com>
- <Ye8vjmFFRLPrhE1Z@roolebo.dev>
- <CAMVc7JXyFoUCkrGLKhCct_DatwU6Xu+L2XSK5y0YMV8xDHZC+g@mail.gmail.com>
-In-Reply-To: <CAMVc7JXyFoUCkrGLKhCct_DatwU6Xu+L2XSK5y0YMV8xDHZC+g@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 25 Jan 2022 10:32:46 +0000
-Message-ID: <CAFEAcA_CT6AJx_ns4zjw1_udq-Ab3YdM2mzPcKKZberUPOqhPA@mail.gmail.com>
-Subject: Re: [PATCH v13 2/7] net/vmnet: add vmnet backends to qapi/net
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="12H2Kopd/iMiiVUM"
+Content-Disposition: inline
+In-Reply-To: <fa3282607f7fed7736bfdf3c1ae9f7fce466ed44.1642626515.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,63 +76,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>, phillip.ennen@gmail.com,
- Jason Wang <jasowang@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- qemu Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Markus Armbruster <armbru@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alexander Graf <agraf@csgraf.de>, Gerd Hoffmann <kraxel@redhat.com>,
- Howard Spoelstra <hsp.cat7@gmail.com>, Roman Bolshakov <roman@roolebo.dev>,
- Alessio Dionisi <hello@adns.io>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Eric Blake <eblake@redhat.com>, Phillip Tennen <phillip@axleos.com>
+Cc: eduardo@habkost.net, elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
+ berrange@redhat.com, bleal@redhat.com, john.levon@nutanix.com, mst@redhat.com,
+ armbru@redhat.com, quintela@redhat.com, qemu-devel@nongnu.org, f4bug@amsat.org,
+ marcandre.lureau@gmail.com, thanos.makatos@nutanix.com, pbonzini@redhat.com,
+ eblake@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 25 Jan 2022 at 04:14, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
-> I'm neutral about the decision. I think QEMU should avoid using
-> Objective-C code except for interactions with Apple's APIs, and .c is
-> superior in terms of that as it would prevent accidental introduction
-> of Objective-C code. On the other hand, naming them .m will allow the
-> introduction of Automatic Reference Counting to manage dispatch queue
-> objects. In fact, I have found a few memory leaks in vmnet in the last
-> review and ui/cocoa.m has a suspicious construction of the object
-> management (Particularly it has asynchronous dispatches wrapped with
-> NSAutoreleasePool, which does not make sense).
 
-I think those are probably my fault -- in commit 6e657e64cd (in 2013)
-we added NSAutoReleasePools to fix leaks that happened because
-we were calling into Cocoa APIs from threads other than the UI
-thread that didn't have their own automatically created autorelease
-pool. Much later in commit 5588840ff778 (in 2019) we put in the
-dispatch_async stuff because newer macOS was stricter about
-requiring Cocoa API calls to be only on the UI thread. So
-I think that means the requirement for the autorelease pools
-has now gone away in those functions and we could simply delete
-them -- does that sound right? (I freely admit that I'm not a macOS
-expert -- I just look stuff up in the documentation; historically
-we haven't really had many expert macOS people around to work on
-cocoa.m...)
+--12H2Kopd/iMiiVUM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On the subject of cocoa.m, while we have various macOS-interested
-people in this thread, can I ask if anybody would like to
-review a couple of patches that came in at the beginning of the
-year?
+On Wed, Jan 19, 2022 at 04:41:55PM -0500, Jagannathan Raman wrote:
+> Allow hotplugging of PCI(e) devices to remote machine
+>=20
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> ---
+>  hw/remote/machine.c | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
 
-https://patchew.org/QEMU/20220102174153.70043-1-carwynellis@gmail.com/
-("ui/cocoa: Add option to disable left command and hide cursor on click")
-and
-https://patchew.org/QEMU/20220103114515.24020-1-carwynellis@gmail.com/
-("Show/hide the menu bar in fullscreen on mouse")
+Why is this code necessary? I expected the default hotplug behavior to
+pretty much handle this case - hotplugging device types that the bus
+doesn't support should fail and unplug should already unparent/unrealize
+the device.
 
-either from the point of view of "is this a sensible change to
-the macOS UI experience" or for the actual code changes, or both.
+>=20
+> diff --git a/hw/remote/machine.c b/hw/remote/machine.c
+> index 952105eab5..220ff01aa9 100644
+> --- a/hw/remote/machine.c
+> +++ b/hw/remote/machine.c
+> @@ -54,14 +54,39 @@ static void remote_machine_init(MachineState *machine)
+> =20
+>      pci_bus_irqs(pci_host->bus, remote_iohub_set_irq, remote_iohub_map_i=
+rq,
+>                   &s->iohub, REMOTE_IOHUB_NB_PIRQS);
+> +
+> +    qbus_set_hotplug_handler(BUS(pci_host->bus), OBJECT(s));
+> +}
+> +
+> +static void remote_machine_pre_plug_cb(HotplugHandler *hotplug_dev,
+> +                                       DeviceState *dev, Error **errp)
+> +{
+> +    if (!object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
+> +        error_setg(errp, "Only allowing PCI hotplug");
+> +    }
+> +}
+> +
+> +static void remote_machine_unplug_cb(HotplugHandler *hotplug_dev,
+> +                                     DeviceState *dev, Error **errp)
+> +{
+> +    if (!object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
+> +        error_setg(errp, "Only allowing PCI hot-unplug");
+> +        return;
+> +    }
+> +
+> +    qdev_unrealize(dev);
+>  }
+> =20
+>  static void remote_machine_class_init(ObjectClass *oc, void *data)
+>  {
+>      MachineClass *mc =3D MACHINE_CLASS(oc);
+> +    HotplugHandlerClass *hc =3D HOTPLUG_HANDLER_CLASS(oc);
+> =20
+>      mc->init =3D remote_machine_init;
+>      mc->desc =3D "Experimental remote machine";
+> +
+> +    hc->pre_plug =3D remote_machine_pre_plug_cb;
+> +    hc->unplug =3D remote_machine_unplug_cb;
+>  }
+> =20
+>  static const TypeInfo remote_machine =3D {
+> @@ -69,6 +94,10 @@ static const TypeInfo remote_machine =3D {
+>      .parent =3D TYPE_MACHINE,
+>      .instance_size =3D sizeof(RemoteMachineState),
+>      .class_init =3D remote_machine_class_init,
+> +    .interfaces =3D (InterfaceInfo[]) {
+> +        { TYPE_HOTPLUG_HANDLER },
+> +        { }
+> +    }
+>  };
+> =20
+>  static void remote_machine_register_types(void)
+> --=20
+> 2.20.1
+>=20
 
-We've been very short on upstream macOS code reviewers so if people
-interested in that host platform are able to chip in by
-reviewing each others' code that helps a lot.
+--12H2Kopd/iMiiVUM
+Content-Type: application/pgp-signature; name="signature.asc"
 
-thanks
--- PMM
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHv0c8ACgkQnKSrs4Gr
+c8gGPQgAw3e44/4lCoEdWN+ISRpqC5gPvJkSKi0P1LT88M8RVchiYA0+nfHHrkXP
+MTP0wL4qrGPw4MkE0gIDL5Gd5ABwGsgAdDBwu85lsfl76O8M3fK9dHV6fu1CtSQs
+BamgEsWAkXfanWnyLGH9gYLMyYdadraCttV3ivV6wAHsP0qQUUHMMPyp5PjMDjfH
+xF41PxD1mngMpGgrTH1cPIbUG3d+470XnVAH7ltVrDx/8CJqsOoLzYV/gDcW2+ox
+mdgpNkI2Ph5F+m3TrHA9R1SwcY4XFKdNig65vRGjQ668/wZR7cMNxuKHq3WWMhWb
+Yvs/+bTsFbaqw2JrHiQzoJbdb/BlBw==
+=QiBK
+-----END PGP SIGNATURE-----
+
+--12H2Kopd/iMiiVUM--
+
 
