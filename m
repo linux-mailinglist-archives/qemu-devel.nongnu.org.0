@@ -2,91 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E32549A780
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 03:49:07 +0100 (CET)
-Received: from localhost ([::1]:60698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3624449A8C3
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 05:16:03 +0100 (CET)
+Received: from localhost ([::1]:48392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCBtJ-0006WG-VM
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 21:49:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40986)
+	id 1nCDFR-0004PH-PG
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 23:16:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dirty@apple.com>) id 1nCBra-0005lg-VF
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 21:47:20 -0500
-Received: from ma1-aaemail-dr-lapp02.apple.com ([17.171.2.68]:58876)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dirty@apple.com>) id 1nCBrY-0004BK-Px
- for qemu-devel@nongnu.org; Mon, 24 Jan 2022 21:47:18 -0500
-Received: from pps.filterd (ma1-aaemail-dr-lapp02.apple.com [127.0.0.1])
- by ma1-aaemail-dr-lapp02.apple.com (8.16.0.42/8.16.0.42) with SMTP id
- 20P2iapP038738; Mon, 24 Jan 2022 18:47:14 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=20180706; bh=S8GJWADO7DVo4QZTMYQgKLbQ2KKsqaK4FbgoC8TKYlU=;
- b=DerDsD+CYUPPJB/Opn7Lz8QLmh9j1m3z2ibfLYog4vnkUD6RsaoFlbW6OJaea5BHD7MP
- 8Wzc85HThxIvPYrLY7DbCCEhkmn+DHf1aqwDi0eojmRWNslY6RXHflgbWo2pHKeixm74
- AbuZ5RFYmwkNfCuadfHrNBX28b0I3d+nGtPe7KKaHX2zylO5Y/KsCATJK3z9WtjkGvIv
- uf5W2YS7v812Y73YrGedsfXCr1sMnc64UTrwCBVp7NcpaQ+IgRzjBnTK9UYVKAf5hzMk
- qwAm3SGODGOG354KRYwUF/WihEANuZPFFX19x/Mm8tXBhZaPR7HPnzNIfdXAQ8ofxgo9 1A== 
-Received: from rn-mailsvcp-mta-lapp01.rno.apple.com
- (rn-mailsvcp-mta-lapp01.rno.apple.com [10.225.203.149])
- by ma1-aaemail-dr-lapp02.apple.com with ESMTP id 3drffx60u3-5
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
- Mon, 24 Jan 2022 18:47:14 -0800
-Received: from rn-mailsvcp-mmp-lapp02.rno.apple.com
- (rn-mailsvcp-mmp-lapp02.rno.apple.com [17.179.253.15])
- by rn-mailsvcp-mta-lapp01.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
- 2021)) with ESMTPS id <0R6800RCRVQP19F0@rn-mailsvcp-mta-lapp01.rno.apple.com>; 
- Mon, 24 Jan 2022 18:47:13 -0800 (PST)
-Received: from process_milters-daemon.rn-mailsvcp-mmp-lapp02.rno.apple.com by
- rn-mailsvcp-mmp-lapp02.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
- 2021)) id <0R6800T00VO5JQ00@rn-mailsvcp-mmp-lapp02.rno.apple.com>; Mon,
- 24 Jan 2022 18:47:13 -0800 (PST)
-X-Va-A: 
-X-Va-T-CD: 51115aee971724d6ddf329fb28aa7ad5
-X-Va-E-CD: 33d0965ff2f0ae46b52d7322939e5982
-X-Va-R-CD: 3ed7ece4d00319db8f6ff8287aa9295b
-X-Va-CD: 0
-X-Va-ID: af431c7d-2a38-4773-96cf-c46b4b561aef
-X-V-A: 
-X-V-T-CD: 51115aee971724d6ddf329fb28aa7ad5
-X-V-E-CD: 33d0965ff2f0ae46b52d7322939e5982
-X-V-R-CD: 3ed7ece4d00319db8f6ff8287aa9295b
-X-V-CD: 0
-X-V-ID: 6c25381a-a98d-4a38-8291-ca9e98a746fa
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.816
- definitions=2022-01-24_08:2022-01-24,
- 2022-01-24 signatures=0
-Received: from rn-mailsvcp-relay-lapp02.rno.apple.com (unknown [17.149.232.8])
- by rn-mailsvcp-mmp-lapp02.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
- 2021))
- with ESMTPSA id <0R6800DB6VQOV000@rn-mailsvcp-mmp-lapp02.rno.apple.com>; Mon,
- 24 Jan 2022 18:47:13 -0800 (PST)
-From: Cameron Esfahani <dirty@apple.com>
-To: qemu-devel@nongnu.org
-Cc: laurent@vivier.eu
-Subject: [PATCH] linux-user: Implement starttime field in self stat emulation
-Date: Mon, 24 Jan 2022 18:47:12 -0800
-Message-id: <20220125024712.6626-1-dirty@apple.com>
-X-Mailer: git-send-email 2.32.0 (Apple Git-131)
-MIME-version: 1.0
-Content-transfer-encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.816
- definitions=2022-01-24_08:2022-01-24,
- 2022-01-24 signatures=0
-Received-SPF: pass client-ip=17.171.2.68; envelope-from=dirty@apple.com;
- helo=ma1-aaemail-dr-lapp02.apple.com
-X-Spam_score_int: -72
-X-Spam_score: -7.3
-X-Spam_bar: -------
-X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nCDE9-0003kT-3D
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 23:14:41 -0500
+Received: from [2607:f8b0:4864:20::32b] (port=35641
+ helo=mail-ot1-x32b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nCDE7-00077x-GK
+ for qemu-devel@nongnu.org; Mon, 24 Jan 2022 23:14:40 -0500
+Received: by mail-ot1-x32b.google.com with SMTP id
+ o9-20020a9d7189000000b0059ee49b4f0fso8006891otj.2
+ for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 20:14:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=oWti/9WlMj0sOM2r0kDQDpMhiMEorMR9lxQ5Thtpatc=;
+ b=PvdYsgedsoS0BblUkioKpz9GIkJQBI1jQbssWuGHZODeWEqu8XiWor/yB2XWbsfsZ3
+ TNB+q1HTIfvrJDW1miFcjdhAmmnfumLxh5IEDTOLJ20XQ922bxeGJNVrWVBkIA0PpfxA
+ tGa9OgIrHG3B20VnJlPno5QpKVHB41uqz/QkyTLLtSDDAcsHQMg0iByvweXqpoL/cBjt
+ LhmKu50B+/ZNk7EwSvuTVsSCG5bUJJvfWxX/nQyJ9y/SeZsrkJTsRGl/vD+urra/owga
+ KDsvUBPYXD5OIt0ekW1UCP33Y0wcyNW+iHI0dPm19jb66iVD1iJOuZMv88OvkO/+VNMn
+ Fi9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oWti/9WlMj0sOM2r0kDQDpMhiMEorMR9lxQ5Thtpatc=;
+ b=cNC7oBGQWS1CprPEOL9qvxjTmRkXYqdw5cWHS0JenwqyXqxWc0apAsDzm4kkf9xv3a
+ XUqA05X3Tq0mZJxbSHyVQilHlDRvjKw3hrhZ40/ZaMH6srpFYF1n61JB1/7z9NsmLxdF
+ RMKtRfUfaMzRjRQ9VJEZCLSCnDir3hyJ03AO8rOuyOq8HkLFvNWmKq/mV8Wo3bUHd5eN
+ 8kIGuXUkY8Zw5cMqAzQB4BCRHIs+KH6oNdFjAMrWYF3B3tPJvP8IUcG0kQG2ELi8wVkt
+ yTD97rTG8PGi9ug5f29a/D1yeTmvRmhTMrsXtMFzAMeovBb1ROh74OY0ccaE4cX/dLHX
+ ZBOw==
+X-Gm-Message-State: AOAM5336vbDhJnLEMdcLrjy1UCWhvOABP0TQ17BPoxBndtorAs3jOLzn
+ /LGrkqTFp1x8Z85w8MGCnImb2TrIHjccI2recHk=
+X-Google-Smtp-Source: ABdhPJxilzARdG2i6OMhK6Wz3sA2gHCbeDYu6B6mC9rY0sB5EZC9idg5+Xr5Apu6uZ2bsrlBKPsv7UU2tUK3ALbd2MI=
+X-Received: by 2002:a05:6830:440b:: with SMTP id
+ q11mr14433742otv.270.1643084078211; 
+ Mon, 24 Jan 2022 20:14:38 -0800 (PST)
+MIME-Version: 1.0
+References: <20220113172219.66372-1-yaroshchuk2000@gmail.com>
+ <20220113172219.66372-3-yaroshchuk2000@gmail.com>
+ <Ye53sOJekvKrM8iT@roolebo.dev>
+ <7053351.4JHWUSIRgT@silver> <Ye7mwcl/rB714vgl@roolebo.dev>
+ <CAFEAcA-UE5MmkESRrxdedkzYkc9jp81jzni=-xmivK88gkr6Rw@mail.gmail.com>
+ <Ye8vjmFFRLPrhE1Z@roolebo.dev>
+In-Reply-To: <Ye8vjmFFRLPrhE1Z@roolebo.dev>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+Date: Tue, 25 Jan 2022 13:14:27 +0900
+Message-ID: <CAMVc7JXyFoUCkrGLKhCct_DatwU6Xu+L2XSK5y0YMV8xDHZC+g@mail.gmail.com>
+Subject: Re: [PATCH v13 2/7] net/vmnet: add vmnet backends to qapi/net
+To: Roman Bolshakov <roman@roolebo.dev>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32b
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-ot1-x32b.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,56 +86,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>, phillip.ennen@gmail.com,
+ Jason Wang <jasowang@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ qemu Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Markus Armbruster <armbru@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Alexander Graf <agraf@csgraf.de>, Gerd Hoffmann <kraxel@redhat.com>,
+ Howard Spoelstra <hsp.cat7@gmail.com>, Alessio Dionisi <hello@adns.io>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Eric Blake <eblake@redhat.com>, Phillip Tennen <phillip@axleos.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of always returning 0, return actual starttime.
+On Tue, Jan 25, 2022 at 8:00 AM Roman Bolshakov <roman@roolebo.dev> wrote:
+>
+> On Mon, Jan 24, 2022 at 08:14:31PM +0000, Peter Maydell wrote:
+> > On Mon, 24 Jan 2022 at 17:49, Roman Bolshakov <roman@roolebo.dev> wrote:
+> > > I'm not sure why blocks are Objective-C specific. All the data I have
+> > > shows the opposite [3][4][5]. They're just extensively used in Apple APIs.
+> >
+> > This is true, but for the purposes of our build machinery it is
+> > simpler to have three types of source files that it deals
+> > with (C, C++, ObjC) rather than four (C, C++, ObjC, C-that-uses-blocks).
+> > So unless there's a clear benefit from adding the extra category
+> > I think we should do the simple thing and keep these files named
+> > with a ".m" extension.
+> >
+>
+> Fine by me as long as majority finds it's simpler :) Perhaps it's just a
+> matter of personal preference.
+>
+> I've used to the fact that platform-specific code uses platform-specific
+> extensions or some sort of weird "GCC attributes". Therefore C with an
+> extension is easier to reason for me than Objective-C with ARC and other
+> kinds of implicit behaviour without an actual Objective-C code.
+>
+> Thanks,
+> Roman
 
-Signed-off-by: Cameron Esfahani <dirty@apple.com>
----
- linux-user/syscall.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+Being technically pedantic, actually this vmnet implementation uses
+Objective-C and there is a file with .c which uses blocks.
+If a file is named .m, dispatch_retain(o) will be redefined as [o
+retain], and effectively makes it Objective-C code. Therefore, vmnet
+involves Objective-C as long as its files are named .m. It will be C
+with blocks if they are named .c.
+Speaking of use of blocks, actually audio/coreaudio.c involves blocks
+in header files; Core Audio has functions which accept blocks.
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 5950222a77..59265ab986 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -8107,6 +8107,34 @@ static int open_self_stat(void *cpu_env, int fd)
-         } else if (i == 3) {
-             /* ppid */
-             g_string_printf(buf, FMT_pid " ", getppid());
-+        } else if (i == 21) {
-+            /* starttime */
-+            FILE *fp = NULL;
-+            char *line = NULL;
-+            char *skipped_comm = NULL;
-+            size_t n = 0;
-+            unsigned long long starttime = 0;
-+
-+            fp = fopen("/proc/self/stat", "r");
-+            if (fp) {
-+                if (getdelim(&line, &n, '\0', fp) != -1) {
-+                    /* Find end of comm field */
-+                    skipped_comm = strrchr(line, ')');
-+                    if (skipped_comm != NULL) {
-+                        /* Skip over parenthesis and space */
-+                        skipped_comm += 2;
-+                        /* Scan starttime (field 20 after pid and comm) */
-+                        (void) sscanf(skipped_comm, "%*c %*d %*d %*d %*d %*d "
-+                                            "%*u %*u %*u %*u %*u %*u %*u %*d "
-+                                            "%*d %*d %*d %*d %*d %llu",
-+                                            &starttime);
-+                    }
-+                    free(line);
-+                }
-+                fclose(fp);
-+            }
-+
-+            g_string_printf(buf, "%llu ", starttime);
-         } else if (i == 27) {
-             /* stack bottom */
-             g_string_printf(buf, TARGET_ABI_FMT_ld " ", ts->info->start_stack);
--- 
-2.32.0 (Apple Git-131)
+I'm neutral about the decision. I think QEMU should avoid using
+Objective-C code except for interactions with Apple's APIs, and .c is
+superior in terms of that as it would prevent accidental introduction
+of Objective-C code. On the other hand, naming them .m will allow the
+introduction of Automatic Reference Counting to manage dispatch queue
+objects. In fact, I have found a few memory leaks in vmnet in the last
+review and ui/cocoa.m has a suspicious construction of the object
+management (Particularly it has asynchronous dispatches wrapped with
+NSAutoreleasePool, which does not make sense). Introduction of
+Automatic Reference Counting would greatly help addressing those
+issues, but that would require significant rewriting of ui/cocoa.m.
+Personally I'm concerned with ui/cocoa.m and do want to do that
+rewriting, but I'm being busy so it would not happen anytime soon.
 
+Regards,
+Akihiko Odaki
 
