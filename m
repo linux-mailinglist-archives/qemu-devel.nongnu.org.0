@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8429F49B76B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 16:16:29 +0100 (CET)
-Received: from localhost ([::1]:48354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048E449B7DE
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 16:43:54 +0100 (CET)
+Received: from localhost ([::1]:36740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCNYa-0003lB-HJ
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 10:16:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54402)
+	id 1nCNz6-0000cu-Jm
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 10:43:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nCMVh-0001DI-N4
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 09:09:25 -0500
-Received: from [2a00:1450:4864:20::52d] (port=35456
- helo=mail-ed1-x52d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nCMVf-00041B-9j
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 09:09:25 -0500
-Received: by mail-ed1-x52d.google.com with SMTP id n10so47456985edv.2
- for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 06:09:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=FTALgA/7M/2BeIR53QsUkODjcYOiiFsbOIKZ4dRsJ2w=;
- b=HAsx8a57DND75Ote8X8Ijh+czs0TWwa1uHGP54Sx2ao7rUfFjExpT7SEhvJd0mT9DM
- YOaUmOvkH3/8b5vfAEAMzO+H9Ds+5YjfciLk+qNSXAnGMlT+jU3ITkWQSed0dlnIwLXi
- sGHFkB3G2MVbpTdV3/xCg7ye19PRvNJOVr02w9V+PA75OTJkp0ALbKpmQ6GQXovq4ETs
- PdCsMYJHfKBSFDPRRLaFr39iJsQEWFg0V0nuc/YvECpN3ykEnQufxqTGsFwJeKizg/b3
- 28t7K1oSMAaw6tfcDfJ3vz5OgNslRM0Pkwdqx7H+albwtcaNV/bVjnIa6IUB3ckO5DqH
- x5gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=FTALgA/7M/2BeIR53QsUkODjcYOiiFsbOIKZ4dRsJ2w=;
- b=UMi/wdTjoVR0AsOJvDyf3YMIt3Klgv3yfjJjKe/AVv0kJGvquqFkqGvskH5wyNe0Es
- ds/h/MHVLOG+QFX09m+gtYr/3yvRsbdwIH2ROdPZAddZhJxkBANP7dJWQ5l/WCi2k/6P
- a9TdDEI7ctixGSP5gB9T37rBnAKrH4lg2hL26xhmR2ZMWoDt3NgFryocQUr5rQ6oB6gw
- Xq+Wqfo/KMz/Vg3AF44T0GPVKa4hOYXqpeFdArOkzG7IUhra5Z22vohR4HXQ1BzmuNND
- v6V2oq5ycWqscjWHl1XTP7W+dfuRmheBTc43HDiX7Gfq8QYLhG55sVJtJritEYcNRe8E
- FPkg==
-X-Gm-Message-State: AOAM531zH9JCthfSC6VUCIo9toRWMIaIq36wJw1Di0XK4CEdLmkb6Woh
- cBchFr9dOqitsnwowumJPBnK4w==
-X-Google-Smtp-Source: ABdhPJzMCqchXFqGvijik8DCc69N/3+Q/E1Ja0wvMwSjBtO/eCuHT2LjQbOKBtm1dkByzEs8O999tg==
-X-Received: by 2002:a17:907:6290:: with SMTP id
- nd16mr15970607ejc.244.1643119761461; 
- Tue, 25 Jan 2022 06:09:21 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id lf16sm6149942ejc.25.2022.01.25.06.09.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jan 2022 06:09:20 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C72191FFB7;
- Tue, 25 Jan 2022 14:09:19 +0000 (GMT)
-References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
-User-agent: mu4e 1.7.6; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v4 00/42] CXl 2.0 emulation Support
-Date: Tue, 25 Jan 2022 13:55:29 +0000
-In-reply-to: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
-Message-ID: <871r0vewkw.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nCMKh-0000K6-EM
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 08:58:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49976)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nCMKc-0002i7-3e
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 08:58:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643119062;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jI6ReNUwkVesIrTpeu2fiSAGMyfAiTu0gkgaEEZcj6Q=;
+ b=GgrRuCv1wCddrmelPa7lhWJhYBPPg1v1UOefZzplq4HzphHl0qCBKq3dMfvgo3el/nL4p3
+ SRgWKyPhj2D59Afd6Mo6K644vdAhsnvCVE9cyCzO/gwfWAL0RmKb0mGBx86kA1EtEyoR9Z
+ k5IYM/GJSrhUASPZmeb1yeiWV4JevM0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-547-wgctyUktMnyBUcMyQQHMUQ-1; Tue, 25 Jan 2022 08:57:41 -0500
+X-MC-Unique: wgctyUktMnyBUcMyQQHMUQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79126190D37A
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 13:57:40 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.194.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA1B82377B;
+ Tue, 25 Jan 2022 13:57:38 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 2/2] virtio-mem: Handle preallocation with migration
+Date: Tue, 25 Jan 2022 14:57:34 +0100
+Message-Id: <20220125135734.134928-3-david@redhat.com>
+In-Reply-To: <20220125135734.134928-1-david@redhat.com>
+References: <20220125135734.134928-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52d
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52d.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,167 +77,272 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, linuxarm@huawei.com,
- Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Michal Privoznik <mprivozn@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+During precopy we usually write all plugged ares and essentially
+allocate them. However, there are two corner cases:
 
-Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+1) Migrating the zeropage
 
-> Previous version was RFC v3: CXL 2.0 Support.
-> No longer an RFC as I would consider the vast majority of this
-> to be ready for detailed review. There are still questions called
-> out in some patches however.
->
-> Looking in particular for:
-> * Review of the PCI interactions
-> * x86 and ARM machine interactions (particularly the memory maps)
-> * Review of the interleaving approach - is the basic idea
->   acceptable?
-> * Review of the command line interface.
-> * CXL related review welcome but much of that got reviewed
->   in earlier versions and hasn't changed substantially.
->
-<snip>
->
-> Why do we want QEMU emulation of CXL?
->
-> As Ben stated in V3, QEMU support has been critical to getting OS
-> software written given lack of availability of hardware supporting the
-> latest CXL features (coupled with very high demand for support being
-> ready in a timely fashion). What has become clear since Ben's v3
-> is that situation is a continuous one.  Whilst we can't talk about
-> them yet, CXL 3.0 features and OS support have been prototyped on
-> top of this support and a lot of the ongoing kernel work is being
-> tested against these patches.
+When the zeropage gets migrated, we first check if the destination range is
+already zero and avoid performing a write in that case:
+ram_handle_compressed(). If the memory backend, like anonymous RAM or
+most filesystems, populate the shared zeropage when reading a (file) hole,
+we don't preallocate backend memory. In that case, we have to explicitly
+trigger the allocation to allocate actual backend memory.
 
-Is the core CXL support already in the upstream kernel or do you need a
-patched one?
+2) Excluding memory ranges during migration
 
-> Other features on the qemu-list that build on these include PCI-DOE
-> /CDAT support from the Avery Design team further showing how this
-> code is useful.  Whilst not directly related this is also the test
-> platform for work on PCI IDE/CMA + related DMTF SPDM as CXL both
-> utilizes and extends those technologies and is likely to be an early
-> adopter.
-> Refs:
-> CMA Kernel: https://lore.kernel.org/all/20210804161839.3492053-1-Jonathan=
-.Cameron@huawei.com/
-> CMA Qemu: https://lore.kernel.org/qemu-devel/1624665723-5169-1-git-send-e=
-mail-cbrowy@avery-design.com/
-> DOE Qemu: https://lore.kernel.org/qemu-devel/1623329999-15662-1-git-send-=
-email-cbrowy@avery-design.com/
->
->
-> As can be seen there is non trivial interaction with other areas of
-> Qemu, particularly PCI and keeping this set up to date is proving
-> a burden we'd rather do without :)
->
-> Ben mentioned a few other good reasons in v3:
-> https://lore.kernel.org/qemu-devel/20210202005948.241655-1-ben.widawsky@i=
-ntel.com/
->
-> The evolution of this series perhaps leave it in a less than
-> entirely obvious order and that may get tidied up in future postings.
-> I'm also open to this being considered in bite sized chunks.  What
-> we have here is about what you need for it to be useful for testing
-> currently kernel code.
+For example, virtio-balloon free page hinting will exclude some pages
+from getting migrated. In that case, we don't allocate memory for
+plugged ranges when migrating.
 
-Ah right...
+So trigger allocation of all plugged ranges when restoring the device state
+and fail gracefully if allocation fails.
 
-> All comments welcome.
->
-> Ben - I lifted one patch from your git tree that didn't have a
-> Sign-off.   hw/cxl/component Add a dumb HDM decoder handler
-> Could you confirm you are happy for one to be added?
->
-> Example of new command line (with virt ITS patches ;)
+Handling postcopy is a bit more tricky, as postcopy and preallocation
+are problematic in general. To at least mimic what ordinary
+preallocation does, temporarily try allocating the requested amount
+of memory and fail postcopy in case the requested size on source and
+destination doesn't match. This way, we at least checked that there isn't
+a fundamental configuration issue and that we were able to preallocate
+the required amount of memory at least once, instead of failing
+unrecoverably during postcopy later. However, just as ordinary
+preallocation with postcopy, it's racy.
 
-One thing I think is missing in this series is some documentation. We've
-been historically bad at adding it for new devices but given the
-complexity of CXL I think we should certainly try to improve. I think a
-reasonable stab could be made from the commit messages in the series. I
-would suggest:
+Tested-by: Michal Privoznik <mprivozn@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ hw/virtio/virtio-mem.c         | 136 +++++++++++++++++++++++++++++++++
+ include/hw/virtio/virtio-mem.h |   6 ++
+ 2 files changed, 142 insertions(+)
 
-  docs/system/devices/cxl.rst
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index b7bad6ef96..226081fb63 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -27,6 +27,7 @@
+ #include "qapi/visitor.h"
+ #include "exec/ram_addr.h"
+ #include "migration/misc.h"
++#include "migration/postcopy-ram.h"
+ #include "hw/boards.h"
+ #include "hw/qdev-properties.h"
+ #include CONFIG_DEVICES
+@@ -203,6 +204,30 @@ static int virtio_mem_for_each_unplugged_range(const VirtIOMEM *vmem, void *arg,
+     return ret;
+ }
+ 
++static int virtio_mem_for_each_plugged_range(const VirtIOMEM *vmem, void *arg,
++                                             virtio_mem_range_cb cb)
++{
++    unsigned long first_bit, last_bit;
++    uint64_t offset, size;
++    int ret = 0;
++
++    first_bit = find_first_bit(vmem->bitmap, vmem->bitmap_size);
++    while (first_bit < vmem->bitmap_size) {
++        offset = first_bit * vmem->block_size;
++        last_bit = find_next_zero_bit(vmem->bitmap, vmem->bitmap_size,
++                                      first_bit + 1) - 1;
++        size = (last_bit - first_bit + 1) * vmem->block_size;
++
++        ret = cb(vmem, arg, offset, size);
++        if (ret) {
++            break;
++        }
++        first_bit = find_next_bit(vmem->bitmap, vmem->bitmap_size,
++                                  last_bit + 2);
++    }
++    return ret;
++}
++
+ /*
+  * Adjust the memory section to cover the intersection with the given range.
+  *
+@@ -828,6 +853,7 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
+     if (!vmem->block_size) {
+         vmem->block_size = virtio_mem_default_block_size(rb);
+     }
++    vmem->initial_requested_size = vmem->requested_size;
+ 
+     if (vmem->block_size < page_size) {
+         error_setg(errp, "'%s' property has to be at least the page size (0x%"
+@@ -888,6 +914,7 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
+      */
+     memory_region_set_ram_discard_manager(&vmem->memdev->mr,
+                                           RAM_DISCARD_MANAGER(vmem));
++    postcopy_add_notifier(&vmem->postcopy_notifier);
+ }
+ 
+ static void virtio_mem_device_unrealize(DeviceState *dev)
+@@ -895,6 +922,7 @@ static void virtio_mem_device_unrealize(DeviceState *dev)
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+     VirtIOMEM *vmem = VIRTIO_MEM(dev);
+ 
++    postcopy_remove_notifier(&vmem->postcopy_notifier);
+     /*
+      * The unplug handler unmapped the memory region, it cannot be
+      * found via an address space anymore. Unset ourselves.
+@@ -924,12 +952,119 @@ static int virtio_mem_restore_unplugged(VirtIOMEM *vmem)
+                                                virtio_mem_discard_range_cb);
+ }
+ 
++static int virtio_mem_prealloc_range(const VirtIOMEM *vmem, uint64_t offset,
++                                     uint64_t size)
++{
++    void *area = memory_region_get_ram_ptr(&vmem->memdev->mr) + offset;
++    int fd = memory_region_get_fd(&vmem->memdev->mr);
++    Error *local_err = NULL;
++
++    os_mem_prealloc(fd, area, size, 1, &local_err);
++    if (local_err) {
++        error_report_err(local_err);
++        return -ENOMEM;
++    }
++    return 0;
++}
++
++static int virtio_mem_prealloc_range_cb(const VirtIOMEM *vmem, void *arg,
++                                        uint64_t offset, uint64_t size)
++{
++    return virtio_mem_prealloc_range(vmem, offset, size);
++}
++
++static int virtio_mem_restore_prealloc(VirtIOMEM *vmem)
++{
++    /*
++     * Make sure any preallocated memory is really preallocated. Migration
++     * might have skipped some pages or optimized for the zeropage.
++     */
++    return virtio_mem_for_each_plugged_range(vmem, NULL,
++                                             virtio_mem_prealloc_range_cb);
++}
++
++static int virtio_mem_postcopy_notify(NotifierWithReturn *notifier,
++                                      void *opaque)
++{
++    struct PostcopyNotifyData *pnd = opaque;
++    VirtIOMEM *vmem = container_of(notifier, VirtIOMEM, postcopy_notifier);
++    RAMBlock *rb = vmem->memdev->mr.ram_block;
++    int ret;
++
++    if (pnd->reason != POSTCOPY_NOTIFY_INBOUND_ADVISE || !vmem->prealloc ||
++        !vmem->initial_requested_size) {
++        return 0;
++    }
++    assert(!vmem->size);
++
++    /*
++     * When creating the device we discard all memory and we don't know
++     * which blocks the source has plugged (and should be preallocated) until we
++     * restore the device state. However, we cannot allocate when restoring the
++     * device state either if postcopy is already active.
++     *
++     * If we reach this point, postcopy is possible and we have preallocation
++     * enabled.
++     *
++     * Temporarily allocate the requested size to see if there is a fundamental
++     * configuration issue that would make postcopy fail because the memory
++     * backend is out of memory. While this increases reliability,
++     * prealloc+postcopy cannot be fully reliable: see the comment in
++     * virtio_mem_post_load().
++     */
++    ret = virtio_mem_prealloc_range(vmem, 0, vmem->initial_requested_size);
++    if (ram_block_discard_range(rb, 0, vmem->initial_requested_size)) {
++        ret = ret ? ret : -EINVAL;
++        return ret;
++    }
++    return 0;
++}
++
+ static int virtio_mem_post_load(void *opaque, int version_id)
+ {
+     VirtIOMEM *vmem = VIRTIO_MEM(opaque);
+     RamDiscardListener *rdl;
+     int ret;
+ 
++    if (vmem->prealloc) {
++        if (migration_in_incoming_postcopy()) {
++            /*
++             * Prealloc with postcopy cannot possibly work fully reliable in
++             * general: preallocation has to populate all memory immediately and
++             * fail gracefully before the guest started running on the
++             * destination while postcopy wants to discard memory and populate
++             * on demand after the guest started running on the destination.
++             *
++             * For ordinary memory backends, "prealloc=on" is essentially
++             * overridden by postcopy, which will simply discard preallocated
++             * pages and might fail later when running out of backend memory
++             * when trying to place a page: the earlier preallocation only makes
++             * it less likely to fail, but nothing (not even huge page
++             * reservation) will guarantee that postcopy will find a free page
++             * to place once the guest is running on the destination.
++             *
++             * We temporarily allocate "requested-size" during
++             * POSTCOPY_NOTIFY_INBOUND_ADVISE, before migrating any memory. This
++             * resembles what is done with ordinary memory backends.
++             *
++             * We need to have a matching requested size on source and
++             * destination that we actually temporarily allocated the right
++             * amount of memory. As requested-size changed when restoring the
++             * state, check against the initial value.
++             */
++            if (vmem->requested_size != vmem->initial_requested_size) {
++                error_report("postcopy with 'prealloc=on' needs matching"
++                             " 'requested-size' on source and destination");
++                return -EINVAL;
++            }
++        } else {
++            ret = virtio_mem_restore_prealloc(vmem);
++            if (ret) {
++                return ret;
++            }
++        }
++    }
++
+     /*
+      * We started out with all memory discarded and our memory region is mapped
+      * into an address space. Replay, now that we updated the bitmap.
+@@ -1198,6 +1333,7 @@ static void virtio_mem_instance_init(Object *obj)
+ 
+     notifier_list_init(&vmem->size_change_notifiers);
+     QLIST_INIT(&vmem->rdl_list);
++    vmem->postcopy_notifier.notify = virtio_mem_postcopy_notify;
+ 
+     object_property_add(obj, VIRTIO_MEM_SIZE_PROP, "size", virtio_mem_get_size,
+                         NULL, NULL, NULL);
+diff --git a/include/hw/virtio/virtio-mem.h b/include/hw/virtio/virtio-mem.h
+index 7745cfc1a3..45395152d2 100644
+--- a/include/hw/virtio/virtio-mem.h
++++ b/include/hw/virtio/virtio-mem.h
+@@ -61,6 +61,9 @@ struct VirtIOMEM {
+     /* requested size */
+     uint64_t requested_size;
+ 
++    /* initial requested size on startup */
++    uint64_t initial_requested_size;
++
+     /* block size and alignment */
+     uint64_t block_size;
+ 
+@@ -77,6 +80,9 @@ struct VirtIOMEM {
+     /* notifiers to notify when "size" changes */
+     NotifierList size_change_notifiers;
+ 
++    /* notifier for postcopy events */
++    NotifierWithReturn postcopy_notifier;
++
+     /* listeners to notify on plug/unplug activity. */
+     QLIST_HEAD(, RamDiscardListener) rdl_list;
+ };
+-- 
+2.34.1
 
-And include:
-
-  - an brief overview of CXL
-  - kernel config options
-
-and an some example command lines, like bellow:
-
->
-> qemu-system-aarch64 -M virt,gic-version=3D3,cxl=3Don \
->  -m 4g,maxmem=3D8G,slots=3D8 \
->  ...
->  -object memory-backend-file,id=3Dcxl-mem1,share=3Don,mem-path=3D/tmp/cxl=
-test.raw,size=3D256M,align=3D256M \
->  -object memory-backend-file,id=3Dcxl-mem2,share=3Don,mem-path=3D/tmp/cxl=
-test2.raw,size=3D256M,align=3D256M \
->  -object memory-backend-file,id=3Dcxl-mem3,share=3Don,mem-path=3D/tmp/cxl=
-test3.raw,size=3D256M,align=3D256M \
->  -object memory-backend-file,id=3Dcxl-mem4,share=3Don,mem-path=3D/tmp/cxl=
-test4.raw,size=3D256M,align=3D256M \
->  -object memory-backend-file,id=3Dcxl-lsa1,share=3Don,mem-path=3D/tmp/lsa=
-.raw,size=3D256M,align=3D256M \
->  -object memory-backend-file,id=3Dcxl-lsa2,share=3Don,mem-path=3D/tmp/lsa=
-2.raw,size=3D256M,align=3D256M \
->  -object memory-backend-file,id=3Dcxl-lsa3,share=3Don,mem-path=3D/tmp/lsa=
-3.raw,size=3D256M,align=3D256M \
->  -object memory-backend-file,id=3Dcxl-lsa4,share=3Don,mem-path=3D/tmp/lsa=
-4.raw,size=3D256M,align=3D256M \
->  -object memory-backend-file,id=3Dtt,share=3Don,mem-path=3D/tmp/tt.raw,si=
-ze=3D1g \
->  -device pxb-cxl,bus_nr=3D12,bus=3Dpcie.0,id=3Dcxl.1 \
->  -device pxb-cxl,bus_nr=3D222,bus=3Dpcie.0,id=3Dcxl.2 \
->  -device cxl-rp,port=3D0,bus=3Dcxl.1,id=3Droot_port13,chassis=3D0,slot=3D=
-2 \
->  -device cxl-type3,bus=3Droot_port13,memdev=3Dcxl-mem1,lsa=3Dcxl-lsa1,id=
-=3Dcxl-pmem0,size=3D256M \
->  -device cxl-rp,port=3D1,bus=3Dcxl.1,id=3Droot_port14,chassis=3D0,slot=3D=
-3 \
->  -device cxl-type3,bus=3Droot_port14,memdev=3Dcxl-mem2,lsa=3Dcxl-lsa2,id=
-=3Dcxl-pmem1,size=3D256M \
->  -device cxl-rp,port=3D0,bus=3Dcxl.2,id=3Droot_port15,chassis=3D0,slot=3D=
-5 \
->  -device cxl-type3,bus=3Droot_port15,memdev=3Dcxl-mem3,lsa=3Dcxl-lsa3,id=
-=3Dcxl-pmem2,size=3D256M \
->  -device cxl-rp,port=3D1,bus=3Dcxl.2,id=3Droot_port16,chassis=3D0,slot=3D=
-6 \
->  -device cxl-type3,bus=3Droot_port16,memdev=3Dcxl-mem4,lsa=3Dcxl-lsa4,id=
-=3Dcxl-pmem3,size=3D256M \
->  -cxl-fixed-memory-window targets=3Dcxl.1,size=3D4G,interleave-granularit=
-y=3D8k \
->  -cxl-fixed-memory-window
-> targets=3Dcxl.1,targets=3Dcxl.2,size=3D4G,interleave-granularity=3D8k
-
-So AIUI the above creates some CXL pmem devices that are part of the CXL
-root bus which itself is on the PCIe bus? Is the intention that
-reads/writes into the pmem by the guest end up visible in various forms
-in the memory backend files? Are memory backends required or can the
-address space be treated as volatile RAM that doesn't persist beyond a
-reset/reboot?
-
-Maybe a simple diagram will help make things clearer?
-
->
-> First CFMWS suitable for 2 way interleave, the second for 4 way (2 way
-> at host level and 2 way at the host bridge).
-> targets=3D<range of pxb-cxl uids> , multiple entries if range is disjoint.
->
-<snip>
-
---=20
-Alex Benn=C3=A9e
 
