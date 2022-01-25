@@ -2,98 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED0F149B265
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 11:55:50 +0100 (CET)
-Received: from localhost ([::1]:37424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D239F49B264
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 11:55:08 +0100 (CET)
+Received: from localhost ([::1]:36738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCJUM-0002N6-0k
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 05:55:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48910)
+	id 1nCJTf-0001tO-Fq
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 05:55:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nCJKI-0001IE-Az
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:45:26 -0500
-Received: from [2a00:1450:4864:20::32c] (port=44652
- helo=mail-wm1-x32c.google.com)
+ id 1nCJNR-0004js-LL; Tue, 25 Jan 2022 05:48:41 -0500
+Received: from [2a00:1450:4864:20::32f] (port=52048
+ helo=mail-wm1-x32f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nCJKD-00086H-OI
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:45:25 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- l35-20020a05600c1d2300b0034d477271c1so1476260wms.3
- for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 02:45:15 -0800 (PST)
+ id 1nCJN3-0000cZ-4c; Tue, 25 Jan 2022 05:48:41 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id c2so25017710wml.1;
+ Tue, 25 Jan 2022 02:48:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=fptErsoROxDn7mJgyzZc7Tq95RnfMktd2P5GKeI79jo=;
- b=KzVBuvHKHp4BTAyRWtxPKWfTMjC1VC3lMBmwuO3ZitUNxiUE1wDYN4SEwIqM/drCt4
- +4XxamXeCtntX3xMpYwIRzb/meKm8cflZQcOJxYjS5GfJy/2Jb0UQNjXFBbBQ+AGsJBJ
- 5dCGE8icJyZFMSkliaTMdOG5Y1vgWURbSy30FdkW7dqwWraJa6UjdYS86++kpFqjjSeT
- sW200RHdi0m/xzMPiqwUg26VZlZnfN36+6ei/aLNrO9ttO5NG7zl9/SvwxpPNchMur6u
- 6NT+ovIum2TLYA2XHQXMZYmVOJfh5VWfK5fteXxKO/QtPJa4x7kOJeZhojQatsEKkfwc
- uXMA==
+ bh=KUi7NhKHb6ZwwVDoJwOMPEtqd8GWR/Fm60RHvrn/m94=;
+ b=EWfidj9fa19RmfVEgaFvJOZMp3ZVSX6eu4i2tQXEWBeJ2yf+9qw1+a/yFGOkJAfGPE
+ BEKJFE/hHLPibBfQxnh3xBl0sJpt+lUryQ7Te1kJQPOdy/YmostQOI3ZLd1RU0iPY+gk
+ HEYHPZ8p3qHg/iAERL5WOvpYdarjkeKHlk1sCr8xky2X/5+Vp4eYdVjsLunofepAPn1+
+ 08C9cDIYcFhV1VyZ1JPPo4R8GjlfDy6JPGG+UGgpQKYpuNpNvTu96gPi87ONr3kKYiq8
+ JDC2BQarIM8g/+E81rSLqfLPQW2UbKtrXw4JSeIWdt9m5byU21PBaDzM5/lzUsavCSN1
+ NgNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=fptErsoROxDn7mJgyzZc7Tq95RnfMktd2P5GKeI79jo=;
- b=3aIVrH/hB1RZDS0oWbdpPbdY5yv7Sqo44SQOlYpTcQovZu16/gSfepOC2D3vKzUSNy
- l18vUdzib5JgTMY3G6otd1BRcI9o310cR7AuBSrt8+8+BlWqq7vRRkCjUR2Etxude/eO
- NYdYp0RaF1+Je40ZL25Q3Q5NqIgV1blcAlx4RJWmzkyp5ZM91dtyDT028WFgsvx3bWY0
- HGkWMAJrNUirZQ2bsad+jDs6rYVva1G8oeGZJzZwYxc/4Vkel0aDj1gDI5fZZXRsYBhX
- bSPxvTbrCT5ck2xjtGDwkj3syq+tpff7hlB+yqzGNYh//hCw6zJrGNx18XWyCOmuM9Gv
- +4Qw==
-X-Gm-Message-State: AOAM530TFybyZDUJG7okeBnWNF/J4Wn7hvU/EhEnCqdlHWcux/vB4Err
- dxWUxEcsB7lEVmJ/wNBqQq0=
-X-Google-Smtp-Source: ABdhPJyjAXyvzoTlx6CPSGwUjYoOpjAh5D4fyEFsHyK4V3LWJ1RoNXDyD5lCAbOoC+AghSPL2sMapg==
-X-Received: by 2002:a05:600c:204b:: with SMTP id
- p11mr2370204wmg.47.1643107514197; 
- Tue, 25 Jan 2022 02:45:14 -0800 (PST)
+ bh=KUi7NhKHb6ZwwVDoJwOMPEtqd8GWR/Fm60RHvrn/m94=;
+ b=bIKM7tocRf0nwagR1OzMvaaTE1wC+gUryvxZDXEVSR+1ldh0osj6OXzFDHm4LLUsC1
+ cQi0X4RB734HnC5pmhJ08EA9D2FZeyfEfNipcFe92zmAs33ifsIrV5OEmP7NWie1w62j
+ w4efpB8vTj0/SV6fCr8of06JpdK5Vj7F1xWVcYE+PdytuKna99hst31/wDqh0uR7/7o6
+ r4+Kza4g4gezEKHttBZthOHHhmPkeYlI2qfexm8v7bTmyV/5xZQ1U6yNRAu+noKaDr+K
+ 1fNMB1Ps750JI+7N1qDaCXHR++qnwRff52iYHPwuONanPPNalUKLkZw+uWRaHDvJ0FLX
+ ykIw==
+X-Gm-Message-State: AOAM532on/tuLL82rxuYDzmU1G4G25Xvf7OCYgouttgGiCsjsjVdPtxB
+ 3ACvqxoEa2TYWG+UZFX0aOg=
+X-Google-Smtp-Source: ABdhPJyjouyeNRyty9fLyHhyzABeX2br64vl4QnGedWm8112ugFLjvJI9F9DSzzJY3nYYNLGrnh6Ew==
+X-Received: by 2002:a05:600c:2906:: with SMTP id
+ i6mr2384941wmd.14.1643107694645; 
+ Tue, 25 Jan 2022 02:48:14 -0800 (PST)
 Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id z5sm302106wmp.10.2022.01.25.02.45.13
+ by smtp.gmail.com with ESMTPSA id o14sm5668392wry.104.2022.01.25.02.48.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Jan 2022 02:45:13 -0800 (PST)
-Message-ID: <b3d70518-256d-2bd0-5979-ff96a1154fd1@amsat.org>
-Date: Tue, 25 Jan 2022 11:45:11 +0100
+ Tue, 25 Jan 2022 02:48:14 -0800 (PST)
+Message-ID: <637210a2-cd00-211f-7835-13915e984472@amsat.org>
+Date: Tue, 25 Jan 2022 11:48:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: "Startup" meeting (was Re: Meeting today?)
+Subject: Re: [PATCH v1 09/22] tests/lcitool: Refresh submodule and remove
+ libxml2
 Content-Language: en-US
-To: quintela@redhat.com, Mark Burton <mark.burton@greensocs.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Damien Hedde <damien.hedde@greensocs.com>, 
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- Mirela Grujic <mirela.grujic@greensocs.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <YbeWxAn6Zw7rH+5K@redhat.com>
- <CC132B60-3F08-4F03-B328-4C33407BB944@greensocs.com>
- <87lf0nto1k.fsf@dusky.pond.sub.org> <YbiS8Zc7fcoeoSyC@redhat.com>
- <87bl1jqm1a.fsf@dusky.pond.sub.org>
- <CAJy5ezofpy09ZOtVHFofGTzt3U8MEA_ddpBHifuF50sVDFXULA@mail.gmail.com>
- <73955990-9FD1-42CD-B476-F2AD95C219E9@greensocs.com>
- <YdbRShE01esANc5h@redhat.com>
- <fb519eb4-c0c6-a0b6-585d-e708b04ed207@amsat.org>
- <BC0208B2-5ECE-4F74-9DFF-FB8959642C48@greensocs.com>
- <YeWjtxEcbb6jcbi8@redhat.com>
- <D36E42AD-05A6-4139-8647-07C9CEF3D659@greensocs.com>
- <87h79sw64t.fsf@secure.mitica>
-In-Reply-To: <87h79sw64t.fsf@secure.mitica>
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Qemu-block <qemu-block@nongnu.org>
+Cc: minyihh@uci.edu, ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu,
+ cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
+ robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Warner Losh <imp@freebsd.org>,
+ Ed Maste <emaste@freebsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>
+References: <20220124201608.604599-1-alex.bennee@linaro.org>
+ <20220124201608.604599-10-alex.bennee@linaro.org>
+ <bc4a5a11-ad31-0e63-072e-39b49628c77d@redhat.com>
+In-Reply-To: <bc4a5a11-ad31-0e63-072e-39b49628c77d@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -119,19 +107,106 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 1/25/22 09:50, Juan Quintela wrote:
-> Mark Burton <mark.burton@greensocs.com> wrote:
->> All, I believe we will have a followup meeting this coming Tuesday
->> 25th January, at 15:00 (presumably using the same link:
->> https://redhat.bluejeans.com/5402697718).
+On 1/25/22 11:23, Thomas Huth wrote:
+> On 24/01/2022 21.15, Alex Bennée wrote:
+>> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 >>
->> We (GreenSocs/Xilinx) would like to quickly show what now ‘works’, and to give an update on the patches.
+>> The previous commit removed all uses of libxml2.
+>>
+>> Refresh lcitool submodule, update qemu.yml and refresh the generated
+>> files by running:
+>>
+>>    $ make lcitool-refresh
+>>
+>> Note: This refreshment also removes libudev dependency on Fedora
+>> and CentOS due to libvirt-ci commit 18bfaee ("mappings: Improve
+>> mapping for libudev"), since "The udev project has been absorbed
+>> by the systemd project", and lttng-ust on FreeBSD runners due to
+>> libvirt-ci commit 6dd9b6f ("guests: drop lttng-ust from FreeBSD
+>> platform").
+>>
+>> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>> Message-Id: <20220121154134.315047-6-f4bug@amsat.org>
+>> ---
+>>   .gitlab-ci.d/cirrus/freebsd-12.vars           | 2 +-
+>>   .gitlab-ci.d/cirrus/freebsd-13.vars           | 2 +-
+>>   .gitlab-ci.d/cirrus/macos-11.vars             | 2 +-
+>>   tests/docker/dockerfiles/alpine.docker        | 4 ++--
+>>   tests/docker/dockerfiles/centos8.docker       | 4 +---
+>>   tests/docker/dockerfiles/fedora.docker        | 4 +---
+>>   tests/docker/dockerfiles/opensuse-leap.docker | 3 +--
+>>   tests/docker/dockerfiles/ubuntu1804.docker    | 3 +--
+>>   tests/docker/dockerfiles/ubuntu2004.docker    | 3 +--
+>>   tests/lcitool/libvirt-ci                      | 2 +-
+>>   tests/lcitool/projects/qemu.yml               | 1 -
+>>   11 files changed, 11 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/.gitlab-ci.d/cirrus/freebsd-12.vars
+>> b/.gitlab-ci.d/cirrus/freebsd-12.vars
+>> index 9c52266811..07f313aa3a 100644
+>> --- a/.gitlab-ci.d/cirrus/freebsd-12.vars
+>> +++ b/.gitlab-ci.d/cirrus/freebsd-12.vars
+>> @@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
+>>   NINJA='/usr/local/bin/ninja'
+>>   PACKAGING_COMMAND='pkg'
+>>   PIP3='/usr/local/bin/pip-3.8'
+>> -PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache
+>> cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc gettext
+>> git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt
+>> libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm
+>> lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5
+>> pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx
+>> py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2
+>> sdl2_image snappy spice-protocol tesseract texinfo usbredir
+>> virglrenderer vte3 zstd'
+>> +PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache
+>> cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc
+>> fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 libepoxy libffi
+>> libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 llvm
+>> lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman
+>> pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx
+>> py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2
+>> sdl2_image snappy spice-protocol tesseract texinfo usbredir
+>> virglrenderer vte3 zstd'
+>>   PYPI_PKGS=''
+>>   PYTHON='/usr/local/bin/python3'
+>> diff --git a/.gitlab-ci.d/cirrus/freebsd-13.vars
+>> b/.gitlab-ci.d/cirrus/freebsd-13.vars
+>> index 7b44dba324..8a648dda1e 100644
+>> --- a/.gitlab-ci.d/cirrus/freebsd-13.vars
+>> +++ b/.gitlab-ci.d/cirrus/freebsd-13.vars
+>> @@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
+>>   NINJA='/usr/local/bin/ninja'
+>>   PACKAGING_COMMAND='pkg'
+>>   PIP3='/usr/local/bin/pip-3.8'
+>> -PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache
+>> cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc gettext
+>> git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt
+>> libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm
+>> lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5
+>> pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx
+>> py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2
+>> sdl2_image snappy spice-protocol tesseract texinfo usbredir
+>> virglrenderer vte3 zstd'
+>> +PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache
+>> cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc
+>> fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 libepoxy libffi
+>> libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 llvm
+>> lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman
+>> pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx
+>> py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2
+>> sdl2_image snappy spice-protocol tesseract texinfo usbredir
+>> virglrenderer vte3 zstd'
 > 
-> I send the call for agenda already.
+> Seems like this now also added fusefs-libs3 on FreeBSD which causes the
+> build to break:
 > 
-> We are having the meeting.
+>  https://gitlab.com/thuth/qemu/-/jobs/2012083924#L3454
+> 
+> Any ideas how to best fix this?
 
-Do we need to stick to bluejeans, or can we switch to something more
-generic to easily record the call, and be able to start when Juan is
-not available?
+Candidate patch:
+https://lore.kernel.org/qemu-devel/20220124220357.74017-1-f4bug@amsat.org/
 
