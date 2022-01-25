@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F39E49B2E7
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 12:29:10 +0100 (CET)
-Received: from localhost ([::1]:54802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B143949B2EF
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 12:31:14 +0100 (CET)
+Received: from localhost ([::1]:58908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCK0b-0000in-4d
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 06:29:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43180)
+	id 1nCK2b-0003V0-C1
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 06:31:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nCJwY-0007oX-Lo
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:24:58 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:46315)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nCJzL-0000ca-6s
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:27:52 -0500
+Received: from 10.mo552.mail-out.ovh.net ([87.98.187.244]:54821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nCJwV-0000yN-7I
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:24:58 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.201])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id DC612D9E17F6;
- Tue, 25 Jan 2022 12:24:52 +0100 (CET)
-Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nCJzI-0001oD-Qu
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:27:50 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.33])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 9A950216FB;
+ Tue, 25 Jan 2022 11:27:43 +0000 (UTC)
+Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 25 Jan
- 2022 12:24:52 +0100
+ 2022 12:27:42 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-102R004689303ce-1a40-428a-a954-703312a1bb62,
- 81DEFC5675B4A2B0B4575F732D37872089199EF9) smtp.auth=clg@kaod.org
+ (GARM-98R002909bcf92-430b-4d05-9bcb-6aa17c564d31,
+ B12793B896D1C92594B08C8AD2B724DCB3CD44CA) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <d841b1f3-3d38-4d27-cce7-e97b093b47da@kaod.org>
-Date: Tue, 25 Jan 2022 12:24:51 +0100
+Message-ID: <5ae843bb-eb36-5ce8-4ba1-7cc7580c49a3@kaod.org>
+Date: Tue, 25 Jan 2022 12:27:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH] spapr.c: check bus != NULL in spapr_get_fw_dev_path()
+Subject: Re: [PATCH v2 08/14] target/ppc: 405: System call exception cleanup
 Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-References: <20220121213852.30243-1-danielhb413@gmail.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220121213852.30243-1-danielhb413@gmail.com>
+To: David Gibson <david@gibson.dropbear.id.au>, Fabiano Rosas
+ <farosas@linux.ibm.com>
+References: <20220118184448.852996-1-farosas@linux.ibm.com>
+ <20220118184448.852996-9-farosas@linux.ibm.com> <YeerEWyGu5j+Akeb@yekko>
+ <7e2e4d56-4cdf-4f9f-65e4-359453ba20fb@kaod.org>
+In-Reply-To: <7e2e4d56-4cdf-4f9f-65e4-359453ba20fb@kaod.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 1da72321-c12c-4f4b-ac71-8775b07988bb
-X-Ovh-Tracer-Id: 15997911780468231136
+X-Ovh-Tracer-GUID: 05e2c173-a4e0-40f9-9777-cad8c662b1f1
+X-Ovh-Tracer-Id: 16046043998229924646
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrvdelgddvjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrvdelgddvjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuhffvfhgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeihfefffffgedtkeegtdekffevudeggfegffethfffhefhhfevhfdtudejhfdvieenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepsggrlhgrthhonhesvghikhdrsghmvgdrhhhu
+Received-SPF: pass client-ip=87.98.187.244; envelope-from=clg@kaod.org;
+ helo=10.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,64 +72,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/21/22 22:38, Daniel Henrique Barboza wrote:
-> spapr_get_fw_dev_path() is an impl of
-> FWPathProviderClass::get_dev_path(). This interface is used by
-> hw/core/qdev-fw.c via fw_path_provider_try_get_dev_path() in two
-> functions:
+On 1/25/22 09:18, Cédric Le Goater wrote:
+> On 1/19/22 07:09, David Gibson wrote:
+>> On Tue, Jan 18, 2022 at 03:44:42PM -0300, Fabiano Rosas wrote:
+>>> There's no sc 1.
+>>
+>> No... but what exactly should and will happen if you attempt to
+>> execute an "sc 1" on 40x.  Will it be treated as an "sc 0", or will it
+>> cause a 0x700?  If it's a 0x700, better double check that that is
+>> generated at translation time, if you're removing the check on level
+>> here.
 > 
-> - static char *qdev_get_fw_dev_path_from_handler(), which is used only in
-> qdev_get_fw_dev_path_helper() and it's guarded by "if (dev &&
-> dev->parent_bus)";
+> A Program Interrupt with the illegal instruction error code should be
+> generated at translation time but it is not the case today. It never
+> was correctly implemented AFAICT :
 > 
-> - char *qdev_get_own_fw_dev_path_from_handler(), which is used in
-> softmmu/bootdevice.c in get_boot_device_path() like this:
+>    /* Top bit of opc2 corresponds with low bit of LEV, so use two handlers */
+>    GEN_HANDLER(sc, 0x11, 0x11, 0xFF, 0x03FFF01D, PPC_FLOW),
+>    GEN_HANDLER(sc, 0x11, 0x01, 0xFF, 0x03FFF01D, PPC_FLOW),
 > 
->      if (dev) {
->          d = qdev_get_own_fw_dev_path_from_handler(dev->parent_bus, dev);
-> 
-> This means that, when called via softmmu/bootdevice.c, there's no check
-> of 'dev->parent_bus' being not NULL. The result is that the "BusState
-> *bus" arg of spapr_get_fw_dev_path() can potentially be NULL and if, at
-> the same time, "SCSIDevice *d" is not NULL, we'll hit this line:
-> 
->      void *spapr = CAST(void, bus->parent, "spapr-vscsi");
-> 
-> And we'll SIGINT because 'bus' is NULL and we're accessing bus->parent.
-> 
-> Adding a simple 'bus != NULL' check to guard the instances where we
-> access 'bus->parent' can avoid this altogether.
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> We would need a simple 'sc' instruction for the PPC405 and other
+> processors. Let's add that to the TODO list.
 
+The ref405ep machine now boots a mainline Linux with a buildroot user space.
+Let's get this series merged first.
 
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
 Thanks,
 
 C.
-
-> ---
->   hw/ppc/spapr.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 72f5dce751..3d6ec309dd 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -3053,7 +3053,7 @@ static char *spapr_get_fw_dev_path(FWPathProvider *p, BusState *bus,
->       VHostSCSICommon *vsc = CAST(VHostSCSICommon, dev, TYPE_VHOST_SCSI_COMMON);
->       PCIDevice *pcidev = CAST(PCIDevice, dev, TYPE_PCI_DEVICE);
->   
-> -    if (d) {
-> +    if (d && bus) {
->           void *spapr = CAST(void, bus->parent, "spapr-vscsi");
->           VirtIOSCSI *virtio = CAST(VirtIOSCSI, bus->parent, TYPE_VIRTIO_SCSI);
->           USBDevice *usb = CAST(USBDevice, bus->parent, TYPE_USB_DEVICE);
-> 
-
 
