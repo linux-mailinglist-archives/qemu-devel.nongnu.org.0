@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DCF049AFDC
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 10:34:09 +0100 (CET)
-Received: from localhost ([::1]:44756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC05E49B0B9
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 10:49:35 +0100 (CET)
+Received: from localhost ([::1]:56278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCIDI-00045j-3j
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 04:34:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59658)
+	id 1nCISE-00049P-PR
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 04:49:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCIAe-0003O8-Ny
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 04:31:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30627)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nCILg-00084A-S5
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 04:42:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33576)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCIAb-0004zy-AJ
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 04:31:23 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nCILZ-0006Ji-Sb
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 04:42:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643103065;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=tsJ/5nSB8CKaNID3vhzknScHbRvZFaNZZGT7y05R6oU=;
- b=GiNhvN5SiDOZCNfqnuZUoVjY0q3OIy4XwpGAepG8FiGDtG6TACiFNWiWY99FUwusdaJmWy
- BzIqQ3jZYfoeRV9gmmIGsRD5EIS9P0/KLFvk3bhduOqhKmzJmEBbUd/M3Y5rdXPN0Ohlra
- xr2h6Jo3FYQXOVIL60JWj4IhpSCdDL8=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1643103642;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=awyd3SPyAPD9/QLQqYdhP/ugO9iwBADgjN1euMY4dxE=;
+ b=FWU5KNOJ4NRXPEChJ1rS8rtEq+VHI9RTcXIX57Y1om3EJPQ7TuH+2znVxwlkQvhm6mwGlN
+ X3b0f4rd0BDVWtxTwxNTq5v0k+onvVkUMbkAisOkQVTGsgsfaGGGeUHGFRJyfdSbqXDGCa
+ htwDsWmNfRmkezgG0rzhhAmhbfGFTJ0=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-101-N-dgmqH9NG-8xPz_UPt3Ng-1; Tue, 25 Jan 2022 04:31:04 -0500
-X-MC-Unique: N-dgmqH9NG-8xPz_UPt3Ng-1
-Received: by mail-wr1-f70.google.com with SMTP id
- j21-20020adfa555000000b001db55dd5a1dso1258085wrb.15
- for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 01:31:04 -0800 (PST)
+ us-mta-232-HfmkadJ8OvOFBiCCGCgnbw-1; Tue, 25 Jan 2022 04:40:38 -0500
+X-MC-Unique: HfmkadJ8OvOFBiCCGCgnbw-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ g3-20020a05620a108300b0047e16fc0d6cso3648905qkk.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 01:40:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=tsJ/5nSB8CKaNID3vhzknScHbRvZFaNZZGT7y05R6oU=;
- b=wRPYX2CF6UdC4p0gHtH+Yk4T1N11DZ9odzmxXrc747Mz/kX0iXPFBZPxSUFiKrPEIR
- pfc7xkFkuSGkez/zVh2bEie08sGL3N86704ThNJ1vr9qChYNyieHz1e6Pw7hVI1DUTkT
- Iq5j/F7i9N5uTzt/jwRfmGgAHtMOVWBYUdzn0VuEd6T8bl1UW2kFlcU59MUTjeOYnLYd
- mOAhdalmm/LWTSWVOC0s4Q0sML5eFtO9/UwBty8YcnH6WaHG2ZpfxS0VZ3dbCTbCpDvL
- lvhCpH1z87YwhQWCWKegMMD6VDezhnIW4r3kqITaGgi/wvCOkMNumMsSS/+qvL8fqnPJ
- m2yQ==
-X-Gm-Message-State: AOAM531B+p0za/bGXzkV4WjjYENfEKnvg5vHI4pKK7qjh+gg6FEZ/+Y3
- A65huP1Rs/XC3le2FQ8fl47ihbaO9t0/8sbT0FHhWYDJn/05Bj3jeOb/6oazEpCJ2tsG4vB2JTA
- 3h3sd17nTAD2Fzm0=
-X-Received: by 2002:a05:600c:1e8e:: with SMTP id
- be14mr2126561wmb.30.1643103063167; 
- Tue, 25 Jan 2022 01:31:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx7w0Sqqx37+RLsIiO8DxN+bU7prWN6bLKaqm3pluz0tArXjF5QsiJY2IIPd3WVKQQzfoSwhA==
-X-Received: by 2002:a05:600c:1e8e:: with SMTP id
- be14mr2126539wmb.30.1643103062971; 
- Tue, 25 Jan 2022 01:31:02 -0800 (PST)
-Received: from localhost ([47.61.17.76])
- by smtp.gmail.com with ESMTPSA id m5sm5324690wrs.22.2022.01.25.01.31.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jan 2022 01:31:02 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v4 08/23] multifd: Move iov from pages to params
-In-Reply-To: <Yeb/aaVGA+gphb/q@work-vm> (David Alan Gilbert's message of "Tue, 
- 18 Jan 2022 17:56:57 +0000")
-References: <20220111130024.5392-1-quintela@redhat.com>
- <20220111130024.5392-9-quintela@redhat.com> <Yeb/aaVGA+gphb/q@work-vm>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Tue, 25 Jan 2022 10:31:01 +0100
-Message-ID: <87lez4rwkq.fsf@secure.mitica>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=awyd3SPyAPD9/QLQqYdhP/ugO9iwBADgjN1euMY4dxE=;
+ b=o0x91RUkh886kWvRE4F7KQimIT7VnqklQ0Jby47spepWV5yBUh+KuZgnmIMKNXTbo3
+ JFtoN4DpkRHTf5OVBzDpXmlPARINks39fEG10Yvt3HwNwwTKwETOmOc1TFKW+60QqjNn
+ 1I6lFB+9TYeEZ1L0q8GaNqr12vEw+D8wIm1q8aMZF+9Z60iS0wW891jk0n6A7rxc5jpy
+ FblaUw8ZphX5MEi4GfkoY+z7FilIbaWeREhWcp0uaRV+8Z+L1K4vLHNdovFzjScPpHcC
+ RDhen3XCI+p9m5YOziU0t7eiyl64e3YS/BM9zejao4dKt/qG+ZpsINKy7OXyuT77WAqM
+ SUUQ==
+X-Gm-Message-State: AOAM533mWHPzxmMjbjpbqzb8DW68TMq2b/FLYygu9vaZWL4+ZFFgssqp
+ MQdaJDdAGWw7K73ehoHvg2Txzj/ZJJNS7IIn03OhJWGuA6n7WQP8vtBTI04lXi/N1rWKSqNhPsk
+ 0UhgYSSf0L332F6A2BMPB2fvUYKZFKTI=
+X-Received: by 2002:a05:620a:24cd:: with SMTP id
+ m13mr13969038qkn.308.1643103638224; 
+ Tue, 25 Jan 2022 01:40:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyWIyjb0WfbDgLcbYpXdRojlUU9HKWUChfS1T00NeCV0JuqOhrIfDA0Zf86x/O3qM0S+qV9yTTwEtivcXjKaQ8=
+X-Received: by 2002:a05:620a:24cd:: with SMTP id
+ m13mr13969010qkn.308.1643103637947; 
+ Tue, 25 Jan 2022 01:40:37 -0800 (PST)
 MIME-Version: 1.0
+References: <20220121202733.404989-1-eperezma@redhat.com>
+ <20220121202733.404989-22-eperezma@redhat.com>
+ <Ye4r7tKFhP9VaT5/@xz-m1.local>
+ <CAJaqyWf--wbNZz5ZzbpixD9op_fO5fV01kbYXzG097c_NkqYrw@mail.gmail.com>
+ <Ye6IhLCe6NDKO6+E@xz-m1.local>
+In-Reply-To: <Ye6IhLCe6NDKO6+E@xz-m1.local>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 25 Jan 2022 10:40:01 +0100
+Message-ID: <CAJaqyWcdpTr2X4VuAN2NLmpviCjDoAaY269+VQGZ7-F6myOhSw@mail.gmail.com>
+Subject: Re: [PATCH 21/31] util: Add iova_tree_alloc
+To: Peter Xu <peterx@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -98,68 +97,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Leonardo Bras <leobras@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> * Juan Quintela (quintela@redhat.com) wrote:
->> This will allow us to reduce the number of system calls on the next patch.
->> 
->> Signed-off-by: Juan Quintela <quintela@redhat.com>
->> ---
->>  migration/multifd.h |  8 ++++++--
->>  migration/multifd.c | 34 ++++++++++++++++++++++++----------
->>  2 files changed, 30 insertions(+), 12 deletions(-)
->> 
->> diff --git a/migration/multifd.h b/migration/multifd.h
->> index e57adc783b..c3f18af364 100644
->> --- a/migration/multifd.h
->> +++ b/migration/multifd.h
->> @@ -62,8 +62,6 @@ typedef struct {
->>      uint64_t packet_num;
->>      /* offset of each page */
->>      ram_addr_t *offset;
->> -    /* pointer to each page */
->> -    struct iovec *iov;
->>      RAMBlock *block;
->>  } MultiFDPages_t;
->>  
->> @@ -110,6 +108,10 @@ typedef struct {
->>      uint64_t num_pages;
->>      /* syncs main thread and channels */
->>      QemuSemaphore sem_sync;
->> +    /* buffers to send */
->> +    struct iovec *iov;
->> +    /* number of iovs used */
->> +    uint32_t iovs_num;
->>      /* used for compression methods */
->>      void *data;
->>  }  MultiFDSendParams;
->> @@ -149,6 +151,8 @@ typedef struct {
->>      uint64_t num_pages;
->>      /* syncs main thread and channels */
->>      QemuSemaphore sem_sync;
->> +    /* buffers to recv */
->> +    struct iovec *iov;
+On Mon, Jan 24, 2022 at 12:08 PM Peter Xu <peterx@redhat.com> wrote:
 >
-> Why is there the asymmetry between send and recv, where the send
-> has the iovs_num and the recv doesn't?
+> On Mon, Jan 24, 2022 at 10:20:55AM +0100, Eugenio Perez Martin wrote:
+> > On Mon, Jan 24, 2022 at 5:33 AM Peter Xu <peterx@redhat.com> wrote:
+> > >
+> > > On Fri, Jan 21, 2022 at 09:27:23PM +0100, Eugenio P=C3=A9rez wrote:
+> > > > +int iova_tree_alloc(IOVATree *tree, DMAMap *map, hwaddr iova_begin=
+,
+> >
+> > I forgot to s/iova_tree_alloc/iova_tree_alloc_map/ here.
+> >
+> > > > +                    hwaddr iova_last)
+> > > > +{
+> > > > +    const DMAMapInternal *last, *i;
+> > > > +
+> > > > +    assert(iova_begin < iova_last);
+> > > > +
+> > > > +    /*
+> > > > +     * Find a valid hole for the mapping
+> > > > +     *
+> > > > +     * TODO: Replace all this with g_tree_node_first/next/last whe=
+n available
+> > > > +     * (from glib since 2.68). Using a sepparated QTAILQ complicat=
+es code.
+> > > > +     *
+> > > > +     * Try to allocate first at the end of the list.
+> > > > +     */
+> > > > +    last =3D QTAILQ_LAST(&tree->list);
+> > > > +    if (iova_tree_alloc_map_in_hole(last, NULL, iova_begin, iova_l=
+ast,
+> > > > +                                    map->size)) {
+> > > > +        goto alloc;
+> > > > +    }
+> > > > +
+> > > > +    /* Look for inner hole */
+> > > > +    last =3D NULL;
+> > > > +    for (i =3D QTAILQ_FIRST(&tree->list); i;
+> > > > +         last =3D i, i =3D QTAILQ_NEXT(i, entry)) {
+> > > > +        if (iova_tree_alloc_map_in_hole(last, i, iova_begin, iova_=
+last,
+> > > > +                                        map->size)) {
+> > > > +            goto alloc;
+> > > > +        }
+> > > > +    }
+> > > > +
+> > > > +    return IOVA_ERR_NOMEM;
+> > > > +
+> > > > +alloc:
+> > > > +    map->iova =3D last ? last->map.iova + last->map.size + 1 : iov=
+a_begin;
+> > > > +    return iova_tree_insert(tree, map);
+> > > > +}
+> > >
+> > > Hi, Eugenio,
+> > >
+> > > Have you tried with what Jason suggested previously?
+> > >
+> > >   https://lore.kernel.org/qemu-devel/CACGkMEtZAPd9xQTP_R4w296N_Qz7VuV=
+1FLnb544fEVoYO0of+g@mail.gmail.com/
+> > >
+> > > That solution still sounds very sensible to me even without the newly
+> > > introduced list in previous two patches.
+> > >
+> > > IMHO we could move "DMAMap *previous, *this" into the IOVATreeAllocAr=
+gs*
+> > > stucture that was passed into the traverse func though, so it'll natu=
+rally work
+> > > with threading.
+> > >
+> > > Or is there any blocker for it?
+> > >
+> >
+> > Hi Peter,
+> >
+> > I can try that solution again, but the main problem was the special
+> > cases of the beginning and ending.
+> >
+> > For the function to locate a hole, DMAMap first =3D {.iova =3D 0, .size=
+ =3D
+> > 0} means that it cannot account 0 for the hole.
+> >
+> > In other words, with that algorithm, if the only valid hole is [0, N)
+> > and we try to allocate a block of size N, it would fail.
+> >
+> > Same happens with iova_end, although in practice it seems that IOMMU
+> > hardware iova upper limit is never UINT64_MAX.
+> >
+> > Maybe we could treat .size =3D 0 as a special case? I see cleaner eithe=
+r
+> > to build the list (but insert needs to take the list into account) or
+> > to explicitly tell that prev =3D=3D NULL means to use iova_first.
+>
+> Sounds good to me.  I didn't mean to copy-paste Jason's code, but IMHO wh=
+at
+> Jason wanted to show is the general concept - IOW, the fundamental idea (=
+to me)
+> is that the tree will be traversed in order, hence maintaining another li=
+st
+> structure is redundant.
+>
 
-When we are sending data, we have the normal page and the iov, so it is
-normal_pages + 1.  On reception side, we have to read first the header,
-because that is where normal_pages is stored.
+I agree.
 
-I can drop iovs_num on the send side and add a comment, but I think that
-the new variable is more descriptive.
+My idea with this version was to easily delete all the custom code
+once we have GTree with proper first/next/last, or _node functions.
+That's why it's simply reimplementing GTree functions in the current
+Glib version. I find old code way too complicated, and this one easier
+to handle although way more verbose, but let's see if we can improve
+the old one.
 
-Or I can add iovs_num to the recv_side and just do a iovs_num =
-normal_pages, but it seems a bit pointless, no?
+> >
+> > Another solution that comes to my mind: to add both exceptions outside
+> > of transverse function, and skip the first iteration with something
+> > like:
+> >
+> > if (prev =3D=3D NULL) {
+> >   prev =3D this;
+> >   return false /* continue */
+> > }
+> >
+> > So the transverse callback has way less code paths. Would it work for
+> > you if I send a separate RFC from SVQ only to validate this?
+>
+> Sure. :-)
+>
+> If you want, imho you can also attach the patch when reply, then the disc=
+ussion
+> context won't be lost too.
+>
 
-Later, Juan.
+Sure,
+
+So I think that the first step to remove complexity from the old one
+is to remove iova_begin and iova_end.
+
+As Jason points out, removing iova_end is easier. It has the drawback
+of having to traverse all the list beyond iova_end, but a well formed
+iova tree should contain none. If the guest can manipulate it, it's
+only hurting itself adding nodes to it.
+
+It's possible to extract the check for hole_right (or this in Jason's
+proposal) as a special case too.
+
+But removing the iova_begin parameter is more complicated. We cannot
+know if it's a valid hole without knowing iova_begin, and we cannot
+resume traversing. Could we assume iova_begin will always be 0? I
+think not, the vdpa device can return anything through syscall.
+
+Thanks!
+
+
+
+> --
+> Peter Xu
+>
 
 
