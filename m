@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A16449A44E
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 03:09:11 +0100 (CET)
-Received: from localhost ([::1]:59714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7347349A236
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 02:58:21 +0100 (CET)
+Received: from localhost ([::1]:41146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCBGg-0001lt-JS
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 21:09:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54958)
+	id 1nCB6C-0005xF-Ip
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jan 2022 20:58:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nCAfN-0002Ix-Rk
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nCAfN-0002Iw-RT
  for qemu-devel@nongnu.org; Mon, 24 Jan 2022 20:30:47 -0500
-Received: from [2607:f8b0:4864:20::d2c] (port=44724
- helo=mail-io1-xd2c.google.com)
+Received: from [2607:f8b0:4864:20::d29] (port=46736
+ helo=mail-io1-xd29.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nCAfJ-0001iR-PY
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nCAfK-0001ia-It
  for qemu-devel@nongnu.org; Mon, 24 Jan 2022 20:30:35 -0500
-Received: by mail-io1-xd2c.google.com with SMTP id h23so21793540iol.11
- for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 17:30:32 -0800 (PST)
+Received: by mail-io1-xd29.google.com with SMTP id e79so21850662iof.13
+ for <qemu-devel@nongnu.org>; Mon, 24 Jan 2022 17:30:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vBJhsJ5JDmPAbCw0pkCICn7DGftKZRdcsDaqxXoafK8=;
- b=K2FTHJPdwmrsdqIi5KBKsm8r1fxfV84ZkkaH9/33iCm+z8hbti0krUXKvx8KiMPcO8
- SDqj5mQEQc448n9bxXMjUyo2ItuH5ST7O10EubeXDht1pksG3RJ8VvXIZdtK67mKxUhp
- c4V40dSqypPShHzPTU+wykr64dutKjIRg50G6I7AUdBrCJeGZXzmAXhfZ3S0ESDpv5py
- NVb9f8BKdvELMWhnBcMTVWQA4UlU6Ffv8mX41yXM4EoLrTAbJjSnfRbn0UvNMlfab3p2
- 2GLBUf58kd+PGmA3oJTdJfUrMTgStEU94EnoRNCt+Q6RUzXdAxXa5ZlR4WAKcr0QdS9k
- DyDQ==
+ bh=RYOIzW6/ZHDz9enhrfWJlbCeES2xGOl72iMdp9Riye4=;
+ b=lNFVxgTZ+THyEJ7Cc8cUcGQYskycK9GIBir6c2xol5CEM1Lru44SppMDi3dsSnO/IP
+ BcC9dE/LHZkuB24YU1McVbZdyj6/AJ1KAWb/fXTZkW+zydb9JoBF+ab+t1V124Xs5tqc
+ s7M6XP9DEz38t5G/FAscEyBA0lmkqXTTdQOD9OtpgiSlRGYrFkHdWaNFMsb4Yz01oLZm
+ pjAhpMAYDWxTSmlVI5Yv1tyi/ULImRTX+8jvktD3S3MtZ8Ge912uCJFvqK+7NXrBh8td
+ ng7BFZJGdp7TmVbylooNIvDyXNn6QXuwh06X0yfVP5WTiPxhiBpUziHYnY1SKakn+GH5
+ 7WIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vBJhsJ5JDmPAbCw0pkCICn7DGftKZRdcsDaqxXoafK8=;
- b=WQI35PxC/gM/nB4256g7SbveetiBScYH3NKArPgail8KVBDiysVRXpeG980Sd6Hk30
- 6ktMXn+Y82h0F7rcdvctm6Ep37GY1/09ROC5OBZ6k5PE1D1VuGG51yt8g0L0/1dujbzt
- Cx4LyN++vNutcBzCMDb1FCIZnufpKAezwSjh8/X+y5c6PczSETGFtmm9C3ATpeN6wLG1
- qjQCmjOCmxwtPCDJVDa8Ub4cIUt82CgbC+6P6ePFWZ2Bmqm2T72iGweuJnv9uYnPmI+v
- Y6QYFFpuWAgy0Hu1XXhui/ZVCWC1XVngYp/hm8oOgpsfIcQsi60fZ74zQ/9UUh3AFqWx
- K0iw==
-X-Gm-Message-State: AOAM53155qQWDXEU8nXQ7Qw7UvjZnZbnfiTYTfWTkBDlhO3ik+A6r1mg
- V/mz3A78ATf9CngjF2UbBEdGVcaScn9I8A==
-X-Google-Smtp-Source: ABdhPJx55RVkwgngaC9lSEFCGzFIJ9Zfv4xueLYKMlm8mzAHH42DCjVXMeJb6YlckBh4ocoT9vcpqw==
-X-Received: by 2002:a02:a101:: with SMTP id f1mr7618793jag.12.1643074231911;
- Mon, 24 Jan 2022 17:30:31 -0800 (PST)
+ bh=RYOIzW6/ZHDz9enhrfWJlbCeES2xGOl72iMdp9Riye4=;
+ b=6GeZ992bCVw+HGlzVRs10eslyeODVqz63DNaJFsE+Rfjq0tR7RzJdDaVX5dLol4o9p
+ 8+hiey2Fq/vfXneqE/7dlpy5OYwSOzB7NFoQQcY7sLJSodKZJB9Yqgs/T1AnzJYpMbKP
+ BcO8RMWLVhcWCrMjSqIj3mxyDPBmDBEygBvTtCUDk/QLkSX3EJGPlppwAvNMJkIa8TSE
+ tzAsuRsblxdz/W010XmhVNPsvGCT4mfEtGBgAWO+SfbCtG/jM+Hd9MN2v1UhFU4Wdr59
+ uZ1ckHUT9AXAs0SE4p5p0f9zqbzWTOUGxrvl1vT0u4lmT/WuX9H/QyRDqxlZBkwUQbpm
+ zf6g==
+X-Gm-Message-State: AOAM530dGQJU9R35x6rRyuypkYRcPB3S5veEWrifokqN/zEiqOMhvXDG
+ lbxWnAMOACRyuw08HM7GUoN6re9848ahdA==
+X-Google-Smtp-Source: ABdhPJzHGHHELHPwGaB9lyQwtZAMUjd1qcmuGd+s30BDMrNmG8wddnPcGO7OUN8+5xdKt23lC45f0A==
+X-Received: by 2002:a02:77ca:: with SMTP id g193mr7048206jac.166.1643074233002; 
+ Mon, 24 Jan 2022 17:30:33 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id q14sm2061687ilo.63.2022.01.24.17.30.31
+ by smtp.gmail.com with ESMTPSA id q14sm2061687ilo.63.2022.01.24.17.30.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Jan 2022 17:30:31 -0800 (PST)
+ Mon, 24 Jan 2022 17:30:32 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 38/40] MAINTAINERS: Add tests/vm/*bsd to the list to get
- reviews on
-Date: Mon, 24 Jan 2022 18:29:45 -0700
-Message-Id: <20220125012947.14974-39-imp@bsdimp.com>
+Subject: [PATCH v2 39/40] bsd-user: Rename arg name for target_cpu_reset to env
+Date: Mon, 24 Jan 2022 18:29:46 -0700
+Message-Id: <20220125012947.14974-40-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220125012947.14974-1-imp@bsdimp.com>
 References: <20220125012947.14974-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d29
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2c;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2c.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd29.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -92,26 +91,61 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Kyle Evans <kevans@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-tests/vm/*bsd (especailly tests/vm/freebsd) are adjacent to the bsd-user
-stuff and we're keen on keeping them working as well.
+Rename the parameter name for target_cpu_reset's CPUArchState * arg from
+cpu to env.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ bsd-user/arm/target_arch_cpu.h    | 2 +-
+ bsd-user/i386/target_arch_cpu.h   | 4 ++--
+ bsd-user/x86_64/target_arch_cpu.h | 4 ++--
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c98a61caeee..a2809761f65 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3101,6 +3101,7 @@ R: Kyle Evans <kevans@freebsd.org>
- S: Maintained
- F: bsd-user/
- F: configs/targets/*-bsd-user.mak
-+F: tests/vm/*bsd
- T: git https://github.com/qemu-bsd-user/qemu-bsd-user bsd-user-rebase-3.1
+diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch_cpu.h
+index 2f1ab4c6ac2..a52c39f6943 100644
+--- a/bsd-user/arm/target_arch_cpu.h
++++ b/bsd-user/arm/target_arch_cpu.h
+@@ -213,7 +213,7 @@ static inline void target_cpu_clone_regs(CPUARMState *env, target_ulong newsp)
+     env->regs[0] = 0;
+ }
  
- Linux user
+-static inline void target_cpu_reset(CPUArchState *cpu)
++static inline void target_cpu_reset(CPUArchState *env)
+ {
+ }
+ 
+diff --git a/bsd-user/i386/target_arch_cpu.h b/bsd-user/i386/target_arch_cpu.h
+index b28602adbbd..91849b5804a 100644
+--- a/bsd-user/i386/target_arch_cpu.h
++++ b/bsd-user/i386/target_arch_cpu.h
+@@ -199,9 +199,9 @@ static inline void target_cpu_clone_regs(CPUX86State *env, target_ulong newsp)
+     env->regs[R_EAX] = 0;
+ }
+ 
+-static inline void target_cpu_reset(CPUArchState *cpu)
++static inline void target_cpu_reset(CPUArchState *env)
+ {
+-    cpu_reset(env_cpu(cpu));
++    cpu_reset(env_cpu(env));
+ }
+ 
+ #endif /* ! _TARGET_ARCH_CPU_H_ */
+diff --git a/bsd-user/x86_64/target_arch_cpu.h b/bsd-user/x86_64/target_arch_cpu.h
+index 5172b230f09..535aa9192da 100644
+--- a/bsd-user/x86_64/target_arch_cpu.h
++++ b/bsd-user/x86_64/target_arch_cpu.h
+@@ -237,9 +237,9 @@ static inline void target_cpu_clone_regs(CPUX86State *env, target_ulong newsp)
+     env->regs[R_EAX] = 0;
+ }
+ 
+-static inline void target_cpu_reset(CPUArchState *cpu)
++static inline void target_cpu_reset(CPUArchState *env)
+ {
+-    cpu_reset(env_cpu(cpu));
++    cpu_reset(env_cpu(env));
+ }
+ 
+ #endif /* ! _TARGET_ARCH_CPU_H_ */
 -- 
 2.33.1
 
