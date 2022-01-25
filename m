@@ -2,87 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D743C49AE4D
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 09:46:57 +0100 (CET)
-Received: from localhost ([::1]:48570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC4F49AEDA
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 10:02:23 +0100 (CET)
+Received: from localhost ([::1]:37226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCHTc-0000pH-VW
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 03:46:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47602)
+	id 1nCHiY-0004JG-US
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 04:02:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCHAm-00038V-8I
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 03:27:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27276)
+ (Exim 4.90_1) (envelope-from <guoren@kernel.org>)
+ id 1nCHNo-00042J-Th; Tue, 25 Jan 2022 03:40:57 -0500
+Received: from [2604:1380:4601:e00::1] (port=58988 helo=ams.source.kernel.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCHAk-0003XP-Ad
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 03:27:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643099245;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=TO8nFmLKD7iih4yIIFmQ3Tl/KUAlsQnNSK7/URMX3fU=;
- b=Ij+GMpbrX3IB2/4rBWPbU0CkwQT/b4UKxPZlyxhzaGrKItRuyS7GK6LyF3V3Asdq5XpTsN
- qQS9m9RpPMAXq608WKxfwjKGEHQaQA40Xa/2romFufs8JqNjrz8nlc2Y21yAsIOewYSXjg
- m5xtSrlYAbCQRsZb7LDOAgMo1IQKfnM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-449-2CWEEV6eN5aaczHNva02ag-1; Tue, 25 Jan 2022 03:27:24 -0500
-X-MC-Unique: 2CWEEV6eN5aaczHNva02ag-1
-Received: by mail-wm1-f70.google.com with SMTP id
- w5-20020a1cf605000000b0034b8cb1f55eso912414wmc.0
- for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 00:27:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=TO8nFmLKD7iih4yIIFmQ3Tl/KUAlsQnNSK7/URMX3fU=;
- b=WtDHcUhUOFFzO7U8lTD/29KRAFTWFDwR1xKaYCTFmsx0Sv/HtarQPwhpaueNFCNZ9/
- ajL279DSMlPK4+J+BbVO+Ogb/3EqVJX3vWPZaLh2LrgFUkdiaOlJutt/lV6c21QzIJj2
- jPshKgnryPghUUH9J8PwF5Pa7wmzMGHrdiu3qnO91u6WZjMEk8ypz2b4UPXIiUV+VGG4
- J8NCPT/bHJD4DwLDhIaCkKJgBYIFQuFt7Ukg/8Rv3RsruU97jA16NKAThat2vA5FAwDL
- nkCleCCxowliWw+dyrSmsowvVj5WTmbzQVR5O8lQTSqD33weoovfLdMEvm8u+bwB3ut8
- drsg==
-X-Gm-Message-State: AOAM530BXK4fqH5kFXOCdl9+5Gwmk1XTa7Ifd7TC66DxuCnhgwTrx1e3
- 0tP08AUDKCMH/1oxV+Ltf+yiOQ8fyQI7Z6qDwX2635Y2NnekPdPv7r4piwEC6kz1bkbDojocYhy
- p3bbMWMOLRdniZ68=
-X-Received: by 2002:adf:e189:: with SMTP id az9mr17606213wrb.624.1643099243346; 
- Tue, 25 Jan 2022 00:27:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJySkHkeNcMIDhPrK4vA/0alCYEB30szt6X9B2qTUxhT9ciFdL4ZinCLmXLLJe3LZJ4uSvP9Jw==
-X-Received: by 2002:adf:e189:: with SMTP id az9mr17606194wrb.624.1643099243099; 
- Tue, 25 Jan 2022 00:27:23 -0800 (PST)
-Received: from localhost ([47.61.17.76])
- by smtp.gmail.com with ESMTPSA id w22sm2814148wra.59.2022.01.25.00.27.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jan 2022 00:27:22 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] Remove unnecessary minimum_version_id_old fields
-In-Reply-To: <20220118104434.4117879-1-peter.maydell@linaro.org> (Peter
- Maydell's message of "Tue, 18 Jan 2022 10:44:34 +0000")
-References: <20220118104434.4117879-1-peter.maydell@linaro.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Tue, 25 Jan 2022 09:27:20 +0100
-Message-ID: <87lez4w787.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <guoren@kernel.org>)
+ id 1nCHNk-0005o9-5K; Tue, 25 Jan 2022 03:40:54 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 83D36B816AC;
+ Tue, 25 Jan 2022 08:40:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 366D7C340E8;
+ Tue, 25 Jan 2022 08:40:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1643100044;
+ bh=RvyyTV1mjeLOVQtSvBpW/K8G6qrd01tVeGM3YDZviSc=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=rBX1aY+mLO4N4tOcmu95c7Mnj7dWAUKtjAY9YZRg5NxfZ4TJmAYMrgXEtWTI/FXt4
+ unFBJYzVdbyUHaGVkCgtjFeKMiPEjf8EBOfGgwBILkvTS1Op9PYLO6xFKq4chhzlRC
+ zoshWKvQiAAwhPY2JKLKxa9pWF6rd3baAMz6ddeQLEn6yBjY6ReSAVGeefUdbM2lUw
+ +27XoXVPuLRe9eHIxpQM7xhgaEnSVh6Y2MvXjiUbOCq+jUSiR3n1YMXoa+A/mcMSFx
+ IIS6OUv2q6MS5ElKMiaxQvxPSYWS8G5B7H6nw8CI2OEnkheRyTPpXDSIbFVQL+tc+8
+ f7z19HgpFagbw==
+Received: by mail-vk1-f177.google.com with SMTP id w17so7778517vko.9;
+ Tue, 25 Jan 2022 00:40:44 -0800 (PST)
+X-Gm-Message-State: AOAM532uAc6Ouj6hNgzEJvYLF9rzK8wDfAvL4ouOwjyddnBoGpchdddG
+ 3aIdIb0lhn08g/Aif+jm4uIgi+d0XstzYfv9aGA=
+X-Google-Smtp-Source: ABdhPJw4o28sdW3VACgcAVB3u7wH5fvLmB0XH0EVoibJwmN5SR8DTwOXcg00M4mjcCV1Mgy7k8PuDc7QeCRIPdA/41A=
+X-Received: by 2002:a05:6122:787:: with SMTP id
+ k7mr4616901vkr.28.1643100043236; 
+ Tue, 25 Jan 2022 00:40:43 -0800 (PST)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+References: <20220125064536.7869-1-liweiwei@iscas.ac.cn>
+ <20220125064536.7869-2-liweiwei@iscas.ac.cn>
+ <0a70c29c-0d59-24bb-73a8-652e26761d48@c-sky.com>
+In-Reply-To: <0a70c29c-0d59-24bb-73a8-652e26761d48@c-sky.com>
+From: Guo Ren <guoren@kernel.org>
+Date: Tue, 25 Jan 2022 16:40:32 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTQT619yKoeFdH8-qaCmuQxSn9qar02SUTLO44gi=QmSsA@mail.gmail.com>
+Message-ID: <CAJF2gTQT619yKoeFdH8-qaCmuQxSn9qar02SUTLO44gi=QmSsA@mail.gmail.com>
+Subject: Re: [PATCH v6 1/5] target/riscv: Ignore reserved bits in PTE for RV64
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2604:1380:4601:e00::1
+ (failed)
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=guoren@kernel.org; helo=ams.source.kernel.org
+X-Spam_score_int: -64
+X-Spam_score: -6.5
+X-Spam_bar: ------
+X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,36 +77,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
+ Weiwei Li <liweiwei@iscas.ac.cn>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Anup Patel <anup@brainfault.org>, Wang Junqiang <wangjunqiang@iscas.ac.cn>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>, Ren Guo <ren_guo@c-sky.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> wrote:
-> The migration code will not look at a VMStateDescription's
-> minimum_version_id_old field unless that VMSD has set the
-> load_state_old field to something non-NULL.  (The purpose of
-> minimum_version_id_old is to specify what migration version is needed
-> for the code in the function pointed to by load_state_old to be able
-> to handle it on incoming migration.)
+On Tue, Jan 25, 2022 at 4:34 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
 >
-> We have exactly one VMSD which still has a load_state_old,
-> in the PPC CPU; every other VMSD which sets minimum_version_id_old
-> is doing so unnecessarily. Delete all the unnecessary ones.
 >
-> Commit created with:
->   sed -i '/\.minimum_version_id_old/d' $(git grep -l '\.minimum_version_id_old')
-> with the one legitimate use then hand-edited back in.
+> On 2022/1/25 14:45, Weiwei Li wrote:
+> > From: Guo Ren <ren_guo@c-sky.com>
+> >
+> > Highest bits of PTE has been used for svpbmt, ref: [1], [2], so we
+> > need to ignore them. They cannot be a part of ppn.
+> >
+> > 1: The RISC-V Instruction Set Manual, Volume II: Privileged Architecture
+> >     4.4 Sv39: Page-Based 39-bit Virtual-Memory System
+> >     4.5 Sv48: Page-Based 48-bit Virtual-Memory System
+> >
+> > 2: https://github.com/riscv/virtual-memory/blob/main/specs/663-Svpbmt-diff.pdf
+> >
+> > Signed-off-by: Guo Ren <ren_guo@c-sky.com>
+> > Cc: Liu Zhiwei <zhiwei_liu@c-sky.com>
+> > Cc: Bin Meng <bmeng.cn@gmail.com>
+> > Cc: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >   target/riscv/cpu.h        | 13 +++++++++++++
+> >   target/riscv/cpu_bits.h   |  7 +++++++
+> >   target/riscv/cpu_helper.c | 14 +++++++++++++-
+> >   3 files changed, 33 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index 55635d68d5..45de8faaca 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -341,6 +341,8 @@ struct RISCVCPU {
+> >           bool ext_counters;
+> >           bool ext_ifencei;
+> >           bool ext_icsr;
+> > +        bool ext_svnapot;
+> > +        bool ext_svpbmt;
+> >           bool ext_zfh;
+> >           bool ext_zfhmin;
+> >           bool ext_zve32f;
+> > @@ -495,6 +497,17 @@ static inline int riscv_cpu_xlen(CPURISCVState *env)
+> >       return 16 << env->xl;
+> >   }
+> >
+> > +#ifndef CONFIG_USER_ONLY
+> > +#ifdef TARGET_RISCV32
+> > +#define riscv_cpu_sxl(env)  ((void)(env), MXL_RV32)
+> > +#else
+> > +static inline RISCVMXL riscv_cpu_sxl(CPURISCVState *env)
+> > +{
+> > +    return get_field(env->mstatus, MSTATUS64_SXL);
+> > +}
+> > +#endif
+> > +#endif
+> > +
 >
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Perhaps an interface also works for user mode is better.
+>
+> +#ifdef TARGET_RISCV32
+> +#define riscv_cpu_sxl(env)  ((void)(env), MXL_RV32)
+> +#else
+> +static inline RISCVMXL riscv_cpu_sxl(CPURISCVState *env)
+> +{
+> +#ifdef CONFIG_USER_ONLY
+> +    return env->misa_mxl;
+> +#else
+> +    return get_field(env->mstatus, MSTATUS64_SXL);
+> +#endif
+> +}
+> +#endif
+> +
+>
+> >   /*
+> >    * Encode LMUL to lmul as follows:
+> >    *     LMUL    vlmul    lmul
+> > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> > index 7c87433645..37b622fbfa 100644
+> > --- a/target/riscv/cpu_bits.h
+> > +++ b/target/riscv/cpu_bits.h
+> > @@ -493,6 +493,13 @@ typedef enum {
+> >   /* Page table PPN shift amount */
+> >   #define PTE_PPN_SHIFT       10
+> >
+> > +/* Page table PPN mask */
+> > +#if defined(TARGET_RISCV32)
+> > +#define PTE_PPN_MASK        0xFFFFFC00UL
+> > +#elif defined(TARGET_RISCV64)
+> > +#define PTE_PPN_MASK        0x3FFFFFFFFFFC00ULL
+> > +#endif
+> > +
+>
+> No need to define PTE_PPN_MASK for TARGET_RISCV32.
 
-Hi
+ppn = (pte & PTE_PPN_MASK) >> PTE_PPN_SHIFT;
 
-Should this came through the migration tree?
+pte is target_ulong, so types are different.
+
+TARGET_RISCV32: is 32bit.
+TARGET_RISCV64: is 64bit.
+
+>
+> >   /* Leaf page shift amount */
+> >   #define PGSHIFT             12
+> >
+> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> > index 327a2c4f1d..2a921bedfd 100644
+> > --- a/target/riscv/cpu_helper.c
+> > +++ b/target/riscv/cpu_helper.c
+> > @@ -622,7 +622,19 @@ restart:
+> >               return TRANSLATE_FAIL;
+> >           }
+> >
+> > -        hwaddr ppn = pte >> PTE_PPN_SHIFT;
+> > +        hwaddr ppn;
+> > +        RISCVCPU *cpu = env_archcpu(env);
+> > +
+> > +        if (riscv_cpu_sxl(env) == MXL_RV32) {
+> > +            ppn = pte >> PTE_PPN_SHIFT;
+> > +        } else if (cpu->cfg.ext_svpbmt || cpu->cfg.ext_svnapot) {
+> > +            ppn = (pte & PTE_PPN_MASK) >> PTE_PPN_SHIFT;
+> > +        } else {
+> > +            ppn = pte >> PTE_PPN_SHIFT;
+> > +            if ((pte & ~PTE_PPN_MASK) >> PTE_PPN_SHIFT) {
+> > +                return TRANSLATE_FAIL;
+> > +            }
+> > +        }
+> >
+> >           if (!(pte & PTE_V)) {
+> >               /* Invalid PTE */
+>
+> Otherwise,
+>
+> Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+>
+> Thanks,
+> Zhiwei
+>
+>
+>
 
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+-- 
+Best Regards
+ Guo Ren
 
-Later, Juan.
-
+ML: https://lore.kernel.org/linux-csky/
 
