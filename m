@@ -2,74 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2EE349ADB2
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 08:38:40 +0100 (CET)
-Received: from localhost ([::1]:42776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED08849ADAC
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 08:36:16 +0100 (CET)
+Received: from localhost ([::1]:40838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCGPX-00074P-B0
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 02:38:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55750)
+	id 1nCGMr-0005aN-Fj
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 02:35:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nCFTX-0004SU-FO
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 01:38:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40153)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nCFTQ-0004UQ-1d
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 01:38:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643092714;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pAotYi3bYpsPHAXKlbx58kye/EeNdHQraabdIBkZgdc=;
- b=LRfZzSJ+2FrtgiZEjt1RyAJySqCLA8SDCS3a/TWeGZs/+owfqjs0PolAa0s1iRnqdEEKDW
- CqmzYfTNflsmZbfNsDafgOXkh9qetcBE6IsUm+i+Dy6oyP8BjUQWquywVLFQc5MDE6fXHt
- V4tesLyvJyDSKob7rZABBQ1QqIhG6HE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-186-UlsPS9STPf6dl5WINPkbsg-1; Tue, 25 Jan 2022 01:38:28 -0500
-X-MC-Unique: UlsPS9STPf6dl5WINPkbsg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99FF18189CC;
- Tue, 25 Jan 2022 06:38:27 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-3.ams2.redhat.com [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D60794EC6E;
- Tue, 25 Jan 2022 06:38:25 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 442F41138640; Tue, 25 Jan 2022 07:38:24 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: RFC: QMP configuration - allocating/setting qdev array properties?
-References: <cccba1ec-34c7-73da-1100-416a0afa8cea@greensocs.com>
- <cd48c959-9262-cc42-73c0-3d10a4bd44b1@greensocs.com>
- <87ee543uh8.fsf@dusky.pond.sub.org>
- <CAFn=p-Y1um_4k33XRPshWy6QjvMGvhq_tfR+s8EFBTFwhkBnrQ@mail.gmail.com>
-Date: Tue, 25 Jan 2022 07:38:24 +0100
-In-Reply-To: <CAFn=p-Y1um_4k33XRPshWy6QjvMGvhq_tfR+s8EFBTFwhkBnrQ@mail.gmail.com>
- (John Snow's message of "Mon, 24 Jan 2022 14:09:01 -0500")
-Message-ID: <87lez45nhb.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nCFbX-0005Qd-Hk; Tue, 25 Jan 2022 01:47:01 -0500
+Received: from smtp21.cstnet.cn ([159.226.251.21]:38584 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nCFbT-0005ca-SA; Tue, 25 Jan 2022 01:46:58 -0500
+Received: from localhost.localdomain (unknown [180.156.147.178])
+ by APP-01 (Coremail) with SMTP id qwCowAC3v1ecnO9hd+nyBg--.63247S2;
+ Tue, 25 Jan 2022 14:45:49 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: anup@brainfault.org, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v6 0/5] support subsets of virtual memory extension
+Date: Tue, 25 Jan 2022 14:45:31 +0800
+Message-Id: <20220125064536.7869-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: qwCowAC3v1ecnO9hd+nyBg--.63247S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZrW3Jw1UKw4kGw1rCr43GFg_yoW8WF1xpF
+ 4rK3yakFZ8tFZ7Jw4ftF48Ar45Xw48ur43Jwn3Aw1kXa13ZrZ8Jrnak3y3AryUXFy0gr9F
+ 9F4Y9r13uayUJrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvj14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+ n2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
+ 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
+ IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
+ AFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_
+ Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoO
+ J5UUUUU
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,31 +65,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
- Mark Burton <mark.burton@greensocs.com>, qemu-devel <qemu-devel@nongnu.org>,
- Mirela Grujic <mirela.grujic@greensocs.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: wangjunqiang@iscas.ac.cn, Weiwei Li <liweiwei@iscas.ac.cn>,
+ lazyparser@gmail.com, ren_guo@c-sky.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+This patchset implements virtual memory related RISC-V extensions: Svnapot version 1.0, Svinval vesion 1.0, Svpbmt version 1.0. 
 
-> On Wed, Jan 19, 2022 at 5:12 AM Markus Armbruster <armbru@redhat.com> wrote:
+Specification:
+https://github.com/riscv/virtual-memory/tree/main/specs
 
-[...]
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-virtmem-upstream-v6
 
->> Another stop gap solution could be making QDict iterate in insertion
->> order, like Python dict does since 3.6.
->>
->
-> I like this idea, I think. Are there any possible downsides here?
-> Making the order more 'stable' in one regard might lead to people
-> trusting it "too often" if there are other implementation details that
-> might impact the order ... but I don't actually have any examples
-> handy for that. It's just my fear.
+To test this implementation, specify cpu argument with 'svinval=true,svnapot=true,svpbmt=true'.
 
-For what it's worth, it took Python just one release cycle to overcome
-this fear :)
+This implementation can pass the riscv-tests for rv64ssvnapot.
+
+v6:
+* select ppn mask base on sxl
+
+v5:
+* merge patch https://lore.kernel.org/qemu-devel/1569456861-8502-1-git-send-email-guoren@kernel.org/
+* relax pte attribute check
+
+v4:
+* fix encodings for hinval_vvma and hinval_gvma
+* partition inner PTE check into several steps
+* improve commit messages to describe changes
+
+v3:
+* drop "x-" in exposed properties
+
+v2:
+* add extension check for svnapot and svpbmt
+
+Guo Ren (1):
+  target/riscv: Ignore reserved bits in PTE for RV64
+
+Weiwei Li (4):
+  target/riscv: add PTE_A/PTE_D/PTE_U bits check for inner PTE
+  target/riscv: add support for svnapot extension
+  target/riscv: add support for svinval extension
+  target/riscv: add support for svpbmt extension
+
+ target/riscv/cpu.c                          |  4 ++
+ target/riscv/cpu.h                          | 14 ++++
+ target/riscv/cpu_bits.h                     | 10 +++
+ target/riscv/cpu_helper.c                   | 34 +++++++++-
+ target/riscv/insn32.decode                  |  7 ++
+ target/riscv/insn_trans/trans_svinval.c.inc | 75 +++++++++++++++++++++
+ target/riscv/translate.c                    |  1 +
+ 7 files changed, 142 insertions(+), 3 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_svinval.c.inc
+
+-- 
+2.17.1
 
 
