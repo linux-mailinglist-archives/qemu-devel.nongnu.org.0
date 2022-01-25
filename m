@@ -2,67 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8359449B84E
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 17:14:10 +0100 (CET)
-Received: from localhost ([::1]:51858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF5749B943
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 17:52:10 +0100 (CET)
+Received: from localhost ([::1]:48666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCOSP-0007sI-Ka
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 11:14:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50536)
+	id 1nCP3A-0004Ny-Mr
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 11:52:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nCOFA-0002dv-Lo
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 11:00:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29058)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nCOF7-0007PC-Tm
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 11:00:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643126424;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=De2AL3+n42I+H+buLzAfexSFnBymYv4/YXphsSPhNlU=;
- b=EjAv3c01/rqMOGSQTM09t03DOJt8hxrkDz0tiv77iLhAYxKwW5zYDswEDEIIs0ugeR46Ga
- 6K6vDIf57H3B9SI6d+AWNQ1nSxpqC02gkGXxZF5ma+W+m74FSHcbNnJTa5x8HTcyV+FbVC
- YILdgBIx5ZAYl+rehGLpeJ1+D4KSSlg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-167-BBfT3yffN_uc7O0BCVVALA-1; Tue, 25 Jan 2022 11:00:21 -0500
-X-MC-Unique: BBfT3yffN_uc7O0BCVVALA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2367846867;
- Tue, 25 Jan 2022 16:00:19 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7A2BC7DE3A;
- Tue, 25 Jan 2022 16:00:18 +0000 (UTC)
-Date: Tue, 25 Jan 2022 16:00:17 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v5 00/18] vfio-user server in QEMU
-Message-ID: <YfAekQfnC4VfSXtW@stefanha-x1.localdomain>
-References: <cover.1642626515.git.jag.raman@oracle.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nCOHe-0006eF-He; Tue, 25 Jan 2022 11:03:02 -0500
+Received: from [2a00:1450:4864:20::431] (port=38784
+ helo=mail-wr1-x431.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nCOHb-0007ko-MN; Tue, 25 Jan 2022 11:03:02 -0500
+Received: by mail-wr1-x431.google.com with SMTP id c23so5097382wrb.5;
+ Tue, 25 Jan 2022 08:02:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=4YgqO+kvYRcLueN+/DEHgspfl+rYbkiDQzE4vYkYE84=;
+ b=itisBH4FwAYi7Nj6rfCH/hGtCm+x2RgkLy1s7tlAvdvTA1qsyNVA7OQuKlFmwNvrtL
+ QSDxS778eATNf4A4zu3NMk3HQUSdC1jux4qkTJTCMhsVZCU3h1GBi4LpJEdORkbUgqcr
+ g74jnkGO4ccngEba4cDGCopJCpq2OSVnVV2uvUu/NMGp5pRVwKhb2pab7HNYshBpVw6X
+ BQ+jHPJdQO7Q2OZ0xawWn9mtkZEx7tYmtYVi/h01wAgNTUodpmClpbFZkdu6bCxGd8sd
+ xKxYReDdfdeYKRuA6qXW97OgMZ7VOrfz7l1Fk5hHnKncZbPfeZXyMViY61TRyFXpmODa
+ nBfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=4YgqO+kvYRcLueN+/DEHgspfl+rYbkiDQzE4vYkYE84=;
+ b=exT7vc9qalqS2Prl/zxyl6mEMNC6mT7N6CkTSC4xlDEX/Dfu96vnIG88cR++KVPXyj
+ Po5BHjR8yA0dHOxs1IDa7/GYlK+w+rfa3i4YC14kKmUz/OoQVxXr5OAT+gfruFlb3NQ0
+ hMsq5mnWRLGjDmk8IGQaRKeaHJdaT7OSHW/nNcBCgG71WlHXSzAzFw0vqo5N1yvRMkAU
+ ZPFhgo0PIlZzDIfj5LETGy6r/2DtA4vs0AOZisufV+D+xk1hnxNcLkElNG8+wB0XD+Le
+ Mw1oIjJfafvGhA6mbCOt5bZHM67zYSHR/j1jxXPA7IArvGqAOUBa6MJJUoqbRkz2pOSz
+ iOwg==
+X-Gm-Message-State: AOAM532NVMzjBgPpnV1MahKv8eec4giMDenbhBbxmRzvW3loOR+tMOUg
+ 9LAjs1O4oygJV56oMjgfbRA=
+X-Google-Smtp-Source: ABdhPJy/WgEW5dToMSvVj0nxAGDYjlVNrfCFaUgtwdt+hJ38sq5m7/Lf6CfMmwv1Euk8cXQ87U6ibw==
+X-Received: by 2002:adf:e3d0:: with SMTP id k16mr18511405wrm.713.1643126576955; 
+ Tue, 25 Jan 2022 08:02:56 -0800 (PST)
+Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id u7sm720696wml.7.2022.01.25.08.02.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Jan 2022 08:02:56 -0800 (PST)
+Message-ID: <47a755a6-d2fa-5991-79af-5b29fa3b0f7b@amsat.org>
+Date: Tue, 25 Jan 2022 17:02:54 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="MAKtd2Idxz9pE8FV"
-Content-Disposition: inline
-In-Reply-To: <cover.1642626515.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 1/3] block/export/fuse: Extract
+ fuse_fallocate_punch_hole()
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Li-Wen Hsu <lwhsu@freebsd.org>,
+ Ed Maste <emaste@freebsd.org>, Kyle Evans <kevans@freebsd.org>,
+ Fabrice Fontaine <fontaine.fabrice@gmail.com>
+References: <20220124220357.74017-1-f4bug@amsat.org>
+ <20220124220357.74017-2-f4bug@amsat.org>
+ <97b1db48-32a3-46a4-4972-9c91ec518ba6@redhat.com>
+In-Reply-To: <97b1db48-32a3-46a4-4972-9c91ec518ba6@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,69 +95,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
- berrange@redhat.com, bleal@redhat.com, john.levon@nutanix.com, mst@redhat.com,
- peter.maydell@linaro.org, armbru@redhat.com, quintela@redhat.com,
- qemu-devel@nongnu.org, f4bug@amsat.org, marcandre.lureau@gmail.com,
- thanos.makatos@nutanix.com, pbonzini@redhat.com, kwolf@redhat.com,
- eblake@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 
---MAKtd2Idxz9pE8FV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-Hi Jag,
-Thanks for this latest revision. The biggest outstanding question I have
-is about the isolated address spaces design.
+On 1/25/22 12:10, Thomas Huth wrote:
+> On 24/01/2022 23.03, Philippe Mathieu-Daudé via wrote:
+>> Extract fuse_fallocate_punch_hole() to avoid #ifdef'ry
+>> mixed within if/else statement.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   block/export/fuse.c | 59 +++++++++++++++++++++++++++------------------
+>>   1 file changed, 35 insertions(+), 24 deletions(-)
+>>
+>> diff --git a/block/export/fuse.c b/block/export/fuse.c
+>> index 6710d8aed86..31cb0503adc 100644
+>> --- a/block/export/fuse.c
+>> +++ b/block/export/fuse.c
+>> @@ -603,6 +603,38 @@ static void fuse_write(fuse_req_t req, fuse_ino_t
+>> inode, const char *buf,
+>>       }
+>>   }
+>>   +static bool fuse_fallocate_zero_range(fuse_req_t req, fuse_ino_t
+>> inode,
+>> +                                      int mode, int64_t blk_len,
+>> +                                      off_t offset, off_t *length)
+>> +{
+>> +#ifdef CONFIG_FALLOCATE_ZERO_RANGE
+>> +    FuseExport *exp = fuse_req_userdata(req);
+>> +
+>> +    if (mode & FALLOC_FL_ZERO_RANGE) {
+>> +        int ret;
+>> +
+>> +       if (!(mode & FALLOC_FL_KEEP_SIZE) && offset + *length >
+>> blk_len) {
+>> +            /* No need for zeroes, we are going to write them
+>> ourselves */
+>> +            ret = fuse_do_truncate(exp, offset + *length, false,
+>> +                                   PREALLOC_MODE_OFF);
+>> +            if (ret < 0) {
+>> +                fuse_reply_err(req, -ret);
+>> +                return false;
+>> +            }
+>> +        }
+>> +
+>> +        do {
+>> +            int size = MIN(*length, BDRV_REQUEST_MAX_BYTES);
+>> +
+>> +            ret = blk_pwrite_zeroes(exp->common.blk, offset, size, 0);
+>> +            offset += size;
+>> +            *length -= size;
+>> +        } while (ret == 0 && *length > 0);
+>> +    }
+>> +#endif /* CONFIG_FALLOCATE_ZERO_RANGE */
+>> +    return true;
+>> +}
+>> +
+>>   /**
+>>    * Let clients perform various fallocate() operations.
+>>    */
+>> @@ -642,30 +674,9 @@ static void fuse_fallocate(fuse_req_t req,
+>> fuse_ino_t inode, int mode,
+>>               offset += size;
+>>               length -= size;
+>>           } while (ret == 0 && length > 0);
+>> -    }
+>> -#ifdef CONFIG_FALLOCATE_ZERO_RANGE
+>> -    else if (mode & FALLOC_FL_ZERO_RANGE) {
+>> -        if (!(mode & FALLOC_FL_KEEP_SIZE) && offset + length >
+>> blk_len) {
+>> -            /* No need for zeroes, we are going to write them
+>> ourselves */
+>> -            ret = fuse_do_truncate(exp, offset + length, false,
+>> -                                   PREALLOC_MODE_OFF);
+>> -            if (ret < 0) {
+>> -                fuse_reply_err(req, -ret);
+>> -                return;
+>> -            }
+>> -        }
+>> -
+>> -        do {
+>> -            int size = MIN(length, BDRV_REQUEST_MAX_BYTES);
+>> -
+>> -            ret = blk_pwrite_zeroes(exp->common.blk,
+>> -                                    offset, size, 0);
+>> -            offset += size;
+>> -            length -= size;
+>> -        } while (ret == 0 && length > 0);
+> 
+> I might not have enough coffee today yet, but I think your patch is
+> wrong: If the code executed this do-while loop/if-statement-branch, the
+> other else-statements below were never called. Now with your patch, if
+> the do-while loop in fuse_fallocate_zero_range() is called, the function
+> will return with "true" at the end, causing the other else-statements
+> below to be called, so that ret finally gets set to -EOPNOTSUPP. Or did
+> I miss something?
 
-This patch series needs a PCIBus with its own Memory Space, I/O Space,
-and interrupts. That way a single QEMU process can host vfio-user
-servers that different VMs connect to. They all need isolated address
-spaces so that mapping a BAR in Device A does not conflict with mapping
-a BAR in Device B.
-
-The current approach adds special code to hw/pci/pci.c so that custom
-AddressSpace can be set up. The isolated PCIBus is an automatically
-created PCIe root port that's a child of the machine's main PCI bus. On
-one hand it's neat because QEMU's assumption that there is only one
-root SysBus isn't violated. On the other hand it seems like a special
-case hack for PCI and I'm not sure in what sense these PCIBusses are
-really children of the machine's main PCI bus since they don't share or
-interact in any way.
-
-Another approach that came to mind is to allow multiple root SysBusses.
-Each vfio-user server would need its own SysBus and put a regular PCI
-host onto that isolated SysBus without modifying hw/pci/pci.c with a
-special case. The downside to this is that violating the single SysBus
-assumption probably breaks monitor commands that rely on
-qdev_find_recursive() and friends. It seems cleaner than adding isolated
-address spaces to PCI specifically, but also raises the question if
-multiple machine instances are needed (which would raise even more
-questions).
-
-I wanted to raise this to see if Peter, Kevin, Michael, and others are
-happy with the current approach or have ideas for a clean solution.
-
-Stefan
-
---MAKtd2Idxz9pE8FV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHwHpEACgkQnKSrs4Gr
-c8hfqwgArnvAw8f8BmbS9BAO3SYHvFEs5x/P3o07tixso6CiuCSvSEtxCtY7TeiV
-tb668rZqL0W935zH9fK1gow+XxJL3EnLGP7QDhAZC2+7qCkQidXf1K5IenxqhzfM
-FiH57Ykb4kVG1lWXuumobi7nFuQK+knJ704c+fozxhtDOPP9ustiaSDaJNgUkQX/
-53COasStej30YZUGIoPnFd8jatrzV4ZxvYhtlC4XTC9+0bg4M5NFTTXzKy+92RnP
-4+2o9372vW1/msGh3ncwZLDJDDSkUJnL/TN/oiVx08P3C5/UxHGAOgnX/9k1TT/+
-o9BChkgPVsSwaNWLJ9yT8tAN+9UmKw==
-=T6N2
------END PGP SIGNATURE-----
-
---MAKtd2Idxz9pE8FV--
-
+You are right, this patch is crap, sorry.
 
