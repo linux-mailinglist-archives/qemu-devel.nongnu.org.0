@@ -2,67 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D6749B849
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 17:12:03 +0100 (CET)
-Received: from localhost ([::1]:46366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB5A49B82B
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 17:07:40 +0100 (CET)
+Received: from localhost ([::1]:39658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCOQM-0003u9-MB
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 11:12:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41224)
+	id 1nCOM6-0007NZ-KM
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 11:07:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nCN7z-0008Bl-Ph
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 09:49:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51046)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nCNDp-0000Cv-QR; Tue, 25 Jan 2022 09:55:02 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:12738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nCN7p-0002Df-6C
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 09:48:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643122128;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=L0L0R1MMW/5loq174vgkTrCaYlYNUT7TJ0kETJqRgTc=;
- b=IZzStPMaWoO1kY+X0C7jrMY9sU/nzIopYlV+mo4TLdbtLO3MoiWVsxRnZg6pUKQxDA78Iw
- nIUiFd6gQ022wGhuHsYKmL0RTshTwPIwwAaITOK1O0CmJw/KQ/Ia8HM13o29Glg6c4EuUK
- h9VpB9CyMQEZl+btgVF3QQHTKYXENHs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-532-F7NK2f8VM7W2oQMNWDSn3A-1; Tue, 25 Jan 2022 09:48:44 -0500
-X-MC-Unique: F7NK2f8VM7W2oQMNWDSn3A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CC48814703;
- Tue, 25 Jan 2022 14:48:42 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 017537D3E8;
- Tue, 25 Jan 2022 14:48:01 +0000 (UTC)
-Date: Tue, 25 Jan 2022 14:48:00 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v5 11/18] vfio-user: find and init PCI device
-Message-ID: <YfANoO9sUaf7WCJv@stefanha-x1.localdomain>
-References: <cover.1642626515.git.jag.raman@oracle.com>
- <01f4837eaa73d340542961cf36a6028f4a681a0e.1642626515.git.jag.raman@oracle.com>
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nCNDo-0003OV-4b; Tue, 25 Jan 2022 09:55:01 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20PEjKeh035000; 
+ Tue, 25 Jan 2022 14:54:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=N1Qk54U1eSkOzwn2pIF6xD2HsVBzVjZcFgE4DjKnI9I=;
+ b=Qrua6aFUSTru7lD5ZEvbO6HB2zfVrMRIEn/Pe2nGWQyYnXY6+SEHuM+4e0c+MPnTwK00
+ ztihVeImD/sleaqZnu1s1UJXz8kGho5x4IFh14QOXAznKI3uAjy2l6OBouKAZV1Nlwm0
+ QGq1fl//oqEcGj957mcC8P9e1PGGGvKX5pv53t/m1gUFfBLvzP/VwfboRuTHop2/fLVr
+ IF3v/rvQwFKuee6sFz9J+VVkMUf0R0x2QybpJ5/2kNu8oYZ3npvUB6Fbh/7uAMkRkmcu
+ Es8jTMUS1drDWXleJTjQy4isTrfw9ETms4cc4DEaJ+cP/OTlY0QuEKDCmlJtK7XN8ijm og== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dthxvt5vj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Jan 2022 14:54:53 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20PElsSv004871;
+ Tue, 25 Jan 2022 14:54:52 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dthxvt5va-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Jan 2022 14:54:52 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20PEljpd016422;
+ Tue, 25 Jan 2022 14:54:52 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma03dal.us.ibm.com with ESMTP id 3dr9jav222-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Jan 2022 14:54:52 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20PEso8822020568
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 25 Jan 2022 14:54:51 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CC771BE059;
+ Tue, 25 Jan 2022 14:54:50 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 32326BE061;
+ Tue, 25 Jan 2022 14:54:50 +0000 (GMT)
+Received: from localhost (unknown [9.163.21.20])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Tue, 25 Jan 2022 14:54:49 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
+Subject: Re: [PATCH 0/5] target/ppc: powerpc_excp improvements [BookS] (4/n)
+In-Reply-To: <6605f0a0-fcc4-44fa-1b94-397dd7ed554e@kaod.org>
+References: <20220124184605.999353-1-farosas@linux.ibm.com>
+ <6605f0a0-fcc4-44fa-1b94-397dd7ed554e@kaod.org>
+Date: Tue, 25 Jan 2022 11:54:47 -0300
+Message-ID: <87pmofx3uw.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Y044p4CBJwWstrn0"
-Content-Disposition: inline
-In-Reply-To: <01f4837eaa73d340542961cf36a6028f4a681a0e.1642626515.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 6ma9ja3Ou8-OdQoq8hsrB239_KF6Mk_S
+X-Proofpoint-ORIG-GUID: DWe2JwjrwlA3-XHKUYpmD4vyjKXsxZZS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-25_02,2022-01-25_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0
+ mlxscore=0 bulkscore=0 lowpriorityscore=0 malwarescore=0 spamscore=0
+ priorityscore=1501 clxscore=1015 suspectscore=0 impostorscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2201250094
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,121 +108,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
- berrange@redhat.com, bleal@redhat.com, john.levon@nutanix.com, mst@redhat.com,
- armbru@redhat.com, quintela@redhat.com, qemu-devel@nongnu.org, f4bug@amsat.org,
- marcandre.lureau@gmail.com, thanos.makatos@nutanix.com, pbonzini@redhat.com,
- eblake@redhat.com, dgilbert@redhat.com
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+C=C3=A9dric Le Goater <clg@kaod.org> writes:
 
---Y044p4CBJwWstrn0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On 1/24/22 19:46, Fabiano Rosas wrote:
+>> This series splits the exception code for BookS CPUs: 970, POWER5+,
+>> POWER7, POWER8, POWER9, POWER10. After dealing with the 405, let's go
+>> back to something more familiar to give everyone a break.
+>>=20
+>> No upfront fixes this time. The pseries code gets used a lot, so there
+>> are no obvious issues and the older BookS CPUs get the benefits by
+>> default since they are similar.
+>
+> Super ! I think this series can go in directly. I would only change
+> the name to book3s because it fits better the current naming in QEMU
+> and Linux.
 
-On Wed, Jan 19, 2022 at 04:42:00PM -0500, Jagannathan Raman wrote:
-> Find the PCI device with specified id. Initialize the device context
-> with the QEMU PCI device
->=20
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> ---
->  hw/remote/vfio-user-obj.c | 60 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 60 insertions(+)
->=20
-> diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
-> index 810a7c3943..10db78eb8d 100644
-> --- a/hw/remote/vfio-user-obj.c
-> +++ b/hw/remote/vfio-user-obj.c
-> @@ -44,6 +44,8 @@
->  #include "qemu/notify.h"
->  #include "sysemu/sysemu.h"
->  #include "libvfio-user.h"
-> +#include "hw/qdev-core.h"
-> +#include "hw/pci/pci.h"
-> =20
->  #define TYPE_VFU_OBJECT "x-vfio-user-server"
->  OBJECT_DECLARE_TYPE(VfuObject, VfuObjectClass, VFU_OBJECT)
-> @@ -89,6 +91,10 @@ struct VfuObject {
->      Notifier machine_done;
-> =20
->      vfu_ctx_t *vfu_ctx;
-> +
-> +    PCIDevice *pci_dev;
-> +
-> +    Error *unplug_blocker;
->  };
-> =20
->  static void vfu_object_init_ctx(VfuObject *o, Error **errp);
-> @@ -161,6 +167,9 @@ static void vfu_object_machine_done(Notifier *notifie=
-r, void *data)
->  static void vfu_object_init_ctx(VfuObject *o, Error **errp)
->  {
->      ERRP_GUARD();
-> +    DeviceState *dev =3D NULL;
-> +    vfu_pci_type_t pci_type =3D VFU_PCI_TYPE_CONVENTIONAL;
-> +    int ret;
-> =20
->      if (o->vfu_ctx || !o->socket || !o->device ||
->              !phase_check(PHASE_MACHINE_READY)) {
-> @@ -179,6 +188,49 @@ static void vfu_object_init_ctx(VfuObject *o, Error =
-**errp)
->          error_setg(errp, "vfu: Failed to create context - %s", strerror(=
-errno));
->          return;
->      }
-> +
-> +    dev =3D qdev_find_recursive(sysbus_get_default(), o->device);
-> +    if (dev =3D=3D NULL) {
-> +        error_setg(errp, "vfu: Device %s not found", o->device);
-> +        goto fail;
-> +    }
-> +
-> +    if (!object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
-> +        error_setg(errp, "vfu: %s not a PCI device", o->device);
-> +        goto fail;
-> +    }
-> +
-> +    o->pci_dev =3D PCI_DEVICE(dev);
-> +
-> +    if (pci_is_express(o->pci_dev)) {
-> +        pci_type =3D VFU_PCI_TYPE_EXPRESS;
-> +    }
-> +
-> +    ret =3D vfu_pci_init(o->vfu_ctx, pci_type, PCI_HEADER_TYPE_NORMAL, 0=
-);
-> +    if (ret < 0) {
-> +        error_setg(errp,
-> +                   "vfu: Failed to attach PCI device %s to context - %s",
-> +                   o->device, strerror(errno));
-> +        goto fail;
-> +    }
-> +
-> +    error_setg(&o->unplug_blocker, "%s is in use", o->device);
+Not that it matters that much, but QEMU emulates Books I and II as well,
+doesn't it?
 
-More detailed error message:
-"x-vfio-user-server for %s must be deleted before unplugging"
+Book I, Power ISA User Instruction Set Architecture,
+covers the base instruction set and related facilities
+available to the application programmer.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Book II, Power ISA Virtual Environment Architecture,
+defines the storage model and other instructions and
+facilities that enable the application programmer to cre-
+ate multithreaded programs and programs that interact
+with certain physical realities of the computing environ-
+ment.
 
---Y044p4CBJwWstrn0
-Content-Type: application/pgp-signature; name="signature.asc"
+Book III, Power ISA Operating Environment Architec-
+ture, defines the supervisor instructions and related
+facilities.
 
------BEGIN PGP SIGNATURE-----
+Anyway, I'm OK with either name.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHwDaAACgkQnKSrs4Gr
-c8iy9Qf+OlyyFLyZP+wLsTBZfWZRo6IlImseQ7rGxDTg0r0HK95Yg2/yiTYrohg8
-rH1hf3+cuhJlPBCv2n1xEA2x1hpvN74mwGiVqMQhhtTEDzTmZaGU8qutislF/Ib3
-hbc6y+gOomvTx+4sC4XWGTx4M1kTTHgC4OTTzhIy2CogkxIcbO96aeqJqs26KBgo
-j3lXOOSiI6fUqABqNxf2koVUa3JrWMz6SCnGJSjSK9nTTvBvqlr5Xf8R2irvnYCp
-nmxEof61TibkLaEncires6i4GKZiF5ciypCT3vBBx3JPATtveJaUpOLSF3dQRCIC
-aG0fa5G5v4p1aMJLyXStc1w777zpJA==
-=xBlq
------END PGP SIGNATURE-----
-
---Y044p4CBJwWstrn0--
-
+>
+> Thanks,
+>
+> C.
 
