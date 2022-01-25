@@ -2,82 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B83049B736
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 16:06:43 +0100 (CET)
-Received: from localhost ([::1]:55032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6D7949B788
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 16:26:27 +0100 (CET)
+Received: from localhost ([::1]:35826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCNP7-00069W-P3
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 10:06:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51494)
+	id 1nCNiD-00068Z-OE
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 10:26:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nCMGk-0007H4-0B
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 08:53:58 -0500
-Received: from [2a00:1450:4864:20::52a] (port=35440
- helo=mail-ed1-x52a.google.com)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1nCMIJ-0007l4-Fj
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 08:55:35 -0500
+Received: from [2a00:1450:4864:20::332] (port=53903
+ helo=mail-wm1-x332.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nCMGi-00024y-2H
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 08:53:57 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id n10so47251653edv.2
- for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 05:53:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=AQLpznwZjUVv3sUgFHwsQE4uBZUuzaht9HIbBFEo6f4=;
- b=oFVlvNme6+1uraHXIpqVTZJooeuciNw3iWAL/Ey8x2RkjnC+h68gn0/gbbr8v9MAMi
- MXbRgdJY/Hm1keH5w9cjeRuuHJXPP6v64vM0CY7rmBKwlITwHNaLUmqrRLxPYAHGoiSG
- A+0hIMaETf6QYNLW5wQJOV5DsO+rBFp/SkDZ9Cfx6tGZtU1pEB1P5qiejX5d/2+4f+by
- jE0NUFh+b/9men+gJGB4WQKRdhUHLiH2vlD9YR1lzrbbupJY67wPVUcrK7SJ6grjKleA
- VMPliylUt1jrUTqfZzuQ8NoLodZtAerxSkbIdn/jGkHiquBXElaA4bWr8FSBmQPmERY4
- 4p7g==
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1nCMIF-0002Rf-5E
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 08:55:33 -0500
+Received: by mail-wm1-x332.google.com with SMTP id n8so25375756wmk.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 05:55:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:reply-to:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=6EJNmViF+HBybLCJxBBkQKt7yPxgwq5NZNFhjZnZK3I=;
+ b=qKq04QsqZXmb9epEdgKocCid6isDpmZdZHvrngDN3zu12YRVRrxasClgp3c0im4JNz
+ NRovbe1Zqpx+9esQJvQ15J3I8dRkdLnkiV5o2oK8KDnqL8ROhI/Af7yE1gtrt37h0Tlv
+ DRu935UXPyZyVFtTHKyZR85p1BJ4vUJQgU1LZdJC4sQM8waYePLmmqFuj8IdUa6mSl2Y
+ e5xGABibr078we5nQjLbxKzq7R5Qp/sbwHVAYLph2HRjoB5V2C8tZtIscBtSJaigqCDz
+ KyIrTmQdDH5t/Rfpl3dHuFd6REAsA0c72hwlnjZZjBTxsq7EcUrwdWmwcnxgcKQ4z2UG
+ HJMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=AQLpznwZjUVv3sUgFHwsQE4uBZUuzaht9HIbBFEo6f4=;
- b=5gO63jYzenNI2cYUx/evtgsYyQnfogG38CtzCgqZnL2ap47V4Aw5Q08NIGLcAchEZt
- WXMdfZDwnLzyd5z3SMp0FAEeJ6OYEOxpBxRCEx5G9404la/pcbpspcWATjSbtpCIpbGr
- rk/acDish/MhpSU17PYTgfoF7VOtKXjFyAyN1cwgv1fiw4l3zS08ROsU0xWTJrMnhJxg
- qxU2LtTppom/rAbm/FmVueEeQQf1FUR+yDsx0f5ZdiWsqV3x/xvpdOgtKeyzlefGsLnp
- H742+Kf+36x1YuU4oJ6oE7NCpSSFC3zuiCRjqxeGKGaTAWwEAR8HtphLaN0iMvRbMzl5
- PIng==
-X-Gm-Message-State: AOAM530Raa5m4DtnH38LTWEzz8UzAEjTSMt2dEPtDbmEDt0SAzEEKmlL
- mYiITqM4sbUIEk/4N9gMW4XV9A==
-X-Google-Smtp-Source: ABdhPJy6DeMd2H4MLD/JsGpZo+K3RcDzCGsRbxaB1boo5gDl5I+vBQoaGm3YmYICFx72cFJXlvGjfg==
-X-Received: by 2002:aa7:c412:: with SMTP id j18mr11429475edq.393.1643118833563; 
- Tue, 25 Jan 2022 05:53:53 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v5sm6164216ejc.40.2022.01.25.05.53.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jan 2022 05:53:52 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B3DAA1FFB7;
- Tue, 25 Jan 2022 13:53:51 +0000 (GMT)
-References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
- <20220124171705.10432-2-Jonathan.Cameron@huawei.com>
-User-agent: mu4e 1.7.6; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v4 01/42] hw/pci/cxl: Add a CXL component type (interface)
-Date: Tue, 25 Jan 2022 13:53:45 +0000
-In-reply-to: <20220124171705.10432-2-Jonathan.Cameron@huawei.com>
-Message-ID: <875yq7exao.fsf@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=6EJNmViF+HBybLCJxBBkQKt7yPxgwq5NZNFhjZnZK3I=;
+ b=INdhOtQfwBuqvIUD3ak/Ma7abYgDIbxzqyNod2/SrcxkpAook7bzF+fhei6DumEeSp
+ VrUAxTQ1EQgSCg1tQrzoV1Oy+KsecdSsCtOvd8B1AZc3X5aM57LFk0qKu9gPKDOuKQ9D
+ QSte38qMvULMbCv9jLG/OdtTrh7hydQd7hCv3bTp2iJLbNsZeTloNXZ3tnPFhiqk01pN
+ Wpo6ivBaN8tzXEJCkTqReH0YUHqp07FNHFplN3vkfQWM73a2+1ceXz2D5CctOjGrqhvQ
+ ms4e8xqZ17kGTWWi8NnznSvOih9Yo4UUIK2DB/h0o9sufc9h3Mr9BwxarQDw8Su4uJoU
+ dzRw==
+X-Gm-Message-State: AOAM532v4fG1rCQNSlWDPIzLfzZZDXr1gEmyuVwOyieFOhqIj1dzZ5/f
+ sLjw+8aJV6emoEzCDTAdgRw=
+X-Google-Smtp-Source: ABdhPJwPRU8u3j94OQtF7wTRh9feVaxTmZqsL3D4HbIxOPsEKNx0H0A5j/+TEbClEDLoBMTWKvTDsA==
+X-Received: by 2002:a05:600c:3641:: with SMTP id
+ y1mr3103373wmq.44.1643118922489; 
+ Tue, 25 Jan 2022 05:55:22 -0800 (PST)
+Received: from ?IPV6:2a00:23c5:5785:9a01:ad9a:ab78:5748:a7ec?
+ ([2a00:23c5:5785:9a01:ad9a:ab78:5748:a7ec])
+ by smtp.gmail.com with ESMTPSA id p17sm16319687wrf.112.2022.01.25.05.55.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Jan 2022 05:55:22 -0800 (PST)
+Message-ID: <2da0075f-4a6f-b196-6ae7-73c0df66e437@gmail.com>
+Date: Tue, 25 Jan 2022 13:55:19 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52a
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2] xen-mapcache: Avoid entry->lock overflow
+Content-Language: en-US
+To: Ross Lagerwall <ross.lagerwall@citrix.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
+References: <20220124104450.152481-1-ross.lagerwall@citrix.com>
+From: "Durrant, Paul" <xadimgnik@gmail.com>
+In-Reply-To: <20220124104450.152481-1-ross.lagerwall@citrix.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,45 +95,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, linuxarm@huawei.com,
- Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Reply-To: paul@xen.org
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Igor Druzhinin <igor.druzhinin@citrix.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ xen-devel@lists.xenproject.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 24/01/2022 10:44, Ross Lagerwall wrote:
+> In some cases, a particular mapcache entry may be mapped 256 times
+> causing the lock field to wrap to 0. For example, this may happen when
+> using emulated NVME and the guest submits a large scatter-gather write.
+> At this point, the entry map be remapped causing QEMU to write the wrong
+> data or crash (since remap is not atomic).
+> 
+> Avoid this overflow by increasing the lock field to a uint32_t and also
+> detect it and abort rather than continuing regardless.
+> 
+> Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
 
-Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+Reviewed-by: Paul Durrant <paul@xen.org>
 
-> From: Ben Widawsky <ben.widawsky@intel.com>
->
-> A CXL component is a hardware entity that implements CXL component
-> registers from the CXL 2.0 spec (8.2.3). Currently these represent 3
-> general types.
-> 1. Host Bridge
-> 2. Ports (root, upstream, downstream)
-> 3. Devices (memory, other)
->
-> A CXL component can be conceptually thought of as a PCIe device with
-> extra functionality when enumerated and enabled. For this reason, CXL
-> does here, and will continue to add on to existing PCI code paths.
->
-> Host bridges will typically need to be handled specially and so they can
-> implement this newly introduced interface or not. All other components
-> should implement this interface. Implementing this interface allows the
-> core PCI code to treat these devices as special where appropriate.
->
-> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> ---
+> Changes in v2: Change type to uint32_t since there is a hole there
+> anyway. The struct size remains at 48 bytes on x86_64.
+> 
+>   hw/i386/xen/xen-mapcache.c | 8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/i386/xen/xen-mapcache.c b/hw/i386/xen/xen-mapcache.c
+> index bd47c3d672..f2ef977963 100644
+> --- a/hw/i386/xen/xen-mapcache.c
+> +++ b/hw/i386/xen/xen-mapcache.c
+> @@ -52,7 +52,7 @@ typedef struct MapCacheEntry {
+>       hwaddr paddr_index;
+>       uint8_t *vaddr_base;
+>       unsigned long *valid_mapping;
+> -    uint8_t lock;
+> +    uint32_t lock;
+>   #define XEN_MAPCACHE_ENTRY_DUMMY (1 << 0)
+>       uint8_t flags;
+>       hwaddr size;
+> @@ -355,6 +355,12 @@ tryagain:
+>       if (lock) {
+>           MapCacheRev *reventry = g_malloc0(sizeof(MapCacheRev));
+>           entry->lock++;
+> +        if (entry->lock == 0) {
+> +            fprintf(stderr,
+> +                    "mapcache entry lock overflow: "TARGET_FMT_plx" -> %p\n",
+> +                    entry->paddr_index, entry->vaddr_base);
+> +            abort();
+> +        }
+>           reventry->dma = dma;
+>           reventry->vaddr_req = mapcache->last_entry->vaddr_base + address_offset;
+>           reventry->paddr_index = mapcache->last_entry->paddr_index;
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
