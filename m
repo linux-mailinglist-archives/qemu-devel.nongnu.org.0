@@ -2,84 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BC4049BA16
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 18:20:33 +0100 (CET)
-Received: from localhost ([::1]:33320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1B9F49BA74
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 18:35:47 +0100 (CET)
+Received: from localhost ([::1]:51866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCPUe-0007zE-50
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 12:20:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39172)
+	id 1nCPj8-0003sS-QA
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 12:35:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nCPST-0006Ir-IY
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 12:18:17 -0500
-Received: from [2a00:1450:4864:20::52c] (port=37882
- helo=mail-ed1-x52c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nCPSR-00063R-Ev
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 12:18:17 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id c24so62438845edy.4
- for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 09:18:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=Y9VMEWa9H0pf+42UoNVqVS4zeqbjbQp1/KTw6BBvYjQ=;
- b=k+hacKB1JNkWUt06j0MFO3fHma249npXlaXYW33blM5BtiOVGD+KpZHaEJ8XCRbiE5
- MxlKqLIIUXtINNaXHJwSq2eHkkM88DNAXGQ5gxagiU+Bs9bJm0XCiymLLvf4/r4OPlpz
- 0QQlsKnmZfABA6vheAZiStClJs5eOJWHESTU/iHYoHLCKHwgaHRQUSu6021FaKUqSy8j
- egQJ62fs8ow76EkUVG0Wv2G5ubd738mIUAyTKFQ4VAfbLKAGrny5LjHfqJOQBHYo4nFu
- 6iGWSe41rREa4HWdFF3x+3hgd77+VteAb3pGnCxbJDnwYkbc8+WVwmz4ZqJYfxkhvMFT
- 15Ew==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nCPdB-00085N-Kl
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 12:29:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33638)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nCPd3-0007lC-Io
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 12:29:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643131752;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dVt/rcCoZReWs+Q618Sxm77QjN6535brF66Te2gXuwU=;
+ b=DwR1Z0DfXc/+0cLiCoGmLKdasPkm3mqbXqBifVYOTvoqo/U8vLMwCc2+KPJrDe4xMO69WS
+ qVhrVsxP+vKu3lYRTBRRy19y7j4QW9LWltgoF72Z0o0MevA3y9CA4pAVRzcJY7KBcZGGUc
+ zBVGzIG8Gu8fO24cQg61uMuNk0VxF8I=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-232-R91O3wy8OzeUdLyuS-jfDg-1; Tue, 25 Jan 2022 12:29:09 -0500
+X-MC-Unique: R91O3wy8OzeUdLyuS-jfDg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ m17-20020adfa3d1000000b001dd66c10c0cso844803wrb.19
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 09:29:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=Y9VMEWa9H0pf+42UoNVqVS4zeqbjbQp1/KTw6BBvYjQ=;
- b=XBJOyF630AdVu71XRg7+QFveoF1Gg9YE74fj79ppf1BBaTr7k9Y2hj9RyNnEWnhy64
- GeDl07Ono1mttc8bTH1L6CpA9OQfFVgYQDYxV1jZebpXOcXjp9IDllO31J9jzNsq9pFq
- W/tCekBLugpgMGBnnAaw6j9ePYqDwVMJNe/bYkpnYV7tWY66t4w7y7eIQX9m7RpdJnXb
- T7JidNPkFqMskBEMLgNXQcETvTjYmp8wYfvi/e/uiBrH49XtX5tqqeBvu2+vxyZHIzTL
- PVI6TrJ4aCCHl3hByr+tx6VgEAznyrYm93IlWjGf4v0Sa3OC1ieXQ7g54ZkYLm6UwhK7
- MOIQ==
-X-Gm-Message-State: AOAM530w9Djifm5HOZ3upIFBOHKlWfR/WDn7huKbsIBGiMHO1KvLGQCl
- Jr/DrDXb7F4uN4WrNAd77Pxjnw==
-X-Google-Smtp-Source: ABdhPJygticXyEYjy7Zz41weq3cMbKrMWFppmNbnooHAMX4Omv8RIoM/nBCf8c+MdNq8EwA7CXNTMw==
-X-Received: by 2002:a05:6402:450:: with SMTP id
- p16mr20973872edw.113.1643131090650; 
- Tue, 25 Jan 2022 09:18:10 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o11sm8533693edh.75.2022.01.25.09.18.09
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=dVt/rcCoZReWs+Q618Sxm77QjN6535brF66Te2gXuwU=;
+ b=dTL3Fsr2kU3f/aZ3sVPc9/qvwUVGSFU68lHJ81saESzGy+fpj5PUrY7Q/hTIZrnftj
+ A09pcRYSmhlKuI6MY48RoGPrcPzqGoTzqyP/VcLb/wuzwhEN+B0YliYQQmon2nXgF44i
+ GUrQp+4+BD99E3e3BJjhrcDvnYqjQX5K55pFmFppaoy2L8WSdHT5iULCvBsS3ePL281L
+ Z3WE85G3+uwNv//5d9ywzCn2jla2TfaWiiQc8ymw26jlyNgztHHCp6Tr9tOMgsA+AhLm
+ 88wcFctg8nc1aT+0eN3U/6BxXhNp/AUVo5rx4lD4+HCv/Bw5GSp56I2EALyVu3F38+wm
+ pV3w==
+X-Gm-Message-State: AOAM530TFqTetzRx6VT1fGrkx0zSvHwjgaJCh69gL4JbMQ9BL2Zb4zcF
+ 6SqrVjAFm2aT4RT+GVUv6TdO/rYPoSvlny4Dw5nORsJBOg7v3byJ39CW0nb2yla+zZSYF3eJ9BS
+ YfdRx/Kd+LnmAVbY=
+X-Received: by 2002:a05:600c:298:: with SMTP id
+ 24mr3820393wmk.100.1643131746817; 
+ Tue, 25 Jan 2022 09:29:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwKpqhh5kQn+m0967/5EOEFLjVnkbDdOZDO9ArrsjDariZM9NCrl7sArQPjfp9e2DiQy8Cd8A==
+X-Received: by 2002:a05:600c:298:: with SMTP id
+ 24mr3820364wmk.100.1643131746437; 
+ Tue, 25 Jan 2022 09:29:06 -0800 (PST)
+Received: from redhat.com ([2.55.22.56])
+ by smtp.gmail.com with ESMTPSA id g20sm1291515wmq.9.2022.01.25.09.29.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jan 2022 09:18:09 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D95091FFB7;
- Tue, 25 Jan 2022 17:18:08 +0000 (GMT)
-References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
- <20220124171705.10432-32-Jonathan.Cameron@huawei.com>
-User-agent: mu4e 1.7.6; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v4 31/42] hw/pci-host/gpex-acpi: Add support for dsdt
- construction for pxb-cxl
-Date: Tue, 25 Jan 2022 17:15:58 +0000
-In-reply-to: <20220124171705.10432-32-Jonathan.Cameron@huawei.com>
-Message-ID: <87o83zd99r.fsf@linaro.org>
+ Tue, 25 Jan 2022 09:29:05 -0800 (PST)
+Date: Tue, 25 Jan 2022 12:29:01 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eric DeVolder <eric.devolder@oracle.com>
+Subject: Re: [PATCH v13 06/10] ACPI ERST: build the ACPI ERST table
+Message-ID: <20220125115903-mutt-send-email-mst@kernel.org>
+References: <1643044621-15892-1-git-send-email-eric.devolder@oracle.com>
+ <1643044621-15892-7-git-send-email-eric.devolder@oracle.com>
+ <alpine.DEB.2.22.394.2201251600060.1134355@anisinha-lenovo>
+ <20220125070221-mutt-send-email-mst@kernel.org>
+ <1d1fefae-8e00-6e0a-7e07-58863e860214@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <1d1fefae-8e00-6e0a-7e07-58863e860214@oracle.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,165 +98,295 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, linuxarm@huawei.com,
- Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: berrange@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, Ani Sinha <ani@anisinha.ca>,
+ imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Jan 25, 2022 at 10:32:45AM -0600, Eric DeVolder wrote:
+> Hi Michael,
+> Thanks for examining this! Inline response below.
+> eric
+> 
+> On 1/25/22 06:05, Michael S. Tsirkin wrote:
+> > On Tue, Jan 25, 2022 at 04:23:49PM +0530, Ani Sinha wrote:
+> > > 
+> > > 
+> > > On Mon, 24 Jan 2022, Eric DeVolder wrote:
+> > > 
+> > > > This builds the ACPI ERST table to inform OSPM how to communicate
+> > > > with the acpi-erst device.
+> > > > 
+> > > > Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+> > > > ---
+> > > >   hw/acpi/erst.c | 188 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> > > >   1 file changed, 188 insertions(+)
+> > > > 
+> > > > diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
+> > > > index fe9ba51..b0c7539 100644
+> > > > --- a/hw/acpi/erst.c
+> > > > +++ b/hw/acpi/erst.c
+> > > > @@ -59,6 +59,27 @@
+> > > >   #define STATUS_RECORD_STORE_EMPTY     0x04
+> > > >   #define STATUS_RECORD_NOT_FOUND       0x05
+> > > > 
+> > > > +/* ACPI 4.0: Table 17-19 Serialization Instructions */
+> > > > +#define INST_READ_REGISTER                 0x00
+> > > > +#define INST_READ_REGISTER_VALUE           0x01
+> > > > +#define INST_WRITE_REGISTER                0x02
+> > > > +#define INST_WRITE_REGISTER_VALUE          0x03
+> > > > +#define INST_NOOP                          0x04
+> > > > +#define INST_LOAD_VAR1                     0x05
+> > > > +#define INST_LOAD_VAR2                     0x06
+> > > > +#define INST_STORE_VAR1                    0x07
+> > > > +#define INST_ADD                           0x08
+> > > > +#define INST_SUBTRACT                      0x09
+> > > > +#define INST_ADD_VALUE                     0x0A
+> > > > +#define INST_SUBTRACT_VALUE                0x0B
+> > > > +#define INST_STALL                         0x0C
+> > > > +#define INST_STALL_WHILE_TRUE              0x0D
+> > > > +#define INST_SKIP_NEXT_INSTRUCTION_IF_TRUE 0x0E
+> > > > +#define INST_GOTO                          0x0F
+> > > > +#define INST_SET_SRC_ADDRESS_BASE          0x10
+> > > > +#define INST_SET_DST_ADDRESS_BASE          0x11
+> > > > +#define INST_MOVE_DATA                     0x12
+> > > > +
+> > > >   /* UEFI 2.1: Appendix N Common Platform Error Record */
+> > > >   #define UEFI_CPER_RECORD_MIN_SIZE 128U
+> > > >   #define UEFI_CPER_RECORD_LENGTH_OFFSET 20U
+> > > > @@ -172,6 +193,173 @@ typedef struct {
+> > > > 
+> > > >   /*******************************************************************/
+> > > >   /*******************************************************************/
+> > > > +
+> > > > +/* ACPI 4.0: 17.4.1.2 Serialization Instruction Entries */
+> > > > +static void build_serialization_instruction_entry(GArray *table_data,
+> > > > +    uint8_t serialization_action,
+> > > > +    uint8_t instruction,
+> > > > +    uint8_t flags,
+> > > > +    uint8_t register_bit_width,
+> > > > +    uint64_t register_address,
+> > > > +    uint64_t value)
+> > > > +{
+> > > > +    /* ACPI 4.0: Table 17-18 Serialization Instruction Entry */
+> > > > +    struct AcpiGenericAddress gas;
+> > > > +    uint64_t mask;
+> > > > +
+> > > > +    /* Serialization Action */
+> > > > +    build_append_int_noprefix(table_data, serialization_action, 1);
+> > > > +    /* Instruction */
+> > > > +    build_append_int_noprefix(table_data, instruction         , 1);
+> > > > +    /* Flags */
+> > > > +    build_append_int_noprefix(table_data, flags               , 1);
+> > > > +    /* Reserved */
+> > > > +    build_append_int_noprefix(table_data, 0                   , 1);
+> > > > +    /* Register Region */
+> > > > +    gas.space_id = AML_SYSTEM_MEMORY;
+> > > > +    gas.bit_width = register_bit_width;
+> > > > +    gas.bit_offset = 0;
+> > > > +    gas.access_width = ctz32(register_bit_width) - 2;
+> > > > +    gas.address = register_address;
+> > > > +    build_append_gas_from_struct(table_data, &gas);
+> > > > +    /* Value */
+> > > > +    build_append_int_noprefix(table_data, value  , 8);
+> > > > +    /* Mask */
+> > > > +    mask = (1ULL << (register_bit_width - 1) << 1) - 1;
+> > > > +    build_append_int_noprefix(table_data, mask  , 8);
+> > > > +}
+> > > > +
+> > > > +/* ACPI 4.0: 17.4.1 Serialization Action Table */
+> > > > +void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
+> > > > +    const char *oem_id, const char *oem_table_id)
+> > > > +{
+> > > > +    GArray *table_instruction_data;
+> > > > +    unsigned action;
+> > > > +    pcibus_t bar0 = pci_get_bar_addr(PCI_DEVICE(erst_dev), 0);
+> > > > +    AcpiTable table = { .sig = "ERST", .rev = 1, .oem_id = oem_id,
+> > > > +                        .oem_table_id = oem_table_id };
+> > > > +
+> > > > +    trace_acpi_erst_pci_bar_0(bar0);
+> > > > +
+> > > > +    /*
+> > > > +     * Serialization Action Table
+> > > > +     * The serialization action table must be generated first
+> > > > +     * so that its size can be known in order to populate the
+> > > > +     * Instruction Entry Count field.
+> > > > +     */
+> > > > +    table_instruction_data = g_array_new(FALSE, FALSE, sizeof(char));
+> > > > +
+> > > > +    /*
+> > > > +     * Macros for use with construction of the action instructions
+> > > > +     */
+> > > > +#define BUILD_READ_REGISTER(width_in_bits, reg) \
+> > > > +    build_serialization_instruction_entry(table_instruction_data, \
+> > > > +        action, INST_READ_REGISTER, 0, width_in_bits, \
+> > > > +        bar0 + reg, 0)
+> > > > +
+> > > > +#define BUILD_READ_REGISTER_VALUE(width_in_bits, reg, value) \
+> > > > +    build_serialization_instruction_entry(table_instruction_data, \
+> > > > +        action, INST_READ_REGISTER_VALUE, 0, width_in_bits, \
+> > > > +        bar0 + reg, value)
+> > > > +
+> > > > +#define BUILD_WRITE_REGISTER(width_in_bits, reg, value) \
+> > > > +    build_serialization_instruction_entry(table_instruction_data, \
+> > > > +        action, INST_WRITE_REGISTER, 0, width_in_bits, \
+> > > > +        bar0 + reg, value)
+> > > > +
+> > > > +#define BUILD_WRITE_REGISTER_VALUE(width_in_bits, reg, value) \
+> > > > +    build_serialization_instruction_entry(table_instruction_data, \
+> > > > +        action, INST_WRITE_REGISTER_VALUE, 0, width_in_bits, \
+> > > > +        bar0 + reg, value)
+> > 
+> > 
+> > I think these macros which in a hidden way use the bar0 variable really
+> > should be replaced with inline functions, improving type safety.
+> 
+> I had not stated this previously, but my choice for using macros over functions
+> was the use three local variables: table_instruction_data, bar0, and action.
 
-Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+Oh, didn't notice the others too.
 
-> This adds code to instantiate the slightly extended ACPI root port
-> description in DSDT as per the CXL 2.0 specification.
->
-> Basically a cut and paste job from the i386/pc code.
+> Any function would then automatically require these three as parameters, or I'm
+> stuffing these temporary items into local globals (to avoid passing as parameters).
 
-This fails to build on all machines:
-
-  FAILED: qemu-system-mips64el=20
-  c++ -m64 -mcx16  -o qemu-system-mips64el qemu-system-mips64el.p/softmmu_m=
-ain.c.o <snip> subprojects/libvhost-user/libvhost-user.a libmigration.fa li=
-bhwcore.fa libqom.fa libio.fa libcrypto.fa libauthz.fa libblockdev.fa libbl=
-ock.fa libchardev.fa libqmp.fa @block.syms @qemu.syms /usr/lib/x86_64-linux=
--gnu/libpixman-1.so -lepoxy /usr/lib/x86_64-linux-gnu/libcapstone.so /usr/l=
-ib/x86_64-linux-gnu/libspice-server.so -Xlinker --dynamic-list=3D/home/alex=
-/lsrc/qemu.git/plugins/qemu-plugins.symbols /usr/lib/x86_64-linux-gnu/libz.=
-so /usr/lib/x86_64-linux-gnu/libpng16.so /usr/lib/x86_64-linux-gnu/libjpeg.=
-so /usr/lib/x86_64-linux-gnu/libgnutls.so -lsasl2 /usr/lib/x86_64-linux-gnu=
-/libpmem.so /usr/lib/x86_64-linux-gnu/libseccomp.so -lnuma -lgio-2.0 -lgobj=
-ect-2.0 -lglib-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lrdmacm -libverbs -l=
-ibumad /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/libzstd.s=
-o /usr/lib/x86_64-linux-gnu/libslirp.so /usr/lib/x86_64-linux-gnu/libglib-2=
-.0.so -lvdeplug /usr/lib/x86_64-linux-gnu/libudev.so /usr/lib/x86_64-linux-=
-gnu/libbpf.so /usr/lib/x86_64-linux-gnu/libasound.so /usr/lib/x86_64-linux-=
-gnu/libpulse.so -lbrlapi /usr/lib/x86_64-linux-gnu/libvirglrenderer.so /usr=
-/lib/x86_64-linux-gnu/libusb-1.0.so /usr/lib/x86_64-linux-gnu/libusbredirpa=
-rser.so /usr/lib/x86_64-linux-gnu/libcacard.so -lncursesw -ltinfo -pthread =
--lgmodule-2.0 -lglib-2.0 /usr/lib/x86_64-linux-gnu/libgbm.so /usr/lib/x86_6=
-4-linux-gnu/libgtk-3.so /usr/lib/x86_64-linux-gnu/libgdk-3.so /usr/lib/x86_=
-64-linux-gnu/libpangocairo-1.0.so /usr/lib/x86_64-linux-gnu/libpango-1.0.so=
- /usr/lib/x86_64-linux-gnu/libharfbuzz.so /usr/lib/x86_64-linux-gnu/libatk-=
-1.0.so /usr/lib/x86_64-linux-gnu/libcairo-gobject.so /usr/lib/x86_64-linux-=
-gnu/libcairo.so /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so /usr/lib/x86=
-_64-linux-gnu/libgio-2.0.so /usr/lib/x86_64-linux-gnu/libgobject-2.0.so /us=
-r/lib/x86_64-linux-gnu/libvte-2.91.so /usr/lib/x86_64-linux-gnu/libX11.so @=
-block.syms -lutil -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lgio-2.0 -lgobject-2.=
-0 -lglib-2.0 -lgmodule-2.0 -lglib-2.0 -lm -lgmodule-2.0 -lglib-2.0 /usr/lib=
-/x86_64-linux-gnu/libiscsi.so -laio /usr/lib/x86_64-linux-gnu/libcurl.so -l=
-gmodule-2.0 -lglib-2.0 -lbz2 /usr/lib/x86_64-linux-gnu/libacl.so /usr/lib/x=
-86_64-linux-gnu/libgfapi.so /usr/lib/x86_64-linux-gnu/libglusterfs.so /usr/=
-lib/x86_64-linux-gnu/libgfrpc.so /usr/lib/x86_64-linux-gnu/libgfxdr.so /usr=
-/lib/x86_64-linux-gnu/libuuid.so /usr/lib/x86_64-linux-gnu/libnfs.so -lrbd =
--lrados /usr/lib/x86_64-linux-gnu/libssh.so -lstdc++ -Wl,--end-group
-  /usr/bin/ld: /lib/x86_64-linux-gnu/libtirpc.so.3: warning: common of `rpc=
-_createerr@@GLIBC_2.2.5' overridden by definition from /lib/x86_64-linux-gn=
-u/libc.so.6
-  /usr/bin/ld: libcommon.fa.p/hw_pci-host_gpex-acpi.c.o: in function `acpi_=
-dsdt_add_gpex':
-  /home/alex/lsrc/qemu.git/builds/all/../../hw/pci-host/gpex-acpi.c:191: un=
-defined reference to `build_cxl_osc_method'
-  collect2: error: ld returned 1 exit status
-  [1600/2203] Linking target qemu-system-or1k
+Please, no globals.
 
 
->
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> ---
->  hw/arm/Kconfig          |  1 +
->  hw/pci-host/gpex-acpi.c | 22 +++++++++++++++++++---
->  2 files changed, 20 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index 2e0049196d..3df419fa6d 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -29,6 +29,7 @@ config ARM_VIRT
->      select ACPI_APEI
->      select ACPI_VIOT
->      select VIRTIO_MEM_SUPPORTED
-> +    select ACPI_CXL
->=20=20
->  config CHEETAH
->      bool
-> diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
-> index e7e162a00a..fb60aa517f 100644
-> --- a/hw/pci-host/gpex-acpi.c
-> +++ b/hw/pci-host/gpex-acpi.c
-> @@ -5,6 +5,7 @@
->  #include "hw/pci/pci_bus.h"
->  #include "hw/pci/pci_bridge.h"
->  #include "hw/pci/pcie_host.h"
-> +#include "hw/acpi/cxl.h"
->=20=20
->  static void acpi_dsdt_add_pci_route_table(Aml *dev, uint32_t irq)
->  {
-> @@ -139,6 +140,7 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig=
- *cfg)
->          QLIST_FOREACH(bus, &bus->child, sibling) {
->              uint8_t bus_num =3D pci_bus_num(bus);
->              uint8_t numa_node =3D pci_bus_numa_node(bus);
-> +            bool is_cxl;
->=20=20
->              if (!pci_bus_is_root(bus)) {
->                  continue;
-> @@ -153,9 +155,19 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfi=
-g *cfg)
->                  nr_pcie_buses =3D bus_num;
->              }
->=20=20
-> +            is_cxl =3D pci_bus_is_cxl(bus);
-> +
->              dev =3D aml_device("PC%.02X", bus_num);
-> -            aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A08"))=
-);
-> -            aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03"))=
-);
-> +            if (is_cxl) {
-> +                struct Aml *pkg =3D aml_package(2);
-> +                aml_append(dev, aml_name_decl("_HID", aml_string("ACPI00=
-16")));
-> +                aml_append(pkg, aml_eisaid("PNP0A08"));
-> +                aml_append(pkg, aml_eisaid("PNP0A03"));
-> +                aml_append(dev, aml_name_decl("_CID", pkg));
-> +            } else {
-> +                aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A0=
-8")));
-> +                aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A0=
-3")));
-> +            }
->              aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
->              aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
->              aml_append(dev, aml_name_decl("_STR", aml_unicode("pxb Devic=
-e")));
-> @@ -175,7 +187,11 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfi=
-g *cfg)
->                              cfg->pio.base, 0, 0, 0);
->              aml_append(dev, aml_name_decl("_CRS", crs));
->=20=20
-> -            acpi_dsdt_add_pci_osc(dev);
-> +            if (is_cxl) {
-> +                build_cxl_osc_method(dev);
+> As for the type safety of bar0, I don't quite understand what I should do differently
+> (regardless of macro vs function). Ultimately these call build_serialization_instruction_entry()
+> with the 'uint64_t register address' accepting the bar0+offset value. Bar0 is pcibar_t
+> and the compiler happily implicitly typecasts to uint64_t.
 
-Either we need an #ifdef gate on CONFIG_ACPI_CXL or possibly a stub
-implementation (with a g_assert_not_reached()).
+The other way could warn though - maybe we should build with
+-Wconversion. That's going to require quite a bit of work though.
 
-> +            } else {
-> +                acpi_dsdt_add_pci_osc(dev);
-> +            }
->=20=20
->              aml_append(scope, dev);
->          }
+> What would an acceptable function prototype look like?
 
+Well, that's a limitation of C. We can pass a
+structure if you really need to save some code lines but that's really
+all we can do.
 
---=20
-Alex Benn=C3=A9e
+> 
+> > 
+> > 
+> > 
+> > 
+> > > > +
+> > > > +    /* Serialization Instruction Entries */
+> > > > +    action = ACTION_BEGIN_WRITE_OPERATION;
+> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> > > > +
+> > > > +    action = ACTION_BEGIN_READ_OPERATION;
+> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> > > > +
+> > > > +    action = ACTION_BEGIN_CLEAR_OPERATION;
+> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> > > > +
+> > > > +    action = ACTION_END_OPERATION;
+> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> > > > +
+> > > > +    action = ACTION_SET_RECORD_OFFSET;
+> > > > +    BUILD_WRITE_REGISTER(32, ERST_VALUE_OFFSET, 0);
+> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> > > > +
+> > > > +    action = ACTION_EXECUTE_OPERATION;
+> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_VALUE_OFFSET,
+> > > > +        ERST_EXECUTE_OPERATION_MAGIC);
+> > > 
+> > > except here, on all cases we have
+> > > BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> > > 
+> > > We should treat the above as special case and simplify the rest of the
+> > > calls (eliminate repeated common arguments).
+> > > 
+> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> > > > +
+> > > > +    action = ACTION_CHECK_BUSY_STATUS;
+> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> > > > +    BUILD_READ_REGISTER_VALUE(32, ERST_VALUE_OFFSET, 0x01);
+> > > > +
+> > > > +    action = ACTION_GET_COMMAND_STATUS;
+> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> > > > +    BUILD_READ_REGISTER(32, ERST_VALUE_OFFSET);
+> > > > +
+> > > > +    action = ACTION_GET_RECORD_IDENTIFIER;
+> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> > > > +    BUILD_READ_REGISTER(64, ERST_VALUE_OFFSET);
+> > > > +
+> > > > +    action = ACTION_SET_RECORD_IDENTIFIER;
+> > > > +    BUILD_WRITE_REGISTER(64, ERST_VALUE_OFFSET, 0);
+> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> > > 
+> > > This one seems reverted. Should this be
+> > > BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> > > BUILD_WRITE_REGISTER(64, ERST_VALUE_OFFSET, 0);
+> > > 
+> > > like others?
+> > > 
+> > > > +
+> > > > +    action = ACTION_GET_RECORD_COUNT;
+> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> > > > +    BUILD_READ_REGISTER(32, ERST_VALUE_OFFSET);
+> > > > +
+> > > > +    action = ACTION_BEGIN_DUMMY_WRITE_OPERATION;
+> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> > > > +
+> > > > +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE;
+> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> > > > +    BUILD_READ_REGISTER(64, ERST_VALUE_OFFSET);
+> > > > +
+> > > > +    action = ACTION_GET_ERROR_LOG_ADDRESS_LENGTH;
+> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> > > > +    BUILD_READ_REGISTER(64, ERST_VALUE_OFFSET);
+> > > > +
+> > > > +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES;
+> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> > > > +    BUILD_READ_REGISTER(32, ERST_VALUE_OFFSET);
+> > > > +
+> > > > +    action = ACTION_GET_EXECUTE_OPERATION_TIMINGS;
+> > > > +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
+> > > > +    BUILD_READ_REGISTER(64, ERST_VALUE_OFFSET);
+> > > > +
+> > > 
+> > > BUILD_READ_REGISTER() is always called with ERST_VALUE_OFFSET as second
+> > > argument. WE should eliminate this repeated passing of same argument.
+> > > 
+> > > 
+> > > > +    /* Serialization Header */
+> > > > +    acpi_table_begin(&table, table_data);
+> > > > +
+> > > > +    /* Serialization Header Size */
+> > > > +    build_append_int_noprefix(table_data, 48, 4);
+> > > > +
+> > > > +    /* Reserved */
+> > > > +    build_append_int_noprefix(table_data,  0, 4);
+> > > > +
+> > > > +    /*
+> > > > +     * Instruction Entry Count
+> > > > +     * Each instruction entry is 32 bytes
+> > > > +     */
+> > > > +    g_assert((table_instruction_data->len) % 32 == 0);
+> > > > +    build_append_int_noprefix(table_data,
+> > > > +        (table_instruction_data->len / 32), 4);
+> > > > +
+> > > > +    /* Serialization Instruction Entries */
+> > > > +    g_array_append_vals(table_data, table_instruction_data->data,
+> > > > +        table_instruction_data->len);
+> > > > +    g_array_free(table_instruction_data, TRUE);
+> > > > +
+> > > > +    acpi_table_end(linker, &table);
+> > > > +}
+> > > > +
+> > > > +/*******************************************************************/
+> > > > +/*******************************************************************/
+> > > >   static uint8_t *get_nvram_ptr_by_index(ERSTDeviceState *s, unsigned index)
+> > > >   {
+> > > >       uint8_t *rc = NULL;
+> > > > --
+> > > > 1.8.3.1
+> > > > 
+> > > > 
+> > 
+
 
