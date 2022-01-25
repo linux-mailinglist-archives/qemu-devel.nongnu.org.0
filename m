@@ -2,95 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A3D549B2F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 12:33:07 +0100 (CET)
-Received: from localhost ([::1]:34342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A5449B2F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 12:33:32 +0100 (CET)
+Received: from localhost ([::1]:35934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCK4Q-00063z-Kc
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 06:33:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44528)
+	id 1nCK4p-00078G-FK
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 06:33:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nCK0L-00024w-QX
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:28:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55325)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nCK2p-00055s-Hk
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:31:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nCK0J-0001ua-9R
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:28:52 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nCK2n-0002Qv-FD
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:31:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643110130;
+ s=mimecast20190719; t=1643110277;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9Q/7Xgjit8KVaacouDJHy8xVZhWz/gzb4TD4M/xZnew=;
- b=DbeCJRD4zrwRrudNpOVdwKXPwAvhV3Jz5wRFezc2E+8d895Av/O6TBy1jPBgO/142ha0w2
- dVgQbNqCJvIlUrHqDJ3NqFKXJnqUig9Qx8W5JePXz+cCTKuEzzMYthHtt5fWQrdODB2rtd
- /LO8MWGlRmMz/qMo0Lbj6a/BXr2RSsM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2gsdoXteg5dJdfzMkwUMaQPsXS9PFyIHlEabsR91v3k=;
+ b=HB8II3lF74vuwh+cN1MqksdJublmM3jRNO95ngIbD5kxkmU6aGyO/NAZONUmc0FbAtkaPK
+ EunzMe9lhxh5fOG8Z29Mw/+Joq8/hpGeQ/QOXkarVPz32fBtn6aYOq4EVuV4MAeEba35Zr
+ RK8k0RZGrDnhjiSu+lngjjFgK7LXbGg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-66-uEDjPf9aPmmqaNCALH6E8g-1; Tue, 25 Jan 2022 06:28:43 -0500
-X-MC-Unique: uEDjPf9aPmmqaNCALH6E8g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- z2-20020a05600c220200b0034d2eb95f27so1315706wml.1
- for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 03:28:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=9Q/7Xgjit8KVaacouDJHy8xVZhWz/gzb4TD4M/xZnew=;
- b=k8n2gY+k0meDKC3zfqEzxYyuxyxgb+AwEowbYdsA36h/r1FjrLLeN8dkLMnYU4QKsY
- kTRyuhRVwvEnrJsBK9cP86KzNVQkW3W+82K0Hn02jFBGQ2UvmPhxw3JLFs9wIWjBOuSW
- mYip5MYTL6or+L+E0igp57Co2fhFa+KFzC5Bagk64v5s2pfHeIWNvroiRkwLHJvh6uOV
- scYpoMDHXlqcqLGhFMyyoIqYVAaOTto8nYBTRsH1FP0WfvFenJKdFDbTEikN+Ae3r/dO
- aji/EDWfG4FsIoAehtd5V7iBABhXndcAu94VyDcLFOKuG+8cqWg/eA+LnazxtgELebaQ
- 3Nnw==
-X-Gm-Message-State: AOAM53257acZLEtPPrHfmNOlyQJha9k2ogrIzhy43rGqQkVFzVGL67MT
- 3DI3gBaeTrWNP/GlPqRlvWUWhU1d4qOcO9eutJlD/QQglAMB3dgZ3BNC1Vz/mV70y4367ySvvqi
- 2VmFxsf1WeLncuwk=
-X-Received: by 2002:a05:600c:1d06:: with SMTP id
- l6mr2509075wms.136.1643110122514; 
- Tue, 25 Jan 2022 03:28:42 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwas3aSy9X9w0mpT1BL6vmOwhr30CNhvVB4B8NFqg6KFYBziXRsXEhurWkdTqRKlBDh4c+2PA==
-X-Received: by 2002:a05:600c:1d06:: with SMTP id
- l6mr2509061wms.136.1643110122253; 
- Tue, 25 Jan 2022 03:28:42 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id m5sm110485wms.4.2022.01.25.03.28.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Jan 2022 03:28:41 -0800 (PST)
-Message-ID: <b54be5b8-29e9-ca08-553a-a0635f0ebb83@redhat.com>
-Date: Tue, 25 Jan 2022 12:28:40 +0100
+ us-mta-316-uB_fWsmLO8iq6F9gSZgVoQ-1; Tue, 25 Jan 2022 06:31:13 -0500
+X-MC-Unique: uB_fWsmLO8iq6F9gSZgVoQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6CBE1083F60;
+ Tue, 25 Jan 2022 11:31:12 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-10.ams2.redhat.com
+ [10.36.112.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 84616752B0;
+ Tue, 25 Jan 2022 11:31:12 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id EDADF113864A; Tue, 25 Jan 2022 12:31:10 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v4 3/3] meson: generate trace events for qmp commands
+References: <20220121162234.2707906-1-vsementsov@virtuozzo.com>
+ <20220121162234.2707906-4-vsementsov@virtuozzo.com>
+ <87ilu82jtk.fsf@dusky.pond.sub.org>
+ <fd9a18be-1add-89c2-3da3-fa72c5419d44@virtuozzo.com>
+ <87cfc19e-5eaf-4c1b-59c0-29870c063939@virtuozzo.com>
+Date: Tue, 25 Jan 2022 12:31:10 +0100
+In-Reply-To: <87cfc19e-5eaf-4c1b-59c0-29870c063939@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Tue, 25 Jan 2022 14:13:40 +0300")
+Message-ID: <87tuds2gsh.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v2 2/3] block/export/fuse: Extract
- fuse_fallocate_zero_range()
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20220124220357.74017-1-f4bug@amsat.org>
- <20220124220357.74017-3-f4bug@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220124220357.74017-3-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,89 +86,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Ed Maste <emaste@freebsd.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>, qemu-block@nongnu.org,
- Fabrice Fontaine <fontaine.fabrice@gmail.com>
+Cc: kwolf@redhat.com, michael.roth@amd.com, qemu-devel@nongnu.org,
+ hreitz@redhat.com, stefanha@redhat.com, pbonzini@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/01/2022 23.03, Philippe Mathieu-Daudé via wrote:
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   block/export/fuse.c | 48 +++++++++++++++++++++++++++++----------------
->   1 file changed, 31 insertions(+), 17 deletions(-)
-> 
-> diff --git a/block/export/fuse.c b/block/export/fuse.c
-> index 31cb0503adc..3a158342c75 100644
-> --- a/block/export/fuse.c
-> +++ b/block/export/fuse.c
-> @@ -603,6 +603,35 @@ static void fuse_write(fuse_req_t req, fuse_ino_t inode, const char *buf,
->       }
->   }
->   
-> +static bool fuse_fallocate_punch_hole(fuse_req_t req, fuse_ino_t inode,
-> +                                      int mode, int64_t blk_len,
-> +                                      off_t offset, off_t *length)
-> +{
-> +    FuseExport *exp = fuse_req_userdata(req);
-> +
-> +    if (mode & FALLOC_FL_KEEP_SIZE) {
-> +        *length = MIN(*length, blk_len - offset);
-> +    }
-> +
-> +    if (mode & FALLOC_FL_PUNCH_HOLE) {
-> +        int ret;
-> +
-> +        if (!(mode & FALLOC_FL_KEEP_SIZE)) {
-> +            fuse_reply_err(req, EINVAL);
-> +            return false;
-> +        }
-> +
-> +        do {
-> +            int size = MIN(*length, BDRV_REQUEST_MAX_BYTES);
-> +
-> +            ret = blk_pdiscard(exp->common.blk, offset, size);
-> +            offset += size;
-> +            *length -= size;
-> +        } while (ret == 0 && *length > 0);
-> +    }
-> +    return true;
-> +}
-> +
->   static bool fuse_fallocate_zero_range(fuse_req_t req, fuse_ino_t inode,
->                                         int mode, int64_t blk_len,
->                                         off_t offset, off_t *length)
-> @@ -657,23 +686,8 @@ static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
->           return;
->       }
->   
-> -    if (mode & FALLOC_FL_KEEP_SIZE) {
-> -        length = MIN(length, blk_len - offset);
-> -    }
-> -
-> -    if (mode & FALLOC_FL_PUNCH_HOLE) {
-> -        if (!(mode & FALLOC_FL_KEEP_SIZE)) {
-> -            fuse_reply_err(req, EINVAL);
-> -            return;
-> -        }
-> -
-> -        do {
-> -            int size = MIN(length, BDRV_REQUEST_MAX_BYTES);
-> -
-> -            ret = blk_pdiscard(exp->common.blk, offset, size);
-> -            offset += size;
-> -            length -= size;
-> -        } while (ret == 0 && length > 0);
-> +    if (!fuse_fallocate_punch_hole(req, inode, mode, blk_len, offset, &length)) {
-> +        return;
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-Same issue as with the previous patch? If the do-while loop has been 
-executed, the else branches below should not be called...
+> 25.01.2022 14:03, Vladimir Sementsov-Ogievskiy wrote:
+>> 25.01.2022 13:25, Markus Armbruster wrote:
+>>> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+>>>
+>>>> 1. Add --no-trace-events to suppress trace events generation in some
+>>>> =C2=A0=C2=A0=C2=A0 cases, and make trace events be generated by defaul=
+t.
+>>>> 2. Add corresponding .trace-events files as outputs in qapi_files
+>>>> =C2=A0=C2=A0=C2=A0 custom target
+>>>> 3. Define global qapi_trace_events list of .trace-events file targets,
+>>>> =C2=A0=C2=A0=C2=A0 to fill in trace/qapi.build and to use in trace/mes=
+on.build
+>>>> 4. In trace/meson.build use the new array as an additional source of
+>>>> =C2=A0=C2=A0=C2=A0 .trace_events files to be processed
+>>>>
+>>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>>> ---
+>>>> =C2=A0 docs/devel/qapi-code-gen.rst | 23 +++++++++++++++++++++--
+>>>
+>>> The doc update isn't mentioned in the commit message.
+>>>
+>>>> =C2=A0 meson.build=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 +++
+>>>> =C2=A0 qapi/meson.build=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 7 +++++++
+>>>> =C2=A0 qga/meson.build=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 11 ++++++++++-
+>>>> =C2=A0 scripts/qapi/main.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 10 +++++++---
+>>>> =C2=A0 tests/meson.build=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 | 11 ++++++++++-
+>>>> =C2=A0 trace/meson.build=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 | 11 ++++++++---
+>>>> =C2=A0 7 files changed, 66 insertions(+), 10 deletions(-)
+>>>
+>>> This commit consists of a small QAPI code generator change, build syste=
+m
+>>> work to put it to use, and QAPI documentation update for the series'
+>>> feature.
+>>>
+>>> I'd reshuffle as follows:
+>>>
+>>> * Squash the main.py change into the previous commit.
+>>>
+>>> * Split off the doc update into its own commit.
+>>>
+>>> This way, build system experts can provide an R-by in good conscience
+>>> without reviewing the doc update, and vice versa.
+>>>
+>> But I think this way build will fail on previous commit. Or we
+>> should still keep trace-generation disabled in previous commit, and
+>> enable it only together with meson changes.
+>>=20
+>
+> May be keep positive option --gen-trace-events in previous commit, like i=
+n my previous version? This way meson-changing commit becomes self-sufficie=
+nt. And then in additional commit change the default and drop --gen-trace-e=
+vents option and add --no-trace-events instead.
 
-  Thomas
-
->       } else if (!fuse_fallocate_zero_range(req, inode, blk_len, mode, offset, &length)) {
->           return;
->       } else if (!mode) {
+You choose.  But I'd spell it --gen-trace.
 
 
