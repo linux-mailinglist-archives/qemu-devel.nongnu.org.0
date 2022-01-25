@@ -2,79 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B298349B2BC
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 12:12:13 +0100 (CET)
-Received: from localhost ([::1]:60808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45BA449B2BF
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 12:14:11 +0100 (CET)
+Received: from localhost ([::1]:37450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCJkC-0001tm-Jg
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 06:12:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36010)
+	id 1nCJm6-0005Lz-DZ
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 06:14:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nCJgq-00087n-5K
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:08:45 -0500
-Received: from [2607:f8b0:4864:20::229] (port=34359
- helo=mail-oi1-x229.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nCJgl-0005qa-T6
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:08:43 -0500
-Received: by mail-oi1-x229.google.com with SMTP id bb37so30275657oib.1
- for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 03:08:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IUR9BX7Cb6GdW9DgtiMwyQwBOlcjuLzKb/XeuyQtN/o=;
- b=ODeOKPdKo5gpHaIqWvgRjooqy9OhN3IsEF1o/WTmya7XkDlbgdMpN22DTdjDF8ldF9
- pYCoVtMLs3P7lKT3Sf86a+Ed75UyLDgEXhGq66izAvtRj0YONnlDaoVgOoAQ9mTLdmLc
- /OrrqvnQIky5XJoIe5DejlvZdylZFJk7Wjn0IeAfz2Kefpe9I7goQvtrlz0k/2MBOt1g
- YLNv+EC/ZdzHWG74SWiZzzkI8RGjqAk9gN+5b+i0Sbs4wAEV5Qx/2K73nm/F9uHnehbt
- lIy3S4KKs8jWik8wuKEnTPS5pWUw02dPU2oOgY0oXbXLbHDsbuZw958czS7L/zfsKDpd
- 4VOA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nCJiO-0001wj-4T
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:10:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53568)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nCJiL-0006FR-F5
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 06:10:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643109015;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NX5hTxcGI+xuoaF3EQoULRUF5kHszM7syzmFGu32zSU=;
+ b=CoTWUaeQj64KyKe7UiTfbqD22bn/8pbbm73Neoh2Aybs6yCzx3jn78nfHSuhqnUwwCxv7M
+ 4gA6YaUQBk++4sv7gfk5LothI8G+vZ6uroTNN02Dlw/+Qao4NYwFuEx+NBdGTuEHW7UVNj
+ HkVP/wHoqM/flt7J0HUiRN0fjYG/Ih0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-283-EYmSpQYNPJSPLbqTC0fwPA-1; Tue, 25 Jan 2022 06:10:14 -0500
+X-MC-Unique: EYmSpQYNPJSPLbqTC0fwPA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ o3-20020a1ca503000000b0035056b042deso1309415wme.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 03:10:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IUR9BX7Cb6GdW9DgtiMwyQwBOlcjuLzKb/XeuyQtN/o=;
- b=t5B+5cFB1ieDCZjFrAyEbWRrsMr/IngZd+uwYOz43gKJe3uPAKXICripxlFTUPH+fi
- DIB5vghpmqazJFLS90FznU6SSNt7ZxTZE0KlaznWku6LyZaWECmU0xY7JRaOQ9WfSMBz
- IIjEitSVizgdTOKnNEz6ZNnXjSw6rtluNSP0uUjfTeXZxJ9mCFFlAejZ3kJmSc6oPhVf
- MdZXDAUuQR6T/ZTN+yh0R85BX+ynMNcV24n/MAgHX6D2Bg574Gi6eN4ifFuI7wzIjqE+
- fEYt5IIM7d1s7d+uTaLsweOATYqKx0m4Sf0lvIWywJU5XTxUIYS7XSAlLhWS8MgeeiSs
- Zeyw==
-X-Gm-Message-State: AOAM531ihH3fEqDoXb2alBCLbX7c4bUrD7Z/SS+7FcaNrDlXpzPoHGGN
- Oueo2txAt8jP8IwGfYZgAHyxH5OElDPOB4doEK8=
-X-Google-Smtp-Source: ABdhPJzKjD4bfxJsZ3MltnBLLxyc2aX4Ufpsg6toOEhpS3n3ocznWqIgXxtMt0n0CgR8c7hiUm3u9GOHKF6XgrKtqEY=
-X-Received: by 2002:a05:6808:1283:: with SMTP id
- a3mr306500oiw.57.1643108912208; 
- Tue, 25 Jan 2022 03:08:32 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=NX5hTxcGI+xuoaF3EQoULRUF5kHszM7syzmFGu32zSU=;
+ b=db/Vq9Ijlt4jv9UNtcLnOtGdo+j6VFaWwELSQQ9xmBNRO6wq6TjDfSCHIlgGXsZvDe
+ XIQvQ/rpom8wkg28a1+7ikp4gQEO6GyiYfz0OyEPcWYwRauIPR5lBPAdCUFo36tGYgMG
+ VJeSZcpMIlR7RNQuo1zh9nskBtxPhukM93lPXVlLGgRV2gXspJBGKWoB1m8Fu6md+LwU
+ HA+bpLFZoTY1JUFUPqcOdOHzQRrYBzwotG4TOlHQBkgusAtrosaYsBj0t/WYz2A64pEE
+ KlS8YALsFxNPyxLvPM5UFM0Riqm7i6iGjuqViCRz/zBVgil3Lmjkzj0WkDRdNfPJFt6C
+ g8fA==
+X-Gm-Message-State: AOAM533hsvch/n47WI+nZY0FKHB+qic+F87lFNzk5NOjW+rEAfOQ/8iT
+ jCWop3vdfRhp/9kqozZHHldvUJQXLbS1gPKvebgx0Dj09npgFu0BipFlqpEG2VmyDl43/TmfUHv
+ fAFz943H5GDGSM/g=
+X-Received: by 2002:a05:600c:3ba9:: with SMTP id
+ n41mr2399977wms.178.1643109012963; 
+ Tue, 25 Jan 2022 03:10:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwqXGLTzcASRV1CrZ2oaztFAzQ+ycgohPMTIl7aTwQCDE8SqFwiIFpGFE5HCjaHU78BoTnr0Q==
+X-Received: by 2002:a05:600c:3ba9:: with SMTP id
+ n41mr2399959wms.178.1643109012729; 
+ Tue, 25 Jan 2022 03:10:12 -0800 (PST)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id s17sm16709293wrm.62.2022.01.25.03.10.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Jan 2022 03:10:12 -0800 (PST)
+Message-ID: <97b1db48-32a3-46a4-4972-9c91ec518ba6@redhat.com>
+Date: Tue, 25 Jan 2022 12:10:11 +0100
 MIME-Version: 1.0
-References: <20220113172219.66372-1-yaroshchuk2000@gmail.com>
- <20220113172219.66372-3-yaroshchuk2000@gmail.com>
- <Ye53sOJekvKrM8iT@roolebo.dev>
- <7053351.4JHWUSIRgT@silver> <Ye7mwcl/rB714vgl@roolebo.dev>
- <CAFEAcA-UE5MmkESRrxdedkzYkc9jp81jzni=-xmivK88gkr6Rw@mail.gmail.com>
- <Ye8vjmFFRLPrhE1Z@roolebo.dev>
- <CAMVc7JXyFoUCkrGLKhCct_DatwU6Xu+L2XSK5y0YMV8xDHZC+g@mail.gmail.com>
- <CAFEAcA_CT6AJx_ns4zjw1_udq-Ab3YdM2mzPcKKZberUPOqhPA@mail.gmail.com>
-In-Reply-To: <CAFEAcA_CT6AJx_ns4zjw1_udq-Ab3YdM2mzPcKKZberUPOqhPA@mail.gmail.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Date: Tue, 25 Jan 2022 20:08:21 +0900
-Message-ID: <CAMVc7JVShGiPvwc4fWHfG2JjTX0QGOcs3ua3k58WFdo4fOLS6A@mail.gmail.com>
-Subject: Re: [PATCH v13 2/7] net/vmnet: add vmnet backends to qapi/net
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::229
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-oi1-x229.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2 1/3] block/export/fuse: Extract
+ fuse_fallocate_punch_hole()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20220124220357.74017-1-f4bug@amsat.org>
+ <20220124220357.74017-2-f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220124220357.74017-2-f4bug@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,73 +103,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>, phillip.ennen@gmail.com,
- Jason Wang <jasowang@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- qemu Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Markus Armbruster <armbru@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alexander Graf <agraf@csgraf.de>, Gerd Hoffmann <kraxel@redhat.com>,
- Howard Spoelstra <hsp.cat7@gmail.com>, Roman Bolshakov <roman@roolebo.dev>,
- Alessio Dionisi <hello@adns.io>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Eric Blake <eblake@redhat.com>, Phillip Tennen <phillip@axleos.com>
+Cc: Kyle Evans <kevans@freebsd.org>, Ed Maste <emaste@freebsd.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, qemu-block@nongnu.org,
+ Fabrice Fontaine <fontaine.fabrice@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 25, 2022 at 7:32 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Tue, 25 Jan 2022 at 04:14, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
-> > I'm neutral about the decision. I think QEMU should avoid using
-> > Objective-C code except for interactions with Apple's APIs, and .c is
-> > superior in terms of that as it would prevent accidental introduction
-> > of Objective-C code. On the other hand, naming them .m will allow the
-> > introduction of Automatic Reference Counting to manage dispatch queue
-> > objects. In fact, I have found a few memory leaks in vmnet in the last
-> > review and ui/cocoa.m has a suspicious construction of the object
-> > management (Particularly it has asynchronous dispatches wrapped with
-> > NSAutoreleasePool, which does not make sense).
->
-> I think those are probably my fault -- in commit 6e657e64cd (in 2013)
-> we added NSAutoReleasePools to fix leaks that happened because
-> we were calling into Cocoa APIs from threads other than the UI
-> thread that didn't have their own automatically created autorelease
-> pool. Much later in commit 5588840ff778 (in 2019) we put in the
-> dispatch_async stuff because newer macOS was stricter about
-> requiring Cocoa API calls to be only on the UI thread. So
-> I think that means the requirement for the autorelease pools
-> has now gone away in those functions and we could simply delete
-> them -- does that sound right? (I freely admit that I'm not a macOS
-> expert -- I just look stuff up in the documentation; historically
-> we haven't really had many expert macOS people around to work on
-> cocoa.m...)
+On 24/01/2022 23.03, Philippe Mathieu-Daudé via wrote:
+> Extract fuse_fallocate_punch_hole() to avoid #ifdef'ry
+> mixed within if/else statement.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   block/export/fuse.c | 59 +++++++++++++++++++++++++++------------------
+>   1 file changed, 35 insertions(+), 24 deletions(-)
+> 
+> diff --git a/block/export/fuse.c b/block/export/fuse.c
+> index 6710d8aed86..31cb0503adc 100644
+> --- a/block/export/fuse.c
+> +++ b/block/export/fuse.c
+> @@ -603,6 +603,38 @@ static void fuse_write(fuse_req_t req, fuse_ino_t inode, const char *buf,
+>       }
+>   }
+>   
+> +static bool fuse_fallocate_zero_range(fuse_req_t req, fuse_ino_t inode,
+> +                                      int mode, int64_t blk_len,
+> +                                      off_t offset, off_t *length)
+> +{
+> +#ifdef CONFIG_FALLOCATE_ZERO_RANGE
+> +    FuseExport *exp = fuse_req_userdata(req);
+> +
+> +    if (mode & FALLOC_FL_ZERO_RANGE) {
+> +        int ret;
+> +
+> +       if (!(mode & FALLOC_FL_KEEP_SIZE) && offset + *length > blk_len) {
+> +            /* No need for zeroes, we are going to write them ourselves */
+> +            ret = fuse_do_truncate(exp, offset + *length, false,
+> +                                   PREALLOC_MODE_OFF);
+> +            if (ret < 0) {
+> +                fuse_reply_err(req, -ret);
+> +                return false;
+> +            }
+> +        }
+> +
+> +        do {
+> +            int size = MIN(*length, BDRV_REQUEST_MAX_BYTES);
+> +
+> +            ret = blk_pwrite_zeroes(exp->common.blk, offset, size, 0);
+> +            offset += size;
+> +            *length -= size;
+> +        } while (ret == 0 && *length > 0);
+> +    }
+> +#endif /* CONFIG_FALLOCATE_ZERO_RANGE */
+> +    return true;
+> +}
+> +
+>   /**
+>    * Let clients perform various fallocate() operations.
+>    */
+> @@ -642,30 +674,9 @@ static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
+>               offset += size;
+>               length -= size;
+>           } while (ret == 0 && length > 0);
+> -    }
+> -#ifdef CONFIG_FALLOCATE_ZERO_RANGE
+> -    else if (mode & FALLOC_FL_ZERO_RANGE) {
+> -        if (!(mode & FALLOC_FL_KEEP_SIZE) && offset + length > blk_len) {
+> -            /* No need for zeroes, we are going to write them ourselves */
+> -            ret = fuse_do_truncate(exp, offset + length, false,
+> -                                   PREALLOC_MODE_OFF);
+> -            if (ret < 0) {
+> -                fuse_reply_err(req, -ret);
+> -                return;
+> -            }
+> -        }
+> -
+> -        do {
+> -            int size = MIN(length, BDRV_REQUEST_MAX_BYTES);
+> -
+> -            ret = blk_pwrite_zeroes(exp->common.blk,
+> -                                    offset, size, 0);
+> -            offset += size;
+> -            length -= size;
+> -        } while (ret == 0 && length > 0);
 
-Removing them would be an improvement. Enabling ARC is a long-term
-solution and would allow clang to analyze object management code and
-answer such a question semi-automatically.
+I might not have enough coffee today yet, but I think your patch is wrong: 
+If the code executed this do-while loop/if-statement-branch, the other 
+else-statements below were never called. Now with your patch, if the 
+do-while loop in fuse_fallocate_zero_range() is called, the function will 
+return with "true" at the end, causing the other else-statements below to be 
+called, so that ret finally gets set to -EOPNOTSUPP. Or did I miss something?
 
-Regards,
-Akihiko Odaki
+  Thomas
 
->
-> On the subject of cocoa.m, while we have various macOS-interested
-> people in this thread, can I ask if anybody would like to
-> review a couple of patches that came in at the beginning of the
-> year?
->
-> https://patchew.org/QEMU/20220102174153.70043-1-carwynellis@gmail.com/
-> ("ui/cocoa: Add option to disable left command and hide cursor on click")
-> and
-> https://patchew.org/QEMU/20220103114515.24020-1-carwynellis@gmail.com/
-> ("Show/hide the menu bar in fullscreen on mouse")
->
-> either from the point of view of "is this a sensible change to
-> the macOS UI experience" or for the actual code changes, or both.
->
-> We've been very short on upstream macOS code reviewers so if people
-> interested in that host platform are able to chip in by
-> reviewing each others' code that helps a lot.
->
-> thanks
-> -- PMM
+
+> -    }
+> -#endif /* CONFIG_FALLOCATE_ZERO_RANGE */
+> -    else if (!mode) {
+> +    } else if (!fuse_fallocate_zero_range(req, inode, blk_len, mode, offset, &length)) {
+> +        return;
+> +    } else if (!mode) {
+>           /* We can only fallocate at the EOF with a truncate */
+>           if (offset < blk_len) {
+>               fuse_reply_err(req, EOPNOTSUPP);
+
 
