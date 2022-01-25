@@ -2,69 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D9C149B23B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 11:52:41 +0100 (CET)
-Received: from localhost ([::1]:58960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED0F149B265
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 11:55:50 +0100 (CET)
+Received: from localhost ([::1]:37424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCJRI-00069Q-6G
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 05:52:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48934)
+	id 1nCJUM-0002N6-0k
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 05:55:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nCJKK-0001KQ-If
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:45:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59606)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nCJKG-0008KT-Ki
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:45:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643107521;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VBMF2dlu81/ZJnZUsJIhwiNoMsdPnoGFoWU9fgzubr0=;
- b=TOt1ic73fOp2vMeFHW3aLQrIXGqCeQcyUGCtSwhW1IemRr4Rk12nvO3y/hTrLk1Mc6fyLF
- agQAxfMqkvOeerF42obYE1EFxmq4BRG4Ep68bup5a/PH0ZT8xZMe1a7yR+rrMbHW1m4x+U
- IOgUCX45Cf00q8KAKPOerw8LiQ3IFlc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-498-gAy6d2a7Mr6lzQ20uCaAIQ-1; Tue, 25 Jan 2022 05:45:17 -0500
-X-MC-Unique: gAy6d2a7Mr6lzQ20uCaAIQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B8B784DA40;
- Tue, 25 Jan 2022 10:45:16 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.26])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1AA4F66E09;
- Tue, 25 Jan 2022 10:44:59 +0000 (UTC)
-Date: Tue, 25 Jan 2022 10:44:58 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v5 07/18] vfio-user: set qdev bus callbacks for remote
- machine
-Message-ID: <Ye/UqqSippA8LTHK@stefanha-x1.localdomain>
-References: <cover.1642626515.git.jag.raman@oracle.com>
- <1dee463f227f7a865877cd98f78e4ce48ce8ab32.1642626515.git.jag.raman@oracle.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nCJKI-0001IE-Az
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:45:26 -0500
+Received: from [2a00:1450:4864:20::32c] (port=44652
+ helo=mail-wm1-x32c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nCJKD-00086H-OI
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:45:25 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ l35-20020a05600c1d2300b0034d477271c1so1476260wms.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 02:45:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fptErsoROxDn7mJgyzZc7Tq95RnfMktd2P5GKeI79jo=;
+ b=KzVBuvHKHp4BTAyRWtxPKWfTMjC1VC3lMBmwuO3ZitUNxiUE1wDYN4SEwIqM/drCt4
+ +4XxamXeCtntX3xMpYwIRzb/meKm8cflZQcOJxYjS5GfJy/2Jb0UQNjXFBbBQ+AGsJBJ
+ 5dCGE8icJyZFMSkliaTMdOG5Y1vgWURbSy30FdkW7dqwWraJa6UjdYS86++kpFqjjSeT
+ sW200RHdi0m/xzMPiqwUg26VZlZnfN36+6ei/aLNrO9ttO5NG7zl9/SvwxpPNchMur6u
+ 6NT+ovIum2TLYA2XHQXMZYmVOJfh5VWfK5fteXxKO/QtPJa4x7kOJeZhojQatsEKkfwc
+ uXMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fptErsoROxDn7mJgyzZc7Tq95RnfMktd2P5GKeI79jo=;
+ b=3aIVrH/hB1RZDS0oWbdpPbdY5yv7Sqo44SQOlYpTcQovZu16/gSfepOC2D3vKzUSNy
+ l18vUdzib5JgTMY3G6otd1BRcI9o310cR7AuBSrt8+8+BlWqq7vRRkCjUR2Etxude/eO
+ NYdYp0RaF1+Je40ZL25Q3Q5NqIgV1blcAlx4RJWmzkyp5ZM91dtyDT028WFgsvx3bWY0
+ HGkWMAJrNUirZQ2bsad+jDs6rYVva1G8oeGZJzZwYxc/4Vkel0aDj1gDI5fZZXRsYBhX
+ bSPxvTbrCT5ck2xjtGDwkj3syq+tpff7hlB+yqzGNYh//hCw6zJrGNx18XWyCOmuM9Gv
+ +4Qw==
+X-Gm-Message-State: AOAM530TFybyZDUJG7okeBnWNF/J4Wn7hvU/EhEnCqdlHWcux/vB4Err
+ dxWUxEcsB7lEVmJ/wNBqQq0=
+X-Google-Smtp-Source: ABdhPJyjAXyvzoTlx6CPSGwUjYoOpjAh5D4fyEFsHyK4V3LWJ1RoNXDyD5lCAbOoC+AghSPL2sMapg==
+X-Received: by 2002:a05:600c:204b:: with SMTP id
+ p11mr2370204wmg.47.1643107514197; 
+ Tue, 25 Jan 2022 02:45:14 -0800 (PST)
+Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id z5sm302106wmp.10.2022.01.25.02.45.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Jan 2022 02:45:13 -0800 (PST)
+Message-ID: <b3d70518-256d-2bd0-5979-ff96a1154fd1@amsat.org>
+Date: Tue, 25 Jan 2022 11:45:11 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Dli+V0ZyK+DvSx5t"
-Content-Disposition: inline
-In-Reply-To: <1dee463f227f7a865877cd98f78e4ce48ce8ab32.1642626515.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: "Startup" meeting (was Re: Meeting today?)
+Content-Language: en-US
+To: quintela@redhat.com, Mark Burton <mark.burton@greensocs.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Damien Hedde <damien.hedde@greensocs.com>, 
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Mirela Grujic <mirela.grujic@greensocs.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <YbeWxAn6Zw7rH+5K@redhat.com>
+ <CC132B60-3F08-4F03-B328-4C33407BB944@greensocs.com>
+ <87lf0nto1k.fsf@dusky.pond.sub.org> <YbiS8Zc7fcoeoSyC@redhat.com>
+ <87bl1jqm1a.fsf@dusky.pond.sub.org>
+ <CAJy5ezofpy09ZOtVHFofGTzt3U8MEA_ddpBHifuF50sVDFXULA@mail.gmail.com>
+ <73955990-9FD1-42CD-B476-F2AD95C219E9@greensocs.com>
+ <YdbRShE01esANc5h@redhat.com>
+ <fb519eb4-c0c6-a0b6-585d-e708b04ed207@amsat.org>
+ <BC0208B2-5ECE-4F74-9DFF-FB8959642C48@greensocs.com>
+ <YeWjtxEcbb6jcbi8@redhat.com>
+ <D36E42AD-05A6-4139-8647-07C9CEF3D659@greensocs.com>
+ <87h79sw64t.fsf@secure.mitica>
+In-Reply-To: <87h79sw64t.fsf@secure.mitica>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,147 +114,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
- berrange@redhat.com, bleal@redhat.com, john.levon@nutanix.com, mst@redhat.com,
- armbru@redhat.com, quintela@redhat.com, qemu-devel@nongnu.org, f4bug@amsat.org,
- marcandre.lureau@gmail.com, thanos.makatos@nutanix.com, pbonzini@redhat.com,
- eblake@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
+On 1/25/22 09:50, Juan Quintela wrote:
+> Mark Burton <mark.burton@greensocs.com> wrote:
+>> All, I believe we will have a followup meeting this coming Tuesday
+>> 25th January, at 15:00 (presumably using the same link:
+>> https://redhat.bluejeans.com/5402697718).
+>>
+>> We (GreenSocs/Xilinx) would like to quickly show what now ‘works’, and to give an update on the patches.
+> 
+> I send the call for agenda already.
+> 
+> We are having the meeting.
 
---Dli+V0ZyK+DvSx5t
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jan 19, 2022 at 04:41:56PM -0500, Jagannathan Raman wrote:
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> ---
->  hw/remote/machine.c | 57 +++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 57 insertions(+)
->=20
-> diff --git a/hw/remote/machine.c b/hw/remote/machine.c
-> index 220ff01aa9..221a8430c1 100644
-> --- a/hw/remote/machine.c
-> +++ b/hw/remote/machine.c
-> @@ -22,6 +22,60 @@
->  #include "hw/pci/pci_host.h"
->  #include "hw/remote/iohub.h"
-> =20
-> +static bool remote_machine_get_bus(const char *type, BusState **bus,
-> +                                   Error **errp)
-> +{
-> +    ERRP_GUARD();
-> +    RemoteMachineState *s =3D REMOTE_MACHINE(current_machine);
-> +    BusState *root_bus =3D NULL;
-> +    PCIBus *new_pci_bus =3D NULL;
-> +
-> +    if (!bus) {
-> +        error_setg(errp, "Invalid argument");
-> +        return false;
-> +    }
-> +
-> +    if (strcmp(type, TYPE_PCI_BUS) && strcmp(type, TYPE_PCI_BUS)) {
-> +        return true;
-> +    }
-> +
-> +    root_bus =3D qbus_find_recursive(sysbus_get_default(), NULL, TYPE_PC=
-IE_BUS);
-> +    if (!root_bus) {
-> +        error_setg(errp, "Unable to find root PCI device");
-> +        return false;
-> +    }
-> +
-> +    new_pci_bus =3D pci_isol_bus_new(root_bus, type, errp);
-> +    if (!new_pci_bus) {
-> +        return false;
-> +    }
-> +
-> +    *bus =3D BUS(new_pci_bus);
-> +
-> +    pci_bus_irqs(new_pci_bus, remote_iohub_set_irq, remote_iohub_map_irq,
-> +                 &s->iohub, REMOTE_IOHUB_NB_PIRQS);
-> +
-> +    return true;
-> +}
-
-Can the user create the same PCI bus via QMP commands? If so, then this
-is just a convenience that saves the extra step. Or is there some magic
-that cannot be done via QMP device_add?
-
-I'm asking because there are 3 objects involved and I'd like to
-understand the lifecycle/dependencies:
-1. The PCIDevice we wish to export.
-2. The PCIBus with isolated address spaces that contains the PCIDevice.
-3. The vfio-user server that exports a given PCIDevice.
-
-Users can already create the PCIDevice via hotplug and the vfio-user
-server via object-add. So if there's no magic they could also create the
-PCI bus:
-1. device_add ...some PCI bus stuff here...,id=3Disol-pci-bus0
-2. device_add ...the PCIDevice...,bus=3Disol-pci-bus0,id=3Dmydev
-3. object-add x-vfio-user-server,device=3Dmydev
-
-Unplug would work in the reverse order.
-
-It may be more convenient to automatically create a PCIBus when the
-PCIDevice is hotplugged, but this kind of magic also has drawbacks
-(hidden devices, naming collisions, etc).
-
-> +
-> +static bool remote_machine_put_bus(BusState *bus, Error **errp)
-> +{
-> +    PCIBus *pci_bus =3D NULL;
-> +
-> +    if (!bus) {
-> +        error_setg(errp, "Invalid argument");
-> +        return false;
-> +    }
-> +
-> +    if (!object_dynamic_cast(OBJECT(bus), TYPE_PCI_BUS)) {
-> +        return true;
-> +    }
-> +
-> +    pci_bus =3D PCI_BUS(bus);
-> +
-> +    return pci_isol_bus_free(pci_bus, errp);
-> +}
-> +
->  static void remote_machine_init(MachineState *machine)
->  {
->      MemoryRegion *system_memory, *system_io, *pci_memory;
-> @@ -56,6 +110,9 @@ static void remote_machine_init(MachineState *machine)
->                   &s->iohub, REMOTE_IOHUB_NB_PIRQS);
-> =20
->      qbus_set_hotplug_handler(BUS(pci_host->bus), OBJECT(s));
-> +
-> +    qdev_set_bus_cbs(remote_machine_get_bus, remote_machine_put_bus,
-> +                     &error_fatal);
->  }
-> =20
->  static void remote_machine_pre_plug_cb(HotplugHandler *hotplug_dev,
-> --=20
-> 2.20.1
->=20
-
---Dli+V0ZyK+DvSx5t
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHv1KoACgkQnKSrs4Gr
-c8guXQgAyXB/TXVVaarVGu/ukXb0k+KBnf1uTER8D6/oCqRF769MXDxzt/haxIDy
-o5HkBJeyDkeJeawpYQA9Ayc5WTAwy034G6FyuiZay2aWZ/hWtYHvwvNdDAmalRli
-gafH0mG0qD5pAk6Ccd3p6+F/vvjleiyQg0xWXEAFZhnJrTJm6AZ8lZH8VSx8njjC
-bJgr/J3M5BcsI48R9Qo3wgGK3Apl0yufIozcZ5OOWdnkO2ZAxLouuEWGeCMiwIg6
-PruuGkaTZaP0txIpYr6UrKs66ymNLzhkJzDvidjpwg2FBH8ZlTHznGgeFWdmNII7
-T1wid6e8fTPhX8bSLLF7DY/TJAgCqw==
-=ZCC6
------END PGP SIGNATURE-----
-
---Dli+V0ZyK+DvSx5t--
-
+Do we need to stick to bluejeans, or can we switch to something more
+generic to easily record the call, and be able to start when Juan is
+not available?
 
