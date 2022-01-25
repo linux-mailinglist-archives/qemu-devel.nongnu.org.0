@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B592049B5EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 15:19:12 +0100 (CET)
-Received: from localhost ([::1]:39712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FDC649B61D
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 15:24:32 +0100 (CET)
+Received: from localhost ([::1]:47112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCMf9-0004yO-Q7
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 09:19:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34860)
+	id 1nCMkJ-0001tD-8N
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 09:24:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nCLAa-0001Xl-F5; Tue, 25 Jan 2022 07:43:36 -0500
-Received: from [187.72.171.209] (port=41125 helo=outlook.eldorado.org.br)
+ id 1nCLAu-0001dU-V3; Tue, 25 Jan 2022 07:43:53 -0500
+Received: from [187.72.171.209] (port=34172 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nCLAX-0007RA-BY; Tue, 25 Jan 2022 07:43:30 -0500
+ id 1nCLAs-0007RC-Tq; Tue, 25 Jan 2022 07:43:52 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Tue, 25 Jan 2022 09:20:41 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id DFD2C8009AB;
- Tue, 25 Jan 2022 09:20:40 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 4A8A980001E;
+ Tue, 25 Jan 2022 09:20:41 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 20/38] target/ppc: Move xxsel to decodetree
-Date: Tue, 25 Jan 2022 09:19:25 -0300
-Message-Id: <20220125121943.3269077-21-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v2 21/38] target/ppc: move xxperm/xxpermr to decodetree
+Date: Tue, 25 Jan 2022 09:19:26 -0300
+Message-Id: <20220125121943.3269077-22-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220125121943.3269077-1-matheus.ferst@eldorado.org.br>
 References: <20220125121943.3269077-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 25 Jan 2022 12:20:41.0262 (UTC)
- FILETIME=[F7F4ACE0:01D811E5]
+X-OriginalArrivalTime: 25 Jan 2022 12:20:41.0669 (UTC)
+ FILETIME=[F832C750:01D811E5]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,177 +67,140 @@ From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/insn32.decode            |  6 ++++
- target/ppc/insn64.decode            | 24 ++++++++--------
- target/ppc/translate/vsx-impl.c.inc | 20 ++++++--------
- target/ppc/translate/vsx-ops.c.inc  | 43 -----------------------------
- 4 files changed, 26 insertions(+), 67 deletions(-)
+ target/ppc/fpu_helper.c             | 21 ---------------
+ target/ppc/helper.h                 |  2 --
+ target/ppc/insn32.decode            |  5 ++++
+ target/ppc/translate/vsx-impl.c.inc | 42 +++++++++++++++++++++++++++--
+ target/ppc/translate/vsx-ops.c.inc  |  2 --
+ 5 files changed, 45 insertions(+), 27 deletions(-)
 
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index e5c29b53b8..f9c7a4dc44 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -3055,27 +3055,6 @@ uint64_t helper_xsrsp(CPUPPCState *env, uint64_t xb)
+     return xt;
+ }
+ 
+-#define VSX_XXPERM(op, indexed)                                       \
+-void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                     \
+-                 ppc_vsr_t *xa, ppc_vsr_t *pcv)                       \
+-{                                                                     \
+-    ppc_vsr_t t = *xt;                                                \
+-    int i, idx;                                                       \
+-                                                                      \
+-    for (i = 0; i < 16; i++) {                                        \
+-        idx = pcv->VsrB(i) & 0x1F;                                    \
+-        if (indexed) {                                                \
+-            idx = 31 - idx;                                           \
+-        }                                                             \
+-        t.VsrB(i) = (idx <= 15) ? xa->VsrB(idx)                       \
+-                                : xt->VsrB(idx - 16);                 \
+-    }                                                                 \
+-    *xt = t;                                                          \
+-}
+-
+-VSX_XXPERM(xxperm, 0)
+-VSX_XXPERM(xxpermr, 1)
+-
+ void helper_xvxsigsp(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)
+ {
+     ppc_vsr_t t = { };
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index a3b64cbf7d..165ca4e0d1 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -501,8 +501,6 @@ DEF_HELPER_3(xvrspic, void, env, vsr, vsr)
+ DEF_HELPER_3(xvrspim, void, env, vsr, vsr)
+ DEF_HELPER_3(xvrspip, void, env, vsr, vsr)
+ DEF_HELPER_3(xvrspiz, void, env, vsr, vsr)
+-DEF_HELPER_4(xxperm, void, env, vsr, vsr, vsr)
+-DEF_HELPER_4(xxpermr, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(xxextractuw, void, env, vsr, vsr, i32)
+ DEF_HELPER_4(xxinsertw, void, env, vsr, vsr, i32)
+ DEF_HELPER_3(xvxsigsp, void, env, vsr, vsr)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 2ebb441550..e56aec7636 100644
+index e56aec7636..39fdcb943c 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -148,12 +148,16 @@
- %xx_xt          0:1 21:5
- %xx_xb          1:1 11:5
- %xx_xa          2:1 16:5
-+%xx_xc          3:1 6:5
- &XX2            xt xb uim:uint8_t
- @XX2            ...... ..... ... uim:2 ..... ......... ..       &XX2 xt=%xx_xt xb=%xx_xb
- 
- &XX3            xt xa xb
- @XX3            ...... ..... ..... ..... ........ ...           &XX3 xt=%xx_xt xa=%xx_xa xb=%xx_xb
- 
-+&XX4            xt xa xb xc
-+@XX4            ...... ..... ..... ..... ..... .. ....          &XX4 xt=%xx_xt xa=%xx_xa xb=%xx_xb xc=%xx_xc
-+
- &Z22_bf_fra     bf fra dm
- @Z22_bf_fra     ...... bf:3 .. fra:5 dm:6 ......... .           &Z22_bf_fra
- 
-@@ -538,6 +542,8 @@ STXVPX          011111 ..... ..... ..... 0111001101 -   @X_TSXP
+@@ -542,6 +542,11 @@ STXVPX          011111 ..... ..... ..... 0111001101 -   @X_TSXP
  XXSPLTIB        111100 ..... 00 ........ 0101101000 .   @X_imm8
  XXSPLTW         111100 ..... ---.. ..... 010100100 . .  @XX2
  
-+XXSEL           111100 ..... ..... ..... ..... 11 ....  @XX4
++## VSX Permute Instructions
 +
++XXPERM          111100 ..... ..... ..... 00011010 ...   @XX3
++XXPERMR         111100 ..... ..... ..... 00111010 ...   @XX3
++
+ XXSEL           111100 ..... ..... ..... ..... 11 ....  @XX4
+ 
  ## VSX Vector Load Special Value Instruction
- 
- LXVKQ           111100 ..... 11111 ..... 0101101000 .   @X_uim5
-diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
-index 39e610913d..9e4f531fb9 100644
---- a/target/ppc/insn64.decode
-+++ b/target/ppc/insn64.decode
-@@ -44,15 +44,15 @@
-                 ...... ..... ....  . ................ \
-                 &8RR_D si=%8rr_si xt=%8rr_xt
- 
--# Format XX4
--&XX4            xt xa xb xc
--%xx4_xt         0:1 21:5
--%xx4_xa         2:1 16:5
--%xx4_xb         1:1 11:5
--%xx4_xc         3:1  6:5
--@XX4            ........ ........ ........ ........ \
-+# Format 8RR:XX4
-+%8rr_xx_xt      0:1 21:5
-+%8rr_xx_xa      2:1 16:5
-+%8rr_xx_xb      1:1 11:5
-+%8rr_xx_xc      3:1  6:5
-+&8RR_XX4        xt xa xb xc
-+@8RR_XX4        ........ ........ ........ ........ \
-                 ...... ..... ..... ..... ..... .. .... \
--                &XX4 xt=%xx4_xt xa=%xx4_xa xb=%xx4_xb xc=%xx4_xc
-+                &8RR_XX4 xt=%8rr_xx_xt xa=%8rr_xx_xa xb=%8rr_xx_xb xc=%8rr_xx_xc
- 
- ### Fixed-Point Load Instructions
- 
-@@ -187,10 +187,10 @@ XXSPLTI32DX     000001 01 0000 -- -- ................ \
-                 100000 ..... 000 .. ................    @8RR_D_IX
- 
- XXBLENDVD       000001 01 0000 -- ------------------ \
--                100001 ..... ..... ..... ..... 11 ....  @XX4
-+                100001 ..... ..... ..... ..... 11 ....  @8RR_XX4
- XXBLENDVW       000001 01 0000 -- ------------------ \
--                100001 ..... ..... ..... ..... 10 ....  @XX4
-+                100001 ..... ..... ..... ..... 10 ....  @8RR_XX4
- XXBLENDVH       000001 01 0000 -- ------------------ \
--                100001 ..... ..... ..... ..... 01 ....  @XX4
-+                100001 ..... ..... ..... ..... 01 ....  @8RR_XX4
- XXBLENDVB       000001 01 0000 -- ------------------ \
--                100001 ..... ..... ..... ..... 00 ....  @XX4
-+                100001 ..... ..... ..... ..... 00 ....  @8RR_XX4
 diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index b89be57272..83e3285e19 100644
+index 83e3285e19..43e52ee3f8 100644
 --- a/target/ppc/translate/vsx-impl.c.inc
 +++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -1420,19 +1420,15 @@ static void glue(gen_, name)(DisasContext *ctx)             \
- VSX_XXMRG(xxmrghw, 1)
- VSX_XXMRG(xxmrglw, 0)
- 
--static void gen_xxsel(DisasContext *ctx)
-+static bool trans_XXSEL(DisasContext *ctx, arg_XX4 *a)
- {
--    int rt = xT(ctx->opcode);
--    int ra = xA(ctx->opcode);
--    int rb = xB(ctx->opcode);
--    int rc = xC(ctx->opcode);
-+    REQUIRE_INSNS_FLAGS2(ctx, VSX);
+@@ -1198,8 +1198,46 @@ GEN_VSX_HELPER_X2(xvrspip, 0x12, 0x0A, 0, PPC2_VSX)
+ GEN_VSX_HELPER_X2(xvrspiz, 0x12, 0x09, 0, PPC2_VSX)
+ GEN_VSX_HELPER_2(xvtstdcsp, 0x14, 0x1A, 0, PPC2_VSX)
+ GEN_VSX_HELPER_2(xvtstdcdp, 0x14, 0x1E, 0, PPC2_VSX)
+-GEN_VSX_HELPER_X3(xxperm, 0x08, 0x03, 0, PPC2_ISA300)
+-GEN_VSX_HELPER_X3(xxpermr, 0x08, 0x07, 0, PPC2_ISA300)
++
++static bool trans_XXPERM(DisasContext *ctx, arg_XX3 *a)
++{
++    TCGv_ptr xt, xa, xb;
++
++    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
 +    REQUIRE_VSX(ctx);
- 
--    if (unlikely(!ctx->vsx_enabled)) {
--        gen_exception(ctx, POWERPC_EXCP_VSXU);
--        return;
--    }
--    tcg_gen_gvec_bitsel(MO_64, vsr_full_offset(rt), vsr_full_offset(rc),
--                        vsr_full_offset(rb), vsr_full_offset(ra), 16, 16);
-+    tcg_gen_gvec_bitsel(MO_64, vsr_full_offset(a->xt), vsr_full_offset(a->xc),
-+                        vsr_full_offset(a->xb), vsr_full_offset(a->xa), 16, 16);
++
++    xt = gen_vsr_ptr(a->xt);
++    xa = gen_vsr_ptr(a->xa);
++    xb = gen_vsr_ptr(a->xb);
++
++    gen_helper_VPERM(xt, xa, xt, xb);
++
++    tcg_temp_free_ptr(xt);
++    tcg_temp_free_ptr(xa);
++    tcg_temp_free_ptr(xb);
 +
 +    return true;
- }
++}
++
++static bool trans_XXPERMR(DisasContext *ctx, arg_XX3 *a)
++{
++    TCGv_ptr xt, xa, xb;
++
++    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
++    REQUIRE_VSX(ctx);
++
++    xt = gen_vsr_ptr(a->xt);
++    xa = gen_vsr_ptr(a->xa);
++    xb = gen_vsr_ptr(a->xb);
++
++    gen_helper_VPERMR(xt, xa, xt, xb);
++
++    tcg_temp_free_ptr(xt);
++    tcg_temp_free_ptr(xa);
++    tcg_temp_free_ptr(xb);
++
++    return true;
++}
  
- static bool trans_XXSPLTW(DisasContext *ctx, arg_XX2 *a)
-@@ -2125,7 +2121,7 @@ static void gen_xxblendv_vec(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b,
-     tcg_temp_free_vec(tmp);
- }
- 
--static bool do_xxblendv(DisasContext *ctx, arg_XX4 *a, unsigned vece)
-+static bool do_xxblendv(DisasContext *ctx, arg_8RR_XX4 *a, unsigned vece)
- {
-     static const TCGOpcode vecop_list[] = {
-         INDEX_op_sari_vec, 0
+ #define GEN_VSX_HELPER_VSX_MADD(name, op1, aop, mop, inval, type)             \
+ static void gen_##name(DisasContext *ctx)                                     \
 diff --git a/target/ppc/translate/vsx-ops.c.inc b/target/ppc/translate/vsx-ops.c.inc
-index c974324c4c..b0dbb38c80 100644
+index b0dbb38c80..86ed1a996a 100644
 --- a/target/ppc/translate/vsx-ops.c.inc
 +++ b/target/ppc/translate/vsx-ops.c.inc
-@@ -347,47 +347,4 @@ GEN_XX3FORM_DM(xxsldwi, 0x08, 0x00),
+@@ -341,8 +341,6 @@ VSX_LOGICAL(xxlnand, 0x8, 0x16, PPC2_VSX207),
+ VSX_LOGICAL(xxlorc, 0x8, 0x15, PPC2_VSX207),
+ GEN_XX3FORM(xxmrghw, 0x08, 0x02, PPC2_VSX),
+ GEN_XX3FORM(xxmrglw, 0x08, 0x06, PPC2_VSX),
+-GEN_XX3FORM(xxperm, 0x08, 0x03, PPC2_ISA300),
+-GEN_XX3FORM(xxpermr, 0x08, 0x07, PPC2_ISA300),
+ GEN_XX3FORM_DM(xxsldwi, 0x08, 0x00),
  GEN_XX2FORM_EXT(xxextractuw, 0x0A, 0x0A, PPC2_ISA300),
  GEN_XX2FORM_EXT(xxinsertw, 0x0A, 0x0B, PPC2_ISA300),
- 
--#define GEN_XXSEL_ROW(opc3) \
--GEN_HANDLER2_E(xxsel, "xxsel", 0x3C, 0x18, opc3, 0, PPC_NONE, PPC2_VSX), \
--GEN_HANDLER2_E(xxsel, "xxsel", 0x3C, 0x19, opc3, 0, PPC_NONE, PPC2_VSX), \
--GEN_HANDLER2_E(xxsel, "xxsel", 0x3C, 0x1A, opc3, 0, PPC_NONE, PPC2_VSX), \
--GEN_HANDLER2_E(xxsel, "xxsel", 0x3C, 0x1B, opc3, 0, PPC_NONE, PPC2_VSX), \
--GEN_HANDLER2_E(xxsel, "xxsel", 0x3C, 0x1C, opc3, 0, PPC_NONE, PPC2_VSX), \
--GEN_HANDLER2_E(xxsel, "xxsel", 0x3C, 0x1D, opc3, 0, PPC_NONE, PPC2_VSX), \
--GEN_HANDLER2_E(xxsel, "xxsel", 0x3C, 0x1E, opc3, 0, PPC_NONE, PPC2_VSX), \
--GEN_HANDLER2_E(xxsel, "xxsel", 0x3C, 0x1F, opc3, 0, PPC_NONE, PPC2_VSX), \
--
--GEN_XXSEL_ROW(0x00)
--GEN_XXSEL_ROW(0x01)
--GEN_XXSEL_ROW(0x02)
--GEN_XXSEL_ROW(0x03)
--GEN_XXSEL_ROW(0x04)
--GEN_XXSEL_ROW(0x05)
--GEN_XXSEL_ROW(0x06)
--GEN_XXSEL_ROW(0x07)
--GEN_XXSEL_ROW(0x08)
--GEN_XXSEL_ROW(0x09)
--GEN_XXSEL_ROW(0x0A)
--GEN_XXSEL_ROW(0x0B)
--GEN_XXSEL_ROW(0x0C)
--GEN_XXSEL_ROW(0x0D)
--GEN_XXSEL_ROW(0x0E)
--GEN_XXSEL_ROW(0x0F)
--GEN_XXSEL_ROW(0x10)
--GEN_XXSEL_ROW(0x11)
--GEN_XXSEL_ROW(0x12)
--GEN_XXSEL_ROW(0x13)
--GEN_XXSEL_ROW(0x14)
--GEN_XXSEL_ROW(0x15)
--GEN_XXSEL_ROW(0x16)
--GEN_XXSEL_ROW(0x17)
--GEN_XXSEL_ROW(0x18)
--GEN_XXSEL_ROW(0x19)
--GEN_XXSEL_ROW(0x1A)
--GEN_XXSEL_ROW(0x1B)
--GEN_XXSEL_ROW(0x1C)
--GEN_XXSEL_ROW(0x1D)
--GEN_XXSEL_ROW(0x1E)
--GEN_XXSEL_ROW(0x1F)
--
- GEN_XX3FORM_DM(xxpermdi, 0x08, 0x01),
 -- 
 2.25.1
 
