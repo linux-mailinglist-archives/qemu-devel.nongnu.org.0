@@ -2,49 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DEF249AFCF
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 10:26:44 +0100 (CET)
-Received: from localhost ([::1]:38720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A933549AFC2
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 10:22:27 +0100 (CET)
+Received: from localhost ([::1]:60182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCI67-0008Cr-KB
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 04:26:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57664)
+	id 1nCI1y-0003Wb-9x
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 04:22:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
- id 1nCI0g-0003j3-MA; Tue, 25 Jan 2022 04:21:10 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:3082)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nCHw3-0001eH-R9
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 04:16:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48299)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
- id 1nCI0e-0003YY-1h; Tue, 25 Jan 2022 04:21:06 -0500
-Received: from dggeme756-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JjhC813Pgzbk5s;
- Tue, 25 Jan 2022 17:20:04 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.58) by
- dggeme756-chm.china.huawei.com (10.3.19.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.21; Tue, 25 Jan 2022 17:20:53 +0800
-To: <peter.maydell@linaro.org>, <shannon.zhaosl@gmail.com>
-CC: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>, <linuxarm@huawei.com>,
- Xiang Chen <chenxiang66@hisilicon.com>
-Subject: [PATCH] hw/arm/virt: Enable HMAT on arm virt machine
-Date: Tue, 25 Jan 2022 17:15:34 +0800
-Message-ID: <1643102134-15506-1-git-send-email-chenxiang66@hisilicon.com>
-X-Mailer: git-send-email 2.8.1
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nCHvv-0002sx-0a
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 04:16:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643102169;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Th3yPYL9xjm0l1eeNodNnhOOXT63mG+G3Dq6XTF6u/8=;
+ b=izid6aMkHzv7hNKup5x+Mlomja6bcfTa9XNQvsu89Ifr2GcsrJnJLKCFS2dWN++aIQzVUr
+ cEkcb4AQa7x7zo+j9MBlTuWPqGsX/gNMOnHQAM7SssWWl2cHSM+EaDVLXGi0DLkPx1SRie
+ IHnyaqt/v4yyyT9OYQjpbDrYygkzGpM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-568-XvTS4ulVMx2N9Zx8qMiAtw-1; Tue, 25 Jan 2022 04:16:08 -0500
+X-MC-Unique: XvTS4ulVMx2N9Zx8qMiAtw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v185-20020a1cacc2000000b0034906580813so953511wme.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 01:16:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Th3yPYL9xjm0l1eeNodNnhOOXT63mG+G3Dq6XTF6u/8=;
+ b=YaR4IbdtLPapn7mtQs7s4XG9GdXDHwIKw4+vTiI6i6SLsZ1OJTh0VxtNkpdYlkSPyt
+ 73qH4/qK2G+oEjMuENK6GQOQ4C2L84kxER4jloVlPFSYoGU2pe8b54vCckhwemX8E2hu
+ 9E6zbKzds0NGw1ZCYSSmLFksJXOAWUx7ZhTnA7UtR5wQ1gHjC6cc3Syc6KeI/yO4iphA
+ yJgMHWGZywhGpDk48aQJy/vpIWAGE1V9C4r/7Yz3Gb9H5OcwrQOpRHnY/rwsSqjAodIW
+ hVF+9rWFh2Mgt0+fKbA7rj4HnaZqiloMAP5fGkVXkff5E7ZeqlPFDBVqDfG+JICPkxBR
+ joBw==
+X-Gm-Message-State: AOAM533aa4Kx2cHqvE4ipxl6U9G2VhWolBkqy2FrT0h6WsUXG5KhvOBq
+ 1zt0vHEEcBOltdHH06YMu92InEqKm4i1ytotLl/QlYbqERVf/CJplZbvFBA+Y+tJb/+Wfiqm3Ms
+ bshTEnAQItMemdj4=
+X-Received: by 2002:a05:600c:219:: with SMTP id
+ 25mr2041833wmi.68.1643102167104; 
+ Tue, 25 Jan 2022 01:16:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzzAEnb9GVn6iTbZMOkef/r6p3sosdBRWd2XnqnMc8uo3WwOQN8E4iN69omKqHIs3ADjavvUA==
+X-Received: by 2002:a05:600c:219:: with SMTP id
+ 25mr2041808wmi.68.1643102166920; 
+ Tue, 25 Jan 2022 01:16:06 -0800 (PST)
+Received: from localhost ([47.61.17.76])
+ by smtp.gmail.com with ESMTPSA id o14sm5350670wry.104.2022.01.25.01.16.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Jan 2022 01:16:06 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v3 3/6] migration: ram_release_pages() always receive 1
+ page as argument
+In-Reply-To: <174daad7-6153-b85f-32fd-9884052cf03a@amsat.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 11 Jan 2022 14:44:27
+ +0100")
+References: <20220111124556.4892-1-quintela@redhat.com>
+ <20220111124556.4892-4-quintela@redhat.com>
+ <174daad7-6153-b85f-32fd-9884052cf03a@amsat.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Tue, 25 Jan 2022 10:16:05 +0100
+Message-ID: <8735lctbu2.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.58]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggeme756-chm.china.huawei.com (10.3.19.102)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=chenxiang66@hisilicon.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,60 +105,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
+Cc: Leonardo Bras <leobras@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  chenxiang <chenxiang66@hisilicon.com>
-From:  chenxiang via <qemu-devel@nongnu.org>
 
-From: Xiang Chen <chenxiang66@hisilicon.com>
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
+> On 1/11/22 13:45, Juan Quintela wrote:
+>> Remove the pages argument. And s/pages/page/
+>>=20
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> Reviewed-by: Peter Xu <peterx@redhat.com>
+>>=20
+>> --
+>
+> Note, you need '---' (3x) to have git tools strip the rest
+> (otherwise this text will be committed).
 
-Since the patchset ("Build ACPI Heterogeneous Memory Attribute Table (HMAT)"),
-HMAT is supported, but only x86 is enabled. Enable HMAT on arm virt machine.
-
-Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
----
- hw/arm/Kconfig           | 1 +
- hw/arm/virt-acpi-build.c | 7 +++++++
- 2 files changed, 8 insertions(+)
-
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 2e0049196d..a3c6099829 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -29,6 +29,7 @@ config ARM_VIRT
-     select ACPI_APEI
-     select ACPI_VIOT
-     select VIRTIO_MEM_SUPPORTED
-+    select ACPI_HMAT
- 
- config CHEETAH
-     bool
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 449fab0080..f19b55e486 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -42,6 +42,7 @@
- #include "hw/acpi/memory_hotplug.h"
- #include "hw/acpi/generic_event_device.h"
- #include "hw/acpi/tpm.h"
-+#include "hw/acpi/hmat.h"
- #include "hw/pci/pcie_host.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_bus.h"
-@@ -990,6 +991,12 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
-             build_slit(tables_blob, tables->linker, ms, vms->oem_id,
-                        vms->oem_table_id);
-         }
-+
-+        if (ms->numa_state->hmat_enabled) {
-+            acpi_add_table(table_offsets, tables_blob);
-+            build_hmat(tables_blob, tables->linker, ms->numa_state,
-+                       vms->oem_id, vms->oem_table_id);
-+        }
-     }
- 
-     if (ms->nvdimms_state->is_enabled) {
--- 
-2.33.0
+Done, thanks.
 
 
