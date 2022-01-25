@@ -2,80 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E5CB49B1BA
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 11:34:19 +0100 (CET)
-Received: from localhost ([::1]:33908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8561749B1BF
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 11:39:11 +0100 (CET)
+Received: from localhost ([::1]:40762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCJ9W-0005TX-BJ
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 05:34:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43582)
+	id 1nCJEE-0001rb-L0
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 05:39:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1nCJ2J-0006lc-C8
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:26:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51966)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nCJ2j-0007A7-GM
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:27:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1nCJ2G-00057n-LT
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:26:50 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nCJ2h-0005Hs-Sk
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:27:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643106370;
+ s=mimecast20190719; t=1643106435;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QcZjo/a+B5zu1NVmxX4irODAmEHNtjNwudA/raoQZm8=;
- b=In4mQ/ZOwSz1ZFT543FGWq/hz54oj99BpxoJGOBy2hPdptjt7SwUziQqfY/9rgbcmnvqaN
- Dutjz6HAl7E8NzBmQDMFRz/5cmdyB9WS6Mk0qjgyC7xJKm/FRRhLCBV9OgQv9sdMSucMNa
- g7+mD3FZ6SZ0iwbiWVCrtv99c1iSrzQ=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7WAiYhRMsgj+n19YKgGJNUPtN+teyPg6ZalLIEpUilo=;
+ b=OJb7YMTSly549X2ez7ayMQM8RWLtWvwPwCVukPfYI0ghrvswUENciEvc/TulBYAA7J3CMq
+ zDc687P0WCUwZ/RcOyFqBnmXK204LUqPlyafY+SK8rouTiPOGYLdGoPj9fk7EUti9hu9Am
+ njYnQ/geA/k1XGNNzjBKZUgBsyZgQ7E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-474-Gw-TgdieOlyRjEvVwSXmtw-1; Tue, 25 Jan 2022 05:26:09 -0500
-X-MC-Unique: Gw-TgdieOlyRjEvVwSXmtw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- c8-20020a05640227c800b003fdc1684cdeso14729896ede.12
- for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 02:26:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=QcZjo/a+B5zu1NVmxX4irODAmEHNtjNwudA/raoQZm8=;
- b=7o4MXiqG1La/cQopXBWvB8GP6PzkTh3fbdbHZtn2wRJy9DoCyOD0kYfx05QukgXVxx
- 0jkM8uuHpdafe4GaqvegtOLNnlKFtq5JBwv3HIZ1OlS/AfZ/GAAVZx+fY7Cr6rlU1LY1
- oVm/72TLHszazCDUJ/U9w/eySdfFOXAG5Pkc8aChLqHNitLNEHSCGF1M7mk0NsAYtD9W
- 9iBhPX/+VmyFSvbB9vUVYJw0sfFofgcN7m2pUogxOLrVXnqLTfwUHmSDIpw7M8Kwp39J
- MUoxdF3pFkom1V1T0rAPdZQ7GTcXU/f5HxUHXJCVaadtZd/A/OHKAWAAuWhWayhYRr5L
- fnOA==
-X-Gm-Message-State: AOAM532nJU3qzO2G7bCrf9uVdG2q59TLKwiLHBFZQ1+WYWNg0wOJ3W5s
- ztmagV0KIORSw5WIiO02DBMJPQQdfSFxe98vH3bSHRAEcge2LMoNjmMPqZbMSEEJHpwjlgtHWm5
- KZKx1wDNynkZ9OIOiQhTxBtnRxUiRpfkwIk8pJV65vx13u6hTGg0THKni+U+YuVOfjQ==
-X-Received: by 2002:a17:906:e282:: with SMTP id
- gg2mr16200843ejb.607.1643106366817; 
- Tue, 25 Jan 2022 02:26:06 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJywwxwZ4YY4iWIlFNaYip0Wa4dEeAoVhozEIa/pQlPEkwWy9x2YAsU6Xt11ylx+Tj+ikUTJSQ==
-X-Received: by 2002:a17:906:e282:: with SMTP id
- gg2mr16200818ejb.607.1643106366410; 
- Tue, 25 Jan 2022 02:26:06 -0800 (PST)
-Received: from gator (cst2-173-70.cust.vodafone.cz. [31.30.173.70])
- by smtp.gmail.com with ESMTPSA id qp13sm5994017ejb.52.2022.01.25.02.26.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jan 2022 02:26:05 -0800 (PST)
-Date: Tue, 25 Jan 2022 11:26:03 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: chenxiang via <qemu-devel@nongnu.org>
-Subject: Re: [PATCH] hw/arm/virt: Enable HMAT on arm virt machine
-Message-ID: <20220125102603.3ssiffsqcyt7tlwr@gator>
-References: <1643102134-15506-1-git-send-email-chenxiang66@hisilicon.com>
+ us-mta-21-GlYtuL5wPpuqrPNU76vYrw-1; Tue, 25 Jan 2022 05:27:11 -0500
+X-MC-Unique: GlYtuL5wPpuqrPNU76vYrw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E14BF83DD20;
+ Tue, 25 Jan 2022 10:27:09 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4476F54684;
+ Tue, 25 Jan 2022 10:27:09 +0000 (UTC)
+Date: Tue, 25 Jan 2022 10:27:07 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v5 05/18] qdev: unplug blocker for devices
+Message-ID: <Ye/Qe86YifZB/AiD@stefanha-x1.localdomain>
+References: <cover.1642626515.git.jag.raman@oracle.com>
+ <5ad3f47f9ed507211fa8db5b8c36b9d32413bbbb.1642626515.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <1643102134-15506-1-git-send-email-chenxiang66@hisilicon.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="KCgW0oez8KzyB7uc"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+In-Reply-To: <5ad3f47f9ed507211fa8db5b8c36b9d32413bbbb.1642626515.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -96,72 +76,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Xiang Chen <chenxiang66@hisilicon.com>,
- linuxarm@huawei.com, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
- imammedo@redhat.com
+Cc: eduardo@habkost.net, elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
+ berrange@redhat.com, bleal@redhat.com, john.levon@nutanix.com, mst@redhat.com,
+ armbru@redhat.com, quintela@redhat.com, qemu-devel@nongnu.org, f4bug@amsat.org,
+ marcandre.lureau@gmail.com, thanos.makatos@nutanix.com, pbonzini@redhat.com,
+ eblake@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 25, 2022 at 05:15:34PM +0800, chenxiang via wrote:
-> From: Xiang Chen <chenxiang66@hisilicon.com>
-> 
-> Since the patchset ("Build ACPI Heterogeneous Memory Attribute Table (HMAT)"),
-> HMAT is supported, but only x86 is enabled. Enable HMAT on arm virt machine.
 
-Hi Xiang,
+--KCgW0oez8KzyB7uc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-What QEMU commands lines have you tested with which Linux guest kernels?
-
-Thanks,
-drew
-
-> 
-> Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
+On Wed, Jan 19, 2022 at 04:41:54PM -0500, Jagannathan Raman wrote:
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 > ---
->  hw/arm/Kconfig           | 1 +
->  hw/arm/virt-acpi-build.c | 7 +++++++
->  2 files changed, 8 insertions(+)
-> 
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index 2e0049196d..a3c6099829 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -29,6 +29,7 @@ config ARM_VIRT
->      select ACPI_APEI
->      select ACPI_VIOT
->      select VIRTIO_MEM_SUPPORTED
-> +    select ACPI_HMAT
->  
->  config CHEETAH
->      bool
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index 449fab0080..f19b55e486 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -42,6 +42,7 @@
->  #include "hw/acpi/memory_hotplug.h"
->  #include "hw/acpi/generic_event_device.h"
->  #include "hw/acpi/tpm.h"
-> +#include "hw/acpi/hmat.h"
->  #include "hw/pci/pcie_host.h"
->  #include "hw/pci/pci.h"
->  #include "hw/pci/pci_bus.h"
-> @@ -990,6 +991,12 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
->              build_slit(tables_blob, tables->linker, ms, vms->oem_id,
->                         vms->oem_table_id);
->          }
+>  include/hw/qdev-core.h |  5 +++++
+>  softmmu/qdev-monitor.c | 35 +++++++++++++++++++++++++++++++++++
+>  2 files changed, 40 insertions(+)
+>=20
+> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+> index eed2983072..67df5e0081 100644
+> --- a/include/hw/qdev-core.h
+> +++ b/include/hw/qdev-core.h
+> @@ -193,6 +193,7 @@ struct DeviceState {
+>      int instance_id_alias;
+>      int alias_required_for_version;
+>      ResettableState reset;
+> +    GSList *unplug_blockers;
+>  };
+> =20
+>  struct DeviceListener {
+> @@ -433,6 +434,10 @@ typedef bool (QDevPutBusFunc)(BusState *bus, Error *=
+*errp);
+>  bool qdev_set_bus_cbs(QDevGetBusFunc *get_bus, QDevPutBusFunc *put_bus,
+>                        Error **errp);
+> =20
+> +int qdev_add_unplug_blocker(DeviceState *dev, Error *reason, Error **err=
+p);
+> +void qdev_del_unplug_blocker(DeviceState *dev, Error *reason);
+> +bool qdev_unplug_blocked(DeviceState *dev, Error **errp);
 > +
-> +        if (ms->numa_state->hmat_enabled) {
-> +            acpi_add_table(table_offsets, tables_blob);
-> +            build_hmat(tables_blob, tables->linker, ms->numa_state,
-> +                       vms->oem_id, vms->oem_table_id);
+>  /**
+>   * GpioPolarity: Polarity of a GPIO line
+>   *
+> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+> index 7306074019..1a169f89a2 100644
+> --- a/softmmu/qdev-monitor.c
+> +++ b/softmmu/qdev-monitor.c
+> @@ -978,10 +978,45 @@ void qmp_device_del(const char *id, Error **errp)
+>              return;
+>          }
+> =20
+> +        if (qdev_unplug_blocked(dev, errp)) {
+> +            return;
 > +        }
+> +
+>          qdev_unplug(dev, errp);
 >      }
->  
->      if (ms->nvdimms_state->is_enabled) {
-> -- 
-> 2.33.0
-> 
-> 
+>  }
+> =20
+> +int qdev_add_unplug_blocker(DeviceState *dev, Error *reason, Error **err=
+p)
+> +{
+> +    ERRP_GUARD();
+> +
+> +    if (!migration_is_idle()) {
+> +        error_setg(errp, "migration is in progress");
+> +        return -EBUSY;
+> +    }
+
+Why can this function not be called during migration?
+
+> +
+> +    dev->unplug_blockers =3D g_slist_prepend(dev->unplug_blockers, reaso=
+n);
+> +
+> +    return 0;
+> +}
+> +
+> +void qdev_del_unplug_blocker(DeviceState *dev, Error *reason)
+> +{
+> +    dev->unplug_blockers =3D g_slist_remove(dev->unplug_blockers, reason=
+);
+> +}
+> +
+> +bool qdev_unplug_blocked(DeviceState *dev, Error **errp)
+> +{
+> +    ERRP_GUARD();
+> +
+> +    if (dev->unplug_blockers) {
+> +        error_propagate(errp, error_copy(dev->unplug_blockers->data));
+> +        return true;
+> +    }
+> +
+> +    return false;
+> +}
+> +
+>  void hmp_device_add(Monitor *mon, const QDict *qdict)
+>  {
+>      Error *err =3D NULL;
+> --=20
+> 2.20.1
+>=20
+
+--KCgW0oez8KzyB7uc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHv0HsACgkQnKSrs4Gr
+c8idIAgAiOapwiWGEbuZREuTA+z+v3Bsc2LJqWCkSHZOjsvqvpwaqDe4nti0ws7w
+2Ky5q2fitYJSq0eKVqh2aZ9FtRFnVDKsaUlYrfz5lcDYGgoF+LacEkRSN6022Y9q
+CRwpYF/3bKowsCfVFJZ6xkyp+8Whz2iQXCx5oo0wn8kmvL9rxVFmhvJW1+DRg6Qe
+C/BVZ1Fbxcp01S1F42oXe+3VmVt7+0iG3W+l6qJ8kzLEzHhVYeQq+B9V0ldopHDR
+ZnlB2s+AWKWSIbLvDBQR6VmpD4NMxY6eqU+BDbvYSrgCYRD22QCkj8FYsBQxllNy
+n5z2blS4NZrYTP/tJ3PtT+laAqdDLw==
+=ClOb
+-----END PGP SIGNATURE-----
+
+--KCgW0oez8KzyB7uc--
 
 
