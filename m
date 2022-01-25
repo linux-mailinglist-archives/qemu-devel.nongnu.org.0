@@ -2,53 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA2F249BBDC
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 20:12:10 +0100 (CET)
-Received: from localhost ([::1]:37178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF24A49BBFB
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 20:23:04 +0100 (CET)
+Received: from localhost ([::1]:45590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCREf-0005Gp-8q
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 14:12:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54966)
+	id 1nCRPD-0002x2-5X
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 14:23:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1nCR1A-00073a-70
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 13:58:12 -0500
-Received: from mailout07.t-online.de ([194.25.134.83]:49948)
+ (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
+ id 1nCRKc-0001VP-2f
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 14:18:20 -0500
+Received: from mga11.intel.com ([192.55.52.93]:30624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1nCR12-0004ra-1F
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 13:58:07 -0500
-Received: from fwd76.dcpf.telekom.de (fwd76.aul.t-online.de [10.223.144.102])
- by mailout07.t-online.de (Postfix) with SMTP id 6680F118EF;
- Tue, 25 Jan 2022 19:58:00 +0100 (CET)
-Received: from [192.168.211.200] ([46.86.48.20]) by fwd76.t-online.de
- with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1nCR0y-0tJIvJ0; Tue, 25 Jan 2022 19:58:00 +0100
-Message-ID: <a9141436-adbb-e216-4131-157b0e634162@t-online.de>
-Date: Tue, 25 Jan 2022 19:57:59 +0100
+ (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
+ id 1nCRKX-0007sU-7X
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 14:18:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643138293; x=1674674293;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=0hLtylA604YuRLZ580x5CON+geQ4cf1w7KBzG0dO9uQ=;
+ b=GwUoWiz/q2IlqSHCLYpcQkrwF1T06xV8mj3VO6iVrFuDI/ydY1jzzVGN
+ aTSE2FOoiarmm95+nRUWkPSP0Suq5NFVTvzkUDFuJJiaJYF1D3OTAYshB
+ oMC5/FxIxvsun5Z1mRzozoEe2bVBSlx/b+3J4vkDr25ZFELFu87Zb8eho
+ Oq1XVDO1BQeczNOaK+XHK4vjCxXLMdMyrUOfHXDjvSnMD+B5BpLI1xh7o
+ iJSA/IEb24zXaOeIlzoRBi0cYWE2bBJTOy6/4ryCRQZr6MkoEP84Yz/85
+ A+0PoMOsnDrgEpo8kbVWUww25WcTehclFT0MNb34d1Y11GaQfnm7I8S3r Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="243991132"
+X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; d="scan'208";a="243991132"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2022 11:18:08 -0800
+X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; d="scan'208";a="532524278"
+Received: from jungjunk-mobl1.amr.corp.intel.com (HELO intel.com)
+ ([10.252.128.93])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2022 11:18:07 -0800
+Date: Tue, 25 Jan 2022 11:18:06 -0800
+From: Ben Widawsky <ben.widawsky@intel.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v4 00/42] CXl 2.0 emulation Support
+Message-ID: <20220125191806.ifbv2fuj2bik44zw@intel.com>
+References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: Re: [PATCH v2 01/15] audio: replace open-coded buffer arithmetic
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
-References: <addf2564-d61c-707e-ce5f-fb06264e7a39@t-online.de>
- <20220122125745.5037-1-vr_qemu@t-online.de> <7976963.x2vcT3psHa@silver>
-Content-Language: en-US
-In-Reply-To: <7976963.x2vcT3psHa@silver>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1643137080-0001619A-22CDBBC2/0/0 CLEAN NORMAL
-X-TOI-MSGID: 9ace7fbb-6fba-4179-83bb-9c83e871cfda
-Received-SPF: none client-ip=194.25.134.83; envelope-from=vr_qemu@t-online.de;
- helo=mailout07.t-online.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
+Received-SPF: pass client-ip=192.55.52.93; envelope-from=ben.widawsky@intel.com;
+ helo=mga11.intel.com
+X-Spam_score_int: -72
+X-Spam_score: -7.3
+X-Spam_bar: -------
+X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,196 +73,242 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
+ Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org, linuxarm@huawei.com,
+ Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> On Samstag, 22. Januar 2022 13:57:31 CET Volker Rümelin wrote:
->> Replace open-coded buffer arithmetic with the new function
->> audio_ring_posb(). That's the position in backward direction
->> of a given point at a given distance.
->>
->> Signed-off-by: Volker Rümelin<vr_qemu@t-online.de>
->> ---
-> First of all, getting rid of all those redundant, open coded ringbuffer
-> traversal code places highly makes sense!
->
->>   audio/audio.c     | 25 +++++++------------------
->>   audio/audio_int.h |  6 ++++++
->>   audio/coreaudio.c | 10 ++++------
->>   audio/sdlaudio.c  | 11 +++++------
->>   4 files changed, 22 insertions(+), 30 deletions(-)
->>
->> diff --git a/audio/audio.c b/audio/audio.c
->> index dc28685d22..e7a139e289 100644
->> --- a/audio/audio.c
->> +++ b/audio/audio.c
->> @@ -574,19 +574,13 @@ static size_t audio_pcm_sw_get_rpos_in(SWVoiceIn *sw)
->>   {
->>       HWVoiceIn *hw = sw->hw;
->>       ssize_t live = hw->total_samples_captured - sw->total_hw_samples_acquired;
->> -    ssize_t rpos;
->>
->>       if (audio_bug(__func__, live < 0 || live > hw->conv_buf->size)) {
->>           dolog("live=%zu hw->conv_buf->size=%zu\n", live, hw->conv_buf->size);
->>           return 0;
->>       }
->>
->> -    rpos = hw->conv_buf->pos - live;
->> -    if (rpos >= 0) {
->> -        return rpos;
->> -    } else {
->> -        return hw->conv_buf->size + rpos;
->> -    }
->> +    return audio_ring_posb(hw->conv_buf->pos, live, hw->conv_buf->size);
->>   }
->>
->>   static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
->> @@ -1394,12 +1388,10 @@ void audio_generic_run_buffer_in(HWVoiceIn *hw)
->>
->>   void *audio_generic_get_buffer_in(HWVoiceIn *hw, size_t *size)
->>   {
->> -    ssize_t start = (ssize_t)hw->pos_emul - hw->pending_emul;
->> +    size_t start;
->>
->> -    if (start < 0) {
->> -        start += hw->size_emul;
->> -    }
->> -    assert(start >= 0 && start < hw->size_emul);
->> +    start = audio_ring_posb(hw->pos_emul, hw->pending_emul, hw->size_emul);
->> +    assert(start < hw->size_emul);
->>
->>       *size = MIN(*size, hw->pending_emul);
->>       *size = MIN(*size, hw->size_emul - start);
->> @@ -1415,13 +1407,10 @@ void audio_generic_put_buffer_in(HWVoiceIn *hw, void
->> *buf, size_t size) void audio_generic_run_buffer_out(HWVoiceOut *hw)
->>   {
->>       while (hw->pending_emul) {
->> -        size_t write_len, written;
->> -        ssize_t start = ((ssize_t) hw->pos_emul) - hw->pending_emul;
->> +        size_t write_len, written, start;
->>
->> -        if (start < 0) {
->> -            start += hw->size_emul;
->> -        }
->> -        assert(start >= 0 && start < hw->size_emul);
->> +        start = audio_ring_posb(hw->pos_emul, hw->pending_emul, hw->size_emul);
->> +        assert(start < hw->size_emul);
->>
->>           write_len = MIN(hw->pending_emul, hw->size_emul - start);
-> Just refactoring so far, which looks good so far.
->
->> diff --git a/audio/audio_int.h b/audio/audio_int.h
->> index 428a091d05..2fb459f34e 100644
->> --- a/audio/audio_int.h
->> +++ b/audio/audio_int.h
->> @@ -266,6 +266,12 @@ static inline size_t audio_ring_dist(size_t dst, size_t src, size_t len)
->>       return (dst >= src) ? (dst - src) : (len - src + dst);
->>   }
-> You haven't touched this function, but while I am looking at it, all function
-> arguments are unsigned. So probably modulo operator might be used to get rid
-> of a branch here.
+Really awesome work Jonathan. Dan and I are wrapping up some of the kernel bits,
+so all I'll do for now is try to run this, but I hope to be able to review the
+parts I'm familiar with at least.
 
-That would be "return (len - dist + pos) % len;" but on my x86_64 system 
-I always prefer a conditional move instruction to a 64 bit integer 
-division instruction.
+On 22-01-24 17:16:23, Jonathan Cameron wrote:
+> Previous version was RFC v3: CXL 2.0 Support.
+> No longer an RFC as I would consider the vast majority of this
+> to be ready for detailed review. There are still questions called
+> out in some patches however.
+> 
+> Looking in particular for:
+> * Review of the PCI interactions
+> * x86 and ARM machine interactions (particularly the memory maps)
+> * Review of the interleaving approach - is the basic idea
+>   acceptable?
+> * Review of the command line interface.
+> * CXL related review welcome but much of that got reviewed
+>   in earlier versions and hasn't changed substantially.
+> 
+> Main changes:
+> * The CXL fixed memory windows are now instantiated via a
+>   -cxl-fixed-memory-window command line option.  As they are host level
+>   entities, not associated with a particular hardware entity a top
+>   level parameter seems the most natural way to describe them.
+>   This is also much closer to how it works on a real host than the
+>   previous assignment of a physical address window to all components
+>   along the CXL path.
 
->> +/* return new position in backward direction at given distance */
->> +static inline size_t audio_ring_posb(size_t pos, size_t dist, size_t len)
->> +{
->> +    return pos >= dist ? pos - dist : len - dist + pos;
->> +}
->> +
-> Which is the exact same code as the already existing audio_ring_dist()
-> function above, and I see that you actually already used this in v1 before:
->
-> #define audio_ring_posb(pos, dist, len) audio_ring_dist(pos, dist, len)
->
-> I would definitely not copy-paste the body. Thomas just suggested in v1 to add
-> a comment, not to duplicate the actual math code:
-> https://lore.kernel.org/qemu-devel/20220106111718.0ec25383@tuxfamily.org/
->
-> Also for consistency, I would have called the function audio_ring_rpos()
-> and would have commented each argument.
+Excellent.
 
-In the audio subsystem rpos is typically the read position. I chose posb 
-to distinguish it from read position.
+> * Dynamic host memory physical address space allocation both for
+>   the CXL host bridge MMIO space and the CFMWS windows.
 
-> /**
->   * Returns new position in ringbuffer in backward direction at given distance.
->   * @pos: current position in ringbuffer
->   * @dist: distance in ringbuffer to walk in reverse direction
->   * @len: size of ringbuffer
->   */
+I thought I had done the host bridge MMIO, but perhaps I was mistaken. Either
+way, this is an important step to support all platforms more generally.
 
-This comment is better than my comment. I'll use it in my v3 series.
+> * Interleaving support (based loosely on Philippe Mathieu-Daud�'s
+>   earlier work on an interleaved memory device).  Note this is rudimentary
+>   and low performance but it may be sufficient for test purposes.
 
-> static inline size_t audio_ring_rpos(pos, dist, len) {
->      return audio_ring_dist(pos, dist, len);
-> }
+I'll have to look at this further. I had some thoughts about how we might make
+this fast, but it would be more of fake interleaving. How low is "low"?
 
-I don't think this inline function improves readability compared to my 
-macro from v1. To understand the code you still have to replace 
-parameter names in your mind. My v2 inline function can be understood at 
-first glance.
+> * Additional PCI and memory related utility functions needed for the
+>   interleaving.
+> * Various minor cleanup and increase in scope of tests.
+> * For now dropped the support for presenting CXL type 3 devices
+>   as memory devices in various QEMU interfaces.
 
-With best regards,
-Volker
+What are the downsides to this? I only used the memory interface originally
+because it seemed like a natural fit, but looking back I'm not sure we gain
+much (though my memory is very lossy).
 
-> At least IMO a bit more comments on math code barely hurts.
->
->>   #define dolog(fmt, ...) AUD_log(AUDIO_CAP, fmt, ## __VA_ARGS__)
->>
->>   #ifdef DEBUG
->> diff --git a/audio/coreaudio.c b/audio/coreaudio.c
->> index d8a21d3e50..1fdd1d4b14 100644
->> --- a/audio/coreaudio.c
->> +++ b/audio/coreaudio.c
->> @@ -333,12 +333,10 @@ static OSStatus audioDeviceIOProc(
->>
->>       len = frameCount * hw->info.bytes_per_frame;
->>       while (len) {
->> -        size_t write_len;
->> -        ssize_t start = ((ssize_t) hw->pos_emul) - hw->pending_emul;
->> -        if (start < 0) {
->> -            start += hw->size_emul;
->> -        }
->> -        assert(start >= 0 && start < hw->size_emul);
->> +        size_t write_len, start;
->> +
->> +        start = audio_ring_posb(hw->pos_emul, hw->pending_emul, hw->size_emul);
->> +        assert(start < hw->size_emul);
->>
->>           write_len = MIN(MIN(hw->pending_emul, len),
->>                           hw->size_emul - start);
->> diff --git a/audio/sdlaudio.c b/audio/sdlaudio.c
->> index c68c62a3e4..d6f3aa1a9a 100644
->> --- a/audio/sdlaudio.c
->> +++ b/audio/sdlaudio.c
->> @@ -224,12 +224,11 @@ static void sdl_callback_out(void *opaque, Uint8 *buf,
->> int len) /* dolog("callback_out: len=%d avail=%zu\n", len,
->> hw->pending_emul); */
->>
->>           while (hw->pending_emul && len) {
->> -            size_t write_len;
->> -            ssize_t start = (ssize_t)hw->pos_emul - hw->pending_emul;
->> -            if (start < 0) {
->> -                start += hw->size_emul;
->> -            }
->> -            assert(start >= 0 && start < hw->size_emul);
->> +            size_t write_len, start;
->> +
->> +            start = audio_ring_posb(hw->pos_emul, hw->pending_emul,
->> +                                    hw->size_emul);
->> +            assert(start < hw->size_emul);
->>
->>               write_len = MIN(MIN(hw->pending_emul, len),
->>                               hw->size_emul - start);
-> This rest looks fine to me.
->
-> Best regards,
-> Christian Schoenebeck
->
->
+> * Dropped the patch letting UID be different from bus_nr.  Whilst
+>   it may be a useful thing to have, we don't need it for this series
+>   and so should be handled separately.
+> 
+> I've called out patches with major changes by marking them as
+> co-developed or introducing them as new patches. The original
+> memory window code has been dropped
+> 
+> After discussions at plumbers and more recently on the mailing list
+> it was clear that there was interest in getting emulation for CXL 2.0
+> upstream in QEMU.  This version resolves many of the outstanding issues
+> and enables the following features:
+> 
+> * Support on both x86/pc and ARM/virt with relevant ACPI tables
+>   generated in QEMU.
+> * Host bridge based on the existing PCI Expander Bridge PXB.
+> * CXL fixed memory windows, allowing host to describe interleaving
+>   across multiple CXL host bridges.
+> * pxb-cxl CXL host bridge support including MMIO region for control
+>   and HDM (Host manage device memory - basically interleaving / routing)
+>   decoder configuration.
+> * Basic CXL Root port support.
+> * CXL Type 3 device support with persistent memory regions (backed by
+>   hostmem backend).
+> * Pulled MAINTAINERS entry out to a separate patch and add myself as
+>   a co-maintainer at Ben's suggestion.
+> 
+> Big TODOs:
+> 
+> * Volatile memory devices (easy but it's more code so left for now).
+> * Switch support.
+> * Hotplug?  May not need much but it's not tested yet!
+> * More tests and tighter verification that values written to hardware
+>   are actually valid - stuff that real hardware would check.
+> * Main host bridge support (not a priority for me...)
+
+I originally cared about this for the sake of making a system more realistic. I
+now believe we should drop this entirely.
+
+> * Testing, testing and more testing.  I have been running a basic
+>   set of ARM and x86 tests on this, but there is always room for
+>   more tests and greater automation.
+> 
+> Why do we want QEMU emulation of CXL?
+> 
+> As Ben stated in V3, QEMU support has been critical to getting OS
+> software written given lack of availability of hardware supporting the
+> latest CXL features (coupled with very high demand for support being
+> ready in a timely fashion). What has become clear since Ben's v3
+> is that situation is a continuous one.  Whilst we can't talk about
+> them yet, CXL 3.0 features and OS support have been prototyped on
+> top of this support and a lot of the ongoing kernel work is being
+> tested against these patches.
+> 
+> Other features on the qemu-list that build on these include PCI-DOE
+> /CDAT support from the Avery Design team further showing how this
+> code is useful.  Whilst not directly related this is also the test
+> platform for work on PCI IDE/CMA + related DMTF SPDM as CXL both
+> utilizes and extends those technologies and is likely to be an early
+> adopter.
+> Refs:
+> CMA Kernel: https://lore.kernel.org/all/20210804161839.3492053-1-Jonathan.Cameron@huawei.com/
+> CMA Qemu: https://lore.kernel.org/qemu-devel/1624665723-5169-1-git-send-email-cbrowy@avery-design.com/
+> DOE Qemu: https://lore.kernel.org/qemu-devel/1623329999-15662-1-git-send-email-cbrowy@avery-design.com/
+> 
+> 
+> As can be seen there is non trivial interaction with other areas of
+> Qemu, particularly PCI and keeping this set up to date is proving
+> a burden we'd rather do without :)
+> 
+> Ben mentioned a few other good reasons in v3:
+> https://lore.kernel.org/qemu-devel/20210202005948.241655-1-ben.widawsky@intel.com/
+> 
+> The evolution of this series perhaps leave it in a less than
+> entirely obvious order and that may get tidied up in future postings.
+> I'm also open to this being considered in bite sized chunks.  What
+> we have here is about what you need for it to be useful for testing
+> currently kernel code.
+> 
+> All comments welcome.
+> 
+> Ben - I lifted one patch from your git tree that didn't have a
+> Sign-off.   hw/cxl/component Add a dumb HDM decoder handler
+> Could you confirm you are happy for one to be added?
+
+Sure.
+
+> 
+> Example of new command line (with virt ITS patches ;)
+> 
+> qemu-system-aarch64 -M virt,gic-version=3,cxl=on \
+>  -m 4g,maxmem=8G,slots=8 \
+>  ...
+>  -object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=256M,align=256M \
+>  -object memory-backend-file,id=cxl-mem2,share=on,mem-path=/tmp/cxltest2.raw,size=256M,align=256M \
+>  -object memory-backend-file,id=cxl-mem3,share=on,mem-path=/tmp/cxltest3.raw,size=256M,align=256M \
+>  -object memory-backend-file,id=cxl-mem4,share=on,mem-path=/tmp/cxltest4.raw,size=256M,align=256M \
+>  -object memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa.raw,size=256M,align=256M \
+>  -object memory-backend-file,id=cxl-lsa2,share=on,mem-path=/tmp/lsa2.raw,size=256M,align=256M \
+>  -object memory-backend-file,id=cxl-lsa3,share=on,mem-path=/tmp/lsa3.raw,size=256M,align=256M \
+>  -object memory-backend-file,id=cxl-lsa4,share=on,mem-path=/tmp/lsa4.raw,size=256M,align=256M \
+
+Is align actually necessary here?
+
+>  -object memory-backend-file,id=tt,share=on,mem-path=/tmp/tt.raw,size=1g \
+
+Did you mean to put this in there? Is it somehow used internally?
+
+>  -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
+>  -device pxb-cxl,bus_nr=222,bus=pcie.0,id=cxl.2 \
+>  -device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2 \
+>  -device cxl-type3,bus=root_port13,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0,size=256M \
+>  -device cxl-rp,port=1,bus=cxl.1,id=root_port14,chassis=0,slot=3 \
+>  -device cxl-type3,bus=root_port14,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem1,size=256M \
+>  -device cxl-rp,port=0,bus=cxl.2,id=root_port15,chassis=0,slot=5 \
+>  -device cxl-type3,bus=root_port15,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem2,size=256M \
+>  -device cxl-rp,port=1,bus=cxl.2,id=root_port16,chassis=0,slot=6 \
+>  -device cxl-type3,bus=root_port16,memdev=cxl-mem4,lsa=cxl-lsa4,id=cxl-pmem3,size=256M \
+>  -cxl-fixed-memory-window targets=cxl.1,size=4G,interleave-granularity=8k \
+>  -cxl-fixed-memory-window targets=cxl.1,targets=cxl.2,size=4G,interleave-granularity=8k
+
+I assume interleave-ways is based on the number of targets. For testing purposes
+it might be nice to add the flags as well (perhaps it's there).
+
+> 
+> First CFMWS suitable for 2 way interleave, the second for 4 way (2 way
+> at host level and 2 way at the host bridge).
+> targets=<range of pxb-cxl uids> , multiple entries if range is disjoint.
+> 
+> With Ben's CXL region patches (v3 shortly) plus fixes as discussed on list,
+> Linux commands to bring up a 4 way interleave is:
+> 
+>  cd /sys/bus/cxl/devices/
+>  region=$(cat decoder0.1/create_region)
+>  echo $region  > decoder0.1/create_region
+>  ls -lh
+>  
+>  //Note the order of devices and adjust the following to make sure they
+>  //are in order across the 4 root ports.  Easy to do in a tool, but
+>  //not easy to paste in a cover letter.
+> 
+>  cd region0.1\:0
+>  echo 4 > interleave_ways
+>  echo mem2 > target0
+>  echo mem3 > target1
+>  echo mem0 > target2
+>  echo mem1 > target3
+>  echo $((1024<<20)) > size
+>  echo 4096 > interleave_granularity
+>  echo region0.1:0 > /sys/bus/cxl/drivers/cxl_region/bind
+> 
+> Tested with devmem2 and files with known content.
+> Kernel tree was based on previous version of the region patches
+> from Ben with various fixes. As Dan just posted an updated version
+> next job on my list is to test that.
+> 
+> Thanks to Shameer for his help with reviewing the new stuff before
+> posting.
+> 
+> I'll post a git tree shortly for any who prefer that to lots
+> of emails ;)
+> 
+> Thanks,
+> 
+> Jonathan
+
+Thanks again!
+Ben
+
+[snip]
+
 
 
