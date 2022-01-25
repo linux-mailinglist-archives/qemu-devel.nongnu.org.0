@@ -2,54 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88AC449ABD3
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 06:41:00 +0100 (CET)
-Received: from localhost ([::1]:46334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2EE349ADB2
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 08:38:40 +0100 (CET)
+Received: from localhost ([::1]:42776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCEZf-0001BO-4y
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 00:40:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42168)
+	id 1nCGPX-00074P-B0
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 02:38:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1nCEVg-000095-WA; Tue, 25 Jan 2022 00:36:53 -0500
-Received: from out28-51.mail.aliyun.com ([115.124.28.51]:60381)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nCFTX-0004SU-FO
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 01:38:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40153)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1nCEVd-0003Y8-Pc; Tue, 25 Jan 2022 00:36:52 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.08798142|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.0215965-0.00446824-0.973935;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047201; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.Mi.p7Vn_1643088997; 
-Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.Mi.p7Vn_1643088997)
- by smtp.aliyun-inc.com(10.147.42.241);
- Tue, 25 Jan 2022 13:36:37 +0800
-Message-ID: <a7090083-a729-76d9-eede-f34af6615ec8@c-sky.com>
-Date: Tue, 25 Jan 2022 13:36:37 +0800
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nCFTQ-0004UQ-1d
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 01:38:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643092714;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pAotYi3bYpsPHAXKlbx58kye/EeNdHQraabdIBkZgdc=;
+ b=LRfZzSJ+2FrtgiZEjt1RyAJySqCLA8SDCS3a/TWeGZs/+owfqjs0PolAa0s1iRnqdEEKDW
+ CqmzYfTNflsmZbfNsDafgOXkh9qetcBE6IsUm+i+Dy6oyP8BjUQWquywVLFQc5MDE6fXHt
+ V4tesLyvJyDSKob7rZABBQ1QqIhG6HE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-186-UlsPS9STPf6dl5WINPkbsg-1; Tue, 25 Jan 2022 01:38:28 -0500
+X-MC-Unique: UlsPS9STPf6dl5WINPkbsg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99FF18189CC;
+ Tue, 25 Jan 2022 06:38:27 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-3.ams2.redhat.com [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D60794EC6E;
+ Tue, 25 Jan 2022 06:38:25 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 442F41138640; Tue, 25 Jan 2022 07:38:24 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: RFC: QMP configuration - allocating/setting qdev array properties?
+References: <cccba1ec-34c7-73da-1100-416a0afa8cea@greensocs.com>
+ <cd48c959-9262-cc42-73c0-3d10a4bd44b1@greensocs.com>
+ <87ee543uh8.fsf@dusky.pond.sub.org>
+ <CAFn=p-Y1um_4k33XRPshWy6QjvMGvhq_tfR+s8EFBTFwhkBnrQ@mail.gmail.com>
+Date: Tue, 25 Jan 2022 07:38:24 +0100
+In-Reply-To: <CAFn=p-Y1um_4k33XRPshWy6QjvMGvhq_tfR+s8EFBTFwhkBnrQ@mail.gmail.com>
+ (John Snow's message of "Mon, 24 Jan 2022 14:09:01 -0500")
+Message-ID: <87lez45nhb.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2] target/riscv: correct "code should not be reached" for
- x-rv128
-Content-Language: en-US
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20220124202456.420258-1-frederic.petrot@univ-grenoble-alpes.fr>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-In-Reply-To: <20220124202456.420258-1-frederic.petrot@univ-grenoble-alpes.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=115.124.28.51; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-51.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,69 +82,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, bin.meng@windriver.com, alistair.francis@wdc.com
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
+ Mark Burton <mark.burton@greensocs.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Mirela Grujic <mirela.grujic@greensocs.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/1/25 04:24, Frédéric Pétrot wrote:
+John Snow <jsnow@redhat.com> writes:
 
-> The addition of uxl support in gdbstub adds a few checks on the maximum
-> register length, but omitted MXL_RV128, an experimental feature.
-> This patch makes rv128 react as rv64, as previously.
+> On Wed, Jan 19, 2022 at 5:12 AM Markus Armbruster <armbru@redhat.com> wrote:
+
+[...]
+
+>> Another stop gap solution could be making QDict iterate in insertion
+>> order, like Python dict does since 3.6.
+>>
 >
-> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
-Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> I like this idea, I think. Are there any possible downsides here?
+> Making the order more 'stable' in one regard might lead to people
+> trusting it "too often" if there are other implementation details that
+> might impact the order ... but I don't actually have any examples
+> handy for that. It's just my fear.
 
-Thanks,
-Zhiwei
+For what it's worth, it took Python just one release cycle to overcome
+this fear :)
 
-> ---
->   target/riscv/cpu.c     | 3 +--
->   target/riscv/gdbstub.c | 3 +++
->   2 files changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 1cb0436187..5ada71e5bf 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -528,10 +528,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->       switch (env->misa_mxl_max) {
->   #ifdef TARGET_RISCV64
->       case MXL_RV64:
-> +    case MXL_RV128:
->           cc->gdb_core_xml_file = "riscv-64bit-cpu.xml";
->           break;
-> -    case MXL_RV128:
-> -        break;
->   #endif
->       case MXL_RV32:
->           cc->gdb_core_xml_file = "riscv-32bit-cpu.xml";
-> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-> index f531a74c2f..9ed049c29e 100644
-> --- a/target/riscv/gdbstub.c
-> +++ b/target/riscv/gdbstub.c
-> @@ -64,6 +64,7 @@ int riscv_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
->       case MXL_RV32:
->           return gdb_get_reg32(mem_buf, tmp);
->       case MXL_RV64:
-> +    case MXL_RV128:
->           return gdb_get_reg64(mem_buf, tmp);
->       default:
->           g_assert_not_reached();
-> @@ -84,6 +85,7 @@ int riscv_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
->           length = 4;
->           break;
->       case MXL_RV64:
-> +    case MXL_RV128:
->           if (env->xl < MXL_RV64) {
->               tmp = (int32_t)ldq_p(mem_buf);
->           } else {
-> @@ -420,6 +422,7 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
->                                    1, "riscv-32bit-virtual.xml", 0);
->           break;
->       case MXL_RV64:
-> +    case MXL_RV128:
->           gdb_register_coprocessor(cs, riscv_gdb_get_virtual,
->                                    riscv_gdb_set_virtual,
->                                    1, "riscv-64bit-virtual.xml", 0);
 
