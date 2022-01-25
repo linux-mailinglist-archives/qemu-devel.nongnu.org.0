@@ -2,87 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C4EF49B9AC
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 18:08:06 +0100 (CET)
-Received: from localhost ([::1]:46518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 396E949B99E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 18:06:41 +0100 (CET)
+Received: from localhost ([::1]:43576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCPIb-0005QE-GY
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 12:08:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48914)
+	id 1nCPHE-0003MZ-2V
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 12:06:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCOsX-0002tm-Hs
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 11:41:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43303)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCOsU-0007qZ-Hc
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 11:41:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643128865;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=xd2iJ+kOBVbi8g1JjppUEpmyYWG+P3BqcYqwStylD5c=;
- b=cxOLQBtQfMej/J+Ilod4N/PObPkgIqr4yL0FgeqIpVjZG3fUdklcPHbaB2WtoCIvRfPRkU
- y92qMO88h2X/KbPFkVmf0t9Z1cB7tufc2tdi0Uj60k+Z8rdMaAjfi/wEXhsi4kjVVQjqLk
- UYmmc3dAHa6yRHgDAOSGN4qjFe3WmVU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-488-B6b6MXnuPPaGVeuinykufw-1; Tue, 25 Jan 2022 11:41:03 -0500
-X-MC-Unique: B6b6MXnuPPaGVeuinykufw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- bg32-20020a05600c3ca000b00349f2aca1beso1733498wmb.9
- for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 08:41:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nCPED-0001rI-BV
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 12:03:33 -0500
+Received: from [2a00:1450:4864:20::32d] (port=34408
+ helo=mail-wm1-x32d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nCPEB-0003e2-GW
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 12:03:32 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ bg19-20020a05600c3c9300b0034565e837b6so968970wmb.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 09:03:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=pHqmzBCmLUqqK5yo/LysYPjTU/stvam03/Fw8w0sa6g=;
+ b=ADmrS7zWiaWsCjA5EjIiGyW/FJXYv40umPayPqEMfEuvFR4OLsfqO9yIPE+bsK61OL
+ Hr4ZeteJM3B5hgBU6DPA3sc0A8YfGIXdI6P/Rwcm13MkyDwoZBPHcrExV9DkYv1ReuRI
+ 0Ia9ky/kvL/R3D93N6QuLMD9D80SEMNdckADOMvA5E3xHS3fJIydf+Bttd46w6vTBW67
+ Sm6YCgVO0ga5KaWiNp9nqF94oHIzoncHdVfrv0Li7yJ82vWCegspxu5Dv/UsMrFkINQL
+ fnvxm/Seos5WIXK65KBNpC6GjhHNVMdmawmOhFjsUtUH/FMCd4VOlZgzS3eucjEYY2A7
+ iIsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=xd2iJ+kOBVbi8g1JjppUEpmyYWG+P3BqcYqwStylD5c=;
- b=Iva9zsp7DJ6g8hcBJm8tS1x8pOb2Trh1t7Qji7tsCQnHpl3wDavK0+B5fy5cFY2NA7
- 4z/IF+vTNoZOy34QxVZFEp1YQSEaT3EReM860wV+wj0d7g4GFa0g+MnfAmSqJjp2TgCZ
- XxhaWSCCwnleaYuAW3FK+E9Rznxbaq08fxcMR2BujMzllu0Dkt4mCFTpSuLlR30Gfuqh
- BTtPtfM3CBAVqU2vvMeRfZL98lWq2TyyjISLnFf/5sSI/W7Wrp5jZweu3OMnjqIse/dZ
- 9E5ULdGqln/YL03jHBPB5D4v8nL8ZfzQgx4OpjSkTxpQ3W1m5w9gOxLaXOhiXVbz+5hP
- qUPw==
-X-Gm-Message-State: AOAM530X9W9XEd182WhcxKMHa5g/aZIz0KJt1lv7wMbMnxBY11NUki07
- Ti5nEfDMXzRP9jfLNPJUvhUabf5jE6OFdfn4u8j3Pdq3BW/z9fW+HeT+jq4Lm3UoGWlbKeDTVch
- KAdWiOLa5wCZkP/w=
-X-Received: by 2002:a5d:608c:: with SMTP id w12mr18554784wrt.313.1643128862025; 
- Tue, 25 Jan 2022 08:41:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyPu5bbVO0Sbr+n4WfTfdT8jjkPffILQqZVx9MHejWuC/mdWjfGKfDdN8hgo8M+I441xVnkKw==
-X-Received: by 2002:a5d:608c:: with SMTP id w12mr18554771wrt.313.1643128861849; 
- Tue, 25 Jan 2022 08:41:01 -0800 (PST)
-Received: from localhost ([47.61.17.76])
- by smtp.gmail.com with ESMTPSA id s9sm16970988wrr.84.2022.01.25.08.41.01
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=pHqmzBCmLUqqK5yo/LysYPjTU/stvam03/Fw8w0sa6g=;
+ b=7MIqC35EzfZKnRCJDFRC2oW9sB/cY/w9BcmL55aAnx2WI2+9zTQ7K+yIf1WocnLIPY
+ JdMw6sv/mgkmoXSqVcD1qEazUSilCUhNMotWfQITFF9PKqXnv2Jmh6jhlKR8i2PbaOjS
+ 4fBeUHfcya0idSAytWgApCSUQALJyuSj3x5FhbOETMRjHOPWcTIp/vlwYmPlMnEgUdPR
+ a0oVc1pE/W6wDdf0wKh2wvqoQC6CWcXwUU8sEDpGyZ9JOFpTMTB2A+gwapwp0anxGeA6
+ uRO7/KCsbQFwlFrkq0h2e70TZlzkKrGmxML5tB54p9D9IcrypBBuwChlFKSM7vFxqtpV
+ o7Jw==
+X-Gm-Message-State: AOAM531FA7CAZPaUjsYGKBnY27n7vEOh5V0lOXErJ4FC8XaE/O0A/s+E
+ Sw24aLaqEJPO6DaIRpqJjjx50A==
+X-Google-Smtp-Source: ABdhPJyB9P/tzuV3XlJ5guavNUkTJZE7K553teX9o4saPKFW4mxqHsBH86a7a3axaIr9jRup6xd7rA==
+X-Received: by 2002:a7b:c7cf:: with SMTP id z15mr3756471wmk.105.1643130208861; 
+ Tue, 25 Jan 2022 09:03:28 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 10sm854184wmc.44.2022.01.25.09.03.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jan 2022 08:41:01 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: kvm-devel <kvm@vger.kernel.org>
-Subject: Re: KVM call minutes for 2022-01-25
-In-Reply-To: <87k0enrcr0.fsf@secure.mitica> (Juan Quintela's message of "Tue, 
- 25 Jan 2022 17:39:15 +0100")
-References: <87k0enrcr0.fsf@secure.mitica>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Tue, 25 Jan 2022 17:41:00 +0100
-Message-ID: <87a6fjrco3.fsf@secure.mitica>
+ Tue, 25 Jan 2022 09:03:27 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 77AAD1FFB7;
+ Tue, 25 Jan 2022 17:03:26 +0000 (GMT)
+References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
+ <20220124171705.10432-30-Jonathan.Cameron@huawei.com>
+User-agent: mu4e 1.7.6; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v4 29/42] hw/cxl/host: Add support for CXL Fixed Memory
+ Windows.
+Date: Tue, 25 Jan 2022 17:02:32 +0000
+In-reply-to: <20220124171705.10432-30-Jonathan.Cameron@huawei.com>
+Message-ID: <87sftbd9y9.fsf@linaro.org>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,47 +92,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Ben Widawsky <ben.widawsky@intel.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
+ Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org, linuxarm@huawei.com,
+ Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Juan Quintela <quintela@redhat.com> wrote:
-> Hi
->
-> Today we have the KVM devel call.  We discussed how to create machines
-> from QMP without needing to recompile QEMU.
->
->
-> Three different problems:
-> - startup QMP (*)
->   not discussed today
-> - one binary or two
->   not discussed today
-> - being able to create machines dynamically.
->   everybody agrees that we want this. Problem is how.
-> - current greensocs approach
-> - interested for all architectures, they need a couple of them
->
-> what greensocs have:
-> - python program that is able to read a blob that have a device tree from the blob
-> - basically the machine type is empty and is configured from there
-> - 100 machines around 400 devices models
-> - Need to do the configuration before the machine construction happens
-> - different hotplug/coldplug
-> - How to describe devices that have multiple connections
->
-> As the discussion is quite complicated, here is the recording of it.
->
-> Later, Juan.
->
->
-> https://redhat.bluejeans.com/m/TFyaUsLqt3T/?share=True
 
-And now the link that works without a login.
+Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
 
-https://bluejeans.com/s/KetOlwoxLa3
+> From: Jonathan Cameron <jonathan.cameron@huawei.com>
+>
+> The concept of these is introduced in [1] in terms of the
+> description the CEDT ACPI table. The principal is more general.
+> Unlike once traffic hits the CXL root bridges, the host system
+> memory address routing is implementation defined and effectively
+> static once observable by standard / generic system software.
+> Each CXL Fixed Memory Windows (CFMW) is a region of PA space
+> which has fixed system dependent routing configured so that
+> accesses can be routed to the CXL devices below a set of target
+> root bridges. The accesses may be interleaved across multiple
+> root bridges.
 
-Later, Juan.
+This breaks the linux-user builds...
+> diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
+> index 0eca715d10..27dff3868b 100644
+> --- a/hw/cxl/meson.build
+> +++ b/hw/cxl/meson.build
+> @@ -1,5 +1,9 @@
+> -softmmu_ss.add(when: 'CONFIG_CXL', if_true: files(
+> -  'cxl-component-utils.c',
+> -  'cxl-device-utils.c',
+> -  'cxl-mailbox-utils.c',
+> +specific_ss.add(when: 'CONFIG_CXL', if_true: files(
+> +      'cxl-component-utils.c',
+> +      'cxl-device-utils.c',
+> +      'cxl-mailbox-utils.c',
+> +      'cxl-host.c',
+> +))
+> +specific_ss.add(when: 'CONFIG_CXL', if_false: files(
+> +      'cxl-host-stubs.c',
+>  ))
 
+I think you want this:
+
+  softmmu_ss.add(when: 'CONFIG_CXL',
+                 if_true: files(
+                   'cxl-component-utils.c',
+                   'cxl-device-utils.c',
+                   'cxl-mailbox-utils.c',
+                   'cxl-host.c'),
+                 if_false: files(
+                   'cxl-host-stubs.c',
+                 ))
+
+  # This is required as well:
+  softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('cxl-host-stubs.c'))
+
+
+--=20
+Alex Benn=C3=A9e
 
