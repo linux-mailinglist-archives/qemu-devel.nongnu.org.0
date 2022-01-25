@@ -2,65 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1475949B128
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 11:08:39 +0100 (CET)
-Received: from localhost ([::1]:57166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85C6D49B12D
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 11:17:05 +0100 (CET)
+Received: from localhost ([::1]:43356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCIkf-0007aZ-Na
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 05:08:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38344)
+	id 1nCIsq-0000fB-4W
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 05:17:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nCIfM-0004kf-8c
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:03:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34900)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1nCIm0-0002ly-8D
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:10:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nCIfI-0001Mn-5I
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:03:06 -0500
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1nCIlx-0002IO-3F
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:09:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643104976;
+ s=mimecast20190719; t=1643105395;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4/yTTo+Um0cJAWmNFPLL+cE3Q73V6lBaJxoR5N0rsfE=;
- b=Vpu/XZsLY4tswy0EJCK7BiswVPKybe6vzN26kNdr9OhCFcMrlwsjLpWYePTA3szqx5+PGe
- mX+iUZxsK+0rq2nOs32ONpCA03uU23NaZ1a9RD7M0VGSTR3cIQvoO1uoih2CdXv5q0tmzn
- 9S4s3rpa/l4yoqcK+ltwNbfQkDGc8xY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=985VZGXzb4sT+QUr+/BQUS/xmGLqY/HEDJ0RF84MuGA=;
+ b=YIJsGkjNDOakDAIthx31nqdMon7xxocgTAeHP/txI6X8XaBhH+6x1MQ2pYCyRrF2nVVWx4
+ YXyHFwYFj7BMLnmNRltHgA367GV0WnPTCm6jwLkTgEF+YyzTq3MXnxjOGzf7ChiPRkbv5V
+ 422nAPB5ZZfiQuN4SDLFvKqpeykomHM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-605-GAMZPyMQPpaTXjGubeE8BA-1; Tue, 25 Jan 2022 05:02:53 -0500
-X-MC-Unique: GAMZPyMQPpaTXjGubeE8BA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E50F814246;
- Tue, 25 Jan 2022 10:02:52 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-3.ams2.redhat.com [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 976F162D7B;
- Tue, 25 Jan 2022 10:02:45 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 185B61138640; Tue, 25 Jan 2022 11:02:44 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v4 2/3] scripts/qapi/commands: gen_commands(): add
- add_trace_events arg
-References: <20220121162234.2707906-1-vsementsov@virtuozzo.com>
- <20220121162234.2707906-3-vsementsov@virtuozzo.com>
-Date: Tue, 25 Jan 2022 11:02:44 +0100
-In-Reply-To: <20220121162234.2707906-3-vsementsov@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Fri, 21 Jan 2022 17:22:33 +0100")
-Message-ID: <877dao3zgb.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-543-HuFViVgeNUqxE8vy-K-OiA-1; Tue, 25 Jan 2022 05:09:54 -0500
+X-MC-Unique: HuFViVgeNUqxE8vy-K-OiA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ l20-20020a05600c1d1400b0034c29cad547so1014489wms.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 02:09:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=985VZGXzb4sT+QUr+/BQUS/xmGLqY/HEDJ0RF84MuGA=;
+ b=OF6YspsCfCXM7i370+uix79MAMWrejUMBiR+BhWaoD4HFdVF8+kldBwJ+htALv9noz
+ 6oHv9+IQvVp+n7M+4pkNiBQLqetUUNUJM4XBO0zz7wlqIX1HwbUkrENXn3OkKEEFYBvn
+ +q84jaFlkTNIWOnJIdhO1qZuLQTWpZLo7o5QvFvtP84+Cn2wADxXyiFlN4V2EgokcUI3
+ 8obsjrjlhAaP9x3d8pnNn6P507pw5Sb8pXrydMNGxs9nXmU845T0VwbILQ02cAoBpYyD
+ F+F67Ojq9MUsHVaicTlFX6t5xY8Q4k9yWnpY7oze2KsENR6FpeKLIeplgpDiBnu8tLIj
+ QiAg==
+X-Gm-Message-State: AOAM532Uu3xUToCcgRDx/IoNIqA9y68Hwcm+Sm7CqpzAwvyxGO60WgLi
+ iyyaGtayY/lnJx9o78svhGElt8vQrKhbedN+d9qxW31V3sBRa491vYPsDw5rZ4DDiIjx45HJEh3
+ DjEug7K7hYPtP2Ys=
+X-Received: by 2002:a05:6000:1563:: with SMTP id
+ 3mr17619623wrz.700.1643105393349; 
+ Tue, 25 Jan 2022 02:09:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzpFYPioNfbfTfLVU5++MsRZsq4sLDE6Ka7guYjYgR+4BQV2BUKbOgXZmhg0GVK6+wPL+wsng==
+X-Received: by 2002:a05:6000:1563:: with SMTP id
+ 3mr17619598wrz.700.1643105393096; 
+ Tue, 25 Jan 2022 02:09:53 -0800 (PST)
+Received: from steredhat ([62.19.185.119])
+ by smtp.gmail.com with ESMTPSA id d4sm275863wri.39.2022.01.25.02.09.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Jan 2022 02:09:52 -0800 (PST)
+Date: Tue, 25 Jan 2022 11:09:42 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Peter Lieven <pl@kamp.de>
+Subject: Re: [PATCH V2 for-6.2 0/2] fixes for bdrv_co_block_status
+Message-ID: <20220125100942.caiweqllt53szoto@steredhat>
+References: <20220113144426.4036493-1-pl@kamp.de>
+ <CAOi1vP9r3_aWPdvxWxcivC57f74G418=7esi6xd5ydBeOENmQQ@mail.gmail.com>
+ <20220119145735.qkuxqnnfqws7xbme@steredhat>
+ <cc75ea76-fbc6-1f88-6d07-09cc65a06d60@kamp.de>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <cc75ea76-fbc6-1f88-6d07-09cc65a06d60@kamp.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -81,274 +102,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, michael.roth@amd.com, qemu-devel@nongnu.org,
- hreitz@redhat.com, stefanha@redhat.com, pbonzini@redhat.com, jsnow@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu block <qemu-block@nongnu.org>, Christian Theune <ct@flyingcircus.io>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Ilya Dryomov <idryomov@gmail.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
-
-> We are going to generate trace events for qmp commands. We should
-> generate both trace_*() function calls and trace-events files listing
-> events for trace generator.
+On Thu, Jan 20, 2022 at 10:19:27AM +0100, Peter Lieven wrote:
+>Am 19.01.22 um 15:57 schrieb Stefano Garzarella:
+>> On Fri, Jan 14, 2022 at 11:58:40AM +0100, Ilya Dryomov wrote:
+>>> On Thu, Jan 13, 2022 at 3:44 PM Peter Lieven <pl@kamp.de> wrote:
+>>>>
+>>>> V1->V2:
+>>>>  Patch 1: Treat a hole just like an unallocated area. [Ilya]
+>>>>  Patch 2: Apply workaround only for pre-Quincy librbd versions and
+>>>>           ensure default striping and non child images. [Ilya]
+>>>>
+>>>> Peter Lieven (2):
+>>>>   block/rbd: fix handling of holes in .bdrv_co_block_status
+>>>>   block/rbd: workaround for ceph issue #53784
+>>>>
+>>>>  block/rbd.c | 52 +++++++++++++++++++++++++++++++++++++++++++++-------
+>>>>  1 file changed, 45 insertions(+), 7 deletions(-)
+>>>>
+>>>> --
+>>>> 2.25.1
+>>>>
+>>>>
+>>>
+>>> These patches have both "for-6.2" in the subject and
+>>> Cc: qemu-stable@nongnu.org in the description, which is a little
+>>> confusing.  Just want to clarify that they should go into master
+>>> and be backported to 6.2.
+>>
+>> Yeah, a bit confusing. These are for 7.0, so @Kevin can these patches go with your tree?
 >
-> Now implement that possibility in gen_commands() function.
 >
-> The functionality will be used in the following commit, and now comment
-> in _begin_user_module() about c_name() is a bit premature.
+>Yes, sorry, my fault. It should be 7.0
 
-Neglects to explain why it needs to be optional.
+Don't worry :-)
 
-Suggest
+What about sending a v3 fixing the version tag (I think you can just 
+remove for-6.2), the extra space in the comment, and the Fixes tag on 
+patch 2?
 
-  qapi/commands: Optionally generate trace for QMP commands
+If you will send v3, remember to report the R-b/T-b tags received in 
+this version from me and Ilya.
 
-  Add trace generation disabled.  The next commit will enable it for
-  qapi/, but not for qga/ and tests/.  Making it work for the latter two
-  would involve some Meson hackery to ensure we generate the
-  trace-events files before trace-tool uses them.  Since we don't
-  actually support tracing there, we'll bypass that problem.
-
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  scripts/qapi/commands.py | 101 +++++++++++++++++++++++++++++++++------
->  scripts/qapi/main.py     |   2 +-
->  2 files changed, 88 insertions(+), 15 deletions(-)
->
-> diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-> index 21001bbd6b..166bf5dcbc 100644
-> --- a/scripts/qapi/commands.py
-> +++ b/scripts/qapi/commands.py
-> @@ -53,7 +53,8 @@ def gen_command_decl(name: str,
->  def gen_call(name: str,
->               arg_type: Optional[QAPISchemaObjectType],
->               boxed: bool,
-> -             ret_type: Optional[QAPISchemaType]) -> str:
-> +             ret_type: Optional[QAPISchemaType],
-> +             add_trace_events: bool) -> str:
->      ret = ''
->  
->      argstr = ''
-> @@ -71,21 +72,67 @@ def gen_call(name: str,
->      if ret_type:
->          lhs = 'retval = '
->  
-> -    ret = mcgen('''
-> +    name = c_name(name)
-> +    upper = name.upper()
->  
-> -    %(lhs)sqmp_%(c_name)s(%(args)s&err);
-> -    error_propagate(errp, err);
-> -''',
-> -                c_name=c_name(name), args=argstr, lhs=lhs)
-> -    if ret_type:
-> +    if add_trace_events:
->          ret += mcgen('''
-> +
-> +    if (trace_event_get_state_backends(TRACE_QMP_ENTER_%(upper)s)) {
-> +        g_autoptr(GString) req_json = qobject_to_json(QOBJECT(args));
-> +
-> +        trace_qmp_enter_%(name)s(req_json->str);
-> +    }
-> +    ''',
-> +                     upper=upper, name=name)
-> +
-> +    ret += mcgen('''
-> +
-> +    %(lhs)sqmp_%(name)s(%(args)s&err);
-> +''',
-> +                 name=name, args=argstr, lhs=lhs)
-> +
-> +    ret += mcgen('''
->      if (err) {
-> +''')
-> +
-> +    if add_trace_events:
-> +        ret += mcgen('''
-> +        trace_qmp_exit_%(name)s(error_get_pretty(err), false);
-> +''',
-> +                     name=name)
-> +
-> +    ret += mcgen('''
-> +        error_propagate(errp, err);
->          goto out;
->      }
-> +''')
-
-Before the patch, we generate
-
-    error_propagate(errp, err);
-
-and if there's any code between here and out:
-
-    if (err) {
-        goto out;
-    }
-
-After the patch, we always generate
-
-    if (err) {
-        error_propagate(errp, err);
-        goto out;
-    }
-
-But with trace generation enabled (next patch), it changes to
-
-    if (err) {
-        trace_qmp_exit_FOO(error_get_pretty(err), false);
-        error_propagate(errp, err);
-        goto out;
-    }
-
-    trace_qmp_exit_FOO("{}", true);
-
-Okay.
-
-> +
-> +    if ret_type:
-> +        ret += mcgen('''
->  
->      qmp_marshal_output_%(c_name)s(retval, ret, errp);
->  ''',
->                       c_name=ret_type.c_name())
-> +
-> +    if add_trace_events:
-> +        if ret_type:
-> +            ret += mcgen('''
-> +
-> +    if (trace_event_get_state_backends(TRACE_QMP_EXIT_%(upper)s)) {
-> +        g_autoptr(GString) ret_json = qobject_to_json(*ret);
-> +
-> +        trace_qmp_exit_%(name)s(ret_json->str, true);
-> +    }
-> +    ''',
-> +                         upper=upper, name=name)
-> +        else:
-> +            ret += mcgen('''
-> +
-> +    trace_qmp_exit_%(name)s("{}", true);
-> +    ''',
-> +                         name=name)
-> +
->      return ret
->  
->  
-> @@ -122,10 +169,19 @@ def gen_marshal_decl(name: str) -> str:
->                   proto=build_marshal_proto(name))
->  
->  
-> +def gen_trace(name: str) -> str:
-> +    return mcgen('''
-> +qmp_enter_%(name)s(const char *json) "%%s"
-> +qmp_exit_%(name)s(const char *result, bool succeeded) "%%s %%d"
-> +''',
-> +                 name=c_name(name))
-> +
-> +
->  def gen_marshal(name: str,
->                  arg_type: Optional[QAPISchemaObjectType],
->                  boxed: bool,
-> -                ret_type: Optional[QAPISchemaType]) -> str:
-> +                ret_type: Optional[QAPISchemaType],
-> +                add_trace_events: bool) -> str:
->      have_args = boxed or (arg_type and not arg_type.is_empty())
->      if have_args:
->          assert arg_type is not None
-> @@ -180,7 +236,7 @@ def gen_marshal(name: str,
->      }
->  ''')
->  
-> -    ret += gen_call(name, arg_type, boxed, ret_type)
-> +    ret += gen_call(name, arg_type, boxed, ret_type, add_trace_events)
->  
->      ret += mcgen('''
->  
-> @@ -238,11 +294,13 @@ def gen_register_command(name: str,
->  
->  
->  class QAPISchemaGenCommandVisitor(QAPISchemaModularCVisitor):
-> -    def __init__(self, prefix: str):
-> +    def __init__(self, prefix: str, add_trace_events: bool):
->          super().__init__(
->              prefix, 'qapi-commands',
-> -            ' * Schema-defined QAPI/QMP commands', None, __doc__)
-> +            ' * Schema-defined QAPI/QMP commands', None, __doc__,
-> +            add_trace_events=add_trace_events)
->          self._visited_ret_types: Dict[QAPIGenC, Set[QAPISchemaType]] = {}
-> +        self.add_trace_events = add_trace_events
->  
->      def _begin_user_module(self, name: str) -> None:
->          self._visited_ret_types[self._genc] = set()
-> @@ -261,6 +319,17 @@ def _begin_user_module(self, name: str) -> None:
->  
->  ''',
->                               commands=commands, visit=visit))
-> +
-> +        if self.add_trace_events and commands != 'qapi-commands':
-> +            self._genc.add(mcgen('''
-> +#include "trace/trace-qapi.h"
-> +#include "qapi/qmp/qjson.h"
-> +#include "trace/trace-%(nm)s_trace_events.h"
-> +''',
-> +                                 nm=c_name(commands, protect=False)))
-> +            # We use c_name(commands, protect=False) to turn '-' into '_', to
-> +            # match .underscorify() in trace/meson.build
-> +
->          self._genh.add(mcgen('''
->  #include "%(types)s.h"
->  
-> @@ -322,7 +391,10 @@ def visit_command(self,
->          with ifcontext(ifcond, self._genh, self._genc):
->              self._genh.add(gen_command_decl(name, arg_type, boxed, ret_type))
->              self._genh.add(gen_marshal_decl(name))
-> -            self._genc.add(gen_marshal(name, arg_type, boxed, ret_type))
-> +            self._genc.add(gen_marshal(name, arg_type, boxed, ret_type,
-> +                                       self.add_trace_events))
-> +            if self.add_trace_events:
-> +                self._gent.add(gen_trace(name))
->          with self._temp_module('./init'):
->              with ifcontext(ifcond, self._genh, self._genc):
->                  self._genc.add(gen_register_command(
-> @@ -332,7 +404,8 @@ def visit_command(self,
->  
->  def gen_commands(schema: QAPISchema,
->                   output_dir: str,
-> -                 prefix: str) -> None:
-> -    vis = QAPISchemaGenCommandVisitor(prefix)
-> +                 prefix: str,
-> +                 add_trace_events: bool) -> None:
-> +    vis = QAPISchemaGenCommandVisitor(prefix, add_trace_events)
->      schema.visit(vis)
->      vis.write(output_dir)
-> diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
-> index f2ea6e0ce4..2e61409f04 100644
-> --- a/scripts/qapi/main.py
-> +++ b/scripts/qapi/main.py
-> @@ -49,7 +49,7 @@ def generate(schema_file: str,
->      schema = QAPISchema(schema_file)
->      gen_types(schema, output_dir, prefix, builtins)
->      gen_visit(schema, output_dir, prefix, builtins)
-> -    gen_commands(schema, output_dir, prefix)
-> +    gen_commands(schema, output_dir, prefix, False)
->      gen_events(schema, output_dir, prefix)
->      gen_introspect(schema, output_dir, prefix, unmask)
-
-Missing:
-
-diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
-index a3b5473089..feafed79b5 100644
---- a/docs/devel/qapi-code-gen.rst
-+++ b/docs/devel/qapi-code-gen.rst
-@@ -1690,8 +1690,8 @@ Example::
-         }
- 
-         retval = qmp_my_command(arg.arg1, &err);
--        error_propagate(errp, err);
-         if (err) {
-+            error_propagate(errp, err);
-             goto out;
-         }
- 
+Thanks,
+Stefano
 
 
