@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A929B49B1C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 11:42:28 +0100 (CET)
-Received: from localhost ([::1]:44092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D9C149B23B
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 11:52:41 +0100 (CET)
+Received: from localhost ([::1]:58960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCJHP-00044Q-Q3
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 05:42:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46886)
+	id 1nCJRI-00069Q-6G
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 05:52:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nCJDF-0000m9-UL
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:38:10 -0500
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:56897)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nCJKK-0001KQ-If
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:45:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nCJDC-00073k-Dh
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:38:09 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.240])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 840A9D9DDC2E;
- Tue, 25 Jan 2022 11:38:01 +0100 (CET)
-Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 25 Jan
- 2022 11:38:00 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002c3819104-9d13-481c-9312-47b94da6ccb8,
- 81DEFC5675B4A2B0B4575F732D37872089199EF9) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <369019d6-7d60-80c6-e6f5-0a171be510c2@kaod.org>
-Date: Tue, 25 Jan 2022 11:38:00 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nCJKG-0008KT-Ki
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 05:45:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643107521;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VBMF2dlu81/ZJnZUsJIhwiNoMsdPnoGFoWU9fgzubr0=;
+ b=TOt1ic73fOp2vMeFHW3aLQrIXGqCeQcyUGCtSwhW1IemRr4Rk12nvO3y/hTrLk1Mc6fyLF
+ agQAxfMqkvOeerF42obYE1EFxmq4BRG4Ep68bup5a/PH0ZT8xZMe1a7yR+rrMbHW1m4x+U
+ IOgUCX45Cf00q8KAKPOerw8LiQ3IFlc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-498-gAy6d2a7Mr6lzQ20uCaAIQ-1; Tue, 25 Jan 2022 05:45:17 -0500
+X-MC-Unique: gAy6d2a7Mr6lzQ20uCaAIQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B8B784DA40;
+ Tue, 25 Jan 2022 10:45:16 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1AA4F66E09;
+ Tue, 25 Jan 2022 10:44:59 +0000 (UTC)
+Date: Tue, 25 Jan 2022 10:44:58 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v5 07/18] vfio-user: set qdev bus callbacks for remote
+ machine
+Message-ID: <Ye/UqqSippA8LTHK@stefanha-x1.localdomain>
+References: <cover.1642626515.git.jag.raman@oracle.com>
+ <1dee463f227f7a865877cd98f78e4ce48ce8ab32.1642626515.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH qemu] spapr: Force 32bit when resetting a core
-Content-Language: en-US
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-To: Peter Maydell <peter.maydell@linaro.org>, Alexey Kardashevskiy
- <aik@ozlabs.ru>
-References: <20220107072423.2278113-1-aik@ozlabs.ru>
- <CAFEAcA9JS9SfN3LmGfd8T_icCUx8tJXC=tKDE6j1i1GQE2c-mg@mail.gmail.com>
- <423c655a-b87f-9d08-208a-2e73196adfbc@kaod.org>
-In-Reply-To: <423c655a-b87f-9d08-208a-2e73196adfbc@kaod.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: db550de8-54f1-4e7d-ba1f-afc60883881b
-X-Ovh-Tracer-Id: 15206685620058229609
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrvdelgdduiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuhffvfhgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeihfefffffgedtkeegtdekffevudeggfegffethfffhefhhfevhfdtudejhfdvieenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Dli+V0ZyK+DvSx5t"
+Content-Disposition: inline
+In-Reply-To: <1dee463f227f7a865877cd98f78e4ce48ce8ab32.1642626515.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,56 +77,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
- Greg Kurz <groug@kaod.org>
+Cc: eduardo@habkost.net, elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
+ berrange@redhat.com, bleal@redhat.com, john.levon@nutanix.com, mst@redhat.com,
+ armbru@redhat.com, quintela@redhat.com, qemu-devel@nongnu.org, f4bug@amsat.org,
+ marcandre.lureau@gmail.com, thanos.makatos@nutanix.com, pbonzini@redhat.com,
+ eblake@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/19/22 12:05, Cédric Le Goater wrote:
-> On 1/16/22 17:45, Peter Maydell wrote:
->> On Fri, 7 Jan 2022 at 07:29, Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
->>>
->>> "PowerPC Processor binding to IEEE 1275" says in
->>> "8.2.1. Initial Register Values" that the initial state is defined as
->>> 32bit so do it for both SLOF and VOF.
->>>
->>> This should not cause behavioral change as SLOF switches to 64bit very
->>> early anyway. As nothing enforces LE anywhere, this drops it for VOF.
->>>
->>> The goal is to make VOF work with TCG as otherwise it barfs with
->>> qemu: fatal: TCG hflags mismatch (current:0x6c000004 rebuilt:0x6c000000)
->>
->> If you get this assert it means that something is changing
->> the CPU state and not calling the function to recalculate
->> the hflags (which are basically caching part of the CPU state).
->> So I don't know whether this patch is correct or not in updating
->> MSR bits, but in any case I think it is only masking the
->> missing-hflags-update that is causing the assertion...
-> 
-> 
-> yes. Currently, spapr_vof_reset() is called from the pseries
-> machine reset handler and modifies brutally the MSR without
-> calling hreg_compute_hflags()to update the hflags. Hence
-> the warning.
-> 
-> The proposal moves the MSR update under the pseries CPU reset
-> handler: spapr_reset_vcpu() where it should be. spapr_reset_vcpu()
-> also updates the LPCR register and calls hreg_compute_hflags()
-> when done.
-> 
-> The question we all had was why it was set to 64bit initially
-> by commit 8b9f2118ca40 which seems to be in contradiction with
-> the PAPR specs saying the CPUs should start in 32bit mode.
-> It is not clear but I didn't see any regression on pseries or
-> on the macbook machine using 970 CPUs. I think we are fine.
 
-With that said,
+--Dli+V0ZyK+DvSx5t
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+On Wed, Jan 19, 2022 at 04:41:56PM -0500, Jagannathan Raman wrote:
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> ---
+>  hw/remote/machine.c | 57 +++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 57 insertions(+)
+>=20
+> diff --git a/hw/remote/machine.c b/hw/remote/machine.c
+> index 220ff01aa9..221a8430c1 100644
+> --- a/hw/remote/machine.c
+> +++ b/hw/remote/machine.c
+> @@ -22,6 +22,60 @@
+>  #include "hw/pci/pci_host.h"
+>  #include "hw/remote/iohub.h"
+> =20
+> +static bool remote_machine_get_bus(const char *type, BusState **bus,
+> +                                   Error **errp)
+> +{
+> +    ERRP_GUARD();
+> +    RemoteMachineState *s =3D REMOTE_MACHINE(current_machine);
+> +    BusState *root_bus =3D NULL;
+> +    PCIBus *new_pci_bus =3D NULL;
+> +
+> +    if (!bus) {
+> +        error_setg(errp, "Invalid argument");
+> +        return false;
+> +    }
+> +
+> +    if (strcmp(type, TYPE_PCI_BUS) && strcmp(type, TYPE_PCI_BUS)) {
+> +        return true;
+> +    }
+> +
+> +    root_bus =3D qbus_find_recursive(sysbus_get_default(), NULL, TYPE_PC=
+IE_BUS);
+> +    if (!root_bus) {
+> +        error_setg(errp, "Unable to find root PCI device");
+> +        return false;
+> +    }
+> +
+> +    new_pci_bus =3D pci_isol_bus_new(root_bus, type, errp);
+> +    if (!new_pci_bus) {
+> +        return false;
+> +    }
+> +
+> +    *bus =3D BUS(new_pci_bus);
+> +
+> +    pci_bus_irqs(new_pci_bus, remote_iohub_set_irq, remote_iohub_map_irq,
+> +                 &s->iohub, REMOTE_IOHUB_NB_PIRQS);
+> +
+> +    return true;
+> +}
 
-Thanks,
+Can the user create the same PCI bus via QMP commands? If so, then this
+is just a convenience that saves the extra step. Or is there some magic
+that cannot be done via QMP device_add?
 
-C.
+I'm asking because there are 3 objects involved and I'd like to
+understand the lifecycle/dependencies:
+1. The PCIDevice we wish to export.
+2. The PCIBus with isolated address spaces that contains the PCIDevice.
+3. The vfio-user server that exports a given PCIDevice.
+
+Users can already create the PCIDevice via hotplug and the vfio-user
+server via object-add. So if there's no magic they could also create the
+PCI bus:
+1. device_add ...some PCI bus stuff here...,id=3Disol-pci-bus0
+2. device_add ...the PCIDevice...,bus=3Disol-pci-bus0,id=3Dmydev
+3. object-add x-vfio-user-server,device=3Dmydev
+
+Unplug would work in the reverse order.
+
+It may be more convenient to automatically create a PCIBus when the
+PCIDevice is hotplugged, but this kind of magic also has drawbacks
+(hidden devices, naming collisions, etc).
+
+> +
+> +static bool remote_machine_put_bus(BusState *bus, Error **errp)
+> +{
+> +    PCIBus *pci_bus =3D NULL;
+> +
+> +    if (!bus) {
+> +        error_setg(errp, "Invalid argument");
+> +        return false;
+> +    }
+> +
+> +    if (!object_dynamic_cast(OBJECT(bus), TYPE_PCI_BUS)) {
+> +        return true;
+> +    }
+> +
+> +    pci_bus =3D PCI_BUS(bus);
+> +
+> +    return pci_isol_bus_free(pci_bus, errp);
+> +}
+> +
+>  static void remote_machine_init(MachineState *machine)
+>  {
+>      MemoryRegion *system_memory, *system_io, *pci_memory;
+> @@ -56,6 +110,9 @@ static void remote_machine_init(MachineState *machine)
+>                   &s->iohub, REMOTE_IOHUB_NB_PIRQS);
+> =20
+>      qbus_set_hotplug_handler(BUS(pci_host->bus), OBJECT(s));
+> +
+> +    qdev_set_bus_cbs(remote_machine_get_bus, remote_machine_put_bus,
+> +                     &error_fatal);
+>  }
+> =20
+>  static void remote_machine_pre_plug_cb(HotplugHandler *hotplug_dev,
+> --=20
+> 2.20.1
+>=20
+
+--Dli+V0ZyK+DvSx5t
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHv1KoACgkQnKSrs4Gr
+c8guXQgAyXB/TXVVaarVGu/ukXb0k+KBnf1uTER8D6/oCqRF769MXDxzt/haxIDy
+o5HkBJeyDkeJeawpYQA9Ayc5WTAwy034G6FyuiZay2aWZ/hWtYHvwvNdDAmalRli
+gafH0mG0qD5pAk6Ccd3p6+F/vvjleiyQg0xWXEAFZhnJrTJm6AZ8lZH8VSx8njjC
+bJgr/J3M5BcsI48R9Qo3wgGK3Apl0yufIozcZ5OOWdnkO2ZAxLouuEWGeCMiwIg6
+PruuGkaTZaP0txIpYr6UrKs66ymNLzhkJzDvidjpwg2FBH8ZlTHznGgeFWdmNII7
+T1wid6e8fTPhX8bSLLF7DY/TJAgCqw==
+=ZCC6
+-----END PGP SIGNATURE-----
+
+--Dli+V0ZyK+DvSx5t--
 
 
