@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AACA49B738
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 16:07:06 +0100 (CET)
-Received: from localhost ([::1]:56682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC33E49B74F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 16:13:15 +0100 (CET)
+Received: from localhost ([::1]:43026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCNPU-0007O3-Pm
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 10:07:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42188)
+	id 1nCNVS-0000BA-3X
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 10:13:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1nCLiS-0007Iw-Rc
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 08:18:32 -0500
-Received: from [2607:f8b0:4864:20::435] (port=40627
- helo=mail-pf1-x435.google.com)
+ id 1nCLig-0007UM-6M
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 08:18:46 -0500
+Received: from [2607:f8b0:4864:20::42c] (port=43007
+ helo=mail-pf1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1nCLiN-0004vV-Sk
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 08:18:30 -0500
-Received: by mail-pf1-x435.google.com with SMTP id w190so13570558pfw.7
- for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 05:18:26 -0800 (PST)
+ id 1nCLic-0004yq-4I
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 08:18:44 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id i65so19761598pfc.9
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 05:18:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Ul941hkKubV2SEiG9aWdHK6DOlACwTPp8c+cTWe/zxY=;
- b=PDfhLI4Uwxo8NbODDxssuE+b7McGT+XA2NVGgKYv2BfoUgQaLgKBrLZquaXpCmehxP
- GMxyTjZOsxLh+e0epi4NWbUl8GbFAL6NEPlDioYY0KSf98Gf94ZH7LsrCZHEwmF9t5aF
- b/Lf95mVKVytK/MYCOtMABNf5B5ox5EPtmxi5C/lSC/ecAhc+ZvBWNa79p43EPhjblLE
- 3frHkDF9tLpsY+llvihbIp9XazuOnqRCACSuzcBuRiwkhyQgnP5Lrue4BRcAjzY4OlUh
- 0u8Wtjh7KXl8UJNnXPTmNTRimz/OeOfBFVFi9unbpZkCjAELpxfA6Mc5EA15uj4JhLx8
- /H6A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ZhUP6tzgIUuEFUocSB3GImvp6pcvsV2mbRYLaepuFtU=;
+ b=5FLH3dQfWEv+Z2mVjVhk9QXmMM6PSKT7Mt1A3FI2nYOFobv9NmqfYbKaxvn/2hrvl8
+ gt5gqcYpo/J2Hxi38xgUKPEx7dYHANClK7WMSe3GdpB1Rp55tRCwZsupje8STF8YDFCT
+ YoKuAAkZRNORPSPQaufBpnwpvg82CU8FRLX0oiFvF7Av7JPf0qivjALQQqGZtKjDhExb
+ rKO11O5xlUZrr4KxVTz3LNp6rvL6ebGhnXi8SbjQhkvnfM3CiCUwV1TuIW25o4Kz6XRW
+ OKSmeEjcXkJJbnS7L0dsb5IwGAvNAk2asw8qyr/kgskl5V9u6dJ3TBE6Pfype/ioTdeF
+ Q1Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Ul941hkKubV2SEiG9aWdHK6DOlACwTPp8c+cTWe/zxY=;
- b=vS40WHZUIz3bcmzjF4vY4TohQsBxExaWk8Le1UECefdvnGi5woyEmVDfJDNHbz9g0H
- a3hz2Gu89MDkip7/8UhGwaPk8KqAn924EsRW07zqBioMdqkyK7wypnwK/Le5j2OSjjuy
- FOKhAwnnPqyCgXrgfPtyg8Au1MNG9xtYD7oXSbx0sOA7gzrZwXfVkbcjfJwYcJWfFODq
- DHA+NNeuMdw8tEInID8swKcBnnzoRyFLdRDqyCidBBHnQ1npKHp2bLT7j9xjU8IfuMV9
- LTYkUJ6kvWfsOmoU5CenctEngo/8e7Ljndae1/8CM2VXVtfpyq95MVj0uoPun8U8C4ch
- idig==
-X-Gm-Message-State: AOAM533/kJZMKuFUyfX09ufFbqbhaWFeako5WGd0l01CJaxxEmAmhX/R
- FEFMBw9P0rKKO9kZZBzGDt3v
-X-Google-Smtp-Source: ABdhPJzQUD4WeALeb4kYcgx+SnZwoj7y0JB/gbZqxZpGtOICJgiNfFyemdrmxmiduwfqmzuJQ0az2Q==
-X-Received: by 2002:a05:6a00:2389:b0:4c5:a842:f54 with SMTP id
- f9-20020a056a00238900b004c5a8420f54mr18250449pfc.47.1643116705644; 
- Tue, 25 Jan 2022 05:18:25 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ZhUP6tzgIUuEFUocSB3GImvp6pcvsV2mbRYLaepuFtU=;
+ b=FF3ecOBcSwdfF9xFJd0TZ61P5jpKcURV0osOIxv2J1OLgaYnbBDTfhKz8xN0NS0y/f
+ /l8XsuudsZv0LUuKAL7rcMRrhxVfJvIFSOqIYZpDB5R2lb3ceN1liFfhMW3HZ/9oE8tP
+ GexbhK8EG3tCk7Xd4qA+bWnT88AB+WXxFPiMPzXrFc8e+wBIgfFStPgaMVKJ4FwkOMXl
+ O9xePmYQmRyycRqzsZC7OH4P1eUvlMkWEfmb7EyBstuAyw5fylLVTJrTXUhVSdQ9B63U
+ EOBBp1p3nPLhJtxgsCjegWvGM+Lntyne5+R/3bqnD4dPkTol7E6v0gIo37E0oRUD59s7
+ Cl1Q==
+X-Gm-Message-State: AOAM533oTfWH692YPd8zOjN4PnOAvT9slz1fpjv1Xw2xBmNE7wFlxfkM
+ +ROEXyXbZ9xHl0cbhYa3Wx5y
+X-Google-Smtp-Source: ABdhPJwf3ZYtkgkd3CbCtSFOeyJcfnJ2T25Y50mTqai2wSv51thQxW1x8SbsEyDaPg+Sm1vCai9ZXA==
+X-Received: by 2002:a05:6a00:1a0c:b0:4cb:231:1981 with SMTP id
+ g12-20020a056a001a0c00b004cb02311981mr1459472pfv.55.1643116720885; 
+ Tue, 25 Jan 2022 05:18:40 -0800 (PST)
 Received: from localhost ([139.177.225.253])
- by smtp.gmail.com with ESMTPSA id gt19sm440978pjb.50.2022.01.25.05.18.23
+ by smtp.gmail.com with ESMTPSA id t15sm449631pjy.17.2022.01.25.05.18.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jan 2022 05:18:25 -0800 (PST)
+ Tue, 25 Jan 2022 05:18:40 -0800 (PST)
 From: Xie Yongji <xieyongji@bytedance.com>
 To: mst@redhat.com, jasowang@redhat.com, stefanha@redhat.com,
  sgarzare@redhat.com, kwolf@redhat.com, mreitz@redhat.com,
  mlureau@redhat.com
-Subject: [PATCH 0/5] Support exporting BDSs via VDUSE
-Date: Tue, 25 Jan 2022 21:17:55 +0800
-Message-Id: <20220125131800.91-1-xieyongji@bytedance.com>
+Subject: [PATCH 4/5] vduse-blk: Add vduse-blk resize support
+Date: Tue, 25 Jan 2022 21:17:59 +0800
+Message-Id: <20220125131800.91-5-xieyongji@bytedance.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220125131800.91-1-xieyongji@bytedance.com>
+References: <20220125131800.91-1-xieyongji@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=xieyongji@bytedance.com; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=xieyongji@bytedance.com; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -91,60 +93,52 @@ Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+To support block resize, this uses vduse_dev_update_config()
+to update the capacity field in configuration space and inject
+config interrupt on the block resize callback.
 
-Last few months ago, VDUSE (vDPA Device in Userspace) [1] has
-been merged into Linux kernel as a framework that make it
-possible to emulate a vDPA device in userspace. This series
-aimed at implementing a VDUSE block backend based on the
-qemu-storage-daemon infrastructure.
+Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+---
+ block/export/vduse-blk.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-To support that, we firstly introduce a VDUSE library as a
-subproject (like what libvhost-user does) to help implementing
-VDUSE backends in QEMU. Then a VDUSE block export is implemented
-based on this library. At last, we add resize and reconnect support
-to the VDUSE block export and VDUSE library.
-
-Since we don't support vdpa-blk in QEMU currently, the VM case is
-tested with my previous patchset [2].
-
-[1] https://www.kernel.org/doc/html/latest/userspace-api/vduse.html
-[2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg797569.html
-
-Please review, thanks!
-
-Xie Yongji (5):
-  headers: Add vduse.h
-  libvduse: Add VDUSE (vDPA Device in Userspace) library
-  vduse-blk: implements vduse-blk export
-  vduse-blk: Add vduse-blk resize support
-  libvduse: Add support for reconnecting
-
- block/export/export.c                       |    6 +
- block/export/meson.build                    |    5 +
- block/export/vduse-blk.c                    |  448 +++++++
- block/export/vduse-blk.h                    |   20 +
- include/standard-headers/linux/vduse.h      |  306 +++++
- meson.build                                 |   28 +
- meson_options.txt                           |    4 +
- qapi/block-export.json                      |   24 +-
- scripts/meson-buildoptions.sh               |    7 +
- scripts/update-linux-headers.sh             |    1 +
- subprojects/libvduse/include/atomic.h       |    1 +
- subprojects/libvduse/libvduse.c             | 1267 +++++++++++++++++++
- subprojects/libvduse/libvduse.h             |  195 +++
- subprojects/libvduse/meson.build            |   10 +
- subprojects/libvduse/standard-headers/linux |    1 +
- 15 files changed, 2321 insertions(+), 2 deletions(-)
- create mode 100644 block/export/vduse-blk.c
- create mode 100644 block/export/vduse-blk.h
- create mode 100644 include/standard-headers/linux/vduse.h
- create mode 120000 subprojects/libvduse/include/atomic.h
- create mode 100644 subprojects/libvduse/libvduse.c
- create mode 100644 subprojects/libvduse/libvduse.h
- create mode 100644 subprojects/libvduse/meson.build
- create mode 120000 subprojects/libvduse/standard-headers/linux
-
+diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
+index 5a8d289685..83845e9a9a 100644
+--- a/block/export/vduse-blk.c
++++ b/block/export/vduse-blk.c
+@@ -297,6 +297,23 @@ static void blk_aio_detach(void *opaque)
+     vblk_exp->export.ctx = NULL;
+ }
+ 
++static void vduse_blk_resize(void *opaque)
++{
++    BlockExport *exp = opaque;
++    VduseBlkExport *vblk_exp = container_of(exp, VduseBlkExport, export);
++    struct virtio_blk_config config;
++
++    config.capacity =
++            cpu_to_le64(blk_getlength(exp->blk) >> VIRTIO_BLK_SECTOR_BITS);
++    vduse_dev_update_config(vblk_exp->dev, sizeof(config.capacity),
++                            offsetof(struct virtio_blk_config, capacity),
++                            (char *)&config.capacity);
++}
++
++static const BlockDevOps vduse_block_ops = {
++    .resize_cb = vduse_blk_resize,
++};
++
+ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
+                                 Error **errp)
+ {
+@@ -387,6 +404,8 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
+     blk_add_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_detach,
+                                  vblk_exp);
+ 
++    blk_set_dev_ops(exp->blk, &vduse_block_ops, exp);
++
+     return 0;
+ }
+ 
 -- 
 2.20.1
 
