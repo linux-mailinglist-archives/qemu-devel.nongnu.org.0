@@ -2,80 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5512549BE4B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 23:15:59 +0100 (CET)
-Received: from localhost ([::1]:53538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A130049BF31
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 23:57:15 +0100 (CET)
+Received: from localhost ([::1]:43074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCU6Y-0003JO-Ad
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 17:15:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44102)
+	id 1nCUkU-0000zq-5u
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 17:57:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nCTzQ-00050h-3i
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 17:08:36 -0500
-Received: from [2607:f8b0:4864:20::431] (port=38690
- helo=mail-pf1-x431.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nCUhr-0008L4-Cy
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 17:54:31 -0500
+Received: from [2a00:1450:4864:20::62d] (port=45699
+ helo=mail-ej1-x62d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nCTzN-000412-0C
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 17:08:35 -0500
-Received: by mail-pf1-x431.google.com with SMTP id e28so16550056pfj.5
- for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 14:08:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nCUhp-00032P-Fp
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 17:54:31 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id me13so34276515ejb.12
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 14:54:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=aaFZk1AWrpdiuRPQKKFUP3xQ/myqOYoLTGhWgDXhju0=;
- b=izS6wbVEw3lFPf6hbSeUEb7tYhM4ug3FLW+Jz0JZnma1B+E2D3sc4nt6k/BooSNFeA
- cU82M6Zv0loPJJQXOegA30TQMPdQf61/HdC8wUscyQUiyv00A3/rBRGdQbSQYfm3Rdum
- vQss2gjvGxffyo/tjc7ebleSv1CWBFVIZIWAVWW6Jhv68hKKddjdtGnpzeg+FCH/nRHn
- DSyiQUy2cgUvPVAaV90dTNMXkCZea8YUt/rRo4R1O9b7twrYcCPs2u8+lrqDg5MOB2Rm
- ylXLllLV25PnFljoEIlpZgNnUTGSFGpx8+K5QKHcmQg55AL9JYaxWTfNCVw1PQXDpMYL
- OegQ==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=gkppOC4VY2xWuXqxRaYvfe6Vvnw7Z11qsylHLooU/Bo=;
+ b=ac1y6DrH/JtZyB3SiPmBbvbwAV4v1AR1G4oyGFpDD+UOJsJfi3PGhKL96RzSBKo+A7
+ f+9SA1CBgeOQXTFLcE/lemZjIPsvrkuzxHQWnuC/9/fZ+H3EJmOYc+zYtK4n5DFwtwYX
+ +qcymtj/KoPXPC6P1ZDKZdmoqrM0zgyqqCddMawLyGnmzYZVFIHOlV9svDmXhPM3qCej
+ G8aaYreuf168zZIwo46tNr+rCiCvbSin93K7Ir/i/mCeWyg8F3TiJa0Q9gw/3/j/8iKw
+ O7+d33n47LX3eLZqo2JlVDJrK9Pyt0VJANZdOKitAn8t45JzTTyrX7twTPG/7Nj/BXcU
+ curw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=aaFZk1AWrpdiuRPQKKFUP3xQ/myqOYoLTGhWgDXhju0=;
- b=Oi/blDJyMAwpJffk5dlopn6dYneljt/+fkQLM3kRFCHnn2seIk/YEkwiwj7wQeahSG
- asGrYpEwityd2n306dTSx0Y9g20OK+xc+WtElWv1nQfVnJFDypnVYtb2MksA0JBovJHf
- yAb2W+FfOtcfxSdxQ1abTkHikNRWK4dqGRkEWeLfaUXUcG7Co+w5hVsjRhKNLnabNr92
- nrz57i7TXbMlbU0mKpzBZ8lZGBMBn7s1CWxQeQENA4CnguSWByPLzb3jl1XUAXfUsq2Q
- lyjhk0YmPEQeF+EU3klXxadOuPz5lV5gNRxLleUAc19AbZ1lFPbYur+N1ekXR3j2y7VI
- ZYFQ==
-X-Gm-Message-State: AOAM532yzlGK+hnxrxpqWeaK2oYUDqSkaoYsmEnaQOKDIzYN0taM58Tt
- X/XByb1yFKJk0PXJ1gQgJZD45A==
-X-Google-Smtp-Source: ABdhPJweDsjyOZNjzOLbMZnadKl8NoSPiUH1dWVUINxxbIcHbSNgW+UqNbjYeZ8Mqzc+iY+cuubDxg==
-X-Received: by 2002:a65:460d:: with SMTP id v13mr16689546pgq.373.1643148509256; 
- Tue, 25 Jan 2022 14:08:29 -0800 (PST)
-Received: from [192.168.15.44] (alanje.lnk.telstra.net. [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id y42sm24942pfa.5.2022.01.25.14.08.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Jan 2022 14:08:28 -0800 (PST)
-Subject: Re: [Q] arm: SVE accesses at EL0 is broken with E2H+TGE?
-To: Zenghui Yu <yuzenghui@huawei.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-References: <6cdfd5de-2465-adca-73b3-9c66945cf18a@huawei.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <138138f3-3fd3-b685-1492-060eda777f91@linaro.org>
-Date: Wed, 26 Jan 2022 09:08:23 +1100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=gkppOC4VY2xWuXqxRaYvfe6Vvnw7Z11qsylHLooU/Bo=;
+ b=maAm+X8lmqTIWkb7UcFGnN6tSoqJLQBrHo6ob0YBM+F4isC7Xza65B2AIq0y+gSVb8
+ vm2ni7Q7PtFStSNDTOot8Dag21rf/YUyV8hfpdDg4Gh4rn9Ps5UDhY+mbPJrudSPt3dg
+ QfhipYBEWw2ASqxQL8SOF1HLUOzofeBktLq5GbDIWXC8NGuv8ssjhtBgR5Qh+7WIXOSH
+ ePTIHtuJfTzWIzpdmwCWjDWktYTSrk4hNA52ti0im9cFn7SBgIe80n7LTPG1/lbcWX70
+ dWckY7f3a64yQpqkLnBjZZ2avpupjvx5V/4Guk6Yd/oawDjv2D61cOPYA4bmYRk7SyZP
+ ahig==
+X-Gm-Message-State: AOAM532X8HkCpXRwh5gCQpsDUnEWXvStM2dZB4689nEGN0IrQ9WnzFlY
+ HhkiID43C88+ItTUWxsxld4dQA==
+X-Google-Smtp-Source: ABdhPJwgf3YpmTqsgDZdqAnbslFXTyWqRikz8rtdK9ZfCVF9FXlrZeDTC/0HogSFW6Dfkn+ah7MF/Q==
+X-Received: by 2002:a17:907:2d90:: with SMTP id
+ gt16mr17111390ejc.581.1643151267708; 
+ Tue, 25 Jan 2022 14:54:27 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z5sm6656797eja.20.2022.01.25.14.54.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Jan 2022 14:54:26 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 37F7D1FFB7;
+ Tue, 25 Jan 2022 22:54:26 +0000 (GMT)
+References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
+ <20220124171705.10432-30-Jonathan.Cameron@huawei.com>
+ <87sftbd9y9.fsf@linaro.org> <20220125175130.00005a46@Huawei.com>
+User-agent: mu4e 1.7.6; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+Subject: Re: [PATCH v4 29/42] hw/cxl/host: Add support for CXL Fixed Memory
+ Windows.
+Date: Tue, 25 Jan 2022 22:53:06 +0000
+In-reply-to: <20220125175130.00005a46@Huawei.com>
+Message-ID: <87k0enctp9.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <6cdfd5de-2465-adca-73b3-9c66945cf18a@huawei.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::431
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -90,49 +93,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, kernel.yuz@gmail.com,
- wanghaibin.wang@huawei.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Ben Widawsky <ben.widawsky@intel.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
+ Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org, linuxarm@huawei.com,
+ Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/13/22 2:03 PM, Zenghui Yu wrote:
-> Hi,
-> 
-> I've just exercised the SVE emulation in QEMU with
-> 
-> | `qemu-system-aarch64 -M virt,virtualization=on,gic-version=3 \
-> |  -cpu max -accel tcg [...]`
-> 
-> Since QEMU sets ID_AA64MMFR1_EL1.VH for -cpu max, the Linux guest I use
-> was booting with VHE enabled and running with E2H+TGE. But I've then
-> seen the Linux sve-probe-vls selftest [1] failure in guest which runs at
-> EL0 and can be described as:
-> 
-> 1) Call prctl(PR_SVE_SET_VL, vl == 64) to set the vector length.
-> 2) Emit RDVL instruction **but** get vl == 16. Emmm..
-> 
-> Looking a bit further at the way we emulate SVE in QEMU, there might be
-> some issues need to be addressed.
-> 
-> * sve_zcr_len_for_el() implementation
-> 
-> Per DDI 0584 B.a, when HCR_EL2.{E2H,TGE} == {1,1} and EL2 is enabled in
-> the current Security state, ZCR_EL1 has no effect on execution at EL0.
-> We should use ZCR_EL2 instead for E2H+TGE.
-> 
-> * CPTR_EL2 register accessors
-> 
-> CPTR_EL2 has diffrent layout with or without VHE, but looks like we only
-> take the nVHE one into account. Take sve_exception_el(env, el == 0) as
-> an example, we don't check CPTR_EL2.ZEN for EL0 SVE accesses and we will
-> never generate an exception even if needed...
-> 
-> ... whilst Linux kernel indeed relies on a trap to EL2 to restore SVE
-> context appropriately for userland. SVE accesses at EL0 is broken in
-> that case, I guess?
 
-Correct on both.  Thanks for the detailed report.
+Jonathan Cameron <Jonathan.Cameron@Huawei.com> writes:
+
+> On Tue, 25 Jan 2022 17:02:32 +0000
+> Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
+>
+>> Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+>>=20
+>> > From: Jonathan Cameron <jonathan.cameron@huawei.com>
+>> >
+>> > The concept of these is introduced in [1] in terms of the
+>> > description the CEDT ACPI table. The principal is more general.
+>> > Unlike once traffic hits the CXL root bridges, the host system
+>> > memory address routing is implementation defined and effectively
+>> > static once observable by standard / generic system software.
+>> > Each CXL Fixed Memory Windows (CFMW) is a region of PA space
+>> > which has fixed system dependent routing configured so that
+>> > accesses can be routed to the CXL devices below a set of target
+>> > root bridges. The accesses may be interleaved across multiple
+>> > root bridges.=20=20
+>>=20
+>> This breaks the linux-user builds...
+>> > diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
+>> > index 0eca715d10..27dff3868b 100644
+>> > --- a/hw/cxl/meson.build
+>> > +++ b/hw/cxl/meson.build
+>> > @@ -1,5 +1,9 @@
+>> > -softmmu_ss.add(when: 'CONFIG_CXL', if_true: files(
+>> > -  'cxl-component-utils.c',
+>> > -  'cxl-device-utils.c',
+>> > -  'cxl-mailbox-utils.c',
+>> > +specific_ss.add(when: 'CONFIG_CXL', if_true: files(
+>> > +      'cxl-component-utils.c',
+>> > +      'cxl-device-utils.c',
+>> > +      'cxl-mailbox-utils.c',
+>> > +      'cxl-host.c',
+>> > +))
+>> > +specific_ss.add(when: 'CONFIG_CXL', if_false: files(
+>> > +      'cxl-host-stubs.c',
+>> >  ))=20=20
+>>=20
+>> I think you want this:
+>>=20
+>>   softmmu_ss.add(when: 'CONFIG_CXL',
+>>                  if_true: files(
+>>                    'cxl-component-utils.c',
+>>                    'cxl-device-utils.c',
+>>                    'cxl-mailbox-utils.c',
+>>                    'cxl-host.c'),
+>>                  if_false: files(
+>>                    'cxl-host-stubs.c',
+>>                  ))
+>>=20
+>>   # This is required as well:
+>>   softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('cxl-host-stubs.c'))
+>
+> Ah.  I'd started with the first block and got incomprehensible error
+> message.  Second block fixes it.
+
+  https://qemu.readthedocs.io/en/latest/devel/build-system.html#stage-2-mes=
+on
+
+documents some of this although we could probably do a better job of
+sign posting the bits in the root meson file.
+
+>
+> I'll not pretend to understand the 'why' :)
+>
+> Thanks,
+>
+> Jonathan
+>
+>>=20
+>>=20
 
 
-r~
+--=20
+Alex Benn=C3=A9e
 
