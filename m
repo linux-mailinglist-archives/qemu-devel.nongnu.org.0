@@ -2,58 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A7DC49AF86
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 10:15:00 +0100 (CET)
-Received: from localhost ([::1]:56108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DEF249AFCF
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 10:26:44 +0100 (CET)
+Received: from localhost ([::1]:38720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCHul-0000WY-Ew
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 04:14:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55978)
+	id 1nCI67-0008Cr-KB
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 04:26:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nCHsP-0007yg-Js
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 04:12:33 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:38110)
+ (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
+ id 1nCI0g-0003j3-MA; Tue, 25 Jan 2022 04:21:10 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:3082)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nCHsN-0002Gj-FR
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 04:12:33 -0500
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-141-7MsKPqq4Obe1_KbkLTsFGg-1; Tue, 25 Jan 2022 04:12:23 -0500
-X-MC-Unique: 7MsKPqq4Obe1_KbkLTsFGg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A74A583DD22;
- Tue, 25 Jan 2022 09:12:22 +0000 (UTC)
-Received: from bahia (unknown [10.39.192.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6958A7B028;
- Tue, 25 Jan 2022 09:12:21 +0000 (UTC)
-Date: Tue, 25 Jan 2022 10:12:20 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH 1/1] target/ppc: fix 'skip KVM' cond in
- cpu_interrupt_exittb()
-Message-ID: <20220125101220.2c0f350d@bahia>
-In-Reply-To: <20220121160841.9102-1-danielhb413@gmail.com>
-References: <20220121160841.9102-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
+ id 1nCI0e-0003YY-1h; Tue, 25 Jan 2022 04:21:06 -0500
+Received: from dggeme756-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JjhC813Pgzbk5s;
+ Tue, 25 Jan 2022 17:20:04 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.58) by
+ dggeme756-chm.china.huawei.com (10.3.19.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.21; Tue, 25 Jan 2022 17:20:53 +0800
+To: <peter.maydell@linaro.org>, <shannon.zhaosl@gmail.com>
+CC: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>, <linuxarm@huawei.com>,
+ Xiang Chen <chenxiang66@hisilicon.com>
+Subject: [PATCH] hw/arm/virt: Enable HMAT on arm virt machine
+Date: Tue, 25 Jan 2022 17:15:34 +0800
+Message-ID: <1643102134-15506-1-git-send-email-chenxiang66@hisilicon.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.58]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggeme756-chm.china.huawei.com (10.3.19.102)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=chenxiang66@hisilicon.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,71 +57,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: clg@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  chenxiang <chenxiang66@hisilicon.com>
+From:  chenxiang via <qemu-devel@nongnu.org>
 
-On Fri, 21 Jan 2022 13:08:41 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+From: Xiang Chen <chenxiang66@hisilicon.com>
 
-> cpu_interrupt_exittb() was introduced by commit 044897ef4a22
-> ("target/ppc: Fix system lockups caused by interrupt_request state
-> corruption") as a way to wrap cpu_interrupt() helper in BQL.
->=20
-> After that, commit 6d38666a8931 ("ppc: Ignore the CPU_INTERRUPT_EXITTB
-> interrupt with KVM") added a condition to skip this interrupt if we're
-> running with KVM.
->=20
-> Problem is that the change made by the above commit, testing for
-> !kvm_enabled() at the start of cpu_interrupt_exittb():
->=20
-> static inline void cpu_interrupt_exittb(CPUState *cs)
-> {
->     if (!kvm_enabled()) {
->         return;
->     }
->     (... do cpu_interrupt(cs, CPU_INTERRUPT_EXITTB) ...)
->=20
-> is doing the opposite of what it intended to do. This will return
-> immediately if not kvm_enabled(), i.e. it's a emulated CPU, and if
-> kvm_enabled() it will proceed to fire CPU_INTERRUPT_EXITTB.
->=20
+Since the patchset ("Build ACPI Heterogeneous Memory Attribute Table (HMAT)"),
+HMAT is supported, but only x86 is enabled. Enable HMAT on arm virt machine.
 
-Ohh boy... this is embarrassing :-\
+Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
+---
+ hw/arm/Kconfig           | 1 +
+ hw/arm/virt-acpi-build.c | 7 +++++++
+ 2 files changed, 8 insertions(+)
 
-> Fix the 'skip KVM' condition so the function is a no-op when
-> kvm_enabled().
->=20
-> CC: Greg Kurz <groug@kaod.org>
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/809
-> Fixes: 6d38666a8931 ("ppc: Ignore the CPU_INTERRUPT_EXITTB interrupt with=
- KVM")
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
->  target/ppc/helper_regs.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->=20
-> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-> index 8671b7bb69..7dca585ddd 100644
-> --- a/target/ppc/helper_regs.c
-> +++ b/target/ppc/helper_regs.c
-> @@ -201,7 +201,11 @@ void cpu_get_tb_cpu_state(CPUPPCState *env, target_u=
-long *pc,
-> =20
->  void cpu_interrupt_exittb(CPUState *cs)
->  {
-> -    if (!kvm_enabled()) {
-> +    /*
-> +     * We don't need to worry about translation blocks
-> +     * when running with KVM.
-> +     */
-> +    if (kvm_enabled()) {
->          return;
->      }
-> =20
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 2e0049196d..a3c6099829 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -29,6 +29,7 @@ config ARM_VIRT
+     select ACPI_APEI
+     select ACPI_VIOT
+     select VIRTIO_MEM_SUPPORTED
++    select ACPI_HMAT
+ 
+ config CHEETAH
+     bool
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 449fab0080..f19b55e486 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -42,6 +42,7 @@
+ #include "hw/acpi/memory_hotplug.h"
+ #include "hw/acpi/generic_event_device.h"
+ #include "hw/acpi/tpm.h"
++#include "hw/acpi/hmat.h"
+ #include "hw/pci/pcie_host.h"
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pci_bus.h"
+@@ -990,6 +991,12 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+             build_slit(tables_blob, tables->linker, ms, vms->oem_id,
+                        vms->oem_table_id);
+         }
++
++        if (ms->numa_state->hmat_enabled) {
++            acpi_add_table(table_offsets, tables_blob);
++            build_hmat(tables_blob, tables->linker, ms->numa_state,
++                       vms->oem_id, vms->oem_table_id);
++        }
+     }
+ 
+     if (ms->nvdimms_state->is_enabled) {
+-- 
+2.33.0
 
 
