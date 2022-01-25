@@ -2,69 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D58449B0C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 10:55:37 +0100 (CET)
-Received: from localhost ([::1]:37066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7FE449B0C1
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 10:54:31 +0100 (CET)
+Received: from localhost ([::1]:35588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCIY4-00022k-9N
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 04:55:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33590)
+	id 1nCIX0-00014h-NJ
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 04:54:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nCILg-00083U-Rl
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nCILh-00085q-Bu
  for qemu-devel@nongnu.org; Tue, 25 Jan 2022 04:42:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60071)
+Received: from mout.kundenserver.de ([212.227.126.135]:53877)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nCILZ-0006K2-Sf
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 04:42:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643103657;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/4TFFGBMDIIKg7qNHX2kJ6MVrW7E+V5J6mt7FYY8uSY=;
- b=QKM77XwrDVN/QAS4BU+vOMNAODFqwasvswM3NW6d1q1uXKcZHJmix5Z//MJd6SPHavxTWS
- aSuO0aEMwkukJN009+v4iT1JIXhuqNQZ77lkVw5qj90dPN4siB744uRqU62EXiqF689Q6d
- +rGoBGiCPGJwRcErXWLFUoZS1FUnugw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-655-r2UPA86zP5aoc2Gx83RJEA-1; Tue, 25 Jan 2022 04:40:53 -0500
-X-MC-Unique: r2UPA86zP5aoc2Gx83RJEA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0E851853022;
- Tue, 25 Jan 2022 09:40:51 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.26])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9813F7B9E1;
- Tue, 25 Jan 2022 09:40:50 +0000 (UTC)
-Date: Tue, 25 Jan 2022 09:40:49 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v5 02/18] tests/avocado: Specify target VM argument to
- helper routines
-Message-ID: <Ye/FoYAKD4gW2AwJ@stefanha-x1.localdomain>
-References: <cover.1642626515.git.jag.raman@oracle.com>
- <5ae7da5979b3f83bcf2ec620f5bbd7d4c15b5d80.1642626515.git.jag.raman@oracle.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nCILb-0006SE-AA
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 04:42:48 -0500
+Received: from [192.168.100.1] ([82.142.25.174]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MBDWo-1mzgbs1H3u-00Ch0a; Tue, 25 Jan 2022 10:41:54 +0100
+Message-ID: <c36b5e78-7633-8546-d697-3e66a7569b69@vivier.eu>
+Date: Tue, 25 Jan 2022 10:41:53 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="VnNT7/o9LJ2mQBnt"
-Content-Disposition: inline
-In-Reply-To: <5ae7da5979b3f83bcf2ec620f5bbd7d4c15b5d80.1642626515.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Content-Language: fr
+To: Cameron Esfahani <dirty@apple.com>, qemu-devel@nongnu.org
+References: <20220125024712.6626-1-dirty@apple.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH] linux-user: Implement starttime field in self stat
+ emulation
+In-Reply-To: <20220125024712.6626-1-dirty@apple.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:kRAXFwhCieDVVN0I452lcdcAfwP9wZjw96URbzd4HhOHFHSLJhl
+ Q4ZGo7NDxM3LvMZ7OMMaI0zc28+JqMBYa7lsarZYNvJ4cE2FpDincMuuk2erQVTUfcPNVnT
+ EsgWgYMY/1YqAkBFQxr7qRRRoQT2r07H9BsLg5u7GgOVYLZMG1Q4i5wbnxjHZA7gizV2JxW
+ unbMc95GRcmEr5Ne7cuRA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:let7evdxeNU=:1nlaNHb2XT90laDF1EWaPI
+ G8m3N29SIdptcW86xUKxGveNREVmoPhvY5nLiH95XhUCSyIfKP6LhEIKw4fcrXJP/jmbuHVlP
+ X3pc2MbjsAtSGk6vahcB4BZIUL7zioobXZi8QVNuWRRohhSEr1m2JDXgCkv5opV+xiH2qx9NN
+ XmKZ5JTHX6ID1IxCWN6R2zxO6TSlNNY2lLEtqR3X8frBMzjcGJ/gIQjLxTF7sqPJBd5F8V21H
+ P4tlg/s0hb9+r08XZJK7FO0myE3Q8HGmAegKkfHHqvNzkSAJuDQjAbcSVeqiW8rtw2cZ6abR1
+ tFcmfm9FzOPSpY/yKnHcoAApbqCWr8Gpl9Q3viroxiezSq85ulSod7wq1JSGVkdrJ9GVsLjpE
+ TXfjLoxilwGkflttQWAytACsZ0Cvsd3tnFE10u+BlNEfATx4JUynRx0D24Csqat+2SIdVJ2HR
+ +LPz4L/n3mlFpSQGY0BzTaSaZBVVE2QZayZHK2aaetInCqa80EOLo9j0hW2m+K6+RBxMNJ56/
+ 97okOmwdhFwMmMq9wkUVgNNp4P6064gPs2dG9hbyDS4WcW1ydEb0TbgGPU2X+I2VUwQeMMG+W
+ wCnalXfavViR6vS80Og0HVBIe59zaPX6Bu1L6MrLYgNpeDfDiFRNsp4yeSQ+9OxqmanqU05CA
+ f0mJzmFAYI68gmU1yjDiXg4zyKCp6yLlDJaJuURm0SbXn+JAnOaWiL7Iz24KHjZhQ/O8=
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,50 +69,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
- berrange@redhat.com, bleal@redhat.com, john.levon@nutanix.com, mst@redhat.com,
- armbru@redhat.com, quintela@redhat.com, qemu-devel@nongnu.org, f4bug@amsat.org,
- marcandre.lureau@gmail.com, thanos.makatos@nutanix.com, pbonzini@redhat.com,
- eblake@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---VnNT7/o9LJ2mQBnt
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jan 19, 2022 at 04:41:51PM -0500, Jagannathan Raman wrote:
-> Specify target VM for exec_command and
-> exec_command_and_wait_for_pattern routines
->=20
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> Reviewed-by: Beraldo Leal <bleal@redhat.com>
+Le 25/01/2022 à 03:47, Cameron Esfahani a écrit :
+> Instead of always returning 0, return actual starttime.
+> 
+> Signed-off-by: Cameron Esfahani <dirty@apple.com>
 > ---
->  tests/avocado/avocado_qemu/__init__.py | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
+>   linux-user/syscall.c | 28 ++++++++++++++++++++++++++++
+>   1 file changed, 28 insertions(+)
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 5950222a77..59265ab986 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -8107,6 +8107,34 @@ static int open_self_stat(void *cpu_env, int fd)
+>           } else if (i == 3) {
+>               /* ppid */
+>               g_string_printf(buf, FMT_pid " ", getppid());
+> +        } else if (i == 21) { > +            /* starttime */
+> +            FILE *fp = NULL;
+> +            char *line = NULL;
+> +            char *skipped_comm = NULL;
+> +            size_t n = 0;
+> +            unsigned long long starttime = 0;
+> +
+> +            fp = fopen("/proc/self/stat", "r");
+> +            if (fp) {
+> +                if (getdelim(&line, &n, '\0', fp) != -1) {
+> +                    /* Find end of comm field */
+> +                    skipped_comm = strrchr(line, ')');
+> +                    if (skipped_comm != NULL) {
+> +                        /* Skip over parenthesis and space */
+> +                        skipped_comm += 2;
+> +                        /* Scan starttime (field 20 after pid and comm) */
+> +                        (void) sscanf(skipped_comm, "%*c %*d %*d %*d %*d %*d "
+> +                                            "%*u %*u %*u %*u %*u %*u %*u %*d "
+> +                                            "%*d %*d %*d %*d %*d %llu",
+> +                                            &starttime);
+> +                    }
+> +                    free(line);
+> +                }
+> +                fclose(fp);
+> +            }
+> +
+> +            g_string_printf(buf, "%llu ", starttime);
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+According to the kernel code:
 
---VnNT7/o9LJ2mQBnt
-Content-Type: application/pgp-signature; name="signature.asc"
+   start_time = nsec_to_clock_t(timens_add_boottime_ns(task->start_boottime));
 
------BEGIN PGP SIGNATURE-----
+(timens_add_boottime_ns() is to adjust time offset according to the namespace)
+(nsec_to_clock_t() is "div_u64(x, NSEC_PER_SEC / USER_HZ);")
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHvxaEACgkQnKSrs4Gr
-c8il4wf/dDip7xQtjQQAb0xv2XXeHWtW6Z2ko8NutgbgYofluKQZr4cxexCP7mpt
-4ZAyDG7YAJBPhD3+6eaMWed512ZVEvm2fWOLlAAtCaKKK/GIz8e4yabnRi7X3Yzy
-8GTbwdIZhnh/LvIrwpbShFQ5Y0l8bdciw4k8IvXlyqLsi9EscHHqMcVaxTmMSUJI
-2jKaiPwprp4QhlWvBvBLSCDfu/2Rl1BVKhFE0lCBLKzU/xY1Yxkxj/WamINKd5s2
-SzE16FYP2ZvL50/6ptKlmkVO0Me3cGNND6HqPEwoDAN4xmz5t7zZl+VzuHnTbQx8
-Dgj5UaiDA/dXOYYcUQRlpb2A0Cyu8w==
-=yxjD
------END PGP SIGNATURE-----
+and
 
---VnNT7/o9LJ2mQBnt--
+   p->start_boottime = ktime_get_boottime_ns();
+...
+   static inline u64 ktime_get_boottime_ns(void)
+   {
+           return ktime_to_ns(ktime_get_boottime());
+   }
+...
+   /**
+    * ktime_get_boottime - Returns monotonic time since boot in ktime_t format
+    *
+    * This is similar to CLOCK_MONTONIC/ktime_get, but also includes the
+    * time spent in suspend.
+    */
+   static inline ktime_t ktime_get_boottime(void)
+   {
+           return ktime_get_with_offset(TK_OFFS_BOOT);
+   }
 
+So I think rather than scanning /proc/self/stat you could use clock_gettime(CLOCK_BOOTTIME, ...) to 
+get the value.
+
+https://linux.die.net/man/2/clock_gettime
+
+CLOCK_BOOTTIME (since Linux 2.6.39; Linux-specific)
+
+	Identical to CLOCK_MONOTONIC, except it also includes any time that the system is suspended.
+	This allows applications to get a suspend-aware monotonic clock without having to deal with
+	the complications of CLOCK_REALTIME, which may have discontinuities if the time is changed
+	using settimeofday(2).
+
+https://man7.org/linux/man-pages/man5/proc.5.html
+
+    /proc/[pid]/stat
+...
+	(22) starttime  %llu
+
+		The time the process started after system boot.  In
+                 kernels before Linux 2.6, this value was expressed
+                 in jiffies.  Since Linux 2.6, the value is
+                 expressed in clock ticks (divide by
+                 sysconf(_SC_CLK_TCK)).
+
+                 The format for this field was %lu before Linux 2.6.
+
+>           } else if (i == 27) {
+>               /* stack bottom */
+>               g_string_printf(buf, TARGET_ABI_FMT_ld " ", ts->info->start_stack);
+
+Thanks,
+Laurent
 
