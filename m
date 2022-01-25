@@ -2,68 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7128A49BBBE
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 20:06:19 +0100 (CET)
-Received: from localhost ([::1]:58172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA2F249BBDC
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 20:12:10 +0100 (CET)
+Received: from localhost ([::1]:37178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCR8z-0008Vc-RC
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 14:06:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51556)
+	id 1nCREf-0005Gp-8q
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 14:12:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nCQvH-0004uZ-To
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 13:52:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38386)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1nCR1A-00073a-70
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 13:58:12 -0500
+Received: from mailout07.t-online.de ([194.25.134.83]:49948)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nCQvD-00041X-A3
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 13:52:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643136722;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=7IyB/EV4EZEEUeL8gE4h4xR50WCLTPTNLWP3pK+2yIk=;
- b=i65b5uG+z4S4gWNG50OrXVY6SMpFjOZbH7IVEsMc+2txIv0aI+8niGkXNoHb2TNaQz8DPl
- R3c2MVpwnjW1KxabrRScAqCrug+K2AO9DOSlPY0/p+OlbQ5uIRQa7vBWHcYY89G1JrpQzF
- OMk4JVTjim7ZslHwvkABTfVzUf2TTZ0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-240-crx38ppZO0-v8gfHXV_itw-1; Tue, 25 Jan 2022 13:52:01 -0500
-X-MC-Unique: crx38ppZO0-v8gfHXV_itw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6378A1006AA0;
- Tue, 25 Jan 2022 18:52:00 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.9.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A6BD710A4B2C;
- Tue, 25 Jan 2022 18:51:14 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 2AD8A223DA6; Tue, 25 Jan 2022 13:51:14 -0500 (EST)
-Date: Tue, 25 Jan 2022 13:51:14 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: qemu-devel@nongnu.org, virtio-fs-list <virtio-fs@redhat.com>
-Subject: [PATCH] virtiofsd: Drop membership of all supplementary groups
- (CVE-2022-0358)
-Message-ID: <YfBGoriS38eBQrAb@redhat.com>
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1nCR12-0004ra-1F
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 13:58:07 -0500
+Received: from fwd76.dcpf.telekom.de (fwd76.aul.t-online.de [10.223.144.102])
+ by mailout07.t-online.de (Postfix) with SMTP id 6680F118EF;
+ Tue, 25 Jan 2022 19:58:00 +0100 (CET)
+Received: from [192.168.211.200] ([46.86.48.20]) by fwd76.t-online.de
+ with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+ esmtp id 1nCR0y-0tJIvJ0; Tue, 25 Jan 2022 19:58:00 +0100
+Message-ID: <a9141436-adbb-e216-4131-157b0e634162@t-online.de>
+Date: Tue, 25 Jan 2022 19:57:59 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.158,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+Subject: Re: [PATCH v2 01/15] audio: replace open-coded buffer arithmetic
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+References: <addf2564-d61c-707e-ce5f-fb06264e7a39@t-online.de>
+ <20220122125745.5037-1-vr_qemu@t-online.de> <7976963.x2vcT3psHa@silver>
+Content-Language: en-US
+In-Reply-To: <7976963.x2vcT3psHa@silver>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1643137080-0001619A-22CDBBC2/0/0 CLEAN NORMAL
+X-TOI-MSGID: 9ace7fbb-6fba-4179-83bb-9c83e871cfda
+Received-SPF: none client-ip=194.25.134.83; envelope-from=vr_qemu@t-online.de;
+ helo=mailout07.t-online.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,101 +61,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Miklos Szeredi <mszeredi@redhat.com>,
- Mauro Matteo Cascella <mcascell@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- JIETAO XIAO <shawtao1125@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- P J P <pj.pandit@yahoo.co.in>
+Cc: Thomas Huth <huth@tuxfamily.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At the start, drop membership of all supplementary groups. This is
-not required.
+> On Samstag, 22. Januar 2022 13:57:31 CET Volker Rümelin wrote:
+>> Replace open-coded buffer arithmetic with the new function
+>> audio_ring_posb(). That's the position in backward direction
+>> of a given point at a given distance.
+>>
+>> Signed-off-by: Volker Rümelin<vr_qemu@t-online.de>
+>> ---
+> First of all, getting rid of all those redundant, open coded ringbuffer
+> traversal code places highly makes sense!
+>
+>>   audio/audio.c     | 25 +++++++------------------
+>>   audio/audio_int.h |  6 ++++++
+>>   audio/coreaudio.c | 10 ++++------
+>>   audio/sdlaudio.c  | 11 +++++------
+>>   4 files changed, 22 insertions(+), 30 deletions(-)
+>>
+>> diff --git a/audio/audio.c b/audio/audio.c
+>> index dc28685d22..e7a139e289 100644
+>> --- a/audio/audio.c
+>> +++ b/audio/audio.c
+>> @@ -574,19 +574,13 @@ static size_t audio_pcm_sw_get_rpos_in(SWVoiceIn *sw)
+>>   {
+>>       HWVoiceIn *hw = sw->hw;
+>>       ssize_t live = hw->total_samples_captured - sw->total_hw_samples_acquired;
+>> -    ssize_t rpos;
+>>
+>>       if (audio_bug(__func__, live < 0 || live > hw->conv_buf->size)) {
+>>           dolog("live=%zu hw->conv_buf->size=%zu\n", live, hw->conv_buf->size);
+>>           return 0;
+>>       }
+>>
+>> -    rpos = hw->conv_buf->pos - live;
+>> -    if (rpos >= 0) {
+>> -        return rpos;
+>> -    } else {
+>> -        return hw->conv_buf->size + rpos;
+>> -    }
+>> +    return audio_ring_posb(hw->conv_buf->pos, live, hw->conv_buf->size);
+>>   }
+>>
+>>   static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
+>> @@ -1394,12 +1388,10 @@ void audio_generic_run_buffer_in(HWVoiceIn *hw)
+>>
+>>   void *audio_generic_get_buffer_in(HWVoiceIn *hw, size_t *size)
+>>   {
+>> -    ssize_t start = (ssize_t)hw->pos_emul - hw->pending_emul;
+>> +    size_t start;
+>>
+>> -    if (start < 0) {
+>> -        start += hw->size_emul;
+>> -    }
+>> -    assert(start >= 0 && start < hw->size_emul);
+>> +    start = audio_ring_posb(hw->pos_emul, hw->pending_emul, hw->size_emul);
+>> +    assert(start < hw->size_emul);
+>>
+>>       *size = MIN(*size, hw->pending_emul);
+>>       *size = MIN(*size, hw->size_emul - start);
+>> @@ -1415,13 +1407,10 @@ void audio_generic_put_buffer_in(HWVoiceIn *hw, void
+>> *buf, size_t size) void audio_generic_run_buffer_out(HWVoiceOut *hw)
+>>   {
+>>       while (hw->pending_emul) {
+>> -        size_t write_len, written;
+>> -        ssize_t start = ((ssize_t) hw->pos_emul) - hw->pending_emul;
+>> +        size_t write_len, written, start;
+>>
+>> -        if (start < 0) {
+>> -            start += hw->size_emul;
+>> -        }
+>> -        assert(start >= 0 && start < hw->size_emul);
+>> +        start = audio_ring_posb(hw->pos_emul, hw->pending_emul, hw->size_emul);
+>> +        assert(start < hw->size_emul);
+>>
+>>           write_len = MIN(hw->pending_emul, hw->size_emul - start);
+> Just refactoring so far, which looks good so far.
+>
+>> diff --git a/audio/audio_int.h b/audio/audio_int.h
+>> index 428a091d05..2fb459f34e 100644
+>> --- a/audio/audio_int.h
+>> +++ b/audio/audio_int.h
+>> @@ -266,6 +266,12 @@ static inline size_t audio_ring_dist(size_t dst, size_t src, size_t len)
+>>       return (dst >= src) ? (dst - src) : (len - src + dst);
+>>   }
+> You haven't touched this function, but while I am looking at it, all function
+> arguments are unsigned. So probably modulo operator might be used to get rid
+> of a branch here.
 
-If we have membership of "root" supplementary group and when we switch
-uid/gid using setresuid/setsgid, we still retain membership of existing
-supplemntary groups. And that can allow some operations which are not
-normally allowed.
+That would be "return (len - dist + pos) % len;" but on my x86_64 system 
+I always prefer a conditional move instruction to a 64 bit integer 
+division instruction.
 
-For example, if root in guest creates a dir as follows.
+>> +/* return new position in backward direction at given distance */
+>> +static inline size_t audio_ring_posb(size_t pos, size_t dist, size_t len)
+>> +{
+>> +    return pos >= dist ? pos - dist : len - dist + pos;
+>> +}
+>> +
+> Which is the exact same code as the already existing audio_ring_dist()
+> function above, and I see that you actually already used this in v1 before:
+>
+> #define audio_ring_posb(pos, dist, len) audio_ring_dist(pos, dist, len)
+>
+> I would definitely not copy-paste the body. Thomas just suggested in v1 to add
+> a comment, not to duplicate the actual math code:
+> https://lore.kernel.org/qemu-devel/20220106111718.0ec25383@tuxfamily.org/
+>
+> Also for consistency, I would have called the function audio_ring_rpos()
+> and would have commented each argument.
 
-$ mkdir -m 03777 test_dir
+In the audio subsystem rpos is typically the read position. I chose posb 
+to distinguish it from read position.
 
-This sets SGID on dir as well as allows unprivileged users to write into
-this dir. 
+> /**
+>   * Returns new position in ringbuffer in backward direction at given distance.
+>   * @pos: current position in ringbuffer
+>   * @dist: distance in ringbuffer to walk in reverse direction
+>   * @len: size of ringbuffer
+>   */
 
-And now as unprivileged user open file as follows.
+This comment is better than my comment. I'll use it in my v3 series.
 
-$ su test
-$ fd = open("test_dir/priviledge_id", O_RDWR|O_CREAT|O_EXCL, 02755);
+> static inline size_t audio_ring_rpos(pos, dist, len) {
+>      return audio_ring_dist(pos, dist, len);
+> }
 
-This will create SGID set executable in test_dir/.
+I don't think this inline function improves readability compared to my 
+macro from v1. To understand the code you still have to replace 
+parameter names in your mind. My v2 inline function can be understood at 
+first glance.
 
-And that's a problem because now an unpriviliged user can execute it,
-get egid=0 and get access to resources owned by "root" group. This is
-privilege escalation.
+With best regards,
+Volker
 
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=2044863
-Fixes: CVE-2022-0358
-Reported-by: JIETAO XIAO <shawtao1125@gmail.com>
-Suggested-by: Miklos Szeredi <mszeredi@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
----
- tools/virtiofsd/passthrough_ll.c |   26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
-
-Index: rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c
-===================================================================
---- rhvgoyal-qemu.orig/tools/virtiofsd/passthrough_ll.c	2022-01-25 13:38:59.349534531 -0500
-+++ rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c	2022-01-25 13:39:10.140177868 -0500
-@@ -54,6 +54,7 @@
- #include <sys/wait.h>
- #include <sys/xattr.h>
- #include <syslog.h>
-+#include <grp.h>
- 
- #include "qemu/cutils.h"
- #include "passthrough_helpers.h"
-@@ -1161,6 +1162,29 @@ static void lo_lookup(fuse_req_t req, fu
- #define OURSYS_setresuid SYS_setresuid
- #endif
- 
-+static void drop_supplementary_groups(void)
-+{
-+    int ret;
-+
-+    ret = getgroups(0, NULL);
-+    if (ret == -1) {
-+        fuse_log(FUSE_LOG_ERR, "getgroups() failed with error=%d:%s\n",
-+                 errno, strerror(errno));
-+        exit(1);
-+    }
-+
-+    if (!ret)
-+        return;
-+
-+    /* Drop all supplementary groups. We should not need it */
-+    ret = setgroups(0, NULL);
-+    if (ret == -1) {
-+        fuse_log(FUSE_LOG_ERR, "setgroups() failed with error=%d:%s\n",
-+                 errno, strerror(errno));
-+        exit(1);
-+    }
-+}
-+
- /*
-  * Change to uid/gid of caller so that file is created with
-  * ownership of caller.
-@@ -3926,6 +3950,8 @@ int main(int argc, char *argv[])
- 
-     qemu_init_exec_dir(argv[0]);
- 
-+    drop_supplementary_groups();
-+
-     pthread_mutex_init(&lo.mutex, NULL);
-     lo.inodes = g_hash_table_new(lo_key_hash, lo_key_equal);
-     lo.root.fd = -1;
+> At least IMO a bit more comments on math code barely hurts.
+>
+>>   #define dolog(fmt, ...) AUD_log(AUDIO_CAP, fmt, ## __VA_ARGS__)
+>>
+>>   #ifdef DEBUG
+>> diff --git a/audio/coreaudio.c b/audio/coreaudio.c
+>> index d8a21d3e50..1fdd1d4b14 100644
+>> --- a/audio/coreaudio.c
+>> +++ b/audio/coreaudio.c
+>> @@ -333,12 +333,10 @@ static OSStatus audioDeviceIOProc(
+>>
+>>       len = frameCount * hw->info.bytes_per_frame;
+>>       while (len) {
+>> -        size_t write_len;
+>> -        ssize_t start = ((ssize_t) hw->pos_emul) - hw->pending_emul;
+>> -        if (start < 0) {
+>> -            start += hw->size_emul;
+>> -        }
+>> -        assert(start >= 0 && start < hw->size_emul);
+>> +        size_t write_len, start;
+>> +
+>> +        start = audio_ring_posb(hw->pos_emul, hw->pending_emul, hw->size_emul);
+>> +        assert(start < hw->size_emul);
+>>
+>>           write_len = MIN(MIN(hw->pending_emul, len),
+>>                           hw->size_emul - start);
+>> diff --git a/audio/sdlaudio.c b/audio/sdlaudio.c
+>> index c68c62a3e4..d6f3aa1a9a 100644
+>> --- a/audio/sdlaudio.c
+>> +++ b/audio/sdlaudio.c
+>> @@ -224,12 +224,11 @@ static void sdl_callback_out(void *opaque, Uint8 *buf,
+>> int len) /* dolog("callback_out: len=%d avail=%zu\n", len,
+>> hw->pending_emul); */
+>>
+>>           while (hw->pending_emul && len) {
+>> -            size_t write_len;
+>> -            ssize_t start = (ssize_t)hw->pos_emul - hw->pending_emul;
+>> -            if (start < 0) {
+>> -                start += hw->size_emul;
+>> -            }
+>> -            assert(start >= 0 && start < hw->size_emul);
+>> +            size_t write_len, start;
+>> +
+>> +            start = audio_ring_posb(hw->pos_emul, hw->pending_emul,
+>> +                                    hw->size_emul);
+>> +            assert(start < hw->size_emul);
+>>
+>>               write_len = MIN(MIN(hw->pending_emul, len),
+>>                               hw->size_emul - start);
+> This rest looks fine to me.
+>
+> Best regards,
+> Christian Schoenebeck
+>
+>
 
 
