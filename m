@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 638E749BE20
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 23:01:11 +0100 (CET)
-Received: from localhost ([::1]:58024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F05FD49BE36
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jan 2022 23:09:35 +0100 (CET)
+Received: from localhost ([::1]:43758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCTsE-0003Ph-GI
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 17:01:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39410)
+	id 1nCU0N-0004hc-1f
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 17:09:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nCToS-0000Lb-JD
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 16:57:17 -0500
+ id 1nCToW-0000R7-O5
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 16:57:20 -0500
 Received: from mail-vi1eur05on2093.outbound.protection.outlook.com
  ([40.107.21.93]:28729 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nCToQ-0002I2-H8
- for qemu-devel@nongnu.org; Tue, 25 Jan 2022 16:57:16 -0500
+ id 1nCToU-0002I2-PB
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 16:57:20 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DQAF+U8ZRozDom6q9kZ7iEgrU3zoExLSOWI7SdXJ5KKh/u4JV2bO261cPBFuYKUHmQwdGjus/7LLPqeK0DqvqWeNGRwc1iLgtAlZlWu0DyNsoB+nxDPIXcoLlPa4foYeK7PEV+wBjYuT3uHPDUxnx2MMrTGOXIzNKjoAPPnmjsbyDQwU3wSqaGIC4yalJAuDvxxPIFiqs3I8gd6tdR+4A/wkpMIYdC+Sa6COFxnoFg68t5+vbPZGPHigkrjDlcF8cl1XcRy2xYkJec320pNbK/dQ171rMuSDs+KXD1Km8sWXdjJiarFlV+eyLb+Kn4uVRG6oOU+BdeZH115n4okQyQ==
+ b=VLYD/D5pE8TcUAhw4HQuhqe6Xqrir9iayS0FQmI170Oc9c3P7PeX5Qf9G2cnaaYmksdv5rzRU1a/jKrVXmYNkDu+wtLDCI8NBXqbIDmFydmdM21/hYAJJBhybTXCe/LW1iiMLBBUgZDKPAJw5sEVFUK0E56mZ817Qyzwqrkd5hMx+ACmWrGEV9QTede9PQs2A6MCoie1PlTxuqYdjz3QPeA6GJ0a0YnNwbXoo4s+3L3EDc8g/hiuYSqDFPqCahof2mBFcou6600fwHftR0qwlshVL4pMA82wF6/jn+R0xh8h74A6zCT1vRWnooKDJF1Mj/Xz8/KM1tI5HOqAqXAHIg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BG1EuzgNQGqMZ7TQb2cw5tZE13GEhErF95XCAykA+0Y=;
- b=JDa0mR4L9Gv7pnOr2hhR8/x3AmqQuoorXNTqJO2hNYMRHBwg0aoOIW2cdF7kz/+sv6Cy0D6CGSAtfyXDaKmKG3L1esYKbCtgfY0hv5HNHSZQUmImkzsK8FWISfB47C4ogVs1bHfaA+Vu4U0nVFv8yR1jEsmtms8+W0mo0lMneQbitOfPYGaRzzsCt0Wx/GL+Hp+dgQLNMpDp9zGvT2jAFUdks2P4nt2++ZWdz2Klx9K8FblAUVUv7wmLBmS4my6LvshY5b6lXrIlDQpm7QUS7Tj5vovdT5WmSLlPJtVO2Q03Hd0CovpcOeKw7jwMy/eiKAEzJRgoFO/X5UQPUjDLog==
+ bh=ytXxYm9ovkhSqtigacldQNz/bonN4YOUbPxQnBeJaOg=;
+ b=nZafROPqpo4sLzGf7fxvdq3udf/tcN8C2iGJrErsWNKZoZkCKPD773yWQ53M4bJsfR1SqqPAYWI7wTAC5JnP+X4/XAlGKsVcWqidxYdi2PBV5mTkmVJ186y943sNM/KIrjxfYAuWRBIj0pBUK3/WvfjBvlhi9TW4aX/08exxoFdlo08CaFc4frfvFjZcGMU0I0foUrKos4zhCbCATI8Du0B4yNn1jpsauQFSurbOcMJ8XmT0ag4bJ9sa307EWaIln87VqXns6PAg97yMKTHIfWvNPDn/ooxdBaacoL2SOdDZheUQlF2VYJKbGtBv0ruN8dCK2xFzvexSHQebtMmYXQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BG1EuzgNQGqMZ7TQb2cw5tZE13GEhErF95XCAykA+0Y=;
- b=FG41PX3P/cKvR6fQxJumo6EkKX78P+0L48PtqC92yoRGlZIXgHd5kOzLPeEhjryd3DOGyw2Oqr5n0K1o4T7Klv67r4sOtyDvyQepLyTKQF0QXjyTdu/5+ot+1AANp2Qx2Dc8jn2LhgpgjbjUk8JgDjXuQwShCdFJPkLbLh3fkFE=
+ bh=ytXxYm9ovkhSqtigacldQNz/bonN4YOUbPxQnBeJaOg=;
+ b=LW3ZVY2+j4vz6hc9IHycX1/tRBDHZVYaEibIYu+ruptdNlTjKGV2NmBvbBRJX4mrWF+iQf4twNd7f8bL8wr2+7ZlH2vrNUprIPIRmym5VohpfbTSAUnPrerSuPBwseIQ91tBkWIJKbQCvvnNUYG4VVoQ8ZMar2YMcDrxhbfARP8=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
  by AM0PR08MB2946.eurprd08.prod.outlook.com (2603:10a6:208:56::15)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.8; Tue, 25 Jan
- 2022 21:57:11 +0000
+ 2022 21:57:12 +0000
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::4def:4b08:dfe6:b4bd]) by AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::4def:4b08:dfe6:b4bd%3]) with mapi id 15.20.4909.017; Tue, 25 Jan 2022
- 21:57:11 +0000
+ 21:57:12 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com, michael.roth@amd.com, armbru@redhat.com,
  vsementsov@virtuozzo.com, jsnow@redhat.com, hreitz@redhat.com,
  kwolf@redhat.com, pbonzini@redhat.com
-Subject: [PATCH v5 6/7] meson: document,
- why we don't generate trace events for tests/ and qga/
-Date: Tue, 25 Jan 2022 22:56:54 +0100
-Message-Id: <20220125215655.3111881-7-vsementsov@virtuozzo.com>
+Subject: [PATCH v5 7/7] qapi: generate trace events by default
+Date: Tue, 25 Jan 2022 22:56:55 +0100
+Message-Id: <20220125215655.3111881-8-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220125215655.3111881-1-vsementsov@virtuozzo.com>
 References: <20220125215655.3111881-1-vsementsov@virtuozzo.com>
@@ -64,57 +63,57 @@ X-ClientProxiedBy: FR3P281CA0075.DEUP281.PROD.OUTLOOK.COM
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9831dd2a-50da-433b-2b08-08d9e04da3ca
+X-MS-Office365-Filtering-Correlation-Id: 11d8f37f-00a5-4474-0ea0-08d9e04da414
 X-MS-TrafficTypeDiagnostic: AM0PR08MB2946:EE_
-X-Microsoft-Antispam-PRVS: <AM0PR08MB294694F1F0002AF80808FD52C15F9@AM0PR08MB2946.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Microsoft-Antispam-PRVS: <AM0PR08MB29462E7FFE96010F91FBDDE5C15F9@AM0PR08MB2946.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:785;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vJpboHkZxMl0eJGAEeDyY8L4c8SjgmkTEi7mCqR6GuAiq7FhiRN+9fD8lUHebuFTEE+ZRXDFZN0FNnD0GvIy8I7iV32YZ7rs9qboB5J9Yymz3bhoNj98sWO+6vDWDWdjdboSyUJk4fhhytjeT7mjF/ka4a2SSw/+uWzwJlnZBbviQwNF0tJ19L9UgwOQZOfBrbKt1YB2kHergy26q8K2ob+7VT3UJZiKf5M/cBR5AdxE+mku2WwhVAW32+w2YJT8A65GyjtRFSl8ilOT9t0GLQt+Jk3wp+Ill2aKlZhfKmb4DfvY9k3U+cZlZakFpzdPk0jLKjlBKDKZl0rRD63QnfL1LM88irh7EuqI9tANVswsv9OALiVugQEb59mQy25WeYbCcCk1lmzhLE3XmbsomHqS4RFg6LONn7I/AG8b1UwSPpjhjLn1K+JGGtfhZqty2pVyokGDPHH7hqWAhLObL+h2ctFB/9JnM7pbtLvoDpv5neJq9OOgovBNN2WzQZzMEc+g7m9mPgrLmnfOg0Qty7Vdqpd5u9TN28JT5dLNkUnmbhAO99zm0Xt2P0wV5ZYlYF4ZsrkVhJCQPqnpm5BVtzSYbFLVQPHoaFq9YfB3aORBOjV+nEawF+mhN4nxDdMTnkjLH2pBQ8qWDaUtGvhwJ65SMASAqID9VubXF3xRLLNZD8VAjhFKo8dSHYtEzWovXv3ljvGHPv/q4tNNVbgI5A==
+X-Microsoft-Antispam-Message-Info: fJRktqpwyixVi54Jndy+c+wf9OSZpaBbEFnnbQW1c2+WaSiVAb8sSNcs3Klx8jH2FiYwwOBH8SZlNjzKgqnu02hHy2vbqM0+FYN4bYRx8MHE0vhCQcBMn9EyhctAr9WaaBCavxf28sFaLtN/oFkPvth7jjWNkxh073oCAUZ6qhoutABP1+pWutg7Xf95bUnlIkgI2apNkdcMTRHA8WpXNTR+vV5zKcKXIu+AOaI6nyJrIheERYmP2QEsC+yaDJGAP1lyJUp7e0Rj+pT/jvveLdOE/8GlBJaHIvOXt+jv82VQ1/EyQgO9i28iDqLaQCOvt5zWDWHfCCNgHJBEwxjY+Usw6fvsut/OHeYuwlz9zFfPnQdebzO77q2PylkU8lr7tnSx8+4SyEFQ2mH8VxBrOSYc0V2yuonwNEAgpbENh5VZnDmD7DqSXE/rVVZRcea4M7J3GgZ4KMTQhcsJw2/CqIPLXQglQ4n2yKQllnDT7O89OvGGKFHmoLYNhj/y7ihzpAqp8MaNUXclF2aUhsk1kKR2GZpdieGA8aNfsV87F3JQzGjBSvupbApuqYZBrwFCTtJ8V6Et2KGk77h1KKafOErnvvQkeagn0lW8CFzud1cqTCEpbea/uHiwQnR3A666GrbnohDzYDMQWvcis70wM45/i0PW2IA1aL8RpxqbMwKue+R4chnUcLQMvoK7aixxsQ1+kEie3z2hdocKLHCf+Q==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(66946007)(508600001)(6916009)(66556008)(6506007)(66476007)(8936002)(186003)(36756003)(2616005)(52116002)(4326008)(6512007)(1076003)(38350700002)(5660300002)(6486002)(8676002)(38100700002)(316002)(86362001)(6666004)(2906002)(26005);
+ SFS:(4636009)(366004)(66946007)(508600001)(6916009)(66556008)(6506007)(66476007)(8936002)(186003)(36756003)(2616005)(52116002)(4326008)(83380400001)(6512007)(1076003)(38350700002)(5660300002)(6486002)(8676002)(38100700002)(316002)(86362001)(6666004)(2906002)(26005);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QZyPh8PUgxwnLZLalh4TTLMaC993erLRCbDuiDZV2aWg1+d43fGpoeDPu+/P?=
- =?us-ascii?Q?BD5HtfKqXih5RC7YfrYP8T03sS6Synw7oee1nKNAfTkr7VA+p1HWL3w5Qs0E?=
- =?us-ascii?Q?H7WD007NxoxANnVWS1fA/4Ofoi7+kWY5UlEvj+cAmhzhOSWEI0yJ0LDmn+Mc?=
- =?us-ascii?Q?uzP0TXMOLeVBBNkYzlUybQJBZXvTfyTS5l8VTIbGUjNWFRW/loclJzpiRI42?=
- =?us-ascii?Q?sZljWz79xS2J/nDK+++Y6uvGaqIXafsOTeEE+kIKF1FS7uo7kukj952SlKs8?=
- =?us-ascii?Q?LVuczFDGHLMpuG1n9s29SEnkx7G2zxMO0Fb0QHPM/jkMVwTHX37mz3DBkR/T?=
- =?us-ascii?Q?eJu2oVR8P9NJfsan/4U6jK00YiI2FaNBz7sN8+lavN0WURUwwry4zXgUxVIb?=
- =?us-ascii?Q?GOU3KOCo7rLvYUrYBrRd/8Qu63hOhTXZR72Snjfn5sIP02JOKNlyR334aPrT?=
- =?us-ascii?Q?y+sE15qYwaXcgSvwtibwMTYWTArPa11w+gN1/Apsoh4eURW0v1czap+rUOLR?=
- =?us-ascii?Q?+ez9ixKv6ZZvif2iJCLaSyW48RjnahO0wOR31kiAkPh3dw2+o9jfWUYSlq/V?=
- =?us-ascii?Q?eQgZiKRBAPxtkDjvdHJRnbWahq5MJ8ssPNPn8Vo9ZuTXqc8mVXsaQQEprCeu?=
- =?us-ascii?Q?U8Zx1Byme4zZLQaKkPDUDpXCRhIZksSMCTm3Bj0PDZacI7yw2MGpEkYVX8yP?=
- =?us-ascii?Q?qfrI7SW6nlRK4Q+OnoF0AFKnZxubNk2AfHziN7nL/4wFX+NozjPjMz1UrmXN?=
- =?us-ascii?Q?goqPFs5lv5RMS9mKAT8GvFKiiqJu5MUdQtfikC5PaEEhQww1gAwHO8XXsaKF?=
- =?us-ascii?Q?AUjpGwqAC6hqfcS3WrEdk4/4E9KmTJIiYBMmuOR4d9/NkBBAUhxHvh09uHAh?=
- =?us-ascii?Q?wtEHyP7gnK0DK/36Qy3PkQkJUSXNhnR/GRMBqsaOJVFzFzFfHLW5ISbWS7gH?=
- =?us-ascii?Q?54hPqqXQGskqc5Xe1gapzDX+KKcgMKA8XQ+qJBj7WlKpGATNpmrata+5i/al?=
- =?us-ascii?Q?EK3yb5drUxt2j36LsRmWdUc90SFuoVA0Om1quOdLa7DE+wcJ1Y4kHStixwfO?=
- =?us-ascii?Q?U7e41O2RZtsH8uGIbfvihk1f+41Y4vfzfFZO5t3maQdNvO/SwcmX3OPcmdka?=
- =?us-ascii?Q?aV7KKBfSsKmB16lV7ncPgF9W2d2B6SEAs4RCaiDDyA77JCzVi3LlqEa8cksl?=
- =?us-ascii?Q?Qv5q06tk8fRKX0mbD5Ne9rPgtWyAFDNTw1hHBZCx7wTypnX48BIB8o0lwrS5?=
- =?us-ascii?Q?V3o643vcP2hKWj/LctibnY756tFSemBZKtvArY/D7JnWybwM5GknrT4SeKN0?=
- =?us-ascii?Q?SV7kDqP7B0WdN3CmYFhaI7lrIVE+0oyZee6gkWBELA89tmqCiisazz6h6HRE?=
- =?us-ascii?Q?gM9ssHohQp/XiSTVnLvFEjtuIOno39+myLE7RzBvnQJCudx2vKFmvCkvqwcf?=
- =?us-ascii?Q?ff6vWP6WPe0ev15iaVooL8l8zxK30PmOC57bw3ub4sZ0e/KZ2N/76CHziON1?=
- =?us-ascii?Q?u2XWDCL1Pu4e0D0cD2fDmZW7hS6pHK7tQBU+yN79K+4JA49yEviqNBWAoimi?=
- =?us-ascii?Q?/inHitTgraKfsfQ+kTfjdeZYtZz6dupcVUqZp/M8YznVTttCuSR+dcNrD3RO?=
- =?us-ascii?Q?A/VqXmSbeTnZKR673F31K8MR94gsDu4wNXQdB4/S858CTyyzsqoTCrS2HBiG?=
- =?us-ascii?Q?CZHv8w=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DPSqspuXMOo2IAMZjfjErG1k1UwoP1C2Jl+SBVQQoqWUq5nGIPu4HS4abZ+L?=
+ =?us-ascii?Q?L427G/YdJlS2KabftTXWdqX4qwEVUoCYJP1VZh4mC+Kj6xT6aqNwRJ7k3E+I?=
+ =?us-ascii?Q?GRGz+mfV8gSTydN0ELQiAHjmGb7Vl674kHCcR8N1kKfUINTEJk+m9HomQVYu?=
+ =?us-ascii?Q?1qkKq+sQwPk0dU2mfTa0PW2m6nkN9RA/Ckk4veXI97KG92uAfVRAUexSMpGQ?=
+ =?us-ascii?Q?49C13NcNx6EnsCneDvopZej+f0hGKxKS0Fq+lTj3MttXLslvGKs1yNJ49r6M?=
+ =?us-ascii?Q?BB9Q2X4sPXWDqtGh1V69T2ej1f+UYvZvmHAr3Uwo1RrgJzW9SZzyrj0BI7m+?=
+ =?us-ascii?Q?otfC8uZmh4nlYuZQjrCl4PhThBs2wMEY6Av/0TSS9qntkArHa/nEHmSNtNel?=
+ =?us-ascii?Q?CIyC7VyVfFUaYmAuy33M1DPSWB1AaZoPdRJNv/RNRTLwrWBRPP6BSHLagT/F?=
+ =?us-ascii?Q?MWuHO5OC0ydUZVOsOB83LxaZYNVQbcOvwV8oeHtC3T5LDIKeqx1WEhY/9wMj?=
+ =?us-ascii?Q?q3x9NAJnabc74XSkJJcI6N5l5JDK+oQN3rnQgtYh1Vrdr4MRitJc8WD9SQ0Q?=
+ =?us-ascii?Q?jYUcTcQNtb3f3wlBF/19ohz8rMREZqRY186LJrMufioKiZgU6tuQWwq57rAK?=
+ =?us-ascii?Q?QA/ouWIFg5B18TbyDD+jcw3ohXwDhXcDskluMI8BM9k+BS5KQ5gl8Coy3aIZ?=
+ =?us-ascii?Q?X6x5skVWpEIhEFnarnuwr3TwreYXYB7o6EUfVjtM6CwHhJOWUqlYW9FOj0A+?=
+ =?us-ascii?Q?zGQkLI4bKBiJOpO1qVyqTsj66fMcxMdXc5mnrfLFWXlE5Ft6qe/Vz7Z2uhV5?=
+ =?us-ascii?Q?YpKsHp14Wta0hn0OkqQp8NeqUXC/SS03JX3ryIlWlMeWjLLDzROE6rWac8c2?=
+ =?us-ascii?Q?OG3yq2Hbgmb9ZDOcrETjFcDQLAQAjnBg9Nm611seMttvha1UA6kSCbmLfNXH?=
+ =?us-ascii?Q?QaJ17mkBZR0Q6AdNv8t6YQrdugRCmalp/lqaAwZ5ZWWjvfOqVBMgYuQ+y4hy?=
+ =?us-ascii?Q?iiFV61jeC+3dsTe9Io5zb1aHtCqQ5SrwgFasuv2o5zHSU+OSqKdOH/kOBlEJ?=
+ =?us-ascii?Q?5sh3fnDNeFyE/Kz6CnhjAPdjTT71P8sd3fkcPglhLTT5WCOFpu6kA7YYCz54?=
+ =?us-ascii?Q?q3TKSN+sb30Yh+Y3O58UXTvIM5nj9nYsvqFihr/+yspvAzcdOq3F6cmhgL/y?=
+ =?us-ascii?Q?M9p6/coKuC2eniSqKm7bElMxVc0e9Sq+HEdzgzRJPJ2/+2qUGQsTqtjmxIp0?=
+ =?us-ascii?Q?7h7H2R3/um+PUUyH5PY4v1//oNXa9BX9911VH2rawL3ZHAmOLwPR4ClARJjs?=
+ =?us-ascii?Q?ccWfxnkut1LKLb3lXIoLucP5Lks5t2QoRLTVy1h7HiIVLfyNIoWZvKINbMXT?=
+ =?us-ascii?Q?FQ5WcZ6IUIXnzvi5A4EnFIftN5OSkOfqvvAXIRqcWr12wGlSCIYMvqaXNyA+?=
+ =?us-ascii?Q?MQeN3azAhuBO/LUxYr84sxlt6JRLUDZBXoYXYr9XxguImLpL1smdmwlhh3OQ?=
+ =?us-ascii?Q?v+KnUTU7pRQymnwX1Th9bpd4OMn1qBJ3WHZfEzNWEzd5nXCH5+q6Qc2Vkg3b?=
+ =?us-ascii?Q?yJQ3pYhdUve6+zTV3Zn3AZNv5GnNWp/l5PtBQ5tWlu7NxPkgMlCHqAexxi/I?=
+ =?us-ascii?Q?71+HwouQqRqgqXAEjbjy96IGZXeq+ygQv6Ndv+AXSH6tiRSiUaa+G4VhPxOw?=
+ =?us-ascii?Q?eHfWiQ=3D=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9831dd2a-50da-433b-2b08-08d9e04da3ca
+X-MS-Exchange-CrossTenant-Network-Message-Id: 11d8f37f-00a5-4474-0ea0-08d9e04da414
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2022 21:57:11.5611 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2022 21:57:12.0610 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tb/G0gHSY3lmRwxWhLfLCP2gmmqmuWicVsgEt8MrAdacU9mAnOskN6UqSMlDS4FVCfWSqbWp1Thz+ZpT/d5LTP3exg02QYEydhDs8cVpta4=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0yQ7BcYlGJqiXR0ydfV2QROKKvMPmnQiFUNhYmvhQjvxvQdNlvTSufemThcCE+m8VnNRngbcfJMgeO8p+rx7ZA4nMvx77wAXfMWUBJzAjlw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB2946
 Received-SPF: pass client-ip=40.107.21.93;
  envelope-from=vsementsov@virtuozzo.com;
@@ -141,57 +140,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Making trace generation work for tests/ and qga/ would involve some
-Meson hackery to ensure we generate the trace-events files before
-trace-tool uses them. Since we don't actually support tracing there
-anyway, we bypass that problem.
+We don't generate trace events for tests/ and qga/ because that it is
+not simple and not necessary. We have corresponding comments in both
+tests/meson.build and qga/meson.build.
 
-Let's add corresponding comments.
+Still to not miss possible future qapi code generation call, and not to
+forget to enable trace events generation, let's enable it by default.
+So, turn option --gen-trace into opposite --no-trace-events and use new
+option only in tests/ and qga/ where we already have good comments why
+we don't generate trace events code.
+
+Note that this commit enables trace-events generation for qapi-gen.py
+call from tests/qapi-schema/meson.build and storage-daemon/meson.build.
+Still, both are kind of noop: tests/qapi-schema/ doesn't seem to
+generate any QMP command code and no .trace-events files anyway,
+storage-daemon/ uses common QMP command implementations and just
+generate empty .trace-events
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- qga/meson.build   | 8 ++++++++
- tests/meson.build | 8 ++++++++
- 2 files changed, 16 insertions(+)
+ qapi/meson.build     | 2 +-
+ qga/meson.build      | 3 ++-
+ scripts/qapi/main.py | 6 +++---
+ tests/meson.build    | 3 ++-
+ 4 files changed, 8 insertions(+), 6 deletions(-)
 
+diff --git a/qapi/meson.build b/qapi/meson.build
+index b22558ca73..656ef0e039 100644
+--- a/qapi/meson.build
++++ b/qapi/meson.build
+@@ -127,7 +127,7 @@ endforeach
+ qapi_files = custom_target('shared QAPI source files',
+   output: qapi_util_outputs + qapi_specific_outputs + qapi_nonmodule_outputs,
+   input: [ files('qapi-schema.json') ],
+-  command: [ qapi_gen, '-o', 'qapi', '-b', '@INPUT0@', '--gen-trace' ],
++  command: [ qapi_gen, '-o', 'qapi', '-b', '@INPUT0@' ],
+   depend_files: [ qapi_inputs, qapi_gen_depends ])
+ 
+ # Now go through all the outputs and add them to the right sourceset.
 diff --git a/qga/meson.build b/qga/meson.build
-index cfb1fbc085..79fcf91751 100644
+index 79fcf91751..1f2818a1b9 100644
 --- a/qga/meson.build
 +++ b/qga/meson.build
-@@ -15,6 +15,14 @@ qga_qapi_outputs = [
-   'qga-qapi-visit.h',
- ]
- 
-+# We don't generate trace-events, just because it's not simple. For do it,
-+# we also should add .trace-events file into qga_qapi_outputs, and than
-+# add corresponding element of qga_qapi_files into qapi_trace_events
-+# global list, which is processed than in trace/meson.build.
-+# This means, that we'll have to move subdir('qga') above subdir('trace')
-+# in root meson.build. But that in turn will break the dependency of
-+# qga on qemuutil (which depends on trace_ss).
-+# So, resolving these dependencies and drop --no-trace-events is a TODO.
+@@ -26,7 +26,8 @@ qga_qapi_outputs = [
  qga_qapi_files = custom_target('QGA QAPI files',
                                 output: qga_qapi_outputs,
                                 input: 'qapi-schema.json',
+-                               command: [ qapi_gen, '-o', 'qga', '-p', 'qga-', '@INPUT0@' ],
++                               command: [ qapi_gen, '-o', 'qga', '-p', 'qga-', '@INPUT0@',
++                                          '--no-trace-events' ],
+                                depend_files: qapi_gen_depends)
+ 
+ qga_ss = ss.source_set()
+diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
+index ecff41910c..ca1737aa2b 100644
+--- a/scripts/qapi/main.py
++++ b/scripts/qapi/main.py
+@@ -75,8 +75,8 @@ def main() -> int:
+     parser.add_argument('-u', '--unmask-non-abi-names', action='store_true',
+                         dest='unmask',
+                         help="expose non-ABI names in introspection")
+-    parser.add_argument('--gen-trace', action='store_true',
+-                        help="add trace events to qmp marshals")
++    parser.add_argument('--no-trace-events', action='store_true',
++                        help="suppress adding trace events to qmp marshals")
+     parser.add_argument('schema', action='store')
+     args = parser.parse_args()
+ 
+@@ -92,7 +92,7 @@ def main() -> int:
+                  prefix=args.prefix,
+                  unmask=args.unmask,
+                  builtins=args.builtins,
+-                 gen_trace_events=args.gen_trace)
++                 gen_trace_events=not args.no_trace_events)
+     except QAPIError as err:
+         print(f"{sys.argv[0]}: {str(err)}", file=sys.stderr)
+         return 1
 diff --git a/tests/meson.build b/tests/meson.build
-index 3f3882748a..21857d8b01 100644
+index 21857d8b01..b4b95cc198 100644
 --- a/tests/meson.build
 +++ b/tests/meson.build
-@@ -31,6 +31,14 @@ test_qapi_outputs = [
-   'test-qapi-visit.h',
- ]
+@@ -45,7 +45,8 @@ test_qapi_files = custom_target('Test QAPI files',
+                                              'qapi-schema/include/sub-module.json',
+                                              'qapi-schema/sub-sub-module.json'),
+                                 command: [ qapi_gen, '-o', meson.current_build_dir(),
+-                                           '-b', '-p', 'test-', '@INPUT0@' ],
++                                           '-b', '-p', 'test-', '@INPUT0@',
++                                           '--no-trace-events' ],
+                                 depend_files: qapi_gen_depends)
  
-+# We don't generate trace-events, just because it's not simple. For do it,
-+# we also should add .trace-events file into test_qapi_outputs, and than
-+# add corresponding element of test_qapi_files into qapi_trace_events
-+# global list, which is processed than in trace/meson.build.
-+# This means, that we'll have to move subdir('tests') above subdir('trace')
-+# in root meson.build. But that in turn will break the dependency of
-+# tests on qemuutil (which depends on trace_ss).
-+# So, resolving these dependencies and drop --no-trace-events is a TODO.
- test_qapi_files = custom_target('Test QAPI files',
-                                 output: test_qapi_outputs,
-                                 input: files('qapi-schema/qapi-schema-test.json',
+ # meson doesn't like generated output in other directories
 -- 
 2.31.1
 
