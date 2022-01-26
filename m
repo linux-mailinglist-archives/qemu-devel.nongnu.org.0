@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B6949C916
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 12:52:04 +0100 (CET)
-Received: from localhost ([::1]:34718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78ED449C948
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 13:08:23 +0100 (CET)
+Received: from localhost ([::1]:38806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCgqI-0008GP-Ea
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 06:52:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34800)
+	id 1nCh65-0003kk-Vy
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 07:08:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nCgo7-00077E-Lh
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 06:49:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52012)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nCgvc-0001NR-Cw
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 06:57:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nCgo4-0005MA-1y
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 06:49:46 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nCgvZ-0006fP-7J
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 06:57:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643197783;
+ s=mimecast20190719; t=1643198247;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3mDZWbBieYfJdimKKnAe3YJBk0DbFtLTaUY2pg5Rugk=;
- b=YxBnFe5Lma9KVGcXIOshI0hNlbi7mN4yOA16eSZO6UkrAkp/pGn8AqKSBzrTYAHgTltHTy
- dRkEEfB7bLHPeNKgTp/UixbIT84n0qLKLeo6xbvtmjSeiZfDS35ju5AOIwA5YbbHX67/jM
- t+WsG69sVsW/ppx+KWUi/L3yp7dDg5g=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QieI1GrM8bnJcyjx/AN1vTAgwrCwsq4GElPEBu/JKpg=;
+ b=KbI7CA3pEIGTh6guZytfExIj5O/58/OaMhwIkW0lDXiKpDaIMqFMMaqYseJBjyrZTxEoiN
+ P98OlKga+aJR4z6Dr9ArH3STQ2wBGYpDipBEMarmcgKDD+3TXuWCWwSHwAB48COdrayCYy
+ Y1rJgQHa6tF5X5HVSavnpATkKmjwfTc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-433-AbMdSlzYP--cNCM7kHAhQQ-1; Wed, 26 Jan 2022 06:49:42 -0500
-X-MC-Unique: AbMdSlzYP--cNCM7kHAhQQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- v28-20020adfa1dc000000b001dd1cb24081so1764745wrv.10
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 03:49:42 -0800 (PST)
+ us-mta-561-SwB-SVADMY-wxFDMA0fUxg-1; Wed, 26 Jan 2022 06:57:26 -0500
+X-MC-Unique: SwB-SVADMY-wxFDMA0fUxg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ o194-20020a1ca5cb000000b00350b177fb22so1699747wme.3
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 03:57:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=3mDZWbBieYfJdimKKnAe3YJBk0DbFtLTaUY2pg5Rugk=;
- b=AEEPctBgX39sV5ivFx15qtz0gKw4ti3GaMjkYhE4R8t6EIG2Zj5KnKOvM1UXKHYZnv
- FoioT4gNp8/1qNg9pBjRl+alJGhPleuwHSLxVTviYSK/jQ74dg0Dm7L1yugkFDjn7fSr
- vtbfu2LtobyrC0Qo4lEUW5srbX6YKSvxesYCxjV/oLxEyqujTncAV1qw/s5vcjPJeKoO
- DKnOY5/UKw/CBN41HpmDej7iBr5l6Xl4JAyY45STmqYMcCtsu4IbcRS5V3saYux/9H8q
- pFr39AEAFyxTWQ9EeF5i6OpvJtKfc94r/RtAFZINnYb1zSEA5ryWQAt+TU0R0bkKuTWV
- nZdQ==
-X-Gm-Message-State: AOAM5300rY8IMxGhdTfH/u604uAP5UatHgsTYvvF4BWZSYQ+GK9TJXh5
- 3VOJkohm9amDfERNBgcmYrUPsYTfOP4X5BgWd/f/8XyEHiVdCXgo9XT8/U/dlXlZ9joVbZ1XvN2
- EeCUGrUKHizFphxM=
-X-Received: by 2002:a05:600c:4e4f:: with SMTP id
- e15mr7178318wmq.53.1643197781034; 
- Wed, 26 Jan 2022 03:49:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzZQb3MkFkwjSwCTFhMGO2yv224wMUIVcaaFrE40EICvoQQCk8TFZtKOillQlqltCLMKH7lnw==
-X-Received: by 2002:a05:600c:4e4f:: with SMTP id
- e15mr7178277wmq.53.1643197780732; 
- Wed, 26 Jan 2022 03:49:40 -0800 (PST)
+ bh=QieI1GrM8bnJcyjx/AN1vTAgwrCwsq4GElPEBu/JKpg=;
+ b=PlOirfIqFeoqaRKnu8lExgqNYSygMl/Z8hMVJsid6HGeRDqqT7k/3usPSXoAdii1vm
+ HS0LJFYDD8gBfbTMTH9w+yj1Hvo75cL6rnfFJD+zLt5gIynBbeZe2AjhhuOocYlwurDv
+ Oq81o+ku8GtfFvaIFZZxjRZHLFw1fmoiICtyeMTe4Ve/Uo0RMRufEAyZdVhDQjQs1GnQ
+ q3Oe2RmBey+fLguRfPdGjw8zlaPcP8XseO4qxx9UMJNNxnh+TzguJK6MlGu+6Vbq3Iwo
+ Agy2yddkrzf8a0vx9U0EA+KImKfnAJEJPUzrPesEmPx5pV+oTrTCvLsM3tGGZDmETrA/
+ gUdw==
+X-Gm-Message-State: AOAM530aZJTFt/Se3aPbP1x/SPkp/xcKgSd39+77xG06OV0Yx+bCzPNo
+ NilS5FAlQSUeuQuMR/8z4J+qdvgWxwbM6ArfMhmktm7+XK7zJPXYkauw/+JOWpfBttk4bNeOpZz
+ QBWgY7iEOlS3b46M=
+X-Received: by 2002:a1c:2b07:: with SMTP id r7mr7170320wmr.27.1643198245630;
+ Wed, 26 Jan 2022 03:57:25 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzXskQy5iKFP9oabPGet4qbUa+/xL1PXjXNo+Pxq1ZG05nzhV5H/qHjpMZvBp1qwW/w6JK8Qg==
+X-Received: by 2002:a1c:2b07:: with SMTP id r7mr7170279wmr.27.1643198245342;
+ Wed, 26 Jan 2022 03:57:25 -0800 (PST)
 Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
  ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id o6sm5812698wrc.65.2022.01.26.03.49.39
+ by smtp.gmail.com with ESMTPSA id u3sm9665219wrs.55.2022.01.26.03.57.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Jan 2022 03:49:40 -0800 (PST)
-Message-ID: <10edfb5c-44b8-299f-00cc-3a42bab3fcaa@redhat.com>
-Date: Wed, 26 Jan 2022 12:49:39 +0100
+ Wed, 26 Jan 2022 03:57:24 -0800 (PST)
+Message-ID: <e7542897-3853-8cd4-3244-3deeaf2aee6b@redhat.com>
+Date: Wed, 26 Jan 2022 12:57:23 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH v6 19/33] block: introduce bdrv_activate
+Subject: Re: [PATCH v6 20/33] block: rename bdrv_invalidate_cache_all,
+ blk_invalidate_cache and test_sync_op_invalidate_cache
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
 References: <20220121170544.2049944-1-eesposit@redhat.com>
- <20220121170544.2049944-20-eesposit@redhat.com>
+ <20220121170544.2049944-21-eesposit@redhat.com>
 From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220121170544.2049944-20-eesposit@redhat.com>
+In-Reply-To: <20220121170544.2049944-21-eesposit@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -120,22 +119,29 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 21.01.22 18:05, Emanuele Giuseppe Esposito wrote:
-> This function is currently just a wrapper for bdrv_invalidate_cache(),
-> but in future will contain the code of bdrv_co_invalidate_cache() that
-> has to always be protected by BQL, and leave the rest in the I/O
-> coroutine.
+> Following the bdrv_activate renaming, change also the name
+> of the respective callers.
 >
-> Replace all bdrv_invalidate_cache() invokations with bdrv_activate().
+> bdrv_invalidate_cache_all -> bdrv_activate_all
+> blk_invalidate_cache -> blk_activate
+> test_sync_op_invalidate_cache -> test_sync_op_activate
+>
+> No functional change intended.
 >
 > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 > ---
->   block.c                            | 7 ++++++-
->   block/block-backend.c              | 2 +-
->   block/export/export.c              | 2 +-
->   block/parallels.c                  | 2 +-
->   include/block/block-global-state.h | 2 +-
->   tests/unit/test-block-iothread.c   | 2 +-
->   6 files changed, 11 insertions(+), 6 deletions(-)
+>   block.c                            |  2 +-
+>   block/block-backend.c              |  2 +-
+>   hw/block/pflash_cfi01.c            |  2 +-
+>   hw/nvram/spapr_nvram.c             |  2 +-
+>   include/block/block-global-state.h |  2 +-
+>   include/sysemu/block-backend-io.h  |  2 +-
+>   migration/block.c                  |  2 +-
+>   migration/migration.c              | 10 +++++-----
+>   migration/savevm.c                 |  4 ++--
+>   monitor/qmp-cmds.c                 |  2 +-
+>   tests/unit/test-block-iothread.c   |  6 +++---
+>   11 files changed, 18 insertions(+), 18 deletions(-)
 
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
