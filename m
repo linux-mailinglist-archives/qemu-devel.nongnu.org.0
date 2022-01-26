@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14FFF49D0D9
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 18:34:33 +0100 (CET)
-Received: from localhost ([::1]:53828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 468E349D0E4
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 18:37:35 +0100 (CET)
+Received: from localhost ([::1]:59500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCmBj-0005yG-Nc
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 12:34:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40924)
+	id 1nCmEg-0001Q1-7v
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 12:37:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1nClse-0006RZ-OV; Wed, 26 Jan 2022 12:14:48 -0500
-Received: from mga11.intel.com ([192.55.52.93]:54208)
+ id 1nClsf-0006TW-OO; Wed, 26 Jan 2022 12:14:52 -0500
+Received: from mga11.intel.com ([192.55.52.93]:54197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1nClsc-0001fE-Ix; Wed, 26 Jan 2022 12:14:47 -0500
+ id 1nClsd-0001ek-7r; Wed, 26 Jan 2022 12:14:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643217286; x=1674753286;
+ t=1643217287; x=1674753287;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=USJgHIy6fwEuBThQwP1pgLcL7CZQHmJywMLc6xGad0k=;
- b=FzgloAvESVkxLAb/2tN+Ee57PjwyYxAghDJlFHJGO2lbZ23vLxU59K2s
- vVBkmgAcdP2Bw+LhG2Cn3171/W32i4XxlfDhanam6s9A5CeRaR8IJyOCz
- QefqU+Uv4JAdoDZK1YCFwBAI3h1yBjedZo0zMnZVTKwNrx/qSNu3otLe0
- lwgpekeu91QdvYW0IguM6B34g8PYTIH0Jm4aIjGFfoG8lL9uEc3c0sN/A
- aWsFCjH/nBjrwV14H7rKoz2mTcSn3JtgftEdcSDclyXXCTW6s3MB0S+zN
- ohxCcxVzqGDXCCV82aJsV8zf/xME6/hgsL5KASl/ClSOwodQG6AdFAZoE Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="244199234"
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="244199234"
+ bh=OoGnbQJiyNi6BXKyueOCYC/2yOQs/i579OZsEcS/5gM=;
+ b=AlPqF7SpUu9V+7Z4lL2tkJSrrpigypz+NOnVH7QVEoV+dHMpIut2C+fD
+ Gh9uq625H4ZJTbXZe7+DhrQnpU0fRXLz9vx6Zez3pGn3M9pgNlJCIhqtI
+ 9JA8iLYTCb8TEX1Xwn7tvBSeC2J9yvByEAPTas3weKwkgMXjWk1+MbKAV
+ afkz4OGuE5UmK+A4+xaX0J3c0A7OS+h0sADi65JcAMnFx2s8LItF3BsYd
+ WyoDb3Dtxg1ezgsKw3bWJUGzvo1rg8i3Dt2XnEcsbGxZbfOFD4rvmmYXy
+ tmp+wpgFbWbMdpmecepuUlxlRYf67HC3f6w6h2FslUzPAiwTXT3RhGqxg A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="244199247"
+X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="244199247"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 09:13:04 -0800
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="535254155"
+ 26 Jan 2022 09:13:08 -0800
+X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="535254174"
 Received: from lmaniak-dev.igk.intel.com ([10.55.249.72])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 09:13:02 -0800
+ 26 Jan 2022 09:13:04 -0800
 From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 03/15] pcie: Add a helper to the SR/IOV API
-Date: Wed, 26 Jan 2022 18:11:08 +0100
-Message-Id: <20220126171120.2939152-4-lukasz.maniak@linux.intel.com>
+Subject: [PATCH v4 04/15] pcie: Add 1.2 version token for the Power Management
+ Capability
+Date: Wed, 26 Jan 2022 18:11:09 +0100
+Message-Id: <20220126171120.2939152-5-lukasz.maniak@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220126171120.2939152-1-lukasz.maniak@linux.intel.com>
 References: <20220126171120.2939152-1-lukasz.maniak@linux.intel.com>
@@ -73,58 +74,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?=C5=81ukasz=20Gieryk?= <lukasz.gieryk@linux.intel.com>,
  Lukasz Maniak <lukasz.maniak@linux.intel.com>, Keith Busch <kbusch@kernel.org>,
- Klaus Jensen <its@irrelevant.dk>, Knut Omang <knuto@ifi.uio.no>
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
 
-Convenience function for retrieving the PCIDevice object of the N-th VF.
-
 Signed-off-by: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
-Reviewed-by: Knut Omang <knuto@ifi.uio.no>
 ---
- hw/pci/pcie_sriov.c         | 10 +++++++++-
- include/hw/pci/pcie_sriov.h |  6 ++++++
- 2 files changed, 15 insertions(+), 1 deletion(-)
+ include/hw/pci/pci_regs.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/pci/pcie_sriov.c b/hw/pci/pcie_sriov.c
-index 3f256d483f..87abad6ac8 100644
---- a/hw/pci/pcie_sriov.c
-+++ b/hw/pci/pcie_sriov.c
-@@ -287,8 +287,16 @@ uint16_t pcie_sriov_vf_number(PCIDevice *dev)
-     return dev->exp.sriov_vf.vf_number;
- }
+diff --git a/include/hw/pci/pci_regs.h b/include/hw/pci/pci_regs.h
+index 77ba64b931..a590140962 100644
+--- a/include/hw/pci/pci_regs.h
++++ b/include/hw/pci/pci_regs.h
+@@ -4,5 +4,6 @@
+ #include "standard-headers/linux/pci_regs.h"
  
--
- PCIDevice *pcie_sriov_get_pf(PCIDevice *dev)
- {
-     return dev->exp.sriov_vf.pf;
- }
-+
-+PCIDevice *pcie_sriov_get_vf_at_index(PCIDevice *dev, int n)
-+{
-+    assert(!pci_is_vf(dev));
-+    if (n < dev->exp.sriov_pf.num_vfs) {
-+        return dev->exp.sriov_pf.vf[n];
-+    }
-+    return NULL;
-+}
-diff --git a/include/hw/pci/pcie_sriov.h b/include/hw/pci/pcie_sriov.h
-index 990cff0a1c..80f5c84e75 100644
---- a/include/hw/pci/pcie_sriov.h
-+++ b/include/hw/pci/pcie_sriov.h
-@@ -68,4 +68,10 @@ uint16_t pcie_sriov_vf_number(PCIDevice *dev);
-  */
- PCIDevice *pcie_sriov_get_pf(PCIDevice *dev);
+ #define  PCI_PM_CAP_VER_1_1     0x0002  /* PCI PM spec ver. 1.1 */
++#define  PCI_PM_CAP_VER_1_2     0x0003  /* PCI PM spec ver. 1.2 */
  
-+/*
-+ * Get the n-th VF of this physical function - only valid for PF.
-+ * Returns NULL if index is invalid
-+ */
-+PCIDevice *pcie_sriov_get_vf_at_index(PCIDevice *dev, int n);
-+
- #endif /* QEMU_PCIE_SRIOV_H */
+ #endif
 -- 
 2.25.1
 
