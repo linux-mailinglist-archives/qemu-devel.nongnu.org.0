@@ -2,63 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1075E49D12A
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 18:53:55 +0100 (CET)
-Received: from localhost ([::1]:37500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B631A49D0AB
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 18:25:49 +0100 (CET)
+Received: from localhost ([::1]:35226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCmUU-0001M3-46
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 12:53:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41362)
+	id 1nCm3I-0001TM-9r
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 12:25:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1nClti-00076L-7u; Wed, 26 Jan 2022 12:15:54 -0500
-Received: from mga11.intel.com ([192.55.52.93]:54272)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nClpk-00045G-Ch
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 12:11:53 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:41081)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1nCltg-00021Y-6n; Wed, 26 Jan 2022 12:15:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643217352; x=1674753352;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=39BBXcmXbEhsBGWygj9hRCyBdWmIAY/Giu4Fm1dOh3Q=;
- b=S3B39At63xmBPB65Nc+GlsQxeFjI8Cpur/Z9tsbJZo/eIJPSz4gQtLwk
- +doHR98PbG2gRpjkXhtKDSh2YDLyhaylZhMOCVpoAUAXc1QMKzxKfmddP
- zUh595Aoyl0n0s+kS+r89XF618lSeswZZ+YXGJG3Sc50MMpKCjuXp0PSk
- snqHSK33HM+mla0Cesq63lzDenffIuexkupqapLckO+5DtO41zsjVMKwb
- w4TgRB5hT63wotGO1PYQZX9Q78Ldtfv0pUwd8c/GVfareyuJ5qR6xQ5wJ
- 0QBduLI8VYtt+6154XmGDhHcNmDFsjgg/rnaAQx1JaFz4KM7VR8uECqSQ Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="244199466"
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="244199466"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 09:13:35 -0800
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="535254415"
-Received: from lmaniak-dev.igk.intel.com ([10.55.249.72])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 09:13:33 -0800
-From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nClpi-0001OM-1z
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 12:11:47 -0500
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-313-cniQWjvfOzKDGXvi6JSRmw-1; Wed, 26 Jan 2022 12:11:40 -0500
+X-MC-Unique: cniQWjvfOzKDGXvi6JSRmw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B93E1083F61;
+ Wed, 26 Jan 2022 17:11:39 +0000 (UTC)
+Received: from bahia.redhat.com (unknown [10.39.192.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8045D708D9;
+ Wed, 26 Jan 2022 17:11:37 +0000 (UTC)
+From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 15/15] hw/nvme: Update the initalization place for the AER
- queue
-Date: Wed, 26 Jan 2022 18:11:20 +0100
-Message-Id: <20220126171120.2939152-16-lukasz.maniak@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220126171120.2939152-1-lukasz.maniak@linux.intel.com>
-References: <20220126171120.2939152-1-lukasz.maniak@linux.intel.com>
+Subject: [PATCH] tests/9pfs: Use g_autofree and g_autoptr where possible
+Date: Wed, 26 Jan 2022 18:11:36 +0100
+Message-Id: <20220126171136.672657-1-groug@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=192.55.52.93;
- envelope-from=lukasz.maniak@linux.intel.com; helo=mga11.intel.com
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,58 +61,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
- Lukasz Maniak <lukasz.maniak@linux.intel.com>, qemu-block@nongnu.org,
- =?UTF-8?q?=C5=81ukasz=20Gieryk?= <lukasz.gieryk@linux.intel.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
+The template pointer in virtio_9p_create_local_test_dir() is leaked.
+Add the g_autofree annotation to fix that. While here, convert the
+rest of the virtio 9p test code to using g_autofree or g_autoptr
+where possible, since this is the preferred approach to avoid potential
+leaks in the future.
 
-This patch updates the initialization place for the AER queue, so it’s
-initialized once, at controller initialization, and not every time
-controller is enabled.
-
-While the original version works for a non-SR-IOV device, as it’s hard
-to interact with the controller if it’s not enabled, the multiple
-reinitialization is not necessarily correct.
-
-With the SR/IOV feature enabled a segfault can happen: a VF can have its
-controller disabled, while a namespace can still be attached to the
-controller through the parent PF. An event generated in such case ends
-up on an uninitialized queue.
-
-While it’s an interesting question whether a VF should support AER in
-the first place, I don’t think it must be answered today.
-
-Signed-off-by: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
+Based-on: <f6602123c6f7d0d593466231b04fba087817abbd.1642879848.git.qemu_oss=
+@crudebyte.com>
+Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/nvme/ctrl.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/qtest/libqos/virtio-9p.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 624db2f9c6..b2228e960f 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -6029,8 +6029,6 @@ static int nvme_start_ctrl(NvmeCtrl *n)
- 
-     nvme_set_timestamp(n, 0ULL);
- 
--    QTAILQ_INIT(&n->aer_queue);
--
-     nvme_select_iocs(n);
- 
-     return 0;
-@@ -7007,6 +7005,8 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-         id->cmic |= NVME_CMIC_MULTI_CTRL;
+diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.=
+c
+index ef96ef006adc..0a0d0d16709b 100644
+--- a/tests/qtest/libqos/virtio-9p.c
++++ b/tests/qtest/libqos/virtio-9p.c
+@@ -40,14 +40,13 @@ static char *concat_path(const char* a, const char* b)
+ void virtio_9p_create_local_test_dir(void)
+ {
+     struct stat st;
+-    char *pwd =3D g_get_current_dir();
+-    char *template =3D concat_path(pwd, "qtest-9p-local-XXXXXX");
++    g_autofree char *pwd =3D g_get_current_dir();
++    g_autofree char *template =3D concat_path(pwd, "qtest-9p-local-XXXXXX"=
+);
+=20
+     local_test_path =3D mkdtemp(template);
+     if (!local_test_path) {
+         g_test_message("mkdtemp('%s') failed: %s", template, strerror(errn=
+o));
      }
- 
-+    QTAILQ_INIT(&n->aer_queue);
-+
-     NVME_CAP_SET_MQES(cap, 0x7ff);
-     NVME_CAP_SET_CQR(cap, 1);
-     NVME_CAP_SET_TO(cap, 0xf);
--- 
-2.25.1
+-    g_free(pwd);
+=20
+     g_assert(local_test_path !=3D NULL);
+=20
+@@ -60,12 +59,11 @@ void virtio_9p_create_local_test_dir(void)
+ void virtio_9p_remove_local_test_dir(void)
+ {
+     g_assert(local_test_path !=3D NULL);
+-    char *cmd =3D g_strdup_printf("rm -fr '%s'\n", local_test_path);
++    g_autofree char *cmd =3D g_strdup_printf("rm -fr '%s'\n", local_test_p=
+ath);
+     int res =3D system(cmd);
+     if (res < 0) {
+         /* ignore error, dummy check to prevent compiler error */
+     }
+-    g_free(cmd);
+ }
+=20
+ char *virtio_9p_test_path(const char *path)
+@@ -209,8 +207,8 @@ static void *virtio_9p_pci_create(void *pci_bus, QGuest=
+Allocator *t_alloc,
+ static void regex_replace(GString *haystack, const char *pattern,
+                           const char *replace_fmt, ...)
+ {
+-    GRegex *regex;
+-    char *replace, *s;
++    g_autoptr(GRegex) regex =3D NULL;
++    g_autofree char *replace =3D NULL, *s =3D NULL;
+     va_list argp;
+=20
+     va_start(argp, replace_fmt);
+@@ -220,9 +218,6 @@ static void regex_replace(GString *haystack, const char=
+ *pattern,
+     regex =3D g_regex_new(pattern, 0, 0, NULL);
+     s =3D g_regex_replace(regex, haystack->str, -1, 0, replace, 0, NULL);
+     g_string_assign(haystack, s);
+-    g_free(s);
+-    g_regex_unref(regex);
+-    g_free(replace);
+ }
+=20
+ void virtio_9p_assign_local_driver(GString *cmd_line, const char *args)
+--=20
+2.34.1
 
 
