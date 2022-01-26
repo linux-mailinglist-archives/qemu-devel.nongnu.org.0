@@ -2,82 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6C8749D1AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 19:24:57 +0100 (CET)
-Received: from localhost ([::1]:36258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA62D49D18E
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 19:19:11 +0100 (CET)
+Received: from localhost ([::1]:53728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCmyX-0006AC-27
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 13:24:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55806)
+	id 1nCmsw-0006JL-Jq
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 13:19:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nCmoB-0000zr-Dj
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 13:14:15 -0500
-Received: from [2a00:1450:4864:20::42b] (port=37522
- helo=mail-wr1-x42b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nCmo9-0003Cd-At
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 13:14:14 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id w11so509884wra.4
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 10:14:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=ZvgK+QZyvEmyj+Fvgogwj2AL6mx7jH4qhulJ7qAj6ek=;
- b=RIGuTtFIiPUyNgVsNjOvHCUzFqzp35njVHhWkktXeHeFPaEBhd3HyNDdKS8bzlxBLM
- LAJKTx6lsyVb7SbOrOHuQfRw8TJgEQclm1Tc8ZHyGM5fBup+H4wcitclaoX3AujEEcWg
- VqVVNI41yVl54fTa0XnhNyeND2oQusMt8H9i+7TW8Jyu8vkIwxOWMJGMJH1w23NNVQBg
- 9omRtt8VQh5n9herSrwpuuug9rWobHj+y2lhaVtEPfiPIge44Uc2ymw3Kroa0pHL7MQ/
- ikf6VOvwAAzbh0pgzu1BpEcsTtErZfYWIAtl402ZJftjqsnVZOuTr35ctK0cPxfRXWE/
- 5nIg==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nCmo4-0000bz-Mi
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 13:14:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30348)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nCmny-00039i-Ni
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 13:14:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643220839;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5C5BCaLc2QSfHpmEIxMBNiAVAiD6mh/SmGq3W+yaXQg=;
+ b=IsRBsoTFZypFfqfZZeAWPi/i4AegaSWD/nq07E4OrNBcCagAS4+VuYaZZD2V4paKsO1kIt
+ MpGN4K/cJFHeQ0MGAFlUOKaBgG8tcVgSf1x2B+5y7bShRjZOeeD3veV3/SOOMhRZzB4oix
+ reRtpbFieGiBzk9gBM2D5Z1U82ePcSM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-146-2-uV0zdKMxy9l04AJ39XuQ-1; Wed, 26 Jan 2022 13:13:52 -0500
+X-MC-Unique: 2-uV0zdKMxy9l04AJ39XuQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m3-20020a7bcb83000000b0034f75d92f27so255973wmi.2
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 10:13:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=ZvgK+QZyvEmyj+Fvgogwj2AL6mx7jH4qhulJ7qAj6ek=;
- b=dVDThjAebh6KzZWNUjO5nQOw7/mVDXhcGKAwazOnmVmi1aa97qaEH3FLC3g+uRB1JU
- LQiHmGPz4xIFgYWUJuMFFU2b9+aoC2lEkr+utHWJu4FrQjiViirAObibuvA9zdxuvb8o
- +ZS8IdyToCYXAtzIwT8HDvPvJyev7sMV+O9fRGWqWEvc4+c49RrCs+C0gzmbGIIDn+41
- 7yHStFgm8/Clg+i2eO/WFFfMywn8S8wrrb8XoZWtjO7KhNofg8EWy6IbEWSzzItC+kjH
- qyjjllceT1vmHAVIf6EKLtU5tlWGa4jMDvyhaUx1S2X+LB3FrPCWx+Zzi9eHNyfYFaXz
- pyuw==
-X-Gm-Message-State: AOAM533WmYGsA7UDdFRTvRd+zHN9m6qSxyrfpSXMVWQQEARZmkTnk220
- S7oc6yTECVEW8onglznLksXPtQ==
-X-Google-Smtp-Source: ABdhPJwMfQjquNHwTOcO8VFQ4Dhxpdu9olsPZpYY6+9f3Oiz9lx1DkRiQET5sStDkIVAxLh3/3sbRQ==
-X-Received: by 2002:a5d:47cf:: with SMTP id o15mr10833417wrc.583.1643220851518; 
- Wed, 26 Jan 2022 10:14:11 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m187sm3667998wme.25.2022.01.26.10.14.09
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=5C5BCaLc2QSfHpmEIxMBNiAVAiD6mh/SmGq3W+yaXQg=;
+ b=xSWTxQ5/H4RzpSmzpo9a7p6Wl70qhLxApIDB3NJEHSwEA4yywo6HxQlZkft+kkmSrK
+ okUTmFi9wp5fvEck7ID8nyTbjRISttdvW3e2eKdFcAMi7OpaOe0pLMvDvxhcHVmjXLnV
+ czl7fGiZBVBHvbFi0yxpwivAr+0aDz/qQQ7HhG/CW4D/nN5gtN5b66FOBfvDRADiNrLd
+ B43R06n9jpOxTt7Kuss5AWOddV6iJZVJmGIKPZleg/TGld9AkaLw//c1MobpnQ2coy65
+ XN0VBFzTBPmPzec6gAaaiKa796DYv8quS4YDrdhRT1oPgwkGoNt8HBBqf06BzeuP5RWL
+ dJ7Q==
+X-Gm-Message-State: AOAM533koBrMFm795GpyFPG0VGVQL9KLNvyQ6i4I0DdWCNACevlDqhkH
+ mIpHfTMWnpYKkju8QyEQOCqxN2CM1MVeXScf3WaLNFDJB9y6do9WdQq1PbkiA2Xuk36KFCa1nkE
+ HuJQtyj74pUrvIkM=
+X-Received: by 2002:a05:6000:1569:: with SMTP id
+ 9mr16213613wrz.484.1643220831196; 
+ Wed, 26 Jan 2022 10:13:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw1fc6es5bCR6x0uI0uQBNVNrVSilSG7G+VvAANil2jN6m+KyVyx9zIg80fvJhPZSVLLDvzpw==
+X-Received: by 2002:a05:6000:1569:: with SMTP id
+ 9mr16213567wrz.484.1643220830748; 
+ Wed, 26 Jan 2022 10:13:50 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id p17sm19707008wrf.112.2022.01.26.10.13.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jan 2022 10:14:09 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8A2311FFB7;
- Wed, 26 Jan 2022 18:14:08 +0000 (GMT)
-References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
- <20220124171705.10432-5-Jonathan.Cameron@huawei.com>
-User-agent: mu4e 1.7.6; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v4 04/42] hw/cxl/device: Introduce a CXL device (8.2.8)
-Date: Wed, 26 Jan 2022 18:07:40 +0000
-In-reply-to: <20220124171705.10432-5-Jonathan.Cameron@huawei.com>
-Message-ID: <87y232bc0f.fsf@linaro.org>
+ Wed, 26 Jan 2022 10:13:50 -0800 (PST)
+Date: Wed, 26 Jan 2022 18:13:48 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Jag Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v5 03/18] pci: isolated address space for PCI bus
+Message-ID: <YfGPXMziljiW7njm@work-vm>
+References: <cover.1642626515.git.jag.raman@oracle.com>
+ <2971c1bec04acaac4eb3c1f2b104cbeabad01e22.1642626515.git.jag.raman@oracle.com>
+ <20220119190742-mutt-send-email-mst@kernel.org>
+ <1CACFB08-1BBC-4ECC-9C0B-6F377018D795@oracle.com>
+ <YfBDqMuO/l/gWzL8@work-vm>
+ <AE47B5D2-6515-4BD3-B541-23E5274174AC@oracle.com>
 MIME-Version: 1.0
+In-Reply-To: <AE47B5D2-6515-4BD3-B541-23E5274174AC@oracle.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,245 +106,251 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, linuxarm@huawei.com,
- Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John Johnson <john.g.johnson@oracle.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Jag Raman (jag.raman@oracle.com) wrote:
+> 
+> 
+> > On Jan 25, 2022, at 1:38 PM, Dr. David Alan Gilbert <dgilbert@redhat.com> wrote:
+> > 
+> > * Jag Raman (jag.raman@oracle.com) wrote:
+> >> 
+> >> 
+> >>> On Jan 19, 2022, at 7:12 PM, Michael S. Tsirkin <mst@redhat.com> wrote:
+> >>> 
+> >>> On Wed, Jan 19, 2022 at 04:41:52PM -0500, Jagannathan Raman wrote:
+> >>>> Allow PCI buses to be part of isolated CPU address spaces. This has a
+> >>>> niche usage.
+> >>>> 
+> >>>> TYPE_REMOTE_MACHINE allows multiple VMs to house their PCI devices in
+> >>>> the same machine/server. This would cause address space collision as
+> >>>> well as be a security vulnerability. Having separate address spaces for
+> >>>> each PCI bus would solve this problem.
+> >>> 
+> >>> Fascinating, but I am not sure I understand. any examples?
+> >> 
+> >> Hi Michael!
+> >> 
+> >> multiprocess QEMU and vfio-user implement a client-server model to allow
+> >> out-of-process emulation of devices. The client QEMU, which makes ioctls
+> >> to the kernel and runs VCPUs, could attach devices running in a server
+> >> QEMU. The server QEMU needs access to parts of the client’s RAM to
+> >> perform DMA.
+> > 
+> > Do you ever have the opposite problem? i.e. when an emulated PCI device
+> 
+> That’s an interesting question.
+> 
+> > exposes a chunk of RAM-like space (frame buffer, or maybe a mapped file)
+> > that the client can see.  What happens if two emulated devices need to
+> > access each others emulated address space?
+> 
+> In this case, the kernel driver would map the destination’s chunk of internal RAM into
+> the DMA space of the source device. Then the source device could write to that
+> mapped address range, and the IOMMU should direct those writes to the
+> destination device.
 
-Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+Are all devices mappable like that?
 
-> From: Ben Widawsky <ben.widawsky@intel.com>
->
-> A CXL device is a type of CXL component. Conceptually, a CXL device
-> would be a leaf node in a CXL topology. From an emulation perspective,
-> CXL devices are the most complex and so the actual implementation is
-> reserved for discrete commits.
->
-> This new device type is specifically catered towards the eventual
-> implementation of a Type3 CXL.mem device, 8.2.8.5 in the CXL 2.0
-> specification.
->
-> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> ---
->  include/hw/cxl/cxl.h        |   1 +
->  include/hw/cxl/cxl_device.h | 157 ++++++++++++++++++++++++++++++++++++
->  2 files changed, 158 insertions(+)
->
-> diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-> index 8c738c7a2b..b9d1ac3fad 100644
-> --- a/include/hw/cxl/cxl.h
-> +++ b/include/hw/cxl/cxl.h
-> @@ -12,5 +12,6 @@
->=20=20
->  #include "cxl_pci.h"
->  #include "cxl_component.h"
-> +#include "cxl_device.h"
->=20=20
->  #endif
-> diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-> new file mode 100644
-> index 0000000000..3b6ed745f0
-> --- /dev/null
-> +++ b/include/hw/cxl/cxl_device.h
-> @@ -0,0 +1,157 @@
-> +/*
-> + * QEMU CXL Devices
-> + *
-> + * Copyright (c) 2020 Intel
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2. See =
-the
-> + * COPYING file in the top-level directory.
-> + */
-> +
-> +#ifndef CXL_DEVICE_H
-> +#define CXL_DEVICE_H
-> +
-> +#include "hw/register.h"
-> +
-> +/*
-> + * The following is how a CXL device's MMIO space is laid out. The only
-> + * requirement from the spec is that the capabilities array and the capa=
-bility
-> + * headers start at offset 0 and are contiguously packed. The headers th=
-emselves
-> + * provide offsets to the register fields. For this emulation, registers=
- will
-> + * start at offset 0x80 (m =3D=3D 0x80). No secondary mailbox is impleme=
-nted which
-> + * means that n =3D m + sizeof(mailbox registers) + sizeof(device regist=
-ers).
-> + *
-> + * This is roughly described in 8.2.8 Figure 138 of the CXL 2.0 spec.
-> + *
-> + *                       +---------------------------------+
-> + *                       |                                 |
-> + *                       |    Memory Device Registers      |
-> + *                       |                                 |
-> + * n + PAYLOAD_SIZE_MAX  -----------------------------------
-> + *                  ^    |                                 |
-> + *                  |    |                                 |
-> + *                  |    |                                 |
-> + *                  |    |                                 |
-> + *                  |    |                                 |
-> + *                  |    |         Mailbox Payload         |
-> + *                  |    |                                 |
-> + *                  |    |                                 |
-> + *                  |    |                                 |
-> + *                  |    -----------------------------------
-> + *                  |    |       Mailbox Registers         |
-> + *                  |    |                                 |
-> + *                  n    -----------------------------------
-> + *                  ^    |                                 |
-> + *                  |    |        Device Registers         |
-> + *                  |    |                                 |
-> + *                  m    ---------------------------------->
-> + *                  ^    |  Memory Device Capability Header|
-> + *                  |    -----------------------------------
-> + *                  |    |     Mailbox Capability Header   |
-> + *                  |    -------------- --------------------
-> + *                  |    |     Device Capability Header    |
-> + *                  |    -----------------------------------
-> + *                  |    |                                 |
-> + *                  |    |                                 |
-> + *                  |    |      Device Cap Array[0..n]     |
-> + *                  |    |                                 |
-> + *                  |    |                                 |
-> + *                       |                                 |
-> + *                  0    +---------------------------------+
-> + *
-> + */
+> I would like to take a closer look at the IOMMU implementation on how to achieve
+> this, and get back to you. I think the IOMMU would handle this. Could you please
+> point me to the IOMMU implementation you have in mind?
 
-Excellent diagram ;-)
+I didn't have one in mind; I was just hitting a similar problem on
+Virtiofs DAX.
 
-> +
-> +#define CXL_DEVICE_CAP_HDR1_OFFSET 0x10 /* Figure 138 */
-> +#define CXL_DEVICE_CAP_REG_SIZE 0x10 /* 8.2.8.2 */
-> +#define CXL_DEVICE_CAPS_MAX 4 /* 8.2.8.2.1 + 8.2.8.5 */
-> +
-> +#define CXL_DEVICE_REGISTERS_OFFSET 0x80 /* Read comment above */
-> +#define CXL_DEVICE_REGISTERS_LENGTH 0x8 /* 8.2.8.3.1 */
-> +
-> +#define CXL_MAILBOX_REGISTERS_OFFSET \
-> +    (CXL_DEVICE_REGISTERS_OFFSET + CXL_DEVICE_REGISTERS_LENGTH)
-> +#define CXL_MAILBOX_REGISTERS_SIZE 0x20 /* 8.2.8.4, Figure 139 */
-> +#define CXL_MAILBOX_PAYLOAD_SHIFT 11
-> +#define CXL_MAILBOX_MAX_PAYLOAD_SIZE (1 << CXL_MAILBOX_PAYLOAD_SHIFT)
-> +#define CXL_MAILBOX_REGISTERS_LENGTH \
-> +    (CXL_MAILBOX_REGISTERS_SIZE + CXL_MAILBOX_MAX_PAYLOAD_SIZE)
-> +
-> +typedef struct cxl_device_state {
-> +    MemoryRegion device_registers;
-> +
-> +    /* mmio for device capabilities array - 8.2.8.2 */
-> +    MemoryRegion caps;
-> +
-> +    /* mmio for the device status registers 8.2.8.3 */
-> +    MemoryRegion device;
-> +
-> +    /* mmio for the mailbox registers 8.2.8.4 */
-> +    MemoryRegion mailbox;
-> +
-> +    /* memory region for persistent memory, HDM */
-> +    uint64_t pmem_size;
-> +} CXLDeviceState;
-> +
-> +/* Initialize the register block for a device */
-> +void cxl_device_register_block_init(Object *obj, CXLDeviceState *dev);
-> +
-> +/* Set up default values for the register block */
-> +void cxl_device_register_init_common(CXLDeviceState *dev);
-> +
-> +/* CXL 2.0 - 8.2.8.1 */
-> +REG32(CXL_DEV_CAP_ARRAY, 0) /* 48b!?!?! */
+Dave
 
-What does this comment mean? A 48 bit register stuffed in a 32 bit one?
-Doesn't seem right.
+> Thank you!
+> --
+> Jag
+> 
+> > 
+> > Dave
+> > 
+> >> In the case where multiple clients attach devices that are running on the
+> >> same server, we need to ensure that each devices has isolated memory
+> >> ranges. This ensures that the memory space of one device is not visible
+> >> to other devices in the same server.
+> >> 
+> >>> 
+> >>> I also wonder whether this special type could be modelled like a special
+> >>> kind of iommu internally.
+> >> 
+> >> Could you please provide some more details on the design?
+> >> 
+> >>> 
+> >>>> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> >>>> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> >>>> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> >>>> ---
+> >>>> include/hw/pci/pci.h     |  2 ++
+> >>>> include/hw/pci/pci_bus.h | 17 +++++++++++++++++
+> >>>> hw/pci/pci.c             | 17 +++++++++++++++++
+> >>>> hw/pci/pci_bridge.c      |  5 +++++
+> >>>> 4 files changed, 41 insertions(+)
+> >>>> 
+> >>>> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> >>>> index 023abc0f79..9bb4472abc 100644
+> >>>> --- a/include/hw/pci/pci.h
+> >>>> +++ b/include/hw/pci/pci.h
+> >>>> @@ -387,6 +387,8 @@ void pci_device_save(PCIDevice *s, QEMUFile *f);
+> >>>> int pci_device_load(PCIDevice *s, QEMUFile *f);
+> >>>> MemoryRegion *pci_address_space(PCIDevice *dev);
+> >>>> MemoryRegion *pci_address_space_io(PCIDevice *dev);
+> >>>> +AddressSpace *pci_isol_as_mem(PCIDevice *dev);
+> >>>> +AddressSpace *pci_isol_as_io(PCIDevice *dev);
+> >>>> 
+> >>>> /*
+> >>>> * Should not normally be used by devices. For use by sPAPR target
+> >>>> diff --git a/include/hw/pci/pci_bus.h b/include/hw/pci/pci_bus.h
+> >>>> index 347440d42c..d78258e79e 100644
+> >>>> --- a/include/hw/pci/pci_bus.h
+> >>>> +++ b/include/hw/pci/pci_bus.h
+> >>>> @@ -39,9 +39,26 @@ struct PCIBus {
+> >>>>    void *irq_opaque;
+> >>>>    PCIDevice *devices[PCI_SLOT_MAX * PCI_FUNC_MAX];
+> >>>>    PCIDevice *parent_dev;
+> >>>> +
+> >>>>    MemoryRegion *address_space_mem;
+> >>>>    MemoryRegion *address_space_io;
+> >>>> 
+> >>>> +    /**
+> >>>> +     * Isolated address spaces - these allow the PCI bus to be part
+> >>>> +     * of an isolated address space as opposed to the global
+> >>>> +     * address_space_memory & address_space_io.
+> >>> 
+> >>> Are you sure address_space_memory & address_space_io are
+> >>> always global? even in the case of an iommu?
+> >> 
+> >> On the CPU side of the Root Complex, I believe address_space_memory
+> >> & address_space_io are global.
+> >> 
+> >> In the vfio-user case, devices on the same machine (TYPE_REMOTE_MACHINE)
+> >> could be attached to different clients VMs. Each client would have their own address
+> >> space for their CPUs. With isolated address spaces, we ensure that the devices
+> >> see the address space of the CPUs they’re attached to.
+> >> 
+> >> Not sure if it’s OK to share weblinks in this mailing list, please let me know if that’s
+> >> not preferred. But I’m referring to the terminology used in the following block diagram:
+> >> https://en.wikipedia.org/wiki/Root_complex#/media/File:Example_PCI_Express_Topology.svg
+> >> 
+> >>> 
+> >>>> This allows the
+> >>>> +     * bus to be attached to CPUs from different machines. The
+> >>>> +     * following is not used used commonly.
+> >>>> +     *
+> >>>> +     * TYPE_REMOTE_MACHINE allows emulating devices from multiple
+> >>>> +     * VM clients,
+> >>> 
+> >>> what are VM clients?
+> >> 
+> >> It’s the client in the client - server model explained above.
+> >> 
+> >> Thank you!
+> >> --
+> >> Jag
+> >> 
+> >>> 
+> >>>> as such it needs the PCI buses in the same machine
+> >>>> +     * to be part of different CPU address spaces. The following is
+> >>>> +     * useful in that scenario.
+> >>>> +     *
+> >>>> +     */
+> >>>> +    AddressSpace *isol_as_mem;
+> >>>> +    AddressSpace *isol_as_io;
+> >>>> +
+> >>>>    QLIST_HEAD(, PCIBus) child; /* this will be replaced by qdev later */
+> >>>>    QLIST_ENTRY(PCIBus) sibling;/* this will be replaced by qdev later */
+> >>>> 
+> >>>> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> >>>> index 5d30f9ca60..d5f1c6c421 100644
+> >>>> --- a/hw/pci/pci.c
+> >>>> +++ b/hw/pci/pci.c
+> >>>> @@ -442,6 +442,8 @@ static void pci_root_bus_internal_init(PCIBus *bus, DeviceState *parent,
+> >>>>    bus->slot_reserved_mask = 0x0;
+> >>>>    bus->address_space_mem = address_space_mem;
+> >>>>    bus->address_space_io = address_space_io;
+> >>>> +    bus->isol_as_mem = NULL;
+> >>>> +    bus->isol_as_io = NULL;
+> >>>>    bus->flags |= PCI_BUS_IS_ROOT;
+> >>>> 
+> >>>>    /* host bridge */
+> >>>> @@ -2676,6 +2678,16 @@ MemoryRegion *pci_address_space_io(PCIDevice *dev)
+> >>>>    return pci_get_bus(dev)->address_space_io;
+> >>>> }
+> >>>> 
+> >>>> +AddressSpace *pci_isol_as_mem(PCIDevice *dev)
+> >>>> +{
+> >>>> +    return pci_get_bus(dev)->isol_as_mem;
+> >>>> +}
+> >>>> +
+> >>>> +AddressSpace *pci_isol_as_io(PCIDevice *dev)
+> >>>> +{
+> >>>> +    return pci_get_bus(dev)->isol_as_io;
+> >>>> +}
+> >>>> +
+> >>>> static void pci_device_class_init(ObjectClass *klass, void *data)
+> >>>> {
+> >>>>    DeviceClass *k = DEVICE_CLASS(klass);
+> >>>> @@ -2699,6 +2711,7 @@ static void pci_device_class_base_init(ObjectClass *klass, void *data)
+> >>>> 
+> >>>> AddressSpace *pci_device_iommu_address_space(PCIDevice *dev)
+> >>>> {
+> >>>> +    AddressSpace *iommu_as = NULL;
+> >>>>    PCIBus *bus = pci_get_bus(dev);
+> >>>>    PCIBus *iommu_bus = bus;
+> >>>>    uint8_t devfn = dev->devfn;
+> >>>> @@ -2745,6 +2758,10 @@ AddressSpace *pci_device_iommu_address_space(PCIDevice *dev)
+> >>>>    if (!pci_bus_bypass_iommu(bus) && iommu_bus && iommu_bus->iommu_fn) {
+> >>>>        return iommu_bus->iommu_fn(bus, iommu_bus->iommu_opaque, devfn);
+> >>>>    }
+> >>>> +    iommu_as = pci_isol_as_mem(dev);
+> >>>> +    if (iommu_as) {
+> >>>> +        return iommu_as;
+> >>>> +    }
+> >>>>    return &address_space_memory;
+> >>>> }
+> >>>> 
+> >>>> diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
+> >>>> index da34c8ebcd..98366768d2 100644
+> >>>> --- a/hw/pci/pci_bridge.c
+> >>>> +++ b/hw/pci/pci_bridge.c
+> >>>> @@ -383,6 +383,11 @@ void pci_bridge_initfn(PCIDevice *dev, const char *typename)
+> >>>>    sec_bus->address_space_io = &br->address_space_io;
+> >>>>    memory_region_init(&br->address_space_io, OBJECT(br), "pci_bridge_io",
+> >>>>                       4 * GiB);
+> >>>> +
+> >>>> +    /* This PCI bridge puts the sec_bus in its parent's address space */
+> >>>> +    sec_bus->isol_as_mem = pci_isol_as_mem(dev);
+> >>>> +    sec_bus->isol_as_io = pci_isol_as_io(dev);
+> >>>> +
+> >>>>    br->windows = pci_bridge_region_init(br);
+> >>>>    QLIST_INIT(&sec_bus->child);
+> >>>>    QLIST_INSERT_HEAD(&parent->child, sec_bus, sibling);
+> >>>> -- 
+> >>>> 2.20.1
+> >> 
+> > -- 
+> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-> +    FIELD(CXL_DEV_CAP_ARRAY, CAP_ID, 0, 16)
-> +    FIELD(CXL_DEV_CAP_ARRAY, CAP_VERSION, 16, 8)
-> +REG32(CXL_DEV_CAP_ARRAY2, 4) /* We're going to pretend it's 64b */
-> +    FIELD(CXL_DEV_CAP_ARRAY2, CAP_COUNT, 0, 16)
-
-I'm confused why you don't treat it as a single register it is in the
-spec.
-
-> +
-> +/*
-> + * Helper macro to initialize capability headers for CXL devices.
-> + *
-> + * In the 8.2.8.2, this is listed as a 128b register, but in 8.2.8, it s=
-ays:
-> + * > No registers defined in Section 8.2.8 are larger than 64-bits wide =
-so that
-> + * > is the maximum access size allowed for these registers. If this rul=
-e is not
-> + * > followed, the behavior is undefined
-> + *
-> + * Here we've chosen to make it 4 dwords. The spec allows any pow2 multi=
-ple
-> + * access to be used for a register (2 qwords, 8 words, 128 bytes).
-> + */
-> +#define CXL_DEVICE_CAPABILITY_HEADER_REGISTER(n, offset)  \
-> +    REG32(CXL_DEV_##n##_CAP_HDR0, offset)                 \
-> +        FIELD(CXL_DEV_##n##_CAP_HDR0, CAP_ID, 0, 16)      \
-> +        FIELD(CXL_DEV_##n##_CAP_HDR0, CAP_VERSION, 16, 8) \
-> +    REG32(CXL_DEV_##n##_CAP_HDR1, offset + 4)             \
-> +        FIELD(CXL_DEV_##n##_CAP_HDR1, CAP_OFFSET, 0, 32)  \
-> +    REG32(CXL_DEV_##n##_CAP_HDR2, offset + 8)             \
-> +        FIELD(CXL_DEV_##n##_CAP_HDR2, CAP_LENGTH, 0, 32)
-> +
-> +CXL_DEVICE_CAPABILITY_HEADER_REGISTER(DEVICE, CXL_DEVICE_CAP_HDR1_OFFSET)
-> +CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MAILBOX, CXL_DEVICE_CAP_HDR1_OFFSE=
-T + \
-> +                                               CXL_DEVICE_CAP_REG_SIZE)
-> +
-> +REG32(CXL_DEV_MAILBOX_CAP, 0)
-> +    FIELD(CXL_DEV_MAILBOX_CAP, PAYLOAD_SIZE, 0, 5)
-> +    FIELD(CXL_DEV_MAILBOX_CAP, INT_CAP, 5, 1)
-> +    FIELD(CXL_DEV_MAILBOX_CAP, BG_INT_CAP, 6, 1)
-> +    FIELD(CXL_DEV_MAILBOX_CAP, MSI_N, 7, 4)
-> +
-> +REG32(CXL_DEV_MAILBOX_CTRL, 4)
-> +    FIELD(CXL_DEV_MAILBOX_CTRL, DOORBELL, 0, 1)
-> +    FIELD(CXL_DEV_MAILBOX_CTRL, INT_EN, 1, 1)
-> +    FIELD(CXL_DEV_MAILBOX_CTRL, BG_INT_EN, 2, 1)
-> +
-> +/* XXX: actually a 64b register */
-> +REG32(CXL_DEV_MAILBOX_STS, 0x10)
-> +    FIELD(CXL_DEV_MAILBOX_STS, BG_OP, 0, 1)
-> +    FIELD(CXL_DEV_MAILBOX_STS, ERRNO, 32, 16)
-> +    FIELD(CXL_DEV_MAILBOX_STS, VENDOR_ERRNO, 48, 16)
-> +
-> +/* XXX: actually a 64b register */
-> +REG32(CXL_DEV_BG_CMD_STS, 0x18)
-> +    FIELD(CXL_DEV_BG_CMD_STS, BG, 0, 16)
-> +    FIELD(CXL_DEV_BG_CMD_STS, DONE, 16, 7)
-> +    FIELD(CXL_DEV_BG_CMD_STS, ERRNO, 32, 16)
-> +    FIELD(CXL_DEV_BG_CMD_STS, VENDOR_ERRNO, 48, 16)
-
-Again is there a reason not to use REG64? I can see the need to split
-128 bit registers but not 64 bit ones.
-
-> +
-> +REG32(CXL_DEV_CMD_PAYLOAD, 0x20)
-> +
-> +#endif
-
-Otherwise:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
