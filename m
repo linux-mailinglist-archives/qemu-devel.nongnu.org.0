@@ -2,90 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DDBC49D298
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 20:38:45 +0100 (CET)
-Received: from localhost ([::1]:38356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB18049D2FC
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 21:03:32 +0100 (CET)
+Received: from localhost ([::1]:58254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCo7v-00010f-S9
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 14:38:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47108)
+	id 1nCoVv-0007mN-Ei
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 15:03:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCo5B-00072n-KK
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 14:35:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28293)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nCoTX-0006Dy-L9; Wed, 26 Jan 2022 15:01:03 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:57223)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCo56-0007qg-Bt
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 14:35:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643225747;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=i+6HDhdwTIzNrSuR9OZGv+awZPOffy557CFbp+vL2HM=;
- b=Hdqe1r4nMewWB/kthxDHkz1ss923HKPcJXOJ2KRiqz3iWfVQCP2D1AIaXmu4gUu7vm8QrI
- Ov4W6rSt4cZPR+p5HIxMhhNHRurK5it6Nne4JUXO69o+0/0dil+gyF1Y2pb/yZsXJ25A3z
- gBAIqJqLuES739Frlv9Z4Fnl6yz4V/8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-96-GdiIZE6IOJaukwR_78_MCg-1; Wed, 26 Jan 2022 14:35:45 -0500
-X-MC-Unique: GdiIZE6IOJaukwR_78_MCg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o194-20020a1ca5cb000000b00350b177fb22so2224515wme.3
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 11:35:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=i+6HDhdwTIzNrSuR9OZGv+awZPOffy557CFbp+vL2HM=;
- b=ZCwwTRB2/qhWRpNUy9Kn4DPqo8x1AmLhxmSi4fJcYtXKolx888eUYF4SlUcj9Z6M1j
- bsGvjnZTEh871zJyIH9l39L3BraLduq3uzJwXAIRwsKCI5dgFZdH1Wl0qyxipnrjdjv9
- sL4YUv2tc5jKRSf68vc9vp8G1174F7dQDDZ5Cg/bFa0UbAP9FnsuMiuCZYnLQkvktQKQ
- JW9AhQ+4t1aoCJ4guHpP9QfxeCNRfTSoH2gDC7dovMnxieoaImjkKl5OUpXHnvFKzaa1
- a4tIkzR6UhVcpONG+JxCiqnP849zUkHicI72uHyCcZatvMtMpS/rLYMUUJPAJMrjIu6o
- zs3w==
-X-Gm-Message-State: AOAM5303XI41QjkZrsSRCWT4c5+yS8Nv5P0DUUIr651hYVUsm+W6fdRD
- BW5GmPd/VUTnbgU+GYPvLMRnZlJNER2kR6J7kgaksAA0IdVixW9eTtUbb/R0MBzJB0gL1IXczHV
- m1+1EJLj9r3bSgjM=
-X-Received: by 2002:a05:6000:144f:: with SMTP id
- v15mr37494wrx.407.1643225744089; 
- Wed, 26 Jan 2022 11:35:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxASsGjWdVYCFhLHfAdlKwCMnybyxL24wJz2w/jLpJZKXX37x+oNrSh6d+a5RVQfYvdzEKWPg==
-X-Received: by 2002:a05:6000:144f:: with SMTP id
- v15mr37473wrx.407.1643225743844; 
- Wed, 26 Jan 2022 11:35:43 -0800 (PST)
-Received: from localhost ([47.61.17.76])
- by smtp.gmail.com with ESMTPSA id f8sm197896wry.46.2022.01.26.11.35.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jan 2022 11:35:43 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Zhang Chen <chen.zhang@intel.com>
-Subject: Re: [PATCH 3/3] migration/migration.c: Remove the
- MIGRATION_STATUS_ACTIVE when migration finished
-In-Reply-To: <20211231055935.1878503-4-chen.zhang@intel.com> (Zhang Chen's
- message of "Fri, 31 Dec 2021 13:59:35 +0800")
-References: <20211231055935.1878503-1-chen.zhang@intel.com>
- <20211231055935.1878503-4-chen.zhang@intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Wed, 26 Jan 2022 20:35:42 +0100
-Message-ID: <87zgninvch.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nCoTR-0003hT-Iu; Wed, 26 Jan 2022 15:01:02 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id EC7B374634B;
+ Wed, 26 Jan 2022 21:00:50 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id CD0EB7456FE; Wed, 26 Jan 2022 21:00:50 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id CBA5F7456E3;
+ Wed, 26 Jan 2022 21:00:50 +0100 (CET)
+Date: Wed, 26 Jan 2022 21:00:50 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+Subject: Re: [PATCH 0/8] target/ppc: powerpc_excp improvements [74xx] (5/n)
+In-Reply-To: <f4f8fb10-faaf-4371-6ccb-baf10705da88@kaod.org>
+Message-ID: <bbd6b4a9-498e-5767-9877-bfb2a525349c@eik.bme.hu>
+References: <20220126164200.1048677-1-farosas@linux.ibm.com>
+ <d98af016-0a9-49d0-74b4-c59f26a4af6@eik.bme.hu>
+ <f4f8fb10-faaf-4371-6ccb-baf10705da88@kaod.org>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-664921783-1643227250=:22086"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,21 +57,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-dev <qemu-devel@nongnu.org>
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ david@gibson.dropbear.id.au, Fabiano Rosas <farosas@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Zhang Chen <chen.zhang@intel.com> wrote:
-> The MIGRATION_STATUS_ACTIVE indicates that migration is running.
-> Remove it to be handled by the default operation,
-> It should be part of the unknown ending states.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-664921783-1643227250=:22086
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Wed, 26 Jan 2022, Cédric Le Goater wrote:
+> On 1/26/22 18:55, BALATON Zoltan wrote:
+>> On Wed, 26 Jan 2022, Fabiano Rosas wrote:
+>>> This handles the exception code for the 74xx family, i.e. 7400, 7410,
+>>> 7440, 7445, 7450, 7455, 7457.
+>>> 
+>>> This is another family that is quite well known, so it should be
+>>> straight-forward as well.
+>> 
+>> I guess this is what may break VOF on pegasos2. Was Philippe's test case 
+>> for this machine ever merged? (Although that may use the firmware ROM that 
+>> was preferred as it tests more of the machine and may predate VOF so not 
+>> sure it also tests with VOF.) The way to test it is this:
+>> 
+>> Get morphos demo ISO from https://www.morphos-team.net/morphos-3.15.iso
+>> Extract boot.img from the root directory of the CD
+>> Run QEMU as shown at http://zero.eik.bme.hu/~balaton/qemu/amiga/#morphos
 >
-> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> I could never make it work :/
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Philippe's test or the MorphOS iso? If the MorphOS boot, what problem do 
+you get? I don't have or use avocado so can't comment on the former.
 
-queued
+>> (For debugging maybe enabling vof traces would give more info but it was a 
+>> while so I don't remember the details any more.)
+>> 
+>>> Based on legoater/ppc-7.0
+>> 
+>> I could test when it's merged or when it applies on master but I don't 
+>> usually test on branches. Did you verify it still works with pegasos2 or 
+>> could you please make sure it won't break that use case?
+>
+> I have a large set of images, here, that I use for non regression tests :
+>
+>  https://github.com/legoater/qemu-ppc-boot
+>
+> If we could add a pegasos, that would be nice.
 
+I'm not sure how could I help with that. Once you can boot from command 
+line it should be easy to add to the script as well.
+
+Regards,
+BALATON Zoltan
+--3866299591-664921783-1643227250=:22086--
 
