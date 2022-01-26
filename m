@@ -2,89 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A129A49D27E
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 20:28:52 +0100 (CET)
-Received: from localhost ([::1]:53826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4F7649D280
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 20:31:22 +0100 (CET)
+Received: from localhost ([::1]:56646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCnyN-0000EE-5X
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 14:28:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44170)
+	id 1nCo0n-0002Du-PZ
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 14:31:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCntF-0006bM-Ue
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 14:23:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55320)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nCnwK-0000Jl-0o
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 14:26:44 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:36781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCntD-0005kE-KB
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 14:23:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643225010;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=NQsXnV07jfOA6kO8pLsorbUC8mpx/GQbpt/rVRTImt0=;
- b=ElfQsjWCQnkccp08u9qNSFQ2YAyikjoNisk646wqO/ajd7Q0Z8yLbMr8Uk6uaiAUWB8vbw
- 0erJ1NiYMPKBq/6c+jW0lXZVOc43c/LkCRAs04h2v9PyEwMAiJjihEoCaMGgTxe1J7ZFtU
- j/wf+StN6zamhzGzp4EmwuqnrrYBGJs=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-576-xL53NxMkMc6SgTPpMz2Rig-1; Wed, 26 Jan 2022 14:23:29 -0500
-X-MC-Unique: xL53NxMkMc6SgTPpMz2Rig-1
-Received: by mail-wm1-f70.google.com with SMTP id
- l20-20020a05600c1d1400b0035153bf34c3so227579wms.2
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 11:23:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=NQsXnV07jfOA6kO8pLsorbUC8mpx/GQbpt/rVRTImt0=;
- b=E5B1oe+/WuqasEQIJn8s9Euy88EX1rsT0paSdenibnA9dI2TJ8Rf9vtI8wJfTeiHGH
- Q4GRu1J/lMCoB5GamMyCkMtCHuvWBRdCKjTyAeCexUoK8cNujYs0AYuEDZnwiiqGoKN5
- vOiALy87V8XZPNRoMapNvwJSUYDXpaj+LZrCFjfqGUhSPycgdPW3g34fWM+OYbQhWmfN
- 2grCJr13pVSqOtHM0WMwciSWcVxUo6QFlKAA8ThEeU5FvgwRsJN6TryVuLp+lrRMnW7g
- B9IpsWi9FmD1bO0FS3RFM/RtJ7nx9wu0HQeqj+eZCmiF8jZK5n7McCVkcmXCcJApE5in
- vs0Q==
-X-Gm-Message-State: AOAM531NQ6Ytc+6YROcU+MXtoOMcW6BM9bZCG/gthnEb2rb+Xclfevwz
- 96Q4kWP/jh4m/j8unLSS0zkcSSAL7ZlQFHHK99DPDsSRqox3OwVBY269BahOKr8qartUEFw1uTg
- B8UWU04fMU4EPh5E=
-X-Received: by 2002:a5d:6c67:: with SMTP id r7mr50368wrz.600.1643225008174;
- Wed, 26 Jan 2022 11:23:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzIjnPIjmg2hDWfRKitqjSH/Ir6beePacxkKtqusLfXAHGYszOrOk7U3vHqrZ7w6DRBkDTHzw==
-X-Received: by 2002:a5d:6c67:: with SMTP id r7mr50353wrz.600.1643225007912;
- Wed, 26 Jan 2022 11:23:27 -0800 (PST)
-Received: from localhost ([47.61.17.76])
- by smtp.gmail.com with ESMTPSA id z3sm91233wmp.42.2022.01.26.11.23.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jan 2022 11:23:27 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Zhang Chen <chen.zhang@intel.com>
-Subject: Re: [PATCH 1/3] migration/migration.c: Add missed default error
- handler for migration state
-In-Reply-To: <20211231055935.1878503-2-chen.zhang@intel.com> (Zhang Chen's
- message of "Fri, 31 Dec 2021 13:59:33 +0800")
-References: <20211231055935.1878503-1-chen.zhang@intel.com>
- <20211231055935.1878503-2-chen.zhang@intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Wed, 26 Jan 2022 20:23:26 +0100
-Message-ID: <87fspapahd.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nCnwH-0006LS-HM
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 14:26:43 -0500
+Received: from [192.168.100.1] ([82.142.25.174]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MxE1Q-1mJlVk0kbg-00xYXI; Wed, 26 Jan 2022 20:26:36 +0100
+Message-ID: <48f25af9-fc8f-aab3-bf34-f2d1ed013390@vivier.eu>
+Date: Wed, 26 Jan 2022 20:26:35 +0100
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 1/2] linux-user: rt_sigprocmask, check read perms first
+Content-Language: fr
+To: Patrick Venture <venture@google.com>
+References: <20220126175850.1904968-1-venture@google.com>
+ <20220126175850.1904968-2-venture@google.com>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220126175850.1904968-2-venture@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:GRcv7TpTg2XMGsRIaHyz4NdFRjQOGmio/pUF8yO7Fifie4eO65d
+ 4KGiRAztc5lNcL4VXsGQ8Tr6QxQN3ZFzNv8ViGeV76N3CmKESZ6xt+jo1QNXYmL7Ao0KQv4
+ jXU0UP6irEfBnZaPeC72DtxNhWf8U3Upq9i6AZcw7yFKAYK5JqG2i9XnCHTy3DZGxj5U4AK
+ cic6xtn+O6653XbYGqM0A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:vblA2BxYtCg=:M7HCU0K9W+nbbTJhlEsgcX
+ zl4ojg40+e25lwfXjqL71LjGBHWSWnfM9yUcfzytglC6fSQcdBKxK/EneEz+lqGlNneynj3Qy
+ c5lZ5FCYxlCV8xBEomW6QKGZwmYkzApK/r49wNOJiALePtPYlXkSXtE4HzCGDIshlP6e0rjAI
+ VjuAqnWvwFXuLq0xN2gZHLlJRTd31+GqxTRv9hjKnv8drA22UBBEmW8sEypsR9Vr9JRjwTk43
+ jcYuwLx3yLCsWnqKdDLFtItlkiZ+AiZ/uoJj7pZaYR3pkiRtIoxGnRWZXhaIVh5PkUA3AwPa6
+ Pj2wFgOL7mWtQEEHF8SReG66jh00HVIC8qCCPQ1wxaCJ9HJCE+f+3uea3dXV4VEORS08Igp9+
+ zLAUFFpTspR7DKxa0Z23TGcvgXdRr5I26Qedj7Ba1+Ra0PPcIc6YThUAG7sF+3A/UqvtMLygi
+ p3jmGwPIUXaUXvvcJN73/xElh/3tN4WNMSscajAc/p+WxRujQtT/lPyZEUHREmEmuU2HLuUbH
+ RHRMWvb2t3dHwzOQlvpY+jTFmxBy4ZBMY1WfBQMQClYKoukOjyNvwpAxPoY31MABnO2mG7AXR
+ Hf2bFyFYEm51b+dXPZ19zUMURANa08XSlG0wG3Ts7hethKjqm0C/dDx7XQJV4rfvJZ0Sz05YH
+ ltqQfLvIscK2yDU5dhTVnn+vB5GyYsN0mZ+K3b4grJzYdqKaJm21cg41yGfbl4COKRJU=
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,20 +69,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-dev <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, scw@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Zhang Chen <chen.zhang@intel.com> wrote:
-> In the migration_completion() no other status is expected, for
-> example MIGRATION_STATUS_CANCELLING, MIGRATION_STATUS_CANCELLED, etc.
->
-> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+Le 26/01/2022 à 18:58, Patrick Venture a écrit :
+> From: Shu-Chun Weng <scw@google.com>
+> 
+> Linux kernel does it this way (checks read permission before validating `how`)
+> and the latest version of ABSL's `AddressIsReadable()` depends on this
+> behavior.
+> 
+> c.f.  https://github.com/torvalds/linux/blob/9539ba4308ad5bdca6cb41c7b73cbb9f796dcdd7/kernel/signal.c#L3147
+> Reviewed-by: Patrick Venture <venture@google.com>
+> Signed-off-by: Shu-Chun Weng <scw@google.com>
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
-queued
+but you must resend the patch: you are not the author, but you have to add your Signed-off-by.
+(and now you can add my reviewed-by)
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/SubmittingPatches?id=f6f94e2ab1b33f0082ac22d71f66385a60d8157f#n296
+
+Thanks,
+Laurent
+
+> ---
+>   linux-user/syscall.c | 12 +++++++-----
+>   1 file changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 5950222a77..34bd819e38 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -9508,6 +9508,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>               }
+>   
+>               if (arg2) {
+> +                p = lock_user(VERIFY_READ, arg2, sizeof(target_sigset_t), 1);
+> +                if (!p) {
+> +                    return -TARGET_EFAULT;
+> +                }
+> +                target_to_host_sigset(&set, p);
+> +                unlock_user(p, arg2, 0);
+> +                set_ptr = &set;
+>                   switch(how) {
+>                   case TARGET_SIG_BLOCK:
+>                       how = SIG_BLOCK;
+> @@ -9521,11 +9528,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>                   default:
+>                       return -TARGET_EINVAL;
+>                   }
+> -                if (!(p = lock_user(VERIFY_READ, arg2, sizeof(target_sigset_t), 1)))
+> -                    return -TARGET_EFAULT;
+> -                target_to_host_sigset(&set, p);
+> -                unlock_user(p, arg2, 0);
+> -                set_ptr = &set;
+>               } else {
+>                   how = 0;
+>                   set_ptr = NULL;
 
 
