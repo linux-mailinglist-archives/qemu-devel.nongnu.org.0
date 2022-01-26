@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D59C49C1B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 04:07:05 +0100 (CET)
-Received: from localhost ([::1]:51250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D40049C1F5
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 04:16:47 +0100 (CET)
+Received: from localhost ([::1]:35526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCYeG-0006Fa-Dp
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 22:07:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60626)
+	id 1nCYne-0006aD-Ha
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jan 2022 22:16:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nCYXQ-0000GG-Cn; Tue, 25 Jan 2022 22:00:00 -0500
-Received: from [2607:f8b0:4864:20::42b] (port=42581
- helo=mail-pf1-x42b.google.com)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1nCYkr-0005GE-L4
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 22:13:53 -0500
+Received: from [2607:f8b0:4864:20::430] (port=39685
+ helo=mail-pf1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nCYXO-00050e-QP; Tue, 25 Jan 2022 22:00:00 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id i65so21478886pfc.9;
- Tue, 25 Jan 2022 18:59:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:cc:from:in-reply-to
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1nCYkp-0006mO-Sv
+ for qemu-devel@nongnu.org; Tue, 25 Jan 2022 22:13:53 -0500
+Received: by mail-pf1-x430.google.com with SMTP id a8so16163606pfa.6
+ for <qemu-devel@nongnu.org>; Tue, 25 Jan 2022 19:13:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=wZYQgSQwR0DSDv/sJ4O4TGIxqP5GJY9/3ixuUwUGhn0=;
- b=TvggB3adE6DUp0kV1sOId+8onPGD2eSY3/vbTY47ZRXjTPtfooRY2EJm9TRk0DVg/7
- n8ghV+rXf8ccqXsKCXOjft743gzXnll8j28c6DhJ/5ypZowRueXluxZTVnCoHn8uN0eT
- a/tWL1WkRrRuBU2ltiA1lOmRfABmM2DeA/4p1KPoELMkxp1F8oaAsG1DAO3Fk9s6oiyK
- 7cVgRS3SQPezCoNOzltgWXkCSVE6dYK6tbpaQpIT7/sSnABwMSmqYRcYJ/pQ1VLPoRot
- 4sixo2fIf3UMFPxBbUWrfM+X0uHYT574Lxg/ji1ncLaHj0y4ehnfUyipsTSB+JkZgIpE
- 1CyQ==
+ bh=2llNbxjMfpf2Jukwmedk46mb2VnuNKQYb+fp7nUZSRE=;
+ b=lgOKmRiB+WwzX+NSjAV0VqhmkrnhLtnv7uI/2i+oJFQHzvIfhaGtPF5Yc2+xN8F94N
+ /Ro/lExByzM8LjS/+UCgG8pJsI11/HCdwZRk+y5OLmRaHazNKaKfNQ7HtukvvmneucUi
+ ufU6isYaz49Bw7xta5MG+1sMOs7Hq4oj0dUSqpMos2a1i2eaIF5QhLoRtl4MAWSNYJXg
+ 9GiPQtIzLz89P2Fuhr0owEbeOX4dnHZNoDRgY4AotfD2HtBJPxkP0la8OyvGbwQj6MiE
+ HKi4QDX97LCNuiub12a9C5ADNpiKnoIXqS/o3SLv9sVthxRaH83pp3nfu1jqhVp0qpzN
+ of8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:cc:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=wZYQgSQwR0DSDv/sJ4O4TGIxqP5GJY9/3ixuUwUGhn0=;
- b=1EVO/M5T9cTCHOzYQA0/Xs3ze9BqtGEZG3DADyxw2aKBmrZz4G3MKh771c1fZe06LG
- 1dDmHTsRFtjeiOvfKtLOScRy8FX8aZz/CCY6AL3+sUvvd7FE5y+x8ZJYdiKeMBRQRUCd
- wEyQupWNgQMHkdFF6jhB5zG3/IBrx8H+54tgzus4EA6O9TlS7K0n9qvdNOjx4kJbjtjd
- PXE/fWPI5p5r9Qj8cdfSPlfMz4MZ8u5ZJXMrGa/g27kt0+fSa9nJaB12qHL/pcw7lERv
- 7jdnr+8BiRkSU80quTVSR+2MEM+HfeQ9OTxPeOXZr6Gc/VVP4lPbfNQCmMLTxgLdTpat
- O56Q==
-X-Gm-Message-State: AOAM531VmeZrraysvIraY1GwyoNJmCrlHqTitFmttwaD3/b8Nv83WqyE
- ZLQ9L9sKf/qfl9QK/r9FRZM=
-X-Google-Smtp-Source: ABdhPJxlp9U27CGgBQCVoAFQloJyQYQiQHr3Pyx3YZwyM/Kif4N0dkCMBOm9tsHxutBkaV2yfZCKfA==
-X-Received: by 2002:a63:2c93:: with SMTP id
- s141mr17277224pgs.337.1643165996441; 
- Tue, 25 Jan 2022 18:59:56 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id h12sm15907093pgh.79.2022.01.25.18.59.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Jan 2022 18:59:55 -0800 (PST)
-Message-ID: <1e98b4ec-3476-387c-9dda-99a13121e22f@amsat.org>
-Date: Wed, 26 Jan 2022 03:59:51 +0100
+ bh=2llNbxjMfpf2Jukwmedk46mb2VnuNKQYb+fp7nUZSRE=;
+ b=QaZPekAeAsD+GCzAVDa8Wb3uxO0mrZv/oRLMImNNFXh69MTI/8zP38HRJqU+o5yX4E
+ 7C6qn8JAFZ3DtxzmnHhHhCcuzfgHgH3nezkyvz1prCO/LxOe/yeODoF9GB3BrKKI26PT
+ d23cx+GiCKYngluIC3Da7aZeHml8LQzV69y/jwUlJDbWaz9IzcFEjQA0xwgatgUL/ENK
+ bP1deRPor6EksV9GJXc3bSCZfAAQ1JX4udCgIkTMCKSvPI4/Dcxk4NJfjz7A+4Zv7pFN
+ caKfCTZX+PIyFqk9bBbLWfHr4rVji2CGpIi8yvaklp/nrnkVLBdMp90g1zj5HGLPWPcE
+ Rhjg==
+X-Gm-Message-State: AOAM5316z7w2bqh/XWxkuyt07C++bZg5g11rIazUG6IJZfUo4Sf5vti2
+ ifdtUw2sLMJVcPU2A3h5nJTerVUhcOoHsA==
+X-Google-Smtp-Source: ABdhPJwjsIQdkG35i2JFbQ/0y+0ljzAlurqWTVoFvLgDdkfE6CBxn4JAs2uQRZH8S9BjqX8mN9tuow==
+X-Received: by 2002:a63:7f0c:: with SMTP id a12mr17577442pgd.548.1643166829765; 
+ Tue, 25 Jan 2022 19:13:49 -0800 (PST)
+Received: from hsinchu16.internal.sifive.com
+ (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
+ by smtp.gmail.com with ESMTPSA id e6sm378696pfv.43.2022.01.25.19.13.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Jan 2022 19:13:48 -0800 (PST)
+From: frank.chang@sifive.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/sd: Correct CMD58's R3 response "in idle state" bit in
+ SPI-mode
+Date: Wed, 26 Jan 2022 11:13:43 +0800
+Message-Id: <20220126031345.3372-1-frank.chang@sifive.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: Raspberry Pi?
-Content-Language: en-US
-To: Kenneth Adam Miller <kennethadammiller@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <CAK7rcp9pFFvYnvwgX_9ganFsc8V5+c7keofM7PPSY3Fp82J15w@mail.gmail.com>
-Cc: qemu-arm@nongnu.org
-In-Reply-To: <CAK7rcp9pFFvYnvwgX_9ganFsc8V5+c7keofM7PPSY3Fp82J15w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -92,29 +85,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Frank Chang <frank.chang@sifive.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Hi,
+From: Frank Chang <frank.chang@sifive.com>
 
-On 26/1/22 00:59, Kenneth Adam Miller wrote:
-> Hello all,
-> 
-> I would like to emulate something on a pi so that I don't have to pay as 
-> high of a translation penalty since the guest and host will share the 
-> same arch. I'm finding that on some forums that people have been having 
-> trouble getting QEMU to run on raspberry pi. The posts are kind of old, 
-> in 2019.
-> 
-> Does anyone know if this has been addressed since then?
+In SPI-mode, CMD58 returns R3 response with the format:
 
-What you asks is if you can run an Aarch64 guest (virt machine?) on a
-Raspi4 host, is that right? IIRC it should work straight away using
-"-machine virt,gic-version=host". Cc'ing qemu-arm@ list to verify.
+39          32 31                                  0
++------------+ +-----------------------------------+
+|     R1     | |                OCR                |
++------------+ +-----------------------------------+
 
-Regards,
+Where R1 has bits[0] indicating whether SD card is "in idle state".
+However, according to SD card state transition table, CMD58 can only be
+transited from trans to data state, which the "in idle state" bit should
+not be set in CMD58's R3 response.
+(But CMD8 should still have "in idle state" bit to be set in its
+R7 response because it can only be transited from idle to idle state.)
 
-Phil.
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
+---
+ hw/sd/ssi-sd.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
+index 167c03b780..7faa969e82 100644
+--- a/hw/sd/ssi-sd.c
++++ b/hw/sd/ssi-sd.c
+@@ -176,12 +176,17 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
+                 s->arglen = 1;
+                 s->response[0] = 4;
+                 DPRINTF("SD command failed\n");
+-            } else if (s->cmd == 8 || s->cmd == 58) {
+-                /* CMD8/CMD58 returns R3/R7 response */
+-                DPRINTF("Returned R3/R7\n");
++            } else if (s->cmd == 8) {
++                /* CMD8 returns R7 response */
++                DPRINTF("Returned R7\n");
+                 s->arglen = 5;
+                 s->response[0] = 1;
+                 memcpy(&s->response[1], longresp, 4);
++            } else if (s->cmd == 58) {
++                /* CMD58 returns R3 response */
++                DPRINTF("Returned R3\n");
++                s->arglen = 5;
++                memcpy(&s->response[1], longresp, 4);
+             } else if (s->arglen != 4) {
+                 BADF("Unexpected response to cmd %d\n", s->cmd);
+                 /* Illegal command is about as near as we can get.  */
+-- 
+2.31.1
+
 
