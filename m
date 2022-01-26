@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0376949D3DF
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 21:53:40 +0100 (CET)
-Received: from localhost ([::1]:60866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8EC249D3E0
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 21:54:01 +0100 (CET)
+Received: from localhost ([::1]:34156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCpIQ-0006oE-Lm
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 15:53:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37290)
+	id 1nCpIm-0007qv-NO
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 15:54:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCpG9-0005oP-Hu
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 15:51:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50491)
+ id 1nCpGo-0006Ls-Mj
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 15:51:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37253)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCpG6-0002t7-8U
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 15:51:15 -0500
+ id 1nCpGm-00033f-Q6
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 15:51:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643230272;
+ s=mimecast20190719; t=1643230311;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=cn/iV6Mq6YnouZje/MQPeKpn5NDZtk7jfS5mPux/v5k=;
- b=hhPZN2n+ZbDo46f9GlvqKWYEZN45280ocff3IL6EcIVj44OBko1t2XWz2BjLiShniy9xlB
- 9nOQF9ZdcpqZy2KIKAxjkDsUPa07tsTm+DsYwrlBuiM68jhQz2TLdBWJRjJfm6qWTTwe1n
- s77JzQW1+QC1LnWSygRkUyJhbjRtsY8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UqsWUBpPsHJmsQ5hlugcfzbxFBX8+YCngaCfz2MYzJY=;
+ b=LtVj3OnP5E0Bo7dTpiuWQavIesz34LHLDbepGlDRvtrkOvToOjL34kCKX5J54rlkdE/9oP
+ MmvltJI9wmg3KzooOo1bLiSx3RMYkxEUz4khSiehTUrd2KndgIPKmFbwmg3aPYagXrkEOX
+ XxYzqq3moL20Bh3NVyRWbUlJTC/eUkg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-349-TyOqYZg6PhukG7yCKG89GQ-1; Wed, 26 Jan 2022 15:51:09 -0500
-X-MC-Unique: TyOqYZg6PhukG7yCKG89GQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- n7-20020a1c7207000000b0034ec3d8ce0aso443099wmc.8
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 12:51:09 -0800 (PST)
+ us-mta-179-l8WNHmbvOyW51Xn_-g4CZQ-1; Wed, 26 Jan 2022 15:51:50 -0500
+X-MC-Unique: l8WNHmbvOyW51Xn_-g4CZQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ s190-20020a1ca9c7000000b00347c6c39d9aso450474wme.5
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 12:51:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version;
- bh=cn/iV6Mq6YnouZje/MQPeKpn5NDZtk7jfS5mPux/v5k=;
- b=cBIAegAL2yIOXqoFyN6SC/xYzGbPGpzsmifCfW0qvMWj6zm04Iqu7KE4XmQsYJKo5O
- 43pVpk3PlxU4QDCx3Cxujev2gr2d0B5cbk9pOjTikdhCApznOl7KQYu9y8CylRdVYRju
- p/Ds0K7tSnFPktpeh3FAUyjRdRGJxuJN0bvSet7YNB19hJPNeOMLH6JrRt+dYadqjhU/
- pnxb7u+TeOzkbRx6D6VSo1vQnDhLqc68J8r0W0RqFZ9V1HoU6kGjW+VOddu433KzWCcc
- xYp1o96A0tfWd6+vFb4lq9cLLVd1B890J8fXJ5SOxDrgxVIZbdsDkaiiJcBJ+T/NJrbR
- F5RQ==
-X-Gm-Message-State: AOAM532QjDyIdtRgdU7NkouicFz/xjc6/ZaVQU5xHkr+rTC8UDRgn+ou
- Bd/X087A/2UN9mJAyYaLAMNRWJHrSUUrVvf8RTiGXlExogbin5L/cJvUh8KZJJsD4tS7CYgEZRm
- khvV7ljCoyQ69yl8=
-X-Received: by 2002:a1c:f404:: with SMTP id z4mr8984961wma.165.1643230268043; 
- Wed, 26 Jan 2022 12:51:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw6u5s0vWFYESxiaN69AtfS2OFvSC312y69X+aspV9WIJMKTPVAKDt4gEgWudsbYZ4U5vJK5g==
-X-Received: by 2002:a1c:f404:: with SMTP id z4mr8984946wma.165.1643230267860; 
- Wed, 26 Jan 2022 12:51:07 -0800 (PST)
+ bh=UqsWUBpPsHJmsQ5hlugcfzbxFBX8+YCngaCfz2MYzJY=;
+ b=i9vPWNH9hamM5Us/pFsXIbu6WvxXZ0/EAB4M5JO9bEqOyiyeqsmrxaS7n0Z/qg9SRZ
+ REHybscdfs09M/sJustEKHvW1bu8DYXEWtTOveROtZEpr5nx1jIvZx61NA/w72OytQEO
+ rxuMEorHxoIAuIu/sWgJhHwYvKCGu5xf9LTh+1W9NqbbPIANfYOTOGDwkHvf1H29Hoor
+ HGb0A/N0JZS5AdAheQUCLk20ucO8o0cRU5TzpjKUa6jdLFG3yelTIbyaDONh7L7yf4s+
+ Tko4/NVtQekJb48guxM5/xCiYEluY7nL1eBeHLRSWUtN0z0kM22ESnklydLROpV8YtLT
+ YP7Q==
+X-Gm-Message-State: AOAM531Z8QFKfAW7uyxwoEJYUsPHGA5Ada3CgT+2eIvKpYaVih0/minN
+ udzlOvLuu9OXFURdTtO9nO44ZXLPtmXOOBhwB60fbELe/VtGaC/1w9/vmCxgMBwSR56qmnidb6G
+ 27mQs1Ibq+MD1qno=
+X-Received: by 2002:a5d:518c:: with SMTP id k12mr263655wrv.169.1643230308969; 
+ Wed, 26 Jan 2022 12:51:48 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy3L+7oDe5QQ+cErmsab9B4VcGJLx65ceM+JNpBs51vvE/Rm0cjRIJlQbxgsC+nO5SFCgqFdA==
+X-Received: by 2002:a5d:518c:: with SMTP id k12mr263640wrv.169.1643230308783; 
+ Wed, 26 Jan 2022 12:51:48 -0800 (PST)
 Received: from localhost ([47.61.17.76])
- by smtp.gmail.com with ESMTPSA id t16sm288901wmq.21.2022.01.26.12.51.07
+ by smtp.gmail.com with ESMTPSA id bg23sm353299wmb.5.2022.01.26.12.51.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jan 2022 12:51:07 -0800 (PST)
+ Wed, 26 Jan 2022 12:51:48 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
-To: Rao Lei <lei.rao@intel.com>
-Subject: Re: [PATCH] migration/colo.c: Add missed return in error handling
-In-Reply-To: <20211228073517.88193-1-lei.rao@intel.com> (Rao Lei's message of
- "Tue, 28 Dec 2021 15:35:17 +0800")
-References: <20211228073517.88193-1-lei.rao@intel.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2 1/3] ppc: Fix vmstate_pbr403 subsection name
+In-Reply-To: <20220113194452.254011-2-dgilbert@redhat.com> (David Alan
+ Gilbert's message of "Thu, 13 Jan 2022 19:44:50 +0000")
+References: <20220113194452.254011-1-dgilbert@redhat.com>
+ <20220113194452.254011-2-dgilbert@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Wed, 26 Jan 2022 21:51:06 +0100
-Message-ID: <87r18unrut.fsf@secure.mitica>
+Date: Wed, 26 Jan 2022 21:51:47 +0100
+Message-ID: <87mtjinrto.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
@@ -96,77 +97,40 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: quintela@redhat.com
-Cc: chen.zhang@intel.com, zhanghailiang@xfusion.com, dgilbert@redhat.com,
- qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
+ peterx@redhat.com, lsoaresp@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rao Lei <lei.rao@intel.com> wrote:
-> When doing failover and checkpoint, some returns are missed in error
-> handling. Let's add it.
+"Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 >
-> Signed-off-by: Lei Rao <lei.rao@intel.com>
+> The pbr403 subsection is part of the tlb6xx state, so I believe it's
+> name needs to be:
+>
+>     .name = "cpu/tlb6xx/pbr403",
+>
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+Dropped as code don't exist anymore.
+
+
 > ---
->  migration/colo.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>  target/ppc/machine.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/migration/colo.c b/migration/colo.c
-> index 5f7071b3cd..014d3cba01 100644
-> --- a/migration/colo.c
-> +++ b/migration/colo.c
-> @@ -94,12 +94,15 @@ static void secondary_vm_do_failover(void)
->      if (local_err) {
->          error_report_err(local_err);
->          local_err = NULL;
-> +        return;
-
-Assign a local variable before a return is a NOP, so remove the assignmenent?
-
->      }
+> diff --git a/target/ppc/machine.c b/target/ppc/machine.c
+> index 756d8de5d8..e535edb7c4 100644
+> --- a/target/ppc/machine.c
+> +++ b/target/ppc/machine.c
+> @@ -718,7 +718,7 @@ static bool pbr403_needed(void *opaque)
+>  }
 >  
->      /* Notify all filters of all NIC to do checkpoint */
->      colo_notify_filters_event(COLO_EVENT_FAILOVER, &local_err);
->      if (local_err) {
->          error_report_err(local_err);
-> +        local_err = NULL;
-> +        return;
-
-Same here.
-
->      }
->  
->      if (!autostart) {
-> @@ -178,6 +181,7 @@ static void primary_vm_do_failover(void)
->      if (local_err) {
->          error_report_err(local_err);
->          local_err = NULL;
-> +        return;
-
-And here.
-
->      }
->  
->      /* Notify COLO thread that failover work is finished */
-> @@ -507,12 +511,11 @@ static int colo_do_checkpoint_transaction(MigrationState *s,
->          goto out;
->      }
->  
-> -    ret = 0;
-> -
->      qemu_mutex_lock_iothread();
->      vm_start();
->      qemu_mutex_unlock_iothread();
->      trace_colo_vm_state_change("stop", "run");
-> +    return 0;
->  
->  out:
->      if (local_err) {
-
-This is really a NOP, but it is one line less, so I will not complain.
-
-But ther, it is better to just rename the label from "out" to "error" or
-something like that.
-
-Later, Juan.
+>  static const VMStateDescription vmstate_pbr403 = {
+> -    .name = "cpu/pbr403",
+> +    .name = "cpu/tlb6xx/pbr403",
+>      .version_id = 1,
+>      .minimum_version_id = 1,
+>      .needed = pbr403_needed,
 
 
