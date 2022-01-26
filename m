@@ -2,65 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FBFC49C56C
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 09:40:08 +0100 (CET)
-Received: from localhost ([::1]:33760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A15649C573
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 09:44:41 +0100 (CET)
+Received: from localhost ([::1]:40022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCdqX-0002Ol-UR
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 03:40:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51166)
+	id 1nCduy-0006zh-90
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 03:44:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nCdnu-0000eh-Hy; Wed, 26 Jan 2022 03:37:22 -0500
-Received: from smtp25.cstnet.cn ([159.226.251.25]:41622 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nCdnr-00021W-3q; Wed, 26 Jan 2022 03:37:22 -0500
-Received: from [192.168.0.104] (unknown [180.156.147.178])
- by APP-05 (Coremail) with SMTP id zQCowAA3JkE2CPFh5V8AAA--.1543S2;
- Wed, 26 Jan 2022 16:37:11 +0800 (CST)
-Subject: Re: [RFC 4/5] target/riscv: Add *envcfg* CSRs support
-To: Atish Patra <atishp@rivosinc.com>, qemu-devel@nongnu.org
-References: <20220120200735.2739543-1-atishp@rivosinc.com>
- <20220120200735.2739543-5-atishp@rivosinc.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <91dbc7a1-f23f-709b-82e8-10e4c96e4482@iscas.ac.cn>
-Date: Wed, 26 Jan 2022 16:37:10 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <20220120200735.2739543-5-atishp@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ (Exim 4.90_1) (envelope-from <nrb@linux.ibm.com>) id 1nCdsk-0005CY-FN
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 03:42:22 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:2110)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nrb@linux.ibm.com>) id 1nCdsg-0002kN-4L
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 03:42:21 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20Q7fnFA025456; 
+ Wed, 26 Jan 2022 08:42:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=p+YI+iN3bc/74H1C+T2icE0+x3L7F1FZU4LF2apsySc=;
+ b=h4z6/3E8gRfgo0G4Sd76bLBVQ6uqMfLYmGSdLDUsN15h8PUGDeFtnLhriPjLhdNTvAyG
+ yWtCCgjXzM35PJ46mmNX0kXy0+lvpd7llNpQr4vbyapgBNkvErleSaMX1tKEmNCUEFry
+ /ciOQE8RsRs1Xwr86miZ2zcAlc5pGK4F2MWACngvBXV2lPu8GLTVtXWvN6o69ZC2EI54
+ WO/Q94FPeHr/zNiyuwLaZJRD1JE1rzIBrG8eVMg/Pv+JlAYNo8x67ONPAifh52v8i5Nb
+ I0DttRbb71GD3dVFyd05w6w0bIxozpx4hishi5ZhGaqwofxkwfCvZRzgDDrA3XtPAg+Q KQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3du24s92wq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Jan 2022 08:42:07 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20Q8QIFs025307;
+ Wed, 26 Jan 2022 08:42:07 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3du24s92vr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Jan 2022 08:42:07 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20Q8fuZl014897;
+ Wed, 26 Jan 2022 08:42:05 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 3dr9j9caet-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Jan 2022 08:42:04 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20Q8g2EN31392034
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 26 Jan 2022 08:42:02 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4AB7A5204F;
+ Wed, 26 Jan 2022 08:42:02 +0000 (GMT)
+Received: from t46lp57.lnxne.boe (unknown [9.152.108.100])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 03A415204E;
+ Wed, 26 Jan 2022 08:42:01 +0000 (GMT)
+From: Nico Boehr <nrb@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH qemu v2] s390x: sck: load into a temporary not into in1
+Date: Wed, 26 Jan 2022 09:42:01 +0100
+Message-Id: <20220126084201.774457-1-nrb@linux.ibm.com>
+X-Mailer: git-send-email 2.31.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: dswzQ1BNB8KJRcftcFiFlw7WgODVlTUy
+X-Proofpoint-GUID: FNRvmUGG6LpYsYHwcG3wbjrR6AjvTaRp
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: zQCowAA3JkE2CPFh5V8AAA--.1543S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Gry7ur4kCrW5WrWkJr4xZwb_yoW3Gw4kpF
- 1UuF98G3yvqFyIq3Z3Kry5WF13Aw1xGa9xZws7C395tF45J3yrGFnFgrsxJrW8Wa95Gr1j
- va1qkr13Cr4DZa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
- Y487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
- WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
- 67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
- IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1U
- MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
- VFxhVjvjDU0xZFpf9x0JU2fOwUUUUU=
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-26_02,2022-01-25_02,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1015
+ suspectscore=0 bulkscore=0 malwarescore=0 adultscore=0 mlxlogscore=999
+ priorityscore=1501 lowpriorityscore=0 spamscore=0 impostorscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2201260049
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=nrb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,266 +102,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <anup@brainfault.org>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- qemu-riscv@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: linux-s390@vger.kernel.org, thuth@redhat.com, richard.henderson@linaro.org,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We previously loaded into in1, but in1 is not filled during
+disassembly and hence always zero. This leads to an assertion failure:
 
-在 2022/1/21 上午4:07, Atish Patra 写道:
-> The RISC-V privileged specification v1.12 defines few execution
-> environment configuration CSRs that can be used enable/disable
-> extensions per privilege levels.
->
-> Add the basic support for these CSRs.
->
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> ---
->   target/riscv/cpu.h      |  8 ++++
->   target/riscv/cpu_bits.h | 31 +++++++++++++++
->   target/riscv/csr.c      | 84 +++++++++++++++++++++++++++++++++++++++++
->   target/riscv/machine.c  | 26 +++++++++++++
->   4 files changed, 149 insertions(+)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 7f87917204c5..b9462300a472 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -264,6 +264,14 @@ struct CPURISCVState {
->       target_ulong spmbase;
->       target_ulong upmmask;
->       target_ulong upmbase;
-> +
-> +    /* CSRs for execution enviornment configuration */
-> +
-> +    target_ulong menvcfg;
-> +    target_ulong menvcfgh;
+  qemu-system-s390x: /home/nrb/qemu/include/tcg/tcg.h:654: temp_idx:
+  Assertion `n >= 0 && n < tcg_ctx->nb_temps' failed.`
 
-I think we needn't maintain seperate menvcfg and menvcfgh, just use 
-"uint64_t menvcfg" as the way of mstatus.
+Instead, use in2_la2_m64a to load from storage into in2 and pass that to
+the helper, which matches what we already do for SCKC.
 
-Similar to  henvcfg and henvcfg.
+This fixes the SCK test I sent here under TCG:
+<https://www.spinics.net/lists/kvm/msg265169.html>
 
-> +    target_ulong senvcfg;
-> +    target_ulong henvcfg;
-> +    target_ulong henvcfgh;
->   #endif
->   
->       float_status fp_status;
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index f6f90b5cbd52..afb237c2313b 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -177,6 +177,9 @@
->   #define CSR_STVEC           0x105
->   #define CSR_SCOUNTEREN      0x106
->   
-> +/* Supervisor Configuration CSRs */
-> +#define CSR_SENVCFG         0x10A
-> +
->   /* Supervisor Trap Handling */
->   #define CSR_SSCRATCH        0x140
->   #define CSR_SEPC            0x141
-> @@ -204,6 +207,10 @@
->   #define CSR_HTIMEDELTA      0x605
->   #define CSR_HTIMEDELTAH     0x615
->   
-> +/* Hypervisor Configuration CSRs */
-> +#define CSR_HENVCFG         0x60A
-> +#define CSR_HENVCFGH        0x61A
-> +
->   /* Virtual CSRs */
->   #define CSR_VSSTATUS        0x200
->   #define CSR_VSIE            0x204
-> @@ -218,6 +225,10 @@
->   #define CSR_MTINST          0x34a
->   #define CSR_MTVAL2          0x34b
->   
-> +/* Machine Configuration CSRs */
-> +#define CSR_MENVCFG         0x30A
-> +#define CSR_MENVCFGH        0x31A
-> +
->   /* Enhanced Physical Memory Protection (ePMP) */
->   #define CSR_MSECCFG         0x747
->   #define CSR_MSECCFGH        0x757
-> @@ -578,6 +589,26 @@ typedef enum RISCVException {
->   #define PM_EXT_CLEAN    0x00000002ULL
->   #define PM_EXT_DIRTY    0x00000003ULL
->   
-> +/* Execution enviornment configuration bits */
-> +#define MENVCFG_FIOM                       (1 << 0)
-> +#define MENVCFG_CBE                        0x30000ULL
-> +#define MENVCFG_CBCFE                      (1 << 6)
-> +#define MENVCFG_CBZE                       (1 << 7)
-> +#define MENVCFG_PBMTE                      (1 << 62)
-> +#define MENVCFG_STCE                       (1 << 63)
-> +
-> +#define SENVCFG_FIOM                       MENVCFG_FIOM
-> +#define SENVCFG_CBE                        MENVCFG_CBE
-> +#define SENVCFG_CBCFE                      MENVCFG_CBCFE
-> +#define SENVCFG_CBZE                       MENVCFG_CBZE
-> +
-> +#define HENVCFG_FIOM                       MENVCFG_FIOM
-> +#define HENVCFG_CBE                        MENVCFG_CBE
-> +#define HENVCFG_CBCFE                      MENVCFG_CBCFE
-> +#define HENVCFG_CBZE                       MENVCFG_CBZE
-> +#define HENVCFG_PBMTE                      MENVCFG_PBMTE
-> +#define HENVCFG_STCE                       MENVCFG_STCE
-> +
->   /* Offsets for every pair of control bits per each priv level */
->   #define XS_OFFSET    0ULL
->   #define U_OFFSET     2ULL
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index e66bf2201857..a4bbae7a1bbd 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -853,6 +853,77 @@ static RISCVException write_mtval(CPURISCVState *env, int csrno,
->       return RISCV_EXCP_NONE;
->   }
->   
-> +/* Execution environment configuration setup */
-> +static RISCVException read_menvcfg(CPURISCVState *env, int csrno,
-> +                                 target_ulong *val)
-> +{
-> +    *val = env->menvcfg;
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException write_menvcfg(CPURISCVState *env, int csrno,
-> +                                  target_ulong val)
-> +{
-> +    env->menvcfg = val;
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException read_menvcfgh(CPURISCVState *env, int csrno,
-> +                                 target_ulong *val)
-> +{
-> +    *val = env->menvcfgh;
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException write_menvcfgh(CPURISCVState *env, int csrno,
-> +                                  target_ulong val)
-> +{
-> +    env->menvcfgh = val;
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException read_senvcfg(CPURISCVState *env, int csrno,
-> +                                 target_ulong *val)
-> +{
-> +    *val = env->senvcfg;
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException write_senvcfg(CPURISCVState *env, int csrno,
-> +                                  target_ulong val)
-> +{
-> +    env->senvcfg = val;
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException read_henvcfg(CPURISCVState *env, int csrno,
-> +                                 target_ulong *val)
-> +{
-> +    *val = env->henvcfg;
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException write_henvcfg(CPURISCVState *env, int csrno,
-> +                                  target_ulong val)
-> +{
-> +    env->henvcfg = val;
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException read_henvcfgh(CPURISCVState *env, int csrno,
-> +                                 target_ulong *val)
-> +{
-> +    *val = env->henvcfgh;
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException write_henvcfgh(CPURISCVState *env, int csrno,
-> +                                  target_ulong val)
-> +{
-> +    env->henvcfgh = val;
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
->   static RISCVException rmw_mip(CPURISCVState *env, int csrno,
->                                 target_ulong *ret_value,
->                                 target_ulong new_value, target_ulong write_mask)
-> @@ -2054,6 +2125,19 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->       [CSR_MTVAL]    = { "mtval",    any,  read_mtval,    write_mtval    },
->       [CSR_MIP]      = { "mip",      any,  NULL,    NULL, rmw_mip        },
->   
-> +    /* Execution environment configuration */
-> +    [CSR_MENVCFG]  = { "menvcfg",  any,     read_menvcfg,  write_menvcfg, NULL,
-> +                                            NULL, NULL, PRIV_VERSION_1_12_0},
-> +    [CSR_MENVCFGH] = { "menvcfgh", any32,   read_menvcfgh, write_menvcfgh, NULL,
-> +                                            NULL, NULL, PRIV_VERSION_1_12_0},
-> +    [CSR_SENVCFG]  = { "senvcfg",  smode,   read_senvcfg,  write_senvcfg, NULL,
-> +                                            NULL, NULL, PRIV_VERSION_1_12_0},
-> +    [CSR_HENVCFG]  = { "henvcfg",  hmode,   read_henvcfg, write_henvcfg, NULL,
-> +                                            NULL, NULL, PRIV_VERSION_1_12_0},
-> +    [CSR_HENVCFGH] = { "henvcfgh", hmode32, read_henvcfgh, write_henvcfgh, NULL,
-> +                                            NULL, NULL, PRIV_VERSION_1_12_0},
-> +
-> +
-Two new lines here.
->       /* Supervisor Trap Setup */
->       [CSR_SSTATUS]    = { "sstatus",    smode, read_sstatus,    write_sstatus, NULL,
->                                                 read_sstatus_i128                 },
-> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-> index 13b9ab375b95..59479a999b87 100644
-> --- a/target/riscv/machine.c
-> +++ b/target/riscv/machine.c
-> @@ -185,6 +185,31 @@ static const VMStateDescription vmstate_rv128 = {
->       }
->   };
->   
-> +/* TODO: henvcfg need both hyper_needed & envcfg_needed */
-> +static bool envcfg_needed(void *opaque)
-> +{
-> +    RISCVCPU *cpu = opaque;
-> +    CPURISCVState *env = &cpu->env;
-> +
-> +    return (env->priv_ver >= PRIV_VERSION_1_12_0 ? 1 : 0);
-> +}
-> +
-> +static const VMStateDescription vmstate_envcfg = {
-> +    .name = "cpu/envcfg",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = envcfg_needed,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINTTL(env.menvcfg, RISCVCPU),
-> +        VMSTATE_UINTTL(env.menvcfgh, RISCVCPU),
-> +        VMSTATE_UINTTL(env.senvcfg, RISCVCPU),
-> +        VMSTATE_UINTTL(env.henvcfg, RISCVCPU),
-> +        VMSTATE_UINTTL(env.henvcfgh, RISCVCPU),
-> +
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
->   const VMStateDescription vmstate_riscv_cpu = {
->       .name = "cpu",
->       .version_id = 3,
-> @@ -240,6 +265,7 @@ const VMStateDescription vmstate_riscv_cpu = {
->           &vmstate_vector,
->           &vmstate_pointermasking,
->           &vmstate_rv128,
-> +        &vmstate_envcfg,
->           NULL
->       }
->   };
+Suggested-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Nico Boehr <nrb@linux.ibm.com>
+---
+ target/s390x/tcg/insn-data.def | 2 +-
+ target/s390x/tcg/translate.c   | 3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-Regards,
-
-Weiwei Li
+diff --git a/target/s390x/tcg/insn-data.def b/target/s390x/tcg/insn-data.def
+index 3e5594210c88..848a9c9e622f 100644
+--- a/target/s390x/tcg/insn-data.def
++++ b/target/s390x/tcg/insn-data.def
+@@ -1317,7 +1317,7 @@
+ /* SET ADDRESS SPACE CONTROL FAST */
+     F(0xb279, SACF,    S,     Z,   0, a2, 0, 0, sacf, 0, IF_PRIV)
+ /* SET CLOCK */
+-    F(0xb204, SCK,     S,     Z,   la2, 0, 0, 0, sck, 0, IF_PRIV | IF_IO)
++    F(0xb204, SCK,     S,     Z,   0, m2_64a, 0, 0, sck, 0, IF_PRIV | IF_IO)
+ /* SET CLOCK COMPARATOR */
+     F(0xb206, SCKC,    S,     Z,   0, m2_64a, 0, 0, sckc, 0, IF_PRIV | IF_IO)
+ /* SET CLOCK PROGRAMMABLE FIELD */
+diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+index dcc249a197ce..7fb87cd9f3b7 100644
+--- a/target/s390x/tcg/translate.c
++++ b/target/s390x/tcg/translate.c
+@@ -4295,8 +4295,7 @@ static DisasJumpType op_stcke(DisasContext *s, DisasOps *o)
+ #ifndef CONFIG_USER_ONLY
+ static DisasJumpType op_sck(DisasContext *s, DisasOps *o)
+ {
+-    tcg_gen_qemu_ld_i64(o->in1, o->addr1, get_mem_index(s), MO_TEQ | MO_ALIGN);
+-    gen_helper_sck(cc_op, cpu_env, o->in1);
++    gen_helper_sck(cc_op, cpu_env, o->in2);
+     set_cc_static(s);
+     return DISAS_NEXT;
+ }
+-- 
+2.31.1
 
 
