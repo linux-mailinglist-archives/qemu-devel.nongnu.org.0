@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F4549C9BD
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 13:32:55 +0100 (CET)
-Received: from localhost ([::1]:55200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E7C849C998
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 13:26:11 +0100 (CET)
+Received: from localhost ([::1]:51126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nChTq-0000Rd-Ct
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 07:32:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42970)
+	id 1nChNK-0005kc-FC
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 07:26:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nChRV-0007Ji-KL
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 07:30:29 -0500
-Received: from [2a00:1450:4864:20::630] (port=35827
- helo=mail-ej1-x630.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nChM5-00055c-Fi
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 07:24:53 -0500
+Received: from [2a00:1450:4864:20::332] (port=36562
+ helo=mail-wm1-x332.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nChRT-0003sH-8O
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 07:30:29 -0500
-Received: by mail-ej1-x630.google.com with SMTP id s5so38603200ejx.2
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 04:30:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=7vGCzUobSetru7RGXX/4Zwru6QRMwWkcRcEYx4djq7Q=;
- b=XjOKkR5bFQff5CnWxnKwLQU/ryEUXW7gwipCw7oxYXnwdtHDAOZqVRAc+r13lRZ02R
- nXxnB82Jz7XzS97MGkCtaufLCeaKc+bp/ViHI2rso0JZCrLMxeDH42ofPIOsBJtiaAio
- ao8P0l4TL4MNd6vRlOXlw+irnNuTD2s57SzCmD0ComcW/kCic2QtggF4qlB/KydS/w5q
- NrlVM7/ZPq+Ad9/gZ/zd7c6Jax4dYWT95kgeB1CGS11M4Ki3O4NcF89y5u/0TnFDjTQn
- 9Eib8JljdNcekLE6mWEFCvXM/LClZyl1Mw3k8JNX0GfLkBkJmOc4EkCdQbIILhVXtiNt
- p1oA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nChM3-00031V-UJ
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 07:24:53 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ i187-20020a1c3bc4000000b0034d2ed1be2aso3648376wma.1
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 04:24:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=nhBnmmcA7VEsc+izR+lL+XEkG6UMYTZLwOwIEBfgtS0=;
+ b=bRBEd0QQq8EmpwQ0gacDtPUAu3WJWPTaw7czXHss0TwlkdAgDCi2/zbR7Qh7uuV/B7
+ uQuVLSIh77uJ3fzSnUbwWSOJY+rd623PUa01C/sBLOdLyIJGe9r63/xyxgSIA1kFwUqg
+ WwJTdT8yVJvV0wn1bYVkvR2c0XStKJABEhIqntRpDNb7n15hQJ7gFgEIJkjsxKuzCP01
+ 4tPyZVgxqu/ky83IAwRvXL/qOG33YS0efktiS0UUZt68LUeNpk5u/nQz5hUTyD4vBo9D
+ fO94fpwuvJAYOmV5Ml/+WRIEDEtJmfujGSiQKzj4wHbj1tEsMfejQLXbkkU3JsVjb4Sp
+ lWWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=7vGCzUobSetru7RGXX/4Zwru6QRMwWkcRcEYx4djq7Q=;
- b=Dy7h5L9tlctBmfWj1RYE1Nz9OLWj8xJScJDx/NdVJzRQmaIb38hz7rKd2bLnmoFjl/
- O1T46L6lU2lMOgZf8xuszMkihRY3bR6bL6ImB3NJi8ippJ8yTjmAGzhs7HRhzolF6qhs
- Jf6qTCpVoWEv3uiZ4s+m3ciKNR7LFRgbjkbJ1OsPgeeqB8vwrpAQIqqukqnyaLzpT+Wo
- 2Gva8+24uH7wK8EYV3pVKLqHGzqe/8psEGVLV3IBk+v0qoB31cNEWfOyswPOhOKyy4jy
- F8+yoFKw7WuSz79Wc0Vv26OtwsllgUBfDZMipOxyF0mYVkXpak9cujnNu1hH2tCsUuAy
- Yk+Q==
-X-Gm-Message-State: AOAM533UfCps1uxpXgQCn7OraebFYSMJ5VN0Kv1IXeSojdJQgwpGTFBX
- hTxpOawuMza5NcHaLjoIxNEsHA==
-X-Google-Smtp-Source: ABdhPJwjmPoBp6/sIRkU8gkVpcXeK0RDtYnX9fLvwkViDPEMua8MaU7sxGcEqJC/uAphRfG1/kALTw==
-X-Received: by 2002:a17:907:a41f:: with SMTP id
- sg31mr11483690ejc.472.1643200221864; 
- Wed, 26 Jan 2022 04:30:21 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k4sm9270052edo.55.2022.01.26.04.30.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jan 2022 04:30:20 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EC3B71FFB7;
- Wed, 26 Jan 2022 12:30:19 +0000 (GMT)
-References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
- <20220124171705.10432-32-Jonathan.Cameron@huawei.com>
- <87o83zd99r.fsf@linaro.org> <20220125181313.0000209c@huawei.com>
-User-agent: mu4e 1.7.6; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, Paolo Bonzini
- <bonzini@gnu.org>
-Subject: Re: [PATCH v4 31/42] hw/pci-host/gpex-acpi: Add support for dsdt
- construction for pxb-cxl
-Date: Wed, 26 Jan 2022 12:24:02 +0000
-In-reply-to: <20220125181313.0000209c@huawei.com>
-Message-ID: <87fspad6hw.fsf@linaro.org>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=nhBnmmcA7VEsc+izR+lL+XEkG6UMYTZLwOwIEBfgtS0=;
+ b=61lqVISoILxN8gPye2JYdYaC5J3roaOhx9sM0R7O8trJT/YlHpoYXcdJGdtCC1/D+n
+ dpkE7UGC5PX9/H72a9VGZYG4n+lMfO41856fo5sppdQAxaA8WK9TQ1Ea9zAGoogkVIZk
+ /KaaRw4f9Wj3H7hfU93526gsYgbJdSFpScC/w1prj/AqSjFYhfgaJQMMOOtlD7vHHMy1
+ P1c/jIEAmzQsfiOW1CujW7LSt9tgNAwc7lBBCdZFRVDIj0HpbL9mCLiGXdiPYnedRBup
+ zGmC3IPwgd5XR9uGVwqosUGF4wvafzFdRIiz5ewEKDj58TRAYjQQ0U8yn2uhWcsMQe6h
+ J15g==
+X-Gm-Message-State: AOAM531PZHQ/+fClNVlIaZPs5APeKakvNYCQ8H1bNVvwSSqGvno0PRFV
+ D1CAiyO6pmxXLR3FhQBzjfc=
+X-Google-Smtp-Source: ABdhPJyZa2DPYaRkxfZivJfdwc0lzlnHlbYn8gVaK+q9zYDjg1GM8G22HVMh6vK8gzaIsyDNtdeajw==
+X-Received: by 2002:a1c:7412:: with SMTP id p18mr591434wmc.30.1643199889831;
+ Wed, 26 Jan 2022 04:24:49 -0800 (PST)
+Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id 1sm11603314wry.52.2022.01.26.04.24.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Jan 2022 04:24:49 -0800 (PST)
+Message-ID: <48519051-3868-de38-10ad-db01823328fe@amsat.org>
+Date: Wed, 26 Jan 2022 13:24:48 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::630
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] hw/display/tcx: Avoid clearing dirty bitmap in
+ DeviceReset()
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Andreas Gustafsson <gson@gson.org>
+References: <20220122000707.82918-1-f4bug@amsat.org>
+ <004e2b3d-46f3-f829-faea-f36b1e7c3054@ilande.co.uk>
+In-Reply-To: <004e2b3d-46f3-f829-faea-f36b1e7c3054@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -94,81 +95,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, linuxarm@huawei.com,
- Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
+On 1/26/22 08:23, Mark Cave-Ayland wrote:
+> On 22/01/2022 00:07, Philippe Mathieu-Daudé via wrote:
+> 
+>> Commit 2dd285b5f3 ("tcx: make display updates thread safe")
+>> converted this model to use the DirtyBitmapSnapshot API,
+>> resetting the dirty bitmap in tcx_update_display(). There
+>> is no need to do it again in the DeviceReset handler.
+>>
+>> See more details in commit fec5e8c92b ("vga: make display
+>> updates thread safe.").
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   hw/display/tcx.c | 2 --
+>>   1 file changed, 2 deletions(-)
+>>
+>> diff --git a/hw/display/tcx.c b/hw/display/tcx.c
+>> index d4d09d0df8..22b0ae4761 100644
+>> --- a/hw/display/tcx.c
+>> +++ b/hw/display/tcx.c
+>> @@ -371,8 +371,6 @@ static void tcx_reset(DeviceState *d)
+>>       s->r[258] = s->g[258] = s->b[258] = 255;
+>>       update_palette_entries(s, 0, 260);
+>>       memset(s->vram, 0, MAXX*MAXY);
+>> -    memory_region_reset_dirty(&s->vram_mem, 0, MAXX * MAXY * (1 + 4 +
+>> 4),
+>> -                              DIRTY_MEMORY_VGA);
+>>       s->dac_index = 0;
+>>       s->dac_state = 0;
+>>       s->cursx = 0xf000; /* Put cursor off screen */
+> 
+> I think the issue here is that tcx_reset() should be marking the entire
+> VRAM dirty due to the memset() i.e. we should be setting the dirty
+> bitmap rather than resetting it. Perhaps memory_region_reset_dirty()
+> should be replaced with tcx_invalidate_display() instead?
 
-Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
-
-> On Tue, 25 Jan 2022 17:15:58 +0000
-> Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
->
->> Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
->>=20
->> > This adds code to instantiate the slightly extended ACPI root port
->> > description in DSDT as per the CXL 2.0 specification.
->> >
->> > Basically a cut and paste job from the i386/pc code.=20=20
->>=20
->> This fails to build on all machines:
->>=20
->>   FAILED: qemu-system-mips64el=20
->>   c++ -m64 -mcx16 -o qemu-system-mips64el
-<snip>
->> /usr/lib/x86_64-linux-gnu/libssh.so -lstdc++ -Wl,--end-group
->>   /usr/bin/ld: /lib/x86_64-linux-gnu/libtirpc.so.3: warning: common of `=
-rpc_createerr@@GLIBC_2.2.5' overridden by definition from /lib/x86_64-linux=
--gnu/libc.so.6
->>   /usr/bin/ld: libcommon.fa.p/hw_pci-host_gpex-acpi.c.o: in function `ac=
-pi_dsdt_add_gpex':
->>   /home/alex/lsrc/qemu.git/builds/all/../../hw/pci-host/gpex-acpi.c:191:=
- undefined reference to `build_cxl_osc_method'
->>   collect2: error: ld returned 1 exit status
->>   [1600/2203] Linking target qemu-system-or1k
-<snip>
->> > @@ -175,7 +187,11 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXCo=
-nfig *cfg)
->> >                              cfg->pio.base, 0, 0, 0);
->> >              aml_append(dev, aml_name_decl("_CRS", crs));
->> >=20=20
->> > -            acpi_dsdt_add_pci_osc(dev);
->> > +            if (is_cxl) {
->> > +                build_cxl_osc_method(dev);=20=20
->>=20
->> Either we need an #ifdef gate on CONFIG_ACPI_CXL
->
->  error: attempt to use poisoned "CONFIG_ACPI_CXL"
-
-Hmm I'm not sure why that happened. We generally poison symbols to stop
-making configuration changes objects that are shared between binaries. I
-guess softmmu_ss must be shared then. Paolo?
-
->
->> or possibly a stub
->> implementation (with a g_assert_not_reached()).
-> That works.
->
-> Turns out I was too lazy thinking riscv was enough to exercise the
-> not CXL support case.
->
-> Lesson learned - mips64el now in my standard config :)
-> I'd not realized there were ACPI supporting MIPS machines...
-
-It's worth making sure your gitlab account is setup to run the CI loop
-because it's the first thing I do when I review a series ;-)
-
-  https://gitlab.com/stsquad/qemu/-/pipelines/456700583
-
---=20
-Alex Benn=C3=A9e
+Yeah I was not sure, and your suggestion sounds right. I'll respin.
 
