@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2193449C9BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 13:32:42 +0100 (CET)
-Received: from localhost ([::1]:54422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E911449CA1C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 13:55:30 +0100 (CET)
+Received: from localhost ([::1]:34166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nChTc-0008Lv-Ve
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 07:32:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42804)
+	id 1nChph-0007E4-GB
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 07:55:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nChQu-0006lJ-R5
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 07:29:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57688)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nChdC-00043o-1e
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 07:42:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27388)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nChQt-0003cT-1G
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 07:29:52 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nChd8-0005em-7z
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 07:42:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643200189;
+ s=mimecast20190719; t=1643200948;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OSmfy2lO6BOxA9ibXIEKSyEr58CxVucCvmLzQrwH2UA=;
- b=dNrEY5q6S9oyf4Dl9ngzm9QsWzl9Rq1nbhGzIX2KQwIfrqrW69tGG8j747tL71b2o/CeTw
- mF3RtZbDqFVk/CUtqNLOQ5439QE21jN2qYdreKas6alT399RuBQ5zj7wstskpUxKC7IirQ
- +gOv8NdxH9uTnSQXXBXPxg1Nz99AAMM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=09Hd0jZQR/0vc9lp6warzEkjmHBJGYnfUNiAatrBt+c=;
+ b=UK5uHD3aDo1T92eIp2VJFhBqdHa9f/r9c9uBjT4EzHZewrivMb+d4yC1SJXrWClqxCqjk1
+ EZ7ZQ3HbDmscGXwbJcoor2iwQLMZ0PFrNdzlFQPbCeSf/BtrH/g8nBV+yRumbRWGCJWA5/
+ 28awFfM0h4NsFBHH5kCxN/I3gvRUwGo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-621-GLw1mZeDNSK-72tBvFzL4A-1; Wed, 26 Jan 2022 07:29:48 -0500
-X-MC-Unique: GLw1mZeDNSK-72tBvFzL4A-1
-Received: by mail-wm1-f69.google.com with SMTP id
- q71-20020a1ca74a000000b003507f38e330so2435164wme.9
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 04:29:48 -0800 (PST)
+ us-mta-502-upXyW-zkMDaywYUqtsYs9w-1; Wed, 26 Jan 2022 07:42:27 -0500
+X-MC-Unique: upXyW-zkMDaywYUqtsYs9w-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ x4-20020adfbb44000000b001d83e815683so4242834wrg.8
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 04:42:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=OSmfy2lO6BOxA9ibXIEKSyEr58CxVucCvmLzQrwH2UA=;
- b=HgvvU8nriIEtXGm/Sq8RNK5nR6CQXU+snP/z4PpXi7Eytbfx5Yg8iEjQNYKzE7U8Ev
- TqGSFEW88YsxUvalz5l4geC3uX0PsrclgZcEPy2XTLPsFF39iNpmot3RnbdrJVffMRur
- MD4OzYH1ZEvjgrPYHdi/doQrjSmYMoMWl69+1yoCrURlP3tmgwSiRtGuMNUEKHic5CPZ
- uDhjzFWvxmH/d+y9lDq5kw+7k3TzIBMx9puOAXo1+/Mvn/itiuxfGbUMExoqDsSspMUV
- ZVF9j9MKV2X49II97HSgVH6s5v6xq+1AjspX6HYClTZ53ouUtNQaVMdSGkFYqrGwTEhJ
- HIUQ==
-X-Gm-Message-State: AOAM531vG9P0Qul+3POm7VoiWGxvuFwDMRK341WN+NLi1IT/CtRowmRg
- 2Q6vOAYk8+YZkhxu0JTO7/Jr05qUmoygE8kOECyt0bjLhY1k835yrMToT4gmv6Uf8g7Tdis4IhF
- oaWRRiQC9zNR52Yo=
-X-Received: by 2002:a5d:6d4f:: with SMTP id k15mr22306624wri.345.1643200187733; 
- Wed, 26 Jan 2022 04:29:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy/SuH2RCdDkky9PbEuvELEZw5OWcSQ+IMkmLUSgvl4RM58mLyFBkP79hTE88K64eyWe7BiFA==
-X-Received: by 2002:a5d:6d4f:: with SMTP id k15mr22306592wri.345.1643200187529; 
- Wed, 26 Jan 2022 04:29:47 -0800 (PST)
+ bh=09Hd0jZQR/0vc9lp6warzEkjmHBJGYnfUNiAatrBt+c=;
+ b=2WQtprLSnZ+mlGUzR2/8CK9+EFphJfYbnVNlHH6RdoNxKV5n6+ZFzg3RSGpMGSgp4H
+ ULfPJeJbtxFZjAt1FqVkruAbkNX4PDeGjQdM50hnx46OKz+DrYweuKCzIYsIGag/cEW3
+ woV4gZzeILS1+ZynJiG9tG58fLyvs36QxVmMOfxnWgeY3yGnRlY2f+SxCnwQarR+sOoP
+ iCx6kWy8LINVPzh0f8RloudFEKap5wUuqtjX/ksDPAt5PwTmV9eoReHzRwqwi8gnzdI7
+ qPeDy7CDXqBHZLs5nbtsR/Q+uhdPipMGstg6rhD8jPwrb/a6cJDqWKApRO2DZS8onrGW
+ WzWw==
+X-Gm-Message-State: AOAM533avYoBQdrIo/sIgb0vKfDV+laOIVaM11HwU62CtlOSYc+ycR8h
+ QO3L16dtSroqBTiREqiWS+41opbGO6A9jPW/UsQZtoepjAhDCIeCc1Lo33JfS5rmkPUfSq/1qF4
+ la+1KhZGdQ02sq74=
+X-Received: by 2002:a05:600c:4ec7:: with SMTP id
+ g7mr7240415wmq.171.1643200946059; 
+ Wed, 26 Jan 2022 04:42:26 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw1HQ7sO8mcvJ47KIiKXbUxMtq9IwKRRTv9xxqRXfy3I3AV6MjFJG04bXO40bB29IMAyhhkGQ==
+X-Received: by 2002:a05:600c:4ec7:: with SMTP id
+ g7mr7240385wmq.171.1643200945789; 
+ Wed, 26 Jan 2022 04:42:25 -0800 (PST)
 Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
  ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id o8sm2849371wmc.46.2022.01.26.04.29.46
+ by smtp.gmail.com with ESMTPSA id d4sm4205868wri.39.2022.01.26.04.42.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Jan 2022 04:29:47 -0800 (PST)
-Message-ID: <2cf5b7da-c1d1-1543-cdcc-be253bb37aad@redhat.com>
-Date: Wed, 26 Jan 2022 13:29:45 +0100
+ Wed, 26 Jan 2022 04:42:25 -0800 (PST)
+Message-ID: <7d57ef24-25f9-da57-fb90-27783c9436ab@redhat.com>
+Date: Wed, 26 Jan 2022 13:42:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH v6 23/33] block_int-common.h: split function pointers in
- BlockDriver
+Subject: Re: [PATCH v6 25/33] block_int-common.h: split function pointers in
+ BdrvChildClass
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
 References: <20220121170544.2049944-1-eesposit@redhat.com>
- <20220121170544.2049944-24-eesposit@redhat.com>
+ <20220121170544.2049944-26-eesposit@redhat.com>
 From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220121170544.2049944-24-eesposit@redhat.com>
+In-Reply-To: <20220121170544.2049944-26-eesposit@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,7 +81,7 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -88,7 +90,7 @@ X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,44 +121,54 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 21.01.22 18:05, Emanuele Giuseppe Esposito wrote:
-> Similar to the header split, also the function pointers in BlockDriver
-> can be split in I/O and global state.
->
 > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 > ---
->   include/block/block_int-common.h | 434 ++++++++++++++++---------------
->   1 file changed, 231 insertions(+), 203 deletions(-)
+>   include/block/block_int-common.h | 67 +++++++++++++++++++-------------
+>   1 file changed, 40 insertions(+), 27 deletions(-)
 >
 > diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-> index 70534f94ae..e007dbf768 100644
+> index e007dbf768..cc8c8835ba 100644
 > --- a/include/block/block_int-common.h
 > +++ b/include/block/block_int-common.h
-
-[...]
-
-> @@ -159,7 +148,66 @@ struct BlockDriver {
-
-[...]
-
+> @@ -815,12 +815,16 @@ struct BdrvChildClass {
+>        */
+>       bool parent_is_bds;
+>   
 > +    /*
 > +     * Global state (GS) API. These functions run under the BQL lock.
 > +     *
 > +     * See include/block/block-global-state.h for more information about
 > +     * the GS API.
 > +     */
-> +
-> +    /*
-> +     * Return true if @to_replace can be replaced by a BDS with the
-> +     * same data as @bs without it affecting @bs's behavior (that is,
-> +     * without it being visible to @bs's parents).
-> +     */
-> +    bool (*bdrv_recurse_can_replace)(BlockDriverState *bs,
-> +                                     BlockDriverState *to_replace);
-> +
-> +    int (*bdrv_probe)(const uint8_t *buf, int buf_size, const char *filename);
+>       void (*inherit_options)(BdrvChildRole role, bool parent_is_format,
+>                               int *child_flags, QDict *child_options,
+>                               int parent_flags, QDict *parent_options);
+> -
+>       void (*change_media)(BdrvChild *child, bool load);
+> -    void (*resize)(BdrvChild *child);
+>   
+>       /*
+>        * Returns a name that is supposedly more useful for human users than the
 
-Considering that its only caller (bdrv_probe_all()) is now an I/O 
-function, shouldn’t this be, too?
+The method this comment belongs to is `.get_name()`.  It’s exposed 
+through `bdrv_get_parent_name()`, which is called by 
+`bdrv_get_device_name()` and `bdrv_get_device_or_node_name()` – so I 
+think it should be classified as I/O.
+
+> @@ -837,6 +841,40 @@ struct BdrvChildClass {
+>        */
+>       char *(*get_parent_desc)(BdrvChild *child);
+
+This function is very similar, so we might also want to reconsider 
+classifying it as I/O.  There’s no need, because all of its callers do 
+run in the main thread, but at the same time I don’t believe there’s 
+anything stopping us (and it starts to sound to me like all functions of 
+the “get name” kind perhaps should ideally be I/O, in that they 
+shouldn’t require the GS context).
+
+Up to you. O:)
+
+(Rest of this patch looks good!)
 
 Hanna
 
