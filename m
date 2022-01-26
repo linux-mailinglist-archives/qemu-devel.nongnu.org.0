@@ -2,44 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C87749D41E
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 22:07:49 +0100 (CET)
-Received: from localhost ([::1]:47764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D73149D400
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 22:03:59 +0100 (CET)
+Received: from localhost ([::1]:42800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCpW8-0001Dq-Pq
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 16:07:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59810)
+	id 1nCpSQ-0005tV-7N
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 16:03:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nCosS-0008Lq-6f
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 15:26:48 -0500
-Received: from nowt.default.pbrook.uk0.bigv.io ([213.138.114.50]:38843)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nCosP-0007Zx-Sf
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 15:26:47 -0500
-Received: from cpc91554-seac25-2-0-cust857.7-2.cable.virginm.net
- ([82.27.199.90] helo=wren.ecobee.com)
- by nowt.default.pbrook.uk0.bigv.io with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84_2)
- (envelope-from <paul@nowt.org>)
- id 1nCosJ-0006Pv-6z; Wed, 26 Jan 2022 20:26:39 +0000
-From: Paul Brook <paul@nowt.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] linux-user: Fix inotify on aarch64
-Date: Wed, 26 Jan 2022 20:26:36 +0000
-Message-Id: <20220126202636.655289-1-paul@nowt.org>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nCpPi-0004jf-5N
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 16:01:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53903)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nCpPY-0004RS-Ez
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 16:01:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643230842;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=pnGRIAhii2005dF01CqB1t74u1l7SVK1ypHgeTRvJ8E=;
+ b=T8qQtWk5Wv7AKFxZUafHtN3wgyInDSWamm7f8X0xQmXDSXV6hlI9tJ/yJcw1t5CGQNWE0M
+ 7rbvTjs7+TNU3dfXvgO+x7VTKQ3CKbHJPkdzum1vxDqL16ic+gDelVzHr/nQAmP81IvuQK
+ /5JWmCzIDOw1ICJybUHd38zcrfn2ak4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-46-DHnYE9ihNhCDs3VyaaOu-A-1; Wed, 26 Jan 2022 16:00:40 -0500
+X-MC-Unique: DHnYE9ihNhCDs3VyaaOu-A-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ a6-20020adfbc46000000b001d7370ace6eso172194wrh.9
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 13:00:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=pnGRIAhii2005dF01CqB1t74u1l7SVK1ypHgeTRvJ8E=;
+ b=B4SFo6wcfe1fWx1MT5HL0/ZJy2u9demdHHE6VIW6Y3wiJp8W/Z9/1fmn8oQ0qOiK60
+ D18GOfnekQym7A2dELo6L05aSldjccKlu23TzBsCO5iTnI6+EKosng/Ycw68C/ZbNeh9
+ tcDQwjWn5PihsD9CeyBXbgHe6GYFj0zym1z/HXasIK3CN3RiLS4p/FyVB48SD1npaTzR
+ 6TgFGo1KiF7FwrjDI443id+ig+4P/1/W2YCKG/WR30AfdgEH7jLGCqWFBi0AMwobp/QN
+ AA6bPVjyrc/h3R6JYpHbw1iO4f/CdCiIPQSclFswE1O2xUy8xkfuTqOeK9rdoB25Kv/p
+ U5JQ==
+X-Gm-Message-State: AOAM530tcnwfQB5gQ2GLxBzOJOpxBQWDAQjKJZF7m0ae/74dDg+tIXCu
+ 7ApEUm89IHherWXvmpFcmRr1nmdk9/KsGQUKo5T7SAgJ+9kzQuhkcqJcD9VSKML3AEK0D7oJJ1Y
+ I3GHqDHF1FYAgISA=
+X-Received: by 2002:a5d:6211:: with SMTP id y17mr295889wru.73.1643230838776;
+ Wed, 26 Jan 2022 13:00:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxRxAiDypWRtASBHbfW1a4CUTeQ1hf3VqbW4O00OHd8+LtyM4ORwKqmA2CM8Pg0FBIPyZqkdg==
+X-Received: by 2002:a5d:6211:: with SMTP id y17mr295880wru.73.1643230838603;
+ Wed, 26 Jan 2022 13:00:38 -0800 (PST)
+Received: from localhost ([47.61.17.76])
+ by smtp.gmail.com with ESMTPSA id u15sm386459wrs.17.2022.01.26.13.00.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Jan 2022 13:00:38 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Xu Zheng <xuzheng@cmss.chinamobile.com>
+Subject: Re: [PATCH] migration/ram: clean up unused comment.
+In-Reply-To: <20220117023003.1655917-1-xuzheng@cmss.chinamobile.com> (Xu
+ Zheng's message of "Mon, 17 Jan 2022 10:30:03 +0800")
+References: <20220117023003.1655917-1-xuzheng@cmss.chinamobile.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Wed, 26 Jan 2022 22:00:37 +0100
+Message-ID: <87ee4unrey.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=213.138.114.50; envelope-from=paul@nowt.org;
- helo=nowt.default.pbrook.uk0.bigv.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 26 Jan 2022 16:01:55 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,143 +95,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Paul Brook <paul@nowt.org>
+Reply-To: quintela@redhat.com
+Cc: dgilbert@redhat.com, Mao Zhongyi <maozhongyi@cmss.chinamobile.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The inotify implementation originally called the raw host syscalls.
-Commit 3b3f24add0 changed this to use the glibc wrappers. However ifdefs
-in syscall.c still test for presence of the raw syscalls.
+Xu Zheng <xuzheng@cmss.chinamobile.com> wrote:
+> Just a removal of an unused comment.
+> a0a8aa147aa did many fixes and removed the parameter named "ms", but
+> forget to remove the corresponding comment in function named
+> "ram_save_host_page".
+>
+> Signed-off-by: Xu Zheng <xuzheng@cmss.chinamobile.com>
+> Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
 
-This causes a problem on e.g. aarch64 hosts which never had the
-inotify_init syscall - it had been obsoleted by inotify_init1 before
-aarch64 was invented! However it does have a perfectly good glibc
-implementation of inotify_wait.
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-Fix this by removing all the raw __NR_inotify_* tests, and instead check
-CONFIG_INOTIFY, which already tests for the glibc functionality we use.
+queued.
 
-Also remove the now-pointless sys_inotify* wrappers.
+> ---
+>  migration/ram.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 57efa67f20..96944f0c70 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -2188,7 +2188,6 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss,
 
-Tested using x86-64 inotifywatch on aarch64 host, and vice-versa
+Somehow git diff got confised here, and shows ram_save_target_page where
+it is ram_save_host_page().  I fixued it manually.
 
-Signed-off-by: Paul Brook <paul@nowt.org>
----
- linux-user/fd-trans.c |  5 ++---
- linux-user/syscall.c  | 50 +++++++++----------------------------------
- 2 files changed, 12 insertions(+), 43 deletions(-)
 
-diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
-index 6941089959..30e7b49112 100644
---- a/linux-user/fd-trans.c
-+++ b/linux-user/fd-trans.c
-@@ -1460,9 +1460,8 @@ TargetFdTrans target_eventfd_trans = {
-     .target_to_host_data = swap_data_eventfd,
- };
- 
--#if (defined(TARGET_NR_inotify_init) && defined(__NR_inotify_init)) || \
--    (defined(CONFIG_INOTIFY1) && defined(TARGET_NR_inotify_init1) && \
--     defined(__NR_inotify_init1))
-+#if defined(CONFIG_INOTIFY) && (defined(TARGET_NR_inotify_init) || \
-+        defined(TARGET_NR_inotify_init1))
- static abi_long host_to_target_data_inotify(void *buf, size_t len)
- {
-     struct inotify_event *ev;
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 56a3e17183..17cc38fe34 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -272,9 +272,6 @@ static type name (type1 arg1,type2 arg2,type3 arg3,type4 arg4,type5 arg5,	\
- #if defined(__NR_futex_time64)
- # define __NR_sys_futex_time64 __NR_futex_time64
- #endif
--#define __NR_sys_inotify_init __NR_inotify_init
--#define __NR_sys_inotify_add_watch __NR_inotify_add_watch
--#define __NR_sys_inotify_rm_watch __NR_inotify_rm_watch
- #define __NR_sys_statx __NR_statx
- 
- #if defined(__alpha__) || defined(__x86_64__) || defined(__s390x__)
-@@ -447,33 +444,6 @@ static int sys_renameat2(int oldfd, const char *old,
- 
- #ifdef CONFIG_INOTIFY
- #include <sys/inotify.h>
--
--#if defined(TARGET_NR_inotify_init) && defined(__NR_inotify_init)
--static int sys_inotify_init(void)
--{
--  return (inotify_init());
--}
--#endif
--#if defined(TARGET_NR_inotify_add_watch) && defined(__NR_inotify_add_watch)
--static int sys_inotify_add_watch(int fd,const char *pathname, int32_t mask)
--{
--  return (inotify_add_watch(fd, pathname, mask));
--}
--#endif
--#if defined(TARGET_NR_inotify_rm_watch) && defined(__NR_inotify_rm_watch)
--static int sys_inotify_rm_watch(int fd, int32_t wd)
--{
--  return (inotify_rm_watch(fd, wd));
--}
--#endif
--#ifdef CONFIG_INOTIFY1
--#if defined(TARGET_NR_inotify_init1) && defined(__NR_inotify_init1)
--static int sys_inotify_init1(int flags)
--{
--  return (inotify_init1(flags));
--}
--#endif
--#endif
- #else
- /* Userspace can usually survive runtime without inotify */
- #undef TARGET_NR_inotify_init
-@@ -12263,35 +12233,35 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-     case TARGET_NR_futex_time64:
-         return do_futex_time64(cpu, arg1, arg2, arg3, arg4, arg5, arg6);
- #endif
--#if defined(TARGET_NR_inotify_init) && defined(__NR_inotify_init)
-+#ifdef CONFIG_INOTIFY
-+#if defined(TARGET_NR_inotify_init)
-     case TARGET_NR_inotify_init:
--        ret = get_errno(sys_inotify_init());
-+        ret = get_errno(inotify_init());
-         if (ret >= 0) {
-             fd_trans_register(ret, &target_inotify_trans);
-         }
-         return ret;
- #endif
--#ifdef CONFIG_INOTIFY1
--#if defined(TARGET_NR_inotify_init1) && defined(__NR_inotify_init1)
-+#if defined(TARGET_NR_inotify_init1) && defined(CONFIG_INOTIFY1)
-     case TARGET_NR_inotify_init1:
--        ret = get_errno(sys_inotify_init1(target_to_host_bitmask(arg1,
-+        ret = get_errno(inotify_init1(target_to_host_bitmask(arg1,
-                                           fcntl_flags_tbl)));
-         if (ret >= 0) {
-             fd_trans_register(ret, &target_inotify_trans);
-         }
-         return ret;
- #endif
--#endif
--#if defined(TARGET_NR_inotify_add_watch) && defined(__NR_inotify_add_watch)
-+#if defined(TARGET_NR_inotify_add_watch)
-     case TARGET_NR_inotify_add_watch:
-         p = lock_user_string(arg2);
--        ret = get_errno(sys_inotify_add_watch(arg1, path(p), arg3));
-+        ret = get_errno(inotify_add_watch(arg1, path(p), arg3));
-         unlock_user(p, arg2, 0);
-         return ret;
- #endif
--#if defined(TARGET_NR_inotify_rm_watch) && defined(__NR_inotify_rm_watch)
-+#if defined(TARGET_NR_inotify_rm_watch)
-     case TARGET_NR_inotify_rm_watch:
--        return get_errno(sys_inotify_rm_watch(arg1, arg2));
-+        return get_errno(inotify_rm_watch(arg1, arg2));
-+#endif
- #endif
- 
- #if defined(TARGET_NR_mq_open) && defined(__NR_mq_open)
--- 
-2.34.1
+>   * Returns the number of pages written or negative on error
+>   *
+>   * @rs: current RAM state
+> - * @ms: current migration state
+>   * @pss: data about the page we want to send
+>   * @last_stage: if we are at the completion stage
+>   */
 
 
