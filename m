@@ -2,80 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3386949D355
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 21:18:24 +0100 (CET)
-Received: from localhost ([::1]:45776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2070749D366
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 21:27:18 +0100 (CET)
+Received: from localhost ([::1]:52018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCokJ-0003HO-BF
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 15:18:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57328)
+	id 1nCosu-0007tz-V6
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 15:27:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nCogy-0000AW-Ip; Wed, 26 Jan 2022 15:14:56 -0500
-Received: from [2607:f8b0:4864:20::c29] (port=45793
- helo=mail-oo1-xc29.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nCogw-0005cY-Dr; Wed, 26 Jan 2022 15:14:56 -0500
-Received: by mail-oo1-xc29.google.com with SMTP id
- u25-20020a4ad0d9000000b002e8d4370689so169133oor.12; 
- Wed, 26 Jan 2022 12:14:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=6F05X4t3TrvsOS8j/hixhUd8PUo4aWTVi/iorHUtvnQ=;
- b=d6fLHWlmscGVnRd+Qz+mL99VXA91f/B7qyqb8YOmOggPcrMXgK7/iRwtJC8pulkafy
- nw0Yi3p1/1nZHJCVEjihc8YRDEYSN5k/glH1D+wa/5fFayLCcNHTiO4tJIanLGbfbizd
- u5gl0Oe+RO0Sv8B+gKs+y8GpsD74bTcC2NadSReAuyRImHCzBR9dgkgguZEofNcexGpu
- +WOPu159xu4Y6NJjZOCuTkhmFElIMdIpeF+k71OXrrB3D1Z9LgA1uLoH9wEtrtlh8lgJ
- E4agII/uw6u08fUWftKceSF+ykzGXs9/O69AJxuAUjg6i3HSw3Gh2N435CyGQ4P3CqlI
- FCew==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nCoq8-00076B-O0
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 15:24:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24991)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nCoq6-000721-3i
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 15:24:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643228660;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=YhWuMMG93hBkUvQeripWgP73StGmEoihrL5UaPxhUfs=;
+ b=NwEb4r1NNCzq69MQ86Zv/jSaahllpAByvHRV0VRFQW3M7BlODZzqFn8jePxptqcHmr01QZ
+ P9fRDWUSQiHzF5/u22sgh93Vr5dZjjYNhp5PiqH5TPif2H2teHSWeygnov1q6KYdC+nx4h
+ 2/2ZC2q/h6ov9NbEQSHObLrOx/VkPVw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-63-i8P987rWOx2HcBu5_5_low-1; Wed, 26 Jan 2022 15:24:19 -0500
+X-MC-Unique: i8P987rWOx2HcBu5_5_low-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ l16-20020a1c7910000000b0034e4206ecb7so412835wme.7
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 12:24:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6F05X4t3TrvsOS8j/hixhUd8PUo4aWTVi/iorHUtvnQ=;
- b=nr8/hMTGeFejgAtS5E95UwPiURVxndM3Szhz4vzEH+NIl3pv6yGBw8XTN8dso/xlLt
- iVlzcDlSMXOJprk40PUcwd+fe4byW+xTLd4OJ9uxpU0yRIGf7DxlC4v65zwA4PkyCHp4
- EuqqZgiH2P4SNn/jJfQpgT8PAOd2+vCwYr+nl0vvix6pfX7qXrX1KAHoAhCdcUzCTsHa
- Io/vNrVB5nrLBaBZingGa1gPXzIqxaG32JcmmGTiMgz/EsN4waBnWPki+F/dmeTSj+0T
- DInP9nUVya7KbMI3eAewf1he63v+yRpeki4SLE3bQzBY/7/ideGJHz56ttkgRwyFn6H1
- ITvQ==
-X-Gm-Message-State: AOAM5311lklARTWxyDpGfll5Cpy4So/9vWnmpta/pRoDRj92dtiK+xuH
- d/dx5hM9Qt79czAm/0oDYIF+8TnegJM=
-X-Google-Smtp-Source: ABdhPJyWkx76cg4x9o5gh5zHEpMevtLu4bLVYpy64zCg6t+ujEXFUGMweD/r+6GHn8g9upwSVt2I/A==
-X-Received: by 2002:a05:6820:151b:: with SMTP id
- ay27mr415358oob.14.1643228090914; 
- Wed, 26 Jan 2022 12:14:50 -0800 (PST)
-Received: from rekt.COMFAST (189-68-153-170.dsl.telesp.net.br.
- [189.68.153.170])
- by smtp.gmail.com with ESMTPSA id s11sm5587021otq.69.2022.01.26.12.14.49
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=YhWuMMG93hBkUvQeripWgP73StGmEoihrL5UaPxhUfs=;
+ b=fQPETzBXY7dqLg6y4FJJtist1vu7avPuWG/CWQAIjph5gIAFbpl5mVC07P9d1vxmm/
+ 2XL0PvHGm9N4X7InwLjQsK7uxG9oFexFEkqaa/lZ/K6t/MTjorkit5zX5XCKUJagnakm
+ XDBgvgRvyzQYzYDyn8zsZYrAtfoyf7wn29Y53zUl8LNByWQqsSfortAs2y4JVHqGS+GA
+ KzB7A8Zzqv/wmNLr7UX06Sm/ce40xAsTAxi5WSnMKAgGPJrEeuXSRXVCUlfhi9mvyXv7
+ oL96KCCQJLsIaOT+PV/b4vTLpU/jNkvcaA1oy5W7vWEloQdyjclPMu55sVRLd23hXrUi
+ epLA==
+X-Gm-Message-State: AOAM533lAIQy/CvBiDknYD8bKp3I0tPRai6kQGekC9NW/HLu/K0VpiTs
+ 9ugARJR90gZpEY0b5cGny8kS/BKY4RthBRjcIsSLlp1HDPDYTpF9HrU3/ipYhT7EBDyP8+mJFZ+
+ WMemwoc+Qi3TcmoA=
+X-Received: by 2002:a05:600c:d4:: with SMTP id
+ u20mr9059644wmm.52.1643228658371; 
+ Wed, 26 Jan 2022 12:24:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxqdt4P3TBVT4B21cZfMvOWn01uOe10CPpfXcR8um1FE3CUgL3HiF6LHJL+a+srqmdyrXPDmQ==
+X-Received: by 2002:a05:600c:d4:: with SMTP id
+ u20mr9059630wmm.52.1643228658128; 
+ Wed, 26 Jan 2022 12:24:18 -0800 (PST)
+Received: from localhost ([47.61.17.76])
+ by smtp.gmail.com with ESMTPSA id m5sm235612wrs.22.2022.01.26.12.24.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jan 2022 12:14:50 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] ppc/pnv: use a do-while() loop in
- pnv_phb4_translate_tve()
-Date: Wed, 26 Jan 2022 17:14:38 -0300
-Message-Id: <20220126201438.822457-3-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220126201438.822457-1-danielhb413@gmail.com>
-References: <20220126201438.822457-1-danielhb413@gmail.com>
+ Wed, 26 Jan 2022 12:24:17 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: David Edmondson <david.edmondson@oracle.com>
+Subject: Re: [PATCH] migration: Report the error returned when
+ save_live_iterate fails
+In-Reply-To: <20211215141437.1238403-1-david.edmondson@oracle.com> (David
+ Edmondson's message of "Wed, 15 Dec 2021 14:14:37 +0000")
+References: <20211215141437.1238403-1-david.edmondson@oracle.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Wed, 26 Jan 2022 21:24:17 +0100
+Message-ID: <87v8y6nt3i.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c29
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c29;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc29.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,62 +98,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Reply-To: quintela@redhat.com
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pnv_phb4_translate_tve() is quite similar to pnv_phb3_translate_tve(),
-and that includes the fact that 'taddr' can be considered uninitialized
-when throwing the "TCE access fault" error because, in theory, the loop
-that sets 'taddr' can be skippable due to 'lev' being an signed int.
+David Edmondson <david.edmondson@oracle.com> wrote:
+> Should qemu_savevm_state_iterate() encounter a failure when calling a
+> particular save_live_iterate function, report the error code returned
+> by the function.
+>
+> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
 
-No one complained about this specific case yet, but since we took the
-time to handle the same situtation in pnv_phb3_translate_tve(), let's
-replicate it here as well.
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/pci-host/pnv_phb4.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
-
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index a78add75b0..88a1479831 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -1261,13 +1261,21 @@ static void pnv_phb4_translate_tve(PnvPhb4DMASpace *ds, hwaddr addr,
-         /* Top level table base address */
-         base = tta << 12;
- 
-+        /*
-+         * There were reports of compilers complaining about 'taddr'
-+         * being used uninitialized in pnv_phb3_translate_tve(), and
-+         * the same scenario is happening here. Initialize 'taddr'
-+         * just in case.
-+         */
-+        taddr = base;
-+
-         /* Total shift to first level */
-         sh = tbl_shift * lev + tce_shift;
- 
-         /* TODO: Limit to support IO page sizes */
- 
-         /* TODO: Multi-level untested */
--        while ((lev--) >= 0) {
-+        do {
-             /* Grab the TCE address */
-             taddr = base | (((addr >> sh) & ((1ul << tbl_shift) - 1)) << 3);
-             if (dma_memory_read(&address_space_memory, taddr, &tce,
-@@ -1288,7 +1296,7 @@ static void pnv_phb4_translate_tve(PnvPhb4DMASpace *ds, hwaddr addr,
-             }
-             sh -= tbl_shift;
-             base = tce & ~0xfffull;
--        }
-+        } while ((lev--) >= 0);
- 
-         /* We exit the loop with TCE being the final TCE */
-         tce_mask = ~((1ull << tce_shift) - 1);
--- 
-2.34.1
+queued
 
 
