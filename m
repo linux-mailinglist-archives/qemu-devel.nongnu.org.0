@@ -2,172 +2,153 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 432E949CFA6
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 17:27:04 +0100 (CET)
-Received: from localhost ([::1]:56686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F8D49CFC1
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 17:32:02 +0100 (CET)
+Received: from localhost ([::1]:35554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCl8R-0003WL-C7
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 11:27:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55880)
+	id 1nClDF-0008Ox-VX
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 11:32:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1nCl5W-0000yg-3n
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 11:24:02 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:36354)
+ id 1nClAD-0005yR-G4
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 11:28:54 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:13702)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1nCl5T-0002Ab-IP
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 11:24:01 -0500
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20QFon5c028823; 
- Wed, 26 Jan 2022 16:23:55 GMT
+ id 1nClAA-00031U-QM
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 11:28:52 -0500
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20QFodYl024356; 
+ Wed, 26 Jan 2022 16:28:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=6Va9m3Wj+75UpgrP0MoBqUwfTHDSRfxx98IMw3SoZiY=;
- b=KKFYFKsxI8cM4zcx6oNyHdraYRph5BK3O9Ob6BDDbYO5Kv/E301cblzUINsMUicWhJeP
- UoOUwbOJ6SwyGNL3GlBTSrNwHRV4aeVIUyeyI54mQ65QlI66qrLLF3nbeiLT7B1ZG2k9
- Gh/QgTDQfCNCkZ7BzVVSXksOvTtJy1C2rMBccO8MSt80qLT2ckVQsHqY3pFA4nVYCMot
- CSUW8Ybphl7Ldeldn3c+MP99K4ZY0HZ2M3iTi/6jFjvw7J1SKQPx0L66No5aUMLd9Y+B
- PuHvcs0467Wg57ndwZM4lULZI9oEltW5FZOPSHcVBdtvwI9cwLUx9xl/zEK3K3J3E5g4 RA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 3dsxaaehmm-1
+ h=from : to : cc :
+ subject : date : message-id : content-type : mime-version;
+ s=corp-2021-07-09; bh=HXaRUt2mh+2L9t/cSaJsiI9ON3mvFNB283/zYmKbPwA=;
+ b=Nv3aKlxtn8G4pZakKm34cPdgRrrwHXHErcmw14rutkBCqxB6duYOwgldaVRF3Nyj/Cj5
+ PwYiix/kttJu9fQprSlpkRY1ImeEr3noBSskeSNHfEvP9o+eOvXo9My1BfAcYW0Z9Xj+
+ ldbHQinAVkfT1k8TjtLHDePsFuKeIXQ26AUfbhmhurg44OTfv6u49HluTcifIjpbClh7
+ VBGbFfRfSJpKVM5epXJ65rFc0xLYvSD2k2F9ad1kazzA6RlkY1RnwStc5MKUv3B3/nix
+ OSpv6mgTQtJsN0M8kjiX3vKcKFpvQ/Bnj8utYjBnT5sXkyDcdm9+aQsHs38VlEkeWtxL ZA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3dsy9s6g5f-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Jan 2022 16:23:55 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20QGB3S6148885;
- Wed, 26 Jan 2022 16:23:54 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2168.outbound.protection.outlook.com [104.47.57.168])
- by userp3030.oracle.com with ESMTP id 3dr721gg7r-1
+ Wed, 26 Jan 2022 16:28:48 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20QGAo5U183856;
+ Wed, 26 Jan 2022 16:28:47 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
+ by aserp3020.oracle.com with ESMTP id 3dtax8qphk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Jan 2022 16:23:54 +0000
+ Wed, 26 Jan 2022 16:28:47 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lt+GlAzCpoYvGm6vOBJY0t07Fn3iUHmmiqSP0DyeoiVAR2m01C+M4r/gKKKWArArINKfLcyPWdf3aa+Hpw8XMQrfS1B+NLkaFdzDHHY70L0nENqNtvZIHmnTXX4QjmuASiwrsxh6PuNta22mY2vdDKBjhkL0JGZdN22R7x1hXYZUt2zVuSbK4S6Of5RPNbjwS4B2OLbkjepZ9FZT9Bq/0paMlW50VXbu5nZBW2VeA3MAuQxvEpCdreGvwmW+aUeG9quOrvd5yA96l1jDlMVUPtTzyeKWW8PfSuszzDqU+V0PyhMZGADoO303uq82NVc2liM/l9aTlwGy7JIJd/9IEw==
+ b=WaYLVHvBZHqn3rs3wPzXcHvzuBvlEewKG/N61oIn1GYxP++H0P8pgjvLlyYuJFfFrUb1hyBTADNLSAXP/KS/ZNOJRBlO30cwmtrrdxZXLmnMt0m/mF2a0g4S9ytIlPPEup405TTFcH8NiUDrH3WOscoB8o/+nnUSuA+04zjWj4cuiApbS/6j7xduB/XypcmLq6FSjn9h8AbceDSo39oJIa2Xgp7Us1lz8YK8VjKOFBsaGnjPIb3vih+6qWwOTFL4k92hx7QeScHk1/6EHBmaLbZiM5IA5iVH/0PWn7dg1nSHLabNymeM+bNK3j2UFA1OwgpL21+lRvG8QHIyB6BdYw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6Va9m3Wj+75UpgrP0MoBqUwfTHDSRfxx98IMw3SoZiY=;
- b=dNXGIAfgjYJImXZ1sVXa7+WLsbYkNmk7blAmhQ4sckDBe01v74sAhWjQV+wGVBBqQQkUD1wfpTvyPaBGH8SpcW3qB0sorRDI3qNqTdUAPoRP218BWwFjbUJzIY3g/9Wmrc0ZtL8JE4QxkC6fzqDOHHkAaq7MfoHzmgJLFcsQhsg1MmiUCVnS468DRW+5h8+ystxgr/+gXT5xOT9KremhEgBYwBrtHfhndfkh3g/QYNlY5UoSVTYWyoHHikC8dOh606dg0FVEX+H/PK6bvd29TMiWqAaaYlKOCQfB9BL9scBcuTXxb14ovQPbrDDXGlxi3djFvYPZ7P6dt0DZW31lqQ==
+ bh=HXaRUt2mh+2L9t/cSaJsiI9ON3mvFNB283/zYmKbPwA=;
+ b=ce3U/nmVFo6dFwwJksSAoGhWcJxF+qAOnrXjieZ/7OZQqr1Jui0zq5R2/fOhiyQ0qJHgojTJqR7zIAs0HV8PP1O0cbo9BnMs+QhOuHOZaePm1Kv5nPHrXN2m5CILB3BxfyBPgErY67/eyVLfYkfm0ZzukLohCB1pMI6+EL1pQajg4xPClT9GPv89e8BTfcAuWHmzGh2yuMpRaCV9EM1zzqrWZ8iFR7x1rlmc1M1fofueB83FAo9i4CJreF63dNyl6SWYsos3IPfx1PYhitOPH+Y7J0eOdAy697fIp5h/NA1vXGLJgjkr+9Qe6xSqAgCuboyJ+qMSbTMXNAiY2mFctw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6Va9m3Wj+75UpgrP0MoBqUwfTHDSRfxx98IMw3SoZiY=;
- b=jhEIfuxAQ4ghpY0GDkiSITNzz182xyXtVeIlAHcAR9O7nxeWwqwXnt9W+T2RlVoNiRbrjAYpEDjcAuyStpWYAev/ctMmgK1328OgbdY5R8/V7ow953J66T+O1a/0oM4cHdhApbiPpF3mX9iD+GUH2osZLkMrPRr9O4V2SwffM7E=
+ bh=HXaRUt2mh+2L9t/cSaJsiI9ON3mvFNB283/zYmKbPwA=;
+ b=jVMbQQ3E30SsowNK6VcCY1Lp+eYyr/JV4kWnYYwgmEh2b5NXH/CPjM4WsnWvirNl6AI6cz8i+gl4TPgwdm0g36PJhiBfuFP8GhngNYr3iTjc3CVLsr934BZSsLxqC7FNuzyr8PwZ1aasL8OQpXWjkPlMEhQcxNz1cxj5u9ipiV8=
 Received: from CO1PR10MB4531.namprd10.prod.outlook.com (2603:10b6:303:6c::22)
- by BLAPR10MB5297.namprd10.prod.outlook.com (2603:10b6:208:326::18)
+ by BN6PR10MB1571.namprd10.prod.outlook.com (2603:10b6:404:48::11)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.15; Wed, 26 Jan
- 2022 16:23:51 +0000
+ 2022 16:28:45 +0000
 Received: from CO1PR10MB4531.namprd10.prod.outlook.com
  ([fe80::ac06:be4:5723:771c]) by CO1PR10MB4531.namprd10.prod.outlook.com
  ([fe80::ac06:be4:5723:771c%4]) with mapi id 15.20.4930.017; Wed, 26 Jan 2022
- 16:23:51 +0000
-Message-ID: <9cd25688-269a-5e67-13a8-bf75518ec3c5@oracle.com>
-Date: Wed, 26 Jan 2022 10:23:48 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v13 06/10] ACPI ERST: build the ACPI ERST table
-Content-Language: en-US
-To: Ani Sinha <ani@anisinha.ca>
-References: <1643044621-15892-1-git-send-email-eric.devolder@oracle.com>
- <1643044621-15892-7-git-send-email-eric.devolder@oracle.com>
- <alpine.DEB.2.22.394.2201251600060.1134355@anisinha-lenovo>
- <4c680569-bca2-c85b-b0e0-0cfbb5c158fc@oracle.com>
- <alpine.DEB.2.22.394.2201261229380.1134355@anisinha-lenovo>
+ 16:28:45 +0000
 From: Eric DeVolder <eric.devolder@oracle.com>
-In-Reply-To: <alpine.DEB.2.22.394.2201261229380.1134355@anisinha-lenovo>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN7PR18CA0008.namprd18.prod.outlook.com
- (2603:10b6:806:f3::32) To CO1PR10MB4531.namprd10.prod.outlook.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH v14 00/10] acpi: Error Record Serialization Table, ERST,
+ support for QEMU
+Date: Wed, 26 Jan 2022 11:28:24 -0500
+Message-Id: <1643214514-2839-1-git-send-email-eric.devolder@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+Content-Type: text/plain
+X-ClientProxiedBy: SN7PR04CA0223.namprd04.prod.outlook.com
+ (2603:10b6:806:127::18) To CO1PR10MB4531.namprd10.prod.outlook.com
  (2603:10b6:303:6c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7f5637be-8d44-45d0-abe0-08d9e0e83d37
-X-MS-TrafficTypeDiagnostic: BLAPR10MB5297:EE_
-X-Microsoft-Antispam-PRVS: <BLAPR10MB5297B0A0EA71A3336DC35C9697209@BLAPR10MB5297.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Office365-Filtering-Correlation-Id: 403f9437-dd98-40fe-bd86-08d9e0e8ec4e
+X-MS-TrafficTypeDiagnostic: BN6PR10MB1571:EE_
+X-Microsoft-Antispam-PRVS: <BN6PR10MB1571AC8163C240C2F82DD95A97209@BN6PR10MB1571.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cOVxQzpXTkgHglkWVL8gv2p5f9JdeqvF5cs9dCWdhWfUwcFk/CtKlXiYkjFnRZb0nBQ84xJwb+it20JqgT9ERAxGo4NyFqyQxR0YiCW48SIRqJw2+7ijBYRS/qgsB5Tjco4ZAz4TnjkancsJqsfTyF6l9geB+v2X4zhWwzk6s1CAjqRWzQDKzg09I6SE6X8xGKoZVDzbKSVI9rBL7J1Rw2fnCbvc6iTNahPgeTXLsGaDvx41SAFlQ8uxlEF06tTQtPIx7f/VuBsnFZOeCvbv9f8JCfo8mmJpgyMOne73RWiynjTJvsDCraKGKq9epB6SVRWwG+CKEUqbIMHI/a0xSS/z/r7Ab+zHn9xfuUogFQSff7eSdLK5AfJZ9mb5R288w718PzMJxjDFEishjGwHYu/UXYS3pGB37KPUpFw5xk1/1AOhp1/DUzd6PxoU8iO471awZB5+nQgewl+4qfqDOWUAQHL9CmYmgbU5uTqPJeXnaCqgBc/fQ/9REu0CRYBh8dkSCAmy7/tIW7OiF/rc6LX1tP8lK1SDBuak/WaBCyxzc5XQIdNvxdTD/SI0uq+Xe+DBT9048Wuw5DPQbcpLpendq5fDc460Nf1wGeJTnpju1+NnXvFxtJ4hLfKwqfO44Sn3H5GZaJbZ9JmOisyXjUBF3bWe/AL8V8eqeHelNhmoxPMFhhKUKAiX5AiBD+F/IFhXH5NY7Gy/nB3qLY1lqyoyFtqp0qE8MmcDh1EvqFU=
+X-Microsoft-Antispam-Message-Info: QYhJAb73OTuUnzHTfosx1JdlCBWht4PHn5494gY+Sq03LgtOZx3plGGUMVU0Br6v7GrhgmsxcH4HZY2EEjeshe6QL679u4S2ApSBxVPee6dqGhxg0kS6Ghwqwk9SpzX4xr/E5RlYhQdt0lt8TzNNRLh2KPjSl6GYdumzb4BfNDbCaMNKOQsX35JFmMIY6LmOXHd3KGf0tYF3IJNN/uZVRGYPztPJmNbfTamEbK9Fg39C9v8/MiAb8+iLaRx+ADYkL8KmA5TTFUHpo+vsuyh5yQKjc0g2rPVOs3k7308KGf1sI+MdkFEIYCpCmPN7ULkljnrDqx7CFQDTbvjTXvi0fYfyH53i4n8e0KemF+m6ZBUi4WLv/uEkXO3L8Vd617iKIvfQnc+S0s3idiXl/EqxpW2QPp8IWE05qBL2a1q/pytchLlX7u85a/QwEPpxJlk3XgmNtrZaYfOZUIVLK5SWe5eVjJBlJyw/RvfKzd789ybOD0NnIhAG0K5mqhflUyCwvC9ZDu7evlWHs88dIMAWDvcOY1Ecg3kd54cr7AZPHY2sR7auV7Cf0o9reu1GB+npCsIOAvfrW+wnL0/dvfzEWGc0Q/I2wPcCdg7bwI7cfEq5B23DnKn9bfRTZC1RyVAPxyYqYllC6XVtvnJIf2oPOZWLinqlmfyNSI+Wjy7eY+FePdetxNmc5TOWL56ebpf0FvTp+Rxh7yT98QzDg/Pdbg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CO1PR10MB4531.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(5660300002)(4326008)(6916009)(508600001)(6666004)(6512007)(53546011)(316002)(6506007)(2906002)(83380400001)(8676002)(66556008)(107886003)(186003)(2616005)(8936002)(66946007)(66476007)(6486002)(36756003)(31686004)(86362001)(38100700002)(31696002)(45980500001)(43740500002)(20210929001);
+ SFS:(13230001)(366004)(6512007)(66946007)(2616005)(6486002)(36756003)(2906002)(52116002)(6506007)(508600001)(5660300002)(6666004)(66556008)(4326008)(8676002)(8936002)(6916009)(26005)(107886003)(316002)(66476007)(83380400001)(186003)(38100700002)(38350700002)(86362001)(20210929001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dS9QNjhablgvUU5rbm5QKzIrVmNzQng5MWJqTW9HeHgveVNTT0NjemVyMTlk?=
- =?utf-8?B?ejVCODQxZHNhZ0JxZk4wejB0d29FT0tYdkwrWUhmWDk1bklxaEVwQkx2QXVB?=
- =?utf-8?B?bEVrQ3YwSFlRRXVYM3JSZTlBYUdoZTVVU1pBWWR3K3pJeklCTXVwYTl4eHdE?=
- =?utf-8?B?RDlIdmFsY0FkOEFsbm1HKzdBclRpOWZOTm1HY2Roc1I1UlpHM2pBdCtmdEJF?=
- =?utf-8?B?R1pLUjlzY0QybGFYMkIwRklSTTVaOFpYWFN6RXNJSTc2emJBRVhHbUYzVW9w?=
- =?utf-8?B?cS9rU29MR2toa1J4cGRwZnAwcjhKQUpPT1VNeGFuRS9ZampPR25Cc3RTYmZT?=
- =?utf-8?B?TDlOUjdXdkNKUkJxUjMzVml3dVRLVnRXa1hGcU16WUVtNzVHV2c2Z1c0WGpO?=
- =?utf-8?B?NG1lL3FUVjVHM3JhSFRDYldNU1dhRzdlSXA0V2lVY094S2ZNcVdTSndIRHRT?=
- =?utf-8?B?dktWMUxDQjgwdGErMTN2MHUwTnpzVko4SE95c3pXcmh1UGRrc3NKUFBWRC9u?=
- =?utf-8?B?a2ZpUEZEMENvNGh1V3VlcnZPSTJXam4xRDZqdUdwSU9rM3hIdllxT1pSYlND?=
- =?utf-8?B?Z0hzQUFndDEwdFBGUWRsTTI5ZnFCMS8xeDIzYUF5czdXUTZvTVVhWFhlcGl0?=
- =?utf-8?B?UU9NVG54MkI5UDR0ck1JWG1KMzN5R2tBRE1Ja2phZGwrODN6QkRKdy9XWmtR?=
- =?utf-8?B?YjZLaEN6ZCtUNUM1VnFXN1k3L2h6TW1pSmNYbE1QMGlsTjQxQ2l2ODY3bzVT?=
- =?utf-8?B?SCs3VURRbEN5SzVPeVlJazJKR0RLYlhWazhtMTYxUE12Wk5wMG5YR3ZyRnB1?=
- =?utf-8?B?SGZ3eFlhYVdXdUQzajNlcldsWHptWmlrZ1JPRXJoZldKc2N0WVVmUTRObTBl?=
- =?utf-8?B?Snc5SEhHYktkQXdRTlpLTlpWQXdhT3BjN29td2JlUEc0OVZUSElIMTVaMHBY?=
- =?utf-8?B?c1ExQll5d0NDdWt3QVJsbXhVeGxLTFdxRDlBV2lKVm1PY2NOalVrZ0lOTWd6?=
- =?utf-8?B?akliY252cksva21uaThoZWVoRkpGNnN0c3RpVC80WWprSjVFZjV2bDlTWUs2?=
- =?utf-8?B?dVdKdnpSZWp2VTdnNlhrMVN6R1hidzkzanZwYTFmOWZJcnRuNE8rNm1zdGs5?=
- =?utf-8?B?N1dKbk9wanVXUFQ0YVVzQ3J2SDUvNHhDdlFoL21HblQzdFRNeTlQSnpCbEZR?=
- =?utf-8?B?NEwwSFJtMlk3Ni85OWVXN0V5ZmNPNVlyL25pc0c2QlBRWjNueEkwTkJMS0R0?=
- =?utf-8?B?WkdKTENxNHNJM2RjMWhWUTdLTjNTRS9RMnNYTnhNT21WOUVZbUROMWZ1c3FM?=
- =?utf-8?B?V2tMV0NuZDFBV0lDdmdxU1ZBZjBXcVNlb1pNcXpWYnNqZjM1bG1EY0Q2czZM?=
- =?utf-8?B?TFMxU0dJMjhBTEN1S0lqWE1TWVJJbmE5c29keDVRbDlrcVJUYkRIZFJvam9V?=
- =?utf-8?B?MWZqT1ZkMlFTSzJVQlQxVlBQUmJKdE5ONTZMMVRCQzlhZzhPeFhBaUkrQ1NQ?=
- =?utf-8?B?aEw5NGFCT0N0aHpkM2c0d0M5Yk5QVDlFVkhMdmZHYjhjbnIvVElBajN5YnhM?=
- =?utf-8?B?MXdFQnpHQnpGMGIzWlp4TngwSEhERk1GeFFqK1MrbHZJOG9OaE1VTHAvNm5T?=
- =?utf-8?B?TDRPRG8rd3JZb2VSM2NNeHFnei9ZZzRURUVtUDh2OHhDc0EzOGhmcEdGaHBO?=
- =?utf-8?B?YmZxUVh3U1RaOGVNODVnQnpKMVZ3c09tVXhwTk45NlppSC9hN2lFWjVIMzdl?=
- =?utf-8?B?TmhLZFFmNjE5L2lkb0t3OUVETWNvejRJZVNaelVQVzlEcHhtTzNwVzB0dnRN?=
- =?utf-8?B?cTBhZFluSlZDM2dxb3M2dHdCN1BvZUJRakovc3lrelozVkV2QnVBb0N4Y2lN?=
- =?utf-8?B?WWpMMkpxMmdZTUNQdVRhRlZSU0tBQUpNb0tkN0lTOUZ0S0ZoNXFYenRrZm9k?=
- =?utf-8?B?cEF0R01hTE1IenJmbDVxamxCc1lWN2ZVWmZpN2ZmYXBMOHBoaHoyK2hSeGRR?=
- =?utf-8?B?T1UzSGIxeTF1UDJzSHNUc1dDeUFLUlYzM3FZQXVzSEl1K2xaODVDVkhYdG9Q?=
- =?utf-8?B?Nm54QVBzN2ZFRHhzMHlMR0NnVHhvSzlMTkFNQmszdzFnZ0FGWDNiUGplckxu?=
- =?utf-8?B?UFprcU5PZ3JGVnFMWUtVVCtWTERJdi9yNFNYS2trbmdpQ3NkWkZuUUVpWWll?=
- =?utf-8?B?eStFdDhBK1I1MmZyNXEzWWhvckJ5MDJpd29RVUVmaHZsTWhPSDdRY3VJd0JM?=
- =?utf-8?B?ekNacDcvTWtTRkg3WStSR0hKNFNldGk2Y0RhU1p5NzFrMDNFMlNJaUczeU40?=
- =?utf-8?Q?jg1CTlz6DKvnrlvJco?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?a2wPvcHFFFTyuKwSoLISt8zmrGWin2KAdq4Y4iSnKOTiYr0Q/pvpW5Re3YNi?=
+ =?us-ascii?Q?JvFW9VENhbUyx3+a8fao/nBwEyk4q/IpKK6K7xkyISKpNGjxrUmjbItnSLQU?=
+ =?us-ascii?Q?ipAI1h10lAe+tr6u4mySgGGc6ub50dUr3rFVm0AlXexGJQD6gW076wXY0eRL?=
+ =?us-ascii?Q?UGNe0tOZNJmrPZV9F73Znx2+MV7KW4m2Cgl0e5VvQ2MZuTOIvU50/J40GuUb?=
+ =?us-ascii?Q?bpD99L4stXWQPK3M15f5s8Peqp9oXh+rjoPkedIzdu/+lEnpilEgDOQQZUWO?=
+ =?us-ascii?Q?NMI6LKgPzErwo4DFfmXornp6ZNsLugd9wHdUhnVZfQMHgb9tirYBD7uAWaLe?=
+ =?us-ascii?Q?JzLYJYTaSMAbdrBLCtJe8y4KDadB6ec0KC93inDIz8aHqVklOoqo5Yh/xoRf?=
+ =?us-ascii?Q?0JWUjpW01wKZM5SQfxaBICb+ssXsBCpfvYMIX8s8foLWQpuVaBC8BzaWcBnF?=
+ =?us-ascii?Q?4fDaYbpoQSiVTaY/5vV3E+Zf8Jje7bv4riOWHiIGdeeqbZczUPGDduTmvAM8?=
+ =?us-ascii?Q?cGM58AHR582LomjywGbjSJckHpAcUC9B6by3GEg+3/3ULMJp1FxfgHm+HGa5?=
+ =?us-ascii?Q?X+JoVtV7XSowLAUi5UFGLu5ugC06Usx7pWkQiOo1JpbwcQCMbF5KxVdYSjGe?=
+ =?us-ascii?Q?F1gJzDWxXVpTYriJ7AaUTpziAuwtLjl0NoNTpAWoKs5xFsCYWzO3FuUcgPwt?=
+ =?us-ascii?Q?3brDr7B/dtcxVT/UxxY3QyRfdJAZWMg/5sSx9qzY3Je4cmbBPJWn+N6LfaAw?=
+ =?us-ascii?Q?wbxnBC2VXCROPH9sScqse1DbrED7COVXTbDIRsyL1LKu4psVlYYb2jTSXj7P?=
+ =?us-ascii?Q?CE1SGl5z3YWHoe8y3+u6oKKauSxEYcBppcB6mp2SDV4axRt3LtL3eal4jE2/?=
+ =?us-ascii?Q?u6wbVyupDy3l6S4vT1/7Itw7hCilouUr4u7lH1mAVrpjV2V5oKxE7csQGAOR?=
+ =?us-ascii?Q?28B/gSqgspzQvCwlErPwO3k1lT29trrFGyhRI2xOlB9lN6SIZI57j2yalwXR?=
+ =?us-ascii?Q?VsjYcC0BwcjNg5+LIafu9MIRRjYl4Gp+jr1ASJcVHXIsUKk7j+4FvuDdYK35?=
+ =?us-ascii?Q?MaSlZwzJp/shCS00+2pJkyOK/DfZaW3AzeRVWG2z1/+gpn6BPHrxjA0vs4Yi?=
+ =?us-ascii?Q?fj5bltOw2OYy5sN5/lOqxGXou5aW8Lx7m9FbaQ6EmKjBFi2bQaB4wiS/Ekxf?=
+ =?us-ascii?Q?PBe4OYVwzcx+el7FlwZfPy3jOFsw8inrZG0F+sW2AiKMo46rob3aq1GhjiZe?=
+ =?us-ascii?Q?V624Pdvb2XA4f/e4yHKkKdJ4w8iuFb6xYFydcrKNgpJS4JFD9bf/+stZlLSh?=
+ =?us-ascii?Q?lZS0N+Rdzcpq8Y8ql15CN11eLzAW92EOQukO0nOLmQ2W/MEetQ7McJ+KRg2L?=
+ =?us-ascii?Q?tRrxQEchzGsG2bZIN/z9uADBULeczSojCIrF+1cWk0KVqTFvEQk9hzZqAx8e?=
+ =?us-ascii?Q?nsLfc7eJP1bMDj5BFO7CTdE4J74+XcqFYW//ed3kTXVobRZui+nM6g1OwTOu?=
+ =?us-ascii?Q?yJBI0cG84PxKp2TV+KLV9Oq4W8OMKmD/8najm79hyEDG5V2gTXAZkYksNvPr?=
+ =?us-ascii?Q?RZWVH5U6L3+7X8f1zGFvkCrOa/Hmcpc3dWMIxf9ZzaKUgGcVMt1vhCUWoCZl?=
+ =?us-ascii?Q?vpPgEm8cNqqnNGZf/mHd2Ij6qLfiPhnAt7DcH9KW7SUfBnlWVyle/e9T31f/?=
+ =?us-ascii?Q?ZJOtiQ=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f5637be-8d44-45d0-abe0-08d9e0e83d37
+X-MS-Exchange-CrossTenant-Network-Message-Id: 403f9437-dd98-40fe-bd86-08d9e0e8ec4e
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4531.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2022 16:23:51.6697 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2022 16:28:45.2827 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mupBUFEi/QagIzn6+IkVKM1WBnyOKI3O0VnHpCEdJeU+DgAjrArg3j9TmGFgNye4KOka/Q6OchncKb08MQg4BqzKVYbkIif3bp6WR61ODCc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5297
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3gsZh/KOHO0M19fiDYmBxrjdfOHeEpTnuj/FIm/mozP1JBdUIzC0Loez3ruCIgXq0jR4M1ZGFaH8vWId7mqLgOQu16Ig067SPsMMhVx9lYs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR10MB1571
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10239
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- mlxlogscore=999
- adultscore=0 spamscore=0 bulkscore=0 mlxscore=0 phishscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2201260102
-X-Proofpoint-GUID: KCEJf-VQSjXFCvNsD50L7EWeQ8jwYo0l
-X-Proofpoint-ORIG-GUID: KCEJf-VQSjXFCvNsD50L7EWeQ8jwYo0l
+ bulkscore=0 mlxscore=0
+ phishscore=0 suspectscore=0 spamscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2201260102
+X-Proofpoint-GUID: PDCwgygmJr0qDkF5t-myRT-L3sbjnrVm
+X-Proofpoint-ORIG-GUID: PDCwgygmJr0qDkF5t-myRT-L3sbjnrVm
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=eric.devolder@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, UPPERCASE_50_75=0.008 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -181,230 +162,140 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
- konrad.wilk@oracle.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
+ konrad.wilk@oracle.com, pbonzini@redhat.com, ani@anisinha.ca,
  imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ani, Michael,
-An inline response at the bottom.
-Thanks!
-eric
+This patchset introduces support for the ACPI Error Record
+Serialization Table, ERST.
 
-On 1/26/22 01:05, Ani Sinha wrote:
-> 
-> 
-> On Tue, 25 Jan 2022, Eric DeVolder wrote:
-> 
->> Ani,
->> Thanks for the feedback! Inline responses below.
->> eric
->>
->> On 1/25/22 04:53, Ani Sinha wrote:
->>>
->>>
->>>> +
->>>> +    action = ACTION_BEGIN_CLEAR_OPERATION;
->>>> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
->>>> +
->>>> +    action = ACTION_END_OPERATION;
->>>> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
->>>> +
->>>> +    action = ACTION_SET_RECORD_OFFSET;
->>>> +    BUILD_WRITE_REGISTER(32, ERST_VALUE_OFFSET, 0);
->>>> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
->>>> +
->>>> +    action = ACTION_EXECUTE_OPERATION;
->>>> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_VALUE_OFFSET,
->>>> +        ERST_EXECUTE_OPERATION_MAGIC);
->>>
->>> except here, on all cases we have
->>> BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
->>>
->>> We should treat the above as special case and simplify the rest of the
->>> calls (eliminate repeated common arguments).
->>
->> OK, I created BUILD_WRITE_ACTION() to replace this occurrence. I've provided
->> what this section of code looks like with this and the other below change at
->> the end.
->>
->> I have seen the comment from Michael and you about using inline functions, I
->> will respond to that in the other message.
->>
->>>
->>>> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
->>>> +
->>>> +    action = ACTION_CHECK_BUSY_STATUS;
->>>> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
->>>> +    BUILD_READ_REGISTER_VALUE(32, ERST_VALUE_OFFSET, 0x01);
->>>> +
->>>> +    action = ACTION_GET_COMMAND_STATUS;
->>>> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
->>>> +    BUILD_READ_REGISTER(32, ERST_VALUE_OFFSET);
->>>> +
->>>> +    action = ACTION_GET_RECORD_IDENTIFIER;
->>>> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
->>>> +    BUILD_READ_REGISTER(64, ERST_VALUE_OFFSET);
->>>> +
->>>> +    action = ACTION_SET_RECORD_IDENTIFIER;
->>>> +    BUILD_WRITE_REGISTER(64, ERST_VALUE_OFFSET, 0);
->>>> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
->>>
->>> This one seems reverted. Should this be
->>> BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
->>> BUILD_WRITE_REGISTER(64, ERST_VALUE_OFFSET, 0);
->>>
->>> like others?
->>
->> This is a SET operation, so the data is provided in VALUE register, then
->> the ACTION is written to perform the command, ie record the value.
->>
-> 
-> Ok I see. makes sense.
-> 
->>>
->>>> +
->>>> +    action = ACTION_GET_RECORD_COUNT;
->>>> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
->>>> +    BUILD_READ_REGISTER(32, ERST_VALUE_OFFSET);
->>>> +
->>>> +    action = ACTION_BEGIN_DUMMY_WRITE_OPERATION;
->>>> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
->>>> +
->>>> +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE;
->>>> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
->>>> +    BUILD_READ_REGISTER(64, ERST_VALUE_OFFSET);
->>>> +
->>>> +    action = ACTION_GET_ERROR_LOG_ADDRESS_LENGTH;
->>>> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
->>>> +    BUILD_READ_REGISTER(64, ERST_VALUE_OFFSET);
->>>> +
->>>> +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES;
->>>> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
->>>> +    BUILD_READ_REGISTER(32, ERST_VALUE_OFFSET);
->>>> +
->>>> +    action = ACTION_GET_EXECUTE_OPERATION_TIMINGS;
->>>> +    BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
->>>> +    BUILD_READ_REGISTER(64, ERST_VALUE_OFFSET);
->>>> +
->>>
->>> BUILD_READ_REGISTER() is always called with ERST_VALUE_OFFSET as second
->>> argument. WE should eliminate this repeated passing of same argument.
->>
->> The BUILD_READ_REGISTER is always against the VALUE register, as you point
->> out,
->> so I've s/BUILD_READ_REGISTER/BUILD_READ_VALUE/ and embedded the offset in the
->> macro now. You can see this below.
->>
-> 
->> And here is what the main snippet looks like with the above changes (a diff
->> is quite messy):
->>
->>      /*
->>       * Macros for use with construction of the action instructions
->>       */
->> #define BUILD_READ_VALUE(width_in_bits) \
->>      build_serialization_instruction_entry(table_instruction_data, \
->>          action, INST_READ_REGISTER, 0, width_in_bits, \
->>          bar0 + ERST_VALUE_OFFSET, 0)
->>
->> #define BUILD_READ_VALUE_VALUE(width_in_bits, value) \
->>      build_serialization_instruction_entry(table_instruction_data, \
->>          action, INST_READ_REGISTER_VALUE, 0, width_in_bits, \
->>          bar0 + ERST_VALUE_OFFSET, value)
->>
->> #define BUILD_WRITE_REGISTER(width_in_bits, reg, value) \
->>      build_serialization_instruction_entry(table_instruction_data, \
->>          action, INST_WRITE_REGISTER, 0, width_in_bits, \
->>          bar0 + reg, value)
->>
->> #define BUILD_WRITE_REGISTER_VALUE(width_in_bits, reg, value) \
->>      build_serialization_instruction_entry(table_instruction_data, \
->>          action, INST_WRITE_REGISTER_VALUE, 0, width_in_bits, \
->>          bar0 + reg, value)
->>
->> #define BUILD_WRITE_ACTION() \
->>      BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action)
->>
->>      /* Serialization Instruction Entries */
->>      action = ACTION_BEGIN_WRITE_OPERATION;
->>      BUILD_WRITE_ACTION();
->>
->>      action = ACTION_BEGIN_READ_OPERATION;
->>      BUILD_WRITE_ACTION();
->>
->>      action = ACTION_BEGIN_CLEAR_OPERATION;
->>      BUILD_WRITE_ACTION();
->>
->>      action = ACTION_END_OPERATION;
->>      BUILD_WRITE_ACTION();
->>
->>      action = ACTION_SET_RECORD_OFFSET;
->>      BUILD_WRITE_REGISTER(32, ERST_VALUE_OFFSET, 0);
->>      BUILD_WRITE_ACTION();
->>
->>      action = ACTION_EXECUTE_OPERATION;
->>      BUILD_WRITE_REGISTER_VALUE(32, ERST_VALUE_OFFSET,
->>          ERST_EXECUTE_OPERATION_MAGIC);
->>      BUILD_WRITE_ACTION();
->>
->>      action = ACTION_CHECK_BUSY_STATUS;
->>      BUILD_WRITE_ACTION();
->>      BUILD_READ_VALUE_VALUE(32, 0x01);
->>
->>      action = ACTION_GET_COMMAND_STATUS;
->>      BUILD_WRITE_ACTION();
->>      BUILD_READ_VALUE(32);
->>
->>      action = ACTION_GET_RECORD_IDENTIFIER;
->>      BUILD_WRITE_ACTION();
->>      BUILD_READ_VALUE(64);
->>
->>      action = ACTION_SET_RECORD_IDENTIFIER;
->>      BUILD_WRITE_REGISTER(64, ERST_VALUE_OFFSET, 0);
->>      BUILD_WRITE_ACTION();
->>
->>      action = ACTION_GET_RECORD_COUNT;
->>      BUILD_WRITE_ACTION();
->>      BUILD_READ_VALUE(32);
->>
->>      action = ACTION_BEGIN_DUMMY_WRITE_OPERATION;
->>      BUILD_WRITE_ACTION();
->>      BUILD_WRITE_REGISTER_VALUE(32, ERST_ACTION_OFFSET, action);
->>
->>      action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE;
->>      BUILD_WRITE_ACTION();
->>      BUILD_READ_VALUE(64);
->>
->>      action = ACTION_GET_ERROR_LOG_ADDRESS_LENGTH;
->>      BUILD_WRITE_ACTION();
->>      BUILD_READ_VALUE(64);
->>
->>      action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES;
->>      BUILD_WRITE_ACTION();
->>      BUILD_READ_VALUE(32);
->>
->>      action = ACTION_GET_EXECUTE_OPERATION_TIMINGS;
->>      BUILD_WRITE_ACTION();
->>      BUILD_READ_VALUE(64);
->>
->>      /* Serialization Header */
-> 
-> Yes this looks a lot cleaner. Now as Michael suggested, we can convert
-> them to inline functions and pass a struct with the common params. Maybe
-> we can use a macro also to make things even more cleaner. Like calling
-> the inline function from the macro with the common struct. I am trying to
-> avoid repeated copy-paste code.
-> 
+For background and implementation information, please see
+docs/specs/acpi_erst.rst, which is patch 2/10.
 
-OK, I've converted the above to utilize a context structure that Michael
-outlined, and a function call, rather than macro (as above), to generate
-the table content.
+Suggested-by: Konrad Wilk <konrad.wilk@oracle.com>
+Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
 
-Without using macros, I think this code is about as simplified as can be.
+---
+v14: 26jan2022
+ - Changed build_erst() to utilize a context structure for
+   generating accesses to ACTION and VALUE, per Michael Tsirkin.
+ - Other simplification per Ani Sinha.
 
-As this has significant changes, I'll post as v14. Note that the code
-grew by about 35 lines, not too bad.
+v13: 24jan2022
+ - v12 erroneously omitted step 6 of bios-tables-test.c, this
+   has step 6 included.
+ - No other changes to v12.
 
-eric
+v12: 10jan2022
+ - Converted macros in build_erst() to uppert to follow coding
+   style, as pointed out by Michael Tsirkin.
+ - And few items to help further simplify build_erst().
+
+v11: 15dec2021
+ - Simplified build_erst() via feedback from Michael Tsirkin
+ - Addressed additional feedback from Ani Sinha
+
+v10: 9dec2021
+ - Addressed additional feedback from Ani Sinha
+
+v9: 2dec2021
+ - Addressed feedback from Ani Sinha
+
+v8: 15oct2021
+ - Added Kconfig option for ERST, per Ani Sinha
+ - Fixed patch ordering, per Ani
+
+v7: 7oct2021
+ - style improvements, per Igor
+ - use of endian accessors for storage header, per Igor
+ - a number of optimizations and improvements, per Igor
+ - updated spec for header, per Igor
+ - updated spec for rst format, per Michael Tsirkin
+ - updated spec for new record_size parameter
+   Due to changes in the spec, I am not carrying the
+   Acked-by from Ani Sinha.
+ - changes for and testing of migration to systems with
+   differing ERST_RECORD_SIZE
+
+v6: 5aug2021
+ - Fixed compile warning/error, per Michael Tsirkin
+ - Fixed mingw32 build error, per Michael
+ - Converted exchange buffer to MemoryBackend, per Igor
+ - Migrated test to PCI, per Igor
+ - Significantly reduced amount of copying, per Igor
+ - Corrections/enhancements to acpi_erst.txt, per Igor
+ - Many misc/other small items, per Igor
+
+v5: 30jun2021
+ - Create docs/specs/acpi_erst.txt, per Igor
+ - Separate PCI BARs for registers and memory, per Igor
+ - Convert debugging to use trace infrastructure, per Igor
+ - Various other fixups, per Igor
+
+v4: 11jun2021
+ - Converted to a PCI device, per Igor.
+ - Updated qtest.
+ - Rearranged patches, per Igor.
+
+v3: 28may2021
+ - Converted to using a TYPE_MEMORY_BACKEND_FILE object rather than
+   internal array with explicit file operations, per Igor.
+ - Changed the way the qdev and base address are handled, allowing
+   ERST to be disabled at run-time. Also aligns better with other
+   existing code.
+
+v2: 8feb2021
+ - Added qtest/smoke test per Paolo Bonzini
+ - Split patch into smaller chunks, per Igor Mammedov
+ - Did away with use of ACPI packed structures, per Igor Mammedov
+
+v1: 26oct2020
+ - initial post
+
+---
+
+Eric DeVolder (10):
+  ACPI ERST: bios-tables-test.c steps 1 and 2
+  ACPI ERST: specification for ERST support
+  ACPI ERST: PCI device_id for ERST
+  ACPI ERST: header file for ERST
+  ACPI ERST: support for ACPI ERST feature
+  ACPI ERST: build the ACPI ERST table
+  ACPI ERST: create ACPI ERST table for pc/x86 machines
+  ACPI ERST: qtest for ERST
+  ACPI ERST: bios-tables-test testcase
+  ACPI ERST: step 6 of bios-tables-test.c
+
+ docs/specs/acpi_erst.rst          |  200 +++++++
+ hw/acpi/Kconfig                   |    6 +
+ hw/acpi/erst.c                    | 1069 +++++++++++++++++++++++++++++++++++++
+ hw/acpi/meson.build               |    1 +
+ hw/acpi/trace-events              |   15 +
+ hw/i386/acpi-build.c              |   15 +
+ hw/i386/acpi-microvm.c            |   15 +
+ include/hw/acpi/erst.h            |   24 +
+ include/hw/pci/pci.h              |    1 +
+ tests/data/acpi/microvm/ERST.pcie |  Bin 0 -> 912 bytes
+ tests/data/acpi/pc/DSDT.acpierst  |  Bin 0 -> 5969 bytes
+ tests/data/acpi/pc/ERST.acpierst  |  Bin 0 -> 912 bytes
+ tests/data/acpi/q35/DSDT.acpierst |  Bin 0 -> 8306 bytes
+ tests/data/acpi/q35/ERST.acpierst |  Bin 0 -> 912 bytes
+ tests/qtest/bios-tables-test.c    |   54 ++
+ tests/qtest/erst-test.c           |  172 ++++++
+ tests/qtest/meson.build           |    2 +
+ 17 files changed, 1574 insertions(+)
+ create mode 100644 docs/specs/acpi_erst.rst
+ create mode 100644 hw/acpi/erst.c
+ create mode 100644 include/hw/acpi/erst.h
+ create mode 100644 tests/data/acpi/microvm/ERST.pcie
+ create mode 100644 tests/data/acpi/pc/DSDT.acpierst
+ create mode 100644 tests/data/acpi/pc/ERST.acpierst
+ create mode 100644 tests/data/acpi/q35/DSDT.acpierst
+ create mode 100644 tests/data/acpi/q35/ERST.acpierst
+ create mode 100644 tests/qtest/erst-test.c
+
+-- 
+1.8.3.1
+
 
