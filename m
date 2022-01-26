@@ -2,87 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E7C849C998
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 13:26:11 +0100 (CET)
-Received: from localhost ([::1]:51126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2193449C9BC
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 13:32:42 +0100 (CET)
+Received: from localhost ([::1]:54422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nChNK-0005kc-FC
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 07:26:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42206)
+	id 1nChTc-0008Lv-Ve
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 07:32:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nChM5-00055c-Fi
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 07:24:53 -0500
-Received: from [2a00:1450:4864:20::332] (port=36562
- helo=mail-wm1-x332.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nChM3-00031V-UJ
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 07:24:53 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- i187-20020a1c3bc4000000b0034d2ed1be2aso3648376wma.1
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 04:24:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=nhBnmmcA7VEsc+izR+lL+XEkG6UMYTZLwOwIEBfgtS0=;
- b=bRBEd0QQq8EmpwQ0gacDtPUAu3WJWPTaw7czXHss0TwlkdAgDCi2/zbR7Qh7uuV/B7
- uQuVLSIh77uJ3fzSnUbwWSOJY+rd623PUa01C/sBLOdLyIJGe9r63/xyxgSIA1kFwUqg
- WwJTdT8yVJvV0wn1bYVkvR2c0XStKJABEhIqntRpDNb7n15hQJ7gFgEIJkjsxKuzCP01
- 4tPyZVgxqu/ky83IAwRvXL/qOG33YS0efktiS0UUZt68LUeNpk5u/nQz5hUTyD4vBo9D
- fO94fpwuvJAYOmV5Ml/+WRIEDEtJmfujGSiQKzj4wHbj1tEsMfejQLXbkkU3JsVjb4Sp
- lWWw==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nChQu-0006lJ-R5
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 07:29:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57688)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nChQt-0003cT-1G
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 07:29:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643200189;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OSmfy2lO6BOxA9ibXIEKSyEr58CxVucCvmLzQrwH2UA=;
+ b=dNrEY5q6S9oyf4Dl9ngzm9QsWzl9Rq1nbhGzIX2KQwIfrqrW69tGG8j747tL71b2o/CeTw
+ mF3RtZbDqFVk/CUtqNLOQ5439QE21jN2qYdreKas6alT399RuBQ5zj7wstskpUxKC7IirQ
+ +gOv8NdxH9uTnSQXXBXPxg1Nz99AAMM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-621-GLw1mZeDNSK-72tBvFzL4A-1; Wed, 26 Jan 2022 07:29:48 -0500
+X-MC-Unique: GLw1mZeDNSK-72tBvFzL4A-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ q71-20020a1ca74a000000b003507f38e330so2435164wme.9
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 04:29:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=nhBnmmcA7VEsc+izR+lL+XEkG6UMYTZLwOwIEBfgtS0=;
- b=61lqVISoILxN8gPye2JYdYaC5J3roaOhx9sM0R7O8trJT/YlHpoYXcdJGdtCC1/D+n
- dpkE7UGC5PX9/H72a9VGZYG4n+lMfO41856fo5sppdQAxaA8WK9TQ1Ea9zAGoogkVIZk
- /KaaRw4f9Wj3H7hfU93526gsYgbJdSFpScC/w1prj/AqSjFYhfgaJQMMOOtlD7vHHMy1
- P1c/jIEAmzQsfiOW1CujW7LSt9tgNAwc7lBBCdZFRVDIj0HpbL9mCLiGXdiPYnedRBup
- zGmC3IPwgd5XR9uGVwqosUGF4wvafzFdRIiz5ewEKDj58TRAYjQQ0U8yn2uhWcsMQe6h
- J15g==
-X-Gm-Message-State: AOAM531PZHQ/+fClNVlIaZPs5APeKakvNYCQ8H1bNVvwSSqGvno0PRFV
- D1CAiyO6pmxXLR3FhQBzjfc=
-X-Google-Smtp-Source: ABdhPJyZa2DPYaRkxfZivJfdwc0lzlnHlbYn8gVaK+q9zYDjg1GM8G22HVMh6vK8gzaIsyDNtdeajw==
-X-Received: by 2002:a1c:7412:: with SMTP id p18mr591434wmc.30.1643199889831;
- Wed, 26 Jan 2022 04:24:49 -0800 (PST)
-Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id 1sm11603314wry.52.2022.01.26.04.24.48
+ bh=OSmfy2lO6BOxA9ibXIEKSyEr58CxVucCvmLzQrwH2UA=;
+ b=HgvvU8nriIEtXGm/Sq8RNK5nR6CQXU+snP/z4PpXi7Eytbfx5Yg8iEjQNYKzE7U8Ev
+ TqGSFEW88YsxUvalz5l4geC3uX0PsrclgZcEPy2XTLPsFF39iNpmot3RnbdrJVffMRur
+ MD4OzYH1ZEvjgrPYHdi/doQrjSmYMoMWl69+1yoCrURlP3tmgwSiRtGuMNUEKHic5CPZ
+ uDhjzFWvxmH/d+y9lDq5kw+7k3TzIBMx9puOAXo1+/Mvn/itiuxfGbUMExoqDsSspMUV
+ ZVF9j9MKV2X49II97HSgVH6s5v6xq+1AjspX6HYClTZ53ouUtNQaVMdSGkFYqrGwTEhJ
+ HIUQ==
+X-Gm-Message-State: AOAM531vG9P0Qul+3POm7VoiWGxvuFwDMRK341WN+NLi1IT/CtRowmRg
+ 2Q6vOAYk8+YZkhxu0JTO7/Jr05qUmoygE8kOECyt0bjLhY1k835yrMToT4gmv6Uf8g7Tdis4IhF
+ oaWRRiQC9zNR52Yo=
+X-Received: by 2002:a5d:6d4f:: with SMTP id k15mr22306624wri.345.1643200187733; 
+ Wed, 26 Jan 2022 04:29:47 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy/SuH2RCdDkky9PbEuvELEZw5OWcSQ+IMkmLUSgvl4RM58mLyFBkP79hTE88K64eyWe7BiFA==
+X-Received: by 2002:a5d:6d4f:: with SMTP id k15mr22306592wri.345.1643200187529; 
+ Wed, 26 Jan 2022 04:29:47 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id o8sm2849371wmc.46.2022.01.26.04.29.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Jan 2022 04:24:49 -0800 (PST)
-Message-ID: <48519051-3868-de38-10ad-db01823328fe@amsat.org>
-Date: Wed, 26 Jan 2022 13:24:48 +0100
+ Wed, 26 Jan 2022 04:29:47 -0800 (PST)
+Message-ID: <2cf5b7da-c1d1-1543-cdcc-be253bb37aad@redhat.com>
+Date: Wed, 26 Jan 2022 13:29:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] hw/display/tcx: Avoid clearing dirty bitmap in
- DeviceReset()
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v6 23/33] block_int-common.h: split function pointers in
+ BlockDriver
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20220121170544.2049944-1-eesposit@redhat.com>
+ <20220121170544.2049944-24-eesposit@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220121170544.2049944-24-eesposit@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Andreas Gustafsson <gson@gson.org>
-References: <20220122000707.82918-1-f4bug@amsat.org>
- <004e2b3d-46f3-f829-faea-f36b1e7c3054@ilande.co.uk>
-In-Reply-To: <004e2b3d-46f3-f829-faea-f36b1e7c3054@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,46 +101,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ John Snow <jsnow@redhat.com>, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 1/26/22 08:23, Mark Cave-Ayland wrote:
-> On 22/01/2022 00:07, Philippe Mathieu-Daudé via wrote:
-> 
->> Commit 2dd285b5f3 ("tcx: make display updates thread safe")
->> converted this model to use the DirtyBitmapSnapshot API,
->> resetting the dirty bitmap in tcx_update_display(). There
->> is no need to do it again in the DeviceReset handler.
->>
->> See more details in commit fec5e8c92b ("vga: make display
->> updates thread safe.").
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   hw/display/tcx.c | 2 --
->>   1 file changed, 2 deletions(-)
->>
->> diff --git a/hw/display/tcx.c b/hw/display/tcx.c
->> index d4d09d0df8..22b0ae4761 100644
->> --- a/hw/display/tcx.c
->> +++ b/hw/display/tcx.c
->> @@ -371,8 +371,6 @@ static void tcx_reset(DeviceState *d)
->>       s->r[258] = s->g[258] = s->b[258] = 255;
->>       update_palette_entries(s, 0, 260);
->>       memset(s->vram, 0, MAXX*MAXY);
->> -    memory_region_reset_dirty(&s->vram_mem, 0, MAXX * MAXY * (1 + 4 +
->> 4),
->> -                              DIRTY_MEMORY_VGA);
->>       s->dac_index = 0;
->>       s->dac_state = 0;
->>       s->cursx = 0xf000; /* Put cursor off screen */
-> 
-> I think the issue here is that tcx_reset() should be marking the entire
-> VRAM dirty due to the memset() i.e. we should be setting the dirty
-> bitmap rather than resetting it. Perhaps memory_region_reset_dirty()
-> should be replaced with tcx_invalidate_display() instead?
+On 21.01.22 18:05, Emanuele Giuseppe Esposito wrote:
+> Similar to the header split, also the function pointers in BlockDriver
+> can be split in I/O and global state.
+>
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>   include/block/block_int-common.h | 434 ++++++++++++++++---------------
+>   1 file changed, 231 insertions(+), 203 deletions(-)
+>
+> diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+> index 70534f94ae..e007dbf768 100644
+> --- a/include/block/block_int-common.h
+> +++ b/include/block/block_int-common.h
 
-Yeah I was not sure, and your suggestion sounds right. I'll respin.
+[...]
+
+> @@ -159,7 +148,66 @@ struct BlockDriver {
+
+[...]
+
+> +    /*
+> +     * Global state (GS) API. These functions run under the BQL lock.
+> +     *
+> +     * See include/block/block-global-state.h for more information about
+> +     * the GS API.
+> +     */
+> +
+> +    /*
+> +     * Return true if @to_replace can be replaced by a BDS with the
+> +     * same data as @bs without it affecting @bs's behavior (that is,
+> +     * without it being visible to @bs's parents).
+> +     */
+> +    bool (*bdrv_recurse_can_replace)(BlockDriverState *bs,
+> +                                     BlockDriverState *to_replace);
+> +
+> +    int (*bdrv_probe)(const uint8_t *buf, int buf_size, const char *filename);
+
+Considering that its only caller (bdrv_probe_all()) is now an I/O 
+function, shouldn’t this be, too?
+
+Hanna
+
 
