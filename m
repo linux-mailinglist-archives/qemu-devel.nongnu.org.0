@@ -2,61 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A733C49CB0E
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 14:41:51 +0100 (CET)
-Received: from localhost ([::1]:41496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 267E249CB4A
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 14:47:52 +0100 (CET)
+Received: from localhost ([::1]:50498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCiYY-0001gY-M0
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 08:41:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57368)
+	id 1nCieM-000164-SF
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 08:47:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <knuto@ifi.uio.no>)
- id 1nCiPc-0006Ay-KW; Wed, 26 Jan 2022 08:32:37 -0500
-Received: from mail-out04.uio.no ([129.240.10.76]:52737)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nCiQP-0006OK-Er
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 08:33:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45059)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <knuto@ifi.uio.no>)
- id 1nCiPQ-0006Nw-Ev; Wed, 26 Jan 2022 08:32:33 -0500
-Received: from mail-mx10.uio.no ([129.240.10.27])
- by mail-out04.uio.no with esmtps (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <knuto@ifi.uio.no>)
- id 1nCiP7-002FIb-SC; Wed, 26 Jan 2022 14:32:05 +0100
-Received: from 108.84-234-134.customer.lyse.net ([84.234.134.108]
- helo=[172.25.2.5])
- by mail-mx10.uio.no with esmtpsa (TLS1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
- user knuto (Exim 4.94.2) (envelope-from <knuto@ifi.uio.no>)
- id 1nCiP6-000ADj-VM; Wed, 26 Jan 2022 14:32:05 +0100
-Message-ID: <ebbd32070c27ed088b54ddf2c35486d86e461f47.camel@ifi.uio.no>
-Subject: Re: [PATCH v3 01/15] pcie: Add support for Single Root I/O
- Virtualization (SR/IOV)
-From: Knut Omang <knuto@ifi.uio.no>
-To: =?UTF-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>
-Date: Wed, 26 Jan 2022 14:32:04 +0100
-In-Reply-To: <20220126132320.GA24682@lgieryk-VirtualBox>
-References: <20211221143246.2052050-1-lukasz.maniak@linux.intel.com>
- <20211221143246.2052050-2-lukasz.maniak@linux.intel.com>
- <20220106050426-mutt-send-email-mst@kernel.org>
- <20220126132320.GA24682@lgieryk-VirtualBox>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nCiQM-0006VK-17
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 08:33:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643204000;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Vxg1tDKpMXu8C93GE74j2iy/rhkpW2YMFy+QBRuKwAg=;
+ b=Nw6TX68G80JqlMA8gvLMaTV3Cv2gnrUnlgEqhRd+BjjbYhvcEtPJgmxGBHRmifsY2mWKKu
+ AqdDUTNEmwMbmBlP/duUQ0f/CVyMM5R/knJsgy7j4T0E3Ewz59WSKixQtQdjhrA6jC970e
+ fjS39dRQjZeA3FC+8uWob3AhOaMLcPk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-604-hlr8ODxMPoG5ye76Z3tBDg-1; Wed, 26 Jan 2022 08:33:19 -0500
+X-MC-Unique: hlr8ODxMPoG5ye76Z3tBDg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19A80190A7A5;
+ Wed, 26 Jan 2022 13:33:18 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A28CE7D3D2;
+ Wed, 26 Jan 2022 13:33:17 +0000 (UTC)
+Date: Wed, 26 Jan 2022 13:33:16 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v5 6/7] meson: document, why we don't generate trace
+ events for tests/ and qga/
+Message-ID: <YfFNnM8QDMwlogIF@stefanha-x1.localdomain>
+References: <20220125215655.3111881-1-vsementsov@virtuozzo.com>
+ <20220125215655.3111881-7-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-UiO-SPF-Received: Received-SPF: neutral (mail-mx10.uio.no: 84.234.134.108 is
- neither permitted nor denied by domain of ifi.uio.no)
- client-ip=84.234.134.108; envelope-from=knuto@ifi.uio.no; helo=[172.25.2.5]; 
-X-UiO-Spam-info: not spam, SpamAssassin (score=-5.0, required=5.0,
- autolearn=disabled, TVD_RCVD_IP=0.001, UIO_MAIL_IS_INTERNAL=-5)
-X-UiO-Scanned: AB60454690488531BDE68BC184608335379B27CE
-X-UiOonly: D67D0E6EC97A914E6438BBD42B904BC248B4558B
-Received-SPF: pass client-ip=129.240.10.76; envelope-from=knuto@ifi.uio.no;
- helo=mail-out04.uio.no
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Ny2NNkvCwUX+UKUN"
+Content-Disposition: inline
+In-Reply-To: <20220125215655.3111881-7-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,134 +77,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, Lukasz Maniak <lukasz.maniak@linux.intel.com>,
- qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>,
- Klaus Jensen <its@irrelevant.dk>
+Cc: kwolf@redhat.com, michael.roth@amd.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, hreitz@redhat.com, pbonzini@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2022-01-26 at 14:23 +0100, Łukasz Gieryk wrote:
-> I'm sorry for the delayed response. We (I and the other Lukasz) somehow
-> had hoped that Knut, the original author of this patch, would have
-> responded.
 
-Yes, sorry - this one flushed past me here for some reason,
+--Ny2NNkvCwUX+UKUN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Let me address your questions, up to my best knowledge.
->   
-> > > -static pcibus_t pci_bar_address(PCIDevice *d,
-> > > -                                int reg, uint8_t type, pcibus_t size)
-> > > +static pcibus_t pci_config_get_bar_addr(PCIDevice *d, int reg,
-> > > +                                        uint8_t type, pcibus_t size)
-> > > +{
-> > > +    pcibus_t new_addr;
-> > > +    if (!pci_is_vf(d)) {
-> > > +        int bar = pci_bar(d, reg);
-> > > +        if (type & PCI_BASE_ADDRESS_MEM_TYPE_64) {
-> > > +            new_addr = pci_get_quad(d->config + bar);
-> > > +        } else {
-> > > +            new_addr = pci_get_long(d->config + bar);
-> > > +        }
-> > > +    } else {
-> > > +        PCIDevice *pf = d->exp.sriov_vf.pf;
-> > > +        uint16_t sriov_cap = pf->exp.sriov_cap;
-> > > +        int bar = sriov_cap + PCI_SRIOV_BAR + reg * 4;
-> > > +        uint16_t vf_offset = pci_get_word(pf->config + sriov_cap +
-> > > PCI_SRIOV_VF_OFFSET);
-> > > +        uint16_t vf_stride = pci_get_word(pf->config + sriov_cap +
-> > > PCI_SRIOV_VF_STRIDE);
-> > > +        uint32_t vf_num = (d->devfn - (pf->devfn + vf_offset)) / vf_stride;
-> > > +
-> > > +        if (type & PCI_BASE_ADDRESS_MEM_TYPE_64) {
-> > > +            new_addr = pci_get_quad(pf->config + bar);
-> > > +        } else {
-> > > +            new_addr = pci_get_long(pf->config + bar);
-> > > +        }
-> > > +        new_addr += vf_num * size;
-> > > +    }
-> > > +    if (reg != PCI_ROM_SLOT) {
-> > > +        /* Preserve the rom enable bit */
-> > > +        new_addr &= ~(size - 1);
-> > 
-> > This comment puzzles me. How does clearing low bits preserve
-> > any bits? Looks like this will clear low bits if any.
-> > 
-> 
-> I think the comment applies to (reg != PCI_ROM_SLOT), i.e., the bits are
-> cleared for BARs, but not for expansion ROM. I agree the placement of this
-> comment is slightly misleading. We will move it up and rephrase slightly.
+On Tue, Jan 25, 2022 at 10:56:54PM +0100, Vladimir Sementsov-Ogievskiy wrot=
+e:
+> Making trace generation work for tests/ and qga/ would involve some
+> Meson hackery to ensure we generate the trace-events files before
+> trace-tool uses them. Since we don't actually support tracing there
+> anyway, we bypass that problem.
+>=20
+> Let's add corresponding comments.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  qga/meson.build   | 8 ++++++++
+>  tests/meson.build | 8 ++++++++
+>  2 files changed, 16 insertions(+)
+>=20
+> diff --git a/qga/meson.build b/qga/meson.build
+> index cfb1fbc085..79fcf91751 100644
+> --- a/qga/meson.build
+> +++ b/qga/meson.build
+> @@ -15,6 +15,14 @@ qga_qapi_outputs =3D [
+>    'qga-qapi-visit.h',
+>  ]
+> =20
+> +# We don't generate trace-events, just because it's not simple. For do i=
+t,
 
-I agree - it's maybe better to just put the comment above the if(...) 
-other than that I believe it is correct.
+s/For/To/
 
-Knut
+> +# we also should add .trace-events file into qga_qapi_outputs, and than
 
->  
-> > > +pcibus_t pci_bar_address(PCIDevice *d,
-> > > +                         int reg, uint8_t type, pcibus_t size)
-> > >   {
-> > >       pcibus_t new_addr, last_addr;
-> > > -    int bar = pci_bar(d, reg);
-> > >       uint16_t cmd = pci_get_word(d->config + PCI_COMMAND);
-> > >       Object *machine = qdev_get_machine();
-> > >       ObjectClass *oc = object_get_class(machine);
-> > > @@ -1309,7 +1363,7 @@ static pcibus_t pci_bar_address(PCIDevice *d,
-> > >           if (!(cmd & PCI_COMMAND_IO)) {
-> > >               return PCI_BAR_UNMAPPED;
-> > >           }
-> > > -        new_addr = pci_get_long(d->config + bar) & ~(size - 1);
-> > > +        new_addr = pci_config_get_bar_addr(d, reg, type, size);
-> > >           last_addr = new_addr + size - 1;
-> > >           /* Check if 32 bit BAR wraps around explicitly.
-> > >            * TODO: make priorities correct and remove this work around.
-> > > @@ -1324,11 +1378,7 @@ static pcibus_t pci_bar_address(PCIDevice *d,
-> > >       if (!(cmd & PCI_COMMAND_MEMORY)) {
-> > >           return PCI_BAR_UNMAPPED;
-> > >       }
-> > > -    if (type & PCI_BASE_ADDRESS_MEM_TYPE_64) {
-> > > -        new_addr = pci_get_quad(d->config + bar);
-> > > -    } else {
-> > > -        new_addr = pci_get_long(d->config + bar);
-> > > -    }
-> > > +    new_addr = pci_config_get_bar_addr(d, reg, type, size);
-> > >       /* the ROM slot has a specific enable bit */
-> > >       if (reg == PCI_ROM_SLOT && !(new_addr & PCI_ROM_ADDRESS_ENABLE)) {
-> > 
-> > And in fact here we check the low bit and handle it specially.
-> 
-> The code seems correct for me. The bit is preserved for ROM case.
-> 
-> > > diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> > > index d7d73a31e4..182a225054 100644
-> > > --- a/hw/pci/pcie.c
-> > > +++ b/hw/pci/pcie.c
-> > > @@ -446,6 +446,11 @@ void pcie_cap_slot_plug_cb(HotplugHandler *hotplug_dev,
-> > > DeviceState *dev,
-> > >       PCIDevice *pci_dev = PCI_DEVICE(dev);
-> > >       uint32_t lnkcap = pci_get_long(exp_cap + PCI_EXP_LNKCAP);
-> > >   
-> > > +    if(pci_is_vf(pci_dev)) {
-> > > +        /* We don't want to change any state in hotplug_dev for SR/IOV virtual
-> > > functions */
-> > > +        return;
-> > > +    }
-> > > +
-> > 
-> > Coding style violation here.  And pls document the why not the what.
-> > E.g. IIRC the reason is that VFs don't have an express capability,
-> > right?
-> 
-> I think the reason is that virtual functions don’t exist physically, so
-> they cannot be individually disconnected. Only PF should respond to
-> hotplug events, implicitly disconnecting (thus: destroying) all child
-> VFs.
-> 
-> Anyway, we will update this comment to state *why* and add the missing
-> space.
-> 
-> V4 with the mentioned changes will happen really soon.
-> 
+s/than/then/
 
+> +# add corresponding element of qga_qapi_files into qapi_trace_events
+> +# global list, which is processed than in trace/meson.build.
+
+s/processed than/then processed/
+
+> +# This means, that we'll have to move subdir('qga') above subdir('trace')
+> +# in root meson.build. But that in turn will break the dependency of
+> +# qga on qemuutil (which depends on trace_ss).
+> +# So, resolving these dependencies and drop --no-trace-events is a TODO.
+>  qga_qapi_files =3D custom_target('QGA QAPI files',
+>                                 output: qga_qapi_outputs,
+>                                 input: 'qapi-schema.json',
+> diff --git a/tests/meson.build b/tests/meson.build
+> index 3f3882748a..21857d8b01 100644
+> --- a/tests/meson.build
+> +++ b/tests/meson.build
+> @@ -31,6 +31,14 @@ test_qapi_outputs =3D [
+>    'test-qapi-visit.h',
+>  ]
+> =20
+> +# We don't generate trace-events, just because it's not simple. For do i=
+t,
+> +# we also should add .trace-events file into test_qapi_outputs, and than
+> +# add corresponding element of test_qapi_files into qapi_trace_events
+> +# global list, which is processed than in trace/meson.build.
+> +# This means, that we'll have to move subdir('tests') above subdir('trac=
+e')
+> +# in root meson.build. But that in turn will break the dependency of
+> +# tests on qemuutil (which depends on trace_ss).
+> +# So, resolving these dependencies and drop --no-trace-events is a TODO.
+
+Similar changes as those above.
+
+I can do it when merging the patches.
+
+>  test_qapi_files =3D custom_target('Test QAPI files',
+>                                  output: test_qapi_outputs,
+>                                  input: files('qapi-schema/qapi-schema-te=
+st.json',
+> --=20
+> 2.31.1
+>=20
+
+--Ny2NNkvCwUX+UKUN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHxTZwACgkQnKSrs4Gr
+c8j2mAf/SN69OT/47Sq8yj7EwRoiD6NCaRrh434tCI68NNIqf+W1kAX2lVLLJ+CL
+llTqRnDcweUApIcb6AakIfuoZfU5ceZ+hmXJXg1ce6OQYEdTIMqPsGfO5O7Ti/Rk
+xF0Uda3//Nl77NWu7StneBN+qCzcJNHWI/KnXz5EDTo91XBGRCTB8/n+p2laVrXJ
+1Jr/YvD2SQLymqDqGhr8EbiNCO03JDxLeS+bICMx43Gbp65GdtojyWYgB+JQqtGB
+qH1fni8e7cFgWbvjh6sAqlVt0yaBcr6OxPUoV43uTthg4YC1G9zSaE0hgbfykMLt
+DnqspDyvplrwpgW48HLZX81OY9FizA==
+=w45P
+-----END PGP SIGNATURE-----
+
+--Ny2NNkvCwUX+UKUN--
 
 
