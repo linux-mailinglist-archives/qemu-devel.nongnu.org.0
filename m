@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3CAE49CBB1
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 14:58:16 +0100 (CET)
-Received: from localhost ([::1]:41406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0D0A49CC2B
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 15:19:46 +0100 (CET)
+Received: from localhost ([::1]:42018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCioR-0005uk-F4
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 08:58:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60368)
+	id 1nCj9F-0001kn-DR
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 09:19:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nCiYe-00059w-2Q; Wed, 26 Jan 2022 08:41:59 -0500
-Received: from [2607:f8b0:4864:20::232] (port=42880
- helo=mail-oi1-x232.google.com)
+ (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
+ id 1nCiaQ-0005xe-D2
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 08:43:50 -0500
+Received: from [2a00:1450:4864:20::236] (port=36544
+ helo=mail-lj1-x236.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nCiYc-0007y3-I3; Wed, 26 Jan 2022 08:41:55 -0500
-Received: by mail-oi1-x232.google.com with SMTP id v67so19336453oie.9;
- Wed, 26 Jan 2022 05:41:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
+ id 1nCiaO-0008AC-3A
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 08:43:45 -0500
+Received: by mail-lj1-x236.google.com with SMTP id j14so19831619lja.3
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 05:43:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Q7gqFnH0RC4hawL8hXauc3KbAUc4zFlmemecZBtAioA=;
- b=h6WtIsRD6Df6Xy9Alr77vrxnXgFSXiZFUdUr8/ZfC5Dy25Rsi53O8TfnVDQM9Q2omh
- psGSoTUYYTD8J1kXxw2W0zKKHhshjtfg2gORcTNMXdvnGZrR1fGQ7kKplgnMiOD5z7td
- 2zcheeNyTKs1v6BOYZ8mdKFRepuq97JRWpcs3CsRuCCIDeUnAnFVFAMbu97qC+wpDScD
- QgFBM8dMBzFhBrgI+ER9b1Oxc1rSpmLOAxWrmIUbQs9OW8tH+USad9RqfSHgtamU3/jq
- GqOOvFvvQEkJTBmTQw7+crwQjNcNKxHAsoZEXqkV+25io98QldoSx+TTdokmcH9BqFs1
- S/aw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gMni9wn2lI5Ay+Ji6nDoLzcxqxpYyMWJcG/nvWMzgec=;
+ b=bK37PTttXv4jaPZFDghvL5yZRHV1HKeDh+hXrHE6+P2MKRtM2aJAnxNQlu3tJ0inqv
+ Vhj56HIU4kBYTudwKYY98HwtCxOCnGxnqR2a8wnYktNlInmtLM26ewY9P2uEEiRvXeJL
+ gq8aGcLnEZFhk+HJvITKq7s7U3J9EuYuqTpwk47pTn0K1IESMsy6STDjiXUCAfFEUKsU
+ UmysZeqI7jbKETSTQMwH1c9Z/cPVDhUAIqSvKrs3gyfGOxcn/zvHbj2dm65kfqsv4Z0/
+ wwynxO6eblSxARqrcAqEddDjh+CeuQhB9zhimzjbsYPVE8qSb6gaQQkzNh6BREATZ2M0
+ U8UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Q7gqFnH0RC4hawL8hXauc3KbAUc4zFlmemecZBtAioA=;
- b=idh4Ofzrm8n2eHtgSXU8ejdRXNxwOA/ohA4IqPPEx+udhwz4DDGtWvRVCWyRTE21wG
- 2oHxFAFb7Sh3NFNhB4ANmpk5ftHkXXSWE16PWYbLhTT2irMDeeKpIb72F6QUzJ8UVBWC
- A1F+FgYxgJ5xu+bhhd+IUlYOOhJHHhQlPJC0hFeuu/1nKdW+Bycg9cfw0eEXoV5OBOVS
- RCco7ORTjNSAXV2s0JXwvJM5aauRrwigQL2FiMrT+Os1AyeRA+8QkYbEMKB3AHfEIi4r
- darHqQxBI1S4yVGZZMxbM5jVYfJRcBwIfQLlgaAw4YqnWbC08S8JkBfX53v11Z4OhEjG
- davA==
-X-Gm-Message-State: AOAM5319FizGhpe9V8QqsNIqevI5QYm77IOTBGRlJIoVY+Xlnuv05K4o
- VM0bv7vB/Pj2Rv0ufYLhDgWhM3mIRw0=
-X-Google-Smtp-Source: ABdhPJxYpe1Bu0QcSVZn4KgdaMx/QOIvLkSNCYh4d/vyy1yian+QEGs6Ct1aPrlSzkVXAxcTOAovdQ==
-X-Received: by 2002:a05:6808:1b0c:: with SMTP id
- bx12mr3595321oib.174.1643204513094; 
- Wed, 26 Jan 2022 05:41:53 -0800 (PST)
-Received: from rekt.COMFAST (189-68-153-170.dsl.telesp.net.br.
- [189.68.153.170])
- by smtp.gmail.com with ESMTPSA id v26sm4939342ooq.20.2022.01.26.05.41.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jan 2022 05:41:52 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] ppc/pnv: initialize 'taddr' in pnv_phb4_translate_tve()
-Date: Wed, 26 Jan 2022 10:41:37 -0300
-Message-Id: <20220126134137.791968-3-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220126134137.791968-1-danielhb413@gmail.com>
-References: <20220126134137.791968-1-danielhb413@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gMni9wn2lI5Ay+Ji6nDoLzcxqxpYyMWJcG/nvWMzgec=;
+ b=q2BDPeV6MLPtVuHNcdhaYq8t+bLsQ4TNtvsai9scfNkU2e/8L3JAJmNh/FsH/ytOlE
+ dX8qjV/D7UlItRD91q+Qa3JfqZFOl/bYf7LLX9KSMunCzlN6hFQqFqDxDxFv/ctSESDq
+ 6larXw4GWJdLutOOKNjyr2zyBH9XPEM8YOE0Ryeb9aFk6ZIgkGKWC2exaVPgfYjcpc2y
+ vG3m1KesXEyC5gFLSKnvjoHbonpzLEkAop9+HUll1HCv9l3+bsBnk4o8sNuGrphOb620
+ u20oDGpAGNwKc0vBndQAXuyG2EjTp6+z3VEv14dLkozjSyWJ/kFEaouCfGQ0VFvp8YNM
+ 7udQ==
+X-Gm-Message-State: AOAM533dReUoxX4b4ah5SOFUSZ5IbcjXbp8nSDqhKKuiRu+NCjlqOH3Z
+ EVeeGz7+2Rmlrr5r94tOLJo6vyFL7Wl9acDTWuE=
+X-Google-Smtp-Source: ABdhPJx//VB5lloxzuc+JaSBuwksC5FZfWbpvzfPHPGA+tJE0rT0Vfw5y5CD72i7G5Vxu1w6RvfeqhVzfViG6JiUVoA=
+X-Received: by 2002:a05:651c:1241:: with SMTP id
+ h1mr18260308ljh.459.1643204621863; 
+ Wed, 26 Jan 2022 05:43:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::232
+References: <20211210193434.75566-1-jandryuk@gmail.com>
+ <adfe1c14-f773-0592-e304-d80da8380cc0@gmail.com>
+In-Reply-To: <adfe1c14-f773-0592-e304-d80da8380cc0@gmail.com>
+From: Jason Andryuk <jandryuk@gmail.com>
+Date: Wed, 26 Jan 2022 08:43:30 -0500
+Message-ID: <CAKf6xpv0=ex+OrFb1z4TpaULsmMaPQqmmsxoY_d4yJRt6Zx3sw@mail.gmail.com>
+Subject: Re: [PATCH] xen-hvm: Allow disabling buffer_io_timer
+To: Paul Durrant <paul@xen.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::236
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x232.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::236;
+ envelope-from=jandryuk@gmail.com; helo=mail-lj1-x236.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,45 +81,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, QEMU <qemu-devel@nongnu.org>,
+ "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pnv_phb4_translate_tve() is quite similar to pnv_phb3_translate_tve(),
-and that includes the fact that 'taddr' can be considered uninitialized
-when throwing the "TCE access fault" error because, in theory, the loop
-that sets 'taddr' can be skippable due to 'lev' being an signed int.
+On Tue, Dec 14, 2021 at 8:40 AM Durrant, Paul <xadimgnik@gmail.com> wrote:
+>
+> On 10/12/2021 11:34, Jason Andryuk wrote:
+> > commit f37f29d31488 "xen: slightly simplify bufioreq handling" hard
+> > coded setting req.count = 1 during initial field setup before the main
+> > loop.  This missed a subtlety that an early exit from the loop when
+> > there are no ioreqs to process, would have req.count == 0 for the return
+> > value.  handle_buffered_io() would then remove state->buffered_io_timer.
+> > Instead handle_buffered_iopage() is basically always returning true and
+> > handle_buffered_io() always re-setting the timer.
+> >
+> > Restore the disabling of the timer by introducing a new handled_ioreq
+> > boolean and use as the return value.  The named variable will more
+> > clearly show the intent of the code.
+> >
+> > Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+>
+> Reviewed-by: Paul Durrant <paul@xen.org>
 
-No one complained about this specific case yet, but since we took the
-time to handle the same situtation in pnv_phb3_translate_tve(), let's
-replicate it here as well.
+Thanks, Paul.
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/pci-host/pnv_phb4.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+What is the next step for getting this into QEMU?
 
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index a78add75b0..f5e32e856b 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -1261,6 +1261,14 @@ static void pnv_phb4_translate_tve(PnvPhb4DMASpace *ds, hwaddr addr,
-         /* Top level table base address */
-         base = tta << 12;
- 
-+        /*
-+         * There were reports of compilers complaining about 'taddr'
-+         * being used uninitialized in pnv_phb3_translate_tve(), and
-+         * the same scenario is happening here. Initialize 'taddr'
-+         * just in case.
-+         */
-+        taddr = base;
-+
-         /* Total shift to first level */
-         sh = tbl_shift * lev + tce_shift;
- 
--- 
-2.34.1
+To re-state more plainly, this patch fixes a bug to let QEMU go idle
+for longer stretches of time.  Without it, buffer_io_timer continues
+to re-arm and fire every 100ms even if there is nothing to do.
 
+Regards,
+Jason
 
