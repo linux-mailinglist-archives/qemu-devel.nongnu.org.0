@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E911449CA1C
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 13:55:30 +0100 (CET)
-Received: from localhost ([::1]:34166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0F4C49CA41
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 14:02:28 +0100 (CET)
+Received: from localhost ([::1]:37054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nChph-0007E4-GB
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 07:55:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44980)
+	id 1nChwR-0000oL-Iq
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 08:02:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nChdC-00043o-1e
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 07:42:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27388)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nChgt-00050E-MF
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 07:46:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nChd8-0005em-7z
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 07:42:32 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nChgq-0006Gv-PK
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 07:46:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643200948;
+ s=mimecast20190719; t=1643201180;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=09Hd0jZQR/0vc9lp6warzEkjmHBJGYnfUNiAatrBt+c=;
- b=UK5uHD3aDo1T92eIp2VJFhBqdHa9f/r9c9uBjT4EzHZewrivMb+d4yC1SJXrWClqxCqjk1
- EZ7ZQ3HbDmscGXwbJcoor2iwQLMZ0PFrNdzlFQPbCeSf/BtrH/g8nBV+yRumbRWGCJWA5/
- 28awFfM0h4NsFBHH5kCxN/I3gvRUwGo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=BeIHvLOcgy4JLEOL5hcmDj8khgfFaxH/mgpQPvi5cyo=;
+ b=GfUCEJlhcP/EyhLII8PoCVXOdcgen1b9dnaoPcFChgHdNr/mxZVw2z+/B1WGSoIZudhT/+
+ FO/jEomRzNROBLfNJ38+2x4A1Sd1Fr2fvCvcEx8SVRDqSHMWpcA1Bv2JH3hyHtTUWFSVI0
+ vw4xOxZ7O6dBBPwZS7ibf5DwdSrxKVc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-502-upXyW-zkMDaywYUqtsYs9w-1; Wed, 26 Jan 2022 07:42:27 -0500
-X-MC-Unique: upXyW-zkMDaywYUqtsYs9w-1
-Received: by mail-wr1-f72.google.com with SMTP id
- x4-20020adfbb44000000b001d83e815683so4242834wrg.8
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 04:42:27 -0800 (PST)
+ us-mta-657-gnXnOSzwPGK4Fb4X8Z-pJA-1; Wed, 26 Jan 2022 07:46:18 -0500
+X-MC-Unique: gnXnOSzwPGK4Fb4X8Z-pJA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ w7-20020adfbac7000000b001d6f75e4faeso4287203wrg.7
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 04:46:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=09Hd0jZQR/0vc9lp6warzEkjmHBJGYnfUNiAatrBt+c=;
- b=2WQtprLSnZ+mlGUzR2/8CK9+EFphJfYbnVNlHH6RdoNxKV5n6+ZFzg3RSGpMGSgp4H
- ULfPJeJbtxFZjAt1FqVkruAbkNX4PDeGjQdM50hnx46OKz+DrYweuKCzIYsIGag/cEW3
- woV4gZzeILS1+ZynJiG9tG58fLyvs36QxVmMOfxnWgeY3yGnRlY2f+SxCnwQarR+sOoP
- iCx6kWy8LINVPzh0f8RloudFEKap5wUuqtjX/ksDPAt5PwTmV9eoReHzRwqwi8gnzdI7
- qPeDy7CDXqBHZLs5nbtsR/Q+uhdPipMGstg6rhD8jPwrb/a6cJDqWKApRO2DZS8onrGW
- WzWw==
-X-Gm-Message-State: AOAM533avYoBQdrIo/sIgb0vKfDV+laOIVaM11HwU62CtlOSYc+ycR8h
- QO3L16dtSroqBTiREqiWS+41opbGO6A9jPW/UsQZtoepjAhDCIeCc1Lo33JfS5rmkPUfSq/1qF4
- la+1KhZGdQ02sq74=
-X-Received: by 2002:a05:600c:4ec7:: with SMTP id
- g7mr7240415wmq.171.1643200946059; 
- Wed, 26 Jan 2022 04:42:26 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw1HQ7sO8mcvJ47KIiKXbUxMtq9IwKRRTv9xxqRXfy3I3AV6MjFJG04bXO40bB29IMAyhhkGQ==
-X-Received: by 2002:a05:600c:4ec7:: with SMTP id
- g7mr7240385wmq.171.1643200945789; 
- Wed, 26 Jan 2022 04:42:25 -0800 (PST)
+ bh=BeIHvLOcgy4JLEOL5hcmDj8khgfFaxH/mgpQPvi5cyo=;
+ b=oIp1iK8hj5uVYRQwpXNzm/tAZmXmgoyG1PpqfMmWcfl4+F3ohUEEIyCBFDtFYubR/7
+ DwG3T652J7veomDdvokwmsvvtvj07/ir5KVqmTmUbg/Q0yrhr6d0cCVyp85IT76+XVAU
+ jEO6vLD44fAsEo0omqACa7kZO5Qk7w7IHOLuraXuuIJ+y8Om7EWyXtp5Rnot5TbiFs8+
+ sol+4RA3lr0BEhRY4TrAxAKi5tDjjmMI9wtYrey9A8etSkrIfMf5tgNlN0L7HhkZfuGj
+ tfJS2QVi/LXld7f/RCZJNv5rZY+L9fEgyiYLwBGurva4V3qpdvmtYZl+2ws0G0nSEdDV
+ nMAw==
+X-Gm-Message-State: AOAM5326BP7WmJyOcWasQkFE0aO795M3LCS7TtdYfXZwX8ldOdd9maN7
+ 6vWTN95iUsPuiVxHyi/sxwq9RL0+5U3iOP5ViO6rq10Msc6qJT6M9lT9DuEcFzq+PT7WgxMiwko
+ kUElBKZP3vx/jaFk=
+X-Received: by 2002:adf:f307:: with SMTP id i7mr6520633wro.615.1643201177624; 
+ Wed, 26 Jan 2022 04:46:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz6n30s9KzcWZRY27Seb7zzbYiCkxOPagG72zYHkDecBWX9MXIkVfrK0T2ORICINOQi+tb2ng==
+X-Received: by 2002:adf:f307:: with SMTP id i7mr6520599wro.615.1643201177357; 
+ Wed, 26 Jan 2022 04:46:17 -0800 (PST)
 Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
  ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id d4sm4205868wri.39.2022.01.26.04.42.24
+ by smtp.gmail.com with ESMTPSA id 10sm3133790wmc.44.2022.01.26.04.46.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Jan 2022 04:42:25 -0800 (PST)
-Message-ID: <7d57ef24-25f9-da57-fb90-27783c9436ab@redhat.com>
-Date: Wed, 26 Jan 2022 13:42:24 +0100
+ Wed, 26 Jan 2022 04:46:16 -0800 (PST)
+Message-ID: <7d75e8f7-bbbc-ce7e-8db7-664e26772123@redhat.com>
+Date: Wed, 26 Jan 2022 13:46:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH v6 25/33] block_int-common.h: split function pointers in
- BdrvChildClass
+Subject: Re: [PATCH v6 26/33] block_int-common.h: assertions in the callers of
+ BdrvChildClass function pointers
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
 References: <20220121170544.2049944-1-eesposit@redhat.com>
- <20220121170544.2049944-26-eesposit@redhat.com>
+ <20220121170544.2049944-27-eesposit@redhat.com>
 From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220121170544.2049944-26-eesposit@redhat.com>
+In-Reply-To: <20220121170544.2049944-27-eesposit@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,7 +79,7 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -123,53 +121,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 21.01.22 18:05, Emanuele Giuseppe Esposito wrote:
 > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 > ---
->   include/block/block_int-common.h | 67 +++++++++++++++++++-------------
->   1 file changed, 40 insertions(+), 27 deletions(-)
+>   block.c | 9 +++++++++
+>   1 file changed, 9 insertions(+)
 >
-> diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-> index e007dbf768..cc8c8835ba 100644
-> --- a/include/block/block_int-common.h
-> +++ b/include/block/block_int-common.h
-> @@ -815,12 +815,16 @@ struct BdrvChildClass {
->        */
->       bool parent_is_bds;
+> diff --git a/block.c b/block.c
+> index 448fb9d76f..ca16d90627 100644
+> --- a/block.c
+> +++ b/block.c
+
+[...]
+
+> @@ -2120,6 +2121,7 @@ bool bdrv_is_writable(BlockDriverState *bs)
 >   
-> +    /*
-> +     * Global state (GS) API. These functions run under the BQL lock.
-> +     *
-> +     * See include/block/block-global-state.h for more information about
-> +     * the GS API.
-> +     */
->       void (*inherit_options)(BdrvChildRole role, bool parent_is_format,
->                               int *child_flags, QDict *child_options,
->                               int parent_flags, QDict *parent_options);
-> -
->       void (*change_media)(BdrvChild *child, bool load);
-> -    void (*resize)(BdrvChild *child);
->   
->       /*
->        * Returns a name that is supposedly more useful for human users than the
+>   static char *bdrv_child_user_desc(BdrvChild *c)
+>   {
+> +    assert(qemu_in_main_thread());
+>       return c->klass->get_parent_desc(c);
+>   }
 
-The method this comment belongs to is `.get_name()`.  It’s exposed 
-through `bdrv_get_parent_name()`, which is called by 
-`bdrv_get_device_name()` and `bdrv_get_device_or_node_name()` – so I 
-think it should be classified as I/O.
+Quick note: Whether we really want this depends on whether we find that 
+`.get_parent_desc()` really should be a GS-only function.
 
-> @@ -837,6 +841,40 @@ struct BdrvChildClass {
->        */
->       char *(*get_parent_desc)(BdrvChild *child);
+Since I leave that up to you, though (and this patch interestingly (and 
+correctly) doesn’t add an assertion to bdrv_get_parent_name(), even 
+though that calls `.get_name()`, which the previous patch did classify 
+as GS):
 
-This function is very similar, so we might also want to reconsider 
-classifying it as I/O.  There’s no need, because all of its callers do 
-run in the main thread, but at the same time I don’t believe there’s 
-anything stopping us (and it starts to sound to me like all functions of 
-the “get name” kind perhaps should ideally be I/O, in that they 
-shouldn’t require the GS context).
-
-Up to you. O:)
-
-(Rest of this patch looks good!)
-
-Hanna
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
 
