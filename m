@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8EC249D3E0
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 21:54:01 +0100 (CET)
-Received: from localhost ([::1]:34156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B36E49D3F2
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 21:58:46 +0100 (CET)
+Received: from localhost ([::1]:40370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCpIm-0007qv-NO
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 15:54:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37542)
+	id 1nCpNN-0003n6-2d
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 15:58:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCpGo-0006Ls-Mj
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 15:51:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37253)
+ id 1nCpId-0008Ts-Hh
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 15:53:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34791)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCpGm-00033f-Q6
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 15:51:58 -0500
+ id 1nCpIb-0003CM-72
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 15:53:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643230311;
+ s=mimecast20190719; t=1643230428;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=UqsWUBpPsHJmsQ5hlugcfzbxFBX8+YCngaCfz2MYzJY=;
- b=LtVj3OnP5E0Bo7dTpiuWQavIesz34LHLDbepGlDRvtrkOvToOjL34kCKX5J54rlkdE/9oP
- MmvltJI9wmg3KzooOo1bLiSx3RMYkxEUz4khSiehTUrd2KndgIPKmFbwmg3aPYagXrkEOX
- XxYzqq3moL20Bh3NVyRWbUlJTC/eUkg=
+ bh=xBWytYui3hk5/F4i+QKuVQkPKwEOmwDOpzyo6jUtzWw=;
+ b=EsUBwrm0k5IhRNODyEDA86EQVufNtMNdIsPlDGNvhYclOUOerVSBCpmqgjvo8Mssb/ZaFW
+ uqXsmxUP4A7D3g82oiXJJrTm4mrPYiuoWpaI7LHf1s09co77N9NpUfXxtdxKtAMk1pYy3l
+ r9UAwDDK2vw/9Z9YWaM2JM1o35cinAI=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-179-l8WNHmbvOyW51Xn_-g4CZQ-1; Wed, 26 Jan 2022 15:51:50 -0500
-X-MC-Unique: l8WNHmbvOyW51Xn_-g4CZQ-1
+ us-mta-421-elldQw68MDiA9OZ7gY7qbw-1; Wed, 26 Jan 2022 15:53:47 -0500
+X-MC-Unique: elldQw68MDiA9OZ7gY7qbw-1
 Received: by mail-wm1-f70.google.com with SMTP id
- s190-20020a1ca9c7000000b00347c6c39d9aso450474wme.5
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 12:51:49 -0800 (PST)
+ v185-20020a1cacc2000000b0034906580813so3113772wme.1
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 12:53:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version;
- bh=UqsWUBpPsHJmsQ5hlugcfzbxFBX8+YCngaCfz2MYzJY=;
- b=i9vPWNH9hamM5Us/pFsXIbu6WvxXZ0/EAB4M5JO9bEqOyiyeqsmrxaS7n0Z/qg9SRZ
- REHybscdfs09M/sJustEKHvW1bu8DYXEWtTOveROtZEpr5nx1jIvZx61NA/w72OytQEO
- rxuMEorHxoIAuIu/sWgJhHwYvKCGu5xf9LTh+1W9NqbbPIANfYOTOGDwkHvf1H29Hoor
- HGb0A/N0JZS5AdAheQUCLk20ucO8o0cRU5TzpjKUa6jdLFG3yelTIbyaDONh7L7yf4s+
- Tko4/NVtQekJb48guxM5/xCiYEluY7nL1eBeHLRSWUtN0z0kM22ESnklydLROpV8YtLT
- YP7Q==
-X-Gm-Message-State: AOAM531Z8QFKfAW7uyxwoEJYUsPHGA5Ada3CgT+2eIvKpYaVih0/minN
- udzlOvLuu9OXFURdTtO9nO44ZXLPtmXOOBhwB60fbELe/VtGaC/1w9/vmCxgMBwSR56qmnidb6G
- 27mQs1Ibq+MD1qno=
-X-Received: by 2002:a5d:518c:: with SMTP id k12mr263655wrv.169.1643230308969; 
- Wed, 26 Jan 2022 12:51:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy3L+7oDe5QQ+cErmsab9B4VcGJLx65ceM+JNpBs51vvE/Rm0cjRIJlQbxgsC+nO5SFCgqFdA==
-X-Received: by 2002:a5d:518c:: with SMTP id k12mr263640wrv.169.1643230308783; 
- Wed, 26 Jan 2022 12:51:48 -0800 (PST)
+ bh=xBWytYui3hk5/F4i+QKuVQkPKwEOmwDOpzyo6jUtzWw=;
+ b=ao983czdZYK4QuYqG2uOenyA4OmH+vYcfTqL5CFTqv3vBKny7nSaRaY6SCmS7HBfXw
+ QRhkb3szNqTkn9oQbXMCYJVPHQc+F4j2kS/FWJG+MPfGDeoTs3dneJtXr1Nu7IXnO3mY
+ LabyO3FFY3DcAwrxdKDmo1j48OIyNirfwIW9uPM3Iw5BXXW6fnLQK32dxVFGbW+hB2Yy
+ aKy6ot+DJ5UzhckUfdytbui1L4AkY1GU6zdDAEsEAMD/sBwPFZgEqBrtZ0fKfgsnfjky
+ 7D3GWXaAjZ/j/t4cYHEEh8zmv+uS7Tz9A4k/oXkhUww7ua57KY2N7L5URFwZ5FYfxXFr
+ KzxA==
+X-Gm-Message-State: AOAM530gr2XD7FY55GrzIdkGMrWZusdas2BJ3xPkrNsLm6AiVCTddhB7
+ +qUsgeHkyHKzhKIzjs9hL/W9NLJXKGnw5+BsT/WOVb0caieMdHsNTa/utStKJmTfuqGH/axzYOS
+ TL3ATwOWEz7ZpNJQ=
+X-Received: by 2002:a5d:6211:: with SMTP id y17mr278195wru.73.1643230426461;
+ Wed, 26 Jan 2022 12:53:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwZvTqjuokRF/o6vaTpGYrmA9m6kSTkgAyveAuCTxP7vKyiKoCvIJ2ZZf6ftvF2fABFdSRWzA==
+X-Received: by 2002:a5d:6211:: with SMTP id y17mr278186wru.73.1643230426311;
+ Wed, 26 Jan 2022 12:53:46 -0800 (PST)
 Received: from localhost ([47.61.17.76])
- by smtp.gmail.com with ESMTPSA id bg23sm353299wmb.5.2022.01.26.12.51.48
+ by smtp.gmail.com with ESMTPSA id r12sm293738wrw.73.2022.01.26.12.53.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jan 2022 12:51:48 -0800 (PST)
+ Wed, 26 Jan 2022 12:53:45 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 1/3] ppc: Fix vmstate_pbr403 subsection name
-In-Reply-To: <20220113194452.254011-2-dgilbert@redhat.com> (David Alan
- Gilbert's message of "Thu, 13 Jan 2022 19:44:50 +0000")
+Subject: Re: [PATCH v2 3/3] migration: Perform vmsd structure check during
+ tests
+In-Reply-To: <20220113194452.254011-4-dgilbert@redhat.com> (David Alan
+ Gilbert's message of "Thu, 13 Jan 2022 19:44:52 +0000")
 References: <20220113194452.254011-1-dgilbert@redhat.com>
- <20220113194452.254011-2-dgilbert@redhat.com>
+ <20220113194452.254011-4-dgilbert@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Wed, 26 Jan 2022 21:51:47 +0100
-Message-ID: <87mtjinrto.fsf@secure.mitica>
+Date: Wed, 26 Jan 2022 21:53:45 +0100
+Message-ID: <87ilu6nrqe.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
@@ -105,32 +106,13 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> wrote:
 > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 >
-> The pbr403 subsection is part of the tlb6xx state, so I believe it's
-> name needs to be:
->
->     .name = "cpu/tlb6xx/pbr403",
+> Perform a check on vmsd structures during test runs in the hope
+> of catching any missing terminators and other simple screwups.
 >
 > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Dropped as code don't exist anymore.
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-
-> ---
->  target/ppc/machine.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/ppc/machine.c b/target/ppc/machine.c
-> index 756d8de5d8..e535edb7c4 100644
-> --- a/target/ppc/machine.c
-> +++ b/target/ppc/machine.c
-> @@ -718,7 +718,7 @@ static bool pbr403_needed(void *opaque)
->  }
->  
->  static const VMStateDescription vmstate_pbr403 = {
-> -    .name = "cpu/pbr403",
-> +    .name = "cpu/tlb6xx/pbr403",
->      .version_id = 1,
->      .minimum_version_id = 1,
->      .needed = pbr403_needed,
+queued.
 
 
