@@ -2,66 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0304E49C818
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 11:53:58 +0100 (CET)
-Received: from localhost ([::1]:60648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B83CD49C820
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 11:56:19 +0100 (CET)
+Received: from localhost ([::1]:36210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCfw5-00007Z-3K
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 05:53:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49324)
+	id 1nCfyM-0002ft-SO
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 05:56:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nCftk-0006PS-Ks
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 05:51:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23325)
+ id 1nCfuN-0006fX-Vg
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 05:52:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22150)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nCfth-0004gn-Th
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 05:51:32 -0500
+ id 1nCfuD-0004iH-Co
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 05:52:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643194284;
+ s=mimecast20190719; t=1643194318;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2UaYmoxDMYTwZPqPgV/AT+ugIEJTI0d/edGVDF3zafQ=;
- b=TLkY3JGkb4T5GtAr9ZWvGyJLsuStMLko9oCGgW4kh6QRFOey3Ha8FWuobF6OBIdiKTxcqx
- qs+MvQOF6h3S3wYo05a5kWzB8BGbF6KG1/S4Q5chVp6MKkI8Rtyz9obK00ee3slhsyXrRz
- uvDFABxHnMR7tk9xr3/eMFiuof7TWHE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uM7gJp01W+mMFl4Fen6rmEvyAcfEhrMBa01ZnyUDFog=;
+ b=G7Qt2yKgPYIweDFLjEtZUKUgWbGgT6v7LhGrDMJqE5nw3wNFyNIKc+J/kdOO76Euo1gUF2
+ IZQfmbs+fgvrHJTFxoehPAvasXGyXm+Nj9vJ9gGZSXNNti9/cNuCwjgCrtGFfj8Fw5m9YD
+ P9LmUoxcQC6sTGauwe8Wwdk4XPZFQIA=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-327-SAd0q05wPJCACyySjiOvZA-1; Wed, 26 Jan 2022 05:51:22 -0500
-X-MC-Unique: SAd0q05wPJCACyySjiOvZA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCBF1835B47;
- Wed, 26 Jan 2022 10:51:21 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.39.195.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D31C81F309;
- Wed, 26 Jan 2022 10:51:19 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org,
-	shawtao1125@gmail.com,
-	vgoyal@redhat.com
-Subject: [PULL 1/1] virtiofsd: Drop membership of all supplementary groups
+ us-mta-376-Tars4pPEMEerd2VHaJ0F4w-1; Wed, 26 Jan 2022 05:51:54 -0500
+X-MC-Unique: Tars4pPEMEerd2VHaJ0F4w-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ v28-20020adfa1dc000000b001dd1cb24081so1699814wrv.10
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 02:51:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=uM7gJp01W+mMFl4Fen6rmEvyAcfEhrMBa01ZnyUDFog=;
+ b=Pu5X40rkyiGtYdKQsm/6nxWrIDrZhz3h7anMzFAuUw2yyDa1NGdoq7LN7lbtGsEMG4
+ Kr28EW05rINmCd6fj9f1df5n4lSaD8KbwMtAJ3eRZqQT42wtcF0ypVfmjomlT2BXyzBf
+ oOHgVpK0M+VC5hQJeDOnXGlUKSLI3H8PhSeUKyV1Ww5LzVXcfLUC1yhJnp/DqiQL9dX0
+ dhu+cHXnRkPgUngw8Yo6uzwJ7DFNbulpRN/ZHcdPmp6/kMV1869be9DhVD4DystEsqCO
+ qWHeGlhm0wxMpoY//o/n5ib2qRWB4maX6RiZlVyCUeU5KWRCAGMYwOUiR3fzzSL+qj9E
+ l9sw==
+X-Gm-Message-State: AOAM530ILC1OnT+om07jEobfRSKhxU132ildE4Vtygxc6YIZZMrLDKtx
+ YUzF3SmmS1MuufcyTLAPhe1SmE3/efIMK3INBUjvpwpS0rYNIhBCRkNes3RE5qEsDADNPcXjiDW
+ /sahcTRM9uQcPIQc=
+X-Received: by 2002:a5d:624f:: with SMTP id m15mr21205227wrv.13.1643194313636; 
+ Wed, 26 Jan 2022 02:51:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy+lMsWau9S4njWmSsXjg9o6akked6496KLr8EO5mFYbxBPefDtjftZu6We89RYT+M7IiL9pw==
+X-Received: by 2002:a5d:624f:: with SMTP id m15mr21205214wrv.13.1643194313449; 
+ Wed, 26 Jan 2022 02:51:53 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id c8sm3637721wmq.34.2022.01.26.02.51.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Jan 2022 02:51:52 -0800 (PST)
+Date: Wed, 26 Jan 2022 10:51:50 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH] virtiofsd: Drop membership of all supplementary groups
  (CVE-2022-0358)
-Date: Wed, 26 Jan 2022 10:51:12 +0000
-Message-Id: <20220126105112.28711-2-dgilbert@redhat.com>
-In-Reply-To: <20220126105112.28711-1-dgilbert@redhat.com>
-References: <20220126105112.28711-1-dgilbert@redhat.com>
+Message-ID: <YfEnxhFIW9Y0A7O6@work-vm>
+References: <YfBGoriS38eBQrAb@redhat.com>
+ <YfEcdsTdIBc9nIdN@stefanha-x1.localdomain>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <YfEcdsTdIBc9nIdN@stefanha-x1.localdomain>
+User-Agent: Mutt/2.1.5 (2021-12-30)
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,106 +98,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mszeredi@redhat.com, mcascell@redhat.com, slp@redhat.com,
- virtio-fs@redhat.com, stefanha@redhat.com, pj.pandit@yahoo.co.in
+Cc: JIETAO XIAO <shawtao1125@gmail.com>,
+ Mauro Matteo Cascella <mcascell@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Miklos Szeredi <mszeredi@redhat.com>, qemu-devel@nongnu.org,
+ virtio-fs-list <virtio-fs@redhat.com>, P J P <pj.pandit@yahoo.co.in>,
+ Vivek Goyal <vgoyal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vivek Goyal <vgoyal@redhat.com>
+* Stefan Hajnoczi (stefanha@redhat.com) wrote:
+> On Tue, Jan 25, 2022 at 01:51:14PM -0500, Vivek Goyal wrote:
+> > At the start, drop membership of all supplementary groups. This is
+> > not required.
+> > 
+> > If we have membership of "root" supplementary group and when we switch
+> > uid/gid using setresuid/setsgid, we still retain membership of existing
+> > supplemntary groups. And that can allow some operations which are not
+> > normally allowed.
+> > 
+> > For example, if root in guest creates a dir as follows.
+> > 
+> > $ mkdir -m 03777 test_dir
+> > 
+> > This sets SGID on dir as well as allows unprivileged users to write into
+> > this dir. 
+> > 
+> > And now as unprivileged user open file as follows.
+> > 
+> > $ su test
+> > $ fd = open("test_dir/priviledge_id", O_RDWR|O_CREAT|O_EXCL, 02755);
+> > 
+> > This will create SGID set executable in test_dir/.
+> > 
+> > And that's a problem because now an unpriviliged user can execute it,
+> > get egid=0 and get access to resources owned by "root" group. This is
+> > privilege escalation.
+> > 
+> > Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=2044863
+> > Fixes: CVE-2022-0358
+> > Reported-by: JIETAO XIAO <shawtao1125@gmail.com>
+> > Suggested-by: Miklos Szeredi <mszeredi@redhat.com>
+> > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> > ---
+> >  tools/virtiofsd/passthrough_ll.c |   26 ++++++++++++++++++++++++++
+> >  1 file changed, 26 insertions(+)
+> > 
+> > Index: rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c
+> > ===================================================================
+> > --- rhvgoyal-qemu.orig/tools/virtiofsd/passthrough_ll.c	2022-01-25 13:38:59.349534531 -0500
+> > +++ rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c	2022-01-25 13:39:10.140177868 -0500
+> > @@ -54,6 +54,7 @@
+> >  #include <sys/wait.h>
+> >  #include <sys/xattr.h>
+> >  #include <syslog.h>
+> > +#include <grp.h>
+> >  
+> >  #include "qemu/cutils.h"
+> >  #include "passthrough_helpers.h"
+> > @@ -1161,6 +1162,29 @@ static void lo_lookup(fuse_req_t req, fu
+> >  #define OURSYS_setresuid SYS_setresuid
+> >  #endif
+> >  
+> > +static void drop_supplementary_groups(void)
+> > +{
+> > +    int ret;
+> > +
+> > +    ret = getgroups(0, NULL);
+> > +    if (ret == -1) {
+> > +        fuse_log(FUSE_LOG_ERR, "getgroups() failed with error=%d:%s\n",
+> > +                 errno, strerror(errno));
+> > +        exit(1);
+> > +    }
+> > +
+> > +    if (!ret)
+> > +        return;
+> > +
+> > +    /* Drop all supplementary groups. We should not need it */
+> > +    ret = setgroups(0, NULL);
+> > +    if (ret == -1) {
+> > +        fuse_log(FUSE_LOG_ERR, "setgroups() failed with error=%d:%s\n",
+> > +                 errno, strerror(errno));
+> > +        exit(1);
+> > +    }
+> > +}
+> > +
+> >  /*
+> >   * Change to uid/gid of caller so that file is created with
+> >   * ownership of caller.
+> > @@ -3926,6 +3950,8 @@ int main(int argc, char *argv[])
+> >  
+> >      qemu_init_exec_dir(argv[0]);
+> >  
+> > +    drop_supplementary_groups();
+> > +
+> >      pthread_mutex_init(&lo.mutex, NULL);
+> >      lo.inodes = g_hash_table_new(lo_key_hash, lo_key_equal);
+> >      lo.root.fd = -1;
+> > 
+> 
+> Thanks, applied to my block tree:
+> https://gitlab.com/stefanha/qemu/commits/block
 
-At the start, drop membership of all supplementary groups. This is
-not required.
+Actually, I just posted it as a separate pull by itself.
 
-If we have membership of "root" supplementary group and when we switch
-uid/gid using setresuid/setsgid, we still retain membership of existing
-supplemntary groups. And that can allow some operations which are not
-normally allowed.
+(I added {}'s around the if (!ret) { return; }  to meet Qemu
+style guides).
 
-For example, if root in guest creates a dir as follows.
+Dave
 
-$ mkdir -m 03777 test_dir
 
-This sets SGID on dir as well as allows unprivileged users to write into
-this dir.
+> Stefan
 
-And now as unprivileged user open file as follows.
 
-$ su test
-$ fd = open("test_dir/priviledge_id", O_RDWR|O_CREAT|O_EXCL, 02755);
-
-This will create SGID set executable in test_dir/.
-
-And that's a problem because now an unpriviliged user can execute it,
-get egid=0 and get access to resources owned by "root" group. This is
-privilege escalation.
-
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=2044863
-Fixes: CVE-2022-0358
-Reported-by: JIETAO XIAO <shawtao1125@gmail.com>
-Suggested-by: Miklos Szeredi <mszeredi@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-Message-Id: <YfBGoriS38eBQrAb@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-  dgilbert: Fixed missing {}'s style nit
----
- tools/virtiofsd/passthrough_ll.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
-
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 64b5b4fbb1..b3d0674f6d 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -54,6 +54,7 @@
- #include <sys/wait.h>
- #include <sys/xattr.h>
- #include <syslog.h>
-+#include <grp.h>
- 
- #include "qemu/cutils.h"
- #include "passthrough_helpers.h"
-@@ -1161,6 +1162,30 @@ static void lo_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
- #define OURSYS_setresuid SYS_setresuid
- #endif
- 
-+static void drop_supplementary_groups(void)
-+{
-+    int ret;
-+
-+    ret = getgroups(0, NULL);
-+    if (ret == -1) {
-+        fuse_log(FUSE_LOG_ERR, "getgroups() failed with error=%d:%s\n",
-+                 errno, strerror(errno));
-+        exit(1);
-+    }
-+
-+    if (!ret) {
-+        return;
-+    }
-+
-+    /* Drop all supplementary groups. We should not need it */
-+    ret = setgroups(0, NULL);
-+    if (ret == -1) {
-+        fuse_log(FUSE_LOG_ERR, "setgroups() failed with error=%d:%s\n",
-+                 errno, strerror(errno));
-+        exit(1);
-+    }
-+}
-+
- /*
-  * Change to uid/gid of caller so that file is created with
-  * ownership of caller.
-@@ -3926,6 +3951,8 @@ int main(int argc, char *argv[])
- 
-     qemu_init_exec_dir(argv[0]);
- 
-+    drop_supplementary_groups();
-+
-     pthread_mutex_init(&lo.mutex, NULL);
-     lo.inodes = g_hash_table_new(lo_key_hash, lo_key_equal);
-     lo.root.fd = -1;
 -- 
-2.34.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
