@@ -2,46 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD5449D180
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 19:12:50 +0100 (CET)
-Received: from localhost ([::1]:40650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 212DF49D15F
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 19:04:48 +0100 (CET)
+Received: from localhost ([::1]:57028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCmmn-0006QU-Ef
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 13:12:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50872)
+	id 1nCmf0-0006PC-W6
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 13:04:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nCmWf-00062i-C1; Wed, 26 Jan 2022 12:56:10 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:52843)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nCmWb-0000DT-II; Wed, 26 Jan 2022 12:56:08 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id C25E3746369;
- Wed, 26 Jan 2022 18:55:39 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 80B8874634B; Wed, 26 Jan 2022 18:55:39 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 7F6807456E3;
- Wed, 26 Jan 2022 18:55:39 +0100 (CET)
-Date: Wed, 26 Jan 2022 18:55:39 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH 0/8] target/ppc: powerpc_excp improvements [74xx] (5/n)
-In-Reply-To: <20220126164200.1048677-1-farosas@linux.ibm.com>
-Message-ID: <d98af016-0a9-49d0-74b4-c59f26a4af6@eik.bme.hu>
-References: <20220126164200.1048677-1-farosas@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset=US-ASCII
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from
+ <34IvxYQcKCtMK3CIJG35DD5A3.1DBF3BJ-23K3ACDC5CJ.DG5@flex--venture.bounces.google.com>)
+ id 1nCmZQ-0000Ca-5c
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 12:59:00 -0500
+Received: from [2607:f8b0:4864:20::b4a] (port=57213
+ helo=mail-yb1-xb4a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <34IvxYQcKCtMK3CIJG35DD5A3.1DBF3BJ-23K3ACDC5CJ.DG5@flex--venture.bounces.google.com>)
+ id 1nCmZO-0000eH-LQ
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 12:58:59 -0500
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ 127-20020a250f85000000b00611ab6484abso580138ybp.23
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 09:58:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=ozz1gQOGH3tMnRNwEK0h+MsqFlpWOqLHEmWTcEJBxt8=;
+ b=JbKZZY0cMVfgjCEjC2mK3gQeYa1IIlzpV7w2I97AO031HXynOkdnVuzZuWoK985Pt0
+ yfWUmBxTfpaZTOmwhW9ywdGKqcovxkkQwXcQATnr7bnp0vd+kwjh5QJ79XrJ5EY+L831
+ 6nfk5ga9KXKQaHcmx8XKHSfd6a0szJm4fqKWvSTly+qcxFsxL2f94KkBFqmhx/0iNAHG
+ dBTu89AKP86q6JaHiwv8lsq6VKJT6ud5Fi6AuRzo36Y/KpgCBujuVRbi662UTTeihVKz
+ KQpykaLGhv7I3+TC1KO30DZKSd3QRqi+NSAPiBdW2zQfJQnTdJz1AFNXQmZur4gbcjN3
+ bBKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=ozz1gQOGH3tMnRNwEK0h+MsqFlpWOqLHEmWTcEJBxt8=;
+ b=dy9RSUmFraSDFJZj7nzwfxGHkPkkuEZ/BG+zlhuGJmuBSn0t4WA0lKBGWKPfNbBMRH
+ QHx26lmKuTCyYvpygqchwZXjqZaCcJ1iqOv4kDnPAbo8BzZcx+LYiOV8Avts6MGOT21t
+ x87KS63bqWZh0BgqKvpp6CgN7TlWJ8l9svj6hocALycYK5qEeqjf4srqcaW3c2Fl9URV
+ YDS8s/+FZrD/C81OMWrmKRhKZrIiUxZtGxY5f/wSOBAiXqEuqEUSfp3LkAVMnpY3iNTH
+ tc9pVfhxM5QmIrxyZONwDWcbYdxzFW9uSo1UrZE084HI/AAn7c2CuBuZov5qF6HgTCo0
+ M94g==
+X-Gm-Message-State: AOAM533VeqNzHfsMlSUdEDzBdIhJ5D/WjVM8RUQUCEbU/62ZeXnw+Asq
+ 5KGZmxbY5XfAb1TIm7DOxxSFxgFd7idL
+X-Google-Smtp-Source: ABdhPJzLyKiyqsLLWuu/i8z6SiBsfgPmR2UTiHDdjPtIP87qfnX1AFvYfU3vbQcsStwH1aDdZHO6KxXG02lb
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:200:c75c:8ce4:97cf:a279])
+ (user=venture job=sendgmr) by 2002:a81:5e43:0:b0:2ca:287c:6c71 with SMTP id
+ 00721157ae682-2ca287c6ec1mr7584967b3.278.1643219936174; Wed, 26 Jan 2022
+ 09:58:56 -0800 (PST)
+Date: Wed, 26 Jan 2022 09:58:48 -0800
+Message-Id: <20220126175850.1904968-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.0.rc0.227.g00780c9af4-goog
+Subject: [PATCH v2 0/2] linux-user: check read permissions before how
+From: Patrick Venture <venture@google.com>
+To: laurent@vivier.eu
+Cc: qemu-devel@nongnu.org, scw@google.com, 
+ Patrick Venture <venture@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b4a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=34IvxYQcKCtMK3CIJG35DD5A3.1DBF3BJ-23K3ACDC5CJ.DG5@flex--venture.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
+X-Spam_score_int: -87
+X-Spam_score: -8.8
+X-Spam_bar: --------
+X-Spam_report: (-8.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -54,51 +87,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 Jan 2022, Fabiano Rosas wrote:
-> This handles the exception code for the 74xx family, i.e. 7400, 7410,
-> 7440, 7445, 7450, 7455, 7457.
->
-> This is another family that is quite well known, so it should be
-> straight-forward as well.
+In sigprocmask check the read permissions first before checking the `how`.
 
-I guess this is what may break VOF on pegasos2. Was Philippe's test case 
-for this machine ever merged? (Although that may use the firmware ROM that 
-was preferred as it tests more of the machine and may predate VOF so not 
-sure it also tests with VOF.) The way to test it is this:
+This is done for both: TARGET_NR_sigprocmask and TARGET_NR_rt_sigprocmask
 
-Get morphos demo ISO from https://www.morphos-team.net/morphos-3.15.iso
-Extract boot.img from the root directory of the CD
-Run QEMU as shown at http://zero.eik.bme.hu/~balaton/qemu/amiga/#morphos
+v2:
+ * Update code style during code change
+ * Also update check order for TARGET_NR_sigprocmask
 
-(For debugging maybe enabling vof traces would give more info but it was 
-a while so I don't remember the details any more.)
+Patrick Venture (1):
+  linux-user: sigprocmask check read perms first
 
-> Based on legoater/ppc-7.0
+Shu-Chun Weng (1):
+  linux-user: rt_sigprocmask, check read perms first
 
-I could test when it's merged or when it applies on master but I don't 
-usually test on branches. Did you verify it still works with pegasos2 or 
-could you please make sure it won't break that use case?
+ linux-user/syscall.c | 24 ++++++++++++++----------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
 
-Regards,
-BALATON Zoltan
+-- 
+2.35.0.rc0.227.g00780c9af4-goog
 
-> Fabiano Rosas (8):
->  target/ppc: Introduce powerpc_excp_74xx
->  target/ppc: Simplify powerpc_excp_74xx
->  target/ppc: 74xx: Machine Check exception cleanup
->  target/ppc: 74xx: External interrupt cleanup
->  target/ppc: 74xx: Program exception cleanup
->  target/ppc: 74xx: System Call exception cleanup
->  target/ppc: 74xx: System Reset interrupt cleanup
->  target/ppc: 74xx: Set SRRs directly in exception code
->
-> target/ppc/excp_helper.c | 175 +++++++++++++++++++++++++++++++++++++++
-> 1 file changed, 175 insertions(+)
->
->
 
