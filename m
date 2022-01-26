@@ -2,94 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1169249D468
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 22:21:51 +0100 (CET)
-Received: from localhost ([::1]:39196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8820649D499
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 22:36:42 +0100 (CET)
+Received: from localhost ([::1]:52766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCpji-0007YK-3X
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 16:21:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42908)
+	id 1nCpy5-0000O1-DP
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 16:36:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCpiQ-0006IV-CG
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 16:20:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37274)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCpiO-00074E-6G
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 16:20:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643232021;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CCRbtpjNkFd/RGHWdRSa1+MxblaKGUk9KI5M1rtMc7s=;
- b=dn8BgBBdceG0quO4R4KrhthsanX4KdSGWlPCBzrIbPt4CRn9F/fDnlm2Hpf6GT6hf2S+Th
- gb2DHAn1xDNULPLdDhnmhBpWX7T8uSDZJ2uzy0SQ5ltw08d09ZYNrZGQr/zNyUsUj8u2TA
- XUJUubxz8yrkUkUqS5yEVECt5H6ENL4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-160-QmrlME5hP_m2MxNeafNs0w-1; Wed, 26 Jan 2022 16:20:20 -0500
-X-MC-Unique: QmrlME5hP_m2MxNeafNs0w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- s190-20020a1ca9c7000000b00347c6c39d9aso481861wme.5
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 13:20:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from
+ <3a7zxYQcKCsA1ktz0xkmuumrk.iuswks0-jk1krtutmt0.uxm@flex--venture.bounces.google.com>)
+ id 1nCpuq-0006LR-QT
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 16:33:20 -0500
+Received: from [2607:f8b0:4864:20::b49] (port=43894
+ helo=mail-yb1-xb49.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3a7zxYQcKCsA1ktz0xkmuumrk.iuswks0-jk1krtutmt0.uxm@flex--venture.bounces.google.com>)
+ id 1nCpup-0000Yw-CO
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 16:33:20 -0500
+Received: by mail-yb1-xb49.google.com with SMTP id
+ g67-20020a25db46000000b0061437d5e4b3so1784819ybf.10
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 13:33:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=fmgrUCJzEHN06qSwVGOzXUmjqBv9CD9Hh/Ruv2P7wp4=;
+ b=JbbrZdhVSm9YZkFxIGy3UY+c/UkRkJi4RfnudxeZEmeZCUfcU7yZ+aCxO5hLmzFq/b
+ 9OAiTjmD7lRDwA/wkgmGagNs34Iu7QZxsu4oXo+oxE4qQHMMGv8lgNVAgyUAbZlYKiGZ
+ PLKO0qnUe/mclp9TAmuYEVSa+9Xj24Ph31jligOlN2V6yvf4ZreCHI0AjJhdoPLuuZ7n
+ eIQyOvF4IRU0Z4owmNT0fma6nuSyMIr/l1b0LwfrRzHuCxpPCKXVyJcp7pOemBc8qWoK
+ Y65CO4HAZGkEX/3cO/HAlBW9mtE2yOUJ29gJ8wovZhVbO6lUqDf/TyxViKFwXkkJA08A
+ HVPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CCRbtpjNkFd/RGHWdRSa1+MxblaKGUk9KI5M1rtMc7s=;
- b=AExg9L3vCjVB7lqG93NoSiKzAYiEpjA93vvq7Z9NgOjrNc9Sk9efWMylbhLIZrmCK7
- sDq5iNYsuSX/kqW2SRVjgClhmBGojo5AlAkQyvNVZ7USQwjBaWHOC12iWwLHV2RfpJ7+
- jRD5iC63diArLFHlSn/bMvJ/e+WCb9NmbtSMPfulNw3viF3Pv4RekfGXOIjtHPJ551Z8
- qA8juvYHjC1qKjOh2kOyT6FDkq76rJDD9FwotUg/STrwvFDl37yeskUgAQdVcUErD8Qs
- ecQHl1/0tL1qhSItHDe+TLVdXpQywExS1z3en6MyBxqdRc1qmTmXaG74OpcnB/7O7jK4
- BxkQ==
-X-Gm-Message-State: AOAM5308PA410CXhp7mX5ALX1kXzRDiIOfpckC6KiARWP0efxTJNnN8t
- KxFrKOUmhNq7IJxWBgMyVSvYoAnLwAP4C5URBoq7l3dxYtLElQW71DIpYvkC/DWTdR9CUMJtsFU
- fQRLDUcDmP3RuKLs=
-X-Received: by 2002:a05:600c:4282:: with SMTP id
- v2mr9039431wmc.78.1643232018632; 
- Wed, 26 Jan 2022 13:20:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzNZKpQdvMjQWn6ddHM5aL6nHWK8pEqgU/blalDBLdjDphMOx6b1+UUrhmSU1VlulWQPSCQ7A==
-X-Received: by 2002:a05:600c:4282:: with SMTP id
- v2mr9039416wmc.78.1643232018462; 
- Wed, 26 Jan 2022 13:20:18 -0800 (PST)
-Received: from localhost ([47.61.17.76])
- by smtp.gmail.com with ESMTPSA id h18sm442913wro.9.2022.01.26.13.20.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jan 2022 13:20:18 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] migration: Don't return for postcopy_send_discard_bm_ram()
-In-Reply-To: <20211230160525.462185-1-philmd@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 30 Dec 2021 17:05:25
- +0100")
-References: <20211230160525.462185-1-philmd@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Wed, 26 Jan 2022 22:20:17 +0100
-Message-ID: <87lez2mbxq.fsf@secure.mitica>
-MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=fmgrUCJzEHN06qSwVGOzXUmjqBv9CD9Hh/Ruv2P7wp4=;
+ b=gCpmGAb5MFaBp0USIxkD0Ti839DiA4W5gj4bIWmRKOqdHRhH238X1/QU1bSMZc38RR
+ UcnsZDd8pOwUTGgNAxYQ/uWynBJtb6aCiKAbtdw2HM13OqJpVonfhH1eB9fKUWi3z90W
+ pph8c0x0+ryaWoTk3GgIFheK+yJEiBUilVHlmyHAlpB7YN5FCpbvRwS41uYmjDBUaScJ
+ qcOV3OGHwyVHwweL9qD4U53uHvVykTx50umc7x2KWr+gyMLxvGWheVnkQlYya2bA1MmN
+ jveMV4kjN9/lUiR9P5yv63ck29NpsYXItQE/EeT8vXq6NpJTuW2ddPvb8OBvICdhotlD
+ 8RWw==
+X-Gm-Message-State: AOAM5325vL53YVifCIa9rIv6vUYuq8hzZxE7RiN1CgNV+2YbEEzrzpWM
+ zHyqrg7RCt5XPDTTvJWo4PdEipURNvH/
+X-Google-Smtp-Source: ABdhPJy2QtkVXxFimQC+IZjzVhb0LdIQpcgQ0je1hhbQqKBzsLzskukyRO+ytygSUlTdziIaeBHPYb7/pHdz
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:200:c75c:8ce4:97cf:a279])
+ (user=venture job=sendgmr) by 2002:a5b:b:: with SMTP id
+ a11mr1125133ybp.393.1643232363020; 
+ Wed, 26 Jan 2022 13:26:03 -0800 (PST)
+Date: Wed, 26 Jan 2022 13:25:57 -0800
+Message-Id: <20220126212559.1936290-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.0.rc0.227.g00780c9af4-goog
+Subject: [PATCH v3 0/2] linux-user: check read permissions before how
+From: Patrick Venture <venture@google.com>
+To: laurent@vivier.eu
+Cc: qemu-devel@nongnu.org, scw@google.com, 
+ Patrick Venture <venture@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b49
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
+ envelope-from=3a7zxYQcKCsA1ktz0xkmuumrk.iuswks0-jk1krtutmt0.uxm@flex--venture.bounces.google.com;
+ helo=mail-yb1-xb49.google.com
+X-Spam_score_int: -87
+X-Spam_score: -8.8
+X-Spam_bar: --------
+X-Spam_report: (-8.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,24 +87,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: David Edmondson <david.edmondson@oracle.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
-> postcopy_send_discard_bm_ram() always return zero. Since it can't
-> fail, simplify and do not return anything.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
-> Based-on: <20211224065000.97572-1-peterx@redhat.com>
+In sigprocmask check the read permissions first before checking the `how`.
 
-And here, I learn to read Based-on:
+This is done for both: TARGET_NR_sigprocmask and TARGET_NR_rt_sigprocmask
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+v3:
+ * Added missing signature from venture
+v2:
+ * Update code style during code change
+ * Also update check order for TARGET_NR_sigprocmask
 
-queued.
+Patrick Venture (1):
+  linux-user: sigprocmask check read perms first
+
+Shu-Chun Weng (1):
+  linux-user: rt_sigprocmask, check read perms first
+
+ linux-user/syscall.c | 24 ++++++++++++++----------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
+
+-- 
+2.35.0.rc0.227.g00780c9af4-goog
 
 
