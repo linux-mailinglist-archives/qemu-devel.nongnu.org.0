@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D73149D400
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 22:03:59 +0100 (CET)
-Received: from localhost ([::1]:42800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D950549D41C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 22:06:31 +0100 (CET)
+Received: from localhost ([::1]:44670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCpSQ-0005tV-7N
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 16:03:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39208)
+	id 1nCpUs-0007F6-NL
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 16:06:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCpPi-0004jf-5N
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 16:01:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53903)
+ id 1nCpRG-0005fB-0I
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 16:02:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCpPY-0004RS-Ez
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 16:01:08 -0500
+ id 1nCpRE-0004g7-Ji
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 16:02:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643230842;
+ s=mimecast20190719; t=1643230964;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=pnGRIAhii2005dF01CqB1t74u1l7SVK1ypHgeTRvJ8E=;
- b=T8qQtWk5Wv7AKFxZUafHtN3wgyInDSWamm7f8X0xQmXDSXV6hlI9tJ/yJcw1t5CGQNWE0M
- 7rbvTjs7+TNU3dfXvgO+x7VTKQ3CKbHJPkdzum1vxDqL16ic+gDelVzHr/nQAmP81IvuQK
- /5JWmCzIDOw1ICJybUHd38zcrfn2ak4=
+ bh=A+qjt5pYMXwVD1c0+Cz6IcDexR2/vtOGKeCWSioJ9ec=;
+ b=CqMcDlY2YQtrn5iOHJzTbRxQmLajKQ8WmQHRibCoY7u8byRXwFq4DpqC7iZVbphKiEFWlu
+ g3p5bzXNBg7srmdmPjifsuUekIGrQ9i7Z/2UU0MShJywAZsEFxbrkamguOS/83SVmqpPwW
+ gawOQ0X3l+0/GYeAmoi5ZJoYeEpuhys=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-46-DHnYE9ihNhCDs3VyaaOu-A-1; Wed, 26 Jan 2022 16:00:40 -0500
-X-MC-Unique: DHnYE9ihNhCDs3VyaaOu-A-1
+ us-mta-26-DfJN6Y9AOgOYPTmsV0_9rQ-1; Wed, 26 Jan 2022 16:02:42 -0500
+X-MC-Unique: DfJN6Y9AOgOYPTmsV0_9rQ-1
 Received: by mail-wr1-f70.google.com with SMTP id
- a6-20020adfbc46000000b001d7370ace6eso172194wrh.9
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 13:00:39 -0800 (PST)
+ x4-20020adfbb44000000b001d83e815683so175521wrg.8
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 13:02:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version;
- bh=pnGRIAhii2005dF01CqB1t74u1l7SVK1ypHgeTRvJ8E=;
- b=B4SFo6wcfe1fWx1MT5HL0/ZJy2u9demdHHE6VIW6Y3wiJp8W/Z9/1fmn8oQ0qOiK60
- D18GOfnekQym7A2dELo6L05aSldjccKlu23TzBsCO5iTnI6+EKosng/Ycw68C/ZbNeh9
- tcDQwjWn5PihsD9CeyBXbgHe6GYFj0zym1z/HXasIK3CN3RiLS4p/FyVB48SD1npaTzR
- 6TgFGo1KiF7FwrjDI443id+ig+4P/1/W2YCKG/WR30AfdgEH7jLGCqWFBi0AMwobp/QN
- AA6bPVjyrc/h3R6JYpHbw1iO4f/CdCiIPQSclFswE1O2xUy8xkfuTqOeK9rdoB25Kv/p
- U5JQ==
-X-Gm-Message-State: AOAM530tcnwfQB5gQ2GLxBzOJOpxBQWDAQjKJZF7m0ae/74dDg+tIXCu
- 7ApEUm89IHherWXvmpFcmRr1nmdk9/KsGQUKo5T7SAgJ+9kzQuhkcqJcD9VSKML3AEK0D7oJJ1Y
- I3GHqDHF1FYAgISA=
-X-Received: by 2002:a5d:6211:: with SMTP id y17mr295889wru.73.1643230838776;
- Wed, 26 Jan 2022 13:00:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxRxAiDypWRtASBHbfW1a4CUTeQ1hf3VqbW4O00OHd8+LtyM4ORwKqmA2CM8Pg0FBIPyZqkdg==
-X-Received: by 2002:a5d:6211:: with SMTP id y17mr295880wru.73.1643230838603;
- Wed, 26 Jan 2022 13:00:38 -0800 (PST)
+ bh=A+qjt5pYMXwVD1c0+Cz6IcDexR2/vtOGKeCWSioJ9ec=;
+ b=ErnCjQI5kTKxRDuD8EriNvTEFnMJks3k6N7tM0PgfjZjqz0nHPus7o1ItyTKtBCfKV
+ G9XeTKvOyD+SVMI+iOBN3b9+DzPcA2urlQhGzwuK/ivF5ae/ftP40ynjgjNOUortJDaA
+ Zq+gsFe4wbSk++qzkxpRiRLW/Gi6C6liTsxOmeQH69wZLELqRhRRxWFIbhM/OXjZzft4
+ AzcgyeHLCZHaPbbyw+CsKlEntQpqyi9BwBdA0UuoEJgmM21V4GuSsJnGeh9qXAib1gaY
+ /7B1Thsx/yMprRcZlqqab43nuS5Gt8f+FUqAS6WSXK6WIMs14pItzBPG7mRgl/jv4JHu
+ +lcQ==
+X-Gm-Message-State: AOAM531h7wy7bLAsIfK97GuAVof+qfScl6b+Tq8ZXKa4FLkvOkkMaaHx
+ hd36utaIlff6TOJoiZ41G0HgWpaycgib/YPfJfMXlXwB/yAWmmv2Vf8zCvSm9r10ZX1jYNMJ+0z
+ jo47Tzw4GqucOPY0=
+X-Received: by 2002:a05:600c:4f50:: with SMTP id
+ m16mr3758016wmq.132.1643230961624; 
+ Wed, 26 Jan 2022 13:02:41 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzGED4pTCd6dXamGb7Tr69C0bBTdb5sBVQOGumffpYofOk7WxUxJVkg0DOgoLFiycl9jZT0XA==
+X-Received: by 2002:a05:600c:4f50:: with SMTP id
+ m16mr3757997wmq.132.1643230961401; 
+ Wed, 26 Jan 2022 13:02:41 -0800 (PST)
 Received: from localhost ([47.61.17.76])
- by smtp.gmail.com with ESMTPSA id u15sm386459wrs.17.2022.01.26.13.00.37
+ by smtp.gmail.com with ESMTPSA id t17sm349865wrs.10.2022.01.26.13.02.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jan 2022 13:00:38 -0800 (PST)
+ Wed, 26 Jan 2022 13:02:40 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
-To: Xu Zheng <xuzheng@cmss.chinamobile.com>
-Subject: Re: [PATCH] migration/ram: clean up unused comment.
-In-Reply-To: <20220117023003.1655917-1-xuzheng@cmss.chinamobile.com> (Xu
- Zheng's message of "Mon, 17 Jan 2022 10:30:03 +0800")
-References: <20220117023003.1655917-1-xuzheng@cmss.chinamobile.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 1/7] migration: Drop dead code of ram_debug_dump_bitmap()
+In-Reply-To: <20211207115016.73195-2-peterx@redhat.com> (Peter Xu's message of
+ "Tue, 7 Dec 2021 19:50:10 +0800")
+References: <20211207115016.73195-1-peterx@redhat.com>
+ <20211207115016.73195-2-peterx@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Wed, 26 Jan 2022 22:00:37 +0100
-Message-ID: <87ee4unrey.fsf@secure.mitica>
+Date: Wed, 26 Jan 2022 22:02:40 +0100
+Message-ID: <87a6finrbj.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
@@ -96,44 +99,20 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: quintela@redhat.com
-Cc: dgilbert@redhat.com, Mao Zhongyi <maozhongyi@cmss.chinamobile.com>,
- qemu-devel@nongnu.org
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Xu Zheng <xuzheng@cmss.chinamobile.com> wrote:
-> Just a removal of an unused comment.
-> a0a8aa147aa did many fixes and removed the parameter named "ms", but
-> forget to remove the corresponding comment in function named
-> "ram_save_host_page".
+Peter Xu <peterx@redhat.com> wrote:
+> I planned to add "#ifdef DEBUG_POSTCOPY" around the function too because
+> otherwise it'll be compiled into qemu binary even if it'll never be used.  Then
+> I found that maybe it's easier to just drop it for good..
 >
-> Signed-off-by: Xu Zheng <xuzheng@cmss.chinamobile.com>
-> Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-queued.
-
-> ---
->  migration/ram.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 57efa67f20..96944f0c70 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -2188,7 +2188,6 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss,
-
-Somehow git diff got confised here, and shows ram_save_target_page where
-it is ram_save_host_page().  I fixued it manually.
-
-
->   * Returns the number of pages written or negative on error
->   *
->   * @rs: current RAM state
-> - * @ms: current migration state
->   * @pss: data about the page we want to send
->   * @last_stage: if we are at the completion stage
->   */
+queued
 
 
