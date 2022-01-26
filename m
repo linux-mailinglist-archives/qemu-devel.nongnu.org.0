@@ -2,74 +2,153 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8F4949CC4D
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 15:28:17 +0100 (CET)
-Received: from localhost ([::1]:55116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7142E49CC66
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 15:33:39 +0100 (CET)
+Received: from localhost ([::1]:36552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCjHV-0002dI-2k
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 09:28:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49682)
+	id 1nCjMg-0000Ef-7i
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 09:33:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nCjEK-0000vr-8B
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 09:25:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47398)
+ (Exim 4.90_1) (envelope-from <mark.kanda@oracle.com>)
+ id 1nCjJC-0005n3-Cg
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 09:30:02 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:39678)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nCjEH-00081d-9s
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 09:24:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643207096;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Wn/rbzco1KlTwJwyTDUSbVBa8fERopHCVMZJYHt3ta8=;
- b=UPX3nN7LzHfmHsqm/ji5xzl1Snis4O/6qgpUa1GR+GormP4lgpTLYJdFTduLdxXMIQ7Jra
- 54F5JgkvZgStCTqgiLJeG4ehanHz/QYkUDUFJH5F+Tb71Ensg5Gr4IBSbMjQl57ZsPn0PP
- VhVwmgLjyBPo1l57L+uHtPiRGCg5TK8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-387-4l75W19JNGiA-FbZroiovw-1; Wed, 26 Jan 2022 09:24:52 -0500
-X-MC-Unique: 4l75W19JNGiA-FbZroiovw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA5441091DA0;
- Wed, 26 Jan 2022 14:24:51 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-10.ams2.redhat.com
- [10.36.112.10])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B9C67108F84F;
- Wed, 26 Jan 2022 14:24:39 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3D8D8113864A; Wed, 26 Jan 2022 15:24:38 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v5 5/7] docs/qapi-code-gen: update to cover trace events
- code generation
-References: <20220125215655.3111881-1-vsementsov@virtuozzo.com>
- <20220125215655.3111881-6-vsementsov@virtuozzo.com>
-Date: Wed, 26 Jan 2022 15:24:38 +0100
-In-Reply-To: <20220125215655.3111881-6-vsementsov@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Tue, 25 Jan 2022 22:56:53 +0100")
-Message-ID: <877damtw0p.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (Exim 4.90_1) (envelope-from <mark.kanda@oracle.com>)
+ id 1nCjJA-0000ay-8H
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 09:30:01 -0500
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20Q9eW8D007704; 
+ Wed, 26 Jan 2022 14:29:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=corp-2021-07-09;
+ bh=Ox/zOozTjVPpGHAYcAG/U2AEAw7gFnHkk8V6kSYkDuw=;
+ b=HLEw1gKYIpGb+zawbN59gLXGIhK+FcSEOVBQfkEaCx23v5/8WD5wscw/8uvTuiJ9tcy1
+ LSYWZTDO4vITGw7reFk22Iw7lRCp0blIKKY+FvlG3m4yn78VGTTN8wvmaaAuiOcv8I22
+ 5PZRnYT/U0x6Y9RnHiYHSc0eRpnULdpe3nfXlO1CcJh2edNb/+bj9p5i3xhOE46/GOsW
+ kSnrTIRH+oLHI1STytfIzlW4aB/lctY6Ii6FossUWY9SRxZNmxrr8D0FNdkGYV61tCl5
+ DNf9w+wP5gfMdPOAWneiS0MiE2vg+b1HK1NkSyW3njSUVnSa0gLWYRyNrIZyPZAi/S/E 3A== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3dsy9s6501-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 26 Jan 2022 14:29:56 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20QEQoxH181401;
+ Wed, 26 Jan 2022 14:29:55 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2177.outbound.protection.outlook.com [104.47.58.177])
+ by aserp3020.oracle.com with ESMTP id 3dtax8fy4y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 26 Jan 2022 14:29:55 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jjjmFLp+D8DnEqhAQxY1VCp2lL3+PgMc4rOFFqZZXeUCH6d1xgvLRIdq85LsqZ1Iitf3+0XnoX9GQpourtHBwG2tTeLc3i3QA04lYGJTGKo5O2rIX1lbvLSKetRbPLICXHPzJ4NF6FiD1oHifDrN+8gH3DGCsLEjUFN43d+ItDkBw8dbWCF82rp7qPb/n3CZ/ipL397V5+8Xxpo0STYHp9K0qAIgQVecBxRK5Sqk3ZzL3NvBcre5JSpQvSrMmli9DEGar9idcLIibxvXrfcgw6yu5GTrCTt+6y1fCQrx+P4RdwtOfKNoUBUU5uiwJYKWRODbktJrr+HWkPGsyT8KbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ox/zOozTjVPpGHAYcAG/U2AEAw7gFnHkk8V6kSYkDuw=;
+ b=RGoU90uiSK7gryHXoGLeIHnpLYNPkPUZfQAcxP5gmKgkaR6j8o5I5myu2yEKRar4jYlaa63JjhX2tEwexd1nyVwzbgU9yFKWTkMA30mBTSYcRQfilXdZmx+SqlOeb1dM9nHOUa2RJaPqnVz3ospq59mv+jlEO4tlrl4MAKdeeXkYGkltozmvbc1JtiUNRjyp2XjUZXdSvvUcafU9UwRMf081/Y4WB6Zoop0bZ9eOH9bZTDs0NNfDsa5VR38lxnAzQT5qwh9EvjVx9c/WUO4oywsB9H6uOrZTGgWmTO87yEslFbmxbnHIQ6s6F0gEKvEGsAq/Nxa9NGV/RN8yQby86Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ox/zOozTjVPpGHAYcAG/U2AEAw7gFnHkk8V6kSYkDuw=;
+ b=yHyX26NsQuzk0vs3trDHPGoNCVs9ltN0BxVPz0VSWJ7vtieADLA9v3PXcS2AIKGqyiS/NyrMO9jo2CvpAAlSHFvPYFj6kMD0NvsdF8R/drzQ02f23X58LjThlY9+zxEpSDv5P/yqv7kyzeqWy5A9uP9wKd8jPQlHUaqoGpxgmTc=
+Received: from SA1PR10MB5841.namprd10.prod.outlook.com (2603:10b6:806:22b::16)
+ by CH2PR10MB3990.namprd10.prod.outlook.com (2603:10b6:610:11::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.15; Wed, 26 Jan
+ 2022 14:29:53 +0000
+Received: from SA1PR10MB5841.namprd10.prod.outlook.com
+ ([fe80::2511:c3af:9db2:6ba0]) by SA1PR10MB5841.namprd10.prod.outlook.com
+ ([fe80::2511:c3af:9db2:6ba0%7]) with mapi id 15.20.4888.013; Wed, 26 Jan 2022
+ 14:29:53 +0000
+From: Mark Kanda <mark.kanda@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] vCPU hotunplug related memory leaks
+Date: Wed, 26 Jan 2022 08:29:42 -0600
+Message-Id: <20220126142946.667782-1-mark.kanda@oracle.com>
+X-Mailer: git-send-email 2.27.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-ClientProxiedBy: SN4PR0501CA0019.namprd05.prod.outlook.com
+ (2603:10b6:803:40::32) To SA1PR10MB5841.namprd10.prod.outlook.com
+ (2603:10b6:806:22b::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: bbde94df-c07b-4ce7-90a3-08d9e0d8519c
+X-MS-TrafficTypeDiagnostic: CH2PR10MB3990:EE_
+X-Microsoft-Antispam-PRVS: <CH2PR10MB3990E39202E54BFF45F8D92FF9209@CH2PR10MB3990.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1468;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: t2j4FSdAJDSMiPavTHWx2bLGFMGmjJWI/yUbX6q0MdJ3anvjjf2EfYAXTp+OQhlk/UjR3jyMSSLvneJQbkPHMkNBfd1bfquifpNaji+btB7cA6b5GVkvsPI/cvNzrL4CEboiQ+4NcJtr6reDx6BgxKoYifV7YK2Hds1JmJPx4pglNR27UC+Txv1nu6gd0eGOkaVJJNnWAijRxs2Y/55zS/FELMr++lfnaHvORZTZQHnVJoIpHhp0rjPcFzuhw0hjDeSmYw/LJRWFJMGYeJU/Tf4GtADisJBxTSB4oM1JrKz/4YWN5x7CQDv2wz4VIOCOY5/yd1eWD9mJSlEb3IPxyv5O9CoF//UIuNHJKiutSKlRmzUW774zbUVYKyMDz8Ype/tcVFbJcU9X6u+QAxZH+HL6+KzN9bk8F5uNIZQFLB5zDE3JTFOsSBcHx8E6pxG4Olxgi18IRWr+KE/wQtfoy5cmcQUuYUr2U/1hNubYu+ro4BhHAyULoJdTSSyMPkTnkJwISzn0hDkaKjU8zoXUBZ0YIByKl6cSHrP1eVnN07MxtJ2Tvgm+L4sJfDcAcrslSdjHQMViC+UQTFT5YV+kqgBwGHIfQ518mAok6AaK92elVGNRQoj+IsKFmv6kbSEJ8KTv2EZqBVEWbRDHhZiQaiYuNv/xsfd2J5HFgOA4AalSRkLcsBPjLS8JnedZ4416zKEHjcITyiPFDjzYaFoV7g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR10MB5841.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(508600001)(36756003)(26005)(6486002)(316002)(66476007)(1076003)(186003)(66556008)(6916009)(66946007)(2616005)(107886003)(86362001)(6666004)(6512007)(6506007)(44832011)(52116002)(4744005)(4326008)(8676002)(5660300002)(38100700002)(38350700002)(8936002)(2906002)(20210929001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JPkEymwPc+FVTo2varH4dv8wOgGjKDoK02WoU9GuAPYc2Fu5EdjaSvQt2M1K?=
+ =?us-ascii?Q?t9jWL916SeBeodOxituSq9AYmZIAMlrgts+dF3hlJ/DKIn0GHrmGxa/5jKsg?=
+ =?us-ascii?Q?OHHGplOXICTSyHNGN0agxgGD20+hPgUIoTm50pqBdZhP4mEXhlSUQ3pHaUL8?=
+ =?us-ascii?Q?P6u9L5R4ayO9vmyBYip495LPS1xT8T6W0h0DjJtFIMH1fmWx/eTGd4lfdE1y?=
+ =?us-ascii?Q?BsT8E3zhI+t4n9CKXEenLcTAE2wziSgsdnQYiF40W3hhr+MNe7bVvn7mXFIh?=
+ =?us-ascii?Q?uhdbXKozjEmPoT7Q8kTAk+Ps3T+9sw0jauBMueS6eYljsxEGlViRIfy1/Isn?=
+ =?us-ascii?Q?w0DG2Hz6/es9OEZbEClUF7ci66HdBS0hA6ihnr024QGietKRgVoJfUKG2Qse?=
+ =?us-ascii?Q?O18lpFITUrDVnfmF2xxV7RVqS7ec8EB0UswW34lDXgc+0lWwzuVZMHSPO1b3?=
+ =?us-ascii?Q?D8Clf6PRRhCQ9irxG8DdjJQnu4uh82YGEb0XfpyC4a5In3kYkydQAS03htFe?=
+ =?us-ascii?Q?Mdjxq9IetJxfQqYqNCZ4rLNpnLcmLT8feGsHR79Es2xBCsYENbUv/vEShT4M?=
+ =?us-ascii?Q?uqmmIWDqaIRchHET/p0XsdCH3phcJqjGqle467Os/P+LF9C049dL2F6fsCaq?=
+ =?us-ascii?Q?fTwiGv3+Ld0Rfr7JfTJFI/xX3axu8C+4ldeaeltSUw4GaCh9xjYz3M/YU8W3?=
+ =?us-ascii?Q?y8d0uyuE+k1ff1pLigI8XCGTuq4KdpzvEeoaZu9s2tca/2Uknm7QMJc4JuI9?=
+ =?us-ascii?Q?cIDd3GVRBg14H+jVtLsU/8q28Mee7bKzpSXQXygT0hI/cKzZl3E92IULbu8o?=
+ =?us-ascii?Q?UlIP0d23qOrx4+Siohp16RwplF7V+B1idVvqkixCx4RfRxmOfNFrUqa2YDVH?=
+ =?us-ascii?Q?9qCF+zBOa1QkUDTChwbr4VD7VRNNCYh2zvoUgOS/UZhn8PtFubhCx7nyllrN?=
+ =?us-ascii?Q?oqaBwZAM2YB2zNWRnfKACIo24l9/J60BOF5GTRTTkUTY0YbGFY9+acfrO15A?=
+ =?us-ascii?Q?dgZzSHqo+a39Ql5uxErIdtOGtwsiu4l1dKF3hG4iPpX6UJyER3U2QtsN0pDC?=
+ =?us-ascii?Q?Ifrt7lwrwJm1D1w3rvrggOsVZ5+noo2neDFVDy32w1y0THPfS5HYTVDn8WNJ?=
+ =?us-ascii?Q?p1DKhRHJ9mFiGcHBL71B5xeDQGFBPXIhym4xRX0sN0lWaVLNzUNQMUlyKuIm?=
+ =?us-ascii?Q?u6HZB+4bWMgBcJEPuDcjiNAdQsp5y1nc7+4gynXeQX93Zhu0FrrHt6m2n9bw?=
+ =?us-ascii?Q?j46KR+X76RS48CS6O8T334h8MnrAMJp1q0Yam+4R6U2N4jIyb4bfIpxXJ+tj?=
+ =?us-ascii?Q?wFsJMnQynuqZjMsW55Svx67JaIj6JTcykuDhM/s4ITmVD1+qYNglLEhYnYOS?=
+ =?us-ascii?Q?B6ETF+eefoGEOB1lBxj29wohNX48sCU43oMc3M+47JxzwO8Zmu3dQ6/1O/to?=
+ =?us-ascii?Q?/dbt+WcvLP/6O9yyKZhrdwCE16bH2X1fAWmM3dgDBkSwAJy0J1M1GfuZCV1k?=
+ =?us-ascii?Q?4c/Jxr4Ube7zyPOWn58A6UuRVxvZXl42cXgFNon//TcOueMOmLTKPlEmPacg?=
+ =?us-ascii?Q?fMtpYw3YtGmEiNhC9gdLDPcdVv8vuelF3gKLsmmVQSVfmq258L0UImgZ+q9V?=
+ =?us-ascii?Q?rMK7bguAzO2BcK/0kafrQD4=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bbde94df-c07b-4ce7-90a3-08d9e0d8519c
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR10MB5841.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2022 14:29:53.7502 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HkR1VNL11sx7ltp9GQquREy00txsaM5PIPyMoqkcgjskZMfOIqMhPwRmc4ZG/19W4kjjQ7PU35HeRomfd2JhSg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR10MB3990
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10238
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ bulkscore=0 mlxscore=0
+ phishscore=0 suspectscore=0 spamscore=0 mlxlogscore=885 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2201260088
+X-Proofpoint-GUID: pjhDZTkhvx7zinWNIXtbfrgEW2wV7jH_
+X-Proofpoint-ORIG-GUID: pjhDZTkhvx7zinWNIXtbfrgEW2wV7jH_
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=mark.kanda@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,96 +161,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, michael.roth@amd.com, qemu-devel@nongnu.org,
- hreitz@redhat.com, stefanha@redhat.com, pbonzini@redhat.com, jsnow@redhat.com
+Cc: pbonzini@redhat.com, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+This series addresses a few vCPU hotunplug related leaks (found with Valgrind).
 
-> Previous commits enabled trace events generation for most of QAPI
-> generated code (except for tests/ and qga/). Let's update documentation
-> to illustrate it.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  docs/devel/qapi-code-gen.rst | 21 ++++++++++++++++++++-
->  1 file changed, 20 insertions(+), 1 deletion(-)
->
-> diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
-> index feafed79b5..a3430740bd 100644
-> --- a/docs/devel/qapi-code-gen.rst
-> +++ b/docs/devel/qapi-code-gen.rst
-> @@ -1619,7 +1619,10 @@ Code generated for commands
->  
->  These are the marshaling/dispatch functions for the commands defined
->  in the schema.  The generated code provides qmp_marshal_COMMAND(), and
-> -declares qmp_COMMAND() that the user must implement.
-> +declares qmp_COMMAND() that the user must implement.  The generated code
-> +contains trace events code.  Corresponding .trace-events file with list
-> +of trace events is generated too, and should be parsed by trace generator
-> +later to generate trace event code, see `tracing <tracing.html>`.
+Mark Kanda (4):
+  softmmu/cpus: Free cpu->thread in cpu_remove_sync()
+  softmmu/cpus: Free cpu->halt_cond in cpu_remove_sync()
+  cpu: Free cpu->cpu_ases in cpu_exec_unrealizefn()
+  i386/cpu: Free env->xsave_buf in x86_cpu_unrealizefn()
 
-I think references look like :ref:`tracing`.
+ cpu.c             | 1 +
+ softmmu/cpus.c    | 2 ++
+ target/i386/cpu.c | 2 ++
+ 3 files changed, 5 insertions(+)
 
-The last sentence is kind of redundant with the text added in the next
-hunk.  Drop both new sentences?
-
->  
->  The following files are generated:
->  
-> @@ -1630,6 +1633,9 @@ The following files are generated:
->   ``$(prefix)qapi-commands.h``
->       Function prototypes for the QMP commands specified in the schema
->  
-> + ``$(prefix)qapi-commands.trace-events``
-> +     Trace events file for trace generator, see `tracing <tracing.html>`.
-
-Suggest
-
-        Trace event declarations, see :ref:`tracing`.
-
-> +
->   ``$(prefix)qapi-init-commands.h``
->       Command initialization prototype
->  
-> @@ -1689,14 +1695,27 @@ Example::
->              goto out;
->          }
->  
-> +        if (trace_event_get_state_backends(TRACE_QMP_ENTER_MY_COMMAND)) {
-> +            g_autoptr(GString) req_json = qobject_to_json(QOBJECT(args));
-> +
-> +            trace_qmp_enter_my_command(req_json->str);
-> +        }
-> +
->          retval = qmp_my_command(arg.arg1, &err);
->          if (err) {
-> +            trace_qmp_exit_my_command(error_get_pretty(err), false);
->              error_propagate(errp, err);
->              goto out;
->          }
->  
->          qmp_marshal_output_UserDefOne(retval, ret, errp);
->  
-> +        if (trace_event_get_state_backends(TRACE_QMP_EXIT_MY_COMMAND)) {
-> +            g_autoptr(GString) ret_json = qobject_to_json(*ret);
-> +
-> +            trace_qmp_exit_my_command(ret_json->str, true);
-> +        }
-> +
->      out:
->          visit_free(v);
->          v = qapi_dealloc_visitor_new();
-
-Let's add
-
-       $ cat qapi-generated/example-qapi-commands.trace-events
-       # AUTOMATICALLY GENERATED, DO NOT MODIFY
-
-       qmp_enter_my_command(const char *json) "%s"
-       qmp_exit_my_command(const char *result, bool succeeded) "%s %d"
-
-between .h and .c.
+-- 
+2.27.0
 
 
