@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8533149C5A1
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 09:57:41 +0100 (CET)
-Received: from localhost ([::1]:48432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A9CF49C5D3
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 10:08:36 +0100 (CET)
+Received: from localhost ([::1]:53956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCe7Y-0004hp-M2
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 03:57:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55262)
+	id 1nCeI6-0000Sg-PW
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 04:08:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nCe4Z-000371-Mo
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 03:54:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49148)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nCe8H-0006Xs-Ma; Wed, 26 Jan 2022 03:58:25 -0500
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:44205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nCe4Y-0004ep-3L
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 03:54:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643187273;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KZ+KLRmEkI2xHam9Z0ONj0vqNG8QmvNvtH3Ax+Bb9C8=;
- b=L4Xz4Z/lbvsDC/kTufs5ngvMWz/bq6IIH/4CgZpGwy4jd5woiLXPpjWoPcnLYoPkm/qIlE
- CzlnKnht9/IkG5HvYY3JRdiZuwW+W8yc8XjUCdXxkPbRx0li0+AoZGxyAedYMp4JVAmzJs
- oAj5YPNTXrQZvRem7X0JDfr+XMokmO0=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-583-VPy5P1R5Pw6xzsD-ceIOoQ-1; Wed, 26 Jan 2022 03:54:30 -0500
-X-MC-Unique: VPy5P1R5Pw6xzsD-ceIOoQ-1
-Received: by mail-qk1-f198.google.com with SMTP id
- q5-20020a05620a0d8500b004738c1b48beso16692932qkl.7
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 00:54:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=KZ+KLRmEkI2xHam9Z0ONj0vqNG8QmvNvtH3Ax+Bb9C8=;
- b=zI57VeEzIeFEGdOoOkd/0HUTKe/FwnIKCsGnZPkvuPCuN9emnzWD15tDkqn8eI9CWR
- m4y7gkjPHFO9XKQFRgQJJ0m2bg43uPXRCj21X1wcsMBndDXH2Kyc0s3Ixdxr5BedZNmE
- p4AbFDmIXoDVmCcd2WBFKf14BHNLBFAJmQFFsK+plo3JymH6wbnSlxCAm0lIX+LgG+hE
- ru38HXWxGnCW6c4R2paD29yPY26GrZqLnJ4uvTLU7q6TPdu9yyezTvkbwaEsIIARFXGC
- 6lhDlb7+6ine5bEHdnXVXL8rq2m2jSPekkmkswsdYHmwX+aDORWvZkKT9qUbiYrDn1+f
- AvYg==
-X-Gm-Message-State: AOAM531NO2rcZVVhjJ7M8XUyyepHsAaguzrS+iTtn4NcmSLAHukOmj/G
- /jLAl+XNJHzMvGCA7hUiuAmG5Dsh278nYCpUiC/+hHaeLabzo/hZApcOmkGlc15OSko8pUmiXWw
- /SP5fAMF7qZStJmehJHIkOpu4q/rhDGY=
-X-Received: by 2002:a05:620a:408d:: with SMTP id
- f13mr16002235qko.486.1643187269963; 
- Wed, 26 Jan 2022 00:54:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzMugKnZNR99vnc3K1v9xJ3FGyLCGDWWGRTJd/9ijPwf3DAoZamXW8Sx3m5/Z9QS/piuUnPoyNS44E2pBvXhJo=
-X-Received: by 2002:a05:620a:408d:: with SMTP id
- f13mr16002207qko.486.1643187269705; 
- Wed, 26 Jan 2022 00:54:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nCe8F-0005Hs-57; Wed, 26 Jan 2022 03:58:25 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 3E0803200F3B;
+ Wed, 26 Jan 2022 03:58:19 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Wed, 26 Jan 2022 03:58:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; bh=zcGjTrs9+KUSvx4oJdopWY2geAz49W
+ tXdCgEQU6UKTY=; b=r5Pwg5m/iR2I6/C63Cm8LeOBxQy61r9j+IUN117OvHYmTw
+ KkZytXVe20mGOA+8PlRml3bqCgTxGaHeXZmtFT/XKQTmHiUSx/43QL87srSeZDeW
+ 9gjJ/KQHmQti7pUly09xLhrcOn3C8shT4krKZJbfUw7LXqWUDnZHsd+lO0oNGBv6
+ /Yt2SUKg75pBpHNB8/NzzfwaKNr9GkJsZwUlv1k7LFtXn4ffMzT4fed3bjoXIrvb
+ i2M0vzrRstunzMyHtiloKhUT5puKpxb5nRH6YqO1OsyLi0IEkpY2W2zVjmna4lpM
+ PQw08BpqQMtUMQN0LwCZH/IlWoG1VYsBP7HPzOPA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=zcGjTrs9+KUSvx4oJ
+ dopWY2geAz49WtXdCgEQU6UKTY=; b=Ky0BXhoX1k+WIV4SlKrZpGxhQS1bfcfru
+ PuN3fEgJ5PKJrLSWz34wHCjAzWVcWJG6IvvqhpnKz/jxUJF8f9JkrIi/AfObzUpT
+ awsO2vYN3fFgY+i1i9x1F31BB+wlFjVopJ9NaGMDO/AzQeqq+jFYUKPAG6H2g6wY
+ JIqZZPP6mAtGF8iwfJu/xa0zXta6vgmm0E3YOoRNXGYUmkcl5yR+2QrtShuDSF0h
+ /VUfN5QPpZBNIQYroo3tHJZGYgmsLruAK6VZb9YzioIIeBfXTwZ4ZR/OXzuAj6rY
+ 2pjM1bQ2K1DC+2JGjIU2HRTcKf5eMPbgS8WLyucJUzPoqYh4vJWyQ==
+X-ME-Sender: <xms:Kg3xYa6ZEp22mOMi7pfB0KopdzaSe2ApJMCfS0TItVTK9tEJx2Isog>
+ <xme:Kg3xYT7fW29WGoEaXcS-e47TdzvXCRj8gJfs3_ax10mm9jlULnBcU405W7NagofkH
+ Ah8wBz5GsiJay6ENO0>
+X-ME-Received: <xmr:Kg3xYZcZOH2r1a20YCPxwfV2ArRsH4uzv6cznY0m7YxTWNtStr5X-uzc8Gx1sBEuu3x5zCfYaiwyADkSRAo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrfedtgdduvdejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejuddvfeffgfdvjefhleevtdevgeejteelveeiueejleeuledtueeiieetjeev
+ vdenucffohhmrghinhepghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:Kg3xYXL794UjxrtAfqoe6v093Gu64tnleTD74axb31_i6YWQ4HG0Gw>
+ <xmx:Kg3xYeI_2rtpLxDtIQfg5bs1e0Q7bhRckJ7lSDJAmhAmA_CWUaZ9gQ>
+ <xmx:Kg3xYYzbkHIGAVsIs3In1nJZmQsY6ONf7H7GRM20Rc_6FVOinAuW1g>
+ <xmx:Kg3xYTEFkgVeHSBGi9WSRzrZ5hU3SZYCvN1nEjmp_pc4v4JAPNCXgg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 26 Jan 2022 03:58:17 -0500 (EST)
+Date: Wed, 26 Jan 2022 09:58:15 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+Subject: Re: [PATCH v3 00/15] hw/nvme: SR-IOV with Virtualization Enhancements
+Message-ID: <YfENJ1pSWLf2pFa8@apples>
+References: <20211221143246.2052050-1-lukasz.maniak@linux.intel.com>
 MIME-Version: 1.0
-References: <20220121202733.404989-1-eperezma@redhat.com>
- <20220121202733.404989-3-eperezma@redhat.com>
-In-Reply-To: <20220121202733.404989-3-eperezma@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 26 Jan 2022 09:53:53 +0100
-Message-ID: <CAJaqyWfdWZJs5bg=zh+43m_8ecGm+KJLMFWqOqkK9hRG+tjwxg@mail.gmail.com>
-Subject: Re: [PATCH 02/31] vhost: Add VhostShadowVirtqueue
-To: qemu-level <qemu-devel@nongnu.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="r0IdI1u1dcUwj68U"
+Content-Disposition: inline
+In-Reply-To: <20211221143246.2052050-1-lukasz.maniak@linux.intel.com>
+Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
+ helo=wout4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,169 +93,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Cindy Lu <lulu@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Eric Blake <eblake@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Keith Busch <kbusch@kernel.org>,
+ =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 21, 2022 at 9:32 PM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
-ote:
->
-> Vhost shadow virtqueue (SVQ) is an intermediate jump for virtqueue
-> notifications and buffers, allowing qemu to track them. While qemu is
-> forwarding the buffers and virtqueue changes, it is able to commit the
-> memory it's being dirtied, the same way regular qemu's VirtIO devices
-> do.
->
-> This commit only exposes basic SVQ allocation and free. Next patches of
-> the series add functionality like notifications and buffers forwarding.
->
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> ---
->  hw/virtio/vhost-shadow-virtqueue.h | 21 ++++++++++
->  hw/virtio/vhost-shadow-virtqueue.c | 64 ++++++++++++++++++++++++++++++
->  hw/virtio/meson.build              |  2 +-
->  3 files changed, 86 insertions(+), 1 deletion(-)
->  create mode 100644 hw/virtio/vhost-shadow-virtqueue.h
->  create mode 100644 hw/virtio/vhost-shadow-virtqueue.c
->
-> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-=
-virtqueue.h
-> new file mode 100644
-> index 0000000000..61ea112002
-> --- /dev/null
-> +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> @@ -0,0 +1,21 @@
-> +/*
-> + * vhost shadow virtqueue
-> + *
-> + * SPDX-FileCopyrightText: Red Hat, Inc. 2021
-> + * SPDX-FileContributor: Author: Eugenio P=C3=A9rez <eperezma@redhat.com=
->
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#ifndef VHOST_SHADOW_VIRTQUEUE_H
-> +#define VHOST_SHADOW_VIRTQUEUE_H
-> +
-> +#include "hw/virtio/vhost.h"
-> +
-> +typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
-> +
-> +VhostShadowVirtqueue *vhost_svq_new(void);
-> +
-> +void vhost_svq_free(VhostShadowVirtqueue *vq);
-> +
-> +#endif
-> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-=
-virtqueue.c
-> new file mode 100644
-> index 0000000000..5ee7b401cb
-> --- /dev/null
-> +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> @@ -0,0 +1,64 @@
-> +/*
-> + * vhost shadow virtqueue
-> + *
-> + * SPDX-FileCopyrightText: Red Hat, Inc. 2021
-> + * SPDX-FileContributor: Author: Eugenio P=C3=A9rez <eperezma@redhat.com=
->
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/virtio/vhost-shadow-virtqueue.h"
-> +
-> +#include "qemu/error-report.h"
-> +#include "qemu/event_notifier.h"
-> +
-> +/* Shadow virtqueue to relay notifications */
-> +typedef struct VhostShadowVirtqueue {
 
-This is already typedef as VhostShadowVirtqueue in the header, so I
-will remove it here for the next version.
+--r0IdI1u1dcUwj68U
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> +    /* Shadow kick notifier, sent to vhost */
-> +    EventNotifier hdev_kick;
-> +    /* Shadow call notifier, sent to vhost */
-> +    EventNotifier hdev_call;
-> +} VhostShadowVirtqueue;
-> +
-> +/**
-> + * Creates vhost shadow virtqueue, and instruct vhost device to use the =
-shadow
-> + * methods and file descriptors.
-> + */
-> +VhostShadowVirtqueue *vhost_svq_new(void)
-> +{
-> +    g_autofree VhostShadowVirtqueue *svq =3D g_new0(VhostShadowVirtqueue=
-, 1);
-> +    int r;
-> +
-> +    r =3D event_notifier_init(&svq->hdev_kick, 0);
-> +    if (r !=3D 0) {
-> +        error_report("Couldn't create kick event notifier: %s",
-> +                     strerror(errno));
-> +        goto err_init_hdev_kick;
-> +    }
-> +
-> +    r =3D event_notifier_init(&svq->hdev_call, 0);
-> +    if (r !=3D 0) {
-> +        error_report("Couldn't create call event notifier: %s",
-> +                     strerror(errno));
-> +        goto err_init_hdev_call;
-> +    }
-> +
-> +    return g_steal_pointer(&svq);
-> +
-> +err_init_hdev_call:
-> +    event_notifier_cleanup(&svq->hdev_kick);
-> +
-> +err_init_hdev_kick:
-> +    return NULL;
-> +}
-> +
-> +/**
-> + * Free the resources of the shadow virtqueue.
-> + */
-> +void vhost_svq_free(VhostShadowVirtqueue *vq)
-> +{
-> +    event_notifier_cleanup(&vq->hdev_kick);
-> +    event_notifier_cleanup(&vq->hdev_call);
-> +    g_free(vq);
-> +}
-> diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-> index 521f7d64a8..2dc87613bc 100644
-> --- a/hw/virtio/meson.build
-> +++ b/hw/virtio/meson.build
-> @@ -11,7 +11,7 @@ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhos=
-t-stub.c'))
->
->  virtio_ss =3D ss.source_set()
->  virtio_ss.add(files('virtio.c'))
-> -virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-bac=
-kend.c'))
-> +virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-bac=
-kend.c', 'vhost-shadow-virtqueue.c'))
->  virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user.c'))
->  virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-vdpa.c'))
->  virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-ball=
-oon.c'))
-> --
-> 2.27.0
->
->
+On Dec 21 15:32, Lukasz Maniak wrote:
+> This is the version of the patch series that we consider ready for
+> staging. We do not intend to work on the v4 unless there are major
+> issues.
+>=20
+> Changes since v2:
+> - The documentation mentions that SR-IOV support is still an
+>   experimental feature.
+> - The default value activates properly when sriov_max_v{i,q}_per_vf =3D=
+=3D 0.
+> - Secondary Controller List (CNS 15h) handles the CDW10.CNTID field.
+> - Virtual Function Number ("VFN") in Secondary Controller Entry is not
+>   cleared to zero as the controller goes offline.
+> - Removed no longer used helper pcie_sriov_vf_number_total.
+> - Reset other than Controller Reset is necessary to activate (or
+>   deactivate) flexible resources.
+> - The v{i,q}rfap fields in Primary Controller Capabilities store the
+>   currently active number of bound resources, not the number active
+>   after reset.
+> - Secondary controller cannot be set online unless the corresponding VF
+>   is enabled (sriov_numvfs set to at least the secondary controller's VF
+>   number)
+>=20
+> The list of opens and known gaps remains the same as for v2:
+> https://lists.gnu.org/archive/html/qemu-block/2021-11/msg00423.html
+>=20
 
+hw/nvme parts look fine.
+
+I expect some changes in response to Michaels comments before we
+coordinate merging this?
+
+--r0IdI1u1dcUwj68U
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmHxDSQACgkQTeGvMW1P
+DekvmAf6A2tFw44EPxbFNFBmOwuNP6muqQ1EAR8lT4Yt6C4ptj8hj2bP0w8XdRt2
+LUgaw2EQU0mH2Q8Sgu7XCq9gcer7+W8m1ZvGmqEctuTfIdKIubX3qpp5EilzT1VY
+t0Ybkbebl/xe7IuvcQ7ie6DtuS6sLwUzca0NAUcbQCG8OT0AYKKQHNMHw9F7ueEa
+ct91NDfqhuIf4bSgZns18sm2jqx6rPAPCe2n4IMbXcsE+C9D/qO5lKszMj4MTmT1
+gGFetMmiml4vjCDbDjfdF8PYYwBLZUHdCshvI7gSj/FxgbDvfllOOZRezCpHPl5+
+GHAjn4Yzwvmor8dVfmmWbh3U7MrCrw==
+=GY1U
+-----END PGP SIGNATURE-----
+
+--r0IdI1u1dcUwj68U--
 
