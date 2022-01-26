@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A3AA49C847
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 12:07:25 +0100 (CET)
-Received: from localhost ([::1]:41440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A08E49C878
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 12:18:56 +0100 (CET)
+Received: from localhost ([::1]:48190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCg95-0007A6-UQ
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 06:07:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52408)
+	id 1nCgKE-0004Co-P1
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 06:18:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nCg6S-0005kA-AC
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 06:04:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35220)
+ id 1nCgHk-0002Ye-0Z
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 06:16:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21263)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nCg6Q-0006Q0-MR
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 06:04:39 -0500
+ id 1nCgHh-0008Vc-6e
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 06:16:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643195078;
+ s=mimecast20190719; t=1643195776;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=JoSmKCXJ/h7DTlkch9DUOY21sX1Zs0a7hL3ep/sSzGI=;
- b=FpQ/k/zYD8EX+TL300LU0m/ISBXUUACMGZLyBvxpkQf/2PzmQRatIr3HvKEqZlxivvTtM9
- 4lC5K0FEZ+TaRBPHFWHPg2Pn+BlZ5dG50ZnhrMriUh6DgNcaWS2zQMWNays+VGkaI7bYwq
- KHHH0sxbdgNg9FXNVhwJKBvd4ecY7ZM=
+ bh=MheVtbodv4JnjFpcoZ94e2zJqt/UtM4s2+SFd/u+bd4=;
+ b=dKWJUkvpeknWLhXyBYMkhly0HUeKJV5XHuSQGVFF0OTntT46uN/Gc22gNhmjb+N/BYzAUW
+ VIMY0QgQAkzmsonYkZInqEuladd9hOztzS/AR8zZBVkY53YyBZK3U4RsG2apeF4t/XQ5xH
+ jIC9x9TbaTB+S+HHJ7MIRpcpZcvJuc0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-575-Pd9Hy2XLMa-9mPOClclsQA-1; Wed, 26 Jan 2022 06:04:34 -0500
-X-MC-Unique: Pd9Hy2XLMa-9mPOClclsQA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-588-mKR7jBQBO7GFTHSMlzlQbg-1; Wed, 26 Jan 2022 06:16:12 -0500
+X-MC-Unique: mKR7jBQBO7GFTHSMlzlQbg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60CFB801B0C;
- Wed, 26 Jan 2022 11:04:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E05A814249;
+ Wed, 26 Jan 2022 11:16:11 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 85A061F305;
- Wed, 26 Jan 2022 11:04:32 +0000 (UTC)
-Date: Wed, 26 Jan 2022 11:04:31 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D4CA81059A74;
+ Wed, 26 Jan 2022 11:16:04 +0000 (UTC)
+Date: Wed, 26 Jan 2022 11:16:03 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH 07/12] block/io.c: introduce
- bdrv_subtree_drained_{begin/end}_unlocked
-Message-ID: <YfEqvxSWbK9Ukg/I@stefanha-x1.localdomain>
+Subject: Re: [PATCH 08/12] reopen: add a transaction to drain_end nodes
+ picked in bdrv_reopen_parse_file_or_backing
+Message-ID: <YfEtc+So6Rc95ssJ@stefanha-x1.localdomain>
 References: <20220118162738.1366281-1-eesposit@redhat.com>
- <20220118162738.1366281-8-eesposit@redhat.com>
+ <20220118162738.1366281-9-eesposit@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="zYyORJOlX95Ti/AE"
+ protocol="application/pgp-signature"; boundary="ilvp0HGBT9opExk8"
 Content-Disposition: inline
-In-Reply-To: <20220118162738.1366281-8-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <20220118162738.1366281-9-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -85,59 +85,63 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---zYyORJOlX95Ti/AE
+--ilvp0HGBT9opExk8
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 18, 2022 at 11:27:33AM -0500, Emanuele Giuseppe Esposito wrote:
-> diff --git a/block/io.c b/block/io.c
-> index 5123b7b713..9d5167f64a 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-> @@ -244,6 +244,7 @@ typedef struct {
->      bool begin;
->      bool recursive;
->      bool poll;
-> +    bool unlock;
->      BdrvChild *parent;
->      bool ignore_bds_parents;
->      int *drained_end_counter;
-...
-> @@ -473,23 +477,35 @@ static void bdrv_do_drained_begin(BlockDriverState *bs, bool recursive,
->       */
->      if (poll) {
->          assert(!ignore_bds_parents);
-> -        BDRV_POLL_WHILE(bs, bdrv_drain_poll_top_level(bs, recursive, parent));
-> +        if (unlock) {
-
-"Unlock" is a verb that suggests we'll perform an unlock operation.
-Please call it "unlocked" instead.
-
-> +            BDRV_POLL_WHILE_UNLOCKED(bs,
-> +                                     bdrv_drain_poll_top_level(bs, recursive,
-> +                                                               parent));
-> +        } else {
-> +            BDRV_POLL_WHILE(bs,
-> +                            bdrv_drain_poll_top_level(bs, recursive, parent));
-> +        }
->      }
+On Tue, Jan 18, 2022 at 11:27:34AM -0500, Emanuele Giuseppe Esposito wrote:
+> Depending on the options given to reopen_state,
+> bdrv_reopen_parse_file_or_backing could pick another bs
+> that could be from another graph, and thus not protected
+> by subtree_drained_begin called by the callers of this
+> function.
+>=20
+> We can't simply drain-undrain here, because of transactions.
+> To simplify the logic, transactions always assume that they
+> are run under drain, so the various subtree_drain introduced
+> so far always take care of covering tran_commit().
+>=20
+> And since we cannot directly do it, as the transaction is
+> created/committed higher above, we can just add a new
+> transaction to the list that just executes subtree_drained_end
+> to match the drained_begin done in this function.
+>=20
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  block.c | 25 ++++++++++++++++++++-----
+>  1 file changed, 20 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/block.c b/block.c
+> index fb5bc3077a..fcc44a49a0 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -4522,6 +4522,10 @@ int bdrv_reopen_set_read_only(BlockDriverState *bs=
+, bool read_only,
+>      return bdrv_reopen(bs, opts, true, errp);
 >  }
+> =20
+> +TransactionActionDrv bdrv_drv_subtree_end =3D {
+> +    .clean =3D (void (*)(void *)) bdrv_subtree_drained_end_unlocked,
 
---zYyORJOlX95Ti/AE
+Please don't cast function pointers. If the types don't match please
+define a wrapper function so the compiler can check the types.
+
+--ilvp0HGBT9opExk8
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHxKr8ACgkQnKSrs4Gr
-c8gRlQgAntUeu3ln4TnnxXiibJedcXFn1bHPtrWwtP65ddZalnPnZY0YjqPDvslq
-vN/xeZ7x76lK9QUTjbutlE4dbFR++V9wxCjA3oOepggTFUo8goHhQZlagKP+DHt2
-5O7Z9COVCw0ZzQvD4jZqto1qvePx7q4CVhvpP5MX0eJs0XWT/R2DHN4uk3Sql4bZ
-4q0H718Z5x07KGFntEJHdQzw91gxVYO8HoSqBs5sNXuVUuobo5LskVBl59RnCQ/E
-jMhmCuj7eDRXb9jl9zq2a5kQ9J3xR9NeQi8/KpJbz8MmM3X9CMj1r136qQWboVZY
-S3zF54xG913YkZBaYh9WZ47H7i/QDA==
-=bsot
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHxLXMACgkQnKSrs4Gr
+c8i3YwgAo9uASWD4lacGzZd43enNW29ykLTW6tG2a0TQTx0M8EjBMpHBYrJZ8eDx
+3bPHeEXstY53bBg5otGz5Qm2BXG8LKskGwa6UK5hCg4QjKJ2jF+ca2oq4FO+RZLz
+E8ZMKnzbnGvpZuBrk47MJZUX0V8gw886+WfnTbRAjZzOxps9OPBJb/bbO11YhvN+
+cB5j8WvtuF+PdIThf45BdTCGmUNvI4DTcp9FuNoy352DTVUXKxa48L+zzh3Cj7Xq
+ewE9W6KXBo7h3JVr0Lih74L7TB80FuR6w2RHVObr8hNf4F7SZaZi+zodtRhsnoVW
+bVy3fLvp3X9JVVxWkHePbrSUEzcmpA==
+=gNHb
 -----END PGP SIGNATURE-----
 
---zYyORJOlX95Ti/AE--
+--ilvp0HGBT9opExk8--
 
 
