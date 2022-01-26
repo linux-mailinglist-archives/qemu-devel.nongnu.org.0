@@ -2,100 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47DA549D050
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 18:04:53 +0100 (CET)
-Received: from localhost ([::1]:59336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA96549D064
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 18:08:42 +0100 (CET)
+Received: from localhost ([::1]:35446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nClj2-0003Sq-2X
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 12:04:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32876)
+	id 1nClmj-0006KU-T8
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 12:08:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1nClOA-0005rY-5g
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 11:43:18 -0500
-Received: from esa5.hc3370-68.iphmx.com ([216.71.155.168]:24836)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nClVj-0006cY-1P
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 11:51:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37676)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1nClO7-0005FD-Mg
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 11:43:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1643215395;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Ma2biUqHTpSS5SaZFZ5W6hVQcNktSz5lX77ibumn1pA=;
- b=hAj7GM1OJousY/pbrOg1AScRCpTwLQYdqagyh3LJoSMC+siUe5QcK3O+
- ZS2sFAI3xUzzDjhFSCHUraiLWmnYOlQAgp/3fFZMd75yzG8Cq6P0rB7O4
- s8HaqiVwwT6WInigxXlL61wgHWSr3F5tzqOG2IcJZeCo5xKlX7pHq+kpV w=;
-Authentication-Results: esa5.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-IronPort-SDR: 4anLBNFVMj57IlnNQu3Kmr3I7i5pjiwCGonbV3WDFB8uC24qfHeg8qlCHLuFcPNs8850Ig+nBW
- BvUeXidX/ouDSkogpveoYonTgbNkNh515tXgxhfM6sGimiXOQxx5v0/QJL7kaiaX7uN6/y8cBS
- rLpcHCyI5orl15z+aqoQxSnov/Yvqbk8MiXfUw1qaGi+UJY5Cbt5YueH3+Z0eYSasWmcwzxSek
- 4KGBwJNYItKEbunjS8LKnDoso3BU3ZCK5lCWvJifUUlI+SOPU27Prcbf8BedzQ5TGtdi1lWwtL
- TB1jM7bMYc01NPjBzUakH2U7
-X-SBRS: 5.2
-X-MesageID: 62284306
-X-Ironport-Server: esa5.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.156.83
-X-Policy: $RELAYED
-IronPort-Data: A9a23:bjxAPKmVu7Vmhj0ZEaa2L5Xo5gzzIERdPkR7XQ2eYbSJt1+Wr1Gzt
- xJLXD3TbvbYMDOneNx1aIW08khVvMfRnIVlTAttrns3FyMWpZLJC+rCIxarNUt+DCFioGGLT
- Sk6QoOdRCzhZiaE/n9BClVlxJVF/fngqoDUUYYoAQgsA180IMsdoUg7wbRh29Q22YLR7z6l4
- rseneWOYDdJ5BYsWo4kw/rrRMRH5amaVJsw5zTSVNgT1LPsvyB94KE3fMldG0DQUIhMdtNWc
- s6YpF2PEsE1yD92Yj+tuu6TnkTn2dc+NyDW4pZdc/DKbhSvOkXee0v0XRYRQR4/ttmHozx+4
- IQRp622QiE5ArHNqt0dYjhDTnxnZJQTrdcrIVDn2SCS50jPcn+qyPRyFkAme4Yf/46bA0kXq
- 6ZecmpUKEne2aTmm9pXScE17ignBMDtIIMYvGAm1TzDBOwqaZvCX7/L9ZlT2zJYasVmQ6yEN
- 5ZCMWQHgBLoahBmPEkcOokHn7m1jz7mTmJAiErOqv9ii4TU5FMoi+W8WDbPQfSHSdhchEqfj
- mLP9Wf+GQ1cMtGDoRKf83msj/XD2yP2Xo4fDqa/8NZugVua3GtVDwcZPXO+uuWRkEOyW9tDb
- UcT/0IGvaU0sUCmUNT5dxm5u2Kf+A4RXcJKFO834x3LzbDbiy6cD3IPQzoHYcQoucs8TCEv/
- lCMltLtQzdotdW9S3ub+q2FsDCaNi0cLGtEbigBJSMd6sTniJE+iFTIVNkLOLe4i8CwFTzuz
- jSiqi84iLMOy8kR2M2T5VrAhSCtoJnhVAM55gzLGGmi62tRf5W5boal7Vza6/doL4uDSFSF+
- n8elKCjAPsmVM/X0nbXGaNUQe/vt63t3CDgbUBHTsUzxjKm3W6fYYFi2TFPBVw0b99dQGq8C
- KPMgj956JhWNXqsSKZ4ZYOtFsgnpZTd+cTZuuP8NYQXPMUoHOOT1GQ3PBPLgTix+KQ5ufxnY
- f+mndCQ4WH24EiN5B6/XK8j3LAi3UjSLkuDFMmgn3xLPVdzDUN5qIvp0nPSP4jVD4ve+W05F
- uqz0ePQmn2zt8WlOkHqHXY7dwxiEJTCLcmeRzZrXuCCOBF6P2oqFuXcx7gsE6Q8wfgOz7yVo
- C3hBx8HoLYauZEhAV/bApyEQOi3NauTUFphZXB8VbpW8yVLjXmTAFc3KMJsIOhPGB1Lxv9oV
- fgVE/hs8dwUIgkrDw81NMGnxKQ7LUzDrVvXY0KNPWZjF7Y9GV2h0oK0L2PHqXhVZgLq5JRWn
- lFV/l6BKXb1b148XJ++hTPG5w7ZgEXxb8orDxKXeYECIRu1mGWoQgSo5sIKzwg3AU2r7lOnO
- 8y+Wn/0fMHB/N049sfnn6eBo9v7GudyBBMCTWLa8ay3JW/R+W/6md1MV+OBfDb8UmLo+fr9O
- bUJnq+kaPBXzkxXt4dcEqpwyf5s7dXYuLIHnB9vG2/Gbgr3B+o4cGWGx8RGqoZE2qRd5VmtQ
- kuK99QDYeeJNcrpHUQ/Pg0gaujfh/gYliOLtaY+IVng5T8x972CCB0AMx6JgS1bDb10LIJ6n
- rtx5J9Is1Sy00N4PMyHgyZY83W3AkYBC6h35IsHBILLixYwzg0Qa5LrFSKrsoqEbM9BMxd2L
- 2bM1rbCnblV2mHLb2E3SSrWxeNYiJkD5EJKwVsFKwjbk9bJnKZqjhhY8DBxRQVJ1BRXlel0P
- zEzZUFyIKyP+RZuhdRCAD/wS10QWkXB9xyj0UYNmU3YU1KsBz7EI2AKMOqQ+FwUrjBHdT9B8
- bDEkGvoXF4Gpi0qMvfejaK9l8HecA==
-IronPort-HdrOrdr: A9a23:4nyGe6552m4nrYLvtgPXwMzXdLJyesId70hD6qkXc20zTiX4rb
- HLoB1/73TJYVkqNE3I9eruBEDiexPhHPxOj7X5VI3KNGOKhILCFuBfxLqn7zr8GzDvss5xvJ
- 0QFpSW0eeAbmSSW/yKgjWFLw==
-X-IronPort-AV: E=Sophos;i="5.88,318,1635220800"; d="scan'208";a="62284306"
-Date: Wed, 26 Jan 2022 16:43:03 +0000
-To: <paul@xen.org>
-CC: Jason Andryuk <jandryuk@gmail.com>, QEMU <qemu-devel@nongnu.org>, Stefano
- Stabellini <sstabellini@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>, Eduardo Habkost
- <eduardo@habkost.net>, "Michael S. Tsirkin" <mst@redhat.com>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>, "open list:X86 Xen CPUs"
- <xen-devel@lists.xenproject.org>
-Subject: Re: [PATCH] xen-hvm: Allow disabling buffer_io_timer
-Message-ID: <YfF6F6jG1mDbAMAj@perard>
-References: <20211210193434.75566-1-jandryuk@gmail.com>
- <adfe1c14-f773-0592-e304-d80da8380cc0@gmail.com>
- <CAKf6xpv0=ex+OrFb1z4TpaULsmMaPQqmmsxoY_d4yJRt6Zx3sw@mail.gmail.com>
- <2ebaf0d6-a84a-e929-5ac2-597c81d40230@gmail.com>
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nClVb-0006L3-Qh
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 11:51:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643215858;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=o+Yfbohfx3BAOGtWuXkz3uZgVVYStLDpktObzS4i1Zk=;
+ b=N4dYg/UwxxpoQ6x3KDpRmN2uw9D1aC43HukRs0Aea8fS8lda5nCkFAD7LrLoBcSDJ+2jV/
+ 46Bq4uWeI2slaQDZYcUJL4FmHmjv8yHNlloC4Y0Bdvrn7mHy0H9Yr+cXKeHb3vv+mgQfC8
+ GkPCmuFirE+seUprDwN0K96mZGRAguM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-661-zoR-ThtOOmK-tneQvxPdgA-1; Wed, 26 Jan 2022 11:50:57 -0500
+X-MC-Unique: zoR-ThtOOmK-tneQvxPdgA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ z2-20020a05600c220200b0034d2eb95f27so152351wml.1
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 08:50:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=o+Yfbohfx3BAOGtWuXkz3uZgVVYStLDpktObzS4i1Zk=;
+ b=huRYoxXEDkZeHjBmQdm7LBrLfMJUgvm1OQLJIHOnka6vhcOrSFwc6s0DH73IpZKuKT
+ Q9KntVCjZ1CXLCht5MGz1/CzRDWu9UnJaWsSj479PJ8T+CcvNhVjsrnkJTAde5EjHGRZ
+ Pbu+5EGE934wiqn25u2ahX47viLmID6gT3t1nCMDDLMaBogIarFxlMuNt9dsl6HU+4BI
+ jARWHlluE4hPYq0fT9JQxgJz2TU3dv/PPM0vnu9CO5yMtuw3ZiTV/94pJpJt7hgvDohe
+ t3RcUyWTOB5HstEHc6jhVpKP8TP8qgKVR85DLTuOfJeYECvwKO5tFhc4Ei4kSZVJP8Pe
+ YmXA==
+X-Gm-Message-State: AOAM530jY9ycAT3pReGLnxg43n2RnTZgLM7je0QlKHT4DQubvAEzSaHY
+ Xjj5ZtrY6Olr1f9xjv3Ql+dx84Vh9BjNHeVgFCyazHeCMaw1iqNuFAmRue+qEfIOgdxKGXgyJr2
+ dkBiqHLzICfosAL4=
+X-Received: by 2002:a5d:6289:: with SMTP id k9mr16850156wru.327.1643215856057; 
+ Wed, 26 Jan 2022 08:50:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzl0t1BACrr0Syl3fmRoHPJVb6VIy+0MZWudmecipcES0egcNmgaK0Ok66AzzENNNJOj3DD+Q==
+X-Received: by 2002:a5d:6289:: with SMTP id k9mr16850142wru.327.1643215855860; 
+ Wed, 26 Jan 2022 08:50:55 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id 11sm3736361wmx.5.2022.01.26.08.50.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Jan 2022 08:50:55 -0800 (PST)
+Message-ID: <a6bbde0a-7435-9bb0-f6ed-ca453c0ae8e8@redhat.com>
+Date: Wed, 26 Jan 2022 17:50:54 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <2ebaf0d6-a84a-e929-5ac2-597c81d40230@gmail.com>
-Received-SPF: pass client-ip=216.71.155.168;
- envelope-from=anthony.perard@citrix.com; helo=esa5.hc3370-68.iphmx.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] qemu-storage-daemon: Fix typo in vhost-user-blk help
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20220125151514.49035-1-kwolf@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220125151514.49035-1-kwolf@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,46 +99,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: f4bug@amsat.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
-From:  Anthony PERARD via <qemu-devel@nongnu.org>
 
-On Wed, Jan 26, 2022 at 01:47:20PM +0000, Durrant, Paul wrote:
-> On 26/01/2022 13:43, Jason Andryuk wrote:
-> > On Tue, Dec 14, 2021 at 8:40 AM Durrant, Paul <xadimgnik@gmail.com> wrote:
-> > > 
-> > > On 10/12/2021 11:34, Jason Andryuk wrote:
-> > > > commit f37f29d31488 "xen: slightly simplify bufioreq handling" hard
-> > > > coded setting req.count = 1 during initial field setup before the main
-> > > > loop.  This missed a subtlety that an early exit from the loop when
-> > > > there are no ioreqs to process, would have req.count == 0 for the return
-> > > > value.  handle_buffered_io() would then remove state->buffered_io_timer.
-> > > > Instead handle_buffered_iopage() is basically always returning true and
-> > > > handle_buffered_io() always re-setting the timer.
-> > > > 
-> > > > Restore the disabling of the timer by introducing a new handled_ioreq
-> > > > boolean and use as the return value.  The named variable will more
-> > > > clearly show the intent of the code.
-> > > > 
-> > > > Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
-> > > 
-> > > Reviewed-by: Paul Durrant <paul@xen.org>
-> > 
-> > Thanks, Paul.
-> > 
-> > What is the next step for getting this into QEMU?
-> > 
-> 
-> Anthony, can you queue this?
+On 25.01.22 16:15, Kevin Wolf wrote:
+> The syntax of the fd passing case misses the "addr.type=" key. Add it.
+>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>   storage-daemon/qemu-storage-daemon.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yes, I'll send a pull request soon.
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
-Sorry I tend to wait a while before preparing pull requests, especially
-when there's only one patch. But there's another one now.
-
-Cheers,
-
--- 
-Anthony PERARD
 
