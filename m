@@ -2,61 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC23449D1B8
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 19:32:58 +0100 (CET)
-Received: from localhost ([::1]:42382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E79EB49D237
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 20:04:57 +0100 (CET)
+Received: from localhost ([::1]:59816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCn6I-0002Dq-3a
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 13:32:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59574)
+	id 1nCnbE-0007PT-Fw
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 14:04:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <knuto@ifi.uio.no>)
- id 1nCn4K-0001N1-An; Wed, 26 Jan 2022 13:30:56 -0500
-Received: from [2001:700:100:8210::76] (port=49241 helo=mail-out04.uio.no)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <knuto@ifi.uio.no>)
- id 1nCn4F-0006Gs-5a; Wed, 26 Jan 2022 13:30:55 -0500
-Received: from mail-mx12.uio.no ([129.240.10.84])
- by mail-out04.uio.no with esmtps (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <knuto@ifi.uio.no>)
- id 1nCn47-002pzz-J0; Wed, 26 Jan 2022 19:30:43 +0100
-Received: from 108.84-234-134.customer.lyse.net ([84.234.134.108]
- helo=[172.25.2.5])
- by mail-mx12.uio.no with esmtpsa (TLS1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
- user knuto (Exim 4.94.2) (envelope-from <knuto@ifi.uio.no>)
- id 1nCn45-0006V6-Bt; Wed, 26 Jan 2022 19:30:43 +0100
-Message-ID: <2809444742b9a5fbabc3b07f093739b404587d03.camel@ifi.uio.no>
-Subject: Re: [PATCH v4 01/15] pcie: Add support for Single Root I/O
- Virtualization (SR/IOV)
-From: Knut Omang <knuto@ifi.uio.no>
-To: Lukasz Maniak <lukasz.maniak@linux.intel.com>, qemu-devel@nongnu.org
-Date: Wed, 26 Jan 2022 19:30:40 +0100
-In-Reply-To: <20220126171120.2939152-2-lukasz.maniak@linux.intel.com>
-References: <20220126171120.2939152-1-lukasz.maniak@linux.intel.com>
- <20220126171120.2939152-2-lukasz.maniak@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nCnKp-0008HA-7a
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 13:48:05 -0500
+Received: from [2a00:1450:4864:20::42d] (port=35694
+ helo=mail-wr1-x42d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nCnKj-0000Gj-PT
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 13:47:58 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id e2so667363wra.2
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 10:47:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=E2rd/u7mK9y6NoKM26dVXGQ1gO8pAWPGTRbmtylU42c=;
+ b=QfnyWKYK5v8JPc6EWAc8ki1R0BwmlZwlOtbx76jof7a/vjnJKXBZsVUN3MoGhRqKKt
+ rC5TpzdeBn2SsXronTWZaHG4it7Oa2WVBWqPf5YKGMVtHeLEipDUJVeUvgWoQqNMmMyv
+ paSQe1IgeS8Wthffd2rWeO5kb3dXcfaZ638mhdGZxPeq0tNLeYQXSAKTgkrBm9Q8LvaI
+ wUw0gzNT0neDtZtXadqrVK0cy679t+1EMfMkpKVSy6cfbGsQWuPOL+l6bkpbH2qgwweL
+ XidJ7debR5vrZeDEMNYlmWZ53T3iQLOgzBuFlVE5+DDdw7MPPr16f3715/P22C5/8O/Q
+ R5/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=E2rd/u7mK9y6NoKM26dVXGQ1gO8pAWPGTRbmtylU42c=;
+ b=ZKc0fcsOiz089XK4qeC8QcbaCZpLsvJH8AkS824pVaXPnoFdfNFjwdCxtYJhHmFW1N
+ dTD3ZU1516zxm75ej34nHVKNe2OfIvVdwlXuhE5UxcYi2ckAxzIqj3aoi78RJSLpBZSa
+ EOBgrDDnUt8kk1PMRMiUjZYbVDly+AHcwUdPj5QBYEM1Kcy0Stk/rmOualmBEKQOZtKg
+ 5IdPEMhCWHW75D114rKdheG/HPmd4bp2PrHOC8mOXrmzxZie4WJYCf2ccpjWmoBAzw6p
+ 7i8Q0vnDROT6hAS/ffqTuSjTqZh3DysYN30OmM4wHjuAWg9XnNhrQn0oTnpoUGsQwlto
+ SVQw==
+X-Gm-Message-State: AOAM533p/5wlJt1TWCJf2Q6Oou4Son6Xo+++nQeah5JWUVdVk7YYs8nK
+ UetS3iz5odedMMmk7HyKQcY/Lg==
+X-Google-Smtp-Source: ABdhPJyJsMW0Qtq6aowZ8AqP9SmAZoqsV80cC7bHU/+F2b6LVTN9Ol3TKxnOiYnuE0Sf4YlAtHmaEA==
+X-Received: by 2002:adf:ea8d:: with SMTP id s13mr20507593wrm.610.1643222860128; 
+ Wed, 26 Jan 2022 10:47:40 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id d200sm3832746wmd.28.2022.01.26.10.47.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Jan 2022 10:47:38 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 483C41FFB7;
+ Wed, 26 Jan 2022 18:47:38 +0000 (GMT)
+References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
+ <20220124171705.10432-7-Jonathan.Cameron@huawei.com>
+User-agent: mu4e 1.7.6; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v4 06/42] hw/cxl/device: Implement basic mailbox (8.2.8.4)
+Date: Wed, 26 Jan 2022 18:22:18 +0000
+In-reply-to: <20220124171705.10432-7-Jonathan.Cameron@huawei.com>
+Message-ID: <87pmoebagl.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-UiO-SPF-Received: Received-SPF: neutral (mail-mx12.uio.no: 84.234.134.108 is
- neither permitted nor denied by domain of ifi.uio.no)
- client-ip=84.234.134.108; envelope-from=knuto@ifi.uio.no; helo=[172.25.2.5]; 
-X-UiO-Spam-info: not spam, SpamAssassin (score=-4.9, required=5.0,
- autolearn=disabled, AWL=-0.091, TVD_RCVD_IP=0.001, UIO_HTTP=0.2,
- UIO_MAIL_IS_INTERNAL=-5)
-X-UiO-Scanned: 69F3542E701C641FC340AA1FF2DD5C46B9BFAC1B
-X-UiOonly: BA0A19EDF5A501FC3EA888157DCC78EC554C0D64
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:700:100:8210::76
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
  (failed)
-Received-SPF: pass client-ip=2001:700:100:8210::76;
- envelope-from=knuto@ifi.uio.no; helo=mail-out04.uio.no
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,725 +90,590 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Ben Widawsky <ben.widawsky@intel.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
+ Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org, linuxarm@huawei.com,
+ Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2022-01-26 at 18:11 +0100, Lukasz Maniak wrote:
-> From: Knut Omang <knut.omang@oracle.com>
-> 
-> This patch provides the building blocks for creating an SR/IOV
-> PCIe Extended Capability header and register/unregister
-> SR/IOV Virtual Functions.
-> 
-> Signed-off-by: Knut Omang <knuto@ifi.uio.no>
+
+Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+
+> From: Ben Widawsky <ben.widawsky@intel.com>
+>
+> This is the beginning of implementing mailbox support for CXL 2.0
+> devices. The implementation recognizes when the doorbell is rung,
+> handles the command/payload, clears the doorbell while returning error
+> codes and data.
+>
+> Generally the mailbox mechanism is designed to permit communication
+> between the host OS and the firmware running on the device. For our
+> purposes, we emulate both the firmware, implemented primarily in
+> cxl-mailbox-utils.c, and the hardware.
+>
+> No commands are implemented yet.
+>
+> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 > ---
->  hw/pci/meson.build          |   1 +
->  hw/pci/pci.c                | 100 +++++++++---
->  hw/pci/pcie.c               |   5 +
->  hw/pci/pcie_sriov.c         | 294 ++++++++++++++++++++++++++++++++++++
->  hw/pci/trace-events         |   5 +
->  include/hw/pci/pci.h        |  12 +-
->  include/hw/pci/pcie.h       |   6 +
->  include/hw/pci/pcie_sriov.h |  71 +++++++++
->  include/qemu/typedefs.h     |   2 +
->  9 files changed, 470 insertions(+), 26 deletions(-)
->  create mode 100644 hw/pci/pcie_sriov.c
->  create mode 100644 include/hw/pci/pcie_sriov.h
-> 
-> diff --git a/hw/pci/meson.build b/hw/pci/meson.build
-> index 5c4bbac817..bcc9c75919 100644
-> --- a/hw/pci/meson.build
-> +++ b/hw/pci/meson.build
-> @@ -5,6 +5,7 @@ pci_ss.add(files(
->    'pci.c',
->    'pci_bridge.c',
->    'pci_host.c',
-> +  'pcie_sriov.c',
->    'shpc.c',
->    'slotid_cap.c'
->  ))
-> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> index 5d30f9ca60..ba8fb92efc 100644
-> --- a/hw/pci/pci.c
-> +++ b/hw/pci/pci.c
-> @@ -239,6 +239,9 @@ int pci_bar(PCIDevice *d, int reg)
->  {
->      uint8_t type;
->  
-> +    /* PCIe virtual functions do not have their own BARs */
-> +    assert(!pci_is_vf(d));
+>  hw/cxl/cxl-device-utils.c   | 129 ++++++++++++++++++++++-
+>  hw/cxl/cxl-mailbox-utils.c  | 201 ++++++++++++++++++++++++++++++++++++
+>  hw/cxl/meson.build          |   1 +
+>  include/hw/cxl/cxl.h        |   3 +
+>  include/hw/cxl/cxl_device.h |  29 +++++-
+>  5 files changed, 358 insertions(+), 5 deletions(-)
+>
+> diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
+> index cb1b0a8217..c9ada7ee94 100644
+> --- a/hw/cxl/cxl-device-utils.c
+> +++ b/hw/cxl/cxl-device-utils.c
+> @@ -40,6 +40,115 @@ static uint64_t dev_reg_read(void *opaque, hwaddr off=
+set, unsigned size)
+>      return 0;
+>  }
+>=20=20
+> +static uint64_t mailbox_reg_read(void *opaque, hwaddr offset, unsigned s=
+ize)
+> +{
+> +    CXLDeviceState *cxl_dstate =3D opaque;
 > +
->      if (reg != PCI_ROM_SLOT)
->          return PCI_BASE_ADDRESS_0 + reg * 4;
->  
-> @@ -304,10 +307,30 @@ void pci_device_deassert_intx(PCIDevice *dev)
->      }
->  }
->  
-> -static void pci_do_device_reset(PCIDevice *dev)
-> +static void pci_reset_regions(PCIDevice *dev)
->  {
->      int r;
-> +    if (pci_is_vf(dev)) {
-> +        return;
-> +    }
-> +
-> +    for (r = 0; r < PCI_NUM_REGIONS; ++r) {
-> +        PCIIORegion *region = &dev->io_regions[r];
-> +        if (!region->size) {
-> +            continue;
-> +        }
->  
-> +        if (!(region->type & PCI_BASE_ADDRESS_SPACE_IO) &&
-> +            region->type & PCI_BASE_ADDRESS_MEM_TYPE_64) {
-> +            pci_set_quad(dev->config + pci_bar(dev, r), region->type);
-> +        } else {
-> +            pci_set_long(dev->config + pci_bar(dev, r), region->type);
-> +        }
-> +    }
+> +    switch (size) {
+> +    case 1:
+> +        return cxl_dstate->mbox_reg_state[offset];
+> +    case 2:
+> +        return cxl_dstate->mbox_reg_state16[offset / 2];
+> +    case 4:
+> +        return cxl_dstate->mbox_reg_state32[offset / 4];
+> +    case 8:
+> +        return cxl_dstate->mbox_reg_state64[offset / 8];
+> +    default:
+> +        g_assert_not_reached();
+> +    }
 > +}
 > +
-> +static void pci_do_device_reset(PCIDevice *dev)
+> +static void mailbox_mem_writel(uint32_t *reg_state, hwaddr offset,
+> +                               uint64_t value)
 > +{
->      pci_device_deassert_intx(dev);
->      assert(dev->irq_state == 0);
->  
-> @@ -323,19 +346,7 @@ static void pci_do_device_reset(PCIDevice *dev)
->                                pci_get_word(dev->wmask + PCI_INTERRUPT_LINE) |
->                                pci_get_word(dev->w1cmask + PCI_INTERRUPT_LINE));
->      dev->config[PCI_CACHE_LINE_SIZE] = 0x0;
-> -    for (r = 0; r < PCI_NUM_REGIONS; ++r) {
-> -        PCIIORegion *region = &dev->io_regions[r];
-> -        if (!region->size) {
-> -            continue;
-> -        }
-> -
-> -        if (!(region->type & PCI_BASE_ADDRESS_SPACE_IO) &&
-> -            region->type & PCI_BASE_ADDRESS_MEM_TYPE_64) {
-> -            pci_set_quad(dev->config + pci_bar(dev, r), region->type);
-> -        } else {
-> -            pci_set_long(dev->config + pci_bar(dev, r), region->type);
-> -        }
-> -    }
-> +    pci_reset_regions(dev);
->      pci_update_mappings(dev);
->  
->      msi_reset(dev);
-> @@ -884,6 +895,16 @@ static void pci_init_multifunction(PCIBus *bus, PCIDevice *dev,
-> Error **errp)
->          dev->config[PCI_HEADER_TYPE] |= PCI_HEADER_TYPE_MULTI_FUNCTION;
->      }
->  
-> +    /*
-> +     * With SR/IOV and ARI, a device at function 0 need not be a multifunction
-> +     * device, as it may just be a VF that ended up with function 0 in
-> +     * the legacy PCI interpretation. Avoid failing in such cases:
-> +     */
-> +    if (pci_is_vf(dev) &&
-> +        dev->exp.sriov_vf.pf->cap_present & QEMU_PCI_CAP_MULTIFUNCTION) {
-> +        return;
-> +    }
+> +    switch (offset) {
+> +    case A_CXL_DEV_MAILBOX_CTRL:
+> +        /* fallthrough */
+> +    case A_CXL_DEV_MAILBOX_CAP:
+> +        /* RO register */
+> +        break;
+> +    default:
+> +        qemu_log_mask(LOG_UNIMP,
+> +                      "%s Unexpected 32-bit access to 0x%" PRIx64 " (WI)=
+\n",
+> +                      __func__, offset);
+> +        break;
+
+The log message implies WI but it isn't. Did you want an early return?
+
+> +    }
 > +
->      /*
->       * multifunction bit is interpreted in two ways as follows.
->       *   - all functions must set the bit to 1.
-> @@ -1083,6 +1104,7 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
->                     bus->devices[devfn]->name);
->          return NULL;
->      } else if (dev->hotplugged &&
-> +               !pci_is_vf(pci_dev) &&
->                 pci_get_function_0(pci_dev)) {
->          error_setg(errp, "PCI: slot %d function 0 already occupied by %s,"
->                     " new func %s cannot be exposed to guest.",
-> @@ -1191,6 +1213,7 @@ void pci_register_bar(PCIDevice *pci_dev, int region_num,
->      pcibus_t size = memory_region_size(memory);
->      uint8_t hdr_type;
->  
-> +    assert(!pci_is_vf(pci_dev)); /* VFs must use pcie_sriov_vf_register_bar */
->      assert(region_num >= 0);
->      assert(region_num < PCI_NUM_REGIONS);
->      assert(is_power_of_2(size));
-> @@ -1294,11 +1317,45 @@ pcibus_t pci_get_bar_addr(PCIDevice *pci_dev, int region_num)
->      return pci_dev->io_regions[region_num].addr;
->  }
->  
-> -static pcibus_t pci_bar_address(PCIDevice *d,
-> -                                int reg, uint8_t type, pcibus_t size)
-> +static pcibus_t pci_config_get_bar_addr(PCIDevice *d, int reg,
-> +                                        uint8_t type, pcibus_t size)
-> +{
-> +    pcibus_t new_addr;
-> +    if (!pci_is_vf(d)) {
-> +        int bar = pci_bar(d, reg);
-> +        if (type & PCI_BASE_ADDRESS_MEM_TYPE_64) {
-> +            new_addr = pci_get_quad(d->config + bar);
-> +        } else {
-> +            new_addr = pci_get_long(d->config + bar);
-> +        }
-> +    } else {
-> +        PCIDevice *pf = d->exp.sriov_vf.pf;
-> +        uint16_t sriov_cap = pf->exp.sriov_cap;
-> +        int bar = sriov_cap + PCI_SRIOV_BAR + reg * 4;
-> +        uint16_t vf_offset =
-> +            pci_get_word(pf->config + sriov_cap + PCI_SRIOV_VF_OFFSET);
-> +        uint16_t vf_stride =
-> +            pci_get_word(pf->config + sriov_cap + PCI_SRIOV_VF_STRIDE);
-> +        uint32_t vf_num = (d->devfn - (pf->devfn + vf_offset)) / vf_stride;
-> +
-> +        if (type & PCI_BASE_ADDRESS_MEM_TYPE_64) {
-> +            new_addr = pci_get_quad(pf->config + bar);
-> +        } else {
-> +            new_addr = pci_get_long(pf->config + bar);
-> +        }
-> +        new_addr += vf_num * size;
-> +    }
-> +    /* The ROM slot has a specific enable bit, keep it intact */
-> +    if (reg != PCI_ROM_SLOT) {
-> +        new_addr &= ~(size - 1);
-> +    }
-> +    return new_addr;
+> +    reg_state[offset / 4] =3D value;
 > +}
 > +
-> +pcibus_t pci_bar_address(PCIDevice *d,
-> +                         int reg, uint8_t type, pcibus_t size)
->  {
->      pcibus_t new_addr, last_addr;
-> -    int bar = pci_bar(d, reg);
->      uint16_t cmd = pci_get_word(d->config + PCI_COMMAND);
->      Object *machine = qdev_get_machine();
->      ObjectClass *oc = object_get_class(machine);
-> @@ -1309,7 +1366,7 @@ static pcibus_t pci_bar_address(PCIDevice *d,
->          if (!(cmd & PCI_COMMAND_IO)) {
->              return PCI_BAR_UNMAPPED;
->          }
-> -        new_addr = pci_get_long(d->config + bar) & ~(size - 1);
-> +        new_addr = pci_config_get_bar_addr(d, reg, type, size);
->          last_addr = new_addr + size - 1;
->          /* Check if 32 bit BAR wraps around explicitly.
->           * TODO: make priorities correct and remove this work around.
-> @@ -1324,11 +1381,7 @@ static pcibus_t pci_bar_address(PCIDevice *d,
->      if (!(cmd & PCI_COMMAND_MEMORY)) {
->          return PCI_BAR_UNMAPPED;
->      }
-> -    if (type & PCI_BASE_ADDRESS_MEM_TYPE_64) {
-> -        new_addr = pci_get_quad(d->config + bar);
-> -    } else {
-> -        new_addr = pci_get_long(d->config + bar);
-> -    }
-> +    new_addr = pci_config_get_bar_addr(d, reg, type, size);
->      /* the ROM slot has a specific enable bit */
->      if (reg == PCI_ROM_SLOT && !(new_addr & PCI_ROM_ADDRESS_ENABLE)) {
->          return PCI_BAR_UNMAPPED;
-> @@ -1473,6 +1526,7 @@ void pci_default_write_config(PCIDevice *d, uint32_t addr,
-> uint32_t val_in, int
->  
->      msi_write_config(d, addr, val_in, l);
->      msix_write_config(d, addr, val_in, l);
-> +    pcie_sriov_config_write(d, addr, val_in, l);
->  }
->  
->  /***********************************************************/
-> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> index d7d73a31e4..3c44204cf3 100644
-> --- a/hw/pci/pcie.c
-> +++ b/hw/pci/pcie.c
-> @@ -446,6 +446,11 @@ void pcie_cap_slot_plug_cb(HotplugHandler *hotplug_dev, DeviceState
-> *dev,
->      PCIDevice *pci_dev = PCI_DEVICE(dev);
->      uint32_t lnkcap = pci_get_long(exp_cap + PCI_EXP_LNKCAP);
->  
-> +    if (pci_is_vf(pci_dev)) {
-> +        /* Virtual function cannot be physically disconnected */
-> +        return;
-> +    }
+> +static void mailbox_mem_writeq(uint64_t *reg_state, hwaddr offset,
+> +                               uint64_t value)
+> +{
+> +    switch (offset) {
+> +    case A_CXL_DEV_MAILBOX_CMD:
+> +        break;
+> +    case A_CXL_DEV_BG_CMD_STS:
+> +        /* BG not supported */
+> +        /* fallthrough */
+> +    case A_CXL_DEV_MAILBOX_STS:
+> +        /* Read only register, will get updated by the state machine */
+> +        return;
+> +    default:
+> +        qemu_log_mask(LOG_UNIMP,
+> +                      "%s Unexpected 64-bit access to 0x%" PRIx64 " (WI)=
+\n",
+> +                      __func__, offset);
+> +        return;
+
+which is the behaviour here.
+
+> +    }
 > +
->      /* Don't send event when device is enabled during qemu machine creation:
->       * it is present on boot, no hotplug event is necessary. We do send an
->       * event when the device is disabled later. */
-> diff --git a/hw/pci/pcie_sriov.c b/hw/pci/pcie_sriov.c
+> +
+> +    reg_state[offset / 8] =3D value;
+> +}
+> +
+> +static void mailbox_reg_write(void *opaque, hwaddr offset, uint64_t valu=
+e,
+> +                              unsigned size)
+> +{
+> +    CXLDeviceState *cxl_dstate =3D opaque;
+> +
+> +    if (offset >=3D A_CXL_DEV_CMD_PAYLOAD) {
+> +        memcpy(cxl_dstate->mbox_reg_state + offset, &value, size);
+> +        return;
+> +    }
+> +
+> +    /*
+> +     * Lock is needed to prevent concurrent writes as well as to prevent=
+ writes
+> +     * coming in while the firmware is processing. Without background co=
+mmands
+> +     * or the second mailbox implemented, this serves no purpose since t=
+he
+> +     * memory access is synchronized at a higher level (per memory regio=
+n).
+> +     */
+> +    RCU_READ_LOCK_GUARD();
+
+RCU_READ_LOCK doesn't prevent concurrent writes, although the BQL should.
+
+> +
+> +    switch (size) {
+> +    case 4:
+> +        mailbox_mem_writel(cxl_dstate->mbox_reg_state32, offset, value);
+> +        break;
+> +    case 8:
+> +        mailbox_mem_writeq(cxl_dstate->mbox_reg_state64, offset, value);
+> +        break;
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+> +
+> +    if (ARRAY_FIELD_EX32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_C=
+TRL,
+> +                         DOORBELL))
+> +        cxl_process_mailbox(cxl_dstate);
+> +}
+> +
+> +static const MemoryRegionOps mailbox_ops =3D {
+> +    .read =3D mailbox_reg_read,
+> +    .write =3D mailbox_reg_write,
+> +    .endianness =3D DEVICE_LITTLE_ENDIAN,
+> +    .valid =3D {
+> +        .min_access_size =3D 1,
+> +        .max_access_size =3D 8,
+> +        .unaligned =3D false,
+> +    },
+> +    .impl =3D {
+> +        .min_access_size =3D 1,
+> +        .max_access_size =3D 8,
+> +    },
+
+with_attrs?
+
+> +};
+> +
+>  static const MemoryRegionOps dev_ops =3D {
+>      .read =3D dev_reg_read,
+>      .write =3D NULL, /* status register is read only */
+> @@ -80,20 +189,33 @@ void cxl_device_register_block_init(Object *obj, CXL=
+DeviceState *cxl_dstate)
+>                            "cap-array", CXL_CAPS_SIZE);
+>      memory_region_init_io(&cxl_dstate->device, obj, &dev_ops, cxl_dstate,
+>                            "device-status", CXL_DEVICE_REGISTERS_LENGTH);
+> +    memory_region_init_io(&cxl_dstate->mailbox, obj, &mailbox_ops, cxl_d=
+state,
+> +                          "mailbox", CXL_MAILBOX_REGISTERS_LENGTH);
+>=20=20
+>      memory_region_add_subregion(&cxl_dstate->device_registers, 0,
+>                                  &cxl_dstate->caps);
+>      memory_region_add_subregion(&cxl_dstate->device_registers,
+>                                  CXL_DEVICE_REGISTERS_OFFSET,
+>                                  &cxl_dstate->device);
+> +    memory_region_add_subregion(&cxl_dstate->device_registers,
+> +                                CXL_MAILBOX_REGISTERS_OFFSET,
+> +                                &cxl_dstate->mailbox);
+>  }
+>=20=20
+>  static void device_reg_init_common(CXLDeviceState *cxl_dstate) { }
+>=20=20
+> +static void mailbox_reg_init_common(CXLDeviceState *cxl_dstate)
+> +{
+> +    /* 2048 payload size, with no interrupt or background support */
+> +    ARRAY_FIELD_DP32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_CAP,
+> +                     PAYLOAD_SIZE, CXL_MAILBOX_PAYLOAD_SHIFT);
+> +    cxl_dstate->payload_size =3D CXL_MAILBOX_MAX_PAYLOAD_SIZE;
+> +}
+> +
+>  void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
+>  {
+>      uint32_t *cap_hdrs =3D cxl_dstate->caps_reg_state32;
+> -    const int cap_count =3D 1;
+> +    const int cap_count =3D 2;
+>=20=20
+>      /* CXL Device Capabilities Array Register */
+>      ARRAY_FIELD_DP32(cap_hdrs, CXL_DEV_CAP_ARRAY, CAP_ID, 0);
+> @@ -102,4 +224,9 @@ void cxl_device_register_init_common(CXLDeviceState *=
+cxl_dstate)
+>=20=20
+>      cxl_device_cap_init(cxl_dstate, DEVICE, 1);
+>      device_reg_init_common(cxl_dstate);
+> +
+> +    cxl_device_cap_init(cxl_dstate, MAILBOX, 2);
+> +    mailbox_reg_init_common(cxl_dstate);
+> +
+> +    assert(cxl_initialize_mailbox(cxl_dstate) =3D=3D 0);
+>  }
+> diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
 > new file mode 100644
-> index 0000000000..3f256d483f
+> index 0000000000..2854682cbe
 > --- /dev/null
-> +++ b/hw/pci/pcie_sriov.c
-> @@ -0,0 +1,294 @@
+> +++ b/hw/cxl/cxl-mailbox-utils.c
+> @@ -0,0 +1,201 @@
 > +/*
-> + * pcie_sriov.c:
+> + * CXL Utility library for mailbox interface
 > + *
-> + * Implementation of SR/IOV emulation support.
+> + * Copyright(C) 2020 Intel Corporation.
 > + *
-> + * Copyright (c) 2015-2017 Knut Omang <knut.omang@oracle.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2. See =
+the
+> + * COPYING file in the top-level directory.
 > + */
 > +
 > +#include "qemu/osdep.h"
+> +#include "hw/cxl/cxl.h"
 > +#include "hw/pci/pci.h"
-> +#include "hw/pci/pcie.h"
-> +#include "hw/pci/pci_bus.h"
-> +#include "hw/qdev-properties.h"
-> +#include "qemu/error-report.h"
-> +#include "qemu/range.h"
-> +#include "qapi/error.h"
-> +#include "trace.h"
+> +#include "qemu/log.h"
+> +#include "qemu/uuid.h"
 > +
-> +static PCIDevice *register_vf(PCIDevice *pf, int devfn,
-> +                              const char *name, uint16_t vf_num);
-> +static void unregister_vfs(PCIDevice *dev);
+> +/*
+> + * How to add a new command, example. The command set FOO, with cmd BAR.
+> + *  1. Add the command set and cmd to the enum.
+> + *     FOO    =3D 0x7f,
+> + *          #define BAR 0
+> + *  2. Forward declare the handler.
+> + *     declare_mailbox_handler(FOO_BAR);
+> + *  3. Add the command to the cxl_cmd_set[][]
+> + *     CXL_CMD(FOO, BAR, 0, 0),
+> + *  4. Implement your handler
+> + *     define_mailbox_handler(FOO_BAR) { ... return CXL_MBOX_SUCCESS; }
+> + *
+> + *
+> + *  Writing the handler:
+> + *    The handler will provide the &struct cxl_cmd, the &CXLDeviceState,=
+ and the
+> + *    in/out length of the payload. The handler is responsible for consu=
+ming the
+> + *    payload from cmd->payload and operating upon it as necessary. It m=
+ust then
+> + *    fill the output data into cmd->payload (overwriting what was there=
+),
+> + *    setting the length, and returning a valid return code.
+> + *
+> + *  XXX: The handler need not worry about endianess. The payload is read=
+ out of
+> + *  a register interface that already deals with it.
+> + */
 > +
-> +void pcie_sriov_pf_init(PCIDevice *dev, uint16_t offset,
-> +                        const char *vfname, uint16_t vf_dev_id,
-> +                        uint16_t init_vfs, uint16_t total_vfs,
-> +                        uint16_t vf_offset, uint16_t vf_stride)
+> +/* 8.2.8.4.5.1 Command Return Codes */
+> +typedef enum {
+> +    CXL_MBOX_SUCCESS =3D 0x0,
+> +    CXL_MBOX_BG_STARTED =3D 0x1,
+> +    CXL_MBOX_INVALID_INPUT =3D 0x2,
+> +    CXL_MBOX_UNSUPPORTED =3D 0x3,
+> +    CXL_MBOX_INTERNAL_ERROR =3D 0x4,
+> +    CXL_MBOX_RETRY_REQUIRED =3D 0x5,
+> +    CXL_MBOX_BUSY =3D 0x6,
+> +    CXL_MBOX_MEDIA_DISABLED =3D 0x7,
+> +    CXL_MBOX_FW_XFER_IN_PROGRESS =3D 0x8,
+> +    CXL_MBOX_FW_XFER_OUT_OF_ORDER =3D 0x9,
+> +    CXL_MBOX_FW_AUTH_FAILED =3D 0xa,
+> +    CXL_MBOX_FW_INVALID_SLOT =3D 0xb,
+> +    CXL_MBOX_FW_ROLLEDBACK =3D 0xc,
+> +    CXL_MBOX_FW_REST_REQD =3D 0xd,
+> +    CXL_MBOX_INVALID_HANDLE =3D 0xe,
+> +    CXL_MBOX_INVALID_PA =3D 0xf,
+> +    CXL_MBOX_INJECT_POISON_LIMIT =3D 0x10,
+> +    CXL_MBOX_PERMANENT_MEDIA_FAILURE =3D 0x11,
+> +    CXL_MBOX_ABORTED =3D 0x12,
+> +    CXL_MBOX_INVALID_SECURITY_STATE =3D 0x13,
+> +    CXL_MBOX_INCORRECT_PASSPHRASE =3D 0x14,
+> +    CXL_MBOX_UNSUPPORTED_MAILBOX =3D 0x15,
+> +    CXL_MBOX_INVALID_PAYLOAD_LENGTH =3D 0x16,
+> +    CXL_MBOX_MAX =3D 0x17
+> +} ret_code;
+> +
+> +struct cxl_cmd;
+> +typedef ret_code (*opcode_handler)(struct cxl_cmd *cmd,
+> +                                   CXLDeviceState *cxl_dstate, uint16_t =
+*len);
+> +struct cxl_cmd {
+> +    const char *name;
+> +    opcode_handler handler;
+> +    ssize_t in;
+> +    uint16_t effect; /* Reported in CEL */
+> +    uint8_t *payload;
+> +};
+> +
+> +#define define_mailbox_handler(name)                \
+> +    static ret_code cmd_##name(struct cxl_cmd *cmd, \
+> +                               CXLDeviceState *cxl_dstate, uint16_t *len)
+> +#define declare_mailbox_handler(name) define_mailbox_handler(name)
+> +
+> +#define define_mailbox_handler_zeroed(name, size)                       =
+  \
+> +    uint16_t __zero##name =3D size;                                     =
+    \
+> +    static ret_code cmd_##name(struct cxl_cmd *cmd,                     =
+  \
+> +                               CXLDeviceState *cxl_dstate, uint16_t *len=
+) \
+> +    {                                                                   =
+  \
+> +        *len =3D __zero##name;                                          =
+    \
+> +        memset(cmd->payload, 0, *len);                                  =
+  \
+> +        return CXL_MBOX_SUCCESS;                                        =
+  \
+> +    }
+> +#define define_mailbox_handler_const(name, data)                        =
+  \
+> +    static ret_code cmd_##name(struct cxl_cmd *cmd,                     =
+  \
+> +                               CXLDeviceState *cxl_dstate, uint16_t *len=
+) \
+> +    {                                                                   =
+  \
+> +        *len =3D sizeof(data);                                          =
+    \
+> +        memcpy(cmd->payload, data, *len);                               =
+  \
+> +        return CXL_MBOX_SUCCESS;                                        =
+  \
+> +    }
+> +#define define_mailbox_handler_nop(name)                                =
+  \
+> +    static ret_code cmd_##name(struct cxl_cmd *cmd,                     =
+  \
+> +                               CXLDeviceState *cxl_dstate, uint16_t *len=
+) \
+> +    {                                                                   =
+  \
+> +        return CXL_MBOX_SUCCESS;                                        =
+  \
+> +    }
+> +
+> +#define CXL_CMD(s, c, in, cel_effect) \
+> +    [s][c] =3D { stringify(s##_##c), cmd_##s##_##c, in, cel_effect }
+> +
+> +static struct cxl_cmd cxl_cmd_set[256][256] =3D {};
+> +
+> +#undef CXL_CMD
+> +
+> +QemuUUID cel_uuid;
+
+static?
+
+but really this seems more like something that should be in a property
+of the device. Will it always be fixed or is it something the user might
+want to tweak?
+
+> +
+> +void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
 > +{
-> +    uint8_t *cfg = dev->config + offset;
-> +    uint8_t *wmask;
+> +    uint16_t ret =3D CXL_MBOX_SUCCESS;
+> +    struct cxl_cmd *cxl_cmd;
+> +    uint64_t status_reg;
+> +    opcode_handler h;
 > +
-> +    pcie_add_capability(dev, PCI_EXT_CAP_ID_SRIOV, 1,
-> +                        offset, PCI_EXT_CAP_SRIOV_SIZEOF);
-> +    dev->exp.sriov_cap = offset;
-> +    dev->exp.sriov_pf.num_vfs = 0;
-> +    dev->exp.sriov_pf.vfname = g_strdup(vfname);
-> +    dev->exp.sriov_pf.vf = NULL;
+> +    /*
+> +     * current state of mailbox interface
+> +     *  mbox_cap_reg =3D cxl_dstate->reg_state32[R_CXL_DEV_MAILBOX_CAP];
+> +     *  mbox_ctrl_reg =3D cxl_dstate->reg_state32[R_CXL_DEV_MAILBOX_CTRL=
+];
+> +     *  status_reg =3D *(uint64_t *)&cxl_dstate->reg_state[A_CXL_DEV_MAI=
+LBOX_STS];
+> +     */
+> +    uint64_t command_reg =3D
+> +        *(uint64_t *)&cxl_dstate->mbox_reg_state[A_CXL_DEV_MAILBOX_CMD];
 > +
-> +    pci_set_word(cfg + PCI_SRIOV_VF_OFFSET, vf_offset);
-> +    pci_set_word(cfg + PCI_SRIOV_VF_STRIDE, vf_stride);
+> +    /* Check if we have to do anything */
+> +    if (!ARRAY_FIELD_EX32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_=
+CTRL,
+> +                          DOORBELL)) {
+> +        qemu_log_mask(LOG_UNIMP, "Corrupt internal state for
+> firmware\n");
+
+is this actually UNIMP or has something gone wrong internally or is the
+guest doing something wrong?
+
+> +        return;
+> +    }
 > +
-> +    /*
-> +     * Mandatory page sizes to support.
-> +     * Device implementations can call pcie_sriov_pf_add_sup_pgsize()
-> +     * to set more bits:
-> +     */
-> +    pci_set_word(cfg + PCI_SRIOV_SUP_PGSIZE, SRIOV_SUP_PGSIZE_MINREQ);
+> +    uint8_t set =3D FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND=
+_SET);
+> +    uint8_t cmd =3D FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND=
+);
+> +    uint16_t len =3D FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, LENGTH=
+);
+> +    cxl_cmd =3D &cxl_cmd_set[set][cmd];
+> +    h =3D cxl_cmd->handler;
+> +    if (!h) {
+> +        qemu_log_mask(LOG_UNIMP, "Command %04xh not implemented\n",
+> +                                 set << 8 | cmd);
+> +        goto handled;
+> +    }
 > +
-> +    /*
-> +     * Default is to use 4K pages, software can modify it
-> +     * to any of the supported bits
-> +     */
-> +    pci_set_word(cfg + PCI_SRIOV_SYS_PGSIZE, 0x1);
+> +    if (len !=3D cxl_cmd->in) {
+> +        ret =3D CXL_MBOX_INVALID_PAYLOAD_LENGTH;
+> +    }
 > +
-> +    /* Set up device ID and initial/total number of VFs available */
-> +    pci_set_word(cfg + PCI_SRIOV_VF_DID, vf_dev_id);
-> +    pci_set_word(cfg + PCI_SRIOV_INITIAL_VF, init_vfs);
-> +    pci_set_word(cfg + PCI_SRIOV_TOTAL_VF, total_vfs);
-> +    pci_set_word(cfg + PCI_SRIOV_NUM_VF, 0);
+> +    cxl_cmd->payload =3D cxl_dstate->mbox_reg_state + A_CXL_DEV_CMD_PAYL=
+OAD;
+> +    ret =3D (*h)(cxl_cmd, cxl_dstate, &len);
+> +    assert(len <=3D cxl_dstate->payload_size);
 > +
-> +    /* Write enable control bits */
-> +    wmask = dev->wmask + offset;
-> +    pci_set_word(wmask + PCI_SRIOV_CTRL,
-> +                 PCI_SRIOV_CTRL_VFE | PCI_SRIOV_CTRL_MSE | PCI_SRIOV_CTRL_ARI);
-> +    pci_set_word(wmask + PCI_SRIOV_NUM_VF, 0xffff);
-> +    pci_set_word(wmask + PCI_SRIOV_SYS_PGSIZE, 0x553);
+> +handled:
+> +    /*
+> +     * Set the return code
+> +     * XXX: it's a 64b register, but we're not setting the vendor, so we=
+ can get
+> +     * away with this
+> +     */
+> +    status_reg =3D FIELD_DP64(0, CXL_DEV_MAILBOX_STS, ERRNO, ret);
 > +
-> +    qdev_prop_set_bit(&dev->qdev, "multifunction", true);
+> +    /*
+> +     * Set the return length
+> +     */
+> +    command_reg =3D FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND=
+_SET, 0);
+> +    command_reg =3D FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND=
+, 0);
+> +    command_reg =3D FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, LENGTH,=
+ len);
+> +
+> +    cxl_dstate->mbox_reg_state64[A_CXL_DEV_MAILBOX_CMD / 8] =3D command_=
+reg;
+> +    cxl_dstate->mbox_reg_state64[A_CXL_DEV_MAILBOX_STS / 8] =3D status_r=
+eg;
+> +
+> +    /* Tell the host we're done */
+> +    ARRAY_FIELD_DP32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_CTRL,
+> +                     DOORBELL, 0);
 > +}
 > +
-> +void pcie_sriov_pf_exit(PCIDevice *dev)
+> +int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate)
 > +{
-> +    unregister_vfs(dev);
-> +    g_free((char *)dev->exp.sriov_pf.vfname);
-> +    dev->exp.sriov_pf.vfname = NULL;
+> +    const char *cel_uuidstr =3D "0da9c0b5-bf41-4b78-8f79-96b1623b3f17";
+
+I'm curious as to where this magic number came from.
+
+> +
+> +    for (int set =3D 0; set < 256; set++) {
+> +        for (int cmd =3D 0; cmd < 256; cmd++) {
+> +            if (cxl_cmd_set[set][cmd].handler) {
+> +                struct cxl_cmd *c =3D &cxl_cmd_set[set][cmd];
+> +                struct cel_log *log =3D
+> +                    &cxl_dstate->cel_log[cxl_dstate->cel_size];
+> +
+> +                log->opcode =3D (set << 8) | cmd;
+> +                log->effect =3D c->effect;
+> +                cxl_dstate->cel_size++;
+> +            }
+> +        }
+> +    }
+> +
+> +    return qemu_uuid_parse(cel_uuidstr, &cel_uuid);
 > +}
+> diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
+> index 47154d6850..0eca715d10 100644
+> --- a/hw/cxl/meson.build
+> +++ b/hw/cxl/meson.build
+> @@ -1,4 +1,5 @@
+>  softmmu_ss.add(when: 'CONFIG_CXL', if_true: files(
+>    'cxl-component-utils.c',
+>    'cxl-device-utils.c',
+> +  'cxl-mailbox-utils.c',
+>  ))
+> diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
+> index b9d1ac3fad..554ad93b6b 100644
+> --- a/include/hw/cxl/cxl.h
+> +++ b/include/hw/cxl/cxl.h
+> @@ -14,4 +14,7 @@
+>  #include "cxl_component.h"
+>  #include "cxl_device.h"
+>=20=20
+> +#define CXL_COMPONENT_REG_BAR_IDX 0
+> +#define CXL_DEVICE_REG_BAR_IDX 2
 > +
-> +void pcie_sriov_pf_init_vf_bar(PCIDevice *dev, int region_num,
-> +                               uint8_t type, dma_addr_t size)
-> +{
-> +    uint32_t addr;
-> +    uint64_t wmask;
-> +    uint16_t sriov_cap = dev->exp.sriov_cap;
-> +
-> +    assert(sriov_cap > 0);
-> +    assert(region_num >= 0);
-> +    assert(region_num < PCI_NUM_REGIONS);
-> +    assert(region_num != PCI_ROM_SLOT);
-> +
-> +    wmask = ~(size - 1);
-> +    addr = sriov_cap + PCI_SRIOV_BAR + region_num * 4;
-> +
-> +    pci_set_long(dev->config + addr, type);
-> +    if (!(type & PCI_BASE_ADDRESS_SPACE_IO) &&
-> +        type & PCI_BASE_ADDRESS_MEM_TYPE_64) {
-> +        pci_set_quad(dev->wmask + addr, wmask);
-> +        pci_set_quad(dev->cmask + addr, ~0ULL);
-> +    } else {
-> +        pci_set_long(dev->wmask + addr, wmask & 0xffffffff);
-> +        pci_set_long(dev->cmask + addr, 0xffffffff);
-> +    }
-> +    dev->exp.sriov_pf.vf_bar_type[region_num] = type;
-> +}
-> +
-> +void pcie_sriov_vf_register_bar(PCIDevice *dev, int region_num,
-> +                                MemoryRegion *memory)
-> +{
-> +    PCIIORegion *r;
-> +    PCIBus *bus = pci_get_bus(dev);
-> +    uint8_t type;
-> +    pcibus_t size = memory_region_size(memory);
-> +
-> +    assert(pci_is_vf(dev)); /* PFs must use pci_register_bar */
-> +    assert(region_num >= 0);
-> +    assert(region_num < PCI_NUM_REGIONS);
-> +    type = dev->exp.sriov_vf.pf->exp.sriov_pf.vf_bar_type[region_num];
-> +
-> +    if (!is_power_of_2(size)) {
-> +        error_report("%s: PCI region size must be a power"
-> +                     " of two - type=0x%x, size=0x%"FMT_PCIBUS,
-> +                     __func__, type, size);
-> +        exit(1);
-> +    }
-> +
-> +    r = &dev->io_regions[region_num];
-> +    r->memory = memory;
-> +    r->address_space =
-> +        type & PCI_BASE_ADDRESS_SPACE_IO
-> +        ? bus->address_space_io
-> +        : bus->address_space_mem;
-> +    r->size = size;
-> +    r->type = type;
-> +
-> +    r->addr = pci_bar_address(dev, region_num, r->type, r->size);
-> +    if (r->addr != PCI_BAR_UNMAPPED) {
-> +        memory_region_add_subregion_overlap(r->address_space,
-> +                                            r->addr, r->memory, 1);
-> +    }
-> +}
-> +
-> +static PCIDevice *register_vf(PCIDevice *pf, int devfn, const char *name,
-> +                              uint16_t vf_num)
-> +{
-> +    PCIDevice *dev = pci_new(devfn, name);
-> +    dev->exp.sriov_vf.pf = pf;
-> +    dev->exp.sriov_vf.vf_number = vf_num;
-> +    PCIBus *bus = pci_get_bus(pf);
-> +    Error *local_err = NULL;
-> +
-> +    qdev_realize(&dev->qdev, &bus->qbus, &local_err);
-> +    if (local_err) {
-> +        error_report_err(local_err);
-> +        return NULL;
-> +    }
-> +
-> +    /* set vid/did according to sr/iov spec - they are not used */
-> +    pci_config_set_vendor_id(dev->config, 0xffff);
-> +    pci_config_set_device_id(dev->config, 0xffff);
-> +
-> +    return dev;
-> +}
-> +
-> +static void register_vfs(PCIDevice *dev)
-> +{
-> +    uint16_t num_vfs;
-> +    uint16_t i;
-> +    uint16_t sriov_cap = dev->exp.sriov_cap;
-> +    uint16_t vf_offset =
-> +        pci_get_word(dev->config + sriov_cap + PCI_SRIOV_VF_OFFSET);
-> +    uint16_t vf_stride =
-> +        pci_get_word(dev->config + sriov_cap + PCI_SRIOV_VF_STRIDE);
-> +    int32_t devfn = dev->devfn + vf_offset;
-> +
-> +    assert(sriov_cap > 0);
-> +    num_vfs = pci_get_word(dev->config + sriov_cap + PCI_SRIOV_NUM_VF);
-> +
-> +    dev->exp.sriov_pf.vf = g_malloc(sizeof(PCIDevice *) * num_vfs);
-> +    assert(dev->exp.sriov_pf.vf);
-> +
-> +    trace_sriov_register_vfs(dev->name, PCI_SLOT(dev->devfn),
-> +                             PCI_FUNC(dev->devfn), num_vfs);
-> +    for (i = 0; i < num_vfs; i++) {
-> +        dev->exp.sriov_pf.vf[i] = register_vf(dev, devfn,
-> +                                              dev->exp.sriov_pf.vfname, i);
-> +        if (!dev->exp.sriov_pf.vf[i]) {
-> +            num_vfs = i;
-> +            break;
-> +        }
-> +        devfn += vf_stride;
-> +    }
-> +    dev->exp.sriov_pf.num_vfs = num_vfs;
-> +}
-> +
-> +static void unregister_vfs(PCIDevice *dev)
-> +{
-> +    Error *local_err = NULL;
-> +    uint16_t num_vfs = dev->exp.sriov_pf.num_vfs;
-> +    uint16_t i;
-> +
-> +    trace_sriov_unregister_vfs(dev->name, PCI_SLOT(dev->devfn),
-> +                               PCI_FUNC(dev->devfn), num_vfs);
-> +    for (i = 0; i < num_vfs; i++) {
-> +        PCIDevice *vf = dev->exp.sriov_pf.vf[i];
-> +        object_property_set_bool(OBJECT(vf), "realized", false, &local_err);
-> +        if (local_err) {
-> +            fprintf(stderr, "Failed to unplug: %s\n",
-> +                    error_get_pretty(local_err));
-> +            error_free(local_err);
-> +        }
-> +        object_unparent(OBJECT(vf));
-> +    }
-> +    g_free(dev->exp.sriov_pf.vf);
-> +    dev->exp.sriov_pf.vf = NULL;
-> +    dev->exp.sriov_pf.num_vfs = 0;
-> +    pci_set_word(dev->config + dev->exp.sriov_cap + PCI_SRIOV_NUM_VF, 0);
-> +}
-> +
-> +void pcie_sriov_config_write(PCIDevice *dev, uint32_t address,
-> +                             uint32_t val, int len)
-> +{
-> +    uint32_t off;
-> +    uint16_t sriov_cap = dev->exp.sriov_cap;
-> +
-> +    if (!sriov_cap || address < sriov_cap) {
-> +        return;
-> +    }
-> +    off = address - sriov_cap;
-> +    if (off >= PCI_EXT_CAP_SRIOV_SIZEOF) {
-> +        return;
-> +    }
-> +
-> +    trace_sriov_config_write(dev->name, PCI_SLOT(dev->devfn),
-> +                             PCI_FUNC(dev->devfn), off, val, len);
-> +
-> +    if (range_covers_byte(off, len, PCI_SRIOV_CTRL)) {
-> +        if (dev->exp.sriov_pf.num_vfs) {
-> +            if (!(val & PCI_SRIOV_CTRL_VFE)) {
-> +                unregister_vfs(dev);
-> +            }
-> +        } else {
-> +            if (val & PCI_SRIOV_CTRL_VFE) {
-> +                register_vfs(dev);
-> +            }
-> +        }
-> +    }
-> +}
-> +
-> +
-> +/* Reset SR/IOV VF Enable bit to trigger an unregister of all VFs */
-> +void pcie_sriov_pf_disable_vfs(PCIDevice *dev)
-> +{
-> +    uint16_t sriov_cap = dev->exp.sriov_cap;
-> +    if (sriov_cap) {
-> +        uint32_t val = pci_get_byte(dev->config + sriov_cap + PCI_SRIOV_CTRL);
-> +        if (val & PCI_SRIOV_CTRL_VFE) {
-> +            val &= ~PCI_SRIOV_CTRL_VFE;
-> +            pcie_sriov_config_write(dev, sriov_cap + PCI_SRIOV_CTRL, val, 1);
-> +        }
-> +    }
-> +}
-> +
-> +/* Add optional supported page sizes to the mask of supported page sizes */
-> +void pcie_sriov_pf_add_sup_pgsize(PCIDevice *dev, uint16_t opt_sup_pgsize)
-> +{
-> +    uint8_t *cfg = dev->config + dev->exp.sriov_cap;
-> +    uint8_t *wmask = dev->wmask + dev->exp.sriov_cap;
-> +
-> +    uint16_t sup_pgsize = pci_get_word(cfg + PCI_SRIOV_SUP_PGSIZE);
-> +
-> +    sup_pgsize |= opt_sup_pgsize;
-> +
-> +    /*
-> +     * Make sure the new bits are set, and that system page size
-> +     * also can be set to any of the new values according to spec:
-> +     */
-> +    pci_set_word(cfg + PCI_SRIOV_SUP_PGSIZE, sup_pgsize);
-> +    pci_set_word(wmask + PCI_SRIOV_SYS_PGSIZE, sup_pgsize);
-> +}
-> +
-> +
-> +uint16_t pcie_sriov_vf_number(PCIDevice *dev)
-> +{
-> +    assert(pci_is_vf(dev));
-> +    return dev->exp.sriov_vf.vf_number;
-> +}
-> +
-> +
-> +PCIDevice *pcie_sriov_get_pf(PCIDevice *dev)
-> +{
-> +    return dev->exp.sriov_vf.pf;
-> +}
-> diff --git a/hw/pci/trace-events b/hw/pci/trace-events
-> index 7570752c40..aaf46bc92d 100644
-> --- a/hw/pci/trace-events
-> +++ b/hw/pci/trace-events
-> @@ -10,3 +10,8 @@ pci_cfg_write(const char *dev, uint32_t bus, uint32_t slot, uint32_t
-> func, unsig
->  
->  # msix.c
->  msix_write_config(char *name, bool enabled, bool masked) "dev %s enabled %d masked %d"
-> +
-> +# hw/pci/pcie_sriov.c
-> +sriov_register_vfs(const char *name, int slot, int function, int num_vfs) "%s %02x:%x:
-> creating %d vf devs"
-> +sriov_unregister_vfs(const char *name, int slot, int function, int num_vfs) "%s
-> %02x:%x: Unregistering %d vf devs"
-> +sriov_config_write(const char *name, int slot, int fun, uint32_t offset, uint32_t val,
-> uint32_t len) "%s %02x:%x: sriov offset 0x%x val 0x%x len %d"
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index 023abc0f79..6f06c2f1fb 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -7,9 +7,6 @@
->  /* PCI includes legacy ISA access.  */
->  #include "hw/isa/isa.h"
->  
-> -#include "hw/pci/pcie.h"
-> -#include "qom/object.h"
+>  #endif
+> diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+> index 4bdfa80eb4..b3aa248ee3 100644
+> --- a/include/hw/cxl/cxl_device.h
+> +++ b/include/hw/cxl/cxl_device.h
+> @@ -85,16 +85,28 @@ typedef struct cxl_device_state {
+>      MemoryRegion device_registers;
+>=20=20
+>      /* mmio for device capabilities array - 8.2.8.2 */
+> +    MemoryRegion device;
+>      struct {
+>          MemoryRegion caps;
+>          uint32_t caps_reg_state32[CXL_CAPS_SIZE / 4];
+>      };
+>=20=20
+> -    /* mmio for the device status registers 8.2.8.3 */
+> -    MemoryRegion device;
 > -
->  extern bool pci_available;
->  
->  /* PCI bus */
-> @@ -156,6 +153,7 @@ enum {
->  #define QEMU_PCI_VGA_IO_HI_SIZE 0x20
->  
->  #include "hw/pci/pci_regs.h"
-> +#include "hw/pci/pcie.h"
->  
->  /* PCI HEADER_TYPE */
->  #define  PCI_HEADER_TYPE_MULTI_FUNCTION 0x80
-> @@ -498,6 +496,9 @@ typedef AddressSpace *(*PCIIOMMUFunc)(PCIBus *, void *, int);
->  AddressSpace *pci_device_iommu_address_space(PCIDevice *dev);
->  void pci_setup_iommu(PCIBus *bus, PCIIOMMUFunc fn, void *opaque);
->  
-> +pcibus_t pci_bar_address(PCIDevice *d,
-> +                         int reg, uint8_t type, pcibus_t size);
-> +
->  static inline void
->  pci_set_byte(uint8_t *config, uint8_t val)
->  {
-> @@ -778,6 +779,11 @@ static inline int pci_is_express_downstream_port(const PCIDevice
-> *d)
->      return type == PCI_EXP_TYPE_DOWNSTREAM || type == PCI_EXP_TYPE_ROOT_PORT;
->  }
->  
-> +static inline int pci_is_vf(const PCIDevice *d)
-> +{
-> +    return d->exp.sriov_vf.pf != NULL;
-> +}
-> +
->  static inline uint32_t pci_config_size(const PCIDevice *d)
->  {
->      return pci_is_express(d) ? PCIE_CONFIG_SPACE_SIZE : PCI_CONFIG_SPACE_SIZE;
-> diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
-> index 6063bee0ec..168950a83b 100644
-> --- a/include/hw/pci/pcie.h
-> +++ b/include/hw/pci/pcie.h
-> @@ -24,6 +24,7 @@
->  #include "hw/pci/pci_regs.h"
->  #include "hw/pci/pcie_regs.h"
->  #include "hw/pci/pcie_aer.h"
-> +#include "hw/pci/pcie_sriov.h"
->  #include "hw/hotplug.h"
->  
->  typedef enum {
-> @@ -81,6 +82,11 @@ struct PCIExpressDevice {
->  
->      /* ACS */
->      uint16_t acs_cap;
-> +
-> +    /* SR/IOV */
-> +    uint16_t sriov_cap;
-> +    PCIESriovPF sriov_pf;
-> +    PCIESriovVF sriov_vf;
->  };
->  
->  #define COMPAT_PROP_PCP "power_controller_present"
-> diff --git a/include/hw/pci/pcie_sriov.h b/include/hw/pci/pcie_sriov.h
-> new file mode 100644
-> index 0000000000..990cff0a1c
-> --- /dev/null
-> +++ b/include/hw/pci/pcie_sriov.h
-> @@ -0,0 +1,71 @@
-> +/*
-> + * pcie_sriov.h:
-> + *
-> + * Implementation of SR/IOV emulation support.
-> + *
-> + * Copyright (c) 2015 Knut Omang <knut.omang@oracle.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + *
-> + */
-> +
-> +#ifndef QEMU_PCIE_SRIOV_H
-> +#define QEMU_PCIE_SRIOV_H
-> +
-> +struct PCIESriovPF {
-> +    uint16_t num_vfs;   /* Number of virtual functions created */
-> +    uint8_t vf_bar_type[PCI_NUM_REGIONS];   /* Store type for each VF bar */
-> +    const char *vfname; /* Reference to the device type used for the VFs */
-> +    PCIDevice **vf;     /* Pointer to an array of num_vfs VF devices */
-> +};
-> +
-> +struct PCIESriovVF {
-> +    PCIDevice *pf;      /* Pointer back to owner physical function */
-> +    uint16_t vf_number; /* Logical VF number of this function */
-> +};
-> +
-> +void pcie_sriov_pf_init(PCIDevice *dev, uint16_t offset,
-> +                        const char *vfname, uint16_t vf_dev_id,
-> +                        uint16_t init_vfs, uint16_t total_vfs,
-> +                        uint16_t vf_offset, uint16_t vf_stride);
-> +void pcie_sriov_pf_exit(PCIDevice *dev);
-> +
-> +/* Set up a VF bar in the SR/IOV bar area */
-> +void pcie_sriov_pf_init_vf_bar(PCIDevice *dev, int region_num,
-> +                               uint8_t type, dma_addr_t size);
-> +
-> +/* Instantiate a bar for a VF */
-> +void pcie_sriov_vf_register_bar(PCIDevice *dev, int region_num,
-> +                                MemoryRegion *memory);
-> +
-> +/*
-> + * Default (minimal) page size support values
-> + * as required by the SR/IOV standard:
-> + * 0x553 << 12 = 0x553000 = 4K + 8K + 64K + 256K + 1M + 4M
-> + */
-> +#define SRIOV_SUP_PGSIZE_MINREQ 0x553
-> +
-> +/*
-> + * Optionally add supported page sizes to the mask of supported page sizes
-> + * Page size values are interpreted as opt_sup_pgsize << 12.
-> + */
-> +void pcie_sriov_pf_add_sup_pgsize(PCIDevice *dev, uint16_t opt_sup_pgsize);
-> +
-> +/* SR/IOV capability config write handler */
-> +void pcie_sriov_config_write(PCIDevice *dev, uint32_t address,
-> +                             uint32_t val, int len);
-> +
-> +/* Reset SR/IOV VF Enable bit to unregister all VFs */
-> +void pcie_sriov_pf_disable_vfs(PCIDevice *dev);
-> +
-> +/* Get logical VF number of a VF - only valid for VFs */
-> +uint16_t pcie_sriov_vf_number(PCIDevice *dev);
-> +
-> +/*
-> + * Get the physical function that owns this VF.
-> + * Returns NULL if dev is not a virtual function
-> + */
-> +PCIDevice *pcie_sriov_get_pf(PCIDevice *dev);
-> +
-> +#endif /* QEMU_PCIE_SRIOV_H */
-> diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-> index ee60eb3de4..5b302cb214 100644
-> --- a/include/qemu/typedefs.h
-> +++ b/include/qemu/typedefs.h
-> @@ -86,6 +86,8 @@ typedef struct PCIDevice PCIDevice;
->  typedef struct PCIEAERErr PCIEAERErr;
->  typedef struct PCIEAERLog PCIEAERLog;
->  typedef struct PCIEAERMsg PCIEAERMsg;
-> +typedef struct PCIESriovPF PCIESriovPF;
-> +typedef struct PCIESriovVF PCIESriovVF;
->  typedef struct PCIEPort PCIEPort;
->  typedef struct PCIESlot PCIESlot;
->  typedef struct PCIExpressDevice PCIExpressDevice;
 
-The comment changes looks good to me,
+The above code motion should probably be squashed into the original patch=20
 
-Thanks,
-Knut
+>      /* mmio for the mailbox registers 8.2.8.4 */
+> -    MemoryRegion mailbox;
+> +    struct {
+> +        MemoryRegion mailbox;
+> +        uint16_t payload_size;
+> +        union {
+> +            uint8_t mbox_reg_state[CXL_MAILBOX_REGISTERS_LENGTH];
+> +            uint16_t mbox_reg_state16[CXL_MAILBOX_REGISTERS_LENGTH / 2];
+> +            uint32_t mbox_reg_state32[CXL_MAILBOX_REGISTERS_LENGTH / 4];
+> +            uint64_t mbox_reg_state64[CXL_MAILBOX_REGISTERS_LENGTH / 8];
+> +        };
+> +        struct cel_log {
+> +            uint16_t opcode;
+> +            uint16_t effect;
+> +        } cel_log[1 << 16];
+> +        size_t cel_size;
+> +    };
+>=20=20
+>      /* memory region for persistent memory, HDM */
+>      uint64_t pmem_size;
+> @@ -137,6 +149,9 @@ CXL_DEVICE_CAPABILITY_HEADER_REGISTER(DEVICE, CXL_DEV=
+ICE_CAP_HDR1_OFFSET)
+>  CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MAILBOX, CXL_DEVICE_CAP_HDR1_OFFSE=
+T + \
+>                                                 CXL_DEVICE_CAP_REG_SIZE)
+>=20=20
+> +int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate);
+> +void cxl_process_mailbox(CXLDeviceState *cxl_dstate);
+> +
+>  #define cxl_device_cap_init(dstate, reg, cap_id)                        =
+   \
+>      do {                                                                =
+   \
+>          uint32_t *cap_hdrs =3D dstate->caps_reg_state32;                =
+     \
+> @@ -165,6 +180,12 @@ REG32(CXL_DEV_MAILBOX_CTRL, 4)
+>      FIELD(CXL_DEV_MAILBOX_CTRL, INT_EN, 1, 1)
+>      FIELD(CXL_DEV_MAILBOX_CTRL, BG_INT_EN, 2, 1)
+>=20=20
+> +/* XXX: actually a 64b register */
+> +REG32(CXL_DEV_MAILBOX_CMD, 8)
+> +    FIELD(CXL_DEV_MAILBOX_CMD, COMMAND, 0, 8)
+> +    FIELD(CXL_DEV_MAILBOX_CMD, COMMAND_SET, 8, 8)
+> +    FIELD(CXL_DEV_MAILBOX_CMD, LENGTH, 16, 20)
+> +
+>  /* XXX: actually a 64b register */
+>  REG32(CXL_DEV_MAILBOX_STS, 0x10)
+>      FIELD(CXL_DEV_MAILBOX_STS, BG_OP, 0, 1)
 
 
+--=20
+Alex Benn=C3=A9e
 
