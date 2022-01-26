@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A491E49CAA1
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 14:21:01 +0100 (CET)
-Received: from localhost ([::1]:48032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48BBD49CB06
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 14:39:35 +0100 (CET)
+Received: from localhost ([::1]:37478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCiEM-0001ur-MD
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 08:20:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52006)
+	id 1nCiWL-0006P9-Gm
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 08:39:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nCi5d-0008L1-8d
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 08:11:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30117)
+ id 1nCi97-0001Wi-71
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 08:15:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nCi5T-0002Ex-Ee
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 08:11:53 -0500
+ id 1nCi95-0002ol-MH
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 08:15:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643202701;
+ s=mimecast20190719; t=1643202931;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=qLZDDiyi+JYv96IPGAnoJ5fkIqZyzkyH2xxLtNtNx74=;
- b=ESQJ8LGB+VoVOO3/RgKiFGHOr7snOZv63nhdNUWX9AQvP3o3x4rbfOsJne7E37D86b7isi
- 6YsOZ8nCudDoKTeN3uEeVGcPWuAO35Yuy0brob4UG0kP0sQadcsiXw9Xu92Ws+8/iH0OHY
- 44Ce+KB26tsb6tPthU8tPRuLDFSgF/Y=
+ bh=L/B5Ph6pKN7AlfJd09WeXqzFtnU7oZ/B2bY4rCfPDIo=;
+ b=LrLX8drudGx6wMpOTr0zNEA3G2IRSmBdfIvYZapRehAvLAZlZFlLEGksEYbyzx+djVX+Cu
+ 1Ivpv7V8HyjijN42W1T7xSaikgC6A9MtystvnY5rIIEpnar1VHRkw0MS+uQR+mHzkNydNc
+ xsrKnI57pie6HLq7n+xNBZuO/fqR21U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-207-4-mopKehOh6usGDHQ_m7qA-1; Wed, 26 Jan 2022 08:11:39 -0500
-X-MC-Unique: 4-mopKehOh6usGDHQ_m7qA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-541-eIC0rQD0OV62lwrpA8otHA-1; Wed, 26 Jan 2022 08:15:25 -0500
+X-MC-Unique: eIC0rQD0OV62lwrpA8otHA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09713104FC0D
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 13:11:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48A0610B7464;
+ Wed, 26 Jan 2022 13:15:24 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B76B1F473;
- Wed, 26 Jan 2022 13:11:38 +0000 (UTC)
-Date: Wed, 26 Jan 2022 13:11:37 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5BAB96A8EC;
+ Wed, 26 Jan 2022 13:15:14 +0000 (UTC)
+Date: Wed, 26 Jan 2022 13:15:13 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: tracing.rst neglects to document syntax of trace-events files
-Message-ID: <YfFIiV3RTaHTYKis@stefanha-x1.localdomain>
-References: <87zgntpi3t.fsf@dusky.pond.sub.org> <YeaCFxnGltxc5uFR@redhat.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH for-7.0 0/4] hw/nvme: zoned random write area
+Message-ID: <YfFJYXZwqOGN5fX8@stefanha-x1.localdomain>
+References: <20211125073735.248403-1-its@irrelevant.dk>
+ <YfENU6BVuYkGYhnb@apples>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="exERAYF1Y7mIkHC/"
+ protocol="application/pgp-signature"; boundary="CUOpzwrkZW2Ii2T/"
 Content-Disposition: inline
-In-Reply-To: <YeaCFxnGltxc5uFR@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <YfENU6BVuYkGYhnb@apples>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -62,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,58 +76,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---exERAYF1Y7mIkHC/
-Content-Type: text/plain; charset=iso-8859-1
+--CUOpzwrkZW2Ii2T/
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 18, 2022 at 09:02:35AM +0000, Daniel P. Berrang=E9 wrote:
-> On Tue, Jan 18, 2022 at 09:23:50AM +0100, Markus Armbruster wrote:
-> > Almost[*] all trace-events files start with this line:
+On Wed, Jan 26, 2022 at 09:58:59AM +0100, Klaus Jensen wrote:
+> On Nov 25 08:37, Klaus Jensen wrote:
+> > From: Klaus Jensen <k.jensen@samsung.com>
 > >=20
-> >     # See docs/devel/tracing.rst for syntax documentation.
+> > This series adds support for a zoned random write area as standardized
+> > in TP 4076 ("Zoned Random Write Area").
 > >=20
-> > But I can't find syntax documentation there.
+> > Klaus Jensen (4):
+> >   hw/nvme: add struct for zone management send
+> >   hw/nvme: add zone attribute get/set helpers
+> >   hw/nvme: add ozcs enum
+> >   hw/nvme: add support for zoned random write area
+> >=20
+> >  hw/nvme/ctrl.c       | 185 ++++++++++++++++++++++++++++++++++++-------
+> >  hw/nvme/ns.c         |  61 +++++++++++++-
+> >  hw/nvme/nvme.h       |  10 +++
+> >  hw/nvme/trace-events |   1 +
+> >  include/block/nvme.h |  43 +++++++++-
+> >  5 files changed, 271 insertions(+), 29 deletions(-)
+> >=20
+> > --=20
+> > 2.34.0
+> >=20
 >=20
-> In that doc, under the heading "Declaring trace events", is a wordy
-> paragraph that looks like it was attempting to fill this need,
-> especially the last part.
->=20
-> [quote]
-> Each event declaration will start with the event name, then its arguments,
-> finally a format string for pretty-printing. For example::
->=20
->     qemu_vmalloc(size_t size, void *ptr) "size %zu ptr %p"
->     qemu_vfree(void *ptr) "ptr %p"
-> [/quote]
->=20
-> It certainly has plenty of scope for improvement though !
+> Bzzzzz ping :)
 
-Yes. Should we rename the "Declaring trace events" section to "Syntax
-for declaring trace events"?
+Hi Klaus,
+Are you pinging Keith? It's not clear from the "To:" header and I want
+to check that I'm not holding up your patches.
 
+Thanks,
 Stefan
 
---exERAYF1Y7mIkHC/
+--CUOpzwrkZW2Ii2T/
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHxSIkACgkQnKSrs4Gr
-c8gkuwf/f1nc0FUppJutQeYNp5DIgmIM/QdwAXVYLUY0DbK4opbi0ia7i/ELx4Ip
-bFEuCI6y6C/cDnv6OZvoJk75AN2h5u1CbN9OZt43WC8T+Whg1NU9NCsQmvainUbL
-C8QTr0sQN7wFeQFMsiY6Oatq0VEpHooXJf/uV4Id3tF3DB4lorK6XgzxJ0jvUQ2k
-MSF1z31iR6FGfXqs+NeLrKMHG+KHaLHnzO+8uIGroM2/HuoYEV4AlXxDxAVDVpBn
-4+U8bKqeaOSjgzoJpUKNQMQYPA5rCMXnCtrnckmbs2HFe0H6rugVWNm9E5PNeNW+
-fzw8Krkl/IRUIBkbClYnAyaXltI1Ug==
-=JyKq
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHxSWEACgkQnKSrs4Gr
+c8hvCAf9GWjrEVyKBU+m8kfIFK7aT+zaJIuPYWOzBrCxk32mmWpwa6RmcoLXnym3
+hOWdjB9nJsJluTqN3u7sj8VtBb08TBxvffNqkUkLAAGqQuu22A5IbsLY53bSpzDE
++fUUFQ61+6lRLvkibIHnZhJaU4/EYPLG6XnvG/ML9qU2SFZvTCiNpE0Q4paLToX7
+EeAWRgU1vfkAKI5LHrHHdu6pKgeNFHhHT+SN74m1OfkhJLfDx/tNOTlIaGADiYLN
+7UHTeInGEoVzARSWsvYjU0Ix9gViPACW8w9L2stzxg/RR1WBmSLK3/KwivGtstYM
+KI+NqQwuxM1960gfsuKLHSDFcSqltg==
+=1EOi
 -----END PGP SIGNATURE-----
 
---exERAYF1Y7mIkHC/--
+--CUOpzwrkZW2Ii2T/--
 
 
