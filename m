@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A29049D4C8
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 23:03:29 +0100 (CET)
-Received: from localhost ([::1]:43948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5379D49D4D0
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 23:04:58 +0100 (CET)
+Received: from localhost ([::1]:47990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCqO0-0006Xa-4t
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 17:03:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50026)
+	id 1nCqPR-0000ot-DA
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 17:04:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nCqJA-0003nf-TH
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 16:58:30 -0500
-Received: from [2607:f8b0:4864:20::102c] (port=56317
+ id 1nCqJs-00041d-9h
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 16:59:15 -0500
+Received: from [2607:f8b0:4864:20::102c] (port=42976
  helo=mail-pj1-x102c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nCqJ8-0003qu-Px
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 16:58:28 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id d5so887329pjk.5
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 13:58:26 -0800 (PST)
+ id 1nCqJq-0003tq-K5
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 16:59:11 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id
+ my12-20020a17090b4c8c00b001b528ba1cd7so930317pjb.1
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 13:58:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4Sf3SU7BojMidxP296DgtQGjYSAhd4A+tPfJDpgC+k4=;
- b=E4ExHVyBtH8tFTK1gpq8EZOoV3i3s9ORJx7bNaNnCOepTrQhdtvZAiGgvQ8pxsKt/U
- 0I/WcBH5qz1QtxKnLfbrlLKLf8ldjL19wJp/S3x+ygVHxQ2nDLl7BiZsNzbt7a5zMQ/g
- ysVr5hXG+vKIThgrWMI6MPWFvmDyNNfJCRW7p9nPiYIe48ucjmu7qKYKpnPdNsKGtwWs
- 9sliDfIeQED0Vp2PDOU9qK3YIOwNf9S8y8dFFVJw+YZQEhagGf0JdmiAPp1PSLdNqkK4
- eLslpzNJtVOr8Qe0uqMBts3wz6El5Mv7wZvOGPR+BXehV8aoTFzApphGJCF+YoouUMsN
- QABg==
+ bh=5WkW5/dzj+Wt7TBlkbD1f7KqgmXMe8x72sPxOyXiyuI=;
+ b=AIVWKqrgYfcPjTDUipN5+32a8ILteEC8ZqdUo2RLTg0dlMHPQoxQAXlVj3+ty0RUlg
+ AIE1RdZY8drtm8LwmBt/g3h3nyyb9uLzgjH73ljWP23qG4CWQN62p0pwlQQFepBzd2Fz
+ k6R2u24SX7cVZ+e8LaKt3CZArskF+W/al3FqBS+8l6+C1HAeTOf5RorxhdjmCl2rCh2r
+ CCet/10tRjLiwqbwM+rWxjYXauUCfqzYyYf7wJybHep8LR06hOI+n9GowQ+qimsvptPm
+ sZip1/7yrzV8Cv/wOcTlHZGtBk/FNSkicCjDP9n7do6jLrQTyoBs3Y3g3y7ArsWq8z07
+ 0/ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=4Sf3SU7BojMidxP296DgtQGjYSAhd4A+tPfJDpgC+k4=;
- b=l+ZuXn2A9Xy3m2nOEMlMA0BZe8WZPBApvoB4V3REDjowfDtEVXu5GFrwiemELlPYMq
- Pue76VfbtlJhFzNqr3vWJ+OsIGGfENWcDw5nOJaEHE7csKeTABh018Rr/1VT5q+r4z8X
- 4egG7PmcKBb6pisSZZSC+AxHARQ2fSZ3pNzP3SRsok5wUoLEs7IEmBVhlRb442IcKwUJ
- tO4jGVkeEAdCw9ii/5oOZMdsKaWjt7KgIgfE+MAwYihoFJXsQejhvxHXIyGFha1FZCa3
- ejTSMvP2ngZHc+xduDS6/LXJKMl/kwUYyH0hBIijUE7YjsntStdbzp2PqV2+j1+ARCq/
- 9rnQ==
-X-Gm-Message-State: AOAM530SlX/h5NPpSif0zveQ4KCfISI6YHkU8ViTJPsPNWenlprhq9uY
- RibVbx/C1yqs83BOBTOQ+TEdQg==
-X-Google-Smtp-Source: ABdhPJwKhyb9RpGW2krPplJSiFuzCLMUhcigp9lPmzF71ruoxmrYY6i71LisBBrKgPgA+hriPEDaFQ==
-X-Received: by 2002:a17:90a:7084:: with SMTP id
- g4mr10700011pjk.5.1643234305181; 
- Wed, 26 Jan 2022 13:58:25 -0800 (PST)
+ bh=5WkW5/dzj+Wt7TBlkbD1f7KqgmXMe8x72sPxOyXiyuI=;
+ b=O2Y2HnwLPc0cvKNJzpO5rHVTv3/hEjfvk/lJ/dsBAsAk9BfXKmUDXySH1xoffZMzhw
+ kLMQTDW5MYSUqKmvo+bnHpM0/xBmK8VI0POETfk1JMUTuiYzo3HbKmHbc6PJWmJ7Aq5E
+ NPzkeQQ0L4+0ipASXFtKwFybD4LWoLYpbjLUe/b68upozN3OQWAKyZ6bjgSHNO2QgZvv
+ kzvc3BffPX3VdZTVAmS4pzjO6DREb6XbcfFhywtuy6K+6xmIAIutcl0ZUEr/kDX/96AB
+ 7lzmqXiWTTVxvRbLevcFAnJP3yPWBXoJShQ6neBESvGgAqhdJ4hRSZe0V+YotEvC2ZLj
+ /eow==
+X-Gm-Message-State: AOAM530y1dCTgNVE+/c6w7RhtXEL3xa+soAlTg7vLGQ7g6eLH/s5nnxE
+ 0ZUPYgrJv14F1jv8ifSP41Z3rUAnRIVbU1fX
+X-Google-Smtp-Source: ABdhPJxmvjpyPDfanOgWvEKU3iQXKpwUosa7x/CNjELLvBSJp/uH3kWK6GqIJzzbamkkLYuvaDA+Qw==
+X-Received: by 2002:a17:902:b201:: with SMTP id
+ t1mr922946plr.145.1643234335271; 
+ Wed, 26 Jan 2022 13:58:55 -0800 (PST)
 Received: from ?IPv6:2001:8003:1d71:4f01:4dac:f487:9ea0:53e8?
  ([2001:8003:1d71:4f01:4dac:f487:9ea0:53e8])
- by smtp.gmail.com with ESMTPSA id s6sm17878012pgk.44.2022.01.26.13.58.21
+ by smtp.gmail.com with ESMTPSA id l14sm5007208pjf.1.2022.01.26.13.58.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Jan 2022 13:58:24 -0800 (PST)
-Subject: Re: [PATCH v2 03/14] target/ppc: Introduce powerpc_excp_40x
+ Wed, 26 Jan 2022 13:58:54 -0800 (PST)
+Subject: Re: [PATCH v2 05/14] target/ppc: 405: Critical exceptions cleanup
 To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
 References: <20220118184448.852996-1-farosas@linux.ibm.com>
- <20220118184448.852996-4-farosas@linux.ibm.com>
+ <20220118184448.852996-6-farosas@linux.ibm.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <097df4a7-abb2-5fa2-4dc5-71721b5b0a0d@linaro.org>
-Date: Thu, 27 Jan 2022 08:58:17 +1100
+Message-ID: <31261a59-6edc-cb07-29dd-6c1451fe6dfa@linaro.org>
+Date: Thu, 27 Jan 2022 08:58:48 +1100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20220118184448.852996-4-farosas@linux.ibm.com>
+In-Reply-To: <20220118184448.852996-6-farosas@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -98,14 +99,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/19/22 5:44 AM, Fabiano Rosas wrote:
-> Introduce a new powerpc_excp function specific for 40x CPUs. This
-> commit copies powerpc_excp_legacy verbatim so the next one has a clean
-> diff.
+> In powerpc_excp_40x the Critical exception is now for 405 only, so we
+> can remove the BookE and G2 blocks.
 > 
 > Signed-off-by: Fabiano Rosas<farosas@linux.ibm.com>
+> Reviewed-by: David Gibson<david@gibson.dropbear.id.au>
 > ---
->   target/ppc/excp_helper.c | 474 +++++++++++++++++++++++++++++++++++++++
->   1 file changed, 474 insertions(+)
+>   target/ppc/excp_helper.c | 17 ++---------------
+>   1 file changed, 2 insertions(+), 15 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
