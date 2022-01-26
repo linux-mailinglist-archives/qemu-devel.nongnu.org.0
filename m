@@ -2,93 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D6149CF55
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 17:16:02 +0100 (CET)
-Received: from localhost ([::1]:34670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB8049CF56
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 17:16:34 +0100 (CET)
+Received: from localhost ([::1]:35436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCkxl-0004b2-4y
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 11:16:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51986)
+	id 1nCkyF-0005Cy-Nw
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 11:16:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nCkso-0001Vz-87
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 11:10:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54170)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1nCkts-0001wf-NX
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 11:12:00 -0500
+Received: from [2a01:111:f400:7d00::70c] (port=30528
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nCksj-00009J-ME
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 11:10:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643213448;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vV1AQe4ZLMKwQaZoC2Rjt/slBpj7sj0d7Y/iHkyJ1UM=;
- b=MKPHRuqGBhK31zikMTw+Qo1L8ndgswqjAa9NSV0jZHgeS+JMVDQFBDNKrGcohs0EJ2SWvC
- TIRlNc6eTm14Q+MEETPWLHrAvJThlPH6k06odxdKpTXy+ZNQ5vo40NmMGq9x9OVYU4ILYu
- pm9chwPvk4cYwZ2zQaen1hJ+ct+cy1U=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-494-efHwBUTcOyWTS5Lr-rSR-Q-1; Wed, 26 Jan 2022 11:10:47 -0500
-X-MC-Unique: efHwBUTcOyWTS5Lr-rSR-Q-1
-Received: by mail-wm1-f71.google.com with SMTP id
- q71-20020a1ca74a000000b003507f38e330so2666986wme.9
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 08:10:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vV1AQe4ZLMKwQaZoC2Rjt/slBpj7sj0d7Y/iHkyJ1UM=;
- b=npnjR0EaVYsnhISeYvtNDUguo4+3aPq4vOOn5XS8Q2jHx+ct2lNy6UCD7uGtzz5k7t
- 66g+zkEVEg9M6vvw5VeMvISaFZzCwiEaiKWWhDWRCLfehv9ga4cl8qx+pm/RaIODcdNp
- j9ZA4UWdv9yer2WzgCIkdplFPDVRKKopzr1NSU5+rSa+zXslfoAz9ibH6iZSAjd6NYV0
- +uI0+9azJ7GCP/jeH3+wxMw9iEN0zfdzhNLZj8GYa1sB4vc/LHP+7U6JeHDEag2gJDvg
- SVocndpwLnWHoO2kAZWT2cx1n2yGaMeEQjPoQVJZtNvlxMZQpauL3zY0/1swo5D+q1gO
- pb0w==
-X-Gm-Message-State: AOAM530qqj4TVd41w/dfa4J62SbCfg7DRgcS29/Fz3FZzZQxKoqDPBV4
- Zo3UDEvbyWQFw8DKGz1QbDslryokFpjl9OOMuWkKj5FPR7AWCvhKfuK5mf+VSNz0ioGg9dVTvc+
- M7mXEujEYMqUikMk=
-X-Received: by 2002:adf:9cc4:: with SMTP id h4mr1447712wre.492.1643213446129; 
- Wed, 26 Jan 2022 08:10:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxELqPZn28HTZKojpu4BnNmKO7esyP9cy1RbOf+6dJJFf/1CV4RLq/lSRdYyoVDwpV5UiFDww==
-X-Received: by 2002:adf:9cc4:: with SMTP id h4mr1447667wre.492.1643213445680; 
- Wed, 26 Jan 2022 08:10:45 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id v3sm12379861wru.15.2022.01.26.08.10.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Jan 2022 08:10:45 -0800 (PST)
-Message-ID: <49d12b8b-cf53-06cb-de26-d4e8f03a8e04@redhat.com>
-Date: Wed, 26 Jan 2022 17:10:44 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v6 32/33] crypto: delegate permission functions to
- JobDriver .pre_run
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20220121170544.2049944-1-eesposit@redhat.com>
- <20220121170544.2049944-33-eesposit@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220121170544.2049944-33-eesposit@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1nCktp-0000NL-3h
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 11:12:00 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CR4S35KY+rKMDUNqKNAXenJLpfi12K0HqfWFRWZnVWEzUxW7Mn0UwiBYdNjcsBiQpSlmESaczzJWq485GbytNr9LxRHSGmkb0KAKshqVvvg4+CFJFCnMCyQP5WSpr3Uyt6fPb6bdKZLju3nV4GIbHHprsGx7XORDU0HyuEBf6F2/ZUhrpGoE/zx52+3jvMJN7dLeX9Dz3kN2hi98KpWpyvaPWlLuMs09t9NTDgZ14ArkfPdNCWpuc3OwJrX95TfoNM14UK5ohH1p4OIphPqsFVHbaDSK0DhkCsZ0jK9nAWSaRj7qluPQFSPOZMCBRLcHSqfVtFUbCAyiCbYEG8qk2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VvlbzGtLIknpHlF6daVof3YKgJke2rlghWtzP+Fx8ls=;
+ b=kDuM4MCNO1Bilc3+wVbQR8udz9O5ic85pqvAjPPeYuBof3ftjxQFWb5+RloytJut7XnKVx6JsCfwmj1bZsgYlRKQXvZBRNS+WO8D8xl1IAmgfnjcRhKz41CYVhQUujPU3YiUcmaaGePzAN2oKRU4Uy98E5f8O1gjG5GbydIrTRCOCOPNMjzOHjkRNQt2Qy/Bm8ltmWAAkh618np8Y/WfRa2H3utUAn3eGejKTRyfa/ru9UAKwzEmQFvtg8jDzWkm+rBnpx1KIHts8V/BB9TqL5BLo1FYP2D7m9h+kIbXe3CrOPCHQMUhhcjx59NQsyS/j2oSIQfDy1Tc8gi7k1Rjaw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VvlbzGtLIknpHlF6daVof3YKgJke2rlghWtzP+Fx8ls=;
+ b=AQGPXRP1RLuvOgdLfSAJNzozjaEmKiFjw2rkQ/eEssnPPD4kKGzndEA0kY7DpbCVa943H6chVy9Kvk4wBtQGI6qkri0pzR044+iV/gOBP6KRNMjX59cRJDWVqKKvPYO/X1CNcdpMofmQLpnrh1kXFE1/FBE26YS/GNsuRW7btQs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
+ by PR3PR08MB5868.eurprd08.prod.outlook.com (2603:10a6:102:81::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.15; Wed, 26 Jan
+ 2022 16:11:39 +0000
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::4def:4b08:dfe6:b4bd]) by AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::4def:4b08:dfe6:b4bd%3]) with mapi id 15.20.4909.017; Wed, 26 Jan 2022
+ 16:11:39 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Cc: stefanha@redhat.com, michael.roth@amd.com, armbru@redhat.com,
+ vsementsov@virtuozzo.com, jsnow@redhat.com, hreitz@redhat.com,
+ kwolf@redhat.com, pbonzini@redhat.com
+Subject: [PATCH v6 0/7] trace qmp commands
+Date: Wed, 26 Jan 2022 17:11:23 +0100
+Message-Id: <20220126161130.3240892-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-ClientProxiedBy: FR3P281CA0049.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:4a::22) To AM9PR08MB6737.eurprd08.prod.outlook.com
+ (2603:10a6:20b:304::18)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a2e805a7-80dc-44f0-8c05-08d9e0e688ce
+X-MS-TrafficTypeDiagnostic: PR3PR08MB5868:EE_
+X-Microsoft-Antispam-PRVS: <PR3PR08MB58683CAAE9BFC83192F0428AC1209@PR3PR08MB5868.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:309;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wt+ikIa05+lju/YjNpM+Ul+aljoMIuOIjWkRkl663SsutdN+y5TXFVDcIFSlZBospAhsd9jUJ6HlfBRPseB5a0AnI2OPkCeCPSzcvmmynJkm1sV/hyodO4PuzBAk1gUu9eZjd8QmwT6Jl4O/q0xW+A2OpRahz/IGBAiUH9m/+DYlP0o0JsZwyk+7GhkCxR2TMoodoqgmpqJdbcV1B4yyYQVNCG1ZtGyVm4H8QJdSafjDcvTROg8r2CFb9qmyj9W//hCirlLc2Jwsi39dZjTXsZNs6QuVo9SIuKO/PhC3ntbrUyy8dER14KpeRc9hJO/dCpeglxZY1KLUd95MYgqvY8MRJ0/6VAdzM2JtfDuRcGjuwxd3+/iw/9l/XEvmTUxQk+cPAzlGjaopXLN5ggTIeSnvwfo68vclzdAjK4PupTOeJCSvMl1JCRex7svvMiQqEncy7xjQJT+n41NhTVM9SqpVaEoTU3TNfqIxL/P79XQhOHQX/Kevt8/DPAitVl2G7sowQGtEjxU0mVYY8BmwTrWQ8arCuO84hyvVK/waFunhMgJsS7j2nS4tvOZ63YxRKgLzn1uprdNuM4I3I4aVsE0kPUZuKwY69yc4gfHWB7cNZ8l/ph47M3LoBymUKjRxUinMEMjbELhB6B8Ohh66pD3NzmZ68ovoXjnHGQI4UoC/q4ofvaJBGbWHPQAwUBIHKAeTj8bfkF0fINUWHqzRmg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(316002)(66476007)(83380400001)(8936002)(6916009)(4326008)(8676002)(26005)(38350700002)(86362001)(186003)(38100700002)(1076003)(36756003)(2616005)(6486002)(2906002)(66946007)(6512007)(66556008)(508600001)(6506007)(52116002)(6666004)(5660300002)(20210929001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yMgV34nE2sdbVM4qO2XM5C2c/bz9ubFSnWUDlU4fcvSTvS5XicUAv9kgriO+?=
+ =?us-ascii?Q?m1V6KIszGOXR42bNDnIM10gNctyau1CvXBb6/2iDR7JjHNuN1dMzInp/Joa+?=
+ =?us-ascii?Q?3SBnYZNQ9zxmVpdh3IqaPyAAFsVvGP0t/OKoYowl5LldJJu+1URPN54YDEJ1?=
+ =?us-ascii?Q?KSv9QahzAZLCKoY6Bjr33fc5OBW+HPuRyPuAmZS1f3RRlaJJFahzfEsH/6l7?=
+ =?us-ascii?Q?4FTPIdxEpbBIZysSvwqbhIiOiWdFfilLOejmle0UzVxp5xtsVgvTDxtAPvt/?=
+ =?us-ascii?Q?SwZZVo3BYM4aph98YzIisLeBz2mhJmctrL+2Mq5b1g2K5pQxSXYKrqK8jtcN?=
+ =?us-ascii?Q?yjE7/nFgHGgrTau7VBEhkvO0BqCbcWUGUUa6yIQeClrheIvOuVUfB91jnEis?=
+ =?us-ascii?Q?zwBllPwINXdGfAZhlGq1+n7s5LHx2s/dR5wvcZKSWXdZf8uNGVIxISRu+bMT?=
+ =?us-ascii?Q?TXxG7kU4e4dGM0Z9HITC0fCA4B7zAjAfDrg+UPxzHxpFapRzaCpgu6OFdDmk?=
+ =?us-ascii?Q?yi9zCWB8KKYO0g+6R6a9JTqRGUy+8diYUBZ/lbu4rdhUdc2y7h0jedHJVXa0?=
+ =?us-ascii?Q?YyUMktwRG3b4UXa66vg8LYJK5K1r0yM63ntuRCFbkzs9e7TOKmzBHLb2/ImX?=
+ =?us-ascii?Q?7t87nlRWvgPPUXvM8pu6YN769t5v2VdJJqaOgR3i2GxWZqecgSV+bv2Jiv6T?=
+ =?us-ascii?Q?KaNxjjIulrGiTqsfNg7KnO0ndJY5HqKAA3aSA5alM8w+PN8fZ4uwagpFiPx5?=
+ =?us-ascii?Q?Wx5HeNPnckjQk13wwFxYm0Wk670fZgndHGVle+85pgWt6jvewBQecPNC2PyN?=
+ =?us-ascii?Q?PChjTCmd1qnFb7kQlJbKe6TsCCAShLwQgy+YmmfKj2VCPj48pQWVv3pi/imL?=
+ =?us-ascii?Q?oQ7BWlInbtfj3wytVUiDqH3AEyvc2T1JvWK51aRR1lOEA65QC2Ku+g0fi2kO?=
+ =?us-ascii?Q?pnYPqQ1dX9d/Sfr8LFEbZ8tbvC2zJiRp0pgV6wejt4oThFxglaxHzWxWh4Sc?=
+ =?us-ascii?Q?PhbaiHrIjMfrZXWAEo91mKQmqyIPrgjZaGYqXhukgYfVKQgkvLGfS9i7DyBf?=
+ =?us-ascii?Q?EqKw7A4Rr6kyzf9YeS4eBzzrFA3MvYxd/gS55aLUMnqmUb4Ru1YyolaGbve2?=
+ =?us-ascii?Q?rsw4zfvYkaG1tHIuDiGnyrpCVClbT4XvGHX0qc4ng+UjI4e0TLdvWu0osOA0?=
+ =?us-ascii?Q?Z3pjh1yVeJOA+jWzqQSCUQWFtmO19H7768xN6zfNMNOZ9ay62WaehiTXyew5?=
+ =?us-ascii?Q?8QxI2oomtKrkdR3x2NxdO4uNgDMUqJu2JKzIz3rQH1A3KdHDcX2tdlkXJQaJ?=
+ =?us-ascii?Q?pUwjgeVq+GS0wMsZmfbineLUEIiNOceWPZYMrmnHXF5NLR5tUtk7OJhSL6QY?=
+ =?us-ascii?Q?Ch+MkaHqVR9q5Ibu/KGvWNVlszUZtrm0tXsMTONElG5cDqNVl5oEDeZPgz8E?=
+ =?us-ascii?Q?YJYehVuW/J2YNI4ThB5KD6o1kJlkpebFLS8TIVP5Ally5ZTJqAsU/6JRUzti?=
+ =?us-ascii?Q?i09D6RlLbWkog8Co8QOX5wMT/ky9D4V+4s99bjZbWmpMCAm9eYZapWGxu61O?=
+ =?us-ascii?Q?7JVRi+4/I8u3rN8K2NccGct69KSotELgJSEe4nEP51F+PU9xF9CpQpmmHLkV?=
+ =?us-ascii?Q?hJm+3jZRwGr4nho/K/s3s3plx4/YHZWSyfo/glTU2WlZEDfDklZeshd71PBB?=
+ =?us-ascii?Q?O13ACA=3D=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a2e805a7-80dc-44f0-8c05-08d9e0e688ce
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2022 16:11:39.4785 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rC0kfknC902aOhSM3g4nzjx5RHqD6IEsKwXB2ZylUgSdOzMwDrd8sqX1y7bqkJuBO0T5hFY/BFvqqF3gg6CdZk6++xd3vXeAJtb9lWUrmFM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR08MB5868
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7d00::70c
+ (failed)
+Received-SPF: pass client-ip=2a01:111:f400:7d00::70c;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,205 +137,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- John Snow <jsnow@redhat.com>, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Eduardo Habkost <eduardo@habkost.net>, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21.01.22 18:05, Emanuele Giuseppe Esposito wrote:
-> block_crypto_amend_options_generic_luks uses the block layer
-> permission API, therefore it should be called with the BQL held.
->
-> However, the same function is being called by two BlockDriver
-> callbacks: bdrv_amend_options (under BQL) and bdrv_co_amend (I/O).
->
-> The latter is I/O because it is invoked by block/amend.c's
-> blockdev_amend_run(), a .run callback of the amend JobDriver
->
-> Therefore we want to 1) change block_crypto driver
-> to use the permission API only when the BQL is held, and
-> 2) use the .pre_run JobDriver callback to check for
-> permissions before switching to the job aiocontext. This has also
-> the benefit of applying the same permission operation to all
-> amend implementations, not only luks.
->
-> Remove the permission check in block_crypto_amend_options_generic_luks()
-> and:
-> - Add helper functions block_crypto_amend_options_{prepare/cleanup}
->    that take care of checking permissions in
->    block_crypto_amend_options_luks(), so when it is under BQL, and
->
-> - Use job->pre_run() and job->clean() to do the same thing when
->    we are in an iothread, by performing these checks before the
->    job runs in its aiocontext. So far job->pre_run() is only defined
->    but not called in job_start(), now it is the moment to use it.
->
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->   block/crypto.c | 57 ++++++++++++++++++++++++++++++++------------------
->   job.c          | 13 ++++++++++++
->   2 files changed, 50 insertions(+), 20 deletions(-)
->
-> diff --git a/block/crypto.c b/block/crypto.c
-> index f5e0c7b7c0..bdb4ba5664 100644
-> --- a/block/crypto.c
-> +++ b/block/crypto.c
-> @@ -791,6 +791,28 @@ block_crypto_amend_cleanup(BlockDriverState *bs)
->       crypto->updating_keys = false;
->   }
->   
-> +static int
-> +block_crypto_amend_options_prepare(BlockDriverState *bs,
-> +                                   Error **errp)
-> +{
-> +    BlockCrypto *crypto = bs->opaque;
-> +
-> +    /* apply for exclusive read/write permissions to the underlying file*/
-> +    crypto->updating_keys = true;
-> +    return bdrv_child_refresh_perms(bs, bs->file, errp);
-> +}
-> +
-> +static int
-> +block_crypto_amend_options_cleanup(BlockDriverState *bs,
-> +                                   Error **errp)
-> +{
-> +    BlockCrypto *crypto = bs->opaque;
-> +
-> +    /* release exclusive read/write permissions to the underlying file*/
-> +    crypto->updating_keys = false;
-> +    return bdrv_child_refresh_perms(bs, bs->file, errp);
-> +}
-> +
+This series aims to add trace points for each qmp command with help of
+qapi code generator.
 
-Now that I have this patch applied, it does look like it would be nicer 
-if we could skip adding these functions and just reuse 
-block_crypto_amend_{pre_run,cleanup}() (which would require them to call 
-bdrv_child_refresh_perms()).
+v6:
+01-04,07: add Stefan's r-b
+01: - subject changed
+    - rename:
+       gen_trace_events --> gen_tracing
+       _gen_trace_events --> _gen_tracing
+       _gent() --> _gen_trace_events()
+    - a bit more compact code for gent initializing
+03: - rename:
+       gen_trace_events --> gen_tracing
+       _gen_trace_events --> _gen_tracing
+04: fix --add-trace-events -> --gen-trace in commit message
+05: - drop extra two sentences
+    - reword
+    - add example .trace-events file
+06: reword
+07: rename option to --suppress-tracing
 
->   static int
->   block_crypto_amend_options_generic_luks(BlockDriverState *bs,
->                                           QCryptoBlockAmendOptions *amend_options,
-> @@ -798,30 +820,17 @@ block_crypto_amend_options_generic_luks(BlockDriverState *bs,
->                                           Error **errp)
->   {
->       BlockCrypto *crypto = bs->opaque;
-> -    int ret;
->   
->       assert(crypto);
->       assert(crypto->block);
->   
-> -    /* apply for exclusive read/write permissions to the underlying file*/
-> -    crypto->updating_keys = true;
-> -    ret = bdrv_child_refresh_perms(bs, bs->file, errp);
-> -    if (ret) {
-> -        goto cleanup;
-> -    }
-> -
-> -    ret = qcrypto_block_amend_options(crypto->block,
-> -                                      block_crypto_read_func,
-> -                                      block_crypto_write_func,
-> -                                      bs,
-> -                                      amend_options,
-> -                                      force,
-> -                                      errp);
-> -cleanup:
-> -    /* release exclusive read/write permissions to the underlying file*/
-> -    crypto->updating_keys = false;
-> -    bdrv_child_refresh_perms(bs, bs->file, errp);
-> -    return ret;
-> +    return qcrypto_block_amend_options(crypto->block,
-> +                                       block_crypto_read_func,
-> +                                       block_crypto_write_func,
-> +                                       bs,
-> +                                       amend_options,
-> +                                       force,
-> +                                       errp);
->   }
->   
->   static int
-> @@ -847,8 +856,16 @@ block_crypto_amend_options_luks(BlockDriverState *bs,
->       if (!amend_options) {
->           goto cleanup;
->       }
-> +
-> +    ret = block_crypto_amend_options_prepare(bs, errp);
-> +    if (ret) {
-> +        goto perm_cleanup;
-> +    }
->       ret = block_crypto_amend_options_generic_luks(bs, amend_options,
->                                                     force, errp);
-> +
-> +perm_cleanup:
-> +    block_crypto_amend_options_cleanup(bs, errp);
+Vladimir Sementsov-Ogievskiy (7):
+  qapi/gen: Add FOO.trace-events output module
+  qapi/commands: refactor error handling code
+  qapi/commands: Optionally generate trace for QMP commands
+  meson: generate trace events for qmp commands
+  docs/qapi-code-gen: update to cover trace events code generation
+  meson: document, why we don't generate trace events for tests/ and
+    qga/
+  qapi: generate trace events by default
 
-Uh, pre-existing but still dangerous.  We must not pass @errp here, 
-because it may (and if we come from ..._prepare() failing, s/may/will/) 
-already contain some error, and then, if this fails (which it very 
-likely will not), we will get an assertion failure in error_setv().
+ docs/devel/qapi-code-gen.rst |  25 ++++++++-
+ meson.build                  |   3 ++
+ qapi/meson.build             |   7 +++
+ qga/meson.build              |  10 +++-
+ scripts/qapi/commands.py     | 101 ++++++++++++++++++++++++++++++-----
+ scripts/qapi/gen.py          |  31 +++++++++--
+ scripts/qapi/main.py         |  14 +++--
+ tests/meson.build            |  10 +++-
+ trace/meson.build            |  11 ++--
+ 9 files changed, 185 insertions(+), 27 deletions(-)
 
-We could decide that this must not fail and pass &error_abort (but then 
-block_crypto_amend_options_cleanup() should do that), or we pass some 
-new guaranteed-empty pointer and report it.
-
-In any case, we should probably have 
-block_crypto_amend_options_cleanup() (or block_crypto_amend_cleanup()) 
-handle this and have that function return void and no error, so we don’t 
-have to worry about that here at all.
-
->   cleanup:
->       qapi_free_QCryptoBlockAmendOptions(amend_options);
->       return ret;
-> diff --git a/job.c b/job.c
-> index 39bf511949..cf0dc9325a 100644
-> --- a/job.c
-> +++ b/job.c
-> @@ -967,11 +967,24 @@ static void coroutine_fn job_co_entry(void *opaque)
->       aio_bh_schedule_oneshot(qemu_get_aio_context(), job_exit, job);
->   }
->   
-> +static int job_pre_run(Job *job)
-> +{
-> +    assert(qemu_in_main_thread());
-> +    if (job->driver->pre_run) {
-> +        return job->driver->pre_run(job, &job->err);
-> +    }
-> +
-> +    return 0;
-> +}
-> +
->   void job_start(Job *job)
->   {
->       assert(job && !job_started(job) && job->paused &&
->              job->driver && job->driver->run);
->       job->co = qemu_coroutine_create(job_co_entry, job);
-> +    if (job_pre_run(job)) {
-> +        return;
-
-Do we not need to announce the error somehow?  Like, perhaps 
-job_pre_run() should set job->ret to the value returned by .pre_run() 
-(like job_co_entry() does it for .run()), and then call job_completed() 
-on error (or even job_exit()? I’m not sure :/).
-
-The way it is, it looks like the job will just basically leak on error, 
-and never complete.
-
-Hanna
-
-> +    }
->       job->pause_count--;
->       job->busy = true;
->       job->paused = false;
+-- 
+2.31.1
 
 
