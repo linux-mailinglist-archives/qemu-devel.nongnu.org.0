@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E244149D461
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 22:18:38 +0100 (CET)
-Received: from localhost ([::1]:60396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0306649D465
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 22:20:51 +0100 (CET)
+Received: from localhost ([::1]:36670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCpgc-0002lY-1s
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 16:18:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42086)
+	id 1nCpij-0005ky-Dn
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 16:20:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCpe5-0000B3-WA
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 16:16:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21621)
+ id 1nCpfI-0002L9-N6
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 16:17:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nCpdv-0006Up-Ls
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 16:15:53 -0500
+ id 1nCpfH-0006dr-1j
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 16:17:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643231751;
+ s=mimecast20190719; t=1643231834;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=OJIksz5F5eBFBJyFej53Va9bG/XrJLIdaz0u7gfpqv8=;
- b=Ko2jKOy8/Vg8cr88PcyBxIXfhHeBBsmCpIJlkeoEl27Ib4/Ucn3lLh5VphgiSwCOHZb98J
- tkr3wF640fVeZrUgeNQzutTKsH+x8zKBS5uvFoebFg8jSwMQWpA6hRCr58E6dFi0Js6Wrz
- +dyI1i+/iIFDjJij1S7klyfMTwqUxQc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=OABGlx/Ar9DGzVJHJPrZWY+BDF+rcdIyYq5fU6pHk9w=;
+ b=cQ9n8BqkkQATlxGxbndrDCU51EZZIco8Lga8YmxmVzBni31D90zCqsc0bRukeq/c5YQ+63
+ 8keJA6rXxq3vCIWCdW9fLn9fzr3hDRfH+ngM7YqjIUGfK0iM1oG2OjhXXhlhLEIRcFQ5bk
+ f2Jw9+w61E/Rt0iT7MeWmt7LwolAPvU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-IvwyYpuYND6kZX8FIVlhVA-1; Wed, 26 Jan 2022 16:15:49 -0500
-X-MC-Unique: IvwyYpuYND6kZX8FIVlhVA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- d140-20020a1c1d92000000b0034edefd55caso3120116wmd.4
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 13:15:49 -0800 (PST)
+ us-mta-479-JZQUps0YMuOE_O68SFP1fg-1; Wed, 26 Jan 2022 16:17:13 -0500
+X-MC-Unique: JZQUps0YMuOE_O68SFP1fg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ w7-20020adfbac7000000b001d6f75e4faeso191893wrg.7
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 13:17:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version;
- bh=OJIksz5F5eBFBJyFej53Va9bG/XrJLIdaz0u7gfpqv8=;
- b=p/lBtD+5vOMkWg8Aqx/TdD3g0Ucga36ItyPdNQ6Nn14avzkyRTQ7kAjvnfyBdlRVPB
- HRq25vy1FJOp9h0XA7r8B1augGry79xvcGFAC0DQCrzfs8QgD9/VXlAxF0c8L1Dyfdnm
- 1fu3cDRbuuHrdVaiUlt3nvH3piJet2ETPQlcPuGpOgl+I2ZUVI5z0+6WC17qjVmtzwWv
- E4JvHgbzTu5iuNjJgxVCry2bjVRcIKuxa/c2pXkWYg7xIPYflBBka37ZP9Y+N0t3FuAr
- yqXGMY/ppojb28ZWTDjbiP+Wx8SvoP1rNaO//q/hSOQl/U/QSt57FgOoX7vXB0N2pkrN
- vjFQ==
-X-Gm-Message-State: AOAM530SzNqLzdWWTkjt5wcdYBYy8plwH7tg+Pe6smCVPS3Cly5OYwte
- dQ6I+p+DBlYLVtZhhu0Pjk7RkZd4gXDjpb+RRHpGtyfKILYxOtySLLNC5HfI93JxpwKmFXYCGiJ
- sVuoSoiOc2E/sRj4=
-X-Received: by 2002:adf:ee4b:: with SMTP id w11mr396246wro.248.1643231748574; 
- Wed, 26 Jan 2022 13:15:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzQPWp4aW22rWJ9D8ubQeaeYoOtaqNbXm8P8XOx3cCU32re/gJ3Js0Qn+Cxo3k84FlPQJZcAA==
-X-Received: by 2002:adf:ee4b:: with SMTP id w11mr396234wro.248.1643231748433; 
- Wed, 26 Jan 2022 13:15:48 -0800 (PST)
+ bh=OABGlx/Ar9DGzVJHJPrZWY+BDF+rcdIyYq5fU6pHk9w=;
+ b=ijE2m2yBIKre5l4zT5xODzsoiRvvXqAqgs9kZFUjcRUTjdOiUDNhzJk+aAgIYNOCKr
+ aQLQvKfkXlA9u1x+KFr4Hfn+as6alNliUCojcULppakg0WPIrxb+OP7FAN0Xpf1wU7JY
+ nRefUTZ09tEdVC9zRuuQ4N4FtmhbqU1f9BoWkK2v+npmJzoMjKkWFjt9oRjj7fSn0v0E
+ a+wfYOCTxCDT2vWcQ8M5piFkfjulYC6X3HuuJG7jZgl7Yo+Y18TWrhzHDAvR15zKuzhy
+ FReVNMrZkX/G6BWFWn+0ZKciyzFpxFWLjdIs5AkJymip5A5PLYSbn8LQ0zcHdU1ezQdO
+ 9W3A==
+X-Gm-Message-State: AOAM531exyFeqaOPAvxnlBhJGKqo/Z2WzpHSXMRevWC0la3zDv3BHe/6
+ +JUKrjFdQVbLBBQsMeHGpMUpZoNnnX/TbdYKlSWSH0Ky9bZYiAoNFSYtFOmPpsucGiqmGUZTgHe
+ V+fIOOPkFH+9aRHI=
+X-Received: by 2002:a5d:588e:: with SMTP id n14mr364553wrf.45.1643231832121;
+ Wed, 26 Jan 2022 13:17:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJytSVr/Y57mxKhBJjCgY879+bbhP4PQhx3QiQc3koGC9lg6+v6zRQOYReIzVEfW4prPHhoyFg==
+X-Received: by 2002:a5d:588e:: with SMTP id n14mr364541wrf.45.1643231831928;
+ Wed, 26 Jan 2022 13:17:11 -0800 (PST)
 Received: from localhost ([47.61.17.76])
- by smtp.gmail.com with ESMTPSA id c23sm279628wme.35.2022.01.26.13.15.47
+ by smtp.gmail.com with ESMTPSA id bg23sm406896wmb.5.2022.01.26.13.17.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jan 2022 13:15:48 -0800 (PST)
+ Wed, 26 Jan 2022 13:17:11 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH 4/7] migration: Do chunk page in
- postcopy_each_ram_send_discard()
-In-Reply-To: <20211207115016.73195-5-peterx@redhat.com> (Peter Xu's message of
- "Tue, 7 Dec 2021 19:50:13 +0800")
+Subject: Re: [PATCH 5/7] migration: Drop return code for disgard ram process
+In-Reply-To: <20211207115016.73195-6-peterx@redhat.com> (Peter Xu's message of
+ "Tue, 7 Dec 2021 19:50:14 +0800")
 References: <20211207115016.73195-1-peterx@redhat.com>
- <20211207115016.73195-5-peterx@redhat.com>
+ <20211207115016.73195-6-peterx@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Wed, 26 Jan 2022 22:15:46 +0100
-Message-ID: <87tudqmc59.fsf@secure.mitica>
+Date: Wed, 26 Jan 2022 22:17:10 +0100
+Message-ID: <87pmoemc2x.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
@@ -104,9 +103,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Peter Xu <peterx@redhat.com> wrote:
-> Right now we loop ramblocks for twice, the 1st time chunk the dirty bits with
-> huge page information; the 2nd time we send the discard ranges.  That's not
-> necessary - we can do them in a single loop.
+> It will just never fail.  Drop those return values where they're constantly
+> zeros.
+>
+> A tiny touch-up on the tracepoint so trace_ram_postcopy_send_discard_bitmap()
+> is called after the logic itself (which sounds more reasonable).
 >
 > Signed-off-by: Peter Xu <peterx@redhat.com>
 
