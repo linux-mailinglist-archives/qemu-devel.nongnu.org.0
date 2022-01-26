@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 672CC49D1A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 19:23:39 +0100 (CET)
-Received: from localhost ([::1]:32786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 507C149D171
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 19:09:59 +0100 (CET)
+Received: from localhost ([::1]:35304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCmxG-0003oy-Hb
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 13:23:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53298)
+	id 1nCmk2-0002Wa-2h
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 13:09:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nCmeH-0007Cq-7V
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 13:04:01 -0500
-Received: from [2a00:1450:4864:20::336] (port=51016
- helo=mail-wm1-x336.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nCmgu-0008V3-LH
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 13:06:44 -0500
+Received: from [2a00:1450:4864:20::435] (port=41930
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nCmeD-0001fF-BE
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 13:03:59 -0500
-Received: by mail-wm1-x336.google.com with SMTP id r126so252387wma.0
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 10:03:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nCmgs-0002Es-GQ
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 13:06:44 -0500
+Received: by mail-wr1-x435.google.com with SMTP id h21so431023wrb.8
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 10:06:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=21tbACb1290jtk1zPwZdgD7KgkQFiOrqL1EkpKtXJPk=;
- b=Z83oa0bxNdElHZRS3ouXSWpwMboHgNeKu4ShewRPf1izAW153ZpWwQNiSK/dqgKlkI
- z5EXJIZGLMzNBhKqn5fbAZ0NvEuUYq2BGtZFkewVNMr6lr71X7p1lmkZ9f5t0y3PLZXJ
- f1bjsEX+0g54Ge7R8W6H7D5fmDuc5KiD+pEWSSfirGlvJTop6ghu6tDwCGFZprDo0Ge5
- SLc2uNwxx5T1nzALVztQ95GSe411dFaEHm8vpCdSrDQCSb0h9zn9E8AAbC5GExu8gkfg
- VbfZnzhuOYmfnIN/eAiJhetsWr6+jKi6yDz0WKlw14fkFLOoe1BpPX0Dw13biI9EbNcS
- KjOA==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=SUD15Xe4vNahY/NaTaU1Ia3FZqtSNmlnp2SZLaOHK0A=;
+ b=xihVaJZs0zfPxHjxle5aTU/8wxPT98//QsFZr50nN9txpXQfBuYjEzAKJM8rYEfzNV
+ WbaUwQ6TwoJQB56ABw3y3gptLdmrevFQul2IENyfqtSoaKko7BUXKIkFdIASLYGe3wFK
+ 4qlETbQ7Q2InMFr/ntvJgu+B+ba/1HDumzy4OPxEh0uiTooPne0Hm3Oz5YsPOibw5HTz
+ AimfAljmELGU9toslr4z/vqxLVD/G64S3SAH7APMobFcYGeB6ACiyWUvNMzd4gZT5PWm
+ 5Hhs9BMRaNIdsiL6I8cYehN3ZFdi/johfLvi2PFKirCiBs7490NpcRkYyzh2ZIerqPI2
+ cC/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=21tbACb1290jtk1zPwZdgD7KgkQFiOrqL1EkpKtXJPk=;
- b=8CganBG8RqZxskZs6X0OLRCfr2aZv7Ug2k/tRQJ1R+60fbphBh0D48xT3/mNyin7Vx
- 7+/uy9SDl+Kbw4314hHfm7JyzHHWOhlybKe1wXrAveZFMkNcrWHb7IvvnYidKsv7U8O7
- xtyAXNvthA8Dap6YW4k2Zfr5jK1foT4qvJJBFNkzLD/8f6A1Fi+uuKeFmo9HFPZUhLUg
- vxyh3nmRkKssqr5y2n/vlhAc9DX3QxnYeHLqhhcFTwWLYZ7y2IW+cyiU8SME5QEuwkQq
- 9nvYEgZ9kGeC7MPRag4X+vjCM9bdKOZqT/AS02VpKFaBPM2IlrfXwSUPJ+5iA8lWbUtE
- HzXg==
-X-Gm-Message-State: AOAM532LYtdR+kO9XZib1ym6pR5nKYk7lJjdJjyB4x/rXzQ5AwsDptlR
- 80GeWfVf9n7XvRlZE7voJQyzwRU1MxQbZamKaf9k8g==
-X-Google-Smtp-Source: ABdhPJyGxKWfBmp67mA/ZyEsygTZfShkoknuh5HyYsXHLtigmomTIwc27mK9eWWyIKFInWoUIbieGBx3OZUMrp9/yvI=
-X-Received: by 2002:a1c:a90d:: with SMTP id s13mr95861wme.32.1643220235208;
- Wed, 26 Jan 2022 10:03:55 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=SUD15Xe4vNahY/NaTaU1Ia3FZqtSNmlnp2SZLaOHK0A=;
+ b=1XDRsQzgr/JmG7Urj+T2HchWjJXFSHXLdRoFTfUiZOeKthgcP0LkLeFSV0kvkSQLxM
+ BzocQHjjhB+X4Hok431nl1Y0xa1FPVfOWOf14TvLU3EaAUFe3FZ7Dfi8cwwOyyMtnAos
+ vvsMQPNysKPcuijZ1LwMYFts4Z8ii1KeIf50OpTdlPLioI5L+fQZ3h+rlMRJOAx4WpIs
+ gdr3GaezX7hdmmYdAfYYyQ4WWZzy5QpC0+BamtmL65gKbXJADDwRXDZSVao4oJzTdg35
+ 9YEpegjybMzm8tG5Nl56v3BDY/I8mTDDOu9O9sFIaPfDb97A2LdyGbFmK5u4VF0VsAYQ
+ 7fJw==
+X-Gm-Message-State: AOAM530Lzu9x7fJHiMNI3ZbfDZPnMfe6D69OSSaSSaH/YWRqidan7C1i
+ AjUPcWuotvQp+p5Bzl1wCdFtuQ==
+X-Google-Smtp-Source: ABdhPJyatRU7H8bGEXZUAswGd8tPDe0oTmGX6rXn+8tH/euENSVQS1cpGVIGvxQuTZmOU8igT8vvOA==
+X-Received: by 2002:a5d:6488:: with SMTP id o8mr23375656wri.219.1643220398072; 
+ Wed, 26 Jan 2022 10:06:38 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u14sm20011565wrm.58.2022.01.26.10.06.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Jan 2022 10:06:36 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5F1B51FFB7;
+ Wed, 26 Jan 2022 18:06:36 +0000 (GMT)
+References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
+ <20220124171705.10432-4-Jonathan.Cameron@huawei.com>
+User-agent: mu4e 1.7.6; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v4 03/42] MAINTAINERS: Add entry for Compute Express
+ Link Emulation
+Date: Wed, 26 Jan 2022 18:06:31 +0000
+In-reply-to: <20220124171705.10432-4-Jonathan.Cameron@huawei.com>
+Message-ID: <8735lacqxf.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20220110214755.810343-1-venture@google.com>
- <CAFEAcA8Bki2dpyptkSibz5=t9Fvy-PN8SjD=Z0PwcssX3MprRA@mail.gmail.com>
- <CAFEAcA_OfpMLzG=eUuzw0O_V_cgb57=XADciyfiF7U1mK0FzxQ@mail.gmail.com>
- <CAFtMCFUbBhXMxtc7RN+3OhDtckB+x-HXWbWcmh8AyncnriNFxQ@mail.gmail.com>
-In-Reply-To: <CAFtMCFUbBhXMxtc7RN+3OhDtckB+x-HXWbWcmh8AyncnriNFxQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 26 Jan 2022 18:03:44 +0000
-Message-ID: <CAFEAcA9HckDH_7s5fpnHOBFQBi-fDfnhcrJ0Y9-=uDtj0bwuoQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Adds designware i2c module and adds it to virt arm
-To: Chris Rauer <crauer@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -82,37 +91,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, Patrick Venture <venture@google.com>, qemu-devel@nongnu.org,
- shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, ani@anisinha.ca,
- imammedo@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Ben Widawsky <ben.widawsky@intel.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
+ Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org, linuxarm@huawei.com,
+ Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 Jan 2022 at 17:12, Chris Rauer <crauer@google.com> wrote:
+
+Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+
+> From: Jonathan Cameron <jonathan.cameron@huawei.com>
 >
->> I need to see a pretty strong justification for why we should be
->> adding new kinds of devices to the virt machine,
+> The CXL emulation will be jointly maintained by Ben Widawsky
+> and Jonathan Cameron.  Broken out as a separate patch
+> to improve visibility.
 >
-> The designware i2c controller is a very common controller on many
->  ARM SoCs.  It has device tree bindings and ACPI bindings which
-> makes it ideal for this platform.
+> Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 
-No, I mean, why do we need an i2c controller on the virt
-board at all ?
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-> >Forgot to mention, but my prefered approach for providing
-> >an i2c controller on the virt board would be to have a
-> >PCI i2c controller: that way users who do need it can plug it
-> >in with a -device command line option, and users who don't
-> >need it never have to worry about it.
-
-> > (We seem to have an ICH9-SMB PCI device already; I have no idea if it's suitable.)
-> I didn't find that device suitable because it is part of the Intel
-> Southbridge, which may have some Intel platform quirks, and
-> we don't need all the things in that IO hub.
-
-That's a pity. Is there a different PCI I2C controller we could model ?
-
-thanks
--- PMM
+--=20
+Alex Benn=C3=A9e
 
