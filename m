@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE77B49CBD8
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 15:08:43 +0100 (CET)
-Received: from localhost ([::1]:54236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A98649CC21
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 15:18:02 +0100 (CET)
+Received: from localhost ([::1]:37098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCiyY-0006WX-R8
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 09:08:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41016)
+	id 1nCj7Z-0006Mn-47
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 09:18:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nCits-000426-1G
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 09:03:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23060)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nCiun-0005EB-PK
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 09:04:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49019)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nCitn-0003fl-0C
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 09:03:51 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nCiuk-0003oy-Ra
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 09:04:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643205821;
+ s=mimecast20190719; t=1643205886;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=RdLa1SglU6g1O7WkbhfB1hGmufpIv5qdTEJggwePK2o=;
- b=cx7RXHPwGffaRnixxpibGOBWPomLOuTL9rwKZR+gm+dlyr9y2AHwhJBvXXmqd0KIAIpxa8
- 0nsUR33Bzo981S6/JTzbauRHOwRz05uoL6SY2471dCjyrMFrnfoU+x7Z72IwqJw00gs0Ad
- EvNUmc619zjbDa+P2rZvlLmdRAV65lg=
+ bh=X6awlG9ZtuhVYK5S2uxTdtgOh3NvXjwsG5EGhHg70k8=;
+ b=IjIwIpgKajGqogg8WRxys+YPo9W+UWWUO1g5ImD8KwY2HGfrt8c8/iBSlzu0YZg/8DRDM1
+ 28gF8MZoGdbYg/V6w5fpkk6+/zKq8abkau9i2/mOuispYhMfyxqllwSw/t2IMZDxaLt/ED
+ uOuGSI/Sp4mDmu0AU2V36SgeSvqTygg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-459-G5_4I3yBORGS8aK0Eq30-A-1; Wed, 26 Jan 2022 09:03:38 -0500
-X-MC-Unique: G5_4I3yBORGS8aK0Eq30-A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-470-NOOfaRN5N0euQitcybL-zw-1; Wed, 26 Jan 2022 09:04:40 -0500
+X-MC-Unique: NOOfaRN5N0euQitcybL-zw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FC5D8144E1;
- Wed, 26 Jan 2022 14:03:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D84D824F83;
+ Wed, 26 Jan 2022 14:04:39 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-10.ams2.redhat.com
  [10.36.112.10])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EAA737CAD2;
- Wed, 26 Jan 2022 14:03:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D4767798A4;
+ Wed, 26 Jan 2022 14:04:18 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8628B113864A; Wed, 26 Jan 2022 15:03:35 +0100 (CET)
+ id 7FE2B113864A; Wed, 26 Jan 2022 15:04:17 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v5 3/7] qapi/commands: Optionally generate trace for QMP
- commands
+Subject: Re: [PATCH v5 6/7] meson: document, why we don't generate trace
+ events for tests/ and qga/
 References: <20220125215655.3111881-1-vsementsov@virtuozzo.com>
- <20220125215655.3111881-4-vsementsov@virtuozzo.com>
-Date: Wed, 26 Jan 2022 15:03:35 +0100
-In-Reply-To: <20220125215655.3111881-4-vsementsov@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Tue, 25 Jan 2022 22:56:51 +0100")
-Message-ID: <87o83ytwzs.fsf@dusky.pond.sub.org>
+ <20220125215655.3111881-7-vsementsov@virtuozzo.com>
+Date: Wed, 26 Jan 2022 15:04:17 +0100
+In-Reply-To: <20220125215655.3111881-7-vsementsov@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Tue, 25 Jan 2022 22:56:54 +0100")
+Message-ID: <87mtjitwym.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -89,234 +89,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-> Add trace generation disabled by default and new option --gen-trace to
-> enable it.  The next commit will enable it for qapi/, but not for qga/
-> and tests/.  Making it work for the latter two would involve some Meson
-> hackery to ensure we generate the trace-events files before trace-tool
-> uses them.  Since we don't actually support tracing there, we'll bypass
-> that problem.
+> Making trace generation work for tests/ and qga/ would involve some
+> Meson hackery to ensure we generate the trace-events files before
+> trace-tool uses them. Since we don't actually support tracing there
+> anyway, we bypass that problem.
+>
+> Let's add corresponding comments.
 >
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  scripts/qapi/commands.py | 91 +++++++++++++++++++++++++++++++++++-----
->  scripts/qapi/main.py     | 10 +++--
->  2 files changed, 87 insertions(+), 14 deletions(-)
+>  qga/meson.build   | 8 ++++++++
+>  tests/meson.build | 8 ++++++++
+>  2 files changed, 16 insertions(+)
 >
-> diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-> index 17e5ed2414..0c171cb880 100644
-> --- a/scripts/qapi/commands.py
-> +++ b/scripts/qapi/commands.py
-> @@ -53,7 +53,8 @@ def gen_command_decl(name: str,
->  def gen_call(name: str,
->               arg_type: Optional[QAPISchemaObjectType],
->               boxed: bool,
-> -             ret_type: Optional[QAPISchemaType]) -> str:
-> +             ret_type: Optional[QAPISchemaType],
-> +             gen_trace_events: bool) -> str:
->      ret = ''
+> diff --git a/qga/meson.build b/qga/meson.build
+> index cfb1fbc085..79fcf91751 100644
+> --- a/qga/meson.build
+> +++ b/qga/meson.build
+> @@ -15,6 +15,14 @@ qga_qapi_outputs = [
+>    'qga-qapi-visit.h',
+>  ]
 >  
->      argstr = ''
-> @@ -71,14 +72,37 @@ def gen_call(name: str,
->      if ret_type:
->          lhs = 'retval = '
->  
-> -    ret = mcgen('''
-> +    name = c_name(name)
-> +    upper = name.upper()
->  
-> -    %(lhs)sqmp_%(c_name)s(%(args)s&err);
-> +    if gen_trace_events:
-> +        ret += mcgen('''
-> +
-> +    if (trace_event_get_state_backends(TRACE_QMP_ENTER_%(upper)s)) {
-> +        g_autoptr(GString) req_json = qobject_to_json(QOBJECT(args));
-> +
-> +        trace_qmp_enter_%(name)s(req_json->str);
-> +    }
-> +    ''',
-> +                     upper=upper, name=name)
-> +
-> +    ret += mcgen('''
-> +
-> +    %(lhs)sqmp_%(name)s(%(args)s&err);
->  ''',
-> -                c_name=c_name(name), args=argstr, lhs=lhs)
-> +                 name=name, args=argstr, lhs=lhs)
->  
->      ret += mcgen('''
->      if (err) {
-> +''')
-> +
-> +    if gen_trace_events:
-> +        ret += mcgen('''
-> +        trace_qmp_exit_%(name)s(error_get_pretty(err), false);
-> +''',
-> +                     name=name)
-> +
-> +    ret += mcgen('''
->          error_propagate(errp, err);
->          goto out;
->      }
-> @@ -90,6 +114,25 @@ def gen_call(name: str,
->      qmp_marshal_output_%(c_name)s(retval, ret, errp);
->  ''',
->                       c_name=ret_type.c_name())
-> +
-> +    if gen_trace_events:
-> +        if ret_type:
-> +            ret += mcgen('''
-> +
-> +    if (trace_event_get_state_backends(TRACE_QMP_EXIT_%(upper)s)) {
-> +        g_autoptr(GString) ret_json = qobject_to_json(*ret);
-> +
-> +        trace_qmp_exit_%(name)s(ret_json->str, true);
-> +    }
-> +    ''',
-> +                         upper=upper, name=name)
-> +        else:
-> +            ret += mcgen('''
-> +
-> +    trace_qmp_exit_%(name)s("{}", true);
-> +    ''',
-> +                         name=name)
-> +
->      return ret
->  
->  
-> @@ -126,10 +169,19 @@ def gen_marshal_decl(name: str) -> str:
->                   proto=build_marshal_proto(name))
->  
->  
-> +def gen_trace(name: str) -> str:
-> +    return mcgen('''
-> +qmp_enter_%(name)s(const char *json) "%%s"
-> +qmp_exit_%(name)s(const char *result, bool succeeded) "%%s %%d"
-> +''',
-> +                 name=c_name(name))
-> +
-> +
->  def gen_marshal(name: str,
->                  arg_type: Optional[QAPISchemaObjectType],
->                  boxed: bool,
-> -                ret_type: Optional[QAPISchemaType]) -> str:
-> +                ret_type: Optional[QAPISchemaType],
-> +                gen_trace_events: bool) -> str:
->      have_args = boxed or (arg_type and not arg_type.is_empty())
->      if have_args:
->          assert arg_type is not None
-> @@ -184,7 +236,7 @@ def gen_marshal(name: str,
->      }
->  ''')
->  
-> -    ret += gen_call(name, arg_type, boxed, ret_type)
-> +    ret += gen_call(name, arg_type, boxed, ret_type, gen_trace_events)
->  
->      ret += mcgen('''
->  
-> @@ -242,11 +294,13 @@ def gen_register_command(name: str,
->  
->  
->  class QAPISchemaGenCommandVisitor(QAPISchemaModularCVisitor):
-> -    def __init__(self, prefix: str):
-> +    def __init__(self, prefix: str, gen_trace_events: bool):
->          super().__init__(
->              prefix, 'qapi-commands',
-> -            ' * Schema-defined QAPI/QMP commands', None, __doc__)
-> +            ' * Schema-defined QAPI/QMP commands', None, __doc__,
-> +            gen_trace_events=gen_trace_events)
->          self._visited_ret_types: Dict[QAPIGenC, Set[QAPISchemaType]] = {}
-> +        self._gen_trace_events = gen_trace_events
->  
->      def _begin_user_module(self, name: str) -> None:
->          self._visited_ret_types[self._genc] = set()
-> @@ -265,6 +319,17 @@ def _begin_user_module(self, name: str) -> None:
->  
->  ''',
->                               commands=commands, visit=visit))
-> +
-> +        if self._gen_trace_events and commands != 'qapi-commands':
-> +            self._genc.add(mcgen('''
-> +#include "trace/trace-qapi.h"
-> +#include "qapi/qmp/qjson.h"
-> +#include "trace/trace-%(nm)s_trace_events.h"
-> +''',
-> +                                 nm=c_name(commands, protect=False)))
-> +            # We use c_name(commands, protect=False) to turn '-' into '_', to
-> +            # match .underscorify() in trace/meson.build
-> +
->          self._genh.add(mcgen('''
->  #include "%(types)s.h"
->  
-> @@ -326,7 +391,10 @@ def visit_command(self,
->          with ifcontext(ifcond, self._genh, self._genc):
->              self._genh.add(gen_command_decl(name, arg_type, boxed, ret_type))
->              self._genh.add(gen_marshal_decl(name))
-> -            self._genc.add(gen_marshal(name, arg_type, boxed, ret_type))
-> +            self._genc.add(gen_marshal(name, arg_type, boxed, ret_type,
-> +                                       self._gen_trace_events))
-> +            if self._gen_trace_events:
-> +                self._gent.add(gen_trace(name))
->          with self._temp_module('./init'):
->              with ifcontext(ifcond, self._genh, self._genc):
->                  self._genc.add(gen_register_command(
-> @@ -336,7 +404,8 @@ def visit_command(self,
->  
->  def gen_commands(schema: QAPISchema,
->                   output_dir: str,
-> -                 prefix: str) -> None:
-> -    vis = QAPISchemaGenCommandVisitor(prefix)
-> +                 prefix: str,
-> +                 gen_trace_events: bool) -> None:
-> +    vis = QAPISchemaGenCommandVisitor(prefix, gen_trace_events)
->      schema.visit(vis)
->      vis.write(output_dir)
-> diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
-> index f2ea6e0ce4..ecff41910c 100644
-> --- a/scripts/qapi/main.py
-> +++ b/scripts/qapi/main.py
-> @@ -32,7 +32,8 @@ def generate(schema_file: str,
->               output_dir: str,
->               prefix: str,
->               unmask: bool = False,
-> -             builtins: bool = False) -> None:
-> +             builtins: bool = False,
-> +             gen_trace_events: bool = False) -> None:
->      """
->      Generate C code for the given schema into the target directory.
->  
-> @@ -49,7 +50,7 @@ def generate(schema_file: str,
->      schema = QAPISchema(schema_file)
->      gen_types(schema, output_dir, prefix, builtins)
->      gen_visit(schema, output_dir, prefix, builtins)
-> -    gen_commands(schema, output_dir, prefix)
-> +    gen_commands(schema, output_dir, prefix, gen_trace_events)
->      gen_events(schema, output_dir, prefix)
->      gen_introspect(schema, output_dir, prefix, unmask)
->  
-> @@ -74,6 +75,8 @@ def main() -> int:
->      parser.add_argument('-u', '--unmask-non-abi-names', action='store_true',
->                          dest='unmask',
->                          help="expose non-ABI names in introspection")
+> +# We don't generate trace-events, just because it's not simple. For do it,
+> +# we also should add .trace-events file into qga_qapi_outputs, and than
+> +# add corresponding element of qga_qapi_files into qapi_trace_events
+> +# global list, which is processed than in trace/meson.build.
+> +# This means, that we'll have to move subdir('qga') above subdir('trace')
+> +# in root meson.build. But that in turn will break the dependency of
+> +# qga on qemuutil (which depends on trace_ss).
+> +# So, resolving these dependencies and drop --no-trace-events is a TODO.
 
-Let's add
+The option is still called --gen-trace at this point.  Easy fix: squash
+into the next commit.
 
-       # Option --gen-trace exists so we can avoid solving build system
-       # problems.  TODO Drop it when we no longer need it.
+Suggest
 
-> +    parser.add_argument('--gen-trace', action='store_true',
-> +                        help="add trace events to qmp marshals")
->      parser.add_argument('schema', action='store')
->      args = parser.parse_args()
+   # Problem: to generate trace events, we'd have to add the .trace-events
+   # file to qapi_trace_events like we do in qapi/meson.build.  Since
+   # qapi_trace_events is used by trace/meson.build, we'd have to move
+   # subdir('qga') above subdir('trace') in the top-level meson.build.
+   # Can't, because it would break the dependency of qga on qemuutil (which
+   # depends on trace_ss).  Not worth solving now; simply suppress trace
+   # event generation instead.
+
+>  qga_qapi_files = custom_target('QGA QAPI files',
+>                                 output: qga_qapi_outputs,
+>                                 input: 'qapi-schema.json',
+> diff --git a/tests/meson.build b/tests/meson.build
+> index 3f3882748a..21857d8b01 100644
+> --- a/tests/meson.build
+> +++ b/tests/meson.build
+> @@ -31,6 +31,14 @@ test_qapi_outputs = [
+>    'test-qapi-visit.h',
+>  ]
 >  
-> @@ -88,7 +91,8 @@ def main() -> int:
->                   output_dir=args.output_dir,
->                   prefix=args.prefix,
->                   unmask=args.unmask,
-> -                 builtins=args.builtins)
-> +                 builtins=args.builtins,
-> +                 gen_trace_events=args.gen_trace)
->      except QAPIError as err:
->          print(f"{sys.argv[0]}: {str(err)}", file=sys.stderr)
->          return 1
+> +# We don't generate trace-events, just because it's not simple. For do it,
+> +# we also should add .trace-events file into test_qapi_outputs, and than
+> +# add corresponding element of test_qapi_files into qapi_trace_events
+> +# global list, which is processed than in trace/meson.build.
+> +# This means, that we'll have to move subdir('tests') above subdir('trace')
+> +# in root meson.build. But that in turn will break the dependency of
+> +# tests on qemuutil (which depends on trace_ss).
+> +# So, resolving these dependencies and drop --no-trace-events is a TODO.
+>  test_qapi_files = custom_target('Test QAPI files',
+>                                  output: test_qapi_outputs,
+>                                  input: files('qapi-schema/qapi-schema-test.json',
+
+Likewise.
 
 
