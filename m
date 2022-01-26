@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1439B49D260
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 20:13:50 +0100 (CET)
-Received: from localhost ([::1]:40728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D7249D25D
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 20:12:18 +0100 (CET)
+Received: from localhost ([::1]:38068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCnjp-0005j9-63
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 14:13:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40116)
+	id 1nCniI-0003h3-Mk
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 14:12:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1nCnbF-00009y-Lg
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 14:04:57 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:50232)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1nCnde-0001Px-UV
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 14:07:27 -0500
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:50234)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1nCnbD-0002ua-3B
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 14:04:57 -0500
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1nCndd-0003U4-EZ
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 14:07:26 -0500
 Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id E415DC60912;
- Wed, 26 Jan 2022 20:04:50 +0100 (CET)
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 5741FC60912;
+ Wed, 26 Jan 2022 20:07:23 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1643223890;
+ t=1643224043;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=zaXUWsO/xoxgRsM55cRiSGXU7nkjuV6MNiLiyDpkaN4=;
- b=cFnGZVti/FH83KuCtaLar1KJC7scYqwKSvUWG4p3DW2J44MwvDu3kNiB+t1g3kz/6N/cBa
- H61XRNoWhba3tua5zBYVhn/He54FucFxUmCKZCwyOUYynCpdFCQmrJeNCcqmiRnXB9T7Ll
- xtTSZ1xhPCZQP6rBIrVm5tWyllZQ/BxblqQdk1rUPBCxvvbsLvwFh0GgPaLDyuy7fjVp2b
- NzVn1nZmtrRwOdGaNCLfzA7rQXW1TZDWHIAu50jx/K8swtqqOcyNhIlze7KJcNNnnp1PRt
- WlwWG/VcrL1WLdKSDOqUn+GrDS9yFI14za9Qorg+boZ8yI+hgL+8DPmWqZ9mOQ==
-Date: Wed, 26 Jan 2022 20:04:50 +0100
+ bh=CRJXzvUrvPNIKpSBEDqh4kXPc6OaPIUiMEgFuFEpzoM=;
+ b=ChpKkdmUl9POfekXd+Zyr83+bDcvJRz3SnL213sDD4LS/vL+YKjLy1MJonB0zytiF3XWbw
+ 4jZVk1eRXgT9HZkC7TJcVO+9/0fVgn0poXTWBD9dKoE52kw70P/FL6fQlj5eEMqd4lnYab
+ cNAXR8tLEFXWRXijrIh1vgRoTy6Uv75asZZbQZQrqzZgwnQU+da7NfZsvYHilKvuHlpODJ
+ HfCZTrC0UcDBCc6tYBfpbi6bzXK+eoQ6huStKKO2zqB+NHndeebsLkM0HYZxNR9Y0JlCX0
+ VWRQzJCFy54VKHubNM+vOL+TuuWHhxXaBP1VYSPwvP+adP0VWCyvXnqMTlr/GA==
+Date: Wed, 26 Jan 2022 20:07:23 +0100
 From: Luc Michel <luc@lmichel.fr>
 To: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Subject: Re: [PATCH v7 05/10] hw/dma/xlnx_csu_dma: Support starting a read
- transfer through a class method
-Message-ID: <YfGbUktBqo6Y8CFo@sekoia-pc.home.lmichel.fr>
+Subject: Re: [PATCH v7 06/10] hw/ssi: Add a model of Xilinx Versal's OSPI
+ flash memory controller
+Message-ID: <YfGb6+XgoWaGuHKG@sekoia-pc.home.lmichel.fr>
 References: <20220121161141.14389-1-francisco.iglesias@xilinx.com>
- <20220121161141.14389-6-francisco.iglesias@xilinx.com>
+ <20220121161141.14389-7-francisco.iglesias@xilinx.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220121161141.14389-6-francisco.iglesias@xilinx.com>
+In-Reply-To: <20220121161141.14389-7-francisco.iglesias@xilinx.com>
 Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
  helo=pharaoh.lmichel.fr
 X-Spam_score_int: -20
@@ -69,104 +69,39 @@ Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Francisco,
+
 On 16:11 Fri 21 Jan     , Francisco Iglesias wrote:
-> An option on real hardware when embedding a DMA engine into a peripheral
-> is to make the peripheral control the engine through a custom DMA control
-> (hardware) interface between the two. Software drivers in this scenario
-> configure and trigger DMA operations through the controlling peripheral's
-> register API (for example, writing a specific bit in a register could
-> propagate down to a transfer start signal on the DMA control interface).
-> At the same time the status, results and interrupts for the transfer might
-> still be intended to be read and caught through the DMA engine's register
-> API (and signals).
-> 
-> This patch adds a class 'read' method for allowing to start read transfers
-> from peripherals embedding and controlling the Xilinx CSU DMA engine as in
-> above scenario.
+> Add a model of Xilinx Versal's OSPI flash memory controller.
 > 
 > Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
+> ---
+>  include/hw/ssi/xlnx-versal-ospi.h |  111 +++
+>  hw/ssi/xlnx-versal-ospi.c         | 1853 +++++++++++++++++++++++++++++++++++++
+>  hw/ssi/meson.build                |    1 +
+>  3 files changed, 1965 insertions(+)
+>  create mode 100644 include/hw/ssi/xlnx-versal-ospi.h
+>  create mode 100644 hw/ssi/xlnx-versal-ospi.c
+> 
+> diff --git a/include/hw/ssi/xlnx-versal-ospi.h b/include/hw/ssi/xlnx-versal-ospi.h
+> new file mode 100644
+> index 0000000000..14d1263497
+> --- /dev/null
+> +++ b/include/hw/ssi/xlnx-versal-ospi.h
+> @@ -0,0 +1,111 @@
+
+[snip]
+
+> +static void ospi_ahb_decoder_enable_cs(XlnxVersalOspi *s, hwaddr addr)
+> +{
+> +    int cs = ospi_ahb_decoder_cs(s, addr);
+> +
+> +    if (cs >= 0) {
+> +        for (int i = 0; i < s->num_cs; i++) {
+> +                qemu_set_irq(s->cs_lines[i], cs != i);
+If you re-send a series, indent is off here.
+
+Otherwise:
 
 Reviewed-by: Luc Michel <luc@lmichel.fr>
-
-> ---
->  include/hw/dma/xlnx_csu_dma.h | 19 +++++++++++++++++--
->  hw/dma/xlnx_csu_dma.c         | 17 +++++++++++++++++
->  2 files changed, 34 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/hw/dma/xlnx_csu_dma.h b/include/hw/dma/xlnx_csu_dma.h
-> index 28806628b1..922ab80eb6 100644
-> --- a/include/hw/dma/xlnx_csu_dma.h
-> +++ b/include/hw/dma/xlnx_csu_dma.h
-> @@ -51,7 +51,22 @@ typedef struct XlnxCSUDMA {
->      RegisterInfo regs_info[XLNX_CSU_DMA_R_MAX];
->  } XlnxCSUDMA;
->  
-> -#define XLNX_CSU_DMA(obj) \
-> -    OBJECT_CHECK(XlnxCSUDMA, (obj), TYPE_XLNX_CSU_DMA)
-> +OBJECT_DECLARE_TYPE(XlnxCSUDMA, XlnxCSUDMAClass, XLNX_CSU_DMA)
-> +
-> +struct XlnxCSUDMAClass {
-> +    SysBusDeviceClass parent_class;
-> +
-> +    /*
-> +     * read: Start a read transfer on a Xilinx CSU DMA engine
-> +     *
-> +     * @s: the Xilinx CSU DMA engine to start the transfer on
-> +     * @addr: the address to read
-> +     * @len: the number of bytes to read at 'addr'
-> +     *
-> +     * @return a MemTxResult indicating whether the operation succeeded ('len'
-> +     * bytes were read) or failed.
-> +     */
-> +    MemTxResult (*read)(XlnxCSUDMA *s, hwaddr addr, uint32_t len);
-> +};
->  
->  #endif
-> diff --git a/hw/dma/xlnx_csu_dma.c b/hw/dma/xlnx_csu_dma.c
-> index 896bb3574d..095f954476 100644
-> --- a/hw/dma/xlnx_csu_dma.c
-> +++ b/hw/dma/xlnx_csu_dma.c
-> @@ -472,6 +472,20 @@ static uint64_t addr_msb_pre_write(RegisterInfo *reg, uint64_t val)
->      return val & R_ADDR_MSB_ADDR_MSB_MASK;
->  }
->  
-> +static MemTxResult xlnx_csu_dma_class_read(XlnxCSUDMA *s, hwaddr addr,
-> +                                           uint32_t len)
-> +{
-> +    RegisterInfo *reg = &s->regs_info[R_SIZE];
-> +    uint64_t we = MAKE_64BIT_MASK(0, 4 * 8);
-> +
-> +    s->regs[R_ADDR] = addr;
-> +    s->regs[R_ADDR_MSB] = (uint64_t)addr >> 32;
-> +
-> +    register_write(reg, len, we, object_get_typename(OBJECT(s)), false);
-> +
-> +    return (s->regs[R_SIZE] == 0) ? MEMTX_OK : MEMTX_ERROR;
-> +}
-> +
->  static const RegisterAccessInfo *xlnx_csu_dma_regs_info[] = {
->  #define DMACH_REGINFO(NAME, snd)                                              \
->      (const RegisterAccessInfo []) {                                           \
-> @@ -696,6 +710,7 @@ static void xlnx_csu_dma_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
->      StreamSinkClass *ssc = STREAM_SINK_CLASS(klass);
-> +    XlnxCSUDMAClass *xcdc = XLNX_CSU_DMA_CLASS(klass);
->  
->      dc->reset = xlnx_csu_dma_reset;
->      dc->realize = xlnx_csu_dma_realize;
-> @@ -704,6 +719,8 @@ static void xlnx_csu_dma_class_init(ObjectClass *klass, void *data)
->  
->      ssc->push = xlnx_csu_dma_stream_push;
->      ssc->can_push = xlnx_csu_dma_stream_can_push;
-> +
-> +    xcdc->read = xlnx_csu_dma_class_read;
->  }
->  
->  static void xlnx_csu_dma_init(Object *obj)
-> -- 
-> 2.11.0
-> 
-
--- 
 
