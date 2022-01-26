@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C01449C663
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 10:37:32 +0100 (CET)
-Received: from localhost ([::1]:49776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2148449C664
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 10:37:34 +0100 (CET)
+Received: from localhost ([::1]:49906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCek6-0001sz-SO
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 04:37:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33786)
+	id 1nCek9-0001zt-4F
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 04:37:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nCefj-00068C-N2
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 04:32:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57860)
+ id 1nCeiU-0000WP-NZ
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 04:35:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nCefh-0001kX-Uo
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 04:32:59 -0500
+ id 1nCeiP-0002OU-Ep
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 04:35:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643189577;
+ s=mimecast20190719; t=1643189741;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=9BK/xR/ogslsVnba4CSTCCFrebTZB50VeiJ9i0drpJc=;
- b=KJkVwr1ke0ONvDTRiM70DnJ46X7yPrFSlU7SKUv9yMjHsdQdC2LSavcqTunUEkLts+YVay
- uWBogG9b6rrgCLpIWijObfJYV/WB8u1w4FgEf1hjScn18oT8KtvDdz7zX2mOQj6W8oY0YL
- tOCPQUqaRiCzyUUiX030eXRojEvNEzU=
+ bh=VRHfWYEgFeF2hEg2jYjLzqPI6HlIBqlqYKpjMTj5wZE=;
+ b=TDB3SWDp/rNvX7HY7HSpTIoz+HmVT7HlHjy+pRGHlWblcWv9JLiJW5CshbObSC2vVH5dQQ
+ LmESKG0UknS1t+0rP+diVyvEtf5qYUs+bXvVBN8o+HDBGXhyURAw0TecKkgEcwjKv8zpxr
+ RFhkh3CP1aeCFASz7B4JNESEToJ69HY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-451-_eW_FKhYNimPJzo0s0tlGA-1; Wed, 26 Jan 2022 04:32:53 -0500
-X-MC-Unique: _eW_FKhYNimPJzo0s0tlGA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-270-YpwduQwPNd-_GxePed_zcQ-1; Wed, 26 Jan 2022 04:35:37 -0500
+X-MC-Unique: YpwduQwPNd-_GxePed_zcQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C596B1966328;
- Wed, 26 Jan 2022 09:32:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E32BC8143F2;
+ Wed, 26 Jan 2022 09:35:35 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 625946ABBC;
- Wed, 26 Jan 2022 09:32:41 +0000 (UTC)
-Date: Wed, 26 Jan 2022 09:32:40 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E75204EC89;
+ Wed, 26 Jan 2022 09:35:15 +0000 (UTC)
+Date: Wed, 26 Jan 2022 09:35:14 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Jag Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v5 05/18] qdev: unplug blocker for devices
-Message-ID: <YfEVOKTeMgaD/Nh1@stefanha-x1.localdomain>
+Subject: Re: [PATCH v5 06/18] vfio-user: add HotplugHandler for remote machine
+Message-ID: <YfEV0kh8uyy3MU8V@stefanha-x1.localdomain>
 References: <cover.1642626515.git.jag.raman@oracle.com>
- <5ad3f47f9ed507211fa8db5b8c36b9d32413bbbb.1642626515.git.jag.raman@oracle.com>
- <Ye/Qe86YifZB/AiD@stefanha-x1.localdomain>
- <4B7C4ECE-8A8B-486B-A66A-983FDD2D6223@oracle.com>
+ <fa3282607f7fed7736bfdf3c1ae9f7fce466ed44.1642626515.git.jag.raman@oracle.com>
+ <Ye/Rz1bHJN2m9vCo@stefanha-x1.localdomain>
+ <A037BABE-9424-4EBF-A1E2-F712DC8A89CC@oracle.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="IlQOg9LA1bsThMIY"
+ protocol="application/pgp-signature"; boundary="VeZEeh8bwV4Q0ppo"
 Content-Disposition: inline
-In-Reply-To: <4B7C4ECE-8A8B-486B-A66A-983FDD2D6223@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <A037BABE-9424-4EBF-A1E2-F712DC8A89CC@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -96,124 +96,76 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---IlQOg9LA1bsThMIY
+--VeZEeh8bwV4Q0ppo
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 25, 2022 at 02:43:33PM +0000, Jag Raman wrote:
+On Tue, Jan 25, 2022 at 06:12:48PM +0000, Jag Raman wrote:
 >=20
 >=20
-> > On Jan 25, 2022, at 5:27 AM, Stefan Hajnoczi <stefanha@redhat.com> wrot=
+> > On Jan 25, 2022, at 5:32 AM, Stefan Hajnoczi <stefanha@redhat.com> wrot=
 e:
 > >=20
-> > On Wed, Jan 19, 2022 at 04:41:54PM -0500, Jagannathan Raman wrote:
+> > On Wed, Jan 19, 2022 at 04:41:55PM -0500, Jagannathan Raman wrote:
+> >> Allow hotplugging of PCI(e) devices to remote machine
+> >>=20
 > >> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 > >> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 > >> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 > >> ---
-> >> include/hw/qdev-core.h |  5 +++++
-> >> softmmu/qdev-monitor.c | 35 +++++++++++++++++++++++++++++++++++
-> >> 2 files changed, 40 insertions(+)
-> >>=20
-> >> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> >> index eed2983072..67df5e0081 100644
-> >> --- a/include/hw/qdev-core.h
-> >> +++ b/include/hw/qdev-core.h
-> >> @@ -193,6 +193,7 @@ struct DeviceState {
-> >>     int instance_id_alias;
-> >>     int alias_required_for_version;
-> >>     ResettableState reset;
-> >> +    GSList *unplug_blockers;
-> >> };
-> >>=20
-> >> struct DeviceListener {
-> >> @@ -433,6 +434,10 @@ typedef bool (QDevPutBusFunc)(BusState *bus, Erro=
-r **errp);
-> >> bool qdev_set_bus_cbs(QDevGetBusFunc *get_bus, QDevPutBusFunc *put_bus,
-> >>                       Error **errp);
-> >>=20
-> >> +int qdev_add_unplug_blocker(DeviceState *dev, Error *reason, Error **=
-errp);
-> >> +void qdev_del_unplug_blocker(DeviceState *dev, Error *reason);
-> >> +bool qdev_unplug_blocked(DeviceState *dev, Error **errp);
-> >> +
-> >> /**
-> >>  * GpioPolarity: Polarity of a GPIO line
-> >>  *
-> >> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-> >> index 7306074019..1a169f89a2 100644
-> >> --- a/softmmu/qdev-monitor.c
-> >> +++ b/softmmu/qdev-monitor.c
-> >> @@ -978,10 +978,45 @@ void qmp_device_del(const char *id, Error **errp)
-> >>             return;
-> >>         }
-> >>=20
-> >> +        if (qdev_unplug_blocked(dev, errp)) {
-> >> +            return;
-> >> +        }
-> >> +
-> >>         qdev_unplug(dev, errp);
-> >>     }
-> >> }
-> >>=20
-> >> +int qdev_add_unplug_blocker(DeviceState *dev, Error *reason, Error **=
-errp)
-> >> +{
-> >> +    ERRP_GUARD();
-> >> +
-> >> +    if (!migration_is_idle()) {
-> >> +        error_setg(errp, "migration is in progress");
-> >> +        return -EBUSY;
-> >> +    }
+> >> hw/remote/machine.c | 29 +++++++++++++++++++++++++++++
+> >> 1 file changed, 29 insertions(+)
 > >=20
-> > Why can this function not be called during migration?
+> > Why is this code necessary? I expected the default hotplug behavior to
 >=20
-> Since =E2=80=98unplug_blockers' is a member of the device, I thought it w=
-ouldn=E2=80=99t be correct to
-> allow changes to the device's state during migration.
+> I just discovered that TYPE_REMOTE_MACHINE wasn't setting up a hotplug
+> handler for the root PCI bus.
 >=20
-> I did weigh the following reasons against adding this check:
->   - unplug_blockers is not migrated to the destination anyway, so it does=
-n=E2=80=99t matter if
->     it changes after migration starts
+> Looks like, some of the machines don=E2=80=99t support hotplugging PCI de=
+vices. I see
+> that the =E2=80=98pc=E2=80=99 machine does support hotplug, whereas =E2=
+=80=98q35=E2=80=99 does not.
 
-Yes.
+Hotplug is definitely possible with q35. I'm not familiar with the
+hotplug code though so I don't know how exactly that works for q35.
 
->   - whichever code/object that needs to add the blocker could add it at t=
-he destination
->     if needed
-
-Yes.
-
-> However, unlike qmp_device_add(), qmp_object_add() doesn=E2=80=99t reject=
- during
-> migration. As such, an object could add a blocker for the device when mig=
-ration is
-> in progress.
+> We didn=E2=80=99t check hotplug in multiprocess-qemu previously because i=
+t was limited
+> to one device per process, and the use cases attached the devices via
+> command line.
 >=20
-> Would you prefer to throw a warning, or fully remove this test?
+> > pretty much handle this case - hotplugging device types that the bus
+> > doesn't support should fail and unplug should already unparent/unrealize
+> > the device.
+>=20
+> OK, that makes sense. We don=E2=80=99t need to test the device type during
+> plug and unplug.
+>=20
+> Therefore, I don=E2=80=99t think we need a callback for the plug operatio=
+n. We
+> could set HotplugHandlerClass->unplug callback to the default
+> qdev_simple_device_unplug_cb() callback.
 
-Adding an unplug blocker during migration seems safe to me. I would
-remove this test.
+Great!
 
 Stefan
 
---IlQOg9LA1bsThMIY
+--VeZEeh8bwV4Q0ppo
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHxFTcACgkQnKSrs4Gr
-c8gLhgf+LeZzTuiTSngKivzAkGXMsyW35hS6xLRR3LMXLkQX5MHYsvHXIj2pzm0v
-SZ1Zv1HVnI2c9Q9L+AJC+5hjvhgWTkEx3b2Qjr7+Sh8r0O8Qylu/SBZTqvnVkt/1
-GK45hikW3pKuYsr1dtae9+ku65jQd+EBTfLK9+mW9r1dgpaXfBNDLf5pbM/t3f3o
-BBvEhoBsZmnr0wDV9OrC3QUKap42jAbXUyUisD/rBxAAul19qHKiKcjGV4Rw1tdc
-okbDAMEE3N1KRtG2xjGIWVoYgdk4tojRBMs7wgQAL4683GzJOsIjK9a1C+IfqJha
-xrbW7kK68KETcpiMGGpYOQJopaI35w==
-=QA/T
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHxFdIACgkQnKSrs4Gr
+c8iQyAf/XR7GH2zrTEmJqV2v7jkRQc/cf2mVlF+bq7iWKAa5Gb7/yjSc3ZDk0G3O
+UbZ+U+4jKdrIfiIt39ytkm04j2C4Et8QipX2h6ubrISvkOujJqgcoetvJQuyLZOW
+I4o13N+NY0PqYaKTsSi6avYSNROSgKafH8tlPuhKZQuvKKcHBwkNVJl+kTNKSjA8
+601d/6wEZdlZwjAEZwSdV5yzqA/YqUAAt4U70kq+j48xzpk1w9ruXSL/gmlVvZ9+
+AA3igQokS1wJ4NlPj0OcMIqlscoKMj5tH1rrlu1iL7A83nrAMTwMb08DQsAbKHTY
+rQsYVo0ETIYqilKYIgem2qaYh/hWrw==
+=lb9r
 -----END PGP SIGNATURE-----
 
---IlQOg9LA1bsThMIY--
+--VeZEeh8bwV4Q0ppo--
 
 
