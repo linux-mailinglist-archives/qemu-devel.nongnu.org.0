@@ -2,91 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA96549D064
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 18:08:42 +0100 (CET)
-Received: from localhost ([::1]:35446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C983F49D086
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 18:15:54 +0100 (CET)
+Received: from localhost ([::1]:44996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nClmj-0006KU-T8
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 12:08:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34810)
+	id 1nClth-0004ka-BV
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 12:15:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nClVj-0006cY-1P
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 11:51:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37676)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1nClef-0001xg-GL; Wed, 26 Jan 2022 12:00:27 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:42372)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nClVb-0006L3-Qh
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 11:51:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643215858;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o+Yfbohfx3BAOGtWuXkz3uZgVVYStLDpktObzS4i1Zk=;
- b=N4dYg/UwxxpoQ6x3KDpRmN2uw9D1aC43HukRs0Aea8fS8lda5nCkFAD7LrLoBcSDJ+2jV/
- 46Bq4uWeI2slaQDZYcUJL4FmHmjv8yHNlloC4Y0Bdvrn7mHy0H9Yr+cXKeHb3vv+mgQfC8
- GkPCmuFirE+seUprDwN0K96mZGRAguM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-661-zoR-ThtOOmK-tneQvxPdgA-1; Wed, 26 Jan 2022 11:50:57 -0500
-X-MC-Unique: zoR-ThtOOmK-tneQvxPdgA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- z2-20020a05600c220200b0034d2eb95f27so152351wml.1
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 08:50:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=o+Yfbohfx3BAOGtWuXkz3uZgVVYStLDpktObzS4i1Zk=;
- b=huRYoxXEDkZeHjBmQdm7LBrLfMJUgvm1OQLJIHOnka6vhcOrSFwc6s0DH73IpZKuKT
- Q9KntVCjZ1CXLCht5MGz1/CzRDWu9UnJaWsSj479PJ8T+CcvNhVjsrnkJTAde5EjHGRZ
- Pbu+5EGE934wiqn25u2ahX47viLmID6gT3t1nCMDDLMaBogIarFxlMuNt9dsl6HU+4BI
- jARWHlluE4hPYq0fT9JQxgJz2TU3dv/PPM0vnu9CO5yMtuw3ZiTV/94pJpJt7hgvDohe
- t3RcUyWTOB5HstEHc6jhVpKP8TP8qgKVR85DLTuOfJeYECvwKO5tFhc4Ei4kSZVJP8Pe
- YmXA==
-X-Gm-Message-State: AOAM530jY9ycAT3pReGLnxg43n2RnTZgLM7je0QlKHT4DQubvAEzSaHY
- Xjj5ZtrY6Olr1f9xjv3Ql+dx84Vh9BjNHeVgFCyazHeCMaw1iqNuFAmRue+qEfIOgdxKGXgyJr2
- dkBiqHLzICfosAL4=
-X-Received: by 2002:a5d:6289:: with SMTP id k9mr16850156wru.327.1643215856057; 
- Wed, 26 Jan 2022 08:50:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzl0t1BACrr0Syl3fmRoHPJVb6VIy+0MZWudmecipcES0egcNmgaK0Ok66AzzENNNJOj3DD+Q==
-X-Received: by 2002:a5d:6289:: with SMTP id k9mr16850142wru.327.1643215855860; 
- Wed, 26 Jan 2022 08:50:55 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id 11sm3736361wmx.5.2022.01.26.08.50.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Jan 2022 08:50:55 -0800 (PST)
-Message-ID: <a6bbde0a-7435-9bb0-f6ed-ca453c0ae8e8@redhat.com>
-Date: Wed, 26 Jan 2022 17:50:54 +0100
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1nCled-0007qV-LJ; Wed, 26 Jan 2022 12:00:21 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DDE7F6091A;
+ Wed, 26 Jan 2022 17:00:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92EF9C340E3;
+ Wed, 26 Jan 2022 17:00:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1643216413;
+ bh=H6XLucFj5sL+vRidMlCj6UV9RYYM947YOhFXK3Pvtfo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EC8L3AYBtFlSBP9z66rCC9963zie3AduQWMXxs48fJgHQ8EUaM6VirkpUpPfzOFys
+ Nw2/lRbXS5elZARDCWin4yoqWqVU+HM5oBrFv1RYnPeTsdv9GT7OVJUwHwYouglR1m
+ iQHcjITB8H5E1gZKN0DFtXJ3PHq9f/c3mI7D+Xk6ShuK2FNy/a3LwxnR61HgQtCqEl
+ KQV0O5FZFh8q4/T2rKKfBXqm6wIaMIkKKuzXlcm6OXMnFsxofaTG9HLK1CiFqfiznJ
+ YSaQz2P8LL417b6YX8POR8nG+BOGTwalORADtjThry05zaZRz1rcMcLsO4x/9Bqsy4
+ AhDO9/HnU3/YA==
+Date: Wed, 26 Jan 2022 09:00:10 -0800
+From: Keith Busch <kbusch@kernel.org>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH for-7.0 1/4] hw/nvme: add struct for zone management send
+Message-ID: <20220126170010.GA1885300@dhcp-10-100-145-180.wdc.com>
+References: <20211125073735.248403-1-its@irrelevant.dk>
+ <20211125073735.248403-2-its@irrelevant.dk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] qemu-storage-daemon: Fix typo in vhost-user-blk help
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20220125151514.49035-1-kwolf@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220125151514.49035-1-kwolf@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211125073735.248403-2-its@irrelevant.dk>
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=kbusch@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -72
+X-Spam_score: -7.3
+X-Spam_bar: -------
+X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,18 +66,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: f4bug@amsat.org, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25.01.22 16:15, Kevin Wolf wrote:
-> The syntax of the fd passing case misses the "addr.type=" key. Add it.
->
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->   storage-daemon/qemu-storage-daemon.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, Nov 25, 2021 at 08:37:32AM +0100, Klaus Jensen wrote:
+> +typedef struct QEMU_PACKED NvmeZoneSendCmd {
+> +    uint8_t     opcode;
+> +    uint8_t     flags;
+> +    uint16_t    cid;
+> +    uint32_t    nsid;
+> +    uint32_t    rsvd2[4];
+> +    NvmeCmdDptr dptr;
+> +    uint64_t    slba;
+> +    uint32_t    rsvd12;
+> +    uint8_t     zsa;
+> +    uint8_t     zsflags[3];
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+This should be just a single uint8_t for zsflags, followed by 
+'uint8_t rsvd[2]'.
 
+Otherwise, looks good.
+
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
